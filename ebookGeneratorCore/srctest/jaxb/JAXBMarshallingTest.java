@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
@@ -73,8 +74,7 @@ public class JAXBMarshallingTest {
 			String collectionName = "bogusCollname";
 			File contentDir = new File("/foo");
 			File metadataDir = new File("/bar");
-			GatherDocRequest expected = new GatherDocRequest(guids, collectionName, contentDir, metadataDir, true,
-					true);
+			GatherDocRequest expected = new GatherDocRequest(guids, collectionName, contentDir, metadataDir, true, true);
 
 			marshaller.marshal(expected, xmlFile);
 			GatherDocRequest actual = (GatherDocRequest) unmarshaller.unmarshal(xmlFile);
@@ -88,7 +88,6 @@ public class JAXBMarshallingTest {
 	@Test
 	public void testGatherImgRequestMarshalling() {
 		try {
-
 			JAXBContext context = JAXBContext.newInstance(GatherImgRequest.class);
 			Marshaller marshaller = context.createMarshaller();
 			Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -115,9 +114,17 @@ public class JAXBMarshallingTest {
 			Marshaller marshaller = context.createMarshaller();
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 
-			GatherNortRequest expected = new GatherNortRequest("domain", "filter", new File("/temp"), new Date(),
-					new ArrayList<ExcludeDocument>(), new ArrayList<RenameTocEntry>(), true, true,
-					new ArrayList<String>(), 127);
+			BookDefinition bookDef = createBookDefinition();
+			ArrayList<ExcludeDocument> excludeDocs = createExcludeDocuments(bookDef);
+			bookDef.setExcludeDocuments(excludeDocs);
+			ArrayList<RenameTocEntry> tocEntries = createRenameTocEntries(bookDef);
+			bookDef.setRenameTocEntries(tocEntries);
+			ArrayList<String> splitTocGuids = new ArrayList<String>();
+			splitTocGuids.add("hello");
+			splitTocGuids.add("world");
+
+			GatherNortRequest expected = new GatherNortRequest("domain", "filter", new File(tempRootDir.getAbsolutePath()), new Date(),
+					excludeDocs, tocEntries, true, true, splitTocGuids, 127);
 			TimeUnit.MILLISECONDS.sleep(3);
 			// force unmarshalled date to be different from the marshalled date
 			// if the default constructor is called again
@@ -126,6 +133,7 @@ public class JAXBMarshallingTest {
 			GatherNortRequest actual = (GatherNortRequest) unmarshaller.unmarshal(xmlFile);
 			Assert.assertEquals(expected, actual);
 		} catch (Exception e) {
+			e.printStackTrace();
 			Assert.fail(e.getMessage());
 		}
 	}
@@ -133,7 +141,6 @@ public class JAXBMarshallingTest {
 	@Test
 	public void testGatherResponseMarshalling() {
 		try {
-
 			JAXBContext context = JAXBContext.newInstance(GatherResponse.class);
 			Marshaller marshaller = context.createMarshaller();
 			Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -155,9 +162,17 @@ public class JAXBMarshallingTest {
 			Marshaller marshaller = context.createMarshaller();
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 
-			GatherTocRequest expected = new GatherTocRequest("someGuid", "TestCollectionName", new File("/temp"),
-					new ArrayList<ExcludeDocument>(), new ArrayList<RenameTocEntry>(), true, new ArrayList<String>(),
-					127);
+			BookDefinition bookDef = createBookDefinition();
+			ArrayList<ExcludeDocument> excludeDocs = createExcludeDocuments(bookDef);
+			bookDef.setExcludeDocuments(excludeDocs);
+			ArrayList<RenameTocEntry> tocEntries = createRenameTocEntries(bookDef);
+			bookDef.setRenameTocEntries(tocEntries);
+			ArrayList<String> splitTocGuids = new ArrayList<String>();
+			splitTocGuids.add("hello");
+			splitTocGuids.add("world");
+
+			GatherTocRequest expected = new GatherTocRequest("someGuid", "TestCollectionName", new File(tempRootDir.getAbsolutePath()),
+					excludeDocs, tocEntries, true, splitTocGuids, 127);
 
 			marshaller.marshal(expected, xmlFile);
 			GatherTocRequest actual = (GatherTocRequest) unmarshaller.unmarshal(xmlFile);
@@ -176,10 +191,10 @@ public class JAXBMarshallingTest {
 
 			int coreThreadPoolSize = 1;
 			boolean stepThrottleEnabled = true;
-			String throttleStepName = "";
+			String throttleStepName = "helloworld";
 			int throttleStepMaxJobs = 1;
-			JobThrottleConfig expected = new JobThrottleConfig(coreThreadPoolSize, stepThrottleEnabled,
-					throttleStepName, throttleStepMaxJobs);
+			JobThrottleConfig expected = new JobThrottleConfig(coreThreadPoolSize, stepThrottleEnabled, throttleStepName,
+					throttleStepMaxJobs);
 
 			marshaller.marshal(expected, xmlFile);
 			JobThrottleConfig actual = (JobThrottleConfig) unmarshaller.unmarshal(xmlFile);
@@ -193,7 +208,6 @@ public class JAXBMarshallingTest {
 	@Test
 	public void testMiscConfigMarshalling() {
 		try {
-
 			JAXBContext context = JAXBContext.newInstance(MiscConfig.class);
 			Marshaller marshaller = context.createMarshaller();
 			Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -211,13 +225,12 @@ public class JAXBMarshallingTest {
 	@Test
 	public void testSimpleRestServiceResponseMarshalling() {
 		try {
-
 			JAXBContext context = JAXBContext.newInstance(SimpleRestServiceResponse.class);
 			Marshaller marshaller = context.createMarshaller();
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 
 			long id = 127;
-			SimpleRestServiceResponse expected = new SimpleRestServiceResponse(id);
+			SimpleRestServiceResponse expected = new SimpleRestServiceResponse(id, true, "message");
 
 			marshaller.marshal(expected, xmlFile);
 			SimpleRestServiceResponse actual = (SimpleRestServiceResponse) unmarshaller.unmarshal(xmlFile);
@@ -230,33 +243,14 @@ public class JAXBMarshallingTest {
 	@Test
 	public void testPlannedOutageMarshalling() {
 		try {
-
 			JAXBContext context = JAXBContext.newInstance(PlannedOutage.class);
 			Marshaller marshaller = context.createMarshaller();
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 
-			OutageType outageType = new OutageType();
-			outageType.setId(127L);
-			outageType.setSystem("test");
-			outageType.setSubSystem("test");
-			outageType.setLastUpdated(new Date());
-			PlannedOutage expected = new PlannedOutage();
-			expected.setId(127L);
-			expected.setOutageType(outageType);
-			expected.setStartTime(new Date());
-			expected.setEndTime(new Date());
-			expected.setReason("test");
-			expected.setSystemImpactDescription("test");
-			expected.setServersImpacted("a b c");
-			expected.setNotificationEmailSent(true);
-			expected.setAllClearEmailSent(true);
-			expected.setUpdatedBy("test");
-			expected.setLastUpdated(new Date());
-			expected.setOperation(Operation.SAVE);
+			PlannedOutage expected = createPlannedOutage();
 			TimeUnit.MILLISECONDS.sleep(3);
 			// force unmarshalled date to be different from the marshalled date
-			// if the date is unmarshalled incorrectly and the default
-			// constructor is called again
+			// if the default constructor is called again
 
 			marshaller.marshal(expected, xmlFile);
 			PlannedOutage actual = (PlannedOutage) unmarshaller.unmarshal(xmlFile);
@@ -264,6 +258,62 @@ public class JAXBMarshallingTest {
 		} catch (Exception e) {
 			Assert.fail(e.getMessage());
 		}
+	}
+
+	private BookDefinition createBookDefinition() {
+		BookDefinition bookDef = new BookDefinition();
+		bookDef.setEbookDefinitionId(127L);
+
+		return bookDef;
+	}
+
+	private ArrayList<ExcludeDocument> createExcludeDocuments(BookDefinition bookDef) {
+		ArrayList<ExcludeDocument> excludeDocs = new ArrayList<ExcludeDocument>();
+		ExcludeDocument excludeDoc = new ExcludeDocument();
+		excludeDocs.add(excludeDoc);
+		excludeDoc.setBookDefinition(bookDef);
+		excludeDoc.setDocumentGuid("NABCDEFGHIJKLMNOPQRSTUV");
+		excludeDoc.setNote("Test Marshalling");
+		excludeDoc.setLastUpdated(new Date());
+
+		return excludeDocs;
+	}
+
+	private ArrayList<RenameTocEntry> createRenameTocEntries(BookDefinition bookDef) {
+		ArrayList<RenameTocEntry> renameEntries = new ArrayList<RenameTocEntry>();
+		RenameTocEntry renameEntry = new RenameTocEntry();
+		renameEntries.add(renameEntry);
+		renameEntry.setBookDefinition(bookDef);
+		renameEntry.setTocGuid("NABCDEFGHIJKLMNOPQRSTUV");
+		renameEntry.setOldLabel("old");
+		renameEntry.setNewLabel("new");
+		renameEntry.setNote("Test Marshalling");
+		renameEntry.setLastUpdated(new Date());
+
+		return renameEntries;
+	}
+
+	private PlannedOutage createPlannedOutage() {
+		OutageType outageType = new OutageType();
+		outageType.setId(127L);
+		outageType.setSystem("test");
+		outageType.setSubSystem("test");
+		outageType.setLastUpdated(new Date());
+		PlannedOutage outage = new PlannedOutage();
+		outage.setId(127L);
+		outage.setOutageType(outageType);
+		outage.setStartTime(new Date());
+		outage.setEndTime(new Date());
+		outage.setReason("test");
+		outage.setSystemImpactDescription("test");
+		outage.setServersImpacted("a b c");
+		outage.setNotificationEmailSent(true);
+		outage.setAllClearEmailSent(true);
+		outage.setUpdatedBy("test");
+		outage.setLastUpdated(new Date());
+		outage.setOperation(Operation.SAVE);
+		
+		return outage;
 	}
 
 	private boolean outageEquals(PlannedOutage first, PlannedOutage second) {

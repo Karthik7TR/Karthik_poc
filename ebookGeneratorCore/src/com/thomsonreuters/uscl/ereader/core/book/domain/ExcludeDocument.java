@@ -25,6 +25,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import jaxb.adapter.BookDefinitionAdapter;
+
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -33,26 +37,27 @@ import org.apache.commons.lang.StringUtils;
 @Table(name = "EXCLUDE_DOCUMENT")
 @IdClass(ExcludeDocument.ExcludeDocumentPk.class)
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name="excludeDocument", namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain")
+@XmlRootElement(name = "excludeDocument", namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain")
 public class ExcludeDocument implements Serializable {
 	private static final long serialVersionUID = 8698522630203083821L;
 
 	@Id
+	@XmlJavaTypeAdapter(BookDefinitionAdapter.class)
 	BookDefinition ebookDefinition;
 
 	@Id
-	@XmlElement(name="documentGuid", required=true)
+	@XmlElement(name = "documentGuid", required = true)
 	String documentGuid;
-	
-	@Column(name = "NOTE", length = 512, nullable=false)
-	@XmlElement(name="note", required=true)
+
+	@Column(name = "NOTE", length = 512, nullable = false)
+	@XmlElement(name = "note", required = true)
 	String note;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_UPDATED", nullable=false)
-	@XmlElement(name="lastUpdated", required=true)
+	@Column(name = "LAST_UPDATED", nullable = false)
+	@XmlElement(name = "lastUpdated", required = true)
 	Date lastUpdated;
-	
+
 	public BookDefinition getBookDefinition() {
 		return ebookDefinition;
 	}
@@ -64,6 +69,7 @@ public class ExcludeDocument implements Serializable {
 	public void setDocumentGuid(String documentGuid) {
 		this.documentGuid = documentGuid;
 	}
+
 	public String getDocumentGuid() {
 		return documentGuid;
 	}
@@ -71,6 +77,7 @@ public class ExcludeDocument implements Serializable {
 	public void setNote(String note) {
 		this.note = note;
 	}
+
 	public String getNote() {
 		return note;
 	}
@@ -78,27 +85,27 @@ public class ExcludeDocument implements Serializable {
 	public void setLastUpdated(Date lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
+
 	public Date getLastUpdated() {
 		return lastUpdated;
 	}
 
 	@Transient
 	public boolean isEmpty() {
-		return StringUtils.isBlank(this.note) &&
-				StringUtils.isBlank(this.documentGuid);
+		return StringUtils.isBlank(this.note) && StringUtils.isBlank(this.documentGuid);
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("ExcludeDocument [");
-		if(ebookDefinition != null) {
+		if (ebookDefinition != null) {
 			buffer.append("bookDefinitionId=").append(ebookDefinition.getEbookDefinitionId()).append(", ");
 		}
 		buffer.append("documentGuid=").append(documentGuid).append(", ");
 		buffer.append("note=").append(note).append(", ");
 		buffer.append("lastUpdated=").append(lastUpdated).append("]");
-		
+
 		return buffer.toString();
 	}
 
@@ -106,10 +113,8 @@ public class ExcludeDocument implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((documentGuid == null) ? 0 : documentGuid.hashCode());
-		result = prime * result
-				+ ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
+		result = prime * result + ((documentGuid == null) ? 0 : documentGuid.hashCode());
+		result = prime * result + ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
 		result = prime * result + ((note == null) ? 0 : note.hashCode());
 		return result;
 	}
@@ -142,14 +147,14 @@ public class ExcludeDocument implements Serializable {
 	}
 
 	@Embeddable
-	public static class ExcludeDocumentPk implements Serializable{
+	public static class ExcludeDocumentPk implements Serializable {
 		private static final long serialVersionUID = 3552710801579579685L;
 
 		@ManyToOne(fetch = FetchType.LAZY)
 		@JoinColumns({ @JoinColumn(name = "EBOOK_DEFINITION_ID", referencedColumnName = "EBOOK_DEFINITION_ID", nullable = false) })
 		BookDefinition ebookDefinition;
-		
-		@Column(name = "DOCUMENT_GUID", length = 33, nullable=false)
+
+		@Column(name = "DOCUMENT_GUID", length = 33, nullable = false)
 		private String documentGuid;
 
 		public ExcludeDocumentPk() {
@@ -175,9 +180,7 @@ public class ExcludeDocument implements Serializable {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime
-					* result
-					+ ((documentGuid == null) ? 0 : documentGuid.hashCode());
+			result = prime * result + ((documentGuid == null) ? 0 : documentGuid.hashCode());
 			return result;
 		}
 
@@ -197,5 +200,5 @@ public class ExcludeDocument implements Serializable {
 				return false;
 			return true;
 		}
-   }
+	}
 }
