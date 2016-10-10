@@ -6,6 +6,9 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 
 public class BookDefinitionAdapter extends XmlAdapter<String, BookDefinition> {
 
+	/** IMPORTANT
+	 *  returns a dummy BookDefinition, all fields beyond the bookDefinitionId are default values
+	 */
 	@Override
 	public BookDefinition unmarshal(String xml) throws Exception {
 		BookDefinition book = new BookDefinition();
