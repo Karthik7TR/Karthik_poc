@@ -5,16 +5,16 @@
 		<Console name="console" target="SYSTEM_OUT">
 			<PatternLayout pattern="%d{MM/dd HH:mm:ss.SSS} %-5p %C{1}.%M: %m%n" />
 		</Console>
-		<RollingFile name="rollingFileAppender" filename="/apps/eBookBuilder/ebookGenerator.log" filepattern="/apps/eBookBuilder/ebookGenerator-${server}.log">
+		<RollingFile name="rollingFileAppender" filename="/apps/eBookBuilder/ebookGenerator-$HOSTNAME.log" filepattern="/apps/eBookBuilder/ebookGenerator-$HOSTNAME.%i.log">
 			<PatternLayout pattern="%d{MM/dd HH:mm:ss.SSS} %-5p %C{1}.%M: %m%n" />
 			<Policies>
-				<SizeBasedTriggeringPolicy size="10mb" />
+				<SizeBasedTriggeringPolicy size="10 MB" />
 			</Policies>
 			<DefaultRolloverStrategy max="5" />
 		</RollingFile>
 	</Appenders>
 	<Loggers>
-		<Logger name="com.thomsonreuters.uscl.ereaderGenerate" level="debug"
+		<Logger name="com.thomsonreuters.uscl.ereader" level="debug"
 			additivity="false">
 			<AppenderRef ref="console" />
 			<AppenderRef ref="rollingFileAppender" />
