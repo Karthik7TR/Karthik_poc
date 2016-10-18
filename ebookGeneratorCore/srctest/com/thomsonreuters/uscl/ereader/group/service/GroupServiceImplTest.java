@@ -196,6 +196,36 @@ public class GroupServiceImplTest {
 
 		EasyMock.verify(mockProviewClient);
 	}
+	
+	@Test
+	public void testBuildGroupDefinitionNoSubgroup() {
+		bookDefinition.setSubGroupHeading(null);
+		bookDefinition.setIsSplitBook(false);
+		String groupId = groupService.getGroupId(bookDefinition);
+
+		GroupDefinition groupDef;
+		try {
+			EasyMock.expect(mockProviewClient.getProviewGroupById(groupId)).andThrow(new ProviewRuntimeException("404",
+					"No such groups exist"));
+			EasyMock.expect(mockProviewClient.getProviewTitleContainer("uscl/an/book_lohisplitnodeinfo")).andReturn(proviewTitleContainer);
+			EasyMock.replay(mockProviewClient);
+
+			groupDef = groupService.createGroupDefinition(bookDefinition, "v1.0", null);
+
+			Assert.assertEquals(FULLY_QUALIFIED_TITLE_ID, groupDef.getHeadTitle());
+			Assert.assertEquals(GROUP_NAME, groupDef.getName());
+			Assert.assertEquals(1, groupDef.getSubGroupInfoList().size());
+
+			Assert.assertEquals(null, groupDef.getSubGroupInfoList().get(0).getHeading());
+			Assert.assertEquals(1, groupDef.getSubGroupInfoList().get(0).getTitles().size());
+			Assert.assertEquals("uscl/an/book_lohisplitnodeinfo", groupDef.getSubGroupInfoList().get(0).getTitles().get(0));
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
+		}
+
+		EasyMock.verify(mockProviewClient);
+	}
 
 	@Test
 	public void testBuildGroupDefinitionForSplits() {

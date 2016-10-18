@@ -227,9 +227,12 @@ public class GroupServiceImpl implements GroupService {
 			// add titles
 			allSubGroupInfo.add(new SubGroupInfo());
 			allSubGroupInfo.get(0).setHeading(subGroupHeading);
+			if (subGroupHeading == null) {
+				majorVersionStr = null;
+			}
 			addTitlesToSubGroup(allSubGroupInfo.get(0), splitTitles, majorVersionStr);
 			if (bookDefinition.getPilotBooks().size() > 0) {
-				addTitlesToSubGroup(allSubGroupInfo.get(0), pilotBooks, "");
+				addTitlesToSubGroup(allSubGroupInfo.get(0), pilotBooks, null);
 			}
 
 		} else {
@@ -296,9 +299,9 @@ public class GroupServiceImpl implements GroupService {
 				// add new title to the first (only) subgroup (no header)
 				allSubGroupInfo = new ArrayList<SubGroupInfo>();
 				allSubGroupInfo.add(new SubGroupInfo());
-				addTitlesToSubGroup(allSubGroupInfo.get(0), splitTitles, "");
+				addTitlesToSubGroup(allSubGroupInfo.get(0), splitTitles, null);
 				if (bookDefinition.getPilotBooks().size() > 0) {
-					addTitlesToSubGroup(allSubGroupInfo.get(0), pilotBooks, "");
+					addTitlesToSubGroup(allSubGroupInfo.get(0), pilotBooks, null);
 				}
 			}
 		}
@@ -366,6 +369,8 @@ public class GroupServiceImpl implements GroupService {
 		subgroup.setTitles(new ArrayList<String>());
 		if (StringUtils.isNotBlank(majorVersionStr)) {
 			majorVersionStr = "/" + majorVersionStr;
+		} else {
+			majorVersionStr = "";
 		}
 		for (String title : titles) {
 			if (oldTitles.contains(title + majorVersionStr)) {

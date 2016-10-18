@@ -9,7 +9,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -205,10 +204,6 @@ public class GroupEbooks extends AbstractSbTasklet {
 
 	public Long getGroupVersionByBookDefinition(Long bookDefinitionId) {
 		return publishingStatsService.getMaxGroupVersionById(bookDefinitionId);
-	}
-
-	public void getGroupDefinition(InputStream is) {
-
 	}
 
 	@Required
