@@ -188,7 +188,7 @@
       </fileset>
 
       <classes file="${dir.source}/messages.properties"/>
-      <classes file="${dir.source}/log4j.xml"/>  		
+      <classes file="${dir.source}/log4j2.xml"/>  		
     </war>
 		
     <!-- copy context files to dir.binaries -->
