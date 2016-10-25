@@ -9,8 +9,8 @@
 			<PatternLayout pattern="%d{MM/dd HH:mm:ss.SSS} %-5p %C{1}.%M: %m%n" />
 		</Console>
 		<RollingFile name="rollingFileAppender"
-				filename="/apps/eBookBuilder/ebookManager-${serverName}.log"
-				filepattern="/apps/eBookBuilder/ebookManager-${serverName}.%i.log">
+				filename="/apps/eBookBuilder/ebookManager.log"
+				filepattern="/apps/eBookBuilder/ebookManager.%i.log">
 			<PatternLayout pattern="%d{MM/dd HH:mm:ss.SSS} %-5p %C{1}.%M: %m%n" />
 			<Policies>
 				<SizeBasedTriggeringPolicy size="10 MB" />
