@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <Configuration threashold="all">
-	<properties>
-		<Property name="serverName">${env:$$HOSTNAME}</Property>
-	</properties>
+	<Properties>
+		<Property name="server">${env:$HOSTNAME}</Property>
+	</Properties>
 	<Appenders>
 		<Console name="console" target="SYSTEM_OUT">
 			<PatternLayout pattern="%d{MM/dd HH:mm:ss.SSS} %-5p %C{1}.%M: %m%n" />
 		</Console>
 		<RollingFile name="rollingFileAppender"
-				filename="/apps/eBookBuilder/ebookManager.log"
-				filepattern="/apps/eBookBuilder/ebookManager.%i.log">
+				filename="/apps/eBookBuilder/ebookManager-${server}.log"
+				filepattern="/apps/eBookBuilder/ebookManager-${server}.%i.log">
 			<PatternLayout pattern="%d{MM/dd HH:mm:ss.SSS} %-5p %C{1}.%M: %m%n" />
 			<Policies>
 				<SizeBasedTriggeringPolicy size="10 MB" />
