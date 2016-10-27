@@ -94,6 +94,11 @@ public class DocumentExtensionAdapter
 		return str;
 	}
     
+    public boolean ShouldDisplayEffectiveDates(String documentType)
+	{
+		return false;
+	}
+    
     /**
      * 
      * @param inputText - The text that we want to check for encoding issues
