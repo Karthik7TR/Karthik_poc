@@ -30,8 +30,9 @@ import org.xml.sax.XMLReader;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
-import com.thomsonreuters.uscl.ereader.gather.util.ImageConverter;
 import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
+import com.thomsonreuters.uscl.ereader.gather.util.images.ImageConverter;
+import com.thomsonreuters.uscl.ereader.gather.util.images.ImageConverterException;
 import com.westgroup.novus.productapi.BLOB;
 import com.westgroup.novus.productapi.Find;
 import com.westgroup.novus.productapi.Novus;
@@ -43,6 +44,7 @@ public class NovusImgServiceImpl implements NovusImgService {
 	private String missingImageGuidsFileBasename;
 	private NovusFactory novusFactory;
 	private NovusUtility novusUtility;
+	private ImageConverter imageConverter;
 	/** Milliseconds to sleep between each meta-data/bytes fetch */
 	private long sleepIntervalBetweenImages;
 
@@ -183,7 +185,7 @@ public class NovusImgServiceImpl implements NovusImgService {
 						if (mediaType.getType().equals("image") && mediaType.getSubtype().equals(TIF)) {
 							imageFile = new File(imageDirectory, imageGuid + "." + PING_EXTENTION);
 							extension = PING_EXTENTION;
-							ImageConverter.convertByteImg(blob.getContents(), imageFile.getAbsolutePath(), PING_FORMAT);
+							imageConverter.convertByteImg(blob.getContents(), imageFile.getAbsolutePath(), PING_FORMAT);
 						} else {
 							imageFile = new File(imageDirectory, imageGuid + "." + mediaType.getSubtype());
 							fileOuputStream = new FileOutputStream(imageFile);
@@ -201,7 +203,7 @@ public class NovusImgServiceImpl implements NovusImgService {
 						imgMetadataInfo.setDocGuid(docGuid);
 						imgMetadataInfo.setImgGuid(imageGuid);
 
-					} catch (IOException ex) {
+					} catch (IOException | ImageConverterException ex) {
 						Log.error("Failed while writing the image for imageGuid " + imageGuid);
 						GatherException ge = new GatherException("IMG IO Exception for imageGuid " + imageGuid, ex,
 								GatherResponse.CODE_FILE_ERROR);
@@ -306,6 +308,11 @@ public class NovusImgServiceImpl implements NovusImgService {
 	@Required
 	public void setNovusFactory(NovusFactory factory) {
 		this.novusFactory = factory;
+	}
+	
+	@Required
+	public void setImageConverter(ImageConverter imageConverter) {
+		this.imageConverter = imageConverter;
 	}
 
 	@Required

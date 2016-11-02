@@ -18,6 +18,7 @@ import org.junit.rules.TemporaryFolder;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
+import com.thomsonreuters.uscl.ereader.gather.util.images.TiffImageConverterImpl;
 
 public class NovusImageServiceTest {
 
@@ -30,7 +31,6 @@ public class NovusImageServiceTest {
 
 	@Before
 	public void setUp() {
-		
 		// The object under test
 		this.novusImgService = new NovusImgServiceImpl();
 		imgDocGuidMap = new HashMap<String, String>();
@@ -46,8 +46,10 @@ public class NovusImageServiceTest {
 		novusUtil.setShowMissDocsList("Y");
 		novusImgService.setNovusUtility(novusUtil);
 		
-		
-		
+		TiffImageConverterImpl imageConverter = new TiffImageConverterImpl();
+		imageConverter.init();
+		imageConverter.setTiffReaderClass("it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReader");
+		novusImgService.setImageConverter(imageConverter);
 	}
 
 	@Test
@@ -70,7 +72,6 @@ public class NovusImageServiceTest {
 		for (ImgMetadataInfo imgMetadataInfo : imageMetadataInfoList){
 			System.out.println(imgMetadataInfo.toString());
 		}*/
-
 	}
 
 }
