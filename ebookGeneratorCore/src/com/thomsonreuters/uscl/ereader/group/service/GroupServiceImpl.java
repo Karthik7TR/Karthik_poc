@@ -439,19 +439,18 @@ public class GroupServiceImpl implements GroupService {
 	 */
 	private boolean isTitleInProview(String title, Set<Integer> majorVersionList, String fullyQualifiedTitleId) throws ProviewException {
 		if (StringUtils.startsWithIgnoreCase(title, fullyQualifiedTitleId)) {
-			Integer majorVersion = null;
-			String version = StringUtils.substringAfterLast(title, "/v");
-			String number = StringUtils.substringBefore(version, ".");
-			if (StringUtils.isNotBlank(number)) {
-				majorVersion = Integer.valueOf(number);
+			if (isTitleWithVersion(title)) {
+				String version = StringUtils.substringAfterLast(title, "/v");
+				Integer majorVersion = Integer.valueOf(StringUtils.substringBefore(version, "."));
+				if (majorVersionList.contains(majorVersion)) {
+					return true;
+				}
 			}
-			if (majorVersionList.contains(majorVersion)) {
-				return true;
-			}
+
 		}
 		// It must be a pilot book
 		else {
-			title = StringUtils.substringBeforeLast(title, "/v");
+			title = isTitleWithVersion(title) ? StringUtils.substringBeforeLast(title, "/v") : title;
 			try {
 				proviewClient.getSinglePublishedTitle(title);
 				return true;
