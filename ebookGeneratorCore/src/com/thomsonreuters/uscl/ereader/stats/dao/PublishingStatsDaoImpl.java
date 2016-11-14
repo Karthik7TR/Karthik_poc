@@ -6,6 +6,12 @@
 
 package com.thomsonreuters.uscl.ereader.stats.dao;
 
+import static org.hibernate.criterion.Order.desc;
+import static org.hibernate.criterion.Projections.property;
+import static org.hibernate.criterion.Restrictions.eq;
+import static org.hibernate.criterion.Restrictions.in;
+import static org.hibernate.criterion.Restrictions.lt;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +25,10 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
@@ -375,6 +383,21 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao {
 		Number rows = (Number) criteria.setProjection(Projections.rowCount()).uniqueResult();
 
 		return rows.intValue();
+	}
+
+	@Override
+	public PublishingStats getPreviousPublishingStatsForSameBook(long jobInstanceId) {
+		Session session = sessionFactory.getCurrentSession();
+		DetachedCriteria subQuery = DetachedCriteria.forClass(PublishingStats.class)
+				.add(eq("jobInstanceId", jobInstanceId)).setProjection(property("ebookDefId"));
+		Criteria criteria = session.createCriteria(PublishingStats.class)
+				.add(Property.forName("ebookDefId").eq(subQuery))
+				.add(in("publishStatus",
+						new String[] { PublishingStats.SEND_EMAIL_COMPLETE,
+								PublishingStats.SUCCESFULL_PUBLISH_STATUS }))
+				//jobInstanceId of prev job instances are less then current one
+				.add(lt("jobInstanceId", jobInstanceId)).addOrder(desc("jobInstanceId")).setMaxResults(1);
+		return (PublishingStats) criteria.uniqueResult();
 	}
 
 	/**

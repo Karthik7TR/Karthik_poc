@@ -238,4 +238,10 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
 	public EbookAudit getMaxAuditId(Long eBookDefId) {
 		return publishingStatsDAO.getMaxAuditId(eBookDefId);
 	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public PublishingStats getPreviousPublishingStatsForSameBook(long jobInstanceId) {
+		return publishingStatsDAO.getPreviousPublishingStatsForSameBook(jobInstanceId);
+	}
 }
