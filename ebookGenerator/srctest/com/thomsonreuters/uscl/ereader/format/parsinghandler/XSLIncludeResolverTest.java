@@ -116,6 +116,23 @@ public class XSLIncludeResolverTest
 		assertTrue(src.getSystemId().endsWith("eBookContextAndAnalysis.xsl"));
 	}
 	
+	@Test
+	public void testNotesOfDecisionsInclude() throws Exception
+	{
+		File xsl = new File(sourceDir, "NotesOfDecisions.xsl");
+		assertTrue(xsl.createNewFile());
+		AddContentToXsl(xsl);
+		
+		File xsl2 = new File(sourceDir, "eBookNotesOfDecisions.xsl");
+		assertTrue(xsl2.createNewFile());
+
+		resolver.setIncludeNotesOfDecisions(true);
+		assertEquals(0, resolver.getIncludedXSLTs().size());
+		Source src = resolver.resolve(xsl.getName(), xsl.toURI().toString());
+		assertEquals(1, resolver.getIncludedXSLTs().size());
+		assertTrue(src.getSystemId().endsWith("eBookNotesOfDecisions.xsl"));
+	}
+	
 	private void AddContentToXsl(File file)
 	{
 		try {

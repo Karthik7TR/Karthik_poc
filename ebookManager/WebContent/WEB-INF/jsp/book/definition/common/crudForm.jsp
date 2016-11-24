@@ -201,6 +201,7 @@
 				<%-- Hidden fields needed when options are disabled.
 					 Options reset to defaults if hidden fields are missing. --%>
 				<form:hidden path="includeAnnotations"/>
+				<form:hidden path="includeNotesOfDecisions"/>
 			</c:if>
 			<div class="row">
 				<form:label path="includeAnnotations" class="labelCol">Include Annotations</form:label>
@@ -208,6 +209,14 @@
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="includeAnnotations" value="false" />No
 				<div class="errorDiv">
 					<form:errors path="includeAnnotations" cssClass="errorMessage" />
+				</div>
+			</div>
+			<div class="row">
+				<form:label path="includeNotesOfDecisions" class="labelCol">Include Notes of Decisions</form:label>
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="includeNotesOfDecisions" value="true" />Yes
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="includeNotesOfDecisions" value="false" />No
+				<div class="errorDiv">
+					<form:errors path="includeNotesOfDecisions" cssClass="errorMessage" />
 				</div>
 			</div>
 			<div class="row">
