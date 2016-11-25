@@ -98,7 +98,6 @@ public class EditBookDefinitionForm {
 	private boolean isPublicationCutoffDateUsed;
 	private String publicationCutoffDate;
 	private boolean includeAnnotations;
-	private boolean includeNotesOfDecisions;
 	private boolean useReloadContent;
 	private boolean isInsTagStyleEnabled;
 	private boolean isDelTagStyleEnabled;
@@ -178,7 +177,6 @@ public class EditBookDefinitionForm {
 		this.isFinalStage = true;
 		this.isPublicationCutoffDateUsed = false;
 		this.includeAnnotations = false;
-		this.includeNotesOfDecisions = true;
 		this.useReloadContent = false;
 		this.pilotBookStatus = PilotBookStatus.FALSE;
 		this.copyright = "\u00A9";
@@ -279,7 +277,6 @@ public class EditBookDefinitionForm {
 			this.documentCurrencies = book.getDocumentCurrencies();
 			this.documentCurrenciesCopy = book.getDocumentCurrencies();
 			this.includeAnnotations = book.getIncludeAnnotations();
-			this.includeNotesOfDecisions = book.getIncludeNotesOfDecisions();
 			this.isFinalStage = book.isFinalStage();
 			this.useReloadContent = book.getUseReloadContent();
 			this.sourceType = book.getSourceType();
@@ -575,7 +572,6 @@ public class EditBookDefinitionForm {
 		book.setIsAuthorDisplayVertical(isAuthorDisplayVertical);
 		book.setFrontMatterTocLabel(frontMatterTocLabel);
 		book.setIncludeAnnotations(includeAnnotations);
-		book.setIncludeNotesOfDecisions(includeNotesOfDecisions);
 		book.setIsFinalStage(isFinalStage);
 		book.setUseReloadContent(useReloadContent);
 
@@ -960,14 +956,6 @@ public class EditBookDefinitionForm {
 
 	public void setIncludeAnnotations(boolean includeAnnotations) {
 		this.includeAnnotations = includeAnnotations;
-	}
-
-	public boolean isIncludeNotesOfDecisions() {
-		return includeNotesOfDecisions;
-	}
-
-	public void setIncludeNotesOfDecisions(boolean includeNotesOfDecisions) {
-		this.includeNotesOfDecisions = includeNotesOfDecisions;
 	}
 
 	public String getPublishDateText() {

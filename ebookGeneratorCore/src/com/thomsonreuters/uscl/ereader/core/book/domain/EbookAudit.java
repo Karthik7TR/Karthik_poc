@@ -316,11 +316,6 @@ public class EbookAudit implements Serializable {
 	 */
 	@Column(name = "INCLUDE_ANNOTATIONS", length = 1)
 	String includeAnnotations;	
-
-	/**
-	 */
-	@Column(name = "INCLUDE_NOTES_OF_DECISIONS", length = 1)
-	String includeNotesOfDecisions;
 	
 	/**
 	 */
@@ -862,7 +857,6 @@ public class EbookAudit implements Serializable {
 		setExcludeDocumentsConcat(that.getExcludeDocumentsConcat());
 		setSplitDocumentsConcat(that.getSplitDocumentsConcat());
 		setIncludeAnnotations(that.getIncludeAnnotations());
-		setIncludeNotesOfDecisions(that.getIncludeNotesOfDecisions());
 		setRenameTocEntryConcat(that.getRenameTocEntryConcat());
 		setTableViewerConcat(that.getTableViewerConcat());
 		setDocumentCopyrightConcat(that.getDocumentCopyrightConcat());
@@ -938,7 +932,6 @@ public class EbookAudit implements Serializable {
 		setDocumentCurrencyConcat(maxString(concatString(that.getDocumentCurrencies()), MAX_CHARACTER_2048));
 		setIsFinalStage(that.isFinalStage());
 		setIncludeAnnotations(that.getIncludeAnnotations());
-		setIncludeNotesOfDecisions(that.getIncludeNotesOfDecisions());
 		setUseReloadContent(that.getUseReloadContent());
 		setNortFileLocationConcat(maxString(concatString(that.getNortFileLocations()), MAX_CHARACTER_2048));
 		setSourceType(that.getSourceType());
@@ -1021,7 +1014,6 @@ public class EbookAudit implements Serializable {
 		buffer.append("excludeDocumentsConcat=[").append(excludeDocumentsConcat).append("] ");
 		buffer.append("splitDocumentsConcat=[").append(splitDocumentsConcat).append("] ");
 		buffer.append("includeAnnotations=[").append(includeAnnotations).append("] ");
-		buffer.append("includeNotesOfDecisions=[").append(includeNotesOfDecisions).append("] ");
 		buffer.append("renameTocEntryConcat=[").append(renameTocEntryConcat).append("] ");
 		buffer.append("tableViewerConcat=[").append(tableViewerConcat).append("] ");
 		buffer.append("isFinalStage=[").append(isFinalStage).append("] ");
@@ -1141,14 +1133,6 @@ public class EbookAudit implements Serializable {
 	
 	public boolean getIncludeAnnotations() {
 		return( (this.includeAnnotations.equalsIgnoreCase("Y") ? true : false));
-	}
-	
-	public void setIncludeNotesOfDecisions(boolean includeNotesOfDecisions) {
-		this.includeNotesOfDecisions =( (includeNotesOfDecisions) ? "Y" : "N");
-	}
-	
-	public boolean getIncludeNotesOfDecisions() {
-		return( (this.includeNotesOfDecisions.equalsIgnoreCase("Y") ? true : false));
 	}
 
 	public PilotBookStatus getPilotBookStatus() {

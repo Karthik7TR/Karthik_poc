@@ -11,6 +11,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -39,13 +41,10 @@ import org.springframework.util.Assert;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.XSLIncludeResolver;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
-import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilter;
-import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 
 
 /**
@@ -58,9 +57,9 @@ import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 @ContextConfiguration(locations = "PersistentUrlTransformIntegrationTest-context.xml")
 public class PersistentUrlTransformIntegrationTests
 {
-    private static final String MOCK_DOCTYPE = null;
+    private static final String MOCK_DOCTYPE = "analytical";
     private static InputStream MOCK_INPUT_STREAM ; 
-    private static final String MOCK_COLLECTION = "w_codesstaminrdp";
+    private static final String MOCK_COLLECTION = "w_foo_collection";
     private static final String CODES_STATUTES_XSLT = "CodesStatutes.xsl";
     private static final String ANALYTICAL_XSLT = "AnalyticalEaganProducts.xsl";
     private static final String PRE_RENDERED_GUID = "Iff5a0c8d7c8f11da9de6e47d6d5aa7a5";
@@ -78,14 +77,12 @@ public class PersistentUrlTransformIntegrationTests
         "//div[@id='co_prelimGoldenLeaf']/a[@href]";
     private static final String PARAGRAPH_TEXT_XPATH_EXPR =
         "//div[@class='co_paragraph']/div[@class='co_paragraphText']/a[@href]";
-    private static final String titleId = "IMPH";
-    private static final String fullTitleId = "uscl/an/IMPH";
-    private static final String staticContentDir = "/apps/ebookbuilder/staticContent/";
     TransformerServiceImpl transformerService;
+    XSLTMapperService mockXsltMapperService;
     DocMetadata mockDocMetadata;
     DocMetadataService mockDocMetadataService;
     GenerateDocumentDataBlockServiceImpl mocGenerateDocumentDataBlockService;
-    BookDefinition bookDefinition;
+    String titleId;
     String novusXmlFilename;
     String novusMetadataFilename;
     long jobId;
@@ -95,29 +92,33 @@ public class PersistentUrlTransformIntegrationTests
     @Before
     public void setUp() throws Exception
     {
+        mockXsltMapperService = EasyMock.createMock(XSLTMapperService.class);
         mockDocMetadata = EasyMock.createMock(DocMetadata.class);
         mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
         mocGenerateDocumentDataBlockService = EasyMock.createMock(GenerateDocumentDataBlockServiceImpl.class);
+       // mocGenerateDocumentDataBlockService.setDocMetadataService(mockDocMetadataService);
         MOCK_INPUT_STREAM = new ByteArrayInputStream("Head".getBytes());
 
         EasyMock.expect(
             mockDocMetadataService.findDocMetadataByPrimaryKey(
-            		titleId, new Long(12345), "Iff49dfd67c8f11da9de6e47d6d5aa7a5"))
+                "uscl/an/IMPH", new Long(12345), "Iff49dfd67c8f11da9de6e47d6d5aa7a5"))
                 .andReturn(mockDocMetadata);
 
         EasyMock.expect(mockDocMetadata.getCollectionName()).andReturn(MOCK_COLLECTION).times(2);
         EasyMock.expect(mockDocMetadata.getDocType()).andReturn(MOCK_DOCTYPE);
-        EasyMock.expect(mocGenerateDocumentDataBlockService.getDocumentDataBlockAsStream(titleId, new Long(12345), "Iff49dfd67c8f11da9de6e47d6d5aa7a5"))
+        EasyMock.expect(mockXsltMapperService.getXSLT(MOCK_COLLECTION, MOCK_DOCTYPE))
+                .andReturn(CODES_STATUTES_XSLT);
+        EasyMock.expect(mocGenerateDocumentDataBlockService.getDocumentDataBlockAsStream("uscl/an/IMPH", new Long(12345), "Iff49dfd67c8f11da9de6e47d6d5aa7a5"))
         .andReturn(MOCK_INPUT_STREAM);
         EasyMock.replay(mockDocMetadataService);
         EasyMock.replay(mockDocMetadata);
+        EasyMock.replay(mockXsltMapperService);
 
         transformerService = new TransformerServiceImpl();
         transformerService.setdocMetadataService(mockDocMetadataService);
         transformerService.setGenerateDocumentDataBlockService(mocGenerateDocumentDataBlockService);
 
-        bookDefinition = new BookDefinition();
-        bookDefinition.setFullyQualifiedTitleId(fullTitleId);
+        titleId = "uscl/an/IMPH";
         novusXmlFilename = "Iff49dfd67c8f11da9de6e47d6d5aa7a5.xml";
         novusMetadataFilename = "w_an_rcc_cajur-Iff49dfd67c8f11da9de6e47d6d5aa7a5.xml";
         jobId = 12345L;
@@ -443,7 +444,7 @@ public class PersistentUrlTransformIntegrationTests
 
         Source xsltSource =
             new StreamSource(
-        "/apps/ebookbuilder/staticContent/WestlawNext/DefaultProductView/ContentTypes/" + CODES_STATUTES_XSLT);
+                "/apps/ebookbuilder/staticContent/ContentTypes/" + CODES_STATUTES_XSLT);
 
         TransformerFactory transFact = TransformerFactory.newInstance();
         XSLIncludeResolver resolver = new XSLIncludeResolver();
@@ -574,12 +575,12 @@ public class PersistentUrlTransformIntegrationTests
 
         EasyMock.expect(
             mockDocMetadataService.findDocMetadataByPrimaryKey(
-            		titleId, new Long(12345), preRenderedInput)).andReturn(mockDocMetadata);
+                "uscl/an/IMPH", new Long(12345), preRenderedInput)).andReturn(mockDocMetadata);
 
         EasyMock.replay(mockDocMetadataService);
         MOCK_INPUT_STREAM = new ByteArrayInputStream("Head".getBytes());
 
-        EasyMock.expect(mocGenerateDocumentDataBlockService.getDocumentDataBlockAsStream(titleId, new Long(12345), preRenderedInput))
+        EasyMock.expect(mocGenerateDocumentDataBlockService.getDocumentDataBlockAsStream("uscl/an/IMPH", new Long(12345), preRenderedInput))
         .andReturn(MOCK_INPUT_STREAM);
         transformerService.setdocMetadataService(mockDocMetadataService);
         transformerService.setGenerateDocumentDataBlockService(mocGenerateDocumentDataBlockService);
@@ -589,12 +590,12 @@ public class PersistentUrlTransformIntegrationTests
             new File(
                 PersistentUrlTransformIntegrationTests.class.getResource(novusXmlFilename).getFile());
         File transformedDirectory = tempDirectory.newFolder("transformed");
+        Map<String, Transformer> xsltCache = new HashMap<String, Transformer>();
 
-        transformerService.setfileHandlingHelper(getFileHandlingHelper(novusXmlFilename.toLowerCase()));
-        transformerService.transformXMLDocuments(
-        		novusXml.getParentFile(), novusXml.getParentFile(), novusXml.getParentFile(), transformedDirectory, 
-        		jobId, bookDefinition, new File(staticContentDir));
-        
+        transformerService.transformFile(
+            novusXml, novusXml.getParentFile(), novusXml.getParentFile(), transformedDirectory,
+            titleId, jobId, xsltCache, false);
+
         verifyAll();
 
         String renderedOutput =
@@ -605,18 +606,11 @@ public class PersistentUrlTransformIntegrationTests
         return renderedOutput;
     }
 
-	private FileHandlingHelper getFileHandlingHelper(String novusXmlFilename) {
-		FileHandlingHelper fileHandlingHelper = new FileHandlingHelper();
-        FileExtensionFilter fileExtensionFilter = new FileExtensionFilter();
-        fileExtensionFilter.setAcceptedFileExtensions(new String[]{novusXmlFilename});
-        fileHandlingHelper.setFilter(fileExtensionFilter);
-		return fileHandlingHelper;
-	}
-
    
     private void verifyAll()
     {
         EasyMock.verify(mockDocMetadataService);
         EasyMock.verify(mockDocMetadata);
+        EasyMock.verify(mockXsltMapperService);
     }
 }

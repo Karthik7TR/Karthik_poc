@@ -39,14 +39,10 @@ public class XSLIncludeResolver implements URIResolver
 {
 	private static final Logger LOG = LogManager.getLogger(XSLIncludeResolver.class);
 	private static final String CONTEXT_AND_ANALYSIS = "ContextAndAnalysis.xsl";
-	private static final String NOTES_OF_DECISIONS = "NotesOfDecisions.xsl";
 	private List<String> includedXSLTs = new ArrayList<String>();
 	private File emptyXSL ;
 	private File platformDir ;
 	private File westlawNextDir ;
-	
-	private boolean includeAnnotations;
-	private boolean includeNotesOfDecisions;
 	
 	public File getPlatformDir() {
 		return platformDir;
@@ -63,6 +59,8 @@ public class XSLIncludeResolver implements URIResolver
 	public void setWestlawNextDir(File westlawNextDir) {
 		this.westlawNextDir = westlawNextDir;
 	}
+
+	private boolean includeAnnotations = false;
 	
 	public boolean getIncludeAnnotations() 
 	{
@@ -72,16 +70,6 @@ public class XSLIncludeResolver implements URIResolver
 	public void setIncludeAnnotations(boolean includeAnnotations) 
 	{
 		this.includeAnnotations = includeAnnotations;
-	}
-
-	public boolean isIncludeNotesOfDecisions()
-	{
-		return includeNotesOfDecisions;
-	}
-
-	public void setIncludeNotesOfDecisions(boolean includeNotesOfDecisions)
-	{
-		this.includeNotesOfDecisions = includeNotesOfDecisions;
 	}
 
 	public File getEmptyXSL() 
@@ -103,13 +91,8 @@ public class XSLIncludeResolver implements URIResolver
 			{
 				// Use a different XSL style sheet if annotations is enabled for Context and Analysis
 				href = "eBook" + CONTEXT_AND_ANALYSIS;
-			} 
-			else if (includeNotesOfDecisions && href.equalsIgnoreCase(NOTES_OF_DECISIONS))
-			{
-				// Use a different XSL style sheet for Notes of Decision in case they are enabled
-				href = "eBook" + NOTES_OF_DECISIONS;
 			}
-						
+			
 			boolean forcePlatform = findForcePlatformAttribute(href, base);
 			File includeXSLT = findXslFile(href, forcePlatform);
 

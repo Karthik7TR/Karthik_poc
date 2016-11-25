@@ -269,11 +269,6 @@ public class BookDefinition implements Serializable {
 	
 	/**
 	 */
-	@Column(name = "INCLUDE_NOTES_OF_DECISIONS")
-	String includeNotesOfDecisions;
-	
-	/**
-	 */
 	@Column(name = "USE_RELOAD_CONTENT")
 	@Basic(fetch = FetchType.EAGER)
 	String useReloadContent;	
@@ -791,18 +786,6 @@ public class BookDefinition implements Serializable {
 		return( (this.includeAnnotations.equalsIgnoreCase("Y") ? true : false));
 	}
 	
-	/**
-	 */
-	public void setIncludeNotesOfDecisions(boolean includeNotesOfDecisions) {
-		this.includeNotesOfDecisions =( (includeNotesOfDecisions) ? "Y" : "N");
-	}
-    
-	/**
-	 */
-	public boolean getIncludeNotesOfDecisions() {
-		return( (this.includeNotesOfDecisions.equalsIgnoreCase("Y") ? true : false));
-	}
-	
 	public boolean getIsPilotBook() {
 		if(StringUtils.isBlank(this.isPilotBook)) {
 			return false;
@@ -1269,7 +1252,6 @@ public class BookDefinition implements Serializable {
 		this.setPublishedOnceFlag(false);
 		this.setOnePassSsoLinkFlag(true);
 		this.setIncludeAnnotations(false);
-		this.setIncludeNotesOfDecisions(true);
 		this.setIsProviewTableViewFlag(false);
 		this.setIsFinalStage(true);
 		this.setPilotBookStatus(PilotBookStatus.FALSE);
@@ -1331,7 +1313,6 @@ public class BookDefinition implements Serializable {
 		setDocumentCopyrights(new HashSet<DocumentCopyright>(that.getDocumentCopyrights()));
 		setDocumentCurrencies(new HashSet<DocumentCurrency>(that.getDocumentCurrencies()));
 		setIncludeAnnotations(that.getIncludeAnnotations());
-		setIncludeNotesOfDecisions(that.getIncludeNotesOfDecisions());
 		setIsFinalStage(that.isFinalStage());
 		setUseReloadContent(that.getUseReloadContent());
 		setSourceType(that.getSourceType());
@@ -1385,7 +1366,6 @@ public class BookDefinition implements Serializable {
 		buffer.append("enableCopyFeatureFlag=[").append(enableCopyFeatureFlag).append("] ");
 		buffer.append("pilotBookStatus=[").append(isPilotBook).append("] ");
 		buffer.append("includeAnnotations=[").append(includeAnnotations).append("] ");
-		buffer.append("includeNotesOfDecisions=[").append(includeNotesOfDecisions).append("] ");
 		buffer.append("isFinalStage=[").append(isFinalStage).append("] ");
 		buffer.append("useReloadContent=[").append(useReloadContent).append("] ");
 		buffer.append("sourceType=[").append(sourceType).append("] ");

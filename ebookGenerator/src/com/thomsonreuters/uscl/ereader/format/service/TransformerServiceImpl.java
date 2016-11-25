@@ -36,7 +36,6 @@ import org.apache.commons.lang.StringUtils;
  import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
-import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.SimpleSAXErrorListener;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.XSLIncludeResolver;
@@ -94,8 +93,9 @@ public class TransformerServiceImpl implements TransformerService
      * @param metaDir the directory that contains all the Novus document metadata files for this eBook.
      * @param imgMetaDir the directory that contains all the ImageMetadata built files for this eBook.
      * @param transDir the target directory to which all the intermediate HTML files will be written out to.
+     * @param titleID the identifier of book currently being published, used to lookup appropriate document metadata
      * @param jobID the identifier of the job currently running, used to lookup document metadata
-     * @param bookDefinition contains book related job controls
+     * @param includeAnnotations flag that is used to allow annotations to flow through into the documents of the book.
      * 
      * @return The number of documents that were transformed
      * 
@@ -103,7 +103,7 @@ public class TransformerServiceImpl implements TransformerService
 	 */
 	@Override
 	public int transformXMLDocuments(final File preprocessDir, final File metaDir, final File imgMetaDir,
-			final File transDir, final Long jobID, final BookDefinition bookDefinition, final File staticContentDir) 
+			final File transDir, final String titleID, final Long jobID, final boolean includeAnnotations, final File staticContentDir) 
 					throws EBookFormatException 
 	{
 		
@@ -154,7 +154,7 @@ public class TransformerServiceImpl implements TransformerService
         int docCount = 0;
         for(File xmlFile : xmlFiles)
         {
-        	transformFile(xmlFile, metaDir, imgMetaDir, transDir, jobID, xsltCache, bookDefinition);
+        	transformFile(xmlFile, metaDir, imgMetaDir, transDir, titleID, jobID, xsltCache, includeAnnotations);
         	docCount++;
         }
         LOG.info("Transformed all XML files");
@@ -170,19 +170,20 @@ public class TransformerServiceImpl implements TransformerService
 	 * @param metadataDir directory that contains all the metadata files
      * @param imgMetadataDir the directory that contains all the ImageMetadata built files for this eBook.
 	 * @param targetDir directory to which the ".transformed" files will be written
+	 * @param titleId the identifier of book currently being published, used to lookup appropriate document metadata
      * @param jobId the identifier of the job currently running, used to lookup document metadata
-     * @param bookDefinition contains book related job controls
+     * @param includeAnnos determines if the annotations XSL will be applied or not
      * 
 	 * @throws EBookFormatException if Xalan processor runs into any error during the transformation process.
 	 */
-	final void transformFile(File xmlFile, File metadataDir, File imgMetadataDir, File targetDir, 
-			Long jobId, Map<String, Transformer> stylesheetCache, BookDefinition bookDefinition) throws EBookFormatException
+	final void transformFile(File xmlFile, File metadataDir, File imgMetadataDir, File targetDir, String titleId, 
+			Long jobId, Map<String, Transformer> stylesheetCache, boolean includeAnnos) throws EBookFormatException
 	{
 		String fileNameUUID = xmlFile.getName().substring(0, xmlFile.getName().indexOf("."));
 		
 		String[] metadata = new String[2];
 		
-		lookupCollectionDocType(bookDefinition.getTitleId(), jobId, fileNameUUID, metadata);
+		lookupCollectionDocType(titleId, jobId, fileNameUUID, metadata);
 
 		File xslt = getXSLT(metadata[0], metadata[1]);
 
@@ -191,7 +192,7 @@ public class TransformerServiceImpl implements TransformerService
         
         Transformer trans = null;
 		
-        try (InputStream documentDataStream = generateDocumentDataBlockService.getDocumentDataBlockAsStream(bookDefinition.getTitleId(), jobId, fileNameUUID);
+        try (InputStream documentDataStream =   generateDocumentDataBlockService.getDocumentDataBlockAsStream(titleId, jobId, fileNameUUID);
         		ByteArrayInputStream startTagStream = new ByteArrayInputStream(START_WRAPPER_TAG.getBytes());
         		SequenceInputStream inStream0 = new SequenceInputStream(startTagStream, documentDataStream);
         		FileInputStream docbodyStream = new FileInputStream(xmlFile);
@@ -208,7 +209,7 @@ public class TransformerServiceImpl implements TransformerService
 	       
 	        if (!stylesheetCache.containsKey(xslt.getAbsolutePath()))
 	        {
-	        	trans = createTransformer(xslt, stylesheetCache, bookDefinition);
+	        	trans = createTransformer(xslt, stylesheetCache, includeAnnos);
 	        }
 	        else
 	        {
@@ -318,12 +319,12 @@ public class TransformerServiceImpl implements TransformerService
 	 * @param transformer transformer to be created and configured
 	 * @param xslt stylesheet for which the transformer will be created
 	 * @param xsltCache cache of stylesheets to be updated with new transformer
-     * @param bookDefinition contains book related job controls
+	 * @param includeAnnotations used to specify if Annotations XSL should be applied
 	 * 
 	 * @return configured transformer
 	 * @throws EBookFormatException if the transformer could not be configured correctly
 	 */
-	protected Transformer createTransformer(File xslt, Map<String, Transformer> xsltCache, BookDefinition bookDefinition)
+	protected Transformer createTransformer(File xslt, Map<String, Transformer> xsltCache, boolean includeAnnotations)
 		throws EBookFormatException
 	{
 		try
@@ -333,8 +334,7 @@ public class TransformerServiceImpl implements TransformerService
 	        TransformerFactory transFact = TransformerFactory.newInstance();
 	        
 	        XSLIncludeResolver resolver = new XSLIncludeResolver();
-	        resolver.setIncludeAnnotations(bookDefinition.getIncludeAnnotations());
-	        resolver.setIncludeNotesOfDecisions(bookDefinition.getIncludeNotesOfDecisions());
+	        resolver.setIncludeAnnotations(includeAnnotations);
 	        transFact.setURIResolver(resolver);
 	        File platformDir = new File(this.staticContentDir.getAbsolutePath()+"/Platform");
 	        resolver.setPlatformDir(platformDir);
