@@ -34,7 +34,7 @@ public class ProviewAudit implements Serializable {
 	/**
 	 */
 
-	@Column(name = "TITLE_ID", length = 40, nullable = false)
+	@Column(name = "TITLE_ID", length = 100, nullable = false)
 	String titleId;
 	/**
 	 */
