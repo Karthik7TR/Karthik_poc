@@ -61,6 +61,10 @@ function submitForm(cmd)
 						<label class="labelCol">Include Annotations</label>
 						<span class="field">${ book.includeAnnotations }</span>
 					</div>
+					<div class="row">
+						<label class="labelCol">Include Notes of Decisions</label>
+						<span class="field">${ book.includeNotesOfDecisions }</span>
+					</div>
 				</div>
 				
 				<div class="rightDefinitionForm">

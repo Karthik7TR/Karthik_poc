@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition;
 
+import static org.junit.Assert.assertTrue;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -196,5 +198,10 @@ public class EditBookDefinitionFormTest {
 		frontMatters.add(page);
 
 		form.removeEmptyRows();
+	}
+	
+	@Test
+	public void defaultNotesOfDecisionsValue() {
+		assertTrue(form.isIncludeNotesOfDecisions());
 	}
 }
