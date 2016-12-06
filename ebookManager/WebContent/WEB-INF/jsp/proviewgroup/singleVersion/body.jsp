@@ -235,6 +235,9 @@ function submitGroupForm(command) {
 	<sec:authorize access="hasAnyRole('ROLE_PUBLISHER_PLUS,ROLE_SUPERUSER')">
 		<c:set var="disableButtons" value=""/>
 	</sec:authorize>
+	<c:if test="${pilotBookStatus == pilotInProgress}">
+		<c:set var="disableButtons" value="disabled"/>
+	</c:if>
 	<c:set var="disableRemoveButtons" value="disabled"/>
 	<sec:authorize access="hasRole('ROLE_SUPERUSER')">
 		<c:set var="disableRemoveButtons" value=""/>
@@ -247,4 +250,11 @@ function submitGroupForm(command) {
 			<input id="deleteButton" type="button" ${disableRemoveButtons} value="Delete" onclick="submitGroupForm('<%=GroupCmd.DELETE%>')"/>
 		</c:if>
 	</div>
+
+	<c:if test="${pilotBookStatus == pilotInProgress}">
+		<p>Pilot book marked as 'In Progress' for notes migration. Once
+			the note migration csv file is in place, update the Pilot Book
+			status, and regenerate the book before Promoting.</p>
+	</c:if>
+
 </form:form>

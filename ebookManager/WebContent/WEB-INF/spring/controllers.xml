@@ -268,6 +268,7 @@
 		
 	<bean id="proviewGroupListController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupListController"
 		p:proviewClient-ref="proviewClient"
+		p:bookDefinitionService-ref="bookDefinitionService"
 		p:proviewAuditService-ref="proviewAuditService"
 		p:managerService-ref="managerService"
 		p:messageSourceAccessor-ref="messageSourceAccessor"

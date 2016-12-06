@@ -28,6 +28,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup;
@@ -52,6 +55,7 @@ public class ProviewGroupListControllerTest {
 	private MockHttpServletRequest request;
 	private AnnotationMethodHandlerAdapter handlerAdapter;
 	private ProviewClient mockProviewClient;
+	private BookDefinitionService mockBookDefinitionService;
 	private ManagerService mockManagerService;
 	private ProviewAuditService mockProviewAuditService;
 	private MessageSourceAccessor mockMessageSourceAccessor;
@@ -65,6 +69,7 @@ public class ProviewGroupListControllerTest {
 
 		handlerAdapter = new AnnotationMethodHandlerAdapter();
 		this.mockProviewClient = EasyMock.createMock(ProviewClient.class);
+		this.mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
 		this.mockManagerService = EasyMock.createMock(ManagerServiceImpl.class);
 		this.mockProviewAuditService = EasyMock.createMock(ProviewAuditService.class);
 		this.mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
@@ -73,6 +78,7 @@ public class ProviewGroupListControllerTest {
 
 		this.controller = new ProviewGroupListController();
 		controller.setJobRequestService(mockJobRequestService);
+		controller.setBookDefinitionService(mockBookDefinitionService);
 		controller.setManagerService(mockManagerService);
 		controller.setMessageSourceAccessor(mockMessageSourceAccessor);
 		controller.setProviewAuditService(mockProviewAuditService);
@@ -264,11 +270,17 @@ public class ProviewGroupListControllerTest {
 		details.setTitleId(titleId);
 		details.setBookVersion(version);
 		groupDetails.add(details);
+		
+		BookDefinition mockBookDefinition = new BookDefinition();
+		mockBookDefinition.setPilotBookStatus(PilotBookStatus.IN_PROGRESS);
 
 		EasyMock.expect(mockProviewClient.getAllProviewGroupInfo()).andReturn(allProviewGroups);
-		EasyMock.expect(mockProviewClient.getProviewTitleContainer(titleId)).andReturn(titleContainer).times(2);
+		EasyMock.expect(mockProviewClient.getProviewTitleContainer(titleId)).andReturn(titleContainer);
 		EasyMock.expect(mockProviewClient.getSingleTitleGroupDetails(titleIdv)).andReturn(groupDetails);
 		EasyMock.replay(mockProviewClient);
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(groupId)).andReturn(mockBookDefinition);
+		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(groupId)).andReturn(null);
+		EasyMock.replay(mockBookDefinitionService);
 
 		ModelAndView mav = handlerAdapter.handle(request, response, controller);
 		assertNotNull(mav);
@@ -279,6 +291,9 @@ public class ProviewGroupListControllerTest {
 		mav = handlerAdapter.handle(request, response, controller);
 		assertNotNull(mav);
 		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_SINGLE_VERSION);
+		
+		EasyMock.verify(mockProviewClient);
+		EasyMock.verify(mockBookDefinitionService);
 	}
 	
 	@Test

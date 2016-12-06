@@ -38,6 +38,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
@@ -62,6 +65,7 @@ import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 public class ProviewGroupListController extends BaseProviewGroupListController {
 
 	private ProviewClient proviewClient;
+	private BookDefinitionService bookDefinitionService;
 	private ProviewAuditService proviewAuditService;
 	private ManagerService managerService;
 	private MessageSourceAccessor messageSourceAccessor;
@@ -320,6 +324,11 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
 			} else {
 				httpSession.setAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, "0");
 				model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, "0");
+			}
+			
+			BookDefinition bookDef = bookDefinitionService.findBookDefinitionByTitle(headTitleID);
+			if (bookDef != null) {
+				model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS, bookDef.getPilotBookStatus());
 			}
 
 			if (booksNotFoundMsg != null) {
@@ -811,6 +820,11 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
 	@Required
 	public void setProviewClient(ProviewClient proviewClient) {
 		this.proviewClient = proviewClient;
+	}
+	
+	@Required
+	public void setBookDefinitionService(BookDefinitionService service) {
+		this.bookDefinitionService = service;
 	}
 
 	@Required
