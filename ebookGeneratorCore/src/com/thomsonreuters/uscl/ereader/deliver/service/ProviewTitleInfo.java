@@ -16,7 +16,7 @@ import org.apache.commons.lang.StringUtils;
  * @author U0057241
  * 
  */
-public class ProviewTitleInfo implements Serializable, Comparable<ProviewTitleInfo> {
+public class ProviewTitleInfo implements TitleInfo, Serializable, Comparable<ProviewTitleInfo> {
 
 	/**
 	 * 

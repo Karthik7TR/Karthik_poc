@@ -111,38 +111,6 @@ public class ProviewTitleListControllerTest {
 	}
 	
 	@Test
-	public void testSingleTitleAllVersions() throws Exception {
-		request.setRequestURI("/"+WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS);
-		request.setMethod(HttpMethod.GET.name());
-		request.setParameter("titleId", WebConstants.KEY_TITLE_ID);
-		HttpSession session = request.getSession();
-		session.setAttribute(ProviewListFilterForm.FORM_NAME, controller.fetchSavedProviewListFilterForm(session));
-		ProviewTitleForm mockTitleForm = new ProviewTitleForm();
-		mockTitleForm.setTitleId(WebConstants.KEY_TITLE_ID);
-		Map<String, ProviewTitleContainer> testAllTitleInfo = new HashMap<>();
-		testAllTitleInfo.put(mockTitleForm.getTitleId(), new ProviewTitleContainer());
-		
-		EasyMock.expect(mockProviewClient.getAllProviewTitleInfo()).andReturn(testAllTitleInfo);
-		EasyMock.replay(mockProviewClient);
-
-		BookDefinition mockBookDefinition = new BookDefinition();
-		mockBookDefinition.setIsSplitBook(false);
-		
-		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(WebConstants.KEY_TITLE_ID)).andReturn(mockBookDefinition);
-		EasyMock.replay(mockBookDefinitionService);
-		
-		ModelAndView mav = handlerAdapter.handle(request, response, controller);
-		assertNotNull(mav);
-		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_TITLE_ALL_VERSIONS);
-		Map<String,Object> model = mav.getModel();
-		
-		Assert.assertEquals(false, model.get("isSplitBook"));
-		
-		EasyMock.verify(mockProviewClient);
-		EasyMock.verify(mockBookDefinitionService);
-	}
-	
-	@Test
 	public void testPostSelectionsRefresh() throws Exception {
 		request.setRequestURI("/"+WebConstants.MVC_PROVIEW_TITLES);
 		request.setMethod(HttpMethod.POST.name());

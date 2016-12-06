@@ -103,7 +103,9 @@
 	<bean id="smokeTestService" class="com.thomsonreuters.uscl.ereader.smoketest.service.SmokeTestServiceImpl" 
 		  p:smokeTestDao-ref="smokeTestDao" />
 		  
-   <bean id="groupService" class="com.thomsonreuters.uscl.ereader.group.service.GroupServiceImpl"
+    <bean id="groupService" class="com.thomsonreuters.uscl.ereader.group.service.GroupServiceImpl"
 			p:proviewClient-ref="proviewClient"/>				
+			
+	<bean id="bookTitlesUtil" class="com.thomsonreuters.uscl.ereader.core.book.util.BookTitlesUtilImpl"/>
 	
 </beans>	

@@ -19,13 +19,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
- import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +36,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
+import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
@@ -55,6 +60,7 @@ public class ProviewTitleListController {
 	private ManagerService managerService;
 	private MessageSourceAccessor messageSourceAccessor;
 	private JobRequestService jobRequestService;
+	private ProviewTitleListService proviewTitleListService;
 
 	private static final Logger log = LogManager.getLogger(ProviewTitleListController.class);
 
@@ -309,6 +315,7 @@ public class ProviewTitleListController {
 	@RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS, method = RequestMethod.GET)
 	public ModelAndView singleTitleAllVersions(@RequestParam("titleId") String titleId, HttpSession httpSession,
 			Model model) throws Exception {
+		Assert.notNull(titleId);
 
 		Map<String, ProviewTitleContainer> allProviewTitleInfo = fetchAllProviewTitleInfo(httpSession);
 		if (allProviewTitleInfo == null) {
@@ -316,27 +323,27 @@ public class ProviewTitleListController {
 			saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
 		}
 
+		BookDefinition bookDef = proviewTitleListService.getBook(new TitleId(titleId));
 		ProviewTitleContainer proviewTitleContainer = allProviewTitleInfo.get(titleId);
-
 		if (proviewTitleContainer != null) {
 			List<ProviewTitleInfo> allTitleVersions = proviewTitleContainer.getProviewTitleInfos();
-			if (allTitleVersions != null) {
-				model.addAttribute(WebConstants.KEY_PAGINATED_LIST, allTitleVersions);
-				model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, allTitleVersions.size());
-
-				// Check book definition exists in database
-				BookDefinition bookDef = bookDefinitionService.findBookDefinitionByTitle(titleId);
-				if (bookDef != null) {
-					// If it exists, check to see if the book is marked as a
-					// pilot book
-					model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS, bookDef.getPilotBookStatus());
-					model.addAttribute(WebConstants.KEY_IS_SPLIT_BOOK, bookDef.isSplitBook());
-				}
-
-			}
+			List<ProviewTitle> proviewTitles = proviewTitleListService.getProviewTitles(allTitleVersions, bookDef);
+			model.addAttribute(WebConstants.KEY_PAGINATED_LIST, proviewTitles);
+			model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, proviewTitles.size());
 		}
-
+		String infoMessage = getBookLevelMessage(bookDef);
+		model.addAttribute(WebConstants.KEY_INFO_MESSAGE, infoMessage);
 		return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_ALL_VERSIONS);
+	}
+
+	@Nullable
+	private String getBookLevelMessage(@Nullable BookDefinition bookDef) {
+		if (bookDef == null) {
+			return "Book was not found in DB";
+		} else if (bookDef.getPilotBookStatus() == PilotBookStatus.IN_PROGRESS) {
+			return "Pilot book marked as 'In Progress' for notes migration. Once the note migration csv file is in place, update the Pilot Book status, and regenerate the book before Promoting.";
+		}
+		return null;
 	}
 
 	/**
@@ -623,6 +630,11 @@ public class ProviewTitleListController {
 	@Required
 	public void setJobRequestService(JobRequestService jobRequestService) {
 		this.jobRequestService = jobRequestService;
+	}
+	
+	@Required
+	public void setProviewTitleListService(ProviewTitleListService proviewTitleListService) {
+		this.proviewTitleListService = proviewTitleListService;
 	}
 
 }
