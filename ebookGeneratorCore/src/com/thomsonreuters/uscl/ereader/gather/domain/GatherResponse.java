@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.gather.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -37,10 +38,10 @@ public class GatherResponse {
 	private String publishStatus;
 	private int missingImgCount;
 
-	private ArrayList<String> splitTocGuidList;
+	private List<String> splitTocGuidList;
 	private boolean findSplitsAgain = false;
-	private ArrayList<String> duplicateTocGuids;
-	private ArrayList<ImgMetadataInfo> imageMetadataList ;
+	private List<String> duplicateTocGuids;
+	private List<ImgMetadataInfo> imageMetadataList ;
 	
 	public GatherResponse() {
 		this(0, null, 0, 0, 0, 0, 0, 0, null);
@@ -165,10 +166,10 @@ public class GatherResponse {
 	@XmlElement(name="splitGuids", required=false)
 	public void setSplitTocGuidList(Collection<String> splitTocGuidList) {
 		if ( splitTocGuidList != null){
-			this.splitTocGuidList = new ArrayList<String>(splitTocGuidList);
+			this.splitTocGuidList = new ArrayList<>(splitTocGuidList);
 		}
 	}
-	public ArrayList<String> getSplitTocGuidList() {
+	public List<String> getSplitTocGuidList() {
 		return splitTocGuidList;
 	}
 	
@@ -183,18 +184,18 @@ public class GatherResponse {
 	@XmlElement(name="dupTocGuids", required=false)
 	public void setDuplicateTocGuids(Collection<String> duplicateTocGuids) {
 		if ( duplicateTocGuids != null){
-			this.duplicateTocGuids = new ArrayList<String>(duplicateTocGuids);
+			this.duplicateTocGuids = new ArrayList<>(duplicateTocGuids);
 		}
 	}
-	public ArrayList<String> getDuplicateTocGuids() {
+	public List<String> getDuplicateTocGuids() {
 		return duplicateTocGuids;
 	}
 	
-	public ArrayList<ImgMetadataInfo> getImageMetadataList() {
+	public List<ImgMetadataInfo> getImageMetadataList() {
 		return imageMetadataList;
 	}
 	@XmlElement(name="imgMetadataInfo", required=false)
-	public void setImageMetadataList(ArrayList<ImgMetadataInfo> imageMetadataList) {
+	public void setImageMetadataList(List<ImgMetadataInfo> imageMetadataList) {
 		this.imageMetadataList = imageMetadataList;
 	}
 	

@@ -13,11 +13,6 @@
 		  p:productName="EBOOKGENERATOR-USCL"
 		  p:businessUnit="WestCobalt"/>
 		  
-	<bean id="novusFactoryforImage" class="com.thomsonreuters.uscl.ereader.gather.services.NovusFactoryImpl"
-		  p:novusEnvironment="${novus.environment.img}"    
-		  p:productName="EBOOKGENERATOR-USCL"
-		  p:businessUnit="WestCobalt"/>
-		  
 	<bean id="novusUtility" class="com.thomsonreuters.uscl.ereader.gather.services.NovusUtility"
 		  p:docRetryCount="3"    
 		  p:tocRetryCount="3"
@@ -44,10 +39,6 @@
 		  p:missingImageGuidsFileBasename="missing_image_guids.txt"		  
 		  p:sleepIntervalBetweenImages="500"/>
 		  
-	<bean id="tiffImageConverter" class="com.thomsonreuters.uscl.ereader.gather.util.images.TiffImageConverterImpl" 
-		  init-method="init"
-		  p:tiffReaderClass="it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReader"/>	
-
 	<!-- Below is used to fetch the initial misc config (log4j logging levels) from a generator REST service that serves up the MiscConfig object
 		 as read from the database. --> 
 	<bean id="miscConfigSyncService" class="com.thomsonreuters.uscl.ereader.gather.services.GathererMiscConfigSyncService"

@@ -10,9 +10,6 @@
 	<bean id="docController" class="com.thomsonreuters.uscl.ereader.gather.controller.DocController"
 		  p:docService-ref="docService"/>
 		  
-	<bean id="imgController" class="com.thomsonreuters.uscl.ereader.gather.controller.ImgController"
-		  p:novusImgService-ref="novusImgService"/>	
-		  
 	<bean id="homeController" class="com.thomsonreuters.uscl.ereader.gather.controller.HomeController"
 		  p:environmentName-ref="environmentName"/>
 		  

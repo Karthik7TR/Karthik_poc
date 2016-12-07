@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       					   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+						   http://www.springframework.org/schema/context
+						   http://www.springframework.org/schema/context/spring-context-4.0.xsd
+						   http://www.springframework.org/schema/aop
+        				   http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<!-- Model -->
+
+	<bean id="imageRequestParameters" class="com.thomsonreuters.uscl.ereader.gather.img.model.ImageRequestParameters"
+		scope="request">
+		<aop:scoped-proxy />
+	</bean>
+
+	<!-- Controller -->
+
+	<bean id="imgController" class="com.thomsonreuters.uscl.ereader.gather.img.controller.ImgController"
+		p:novusImageService-ref="novusImageService"
+		p:parameters-ref="imageRequestParameters" />
+
+	<!-- Services -->
+
+	<bean id="novusImageService" class="com.thomsonreuters.uscl.ereader.gather.img.service.NovusImageServiceImpl"
+		p:docToImageManifestUtil-ref="docToImageManifestUtil"
+		p:imageProcessor-ref="imageProcessor" />
+
+	<bean id="imageProcessor" class="com.thomsonreuters.uscl.ereader.gather.img.service.NovusImageProcessorImpl"
+		scope="request" 
+		p:imageFinder-ref="imageFinder"
+		p:dynamicImageDirectory="#{imageRequestParameters.dynamicImageDirectory}"
+		p:missingImageGuidsFileBasename="missing_image_guids.txt"
+		p:imageConverter-ref="tiffImageConverter">
+		<aop:scoped-proxy />
+	</bean>
+
+	<bean id="imageFinder" class="com.thomsonreuters.uscl.ereader.gather.img.service.NovusImageFinderImpl"
+		scope="request" 
+		p:novusFactory-ref="novusFactoryforImage"
+		p:novusUtility-ref="novusUtility" 
+		p:parser-ref="novusImageParser"
+		p:finalStage="#{imageRequestParameters.finalStage}" 
+		p:sleepIntervalBetweenImages="500" />
+
+	<bean id="novusFactoryforImage" class="com.thomsonreuters.uscl.ereader.gather.services.NovusFactoryImpl"
+		p:novusEnvironment="${novus.environment.img}" 
+		p:productName="EBOOKGENERATOR-USCL"
+		p:businessUnit="WestCobalt" />
+
+	<!-- Utils -->
+
+	<bean id="novusImageParser" class="com.thomsonreuters.uscl.ereader.gather.img.util.NovusImageMetadataParserImpl" />
+
+	<bean id="docToImageManifestUtil" class="com.thomsonreuters.uscl.ereader.gather.img.util.DocToImageManifestUtilImpl" />
+
+	<bean id="tiffImageConverter" class="com.thomsonreuters.uscl.ereader.gather.img.util.TiffImageConverterImpl"
+		init-method="init" 
+		p:tiffReaderClass="it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReader" />
+
+</beans>

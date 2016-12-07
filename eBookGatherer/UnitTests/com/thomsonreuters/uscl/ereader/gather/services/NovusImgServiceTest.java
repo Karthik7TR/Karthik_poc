@@ -21,7 +21,9 @@ import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 import com.westgroup.novus.productapi.BLOB;
 import com.westgroup.novus.productapi.Find;
 import com.westgroup.novus.productapi.Novus;
-
+/**
+ * @deprecated Should be removed after related integration test will be fixed
+ */
 public class NovusImgServiceTest {
 	
 	@Rule

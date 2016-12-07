@@ -18,8 +18,9 @@ import org.junit.rules.TemporaryFolder;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
-import com.thomsonreuters.uscl.ereader.gather.util.images.TiffImageConverterImpl;
+import com.thomsonreuters.uscl.ereader.gather.img.util.TiffImageConverterImpl;
 
+//TODO reimplement with new com.thomsonreuters.uscl.ereader.gather.img.service.NovusImageService
 public class NovusImageServiceTest {
 
 	private static final boolean IS_FINAL_STAGE = true;

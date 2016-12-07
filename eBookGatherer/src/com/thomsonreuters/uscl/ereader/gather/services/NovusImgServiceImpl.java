@@ -30,14 +30,18 @@ import org.xml.sax.XMLReader;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
+import com.thomsonreuters.uscl.ereader.gather.img.util.ImageConverter;
+import com.thomsonreuters.uscl.ereader.gather.img.util.ImageMetadataHandler;
 import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
-import com.thomsonreuters.uscl.ereader.gather.util.images.ImageConverter;
 import com.thomsonreuters.uscl.ereader.gather.util.images.ImageConverterException;
 import com.westgroup.novus.productapi.BLOB;
 import com.westgroup.novus.productapi.Find;
 import com.westgroup.novus.productapi.Novus;
 import com.westgroup.novus.productapi.NovusException;
 
+/**
+ * @deprecated Should be removed after related integration test will be fixed
+ */
 public class NovusImgServiceImpl implements NovusImgService {
 
 	// "missing_image_guids.txt"

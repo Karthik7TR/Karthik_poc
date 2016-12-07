@@ -10,6 +10,10 @@ import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 import com.westgroup.novus.productapi.Find;
 
+/**
+ * @deprecated Should be removed after related integration test will be fixed
+ */
+@Deprecated
 public interface NovusImgService {
 
 	public GatherResponse getImagesFromNovus(File imgToDocManifestFile, File getDynamicImageDirectory,
