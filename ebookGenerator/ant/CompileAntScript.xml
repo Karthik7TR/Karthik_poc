@@ -21,6 +21,9 @@
     <fileset dir="${dir.core}/lib">
       <include name="*.jar"/>
     </fileset>
+    <fileset dir="${dir.core}/buildTempLocation/IvyLibraries/master">
+  	  <include name="*.jar"/>
+  	</fileset>
     <fileset dir="${dir.core}/dist">
       <include name="*.jar"/>
     </fileset>
@@ -99,6 +102,9 @@
     <copy todir="${dir.tmpBuildDir}/WEB-INF/lib">
       <fileset dir="${dir.core}/lib">
         <include name="**/*.jar"/>
+      </fileset>
+      <fileset dir="${dir.core}/buildTempLocation/IvyLibraries/master">
+    	<include name="**/*.jar"/>
       </fileset>
      </copy>
   </target>
