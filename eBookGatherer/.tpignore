@@ -1,0 +1,4 @@
+/buildTempLocation/.*
+/Logs/.*
+/testBin/.*
+/TestResults/.*
