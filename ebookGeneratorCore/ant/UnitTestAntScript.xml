@@ -16,10 +16,8 @@
     <fileset dir="lib">
        <include name="*.jar"/>
     </fileset>
-  	<fileset dir="${dir.libraries}/test">
-  	   <include name="*.jar" />
-  	</fileset>
   	<fileset dir="${env.buildextensionroot}">
+      <include name="JUnit/*.jar"/>
       <include name="OtherLibraries/**/*.jar"/>
     </fileset>
   </path>

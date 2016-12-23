@@ -1,6 +1,0 @@
-/build/.*
-/buildTempLocation/.*
-/dist/.*
-/Logs/.*
-/testBin/.*
-/TestResults/.*
