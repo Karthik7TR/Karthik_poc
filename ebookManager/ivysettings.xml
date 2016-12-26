@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ivysettings>
+
+    <credentials
+      host="cobaltdm.int.thomsonreuters.com"
+      username="build"
+      passwd="build"
+      realm="Sonatype Nexus Repository Manager" />
+
+    <resolvers>
+        <chain name="default" returnFirst="true">
+            <ibiblio
+              name="3rd Party Libraries"
+              m2compatible="true"
+              useMavenMetadata="false"
+              root="http://cobaltdm.int.thomsonreuters.com:9001/nexus-webapps/content/repositories/3rdpartycache/" />
+            <ibiblio
+              name="Cobalt Libraries"
+              m2compatible="true"
+              useMavenMetadata="false"
+              root="http://cobaltdm.int.thomsonreuters.com:9001/nexus-webapps/content/repositories/CobaltInternalLibraries/" />
+        </chain>
+    </resolvers>
+
+    <settings defaultResolver="default" validate="false" />
+
+</ivysettings>
