@@ -55,7 +55,7 @@ public class NovusImageServiceImplTest {
 		docsMap.put("docId", asList("image1", "image2"));
 
 		given(docUtil.getDocsWithImages(any(File.class))).willReturn(docsMap);
-		given(processor.isProcessed("image2")).willReturn(true);
+		given(processor.isProcessed("image2", "docId")).willReturn(true);
 		// when
 		GatherResponse imagesFromNovus = service.getImagesFromNovus(new ImageRequestParameters());
 		// then
@@ -75,7 +75,7 @@ public class NovusImageServiceImplTest {
 		docsMap.put("docId", asList("image1", "image2"));
 
 		given(docUtil.getDocsWithImages(any(File.class))).willReturn(docsMap);
-		doThrow(new RuntimeException()).when(processor).isProcessed(anyString());
+		doThrow(new RuntimeException()).when(processor).isProcessed(anyString(), anyString());
 		// when
 		service.getImagesFromNovus(new ImageRequestParameters());
 		// then

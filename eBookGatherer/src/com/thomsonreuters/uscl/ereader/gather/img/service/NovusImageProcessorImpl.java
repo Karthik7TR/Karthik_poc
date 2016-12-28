@@ -14,8 +14,10 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -49,7 +51,7 @@ public class NovusImageProcessorImpl implements NovusImageProcessor {
 
 	@NotNull
 	private List<ImgMetadataInfo> imagesMetadata = new ArrayList<>();
-	private Set<String> processed = new HashSet<>();
+	private Map<String, Set<String>> processed = new HashMap<>();
 	private int missingImageCount = 0;
 	private Writer missingImageFileWriter;
 
@@ -62,7 +64,7 @@ public class NovusImageProcessorImpl implements NovusImageProcessor {
 
 	@Override
 	public void process(@NotNull String imageId, @NotNull String docId) {
-		processed.add(imageId);
+		saveProcessed(docId, imageId);
 
 		NovusImage image = imageFinder.getImage(imageId);
 		if (image == null) {
@@ -78,10 +80,17 @@ public class NovusImageProcessorImpl implements NovusImageProcessor {
 		}
 	}
 
+	private void saveProcessed(String docId, String imageId) {
+		if (processed.get(docId) == null) {
+			processed.put(docId, new HashSet<String>());
+		}
+		processed.get(docId).add(imageId);
+	}
+
 	private void processSuccess(NovusImage image, String imageId, String docId) throws IOException {
 		String extension = image.isTiffImage() ? PNG : image.getMediaSubTypeString();
 		File imageFile = new File(dynamicImageDirectory, imageId + "." + extension);
-		
+
 		writeImage(image, imageFile);
 		if (image.isUnknownFormat()) {
 			Log.debug("Unfamiliar Image format " + image.getMediaSubTypeString() + " found for imageGuid " + imageId);
@@ -115,8 +124,12 @@ public class NovusImageProcessorImpl implements NovusImageProcessor {
 	}
 
 	@Override
-	public boolean isProcessed(@NotNull String imageId) {
-		return processed.contains(imageId);
+	public boolean isProcessed(@NotNull String imageId, @NotNull String docId) {
+		Set<String> imageIds = processed.get(docId);
+		if (imageIds == null) {
+			return false;
+		} 
+		return imageIds.contains(imageId);
 	}
 
 	@NotNull

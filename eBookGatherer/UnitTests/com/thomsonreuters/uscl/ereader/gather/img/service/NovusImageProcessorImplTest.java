@@ -62,7 +62,7 @@ public class NovusImageProcessorImplTest {
 		given(finder.getImage("imageId")).willReturn(new NovusImage(MediaType.IMAGE_PNG, metadata, new byte[0]));
 		// when
 		processor.process("imageId", "docId");
-		boolean processed = processor.isProcessed("imageId");
+		boolean processed = processor.isProcessed("imageId", "docId");
 		List<ImgMetadataInfo> imagesMetadata = processor.getImagesMetadata();
 		int missingImageCount = processor.getMissingImageCount();
 		// then
@@ -71,6 +71,36 @@ public class NovusImageProcessorImplTest {
 		assertThat(missingImageCount, is(0));
 		then(imageConverter).should(never()).convertByteImg((byte[]) any(), anyString(), anyString());
 	}
+	
+	@Test
+	public void shouldProcessSameImageInDifferentDocs() throws Exception {
+		// given
+		ImgMetadataInfo metadata = new ImgMetadataInfo();
+		given(finder.getImage("imageId")).willReturn(new NovusImage(MediaType.IMAGE_PNG, metadata, new byte[0]));
+		// when
+		processor.process("imageId", "docId1");
+		processor.process("imageId", "docId2");
+		processor.process("imageId2", "docId2");
+		boolean processed1 = processor.isProcessed("imageId", "docId1");
+		boolean processed2 = processor.isProcessed("imageId", "docId2");
+		boolean processed3 = processor.isProcessed("imageId2", "docId2");
+		// then
+		assertThat(processed1, is(true));
+		assertThat(processed2, is(true));
+		assertThat(processed3, is(true));
+	}
+	
+	@Test
+	public void isProcessedShouldReturnFalseIfDocNotProcessed() throws Exception {
+		// given
+		ImgMetadataInfo metadata = new ImgMetadataInfo();
+		given(finder.getImage("imageId")).willReturn(new NovusImage(MediaType.IMAGE_PNG, metadata, new byte[0]));
+		// when
+		processor.process("imageId", "docId1");
+		boolean processed = processor.isProcessed("imageId", "docId");
+		// then
+		assertThat(processed, is(false));
+	}
 
 	@Test
 	public void shouldCountFailsWhenCannotGetImage() throws Exception {
@@ -78,7 +108,7 @@ public class NovusImageProcessorImplTest {
 		given(finder.getImage("imageId")).willReturn(null);
 		// when
 		processor.process("imageId", "docId");
-		boolean processed = processor.isProcessed("imageId");
+		boolean processed = processor.isProcessed("imageId", "docId");
 		List<ImgMetadataInfo> imagesMetadata = processor.getImagesMetadata();
 		int missingImageCount = processor.getMissingImageCount();
 		// then
@@ -92,19 +122,22 @@ public class NovusImageProcessorImplTest {
 	public void shouldConvertTiffs() throws Exception {
 		// given
 		ImgMetadataInfo metadata = new ImgMetadataInfo();
-		given(finder.getImage("imageId")).willReturn(new NovusImage(MediaType.valueOf("image/tif"), metadata, new byte[0]));
+		given(finder.getImage("imageId"))
+				.willReturn(new NovusImage(MediaType.valueOf("image/tif"), metadata, new byte[0]));
 		// when
 		processor.process("imageId", "docId");
 		// then
 		then(imageConverter).should().convertByteImg((byte[]) any(), anyString(), anyString());
 	}
-	
+
 	@Test
 	public void shouldCountFailsWhenCannotConvertImage() throws Exception {
 		// given
 		ImgMetadataInfo metadata = new ImgMetadataInfo();
-		given(finder.getImage("imageId")).willReturn(new NovusImage(MediaType.valueOf("image/tif"), metadata, new byte[0]));
-		doThrow(new ImageConverterException("Cannot convert")).when(imageConverter).convertByteImg((byte[]) any(), anyString(), anyString());
+		given(finder.getImage("imageId"))
+				.willReturn(new NovusImage(MediaType.valueOf("image/tif"), metadata, new byte[0]));
+		doThrow(new ImageConverterException("Cannot convert")).when(imageConverter).convertByteImg((byte[]) any(),
+				anyString(), anyString());
 		// when
 		processor.process("imageId", "docId");
 		List<ImgMetadataInfo> imagesMetadata = processor.getImagesMetadata();
@@ -113,15 +146,16 @@ public class NovusImageProcessorImplTest {
 		assertThat(imagesMetadata, empty());
 		assertThat(missingImageCount, is(1));
 	}
-	
+
 	@Test
 	public void shouldProcessUnknownFormat() throws Exception {
 		// given
 		ImgMetadataInfo metadata = new ImgMetadataInfo();
-		given(finder.getImage("imageId")).willReturn(new NovusImage(MediaType.valueOf("image/ico"), metadata, new byte[0]));
+		given(finder.getImage("imageId"))
+				.willReturn(new NovusImage(MediaType.valueOf("image/ico"), metadata, new byte[0]));
 		// when
 		processor.process("imageId", "docId");
-		boolean processed = processor.isProcessed("imageId");
+		boolean processed = processor.isProcessed("imageId", "docId");
 		List<ImgMetadataInfo> imagesMetadata = processor.getImagesMetadata();
 		int missingImageCount = processor.getMissingImageCount();
 		// then

@@ -35,9 +35,11 @@ public interface NovusImageProcessor extends AutoCloseable {
 	 * 
 	 * @param imageId
 	 *            image ID
+	 * @param docId
+	 *            doc ID
 	 * @return processed flag
 	 */
-	boolean isProcessed(@NotNull String imageId);
+	boolean isProcessed(@NotNull String imageId, @NotNull String docId);
 
 	/**
 	 * Get metadata for all processed images

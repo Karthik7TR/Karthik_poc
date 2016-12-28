@@ -33,7 +33,7 @@ public class NovusImageServiceImpl implements NovusImageService {
 			for (Entry<String, List<String>> e : docsWithImages.entrySet()) {
 				String docId = e.getKey();
 				for (String imageId : e.getValue()) {
-					if (!processor.isProcessed(imageId)) {
+					if (!processor.isProcessed(imageId, docId)) {
 						processor.process(imageId, docId);
 					}
 				}
