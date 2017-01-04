@@ -299,7 +299,7 @@
 				p:publishingStatsService-ref="publishingStatsService"
 				p:docMetadataService-ref="docMetadataService"/>
 	<beans:bean id="deliverEBookTask" class="com.thomsonreuters.uscl.ereader.deliver.step.DeliverToProview" parent="parentTask" 
-				p:proviewClient-ref="proviewClient"
+				p:proviewHandler-ref="proviewHandler"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:docMetadataService-ref="docMetadataService"/>
 	<beans:bean id="groupEBookTask" class="com.thomsonreuters.uscl.ereader.group.step.GroupEbooks" parent="parentTask" 				

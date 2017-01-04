@@ -151,6 +151,66 @@ public class GroupDefinition implements Comparable<GroupDefinition> {
 		return true;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GroupDefinition that = (GroupDefinition) obj;
+		if (groupId != null) {
+			if (!groupId.equals(that.groupId))
+				return false;
+		} else if (that.groupId != null)
+			return false;
+		
+		if (groupVersion != null) {
+			if (!groupVersion.equals(that.groupVersion))
+				return false;
+		} else if (that.groupVersion != null)
+			return false;
+		
+		if (name != null) {
+			if (!name.equals(that.name))
+				return false;
+		} else if (that.name != null)
+			return false;
+		
+		if (type != null) {
+			if (!type.equals(that.type))
+				return false;
+		} else if (that.type != null)
+			return false;
+		
+		if (status != null) {
+			if (!status.equals(that.status))
+				return false;
+		} else if (that.status != null)
+			return false;
+		
+		if (order != null) {
+			if (!order.equals(that.order))
+				return false;
+		} else if (that.order != null)
+			return false;
+		
+		if (headTitle != null) {
+			if (!headTitle.equals(that.headTitle))
+				return false;
+		} else if (that.headTitle != null)
+			return false;
+		
+		if (subGroupInfoList != null) {
+			if (!subGroupInfoList.equals(that.subGroupInfoList))
+				return false;
+		} else if (that.subGroupInfoList != null)
+			return false;
+		
+		return true;
+	}
+	
 	public static class SubGroupInfo {
 		private String heading;
 		private List<String> titles = new ArrayList<String>();

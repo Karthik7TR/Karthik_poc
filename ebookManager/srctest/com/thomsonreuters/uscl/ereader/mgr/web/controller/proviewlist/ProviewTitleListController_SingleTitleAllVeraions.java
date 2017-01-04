@@ -31,7 +31,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -42,7 +42,7 @@ public class ProviewTitleListController_SingleTitleAllVeraions {
 	@InjectMocks
 	private ProviewTitleListController controller;
 	@Mock
-	private ProviewClient proviewClient;
+	private ProviewHandler proviewHandler;
 	@Mock
 	private ProviewTitleListService proviewTitleListService;
 	@Mock
@@ -97,7 +97,7 @@ public class ProviewTitleListController_SingleTitleAllVeraions {
 	private void givenTitles(List<ProviewTitleInfo> titleInfos, List<ProviewTitle> titles) throws ProviewException {
 		Map<String, ProviewTitleContainer> allTitleInfos = new HashMap<>();
 		allTitleInfos.put("titleId", container(titleInfos));
-		given(proviewClient.getAllProviewTitleInfo()).willReturn(allTitleInfos);
+		given(proviewHandler.getAllProviewTitleInfo()).willReturn(allTitleInfos);
 		given(proviewTitleListService.getBook(any(TitleId.class))).willReturn(book);
 		given(proviewTitleListService.getProviewTitles(titleInfos, book)).willReturn(titles);
 	}

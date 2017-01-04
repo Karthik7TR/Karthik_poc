@@ -41,7 +41,7 @@ import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
@@ -54,7 +54,7 @@ import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 @Controller
 public class ProviewTitleListController {
 
-	private ProviewClient proviewClient;
+	private ProviewHandler proviewHandler;
 	private BookDefinitionService bookDefinitionService;
 	private ProviewAuditService proviewAuditService;
 	private ManagerService managerService;
@@ -181,8 +181,8 @@ public class ProviewTitleListController {
 
 		case REFRESH:
 
-			Map<String, ProviewTitleContainer> allProviewTitleInfo = proviewClient.getAllProviewTitleInfo();
-			List<ProviewTitleInfo> allLatestProviewTitleInfo = proviewClient
+			Map<String, ProviewTitleContainer> allProviewTitleInfo = proviewHandler.getAllProviewTitleInfo();
+			List<ProviewTitleInfo> allLatestProviewTitleInfo = proviewHandler
 					.getAllLatestProviewTitleInfo(allProviewTitleInfo);
 
 			saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
@@ -263,11 +263,11 @@ public class ProviewTitleListController {
 				try {
 					if (allProviewTitleInfo == null) {
 
-						allProviewTitleInfo = proviewClient.getAllProviewTitleInfo();
+						allProviewTitleInfo = proviewHandler.getAllProviewTitleInfo();
 						saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
 					}
 
-					allLatestProviewTitleInfo = proviewClient.getAllLatestProviewTitleInfo(allProviewTitleInfo);
+					allLatestProviewTitleInfo = proviewHandler.getAllLatestProviewTitleInfo(allProviewTitleInfo);
 					saveAllLatestProviewTitleInfo(httpSession, allLatestProviewTitleInfo);
 
 					selectedProviewTitleInfo = allLatestProviewTitleInfo;
@@ -319,7 +319,7 @@ public class ProviewTitleListController {
 
 		Map<String, ProviewTitleContainer> allProviewTitleInfo = fetchAllProviewTitleInfo(httpSession);
 		if (allProviewTitleInfo == null) {
-			allProviewTitleInfo = proviewClient.getAllProviewTitleInfo();
+			allProviewTitleInfo = proviewHandler.getAllProviewTitleInfo();
 			saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
 		}
 
@@ -473,7 +473,7 @@ public class ProviewTitleListController {
 
 		try {
 			if (!isJobRunningForBook(model, form.getTitleId(), form.getVersion())) {
-				proviewClient.removeTitle(form.getTitleId(), form.getVersion());
+				proviewHandler.removeTitle(form.getTitleId(), form.getVersion());
 				model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Success: removed from Proview.");
 				emailBody = "Title id: " + form.getTitleId() + ", version: " + form.getVersion()
 						+ " removed from Proview.";
@@ -513,7 +513,7 @@ public class ProviewTitleListController {
 
 		try {
 			if (!isJobRunningForBook(model, form.getTitleId(), form.getVersion())) {
-				proviewClient.promoteTitle(form.getTitleId(), form.getVersion());
+				proviewHandler.promoteTitle(form.getTitleId(), form.getVersion());
 				model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Success: promoted to Final in Proview.");
 
 				emailBody = "Title id: " + form.getTitleId() + ", version: " + form.getVersion()
@@ -566,7 +566,7 @@ public class ProviewTitleListController {
 
 		try {
 			if (!isJobRunningForBook(model, form.getTitleId(), form.getVersion())) {
-				proviewClient.deleteTitle(form.getTitleId(), form.getVersion());
+				proviewHandler.deleteTitle(form.getTitleId(), form.getVersion());
 				model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Success: deleted from Proview.");
 				emailBody = "Title id: " + form.getTitleId() + ", version: " + form.getVersion()
 						+ " deleted from Proview.";
@@ -588,11 +588,11 @@ public class ProviewTitleListController {
 
 	/**
 	 * 
-	 * @param proviewClient
+	 * @param proviewHandler
 	 */
 	@Required
-	public void setProviewClient(ProviewClient proviewClient) {
-		this.proviewClient = proviewClient;
+	public void setProviewHandler(ProviewHandler proviewHandler) {
+		this.proviewHandler = proviewHandler;
 	}
 
 	@Required

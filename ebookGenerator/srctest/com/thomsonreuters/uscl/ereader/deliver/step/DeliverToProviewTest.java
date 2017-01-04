@@ -10,18 +10,18 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 
 public class DeliverToProviewTest {
 	private DeliverToProview deliverToProview;
 	BookDefinition bookDefinition;
 	ProviewException exp;
-	ProviewClient proviewClient;
+	ProviewHandler proviewHandler;
 	
 	@Before
 	public void setUp() throws Exception
 	{
-		proviewClient = EasyMock.createMock(ProviewClient.class);
+		proviewHandler = EasyMock.createMock(ProviewHandler.class);
 		deliverToProview = new DeliverToProview();
 	}
 	
@@ -36,14 +36,14 @@ public class DeliverToProviewTest {
 	public void testRetry() throws ProviewException{
 		
 		
-		deliverToProview.setProviewClient(proviewClient);
+		deliverToProview.setProviewHandler(proviewHandler);
 		String title = "abcd";
 		String version = "1.0";
 		
 		exp = new ProviewException(CoreConstants.TTILE_IN_QUEUE);
-		proviewClient.removeTitle(title, version);
+		proviewHandler.removeTitle(title, version);
 		EasyMock.expectLastCall().andThrow(exp).anyTimes();
-		EasyMock.replay(proviewClient);
+		EasyMock.replay(proviewHandler);
     	
 		deliverToProview.setBaseSleepTimeInMinutes(0);
 		deliverToProview.setSleepTimeInMinutes(0);
@@ -64,14 +64,14 @@ public class DeliverToProviewTest {
 	@Test
 	public void testRetryRemove() throws ProviewException{		
 		
-		deliverToProview.setProviewClient(proviewClient);
+		deliverToProview.setProviewHandler(proviewHandler);
 		String title = "abcd";
 		String version = "1.0";
 		
 		exp = new ProviewException("exception occurred");
-		proviewClient.removeTitle(title, version);
+		proviewHandler.removeTitle(title, version);
 		EasyMock.expectLastCall().andThrow(exp).anyTimes();
-		EasyMock.replay(proviewClient);
+		EasyMock.replay(proviewHandler);
     	
 		deliverToProview.setBaseSleepTimeInMinutes(0);
 		deliverToProview.setSleepTimeInMinutes(0);
@@ -92,13 +92,13 @@ public class DeliverToProviewTest {
 	@Test
 	public void testRetryDelete() throws ProviewException{		
 		
-		deliverToProview.setProviewClient(proviewClient);
+		deliverToProview.setProviewHandler(proviewHandler);
 		String title = "abcd";
 		String version = "1.0";
 		
-		EasyMock.expect(proviewClient.removeTitle(title, version)).andReturn("200");
-		EasyMock.expect(proviewClient.deleteTitle(title, version)).andReturn("200");
-    	EasyMock.replay(proviewClient);
+		EasyMock.expect(proviewHandler.removeTitle(title, version)).andReturn("200");
+		EasyMock.expect(proviewHandler.deleteTitle(title, version)).andReturn(true);
+    	EasyMock.replay(proviewHandler);
     	
 		deliverToProview.setBaseSleepTimeInMinutes(0);
 		deliverToProview.setSleepTimeInMinutes(0);

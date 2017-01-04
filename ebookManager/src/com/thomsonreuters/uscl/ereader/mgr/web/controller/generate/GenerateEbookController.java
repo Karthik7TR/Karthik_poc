@@ -36,7 +36,7 @@ import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
@@ -55,7 +55,7 @@ public class GenerateEbookController {
 	private BookDefinitionService bookDefinitionService;
 	private String environmentName;
 	private MessageSourceAccessor messageSourceAccessor;
-	private ProviewClient proviewClient;
+	private ProviewHandler proviewHandler;
 	private GroupService groupService;
 	private JobRequestService jobRequestService;
 	private PublishingStatsService publishingStatsService;
@@ -326,7 +326,7 @@ public class GenerateEbookController {
 		String status;
 
 		try {
-			ProviewTitleInfo proviewTitleInfo = proviewClient.getLatestProviewTitleInfo(titleId);
+			ProviewTitleInfo proviewTitleInfo = proviewHandler.getLatestProviewTitleInfo(titleId);
 			if (proviewTitleInfo == null) {
 				currentVersion = "Not published";
 				status = null;
@@ -487,13 +487,13 @@ public class GenerateEbookController {
 		this.bookDefinitionService = service;
 	}
 
-	public ProviewClient getProviewClient() {
-		return proviewClient;
+	public ProviewHandler getProviewHandler() {
+		return proviewHandler;
 	}
 
 	@Required
-	public void setProviewClient(ProviewClient proviewClient) {
-		this.proviewClient = proviewClient;
+	public void setProviewHandler(ProviewHandler proviewHandler) {
+		this.proviewHandler = proviewHandler;
 	}
 
 	@Required

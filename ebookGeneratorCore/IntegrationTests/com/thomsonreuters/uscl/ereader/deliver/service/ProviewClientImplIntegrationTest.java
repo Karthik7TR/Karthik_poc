@@ -221,7 +221,7 @@ public class ProviewClientImplIntegrationTest {
 		groupDefinition.setSubGroupInfoList(subGroupInfoList);
 
 		try {
-			String response = proviewClient.createGroup(groupDefinition);
+			String response = proviewClient.createGroup(groupDefinition.getGroupId(), groupDefinition.getProviewGroupVersionString(), "<group></group>"); // See ProviewHanderImpl#buildRequestBody()
 			Assert.assertEquals(response.length(), 0);
 			proviewClient.setGetGroupUriTemplate(
 					"http://" + PROVIEW_DOMAIN_PREFIX + "/v1/group/{groupId}/{groupVersionNumber}/info");

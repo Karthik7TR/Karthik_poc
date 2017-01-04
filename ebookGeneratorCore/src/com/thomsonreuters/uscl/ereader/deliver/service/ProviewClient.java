@@ -9,16 +9,14 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.List;
-import java.util.Map;
-
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails;
 
 /**
  * Implementors of this interface are responsible for interacting with ProView
  * and returning any relevant information (success, failure, response messages,
  * etc) to the caller.
+ * 
+ * <a href="https://thehub.thomsonreuters.com/docs/DOC-63763">ProView Publishing REST API</a>
  * 
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris
  *         Schwartz</a> u0081674
@@ -37,15 +35,7 @@ public interface ProviewClient {
 
 	public String getProviewGroupInfo(final String groupId, final String groupVersion) throws ProviewException;
 
-	public Map<String, ProviewGroupContainer> getAllProviewGroupInfo() throws ProviewException;
-	
-	public ProviewGroupContainer getProviewGroupContainerById(String titleId) throws ProviewException;
-
-	public List<ProviewGroup> getAllLatestProviewGroupInfo() throws ProviewException;
-
-	public List<ProviewGroup> getAllLatestProviewGroupInfo(Map<String, ProviewGroupContainer> groupMap) throws ProviewException;
-
-	public String createGroup(final GroupDefinition groupDefinition) throws ProviewException, UnsupportedEncodingException;
+	public String createGroup(String groupId, String groupVersion, String requestBody) throws ProviewException, UnsupportedEncodingException;
 
 	public String promoteGroup(final String groupId, final String groupVersion) throws ProviewException;
 
@@ -55,18 +45,6 @@ public interface ProviewClient {
 
 	/* proview list */
 	public String getAllPublishedTitles() throws ProviewException;
-
-	public Map<String, ProviewTitleContainer> getAllProviewTitleInfo() throws ProviewException;
-
-	public ProviewTitleContainer getProviewTitleContainer(final String fullyQualifiedTitleId) throws ProviewException;
-
-	public List<ProviewTitleInfo> getAllLatestProviewTitleInfo() throws ProviewException;
-
-	public List<ProviewTitleInfo> getAllLatestProviewTitleInfo(Map<String, ProviewTitleContainer> titleMap) throws ProviewException;
-
-	public ProviewTitleInfo getLatestProviewTitleInfo(final String fullyQualifiedTitleId) throws ProviewException;
-
-	public List<GroupDetails> getSingleTitleGroupDetails(String fullyQualifiedTitleId) throws ProviewException;
 
 	public String getSinglePublishedTitle(String fullyQualifiedTitleId) throws ProviewException;
 
@@ -79,8 +57,6 @@ public interface ProviewClient {
 	public String removeTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber) throws ProviewException;
 
 	public String deleteTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber) throws ProviewException;
-
-	public boolean hasTitleIdBeenPublished(final String fullyQualifiedTitleId) throws ProviewException;
 
 	// public String getStatusByVersion(String fullyQualifiedTitleId, String version) throws Exception;
 

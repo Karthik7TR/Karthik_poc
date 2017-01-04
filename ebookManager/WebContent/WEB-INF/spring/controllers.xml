@@ -160,7 +160,7 @@
 		p:environmentName-ref="environmentName"
 		p:messageSourceAccessor-ref="messageSourceAccessor"
 		p:jobRequestService-ref="jobRequestService"
-		p:proviewClient-ref="proviewClient"
+		p:proviewHandler-ref="proviewHandler"
 		p:publishingStatsService-ref="publishingStatsService" 
 		p:managerService-ref="managerService"
 		p:outageService-ref="outageService"
@@ -259,7 +259,7 @@
 		p:publishingStatsService-ref="publishingStatsService" />
 		  
 	<bean id="proviewTitleListController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleListController"
-		p:proviewClient-ref="proviewClient"
+		p:proviewHandler-ref="proviewHandler"
 		p:proviewAuditService-ref="proviewAuditService"
 		p:managerService-ref="managerService"
 		p:messageSourceAccessor-ref="messageSourceAccessor"
@@ -268,7 +268,7 @@
 		p:proviewTitleListService-ref="proviewTitleListService"/>
 		
 	<bean id="proviewGroupListController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupListController"
-		p:proviewClient-ref="proviewClient"
+		p:proviewHandler-ref="proviewHandler"
 		p:bookDefinitionService-ref="bookDefinitionService"
 		p:proviewAuditService-ref="proviewAuditService"
 		p:managerService-ref="managerService"

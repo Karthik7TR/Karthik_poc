@@ -21,6 +21,8 @@ import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactor
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandlerImpl;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupServiceImpl;
 
@@ -34,6 +36,7 @@ public class GroupEbooksIntegrationTest {
 	private ProviewRequestCallbackFactory proviewRequestCallbackFactory;
 	private ProviewResponseExtractorFactory proviewResponseExtractorFactory;
 	private ProviewClientImpl proviewClient;
+	private ProviewHandler proviewHandler;
 	
 	@Before
 	public void setUp() throws Exception
@@ -60,8 +63,10 @@ public class GroupEbooksIntegrationTest {
 
 		proviewClient.setProviewHostname("proviewpublishing.int.demo.thomsonreuters.com");
 		
+		proviewHandler = new ProviewHandlerImpl();
+		
 		groupEbooks = new GroupServiceImpl();
-		groupEbooks.setProviewClient(proviewClient);
+		groupEbooks.setProviewHandler(proviewHandler);
 	}
 
 	@After

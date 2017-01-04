@@ -32,7 +32,7 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.security.CobaltUser;
@@ -47,7 +47,7 @@ public class ProviewTitleListControllerTest {
 	private MockHttpServletResponse response;
 	private MockHttpServletRequest request;
 	private HandlerAdapter handlerAdapter;
-	private ProviewClient mockProviewClient;
+	private ProviewHandler mockProviewHandler;
 	private ManagerService mockManagerService;
 	private BookDefinitionService mockBookDefinitionService;
 	private ProviewAuditService mockProviewAuditService;
@@ -62,7 +62,7 @@ public class ProviewTitleListControllerTest {
 		this.response =new MockHttpServletResponse();
 		
 		handlerAdapter = new AnnotationMethodHandlerAdapter();
-		this.mockProviewClient = EasyMock.createMock(ProviewClient.class);
+		this.mockProviewHandler = EasyMock.createMock(ProviewHandler.class);
 		this.mockManagerService = EasyMock.createMock(ManagerServiceImpl.class);
 		this.mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
 		this.mockProviewAuditService = EasyMock.createMock(ProviewAuditService.class);
@@ -75,7 +75,7 @@ public class ProviewTitleListControllerTest {
 		controller.setManagerService(mockManagerService);
 		controller.setMessageSourceAccessor(mockMessageSourceAccessor);
 		controller.setProviewAuditService(mockProviewAuditService);
-		controller.setProviewClient(mockProviewClient);
+		controller.setProviewHandler(mockProviewHandler);
 	}
 	
 	@After
@@ -96,9 +96,9 @@ public class ProviewTitleListControllerTest {
 		Map<String, ProviewTitleContainer> testAllTitleInfo = new HashMap<>();
 		ArrayList<ProviewTitleInfo> testAllLatestTitleInfo = new ArrayList<>();
 		
-		EasyMock.expect(mockProviewClient.getAllProviewTitleInfo()).andReturn(testAllTitleInfo);
-		EasyMock.expect(mockProviewClient.getAllLatestProviewTitleInfo(testAllTitleInfo)).andReturn(testAllLatestTitleInfo);
-		EasyMock.replay(mockProviewClient);
+		EasyMock.expect(mockProviewHandler.getAllProviewTitleInfo()).andReturn(testAllTitleInfo);
+		EasyMock.expect(mockProviewHandler.getAllLatestProviewTitleInfo(testAllTitleInfo)).andReturn(testAllLatestTitleInfo);
+		EasyMock.replay(mockProviewHandler);
 		
 		ModelAndView mav = handlerAdapter.handle(request, response, controller);
 		
@@ -107,7 +107,7 @@ public class ProviewTitleListControllerTest {
 		Map<String,Object> model = mav.getModel();
 		Assert.assertEquals(model.get(WebConstants.KEY_PAGE_SIZE), "20");
 		
-		EasyMock.verify(mockProviewClient);
+		EasyMock.verify(mockProviewHandler);
 	}
 	
 	@Test
@@ -125,9 +125,9 @@ public class ProviewTitleListControllerTest {
 		testInfo.setTitle("test");
 		mockAllLatestProviewTitleInfo.add(testInfo);
 		
-		EasyMock.expect(mockProviewClient.getAllProviewTitleInfo()).andReturn(mockAllProviewTitleInfo);
-		EasyMock.expect(mockProviewClient.getAllLatestProviewTitleInfo(mockAllProviewTitleInfo)).andReturn(mockAllLatestProviewTitleInfo);
-		EasyMock.replay(mockProviewClient);
+		EasyMock.expect(mockProviewHandler.getAllProviewTitleInfo()).andReturn(mockAllProviewTitleInfo);
+		EasyMock.expect(mockProviewHandler.getAllLatestProviewTitleInfo(mockAllProviewTitleInfo)).andReturn(mockAllLatestProviewTitleInfo);
+		EasyMock.replay(mockProviewHandler);
 		
 		ModelAndView mav = handlerAdapter.handle(request, response, controller);
 		assertNotNull(mav);
@@ -136,7 +136,7 @@ public class ProviewTitleListControllerTest {
 		
 		Assert.assertEquals("20", model.get("pageSize"));
 		
-		EasyMock.verify(mockProviewClient);
+		EasyMock.verify(mockProviewHandler);
 	}
 	
 	@Test
@@ -257,8 +257,8 @@ public class ProviewTitleListControllerTest {
 		Long definitionId = new Long(127);
 		
 
-		EasyMock.expect(mockProviewClient.promoteTitle(titleId, version)).andReturn("");
-		EasyMock.replay(mockProviewClient);
+		EasyMock.expect(mockProviewHandler.promoteTitle(titleId, version)).andReturn("");
+		EasyMock.replay(mockProviewHandler);
 		
 		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(titleId)).andReturn(bookDefinition).times(2);
 		EasyMock.expect(mockBookDefinitionService.saveBookDefinition(bookDefinition)).andReturn(null);
@@ -296,8 +296,8 @@ public class ProviewTitleListControllerTest {
 		request.setParameter("status", status);
 		request.setParameter("command", ProviewTitleForm.Command.REMOVE.toString());
 
-		EasyMock.expect(mockProviewClient.removeTitle(titleId, version)).andReturn("");
-		EasyMock.replay(mockProviewClient);
+		EasyMock.expect(mockProviewHandler.removeTitle(titleId, version)).andReturn("");
+		EasyMock.replay(mockProviewHandler);
 		ModelAndView mav = handlerAdapter.handle(request, response, controller);
 		Assert.assertEquals(WebConstants.VIEW_PROVIEW_TITLE_REMOVE, mav.getViewName());
 	}
@@ -323,8 +323,8 @@ public class ProviewTitleListControllerTest {
 		request.setParameter("status", status);
 		request.setParameter("command", ProviewTitleForm.Command.DELETE.toString());
 
-		EasyMock.expect(mockProviewClient.deleteTitle(titleId, version)).andReturn("");
-		EasyMock.replay(mockProviewClient);
+		EasyMock.expect(mockProviewHandler.deleteTitle(titleId, version)).andReturn(true);
+		EasyMock.replay(mockProviewHandler);
 		ModelAndView mav = handlerAdapter.handle(request, response, controller);
 		Assert.assertEquals(WebConstants.VIEW_PROVIEW_TITLE_DELETE, mav.getViewName());
 	}

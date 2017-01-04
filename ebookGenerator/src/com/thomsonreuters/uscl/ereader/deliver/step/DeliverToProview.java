@@ -29,7 +29,7 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
@@ -46,7 +46,7 @@ public class DeliverToProview extends AbstractSbTasklet {
 
 	private static final Logger LOG = LogManager.getLogger(DeliverToProview.class);
 	private static final String VERSION_NUMBER_PREFIX = "v";
-	private ProviewClient proviewClient;
+	private ProviewHandler proviewHandler;
 	private PublishingStatsService publishingStatsService;
 	private DocMetadataService docMetadataService;
 	private int maxNumberOfRetries = 2;
@@ -106,11 +106,11 @@ public class DeliverToProview extends AbstractSbTasklet {
 					if (eBook == null || !eBook.exists()) {
 						throw new IOException("eBook cannot be null and contact ebook support for furthur analysis.");
 					}
-					proviewClient.publishTitle(fullyQualifiedTitleId, versionNumber, eBook);
+					proviewHandler.publishTitle(fullyQualifiedTitleId, versionNumber, eBook);
 					successfullyPublishisedList.add(fullyQualifiedTitleId);
 				}
 			} else {
-				proviewClient.publishTitle(fullyQualifiedTitleId, versionNumber, eBook);
+				proviewHandler.publishTitle(fullyQualifiedTitleId, versionNumber, eBook);
 			}
 		} catch (Exception e) {
 			publishStatus = "Failed";
@@ -147,9 +147,9 @@ public class DeliverToProview extends AbstractSbTasklet {
 		String errorMsg = "";
 		do {
 			try {
-				String response = proviewClient.removeTitle(splitTitle, versionNumber);
+				String response = proviewHandler.removeTitle(splitTitle, versionNumber);
 				if (response.contains("200")) {
-					proviewClient.deleteTitle(splitTitle, versionNumber);
+					proviewHandler.deleteTitle(splitTitle, versionNumber);
 				}
 				retryRequest = false;
 			} catch (ProviewException ex) {
@@ -181,8 +181,8 @@ public class DeliverToProview extends AbstractSbTasklet {
 
 	}
 
-	public void setProviewClient(ProviewClient proviewClient) {
-		this.proviewClient = proviewClient;
+	public void setProviewHandler(ProviewHandler proviewHandler) {
+		this.proviewHandler = proviewHandler;
 	}
 
 	@Required

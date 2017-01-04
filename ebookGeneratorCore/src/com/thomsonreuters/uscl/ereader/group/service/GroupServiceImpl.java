@@ -29,7 +29,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
@@ -37,8 +37,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupI
 public class GroupServiceImpl implements GroupService {
 
 	private static final Logger LOG = LogManager.getLogger(GroupServiceImpl.class);
-	private GroupDefinitionParser proviewGroupParser = new GroupDefinitionParser();
-	private ProviewClient proviewClient;
+	private ProviewHandler proviewHandler;
 	private List<String> pilotBooksNotFound;
 
 	/**
@@ -70,9 +69,7 @@ public class GroupServiceImpl implements GroupService {
 
 	public List<GroupDefinition> getGroups(String groupId) throws Exception {
 		try {
-			String response = proviewClient.getProviewGroupById(groupId);
-			GroupDefinitionParser parser = new GroupDefinitionParser();
-			List<GroupDefinition> groups = parser.parse(response);
+			List<GroupDefinition> groups = proviewHandler.getGroupDefinitionsById(groupId);
 			// sort by group versions
 			Collections.sort(groups);
 			return groups;
@@ -90,21 +87,14 @@ public class GroupServiceImpl implements GroupService {
 
 	public GroupDefinition getGroupInfoByVersion(String groupId, Long groupVersion) throws ProviewException {
 		try {
-			String response = proviewClient.getProviewGroupInfo(groupId, GroupDefinition.VERSION_NUMBER_PREFIX + groupVersion.toString());
-			List<GroupDefinition> groups = proviewGroupParser.parse(response);
-			if (groups.size() == 1) {
-				return groups.get(0);
-			}
+			return proviewHandler.getGroupDefinitionByVersion(groupId, groupVersion);
 		} catch (ProviewRuntimeException ex) {
 			if (ex.getStatusCode().equals("400") && ex.toString().contains("No such group id and version exist")) {
-				// ignore and return null
+				return null;
 			} else {
 				throw new ProviewException(ex.getMessage());
 			}
-		} catch (Exception ex) {
-			throw new ProviewException(ex.getMessage());
 		}
-		return null;
 	}
 
 	public GroupDefinition getGroupInfoByVersionAutoDecrement(String groupId, Long groupVersion) throws ProviewException {
@@ -138,7 +128,7 @@ public class GroupServiceImpl implements GroupService {
 	 */
 	public void createGroup(GroupDefinition groupDefinition) throws ProviewException {
 		try {
-			proviewClient.createGroup(groupDefinition);
+			proviewHandler.createGroup(groupDefinition);
 		} catch (ProviewRuntimeException ex) {
 			String errorMsg = ex.getMessage();
 			if (ex.getStatusCode().equalsIgnoreCase("400")) {
@@ -451,18 +441,7 @@ public class GroupServiceImpl implements GroupService {
 		// It must be a pilot book
 		else {
 			title = isTitleWithVersion(title) ? StringUtils.substringBeforeLast(title, "/v") : title;
-			try {
-				proviewClient.getSinglePublishedTitle(title);
-				return true;
-			} catch (Exception ex) {
-				String errorMessage = ex.getMessage();
-				if (errorMessage.contains("does not exist")) {
-					return false;
-
-				} else {
-					throw ex;
-				}
-			}
+			return proviewHandler.isTitleInProview(title);
 		}
 		return false;
 	}
@@ -472,9 +451,9 @@ public class GroupServiceImpl implements GroupService {
 
 		if (GroupDefinition != null) {
 			for (GroupDefinition group : GroupDefinition) {
-				proviewClient.removeGroup(group.getGroupId(), group.getProviewGroupVersionString());
+				proviewHandler.removeGroup(group.getGroupId(), group.getProviewGroupVersionString());
 				TimeUnit.SECONDS.sleep(2);
-				proviewClient.deleteGroup(group.getGroupId(), group.getProviewGroupVersionString());
+				proviewHandler.deleteGroup(group.getGroupId(), group.getProviewGroupVersionString());
 			}
 		}
 
@@ -483,9 +462,9 @@ public class GroupServiceImpl implements GroupService {
 	/**
 	 * Get list of ProView titles that belong in the group for given book definition.
 	 * 
-	 * Deprecated in favor of ProviewClient.getTitleContainer()
+	 * Deprecated in favor of ProviewHandler.getTitleContainer()
 	 */
-	@Deprecated // Deprecated in favor of ProviewClient.getTitleContainer()
+	@Deprecated // Deprecated in favor of ProviewHandler.getTitleContainer()
 	public Map<String, ProviewTitleInfo> getProViewTitlesForGroup(BookDefinition bookDef) throws Exception {
 		Set<SplitNodeInfo> splitNodeInfos = bookDef.getSplitNodes();
 
@@ -534,7 +513,7 @@ public class GroupServiceImpl implements GroupService {
 				ProviewTitleInfo latest = new ProviewTitleInfo();
 				latest.setVersion("v0");
 				Integer totalNumberOfVersions = 0;
-				ProviewTitleContainer singleBook = proviewClient.getProviewTitleContainer(pilotBook.getPilotBookTitleId());
+				ProviewTitleContainer singleBook = proviewHandler.getProviewTitleContainer(pilotBook.getPilotBookTitleId());
 				if (singleBook == null) {
 					notFoundList.add(pilotBook.getPilotBookTitleId());
 				} else {
@@ -565,7 +544,7 @@ public class GroupServiceImpl implements GroupService {
 
 	public List<ProviewTitleInfo> getMajorVersionProviewTitles(String titleId) throws ProviewException {
 		try {
-			ProviewTitleContainer container = proviewClient.getProviewTitleContainer(titleId);
+			ProviewTitleContainer container = proviewHandler.getProviewTitleContainer(titleId);
 			if (container != null) {
 				return container.getAllMajorVersions();
 			}
@@ -581,8 +560,8 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Required
-	public void setProviewClient(ProviewClient proviewClient) {
-		this.proviewClient = proviewClient;
+	public void setProviewHandler(ProviewHandler proviewHandler) {
+		this.proviewHandler = proviewHandler;
 	}
 
 }

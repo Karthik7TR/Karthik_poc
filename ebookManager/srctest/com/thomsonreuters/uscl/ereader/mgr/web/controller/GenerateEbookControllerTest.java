@@ -39,7 +39,7 @@ import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageServiceImpl;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.group.service.GroupServiceImpl;
@@ -61,7 +61,7 @@ public class GenerateEbookControllerTest {
 
 	private BookDefinitionService mockBookDefinitionService;
 	private MessageSourceAccessor mockMessageSourceAccessor;
-	private ProviewClient mockProviewClient;
+	private ProviewHandler mockProviewHandler;
 	private GroupService mockGroupService;
 	private JobRequestService mockJobRequestService;
 	private PublishingStatsService mockPublishingStatsService;
@@ -78,7 +78,7 @@ public class GenerateEbookControllerTest {
 		// Mock up services
 		mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
 		mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
-		mockProviewClient = EasyMock.createMock(ProviewClient.class);
+		mockProviewHandler = EasyMock.createMock(ProviewHandler.class);
 		mockGroupService = EasyMock.createMock(GroupServiceImpl.class);
 		mockJobRequestService = EasyMock.createMock(JobRequestServiceImpl.class);
 		mockPublishingStatsService = EasyMock.createMock(PublishingStatsServiceImpl.class);
@@ -91,7 +91,7 @@ public class GenerateEbookControllerTest {
 		controller.setEnvironmentName("");
 		controller.setBookDefinitionService(mockBookDefinitionService);
 		controller.setMessageSourceAccessor(mockMessageSourceAccessor);
-		controller.setProviewClient(mockProviewClient);
+		controller.setProviewHandler(mockProviewHandler);
 		controller.setGroupService(mockGroupService);
 		controller.setJobRequestService(mockJobRequestService);
 		controller.setPublishingStatsService(mockPublishingStatsService);
@@ -132,7 +132,7 @@ public class GenerateEbookControllerTest {
 		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(bookDefinitionId)).andReturn(book);
 		EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
 		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
-		EasyMock.expect(mockProviewClient.getLatestProviewTitleInfo(null)).andReturn(titleInfo);
+		EasyMock.expect(mockProviewHandler.getLatestProviewTitleInfo(null)).andReturn(titleInfo);
 		EasyMock.expect(mockGroupService.getLastGroup(book)).andReturn(group);
 		EasyMock.expect(mockGroupService.createGroupDefinition(book, "v5", null)).andReturn(group);
 		EasyMock.expect(mockGroupService.createGroupDefinition(book, "v6", null)).andReturn(group);
@@ -196,7 +196,7 @@ public class GenerateEbookControllerTest {
 		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(bookDefinitionId)).andReturn(book);
 		EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
 		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
-		EasyMock.expect(mockProviewClient.getLatestProviewTitleInfo(null)).andReturn(titleInfo);
+		EasyMock.expect(mockProviewHandler.getLatestProviewTitleInfo(null)).andReturn(titleInfo);
 		EasyMock.expect(mockGroupService.getLastGroup(book)).andReturn(group);
 		EasyMock.expect(mockGroupService.createGroupDefinition(EasyMock.anyObject(BookDefinition.class), EasyMock
 				.anyObject(String.class), EasyMock.anyObject(List.class))).andReturn(group).times(2);
@@ -323,7 +323,7 @@ public class GenerateEbookControllerTest {
 	private void replayAll() {
 		EasyMock.replay(mockBookDefinitionService);
 		EasyMock.replay(mockMessageSourceAccessor);
-		EasyMock.replay(mockProviewClient);
+		EasyMock.replay(mockProviewHandler);
 		EasyMock.replay(mockGroupService);
 		EasyMock.replay(mockJobRequestService);
 		EasyMock.replay(mockPublishingStatsService);

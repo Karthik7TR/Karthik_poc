@@ -7,6 +7,23 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ProviewGroupsParserTest {
+
+	private static final String GROUP_ID = "groupID";
+	private static final String GROUP_NAME = "groupName";
+	private static final String GROUP_INFO_PILOT_BOOK_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" + "<group id=\""
+			+ GROUP_ID + "\" status=\"Review\" version=\"v1\">" + "<name>" + GROUP_NAME
+			+ "</name><type>standard</type><headtitle>uscl/an/book_lohisplitnodeinfo</headtitle><members><subgroup>"
+			+ "<title>uscl/an/book_lohisplitnodeinfo</title><title>uscl/an/book_pilotBook</title></subgroup></members></group>";
+	private static final String GROUP_INFO_PILOT_BOOK_INSUB_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+			+ "<group id=\"" + GROUP_ID + "\" status=\"Review\" version=\"v1\">" + "<name>" + GROUP_NAME
+			+ "</name><type>standard</type><headtitle>uscl/an/book_lohisplitnodeinfo</headtitle><members><subgroup heading=\"2015\">"
+			+ "<title>uscl/an/book_lohisplitnodeinfo/v1</title><title>uscl/an/book_pilotBook</title></subgroup></members></group>";
+	private static final String GROUP_INFO_PILOT_BOOK_PREVIOUS_SUB_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+			+ "<group id=\"" + GROUP_ID + "\" status=\"Review\" version=\"v1\">" + "<name>" + GROUP_NAME
+			+ "</name><type>standard</type><headtitle>uscl/an/book_lohisplitnodeinfo</headtitle><members><subgroup heading=\"2016\">"
+			+ "<title>uscl/an/book_lohisplitnodeinfo/v2</title></subgroup><subgroup heading=\"2015\">"
+			+ "<title>uscl/an/book_lohisplitnodeinfo/v1</title><title>uscl/an/book_pilotBook</title></subgroup></members></group>";
+	
 	private ProviewGroupsParser parser;
 	
 	@Before
