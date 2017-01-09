@@ -65,17 +65,17 @@ public class JMSClientIntegrationTest {
 	public void testReceiveNext() {
 		initQueue();
 
-		String content = client.receiveSingleMessageByKeyword(jmsTemplate, "");
+		String content = client.receiveSingleMessage(jmsTemplate, "");
 		Assert.assertEquals("aaa", content);
-		content = client.receiveSingleMessageByKeyword(jmsTemplate, "");
+		content = client.receiveSingleMessage(jmsTemplate, "");
 		Assert.assertEquals("bbb", content);
-		content = client.receiveSingleMessageByKeyword(jmsTemplate, "");
+		content = client.receiveSingleMessage(jmsTemplate, "");
 		Assert.assertEquals("ccc", content);
-		content = client.receiveSingleMessageByKeyword(jmsTemplate, "");
+		content = client.receiveSingleMessage(jmsTemplate, "");
 		Assert.assertEquals("ddd", content);
-		content = client.receiveSingleMessageByKeyword(jmsTemplate, "");
+		content = client.receiveSingleMessage(jmsTemplate, "");
 		Assert.assertEquals("eee", content);
-		content = client.receiveSingleMessageByKeyword(jmsTemplate, "");
+		content = client.receiveSingleMessage(jmsTemplate, "");
 		Assert.assertEquals(null, content);
 	}
 
@@ -104,9 +104,9 @@ public class JMSClientIntegrationTest {
 		initQueue();
 		client.sendMessageToQueue(jmsTemplate, "abc", null);
 
-		String content = client.receiveSingleMessageByKeyword(jmsTemplate, "b");
+		String content = client.receiveSingleMessage(jmsTemplate, "b");
 		Assert.assertEquals("bbb", content);
-		content = client.receiveSingleMessageByKeyword(jmsTemplate, "b");
+		content = client.receiveSingleMessage(jmsTemplate, "b");
 		Assert.assertEquals("abc", content);
 
 		List<String> contents = client.receiveMessages(jmsTemplate, "");
@@ -124,7 +124,7 @@ public class JMSClientIntegrationTest {
 
 		client.receiveMessages(jmsTemplate, "");
 
-		String content = client.receiveSingleMessageByKeyword(jmsTemplate, "");
+		String content = client.receiveSingleMessage(jmsTemplate, "");
 		Assert.assertEquals(null, content);
 	}
 

@@ -118,7 +118,7 @@ public class JmsClientImpl implements JMSClient
 	@Override
 	@SuppressWarnings(
 	{ "unchecked" })
-	public String receiveSingleMessageByKeyword(final JmsTemplate jmsTemplate, final String searchText)
+	public String receiveSingleMessage(final JmsTemplate jmsTemplate, final String searchText)
 	{
 		final String messages = jmsTemplate.browse(new BrowserCallback<String>()
 		{

@@ -17,7 +17,7 @@ public interface JMSClient {
 	void sendMessageToQueue(JmsTemplate jmsTemplate, String messageText, Map<String, String> properties);
 
 	/**
-	 * Receives a message via the passed <code>JmsTemplate</code> if the message body contains the search text
+	 * Receives all messages via the passed <code>JmsTemplate</code> where the message body contains the search text
 	 *
 	 * @param jmsTemplate The queue template used to browse and consume messages
 	 * @param searchText The text to search for in the body of the message
@@ -27,12 +27,12 @@ public interface JMSClient {
 	List<String> receiveMessages(JmsTemplate jmsTemplate, String searchText);
 
 	/**
-	 * Receives a message via the passed <code>JmsTemplate</code> if there is a message in the queue
-	 * containing the search text
+	 * Receives the first message via the passed <code>JmsTemplate</code> which contains the search text, if
+	 * there is a matching message in the queue. Null otherwise.
 	 * 
 	 * @param jmsTemplate The queue template used to read the next message.
 	 * @return The message body of the next message in the queue. Null if the queue is empty.
 	 */
-	String receiveSingleMessageByKeyword(JmsTemplate jmsTemplate, String searchText);
+	String receiveSingleMessage(JmsTemplate jmsTemplate, String searchText);
 
 }
