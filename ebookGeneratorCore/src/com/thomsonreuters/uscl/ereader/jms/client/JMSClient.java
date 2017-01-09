@@ -1,9 +1,3 @@
-/*
- * Copyright 2013: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited.
- */
-
 package com.thomsonreuters.uscl.ereader.jms.client;
 
 import java.util.List;
@@ -27,20 +21,18 @@ public interface JMSClient {
 	 *
 	 * @param jmsTemplate The queue template used to browse and consume messages
 	 * @param searchText The text to search for in the body of the message
-	 * @return The message bodies of matching messages
+	 * @return The message bodies of matching messages. Null if no such message is found
 	 * @throws javax.jms.JMSException TODO
 	 */
 	List<String> receiveMessages(JmsTemplate jmsTemplate, String searchText);
-	
-	String receiveSingleMessageByKeyword(JmsTemplate jmsTemplate, String searchText);
 
 	/**
 	 * Receives a message via the passed <code>JmsTemplate</code> if there is a message in the queue
+	 * containing the search text
 	 * 
 	 * @param jmsTemplate The queue template used to read the next message.
 	 * @return The message body of the next message in the queue. Null if the queue is empty.
 	 */
-	String receiveSingleMessage(final JmsTemplate jmsTemplate);
-
+	String receiveSingleMessageByKeyword(JmsTemplate jmsTemplate, String searchText);
 
 }

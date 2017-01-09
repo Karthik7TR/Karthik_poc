@@ -65,17 +65,17 @@ public class JMSClientIntegrationTest {
 	public void testReceiveNext() {
 		initQueue();
 
-		String content = client.receiveSingleMessage(jmsTemplate);
+		String content = client.receiveSingleMessageByKeyword(jmsTemplate, "");
 		Assert.assertEquals("aaa", content);
-		content = client.receiveSingleMessage(jmsTemplate);
+		content = client.receiveSingleMessageByKeyword(jmsTemplate, "");
 		Assert.assertEquals("bbb", content);
-		content = client.receiveSingleMessage(jmsTemplate);
+		content = client.receiveSingleMessageByKeyword(jmsTemplate, "");
 		Assert.assertEquals("ccc", content);
-		content = client.receiveSingleMessage(jmsTemplate);
+		content = client.receiveSingleMessageByKeyword(jmsTemplate, "");
 		Assert.assertEquals("ddd", content);
-		content = client.receiveSingleMessage(jmsTemplate);
+		content = client.receiveSingleMessageByKeyword(jmsTemplate, "");
 		Assert.assertEquals("eee", content);
-		content = client.receiveSingleMessage(jmsTemplate);
+		content = client.receiveSingleMessageByKeyword(jmsTemplate, "");
 		Assert.assertEquals(null, content);
 	}
 
@@ -124,7 +124,7 @@ public class JMSClientIntegrationTest {
 
 		client.receiveMessages(jmsTemplate, "");
 
-		String content = client.receiveSingleMessage(jmsTemplate);
+		String content = client.receiveSingleMessageByKeyword(jmsTemplate, "");
 		Assert.assertEquals(null, content);
 	}
 
