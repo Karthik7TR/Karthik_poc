@@ -12,7 +12,8 @@ import java.util.Date;
 
 import javax.jms.IllegalStateException;
 
- import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;

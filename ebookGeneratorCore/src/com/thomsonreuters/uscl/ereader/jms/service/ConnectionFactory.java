@@ -1,0 +1,60 @@
+/*
+ * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Proprietary and Confidential information of TRGR. Disclosure, Use or
+ * Reproduction without the written authorization of TRGR is prohibited.
+ */
+
+package com.thomsonreuters.uscl.ereader.jms.service;
+
+import javax.jms.JMSException;
+import javax.jms.QueueConnectionFactory;
+
+import org.springframework.jms.core.JmsTemplate;
+
+/**
+ * @author C089278
+ *
+ */
+public interface ConnectionFactory
+{
+	/**
+	 * Return a queue connection factory instance
+	 *
+	 * @param host
+	 * @param port
+	 * @param queueManager
+	 * @param queue
+	 * @param channel
+	 * @param transportType
+	 * @return
+	 * @throws JMSException
+	 */
+	QueueConnectionFactory getNewQueueConnectionFactory(
+		String host,
+		int port,
+		String queueManager,
+		String queue,
+		String channel,
+		int transportType) throws JMSException;
+
+	/**
+	 * Return a template instance used to send messages
+	 *
+	 * @param connectionFactory
+	 * @param host
+	 * @param port
+	 * @param queueManager
+	 * @param queue
+	 * @param channel
+	 * @param transportType
+	 * @return
+	 */
+	JmsTemplate getNewJmsTemplate(
+		QueueConnectionFactory connectionFactory,
+		String host,
+		int port,
+		String queueManager,
+		String queue,
+		String channel,
+		int transportType);
+}
