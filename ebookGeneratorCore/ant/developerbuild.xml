@@ -101,8 +101,11 @@
                        The CoberturaAntScript.xml ANT script is also called by Team Build.
          - - - - - - - - - - - - - - - - - -->
   <target name="-codeCoverageInstrumentation">
+    <!--
     <echo level="info">Code coverage - Instrumenting the binaries via the JaCoCoAntScript.xml file ...</echo>
     <ant antfile="JaCoCoAntScript.xml" target="coverage-instrumentation" inheritall="false" />
+    -->
+    <ant antfile="CoberturaAntScript.xml" target="coverage-instrumentation" inheritall="false" />
   </target>
 
   <!-- - - - - - - - - - - - - - - - - - 
@@ -122,11 +125,13 @@
 	
 	<!-- Calls IntegrationTestAntScript.xml, which is responsible for executing the test cases for the project. -->
 	<target name="-integrationTests">
+	    <!--
 	    <echo level="info">Executing integration test cases via the IntegrationTestAntScript.xml file...</echo>
 	    <ant antfile="IntegrationTestAntScript.xml" inheritall="false">
 	    	<property name="dir.TestResultsFolder" value="${testResultsFolder}" />
 	        <property name="log.file" value="MergedTestResultsIT.xml" />
 	    </ant>
+	    -->
 	</target>
 
   <!-- - - - - - - - - - - - - - - - - - 
@@ -137,12 +142,15 @@
                        The CoberturaAntScript.xml ANT script is also called by Team Build.
          - - - - - - - - - - - - - - - - - -->
   <target name="-codeCoverageReporting">
+    <!--
     <echo level="info">Code coverage - Generating the code coverage report via the JaCoCoAntScript.xml.xml file ...</echo>
   	<ant antfile="JaCoCoAntScript.xml" target="coverage-report" inheritall="false">
         <property name="publishToSonar" value="false" />
         <property name="project" value="${APPLICATION}" />
         <property name="project.sonar.path" value="core" />
     </ant>
+    -->
+    <ant antfile="CoberturaAntScript.xml" target="coverage-report" inheritall="false" />
   </target>
 
   <target name="-cleanup">

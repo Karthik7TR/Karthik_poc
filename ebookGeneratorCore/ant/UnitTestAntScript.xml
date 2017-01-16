@@ -108,5 +108,13 @@
       One or more tests failed!
       For more information check the log files created under the logs folder- '${test.reports.dir}'."
     </fail>
+    
+    <!-- TODO:remove -->
+    <echo level="info">Executing integration test cases via the IntegrationTestAntScript.xml file...</echo>
+    <ant antfile="ant/IntegrationTestAntScript.xml" inheritall="false">
+        <property name="dir.TestResultsFolder" value="${dir.TestResultsFolder}" />
+        <property name="log.file" value="MergedTestResultsIT.xml" />
+    </ant>
+    <!-- /TODO -->
   </target>
 </project>
