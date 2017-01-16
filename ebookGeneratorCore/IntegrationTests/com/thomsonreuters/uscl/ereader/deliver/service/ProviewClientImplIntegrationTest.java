@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
@@ -94,6 +95,7 @@ public class ProviewClientImplIntegrationTest {
 
 	}
 
+	@Ignore
 	@Test
 	public void testGetAllTitlesHappyPath() throws Exception {
 		proviewClient.setGetTitlesUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
@@ -102,6 +104,7 @@ public class ProviewClientImplIntegrationTest {
 		assertTrue(publisherInformation.startsWith("<titles apiversion=\"v1\" publisher=\"uscl\""));
 	}
 
+	@Ignore
 	@Test
 	public void testRemoveTitle() {
 		proviewClient.setRemoveTitleUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + removeTitleUriTemplate);
@@ -118,6 +121,7 @@ public class ProviewClientImplIntegrationTest {
 		System.out.println(publisherInformation);
 	}
 
+	@Ignore
 	@Test
 	public void testPromoteTitle() {
 		proviewClient.setPromoteTitleUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + promoteTitleUriTemplate);
@@ -134,6 +138,7 @@ public class ProviewClientImplIntegrationTest {
 		System.out.println(publisherInformation);
 	}
 
+	@Ignore
 	@Test
 	public void testDeleteTitle() {
 		String publisherInformation = null;
@@ -150,6 +155,7 @@ public class ProviewClientImplIntegrationTest {
 		System.out.println(publisherInformation);
 	}
 
+	@Ignore
 	@Test
 	public void testPublishBookFailsBecauseItAlreadyExistsOnProview() throws Exception {
 		proviewClient.setPublishTitleUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + publishTitleUriTemplate);
@@ -166,6 +172,7 @@ public class ProviewClientImplIntegrationTest {
 		}
 	}
 
+	@Ignore
 	@Test
 	public void testGetAllGroupsHappyPath() throws Exception {
 		proviewClient.setProviewHost(InetAddress.getLocalHost());
@@ -182,6 +189,7 @@ public class ProviewClientImplIntegrationTest {
 
 	}
 
+	@Ignore
 	@Test
 	public void testGetSinglePublishedTitle() throws Exception {
 		proviewClient.setProviewHost(InetAddress.getLocalHost());

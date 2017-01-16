@@ -1,11 +1,11 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <!DOCTYPE xml>
 <project name="#PROJECT_NAME#_Test_Script" default="JUnitTestMain" basedir="..\">
   <property environment="env" />
   <property file="ant/build.properties" />
   <property file="ant/ant-global.properties" />
   <property name="test.reports.dir" value="${logs.dir}/TestsReports" />
-  <property name="dir.testResults" location="${dir.tmpBuildDir}\JUnitTest" />
+  <property name="dir.testResults" location="${dir.tmpBuildDir}\JUnitTestIT" />
 
   <!--- - - - - - - - - - - - - - - - -
            Create the Unit test class path that will be used by all targets in the script. 
@@ -14,7 +14,7 @@
     <fileset dir="lib">
        <include name="*.jar"/>
     </fileset>
-    <fileset dir="${env.buildextensionroot}">
+  	<fileset dir="${env.buildextensionroot}">
       <include name="JUnit/*.jar"/>
       <include name="OtherLibraries/**/*.jar"/>
     </fileset>
@@ -59,29 +59,29 @@
     <junit fork="on" forkmode="once" haltonfailure="false" showoutput="on"
            printsummary="on" failureproperty="tests.failed">
       <jvmarg line="-XX:-UseSplitVerifier"/>
-      <sysproperty key="jacoco-agent.destfile" file="${jacoco.data.file.unit}" />
-      
+      <sysproperty key="jacoco-agent.destfile" file="${jacoco.data.file.integration}" />
+
       <classpath>
         <path refid="classpath.unitTestLibs"/>
 
         <pathelement location="${jacoco.instrumentedPath}" />
 
         <pathelement path="${dir.binaries}" />
-        <pathelement path="${dir.testBinaries}" />
+        <pathelement path="${dir.integrationTestBinaries}" />
 
-        <pathelement path="${dir.unitTestSource}" />
+        <pathelement path="${dir.integrationTestSource}" />
         <pathelement path="${dir.source}" />
         <pathelement path="${dir.tmpBuildDir}/WEB-INF/classes"/>
+
         <fileset dir="${dir.librariesPath}\build\jacoco\lib">
           <include name="**/*.jar"/>
         </fileset>
-
       </classpath>
 
       <formatter type="xml" usefile="yes" />
       <batchtest todir="${dir.testResults}">
-        <fileset dir="${dir.testBinaries}">
-          <include name="**/*Test.class" />
+        <fileset dir="${dir.integrationTestBinaries}">          
+          <include name="**/*IntegrationTest.class" />
         </fileset>
       </batchtest>
     </junit>
@@ -97,7 +97,7 @@
       <report format="frames" todir="${test.reports.dir}" />
     </junitreport>
 
-    <!-- copy test results to merged location for sonar reporting -->
+      <!-- copy test results to merged location for sonar reporting -->
     <copy todir="${dir.mergedJUnitTestResults}">
       <fileset dir="${dir.testResults}">
         <include name="TEST-*.xml" />

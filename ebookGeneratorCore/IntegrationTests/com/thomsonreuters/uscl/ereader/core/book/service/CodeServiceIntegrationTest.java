@@ -36,7 +36,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 
 
-
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @Transactional

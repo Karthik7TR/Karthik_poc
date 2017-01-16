@@ -38,7 +38,7 @@
           description: This is the entry target for a "coverage" build. It will compile the
                        main source code, unit tests and integration tests.
          ================================= -->
-	<target name="coverage_build" description="Coverage build for the ebookGenerator project" depends="-init, -compile-java-core, -createJar, -compile_unitTests">
+	<target name="coverage_build" description="Coverage build for the ebookGenerator project" depends="-init, -compile-java-core, -createJar, -compile_unitTests, -compile_integrationTests">
 		<echo level="info" message="Coverage build has completed." />
 	</target>
 
@@ -49,9 +49,10 @@
          - - - - - - - - - - - - - - - - - -->
 	<target name="-init">
 		<antcall target="-clean" />
-		<echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}' and '${dir.testBinaries}' ...</echo>
+		<echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}', '${dir.testBinaries}', '${dir.integrationTestBinaries}' ...</echo>
 		<mkdir dir="${dir.binaries}" />
 		<mkdir dir="${dir.testBinaries}" />
+		<mkdir dir="${dir.integrationTestBinaries}" />
 		<mkdir dir="${dir.dist}" />
 	</target>
 
@@ -83,6 +84,23 @@
 			</classpath>
 		</javac>
 	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: -compile_integrationTests                      
+          description: Compile the integration test source code and place the compiled libraries in the 
+                       respective binary folder. The code will be compiled using version 1.7 of the SDK.
+         - - - - - - - - - - - - - - - - - -->
+	<target name="-compile_integrationTests">
+		<echo level="verbose">Compiling the integration test source code...</echo>
+		<javac destdir="${dir.integrationTestBinaries}" source="1.7" target="1.7">
+			<src path="${dir.integrationTestSource}" />
+			<classpath>
+				<pathelement path="${dir.binaries}" />
+				<path refid="classpath.compile" />
+			</classpath>
+		</javac>
+	</target>
+	
 
 	<!-- - - - - - - - - - - - - - - - - - 
           target: -createJar                      

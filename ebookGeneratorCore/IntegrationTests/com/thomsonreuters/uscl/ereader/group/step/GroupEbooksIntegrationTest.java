@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
@@ -26,6 +27,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandlerImpl;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupServiceImpl;
 
+@Ignore
 public class GroupEbooksIntegrationTest {
 
 	private static final String PROVIEW_DOMAIN_PREFIX = "proviewpublishing.int.demo.thomsonreuters.com";

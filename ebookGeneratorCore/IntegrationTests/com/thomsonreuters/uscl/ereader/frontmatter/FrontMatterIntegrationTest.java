@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashSet;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceTyp
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 
-
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration 
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)

@@ -2,6 +2,7 @@
 <!DOCTYPE xml>
 <project name="Cobalt ebookGeneratorCore Developer Ant Build" basedir="." default="main">
   <property file="ant-global.properties" />
+  <property file="deploy.properties" />
   <property name="testResultsFolder" location="../TestResults"/>
 
   <!-- *************************************** 
@@ -27,7 +28,7 @@
           description: This is the default entry target that will inturn 
                        call all the other targets.
          ================================= -->
-  <target name="main" depends="-init, -build, -checkStyle, -findBugs, -codeCoverageInstrumentation, -unitTests, -codeCoverageReporting, -cleanup">
+  <target name="main" depends="-init, -build, -checkStyle, -findBugs, -codeCoverageInstrumentation, -unitTests, -integrationTests, -codeCoverageReporting, -cleanup">
     <echo message="Developer build has completed!" />
   </target>
 
@@ -100,8 +101,8 @@
                        The CoberturaAntScript.xml ANT script is also called by Team Build.
          - - - - - - - - - - - - - - - - - -->
   <target name="-codeCoverageInstrumentation">
-    <echo level="info">Code coverage - Instrumenting the binaries via the CoberturaAntScript.xml file ...</echo>
-    <ant antfile="CoberturaAntScript.xml" target="coverage-instrumentation" inheritall="false" inheritrefs="false"/>
+    <echo level="info">Code coverage - Instrumenting the binaries via the JaCoCoAntScript.xml file ...</echo>
+    <ant antfile="JaCoCoAntScript.xml" target="coverage-instrumentation" inheritall="false" />
   </target>
 
   <!-- - - - - - - - - - - - - - - - - - 
@@ -118,6 +119,15 @@
       <property name="log.file" value="MergedTestResults.xml" />
     </ant>
   </target>
+	
+	<!-- Calls IntegrationTestAntScript.xml, which is responsible for executing the test cases for the project. -->
+	<target name="-integrationTests">
+	    <echo level="info">Executing integration test cases via the IntegrationTestAntScript.xml file...</echo>
+	    <ant antfile="IntegrationTestAntScript.xml" inheritall="false">
+	    	<property name="dir.TestResultsFolder" value="${testResultsFolder}" />
+	        <property name="log.file" value="MergedTestResultsIT.xml" />
+	    </ant>
+	</target>
 
   <!-- - - - - - - - - - - - - - - - - - 
           target: -codeCoverageReporting
@@ -127,8 +137,11 @@
                        The CoberturaAntScript.xml ANT script is also called by Team Build.
          - - - - - - - - - - - - - - - - - -->
   <target name="-codeCoverageReporting">
-    <echo level="info">Code coverage - Generating the code coverage report via the CoberturaAntScript.xml file ...</echo>
-    <ant antfile="CoberturaAntScript.xml" target="coverage-report" inheritall="false" inheritrefs="false">
+    <echo level="info">Code coverage - Generating the code coverage report via the JaCoCoAntScript.xml.xml file ...</echo>
+  	<ant antfile="JaCoCoAntScript.xml" target="coverage-report" inheritall="false">
+        <property name="publishToSonar" value="false" />
+        <property name="project" value="${APPLICATION}" />
+        <property name="project.sonar.path" value="core" />
     </ant>
   </target>
 
@@ -136,6 +149,7 @@
     <echo level="info">Temporary folders are being cleaned up.</echo>
     <delete dir="..\${dir.binaries}\com" failonerror="false" includeemptydirs="true" />
     <delete dir="..\${dir.testBinaries}" failonerror="false" includeemptydirs="true" />
+  	<delete dir="..\${dir.integrationTestBinaries}" failonerror="false" includeemptydirs="true" />
     <delete dir="..\${dir.tmpBuildDir}" failonerror="false" includeemptydirs="true" />
     <delete dir="..\${logs.dir}" failonerror="false" includeemptydirs="true" />
   	<ant dir="../../ebookGeneratorCore" antfile="ant/CompileAntScript.xml" target="realclean" inheritAll="false"/>

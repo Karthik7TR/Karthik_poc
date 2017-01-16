@@ -13,6 +13,7 @@ import java.util.HashSet;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsPK;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
-
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration 
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)

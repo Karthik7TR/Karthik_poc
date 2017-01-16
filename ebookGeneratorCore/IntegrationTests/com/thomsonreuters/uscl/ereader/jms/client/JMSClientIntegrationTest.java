@@ -7,12 +7,14 @@ import javax.jms.QueueConnectionFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.jms.core.JmsTemplate;
 
 import com.thomsonreuters.uscl.ereader.jms.client.impl.JmsClientImpl;
 import com.thomsonreuters.uscl.ereader.jms.service.impl.MQConnectionFactory;
 
+@Ignore
 public class JMSClientIntegrationTest {
 	/* configuration for test queue in CI Queue Manager */
 	private static final String HOST = "CTCO002-04";
