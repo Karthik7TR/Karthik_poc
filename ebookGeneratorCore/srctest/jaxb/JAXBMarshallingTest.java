@@ -1,19 +1,14 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
 package jaxb;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Level;
 import org.junit.After;
 import org.junit.Assert;
@@ -35,6 +30,7 @@ import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
+import com.thomsonreuters.uscl.ereader.jms.handler.EBookRequest;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -42,23 +38,69 @@ import javax.xml.bind.Unmarshaller;
 
 public class JAXBMarshallingTest {
 
-	private File tempRootDir;
-	private File xmlFile;
+	private String filePath = "/tmp/usr/ebook_test";
+	private ByteArrayInputStream inStream;
+	private ByteArrayOutputStream outStream;
 
 	@Before
 	public void setUp() {
-		this.tempRootDir = new File(System.getProperty("java.io.tmpdir") + "\\EvenMoreTemp");
-		this.tempRootDir.mkdir();
-
-		this.xmlFile = new File(tempRootDir, "marshalled.xml");
 	}
 
 	@After
 	public void tearDown() {
+		inStream = null;
+		outStream = null;
+	}
+
+	@Test
+	public void testMarshalEBookRequest() {
 		try {
-			FileUtils.deleteDirectory(tempRootDir);
-		} catch (IOException e) {
+			JAXBContext context = JAXBContext.newInstance(EBookRequest.class);
+			Marshaller marshaller = context.createMarshaller();
+			Unmarshaller unmarshaller = context.createUnmarshaller();
+
+			EBookRequest expected = new EBookRequest();
+			expected.setVersion("1.0");
+			expected.setMessageId("ed4abfa40ee548388d39ecad55a0daaa");
+			expected.setBundleHash("8d8d44aef6464c9ab8326e08edbf96d6");
+			expected.setDateTime(new Date());
+			expected.setEBookSrcFile(new File("/apps/eBookBuilder/prodcontent/xpp/tileName.gz"));
+
+			outStream = new ByteArrayOutputStream();
+			marshaller.marshal(expected, outStream);
+			inStream = new ByteArrayInputStream(outStream.toByteArray());
+			EBookRequest actual = (EBookRequest) unmarshaller.unmarshal(inStream);
+
+			Assert.assertEquals(expected, actual);
+		} catch (Exception e) {
 			e.printStackTrace();
+			Assert.fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testNullFieldsEBookRequest() {
+		try {
+			JAXBContext context = JAXBContext.newInstance(EBookRequest.class);
+			Marshaller marshaller = context.createMarshaller();
+			Unmarshaller unmarshaller = context.createUnmarshaller();
+
+			EBookRequest expected = new EBookRequest();
+			expected.setVersion("1.0");
+			expected.setMessageId("ed4abfa40ee548388d39ecad55a0daaa");
+			expected.setBundleHash("8d8d44aef6464c9ab8326e08edbf96d6");
+			expected.setDateTime(new Date());
+			expected.setEBookSrcFile(new File("/apps/eBookBuilder/prodcontent/xpp/tileName.gz"));
+
+			outStream = new ByteArrayOutputStream();
+			marshaller.marshal(expected, outStream);
+			inStream = new ByteArrayInputStream(outStream.toByteArray());
+			EBookRequest actual = (EBookRequest) unmarshaller.unmarshal(inStream);
+
+			Assert.assertEquals(expected, actual);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
 		}
 	}
 
@@ -76,8 +118,10 @@ public class JAXBMarshallingTest {
 			File metadataDir = new File("/bar");
 			GatherDocRequest expected = new GatherDocRequest(guids, collectionName, contentDir, metadataDir, true, true);
 
-			marshaller.marshal(expected, xmlFile);
-			GatherDocRequest actual = (GatherDocRequest) unmarshaller.unmarshal(xmlFile);
+			outStream = new ByteArrayOutputStream();
+			marshaller.marshal(expected, outStream);
+			inStream = new ByteArrayInputStream(outStream.toByteArray());
+			GatherDocRequest actual = (GatherDocRequest) unmarshaller.unmarshal(inStream);
 			Assert.assertEquals(expected, actual);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -92,15 +136,17 @@ public class JAXBMarshallingTest {
 			Marshaller marshaller = context.createMarshaller();
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 
-			File manifest = tempRootDir;
-			File dynamicImgDir = tempRootDir;
+			File manifest = new File(filePath);
+			File dynamicImgDir = new File(filePath);
 			long id = 127;
 			boolean isFinal = true;
 
 			GatherImgRequest expected = new GatherImgRequest(manifest, dynamicImgDir, id, isFinal);
 
-			marshaller.marshal(expected, xmlFile);
-			GatherImgRequest actual = (GatherImgRequest) unmarshaller.unmarshal(xmlFile);
+			outStream = new ByteArrayOutputStream();
+			marshaller.marshal(expected, outStream);
+			inStream = new ByteArrayInputStream(outStream.toByteArray());
+			GatherImgRequest actual = (GatherImgRequest) unmarshaller.unmarshal(inStream);
 			Assert.assertTrue(expected.equals(actual));
 		} catch (Exception e) {
 			Assert.fail(e.getMessage());
@@ -123,14 +169,16 @@ public class JAXBMarshallingTest {
 			splitTocGuids.add("hello");
 			splitTocGuids.add("world");
 
-			GatherNortRequest expected = new GatherNortRequest("domain", "filter", new File(tempRootDir.getAbsolutePath()), new Date(),
-					excludeDocs, tocEntries, true, true, splitTocGuids, 127);
+			GatherNortRequest expected = new GatherNortRequest("domain", "filter", new File(filePath), new Date(), excludeDocs, tocEntries,
+					true, true, splitTocGuids, 127);
 			TimeUnit.MILLISECONDS.sleep(3);
 			// force unmarshalled date to be different from the marshalled date
 			// if the default constructor is called again
 
-			marshaller.marshal(expected, xmlFile);
-			GatherNortRequest actual = (GatherNortRequest) unmarshaller.unmarshal(xmlFile);
+			outStream = new ByteArrayOutputStream();
+			marshaller.marshal(expected, outStream);
+			inStream = new ByteArrayInputStream(outStream.toByteArray());
+			GatherNortRequest actual = (GatherNortRequest) unmarshaller.unmarshal(inStream);
 			Assert.assertEquals(expected, actual);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -147,8 +195,10 @@ public class JAXBMarshallingTest {
 
 			GatherResponse expected = new GatherResponse(999, "bogus error message");
 
-			marshaller.marshal(expected, xmlFile);
-			GatherResponse actual = (GatherResponse) unmarshaller.unmarshal(xmlFile);
+			outStream = new ByteArrayOutputStream();
+			marshaller.marshal(expected, outStream);
+			inStream = new ByteArrayInputStream(outStream.toByteArray());
+			GatherResponse actual = (GatherResponse) unmarshaller.unmarshal(inStream);
 			Assert.assertEquals(expected, actual);
 		} catch (Exception e) {
 			Assert.fail(e.getMessage());
@@ -171,11 +221,13 @@ public class JAXBMarshallingTest {
 			splitTocGuids.add("hello");
 			splitTocGuids.add("world");
 
-			GatherTocRequest expected = new GatherTocRequest("someGuid", "TestCollectionName", new File(tempRootDir.getAbsolutePath()),
-					excludeDocs, tocEntries, true, splitTocGuids, 127);
+			GatherTocRequest expected = new GatherTocRequest("someGuid", "TestCollectionName", new File(filePath), excludeDocs, tocEntries,
+					true, splitTocGuids, 127);
 
-			marshaller.marshal(expected, xmlFile);
-			GatherTocRequest actual = (GatherTocRequest) unmarshaller.unmarshal(xmlFile);
+			outStream = new ByteArrayOutputStream();
+			marshaller.marshal(expected, outStream);
+			inStream = new ByteArrayInputStream(outStream.toByteArray());
+			GatherTocRequest actual = (GatherTocRequest) unmarshaller.unmarshal(inStream);
 			Assert.assertEquals(expected, actual);
 		} catch (Exception e) {
 			Assert.fail(e.getMessage());
@@ -196,8 +248,10 @@ public class JAXBMarshallingTest {
 			JobThrottleConfig expected = new JobThrottleConfig(coreThreadPoolSize, stepThrottleEnabled, throttleStepName,
 					throttleStepMaxJobs);
 
-			marshaller.marshal(expected, xmlFile);
-			JobThrottleConfig actual = (JobThrottleConfig) unmarshaller.unmarshal(xmlFile);
+			outStream = new ByteArrayOutputStream();
+			marshaller.marshal(expected, outStream);
+			inStream = new ByteArrayInputStream(outStream.toByteArray());
+			JobThrottleConfig actual = (JobThrottleConfig) unmarshaller.unmarshal(inStream);
 			Assert.assertTrue(expected.equals(actual));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -214,8 +268,10 @@ public class JAXBMarshallingTest {
 
 			MiscConfig expected = new MiscConfig(Level.ALL, Level.TRACE, NovusEnvironment.Prod, "hostname", false, 10);
 
-			marshaller.marshal(expected, xmlFile);
-			MiscConfig actual = (MiscConfig) unmarshaller.unmarshal(xmlFile);
+			outStream = new ByteArrayOutputStream();
+			marshaller.marshal(expected, outStream);
+			inStream = new ByteArrayInputStream(outStream.toByteArray());
+			MiscConfig actual = (MiscConfig) unmarshaller.unmarshal(inStream);
 			Assert.assertTrue(expected.equals(actual));
 		} catch (Exception e) {
 			Assert.fail(e.getMessage());
@@ -232,8 +288,10 @@ public class JAXBMarshallingTest {
 			long id = 127;
 			SimpleRestServiceResponse expected = new SimpleRestServiceResponse(id, true, "message");
 
-			marshaller.marshal(expected, xmlFile);
-			SimpleRestServiceResponse actual = (SimpleRestServiceResponse) unmarshaller.unmarshal(xmlFile);
+			outStream = new ByteArrayOutputStream();
+			marshaller.marshal(expected, outStream);
+			inStream = new ByteArrayInputStream(outStream.toByteArray());
+			SimpleRestServiceResponse actual = (SimpleRestServiceResponse) unmarshaller.unmarshal(inStream);
 			Assert.assertTrue(expected.equals(actual));
 		} catch (Exception e) {
 			Assert.fail(e.getMessage());
@@ -252,8 +310,10 @@ public class JAXBMarshallingTest {
 			// force unmarshalled date to be different from the marshalled date
 			// if the default constructor is called again
 
-			marshaller.marshal(expected, xmlFile);
-			PlannedOutage actual = (PlannedOutage) unmarshaller.unmarshal(xmlFile);
+			outStream = new ByteArrayOutputStream();
+			marshaller.marshal(expected, outStream);
+			inStream = new ByteArrayInputStream(outStream.toByteArray());
+			PlannedOutage actual = (PlannedOutage) unmarshaller.unmarshal(inStream);
 			Assert.assertTrue(outageEquals(expected, actual));
 		} catch (Exception e) {
 			Assert.fail(e.getMessage());
@@ -312,7 +372,7 @@ public class JAXBMarshallingTest {
 		outage.setUpdatedBy("test");
 		outage.setLastUpdated(new Date());
 		outage.setOperation(Operation.SAVE);
-		
+
 		return outage;
 	}
 

@@ -85,6 +85,18 @@
 	<bean id="proviewHandler" class="com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandlerImpl"
 		  p:proviewClient-ref="proviewClient"/>
 		  
+	<!-- bean id="jmsClient" class="com.thomsonreuters.uscl.ereader.jms.client.impl.JmsClientImpl"/>
+	
+	<bean id="connectionFactory" class="com.ibm.mq.jms.MQQueueConnectionFactory"
+		  p:hostName="${jms.host.name}"
+		  p:port="${jms.port}"
+		  p:queueManager="${jms.queue.manager}"
+		  p:channel="${jms.channel}"
+		  p:transportType="${jms.transport.type}"/>
+	
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate"
+		  p:connectionFactory-ref="connectionFactory"
+		  p:defaultDestinationName="${jms.queue}" / -->
 		  
 	<bean id="createFrontMatterService" class="com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterServiceImpl">
 	      <property name="frontMatterTitlePageTemplateLocation" value="classpath:templates/frontMatterTitleTemplate.xml"/>
@@ -92,7 +104,7 @@
 		  <property name="frontMatterAdditionalPagesTemplateLocation" value="classpath:templates/frontMatterAdditionalPagesTemplate.xml"/>
 		  <property name="frontMatterResearchAssistancePageTemplateLocation" value="classpath:templates/frontMatterResearchAssistanceTemplate.xml"/>
 		  <property name="frontMatterWestlawNextPageTemplateLocation" value="classpath:templates/frontMatterWestlawNextTemplate.xml"/>
-		  <property name ="frontMatterLogoPlaceHolder">
+		  <property name="frontMatterLogoPlaceHolder">
 		  	<map>
 		  		<entry key="er:#EBook_Generator_TRLogo" value="EBook_Generator_TRLogo.png"/>
 		  		<entry key="er:#AAJ_PRESS" value="AAJ_PRESS.png"/>

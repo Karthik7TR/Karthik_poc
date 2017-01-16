@@ -44,6 +44,11 @@
 		  p:outageProcessor-ref="outageProcessor"
 	  	  p:jobRequestService-ref="jobRequestService"
 	  	  p:springBatchTaskExecutor-ref="springBatchTaskExecutor"/>
+	  	  
+	<!-- bean class="com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.MessageQueuePoller"
+		  p:jmsClient-ref="jmsClient"
+		  p:jmsTemplate-ref="jmsTemplate"
+		  p:eBookRequestValidator-ref="eBookRequestValidator"/ -->
 
     <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
 		  p:jobRepository-ref="jobRepository" p:taskExecutor-ref="springBatchTaskExecutor">

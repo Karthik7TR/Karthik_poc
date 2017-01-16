@@ -39,6 +39,9 @@
 		  p:jobStartupThrottleService-ref="jobStartupThrottleService"
 		  p:miscConfigSyncService-ref="miscConfigSyncService"
 		  />
+	
+	<!-- bean id="eBookRequestValidator" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EBookRequestValidator"
+		  p:requestLogDao-ref="requestLogDao" / -->
 		  
 	<bean class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.GeneratorAppConfigLoader"
 		  p:appConfigService-ref="appConfigService"

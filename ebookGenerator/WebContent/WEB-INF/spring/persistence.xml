@@ -134,6 +134,8 @@
 	<bean id="userPreferenceDao" class="com.thomsonreuters.uscl.ereader.userpreference.dao.UserPreferenceDaoImpl">
 		<constructor-arg ref="sessionFactory" />
 	</bean>
+	
+	<!-- bean id="requestLogDao" class="com.thomsonreuters.uscl.ereader.jms.dao.RequestLogDaoImpl" /-->
 		  
 </beans>
 	
