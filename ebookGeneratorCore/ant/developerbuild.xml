@@ -142,15 +142,15 @@
                        The JaCoCoAntScript.xml ANT script is also called by Team Build.
          - - - - - - - - - - - - - - - - - -->
   <target name="-codeCoverageReporting">
-    <!-- TODO:remove when there will be ability to modify build server script to run JaCoCoAntScript.xml directly.
     <echo level="info">Code coverage - Generating the code coverage report via the JaCoCoAntScript.xml.xml file ...</echo>
   	<ant antfile="JaCoCoAntScript.xml" target="coverage-report" inheritall="false">
         <property name="publishToSonar" value="false" />
         <property name="project" value="${APPLICATION}" />
         <property name="project.sonar.path" value="core" />
     </ant>
-    -->
+    <!--
     <ant antfile="CoberturaAntScript.xml" target="coverage-report" inheritall="false" />
+    -->
   </target>
 
   <target name="-cleanup">

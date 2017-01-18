@@ -11,7 +11,7 @@
   <target name="coverage-report">
     <echo level="info">Code coverage - Generating the code coverage report via the JaCoCoAntScript.xml file ...</echo>
     <ant antfile="ant/JaCoCoAntScript.xml" target="coverage-report" inheritall="false">
-        <property name="publishToSonar" value="false" />
+        <property name="publishToSonar" value="true" />
         <property name="project" value="${APPLICATION}" />
         <property name="project.sonar.path" value="core" />
     </ant>
