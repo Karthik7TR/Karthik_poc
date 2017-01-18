@@ -61,15 +61,15 @@
     <echo level="verbose">Deleting old compiled binaries, if existing...</echo>
     <delete dir="${dir.binaries}" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true"/>
-    <delete dir="${dir.tmpBuildDir}/WEB-INF/classes/com" failonerror="false" includeemptydirs="true"/>
+    <delete dir="${dir.tmpDirBinaries}/com" failonerror="false" includeemptydirs="true"/>
      
     <echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}', '${dir.binaries}/StaticFiles' and '${dir.testBinaries}' ...</echo>
     <mkdir dir="${dir.binaries}"/>
     <mkdir dir="${dir.testBinaries}"/>
     <mkdir dir="${dir.tmpBuildDir}"/>
     <mkdir dir="${dir.tmpBuildDir}/WEB-INF"/>
-    <mkdir dir="${dir.tmpBuildDir}/WEB-INF/classes"/>
-    <mkdir dir="${dir.tmpBuildDir}/WEB-INF/classes/com"/>
+    <mkdir dir="${dir.tmpDirBinaries}"/>
+    <mkdir dir="${dir.tmpDirBinaries}/com"/>
     <mkdir dir="${dir.tmpBuildDir}/WEB-INF/lib"/>
     <mkdir dir="${logs.dir}"/>
   </target>
@@ -82,7 +82,7 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-compile" depends="-compile-core">
     <echo level="verbose">Compiling the source code...</echo>
-    <javac destdir="${dir.tmpBuildDir}/WEB-INF/classes" source="1.7" target="1.7" debug="on">
+    <javac destdir="${dir.tmpDirBinaries}" source="1.7" target="1.7" debug="on">
       <src path="${dir.source}"/>    	
       <classpath refid="classpath.compile"/>
     </javac>
@@ -115,7 +115,7 @@
       <src path="${dir.unitTestSource}"/>
       <classpath>
         <pathelement path="${dir.binaries}"/>
-        <pathelement path="${dir.tmpBuildDir}/WEB-INF/classes"/>
+        <pathelement path="${dir.tmpDirBinaries}"/>
         <pathelement path="${dir.tmpBuildDir}/WEB-INF/lib"/>
         <path refid="classpath.compile"/>
       </classpath>
@@ -159,7 +159,7 @@
     <echo level="verbose">Packaging the code into a JAR file...</echo>
     <jar jarfile="${path.jarFile}"
          manifest="${dir.webContent}\META-INF\MANIFEST.MF">
-      <fileset dir="${dir.tmpBuildDir}/WEB-INF/classes" casesensitive="yes">
+      <fileset dir="${dir.tmpDirBinaries}" casesensitive="yes">
         <exclude name="**/*.java"/>
       </fileset>
     </jar>
@@ -174,7 +174,7 @@
     <echo level="verbose">Creating the WAR file...</echo>
     
     <!-- copy StaticFiles to tmpBuildDir before war creation -->
-    <copy todir="${dir.tmpBuildDir}/WEB-INF/classes" overwrite="true" verbose="Copying Static Files into tmpBuildDir directory">
+    <copy todir="${dir.tmpDirBinaries}" overwrite="true" verbose="Copying Static Files into tmpBuildDir directory">
       <fileset dir="${dir.resources}"/>
     </copy>
 
