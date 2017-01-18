@@ -62,7 +62,7 @@
         	</structure>
         	
         	<html destdir="${jacoco.reports.dir}" />
-        	<xml destfile="${dir.tmpBuildDir}/jacoco-coverage.xml" />
+        	<xml destfile="${dir.tmpBuildDir}/coverage.xml" />
         </jacoco:report>
         
          <!-- Publish results to Sonar -->
@@ -75,6 +75,7 @@
                      In order to avoid the timeout, we call the endpoint here with a long timeout in order to load the data into memory for future short timeout calls. -->
                 <get src="http://legaltech-sonar.int.westgroup.com/batch/project?key=eBook-${project.sonar.path}&amp;preview=false" dest="${dir.tmpBuildDir}/sonar-settings.tmp" maxtime="180" />
                 
+                <echo>build label is ${buildLabel}</echo>
                 <sonar-publish
                   projectKey="eBook-${project.sonar.path}"
                   projectName="Cobalt eBook Builder - ${project}"
