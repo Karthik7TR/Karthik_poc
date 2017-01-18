@@ -54,6 +54,12 @@
 		<mkdir dir="${dir.testBinaries}" />
 		<mkdir dir="${dir.integrationTestBinaries}" />
 		<mkdir dir="${dir.dist}" />
+		
+	    <!-- Save cache version and build number to a file -->
+	    <xslt in="conf/Manifest.xml" out="${dir.tmpBuildDir}/build.properties" style="ant/ManifestProperties.xsl" />
+	    <echo append="true" file="${dir.tmpBuildDir}/build.properties">build.number=${BuildNumber}${line.separator}</echo>
+	    <property file="${dir.tmpBuildDir}/build.properties" />
+		
 	</target>
 
 	<!-- - - - - - - - - - - - - - - - - - 
