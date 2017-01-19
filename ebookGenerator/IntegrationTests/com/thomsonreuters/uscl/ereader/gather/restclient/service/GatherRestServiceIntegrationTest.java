@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.Date;
 import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -25,6 +26,7 @@ import com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
 
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 public class GatherRestServiceIntegrationTest  {

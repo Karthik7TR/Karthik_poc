@@ -18,6 +18,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
  import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
@@ -73,6 +74,7 @@ public class ProviewClientImplIntegrationTest
 		
 	}
 	
+	@Ignore
 	@Test
 	public void testGetAllTitlesHappyPath() throws Exception {
 		proviewClient.setProviewHost(InetAddress.getLocalHost());
@@ -82,6 +84,7 @@ public class ProviewClientImplIntegrationTest
 		assertTrue(publisherInformation.startsWith("<titles apiversion=\"v1\" publisher=\"uscl\""));
 	}
 	
+	@Ignore
 	@Test
 	public void testPublishBookFailsBecauseItAlreadyExistsOnProview() throws Exception {
 		proviewClient.setProviewHost(InetAddress.getLocalHost());
@@ -100,6 +103,7 @@ public class ProviewClientImplIntegrationTest
 		}
 	}
 	
+	@Ignore
 	@Test
 	public void getSingleTitleInfoByVersion() throws Exception{		
 		try{

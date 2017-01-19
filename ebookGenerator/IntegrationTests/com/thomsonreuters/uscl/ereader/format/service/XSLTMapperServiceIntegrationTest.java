@@ -8,6 +8,7 @@ package com.thomsonreuters.uscl.ereader.format.service;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author Ripu Jain U0115290
  * @author Ray Cracauer U0113997
  */
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @Transactional

@@ -26,6 +26,7 @@ import javax.xml.xpath.XPathFactory;
 import org.apache.commons.io.IOUtils;
 import org.easymock.EasyMock;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -102,6 +103,7 @@ public class HTMLTransforServiceIntegrationTest
         
     }
 
+    @Ignore
     @Test
     public void transformWithOutTableView() throws EBookFormatException, IOException
     {
@@ -110,6 +112,7 @@ public class HTMLTransforServiceIntegrationTest
         Assert.isTrue(count > 0, "Unable to find  table in document");
     }
 
+    @Ignore
     @Test
     public void transformWithTableView()
         throws EBookFormatException, FileNotFoundException, IOException
