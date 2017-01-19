@@ -44,6 +44,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl;
  * 
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
+@Ignore
 public class AssembleAndDeliverIntegrationTest {
 	
 	private ProviewClientImpl proviewClient;

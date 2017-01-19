@@ -10,12 +10,14 @@ import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.thomsonreuters.uscl.ereader.jms.dao.RequestLogDao;
 import com.thomsonreuters.uscl.ereader.jms.dao.RequestLogDaoImpl;
 import com.thomsonreuters.uscl.ereader.jms.handler.EBookRequest;
 
+@Ignore
 public class EBookRequestValidatorTest {
 	
 	private EBookRequestValidator validator;

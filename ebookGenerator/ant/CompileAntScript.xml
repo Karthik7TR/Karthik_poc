@@ -71,7 +71,12 @@
     <mkdir dir="${dir.tmpDirBinaries}"/>
     <mkdir dir="${dir.tmpDirBinaries}/com"/>
     <mkdir dir="${dir.tmpBuildDir}/WEB-INF/lib"/>
- 
+    
+     <!-- Save cache version and build number to a file -->
+     <xslt in="WebContent/Manifest.xml" out="${dir.tmpBuildDir}/build.properties" style="${dir.core}/ant/ManifestProperties.xsl" />
+     <echo append="true" file="${dir.tmpBuildDir}/build.properties">build.number=${BuildNumber}${line.separator}</echo>
+     <property file="${dir.tmpBuildDir}/build.properties" />
+     
   </target>
 
    

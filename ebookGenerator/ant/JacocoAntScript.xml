@@ -52,7 +52,7 @@
         		<file file="${jacoco.data.file.integration}" />
         	</executiondata>
         	
-        	<structure name="Example Project">
+        	<structure name="${project}">
         		<classfiles>
         			<fileset dir="${dir.tmpDirBinaries}" includes="**/*.class" excludes="**/package-info.class" />
         		</classfiles>
@@ -75,11 +75,11 @@
                      In order to avoid the timeout, we call the endpoint here with a long timeout in order to load the data into memory for future short timeout calls. -->
                 <get src="http://legaltech-sonar.int.westgroup.com/batch/project?key=eBook-${project.sonar.path}&amp;preview=false" dest="${dir.tmpBuildDir}/sonar-settings.tmp" maxtime="180" />
                 
-                <echo>build label is ${buildLabel}</echo>
+                <echo>build label is ${build.number}</echo>
                 <sonar-publish
                   projectKey="eBook-${project.sonar.path}"
                   projectName="Cobalt eBook Builder - ${project}"
-                  projectVersion="${buildLabel}"
+                  projectVersion="${build.number}"
                   mainBinaries="${dir.tmpDirBinaries}"
                   mainSources="${dir.source}"
                   testBinaries="${dir.testBinaries},${dir.integrationTestBinaries}"
