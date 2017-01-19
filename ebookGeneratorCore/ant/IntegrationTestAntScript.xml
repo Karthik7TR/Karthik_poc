@@ -80,7 +80,7 @@
 
       <formatter type="xml" usefile="yes" />
       <batchtest todir="${dir.testResults}">
-        <fileset dir="${dir.integrationTestBinaries}">          
+        <fileset dir="${dir.integrationTestBinaries}">
           <include name="**/*IntegrationTest.class" />
         </fileset>
       </batchtest>

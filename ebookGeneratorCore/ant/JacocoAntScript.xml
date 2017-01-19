@@ -9,15 +9,15 @@
     <property file="ant/ant-global.properties" />
     <property name="jacoco.reports.dir" value="${logs.dir}/JaCoCoReports" />
 
-	<taskdef resource="net/sf/antcontrib/antlib.xml"
+    <taskdef resource="net/sf/antcontrib/antlib.xml"
       classpath="${dir.librariesPath}/build/ant-contrib-1.0b3.jar">
     </taskdef>
     
     <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
-		<classpath>
+        <classpath>
             <fileset dir="${dir.librariesPath}/build/jacoco/lib" includes="*.jar" />
         </classpath>
-	</taskdef>
+    </taskdef>
 
     <target name="doNothing">
         <echo level="error">This target should not be called. Call either 'coverage-instrumentation' or 'coverage-report'.</echo>
@@ -27,6 +27,7 @@
     <target name="coverage-instrumentation">
         <delete includeemptydirs="true" quiet="true">
             <fileset file="${jacoco.data.file.unit}" />
+            <fileset file="${jacoco.data.file.integration}" />
             <fileset dir="${jacoco.reports.dir}" />
             <fileset dir="${jacoco.instrumentedPath}" />
         </delete>
@@ -47,22 +48,22 @@
         <mkdir dir="${jacoco.reports.dir}" />
         
         <jacoco:report>
-        	<executiondata>
-        		<file file="${jacoco.data.file.unit}" />
-        		<file file="${jacoco.data.file.integration}" />
-        	</executiondata>
-        	
-        	<structure name="Example Project">
-        		<classfiles>
-        			<fileset dir="${dir.binaries}" includes="**/*.class" excludes="**/package-info.class" />
-        		</classfiles>
-        		<sourcefiles encoding="cp1252">
-        			<fileset dir="${dir.source}" includes="**/*.java" />
-        		</sourcefiles>
-        	</structure>
-        	
-        	<html destdir="${jacoco.reports.dir}" />
-        	<xml destfile="${dir.tmpBuildDir}/coverage.xml" />
+            <executiondata>
+                <file file="${jacoco.data.file.unit}" />
+                <file file="${jacoco.data.file.integration}" />
+            </executiondata>
+
+            <structure name="${project}">
+                <classfiles>
+                    <fileset dir="${dir.binaries}" includes="**/*.class" excludes="**/package-info.class" />
+                </classfiles>
+                <sourcefiles encoding="cp1252">
+                    <fileset dir="${dir.source}" includes="**/*.java" />
+                </sourcefiles>
+            </structure>
+
+            <html destdir="${jacoco.reports.dir}" />
+            <xml destfile="${dir.tmpBuildDir}/coverage.xml" />
         </jacoco:report>
         
          <!-- Publish results to Sonar -->
@@ -79,8 +80,8 @@
                 <sonar-publish
                   projectKey="eBook-${project.sonar.path}"
                   projectName="Cobalt eBook Builder - ${project}"
-            	  projectVersion="${build.number}"
-            	  mainBinaries="${dir.binaries}"
+                  projectVersion="${build.number}"
+                  mainBinaries="${dir.binaries}"
                   mainSources="${dir.source}"
                   testBinaries="${dir.testBinaries},${dir.integrationTestBinaries}"
                   testSources="${dir.unitTestSource},${dir.integrationTestSource}"
@@ -89,14 +90,14 @@
                   junitResults="${dir.mergedJUnitTestResults}"
                 >
                     <main-libraries>
-					  	<fileset dir="lib">
-					      <include name="**/*.jar"/>
-					    </fileset>
+                        <fileset dir="lib">
+                          <include name="**/*.jar"/>
+                        </fileset>
                     </main-libraries>
                     <test-libraries>
-					  	<fileset dir="lib">
-					      <include name="**/*.jar"/>
-					    </fileset>
+                        <fileset dir="lib">
+                            <include name="**/*.jar"/>
+                        </fileset>
                     </test-libraries>
                 </sonar-publish>
             </then>
