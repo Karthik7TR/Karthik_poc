@@ -5,11 +5,11 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
-import static com.thomsonreuters.uscl.ereader.core.book.BookMatchers.titleId;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -56,6 +57,11 @@ public class ProviewTitleListService_GetBookTest {
 		BookDefinition bookDefinition = service.getBook(titleId("title_pt_pt2"));
 		//then
 		assertThat(bookDefinition, is(book));
+	}
+	
+	@NotNull
+	private static TitleId titleId(String titleId) {
+		return new TitleId(titleId);
 	}
 	
 }

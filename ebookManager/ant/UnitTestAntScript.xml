@@ -5,6 +5,7 @@
   <property file="ant/build.properties" />
   <property file="ant/ant-global.properties" />
   <property name="test.reports.dir" value="${logs.dir}/TestsReports" />
+  <property name="dir.testResults" location="${dir.tmpBuildDir}\JUnitTest" />
 
   <!--- - - - - - - - - - - - - - - - -
            Create the Unit test class path that will be used by all targets in the script. 
@@ -22,23 +23,13 @@
     </fileset>
   </path>
 
-  <!--- - - - - - - - - - - - - - - - -
-           Create the class path for cobertura that will be used by all targets in the script. 
-          - - - - - - - - - - - - - - - - - -->
-  <path id="classpath.cobertura">
-    <fileset dir="${env.buildextensionroot}\Cobertura">
-      <include name="cobertura.jar" />
-      <include name="lib/**/*.jar" />
-    </fileset>
-  </path>
-
   <!-- - - - - - - - - - - - - - - - - - 
           target: -init
           description: Perform all initialization tasks like cleaning up old reports, 
                        create directories that do not exist, etc.
          - - - - - - - - - - - - - - - - - -->
   <target name="-init">
-    <delete dir="${dir.tmpBuildDir}\JUnitTest" failonerror="false" includeemptydirs="true"/>
+    <delete dir="${dir.testResults}" failonerror="false" includeemptydirs="true"/>
     <delete>
       <fileset dir="${dir.tmpBuildDir}">
         <include name="*.xml"/>
@@ -46,7 +37,7 @@
     </delete>
 
     <mkdir dir="${dir.tmpBuildDir}"/>
-    <mkdir dir="${dir.tmpBuildDir}\JUnitTest"/>
+    <mkdir dir="${dir.testResults}"/>
     <mkdir dir="${logs.dir}"/>
   </target>
 
@@ -71,28 +62,26 @@
     <junit fork="on" forkmode="once" haltonfailure="false" showoutput="on"
            printsummary="on" failureproperty="tests.failed">
       <jvmarg line="-XX:-UseSplitVerifier"/>
-      <!-- This line is required by cobertura. Do not delete it. -->
-      <sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.data.file}" />
+      <sysproperty key="jacoco-agent.destfile" file="${jacoco.data.file.unit}" />
 
       <classpath>
         <path refid="classpath.unitTestLibs"/>
-        <path refid="classpath.cobertura" />
-
-        <!-- The cobertura pathelement should be specified BEFORE the build location.  This is where the classpath reference is set. -->
-        <pathelement path="${cobertura.instrumentedPath}" />
+        <pathelement location="${jacoco.instrumentedPath}" />
 
         <pathelement path="${dir.binaries}" />
+        <pathelement path="${dir.tmpDirBinaries}" />
         <pathelement path="${dir.testBinaries}" />
 
         <pathelement path="${dir.unitTestSource}" />
-        <pathelement path="${dir.integrationTestSource}" />
         <pathelement path="${dir.source}" />
-        <pathelement path="${dir.tmpBuildDir}/WEB-INF/classes"/>
+        <fileset dir="${dir.core}\${dir.librariesPath}\build\jacoco\lib">
+          <include name="**/*.jar"/>
+        </fileset>
       </classpath>
 
       <formatter type="xml" usefile="yes" />
-      <batchtest todir="${dir.tmpBuildDir}\JUnitTest">
-        <fileset dir="${dir.testBinaries}">          
+      <batchtest todir="${dir.testResults}">
+        <fileset dir="${dir.testBinaries}">
           <include name="**/*Test.class" />
           <exclude name="**/*Integration*.class" />
           <exclude name="**/*Regression*.class" />
@@ -105,12 +94,17 @@
           folder and the generated HTML files under ${logs.dir}  
         -->
     <junitreport todir="${dir.TestResultsFolder}" tofile="${log.file}">
-      <fileset dir="${dir.tmpBuildDir}\JUnitTest">
+      <fileset dir="${dir.testResults}">
         <include name="TEST-*.xml" />
       </fileset>
       <report format="frames" todir="${test.reports.dir}" />
     </junitreport>
 
+    <!-- copy test results to merged location for sonar reporting -->
+    <copy todir="${dir.mergedJUnitTestResults}">
+      <fileset dir="${dir.testResults}" includes="TEST-*.xml" />
+    </copy>
+  
     <fail if="tests.failed">
       One or more tests failed!
       For more information check the log files created under the logs folder- '${test.reports.dir}'."

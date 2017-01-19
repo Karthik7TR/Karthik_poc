@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * Copyright 2016: Thomson Reuters. All Rights Reserved. Proprietary and Confidential information of Thomson Reuters.
+ * Disclosure, Use or Reproduction without the written authorization of Thomson Reuters is prohibited.
+ -->
+
+<project basedir=".." default="doNothing" xmlns:jacoco="antlib:org.jacoco.ant">
+
+    <property file="ant/ant-global.properties" />
+    <property name="jacoco.reports.dir" value="${logs.dir}/JaCoCoReports" />
+
+	<taskdef resource="net/sf/antcontrib/antlib.xml"
+      classpath="${dir.core}/${dir.librariesPath}/build/ant-contrib-1.0b3.jar">
+    </taskdef>
+    
+    <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+		<classpath>
+            <fileset dir="${dir.core}/${dir.librariesPath}/build/jacoco/lib" includes="*.jar" />
+        </classpath>
+	</taskdef>
+
+    <target name="doNothing">
+        <echo level="error">This target should not be called. Call either 'coverage-instrumentation' or 'coverage-report'.</echo>
+    </target>
+
+    <!-- Instruments the compiled java classes, which will be consumed in the unit test script. -->
+    <target name="coverage-instrumentation">
+        <delete includeemptydirs="true" quiet="true">
+            <fileset file="${jacoco.data.file.unit}" />
+            <fileset dir="${jacoco.reports.dir}" />
+            <fileset dir="${jacoco.instrumentedPath}" />
+        </delete>
+
+        <mkdir dir="${jacoco.instrumentedPath}" />
+
+        <jacoco:instrument destdir="${jacoco.instrumentedPath}">
+            <fileset dir="${dir.tmpDirBinaries}" includes="**/*.class" excludes="**/package-info.class" />
+        </jacoco:instrument>
+    </target>
+
+    <!-- Creates an HTML report (for the end user) and an XML report (for the Team Build parser). -->
+    <target name="coverage-report">
+        <delete includeemptydirs="true" quiet="true">
+            <fileset dir="${jacoco.reports.dir}" />
+        </delete>
+
+        <mkdir dir="${jacoco.reports.dir}" />
+        
+        <jacoco:report>
+        	<executiondata>
+        		<file file="${jacoco.data.file.unit}" />
+        	</executiondata>
+        	
+        	<structure name="${project}">
+        		<classfiles>
+        			<fileset dir="${dir.tmpDirBinaries}" includes="**/*.class" excludes="**/package-info.class" />
+        		</classfiles>
+        		<sourcefiles encoding="cp1252">
+        			<fileset dir="${dir.source}" includes="**/*.java" />
+        		</sourcefiles>
+        	</structure>
+        	
+        	<html destdir="${jacoco.reports.dir}" />
+        	<xml destfile="${dir.tmpBuildDir}/coverage.xml" />
+        </jacoco:report>
+        
+         <!-- Publish results to Sonar -->
+        <if><not><equals arg1="${publishToSonar}" arg2="false" /></not>
+            <then>
+                <property file="${dir.tmpBuildDir}/build.properties" />
+                <taskdef resource="SonarQubeAntlib.xml" classpath="ant" />
+                <!-- The Sonar server is currently quite slow. 
+                     During the publishing process, it calls the following endpoint with a short timeout. 
+                     In order to avoid the timeout, we call the endpoint here with a long timeout in order to load the data into memory for future short timeout calls. -->
+                <get src="http://legaltech-sonar.int.westgroup.com/batch/project?key=eBook-${project.sonar.path}&amp;preview=false" dest="${dir.tmpBuildDir}/sonar-settings.tmp" maxtime="180" />
+                
+                <echo>build label is ${build.number}</echo>
+                <sonar-publish
+                  projectKey="eBook-${project.sonar.path}"
+                  projectName="Cobalt eBook Builder - ${project}"
+                  projectVersion="${build.number}"
+                  mainBinaries="${dir.tmpDirBinaries}"
+                  mainSources="${dir.source}"
+                  testBinaries="${dir.testBinaries}"
+                  testSources="${dir.unitTestSource}"
+                  jacocoResults="${jacoco.data.file.unit}"
+                  junitResults="${dir.mergedJUnitTestResults}"
+                  sonarqubeAntTaskLocation="${dir.tmpBuildDir}/WEB-INF/lib/sonarqube-ant-task-*.jar"
+                >
+                    <main-libraries>
+					  	<fileset dir="lib">
+					      <include name="**/*.jar"/>
+					    </fileset>
+                    </main-libraries>
+                    <test-libraries>
+					  	<fileset dir="lib">
+					      <include name="**/*.jar"/>
+					    </fileset>
+                    </test-libraries>
+                </sonar-publish>
+            </then>
+        </if>
+    </target>
+
+</project>
