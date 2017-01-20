@@ -179,11 +179,6 @@
       <fileset dir="${dir.webContent}"/>
     </copy>
 
-    <!-- copy webContent/WEB-INF to tmpBuildDir before war creation -->
-    <copy todir="${dir.tmpBuildDir}" overwrite="true" verbose="${DisplayCopiedFilesInWar}">
-      <fileset dir="${dir.binaries}"/>
-    </copy>
-
     <war destfile="${dir.binaries}/${warFilename}" manifest="${dir.webContent}/META-INF/MANIFEST.MF">
       <fileset dir="${dir.tmpBuildDir}">
         <exclude name="**/${jarFilename}/**"/>

@@ -66,14 +66,11 @@
            printsummary="on" failureproperty="tests.failed">
       <jvmarg line="-XX:-UseSplitVerifier"/>
       <sysproperty key="jacoco-agent.destfile" file="${jacoco.data.file.unit}" />
-      <!--<sysproperty key="jacoco-agent.destfile" file="C:/apps/eBookBuilder/eBookGatherer/buildTempLocation/jacoco.exec" />-->
-      <!--<sysproperty key="jacoco-agent.destfile" file="C:/apps/daily/2017-01-18/jacoco.exec" />-->
       
       <classpath>
         <path refid="classpath.unitTestLibs"/>
 
         <pathelement location="${jacoco.instrumentedPath}" />
-        <pathelement path="${dir.binaries}" />
         <pathelement path="${dir.testBinaries}" />
 
         <pathelement path="${dir.unitTestSource}" />
