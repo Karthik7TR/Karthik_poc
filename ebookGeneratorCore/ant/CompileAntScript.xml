@@ -112,17 +112,20 @@
           target: -createJar                      
           description: Package the compiled code into a JAR.
          - - - - - - - - - - - - - - - - - -->
-	<target name="-createJar">
-		<echo level="verbose">Packaging the code into a JAR file...</echo>
-		<jar jarfile="${path.jarFile}" manifest="${dir.source}\META-INF\MANIFEST.MF">
-			<fileset dir="${dir.binaries}" casesensitive="yes">
-				<exclude name="**/*.java" />
-			</fileset>
-			<fileset dir="${dir.ebookGeneratorCore}/src" casesensitive="yes">
-				<exclude name="**/*.java" />
-			</fileset>
-		</jar>
-	</target>
+    <target name="-createJar" depends="-compile_unitTests">
+        <echo level="verbose">Packaging the code into a JAR file...</echo>
+        <jar jarfile="${path.jarFile}" manifest="${dir.source}\META-INF\MANIFEST.MF">
+            <fileset dir="${dir.binaries}" casesensitive="yes">
+              <exclude name="**/*.java" />
+            </fileset>
+            <fileset dir="${dir.testBinaries}" casesensitive="yes">
+              <exclude name="**/*.java" />
+            </fileset>
+            <fileset dir="${dir.ebookGeneratorCore}/src" casesensitive="yes">
+              <exclude name="**/*.java" />
+            </fileset>
+        </jar>
+    </target>
 
 	<target name="-clean">
 		<echo level="info">Removing temporary work files and folders.</echo>
