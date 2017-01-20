@@ -1,24 +1,24 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <!DOCTYPE xml>
-<project name="eBookGatherer_Test_Script" default="JUnitTestMain" basedir="..\">
+<project name="#PROJECT_NAME#_Test_Script" default="JUnitTestMain" basedir="..\">
   <property environment="env" />
   <property file="ant/build.properties" />
   <property file="ant/ant-global.properties" />
   <property name="test.reports.dir" value="${logs.dir}/TestsReports" />
-  <property name="dir.testResults" location="${dir.tmpBuildDir}\JUnitTest" />
+  <property name="dir.testResults" location="${dir.tmpBuildDir}\JUnitTestIT" />
 
   <!--- - - - - - - - - - - - - - - - -
            Create the Unit test class path that will be used by all targets in the script. 
           - - - - - - - - - - - - - - - - - -->
   <path id="classpath.unitTestLibs">
     <fileset dir="${dir.tmpBuildDir}/WEB-INF/lib">
-      <include name="*.jar"/>
+      <include name="**/*.jar"/>
     </fileset>
     <fileset dir="lib">
-      <include name="*.jar"/>
+       <include name="*.jar"/>
     </fileset>
     <fileset dir="${dir.core}/lib">
-      <include name="**/*.jar"/>
+          <include name="**/*.jar"/>
     </fileset>
   	<fileset dir="${env.buildextensionroot}">
       <include name="JUnit/*.jar"/>
@@ -65,20 +65,17 @@
     <junit fork="on" forkmode="once" haltonfailure="false" showoutput="on"
            printsummary="on" failureproperty="tests.failed">
       <jvmarg line="-XX:-UseSplitVerifier"/>
-      <sysproperty key="jacoco-agent.destfile" file="${jacoco.data.file.unit}" />
-      <!--<sysproperty key="jacoco-agent.destfile" file="C:/apps/eBookBuilder/eBookGatherer/buildTempLocation/jacoco.exec" />-->
-      <!--<sysproperty key="jacoco-agent.destfile" file="C:/apps/daily/2017-01-18/jacoco.exec" />-->
-      
+      <sysproperty key="jacoco-agent.destfile" file="${jacoco.data.file.integration}" />
+
       <classpath>
         <path refid="classpath.unitTestLibs"/>
 
         <pathelement location="${jacoco.instrumentedPath}" />
         <pathelement path="${dir.binaries}" />
-        <pathelement path="${dir.testBinaries}" />
+        <pathelement path="${dir.integrationTestBinaries}" />
 
-        <pathelement path="${dir.unitTestSource}" />
+        <pathelement path="${dir.integrationTestSource}" />
         <pathelement path="${dir.source}" />
-      	<pathelement path="${dir.resources}" />
         <pathelement path="${dir.tmpDirBinaries}"/>
         <fileset dir="${dir.core}\${dir.librariesPath}\build\jacoco\lib">
           <include name="**/*.jar"/>
@@ -87,10 +84,8 @@
 
       <formatter type="xml" usefile="yes" />
       <batchtest todir="${dir.testResults}">
-        <fileset dir="${dir.testBinaries}">
+        <fileset dir="${dir.integrationTestBinaries}">
           <include name="**/*Test.class" />
-          <exclude name="**/*Integration*.class" />
-          <exclude name="**/*Regression*.class" />
         </fileset>
       </batchtest>
     </junit>
@@ -106,22 +101,16 @@
       <report format="frames" todir="${test.reports.dir}" />
     </junitreport>
 
-    <!-- copy test results to merged location for sonar reporting -->
+      <!-- copy test results to merged location for sonar reporting -->
     <copy todir="${dir.mergedJUnitTestResults}">
-      <fileset dir="${dir.testResults}" includes="TEST-*.xml" />
+      <fileset dir="${dir.testResults}">
+        <include name="TEST-*.xml" />
+      </fileset>
     </copy>
 
     <fail if="tests.failed">
       One or more tests failed!
       For more information check the log files created under the logs folder- '${test.reports.dir}'."
     </fail>
-    
-    <!-- TODO:remove when there will be ability to modify build server script to run IntegrationTestAntScript.xml directly. -->
-    <echo level="info">Executing integration test cases via the IntegrationTestAntScript.xml file...</echo>
-    <ant antfile="ant/IntegrationTestAntScript.xml" inheritall="false">
-        <property name="dir.TestResultsFolder" value="${dir.TestResultsFolder}" />
-        <property name="log.file" value="MergedTestResultsIT.xml" />
-    </ant>
-    <!-- /TODO -->
   </target>
 </project>

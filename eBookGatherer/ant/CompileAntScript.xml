@@ -13,7 +13,7 @@
           - - - - - - - - - - - - - - - - - -->
   <path id="classpath.compile">
     <fileset dir="${dir.core}/lib">
-      <include name="*.jar"/>
+      <include name="**/*.jar"/>
     </fileset>
     <fileset dir="${dir.core}/dist">
       <include name="*.jar"/>
@@ -42,7 +42,7 @@
           description: This is the entry target for a "coverage" build. It will compile the
                        main source code, unit tests and integration tests.
          ================================= -->
-  <target name="coverage_build" description="Coverage build for the ebookGatherer project" depends="-init, -compile-core,-compile, -createWar, -compile_unitTests">
+  <target name="coverage_build" description="Coverage build for the ebookGatherer project" depends="-init, -compile-core,-compile, -createWar, -compile_unitTests, -compile_integrationTests">
     <echo level="info" message="Coverage build has completed." />
   </target>
 
@@ -55,16 +55,22 @@
     <echo level="verbose">Deleting old compiled binaries, if existing...</echo>
     <delete dir="${dir.binaries}/com" failonerror="false" includeemptydirs="true"/>
     <delete dir="${dir.testBinaries}" failonerror="false" includeemptydirs="true"/>
-    <delete dir="${dir.tmpBuildDir}/WEB-INF/classes/com" failonerror="false" includeemptydirs="true"/>
+    <delete dir="${dir.tmpDirBinaries}/com" failonerror="false" includeemptydirs="true"/>
 
-    <echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}' and '${dir.testBinaries}' ...</echo>
+    <echo level="verbose">Creating directories for the compiled binaries - '${dir.binaries}', '${dir.testBinaries}' and '${dir.integrationTestBinaries}'...</echo>
     <mkdir dir="${dir.binaries}"/>
     <mkdir dir="${dir.testBinaries}"/>
+    <mkdir dir="${dir.integrationTestBinaries}" />
     <mkdir dir="${dir.tmpBuildDir}"/>
     <mkdir dir="${dir.tmpBuildDir}/WEB-INF"/>
-    <mkdir dir="${dir.tmpBuildDir}/WEB-INF/classes"/>
-    <mkdir dir="${dir.tmpBuildDir}/WEB-INF/classes/com"/>
+    <mkdir dir="${dir.tmpDirBinaries}"/>
+    <mkdir dir="${dir.tmpDirBinaries}/com"/>
     <mkdir dir="${dir.tmpBuildDir}/WEB-INF/lib"/>
+    
+    <!-- Save cache version and build number to a file -->
+    <xslt in="WebContent/Manifest.xml" out="${dir.tmpBuildDir}/build.properties" style="${dir.core}/ant/ManifestProperties.xsl" />
+    <echo append="true" file="${dir.tmpBuildDir}/build.properties">build.number=${BuildNumber}${line.separator}</echo>
+    <property file="${dir.tmpBuildDir}/build.properties" />
 
   </target>
 
@@ -75,7 +81,7 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-compile" depends="-compile-core">
     <echo level="verbose">Compiling the source code...</echo>
-    <javac destdir="${dir.tmpBuildDir}/WEB-INF/classes" source="1.7" target="1.7"
+    <javac destdir="${dir.tmpDirBinaries}" source="1.7" target="1.7"
            debug="${IsCoverageBuild}" includeantruntime="false">
       <src path="${dir.source}"/>
       <classpath refid="classpath.compile"/>
@@ -83,9 +89,9 @@
   </target>
 
   <!-- - - - - - - - - - - - - - - - - - 
-  		target: -compile-core                   
-  		description: Compile helper project
-	- - - - - - - - - - - - - - - - - -->
+        target: -compile-core                   
+        description: Compile helper project
+    - - - - - - - - - - - - - - - - - -->
   <target name="-compile-core">
     <ant dir="${dir.core}" antfile="ant/CompileAntScript.xml" target="normal_build" inheritAll="false"/>
     <copy file="${dir.core}/dist/ebookGeneratorCore.jar" todir="${dir.tmpBuildDir}/WEB-INF/lib"/>
@@ -109,7 +115,8 @@
       <src path="${dir.unitTestSource}"/>
       <classpath>
         <pathelement path="${dir.binaries}"/>
-        <pathelement path="${dir.tmpBuildDir}/WEB-INF/classes"/>
+        <pathelement path="${dir.tmpDirBinaries}"/>
+        <pathelement path="${dir.tmpBuildDir}/WEB-INF/lib"/>
         <path refid="classpath.compile"/>
       </classpath>
     </javac>
@@ -136,10 +143,11 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-compile_integrationTests">
     <echo level="verbose">Compiling the integration test source code...</echo>
-    <javac destdir="${dir.testBinaries}" source="1.7" target="1.7" includeantruntime="false">
+    <javac destdir="${dir.integrationTestBinaries}" source="1.7" target="1.7" includeantruntime="false">
       <src path="${dir.integrationTestSource}"/>
       <classpath>
         <pathelement path="${dir.binaries}"/>
+        <pathelement path="${dir.tmpDirBinaries}"/>
         <path refid="classpath.compile"/>
       </classpath>
     </javac>

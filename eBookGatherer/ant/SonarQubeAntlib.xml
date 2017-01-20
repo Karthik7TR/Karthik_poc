@@ -1,0 +1,77 @@
+<!-- See http://docs.codehaus.org/display/SONAR/Analyzing+with+SonarQube+Ant+Task -->
+
+<!--
+ * Copyright 2016: Thomson Reuters. All Rights Reserved. Proprietary and Confidential information of Thomson Reuters.
+ * Disclosure, Use or Reproduction without the written authorization of Thomson Reuters is prohibited.
+ -->
+
+<antlib>
+
+    <macrodef name="sonar-publish">
+        <attribute name="projectKey" />
+        <attribute name="projectName" />
+        <attribute name="projectVersion" />
+        <attribute name="mainBinaries" />
+        <attribute name="mainSources" />
+        <element   name="main-libraries" />
+        <attribute name="testBinaries" />
+        <attribute name="testSources" />
+        <element   name="test-libraries" />
+        <attribute name="jacocoResults" />
+        <attribute name="jacocoIntegrationResults" />
+        <attribute name="junitResults" />
+        <attribute name="sonarqubeAntTaskLocation" />
+
+        <sequential xmlns:sonar="antlib:org.sonar.ant">
+
+            <taskdef resource="org/sonar/ant/antlib.xml" uri="antlib:org.sonar.ant">
+                <classpath>
+                   <fileset file="@{sonarqubeAntTaskLocation}" />
+                </classpath>
+            </taskdef>
+            
+            <property name="sonar.java.source" value="1.7" />
+            <property name="sonar.java.target" value="1.7" />
+            <property name="sonar.sourceEncoding" value="Cp1252" />
+
+            <property name="sonar.projectKey" value="@{projectKey}" />
+            <property name="sonar.projectName" value="@{projectName}" />
+            <property name="sonar.projectVersion" value="@{projectVersion}" />
+
+            <property name="sonar.skipDesign" value="true" /><!-- for now -->
+            <property name="sonar.findbugs.excludesFilters" value="ant/FindBugsExclusions.xml" />
+            
+            <property name="sonar.jacoco.reportPath" value="@{jacocoResults}" />
+            <property name="sonar.jacoco.itReportPath" value="@{jacocoIntegrationResults}" />
+            <property name="sonar.jacoco.reportMissing.force.zero" value="true" />
+            
+            <property name="sonar.binaries" value="@{mainBinaries}" />
+            
+            <property name="sonar.junit.reportsPath" value="@{junitResults}" />
+            
+            <property name="sonar.sources" value="@{mainSources}" />
+            <property name="sonar.java.binaries" value="@{mainBinaries}" />
+            <!-- Sonar expects comma-separated lists of files with no unresolvable wildcards -->
+            <pathconvert pathsep="," property="sonar.java.libraries"><main-libraries /></pathconvert>
+            
+            <property name="sonar.tests" value="@{testSources}" />
+            <property name="sonar.java.test.binaries" value="@{testBinaries}" />
+            <!-- Sonar expects comma-separated lists of files with no unresolvable wildcards -->
+            <pathconvert pathsep="," property="sonar.java.test.libraries"><test-libraries /></pathconvert>
+
+            <property name="sonar.host.url" value="http://legaltech-sonar.int.westgroup.com" />
+            <property name="sonar.jdbc.url" value="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=c583uzpwndbdf.int.thomsonreuters.com)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=ord746a.int.thomsonreuters.com)))" />
+            <property name="sonar.jdbc.username" value="SONAR_LTIO_TEMP" />
+            <property name="sonar.jdbc.password" value="sonarltiotemp" />
+            <property name="sonar.jdbc.dialect" value="oracle" />
+            <property name="sonar.jdbc.driverClassName" value="oracle.jdbc.OracleDriver" />
+            <property name="sonar.hibernate.dialect" value="org.hibernate.dialect.OracleDialect" />
+            
+            <echoproperties prefix="sonar." />
+
+            <sonar:sonar />
+
+        </sequential>
+    </macrodef>
+
+</antlib>
