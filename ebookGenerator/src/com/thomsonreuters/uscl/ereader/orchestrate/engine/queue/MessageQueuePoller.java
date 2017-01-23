@@ -20,9 +20,10 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EBookRequestVa
 
 public class MessageQueuePoller {
 	private static final Logger log = LogManager.getLogger(MessageQueuePoller.class);
+	
+	private EBookRequestValidator eBookRequestValidator;
 	private JMSClient jmsClient;
 	private JmsTemplate jmsTemplate;
-	private EBookRequestValidator eBookRequestValidator;
 
 	@Scheduled(fixedDelay = 60000) // 1 minute
 	public void pollJobQueue() {
@@ -44,12 +45,13 @@ public class MessageQueuePoller {
 				// cannot process
 				return;
 			}
+						
 		} catch (Exception e) {
 			log.error("Problem encountered while polling message queue:", e);
 		}
 
 		if (eBookRequest != null) {
-			log.debug("starting job on request " + eBookRequest); // log processed request
+			log.debug("Request validated " + eBookRequest); // log processed request
 			// send to business validation
 		}
 	}
@@ -57,8 +59,9 @@ public class MessageQueuePoller {
 	private EBookRequest unmarshalRequest(String request) throws JAXBException {
 		JAXBContext context = JAXBContext.newInstance(EBookRequest.class);
 		Unmarshaller unmarshaller = context.createUnmarshaller();
-		return (EBookRequest) unmarshaller.unmarshal(new ByteArrayInputStream(request.getBytes()));
-
+		EBookRequest eBookRequest = (EBookRequest) unmarshaller.unmarshal(new ByteArrayInputStream(request.getBytes()));
+		eBookRequest.setMessageRequest(request);
+		return eBookRequest;
 	}
 
 	@Required

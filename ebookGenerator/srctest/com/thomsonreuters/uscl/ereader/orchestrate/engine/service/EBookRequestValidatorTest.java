@@ -13,15 +13,15 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.thomsonreuters.uscl.ereader.jms.dao.RequestLogDao;
-import com.thomsonreuters.uscl.ereader.jms.dao.RequestLogDaoImpl;
+import com.thomsonreuters.uscl.ereader.jms.dao.BundleArchiveDao;
+import com.thomsonreuters.uscl.ereader.jms.dao.BundleArchiveDaoImpl;
 import com.thomsonreuters.uscl.ereader.jms.handler.EBookRequest;
 
 @Ignore
 public class EBookRequestValidatorTest {
 	
 	private EBookRequestValidator validator;
-	private RequestLogDao requestDao;
+	private BundleArchiveDao requestDao;
 	
 	private String requestId = "ed4abfa40ee548388d39ecad55a0daaa";
 	private String bundleHash;
@@ -30,9 +30,9 @@ public class EBookRequestValidatorTest {
 	
 	@Before
 	public void setUp() throws IOException {
-		this.requestDao = EasyMock.createMock(RequestLogDaoImpl.class);
+		this.requestDao = EasyMock.createMock(BundleArchiveDaoImpl.class);
 		this.validator = new EBookRequestValidator();
-		this.validator.setRequestLogDao(requestDao);
+		this.validator.setBundleArchiveDao(requestDao);
 		
 		this.bundleHash = DigestUtils.md5Hex(new FileInputStream(fileLocation));
 	}

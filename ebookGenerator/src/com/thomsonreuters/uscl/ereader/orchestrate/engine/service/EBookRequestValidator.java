@@ -10,7 +10,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
-import com.thomsonreuters.uscl.ereader.jms.dao.RequestLogDao;
+import com.thomsonreuters.uscl.ereader.jms.dao.BundleArchiveDao;
 import com.thomsonreuters.uscl.ereader.jms.exception.MessageQueueException;
 import com.thomsonreuters.uscl.ereader.jms.handler.EBookRequest;
 
@@ -22,7 +22,7 @@ public class EBookRequestValidator {
 	public static final String ERROR_DUPLICATE_REQUEST = "Request already received";
 
 	private static final Logger LOG = LogManager.getLogger(EBookRequestValidator.class);
-	private RequestLogDao requestLogDao;
+	private BundleArchiveDao bundleArchiveDao;
 
 	public void validate(EBookRequest request) throws MessageQueueException {
 		if (request == null 
@@ -60,7 +60,7 @@ public class EBookRequestValidator {
 			throw new MessageQueueException(ERROR_BAD_HASH + ebook.getAbsolutePath());
 		}
 
-		EBookRequest dup = requestLogDao.findByRequestId(request.getMessageId());
+		EBookRequest dup = bundleArchiveDao.findByRequestId(request.getMessageId());
 		if (dup != null) {
 			if (dup.equals(request)) {
 				throw new MessageQueueException(ERROR_DUPLICATE_REQUEST);
@@ -69,15 +69,17 @@ public class EBookRequestValidator {
 				// TODO identify steps for processing this scenario
 				throw new MessageQueueException("non-identical duplicate request received");
 			}
+		} else {
+			bundleArchiveDao.saveRequest(request);
 		}
 	}
 
 	@Required
-	public void setRequestLogDao(RequestLogDao requestLogDao) {
-		this.requestLogDao = requestLogDao;
+	public void setBundleArchiveDao(BundleArchiveDao bundleArchiveDao) {
+		this.bundleArchiveDao = bundleArchiveDao;
 	}
 
-	public RequestLogDao getRequestLogDao() {
-		return this.requestLogDao;
+	public BundleArchiveDao getBundleArchiveDao() {
+		return this.bundleArchiveDao;
 	}
 }
