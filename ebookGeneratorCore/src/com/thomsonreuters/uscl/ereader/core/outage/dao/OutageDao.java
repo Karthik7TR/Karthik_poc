@@ -18,12 +18,15 @@ public interface OutageDao {
 	 */
 	public List<PlannedOutage> getAllPlannedOutages();
 	
+	
+	public List<PlannedOutage> getAllPlannedOutagesForType(Long outageTypeId);
+	
 	/**
 	 * Returns all Outage entities that are scheduled and displayed to the user
 	 * @param endDate - filter used to limit PlannedOutages
 	 */
 	public List<PlannedOutage> getAllPlannedOutagesToDisplay(Date endDate);
-	
+		
 	/**
 	 * Get the Outage entity with the give id.
 	 */

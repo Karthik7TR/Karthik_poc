@@ -4,10 +4,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.FetchMode;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
@@ -30,6 +32,18 @@ public class OutageDaoImpl implements OutageDao {
 				.add(Restrictions.ge("endTime", new Date()))
 				.addOrder(Order.desc("startTime"))
 				.list();
+	}
+	
+	@Transactional(readOnly = true)
+	@SuppressWarnings("unchecked")
+	public List<PlannedOutage> getAllPlannedOutagesForType(Long outageTypeId){
+		Session session = sessionFactory.getCurrentSession();
+		StringBuffer hql = new StringBuffer(
+				"select p from PlannedOutage p where p.outageType="+outageTypeId);
+		
+		Query query = session.createQuery(hql.toString());
+		List<PlannedOutage> outageList =  query.list();
+		return outageList;
 	}
 	
 	/**
