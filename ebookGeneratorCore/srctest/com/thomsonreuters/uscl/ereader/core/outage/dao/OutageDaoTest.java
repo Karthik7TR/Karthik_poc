@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.easymock.EasyMock;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -27,6 +28,7 @@ public class OutageDaoTest  {
 	private org.hibernate.Session mockSession;
 	private Criteria mockCriteria;
 	private OutageDaoImpl dao;
+	private Query mockQuery;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -34,6 +36,7 @@ public class OutageDaoTest  {
 		this.mockSession = EasyMock.createMock(org.hibernate.Session.class);
 		this.mockCriteria = EasyMock.createMock(Criteria.class);
 		this.dao = new OutageDaoImpl(mockSessionFactory);
+		this.mockQuery = EasyMock.createMock(org.hibernate.Query.class);
 		
 		PlannedOutage outage = new PlannedOutage();
 		PLANNED_OUTAGE_LIST = new ArrayList<PlannedOutage>();
@@ -52,6 +55,24 @@ public class OutageDaoTest  {
 		EasyMock.replay(mockCriteria);
 		
 		List<PlannedOutage> actual = dao.getAllActiveAndScheduledPlannedOutages();
+		Assert.assertEquals(PLANNED_OUTAGE_LIST, actual);
+		
+		EasyMock.verify(mockSessionFactory);
+		EasyMock.verify(mockSession);
+		EasyMock.verify(mockCriteria);
+	}
+	
+	@Test
+	public void testgetAllPlannedOutagesForType() {
+		
+		EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
+		EasyMock.expect(mockSession.createQuery("select p from PlannedOutage p where p.outageType=1")).andReturn(mockQuery);		
+		EasyMock.expect(mockQuery.list()).andReturn(PLANNED_OUTAGE_LIST);
+		EasyMock.replay(mockSessionFactory);
+		EasyMock.replay(mockSession);
+		EasyMock.replay(mockCriteria);
+		EasyMock.replay(mockQuery);
+		List<PlannedOutage> actual = dao.getAllPlannedOutagesForType(new Long(1));
 		Assert.assertEquals(PLANNED_OUTAGE_LIST, actual);
 		
 		EasyMock.verify(mockSessionFactory);

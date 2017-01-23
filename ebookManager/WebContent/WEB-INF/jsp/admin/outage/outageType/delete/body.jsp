@@ -17,7 +17,7 @@
 				
 				<%-- Table of ContentType --%>
 				<c:set var="DATE_FORMAT" value="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
-				<display:table id="<%= WebConstants.KEY_VDO %>" name="outage.plannedOutage" class="displayTagTable" cellpadding="2"
+				<display:table id="<%= WebConstants.KEY_VDO %>"  name="<%= WebConstants.KEY_PLANNED_OUTAGE_TYPE %>"  class="displayTagTable" cellpadding="2"
 					pagesize="20"
 					partialList="false">
 				  <display:setProperty name="basic.msg.empty_list">No Planned Outages.</display:setProperty>
@@ -37,7 +37,7 @@
 				  <display:column title="Last Updated" >
 				  	<fmt:formatDate value="${vdo.lastUpdated}" pattern="${DATE_FORMAT}"/>
 				  </display:column>
-				</display:table>
+				</display:table> 
 			</c:when>
 			<c:otherwise>
 				<form:form commandName="<%= OutageTypeForm.FORM_NAME %>">

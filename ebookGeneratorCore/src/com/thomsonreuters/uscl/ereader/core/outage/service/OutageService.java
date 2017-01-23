@@ -18,6 +18,11 @@ public interface OutageService {
 	public List<PlannedOutage> getAllPlannedOutages();
 	
 	/**
+	 * Returns all Outage entities including for outage type.
+	 */
+	public List<PlannedOutage> getAllPlannedOutagesForType(Long outageTypeId);
+	
+	/**
 	 * Returns all Outage entities that are scheduled and displayed to the user
 	 */
 	public List<PlannedOutage> getAllPlannedOutagesToDisplay();

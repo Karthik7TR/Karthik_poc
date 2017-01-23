@@ -44,11 +44,6 @@ public class OutageType implements Serializable {
 	@Column(name = "LAST_UPDATED", nullable = false)
 	private Date lastUpdated;
 
-	@OneToMany
-	@Basic(fetch = FetchType.LAZY)
-	@JoinColumns({ @JoinColumn(name = "OUTAGE_TYPE_ID", referencedColumnName = "OUTAGE_TYPE_ID") })
-	private Collection<PlannedOutage> plannedOutage;
-
 	public Long getId() {
 		return id;
 	}
@@ -79,14 +74,6 @@ public class OutageType implements Serializable {
 
 	public void setLastUpdated(Date lastUpdated) {
 		this.lastUpdated = lastUpdated;
-	}
-
-	public Collection<PlannedOutage> getPlannedOutage() {
-		return plannedOutage;
-	}
-
-	public void setPlannedOutage(Collection<PlannedOutage> plannedOutage) {
-		this.plannedOutage = plannedOutage;
 	}
 
 	@Override

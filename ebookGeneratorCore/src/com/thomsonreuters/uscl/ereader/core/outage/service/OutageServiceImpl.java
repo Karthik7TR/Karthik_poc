@@ -37,6 +37,11 @@ public class OutageServiceImpl implements OutageService {
 		return dao.getAllPlannedOutages();
 	}
 	
+	@Transactional(readOnly=true)
+	public List<PlannedOutage> getAllPlannedOutagesForType(Long outageTypeId){
+		return dao.getAllPlannedOutagesForType(outageTypeId);
+	}
+	
 	/**
 	 * Returns all Outage entities that are scheduled and displayed to the user
 	 */

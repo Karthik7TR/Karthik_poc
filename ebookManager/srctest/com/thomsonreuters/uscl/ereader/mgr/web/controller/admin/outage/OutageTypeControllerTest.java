@@ -154,9 +154,11 @@ public class OutageTypeControllerTest {
 
 		OutageType type = new OutageType();
 		type.setId(id);
-		type.setPlannedOutage(new ArrayList<PlannedOutage>());
+		
+		List<PlannedOutage> outage = new ArrayList<PlannedOutage>();
 		
 		EasyMock.expect(outageService.findOutageTypeByPrimaryKey(id)).andReturn(type);
+		EasyMock.expect(outageService.getAllPlannedOutagesForType(id)).andReturn(outage);
 		EasyMock.replay(outageService);
 		
 		ModelAndView mav = handlerAdapter.handle(request, response, controller);

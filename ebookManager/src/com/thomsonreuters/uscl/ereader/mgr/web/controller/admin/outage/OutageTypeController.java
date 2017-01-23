@@ -5,9 +5,12 @@
  */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.outage;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
- import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 
@@ -113,7 +117,10 @@ public class OutageTypeController {
 		
 		if(outageType != null) {
 			model.addAttribute(WebConstants.KEY_OUTAGE, outageType);
-			model.addAttribute("numberOfPlannedOutages", outageType.getPlannedOutage().size());
+			Long outageTypeId = outageType.getId();
+			List<PlannedOutage> outageList = outageService.getAllPlannedOutagesForType(outageTypeId);
+			model.addAttribute(WebConstants.KEY_PLANNED_OUTAGE_TYPE, outageList);
+			model.addAttribute("numberOfPlannedOutages", outageList.size() );
 			form.initialize(outageType);
 		}
 		return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_DELETE);
