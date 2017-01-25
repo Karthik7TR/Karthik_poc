@@ -9,7 +9,10 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -22,25 +25,32 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * serialized into XML for transmission over the wire.
  */
 @XmlRootElement(name = "gatherDocRequest", namespace="com.thomsonreuters.uscl.ereader.gather.domain")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class GatherDocRequest implements Serializable {
 	private static final long serialVersionUID = -3445724162855653304L;
 
 	/**
-	 * Document GUID's, the document key. This is an ArrayList (as opposed to a
-	 * Collection)because JiBX required a concrete class.
+	 * Document GUID's, the document key.
 	 */
-	private ArrayList<String> guids;
+	@XmlElementWrapper(name = "docGuids", required = true)
+	@XmlElement(name = "guids")
+	private List<String> guids;
 	/** Document collection name */
+	@XmlElement(name = "collectionName", required = false)
 	private String collectionName;
 	/**
 	 * Filesystem directory where document content will be placed as guid.xml
 	 */
+	@XmlElement(name = "contentDestinationDirectory", required = true)
 	private File contentDestinationDirectory;
 	/**
 	 * Filesystem directory where document metadata will be placed as guid.xml
 	 */
+	@XmlElement(name = "metadataDestinationDirectory", required = true)
 	private File metadataDestinationDirectory;
+	@XmlElement(name = "isFinalStage", required = true)
 	private boolean isFinalStage;
+	@XmlElement(name = "useReloadContent", required = true)
 	private boolean useReloadContent;
 
 	public GatherDocRequest() {
@@ -71,7 +81,6 @@ public class GatherDocRequest implements Serializable {
 		return useReloadContent;
 	}
 
-	@XmlElement(name = "useReloadContent", required = true)
 	public void setUseReloadContent(boolean useReloadContent) {
 		this.useReloadContent = useReloadContent;
 	}
@@ -80,7 +89,6 @@ public class GatherDocRequest implements Serializable {
 		return guids;
 	}
 
-	@XmlElementWrapper(name = "docGuids", required = true)
 	public void setGuids(Collection<String> guidCollection) {
 		this.guids = new ArrayList<String>(guidCollection);
 	}
@@ -89,7 +97,6 @@ public class GatherDocRequest implements Serializable {
 		return collectionName;
 	}
 
-	@XmlElement(name = "collectionName", required = false)
 	public void setCollectionName(String collectionName) {
 		this.collectionName = collectionName;
 	}
@@ -98,7 +105,6 @@ public class GatherDocRequest implements Serializable {
 		return contentDestinationDirectory;
 	}
 
-	@XmlElement(name = "contentDestinationDirectory", required = true)
 	public void setContentDestinationDirectory(File destinationDirectory) {
 		this.contentDestinationDirectory = destinationDirectory;
 	}
@@ -107,7 +113,6 @@ public class GatherDocRequest implements Serializable {
 		return metadataDestinationDirectory;
 	}
 
-	@XmlElement(name = "metadataDestinationDirectory", required = true)
 	public void setMetadataDestinationDirectory(File destinationDirectory) {
 		this.metadataDestinationDirectory = destinationDirectory;
 	}
@@ -116,7 +121,6 @@ public class GatherDocRequest implements Serializable {
 		return isFinalStage;
 	}
 
-	@XmlElement(name = "isFinalStage", required = true)
 	public void setIsFinalStage(boolean isFinalStage) {
 		this.isFinalStage = isFinalStage;
 	}
