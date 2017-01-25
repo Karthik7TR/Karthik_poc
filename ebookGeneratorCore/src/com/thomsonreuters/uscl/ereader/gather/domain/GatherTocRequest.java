@@ -1,15 +1,11 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
 package com.thomsonreuters.uscl.ereader.gather.domain;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -20,23 +16,30 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 
-@XmlRootElement(name="gatherTocRequest", namespace="com.thomsonreuters.uscl.ereader.gather.domain")
+@XmlRootElement(name = "gatherTocRequest")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class GatherTocRequest {
 
+	@XmlElement(name = "guid")
 	private String guid;
+	@XmlElement(name = "collectionName")
 	private String collectionName;
+	@XmlElement(name = "tocFile")
 	private File tocFile;
+	@XmlElementWrapper(name = "excludeDocument")
 	private ArrayList<ExcludeDocument> excludeDocuments;
+	@XmlElementWrapper(name = "renameTocEntry")
 	private ArrayList<RenameTocEntry> renameTocEntries;
+	@XmlElement(name = "isFinalStage")
 	private boolean isFinalStage;
 	private ArrayList<String> splitTocGuidList;
 	private int thresholdValue;
 
-	public GatherTocRequest(){
+	public GatherTocRequest() {
 		super();
 	}
-	
-	public GatherTocRequest(String guid, String collectionName, File tocFile, ArrayList<ExcludeDocument> excludeDocuments, 
+
+	public GatherTocRequest(String guid, String collectionName, File tocFile, ArrayList<ExcludeDocument> excludeDocuments,
 			ArrayList<RenameTocEntry> renameTocEntries, boolean isFinalStage, Collection<String> splitTocGuidList, int thresholdValue) {
 		super();
 		this.guid = guid;
@@ -45,7 +48,7 @@ public class GatherTocRequest {
 		this.excludeDocuments = excludeDocuments;
 		this.renameTocEntries = renameTocEntries;
 		this.isFinalStage = isFinalStage;
-		if ( splitTocGuidList != null){
+		if (splitTocGuidList != null) {
 			setSplitTocGuidList(splitTocGuidList);
 		}
 		this.thresholdValue = thresholdValue;
@@ -66,42 +69,40 @@ public class GatherTocRequest {
 	public void setSplitTocGuidList(Collection<String> splitTocGuidList) {
 		this.splitTocGuidList = new ArrayList<String>(splitTocGuidList);
 	}
-	
+
 	public String getCollectionName() {
 		return collectionName;
 	}
+
 	public String getGuid() {
 		return guid;
 	}
+
 	public File getTocFile() {
 		return tocFile;
 	}
 
-	@XmlElement(name="collectionName", required=true)
 	public void setCollectionName(String collectionName) {
 		this.collectionName = collectionName;
 	}
-	
-	@XmlElement(name="guid", required=true)
+
 	public void setGuid(String guid) {
 		this.guid = guid;
 	}
-	
-	@XmlElement(name="tocFile", required=true)
+
 	public void setTocFile(File tocFile) {
 		this.tocFile = tocFile;
 	}
 
 	public String toString() {
-		return ReflectionToStringBuilder.toString(this,ToStringStyle.SHORT_PREFIX_STYLE);
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((collectionName == null) ? 0 : collectionName.hashCode());
+		result = prime * result + ((collectionName == null) ? 0 : collectionName.hashCode());
 		result = prime * result + ((guid == null) ? 0 : guid.hashCode());
 		result = prime * result + (isFinalStage ? 1231 : 1237);
 		result = prime * result + ((tocFile == null) ? 0 : tocFile.hashCode());
@@ -140,8 +141,7 @@ public class GatherTocRequest {
 	public ArrayList<ExcludeDocument> getExcludeDocuments() {
 		return excludeDocuments;
 	}
-	
-	@XmlElementWrapper(name="excludeDocument", required=false)
+
 	public void setExcludeDocuments(ArrayList<ExcludeDocument> excludeDocuments) {
 		this.excludeDocuments = excludeDocuments;
 	}
@@ -150,17 +150,16 @@ public class GatherTocRequest {
 		return renameTocEntries;
 	}
 
-	@XmlElementWrapper(name="renameTocEntry", required=false)
 	public void setRenameTocEntries(ArrayList<RenameTocEntry> renameTocEntries) {
 		this.renameTocEntries = renameTocEntries;
 	}
-	
+
 	public boolean isFinalStage() {
 		return isFinalStage;
 	}
-	@XmlElement(name="isFinalStage", required=true)
+
 	public void setFinalStage(boolean isFinalStage) {
 		this.isFinalStage = isFinalStage;
 	}
-	
+
 }

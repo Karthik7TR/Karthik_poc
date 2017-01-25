@@ -1,27 +1,29 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
 package com.thomsonreuters.uscl.ereader.gather.domain;
 
 import java.io.File;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name="gatherImgRequest")
+@XmlRootElement(name = "gatherImgRequest")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class GatherImgRequest {
+	@XmlElement(name = "dynamicImageDirectory")
 	private File dynamicImageDirectory;
+
+	@XmlElement(name = "imgToDocManifestFile")
 	private File imgToDocManifestFile;
+
+	@XmlElement(name = "isFinalStage")
 	private boolean isFinalStage;
 
-	public GatherImgRequest(){
-		
+	public GatherImgRequest() {
+
 	}
-	
-	public GatherImgRequest(
-			File imgToDocManifestFile, File dynamicImageDirectory, long jobInstanceId, boolean isFinalStage){
+
+	public GatherImgRequest(File imgToDocManifestFile, File dynamicImageDirectory, long jobInstanceId, boolean isFinalStage) {
 		this.imgToDocManifestFile = imgToDocManifestFile;
 		this.dynamicImageDirectory = dynamicImageDirectory;
 		this.isFinalStage = isFinalStage;
@@ -30,27 +32,27 @@ public class GatherImgRequest {
 	public boolean isFinalStage() {
 		return isFinalStage;
 	}
-	@XmlElement(name="isFinalStage", required = true)
+
 	public void setFinalStage(boolean isFinalStage) {
 		this.isFinalStage = isFinalStage;
 	}
-	
+
 	public File getImgToDocManifestFile() {
 		return imgToDocManifestFile;
 	}
-	@XmlElement(name="imgToDocManifestFile", required=true)
+
 	public void setImgToDocManifestFile(File imgToDocManifestFile) {
 		this.imgToDocManifestFile = imgToDocManifestFile;
 	}
-	
+
 	public File getDynamicImageDirectory() {
 		return dynamicImageDirectory;
 	}
-	@XmlElement(name="dynamicImageDirectory", required=true)
+
 	public void setDynamicImageDirectory(File dynamicImageDirectory) {
 		this.dynamicImageDirectory = dynamicImageDirectory;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -73,5 +75,5 @@ public class GatherImgRequest {
 		} else if (!imgToDocManifestFile.equals(that.imgToDocManifestFile))
 			return false;
 		return true;
-	} 
+	}
 }

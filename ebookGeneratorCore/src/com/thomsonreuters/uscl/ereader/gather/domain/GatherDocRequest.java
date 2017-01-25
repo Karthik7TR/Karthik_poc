@@ -1,8 +1,3 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
 package com.thomsonreuters.uscl.ereader.gather.domain;
 
 import java.io.File;
@@ -21,10 +16,9 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * A HTTP request body to the Gather document REST service. Eventually
- * serialized into XML for transmission over the wire.
+ * A HTTP request body to the Gather document REST service. Eventually serialized into XML for transmission over the wire.
  */
-@XmlRootElement(name = "gatherDocRequest", namespace="com.thomsonreuters.uscl.ereader.gather.domain")
+@XmlRootElement(name = "gatherDocRequest", namespace = "com.thomsonreuters.uscl.ereader.gather.domain")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GatherDocRequest implements Serializable {
 	private static final long serialVersionUID = -3445724162855653304L;
@@ -32,25 +26,27 @@ public class GatherDocRequest implements Serializable {
 	/**
 	 * Document GUID's, the document key.
 	 */
-	@XmlElementWrapper(name = "docGuids", required = true)
-	@XmlElement(name = "guids")
+	@XmlElementWrapper(name = "docGuids")
 	private List<String> guids;
+
 	/** Document collection name */
-	@XmlElement(name = "collectionName", required = false)
+	@XmlElement(name = "collectionName")
 	private String collectionName;
+
 	/**
 	 * Filesystem directory where document content will be placed as guid.xml
 	 */
-	@XmlElement(name = "contentDestinationDirectory", required = true)
+	@XmlElement(name = "contentDestinationDirectory")
 	private File contentDestinationDirectory;
+
 	/**
 	 * Filesystem directory where document metadata will be placed as guid.xml
 	 */
-	@XmlElement(name = "metadataDestinationDirectory", required = true)
+	@XmlElement(name = "metadataDestinationDirectory")
 	private File metadataDestinationDirectory;
-	@XmlElement(name = "isFinalStage", required = true)
+	@XmlElement(name = "isFinalStage")
 	private boolean isFinalStage;
-	@XmlElement(name = "useReloadContent", required = true)
+	@XmlElement(name = "useReloadContent")
 	private boolean useReloadContent;
 
 	public GatherDocRequest() {
@@ -60,12 +56,9 @@ public class GatherDocRequest implements Serializable {
 	/**
 	 * Full constructor for document requests to Gather REST service.
 	 * 
-	 * @param guid
-	 *            the document key
+	 * @param guid the document key
 	 * @param collectionName
-	 * @param destinationDirectory
-	 *            filesystem directory where created the XML document files are
-	 *            to be placed
+	 * @param destinationDirectory filesystem directory where created the XML document files are to be placed
 	 */
 	public GatherDocRequest(Collection<String> guids, String collectionName, File contentDestinationDirectory,
 			File metadataDestinationDirectory, boolean isFinalStage, boolean useReloadContent) {
@@ -138,8 +131,7 @@ public class GatherDocRequest implements Serializable {
 		result = prime * result + ((contentDestinationDirectory == null) ? 0 : contentDestinationDirectory.hashCode());
 		result = prime * result + ((guids == null) ? 0 : guids.hashCode());
 		result = prime * result + (isFinalStage ? 1231 : 1237);
-		result = prime * result
-				+ ((metadataDestinationDirectory == null) ? 0 : metadataDestinationDirectory.hashCode());
+		result = prime * result + ((metadataDestinationDirectory == null) ? 0 : metadataDestinationDirectory.hashCode());
 		result = prime * result + (useReloadContent ? 1231 : 1237);
 		return result;
 	}
