@@ -16,7 +16,7 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url"
-			value="jdbc:oracle:thin:@(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = c111cujctdbux-vip.int.westgroup.com)(PORT = 1521)))(CONNECT_DATA =(SERVICE_NAME = ebook_dev.int.westgroup.com)))" />
+			value="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=c540wfyctdbqf.int.thomsonreuters.com)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=ebook_dev.int.thomsonreuters.com)))" />
 		<property name="username" value="EBOOK_USER" />
 		<property name="password" value="eb00k" />
 		<property name="initialSize" value="3" />
