@@ -12,7 +12,7 @@
           - - - - - - - - - - - - - - - - - -->
   <path id="classpath.unitTestLibs">
     <fileset dir="lib">
-       <include name="*.jar"/>
+       <include name="**/*.jar"/>
     </fileset>
     <fileset dir="${env.buildextensionroot}">
       <include name="JUnit/*.jar"/>
