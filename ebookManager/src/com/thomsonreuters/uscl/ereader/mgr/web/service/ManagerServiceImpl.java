@@ -15,12 +15,14 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
  import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
@@ -71,9 +73,8 @@ public class ManagerServiceImpl implements ManagerService {
 	
 	@Override
 	@Transactional(readOnly=true)
-	public JobExecution findRunningJob(long bookDefinitionId) {
-		JobExecution jobExecution = managerDao.findRunningJobExecution(bookDefinitionId);
-		return jobExecution;
+	public JobExecution findRunningJob(@NotNull BookDefinition book) {
+		return managerDao.findRunningJobExecution(book);
 	}
 	
 	@Override

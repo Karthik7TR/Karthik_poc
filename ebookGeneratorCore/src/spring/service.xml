@@ -43,6 +43,8 @@
 	<bean id="proviewRequestCallbackFactory" class="com.thomsonreuters.uscl.ereader.deliver.rest.ProviewRequestCallbackFactory"/>
 	<bean id="proviewResponseExtractorFactory" class="com.thomsonreuters.uscl.ereader.deliver.rest.ProviewResponseExtractorFactory"/>	
 	
+	<bean id="jobNameProvider" class="com.thomsonreuters.uscl.ereader.core.job.service.JobNameProviderImpl"/>
+	
 	<bean id="jobRequestService" class="com.thomsonreuters.uscl.ereader.core.job.service.JobRequestServiceImpl"
 		  p:jobRequestDao-ref="jobRequestDao"/>
 		  

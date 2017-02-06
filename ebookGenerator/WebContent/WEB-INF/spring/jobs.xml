@@ -7,7 +7,34 @@
            http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
            http://www.springframework.org/schema/batch   http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
- 
+
+	<job id="ebookGeneratorXppJob">
+	    <step id="initializeXppJobStep">
+			<tasklet ref="initializeXppJobTask" />
+			<next on="COMPLETED" to="sendEmailNotificationXppStep" />
+			<fail on="FAILED" />
+		</step>
+		
+		<step id="sendEmailNotificationXppStep">
+			<tasklet ref="sendEmailNotificationXppTask" />
+			<end on="COMPLETED" />
+			<fail on="FAILED" />
+		</step>
+	</job>
+
+	<beans:bean id="initializeXppJobTask"
+		class="com.thomsonreuters.uscl.ereader.xpp.initialize.InitializeTask"
+		parent="parentTask"
+		p:environmentName-ref="environmentName" p:rootWorkDirectory="${root.work.directory}"
+		p:publishingStatsService-ref="publishingStatsService"
+		p:ebookAuditService-ref="eBookAuditService" p:bookDefnService-ref="bookDefinitionService" />
+
+	<beans:bean id="sendEmailNotificationXppTask"
+		class="com.thomsonreuters.uscl.ereader.xpp.notification.SendEmailNotification"
+		parent="parentTask" p:publishingStatsService-ref="publishingStatsService" />
+
+	<!-- ============================ -->
+
 	<job id="ebookGeneratorJob">
 		<step id="initializeJob">
 			<tasklet ref="initializeTask"/>

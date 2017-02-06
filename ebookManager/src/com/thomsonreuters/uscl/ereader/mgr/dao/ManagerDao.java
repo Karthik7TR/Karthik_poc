@@ -2,17 +2,20 @@ package com.thomsonreuters.uscl.ereader.mgr.dao;
 
 import java.util.Date;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.JobExecution;
+
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 
 public interface ManagerDao {
 	
 	/**
 	 * Returns the job execution of a running job, and the job parameter values as specified.
 	 * Used to determine if a user is attempting to launch a book that is already running.
-	 * @param bookDefinitionId the book def ID to compare against the corresponding job parameter
+	 * @param book the book to compare against the corresponding job parameter
 	 * @return the jobExecutionId that matches the criteria, or null if not found.
 	 */
-	public JobExecution findRunningJobExecution(Long bookDefinitionId);
+	public JobExecution findRunningJobExecution(@NotNull BookDefinition book);
 	
 	/**
 	 * Archive step data to JOB_HISTORY table and delete all old Spring Batch job data before the specified date.

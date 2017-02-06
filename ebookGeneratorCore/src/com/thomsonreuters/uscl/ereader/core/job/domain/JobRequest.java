@@ -1,5 +1,5 @@
 /*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
+ * Copyright 2017: Thomson Reuters Global Resources. All Rights Reserved.
  * Proprietary and Confidential information of TRGR. Disclosure, Use or
  * Reproduction without the written authorization of TRGR is prohibited
  */
@@ -17,12 +17,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.jetbrains.annotations.NotNull;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 
@@ -30,151 +30,91 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 @Table(name = "JOB_REQUEST")
 public class JobRequest implements Serializable {
 
-	@Deprecated
-	// Currently supporting only QUEUED jobs
-	public enum JobStatus {
-		QUEUED, SCHEDULED
-	}
-
 	private static final long serialVersionUID = 5207493496108658705L;
-	public static final String JOB_NAME_CREATE_EBOOK = "ebookGeneratorJob";
-
-	private Long jobRequestId;
-	private BookDefinition bookDefinition;
-	private String bookVersion;
-	private int priority;
-	private Date scheduledAt;
-	private String submittedBy;
-	private Date submittedAt;
-	@Deprecated
-	private JobStatus jobStatus = JobStatus.QUEUED;
-
-	public JobRequest() {
-		super();
-	}
-
-	private JobRequest(Long jobRequestId, String version,
-			BookDefinition bookDefinition, int priority, Date scheduledAt,
-			String submittedBy, Date submitDate) {
-		setPrimaryKey(jobRequestId);
-		setBookVersion(version);
-		setBookDefinition(bookDefinition);
-		setPriority(priority);
-		setScheduledAt(scheduledAt);
-		setSubmittedBy(submittedBy);
-		setSubmittedAt(submitDate);
-	}
-
-	public static JobRequest createQueuedJobRequest(
-			BookDefinition bookDefinition, String version, int priority,
-			String submittedBy) {
-		return new JobRequest(null, version, bookDefinition, priority, null,
-				submittedBy, null);
-	}
-
-	@Column(name = "BOOK_VERISON_SUBMITTED", nullable = false)
-	public String getBookVersion() {
-		return bookVersion;
-	}
-
-	@OneToOne
-	@Fetch(FetchMode.SELECT)
-	@JoinColumn(name = "EBOOK_DEFINITION_ID")
-	public BookDefinition getBookDefinition() {
-		return bookDefinition;
-	}
-
-	@Column(name = "JOB_SCHEDULE_TIMESTAMP", nullable = true)
-	public Date getScheduledAt() {
-		return scheduledAt;
-	}
-
-	@Deprecated
-	@Column(name = "JOB_STATUS", nullable = false)
-	public String getJobStatusString() {
-		return jobStatus.toString();
-	}
-
-	@Deprecated
-	@Transient
-	public JobStatus getJobStatus() {
-		return jobStatus;
-	}
-
-	@Column(name = "JOB_SUBMITTER_NAME", nullable = false)
-	public String getSubmittedBy() {
-		return submittedBy;
-	}
-
-	@Column(name = "JOB_SUBMIT_TIMESTAMP", nullable = false)
-	public Date getSubmittedAt() {
-		return submittedAt;
-	}
 
 	@Id
 	@Column(name = "JOB_REQUEST_ID", nullable = false)
 	@GeneratedValue(generator = "JobRequestIdSeq")
 	@SequenceGenerator(name = "JobRequestIdSeq", sequenceName = "JOB_REQUEST_ID_SEQ")
-	public Long getPrimaryKey() {
+	private Long jobRequestId;
+
+	@OneToOne
+	@Fetch(FetchMode.SELECT)
+	@JoinColumn(name = "EBOOK_DEFINITION_ID")
+	private BookDefinition bookDefinition;
+
+	@Column(name = "BOOK_VERISON_SUBMITTED", nullable = false)
+	private String bookVersion;
+
+	@Column(name = "JOB_PRIORITY", nullable = false)
+	private int priority;
+
+	@Column(name = "JOB_SUBMITTER_NAME", nullable = false)
+	private String submittedBy;
+
+	@Column(name = "JOB_SUBMIT_TIMESTAMP", nullable = false)
+	private Date submittedAt;
+
+	public static JobRequest createQueuedJobRequest(@NotNull BookDefinition bookDefinition, @NotNull String version,
+			int priority, @NotNull String submittedBy) {
+		JobRequest jobRequest = new JobRequest();
+		jobRequest.setBookDefinition(bookDefinition);
+		jobRequest.setBookVersion(version);
+		jobRequest.setPriority(priority);
+		jobRequest.setSubmittedBy(submittedBy);
+		return jobRequest;
+	}
+
+	public Long getJobRequestId() {
 		return jobRequestId;
 	}
 
-	@Column(name = "JOB_PRIORITY", nullable = false)
-	public int getPriority() {
-		return priority;
+	public void setJobRequestId(Long jobRequestId) {
+		this.jobRequestId = jobRequestId;
 	}
 
-	@Transient
-	public boolean isQueuedRequest() {
-		return (scheduledAt == null);
-	}
-
-	@Transient
-	public boolean isScheduledRequest() {
-		return !isQueuedRequest();
-	}
-
-	public void setBookVersion(String bookVersionSubmited) {
-		this.bookVersion = bookVersionSubmited;
+	public BookDefinition getBookDefinition() {
+		return bookDefinition;
 	}
 
 	public void setBookDefinition(BookDefinition definition) {
 		this.bookDefinition = definition;
 	}
 
-	public void setScheduledAt(Date jobScheduleTime) {
-		this.scheduledAt = jobScheduleTime;
+	public String getBookVersion() {
+		return bookVersion;
 	}
 
-	@Deprecated
-	public void setJobStatus(JobStatus status) {
-		this.jobStatus = status;
+	public void setBookVersion(String bookVersionSubmited) {
+		this.bookVersion = bookVersionSubmited;
 	}
 
-	@Deprecated
-	public void setJobStatusString(String status) {
-		setJobStatus(JobStatus.valueOf(status));
-	}
-
-	public void setSubmittedBy(String jobSubmittersName) {
-		this.submittedBy = jobSubmittersName;
-	}
-
-	public void setSubmittedAt(Date submitTime) {
-		this.submittedAt = submitTime;
-	}
-
-	public void setPrimaryKey(Long jobRequestId) {
-		this.jobRequestId = jobRequestId;
+	public int getPriority() {
+		return priority;
 	}
 
 	public void setPriority(int jobPriority) {
 		this.priority = jobPriority;
 	}
 
+	public String getSubmittedBy() {
+		return submittedBy;
+	}
+
+	public void setSubmittedBy(String jobSubmittersName) {
+		this.submittedBy = jobSubmittersName;
+	}
+
+	public Date getSubmittedAt() {
+		return submittedAt;
+	}
+
+	public void setSubmittedAt(Date submitTime) {
+		this.submittedAt = submitTime;
+	}
+
 	@Override
 	public String toString() {
-		return ReflectionToStringBuilder.toString(this,
-				ToStringStyle.SHORT_PREFIX_STYLE);
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

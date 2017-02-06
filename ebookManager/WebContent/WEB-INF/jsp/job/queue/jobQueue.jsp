@@ -28,6 +28,9 @@
 	  <display:column title="Title ID" sortable="true" sortProperty="<%=DisplayTagSortProperty.TITLE_ID.toString()%>">
 	  	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${jobRequest.bookDefinition.ebookDefinitionId}">${jobRequest.bookDefinition.fullyQualifiedTitleId}</a>
 	  </display:column>
+	  <display:column title="Source Type" sortable="true" sortProperty="<%=DisplayTagSortProperty.SOURCE_TYPE.toString()%>">
+	  		${jobRequest.bookDefinition.sourceType}
+	  </display:column>
 	  <display:column title="Version &nbsp;" property="bookVersion" sortable="true" sortProperty="<%=DisplayTagSortProperty.BOOK_VERSION.toString()%>"/>
 	  <display:column title="Priority &nbsp;" property="priority" sortable="true" sortProperty="<%=DisplayTagSortProperty.PRIORITY.toString()%>"/>
 	  <display:column title="Submitted By &nbsp;" property="submittedBy" sortable="true" sortProperty="<%=DisplayTagSortProperty.SUBMITTED_BY.toString()%>"/>

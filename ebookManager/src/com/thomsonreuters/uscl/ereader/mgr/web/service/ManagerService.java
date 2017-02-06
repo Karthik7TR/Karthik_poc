@@ -2,8 +2,10 @@ package com.thomsonreuters.uscl.ereader.mgr.web.service;
 
 import java.net.InetSocketAddress;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.JobExecution;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
@@ -19,10 +21,10 @@ public interface ManagerService {
 	
 	/**
 	 * Returns the job execution for a job that is running with the specified id.
-	 * @param bookDefinitionId id of the book definition 
+	 * @param book book definition 
 	 * @return the job execution of the matching job, or null if none found
 	 */
-	public JobExecution findRunningJob(long bookDefinitionId);
+	public JobExecution findRunningJob(@NotNull BookDefinition book);
 	
 	/**
 	 * 

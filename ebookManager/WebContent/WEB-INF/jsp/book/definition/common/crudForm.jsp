@@ -272,6 +272,7 @@
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="sourceType" value="<%= SourceType.TOC.toString() %>" />TOC
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="sourceType" value="<%= SourceType.NORT.toString() %>" />NORT
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="sourceType" value="<%= SourceType.FILE.toString() %>" />CWB FILE
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="sourceType" value="<%= SourceType.XPP.toString() %>" />XPP
 				<div class="errorDiv">
 					<form:errors path="sourceType" cssClass="errorMessage" />
 				</div>

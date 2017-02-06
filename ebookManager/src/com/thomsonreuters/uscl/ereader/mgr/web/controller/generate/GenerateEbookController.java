@@ -133,7 +133,7 @@ public class GenerateEbookController {
 				model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
 				log.error(errMessage);
 			} else {
-				JobExecution runningJobExecution = managerService.findRunningJob(book.getEbookDefinitionId());
+				JobExecution runningJobExecution = managerService.findRunningJob(book);
 				if (runningJobExecution != null) {
 					Object[] args = { book.getFullyQualifiedTitleId(), version, runningJobExecution.getId().toString() };
 					String infoMessage = messageSourceAccessor.getMessage("mesg.job.enqueued.in.progress", args);

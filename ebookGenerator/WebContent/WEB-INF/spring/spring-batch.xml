@@ -43,7 +43,8 @@
 		  p:jobStartupThrottleService-ref="jobStartupThrottleService"
 		  p:outageProcessor-ref="outageProcessor"
 	  	  p:jobRequestService-ref="jobRequestService"
-	  	  p:springBatchTaskExecutor-ref="springBatchTaskExecutor"/>
+	  	  p:springBatchTaskExecutor-ref="springBatchTaskExecutor"
+	  	  p:jobNameProvider-ref="jobNameProvider"/>
 	  	  
 	<!-- bean class="com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.MessageQueuePoller"
 		  p:jmsClient-ref="jmsClient"

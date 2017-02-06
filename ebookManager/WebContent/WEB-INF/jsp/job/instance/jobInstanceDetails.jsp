@@ -46,6 +46,13 @@
 	<td>${jobInstanceDuration}</td>
 </tr>
 <tr>
+	<td>Source Type</td>
+	<td>${bookInfo.sourceType}</td>
+	<td>&nbsp;</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
   <c:choose>
 	<c:when test="${job.jobRestartable}">
 		<td><input type="button" value="Restart" ${operationsDisabled}

@@ -89,9 +89,12 @@
 	<tr>
 		<td>Title ID</td>
 		<td colspan="3"><a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${job.bookInfo.ebookDefinitionId}">${job.bookInfo.titleId}</a></td>
-		
 	</tr>
-		<tr>
+	<tr>
+		<td style="padding-right:40px;">Source Type</td>
+		<td colspan="3">${job.bookInfo.sourceType}</td>
+	</tr>
+	<tr>
 		<td>Submitted By</td>
 		<td colspan="3">${job.publishingStats.jobSubmitterName}</td>
 	</tr>

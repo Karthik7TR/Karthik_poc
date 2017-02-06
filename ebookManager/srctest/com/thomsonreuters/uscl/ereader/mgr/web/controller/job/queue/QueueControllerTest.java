@@ -54,7 +54,7 @@ public class QueueControllerTest {
 			int priority = (int) pk;
 			JobRequest jr = JobRequest.createQueuedJobRequest(BOOK_DEF, "ver"+pk, priority, "auser");
 			jr.setSubmittedAt(new Date(System.currentTimeMillis()-(pk*1000)));
-			jr.setPrimaryKey(pk);
+			jr.setJobRequestId(pk);
 			JOB_REQUESTS.add(jr);
 		}
 		

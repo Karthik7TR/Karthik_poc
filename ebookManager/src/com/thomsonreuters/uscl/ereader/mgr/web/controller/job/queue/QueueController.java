@@ -53,6 +53,7 @@ public class QueueController {
 		comparators.put(DisplayTagSortProperty.SUBMITTED_AT, new JobRequestComparators.SubmittedAtComparator());
 		comparators.put(DisplayTagSortProperty.SUBMITTED_BY, new JobRequestComparators.SubmittedByComparator());
 		comparators.put(DisplayTagSortProperty.TITLE_ID, new JobRequestComparators.TitleIdComparator());
+		comparators.put(DisplayTagSortProperty.SOURCE_TYPE, new JobRequestComparators.SourceTypeComparator());
 	}
 
 	@InitBinder(QueueForm.FORM_NAME)

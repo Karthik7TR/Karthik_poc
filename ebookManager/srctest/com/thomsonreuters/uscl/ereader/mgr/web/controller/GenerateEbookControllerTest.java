@@ -242,7 +242,7 @@ public class GenerateEbookControllerTest {
 		request.setParameter("isHighPriorityJob", "true");
 
 		EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
-		EasyMock.expect(mockManagerService.findRunningJob(bookDefinitionId)).andReturn(null);
+		EasyMock.expect(mockManagerService.findRunningJob(book)).andReturn(null);
 		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(bookDefinitionId)).andReturn(book);
 		EasyMock.expect(mockJobRequestService.isBookInJobRequest(bookDefinitionId)).andReturn(false);
 		EasyMock.expect(mockJobRequestService.saveQueuedJobRequest(book, "", 5, null)).andReturn(null);

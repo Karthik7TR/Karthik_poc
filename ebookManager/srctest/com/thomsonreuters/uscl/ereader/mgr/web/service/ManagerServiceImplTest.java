@@ -17,6 +17,7 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.web.client.RestTemplate;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
@@ -104,13 +105,14 @@ public class ManagerServiceImplTest {
 
 	@Test
 	public void testFindRunningJob() {
+		BookDefinition book = new BookDefinition();
 		Long bookDefinitionId = new Long(127);
 		JobExecution jobExecution = new JobExecution(bookDefinitionId);
 
-		EasyMock.expect(mockDao.findRunningJobExecution(bookDefinitionId)).andReturn(jobExecution);
+		EasyMock.expect(mockDao.findRunningJobExecution(book)).andReturn(jobExecution);
 		EasyMock.replay(mockDao);
 
-		JobExecution execution = service.findRunningJob(bookDefinitionId);
+		JobExecution execution = service.findRunningJob(book);
 		Assert.assertEquals(jobExecution, execution);
 	}
 

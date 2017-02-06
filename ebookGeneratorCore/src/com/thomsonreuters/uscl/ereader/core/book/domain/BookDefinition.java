@@ -58,7 +58,7 @@ public class BookDefinition implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	public static enum PilotBookStatus {TRUE, FALSE, IN_PROGRESS};
-	public static enum SourceType {TOC, NORT, FILE};
+	public static enum SourceType {TOC, NORT, FILE, XPP};
 
 	/**
 	 */
@@ -847,10 +847,12 @@ public class BookDefinition implements Serializable {
 		if(StringUtils.isBlank(this.sourceType)) {
 			return SourceType.TOC;
 		} else {
-			if(this.sourceType.equalsIgnoreCase("NORT")) {
+			if (this.sourceType.equalsIgnoreCase("NORT")) {
 				return SourceType.NORT;
-			} else if(this.sourceType.equalsIgnoreCase("FILE")) {
+			} else if (this.sourceType.equalsIgnoreCase("FILE")) {
 				return SourceType.FILE;
+			} else if (this.sourceType.equalsIgnoreCase("XPP")) {
+				return SourceType.XPP;
 			} else {
 				return SourceType.TOC;
 			}
@@ -864,6 +866,9 @@ public class BookDefinition implements Serializable {
 				break;
 			case FILE:
 				this.sourceType = "FILE";
+				break;
+			case XPP:
+				this.sourceType = "XPP";
 				break;
 			default:
 				this.sourceType = "TOC";

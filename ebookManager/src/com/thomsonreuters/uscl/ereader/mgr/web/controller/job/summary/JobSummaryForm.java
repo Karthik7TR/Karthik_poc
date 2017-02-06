@@ -8,7 +8,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 public class JobSummaryForm {
 	
 	public static final String FORM_NAME = "jobSummaryForm";
-	public enum DisplayTagSortProperty { TITLE_ID, BOOK_NAME, START_TIME, BATCH_STATUS, SUBMITTED_BY, JOB_INSTANCE_ID, JOB_EXECUTION_ID }
+	public enum DisplayTagSortProperty { TITLE_ID, BOOK_NAME, SOURCE_TYPE, START_TIME, BATCH_STATUS, SUBMITTED_BY, JOB_INSTANCE_ID, JOB_EXECUTION_ID }
 	public enum JobCommand { STOP_JOB, RESTART_JOB };
 	
 	private JobCommand command;

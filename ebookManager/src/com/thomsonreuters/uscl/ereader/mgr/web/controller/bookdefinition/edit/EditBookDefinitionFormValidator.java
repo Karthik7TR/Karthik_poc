@@ -116,17 +116,23 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTocLabel", "error.required");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle.bookNameText", "error.required");
 
-			if(form.getSourceType().equals(SourceType.TOC)) {
+			switch (form.getSourceType()) {
+			case TOC:
 				checkGuidFormat(errors, form.getRootTocGuid(), "rootTocGuid");
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "rootTocGuid", "error.required");
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tocCollectionName", "error.required");
-			} else if(form.getSourceType().equals(SourceType.NORT)) {
+				break;
+			case NORT:
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortDomain", "error.required");
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nortFilterView", "error.required");
-			} else {
-				checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getCodesWorkbenchBookName(), "codesWorkbenchBookName", new Object[] {"CWB Book Name", MAXIMUM_CHARACTER_1024});
+				break;
+			case FILE:
+				checkMaxLength(errors, MAXIMUM_CHARACTER_1024, form.getCodesWorkbenchBookName(),
+						"codesWorkbenchBookName", new Object[] { "CWB Book Name", MAXIMUM_CHARACTER_1024 });
 				validateNortFileLocations(form, errors);
-				
+				break;
+			case XPP:
+				break;
 			}
 			
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "isbn", "error.required");

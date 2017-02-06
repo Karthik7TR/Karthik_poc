@@ -52,7 +52,7 @@ public class JobRequestServiceImpl implements JobRequestService {
 		// Delete the job just picked up otherwise we can have two different pollers pick up the same job from the table
 		// causing the same job to be launched twice.
 		if (jobRequest != null) {
-			jobRequestDao.deleteJobRequest(jobRequest.getPrimaryKey());
+			jobRequestDao.deleteJobRequest(jobRequest.getJobRequestId());
 		}
 		return jobRequest;
 	}

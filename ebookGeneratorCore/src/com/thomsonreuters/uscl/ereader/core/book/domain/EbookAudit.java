@@ -1270,6 +1270,8 @@ public class EbookAudit implements Serializable {
 				return SourceType.NORT;
 			} else if(this.sourceType.equalsIgnoreCase("FILE")) {
 				return SourceType.FILE;
+			} else if(this.sourceType.equalsIgnoreCase("XPP")) {
+				return SourceType.XPP;
 			} else {
 				return SourceType.TOC;
 			}
@@ -1283,6 +1285,9 @@ public class EbookAudit implements Serializable {
 				break;
 			case FILE:
 				this.sourceType = "FILE";
+				break;
+			case XPP:
+				this.sourceType = "XPP";
 				break;
 			default:
 				this.sourceType = "TOC";

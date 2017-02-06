@@ -329,7 +329,7 @@ a:hover {
 
 
 .bookDefinitionCRUD .centerSection {
-	width:61.3em;
+	width:65.3em;
 }
 
 .bookDefinitionView .centerSection {
@@ -355,7 +355,7 @@ a:hover {
  }
 .bookDefinitionCRUD .leftDefinitionForm,
 .bookDefinitionCRUD .rightDefinitionForm {
-	width: 480px;
+	width: 520px;
 	vertical-align: top;
 }
 

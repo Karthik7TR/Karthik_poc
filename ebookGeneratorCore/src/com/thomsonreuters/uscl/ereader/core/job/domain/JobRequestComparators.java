@@ -29,6 +29,11 @@ public class JobRequestComparators {
 			return JobRequestComparators.compareStrings(job1.getBookDefinition().getTitleId(), job2.getBookDefinition().getTitleId());
 		}
 	}
+	public static class SourceTypeComparator implements Comparator<JobRequest> {
+		public int compare(JobRequest job1, JobRequest job2) {
+			return JobRequestComparators.compareStrings(job1.getBookDefinition().getSourceType().toString(), job2.getBookDefinition().getSourceType().toString());
+		}
+	}
 	public static class BookVersionComparator implements Comparator<JobRequest> {
 		public int compare(JobRequest job1, JobRequest job2) {
 			return JobRequestComparators.compareStrings(job1.getBookVersion(), job2.getBookVersion());

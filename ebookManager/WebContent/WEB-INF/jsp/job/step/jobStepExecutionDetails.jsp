@@ -45,7 +45,10 @@
 <tr>
 	<td>Title ID</td>
 	<td colspan="3">${bookInfo.titleId}</td>
-
+</tr>
+<tr>
+	<td>Source Type</td>
+	<td colspan="3">${bookInfo.sourceType}</td>
 </tr>
 <tr>
 	<td>Job Instance</td>

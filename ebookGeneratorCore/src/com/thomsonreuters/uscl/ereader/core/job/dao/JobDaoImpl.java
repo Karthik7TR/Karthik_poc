@@ -42,10 +42,9 @@ public class JobDaoImpl implements JobDao {
 
 	@Override
 	public List<JobSummary> findJobSummary(List<Long> jobExecutionIds) {
-
-		List<JobSummary> list = new ArrayList<JobSummary>(jobExecutionIds.size());
+		List<JobSummary> list = new ArrayList<>(jobExecutionIds.size());
 		for (long jobExecutionId : jobExecutionIds) {
-			StringBuffer sql = new StringBuffer("select auditTable.EBOOK_DEFINITION_ID, auditTable.PROVIEW_DISPLAY_NAME, auditTable.TITLE_ID, execution.JOB_INSTANCE_ID, ");
+			StringBuilder sql = new StringBuilder("select auditTable.EBOOK_DEFINITION_ID, auditTable.PROVIEW_DISPLAY_NAME, auditTable.SOURCE_TYPE, auditTable.TITLE_ID, execution.JOB_INSTANCE_ID, ");
 			sql.append("execution.JOB_EXECUTION_ID, execution.STATUS, execution.START_TIME, execution.END_TIME, stats.JOB_SUBMITTER_NAME from \n ");
 			sql.append("BATCH_JOB_EXECUTION execution, PUBLISHING_STATS stats, EBOOK_AUDIT auditTable ");
 			sql.append("where ");
@@ -54,7 +53,7 @@ public class JobDaoImpl implements JobDao {
 			sql.append("(stats.AUDIT_ID = auditTable.AUDIT_ID(+))");
 //			sql.append("(auditTable.PROVIEW_DISPLAY_NAME is not null)");  // Do not fetch rows that appear to be garbage
 			List<JobSummary> rows = jdbcTemplate.query(sql.toString(), JOB_SUMMARY_ROW_MAPPER);
-			if (rows.size() == 0) {
+			if (rows.isEmpty()) {
 				log.debug(String.format("Job Execution ID %d was not found", jobExecutionId));
 			} else if (rows.size() == 1) {
 				JobSummary summary = rows.get(0);
@@ -188,6 +187,8 @@ public class JobDaoImpl implements JobDao {
 				return "auditTable.PROVIEW_DISPLAY_NAME";
 			case TITLE_ID:
 				return "auditTable.TITLE_ID";
+			case SOURCE_TYPE:
+				return "auditTable.SOURCE_TYPE";
 			case SUBMITTED_BY:
 				return "stats.JOB_SUBMITTER_NAME";
 			default:
@@ -206,13 +207,14 @@ class JobSummaryRowMapper implements RowMapper<JobSummary> {
 		Long bookDefinitionId = resultSet.getLong("EBOOK_DEFINITION_ID");
 		String bookName = resultSet.getString("PROVIEW_DISPLAY_NAME");
 		String titleId = resultSet.getString("TITLE_ID");
+		String sourceType = resultSet.getString("SOURCE_TYPE");
 		Long jobExecutionId = resultSet.getLong("JOB_EXECUTION_ID");
 		Long jobInstanceId = resultSet.getLong("JOB_INSTANCE_ID");
 		BatchStatus batchStatus = BatchStatus.valueOf(resultSet.getString("STATUS"));
 		String submittedBy = resultSet.getString("JOB_SUBMITTER_NAME");	// Username of user who started the job
 		Date startTime = resultSet.getTimestamp("START_TIME");
 		Date endTime = resultSet.getTimestamp("END_TIME");
-		JobSummary js = new JobSummary(bookDefinitionId, bookName, titleId, jobInstanceId, jobExecutionId, batchStatus,
+		JobSummary js = new JobSummary(bookDefinitionId, bookName, titleId, sourceType, jobInstanceId, jobExecutionId, batchStatus,
 										submittedBy, startTime, endTime);
 		return js;
 	}

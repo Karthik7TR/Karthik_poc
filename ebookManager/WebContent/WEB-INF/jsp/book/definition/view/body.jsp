@@ -78,8 +78,14 @@ function submitForm(cmd)
 							<c:when test="${ book.sourceType == 'NORT' }">
 							NORT
 							</c:when>
-							<c:otherwise>
+							<c:when test="${ book.sourceType == 'FILE' }">
 							CWB File
+							</c:when>
+							<c:when test="${ book.sourceType == 'XPP' }">
+							XPP
+							</c:when>
+							<c:otherwise>
+							Unknown
 							</c:otherwise>
 							</c:choose>
 						</span>

@@ -15,6 +15,7 @@ public class JobSummary {
 	private Long bookDefinitionId;
 	private String bookName;
 	private String titleId;
+	private String sourceType;
 	private Long jobInstanceId;
 	private Long jobExecutionId;
 	private BatchStatus batchStatus;
@@ -22,11 +23,12 @@ public class JobSummary {
 	private Date startTime;
 	private Date endTime;
 
-	public JobSummary(Long bookDefinitionId, String bookName, String titleId, Long jobInstanceId,
+	public JobSummary(Long bookDefinitionId, String bookName, String titleId, String sourceType, Long jobInstanceId,
 					  Long jobExecutionId, BatchStatus batchStatus, String submittedBy, Date startTime, Date endTime) {
 		this.bookDefinitionId = bookDefinitionId;
 		this.bookName = bookName;
 		this.titleId = titleId;
+		this.sourceType = sourceType;
 		this.jobInstanceId = jobInstanceId;
 		this.jobExecutionId = jobExecutionId;
 		this.batchStatus = batchStatus;
@@ -58,6 +60,14 @@ public class JobSummary {
 	public Date getEndTime() {
 		return endTime;
 	}
+	
+	public String getSourceType() {
+		return sourceType;
+	}
+	public void setSourceType(String sourceType) {
+		this.sourceType = sourceType;
+	}
+	
 	public String getDuration() {
 		return JobSummary.getExecutionDuration(getExecutionDuration());
 	}
@@ -103,6 +113,8 @@ public class JobSummary {
 	public String getSubmittedBy() {
 		return submittedBy;
 	}
+	
+	@Override
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}

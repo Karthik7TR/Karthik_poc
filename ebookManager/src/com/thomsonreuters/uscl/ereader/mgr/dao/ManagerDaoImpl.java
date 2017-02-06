@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.explore.JobExplorer;
@@ -25,21 +26,24 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.job.service.JobNameProvider;
 
 public class ManagerDaoImpl implements ManagerDao {
 	private static final Logger log = LogManager.getLogger(ManagerDaoImpl.class);
 	private SessionFactory sessionFactory;
 	private JdbcTemplate jdbcTemplate;
 	private JobExplorer jobExplorer;
+	private JobNameProvider jobNameProvider;
 
 	@Override
-	public JobExecution findRunningJobExecution(Long bookDefinitionId) {
-		Set<JobExecution> runningJobs = jobExplorer.findRunningJobExecutions(JobRequest.JOB_NAME_CREATE_EBOOK);
+	public JobExecution findRunningJobExecution(@NotNull BookDefinition book) {
+		String jobName = jobNameProvider.getJobName(book);
+		Set<JobExecution> runningJobs = jobExplorer.findRunningJobExecutions(jobName);
 		for (JobExecution jobExec : runningJobs) {
 			JobParameters params = jobExec.getJobParameters();
 			Long bookDefIdParamValue = params.getLong(JobParameterKey.BOOK_DEFINITION_ID);
-			if (bookDefinitionId.equals(bookDefIdParamValue)) {
+			if (book.getEbookDefinitionId().equals(bookDefIdParamValue)) {
 				return jobExec;
 			}
 		}
@@ -296,5 +300,10 @@ public class ManagerDaoImpl implements ManagerDao {
 	@Required
 	public void setJobExplorer(JobExplorer explorer) {
 		this.jobExplorer = explorer;
+	}
+	
+	@Required
+	public void setJobNameProvider(JobNameProvider jobNameProvider) {
+		this.jobNameProvider = jobNameProvider;
 	}
 }

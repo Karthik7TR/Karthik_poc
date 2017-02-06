@@ -13,7 +13,7 @@ public class QueueForm {
 	
 	public static final String FORM_NAME = "queueForm";
 	/** Sortable columns on the Job Queue page */
-	public enum DisplayTagSortProperty { BOOK_NAME, TITLE_ID, BOOK_VERSION, PRIORITY, SUBMITTED_BY, SUBMITTED_AT };
+	public enum DisplayTagSortProperty { BOOK_NAME, TITLE_ID, SOURCE_TYPE, BOOK_VERSION, PRIORITY, SUBMITTED_BY, SUBMITTED_AT };
 	
 	private Long[] 	ids;
 	private PageAndSort<DisplayTagSortProperty> pageAndSort = new PageAndSort<DisplayTagSortProperty>();	// sort, page, dir, objectsPerPage

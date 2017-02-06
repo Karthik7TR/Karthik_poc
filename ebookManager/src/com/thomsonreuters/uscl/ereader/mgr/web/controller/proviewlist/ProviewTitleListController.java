@@ -438,7 +438,7 @@ public class ProviewTitleListController {
 			}
 
 			else {
-				JobExecution runningJobExecution = managerService.findRunningJob(book.getEbookDefinitionId());
+				JobExecution runningJobExecution = managerService.findRunningJob(book);
 
 				if (runningJobExecution != null) {
 					Object[] args = { book.getFullyQualifiedTitleId(), version,
