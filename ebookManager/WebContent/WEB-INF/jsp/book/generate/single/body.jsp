@@ -128,6 +128,10 @@
 			alert("Cannot generate book: Current ISBN " + isbn + " has already been used to publish a book. ISBN must be changed for major version.");
 		  	confirmed= false;
 	  	}
+	  } else {
+		if (isNewISBN != "N") {
+			confirmed = confirm("You are running a MINOR version with a new ISBN number\n" + isbn + "\nAre you sure this is not a MAJOR version? Do you still want to continue?");
+		}
 	  }
 	  if (confirmed){
 		  confirmed = confirm("Generate with ISBN: " + isbn);
