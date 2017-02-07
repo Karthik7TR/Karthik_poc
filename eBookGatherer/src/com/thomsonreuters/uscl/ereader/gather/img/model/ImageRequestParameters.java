@@ -1,38 +1,40 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
 package com.thomsonreuters.uscl.ereader.gather.img.model;
 
 import java.io.File;
 
-public class ImageRequestParameters {
-	private File docToImageManifestFile;
-	private File dynamicImageDirectory;
-	private boolean isFinalStage;
-	
-	public File getDocToImageManifestFile() {
-		return docToImageManifestFile;
-	}
-	
-	public void setDocToImageManifestFile(File docToImageManifestFile) {
-		this.docToImageManifestFile = docToImageManifestFile;
-	}
+public class ImageRequestParameters
+{
+    private File docToImageManifestFile;
+    private File dynamicImageDirectory;
+    private boolean isFinalStage;
 
-	public File getDynamicImageDirectory() {
-		return dynamicImageDirectory;
-	}
+    public File getDocToImageManifestFile()
+    {
+        return docToImageManifestFile;
+    }
 
-	public void setDynamicImageDirectory(File dynamicImageDirectory) {
-		this.dynamicImageDirectory = dynamicImageDirectory;
-	}
+    public void setDocToImageManifestFile(final File docToImageManifestFile)
+    {
+        this.docToImageManifestFile = docToImageManifestFile;
+    }
 
-	public boolean isFinalStage() {
-		return isFinalStage;
-	}
+    public File getDynamicImageDirectory()
+    {
+        return dynamicImageDirectory;
+    }
 
-	public void setFinalStage(boolean isFinalStage) {
-		this.isFinalStage = isFinalStage;
-	}
+    public void setDynamicImageDirectory(final File dynamicImageDirectory)
+    {
+        this.dynamicImageDirectory = dynamicImageDirectory;
+    }
+
+    public boolean isFinalStage()
+    {
+        return isFinalStage;
+    }
+
+    public void setFinalStage(final boolean isFinalStage)
+    {
+        this.isFinalStage = isFinalStage;
+    }
 }

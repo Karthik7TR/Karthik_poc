@@ -5,10 +5,6 @@
  */
 package com.thomsonreuters.uscl.ereader;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-
 import com.thomsonreuters.uscl.ereader.gather.controller.DocControllerTest;
 import com.thomsonreuters.uscl.ereader.gather.controller.HomeControllerTest;
 import com.thomsonreuters.uscl.ereader.gather.controller.NortControllerTest;
@@ -17,19 +13,22 @@ import com.thomsonreuters.uscl.ereader.gather.parser.NortLabelParserTest;
 import com.thomsonreuters.uscl.ereader.gather.services.DocServiceTest;
 import com.thomsonreuters.uscl.ereader.gather.services.NortServiceTest;
 import com.thomsonreuters.uscl.ereader.gather.services.TocServiceTest;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses( {
-			DocControllerTest.class,
-			DocServiceTest.class,
-			TocControllerTest.class,
-			TocServiceTest.class,
-			NortControllerTest.class,
-			NortServiceTest.class,
-			HomeControllerTest.class,
-			NortLabelParserTest.class
-		} )
+@SuiteClasses({
+    DocControllerTest.class,
+    DocServiceTest.class,
+    TocControllerTest.class,
+    TocServiceTest.class,
+    NortControllerTest.class,
+    NortServiceTest.class,
+    HomeControllerTest.class,
+    NortLabelParserTest.class})
 
-public class GathererTestSuite {
-
+public class GathererTestSuite
+{
+    //Intentionally left blank
 }
