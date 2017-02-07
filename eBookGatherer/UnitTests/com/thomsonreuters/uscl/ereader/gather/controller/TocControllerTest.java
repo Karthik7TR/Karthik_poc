@@ -19,7 +19,7 @@ import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
-public class TocControllerTest
+public final class TocControllerTest
 {
     //private static Logger log = LogManager.getLogger(TocControllerTest.class);
     private TocService mockTocService;

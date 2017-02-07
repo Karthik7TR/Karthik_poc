@@ -55,12 +55,12 @@ public class NortServiceImpl implements NortService
     private static final int NODECOUNT = 1;
     private static final int SKIPCOUNT = 2;
     private static final int RETRYCOUNT = 3;
-    List<String> splitTocGuidList = null;
-    private static int splitTocCount = 0;
+    private List<String> splitTocGuidList;
+    private static int splitTocCount;
     private int thresholdValue;
-    private boolean findSplitsAgain = false;
-    private List<String> tocGuidList = null;
-    private List<String> duplicateTocGuids = null;
+    private boolean findSplitsAgain;
+    private List<String> tocGuidList;
+    private List<String> duplicateTocGuids;
 
     private NovusUtility novusUtility;
 
@@ -114,7 +114,7 @@ public class NortServiceImpl implements NortService
             // This is the counter for checking how many Novus retries we
             // are making
             Integer novusNortRetryCounter = 0;
-            nortRetryCount = new Integer(novusUtility.getTocRetryCount());
+            nortRetryCount = Integer.valueOf(novusUtility.getTocRetryCount());
             while (novusNortRetryCounter < nortRetryCount)
             {
                 try
@@ -155,7 +155,7 @@ public class NortServiceImpl implements NortService
                 throw ge;
             }
             counters[RETRYCOUNT] += novusNortRetryCounter;
-            final Map<String, String> tocGuidDateMap = new HashMap<String, String>();
+            final Map<String, String> tocGuidDateMap = new HashMap<>();
             printNodes(
                 nortNodes,
                 _nortManager,
@@ -200,7 +200,7 @@ public class NortServiceImpl implements NortService
         {
             try
             {
-                final List<Boolean> documentsFound = new ArrayList<Boolean>();
+                final List<Boolean> documentsFound = new ArrayList<>();
                 for (final NortNode node : nodes)
                 {
                     documentsFound.add(
@@ -227,7 +227,7 @@ public class NortServiceImpl implements NortService
 
                 if (iParent[0] > 0)
                 {
-                    if (docFound == false)
+                    if (!docFound)
                     {
                         out.write("<MissingDocument></MissingDocument>");
                     }
@@ -392,7 +392,7 @@ public class NortServiceImpl implements NortService
                     //
                     // }
                     // }
-                    if (bAncestorFound == false)
+                    if (!bAncestorFound)
                     {
                         name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT)
                             .append(EBConstants.TOC_START_NAME_ELEMENT)
@@ -425,7 +425,7 @@ public class NortServiceImpl implements NortService
                     //
                     // }
                     // }
-                    if (bAncestorFound == false)
+                    if (!bAncestorFound)
                     {
                         final String endDateFinal = formatterFinal.format(date);
 
@@ -459,7 +459,7 @@ public class NortServiceImpl implements NortService
 
                 if (node.getChildrenCount() == 0)
                 {
-                    if (docFound == false)
+                    if (!docFound)
                     {
                         docGuid.append("<MissingDocument></MissingDocument>");
                         docFound = true;
@@ -529,7 +529,7 @@ public class NortServiceImpl implements NortService
 
             NortNode[] nortNodes = null;
             Integer novusNortRetryCounter = 0;
-            nortRetryCount = new Integer(novusUtility.getTocRetryCount());
+            nortRetryCount = Integer.valueOf(novusUtility.getTocRetryCount());
             while (novusNortRetryCounter < nortRetryCount)
             {
                 try
@@ -644,8 +644,8 @@ public class NortServiceImpl implements NortService
 
         this.splitTocGuidList = splitTocGuidList;
 
-        tocGuidList = new ArrayList<String>();
-        duplicateTocGuids = new ArrayList<String>();
+        tocGuidList = new ArrayList<>();
+        duplicateTocGuids = new ArrayList<>();
 
         this.thresholdValue = thresholdValue;
 
@@ -653,7 +653,7 @@ public class NortServiceImpl implements NortService
         if (excludeDocuments != null)
         {
             copyExcludDocs =
-                new ArrayList<ExcludeDocument>(Arrays.asList(new ExcludeDocument[excludeDocuments.size()]));
+                new ArrayList<>(Arrays.asList(new ExcludeDocument[excludeDocuments.size()]));
         }
 
         List<RenameTocEntry> copyRenameTocs = null;
@@ -661,7 +661,7 @@ public class NortServiceImpl implements NortService
         // Make a copy of the original rename toc entries to check that all have been accounted for
         if (renameTocEntries != null)
         {
-            copyRenameTocs = new ArrayList<RenameTocEntry>(Arrays.asList(new RenameTocEntry[renameTocEntries.size()]));
+            copyRenameTocs = new ArrayList<>(Arrays.asList(new RenameTocEntry[renameTocEntries.size()]));
         }
 
         try
@@ -677,7 +677,7 @@ public class NortServiceImpl implements NortService
             }
 
             // TODO: fix after Test1 testing.
-            String YYYYMMDDHHmmss;
+            final String YYYYMMDDHHmmss;
             if (cutoffDate == null)
             {
                 YYYYMMDDHHmmss = formatter.format(date);

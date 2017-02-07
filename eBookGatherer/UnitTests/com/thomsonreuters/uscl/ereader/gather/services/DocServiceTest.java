@@ -16,7 +16,7 @@ import com.westgroup.novus.productapi.Document;
 import com.westgroup.novus.productapi.Find;
 import com.westgroup.novus.productapi.Novus;
 
-public class DocServiceTest
+public final class DocServiceTest
 {
     private static final String COLLECTION_NAME = "w_an_rcc_cajur_toc";
     private static final String GUID = "I8A302FE4920F47B00079B5381C71638B";
@@ -84,7 +84,7 @@ public class DocServiceTest
             contentDir.mkdirs();
             metadataDir.mkdirs();
 
-            final List<String> guids = new ArrayList<String>();
+            final List<String> guids = new ArrayList<>();
             guids.add(GUID);
             docService
                 .fetchDocuments(guids, COLLECTION_NAME, contentDir, metadataDir, IS_FINAL_STAGE, USE_RELOAD_CONTENT);

@@ -25,17 +25,17 @@ import com.westgroup.novus.productapi.Novus;
 /**
  * @deprecated Should be removed after related integration test will be fixed
  */
-public class NovusImgServiceTest
+public final class NovusImgServiceTest
 {
     @Rule
     public TemporaryFolder tempDirectory = new TemporaryFolder();
 
-    NovusUtility novusUtility;
-    NovusImgServiceImpl novusImgService;
-    Map<String, String> imgDocGuidMap;
+    private NovusUtility novusUtility;
+    private NovusImgServiceImpl novusImgService;
+    private Map<String, String> imgDocGuidMap;
     private static boolean IS_FINAL_STAGE = true;
 
-    File temporaryDirectory;
+    private File temporaryDirectory;
     private NovusFactory mockNovusFactory;
     private Novus mockNovus;
     private Find mockFinder;
@@ -58,7 +58,7 @@ public class NovusImgServiceTest
         novusImgService.setNovusUtility(novusUtility);
         tempDirectory.create();
         temporaryDirectory = tempDirectory.newFolder("temp");
-        imgDocGuidMap = new HashMap<String, String>();
+        imgDocGuidMap = new HashMap<>();
         novusImgService.setMissingImageGuidsFileBasename("missing_doc.txt");
     }
 

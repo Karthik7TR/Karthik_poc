@@ -21,7 +21,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 import org.junit.rules.TestName;
 
-public class TiffImageConverterImplTest
+public final class TiffImageConverterImplTest
 {
     private static final String INCORRECT_PATH = "\\***\\\\\\\\\\\\";
     private static final String PNG_EXTENSION = ".png";

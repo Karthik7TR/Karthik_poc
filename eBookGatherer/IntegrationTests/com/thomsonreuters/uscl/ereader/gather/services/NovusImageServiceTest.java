@@ -11,21 +11,21 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 //TODO Re implement with new com.thomsonreuters.uscl.ereader.gather.img.service.NovusImageService
-public class NovusImageServiceTest
+public final class NovusImageServiceTest
 {
     private static final boolean IS_FINAL_STAGE = true;
-    Map<String, String> imgDocGuidMap;
+    private Map<String, String> imgDocGuidMap;
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
-    NovusImgServiceImpl novusImgService;
+    private NovusImgServiceImpl novusImgService;
 
     @Before
     public void setUp()
     {
         // The object under test
         novusImgService = new NovusImgServiceImpl();
-        imgDocGuidMap = new HashMap<String, String>();
+        imgDocGuidMap = new HashMap<>();
         final NovusFactoryImpl novusFactory = new NovusFactoryImpl();
         novusFactory.setBusinessUnit("WestCobalt");
         novusFactory.setNovusEnvironment(NovusEnvironment.Client);
@@ -45,7 +45,7 @@ public class NovusImageServiceTest
     }
 
     @Test
-    public void testFetchImgsFromNovus() throws Exception
+    public void testFetchImgsFromNovus()
     {
         /*
         File workDir = temporaryFolder.getRoot();

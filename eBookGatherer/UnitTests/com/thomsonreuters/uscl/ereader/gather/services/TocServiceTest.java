@@ -2,12 +2,7 @@ package com.thomsonreuters.uscl.ereader.gather.services;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +26,7 @@ import com.westgroup.novus.productapi.Novus;
 import com.westgroup.novus.productapi.TOC;
 import com.westgroup.novus.productapi.TOCNode;
 
-public class TocServiceTest
+public final class TocServiceTest
 {
     private static final String COLLECTION_NAME = "w_an_rcc_cajur_toc";
     private static final String TOC_GUID = "I7b3ec600675a11da90ebf04471783734";
@@ -42,7 +37,7 @@ public class TocServiceTest
     private TOCNode mockTocRootNode;
     private TOCNode mockTocNode;
     private TocServiceImpl tocService;
-    private File tocDir = null;
+    private File tocDir;
     private static Logger LOG = LogManager.getLogger(TocServiceTest.class);
     private NovusUtility mockNovusUtility;
     private ExcludeDocument mockExcludeDocument;
@@ -118,7 +113,7 @@ public class TocServiceTest
             // Temporary file will clean up after itself.
         }
 
-        final String tocFileContents = readFileAsString(tocFile);
+        final String tocFileContents = FileUtils.readFileToString(tocFile);
         LOG.debug("tocFileContents =" + tocFileContents);
         assertTrue(tocFileContents != null);
 
@@ -258,7 +253,7 @@ public class TocServiceTest
         assertTrue(gatherResponse.getDocCount() == 4);
         assertTrue(gatherResponse.getNodeCount() == 7);
 
-        final String tocFileContents = readFileAsString(tocFile);
+        final String tocFileContents = FileUtils.readFileToString(tocFile);
         LOG.debug("tocFileContents =" + tocFileContents);
         assertTrue(tocFileContents != null);
 
@@ -337,7 +332,7 @@ public class TocServiceTest
      */
     private List<TOCNode> getChildNodes(final int maxChildren, final char prefix, final int skipDoc) throws Exception
     {
-        final List<TOCNode> childNodes = new ArrayList<TOCNode>();
+        final List<TOCNode> childNodes = new ArrayList<>();
 
         for (int i = 0; i < maxChildren; i++)
         {
@@ -412,7 +407,7 @@ public class TocServiceTest
         EasyMock.replay(mockNovusUtility);
         try
         {
-            final List<ExcludeDocument> excludeDocuments = new ArrayList<ExcludeDocument>();
+            final List<ExcludeDocument> excludeDocuments = new ArrayList<>();
             mockExcludeDocument.setDocumentGuid("UUID_1a");
             excludeDocuments.add(mockExcludeDocument);
             gatherResponse = tocService.findTableOfContents(
@@ -438,7 +433,7 @@ public class TocServiceTest
         assertTrue(gatherResponse.getDocCount() == 3);
         assertTrue(gatherResponse.getNodeCount() == 7);
 
-        final String tocFileContents = readFileAsString(tocFile);
+        final String tocFileContents = FileUtils.readFileToString(tocFile);
         LOG.debug("tocFileContents =" + tocFileContents);
         assertTrue(tocFileContents != null);
 
@@ -470,42 +465,9 @@ public class TocServiceTest
         EasyMock.verify(mockToc);
     }
 
-    /**
-     * Reads specified file and returns in string format.this is a helper method.
-     * @param filePath
-     * @return
-     * @throws java.io.IOException
-     */
-    private static String readFileAsString(final File filePath) throws Exception
-    {
-        final StringBuffer buffer = new StringBuffer();
-        final FileInputStream fis = new FileInputStream(filePath);
-        try
-        {
-            final InputStreamReader isr = new InputStreamReader(fis, "UTF8");
-            final Reader in = new BufferedReader(isr);
-            int ch;
-            while ((ch = in.read()) > -1)
-            {
-                buffer.append((char) ch);
-            }
-            in.close();
-            return buffer.toString();
-        }
-        catch (final IOException e)
-        {
-            e.printStackTrace();
-            return null;
-        }
-        finally
-        {
-            fis.close();
-        }
-    }
-
     private List<TOCNode> getChildNodeswithDuplicateToc(final int maxChildren, final char prefix, final int skipDoc) throws Exception
     {
-        final List<TOCNode> childNodes = new ArrayList<TOCNode>();
+        final List<TOCNode> childNodes = new ArrayList<>();
 
         for (int i = 0; i < maxChildren; i++)
         {
@@ -546,7 +508,7 @@ public class TocServiceTest
 
         System.out.println("tocFile " + tocFile.getAbsolutePath());
 
-        final List<String> splitTocGuidList = new ArrayList<String>();
+        final List<String> splitTocGuidList = new ArrayList<>();
         final String guid1 = "TABLEOFCONTENTS33CHARACTERSLONG_2";
         splitTocGuidList.add(guid1);
 
@@ -609,7 +571,7 @@ public class TocServiceTest
 
         Assert.assertEquals(1, tocService.getDuplicateTocGuids().size());
 
-        final String tocFileContents = readFileAsString(tocFile);
+        final String tocFileContents = FileUtils.readFileToString(tocFile);
         LOG.debug("tocFileContents =" + tocFileContents);
         assertTrue(tocFileContents != null);
 

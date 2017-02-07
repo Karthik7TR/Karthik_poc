@@ -48,12 +48,12 @@ public class TocServiceImpl implements TocService
 
     private Integer tocRetryCount;
 
-    List<String> splitTocGuidList = null;
-    private static int splitTocCount = 0;
+    private List<String> splitTocGuidList;
+    private static int splitTocCount;
     private int thresholdValue;
-    private boolean findSplitsAgain = false;
-    private List<String> tocGuidList = null;
-    private List<String> duplicateTocGuids = null;
+    private boolean findSplitsAgain;
+    private List<String> tocGuidList;
+    private List<String> duplicateTocGuids;
 
     public List<String> getDuplicateTocGuids()
     {
@@ -106,7 +106,7 @@ public class TocServiceImpl implements TocService
             // This is the counter for checking how many Novus retries we
             // are making
             Integer novusTocRetryCounter = 0;
-            tocRetryCount = new Integer(novusUtility.getTocRetryCount());
+            tocRetryCount = Integer.valueOf(novusUtility.getTocRetryCount());
             while (novusTocRetryCounter < tocRetryCount)
             {
                 try
@@ -194,7 +194,7 @@ public class TocServiceImpl implements TocService
         {
             try
             {
-                final List<Boolean> documentsFound = new ArrayList<Boolean>();
+                final List<Boolean> documentsFound = new ArrayList<>();
                 for (final TOCNode node : nodes)
                 {
                     documentsFound.add(
@@ -216,7 +216,7 @@ public class TocServiceImpl implements TocService
 
                 if (iParent[0] > 0)
                 {
-                    if (docFound == false)
+                    if (!docFound)
                     {
                         out.write("<MissingDocument></MissingDocument>");
                     }
@@ -336,7 +336,7 @@ public class TocServiceImpl implements TocService
 
                 if (node.getChildrenCount() == 0)
                 {
-                    if (docFound == false)
+                    if (!docFound)
                     {
                         docGuid.append("<MissingDocument></MissingDocument>");
                         docFound = true;
@@ -412,7 +412,7 @@ public class TocServiceImpl implements TocService
                 // This is the counter for checking how many Novus retries we
                 // are making
                 Integer novusTocRetryCounter = 0;
-                tocRetryCount = new Integer(novusUtility.getTocRetryCount());
+                tocRetryCount = Integer.valueOf(novusUtility.getTocRetryCount());
                 while (novusTocRetryCounter < tocRetryCount)
                 {
                     try
@@ -529,8 +529,8 @@ public class TocServiceImpl implements TocService
 
         this.splitTocGuidList = splitTocGuidList;
 
-        tocGuidList = new ArrayList<String>();
-        duplicateTocGuids = new ArrayList<String>();
+        tocGuidList = new ArrayList<>();
+        duplicateTocGuids = new ArrayList<>();
 
         this.thresholdValue = thresholdValue;
 
@@ -538,7 +538,7 @@ public class TocServiceImpl implements TocService
         if (excludeDocuments != null)
         {
             copyExcludDocs =
-                new ArrayList<ExcludeDocument>(Arrays.asList(new ExcludeDocument[excludeDocuments.size()]));
+                new ArrayList<>(Arrays.asList(new ExcludeDocument[excludeDocuments.size()]));
         }
 
         List<RenameTocEntry> copyRenameTocs = null;
@@ -546,7 +546,7 @@ public class TocServiceImpl implements TocService
         // Make a copy of the original rename TOC entries to check that all have been accounted for
         if (renameTocEntries != null)
         {
-            copyRenameTocs = new ArrayList<RenameTocEntry>(Arrays.asList(new RenameTocEntry[renameTocEntries.size()]));
+            copyRenameTocs = new ArrayList<>(Arrays.asList(new RenameTocEntry[renameTocEntries.size()]));
         }
 
         try

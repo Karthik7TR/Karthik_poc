@@ -79,7 +79,7 @@ public class DocServiceImpl implements DocService
             throw ge;
         }
 
-        final Integer docRetryCount = new Integer(novusUtility.getDocRetryCount());
+        final Integer docRetryCount = Integer.valueOf(novusUtility.getDocRetryCount());
         boolean anyException = false;
         String docGuid = null;
         // This is the counter for checking how many Novus retries we
@@ -142,7 +142,7 @@ public class DocServiceImpl implements DocService
                             if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y"))
                             {
                                 if (novusRetryCounter == 3)
-                                {// just write it once after 3 retries
+                                { // just write it once after 3 retries
                                     Log.debug(
                                         "Text is not found for the guid "
                                             + document.getGuid()
@@ -166,7 +166,7 @@ public class DocServiceImpl implements DocService
                             if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y"))
                             {
                                 if (novusRetryCounter == 3)
-                                {// just write it once after 3 retries
+                                { // just write it once after 3 retries
                                     Log.debug(
                                         "Text is not found for the guid "
                                             + document.getGuid()
@@ -274,7 +274,7 @@ public class DocServiceImpl implements DocService
      * @throws NovusException
      * @throws IOException
      */
-    private final int createContentFile(
+    private int createContentFile(
         final Document document,
         final File destinationDirectory,
         final int retryCount,
@@ -368,7 +368,7 @@ public class DocServiceImpl implements DocService
      * @throws NovusException
      * @throws IOException
      */
-    private final int[] createMetadataFile(
+    private int[] createMetadataFile(
         final Document document,
         final File destinationDirectory,
         final int tocSeqNum,
@@ -446,7 +446,7 @@ public class DocServiceImpl implements DocService
     /**
      * Create a file containing the specified content.
      */
-    private static final void createFile(final String content, final File destinationFile) throws IOException
+    private static void createFile(final String content, final File destinationFile) throws IOException
     {
         final FileOutputStream stream = new FileOutputStream(destinationFile);
         Writer writer = null;

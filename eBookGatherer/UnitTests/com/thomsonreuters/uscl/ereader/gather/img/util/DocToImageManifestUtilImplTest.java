@@ -16,7 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DocToImageManifestUtilImplTest
+public final class DocToImageManifestUtilImplTest
 {
     @InjectMocks
     private DocToImageManifestUtilImpl util;

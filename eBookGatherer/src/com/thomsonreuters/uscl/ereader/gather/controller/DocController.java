@@ -20,7 +20,7 @@ public class DocController
 {
     private static Logger LOG = LogManager.getLogger(DocController.class);
 
-    public DocService docService;
+    private DocService docService;
 
     @RequestMapping(value = "/doc", method = RequestMethod.POST)
     public ModelAndView fetchDocuments(@RequestBody final GatherDocRequest docRequest, final Model model)

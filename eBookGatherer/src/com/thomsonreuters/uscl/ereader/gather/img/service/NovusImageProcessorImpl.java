@@ -46,7 +46,7 @@ public class NovusImageProcessorImpl implements NovusImageProcessor
     @NotNull
     private List<ImgMetadataInfo> imagesMetadata = new ArrayList<>();
     private Map<String, Set<String>> processed = new HashMap<>();
-    private int missingImageCount = 0;
+    private int missingImageCount;
     private Writer missingImageFileWriter;
 
     @PostConstruct

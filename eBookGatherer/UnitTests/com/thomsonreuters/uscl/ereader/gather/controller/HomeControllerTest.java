@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 /**
  * Test for HomeController
  */
-public class HomeControllerTest
+public final class HomeControllerTest
 {
     private HomeController controller;
     private MockHttpServletRequest request;

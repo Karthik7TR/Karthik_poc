@@ -113,7 +113,7 @@ public class NovusImgServiceImpl implements NovusImgService
             throw ge;
         }
 
-        final List<ImgMetadataInfo> imageMetadataList = new ArrayList<ImgMetadataInfo>();
+        final List<ImgMetadataInfo> imageMetadataList = new ArrayList<>();
         final File missingImagesFile = new File(imageDestinationDirectory.getParent(), missingImageGuidsFileBasename);
         final FileOutputStream stream = new FileOutputStream(missingImagesFile);
         final Writer fileWriter = new OutputStreamWriter(stream, "UTF-8");
@@ -124,13 +124,13 @@ public class NovusImgServiceImpl implements NovusImgService
             final Find find = novus.getFind();
             find.setResolveIncludes(true);
 
-            uniqueImageGuids = new ArrayList<String>();
+            uniqueImageGuids = new ArrayList<>();
 
             // Iterate the image GUID's and first fetch image data and then
             // download the image bytes
             for (final String docGuid : imgDocGuidMap.keySet())
             {
-                final List<String> deDupImagesArray = new ArrayList<String>();
+                final List<String> deDupImagesArray = new ArrayList<>();
                 final String imgGuidList = imgDocGuidMap.get(docGuid);
 
                 if (imgGuidList != null)
@@ -175,7 +175,7 @@ public class NovusImgServiceImpl implements NovusImgService
         final String docGuid,
         final File imageDirectory) throws GatherException, IOException
     {
-        final Integer imgRetryCount = new Integer(novusUtility.getImgRetryCount());
+        final Integer imgRetryCount = Integer.valueOf(novusUtility.getImgRetryCount());
         Integer novusRetryCounter = 0;
         final String collection = null;
         ImgMetadataInfo imgMetadataInfo = null;
@@ -325,7 +325,7 @@ public class NovusImgServiceImpl implements NovusImgService
      */
     private static Map<String, String> readLinesFromTextFile(final File textFile) throws IOException
     {
-        final Map<String, String> imgDocGuidMap = new HashMap<String, String>();
+        final Map<String, String> imgDocGuidMap = new HashMap<>();
         final FileReader fileReader = new FileReader(textFile);
         final BufferedReader reader = new BufferedReader(fileReader);
         try
@@ -349,14 +349,8 @@ public class NovusImgServiceImpl implements NovusImgService
         }
         finally
         {
-            if (fileReader != null)
-            {
-                fileReader.close();
-            }
-            if (reader != null)
-            {
-                reader.close();
-            }
+           fileReader.close();
+           reader.close();
         }
         return imgDocGuidMap;
     }

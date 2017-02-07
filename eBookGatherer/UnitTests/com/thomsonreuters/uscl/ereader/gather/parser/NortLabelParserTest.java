@@ -1,15 +1,13 @@
 package com.thomsonreuters.uscl.ereader.gather.parser;
 
+import com.thomsonreuters.uscl.ereader.gather.exception.NortLabelParseException;
 import org.junit.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import com.thomsonreuters.uscl.ereader.gather.exception.NortLabelParseException;
-
-public class NortLabelParserTest
+public final class NortLabelParserTest
 {
-    private NortLabelParser parser = null;
+    private NortLabelParser parser;
 
     @Before
     public void setUp()
@@ -20,31 +18,31 @@ public class NortLabelParserTest
     @Test
     public void successTest() throws NortLabelParseException
     {
-        String text = "<heading>Test 123 text</heading><section>should not be in there</section>";
-        String expected = "Test 123 text";
+        final String text = "<heading>Test 123 text</heading><section>should not be in there</section>";
+        final String expected = "Test 123 text";
 
-        String result = parser.parse(text);
+        final String result = parser.parse(text);
         Assert.assertEquals(expected, result);
     }
 
     @Test
     public void levelOneTest() throws NortLabelParseException
     {
-        String text = "One <heading>Test 123 text</heading><section>should not be in there</section> One";
-        String expected = "One Test 123 text One";
+        final String text = "One <heading>Test 123 text</heading><section>should not be in there</section> One";
+        final String expected = "One Test 123 text One";
 
-        String result = parser.parse(text);
+        final String result = parser.parse(text);
         Assert.assertEquals(expected, result);
     }
 
     @Test
     public void levelTwoTest() throws NortLabelParseException
     {
-        String text =
+        final String text =
             "Two <heading>Test 123 text</heading><section><cite.query>should not</cite.query> be in there</section> Two";
-        String expected = "Two Test 123 text Two";
+        final String expected = "Two Test 123 text Two";
 
-        String result = parser.parse(text);
+        final String result = parser.parse(text);
         Assert.assertEquals(expected, result);
     }
 }
