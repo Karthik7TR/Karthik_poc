@@ -594,6 +594,16 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="lib/commons-lang-2.5.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+		<classpathentry exported="true" kind="lib" path="lib/commons-lang3-3.4.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v7.0"/>
 	<classpathentry kind="lib" path="lib/activemq-unit-test/activemq-broker-5.14.3.jar"/>
 	<classpathentry kind="lib" path="lib/activemq-unit-test/activemq-client-5.14.3.jar"/>
@@ -601,7 +611,5 @@
 	<classpathentry kind="lib" path="lib/activemq-unit-test/activemq-pool-5.14.3.jar"/>
 	<classpathentry kind="lib" path="lib/activemq-unit-test/commons-pool2-2.4.2.jar"/>
 	<classpathentry kind="lib" path="lib/activemq-unit-test/hawtbuf-1.11.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-lang3-3.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-lang-2.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
