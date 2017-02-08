@@ -6,27 +6,27 @@ import java.io.IOException;
 import java.util.Date;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.FileUtils;
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.thomsonreuters.uscl.ereader.jms.dao.BundleArchiveDao;
 import com.thomsonreuters.uscl.ereader.jms.dao.BundleArchiveDaoImpl;
 import com.thomsonreuters.uscl.ereader.jms.handler.EBookRequest;
 
-@Ignore
 public class EBookRequestValidatorTest {
 	
+	private static final String FILE_CONTENTS = "file contents";
 	private EBookRequestValidator validator;
 	private BundleArchiveDao requestDao;
 	
 	private String requestId = "ed4abfa40ee548388d39ecad55a0daaa";
 	private String bundleHash;
 	private Date requestDate = new Date();
-	private File fileLocation = new File("srctest/com/thomsonreuters/uscl/ereader/orchestrate/engine/service/EBookRequestValidatorTest.java");
+	private File mockEbookSrcFile;
 	
 	@Before
 	public void setUp() throws IOException {
@@ -34,16 +34,26 @@ public class EBookRequestValidatorTest {
 		this.validator = new EBookRequestValidator();
 		this.validator.setBundleArchiveDao(requestDao);
 		
-		this.bundleHash = DigestUtils.md5Hex(new FileInputStream(fileLocation));
+		mockEbookSrcFile = initMockEbookSrcFile();
+		
+		this.bundleHash = DigestUtils.md5Hex(new FileInputStream(mockEbookSrcFile));
+	}
+
+	private File initMockEbookSrcFile() throws IOException {
+		File tempFile = File.createTempFile("mockEbookSrcFile", "tmp");
+		FileUtils.writeStringToFile(tempFile, FILE_CONTENTS);
+		return tempFile;
 	}
 	
 	@After
 	public void tearDown() throws Exception {
+		mockEbookSrcFile.delete();
 	}
 	
 	@Test
 	public void testHappyPath() {
 		EasyMock.expect(requestDao.findByRequestId(requestId)).andReturn(null);
+		EasyMock.expect(requestDao.saveRequest(EasyMock.isA(EBookRequest.class))).andReturn(0L);
 		EasyMock.replay(requestDao);
 		
 		boolean thrown = false;
@@ -90,7 +100,7 @@ public class EBookRequestValidatorTest {
 	
 	@Test
 	public void testFileNotFound() {
-		fileLocation = new File("definitely_not_valid.bad");
+		mockEbookSrcFile = new File("definitely_not_valid.bad");
 		EasyMock.expect(requestDao.findByRequestId(requestId)).andReturn(null);
 		EasyMock.replay(requestDao);
 		
@@ -130,7 +140,7 @@ public class EBookRequestValidatorTest {
 		request.setMessageId(requestId);
 		request.setBundleHash(bundleHash);
 		request.setDateTime(requestDate);
-		request.setEBookSrcFile(fileLocation);
+		request.setEBookSrcFile(mockEbookSrcFile);
 		return request;
 	}
 }
