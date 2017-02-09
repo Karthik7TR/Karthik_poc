@@ -34,5 +34,13 @@ public interface JMSClient {
 	 * @return The message body of the next message in the queue. Null if the queue is empty.
 	 */
 	String receiveSingleMessage(JmsTemplate jmsTemplate, String searchText);
-
+	
+	/**
+	 * Checks the queue for the existence of a message with the search text without consuming any message.
+	 * 
+	 * @param jmsTemplate
+	 * @param searchText
+	 * @return
+	 */
+	boolean containsMessage(final JmsTemplate jmsTemplate, final String searchText);
 }

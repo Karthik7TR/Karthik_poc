@@ -1,9 +1,3 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
 package com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet;
 
 import java.io.File;
@@ -108,7 +102,7 @@ public abstract class AbstractSbTasklet implements Tasklet {
        return RepeatStatus.FINISHED;
 	}
 	
-    private void sendNotification(ChunkContext chunkContext, String bodyMessage,long jobInstanceId,long jobExecutionId) {
+    protected void sendNotification(ChunkContext chunkContext, String bodyMessage,long jobInstanceId,long jobExecutionId) {
         
         ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 		JobParameters jobParams = getJobParameters(chunkContext);

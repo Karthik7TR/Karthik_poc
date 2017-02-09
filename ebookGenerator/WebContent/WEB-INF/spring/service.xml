@@ -1,9 +1,3 @@
-<!-- 
-	Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-	Proprietary and Confidential information of TRGR. Disclosure, Use or
-	Reproduction without the written authorization of TRGR is prohibited
--->
-
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
@@ -35,13 +29,12 @@
 		  p:jobRegistry-ref="jobRegistry"
 		  p:jobOperator-ref="jobOperator"
 		  p:jobLauncher-ref="jobLauncher"
-		  p:taskExecutor-ref="springBatchTaskExecutor"
+		  p:taskExecutor-ref="springBatchEBookTaskExecutor"
 		  p:jobStartupThrottleService-ref="jobStartupThrottleService"
 		  p:miscConfigSyncService-ref="miscConfigSyncService"
 		  />
 	
-	<!-- bean id="eBookRequestValidator" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EBookRequestValidator"
-		  p:requestLogDao-ref="requestLogDao" / -->
+	<bean id="eBookRequestValidator" class="com.thomsonreuters.uscl.ereader.request.service.EBookRequestValidator" />
 		  
 	<bean class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.GeneratorAppConfigLoader"
 		  p:appConfigService-ref="appConfigService"

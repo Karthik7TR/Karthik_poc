@@ -35,6 +35,33 @@
 
 	<!-- ============================ -->
 
+	<job id="ebookBundleJob">
+	<!-- Job for retrieving and preparing XPP source bundles sent by Phoenix -->
+		<step id="retrieveRequest">
+			<tasklet ref="retrieveRequestTask" />
+			<next on="COMPLETED" to="unpackBundle" />
+			<fail on="FAILED" />
+		</step>
+		<step id="unpackBundle">
+			<tasklet ref="retrieveBundleTask" />
+			<next on="COMPLETED" to="stageBundle" />
+			<fail on="FAILED" />
+		</step>
+		<step id="stageBundle">
+			<tasklet ref="stageBundleTask" />
+			<end on="COMPLETED" />
+			<fail on="FAILED" />
+		</step>
+	</job>
+	
+	<beans:bean id="retrieveRequestTask" class="com.thomsonreuters.uscl.ereader.request.step.RetrieveRequestTask" parent="parentTask"
+		  		p:EBookRequestValidator-ref="eBookRequestValidator"
+		  		p:bundleArchiveDao-ref="bundleArchiveDao" />
+	<beans:bean id="retrieveBundleTask" class="com.thomsonreuters.uscl.ereader.request.step.RetrieveBundleTask" parent="parentTask" />
+	<beans:bean id="stageBundleTask" class="com.thomsonreuters.uscl.ereader.request.step.StageBundleTask" parent="parentTask" />
+	
+	<!-- ============================ -->
+	
 	<job id="ebookGeneratorJob">
 		<step id="initializeJob">
 			<tasklet ref="initializeTask"/>

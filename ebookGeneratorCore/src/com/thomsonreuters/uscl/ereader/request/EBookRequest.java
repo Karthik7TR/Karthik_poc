@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.jms.handler;
+package com.thomsonreuters.uscl.ereader.request;
 
 import java.io.File;
 import java.util.Date;
@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -16,18 +17,25 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-@Entity
 @XmlRootElement(name = "eBookRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
+@Entity
 @Table(name = "EBOOK_ARCHIVE")
 public class EBookRequest {
 	
-	@Id @GeneratedValue
-	@Column(name = "BUNDLE_ARCHIVE_ID", nullable=false)
-	private String bundleArchiveId;
+	public static final String KEY_REQUEST_XML = "ebookrequestXml";
+	public static final String KEY_EBOOK_REQUEST = "ebookRequest";
+	public static final String JOB_NAME_PROCESS_BUNDLE = "ebookBundleJob";
+	public static final String KEY_JOB_NAME = "jobName";
+
+	@Id
+	@GeneratedValue(generator = "EBookRequestSequence")
+	@SequenceGenerator(name="EBookRequestSequence", sequenceName = "EBOOK_ARCHIVE_ID_SEQ")
+	@Column(name = "EBOOK_ARCHIVE_ID", nullable=false)
+	private Long ebookArchiveId;
 	
 	@XmlAttribute(name="version")
-	@Column(name = "VERSION", nullable=false)
+	@Transient
 	private String version;
 	
 	@XmlElement(name = "messageId")
@@ -44,33 +52,33 @@ public class EBookRequest {
 	
 	@XmlElement(name = "srcFile")
 	@Column(name = "ARCHIVE_LOCATION", nullable=false)
-	private File eBookSrcFile;
+	private File archiveLocation;
 	
 	@XmlTransient
 	@Column(name = "MESSAGE_REQUEST", nullable=false)
 	private String messageRequest;
-	
+
 	@XmlTransient
 	@Column(name = "PRODUCT_NAME", nullable=false)
-	private String productName;
+	private String productName = "UNKNOWN";
 	
 	@XmlTransient
 	@Column(name = "PRODUCT_TYPE", nullable=false)
-	private String productType;
-	
+	private String productType = "UNKNOWN";
+
 	@XmlTransient
 	@Column(name="RESURRECT_COUNT", nullable=false)
-	private int resurrectCount;
+	private int resurrectCount = 0;
 	
 	@XmlTransient
 	@Column(name="DELETED", nullable=false)
-	private String isDeleted;
+	private String isDeleted = "N";
 	
-	public String getEBookArchiveId() {
-		return bundleArchiveId;
+	public Long getEBookArchiveId() {
+		return ebookArchiveId;
 	}
-	public void setEBookArchiveId(String eBookArchiveId) {
-		this.bundleArchiveId = eBookArchiveId;
+	public void setEBookArchiveId(Long eBookArchiveId) {
+		this.ebookArchiveId = eBookArchiveId;
 	}
 	
 	public String getVersion() {
@@ -102,10 +110,10 @@ public class EBookRequest {
 	}
 	
 	public File getEBookSrcFile() {
-		return eBookSrcFile;
+		return archiveLocation;
 	}
 	public void setEBookSrcFile(File eBookSrcFile) {
-		this.eBookSrcFile = eBookSrcFile;
+		this.archiveLocation = eBookSrcFile;
 	}
 	
 	public String getMessageRequest() {
@@ -178,10 +186,10 @@ public class EBookRequest {
 		} else if (that.dateTime != null)
 			return false;
 		
-		if (eBookSrcFile != null) {
-			if (!eBookSrcFile.equals(that.eBookSrcFile))
+		if (archiveLocation != null) {
+			if (!archiveLocation.equals(that.archiveLocation))
 				return false;
-		} else if (that.eBookSrcFile != null)
+		} else if (that.archiveLocation != null)
 			return false;
 		
 		return true;
@@ -195,7 +203,7 @@ public class EBookRequest {
 		result = prime * result + ((messageId == null) ? 0 : messageId.hashCode());
 		result = prime * result + ((bundleHash == null) ? 0 : bundleHash.hashCode());
 		result = prime * result + ((dateTime == null) ? 0 : dateTime.hashCode());
-		result = prime * result + ((eBookSrcFile == null) ? 0 : eBookSrcFile.hashCode());
+		result = prime * result + ((archiveLocation == null) ? 0 : archiveLocation.hashCode());
 		return result;
 	}
 	

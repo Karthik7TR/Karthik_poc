@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.jms.dao;
+package com.thomsonreuters.uscl.ereader.request.dao;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
-import com.thomsonreuters.uscl.ereader.jms.handler.EBookRequest;
+import com.thomsonreuters.uscl.ereader.request.EBookRequest;
 
 public class BundleArchiveDaoImpl implements BundleArchiveDao {
 	private static final Logger log = LogManager.getLogger(BundleArchiveDaoImpl.class);
@@ -22,7 +22,9 @@ public class BundleArchiveDaoImpl implements BundleArchiveDao {
 	@Override
 	public Long saveRequest(EBookRequest ebookRequest) {
 		Session session = sessionFactory.getCurrentSession();
-		return (Long) session.save(ebookRequest);
+		long pk = (Long) session.save(ebookRequest);
+		session.flush();
+		return pk;
 	}
 
 	@Override
@@ -46,7 +48,7 @@ public class BundleArchiveDaoImpl implements BundleArchiveDao {
 	@SuppressWarnings("unchecked")
 	public EBookRequest findByRequestId(String messageId) {
 		List<EBookRequest> eBookRequestList = sessionFactory.getCurrentSession().createCriteria(EBookRequest.class).add(Restrictions.eq(
-				"eBookRequest.messageId", messageId)).list();
+				"messageId", messageId)).list();
 
 		if (eBookRequestList.size() > 0) {
 			return eBookRequestList.get(0);

@@ -15,11 +15,11 @@ public class MessageQueuePollerTest {
 	private JMSClient mockJmsClient;
 	private JmsTemplate mockJmsTemplate;
 	
-	private MessageQueuePoller poller; 
+	private EBookRequestQueuePoller poller; 
 	
 	@Before
 	public void setUp() {
-		poller = new MessageQueuePoller();
+		poller = new EBookRequestQueuePoller();
 		
 		mockJmsClient = EasyMock.createMock(JmsClientImpl.class);
 		mockJmsTemplate = EasyMock.createMock(JmsTemplate.class);
@@ -40,7 +40,7 @@ public class MessageQueuePollerTest {
 		EasyMock.expect(mockJmsClient.receiveSingleMessage(mockJmsTemplate, "")).andReturn(createRequest());
 		EasyMock.replay(mockJmsClient);
 		
-		poller.pollJobQueue();
+		poller.pollMessageQueue();
 	}
 	
 	private String createRequest() {

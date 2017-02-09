@@ -30,7 +30,7 @@ import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
-import com.thomsonreuters.uscl.ereader.jms.handler.EBookRequest;
+import com.thomsonreuters.uscl.ereader.request.EBookRequest;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;

@@ -87,9 +87,9 @@
 	<bean id="proviewHandler" class="com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandlerImpl"
 		  p:proviewClient-ref="proviewClient"/>
 		  
-	<!-- bean id="jmsClient" class="com.thomsonreuters.uscl.ereader.jms.client.impl.JmsClientImpl"/>
+	<bean id="jmsClient" class="com.thomsonreuters.uscl.ereader.jms.client.impl.JmsClientImpl"/>
 	
-	<bean id="connectionFactory" class="com.ibm.mq.jms.MQQueueConnectionFactory"
+	<!--  bean id="connectionFactory" class="com.ibm.mq.jms.MQQueueConnectionFactory"
 		  p:hostName="${jms.host.name}"
 		  p:port="${jms.port}"
 		  p:queueManager="${jms.queue.manager}"

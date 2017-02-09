@@ -33,8 +33,11 @@
 		 each Spring Batch job itself takes up one pooled connection.
 		 The corePoolSize supplied here is just an initial default and
 		 is dynamically changed once the job throttle configuration is loaded from the database. -->
-	<bean id="springBatchTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"
+	<bean id="springBatchEBookTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"
 		  p:corePoolSize="1"/>
+	
+	<bean id="springBatchBundleTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"
+		  p:corePoolSize="1" />
 	
 	<!-- Job start scheduler, make sure this follows setup of the spring batch task executor since the 
 		 core thread pool size is dynamically set in the throttle config loader -->
@@ -43,16 +46,19 @@
 		  p:jobStartupThrottleService-ref="jobStartupThrottleService"
 		  p:outageProcessor-ref="outageProcessor"
 	  	  p:jobRequestService-ref="jobRequestService"
-	  	  p:springBatchTaskExecutor-ref="springBatchTaskExecutor"
+	  	  p:springBatchTaskExecutor-ref="springBatchEBookTaskExecutor"
 	  	  p:jobNameProvider-ref="jobNameProvider"/>
 	  	  
-	<!-- bean class="com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.MessageQueuePoller"
+	<!-- bean class="com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.EBookRequestQueuePoller"
+		  p:jobRegistry-ref="jobRegistry"
+		  p:jobLauncher-ref="jobLauncher"
 		  p:jmsClient-ref="jmsClient"
 		  p:jmsTemplate-ref="jmsTemplate"
-		  p:eBookRequestValidator-ref="eBookRequestValidator"/ -->
+		  p:outageProcessor-ref="outageProcessor"
+		  p:threadPoolTaskExecutor-ref="springBatchBundleTaskExecutor"/ -->
 
     <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
-		  p:jobRepository-ref="jobRepository" p:taskExecutor-ref="springBatchTaskExecutor">
+		  p:jobRepository-ref="jobRepository" p:taskExecutor-ref="springBatchEBookTaskExecutor">
 	</bean>
 
 	<bean id="jobOperator" class="org.springframework.batch.core.launch.support.SimpleJobOperator"

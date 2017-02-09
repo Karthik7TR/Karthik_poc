@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.orchestrate.engine.service;
+package com.thomsonreuters.uscl.ereader.request.service;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,11 +8,8 @@ import java.io.InputStream;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
-
-import com.thomsonreuters.uscl.ereader.jms.dao.BundleArchiveDao;
 import com.thomsonreuters.uscl.ereader.jms.exception.MessageQueueException;
-import com.thomsonreuters.uscl.ereader.jms.handler.EBookRequest;
+import com.thomsonreuters.uscl.ereader.request.EBookRequest;
 
 public class EBookRequestValidator {
 	public static final String ERROR_INCOMPLETE_REQUEST = "null field detected";
@@ -22,7 +19,6 @@ public class EBookRequestValidator {
 	public static final String ERROR_DUPLICATE_REQUEST = "Request already received";
 
 	private static final Logger LOG = LogManager.getLogger(EBookRequestValidator.class);
-	private BundleArchiveDao bundleArchiveDao;
 
 	public void validate(EBookRequest request) throws MessageQueueException {
 		if (request == null 
@@ -59,27 +55,5 @@ public class EBookRequestValidator {
 		if (!request.getBundleHash().equals(hash)) {
 			throw new MessageQueueException(ERROR_BAD_HASH + ebook.getAbsolutePath());
 		}
-
-		EBookRequest dup = bundleArchiveDao.findByRequestId(request.getMessageId());
-		if (dup != null) {
-			if (dup.equals(request)) {
-				throw new MessageQueueException(ERROR_DUPLICATE_REQUEST);
-			} else {
-				// two non-identical requests have been received with the same ID
-				// TODO identify steps for processing this scenario
-				throw new MessageQueueException("non-identical duplicate request received");
-			}
-		} else {
-			bundleArchiveDao.saveRequest(request);
-		}
-	}
-
-	@Required
-	public void setBundleArchiveDao(BundleArchiveDao bundleArchiveDao) {
-		this.bundleArchiveDao = bundleArchiveDao;
-	}
-
-	public BundleArchiveDao getBundleArchiveDao() {
-		return this.bundleArchiveDao;
 	}
 }

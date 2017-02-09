@@ -1,11 +1,15 @@
-package com.thomsonreuters.uscl.ereader.jms.dao;
+package com.thomsonreuters.uscl.ereader.request.dao;
 
 import java.util.List;
 
-import com.thomsonreuters.uscl.ereader.jms.handler.EBookRequest;
+import com.thomsonreuters.uscl.ereader.request.EBookRequest;
 
 public interface BundleArchiveDao {
 	
+	/**
+	 * Add a request to the archive
+	 * @param ebookRequestId
+	 */
 	public Long saveRequest(EBookRequest ebookRequest);
 	
 	/**

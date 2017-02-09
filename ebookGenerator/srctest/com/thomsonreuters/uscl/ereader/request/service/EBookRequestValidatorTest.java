@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.orchestrate.engine.service;
+package com.thomsonreuters.uscl.ereader.request.service;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,22 +7,19 @@ import java.util.Date;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
-import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.thomsonreuters.uscl.ereader.jms.dao.BundleArchiveDao;
-import com.thomsonreuters.uscl.ereader.jms.dao.BundleArchiveDaoImpl;
-import com.thomsonreuters.uscl.ereader.jms.handler.EBookRequest;
+import com.thomsonreuters.uscl.ereader.request.EBookRequest;
+import com.thomsonreuters.uscl.ereader.request.service.EBookRequestValidator;
 
 public class EBookRequestValidatorTest {
 	
-	private static final String FILE_CONTENTS = "file contents";
 	private EBookRequestValidator validator;
-	private BundleArchiveDao requestDao;
 	
+	private static final String FILE_CONTENTS = "file contents";
 	private String requestId = "ed4abfa40ee548388d39ecad55a0daaa";
 	private String bundleHash;
 	private Date requestDate = new Date();
@@ -30,13 +27,11 @@ public class EBookRequestValidatorTest {
 	
 	@Before
 	public void setUp() throws IOException {
-		this.requestDao = EasyMock.createMock(BundleArchiveDaoImpl.class);
 		this.validator = new EBookRequestValidator();
-		this.validator.setBundleArchiveDao(requestDao);
-		
 		mockEbookSrcFile = initMockEbookSrcFile();
 		
 		this.bundleHash = DigestUtils.md5Hex(new FileInputStream(mockEbookSrcFile));
+		System.out.println(bundleHash);
 	}
 
 	private File initMockEbookSrcFile() throws IOException {
@@ -52,9 +47,6 @@ public class EBookRequestValidatorTest {
 	
 	@Test
 	public void testHappyPath() {
-		EasyMock.expect(requestDao.findByRequestId(requestId)).andReturn(null);
-		EasyMock.expect(requestDao.saveRequest(EasyMock.isA(EBookRequest.class))).andReturn(0L);
-		EasyMock.replay(requestDao);
 		
 		boolean thrown = false;
 		try {
@@ -82,27 +74,8 @@ public class EBookRequestValidatorTest {
 	}
 	
 	@Test
-	public void testDuplicateRequest() {
-		EasyMock.expect(requestDao.findByRequestId(requestId)).andReturn(createRequest());
-		EasyMock.replay(requestDao);
-		
-		boolean thrown = false;
-		String errorMessage = "";
-		try {
-			validator.validate(createRequest());
-		} catch (Exception e){
-			thrown = true;
-			errorMessage = e.getMessage();
-		}
-		Assert.assertTrue(thrown);
-		Assert.assertTrue(errorMessage.contains(EBookRequestValidator.ERROR_DUPLICATE_REQUEST));
-	}
-	
-	@Test
 	public void testFileNotFound() {
 		mockEbookSrcFile = new File("definitely_not_valid.bad");
-		EasyMock.expect(requestDao.findByRequestId(requestId)).andReturn(null);
-		EasyMock.replay(requestDao);
 		
 		boolean thrown = false;
 		String errorMessage = "";
@@ -119,8 +92,6 @@ public class EBookRequestValidatorTest {
 	@Test
 	public void testBadHash() {
 		bundleHash = "12345";
-		EasyMock.expect(requestDao.findByRequestId(requestId)).andReturn(null);
-		EasyMock.replay(requestDao);
 		
 		boolean thrown = false;
 		String errorMessage = "";

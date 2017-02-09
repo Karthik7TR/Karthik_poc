@@ -19,6 +19,7 @@ import org.springframework.jms.core.BrowserCallback;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.thomsonreuters.uscl.ereader.jms.client.JMSClient;
 
@@ -146,5 +147,30 @@ public class JmsClientImpl implements JMSClient
 		});
 
 		return messages;
+	}
+	
+	@Override
+	@SuppressWarnings(
+	{ "unchecked" })
+	public boolean containsMessage(final JmsTemplate jmsTemplate, final String searchText) {
+		return StringUtils.isEmpty(jmsTemplate.browse(new BrowserCallback<String>()
+		{
+			@Override
+			public String doInJms(final Session session, final QueueBrowser browser) throws JMSException
+			{
+				String message = null;
+				final Enumeration<Message> enumeration = browser.getEnumeration();
+				while (enumeration.hasMoreElements())
+				{
+					final TextMessage msg = (TextMessage) enumeration.nextElement();
+					final String msgBody = msg.getText();
+					if (msgBody.contains(searchText))
+					{
+						break;
+					}
+				}
+				return message;
+			}
+		}));
 	}
 }
