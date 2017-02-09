@@ -6,6 +6,13 @@ import java.util.List;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpSession;
 
+import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsForm.DisplayTagSortProperty;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,144 +23,162 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsForm.DisplayTagSortProperty;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
-import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+public final class PublishingStatsControllerTest
+{
+    private PublishingStatsController controller;
+    private MockHttpServletResponse response;
+    private MockHttpServletRequest request;
+    private AnnotationMethodHandlerAdapter handlerAdapter;
+    private PublishingStatsService mockService;
 
-public class PublishingStatsControllerTest {
+    @Before
+    public void setUp()
+    {
+        request = new MockHttpServletRequest();
+        response = new MockHttpServletResponse();
+        handlerAdapter = new AnnotationMethodHandlerAdapter();
 
-	private PublishingStatsController controller;
-	private MockHttpServletResponse response;
-	private MockHttpServletRequest request;
-	private AnnotationMethodHandlerAdapter handlerAdapter;
-	private PublishingStatsService mockService;
+        controller = new PublishingStatsController();
 
-	@Before
-	public void setUp() {
-		this.request = new MockHttpServletRequest();
-		this.response = new MockHttpServletResponse();
-		this.handlerAdapter = new AnnotationMethodHandlerAdapter();
+        mockService = EasyMock.createMock(PublishingStatsService.class);
+        controller.setPublishingStatsService(mockService);
+    }
 
-		this.controller = new PublishingStatsController();
+    @Test
+    public void testStats() throws Exception
+    {
+        request.setRequestURI("/" + WebConstants.MVC_STATS);
+        request.setMethod(HttpMethod.GET.name());
 
-		this.mockService = EasyMock.createMock(PublishingStatsService.class);
-		this.controller.setPublishingStatsService(mockService);
-	}
+        final PublishingStatsFilterForm filterForm = new PublishingStatsFilterForm();
 
-	@Test
-	public void testStats() throws Exception {
-		request.setRequestURI("/" + WebConstants.MVC_STATS);
-		request.setMethod(HttpMethod.GET.name());
+        final HttpSession session = request.getSession();
+        session.setAttribute(PublishingStatsFilterForm.FORM_NAME, filterForm);
+        request.setSession(session);
 
-		PublishingStatsFilterForm filterForm = new PublishingStatsFilterForm();
+        EasyMock
+            .expect(
+                mockService.findPublishingStats(
+                    EasyMock.anyObject(PublishingStatsFilter.class),
+                    EasyMock.anyObject(PublishingStatsSort.class)))
+            .andReturn(null);
+        EasyMock.expect(mockService.numberOfPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class)))
+            .andReturn(1);
+        EasyMock.replay(mockService);
 
-		HttpSession session = request.getSession();
-		session.setAttribute(PublishingStatsFilterForm.FORM_NAME, filterForm);
-		request.setSession(session);
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_STATS);
+    }
 
-		EasyMock.expect(mockService.findPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class),
-				EasyMock.anyObject(PublishingStatsSort.class))).andReturn(null);
-		EasyMock.expect(mockService.numberOfPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class)))
-				.andReturn(1);
-		EasyMock.replay(mockService);
+    @Test
+    public void testPublishingStatsSorting() throws Exception
+    {
+        request.setRequestURI("/" + WebConstants.MVC_STATS_PAGE_AND_SORT);
+        request.setMethod(HttpMethod.GET.name());
 
-		ModelAndView mav = handlerAdapter.handle(request, response, controller);
-		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_STATS);
-	}
+        final PublishingStatsForm filterForm = new PublishingStatsForm();
+        request.setParameter("sort", DisplayTagSortProperty.EBOOK_DEFINITION_ID.toString());
 
-	@Test
-	public void testPublishingStatsSorting() throws Exception {
-		request.setRequestURI("/" + WebConstants.MVC_STATS_PAGE_AND_SORT);
-		request.setMethod(HttpMethod.GET.name());
+        final HttpSession session = request.getSession();
+        session.setAttribute(PublishingStatsForm.FORM_NAME, filterForm);
+        request.setSession(session);
 
-		PublishingStatsForm filterForm = new PublishingStatsForm();
-		request.setParameter("sort", DisplayTagSortProperty.EBOOK_DEFINITION_ID.toString());
+        EasyMock
+            .expect(
+                mockService.findPublishingStats(
+                    EasyMock.anyObject(PublishingStatsFilter.class),
+                    EasyMock.anyObject(PublishingStatsSort.class)))
+            .andReturn(null);
+        EasyMock.expect(mockService.numberOfPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class)))
+            .andReturn(1);
+        EasyMock.replay(mockService);
 
-		HttpSession session = request.getSession();
-		session.setAttribute(PublishingStatsForm.FORM_NAME, filterForm);
-		request.setSession(session);
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_STATS);
+    }
 
-		EasyMock.expect(mockService.findPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class),
-				EasyMock.anyObject(PublishingStatsSort.class))).andReturn(null);
-		EasyMock.expect(mockService.numberOfPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class)))
-				.andReturn(1);
-		EasyMock.replay(mockService);
+    @Test
+    public void testPublishingStatsPaging() throws Exception
+    {
+        request.setRequestURI("/" + WebConstants.MVC_STATS_PAGE_AND_SORT);
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter("page", "5");
 
-		ModelAndView mav = handlerAdapter.handle(request, response, controller);
-		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_STATS);
-	}
+        final PublishingStatsForm filterForm = new PublishingStatsForm();
+        request.setParameter("sort", DisplayTagSortProperty.EBOOK_DEFINITION_ID.toString());
 
-	@Test
-	public void testPublishingStatsPaging() throws Exception {
-		request.setRequestURI("/" + WebConstants.MVC_STATS_PAGE_AND_SORT);
-		request.setMethod(HttpMethod.GET.name());
-		request.setParameter("page", "5");
+        final HttpSession session = request.getSession();
+        session.setAttribute(PublishingStatsForm.FORM_NAME, filterForm);
+        request.setSession(session);
 
-		PublishingStatsForm filterForm = new PublishingStatsForm();
-		request.setParameter("sort", DisplayTagSortProperty.EBOOK_DEFINITION_ID.toString());
+        EasyMock
+            .expect(
+                mockService.findPublishingStats(
+                    EasyMock.anyObject(PublishingStatsFilter.class),
+                    EasyMock.anyObject(PublishingStatsSort.class)))
+            .andReturn(null);
+        EasyMock.expect(mockService.numberOfPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class)))
+            .andReturn(1);
+        EasyMock.replay(mockService);
 
-		HttpSession session = request.getSession();
-		session.setAttribute(PublishingStatsForm.FORM_NAME, filterForm);
-		request.setSession(session);
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_STATS);
+    }
 
-		EasyMock.expect(mockService.findPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class),
-				EasyMock.anyObject(PublishingStatsSort.class))).andReturn(null);
-		EasyMock.expect(mockService.numberOfPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class)))
-				.andReturn(1);
-		EasyMock.replay(mockService);
+    @Test
+    public void testHandleChangeInItemsToDisplay() throws Exception
+    {
+        request.setRequestURI("/" + WebConstants.MVC_STATS_CHANGE_ROW_COUNT);
+        request.setMethod(HttpMethod.POST.name());
+        request.setParameter("objectsPerPage", "20");
 
-		ModelAndView mav = handlerAdapter.handle(request, response, controller);
-		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_STATS);
-	}
+        final PageAndSort<DisplayTagSortProperty> pageAndSort =
+            new PageAndSort<>(1, DisplayTagSortProperty.JOB_SUBMIT_TIMESTAMP, false);
 
-	@Test
-	public void testHandleChangeInItemsToDisplay() throws Exception {
-		request.setRequestURI("/" + WebConstants.MVC_STATS_CHANGE_ROW_COUNT);
-		request.setMethod(HttpMethod.POST.name());
-		request.setParameter("objectsPerPage", "20");
+        final HttpSession session = request.getSession();
+        session.setAttribute(BasePublishingStatsController.PAGE_AND_SORT_NAME, pageAndSort);
+        request.setSession(session);
 
-		PageAndSort<DisplayTagSortProperty> pageAndSort = new PageAndSort<DisplayTagSortProperty>(1,
-				DisplayTagSortProperty.JOB_SUBMIT_TIMESTAMP, false);
+        EasyMock
+            .expect(
+                mockService.findPublishingStats(
+                    EasyMock.anyObject(PublishingStatsFilter.class),
+                    EasyMock.anyObject(PublishingStatsSort.class)))
+            .andReturn(null);
+        EasyMock.expect(mockService.numberOfPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class)))
+            .andReturn(1);
+        EasyMock.replay(mockService);
 
-		HttpSession session = request.getSession();
-		session.setAttribute(PublishingStatsController.PAGE_AND_SORT_NAME, pageAndSort);
-		request.setSession(session);
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_STATS);
+    }
 
-		EasyMock.expect(mockService.findPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class),
-				EasyMock.anyObject(PublishingStatsSort.class))).andReturn(null);
-		EasyMock.expect(mockService.numberOfPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class)))
-				.andReturn(1);
-		EasyMock.replay(mockService);
+    @Test
+    public void testDownloadPublishingStatsExcel() throws Exception
+    {
+        request.setRequestURI("/" + WebConstants.MVC_STATS_DOWNLOAD);
+        request.setMethod(HttpMethod.GET.name());
 
-		ModelAndView mav = handlerAdapter.handle(request, response, controller);
-		Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_STATS);
-	}
+        final List<PublishingStats> stats = new ArrayList<>();
+        final PublishingStatsPaginatedList paginated = new PublishingStatsPaginatedList(stats, 0, 0, 0, null, false);
 
-	@Test
-	public void testDownloadPublishingStatsExcel() throws Exception {
-		request.setRequestURI("/" + WebConstants.MVC_STATS_DOWNLOAD);
-		request.setMethod(HttpMethod.GET.name());
+        final HttpSession session = request.getSession();
+        session.setAttribute(WebConstants.KEY_PAGINATED_LIST, paginated);
+        request.setSession(session);
 
-		List<PublishingStats> stats = new ArrayList<PublishingStats>();
-		PublishingStatsPaginatedList paginated = new PublishingStatsPaginatedList(stats, 0, 0, 0, null, false);
+        EasyMock
+            .expect(
+                mockService.findPublishingStats(
+                    EasyMock.anyObject(PublishingStatsFilter.class),
+                    EasyMock.anyObject(PublishingStatsSort.class)))
+            .andReturn(null);
+        EasyMock.expect(mockService.numberOfPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class)))
+            .andReturn(1);
+        EasyMock.replay(mockService);
 
-		HttpSession session = request.getSession();
-		session.setAttribute(WebConstants.KEY_PAGINATED_LIST, paginated);
-		request.setSession(session);
+        handlerAdapter.handle(request, response, controller);
 
-		EasyMock.expect(mockService.findPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class),
-				EasyMock.anyObject(PublishingStatsSort.class))).andReturn(null);
-		EasyMock.expect(mockService.numberOfPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class)))
-				.andReturn(1);
-		EasyMock.replay(mockService);
-
-		handlerAdapter.handle(request, response, controller);
-
-		ServletOutputStream outStream = response.getOutputStream();
-		Assert.assertTrue(!outStream.toString().isEmpty());
-	}
+        final ServletOutputStream outStream = response.getOutputStream();
+        Assert.assertTrue(!outStream.toString().isEmpty());
+    }
 }

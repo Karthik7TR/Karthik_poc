@@ -1,14 +1,13 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.outage;
 
 import java.util.List;
 
 import javax.validation.Valid;
 
+import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
+import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
@@ -25,131 +24,141 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
-import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
-import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
-import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-
 @Controller
-public class OutageTypeController {
-	private static final Logger log = LogManager.getLogger(OutageTypeController.class);
-	
-	private OutageService outageService;
-	protected Validator validator;
-	
+public class OutageTypeController
+{
+    private static final Logger log = LogManager.getLogger(OutageTypeController.class);
 
-	@InitBinder(OutageTypeForm.FORM_NAME)
-	protected void initDataBinder(WebDataBinder binder) {
-		binder.setValidator(validator);
-	}
-	
-	@RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST, method = RequestMethod.GET)
-	public ModelAndView getOutageTypeList(Model model) throws Exception {
-		
-		model.addAttribute(WebConstants.KEY_OUTAGE, outageService.getAllOutageType());
+    private OutageService outageService;
+    protected Validator validator;
 
-		return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_LIST);
-	}
-	
-	@RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_TYPE_CREATE, method = RequestMethod.GET)
-	public ModelAndView createOutageType(
-			@ModelAttribute(OutageTypeForm.FORM_NAME) OutageTypeForm form,
-			BindingResult bindingResult,
-			Model model) throws Exception {
-		
-		return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_CREATE);
-	}
-	
-	@RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_TYPE_CREATE, method = RequestMethod.POST)
-	public ModelAndView createOutageTypePost(@ModelAttribute(OutageTypeForm.FORM_NAME) @Valid OutageTypeForm form,
-			BindingResult bindingResult,
-			Model model) throws Exception {
-		log.debug(form);
-		
-		if(!bindingResult.hasErrors()){
-			OutageType outageType = form.createOutageType();
-			outageService.saveOutageType(outageType);
-			return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST));
-		}
-		
-		return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_CREATE);
-	}
-	
-	@RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_TYPE_EDIT, method = RequestMethod.GET)
-	public ModelAndView editOutageType(@RequestParam("id") Long id,
-			@ModelAttribute(OutageTypeForm.FORM_NAME) OutageTypeForm form,
-			BindingResult bindingResult,
-			Model model) throws Exception {
-		
-		OutageType outageType = outageService.findOutageTypeByPrimaryKey(id);
-		
-		if(outageType != null) {
-			model.addAttribute(WebConstants.KEY_OUTAGE, outageType);
-			form.initialize(outageType);
-		}
-		return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_EDIT);
-	}
-	
-	@RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_TYPE_EDIT, method = RequestMethod.POST)
-	public ModelAndView editOutageTypePost(@ModelAttribute(OutageTypeForm.FORM_NAME) @Valid OutageTypeForm form,
-			BindingResult bindingResult,
-			Model model) throws Exception {
-		log.debug(form);
-		
-		OutageType outageType = form.createOutageType();
-		
-		if(!bindingResult.hasErrors()){
-			outageService.saveOutageType(outageType);
-			return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST));
-		}
+    @InitBinder(OutageTypeForm.FORM_NAME)
+    protected void initDataBinder(final WebDataBinder binder)
+    {
+        binder.setValidator(validator);
+    }
 
-		model.addAttribute(WebConstants.KEY_OUTAGE, outageType);
-		return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_EDIT);
-	}
-	
-	@RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_TYPE_DELETE, method = RequestMethod.GET)
-	public ModelAndView deleteOutageType(@RequestParam("id") Long id,
-			@ModelAttribute(OutageTypeForm.FORM_NAME) OutageTypeForm form,
-			BindingResult bindingResult,
-			Model model) throws Exception {
-		
-		OutageType outageType = outageService.findOutageTypeByPrimaryKey(id);
-		
-		if(outageType != null) {
-			model.addAttribute(WebConstants.KEY_OUTAGE, outageType);
-			Long outageTypeId = outageType.getId();
-			List<PlannedOutage> outageList = outageService.getAllPlannedOutagesForType(outageTypeId);
-			model.addAttribute(WebConstants.KEY_PLANNED_OUTAGE_TYPE, outageList);
-			model.addAttribute("numberOfPlannedOutages", outageList.size() );
-			form.initialize(outageType);
-		}
-		return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_DELETE);
-	}
-	
-	@RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_TYPE_DELETE, method = RequestMethod.POST)
-	public ModelAndView deleteOutageTypePost(@ModelAttribute(OutageTypeForm.FORM_NAME) OutageTypeForm form,
-			BindingResult bindingResult,
-			Model model) throws Exception {
-		log.debug(form);
-		
-		OutageType outageType = form.createOutageType();
-		if(!bindingResult.hasErrors()){
-			outageService.deleteOutageType(outageType.getId());
-			return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST));
-		}
+    @RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST, method = RequestMethod.GET)
+    public ModelAndView getOutageTypeList(final Model model)
+    {
+        model.addAttribute(WebConstants.KEY_OUTAGE, outageService.getAllOutageType());
 
-		model.addAttribute(WebConstants.KEY_OUTAGE, outageType);
-		return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_DELETE);
-	}
+        return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_LIST);
+    }
 
-	@Required
-	public void setOutageService(OutageService service) {
-		this.outageService = service;
-	}
+    @RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_TYPE_CREATE, method = RequestMethod.GET)
+    public ModelAndView createOutageType(
+        @ModelAttribute(OutageTypeForm.FORM_NAME) final OutageTypeForm form,
+        final BindingResult bindingResult,
+        final Model model)
+    {
+        return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_CREATE);
+    }
 
-	@Required
-	public void setValidator(Validator validator) {
-		this.validator = validator;
-	}
+    @RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_TYPE_CREATE, method = RequestMethod.POST)
+    public ModelAndView createOutageTypePost(
+        @ModelAttribute(OutageTypeForm.FORM_NAME) @Valid final OutageTypeForm form,
+        final BindingResult bindingResult,
+        final Model model)
+    {
+        log.debug(form);
 
+        if (!bindingResult.hasErrors())
+        {
+            final OutageType outageType = form.createOutageType();
+            outageService.saveOutageType(outageType);
+            return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST));
+        }
+
+        return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_CREATE);
+    }
+
+    @RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_TYPE_EDIT, method = RequestMethod.GET)
+    public ModelAndView editOutageType(
+        @RequestParam("id") final Long id,
+        @ModelAttribute(OutageTypeForm.FORM_NAME) final OutageTypeForm form,
+        final BindingResult bindingResult,
+        final Model model)
+    {
+        final OutageType outageType = outageService.findOutageTypeByPrimaryKey(id);
+
+        if (outageType != null)
+        {
+            model.addAttribute(WebConstants.KEY_OUTAGE, outageType);
+            form.initialize(outageType);
+        }
+        return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_EDIT);
+    }
+
+    @RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_TYPE_EDIT, method = RequestMethod.POST)
+    public ModelAndView editOutageTypePost(
+        @ModelAttribute(OutageTypeForm.FORM_NAME) @Valid final OutageTypeForm form,
+        final BindingResult bindingResult,
+        final Model model)
+    {
+        log.debug(form);
+
+        final OutageType outageType = form.createOutageType();
+
+        if (!bindingResult.hasErrors())
+        {
+            outageService.saveOutageType(outageType);
+            return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST));
+        }
+
+        model.addAttribute(WebConstants.KEY_OUTAGE, outageType);
+        return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_EDIT);
+    }
+
+    @RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_TYPE_DELETE, method = RequestMethod.GET)
+    public ModelAndView deleteOutageType(
+        @RequestParam("id") final Long id,
+        @ModelAttribute(OutageTypeForm.FORM_NAME) final OutageTypeForm form,
+        final BindingResult bindingResult,
+        final Model model)
+    {
+        final OutageType outageType = outageService.findOutageTypeByPrimaryKey(id);
+
+        if (outageType != null)
+        {
+            model.addAttribute(WebConstants.KEY_OUTAGE, outageType);
+            final Long outageTypeId = outageType.getId();
+            final List<PlannedOutage> outageList = outageService.getAllPlannedOutagesForType(outageTypeId);
+            model.addAttribute(WebConstants.KEY_PLANNED_OUTAGE_TYPE, outageList);
+            model.addAttribute("numberOfPlannedOutages", outageList.size());
+            form.initialize(outageType);
+        }
+        return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_DELETE);
+    }
+
+    @RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_TYPE_DELETE, method = RequestMethod.POST)
+    public ModelAndView deleteOutageTypePost(
+        @ModelAttribute(OutageTypeForm.FORM_NAME) final OutageTypeForm form,
+        final BindingResult bindingResult,
+        final Model model)
+    {
+        log.debug(form);
+
+        final OutageType outageType = form.createOutageType();
+        if (!bindingResult.hasErrors())
+        {
+            outageService.deleteOutageType(outageType.getId());
+            return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST));
+        }
+
+        model.addAttribute(WebConstants.KEY_OUTAGE, outageType);
+        return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_DELETE);
+    }
+
+    @Required
+    public void setOutageService(final OutageService service)
+    {
+        outageService = service;
+    }
+
+    @Required
+    public void setValidator(final Validator validator)
+    {
+        this.validator = validator;
+    }
 }

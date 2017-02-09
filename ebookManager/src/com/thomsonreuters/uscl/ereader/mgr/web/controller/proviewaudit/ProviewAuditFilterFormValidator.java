@@ -1,44 +1,43 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewaudit;
 
 import java.util.Date;
 
-import org.apache.commons.lang.StringUtils;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
-
-public class ProviewAuditFilterFormValidator extends BaseFormValidator implements Validator {
-	
-	//private static final Logger log = LogManager.getLogger(ProviewAuditFilterFormValidator.class);
-	@Override
-    public boolean supports(Class<?> clazz) {
-		return (ProviewAuditFilterForm.class.isAssignableFrom(clazz));
+public class ProviewAuditFilterFormValidator extends BaseFormValidator implements Validator
+{
+    //private static final Logger log = LogManager.getLogger(ProviewAuditFilterFormValidator.class);
+    @Override
+    public boolean supports(final Class<?> clazz)
+    {
+        return (ProviewAuditFilterForm.class.isAssignableFrom(clazz));
     }
 
-	@Override
-    public void validate(Object obj, Errors errors) {
-    	ProviewAuditFilterForm form = (ProviewAuditFilterForm) obj;
-    	// Do not validate form if we are simply resetting its values to the defaults
-    	if (ProviewAuditFilterForm.FilterCommand.RESET.equals(form.getFilterCommand())) {
-    		return;
-    	}
-    	
-    	Date fromDate = form.getRequestFromDate();
-    	Date toDate = form.getRequestToDate();
+    @Override
+    public void validate(final Object obj, final Errors errors)
+    {
+        final ProviewAuditFilterForm form = (ProviewAuditFilterForm) obj;
+        // Do not validate form if we are simply resetting its values to the defaults
+        if (ProviewAuditFilterForm.FilterCommand.RESET.equals(form.getFilterCommand()))
+        {
+            return;
+        }
 
-		if (StringUtils.isNotBlank(form.getRequestFromDateString())) {
-			validateDate(form.getRequestFromDateString(), fromDate, "FROM", errors);
-		}
-		if (StringUtils.isNotBlank(form.getRequestToDateString())) {
-			validateDate(form.getRequestToDateString(), toDate, "TO", errors);
-		}
+        final Date fromDate = form.getRequestFromDate();
+        final Date toDate = form.getRequestToDate();
 
-		validateDateRange(fromDate, toDate, errors);
-	}
+        if (StringUtils.isNotBlank(form.getRequestFromDateString()))
+        {
+            validateDate(form.getRequestFromDateString(), fromDate, "FROM", errors);
+        }
+        if (StringUtils.isNotBlank(form.getRequestToDateString()))
+        {
+            validateDate(form.getRequestToDateString(), toDate, "TO", errors);
+        }
+
+        validateDateRange(fromDate, toDate, errors);
+    }
 }

@@ -1,8 +1,3 @@
-/*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
 import static org.junit.Assert.assertEquals;
@@ -15,6 +10,16 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
+import com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListService;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListFilter;
+import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListSort;
+import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.DisplayTagSortProperty;
 import org.displaytag.properties.SortOrderEnum;
 import org.easymock.EasyMock;
 import org.junit.Assert;
@@ -30,309 +35,345 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
-import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
-import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
-import com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListService;
-import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
-import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListFilter;
-import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListSort;
-import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryController;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterForm;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryPaginatedList;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.DisplayTagSortProperty;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionFormValidator;
+public final class BookLibraryControllerTest
+{
+    private static final String BINDING_RESULT_KEY =
+        BindingResult.class.getName() + "." + BookLibrarySelectionForm.FORM_NAME;
 
-public class BookLibraryControllerTest {
-	private static final String BINDING_RESULT_KEY = BindingResult.class.getName() + "." + BookLibrarySelectionForm.FORM_NAME;
-	
-	private List<LibraryList> LIBRARY_LIST = new ArrayList<LibraryList>();
-	
-	private BookLibraryController controller;
-	private MockHttpServletRequest request;
-	private MockHttpServletResponse response;
-	private HandlerAdapter handlerAdapter;
-	private CodeService mockCodeService;
-	private OutageService mockOutageService;
-	private LibraryListService mockLibraryListService;
+    private List<LibraryList> LIBRARY_LIST = new ArrayList<>();
 
-	@Before
-	public void setUp() throws Exception {
-		request = new MockHttpServletRequest();
-		response = new MockHttpServletResponse();
-		handlerAdapter = new AnnotationMethodHandlerAdapter();
+    private BookLibraryController controller;
+    private MockHttpServletRequest request;
+    private MockHttpServletResponse response;
+    private HandlerAdapter handlerAdapter;
+    private CodeService mockCodeService;
+    private OutageService mockOutageService;
+    private LibraryListService mockLibraryListService;
 
-		// Mock up the dashboard service
-		this.mockLibraryListService = EasyMock.createMock(LibraryListService.class);
-		this.mockCodeService = EasyMock.createMock(CodeService.class);
-		this.mockOutageService = EasyMock.createMock(OutageService.class);
+    @Before
+    public void setUp()
+    {
+        request = new MockHttpServletRequest();
+        response = new MockHttpServletResponse();
+        handlerAdapter = new AnnotationMethodHandlerAdapter();
 
-		// Set up the controller
-		this.controller = new BookLibraryController();
-		controller.setLibraryListService(mockLibraryListService);
-		controller.setValidator(new BookLibrarySelectionFormValidator());
-		controller.setCodeService(mockCodeService);
-		controller.setOutageService(mockOutageService);
-	}
+        // Mock up the dashboard service
+        mockLibraryListService = EasyMock.createMock(LibraryListService.class);
+        mockCodeService = EasyMock.createMock(CodeService.class);
+        mockOutageService = EasyMock.createMock(OutageService.class);
 
-	/**
-	 * Test the GET to the Book List page.
-	 */
-	@Test
-	public void testBookList() {
-		request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST);
-		request.setMethod(HttpMethod.GET.name());
-		
-		EasyMock.expect(mockLibraryListService.findBookDefinitions(EasyMock.anyObject(LibraryListFilter.class), EasyMock.anyObject(LibraryListSort.class))).andReturn(LIBRARY_LIST);
-		EasyMock.expect(mockLibraryListService.numberOfBookDefinitions(EasyMock.anyObject(LibraryListFilter.class))).andReturn(1);
-		EasyMock.replay(mockLibraryListService);
-		
-		EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
-		EasyMock.replay(mockCodeService);
-		
-		EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
-		EasyMock.replay(mockOutageService);
+        // Set up the controller
+        controller = new BookLibraryController();
+        controller.setLibraryListService(mockLibraryListService);
+        controller.setValidator(new BookLibrarySelectionFormValidator());
+        controller.setCodeService(mockCodeService);
+        controller.setOutageService(mockOutageService);
+    }
 
-		ModelAndView mav;
-		try {
-			mav = handlerAdapter.handle(request, response, controller);
+    /**
+     * Test the GET to the Book List page.
+     */
+    @Test
+    public void testBookList()
+    {
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST);
+        request.setMethod(HttpMethod.GET.name());
 
-			assertNotNull(mav);
-			// Verify the returned view name
-			assertEquals(WebConstants.VIEW_BOOK_LIBRARY_LIST, mav.getViewName());
+        EasyMock
+            .expect(
+                mockLibraryListService.findBookDefinitions(
+                    EasyMock.anyObject(LibraryListFilter.class),
+                    EasyMock.anyObject(LibraryListSort.class)))
+            .andReturn(LIBRARY_LIST);
+        EasyMock.expect(mockLibraryListService.numberOfBookDefinitions(EasyMock.anyObject(LibraryListFilter.class)))
+            .andReturn(1);
+        EasyMock.replay(mockLibraryListService);
 
-			// Check the state of the model
-			Map<String, Object> model = mav.getModel();
-			
-			HttpSession session = request.getSession();
-			validateModel(session, model);
-			
-			BookLibraryPaginatedList paginatedList = (BookLibraryPaginatedList) model.get(WebConstants.KEY_PAGINATED_LIST);
-			Assert.assertEquals(1, paginatedList.getFullListSize());
+        EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
+        EasyMock.replay(mockCodeService);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail(e.getMessage());
-		}
-		EasyMock.verify(mockLibraryListService);
-		EasyMock.verify(mockCodeService);
-		EasyMock.verify(mockOutageService);
+        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+        EasyMock.replay(mockOutageService);
 
-	}
+        final ModelAndView mav;
+        try
+        {
+            mav = handlerAdapter.handle(request, response, controller);
 
-	/**
-	 * Test the GET to the Book List paging results
-	 */
-	@Test
-	public void testPaging() {
-		int newPageNumber = 3;
-		request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING);
-		request.setMethod(HttpMethod.GET.name());
-    	request.setParameter("page", String.valueOf(newPageNumber));
-		
-		int expectedBookCount = 61;
-		EasyMock.expect(mockLibraryListService.findBookDefinitions(EasyMock.anyObject(LibraryListFilter.class), EasyMock.anyObject(LibraryListSort.class))).andReturn(LIBRARY_LIST);
-		EasyMock.expect(mockLibraryListService.numberOfBookDefinitions(EasyMock.anyObject(LibraryListFilter.class))).andReturn(expectedBookCount);
-		EasyMock.replay(mockLibraryListService);
-		
-		EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
-		EasyMock.replay(mockCodeService);
-		
-		EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
-		EasyMock.replay(mockOutageService);
+            assertNotNull(mav);
+            // Verify the returned view name
+            assertEquals(WebConstants.VIEW_BOOK_LIBRARY_LIST, mav.getViewName());
 
-		ModelAndView mav;
-		try {
-			mav = handlerAdapter.handle(request, response, controller);
+            // Check the state of the model
+            final Map<String, Object> model = mav.getModel();
 
-			assertNotNull(mav);
-			// Verify the returned view name
-			assertEquals(WebConstants.VIEW_BOOK_LIBRARY_LIST, mav.getViewName());
+            final HttpSession session = request.getSession();
+            validateModel(session, model);
 
-			// Check the state of the model
-			Map<String, Object> model = mav.getModel();
-			
-			HttpSession session = request.getSession();
-			validateModel(session, model);
-			
-			BookLibraryPaginatedList paginatedList = (BookLibraryPaginatedList) model.get(WebConstants.KEY_PAGINATED_LIST);
-			Assert.assertEquals(expectedBookCount, paginatedList.getFullListSize());
-			Assert.assertEquals(newPageNumber, paginatedList.getPageNumber());
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail(e.getMessage());
-		}
-		EasyMock.verify(mockLibraryListService);
-		EasyMock.verify(mockCodeService);
-		EasyMock.verify(mockOutageService);
-	}
-	
-	/**
-	 * Test the GET to the Book List sorting results
-	 */
-	@Test
-	public void testSorting() {
-		request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING);
-		request.setMethod(HttpMethod.GET.name());
-		request.setParameter("sort", DisplayTagSortProperty.LAST_GENERATED_DATE.toString());
-    	request.setParameter("dir", "asc");
+            final BookLibraryPaginatedList paginatedList =
+                (BookLibraryPaginatedList) model.get(WebConstants.KEY_PAGINATED_LIST);
+            Assert.assertEquals(1, paginatedList.getFullListSize());
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+        EasyMock.verify(mockLibraryListService);
+        EasyMock.verify(mockCodeService);
+        EasyMock.verify(mockOutageService);
+    }
 
-		EasyMock.expect(mockLibraryListService.findBookDefinitions(EasyMock.anyObject(LibraryListFilter.class), EasyMock.anyObject(LibraryListSort.class))).andReturn(LIBRARY_LIST);
-		EasyMock.expect(mockLibraryListService.numberOfBookDefinitions(EasyMock.anyObject(LibraryListFilter.class))).andReturn(1);
-		EasyMock.replay(mockLibraryListService);
-		
-		EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
-		EasyMock.replay(mockCodeService);
-		
-		EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
-		EasyMock.replay(mockOutageService);
+    /**
+     * Test the GET to the Book List paging results
+     */
+    @Test
+    public void testPaging()
+    {
+        final int newPageNumber = 3;
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING);
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter("page", String.valueOf(newPageNumber));
 
-		ModelAndView mav;
-		try {
-			mav = handlerAdapter.handle(request, response, controller);
+        final int expectedBookCount = 61;
+        EasyMock
+            .expect(
+                mockLibraryListService.findBookDefinitions(
+                    EasyMock.anyObject(LibraryListFilter.class),
+                    EasyMock.anyObject(LibraryListSort.class)))
+            .andReturn(LIBRARY_LIST);
+        EasyMock.expect(mockLibraryListService.numberOfBookDefinitions(EasyMock.anyObject(LibraryListFilter.class)))
+            .andReturn(expectedBookCount);
+        EasyMock.replay(mockLibraryListService);
 
-			assertNotNull(mav);
-			// Verify the returned view name
-			assertEquals(WebConstants.VIEW_BOOK_LIBRARY_LIST, mav.getViewName());
+        EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
+        EasyMock.replay(mockCodeService);
 
-			// Check the state of the model
-			Map<String, Object> model = mav.getModel();
-			
-			HttpSession session = request.getSession();
-			validateModel(session, model);
-			
-			BookLibraryPaginatedList paginatedList = (BookLibraryPaginatedList) model.get(WebConstants.KEY_PAGINATED_LIST);
-			Assert.assertEquals(1, paginatedList.getFullListSize());
-			Assert.assertEquals(1, paginatedList.getPageNumber());
-			Assert.assertEquals(SortOrderEnum.ASCENDING, paginatedList.getSortDirection());
-			Assert.assertEquals(DisplayTagSortProperty.LAST_GENERATED_DATE.toString(), paginatedList.getSortCriterion());
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail(e.getMessage());
-		}
-		EasyMock.verify(mockLibraryListService);
-		EasyMock.verify(mockCodeService);
-		EasyMock.verify(mockOutageService);
-	}
+        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+        EasyMock.replay(mockOutageService);
 
-	/**
-	 * Test the POST of selection to postBookDefinitionSelections
-	 */
-	@Test
-	public void postBookDefinitionSelectionsTest() {
-		request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST_SELECTION_POST);
-		request.setMethod(HttpMethod.POST.name());
-		request.setParameter("command", BookLibrarySelectionForm.Command.GENERATE.toString());
+        final ModelAndView mav;
+        try
+        {
+            mav = handlerAdapter.handle(request, response, controller);
 
-		String[] selectedEbookKeys = { "uscl/imagedoc4" };
-		request.setParameter("selectedEbookKeys", selectedEbookKeys);
+            assertNotNull(mav);
+            // Verify the returned view name
+            assertEquals(WebConstants.VIEW_BOOK_LIBRARY_LIST, mav.getViewName());
 
-		ModelAndView mav;
-		try {
-			mav = handlerAdapter.handle(request, response, controller);
+            // Check the state of the model
+            final Map<String, Object> model = mav.getModel();
 
-			assertNotNull(mav);
-			// Verify mav is a RedirectView
-			View view = mav.getView();
-			assertEquals(RedirectView.class, view.getClass());
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail(e.getMessage());
-		}
-	}
+            final HttpSession session = request.getSession();
+            validateModel(session, model);
 
-	/**
-	 * Test the POST of multiple selection to postBookDefinitionSelections
-	 */
-	@Test
-	public void postBookDefinitionMultipleSelectionsTest() {
-		request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST_SELECTION_POST);
-		request.setMethod(HttpMethod.POST.name());
-		request.setParameter("command", BookLibrarySelectionForm.Command.GENERATE.toString());
+            final BookLibraryPaginatedList paginatedList =
+                (BookLibraryPaginatedList) model.get(WebConstants.KEY_PAGINATED_LIST);
+            Assert.assertEquals(expectedBookCount, paginatedList.getFullListSize());
+            Assert.assertEquals(newPageNumber, paginatedList.getPageNumber());
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+        EasyMock.verify(mockLibraryListService);
+        EasyMock.verify(mockCodeService);
+        EasyMock.verify(mockOutageService);
+    }
 
-		String[] selectedEbookKeys = { "uscl/imagedoc3", "uscl/imagedoc4" };
-		request.setParameter("selectedEbookKeys", selectedEbookKeys);
+    /**
+     * Test the GET to the Book List sorting results
+     */
+    @Test
+    public void testSorting()
+    {
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST_PAGING);
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter("sort", DisplayTagSortProperty.LAST_GENERATED_DATE.toString());
+        request.setParameter("dir", "asc");
 
-		ModelAndView mav;
-		try {
-			mav = handlerAdapter.handle(request, response, controller);
+        EasyMock
+            .expect(
+                mockLibraryListService.findBookDefinitions(
+                    EasyMock.anyObject(LibraryListFilter.class),
+                    EasyMock.anyObject(LibraryListSort.class)))
+            .andReturn(LIBRARY_LIST);
+        EasyMock.expect(mockLibraryListService.numberOfBookDefinitions(EasyMock.anyObject(LibraryListFilter.class)))
+            .andReturn(1);
+        EasyMock.replay(mockLibraryListService);
 
-			assertNotNull(mav);
-			// Verify mav is a RedirectView
-			View view = mav.getView();
-			assertEquals(RedirectView.class, view.getClass());
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail(e.getMessage());
-		}
-	}
+        EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
+        EasyMock.replay(mockCodeService);
 
-	/**
-	 * Test the POST of No selection to postBookDefinitionSelections
-	 */
-	@Test
-	public void postBookDefinitionNoSelectionsTest() {
-		request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST_SELECTION_POST);
-		request.setMethod(HttpMethod.POST.name());
-		request.setParameter("command", BookLibrarySelectionForm.Command.GENERATE.toString());
+        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+        EasyMock.replay(mockOutageService);
 
-		String[] selectedEbookKeys = {};
-		request.setParameter("selectedEbookKeys", selectedEbookKeys);
+        final ModelAndView mav;
+        try
+        {
+            mav = handlerAdapter.handle(request, response, controller);
 
-		EasyMock.expect(mockLibraryListService.findBookDefinitions(EasyMock.anyObject(LibraryListFilter.class), EasyMock.anyObject(LibraryListSort.class))).andReturn(LIBRARY_LIST);
-		EasyMock.expect(mockLibraryListService.numberOfBookDefinitions(EasyMock.anyObject(LibraryListFilter.class))).andReturn(1);
-		EasyMock.replay(mockLibraryListService);
-		
-		EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
-		EasyMock.replay(mockCodeService);
-		
-		EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
-		EasyMock.replay(mockOutageService);
+            assertNotNull(mav);
+            // Verify the returned view name
+            assertEquals(WebConstants.VIEW_BOOK_LIBRARY_LIST, mav.getViewName());
 
-		ModelAndView mav;
-		try {
-			mav = handlerAdapter.handle(request, response, controller);
+            // Check the state of the model
+            final Map<String, Object> model = mav.getModel();
 
-			assertNotNull(mav);
+            final HttpSession session = request.getSession();
+            validateModel(session, model);
 
-			Map<String, Object> model = mav.getModel();
-			BindingResult bindingResult = (BindingResult) model
-					.get(BINDING_RESULT_KEY);
-			assertNotNull(bindingResult);
-			assertTrue(bindingResult.hasErrors());
+            final BookLibraryPaginatedList paginatedList =
+                (BookLibraryPaginatedList) model.get(WebConstants.KEY_PAGINATED_LIST);
+            Assert.assertEquals(1, paginatedList.getFullListSize());
+            Assert.assertEquals(1, paginatedList.getPageNumber());
+            Assert.assertEquals(SortOrderEnum.ASCENDING, paginatedList.getSortDirection());
+            Assert
+                .assertEquals(DisplayTagSortProperty.LAST_GENERATED_DATE.toString(), paginatedList.getSortCriterion());
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+        EasyMock.verify(mockLibraryListService);
+        EasyMock.verify(mockCodeService);
+        EasyMock.verify(mockOutageService);
+    }
 
-			// Verify the returned view name
-			assertEquals(WebConstants.VIEW_BOOK_LIBRARY_LIST, mav.getViewName());
-			
-			HttpSession session = request.getSession();
-			validateModel(session, model);
-			
-			BookLibraryPaginatedList paginatedList = (BookLibraryPaginatedList) model.get(WebConstants.KEY_PAGINATED_LIST);
-			Assert.assertEquals(1, paginatedList.getFullListSize());
+    /**
+     * Test the POST of selection to postBookDefinitionSelections
+     */
+    @Test
+    public void postBookDefinitionSelectionsTest()
+    {
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST_SELECTION_POST);
+        request.setMethod(HttpMethod.POST.name());
+        request.setParameter("command", BookLibrarySelectionForm.Command.GENERATE.toString());
 
+        final String[] selectedEbookKeys = {"uscl/imagedoc4"};
+        request.setParameter("selectedEbookKeys", selectedEbookKeys);
 
-			EasyMock.verify(mockLibraryListService);
-			EasyMock.verify(mockCodeService);
-			EasyMock.verify(mockOutageService);
+        final ModelAndView mav;
+        try
+        {
+            mav = handlerAdapter.handle(request, response, controller);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail(e.getMessage());
-		}
-	}
-	
-	/**
-	 * Verify the state of the session and reqeust (model) as expected before the
-	 * rendering of the page.
-	 */
-	public static void validateModel(HttpSession session, Map<String,Object> model) {
-    	Assert.assertNotNull(session.getAttribute(BookLibraryFilterForm.FORM_NAME));
-    	Assert.assertNotNull(session.getAttribute(BookLibraryController.PAGE_AND_SORT_NAME));
-    	Assert.assertNotNull(model.get(WebConstants.KEY_PAGINATED_LIST));
-    	Assert.assertNotNull(model.get(BookLibraryFilterForm.FORM_NAME));
-    	Assert.assertNotNull(model.get(BookLibrarySelectionForm.FORM_NAME));
-	}
+            assertNotNull(mav);
+            // Verify mav is a RedirectView
+            final View view = mav.getView();
+            assertEquals(RedirectView.class, view.getClass());
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+    }
+
+    /**
+     * Test the POST of multiple selection to postBookDefinitionSelections
+     */
+    @Test
+    public void postBookDefinitionMultipleSelectionsTest()
+    {
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST_SELECTION_POST);
+        request.setMethod(HttpMethod.POST.name());
+        request.setParameter("command", BookLibrarySelectionForm.Command.GENERATE.toString());
+
+        final String[] selectedEbookKeys = {"uscl/imagedoc3", "uscl/imagedoc4"};
+        request.setParameter("selectedEbookKeys", selectedEbookKeys);
+
+        final ModelAndView mav;
+        try
+        {
+            mav = handlerAdapter.handle(request, response, controller);
+
+            assertNotNull(mav);
+            // Verify mav is a RedirectView
+            final View view = mav.getView();
+            assertEquals(RedirectView.class, view.getClass());
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+    }
+
+    /**
+     * Test the POST of No selection to postBookDefinitionSelections
+     */
+    @Test
+    public void postBookDefinitionNoSelectionsTest()
+    {
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_LIBRARY_LIST_SELECTION_POST);
+        request.setMethod(HttpMethod.POST.name());
+        request.setParameter("command", BookLibrarySelectionForm.Command.GENERATE.toString());
+
+        final String[] selectedEbookKeys = {};
+        request.setParameter("selectedEbookKeys", selectedEbookKeys);
+
+        EasyMock
+            .expect(
+                mockLibraryListService.findBookDefinitions(
+                    EasyMock.anyObject(LibraryListFilter.class),
+                    EasyMock.anyObject(LibraryListSort.class)))
+            .andReturn(LIBRARY_LIST);
+        EasyMock.expect(mockLibraryListService.numberOfBookDefinitions(EasyMock.anyObject(LibraryListFilter.class)))
+            .andReturn(1);
+        EasyMock.replay(mockLibraryListService);
+
+        EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
+        EasyMock.replay(mockCodeService);
+
+        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+        EasyMock.replay(mockOutageService);
+
+        final ModelAndView mav;
+        try
+        {
+            mav = handlerAdapter.handle(request, response, controller);
+
+            assertNotNull(mav);
+
+            final Map<String, Object> model = mav.getModel();
+            final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
+            assertNotNull(bindingResult);
+            assertTrue(bindingResult.hasErrors());
+
+            // Verify the returned view name
+            assertEquals(WebConstants.VIEW_BOOK_LIBRARY_LIST, mav.getViewName());
+
+            final HttpSession session = request.getSession();
+            validateModel(session, model);
+
+            final BookLibraryPaginatedList paginatedList =
+                (BookLibraryPaginatedList) model.get(WebConstants.KEY_PAGINATED_LIST);
+            Assert.assertEquals(1, paginatedList.getFullListSize());
+
+            EasyMock.verify(mockLibraryListService);
+            EasyMock.verify(mockCodeService);
+            EasyMock.verify(mockOutageService);
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+    }
+
+    /**
+     * Verify the state of the session and reqeust (model) as expected before the
+     * rendering of the page.
+     */
+    public static void validateModel(final HttpSession session, final Map<String, Object> model)
+    {
+        Assert.assertNotNull(session.getAttribute(BookLibraryFilterForm.FORM_NAME));
+        Assert.assertNotNull(session.getAttribute(BaseBookLibraryController.PAGE_AND_SORT_NAME));
+        Assert.assertNotNull(model.get(WebConstants.KEY_PAGINATED_LIST));
+        Assert.assertNotNull(model.get(BookLibraryFilterForm.FORM_NAME));
+        Assert.assertNotNull(model.get(BookLibrarySelectionForm.FORM_NAME));
+    }
 }

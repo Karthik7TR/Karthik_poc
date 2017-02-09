@@ -6,6 +6,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.thomsonreuters.uscl.ereader.core.CoreConstants;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
+import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
+import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
+import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
+import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
+import com.thomsonreuters.uscl.ereader.mgr.dao.ManagerDao;
 import org.apache.commons.io.FileUtils;
 import org.easymock.EasyMock;
 import org.junit.After;
@@ -16,167 +24,171 @@ import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.web.client.RestTemplate;
 
-import com.thomsonreuters.uscl.ereader.core.CoreConstants;
-import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
-import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
-import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
-import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
-import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
-import com.thomsonreuters.uscl.ereader.mgr.dao.ManagerDao;
+public final class ManagerServiceImplTest
+{
+    private ManagerServiceImpl service;
 
-public class ManagerServiceImplTest {
-	private ManagerServiceImpl service;
+    private String contextName;
+    private File tempRootDir;
+    private File rootCodesDir;
+    private String envName;
+    private RestTemplate mockRestTemplate;
+    private ManagerDao mockDao;
+    private JobService mockJobService;
+    private JobRequestService mockJobRequestService;
 
-	private String contextName;
-	private File tempRootDir;
-	private File rootCodesDir;
-	private String envName;
-	private RestTemplate mockRestTemplate;
-	private ManagerDao mockDao;
-	private JobService mockJobService;
-	private JobRequestService mockJobRequestService;
+    @Before
+    public void setUp()
+    {
+        service = new ManagerServiceImpl();
 
-	@Before
-	public void setUp() {
-		service = new ManagerServiceImpl();
+        contextName = "";
+        tempRootDir = new File(System.getProperty("java.io.tmpdir") + "\\EvenMoreTemp");
+        tempRootDir.mkdir();
+        rootCodesDir = new File(tempRootDir, "codesDir");
+        rootCodesDir.mkdir();
+        envName = "";
+        mockRestTemplate = EasyMock.createMock(RestTemplate.class);
+        mockDao = EasyMock.createMock(ManagerDao.class);
+        mockJobService = EasyMock.createMock(JobService.class);
+        mockJobRequestService = EasyMock.createMock(JobRequestService.class);
 
-		contextName = "";
-		tempRootDir = new File(System.getProperty("java.io.tmpdir") + "\\EvenMoreTemp");
-		this.tempRootDir.mkdir();
-		rootCodesDir = new File(tempRootDir, "codesDir");
-		this.rootCodesDir.mkdir();
-		envName = "";
-		mockRestTemplate = EasyMock.createMock(RestTemplate.class);
-		mockDao = EasyMock.createMock(ManagerDao.class);
-		mockJobService = EasyMock.createMock(JobService.class);
-		mockJobRequestService = EasyMock.createMock(JobRequestService.class);
+        service.setGeneratorContextName(contextName);
+        service.setRootWorkDirectory(tempRootDir);
+        service.setRootCodesWorkbenchLandingStrip(rootCodesDir);
+        service.setEnvironmentName(envName);
+        service.setRestTemplate(mockRestTemplate);
+        service.setManagerDao(mockDao);
+        service.setJobService(mockJobService);
+        service.setJobRequestService(mockJobRequestService);
+    }
 
-		service.setGeneratorContextName(contextName);
-		service.setRootWorkDirectory(tempRootDir);
-		service.setRootCodesWorkbenchLandingStrip(rootCodesDir);
-		service.setEnvironmentName(envName);
-		service.setRestTemplate(mockRestTemplate);
-		service.setManagerDao(mockDao);
-		service.setJobService(mockJobService);
-		service.setJobRequestService(mockJobRequestService);
-	}
+    @After
+    public void tearDown()
+    {
+        try
+        {
+            FileUtils.deleteDirectory(tempRootDir);
+        }
+        catch (final Exception e)
+        {
+            //Intentionally left blank
+        }
+    }
 
-	@After
-	public void tearDown() {
-		try {
-			FileUtils.deleteDirectory(tempRootDir);
-		} catch (Exception e) {
-		}
-	}
+    @Test
+    public void testIsAnyJobsStartedOrQueued()
+    {
+        EasyMock.expect(mockJobService.getStartedJobCount()).andReturn(1);
+        EasyMock.replay(mockJobService);
+        Boolean jobs = service.isAnyJobsStartedOrQueued();
+        Assert.assertTrue(jobs);
 
-	@Test
-	public void testIsAnyJobsStartedOrQueued() {
+        EasyMock.reset(mockJobService);
 
-		EasyMock.expect(mockJobService.getStartedJobCount()).andReturn(1);
-		EasyMock.replay(mockJobService);
-		Boolean jobs = service.isAnyJobsStartedOrQueued();
-		Assert.assertTrue(jobs);
+        final List<JobRequest> requestList = new ArrayList<>();
 
-		EasyMock.reset(mockJobService);
+        EasyMock.expect(mockJobService.getStartedJobCount()).andReturn(0);
+        EasyMock.replay(mockJobService);
+        EasyMock.expect(mockJobRequestService.findAllJobRequests()).andReturn(requestList);
+        EasyMock.replay(mockJobRequestService);
+        jobs = service.isAnyJobsStartedOrQueued();
+        Assert.assertTrue(!jobs);
 
-		List<JobRequest> requestList = new ArrayList<JobRequest>();
+        EasyMock.reset(mockJobService);
+        EasyMock.reset(mockJobRequestService);
 
-		EasyMock.expect(mockJobService.getStartedJobCount()).andReturn(0);
-		EasyMock.replay(mockJobService);
-		EasyMock.expect(mockJobRequestService.findAllJobRequests()).andReturn(requestList);
-		EasyMock.replay(mockJobRequestService);
-		jobs = service.isAnyJobsStartedOrQueued();
-		Assert.assertTrue(!jobs);
+        final JobRequest request = new JobRequest();
+        requestList.add(request);
 
-		EasyMock.reset(mockJobService);
-		EasyMock.reset(mockJobRequestService);
+        EasyMock.expect(mockJobService.getStartedJobCount()).andReturn(0);
+        EasyMock.replay(mockJobService);
+        EasyMock.expect(mockJobRequestService.findAllJobRequests()).andReturn(requestList);
+        EasyMock.replay(mockJobRequestService);
+        jobs = service.isAnyJobsStartedOrQueued();
+        Assert.assertTrue(jobs);
+    }
 
-		JobRequest request = new JobRequest();
-		requestList.add(request);
+    @Test
+    public void testFindRunningJob()
+    {
+        final BookDefinition book = new BookDefinition();
+        final Long bookDefinitionId = Long.valueOf(127);
+        final JobExecution jobExecution = new JobExecution(bookDefinitionId);
 
-		EasyMock.expect(mockJobService.getStartedJobCount()).andReturn(0);
-		EasyMock.replay(mockJobService);
-		EasyMock.expect(mockJobRequestService.findAllJobRequests()).andReturn(requestList);
-		EasyMock.replay(mockJobRequestService);
-		jobs = service.isAnyJobsStartedOrQueued();
-		Assert.assertTrue(jobs);
-	}
+        EasyMock.expect(mockDao.findRunningJobExecution(book)).andReturn(jobExecution);
+        EasyMock.replay(mockDao);
 
-	@Test
-	public void testFindRunningJob() {
-		BookDefinition book = new BookDefinition();
-		Long bookDefinitionId = new Long(127);
-		JobExecution jobExecution = new JobExecution(bookDefinitionId);
+        final JobExecution execution = service.findRunningJob(book);
+        Assert.assertEquals(jobExecution, execution);
+    }
 
-		EasyMock.expect(mockDao.findRunningJobExecution(book)).andReturn(jobExecution);
-		EasyMock.replay(mockDao);
+    @Ignore
+    @Test
+    public void testPushPlannedOutage()
+    {
+        final String ipAddress = "";
+        final int port = 0;
+        // can't Instantiate for some reason
+        final PlannedOutage outage = EasyMock.createMock(PlannedOutage.class);
 
-		JobExecution execution = service.findRunningJob(book);
-		Assert.assertEquals(jobExecution, execution);
-	}
+        final InetSocketAddress socketAddr = EasyMock.createMock(InetSocketAddress.class);
+        EasyMock.expect(socketAddr.getHostName()).andReturn(ipAddress);
+        EasyMock.expect(socketAddr.getPort()).andReturn(port);
+        EasyMock.replay(socketAddr);
 
-	@Ignore
-	@Test
-	public void testPushPlannedOutage() {
-		String ipAddress = "";
-		int port = 0;
-		// can't Instantiate for some reason
-		PlannedOutage outage = EasyMock.createMock(PlannedOutage.class);
+        EasyMock.expect(mockRestTemplate.postForObject("", outage, SimpleRestServiceResponse.class)).andReturn(null);
+        EasyMock.replay(mockRestTemplate);
 
-		InetSocketAddress socketAddr = EasyMock.createMock(InetSocketAddress.class);
-		EasyMock.expect(socketAddr.getHostName()).andReturn(ipAddress);
-		EasyMock.expect(socketAddr.getPort()).andReturn(port);
-		EasyMock.replay(socketAddr);
+        service.pushPlannedOutage(outage, socketAddr);
+    }
 
-		EasyMock.expect(mockRestTemplate.postForObject("", outage, SimpleRestServiceResponse.class)).andReturn(null);
-		EasyMock.replay(mockRestTemplate);
+    @Test
+    public void testCleanupOldSpringBatchDatabaseRecords()
+    {
+        final int daysBack = 0;
 
-		service.pushPlannedOutage(outage, socketAddr);
-	}
+        EasyMock.expect(mockDao.archiveAndDeleteSpringBatchJobRecordsBefore(EasyMock.anyObject(Date.class)))
+            .andReturn(5);
+        EasyMock.replay(mockDao);
+        service.cleanupOldSpringBatchDatabaseRecords(daysBack);
+        EasyMock.verify(mockDao);
+    }
 
-	@Test
-	public void testCleanupOldSpringBatchDatabaseRecords() {
-		int daysBack = 0;
+    @Test
+    public void testCleanupOldFilesystemFiles()
+    {
+        final int daysBack = 0;
+        final int cwbFilesDaysBack = 0;
 
-		EasyMock.expect(mockDao.archiveAndDeleteSpringBatchJobRecordsBefore(EasyMock.anyObject(Date.class)))
-				.andReturn(5);
-		EasyMock.replay(mockDao);
-		service.cleanupOldSpringBatchDatabaseRecords(daysBack);
-		EasyMock.verify(mockDao);
-	}
+        final File envDir = new File(tempRootDir, envName);
+        envDir.mkdir();
+        final File dataDir = new File(envDir, CoreConstants.DATA_DIR);
+        dataDir.mkdir();
+        new File(dataDir, "0").mkdir();
+        new File(rootCodesDir, "0").mkdir();
 
-	@Test
-	public void testCleanupOldFilesystemFiles() {
-		int daysBack = 0;
-		int cwbFilesDaysBack = 0;
+        service.cleanupOldFilesystemFiles(daysBack, cwbFilesDaysBack);
+    }
 
-		File envDir = new File(tempRootDir, envName);
-		envDir.mkdir();
-		File dataDir = new File(envDir, CoreConstants.DATA_DIR);
-		dataDir.mkdir();
-		new File(dataDir, "0").mkdir();
-		new File(rootCodesDir, "0").mkdir();
+    @Test
+    public void testCleanupOldPlannedOutages()
+    {
+        final int daysBack = 0;
+        mockDao.deletePlannedOutagesBefore(EasyMock.anyObject(Date.class));
+        EasyMock.expectLastCall();
 
-		service.cleanupOldFilesystemFiles(daysBack, cwbFilesDaysBack);
-	}
+        service.cleanupOldPlannedOutages(daysBack);
+    }
 
-	@Test
-	public void testCleanupOldPlannedOutages() {
-		int daysBack = 0;
-		mockDao.deletePlannedOutagesBefore(EasyMock.anyObject(Date.class));
-		EasyMock.expectLastCall();
+    @Test
+    public void testCleanupOldTransientMetadata()
+    {
+        final int numberLastMajorVersionKept = 0;
+        final int daysBeforeDocMetadataDelete = 0;
+        mockDao.deleteTransientMetadata(numberLastMajorVersionKept, daysBeforeDocMetadataDelete);
+        EasyMock.expectLastCall();
 
-		service.cleanupOldPlannedOutages(daysBack);
-	}
-
-	@Test
-	public void testCleanupOldTransientMetadata() {
-		int numberLastMajorVersionKept = 0;
-		int daysBeforeDocMetadataDelete = 0;
-		mockDao.deleteTransientMetadata(numberLastMajorVersionKept, daysBeforeDocMetadataDelete);
-		EasyMock.expectLastCall();
-
-		service.cleanupOldTransientMetadata(numberLastMajorVersionKept, daysBeforeDocMetadataDelete);
-	}
+        service.cleanupOldTransientMetadata(numberLastMajorVersionKept, daysBeforeDocMetadataDelete);
+    }
 }

@@ -5,59 +5,63 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
+import com.thomsonreuters.uscl.ereader.ioutil.BaseExcelExportService;
+import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
-import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsExcelExportService;
+public final class ProviewListExcelExportServiceTest
+{
+    private ProviewListExcelExportService exportService;
+    private HttpSession httpSession;
 
-public class ProviewListExcelExportServiceTest {
+    @Before
+    public void setUp()
+    {
+        exportService = new ProviewListExcelExportService();
+        httpSession = (new MockHttpServletRequest()).getSession();
+    }
 
-	private ProviewListExcelExportService exportService;
-	private HttpSession httpSession;
+    @Test
+    public void testHappyPath()
+    {
+        final ProviewTitleInfo title = new ProviewTitleInfo();
+        title.setTitle("");
+        title.setTitleId("");
+        title.setTotalNumberOfVersions(2);
+        title.setVersion("");
+        title.setStatus("");
+        title.setPublisher("");
+        title.setLastupdate("");
+        final List<ProviewTitleInfo> selectedProviewGroups = new ArrayList<>();
+        selectedProviewGroups.add(title);
+        httpSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES, selectedProviewGroups);
 
-	@Before
-	public void setUp() {
-		this.exportService = new ProviewListExcelExportService();
-		this.httpSession = (new MockHttpServletRequest()).getSession();
+        final Workbook wb = exportService.createExcelDocument(httpSession);
+        Assert.assertTrue(wb.getSheet(ProviewListExcelExportService.TITLES_NAME).getLastRowNum() == 1);
+    }
 
-	}
+    @Test
+    public void testMaxExcelRows()
+    {
+        final ProviewTitleInfo title = new ProviewTitleInfo();
+        title.setTotalNumberOfVersions(1);
+        final List<ProviewTitleInfo> titles = new ArrayList<>();
 
-	@Test
-	public void testHappyPath() {
-		ProviewTitleInfo title = new ProviewTitleInfo();
-		title.setTitle("");
-		title.setTitleId("");
-		title.setTotalNumberOfVersions(2);
-		title.setVersion("");
-		title.setStatus("");
-		title.setPublisher("");
-		title.setLastupdate("");
-		List<ProviewTitleInfo> selectedProviewGroups = new ArrayList<ProviewTitleInfo>();
-		selectedProviewGroups.add(title);
-		httpSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES, selectedProviewGroups);
+        for (int i = 0; i < BaseExcelExportService.MAX_EXCEL_SHEET_ROW_NUM; i++)
+        {
+            titles.add(title);
+        }
 
-		Workbook wb = exportService.createExcelDocument(httpSession);
-		Assert.assertTrue(wb.getSheet(ProviewListExcelExportService.TITLES_NAME).getLastRowNum()==1);
-	}
+        httpSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES, titles);
 
-	@Test
-	public void testMaxExcelRows() {
-		ProviewTitleInfo title = new ProviewTitleInfo();
-		title.setTotalNumberOfVersions(1);
-		List<ProviewTitleInfo> titles = new ArrayList<ProviewTitleInfo>();
-
-		for (int i = 0; i < PublishingStatsExcelExportService.MAX_EXCEL_SHEET_ROW_NUM; i++) {
-			titles.add(title);
-		}
-
-		httpSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES, titles);
-
-		Workbook wb = exportService.createExcelDocument(httpSession);
-		Assert.assertTrue(wb.getSheet(ProviewListExcelExportService.TITLES_NAME).getLastRowNum()==PublishingStatsExcelExportService.MAX_EXCEL_SHEET_ROW_NUM);
-	}
+        final Workbook wb = exportService.createExcelDocument(httpSession);
+        Assert.assertTrue(
+            wb.getSheet(ProviewListExcelExportService.TITLES_NAME)
+                .getLastRowNum() == BaseExcelExportService.MAX_EXCEL_SHEET_ROW_NUM);
+    }
 }

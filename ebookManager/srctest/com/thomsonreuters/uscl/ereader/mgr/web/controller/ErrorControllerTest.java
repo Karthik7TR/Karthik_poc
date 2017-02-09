@@ -8,6 +8,8 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.error.ErrorController;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,43 +19,47 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
-import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.error.ErrorController;
 
-public class ErrorControllerTest {
+public class ErrorControllerTest
+{
     private ErrorController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
-    
-	@Before
-	public void setUp() throws Exception {
-		request = new MockHttpServletRequest();
-    	response = new MockHttpServletResponse();
-    	handlerAdapter = new AnnotationMethodHandlerAdapter();
-   
-    	// Set up the controller
-    	this.controller = new ErrorController();
-	}
 
-	/**
+    @Before
+    public void setUp()
+    {
+        request = new MockHttpServletRequest();
+        response = new MockHttpServletResponse();
+        handlerAdapter = new AnnotationMethodHandlerAdapter();
+
+        // Set up the controller
+        controller = new ErrorController();
+    }
+
+    /**
      * Test the GET to the Delete Book Definition page
      */
-	@Test
-	public void testDeleteBookDefintionGet() {
-		request.setRequestURI("/"+ WebConstants.MVC_ERROR_BOOK_DELETED);
-    	request.setMethod(HttpMethod.GET.name());
-    	
-    	ModelAndView mav;
-		try {
-			mav = handlerAdapter.handle(request, response, controller);
-			
-			assertNotNull(mav);
-	        // Verify the returned view name
-	        assertEquals(WebConstants.VIEW_ERROR_BOOK_DELETED, mav.getViewName());
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail(e.getMessage());
-		}
-	}
+    @Test
+    public void testDeleteBookDefintionGet()
+    {
+        request.setRequestURI("/" + WebConstants.MVC_ERROR_BOOK_DELETED);
+        request.setMethod(HttpMethod.GET.name());
+
+        ModelAndView mav;
+        try
+        {
+            mav = handlerAdapter.handle(request, response, controller);
+
+            assertNotNull(mav);
+            // Verify the returned view name
+            assertEquals(WebConstants.VIEW_ERROR_BOOK_DELETED, mav.getViewName());
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+    }
 }

@@ -1,14 +1,12 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterForm.FilterCommand;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.DisplayTagSortProperty;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -21,51 +19,52 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibraryFilterForm.FilterCommand;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.DisplayTagSortProperty;
 
 @Controller
-public class BookLibraryFilterController extends BaseBookLibraryController {
-	//private static final Logger log = LogManager.getLogger(BookLibraryFilterController.class);
+public class BookLibraryFilterController extends BaseBookLibraryController
+{
+    //private static final Logger log = LogManager.getLogger(BookLibraryFilterController.class);
 
-	private Validator validator;
+    private Validator validator;
 
-	@InitBinder(BookLibraryFilterForm.FORM_NAME)
-	protected void initDataBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
-		binder.setValidator(validator);
-	}
-	
-	/**
-	 * Handle submit/post of a new set of filter criteria.
-	 */
-	@RequestMapping(value=WebConstants.MVC_BOOK_LIBRARY_FILTERED_POST, method = RequestMethod.POST)
-	public ModelAndView doFilterPost(HttpSession httpSession,
-						@ModelAttribute(BookLibraryFilterForm.FORM_NAME) @Valid BookLibraryFilterForm filterForm,
-						BindingResult errors,
-						Model model) throws Exception {
-		// Restore state of paging and sorting
-		PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
-		BookLibrarySelectionForm librarySelectionForm = new BookLibrarySelectionForm();
-		librarySelectionForm.setObjectsPerPage(pageAndSort.getObjectsPerPage());
-		
-		if (FilterCommand.RESET.equals(filterForm.getFilterCommand())) {
-			filterForm.initialize();
-		}
-		
-		pageAndSort.setPageNumber(1);
+    @InitBinder(BookLibraryFilterForm.FORM_NAME)
+    protected void initDataBinder(final WebDataBinder binder)
+    {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+        binder.setValidator(validator);
+    }
 
-		setUpModel(filterForm, pageAndSort, httpSession, model);
-		model.addAttribute(BookLibrarySelectionForm.FORM_NAME, librarySelectionForm);
+    /**
+     * Handle submit/post of a new set of filter criteria.
+     */
+    @RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_FILTERED_POST, method = RequestMethod.POST)
+    public ModelAndView doFilterPost(
+        final HttpSession httpSession,
+        @ModelAttribute(BookLibraryFilterForm.FORM_NAME) @Valid final BookLibraryFilterForm filterForm,
+        final BindingResult errors,
+        final Model model)
+    {
+        // Restore state of paging and sorting
+        final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
+        final BookLibrarySelectionForm librarySelectionForm = new BookLibrarySelectionForm();
+        librarySelectionForm.setObjectsPerPage(pageAndSort.getObjectsPerPage());
 
-		return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
-	}
-	
-	@Required
-	public void setValidator(Validator validator) {
-		this.validator = validator;
-	}
+        if (FilterCommand.RESET.equals(filterForm.getFilterCommand()))
+        {
+            filterForm.initialize();
+        }
 
+        pageAndSort.setPageNumber(1);
+
+        setUpModel(filterForm, pageAndSort, httpSession, model);
+        model.addAttribute(BookLibrarySelectionForm.FORM_NAME, librarySelectionForm);
+
+        return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
+    }
+
+    @Required
+    public void setValidator(final Validator validator)
+    {
+        this.validator = validator;
+    }
 }

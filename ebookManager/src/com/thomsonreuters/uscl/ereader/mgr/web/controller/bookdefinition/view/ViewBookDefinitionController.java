@@ -1,14 +1,14 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view;
 
 import javax.servlet.http.HttpSession;
 
- import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
+import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,96 +19,102 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
-import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
-import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
-
 @Controller
-public class ViewBookDefinitionController {
-	private static final Logger log = LogManager.getLogger(ViewBookDefinitionController.class);
+public class ViewBookDefinitionController
+{
+    private static final Logger log = LogManager.getLogger(ViewBookDefinitionController.class);
 
-	private BookDefinitionService bookDefinitionService;
-	private JobRequestService jobRequestService;
-	
-	/**
-	 * Handle the in-bound GET to the Book Definition read-only view page.
-	 * @param titleId the primary key of the book to be viewed as a required query string parameter.
-	 */
-	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET, method = RequestMethod.GET)
-	public ModelAndView viewBookDefintion(@RequestParam("id") Long id,
-				@ModelAttribute(ViewBookDefinitionForm.FORM_NAME) ViewBookDefinitionForm form,
-				Model model, HttpSession session) {
+    private BookDefinitionService bookDefinitionService;
+    private JobRequestService jobRequestService;
 
-		// Lookup the book by its primary key
-		BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
-		form.setId(id);
-		
-		if(bookDef != null) {
-			model.addAttribute(WebConstants.KEY_IS_IN_JOB_REQUEST, jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId()));
+    /**
+     * Handle the in-bound GET to the Book Definition read-only view page.
+     * @param titleId the primary key of the book to be viewed as a required query string parameter.
+     */
+    @RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_VIEW_GET, method = RequestMethod.GET)
+    public ModelAndView viewBookDefintion(
+        @RequestParam("id") final Long id,
+        @ModelAttribute(ViewBookDefinitionForm.FORM_NAME) final ViewBookDefinitionForm form,
+        final Model model,
+        final HttpSession session)
+    {
+        // Lookup the book by its primary key
+        final BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
+        form.setId(id);
 
-			// Check if user canceled from Generate page
-			String generateCanceled = (String) session.getAttribute(WebConstants.KEY_BOOK_GENERATE_CANCEL);
-			session.removeAttribute(WebConstants.KEY_BOOK_GENERATE_CANCEL);	// Clear the HTML out of the session
-			if (generateCanceled != null) {
-				model.addAttribute(WebConstants.KEY_INFO_MESSAGE, generateCanceled);
-			}
-		}
-		model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
+        if (bookDef != null)
+        {
+            model.addAttribute(
+                WebConstants.KEY_IS_IN_JOB_REQUEST,
+                jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId()));
 
-		return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_VIEW);
-	}
+            // Check if user canceled from Generate page
+            final String generateCanceled = (String) session.getAttribute(WebConstants.KEY_BOOK_GENERATE_CANCEL);
+            session.removeAttribute(WebConstants.KEY_BOOK_GENERATE_CANCEL); // Clear the HTML out of the session
+            if (generateCanceled != null)
+            {
+                model.addAttribute(WebConstants.KEY_INFO_MESSAGE, generateCanceled);
+            }
+        }
+        model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
 
-	/**
-	 * Handle press of one of the functional buttons at the bottom of the
-	 * Book Defintion read-only view page.
-	 */
-	@RequestMapping(value=WebConstants.MVC_BOOK_DEFINITION_VIEW_POST, method = RequestMethod.POST)
-	public ModelAndView doPost(@ModelAttribute(ViewBookDefinitionForm.FORM_NAME) ViewBookDefinitionForm form,
-							   Model model) {
-		ModelAndView mav = null;
-		log.debug(form);
-		String queryString = String.format("?%s=%s", WebConstants.KEY_ID, form.getId());
-		Command command = form.getCommand();
-		switch (command) {
-			case DELETE:
-				mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_DELETE+queryString));
-				break;
-			case EDIT:
-				mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_EDIT+queryString));
-				break;
-			case GROUP:
-				mav = new ModelAndView(new RedirectView(WebConstants.MVC_GROUP_DEFINITION_EDIT+queryString));
-				break; 
-			case GENERATE:
-				mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW+queryString));
-				break;
-			case AUDIT_LOG:
-				mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_AUDIT_SPECIFIC+queryString));
-				break;
-			case BOOK_PUBLISH_STATS:
-				mav = new ModelAndView(new RedirectView(WebConstants.MVC_STATS_SPECIFIC_BOOK+queryString));
-				break;
-			case COPY:
-				mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_COPY+queryString));
-				break;
-			case RESTORE:
-				mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_RESTORE+queryString));
-				break;
-			default:
-				throw new RuntimeException("Unexpected form command: " + command);
-		}
-		return mav;
-	}
-	
-	@Required
-	public void setBookDefinitionService(BookDefinitionService service) {
-		this.bookDefinitionService = service;
-	}
-	
-	@Required
-	public void setJobRequestService(JobRequestService service) {
-		this.jobRequestService = service;
-	}
+        return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_VIEW);
+    }
+
+    /**
+     * Handle press of one of the functional buttons at the bottom of the
+     * Book Defintion read-only view page.
+     */
+    @RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_VIEW_POST, method = RequestMethod.POST)
+    public ModelAndView doPost(
+        @ModelAttribute(ViewBookDefinitionForm.FORM_NAME) final ViewBookDefinitionForm form,
+        final Model model)
+    {
+        ModelAndView mav = null;
+        log.debug(form);
+        final String queryString = String.format("?%s=%s", WebConstants.KEY_ID, form.getId());
+        final Command command = form.getCommand();
+        switch (command)
+        {
+        case DELETE:
+            mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_DELETE + queryString));
+            break;
+        case EDIT:
+            mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_EDIT + queryString));
+            break;
+        case GROUP:
+            mav = new ModelAndView(new RedirectView(WebConstants.MVC_GROUP_DEFINITION_EDIT + queryString));
+            break;
+        case GENERATE:
+            mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW + queryString));
+            break;
+        case AUDIT_LOG:
+            mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_AUDIT_SPECIFIC + queryString));
+            break;
+        case BOOK_PUBLISH_STATS:
+            mav = new ModelAndView(new RedirectView(WebConstants.MVC_STATS_SPECIFIC_BOOK + queryString));
+            break;
+        case COPY:
+            mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_COPY + queryString));
+            break;
+        case RESTORE:
+            mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_RESTORE + queryString));
+            break;
+        default:
+            throw new RuntimeException("Unexpected form command: " + command);
+        }
+        return mav;
+    }
+
+    @Required
+    public void setBookDefinitionService(final BookDefinitionService service)
+    {
+        bookDefinitionService = service;
+    }
+
+    @Required
+    public void setJobRequestService(final JobRequestService service)
+    {
+        jobRequestService = service;
+    }
 }

@@ -1,74 +1,81 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.bookdefinitionlock;
 
 import java.util.Date;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock;
 
-public class BookDefinitionLockForm {
-	//private static final Logger log = LogManager.getLogger(BookDefinitionLockForm.class);
-	public static final String FORM_NAME = "bookDefinitionLockForm";
-	
-	private Long bookDefinitionLockId;
-	private Long bookDefinitionId;
-	private String username;
-	private String fullName;
-	private Date checkoutTimestamp;
-	
-	public BookDefinitionLockForm() {
-		super();
-	}
-	
-	public void initialize(BookDefinitionLock lock){
-		bookDefinitionLockId = lock.getEbookDefinitionLockId();
-		bookDefinitionId = lock.getEbookDefinition().getEbookDefinitionId();
-		username = lock.getUsername();
-		fullName = lock.getFullName();
-		checkoutTimestamp = lock.getCheckoutTimestamp();
-	}
+public class BookDefinitionLockForm
+{
+    //private static final Logger log = LogManager.getLogger(BookDefinitionLockForm.class);
+    public static final String FORM_NAME = "bookDefinitionLockForm";
 
-	public Long getBookDefinitionLockId() {
-		return bookDefinitionLockId;
-	}
+    private Long bookDefinitionLockId;
+    private Long bookDefinitionId;
+    private String username;
+    private String fullName;
+    private Date checkoutTimestamp;
 
-	public void setBookDefinitionLockId(Long bookDefinitionLockId) {
-		this.bookDefinitionLockId = bookDefinitionLockId;
-	}
+    public BookDefinitionLockForm()
+    {
+        super();
+    }
 
-	public Long getBookDefinitionId() {
-		return bookDefinitionId;
-	}
+    public void initialize(final BookDefinitionLock lock)
+    {
+        bookDefinitionLockId = lock.getEbookDefinitionLockId();
+        bookDefinitionId = lock.getEbookDefinition().getEbookDefinitionId();
+        username = lock.getUsername();
+        fullName = lock.getFullName();
+        checkoutTimestamp = lock.getCheckoutTimestamp();
+    }
 
-	public void setBookDefinitionId(Long bookDefinitionId) {
-		this.bookDefinitionId = bookDefinitionId;
-	}
+    public Long getBookDefinitionLockId()
+    {
+        return bookDefinitionLockId;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public void setBookDefinitionLockId(final Long bookDefinitionLockId)
+    {
+        this.bookDefinitionLockId = bookDefinitionLockId;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public Long getBookDefinitionId()
+    {
+        return bookDefinitionId;
+    }
 
-	public String getFullName() {
-		return fullName;
-	}
+    public void setBookDefinitionId(final Long bookDefinitionId)
+    {
+        this.bookDefinitionId = bookDefinitionId;
+    }
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
+    public String getUsername()
+    {
+        return username;
+    }
 
-	public Date getCheckoutTimestamp() {
-		return checkoutTimestamp;
-	}
+    public void setUsername(final String username)
+    {
+        this.username = username;
+    }
 
-	public void setCheckoutTimestamp(Date checkoutTimestamp) {
-		this.checkoutTimestamp = checkoutTimestamp;
-	}
+    public String getFullName()
+    {
+        return fullName;
+    }
+
+    public void setFullName(final String fullName)
+    {
+        this.fullName = fullName;
+    }
+
+    public Date getCheckoutTimestamp()
+    {
+        return checkoutTimestamp;
+    }
+
+    public void setCheckoutTimestamp(final Date checkoutTimestamp)
+    {
+        this.checkoutTimestamp = checkoutTimestamp;
+    }
 }

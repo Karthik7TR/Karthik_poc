@@ -1,8 +1,3 @@
-/*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
 package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
 import static org.junit.Assert.assertEquals;
@@ -12,20 +7,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.easymock.EasyMock;
-import org.joda.time.DateTime;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.http.HttpMethod;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.servlet.HandlerAdapter;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
@@ -44,291 +25,326 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.group.service.GroupServiceImpl;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateEbookController;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerMiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerServiceImpl;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsServiceImpl;
+import org.easymock.EasyMock;
+import org.joda.time.DateTime;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.http.HttpMethod;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.servlet.HandlerAdapter;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public class GenerateEbookControllerTest {
-	private GenerateEbookController controller;
-	private MockHttpServletRequest request;
-	private MockHttpServletResponse response;
-	private HandlerAdapter handlerAdapter;
+public final class GenerateEbookControllerTest
+{
+    private GenerateEbookController controller;
+    private MockHttpServletRequest request;
+    private MockHttpServletResponse response;
+    private HandlerAdapter handlerAdapter;
 
-	private BookDefinitionService mockBookDefinitionService;
-	private MessageSourceAccessor mockMessageSourceAccessor;
-	private ProviewHandler mockProviewHandler;
-	private GroupService mockGroupService;
-	private JobRequestService mockJobRequestService;
-	private PublishingStatsService mockPublishingStatsService;
-	private ManagerService mockManagerService;
-	private OutageService mockOutageService;
-	private MiscConfigSyncService mockMiscConfigService;
+    private BookDefinitionService mockBookDefinitionService;
+    private MessageSourceAccessor mockMessageSourceAccessor;
+    private ProviewHandler mockProviewHandler;
+    private GroupService mockGroupService;
+    private JobRequestService mockJobRequestService;
+    private PublishingStatsService mockPublishingStatsService;
+    private ManagerService mockManagerService;
+    private OutageService mockOutageService;
+    private MiscConfigSyncService mockMiscConfigService;
 
-	@Before
-	public void setUp() throws Exception {
-		request = new MockHttpServletRequest();
-		response = new MockHttpServletResponse();
-		handlerAdapter = new AnnotationMethodHandlerAdapter();
+    @Before
+    public void setUp()
+    {
+        request = new MockHttpServletRequest();
+        response = new MockHttpServletResponse();
+        handlerAdapter = new AnnotationMethodHandlerAdapter();
 
-		// Mock up services
-		mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
-		mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
-		mockProviewHandler = EasyMock.createMock(ProviewHandler.class);
-		mockGroupService = EasyMock.createMock(GroupServiceImpl.class);
-		mockJobRequestService = EasyMock.createMock(JobRequestServiceImpl.class);
-		mockPublishingStatsService = EasyMock.createMock(PublishingStatsServiceImpl.class);
-		mockManagerService = EasyMock.createMock(ManagerServiceImpl.class);
-		mockOutageService = EasyMock.createMock(OutageServiceImpl.class);
-		mockMiscConfigService = EasyMock.createMock(ManagerMiscConfigSyncService.class);
+        // Mock up services
+        mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
+        mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
+        mockProviewHandler = EasyMock.createMock(ProviewHandler.class);
+        mockGroupService = EasyMock.createMock(GroupServiceImpl.class);
+        mockJobRequestService = EasyMock.createMock(JobRequestServiceImpl.class);
+        mockPublishingStatsService = EasyMock.createMock(PublishingStatsServiceImpl.class);
+        mockManagerService = EasyMock.createMock(ManagerServiceImpl.class);
+        mockOutageService = EasyMock.createMock(OutageServiceImpl.class);
+        mockMiscConfigService = EasyMock.createMock(ManagerMiscConfigSyncService.class);
 
-		// Set up the controller
-		this.controller = new GenerateEbookController();
-		controller.setEnvironmentName("");
-		controller.setBookDefinitionService(mockBookDefinitionService);
-		controller.setMessageSourceAccessor(mockMessageSourceAccessor);
-		controller.setProviewHandler(mockProviewHandler);
-		controller.setGroupService(mockGroupService);
-		controller.setJobRequestService(mockJobRequestService);
-		controller.setPublishingStatsService(mockPublishingStatsService);
-		controller.setManagerService(mockManagerService);
-		controller.setOutageService(mockOutageService);
-		controller.setMiscConfigSyncService(mockMiscConfigService);
-	}
+        // Set up the controller
+        controller = new GenerateEbookController();
+        controller.setEnvironmentName("");
+        controller.setBookDefinitionService(mockBookDefinitionService);
+        controller.setMessageSourceAccessor(mockMessageSourceAccessor);
+        controller.setProviewHandler(mockProviewHandler);
+        controller.setGroupService(mockGroupService);
+        controller.setJobRequestService(mockJobRequestService);
+        controller.setPublishingStatsService(mockPublishingStatsService);
+        controller.setManagerService(mockManagerService);
+        controller.setOutageService(mockOutageService);
+        controller.setMiscConfigSyncService(mockMiscConfigService);
+    }
 
-	/**
-	 * Test the GET of one book selected to generator preview
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void testGenerateEbookPreviewGET() throws Exception {
-		ProviewTitleInfo titleInfo = new ProviewTitleInfo();
-		titleInfo.setVersion("v5.3");
-		titleInfo.setStatus("test");
-		Long bookDefinitionId = new Long(127);
-		BookDefinition book = new BookDefinition();
-		book.setPublishCutoffDate(new DateTime().toDateMidnight().toDate());
-		book.setEbookDefinitionCompleteFlag(true);
-		book.setIsSplitBook(false);
-		book.setGroupName("groupName");
-		DocumentTypeCode docType = EasyMock.createMock(DocumentTypeCode.class);
-		book.setDocumentTypeCodes(docType);
+    /**
+     * Test the GET of one book selected to generator preview
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testGenerateEbookPreviewGET() throws Exception
+    {
+        final ProviewTitleInfo titleInfo = new ProviewTitleInfo();
+        titleInfo.setVersion("v5.3");
+        titleInfo.setStatus("test");
+        final Long bookDefinitionId = Long.valueOf(127);
+        final BookDefinition book = new BookDefinition();
+        book.setPublishCutoffDate(new DateTime().toDateMidnight().toDate());
+        book.setEbookDefinitionCompleteFlag(true);
+        book.setIsSplitBook(false);
+        book.setGroupName("groupName");
+        final DocumentTypeCode docType = EasyMock.createMock(DocumentTypeCode.class);
+        book.setDocumentTypeCodes(docType);
 
-		GroupDefinition group = new GroupDefinition();
+        final GroupDefinition group = new GroupDefinition();
 
-		MiscConfig miscConfig = new MiscConfig();
-		miscConfig.setDisableExistingSingleTitleSplit(true);
+        final MiscConfig miscConfig = new MiscConfig();
+        miscConfig.setDisableExistingSingleTitleSplit(true);
 
-		request.setRequestURI("/" + WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
-		request.setMethod(HttpMethod.GET.name());
-		request.setParameter("id", bookDefinitionId.toString());
-		request.setParameter("newVersion", GenerateBookForm.Version.OVERWRITE.toString());
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter("id", bookDefinitionId.toString());
+        request.setParameter("newVersion", GenerateBookForm.Version.OVERWRITE.toString());
 
-		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(bookDefinitionId)).andReturn(book);
-		EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
-		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
-		EasyMock.expect(mockProviewHandler.getLatestProviewTitleInfo(null)).andReturn(titleInfo);
-		EasyMock.expect(mockGroupService.getLastGroup(book)).andReturn(group);
-		EasyMock.expect(mockGroupService.createGroupDefinition(book, "v5", null)).andReturn(group);
-		EasyMock.expect(mockGroupService.createGroupDefinition(book, "v6", null)).andReturn(group);
-		EasyMock.expect(mockPublishingStatsService.hasIsbnBeenPublished(null, null)).andReturn(false);
-		EasyMock.expect(docType.getUsePublishCutoffDateFlag()).andReturn(true);
-		EasyMock.replay(docType);
-		replayAll();
+        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(bookDefinitionId)).andReturn(book);
+        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+        EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
+        EasyMock.expect(mockProviewHandler.getLatestProviewTitleInfo(null)).andReturn(titleInfo);
+        EasyMock.expect(mockGroupService.getLastGroup(book)).andReturn(group);
+        EasyMock.expect(mockGroupService.createGroupDefinition(book, "v5", null)).andReturn(group);
+        EasyMock.expect(mockGroupService.createGroupDefinition(book, "v6", null)).andReturn(group);
+        EasyMock.expect(mockPublishingStatsService.hasIsbnBeenPublished(null, null)).andReturn(false);
+        EasyMock.expect(docType.getUsePublishCutoffDateFlag()).andReturn(true);
+        EasyMock.replay(docType);
+        replayAll();
 
-		ModelAndView mav;
-		try {
-			mav = handlerAdapter.handle(request, response, controller);
+        final ModelAndView mav;
+        try
+        {
+            mav = handlerAdapter.handle(request, response, controller);
 
-			assertNotNull(mav);
+            assertNotNull(mav);
 
-			Assert.assertEquals(WebConstants.VIEW_BOOK_GENERATE_PREVIEW, mav.getViewName());
+            Assert.assertEquals(WebConstants.VIEW_BOOK_GENERATE_PREVIEW, mav.getViewName());
 
-			EasyMock.verify(mockOutageService);
+            EasyMock.verify(mockOutageService);
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+    }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail(e.getMessage());
-		}
-	}
+    /**
+     * Test the GET of one book selected to generator preview
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testGenerateEbookPreviewSplitBookGET() throws Exception
+    {
+        final ProviewTitleInfo titleInfo = new ProviewTitleInfo();
+        titleInfo.setVersion("v5.3");
+        titleInfo.setStatus("test");
+        final Long bookDefinitionId = Long.valueOf(127);
+        final BookDefinition book = new BookDefinition();
+        book.setPublishCutoffDate(new DateTime().toDateMidnight().toDate());
+        book.setEbookDefinitionCompleteFlag(true);
+        book.setIsSplitBook(true);
+        book.setIsSplitTypeAuto(false);
+        book.setGroupName("groupName");
+        final DocumentTypeCode docType = EasyMock.createMock(DocumentTypeCode.class);
+        book.setDocumentTypeCodes(docType);
+        final Set<SplitDocument> splitDocs = new HashSet<>();
+        final SplitDocument doc = new SplitDocument();
+        doc.setBookDefinition(new BookDefinition());
+        splitDocs.add(doc);
+        splitDocs.add(doc);
+        book.setSplitDocuments(splitDocs);
 
-	/**
-	 * Test the GET of one book selected to generator preview
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void testGenerateEbookPreviewSplitBookGET() throws Exception {
-		ProviewTitleInfo titleInfo = new ProviewTitleInfo();
-		titleInfo.setVersion("v5.3");
-		titleInfo.setStatus("test");
-		Long bookDefinitionId = new Long(127);
-		BookDefinition book = new BookDefinition();
-		book.setPublishCutoffDate(new DateTime().toDateMidnight().toDate());
-		book.setEbookDefinitionCompleteFlag(true);
-		book.setIsSplitBook(true);
-		book.setIsSplitTypeAuto(false);
-		book.setGroupName("groupName");
-		DocumentTypeCode docType = EasyMock.createMock(DocumentTypeCode.class);
-		book.setDocumentTypeCodes(docType);
-		Set<SplitDocument> splitDocs = new HashSet<SplitDocument>();
-		SplitDocument doc = new SplitDocument();
-		doc.setBookDefinition(new BookDefinition());
-		splitDocs.add(doc);
-		splitDocs.add(doc);
-		book.setSplitDocuments(splitDocs);
+        final GroupDefinition group = new GroupDefinition();
 
-		GroupDefinition group = new GroupDefinition();
+        final MiscConfig miscConfig = new MiscConfig();
+        miscConfig.setDisableExistingSingleTitleSplit(true);
 
-		MiscConfig miscConfig = new MiscConfig();
-		miscConfig.setDisableExistingSingleTitleSplit(true);
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
+        request.setMethod(HttpMethod.GET.name());
+        request.setParameter("id", bookDefinitionId.toString());
+        request.setParameter("newVersion", GenerateBookForm.Version.OVERWRITE.toString());
 
-		request.setRequestURI("/" + WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
-		request.setMethod(HttpMethod.GET.name());
-		request.setParameter("id", bookDefinitionId.toString());
-		request.setParameter("newVersion", GenerateBookForm.Version.OVERWRITE.toString());
+        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(bookDefinitionId)).andReturn(book);
+        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+        EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
+        EasyMock.expect(mockProviewHandler.getLatestProviewTitleInfo(null)).andReturn(titleInfo);
+        EasyMock.expect(mockGroupService.getLastGroup(book)).andReturn(group);
+        EasyMock.expect(
+            mockGroupService.createGroupDefinition(
+                EasyMock.anyObject(BookDefinition.class),
+                EasyMock.anyObject(String.class),
+                EasyMock.anyObject(List.class)))
+            .andReturn(group)
+            .times(2);
+        EasyMock.expect(mockPublishingStatsService.hasIsbnBeenPublished(null, null)).andReturn(false);
+        EasyMock.expect(docType.getUsePublishCutoffDateFlag()).andReturn(true);
+        EasyMock.replay(docType);
+        replayAll();
 
-		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(bookDefinitionId)).andReturn(book);
-		EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
-		EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
-		EasyMock.expect(mockProviewHandler.getLatestProviewTitleInfo(null)).andReturn(titleInfo);
-		EasyMock.expect(mockGroupService.getLastGroup(book)).andReturn(group);
-		EasyMock.expect(mockGroupService.createGroupDefinition(EasyMock.anyObject(BookDefinition.class), EasyMock
-				.anyObject(String.class), EasyMock.anyObject(List.class))).andReturn(group).times(2);
-		EasyMock.expect(mockPublishingStatsService.hasIsbnBeenPublished(null, null)).andReturn(false);
-		EasyMock.expect(docType.getUsePublishCutoffDateFlag()).andReturn(true);
-		EasyMock.replay(docType);
-		replayAll();
+        final ModelAndView mav;
+        try
+        {
+            mav = handlerAdapter.handle(request, response, controller);
 
-		ModelAndView mav;
-		try {
-			mav = handlerAdapter.handle(request, response, controller);
+            assertNotNull(mav);
 
-			assertNotNull(mav);
+            Assert.assertEquals(WebConstants.VIEW_BOOK_GENERATE_PREVIEW, mav.getViewName());
 
-			Assert.assertEquals(WebConstants.VIEW_BOOK_GENERATE_PREVIEW, mav.getViewName());
+            EasyMock.verify(mockOutageService);
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+    }
 
-			EasyMock.verify(mockOutageService);
+    /**
+     * Test the POST of one book selected to generator preview
+     */
+    @Test
+    public void testGenerateEbookPreviewPOST()
+    {
+        final String message = "";
+        final Long bookDefinitionId = Long.valueOf(127);
+        final BookDefinition book = new BookDefinition();
+        book.setEbookDefinitionId(bookDefinitionId);
+        book.setIsDeletedFlag(false);
+        book.setPublishedOnceFlag(true);
+        book.setFullyQualifiedTitleId("");
+        book.setProviewDisplayName("");
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail(e.getMessage());
-		}
-	}
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
+        request.setMethod(HttpMethod.POST.name());
+        request.setParameter("command", Command.GENERATE.toString());
+        request.setParameter("id", bookDefinitionId.toString());
+        request.setParameter("isHighPriorityJob", "true");
 
-	/**
-	 * Test the POST of one book selected to generator preview
-	 */
-	@Test
-	public void testGenerateEbookPreviewPOST() {
-		String message = "";
-		Long bookDefinitionId = new Long(127);
-		BookDefinition book = new BookDefinition();
-		book.setEbookDefinitionId(bookDefinitionId);
-		book.setIsDeletedFlag(false);
-		book.setPublishedOnceFlag(true);
-		book.setFullyQualifiedTitleId("");
-		book.setProviewDisplayName("");
+        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+        EasyMock.expect(mockManagerService.findRunningJob(book)).andReturn(null);
+        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(bookDefinitionId)).andReturn(book);
+        EasyMock.expect(mockJobRequestService.isBookInJobRequest(bookDefinitionId)).andReturn(false);
+        EasyMock.expect(mockJobRequestService.saveQueuedJobRequest(book, "", 5, null)).andReturn(null);
+        EasyMock.expect(
+            mockMessageSourceAccessor.getMessage(EasyMock.anyObject(String.class), EasyMock.anyObject(Object[].class)))
+            .andReturn(null);
+        EasyMock.expect(mockMessageSourceAccessor.getMessage("label.normal")).andReturn(message);
+        EasyMock.expect(mockMessageSourceAccessor.getMessage("mesg.book.deleted")).andReturn(message);
+        replayAll();
 
-		request.setRequestURI("/" + WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
-		request.setMethod(HttpMethod.POST.name());
-		request.setParameter("command", Command.GENERATE.toString());
-		request.setParameter("id", bookDefinitionId.toString());
-		request.setParameter("isHighPriorityJob", "true");
+        final ModelAndView mav;
+        try
+        {
+            mav = handlerAdapter.handle(request, response, controller);
 
-		EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
-		EasyMock.expect(mockManagerService.findRunningJob(book)).andReturn(null);
-		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(bookDefinitionId)).andReturn(book);
-		EasyMock.expect(mockJobRequestService.isBookInJobRequest(bookDefinitionId)).andReturn(false);
-		EasyMock.expect(mockJobRequestService.saveQueuedJobRequest(book, "", 5, null)).andReturn(null);
-		EasyMock.expect(mockMessageSourceAccessor.getMessage(EasyMock.anyObject(String.class), EasyMock.anyObject(
-				Object[].class))).andReturn(null);
-		EasyMock.expect(mockMessageSourceAccessor.getMessage("label.normal")).andReturn(message);
-		EasyMock.expect(mockMessageSourceAccessor.getMessage("mesg.book.deleted")).andReturn(message);
-		replayAll();
+            assertNotNull(mav);
 
-		ModelAndView mav;
-		try {
-			mav = handlerAdapter.handle(request, response, controller);
+            Assert.assertEquals(WebConstants.VIEW_BOOK_GENERATE_PREVIEW, mav.getViewName());
 
-			assertNotNull(mav);
+            EasyMock.verify(mockOutageService);
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+    }
 
-			Assert.assertEquals(WebConstants.VIEW_BOOK_GENERATE_PREVIEW, mav.getViewName());
+    /**
+     * Test the Get of no book selected to generator preview
+     */
+    @Test
+    public void testGenerateEbookPreviewNoBooks()
+    {
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
+        request.setMethod(HttpMethod.GET.name());
 
-			EasyMock.verify(mockOutageService);
+        try
+        {
+            final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+            assertNotNull(mav);
+        }
+        catch (final Exception e)
+        {
+            assertEquals(e.getClass(), MissingServletRequestParameterException.class);
+        }
+    }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail(e.getMessage());
-		}
+    /**
+     * Test the POST of multiple books selected to generator preview
+     */
+    @Test
+    public void testGenerateBulkEbookPreview()
+    {
+        final Long bookDefinitionId = Long.valueOf(127);
+        final BookDefinition book = new BookDefinition();
+        book.setFullyQualifiedTitleId("");
+        book.setProviewDisplayName("");
+        book.setIsDeletedFlag(false);
 
-	}
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW);
+        request.setMethod(HttpMethod.GET.name());
+        final String[] keys = {bookDefinitionId.toString()};
+        request.setParameter("id", keys);
 
-	/**
-	 * Test the Get of no book selected to generator preview
-	 */
-	@Test
-	public void testGenerateEbookPreviewNoBooks() {
-		request.setRequestURI("/" + WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
-		request.setMethod(HttpMethod.GET.name());
+        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(bookDefinitionId)).andReturn(book);
+        EasyMock.replay(mockBookDefinitionService);
 
-		try {
-			ModelAndView mav = handlerAdapter.handle(request, response, controller);
-			assertNotNull(mav);
+        final ModelAndView mav;
+        try
+        {
+            mav = handlerAdapter.handle(request, response, controller);
 
-		} catch (Exception e) {
-			assertEquals(e.getClass(), MissingServletRequestParameterException.class);
-		}
+            assertNotNull(mav);
 
-	}
+            Assert.assertEquals(WebConstants.VIEW_BOOK_GENERATE_BULK_PREVIEW, mav.getViewName());
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+    }
 
-	/**
-	 * Test the POST of multiple books selected to generator preview
-	 */
-	@Test
-	public void testGenerateBulkEbookPreview() {
-		Long bookDefinitionId = new Long(127);
-		BookDefinition book = new BookDefinition();
-		book.setFullyQualifiedTitleId("");
-		book.setProviewDisplayName("");
-		book.setIsDeletedFlag(false);
-
-		request.setRequestURI("/" + WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW);
-		request.setMethod(HttpMethod.GET.name());
-		String[] keys = { bookDefinitionId.toString() };
-		request.setParameter("id", keys);
-
-		EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(bookDefinitionId)).andReturn(book);
-		EasyMock.replay(mockBookDefinitionService);
-
-		ModelAndView mav;
-		try {
-			mav = handlerAdapter.handle(request, response, controller);
-
-			assertNotNull(mav);
-
-			Assert.assertEquals(WebConstants.VIEW_BOOK_GENERATE_BULK_PREVIEW, mav.getViewName());
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail(e.getMessage());
-		}
-	}
-
-	private void replayAll() {
-		EasyMock.replay(mockBookDefinitionService);
-		EasyMock.replay(mockMessageSourceAccessor);
-		EasyMock.replay(mockProviewHandler);
-		EasyMock.replay(mockGroupService);
-		EasyMock.replay(mockJobRequestService);
-		EasyMock.replay(mockPublishingStatsService);
-		EasyMock.replay(mockManagerService);
-		EasyMock.replay(mockOutageService);
-		EasyMock.replay(mockMiscConfigService);
-	}
+    private void replayAll()
+    {
+        EasyMock.replay(mockBookDefinitionService);
+        EasyMock.replay(mockMessageSourceAccessor);
+        EasyMock.replay(mockProviewHandler);
+        EasyMock.replay(mockGroupService);
+        EasyMock.replay(mockJobRequestService);
+        EasyMock.replay(mockPublishingStatsService);
+        EasyMock.replay(mockManagerService);
+        EasyMock.replay(mockOutageService);
+        EasyMock.replay(mockMiscConfigService);
+    }
 }
