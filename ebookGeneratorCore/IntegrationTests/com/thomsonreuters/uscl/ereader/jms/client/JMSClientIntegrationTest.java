@@ -14,7 +14,6 @@ import org.springframework.jms.core.JmsTemplate;
 import com.thomsonreuters.uscl.ereader.jms.client.impl.JmsClientImpl;
 import com.thomsonreuters.uscl.ereader.jms.service.impl.MQConnectionFactory;
 
-@Ignore
 public class JMSClientIntegrationTest {
 	/* configuration for test queue in CI Queue Manager */
 	private static final String HOST = "CTCO002-04";

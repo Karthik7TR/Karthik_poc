@@ -20,7 +20,6 @@ import org.apache.commons.io.FileUtils;
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -35,8 +34,8 @@ import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
  * 
  * @author <a href="mailto:zack.farrell@thomsonreuters.com">Zack Farrell</a> uc209819
  */
-@Ignore
 public class TransformerServiceTest {
+	private static final String STATIC_CONTENT_DIR = "com/thomsonreuters/uscl/ereader/format/service/staticContent";
 	private TransformerServiceImpl transformerService;
 	private File tempRootDir; // root directory for all test files
 	private String guid;
@@ -88,7 +87,9 @@ public class TransformerServiceTest {
 		this.guid = "ebook_source_test";
 
 		/* TransformXMLDocuments arguments */
-		this.srcDir = new File("srctest/com/thomsonreuters/uscl/ereader/format/service/staticContent");
+		this.staticContentDir = new File(getClass().getClassLoader().getResource(STATIC_CONTENT_DIR).getFile());
+		this.srcDir = staticContentDir;
+		
 		this.metaDir = new File(tempRootDir.getAbsolutePath(), "MetaDirectory");
 		this.metaDir.mkdir();
 		makeFile(metaDir, guid + ".xml", "");
@@ -98,7 +99,6 @@ public class TransformerServiceTest {
 		this.targetDir = new File(tempRootDir.getAbsolutePath(), "TransformedDirectory");
 		this.targetDir.mkdir();
 		this.jobID = 987654321;
-		this.staticContentDir = new File("srctest\\com\\thomsonreuters\\uscl\\ereader\\format\\service\\staticContent");
 		
 		this.bookDefinition = new BookDefinition();
 		this.bookDefinition.setFullyQualifiedTitleId("yarr/pirates");
