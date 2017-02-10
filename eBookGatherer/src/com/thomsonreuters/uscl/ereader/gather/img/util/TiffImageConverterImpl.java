@@ -14,13 +14,14 @@ import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 
-import com.thomsonreuters.uscl.ereader.gather.util.images.ImageConverterException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
+import com.thomsonreuters.uscl.ereader.gather.util.images.ImageConverterException;
+
 public class TiffImageConverterImpl implements ImageConverter
 {
-    private static final Logger Log = Logger.getLogger(TiffImageConverterImpl.class);
+    private static final Logger LOG = Logger.getLogger(TiffImageConverterImpl.class);
 
     private static final String NO_TIFF_READER_FOUND = "No TIFF reader found";
     private static final String PREFERABLE_TIFF_READER_NOT_FOUND = "Preferable TIFF reader not found: ";
@@ -48,7 +49,6 @@ public class TiffImageConverterImpl implements ImageConverter
 
     @Override
     public void convertByteImg(final byte[] imgBytes, final String outputImagePath, final String formatName)
-        throws ImageConverterException
     {
         try (OutputStream os = new FileOutputStream(outputImagePath);
             InputStream is = new ByteArrayInputStream(imgBytes))
@@ -72,7 +72,7 @@ public class TiffImageConverterImpl implements ImageConverter
         }
     }
 
-    private BufferedImage readTiff(final InputStream is) throws ImageConverterException, IOException
+    private BufferedImage readTiff(final InputStream is) throws IOException
     {
         ImageReader reader = null;
         try (ImageInputStream iis = ImageIO.createImageInputStream(is))
@@ -109,7 +109,7 @@ public class TiffImageConverterImpl implements ImageConverter
                 imageReader = candidate;
             }
         }
-        Log.warn(PREFERABLE_TIFF_READER_NOT_FOUND + tiffReaderClass);
+        LOG.warn(PREFERABLE_TIFF_READER_NOT_FOUND + tiffReaderClass);
         return imageReader;
     }
 }

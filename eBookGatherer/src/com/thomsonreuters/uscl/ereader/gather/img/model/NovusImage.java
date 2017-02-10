@@ -1,9 +1,10 @@
 package com.thomsonreuters.uscl.ereader.gather.img.model;
 
-import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.MediaType;
+
+import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 
 public class NovusImage
 {
@@ -57,7 +58,7 @@ public class NovusImage
 
     private boolean isImage()
     {
-        return getMediaTypeString().equals("image");
+        return "image".equals(getMediaTypeString());
     }
 
     public String getMediaSubTypeString()

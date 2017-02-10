@@ -1,7 +1,8 @@
 package com.thomsonreuters.uscl.ereader.gather.img.util;
 
-import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 import org.jetbrains.annotations.NotNull;
+
+import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 
 /**
  * Parser to map Novus image metadata to object

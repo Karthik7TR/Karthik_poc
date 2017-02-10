@@ -4,16 +4,17 @@ import java.io.StringReader;
 
 import javax.xml.parsers.SAXParserFactory;
 
-import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
+import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
+
 public class NovusImageMetadataParserImpl implements NovusImageMetadataParser
 {
-    private static final Logger Log = LogManager.getLogger(NovusImageMetadataParserImpl.class);
+    private static final Logger LOG = LogManager.getLogger(NovusImageMetadataParserImpl.class);
 
     @Override
     @NotNull
@@ -32,7 +33,7 @@ public class NovusImageMetadataParserImpl implements NovusImageMetadataParser
         catch (final Exception e)
         {
             final String msg = "Cannot parse image metadata from Novus";
-            Log.error(msg, e);
+            LOG.error(msg, e);
             throw new RuntimeException(msg, e);
         }
     }

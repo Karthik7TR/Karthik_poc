@@ -16,14 +16,15 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
-import com.thomsonreuters.uscl.ereader.gather.img.model.NovusImage;
-import com.thomsonreuters.uscl.ereader.gather.img.util.ImageConverter;
-import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Required;
+
+import com.thomsonreuters.uscl.ereader.gather.img.model.NovusImage;
+import com.thomsonreuters.uscl.ereader.gather.img.util.ImageConverter;
+import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 
 /**
  * Get images form Novus, write them to local folder and collect metadata

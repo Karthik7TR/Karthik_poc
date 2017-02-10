@@ -1,11 +1,12 @@
 package com.thomsonreuters.uscl.ereader.gather.img.util;
 
-import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.XMLFilterImpl;
+
+import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 
 public class ImageMetadataHandler extends XMLFilterImpl
 {
@@ -16,7 +17,7 @@ public class ImageMetadataHandler extends XMLFilterImpl
 
     @NotNull
     private ImgMetadataInfo imgMetadataInfo = new ImgMetadataInfo();
-    private StringBuffer charBuffer;
+    private StringBuilder charBuffer;
 
     @NotNull
     public ImgMetadataInfo getImgMetadataInfo()
@@ -27,7 +28,7 @@ public class ImageMetadataHandler extends XMLFilterImpl
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes atts) throws SAXException
     {
-        charBuffer = new StringBuffer();
+        charBuffer = new StringBuilder();
         super.startElement(uri, localName, qName, atts);
     }
 

@@ -32,13 +32,6 @@
 		  p:novusFactory-ref="novusFactory"
 		  p:novusUtility-ref="novusUtility"/>
 		  
-	<bean id="novusImgService" class="com.thomsonreuters.uscl.ereader.gather.services.NovusImgServiceImpl"
-		  p:novusFactory-ref="novusFactoryforImage"
-		  p:novusUtility-ref="novusUtility"
-		  p:imageConverter-ref="tiffImageConverter"
-		  p:missingImageGuidsFileBasename="missing_image_guids.txt"		  
-		  p:sleepIntervalBetweenImages="500"/>
-		  
 	<!-- Below is used to fetch the initial misc config (log4j logging levels) from a generator REST service that serves up the MiscConfig object
 		 as read from the database. --> 
 	<bean id="miscConfigSyncService" class="com.thomsonreuters.uscl.ereader.gather.services.GathererMiscConfigSyncService"

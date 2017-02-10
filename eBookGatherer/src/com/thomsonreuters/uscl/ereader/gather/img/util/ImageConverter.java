@@ -15,5 +15,5 @@ public interface ImageConverter
      *            format to convert image
      * @throws ImageConverterException
      */
-    void convertByteImg(byte[] imgBytes, String outputImagePath, String formatName) throws ImageConverterException;
+    void convertByteImg(byte[] imgBytes, String outputImagePath, String formatName);
 }
