@@ -21,6 +21,7 @@ import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
@@ -79,7 +80,7 @@ public class TransformerServiceTest {
 	}
 
 	@Before
-	public void setUp() {
+	public void setUp() throws IOException {
 		this.transformerService = new TransformerServiceImpl();
 
 		this.tempRootDir = new File(System.getProperty("java.io.tmpdir") + "/EvenMoreTemp");
@@ -87,7 +88,7 @@ public class TransformerServiceTest {
 		this.guid = "ebook_source_test";
 
 		/* TransformXMLDocuments arguments */
-		this.staticContentDir = new File(getClass().getClassLoader().getResource(STATIC_CONTENT_DIR).getFile());
+		this.staticContentDir = new PathMatchingResourcePatternResolver().getResource(STATIC_CONTENT_DIR).getFile();
 		this.srcDir = staticContentDir;
 		
 		this.metaDir = new File(tempRootDir.getAbsolutePath(), "MetaDirectory");
