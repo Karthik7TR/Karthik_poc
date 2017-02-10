@@ -127,6 +127,12 @@
     </javac>
 
     <copy todir="${dir.testBinaries}">
+      <fileset dir="${dir.unitTestSource}">
+        <include name="**/*.*"/>
+      </fileset>
+    </copy>
+      
+    <copy todir="${dir.testBinaries}">
       <fileset dir="${dir.core}/testBin">
         <include name="**/*.class"/>
       </fileset>
