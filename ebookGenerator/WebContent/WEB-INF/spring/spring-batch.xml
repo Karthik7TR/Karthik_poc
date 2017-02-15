@@ -51,12 +51,16 @@
 	  	  
 	<!-- bean class="com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.EBookRequestQueuePoller"
 		  p:jobRegistry-ref="jobRegistry"
-		  p:jobLauncher-ref="jobLauncher"
+		  p:jobLauncher-ref="jobBundleLauncher"
 		  p:jmsClient-ref="jmsClient"
 		  p:jmsTemplate-ref="jmsTemplate"
 		  p:outageProcessor-ref="outageProcessor"
 		  p:threadPoolTaskExecutor-ref="springBatchBundleTaskExecutor"/ -->
 
+    <bean id="jobBundleLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
+          p:jobRepository-ref="jobRepository" p:taskExecutor-ref="springBatchBundleTaskExecutor">
+    </bean>
+    
     <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
 		  p:jobRepository-ref="jobRepository" p:taskExecutor-ref="springBatchEBookTaskExecutor">
 	</bean>
