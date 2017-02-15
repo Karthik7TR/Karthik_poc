@@ -1,22 +1,16 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
 package com.thomsonreuters.uscl.ereader.format.links;
 
 import java.util.ArrayList;
 import java.util.List;
 
- import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import com.trgr.cobalt.util.urlbuilder.Container;
 import com.trgr.cobalt.util.urlbuilder.ContainerAwareUrlBuilderFactoryBean;
 import com.trgr.cobalt.util.urlbuilder.Parameter;
 import com.trgr.cobalt.util.urlbuilder.UrlBuilder;
 import com.trgr.cobalt.util.urlbuilder.UrlBuilderException;
-
 
 /**
  * Instances of this class are invoked by Xalan as a result of executing the WLN stylesheets.<p>Calls
@@ -39,181 +33,378 @@ public class UrlBuilderAdapter
     private static String MUD_PARAMETERS_VR;
     private UrlBuilder urlBuilder;
 
-    public UrlBuilderAdapter() throws Exception
+    public UrlBuilderAdapter()
+        throws Exception
     {
-        this.urlBuilder = new ContainerAwareUrlBuilderFactoryBean().getObject();
+        urlBuilder = new ContainerAwareUrlBuilderFactoryBean().getObject();
     }
 
-    public String CreatePersistentUrl(String input, String param1)
+    public String CreatePersistentUrl(final String input, final String param1)
     {
-        return this.persistentIntermediary(input, param1);
+        return persistentIntermediary(input, param1);
     }
 
-    public String CreatePersistentUrl(String input, String param1, String param2)
+    public String CreatePersistentUrl(final String input, final String param1, final String param2)
     {
-        return this.persistentIntermediary(input, param1, param2);
+        return persistentIntermediary(input, param1, param2);
     }
 
-    public String CreatePersistentUrl(String input, String param1, String param2, String param3)
+    public String CreatePersistentUrl(final String input, final String param1, final String param2, final String param3)
     {
-        return this.persistentIntermediary(input, param1, param2, param3);
-    }
-
-    public String CreatePersistentUrl(
-        String input, String param1, String param2, String param3, String param4)
-    {
-        return this.persistentIntermediary(input, param1, param2, param3, param4);
+        return persistentIntermediary(input, param1, param2, param3);
     }
 
     public String CreatePersistentUrl(
-        String input, String param1, String param2, String param3, String param4, String param5)
+        final String input,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4)
     {
-        return this.persistentIntermediary(input, param1, param2, param3, param4, param5);
+        return persistentIntermediary(input, param1, param2, param3, param4);
     }
 
     public String CreatePersistentUrl(
-        String input, String param1, String param2, String param3, String param4, String param5,
-        String param6)
+        final String input,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4,
+        final String param5)
     {
-        return this.persistentIntermediary(input, param1, param2, param3, param4, param5, param6);
+        return persistentIntermediary(input, param1, param2, param3, param4, param5);
     }
 
     public String CreatePersistentUrl(
-        String input, String param1, String param2, String param3, String param4, String param5,
-        String param6, String param7)
+        final String input,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4,
+        final String param5,
+        final String param6)
     {
-        return this.persistentIntermediary(
-            input, param1, param2, param3, param4, param5, param6, param7);
+        return persistentIntermediary(input, param1, param2, param3, param4, param5, param6);
     }
 
     public String CreatePersistentUrl(
-        String input, String param1, String param2, String param3, String param4, String param5,
-        String param6, String param7, String param8)
+        final String input,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4,
+        final String param5,
+        final String param6,
+        final String param7)
     {
-        return this.persistentIntermediary(
-            input, param1, param2, param3, param4, param5, param6, param7, param8);
+        return persistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7);
     }
 
     public String CreatePersistentUrl(
-        String input, String param1, String param2, String param3, String param4, String param5,
-        String param6, String param7, String param8, String param9)
+        final String input,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4,
+        final String param5,
+        final String param6,
+        final String param7,
+        final String param8)
     {
-        return this.persistentIntermediary(
-            input, param1, param2, param3, param4, param5, param6, param7, param8, param9);
+        return persistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7, param8);
     }
 
     public String CreatePersistentUrl(
-        String input, String param1, String param2, String param3, String param4, String param5,
-        String param6, String param7, String param8, String param9, String param10)
+        final String input,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4,
+        final String param5,
+        final String param6,
+        final String param7,
+        final String param8,
+        final String param9)
     {
-        return this.persistentIntermediary(
-            input, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
+        return persistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7, param8, param9);
     }
 
     public String CreatePersistentUrl(
-        String input, String param1, String param2, String param3, String param4, String param5,
-        String param6, String param7, String param8, String param9, String param10, String param11)
+        final String input,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4,
+        final String param5,
+        final String param6,
+        final String param7,
+        final String param8,
+        final String param9,
+        final String param10)
     {
-        return this.persistentIntermediary(
-            input, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10,
+        return persistentIntermediary(
+            input,
+            param1,
+            param2,
+            param3,
+            param4,
+            param5,
+            param6,
+            param7,
+            param8,
+            param9,
+            param10);
+    }
+
+    public String CreatePersistentUrl(
+        final String input,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4,
+        final String param5,
+        final String param6,
+        final String param7,
+        final String param8,
+        final String param9,
+        final String param10,
+        final String param11)
+    {
+        return persistentIntermediary(
+            input,
+            param1,
+            param2,
+            param3,
+            param4,
+            param5,
+            param6,
+            param7,
+            param8,
+            param9,
+            param10,
             param11);
     }
 
     public String CreatePersistentUrl(
-        String input, String param1, String param2, String param3, String param4, String param5,
-        String param6, String param7, String param8, String param9, String param10, String param11,
-        String param12)
+        final String input,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4,
+        final String param5,
+        final String param6,
+        final String param7,
+        final String param8,
+        final String param9,
+        final String param10,
+        final String param11,
+        final String param12)
     {
-        return this.persistentIntermediary(
-            input, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10,
-            param11, param12);
+        return persistentIntermediary(
+            input,
+            param1,
+            param2,
+            param3,
+            param4,
+            param5,
+            param6,
+            param7,
+            param8,
+            param9,
+            param10,
+            param11,
+            param12);
     }
 
-    public String CreateRelativePersistentUrl(String input, String param1)
+    public String CreateRelativePersistentUrl(final String input, final String param1)
     {
-        return this.relativePersistentIntermediary(input, param1);
+        return relativePersistentIntermediary(input, param1);
     }
 
-    public String CreateRelativePersistentUrl(String input, String param1, String param2)
+    public String CreateRelativePersistentUrl(final String input, final String param1, final String param2)
     {
-        return this.relativePersistentIntermediary(input, param1, param2);
-    }
-
-    public String CreateRelativePersistentUrl(
-        String input, String param1, String param2, String param3)
-    {
-        return this.relativePersistentIntermediary(input, param1, param2, param3);
-    }
-
-    public String CreateRelativePersistentUrl(
-        String input, String param1, String param2, String param3, String param4)
-    {
-        return this.relativePersistentIntermediary(input, param1, param2, param3, param4);
-    }
-
-    public String CreateRelativePersistentUrl(
-        String input, String param1, String param2, String param3, String param4, String param5)
-    {
-        return this.relativePersistentIntermediary(input, param1, param2, param3, param4, param5);
-    }
-
-    public String CreateRelativePersistentUrl(
-        String input, String param1, String param2, String param3, String param4, String param5,
-        String param6)
-    {
-        return this.relativePersistentIntermediary(
-            input, param1, param2, param3, param4, param5, param6);
+        return relativePersistentIntermediary(input, param1, param2);
     }
 
     public String CreateRelativePersistentUrl(
-        String input, String param1, String param2, String param3, String param4, String param5,
-        String param6, String param7)
+        final String input,
+        final String param1,
+        final String param2,
+        final String param3)
     {
-        return this.relativePersistentIntermediary(
-            input, param1, param2, param3, param4, param5, param6, param7);
+        return relativePersistentIntermediary(input, param1, param2, param3);
     }
 
     public String CreateRelativePersistentUrl(
-        String input, String param1, String param2, String param3, String param4, String param5,
-        String param6, String param7, String param8)
+        final String input,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4)
     {
-        return this.relativePersistentIntermediary(
-            input, param1, param2, param3, param4, param5, param6, param7, param8);
+        return relativePersistentIntermediary(input, param1, param2, param3, param4);
     }
 
     public String CreateRelativePersistentUrl(
-        String input, String param1, String param2, String param3, String param4, String param5,
-        String param6, String param7, String param8, String param9)
+        final String input,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4,
+        final String param5)
     {
-        return this.relativePersistentIntermediary(
-            input, param1, param2, param3, param4, param5, param6, param7, param8, param9);
+        return relativePersistentIntermediary(input, param1, param2, param3, param4, param5);
     }
 
     public String CreateRelativePersistentUrl(
-        String input, String param1, String param2, String param3, String param4, String param5,
-        String param6, String param7, String param8, String param9, String param10)
+        final String input,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4,
+        final String param5,
+        final String param6)
     {
-        return this.relativePersistentIntermediary(
-            input, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
+        return relativePersistentIntermediary(input, param1, param2, param3, param4, param5, param6);
     }
 
     public String CreateRelativePersistentUrl(
-        String input, String param1, String param2, String param3, String param4, String param5,
-        String param6, String param7, String param8, String param9, String param10, String param11)
+        final String input,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4,
+        final String param5,
+        final String param6,
+        final String param7)
     {
-        return this.relativePersistentIntermediary(
-            input, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10,
+        return relativePersistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7);
+    }
+
+    public String CreateRelativePersistentUrl(
+        final String input,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4,
+        final String param5,
+        final String param6,
+        final String param7,
+        final String param8)
+    {
+        return relativePersistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7, param8);
+    }
+
+    public String CreateRelativePersistentUrl(
+        final String input,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4,
+        final String param5,
+        final String param6,
+        final String param7,
+        final String param8,
+        final String param9)
+    {
+        return relativePersistentIntermediary(
+            input,
+            param1,
+            param2,
+            param3,
+            param4,
+            param5,
+            param6,
+            param7,
+            param8,
+            param9);
+    }
+
+    public String CreateRelativePersistentUrl(
+        final String input,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4,
+        final String param5,
+        final String param6,
+        final String param7,
+        final String param8,
+        final String param9,
+        final String param10)
+    {
+        return relativePersistentIntermediary(
+            input,
+            param1,
+            param2,
+            param3,
+            param4,
+            param5,
+            param6,
+            param7,
+            param8,
+            param9,
+            param10);
+    }
+
+    public String CreateRelativePersistentUrl(
+        final String input,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4,
+        final String param5,
+        final String param6,
+        final String param7,
+        final String param8,
+        final String param9,
+        final String param10,
+        final String param11)
+    {
+        return relativePersistentIntermediary(
+            input,
+            param1,
+            param2,
+            param3,
+            param4,
+            param5,
+            param6,
+            param7,
+            param8,
+            param9,
+            param10,
             param11);
     }
 
     public String CreateRelativePersistentUrl(
-        String input, String param1, String param2, String param3, String param4, String param5,
-        String param6, String param7, String param8, String param9, String param10, String param11,
-        String param12)
+        final String input,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4,
+        final String param5,
+        final String param6,
+        final String param7,
+        final String param8,
+        final String param9,
+        final String param10,
+        final String param11,
+        final String param12)
     {
-        return this.relativePersistentIntermediary(
-            input, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10,
-            param11, param12);
+        return relativePersistentIntermediary(
+            input,
+            param1,
+            param2,
+            param3,
+            param4,
+            param5,
+            param6,
+            param7,
+            param8,
+            param9,
+            param10,
+            param11,
+            param12);
     }
 
     public void setHostname(final String hostname)
@@ -231,7 +422,7 @@ public class UrlBuilderAdapter
      *
      * @param urlBuilder the UrlBuilder to set.
      */
-    public void setUrlBuilder(UrlBuilder urlBuilder)
+    public void setUrlBuilder(final UrlBuilder urlBuilder)
     {
         UrlBuilderAdapter.URL_BUILDER = urlBuilder;
     }
@@ -242,19 +433,19 @@ public class UrlBuilderAdapter
     }
 
     /**
-     * 
+     *
      * @param url
      *
      * @return Updated Url (with extra parameters)
      */
     private String addExtraParameters(final String url)
     {
-        StringBuilder strBuilder = new StringBuilder();
-        String extraParameters = "&RS=" + MUD_PARAMETERS_RS + "&vr=" + MUD_PARAMETERS_VR;
+        final StringBuilder strBuilder = new StringBuilder();
+        final String extraParameters = "&RS=" + MUD_PARAMETERS_RS + "&vr=" + MUD_PARAMETERS_VR;
 
         if (url.contains("#"))
         {
-            String[] strSpliter = url.split("#");
+            final String[] strSpliter = url.split("#");
 
             strBuilder.append(strSpliter[0]);
             strBuilder.append(extraParameters);
@@ -263,7 +454,7 @@ public class UrlBuilderAdapter
             {
                 if (strSpliter[1].contains("&"))
                 {
-                    String[] newStrSpliter = strSpliter[1].split("&");
+                    final String[] newStrSpliter = strSpliter[1].split("&");
                     int i = 1;
 
                     for (; i < newStrSpliter.length; i++)
@@ -288,15 +479,15 @@ public class UrlBuilderAdapter
         return strBuilder.toString();
     }
 
-    private List<Parameter> createParameters(String... parameters)
+    private List<Parameter> createParameters(final String... parameters)
     {
-        List<Parameter> paramList = new ArrayList<Parameter>();
+        final List<Parameter> paramList = new ArrayList<>();
 
-        for (String nameValuePair : parameters)
+        for (final String nameValuePair : parameters)
         {
-            String[] nameAndValue = nameValuePair.split("=");
+            final String[] nameAndValue = nameValuePair.split("=");
 
-            String name = nameAndValue[0];
+            final String name = nameAndValue[0];
             String value = "";
 
             if (nameAndValue.length > 1)
@@ -310,18 +501,17 @@ public class UrlBuilderAdapter
         return paramList;
     }
 
-    private String persistentIntermediary(String templateName, String... parameters)
+    private String persistentIntermediary(final String templateName, final String... parameters)
     {
         String response = null;
 
         try
         {
-            List<Parameter> paramList = createParameters(parameters);
-            response = HOSTNAME
-                + this.urlBuilder.createUrl(Container.COBALT.name(), templateName, paramList);
+            final List<Parameter> paramList = createParameters(parameters);
+            response = HOSTNAME + urlBuilder.createUrl(Container.COBALT.name(), templateName, paramList);
             response = addExtraParameters(response);
         }
-        catch (UrlBuilderException e)
+        catch (final UrlBuilderException e)
         {
             response = "";
         }
@@ -329,18 +519,17 @@ public class UrlBuilderAdapter
         return response;
     }
 
-    private String relativePersistentIntermediary(String templateName, String... parameters)
+    private String relativePersistentIntermediary(final String templateName, final String... parameters)
     {
         String response = null;
 
         try
         {
-            List<Parameter> paramList = createParameters(parameters);
-            response = HOSTNAME
-                + this.urlBuilder.createUrl(Container.COBALT.name(), templateName, paramList);
+            final List<Parameter> paramList = createParameters(parameters);
+            response = HOSTNAME + urlBuilder.createUrl(Container.COBALT.name(), templateName, paramList);
             response = addExtraParameters(response);
         }
-        catch (UrlBuilderException e)
+        catch (final UrlBuilderException e)
         {
             response = "";
         }

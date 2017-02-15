@@ -1,19 +1,13 @@
-/*
-* EntityEncodedInputStreamTest
-* 
-* Created on: Nov 2, 2010 By: u0009398
-* 
-* Copyright 2010: Thomson Reuters Global Resources. All Rights Reserved.
-*
-* Proprietary and Confidential information of TRGR. 
-* Disclosure, Use or Reproduction without the written authorization of TRGR is prohibited.
-*/
 package com.thomsonreuters.uscl.ereader.ioutil;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import junit.framework.TestCase;
+
+import org.junit.Test;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
@@ -24,103 +18,95 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * @author bmartell
  * @version 1.0, Nov 10, 2003.
  */
-public class EntityEncodedInputStreamTest extends TestCase
+public final class EntityEncodedInputStreamTest
 {
-    public EntityEncodedInputStreamTest(String s)
-    {
-        super(s);
-    }
-
-    public static void main(String[] args)
-    {
-        junit.textui.TestRunner.run(EntityEncodedInputStreamTest.class);
-    }
-
-
+    @Test
     public void testPi1() throws Exception
     {
-        String input = "abcd&<?PI a&b ?>&";
+        final String input = "abcd&<?PI a&b ?>&";
 
-        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
-        EntityEncodedInputStream translateIn = new EntityEncodedInputStream(in);
+        final ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        final EntityEncodedInputStream translateIn = new EntityEncodedInputStream(in);
 
-        String expected = "abcd$#<?PI a&b ?>$#";
+        final String expected = "abcd$#<?PI a&b ?>$#";
 
         assertEquals(expected, StreamHelper.inputStreamToString(translateIn));
     }
 
+    @Test
     public void testPi2() throws Exception
     {
-        String input = "abcd&<?PI a$b ?>$";
+        final String input = "abcd&<?PI a$b ?>$";
 
-        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
-        EntityEncodedInputStream translateIn = new EntityEncodedInputStream(in);
+        final ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        final EntityEncodedInputStream translateIn = new EntityEncodedInputStream(in);
 
-        String expected = "abcd$#<?PI a$b ?>$$";
+        final String expected = "abcd$#<?PI a$b ?>$$";
 
         assertEquals(expected, StreamHelper.inputStreamToString(translateIn));
     }
 
+    @Test
     public void testAmpersandDollarSign() throws Exception
     {
-        String input = "<element>apples &$amp; oranges cost $12.00.</element>";
+        final String input = "<element>apples &$amp; oranges cost $12.00.</element>";
 
-        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
-        EntityEncodedInputStream translateIn = new EntityEncodedInputStream(in);
+        final ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        final EntityEncodedInputStream translateIn = new EntityEncodedInputStream(in);
 
-        String expected = "<element>apples $#$$amp; oranges cost $$12.00.</element>";
+        final String expected = "<element>apples $#$$amp; oranges cost $$12.00.</element>";
 
         assertEquals(expected, StreamHelper.inputStreamToString(translateIn));
     }
 
+    @Test
     public void testDollarSignAmpersand() throws Exception
     {
-        String input = "<element>$#apples $&amp; oranges cost $12.00.</element>";
+        final String input = "<element>$#apples $&amp; oranges cost $12.00.</element>";
 
-        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
-        EntityEncodedInputStream translateIn = new EntityEncodedInputStream(in);
+        final ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        final EntityEncodedInputStream translateIn = new EntityEncodedInputStream(in);
 
-        String expected = "<element>$$#apples $$$#amp; oranges cost $$12.00.</element>";
+        final String expected = "<element>$$#apples $$$#amp; oranges cost $$12.00.</element>";
 
         assertEquals(expected, StreamHelper.inputStreamToString(translateIn));
     }
 
+    @Test
     public void testEncodeEntities() throws Exception
     {
-        String input = "<element>apples &amp; oranges cost $12.00.</element>";
+        final String input = "<element>apples &amp; oranges cost $12.00.</element>";
 
-        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
-        EntityEncodedInputStream translateIn = new EntityEncodedInputStream(in);
+        final ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        final EntityEncodedInputStream translateIn = new EntityEncodedInputStream(in);
 
-        String expected = "<element>apples $#amp; oranges cost $$12.00.</element>";
+        final String expected = "<element>apples $#amp; oranges cost $$12.00.</element>";
 
         assertEquals(expected, StreamHelper.inputStreamToString(translateIn));
     }
 
+    @Test
     public void testEncodeEntitiesAtBufferEnd() throws Exception
     {
-        String input = "apples oranges cost $";
+        final String input = "apples oranges cost $";
 
-        byte[] buffer = new byte[21];
-        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
-        EntityEncodedInputStream translateIn = new EntityEncodedInputStream(in);
+        final byte[] buffer = new byte[21];
+        final ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        final EntityEncodedInputStream translateIn = new EntityEncodedInputStream(in);
 
-        int bytesRead = translateIn.read(buffer);
+        final int bytesRead = translateIn.read(buffer);
         assertTrue(21 == bytesRead);
     }
 
-
-
-    public void testOverflowDollarSignReadingOneByteAtATime()
-        throws Exception
+    @Test
+    public void testOverflowDollarSignReadingOneByteAtATime() throws Exception
     {
-        String input = "$12";
+        final String input = "$12";
 
-        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
-        EntityEncodedInputStream translateIn = new EntityEncodedInputStream(in);
+        final ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        final EntityEncodedInputStream translateIn = new EntityEncodedInputStream(in);
 
-
-        StringBuilder actual = new StringBuilder();
+        final StringBuilder actual = new StringBuilder();
         int character;
         while ((character = translateIn.read()) > -1)
         {
@@ -130,17 +116,18 @@ public class EntityEncodedInputStreamTest extends TestCase
         assertEquals("$$12", actual.toString());
     }
 
+    @Test
     public void testWithParser() throws Exception
     {
-        String input = "<element>apples &amp; oranges cost $12.00.</element>";
+        final String input = "<element>apples &amp; oranges cost $12.00.</element>";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         in = new EntityEncodedInputStream(in);
 
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        EntityDecodedOutputStream decoder = new EntityDecodedOutputStream(out);
-        EchoHandler handler = new EchoHandler(decoder);
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final EntityDecodedOutputStream decoder = new EntityDecodedOutputStream(out);
+        final EchoHandler handler = new EchoHandler(decoder);
 
-        XMLReader parser = XMLReaderFactory.createXMLReader();
+        final XMLReader parser = XMLReaderFactory.createXMLReader();
         parser.setContentHandler(handler);
         parser.parse(new InputSource(in));
         out.close();

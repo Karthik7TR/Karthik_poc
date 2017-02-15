@@ -1,8 +1,3 @@
-/*
-* Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
 package com.thomsonreuters.uscl.ereader.assemble.step;
 
 import java.io.BufferedReader;
@@ -18,15 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.scope.context.ChunkContext;
-import org.springframework.batch.item.ExecutionContext;
-import org.springframework.beans.factory.annotation.Required;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
@@ -44,422 +30,503 @@ import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.StepContribution;
+import org.springframework.batch.core.scope.context.ChunkContext;
+import org.springframework.batch.item.ExecutionContext;
+import org.springframework.beans.factory.annotation.Required;
 
-public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
+public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
+{
+    /**
+     * To update publishingStatsService table.
+     */
+    private PublishingStatsService publishingStatsService;
+    private static final String VERSION_NUMBER_PREFIX = "v";
 
-	/**
-	 * To update publishingStatsService table.
-	 */
-	private PublishingStatsService publishingStatsService;
-	private static final String VERSION_NUMBER_PREFIX = "v";
+    private MoveResourcesUtil moveResourcesUtil;
 
-	private MoveResourcesUtil moveResourcesUtil;
+    private TitleMetadataService titleMetadataService;
 
-	private TitleMetadataService titleMetadataService;	
-	
-	BookDefinitionService bookDefinitionService;
+    private BookDefinitionService bookDefinitionService;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet
-	 * #executeStep(org.springframework.batch.core.StepContribution,
-	 * org.springframework.batch.core.scope.context.ChunkContext)
-	 */
-	@Override
-	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
-		JobParameters jobParameters = getJobParameters(chunkContext);
-		Long jobId = getJobInstance(chunkContext).getId();
-		PublishingStats jobstats = new PublishingStats();
-		jobstats.setJobInstanceId(jobId);
-		String publishStatus = "Completed";
-		BookDefinition bookDefinition = (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet
+     * #executeStep(org.springframework.batch.core.StepContribution,
+     * org.springframework.batch.core.scope.context.ChunkContext)
+     */
+    @Override
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
+    {
+        final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
+        final JobParameters jobParameters = getJobParameters(chunkContext);
+        final Long jobId = getJobInstance(chunkContext).getId();
+        final PublishingStats jobstats = new PublishingStats();
+        jobstats.setJobInstanceId(jobId);
+        String publishStatus = "Completed";
+        final BookDefinition bookDefinition =
+            (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
 
-		String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
-		String versionNumber = VERSION_NUMBER_PREFIX + jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
-		TitleMetadata titleMetadata = new TitleMetadata(fullyQualifiedTitleId, versionNumber,
-				bookDefinition.getProviewFeatures(), bookDefinition.getKeyWords(), bookDefinition.getAuthors(),
-				bookDefinition.getIsPilotBook(), bookDefinition.getIsbnNormalized());
-		String materialId = bookDefinition.getMaterialId();
+        final String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
+        final String versionNumber =
+            VERSION_NUMBER_PREFIX + jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
+        final TitleMetadata titleMetadata = new TitleMetadata(
+            fullyQualifiedTitleId,
+            versionNumber,
+            bookDefinition.getProviewFeatures(),
+            bookDefinition.getKeyWords(),
+            bookDefinition.getAuthors(),
+            bookDefinition.getIsPilotBook(),
+            bookDefinition.getIsbnNormalized());
+        final String materialId = bookDefinition.getMaterialId();
 
-		// TODO: verify that default of 1234 for material id is valid.
-		titleMetadata.setMaterialId(StringUtils.isNotBlank(materialId) ? materialId : "1234");
-		titleMetadata.setCopyright(bookDefinition.getCopyright());
-		titleMetadata.setFrontMatterTocLabel(bookDefinition.getFrontMatterTocLabel());
-		titleMetadata.setFrontMatterPages(bookDefinition.getFrontMatterPages());
+        // TODO: verify that default of 1234 for material id is valid.
+        titleMetadata.setMaterialId(StringUtils.isNotBlank(materialId) ? materialId : "1234");
+        titleMetadata.setCopyright(bookDefinition.getCopyright());
+        titleMetadata.setFrontMatterTocLabel(bookDefinition.getFrontMatterTocLabel());
+        titleMetadata.setFrontMatterPages(bookDefinition.getFrontMatterPages());
 
-		File coverArtFile = addArtwork(jobExecutionContext, titleMetadata);
+        final File coverArtFile = addArtwork(jobExecutionContext, titleMetadata);
 
-		OutputStream titleManifest = null;
-		InputStream splitTitleXMLStream = null;
-		boolean firstSplitBook;
+        OutputStream titleManifest = null;
+        InputStream splitTitleXMLStream = null;
+        boolean firstSplitBook;
 
-		try {
+        try
+        {
+            final File assembleDirectory =
+                new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_DIR));
+            int parts = 0;
+            if (bookDefinition.isSplitTypeAuto())
+            {
+                parts = bookDefinitionService.getSplitPartsForEbook(bookDefinition.getEbookDefinitionId());
+            }
+            else
+            {
+                parts = bookDefinition.getSplitEBookParts();
+            }
 
-			File assembleDirectory = new File(getRequiredStringProperty(jobExecutionContext,
-					JobExecutionKey.ASSEMBLE_DIR));
-			int parts = 0;
-			if(bookDefinition.isSplitTypeAuto()){
-				parts = bookDefinitionService.getSplitPartsForEbook(bookDefinition.getEbookDefinitionId());
-			}
-			else{
-				parts = bookDefinition.getSplitEBookParts();
-			}
-			
-			String docToSplitBook = getRequiredStringProperty(jobExecutionContext,
-					JobExecutionKey.DOC_TO_SPLITBOOK_FILE);
+            final String docToSplitBook =
+                getRequiredStringProperty(jobExecutionContext, JobExecutionKey.DOC_TO_SPLITBOOK_FILE);
 
-			// docMap contains SplitBook part to Doc mapping
-			Map<String, List<Doc>> docMap = new HashMap<String, List<Doc>>();
-			// splitBookImgMap contains SplitBook part to Img mapping
-			Map<String, List<String>> splitBookImgMap = new HashMap<String, List<String>>();
-			readDocImgFile(new File(docToSplitBook), docMap, splitBookImgMap);
+            // docMap contains SplitBook part to Doc mapping
+            final Map<String, List<Doc>> docMap = new HashMap<>();
+            // splitBookImgMap contains SplitBook part to Img mapping
+            final Map<String, List<String>> splitBookImgMap = new HashMap<>();
+            readDocImgFile(new File(docToSplitBook), docMap, splitBookImgMap);
 
-			// Assets that are needed for all books
-			ArrayList<Asset> assetsForAllbooks = getAssetsListForAllBooks(jobExecutionContext, bookDefinition);
+            // Assets that are needed for all books
+            final List<Asset> assetsForAllbooks = getAssetsListForAllBooks(jobExecutionContext, bookDefinition);
 
-			// Create title.xml and directories needed. Move content for all
-			// splitBooks
-			for (int i = 1; i <= parts; i++) {
-				firstSplitBook = false;
-				String splitTitle = bookDefinition.getTitleId() + "_pt" + i;				
-				StringBuffer proviewDisplayName = new StringBuffer();
-				proviewDisplayName.append(bookDefinition.getProviewDisplayName());
-				proviewDisplayName.append(" (eBook "+i);
-				proviewDisplayName.append(" of "+parts);
-				proviewDisplayName.append(")");
-				titleMetadata.setDisplayName(proviewDisplayName.toString());
-				titleMetadata.setTitleId(fullyQualifiedTitleId+ "_pt" + i);
+            // Create title.xml and directories needed. Move content for all
+            // splitBooks
+            for (int i = 1; i <= parts; i++)
+            {
+                firstSplitBook = false;
+                String splitTitle = bookDefinition.getTitleId() + "_pt" + i;
+                final StringBuffer proviewDisplayName = new StringBuffer();
+                proviewDisplayName.append(bookDefinition.getProviewDisplayName());
+                proviewDisplayName.append(" (eBook " + i);
+                proviewDisplayName.append(" of " + parts);
+                proviewDisplayName.append(")");
+                titleMetadata.setDisplayName(proviewDisplayName.toString());
+                titleMetadata.setTitleId(fullyQualifiedTitleId + "_pt" + i);
 
-				String key = String.valueOf(i);
+                final String key = String.valueOf(i);
 
-				// Add needed images corresponding to the split Book to Assets
-				// list				
-				ArrayList<Asset> assetsForSplitBook = new ArrayList<Asset>();
-				assetsForSplitBook.addAll(assetsForAllbooks);
-				// imgList contains file names belong to the split book
-				List<String> imgList = new ArrayList<String>();
-				
-				if (splitBookImgMap.containsKey(key)) {
-					imgList = splitBookImgMap.get(key);
-					for (String imgFileName : imgList) {
-						Asset asset = new Asset(StringUtils.substringBeforeLast(imgFileName, "."), imgFileName);
-						//To avoid duplicate asset
-						if(!assetsForSplitBook.contains(asset)){
-							assetsForSplitBook.add(asset);
-						}
-						
-					}
-				}
-				
-				// Get all documents corresponding to the split Book
-				List<Doc> docList = new ArrayList<Doc>();
-				if (docMap.containsKey(key)) {
-					docList = docMap.get(key);
-				}
-				
-				// Only for first split book
-				if (i == 1) {
-					splitTitle = bookDefinition.getTitleId();
-					ArrayList<FrontMatterPdf> pdfList = new ArrayList<FrontMatterPdf>();
-					List<FrontMatterPage> fmps = bookDefinition.getFrontMatterPages();
-					for (FrontMatterPage fmp : fmps) {
-						for (FrontMatterSection fms : fmp.getFrontMatterSections()) {
-							pdfList.addAll(fms.getPdfs());
-						}
-					}
+                // Add needed images corresponding to the split Book to Assets
+                // list
+                final List<Asset> assetsForSplitBook = new ArrayList<>();
+                assetsForSplitBook.addAll(assetsForAllbooks);
+                // imgList contains file names belong to the split book
+                List<String> imgList = new ArrayList<>();
 
-					for (FrontMatterPdf pdf : pdfList) {
-						Asset asset = new Asset(StringUtils.substringBeforeLast(pdf.getPdfFilename(), "."),
-								pdf.getPdfFilename());
-						assetsForSplitBook.add(asset);
-					}
-					titleMetadata.setTitleId(fullyQualifiedTitleId);
-					firstSplitBook = true;
-				}
-				
+                if (splitBookImgMap.containsKey(key))
+                {
+                    imgList = splitBookImgMap.get(key);
+                    for (final String imgFileName : imgList)
+                    {
+                        final Asset asset = new Asset(StringUtils.substringBeforeLast(imgFileName, "."), imgFileName);
+                        //To avoid duplicate asset
+                        if (!assetsForSplitBook.contains(asset))
+                        {
+                            assetsForSplitBook.add(asset);
+                        }
+                    }
+                }
 
-				titleMetadata.setAssets(assetsForSplitBook);
+                // Get all documents corresponding to the split Book
+                List<Doc> docList = new ArrayList<>();
+                if (docMap.containsKey(key))
+                {
+                    docList = docMap.get(key);
+                }
 
-				File ebookDirectory = new File(assembleDirectory, splitTitle);
-				ebookDirectory.mkdir();
+                // Only for first split book
+                if (i == 1)
+                {
+                    splitTitle = bookDefinition.getTitleId();
+                    final List<FrontMatterPdf> pdfList = new ArrayList<>();
+                    final List<FrontMatterPage> fmps = bookDefinition.getFrontMatterPages();
+                    for (final FrontMatterPage fmp : fmps)
+                    {
+                        for (final FrontMatterSection fms : fmp.getFrontMatterSections())
+                        {
+                            pdfList.addAll(fms.getPdfs());
+                        }
+                    }
 
-				File splitTitleXml = new File(getRequiredStringProperty(jobExecutionContext,
-						JobExecutionKey.SPLIT_TITLE_XML_FILE));
-				splitTitleXMLStream = new FileInputStream(splitTitleXml);
+                    for (final FrontMatterPdf pdf : pdfList)
+                    {
+                        final Asset asset =
+                            new Asset(StringUtils.substringBeforeLast(pdf.getPdfFilename(), "."), pdf.getPdfFilename());
+                        assetsForSplitBook.add(asset);
+                    }
+                    titleMetadata.setTitleId(fullyQualifiedTitleId);
+                    firstSplitBook = true;
+                }
 
-				File titleXml = new File(ebookDirectory, "title.xml");
-				titleManifest = new FileOutputStream(titleXml);
+                titleMetadata.setAssets(assetsForSplitBook);
 
-				titleMetadataService.generateTitleXML(titleMetadata, docList, splitTitleXMLStream, titleManifest,
-						JobExecutionKey.ALT_ID_DIR_PATH);
-				moveResources(jobExecutionContext, ebookDirectory, firstSplitBook, imgList, docList, coverArtFile);
+                final File ebookDirectory = new File(assembleDirectory, splitTitle);
+                ebookDirectory.mkdir();
 
-			}
-		} catch (Exception e) {
-			publishStatus = "Failed";
-			throw (e);
-		} finally {
-			jobstats.setPublishStatus("createDirectoriesAndMoveResources: " + publishStatus);
-			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
-		}
+                final File splitTitleXml =
+                    new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.SPLIT_TITLE_XML_FILE));
+                splitTitleXMLStream = new FileInputStream(splitTitleXml);
 
-		return ExitStatus.COMPLETED;
-	}
-	
-	/**
-	 * Move resources to appropriate splitbook 
-	 * @param jobExecutionContext
-	 * @param ebookDirectory
-	 * @param firstSplitBook
-	 * @param imgList
-	 * @param docList
-	 * @throws IOException
-	 */
+                final File titleXml = new File(ebookDirectory, "title.xml");
+                titleManifest = new FileOutputStream(titleXml);
 
-	public void moveResources(final ExecutionContext jobExecutionContext, File ebookDirectory,
-			boolean firstSplitBook, List<String> imgList, List<Doc> docList, File coverArtFile) throws IOException {
-		// Move assets
-		File assetsDirectory = createAssetsDirectory(ebookDirectory);
-		// static images
-		File staticImagesDir = new File(getRequiredStringProperty(jobExecutionContext,
-				JobExecutionKey.IMAGE_STATIC_DEST_DIR));
-		moveResourcesUtil.copySourceToDestination(staticImagesDir, assetsDirectory);
-		// Style sheets			
-		moveResourcesUtil.moveStylesheet(assetsDirectory);
-		// Dynamic images
-		File dynamicImagesDir = new File(getRequiredStringProperty(jobExecutionContext,
-				JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
-		List<File> dynamicImgFiles = filterFiles(dynamicImagesDir, imgList);
-		moveResourcesUtil.copyFilesToDestination(dynamicImgFiles, assetsDirectory);
-		// Frontmatter pdf
-		moveResourcesUtil.moveFrontMatterImages(jobExecutionContext, assetsDirectory, firstSplitBook);
+                titleMetadataService.generateTitleXML(
+                    titleMetadata,
+                    docList,
+                    splitTitleXMLStream,
+                    titleManifest,
+                    JobExecutionKey.ALT_ID_DIR_PATH);
+                moveResources(jobExecutionContext, ebookDirectory, firstSplitBook, imgList, docList, coverArtFile);
+            }
+        }
+        catch (final Exception e)
+        {
+            publishStatus = "Failed";
+            throw (e);
+        }
+        finally
+        {
+            jobstats.setPublishStatus("createDirectoriesAndMoveResources: " + publishStatus);
+            publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
+        }
 
-		File artworkDirectory = createArtworkDirectory(ebookDirectory);
-		FileUtils.copyFileToDirectory(coverArtFile, artworkDirectory);
-		moveResourcesUtil.moveCoverArt(jobExecutionContext, artworkDirectory);
+        return ExitStatus.COMPLETED;
+    }
 
-		// Move Documents
-		File documentsDirectory = createDocumentsDirectory(ebookDirectory);
-		if (firstSplitBook) {
-			File frontMatter = new File(getRequiredStringProperty(jobExecutionContext,
-					JobExecutionKey.FORMAT_FRONT_MATTER_HTML_DIR));
-			moveResourcesUtil.copySourceToDestination(frontMatter, documentsDirectory);
-		}
+    /**
+     * Move resources to appropriate splitbook
+     * @param jobExecutionContext
+     * @param ebookDirectory
+     * @param firstSplitBook
+     * @param imgList
+     * @param docList
+     * @throws IOException
+     */
 
-		File transformedDocsDir = new File(getRequiredStringProperty(jobExecutionContext,
-				JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH));
+    public void moveResources(
+        final ExecutionContext jobExecutionContext,
+        final File ebookDirectory,
+        final boolean firstSplitBook,
+        final List<String> imgList,
+        final List<Doc> docList,
+        final File coverArtFile) throws IOException
+    {
+        // Move assets
+        final File assetsDirectory = createAssetsDirectory(ebookDirectory);
+        // static images
+        final File staticImagesDir =
+            new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_STATIC_DEST_DIR));
+        moveResourcesUtil.copySourceToDestination(staticImagesDir, assetsDirectory);
+        // Style sheets
+        moveResourcesUtil.moveStylesheet(assetsDirectory);
+        // Dynamic images
+        final File dynamicImagesDir =
+            new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
+        final List<File> dynamicImgFiles = filterFiles(dynamicImagesDir, imgList);
+        moveResourcesUtil.copyFilesToDestination(dynamicImgFiles, assetsDirectory);
+        // Frontmatter pdf
+        moveResourcesUtil.moveFrontMatterImages(jobExecutionContext, assetsDirectory, firstSplitBook);
 
-		List<String> srcIdList = new ArrayList<String>();
-		for (Doc doc : docList) {
-			srcIdList.add(doc.getSrc());
-		}
-		List<File> documentFiles = filterFiles(transformedDocsDir, srcIdList);
-		moveResourcesUtil.copyFilesToDestination(documentFiles, documentsDirectory);
-	}
+        final File artworkDirectory = createArtworkDirectory(ebookDirectory);
+        FileUtils.copyFileToDirectory(coverArtFile, artworkDirectory);
+        moveResourcesUtil.moveCoverArt(jobExecutionContext, artworkDirectory);
 
-	protected List<File> filterFiles(File directory, List<String> fileNameList) {
-		if (directory == null || !directory.isDirectory()) {
-			throw new IllegalArgumentException("Directory must not be null and must be a directory.");
-		}
-		List<File> filter = new ArrayList<File>();
-		for (File file : directory.listFiles()) {
-			if (fileNameList.contains(file.getName())) {
-				filter.add(file);
-			}
-		}
-		return filter;
-	}
+        // Move Documents
+        final File documentsDirectory = createDocumentsDirectory(ebookDirectory);
+        if (firstSplitBook)
+        {
+            final File frontMatter =
+                new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_FRONT_MATTER_HTML_DIR));
+            moveResourcesUtil.copySourceToDestination(frontMatter, documentsDirectory);
+        }
 
-	/**
-	 * @param fileName
-	 *            contains altId for corresponding Guid
-	 * @return a map (Guid as a Key and altId as a Value)
-	 */
-	public void readDocImgFile(final File docToSplitBook, Map<String, List<Doc>> docMap,
-			Map<String, List<String>> splitBookImgMap) {
-		String line = null;
-		BufferedReader stream = null;
-		try {
-			stream = new BufferedReader(new FileReader(docToSplitBook));
+        final File transformedDocsDir = new File(
+            getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH));
 
-			while ((line = stream.readLine()) != null) {
-				List<String> imgList = null;
-				String[] splitted = line.split("\\|");
+        final List<String> srcIdList = new ArrayList<>();
+        for (final Doc doc : docList)
+        {
+            srcIdList.add(doc.getSrc());
+        }
+        final List<File> documentFiles = filterFiles(transformedDocsDir, srcIdList);
+        moveResourcesUtil.copyFilesToDestination(documentFiles, documentsDirectory);
+    }
 
-				if (splitted.length == 4) {
-					imgList = new ArrayList<String>();
-					if (splitted[3].contains(",")) {
-						String[] imgStringArray = splitted[3].split(",");
+    protected List<File> filterFiles(final File directory, final List<String> fileNameList)
+    {
+        if (directory == null || !directory.isDirectory())
+        {
+            throw new IllegalArgumentException("Directory must not be null and must be a directory.");
+        }
+        final List<File> filter = new ArrayList<>();
+        for (final File file : directory.listFiles())
+        {
+            if (fileNameList.contains(file.getName()))
+            {
+                filter.add(file);
+            }
+        }
+        return filter;
+    }
 
-						for (String imgId : imgStringArray) {
-							imgList.add(imgId);
-						}
-					} else {
-						imgList.add(splitted[3]);
-					}
+    /**
+     * @param fileName
+     *            contains altId for corresponding Guid
+     * @return a map (Guid as a Key and altId as a Value)
+     */
+    public void readDocImgFile(
+        final File docToSplitBook,
+        final Map<String, List<Doc>> docMap,
+        final Map<String, List<String>> splitBookImgMap)
+    {
+        String line = null;
+        BufferedReader stream = null;
+        try
+        {
+            stream = new BufferedReader(new FileReader(docToSplitBook));
 
-				}
+            while ((line = stream.readLine()) != null)
+            {
+                List<String> imgList = null;
+                final String[] splitted = line.split("\\|");
 
-				String splitTitlePart = splitted[2];
-				Doc document = new Doc(splitted[0], splitted[1], Integer.parseInt(splitTitlePart), imgList);
+                if (splitted.length == 4)
+                {
+                    imgList = new ArrayList<>();
+                    if (splitted[3].contains(","))
+                    {
+                        final String[] imgStringArray = splitted[3].split(",");
 
-				List<Doc> docList = null;
-				if (docMap.containsKey(splitTitlePart)) {
-					docList = docMap.get(splitTitlePart);
-				} else {
-					docList = new ArrayList<Doc>();
+                        for (final String imgId : imgStringArray)
+                        {
+                            imgList.add(imgId);
+                        }
+                    }
+                    else
+                    {
+                        imgList.add(splitted[3]);
+                    }
+                }
 
-				}
+                final String splitTitlePart = splitted[2];
+                final Doc document = new Doc(splitted[0], splitted[1], Integer.parseInt(splitTitlePart), imgList);
 
-				docList.add(document);
-				docMap.put(splitTitlePart, docList);
+                List<Doc> docList = null;
+                if (docMap.containsKey(splitTitlePart))
+                {
+                    docList = docMap.get(splitTitlePart);
+                }
+                else
+                {
+                    docList = new ArrayList<>();
+                }
 
-				if (imgList != null && imgList.size() > 0) {
-					if (splitBookImgMap.containsKey(splitTitlePart)) {
-						List<String> splitImgList = splitBookImgMap.get(splitTitlePart);
-						splitImgList.addAll(imgList);
-						splitBookImgMap.put(splitTitlePart, splitImgList);
-					} else {
-						splitBookImgMap.put(splitTitlePart, imgList);
-					}
-				}
+                docList.add(document);
+                docMap.put(splitTitlePart, docList);
 
-			}
-		} catch (IOException iox) {
-			throw new RuntimeException("Unable to find File : " + docToSplitBook.getAbsolutePath() + " " + iox);
-		} finally {
-			if (stream != null) {
-				try {
-					stream.close();
-				} catch (IOException e) {
-					throw new RuntimeException("An IOException occurred while closing a file ", e);
-				}
-			}
-		}
-	}
+                if (imgList != null && imgList.size() > 0)
+                {
+                    if (splitBookImgMap.containsKey(splitTitlePart))
+                    {
+                        final List<String> splitImgList = splitBookImgMap.get(splitTitlePart);
+                        splitImgList.addAll(imgList);
+                        splitBookImgMap.put(splitTitlePart, splitImgList);
+                    }
+                    else
+                    {
+                        splitBookImgMap.put(splitTitlePart, imgList);
+                    }
+                }
+            }
+        }
+        catch (final IOException iox)
+        {
+            throw new RuntimeException("Unable to find File : " + docToSplitBook.getAbsolutePath() + " " + iox);
+        }
+        finally
+        {
+            if (stream != null)
+            {
+                try
+                {
+                    stream.close();
+                }
+                catch (final IOException e)
+                {
+                    throw new RuntimeException("An IOException occurred while closing a file ", e);
+                }
+            }
+        }
+    }
 
-	/**
-	 * All split books gets static,.css files and frontmatter images
-	 * 
-	 * @param jobExecutionContext
-	 * @param bookDefinition
-	 * @throws FileNotFoundException 
-	 */
-	protected ArrayList<Asset> getAssetsListForAllBooks(final ExecutionContext jobExecutionContext,
-			BookDefinition bookDefinition) throws FileNotFoundException {
-		ArrayList<Asset> assets = new ArrayList<Asset>();
-		File staticImagesDir = new File(getRequiredStringProperty(jobExecutionContext,
-				JobExecutionKey.IMAGE_STATIC_DEST_DIR));
-		String staticContentDir = getRequiredStringProperty(jobExecutionContext,JobExecutionKey.STATIC_CONTENT_DIR);
-		assets.addAll(getAssetsfromDirectories(staticImagesDir));
-		File stylesheet = new File(staticContentDir,MoveResourcesUtil.DOCUMENT_CSS_FILE);
-		assets.add(getAssetsfromFile(stylesheet));
-		stylesheet = new File(MoveResourcesUtil.EBOOK_GENERATOR_CSS_FILE);
-		assets.add(getAssetsfromFile(stylesheet));
+    /**
+     * All split books gets static,.css files and frontmatter images
+     *
+     * @param jobExecutionContext
+     * @param bookDefinition
+     * @throws FileNotFoundException
+     */
+    protected List<Asset> getAssetsListForAllBooks(
+        final ExecutionContext jobExecutionContext,
+        final BookDefinition bookDefinition) throws FileNotFoundException
+    {
+        final List<Asset> assets = new ArrayList<>();
+        final File staticImagesDir =
+            new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_STATIC_DEST_DIR));
+        final String staticContentDir =
+            getRequiredStringProperty(jobExecutionContext, JobExecutionKey.STATIC_CONTENT_DIR);
+        assets.addAll(getAssetsfromDirectories(staticImagesDir));
+        File stylesheet = new File(staticContentDir, MoveResourcesUtil.DOCUMENT_CSS_FILE);
+        assets.add(getAssetsfromFile(stylesheet));
+        stylesheet = new File(MoveResourcesUtil.EBOOK_GENERATOR_CSS_FILE);
+        assets.add(getAssetsfromFile(stylesheet));
 
-		File frontMatterImagesDir = new File(MoveResourcesUtil.EBOOK_GENERATOR_IMAGES_DIR);
-		List<File> filter = moveResourcesUtil.filterFiles(frontMatterImagesDir, bookDefinition);
-		for (File file : frontMatterImagesDir.listFiles()) {
-			if (!filter.contains(file)) {
-				Asset asset = new Asset(StringUtils.substringBeforeLast(file.getName(), "."), file.getName());
-				assets.add(asset);
-			}
+        final File frontMatterImagesDir = new File(MoveResourcesUtil.EBOOK_GENERATOR_IMAGES_DIR);
+        final List<File> filter = moveResourcesUtil.filterFiles(frontMatterImagesDir, bookDefinition);
+        for (final File file : frontMatterImagesDir.listFiles())
+        {
+            if (!filter.contains(file))
+            {
+                final Asset asset = new Asset(StringUtils.substringBeforeLast(file.getName(), "."), file.getName());
+                assets.add(asset);
+            }
+        }
+        return assets;
+    }
 
-		}
-		return assets;
-	}
+    /**
+     * Add only image files that are required.
+     *
+     * @param frontMatterImagesDir
+     * @param bookDefinition
+     * @return
+     */
+    public List<Asset> getAssetsfromDirectories(final File directory)
+    {
+        final List<Asset> assets = new ArrayList<>();
+        if (directory == null || !directory.isDirectory())
+        {
+            throw new IllegalArgumentException("Directory must not be null and must be a directory.");
+        }
+        for (final File file : directory.listFiles())
+        {
+            final Asset asset = new Asset(StringUtils.substringBeforeLast(file.getName(), "."), file.getName());
+            assets.add(asset);
+        }
 
-	/**
-	 * Add only image files that are required.
-	 * 
-	 * @param frontMatterImagesDir
-	 * @param bookDefinition
-	 * @return
-	 */
-	public List<Asset> getAssetsfromDirectories(File directory) {
-		List<Asset> assets = new ArrayList<Asset>();
-		if (directory == null || !directory.isDirectory()) {
-			throw new IllegalArgumentException("Directory must not be null and must be a directory.");
-		}
-		for (File file : directory.listFiles()) {
-			Asset asset = new Asset(StringUtils.substringBeforeLast(file.getName(), "."), file.getName());
-			assets.add(asset);
+        return assets;
+    }
 
-		}
+    private File addArtwork(final ExecutionContext jobExecutionContext, final TitleMetadata titleMetadata)
+    {
+        final File coverArtFile = moveResourcesUtil.createCoverArt(jobExecutionContext);
+        final Artwork coverArt = titleMetadataService.createArtwork(coverArtFile);
+        titleMetadata.setArtwork(coverArt);
+        return coverArtFile;
+    }
 
-		return assets;
+    /**
+     * Add only image files that are required.
+     *
+     * @param frontMatterImagesDir
+     * @param bookDefinition
+     * @return
+     */
+    public Asset getAssetsfromFile(final File file)
+    {
+        if (file == null || !file.exists())
+        {
+            throw new IllegalArgumentException("File must not be null and should exist.");
+        }
 
-	}
+        final Asset asset = new Asset(StringUtils.substringBeforeLast(file.getName(), "."), file.getName());
 
-	private File addArtwork(ExecutionContext jobExecutionContext, TitleMetadata titleMetadata) {
-		File coverArtFile = moveResourcesUtil.createCoverArt(jobExecutionContext);
-		Artwork coverArt = titleMetadataService.createArtwork(coverArtFile); 
-		titleMetadata.setArtwork(coverArt);
-		return coverArtFile;
-	}
+        return asset;
+    }
 
-	/**
-	 * Add only image files that are required.
-	 * 
-	 * @param frontMatterImagesDir
-	 * @param bookDefinition
-	 * @return
-	 */
-	public Asset getAssetsfromFile(File file) {
-		if (file == null || !file.exists()) {
-			throw new IllegalArgumentException("File must not be null and should exist.");
-		}
+    private File createDocumentsDirectory(final File ebookDirectory)
+    {
+        return new File(ebookDirectory, "documents");
+    }
 
-		Asset asset = new Asset(StringUtils.substringBeforeLast(file.getName(), "."), file.getName());
+    private File createArtworkDirectory(final File ebookDirectory)
+    {
+        final File artworkDirectory = new File(ebookDirectory, "artwork");
+        artworkDirectory.mkdirs();
+        return artworkDirectory;
+    }
 
-		return asset;
+    private File createAssetsDirectory(final File parentDirectory)
+    {
+        final File assetsDirectory = new File(parentDirectory, "assets");
+        return assetsDirectory;
+    }
 
-	}
+    @Required
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
+    {
+        this.publishingStatsService = publishingStatsService;
+    }
 
-	private File createDocumentsDirectory(File ebookDirectory) throws IOException {
-		return new File(ebookDirectory, "documents");
-	}
+    @Required
+    public void setTitleMetadataService(final TitleMetadataService titleMetadataService)
+    {
+        this.titleMetadataService = titleMetadataService;
+    }
 
-	private File createArtworkDirectory(File ebookDirectory) {
-		File artworkDirectory = new File(ebookDirectory, "artwork");
-		artworkDirectory.mkdirs();
-		return artworkDirectory;
-	}
+    public MoveResourcesUtil getMoveResourcesUtil()
+    {
+        return moveResourcesUtil;
+    }
 
-	private File createAssetsDirectory(final File parentDirectory) {
-		File assetsDirectory = new File(parentDirectory, "assets");
-		return assetsDirectory;
-	}
+    @Required
+    public void setMoveResourcesUtil(final MoveResourcesUtil moveResourcesUtil)
+    {
+        this.moveResourcesUtil = moveResourcesUtil;
+    }
 
-	@Required
-	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
-		this.publishingStatsService = publishingStatsService;
-	}
+    public BookDefinitionService getBookDefinitionService()
+    {
+        return bookDefinitionService;
+    }
 
-	@Required
-	public void setTitleMetadataService(TitleMetadataService titleMetadataService) {
-		this.titleMetadataService = titleMetadataService;
-	}
-
-	public MoveResourcesUtil getMoveResourcesUtil() {
-		return moveResourcesUtil;
-	}
-
-	@Required
-	public void setMoveResourcesUtil(MoveResourcesUtil moveResourcesUtil) {
-		this.moveResourcesUtil = moveResourcesUtil;
-	}
-
-	public BookDefinitionService getBookDefinitionService() {
-		return bookDefinitionService;
-	}
-
-	@Required
-	public void setBookDefinitionService(BookDefinitionService bookDefinitionService) {
-		this.bookDefinitionService = bookDefinitionService;
-	}
-
+    @Required
+    public void setBookDefinitionService(final BookDefinitionService bookDefinitionService)
+    {
+        this.bookDefinitionService = bookDefinitionService;
+    }
 }

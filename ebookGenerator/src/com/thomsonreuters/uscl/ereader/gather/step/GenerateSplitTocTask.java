@@ -1,8 +1,3 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
 package com.thomsonreuters.uscl.ereader.gather.step;
 
 import java.io.File;
@@ -17,13 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.JobInstance;
-import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.scope.context.ChunkContext;
-import org.springframework.batch.item.ExecutionContext;
-import org.springframework.beans.factory.annotation.Required;
-
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -36,175 +24,219 @@ import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+import org.springframework.batch.core.ExitStatus;
+import org.springframework.batch.core.JobInstance;
+import org.springframework.batch.core.StepContribution;
+import org.springframework.batch.core.scope.context.ChunkContext;
+import org.springframework.batch.item.ExecutionContext;
+import org.springframework.beans.factory.annotation.Required;
 
-public class GenerateSplitTocTask extends AbstractSbTasklet {
-	// TODO: Use logger API to get Logger instance to job-specific appender.
-	//private static final Logger LOG = LogManager.getLogger(GenerateSplitTocTask.class);
-	private PublishingStatsService publishingStatsService;
+public class GenerateSplitTocTask extends AbstractSbTasklet
+{
+    // TODO: Use logger API to get Logger instance to job-specific appender.
+    //private static final Logger LOG = LogManager.getLogger(GenerateSplitTocTask.class);
+    private PublishingStatsService publishingStatsService;
 
-	private SplitBookTocParseService splitBookTocParseService;
-	
-	private DocMetadataService docMetadataService;
+    private SplitBookTocParseService splitBookTocParseService;
 
-	private FileHandlingHelper fileHandlingHelper;
+    private DocMetadataService docMetadataService;
 
-	private Map<String, DocumentInfo> documentInfoMap = new HashMap<String, DocumentInfo>();
-	
-	private AutoSplitGuidsService autoSplitGuidsService;
-	
-	// retrieve list of all transformed files
-	List<File> transformedDocFiles = new ArrayList<File>();
+    private FileHandlingHelper fileHandlingHelper;
 
-	@Override
-	public ExitStatus executeStep(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-		PublishingStats jobstats = new PublishingStats();
-		String publishStatus = "Completed";
+    private Map<String, DocumentInfo> documentInfoMap = new HashMap<>();
 
-		JobInstance jobInstance = getJobInstance(chunkContext);
-		Long jobInstanceId = jobInstance.getId();
+    private AutoSplitGuidsService autoSplitGuidsService;
 
-		ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
-		BookDefinition bookDefinition = (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
-		String splitTocFilePath = jobExecutionContext.getString(JobExecutionKey.FORMAT_SPLITTOC_FILE);
-		String tocXmlFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE);
-		String transformDirectory = getRequiredStringProperty(jobExecutionContext,
-				JobExecutionKey.FORMAT_TRANSFORMED_DIR);
-		File transformDir = new File(transformDirectory);
-		String splitTitleId = bookDefinition.getFullyQualifiedTitleId();
+    // retrieve list of all transformed files
+    private List<File> transformedDocFiles = new ArrayList<>();
 
-		InputStream tocXml = null;
-		OutputStream splitTocXml = null;
+    @Override
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
+    {
+        final PublishingStats jobstats = new PublishingStats();
+        String publishStatus = "Completed";
 
-		try {
-			tocXml = new FileInputStream(tocXmlFile);
-			splitTocXml = new FileOutputStream(splitTocFilePath);
-			List<String> splitTocGuidList = new ArrayList<String>();
+        final JobInstance jobInstance = getJobInstance(chunkContext);
+        final Long jobInstanceId = jobInstance.getId();
 
-			List<SplitDocument> splitDocuments = bookDefinition.getSplitDocumentsAsList();
-			for (SplitDocument splitDocument : splitDocuments) {
-				splitTocGuidList.add(splitDocument.getTocGuid());
-			}
-			
-			Integer tocNodeCount = publishingStatsService.findPublishingStatsByJobId(jobInstanceId).getGatherTocNodeCount();				
-			
-			if (bookDefinition.isSplitBook() && bookDefinition.isSplitTypeAuto()) {
-				InputStream tocInputSteam = null;
-				try {
-					tocInputSteam = new FileInputStream(tocXmlFile);
-					boolean metrics = false;
-					splitTocGuidList = autoSplitGuidsService.getAutoSplitNodes(tocInputSteam, bookDefinition,
-							tocNodeCount, jobInstanceId, metrics);
+        final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
+        final BookDefinition bookDefinition =
+            (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
+        final String splitTocFilePath = jobExecutionContext.getString(JobExecutionKey.FORMAT_SPLITTOC_FILE);
+        final String tocXmlFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE);
+        final String transformDirectory =
+            getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_TRANSFORMED_DIR);
+        final File transformDir = new File(transformDirectory);
+        final String splitTitleId = bookDefinition.getFullyQualifiedTitleId();
 
-				} catch (IOException iox) {
-					throw new RuntimeException("Unable to find File : " + tocXmlFile + " " + iox);
-				} finally {
-					if (tocInputSteam != null) {
-						try {
-							tocInputSteam.close();
-						} catch (IOException e) {
-							throw new RuntimeException("An IOException occurred while closing a file ", e);
-						}
-					}
-				}
-			}
+        InputStream tocXml = null;
+        OutputStream splitTocXml = null;
 
-			generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, transformDir, jobInstanceId, splitTitleId);
-			
-			
+        try
+        {
+            tocXml = new FileInputStream(tocXmlFile);
+            splitTocXml = new FileOutputStream(splitTocFilePath);
+            List<String> splitTocGuidList = new ArrayList<>();
 
-		} catch (Exception e) {
-			publishStatus = "Failed";
-			throw (e);
-		} finally {
-			if (tocXml != null) {
-				tocXml.close();
-			}
-			if (splitTocXml != null) {
-				splitTocXml.close();
-			}
-			jobstats.setJobInstanceId(jobInstanceId);
-			jobstats.setPublishStatus("generateSplitToc : " + publishStatus);
-			publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
-		}
-		return ExitStatus.COMPLETED;
-	}
+            final List<SplitDocument> splitDocuments = bookDefinition.getSplitDocumentsAsList();
+            for (final SplitDocument splitDocument : splitDocuments)
+            {
+                splitTocGuidList.add(splitDocument.getTocGuid());
+            }
 
-	public void generateAndUpdateSplitToc(InputStream tocXml, OutputStream splitTocXml, List<String> splitTocGuidList,
-			File transformDir, Long jobInstanceId, String splitTitleId) throws Exception {
-		
-		documentInfoMap = splitBookTocParseService.generateSplitBookToc(tocXml, splitTocXml, splitTocGuidList, splitTitleId);
-		
-		if (transformDir == null || !transformDir.isDirectory()) {
-			throw new IllegalArgumentException("transformDir must be a directory, not null or a regular file.");
-		}
+            final Integer tocNodeCount =
+                publishingStatsService.findPublishingStatsByJobId(jobInstanceId).getGatherTocNodeCount();
 
-		try {
-			fileHandlingHelper.getFileList(transformDir, transformedDocFiles);
-		} catch (FileNotFoundException e) {
-			throw new RuntimeException("No transformed files were found in the specified directory "
-					+ transformDir.getAbsolutePath(), e);
-		}
-		
-		// Update docmetadata
-		for (File docFile : transformedDocFiles) {
-			String fileName = docFile.getName();
-			String guid = fileName.substring(0, fileName.indexOf("."));
-			if (documentInfoMap.containsKey(guid)) {
-				DocumentInfo documentInfo = documentInfoMap.get(guid);
-				documentInfo.setDocSize(new Long(docFile.length()));
-				documentInfoMap.put(guid, documentInfo);
-			}
-		}
-		
-		docMetadataService.updateSplitBookFields(jobInstanceId, documentInfoMap);
-		
-	}
+            if (bookDefinition.isSplitBook() && bookDefinition.isSplitTypeAuto())
+            {
+                InputStream tocInputSteam = null;
+                try
+                {
+                    tocInputSteam = new FileInputStream(tocXmlFile);
+                    final boolean metrics = false;
+                    splitTocGuidList = autoSplitGuidsService
+                        .getAutoSplitNodes(tocInputSteam, bookDefinition, tocNodeCount, jobInstanceId, metrics);
+                }
+                catch (final IOException iox)
+                {
+                    throw new RuntimeException("Unable to find File : " + tocXmlFile + " " + iox);
+                }
+                finally
+                {
+                    if (tocInputSteam != null)
+                    {
+                        try
+                        {
+                            tocInputSteam.close();
+                        }
+                        catch (final IOException e)
+                        {
+                            throw new RuntimeException("An IOException occurred while closing a file ", e);
+                        }
+                    }
+                }
+            }
 
-	public void setfileHandlingHelper(FileHandlingHelper fileHandlingHelper) {
-		this.fileHandlingHelper = fileHandlingHelper;
-	}
+            generateAndUpdateSplitToc(tocXml, splitTocXml, splitTocGuidList, transformDir, jobInstanceId, splitTitleId);
+        }
+        catch (final Exception e)
+        {
+            publishStatus = "Failed";
+            throw (e);
+        }
+        finally
+        {
+            if (tocXml != null)
+            {
+                tocXml.close();
+            }
+            if (splitTocXml != null)
+            {
+                splitTocXml.close();
+            }
+            jobstats.setJobInstanceId(jobInstanceId);
+            jobstats.setPublishStatus("generateSplitToc : " + publishStatus);
+            publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
+        }
+        return ExitStatus.COMPLETED;
+    }
 
-	public PublishingStatsService getPublishingStatsService() {
-		return publishingStatsService;
-	}
+    public void generateAndUpdateSplitToc(
+        final InputStream tocXml,
+        final OutputStream splitTocXml,
+        final List<String> splitTocGuidList,
+        final File transformDir,
+        final Long jobInstanceId,
+        final String splitTitleId) throws Exception
+    {
+        documentInfoMap =
+            splitBookTocParseService.generateSplitBookToc(tocXml, splitTocXml, splitTocGuidList, splitTitleId);
 
-	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
-		this.publishingStatsService = publishingStatsService;
-	}
+        if (transformDir == null || !transformDir.isDirectory())
+        {
+            throw new IllegalArgumentException("transformDir must be a directory, not null or a regular file.");
+        }
 
-	public SplitBookTocParseService getSplitBookTocParseService() {
-		return splitBookTocParseService;
-	}
+        try
+        {
+            fileHandlingHelper.getFileList(transformDir, transformedDocFiles);
+        }
+        catch (final FileNotFoundException e)
+        {
+            throw new RuntimeException(
+                "No transformed files were found in the specified directory " + transformDir.getAbsolutePath(),
+                e);
+        }
 
-	public void setSplitBookTocParseService(SplitBookTocParseService splitBookTocParseService) {
-		this.splitBookTocParseService = splitBookTocParseService;
-	}
+        // Update docmetadata
+        for (final File docFile : transformedDocFiles)
+        {
+            final String fileName = docFile.getName();
+            final String guid = fileName.substring(0, fileName.indexOf("."));
+            if (documentInfoMap.containsKey(guid))
+            {
+                final DocumentInfo documentInfo = documentInfoMap.get(guid);
+                documentInfo.setDocSize(Long.valueOf(docFile.length()));
+                documentInfoMap.put(guid, documentInfo);
+            }
+        }
 
-	public Map<String, DocumentInfo> getDocumentInfoMap() {
-		return documentInfoMap;
-	}
+        docMetadataService.updateSplitBookFields(jobInstanceId, documentInfoMap);
+    }
 
-	public void setDocumentInfoMap(Map<String, DocumentInfo> documentInfoMap) {
-		this.documentInfoMap = documentInfoMap;
-	}
-	
+    public void setfileHandlingHelper(final FileHandlingHelper fileHandlingHelper)
+    {
+        this.fileHandlingHelper = fileHandlingHelper;
+    }
 
-	public DocMetadataService getDocMetadataService() {
-		return docMetadataService;
-	}
+    public PublishingStatsService getPublishingStatsService()
+    {
+        return publishingStatsService;
+    }
 
-	public void setDocMetadataService(DocMetadataService docMetadataService) {
-		this.docMetadataService = docMetadataService;
-	}
-	
-	public AutoSplitGuidsService getAutoSplitGuidsService() {
-		return autoSplitGuidsService;
-	}
-	
-	@Required
-	public void setAutoSplitGuidsService(AutoSplitGuidsService autoSplitGuidsService) {
-		this.autoSplitGuidsService = autoSplitGuidsService;
-	}
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
+    {
+        this.publishingStatsService = publishingStatsService;
+    }
 
+    public SplitBookTocParseService getSplitBookTocParseService()
+    {
+        return splitBookTocParseService;
+    }
 
+    public void setSplitBookTocParseService(final SplitBookTocParseService splitBookTocParseService)
+    {
+        this.splitBookTocParseService = splitBookTocParseService;
+    }
+
+    public Map<String, DocumentInfo> getDocumentInfoMap()
+    {
+        return documentInfoMap;
+    }
+
+    public void setDocumentInfoMap(final Map<String, DocumentInfo> documentInfoMap)
+    {
+        this.documentInfoMap = documentInfoMap;
+    }
+
+    public DocMetadataService getDocMetadataService()
+    {
+        return docMetadataService;
+    }
+
+    public void setDocMetadataService(final DocMetadataService docMetadataService)
+    {
+        this.docMetadataService = docMetadataService;
+    }
+
+    public AutoSplitGuidsService getAutoSplitGuidsService()
+    {
+        return autoSplitGuidsService;
+    }
+
+    @Required
+    public void setAutoSplitGuidsService(final AutoSplitGuidsService autoSplitGuidsService)
+    {
+        this.autoSplitGuidsService = autoSplitGuidsService;
+    }
 }

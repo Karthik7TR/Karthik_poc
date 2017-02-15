@@ -1,14 +1,4 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
 package com.thomsonreuters.uscl.ereader;
-
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionDaoTest;
 import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDaoTest;
@@ -30,18 +20,35 @@ import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTestTest;
 import com.thomsonreuters.uscl.ereader.userpreference.dao.UserPreferenceDaoTest;
 import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreferenceTest;
 import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceServiceTest;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ BookDefinitionTest.class, BookDefinitionDaoTest.class,
-		BookDefinitionServiceTest.class, FileExtensionFilterTest.class,
-		FileHandlingHelperTest.class, jaxb.JAXBMarshallingTest.class,
-		JobServiceTest.class, CodeDaoTest.class, CodeServiceTest.class, CoreServiceTest.class,
-		ProviewClientImplTest.class, EbookAuditDaoTest.class,
-		OutageProcessorTest.class, OutageServiceTest.class, PlannedOutageTest.class,
-		EbookAuditServiceTest.class, SmokeTestTest.class, SmokeTestDaoTest.class,
-		UserPreferenceDaoTest.class, UserPreferenceServiceTest.class, UserPreferenceTest.class
-
+@SuiteClasses({
+    BookDefinitionTest.class,
+    BookDefinitionDaoTest.class,
+    BookDefinitionServiceTest.class,
+    FileExtensionFilterTest.class,
+    FileHandlingHelperTest.class,
+    com.thomsonreuters.uscl.ereader.jaxb.JAXBMarshallingTest.class,
+    JobServiceTest.class,
+    CodeDaoTest.class,
+    CodeServiceTest.class,
+    CoreServiceTest.class,
+    ProviewClientImplTest.class,
+    EbookAuditDaoTest.class,
+    OutageProcessorTest.class,
+    OutageServiceTest.class,
+    PlannedOutageTest.class,
+    EbookAuditServiceTest.class,
+    SmokeTestTest.class,
+    SmokeTestDaoTest.class,
+    UserPreferenceDaoTest.class,
+    UserPreferenceServiceTest.class,
+    UserPreferenceTest.class
 })
-public class CoreTestSuite {
-
+public class CoreTestSuite
+{
+    //Intentionally left blank
 }

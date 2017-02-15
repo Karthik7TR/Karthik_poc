@@ -23,7 +23,7 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public class GeneratorSwitchControllerTest
+public final class GeneratorSwitchControllerTest
 {
     private static final String BINDING_RESULT_KEY = BindingResult.class.getName() + "." + StopGeneratorForm.FORM_NAME;
 

@@ -56,7 +56,6 @@ public class PublishTypeCodeController
         final BindingResult bindingResult,
         final Model model)
     {
-
         return new ModelAndView(WebConstants.VIEW_ADMIN_PUBLISH_TYPE_CODE_CREATE);
     }
 

@@ -1,8 +1,3 @@
-/*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 /**
@@ -10,33 +5,33 @@ package com.thomsonreuters.uscl.ereader.format.parsinghandler;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class Characters extends ParserEvent {
+public class Characters extends ParserEvent
+{
+    private char[] buf;
+    private int offset;
+    private int len;
 
-	private char[] buf;
-	private int offset;
-	private int len;
-	
-	public Characters(char[] buf, int offset, int len)
-	{
-		super(ParserEvent.CHAR_EVENT);
-		
-		this.buf = buf;
-		this.offset = offset;
-		this.len = len;
-	}
-	
-	public char[] getBuffer()
-	{
-		return buf;
-	}
-	
-	public int getOffset()
-	{
-		return offset;
-	}
-	
-	public int getLength()
-	{
-		return len;
-	}
+    public Characters(final char[] buf, final int offset, final int len)
+    {
+        super(ParserEvent.CHAR_EVENT);
+
+        this.buf = buf;
+        this.offset = offset;
+        this.len = len;
+    }
+
+    public char[] getBuffer()
+    {
+        return buf;
+    }
+
+    public int getOffset()
+    {
+        return offset;
+    }
+
+    public int getLength()
+    {
+        return len;
+    }
 }

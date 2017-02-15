@@ -1,47 +1,38 @@
-/*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
 import java.util.List;
 
-import org.springframework.dao.DataAccessException;
-
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock;
+import org.springframework.dao.DataAccessException;
 
 /**
  * Service to manage BookDefinitionLock entities.
- * 
+ *
  */
-public interface BookDefinitionLockService {
+public interface BookDefinitionLockService
+{
+    /**
+     * Checks if book definition is locked.  If the book definition is locked, returns
+     * BookDefinitionLock entity. Otherwise, null is returned.
+     */
+    BookDefinitionLock findBookLockByBookDefinition(BookDefinition book) throws DataAccessException;
 
-	/**
-	 * Checks if book definition is locked.  If the book definition is locked, returns
-	 * BookDefinitionLock entity. Otherwise, null is returned. 
-	 */
-	public BookDefinitionLock findBookLockByBookDefinition(BookDefinition book)
-			throws DataAccessException;
-	
-	public List<BookDefinitionLock> findAllActiveLocks();
+    List<BookDefinitionLock> findAllActiveLocks();
 
-	public BookDefinitionLock findBookDefinitionLockByPrimaryKey(Long primaryKey);
-	
-	/**
-	 * Removes all locks that has expired
-	 */
-	public void cleanExpiredLocks();
+    BookDefinitionLock findBookDefinitionLockByPrimaryKey(Long primaryKey);
 
-	/**
-	 * Remove all BookDefinitionLocks for a given bookDefinition
-	 * @param book
-	 * @throws DataAccessException
-	 */
-	public void removeLock(BookDefinition book) throws DataAccessException;
+    /**
+     * Removes all locks that has expired
+     */
+    void cleanExpiredLocks();
 
-	public void lockBookDefinition(BookDefinition bookDefinition, String username, String fullName);
+    /**
+     * Remove all BookDefinitionLocks for a given bookDefinition
+     * @param book
+     * @throws DataAccessException
+     */
+    void removeLock(BookDefinition book) throws DataAccessException;
 
+    void lockBookDefinition(BookDefinition bookDefinition, String username, String fullName);
 }

@@ -1,8 +1,3 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
 package com.thomsonreuters.uscl.ereader.deliver.rest;
 
 import java.io.IOException;
@@ -17,36 +12,41 @@ import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.web.client.RequestCallback;
 
-public class ProviewXMLRequestCallback  implements RequestCallback {
-	private static final Logger LOG = LogManager.getLogger(ProviewXMLRequestCallback.class);
+public class ProviewXMLRequestCallback implements RequestCallback
+{
+    private static final Logger LOG = LogManager.getLogger(ProviewXMLRequestCallback.class);
 
-	private static final String AUTHORIZATION_HEADER = "Authorization";
-	private static final String HTTP_BASIC_CREDENTIALS = "Basic cHVibGlzaGVyOmY5Ul96QnEzN2E=";
-	private InputStream requestInputStream;
-	
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final String HTTP_BASIC_CREDENTIALS = "Basic cHVibGlzaGVyOmY5Ul96QnEzN2E=";
+    private InputStream requestInputStream;
 
-	public void setRequestInputStream(InputStream requestInputStream) {
-		this.requestInputStream = requestInputStream;
-	}
+    public void setRequestInputStream(final InputStream requestInputStream)
+    {
+        this.requestInputStream = requestInputStream;
+    }
 
-	@Override
-	public void doWithRequest(ClientHttpRequest clientHttpRequest) throws IOException {
-		clientHttpRequest.getHeaders().add("Content-type", MediaType.APPLICATION_XML_VALUE + "; charset=UTF-8");
+    @Override
+    public void doWithRequest(final ClientHttpRequest clientHttpRequest) throws IOException
+    {
+        clientHttpRequest.getHeaders().add("Content-type", MediaType.APPLICATION_XML_VALUE + "; charset=UTF-8");
 
-		clientHttpRequest.getHeaders().add(AUTHORIZATION_HEADER, HTTP_BASIC_CREDENTIALS);
-		if (requestInputStream != null) {
-			long startTime = System.currentTimeMillis();
-			//IOUtils.copy(requestInputStream, clientHttpRequest.getBody());
-			((StreamingHttpOutputMessage) clientHttpRequest).setBody(new StreamingHttpOutputMessage.Body() {
-			    @Override
-			    public void writeTo(final OutputStream outputStream) throws IOException {
-			      IOUtils.copy(requestInputStream, outputStream);
-			    }
-			  });
-			long duration = System.currentTimeMillis() - startTime;
-			LOG.debug("Created Proview Group in " + duration + " milliseconds.");
-		}
-		LOG.debug("ProView URI: " + clientHttpRequest.getURI().getPath());
-		LOG.debug("ProView HTTP Request Headers: " + clientHttpRequest.getHeaders());
-	}
+        clientHttpRequest.getHeaders().add(AUTHORIZATION_HEADER, HTTP_BASIC_CREDENTIALS);
+        if (requestInputStream != null)
+        {
+            final long startTime = System.currentTimeMillis();
+            //IOUtils.copy(requestInputStream, clientHttpRequest.getBody());
+            ((StreamingHttpOutputMessage) clientHttpRequest).setBody(new StreamingHttpOutputMessage.Body()
+            {
+                @Override
+                public void writeTo(final OutputStream outputStream) throws IOException
+                {
+                    IOUtils.copy(requestInputStream, outputStream);
+                }
+            });
+            final long duration = System.currentTimeMillis() - startTime;
+            LOG.debug("Created Proview Group in " + duration + " milliseconds.");
+        }
+        LOG.debug("ProView URI: " + clientHttpRequest.getURI().getPath());
+        LOG.debug("ProView HTTP Request Headers: " + clientHttpRequest.getHeaders());
+    }
 }

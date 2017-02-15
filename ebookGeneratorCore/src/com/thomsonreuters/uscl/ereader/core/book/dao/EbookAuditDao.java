@@ -1,48 +1,41 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
 package com.thomsonreuters.uscl.ereader.core.book.dao;
 
 import java.util.List;
 
-import org.springframework.dao.DataAccessException;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
+import org.springframework.dao.DataAccessException;
 
 /**
  * DAO to manage EbookAudit entities.
- * 
+ *
  */
-public interface EbookAuditDao {
-	public static final String MOD_TEXT = "modified-";
+public interface EbookAuditDao
+{
+    String MOD_TEXT = "modified-";
 
-	/**
-	 * Query - findEbookAuditByPrimaryKey
-	 * 
-	 */
-	public EbookAudit findEbookAuditByPrimaryKey(Long auditId)
-			throws DataAccessException;
+    /**
+     * Query - findEbookAuditByPrimaryKey
+     *
+     */
+    EbookAudit findEbookAuditByPrimaryKey(Long auditId) throws DataAccessException;
 
-	public void remove(EbookAudit toRemove) throws DataAccessException;
-	
-	public List<EbookAudit> findEbookAuditByTitleIdAndIsbn(String titleId, String isbn);
+    void remove(EbookAudit toRemove) throws DataAccessException;
 
-	public void saveAudit(EbookAudit eBookAuditRecord);
-	public Long findEbookAuditIdByEbookDefId(Long ebookDefId)
-			throws DataAccessException;
+    List<EbookAudit> findEbookAuditByTitleIdAndIsbn(String titleId, String isbn);
 
-	public List<EbookAudit> findEbookAudits(EbookAuditFilter filter, EbookAuditSort sort);
-	
-	public int numberEbookAudits(EbookAuditFilter filter);
-	
-	public Long findMaxAuditId();
-	
-	public EbookAudit findEbookAuditIdByTtileId(String titleId);
-	
-	public void updateSpliDocumentsAudit(EbookAudit audit, String splitDocumentsConcat, int parts);
+    void saveAudit(EbookAudit eBookAuditRecord);
 
+    Long findEbookAuditIdByEbookDefId(Long ebookDefId) throws DataAccessException;
+
+    List<EbookAudit> findEbookAudits(EbookAuditFilter filter, EbookAuditSort sort);
+
+    int numberEbookAudits(EbookAuditFilter filter);
+
+    Long findMaxAuditId();
+
+    EbookAudit findEbookAuditIdByTtileId(String titleId);
+
+    void updateSpliDocumentsAudit(EbookAudit audit, String splitDocumentsConcat, int parts);
 }

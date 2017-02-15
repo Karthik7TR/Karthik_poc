@@ -1,10 +1,9 @@
 package com.thomsonreuters.uscl.ereader.gather.img.service;
 
-import org.jetbrains.annotations.NotNull;
-
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.img.model.ImageRequestParameters;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Service for getting images Novus and performing all related tasks e.g writing

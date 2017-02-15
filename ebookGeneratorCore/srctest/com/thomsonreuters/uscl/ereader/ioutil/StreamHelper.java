@@ -1,19 +1,10 @@
-/*
-* StreamHelper
-* 
-* Created on: Nov 2, 2010 By: u0009398
-* 
-* Copyright 2010: Thomson Reuters Global Resources. All Rights Reserved.
-*
-* Proprietary and Confidential information of TRGR. 
-* Disclosure, Use or Reproduction without the written authorization of TRGR is prohibited.
-*/
 package com.thomsonreuters.uscl.ereader.ioutil;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+
 import org.apache.commons.io.IOUtils;
 
 /**
@@ -39,8 +30,7 @@ public final class StreamHelper
      *
      * @throws java.io.IOException if anything fails.
      */
-    public static synchronized boolean compare(
-        InputStream one, InputStream two, StringBuilder detail)
+    public static synchronized boolean compare(final InputStream one, final InputStream two, final StringBuilder detail)
         throws IOException
     {
         boolean equal = false;
@@ -85,7 +75,7 @@ public final class StreamHelper
         {
             if (byteCount < bufferSize)
             {
-                byte[] buffer = new byte[bufferSize - byteCount];
+                final byte[] buffer = new byte[bufferSize - byteCount];
                 int bytesRead;
                 bytesRead = streamOne.read(buffer);
                 bufferOne.append(new String(buffer, 0, bytesRead));
@@ -116,11 +106,11 @@ public final class StreamHelper
      *
      * @throws java.io.IOException on failure.
      */
-    public static String inputStreamToString(InputStream input) throws IOException
+    public static String inputStreamToString(final InputStream input) throws IOException
     {
-        StringBuilder value = new StringBuilder();
+        final StringBuilder value = new StringBuilder();
         int bytesRead;
-        byte[] buffer = new byte[1024];
+        final byte[] buffer = new byte[1024];
 
         while ((bytesRead = input.read(buffer, 0, buffer.length)) >= 0)
         {
@@ -142,7 +132,7 @@ public final class StreamHelper
      *
      * @throws java.io.IOException on failure.
      */
-    public static String readerToString(Reader input) throws IOException
+    public static String readerToString(final Reader input) throws IOException
     {
         final StringBuilder value = new StringBuilder();
         int bytesRead;

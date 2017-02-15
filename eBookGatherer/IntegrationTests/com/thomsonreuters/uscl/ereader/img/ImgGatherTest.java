@@ -28,6 +28,10 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
+import com.thomsonreuters.uscl.ereader.core.EBConstants;
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
+import com.thomsonreuters.uscl.ereader.gather.img.controller.ImgController;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -40,11 +44,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import com.thomsonreuters.uscl.ereader.core.EBConstants;
-import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
-import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
-import com.thomsonreuters.uscl.ereader.gather.img.controller.ImgController;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -189,7 +188,7 @@ public final class ImgGatherTest
         countDownLatch.countDown();
         executorService.shutdown();
         // then
-        for (Future<Boolean> future : results)
+        for (final Future<Boolean> future : results)
         {
             assertTrue(future.get());
         }

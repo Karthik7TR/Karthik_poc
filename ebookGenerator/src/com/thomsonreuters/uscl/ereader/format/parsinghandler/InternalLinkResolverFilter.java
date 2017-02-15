@@ -1,9 +1,3 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import java.io.BufferedReader;
@@ -13,13 +7,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
- import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.AttributesImpl;
-import org.xml.sax.helpers.XMLFilterImpl;
-
 import com.thomsonreuters.uscl.ereader.format.FormatConstants;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
@@ -28,7 +15,13 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.PaceMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataService;
 import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
 import com.thomsonreuters.uscl.ereader.util.UrlParsingUtil;
-
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
+import org.xml.sax.helpers.XMLFilterImpl;
 
 /**
  * A SAX Filter that detects whether or not an anchor points to a resource included within an
@@ -52,7 +45,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
     private String docGuid;
     private String version;
 
-	public InternalLinkResolverFilter(final DocumentMetadataAuthority documentMetadataAuthority)
+    public InternalLinkResolverFilter(final DocumentMetadataAuthority documentMetadataAuthority)
     {
         if (documentMetadataAuthority == null)
         {
@@ -64,8 +57,12 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
     }
 
     public InternalLinkResolverFilter(
-        final DocumentMetadataAuthority documentMetadataAuthority, final File docsGuidFile,
-        final PaceMetadataService paceMetadataService, final Long jobId, String docGuid, String version)
+        final DocumentMetadataAuthority documentMetadataAuthority,
+        final File docsGuidFile,
+        final PaceMetadataService paceMetadataService,
+        final Long jobId,
+        final String docGuid,
+        final String version)
     {
         if (documentMetadataAuthority == null)
         {
@@ -82,17 +79,15 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
     }
 
     @Override
-    public void startElement(String uri, String localname, String qName, Attributes attributes)
+    public void startElement(final String uri, final String localname, final String qName, final Attributes attributes)
         throws SAXException
     {
-        String resourceUrl = attributes.getValue(HREF);
+        final String resourceUrl = attributes.getValue(HREF);
 
-        if (
-            StringUtils.isNotEmpty(resourceUrl) && resourceUrl.contains("http")
-                    && ANCHOR_ELEMENT.equals(qName))
+        if (StringUtils.isNotEmpty(resourceUrl) && resourceUrl.contains("http") && ANCHOR_ELEMENT.equals(qName))
         {
-            Map<String, String> urlContents = UrlParsingUtil.parseUrlContents(resourceUrl);
-            Attributes resolvedAttributes = resolveResourceUrlReference(urlContents, attributes);
+            final Map<String, String> urlContents = UrlParsingUtil.parseUrlContents(resourceUrl);
+            final Attributes resolvedAttributes = resolveResourceUrlReference(urlContents, attributes);
             super.startElement(uri, localname, qName, resolvedAttributes);
         }
         else
@@ -102,7 +97,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
     }
 
     /**
-     * 
+     *
      * @param urlContents
      *
      * @return
@@ -110,115 +105,115 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
     private DocMetadata getDocMetadata(final Map<String, String> urlContents)
     {
         DocMetadata docMetadata = null;
-        String cite = urlContents.get("cite");
-        String documentUuid = urlContents.get("documentUuid");
-        String serialNum = urlContents.get("serNum");
+        final String cite = urlContents.get("cite");
+        final String documentUuid = urlContents.get("documentUuid");
+        final String serialNum = urlContents.get("serNum");
 
         if (StringUtils.isNotEmpty(cite))
         {
-            String pubName = urlContents.get("pubNum");
-            
+            final String pubName = urlContents.get("pubNum");
+
             Long pubId = PUB_NOT_PRESENT;
             if (pubName != null && !pubName.trim().isEmpty())
             {
-            	try
-            	{
-            		pubId =	Long.parseLong(pubName.trim());
-            	}
-            	catch (NumberFormatException nfe)
-            	{
-            		//not a valid serial number
-            		LOG.debug("Encountered a pubName: " + pubName + " which is not a valid number.");
-            	}
+                try
+                {
+                    pubId = Long.parseLong(pubName.trim());
+                }
+                catch (final NumberFormatException nfe)
+                {
+                    //not a valid serial number
+                    LOG.debug("Encountered a pubName: " + pubName + " which is not a valid number.", nfe);
+                }
             }
-            
+
             docMetadata = getNormalizedCiteDocMetadata(cite, pubId, jobId);
         }
         else if (StringUtils.isNotEmpty(documentUuid))
         {
-            docMetadata = documentMetadataAuthority.getDocMetadataKeyedByDocumentUuid()
-                                                   .get(documentUuid);
+            docMetadata = documentMetadataAuthority.getDocMetadataKeyedByDocumentUuid().get(documentUuid);
         }
         else if (StringUtils.isNotEmpty(serialNum))
         {
-        	try
-        	{
-        		Long serNum = new Long(serialNum.trim());
-        		
-        		docMetadata = documentMetadataAuthority.getDocMetadataKeyedBySerialNumber().get(serNum);
-        	}
-        	catch (NumberFormatException nfe)
-        	{
-        		//not a valid serial number
-        		LOG.debug("Encountered a serNum: " + serialNum + " which is not a valid number.");
-        	}
+            try
+            {
+                final Long serNum = Long.valueOf(serialNum.trim());
+
+                docMetadata = documentMetadataAuthority.getDocMetadataKeyedBySerialNumber().get(serNum);
+            }
+            catch (final NumberFormatException nfe)
+            {
+                //not a valid serial number
+                LOG.debug("Encountered a serNum: " + serialNum + " which is not a valid number.", nfe);
+            }
         }
 
         return docMetadata;
     }
 
     /**
-     * 
+     *
      * @param cite
      * @param pubId
      *
      * @return docMetadata DocumentMetadata
      */
-    private DocMetadata getNormalizedCiteDocMetadata(String cite, Long pubId, Long jobId)
+    private DocMetadata getNormalizedCiteDocMetadata(String cite, final Long pubId, final Long jobId)
     {
-       DocMetadata docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(cite);
-       
-       // Fix for cite that contains whitespaces which prevents metadata match
-       if	(docMetadata == null) 
-       {
-    	   String citeWithoutSpaces = cite.replaceAll("\\s", "");
-    	   docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(citeWithoutSpaces);
-       }
+        DocMetadata docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(cite);
 
-       if (docMetadata == null && !pubId.equals(PUB_NOT_PRESENT))
-       {
-    	   List<PaceMetadata> paceMetadataInfo =
-    			   paceMetadataService.findAllPaceMetadataForPubCode(pubId);
-	
-    	   if ((paceMetadataInfo != null) && (paceMetadataInfo.size() > 0))
-			{
-			    String stdPubName = paceMetadataInfo.get(0).getStdPubName();
-			
-			    if (cite.contains(stdPubName))
-			    {
-			        String pubName = paceMetadataInfo.get(0).getPublicationName();
-			        String pubNameCite = cite.replace(stdPubName, pubName);
-			        pubNameCite = NormalizationRulesUtil.applyCitationNormalizationRules(pubNameCite);
-			        docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(pubNameCite);
-			        
-			        if (docMetadata == null)  {
-			        	// look for pubId and pubpage match (this will fix multiple volumes) Bug #33426
-			        	String[] splitCite = cite.split(stdPubName);
-			        	
-			        	if (splitCite.length > 0) {
-			        		String pubpage = splitCite[splitCite.length - 1];
-			        		pubpage = NormalizationRulesUtil.pubPageNormalizationRules(pubpage);
-			        		docMetadata = documentMetadataAuthority.getDocMetadataKeyedByPubIdAndPubPage().get(pubId + pubpage);
-			        	}
-			        }
-			        
-			    }
-			}
+        // Fix for cite that contains whitespaces which prevents metadata match
+        if (docMetadata == null)
+        {
+            final String citeWithoutSpaces = cite.replaceAll("\\s", "");
+            docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(citeWithoutSpaces);
+        }
+
+        if (docMetadata == null && !pubId.equals(PUB_NOT_PRESENT))
+        {
+            final List<PaceMetadata> paceMetadataInfo = paceMetadataService.findAllPaceMetadataForPubCode(pubId);
+
+            if ((paceMetadataInfo != null) && (paceMetadataInfo.size() > 0))
+            {
+                final String stdPubName = paceMetadataInfo.get(0).getStdPubName();
+
+                if (cite.contains(stdPubName))
+                {
+                    final String pubName = paceMetadataInfo.get(0).getPublicationName();
+                    String pubNameCite = cite.replace(stdPubName, pubName);
+                    pubNameCite = NormalizationRulesUtil.applyCitationNormalizationRules(pubNameCite);
+                    docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(pubNameCite);
+
+                    if (docMetadata == null)
+                    {
+                        // look for pubId and pubpage match (this will fix multiple volumes) Bug #33426
+                        final String[] splitCite = cite.split(stdPubName);
+
+                        if (splitCite.length > 0)
+                        {
+                            String pubpage = splitCite[splitCite.length - 1];
+                            pubpage = NormalizationRulesUtil.pubPageNormalizationRules(pubpage);
+                            docMetadata =
+                                documentMetadataAuthority.getDocMetadataKeyedByPubIdAndPubPage().get(pubId + pubpage);
+                        }
+                    }
+                }
+            }
         }
         else if (docMetadata == null && pubId.equals(PUB_NOT_PRESENT))
-        {	
-        	cite = NormalizationRulesUtil.applyCitationNormalizationRules(cite);
-        	if(cite.startsWith("LK("))
-        	{
-        		docMetadata = getRefsAnnosPage(cite);
-        	}
+        {
+            cite = NormalizationRulesUtil.applyCitationNormalizationRules(cite);
+            if (cite.startsWith("LK("))
+            {
+                docMetadata = getRefsAnnosPage(cite);
+            }
         }
 
         return docMetadata;
     }
 
     /**
-     * 
+     *
      * @param docGuid
      *
      * @return tocGuid TocGuid as a string for corresponding document guid.
@@ -245,11 +240,11 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
 
             while (input != null)
             {
-                String[] line = input.split(",", -1);
+                final String[] line = input.split(",", -1);
 
                 if (line[0].equals(docGuid))
                 {
-                    String[] tocGuids = line[1].split("\\|");
+                    final String[] tocGuids = line[1].split("\\|");
                     tocGuid = tocGuids[0];
 
                     break;
@@ -260,18 +255,17 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
 
             if ("".equals(tocGuid))
             {
-                String message =
-                    "Please verify that each document GUID in the following file has "
-                    + "at least one TOC guid associated with it: " + docsGuidFile.getAbsolutePath();
+                final String message = "Please verify that each document GUID in the following file has "
+                    + "at least one TOC guid associated with it: "
+                    + docsGuidFile.getAbsolutePath();
                 LOG.error(message);
             }
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
-            String message =
-                "Could not read the DOC guid to TOC guid map file: "
-                + docsGuidFile.getAbsolutePath();
-            LOG.error(message);
+            final String message =
+                "Could not read the DOC guid to TOC guid map file: " + docsGuidFile.getAbsolutePath();
+            LOG.error(message, e);
         }
         finally
         {
@@ -282,7 +276,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
                     reader.close();
                 }
             }
-            catch (IOException e)
+            catch (final IOException e)
             {
                 LOG.error("Unable to close DOC guid to TOC guid file reader.", e);
             }
@@ -301,32 +295,34 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
      *
      * @return the updated URL in ProView format.
      */
-    private Attributes resolveResourceUrlReference(
-        final Map<String, String> urlContents, Attributes attributes)
+    private Attributes resolveResourceUrlReference(final Map<String, String> urlContents, final Attributes attributes)
         throws SAXException
     {
-        DocMetadata docMetadata = getDocMetadata(urlContents);
+        final DocMetadata docMetadata = getDocMetadata(urlContents);
 
-        AttributesImpl resolvedAttributes = new AttributesImpl(attributes);
+        final AttributesImpl resolvedAttributes = new AttributesImpl(attributes);
 
         if (docMetadata == null)
         {
             return resolvedAttributes;
         }
-        
-        StringBuilder ebookResourceIdentifier = new StringBuilder();
-        
-        String splitTitleId = documentMetadataAuthority.getDocMetadataKeyedByDocumentUuid()
-                .get(docGuid).getSplitBookTitle();
-        
-        if (splitTitleId!=null && docMetadata.getSplitBookTitle()!=null && !splitTitleId.equalsIgnoreCase(docMetadata.getSplitBookTitle())){
-        	 ebookResourceIdentifier.append(docMetadata.getSplitBookTitle()+"/v"+version);
+
+        final StringBuilder ebookResourceIdentifier = new StringBuilder();
+
+        final String splitTitleId =
+            documentMetadataAuthority.getDocMetadataKeyedByDocumentUuid().get(docGuid).getSplitBookTitle();
+
+        if (splitTitleId != null
+            && docMetadata.getSplitBookTitle() != null
+            && !splitTitleId.equalsIgnoreCase(docMetadata.getSplitBookTitle()))
+        {
+            ebookResourceIdentifier.append(docMetadata.getSplitBookTitle() + "/v" + version);
         }
-        
+
         ebookResourceIdentifier.append("#");
         ebookResourceIdentifier.append(docMetadata.getProViewId());
 
-        String reference = urlContents.get("reference");
+        final String reference = urlContents.get("reference");
 
         if (StringUtils.isNotEmpty(reference))
         {
@@ -334,72 +330,72 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
         }
         else
         {
-            String tocGuid = getTitleXMLTOCFilter(docMetadata.getDocUuid());
+            final String tocGuid = getTitleXMLTOCFilter(docMetadata.getDocUuid());
 
             if (StringUtils.isEmpty(tocGuid))
             {
-                throw new SAXException(
-                    "Could not find TOC guid for " + docMetadata.getDocUuid() + " document.");
+                throw new SAXException("Could not find TOC guid for " + docMetadata.getDocUuid() + " document.");
             }
 
             ebookResourceIdentifier.append("/" + tocGuid);
         }
 
-        int anchorReferenceIndex = resolvedAttributes.getIndex(HREF);
+        final int anchorReferenceIndex = resolvedAttributes.getIndex(HREF);
         resolvedAttributes.setValue(
-            anchorReferenceIndex, FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT + ebookResourceIdentifier); //add the new value
+            anchorReferenceIndex,
+            FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT + ebookResourceIdentifier); //add the new value
 
         return resolvedAttributes;
     }
-    
+
     /**
-	 * Attempts to locate the page of a Refs and Annos citations that is in one of the following formats: 
-	 * lk(TXPRD)+lk(TXPRR)+lk(TXAGD)+lk(TXALD)+lk(TXBCD)+...
-	 * lk(TXPRD) lk(TXPRR) lk(TXAGD) lk(TXALD) lk(TXBCD)
-     * 
+     * Attempts to locate the page of a Refs and Annos citations that is in one of the following formats:
+     * lk(TXPRD)+lk(TXPRR)+lk(TXAGD)+lk(TXALD)+lk(TXBCD)+...
+     * lk(TXPRD) lk(TXPRR) lk(TXAGD) lk(TXALD) lk(TXBCD)
+     *
      * @param cite Refs and Annos citation
-     * 
+     *
      * @return null if document is not identified in book otherwise the document metadata object of the Refs and Annos page.
      */
-    private DocMetadata getRefsAnnosPage(String cite)
+    private DocMetadata getRefsAnnosPage(final String cite)
     {
-    	DocMetadata docMetadata = null;
+        DocMetadata docMetadata = null;
 
-    	String[] citations = cite.split("LK\\(");
-    	
-    	//try and find the correct reference page from the list of citations
-    	for (String citation : citations)
-    	{
-    		citation = citation.replace(")", "").replace("+", "").trim();
-    		
-    		if (citation.endsWith("R"))
-    		{	
-    			//Only look at the citations that end with R, presumably stands for References
-        		docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(citation);
-        		
-        		if (docMetadata != null)
-        		{
-        			return docMetadata;
-        		}
-    		}
-    	}
-    	
-    	//if a reference page cannot be located, locate to the first found document in the cite list
-    	if (docMetadata == null)
-    	{
-        	for (String citation : citations)
-        	{
-        		citation = citation.replace(")", "").replace("+", "").trim();
-        		
-        		docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(citation);
-        		
-        		if (docMetadata != null)
-        		{
-        			return docMetadata;
-        		}
-        	}
-    	}
-    	
-    	return docMetadata;
+        final String[] citations = cite.split("LK\\(");
+
+        //try and find the correct reference page from the list of citations
+        for (String citation : citations)
+        {
+            citation = citation.replace(")", "").replace("+", "").trim();
+
+            if (citation.endsWith("R"))
+            {
+                //Only look at the citations that end with R, presumably stands for References
+                docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(citation);
+
+                if (docMetadata != null)
+                {
+                    return docMetadata;
+                }
+            }
+        }
+
+        //if a reference page cannot be located, locate to the first found document in the cite list
+        if (docMetadata == null)
+        {
+            for (String citation : citations)
+            {
+                citation = citation.replace(")", "").replace("+", "").trim();
+
+                docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(citation);
+
+                if (docMetadata != null)
+                {
+                    return docMetadata;
+                }
+            }
+        }
+
+        return docMetadata;
     }
 }

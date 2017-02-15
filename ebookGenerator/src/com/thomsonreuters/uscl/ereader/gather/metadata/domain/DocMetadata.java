@@ -1,9 +1,3 @@
-/*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
 package com.thomsonreuters.uscl.ereader.gather.metadata.domain;
 
 import java.io.Serializable;
@@ -28,444 +22,405 @@ import javax.xml.bind.annotation.XmlType;
 /**
  */
 @IdClass(com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK.class)
-@NamedQueries({ @NamedQuery(name = "findDocumentMetaDataByCiteAndJobId", 
-		query = "select docM from DocMetadata docM where docM.jobInstanceId = :jobInstaneId " +
-				"and docM.normalizedFirstlineCite like :normalizedCite ")})
+@NamedQueries({
+    @NamedQuery(
+        name = "findDocumentMetaDataByCiteAndJobId",
+        query = "select docM from DocMetadata docM where docM.jobInstanceId = :jobInstaneId "
+            + "and docM.normalizedFirstlineCite like :normalizedCite ")})
 @Entity
 @Table(name = "DOCUMENT_METADATA")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/gather/metadata/domain", name = "DocMetadata")
-public class DocMetadata implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class DocMetadata implements Serializable
+{
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 */
+    @Column(name = "TITLE_ID", length = 64, nullable = false)
+    @Basic(fetch = FetchType.EAGER)
+    @Id
+    @XmlElement
+    private String titleId;
 
-	@Column(name = "TITLE_ID", length = 64, nullable = false)
-	@Basic(fetch = FetchType.EAGER)
-	@Id
-	@XmlElement
-	String titleId;
-	/**
-	 */
+    @Column(name = "JOB_INSTANCE_ID", nullable = false)
+    @Basic(fetch = FetchType.EAGER)
+    @Id
+    @XmlElement
+    private Long jobInstanceId;
 
-	@Column(name = "JOB_INSTANCE_ID", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
-	@Id
-	@XmlElement
-	Long jobInstanceId;
-	/**
-	 */
+    @Column(name = "DOC_UUID", length = 42, nullable = false)
+    @Basic(fetch = FetchType.EAGER)
+    @Id
+    @XmlElement
+    private String docUuid;
 
-	@Column(name = "DOC_UUID", length = 42, nullable = false)
-	@Basic(fetch = FetchType.EAGER)
-	@Id
-	@XmlElement
-	String docUuid;
-	/**
-	 */
+    @Column(name = "DOC_FAMILY_UUID", length = 36, nullable = false)
+    @Basic(fetch = FetchType.EAGER)
+    @XmlElement
+    private String docFamilyUuid;
 
-	@Column(name = "DOC_FAMILY_UUID", length = 36, nullable = false)
-	@Basic(fetch = FetchType.EAGER)
-	@XmlElement
-	String docFamilyUuid;
-	/**
-	 */
+    @Column(name = "DOC_TYPE", length = 10)
+    @Basic(fetch = FetchType.EAGER)
+    @XmlElement
+    private String docType;
 
-	@Column(name = "DOC_TYPE", length = 10)
-	@Basic(fetch = FetchType.EAGER)
-	@XmlElement
-	String docType;
-	/**
-	 */
+    @Column(name = "NORMALIZED_FIRSTLINE_CITE", length = 100)
+    @Basic(fetch = FetchType.EAGER)
+    @XmlElement
+    private String normalizedFirstlineCite;
 
-	@Column(name = "NORMALIZED_FIRSTLINE_CITE", length = 100)
-	@Basic(fetch = FetchType.EAGER)
-	@XmlElement
-	String normalizedFirstlineCite;
-	/**
-	 */
+    @Column(name = "FIRSTLINE_CITE", length = 128)
+    @Basic(fetch = FetchType.EAGER)
+    @XmlElement
+    private String firstlineCite;
 
-	@Column(name = "FIRSTLINE_CITE", length = 128)
-	@Basic(fetch = FetchType.EAGER)
-	@XmlElement
-	String firstlineCite;
-	/**
-	 */
+    @Column(name = "SECONDLINE_CITE", length = 128)
+    @Basic(fetch = FetchType.EAGER)
+    @XmlElement
+    private String secondlineCite;
 
-	@Column(name = "SECONDLINE_CITE", length = 128)
-	@Basic(fetch = FetchType.EAGER)
-	@XmlElement
-	String secondlineCite;
-	/**
-	 */
-	
-	@Column(name = "THIRDLINE_CITE", length = 512)
-	@Basic(fetch = FetchType.EAGER)
-	@XmlElement
-	String thirdlineCite;
-	/**
-	 */
-	
-	@Column(name = "FIRSTLINE_CITE_PUBPAGE", length = 512)
-	@Basic(fetch = FetchType.EAGER)
-	@XmlElement
-	String firstlineCitePubpage;
-	/**
-	 */
-	
-	@Column(name = "FIRSTLINE_CITE_PUB_ID")
-	@Basic(fetch = FetchType.EAGER)
-	@XmlElement
-	Long firstlineCitePubId;
-	/**
-	 */
-	
-	@Column(name = "SECONDLINE_CITE_PUB_ID")
-	@Basic(fetch = FetchType.EAGER)
-	@XmlElement
-	Long secondlineCitePubId;
-	/**
-	 */
+    @Column(name = "THIRDLINE_CITE", length = 512)
+    @Basic(fetch = FetchType.EAGER)
+    @XmlElement
+    private String thirdlineCite;
 
-	@Column(name = "THIRDLINE_CITE_PUB_ID")
-	@Basic(fetch = FetchType.EAGER)
-	@XmlElement
-	Long thirdlineCitePubId;
-	/**
-	 */
-	
-	@Column(name = "FIND_ORIG", length = 80)
-	@Basic(fetch = FetchType.EAGER)
-	@XmlElement
-	String findOrig;
-	/**
-	 */
+    @Column(name = "FIRSTLINE_CITE_PUBPAGE", length = 512)
+    @Basic(fetch = FetchType.EAGER)
+    @XmlElement
+    private String firstlineCitePubpage;
 
-	@Column(name = "SERIAL_NUMBER")
-	@Basic(fetch = FetchType.EAGER)
-	@XmlElement
-	Long serialNumber;
-	/**
-	 */
+    @Column(name = "FIRSTLINE_CITE_PUB_ID")
+    @Basic(fetch = FetchType.EAGER)
+    @XmlElement
+    private Long firstlineCitePubId;
 
-	@Column(name = "COLLECTION_NAME", length = 36, nullable = false)
-	@Basic(fetch = FetchType.EAGER)
-	@XmlElement
-	String collectionName;
-	/**
-	 */
+    @Column(name = "SECONDLINE_CITE_PUB_ID")
+    @Basic(fetch = FetchType.EAGER)
+    @XmlElement
+    private Long secondlineCitePubId;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_UPDATED", nullable = false)
-	@Basic(fetch = FetchType.EAGER)
-	@XmlElement
-	Date lastUpdated;
+    @Column(name = "THIRDLINE_CITE_PUB_ID")
+    @Basic(fetch = FetchType.EAGER)
+    @XmlElement
+    private Long thirdlineCitePubId;
 
-	@Column(name = "PROVIEW_FAMILY_UUID_DEDUP")
-	@Basic(fetch = FetchType.EAGER)
-	Integer proviewFamilyUUIDDedup;
-	
-	@Column(name = "DOC_SIZE")
-	@Basic(fetch = FetchType.EAGER)
-	Long docSize;
+    @Column(name = "FIND_ORIG", length = 80)
+    @Basic(fetch = FetchType.EAGER)
+    @XmlElement
+    private String findOrig;
 
-	@Column(name = "SPLIT_BOOK_TITLE_ID", length = 64)
-	@Basic(fetch = FetchType.EAGER)
-	String splitBookTitleId;
+    @Column(name = "SERIAL_NUMBER")
+    @Basic(fetch = FetchType.EAGER)
+    @XmlElement
+    private Long serialNumber;
 
-	/**
-	 */
-	public void setTitleId(String titleId) {
-		this.titleId = titleId;
-	}
+    @Column(name = "COLLECTION_NAME", length = 36, nullable = false)
+    @Basic(fetch = FetchType.EAGER)
+    @XmlElement
+    private String collectionName;
 
-	/**
-	 */
-	public String getTitleId() {
-		return this.titleId;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "LAST_UPDATED", nullable = false)
+    @Basic(fetch = FetchType.EAGER)
+    @XmlElement
+    private Date lastUpdated;
 
-	/**
-	 */
-	public void setJobInstanceId(Long jobInstanceId) {
-		this.jobInstanceId = jobInstanceId;
-	}
+    @Column(name = "PROVIEW_FAMILY_UUID_DEDUP")
+    @Basic(fetch = FetchType.EAGER)
+    private Integer proviewFamilyUUIDDedup;
 
-	/**
-	 */
-	public Long getJobInstanceId() {
-		return this.jobInstanceId;
-	}
+    @Column(name = "DOC_SIZE")
+    @Basic(fetch = FetchType.EAGER)
+    private Long docSize;
 
-	/**
-	 */
-	public void setDocUuid(String docUuid) {
-		this.docUuid = docUuid;
-	}
+    @Column(name = "SPLIT_BOOK_TITLE_ID", length = 64)
+    @Basic(fetch = FetchType.EAGER)
+    private String splitBookTitleId;
 
-	/**
-	 */
-	public String getDocUuid() {
-		return this.docUuid;
-	}
+    public void setTitleId(final String titleId)
+    {
+        this.titleId = titleId;
+    }
 
-	/**
-	 */
-	public void setDocFamilyUuid(String docFamilyUuid) {
-		this.docFamilyUuid = docFamilyUuid;
-	}
+    public String getTitleId()
+    {
+        return titleId;
+    }
 
-	/**
-	 */
-	public String getDocFamilyUuid() {
-		return this.docFamilyUuid;
-	}
+    public void setJobInstanceId(final Long jobInstanceId)
+    {
+        this.jobInstanceId = jobInstanceId;
+    }
 
-	/**
-	 */
-	public void setDocType(String docType) {
-		this.docType = docType;
-	}
+    public Long getJobInstanceId()
+    {
+        return jobInstanceId;
+    }
 
-	/**
-	 */
-	public String getDocType() {
-		return this.docType;
-	}
+    public void setDocUuid(final String docUuid)
+    {
+        this.docUuid = docUuid;
+    }
 
-	/**
-	 */
-	public void setNormalizedFirstlineCite(String normalizedFirstlineCite) {
-		this.normalizedFirstlineCite = normalizedFirstlineCite;
-	}
+    public String getDocUuid()
+    {
+        return docUuid;
+    }
 
-	/**
-	 */
-	public String getNormalizedFirstlineCite() {
-		return this.normalizedFirstlineCite;
-	}
+    public void setDocFamilyUuid(final String docFamilyUuid)
+    {
+        this.docFamilyUuid = docFamilyUuid;
+    }
 
-	public String getFirstlineCite() {
-		return firstlineCite;
-	}
+    public String getDocFamilyUuid()
+    {
+        return docFamilyUuid;
+    }
 
-	public void setFirstlineCite(String firstlineCite) {
-		this.firstlineCite = firstlineCite;
-	}
+    public void setDocType(final String docType)
+    {
+        this.docType = docType;
+    }
 
-	public String getSecondlineCite() {
-		return secondlineCite;
-	}
+    public String getDocType()
+    {
+        return docType;
+    }
 
-	public void setSecondlineCite(String secondlineCite) {
-		this.secondlineCite = secondlineCite;
-	}
+    public void setNormalizedFirstlineCite(final String normalizedFirstlineCite)
+    {
+        this.normalizedFirstlineCite = normalizedFirstlineCite;
+    }
 
-	public String getThirdlineCite() {
-		return thirdlineCite;
-	}
+    public String getNormalizedFirstlineCite()
+    {
+        return normalizedFirstlineCite;
+    }
 
-	public void setThirdlineCite(String thirdlineCite) {
-		this.thirdlineCite = thirdlineCite;
-	}
+    public String getFirstlineCite()
+    {
+        return firstlineCite;
+    }
 
-	public String getFirstlineCitePubpage() {
-		return firstlineCitePubpage;
-	}
+    public void setFirstlineCite(final String firstlineCite)
+    {
+        this.firstlineCite = firstlineCite;
+    }
 
-	public void setFirstlineCitePubpage(String firstlineCitePubpage) {
-		this.firstlineCitePubpage = firstlineCitePubpage;
-	}
+    public String getSecondlineCite()
+    {
+        return secondlineCite;
+    }
 
-	public Long getFirstlineCitePubId() {
-		return firstlineCitePubId;
-	}
+    public void setSecondlineCite(final String secondlineCite)
+    {
+        this.secondlineCite = secondlineCite;
+    }
 
-	public void setFirstlineCitePubId(Long firstlineCitePubId) {
-		this.firstlineCitePubId = firstlineCitePubId;
-	}
+    public String getThirdlineCite()
+    {
+        return thirdlineCite;
+    }
 
-	public Long getSecondlineCitePubId() {
-		return secondlineCitePubId;
-	}
+    public void setThirdlineCite(final String thirdlineCite)
+    {
+        this.thirdlineCite = thirdlineCite;
+    }
 
-	public void setSecondlineCitePubId(Long secondlineCitePubId) {
-		this.secondlineCitePubId = secondlineCitePubId;
-	}
+    public String getFirstlineCitePubpage()
+    {
+        return firstlineCitePubpage;
+    }
 
-	public Long getThirdlineCitePubId() {
-		return thirdlineCitePubId;
-	}
+    public void setFirstlineCitePubpage(final String firstlineCitePubpage)
+    {
+        this.firstlineCitePubpage = firstlineCitePubpage;
+    }
 
-	public void setThirdlineCitePubId(Long thirdlineCitePubId) {
-		this.thirdlineCitePubId = thirdlineCitePubId;
-	}
+    public Long getFirstlineCitePubId()
+    {
+        return firstlineCitePubId;
+    }
 
-	/**
-	 */
-	public void setFindOrig(String findOrig) {
-		this.findOrig = findOrig;
-	}
+    public void setFirstlineCitePubId(final Long firstlineCitePubId)
+    {
+        this.firstlineCitePubId = firstlineCitePubId;
+    }
 
-	/**
-	 */
-	public String getFindOrig() {
-		return this.findOrig;
-	}
+    public Long getSecondlineCitePubId()
+    {
+        return secondlineCitePubId;
+    }
 
-	/**
-	 */
-	public void setSerialNumber(Long serialNumber) {
-		this.serialNumber = serialNumber;
-	}
+    public void setSecondlineCitePubId(final Long secondlineCitePubId)
+    {
+        this.secondlineCitePubId = secondlineCitePubId;
+    }
 
-	/**
-	 */
-	public Long getSerialNumber() {
-		return this.serialNumber;
-	}
+    public Long getThirdlineCitePubId()
+    {
+        return thirdlineCitePubId;
+    }
 
-	/**
-	 */
-	public void setCollectionName(String collectionName) {
-		this.collectionName = collectionName;
-	}
+    public void setThirdlineCitePubId(final Long thirdlineCitePubId)
+    {
+        this.thirdlineCitePubId = thirdlineCitePubId;
+    }
 
-	/**
-	 */
-	public String getCollectionName() {
-		return this.collectionName;
-	}
+    public void setFindOrig(final String findOrig)
+    {
+        this.findOrig = findOrig;
+    }
 
-	/**
-	 */
-	public void setLastUpdated(Date lastUpdated) {
-		this.lastUpdated = lastUpdated;
-	}
+    public String getFindOrig()
+    {
+        return findOrig;
+    }
 
-	/**
-	 */
-	public Date getLastUpdated() {
-		return this.lastUpdated;
-	}
-	/**
-	 */
-	
-	
-	public Integer getProviewFamilyUUIDDedup() {
-		return proviewFamilyUUIDDedup;
-	}
+    public void setSerialNumber(final Long serialNumber)
+    {
+        this.serialNumber = serialNumber;
+    }
 
-	public void setProviewFamilyUUIDDedup(Integer proviewFamilyUUIDDedup) {
-		this.proviewFamilyUUIDDedup = proviewFamilyUUIDDedup;
-	}
-	
-	public Long getDocSize() {
-		return docSize;
-	}
+    public Long getSerialNumber()
+    {
+        return serialNumber;
+    }
 
-	public void setDocSize(Long docSize) {
-		this.docSize = docSize;
-	}
+    public void setCollectionName(final String collectionName)
+    {
+        this.collectionName = collectionName;
+    }
 
-	public String getSplitBookTitle() {
-		return splitBookTitleId;
-	}
+    public String getCollectionName()
+    {
+        return collectionName;
+    }
 
-	public void setSpitBookTitle(String splitBookTitle) {
-		this.splitBookTitleId = splitBookTitle;
-	}
-	
-	/**
-	 * Returns unique id for each document, in most cases this will be the Document Family GUID but
-	 * in some cases it will be a deduped Document Family GUID with the dedup value appended after the 
-	 * Document Family GUID.
-	 * 
-	 * @return unique identifier that will be used by ProView for this document
-	 */
-	public String getProViewId()
-	{
-		if (docFamilyUuid != null && proviewFamilyUUIDDedup != null)
-		{
-			return docFamilyUuid + "_" + proviewFamilyUUIDDedup;
-		}
-		
-		return docFamilyUuid;
-	}
+    public void setLastUpdated(final Date lastUpdated)
+    {
+        this.lastUpdated = lastUpdated;
+    }
 
-	/**
-	 */
-	public DocMetadata() {
-	}
+    public Date getLastUpdated()
+    {
+        return lastUpdated;
+    }
 
-	/**
-	 * Returns a textual representation of a bean.
-	 * 
-	 */
-	public String toString() {
+    public Integer getProviewFamilyUUIDDedup()
+    {
+        return proviewFamilyUUIDDedup;
+    }
 
-		StringBuilder buffer = new StringBuilder();
+    public void setProviewFamilyUUIDDedup(final Integer proviewFamilyUUIDDedup)
+    {
+        this.proviewFamilyUUIDDedup = proviewFamilyUUIDDedup;
+    }
 
-		buffer.append("titleId=[").append(titleId).append("] ");
-		buffer.append("jobInstanceId=[").append(jobInstanceId).append("] ");
-		buffer.append("docUuid=[").append(docUuid).append("] ");
-		buffer.append("docFamilyUuid=[").append(docFamilyUuid).append("] ");
-		buffer.append("docType=[").append(docType).append("] ");
-		buffer.append("normalizedFirstlineCite=[")
-				.append(normalizedFirstlineCite).append("] ");
-		buffer.append("FirstlineCite=[")
-		.append(firstlineCite).append("] ");
-		buffer.append("firstlineCitePubpage=[")
-		.append(firstlineCitePubpage).append("] ");
-		buffer.append("findOrig=[").append(findOrig).append("] ");
-		buffer.append("serialNumber=[").append(serialNumber).append("] ");
-		buffer.append("collectionName=[").append(collectionName).append("] ");
-		buffer.append("lastUpdated=[").append(lastUpdated).append("] ");
-		buffer.append("proviewFamilyUUIDDedup=[").append(proviewFamilyUUIDDedup).append("] ");
+    public Long getDocSize()
+    {
+        return docSize;
+    }
 
-		return buffer.toString();
-	}
+    public void setDocSize(final Long docSize)
+    {
+        this.docSize = docSize;
+    }
 
-	/**
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = (int) (prime * result + ((titleId == null) ? 0 : titleId
-				.hashCode()));
-		result = (int) (prime * result + ((jobInstanceId == null) ? 0
-				: jobInstanceId.hashCode()));
-		result = (int) (prime * result + ((docUuid == null) ? 0 : docUuid
-				.hashCode()));
-		return result;
-	}
+    public String getSplitBookTitle()
+    {
+        return splitBookTitleId;
+    }
 
-	/**
-	 */
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		if (!(obj instanceof DocMetadata))
-			return false;
-		DocMetadata equalCheck = (DocMetadata) obj;
-		if ((titleId == null && equalCheck.titleId != null)
-				|| (titleId != null && equalCheck.titleId == null))
-			return false;
-		if (titleId != null && !titleId.equals(equalCheck.titleId))
-			return false;
-		if ((jobInstanceId == null && equalCheck.jobInstanceId != null)
-				|| (jobInstanceId != null && equalCheck.jobInstanceId == null))
-			return false;
-		if (jobInstanceId != null
-				&& !jobInstanceId.equals(equalCheck.jobInstanceId))
-			return false;
-		if ((docUuid == null && equalCheck.docUuid != null)
-				|| (docUuid != null && equalCheck.docUuid == null))
-			return false;
-		if (docUuid != null && !docUuid.equals(equalCheck.docUuid))
-			return false;
-		return true;
-	}
+    public void setSpitBookTitle(final String splitBookTitle)
+    {
+        splitBookTitleId = splitBookTitle;
+    }
+
+    /**
+     * Returns unique id for each document, in most cases this will be the Document Family GUID but
+     * in some cases it will be a deduped Document Family GUID with the dedup value appended after the
+     * Document Family GUID.
+     *
+     * @return unique identifier that will be used by ProView for this document
+     */
+    public String getProViewId()
+    {
+        if (docFamilyUuid != null && proviewFamilyUUIDDedup != null)
+        {
+            return docFamilyUuid + "_" + proviewFamilyUUIDDedup;
+        }
+
+        return docFamilyUuid;
+    }
+
+    /**
+     */
+    public DocMetadata()
+    {
+    }
+
+    /**
+     * Returns a textual representation of a bean.
+     *
+     */
+    @Override
+    public String toString()
+    {
+        final StringBuilder buffer = new StringBuilder();
+
+        buffer.append("titleId=[").append(titleId).append("] ");
+        buffer.append("jobInstanceId=[").append(jobInstanceId).append("] ");
+        buffer.append("docUuid=[").append(docUuid).append("] ");
+        buffer.append("docFamilyUuid=[").append(docFamilyUuid).append("] ");
+        buffer.append("docType=[").append(docType).append("] ");
+        buffer.append("normalizedFirstlineCite=[").append(normalizedFirstlineCite).append("] ");
+        buffer.append("FirstlineCite=[").append(firstlineCite).append("] ");
+        buffer.append("firstlineCitePubpage=[").append(firstlineCitePubpage).append("] ");
+        buffer.append("findOrig=[").append(findOrig).append("] ");
+        buffer.append("serialNumber=[").append(serialNumber).append("] ");
+        buffer.append("collectionName=[").append(collectionName).append("] ");
+        buffer.append("lastUpdated=[").append(lastUpdated).append("] ");
+        buffer.append("proviewFamilyUUIDDedup=[").append(proviewFamilyUUIDDedup).append("] ");
+
+        return buffer.toString();
+    }
+
+    /**
+     */
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((titleId == null) ? 0 : titleId.hashCode());
+        result = prime * result + ((jobInstanceId == null) ? 0 : jobInstanceId.hashCode());
+        result = prime * result + ((docUuid == null) ? 0 : docUuid.hashCode());
+        return result;
+    }
+
+    /**
+     */
+    @Override
+    public boolean equals(final Object obj)
+    {
+        if (obj == this)
+            return true;
+        if (!(obj instanceof DocMetadata))
+            return false;
+        final DocMetadata equalCheck = (DocMetadata) obj;
+        if ((titleId == null && equalCheck.titleId != null) || (titleId != null && equalCheck.titleId == null))
+            return false;
+        if (titleId != null && !titleId.equals(equalCheck.titleId))
+            return false;
+        if ((jobInstanceId == null && equalCheck.jobInstanceId != null)
+            || (jobInstanceId != null && equalCheck.jobInstanceId == null))
+            return false;
+        if (jobInstanceId != null && !jobInstanceId.equals(equalCheck.jobInstanceId))
+            return false;
+        if ((docUuid == null && equalCheck.docUuid != null) || (docUuid != null && equalCheck.docUuid == null))
+            return false;
+        if (docUuid != null && !docUuid.equals(equalCheck.docUuid))
+            return false;
+        return true;
+    }
 }

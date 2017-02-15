@@ -1,8 +1,3 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
@@ -27,9 +22,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import jaxb.adapter.BookDefinitionAdapter;
-
-import org.apache.commons.lang.StringUtils;
+import com.thomsonreuters.uscl.ereader.jaxb.adapter.BookDefinitionAdapter;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  */
@@ -38,167 +32,198 @@ import org.apache.commons.lang.StringUtils;
 @IdClass(ExcludeDocument.ExcludeDocumentPk.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "excludeDocument", namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain")
-public class ExcludeDocument implements Serializable {
-	private static final long serialVersionUID = 8698522630203083821L;
+public class ExcludeDocument implements Serializable
+{
+    private static final long serialVersionUID = 8698522630203083821L;
 
-	@Id
-	@XmlJavaTypeAdapter(BookDefinitionAdapter.class)
-	BookDefinition ebookDefinition;
+    @Id
+    @XmlJavaTypeAdapter(BookDefinitionAdapter.class)
+    private BookDefinition ebookDefinition;
 
-	@Id
-	@XmlElement(name = "documentGuid", required = true)
-	String documentGuid;
+    @Id
+    @XmlElement(name = "documentGuid", required = true)
+    private String documentGuid;
 
-	@Column(name = "NOTE", length = 512, nullable = false)
-	@XmlElement(name = "note", required = true)
-	String note;
+    @Column(name = "NOTE", length = 512, nullable = false)
+    @XmlElement(name = "note", required = true)
+    private String note;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_UPDATED", nullable = false)
-	@XmlElement(name = "lastUpdated", required = true)
-	Date lastUpdated;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "LAST_UPDATED", nullable = false)
+    @XmlElement(name = "lastUpdated", required = true)
+    private Date lastUpdated;
 
-	public BookDefinition getBookDefinition() {
-		return ebookDefinition;
-	}
+    public BookDefinition getBookDefinition()
+    {
+        return ebookDefinition;
+    }
 
-	public void setBookDefinition(BookDefinition bookDefinition) {
-		this.ebookDefinition = bookDefinition;
-	}
+    public void setBookDefinition(final BookDefinition bookDefinition)
+    {
+        ebookDefinition = bookDefinition;
+    }
 
-	public void setDocumentGuid(String documentGuid) {
-		this.documentGuid = documentGuid;
-	}
+    public void setDocumentGuid(final String documentGuid)
+    {
+        this.documentGuid = documentGuid;
+    }
 
-	public String getDocumentGuid() {
-		return documentGuid;
-	}
+    public String getDocumentGuid()
+    {
+        return documentGuid;
+    }
 
-	public void setNote(String note) {
-		this.note = note;
-	}
+    public void setNote(final String note)
+    {
+        this.note = note;
+    }
 
-	public String getNote() {
-		return note;
-	}
+    public String getNote()
+    {
+        return note;
+    }
 
-	public void setLastUpdated(Date lastUpdated) {
-		this.lastUpdated = lastUpdated;
-	}
+    public void setLastUpdated(final Date lastUpdated)
+    {
+        this.lastUpdated = lastUpdated;
+    }
 
-	public Date getLastUpdated() {
-		return lastUpdated;
-	}
+    public Date getLastUpdated()
+    {
+        return lastUpdated;
+    }
 
-	@Transient
-	public boolean isEmpty() {
-		return StringUtils.isBlank(this.note) && StringUtils.isBlank(this.documentGuid);
-	}
+    @Transient
+    public boolean isEmpty()
+    {
+        return StringUtils.isBlank(note) && StringUtils.isBlank(documentGuid);
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder buffer = new StringBuilder();
-		buffer.append("ExcludeDocument [");
-		if (ebookDefinition != null) {
-			buffer.append("bookDefinitionId=").append(ebookDefinition.getEbookDefinitionId()).append(", ");
-		}
-		buffer.append("documentGuid=").append(documentGuid).append(", ");
-		buffer.append("note=").append(note).append(", ");
-		buffer.append("lastUpdated=").append(lastUpdated).append("]");
+    @Override
+    public String toString()
+    {
+        final StringBuilder buffer = new StringBuilder();
+        buffer.append("ExcludeDocument [");
+        if (ebookDefinition != null)
+        {
+            buffer.append("bookDefinitionId=").append(ebookDefinition.getEbookDefinitionId()).append(", ");
+        }
+        buffer.append("documentGuid=").append(documentGuid).append(", ");
+        buffer.append("note=").append(note).append(", ");
+        buffer.append("lastUpdated=").append(lastUpdated).append("]");
 
-		return buffer.toString();
-	}
+        return buffer.toString();
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((documentGuid == null) ? 0 : documentGuid.hashCode());
-		result = prime * result + ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
-		result = prime * result + ((note == null) ? 0 : note.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((documentGuid == null) ? 0 : documentGuid.hashCode());
+        result = prime * result + ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
+        result = prime * result + ((note == null) ? 0 : note.hashCode());
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ExcludeDocument other = (ExcludeDocument) obj;
-		if (documentGuid == null) {
-			if (other.documentGuid != null)
-				return false;
-		} else if (!documentGuid.equals(other.documentGuid))
-			return false;
-		if (lastUpdated == null) {
-			if (other.lastUpdated != null)
-				return false;
-		} else if (!lastUpdated.equals(other.lastUpdated))
-			return false;
-		if (note == null) {
-			if (other.note != null)
-				return false;
-		} else if (!note.equals(other.note))
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(final Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final ExcludeDocument other = (ExcludeDocument) obj;
+        if (documentGuid == null)
+        {
+            if (other.documentGuid != null)
+                return false;
+        }
+        else if (!documentGuid.equals(other.documentGuid))
+            return false;
+        if (lastUpdated == null)
+        {
+            if (other.lastUpdated != null)
+                return false;
+        }
+        else if (!lastUpdated.equals(other.lastUpdated))
+            return false;
+        if (note == null)
+        {
+            if (other.note != null)
+                return false;
+        }
+        else if (!note.equals(other.note))
+            return false;
+        return true;
+    }
 
-	@Embeddable
-	public static class ExcludeDocumentPk implements Serializable {
-		private static final long serialVersionUID = 3552710801579579685L;
+    @Embeddable
+    public static class ExcludeDocumentPk implements Serializable
+    {
+        private static final long serialVersionUID = 3552710801579579685L;
 
-		@ManyToOne(fetch = FetchType.LAZY)
-		@JoinColumns({ @JoinColumn(name = "EBOOK_DEFINITION_ID", referencedColumnName = "EBOOK_DEFINITION_ID", nullable = false) })
-		BookDefinition ebookDefinition;
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumns({
+            @JoinColumn(name = "EBOOK_DEFINITION_ID", referencedColumnName = "EBOOK_DEFINITION_ID", nullable = false)})
+        private BookDefinition ebookDefinition;
 
-		@Column(name = "DOCUMENT_GUID", length = 33, nullable = false)
-		private String documentGuid;
+        @Column(name = "DOCUMENT_GUID", length = 33, nullable = false)
+        private String documentGuid;
 
-		public ExcludeDocumentPk() {
-		}
+        public ExcludeDocumentPk()
+        {
+        }
 
-		public BookDefinition getBookDefinition() {
-			return ebookDefinition;
-		}
+        public BookDefinition getBookDefinition()
+        {
+            return ebookDefinition;
+        }
 
-		public void setBookDefinition(BookDefinition bookDefinition) {
-			this.ebookDefinition = bookDefinition;
-		}
+        public void setBookDefinition(final BookDefinition bookDefinition)
+        {
+            ebookDefinition = bookDefinition;
+        }
 
-		public String getDocumentGuid() {
-			return documentGuid;
-		}
+        public String getDocumentGuid()
+        {
+            return documentGuid;
+        }
 
-		public void setDocumentGuid(String documentGuid) {
-			this.documentGuid = documentGuid;
-		}
+        public void setDocumentGuid(final String documentGuid)
+        {
+            this.documentGuid = documentGuid;
+        }
 
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((documentGuid == null) ? 0 : documentGuid.hashCode());
-			return result;
-		}
+        @Override
+        public int hashCode()
+        {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + ((documentGuid == null) ? 0 : documentGuid.hashCode());
+            return result;
+        }
 
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			ExcludeDocumentPk other = (ExcludeDocumentPk) obj;
-			if (documentGuid == null) {
-				if (other.documentGuid != null)
-					return false;
-			} else if (!documentGuid.equals(other.documentGuid))
-				return false;
-			return true;
-		}
-	}
+        @Override
+        public boolean equals(final Object obj)
+        {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            final ExcludeDocumentPk other = (ExcludeDocumentPk) obj;
+            if (documentGuid == null)
+            {
+                if (other.documentGuid != null)
+                    return false;
+            }
+            else if (!documentGuid.equals(other.documentGuid))
+                return false;
+            return true;
+        }
+    }
 }

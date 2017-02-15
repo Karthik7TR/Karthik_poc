@@ -1,8 +1,3 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import java.io.IOException;
@@ -15,12 +10,6 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.lang.StringUtils;
- import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
-import org.hibernate.exception.GenericJDBCException;
-import org.springframework.beans.factory.annotation.Required;
-import org.xml.sax.SAXException;
-
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
@@ -28,133 +17,167 @@ import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.format.parsinghandler.AutoSplitNodesHandler;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.hibernate.exception.GenericJDBCException;
+import org.springframework.beans.factory.annotation.Required;
+import org.xml.sax.SAXException;
 
-public class AutoSplitGuidsServiceImpl implements AutoSplitGuidsService {
+public class AutoSplitGuidsServiceImpl implements AutoSplitGuidsService
+{
+    private BookDefinitionService bookDefinitionService;
+    private PublishingStatsService publishingStatsService;
+    private EBookAuditService eBookAuditService;
 
-	BookDefinitionService bookDefinitionService;
-	PublishingStatsService publishingStatsService;
-	EBookAuditService eBookAuditService;
+    private static final Logger LOG = LogManager.getLogger(AutoSplitGuidsServiceImpl.class);
+    private Map<String, String> splitGuidTextMap = new HashMap<String, String>();
 
-	private static final Logger LOG = LogManager.getLogger(AutoSplitGuidsServiceImpl.class);
-	private Map<String, String> splitGuidTextMap = new HashMap<String, String>();
+    @Override
+    public Map<String, String> getSplitGuidTextMap()
+    {
+        return splitGuidTextMap;
+    }
 
-	public Map<String, String> getSplitGuidTextMap() {
-		return splitGuidTextMap;
-	}
+    public void setSplitGuidTextMap(final Map<String, String> splitGuidTextMap)
+    {
+        this.splitGuidTextMap = splitGuidTextMap;
+    }
 
-	public void setSplitGuidTextMap(Map<String, String> splitGuidTextMap) {
-		this.splitGuidTextMap = splitGuidTextMap;
-	}
+    public EBookAuditService geteBookAuditService()
+    {
+        return eBookAuditService;
+    }
 
-	public EBookAuditService geteBookAuditService() {
-		return eBookAuditService;
-	}
+    @Required
+    public void seteBookAuditService(final EBookAuditService eBookAuditService)
+    {
+        this.eBookAuditService = eBookAuditService;
+    }
 
-	@Required
-	public void seteBookAuditService(EBookAuditService eBookAuditService) {
-		this.eBookAuditService = eBookAuditService;
-	}
+    public PublishingStatsService getPublishingStatsService()
+    {
+        return publishingStatsService;
+    }
 
-	public PublishingStatsService getPublishingStatsService() {
-		return publishingStatsService;
-	}
+    @Required
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
+    {
+        this.publishingStatsService = publishingStatsService;
+    }
 
-	@Required
-	public void setPublishingStatsService(PublishingStatsService publishingStatsService) {
-		this.publishingStatsService = publishingStatsService;
-	}
+    @Override
+    public List<String> getAutoSplitNodes(
+        final InputStream tocInputStream,
+        final BookDefinition bookDefinition,
+        final Integer tocNodeCount,
+        final Long jobInstanceId,
+        final boolean metrics)
+    {
+        try
+        {
+            List<String> splitTocGuidList = new ArrayList<>();
 
-	public List<String> getAutoSplitNodes(InputStream tocInputStream, BookDefinition bookDefinition,
-			Integer tocNodeCount, Long jobInstanceId, boolean metrics) {
-		try {
+            //Check split documents in database in case we might have deleted in earlier steps
+            final List<SplitDocument> persistedSplitDocuments =
+                bookDefinitionService.findSplitDocuments(bookDefinition.getEbookDefinitionId());
 
-			List<String> splitTocGuidList = new ArrayList<String>();
+            if (persistedSplitDocuments != null && persistedSplitDocuments.size() > 0 && !metrics)
+            {
+                for (final SplitDocument splitDocument : persistedSplitDocuments)
+                {
+                    splitTocGuidList.add(splitDocument.getTocGuid());
+                }
+                return splitTocGuidList;
+            }
 
-			//Check split documents in database in case we might have deleted in earlier steps
-			List<SplitDocument> persistedSplitDocuments = bookDefinitionService.findSplitDocuments(bookDefinition
-					.getEbookDefinitionId());
+            final Integer thresholdValue = bookDefinition.getDocumentTypeCodes().getThresholdValue();
+            final Integer thresholdPercent = bookDefinition.getDocumentTypeCodes().getThresholdPercent();
+            final int partSize = getSizeforEachPart(thresholdValue, tocNodeCount);
+            final AutoSplitNodesHandler autoSplitNodesFilter = new AutoSplitNodesHandler(partSize, thresholdPercent);
+            autoSplitNodesFilter.parseInputStream(tocInputStream);
 
-			if (persistedSplitDocuments != null && persistedSplitDocuments.size() > 0 && !metrics) {
-				for (SplitDocument splitDocument : persistedSplitDocuments) {
-					splitTocGuidList.add(splitDocument.getTocGuid());
-				}
-				return splitTocGuidList;
-			}
-			
-			Integer thresholdValue = bookDefinition.getDocumentTypeCodes().getThresholdValue();
-			Integer thresholdPercent = bookDefinition.getDocumentTypeCodes().getThresholdPercent();
-			int partSize = getSizeforEachPart(thresholdValue, tocNodeCount);			
-			AutoSplitNodesHandler autoSplitNodesFilter = new AutoSplitNodesHandler(partSize, thresholdPercent);
-			autoSplitNodesFilter.parseInputStream(tocInputStream);
-			
-			this.splitGuidTextMap = autoSplitNodesFilter.getSplitTocTextMap();
-			splitTocGuidList = autoSplitNodesFilter.getSplitTocGuidList();
+            splitGuidTextMap = autoSplitNodesFilter.getSplitTocTextMap();
+            splitTocGuidList = autoSplitNodesFilter.getSplitTocGuidList();
 
-			List<SplitDocument> splitDocuments = new ArrayList<SplitDocument>();
-			int parts = 1;
-			for (String node : splitTocGuidList) {
-				parts++;
-				SplitDocument splitDocument = new SplitDocument();
-				splitDocument.setBookDefinition(bookDefinition);
-				splitDocument.setTocGuid(node);
-				String note = "part" + parts;
-				splitDocument.setNote(note);
-				splitDocuments.add(splitDocument);
-			}
-			
+            final List<SplitDocument> splitDocuments = new ArrayList<>();
+            int parts = 1;
+            for (final String node : splitTocGuidList)
+            {
+                parts++;
+                final SplitDocument splitDocument = new SplitDocument();
+                splitDocument.setBookDefinition(bookDefinition);
+                splitDocument.setTocGuid(node);
+                final String note = "part" + parts;
+                splitDocument.setNote(note);
+                splitDocuments.add(splitDocument);
+            }
 
-			if (!metrics) {
-				bookDefinitionService.saveSplitDocumentsforEBook(bookDefinition.getEbookDefinitionId(), splitDocuments,
-						parts);
-				EbookAudit eBookAudit = publishingStatsService.findAuditInfoByJobId(jobInstanceId);
-				String splitDocumentsConcat = maxString(concatString(splitDocuments), EbookAudit.MAX_CHARACTER_2048);
-				eBookAuditService.updateSplitDocumentsAudit(eBookAudit, splitDocumentsConcat, parts);
-			}
+            if (!metrics)
+            {
+                bookDefinitionService
+                    .saveSplitDocumentsforEBook(bookDefinition.getEbookDefinitionId(), splitDocuments, parts);
+                final EbookAudit eBookAudit = publishingStatsService.findAuditInfoByJobId(jobInstanceId);
+                final String splitDocumentsConcat =
+                    maxString(concatString(splitDocuments), EbookAudit.MAX_CHARACTER_2048);
+                eBookAuditService.updateSplitDocumentsAudit(eBookAudit, splitDocumentsConcat, parts);
+            }
 
-			return splitTocGuidList;
+            return splitTocGuidList;
+        }
+        catch (final ParserConfigurationException e)
+        {
+            throw new RuntimeException("Failed to configure SAX Parser when generating title manifest.", e);
+        }
+        catch (final SAXException e)
+        {
+            throw new RuntimeException("A SAXException occurred while generating the title manifest.", e);
+        }
+        catch (final IOException e)
+        {
+            throw new RuntimeException("An IOException occurred while generating the title manifest.", e);
+        }
+        catch (final GenericJDBCException e)
+        {
+            e.printStackTrace();
+            throw new RuntimeException("An GenericJDBCException occurred while generating the title manifest.", e);
+        }
+    }
 
-		} catch (ParserConfigurationException e) {
-			throw new RuntimeException("Failed to configure SAX Parser when generating title manifest.", e);
-		} catch (SAXException e) {
-			throw new RuntimeException("A SAXException occurred while generating the title manifest.", e);
-		} catch (IOException e) {
-			throw new RuntimeException("An IOException occurred while generating the title manifest.", e);
-		} catch (GenericJDBCException e) {
-			e.printStackTrace();
-			throw new RuntimeException("An GenericJDBCException occurred while generating the title manifest.", e);
-		}
-	}
+    private String maxString(final String buffer, final int maxCharacters)
+    {
+        return StringUtils.abbreviate(buffer.toString(), maxCharacters);
+    }
 
-	private String maxString(String buffer, int maxCharacters) {
-		return StringUtils.abbreviate(buffer.toString(), maxCharacters);
-	}
+    private String concatString(final Collection<?> collection)
+    {
+        final StringBuilder buffer = new StringBuilder();
+        for (final Object item : collection)
+        {
+            buffer.append(item.toString());
+            buffer.append(", ");
+        }
 
-	private String concatString(Collection<?> collection) {
-		StringBuilder buffer = new StringBuilder();
-		for (Object item : collection) {
-			buffer.append(item.toString());
-			buffer.append(", ");
-		}
+        return buffer.toString();
+    }
 
-		return buffer.toString();
-	}
+    public int getSizeforEachPart(final Integer thresholdValue, final Integer tocNodeCount)
+    {
+        int partSize = 0;
+        final int parts = (tocNodeCount / thresholdValue) + 1;
+        partSize = tocNodeCount / parts;
+        LOG.debug("Total parts based on the node Size " + parts + ". Approximate split size " + partSize);
+        return partSize;
+    }
 
-	public int getSizeforEachPart(Integer thresholdValue, Integer tocNodeCount) {
-		int partSize = 0;
-		int parts = (tocNodeCount / thresholdValue) + 1;
-		partSize = tocNodeCount / parts;
-		LOG.debug("Total parts based on the node Size "+parts+". Approximate split size "+partSize);
-		return partSize;
+    public BookDefinitionService getBookDefinitionService()
+    {
+        return bookDefinitionService;
+    }
 
-	}
-
-	public BookDefinitionService getBookDefinitionService() {
-		return bookDefinitionService;
-	}
-
-	@Required
-	public void setBookDefinitionService(BookDefinitionService bookDefinitionService) {
-		this.bookDefinitionService = bookDefinitionService;
-	}
-
+    @Required
+    public void setBookDefinitionService(final BookDefinitionService bookDefinitionService)
+    {
+        this.bookDefinitionService = bookDefinitionService;
+    }
 }

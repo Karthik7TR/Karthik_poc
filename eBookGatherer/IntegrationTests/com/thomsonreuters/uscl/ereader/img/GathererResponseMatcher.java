@@ -1,10 +1,9 @@
 package com.thomsonreuters.uscl.ereader.img;
 
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-
-import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 
 public class GathererResponseMatcher extends BaseMatcher<Object>
 {

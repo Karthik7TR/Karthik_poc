@@ -1,9 +1,3 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
 package com.thomsonreuters.uscl.ereader.deliver.rest;
 
 import java.io.File;
@@ -22,37 +16,37 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 /**
  * This class is responsible for serializing the gzipped tarball
  * into the body of the HTTP request being sent to ProView.
- * 
+ *
  * <p><i>Used only during PUT (publish) operations.</i></p>
  */
-public class ProviewMessageConverter<T> extends AbstractHttpMessageConverter<File> {
+public class ProviewMessageConverter<T> extends AbstractHttpMessageConverter<File>
+{
+    private static final Logger LOG = LogManager.getLogger(ProviewMessageConverter.class);
 
-	private static final Logger LOG = LogManager.getLogger(ProviewMessageConverter.class);
-	
-	@Override
-	protected File readInternal(Class<? extends File> arg0,
-			HttpInputMessage arg1) throws IOException,
-			HttpMessageNotReadableException {
-		
-		return null;
-	}
+    @Override
+    protected File readInternal(final Class<? extends File> arg0, final HttpInputMessage arg1)
+        throws IOException, HttpMessageNotReadableException
+    {
+        return null;
+    }
 
-	@Override
-	protected boolean supports(Class<?> clazz) {
-		return Boolean.TRUE;
-	}
+    @Override
+    protected boolean supports(final Class<?> clazz)
+    {
+        return Boolean.TRUE;
+    }
 
-	@Override
-	protected void writeInternal(File fileToSend, HttpOutputMessage httpOutputMessage)
-			throws IOException, HttpMessageNotWritableException {
-		
-		try {
-			IOUtils.copy(new FileInputStream(fileToSend), httpOutputMessage.getBody());
-		}
-		catch (IOException e) {
-			throw new HttpMessageNotWritableException("Could not write HTTP message.", e);
-		}
-		
-	}
-
+    @Override
+    protected void writeInternal(final File fileToSend, final HttpOutputMessage httpOutputMessage)
+        throws IOException, HttpMessageNotWritableException
+    {
+        try
+        {
+            IOUtils.copy(new FileInputStream(fileToSend), httpOutputMessage.getBody());
+        }
+        catch (final IOException e)
+        {
+            throw new HttpMessageNotWritableException("Could not write HTTP message.", e);
+        }
+    }
 }

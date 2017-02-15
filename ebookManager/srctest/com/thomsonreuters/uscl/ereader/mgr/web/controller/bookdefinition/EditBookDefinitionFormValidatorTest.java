@@ -1157,8 +1157,7 @@ public final class EditBookDefinitionFormValidatorTest
     public void testFrontMatterPdfDoesNotExist()
     {
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class)))
-            .andReturn(null)
-            .times(1);
+            .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
         EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))

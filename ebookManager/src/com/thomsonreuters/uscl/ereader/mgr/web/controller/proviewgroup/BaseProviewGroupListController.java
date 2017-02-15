@@ -17,7 +17,6 @@ public abstract class BaseProviewGroupListController
         final ProviewGroupListFilterForm filterForm,
         final List<ProviewGroup> allLatestProviewGroups)
     {
-
         final List<ProviewGroup> selectedProviewGroupList = new ArrayList<>();
 
         boolean groupNameBothWayWildCard = false;

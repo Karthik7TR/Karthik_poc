@@ -1,8 +1,3 @@
-/*
-* Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
 package com.thomsonreuters.uscl.ereader.format.service;
 
 import static org.junit.Assert.assertTrue;
@@ -12,6 +7,11 @@ import java.io.FileOutputStream;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServiceImpl;
+import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
 import org.apache.commons.io.FileUtils;
 import org.easymock.EasyMock;
 import org.junit.After;
@@ -19,287 +19,330 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
-import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
-import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
-import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataServiceImpl;
-import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelper;
-
 /**
  * JUnit test for HTMLCreateNamedAnchorsServiceImpl.java
- * 
+ *
  * @author <a href="mailto:zack.farrell@thomsonreuters.com">Zack Farrell</a> uc209819
  */
 @Ignore
-public class HTMLCreateNamedAnchorsServiceTest {
+public final class HTMLCreateNamedAnchorsServiceTest
+{
+    private HTMLCreateNamedAnchorsServiceImpl AnchorsService;
+    private File tempRootDir; // root directory for all test files
 
-	private HTMLCreateNamedAnchorsServiceImpl AnchorsService;
-	private File tempRootDir; // root directory for all test files
+    /* arguments */
+    private File srcDir; // input, contains .transformed files
+    private File targetDir;
+    private String title;
+    private Long jobId;
+    private File docToTocMap;
 
-	/* arguments */
-	private File srcDir; // input, contains .transformed files
-	private File targetDir;
-	private String title;
-	private Long jobId;
-	private File docToTocMap;
+    /* service mocks and return values */
+    private DocMetadataServiceImpl metadataMoc;
+    private DocMetadata docMeta;
+    private DocumentMetadataAuthority docMetaAuthority;
 
-	/* service mocks and return values */
-	private DocMetadataServiceImpl metadataMoc;
-	private DocMetadata docMeta;
-	private DocumentMetadataAuthority docMetaAuthority;
+    /**
+     * makeFile( File directory, String name, String content ) helper method to streamline file creation
+     *
+     * @param directory Location the new file will be created in
+     * @param name Name of the new file
+     * @param content Content to be written into the new file
+     * @return returns a File object directing to the new file returns null if any errors occur
+     */
+    private File makeFile(final File directory, final String name, final String content)
+    {
+        try
+        {
+            final File file = new File(directory, name);
+            file.createNewFile();
+            final FileOutputStream out = new FileOutputStream(file);
+            out.write(content.getBytes());
+            out.flush();
+            out.close();
+            return file;
+        }
+        catch (final Exception e)
+        {
+            return null;
+        }
+    }
 
-	/**
-	 * makeFile( File directory, String name, String content ) helper method to streamline file creation
-	 * 
-	 * @param directory Location the new file will be created in
-	 * @param name Name of the new file
-	 * @param content Content to be written into the new file
-	 * @return returns a File object directing to the new file returns null if any errors occur
-	 */
-	private File makeFile(File directory, String name, String content) {
-		try {
-			File file = new File(directory, name);
-			file.createNewFile();
-			FileOutputStream out = new FileOutputStream(file);
-			out.write(content.getBytes());
-			out.flush();
-			out.close();
-			return file;
-		} catch (Exception e) {
-			return null;
-		}
-	}
+    @Before
+    public void setUp()
+    {
+        AnchorsService = new HTMLCreateNamedAnchorsServiceImpl();
 
-	@Before
-	public void setUp() {
-		this.AnchorsService = new HTMLCreateNamedAnchorsServiceImpl();
+        tempRootDir = new File(System.getProperty("java.io.tmpdir") + "/EvenMoreTemp");
+        tempRootDir.mkdir();
 
-		this.tempRootDir = new File(System.getProperty("java.io.tmpdir") + "/EvenMoreTemp");
-		this.tempRootDir.mkdir();
+        /* initialize arguments */
+        srcDir = new File("srctest/com/thomsonreuters/uscl/ereader/format/service/staticContent");
+        targetDir = new File(tempRootDir.getAbsolutePath(), "PostTransformDirectory");
+        targetDir.mkdir();
+        title = "ebook_source_test";
+        jobId = Long.valueOf(127);
+        docToTocMap = null;
 
-		/* initialize arguments */
-		this.srcDir = new File("srctest/com/thomsonreuters/uscl/ereader/format/service/staticContent");
-		this.targetDir = new File(tempRootDir.getAbsolutePath(), "PostTransformDirectory");
-		this.targetDir.mkdir();
-		this.title = "ebook_source_test";
-		this.jobId = new Long(127);
-		this.docToTocMap = null;
+        /* service mocks and return values */
+        AnchorsService.setfileHandlingHelper(new FileHandlingHelper());
+        metadataMoc = EasyMock.createMock(DocMetadataServiceImpl.class);
+        AnchorsService.setdocMetadataService(metadataMoc);
 
-		/* service mocks and return values */
-		this.AnchorsService.setfileHandlingHelper(new FileHandlingHelper());
-		this.metadataMoc = EasyMock.createMock(DocMetadataServiceImpl.class);
-		this.AnchorsService.setdocMetadataService(metadataMoc);
+        final Set<DocMetadata> docMetadataSet = new LinkedHashSet<>();
+        docMetaAuthority = new DocumentMetadataAuthority(docMetadataSet);
 
-		Set<DocMetadata> docMetadataSet = new LinkedHashSet<DocMetadata>();
-		this.docMetaAuthority = new DocumentMetadataAuthority(docMetadataSet);
+        docMeta = new DocMetadata();
+        docMeta.setTitleId(title);
+        docMeta.setProviewFamilyUUIDDedup(Integer.valueOf(1));
+        docMeta.setDocFamilyUuid("hello test!");
+        docMeta.setJobInstanceId(jobId);
+        docMeta.setDocUuid(title);
+        docMeta.setCollectionName("test");
+    }
 
-		this.docMeta = new DocMetadata();
-		this.docMeta.setTitleId(title);
-		this.docMeta.setProviewFamilyUUIDDedup(new Integer(1));
-		this.docMeta.setDocFamilyUuid("hello test!");
-		this.docMeta.setJobInstanceId(jobId);
-		this.docMeta.setDocUuid(title);
-		this.docMeta.setCollectionName("test");
-	}
+    @After
+    public void tearDown() throws Exception
+    {
+        /* recursively deletes the root directory, and all its subdirectories and files */
+        FileUtils.deleteDirectory(tempRootDir);
+    }
 
-	@After
-	public void tearDown() throws Exception {
-		/* recursively deletes the root directory, and all its subdirectories and files */
-		FileUtils.deleteDirectory(tempRootDir);
-	}
+    /**
+     * TransformHTML should take a source directory with ".posttransform" files generated by HTMLTransformerService and
+     * perform the fourth step necessary to transform them into html files. The resulting ".postanchor" files are
+     * created in the target directory
+     */
+    @Test
+    public void testTransformerServiceHappyPath()
+    {
+        int numDocs = -1;
+        boolean thrown = false;
 
-	/**
-	 * TransformHTML should take a source directory with ".posttransform" files generated by HTMLTransformerService and
-	 * perform the fourth step necessary to transform them into html files. The resulting ".postanchor" files are
-	 * created in the target directory
-	 */
-	@Test
-	public void testTransformerServiceHappyPath() {
-		int numDocs = -1;
-		boolean thrown = false;
+        final File anchorTargetFile = makeFile(srcDir, "anchorTargetFile", "guids1,guids2,guids3\n");
+        docToTocMap = makeFile(srcDir, "TOCmap.xml", "ebook_source_test,doc\n");
 
-		File anchorTargetFile = makeFile(srcDir, "anchorTargetFile", "guids1,guids2,guids3\n");
-		docToTocMap = makeFile(srcDir, "TOCmap.xml", "ebook_source_test,doc\n");
+        try
+        {
+            EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
+            EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta).times(2);
+            EasyMock.replay(metadataMoc);
 
-		try {
-			EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
-			EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta).times(2);
-			EasyMock.replay(metadataMoc);
+            numDocs = AnchorsService.transformHTML(srcDir, targetDir, title, jobId, docToTocMap);
+        }
+        catch (final Exception e)
+        {
+            // e.printStackTrace();
+            thrown = true;
+        }
+        finally
+        {
+            FileUtils.deleteQuietly(docToTocMap);
+            FileUtils.deleteQuietly(anchorTargetFile);
+        }
+        assertTrue(!thrown);
+        assertTrue(numDocs == 1);
 
-			numDocs = AnchorsService.transformHTML(srcDir, targetDir, title, jobId, docToTocMap);
-		} catch (Exception e) {
-			// e.printStackTrace();
-			thrown = true;
-		} finally {
-			FileUtils.deleteQuietly(docToTocMap);
-			FileUtils.deleteQuietly(anchorTargetFile);
-		}
-		assertTrue(!thrown);
-		assertTrue(numDocs == 1);
+        final File outFile = new File(targetDir.getAbsolutePath(), "ebook_source_test.postanchor");
+        assertTrue(outFile.exists());
+    }
 
-		File outFile = new File(targetDir.getAbsolutePath(), "ebook_source_test.postanchor");
-		assertTrue(outFile.exists());
-	}
+    /**
+     * test alternative logical branches not taken by the happy path, including a given document to Table of Contents
+     * map file.
+     */
+    @Test
+    public void testDocToTocMapping()
+    {
+        int numDocs = -1;
+        boolean thrown = false;
 
-	/**
-	 * test alternative logical branches not taken by the happy path, including a given document to Table of Contents
-	 * map file.
-	 */
-	@Test
-	public void testDocToTocMapping() {
-		int numDocs = -1;
-		boolean thrown = false;
+        FileUtils.deleteQuietly(targetDir);
+        docToTocMap = makeFile(srcDir, "TOCmap.xml", "ebook_source_test,doc\n");
+        docMeta = null;
 
-		FileUtils.deleteQuietly(targetDir);
-		docToTocMap = makeFile(srcDir, "TOCmap.xml", "ebook_source_test,doc\n");
-		this.docMeta = null;
+        final File anchorTargetFile = makeFile(srcDir, "anchorTargetFile", "guids1,guids2,guids3\n");
 
-		File anchorTargetFile = makeFile(srcDir, "anchorTargetFile", "guids1,guids2,guids3\n");
+        try
+        {
+            EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
+            EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta).times(2);
+            EasyMock.replay(metadataMoc);
 
-		try {
-			EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
-			EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta).times(2);
-			EasyMock.replay(metadataMoc);
+            numDocs = AnchorsService.transformHTML(srcDir, targetDir, title, jobId, docToTocMap);
+        }
+        catch (final Exception e)
+        {
+            // e.printStackTrace();
+            thrown = true;
+        }
+        finally
+        {
+            FileUtils.deleteQuietly(anchorTargetFile);
+            FileUtils.deleteQuietly(docToTocMap);
+        }
+        assertTrue(!thrown);
+        assertTrue(numDocs == 1);
 
-			numDocs = AnchorsService.transformHTML(srcDir, targetDir, title, jobId, docToTocMap);
-		} catch (Exception e) {
-			// e.printStackTrace();
-			thrown = true;
-		} finally {
-			FileUtils.deleteQuietly(anchorTargetFile);
-			FileUtils.deleteQuietly(docToTocMap);
-		}
-		assertTrue(!thrown);
-		assertTrue(numDocs == 1);
+        final File outFile = new File(targetDir.getAbsolutePath(), "ebook_source_test.postanchor");
+        assertTrue(outFile.exists());
+    }
 
-		File outFile = new File(targetDir.getAbsolutePath(), "ebook_source_test.postanchor");
-		assertTrue(outFile.exists());
-	}
+    /**
+     * test the processing of document metadata associated with documentMetadataAuthority
+     */
+    @Test
+    public void testDocumentMetadata()
+    {
+        int numDocs = -1;
+        boolean thrown = false;
 
-	/**
-	 * test the processing of document metadata associated with documentMetadataAuthority
-	 */
-	@Test
-	public void testDocumentMetadata() {
-		int numDocs = -1;
-		boolean thrown = false;
+        final Set<DocMetadata> docMetadataSet = new LinkedHashSet<>();
+        docMetadataSet.add(docMeta);
+        docMetaAuthority = new DocumentMetadataAuthority(docMetadataSet);
 
-		Set<DocMetadata> docMetadataSet = new LinkedHashSet<DocMetadata>();
-		docMetadataSet.add(docMeta);
-		this.docMetaAuthority = new DocumentMetadataAuthority(docMetadataSet);
+        try
+        {
+            EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
+            EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta).times(2);
+            EasyMock.replay(metadataMoc);
 
-		try {
-			EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
-			EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta).times(2);
-			EasyMock.replay(metadataMoc);
+            numDocs = AnchorsService.transformHTML(srcDir, targetDir, title, jobId, docToTocMap);
+        }
+        catch (final Exception e)
+        {
+            // e.printStackTrace();
+            thrown = true;
+        }
+        assertTrue(!thrown);
+        assertTrue(numDocs == 1);
 
-			numDocs = AnchorsService.transformHTML(srcDir, targetDir, title, jobId, docToTocMap);
-		} catch (Exception e) {
-			// e.printStackTrace();
-			thrown = true;
-		}
-		assertTrue(!thrown);
-		assertTrue(numDocs == 1);
+        final File outFile = new File(targetDir.getAbsolutePath(), "ebook_source_test.postanchor");
+        assertTrue(outFile.exists());
+    }
 
-		File outFile = new File(targetDir.getAbsolutePath(), "ebook_source_test.postanchor");
-		assertTrue(outFile.exists());
-	}
+    /**
+     * Test the exception throwing of HTMLCreateNamedAnchrosService as a response to a source directory that is null or
+     * contains no .posttransform files
+     */
+    @Test
+    public void testExceptions()
+    {
+        boolean expect = false;
+        boolean thrown = false;
 
-	/**
-	 * Test the exception throwing of HTMLCreateNamedAnchrosService as a response to a source directory that is null or
-	 * contains no .posttransform files
-	 */
-	@Test
-	public void testExceptions() {
-		boolean expect = false;
-		boolean thrown = false;
+        try
+        {
+            AnchorsService.transformHTML(null, targetDir, title, jobId, docToTocMap);
+        }
+        catch (final IllegalArgumentException e)
+        {
+            // e.printStackTrace();
+            expect = true;
+        }
+        catch (final Exception e)
+        {
+            // e.printStackTrace();
+            thrown = true;
+        }
+        assertTrue(expect);
+        assertTrue(!thrown);
 
-		try {
-			AnchorsService.transformHTML(null, targetDir, title, jobId, docToTocMap);
-		} catch (IllegalArgumentException e) {
-			// e.printStackTrace();
-			expect = true;
-		} catch (Exception e) {
-			// e.printStackTrace();
-			thrown = true;
-		}
-		assertTrue(expect);
-		assertTrue(!thrown);
+        expect = false;
+        thrown = false;
 
-		expect = false;
-		thrown = false;
+        try
+        {
+            AnchorsService.transformHTML(targetDir, targetDir, title, jobId, docToTocMap);
+        }
+        catch (final EBookFormatException e)
+        {
+            // e.printStackTrace();
+            expect = true;
+        }
+        catch (final Exception e)
+        {
+            // e.printStackTrace();
+            thrown = true;
+        }
+        assertTrue(expect);
+        assertTrue(!thrown);
+    }
 
-		try {
-			AnchorsService.transformHTML(targetDir, targetDir, title, jobId, docToTocMap);
-		} catch (EBookFormatException e) {
-			// e.printStackTrace();
-			expect = true;
-		} catch (Exception e) {
-			// e.printStackTrace();
-			thrown = true;
-		}
-		assertTrue(expect);
-		assertTrue(!thrown);
-	}
+    /**
+     * Test the exception throwing of HTMLCreateNamedAnchrosService as a response to a source directory that is null or
+     * contains no .posttransform files
+     */
+    @Test
+    public void testreadTocAnchorListException()
+    {
+        boolean expect = false;
+        boolean thrown = false;
 
-	/**
-	 * Test the exception throwing of HTMLCreateNamedAnchrosService as a response to a source directory that is null or
-	 * contains no .posttransform files
-	 */
-	@Test
-	public void testreadTocAnchorListException() {
-		boolean expect = false;
-		boolean thrown = false;
+        final File anchorTargetFile = makeFile(srcDir, "anchorTargetFile", "guids1,guids2,guids3\n");
+        docToTocMap = makeFile(srcDir, "TOCmap.xml", ",");
 
-		File anchorTargetFile = makeFile(srcDir, "anchorTargetFile", "guids1,guids2,guids3\n");
-		docToTocMap = makeFile(srcDir, "TOCmap.xml", ",");
+        try
+        {
+            EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
+            EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta).times(2);
+            EasyMock.replay(metadataMoc);
 
-		try {
-			EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
-			EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta).times(2);
-			EasyMock.replay(metadataMoc);
+            AnchorsService.transformHTML(srcDir, targetDir, title, jobId, docToTocMap);
+        }
+        catch (final EBookFormatException e)
+        {
+            // e.printStackTrace();
+            expect = true;
+        }
+        catch (final Exception e)
+        {
+            // e.printStackTrace();
+            thrown = true;
+        }
+        finally
+        {
+            FileUtils.deleteQuietly(anchorTargetFile);
+            FileUtils.deleteQuietly(docToTocMap);
+        }
+        assertTrue(expect);
+        assertTrue(!thrown);
+    }
 
-			AnchorsService.transformHTML(srcDir, targetDir, title, jobId, docToTocMap);
-		} catch (EBookFormatException e) {
-			// e.printStackTrace();
-			expect = true;
-		} catch (Exception e) {
-			// e.printStackTrace();
-			thrown = true;
-		} finally {
-			FileUtils.deleteQuietly(anchorTargetFile);
-			FileUtils.deleteQuietly(docToTocMap);
-		}
-		assertTrue(expect);
-		assertTrue(!thrown);
-	}
+    /**
+     * Test the exception throwing in the processing of the anchor target file
+     */
+    @Test
+    public void testreadAnchorTargetFileException()
+    {
+        boolean expect = false;
+        boolean thrown = false;
 
-	/**
-	 * Test the exception throwing in the processing of the anchor target file
-	 */
-	@Test
-	public void testreadAnchorTargetFileException() {
-		boolean expect = false;
-		boolean thrown = false;
+        final File anchorTargetFile = makeFile(srcDir, "anchorTargetFile", ",");
 
-		File anchorTargetFile = makeFile(srcDir, "anchorTargetFile", ",");
+        try
+        {
+            EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
+            EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta).times(2);
+            EasyMock.replay(metadataMoc);
 
-		try {
-			EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
-			EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta).times(2);
-			EasyMock.replay(metadataMoc);
-
-			AnchorsService.transformHTML(srcDir, targetDir, title, jobId, docToTocMap);
-		} catch (EBookFormatException e) {
-			// e.printStackTrace();
-			expect = true;
-		} catch (Exception e) {
-			// e.printStackTrace();
-			thrown = true;
-		} finally {
-			FileUtils.deleteQuietly(anchorTargetFile);
-		}
-		assertTrue(expect);
-		assertTrue(!thrown);
-	}
+            AnchorsService.transformHTML(srcDir, targetDir, title, jobId, docToTocMap);
+        }
+        catch (final EBookFormatException e)
+        {
+            // e.printStackTrace();
+            expect = true;
+        }
+        catch (final Exception e)
+        {
+            // e.printStackTrace();
+            thrown = true;
+        }
+        finally
+        {
+            FileUtils.deleteQuietly(anchorTargetFile);
+        }
+        assertTrue(expect);
+        assertTrue(!thrown);
+    }
 }

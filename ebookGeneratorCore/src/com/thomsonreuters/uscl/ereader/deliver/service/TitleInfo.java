@@ -1,28 +1,22 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
-public interface TitleInfo {
+public interface TitleInfo
+{
+    String getTitle();
 
-	public String getTitle();
+    String getTitleId();
 
-	public String getTitleId();
+    Integer getTotalNumberOfVersions();
 
-	public Integer getTotalNumberOfVersions();
+    String getVersion();
 
-	public String getVersion();
+    Integer getMajorVersion();
 
-	public Integer getMajorVersion();
+    Integer getMinorVersion();
 
-	public Integer getMinorVersion();
+    String getPublisher();
 
-	public String getPublisher();
+    String getLastupdate();
 
-	public String getLastupdate();
-
-	public String getStatus();
-
+    String getStatus();
 }

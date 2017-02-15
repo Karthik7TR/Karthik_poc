@@ -1,9 +1,3 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
 import java.util.List;
@@ -14,46 +8,45 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
 
 /**
  * Spring service that handles CRUD requests for EbookAudit entities
- * 
+ *
  */
-public interface EBookAuditService {
+public interface EBookAuditService
+{
+    /**
+     * Save an existing EBookAudit entity
+     *
+     */
+    void saveEBookAudit(EbookAudit eBookAudit);
 
-	/**
-	 * Save an existing EBookAudit entity
-	 * 
-	 */
-	public void saveEBookAudit(EbookAudit eBookAudit);
+    /**
+     * Delete an existing EBookAudit entity
+     *
+     */
+     void deleteEBookAudit(EbookAudit eBookAudit);
 
-	/**
-	 * Delete an existing EBookAudit entity
-	 * 
-	 */
-	public void deleteEBookAudit(EbookAudit eBookAudit);
+    /**
+     */
+    EbookAudit findEBookAuditByPrimaryKey(Long auditId);
 
-	/**
-	 */
-	public EbookAudit findEBookAuditByPrimaryKey(Long auditId);
-	
-	public Long findMaxAuditId();
+    Long findMaxAuditId();
 
-	public EbookAudit findEbookAuditIdByTtileId(String titleId);
+    EbookAudit findEbookAuditIdByTtileId(String titleId);
 
-	/**
-	 * Find max audit id for ebook Definition Id
-	 * 
-	 */
-	public Long findEbookAuditByEbookDefId(Long ebookDefId);
-	
-	/**
-	 * Return all EbookAudits
-	 * @return
-	 */
-	public List<EbookAudit> findEbookAudits(EbookAuditFilter filter, EbookAuditSort sort);
-	
-	public int numberEbookAudits(EbookAuditFilter filter);
-	
-	public EbookAudit editIsbn(String titleId, String isbn);
-	
-	public void updateSplitDocumentsAudit(EbookAudit audit, String splitDocumentsConcat, int parts);
+    /**
+     * Find max audit id for ebook Definition Id
+     *
+     */
+    Long findEbookAuditByEbookDefId(Long ebookDefId);
 
+    /**
+     * Return all EbookAudits
+     * @return
+     */
+    List<EbookAudit> findEbookAudits(EbookAuditFilter filter, EbookAuditSort sort);
+
+    int numberEbookAudits(EbookAuditFilter filter);
+
+    EbookAudit editIsbn(String titleId, String isbn);
+
+    void updateSplitDocumentsAudit(EbookAudit audit, String splitDocumentsConcat, int parts);
 }

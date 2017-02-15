@@ -1,40 +1,29 @@
-/*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
 package com.thomsonreuters.uscl.ereader.core.book.dao;
 
 import java.util.List;
 
-import org.springframework.dao.DataAccessException;
-
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
+import org.springframework.dao.DataAccessException;
 
 /**
  * DAO to manage Author entities.
- * 
+ *
  */
-public interface AuthorDao {
+public interface AuthorDao
+{
+    /**
+     * Query - findAuthorByPrimaryKey
+     *
+     */
+    Author findAuthorById(Long authorId) throws DataAccessException;
 
-	/**
-	 * Query - findAuthorByPrimaryKey
-	 * 
-	 */
-	public Author findAuthorById(Long authorId)
-			throws DataAccessException;
+    /**
+     * Query - findAuthorsByEBookDefnId
+     *
+     */
+    List<Author> findAuthorsByEBookDefnId(Long eBookDefnId) throws DataAccessException;
 
-	/**
-	 * Query - findAuthorsByEBookDefnId
-	 * 
-	 */
-	public List<Author> findAuthorsByEBookDefnId(Long eBookDefnId)
-			throws DataAccessException;
+    void remove(Author toRemove) throws DataAccessException;
 
-
-	public void remove(Author toRemove) throws DataAccessException;
-
-	public void saveAuthor(Author author);;
-
+    void saveAuthor(Author author);
 }

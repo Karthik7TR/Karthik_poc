@@ -20,7 +20,6 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 
 public final class ProviewGroupListFilterControllerTest
 {
-
     private ProviewGroupListFilterController controller;
     private MockHttpServletResponse response;
     private MockHttpServletRequest request;

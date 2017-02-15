@@ -1,8 +1,3 @@
-/*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import org.xml.sax.Attributes;
@@ -16,68 +11,71 @@ import org.xml.sax.helpers.XMLFilterImpl;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class HTMLInputFilter extends XMLFilterImpl {
-	
-	private boolean keyCitePlaceholder = false;
-	private boolean isInputTag = false;
+public class HTMLInputFilter extends XMLFilterImpl
+{
+    private boolean keyCitePlaceholder;
+    private boolean isInputTag;
 
-	@Override
-	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException
-	{
-		if (qName.equalsIgnoreCase("input"))
-		{
-			isInputTag = true;
-			if (atts != null)
-			{
-				String id = atts.getValue("id");
-				String type = atts.getValue("type");
-				if ( id != null && id.equalsIgnoreCase("co_keyCiteFlagPlaceHolder")
-						&& type != null && type.equalsIgnoreCase("hidden"))
-				{
-					//TODO: Add KeyCite link or display generation based on NPD rules.
-					keyCitePlaceholder = true;
-				}
-			}
-		}
-		else
-		{
-			super.startElement(uri, localName, qName, atts);
-		}
-	}
-	
-	@Override
-	public void characters(char buf[], int offset, int len) throws SAXException
-	{
-		if (keyCitePlaceholder)
-		{
-			//TODO: Add KeyCite link or display generation based on NPD rules.
-		}
-		else if(isInputTag)
-		{
-			//Remove anything from within the input tags.
-		}
-		else
-		{
-			super.characters(buf, offset, len);
-		}
-	}
-	
-	@Override
-	public void endElement(String uri, String localName, String qName) throws SAXException
-	{
-		if (keyCitePlaceholder)
-		{
-			keyCitePlaceholder = false;
-			isInputTag = false;
-			//TODO: Add KeyCite link or display generation based on NPD rules.
-		}
-		else if(isInputTag)
-		{
-			isInputTag = false;
-		}
-		else
-		{
-			super.endElement(uri, localName, qName);
-		}
-	}	
+    @Override
+    public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
+        throws SAXException
+    {
+        if (qName.equalsIgnoreCase("input"))
+        {
+            isInputTag = true;
+            if (atts != null)
+            {
+                final String id = atts.getValue("id");
+                final String type = atts.getValue("type");
+                if (id != null
+                    && id.equalsIgnoreCase("co_keyCiteFlagPlaceHolder")
+                    && type != null
+                    && type.equalsIgnoreCase("hidden"))
+                {
+                    //TODO: Add KeyCite link or display generation based on NPD rules.
+                    keyCitePlaceholder = true;
+                }
+            }
+        }
+        else
+        {
+            super.startElement(uri, localName, qName, atts);
+        }
+    }
+
+    @Override
+    public void characters(final char[] buf, final int offset, final int len) throws SAXException
+    {
+        if (keyCitePlaceholder)
+        {
+            //TODO: Add KeyCite link or display generation based on NPD rules.
+        }
+        else if (isInputTag)
+        {
+            //Remove anything from within the input tags.
+        }
+        else
+        {
+            super.characters(buf, offset, len);
+        }
+    }
+
+    @Override
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException
+    {
+        if (keyCitePlaceholder)
+        {
+            keyCitePlaceholder = false;
+            isInputTag = false;
+            //TODO: Add KeyCite link or display generation based on NPD rules.
+        }
+        else if (isInputTag)
+        {
+            isInputTag = false;
+        }
+        else
+        {
+            super.endElement(uri, localName, qName);
+        }
+    }
 }

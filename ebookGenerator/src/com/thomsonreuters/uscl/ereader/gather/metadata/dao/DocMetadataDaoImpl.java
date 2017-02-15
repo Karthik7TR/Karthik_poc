@@ -1,9 +1,3 @@
-/*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
 package com.thomsonreuters.uscl.ereader.gather.metadata.dao;
 
 import java.util.ArrayList;
@@ -13,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,223 +19,237 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
-import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK;
-import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
-
 /**
  * DAO to manage DocMetadata entities.
- * 
+ *
  */
 
-public class DocMetadataDaoImpl implements DocMetadataDao {
+public class DocMetadataDaoImpl implements DocMetadataDao
+{
+    private SessionFactory sessionFactory;
 
-	private SessionFactory sessionFactory;
+    public DocMetadataDaoImpl(final SessionFactory hibernateSessionFactory)
+    {
+        sessionFactory = hibernateSessionFactory;
+    }
 
-	public DocMetadataDaoImpl(SessionFactory hibernateSessionFactory) {
-		this.sessionFactory = hibernateSessionFactory;
-	}
+    /**
+     * Used to determine whether or not to merge the entity or persist the
+     * entity when calling Store
+     *
+     * @see store
+     *
+     *
+     */
+    public boolean canBeMerged(final DocMetadata entity)
+    {
+        return true;
+    }
 
-	/**
-	 * Used to determine whether or not to merge the entity or persist the
-	 * entity when calling Store
-	 * 
-	 * @see store
-	 * 
-	 * 
-	 */
-	public boolean canBeMerged(DocMetadata entity) {
-		return true;
-	}
+    /**
+     * Query - findDocMetadataMapByDocUuid
+     *
+     * @param docUuid
+     *            from the document
+     * @returns a map of the document family guids associated with the document
+     *          uuid
+     *
+     *
+     */
+    @Override
+    @Transactional
+    public Map<String, String> findDocMetadataMapByDocUuid(final String docUuid) throws DataAccessException
+    {
+        final Map<String, String> mp = new HashMap<>();
 
-	/**
-	 * Query - findDocMetadataMapByDocUuid
-	 * 
-	 * @param docUuid
-	 *            from the document
-	 * @returns a map of the document family guids associated with the document
-	 *          uuid
-	 * 
-	 * 
-	 */
-	@SuppressWarnings("unchecked")
-	@Transactional
-	public Map<String, String> findDocMetadataMapByDocUuid(String docUuid)
-			throws DataAccessException {
+        final Query query = createNamedQuery("findDocMetadataMapByDocUuid");
+        query.setString("doc_uuid", docUuid);
 
-		Map<String, String> mp = new HashMap<String, String>();
+        final List<String> docFamilyGuidList = query.list();
 
-		Query query = createNamedQuery("findDocMetadataMapByDocUuid");
-		query.setString("doc_uuid", docUuid);
+        for (int i = 0; i < docFamilyGuidList.size(); i++)
+        {
+            mp.put(docFamilyGuidList.get(i), docUuid);
+        }
 
-		List<String> docFamilyGuidList = query.list();
+        return mp;
+    }
 
-		for (int i = 0; i < docFamilyGuidList.size(); i++) {
-			mp.put(docFamilyGuidList.get(i), docUuid);
-		}
+    /*
+     * (non-Javadoc)
+     */
+    @Transactional
+    public Query createNamedQuery(final String queryName)
+    {
+        final Query query = sessionFactory.getCurrentSession().getNamedQuery(queryName);
+        return query;
+    }
 
-		return mp;
-	}
+    /*
+     * (non-Javadoc)
+     */
+    @Transactional
+    public DocMetadata persist(final DocMetadata toPersist)
+    {
+        sessionFactory.getCurrentSession().save(toPersist);
+        flush();
+        return toPersist;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 */
-	@Transactional
-	public Query createNamedQuery(String queryName) {
-		Query query = sessionFactory.getCurrentSession().getNamedQuery(
-				queryName);
-		return query;
-	}
+    /*
+     * (non-Javadoc)
+     */
+    @Override
+    @Transactional
+    public void remove(DocMetadata toRemove)
+    {
+        toRemove = (DocMetadata) sessionFactory.getCurrentSession().merge(toRemove);
+        sessionFactory.getCurrentSession().delete(toRemove);
+        flush();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 */
-	@Transactional
-	public DocMetadata persist(DocMetadata toPersist) {
-		sessionFactory.getCurrentSession().save(toPersist);
-		flush();
-		return toPersist;
-	}
+    /*
+     * (non-Javadoc)
+     */
+    @Transactional
+    public void update(final DocMetadata toUpdate)
+    {
+        sessionFactory.getCurrentSession().update(toUpdate);
+        flush();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 */
-	@Transactional
-	public void remove(DocMetadata toRemove) {
-		toRemove = (DocMetadata) sessionFactory.getCurrentSession().merge(
-				toRemove);
-		sessionFactory.getCurrentSession().delete(toRemove);
-		flush();
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 */
-	@Transactional
-	public void update(DocMetadata toUpdate) {
-		sessionFactory.getCurrentSession().update(toUpdate);
-		flush();
-	}
+    /*
+     * (non-Javadoc)
+     */
+    @Transactional
+    public void flush()
+    {
+        sessionFactory.getCurrentSession().flush();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 */
-	@Transactional
-	public void flush() {
-		sessionFactory.getCurrentSession().flush();
-	}
+    @Override
+    public DocMetadata findDocMetadataByPrimaryKey(final DocMetadataPK pk)
+    {
+        final Session session = sessionFactory.getCurrentSession();
+        return (DocMetadata) session.get(DocMetadata.class, pk);
+    }
 
-	public DocMetadata findDocMetadataByPrimaryKey(DocMetadataPK pk) {
-		Session session = sessionFactory.getCurrentSession();
-		return (DocMetadata) session.get(DocMetadata.class, pk);
-	}
+    @Override
+    public Map<String, String> findDistinctFamilyGuidsByJobId(final Long jobInstanceId)
+    {
+        final Session session = sessionFactory.getCurrentSession();
 
-	@SuppressWarnings("unchecked")
-	public Map<String, String> findDistinctFamilyGuidsByJobId(Long jobInstanceId) {
-		Session session = sessionFactory.getCurrentSession();
-		
-		List<Object[]> docMetaList = session.createCriteria(DocMetadata.class)
-				.setProjection(Projections.distinct( (Projections.projectionList()
-						.add(Projections.property("docUuid"))
-						.add(Projections.property("docFamilyUuid")))))
-						.add( Restrictions.eq("jobInstanceId", jobInstanceId))
-						.list();
+        final List<Object[]> docMetaList = session.createCriteria(DocMetadata.class)
+            .setProjection(
+                Projections.distinct(
+                    (Projections.projectionList()
+                        .add(Projections.property("docUuid"))
+                        .add(Projections.property("docFamilyUuid")))))
+            .add(Restrictions.eq("jobInstanceId", jobInstanceId))
+            .list();
 //		List<DocMetadata> docMetaList = session.createCriteria(DocMetadata.class)
 //	    .add( Restrictions.eq("jobInstanceId", instanceJobId))
 //	    .list();
-		
-		Map<String, String> docMap = new HashMap<String, String>();
 
-		for(Object[] arr : docMetaList)
-		{
-			if (arr[1] != null) // Xena content has no docFamilyGuid
-			{
-				docMap.put(arr[0].toString(), arr[1].toString());
-			}
-		}
-		return docMap;
-	}	
-	
-	@SuppressWarnings("unchecked")
-	public List<String> findDistinctSplitTitlesByJobId(Long jobInstanceId) {
-		Session session = sessionFactory.getCurrentSession();
-		
-		List<String> docMetaList = session.createCriteria(DocMetadata.class)
-				.setProjection(Projections.distinct( (Projections.projectionList()
-						.add(Projections.property("splitBookTitleId")))))
-						.add( Restrictions.eq("jobInstanceId", jobInstanceId))
-						.addOrder(Order.asc("splitBookTitleId"))
-						.list();
-		
-		List<String> splitTitleIdList = new ArrayList<String>();
-		
-		if(docMetaList.size() > 0){
-			splitTitleIdList.addAll(docMetaList);
-		}
-		
-		return splitTitleIdList;
-	}
-	
-	@Override
-	@Transactional
-	public void saveMetadata(DocMetadata metadata) {
-		Session session = sessionFactory.getCurrentSession();
-		session.save(metadata);
-		session.flush();
-	}
-	
-	@Override
-	@Transactional
-	public void updateMetadata(DocMetadata metadata) {
-		Session session = sessionFactory.getCurrentSession();
-		session.update(metadata);
-		session.flush();
-	}
+        final Map<String, String> docMap = new HashMap<>();
 
-	@Override
-	public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(final Long jobInstanceId) {
-		Session session = sessionFactory.getCurrentSession();
-		
-		// Using LinkedHashSet to preserve insertion order based on what is returned from DB
-		Set<DocMetadata> documentMetadataSet = new LinkedHashSet<DocMetadata>();
-		
-		@SuppressWarnings("unchecked")
-		List<DocMetadata> docMetaList = session.createCriteria(DocMetadata.class)
-	    .add( Restrictions.eq("jobInstanceId", jobInstanceId))
-	    .addOrder(Order.asc("docUuid"))
-	    .list();
-		
-		documentMetadataSet.addAll(docMetaList);
-		DocumentMetadataAuthority documentMetadataAuthority = new DocumentMetadataAuthority(documentMetadataSet);
-		return documentMetadataAuthority;
-	}
+        for (final Object[] arr : docMetaList)
+        {
+            if (arr[1] != null) // Xena content has no docFamilyGuid
+            {
+                docMap.put(arr[0].toString(), arr[1].toString());
+            }
+        }
+        return docMap;
+    }
 
-	/**
-	 * Query - findDocMetadataMapByPartialCiteMatchAndJobId
-	 * 
-	 * @param jobInstanceId
-	 *            jobinstanceId from the run
-	 * @param cite
-	 *            from the document           
-	 * @returns a documentMetadata
-	 * 
-	 * 
-	 */
-	@SuppressWarnings("unchecked")
-	@Transactional
-	public DocMetadata findDocMetadataMapByPartialCiteMatchAndJobId(Long jobInstanceId, String cite)
-			throws DataAccessException {
-	
-		Query query = createNamedQuery("findDocumentMetaDataByCiteAndJobId");
-		query.setParameter("jobInstaneId", jobInstanceId);
-		query.setParameter("normalizedCite", "%" + cite);		
-	
-		List<DocMetadata> docMetaDataList = query.list();
-		
-		if (docMetaDataList.size() > 0) {
-			return (DocMetadata)docMetaDataList.get(0);
-		} else {
-			return null;
-		}
-	}
+    @Override
+    public List<String> findDistinctSplitTitlesByJobId(final Long jobInstanceId)
+    {
+        final Session session = sessionFactory.getCurrentSession();
+
+        final List<String> docMetaList = session.createCriteria(DocMetadata.class)
+            .setProjection(
+                Projections.distinct((Projections.projectionList().add(Projections.property("splitBookTitleId")))))
+            .add(Restrictions.eq("jobInstanceId", jobInstanceId))
+            .addOrder(Order.asc("splitBookTitleId"))
+            .list();
+
+        final List<String> splitTitleIdList = new ArrayList<>();
+
+        if (docMetaList.size() > 0)
+        {
+            splitTitleIdList.addAll(docMetaList);
+        }
+
+        return splitTitleIdList;
+    }
+
+    @Override
+    @Transactional
+    public void saveMetadata(final DocMetadata metadata)
+    {
+        final Session session = sessionFactory.getCurrentSession();
+        session.save(metadata);
+        session.flush();
+    }
+
+    @Override
+    @Transactional
+    public void updateMetadata(final DocMetadata metadata)
+    {
+        final Session session = sessionFactory.getCurrentSession();
+        session.update(metadata);
+        session.flush();
+    }
+
+    @Override
+    public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(final Long jobInstanceId)
+    {
+        final Session session = sessionFactory.getCurrentSession();
+
+        // Using LinkedHashSet to preserve insertion order based on what is returned from DB
+        final Set<DocMetadata> documentMetadataSet = new LinkedHashSet<>();
+
+        final List<DocMetadata> docMetaList = session.createCriteria(DocMetadata.class)
+            .add(Restrictions.eq("jobInstanceId", jobInstanceId))
+            .addOrder(Order.asc("docUuid"))
+            .list();
+
+        documentMetadataSet.addAll(docMetaList);
+        final DocumentMetadataAuthority documentMetadataAuthority = new DocumentMetadataAuthority(documentMetadataSet);
+        return documentMetadataAuthority;
+    }
+
+    /**
+     * Query - findDocMetadataMapByPartialCiteMatchAndJobId
+     *
+     * @param jobInstanceId
+     *            jobinstanceId from the run
+     * @param cite
+     *            from the document
+     * @returns a documentMetadata
+     *
+     *
+     */
+    @Override
+    @Transactional
+    public DocMetadata findDocMetadataMapByPartialCiteMatchAndJobId(final Long jobInstanceId, final String cite)
+        throws DataAccessException
+    {
+        final Query query = createNamedQuery("findDocumentMetaDataByCiteAndJobId");
+        query.setParameter("jobInstaneId", jobInstanceId);
+        query.setParameter("normalizedCite", "%" + cite);
+
+        final List<DocMetadata> docMetaDataList = query.list();
+
+        if (docMetaDataList.size() > 0)
+        {
+            return docMetaDataList.get(0);
+        }
+        else
+        {
+            return null;
+        }
+    }
 }

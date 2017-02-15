@@ -6,11 +6,14 @@ import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 
-public interface AutoSplitGuidsService {
+public interface AutoSplitGuidsService
+{
+    List<String> getAutoSplitNodes(
+        InputStream tocInputStream,
+        BookDefinition bookDefinition,
+        Integer tocNodeCount,
+        Long jobInstanceId,
+        boolean metrics);
 
-	public List<String> getAutoSplitNodes(InputStream tocInputStream, BookDefinition bookDefinition,
-			Integer tocNodeCount, Long jobInstanceId, boolean metrics);
-
-	public Map<String, String> getSplitGuidTextMap();
-
+    Map<String, String> getSplitGuidTextMap();
 }

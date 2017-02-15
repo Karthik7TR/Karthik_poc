@@ -2,9 +2,8 @@ package com.thomsonreuters.uscl.ereader.gather.img.service;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-
 import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Designed to perform all tasks with images form Novus and decouple

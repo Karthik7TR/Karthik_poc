@@ -1,10 +1,9 @@
 package com.thomsonreuters.uscl.ereader.img;
 
+import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-
-import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 
 public class ImageMetadataMatcher extends BaseMatcher<Object>
 {

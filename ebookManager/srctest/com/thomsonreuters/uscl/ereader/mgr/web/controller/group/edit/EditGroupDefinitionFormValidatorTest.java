@@ -153,5 +153,4 @@ public final class EditGroupDefinitionFormValidatorTest
         Assert.assertTrue(errors.hasErrors());
         Assert.assertEquals("error.required", errors.getFieldError("subgroups[0].heading").getCode());
     }
-
 }

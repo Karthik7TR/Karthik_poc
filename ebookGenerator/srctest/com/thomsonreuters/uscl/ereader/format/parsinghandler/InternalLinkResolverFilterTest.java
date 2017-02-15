@@ -1,9 +1,3 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import static org.junit.Assert.assertEquals;
@@ -24,7 +18,14 @@ import java.util.Properties;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
- import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
+import com.thomsonreuters.uscl.ereader.gather.metadata.domain.PaceMetadata;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataService;
+import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataServiceImpl;
+import com.thomsonreuters.uscl.ereader.util.UrlParsingUtil;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Method;
 import org.apache.xml.serializer.OutputPropertiesFactory;
 import org.apache.xml.serializer.Serializer;
@@ -40,23 +41,15 @@ import org.junit.rules.TemporaryFolder;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
-import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAuthority;
-import com.thomsonreuters.uscl.ereader.gather.metadata.domain.PaceMetadata;
-import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataService;
-import com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataServiceImpl;
-import com.thomsonreuters.uscl.ereader.util.UrlParsingUtil;
-
-
 /**
  * Component tests for InternalLinkResolverFilter.
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public class InternalLinkResolverFilterTest
+public final class InternalLinkResolverFilterTest
 {
     private static Logger LOG = LogManager.getLogger(InternalLinkResolverFilterTest.class);
-    InternalLinkResolverFilter internalLinkResolverFilter;
+    private InternalLinkResolverFilter internalLinkResolverFilter;
     private InternalLinkResolverFilter internalLinksFilter;
     private Serializer serializer;
     private DocumentMetadataAuthority mockDocumentMetadataAuthority;
@@ -64,57 +57,62 @@ public class InternalLinkResolverFilterTest
     private PaceMetadata mockPaceMetadata;
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
-    private File tempDir = null;
-    String version = "1";
-    String docGuid = "dummyDocGuid";
+    private File tempDir;
+    private String version = "1";
+    private String docGuid = "dummyDocGuid";
 
     @Before
     public void setUp() throws Exception
     {
-    	mockPaceMetadataService = EasyMock.createMock(PaceMetadataServiceImpl.class);
+        mockPaceMetadataService = EasyMock.createMock(PaceMetadataServiceImpl.class);
         mockPaceMetadata = EasyMock.createMock(PaceMetadata.class);
         mockPaceMetadata.setPublicationName("CCPEMPLOYMENT");
-        mockPaceMetadata.setAuditId(new Long("3862349"));
+        mockPaceMetadata.setAuditId(Long.valueOf("3862349"));
         mockPaceMetadata.setActive("L");
         mockPaceMetadata.setAuthorityName("EBOOK");
         mockPaceMetadata.setLongPubName("EBOOK_HELLO");
-        mockPaceMetadata.setPublicationCode(new Long(126977));
+        mockPaceMetadata.setPublicationCode(Long.valueOf(126977));
         mockPaceMetadata.setSpecificCategory("TEST");
-        mockPaceMetadata.setStdPubName("CCPEMP"); 
-        mockPaceMetadata.setPublicationId(new Long("3862349"));
+        mockPaceMetadata.setStdPubName("CCPEMP");
+        mockPaceMetadata.setPublicationId(Long.valueOf("3862349"));
 
-        List<PaceMetadata> pacemetadataList = new ArrayList<PaceMetadata>();
-        EasyMock.expect(mockPaceMetadataService.findAllPaceMetadataForPubCode(new Long(126977)))
-                .andReturn(pacemetadataList);
-        
-       // EasyMock.replay(mockPaceMetadata);
+        final List<PaceMetadata> pacemetadataList = new ArrayList<>();
+        EasyMock.expect(mockPaceMetadataService.findAllPaceMetadataForPubCode(Long.valueOf(126977)))
+            .andReturn(pacemetadataList);
+
+        // EasyMock.replay(mockPaceMetadata);
         EasyMock.replay(mockPaceMetadataService);
         mockDocumentMetadataAuthority = EasyMock.createMock(DocumentMetadataAuthority.class);
         internalLinkResolverFilter = new InternalLinkResolverFilter(mockDocumentMetadataAuthority);
 
-        SAXParserFactory factory = SAXParserFactory.newInstance();
+        final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
 
-        SAXParser saxParser = factory.newSAXParser();
+        final SAXParser saxParser = factory.newSAXParser();
 
         tempDir = temporaryFolder.newFolder("junit_internalLinking");
 
-        File internalLinkResolverTestFile = new File(tempDir, "internalLinkResolverTestFile.txt");
+        final File internalLinkResolverTestFile = new File(tempDir, "internalLinkResolverTestFile.txt");
         writeDocumentLinkFile(internalLinkResolverTestFile);
 
         internalLinkResolverTestFile.exists();
 
         internalLinksFilter = new InternalLinkResolverFilter(
-                mockDocumentMetadataAuthority, internalLinkResolverTestFile, mockPaceMetadataService, new Long("1234"), docGuid, version);
+            mockDocumentMetadataAuthority,
+            internalLinkResolverTestFile,
+            mockPaceMetadataService,
+            Long.valueOf("1234"),
+            docGuid,
+            version);
         internalLinksFilter.setParent(saxParser.getXMLReader());
 
-        Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
+        final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
         props.setProperty("omit-xml-declaration", "yes");
         serializer = SerializerFactory.getSerializer(props);
     }
 
     @After
-    public void tearDown() throws Exception
+    public void tearDown()
     {
         serializer = null;
         internalLinksFilter = null;
@@ -129,7 +127,8 @@ public class InternalLinkResolverFilterTest
         String documentUuid = urlValues.get("documentUuid");
         String expectedUuid = "Iff5a5aaa7c8f11da9de6e47d6d5aa7a5";
         Assert.assertEquals(expectedUuid, documentUuid);
-        resourceUrl = "https://a.next.westlaw.com/Document/FullText?Iff5a5aaa7c-8f11da9de6e-47d6d5aa7a5/View/FullText.html?transitionType=Default&contextData=(sc.Default)";
+        resourceUrl =
+            "https://a.next.westlaw.com/Document/FullText?Iff5a5aaa7c-8f11da9de6e-47d6d5aa7a5/View/FullText.html?transitionType=Default&contextData=(sc.Default)";
         urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
         documentUuid = urlValues.get("documentUuid");
         expectedUuid = "Iff5a5aaa7c-8f11da9de6e-47d6d5aa7a5";
@@ -139,253 +138,252 @@ public class InternalLinkResolverFilterTest
     @Test
     public void testGetLinkParameter() throws Exception
     {
-        String resourceUrl =
+        final String resourceUrl =
             "http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546&cite=42USCAS1395W-133&originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a";
-        Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
-        String linkParameter = urlValues.get("reference");
-        String normalizedCite = urlValues.get("cite");
-        String expectedLinkParameter = "co_pp_8b3b0000958a";
+        final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
+        final String linkParameter = urlValues.get("reference");
+        final String normalizedCite = urlValues.get("cite");
+        final String expectedLinkParameter = "co_pp_8b3b0000958a";
         Assert.assertEquals(expectedLinkParameter, linkParameter);
 
-        DocMetadata dm = new DocMetadata();
+        final DocMetadata dm = new DocMetadata();
         dm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
         dm.setDocUuid("NF8C65500AFF711D8803AE0632FEDDFBF");
 
-        Map<String, DocMetadata> mp = new HashMap<String, DocMetadata>();
+        final Map<String, DocMetadata> mp = new HashMap<>();
         mp.put(normalizedCite, dm);
         EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByCite()).andReturn(mp);
-        Map<String, DocMetadata> splitMp = new HashMap<String, DocMetadata>();
-        DocMetadata splitDm = new DocMetadata();
+        final Map<String, DocMetadata> splitMp = new HashMap<>();
+        final DocMetadata splitDm = new DocMetadata();
         splitDm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
         splitDm.setDocUuid(docGuid);
         splitMp.put(docGuid, splitDm);
-        
+
         EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByDocumentUuid()).andReturn(splitMp);
         EasyMock.replay(mockDocumentMetadataAuthority);
 
-        String inputXML =
+        final String inputXML =
             "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546&amp;cite=42USCAS1395W-133&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
-        String expectedResult =
+        final String expectedResult =
             "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"er:#IC6A94E80FF6011DC95B0EEFA5102EA59/co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
 
         testHelper(inputXML, expectedResult);
     }
-    
+
     @Test
     public void testSplitDocLink() throws Exception
     {
-        String resourceUrl =
+        final String resourceUrl =
             "http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546&cite=42USCAS1395W-133&originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a";
-        Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
-        String linkParameter = urlValues.get("reference");
-        String normalizedCite = urlValues.get("cite");
-        String expectedLinkParameter = "co_pp_8b3b0000958a";
+        final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
+        final String linkParameter = urlValues.get("reference");
+        final String normalizedCite = urlValues.get("cite");
+        final String expectedLinkParameter = "co_pp_8b3b0000958a";
         Assert.assertEquals(expectedLinkParameter, linkParameter);
 
-        DocMetadata dm = new DocMetadata();
+        final DocMetadata dm = new DocMetadata();
         dm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
         dm.setDocUuid("NF8C65500AFF711D8803AE0632FEDDFBF");
         dm.setSpitBookTitle("us/an/splitBookTitle");
 
-        Map<String, DocMetadata> mp = new HashMap<String, DocMetadata>();
+        final Map<String, DocMetadata> mp = new HashMap<>();
         mp.put(normalizedCite, dm);
         EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByCite()).andReturn(mp);
-        Map<String, DocMetadata> splitMp = new HashMap<String, DocMetadata>();
-        DocMetadata splitDm = new DocMetadata();
+        final Map<String, DocMetadata> splitMp = new HashMap<>();
+        final DocMetadata splitDm = new DocMetadata();
         splitDm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
         splitDm.setDocUuid(docGuid);
         splitDm.setSpitBookTitle("us/an/splitBookTitle1");
         splitMp.put(docGuid, splitDm);
-        
+
         EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByDocumentUuid()).andReturn(splitMp);
         EasyMock.replay(mockDocumentMetadataAuthority);
 
-        String inputXML =
+        final String inputXML =
             "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546&amp;cite=42USCAS1395W-133&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
-        String expectedResult =
+        final String expectedResult =
             "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"er:us/an/splitBookTitle/v1#IC6A94E80FF6011DC95B0EEFA5102EA59/co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
 
         testHelper(inputXML, expectedResult);
     }
-    
+
     @Test
     public void testLinkwithinDoc() throws Exception
     {
-        String resourceUrl =
+        final String resourceUrl =
             "http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546&cite=42USCAS1395W-133&originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a";
-        Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
-        String linkParameter = urlValues.get("reference");
-        String normalizedCite = urlValues.get("cite");
-        String expectedLinkParameter = "co_pp_8b3b0000958a";
+        final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
+        final String linkParameter = urlValues.get("reference");
+        final String normalizedCite = urlValues.get("cite");
+        final String expectedLinkParameter = "co_pp_8b3b0000958a";
         Assert.assertEquals(expectedLinkParameter, linkParameter);
 
-        DocMetadata dm = new DocMetadata();
+        final DocMetadata dm = new DocMetadata();
         dm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
         dm.setDocUuid("NF8C65500AFF711D8803AE0632FEDDFBF");
         dm.setSpitBookTitle("us/an/splitBookTitle");
 
-        Map<String, DocMetadata> mp = new HashMap<String, DocMetadata>();
+        final Map<String, DocMetadata> mp = new HashMap<>();
         mp.put(normalizedCite, dm);
         EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByCite()).andReturn(mp);
-        Map<String, DocMetadata> splitMp = new HashMap<String, DocMetadata>();
-        DocMetadata splitDm = new DocMetadata();
+        final Map<String, DocMetadata> splitMp = new HashMap<>();
+        final DocMetadata splitDm = new DocMetadata();
         splitDm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
         splitDm.setDocUuid(docGuid);
         splitDm.setSpitBookTitle("us/an/splitBookTitle");
         splitMp.put(docGuid, splitDm);
-        
+
         EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByDocumentUuid()).andReturn(splitMp);
         EasyMock.replay(mockDocumentMetadataAuthority);
 
-        String inputXML =
+        final String inputXML =
             "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546&amp;cite=42USCAS1395W-133&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
-        String expectedResult =
+        final String expectedResult =
             "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"er:#IC6A94E80FF6011DC95B0EEFA5102EA59/co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
 
         testHelper(inputXML, expectedResult);
     }
-    
-    
+
     @Test
     public void testGetLinkParameterwithSpace() throws Exception
     {
-        String resourceUrl =
+        final String resourceUrl =
             "http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546 &cite=42USCAS1395W-133&originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a";
-        Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
-        String linkParameter = urlValues.get("reference");
-        String normalizedCite = urlValues.get("cite");
-        String expectedLinkParameter = "co_pp_8b3b0000958a";
+        final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
+        final String linkParameter = urlValues.get("reference");
+        final String normalizedCite = urlValues.get("cite");
+        final String expectedLinkParameter = "co_pp_8b3b0000958a";
         Assert.assertEquals(expectedLinkParameter, linkParameter);
 
-        DocMetadata dm = new DocMetadata();
+        final DocMetadata dm = new DocMetadata();
         dm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
         dm.setDocUuid("NF8C65500AFF711D8803AE0632FEDDFBF");
 
-        Map<String, DocMetadata> mp = new HashMap<String, DocMetadata>();
+        final Map<String, DocMetadata> mp = new HashMap<>();
         mp.put(normalizedCite, dm);
         EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByCite()).andReturn(mp);
-        
-        Map<String, DocMetadata> splitMp = new HashMap<String, DocMetadata>();
-        DocMetadata splitDm = new DocMetadata();
+
+        final Map<String, DocMetadata> splitMp = new HashMap<>();
+        final DocMetadata splitDm = new DocMetadata();
         splitDm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
         splitDm.setDocUuid(docGuid);
         splitMp.put(docGuid, splitDm);
-        
+
         EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByDocumentUuid()).andReturn(splitMp);
         EasyMock.replay(mockDocumentMetadataAuthority);
-               
-        String inputXML =
+
+        final String inputXML =
             "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546%20&amp;cite=42USCAS1395W-133&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
-        String expectedResult =
+        final String expectedResult =
             "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"er:#IC6A94E80FF6011DC95B0EEFA5102EA59/co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
 
         testHelper(inputXML, expectedResult);
     }
+
     @Test
     public void testGetLinkParameterwithOnlySpace() throws Exception
     {
-        String resourceUrl =
+        final String resourceUrl =
             "http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546 &cite=42USCAS1395W-133&originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a";
-        Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
-        String linkParameter = urlValues.get("reference");
-        String normalizedCite = urlValues.get("cite");
-        String expectedLinkParameter = "co_pp_8b3b0000958a";
+        final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
+        final String linkParameter = urlValues.get("reference");
+        final String normalizedCite = urlValues.get("cite");
+        final String expectedLinkParameter = "co_pp_8b3b0000958a";
         Assert.assertEquals(expectedLinkParameter, linkParameter);
 
-        DocMetadata dm = new DocMetadata();
+        final DocMetadata dm = new DocMetadata();
         dm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
         dm.setDocUuid("NF8C65500AFF711D8803AE0632FEDDFBF");
 
-        Map<String, DocMetadata> mp = new HashMap<String, DocMetadata>();
+        final Map<String, DocMetadata> mp = new HashMap<>();
         mp.put(normalizedCite, dm);
         EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByCite()).andReturn(mp);
-        
-        Map<String, DocMetadata> splitMp = new HashMap<String, DocMetadata>();
-        DocMetadata splitDm = new DocMetadata();
+
+        final Map<String, DocMetadata> splitMp = new HashMap<>();
+        final DocMetadata splitDm = new DocMetadata();
         splitDm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
         splitDm.setDocUuid(docGuid);
         splitMp.put(docGuid, splitDm);
-        
+
         EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByDocumentUuid()).andReturn(splitMp);
         EasyMock.replay(mockDocumentMetadataAuthority);
 
-        String inputXML =
+        final String inputXML =
             "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=%20&amp;cite=42USCAS1395W-133&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
-        String expectedResult =
+        final String expectedResult =
             "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"er:#IC6A94E80FF6011DC95B0EEFA5102EA59/co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
 
         testHelper(inputXML, expectedResult);
     }
+
     @Test
     @Ignore
     public void testGetNormalizedCiteWithPaceMetadata() throws Exception
     {
-       
-        String resourceUrl =
+        final String resourceUrl =
             "https://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=126977&cite=CCPEMPs2%3A89&originationContext=ebook&RS=ebbp3.0&vr=3.0";
-        Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
-        String normalizedCite = urlValues.get("cite");
-       
+        final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
+        final String normalizedCite = urlValues.get("cite");
 
         DocMetadata dm = new DocMetadata();
         dm.setDocFamilyUuid("I7dd370d22f6d11d997cad7305e16d23d");
         dm.setDocUuid("I410098c9b67411d9947c9ea867b7826a");
-        dm=null;
+        dm = null;
 
-        Map<String, DocMetadata> mp = new HashMap<String, DocMetadata>();
+        final Map<String, DocMetadata> mp = new HashMap<>();
         mp.put(normalizedCite, dm);
         EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByCite()).andReturn(mp);
-        Map<String, DocMetadata> splitMp = new HashMap<String, DocMetadata>();
-        DocMetadata splitDm = new DocMetadata();
+        final Map<String, DocMetadata> splitMp = new HashMap<>();
+        final DocMetadata splitDm = new DocMetadata();
         splitDm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
         splitDm.setDocUuid(docGuid);
         splitMp.put(docGuid, splitDm);
-        
+
         EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByDocumentUuid()).andReturn(splitMp);
         EasyMock.replay(mockDocumentMetadataAuthority);
 
-        String inputXML =
+        final String inputXML =
             "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"https://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=126977&amp;cite=CCPEMPs2%3A89&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
-        String expectedResult =
+        final String expectedResult =
             "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"er:#I7dd370d22f6d11d997cad7305e16d23d/co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
 
         testHelper(inputXML, expectedResult);
     }
 
     @Test
-    public void testGetNormalizedCiteDocumentUuidFromResourceUrl()
-        throws Exception
+    public void testGetNormalizedCiteDocumentUuidFromResourceUrl() throws Exception
     {
-        String resourceUrl =
+        final String resourceUrl =
             "https://1.next.westlaw.com/Link/Document/FullText?findType=l&pubNum=1077005&cite=UUID%28ID4D58042D3-43461C8C9EE-73AA2A319F3%29&originationContext=ebook";
-        Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
+        final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
 
-        String documentUuid = urlValues.get("documentUuid");
-        String expectedNormalizedCiteUUID = "ID4D58042D3-43461C8C9EE-73AA2A319F3";
+        final String documentUuid = urlValues.get("documentUuid");
+        final String expectedNormalizedCiteUUID = "ID4D58042D3-43461C8C9EE-73AA2A319F3";
         Assert.assertTrue(expectedNormalizedCiteUUID.equals(documentUuid));
     }
 
     @Test
-    public void testGetNormalizedCiteFromResourceUrl()
-        throws Exception
+    public void testGetNormalizedCiteFromResourceUrl() throws Exception
     {
         String resourceUrl =
             "https://1.next.westlaw.com/Link/Document/FullText?findType=Y&pubNum=119616&cite=SECOPINION\u00A739%3A7&originationContext=ebook";
         Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
         String normalizedCite = urlValues.get("cite");
         String expectedNormalizedCite = "SECOPINIONS39:7";
-       // System.out.println(normalizedCite);
+        // System.out.println(normalizedCite);
         Assert.assertTrue(expectedNormalizedCite.equals(normalizedCite));
 
-        resourceUrl = "https://1.next.westlaw.com/Link/Document/FullText?findType=L&pubNum=1000600&cite=USFRCPR20&originatingDoc=I86827039c15111ddb9c7909664ff7808&refType=LQ&amp;originationContext=ebook";
+        resourceUrl =
+            "https://1.next.westlaw.com/Link/Document/FullText?findType=L&pubNum=1000600&cite=USFRCPR20&originatingDoc=I86827039c15111ddb9c7909664ff7808&refType=LQ&amp;originationContext=ebook";
 
         urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
         normalizedCite = urlValues.get("cite");
-       // System.out.println(normalizedCite);
+        // System.out.println(normalizedCite);
         expectedNormalizedCite = "USFRCPR20";
         Assert.assertTrue(expectedNormalizedCite.equals(normalizedCite));
-        
-        resourceUrl = "https://www.westlaw.com/Link/Document/FullText?findType=Y&pubNum=126977&cite=CCPEMPs2%3A89&originationContext=ebook&RS=ebbp3.0&vr=3.0";
+
+        resourceUrl =
+            "https://www.westlaw.com/Link/Document/FullText?findType=Y&pubNum=126977&cite=CCPEMPs2%3A89&originationContext=ebook&RS=ebbp3.0&vr=3.0";
 
         urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
         normalizedCite = urlValues.get("cite");
@@ -393,51 +391,51 @@ public class InternalLinkResolverFilterTest
         expectedNormalizedCite = "CCPEMPS2:89";
         Assert.assertTrue(expectedNormalizedCite.equals(normalizedCite));
     }
- 
+
     @Test
     public void testGetSerialNumberFromResourceUrl() throws Exception
     {
-        String resourceUrl =
+        final String resourceUrl =
             "https://a.next.westlaw.com/Document/FullText?findType=Y&serNum=123456&transitionType=Default&contextData=(sc.Default)";
-        Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
-        String serialNumber = urlValues.get("serNum");
-        String expectedSerialNumber = "123456";
+        final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
+        final String serialNumber = urlValues.get("serNum");
+        final String expectedSerialNumber = "123456";
         Assert.assertTrue(expectedSerialNumber.equals(serialNumber));
     }
 
     @Test
     public void testGetTOCGuid() throws Exception
     {
-        String resourceUrl =
+        final String resourceUrl =
             "http://www.westlaw.com/Link/Document/FullText?findType=L&pubNum=1000546&cite=42USCAS1395W-133&originationContext=ebook&RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a";
-        Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
-        String linkParameter = urlValues.get("reference");
-        String normalizedCite = urlValues.get("cite");
-        String expectedNormalizedCite = "42USCAS1395W-133";
+        final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
+        final String linkParameter = urlValues.get("reference");
+        final String normalizedCite = urlValues.get("cite");
+        final String expectedNormalizedCite = "42USCAS1395W-133";
         Assert.assertEquals(expectedNormalizedCite, normalizedCite);
 
-        String expectedLinkParameter = "co_pp_8b3b0000958a";
+        final String expectedLinkParameter = "co_pp_8b3b0000958a";
         Assert.assertEquals(expectedLinkParameter, linkParameter);
 
-        DocMetadata dm = new DocMetadata();
+        final DocMetadata dm = new DocMetadata();
         dm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
         dm.setDocUuid("NF8C65500AFF711D8803AE0632FEDDFBF");
 
-        Map<String, DocMetadata> mp = new HashMap<String, DocMetadata>();
+        final Map<String, DocMetadata> mp = new HashMap<>();
         mp.put(normalizedCite, dm);
         EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByCite()).andReturn(mp);
-        Map<String, DocMetadata> splitMp = new HashMap<String, DocMetadata>();
-        DocMetadata splitDm = new DocMetadata();
+        final Map<String, DocMetadata> splitMp = new HashMap<>();
+        final DocMetadata splitDm = new DocMetadata();
         splitDm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
         splitDm.setDocUuid(docGuid);
         splitMp.put(docGuid, splitDm);
-        
+
         EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByDocumentUuid()).andReturn(splitMp);
         EasyMock.replay(mockDocumentMetadataAuthority);
 
-        String inputXML =
+        final String inputXML =
             "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546&amp;cite=42USCAS1395W-133&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0\">section 1395w-133(a)</a>";
-        String expectedResult =
+        final String expectedResult =
             "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"er:#IC6A94E80FF6011DC95B0EEFA5102EA59/N129FCFD29AA24CD5ABBAA83B0A8A2D7B275\">section 1395w-133(a)</a>";
 
         testHelper(inputXML, expectedResult);
@@ -450,8 +448,7 @@ public class InternalLinkResolverFilterTest
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(String inputXML, String expectedResult)
-        throws SAXException
+    public void testHelper(final String inputXML, final String expectedResult) throws SAXException
     {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
@@ -466,15 +463,15 @@ public class InternalLinkResolverFilterTest
             internalLinksFilter.setContentHandler(serializer.asContentHandler());
             internalLinksFilter.parse(new InputSource(input));
 
-            String result = output.toString();
+            final String result = output.toString();
 
             assertEquals(expectedResult, result);
         }
-        catch (SAXException e)
+        catch (final SAXException e)
         {
             throw e;
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             fail("Encountered exception during test: " + e.getMessage());
         }
@@ -492,14 +489,14 @@ public class InternalLinkResolverFilterTest
                     output.close();
                 }
             }
-            catch (Exception e)
+            catch (final Exception e)
             {
                 fail("Could clean up resources: " + e.getMessage());
             }
         }
     }
 
-    protected void writeDocumentLinkFile(File internalLinkResolverTestFile)
+    protected void writeDocumentLinkFile(final File internalLinkResolverTestFile)
     {
         BufferedWriter writer = null;
 
@@ -515,12 +512,11 @@ public class InternalLinkResolverFilterTest
 
             writer.flush();
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
-            String errMessage =
-                "Encountered an IO Exception while processing: "
-                + internalLinkResolverTestFile.getAbsolutePath();
-            LOG.error(errMessage);
+            final String errMessage =
+                "Encountered an IO Exception while processing: " + internalLinkResolverTestFile.getAbsolutePath();
+            LOG.error(errMessage, e);
         }
         finally
         {
@@ -531,7 +527,7 @@ public class InternalLinkResolverFilterTest
                     writer.close();
                 }
             }
-            catch (IOException e)
+            catch (final IOException e)
             {
                 LOG.error("Unable to close anchor target list file.", e);
             }

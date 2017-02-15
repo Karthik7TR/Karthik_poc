@@ -1,13 +1,3 @@
-/*
- * EntityEncodedInputStream.java
- *
- * Created on: Oct 30, 2010 by: davicar
- *
- * Copyright 2010 Thomson Reuters Global Resources.  All Rights Reserved.
- * 
- * Proprietary and Confidential information of TRGR.
- * Disclosure, Use or Reproduction without the written authorization of TRGR is prohibited.
- */
 package com.thomsonreuters.uscl.ereader.ioutil;
 
 import java.io.IOException;
@@ -30,10 +20,10 @@ import java.io.InputStream;
  */
 public class EntityEncodedInputStream extends BaseInputStream
 {
-    private boolean hasOverflow = false;
+    private boolean hasOverflow;
     private char overflowChar;
-    private boolean inProcessingInstruction = false;
-    private char previousCharacter = '.';   //initialize to anything but '<' or '?'
+    private boolean inProcessingInstruction;
+    private char previousCharacter = '.'; //initialize to anything but '<' or '?'
 
     /**
      * Creates an EntityEncodedInputStream.
@@ -56,8 +46,8 @@ public class EntityEncodedInputStream extends BaseInputStream
      *
      * @throws java.io.IOException on failure.
      */
-    public int read(byte[] buffer, int offset, int length)
-        throws IOException
+    @Override
+    public int read(final byte[] buffer, final int offset, final int length) throws IOException
     {
         int bytesRead = 0;
         boolean endOfStream = false;
@@ -76,111 +66,109 @@ public class EntityEncodedInputStream extends BaseInputStream
                 }
             }
 
-            byte character = (byte) in.read();
+            final byte character = (byte) in.read();
 
             switch (character)
             {
+            case '&':
+                if (inProcessingInstruction)
+                {
+                    //no encoding in processing instructions
+                    buffer[offset + bytesRead] = (byte) '&';
+                    bytesRead++;
+                }
+                else
+                {
+                    buffer[offset + bytesRead] = (byte) '$';
+                    bytesRead++;
 
-                case '&':
-                    if (inProcessingInstruction)
+                    //NOTE: potential snag in that 'previousCharacter' will register '&' instead of '$' -- but neither is important at this time
+
+                    if (!(bytesRead < length))
                     {
-                        //no encoding in processing instructions
-                        buffer[offset + bytesRead] = (byte) '&';
+                        hasOverflow = true;
+                        overflowChar = '#';
+                    }
+                    else
+                    {
+                        buffer[offset + bytesRead] = (byte) '#';
                         bytesRead++;
+                    }
+                }
+
+                break;
+
+            case '$':
+                if (inProcessingInstruction)
+                {
+                    //no encoding in processing instructions
+                    buffer[offset + bytesRead] = (byte) '$';
+                    bytesRead++;
+                }
+                else
+                {
+                    buffer[offset + bytesRead] = (byte) '$';
+                    bytesRead++;
+
+                    if (!(bytesRead < length))
+                    {
+                        hasOverflow = true;
+                        overflowChar = '$';
                     }
                     else
                     {
                         buffer[offset + bytesRead] = (byte) '$';
                         bytesRead++;
-
-                        //NOTE: potential snag in that 'previousCharacter' will register '&' instead of '$' -- but neither is important at this time
-
-                        if (!(bytesRead < length))
-                        {
-                            hasOverflow = true;
-                            overflowChar = '#';
-                        }
-                        else
-                        {
-                            buffer[offset + bytesRead] = (byte) '#';
-                            bytesRead++;
-                        }
                     }
+                }
 
-                    break;
+                break;
 
-                case '$':
-                    if (inProcessingInstruction)
-                    {
-                        //no encoding in processing instructions
-                        buffer[offset + bytesRead] = (byte) '$';
-                        bytesRead++;
-                    }
-                    else
-                    {
-                        buffer[offset + bytesRead] = (byte) '$';
-                        bytesRead++;
+            case '?':
+                if (!inProcessingInstruction && previousCharacter == '<')
+                {
+                    inProcessingInstruction = true; //hit the sequence "<?"
+                }
 
-                        if (!(bytesRead < length))
-                        {
-                            hasOverflow = true;
-                            overflowChar = '$';
-                        }
-                        else
-                        {
-                            buffer[offset + bytesRead] = (byte) '$';
-                            bytesRead++;
-                        }
-                    }
+                buffer[offset + bytesRead] = (byte) '?';
 
-                    break;
+                bytesRead++;
 
-                case '?':
-                    if (!inProcessingInstruction && this.previousCharacter == '<')
-                    {
-                        this.inProcessingInstruction = true;  //hit the sequence "<?"
-                    }
+                break;
 
-                    buffer[offset + bytesRead] = (byte) '?';
+            case '>':
 
-                    bytesRead++;
+                if (inProcessingInstruction && previousCharacter == '?')
+                {
+                    inProcessingInstruction = false; //hit the sequence "?>"
+                }
 
-                    break;
+                buffer[offset + bytesRead] = (byte) '>';
 
-                case '>':
+                bytesRead++;
 
-                    if (inProcessingInstruction && this.previousCharacter == '?')
-                    {
-                        this.inProcessingInstruction = false; //hit the sequence "?>"
-                    }
+                break;
 
-                    buffer[offset + bytesRead] = (byte) '>';
+            case -1:
+                endOfStream = true;
 
-                    bytesRead++;
+                break;
 
-                    break;
+            default:
 
-                case -1:
-                    endOfStream = true;
+                try
+                {
+                    buffer[offset + bytesRead] = character;
+                }
+                catch (final Exception t)
+                {
+                    throw new StreamException(t);
+                }
 
-                    break;
-
-                default:
-
-                    try
-                    {
-                        buffer[offset + bytesRead] = character;
-                    }
-                    catch (Exception t)
-                    {
-                        throw new StreamException(t);
-                    }
-
-                    bytesRead++;
+                bytesRead++;
             }
 
-            this.previousCharacter = (char) character;  //needed to detect processing instruction start/end tags
-
+            previousCharacter = (char) character; //needed to detect processing instruction start/end tags
         }
 
         if (endOfStream && (0 == bytesRead))

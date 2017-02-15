@@ -1,44 +1,43 @@
-/*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
-
 package com.thomsonreuters.uscl.ereader.smoketest.domain;
 
-public class SmokeTest {
-	
-	public String name;
-	public String address;
-	public boolean isRunning;
+public final class SmokeTest
+{
+    private String name;
+    private String address;
+    private boolean isRunning;
 
-	public SmokeTest() {
-		super();
-	}
+    public SmokeTest()
+    {
+        super();
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName()
+    {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name; 
-	}
+    public void setName(final String name)
+    {
+        this.name = name;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public String getAddress()
+    {
+        return address;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public void setAddress(final String address)
+    {
+        this.address = address;
+    }
 
-	public boolean isRunning() {
-		return isRunning;
-	}
+    public boolean isRunning()
+    {
+        return isRunning;
+    }
 
-	public void setIsRunning(boolean isRunning) {
-		this.isRunning = isRunning;
-	}
-
+    public void setIsRunning(final boolean isRunning)
+    {
+        this.isRunning = isRunning;
+    }
 }

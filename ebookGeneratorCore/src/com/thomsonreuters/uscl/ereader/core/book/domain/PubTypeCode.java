@@ -1,9 +1,3 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
@@ -21,102 +15,119 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * A Pub Type Code database table entity.
  * Represents all the Pub Type Code id and names used for Book Definition
  */
 @Entity
-@Table(name="PUB_TYPE_CODES")
+@Table(name = "PUB_TYPE_CODES")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "PubTypeCode")
-public class PubTypeCode implements Serializable {
-	//private static final Logger log = LogManager.getLogger(PubTypeCode.class);
-	private static final long serialVersionUID = -4932734236359244870L;
+public class PubTypeCode implements Serializable
+{
+    //private static final Logger log = LogManager.getLogger(PubTypeCode.class);
+    private static final long serialVersionUID = -4932734236359244870L;
 
-	@Id
-	@Column(name="PUB_TYPE_CODES_ID")
-	@SequenceGenerator(name="pubTypeCodesIdSequence", sequenceName="PUB_TYPE_CODES_ID_SEQ")
-	@GeneratedValue(generator="pubTypeCodesIdSequence")
-	private Long id;
-	
-	@Column(name="PUB_TYPE_CODES_NAME", nullable = false, length = 1024)
-	private String name;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="LAST_UPDATED", nullable = false)
-	private Date lastUpdatedTimeStampForPubTypeCode;
-	
-	public PubTypeCode() {
-		super();
-	}
-	
-	public Long getId() {
-		return id;
-	}
+    @Id
+    @Column(name = "PUB_TYPE_CODES_ID")
+    @SequenceGenerator(name = "pubTypeCodesIdSequence", sequenceName = "PUB_TYPE_CODES_ID_SEQ")
+    @GeneratedValue(generator = "pubTypeCodesIdSequence")
+    private Long id;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Column(name = "PUB_TYPE_CODES_NAME", nullable = false, length = 1024)
+    private String name;
 
-	public String getName() {
-		return name;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "LAST_UPDATED", nullable = false)
+    private Date lastUpdatedTimeStampForPubTypeCode;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public PubTypeCode()
+    {
+        super();
+    }
 
-	public Date getLastUpdated() {
-		return lastUpdatedTimeStampForPubTypeCode;
-	}
+    public Long getId()
+    {
+        return id;
+    }
 
-	public void setLastUpdated(Date lastUpdated) {
-		this.lastUpdatedTimeStampForPubTypeCode = lastUpdated;
-	}
+    public void setId(final Long id)
+    {
+        this.id = id;
+    }
 
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+    public String getName()
+    {
+        return name;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result
-				+ ((lastUpdatedTimeStampForPubTypeCode == null) ? 0 : lastUpdatedTimeStampForPubTypeCode.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
-	}
+    public void setName(final String name)
+    {
+        this.name = name;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		PubTypeCode other = (PubTypeCode) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (lastUpdatedTimeStampForPubTypeCode == null) {
-			if (other.lastUpdatedTimeStampForPubTypeCode != null)
-				return false;
-		} else if (!lastUpdatedTimeStampForPubTypeCode.equals(other.lastUpdatedTimeStampForPubTypeCode))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		return true;
-	}
+    public Date getLastUpdated()
+    {
+        return lastUpdatedTimeStampForPubTypeCode;
+    }
+
+    public void setLastUpdated(final Date lastUpdated)
+    {
+        lastUpdatedTimeStampForPubTypeCode = lastUpdated;
+    }
+
+    @Override
+    public String toString()
+    {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result
+            + ((lastUpdatedTimeStampForPubTypeCode == null) ? 0 : lastUpdatedTimeStampForPubTypeCode.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(final Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final PubTypeCode other = (PubTypeCode) obj;
+        if (id == null)
+        {
+            if (other.id != null)
+                return false;
+        }
+        else if (!id.equals(other.id))
+            return false;
+        if (lastUpdatedTimeStampForPubTypeCode == null)
+        {
+            if (other.lastUpdatedTimeStampForPubTypeCode != null)
+                return false;
+        }
+        else if (!lastUpdatedTimeStampForPubTypeCode.equals(other.lastUpdatedTimeStampForPubTypeCode))
+            return false;
+        if (name == null)
+        {
+            if (other.name != null)
+                return false;
+        }
+        else if (!name.equals(other.name))
+            return false;
+        return true;
+    }
 }

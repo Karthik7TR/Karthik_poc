@@ -2,12 +2,10 @@ package com.thomsonreuters.uscl.ereader.gather.metadata.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.thomsonreuters.uscl.ereader.gather.metadata.dao.PaceMetadataDao;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.PaceMetadata;
-
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Spring service that handles CRUD requests for DocMetadata entities
@@ -21,23 +19,26 @@ public class PaceMetadataServiceImpl implements PaceMetadataService
     /**
      * Delete an existing DocMetadata entity
      */
+    @Override
     @Transactional
-    public void deletePaceMetadata(PaceMetadata paceMetadata)
+    public void deletePaceMetadata(final PaceMetadata paceMetadata)
     {
         paceMetadataDao.remove(paceMetadata);
     }
 
+    @Override
     @Transactional(readOnly = true)
-    public List<PaceMetadata> findAllPaceMetadataForPubCode(Long pubCode)
+    public List<PaceMetadata> findAllPaceMetadataForPubCode(final Long pubCode)
     {
         return paceMetadataDao.findPaceMetadataByPubCode(pubCode);
     }
 
     /**
-     * 
+     *
      */
+    @Override
     @Transactional(readOnly = true)
-    public PaceMetadata findPaceMetadataByPrimaryKey(Long pubId)
+    public PaceMetadata findPaceMetadataByPrimaryKey(final Long pubId)
     {
         return paceMetadataDao.findPaceMetadataByPrimaryKey(pubId);
     }
@@ -45,25 +46,26 @@ public class PaceMetadataServiceImpl implements PaceMetadataService
     /**
      * Save an existing PaceMetadata entity
      */
+    @Override
     @Transactional
-    public void savePaceMetadata(PaceMetadata paceMetadata)
+    public void savePaceMetadata(final PaceMetadata paceMetadata)
     {
         //TODO: Add full set of character encodings here.
         paceMetadataDao.saveMetadata(paceMetadata);
     }
 
     @Required
-    public void setpaceMetadataDAO(PaceMetadataDao dao)
+    public void setpaceMetadataDAO(final PaceMetadataDao dao)
     {
-        this.paceMetadataDao = dao;
+        paceMetadataDao = dao;
     }
 
     /**
      * Update an existing PaceMetadata entity
      */
-    public void updatePaceMetadata(PaceMetadata paceMetadata)
+    @Override
+    public void updatePaceMetadata(final PaceMetadata paceMetadata)
     {
         paceMetadataDao.updateMetadata(paceMetadata);
     }
-	
 }

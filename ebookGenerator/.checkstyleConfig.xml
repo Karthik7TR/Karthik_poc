@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE module PUBLIC
+  "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
+  "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+	<property name="severity" value="warning" />
+
+	<!-- Blank line checks -->
+	<module name="RegexpMultiline">
+		<property name="message"
+			value="Package declaration should be followed by a blank line" />
+		<property name="format" value="package\s+[\w\.]+\s*;\r\nimport\b" />
+		<property name="fileExtensions" value="java" />
+		<property name="severity" value="info" />
+	</module>
+	<module name="RegexpMultiline">
+		<property name="message"
+			value="Last import statement should be followed by a blank line" />
+		<property name="format"
+			value="import\s+(?:static\s+)?[\w\.]+\s*;\r\n(?!(\r\n)*import)[^\r\n]" />
+		<property name="fileExtensions" value="java" />
+		<property name="severity" value="info" />
+	</module>
+	<module name="RegexpMultiline">
+		<property name="message"
+			value="Blank line at start of block should be removed" />
+		<property name="format" value="(?&lt;=\{\s{0,99}$)^$" />
+		<property name="fileExtensions" value="java" />
+		<property name="severity" value="info" />
+	</module>
+	<module name="RegexpMultiline">
+		<property name="message" value="Blank line at end of block should be removed" />
+		<property name="format" value="(?&lt;!\{\s{0,99}$)^$(?=^\s{0,99}\})" />
+		<property name="fileExtensions" value="java" />
+		<property name="severity" value="info" />
+	</module>
+	<module name="RegexpMultiline">
+		<property name="message" value="Extra blank line(s) should be removed" />
+		<property name="format" value="^((\r\n){2,}|\r\n$)" />
+		<property name="fileExtensions" value="java" />
+		<property name="severity" value="info" />
+	</module>
+	<module name="NewlineAtEndOfFile">
+		<message key="noNewlineAtEOF" value="File should end with a blank line" />
+		<property name="fileExtensions" value="java" />
+		<property name="lineSeparator" value="crlf" />
+		<property name="severity" value="info" />
+	</module>
+
+	<!-- Leading and trailing whitespace checks -->
+	<module name="RegexpSingleline">
+		<property name="message"
+			value="Line should not contain any leading whitespace" />
+		<property name="format" value="^\t+(package|import)" />
+		<property name="fileExtensions" value="java" />
+		<property name="severity" value="info" />
+	</module>
+	<module name="RegexpSingleline">
+		<property name="message"
+			value="Line should not contain any trailing whitespace" />
+		<property name="format" value="\s+$" />
+		<property name="fileExtensions" value="java" />
+		<property name="severity" value="info" />
+	</module>
+
+	<!-- <module name="RegexpMultiline"> <property name="message" value="ArrayUtils.EMPTY_X_ARRAY 
+		should be used instead of an empty array initializer" /> <property name="format" 
+		value="new\s+(Object|String|Character|char|Integer|int|[Bb]oolean|[Bb]yte|[LL]ong|[Sh]hort|[Ff]loat|[Dd]ouble)\s*\[\s*(?:0\s*\]|\]\s*\{\s*\})" 
+		/> <property name="fileExtensions" value="java" /> </module> -->
+
+	<module name="SuppressionCommentFilter">
+		<property name="offCommentFormat" value="\@formatter\:off" />
+		<property name="onCommentFormat" value="\@formatter\:on" />
+		<property name="checkCPP" value="true" />
+		<property name="checkC" value="false" />
+	</module>
+
+	<module name="TreeWalker">
+		<module name="FileContentsHolder" />
+		<property name="tabWidth" value="4" />
+
+		<!-- Annotation checks ~ http://checkstyle.sourceforge.net/config_annotation.html -->
+		<module name="AnnotationUseStyle">
+			<message key="annotation.parens.present"
+				value="Annotation should not contain empty parenthesis" />
+			<message key="annotation.trailing.comma.present"
+				value="Annotation array value should not contain trailing comma" />
+			<message key="annotation.incorrect.style"
+				value="Annotation should not contain unnecessary curly braces or value parameter" />
+		</module>
+		<module name="SuppressWarnings">
+			<message key="suppressed.warning.not.allowed"
+				value="@SuppressWarnings annotation should not be used" />
+			<property name="format" value=".*" />
+		</module>
+
+		<!-- Block checks ~ http://checkstyle.sourceforge.net/config_blocks.html -->
+		<module name="AvoidNestedBlocks">
+			<message key="block.nested" value="Nested blocks should not be used" />
+			<property name="allowInSwitchCase" value="true" />
+		</module>
+		<module name="EmptyBlock">
+			<message key="block.empty"
+				value="Empty ''{0}'' block should be documented or removed" />
+			<property name="option" value="text" />
+		</module>
+		<module name="NeedBraces">
+			<message key="needBraces"
+				value="Block should be used for body of ''{0}'' statement" />
+			<property name="tokens"
+				value="LITERAL_ELSE,LITERAL_FOR,LITERAL_DO,LITERAL_WHILE" />
+		</module>
+		<module name="LeftCurly">
+			<message key="line.new" value="Opening ''{0}'' should be alone on a line" />
+			<property name="option" value="nl" />
+			<property name="severity" value="info" />
+			<property name="tokens"
+				value="INTERFACE_DEF, CLASS_DEF, ANNOTATION_DEF, ENUM_DEF, CTOR_DEF, METHOD_DEF, ENUM_CONSTANT_DEF, LITERAL_WHILE, LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_SYNCHRONIZED, LITERAL_SWITCH, LITERAL_DO, LITERAL_IF, LITERAL_ELSE, LITERAL_FOR, STATIC_INIT" />
+		</module>
+		<module name="RightCurly">
+			<message key="line.alone" value="Closing ''{0}'' should be alone on a line" />
+			<property name="option" value="alone" />
+			<property name="severity" value="info" />
+		</module>
+
+		<!-- Class checks ~ http://checkstyle.sourceforge.net/config_design.html -->
+		<module name="FinalClass">
+			<message key="final.class"
+				value="A class with only private constructors should be declared final" />
+		</module>
+		<module name="HideUtilityClassConstructor">
+			<message key="hide.utility.class"
+				value="A utility class should not have a public or default constructor" />
+		</module>
+		<module name="InnerTypeLast">
+			<message key="arrangement.members.before.inner"
+				value="The field or method should be declared before inner classes" />
+		</module>
+		<module name="InterfaceIsType">
+			<message key="interface.type"
+				value="An interface should not be used to define only constants" />
+		</module>
+		<module name="MutableException">
+			<message key="mutable.exception"
+				value="The field ''{0}'' should be declared final; exceptions should be immutable" />
+		</module>
+		<module name="VisibilityModifier">
+			<message key="variable.notPrivate"
+				value="The field ''{0}'' should be private or protected; only static final fields should be made visible" />
+			<property name="protectedAllowed" value="true" />
+			<property name="packageAllowed" value="false" />
+		</module>
+
+		<!-- Coding checks ~ http://checkstyle.sourceforge.net/config_coding.html -->
+		<module name="CovariantEquals">
+			<message key="covariant.equals"
+				value="Class should override ''equals(Object)'' since it provides a covariant equals" />
+		</module>
+		<module name="DefaultComesLast">
+			<message key="default.comes.last"
+				value="Default should be the last label in the switch statement" />
+			<property name="severity" value="error" />
+		</module>
+		<module name="EmptyStatement">
+			<message key="empty.statement"
+				value="Superflous empty statement (semicolon) should be removed" />
+		</module>
+		<module name="EqualsHashCode">
+			<message key="equals.noHashCode"
+				value="Class should override ''hashCode()'' since it overrides equals" />
+		</module>
+		<module name="ExplicitInitialization">
+			<message key="explicit.init"
+				value="Variable ''{0}'' explicitly initialized to ''{1}'', which is the default value for its type" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="FallThrough">
+			<message key="fall.through"
+				value="Break statement (or ''falls through'' comment) is missing from previous branch of switch statement" />
+			<property name="checkLastCaseGroup" value="false" />
+		</module>
+		<module name="FinalLocalVariable">
+			<message key="final.variable"
+				value="Unmodified local variable ''{0}'' should be declared final" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="HiddenField">
+			<message key="hidden.field" value="The variable ''{0}'' is hiding a field" />
+			<property name="tokens" value="VARIABLE_DEF" />
+		</module>
+		<module name="IllegalInstantiation">
+			<message key="instantiation.avoid"
+				value="The type ''{0}'' should not be instantiated directly" />
+			<property name="classes"
+				value="java.lang.Boolean,java.lang.Byte,java.lang.Character,java.lang.Short,java.lang.Integer,java.lang.Long,java.lang.Float,java.lang.Double,com.trgr.cobalt.infrastructure.http.client.InfraHttpClientImpl" />
+		</module>
+		<module name="IllegalToken">
+			<message key="illegal.token" value="The keyword ''{0}'' should not be used" />
+			<property name="tokens" value="LITERAL_ASSERT" />
+		</module>
+		<module name="IllegalToken">
+			<message key="illegal.token" value="The operator ''{0}'' should not be used" />
+			<property name="tokens"
+				value="BAND_ASSIGN,BNOT,BOR_ASSIGN,BSR_ASSIGN,BXOR_ASSIGN,SL,SL_ASSIGN,SR_ASSIGN" /><!-- 
+				TODO: Include BAND,BOR,BXOR,BSR,POST_DEC,POST_INC? -->
+		</module>
+		<!-- <module name="IllegalTokenText"> <message key="illegal.token.text" 
+			value="StringUtils.EMPTY should be used instead of an empty string literal" 
+			/> <property name="format" value="^&quot;&quot;$" /> <property name="tokens" 
+			value="STRING_LITERAL" /> </module> -->
+		<module name="IllegalType">
+			<message key="illegal.type"
+				value="The concrete type ''{0}'' should not be used in variable, parameter or return value declarations" />
+			<property name="format" value="^$" /><!-- disable the abstract 
+				class check -->
+			<property name="ignoredMethodNames" value="" /><!-- disable the 
+				default ignores -->
+			<property name="illegalClassNames"
+				value="java.lang.Error,java.lang.ExceptionX,java.lang.ThrowableX,
+              java.util.ArrayList,java.util.Stack,java.util.HashSet,java.util.LinkedHashSet,java.util.TreeSet,
+              java.util.HashMap,java.util.LinkedHashMap,java.util.TreeMap,java.util.WeakHashMap,java.util.concurrent.ConcurrentHashMap,
+              java.lang.StringBuffer,java.util.Hashtable,java.util.Vector,java.util.GregorianCalendar,java.util.JapaneseImperialCalendar" />
+		</module>
+		<module name="InnerAssignment">
+			<message key="assignment.inner.avoid"
+				value="Assignments should not be nested within expressions or statements" />
+			<property name="severity" value="error" />
+		</module>
+		<module name="OneStatementPerLine">
+			<message key="multiple.statements.line" value="Each statement should be on a separate line" />
+		</module>
+		<module name="SimplifyBooleanExpression">
+			<message key="simplify.expression" value="Boolean expression should be simplified" />
+		</module>
+		<module name="SimplifyBooleanReturn">
+			<message key="simplify.boolreturn" value="Boolean return could be simplified" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="StringLiteralEquality">
+			<message key="string.literal.equality"
+				value="Literal strings should be compared using ''equals()''" />
+			<property name="severity" value="error" />
+		</module>
+		<module name="SuperClone">
+			<message key="missing.super.call"
+				value="Method ''{0}()'' is missing call to ''super.{0}()''" />
+			<property name="severity" value="error" />
+		</module>
+		<module name="SuperFinalize">
+			<message key="missing.super.call"
+				value="Method ''{0}()'' is missing call to ''super.{0}()''" />
+			<property name="severity" value="error" />
+		</module>
+
+		<!-- Import checks ~ http://checkstyle.sourceforge.net/config_duplicates.html -->
+		<module name="AvoidStarImport">
+			<message key="import.avoidStar"
+				value="Wildcard import ''{0}'' should be replaced by precise import statement(s)" />
+		</module>
+		<module name="ImportControl">
+			<message key="import.control.disallowed" value="Import ''{0}'' is prohibited" />
+			<property name="file" value="${config_loc}/.checkstyleImports.xml" />
+			<property name="severity" value="error" />
+		</module>
+		<module name="RedundantImport">
+			<message key="import.duplicate" value="Duplicate import ''{1}'' should be removed" />
+			<message key="import.lang" value="Superflous import ''{0}'' should be removed" />
+			<message key="import.same" value="Superflous import ''{0}'' should be removed" />
+		</module>
+		<module name="UnusedImports">
+			<message key="import.unused" value="Unused import ''{0}'' should be removed" />
+		</module>
+		<module name="ImportOrder">
+			<message key="import.ordering" value="Import ''{0}'' is out of order" />
+			<message key="import.separation"
+				value="Import ''{0}'' should be separated from previous import group by a blank line" />
+            <property name="groups" value="java,javax,groovy,groovyx,
+            /^(?!com\.(westgroup|tlrg?|tr(gr)?))\w+/,
+            /^com\.(westgroup|tlrg?|tr(gr(?!\.cobalt\.(\w+\.)?com.thomsonreuters))?)\./,
+            /^com\.trgr\.cobalt\.(\w+\.)?com.thomsonreuters/"/>  
+			<property name="option" value="top" /><!-- Place static imports 
+				above regular imports. -->
+			<property name="ordered" value="true" />
+			<property name="separated" value="true" />
+			<property name="severity" value="info" />
+		</module>
+
+		<!-- Miscellaneous checks ~ http://checkstyle.sourceforge.net/config_misc.html -->
+		<module name="ArrayTypeStyle">
+			<message key="array.type.style"
+				value="Array declaration should use Java style (square brackets with the type)" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="DescendantToken">
+			<property name="tokens" value="INTERFACE_DEF" />
+			<property name="limitedTokens" value="FINAL" />
+			<property name="maximumDepth" value="9" />
+			<property name="maximumNumber" value="0" />
+			<property name="maximumMessage"
+				value="Superflous modifier ''final'' should be removed from method parameter" />
+		</module>
+		<module name="FinalParameters">
+			<message key="final.parameter" value="Parameter ''{0}'' should be declared final" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="UpperEll">
+			<message key="upperEll"
+				value="Long integer literal should not end with lowercase ''L'', which is easily confused with the digit ''1''" />
+		</module>
+
+		<!-- Modifier checks ~ http://checkstyle.sourceforge.net/config_modifier.html -->
+		<module name="ModifierOrder">
+			<message key="annotation.order"
+				value="Annotation modifier ''{0}'' should preceed non-annotation modifiers" />
+			<message key="mod.order"
+				value="Modifier order should be corrected -- the preferred order is: access, abstract, static, final, transient, volatile, synchronized, native, strictfp" />
+		</module>
+		<module name="RedundantModifier">
+			<message key="redundantModifier" value="Superflous modifier ''{0}'' should be removed" />
+		</module>
+
+		<!-- Whitespace checks ~ http://checkstyle.sf.net/config_whitespace.html -->
+		<module name="NoWhitespaceBefore">
+			<message key="ws.preceded" value="Whitespace before ''{0}'' should be removed" />
+			<property name="tokens" value="SEMI,POST_INC,POST_DEC" />
+			<property name="allowLineBreaks" value="false" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="NoWhitespaceBefore">
+			<message key="ws.preceded" value="Whitespace before ''{0}'' should be removed" />
+			<property name="tokens" value="DOT" />
+			<property name="allowLineBreaks" value="true" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="NoWhitespaceAfter">
+			<message key="ws.followed" value="Whitespace after ''{0}'' should be removed" />
+			<property name="tokens" value="INC,DEC,UNARY_MINUS,UNARY_PLUS,BNOT,LNOT" />
+			<property name="allowLineBreaks" value="false" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="NoWhitespaceAfter">
+			<message key="ws.followed" value="Whitespace after ''{0}'' should be removed" />
+			<property name="tokens" value="DOT" />
+			<property name="allowLineBreaks" value="true" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="WhitespaceAfter">
+			<message key="ws.notFollowed" value="Comma should be followed by a space" />
+			<property name="tokens" value="COMMA" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="WhitespaceAfter">
+			<message key="ws.notFollowed" value="Semicolon should be followed by a space" />
+			<property name="tokens" value="SEMI" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="WhitespaceAfter">
+			<message key="ws.notFollowed" value="Typecast should be followed by a space" />
+			<property name="tokens" value="TYPECAST" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="WhitespaceAround">
+			<message key="ws.notPreceded" value="Keyword ''{0}'' should be preceded by a space" />
+			<message key="ws.notFollowed" value="Keyword ''{0}'' should be followed by a space" />
+			<property name="tokens"
+				value="LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_RETURN,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="WhitespaceAround">
+			<message key="ws.notPreceded" value="Operator ''{0}'' should be preceded by a space" />
+			<message key="ws.notFollowed" value="Operator ''{0}'' should be followed by a space" />
+			<property name="tokens"
+				value="ASSIGN,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,COLON,DIV,DIV_ASSIGN,EQUAL,GE,GT,LAND,LE,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,QUESTION,SL,SLIST,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN,TYPE_EXTENSION_AND" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="EmptyForInitializerPad">
+			<message key="ws.preceded" value="Whitespace before ''{0}'' should be removed" />
+			<property name="option" value="nospace" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="EmptyForIteratorPad">
+			<message key="ws.followed" value="Whitespace after ''{0}'' should be removed" />
+			<property name="option" value="nospace" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="GenericWhitespace">
+			<message key="ws.illegalFollow" value="Closing ''{0}'' should be followed by a space" />
+			<message key="ws.followed" value="Whitespace after ''{0}'' should be removed" />
+			<message key="ws.preceded" value="Whitespace before ''{0}'' should be removed" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="MethodParamPad">
+			<message key="line.previous"
+				value="Method name and opening ''{0}'' should be on same line" />
+			<message key="ws.preceded" value="Whitespace before ''{0}'' should be removed" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="OperatorWrap">
+			<message key="line.previous"
+				value="Assignment operator ''{0}'' should be at end of previous line" />
+			<property name="tokens"
+				value="ASSIGN,BAND_ASSIGN,BOR_ASSIGN,BSR_ASSIGN,BXOR_ASSIGN,DIV_ASSIGN,MINUS_ASSIGN,MOD_ASSIGN,PLUS_ASSIGN,SL_ASSIGN,SR_ASSIGN,STAR_ASSIGN" />
+			<property name="option" value="eol" />
+			<property name="severity" value="error" />
+		</module>
+		<module name="OperatorWrap">
+			<message key="line.new"
+				value="Operator ''{0}'' should be at start of next line" />
+			<property name="tokens"
+				value="BAND,BOR,BSR,BXOR,COLON,DIV,EQUAL,GE,GT,LAND,LE,LITERAL_INSTANCEOF,LOR,LT,MINUS,MOD,NOT_EQUAL,PLUS,QUESTION,SL,SR,STAR" />
+			<property name="option" value="nl" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="ParenPad">
+			<message key="ws.followed"
+				value="Whitespace after opening ''{0}'' should be removed" />
+			<message key="ws.preceded"
+				value="Whitespace before closing ''{0}'' should be removed" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="TypecastParenPad">
+			<message key="ws.followed"
+				value="Whitespace after opening ''{0}'' should be removed" />
+			<message key="ws.preceded"
+				value="Whitespace before closing ''{0}'' should be removed" />
+			<property name="severity" value="info" />
+		</module>
+
+		<module name="RegexpSinglelineJava">
+			<property name="message" value="Test class should be declared final" />
+			<property name="format" value="public\s+(abstract\s+)?class\s+\w+Tests?\b" />
+			<property name="ignoreComments" value="true" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="RegexpSinglelineJava">
+			<property name="message" value="Superflous times(1) should be removed" />
+			<property name="format" value="\btimes\(\s*1\s*\)" />
+			<property name="ignoreComments" value="true" />
+			<property name="severity" value="info" />
+		</module>
+		<module name="RegexpSinglelineJava">
+			<property name="message" value="Replace times(0) with never()" />
+			<property name="format" value="\btimes\(\s*0\s*\)" />
+			<property name="ignoreComments" value="true" />
+			<property name="severity" value="info" />
+		</module>
+	</module><!-- TreeWalker -->
+
+</module><!-- Checker -->

@@ -241,7 +241,10 @@
         <module name="ImportOrder">
             <message key="import.ordering" value="Import ''{0}'' is out of order" />
             <message key="import.separation" value="Import ''{0}'' should be separated from previous import group by a blank line" />
-            <property name="groups" value="java,javax,/^(?!com\.(trgr|westgroup)\.)\w+/,com.westgroup,/^com\.trgr\.(?!legal\.hive)/,com.thomsonreuters" />
+            <property name="groups" value="java,javax,groovy,groovyx,
+            /^(?!com\.(westgroup|tlrg?|tr(gr)?))\w+/,
+            /^com\.(westgroup|tlrg?|tr(gr(?!\.cobalt\.(\w+\.)?com.thomsonreuters))?)\./,
+            /^com\.trgr\.cobalt\.(\w+\.)?com.thomsonreuters/"/>       
             <property name="option" value="top" /><!-- Place static imports above regular imports. -->
             <property name="ordered" value="true" />
             <property name="separated" value="true" />

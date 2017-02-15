@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  */
@@ -29,168 +29,194 @@ import org.apache.commons.lang.StringUtils;
 @IdClass(TableViewer.TableViewerPk.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "TableViewer")
-public class TableViewer implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class TableViewer implements Serializable
+{
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	BookDefinition ebookDefinition;
+    @Id
+    private BookDefinition ebookDefinition;
 
-	@Id
-	String documentGuid;
-	
-	@Column(name = "NOTE", length = 512, nullable=false)
-	String note;
+    @Id
+    private String documentGuid;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_UPDATED", nullable=false)
-	Date lastUpdated;
-	
-	public BookDefinition getBookDefinition() {
-		return ebookDefinition;
-	}
+    @Column(name = "NOTE", length = 512, nullable = false)
+    private String note;
 
-	public void setBookDefinition(BookDefinition bookDefinition) {
-		this.ebookDefinition = bookDefinition;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "LAST_UPDATED", nullable = false)
+    private Date lastUpdated;
 
-	public String getDocumentGuid() {
-		return documentGuid;
-	}
+    public BookDefinition getBookDefinition()
+    {
+        return ebookDefinition;
+    }
 
-	public void setDocumentGuid(String documentGuid) {
-		this.documentGuid = documentGuid;
-	}
+    public void setBookDefinition(final BookDefinition bookDefinition)
+    {
+        ebookDefinition = bookDefinition;
+    }
 
-	public String getNote() {
-		return note;
-	}
+    public String getDocumentGuid()
+    {
+        return documentGuid;
+    }
 
-	public void setNote(String note) {
-		this.note = note;
-	}
+    public void setDocumentGuid(final String documentGuid)
+    {
+        this.documentGuid = documentGuid;
+    }
 
-	public Date getLastUpdated() {
-		return lastUpdated;
-	}
+    public String getNote()
+    {
+        return note;
+    }
 
-	public void setLastUpdated(Date lastUpdated) {
-		this.lastUpdated = lastUpdated;
-	}
+    public void setNote(final String note)
+    {
+        this.note = note;
+    }
 
-	@Transient
-	public boolean isEmpty() {
-		return StringUtils.isBlank(this.note) &&
-				StringUtils.isBlank(this.documentGuid);
-	}
-	
-	@Override
-	public String toString() {
-		StringBuilder buffer = new StringBuilder();
-		buffer.append("TableViewer [");
-		if(ebookDefinition != null) {
-			buffer.append("bookDefinitionId=").append(ebookDefinition.getEbookDefinitionId()).append(", ");
-		}
-		buffer.append("documentGuid=").append(documentGuid).append(", ");
-		buffer.append("note=").append(note).append(", ");
-		buffer.append("lastUpdated=").append(lastUpdated).append("]");
-		
-		return buffer.toString();
-	}
+    public Date getLastUpdated()
+    {
+        return lastUpdated;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((documentGuid == null) ? 0 : documentGuid.hashCode());
-		result = prime * result
-				+ ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
-		result = prime * result + ((note == null) ? 0 : note.hashCode());
-		return result;
-	}
+    public void setLastUpdated(final Date lastUpdated)
+    {
+        this.lastUpdated = lastUpdated;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TableViewer other = (TableViewer) obj;
-		if (documentGuid == null) {
-			if (other.documentGuid != null)
-				return false;
-		} else if (!documentGuid.equals(other.documentGuid))
-			return false;
-		if (lastUpdated == null) {
-			if (other.lastUpdated != null)
-				return false;
-		} else if (!lastUpdated.equals(other.lastUpdated))
-			return false;
-		if (note == null) {
-			if (other.note != null)
-				return false;
-		} else if (!note.equals(other.note))
-			return false;
-		return true;
-	}
+    @Transient
+    public boolean isEmpty()
+    {
+        return StringUtils.isBlank(note) && StringUtils.isBlank(documentGuid);
+    }
 
-	@Embeddable
-	public static class TableViewerPk implements Serializable{
-		private static final long serialVersionUID = 1L;
+    @Override
+    public String toString()
+    {
+        final StringBuilder buffer = new StringBuilder();
+        buffer.append("TableViewer [");
+        if (ebookDefinition != null)
+        {
+            buffer.append("bookDefinitionId=").append(ebookDefinition.getEbookDefinitionId()).append(", ");
+        }
+        buffer.append("documentGuid=").append(documentGuid).append(", ");
+        buffer.append("note=").append(note).append(", ");
+        buffer.append("lastUpdated=").append(lastUpdated).append("]");
 
-		@ManyToOne(fetch = FetchType.LAZY)
-		@JoinColumns({ @JoinColumn(name = "EBOOK_DEFINITION_ID", referencedColumnName = "EBOOK_DEFINITION_ID", nullable = false) })
-		BookDefinition ebookDefinition;
-		
-		@Column(name = "DOCUMENT_GUID", length = 33, nullable=false)
-		private String documentGuid;
+        return buffer.toString();
+    }
 
-		public TableViewerPk() {
-		}
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((documentGuid == null) ? 0 : documentGuid.hashCode());
+        result = prime * result + ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
+        result = prime * result + ((note == null) ? 0 : note.hashCode());
+        return result;
+    }
 
-		public BookDefinition getBookDefinition() {
-			return ebookDefinition;
-		}
+    @Override
+    public boolean equals(final Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final TableViewer other = (TableViewer) obj;
+        if (documentGuid == null)
+        {
+            if (other.documentGuid != null)
+                return false;
+        }
+        else if (!documentGuid.equals(other.documentGuid))
+            return false;
+        if (lastUpdated == null)
+        {
+            if (other.lastUpdated != null)
+                return false;
+        }
+        else if (!lastUpdated.equals(other.lastUpdated))
+            return false;
+        if (note == null)
+        {
+            if (other.note != null)
+                return false;
+        }
+        else if (!note.equals(other.note))
+            return false;
+        return true;
+    }
 
-		public void setBookDefinition(BookDefinition bookDefinition) {
-			this.ebookDefinition = bookDefinition;
-		}
+    @Embeddable
+    public static class TableViewerPk implements Serializable
+    {
+        private static final long serialVersionUID = 1L;
 
-		public String getDocumentGuid() {
-			return documentGuid;
-		}
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumns({
+            @JoinColumn(name = "EBOOK_DEFINITION_ID", referencedColumnName = "EBOOK_DEFINITION_ID", nullable = false)})
+        private BookDefinition ebookDefinition;
 
-		public void setDocumentGuid(String documentGuid) {
-			this.documentGuid = documentGuid;
-		}
+        @Column(name = "DOCUMENT_GUID", length = 33, nullable = false)
+        private String documentGuid;
 
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime
-					* result
-					+ ((documentGuid == null) ? 0 : documentGuid.hashCode());
-			return result;
-		}
+        public TableViewerPk()
+        {
+        }
 
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			TableViewerPk other = (TableViewerPk) obj;
-			if (documentGuid == null) {
-				if (other.documentGuid != null)
-					return false;
-			} else if (!documentGuid.equals(other.documentGuid))
-				return false;
-			return true;
-		}
-   }
+        public BookDefinition getBookDefinition()
+        {
+            return ebookDefinition;
+        }
+
+        public void setBookDefinition(final BookDefinition bookDefinition)
+        {
+            ebookDefinition = bookDefinition;
+        }
+
+        public String getDocumentGuid()
+        {
+            return documentGuid;
+        }
+
+        public void setDocumentGuid(final String documentGuid)
+        {
+            this.documentGuid = documentGuid;
+        }
+
+        @Override
+        public int hashCode()
+        {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + ((documentGuid == null) ? 0 : documentGuid.hashCode());
+            return result;
+        }
+
+        @Override
+        public boolean equals(final Object obj)
+        {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            final TableViewerPk other = (TableViewerPk) obj;
+            if (documentGuid == null)
+            {
+                if (other.documentGuid != null)
+                    return false;
+            }
+            else if (!documentGuid.equals(other.documentGuid))
+                return false;
+            return true;
+        }
+    }
 }

@@ -5,13 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Required;
-
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.img.model.ImageRequestParameters;
 import com.thomsonreuters.uscl.ereader.gather.img.util.DocToImageManifestUtil;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Required;
 
 public class NovusImageServiceImpl implements NovusImageService
 {

@@ -1,5 +1,10 @@
 package com.thomsonreuters.uscl.ereader.gather.img.controller;
 
+import com.thomsonreuters.uscl.ereader.core.EBConstants;
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
+import com.thomsonreuters.uscl.ereader.gather.img.model.ImageRequestParameters;
+import com.thomsonreuters.uscl.ereader.gather.img.service.NovusImageService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
@@ -9,12 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.thomsonreuters.uscl.ereader.core.EBConstants;
-import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
-import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
-import com.thomsonreuters.uscl.ereader.gather.img.model.ImageRequestParameters;
-import com.thomsonreuters.uscl.ereader.gather.img.service.NovusImageService;
 
 @Controller
 public class ImgController

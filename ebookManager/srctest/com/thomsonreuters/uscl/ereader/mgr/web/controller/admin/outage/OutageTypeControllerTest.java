@@ -24,9 +24,8 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
-public class OutageTypeControllerTest
+public final class OutageTypeControllerTest
 {
-
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;

@@ -62,5 +62,4 @@ public class SupportForm
     {
         this.linkAddress = linkAddress;
     }
-
 }

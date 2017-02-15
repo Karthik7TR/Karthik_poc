@@ -10,95 +10,94 @@ import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsPK;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
 
-public interface PublishingStatsDao {
-	
-	/**
-	 * Find Job Stats by Job Id
-	 * 
-	 * @param JobId
-	 * @return Stats for that JobId
-	 */
-	public PublishingStats findJobStatsByJobId(Long JobId);
+public interface PublishingStatsDao
+{
+    /**
+     * Find Job Stats by Job Id
+     *
+     * @param JobId
+     * @return Stats for that JobId
+     */
+    PublishingStats findJobStatsByJobId(Long JobId);
 
-	public PublishingStats findStatsByLastUpdated(Long jobId);
+    PublishingStats findStatsByLastUpdated(Long jobId);
 
-	public Long findSuccessfullyPublishedGroupBook(Long ebookDefId);
+    Long findSuccessfullyPublishedGroupBook(Long ebookDefId);
 
-	/**
-	 * Find Publishing stats for ebook
-	 * 
-	 * @param EbookDefId
-	 * @return
-	 */
-	public List<PublishingStats> findPublishingStatsByEbookDef(Long EbookDefId);
+    /**
+     * Find Publishing stats for ebook
+     *
+     * @param EbookDefId
+     * @return
+     */
+    List<PublishingStats> findPublishingStatsByEbookDef(Long EbookDefId);
 
-	public List<String> findSuccessfullyPublishedIsbnByTitleId(String titleId);
+    List<String> findSuccessfullyPublishedIsbnByTitleId(String titleId);
 
-	public List<String> findSuccessfullyPublishedsubGroupById(Long ebookDefId);
+    List<String> findSuccessfullyPublishedsubGroupById(Long ebookDefId);
 
-	public Map<String, String> findSubGroupByVersion(Long boofDefnition);
+    Map<String, String> findSubGroupByVersion(Long boofDefnition);
 
-	public String findNameByIdAndVersion(Long boofDefnition, String version);
+    String findNameByIdAndVersion(Long boofDefnition, String version);
 
-	/**
-	 * Find Publishing stats
-	 * 
-	 * @param filter
-	 * @param sort
-	 * @return
-	 */
-	public List<PublishingStats> findPublishingStats(PublishingStatsFilter filter, PublishingStatsSort sort);
+    /**
+     * Find Publishing stats
+     *
+     * @param filter
+     * @param sort
+     * @return
+     */
+    List<PublishingStats> findPublishingStats(PublishingStatsFilter filter, PublishingStatsSort sort);
 
-	public List<PublishingStats> findPublishingStats(PublishingStatsFilter filter);
+    List<PublishingStats> findPublishingStats(PublishingStatsFilter filter);
 
-	public List<PublishingStats> findPubStatsByEbookDefSort(Long EbookDefId);
+    List<PublishingStats> findPubStatsByEbookDefSort(Long EbookDefId);
 
-	public int numberOfPublishingStats(PublishingStatsFilter filter);
+    int numberOfPublishingStats(PublishingStatsFilter filter);
 
-	/**
-	 * Save an Job Stats entry
-	 * 
-	 */
-	public void saveJobStats(PublishingStats jobstats);
+    /**
+     * Save an Job Stats entry
+     *
+     */
+    void saveJobStats(PublishingStats jobstats);
 
-	/**
-	 * Delete an Job Stats entry
-	 * 
-	 */
-	public void deleteJobStats(PublishingStats jobstats);
+    /**
+     * Delete an Job Stats entry
+     *
+     */
+    void deleteJobStats(PublishingStats jobstats);
 
-	/**
-	 * Get Maximum group version by book definition ID where status is
-	 * 'sendEmailNotification : Completed'
-	 * 
-	 */
-	public Long getMaxGroupVersionById(Long EbookDefId);
+    /**
+     * Get Maximum group version by book definition ID where status is
+     * 'sendEmailNotification : Completed'
+     *
+     */
+    Long getMaxGroupVersionById(Long EbookDefId);
 
-	/**
-	 * Update an existing job stats entity
-	 * 
-	 * @param Stats
-	 * @return update count
-	 */
-	public int updateJobStats(PublishingStats jobstats, StatsUpdateTypeEnum updateType);
+    /**
+     * Update an existing job stats entity
+     *
+     * @param Stats
+     * @return update count
+     */
+    int updateJobStats(PublishingStats jobstats, StatsUpdateTypeEnum updateType);
 
-	public PublishingStats findJobStatsByPubStatsPK(PublishingStatsPK jobIdPK);
+    PublishingStats findJobStatsByPubStatsPK(PublishingStatsPK jobIdPK);
 
-	public EbookAudit findAuditInfoByJobId(Long jobId);
+    EbookAudit findAuditInfoByJobId(Long jobId);
 
-	public List<PublishingStats> findAllPublishingStats();
+    List<PublishingStats> findAllPublishingStats();
 
-	public EbookAudit getMaxAuditId(Long eBookDefId);
+    EbookAudit getMaxAuditId(Long eBookDefId);
 
-	/**
-	 * Returns publishing stats of previous to jobInstanceId successful book
-	 * generation, where book definition is the same as used in specified job
-	 * instance
-	 * 
-	 * @param jobInstanceId
-	 *            id of job instance
-	 * @return previous publishing stats or null if no stats found
-	 */
-	public PublishingStats getPreviousPublishingStatsForSameBook(long jobInstanceId);
-
+    /**
+     * Returns publishing stats of previous to jobInstanceId successful book
+     * generation, where book definition is the same as used in specified job
+     * instance
+     *
+     * @param jobInstanceId
+     *            id of job instance
+     * @return previous publishing stats or null if no stats found
+     */
+    PublishingStats getPreviousPublishingStatsForSameBook(long jobInstanceId);
 }

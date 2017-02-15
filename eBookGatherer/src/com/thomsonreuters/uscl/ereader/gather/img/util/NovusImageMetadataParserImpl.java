@@ -4,13 +4,12 @@ import java.io.StringReader;
 
 import javax.xml.parsers.SAXParserFactory;
 
+import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
-
-import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 
 public class NovusImageMetadataParserImpl implements NovusImageMetadataParser
 {

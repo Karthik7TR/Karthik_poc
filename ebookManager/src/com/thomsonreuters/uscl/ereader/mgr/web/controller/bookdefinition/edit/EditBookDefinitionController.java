@@ -502,5 +502,4 @@ public class EditBookDefinitionController
     {
         this.miscConfigService = miscConfigService;
     }
-
 }

@@ -1,8 +1,3 @@
-/*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.service;
 
 import java.util.ArrayList;
@@ -10,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,152 +17,160 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.repository.JobRepository;
 
-import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
-
-
 /**
- * This test class tests JobStartupThrottleService where before starting new job jobRepository is queried to find 
- * how many jobs are currently running and what is current throttle limit. if number of jobs running are more or 
- * equal to throttle limit each running job is verified if they have crossed throttle step then total number of jobs which 
+ * This test class tests JobStartupThrottleService where before starting new job jobRepository is queried to find
+ * how many jobs are currently running and what is current throttle limit. if number of jobs running are more or
+ * equal to throttle limit each running job is verified if they have crossed throttle step then total number of jobs which
  * have already crossed throttle limit are considered do decide if new job can be launched.
- *   
+ *
  *  @author Mahendra Survase (u0105927)
  */
-public class JobStartupThrottleServiceTest  {
-	
-	
-	private static final String JOB_NAME ="TestJob";
-	private static final String THROTTLE_STEP = "formatAddHTMLWrapper";
-	private JobRepository mockJobRepository;
-	private JobExplorer mockJobExplorer;
+public final class JobStartupThrottleServiceTest
+{
+    private static final String JOB_NAME = "TestJob";
+    private static final String THROTTLE_STEP = "formatAddHTMLWrapper";
+    private JobRepository mockJobRepository;
+    private JobExplorer mockJobExplorer;
 
-	List<String> jobNames = new ArrayList<String>();
-	
-	/**
-	 * Generic setup for all the tests.
-	 * @throws Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-		this.mockJobRepository = EasyMock.createMock(JobRepository.class);
-		this.mockJobExplorer = EasyMock.createMock(JobExplorer.class);
-		jobNames.add(JOB_NAME);
-	}
-	
-	/**
-	 * Tests positive scenario where throttle limit is 4 and current running jobs are 3 
-	 * spring batch should be able to launch next job. 
-	 * 
-	 */
-	@Test
-	public void checkIfnewJobCanbeLaunched_positive_1(){
-		JobThrottleConfig config = new JobThrottleConfig(8, true, THROTTLE_STEP, 6);
-		JobStartupThrottleServiceImpl service = new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository);
-		service.setJobThrottleConfig(config);
+    private List<String> jobNames = new ArrayList<>();
 
-		// test specific setup.
-		Set<JobExecution> runningJobExecutions = new HashSet<JobExecution>(3); 
-		JobExecution jobExecutionTest = new JobExecution(new JobInstance(234l, "ThrottleTestJob"), new JobParameters(), "ThrottleTestJob");
-		runningJobExecutions.add(jobExecutionTest);
-		
-		EasyMock.expect(mockJobExplorer.getJobNames()).andReturn(jobNames).anyTimes();  
-		EasyMock.expect(mockJobExplorer.findRunningJobExecutions(jobNames.get(0))).andReturn(runningJobExecutions); // Already running job # 3 so that there will be capacity to run one more job.
+    /**
+     * Generic setup for all the tests.
+     * @throws Exception
+     */
+    @Before
+    public void setUp() throws Exception
+    {
+        mockJobRepository = EasyMock.createMock(JobRepository.class);
+        mockJobExplorer = EasyMock.createMock(JobExplorer.class);
+        jobNames.add(JOB_NAME);
+    }
 
-		EasyMock.replay(mockJobExplorer);
-		EasyMock.replay(mockJobRepository);
+    /**
+     * Tests positive scenario where throttle limit is 4 and current running jobs are 3
+     * spring batch should be able to launch next job.
+     *
+     */
+    @Test
+    public void checkIfnewJobCanbeLaunched_positive_1()
+    {
+        final JobThrottleConfig config = new JobThrottleConfig(8, true, THROTTLE_STEP, 6);
+        final JobStartupThrottleServiceImpl service = new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository);
+        service.setJobThrottleConfig(config);
 
-		boolean startUpFlag = service.checkIfnewJobCanbeLaunched();
-		EasyMock.verify(mockJobExplorer);
-		EasyMock.verify(mockJobRepository);
-		Assert.assertTrue(startUpFlag);
-		
-		
-	}
-	
-	/**
-	 * Positive scenario number of current jobs running is 2 and throttle limit is 2 but all the running jobs have crossed 
-	 * throttle step. Spring batch should be able to launch next job.  
-	 * 
-	 */
-	@Test
-	public void checkIfnewJobCanbeLaunched_positive_2(){
-		JobThrottleConfig config = new JobThrottleConfig(8, true, THROTTLE_STEP, 6);
-		JobStartupThrottleServiceImpl service = new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository);
-		service.setJobThrottleConfig(config);
-		// test specific setup.
-		Set<JobExecution> runningJobExecutions = new HashSet<JobExecution>(2);
-		JobExecution jobExecutionTest_1 = new JobExecution(new JobInstance(234l,"ThrottleTestJob"), new JobParameters());
-		JobExecution jobExecutionTest_2 = new JobExecution(new JobInstance(234l,"ThrottleTestJob"), new JobParameters());
-		JobExecution jobExecutionTest_3 = new JobExecution(new JobInstance(234l,"ThrottleTestJob"), new JobParameters());
-		
-		runningJobExecutions.add(jobExecutionTest_1);
-		runningJobExecutions.add(jobExecutionTest_2);
-		runningJobExecutions.add(jobExecutionTest_3);
-		JobExecution jobExecutionOuter = null;
-		long longJobId = 3343l;
-		for (JobExecution jobExecution : runningJobExecutions) {
-			jobExecutionOuter = jobExecution ;
-		}
-		JobInstance jobInstance = jobExecutionOuter.getJobInstance();
-		StepExecution stepExecution  = new StepExecution(THROTTLE_STEP, new JobExecution(longJobId));
-		
-		
-		EasyMock.expect(mockJobExplorer.getJobNames()).andReturn(jobNames).anyTimes();  
-		EasyMock.expect(mockJobExplorer.findRunningJobExecutions(jobNames.get(0))).andReturn(runningJobExecutions).times(3);
-		EasyMock.expect(mockJobRepository.getLastStepExecution(jobInstance, THROTTLE_STEP)).andReturn(stepExecution).anyTimes();
+        // test specific setup.
+        final Set<JobExecution> runningJobExecutions = new HashSet<>(3);
+        final JobExecution jobExecutionTest =
+            new JobExecution(new JobInstance(234L, "ThrottleTestJob"), new JobParameters(), "ThrottleTestJob");
+        runningJobExecutions.add(jobExecutionTest);
 
-		EasyMock.replay(mockJobExplorer);
-		EasyMock.replay(mockJobRepository);
+        EasyMock.expect(mockJobExplorer.getJobNames()).andReturn(jobNames).anyTimes();
+        EasyMock.expect(mockJobExplorer.findRunningJobExecutions(jobNames.get(0))).andReturn(runningJobExecutions); // Already running job # 3 so that there will be capacity to run one more job.
 
-		boolean startUpFlag = service.checkIfnewJobCanbeLaunched();
+        EasyMock.replay(mockJobExplorer);
+        EasyMock.replay(mockJobRepository);
 
-		EasyMock.verify(mockJobRepository);
+        final boolean startUpFlag = service.checkIfnewJobCanbeLaunched();
+        EasyMock.verify(mockJobExplorer);
+        EasyMock.verify(mockJobRepository);
+        Assert.assertTrue(startUpFlag);
+    }
 
-		Assert.assertTrue(startUpFlag);
-		
-	}
+    /**
+     * Positive scenario number of current jobs running is 2 and throttle limit is 2 but all the running jobs have crossed
+     * throttle step. Spring batch should be able to launch next job.
+     *
+     */
+    @Test
+    public void checkIfnewJobCanbeLaunched_positive_2()
+    {
+        final JobThrottleConfig config = new JobThrottleConfig(8, true, THROTTLE_STEP, 6);
+        final JobStartupThrottleServiceImpl service = new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository);
+        service.setJobThrottleConfig(config);
+        // test specific setup.
+        final Set<JobExecution> runningJobExecutions = new HashSet<>(2);
+        final JobExecution jobExecutionTest_1 =
+            new JobExecution(new JobInstance(234L, "ThrottleTestJob"), new JobParameters());
+        final JobExecution jobExecutionTest_2 =
+            new JobExecution(new JobInstance(234L, "ThrottleTestJob"), new JobParameters());
+        final JobExecution jobExecutionTest_3 =
+            new JobExecution(new JobInstance(234L, "ThrottleTestJob"), new JobParameters());
 
-	/**
-	 * Negative scenario number of current jobs running is 3 and throttle limit is 3 and nun of running jobs have crossed throttle step. 
-	 * Spring batch will not be allowed to start next job.  
-	 * 
-	 */
-	@Test
-	public void checkIfnewJobCanbeLaunched_negative_1(){
-		JobThrottleConfig config = new JobThrottleConfig(8, true, THROTTLE_STEP, 3);
-		JobStartupThrottleServiceImpl service = new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository);
-		service.setJobThrottleConfig(config);
-		// test specific setup.
-		Set<JobExecution> runningJobExecutions = new HashSet<JobExecution>(3);
-		JobExecution jobExecutionTest_1 = new JobExecution(new JobInstance(234l,"ThrottleTestJob"), new JobParameters());
-		JobExecution jobExecutionTest_2 = new JobExecution(new JobInstance(234l,"ThrottleTestJob"), new JobParameters());
-		JobExecution jobExecutionTest_3 = new JobExecution(new JobInstance(234l,"ThrottleTestJob"), new JobParameters());
-		
-		runningJobExecutions.add(jobExecutionTest_1);
-		runningJobExecutions.add(jobExecutionTest_2);
-		runningJobExecutions.add(jobExecutionTest_3);
-		
-		JobExecution jobExecutionOuter = null;
-		
-		for (JobExecution jobExecution : runningJobExecutions) {
-			jobExecutionOuter = jobExecution ;
-		}
-		JobInstance jobInstance = jobExecutionOuter.getJobInstance();
-		
-		EasyMock.expect(mockJobExplorer.getJobNames()).andReturn(jobNames).anyTimes();  
-		EasyMock.expect(mockJobExplorer.findRunningJobExecutions(jobNames.get(0))).andReturn(runningJobExecutions).times(3);
-		EasyMock.expect(mockJobRepository.getLastStepExecution(jobInstance, THROTTLE_STEP)).andReturn(null).anyTimes();
+        runningJobExecutions.add(jobExecutionTest_1);
+        runningJobExecutions.add(jobExecutionTest_2);
+        runningJobExecutions.add(jobExecutionTest_3);
+        JobExecution jobExecutionOuter = null;
+        final long longJobId = 3343L;
+        for (final JobExecution jobExecution : runningJobExecutions)
+        {
+            jobExecutionOuter = jobExecution;
+        }
+        final JobInstance jobInstance = jobExecutionOuter.getJobInstance();
+        final StepExecution stepExecution = new StepExecution(THROTTLE_STEP, new JobExecution(longJobId));
 
-		EasyMock.replay(mockJobExplorer);
-		EasyMock.replay(mockJobRepository);
+        EasyMock.expect(mockJobExplorer.getJobNames()).andReturn(jobNames).anyTimes();
+        EasyMock.expect(mockJobExplorer.findRunningJobExecutions(jobNames.get(0)))
+            .andReturn(runningJobExecutions)
+            .times(3);
+        EasyMock.expect(mockJobRepository.getLastStepExecution(jobInstance, THROTTLE_STEP))
+            .andReturn(stepExecution)
+            .anyTimes();
 
-		boolean startUpFlag = service.checkIfnewJobCanbeLaunched();
+        EasyMock.replay(mockJobExplorer);
+        EasyMock.replay(mockJobRepository);
 
-		EasyMock.verify(mockJobRepository);
+        final boolean startUpFlag = service.checkIfnewJobCanbeLaunched();
 
-		Assert.assertFalse(startUpFlag);
-		
-	}
+        EasyMock.verify(mockJobRepository);
 
+        Assert.assertTrue(startUpFlag);
+    }
+
+    /**
+     * Negative scenario number of current jobs running is 3 and throttle limit is 3 and nun of running jobs have crossed throttle step.
+     * Spring batch will not be allowed to start next job.
+     *
+     */
+    @Test
+    public void checkIfnewJobCanbeLaunched_negative_1()
+    {
+        final JobThrottleConfig config = new JobThrottleConfig(8, true, THROTTLE_STEP, 3);
+        final JobStartupThrottleServiceImpl service = new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository);
+        service.setJobThrottleConfig(config);
+        // test specific setup.
+        final Set<JobExecution> runningJobExecutions = new HashSet<>(3);
+        final JobExecution jobExecutionTest_1 =
+            new JobExecution(new JobInstance(234L, "ThrottleTestJob"), new JobParameters());
+        final JobExecution jobExecutionTest_2 =
+            new JobExecution(new JobInstance(234L, "ThrottleTestJob"), new JobParameters());
+        final JobExecution jobExecutionTest_3 =
+            new JobExecution(new JobInstance(234L, "ThrottleTestJob"), new JobParameters());
+
+        runningJobExecutions.add(jobExecutionTest_1);
+        runningJobExecutions.add(jobExecutionTest_2);
+        runningJobExecutions.add(jobExecutionTest_3);
+
+        JobExecution jobExecutionOuter = null;
+
+        for (final JobExecution jobExecution : runningJobExecutions)
+        {
+            jobExecutionOuter = jobExecution;
+        }
+        final JobInstance jobInstance = jobExecutionOuter.getJobInstance();
+
+        EasyMock.expect(mockJobExplorer.getJobNames()).andReturn(jobNames).anyTimes();
+        EasyMock.expect(mockJobExplorer.findRunningJobExecutions(jobNames.get(0)))
+            .andReturn(runningJobExecutions)
+            .times(3);
+        EasyMock.expect(mockJobRepository.getLastStepExecution(jobInstance, THROTTLE_STEP)).andReturn(null).anyTimes();
+
+        EasyMock.replay(mockJobExplorer);
+        EasyMock.replay(mockJobRepository);
+
+        final boolean startUpFlag = service.checkIfnewJobCanbeLaunched();
+
+        EasyMock.verify(mockJobRepository);
+
+        Assert.assertFalse(startUpFlag);
+    }
 }
-

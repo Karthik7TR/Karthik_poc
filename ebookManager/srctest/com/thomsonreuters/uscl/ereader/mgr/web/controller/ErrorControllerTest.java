@@ -20,7 +20,7 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public class ErrorControllerTest
+public final class ErrorControllerTest
 {
     private ErrorController controller;
     private MockHttpServletRequest request;

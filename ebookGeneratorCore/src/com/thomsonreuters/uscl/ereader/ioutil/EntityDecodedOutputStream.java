@@ -1,13 +1,3 @@
-/*
- * EntityDecodedOutputStream.java
- *
- * Created on: Oct 30, 2010 by: davicar
- *
- * Copyright 2010 Thomson Reuters Global Resources.  All Rights Reserved.
- * 
- * Proprietary and Confidential information of TRGR.
- * Disclosure, Use or Reproduction without the written authorization of TRGR is prohibited.
- */
 package com.thomsonreuters.uscl.ereader.ioutil;
 
 import java.io.FilterOutputStream;
@@ -27,8 +17,8 @@ public class EntityDecodedOutputStream extends FilterOutputStream
 {
     private byte leftoverByte;
     private byte[] oneByteArray;
-    private boolean allowExistingEntities = false;
-    private boolean inProcessingInstruction = false;
+    private boolean allowExistingEntities;
+    private boolean inProcessingInstruction;
     private char previousCharacter = '.';
 
     /**
@@ -36,7 +26,7 @@ public class EntityDecodedOutputStream extends FilterOutputStream
      *
      * @param out the underlying OutputStream ( of xml )
      */
-    public EntityDecodedOutputStream(OutputStream out)
+    public EntityDecodedOutputStream(final OutputStream out)
     {
         super(out);
         oneByteArray = new byte[1];
@@ -52,7 +42,7 @@ public class EntityDecodedOutputStream extends FilterOutputStream
      *        should only set this if you are processing a stream with XSLTs that output entities
      *        already
      */
-    public EntityDecodedOutputStream(OutputStream out, boolean allowExistingEntities)
+    public EntityDecodedOutputStream(final OutputStream out, final boolean allowExistingEntities)
     {
         this(out);
         this.allowExistingEntities = allowExistingEntities;
@@ -63,13 +53,13 @@ public class EntityDecodedOutputStream extends FilterOutputStream
      *
      * @throws java.io.IOException on failure.
      */
+    @Override
     public void close() throws IOException
     {
         if ('$' == leftoverByte && !allowExistingEntities)
         {
             throw new IllegalArgumentException(
-                "at close an extra $ was left in the buffer! "
-                    + "input does not appear to be entity encoded");
+                "at close an extra $ was left in the buffer! " + "input does not appear to be entity encoded");
         }
         else if ('$' == leftoverByte && allowExistingEntities)
         {
@@ -86,7 +76,8 @@ public class EntityDecodedOutputStream extends FilterOutputStream
      *
      * @throws java.io.IOException on failure.
      */
-    public void write(byte[] b) throws IOException
+    @Override
+    public void write(final byte[] b) throws IOException
     {
         this.write(b, 0, b.length);
     }
@@ -100,126 +91,124 @@ public class EntityDecodedOutputStream extends FilterOutputStream
      *
      * @throws java.io.IOException on failure.
      */
-    public void write(byte[] buffer, int offset, int length)
-        throws IOException
+    @Override
+    public void write(final byte[] buffer, final int offset, final int length) throws IOException
     {
-        int endIndex = length + offset;
+        final int endIndex = length + offset;
 
         for (int index = offset; index < endIndex; index++)
         {
             switch (buffer[index])
             {
-                case '&':
+            case '&':
 
-                    if (!this.inProcessingInstruction && !allowExistingEntities)
-                    {
-                        final String subString =
-                            errorRelevantSubstring(buffer, offset, endIndex, index);
-                        final String message =
-                            "Detected entity in the input "
-                                + "when no unencoded entitites are allowed. Here is the input ..."
-                                + subString
-                                + "...";
-                        throw new IllegalArgumentException(message);
-                    }
-                    else
-                    {
-                        out.write(buffer[index]);
-                    }
+                if (!inProcessingInstruction && !allowExistingEntities)
+                {
+                    final String subString = errorRelevantSubstring(buffer, offset, endIndex, index);
+                    final String message = "Detected entity in the input "
+                        + "when no unencoded entitites are allowed. Here is the input ..."
+                        + subString
+                        + "...";
+                    throw new IllegalArgumentException(message);
+                }
+                else
+                {
+                    out.write(buffer[index]);
+                }
 
-                    break;
+                break;
 
-                case '#':
+            case '#':
 
-                    if (!this.inProcessingInstruction && '$' == leftoverByte)
-                    {
-                        out.write('&');
-                        leftoverByte = -1;
-                    }
-                    else
-                    {
-                        out.write(buffer[index]);
-                    }
+                if (!inProcessingInstruction && '$' == leftoverByte)
+                {
+                    out.write('&');
+                    leftoverByte = -1;
+                }
+                else
+                {
+                    out.write(buffer[index]);
+                }
 
-                    break;
+                break;
 
-                case '$':
-                    if (this.inProcessingInstruction)
+            case '$':
+                if (inProcessingInstruction)
+                {
+                    out.write('$');
+                }
+                else
+                {
+                    if ('$' == leftoverByte)
                     {
                         out.write('$');
+                        leftoverByte = -1;
                     }
-                    else
+                    else if ((index + 1) != (offset + length))
                     {
-                        if ('$' == leftoverByte)
+                        final byte peekAhead = buffer[index + 1];
+
+                        if (peekAhead == '$')
                         {
                             out.write('$');
-                            leftoverByte = -1;
+                            index++;
                         }
-                        else if ((index + 1) != (offset + length))
+                        else if (peekAhead == '#')
                         {
-                            byte peekAhead = buffer[index + 1];
-
-                            if (peekAhead == '$')
-                            {
-                                out.write('$');
-                                index++;
-                            }
-                            else if (peekAhead == '#')
-                            {
-                                out.write('&');
-                                index++;
-                            }
-                            else if (allowExistingEntities)
-                            {
-                                out.write('$');
-                            }
-                            else
-                            {
-                                final String subString =
-                                    errorRelevantSubstring(buffer, offset, endIndex, index);
-                                final String message =
-                                    "Input does not appear to be entity encoded. Expected either a $ or # to follow.  Buffer =..."
-                                        + subString + "...";
-                                throw new IllegalArgumentException(message);
-                            }
+                            out.write('&');
+                            index++;
+                        }
+                        else if (allowExistingEntities)
+                        {
+                            out.write('$');
                         }
                         else
                         {
-                            leftoverByte = (byte) '$';
+                            final String subString = errorRelevantSubstring(buffer, offset, endIndex, index);
+                            final String message =
+                                "Input does not appear to be entity encoded. Expected either a $ or # to follow.  Buffer =..."
+                                    + subString
+                                    + "...";
+                            throw new IllegalArgumentException(message);
                         }
                     }
-
-                    break;
-
-                case '?':
-
-                    if (!this.inProcessingInstruction && this.previousCharacter == '<')
+                    else
                     {
-                        this.inProcessingInstruction = true;     //hit the sequence "<?"
+                        leftoverByte = (byte) '$';
                     }
+                }
 
-                    out.write('?');
+                break;
 
-                    break;
+            case '?':
 
-                case '>':
+                if (!inProcessingInstruction && previousCharacter == '<')
+                {
+                    inProcessingInstruction = true; //hit the sequence "<?"
+                }
 
-                    if (this.inProcessingInstruction && this.previousCharacter == '?')
-                    {
-                        this.inProcessingInstruction = false;   //hit the sequence "?>"
-                    }
+                out.write('?');
 
-                    out.write('>');
+                break;
 
-                    break;
+            case '>':
 
-                default:
-                    out.write(buffer[index]);
+                if (inProcessingInstruction && previousCharacter == '?')
+                {
+                    inProcessingInstruction = false; //hit the sequence "?>"
+                }
 
-                    break;
+                out.write('>');
+
+                break;
+
+            default:
+                out.write(buffer[index]);
+
+                break;
             }
 
-            this.previousCharacter = (char) buffer[index];
+            previousCharacter = (char) buffer[index];
         }
     }
 
@@ -233,7 +222,7 @@ public class EntityDecodedOutputStream extends FilterOutputStream
      * @param index current position in buffer.
      * @return 40 chars on either side of the current index.
      */
-    private String errorRelevantSubstring(byte[] buffer, int offset, int endIndex, int index)
+    private String errorRelevantSubstring(final byte[] buffer, final int offset, final int endIndex, final int index)
     {
         int leftIndex = index - 40;
         if (leftIndex < 0)
@@ -255,7 +244,8 @@ public class EntityDecodedOutputStream extends FilterOutputStream
      *
      * @throws java.io.IOException on failure.
      */
-    public void write(int b) throws IOException
+    @Override
+    public void write(final int b) throws IOException
     {
         oneByteArray[0] = (byte) b;
         this.write(oneByteArray, 0, 1);

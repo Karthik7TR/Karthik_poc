@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  */
@@ -29,188 +29,218 @@ import org.apache.commons.lang.StringUtils;
 @IdClass(DocumentCopyright.DocumentCopyrightPk.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "DocumentCopyright")
-public class DocumentCopyright implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class DocumentCopyright implements Serializable
+{
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	BookDefinition ebookDefinition;
+    @Id
+    private BookDefinition ebookDefinition;
 
-	@Id
-	String copyrightGuid;
-	
-	@Column(name = "NEW_TEXT", nullable=false)
-	String newText;
-	
-	@Column(name = "NOTE", nullable=false)
-	String note;
+    @Id
+    private String copyrightGuid;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "LAST_UPDATED", nullable=false)
-	Date lastUpdated;
-	
-	public BookDefinition getBookDefinition() {
-		return ebookDefinition;
-	}
+    @Column(name = "NEW_TEXT", nullable = false)
+    private String newText;
 
-	public void setBookDefinition(BookDefinition bookDefinition) {
-		this.ebookDefinition = bookDefinition;
-	}
+    @Column(name = "NOTE", nullable = false)
+    private String note;
 
-	public String getCopyrightGuid() {
-		return copyrightGuid;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "LAST_UPDATED", nullable = false)
+    private Date lastUpdated;
 
-	public void setCopyrightGuid(String copyrightGuid) {
-		this.copyrightGuid = copyrightGuid;
-	}
+    public BookDefinition getBookDefinition()
+    {
+        return ebookDefinition;
+    }
 
-	public String getNewText() {
-		return newText;
-	}
+    public void setBookDefinition(final BookDefinition bookDefinition)
+    {
+        ebookDefinition = bookDefinition;
+    }
 
-	public void setNewText(String newText) {
-		this.newText = newText;
-	}
+    public String getCopyrightGuid()
+    {
+        return copyrightGuid;
+    }
 
-	public String getNote() {
-		return note;
-	}
+    public void setCopyrightGuid(final String copyrightGuid)
+    {
+        this.copyrightGuid = copyrightGuid;
+    }
 
-	public void setNote(String note) {
-		this.note = note;
-	}
+    public String getNewText()
+    {
+        return newText;
+    }
 
-	public Date getLastUpdated() {
-		return lastUpdated;
-	}
+    public void setNewText(final String newText)
+    {
+        this.newText = newText;
+    }
 
-	public void setLastUpdated(Date lastUpdated) {
-		this.lastUpdated = lastUpdated;
-	}
+    public String getNote()
+    {
+        return note;
+    }
 
-	@Transient
-	public boolean isEmpty() {
-		return StringUtils.isBlank(this.note) &&
-				StringUtils.isBlank(this.newText) &&
-				StringUtils.isBlank(this.copyrightGuid);
-	}
-	
-	@Override
-	public String toString() {
-		StringBuilder buffer = new StringBuilder();
-		buffer.append("DocumentCopyright [");
-		if(ebookDefinition != null) {
-			buffer.append("bookDefinitionId=").append(ebookDefinition.getEbookDefinitionId()).append(", ");
-		}
-		buffer.append("copyrightGuid=").append(copyrightGuid).append(", ");
-		buffer.append("newText=").append(newText).append(", ");
-		buffer.append("note=").append(note).append(", ");
-		buffer.append("lastUpdated=").append(lastUpdated).append("]");
-		
-		return buffer.toString();
-	}
+    public void setNote(final String note)
+    {
+        this.note = note;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((copyrightGuid == null) ? 0 : copyrightGuid.hashCode());
-		result = prime * result
-				+ ((newText == null) ? 0 : newText.hashCode());
-		result = prime * result
-				+ ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
-		result = prime * result + ((note == null) ? 0 : note.hashCode());
-		return result;
-	}
+    public Date getLastUpdated()
+    {
+        return lastUpdated;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		DocumentCopyright other = (DocumentCopyright) obj;
-		if (copyrightGuid == null) {
-			if (other.copyrightGuid != null)
-				return false;
-		} else if (!copyrightGuid.equals(other.copyrightGuid))
-			return false;
-		if (newText == null) {
-			if (other.newText != null)
-				return false;
-		} else if (!newText.equals(other.newText))
-			return false;
-		if (lastUpdated == null) {
-			if (other.lastUpdated != null)
-				return false;
-		} else if (!lastUpdated.equals(other.lastUpdated))
-			return false;
-		if (note == null) {
-			if (other.note != null)
-				return false;
-		} else if (!note.equals(other.note))
-			return false;
-		return true;
-	}
+    public void setLastUpdated(final Date lastUpdated)
+    {
+        this.lastUpdated = lastUpdated;
+    }
 
-	@Embeddable
-	public static class DocumentCopyrightPk implements Serializable{
-		private static final long serialVersionUID = 1L;
+    @Transient
+    public boolean isEmpty()
+    {
+        return StringUtils.isBlank(note)
+            && StringUtils.isBlank(newText)
+            && StringUtils.isBlank(copyrightGuid);
+    }
 
-		@ManyToOne(fetch = FetchType.LAZY)
-		@JoinColumns({ @JoinColumn(name = "EBOOK_DEFINITION_ID", referencedColumnName = "EBOOK_DEFINITION_ID", nullable = false) })
-		BookDefinition ebookDefinition;
-		
-		@Column(name = "COPYRIGHT_GUID", nullable=false)
-		private String copyrightGuid;
+    @Override
+    public String toString()
+    {
+        final StringBuilder buffer = new StringBuilder();
+        buffer.append("DocumentCopyright [");
+        if (ebookDefinition != null)
+        {
+            buffer.append("bookDefinitionId=").append(ebookDefinition.getEbookDefinitionId()).append(", ");
+        }
+        buffer.append("copyrightGuid=").append(copyrightGuid).append(", ");
+        buffer.append("newText=").append(newText).append(", ");
+        buffer.append("note=").append(note).append(", ");
+        buffer.append("lastUpdated=").append(lastUpdated).append("]");
 
-		public DocumentCopyrightPk() {
-		}
+        return buffer.toString();
+    }
 
-		public BookDefinition getBookDefinition() {
-			return ebookDefinition;
-		}
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((copyrightGuid == null) ? 0 : copyrightGuid.hashCode());
+        result = prime * result + ((newText == null) ? 0 : newText.hashCode());
+        result = prime * result + ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
+        result = prime * result + ((note == null) ? 0 : note.hashCode());
+        return result;
+    }
 
-		public void setBookDefinition(BookDefinition bookDefinition) {
-			this.ebookDefinition = bookDefinition;
-		}
+    @Override
+    public boolean equals(final Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final DocumentCopyright other = (DocumentCopyright) obj;
+        if (copyrightGuid == null)
+        {
+            if (other.copyrightGuid != null)
+                return false;
+        }
+        else if (!copyrightGuid.equals(other.copyrightGuid))
+            return false;
+        if (newText == null)
+        {
+            if (other.newText != null)
+                return false;
+        }
+        else if (!newText.equals(other.newText))
+            return false;
+        if (lastUpdated == null)
+        {
+            if (other.lastUpdated != null)
+                return false;
+        }
+        else if (!lastUpdated.equals(other.lastUpdated))
+            return false;
+        if (note == null)
+        {
+            if (other.note != null)
+                return false;
+        }
+        else if (!note.equals(other.note))
+            return false;
+        return true;
+    }
 
-		public String getCopyrightGuid() {
-			return copyrightGuid;
-		}
+    @Embeddable
+    public static class DocumentCopyrightPk implements Serializable
+    {
+        private static final long serialVersionUID = 1L;
 
-		public void setCopyrightGuid(String copyrightGuid) {
-			this.copyrightGuid = copyrightGuid;
-		}
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumns({
+            @JoinColumn(name = "EBOOK_DEFINITION_ID", referencedColumnName = "EBOOK_DEFINITION_ID", nullable = false)})
+        private BookDefinition ebookDefinition;
 
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime
-					* result
-					+ ((copyrightGuid == null) ? 0 : copyrightGuid.hashCode());
-			return result;
-		}
+        @Column(name = "COPYRIGHT_GUID", nullable = false)
+        private String copyrightGuid;
 
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			DocumentCopyrightPk other = (DocumentCopyrightPk) obj;
-			if (copyrightGuid == null) {
-				if (other.copyrightGuid != null)
-					return false;
-			} else if (!copyrightGuid.equals(other.copyrightGuid))
-				return false;
-			return true;
-		}
-   }
+        public DocumentCopyrightPk()
+        {
+        }
+
+        public BookDefinition getBookDefinition()
+        {
+            return ebookDefinition;
+        }
+
+        public void setBookDefinition(final BookDefinition bookDefinition)
+        {
+            ebookDefinition = bookDefinition;
+        }
+
+        public String getCopyrightGuid()
+        {
+            return copyrightGuid;
+        }
+
+        public void setCopyrightGuid(final String copyrightGuid)
+        {
+            this.copyrightGuid = copyrightGuid;
+        }
+
+        @Override
+        public int hashCode()
+        {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + ((copyrightGuid == null) ? 0 : copyrightGuid.hashCode());
+            return result;
+        }
+
+        @Override
+        public boolean equals(final Object obj)
+        {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            final DocumentCopyrightPk other = (DocumentCopyrightPk) obj;
+            if (copyrightGuid == null)
+            {
+                if (other.copyrightGuid != null)
+                    return false;
+            }
+            else if (!copyrightGuid.equals(other.copyrightGuid))
+                return false;
+            return true;
+        }
+    }
 }

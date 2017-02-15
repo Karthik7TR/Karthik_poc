@@ -1,9 +1,8 @@
 package com.thomsonreuters.uscl.ereader.gather.img.service;
 
+import com.thomsonreuters.uscl.ereader.gather.img.model.NovusImage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import com.thomsonreuters.uscl.ereader.gather.img.model.NovusImage;
 
 /**
  * Finds image from Novus using Novus API

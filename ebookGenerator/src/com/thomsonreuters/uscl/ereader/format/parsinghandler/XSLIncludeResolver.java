@@ -1,9 +1,3 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import java.io.File;
@@ -12,6 +6,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -20,207 +15,213 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.URIResolver;
 import javax.xml.transform.stream.StreamSource;
 
+import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
-import org.apache.commons.lang.StringUtils;
- import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
-
-import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 
 /**
  * Resolves XSL Include conflicts by including an empty XSL for any XSL that have
- * already been 
+ * already been
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
-public class XSLIncludeResolver implements URIResolver 
+public class XSLIncludeResolver implements URIResolver
 {
-	private static final Logger LOG = LogManager.getLogger(XSLIncludeResolver.class);
-	private static final String CONTEXT_AND_ANALYSIS = "ContextAndAnalysis.xsl";
-	private static final String NOTES_OF_DECISIONS = "NotesOfDecisions.xsl";
-	private List<String> includedXSLTs = new ArrayList<String>();
-	private File emptyXSL ;
-	private File platformDir ;
-	private File westlawNextDir ;
-	
-	private boolean includeAnnotations;
-	private boolean includeNotesOfDecisions;
-	
-	public File getPlatformDir() {
-		return platformDir;
-	}
+    private static final Logger LOG = LogManager.getLogger(XSLIncludeResolver.class);
+    private static final String CONTEXT_AND_ANALYSIS = "ContextAndAnalysis.xsl";
+    private static final String NOTES_OF_DECISIONS = "NotesOfDecisions.xsl";
+    private List<String> includedXSLTs = new ArrayList<>();
+    private File emptyXSL;
+    private File platformDir;
+    private File westlawNextDir;
 
-	public void setPlatformDir(File platformDir) {
-		this.platformDir = platformDir;
-	}
+    private boolean includeAnnotations;
+    private boolean includeNotesOfDecisions;
 
-	public File getWestlawNextDir() {
-		return westlawNextDir;
-	}
+    public File getPlatformDir()
+    {
+        return platformDir;
+    }
 
-	public void setWestlawNextDir(File westlawNextDir) {
-		this.westlawNextDir = westlawNextDir;
-	}
-	
-	public boolean getIncludeAnnotations() 
-	{
-		return includeAnnotations;
-	}
+    public void setPlatformDir(final File platformDir)
+    {
+        this.platformDir = platformDir;
+    }
 
-	public void setIncludeAnnotations(boolean includeAnnotations) 
-	{
-		this.includeAnnotations = includeAnnotations;
-	}
+    public File getWestlawNextDir()
+    {
+        return westlawNextDir;
+    }
 
-	public boolean isIncludeNotesOfDecisions()
-	{
-		return includeNotesOfDecisions;
-	}
+    public void setWestlawNextDir(final File westlawNextDir)
+    {
+        this.westlawNextDir = westlawNextDir;
+    }
 
-	public void setIncludeNotesOfDecisions(boolean includeNotesOfDecisions)
-	{
-		this.includeNotesOfDecisions = includeNotesOfDecisions;
-	}
+    public boolean getIncludeAnnotations()
+    {
+        return includeAnnotations;
+    }
 
-	public File getEmptyXSL() 
-	{
-		return emptyXSL;
-	}
+    public void setIncludeAnnotations(final boolean includeAnnotations)
+    {
+        this.includeAnnotations = includeAnnotations;
+    }
 
-	public void setEmptyXSL(File emptyXSL) 
-	{
-		this.emptyXSL = emptyXSL;
-	}
+    public boolean isIncludeNotesOfDecisions()
+    {
+        return includeNotesOfDecisions;
+    }
 
-	public Source resolve(String href, String base) throws TransformerException
-	{
-		StreamSource source = null;
-		try
-		{
-			if (includeAnnotations && href.equalsIgnoreCase(CONTEXT_AND_ANALYSIS))
-			{
-				// Use a different XSL style sheet if annotations is enabled for Context and Analysis
-				href = "eBook" + CONTEXT_AND_ANALYSIS;
-			} 
-			else if (includeNotesOfDecisions && href.equalsIgnoreCase(NOTES_OF_DECISIONS))
-			{
-				// Use a different XSL style sheet for Notes of Decision in case they are enabled
-				href = "eBook" + NOTES_OF_DECISIONS;
-			}
-						
-			boolean forcePlatform = findForcePlatformAttribute(href, base);
-			File includeXSLT = findXslFile(href, forcePlatform);
+    public void setIncludeNotesOfDecisions(final boolean includeNotesOfDecisions)
+    {
+        this.includeNotesOfDecisions = includeNotesOfDecisions;
+    }
 
-			if (includeXSLT != null)
-			{
-				if (includedXSLTs.contains(includeXSLT.getCanonicalPath()))
-				{
-					source = new StreamSource(emptyXSL);
-				}
-				else
-				{
-					LOG.debug("includedXSLT: " + includeXSLT.getCanonicalPath());
-					includedXSLTs.add(includeXSLT.getCanonicalPath());
-					source = new StreamSource(includeXSLT);
-				}
-			}
-			else
-			{
-				throw new TransformerException("Could not locate referenced '" + href + "' XSLT.");
-			}
-		}
-		catch (IOException e)
-		{
-			throw new TransformerException("Could not get canonical path for '" + 
-					href + "' href and '" + base + "' base.");
-		}
-		catch (Exception e)
-		{
-			throw new TransformerException(e);
-		}
-		
-		return source;
-	}
-	
-	private File findXslFile(String filename, boolean forcePlatform) throws IOException
-	{
-		File xsl = null;
-		if(!forcePlatform)
-		{
-			xsl = recursivelySearchXslInDirectory(filename, westlawNextDir); 
-		}
-		
-		if(xsl != null)
-		{
-			return xsl;
-		} 
-		else
-		{
-			return recursivelySearchXslInDirectory(filename, platformDir); 
-		}
-	}
-	
-	private File recursivelySearchXslInDirectory(String filename, File directory) throws IOException
-	{
-		Collection<File> xslFiles = FileUtils.listFiles(directory, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
-		
-		for(File xsl : xslFiles) 
-		{
-			if(!StringUtils.containsIgnoreCase(xsl.getCanonicalPath(), "CobaltMobile") && 
-					!StringUtils.containsIgnoreCase(xsl.getCanonicalPath(), "web2") &&
-					!StringUtils.containsIgnoreCase(xsl.getCanonicalPath(), "Weblinks") &&
-					xsl.getName().equals(filename)) 
-			{
-				return xsl;
-			}
-		}
-		
-		return null;
-	}
-	
-	private boolean findForcePlatformAttribute(String href, String base) throws Exception
-	{
-		try 
-		{
-			File xsltBase = new File(new URI(base));
-			
-			SAXParserFactory factory = SAXParserFactory.newInstance();
-			SAXParser saxParser = factory.newSAXParser();
+    public File getEmptyXSL()
+    {
+        return emptyXSL;
+    }
 
-			XSLForcePlatformAttributeFilter forcePlatformFilter = new XSLForcePlatformAttributeFilter(href);
-			saxParser.parse(xsltBase, forcePlatformFilter);
+    public void setEmptyXSL(final File emptyXSL)
+    {
+        this.emptyXSL = emptyXSL;
+    }
 
-			return forcePlatformFilter.isForcePlatform();
-		}
-		catch(IOException e)
-		{
-			String errMessage = "Unable to perform IO operations related to following source file: " + base;
-			LOG.error(errMessage);
-			throw new EBookFormatException(errMessage, e);
-		}
-		catch(SAXException e)
-		{
-			String errMessage = "Encountered a SAX Exception while processing: " + base;
-			LOG.error(errMessage);
-			throw new EBookFormatException(errMessage, e);
-		}
-		catch(ParserConfigurationException e)
-		{
-			String errMessage = "Encountered a SAX Parser Configuration Exception while processing: " + base;
-			LOG.error(errMessage);
-			throw new EBookFormatException(errMessage, e);
-		}
-	}
+    @Override
+    public Source resolve(String href, final String base) throws TransformerException
+    {
+        StreamSource source = null;
+        try
+        {
+            if (includeAnnotations && href.equalsIgnoreCase(CONTEXT_AND_ANALYSIS))
+            {
+                // Use a different XSL style sheet if annotations is enabled for Context and Analysis
+                href = "eBook" + CONTEXT_AND_ANALYSIS;
+            }
+            else if (includeNotesOfDecisions && href.equalsIgnoreCase(NOTES_OF_DECISIONS))
+            {
+                // Use a different XSL style sheet for Notes of Decision in case they are enabled
+                href = "eBook" + NOTES_OF_DECISIONS;
+            }
 
-	protected List<String> getIncludedXSLTs() 
-	{
-		return includedXSLTs;
-	}
+            final boolean forcePlatform = findForcePlatformAttribute(href, base);
+            final File includeXSLT = findXslFile(href, forcePlatform);
 
-	protected void setIncludedXSLTs(List<String> includedXSLTs) 
-	{
-		this.includedXSLTs = includedXSLTs;
-	}
+            if (includeXSLT != null)
+            {
+                if (includedXSLTs.contains(includeXSLT.getCanonicalPath()))
+                {
+                    source = new StreamSource(emptyXSL);
+                }
+                else
+                {
+                    LOG.debug("includedXSLT: " + includeXSLT.getCanonicalPath());
+                    includedXSLTs.add(includeXSLT.getCanonicalPath());
+                    source = new StreamSource(includeXSLT);
+                }
+            }
+            else
+            {
+                throw new TransformerException("Could not locate referenced '" + href + "' XSLT.");
+            }
+        }
+        catch (final IOException e)
+        {
+            throw new TransformerException(
+                "Could not get canonical path for '" + href + "' href and '" + base + "' base.", e);
+        }
+        catch (final Exception e)
+        {
+            throw new TransformerException(e);
+        }
+
+        return source;
+    }
+
+    private File findXslFile(final String filename, final boolean forcePlatform) throws IOException
+    {
+        File xsl = null;
+        if (!forcePlatform)
+        {
+            xsl = recursivelySearchXslInDirectory(filename, westlawNextDir);
+        }
+
+        if (xsl != null)
+        {
+            return xsl;
+        }
+        else
+        {
+            return recursivelySearchXslInDirectory(filename, platformDir);
+        }
+    }
+
+    private File recursivelySearchXslInDirectory(final String filename, final File directory) throws IOException
+    {
+        final Collection<File> xslFiles =
+            FileUtils.listFiles(directory, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
+
+        for (final File xsl : xslFiles)
+        {
+            if (!StringUtils.containsIgnoreCase(xsl.getCanonicalPath(), "CobaltMobile")
+                && !StringUtils.containsIgnoreCase(xsl.getCanonicalPath(), "web2")
+                && !StringUtils.containsIgnoreCase(xsl.getCanonicalPath(), "Weblinks")
+                && xsl.getName().equals(filename))
+            {
+                return xsl;
+            }
+        }
+
+        return null;
+    }
+
+    private boolean findForcePlatformAttribute(final String href, final String base) throws Exception
+    {
+        try
+        {
+            final File xsltBase = new File(new URI(base));
+
+            final SAXParserFactory factory = SAXParserFactory.newInstance();
+            final SAXParser saxParser = factory.newSAXParser();
+
+            final XSLForcePlatformAttributeFilter forcePlatformFilter = new XSLForcePlatformAttributeFilter(href);
+            saxParser.parse(xsltBase, forcePlatformFilter);
+
+            return forcePlatformFilter.isForcePlatform();
+        }
+        catch (final IOException e)
+        {
+            final String errMessage = "Unable to perform IO operations related to following source file: " + base;
+            LOG.error(errMessage);
+            throw new EBookFormatException(errMessage, e);
+        }
+        catch (final SAXException e)
+        {
+            final String errMessage = "Encountered a SAX Exception while processing: " + base;
+            LOG.error(errMessage);
+            throw new EBookFormatException(errMessage, e);
+        }
+        catch (final ParserConfigurationException e)
+        {
+            final String errMessage = "Encountered a SAX Parser Configuration Exception while processing: " + base;
+            LOG.error(errMessage);
+            throw new EBookFormatException(errMessage, e);
+        }
+    }
+
+    protected List<String> getIncludedXSLTs()
+    {
+        return includedXSLTs;
+    }
+
+    protected void setIncludedXSLTs(final List<String> includedXSLTs)
+    {
+        this.includedXSLTs = includedXSLTs;
+    }
 }

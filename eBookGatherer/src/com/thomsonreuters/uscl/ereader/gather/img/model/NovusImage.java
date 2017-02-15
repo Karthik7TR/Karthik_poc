@@ -1,10 +1,9 @@
 package com.thomsonreuters.uscl.ereader.gather.img.model;
 
+import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.MediaType;
-
-import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 
 public class NovusImage
 {

@@ -14,10 +14,9 @@ import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 
+import com.thomsonreuters.uscl.ereader.gather.util.images.ImageConverterException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
-
-import com.thomsonreuters.uscl.ereader.gather.util.images.ImageConverterException;
 
 public class TiffImageConverterImpl implements ImageConverter
 {

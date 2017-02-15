@@ -62,7 +62,8 @@ public class GenerateEbookController
     private static final SimpleDateFormat formatter = new SimpleDateFormat(CoreConstants.DATE_FORMAT_PATTERN);
 
     @RequestMapping(value = WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW, method = RequestMethod.GET)
-    public ModelAndView generateBulkEbookPreview(@RequestParam("id") final List<Long> id, final Model model) throws Exception
+    public ModelAndView generateBulkEbookPreview(@RequestParam("id") final List<Long> id, final Model model)
+        throws Exception
     {
         final List<GenerateBulkBooksContainer> booksToGenerate = new ArrayList<GenerateBulkBooksContainer>();
         for (final Long bookId : id)
@@ -148,7 +149,8 @@ public class GenerateEbookController
                 final JobExecution runningJobExecution = managerService.findRunningJob(book);
                 if (runningJobExecution != null)
                 {
-                    final Object[] args = {book.getFullyQualifiedTitleId(), version, runningJobExecution.getId().toString()};
+                    final Object[] args =
+                        {book.getFullyQualifiedTitleId(), version, runningJobExecution.getId().toString()};
                     final String infoMessage = messageSourceAccessor.getMessage("mesg.job.enqueued.in.progress", args);
                     model.addAttribute(WebConstants.KEY_ERR_MESSAGE, infoMessage);
                 }
@@ -217,7 +219,6 @@ public class GenerateEbookController
             mav = new ModelAndView(new RedirectView(WebConstants.MVC_GROUP_DEFINITION_EDIT + queryString));
             break;
         }
-
         }
         return mav;
     }
@@ -236,7 +237,6 @@ public class GenerateEbookController
         @ModelAttribute(GenerateBookForm.FORM_NAME) final GenerateBookForm form,
         final Model model) throws Exception
     {
-
         final BookDefinition book = bookDefinitionService.findBookDefinitionByEbookDefId(id);
         if (book != null)
         {
@@ -298,16 +298,19 @@ public class GenerateEbookController
      * @param currentVersion
      * @param status
      */
-    private void calculateVersionNumbers(final Model model, final GenerateBookForm form, String currentVersion, final String status)
+    private void calculateVersionNumbers(
+        final Model model,
+        final GenerateBookForm form,
+        String currentVersion,
+        final String status)
     {
-
-        String newMajorVersion;
-        String newMinorVersion;
-        String newOverwriteVersion;
-        String majorPart;
-        String minorPart;
-        Integer newMajorPartInteger;
-        Integer newMinorPartInteger;
+        final String newMajorVersion;
+        final String newMinorVersion;
+        final String newOverwriteVersion;
+        final String majorPart;
+        final String minorPart;
+        final Integer newMajorPartInteger;
+        final Integer newMinorPartInteger;
 
         if (currentVersion.equals("Not published"))
         {
@@ -329,7 +332,6 @@ public class GenerateEbookController
 
                 newMajorPartInteger = Integer.parseInt(majorPart) + 1;
                 newMinorPartInteger = Integer.parseInt(minorPart) + 1;
-
             }
             else
             {
@@ -342,7 +344,6 @@ public class GenerateEbookController
             newMajorVersion = newMajorPartInteger.toString() + ".0";
             newMinorVersion = majorPart + "." + newMinorPartInteger.toString();
             newOverwriteVersion = currentVersion;
-
         }
 
         form.setCurrentVersion(currentVersion);
@@ -369,9 +370,8 @@ public class GenerateEbookController
      */
     private void setModelVersion(final Model model, final GenerateBookForm form, final String titleId) throws Exception
     {
-
-        String currentVersion;
-        String status;
+        final String currentVersion;
+        final String status;
 
         try
         {
@@ -380,7 +380,6 @@ public class GenerateEbookController
             {
                 currentVersion = "Not published";
                 status = null;
-
             }
             else
             {
@@ -389,7 +388,6 @@ public class GenerateEbookController
             }
             form.setCurrentVersion(currentVersion);
             calculateVersionNumbers(model, form, currentVersion, status);
-
         }
         catch (final ProviewException e)
         {
@@ -406,7 +404,11 @@ public class GenerateEbookController
         return valueDouble.intValue();
     }
 
-    private void setModelGroup(final Long bookDefinitionId, final BookDefinition book, final Model model, final GenerateBookForm form)
+    private void setModelGroup(
+        final Long bookDefinitionId,
+        final BookDefinition book,
+        final Model model,
+        final GenerateBookForm form)
     {
         final Integer currentVersion = getMajorVersion(form.getNewMinorVersion());
         final Integer nextVersion = getMajorVersion(form.getNewMajorVersion());
@@ -429,7 +431,6 @@ public class GenerateEbookController
             final GroupDefinition lastGroupDefinition = groupService.getLastGroup(book);
             if (lastGroupDefinition != null)
             {
-
                 if (lastGroupDefinition.subgroupExists())
                 {
                     if (StringUtils.isNotBlank(book.getGroupName()) && StringUtils.isBlank(book.getSubGroupHeading()))

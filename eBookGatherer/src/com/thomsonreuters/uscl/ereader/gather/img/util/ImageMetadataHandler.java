@@ -1,12 +1,11 @@
 package com.thomsonreuters.uscl.ereader.gather.img.util;
 
+import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.XMLFilterImpl;
-
-import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 
 public class ImageMetadataHandler extends XMLFilterImpl
 {

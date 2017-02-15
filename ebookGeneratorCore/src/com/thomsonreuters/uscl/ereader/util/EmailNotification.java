@@ -1,9 +1,3 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
 package com.thomsonreuters.uscl.ereader.util;
 
 import java.util.Collection;
@@ -24,12 +18,12 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.apache.commons.lang.StringUtils;
- import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
-
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 /**
- * 
+ *
  * @author <a href="mailto:ravi.nandikolla@thomsonreuters.com">Ravi Nandikolla</a>c139353
  */
 /**
@@ -38,7 +32,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class EmailNotification
 {
-	private static Logger log = LogManager.getLogger(EmailNotification.class);
+    private static Logger log = LogManager.getLogger(EmailNotification.class);
     private static final String from = "no-reply-eReader@thomsonreuters.com";
     private static final String host = "relay.int.westgroup.com";
 
@@ -48,20 +42,19 @@ public class EmailNotification
      * @param toText
      * @throws MessagingException
      */
-    public static void addAttachments(
-        final Message msg, final List<String> fileNames, final String toText)
+    public static void addAttachments(final Message msg, final List<String> fileNames, final String toText)
         throws MessagingException
     {
-        MimeBodyPart p1 = new MimeBodyPart();
+        final MimeBodyPart p1 = new MimeBodyPart();
         p1.setText(toText);
 
-        Multipart mp = new MimeMultipart();
+        final Multipart mp = new MimeMultipart();
         mp.addBodyPart(p1);
 
-        for (String str : fileNames)
+        for (final String str : fileNames)
         {
-            MimeBodyPart p2 = new MimeBodyPart();
-            FileDataSource fds = new FileDataSource(str);
+            final MimeBodyPart p2 = new MimeBodyPart();
+            final FileDataSource fds = new FileDataSource(str);
             p2.setDataHandler(new DataHandler(fds));
             p2.setFileName(fds.getName());
             mp.addBodyPart(p2);
@@ -70,60 +63,66 @@ public class EmailNotification
         msg.setContent(mp);
     }
 
-    public static void send(final Collection<InternetAddress> recipients, final String subject, final String body) {
-    	String csvRecipients = convertToCsv(recipients);
-    	send(csvRecipients, subject, body);
+    public static void send(final Collection<InternetAddress> recipients, final String subject, final String body)
+    {
+        final String csvRecipients = convertToCsv(recipients);
+        send(csvRecipients, subject, body);
     }
-    
+
     /**
-     * 
+     *
      * @param csvRecipients
      * @param subject
      * @param body
      */
     public static void send(final String csvRecipients, final String subject, final String body)
     {
-    	log.debug("Recipients: " + csvRecipients);
+        log.debug("Recipients: " + csvRecipients);
         if ((csvRecipients != null) && !csvRecipients.isEmpty())
         {
             try
             {
-                if ((subject != null) && subject.isEmpty()) {
+                if ((subject != null) && subject.isEmpty())
+                {
                     throw new MessagingException("No subject provided");
                 }
-                if (StringUtils.isBlank(csvRecipients)) {
+                if (StringUtils.isBlank(csvRecipients))
+                {
                     throw new MessagingException("No recipients provided");
                 }
 
-                Properties props = new Properties();
+                final Properties props = new Properties();
 
                 props.put("mail.smtp.host", host);
 
-                Session session = Session.getInstance(props);
+                final Session session = Session.getInstance(props);
 
-                String[] emails = csvRecipients.split(",");
+                final String[] emails = csvRecipients.split(",");
 
-                for (String emailAddress : emails)
+                for (final String emailAddress : emails)
                 {
-                    Message msg = prepareMessage(emailAddress.trim(), subject, from, session);
+                    final Message msg = prepareMessage(emailAddress.trim(), subject, from, session);
 
                     msg.setText(body);
 
                     Transport.send(msg);
                 }
             }
-            catch (MessagingException mex)
+            catch (final MessagingException mex)
             {
                 mex.printStackTrace();
             }
         }
     }
-    
-    
-    public static void sendWithAttachment(final Collection<InternetAddress> recipients,
-    			final String subject, final String body, final List<String> fileNames) {
-    	String csvRecipients = convertToCsv(recipients);
-    	sendWithAttachment(csvRecipients, subject, body, fileNames);
+
+    public static void sendWithAttachment(
+        final Collection<InternetAddress> recipients,
+        final String subject,
+        final String body,
+        final List<String> fileNames)
+    {
+        final String csvRecipients = convertToCsv(recipients);
+        sendWithAttachment(csvRecipients, subject, body, fileNames);
     }
 
     /**
@@ -133,7 +132,9 @@ public class EmailNotification
      * @param fileNames
      */
     public static void sendWithAttachment(
-        final String toEmail, final String toSubject, final String toText,
+        final String toEmail,
+        final String toSubject,
+        final String toText,
         final List<String> fileNames)
     {
         if ((toEmail != null) && !toEmail.isEmpty())
@@ -150,35 +151,38 @@ public class EmailNotification
                     throw new MessagingException("No text provided.");
                 }
 
-                Properties props = new Properties();
+                final Properties props = new Properties();
                 props.put("mail.smtp.host", host);
 
-                Message msg = prepareMessage(toEmail, toSubject, from, Session.getInstance(props));
+                final Message msg = prepareMessage(toEmail, toSubject, from, Session.getInstance(props));
                 addAttachments(msg, fileNames, toText);
                 Transport.send(msg);
             }
-            catch (MessagingException mex)
+            catch (final MessagingException mex)
             {
-               mex.printStackTrace();
+                mex.printStackTrace();
             }
         }
     }
-    
-    private static String convertToCsv(Collection<InternetAddress> recipients) {
-    	StringBuffer csvRecipients = new StringBuffer();
-    	boolean firstTime = true;
-    	for (InternetAddress recipient : recipients) {
-    		if (!firstTime) {
-    			csvRecipients.append(",");
-    		}
-    		firstTime = false;
-    		csvRecipients.append(recipient.getAddress());
-    	}
-    	return csvRecipients.toString();
+
+    private static String convertToCsv(final Collection<InternetAddress> recipients)
+    {
+        final StringBuffer csvRecipients = new StringBuffer();
+        boolean firstTime = true;
+        for (final InternetAddress recipient : recipients)
+        {
+            if (!firstTime)
+            {
+                csvRecipients.append(",");
+            }
+            firstTime = false;
+            csvRecipients.append(recipient.getAddress());
+        }
+        return csvRecipients.toString();
     }
 
     /**
-     * 
+     *
      * @param toEmail
      * @param toSubject
      * @param from
@@ -190,10 +194,12 @@ public class EmailNotification
      * @throws AddressException
      */
     private static Message prepareMessage(
-        final String toEmail, final String toSubject, final String from, final Session session)
-        throws MessagingException, AddressException
+        final String toEmail,
+        final String toSubject,
+        final String from,
+        final Session session) throws MessagingException, AddressException
     {
-        Message msg = new MimeMessage(session);
+        final Message msg = new MimeMessage(session);
         msg.setFrom(new InternetAddress(from));
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
         msg.setSubject(toSubject);

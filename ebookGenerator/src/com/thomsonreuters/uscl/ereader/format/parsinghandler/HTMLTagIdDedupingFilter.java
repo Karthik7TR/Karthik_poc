@@ -1,8 +1,3 @@
-/*
- * Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
 import java.util.ArrayList;
@@ -24,67 +19,67 @@ import org.xml.sax.helpers.XMLFilterImpl;
  */
 public class HTMLTagIdDedupingFilter extends XMLFilterImpl
 {
-	private Set<String> anchorIdSet = new HashSet<String>(); 
-	private List<String> duplicateIdList = new ArrayList<String>();
-	private Map<String,Integer> duplicateIdCount = new HashMap<String,Integer>();
-	private String docGuid;
-	
-	public HTMLTagIdDedupingFilter(String docGuid)
-	{
-		this.docGuid = docGuid;
-	}
-	
-	/**
-	 * @return duplicateIdList contains all the duplicate anchor id's. 
-	 */
-	public List<String> getDuplicateIdList(){
-		return duplicateIdList;
-	}
+    private Set<String> anchorIdSet = new HashSet<>();
+    private List<String> duplicateIdList = new ArrayList<>();
+    private Map<String, Integer> duplicateIdCount = new HashMap<>();
+    private String docGuid;
+
+    public HTMLTagIdDedupingFilter(final String docGuid)
+    {
+        this.docGuid = docGuid;
+    }
+
+    /**
+     * @return duplicateIdList contains all the duplicate anchor id's.
+     */
+    public List<String> getDuplicateIdList()
+    {
+        return duplicateIdList;
+    }
+
     @Override
-    public void startElement(
-        final String uri, final String localName, final String qName, final Attributes atts)
+    public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
         throws SAXException
     {
-    	if (atts != null && atts.getValue("id") != null)
+        if (atts != null && atts.getValue("id") != null)
         {
-    		String idVal = atts.getValue("id");
-    		int count = 0;
-    		if (anchorIdSet.contains(idVal))
-    		{
-    			if (duplicateIdCount.containsKey(idVal))
-    			{
-    			   count = duplicateIdCount.get(idVal) + 1;    			   
-    			}
-    			duplicateIdCount.put(idVal, count);
-    			AttributesImpl newAtts = new AttributesImpl(atts);
-    			String newIdVal = idVal + "_eBG_" + count;
-    			int i = atts.getIndex("id");
-    			newAtts.setValue(i, newIdVal);
-    			duplicateIdList.add(docGuid + ":" + qName + ", " + idVal + ", " + newIdVal);
-    			super.startElement(uri, localName, qName, newAtts);    			
-    		}
-    		else {
-    			anchorIdSet.add(idVal);	
-    			super.startElement(uri, localName, qName, atts);
-    		}
-        }       
+            final String idVal = atts.getValue("id");
+            int count = 0;
+            if (anchorIdSet.contains(idVal))
+            {
+                if (duplicateIdCount.containsKey(idVal))
+                {
+                    count = duplicateIdCount.get(idVal) + 1;
+                }
+                duplicateIdCount.put(idVal, count);
+                final AttributesImpl newAtts = new AttributesImpl(atts);
+                final String newIdVal = idVal + "_eBG_" + count;
+                final int i = atts.getIndex("id");
+                newAtts.setValue(i, newIdVal);
+                duplicateIdList.add(docGuid + ":" + qName + ", " + idVal + ", " + newIdVal);
+                super.startElement(uri, localName, qName, newAtts);
+            }
+            else
+            {
+                anchorIdSet.add(idVal);
+                super.startElement(uri, localName, qName, atts);
+            }
+        }
         else
         {
             super.startElement(uri, localName, qName, atts);
         }
     }
-	
-	@Override
-	public void characters(char buf[], int offset, int len) throws SAXException
-	{
-		super.characters(buf, offset, len);
-		
-	}
 
     @Override
-    public void endElement(final String uri, final String localName, final String qName)
-        throws SAXException
+    public void characters(final char[] buf, final int offset, final int len) throws SAXException
     {
-       super.endElement(uri, localName, qName);
+        super.characters(buf, offset, len);
+    }
+
+    @Override
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException
+    {
+        super.endElement(uri, localName, qName);
     }
 }

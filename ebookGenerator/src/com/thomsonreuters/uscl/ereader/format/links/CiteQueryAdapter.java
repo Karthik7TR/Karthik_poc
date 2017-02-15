@@ -1,12 +1,7 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-
 package com.thomsonreuters.uscl.ereader.format.links;
 
- import org.apache.log4j.LogManager; import org.apache.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 
 import com.trgr.cobalt.util.urlbuilder.CiteQuery;
@@ -15,7 +10,6 @@ import com.trgr.cobalt.util.urlbuilder.ContainerAwareUrlBuilderFactoryBean;
 import com.trgr.cobalt.util.urlbuilder.UrlBuilder;
 import com.trgr.cobalt.util.urlbuilder.UrlBuilderException;
 import com.trgr.cobalt.util.urlbuilder.UrlBuilderInput;
-
 
 /**
  * This class serves as an adapter to ensure that any calls to GetCiteQueryLink, during the
@@ -30,75 +24,146 @@ public class CiteQueryAdapter
     private static String HOSTNAME;
     private static String MUD_PARAMETERS_RS;
     private static String MUD_PARAMETERS_VR;
-    CiteQuery citeQuery = null;
-    UrlBuilder urlBuilder = null;
+    private CiteQuery citeQuery;
+    private UrlBuilder urlBuilder;
 
-    public CiteQueryAdapter() throws Exception
+    public CiteQueryAdapter()
+        throws Exception
     {
-        this.citeQuery = new CiteQuery(Container.COBALT.name());
-        this.urlBuilder = new ContainerAwareUrlBuilderFactoryBean().getObject();
+        citeQuery = new CiteQuery(Container.COBALT.name());
+        urlBuilder = new ContainerAwareUrlBuilderFactoryBean().getObject();
     }
 
     public String GetCiteQueryLink(
-        String linkElement, String originatingDoc, String keyText, String sourceCite)
+        final String linkElement,
+        final String originatingDoc,
+        final String keyText,
+        final String sourceCite)
     {
         return this.getCiteQueryLinkIntermediary(linkElement, originatingDoc, keyText, sourceCite);
     }
 
     public String GetCiteQueryLink(
-        String linkElement, String originatingDoc, String keyText, String sourceCite, String param1)
+        final String linkElement,
+        final String originatingDoc,
+        final String keyText,
+        final String sourceCite,
+        final String param1)
     {
-        return this.getCiteQueryLinkIntermediary(
-            linkElement, originatingDoc, keyText, sourceCite, param1);
+        return this.getCiteQueryLinkIntermediary(linkElement, originatingDoc, keyText, sourceCite, param1);
     }
 
     public String GetCiteQueryLink(
-        String linkElement, String originatingDoc, String keyText, String sourceCite, String param1,
-        String param2)
+        final String linkElement,
+        final String originatingDoc,
+        final String keyText,
+        final String sourceCite,
+        final String param1,
+        final String param2)
     {
-        return this.getCiteQueryLinkIntermediary(
-            linkElement, originatingDoc, keyText, sourceCite, param1, param2);
+        return this.getCiteQueryLinkIntermediary(linkElement, originatingDoc, keyText, sourceCite, param1, param2);
     }
 
     public String GetCiteQueryLink(
-        String linkElement, String originatingDoc, String keyText, String sourceCite, String param1,
-        String param2, String param3)
+        final String linkElement,
+        final String originatingDoc,
+        final String keyText,
+        final String sourceCite,
+        final String param1,
+        final String param2,
+        final String param3)
     {
-        return this.getCiteQueryLinkIntermediary(
-            linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3);
+        return this
+            .getCiteQueryLinkIntermediary(linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3);
     }
 
     public String GetCiteQueryLink(
-        String linkElement, String originatingDoc, String keyText, String sourceCite, String param1,
-        String param2, String param3, String param4)
+        final String linkElement,
+        final String originatingDoc,
+        final String keyText,
+        final String sourceCite,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4)
     {
         return this.getCiteQueryLinkIntermediary(
-            linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3, param4);
+            linkElement,
+            originatingDoc,
+            keyText,
+            sourceCite,
+            param1,
+            param2,
+            param3,
+            param4);
     }
 
     public String GetCiteQueryLink(
-        Node linkElement, String originatingDoc, String keyText, String sourceCite, String param1,
-        String param2, String param3, String param4)
+        final Node linkElement,
+        final String originatingDoc,
+        final String keyText,
+        final String sourceCite,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4)
     {
         return this.getCiteQueryLinkIntermediary(
-            linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3, param4);
+            linkElement,
+            originatingDoc,
+            keyText,
+            sourceCite,
+            param1,
+            param2,
+            param3,
+            param4);
     }
 
     public String GetCiteQueryLink(
-        String linkElement, String originatingDoc, String keyText, String sourceCite, String param1,
-        String param2, String param3, String param4, String param5)
+        final String linkElement,
+        final String originatingDoc,
+        final String keyText,
+        final String sourceCite,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4,
+        final String param5)
     {
         return this.getCiteQueryLinkIntermediary(
-            linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3, param4, param5);
+            linkElement,
+            originatingDoc,
+            keyText,
+            sourceCite,
+            param1,
+            param2,
+            param3,
+            param4,
+            param5);
     }
-    
+
     public String GetCiteQueryLink(
-            Node linkElement, String originatingDoc, String keyText, String sourceCite, String param1,
-            String param2, String param3, String param4, String param5)
-        {
-            return this.getCiteQueryLinkIntermediary(
-                linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3, param4, param5);
-        }
+        final Node linkElement,
+        final String originatingDoc,
+        final String keyText,
+        final String sourceCite,
+        final String param1,
+        final String param2,
+        final String param3,
+        final String param4,
+        final String param5)
+    {
+        return this.getCiteQueryLinkIntermediary(
+            linkElement,
+            originatingDoc,
+            keyText,
+            sourceCite,
+            param1,
+            param2,
+            param3,
+            param4,
+            param5);
+    }
 
     public void setHostname(final String hostname)
     {
@@ -116,19 +181,19 @@ public class CiteQueryAdapter
     }
 
     /**
-     * 
+     *
      * @param url
      *
      * @return Updated Url (with extra parameters)
      */
     private String addExtraParameters(final String url)
     {
-        StringBuilder strBuilder = new StringBuilder();
-        String extraParameters = "&RS=" + MUD_PARAMETERS_RS + "&vr=" + MUD_PARAMETERS_VR;
+        final StringBuilder strBuilder = new StringBuilder();
+        final String extraParameters = "&RS=" + MUD_PARAMETERS_RS + "&vr=" + MUD_PARAMETERS_VR;
 
         if (url.contains("#"))
         {
-            String[] strSpliter = url.split("#");
+            final String[] strSpliter = url.split("#");
 
             strBuilder.append(strSpliter[0]);
             strBuilder.append(extraParameters);
@@ -137,7 +202,7 @@ public class CiteQueryAdapter
             {
                 if (strSpliter[1].contains("&"))
                 {
-                    String[] newStrSpliter = strSpliter[1].split("&");
+                    final String[] newStrSpliter = strSpliter[1].split("&");
                     int i = 1;
 
                     for (; i < newStrSpliter.length; i++)
@@ -163,14 +228,16 @@ public class CiteQueryAdapter
     }
 
     private String getCiteQueryLinkIntermediary(
-        Node linkElement, String originatingDoc, String keyText, String sourceCite,
-        String... parameters)
+        final Node linkElement,
+        final String originatingDoc,
+        final String keyText,
+        final String sourceCite,
+        final String... parameters)
     {
         try
         {
-            UrlBuilderInput input =
-                this.citeQuery.getCiteQueryLink(
-                    linkElement, originatingDoc, keyText, sourceCite, "ebook");
+            final UrlBuilderInput input =
+                citeQuery.getCiteQueryLink(linkElement, originatingDoc, keyText, sourceCite, "ebook");
 
             if (input == null)
             {
@@ -182,11 +249,10 @@ public class CiteQueryAdapter
             try
             {
                 response = HOSTNAME
-                    + this.urlBuilder.createUrl(
-                        Container.COBALT.name(), input.getUrlTemplateName(), input.getParameters());
+                    + urlBuilder.createUrl(Container.COBALT.name(), input.getUrlTemplateName(), input.getParameters());
                 response = addExtraParameters(response);
             }
-            catch (UrlBuilderException e)
+            catch (final UrlBuilderException e)
             {
                 response = "";
 
@@ -195,7 +261,7 @@ public class CiteQueryAdapter
 
             return response;
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             return "";
         }
@@ -210,13 +276,15 @@ public class CiteQueryAdapter
     /// <param name="sourceCite">The sourceCite of the document, used for CM ref type.</param>
     /// <returns>UrlBuilderInput to pass to UrlBuilder</returns>
     private String getCiteQueryLinkIntermediary(
-        String linkElement, String originatingDoc, String keyText, String sourceCite,
-        String... parameters)
+        final String linkElement,
+        final String originatingDoc,
+        final String keyText,
+        final String sourceCite,
+        final String... parameters)
     {
         try
         {
-            UrlBuilderInput input =
-                this.citeQuery.getCiteQueryLink(linkElement, originatingDoc, keyText, sourceCite);
+            final UrlBuilderInput input = citeQuery.getCiteQueryLink(linkElement, originatingDoc, keyText, sourceCite);
 
             if (input == null)
             {
@@ -228,11 +296,10 @@ public class CiteQueryAdapter
             try
             {
                 response = HOSTNAME
-                    + this.urlBuilder.createUrl(
-                        Container.COBALT.name(), input.getUrlTemplateName(), input.getParameters());
+                    + urlBuilder.createUrl(Container.COBALT.name(), input.getUrlTemplateName(), input.getParameters());
                 response = addExtraParameters(response);
             }
-            catch (UrlBuilderException e)
+            catch (final UrlBuilderException e)
             {
                 response = "";
 
@@ -241,7 +308,7 @@ public class CiteQueryAdapter
 
             return response;
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             return "";
         }

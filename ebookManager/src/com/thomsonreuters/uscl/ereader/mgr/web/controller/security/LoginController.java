@@ -161,7 +161,7 @@ public class LoginController
     {
         log.debug("AUTHENTICATION FAILED!");
         final InfoMessage mesg = new InfoMessage(InfoMessage.Type.FAIL, "Authentication Failed");
-        final List<InfoMessage> infoMessages = new ArrayList<InfoMessage>(1);
+        final List<InfoMessage> infoMessages = new ArrayList<>(1);
         infoMessages.add(mesg);
         model.addAttribute(WebConstants.KEY_INFO_MESSAGES, infoMessages);
         model.addAttribute(LoginForm.FORM_NAME, new LoginForm());

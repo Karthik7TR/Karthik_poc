@@ -14,135 +14,143 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
+import com.thomsonreuters.uscl.ereader.notification.SendingEmailNotificationTest;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-import com.thomsonreuters.uscl.ereader.notification.SendingEmailNotificationTest;
-import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
+public final class AutoSplitGuiIdsHandlerTest
+{
+    private AutoSplitNodesHandler splitBookFilter;
+    private List<String> splitTocGuidList;
+    private static final String FINE_NAME = "toc.xml";
+    private InputStream tocXml;
+    private File tocFile;
 
-public class AutoSplitGuiIdsHandlerTest {
+    @Before
+    public void setUp() throws Exception
+    {
+        final URL url = SendingEmailNotificationTest.class.getResource(FINE_NAME);
+        tocFile = new File(url.toURI());
+    }
 
-	private AutoSplitNodesHandler splitBookFilter;
-	List<String> splitTocGuidList;
-	private static final String FINE_NAME = "toc.xml";
-	InputStream tocXml;
-	File tocFile;
+    @After
+    public void tearDown()
+    {
+        splitBookFilter = null;
+    }
 
-	@Before
-	public void setUp() throws Exception {
+    @Test
+    public void testMargin()
+    {
+        splitBookFilter = new AutoSplitNodesHandler(7500, 10);
+        Assert.assertEquals(Integer.valueOf(750), splitBookFilter.getMargin(7500));
+    }
 
-		URL url = SendingEmailNotificationTest.class.getResource(FINE_NAME);
-		tocFile = new File(url.toURI());
+    @Test
+    public void testMarginWithuneven()
+    {
+        splitBookFilter = new AutoSplitNodesHandler(7523, 10);
+        Assert.assertEquals(Integer.valueOf(752), splitBookFilter.getMargin(7523));
+    }
 
-	}
+    @Test
+    public void testWithFile() throws Exception
+    {
+        tocXml = new FileInputStream(tocFile);
+        final Map<String, String> splitTocGuidList = testHelper(tocXml, 25, 10);
+        Assert.assertEquals(splitTocGuidList.size(), 4);
+    }
 
-	@After
-	public void tearDown() throws Exception {
-		splitBookFilter = null;
-	}
+    @Test
+    public void test()
+    {
+        final BookDefinition book = new BookDefinition();
+        final List<SplitDocument> expectTedGuidList = new ArrayList<>();
 
-	@Test
-	public void testMargin() throws Exception {
-		splitBookFilter = new AutoSplitNodesHandler(7500, 10);
-		Assert.assertEquals(new Integer(750), splitBookFilter.getMargin(7500));
-	}
-	
-	@Test
-	public void testMarginWithuneven() throws Exception {
-		splitBookFilter = new AutoSplitNodesHandler(7523, 10);
-		Assert.assertEquals(new Integer(752), splitBookFilter.getMargin(7523));
-	}
+        final SplitDocument s = new SplitDocument();
+        s.setTocGuid("TABLEOFCONTENTS33CHARACTERSLONG_4");
+        s.setBookDefinition(book);
+        expectTedGuidList.add(s);
 
-	@Test
-	public void testWithFile() throws Exception {
-		tocXml = new FileInputStream(tocFile);
-		Map<String, String> splitTocGuidList = testHelper(tocXml, 25, 10);
-		Assert.assertEquals(splitTocGuidList.size(), 4);
-	}
+        book.setSplitDocuments(new HashSet<>(expectTedGuidList));
 
-	@Test
-	public void test() {
-		BookDefinition book = new BookDefinition();
-		List<SplitDocument> expectTedGuidList = new ArrayList<SplitDocument>();
+        System.out.println(book.getSplitDocuments().toString());
+    }
 
-		SplitDocument s = new SplitDocument();
-		s.setTocGuid("TABLEOFCONTENTS33CHARACTERSLONG_4");
-		s.setBookDefinition(book);
-		expectTedGuidList.add(s);
+    @Test
+    public void testWithString() throws Exception
+    {
+        final String xmlTestStr = "<EBook>"
+            + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
+            + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid>"
+            + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
+            + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
+            + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_5</Guid><DocumentGuid>DOC_GUID4</DocumentGuid></EBookToc></EBookToc>"
+            + "</EBook>";
 
-		book.setSplitDocuments(new HashSet<SplitDocument>(expectTedGuidList));
+        final List<String> expectTedGuidList = new ArrayList<>();
+        expectTedGuidList.add("TABLEOFCONTENTS33CHARACTERSLONG_5");
 
-		System.out.println(book.getSplitDocuments().toString());
+        final ByteArrayInputStream input = new ByteArrayInputStream(xmlTestStr.getBytes());
+        final Map<String, String> splitTocGuidList = testHelper(input, 2, 10);
 
-	}
+        Assert.assertEquals(splitTocGuidList.size(), expectTedGuidList.size());
+        for (final Map.Entry<String, String> entry : splitTocGuidList.entrySet())
+        {
+            final String uuid = entry.getKey();
+            Assert.assertEquals(expectTedGuidList.get(0).toString(), uuid);
+        }
+    }
 
-	@Test
-	public void testWithString() throws Exception {
-		String xmlTestStr = "<EBook>"
-				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
-				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid>"
-				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_3</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
-				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_4</Guid><DocumentGuid>DOC_GUID3</DocumentGuid></EBookToc>"
-				+ "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_5</Guid><DocumentGuid>DOC_GUID4</DocumentGuid></EBookToc></EBookToc>"
-				+ "</EBook>";
+    public Map<String, String> testHelper(final InputStream inputXML, final int splitSize, final int percent) throws SAXException
+    {
+        Map<String, String> splitTocGuidList = new HashMap<>();
+        ByteArrayOutputStream output = null;
+        try
+        {
+            output = new ByteArrayOutputStream();
 
-		List<String> expectTedGuidList = new ArrayList<String>();
-		expectTedGuidList.add("TABLEOFCONTENTS33CHARACTERSLONG_5");
+            splitBookFilter = new AutoSplitNodesHandler(splitSize, percent);
+            splitBookFilter.parseInputStream(inputXML);
 
-		ByteArrayInputStream input = new ByteArrayInputStream(xmlTestStr.getBytes());
-		Map<String, String> splitTocGuidList = testHelper(input, 2, 10);
-		
-		Assert.assertEquals(splitTocGuidList.size(), expectTedGuidList.size());
-		for (Map.Entry<String, String> entry : splitTocGuidList.entrySet()) {
-			String uuid = entry.getKey();
-			Assert.assertEquals(expectTedGuidList.get(0).toString(),uuid);
-		}
+            //splitBookFilter.setDeterminedPartSize(splitSize);
 
-		
-	}
+            splitTocGuidList = splitBookFilter.getSplitTocTextMap();
 
-	public Map<String, String> testHelper(InputStream inputXML, int splitSize, int percent) throws SAXException {
-		Map<String, String> splitTocGuidList = new HashMap<String, String>();
-		ByteArrayOutputStream output = null;
-		try {
+            for (final Map.Entry<String, String> entry : splitTocGuidList.entrySet())
+            {
+                final String uuid = entry.getKey();
+                System.out.println(entry.getValue() + "----------------Toc UUID-----" + uuid);
+            }
+        }
+        catch (final Exception e)
+        {
+            fail("Encountered exception during test: " + e.getMessage());
+        }
+        finally
+        {
+            try
+            {
+                if (inputXML != null)
+                {
+                    inputXML.close();
+                }
+                if (output != null)
+                {
+                    output.close();
+                }
+            }
+            catch (final Exception e)
+            {
+                fail("Couldn't clean up resources: " + e.getMessage());
+            }
+        }
 
-			output = new ByteArrayOutputStream();
-
-			splitBookFilter = new AutoSplitNodesHandler(splitSize, percent);
-			splitBookFilter.parseInputStream(inputXML);
-
-			//splitBookFilter.setDeterminedPartSize(splitSize);
-
-			splitTocGuidList = splitBookFilter.getSplitTocTextMap();
-
-			
-			for (Map.Entry<String, String> entry : splitTocGuidList.entrySet()) {
-				String uuid = entry.getKey();
-				System.out.println(entry.getValue() + "----------------Toc UUID-----" + uuid);
-			}
-
-		} catch (Exception e) {
-			fail("Encountered exception during test: " + e.getMessage());
-		} finally {
-			try {
-				if (inputXML != null) {
-					inputXML.close();
-				}
-				if (output != null) {
-					output.close();
-				}
-			} catch (Exception e) {
-				fail("Couldn't clean up resources: " + e.getMessage());
-			}
-		}
-
-		return splitTocGuidList;
-	}
-
-	
-
+        return splitTocGuidList;
+    }
 }

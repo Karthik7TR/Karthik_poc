@@ -1,8 +1,3 @@
-/*
- * Copyright 2012: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
 package com.thomsonreuters.uscl.ereader.format.links;
 
 import java.io.ByteArrayInputStream;
@@ -16,26 +11,24 @@ import org.springframework.util.Assert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-
-public class CiteQueryAdapterTest
+public final class CiteQueryAdapterTest
 {
-    CiteQueryAdapter citeQueryAdapter;
+    private CiteQueryAdapter citeQueryAdapter;
 
     @Test
     public void getCiteQueryLink()
     {
-        String linkElement =
+        final String linkElement =
             "<cite.query w-ref-type=\"DA\" w-normalized-cite=\"IMPHDMYREFCH5\" w-pub-number=\"135162\" ID=\"Ic6a6af900bbe11e1b1520000837bc6dd\">References</cite.query>";
-        String originatingDoc = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5";
-        String keyText = "";
-        String sourceCite = "Immigr. Proc. Handbook § 5:42";
-        String param1 = "originationContext=document";
-        String param2 = "";
-        String param3 = "";
-        String param4 = "transitionType=DocumentItem";
-        String urlString =
-            citeQueryAdapter.GetCiteQueryLink(
-                linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3, param4);
+        final String originatingDoc = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5";
+        final String keyText = "";
+        final String sourceCite = "Immigr. Proc. Handbook ï¿½ 5:42";
+        final String param1 = "originationContext=document";
+        final String param2 = "";
+        final String param3 = "";
+        final String param4 = "transitionType=DocumentItem";
+        final String urlString = citeQueryAdapter
+            .GetCiteQueryLink(linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3, param4);
 
         Assert.isTrue(
             urlString.contains("originatingDoc=Iff5a5a9b7c8f11da9de6e47d6d5aa7a5"),
@@ -45,15 +38,13 @@ public class CiteQueryAdapterTest
     @Test
     public void getCiteQueryLink1()
     {
-        String linkElement =
+        final String linkElement =
             "<cite.query w-ref-type=\"DA\" w-normalized-cite=\"IMPHDMYREFCH5\" w-pub-number=\"135162\" ID=\"Ic6a6af900bbe11e1b1520000837bc6dd\">References</cite.query>";
-        String originatingDoc = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5";
-        String keyText = "";
-        String sourceCite = "Immigr. Proc. Handbook § 5:42";
-        String param1 = "originationContext=document";
-        String urlString =
-            citeQueryAdapter.GetCiteQueryLink(
-                linkElement, originatingDoc, keyText, sourceCite, param1);
+        final String originatingDoc = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5";
+        final String keyText = "";
+        final String sourceCite = "Immigr. Proc. Handbook ï¿½ 5:42";
+        final String param1 = "originationContext=document";
+        final String urlString = citeQueryAdapter.GetCiteQueryLink(linkElement, originatingDoc, keyText, sourceCite, param1);
 
         Assert.isTrue(
             urlString.contains("originatingDoc=Iff5a5a9b7c8f11da9de6e47d6d5aa7a5"),
@@ -63,17 +54,16 @@ public class CiteQueryAdapterTest
     @Test
     public void getCiteQueryLink2()
     {
-        String linkElement =
+        final String linkElement =
             "<cite.query w-ref-type=\"DA\" w-normalized-cite=\"IMPHDMYREFCH5\" w-pub-number=\"135162\" ID=\"Ic6a6af900bbe11e1b1520000837bc6dd\">References</cite.query>";
-        String originatingDoc = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5";
-        String keyText = "";
-        String sourceCite = "Immigr. Proc. Handbook § 5:42";
-        String param1 = "originationContext=document";
-        String param2 = "";
+        final String originatingDoc = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5";
+        final String keyText = "";
+        final String sourceCite = "Immigr. Proc. Handbook ï¿½ 5:42";
+        final String param1 = "originationContext=document";
+        final String param2 = "";
 
-        String urlString =
-            citeQueryAdapter.GetCiteQueryLink(
-                linkElement, originatingDoc, keyText, sourceCite, param1, param2);
+        final String urlString =
+            citeQueryAdapter.GetCiteQueryLink(linkElement, originatingDoc, keyText, sourceCite, param1, param2);
 
         Assert.isTrue(
             urlString.contains("originatingDoc=Iff5a5a9b7c8f11da9de6e47d6d5aa7a5"),
@@ -83,18 +73,17 @@ public class CiteQueryAdapterTest
     @Test
     public void getCiteQueryLink3()
     {
-        String linkElement =
+        final String linkElement =
             "<cite.query w-ref-type=\"DA\" w-normalized-cite=\"IMPHDMYREFCH5\" w-pub-number=\"135162\" ID=\"Ic6a6af900bbe11e1b1520000837bc6dd\">References</cite.query>";
-        String originatingDoc = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5";
-        String keyText = "";
-        String sourceCite = "Immigr. Proc. Handbook § 5:42";
-        String param1 = "originationContext=document";
-        String param2 = "";
-        String param3 = "";
-        String param4 = "transitionType=DocumentItem";
-        String urlString =
-            citeQueryAdapter.GetCiteQueryLink(
-                linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3);
+        final String originatingDoc = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5";
+        final String keyText = "";
+        final String sourceCite = "Immigr. Proc. Handbook ï¿½ 5:42";
+        final String param1 = "originationContext=document";
+        final String param2 = "";
+        final String param3 = "";
+        final String param4 = "transitionType=DocumentItem";
+        final String urlString =
+            citeQueryAdapter.GetCiteQueryLink(linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3);
 
         Assert.isTrue(
             urlString.contains("originatingDoc=Iff5a5a9b7c8f11da9de6e47d6d5aa7a5"),
@@ -104,35 +93,34 @@ public class CiteQueryAdapterTest
     @Test
     public void getCiteQueryLinkWithNode()
     {
-        String linkStr =
+        final String linkStr =
             "<cite.query w-ref-type=\"DA\" w-normalized-cite=\"IMPHDMYREFCH5\" w-pub-number=\"135162\" ID=\"Ic6a6af900bbe11e1b1520000837bc6dd\">References</cite.query>";
-        DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
+        final DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
         Node linkElement = null;
 
         try
         {
-            DocumentBuilder builder = fact.newDocumentBuilder();
-            Document doc = builder.parse(new ByteArrayInputStream(linkStr.getBytes("UTF-8")));
+            final DocumentBuilder builder = fact.newDocumentBuilder();
+            final Document doc = builder.parse(new ByteArrayInputStream(linkStr.getBytes("UTF-8")));
 
             linkElement = doc.getDocumentElement();
 
             //linkElement = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(linkStr.getBytes())).getDocumentElement();
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             System.out.println(e.getMessage());
         }
 
-        String originatingDoc = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5";
-        String keyText = "";
-        String sourceCite = "Immigr. Proc. Handbook § 5:42";
-        String param1 = "originationContext=document";
-        String param2 = "";
-        String param3 = "";
-        String param4 = "transitionType=DocumentItem";
-        String urlString =
-            citeQueryAdapter.GetCiteQueryLink(
-                linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3, param4);
+        final String originatingDoc = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5";
+        final String keyText = "";
+        final String sourceCite = "Immigr. Proc. Handbook ï¿½ 5:42";
+        final String param1 = "originationContext=document";
+        final String param2 = "";
+        final String param3 = "";
+        final String param4 = "transitionType=DocumentItem";
+        final String urlString = citeQueryAdapter
+            .GetCiteQueryLink(linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3, param4);
 
         Assert.isTrue(
             urlString.contains("originatingDoc=Iff5a5a9b7c8f11da9de6e47d6d5aa7a5"),
@@ -142,13 +130,12 @@ public class CiteQueryAdapterTest
     @Test
     public void getCiteQueryLinkWithoutParameters()
     {
-        String linkElement =
+        final String linkElement =
             "<cite.query w-ref-type=\"DA\" w-normalized-cite=\"IMPHDMYREFCH5\" w-pub-number=\"135162\" ID=\"Ic6a6af900bbe11e1b1520000837bc6dd\">References</cite.query>";
-        String originatingDoc = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5";
-        String keyText = "";
-        String sourceCite = "Immigr. Proc. Handbook § 5:42";
-        String urlString =
-            citeQueryAdapter.GetCiteQueryLink(linkElement, originatingDoc, keyText, sourceCite);
+        final String originatingDoc = "Iff5a5a9b7c8f11da9de6e47d6d5aa7a5";
+        final String keyText = "";
+        final String sourceCite = "Immigr. Proc. Handbook ï¿½ 5:42";
+        final String urlString = citeQueryAdapter.GetCiteQueryLink(linkElement, originatingDoc, keyText, sourceCite);
 
         Assert.isTrue(
             urlString.contains("originatingDoc=Iff5a5a9b7c8f11da9de6e47d6d5aa7a5"),

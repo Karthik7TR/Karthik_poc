@@ -1,123 +1,151 @@
-/*
- * Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
 package com.thomsonreuters.uscl.ereader.core.job.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Level;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.thomsonreuters.uscl.ereader.core.job.dao.AppParameterDao;
 import com.thomsonreuters.uscl.ereader.core.job.domain.AppParameter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Level;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.transaction.annotation.Transactional;
 
-public class AppConfigServiceImpl implements AppConfigService {
-	private static final int DEFAULT_SIZE = 2;
-	private AppParameterDao dao;
-	private String defaultProviewHostname;
-	private NovusEnvironment defaultNovusEnvironment;
-	
-	public AppConfigServiceImpl() {
-		super();
-	}
-	
-	@Override
-	@Transactional(readOnly=true)
-	public JobThrottleConfig loadJobThrottleConfig() {
-		String coreThreadPoolSizeString = getConfigValue(JobThrottleConfig.Key.coreThreadPoolSize.toString());
-		int coreThreadPoolSize = (StringUtils.isNotBlank(coreThreadPoolSizeString)) ? Integer.valueOf(coreThreadPoolSizeString) : DEFAULT_SIZE;
-		
-		String stepThrottleEnabledString = getConfigValue(JobThrottleConfig.Key.stepThrottleEnabled.toString());
-		boolean stepThrottleEnabled = (StringUtils.isNotBlank(stepThrottleEnabledString)) ? Boolean.valueOf(stepThrottleEnabledString) : false;
-		
-		String throttleStepName = getConfigValue(JobThrottleConfig.Key.throttleStepName.toString());
-		
-		String throtttleStepMaxJobsString = getConfigValue(JobThrottleConfig.Key.throtttleStepMaxJobs.toString());
-		int throtttleStepMaxJobs = (StringUtils.isNotBlank(throtttleStepMaxJobsString)) ? Integer.valueOf(throtttleStepMaxJobsString) : DEFAULT_SIZE;
-		
-		JobThrottleConfig config = new JobThrottleConfig(coreThreadPoolSize, stepThrottleEnabled, throttleStepName, throtttleStepMaxJobs);
+public class AppConfigServiceImpl implements AppConfigService
+{
+    private static final int DEFAULT_SIZE = 2;
+    private AppParameterDao dao;
+    private String defaultProviewHostname;
+    private NovusEnvironment defaultNovusEnvironment;
 
-		return config;
-	}
-	@Override
-	@Transactional(readOnly=true)
-	public MiscConfig loadMiscConfig() {
-		Level appLogLevel = fetchLogLevel(MiscConfig.Key.appLogLevel.toString(), Level.INFO);
-		Level rootLogLevel = fetchLogLevel(MiscConfig.Key.rootLogLevel.toString(), Level.ERROR);
-		String proviewHostname = getConfigValue(MiscConfig.Key.proviewHostname.toString());
-		if (StringUtils.isBlank(proviewHostname)) {
-			proviewHostname = defaultProviewHostname;
-		}
-		// TODO: clean up once ProView adds notes migration for multivolume books
-		String disableExistingSingleTitleSplitString = getConfigValue(MiscConfig.Key.disableExistingSingleTitleSplit.toString());
-		boolean disableExistingSingleTitleSplit = (StringUtils.isNotBlank(disableExistingSingleTitleSplitString)) ? Boolean.valueOf(disableExistingSingleTitleSplitString) : true;
-		int maxSplitParts = Integer.parseInt(getConfigValue(MiscConfig.Key.maxSplitParts.toString()));
+    public AppConfigServiceImpl()
+    {
+        super();
+    }
 
-		MiscConfig config = new MiscConfig(appLogLevel, rootLogLevel,
-								defaultNovusEnvironment, proviewHostname, disableExistingSingleTitleSplit, maxSplitParts);
-		return config;
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public JobThrottleConfig loadJobThrottleConfig()
+    {
+        final String coreThreadPoolSizeString = getConfigValue(JobThrottleConfig.Key.coreThreadPoolSize.toString());
+        final int coreThreadPoolSize = (StringUtils.isNotBlank(coreThreadPoolSizeString))
+            ? Integer.valueOf(coreThreadPoolSizeString) : DEFAULT_SIZE;
 
-	@Override
-	@Transactional(readOnly=true)
-	public String getConfigValue(String key) {
-		AppParameter param = (AppParameter) dao.findByPrimaryKey(key);
-		return (param != null) ? param.getValue() : null;
-	}
-	
-	private Level fetchLogLevel(String key, Level defaultLogLevel) {
-		String logLevelString = getConfigValue(key);
-		Level logLevel = (StringUtils.isNotBlank(logLevelString)) ? Level.toLevel(logLevelString) : defaultLogLevel;
-		return logLevel;
-	}
-	
-	@Override
-	@Transactional
-	public void saveJobThrottleConfig(JobThrottleConfig config) {
-		List<AppParameter> params = createJobThrottleConfigAppParameterList(config);
-		for (AppParameter param : params) {
-			dao.save(param);
-		}
-	}
+        final String stepThrottleEnabledString = getConfigValue(JobThrottleConfig.Key.stepThrottleEnabled.toString());
+        final boolean stepThrottleEnabled =
+            (StringUtils.isNotBlank(stepThrottleEnabledString)) ? Boolean.valueOf(stepThrottleEnabledString) : false;
 
-	@Override
-	@Transactional
-	public void saveMiscConfig(MiscConfig config) {
-		AppParameter param = new AppParameter(MiscConfig.Key.appLogLevel.toString(), config.getAppLogLevel());
-		dao.save(param);
-		param = new AppParameter(MiscConfig.Key.rootLogLevel.toString(), config.getRootLogLevel());
-		dao.save(param);
-		param = new AppParameter(MiscConfig.Key.proviewHostname.toString(), config.getProviewHost().getHostName());
-		dao.save(param);
-		param = new AppParameter(MiscConfig.Key.disableExistingSingleTitleSplit.toString(), config.getDisableExistingSingleTitleSplit());
-		dao.save(param);
-	}	
-	
-	private List<AppParameter> createJobThrottleConfigAppParameterList(JobThrottleConfig config) {
-		List<AppParameter> parameters = new ArrayList<AppParameter>();
-		parameters.add(new AppParameter(JobThrottleConfig.Key.coreThreadPoolSize.toString(), config.getCoreThreadPoolSize()));
-		parameters.add(new AppParameter(JobThrottleConfig.Key.stepThrottleEnabled.toString(), config.isStepThrottleEnabled()));
-		parameters.add(new AppParameter(JobThrottleConfig.Key.throttleStepName.toString(), config.getThrottleStepName()));
-		parameters.add(new AppParameter(JobThrottleConfig.Key.throtttleStepMaxJobs.toString(), config.getThrottleStepMaxJobs()));
-		return parameters;
-	}
-	
-	@Required
-	public void setAppParameterDao(AppParameterDao dao) {
-		this.dao = dao;
-	}
-	public void setDefaultProviewHostname(String hostname) {
-		this.defaultProviewHostname = hostname;
-	}
-	public void setDefaultNovusEnvironment(NovusEnvironment env) {
-		this.defaultNovusEnvironment = env;
-	}
+        final String throttleStepName = getConfigValue(JobThrottleConfig.Key.throttleStepName.toString());
+
+        final String throtttleStepMaxJobsString = getConfigValue(JobThrottleConfig.Key.throtttleStepMaxJobs.toString());
+        final int throtttleStepMaxJobs = (StringUtils.isNotBlank(throtttleStepMaxJobsString))
+            ? Integer.valueOf(throtttleStepMaxJobsString) : DEFAULT_SIZE;
+
+        final JobThrottleConfig config =
+            new JobThrottleConfig(coreThreadPoolSize, stepThrottleEnabled, throttleStepName, throtttleStepMaxJobs);
+
+        return config;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public MiscConfig loadMiscConfig()
+    {
+        final Level appLogLevel = fetchLogLevel(MiscConfig.Key.appLogLevel.toString(), Level.INFO);
+        final Level rootLogLevel = fetchLogLevel(MiscConfig.Key.rootLogLevel.toString(), Level.ERROR);
+        String proviewHostname = getConfigValue(MiscConfig.Key.proviewHostname.toString());
+        if (StringUtils.isBlank(proviewHostname))
+        {
+            proviewHostname = defaultProviewHostname;
+        }
+        // TODO: clean up once ProView adds notes migration for multivolume books
+        final String disableExistingSingleTitleSplitString =
+            getConfigValue(MiscConfig.Key.disableExistingSingleTitleSplit.toString());
+        final boolean disableExistingSingleTitleSplit = (StringUtils.isNotBlank(disableExistingSingleTitleSplitString))
+            ? Boolean.valueOf(disableExistingSingleTitleSplitString) : true;
+        final int maxSplitParts = Integer.parseInt(getConfigValue(MiscConfig.Key.maxSplitParts.toString()));
+
+        final MiscConfig config = new MiscConfig(
+            appLogLevel,
+            rootLogLevel,
+            defaultNovusEnvironment,
+            proviewHostname,
+            disableExistingSingleTitleSplit,
+            maxSplitParts);
+        return config;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public String getConfigValue(final String key)
+    {
+        final AppParameter param = (AppParameter) dao.findByPrimaryKey(key);
+        return (param != null) ? param.getValue() : null;
+    }
+
+    private Level fetchLogLevel(final String key, final Level defaultLogLevel)
+    {
+        final String logLevelString = getConfigValue(key);
+        final Level logLevel = (StringUtils.isNotBlank(logLevelString)) ? Level.toLevel(logLevelString) : defaultLogLevel;
+        return logLevel;
+    }
+
+    @Override
+    @Transactional
+    public void saveJobThrottleConfig(final JobThrottleConfig config)
+    {
+        final List<AppParameter> params = createJobThrottleConfigAppParameterList(config);
+        for (final AppParameter param : params)
+        {
+            dao.save(param);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void saveMiscConfig(final MiscConfig config)
+    {
+        AppParameter param = new AppParameter(MiscConfig.Key.appLogLevel.toString(), config.getAppLogLevel());
+        dao.save(param);
+        param = new AppParameter(MiscConfig.Key.rootLogLevel.toString(), config.getRootLogLevel());
+        dao.save(param);
+        param = new AppParameter(MiscConfig.Key.proviewHostname.toString(), config.getProviewHost().getHostName());
+        dao.save(param);
+        param = new AppParameter(
+            MiscConfig.Key.disableExistingSingleTitleSplit.toString(),
+            config.getDisableExistingSingleTitleSplit());
+        dao.save(param);
+    }
+
+    private List<AppParameter> createJobThrottleConfigAppParameterList(final JobThrottleConfig config)
+    {
+        final List<AppParameter> parameters = new ArrayList<AppParameter>();
+        parameters
+            .add(new AppParameter(JobThrottleConfig.Key.coreThreadPoolSize.toString(), config.getCoreThreadPoolSize()));
+        parameters.add(
+            new AppParameter(JobThrottleConfig.Key.stepThrottleEnabled.toString(), config.isStepThrottleEnabled()));
+        parameters
+            .add(new AppParameter(JobThrottleConfig.Key.throttleStepName.toString(), config.getThrottleStepName()));
+        parameters.add(
+            new AppParameter(JobThrottleConfig.Key.throtttleStepMaxJobs.toString(), config.getThrottleStepMaxJobs()));
+        return parameters;
+    }
+
+    @Required
+    public void setAppParameterDao(final AppParameterDao dao)
+    {
+        this.dao = dao;
+    }
+
+    public void setDefaultProviewHostname(final String hostname)
+    {
+        defaultProviewHostname = hostname;
+    }
+
+    public void setDefaultNovusEnvironment(final NovusEnvironment env)
+    {
+        defaultNovusEnvironment = env;
+    }
 }

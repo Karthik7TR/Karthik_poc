@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE import-control PUBLIC
+  "-//Puppy Crawl//DTD Import Control 1.1//EN"
+  "http://www.puppycrawl.com/dtds/import_control_1_1.dtd">
+
+<import-control pkg="com.thomsonreuters">
+
+    <allow pkg="com" />
+    <allow pkg="edu" />
+    <allow pkg="net" />
+    <allow pkg="org" />
+    <allow pkg="java" />
+    <allow pkg="javax" />
+    <allow pkg="cobalt" />
+    <allow pkg="javassist" />
+    <allow pkg="freemarker" />
+    <allow pkg="oracle.ucp" />
+    <allow pkg="java.awt.image" />    
+
+    <disallow pkg="com.sun" />
+    <disallow pkg="org.omg" />
+    <disallow pkg="javax.swing" />
+    <disallow pkg="java.applet" />
+    <disallow pkg="net.sf.cglib" />
+    <disallow pkg="org.apache.oro" />
+    <disallow pkg="com.google.gson" />
+    <disallow pkg="org.junit.internal" />
+    <disallow pkg="org.junit.experimental" />
+    <disallow pkg="org.apache.commons.lang" />
+    <disallow pkg="org.apache.commons.logging" />
+    <disallow pkg="org.apache.commons.collections" />
+
+    <disallow class="java.util.Stack" />
+    <disallow class="java.util.Vector" />
+    <disallow class="java.util.Hashtable" />
+    <disallow class="org.codehaus.jackson.map.ObjectMapper" />
+    <disallow class="org.mockito.runners.MockitoJUnit44Runner" />
+    <disallow class="org.mockito.MockitoAnnotations.*" regex="true" />
+    <disallow class="org.springframework.test.util.ReflectionTestUtils" />
+
+    <!-- Could be using the incompatible Jackson 2.x libraries: -->
+    <disallow class="com.trgr.cobalt.infrastructure.util.JsonUtil" />
+    <disallow class="com.trgr.cobalt.infrastructure.util.JSONHelper" />
+
+    <disallow class="com.trgr.cobalt.infrastructure.http.util" />
+    <disallow class="com.trgr.cobalt.infrastructure.http.*Impl" regex="true" />
+
+    <!-- Replaced by com.trgr.cobalt.infrastructure.spring.endpointstatus.CobaltEndpoint: -->
+    <disallow class="com.trgr.cobalt.infrastructure.spring.deprecation.DeprecatedEndpoint" />
+    <disallow class="com.trgr.cobalt.infrastructure.spring.documentation.Internal" />
+    <disallow class="com.trgr.cobalt.infrastructure.spring.documentation.UnderDevelopment" />
+    <disallow class="com.trgr.cobalt.infrastructure.spring.documentation.Undocumented" />
+    <disallow class="com.trgr.cobalt.infrastructure.spring.event.CobaltApiNameMapping" />
+
+</import-control>

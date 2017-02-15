@@ -1,130 +1,150 @@
-/*
-* Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved.
-* Proprietary and Confidential information of TRGR. Disclosure, Use or
-* Reproduction without the written authorization of TRGR is prohibited
-*/
 package com.thomsonreuters.uscl.ereader.proview;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * This class represents a single entry in the TOC manifest within title.xml.
- * 
+ *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public class TocEntry implements TocNode {
-	private static final String SOLIDUS = "/";
-	protected String tocGuid;
-	protected String docGuid;
-	protected String text;
-	protected List<TocNode> children = new ArrayList<TocNode>();
-	protected TocNode parent;
-	private int depth;
-	protected String splitTitle; 
-	protected String titleBreakString;
-	
+public class TocEntry implements TocNode
+{
+    private static final String SOLIDUS = "/";
+    protected String tocGuid;
+    protected String docGuid;
+    protected String text;
+    protected List<TocNode> children = new ArrayList<>();
+    protected TocNode parent;
+    private int depth;
+    protected String splitTitle;
+    protected String titleBreakString;
 
-	public TocEntry(int depth){
-		this.depth = depth;
-	}
-	
-	public TocEntry (String tocGuid, String docGuid, String text, int depth) {
-		this.tocGuid = tocGuid; 
-		this.docGuid = docGuid;
-		this.text = text;
-		this.depth = depth;
-	}
-		
-	public String getAnchorReference() {
-		if (!StringUtils.isBlank(splitTitle)) {
-			return (docGuid != null) ? splitTitle + "#" + docGuid + SOLIDUS + tocGuid : splitTitle + "#" + tocGuid;
-		}
-		return (docGuid != null) ? docGuid + SOLIDUS + tocGuid : tocGuid;
-	}
-	
+    public TocEntry(final int depth)
+    {
+        this.depth = depth;
+    }
 
-	public String getSplitTitle() {
-		return splitTitle;
-	}
+    public TocEntry(final String tocGuid, final String docGuid, final String text, final int depth)
+    {
+        this.tocGuid = tocGuid;
+        this.docGuid = docGuid;
+        this.text = text;
+        this.depth = depth;
+    }
 
-	public void setSplitTitle(String splitTitle) {
-		this.splitTitle = splitTitle;
-	}
-	
+    @Override
+    public String getAnchorReference()
+    {
+        if (!StringUtils.isBlank(splitTitle))
+        {
+            return (docGuid != null) ? splitTitle + "#" + docGuid + SOLIDUS + tocGuid : splitTitle + "#" + tocGuid;
+        }
+        return (docGuid != null) ? docGuid + SOLIDUS + tocGuid : tocGuid;
+    }
 
-	public String getTitleBreakString() {
-		return titleBreakString;
-	}
+    @Override
+    public String getSplitTitle()
+    {
+        return splitTitle;
+    }
 
-	public void setTitleBreakString(String titleBreakString) {
-		this.titleBreakString = titleBreakString;
-	}
+    @Override
+    public void setSplitTitle(final String splitTitle)
+    {
+        this.splitTitle = splitTitle;
+    }
 
-	public String getText() {
-		return text;
-	}
-	
-	public void setChildren(List<TocNode> children){
-		this.children = children;
-	}
-	
-	@Override
-	public List<TocNode> getChildren() {
-		return children;
-	}
-	
-	@Override
-	public void setParent(TocNode parent) {
-		this.parent = parent;
-	}
-	
-	@Override
-	public TocNode getParent() {
-		return parent;
-	}
+    @Override
+    public String getTitleBreakString()
+    {
+        return titleBreakString;
+    }
 
-	@Override
-	public void addChild(TocNode child) {
-		this.children.add(child);
-	}
-	
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+    @Override
+    public void setTitleBreakString(final String titleBreakString)
+    {
+        this.titleBreakString = titleBreakString;
+    }
 
-	@Override
-	public void setTocNodeUuid(String tocNodeUuid) {
-		this.tocGuid = tocNodeUuid;
-		
-	}
+    @Override
+    public String getText()
+    {
+        return text;
+    }
 
-	@Override
-	public void setDocumentUuid(String documentUuid) {
-		this.docGuid = documentUuid;
-	}
+    public void setChildren(final List<TocNode> children)
+    {
+        this.children = children;
+    }
 
-	@Override
-	public void setText(String text) {
-		this.text = text;
-	}
+    @Override
+    public List<TocNode> getChildren()
+    {
+        return children;
+    }
 
-	@Override
-	public int getDepth() {
-		return this.depth;
-	}
+    @Override
+    public void setParent(final TocNode parent)
+    {
+        this.parent = parent;
+    }
 
-	@Override
-	public String getDocumentGuid() {
-		return this.docGuid;
-	}
+    @Override
+    public TocNode getParent()
+    {
+        return parent;
+    }
 
-	@Override
-	public String getTocGuid() {
-		return this.tocGuid;
-	}
+    @Override
+    public void addChild(final TocNode child)
+    {
+        children.add(child);
+    }
+
+    @Override
+    public String toString()
+    {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
+
+    @Override
+    public void setTocNodeUuid(final String tocNodeUuid)
+    {
+        tocGuid = tocNodeUuid;
+    }
+
+    @Override
+    public void setDocumentUuid(final String documentUuid)
+    {
+        docGuid = documentUuid;
+    }
+
+    @Override
+    public void setText(final String text)
+    {
+        this.text = text;
+    }
+
+    @Override
+    public int getDepth()
+    {
+        return depth;
+    }
+
+    @Override
+    public String getDocumentGuid()
+    {
+        return docGuid;
+    }
+
+    @Override
+    public String getTocGuid()
+    {
+        return tocGuid;
+    }
 }

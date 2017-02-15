@@ -1,13 +1,4 @@
-/*
- * Copyright 2015: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
 package com.thomsonreuters.uscl.ereader;
-
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
 
 import com.thomsonreuters.uscl.ereader.assemble.service.EbookAssemblyServiceTest;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewExceptionTest;
@@ -36,41 +27,44 @@ import com.thomsonreuters.uscl.ereader.gather.service.NovusNortFileServiceTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineServiceTest;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.OperationsControllerTest;
 import com.thomsonreuters.uscl.ereader.proview.rest.CloseableAuthenticationHttpClientFactoryTest;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses( {
-			CloseableAuthenticationHttpClientFactoryTest.class,
-			EbookAssemblyServiceTest.class,
-			EngineServiceTest.class,
-			NovusDocFileServiceTest.class,
-			NovusNortFileServiceTest.class,
-			NovusNortFileParserTest.class,
-			NortNodeFilterTest.class,
-			NovusDocFileParserTest.class,
-			//Format tests
-			HTMLWrapperServiceTest.class,
-			TransformerServiceTest.class,
-			XMLImageParserServiceTest.class,
-			XSLTMapperServiceTest.class,
-			HTMLAnchorFilterTest.class,
-			HTMLClassAttributeFilterTest.class,
-			HTMLEmptyHeading2FilterTest.class,
-			HTMLImageFilterTest.class,
-			HTMLInputFilterTest.class,
-			OperationsControllerTest.class,
-			ProcessingInstructionZapperFilterTest.class,
-			TitleXMLTOCFilterTest.class,
-			XMLImageTagHandlerTest.class,
-			DocumentExtensionAdapterTest.class,
-			HTMLEditorNotesFilterTest.class,
-			//
-			ImageDaoTest.class,
-			ImageServiceTest.class,
-			InitializeTaskTest.class,
-			ProviewClientImplTest.class,
-			ProviewExceptionTest.class
-		} )
+@SuiteClasses({
+    CloseableAuthenticationHttpClientFactoryTest.class,
+    EbookAssemblyServiceTest.class,
+    EngineServiceTest.class,
+    NovusDocFileServiceTest.class,
+    NovusNortFileServiceTest.class,
+    NovusNortFileParserTest.class,
+    NortNodeFilterTest.class,
+    NovusDocFileParserTest.class,
+    //Format tests
+    HTMLWrapperServiceTest.class,
+    TransformerServiceTest.class,
+    XMLImageParserServiceTest.class,
+    XSLTMapperServiceTest.class,
+    HTMLAnchorFilterTest.class,
+    HTMLClassAttributeFilterTest.class,
+    HTMLEmptyHeading2FilterTest.class,
+    HTMLImageFilterTest.class,
+    HTMLInputFilterTest.class,
+    OperationsControllerTest.class,
+    ProcessingInstructionZapperFilterTest.class,
+    TitleXMLTOCFilterTest.class,
+    XMLImageTagHandlerTest.class,
+    DocumentExtensionAdapterTest.class,
+    HTMLEditorNotesFilterTest.class,
+    //
+    ImageDaoTest.class,
+    ImageServiceTest.class,
+    InitializeTaskTest.class,
+    ProviewClientImplTest.class,
+    ProviewExceptionTest.class})
 
-public class EngineTestSuite {
-
+public class EngineTestSuite
+{
+    //Intentionally left blank
 }
