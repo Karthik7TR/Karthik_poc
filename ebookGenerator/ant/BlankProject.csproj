@@ -1,8 +1,0 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Target Name="Message">
-      <Message Text="command to execute = &quot;$(JAVA_HOME)\java.exe&quot; -jar &quot;$(ANT_HOME)\lib\ant-launcher.jar&quot; -buildfile &quot;$(MSBuildProjectDirectory)\CompileAntScript_T.xml&quot;" />
-  </Target>
-  <Target Name="CallAnt">
-    <Exec Command="&quot;$(JAVA_HOME)\bin\java.exe&quot; -jar &quot;$(ANT_HOME)\lib\ant-launcher.jar&quot; -buildfile &quot;$(MSBuildProjectDirectory)\CompileAntScript_T.xml&quot; normal_build publishToNAS fulldeploy"/>
-  </Target>
-</Project>
