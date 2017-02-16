@@ -86,7 +86,7 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-compile" depends="-compile-core">
     <echo level="verbose">Compiling the source code...</echo>
-    <javac destdir="${dir.tmpDirBinaries}" source="1.7" target="1.7" debug="on">
+    <javac destdir="${dir.tmpDirBinaries}" source="1.7" target="1.7" includeantruntime="false" encoding="UTF-8">
       <src path="${dir.source}"/>    	
       <classpath refid="classpath.compile"/>
     </javac>
@@ -115,7 +115,7 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-compile_unitTests">
     <echo level="verbose">Compiling the unit test source code...</echo>
-    <javac destdir="${dir.testBinaries}" source="1.7" target="1.7">
+    <javac destdir="${dir.testBinaries}" source="1.7" target="1.7" includeantruntime="false" encoding="UTF-8">
       <src path="${dir.unitTestSource}"/>
       <classpath>
         <pathelement path="${dir.binaries}"/>
