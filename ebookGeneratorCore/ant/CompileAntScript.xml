@@ -69,7 +69,7 @@
 	- - - - - - - - - - - - - - - - - -->
 	<target name="-compile-java-core">
 		<echo level="verbose">Compiling the source code...</echo>
-		<javac destdir="${dir.binaries}" source="1.7" target="1.7" debug="${IsCoverageBuild}" includeantruntime="false" encoding="UTF-8">
+		<javac destdir="${dir.binaries}" source="1.7" target="1.7" debug="true" includeantruntime="false" encoding="UTF-8">
 			<src path="${dir.source}" />
 			<classpath refid="classpath.compile" />
 		</javac>
