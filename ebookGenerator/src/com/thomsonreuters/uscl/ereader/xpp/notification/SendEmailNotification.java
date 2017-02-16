@@ -7,6 +7,7 @@ import javax.mail.internet.InternetAddress;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.service.NotificationService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.stats.PublishingStatus;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
@@ -69,7 +70,7 @@ public class SendEmailNotification extends AbstractSbTasklet
     String getSubject(final ChunkContext chunkContext)
     {
         final BookDefinition bookDefinition =
-            (BookDefinition) getJobExecutionContext(chunkContext).get(EBOOK_DEFINITON);
+            (BookDefinition) getJobExecutionContext(chunkContext).get(JobParameterKey.EBOOK_DEFINITON);
         final StringBuilder sb = new StringBuilder();
         sb.append("eBook Shell XPP job - " + bookDefinition.getFullyQualifiedTitleId());
         return sb.toString();
@@ -78,7 +79,7 @@ public class SendEmailNotification extends AbstractSbTasklet
     String getBody(final ChunkContext chunkContext)
     {
         final BookDefinition bookDefinition =
-            (BookDefinition) getJobExecutionContext(chunkContext).get(EBOOK_DEFINITON);
+            (BookDefinition) getJobExecutionContext(chunkContext).get(JobParameterKey.EBOOK_DEFINITON);
         final JobParameters jobParams = getJobParameters(chunkContext);
         final StepExecution stepExecution = chunkContext.getStepContext().getStepExecution();
         final long jobInstanceId = stepExecution.getJobExecution().getJobInstance().getId();
@@ -95,6 +96,13 @@ public class SendEmailNotification extends AbstractSbTasklet
         sb.append("\t\nJob Instance ID: " + jobInstanceId);
         sb.append("\t\nJob Execution ID: " + jobExecutionId);
         return sb.toString();
+    }
+
+    @Override
+    @Required
+    public void setNotificationService(final NotificationService service)
+    {
+        notificationService = service;
     }
 
     @Required

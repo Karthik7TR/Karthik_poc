@@ -1,25 +1,16 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet;
 
-import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
-import javax.mail.internet.InternetAddress;
-
-import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
-import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageException;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.core.service.CoreService;
-import com.thomsonreuters.uscl.ereader.util.EmailNotification;
-import org.apache.commons.lang3.StringUtils;
+import com.thomsonreuters.uscl.ereader.orchestrate.core.service.NotificationService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
@@ -42,12 +33,9 @@ import org.springframework.beans.factory.annotation.Required;
 public abstract class AbstractSbTasklet implements Tasklet
 {
     private static final Logger LOG = LogManager.getLogger(AbstractSbTasklet.class);
-    public static final String EBOOK_DEFINITON = "bookDefn";
-    public static final String IMAGE_MISSING_GUIDS_FILE = "imageMissingGuidsFile";
-    public static final String DOCS_MISSING_GUIDS_FILE = "docsMissingGuidsFile";
-    public static final String GATHER_DOCS_DIR = "gatherDocsDir";
 
     protected CoreService coreService;
+    protected NotificationService notificationService;
     private OutageProcessor outageProcessor;
 
     /**
@@ -62,7 +50,8 @@ public abstract class AbstractSbTasklet implements Tasklet
      * Wrapper around the user implemented task logic that hides the repeat and transition calculations away.
      */
     @Override
-    public final RepeatStatus execute(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
+    public final RepeatStatus execute(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception
     {
         final StepContext stepContext = chunkContext.getStepContext();
         LOG.debug("Step: " + stepContext.getJobName() + "." + stepContext.getStepName());
@@ -107,70 +96,16 @@ public abstract class AbstractSbTasklet implements Tasklet
             String stackTrace = getStackTrace(e);
 
             stackTrace = "Error Message : " + e.getMessage() + "\nStack Trace is " + stackTrace;
-            sendNotification(chunkContext, stackTrace, jobInstanceId, jobExecutionId);
+            notificationService.sendNotification(
+                getJobExecutionContext(chunkContext),
+                getJobParameters(chunkContext),
+                stackTrace,
+                jobInstanceId,
+                jobExecutionId);
             throw e;
         }
 
         return RepeatStatus.FINISHED;
-    }
-
-    protected void sendNotification(
-        final ChunkContext chunkContext,
-        String bodyMessage,
-        final long jobInstanceId,
-        final long jobExecutionId)
-    {
-        final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
-        final JobParameters jobParams = getJobParameters(chunkContext);
-
-        final List<String> fileList = new ArrayList<String>();
-        final String subject;
-        final String failedJobInfo;
-        final BookDefinition bookDefinition = (BookDefinition) jobExecutionContext.get(EBOOK_DEFINITON);
-        final String jobEnvironment = jobParams.getString(JobParameterKey.ENVIRONMENT_NAME);
-
-        // Determine the recipient of the email, use user preference value(s), otherwise use the group as the default
-        final String username = jobParams.getString(JobParameterKey.USER_NAME);
-        final Collection<InternetAddress> emailRecipients = coreService.getEmailRecipientsByUsername(username);
-
-        failedJobInfo = "eBook Publishing Failure:  "
-            + jobEnvironment
-            + "  "
-            + bookDefinition.getFullyQualifiedTitleId()
-            + "  "
-            + bookDefinition.getProviewDisplayName()
-            + "  "
-            + jobInstanceId
-            + "  "
-            + jobExecutionId;
-        bodyMessage = failedJobInfo + "  \n" + bodyMessage;
-        subject = failedJobInfo;
-
-        final String imgGuidsFile = jobExecutionContext.getString(IMAGE_MISSING_GUIDS_FILE);
-
-        if (getFileSize(imgGuidsFile) > 0)
-        {
-            fileList.add(imgGuidsFile);
-        }
-
-        final String gatherDir = jobExecutionContext.getString(GATHER_DOCS_DIR);
-
-        final String missingGuidsFile =
-            StringUtils.substringBeforeLast(gatherDir, System.getProperty("file.separator")) + "_doc_missing_guids.txt";
-
-        if (getFileSize(missingGuidsFile) > 0)
-        {
-            fileList.add(missingGuidsFile);
-        }
-
-        if (fileList.size() > 0)
-        {
-            EmailNotification.sendWithAttachment(emailRecipients, subject, bodyMessage.toString(), fileList);
-        }
-        else
-        {
-            EmailNotification.send(emailRecipients, subject, bodyMessage.toString());
-        }
     }
 
     /**
@@ -284,20 +219,6 @@ public abstract class AbstractSbTasklet implements Tasklet
         return result.toString();
     }
 
-    /**
-     * @param filename
-     * @return a long value of file length
-    */
-    private long getFileSize(final String filename)
-    {
-        final File file = new File(filename);
-        if (!file.exists() || !file.isFile())
-        {
-            return -1;
-        }
-        return file.length();
-    }
-
     @Required
     public void setOutageProcessor(final OutageProcessor service)
     {
@@ -308,5 +229,11 @@ public abstract class AbstractSbTasklet implements Tasklet
     public void setCoreService(final CoreService service)
     {
         coreService = service;
+    }
+
+    @Required
+    public void setNotificationService(final NotificationService service)
+    {
+        notificationService = service;
     }
 }

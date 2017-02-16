@@ -1,7 +1,5 @@
 package com.thomsonreuters.uscl.ereader.notification;
 
-import static com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet.EBOOK_DEFINITON;
-
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
@@ -60,7 +58,7 @@ public class NotificationInfo
     @NotNull
     public BookDefinition getBookDefinition()
     {
-        final BookDefinition bookDefinition = (BookDefinition) jobExecutionContext.get(EBOOK_DEFINITON);
+        final BookDefinition bookDefinition = (BookDefinition) jobExecutionContext.get(JobParameterKey.EBOOK_DEFINITON);
         if (bookDefinition == null)
         {
             throw new RuntimeException("Book definition was not found in job execution context");
@@ -116,4 +114,5 @@ public class NotificationInfo
     {
         return previousPublishingStats;
     }
+
 }

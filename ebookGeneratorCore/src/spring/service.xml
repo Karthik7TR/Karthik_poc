@@ -89,7 +89,7 @@
 		  
 	<bean id="jmsClient" class="com.thomsonreuters.uscl.ereader.jms.client.impl.JmsClientImpl"/>
 	
-	<!--  bean id="connectionFactory" class="com.ibm.mq.jms.MQQueueConnectionFactory"
+	<bean id="connectionFactory" class="com.ibm.mq.jms.MQQueueConnectionFactory"
 		  p:hostName="${jms.host.name}"
 		  p:port="${jms.port}"
 		  p:queueManager="${jms.queue.manager}"
@@ -98,7 +98,7 @@
 	
 	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate"
 		  p:connectionFactory-ref="connectionFactory"
-		  p:defaultDestinationName="${jms.queue}" / -->
+		  p:defaultDestinationName="${jms.queue}" />
 		  
 	<bean id="createFrontMatterService" class="com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterServiceImpl">
 	      <property name="frontMatterTitlePageTemplateLocation" value="classpath:templates/frontMatterTitleTemplate.xml"/>

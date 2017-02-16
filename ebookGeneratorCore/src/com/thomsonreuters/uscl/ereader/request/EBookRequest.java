@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.request;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -9,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -21,12 +24,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @Table(name = "EBOOK_ARCHIVE")
-public class EBookRequest
+public class EBookRequest implements Serializable
 {
-    public static final String KEY_REQUEST_XML = "ebookrequestXml";
-    public static final String KEY_EBOOK_REQUEST = "ebookRequest";
-    public static final String JOB_NAME_PROCESS_BUNDLE = "ebookBundleJob";
-    public static final String KEY_JOB_NAME = "jobName";
+    private static final long serialVersionUID = -5662203902532139594L;
 
     @Id
     @GeneratedValue(generator = "EBookRequestSequence")
@@ -47,12 +47,13 @@ public class EBookRequest
     private String bundleHash;
 
     @XmlElement(name = "dateTime")
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_TIME", nullable = false)
     private Date dateTime;
 
     @XmlElement(name = "srcFile")
     @Column(name = "ARCHIVE_LOCATION", nullable = false)
-    private File archiveLocation;
+    private String archiveLocation;
 
     @XmlTransient
     @Column(name = "MESSAGE_REQUEST", nullable = false)
@@ -68,7 +69,7 @@ public class EBookRequest
 
     @XmlTransient
     @Column(name = "RESURRECT_COUNT", nullable = false)
-    private int resurrectCount;
+    private int resurrectCount = 0;
 
     @XmlTransient
     @Column(name = "DELETED", nullable = false)
@@ -126,12 +127,12 @@ public class EBookRequest
 
     public File getEBookSrcFile()
     {
-        return archiveLocation;
+        return archiveLocation == null ? null : new File(archiveLocation);
     }
 
     public void setEBookSrcFile(final File eBookSrcFile)
     {
-        archiveLocation = eBookSrcFile;
+        archiveLocation = eBookSrcFile.getAbsolutePath();
     }
 
     public String getMessageRequest()

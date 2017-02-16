@@ -26,4 +26,14 @@ public class JobParameterKey
     public static final String NOVUS_ENV = "novusEnvironment";
 
     public static final String DATABASE_SERVICE_NAME = "dbServiceName";
+
+    public static final String EBOOK_DEFINITON = "bookDefn";
+    public static final String IMAGE_MISSING_GUIDS_FILE = "imageMissingGuidsFile";
+    public static final String DOCS_MISSING_GUIDS_FILE = "docsMissingGuidsFile";
+    public static final String GATHER_DOCS_DIR = "gatherDocsDir";
+
+    public static final String KEY_REQUEST_XML = "ebookrequestXml";
+    public static final String KEY_EBOOK_REQUEST = "ebookRequest";
+    public static final String JOB_NAME_PROCESS_BUNDLE = "ebookBundleJob";
+    public static final String KEY_JOB_NAME = "jobName";
 }

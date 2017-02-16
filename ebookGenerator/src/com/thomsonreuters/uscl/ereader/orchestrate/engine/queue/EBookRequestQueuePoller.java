@@ -2,10 +2,10 @@ package com.thomsonreuters.uscl.ereader.orchestrate.engine.queue;
 
 import java.util.Date;
 
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.jms.client.JMSClient;
-import com.thomsonreuters.uscl.ereader.request.EBookRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -24,12 +24,16 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 public class EBookRequestQueuePoller
 {
     private static final Logger log = LogManager.getLogger(EBookRequestQueuePoller.class);
-    private JobRegistry jobRegistry;
-    private JobLauncher jobLauncher;
+
     private JMSClient jmsClient;
     private JmsTemplate jmsTemplate;
+
+    private JobRegistry jobRegistry;
+    private JobLauncher jobLauncher;
     private OutageProcessor outageProcessor;
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+
+    private String environmentName;
 
     @Scheduled(fixedDelay = 60000) // 1 minute
     public void pollMessageQueue()
@@ -57,11 +61,12 @@ public class EBookRequestQueuePoller
                         // start ebookBundleJob
                         final JobParametersBuilder builder = new JobParametersBuilder();
                         builder.addDate("timestamp", new Date());
-                        builder.addParameter(EBookRequest.KEY_REQUEST_XML, new JobParameter(request));
+                        builder.addParameter(JobParameterKey.KEY_REQUEST_XML, new JobParameter(request));
+                        builder.addParameter(JobParameterKey.ENVIRONMENT_NAME, new JobParameter(environmentName));
                         builder.addParameter(
-                            EBookRequest.KEY_JOB_NAME,
-                            new JobParameter(EBookRequest.JOB_NAME_PROCESS_BUNDLE));
-                        runJob(EBookRequest.JOB_NAME_PROCESS_BUNDLE, builder.toJobParameters());
+                            JobParameterKey.KEY_JOB_NAME,
+                            new JobParameter(JobParameterKey.JOB_NAME_PROCESS_BUNDLE));
+                        runJob(JobParameterKey.JOB_NAME_PROCESS_BUNDLE, builder.toJobParameters());
                     }
                     else
                     {
@@ -168,5 +173,16 @@ public class EBookRequestQueuePoller
     public ThreadPoolTaskExecutor getThreadPoolTaskExecutor()
     {
         return threadPoolTaskExecutor;
+    }
+
+    @Required
+    public void setEnvironmentName(final String environmentName)
+    {
+        this.environmentName = environmentName;
+    }
+
+    public String getEnvironmentName()
+    {
+        return environmentName;
     }
 }
