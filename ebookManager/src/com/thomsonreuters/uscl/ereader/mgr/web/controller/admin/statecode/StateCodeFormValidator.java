@@ -1,7 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.statecode;
 
-import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
+import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
@@ -13,14 +13,13 @@ import org.springframework.validation.Validator;
 @Component("stateCodeFormValidator")
 public class StateCodeFormValidator extends BaseFormValidator implements Validator
 {
-    //private static final Logger log = LogManager.getLogger(PubdictionCodeFormValidator.class);
     private static final int MAXIMUM_CHARACTER_1024 = 1024;
-    private CodeService codeService;
+    private StateCodeService stateCodeService;
 
     @Override
     public boolean supports(final Class clazz)
     {
-        return (StateCodeForm.class.isAssignableFrom(clazz));
+        return StateCodeForm.class.isAssignableFrom(clazz);
     }
 
     @Override
@@ -37,8 +36,8 @@ public class StateCodeFormValidator extends BaseFormValidator implements Validat
 
         if (!StringUtils.isBlank(name))
         {
-            final StateCode code = codeService.getStateCodeByName(name);
-            if (code != null && code.getId() != form.getStateId())
+            final StateCode code = stateCodeService.getStateCodeByName(name);
+            if (code != null && !code.getId().equals(form.getStateId()))
             {
                 errors.rejectValue("name", "error.exist", new Object[] {"Name"}, "Already exists");
             }
@@ -46,8 +45,8 @@ public class StateCodeFormValidator extends BaseFormValidator implements Validat
     }
 
     @Required
-    public void setCodeService(final CodeService service)
+    public void setStateCodeService(final StateCodeService service)
     {
-        codeService = service;
+      stateCodeService = service;
     }
 }

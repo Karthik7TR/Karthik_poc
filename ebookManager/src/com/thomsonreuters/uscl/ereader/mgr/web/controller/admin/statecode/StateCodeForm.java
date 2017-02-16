@@ -1,10 +1,9 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.statecode;
 
-import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
+import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
 
 public class StateCodeForm
 {
-    //private static final Logger log = LogManager.getLogger(EditBookDefinitionForm.class);
     public static final String FORM_NAME = "stateCodeForm";
 
     private Long id;

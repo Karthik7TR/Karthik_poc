@@ -10,74 +10,12 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
-//@Service
 public class CodeServiceImpl implements CodeService
 {
     private CodeDao dao;
-
-    /**
-     * Get all the State codes from the STATE_CODES table
-     * @return a list of StateCode objects
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<StateCode> getAllStateCodes()
-    {
-        return dao.getAllStateCodes();
-    }
-
-    /**
-     * Get a State Code from the STATE_CODES table that match STATE_CODES_ID
-     * @param stateCode
-     * @return
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public StateCode getStateCodeById(final Long stateCodeId)
-    {
-        return dao.getStateCodeById(stateCodeId);
-    }
-
-    /**
-     * Get a State Code from the STATE_CODES table that match STATE_CODES_NAME
-     * @param stateCodeName
-     * @return
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public StateCode getStateCodeByName(final String stateCodeName)
-    {
-        return dao.getStateCodeByName(stateCodeName);
-    }
-
-    /**
-     * Create or Update a State Code to the STATE_CODES table
-     * @param stateCode
-     * @return
-     */
-    @Override
-    @Transactional
-    public void saveStateCode(final StateCode stateCode)
-    {
-        stateCode.setLastUpdated(new Date());
-        dao.saveStateCode(stateCode);
-    }
-
-    /**
-     * Delete a State Code in the STATE_CODES table
-     * @param stateCode
-     * @return
-     */
-    @Override
-    @Transactional
-    public void deleteStateCode(final StateCode stateCode)
-    {
-        dao.deleteStateCode(stateCode);
-    }
 
     /**
      * Get all the PubType codes from the PUB_TYPE_CODES table
@@ -164,14 +102,14 @@ public class CodeServiceImpl implements CodeService
 
     /**
      * Get a JurisType Code from the Juris_TYPE_CODES table that match Juris_TYPE_CODES_NAME
-     * @param JurisTypeCodeName
+     * @param jurisTypeCodeName
      * @return
      */
     @Override
     @Transactional(readOnly = true)
-    public JurisTypeCode getJurisTypeCodeByName(final String JurisTypeCodeName)
+    public JurisTypeCode getJurisTypeCodeByName(final String jurisTypeCodeName)
     {
-        return dao.getJurisTypeCodeByName(JurisTypeCodeName);
+        return dao.getJurisTypeCodeByName(jurisTypeCodeName);
     }
 
     /**

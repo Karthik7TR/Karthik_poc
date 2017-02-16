@@ -68,10 +68,10 @@
 	</bean>
 	
 	<bean id="stateCodeController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.statecode.StateCodeController" 
-		p:codeService-ref="codeService">
+		p:stateCodeService-ref="stateCodeService">
 		<property name="validator">
 		  	<bean class="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.statecode.StateCodeFormValidator"
-		  		p:codeService-ref="codeService"/>
+		  		p:stateCodeService-ref="stateCodeService"/>
 		 </property>
 	</bean>
 	

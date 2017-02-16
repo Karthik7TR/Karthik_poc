@@ -9,7 +9,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
 import org.easymock.EasyMock;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -21,10 +20,6 @@ import org.junit.Test;
 
 public final class CodeDaoTest
 {
-    private final StateCode STATE_CODE = new StateCode();
-    private final Long STATE_CODES_ID = Long.valueOf("1");
-    private final List<StateCode> ALL_STATE_CODES = new ArrayList<>();
-
     private final JurisTypeCode JURIS_TYPE_CODE = new JurisTypeCode();
     private final Long JURIS_TYPE_CODES_ID = Long.valueOf("1");
     private final List<JurisTypeCode> ALL_JURIS_TYPE_CODES = new ArrayList<>();
@@ -62,53 +57,12 @@ public final class CodeDaoTest
         mockCriteria = EasyMock.createMock(Criteria.class);
         dao = new CodeDaoImpl(mockSessionFactory);
 
-        STATE_CODE.setId(STATE_CODES_ID);
         JURIS_TYPE_CODE.setId(JURIS_TYPE_CODES_ID);
         PUB_TYPE_CODE.setId(PUB_TYPE_CODES_ID);
         DOCUMENT_TYPE_CODE.setId(DOCUMENT_TYPE_CODES_ID);
         PUBLISHER_CODE.setId(PUBLISHER_CODES_ID);
         KEYWORD_TYPE_CODE.setId(KEYWORD_TYPE_CODES_ID);
         KEYWORD_TYPE_VALUE.setId(KEYWORD_TYPE_VALUES_ID);
-    }
-
-    @Test
-    public void testGetStateCode()
-    {
-        EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
-        EasyMock.expect(mockSession.get(StateCode.class, STATE_CODES_ID)).andReturn(STATE_CODE);
-        EasyMock.replay(mockSessionFactory);
-        EasyMock.replay(mockSession);
-
-        final StateCode actualStateCode = dao.getStateCodeById(STATE_CODES_ID);
-        final StateCode expected = new StateCode();
-        expected.setId(STATE_CODES_ID);
-
-        Assert.assertEquals(expected, actualStateCode);
-
-        EasyMock.verify(mockSessionFactory);
-        EasyMock.verify(mockSession);
-    }
-
-    @Test
-    public void testGetAllStateCodes()
-    {
-        ALL_STATE_CODES.add(STATE_CODE);
-        EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
-        EasyMock.expect(mockSession.createCriteria(StateCode.class)).andReturn(mockCriteria);
-        EasyMock.expect(mockCriteria.addOrder(EasyMock.anyObject(Order.class))).andReturn(mockCriteria);
-        EasyMock.expect(mockCriteria.list()).andReturn(ALL_STATE_CODES);
-        EasyMock.replay(mockSessionFactory);
-        EasyMock.replay(mockSession);
-        EasyMock.replay(mockCriteria);
-
-        final List<StateCode> actualStateCode = dao.getAllStateCodes();
-        final List<StateCode> expectedStateCodes = new ArrayList<>();
-        expectedStateCodes.add(STATE_CODE);
-        Assert.assertEquals(expectedStateCodes, actualStateCode);
-
-        EasyMock.verify(mockSessionFactory);
-        EasyMock.verify(mockSession);
-        EasyMock.verify(mockCriteria);
     }
 
     @Test

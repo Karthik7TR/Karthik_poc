@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
+import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.easymock.EasyMock;
 import org.junit.Assert;
@@ -33,7 +33,7 @@ public final class StateCodeControllerTest
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
-    private CodeService mockCodeService;
+    private StateCodeService mockStateCodeService;
     private StateCodeFormValidator validator;
 
     @Before
@@ -44,14 +44,14 @@ public final class StateCodeControllerTest
         handlerAdapter = new AnnotationMethodHandlerAdapter();
 
         // Mock up the Code service
-        mockCodeService = EasyMock.createMock(CodeService.class);
+        mockStateCodeService = EasyMock.createMock(StateCodeService.class);
 
         // Set up the controller
         controller = new StateCodeController();
-        controller.setCodeService(mockCodeService);
+        controller.setStateCodeService(mockStateCodeService);
 
         validator = new StateCodeFormValidator();
-        validator.setCodeService(mockCodeService);
+        validator.setStateCodeService(mockStateCodeService);
         controller.setValidator(validator);
 
         STATE_CODE.setId(STATE_ID);
@@ -67,8 +67,8 @@ public final class StateCodeControllerTest
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_STATE_CODE_VIEW);
         request.setMethod(HttpMethod.GET.name());
 
-        EasyMock.expect(mockCodeService.getAllStateCodes()).andReturn(new ArrayList<StateCode>());
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(mockStateCodeService.getAllStateCodes()).andReturn(new ArrayList<StateCode>());
+        EasyMock.replay(mockStateCodeService);
 
         final ModelAndView mav;
         try
@@ -90,7 +90,7 @@ public final class StateCodeControllerTest
             Assert.fail(e.getMessage());
         }
 
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(mockStateCodeService);
     }
 
     /**
@@ -131,9 +131,9 @@ public final class StateCodeControllerTest
         final StateCode code = new StateCode();
         code.setName(name);
 
-        EasyMock.expect(mockCodeService.getStateCodeByName(name)).andReturn(null);
-        mockCodeService.saveStateCode(code);
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(mockStateCodeService.getStateCodeByName(name)).andReturn(null);
+        mockStateCodeService.saveStateCode(code);
+        EasyMock.replay(mockStateCodeService);
 
         final ModelAndView mav;
         try
@@ -158,7 +158,7 @@ public final class StateCodeControllerTest
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(mockStateCodeService);
     }
 
     /**
@@ -204,8 +204,8 @@ public final class StateCodeControllerTest
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("id", STATE_ID.toString());
 
-        EasyMock.expect(mockCodeService.getStateCodeById(STATE_ID)).andReturn(STATE_CODE);
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(mockStateCodeService.getStateCodeById(STATE_ID)).andReturn(STATE_CODE);
+        EasyMock.replay(mockStateCodeService);
 
         final ModelAndView mav;
         try
@@ -241,9 +241,9 @@ public final class StateCodeControllerTest
         request.setParameter("stateId", STATE_ID.toString());
         request.setParameter("name", name);
 
-        EasyMock.expect(mockCodeService.getStateCodeByName(name)).andReturn(null);
-        mockCodeService.saveStateCode(STATE_CODE);
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(mockStateCodeService.getStateCodeByName(name)).andReturn(null);
+        mockStateCodeService.saveStateCode(STATE_CODE);
+        EasyMock.replay(mockStateCodeService);
 
         final ModelAndView mav;
         try
@@ -268,7 +268,7 @@ public final class StateCodeControllerTest
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(mockStateCodeService);
     }
 
     /**

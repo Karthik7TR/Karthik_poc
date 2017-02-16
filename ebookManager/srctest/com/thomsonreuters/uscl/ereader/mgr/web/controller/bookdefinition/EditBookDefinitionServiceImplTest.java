@@ -9,9 +9,10 @@ import java.util.Map;
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceImpl;
+import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
+import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionServiceImpl;
 import org.apache.commons.io.FileUtils;
 import org.easymock.EasyMock;
@@ -25,6 +26,7 @@ public final class EditBookDefinitionServiceImplTest
     private EditBookDefinitionServiceImpl bookService;
 
     private CodeService mockCodeService;
+    private StateCodeService mockStateCodeService;
     private File tempRootDir;
 
     @Before
@@ -33,10 +35,12 @@ public final class EditBookDefinitionServiceImplTest
         bookService = new EditBookDefinitionServiceImpl();
 
         mockCodeService = EasyMock.createMock(CodeServiceImpl.class);
+        mockStateCodeService = EasyMock.createMock(StateCodeService.class);
         tempRootDir = new File(System.getProperty("java.io.tmpdir") + "\\EvenMoreTemp");
         tempRootDir.mkdir();
 
         bookService.setCodeService(mockCodeService);
+        bookService.setStateCodeService(mockStateCodeService);
         bookService.setRootCodesWorkbenchLandingStrip(tempRootDir);
     }
 
@@ -57,8 +61,8 @@ public final class EditBookDefinitionServiceImplTest
         code.setName("aAa");
         final List<StateCode> codes = new ArrayList<>();
         codes.add(code);
-        EasyMock.expect(mockCodeService.getAllStateCodes()).andReturn(codes);
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(mockStateCodeService.getAllStateCodes()).andReturn(codes);
+        EasyMock.replay(mockStateCodeService);
 
         final Map<String, String> states = bookService.getStates();
         Assert.assertNotNull(states);

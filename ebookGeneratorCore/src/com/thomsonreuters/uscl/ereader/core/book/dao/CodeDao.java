@@ -8,44 +8,9 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
 
 public interface CodeDao
 {
-    /**
-     * Get all the State codes from the STATE_CODES table
-     * @return a list of StateCode objects
-     */
-    List<StateCode> getAllStateCodes();
-
-    /**
-     * Get a State Code from the STATE_CODES table that match STATE_CODES_ID
-     * @param stateCode
-     * @return
-     */
-    StateCode getStateCodeById(Long stateCodeId);
-
-    /**
-     * Get a State Code from the STATE_CODES table that match STATE_CODES_NAME
-     * @param stateCodeName
-     * @return
-     */
-    StateCode getStateCodeByName(String stateCodeName);
-
-    /**
-     * Create or Update a State Code to the STATE_CODES table
-     * @param stateCode
-     * @return
-     */
-    void saveStateCode(StateCode stateCode);
-
-    /**
-     * Delete a State Code in the STATE_CODES table
-     * @param stateCode
-     * @return
-     */
-    void deleteStateCode(StateCode stateCode);
-
     /**
      * Get all the PubType codes from the PUB_TYPE_CODES table
      * @return a list of PubType objects
@@ -95,10 +60,10 @@ public interface CodeDao
 
     /**
      * Get a JurisType Code from the Juris_TYPE_CODES table that match Juris_TYPE_CODES_NAME
-     * @param JurisTypeCodeName
+     * @param jurisTypeCodeName
      * @return
      */
-    JurisTypeCode getJurisTypeCodeByName(String JurisTypeCodeName);
+    JurisTypeCode getJurisTypeCodeByName(String jurisTypeCodeName);
 
     /**
      * Create or Update a JurisType Code to the JURIS_TYPE_CODES table

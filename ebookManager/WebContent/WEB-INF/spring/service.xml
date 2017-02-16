@@ -12,6 +12,8 @@
   	<bean id="bookDefinitionService" class="com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceImpl"
   		  p:bookDefinitionDao-ref="bookDefinitionDao"/>
   		  
+    <bean id="stateCodeService" class="com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeServiceImpl"
+  		  p:stateCodeDao-ref="stateCodeDao"/>
   	<bean id="codeService" class="com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceImpl"
   		  p:codeDao-ref="codeDao"/>
   		  
@@ -42,6 +44,7 @@
   		  
   	<bean id="editBookDefinitionService" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionServiceImpl">
   		  <property name="codeService" ref="codeService" />
+  		  <property name="stateCodeService" ref="stateCodeService" />
   		  <property name ="rootCodesWorkbenchLandingStrip" value="${codes.workbench.root.dir}" />
   		  <property name="frontMatterThemes">
              <list>                

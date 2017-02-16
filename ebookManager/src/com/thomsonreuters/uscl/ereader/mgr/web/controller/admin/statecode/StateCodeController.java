@@ -2,8 +2,8 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.statecode;
 
 import javax.validation.Valid;
 
-import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
+import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -23,9 +23,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class StateCodeController
 {
-    //private static final Logger log = LogManager.getLogger(PubdictionCodeController.class);
-
-    private CodeService codeService;
+    private StateCodeService stateCodeService;
     protected Validator validator;
 
     @InitBinder(StateCodeForm.FORM_NAME)
@@ -45,7 +43,7 @@ public class StateCodeController
     @RequestMapping(value = WebConstants.MVC_ADMIN_STATE_CODE_VIEW, method = RequestMethod.GET)
     public ModelAndView viewStateCode(final Model model) throws Exception
     {
-        model.addAttribute(WebConstants.KEY_STATE_CODE, codeService.getAllStateCodes());
+        model.addAttribute(WebConstants.KEY_STATE_CODE, stateCodeService.getAllStateCodes());
 
         return new ModelAndView(WebConstants.VIEW_ADMIN_STATE_CODE_VIEW);
     }
@@ -67,8 +65,7 @@ public class StateCodeController
     {
         if (!bindingResult.hasErrors())
         {
-            codeService.saveStateCode(form.makeCode());
-
+            stateCodeService.saveStateCode(form.makeCode());
             // Redirect user
             return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_STATE_CODE_VIEW));
         }
@@ -83,7 +80,7 @@ public class StateCodeController
         final BindingResult bindingResult,
         final Model model)
     {
-        final StateCode code = codeService.getStateCodeById(id);
+        final StateCode code = stateCodeService.getStateCodeById(id);
 
         if (code != null)
         {
@@ -102,13 +99,13 @@ public class StateCodeController
     {
         if (!bindingResult.hasErrors())
         {
-            codeService.saveStateCode(form.makeCode());
+            stateCodeService.saveStateCode(form.makeCode());
 
             // Redirect user
             return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_STATE_CODE_VIEW));
         }
 
-        final StateCode code = codeService.getStateCodeById(form.getStateId());
+        final StateCode code = stateCodeService.getStateCodeById(form.getStateId());
         model.addAttribute(WebConstants.KEY_STATE_CODE, code);
         return new ModelAndView(WebConstants.VIEW_ADMIN_STATE_CODE_EDIT);
     }
@@ -120,7 +117,7 @@ public class StateCodeController
         final BindingResult bindingResult,
         final Model model)
     {
-        final StateCode code = codeService.getStateCodeById(id);
+        final StateCode code = stateCodeService.getStateCodeById(id);
 
         if (code != null)
         {
@@ -137,16 +134,16 @@ public class StateCodeController
         final BindingResult bindingResult,
         final Model model)
     {
-        codeService.deleteStateCode(form.makeCode());
+        stateCodeService.deleteStateCode(form.makeCode());
 
         // Redirect user
         return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_STATE_CODE_VIEW));
     }
 
     @Required
-    public void setCodeService(final CodeService service)
+    public void setStateCodeService(final StateCodeService service)
     {
-        codeService = service;
+        stateCodeService = service;
     }
 
     @Required

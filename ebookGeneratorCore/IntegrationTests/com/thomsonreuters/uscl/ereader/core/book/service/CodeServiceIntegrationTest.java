@@ -15,7 +15,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -39,41 +38,6 @@ public final class CodeServiceIntegrationTest
 
     @Autowired
     private BookDefinitionService bookDefinitionService;
-
-    @Test
-    public void testGetAllStates()
-    {
-        final List<StateCode> stateCodes = service.getAllStateCodes();
-        log.debug(stateCodes);
-        Assert.assertEquals(51, stateCodes.size());
-    }
-
-    @Test
-    public void testStateCodeCRUD()
-    {
-        // Create StateCode
-        final StateCode createCode = new StateCode();
-        createCode.setName("Test");
-        service.saveStateCode(createCode);
-
-        // Get
-        StateCode readCode = service.getStateCodeById(createCode.getId());
-        Assert.assertEquals(createCode, readCode);
-        Assert.assertEquals("Test", readCode.getName());
-
-        // Update
-        readCode.setName("Test2");
-        service.saveStateCode(readCode);
-
-        // Get 2
-        readCode = service.getStateCodeById(createCode.getId());
-        Assert.assertEquals("Test2", readCode.getName());
-
-        // Delete
-        service.deleteStateCode(readCode);
-        readCode = service.getStateCodeById(createCode.getId());
-        Assert.assertEquals(null, readCode);
-    }
 
     @Test
     public void testGetAllJuris()

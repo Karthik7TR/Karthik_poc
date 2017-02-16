@@ -14,7 +14,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -161,20 +160,6 @@ public class CodeDaoImpl implements CodeDao
     }
 
     /**
-     * Delete a State Code in the STATE_CODES table
-     * @param stateCode
-     * @return
-     */
-    @Override
-    public void deleteStateCode(StateCode stateCode)
-    {
-        stateCode = (StateCode) sessionFactory.getCurrentSession().merge(stateCode);
-        final Session session = sessionFactory.getCurrentSession();
-        session.delete(stateCode);
-        session.flush();
-    }
-
-    /**
      * Get all the DocumentType codes from the DOCUMENT_TYPE_CODES table
      * @return a list of DocumentTypeCode objects
      */
@@ -271,18 +256,6 @@ public class CodeDaoImpl implements CodeDao
     {
         final Criteria criteria =
             sessionFactory.getCurrentSession().createCriteria(PubTypeCode.class).addOrder(Order.asc("name"));
-        return criteria.list();
-    }
-
-    /**
-     * Get all the State codes from the STATE_CODES table
-     * @return a list of StateCode objects
-     */
-    @Override
-    public List<StateCode> getAllStateCodes()
-    {
-        final Criteria criteria =
-            sessionFactory.getCurrentSession().createCriteria(StateCode.class).addOrder(Order.asc("name"));
         return criteria.list();
     }
 
@@ -393,31 +366,6 @@ public class CodeDaoImpl implements CodeDao
         return (PubTypeCode) sessionFactory.getCurrentSession()
             .createCriteria(PubTypeCode.class)
             .add(Restrictions.eq("name", pubTypeCodeName).ignoreCase())
-            .uniqueResult();
-    }
-
-    /**
-     * Get a State Code from the STATE_CODES table that match STATE_CODES_ID
-     * @param stateCode
-     * @return
-     */
-    @Override
-    public StateCode getStateCodeById(final Long stateCodeId)
-    {
-        return (StateCode) sessionFactory.getCurrentSession().get(StateCode.class, stateCodeId);
-    }
-
-    /**
-     * Get a State Code from the STATE_CODES table that match STATE_CODES_NAME
-     * @param stateCodeName
-     * @return
-     */
-    @Override
-    public StateCode getStateCodeByName(final String stateCodeName)
-    {
-        return (StateCode) sessionFactory.getCurrentSession()
-            .createCriteria(StateCode.class)
-            .add(Restrictions.eq("name", stateCodeName).ignoreCase())
             .uniqueResult();
     }
 
@@ -563,30 +511,6 @@ public class CodeDaoImpl implements CodeDao
         else
         {
             session.save(pubTypeCode);
-        }
-        session.flush();
-    }
-
-    /**
-     * Create or Update a State Code to the STATE_CODES table
-     * @param stateCode
-     * @return
-     */
-    @Override
-    public void saveStateCode(final StateCode stateCode)
-    {
-        stateCode.setLastUpdated(new Date());
-
-        final Session session = sessionFactory.getCurrentSession();
-
-        // Determine if it a new object
-        if (stateCode.getId() != null)
-        {
-            session.merge(stateCode);
-        }
-        else
-        {
-            session.save(stateCode);
         }
         session.flush();
     }

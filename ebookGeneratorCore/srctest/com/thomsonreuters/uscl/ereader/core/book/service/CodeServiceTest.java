@@ -10,7 +10,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,10 +17,6 @@ import org.junit.Test;
 
 public final class CodeServiceTest
 {
-    private final StateCode STATE_CODE = new StateCode();
-    private final List<StateCode> ALL_STATE_CODES = new ArrayList<>();
-    private final Long STATE_CODES_ID = Long.valueOf("1");
-
     private final JurisTypeCode JURIS_TYPE_CODE = new JurisTypeCode();
     private final Long JURIS_TYPE_CODES_ID = Long.valueOf("2");
     private final List<JurisTypeCode> ALL_JURIS_TYPE_CODES = new ArrayList<>();
@@ -57,37 +52,12 @@ public final class CodeServiceTest
         service = new CodeServiceImpl();
         service.setCodeDao(mockCodeDao);
 
-        STATE_CODE.setId(STATE_CODES_ID);
         JURIS_TYPE_CODE.setId(JURIS_TYPE_CODES_ID);
         PUB_TYPE_CODE.setId(PUB_TYPE_CODES_ID);
         DOCUMENT_TYPE_CODE.setId(DOCUMENT_TYPE_CODES_ID);
         PUBLISHER_CODE.setId(PUBLISHER_CODES_ID);
         KEYWORD_TYPE_CODE.setId(KEYWORD_TYPE_CODES_ID);
         KEYWORD_TYPE_VALUE.setId(KEYWORD_TYPE_VALUES_ID);
-    }
-
-    @Test
-    public void testGetStateCode()
-    {
-        EasyMock.expect(mockCodeDao.getStateCodeById(STATE_CODES_ID)).andReturn(STATE_CODE);
-        EasyMock.replay(mockCodeDao);
-        final StateCode actual = service.getStateCodeById(STATE_CODES_ID);
-        Assert.assertEquals(STATE_CODE, actual);
-        EasyMock.verify(mockCodeDao);
-    }
-
-    @Test
-    public void testGetAllStateCodes()
-    {
-        ALL_STATE_CODES.add(STATE_CODE);
-        EasyMock.expect(mockCodeDao.getAllStateCodes()).andReturn(ALL_STATE_CODES);
-        EasyMock.replay(mockCodeDao);
-        final List<StateCode> actual = service.getAllStateCodes();
-        final List<StateCode> expected = new ArrayList<>();
-        expected.add(STATE_CODE);
-
-        Assert.assertEquals(expected, actual);
-        EasyMock.verify(mockCodeDao);
     }
 
     @Test

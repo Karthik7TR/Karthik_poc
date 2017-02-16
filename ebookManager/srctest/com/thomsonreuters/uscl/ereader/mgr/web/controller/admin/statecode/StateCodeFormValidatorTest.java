@@ -1,7 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.statecode;
 
-import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
+import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,7 +12,7 @@ import org.springframework.validation.Errors;
 public final class StateCodeFormValidatorTest
 {
     private static final String STATE_NAME = "test";
-    private CodeService mockCodeService;
+    private StateCodeService mockStateCodeService;
     private StateCodeFormValidator validator;
     private StateCodeForm form;
     private Errors errors;
@@ -21,11 +21,11 @@ public final class StateCodeFormValidatorTest
     public void setUp()
     {
         // Mock up the service
-        mockCodeService = EasyMock.createMock(CodeService.class);
+        mockStateCodeService = EasyMock.createMock(StateCodeService.class);
 
         // Setup Validator
         validator = new StateCodeFormValidator();
-        validator.setCodeService(mockCodeService);
+        validator.setStateCodeService(mockStateCodeService);
 
         form = new StateCodeForm();
         form.setStateId(1L);
@@ -50,13 +50,15 @@ public final class StateCodeFormValidatorTest
     @Test
     public void testNameExists()
     {
-        EasyMock.expect(mockCodeService.getStateCodeByName(STATE_NAME)).andReturn(new StateCode());
-        EasyMock.replay(mockCodeService);
+        final StateCode stateCode = new StateCode();
+        stateCode.setId(2L);
+        EasyMock.expect(mockStateCodeService.getStateCodeByName(STATE_NAME)).andReturn(stateCode);
+        EasyMock.replay(mockStateCodeService);
 
         // Verify name requirement
         validator.validate(form, errors);
         Assert.assertEquals("error.exist", errors.getFieldError("name").getCode());
 
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(mockStateCodeService);
     }
 }

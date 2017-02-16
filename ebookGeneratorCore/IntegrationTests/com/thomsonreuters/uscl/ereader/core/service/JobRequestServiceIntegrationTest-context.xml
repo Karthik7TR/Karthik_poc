@@ -50,7 +50,7 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode</value>
 		    <value>com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.StateCode</value>
+		    <value>com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest</value>	
 			</list>
 		</property>

@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.core.book.domain;
+package com.thomsonreuters.uscl.ereader.core.book.statecode;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -28,7 +28,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "StateCode")
 public class StateCode implements Serializable
 {
-    //private static final Logger log = LogManager.getLogger(StateCode.class);
     private static final long serialVersionUID = -6419698127062095582L;
 
     @Id

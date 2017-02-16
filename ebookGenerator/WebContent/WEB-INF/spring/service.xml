@@ -197,6 +197,8 @@
   	<bean id="eBookAuditService" class="com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditServiceImpl"
   		  p:eBookAuditDAO-ref="eBookAuditDAO"/>	
   		  
+  	<bean id="stateCodeService" class="com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeServiceImpl"
+  		  p:stateCodeDao-ref="stateCodeDao"/>
   	<bean id="codeService" class="com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceImpl"
   		  p:codeDao-ref="codeDao"/>
     <bean class="com.thomsonreuters.uscl.ereader.format.links.UrlBuilderAdapter" 

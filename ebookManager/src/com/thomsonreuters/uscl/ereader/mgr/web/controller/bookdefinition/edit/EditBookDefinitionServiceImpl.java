@@ -12,15 +12,16 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
+import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 
 public class EditBookDefinitionServiceImpl implements EditBookDefinitionService
 {
-    //private static final Logger log = LogManager.getLogger(EditBookDefinitionForm.class);
     private CodeService codeService;
+    private StateCodeService stateCodeService;
     private File rootCodesWorkbenchLandingStrip;
     private List<String> frontMatterThemes;
 
@@ -33,7 +34,7 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService
     @Override
     public Map<String, String> getStates()
     {
-        final List<StateCode> codes = codeService.getAllStateCodes();
+        final List<StateCode> codes = stateCodeService.getAllStateCodes();
         final Map<String, String> states = new LinkedHashMap<>();
 
         for (final StateCode code : codes)
@@ -138,6 +139,12 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService
     public void setCodeService(final CodeService service)
     {
         codeService = service;
+    }
+
+    @Required
+    public void setStateCodeService(final StateCodeService service)
+    {
+        stateCodeService = service;
     }
 
     @Required
