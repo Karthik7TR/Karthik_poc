@@ -68,10 +68,8 @@
 
         <pathelement path="${dir.binaries}" />
         <pathelement path="${dir.integrationTestBinaries}" />
-        <pathelement path="${dir.testBinaries}" />
 
         <pathelement path="${dir.integrationTestSource}" />
-        <pathelement path="${dir.unitTestSource}" />        
         <pathelement path="${dir.source}" />
         <pathelement path="${dir.tmpBuildDir}/WEB-INF/classes"/>
 

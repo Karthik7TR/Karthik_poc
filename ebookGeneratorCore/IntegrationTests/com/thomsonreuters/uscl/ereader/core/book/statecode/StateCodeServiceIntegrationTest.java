@@ -2,13 +2,13 @@ package com.thomsonreuters.uscl.ereader.core.book.statecode;
 
 import static com.ninja_squad.dbsetup.Operations.insertInto;
 import static com.ninja_squad.dbsetup.Operations.sequenceOf;
-import static com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeTestUtil.stateCode;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 import com.ninja_squad.dbsetup.DbSetup;
 import com.ninja_squad.dbsetup.Operations;
 import com.ninja_squad.dbsetup.destination.DataSourceDestination;
+import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -149,5 +150,15 @@ public class StateCodeServiceIntegrationTest
         final List<StateCode> stateCodes = service.getAllStateCodes();
         // then
         assertThat(stateCodes, hasSize(3));
+    }
+
+    @NotNull
+    public static StateCode stateCode(final Long id, final String name, final DateTime timestamp)
+    {
+        final StateCode stateCode = new StateCode();
+        stateCode.setId(id);
+        stateCode.setName(name);
+        stateCode.setLastUpdated(new Timestamp(timestamp.toDate().getTime()));
+        return stateCode;
     }
 }
