@@ -4,6 +4,8 @@ import java.util.Collection;
 
 import javax.mail.internet.InternetAddress;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface CoreService
 {
     /**
@@ -13,6 +15,7 @@ public interface CoreService
      * @param username the user to find
      * @return the collection of email addresses to send to
      */
+    @NotNull
     Collection<InternetAddress> getEmailRecipientsByUsername(String username);
 
     /**

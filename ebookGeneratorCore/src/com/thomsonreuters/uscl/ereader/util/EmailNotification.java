@@ -23,13 +23,10 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 /**
- *
+ * @deprecated use {@link com.thomsonreuters.uscl.ereader.common.notification.service.EmailService}
  * @author <a href="mailto:ravi.nandikolla@thomsonreuters.com">Ravi Nandikolla</a>c139353
  */
-/**
- * @author c139353
- *
- */
+@Deprecated
 public class EmailNotification
 {
     private static Logger log = LogManager.getLogger(EmailNotification.class);

@@ -1,0 +1,29 @@
+<beans:beans xmlns="http://www.springframework.org/schema/batch"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+           http://www.springframework.org/schema/batch   http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+
+	<beans:bean id="baseStep" abstract="true" scope="step"
+		class="com.thomsonreuters.uscl.ereader.common.step.BaseStep" />
+	<beans:bean id="bookStep" abstract="true" scope="step"
+		class="com.thomsonreuters.uscl.ereader.common.step.BookStep" />
+
+	<beans:bean id="outageStepAspect"
+		class="com.thomsonreuters.uscl.ereader.common.outage.step.OutageStepAspect" />
+
+	<beans:bean id="sendNotificationStepAspect"
+		class="com.thomsonreuters.uscl.ereader.common.notification.step.SendNotificationStepAspect" />
+	<beans:bean id="stepFailureNotificationServiceFactory"
+		class="com.thomsonreuters.uscl.ereader.common.notification.service.StepFailureNotificationServiceFactory" />
+	<beans:bean id="defaultStepFailureNotificationService"
+		class="com.thomsonreuters.uscl.ereader.common.notification.service.DefaultStepFailureNotificationServiceImpl" />
+
+	<beans:bean id="publishingStatusStepAspect"
+		class="com.thomsonreuters.uscl.ereader.common.publishingstatus.step.PublishingStatusStepAspect" />
+	<beans:bean id="publishingStatusUpdateService"
+		class="com.thomsonreuters.uscl.ereader.common.publishingstatus.service.PublishingStatusUpdateServiceImpl" />
+</beans:beans>

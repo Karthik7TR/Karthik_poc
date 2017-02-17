@@ -1,0 +1,37 @@
+<beans:beans xmlns="http://www.springframework.org/schema/batch"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+           http://www.springframework.org/schema/batch   http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
+
+	<job id="ebookGeneratorXppJob">
+		<step id="initializeXppJobStep">
+			<tasklet ref="initializeXppJobTask" />
+			<next on="COMPLETED" to="sendEmailNotificationXppStep" />
+			<fail on="FAILED" />
+		</step>
+
+		<step id="sendEmailNotificationXppStep">
+			<tasklet ref="sendEmailNotificationXppTask" />
+			<end on="COMPLETED" />
+			<fail on="FAILED" />
+		</step>
+	</job>
+
+	<beans:bean id="xppStepFailureNotificationService" 
+		class="com.thomsonreuters.uscl.ereader.xpp.common.XppStepFailureNotificationServiceImpl" />
+
+	<beans:bean id="initializeXppJobTask" scope="step"
+		parent="bookStep"
+		class="com.thomsonreuters.uscl.ereader.xpp.initialize.InitializeTask"
+		p:environmentName-ref="environmentName"
+		p:rootWorkDirectory="${root.work.directory}"
+		p:bookDefnService-ref="bookDefinitionService" />
+
+	<beans:bean id="sendEmailNotificationXppTask" scope="step"
+		parent="bookStep"
+		class="com.thomsonreuters.uscl.ereader.xpp.notification.SendEmailNotification"/>
+</beans:beans>

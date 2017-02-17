@@ -10,6 +10,7 @@ import javax.mail.internet.InternetAddress;
 
 import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference;
 import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Required;
 
 public class CoreServiceImpl implements CoreService
@@ -17,6 +18,7 @@ public class CoreServiceImpl implements CoreService
     private UserPreferenceService userPreferenceService;
     private InternetAddress groupEmailAddress;
 
+    @NotNull
     @Override
     public Collection<InternetAddress> getEmailRecipientsByUsername(final String username)
     {
@@ -31,6 +33,7 @@ public class CoreServiceImpl implements CoreService
         return createEmailRecipients(userRecipientInternetAddressList);
     }
 
+    @NotNull
     @Override
     public Collection<InternetAddress> createEmailRecipients(
         final Collection<InternetAddress> userRecipientInternetAddressList)

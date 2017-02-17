@@ -1,16 +1,7 @@
-/*
- * Copyright 2017: Thomson Reuters Global Resources. All Rights Reserved.
- * Proprietary and Confidential information of TRGR. Disclosure, Use or
- * Reproduction without the written authorization of TRGR is prohibited
- */
-package com.thomsonreuters.uscl.ereader.xpp.notification;
+package com.thomsonreuters.uscl.ereader.xpp.common;
 
 import static java.util.Arrays.asList;
 
-import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenBook;
-import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenJobExecutionId;
-import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenJobInstanceId;
-import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenJobParameter;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
@@ -23,32 +14,29 @@ import java.util.Collection;
 
 import javax.mail.internet.InternetAddress;
 
-import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
+import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.service.CoreService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Answers;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.batch.core.scope.context.ChunkContext;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class SendEmailNotificationTest
+public final class XppStepFailureNotificationServiceImplTest
 {
     @InjectMocks
-    private SendEmailNotification step;
+    private XppStepFailureNotificationServiceImpl service;
+    @Mock
+    private CoreService coreService;
     @Mock
     private EmailService emailService;
     @Mock
-    private CoreService coreService;
-
-    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-    private ChunkContext chunkContext;
+    private BookStep step;
     @Mock
     private BookDefinition book;
     @Captor
@@ -60,11 +48,13 @@ public final class SendEmailNotificationTest
     public void recipientsAreCorrect() throws Exception
     {
         // given
+        final Exception e = new Exception();
         givenAll();
+
         final InternetAddress[] expectedRecipients = new InternetAddress[] {new InternetAddress("address")};
         given(coreService.getEmailRecipientsByUsername("user")).willReturn(asList(expectedRecipients));
         // when
-        step.executeStep();
+        service.emailFailure(step, e);
         // then
         then(emailService).should().send(captorRecipients.capture(), any(String.class), any(String.class));
         final Collection<InternetAddress> recipients = captorRecipients.getValue();
@@ -72,42 +62,40 @@ public final class SendEmailNotificationTest
     }
 
     @Test
-    public void subjectIsCorrect() throws Exception
+    public void subjectIsCorrect()
     {
         // given
+        final Exception e = new Exception();
         givenAll();
         // when
-        step.executeStep();
+        service.emailFailure(step, e);
         // then
         then(emailService).should().send(any(Collection.class), captor.capture(), any(String.class));
-        assertThat(captor.getValue(), is("eBook Shell XPP job - titleId"));
+        assertThat(captor.getValue(), is("eBook Publishing Failure: env  id  name  1  2"));
     }
 
     @Test
-    public void bodyIsCorrect() throws Exception
+    public void bodyIsCorrect()
     {
         // given
+        final Exception e = new Exception("msg");
         givenAll();
         // when
-        step.executeStep();
+        service.emailFailure(step, e);
         // then
         then(emailService).should().send(any(Collection.class), any(String.class), captor.capture());
-        assertThat(captor.getValue(), containsString("eBook Publishing Successful - titleId"));
-        assertThat(captor.getValue(), containsString("Proview Display Name: proviewDisplayName"));
-        assertThat(captor.getValue(), containsString("Title ID: titleId"));
-        assertThat(captor.getValue(), containsString("Environment: env"));
-        assertThat(captor.getValue(), containsString("Job Instance ID: 1"));
-        assertThat(captor.getValue(), containsString("Job Execution ID: 2"));
+        assertThat(captor.getValue(), containsString("eBook Publishing Failure: env  id  name  1  2"));
+        assertThat(captor.getValue(), containsString("Error Message : msg"));
     }
 
     private void givenAll()
     {
-        givenBook(chunkContext, book);
-        given(book.getFullyQualifiedTitleId()).willReturn("titleId");
-        given(book.getProviewDisplayName()).willReturn("proviewDisplayName");
-        givenJobParameter(chunkContext, JobParameterKey.ENVIRONMENT_NAME, "env");
-        givenJobParameter(chunkContext, JobParameterKey.USER_NAME, "user");
-        givenJobInstanceId(chunkContext, 1L);
-        givenJobExecutionId(chunkContext, 2L);
+        given(step.getUserName()).willReturn("user");
+        given(step.getEnvironment()).willReturn("env");
+        given(step.getBookDefinition()).willReturn(book);
+        given(step.getJobInstanceId()).willReturn(1L);
+        given(step.getJobExecutionId()).willReturn(2L);
+        given(book.getFullyQualifiedTitleId()).willReturn("id");
+        given(book.getProviewDisplayName()).willReturn("name");
     }
 }
