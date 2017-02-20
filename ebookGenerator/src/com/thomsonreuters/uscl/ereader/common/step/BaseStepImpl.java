@@ -84,6 +84,18 @@ public abstract class BaseStepImpl implements BaseStep
     }
 
     @Override
+    public void setJobExecutionProperty(final String key, final Object value)
+    {
+        getJobExecutionContext().put(key, value);
+    }
+
+    @Override
+    public void setJobExecutionPropertyString(final String key, final String value)
+    {
+        getJobExecutionContext().putString(key, value);
+    }
+
+    @Override
     public String getJobExecutionPropertyString(final String propertyKey)
     {
         assertPropertyExists(propertyKey);

@@ -29,6 +29,8 @@
            	<!-- Application Specific properties -->
           	<value>/WEB-INF/spring/properties/default-spring.properties</value>
            	<value>/WEB-INF/spring/properties/${environment}-spring.properties</value>
+           	<!-- XPP Specific properties -->
+           	<value>/WEB-INF/spring/properties/xpp.properties</value>
          </list>
        </property>
 	</bean>

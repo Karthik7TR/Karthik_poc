@@ -2,6 +2,8 @@ package com.thomsonreuters.uscl.ereader;
 
 import static org.mockito.BDDMockito.given;
 
+import java.io.File;
+
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -76,5 +78,26 @@ public final class StepTestUtil
     public static void givenEnvironment(final ChunkContext chunkContext, final String value)
     {
         givenJobParameter(chunkContext, JobParameterKey.ENVIRONMENT_NAME, value);
+    }
+
+    public static void givenBookVersion(final ChunkContext chunkContext, final String value)
+    {
+        givenJobParameter(chunkContext, JobParameterKey.BOOK_VERSION_SUBMITTED, value);
+    }
+
+    public static void givenWorkDir(final ChunkContext chunkContext, final File value)
+    {
+        given(
+            chunkContext.getStepContext()
+                .getStepExecution()
+                .getJobExecution()
+                .getExecutionContext()
+                .containsKey(JobExecutionKey.WORK_DIRECTORY)).willReturn(true);
+        given(
+            chunkContext.getStepContext()
+                .getStepExecution()
+                .getJobExecution()
+                .getExecutionContext()
+                .getString(JobExecutionKey.WORK_DIRECTORY)).willReturn(value.getAbsolutePath());
     }
 }

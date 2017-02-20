@@ -43,4 +43,8 @@ public interface BaseStep extends Tasklet
     ExecutionContext getJobExecutionContext();
 
     String getJobExecutionPropertyString(String propertyKey);
+
+    void setJobExecutionProperty(String key, Object value);
+
+    void setJobExecutionPropertyString(String key, String value);
 }

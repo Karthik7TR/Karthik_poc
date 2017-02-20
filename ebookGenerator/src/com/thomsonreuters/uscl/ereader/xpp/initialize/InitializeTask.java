@@ -55,7 +55,7 @@ public class InitializeTask extends BookStepImpl implements XppBookStep
     private BookDefinition setBookDefinition()
     {
         final BookDefinition bookDefinition = bookDefnService.findBookDefinitionByEbookDefId(getBookDefinitionId());
-        getJobExecutionContext().put(JobExecutionKey.EBOOK_DEFINITION, bookDefinition);
+        setJobExecutionProperty(JobExecutionKey.EBOOK_DEFINITION, bookDefinition);
         LOG.debug("titleId (Fully Qualified): " + bookDefinition.getTitleId());
         LOG.debug("hostname: " + getJobParameterString(JobParameterKey.HOST_NAME));
         return bookDefinition;
@@ -86,7 +86,7 @@ public class InitializeTask extends BookStepImpl implements XppBookStep
             throw new IllegalStateException(
                 "Expected work directory was not created in the filesystem: " + workDirectory.getAbsolutePath());
         }
-        getJobExecutionContext().putString(JobExecutionKey.WORK_DIRECTORY, workDirectory.getAbsolutePath());
+        setJobExecutionPropertyString(JobExecutionKey.WORK_DIRECTORY, workDirectory.getAbsolutePath());
         LOG.debug("workDirectory: " + workDirectory.getAbsolutePath());
     }
 

@@ -1,7 +1,9 @@
 package com.thomsonreuters.uscl.ereader.common.step;
 
+import java.io.File;
 import java.util.Date;
 
+import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendNotificationStep;
 import com.thomsonreuters.uscl.ereader.common.outage.step.OutageAwareStep;
@@ -85,5 +87,26 @@ public abstract class BookStepImpl extends BaseStepImpl
     public Date getSubmitTimestamp()
     {
         return getJobParameterDate(JobParameterKey.TIMESTAMP);
+    }
+
+    @Override
+    @NotNull
+    public File getWorkDirectory()
+    {
+        return new File(getJobExecutionPropertyString(JobExecutionKey.WORK_DIRECTORY));
+    }
+
+    @Override
+    @NotNull
+    public File getAssembleDirectory()
+    {
+        return new File(getWorkDirectory(), "Assemble");
+    }
+
+    @Override
+    @NotNull
+    public File getTitleXml()
+    {
+        return new File(getAssembleDirectory(), "title.xml");
     }
 }

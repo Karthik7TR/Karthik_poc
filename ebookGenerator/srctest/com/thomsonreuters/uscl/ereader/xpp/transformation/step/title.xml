@@ -1,0 +1,59 @@
+<title apiversion="v1" titleversion="${version}" id="${titleId}" lastupdated="20170220" language="eng" status="Review" onlineexpiration="29991231">
+	<features>
+		<feature name="Print"/>
+		<feature name="AutoUpdate"/>
+		<feature name="SearchIndex"/>
+		<feature name="Copy"/>
+		<feature name="OnePassSSO" value="www.westlaw.com"/>
+		<feature name="OnePassSSO" value="next.westlaw.com"/>
+	</features>
+	<material>1</material>
+	<artwork src="coverArt.PNG" type="cover"/>
+	<assets>
+		<asset id="document" src="document.css"/>
+		<asset id="ebook_generator" src="ebook_generator.css"/>
+		<asset id="EBook_Generator_TRLogo" src="EBook_Generator_TRLogo.png"/>
+		<asset id="EBook_Generator_WestlawNextLogo" src="EBook_Generator_WestlawNextLogo.png"/>
+		<asset id="EBook_Generator_WestLogo" src="EBook_Generator_WestLogo.png"/>
+		<asset id="keycite" src="keycite.png"/>
+		<asset id="WestlawLogo" src="WestlawLogo.png"/>
+	</assets>
+	<name>${ProviewDisplayName}</name>
+	<authors>
+		<author>.</author>
+	</authors>
+	<keywords>
+		<keyword type="jurisdiction">Alabama</keyword>
+		<keyword type="publisher">Thomson Reuters Westlaw</keyword>
+	</keywords>
+	<copyright>©</copyright>
+	<toc>
+		<entry s="FrontMatterTitle/FrontMatterTitleAnchor">
+			<text>Title Page</text>
+		</entry>
+		<entry s="Copyright/PublishingInformationAnchor">
+			<text>Publishing Information</text>
+			<entry s="Copyright/CopyrightAnchor">
+				<text>Copyright Page</text>
+			</entry>
+			<entry s="ResearchAssistance/ResearchAssistanceAnchor">
+				<text>Additional Information or Research Assistance</text>
+			</entry>
+			<entry s="Westlaw/WestlawAnchor">
+				<text>Westlaw</text>
+			</entry>
+		</entry>
+			<entry s="I831CBE0008D811DDA75E8EFFFCEDF684/NAA236D0E6DEC4E3DBB88B390DE3374D5-0000055">
+				<text>Test page</text>
+			</entry>
+		</entry>
+	</toc>
+	<docs>
+		<doc id="FrontMatterTitle" src="FrontMatterTitle.html"/>
+		<doc id="Copyright" src="Copyright.html"/>
+		<doc id="ResearchAssistance" src="ResearchAssistance.html"/>
+		<doc id="Westlaw" src="Westlaw.html"/>
+		<doc id="I831CBE0008D811DDA75E8EFFFCEDF684" src="N0ACE90608E5A11D8A8ACD145B11214D7-000005.html"/>
+	</docs>
+	<isbn>9780314884497</isbn>
+</title>
