@@ -6,27 +6,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ExecutionContext;
-import org.springframework.batch.repeat.RepeatStatus;
 
-public abstract class BaseStep implements Tasklet
+public interface BaseStep extends Tasklet
 {
-    protected ChunkContext chunkContext;
-
-    @Override
-    public RepeatStatus execute(final StepContribution stepContribution, final ChunkContext chunkContext)
-        throws Exception
-    {
-        this.chunkContext = chunkContext;
-        final ExitStatus stepExitStatus = executeStep();
-        getStepExecution().setExitStatus(stepExitStatus);
-        return RepeatStatus.FINISHED;
-    }
-
     /**
      * Implement this method in the concrete subclass.
      *
@@ -34,53 +19,28 @@ public abstract class BaseStep implements Tasklet
      *         finish. Returning a custom ExitStatus will always result in the step BatchStatus being set to
      *         BatchStatus.COMPLETED.
      */
-    protected abstract ExitStatus executeStep() throws Exception;
+    ExitStatus executeStep() throws Exception;
 
-    public long getJobInstanceId()
-    {
-        return getStepExecution().getJobExecution().getJobInstance().getId();
-    }
+    long getJobInstanceId();
 
-    public long getJobExecutionId()
-    {
-        return getStepExecution().getJobExecutionId();
-    }
+    long getJobExecutionId();
 
     @Nullable
-    public String getJobParameterString(@NotNull final String key)
-    {
-        return getJobParameters().getString(key);
-    }
+    String getJobParameterString(@NotNull String key);
 
     @Nullable
-    public Long getJobParameterLong(@NotNull final String key)
-    {
-        return getJobParameters().getLong(key);
-    }
+    Long getJobParameterLong(@NotNull String key);
 
     @Nullable
-    public Date getJobParameterDate(@NotNull final String key)
-    {
-        return getJobParameters().getDate(key);
-    }
+    Date getJobParameterDate(@NotNull String key);
 
-    public StepExecution getStepExecution()
-    {
-        return chunkContext.getStepContext().getStepExecution();
-    }
+    StepExecution getStepExecution();
 
-    public String getStepName()
-    {
-        return chunkContext.getStepContext().getStepName();
-    }
+    String getStepName();
 
-    public JobParameters getJobParameters()
-    {
-        return getStepExecution().getJobParameters();
-    }
+    JobParameters getJobParameters();
 
-    public ExecutionContext getJobExecutionContext()
-    {
-        return getStepExecution().getJobExecution().getExecutionContext();
-    }
+    ExecutionContext getJobExecutionContext();
+
+    String getJobExecutionPropertyString(String propertyKey);
 }

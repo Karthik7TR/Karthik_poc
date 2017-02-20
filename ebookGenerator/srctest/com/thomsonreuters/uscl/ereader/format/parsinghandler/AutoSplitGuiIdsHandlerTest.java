@@ -16,7 +16,7 @@ import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
-import com.thomsonreuters.uscl.ereader.notification.SendingEmailNotificationTest;
+import com.thomsonreuters.uscl.ereader.format.service.AutoSplitGuidsServiceTest;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -34,7 +34,7 @@ public final class AutoSplitGuiIdsHandlerTest
     @Before
     public void setUp() throws Exception
     {
-        final URL url = SendingEmailNotificationTest.class.getResource(FINE_NAME);
+        final URL url = AutoSplitGuidsServiceTest.class.getResource(FINE_NAME);
         tocFile = new File(url.toURI());
     }
 

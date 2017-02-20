@@ -7,7 +7,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
-import com.thomsonreuters.uscl.ereader.common.step.BookStep;
+import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.stats.PublishingStatus;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
@@ -30,7 +30,7 @@ public final class PublishingStatusUpdateServiceImplTest
     @Mock
     private EBookAuditService eBookAuditService;
     @Mock
-    private BookStep step;
+    private BookStepImpl step;
     @Captor
     private ArgumentCaptor<PublishingStats> captor;
 

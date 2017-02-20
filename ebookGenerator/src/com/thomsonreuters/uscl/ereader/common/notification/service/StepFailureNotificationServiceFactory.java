@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.common.notification.service;
 
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendNotificationStep;
+import com.thomsonreuters.uscl.ereader.generator.common.GeneratorStep;
 import com.thomsonreuters.uscl.ereader.xpp.common.XppBookStep;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ public class StepFailureNotificationServiceFactory
         {
             return (StepFailureNotificationService<SendNotificationStep>) applicationContext
                 .getBean("xppStepFailureNotificationService");
+        }
+        else if (step instanceof GeneratorStep)
+        {
+            return (StepFailureNotificationService<SendNotificationStep>) applicationContext
+                .getBean("generatorStepFailureNotificationService");
         }
         return (StepFailureNotificationService<SendNotificationStep>) applicationContext
             .getBean("defaultStepFailureNotificationService");

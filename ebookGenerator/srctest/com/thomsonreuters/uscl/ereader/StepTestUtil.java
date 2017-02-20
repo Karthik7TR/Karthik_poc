@@ -67,4 +67,14 @@ public final class StepTestUtil
     {
         givenJobParameter(chunkContext, JobParameterKey.BOOK_DEFINITION_ID, value);
     }
+
+    public static void givenUserName(final ChunkContext chunkContext, final String value)
+    {
+        givenJobParameter(chunkContext, JobParameterKey.USER_NAME, value);
+    }
+
+    public static void givenEnvironment(final ChunkContext chunkContext, final String value)
+    {
+        givenJobParameter(chunkContext, JobParameterKey.ENVIRONMENT_NAME, value);
+    }
 }

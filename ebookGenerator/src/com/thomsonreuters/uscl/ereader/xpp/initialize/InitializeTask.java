@@ -14,7 +14,7 @@ import javax.jms.IllegalStateException;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
-import com.thomsonreuters.uscl.ereader.common.step.BookStep;
+import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
@@ -29,7 +29,7 @@ import org.springframework.beans.factory.annotation.Required;
  * later steps. This includes various file system path calculations based on the JobParameters used
  * to run the job.
  */
-public class InitializeTask extends BookStep implements XppBookStep
+public class InitializeTask extends BookStepImpl implements XppBookStep
 {
     private static final Logger LOG = LogManager.getLogger(InitializeTask.class);
 

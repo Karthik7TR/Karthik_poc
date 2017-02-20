@@ -15,7 +15,7 @@ import java.util.Collection;
 import javax.mail.internet.InternetAddress;
 
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
-import com.thomsonreuters.uscl.ereader.common.step.BookStep;
+import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.service.CoreService;
 import org.junit.Test;
@@ -36,7 +36,7 @@ public final class XppStepFailureNotificationServiceImplTest
     @Mock
     private EmailService emailService;
     @Mock
-    private BookStep step;
+    private BookStepImpl step;
     @Mock
     private BookDefinition book;
     @Captor

@@ -8,9 +8,10 @@ package com.thomsonreuters.uscl.ereader.xpp.notification;
 import static java.util.Arrays.asList;
 
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenBook;
+import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenEnvironment;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenJobExecutionId;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenJobInstanceId;
-import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenJobParameter;
+import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenUserName;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
@@ -23,7 +24,6 @@ import java.util.Collection;
 
 import javax.mail.internet.InternetAddress;
 
-import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.service.CoreService;
@@ -105,8 +105,8 @@ public final class SendEmailNotificationTest
         givenBook(chunkContext, book);
         given(book.getFullyQualifiedTitleId()).willReturn("titleId");
         given(book.getProviewDisplayName()).willReturn("proviewDisplayName");
-        givenJobParameter(chunkContext, JobParameterKey.ENVIRONMENT_NAME, "env");
-        givenJobParameter(chunkContext, JobParameterKey.USER_NAME, "user");
+        givenEnvironment(chunkContext, "env");
+        givenUserName(chunkContext, "user");
         givenJobInstanceId(chunkContext, 1L);
         givenJobExecutionId(chunkContext, 2L);
     }

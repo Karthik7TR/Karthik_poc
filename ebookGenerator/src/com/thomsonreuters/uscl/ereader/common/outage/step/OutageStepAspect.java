@@ -21,7 +21,6 @@ import org.springframework.core.annotation.Order;
 public class OutageStepAspect
 {
     private static final Logger LOG = LogManager.getLogger(OutageStepAspect.class);
-    private final DateFormat logDf = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
 
     @Resource(name = "outageProcessor")
     private OutageProcessor outageProcessor;
@@ -33,6 +32,7 @@ public class OutageStepAspect
         if (plannedOutage != null)
         {
             LOG.debug("Failing job step at start due to planned outage: " + plannedOutage);
+            final DateFormat logDf = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
             throw new PlannedOutageException(
                 String.format(
                     "Planned service outage in effect from %s to %s",

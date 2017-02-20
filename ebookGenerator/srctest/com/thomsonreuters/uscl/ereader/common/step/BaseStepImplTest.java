@@ -19,10 +19,10 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.repeat.RepeatStatus;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class BaseStepTest
+public final class BaseStepImplTest
 {
     @Mock(answer = Answers.CALLS_REAL_METHODS)
-    private BaseStep step;
+    private BaseStepImpl step;
     @Mock
     private StepContribution stepContribution;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)

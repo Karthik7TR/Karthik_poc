@@ -5,14 +5,13 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendNotificationStep;
-import com.thomsonreuters.uscl.ereader.common.step.BookStep;
+import com.thomsonreuters.uscl.ereader.notification.step.SendEmailNotificationStepImpl;
 import com.thomsonreuters.uscl.ereader.xpp.initialize.InitializeTask;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.batch.core.ExitStatus;
 import org.springframework.context.ApplicationContext;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -25,7 +24,11 @@ public final class StepFailureNotificationServiceFactoryTest
     @Mock
     private StepFailureNotificationService<SendNotificationStep> xppService;
     @Mock
+    private StepFailureNotificationService<SendNotificationStep> generatorService;
+    @Mock
     private StepFailureNotificationService<SendNotificationStep> defaultService;
+    @Mock
+    private SendNotificationStep sendNotificationStep;
 
     @Test
     public void shouldReturnXppServiceForXppStep()
@@ -39,19 +42,23 @@ public final class StepFailureNotificationServiceFactoryTest
     }
 
     @Test
+    public void shouldReturnGeneratorServiceForGeneratorStep()
+    {
+        //given
+        given(applicationContext.getBean("generatorStepFailureNotificationService")).willReturn(generatorService);
+        //when
+        final StepFailureNotificationService<SendNotificationStep> service = factory.create(new SendEmailNotificationStepImpl());
+        //then
+        assertThat(service, is(generatorService));
+    }
+
+    @Test
     public void shouldReturnDefaultServiceByDefault()
     {
         //given
         given(applicationContext.getBean("defaultStepFailureNotificationService")).willReturn(defaultService);
         //when
-        final StepFailureNotificationService<SendNotificationStep> service = factory.create(new BookStep()
-        {
-            @Override
-            protected ExitStatus executeStep() throws Exception
-            {
-                return null;
-            }
-        });
+        final StepFailureNotificationService<SendNotificationStep> service = factory.create(sendNotificationStep);
         //then
         assertThat(service, is(defaultService));
     }

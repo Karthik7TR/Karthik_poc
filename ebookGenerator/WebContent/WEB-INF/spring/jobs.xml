@@ -37,6 +37,9 @@
 				p:EBookRequestValidator-ref="eBookRequestValidator"/>
 	<beans:bean id="stageBundleTask" class="com.thomsonreuters.uscl.ereader.request.step.StageBundleTask" parent="requestParentTask" 
 		  		p:bundleArchiveDao-ref="bundleArchiveDao" />
+		  		
+	<beans:bean id="generatorStepFailureNotificationService" 
+		class="com.thomsonreuters.uscl.ereader.generator.common.GeneratorStepFailureNotificationServiceImpl" />
 	
 	<!-- ============================ -->
 	
@@ -346,9 +349,21 @@
 				p:bookDefinitionService-ref="bookDefinitionService"
 				p:proviewAuditService-ref="proviewAuditService"/>
 
-	<beans:bean id="sendNotificationTask" class="com.thomsonreuters.uscl.ereader.notification.SendingEmailNotification" parent="generatorParentTask"
-	            p:publishingStatsService-ref="publishingStatsService" 
-	            p:autoSplitGuidsService-ref="autoSplitGuidsService" 
-	            p:docMetadataService-ref="docMetadataService"/>							
+	<beans:bean id="sendNotificationTask" class="com.thomsonreuters.uscl.ereader.notification.step.SendEmailNotificationStepImpl"  
+		scope="step" parent="bookStep" />
+	<beans:bean id="abstractGeneratorNotificationEmailBuilder" 
+		class="com.thomsonreuters.uscl.ereader.notification.service.AbstractEmailBuilder"  
+		scope="step" abstract="true" />
+	<beans:bean id="defaultGeneratorNotificationEmailBuilder" 
+		class="com.thomsonreuters.uscl.ereader.notification.service.DefaultEmailBuilder"  
+		scope="step" parent="abstractGeneratorNotificationEmailBuilder" />
+	<beans:bean id="bigTocGeneratorNotificationEmailBuilder" 
+		class="com.thomsonreuters.uscl.ereader.notification.service.BigTocEmailBuilder"  
+		scope="step" parent="abstractGeneratorNotificationEmailBuilder" />
+	<beans:bean id="splitBookGeneratorNotificationEmailBuilder" 
+		class="com.thomsonreuters.uscl.ereader.notification.service.SplitBookEmailBuilder"  
+		scope="step" parent="abstractGeneratorNotificationEmailBuilder" />
+	<beans:bean id="sendNotificationEmailBuilderFactory"
+		class="com.thomsonreuters.uscl.ereader.notification.service.SendNotificationEmailBuilderFactory" />
 
 </beans:beans>

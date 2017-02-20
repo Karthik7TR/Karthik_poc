@@ -8,9 +8,9 @@
            http://www.springframework.org/schema/batch   http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
 
 	<beans:bean id="baseStep" abstract="true" scope="step"
-		class="com.thomsonreuters.uscl.ereader.common.step.BaseStep" />
+		class="com.thomsonreuters.uscl.ereader.common.step.BaseStepImpl" />
 	<beans:bean id="bookStep" abstract="true" scope="step"
-		class="com.thomsonreuters.uscl.ereader.common.step.BookStep" />
+		class="com.thomsonreuters.uscl.ereader.common.step.BookStepImpl" />
 
 	<beans:bean id="outageStepAspect"
 		class="com.thomsonreuters.uscl.ereader.common.outage.step.OutageStepAspect" />
