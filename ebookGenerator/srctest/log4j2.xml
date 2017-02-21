@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Configuration threashold="all">
+	<Appenders>
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{MM/dd HH:mm:ss.SSS} %-5p %C{1}.%M: %m%n" />
+		</Console>
+	</Appenders>
+	<Loggers>
+		<Logger name="com.thonsonreuters.uscl.ereader" level="debug"
+			additivity="false">
+			<AppenderRef ref="console" />
+		</Logger>
+		<Root level="warn">
+			<AppenderRef ref="console" />
+		</Root>
+	</Loggers>
+</Configuration>
