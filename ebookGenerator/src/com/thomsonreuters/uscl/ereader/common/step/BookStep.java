@@ -8,12 +8,6 @@ import org.jetbrains.annotations.NotNull;
 
 public interface BookStep extends BaseStep
 {
-    /**
-     * Should return {@code true} for initial step and {@code false} otherwise. Default value is
-     * {@code false}.
-     */
-    boolean isInitialStep();
-
     @NotNull
     BookDefinition getBookDefinition();
 

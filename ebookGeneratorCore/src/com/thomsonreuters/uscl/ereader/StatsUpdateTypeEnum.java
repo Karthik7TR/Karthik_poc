@@ -14,5 +14,6 @@ public enum StatsUpdateTypeEnum
     GATHERMETADATA,
     GENERAL,
     GENERATETOC,
-    GENERATEDOC
+    GENERATEDOC,
+    INITIALIZE
 }

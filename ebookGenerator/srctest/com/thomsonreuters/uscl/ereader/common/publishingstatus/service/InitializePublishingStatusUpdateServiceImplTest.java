@@ -4,9 +4,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Matchers.any;
 
-import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.stats.PublishingStatus;
@@ -21,10 +19,10 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class PublishingStatusUpdateServiceImplTest
+public final class InitializePublishingStatusUpdateServiceImplTest
 {
     @InjectMocks
-    private PublishingStatusUpdateServiceImpl service;
+    private InitializePublishingStatusUpdateServiceImpl service;
     @Mock
     private PublishingStatsService publishingStatsService;
     @Mock
@@ -35,10 +33,9 @@ public final class PublishingStatusUpdateServiceImplTest
     private ArgumentCaptor<PublishingStats> captor;
 
     @Test
-    public void shouldCreatePublishingStats()
+    public void shouldInitializePublishingStats()
     {
         //given
-        given(step.isInitialStep()).willReturn(true);
         given(step.getBookDefinitionId()).willReturn(1L);
         given(step.getStepName()).willReturn("stepName");
         given(eBookAuditService.findEbookAuditByEbookDefId(1L)).willReturn(2L);
@@ -51,22 +48,5 @@ public final class PublishingStatusUpdateServiceImplTest
         assertThat(stats.getEbookDefId(), is(1L));
         assertThat(stats.getAudit().getAuditId(), is(2L));
         assertThat(stats.getPublishStatus(), is("stepName : COMPLETED"));
-    }
-
-    @Test
-    public void shouldUpdatePublishingStats()
-    {
-        //given
-        given(step.isInitialStep()).willReturn(false);
-        given(step.getJobInstanceId()).willReturn(1L);
-        given(step.getStepName()).willReturn("stepName");
-        //when
-        service.savePublishingStats(step, PublishingStatus.FAILED);
-        //then
-        then(publishingStatsService).should().updatePublishingStats(captor.capture(), any(StatsUpdateTypeEnum.class));
-
-        final PublishingStats stats = captor.getValue();
-        assertThat(stats.getJobInstanceId(), is(1L));
-        assertThat(stats.getPublishStatus(), is("stepName : FAILED"));
     }
 }

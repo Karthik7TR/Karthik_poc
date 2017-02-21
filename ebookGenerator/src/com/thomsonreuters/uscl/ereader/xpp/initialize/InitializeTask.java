@@ -14,6 +14,8 @@ import javax.jms.IllegalStateException;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
+import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatus;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -29,6 +31,7 @@ import org.springframework.beans.factory.annotation.Required;
  * later steps. This includes various file system path calculations based on the JobParameters used
  * to run the job.
  */
+@SavePublishingStatus(StatsUpdateTypeEnum.INITIALIZE)
 public class InitializeTask extends BookStepImpl implements XppBookStep
 {
     private static final Logger LOG = LogManager.getLogger(InitializeTask.class);
@@ -36,12 +39,6 @@ public class InitializeTask extends BookStepImpl implements XppBookStep
     private File rootWorkDirectory; // "/nas/ebookbuilder/data"
     private String environmentName;
     private BookDefinitionService bookDefnService;
-
-    @Override
-    public boolean isInitialStep()
-    {
-        return true;
-    }
 
     @Override
     public ExitStatus executeStep() throws Exception

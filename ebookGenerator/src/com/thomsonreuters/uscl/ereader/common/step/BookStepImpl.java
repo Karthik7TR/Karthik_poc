@@ -28,16 +28,6 @@ public abstract class BookStepImpl extends BaseStepImpl
         return super.execute(stepContribution, chunkContext);
     }
 
-    /**
-     * Should return {@code true} for initial step and {@code false} otherwise. Default value is
-     * {@code false}.
-     */
-    @Override
-    public boolean isInitialStep()
-    {
-        return false;
-    }
-
     @Override
     @NotNull
     public BookDefinition getBookDefinition()

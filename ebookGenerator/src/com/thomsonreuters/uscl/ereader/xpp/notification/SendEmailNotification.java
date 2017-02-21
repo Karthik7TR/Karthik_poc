@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.mail.internet.InternetAddress;
 
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
+import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatus;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.service.CoreService;
@@ -15,6 +16,7 @@ import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.ExitStatus;
 
+@SavePublishingStatus
 public class SendEmailNotification extends BookStepImpl implements XppBookStep
 {
     private static final Logger LOG = LogManager.getLogger(SendEmailNotification.class);

@@ -5,17 +5,16 @@ import java.util.Date;
 import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
+import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatus;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.stats.PublishingStatus;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
-import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 
-public class PublishingStatusUpdateServiceImpl implements PublishingStatusUpdateService<BookStepImpl>
+@SavePublishingStatus(StatsUpdateTypeEnum.INITIALIZE)
+public class InitializePublishingStatusUpdateServiceImpl extends BasePublishingStatusUpdateService
 {
-    @Resource(name = "publishingStatsService")
-    private PublishingStatsService publishingStatsService;
     @Resource(name = "eBookAuditService")
     private EBookAuditService eBookAuditService;
 
@@ -24,18 +23,6 @@ public class PublishingStatusUpdateServiceImpl implements PublishingStatusUpdate
      */
     @Override
     public void savePublishingStats(final BookStepImpl step, final PublishingStatus publishStatus)
-    {
-        if (step.isInitialStep())
-        {
-            createPublishingStats(step, publishStatus);
-        }
-        else
-        {
-            updatePublishingStats(step, publishStatus);
-        }
-    }
-
-    private void createPublishingStats(final BookStepImpl step, final PublishingStatus publishStatus)
     {
         final Date rightNow = new Date();
         final Long ebookDefId = step.getBookDefinitionId();
@@ -56,18 +43,5 @@ public class PublishingStatusUpdateServiceImpl implements PublishingStatusUpdate
         pubStats.setPublishStartTimestamp(rightNow);
         pubStats.setLastUpdated(rightNow);
         publishingStatsService.savePublishingStats(pubStats);
-    }
-
-    private void updatePublishingStats(final BookStepImpl step, final PublishingStatus publishStatus)
-    {
-        final PublishingStats jobstats = new PublishingStats();
-        jobstats.setJobInstanceId(step.getJobInstanceId());
-        jobstats.setPublishStatus(getPublishStatusString(step, publishStatus));
-        publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
-    }
-
-    private String getPublishStatusString(final BookStepImpl step, final PublishingStatus publishStatus)
-    {
-        return String.format("%s : %s", step.getStepName(), publishStatus);
     }
 }

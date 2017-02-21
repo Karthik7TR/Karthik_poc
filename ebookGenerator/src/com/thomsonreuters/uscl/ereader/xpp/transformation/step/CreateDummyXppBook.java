@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.step;
 import java.io.File;
 import java.io.IOException;
 
+import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatus;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.xpp.common.XppBookStep;
@@ -10,6 +11,7 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.beans.factory.annotation.Value;
 
+@SavePublishingStatus
 public class CreateDummyXppBook extends BookStepImpl implements XppBookStep
 {
     @Value("${xpp.static.directory}")

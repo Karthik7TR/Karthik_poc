@@ -4,10 +4,12 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.doThrow;
 
-import com.thomsonreuters.uscl.ereader.common.publishingstatus.service.PublishingStatusUpdateServiceImpl;
+import com.thomsonreuters.uscl.ereader.common.publishingstatus.service.PublishingStatusUpdateService;
+import com.thomsonreuters.uscl.ereader.common.publishingstatus.service.PublishingStatusUpdateServiceFactory;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.stats.PublishingStatus;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -22,13 +24,21 @@ public final class PublishingStatusStepAspectTest
     @InjectMocks
     private PublishingStatusStepAspect aspect;
     @Mock
-    private PublishingStatusUpdateServiceImpl publishingStatusUpdateService;
+    private PublishingStatusUpdateServiceFactory factory;
+    @Mock
+    private PublishingStatusUpdateService<PublishingStatusUpdateStep> publishingStatusUpdateService;
     @Mock
     private ProceedingJoinPoint jp;
     @Mock
     private BookStepImpl step;
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+
+    @Before
+    public void setUp()
+    {
+        given(factory.create(step)).willReturn(publishingStatusUpdateService);
+    }
 
     @Test
     public void shouldSavePublishStatus() throws Throwable
