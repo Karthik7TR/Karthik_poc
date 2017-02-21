@@ -23,7 +23,7 @@ public class CreateDummyXppBook extends BookStepImpl implements XppBookStep
     @Override
     public ExitStatus executeStep() throws Exception
     {
-        final File assembleDirectory = getAssembleDirectory();
+        final File assembleDirectory = getAssembleTitleDirectory();
         assembleDirectory.mkdir();
 
         FileUtils.copyDirectory(xppStaticDirectory, assembleDirectory);

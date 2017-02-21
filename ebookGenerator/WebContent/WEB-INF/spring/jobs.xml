@@ -330,10 +330,8 @@
 	<beans:bean id="generateTitleManifestTask" class="com.thomsonreuters.uscl.ereader.format.step.GenerateTitleMetadata" parent="generatorParentTask"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:titleMetadataService-ref="titleMetadataService"/>	
-	<beans:bean id="assembleEBookTask" class="com.thomsonreuters.uscl.ereader.assemble.step.AssembleEbook" parent="generatorParentTask"
-				p:eBookAssemblyService-ref="eBookAssemblyService"
-				p:publishingStatsService-ref="publishingStatsService"
-				p:docMetadataService-ref="docMetadataService"/>
+	<beans:bean id="assembleEBookTask" scope="step" parent="assembleStep"
+				class="com.thomsonreuters.uscl.ereader.assemble.step.AssembleEbook" />
 	<beans:bean id="deliverEBookTask" class="com.thomsonreuters.uscl.ereader.deliver.step.DeliverToProview" parent="generatorParentTask" 
 				p:proviewHandler-ref="proviewHandler"
 				p:publishingStatsService-ref="publishingStatsService"

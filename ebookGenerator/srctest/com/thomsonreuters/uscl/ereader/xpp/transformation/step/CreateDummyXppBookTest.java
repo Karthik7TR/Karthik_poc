@@ -61,7 +61,7 @@ public final class CreateDummyXppBookTest
         //when
         step.executeStep();
         //then
-        final File title = new File(workDir, "Assemble/title.xml");
+        final File title = new File(workDir, "Assemble/titleId/title.xml");
         assertThat(title.exists(), is(true));
     }
 
@@ -73,7 +73,7 @@ public final class CreateDummyXppBookTest
         //when
         step.executeStep();
         //then
-        final File title = new File(workDir, "Assemble/title.xml");
+        final File title = new File(workDir, "Assemble/titleId/title.xml");
         final String titleContent = FileUtils.readFileToString(title);
         assertThat(titleContent, containsString("titleversion=\"v1.1\""));
         assertThat(titleContent, containsString("id=\"id\""));
@@ -84,6 +84,7 @@ public final class CreateDummyXppBookTest
     {
         givenWorkDir(chunkContext, workDir);
         givenBook(chunkContext, book);
+        given(book.getTitleId()).willReturn("titleId");
         given(book.getFullyQualifiedTitleId()).willReturn("id");
         given(book.getProviewDisplayName()).willReturn("name");
         givenBookVersion(chunkContext, "v1.1");

@@ -11,6 +11,8 @@
 		class="com.thomsonreuters.uscl.ereader.common.step.BaseStepImpl" />
 	<beans:bean id="bookStep" abstract="true" scope="step"
 		class="com.thomsonreuters.uscl.ereader.common.step.BookStepImpl" />
+	<beans:bean id="assembleStep" abstract="true" scope="step"
+		class="com.thomsonreuters.uscl.ereader.common.assemble.step.BaseAssembleStep" />
 
 	<beans:bean id="outageStepAspect"
 		class="com.thomsonreuters.uscl.ereader.common.outage.step.OutageStepAspect" />
@@ -30,8 +32,14 @@
 		class="com.thomsonreuters.uscl.ereader.common.publishingstatus.service.BasePublishingStatusUpdateService" />
 	<beans:bean id="generalPublishingStatusUpdateService"
 		parent="basePublishingStatusUpdateService"
-		class="com.thomsonreuters.uscl.ereader.common.publishingstatus.service.GeneralPublishingStatusUpdateServiceImpl" />
+		class="com.thomsonreuters.uscl.ereader.common.publishingstatus.service.GeneralPublishingStatusUpdateService" />
 	<beans:bean id="initializePublishingStatusUpdateService"
 		parent="basePublishingStatusUpdateService"
-		class="com.thomsonreuters.uscl.ereader.common.publishingstatus.service.InitializePublishingStatusUpdateServiceImpl" />
+		class="com.thomsonreuters.uscl.ereader.common.publishingstatus.service.InitializePublishingStatusUpdateService" />
+	<beans:bean id="assemblePublishingStatusUpdateService"
+		parent="basePublishingStatusUpdateService"
+		class="com.thomsonreuters.uscl.ereader.common.publishingstatus.service.AssemblePublishingStatusUpdateService" />
+	<beans:bean id="titleDocPublishingStatusUpdateService"
+		parent="basePublishingStatusUpdateService"
+		class="com.thomsonreuters.uscl.ereader.common.publishingstatus.service.TitleDocPublishingStatusUpdateService" />
 </beans:beans>

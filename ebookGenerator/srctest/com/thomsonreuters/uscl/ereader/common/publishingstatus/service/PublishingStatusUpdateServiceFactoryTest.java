@@ -36,8 +36,8 @@ public final class PublishingStatusUpdateServiceFactoryTest
     {
         //given
         final InitializeTask step = new InitializeTask();
-        final PublishingStatusUpdateService service = new InitializePublishingStatusUpdateServiceImpl();
-        final PublishingStatusUpdateService anotherService = new GeneralPublishingStatusUpdateServiceImpl();
+        final PublishingStatusUpdateService service = new InitializePublishingStatusUpdateService();
+        final PublishingStatusUpdateService anotherService = new GeneralPublishingStatusUpdateService();
         final Map<String, Object> beans = new HashMap<>();
         beans.put("service1", service);
         beans.put("service2", anotherService);
@@ -54,7 +54,7 @@ public final class PublishingStatusUpdateServiceFactoryTest
         thrown.expect(BeanCreationException.class);
         final InitializeTask step = new InitializeTask();
         final Map<String, Object> beans = new HashMap<>();
-        beans.put("service2", new GeneralPublishingStatusUpdateServiceImpl());
+        beans.put("service2", new GeneralPublishingStatusUpdateService());
         given(applicationContext.getBeansWithAnnotation(SavePublishingStatus.class)).willReturn(beans);
         //when
         factory.create(step);

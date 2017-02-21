@@ -19,10 +19,10 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class InitializePublishingStatusUpdateServiceImplTest
+public final class InitializePublishingStatusUpdateServiceTest
 {
     @InjectMocks
-    private InitializePublishingStatusUpdateServiceImpl service;
+    private InitializePublishingStatusUpdateService service;
     @Mock
     private PublishingStatsService publishingStatsService;
     @Mock

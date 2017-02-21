@@ -12,7 +12,7 @@ import com.thomsonreuters.uscl.ereader.stats.PublishingStatus;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 
 @SavePublishingStatusService(StatsUpdateTypeEnum.INITIALIZE)
-public class InitializePublishingStatusUpdateServiceImpl extends BasePublishingStatusUpdateService
+public class InitializePublishingStatusUpdateService extends BasePublishingStatusUpdateService
 {
     @Resource(name = "eBookAuditService")
     private EBookAuditService eBookAuditService;

@@ -1,15 +1,12 @@
-package com.thomsonreuters.uscl.ereader.assemble.step;
+package com.thomsonreuters.uscl.ereader.xpp.assemble.step;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.common.assemble.step.BaseAssembleStep;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatus;
-import com.thomsonreuters.uscl.ereader.generator.common.GeneratorStep;
+import com.thomsonreuters.uscl.ereader.xpp.common.XppBookStep;
 
-/**
- * Step responsible for assembling an eBook.
- */
 @SavePublishingStatus({StatsUpdateTypeEnum.ASSEMBLEDOC, StatsUpdateTypeEnum.TITLEDOC})
-public class AssembleEbook extends BaseAssembleStep implements GeneratorStep
+public class AssembleXppStep extends BaseAssembleStep implements XppBookStep
 {
     //implementation is nested from @see com.thomsonreuters.uscl.ereader.common.assemble.step.BaseAssembleStep
 }

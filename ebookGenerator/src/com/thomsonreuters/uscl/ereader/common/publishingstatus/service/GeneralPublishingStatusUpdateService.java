@@ -6,7 +6,7 @@ import com.thomsonreuters.uscl.ereader.stats.PublishingStatus;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 
 @SavePublishingStatusService
-public class GeneralPublishingStatusUpdateServiceImpl extends BasePublishingStatusUpdateService
+public class GeneralPublishingStatusUpdateService extends BasePublishingStatusUpdateService
 {
     /* (non-Javadoc)
      * @see com.thomsonreuters.uscl.ereader.common.publishingstatus.service.PublishingStatusUpdateService#savePublishingStats(com.thomsonreuters.uscl.ereader.common.publishingstatus.step.PublishingStatusUpdateStep, com.thomsonreuters.uscl.ereader.stats.PublishingStatus)

@@ -95,8 +95,52 @@ public abstract class BookStepImpl extends BaseStepImpl
 
     @Override
     @NotNull
+    public File getAssembleTitleDirectory()
+    {
+        final BookDefinition bookDefinition = getBookDefinition();
+        return new File(getAssembleDirectory(), bookDefinition.getTitleId());
+    }
+
+    @Override
+    @NotNull
+    public File getAssembleAssetsDirectory()
+    {
+        return new File(getAssembleTitleDirectory(), "assets");
+    }
+
+    @Override
+    @NotNull
+    public File getAssembleDocumentsDirectory()
+    {
+        return new File(getAssembleTitleDirectory(), "documents");
+    }
+
+    @Override
+    @NotNull
+    public File getAssembleSplitTitleDirectory(final String splitTitleId)
+    {
+        return new File(getAssembleDirectory(), splitTitleId);
+    }
+
+    @Override
+    @NotNull
+    public File getAssembledBookFile()
+    {
+        final BookDefinition bookDefinition = getBookDefinition();
+        return new File(getWorkDirectory(), bookDefinition.getTitleId() + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
+    }
+
+    @Override
+    @NotNull
+    public File getAssembledSplitTitleFile(final String splitTitleId)
+    {
+        return new File(getWorkDirectory(), splitTitleId + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
+    }
+
+    @Override
+    @NotNull
     public File getTitleXml()
     {
-        return new File(getAssembleDirectory(), "title.xml");
+        return new File(getAssembleTitleDirectory(), "title.xml");
     }
 }

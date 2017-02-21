@@ -36,5 +36,23 @@ public interface BookStep extends BaseStep
     File getAssembleDirectory();
 
     @NotNull
+    File getAssembleTitleDirectory();
+
+    @NotNull
+    File getAssembleSplitTitleDirectory(String splitTitleId);
+
+    @NotNull
+    File getAssembleAssetsDirectory();
+
+    @NotNull
+    File getAssembleDocumentsDirectory();
+
+    @NotNull
+    File getAssembledBookFile();
+
+    @NotNull
+    File getAssembledSplitTitleFile(String splitTitleId);
+
+    @NotNull
     File getTitleXml();
 }
