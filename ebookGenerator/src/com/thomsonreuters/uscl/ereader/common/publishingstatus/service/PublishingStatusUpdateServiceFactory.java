@@ -1,6 +1,8 @@
 package com.thomsonreuters.uscl.ereader.common.publishingstatus.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.PublishingStatusUpdateStep;
@@ -21,36 +23,49 @@ public class PublishingStatusUpdateServiceFactory
     /**
      * Returns publishing status service specific for step
      */
-    public PublishingStatusUpdateService<PublishingStatusUpdateStep> create(final PublishingStatusUpdateStep step)
+    public List<PublishingStatusUpdateService<PublishingStatusUpdateStep>> create(final PublishingStatusUpdateStep step)
     {
-        final SavePublishingStatus annotation =
-            AnnotationUtils.findAnnotation(step.getClass(), SavePublishingStatus.class);
-        final StatsUpdateTypeEnum value = annotation.value();
-        final Collection<Object> beans = applicationContext.getBeansWithAnnotation(SavePublishingStatus.class).values();
-        return getServiceBean(beans, value);
+        final StatsUpdateTypeEnum[] stepUpdateTypes =
+            AnnotationUtils.findAnnotation(step.getClass(), SavePublishingStatus.class).value();
+        final Collection<Object> beans =
+            applicationContext.getBeansWithAnnotation(SavePublishingStatusService.class).values();
+        return getServiceBeans(beans, stepUpdateTypes);
     }
 
-    private PublishingStatusUpdateService<PublishingStatusUpdateStep> getServiceBean(
+    private List<PublishingStatusUpdateService<PublishingStatusUpdateStep>> getServiceBeans(
         final Collection<Object> beans,
-        final StatsUpdateTypeEnum stepUpdateType)
+        final StatsUpdateTypeEnum[] stepUpdateTypes)
+    {
+        final List<PublishingStatusUpdateService<PublishingStatusUpdateStep>> services = new ArrayList<>();
+        for (final StatsUpdateTypeEnum updateType : stepUpdateTypes)
+        {
+            services.add(getServiceBean(updateType, beans));
+        }
+        return services;
+    }
+
+    /**
+     * @param updateType
+     * @param beans
+     * @return
+     */
+    private PublishingStatusUpdateService<PublishingStatusUpdateStep> getServiceBean(
+        final StatsUpdateTypeEnum stepUpdateType,
+        final Collection<Object> beans)
     {
         for (final Object bean : beans)
         {
-            if (!(bean instanceof PublishingStatusUpdateService))
-            {
-                continue;
-            }
-
             final PublishingStatusUpdateService<PublishingStatusUpdateStep> service =
                 (PublishingStatusUpdateService<PublishingStatusUpdateStep>) bean;
             final StatsUpdateTypeEnum serviceUpdateType =
-                AnnotationUtils.findAnnotation(service.getClass(), SavePublishingStatus.class).value();
-            if (serviceUpdateType.equals(stepUpdateType))
+                AnnotationUtils.findAnnotation(service.getClass(), SavePublishingStatusService.class).value();
+            if (stepUpdateType.equals(serviceUpdateType))
             {
                 return service;
             }
         }
+
         throw new BeanCreationException(
-            String.format("PublishingStatusUpdateService for update type %s not found", stepUpdateType));
+            String.format("PublishingStatusUpdateService not found for type %s", stepUpdateType));
     }
 }

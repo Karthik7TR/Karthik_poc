@@ -1,12 +1,11 @@
 package com.thomsonreuters.uscl.ereader.common.publishingstatus.service;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
-import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatus;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.stats.PublishingStatus;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 
-@SavePublishingStatus
+@SavePublishingStatusService
 public class GeneralPublishingStatusUpdateServiceImpl extends BasePublishingStatusUpdateService
 {
     /* (non-Javadoc)

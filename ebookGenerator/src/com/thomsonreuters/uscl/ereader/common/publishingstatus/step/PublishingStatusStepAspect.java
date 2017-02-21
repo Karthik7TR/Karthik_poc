@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.common.publishingstatus.step;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.service.PublishingStatusUpdateService;
@@ -33,9 +35,12 @@ public class PublishingStatusStepAspect
         finally
         {
             final PublishingStatusUpdateStep step = (PublishingStatusUpdateStep) jp.getTarget();
-            final PublishingStatusUpdateService<PublishingStatusUpdateStep> service =
+            final List<PublishingStatusUpdateService<PublishingStatusUpdateStep>> services =
                 publishingStatusUpdateServiceFactory.create(step);
-            service.savePublishingStats(step, publishStatus);
+            for (final PublishingStatusUpdateService<PublishingStatusUpdateStep> service : services)
+            {
+                service.savePublishingStats(step, publishStatus);
+            }
         }
     }
 }

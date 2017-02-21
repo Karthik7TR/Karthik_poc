@@ -5,14 +5,13 @@ import java.util.Date;
 import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
-import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatus;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.stats.PublishingStatus;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 
-@SavePublishingStatus(StatsUpdateTypeEnum.INITIALIZE)
+@SavePublishingStatusService(StatsUpdateTypeEnum.INITIALIZE)
 public class InitializePublishingStatusUpdateServiceImpl extends BasePublishingStatusUpdateService
 {
     @Resource(name = "eBookAuditService")

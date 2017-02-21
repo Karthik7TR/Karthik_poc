@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.common.publishingstatus.step;
 
+import static java.util.Arrays.asList;
+
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.doThrow;
@@ -26,7 +28,9 @@ public final class PublishingStatusStepAspectTest
     @Mock
     private PublishingStatusUpdateServiceFactory factory;
     @Mock
-    private PublishingStatusUpdateService<PublishingStatusUpdateStep> publishingStatusUpdateService;
+    private PublishingStatusUpdateService<PublishingStatusUpdateStep> service;
+    @Mock
+    private PublishingStatusUpdateService<PublishingStatusUpdateStep> anotherService;
     @Mock
     private ProceedingJoinPoint jp;
     @Mock
@@ -37,7 +41,7 @@ public final class PublishingStatusStepAspectTest
     @Before
     public void setUp()
     {
-        given(factory.create(step)).willReturn(publishingStatusUpdateService);
+        given(factory.create(step)).willReturn(asList(service, anotherService));
     }
 
     @Test
@@ -48,7 +52,8 @@ public final class PublishingStatusStepAspectTest
         //when
         aspect.around(jp);
         //then
-        then(publishingStatusUpdateService).should().savePublishingStats(step, PublishingStatus.COMPLETED);
+        then(service).should().savePublishingStats(step, PublishingStatus.COMPLETED);
+        then(anotherService).should().savePublishingStats(step, PublishingStatus.COMPLETED);
     }
 
     @Test
@@ -61,6 +66,7 @@ public final class PublishingStatusStepAspectTest
         //when
         aspect.around(jp);
         //then
-        then(publishingStatusUpdateService).should().savePublishingStats(step, PublishingStatus.COMPLETED);
+        then(service).should().savePublishingStats(step, PublishingStatus.COMPLETED);
+        then(anotherService).should().savePublishingStats(step, PublishingStatus.COMPLETED);
     }
 }

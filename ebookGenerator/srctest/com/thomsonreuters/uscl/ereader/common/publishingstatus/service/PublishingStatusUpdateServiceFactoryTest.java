@@ -1,12 +1,14 @@
 package com.thomsonreuters.uscl.ereader.common.publishingstatus.service;
 
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.PublishingStatusUpdateStep;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatus;
 import com.thomsonreuters.uscl.ereader.xpp.initialize.InitializeTask;
 import org.junit.Rule;
@@ -39,12 +41,11 @@ public final class PublishingStatusUpdateServiceFactoryTest
         final Map<String, Object> beans = new HashMap<>();
         beans.put("service1", service);
         beans.put("service2", anotherService);
-        beans.put("step", step);
-        given(applicationContext.getBeansWithAnnotation(SavePublishingStatus.class)).willReturn(beans);
+        given(applicationContext.getBeansWithAnnotation(SavePublishingStatusService.class)).willReturn(beans);
         //when
-        final PublishingStatusUpdateService publishingStatusUpdateService = factory.create(step);
+        final List<PublishingStatusUpdateService<PublishingStatusUpdateStep>> services = factory.create(step);
         //then
-        assertThat(publishingStatusUpdateService, is(service));
+        assertThat(services, contains(service));
     }
 
     @Test
@@ -54,7 +55,6 @@ public final class PublishingStatusUpdateServiceFactoryTest
         final InitializeTask step = new InitializeTask();
         final Map<String, Object> beans = new HashMap<>();
         beans.put("service2", new GeneralPublishingStatusUpdateServiceImpl());
-        beans.put("step", step);
         given(applicationContext.getBeansWithAnnotation(SavePublishingStatus.class)).willReturn(beans);
         //when
         factory.create(step);
