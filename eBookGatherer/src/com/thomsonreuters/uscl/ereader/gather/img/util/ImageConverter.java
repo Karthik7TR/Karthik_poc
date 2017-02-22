@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.gather.img.util;
 
+import java.awt.image.BufferedImage;
+
 import com.thomsonreuters.uscl.ereader.gather.util.images.ImageConverterException;
 
 public interface ImageConverter
@@ -15,5 +17,5 @@ public interface ImageConverter
      *            format to convert image
      * @throws ImageConverterException
      */
-    void convertByteImg(byte[] imgBytes, String outputImagePath, String formatName);
+    BufferedImage convertByteImg(byte[] imgBytes, String outputImagePath, String formatName);
 }

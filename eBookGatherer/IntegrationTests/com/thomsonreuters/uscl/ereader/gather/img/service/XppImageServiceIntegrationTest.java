@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -21,8 +22,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration
 public class XppImageServiceIntegrationTest
 {
-    private static final String UNPACKED_IMAGES_DIR = "images";
-    private static final String DOC_TO_IMAGE_FILE = "doc-to-image-manifest.txt";
+    private static final String UNPACKED_IMAGES_DIR = "com/thomsonreuters/uscl/ereader/gather/img/service/images";
+    private static final String DOC_TO_IMAGE_FILE = "com/thomsonreuters/uscl/ereader/gather/img/service/doc-to-image-manifest.txt";
     private static final String IMAGE_ID = "I2943f88028b911e69ed7fcedf0a72426";
 
     @Autowired
@@ -39,16 +40,18 @@ public class XppImageServiceIntegrationTest
 
         assertTrue(destinationImageFile.exists());
         assertEquals(IMAGE_ID, response.getImageMetadataList().get(0).getImgGuid());
+        assertEquals(1733, response.getImageMetadataList().get(0).getWidth().longValue());
+        assertEquals(765, response.getImageMetadataList().get(0).getHeight().longValue());
     }
 
-    private ImageRequestParameters getImageRequestParameters()
+    private ImageRequestParameters getImageRequestParameters() throws IOException
     {
         final ImageRequestParameters parameters = new ImageRequestParameters();
 
-        parameters.setXppSourceImageDirectory(XppImageServiceIntegrationTest.class.getResource(UNPACKED_IMAGES_DIR).getPath());
+        parameters.setXppSourceImageDirectory(new PathMatchingResourcePatternResolver().getResource(UNPACKED_IMAGES_DIR).getFile().getAbsolutePath());
         parameters.setDynamicImageDirectory(tempFolder.getRoot());
 
-        parameters.setDocToImageManifestFile(new File(XppImageServiceIntegrationTest.class.getResource(DOC_TO_IMAGE_FILE).getPath()));
+        parameters.setDocToImageManifestFile(new PathMatchingResourcePatternResolver().getResource(DOC_TO_IMAGE_FILE).getFile());
 
         return parameters;
     }

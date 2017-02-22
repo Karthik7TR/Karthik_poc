@@ -47,7 +47,7 @@ public class TiffImageConverterImpl implements ImageConverter
     }
 
     @Override
-    public void convertByteImg(final byte[] imgBytes, final String outputImagePath, final String formatName)
+    public BufferedImage convertByteImg(final byte[] imgBytes, final String outputImagePath, final String formatName)
     {
         try (OutputStream os = new FileOutputStream(outputImagePath);
             InputStream is = new ByteArrayInputStream(imgBytes))
@@ -55,6 +55,7 @@ public class TiffImageConverterImpl implements ImageConverter
             final BufferedImage image = readTiff(is);
             ImageIO.write(image, formatName, os);
             checkImage(outputImagePath);
+            return image;
         }
         catch (final IOException e)
         {

@@ -3,9 +3,11 @@ package com.thomsonreuters.uscl.ereader.gather.img.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
@@ -26,6 +28,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 /**
  * Unit test for XppImageService.
@@ -33,7 +36,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class XppImageServiceTest
 {
-    private static final String UNPACKED_IMAGES_DIR = "images";
+    private static final String UNPACKED_IMAGES_DIR = "com/thomsonreuters/uscl/ereader/gather/img/service/images";
     private static final String DOC_ID = "docId";
     private static final String IMAGE_ID = "I2943f88028b911e69ed7fcedf0a72426";
 
@@ -52,6 +55,7 @@ public class XppImageServiceTest
     @Before
     public void init() {
         when(docToImageManifestUtil.getDocsWithImages((File)any())).thenReturn(getDocsWithImages());
+        when(imageConverter.convertByteImg((byte[])any(), (String)any(), (String)any())).thenReturn(mock(BufferedImage.class));
     }
 
     @Test
@@ -73,11 +77,11 @@ public class XppImageServiceTest
         return Collections.singletonMap(DOC_ID, Collections.singletonList(IMAGE_ID));
     }
 
-    private ImageRequestParameters getImageRequestParameters()
+    private ImageRequestParameters getImageRequestParameters() throws IOException
     {
         final ImageRequestParameters parameters = new ImageRequestParameters();
 
-        parameters.setXppSourceImageDirectory(XppImageServiceTest.class.getResource(UNPACKED_IMAGES_DIR).getPath());
+        parameters.setXppSourceImageDirectory(new PathMatchingResourcePatternResolver().getResource(UNPACKED_IMAGES_DIR).getFile().getAbsolutePath());
         parameters.setDynamicImageDirectory(tempFolder.getRoot());
 
         return parameters;

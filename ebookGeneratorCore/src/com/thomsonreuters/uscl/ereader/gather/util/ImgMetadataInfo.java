@@ -22,6 +22,18 @@ public class ImgMetadataInfo
     {
     }
 
+    public ImgMetadataInfo(final ImgMetadataInfo metadata)
+    {
+        mimeType = metadata.mimeType;
+        size = metadata.size;
+        dimUnit = metadata.dimUnit;
+        height = metadata.height;
+        width = metadata.width;
+        dpi = metadata.dpi;
+        imgGuid = metadata.imgGuid;
+        docGuid = metadata.docGuid;
+    }
+
     @XmlElement(name = "mimeType", required = false)
     public void setMimeType(final String mimeType)
     {
