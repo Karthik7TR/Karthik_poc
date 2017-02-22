@@ -60,6 +60,8 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet
             new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
         final File imageGuidFile =
             new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_TO_DOC_MANIFEST_FILE));
+        final String xppSourceImageGirectory =
+            jobExecutionContext.getString(JobExecutionKey.XPP_IMAGES_UNPACK_DIR);
         Assert.isTrue(
             dynamicImageDestinationDirectory.exists(),
             String.format(
@@ -100,6 +102,8 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet
                     dynamicImageDestinationDirectory,
                     jobInstanceId,
                     bookDefinition.isFinalStage());
+                //imgRequest.setXpp(isXpp);
+                imgRequest.setXppSourceImageDirectory(xppSourceImageGirectory);
                 final GatherResponse gatherResponse = gatherService.getImg(imgRequest);
 
                 if (gatherResponse.getMissingImgCount() > 0)

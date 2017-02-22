@@ -12,14 +12,14 @@ import com.thomsonreuters.uscl.ereader.gather.img.util.DocToImageManifestUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Required;
 
-public class NovusImageServiceImpl implements NovusImageService
+public class NovusImageServiceImpl implements ImageService
 {
     private DocToImageManifestUtil docToImageManifestUtil;
     private NovusImageProcessor imageProcessor;
 
     @Override
     @NotNull
-    public GatherResponse getImagesFromNovus(@NotNull final ImageRequestParameters imageRequestParameters)
+    public GatherResponse getImages(@NotNull final ImageRequestParameters imageRequestParameters)
         throws GatherException
     {
         final File docToImageManifestFile = imageRequestParameters.getDocToImageManifestFile();

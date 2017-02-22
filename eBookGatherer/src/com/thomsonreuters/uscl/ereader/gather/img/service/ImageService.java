@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
  * @author Ilia Bochkarev UC220946
  *
  */
-public interface NovusImageService
+public interface ImageService
 {
     /**
      * Get images from Novus, do all related tasks and get result response
@@ -23,6 +23,6 @@ public interface NovusImageService
      * @throws GatherException if failed to get images from Novus
      */
     @NotNull
-    GatherResponse getImagesFromNovus(@NotNull ImageRequestParameters imageRequestParameters)
+    GatherResponse getImages(@NotNull ImageRequestParameters imageRequestParameters)
         throws GatherException;
 }

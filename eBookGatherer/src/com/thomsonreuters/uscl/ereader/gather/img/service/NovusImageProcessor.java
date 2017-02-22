@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Designed to perform all tasks with images form Novus and decouple
- * {@link com.thomsonreuters.uscl.ereader.gather.img.service.NovusImageService}
+ * {@link com.thomsonreuters.uscl.ereader.gather.img.service.ImageService}
  * from low-level image logic
  *
  * @author Ilia Bochkarev UC220946

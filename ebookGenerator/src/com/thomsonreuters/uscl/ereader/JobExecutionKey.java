@@ -206,4 +206,9 @@ public class JobExecutionKey
      * Book Definition Object. Used by different steps in the batch process
      */
     public static final String EBOOK_DEFINITION = "bookDefn";
+
+    /**
+     * Path to the directory with unpacked images.
+     */
+    public static final String XPP_IMAGES_UNPACK_DIR = "xppImagesUnpackDir";
 }

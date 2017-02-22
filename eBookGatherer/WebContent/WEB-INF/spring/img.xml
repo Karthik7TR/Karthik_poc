@@ -18,10 +18,14 @@
 	<!-- Controller -->
 
 	<bean id="imgController" class="com.thomsonreuters.uscl.ereader.gather.img.controller.ImgController"
-		p:novusImageService-ref="novusImageService"
+		p:imageServiceFactory-ref="imageServiceFactory"
 		p:parameters-ref="imageRequestParameters" />
 
 	<!-- Services -->
+    <bean id="imageServiceFactory" class="com.thomsonreuters.uscl.ereader.gather.img.service.ImageServiceFactory"
+        p:novusImageService-ref="novusImageService"
+        p:xppImageService-ref="xppImageService">
+    </bean>
 
 	<bean id="novusImageService" class="com.thomsonreuters.uscl.ereader.gather.img.service.NovusImageServiceImpl"
 		p:docToImageManifestUtil-ref="docToImageManifestUtil"
@@ -35,6 +39,12 @@
 		p:imageConverter-ref="tiffImageConverter">
 		<aop:scoped-proxy />
 	</bean>
+    
+    <bean id="xppImageService" class="com.thomsonreuters.uscl.ereader.gather.img.service.XppImageService"
+        p:docToImageManifestUtil-ref="docToImageManifestUtil"
+        p:imageConverter-ref="tiffImageConverter">
+        <aop:scoped-proxy />
+    </bean>
 
 	<bean id="imageFinder" class="com.thomsonreuters.uscl.ereader.gather.img.service.NovusImageFinderImpl"
 		scope="request" 

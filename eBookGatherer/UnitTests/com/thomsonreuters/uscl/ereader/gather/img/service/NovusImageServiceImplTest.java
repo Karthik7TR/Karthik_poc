@@ -53,7 +53,7 @@ public final class NovusImageServiceImplTest
         given(docUtil.getDocsWithImages(any(File.class))).willReturn(docsMap);
         given(processor.isProcessed("image2", "docId")).willReturn(true);
         // when
-        final GatherResponse imagesFromNovus = service.getImagesFromNovus(new ImageRequestParameters());
+        final GatherResponse imagesFromNovus = service.getImages(new ImageRequestParameters());
         // then
         assertThat(imagesFromNovus, not(nullValue()));
         then(processor).should().process(eq("image1"), anyString());
@@ -74,7 +74,7 @@ public final class NovusImageServiceImplTest
         given(docUtil.getDocsWithImages(any(File.class))).willReturn(docsMap);
         doThrow(new RuntimeException()).when(processor).isProcessed(anyString(), anyString());
         // when
-        service.getImagesFromNovus(new ImageRequestParameters());
+        service.getImages(new ImageRequestParameters());
         // then
         then(processor).should().close();
     }

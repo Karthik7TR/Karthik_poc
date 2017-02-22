@@ -125,10 +125,6 @@
       <fileset dir="${dir.core}/testBin">
         <include name="**/*.class"/>
       </fileset>
-    </copy>
-
-
-    <copy todir="${dir.testBinaries}">
       <fileset dir="${dir.core}/srctest">
         <include name="**/*.xml"/>
       </fileset>

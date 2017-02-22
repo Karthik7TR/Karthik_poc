@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.gather.domain;
 
 import java.io.File;
+import java.util.Objects;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -19,6 +20,12 @@ public class GatherImgRequest
 
     @XmlElement(name = "isFinalStage")
     private boolean isFinalStage;
+
+    @XmlElement(name = "isXpp")
+    private boolean isXpp;
+
+    @XmlElement(name = "xppSourceImageDirectory")
+    private String xppSourceImageDirectory;
 
     public GatherImgRequest()
     {
@@ -65,6 +72,26 @@ public class GatherImgRequest
         this.dynamicImageDirectory = dynamicImageDirectory;
     }
 
+    public boolean isXpp()
+    {
+        return isXpp;
+    }
+
+    public void setXpp(final boolean isXpp)
+    {
+        this.isXpp = isXpp;
+    }
+
+    public String getXppSourceImageDirectory()
+    {
+        return xppSourceImageDirectory;
+    }
+
+    public void setXppSourceImageDirectory(final String xppSourceImageDirectory)
+    {
+        this.xppSourceImageDirectory = xppSourceImageDirectory;
+    }
+
     @Override
     public boolean equals(final Object obj)
     {
@@ -91,6 +118,8 @@ public class GatherImgRequest
         }
         else if (!imgToDocManifestFile.equals(that.imgToDocManifestFile))
             return false;
-        return true;
+
+        return Objects.equals(isXpp, that.isXpp) &&
+        		Objects.equals(xppSourceImageDirectory, that.xppSourceImageDirectory);
     }
 }

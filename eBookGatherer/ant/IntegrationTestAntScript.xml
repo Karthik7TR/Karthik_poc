@@ -72,7 +72,10 @@
         <pathelement path="${dir.integrationTestBinaries}" />
 
         <pathelement path="${dir.integrationTestSource}" />
+        <pathelement path="${dir.webContent}" />
+        <pathelement path="${dir.tmpBuildDir}" />
         <pathelement path="${dir.source}" />
+        <pathelement path="${dir.resources}" />
         <pathelement path="${dir.tmpDirBinaries}"/>
         <fileset dir="${dir.core}\${dir.librariesPath}\build\jacoco\lib">
           <include name="**/*.jar"/>

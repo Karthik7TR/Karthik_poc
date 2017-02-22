@@ -7,6 +7,7 @@ public class ImageRequestParameters
     private File docToImageManifestFile;
     private File dynamicImageDirectory;
     private boolean isFinalStage;
+    private String xppSourceImageDirectory;
 
     public File getDocToImageManifestFile()
     {
@@ -37,4 +38,15 @@ public class ImageRequestParameters
     {
         this.isFinalStage = isFinalStage;
     }
+
+    public String getXppSourceImageDirectory()
+    {
+        return xppSourceImageDirectory;
+    }
+
+    public void setXppSourceImageDirectory(final String xppSourceImageDirectory)
+    {
+        this.xppSourceImageDirectory = xppSourceImageDirectory;
+    }
+
 }

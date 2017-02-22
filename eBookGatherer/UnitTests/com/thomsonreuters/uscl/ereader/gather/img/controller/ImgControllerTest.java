@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 
@@ -13,7 +14,9 @@ import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.img.model.ImageRequestParameters;
-import com.thomsonreuters.uscl.ereader.gather.img.service.NovusImageService;
+import com.thomsonreuters.uscl.ereader.gather.img.service.ImageService;
+import com.thomsonreuters.uscl.ereader.gather.img.service.ImageServiceFactory;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -27,18 +30,25 @@ public final class ImgControllerTest
     @InjectMocks
     private ImgController controller;
     @Mock
-    private NovusImageService novusImageService;
+    private ImageService novusImageService;
     @Mock
     private ImageRequestParameters parameters;
     @Mock
     private Model model;
+    @Mock
+    private ImageServiceFactory imageServiceFactory;
+
+    @Before
+    public void init() {
+        when(imageServiceFactory.getImageService(anyBoolean())).thenReturn(novusImageService);
+    }
 
     @Test
     public void shouldReturnResponse() throws Exception
     {
         // given
         final GatherResponse response = new GatherResponse();
-        given(novusImageService.getImagesFromNovus(parameters)).willReturn(response);
+        given(novusImageService.getImages(parameters)).willReturn(response);
         // when
         controller.fetchImages(new GatherImgRequest(), model);
         // then
@@ -53,7 +63,7 @@ public final class ImgControllerTest
     {
         // given
         final GatherResponse response = new GatherResponse();
-        doThrow(new GatherException("")).when(novusImageService).getImagesFromNovus(parameters);
+        doThrow(new GatherException("")).when(novusImageService).getImages(parameters);
         // when
         controller.fetchImages(new GatherImgRequest(), model);
         // then

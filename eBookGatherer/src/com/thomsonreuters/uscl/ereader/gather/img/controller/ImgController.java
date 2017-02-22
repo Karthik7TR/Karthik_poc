@@ -4,7 +4,7 @@ import com.thomsonreuters.uscl.ereader.core.EBConstants;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.img.model.ImageRequestParameters;
-import com.thomsonreuters.uscl.ereader.gather.img.service.NovusImageService;
+import com.thomsonreuters.uscl.ereader.gather.img.service.ImageServiceFactory;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
@@ -20,7 +20,7 @@ public class ImgController
 {
     private static Logger LOG = LogManager.getLogger(ImgController.class);
 
-    private NovusImageService novusImageService;
+    private ImageServiceFactory imageServiceFactory;
     private ImageRequestParameters parameters;
 
     @RequestMapping(value = "/img", method = RequestMethod.POST)
@@ -31,11 +31,12 @@ public class ImgController
         parameters.setDocToImageManifestFile(imgRequest.getImgToDocManifestFile());
         parameters.setDynamicImageDirectory(imgRequest.getDynamicImageDirectory());
         parameters.setFinalStage(imgRequest.isFinalStage());
+        parameters.setXppSourceImageDirectory(imgRequest.getXppSourceImageDirectory());
 
         GatherResponse gatherResponse;
         try
         {
-            gatherResponse = novusImageService.getImagesFromNovus(parameters);
+            gatherResponse = imageServiceFactory.getImageService(imgRequest.isXpp()).getImages(parameters);
         }
         catch (final Exception e)
         {
@@ -47,9 +48,9 @@ public class ImgController
     }
 
     @Required
-    public void setNovusImageService(final NovusImageService novusImageService)
+    public void setImageServiceFactory(final ImageServiceFactory imageServiceFactory)
     {
-        this.novusImageService = novusImageService;
+        this.imageServiceFactory = imageServiceFactory;
     }
 
     @Required
