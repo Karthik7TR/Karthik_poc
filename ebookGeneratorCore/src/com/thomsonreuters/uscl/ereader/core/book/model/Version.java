@@ -8,7 +8,7 @@ import org.springframework.util.Assert;
 public class Version
 {
     public static final String VERSION_PREFIX = "v";
-    private static final Pattern VERSION_PATTREN = Pattern.compile("v\\d\\.\\d");
+    private static final Pattern VERSION_PATTREN = Pattern.compile("v\\d+\\.\\d+");
 
     private int majorVersion;
     private int minorVersion;
@@ -18,7 +18,7 @@ public class Version
         Assert.notNull(version);
         Assert.isTrue(
             VERSION_PATTREN.matcher(version).matches(),
-            "Version should match pattarn: v<major_version>.<minor_version>");
+            "Version should match pattern: v<major_version>.<minor_version>");
 
         final int indexOfDot = version.indexOf('.');
         majorVersion = Integer.valueOf(version.substring(1, indexOfDot));

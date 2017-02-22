@@ -61,7 +61,7 @@ public class GatherDynamicImagesTask extends AbstractSbTasklet
         final File imageGuidFile =
             new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_TO_DOC_MANIFEST_FILE));
         final String xppSourceImageGirectory =
-            jobExecutionContext.getString(JobExecutionKey.XPP_IMAGES_UNPACK_DIR);
+            jobExecutionContext.containsKey(JobExecutionKey.XPP_IMAGES_UNPACK_DIR) ? jobExecutionContext.getString(JobExecutionKey.XPP_IMAGES_UNPACK_DIR) : null;
         Assert.isTrue(
             dynamicImageDestinationDirectory.exists(),
             String.format(
@@ -108,10 +108,7 @@ public class GatherDynamicImagesTask extends AbstractSbTasklet
 
                 if (gatherResponse.getMissingImgCount() > 0)
                 {
-                    if (gatherResponse.getMissingImgCount() > 0)
-                    {
-                        retrievedCount = imageGuidNum - gatherResponse.getMissingImgCount();
-                    }
+                    retrievedCount = imageGuidNum - gatherResponse.getMissingImgCount();
                     throw new ImageException(
                         String.format(
                             "Download of dynamic images failed because there were %d missing image(s)",
