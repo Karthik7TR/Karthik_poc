@@ -92,21 +92,17 @@ public class DocServiceImpl implements DocService
 
         String publishStatus = "DOC Gather Step Completed";
 
-        FileOutputStream stream = null;
-        Writer writer = null;
-
         int missingGuidsCount = 0;
         final int missingMetaDataCount = 0;
 
-        try
-        {
-            stream = new FileOutputStream(
+        final String charset = "UTF-8"; // explicitly set the character set
+
+        try (FileOutputStream stream = new FileOutputStream(
                 StringUtils.substringBeforeLast(
                     contentDestinationDirectory.getAbsolutePath(),
                     System.getProperty("file.separator")) + "_doc_missing_guids.txt");
-            final String charset = "UTF-8"; // explicitly set the character set
-            writer = new OutputStreamWriter(stream, charset);
-
+            Writer writer = new OutputStreamWriter(stream, charset))
+        {
             final Find finder = novus.getFind();
             finder.setResolveIncludes(true);
             finder.setUseReloadContent(useReloadContent);
@@ -240,22 +236,6 @@ public class DocServiceImpl implements DocService
 
             novus.shutdownMQ();
 
-            try
-            {
-                writer.close();
-                stream.close();
-            }
-            catch (final IOException e)
-            {
-                anyException = true;
-                final GatherException ge = new GatherException(
-                    "File I/O error writing document " + docGuid,
-                    e,
-                    GatherResponse.CODE_FILE_ERROR);
-                publishStatus = "DOC Step Failed File I/O error writing document";
-
-                throw ge;
-            }
             if (missingGuidsCount > 0)
             {
                 final GatherException ge = new GatherException(
@@ -448,19 +428,12 @@ public class DocServiceImpl implements DocService
      */
     private static void createFile(final String content, final File destinationFile) throws IOException
     {
-        final FileOutputStream stream = new FileOutputStream(destinationFile);
-        Writer writer = null;
-        try
+        final String charset = "UTF-8"; // explicitly set the character set
+        try (FileOutputStream stream = new FileOutputStream(destinationFile);
+             Writer writer = new OutputStreamWriter(stream, charset))
         {
-            final String charset = "UTF-8"; // explicitly set the character set
-            writer = new OutputStreamWriter(stream, charset);
             writer.write(content);
             writer.flush();
-        }
-        finally
-        {
-            writer.close();
-            stream.close();
         }
     }
 

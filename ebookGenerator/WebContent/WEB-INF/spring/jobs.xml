@@ -274,7 +274,7 @@
 	<beans:bean id="persistDocMetadataTask" class="com.thomsonreuters.uscl.ereader.gather.step.PersistMetadataXMLTask" parent="generatorParentTask"
 				p:docMetadataService-ref="docMetadataService"		
 				p:publishingStatsService-ref="publishingStatsService"/>							
-	<beans:bean id="getDynamicImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherImageVerticalImagesTask" parent="generatorParentTask"
+	<beans:bean id="getDynamicImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherDynamicImagesTask" parent="generatorParentTask"
 				p:imageService-ref="imageService"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:gatherService-ref="gatherService"/>

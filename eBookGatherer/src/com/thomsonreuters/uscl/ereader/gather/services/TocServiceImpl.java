@@ -498,7 +498,6 @@ public class TocServiceImpl implements TocService
         final int thresholdValue) throws GatherException
     {
         TOC _tocManager = null;
-        Writer out = null;
         final int[] counter = {0};
         final int[] docCounter = {0};
         final int[] retryCounter = {0};
@@ -549,7 +548,7 @@ public class TocServiceImpl implements TocService
             copyRenameTocs = new ArrayList<>(Arrays.asList(new RenameTocEntry[renameTocEntries.size()]));
         }
 
-        try
+        try (Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(tocXmlFile.getPath()), "UTF8")))
         {
             if (excludeDocuments != null)
             {
@@ -560,8 +559,6 @@ public class TocServiceImpl implements TocService
             {
                 Collections.copy(copyRenameTocs, renameTocEntries);
             }
-
-            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(tocXmlFile.getPath()), "UTF8"));
             out.write(EBConstants.TOC_XML_ELEMENT);
             out.write(EBConstants.TOC_START_EBOOK_ELEMENT);
 
@@ -589,7 +586,6 @@ public class TocServiceImpl implements TocService
 
             out.write(EBConstants.TOC_END_EBOOK_ELEMENT);
             out.flush();
-            out.close();
             LOG.debug("Done with Toc.");
         }
         catch (final UnsupportedEncodingException e)
@@ -630,8 +626,6 @@ public class TocServiceImpl implements TocService
         {
             try
             {
-                out.close();
-
                 if ((copyExcludDocs != null) && (copyExcludDocs.size() > 0))
                 {
                     final StringBuffer unaccountedExcludedDocs = new StringBuffer();
@@ -656,13 +650,6 @@ public class TocServiceImpl implements TocService
                     publishStatus = "TOC Step Failed with Not all Rename TOCs accounted for error";
                     throw ge;
                 }
-            }
-            catch (final IOException e)
-            {
-                LOG.error(e.getMessage());
-                final GatherException ge =
-                    new GatherException("TOC Cannot close toc.xml ", e, GatherResponse.CODE_FILE_ERROR);
-                throw ge;
             }
             catch (final Exception e)
             {

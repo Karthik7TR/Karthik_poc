@@ -33,9 +33,9 @@ import org.springframework.util.Assert;
  * Fetch book images from the Image Vertical REST web service and save them
  * into a specified image destination directory.
  */
-public class GatherImageVerticalImagesTask extends AbstractSbTasklet
+public class GatherDynamicImagesTask extends AbstractSbTasklet
 {
-    //private static final Logger log = LogManager.getLogger(GatherImageVerticalImagesTask.class);
+    //private static final Logger log = LogManager.getLogger(GatherDynamicImagesTask.class);
     private ImageService imageService;
     private PublishingStatsService publishingStatsService;
     private GatherService gatherService;
@@ -160,11 +160,9 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet
     private static Set<String> readImageGuidsFromTextFile(final File textFile) throws IOException
     {
         final Set<String> imgGuidSet = new HashSet<>();
-        final FileReader fileReader = new FileReader(textFile);
-        BufferedReader reader = null;
-        try
+        try (FileReader fileReader = new FileReader(textFile);
+             BufferedReader reader = new BufferedReader(fileReader))
         {
-            reader = new BufferedReader(fileReader);
             String textLine;
             while ((textLine = reader.readLine()) != null)
             {
@@ -180,17 +178,6 @@ public class GatherImageVerticalImagesTask extends AbstractSbTasklet
                         }
                     }
                 }
-            }
-        }
-        finally
-        {
-            if (fileReader != null)
-            {
-                fileReader.close();
-            }
-            if (reader != null)
-            {
-                reader.close();
             }
         }
         return imgGuidSet;

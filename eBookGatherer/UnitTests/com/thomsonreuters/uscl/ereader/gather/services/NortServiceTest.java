@@ -968,30 +968,24 @@ public final class NortServiceTest
      * @return
      * @throws java.io.IOException
      */
-    private static String readFileAsString(final File filePath) throws Exception
+    private static String readFileAsString(final File filePath)
     {
         final StringBuffer buffer = new StringBuffer();
-        final FileInputStream fis = new FileInputStream(filePath);
-        try
+        try (FileInputStream fis = new FileInputStream(filePath);
+             InputStreamReader isr = new InputStreamReader(fis, "UTF8");
+             Reader in = new BufferedReader(isr))
         {
-            final InputStreamReader isr = new InputStreamReader(fis, "UTF8");
-            final Reader in = new BufferedReader(isr);
             int ch;
             while ((ch = in.read()) > -1)
             {
                 buffer.append((char) ch);
             }
-            in.close();
             return buffer.toString();
         }
         catch (final IOException e)
         {
             e.printStackTrace();
             return null;
-        }
-        finally
-        {
-            fis.close();
         }
     }
 
