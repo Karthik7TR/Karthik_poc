@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails;
 
@@ -61,15 +62,15 @@ public interface ProviewHandler
 
     boolean hasTitleIdBeenPublished(String fullyQualifiedTitleId) throws ProviewException;
 
-    String publishTitle(String fullyQualifiedTitleId, String versionNumber, File eBook)
+    String publishTitle(String fullyQualifiedTitleId, Version version, File eBook)
         throws ProviewException;
 
     String promoteTitle(String fullyQualifiedTitleId, String eBookVersionNumber)
         throws ProviewException;
 
-    String removeTitle(String fullyQualifiedTitleId, String eBookVersionNumber)
+    String removeTitle(String fullyQualifiedTitleId, Version version)
         throws ProviewException;
 
-    boolean deleteTitle(String fullyQualifiedTitleId, String eBookVersionNumber)
+    boolean deleteTitle(String fullyQualifiedTitleId, Version version)
         throws ProviewException;
 }

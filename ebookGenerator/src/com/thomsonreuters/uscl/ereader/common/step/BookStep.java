@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Date;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import org.jetbrains.annotations.NotNull;
 
 public interface BookStep extends BaseStep
@@ -15,7 +16,10 @@ public interface BookStep extends BaseStep
     Long getBookDefinitionId();
 
     @NotNull
-    String getBookVersion();
+    String getBookVersionString();
+
+    @NotNull
+    Version getBookVersion();
 
     @NotNull
     String getUserName();

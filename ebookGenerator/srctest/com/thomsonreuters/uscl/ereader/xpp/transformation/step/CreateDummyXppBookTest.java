@@ -87,6 +87,6 @@ public final class CreateDummyXppBookTest
         given(book.getTitleId()).willReturn("titleId");
         given(book.getFullyQualifiedTitleId()).willReturn("id");
         given(book.getProviewDisplayName()).willReturn("name");
-        givenBookVersion(chunkContext, "v1.1");
+        givenBookVersion(chunkContext, "1.1");
     }
 }

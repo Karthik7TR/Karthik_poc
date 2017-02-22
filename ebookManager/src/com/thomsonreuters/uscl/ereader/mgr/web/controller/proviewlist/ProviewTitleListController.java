@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
@@ -514,7 +515,7 @@ public class ProviewTitleListController
         {
             if (!isJobRunningForBook(model, form.getTitleId(), form.getVersion()))
             {
-                proviewHandler.removeTitle(form.getTitleId(), form.getVersion());
+                proviewHandler.removeTitle(form.getTitleId(), new Version(form.getVersion()));
                 model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Success: removed from Proview.");
                 emailBody =
                     "Title id: " + form.getTitleId() + ", version: " + form.getVersion() + " removed from Proview.";
@@ -625,7 +626,7 @@ public class ProviewTitleListController
         {
             if (!isJobRunningForBook(model, form.getTitleId(), form.getVersion()))
             {
-                proviewHandler.deleteTitle(form.getTitleId(), form.getVersion());
+                proviewHandler.deleteTitle(form.getTitleId(), new Version(form.getVersion()));
                 model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Success: deleted from Proview.");
                 emailBody =
                     "Title id: " + form.getTitleId() + ", version: " + form.getVersion() + " deleted from Proview.";

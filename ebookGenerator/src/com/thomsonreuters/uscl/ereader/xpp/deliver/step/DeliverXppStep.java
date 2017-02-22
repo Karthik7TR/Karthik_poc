@@ -1,15 +1,12 @@
-package com.thomsonreuters.uscl.ereader.deliver.step;
+package com.thomsonreuters.uscl.ereader.xpp.deliver.step;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.common.deliver.step.BaseDeliverStepImpl;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatus;
-import com.thomsonreuters.uscl.ereader.generator.common.GeneratorStep;
+import com.thomsonreuters.uscl.ereader.xpp.common.XppBookStep;
 
-/**
- * This class is responsible for delivering a generated eBook to ProView.
- */
 @SavePublishingStatus(StatsUpdateTypeEnum.FINALPUBLISH)
-public class DeliverToProview extends BaseDeliverStepImpl implements GeneratorStep
+public class DeliverXppStep extends BaseDeliverStepImpl implements XppBookStep
 {
     //implementation is nested from @see com.thomsonreuters.uscl.ereader.common.deliver.step.BaseDeliverStepImpl
 }

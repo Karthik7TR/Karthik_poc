@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
+import static com.thomsonreuters.uscl.ereader.core.book.BookMatchers.version;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -7,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails;
 import org.apache.commons.io.FileUtils;
@@ -363,7 +366,7 @@ public final class ProviewHandlerImplTest
     public void testPublishTitle() throws Exception
     {
         final String titleId = "testTileId";
-        final String bookVersion = "v1.2";
+        final Version bookVersion = version("v1.2");
         final String fileContents = "Have some content";
         final File tempRootDir = new File(System.getProperty("java.io.tmpdir"));
         tempRootDir.mkdir();
@@ -371,7 +374,7 @@ public final class ProviewHandlerImplTest
         {
             final File eBook = makeFile(tempRootDir, "tempBookFile", fileContents);
 
-            EasyMock.expect(mockProviewClient.publishTitle(titleId, bookVersion, eBook)).andReturn("=)");
+            EasyMock.expect(mockProviewClient.publishTitle(titleId, "v1.2", eBook)).andReturn("=)");
             EasyMock.replay(mockProviewClient);
 
             final String response = proviewHandler.publishTitle(titleId, bookVersion, eBook);
@@ -413,9 +416,9 @@ public final class ProviewHandlerImplTest
     public void testRemoveTitle() throws Exception
     {
         final String titleId = "testTileId";
-        final String bookVersion = "v1.2";
+        final Version bookVersion = version("v1.2");
 
-        EasyMock.expect(mockProviewClient.removeTitle(titleId, bookVersion)).andReturn("=)");
+        EasyMock.expect(mockProviewClient.removeTitle(titleId, "v1.2")).andReturn("=)");
         EasyMock.replay(mockProviewClient);
 
         final String response = proviewHandler.removeTitle(titleId, bookVersion);
@@ -427,7 +430,7 @@ public final class ProviewHandlerImplTest
     public void testDeleteTitle() throws Exception
     {
         final String titleId = "testTileId";
-        final String bookVersion = "v1.2";
+        final Version bookVersion = version("v1.2");
 
         final boolean response = proviewHandler.deleteTitle(titleId, bookVersion);
 

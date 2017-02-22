@@ -54,8 +54,9 @@ public final class AssembleXppStepTest
     public void setUp()
     {
         workDir = temporaryFolder.getRoot();
-        givenBook(chunkContext, book);
         givenWorkDir(chunkContext, workDir);
+
+        givenBook(chunkContext, book);
         given(book.getTitleId()).willReturn("titleId");
         givenJobInstanceId(chunkContext, 1L);
     }
@@ -80,7 +81,7 @@ public final class AssembleXppStepTest
     {
         //given
         given(book.isSplitBook()).willReturn(true);
-        given(docMetadataService.findDistinctSplitTitlesByJobId(1L)).willReturn(asList("/splitTitle", "/splitTitle_pt2"));
+        given(docMetadataService.findDistinctSplitTitlesByJobId(1L)).willReturn(asList("an/splitTitle", "an/splitTitle_pt2"));
         //when
         step.executeStep();
         //then

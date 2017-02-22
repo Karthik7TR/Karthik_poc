@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup;
@@ -446,7 +447,7 @@ public final class ProviewGroupListControllerTest
         groupIds.add(titleId);
         request.setParameter("groupIds", groupIds.toString());
 
-        EasyMock.expect(mockProviewHandler.removeTitle(titleId, "")).andReturn("");
+        EasyMock.expect(mockProviewHandler.removeTitle(titleId, new Version("v1.1"))).andReturn("");
 
         final String groupId = "testId";
         final String groupVersion = "2";
@@ -486,7 +487,7 @@ public final class ProviewGroupListControllerTest
         groupIds.add(titleId);
         request.setParameter("groupIds", groupIds.toString());
 
-        EasyMock.expect(mockProviewHandler.deleteTitle(titleId, "")).andReturn(true);
+        EasyMock.expect(mockProviewHandler.deleteTitle(titleId, new Version("v1.1"))).andReturn(true);
 
         final String groupId = "testId";
         final String groupVersion = "2";

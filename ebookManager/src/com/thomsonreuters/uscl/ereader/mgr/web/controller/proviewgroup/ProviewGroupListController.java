@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
@@ -902,7 +903,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController
         }
         case "Remove":
         {
-            proviewHandler.removeTitle(title, version);
+            proviewHandler.removeTitle(title, new Version(version));
             TimeUnit.SECONDS.sleep(3);
             break;
         }
@@ -944,7 +945,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController
         int retryCount = 0;
         do
         {
-            retryRequest = !proviewHandler.deleteTitle(title, version);
+            retryRequest = !proviewHandler.deleteTitle(title, new Version(version));
             if (retryRequest)
             {
                 retryCount++;

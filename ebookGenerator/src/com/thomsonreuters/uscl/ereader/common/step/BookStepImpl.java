@@ -9,6 +9,8 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.SendNotification
 import com.thomsonreuters.uscl.ereader.common.outage.step.OutageAwareStep;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.PublishingStatusUpdateStep;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -46,9 +48,16 @@ public abstract class BookStepImpl extends BaseStepImpl
 
     @Override
     @NotNull
-    public String getBookVersion()
+    public String getBookVersionString()
     {
         return getJobParameterString(JobParameterKey.BOOK_VERSION_SUBMITTED);
+    }
+
+    @Override
+    @NotNull
+    public Version getBookVersion()
+    {
+        return new Version(Version.VERSION_PREFIX + getBookVersionString());
     }
 
     @Override
@@ -119,7 +128,8 @@ public abstract class BookStepImpl extends BaseStepImpl
     @NotNull
     public File getAssembleSplitTitleDirectory(final String splitTitleId)
     {
-        return new File(getAssembleDirectory(), splitTitleId);
+        final String titleId = StringUtils.substringAfterLast(splitTitleId, "/");
+        return new File(getAssembleDirectory(), titleId);
     }
 
     @Override
@@ -134,7 +144,8 @@ public abstract class BookStepImpl extends BaseStepImpl
     @NotNull
     public File getAssembledSplitTitleFile(final String splitTitleId)
     {
-        return new File(getWorkDirectory(), splitTitleId + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
+        final String titleId = StringUtils.substringAfterLast(splitTitleId, "/");
+        return new File(getWorkDirectory(), titleId + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
     }
 
     @Override

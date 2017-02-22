@@ -12,6 +12,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
@@ -321,11 +322,11 @@ public class ProviewHandlerImpl implements ProviewHandler
     }
 
     @Override
-    public String publishTitle(final String fullyQualifiedTitleId, final String versionNumber, final File eBook) throws ProviewException
+    public String publishTitle(final String fullyQualifiedTitleId, final Version version, final File eBook) throws ProviewException
     {
         // TODO Change return to boolean (success) and move validation from calling classes to this method
         // TODO Change input type to single ProviewTitle object
-        return proviewClient.publishTitle(fullyQualifiedTitleId, versionNumber, eBook);
+        return proviewClient.publishTitle(fullyQualifiedTitleId, version.getFullVersion(), eBook);
     }
 
     @Override
@@ -337,20 +338,20 @@ public class ProviewHandlerImpl implements ProviewHandler
     }
 
     @Override
-    public String removeTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber) throws ProviewException
+    public String removeTitle(final String fullyQualifiedTitleId, final Version version) throws ProviewException
     {
         // TODO Change return to boolean (success) and move validation from calling classes to this method
         // TODO Change input type to single ProviewTitle object
-        return proviewClient.removeTitle(fullyQualifiedTitleId, eBookVersionNumber);
+        return proviewClient.removeTitle(fullyQualifiedTitleId, version.getFullVersion());
     }
 
     @Override
-    public boolean deleteTitle(final String fullyQualifiedTitleId, final String eBookVersionNumber) throws ProviewException
+    public boolean deleteTitle(final String fullyQualifiedTitleId, final Version version) throws ProviewException
     {
         // TODO Change input type to single ProviewTitle object, move validation from calling classes to this method
         try
         {
-            proviewClient.deleteTitle(fullyQualifiedTitleId, eBookVersionNumber);
+            proviewClient.deleteTitle(fullyQualifiedTitleId, version.getFullVersion());
         }
         catch (final ProviewRuntimeException ex)
         {

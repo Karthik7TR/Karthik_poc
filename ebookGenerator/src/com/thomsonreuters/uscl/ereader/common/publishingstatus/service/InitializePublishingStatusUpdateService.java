@@ -33,7 +33,7 @@ public class InitializePublishingStatusUpdateService extends BasePublishingStatu
         final PublishingStats pubStats = new PublishingStats();
         pubStats.setEbookDefId(ebookDefId);
         pubStats.setAudit(audit);
-        pubStats.setBookVersionSubmitted(step.getBookVersion());
+        pubStats.setBookVersionSubmitted(step.getBookVersionString());
         pubStats.setJobHostName(step.getHostName());
         pubStats.setJobInstanceId(step.getJobInstanceId());
         pubStats.setJobSubmitterName(step.getUserName());

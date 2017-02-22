@@ -13,6 +13,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpSession;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
@@ -310,7 +311,7 @@ public final class ProviewTitleListControllerTest
         request.setParameter("status", status);
         request.setParameter("command", ProviewTitleForm.Command.REMOVE.toString());
 
-        EasyMock.expect(mockProviewHandler.removeTitle(titleId, version)).andReturn("");
+        EasyMock.expect(mockProviewHandler.removeTitle(titleId, new Version("v2.0"))).andReturn("");
         EasyMock.replay(mockProviewHandler);
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         Assert.assertEquals(WebConstants.VIEW_PROVIEW_TITLE_REMOVE, mav.getViewName());
@@ -338,7 +339,7 @@ public final class ProviewTitleListControllerTest
         request.setParameter("status", status);
         request.setParameter("command", ProviewTitleForm.Command.DELETE.toString());
 
-        EasyMock.expect(mockProviewHandler.deleteTitle(titleId, version)).andReturn(true);
+        EasyMock.expect(mockProviewHandler.deleteTitle(titleId, new Version("v2.0"))).andReturn(true);
         EasyMock.replay(mockProviewHandler);
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         Assert.assertEquals(WebConstants.VIEW_PROVIEW_TITLE_DELETE, mav.getViewName());

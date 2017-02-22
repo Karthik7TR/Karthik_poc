@@ -37,7 +37,7 @@ public class CreateDummyXppBook extends BookStepImpl implements XppBookStep
         final BookDefinition bookDefinition = getBookDefinition();
         final File titleXml = getTitleXml();
         String titleXmlContent = FileUtils.readFileToString(titleXml);
-        titleXmlContent = titleXmlContent.replaceAll("\\$\\{version\\}", getBookVersion());
+        titleXmlContent = titleXmlContent.replaceAll("\\$\\{version\\}", getBookVersion().getFullVersion());
         titleXmlContent = titleXmlContent.replaceAll("\\$\\{titleId\\}", bookDefinition.getFullyQualifiedTitleId());
         titleXmlContent =
             titleXmlContent.replaceAll("\\$\\{ProviewDisplayName\\}", bookDefinition.getProviewDisplayName());
