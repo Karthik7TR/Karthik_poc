@@ -5,12 +5,12 @@ import javax.annotation.Resource;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.assemble.service.EBookAssemblyService;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.PublishingStatusUpdateStep;
-import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
+import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.stats.PublishingStatus;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 
-@SavePublishingStatusService(StatsUpdateTypeEnum.ASSEMBLEDOC)
-public class AssemblePublishingStatusUpdateService extends BasePublishingStatusUpdateService
+@SavePublishingStatusStrategy(StatsUpdateTypeEnum.ASSEMBLEDOC)
+public class AssemblePublishingStatusUpdateService extends BasePublishingStatusUpdateService<BookStep>
 {
     @Resource(name = "eBookAssemblyService")
     private EBookAssemblyService assemblyService;
@@ -21,7 +21,7 @@ public class AssemblePublishingStatusUpdateService extends BasePublishingStatusU
      * @see com.thomsonreuters.uscl.ereader.common.publishingstatus.service.PublishingStatusUpdateService#savePublishingStats(com.thomsonreuters.uscl.ereader.common.publishingstatus.step.PublishingStatusUpdateStep, com.thomsonreuters.uscl.ereader.stats.PublishingStatus)
      */
     @Override
-    public void savePublishingStats(final BookStepImpl step, final PublishingStatus publishStatus)
+    public void savePublishingStats(final BookStep step, final PublishingStatus publishStatus)
     {
         if (publishStatus.equals(PublishingStatus.COMPLETED))
         {

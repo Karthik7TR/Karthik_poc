@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.common.publishingstatus.service;
+package com.thomsonreuters.uscl.ereader.common.publishingstatus.step;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -12,7 +12,7 @@ import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface SavePublishingStatusService
+public @interface SavePublishingStatusPolicy
 {
-    StatsUpdateTypeEnum value() default StatsUpdateTypeEnum.GENERAL;
+    StatsUpdateTypeEnum[] value() default StatsUpdateTypeEnum.GENERAL;
 }

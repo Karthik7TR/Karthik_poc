@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.PublishingStatusUpdateStep;
-import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatus;
+import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.xpp.initialize.InitializeTask;
 import org.junit.Rule;
 import org.junit.Test;
@@ -41,7 +41,7 @@ public final class PublishingStatusUpdateServiceFactoryTest
         final Map<String, Object> beans = new HashMap<>();
         beans.put("service1", service);
         beans.put("service2", anotherService);
-        given(applicationContext.getBeansWithAnnotation(SavePublishingStatusService.class)).willReturn(beans);
+        given(applicationContext.getBeansWithAnnotation(SavePublishingStatusStrategy.class)).willReturn(beans);
         //when
         final List<PublishingStatusUpdateService<PublishingStatusUpdateStep>> services = factory.create(step);
         //then
@@ -55,7 +55,7 @@ public final class PublishingStatusUpdateServiceFactoryTest
         final InitializeTask step = new InitializeTask();
         final Map<String, Object> beans = new HashMap<>();
         beans.put("service2", new GeneralPublishingStatusUpdateService());
-        given(applicationContext.getBeansWithAnnotation(SavePublishingStatus.class)).willReturn(beans);
+        given(applicationContext.getBeansWithAnnotation(SavePublishingStatusPolicy.class)).willReturn(beans);
         //when
         factory.create(step);
         //then

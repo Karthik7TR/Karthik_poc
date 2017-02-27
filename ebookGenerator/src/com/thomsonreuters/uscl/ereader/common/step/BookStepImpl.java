@@ -5,9 +5,6 @@ import java.util.Date;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
-import com.thomsonreuters.uscl.ereader.common.notification.step.SendNotificationStep;
-import com.thomsonreuters.uscl.ereader.common.outage.step.OutageAwareStep;
-import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.PublishingStatusUpdateStep;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +15,7 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.util.Assert;
 
 public abstract class BookStepImpl extends BaseStepImpl
-    implements BookStep, OutageAwareStep, SendNotificationStep, PublishingStatusUpdateStep
+    implements BookStep
 {
     /**
      * Used as an anchor for aspects.
@@ -93,6 +90,27 @@ public abstract class BookStepImpl extends BaseStepImpl
     public File getWorkDirectory()
     {
         return new File(getJobExecutionPropertyString(JobExecutionKey.WORK_DIRECTORY));
+    }
+
+    @Override
+    @NotNull
+    public File getFormatDirectory()
+    {
+        return new File(getWorkDirectory(), "Format");
+    }
+
+    @Override
+    @NotNull
+    public File getSplitBookDirectory()
+    {
+        return new File(getFormatDirectory(), "splitEbook");
+    }
+
+    @Override
+    @NotNull
+    public File getSplitBookInfoFile()
+    {
+        return new File(getSplitBookDirectory(), "splitNodeInfo.txt");
     }
 
     @Override

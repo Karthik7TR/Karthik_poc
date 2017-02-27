@@ -8,7 +8,7 @@ import static org.mockito.Mockito.doThrow;
 
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.service.PublishingStatusUpdateService;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.service.PublishingStatusUpdateServiceFactory;
-import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
+import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.stats.PublishingStatus;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.junit.Before;
@@ -34,7 +34,7 @@ public final class PublishingStatusStepAspectTest
     @Mock
     private ProceedingJoinPoint jp;
     @Mock
-    private BookStepImpl step;
+    private BookStep step;
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 

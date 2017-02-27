@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.thomsonreuters.uscl.ereader.common.deliver.service.DeliveryCleanupService;
+import com.thomsonreuters.uscl.ereader.common.deliver.service.ProviewHandlerWithRetry;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
@@ -14,14 +14,15 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import org.springframework.batch.core.ExitStatus;
 
-public abstract class BaseDeliverStepImpl extends BookStepImpl implements DeliverStep
+public abstract class BaseDeliverStep extends BookStepImpl
 {
     @Resource(name = "proviewHandler")
     private ProviewHandler proviewHandler;
+    @Resource(name = "proviewHandlerWithRetry")
+    private ProviewHandlerWithRetry proviewHandlerWithRetry;
+
     @Resource(name = "docMetadataService")
     private DocMetadataService docMetadataService;
-    @Resource(name = "deliveryCleanupService")
-    private DeliveryCleanupService cleanupService;
 
     private List<String> publishedSplitTiltes = new ArrayList<>();
 
@@ -38,7 +39,7 @@ public abstract class BaseDeliverStepImpl extends BookStepImpl implements Delive
         }
         catch (final ProviewException e)
         {
-            cleanupService.cleanup(this);
+            removePublishedSplitTitles();
             throw e;
         }
     }
@@ -68,12 +69,11 @@ public abstract class BaseDeliverStepImpl extends BookStepImpl implements Delive
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.thomsonreuters.uscl.ereader.common.deliver.step.DeliverStep#getPublishedSplitTitles()
-     */
-    @Override
-    public List<String> getPublishedSplitTitles()
+    private void removePublishedSplitTitles() throws ProviewException
     {
-        return publishedSplitTiltes;
+        for (final String splitTitle : publishedSplitTiltes)
+        {
+            proviewHandlerWithRetry.removeTitle(splitTitle, getBookVersion());
+        }
     }
 }

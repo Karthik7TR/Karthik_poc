@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.PublishingStatusUpdateStep;
-import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatus;
+import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -26,9 +26,9 @@ public class PublishingStatusUpdateServiceFactory
     public List<PublishingStatusUpdateService<PublishingStatusUpdateStep>> create(final PublishingStatusUpdateStep step)
     {
         final StatsUpdateTypeEnum[] stepUpdateTypes =
-            AnnotationUtils.findAnnotation(step.getClass(), SavePublishingStatus.class).value();
+            AnnotationUtils.findAnnotation(step.getClass(), SavePublishingStatusPolicy.class).value();
         final Collection<Object> beans =
-            applicationContext.getBeansWithAnnotation(SavePublishingStatusService.class).values();
+            applicationContext.getBeansWithAnnotation(SavePublishingStatusStrategy.class).values();
         return getServiceBeans(beans, stepUpdateTypes);
     }
 
@@ -58,7 +58,7 @@ public class PublishingStatusUpdateServiceFactory
             final PublishingStatusUpdateService<PublishingStatusUpdateStep> service =
                 (PublishingStatusUpdateService<PublishingStatusUpdateStep>) bean;
             final StatsUpdateTypeEnum serviceUpdateType =
-                AnnotationUtils.findAnnotation(service.getClass(), SavePublishingStatusService.class).value();
+                AnnotationUtils.findAnnotation(service.getClass(), SavePublishingStatusStrategy.class).value();
             if (stepUpdateType.equals(serviceUpdateType))
             {
                 return service;

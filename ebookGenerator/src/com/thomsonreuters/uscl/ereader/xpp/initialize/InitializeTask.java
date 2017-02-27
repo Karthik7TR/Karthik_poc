@@ -15,7 +15,7 @@ import javax.jms.IllegalStateException;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
-import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatus;
+import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Required;
  * later steps. This includes various file system path calculations based on the JobParameters used
  * to run the job.
  */
-@SavePublishingStatus(StatsUpdateTypeEnum.INITIALIZE)
+@SavePublishingStatusPolicy(StatsUpdateTypeEnum.INITIALIZE)
 public class InitializeTask extends BookStepImpl implements XppBookStep
 {
     private static final Logger LOG = LogManager.getLogger(InitializeTask.class);
@@ -52,6 +52,10 @@ public class InitializeTask extends BookStepImpl implements XppBookStep
     private BookDefinition setBookDefinition()
     {
         final BookDefinition bookDefinition = bookDefnService.findBookDefinitionByEbookDefId(getBookDefinitionId());
+
+        //TODO: remove this later - for dummy book only. Ignore Split books
+        bookDefinition.setIsSplitBook(false);
+
         setJobExecutionProperty(JobExecutionKey.EBOOK_DEFINITION, bookDefinition);
         LOG.debug("titleId (Fully Qualified): " + bookDefinition.getTitleId());
         LOG.debug("hostname: " + getJobParameterString(JobParameterKey.HOST_NAME));

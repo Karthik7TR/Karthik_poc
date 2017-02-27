@@ -14,7 +14,9 @@
 	<beans:bean id="assembleStep" abstract="true" scope="step"
 		class="com.thomsonreuters.uscl.ereader.common.assemble.step.BaseAssembleStep" />
 	<beans:bean id="deliverStep" abstract="true" scope="step"
-		class="com.thomsonreuters.uscl.ereader.common.deliver.step.BaseDeliverStepImpl" />
+		class="com.thomsonreuters.uscl.ereader.common.deliver.step.BaseDeliverStep" />
+	<beans:bean id="groupStep" abstract="true" scope="step"
+		class="com.thomsonreuters.uscl.ereader.common.group.step.BaseGroupStep" />
 
 	<beans:bean id="outageStepAspect"
 		class="com.thomsonreuters.uscl.ereader.common.outage.step.OutageStepAspect" />
@@ -47,7 +49,16 @@
 	<beans:bean id="deliverPublishingStatusUpdateService"
 		parent="basePublishingStatusUpdateService"
 		class="com.thomsonreuters.uscl.ereader.common.publishingstatus.service.DeliverPublishingStatusUpdateService" />
+	<beans:bean id="groupPublishingStatusUpdateService" parent="basePublishingStatusUpdateService"
+		class="com.thomsonreuters.uscl.ereader.common.publishingstatus.service.GroupPublishingStatusUpdateService" />
 
-	<beans:bean id="deliveryCleanupService"
-		class="com.thomsonreuters.uscl.ereader.common.deliver.service.DeliveryCleanupServiceImpl" />
+	<beans:bean id="proviewRetryAspect"
+		class="com.thomsonreuters.uscl.ereader.common.proview.ProviewRetryAspect" />
+	<beans:bean id="proviewHandlerWithRetry"
+		class="com.thomsonreuters.uscl.ereader.common.deliver.service.ProviewHandlerWithRetryImpl" />
+	<beans:bean id="groupServiceWithRetry"
+		class="com.thomsonreuters.uscl.ereader.common.group.service.GroupServiceWithRetryImpl" />
+
+	<beans:bean id="splitNodesInfoService"
+		class="com.thomsonreuters.uscl.ereader.common.group.service.SplitNodesInfoServiceImpl" />
 </beans:beans>

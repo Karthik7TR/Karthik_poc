@@ -334,9 +334,8 @@
 				class="com.thomsonreuters.uscl.ereader.assemble.step.AssembleEbook" />
 	<beans:bean id="deliverEBookTask" scope="step" parent="deliverStep"
 				class="com.thomsonreuters.uscl.ereader.deliver.step.DeliverToProview" />
-	<beans:bean id="groupEBookTask" class="com.thomsonreuters.uscl.ereader.group.step.GroupEbooks" parent="generatorParentTask" 				
-				p:publishingStatsService-ref="publishingStatsService"
-				p:groupService-ref="groupService"/>
+	<beans:bean id="groupEBookTask" scope="step" parent="groupStep"
+				class="com.thomsonreuters.uscl.ereader.group.step.GroupEbooks" />
 	<beans:bean id="archiveBookTask" class="com.thomsonreuters.uscl.ereader.deliver.step.ArchiveBook" parent="generatorParentTask"
 				p:environmentName-ref="environmentName"
 				p:publishingStatsService-ref="publishingStatsService"

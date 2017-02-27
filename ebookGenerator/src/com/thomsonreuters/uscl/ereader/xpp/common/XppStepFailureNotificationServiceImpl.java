@@ -7,13 +7,13 @@ import javax.mail.internet.InternetAddress;
 
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.common.notification.service.StepFailureNotificationService;
-import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
+import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.service.CoreService;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 
-public class XppStepFailureNotificationServiceImpl implements StepFailureNotificationService<BookStepImpl>
+public class XppStepFailureNotificationServiceImpl implements StepFailureNotificationService<BookStep>
 {
     @Resource(name = "coreService")
     private CoreService coreService;
@@ -24,7 +24,7 @@ public class XppStepFailureNotificationServiceImpl implements StepFailureNotific
      * @see com.thomsonreuters.uscl.ereader.common.notification.service.EmailStepFailureService#emailFailure(java.lang.Exception)
      */
     @Override
-    public void emailFailure(final BookStepImpl step, final Exception e)
+    public void emailFailure(final BookStep step, final Exception e)
     {
         final String username = step.getUserName();
         final Collection<InternetAddress> emailRecipients = coreService.getEmailRecipientsByUsername(username);
@@ -32,7 +32,7 @@ public class XppStepFailureNotificationServiceImpl implements StepFailureNotific
     }
 
     @NotNull
-    private String getSubject(final BookStepImpl step)
+    private String getSubject(final BookStep step)
     {
         final String environment = step.getEnvironment();
         final BookDefinition bookDefinition = step.getBookDefinition();
@@ -48,7 +48,7 @@ public class XppStepFailureNotificationServiceImpl implements StepFailureNotific
     }
 
     @NotNull
-    private String getBody(final BookStepImpl step, final Exception e)
+    private String getBody(final BookStep step, final Exception e)
     {
         return String
             .format("%s%nError Message : %s%n%s", getSubject(step), e.getMessage(), ExceptionUtils.getStackTrace(e));

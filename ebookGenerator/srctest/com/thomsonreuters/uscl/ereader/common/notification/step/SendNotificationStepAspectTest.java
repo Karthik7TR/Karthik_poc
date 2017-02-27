@@ -9,7 +9,7 @@ import static org.mockito.Mockito.never;
 
 import com.thomsonreuters.uscl.ereader.common.notification.service.StepFailureNotificationService;
 import com.thomsonreuters.uscl.ereader.common.notification.service.StepFailureNotificationServiceFactory;
-import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
+import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,7 +31,7 @@ public final class SendNotificationStepAspectTest
     @Rule
     public ExpectedException thrown = ExpectedException.none();
     @Mock
-    private BookStepImpl step;
+    private BookStep step;
     @Mock
     private StepFailureNotificationService<SendNotificationStep> service;
 

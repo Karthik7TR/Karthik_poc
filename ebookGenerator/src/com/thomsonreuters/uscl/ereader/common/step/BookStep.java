@@ -3,11 +3,14 @@ package com.thomsonreuters.uscl.ereader.common.step;
 import java.io.File;
 import java.util.Date;
 
+import com.thomsonreuters.uscl.ereader.common.notification.step.SendNotificationStep;
+import com.thomsonreuters.uscl.ereader.common.outage.step.OutageAwareStep;
+import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.PublishingStatusUpdateStep;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import org.jetbrains.annotations.NotNull;
 
-public interface BookStep extends BaseStep
+public interface BookStep extends BaseStep, OutageAwareStep, SendNotificationStep, PublishingStatusUpdateStep
 {
     @NotNull
     BookDefinition getBookDefinition();
@@ -35,6 +38,15 @@ public interface BookStep extends BaseStep
 
     @NotNull
     File getWorkDirectory();
+
+    @NotNull
+    File getFormatDirectory();
+
+    @NotNull
+    File getSplitBookDirectory();
+
+    @NotNull
+    File getSplitBookInfoFile();
 
     @NotNull
     File getAssembleDirectory();

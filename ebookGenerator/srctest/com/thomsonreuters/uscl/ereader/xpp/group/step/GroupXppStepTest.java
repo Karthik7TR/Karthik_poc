@@ -1,0 +1,130 @@
+package com.thomsonreuters.uscl.ereader.xpp.group.step;
+
+import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenBook;
+import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenBookVersion;
+import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenWorkDir;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.never;
+
+import java.io.File;
+
+import com.thomsonreuters.uscl.ereader.common.group.service.GroupServiceWithRetry;
+import com.thomsonreuters.uscl.ereader.common.group.service.SplitNodesInfoService;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
+import com.thomsonreuters.uscl.ereader.group.service.GroupService;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.rules.TemporaryFolder;
+import org.junit.runner.RunWith;
+import org.mockito.Answers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.batch.core.scope.context.ChunkContext;
+
+@RunWith(MockitoJUnitRunner.class)
+public final class GroupXppStepTest
+{
+    @InjectMocks
+    private GroupXppStep step;
+    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+    private ChunkContext chunkContext;
+    @Mock
+    private GroupService groupService;
+    @Mock
+    private GroupServiceWithRetry groupServiceWithRetry;
+    @Mock
+    private SplitNodesInfoService splitNodesInfoService;
+    @Mock
+    private BookDefinition book;
+    @Mock
+    private GroupDefinition groupDefinition;
+    @Mock
+    private GroupDefinition anotherGroupDefinition;
+    @Mock
+    private PublishingStatsService publishingStatsService;
+
+    @Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    private File workDir;
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    @Before
+    public void setUp()
+    {
+        workDir = temporaryFolder.getRoot();
+        givenWorkDir(chunkContext, workDir);
+        givenBook(chunkContext, book);
+        given(book.getEbookDefinitionId()).willReturn(1L);
+        givenBookVersion(chunkContext, "1.1");
+        given(groupDefinition.isSimilarGroup(groupDefinition)).willReturn(true);
+        given(groupDefinition.isSimilarGroup(anotherGroupDefinition)).willReturn(false);
+    }
+
+    @Test
+    public void shouldDoNothingIfNotGrouped() throws Exception
+    {
+        //given
+        given(publishingStatsService.hasBeenGrouped(1L)).willReturn(false);
+        given(book.getGroupName()).willReturn("groupName");
+        //when
+        step.executeStep();
+        //then
+        then(groupService).should(never()).removeAllPreviousGroups(book);
+    }
+
+    @Test
+    public void shouldRemovePreviousGroupsIfWasGrouped() throws Exception
+    {
+        //given
+        given(publishingStatsService.hasBeenGrouped(1L)).willReturn(true);
+        given(book.getGroupName()).willReturn("groupName");
+        //when
+        step.executeStep();
+        //then
+        then(groupService).should().removeAllPreviousGroups(book);
+    }
+
+    @Test
+    public void shouldNotCreateGroupIfTheSameIsLast() throws Exception
+    {
+        //given
+        given(book.getGroupName()).willReturn("");
+        given(book.isSplitBook()).willReturn(false);
+        given(groupService.createGroupDefinition(book, "v1.1", null)).willReturn(groupDefinition);
+        given(groupService.getLastGroup(book)).willReturn(groupDefinition);
+        //when
+        step.executeStep();
+        //then
+        then(groupServiceWithRetry).should(never()).createGroup(groupDefinition);
+        assertThat(step.getGroupVersion(), nullValue());
+    }
+
+    @Test
+    public void shouldCreateGroupIfDifferentIsLast() throws Exception
+    {
+        //given
+        given(book.getGroupName()).willReturn("");
+        given(book.isSplitBook()).willReturn(true);
+        given(splitNodesInfoService.readSplitNodeInforFile(any(File.class), anyString())).willReturn(null);
+        given(groupService.createGroupDefinition(book, "v1.1", null)).willReturn(groupDefinition);
+        given(groupService.getLastGroup(book)).willReturn(anotherGroupDefinition);
+        //when
+        step.executeStep();
+        //then
+        then(groupServiceWithRetry).should().createGroup(groupDefinition);
+        assertThat(step.getGroupVersion(), notNullValue());
+    }
+}

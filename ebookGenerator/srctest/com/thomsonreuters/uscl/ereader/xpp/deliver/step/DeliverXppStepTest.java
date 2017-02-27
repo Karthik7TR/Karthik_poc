@@ -7,17 +7,15 @@ import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenBookVersion;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenJobInstanceId;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenWorkDir;
 import static com.thomsonreuters.uscl.ereader.core.book.BookMatchers.version;
-import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
 
 import java.io.File;
 
-import com.thomsonreuters.uscl.ereader.common.deliver.service.DeliveryCleanupServiceImpl;
+import com.thomsonreuters.uscl.ereader.common.deliver.service.ProviewHandlerWithRetry;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
@@ -41,11 +39,11 @@ public final class DeliverXppStepTest
     @InjectMocks
     private DeliverXppStep step;
     @Mock
-    private DeliveryCleanupServiceImpl cleanupService;
-    @Mock
     private DocMetadataService docMetadataService;
     @Mock
     private ProviewHandler proviewHandler;
+    @Mock
+    private ProviewHandlerWithRetry proviewHandlerWithRetry;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private ChunkContext chunkContext;
     @Mock
@@ -97,7 +95,6 @@ public final class DeliverXppStepTest
             .publishTitle("an/splitTitle", version("v1.1"), new File(workDir, "splitTitle.gz"));
         then(proviewHandler).should()
             .publishTitle("an/splitTitle_pt2", version("v1.1"), new File(workDir, "splitTitle_pt2.gz"));
-        assertThat(step.getPublishedSplitTitles(), contains("an/splitTitle", "an/splitTitle_pt2"));
     }
 
     @Test
@@ -105,12 +102,16 @@ public final class DeliverXppStepTest
     {
         //given
         thrown.expect(ProviewException.class);
-        given(book.isSplitBook()).willReturn(false);
+
+        given(book.isSplitBook()).willReturn(true);
+        given(docMetadataService.findDistinctSplitTitlesByJobId(1L))
+            .willReturn(asList("an/splitTitle", "an/splitTitle_pt2"));
+
         doThrow(ProviewException.class).when(proviewHandler)
-            .publishTitle(anyString(), any(Version.class), any(File.class));
+            .publishTitle(eq("an/splitTitle_pt2"), any(Version.class), any(File.class));
         //when
         step.executeStep();
         //then
-        then(cleanupService).should().cleanup(step);
+        then(proviewHandlerWithRetry).should().removeTitle("an/splitTitle", version("v1.1"));
     }
 }

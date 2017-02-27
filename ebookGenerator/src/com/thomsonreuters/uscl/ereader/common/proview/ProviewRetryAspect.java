@@ -1,25 +1,25 @@
-package com.thomsonreuters.uscl.ereader.common.deliver.service;
+package com.thomsonreuters.uscl.ereader.common.proview;
 
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.Resource;
-
-import com.thomsonreuters.uscl.ereader.common.deliver.step.DeliverStep;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
-import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
-import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Value;
 
-public class DeliveryCleanupServiceImpl implements DeliveryCleanupService
+/**
+ * Aspect to retry Proview API call if one failed
+ */
+@Aspect
+public class ProviewRetryAspect
 {
-    private static final Logger LOG = LogManager.getLogger(DeliveryCleanupServiceImpl.class);
+    private static final Logger LOG = LogManager.getLogger(ProviewRetryAspect.class);
 
-    @Resource(name = "proviewHandler")
-    private ProviewHandler proviewHandler;
     @Value("2")
     private Integer maxNumberOfRetries;
     @Value("15")
@@ -27,23 +27,15 @@ public class DeliveryCleanupServiceImpl implements DeliveryCleanupService
     @Value("2")
     private Integer baseSleepTimeInMinutes;
 
-    @Override
-    public void cleanup(final DeliverStep step)
-    {
-        for (final String splitTitle : step.getPublishedSplitTitles())
-        {
-            removeWithRetry(step, splitTitle);
-        }
-    }
-
-    private void removeWithRetry(final DeliverStep step, final String splitTitle)
+    @Around("@annotation(com.thomsonreuters.uscl.ereader.common.proview.ProviewRetry)")
+    public void around(final ProceedingJoinPoint jp) throws Throwable
     {
         waitProview(baseSleepTimeInMinutes);
         for (int i = 0; i <= maxNumberOfRetries; i++)
         {
             try
             {
-                removeTitle(step, splitTitle);
+                jp.proceed();
                 return;
             }
             catch (final ProviewException e)
@@ -64,21 +56,11 @@ public class DeliveryCleanupServiceImpl implements DeliveryCleanupService
             }
         }
         throw new ProviewRuntimeException(
-            String.format(
-                "Tried %d times to remove part of the split title %s. Proview might be down "
-                    + "or still in the process of loading the book. Please try again later.",
-                maxNumberOfRetries + 1,
-                splitTitle));
-    }
-
-    private void removeTitle(final DeliverStep step, final String splitTitle) throws ProviewException
-    {
-        final Version bookVersion = step.getBookVersion();
-        final String response = proviewHandler.removeTitle(splitTitle, bookVersion);
-        if (response.contains("200"))
-        {
-            proviewHandler.deleteTitle(splitTitle, bookVersion);
-        }
+            String
+                .format(
+                    "Tried %d times. Proview might be down "
+                        + "or still in the process of loading the book. Please try again later.",
+                    maxNumberOfRetries + 1));
     }
 
     void waitProview(final Integer timeInMinutes)
