@@ -17,9 +17,6 @@ public class CreateDummyXppBook extends BookStepImpl implements XppBookStep
     @Value("${xpp.static.directory}")
     private File xppStaticDirectory;
 
-    /* (non-Javadoc)
-     * @see com.thomsonreuters.uscl.ereader.common.step.BaseStep#executeStep()
-     */
     @Override
     public ExitStatus executeStep() throws Exception
     {
