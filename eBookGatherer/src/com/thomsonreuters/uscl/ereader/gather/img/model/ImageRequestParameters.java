@@ -48,5 +48,4 @@ public class ImageRequestParameters
     {
         this.xppSourceImageDirectory = xppSourceImageDirectory;
     }
-
 }

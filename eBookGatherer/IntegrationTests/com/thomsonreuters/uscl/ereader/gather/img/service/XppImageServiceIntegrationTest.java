@@ -20,10 +20,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
-public class XppImageServiceIntegrationTest
+public final class XppImageServiceIntegrationTest
 {
     private static final String UNPACKED_IMAGES_DIR = "com/thomsonreuters/uscl/ereader/gather/img/service/images";
-    private static final String DOC_TO_IMAGE_FILE = "com/thomsonreuters/uscl/ereader/gather/img/service/doc-to-image-manifest.txt";
+    private static final String DOC_TO_IMAGE_FILE =
+        "com/thomsonreuters/uscl/ereader/gather/img/service/doc-to-image-manifest.txt";
     private static final String IMAGE_ID = "I2943f88028b911e69ed7fcedf0a72426";
 
     @Autowired
@@ -33,7 +34,8 @@ public class XppImageServiceIntegrationTest
     public TemporaryFolder tempFolder = new TemporaryFolder();
 
     @Test
-    public void shouldCopyImagesAndReturnMetadata() throws GatherException, IOException {
+    public void shouldCopyImagesAndReturnMetadata() throws GatherException, IOException
+    {
         final GatherResponse response = service.getImages(getImageRequestParameters());
 
         final File destinationImageFile = new File(tempFolder.getRoot(), IMAGE_ID + ".png");
@@ -48,12 +50,13 @@ public class XppImageServiceIntegrationTest
     {
         final ImageRequestParameters parameters = new ImageRequestParameters();
 
-        parameters.setXppSourceImageDirectory(new PathMatchingResourcePatternResolver().getResource(UNPACKED_IMAGES_DIR).getFile().getAbsolutePath());
+        parameters.setXppSourceImageDirectory(
+            new PathMatchingResourcePatternResolver().getResource(UNPACKED_IMAGES_DIR).getFile().getAbsolutePath());
         parameters.setDynamicImageDirectory(tempFolder.getRoot());
 
-        parameters.setDocToImageManifestFile(new PathMatchingResourcePatternResolver().getResource(DOC_TO_IMAGE_FILE).getFile());
+        parameters.setDocToImageManifestFile(
+            new PathMatchingResourcePatternResolver().getResource(DOC_TO_IMAGE_FILE).getFile());
 
         return parameters;
     }
-
 }

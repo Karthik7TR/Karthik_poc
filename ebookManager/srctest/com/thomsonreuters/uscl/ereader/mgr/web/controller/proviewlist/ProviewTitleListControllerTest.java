@@ -34,7 +34,6 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -55,8 +54,6 @@ public final class ProviewTitleListControllerTest
     private ProviewAuditService mockProviewAuditService;
     private MessageSourceAccessor mockMessageSourceAccessor;
     private JobRequestService mockJobRequestService;
-
-    private MockHttpSession session;
 
     @Before
     public void SetUp()

@@ -32,10 +32,10 @@ public final class TitleMetadataTest
     }
 
     @Test
-    public void testTitleMetadataDefaultConstructorWithExpectedDefaults() throws Exception
+    public void testTitleMetadataDefaultConstructorWithExpectedDefaults()
     {
         final TitleMetadata metadata = new TitleMetadata();
-        final List<Keyword> keywords = metadata.getKeywords();
+        keywords = metadata.getKeywords();
         final Keyword publisher = keywords.get(0);
         final Keyword jurisdiction = keywords.get(1);
         Assert.assertTrue("Metadata should contain two keywords, publisher and jurisdiction", keywords.size() == 2);
@@ -48,10 +48,10 @@ public final class TitleMetadataTest
     }
 
     @Test
-    public void testTitleMetadataFullConstructorWithExpectedDefaults() throws Exception
+    public void testTitleMetadataFullConstructorWithExpectedDefaults()
     {
         final TitleMetadata metadata = new TitleMetadata("1337/b00k", "v1337");
-        final List<Keyword> keywords = metadata.getKeywords();
+        keywords = metadata.getKeywords();
         final Keyword publisher = keywords.get(0);
         final Keyword jurisdiction = keywords.get(1);
         Assert.assertTrue("Metadata should contain two keywords, publisher and jurisdiction", keywords.size() == 2);

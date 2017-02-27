@@ -105,7 +105,7 @@ public class ArchiveBook extends AbstractSbTasklet
                     final List<SplitNodeInfo> currentsplitNodeList = new ArrayList<>();
                     readDocImgFile(new File(splitNodeInfoFile), currentsplitNodeList, bookVersion, bookDefinition);
 
-                    if (currentsplitNodeList != null || currentsplitNodeList.size() != 0)
+                    if (!currentsplitNodeList.isEmpty())
                     {
                         //Save to Proview Audit
                         for (final SplitNodeInfo splitNodeInfo : currentsplitNodeList)
@@ -153,7 +153,7 @@ public class ArchiveBook extends AbstractSbTasklet
                 {
                     final File workDirectory =
                         new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.WORK_DIRECTORY));
-                    if (workDirectory == null || !workDirectory.isDirectory())
+                    if (!workDirectory.isDirectory())
                     {
                         throw new IOException("workDirectory must not be null and must be a directory.");
                     }
@@ -164,7 +164,7 @@ public class ArchiveBook extends AbstractSbTasklet
                         splitTitleId = StringUtils.substringAfterLast(splitTitleId, "/");
                         final File sourceFilename =
                             new File(workDirectory, splitTitleId + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
-                        if (sourceFilename == null || !sourceFilename.exists())
+                        if (!sourceFilename.exists())
                         {
                             throw new IOException("eBook must not be null and should exists.");
                         }
@@ -272,11 +272,8 @@ public class ArchiveBook extends AbstractSbTasklet
         final BookDefinition bookDefinition)
     {
         String line = null;
-        BufferedReader stream = null;
-        try
+        try (BufferedReader stream = new BufferedReader(new FileReader(docToSplitBook)))
         {
-            stream = new BufferedReader(new FileReader(docToSplitBook));
-
             while ((line = stream.readLine()) != null)
             {
                 final String[] splitted = line.split("\\|");
@@ -297,20 +294,6 @@ public class ArchiveBook extends AbstractSbTasklet
         catch (final IOException iox)
         {
             throw new RuntimeException("Unable to find File : " + docToSplitBook.getAbsolutePath() + " " + iox);
-        }
-        finally
-        {
-            if (stream != null)
-            {
-                try
-                {
-                    stream.close();
-                }
-                catch (final IOException e)
-                {
-                    throw new RuntimeException("An IOException occurred while closing a file ", e);
-                }
-            }
         }
     }
 

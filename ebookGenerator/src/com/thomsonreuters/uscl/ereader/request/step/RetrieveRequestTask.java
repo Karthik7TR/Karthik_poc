@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Required;
 
 public class RetrieveRequestTask extends AbstractSbTasklet
 {
-
     private static final Logger log = LogManager.getLogger(RetrieveRequestTask.class);
     private EBookRequestValidator eBookRequestValidator;
 

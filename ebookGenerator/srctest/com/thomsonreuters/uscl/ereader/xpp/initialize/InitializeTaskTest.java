@@ -37,7 +37,7 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 
 @RunWith(MockitoJUnitRunner.class)
-public class InitializeTaskTest
+public final class InitializeTaskTest
 {
     @InjectMocks
     private InitializeTask step;

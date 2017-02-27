@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.format.service;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,9 +26,17 @@ public final class XSLTMapperServiceIntegrationTest
     @Autowired
     protected XSLTMapperService xsltMapperService;
 
-    private static final String COLLECTION = "w_codesstaflnvdp";
-    private static final String DOC_TYPE = "6A";
-    private static final String XSLT = "CodesStatutes.xsl";
+    private String COLLECTION = "w_codesstaflnvdp";
+    private String DOC_TYPE = "6A";
+    private String XSLT = "CodesStatutes.xsl";
+
+    @Before
+    public void setUp()
+    {
+        COLLECTION = "w_codesstaflnvdp";
+        DOC_TYPE = "6A";
+        XSLT = "CodesStatutes.xsl";
+    }
 
     /**
      * Testing the happy path - return the expected XSLT for a given collection and doc_type.
@@ -45,9 +54,9 @@ public final class XSLTMapperServiceIntegrationTest
     @Test
     public void testGetXsltFromDatabaseNullDocType()
     {
-        final String COLLECTION = "w_3rd_plirpub";
-        final String DOC_TYPE = null;
-        final String XSLT = "AnalyticalEaganProducts.xsl";
+        COLLECTION = "w_3rd_plirpub";
+        DOC_TYPE = null;
+        XSLT = "AnalyticalEaganProducts.xsl";
         assertEquals(XSLT, xsltMapperService.getXSLT(COLLECTION, DOC_TYPE));
     }
 
@@ -58,9 +67,9 @@ public final class XSLTMapperServiceIntegrationTest
     @Test
     public void testGetXsltFromDatabaseEmptyDocType()
     {
-        final String COLLECTION = "w_3rd_plirpub";
-        final String DOC_TYPE = "3E";
-        final String XSLT = "AnalyticalEaganProducts.xsl";
+        COLLECTION = "w_3rd_plirpub";
+        DOC_TYPE = "3E";
+        XSLT = "AnalyticalEaganProducts.xsl";
         final String hello = xsltMapperService.getXSLT(COLLECTION, DOC_TYPE);
         System.out.println(hello);
         assertEquals(XSLT, xsltMapperService.getXSLT(COLLECTION, DOC_TYPE));
@@ -73,9 +82,9 @@ public final class XSLTMapperServiceIntegrationTest
     @Test
     public void testGetXsltFromDatabaseWhiteSpaceDocType()
     {
-        final String COLLECTION = "w_3rd_plirpub";
-        final String DOC_TYPE = " ";
-        final String XSLT = "AnalyticalEaganProducts.xsl";
+        COLLECTION = "w_3rd_plirpub";
+        DOC_TYPE = " ";
+        XSLT = "AnalyticalEaganProducts.xsl";
         assertEquals(XSLT, xsltMapperService.getXSLT(COLLECTION, DOC_TYPE));
     }
 
@@ -86,9 +95,9 @@ public final class XSLTMapperServiceIntegrationTest
     @Test
     public void testGetXsltFromDatabaseRowNotPresent()
     {
-        final String COLLECTION = "collection not present";
-        final String DOC_TYPE = "doc type not present";
-        final String XSLT = null;
+        COLLECTION = "collection not present";
+        DOC_TYPE = "doc type not present";
+        XSLT = null;
         assertEquals(XSLT, xsltMapperService.getXSLT(COLLECTION, DOC_TYPE));
     }
 
@@ -96,10 +105,10 @@ public final class XSLTMapperServiceIntegrationTest
      * Testing bad path scenario - throw an exception when trying to retrieve XSLT for null collection.
      */
     @Test(expected = IllegalArgumentException.class)
-    public void testGetXsltFromDatabaseNullCollection() throws Exception
+    public void testGetXsltFromDatabaseNullCollection()
     {
-        final String COLLECTION = null;
-        final String DOC_TYPE = "doc type not present";
+        COLLECTION = null;
+        DOC_TYPE = "doc type not present";
         xsltMapperService.getXSLT(COLLECTION, DOC_TYPE);
     }
 }

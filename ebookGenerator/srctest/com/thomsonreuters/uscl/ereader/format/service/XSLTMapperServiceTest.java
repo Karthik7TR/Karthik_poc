@@ -71,7 +71,7 @@ public final class XSLTMapperServiceTest
     {
         try
         {
-            final XSLTMapperService service = new XSLTMapperServiceImpl();
+            service = new XSLTMapperServiceImpl();
             service.getXSLT(COLLECTION, DOC_TYPE);
         }
         catch (final NullPointerException e)

@@ -119,7 +119,7 @@ public class GatherImgRequest
         else if (!imgToDocManifestFile.equals(that.imgToDocManifestFile))
             return false;
 
-        return Objects.equals(isXpp, that.isXpp) &&
-        		Objects.equals(xppSourceImageDirectory, that.xppSourceImageDirectory);
+        return Objects.equals(isXpp, that.isXpp)
+            && Objects.equals(xppSourceImageDirectory, that.xppSourceImageDirectory);
     }
 }

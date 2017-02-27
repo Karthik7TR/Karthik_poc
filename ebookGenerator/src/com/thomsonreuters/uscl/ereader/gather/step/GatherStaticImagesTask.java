@@ -98,10 +98,8 @@ public class GatherStaticImagesTask extends AbstractSbTasklet
     public static List<String> readLinesFromTextFile(final File textFile) throws IOException
     {
         final List<String> lineList = new ArrayList<>();
-        final FileReader fileReader = new FileReader(textFile);
-        try
+        try (BufferedReader reader = new BufferedReader(new FileReader(textFile)))
         {
-            final BufferedReader reader = new BufferedReader(fileReader);
             String textLine;
             while ((textLine = reader.readLine()) != null)
             {
@@ -109,13 +107,6 @@ public class GatherStaticImagesTask extends AbstractSbTasklet
                 {
                     lineList.add(textLine.trim());
                 }
-            }
-        }
-        finally
-        {
-            if (fileReader != null)
-            {
-                fileReader.close();
             }
         }
         return lineList;

@@ -143,7 +143,7 @@ public class EmailNotification
                     throw new MessagingException("No Subject provided");
                 }
 
-                if ((toEmail != null) && toEmail.isEmpty())
+                if (toEmail.isEmpty())
                 {
                     throw new MessagingException("No text provided.");
                 }

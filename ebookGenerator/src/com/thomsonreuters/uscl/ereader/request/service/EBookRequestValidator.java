@@ -8,8 +8,6 @@ import java.io.InputStream;
 import com.thomsonreuters.uscl.ereader.jms.exception.MessageQueueException;
 import com.thomsonreuters.uscl.ereader.request.EBookRequest;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
 public class EBookRequestValidator
 {
@@ -18,8 +16,6 @@ public class EBookRequestValidator
     public static final String ERROR_CREATE_HASH = "problem encountered while hashing file";
     public static final String ERROR_BAD_HASH = "verification hash does not match for ";
     public static final String ERROR_DUPLICATE_REQUEST = "Request already received";
-
-    private static final Logger LOG = LogManager.getLogger(EBookRequestValidator.class);
 
     public void validate(final EBookRequest request) throws MessageQueueException
     {
@@ -40,29 +36,13 @@ public class EBookRequestValidator
         }
 
         final String hash;
-        InputStream bookStream = null;
-        try
+        try (InputStream bookStream = new FileInputStream(ebook))
         {
-            bookStream = new FileInputStream(ebook);
             hash = DigestUtils.md5Hex(bookStream);
         }
         catch (final IOException e)
         {
             throw new MessageQueueException(ERROR_CREATE_HASH, e);
-        }
-        finally
-        {
-            try
-            {
-                if (bookStream != null)
-                {
-                    bookStream.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close eBook bundle file.", e);
-            }
         }
 
         if (!request.getBundleHash().equals(hash))

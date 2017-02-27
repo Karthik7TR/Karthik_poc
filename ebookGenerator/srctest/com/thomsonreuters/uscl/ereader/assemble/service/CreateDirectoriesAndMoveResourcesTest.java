@@ -60,10 +60,9 @@ public final class CreateDirectoriesAndMoveResourcesTest
 
     private File makeFile(final File directory, final String name, final String content)
     {
-        try
+        final File file = new File(directory, name);
+        try (FileOutputStream out = new FileOutputStream(file))
         {
-            final File file = new File(directory, name);
-            final FileOutputStream out = new FileOutputStream(file);
             out.write(content.getBytes());
             out.close();
             return file;
@@ -124,7 +123,7 @@ public final class CreateDirectoriesAndMoveResourcesTest
     @Test
     public void testDuplicateAssets()
     {
-        final Map<String, List<String>> splitBookImgMap = new HashMap<>();
+        splitBookImgMap = new HashMap<>();
         final List<String> imgList1 = new ArrayList<>();
         imgList1.add("img1.xml");
         imgList1.add("img2.xml");
@@ -177,7 +176,7 @@ public final class CreateDirectoriesAndMoveResourcesTest
     }
 
     @Test
-    public void testReadDocImgFile() throws Exception
+    public void testReadDocImgFile()
     {
         createDirectoriesAndMoveResources.readDocImgFile(docToSplitBookFile, docMap, splitBookImgMap);
         List<Doc> docList = null;
@@ -209,6 +208,7 @@ public final class CreateDirectoriesAndMoveResourcesTest
             }
             if (pair.getKey().equals(new String("3")))
             {
+                Assert.assertNotNull(imgList);
                 Assert.assertEquals(0, imgList.size());
             }
         }

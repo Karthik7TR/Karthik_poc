@@ -230,12 +230,8 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
                 "File passed into InternalLinkResolverFilter constructor must be a valid file.");
         }
 
-        BufferedReader reader = null;
-
-        try
+        try (BufferedReader reader = new BufferedReader(new FileReader(docsGuidFile)))
         {
-            reader = new BufferedReader(new FileReader(docsGuidFile));
-
             String input = reader.readLine();
 
             while (input != null)
@@ -266,20 +262,6 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
             final String message =
                 "Could not read the DOC guid to TOC guid map file: " + docsGuidFile.getAbsolutePath();
             LOG.error(message, e);
-        }
-        finally
-        {
-            try
-            {
-                if (reader != null)
-                {
-                    reader.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close DOC guid to TOC guid file reader.", e);
-            }
         }
 
         return tocGuid;
@@ -381,18 +363,15 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
         }
 
         //if a reference page cannot be located, locate to the first found document in the cite list
-        if (docMetadata == null)
+        for (String citation : citations)
         {
-            for (String citation : citations)
+            citation = citation.replace(")", "").replace("+", "").trim();
+
+            docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(citation);
+
+            if (docMetadata != null)
             {
-                citation = citation.replace(")", "").replace("+", "").trim();
-
-                docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(citation);
-
-                if (docMetadata != null)
-                {
-                    return docMetadata;
-                }
+                return docMetadata;
             }
         }
 

@@ -21,4 +21,3 @@ public class AccessDeniedController
         return new ModelAndView(WebConstants.VIEW_SEC_ACCESS_DENIED);
     }
 }
-

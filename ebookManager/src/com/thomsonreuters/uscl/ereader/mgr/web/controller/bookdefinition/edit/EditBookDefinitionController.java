@@ -449,7 +449,7 @@ public class EditBookDefinitionController
         final List<FrontMatterPage> pages = book.getFrontMatterPages();
         for (final FrontMatterPage page : pages)
         {
-            final Long pk = new Long(page.getSequenceNum());
+            final Long pk = Long.valueOf(page.getSequenceNum());
             page.setId(pk);
         }
         return book;

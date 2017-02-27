@@ -481,7 +481,7 @@ public final class NovusNortFileServiceTest
     }
 
     @Test
-    public void testGetNortDataWithMissingLabel() throws Exception
+    public void testGetNortDataWithMissingLabel()
     {
         final File nortFile = new File(nortDir, "NORT" + EBConstants.XML_FILE_EXTENSION);
         final Date date = new Date();
@@ -561,8 +561,7 @@ public final class NovusNortFileServiceTest
     private String createOneDayAheadString(final Date date)
     {
         final SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        String YYYYMMDDHHmmss;
-        YYYYMMDDHHmmss = formatter.format(date);
+        final String YYYYMMDDHHmmss = formatter.format(date);
         return "" + Long.valueOf(YYYYMMDDHHmmss) + 1;
     }
 }

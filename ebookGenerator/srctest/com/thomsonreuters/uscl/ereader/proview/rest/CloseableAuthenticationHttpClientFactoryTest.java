@@ -36,35 +36,30 @@ public final class CloseableAuthenticationHttpClientFactoryTest
     @Test(expected = IllegalArgumentException.class)
     public void testCannotCreateFactoryWhenHostIsNull() throws Exception
     {
-        final CloseableAuthenticationHttpClientFactory httpClientFactory =
-            new CloseableAuthenticationHttpClientFactory(null, "captain", "j4ck_sp4rr0w");
+        httpClientFactory = new CloseableAuthenticationHttpClientFactory(null, "captain", "j4ck_sp4rr0w");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCannotCreateFactoryWhenUsernameIsNull() throws Exception
     {
-        final CloseableAuthenticationHttpClientFactory httpClientFactory =
-            new CloseableAuthenticationHttpClientFactory(mockHost.getHostName(), null, "j4ck_sp4rr0w");
+        httpClientFactory = new CloseableAuthenticationHttpClientFactory(mockHost.getHostName(), null, "j4ck_sp4rr0w");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCannotCreateFactoryWhenUsernameIsBlank() throws Exception
     {
-        final CloseableAuthenticationHttpClientFactory httpClientFactory =
-            new CloseableAuthenticationHttpClientFactory(mockHost.getHostName(), "", "j4ck_sp4rr0w");
+        httpClientFactory = new CloseableAuthenticationHttpClientFactory(mockHost.getHostName(), "", "j4ck_sp4rr0w");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCannotCreateFactoryWhenPasswordIsNull() throws Exception
     {
-        final CloseableAuthenticationHttpClientFactory httpClientFactory =
-            new CloseableAuthenticationHttpClientFactory(mockHost.getHostName(), "captain", null);
+        httpClientFactory = new CloseableAuthenticationHttpClientFactory(mockHost.getHostName(), "captain", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCannotCreateFactoryWhenPasswordIsBlank() throws Exception
     {
-        final CloseableAuthenticationHttpClientFactory httpClientFactory =
-            new CloseableAuthenticationHttpClientFactory(mockHost.getHostName(), "captain", "");
+        httpClientFactory = new CloseableAuthenticationHttpClientFactory(mockHost.getHostName(), "captain", "");
     }
 }

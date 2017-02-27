@@ -34,7 +34,7 @@ public final class ProviewClientImplTest
 
     private static final String PROVIEW_DOMAIN_PREFIX = "proviewpublishing.int.qed.thomsonreuters.com";
     private static InetAddress PROVIEW_HOST;
-    private static Map<String, String> urlParameters = new HashMap<>();
+    private Map<String, String> urlParameters = new HashMap<>();
     private String allGroupsUriTemplate = "http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}";
     private String getTitlesUriTemplate = "/v1/titles/uscl/all";
     private ProviewClientImpl proviewClient;
@@ -86,7 +86,7 @@ public final class ProviewClientImplTest
             + "<title>uscl/an/abook_testgroup</title></subgroup></members></group></groups>";
 
         proviewClient.setAllGroupsUriTemplate(allGroupsUriTemplate);
-        final Map<String, String> urlParameters = new HashMap<>();
+        urlParameters = new HashMap<>();
         urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
 
         EasyMock.expect(mockRequestCallbackFactory.getStreamRequestCallback()).andReturn(mockRequestCallback);
@@ -119,7 +119,7 @@ public final class ProviewClientImplTest
 
         final String singleGroupUriTemplate = "";
         proviewClient.setSingleGroupUriTemplate(singleGroupUriTemplate);
-        final Map<String, String> urlParameters = new HashMap<>();
+        urlParameters = new HashMap<>();
         urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
         urlParameters.put("groupId", groupId);
 
@@ -285,7 +285,7 @@ public final class ProviewClientImplTest
 
         proviewClient.setSingleTitleTemplate("http://" + PROVIEW_DOMAIN_PREFIX + singleTitleTemplate);
 
-        final Map<String, String> urlParameters = new HashMap<>();
+        urlParameters = new HashMap<>();
         urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
         urlParameters.put("titleId", "uscl/sc/ca_evid");
 
@@ -315,7 +315,7 @@ public final class ProviewClientImplTest
 
         proviewClient.setSingleTitleTemplate("http://" + PROVIEW_DOMAIN_PREFIX + singleTitleTemplate);
 
-        final Map<String, String> urlParameters = new HashMap<>();
+        urlParameters = new HashMap<>();
         urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
         urlParameters.put("titleId", "uscl/sc/ca_evid");
 
@@ -372,7 +372,7 @@ public final class ProviewClientImplTest
         proviewClient
             .setSingleTitleByVersionUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + singleTitleByVersionUriTemplate);
 
-        final Map<String, String> urlParameters = new HashMap<>();
+        urlParameters = new HashMap<>();
         urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
         urlParameters.put("titleId", "uscl/an/coi");
         urlParameters.put("eBookVersionNumber", "v1.0");
@@ -412,7 +412,7 @@ public final class ProviewClientImplTest
 
             proviewClient.setPublishTitleUriTemplate(publishTitleUriTemplate);
 
-            final Map<String, String> urlParameters = new HashMap<>();
+            urlParameters = new HashMap<>();
             urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
             urlParameters.put("titleId", titleId);
             urlParameters.put("eBookVersionNumber", bookVersion);
@@ -461,7 +461,7 @@ public final class ProviewClientImplTest
 
         proviewClient.setPromoteTitleUriTemplate(promoteTitleUriTemplate);
 
-        final Map<String, String> urlParameters = new HashMap<>();
+        urlParameters = new HashMap<>();
         urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
         urlParameters.put("titleId", titleId);
         urlParameters.put("eBookVersionNumber", bookVersion);
@@ -494,7 +494,7 @@ public final class ProviewClientImplTest
 
         proviewClient.setRemoveTitleUriTemplate(removeTitleUriTemplate);
 
-        final Map<String, String> urlParameters = new HashMap<>();
+        urlParameters = new HashMap<>();
         urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
         urlParameters.put("titleId", titleId);
         urlParameters.put("eBookVersionNumber", bookVersion);
@@ -527,7 +527,7 @@ public final class ProviewClientImplTest
 
         proviewClient.setDeleteTitleUriTemplate(deleteTitleUriTemplate);
 
-        final Map<String, String> urlParameters = new HashMap<>();
+        urlParameters = new HashMap<>();
         urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
         urlParameters.put("titleId", titleId);
         urlParameters.put("eBookVersionNumber", bookVersion);
@@ -560,11 +560,10 @@ public final class ProviewClientImplTest
      */
     private File makeFile(final File directory, final String name, final String content)
     {
-        try
+        final File file = new File(directory, name);
+        try (FileOutputStream out = new FileOutputStream(file))
         {
-            final File file = new File(directory, name);
             file.createNewFile();
-            final FileOutputStream out = new FileOutputStream(file);
             out.write(content.getBytes());
             out.flush();
             out.close();
@@ -578,11 +577,11 @@ public final class ProviewClientImplTest
 
     private Map<String, String> createURLParameters()
     {
-        final Map<String, String> urlParameters = new HashMap<>();
-        urlParameters.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
-        urlParameters.put("groupId", "uscl/groupTest");
-        urlParameters.put("groupVersionNumber", "v1");
-        return urlParameters;
+        final Map<String, String> urlParams = new HashMap<>();
+        urlParams.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
+        urlParams.put("groupId", "uscl/groupTest");
+        urlParams.put("groupVersionNumber", "v1");
+        return urlParams;
     }
 
     private void verifyAll()

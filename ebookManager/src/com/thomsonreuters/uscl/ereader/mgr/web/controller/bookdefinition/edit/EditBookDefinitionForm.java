@@ -693,7 +693,7 @@ public class EditBookDefinitionForm
     private String createPubInfo(final DocumentTypeCode documentType, final String[] titleId)
     {
         final int index;
-        final StringBuilder pubInfo = new StringBuilder();
+        final StringBuilder publicationInfo = new StringBuilder();
 
         if (documentType.getName().equalsIgnoreCase(WebConstants.DOCUMENT_TYPE_COURT_RULES))
         {
@@ -711,13 +711,13 @@ public class EditBookDefinitionForm
 
         for (int i = index; i < titleId.length; i++)
         {
-            pubInfo.append(titleId[i]);
-            pubInfo.append("_");
+            publicationInfo.append(titleId[i]);
+            publicationInfo.append("_");
         }
-        if (pubInfo.length() > 0)
-            pubInfo.deleteCharAt(pubInfo.length() - 1);
+        if (publicationInfo.length() > 0)
+            publicationInfo.deleteCharAt(publicationInfo.length() - 1);
 
-        return pubInfo.toString();
+        return publicationInfo.toString();
     }
 
     public Long getBookdefinitionId()
@@ -1558,8 +1558,8 @@ public class EditBookDefinitionForm
         // Clear out empty DocumentCurrency
         for (final Iterator<DocumentCurrency> i = documentCurrencies.iterator(); i.hasNext();)
         {
-            final DocumentCurrency currency = i.next();
-            if (currency == null || currency.isEmpty())
+            final DocumentCurrency docCurrency = i.next();
+            if (docCurrency == null || docCurrency.isEmpty())
             {
                 i.remove();
             }
@@ -1568,8 +1568,8 @@ public class EditBookDefinitionForm
         // Clear out empty DocumentCopyright
         for (final Iterator<DocumentCopyright> i = documentCopyrights.iterator(); i.hasNext();)
         {
-            final DocumentCopyright copyright = i.next();
-            if (copyright == null || copyright.isEmpty())
+            final DocumentCopyright docCopyright = i.next();
+            if (docCopyright == null || docCopyright.isEmpty())
             {
                 i.remove();
             }

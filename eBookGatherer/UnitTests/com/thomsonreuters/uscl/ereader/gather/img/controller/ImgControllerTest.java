@@ -39,7 +39,8 @@ public final class ImgControllerTest
     private ImageServiceFactory imageServiceFactory;
 
     @Before
-    public void init() {
+    public void init()
+    {
         when(imageServiceFactory.getImageService(anyBoolean())).thenReturn(novusImageService);
     }
 

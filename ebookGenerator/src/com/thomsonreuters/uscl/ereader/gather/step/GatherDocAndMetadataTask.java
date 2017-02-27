@@ -106,6 +106,35 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
         return ExitStatus.COMPLETED;
     }
 
+    /**
+     * Reads the contents of a text file and return the guid before the first comma
+     * as an element in the returned list.
+     * The file is assumed to already exist.
+     * @file textFile the text file to process
+     * @return a list of text strings, representing each file of the specified file
+     */
+    public static List<String> readDocGuidsFromTextFile(final File textFile) throws IOException
+    {
+        final List<String> lineList = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(textFile)))
+        {
+            String textLine;
+            while ((textLine = reader.readLine()) != null)
+            {
+                if (StringUtils.isNotBlank(textLine))
+                {
+                    final int i = textLine.indexOf(",");
+                    if (i != -1)
+                    {
+                        textLine = textLine.substring(0, textLine.indexOf(","));
+                        lineList.add(textLine.trim());
+                    }
+                }
+            }
+        }
+        return lineList;
+    }
+
     @Required
     public void setDocMetadataGuidParserService(final DocMetaDataGuidParserService docMetadataSvc)
     {
@@ -122,43 +151,5 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
     public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
     {
         this.publishingStatsService = publishingStatsService;
-    }
-
-    /**
-     * Reads the contents of a text file and return the guid before the first comma
-     * as an element in the returned list.
-     * The file is assumed to already exist.
-     * @file textFile the text file to process
-     * @return a list of text strings, representing each file of the specified file
-     */
-    public static List<String> readDocGuidsFromTextFile(final File textFile) throws IOException
-    {
-        final List<String> lineList = new ArrayList<>();
-        final FileReader fileReader = new FileReader(textFile);
-        try
-        {
-            final BufferedReader reader = new BufferedReader(fileReader);
-            String textLine;
-            while ((textLine = reader.readLine()) != null)
-            {
-                if (StringUtils.isNotBlank(textLine))
-                {
-                    final int i = textLine.indexOf(",");
-                    if (i != -1)
-                    {
-                        textLine = textLine.substring(0, textLine.indexOf(","));
-                        lineList.add(textLine.trim());
-                    }
-                }
-            }
-        }
-        finally
-        {
-            if (fileReader != null)
-            {
-                fileReader.close();
-            }
-        }
-        return lineList;
     }
 }

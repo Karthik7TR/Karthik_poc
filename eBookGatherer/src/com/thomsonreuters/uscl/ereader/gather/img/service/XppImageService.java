@@ -39,9 +39,12 @@ public class XppImageService implements ImageService
     @Override
     public GatherResponse getImages(final ImageRequestParameters imageRequestParameters) throws GatherException
     {
-        final Map<String, ImgMetadataInfo> imageFiles = copyImagesToWorkDir(imageRequestParameters.getXppSourceImageDirectory(), imageRequestParameters.getDynamicImageDirectory());
+        final Map<String, ImgMetadataInfo> imageFiles = copyImagesToWorkDir(
+            imageRequestParameters.getXppSourceImageDirectory(),
+            imageRequestParameters.getDynamicImageDirectory());
 
-        final Map<String, List<String>> docsWithImages = docToImageManifestUtil.getDocsWithImages(imageRequestParameters.getDocToImageManifestFile());
+        final Map<String, List<String>> docsWithImages =
+            docToImageManifestUtil.getDocsWithImages(imageRequestParameters.getDocToImageManifestFile());
 
         final List<ImgMetadataInfo> imagesMetadata = new ArrayList<>();
         final int missingImagesCount = filllMetadataWithDocIds(imagesMetadata, imageFiles, docsWithImages);
@@ -49,9 +52,7 @@ public class XppImageService implements ImageService
         return populateResponse(imagesMetadata, missingImagesCount);
     }
 
-    private GatherResponse populateResponse(
-        final List<ImgMetadataInfo> imagesMetadata,
-        final int missingImagesCount)
+    private GatherResponse populateResponse(final List<ImgMetadataInfo> imagesMetadata, final int missingImagesCount)
     {
         final GatherResponse response = new GatherResponse();
         response.setImageMetadataList(imagesMetadata);
@@ -86,15 +87,17 @@ public class XppImageService implements ImageService
         return missingImagesCount;
     }
 
-    private ImgMetadataInfo getImageMetadata(final BufferedImage bufferedImage, final String imageId, final File imageFile)
-        throws IOException
+    private ImgMetadataInfo getImageMetadata(
+        final BufferedImage bufferedImage,
+        final String imageId,
+        final File imageFile) throws IOException
     {
         final ImgMetadataInfo metadata = new ImgMetadataInfo();
         metadata.setMimeType(Files.probeContentType(imageFile.toPath()));
         metadata.setSize(imageFile.length());
         metadata.setImgGuid(imageId);
-        metadata.setWidth((long)bufferedImage.getWidth());
-        metadata.setHeight((long)bufferedImage.getHeight());
+        metadata.setWidth((long) bufferedImage.getWidth());
+        metadata.setHeight((long) bufferedImage.getHeight());
         return metadata;
     }
 
@@ -105,7 +108,8 @@ public class XppImageService implements ImageService
 
         if (srcImages != null)
         {
-            for (final File srcImage : srcImages) {
+            for (final File srcImage : srcImages)
+            {
                 try
                 {
                     final String imageId = FilenameUtils.removeExtension(srcImage.getName());
@@ -129,13 +133,15 @@ public class XppImageService implements ImageService
         return isTiffImage(srcImage) ? imageId + "." + PNG : srcImage.getName();
     }
 
-    private ImgMetadataInfo writeImage(final String imageId, final File srcImage, final File destImage) throws IOException
+    private ImgMetadataInfo writeImage(final String imageId, final File srcImage, final File destImage)
+        throws IOException
     {
         BufferedImage image;
 
         if (isTiffImage(srcImage))
         {
-            image= imageConverter.convertByteImg(Files.readAllBytes(srcImage.toPath()), destImage.getAbsolutePath(), PNG);
+            image =
+                imageConverter.convertByteImg(Files.readAllBytes(srcImage.toPath()), destImage.getAbsolutePath(), PNG);
         }
         else
         {

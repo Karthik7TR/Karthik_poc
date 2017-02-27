@@ -105,7 +105,7 @@ public class JobExecutionVdo
      */
     public boolean isUserAllowedToStopAndRestartJob()
     {
-        final PublishingStats stats = getPublishingStats();
+        stats = getPublishingStats();
         final String submittedBy = (stats != null) ? stats.getJobSubmitterName() : null;
         return UserUtils.isUserAuthorizedToStopOrRestartBatchJob(submittedBy);
     }

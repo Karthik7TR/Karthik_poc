@@ -21,12 +21,10 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
 public final class AutoSplitGuiIdsHandlerTest
 {
     private AutoSplitNodesHandler splitBookFilter;
-    private List<String> splitTocGuidList;
     private static final String FINE_NAME = "toc.xml";
     private InputStream tocXml;
     private File tocFile;
@@ -83,7 +81,7 @@ public final class AutoSplitGuiIdsHandlerTest
     }
 
     @Test
-    public void testWithString() throws Exception
+    public void testWithString()
     {
         final String xmlTestStr = "<EBook>"
             + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
@@ -107,7 +105,7 @@ public final class AutoSplitGuiIdsHandlerTest
         }
     }
 
-    public Map<String, String> testHelper(final InputStream inputXML, final int splitSize, final int percent) throws SAXException
+    public Map<String, String> testHelper(final InputStream inputXML, final int splitSize, final int percent)
     {
         Map<String, String> splitTocGuidList = new HashMap<>();
         ByteArrayOutputStream output = null;

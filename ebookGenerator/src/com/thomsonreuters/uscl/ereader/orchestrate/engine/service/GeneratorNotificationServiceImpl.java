@@ -30,8 +30,8 @@ public class GeneratorNotificationServiceImpl implements NotificationService
         final long jobExecutionId)
     {
         final List<String> fileList = new ArrayList<>();
-        String subject;
-        String failedJobInfo;
+        final String subject;
+        final String failedJobInfo;
         final BookDefinition bookDefinition = (BookDefinition) jobExecutionContext.get(JobParameterKey.EBOOK_DEFINITON);
         final String jobEnvironment = jobParams.getString(JobParameterKey.ENVIRONMENT_NAME);
 

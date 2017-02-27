@@ -657,14 +657,7 @@ public class BookDefinition implements Serializable
         }
         else
         {
-            if (isPilotBook.equalsIgnoreCase("Y"))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return isPilotBook.equalsIgnoreCase("Y");
         }
     }
 

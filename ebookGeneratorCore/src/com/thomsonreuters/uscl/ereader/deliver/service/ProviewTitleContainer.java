@@ -96,7 +96,7 @@ public class ProviewTitleContainer implements Serializable
                 {
                     final ProviewTitleInfo currentInfo = map.get(majorVersion);
                     final Integer currentMinorVersion = currentInfo.getMinorVersion();
-                    if (minorVersion != null && minorVersion > currentMinorVersion)
+                    if (minorVersion > currentMinorVersion)
                     {
                         map.put(majorVersion, proviewTitleInfo);
                     }

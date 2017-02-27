@@ -166,10 +166,7 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
         }
 
         final File anchorDupFile = new File(targetDir.getAbsolutePath(), "anchorDupFile");
-        if (dupTargetAnchors != null)
-        {
-            createAnchorTargetList(anchorDupFile, dupTargetAnchors);
-        }
+        createAnchorTargetList(anchorDupFile, dupTargetAnchors);
 
         LOG.info("Creating Anchor transformations successfully applied to " + numDocs + " files.");
         return numDocs;
@@ -292,10 +289,9 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
         }
         else
         {
-            BufferedReader reader = null;
-            try
+            try (BufferedReader reader =
+                new BufferedReader(new InputStreamReader(new FileInputStream(anchorTargetListFile), "UTF-8")))
             {
-                reader = new BufferedReader(new InputStreamReader(new FileInputStream(anchorTargetListFile), "UTF-8"));
                 String input = reader.readLine();
                 while (input != null)
                 {
@@ -329,20 +325,6 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
                 LOG.error(message);
                 throw new EBookFormatException(message, e);
             }
-            finally
-            {
-                try
-                {
-                    if (reader != null)
-                    {
-                        reader.close();
-                    }
-                }
-                catch (final IOException e)
-                {
-                    LOG.error("Unable to close file reader.", e);
-                }
-            }
         }
         return anchors;
     }
@@ -356,11 +338,9 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
     protected void createAnchorTargetList(final File anchorTargetListFile, final Map<String, Set<String>> targetAnchors)
         throws EBookFormatException
     {
-        BufferedWriter writer = null;
-        try
+        try (BufferedWriter writer =
+            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(anchorTargetListFile), "UTF-8")))
         {
-            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(anchorTargetListFile), "UTF-8"));
-
             for (final Entry<String, Set<String>> guidAnchorEntry : targetAnchors.entrySet())
             {
                 if (guidAnchorEntry.getValue().size() > 0)
@@ -387,20 +367,6 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
             LOG.error(message);
             throw new EBookFormatException(message, e);
         }
-        finally
-        {
-            try
-            {
-                if (writer != null)
-                {
-                    writer.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close anchor target list file.", e);
-            }
-        }
     }
 
     /**
@@ -423,15 +389,11 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
         {
             final Set<String> tocAnchorSet = new HashSet<>();
             readTOCAnchorList(docTOCMap, tocAnchorSet, titleID, jobId);
-
-            if (tocAnchorSet != null)
+            for (final String docId : unlinkList.keySet())
             {
-                for (final String docId : unlinkList.keySet())
+                for (final String anchorName : tocAnchorSet)
                 {
-                    for (final String anchorName : tocAnchorSet)
-                    {
-                        unlinkList.get(docId).remove(anchorName);
-                    }
+                    unlinkList.get(docId).remove(anchorName);
                 }
             }
         }
@@ -455,10 +417,8 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
         final String titleID,
         final Long jobId) throws EBookFormatException
     {
-        BufferedReader reader = null;
-        try
+        try (BufferedReader reader = new BufferedReader(new FileReader(docGuidsFile)))
         {
-            reader = new BufferedReader(new FileReader(docGuidsFile));
             String input = reader.readLine();
             while (input != null)
             {
@@ -505,20 +465,6 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
                 "Could not read the DOC guid to TOC guid map file: " + docGuidsFile.getAbsolutePath();
             LOG.error(message);
             throw new EBookFormatException(message, e);
-        }
-        finally
-        {
-            try
-            {
-                if (reader != null)
-                {
-                    reader.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close DOC guid to TOC guid file reader.", e);
-            }
         }
     }
 }

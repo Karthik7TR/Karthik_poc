@@ -323,8 +323,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController
             httpSession.setAttribute(WebConstants.KEY_GROUP_VERSION, version);
 
             booksNotFoundMsg = null;
-            if (proviewGroup != null
-                && proviewGroup.getSubgroupInfoList() != null
+            if (proviewGroup.getSubgroupInfoList() != null
                 && proviewGroup.getSubgroupInfoList().get(0).getSubGroupName() != null)
             {
                 model.addAttribute(WebConstants.KEY_SHOW_SUBGROUP, true);
@@ -335,7 +334,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController
                     Collections.sort(groupDetail.getTitleIdList());
                 }
             }
-            else if (proviewGroup != null && proviewGroup.getSubgroupInfoList() != null)
+            else if (proviewGroup.getSubgroupInfoList() != null)
             {
                 model.addAttribute(WebConstants.KEY_SHOW_SUBGROUP, false);
                 httpSession.setAttribute(WebConstants.KEY_SHOW_SUBGROUP, false);

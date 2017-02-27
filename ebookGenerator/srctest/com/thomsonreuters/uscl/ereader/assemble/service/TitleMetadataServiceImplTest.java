@@ -21,7 +21,6 @@ import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.xml.serializer.Serializer;
 import org.custommonkey.xmlunit.DetailedDiff;
 import org.custommonkey.xmlunit.Difference;
 import org.easymock.EasyMock;
@@ -46,13 +45,11 @@ public final class TitleMetadataServiceImplTest extends TitleMetadataTestBase
     private File assetsDirectory;
     private File documentsDiretory;
     private File tocXml;
-    private File artwork;
     private File tempDir;
 
     private File asset1;
     private File asset2;
     private File asset3;
-    private Serializer serializer;
     private ByteArrayOutputStream resultStream;
     private File altIdFile;
     private TitleMetadata titleMetadata;
@@ -83,10 +80,12 @@ public final class TitleMetadataServiceImplTest extends TitleMetadataTestBase
 
     private void createAsset(final File asset) throws Exception
     {
-        final FileOutputStream fileOutputStream = new FileOutputStream(asset);
-        fileOutputStream.write("YARR!".getBytes());
-        fileOutputStream.flush();
-        IOUtils.closeQuietly(fileOutputStream);
+        try (FileOutputStream fileOutputStream = new FileOutputStream(asset))
+        {
+            fileOutputStream.write("YARR!".getBytes());
+            fileOutputStream.flush();
+            IOUtils.closeQuietly(fileOutputStream);
+        }
     }
 
     @Override
@@ -96,7 +95,6 @@ public final class TitleMetadataServiceImplTest extends TitleMetadataTestBase
         FileUtils.deleteQuietly(assetsDirectory);
         FileUtils.deleteQuietly(documentsDiretory);
         FileUtils.deleteQuietly(tocXml);
-        FileUtils.deleteQuietly(artwork);
     }
 
     @Test
@@ -143,7 +141,8 @@ public final class TitleMetadataServiceImplTest extends TitleMetadataTestBase
         altIdFile = new File(pathToClass.toURI());
         final List<Doc> docList = new ArrayList<>();
         titleMetadata = getTitleMetadata();
-        final InputStream splitTitleXMLStream = TitleMetadataServiceImplTest.class.getResourceAsStream("SPLIT_TITLE.xml");
+        final InputStream splitTitleXMLStream =
+            TitleMetadataServiceImplTest.class.getResourceAsStream("SPLIT_TITLE.xml");
 
         titleMetadataService
             .generateTitleXML(titleMetadata, docList, splitTitleXMLStream, resultStream, altIdFile.getParent());
@@ -224,7 +223,8 @@ public final class TitleMetadataServiceImplTest extends TitleMetadataTestBase
         // "+resultStreamToString(resultStream));
 
         final InputSource result = new InputSource(new ByteArrayInputStream(resultStream.toByteArray()));
-        final InputSource expected = new InputSource(SplitTocManifestFilterTest.class.getResourceAsStream("SPLIT_TITLE.xml"));
+        final InputSource expected =
+            new InputSource(SplitTocManifestFilterTest.class.getResourceAsStream("SPLIT_TITLE.xml"));
         final DetailedDiff diff = new DetailedDiff(compareXML(expected, result));
         final List<Difference> differences = diff.getAllDifferences();
         Assert.assertTrue(differences.size() == 0);
@@ -243,7 +243,7 @@ public final class TitleMetadataServiceImplTest extends TitleMetadataTestBase
     @Test
     public void testWriteDocumentsToFile() throws Exception
     {
-        final File tempDir = new File(System.getProperty("java.io.tmpdir"));
+        tempDir = new File(System.getProperty("java.io.tmpdir"));
         final File transformedDirectory = new File(tempDir, "transformed");
         transformedDirectory.mkdirs();
         final File docToSplitBook = new File(transformedDirectory, "doc-To-SplitBook.txt");

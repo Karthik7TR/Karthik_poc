@@ -10,7 +10,8 @@ public class ImageServiceFactory
     private ImageService novusImageService;
     private ImageService xppImageService;
 
-    public ImageService getImageService(final boolean isXpp) {
+    public ImageService getImageService(final boolean isXpp)
+    {
         return isXpp ? xppImageService : novusImageService;
     }
 

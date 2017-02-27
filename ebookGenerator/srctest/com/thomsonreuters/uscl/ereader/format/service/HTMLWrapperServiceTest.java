@@ -54,7 +54,6 @@ public final class HTMLWrapperServiceTest
 
     private String titleId;
     private long jobId;
-    private String docGuid;
 
     /**
      * Create the Transformer Service and initialize test variables.
@@ -120,7 +119,6 @@ public final class HTMLWrapperServiceTest
         htmlFile.createNewFile();
         titleId = "uscl/an/IMPH";
         jobId = 101;
-        docGuid = "I770806320bbb11e1948492503fc0d37f";
     }
 
     @After
@@ -253,9 +251,8 @@ public final class HTMLWrapperServiceTest
     @Test
     public void testWrapAllFilesInDirectory() throws IOException
     {
-        try
+        try (OutputStream outputStream = new FileOutputStream(docToTocMapFile))
         {
-            final OutputStream outputStream = new FileOutputStream(docToTocMapFile);
             anchorMap.put("transFile", new String[] {"anchor1"});
             anchorMap.put("transFile2", new String[] {"anchor2", "anchor3"});
             outputStream.write("transFile,anchor1|".getBytes());
@@ -275,13 +272,11 @@ public final class HTMLWrapperServiceTest
     }
 
     @Test
-    public void testMapGenerationFromTOCFileNoTOCOnThirdDoc() throws IOException, EBookFormatException
+    public void testMapGenerationFromTOCFileNoTOCOnThirdDoc() throws IOException
     {
-        File testFile = new File("test");
-        try
+        final File testFile = testFiles.newFile("DocTOCTestFile1.txt");
+        try (OutputStream outputStream = new FileOutputStream(testFile))
         {
-            testFile = testFiles.newFile("DocTOCTestFile1.txt");
-            final OutputStream outputStream = new FileOutputStream(testFile);
             outputStream.write("I1f5a5aa17c8f11da9de6e47d6d5aa7a1,TOC1|TOC2|".getBytes());
             outputStream.write("\n".getBytes());
             outputStream.write("I1f5a81a27c8f11da9de6e47d6d5aa7a2,TOC3|".getBytes());
@@ -312,13 +307,11 @@ public final class HTMLWrapperServiceTest
     }
 
     @Test
-    public void testMapGenerationFromTOCFileNoTOCAllDocs() throws IOException, EBookFormatException
+    public void testMapGenerationFromTOCFileNoTOCAllDocs() throws IOException
     {
-        File testFile = new File("test");
-        try
+        final File testFile = testFiles.newFile("DocTOCTestFile1.txt");
+        try (OutputStream outputStream = new FileOutputStream(testFile))
         {
-            testFile = testFiles.newFile("DocTOCTestFile1.txt");
-            final OutputStream outputStream = new FileOutputStream(testFile);
             outputStream.write("Iff5a5aa17c8f11da9de6e47d6d5aa7a5,".getBytes());
             outputStream.write("\n".getBytes());
             outputStream.write("Iff5a81a27c8f11da9de6e47d6d5aa7a5,".getBytes());
@@ -397,7 +390,6 @@ public final class HTMLWrapperServiceTest
         final String guid = "TestNotFound";
         try
         {
-            final Map<String, String[]> anchorMap = new HashMap<>();
             anchorMap.put("Test123", new String[] {"Toc1"});
             anchorMap.put("Test222", new String[] {"Toc2", "Toc3"});
 

@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Required;
 
 public class RequestNotificationServiceImpl implements NotificationService
 {
-
     private CoreService coreService;
 
     @Override
@@ -27,9 +26,8 @@ public class RequestNotificationServiceImpl implements NotificationService
         final long jobInstanceId,
         final long jobExecutionId)
     {
-
-        String subject;
-        String failedJobInfo;
+        final String subject;
+        final String failedJobInfo;
         final EBookRequest eBookRequest = (EBookRequest) jobExecutionContext.get(JobParameterKey.KEY_EBOOK_REQUEST);
         final String jobEnvironment = jobParams.getString(JobParameterKey.ENVIRONMENT_NAME);
 
@@ -53,7 +51,8 @@ public class RequestNotificationServiceImpl implements NotificationService
         bodyMessage = failedJobInfo + "  \n" + bodyMessage;
         subject = failedJobInfo;
 
-        final Collection<InternetAddress> emailRecipients = coreService.createEmailRecipients(new HashSet<InternetAddress>());
+        final Collection<InternetAddress> emailRecipients =
+            coreService.createEmailRecipients(new HashSet<InternetAddress>());
         EmailNotification.send(emailRecipients, subject, bodyMessage);
     }
 

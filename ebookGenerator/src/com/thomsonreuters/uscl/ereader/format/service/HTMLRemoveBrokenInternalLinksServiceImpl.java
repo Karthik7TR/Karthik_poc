@@ -149,7 +149,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
             numDocs++;
         }
 
-        if (unlinkDocMetadataList != null && unlinkDocMetadataList.size() > 0)
+        if (unlinkDocMetadataList.size() > 0)
         {
             // Send notification for existing anchors.
             final File anchorUnlinkTargetListFile =
@@ -281,10 +281,9 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
         }
         else
         {
-            BufferedReader reader = null;
-            try
+            try (BufferedReader reader =
+                new BufferedReader(new InputStreamReader(new FileInputStream(anchorTargetListFile), "UTF-8")))
             {
-                reader = new BufferedReader(new InputStreamReader(new FileInputStream(anchorTargetListFile), "UTF-8"));
                 String input = reader.readLine();
                 while (input != null)
                 {
@@ -330,20 +329,6 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
                 LOG.error(message);
                 throw new EBookFormatException(message, e);
             }
-            finally
-            {
-                try
-                {
-                    if (reader != null)
-                    {
-                        reader.close();
-                    }
-                }
-                catch (final IOException e)
-                {
-                    LOG.error("Unable to close file reader.", e);
-                }
-            }
         }
         return anchors;
     }
@@ -358,10 +343,9 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
         }
         else
         {
-            BufferedReader reader = null;
-            try
+            try (BufferedReader reader =
+                new BufferedReader(new InputStreamReader(new FileInputStream(anchorTargetListFile), "UTF-8")))
             {
-                reader = new BufferedReader(new InputStreamReader(new FileInputStream(anchorTargetListFile), "UTF-8"));
                 String input = reader.readLine();
                 while (input != null)
                 {
@@ -399,20 +383,6 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
                 LOG.error(message);
                 throw new EBookFormatException(message, e);
             }
-            finally
-            {
-                try
-                {
-                    if (reader != null)
-                    {
-                        reader.close();
-                    }
-                }
-                catch (final IOException e)
-                {
-                    LOG.error("Unable to close file reader.", e);
-                }
-            }
         }
         return anchors;
     }
@@ -425,12 +395,9 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
         final File anchorUnlinkTargetListFile,
         final Collection<InternetAddress> emailRecipients) throws EBookFormatException
     {
-        BufferedWriter writer = null;
-        try
+        try (BufferedWriter writer =
+            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(anchorUnlinkTargetListFile), "UTF-8")))
         {
-            writer =
-                new BufferedWriter(new OutputStreamWriter(new FileOutputStream(anchorUnlinkTargetListFile), "UTF-8"));
-
             writer.write(
                 "Document Guid, Family Guid, Normalized Firstline Cite, Serial Number, Collection Name, "
                     + "Removed Link, Target Document Guid, Target Doc Family Guid, Target "
@@ -451,20 +418,6 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
                 "Encountered an IO Exception while processing: " + anchorUnlinkTargetListFile.getAbsolutePath();
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
-        }
-        finally
-        {
-            try
-            {
-                if (writer != null)
-                {
-                    writer.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close anchor target list file.", e);
-            }
         }
 
         final String subject = String.format(

@@ -34,7 +34,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
  * Unit test for XppImageService.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class XppImageServiceTest
+public final class XppImageServiceTest
 {
     private static final String UNPACKED_IMAGES_DIR = "com/thomsonreuters/uscl/ereader/gather/img/service/images";
     private static final String DOC_ID = "docId";
@@ -53,19 +53,22 @@ public class XppImageServiceTest
     public TemporaryFolder tempFolder = new TemporaryFolder();
 
     @Before
-    public void init() {
-        when(docToImageManifestUtil.getDocsWithImages((File)any())).thenReturn(getDocsWithImages());
-        when(imageConverter.convertByteImg((byte[])any(), (String)any(), (String)any())).thenReturn(mock(BufferedImage.class));
+    public void init()
+    {
+        when(docToImageManifestUtil.getDocsWithImages((File) any())).thenReturn(getDocsWithImages());
+        when(imageConverter.convertByteImg((byte[]) any(), (String) any(), (String) any()))
+            .thenReturn(mock(BufferedImage.class));
     }
 
     @Test
-    public void shouldCopyImagesAndReturnMetadata() throws GatherException, IOException {
+    public void shouldCopyImagesAndReturnMetadata() throws GatherException, IOException
+    {
         final GatherResponse response = service.getImages(getImageRequestParameters());
 
         final File destinationImageFile = new File(tempFolder.getRoot(), IMAGE_ID + ".png");
 
         final ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
-        verify(imageConverter).convertByteImg((byte[])any(), argument.capture(), (String)any());
+        verify(imageConverter).convertByteImg((byte[]) any(), argument.capture(), (String) any());
         assertTrue(destinationImageFile.getAbsolutePath().equalsIgnoreCase(argument.getValue()));
 
         assertEquals(DOC_ID, response.getImageMetadataList().get(0).getDocGuid());
@@ -81,10 +84,10 @@ public class XppImageServiceTest
     {
         final ImageRequestParameters parameters = new ImageRequestParameters();
 
-        parameters.setXppSourceImageDirectory(new PathMatchingResourcePatternResolver().getResource(UNPACKED_IMAGES_DIR).getFile().getAbsolutePath());
+        parameters.setXppSourceImageDirectory(
+            new PathMatchingResourcePatternResolver().getResource(UNPACKED_IMAGES_DIR).getFile().getAbsolutePath());
         parameters.setDynamicImageDirectory(tempFolder.getRoot());
 
         return parameters;
     }
-
 }

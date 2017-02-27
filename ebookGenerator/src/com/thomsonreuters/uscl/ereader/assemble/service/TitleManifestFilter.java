@@ -567,12 +567,12 @@ class TitleManifestFilter extends AbstractTocManifestFilter
     protected Attributes getAttributes(final Doc doc)
     {
         final AttributesImpl attributes = new AttributesImpl();
-        final String docGuid = doc.getId();
-        attributes.addAttribute(URI, ID_ATTRIBUTE, ID_ATTRIBUTE, CDATA, docGuid);
+        final String guid = doc.getId();
+        attributes.addAttribute(URI, ID_ATTRIBUTE, ID_ATTRIBUTE, CDATA, guid);
 
         if (titleMetadata.getIsPilotBook())
         {
-            final String altId = altIdMap.get(docGuid);
+            final String altId = altIdMap.get(guid);
             if (altId != null)
             {
                 attributes.addAttribute(URI, ALT_ID_ATTRIBUTE, ALT_ID_ATTRIBUTE, CDATA, altId);

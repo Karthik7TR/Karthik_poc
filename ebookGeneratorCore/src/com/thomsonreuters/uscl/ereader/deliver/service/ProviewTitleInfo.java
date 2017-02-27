@@ -51,13 +51,13 @@ public class ProviewTitleInfo implements TitleInfo, Serializable, Comparable<Pro
     public Integer getMajorVersion()
     {
         Integer majorVersion = null;
-        final String version = StringUtils.substringAfter(this.version, "v");
-        final String number = StringUtils.substringBefore(version, ".");
+        final String versionStr = StringUtils.substringAfter(version, "v");
+        final String majorVersionStr = StringUtils.substringBefore(versionStr, ".");
         try
         {
-            if (StringUtils.isNotBlank(number))
+            if (StringUtils.isNotBlank(majorVersionStr))
             {
-                majorVersion = Integer.valueOf(number);
+                majorVersion = Integer.valueOf(majorVersionStr);
             }
         }
         catch (final Exception e)
@@ -231,12 +231,12 @@ public class ProviewTitleInfo implements TitleInfo, Serializable, Comparable<Pro
     @Override
     public int compareTo(final ProviewTitleInfo info)
     {
-        final int version = info.getMajorVersion().compareTo(getMajorVersion());
+        final int versionDiff = info.getMajorVersion().compareTo(getMajorVersion());
 
-        if (version == 0)
+        if (versionDiff == 0)
         {
             return getTitleId().compareToIgnoreCase(info.getTitleId());
         }
-        return version;
+        return versionDiff;
     }
 }

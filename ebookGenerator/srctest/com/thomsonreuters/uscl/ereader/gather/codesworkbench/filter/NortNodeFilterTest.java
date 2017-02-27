@@ -120,7 +120,7 @@ public final class NortNodeFilterTest
 
     private List<RelationshipNode> generateRandomNumberNodesWithDocument(final RelationshipNode parentNode)
     {
-        final List<RelationshipNode> nodes = new ArrayList<>();
+        final List<RelationshipNode> randNodes = new ArrayList<>();
         final Random ran = new Random();
 
         // Generate upto 9 random nodes
@@ -132,9 +132,9 @@ public final class NortNodeFilterTest
             randomNode.setNortGuid("Random Node GUID" + i);
             randomNode.setDocumentGuid("Random Node Doc" + i);
             randomNode.setParentNode(parentNode);
-            nodes.add(randomNode);
+            randNodes.add(randomNode);
         }
 
-        return nodes;
+        return randNodes;
     }
 }
