@@ -45,7 +45,7 @@ public class DocController
             {
                 errorMessage = errorMessage + " - " + cause.getMessage();
             }
-            LOG.error(errorMessage);
+            LOG.error(errorMessage, e);
             gatherResponse.setErrorCode(e.getErrorCode());
             gatherResponse.setErrorMessage(errorMessage);
         }
@@ -57,7 +57,7 @@ public class DocController
             {
                 errorMessage = errorMessage + " - " + cause.getMessage();
             }
-            LOG.error(errorMessage);
+            LOG.error(errorMessage, e);
             gatherResponse.setErrorCode(GatherResponse.CODE_UNHANDLED_ERROR);
             gatherResponse.setErrorMessage(errorMessage);
         }

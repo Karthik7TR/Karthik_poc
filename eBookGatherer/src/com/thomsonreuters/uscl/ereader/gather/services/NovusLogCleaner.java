@@ -55,7 +55,7 @@ public class NovusLogCleaner
                 }
                 catch (final IOException e)
                 {
-                    log.debug("Novus Log Clean-up failed. " + e.getMessage());
+                    log.debug("Novus Log Clean-up failed.", e);
                 }
             }
         }

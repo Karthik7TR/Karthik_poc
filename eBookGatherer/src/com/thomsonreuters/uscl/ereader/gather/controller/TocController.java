@@ -23,7 +23,7 @@ public class TocController
     private static Logger LOG = LogManager.getLogger(TocController.class);
 
     @Autowired
-    public TocService tocService;
+    private TocService tocService;
 
     /**
      * Fetch the table of contents XML document.
@@ -58,7 +58,7 @@ public class TocController
             {
                 errorMessage = errorMessage + " - " + cause.getMessage();
             }
-            LOG.error(errorMessage);
+            LOG.error(errorMessage, e);
             gatherResponse = new GatherResponse(e.getErrorCode(), errorMessage);
         }
         catch (final Exception e)
@@ -69,7 +69,7 @@ public class TocController
             {
                 errorMessage = errorMessage + " - " + cause.getMessage();
             }
-            LOG.error(errorMessage);
+            LOG.error(errorMessage, e);
             gatherResponse = new GatherResponse(GatherResponse.CODE_UNHANDLED_ERROR, errorMessage);
         }
 

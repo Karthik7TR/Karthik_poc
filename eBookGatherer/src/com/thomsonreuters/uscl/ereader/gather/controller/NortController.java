@@ -22,7 +22,7 @@ public class NortController
 {
     private static Logger LOG = LogManager.getLogger(NortController.class);
 
-    public NortService nortService;
+    private NortService nortService;
 
     /**
      * Fetch the table of contents XML document.
@@ -59,7 +59,7 @@ public class NortController
             {
                 errorMessage = errorMessage + " - " + cause.getMessage();
             }
-            LOG.error(errorMessage);
+            LOG.error(errorMessage, e);
             gatherResponse = new GatherResponse(e.getErrorCode(), errorMessage);
         }
         catch (final Exception e)
@@ -70,7 +70,7 @@ public class NortController
             {
                 errorMessage = errorMessage + " - " + cause.getMessage();
             }
-            LOG.error(errorMessage);
+            LOG.error(errorMessage, e);
             gatherResponse = new GatherResponse(GatherResponse.CODE_UNHANDLED_ERROR, errorMessage);
         }
         model.addAttribute(EBConstants.GATHER_RESPONSE_OBJECT, gatherResponse);
