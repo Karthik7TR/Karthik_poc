@@ -1,5 +1,8 @@
 package com.thomsonreuters.uscl.ereader.core.book.util;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
@@ -25,5 +28,26 @@ public class BookTitlesUtilImpl implements BookTitlesUtil
             }
         }
         return false;
+    }
+
+    @NotNull
+    @Override
+    public Set<SplitNodeInfo> getSplitNodeInfosByVersion(
+        @NotNull final BookDefinition book,
+        @NotNull final Version version)
+    {
+        final String versionToCompare = version.getVersionWithoutPrefix();
+        final Set<SplitNodeInfo> set = new HashSet<>();
+
+        //TODO replace with lambda when Java 8 will be available
+        for (final SplitNodeInfo splitPart : book.getSplitNodes())
+        {
+            final String partVersion = splitPart.getBookVersionSubmitted();
+            if (versionToCompare.equals(partVersion))
+            {
+                set.add(splitPart);
+            }
+        }
+        return set;
     }
 }

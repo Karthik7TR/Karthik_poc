@@ -11,10 +11,15 @@ import org.jetbrains.annotations.NotNull;
 
 public final class BookMatchers
 {
+    private BookMatchers()
+    {
+    }
+
     @NotNull
     public static BookDefinition book(final String titleId)
     {
         final BookDefinition bookDefinition = new BookDefinition();
+        bookDefinition.setEbookDefinitionId(111L);
         bookDefinition.setFullyQualifiedTitleId(titleId);
         return bookDefinition;
     }
@@ -38,6 +43,18 @@ public final class BookMatchers
         splitNodeInfo.setBookDefinition(book);
         splitNodeInfo.setSpitBookTitle(titleId);
         splitNodeInfo.setBookVersionSubmitted(version);
+        return splitNodeInfo;
+    }
+
+    @NotNull
+    public static SplitNodeInfo splitNode(
+        final BookDefinition book,
+        final String titleId,
+        final String guid,
+        final String version)
+    {
+        final SplitNodeInfo splitNodeInfo = splitNode(book, titleId, version);
+        splitNodeInfo.setSplitNodeGuid(guid);
         return splitNodeInfo;
     }
 

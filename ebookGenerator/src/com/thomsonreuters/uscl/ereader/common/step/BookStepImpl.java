@@ -14,8 +14,7 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.util.Assert;
 
-public abstract class BookStepImpl extends BaseStepImpl
-    implements BookStep
+public abstract class BookStepImpl extends BaseStepImpl implements BookStep
 {
     /**
      * Used as an anchor for aspects.
@@ -90,6 +89,22 @@ public abstract class BookStepImpl extends BaseStepImpl
     public File getWorkDirectory()
     {
         return new File(getJobExecutionPropertyString(JobExecutionKey.WORK_DIRECTORY));
+    }
+
+    @Override
+    @NotNull
+    public File getBaseArchiveDirectory()
+    {
+        return new File(getWorkDirectory(), "archive");
+    }
+
+    @Override
+    @NotNull
+    public File getArchiveDirectory()
+    {
+        final Version version = getBookVersion();
+        final String dirName = version.isNewMajorVersion() ? "major" : "minor";
+        return new File(getBaseArchiveDirectory(), dirName);
     }
 
     @Override

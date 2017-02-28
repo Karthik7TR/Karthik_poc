@@ -6,7 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.common.group.service.GroupServiceWithRetry;
-import com.thomsonreuters.uscl.ereader.common.group.service.SplitNodesInfoService;
+import com.thomsonreuters.uscl.ereader.common.service.splitnode.SplitNodesInfoService;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
@@ -34,7 +34,7 @@ public abstract class BaseGroupStep extends BookStepImpl implements GroupStep
     {
         final BookDefinition bookDefinition = getBookDefinition();
         final String groupName = bookDefinition.getGroupName();
-        if (StringUtils.isEmpty(groupName))
+        if (!StringUtils.isEmpty(groupName))
         {
             createGroup(bookDefinition);
         }
@@ -65,12 +65,9 @@ public abstract class BaseGroupStep extends BookStepImpl implements GroupStep
         final File splitBookInfoFile = getSplitBookInfoFile();
         final String fullyQualifiedTitleId = getBookDefinition().getFullyQualifiedTitleId();
         return isSplitBook
-            ? splitNodesInfoService.readSplitNodeInforFile(splitBookInfoFile, fullyQualifiedTitleId) : null;
+            ? splitNodesInfoService.getTitleIds(splitBookInfoFile, fullyQualifiedTitleId) : null;
     }
 
-    /* (non-Javadoc)
-     * @see com.thomsonreuters.uscl.ereader.common.group.step.GroupStep#getGroupVersion()
-     */
     @Override
     public Long getGroupVersion()
     {

@@ -59,6 +59,11 @@ public class Version
         return new StringBuilder().append(majorVersion).append(".").append(minorVersion).toString();
     }
 
+    public boolean isNewMajorVersion()
+    {
+        return minorVersion == 0;
+    }
+
     @Override
     public int hashCode()
     {

@@ -15,7 +15,7 @@ import static org.mockito.Mockito.never;
 import java.io.File;
 
 import com.thomsonreuters.uscl.ereader.common.group.service.GroupServiceWithRetry;
-import com.thomsonreuters.uscl.ereader.common.group.service.SplitNodesInfoService;
+import com.thomsonreuters.uscl.ereader.common.service.splitnode.SplitNodesInfoService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
@@ -78,7 +78,7 @@ public final class GroupXppStepTest
     {
         //given
         given(publishingStatsService.hasBeenGrouped(1L)).willReturn(false);
-        given(book.getGroupName()).willReturn("groupName");
+        given(book.getGroupName()).willReturn("");
         //when
         step.executeStep();
         //then
@@ -90,7 +90,7 @@ public final class GroupXppStepTest
     {
         //given
         given(publishingStatsService.hasBeenGrouped(1L)).willReturn(true);
-        given(book.getGroupName()).willReturn("groupName");
+        given(book.getGroupName()).willReturn("");
         //when
         step.executeStep();
         //then
@@ -101,7 +101,7 @@ public final class GroupXppStepTest
     public void shouldNotCreateGroupIfTheSameIsLast() throws Exception
     {
         //given
-        given(book.getGroupName()).willReturn("");
+        given(book.getGroupName()).willReturn("groupName");
         given(book.isSplitBook()).willReturn(false);
         given(groupService.createGroupDefinition(book, "v1.1", null)).willReturn(groupDefinition);
         given(groupService.getLastGroup(book)).willReturn(groupDefinition);
@@ -116,9 +116,9 @@ public final class GroupXppStepTest
     public void shouldCreateGroupIfDifferentIsLast() throws Exception
     {
         //given
-        given(book.getGroupName()).willReturn("");
+        given(book.getGroupName()).willReturn("groupName");
         given(book.isSplitBook()).willReturn(true);
-        given(splitNodesInfoService.readSplitNodeInforFile(any(File.class), anyString())).willReturn(null);
+        given(splitNodesInfoService.getTitleIds(any(File.class), anyString())).willReturn(null);
         given(groupService.createGroupDefinition(book, "v1.1", null)).willReturn(groupDefinition);
         given(groupService.getLastGroup(book)).willReturn(anotherGroupDefinition);
         //when

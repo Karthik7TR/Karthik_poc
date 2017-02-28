@@ -17,6 +17,8 @@
 		class="com.thomsonreuters.uscl.ereader.common.deliver.step.BaseDeliverStep" />
 	<beans:bean id="groupStep" abstract="true" scope="step"
 		class="com.thomsonreuters.uscl.ereader.common.group.step.BaseGroupStep" />
+	<beans:bean id="archiveStep" abstract="true" scope="step"
+		class="com.thomsonreuters.uscl.ereader.common.archive.step.BaseArchiveStep" />
 
 	<beans:bean id="outageStepAspect"
 		class="com.thomsonreuters.uscl.ereader.common.outage.step.OutageStepAspect" />
@@ -60,5 +62,11 @@
 		class="com.thomsonreuters.uscl.ereader.common.group.service.GroupServiceWithRetryImpl" />
 
 	<beans:bean id="splitNodesInfoService"
-		class="com.thomsonreuters.uscl.ereader.common.group.service.SplitNodesInfoServiceImpl" />
+		class="com.thomsonreuters.uscl.ereader.common.service.splitnode.SplitNodesInfoServiceImpl" />
+	<beans:bean id="environmentUtil"
+		class="com.thomsonreuters.uscl.ereader.common.service.environment.EnvironmentUtilImpl" />
+	<beans:bean id="archiveAuditService"
+		class="com.thomsonreuters.uscl.ereader.common.archive.service.ArchiveAuditServiceImpl" />
+	<beans:bean id="archiveService"
+		class="com.thomsonreuters.uscl.ereader.common.archive.service.ArchiveServiceImpl" />
 </beans:beans>

@@ -40,6 +40,12 @@ public interface BookStep extends BaseStep, OutageAwareStep, SendNotificationSte
     File getWorkDirectory();
 
     @NotNull
+    File getBaseArchiveDirectory();
+
+    @NotNull
+    File getArchiveDirectory();
+
+    @NotNull
     File getFormatDirectory();
 
     @NotNull
