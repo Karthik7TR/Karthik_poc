@@ -27,8 +27,6 @@
 		class="com.thomsonreuters.uscl.ereader.common.notification.step.SendNotificationStepAspect" />
 	<beans:bean id="stepFailureNotificationServiceFactory"
 		class="com.thomsonreuters.uscl.ereader.common.notification.service.StepFailureNotificationServiceFactory" />
-	<beans:bean id="defaultStepFailureNotificationService"
-		class="com.thomsonreuters.uscl.ereader.common.notification.service.DefaultStepFailureNotificationServiceImpl" />
 
 	<beans:bean id="publishingStatusStepAspect"
 		class="com.thomsonreuters.uscl.ereader.common.publishingstatus.step.PublishingStatusStepAspect" />

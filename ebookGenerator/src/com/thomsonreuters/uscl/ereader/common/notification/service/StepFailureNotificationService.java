@@ -11,5 +11,5 @@ public interface StepFailureNotificationService<T extends SendNotificationStep>
      * Send notification about exception was thrown
      * @param e exception
      */
-    void emailFailure(T step, Exception e);
+    void sendFailureNotification(T step, Exception e);
 }

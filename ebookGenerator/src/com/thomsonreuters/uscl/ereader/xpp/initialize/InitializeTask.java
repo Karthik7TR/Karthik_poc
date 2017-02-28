@@ -15,12 +15,13 @@ import javax.jms.IllegalStateException;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
+import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
+import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
-import com.thomsonreuters.uscl.ereader.xpp.common.XppBookStep;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
@@ -31,8 +32,9 @@ import org.springframework.beans.factory.annotation.Required;
  * later steps. This includes various file system path calculations based on the JobParameters used
  * to run the job.
  */
+@SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.INITIALIZE)
-public class InitializeTask extends BookStepImpl implements XppBookStep
+public class InitializeTask extends BookStepImpl
 {
     private static final Logger LOG = LogManager.getLogger(InitializeTask.class);
 

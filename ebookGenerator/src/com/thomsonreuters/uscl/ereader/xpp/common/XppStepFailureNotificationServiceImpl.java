@@ -6,13 +6,16 @@ import javax.annotation.Resource;
 import javax.mail.internet.InternetAddress;
 
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
+import com.thomsonreuters.uscl.ereader.common.notification.service.SendFailureNotificationStrategy;
 import com.thomsonreuters.uscl.ereader.common.notification.service.StepFailureNotificationService;
+import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.service.CoreService;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 
+@SendFailureNotificationStrategy(FailureNotificationType.XPP)
 public class XppStepFailureNotificationServiceImpl implements StepFailureNotificationService<BookStep>
 {
     @Resource(name = "coreService")
@@ -20,11 +23,8 @@ public class XppStepFailureNotificationServiceImpl implements StepFailureNotific
     @Resource(name = "emailService")
     private EmailService emailService;
 
-    /* (non-Javadoc)
-     * @see com.thomsonreuters.uscl.ereader.common.notification.service.EmailStepFailureService#emailFailure(java.lang.Exception)
-     */
     @Override
-    public void emailFailure(final BookStep step, final Exception e)
+    public void sendFailureNotification(final BookStep step, final Exception e)
     {
         final String username = step.getUserName();
         final Collection<InternetAddress> emailRecipients = coreService.getEmailRecipientsByUsername(username);

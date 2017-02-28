@@ -44,11 +44,6 @@ public class PublishingStatusUpdateServiceFactory
         return services;
     }
 
-    /**
-     * @param updateType
-     * @param beans
-     * @return
-     */
     private PublishingStatusUpdateService<PublishingStatusUpdateStep> getServiceBean(
         final StatsUpdateTypeEnum stepUpdateType,
         final Collection<Object> beans)

@@ -57,6 +57,6 @@ public final class SendNotificationStepAspectTest
         //when
         aspect.around(jp);
         //then
-        then(service).should().emailFailure(eq(step), any(RuntimeException.class));
+        then(service).should().sendFailureNotification(eq(step), any(RuntimeException.class));
     }
 }

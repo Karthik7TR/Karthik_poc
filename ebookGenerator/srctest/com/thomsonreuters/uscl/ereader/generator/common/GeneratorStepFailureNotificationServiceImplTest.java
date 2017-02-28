@@ -35,7 +35,7 @@ public final class GeneratorStepFailureNotificationServiceImplTest
     {
         //given
         //when
-        service.emailFailure(step, new Exception("msg"));
+        service.sendFailureNotification(step, new Exception("msg"));
         //then
         then(notificationService).should().sendNotification(
             any(ExecutionContext.class),

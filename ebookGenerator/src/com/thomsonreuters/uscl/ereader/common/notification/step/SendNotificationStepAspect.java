@@ -28,7 +28,7 @@ public class SendNotificationStepAspect
             final SendNotificationStep step = (SendNotificationStep) jp.getTarget();
             final StepFailureNotificationService<SendNotificationStep> service =
                 stepFailureNotificationServiceFactory.create(step);
-            service.emailFailure(step, e);
+            service.sendFailureNotification(step, e);
             throw e;
         }
     }

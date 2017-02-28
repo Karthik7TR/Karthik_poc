@@ -54,7 +54,7 @@ public final class XppStepFailureNotificationServiceImplTest
         final InternetAddress[] expectedRecipients = new InternetAddress[] {new InternetAddress("address")};
         given(coreService.getEmailRecipientsByUsername("user")).willReturn(asList(expectedRecipients));
         // when
-        service.emailFailure(step, e);
+        service.sendFailureNotification(step, e);
         // then
         then(emailService).should().send(captorRecipients.capture(), any(String.class), any(String.class));
         final Collection<InternetAddress> recipients = captorRecipients.getValue();
@@ -68,7 +68,7 @@ public final class XppStepFailureNotificationServiceImplTest
         final Exception e = new Exception();
         givenAll();
         // when
-        service.emailFailure(step, e);
+        service.sendFailureNotification(step, e);
         // then
         then(emailService).should().send(any(Collection.class), captor.capture(), any(String.class));
         assertThat(captor.getValue(), is("eBook Publishing Failure: env  id  name  1  2"));
@@ -81,7 +81,7 @@ public final class XppStepFailureNotificationServiceImplTest
         final Exception e = new Exception("msg");
         givenAll();
         // when
-        service.emailFailure(step, e);
+        service.sendFailureNotification(step, e);
         // then
         then(emailService).should().send(any(Collection.class), any(String.class), captor.capture());
         assertThat(captor.getValue(), containsString("eBook Publishing Failure: env  id  name  1  2"));
