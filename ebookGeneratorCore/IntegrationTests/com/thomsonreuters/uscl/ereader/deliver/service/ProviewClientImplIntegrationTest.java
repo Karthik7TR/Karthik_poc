@@ -36,7 +36,7 @@ public final class ProviewClientImplIntegrationTest
 {
     private static final Logger LOG = LogManager.getLogger(ProviewClientImplIntegrationTest.class);
 
-    private static final String PROVIEW_DOMAIN_PREFIX = "proviewpublishing.int.ci.thomsonreuters.com";
+    private static final String PROVIEW_DOMAIN_PREFIX = "proviewpublishing.int.qed.thomsonreuters.com";
     private String getTitlesUriTemplate = "/v1/titles/uscl/all";
     private String publishTitleUriTemplate = "/v1/title/{titleId}/{eBookVersionNumber}";
     private String removeTitleUriTemplate = "/v1/title/{titleId}/{eBookVersionNumber}/status/removed";
@@ -66,13 +66,7 @@ public final class ProviewClientImplIntegrationTest
 
         defaultHttpClient =
             new CloseableAuthenticationHttpClientFactory(PROVIEW_DOMAIN_PREFIX, PROVIEW_USERNAME, PROVIEW_PASSWORD);
-        /*
-         * defaultHttpClient = new DefaultHttpClient();
-         * defaultHttpClient.getCredentialsProvider().setCredentials( new
-         * AuthScope(PROVIEW_DOMAIN_PREFIX, AuthScope.ANY_PORT), new
-         * UsernamePasswordCredentials(PROVIEW_USERNAME, PROVIEW_PASSWORD));
-         * requestFactory.setHttpClient(defaultHttpClient);
-         */
+
         requestFactory.setHttpClient(defaultHttpClient.getCloseableAuthenticationHttpClient());
 
         final RestTemplate restTemplate = new RestTemplate(requestFactory);
@@ -191,7 +185,7 @@ public final class ProviewClientImplIntegrationTest
     {
         proviewClient.setProviewHost(InetAddress.getLocalHost());
         proviewClient
-            .setAllGroupsUriTemplate("http://" + "proviewpublishing.int.demo.thomsonreuters.com" + "/v1/group/uscl");
+            .setAllGroupsUriTemplate("http://" + "proviewpublishing.int.qed.thomsonreuters.com" + "/v1/group/uscl");
         boolean thrown = false;
         try
         {
@@ -224,12 +218,13 @@ public final class ProviewClientImplIntegrationTest
         }
     }
 
+    @Ignore
     @Test
     public void testCreateGroup() throws Exception
     {
         proviewClient.setCreateGroupUriTemplate(
-            "http://" + "proviewpublishing.int.demo.thomsonreuters.com" + "/v1/group/{groupId}/{groupVersionNumber}");
-        proviewClient.setProviewHostname("proviewpublishing.int.demo.thomsonreuters.com");
+            "http://" + "proviewpublishing.int.qed.thomsonreuters.com" + "/v1/group/{groupId}/{groupVersionNumber}");
+        proviewClient.setProviewHostname("proviewpublishing.int.qed.thomsonreuters.com");
         final GroupDefinition groupDefinition = new GroupDefinition();
         groupDefinition.setGroupId("uscl/groupFinalTest");
         groupDefinition.setProviewGroupVersionString("v1");
@@ -271,9 +266,9 @@ public final class ProviewClientImplIntegrationTest
     {
         proviewClient.setRemoveGroupStatusUriTemplate(
             "http://"
-                + "proviewpublishing.int.demo.thomsonreuters.com"
+                + "proviewpublishing.int.qed.thomsonreuters.com"
                 + "/v1/group/{groupId}/{groupVersionNumber}/status/Removed");
-        proviewClient.setProviewHostname("proviewpublishing.int.demo.thomsonreuters.com");
+        proviewClient.setProviewHostname("proviewpublishing.int.qed.thomsonreuters.com");
         groupDefinition.setGroupId("uscl/groupTest");
         groupDefinition.setProviewGroupVersionString("v1");
         proviewClient.setDeleteGroupUriTemplate(
@@ -295,29 +290,32 @@ public final class ProviewClientImplIntegrationTest
         }
     }
 
-    /*
-     * @Test public void testGetAllTitlesFailsDueToInvalidCredetials() throws
-     * Exception {
-     *
-     * HttpComponentsClientHttpRequestFactory requestFactory = new
-     * HttpComponentsClientHttpRequestFactory();
-     *
-     * defaultHttpClient = new DefaultHttpClient();
-     * defaultHttpClient.getCredentialsProvider().setCredentials( new
-     * AuthScope(PROVIEW_DOMAIN_PREFIX, AuthScope.ANY_PORT), new
-     * UsernamePasswordCredentials(PROVIEW_INVALID_USERNAME,
-     * PROVIEW_INVALID_PASSWORD));
-     * requestFactory.setHttpClient(defaultHttpClient);
-     *
-     * RestTemplate restTemplate = new RestTemplate(requestFactory);
-     * proviewClient.setRestTemplate(restTemplate);
-     *
-     * proviewClient.setGetTitlesUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX +
-     * getTitlesUriTemplate);
-     *
-     * try { proviewClient.getAllPublishedTitles();
-     *
-     * } catch (Exception e) { System.out.println(e.getMessage()); // expected }
-     * }
-     */
+    @Ignore
+    @Test
+    // Not sure if we should test invalid credentials
+    public void testGetAllTitlesFailsDueToInvalidCredetials() throws Exception
+    {
+        defaultHttpClient =
+            new CloseableAuthenticationHttpClientFactory(PROVIEW_DOMAIN_PREFIX, PROVIEW_INVALID_USERNAME, PROVIEW_INVALID_PASSWORD);
+
+        final HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+
+        requestFactory.setHttpClient(defaultHttpClient.getCloseableAuthenticationHttpClient());
+
+        final RestTemplate restTemplate = new RestTemplate(requestFactory);
+        proviewClient.setRestTemplate(restTemplate);
+
+        proviewClient.setGetTitlesUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
+
+        try
+        {
+            proviewClient.getAllPublishedTitles();
+
+        }
+        catch (final Exception e)
+        {
+            fail("Expected an exception as invalid username/password for ProView!");
+            System.out.println(e.getMessage()); // expected
+        }
+    }
 }

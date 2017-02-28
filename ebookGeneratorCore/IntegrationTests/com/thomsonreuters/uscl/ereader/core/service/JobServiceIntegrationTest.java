@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @Transactional
-public final class JobServiceIntegrationTest
+public class JobServiceIntegrationTest
 {
     private static final Logger log = LogManager.getLogger(JobServiceIntegrationTest.class);
     @Autowired

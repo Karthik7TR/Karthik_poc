@@ -26,12 +26,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
 @Transactional
-public final class FrontMatterIntegrationTest
+public class FrontMatterIntegrationTest
 {
     //private static Logger log = LogManager.getLogger(FrontMatterIntegrationTest.class);
     private static String BOOK_TITLE = "uscl/an/frontmatter_test_123";
@@ -111,6 +110,7 @@ public final class FrontMatterIntegrationTest
      *
      * @author Dong Kim
      */
+    @Ignore
     @Test
     public void AddFrontMatterSection()
     {

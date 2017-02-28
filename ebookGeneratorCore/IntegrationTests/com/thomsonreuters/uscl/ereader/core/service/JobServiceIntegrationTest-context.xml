@@ -26,7 +26,7 @@
   	 <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
   		  p:dataSource-ref="testDataSource"/>
   	
-  	<bean id="testSessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+  	<bean id="testSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="testDataSource"/>
 		<property name="hibernateProperties">
 	      <props>
@@ -35,14 +35,10 @@
 	      	<prop key="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider</prop>
 	      </props>
 		</property>
-		<property name="annotatedClasses">
-		  <list>
-		  	<value>com.thomsonreuters.uscl.ereader.core.job.domain.JobExecutionEntity</value>
-		  </list>
-		</property>
+		<property name="packagesToScan" value="com.thomsonreuters.uscl.ereader" />
   	</bean>
 	
-  	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager"
+  	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"
 		  p:sessionFactory-ref="testSessionFactory"/>
     
     <tx:annotation-driven transaction-manager="transactionManager"/>
@@ -52,7 +48,6 @@
 		  p:tablePrefix="EBOOK_SPRINGBATCH.BATCH_"/>
 		  
 	<bean id="jobDao" class="com.thomsonreuters.uscl.ereader.core.job.dao.JobDaoImpl"
-			p:sessionFactory-ref="testSessionFactory"
 			p:jdbcTemplate-ref="jdbcTemplate"/>
 
 	<bean id="jobService" class="com.thomsonreuters.uscl.ereader.core.job.service.JobServiceImpl"

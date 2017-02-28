@@ -26,13 +26,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @Transactional
-public final class CodeServiceIntegrationTest
+public class CodeServiceIntegrationTest
 {
     private static final Logger log = LogManager.getLogger(CodeServiceIntegrationTest.class);
+
     @Autowired
     private CodeService service;
 
@@ -110,6 +110,7 @@ public final class CodeServiceIntegrationTest
     }
 
     @Test
+    @Ignore
     public void testGetAllDocumentType()
     {
         final List<DocumentTypeCode> codes = service.getAllDocumentTypeCodes();
@@ -118,6 +119,7 @@ public final class CodeServiceIntegrationTest
     }
 
     @Test
+    @Ignore
     public void testDocumentTypeCodeCRUD()
     {
         // Create StateCode
@@ -150,6 +152,7 @@ public final class CodeServiceIntegrationTest
     }
 
     @Test
+    @Ignore
     public void testGetAllPublisher()
     {
         final List<PublisherCode> codes = service.getAllPublisherCodes();
@@ -193,6 +196,7 @@ public final class CodeServiceIntegrationTest
     }
 
     @Test
+    @Ignore
     public void testGetKeywordCodeCRUD()
     {
         // Create StateCode
@@ -253,6 +257,7 @@ public final class CodeServiceIntegrationTest
     }
 
     @Test
+    @Ignore
     public void testGetKeywordValueCRUD()
     {
         // Create StateCode
@@ -289,6 +294,7 @@ public final class CodeServiceIntegrationTest
     }
 
     @Test
+    @Ignore
     public void testKeywordTypeValues()
     {
         final List<KeywordTypeValue> allValues = service.getAllKeywordTypeValues();

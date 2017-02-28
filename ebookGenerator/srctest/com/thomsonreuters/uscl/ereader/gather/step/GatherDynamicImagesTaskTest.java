@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -66,7 +65,7 @@ public class GatherDynamicImagesTaskTest
     @Before
     public void setUp()
     {
-        when(gatherService.getImg((GatherImgRequest)any())).thenReturn(getGatherResponse());
+        when(gatherService.getImg((GatherImgRequest) any())).thenReturn(getGatherResponse());
     }
 
     private GatherResponse getGatherResponse()
@@ -77,7 +76,8 @@ public class GatherDynamicImagesTaskTest
     }
 
     @Test
-    public void shouldSendRequestToGatherService() throws Exception {
+    public void shouldSendRequestToGatherService() throws Exception
+    {
         gatherDynamicImagesTask.executeStep(null, getChunkContext(false));
 
         final GatherImgRequest request = captureImageRequest();
@@ -87,24 +87,26 @@ public class GatherDynamicImagesTaskTest
         assertNull(request.getXppSourceImageDirectory());
         assertFalse(request.isXpp());
 
-        verify(imageService).saveImageMetadata((ImgMetadataInfo)any(), anyLong(), (String)any());
+        verify(imageService).saveImageMetadata((ImgMetadataInfo) any(), anyLong(), (String) any());
 
-        verify(publishingStatsService, times(1)).updatePublishingStats((PublishingStats)any(), (StatsUpdateTypeEnum)any());
+        verify(publishingStatsService).updatePublishingStats((PublishingStats) any(), (StatsUpdateTypeEnum) any());
     }
 
     @Test
-    public void shouldSendRequestToGatherServiceXppPathway() throws Exception {
+    public void shouldSendRequestToGatherServiceXppPathway() throws Exception
+    {
         gatherDynamicImagesTask.executeStep(null, getChunkContext(true));
         final GatherImgRequest request = captureImageRequest();
         assertNotNull(request.getXppSourceImageDirectory());
 //        assertTrue(request.isXpp());
     }
 
-    @Test(expected=ImageException.class)
-    public void testHasMissingImages() throws Exception {
+    @Test(expected = ImageException.class)
+    public void testHasMissingImages() throws Exception
+    {
         final GatherResponse response = getGatherResponse();
         response.setMissingImgCount(1);
-        when(gatherService.getImg((GatherImgRequest)any())).thenReturn(response);
+        when(gatherService.getImg((GatherImgRequest) any())).thenReturn(response);
 
         try
         {
@@ -113,7 +115,7 @@ public class GatherDynamicImagesTaskTest
         finally
         {
             final ArgumentCaptor<PublishingStats> argument = ArgumentCaptor.forClass(PublishingStats.class);
-            verify(publishingStatsService).updatePublishingStats(argument.capture(), (StatsUpdateTypeEnum)any());
+            verify(publishingStatsService).updatePublishingStats(argument.capture(), (StatsUpdateTypeEnum) any());
             assertTrue(argument.getValue().getPublishStatus().endsWith(STATUS_FAILED));
         }
     }
@@ -129,15 +131,23 @@ public class GatherDynamicImagesTaskTest
     private ChunkContext getChunkContext(final boolean isXpp) throws IOException
     {
         final JobParameters jobParameters = new JobParameters();
-        final ChunkContext chunkContext = new ChunkContext(new StepContext(new StepExecution("stepName", new JobExecution(new JobInstance(0L, "jobName"), jobParameters))));
-        final ExecutionContext context = chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext();
+        final ChunkContext chunkContext = new ChunkContext(
+            new StepContext(
+                new StepExecution("stepName", new JobExecution(new JobInstance(0L, "jobName"), jobParameters))));
+        final ExecutionContext context =
+            chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext();
 
         context.put(JobExecutionKey.EBOOK_DEFINITION, new BookDefinition());
-        context.put(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR, tempFolder.newFolder(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR).getAbsolutePath());
+        context.put(
+            JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR,
+            tempFolder.newFolder(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR).getAbsolutePath());
         context.put(JobExecutionKey.IMAGE_TO_DOC_MANIFEST_FILE, getManifestFile().getAbsolutePath());
 
-        if (isXpp) {
-            context.put(JobExecutionKey.XPP_IMAGES_UNPACK_DIR, tempFolder.newFolder(JobExecutionKey.XPP_IMAGES_UNPACK_DIR).getAbsolutePath());
+        if (isXpp)
+        {
+            context.put(
+                JobExecutionKey.XPP_IMAGES_UNPACK_DIR,
+                tempFolder.newFolder(JobExecutionKey.XPP_IMAGES_UNPACK_DIR).getAbsolutePath());
         }
 
         return chunkContext;
