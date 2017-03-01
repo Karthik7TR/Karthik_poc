@@ -1,8 +1,5 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.queue;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
@@ -15,8 +12,8 @@ import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.JobStartupThro
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -71,12 +68,9 @@ public class JobRunQueuePoller
                             // Create the dynamic set of launch parameters,
                             // things like
                             // user name, user email, and a unique serial number
-                            final JobParameters dynamicJobParameters =
-                                engineService.createDynamicJobParameters(jobRequest);
+                            final JobParametersBuilder builder = engineService.createDynamicJobParameters(jobRequest);
                             // Put the dynamic job parameters in the map.
-                            final Map<String, JobParameter> allJobParametersMap =
-                                new HashMap<>(dynamicJobParameters.getParameters());
-                            final JobParameters allJobParameters = new JobParameters(allJobParametersMap);
+                            final JobParameters allJobParameters = builder.toJobParameters();
                             // Start the job that builds the ebook
                             LOG.debug("Starting Job: " + jobRequest);
                             engineService.runJob(jobNameProvider.getJobName(jobRequest), allJobParameters);

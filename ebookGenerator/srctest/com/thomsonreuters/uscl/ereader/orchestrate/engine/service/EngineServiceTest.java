@@ -14,6 +14,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.JobOperator;
@@ -66,7 +67,8 @@ public final class EngineServiceTest
         EasyMock.expect(mockMiscConfigSyncService.getProviewHost()).andReturn(InetAddress.getLocalHost());
         EasyMock.expect(mockMiscConfigSyncService.getNovusEnvironment()).andReturn(NovusEnvironment.Client);
         EasyMock.replay(mockMiscConfigSyncService);
-        final JobParameters dynamicJobParams = service.createDynamicJobParameters(JOB_REQUEST);
+        final JobParametersBuilder builder = service.createDynamicJobParameters(JOB_REQUEST);
+        final JobParameters dynamicJobParams = builder.toJobParameters();
         Assert.assertNotNull(JobParameterKey.HOST_NAME);
         assertEquals(SUBMITTED_BY, dynamicJobParams.getString(JobParameterKey.USER_NAME));
         assertEquals(VERSION, dynamicJobParams.getString(JobParameterKey.BOOK_VERSION_SUBMITTED));

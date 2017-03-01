@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort.SortProperty;
@@ -78,12 +79,14 @@ public class JobDaoImpl implements JobDao
         List<Long> jobExecutionIds = null;
         final StringBuffer sql = new StringBuffer("select execution.JOB_EXECUTION_ID from ");
         sql.append("BATCH_JOB_EXECUTION execution ");
+        sql.append(", BATCH_JOB_INSTANCE instance ");
         if (filter.hasAnyBookProperties() || sort.isSortingOnBookProperty())
         {
             sql.append(", PUBLISHING_STATS stats, EBOOK_AUDIT auditTable ");
         }
         sql.append("where ");
-
+        sql.append("(execution.JOB_INSTANCE_ID = instance.JOB_INSTANCE_ID) and ");
+        sql.append("(instance.JOB_NAME != '" + JobParameterKey.JOB_NAME_PROCESS_BUNDLE + "') and ");
         sql.append(addFiltersToQuery(filter, sort));
 
         final String orderByColumn = getOrderByColumnName(sort.getSortProperty());

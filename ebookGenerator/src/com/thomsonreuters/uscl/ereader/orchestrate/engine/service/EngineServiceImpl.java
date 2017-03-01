@@ -5,8 +5,6 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
@@ -19,6 +17,7 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.JobOperator;
@@ -102,9 +101,9 @@ public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncSe
     }
 
     @Override
-    public JobParameters createDynamicJobParameters(final JobRequest jobRequest)
+    public JobParametersBuilder createDynamicJobParameters(final JobRequest jobRequest)
     {
-        final Map<String, JobParameter> jobParamMap = new HashMap<>();
+        final JobParametersBuilder builder = new JobParametersBuilder();
         String hostName = null; // The host this job running on
         try
         {
@@ -117,22 +116,23 @@ public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncSe
         }
 
         // Add misc metadata, dynamic key/value pairs into the job parameters map
-        jobParamMap.put(JobParameterKey.USER_NAME, new JobParameter(jobRequest.getSubmittedBy()));
-        jobParamMap.put(
+        builder.addParameter(JobParameterKey.USER_NAME, new JobParameter(jobRequest.getSubmittedBy()));
+        builder.addParameter(
             JobParameterKey.BOOK_DEFINITION_ID,
             new JobParameter(jobRequest.getBookDefinition().getEbookDefinitionId()));
-        jobParamMap.put(JobParameterKey.BOOK_VERSION_SUBMITTED, new JobParameter(jobRequest.getBookVersion()));
-        jobParamMap.put(JobParameterKey.HOST_NAME, new JobParameter(hostName));
-        jobParamMap.put(JobParameterKey.ENVIRONMENT_NAME, new JobParameter(environmentName));
-        jobParamMap.put(
+        builder.addParameter(JobParameterKey.BOOK_VERSION_SUBMITTED, new JobParameter(jobRequest.getBookVersion()));
+        builder.addParameter(JobParameterKey.HOST_NAME, new JobParameter(hostName));
+        builder.addParameter(JobParameterKey.ENVIRONMENT_NAME, new JobParameter(environmentName));
+        builder.addParameter(
             JobParameterKey.PROVIEW_HOST_NAME,
             new JobParameter(miscConfigSyncService.getProviewHost().getHostName()));
-        jobParamMap.put(JobParameterKey.TIMESTAMP, new JobParameter(jobRequest.getSubmittedAt())); // When the job entered the JOB_REQUEST run queue
-        jobParamMap.put(JobParameterKey.IMAGESVC_DOMAIN_NAME, new JobParameter(imageService));
-        jobParamMap
-            .put(JobParameterKey.NOVUS_ENV, new JobParameter(miscConfigSyncService.getNovusEnvironment().toString()));
-        jobParamMap.put(JobParameterKey.DATABASE_SERVICE_NAME, new JobParameter(dbServiceName));
-        return new JobParameters(jobParamMap);
+        builder.addParameter(JobParameterKey.TIMESTAMP, new JobParameter(jobRequest.getSubmittedAt())); // When the job entered the JOB_REQUEST run queue
+        builder.addParameter(JobParameterKey.IMAGESVC_DOMAIN_NAME, new JobParameter(imageService));
+        builder.addParameter(
+            JobParameterKey.NOVUS_ENV,
+            new JobParameter(miscConfigSyncService.getNovusEnvironment().toString()));
+        builder.addParameter(JobParameterKey.DATABASE_SERVICE_NAME, new JobParameter(dbServiceName));
+        return builder;
     }
 
     @Override

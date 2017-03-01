@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.orchestrate.engine.service;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
 
 /**
  * Utilities for interacting with the Spring Batch engine used in starting, restarting, and stopping jobs.
@@ -40,7 +41,7 @@ public interface EngineService
      * @param jobRequest request used to start the book generating job
      * @return a set of Spring Batch job parameters used in launching a job.
      */
-    JobParameters createDynamicJobParameters(JobRequest jobRequest);
+    JobParametersBuilder createDynamicJobParameters(JobRequest jobRequest);
 
     void setTaskExecutorCoreThreadPoolSize(int coreThreadPoolSize);
 }
