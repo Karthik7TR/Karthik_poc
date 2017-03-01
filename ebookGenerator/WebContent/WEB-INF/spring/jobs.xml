@@ -35,7 +35,8 @@
 		  		p:EBookRequestValidator-ref="eBookRequestValidator"/>
 	<beans:bean id="retrieveBundleTask" class="com.thomsonreuters.uscl.ereader.request.step.RetrieveBundleTask" parent="requestParentTask" 
 				p:EBookRequestValidator-ref="eBookRequestValidator"/>
-	<beans:bean id="stageBundleTask" class="com.thomsonreuters.uscl.ereader.request.step.StageBundleTask" parent="requestParentTask" 
+	<beans:bean id="stageBundleTask" class="com.thomsonreuters.uscl.ereader.request.step.StageBundleTask" parent="requestParentTask"
+				p:GZIPService-ref="gzipService" 
 		  		p:bundleArchiveDao-ref="bundleArchiveDao" />
 		  		
 	<beans:bean id="generatorStepFailureNotificationService" 

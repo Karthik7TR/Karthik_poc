@@ -63,9 +63,6 @@ public class EBookRequestQueuePoller
                         builder.addDate("timestamp", new Date());
                         builder.addParameter(JobParameterKey.KEY_REQUEST_XML, new JobParameter(request));
                         builder.addParameter(JobParameterKey.ENVIRONMENT_NAME, new JobParameter(environmentName));
-                        builder.addParameter(
-                            JobParameterKey.KEY_JOB_NAME,
-                            new JobParameter(JobParameterKey.JOB_NAME_PROCESS_BUNDLE));
                         runJob(JobParameterKey.JOB_NAME_PROCESS_BUNDLE, builder.toJobParameters());
                     }
                     else
