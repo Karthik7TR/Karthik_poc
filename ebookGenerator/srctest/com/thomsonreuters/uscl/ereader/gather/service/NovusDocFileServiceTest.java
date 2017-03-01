@@ -314,9 +314,8 @@ public final class NovusDocFileServiceTest
 
     private void addContentToFile(final File file, final String text)
     {
-        try
+        try (FileWriter fileOut = new FileWriter(file))
         {
-            final FileWriter fileOut = new FileWriter(file);
             fileOut.write(text);
             fileOut.close();
         }

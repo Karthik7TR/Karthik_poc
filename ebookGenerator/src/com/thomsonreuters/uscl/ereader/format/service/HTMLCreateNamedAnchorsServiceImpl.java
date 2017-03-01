@@ -197,50 +197,49 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
     {
         final String fileName = sourceFile.getName();
         final String guid = fileName.substring(0, fileName.indexOf("."));
-        FileInputStream inStream = null;
-        FileOutputStream outStream = null;
-        try
+        try (FileInputStream inStream = new FileInputStream(sourceFile))
         {
+            try (FileOutputStream outStream =
+                new FileOutputStream(new File(targetDir, fileName.substring(0, fileName.indexOf(".")) + ".postAnchor")))
+            {
 //			LOG.debug("Transforming following html file: " + sourceFile.getAbsolutePath());
 
-            final DocMetadata docMetadata =
-                docMetadataService.findDocMetadataByPrimaryKey(titleID, jobIdentifier, guid);
+                final DocMetadata docMetadata =
+                    docMetadataService.findDocMetadataByPrimaryKey(titleID, jobIdentifier, guid);
 
-            final SAXParserFactory factory = SAXParserFactory.newInstance();
-            factory.setNamespaceAware(true);
-            final SAXParser saxParser = factory.newSAXParser();
+                final SAXParserFactory factory = SAXParserFactory.newInstance();
+                factory.setNamespaceAware(true);
+                final SAXParser saxParser = factory.newSAXParser();
 
-            final HTMLIdFilter anchorIdFilter = new HTMLIdFilter();
-            anchorIdFilter.setParent(saxParser.getXMLReader());
-            if (docMetadata != null && docMetadata.getProViewId() != null)
-            {
-                anchorIdFilter.setCurrentGuid(docMetadata.getProViewId());
-                anchorIdFilter.setFamilyGuid(docMetadata.getDocFamilyUuid());
+                final HTMLIdFilter anchorIdFilter = new HTMLIdFilter();
+                anchorIdFilter.setParent(saxParser.getXMLReader());
+                if (docMetadata != null && docMetadata.getProViewId() != null)
+                {
+                    anchorIdFilter.setCurrentGuid(docMetadata.getProViewId());
+                    anchorIdFilter.setFamilyGuid(docMetadata.getDocFamilyUuid());
+                }
+                else
+                {
+                    anchorIdFilter.setCurrentGuid(guid);
+                    anchorIdFilter.setFamilyGuid(guid);
+                }
+                anchorIdFilter.setTargetAnchors(targetAnchors);
+                anchorIdFilter.setDupTargetAnchors(dupTargetAnchors);
+                anchorIdFilter.setDupGuids(dupGuids);
+
+                final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
+                props.setProperty("omit-xml-declaration", "yes");
+
+                final Serializer serializer = SerializerFactory.getSerializer(props);
+
+                serializer.setOutputStream(outStream);
+
+                anchorIdFilter.setContentHandler(serializer.asContentHandler());
+
+                anchorIdFilter.parse(new InputSource(inStream));
+
+                LOG.debug(sourceFile.getAbsolutePath() + " successfully transformed.");
             }
-            else
-            {
-                anchorIdFilter.setCurrentGuid(guid);
-                anchorIdFilter.setFamilyGuid(guid);
-            }
-            anchorIdFilter.setTargetAnchors(targetAnchors);
-            anchorIdFilter.setDupTargetAnchors(dupTargetAnchors);
-            anchorIdFilter.setDupGuids(dupGuids);
-
-            final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
-            props.setProperty("omit-xml-declaration", "yes");
-
-            final Serializer serializer = SerializerFactory.getSerializer(props);
-            outStream =
-                new FileOutputStream(new File(targetDir, fileName.substring(0, fileName.indexOf(".")) + ".postAnchor"));
-            serializer.setOutputStream(outStream);
-
-            anchorIdFilter.setContentHandler(serializer.asContentHandler());
-
-            inStream = new FileInputStream(sourceFile);
-
-            anchorIdFilter.parse(new InputSource(inStream));
-
-            LOG.debug(sourceFile.getAbsolutePath() + " successfully transformed.");
         }
         catch (final IOException e)
         {
@@ -259,24 +258,6 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
             final String errMessage = "Encountered a SAX Parser Configuration Exception while processing: " + fileName;
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
-        }
-        finally
-        {
-            try
-            {
-                if (inStream != null)
-                {
-                    inStream.close();
-                }
-                if (outStream != null)
-                {
-                    outStream.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close files related to the " + fileName + " file post transformation.", e);
-            }
         }
     }
 

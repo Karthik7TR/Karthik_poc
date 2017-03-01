@@ -139,7 +139,8 @@ public class NortServiceImpl implements NortService
                     catch (final Exception e)
                     {
                         LOG.error("Failed with Exception in NORT");
-                        final GatherException ge = new GatherException("NORT Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
+                        final GatherException ge =
+                            new GatherException("NORT Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
                         throw ge;
                     }
                 }
@@ -248,7 +249,8 @@ public class NortServiceImpl implements NortService
             catch (final NovusException e)
             {
                 LOG.error("Failed with Novus Exception in NORT");
-                final GatherException ge = new GatherException("NORT Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
+                final GatherException ge =
+                    new GatherException("NORT Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
                 throw ge;
             }
             catch (final ParseException e)
@@ -283,7 +285,7 @@ public class NortServiceImpl implements NortService
         final List<ExcludeDocument> copyExcludeDocuments,
         final List<RenameTocEntry> renameTocEntries,
         final List<RenameTocEntry> copyRenameTocEntries)
-        throws GatherException, NovusException, ParseException, NortLabelParseException
+            throws GatherException, NovusException, ParseException, NortLabelParseException
     {
         boolean docFound = true;
         boolean excludeDocumentFound = false;
@@ -352,8 +354,8 @@ public class NortServiceImpl implements NortService
                     {
                         if (renameTocEntry.getTocGuid().equalsIgnoreCase(guid))
                         {
-                            final CharSequenceTranslator escapeXml =
-                                StringEscapeUtils.ESCAPE_XML10.with(NumericEntityEscaper.between(0x7f, Integer.MAX_VALUE));
+                            final CharSequenceTranslator escapeXml = StringEscapeUtils.ESCAPE_XML10
+                                .with(NumericEntityEscaper.between(0x7f, Integer.MAX_VALUE));
                             label = escapeXml.translate(renameTocEntry.getNewLabel());
                             copyRenameTocEntries.remove(renameTocEntry);
                             break;
@@ -559,7 +561,8 @@ public class NortServiceImpl implements NortService
                     catch (final Exception e)
                     {
                         LOG.error("Failed with Exception in NORT  getChildren()");
-                        final GatherException ge = new GatherException("NORT Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
+                        final GatherException ge =
+                            new GatherException("NORT Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
                         throw ge;
                     }
                 }
@@ -618,7 +621,6 @@ public class NortServiceImpl implements NortService
         final int thresholdValue) throws GatherException
     {
         NortManager _nortManager = null;
-        Writer out = null;
         final int[] counters = {0, 0, 0, 0};
         final int[] iParent = {0};
         String publishStatus = "TOC NORT Step Completed";
@@ -652,8 +654,7 @@ public class NortServiceImpl implements NortService
         // Make a copy of the original excluded documents to check that all have been accounted for
         if (excludeDocuments != null)
         {
-            copyExcludDocs =
-                new ArrayList<>(Arrays.asList(new ExcludeDocument[excludeDocuments.size()]));
+            copyExcludDocs = new ArrayList<>(Arrays.asList(new ExcludeDocument[excludeDocuments.size()]));
         }
 
         List<RenameTocEntry> copyRenameTocs = null;
@@ -664,7 +665,8 @@ public class NortServiceImpl implements NortService
             copyRenameTocs = new ArrayList<>(Arrays.asList(new RenameTocEntry[renameTocEntries.size()]));
         }
 
-        try
+        try (Writer out =
+            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(nortXmlFile.getPath()), "UTF8")))
         {
             if (excludeDocuments != null)
             {
@@ -696,7 +698,6 @@ public class NortServiceImpl implements NortService
             _nortManager.setShowFutureNodes(true);
             _nortManager.setUseReloadContent(useReloadContent);
 
-            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(nortXmlFile.getPath()), "UTF8"));
             out.write(EBConstants.TOC_XML_ELEMENT);
             out.write(EBConstants.TOC_START_EBOOK_ELEMENT);
 
@@ -711,16 +712,15 @@ public class NortServiceImpl implements NortService
                 renameTocEntries,
                 copyRenameTocs);
 
-            LOG.info(
-                counters[DOCCOUNT]
-                    + " documents "
-                    + counters[SKIPCOUNT]
-                    + " skipped nodes  and "
-                    + counters[NODECOUNT]
-                    + " nodes in the NORT hierarchy for domain "
-                    + domainName
-                    + " and filter "
-                    + expressionFilter);
+            LOG.info(counters[DOCCOUNT]
+                + " documents "
+                + counters[SKIPCOUNT]
+                + " skipped nodes  and "
+                + counters[NODECOUNT]
+                + " nodes in the NORT hierarchy for domain "
+                + domainName
+                + " and filter "
+                + expressionFilter);
 
             out.write(EBConstants.TOC_END_EBOOK_ELEMENT);
             out.flush();
@@ -730,7 +730,8 @@ public class NortServiceImpl implements NortService
         catch (final UnsupportedEncodingException e)
         {
             LOG.error(e.getMessage());
-            final GatherException ge = new GatherException("NORT UTF-8 encoding error ", e, GatherResponse.CODE_FILE_ERROR);
+            final GatherException ge =
+                new GatherException("NORT UTF-8 encoding error ", e, GatherResponse.CODE_FILE_ERROR);
             publishStatus = "TOC NORT Step Failed UTF-8 encoding error";
             throw ge;
         }
@@ -754,11 +755,17 @@ public class NortServiceImpl implements NortService
             publishStatus = "TOC NORT Step Failed GatherException";
             throw e;
         }
+        catch (final Exception e)
+        {
+            LOG.error(e.getMessage());
+            final GatherException ge =
+                new GatherException("Failure in findTOC() ", e, GatherResponse.CODE_DATA_ERROR);
+            throw ge;
+        }
         finally
         {
             try
             {
-                out.close();
                 if ((copyExcludDocs != null) && (copyExcludDocs.size() > 0))
                 {
                     final StringBuffer unaccountedExcludedDocs = new StringBuffer();
@@ -784,18 +791,11 @@ public class NortServiceImpl implements NortService
                     throw ge;
                 }
             }
-            catch (final IOException e)
-            {
-                LOG.error(e.getMessage());
-                final GatherException ge =
-                    new GatherException("NORT Cannot close toc.xml ", e, GatherResponse.CODE_FILE_ERROR);
-                publishStatus = "TOC NORT Step Failed Cannot close toc.xml";
-                throw ge;
-            }
             catch (final Exception e)
             {
                 LOG.error(e.getMessage());
-                final GatherException ge = new GatherException("Failure in findTOC() ", e, GatherResponse.CODE_DATA_ERROR);
+                final GatherException ge =
+                    new GatherException("Failure in findTOC() ", e, GatherResponse.CODE_DATA_ERROR);
                 throw ge;
             }
             finally

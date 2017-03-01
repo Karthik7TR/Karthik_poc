@@ -95,11 +95,10 @@ public final class XMLPreprocessServiceTest
      */
     private File makeFile(final File directory, final String name, final String content)
     {
-        try
+        final File file = new File(directory, name);
+        try (FileOutputStream out = new FileOutputStream(file))
         {
-            final File file = new File(directory, name);
             file.createNewFile();
-            final FileOutputStream out = new FileOutputStream(file);
             out.write(content.getBytes());
             out.flush();
             out.close();

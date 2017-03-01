@@ -48,32 +48,29 @@ public class TitleMetadataAnchorUpdateServiceImpl implements TitleMetadataAnchor
             throw new IllegalArgumentException("srcTitleXML must be a valid file.");
         }
 
-        FileInputStream inStream = null;
-        FileOutputStream outStream = null;
-
-        try
+        try (FileInputStream inStream = new FileInputStream(srcTitleXML))
         {
-            LOG.debug("Transforming anchor references from Title.xml file: " + srcTitleXML.getAbsolutePath());
+            try (FileOutputStream outStream = new FileOutputStream(trgTitleXML))
+            {
+                LOG.debug("Transforming anchor references from Title.xml file: " + srcTitleXML.getAbsolutePath());
 
-            final SAXParserFactory factory = SAXParserFactory.newInstance();
-            factory.setNamespaceAware(true);
-            final SAXParser saxParser = factory.newSAXParser();
+                final SAXParserFactory factory = SAXParserFactory.newInstance();
+                factory.setNamespaceAware(true);
+                final SAXParser saxParser = factory.newSAXParser();
 
-            final TitleXMLTOCFilter tocFilter = new TitleXMLTOCFilter(docToToc);
-            tocFilter.setParent(saxParser.getXMLReader());
+                final TitleXMLTOCFilter tocFilter = new TitleXMLTOCFilter(docToToc);
+                tocFilter.setParent(saxParser.getXMLReader());
 
-            final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
-            props.setProperty("omit-xml-declaration", "yes");
+                final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
+                props.setProperty("omit-xml-declaration", "yes");
 
-            final Serializer serializer = SerializerFactory.getSerializer(props);
-            outStream = new FileOutputStream(trgTitleXML);
-            serializer.setOutputStream(new EntityDecodedOutputStream(outStream));
+                final Serializer serializer = SerializerFactory.getSerializer(props);
+                serializer.setOutputStream(new EntityDecodedOutputStream(outStream));
 
-            tocFilter.setContentHandler(serializer.asContentHandler());
+                tocFilter.setContentHandler(serializer.asContentHandler());
 
-            inStream = new FileInputStream(srcTitleXML);
-
-            tocFilter.parse(new InputSource(new EntityEncodedInputStream(inStream)));
+                tocFilter.parse(new InputSource(new EntityEncodedInputStream(inStream)));
+            }
         }
         catch (final IOException e)
         {
@@ -96,26 +93,6 @@ public class TitleMetadataAnchorUpdateServiceImpl implements TitleMetadataAnchor
                 "Encountered a SAX Parser Configuration Exception while processing: " + srcTitleXML.getAbsolutePath();
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
-        }
-        finally
-        {
-            try
-            {
-                if (inStream != null)
-                {
-                    inStream.close();
-                }
-                if (outStream != null)
-                {
-                    outStream.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error(
-                    "Unable to close files related to the " + srcTitleXML.getAbsolutePath() + " file transformation.",
-                    e);
-            }
         }
 
         LOG.debug("Anchors in " + trgTitleXML.getAbsolutePath() + " were successfully transformed.");

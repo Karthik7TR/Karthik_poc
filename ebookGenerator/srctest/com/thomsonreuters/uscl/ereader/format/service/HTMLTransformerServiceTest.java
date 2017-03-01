@@ -25,7 +25,6 @@ import org.apache.commons.io.FileUtils;
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -33,7 +32,6 @@ import org.junit.Test;
  *
  * @author <a href="mailto:zack.farrell@thomsonreuters.com">Zack Farrell</a> uc209819
  */
-@Ignore
 public final class HTMLTransformerServiceTest
 {
     private HTMLTransformerServiceImpl transformerService;
@@ -69,11 +67,10 @@ public final class HTMLTransformerServiceTest
      */
     private File makeFile(final File directory, final String name, final String content)
     {
-        try
+        final File file = new File(directory, name);
+        try (FileOutputStream out = new FileOutputStream(file))
         {
-            final File file = new File(directory, name);
             file.createNewFile();
-            final FileOutputStream out = new FileOutputStream(file);
             out.write(content.getBytes());
             out.flush();
             out.close();

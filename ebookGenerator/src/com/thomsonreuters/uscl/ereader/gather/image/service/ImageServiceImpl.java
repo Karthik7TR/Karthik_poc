@@ -187,23 +187,13 @@ public class ImageServiceImpl implements ImageService
         {
             destFile.createNewFile();
         }
-        FileChannel source = null;
-        FileChannel destination = null;
-        try
+        try (FileInputStream sourceStream = new FileInputStream(sourceFile))
         {
-            source = new FileInputStream(sourceFile).getChannel();
-            destination = new FileOutputStream(destFile).getChannel();
-            destination.transferFrom(source, 0, source.size());
-        }
-        finally
-        {
-            if (source != null)
+            final FileChannel source = sourceStream.getChannel();
+            try (FileOutputStream destStream = new FileOutputStream(destFile))
             {
-                source.close();
-            }
-            if (destination != null)
-            {
-                destination.close();
+                final FileChannel destination = destStream.getChannel();
+                destination.transferFrom(source, 0, source.size());
             }
         }
     }

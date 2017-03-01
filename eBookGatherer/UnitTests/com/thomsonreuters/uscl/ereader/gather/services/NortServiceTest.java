@@ -1086,6 +1086,8 @@ public final class NortServiceTest
         EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").times(2);
         EasyMock.expect(mockNovus.getNortManager()).andReturn(mockNortManager);
         mockNortManager.setShowChildrenCount(true);
+        mockNortManager.setShowFutureNodes(true);
+        mockNortManager.setUseReloadContent(true);
         mockNortManager.setDomainDescriptor(DOMAIN_NAME);
         mockNortManager.setFilterName(FILTER, 0);
         mockNortManager.setNortVersion(YYYYMMDDHHmmss);
@@ -1115,10 +1117,9 @@ public final class NortServiceTest
         finally
         {
             FileUtils.deleteQuietly(nortFile);
+            EasyMock.verify(mockNovusFactory);
+            EasyMock.verify(mockNovus);
+            EasyMock.verify(mockNortManager);
         }
-
-        EasyMock.verify(mockNovusFactory);
-        EasyMock.verify(mockNovus);
-        EasyMock.verify(mockNortManager);
     }
 }

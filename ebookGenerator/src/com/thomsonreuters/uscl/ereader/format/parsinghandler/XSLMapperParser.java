@@ -51,10 +51,9 @@ public class XSLMapperParser extends DefaultHandler
 
     public Map<String, String> parseDocument(final File mapperFile) throws Exception
     {
-        final InputStream inputStream = new FileInputStream(mapperFile);
         // get a factory
         final SAXParserFactory spf = SAXParserFactory.newInstance();
-        try
+        try (InputStream inputStream = new FileInputStream(mapperFile))
         {
             // get a new instance of parser
             final SAXParser sp = spf.newSAXParser();
@@ -64,10 +63,6 @@ public class XSLMapperParser extends DefaultHandler
             is.setEncoding("UTF-8");
             sp.parse(is, this);
             // printData();
-        }
-        finally
-        {
-            inputStream.close();
         }
         return xsltFileNameByCollectionName;
     }

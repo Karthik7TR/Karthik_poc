@@ -1623,7 +1623,7 @@ public final class GroupServiceImplTest
     @Test
     public void testGroupIdWithContentType()
     {
-        final BookDefinition bookDefinition = new BookDefinition();
+        bookDefinition = new BookDefinition();
         final DocumentTypeCode dc = new DocumentTypeCode();
         dc.setAbbreviation("sc");
         bookDefinition.setDocumentTypeCodes(dc);
@@ -1640,7 +1640,7 @@ public final class GroupServiceImplTest
     @Test
     public void testGroupIdWithNoContentType()
     {
-        final BookDefinition bookDefinition = new BookDefinition();
+        bookDefinition = new BookDefinition();
         final PublisherCode publisherCode = new PublisherCode();
         publisherCode.setId(Long.valueOf(1));
         publisherCode.setName("ucl");
@@ -1878,7 +1878,7 @@ public final class GroupServiceImplTest
     @Test
     public void testMajorVersion()
     {
-        final ProviewTitleContainer proviewTitleContainer = new ProviewTitleContainer();
+        proviewTitleContainer = new ProviewTitleContainer();
         final ProviewTitleInfo title = new ProviewTitleInfo();
         title.setTitleId("uscl/an/title_id");
         title.setVersion("v2");

@@ -178,33 +178,30 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService
         final List<DocumentCurrency> copyCurrencies) throws EBookFormatException
     {
         final String fileName = sourceFile.getName();
-        FileInputStream inStream = null;
-        FileOutputStream outStream = null;
-        try
+        try (FileInputStream inStream = new FileInputStream(sourceFile))
         {
-            final SAXParserFactory factory = SAXParserFactory.newInstance();
-            factory.setNamespaceAware(true);
-            final SAXParser saxParser = factory.newSAXParser();
+            try (FileOutputStream outStream =
+                new FileOutputStream(new File(targetDir, fileName.substring(0, fileName.indexOf(".")) + ".preprocess")))
+            {
+                final SAXParserFactory factory = SAXParserFactory.newInstance();
+                factory.setNamespaceAware(true);
+                final SAXParser saxParser = factory.newSAXParser();
 
-            final XMLContentChangerFilter contentChangerFilter =
-                new XMLContentChangerFilter(copyrights, copyCopyrights, currencies, copyCurrencies);
-            contentChangerFilter.setParent(saxParser.getXMLReader());
+                final XMLContentChangerFilter contentChangerFilter =
+                    new XMLContentChangerFilter(copyrights, copyCopyrights, currencies, copyCurrencies);
+                contentChangerFilter.setParent(saxParser.getXMLReader());
 
-            final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
-            props.setProperty("omit-xml-declaration", "yes");
+                final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XML);
+                props.setProperty("omit-xml-declaration", "yes");
 
-            final Serializer serializer = SerializerFactory.getSerializer(props);
-            outStream =
-                new FileOutputStream(new File(targetDir, fileName.substring(0, fileName.indexOf(".")) + ".preprocess"));
-            serializer.setOutputStream(outStream);
+                final Serializer serializer = SerializerFactory.getSerializer(props);
+                serializer.setOutputStream(outStream);
 
-            contentChangerFilter.setContentHandler(serializer.asContentHandler());
+                contentChangerFilter.setContentHandler(serializer.asContentHandler());
+                contentChangerFilter.parse(new InputSource(inStream));
 
-            inStream = new FileInputStream(sourceFile);
-
-            contentChangerFilter.parse(new InputSource(inStream));
-
-            LOG.debug("Successfully preprocessed:" + sourceFile.getAbsolutePath());
+                LOG.debug("Successfully preprocessed:" + sourceFile.getAbsolutePath());
+            }
         }
         catch (final IOException e)
         {
@@ -223,24 +220,6 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService
             final String errMessage = "Encountered a SAX Parser Configuration Exception while processing: " + fileName;
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
-        }
-        finally
-        {
-            try
-            {
-                if (inStream != null)
-                {
-                    inStream.close();
-                }
-                if (outStream != null)
-                {
-                    outStream.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close files related to the " + fileName + " file after preprocess.", e);
-            }
         }
     }
 }

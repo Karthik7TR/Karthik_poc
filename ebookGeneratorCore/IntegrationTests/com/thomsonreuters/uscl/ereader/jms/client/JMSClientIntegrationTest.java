@@ -19,7 +19,7 @@ public final class JMSClientIntegrationTest
     private static final String HOST = "CTCO002-04";
     private static final int PORT = 1414;
     private static final String QUEUE_MANAGER = "CTCO00204";
-    private static final String QUEUE = "TEST.QUEUE";
+    private static final String QUEUE = "TESTQUEUE";
     private static final String CHANNEL = "CLIENTCONNECTION";
     private static final int TRANSPORT_TYPE = 1;
 

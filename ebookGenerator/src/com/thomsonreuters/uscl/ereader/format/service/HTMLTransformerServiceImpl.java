@@ -249,129 +249,128 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
     {
         final String fileName = sourceFile.getName();
         final String guid = fileName.substring(0, fileName.indexOf("."));
-        FileInputStream inStream = null;
-        FileOutputStream outStream = null;
-        SequenceInputStream intermediateStream = null;
-        SequenceInputStream wrappedStream = null;
-        try
+        try (FileInputStream inStream = new FileInputStream(sourceFile))
         {
-            //LOG.debug("Transforming following html file: " + sourceFile.getAbsolutePath());
-            final DocMetadata docMetadata =
-                docMetadataService.findDocMetadataByPrimaryKey(titleID, jobIdentifier, guid);
-
-            String firstlineCite = "";
-            if (docMetadata != null)
+            try (FileOutputStream outStream = new FileOutputStream(
+                new File(targetDir, fileName.substring(0, fileName.indexOf(".")) + ".postTransform")))
             {
-                firstlineCite = docMetadata.getNormalizedFirstlineCite();
-            }
+                //LOG.debug("Transforming following html file: " + sourceFile.getAbsolutePath());
+                final DocMetadata docMetadata =
+                    docMetadataService.findDocMetadataByPrimaryKey(titleID, jobIdentifier, guid);
 
-            final SAXParserFactory factory = SAXParserFactory.newInstance();
-            factory.setNamespaceAware(true);
-            final SAXParser saxParser = factory.newSAXParser();
-
-            final HTMLEmptyHeading2Filter emptyH2Filter = new HTMLEmptyHeading2Filter();
-            emptyH2Filter.setParent(saxParser.getXMLReader());
-
-            final HTMLTagIdDedupingFilter tagIdDedupingFilter = new HTMLTagIdDedupingFilter(guid);
-
-            tagIdDedupingFilter.setParent(emptyH2Filter);
-
-            boolean isTableViewRequired = false;
-            // Check if table viewer is turned on for this document guid
-            if ((tableViewers != null) && (tableViewers.size() > 0) && (copyTableViewers != null))
-            {
-                for (final TableViewer document : tableViewers)
+                String firstlineCite = "";
+                if (docMetadata != null)
                 {
-                    if (document.getDocumentGuid().equalsIgnoreCase(guid))
+                    firstlineCite = docMetadata.getNormalizedFirstlineCite();
+                }
+
+                final SAXParserFactory factory = SAXParserFactory.newInstance();
+                factory.setNamespaceAware(true);
+                final SAXParser saxParser = factory.newSAXParser();
+
+                final HTMLEmptyHeading2Filter emptyH2Filter = new HTMLEmptyHeading2Filter();
+                emptyH2Filter.setParent(saxParser.getXMLReader());
+
+                final HTMLTagIdDedupingFilter tagIdDedupingFilter = new HTMLTagIdDedupingFilter(guid);
+
+                tagIdDedupingFilter.setParent(emptyH2Filter);
+
+                boolean isTableViewRequired = false;
+                // Check if table viewer is turned on for this document guid
+                if ((tableViewers != null) && (tableViewers.size() > 0) && (copyTableViewers != null))
+                {
+                    for (final TableViewer document : tableViewers)
                     {
-                        isTableViewRequired = true;
-                        copyTableViewers.remove(document);
-                        break;
+                        if (document.getDocumentGuid().equalsIgnoreCase(guid))
+                        {
+                            isTableViewRequired = true;
+                            copyTableViewers.remove(document);
+                            break;
+                        }
                     }
                 }
+
+                final HTMLTableFilter tableFilter = new HTMLTableFilter(isTableViewRequired);
+                tableFilter.setParent(tagIdDedupingFilter);
+
+                final HTMLImageFilter imageFilter = new HTMLImageFilter();
+                imageFilter.setStaticImageRefs(staticImgRef);
+                imageFilter.setParent(tableFilter);
+
+                final ProcessingInstructionZapperFilter piZapperFilter = new ProcessingInstructionZapperFilter();
+                piZapperFilter.setParent(imageFilter);
+                if (version.indexOf(".") > 0)
+                {
+                    version = StringUtils.substring(version, 0, version.indexOf("."));
+                }
+                else
+                {
+                    version = StringUtils.substring(version, 0);
+                }
+
+                final InternalLinkResolverFilter internalLinkResolverFilter = new InternalLinkResolverFilter(
+                    documentMetadataAuthority,
+                    docsGuidFile,
+                    paceMetadataService,
+                    jobIdentifier,
+                    guid,
+                    version);
+                internalLinkResolverFilter.setParent(piZapperFilter);
+
+                final HTMLInputFilter inputFilter = new HTMLInputFilter();
+                inputFilter.setParent(internalLinkResolverFilter);
+
+                // Add strike through filter (Special Markup Filter)
+                final HTMLSpecialMarkupFilter spmrkUpFilter = new HTMLSpecialMarkupFilter(isHighlight, isStrikethrough);
+                spmrkUpFilter.setParent(inputFilter);
+
+                final HTMLEditorNotesFilter editNotesFilter = new HTMLEditorNotesFilter(delEditorNodeHeading);
+                editNotesFilter.setParent(spmrkUpFilter);
+
+                final HTMLAnchorFilter anchorFilter = new HTMLAnchorFilter();
+                anchorFilter.setimgService(imgService);
+                anchorFilter.setjobInstanceId(jobIdentifier);
+                anchorFilter.setDocGuid(guid);
+                anchorFilter.setFirstlineCite(firstlineCite);
+                anchorFilter.setParent(editNotesFilter);
+                anchorFilter.setTargetAnchors(targetAnchors);
+                if (docMetadata != null && docMetadata.getProViewId() != null)
+                {
+                    anchorFilter.setCurrentGuid(docMetadata.getProViewId());
+                }
+                else
+                {
+                    anchorFilter.setCurrentGuid(guid);
+                }
+
+                final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
+                props.setProperty("omit-xml-declaration", "yes");
+
+                final Serializer serializer = SerializerFactory.getSerializer(props);
+                serializer.setOutputStream(outStream);
+
+                anchorFilter.setContentHandler(serializer.asContentHandler());
+
+                try (
+                    SequenceInputStream intermediateStream =
+                        new SequenceInputStream(new ByteArrayInputStream(START_WRAPPER_TAG.getBytes()), inStream);
+                    SequenceInputStream wrappedStream = new SequenceInputStream(
+                        intermediateStream,
+                        new ByteArrayInputStream(END_WRAPPER_TAG.getBytes())))
+                {
+                    anchorFilter.parse(new InputSource(wrappedStream));
+
+                    targetAnchors.putAll(anchorFilter.getTargetAnchors());
+
+                    final List<String> deDuppingList = tagIdDedupingFilter.getDuplicateIdList();
+
+                    if (deDuppingList.size() > 0)
+                    {
+                        insertDeduppingAnchorRecords(deDuppingList, deDuppingFile);
+                    }
+                }
+                LOG.debug("Successfully transformed:" + sourceFile.getAbsolutePath());
             }
-
-            final HTMLTableFilter tableFilter = new HTMLTableFilter(isTableViewRequired);
-            tableFilter.setParent(tagIdDedupingFilter);
-
-            final HTMLImageFilter imageFilter = new HTMLImageFilter();
-            imageFilter.setStaticImageRefs(staticImgRef);
-            imageFilter.setParent(tableFilter);
-
-            final ProcessingInstructionZapperFilter piZapperFilter = new ProcessingInstructionZapperFilter();
-            piZapperFilter.setParent(imageFilter);
-            if (version.indexOf(".") > 0)
-            {
-                version = StringUtils.substring(version, 0, version.indexOf("."));
-            }
-            else
-            {
-                version = StringUtils.substring(version, 0);
-            }
-
-            final InternalLinkResolverFilter internalLinkResolverFilter = new InternalLinkResolverFilter(
-                documentMetadataAuthority,
-                docsGuidFile,
-                paceMetadataService,
-                jobIdentifier,
-                guid,
-                version);
-            internalLinkResolverFilter.setParent(piZapperFilter);
-
-            final HTMLInputFilter inputFilter = new HTMLInputFilter();
-            inputFilter.setParent(internalLinkResolverFilter);
-
-            // Add strike through filter (Special Markup Filter)
-            final HTMLSpecialMarkupFilter spmrkUpFilter = new HTMLSpecialMarkupFilter(isHighlight, isStrikethrough);
-            spmrkUpFilter.setParent(inputFilter);
-
-            final HTMLEditorNotesFilter editNotesFilter = new HTMLEditorNotesFilter(delEditorNodeHeading);
-            editNotesFilter.setParent(spmrkUpFilter);
-
-            final HTMLAnchorFilter anchorFilter = new HTMLAnchorFilter();
-            anchorFilter.setimgService(imgService);
-            anchorFilter.setjobInstanceId(jobIdentifier);
-            anchorFilter.setDocGuid(guid);
-            anchorFilter.setFirstlineCite(firstlineCite);
-            anchorFilter.setParent(editNotesFilter);
-            anchorFilter.setTargetAnchors(targetAnchors);
-            if (docMetadata != null && docMetadata.getProViewId() != null)
-            {
-                anchorFilter.setCurrentGuid(docMetadata.getProViewId());
-            }
-            else
-            {
-                anchorFilter.setCurrentGuid(guid);
-            }
-
-            final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
-            props.setProperty("omit-xml-declaration", "yes");
-
-            final Serializer serializer = SerializerFactory.getSerializer(props);
-            outStream = new FileOutputStream(
-                new File(targetDir, fileName.substring(0, fileName.indexOf(".")) + ".postTransform"));
-            serializer.setOutputStream(outStream);
-
-            anchorFilter.setContentHandler(serializer.asContentHandler());
-
-            inStream = new FileInputStream(sourceFile);
-            intermediateStream =
-                new SequenceInputStream(new ByteArrayInputStream(START_WRAPPER_TAG.getBytes()), inStream);
-            wrappedStream =
-                new SequenceInputStream(intermediateStream, new ByteArrayInputStream(END_WRAPPER_TAG.getBytes()));
-
-            anchorFilter.parse(new InputSource(wrappedStream));
-
-            targetAnchors.putAll(anchorFilter.getTargetAnchors());
-
-            final List<String> deDuppingList = tagIdDedupingFilter.getDuplicateIdList();
-
-            if (deDuppingList.size() > 0)
-            {
-                insertDeduppingAnchorRecords(deDuppingList, deDuppingFile);
-            }
-
-            LOG.debug("Successfully transformed:" + sourceFile.getAbsolutePath());
         }
         catch (final IOException e)
         {
@@ -391,32 +390,6 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
-        finally
-        {
-            try
-            {
-                if (inStream != null)
-                {
-                    inStream.close();
-                }
-                if (wrappedStream != null)
-                {
-                    wrappedStream.close();
-                }
-                if (intermediateStream != null)
-                {
-                    intermediateStream.close();
-                }
-                if (outStream != null)
-                {
-                    outStream.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close files related to the " + fileName + " file post transformation.", e);
-            }
-        }
     }
 
     /**
@@ -428,11 +401,9 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
     protected void createStaticImageList(final File imgListFile, final Set<String> imgFileNames)
         throws EBookFormatException
     {
-        BufferedWriter writer = null;
-        try
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(imgListFile)))
         {
             LOG.info("Writing static images to " + imgListFile.getAbsolutePath() + " file...");
-            writer = new BufferedWriter(new FileWriter(imgListFile));
             for (final String fileName : imgFileNames)
             {
                 if (StringUtils.isEmpty(fileName))
@@ -453,20 +424,6 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
             LOG.error(message);
             throw new EBookFormatException(message, e);
         }
-        finally
-        {
-            try
-            {
-                if (writer != null)
-                {
-                    writer.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close static image list file.", e);
-            }
-        }
     }
 
     /**
@@ -478,11 +435,10 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
     protected void createAnchorTargetList(final File anchorTargetListFile, final Map<String, Set<String>> targetAnchors)
         throws EBookFormatException
     {
-        BufferedWriter writer = null;
-        try
+        try (BufferedWriter writer =
+            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(anchorTargetListFile), "UTF-8")))
         {
             LOG.info("Writing anchor list to " + anchorTargetListFile.getAbsolutePath() + " file...");
-            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(anchorTargetListFile), "UTF-8"));
 
             for (final Entry<String, Set<String>> guidAnchorEntry : targetAnchors.entrySet())
             {
@@ -504,20 +460,6 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
             LOG.error(message);
             throw new EBookFormatException(message, e);
         }
-        finally
-        {
-            try
-            {
-                if (writer != null)
-                {
-                    writer.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close anchor target list file.", e);
-            }
-        }
     }
 
     /**
@@ -529,13 +471,10 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
     private void insertDeduppingAnchorRecords(final List<String> deduppingIds, final File deDuppingFile)
         throws EBookFormatException
     {
-        Writer writer = null;
-        try
+        final String charset = "UTF-8";
+        try (Writer writer = new OutputStreamWriter(new FileOutputStream(deDuppingFile, true), charset))
         {
             LOG.info("Writing de-dupping anchors info  to " + deDuppingFile.getAbsolutePath() + " file...");
-            final FileOutputStream outStream = new FileOutputStream(deDuppingFile, true);
-            final String charset = "UTF-8";
-            writer = new OutputStreamWriter(outStream, charset);
             for (final String id : deduppingIds)
             {
                 writer.write(id);
@@ -548,20 +487,6 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
                 "Could not write to the de-dupping anchors list file: " + deDuppingFile.getAbsolutePath();
             LOG.error(message);
             throw new EBookFormatException(message, e);
-        }
-        finally
-        {
-            try
-            {
-                if (writer != null)
-                {
-                    writer.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close de-dupping anchors list file.", e);
-            }
         }
     }
 }

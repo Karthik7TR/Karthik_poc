@@ -38,7 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Ignore
 public class AltIDFileCreationUtil
 {
-    private static Logger LOG = LogManager.getLogger(AltIDFileCreationUtil.class);
+    private static final Logger LOG = LogManager.getLogger(AltIDFileCreationUtil.class);
 
     @Autowired
     protected DocMetadataService documentMetadataService;
@@ -227,65 +227,63 @@ public class AltIDFileCreationUtil
         return cite.replaceAll("(\\D)\\.", "$1");
     }
 
-    protected void createCVSFile(final Set<DocMetadata> newDocSet, final Map<String, String> oldDocInfo, final String altIdFileName)
-        throws Exception
+    protected void createCVSFile(
+        final Set<DocMetadata> newDocSet,
+        final Map<String, String> oldDocInfo,
+        final String altIdFileName)
     {
         final File file = new File(altIdFileName);
-        System.out.println(file.getAbsolutePath());
-        final FileWriter outputStream = new FileWriter(file);
-        final BufferedWriter out = new BufferedWriter(outputStream);
+        LOG.debug(file.getAbsolutePath());
 
         final File notFoundfile = new File(altIdFileName + "_NotFound");
-        System.out.println(notFoundfile.getAbsolutePath());
-        final FileWriter outputStream1 = new FileWriter(notFoundfile);
-        final BufferedWriter out1 = new BufferedWriter(outputStream1);
+        LOG.debug(notFoundfile.getAbsolutePath());
 
-        try
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(file)))
         {
-            int i = 0;
-            for (final DocMetadata newDoc : newDocSet)
+            try (BufferedWriter out1 = new BufferedWriter(new FileWriter(file)))
             {
-                final String cite = normalizeFirsLineSite(newDoc.getFirstlineCite());
-                if (oldDocInfo.containsKey(cite))
+                int i = 0;
+                for (final DocMetadata newDoc : newDocSet)
                 {
-                    if (oldDocInfo.get(cite).equalsIgnoreCase(newDoc.getDocFamilyUuid()))
+                    final String cite = normalizeFirsLineSite(newDoc.getFirstlineCite());
+                    if (oldDocInfo.containsKey(cite))
                     {
-                        LOG.info(
-                            newDoc.getDocFamilyUuid() + " DocFamilys are same for Cite " + newDoc.getFirstlineCite());
+                        if (oldDocInfo.get(cite).equalsIgnoreCase(newDoc.getDocFamilyUuid()))
+                        {
+                            LOG.info(
+                                newDoc.getDocFamilyUuid()
+                                    + " DocFamilys are same for Cite "
+                                    + newDoc.getFirstlineCite());
+                        }
+                        else
+                        {
+                            final StringBuffer buffer = new StringBuffer();
+                            buffer.append(oldDocInfo.get(cite));
+                            buffer.append(",");
+                            buffer.append(newDoc.getDocFamilyUuid());
+                            buffer.append(",");
+                            buffer.append(newDoc.getFirstlineCite() + ",");
+                            buffer.append("\n");
+                            out.write(buffer.toString());
+                        }
                     }
                     else
                     {
-                        final StringBuffer buffer = new StringBuffer();
-                        buffer.append(oldDocInfo.get(cite));
-                        buffer.append(",");
-                        buffer.append(newDoc.getDocFamilyUuid());
-                        buffer.append(",");
-                        buffer.append(newDoc.getFirstlineCite() + ",");
-                        buffer.append("\n");
-                        out.write(buffer.toString());
+                        i++;
+                        LOG.error(
+                            "could not find matching family "
+                                + newDoc.getDocFamilyUuid()
+                                + " "
+                                + newDoc.getFirstlineCite());
+                        out1.write(newDoc.toString() + "\n");
                     }
                 }
-                else
-                {
-                    i++;
-                    LOG.error(
-                        "could not find matching family "
-                            + newDoc.getDocFamilyUuid()
-                            + " "
-                            + newDoc.getFirstlineCite());
-                    out1.write(newDoc.toString() + "\n");
-                }
+                LOG.debug(i + " documents Could not find match");
             }
-            System.out.println(i + " documents Could not find match");
         }
         catch (final Exception ex)
         {
             ex.printStackTrace();
-        }
-        finally
-        {
-            out.close();
-            out1.close();
         }
     }
 }

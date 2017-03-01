@@ -31,10 +31,9 @@ public final class MoveResourcesUtilTest
 
     private File makeFile(final File directory, final String name, final String content)
     {
-        try
+        final File file = new File(directory, name);
+        try (FileOutputStream out = new FileOutputStream(file))
         {
-            final File file = new File(directory, name);
-            final FileOutputStream out = new FileOutputStream(file);
             out.write(content.getBytes());
             out.close();
             return file;
@@ -99,7 +98,7 @@ public final class MoveResourcesUtilTest
     }
 
     @Test
-    public void testcreateCoverArt() throws Exception
+    public void testcreateCoverArt()
     {
         final BookDefinition bookDefinition = new BookDefinition();
         jobExecutionContext.put(JobExecutionKey.EBOOK_DEFINITION, bookDefinition);

@@ -15,6 +15,7 @@ import org.apache.tools.tar.TarEntry;
 import org.apache.tools.tar.TarInputStream;
 import org.easymock.EasyMock;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -60,10 +61,9 @@ public final class EbookAssemblyServiceTest
      */
     private File makeFile(final File directory, final String name, final String content)
     {
-        try
+        final File file = new File(directory, name);
+        try (FileOutputStream out = new FileOutputStream(file))
         {
-            final File file = new File(directory, name);
-            final FileOutputStream out = new FileOutputStream(file);
             out.write(content.getBytes());
             out.close();
             return file;
@@ -75,7 +75,7 @@ public final class EbookAssemblyServiceTest
     }
 
     @Test
-    public void testAssembleEBookProtectedFile() throws Exception
+    public void testAssembleEBookProtectedFile()
     {
         eBook.setReadOnly();
         try
@@ -91,7 +91,7 @@ public final class EbookAssemblyServiceTest
     }
 
     @Test
-    public void testGetLargestContent() throws Exception
+    public void testGetLargestContent()
     {
         // text to give files length
         final String loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed"
@@ -127,18 +127,17 @@ public final class EbookAssemblyServiceTest
     {
         assemblyService.assembleEBook(eBookDirectory, eBook);
 
-        final TarInputStream tarInputStream = new TarInputStream(new GZIPInputStream(new FileInputStream(eBook)));
-
-        try
+        try (TarInputStream tarInputStream = new TarInputStream(new GZIPInputStream(new FileInputStream(eBook))))
         {
             TarEntry entry = tarInputStream.getNextEntry();
             assertTrue("eBookDirectory".equals(entry.getName()));
             entry = tarInputStream.getNextEntry();
             assertTrue("eBookDirectory/title.xml".equals(entry.getName()));
         }
-        finally
+        catch (final Exception e)
         {
-            tarInputStream.close();
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
         }
     }
 

@@ -459,7 +459,6 @@ public class NovusNortFileServiceImpl implements NovusNortFileService
         final List<String> splitTocGuidList,
         final int thresholdValue) throws GatherException
     {
-        Writer out = null;
         final int[] counters = {0, 0, 0, 0};
         final int[] iParent = {0};
         String publishStatus = "TOC NORT Step Completed";
@@ -483,8 +482,7 @@ public class NovusNortFileServiceImpl implements NovusNortFileService
         // Make a copy of the original excluded documents to check that all have been accounted for
         if (excludeDocuments != null)
         {
-            copyExcludDocs =
-                new ArrayList<>(Arrays.asList(new ExcludeDocument[excludeDocuments.size()]));
+            copyExcludDocs = new ArrayList<>(Arrays.asList(new ExcludeDocument[excludeDocuments.size()]));
         }
 
         List<RenameTocEntry> copyRenameTocs = null;
@@ -495,7 +493,8 @@ public class NovusNortFileServiceImpl implements NovusNortFileService
             copyRenameTocs = new ArrayList<>(Arrays.asList(new RenameTocEntry[renameTocEntries.size()]));
         }
 
-        try
+        try (Writer out =
+            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(nortXmlFile.getPath()), "UTF-8")))
         {
             if (excludeDocuments != null)
             {
@@ -518,7 +517,7 @@ public class NovusNortFileServiceImpl implements NovusNortFileService
                 YYYYMMDDHHmmss = formatter.format(cutoffDate);
             }
 
-            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(nortXmlFile.getPath()), "UTF-8"));
+            ;
             out.write(EBConstants.TOC_XML_ELEMENT);
             out.write(EBConstants.TOC_START_EBOOK_ELEMENT);
 
@@ -533,13 +532,12 @@ public class NovusNortFileServiceImpl implements NovusNortFileService
                 renameTocEntries,
                 copyRenameTocs);
 
-            LOG.info(
-                counters[DOCCOUNT]
-                    + " documents "
-                    + counters[SKIPCOUNT]
-                    + " skipped nodes  and "
-                    + counters[NODECOUNT]
-                    + " nodes");
+            LOG.info(counters[DOCCOUNT]
+                + " documents "
+                + counters[SKIPCOUNT]
+                + " skipped nodes  and "
+                + counters[NODECOUNT]
+                + " nodes");
 
             out.write(EBConstants.TOC_END_EBOOK_ELEMENT);
             out.flush();
@@ -549,7 +547,8 @@ public class NovusNortFileServiceImpl implements NovusNortFileService
         catch (final UnsupportedEncodingException e)
         {
             LOG.error(e.getMessage());
-            final GatherException ge = new GatherException("NORT UTF-8 encoding error ", e, GatherResponse.CODE_FILE_ERROR);
+            final GatherException ge =
+                new GatherException("NORT UTF-8 encoding error ", e, GatherResponse.CODE_FILE_ERROR);
             publishStatus = "CWB TOC Step Failed UTF-8 encoding error";
             throw ge;
         }
@@ -577,7 +576,6 @@ public class NovusNortFileServiceImpl implements NovusNortFileService
         {
             try
             {
-                out.close();
                 if ((copyExcludDocs != null) && (copyExcludDocs.size() > 0))
                 {
                     final StringBuffer unaccountedExcludedDocs = new StringBuffer();
@@ -603,18 +601,11 @@ public class NovusNortFileServiceImpl implements NovusNortFileService
                     throw ge;
                 }
             }
-            catch (final IOException e)
-            {
-                LOG.error(e.getMessage());
-                final GatherException ge =
-                    new GatherException("CWB TOC Cannot close toc.xml ", e, GatherResponse.CODE_FILE_ERROR);
-                publishStatus = "CWB TOC Step Failed Cannot close toc.xml";
-                throw ge;
-            }
             catch (final Exception e)
             {
                 LOG.error(e.getMessage());
-                final GatherException ge = new GatherException("Failure in createToc() ", e, GatherResponse.CODE_DATA_ERROR);
+                final GatherException ge =
+                    new GatherException("Failure in createToc() ", e, GatherResponse.CODE_DATA_ERROR);
                 throw ge;
             }
             finally

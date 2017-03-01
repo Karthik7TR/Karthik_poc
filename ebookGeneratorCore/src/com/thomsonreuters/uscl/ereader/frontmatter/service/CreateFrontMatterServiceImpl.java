@@ -86,7 +86,8 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
             LOG.debug("Front Matter Additional HTML page " + page.getId() + " generated.");
         }
 
-        final File researchAssistancePage = new File(outputDir, FrontMatterFileName.RESEARCH_ASSISTANCE + HTML_EXTENSION);
+        final File researchAssistancePage =
+            new File(outputDir, FrontMatterFileName.RESEARCH_ASSISTANCE + HTML_EXTENSION);
         writeHTMLFile(researchAssistancePage, generateResearchAssistancePage(bookDefinition));
 
         LOG.debug("Front Matter Research Assistance HTML page generated.");
@@ -149,7 +150,8 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      * @see com.thomsonreuters.uscl.ereader.format.service.CreateFrontMatterService#getResearchAssistancePage(com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition)
      */
     @Override
-    public String getResearchAssistancePage(final BookDefinition bookDefinition) throws EBookFrontMatterGenerationException
+    public String getResearchAssistancePage(final BookDefinition bookDefinition)
+        throws EBookFrontMatterGenerationException
     {
         final String output = generateResearchAssistancePage(bookDefinition)
             .replace(CSS_PLACEHOLDER, "frontMatterCss.mvc?cssName=ebook_generator.css");
@@ -210,11 +212,8 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      */
     protected void writeHTMLFile(final File aFile, final String text) throws EBookFrontMatterGenerationException
     {
-        Writer out = null;
-
-        try
+        try (Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(aFile), "UTF8")))
         {
-            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(aFile), "UTF8"));
             out.write(text);
             out.close();
         }
@@ -223,20 +222,6 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
             final String errMessage = "Failed to write the following file to NAS: " + aFile.getAbsolutePath();
             LOG.error(errMessage);
             throw new EBookFrontMatterGenerationException(errMessage, e);
-        }
-        finally
-        {
-            try
-            {
-                if (out != null)
-                {
-                    out.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close I/O streams.", e);
-            }
         }
     }
 
@@ -261,7 +246,8 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      * @return HTML that represents the Title page
      * @throws EBookFrontMatterGenerationException encountered a failure while transforming the template
      */
-    protected String generateCopyrightPage(final BookDefinition bookDefinition) throws EBookFrontMatterGenerationException
+    protected String generateCopyrightPage(final BookDefinition bookDefinition)
+        throws EBookFrontMatterGenerationException
     {
         return transformTemplate(
             new FrontMatterCopyrightPageFilter(bookDefinition),
@@ -319,7 +305,8 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      * @return HTML representing the rendered page
      * @throws EBookFrontMatterGenerationException encountered a failure while transforming the template
      */
-    private String transformTemplate(final XMLFilterImpl filter, final Resource template) throws EBookFrontMatterGenerationException
+    private String transformTemplate(final XMLFilterImpl filter, final Resource template)
+        throws EBookFrontMatterGenerationException
     {
         final ByteArrayOutputStream outStream = new ByteArrayOutputStream(2048);
 

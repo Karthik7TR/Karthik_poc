@@ -131,9 +131,8 @@ public final class XSLIncludeResolverTest
 
     private void AddContentToXsl(final File file)
     {
-        try
+        try (FileWriter fileOut = new FileWriter(file))
         {
-            final FileWriter fileOut = new FileWriter(file);
             fileOut.write("<nothing></nothing>");
             fileOut.close();
         }

@@ -193,46 +193,46 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
     {
         final String fileName = sourceFile.getName();
         final String guid = fileName.substring(0, fileName.indexOf("."));
-        FileInputStream inStream = null;
-        FileOutputStream outStream = null;
-        try
+
+        try (FileInputStream inStream = new FileInputStream(sourceFile))
         {
-            final DocMetadata docMetadata =
-                docMetadataService.findDocMetadataByPrimaryKey(titleID, jobIdentifier, guid);
-
-            final SAXParserFactory factory = SAXParserFactory.newInstance();
-            factory.setNamespaceAware(true);
-            final SAXParser saxParser = factory.newSAXParser();
-
-            final HTMLUnlinkInternalLinksFilter unlinkFilter = new HTMLUnlinkInternalLinksFilter();
-            unlinkFilter.setParent(saxParser.getXMLReader());
-            if (docMetadata != null)
+            try (FileOutputStream outStream =
+                new FileOutputStream(new File(targetDir, fileName.substring(0, fileName.indexOf(".")) + ".postUnlink")))
             {
-                unlinkFilter.setCurrentGuid(docMetadata.getProViewId());
-                unlinkFilter.setUnlinkDocMetadata(docMetadata);
+                final DocMetadata docMetadata =
+                    docMetadataService.findDocMetadataByPrimaryKey(titleID, jobIdentifier, guid);
+
+                final SAXParserFactory factory = SAXParserFactory.newInstance();
+                factory.setNamespaceAware(true);
+                final SAXParser saxParser = factory.newSAXParser();
+
+                final HTMLUnlinkInternalLinksFilter unlinkFilter = new HTMLUnlinkInternalLinksFilter();
+                unlinkFilter.setParent(saxParser.getXMLReader());
+                if (docMetadata != null)
+                {
+                    unlinkFilter.setCurrentGuid(docMetadata.getProViewId());
+                    unlinkFilter.setUnlinkDocMetadata(docMetadata);
+                }
+                else
+                {
+                    unlinkFilter.setCurrentGuid(guid);
+                }
+                unlinkFilter.setTargetAnchors(targetAnchors);
+                unlinkFilter.setUnlinkDocMetadataList(unlinkDocMetadataList);
+                unlinkFilter.setAnchorDupTargets(anchorDupTargets);
+                unlinkFilter.setDocMetadataKeyedByProViewId(documentMetadataAuthority.getDocMetadataKeyedByProViewId());
+
+                final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
+                props.setProperty("omit-xml-declaration", "yes");
+
+                final Serializer serializer = SerializerFactory.getSerializer(props);
+
+                serializer.setOutputStream(outStream);
+
+                unlinkFilter.setContentHandler(serializer.asContentHandler());
+
+                unlinkFilter.parse(new InputSource(inStream));
             }
-            else
-            {
-                unlinkFilter.setCurrentGuid(guid);
-            }
-            unlinkFilter.setTargetAnchors(targetAnchors);
-            unlinkFilter.setUnlinkDocMetadataList(unlinkDocMetadataList);
-            unlinkFilter.setAnchorDupTargets(anchorDupTargets);
-            unlinkFilter.setDocMetadataKeyedByProViewId(documentMetadataAuthority.getDocMetadataKeyedByProViewId());
-
-            final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
-            props.setProperty("omit-xml-declaration", "yes");
-
-            final Serializer serializer = SerializerFactory.getSerializer(props);
-            outStream =
-                new FileOutputStream(new File(targetDir, fileName.substring(0, fileName.indexOf(".")) + ".postUnlink"));
-            serializer.setOutputStream(outStream);
-
-            unlinkFilter.setContentHandler(serializer.asContentHandler());
-
-            inStream = new FileInputStream(sourceFile);
-
-            unlinkFilter.parse(new InputSource(inStream));
         }
         catch (final IOException e)
         {
@@ -251,24 +251,6 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
             final String errMessage = "Encountered a SAX Parser Configuration Exception while processing: " + fileName;
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
-        }
-        finally
-        {
-            try
-            {
-                if (inStream != null)
-                {
-                    inStream.close();
-                }
-                if (outStream != null)
-                {
-                    outStream.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close files related to the " + fileName + " file post transformation.", e);
-            }
         }
     }
 
