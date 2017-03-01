@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.request.EBookRequestException;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
