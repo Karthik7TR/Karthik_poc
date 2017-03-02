@@ -109,6 +109,13 @@ public abstract class BookStepImpl extends BaseStepImpl implements BookStep
 
     @Override
     @NotNull
+    public File getFormatOriginalDirectory()
+    {
+        return new File(getFormatDirectory(), "Original");
+    }
+
+    @Override
+    @NotNull
     public File getFormatDirectory()
     {
         return new File(getWorkDirectory(), "Format");
