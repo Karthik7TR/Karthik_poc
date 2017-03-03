@@ -190,12 +190,8 @@ public final class GenerateSplitTaskTest
 
     protected void writeDocumentLinkFile(final File tFile, final boolean addNewLine)
     {
-        BufferedWriter writer = null;
-
-        try
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(tFile)))
         {
-            writer = new BufferedWriter(new FileWriter(tFile));
-
             writer.write("Write anything");
 
             writer.flush();
@@ -205,21 +201,6 @@ public final class GenerateSplitTaskTest
             final String errMessage = "Encountered an IO Exception while processing: " + tFile.getAbsolutePath();
             LOG.error(errMessage, e);
         }
-        finally
-        {
-            try
-            {
-                if (writer != null)
-                {
-                    writer.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close anchor target list file.", e);
-            }
-        }
-
         LOG.debug("size of file : " + tFile.length());
     }
 }

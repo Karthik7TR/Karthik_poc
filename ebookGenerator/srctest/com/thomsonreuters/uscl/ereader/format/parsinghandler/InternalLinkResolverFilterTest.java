@@ -49,7 +49,6 @@ import org.xml.sax.SAXException;
 public final class InternalLinkResolverFilterTest
 {
     private static Logger LOG = LogManager.getLogger(InternalLinkResolverFilterTest.class);
-    private InternalLinkResolverFilter internalLinkResolverFilter;
     private InternalLinkResolverFilter internalLinksFilter;
     private Serializer serializer;
     private DocumentMetadataAuthority mockDocumentMetadataAuthority;
@@ -83,7 +82,6 @@ public final class InternalLinkResolverFilterTest
         // EasyMock.replay(mockPaceMetadata);
         EasyMock.replay(mockPaceMetadataService);
         mockDocumentMetadataAuthority = EasyMock.createMock(DocumentMetadataAuthority.class);
-        internalLinkResolverFilter = new InternalLinkResolverFilter(mockDocumentMetadataAuthority);
 
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
@@ -498,12 +496,8 @@ public final class InternalLinkResolverFilterTest
 
     protected void writeDocumentLinkFile(final File internalLinkResolverTestFile)
     {
-        BufferedWriter writer = null;
-
-        try
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(internalLinkResolverTestFile)))
         {
-            writer = new BufferedWriter(new FileWriter(internalLinkResolverTestFile));
-
             writer.write("NF8C65500AFF711D8803AE0632FEDDFBF,N129FCFD29AA24CD5ABBAA83B0A8A2D7B275|");
             writer.newLine();
             writer.write("NDF4CB9C0AFF711D8803AE0632FEDDFBF,N8E37708B96244CD1B394155616B3C66F190|");
@@ -518,21 +512,6 @@ public final class InternalLinkResolverFilterTest
                 "Encountered an IO Exception while processing: " + internalLinkResolverTestFile.getAbsolutePath();
             LOG.error(errMessage, e);
         }
-        finally
-        {
-            try
-            {
-                if (writer != null)
-                {
-                    writer.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close anchor target list file.", e);
-            }
-        }
-
         LOG.debug("size of file : " + internalLinkResolverTestFile.length());
     }
 }

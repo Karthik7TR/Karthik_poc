@@ -36,12 +36,10 @@ public class TitleXMLTOCFilter extends XMLFilterImpl
 
         anchors = new HashMap<>();
 
-        BufferedReader reader = null;
-        try
+        try (BufferedReader reader = new BufferedReader(new FileReader(anchorMap));)
         {
             LOG.info("Reading in TOC anchor map file...");
             int numTocs = 0;
-            reader = new BufferedReader(new FileReader(anchorMap));
             String input = reader.readLine();
             while (input != null)
             {
@@ -72,20 +70,6 @@ public class TitleXMLTOCFilter extends XMLFilterImpl
             final String message = "Could not read the DOC guid to TOC guid map file: " + anchorMap.getAbsolutePath();
             LOG.error(message);
             throw new EBookFormatException(message, e);
-        }
-        finally
-        {
-            try
-            {
-                if (reader != null)
-                {
-                    reader.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close DOC guid to TOC guid file reader.", e);
-            }
         }
 
         if (anchors.size() == 0)

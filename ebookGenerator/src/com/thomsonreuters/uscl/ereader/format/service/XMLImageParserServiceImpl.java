@@ -109,9 +109,8 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
         final List<String> guidList,
         final Map<String, List<String>> docImgMap) throws EBookFormatException
     {
-        FileInputStream xmlStream = null;
         final String docGuid = xmlFile.getName().substring(0, xmlFile.getName().indexOf("."));
-        try
+        try (FileInputStream xmlStream = new FileInputStream(xmlFile))
         {
             //LOG.debug("Parsing following doc for image references: " + xmlFile);
             final SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -120,8 +119,6 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
             final XMLImageTagHandler handler = new XMLImageTagHandler();
             final List<String> imgGuids = new ArrayList<>();
             handler.setGuidList(imgGuids);
-
-            xmlStream = new FileInputStream(xmlFile);
 
             saxParser.parse(xmlStream, handler);
 
@@ -134,38 +131,22 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
         {
             final String message =
                 "Parser throw an exception while parsing the following file: " + xmlFile.getAbsolutePath();
-            LOG.error(message);
+            LOG.error(message, e);
             throw new EBookFormatException(message, e);
         }
         catch (final SAXException e)
         {
             final String message =
                 "Parser throw an exception while parsing the following file: " + xmlFile.getAbsolutePath();
-            LOG.error(message);
+            LOG.error(message, e);
             throw new EBookFormatException(message, e);
         }
         catch (final ParserConfigurationException e)
         {
             final String message =
                 "ParserConfigurationException thrown while parsing the following file: " + xmlFile.getAbsolutePath();
-            LOG.error(message);
+            LOG.error(message, e);
             throw new EBookFormatException(message, e);
-        }
-        finally
-        {
-            try
-            {
-                if (xmlStream != null)
-                {
-                    xmlStream.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                final String message = "Unable to close the XML file: " + xmlFile.getAbsolutePath();
-                LOG.error(message);
-                throw new EBookFormatException(message, e);
-            }
         }
     }
 
@@ -177,10 +158,8 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
      */
     protected void createImageList(final File imgListFile, final List<String> imgList) throws EBookFormatException
     {
-        BufferedWriter writer = null;
-        try
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(imgListFile)))
         {
-            writer = new BufferedWriter(new FileWriter(imgListFile));
             for (final String guid : imgList)
             {
                 if (guid == null || guid.length() < 30 || guid.length() > 36)
@@ -197,22 +176,8 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
         catch (final IOException e)
         {
             final String message = "Could not write to the Image list file: " + imgListFile.getAbsolutePath();
-            LOG.error(message);
+            LOG.error(message, e);
             throw new EBookFormatException(message, e);
-        }
-        finally
-        {
-            try
-            {
-                if (writer != null)
-                {
-                    writer.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close Image GUID list file.", e);
-            }
         }
     }
 
@@ -225,10 +190,8 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
     protected void createDocToImgMap(final File docToImgMapFile, final Map<String, List<String>> docToImgMap)
         throws EBookFormatException
     {
-        BufferedWriter writer = null;
-        try
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(docToImgMapFile)))
         {
-            writer = new BufferedWriter(new FileWriter(docToImgMapFile));
             for (final String doc : docToImgMap.keySet())
             {
                 if (doc == null || doc.length() < 32 || doc.length() > 42)
@@ -263,22 +226,8 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
         {
             final String message =
                 "Could not write to the Document to Image GUID map file: " + docToImgMapFile.getAbsolutePath();
-            LOG.error(message);
+            LOG.error(message, e);
             throw new EBookFormatException(message, e);
-        }
-        finally
-        {
-            try
-            {
-                if (writer != null)
-                {
-                    writer.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close Document to Image GUID map file.", e);
-            }
         }
     }
 }

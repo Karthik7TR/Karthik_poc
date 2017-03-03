@@ -152,7 +152,6 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
         final StringBuffer anchors = new StringBuffer();
 
         generateAnchorStream(anchorMap, guid, anchors);
-        final ByteArrayInputStream anchorStream = new ByteArrayInputStream(anchors.toString().getBytes());
 
         final File output = new File(htmlDir, guid + ".html");
 
@@ -163,30 +162,26 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
             output.delete();
         }
 
-        FileOutputStream outputStream = null;
-        InputStream headerStream = null;
-        InputStream transFileStream = null;
-        InputStream footerStream = null;
-        InputStream keyciteStream = null;
-        try
+        try (FileOutputStream outputStream = new FileOutputStream(output, true);
+            InputStream headerStream = getClass().getResourceAsStream("/StaticFiles/HTMLHeader.txt");
+            InputStream transFileStream = new FileInputStream(transformedFile);
+            InputStream footerStream = getClass().getResourceAsStream("/StaticFiles/HTMLFooter.txt");
+            ByteArrayInputStream anchorStream = new ByteArrayInputStream(anchors.toString().getBytes());)
         {
-            outputStream = new FileOutputStream(output, true);
-
-            headerStream = getClass().getResourceAsStream("/StaticFiles/HTMLHeader.txt");
             IOUtils.copy(headerStream, outputStream);
 
             IOUtils.copy(anchorStream, outputStream);
 
             if (keyciteToplineFlag)
             {
-                keyciteStream = keyCiteBlockGenerationService.getKeyCiteInfo(titleId, jobId, guid);
-                IOUtils.copy(keyciteStream, outputStream);
+                try (InputStream keyciteStream = copyStream(titleId, jobId, guid, outputStream))
+                {
+                    //Intentionally left blank
+                }
             }
 
-            transFileStream = new FileInputStream(transformedFile);
             IOUtils.copy(transFileStream, outputStream);
 
-            footerStream = getClass().getResourceAsStream("/StaticFiles/HTMLFooter.txt");
             IOUtils.copy(footerStream, outputStream);
         }
         catch (final IOException ioe)
@@ -196,36 +191,26 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, ioe);
         }
-        finally
-        {
-            try
-            {
-                if (outputStream != null)
-                {
-                    outputStream.close();
-                }
-                if (headerStream != null)
-                {
-                    headerStream.close();
-                }
-                if (transFileStream != null)
-                {
-                    transFileStream.close();
-                }
-                if (footerStream != null)
-                {
-                    footerStream.close();
-                }
-                if (keyciteStream != null)
-                {
-                    keyciteStream.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close I/O streams.", e);
-            }
-        }
+    }
+
+    /**
+     * @param titleId
+     * @param jobId
+     * @param guid
+     * @param outputStream
+     * @return
+     * @throws EBookFormatException
+     * @throws IOException
+     */
+    private InputStream copyStream(
+        final String titleId,
+        final Long jobId,
+        final String guid,
+        final FileOutputStream outputStream) throws EBookFormatException, IOException
+    {
+        final InputStream keyciteStream = keyCiteBlockGenerationService.getKeyCiteInfo(titleId, jobId, guid);
+        IOUtils.copy(keyciteStream, outputStream);
+        return keyciteStream;
     }
 
     /**
@@ -238,13 +223,12 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
     protected void readTOCGuidList(final File docGuidsFile, final Map<String, String[]> docToTocGuidMap)
         throws EBookFormatException
     {
-        BufferedReader reader = null;
-        try
+        try (BufferedReader reader = new BufferedReader(new FileReader(docGuidsFile));)
         {
             LOG.info("Reading in TOC anchor map file...");
             int numDocs = 0;
             int numTocs = 0;
-            reader = new BufferedReader(new FileReader(docGuidsFile));
+
             String input = reader.readLine();
             while (input != null)
             {
@@ -277,20 +261,6 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
                 "Could not read the DOC guid to TOC guid map file: " + docGuidsFile.getAbsolutePath();
             LOG.error(message);
             throw new EBookFormatException(message, e);
-        }
-        finally
-        {
-            try
-            {
-                if (reader != null)
-                {
-                    reader.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close DOC guid to TOC guid file reader.", e);
-            }
         }
     }
 

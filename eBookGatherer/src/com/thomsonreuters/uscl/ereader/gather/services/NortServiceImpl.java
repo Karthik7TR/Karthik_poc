@@ -194,7 +194,7 @@ public class NortServiceImpl implements NortService
         final List<ExcludeDocument> excludeDocuments,
         final List<ExcludeDocument> copyExcludeDocuments,
         final List<RenameTocEntry> renameTocEntries,
-        final List<RenameTocEntry> copyRenameTocEntries) throws GatherException, ParseException
+        final List<RenameTocEntry> copyRenameTocEntries) throws GatherException
     {
         boolean docFound = true;
         if (nodes != null)

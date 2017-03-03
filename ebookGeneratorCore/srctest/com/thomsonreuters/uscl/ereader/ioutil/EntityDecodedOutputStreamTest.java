@@ -208,7 +208,7 @@ public final class EntityDecodedOutputStreamTest
     }
 
     @Test
-    public void testDecodeNonEncodedEntities() throws Exception
+    public void testDecodeNonEncodedEntities()
     {
         final String input = "<element>apples &amp;.</element>";
 

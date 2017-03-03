@@ -234,12 +234,6 @@ public class TocServiceImpl implements TocService
                     new GatherException("Failed writing TOC in TOC ", e, GatherResponse.CODE_NOVUS_ERROR);
                 throw ge;
             }
-            catch (final NovusException e)
-            {
-                LOG.error("Failed with Novus Exception in TOC");
-                final GatherException ge = new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
-                throw ge;
-            }
         }
         return docFound;
     }
@@ -254,7 +248,7 @@ public class TocServiceImpl implements TocService
         final List<ExcludeDocument> excludeDocuments,
         final List<ExcludeDocument> copyExcludeDocuments,
         final List<RenameTocEntry> renameTocEntries,
-        final List<RenameTocEntry> copyRenameTocEntries) throws GatherException, NovusException
+        final List<RenameTocEntry> copyRenameTocEntries) throws GatherException
     {
         boolean docFound = true;
         boolean excludeDocumentFound = false;

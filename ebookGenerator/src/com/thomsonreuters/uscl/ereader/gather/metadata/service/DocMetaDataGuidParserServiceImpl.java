@@ -147,11 +147,8 @@ public class DocMetaDataGuidParserServiceImpl implements DocMetaDataGuidParserSe
     protected void createDocGuidListFile(final File docGuidFile, final Map<String, List<String>> docGuidList)
         throws EBookGatherException
     {
-        BufferedWriter writer = null;
-        try
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(docGuidFile)))
         {
-            writer = new BufferedWriter(new FileWriter(docGuidFile));
-            int guidCount = 0;
             String docGuid = "";
             List<String> tocGuidList = new ArrayList<>();
 
@@ -188,7 +185,6 @@ public class DocMetaDataGuidParserServiceImpl implements DocMetaDataGuidParserSe
 
                         writer.write(tocGuid + "|");
                     }
-                    guidCount++;
                 }
                 writer.newLine();
             }
@@ -196,22 +192,8 @@ public class DocMetaDataGuidParserServiceImpl implements DocMetaDataGuidParserSe
         catch (final IOException e)
         {
             final String message = "Could not write to the docGuid list file: " + docGuidFile.getAbsolutePath();
-            LOG.error(message);
+            LOG.error(message, e);
             throw new EBookGatherException(message, e);
-        }
-        finally
-        {
-            try
-            {
-                if (writer != null)
-                {
-                    writer.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close doc GUID list file.", e);
-            }
         }
     }
 

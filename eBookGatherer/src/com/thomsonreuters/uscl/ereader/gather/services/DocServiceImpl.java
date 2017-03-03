@@ -10,7 +10,6 @@ import java.util.Collection;
 import com.thomsonreuters.uscl.ereader.core.EBConstants;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -80,7 +79,6 @@ public class DocServiceImpl implements DocService
         }
 
         final Integer docRetryCount = Integer.valueOf(novusUtility.getDocRetryCount());
-        boolean anyException = false;
         String docGuid = null;
         // This is the counter for checking how many Novus retries we
         // are making
@@ -152,27 +150,12 @@ public class DocServiceImpl implements DocService
                         }
                         catch (final Exception e)
                         {
-                            anyException = true;
                             final GatherException ge = new GatherException(
                                 "Exception happened in handleException " + docGuid,
                                 e,
                                 GatherResponse.CODE_FILE_ERROR);
                             publishStatus = "DOC Step Failed Exception happened in fetching doc";
-
-                            if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y"))
-                            {
-                                if (novusRetryCounter == 3)
-                                { // just write it once after 3 retries
-                                    Log.debug(
-                                        "Text is not found for the guid "
-                                            + document.getGuid()
-                                            + " and the error code is "
-                                            + document.getErrorCode());
-                                    writer.write(document.getGuid());
-                                    writer.write("\n");
-                                    missingGuidsCount++;
-                                }
-                            }
+                            throw ge;
                         }
                     }
                 }
@@ -193,7 +176,6 @@ public class DocServiceImpl implements DocService
         }
         catch (final NovusException e)
         {
-            anyException = true;
             final GatherException ge = new GatherException(
                 "Novus error occurred fetching document " + docGuid,
                 e,
@@ -203,7 +185,6 @@ public class DocServiceImpl implements DocService
         }
         catch (final IOException e)
         {
-            anyException = true;
             final GatherException ge =
                 new GatherException("File I/O error writing document " + docGuid, e, GatherResponse.CODE_FILE_ERROR);
             publishStatus = "DOC Step Failed File I/O error writing document";
@@ -212,7 +193,6 @@ public class DocServiceImpl implements DocService
         }
         catch (final NullPointerException e)
         {
-            anyException = true;
             final GatherException ge =
                 new GatherException("Null document fetching guid " + docGuid, e, GatherResponse.CODE_FILE_ERROR);
             publishStatus = "DOC Step Failed Null document fetching guid";
@@ -227,12 +207,6 @@ public class DocServiceImpl implements DocService
             gatherResponse.setRetryCount2(metaDocRetryCounter); // Meta retry doc count
             gatherResponse.setDocCount2(metaDocFoundCounter); // retrieved doc count
             gatherResponse.setPublishStatus(publishStatus);
-
-/*			if (anyException) {
-				// Remove all existing generated document files on any exception
-				removeAllFilesInDirectory(contentDestinationDirectory);
-				removeAllFilesInDirectory(metadataDestinationDirectory);
-			}*/
 
             novus.shutdownMQ();
 
@@ -435,15 +409,6 @@ public class DocServiceImpl implements DocService
             writer.write(content);
             writer.flush();
         }
-    }
-
-    /**
-     * Delete all files in the specified directory.
-     * @param directory directory whose files will be removed
-     */
-    public static void removeAllFilesInDirectory(final File directory)
-    {
-        FileUtils.deleteQuietly(directory);
     }
 
     @Required

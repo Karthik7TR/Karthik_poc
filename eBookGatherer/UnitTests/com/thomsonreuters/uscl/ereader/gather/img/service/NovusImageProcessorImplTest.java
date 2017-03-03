@@ -50,7 +50,7 @@ public final class NovusImageProcessorImplTest
     }
 
     @Test
-    public void shouldProcessCorrectly() throws Exception
+    public void shouldProcessCorrectly()
     {
         // given
         final ImgMetadataInfo metadata = new ImgMetadataInfo();
@@ -100,7 +100,7 @@ public final class NovusImageProcessorImplTest
     }
 
     @Test
-    public void shouldCountFailsWhenCannotGetImage() throws Exception
+    public void shouldCountFailsWhenCannotGetImage()
     {
         // given
         given(finder.getImage("imageId")).willReturn(null);
@@ -117,7 +117,7 @@ public final class NovusImageProcessorImplTest
     }
 
     @Test
-    public void shouldConvertTiffs() throws Exception
+    public void shouldConvertTiffs()
     {
         // given
         final ImgMetadataInfo metadata = new ImgMetadataInfo();
@@ -130,7 +130,7 @@ public final class NovusImageProcessorImplTest
     }
 
     @Test
-    public void shouldCountFailsWhenCannotConvertImage() throws Exception
+    public void shouldCountFailsWhenCannotConvertImage()
     {
         // given
         final ImgMetadataInfo metadata = new ImgMetadataInfo();

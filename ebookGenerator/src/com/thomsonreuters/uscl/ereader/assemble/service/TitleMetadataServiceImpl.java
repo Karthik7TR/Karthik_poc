@@ -56,9 +56,6 @@ public class TitleMetadataServiceImpl implements TitleMetadataService
 {
     private static final Logger LOG = LogManager.getLogger(TitleMetadataServiceImpl.class);
     private static final String STYLESHEET_ID = "css";
-    //These FilenameFilter instances are de-facto singletons. As there is only ONE instance of TitleMetadataServiceImpl in the Spring Application Context.
-//	private final ImageFilter IMAGE_FILTER = new ImageFilter();
-//	private final DocumentFilter DOCUMENT_FILTER = new DocumentFilter();
     private DocMetadataService docMetadataService;
     private PlaceholderDocumentService placeholderDocumentService;
     private FileUtilsFacade fileUtilsFacade;
@@ -253,7 +250,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService
     {
         try
         {
-            Map<String, String> altIdMap = new HashMap<String, String>();
+            Map<String, String> altIdMap = new HashMap<>();
             if (titleMetadata.getIsPilotBook())
             {
                 altIdMap = getAltIdMap(titleMetadata.getTitleId(), altIdDirPath);
@@ -304,12 +301,9 @@ public class TitleMetadataServiceImpl implements TitleMetadataService
         final TitleMetadata titleMetadata) throws SAXException, IOException
     {
         final File docToSplitBookFile = new File(splitNodeInfoFile);
-        BufferedWriter writer = null;
 
-        try
+        try (BufferedWriter writer = new BufferedWriter(new FileWriterWithEncoding(docToSplitBookFile, "UTF-8")))
         {
-            writer = new BufferedWriter(new FileWriterWithEncoding(docToSplitBookFile, "UTF-8"));
-
             if (splitNodeInfoList.size() > 0)
             {
                 for (final SplitNodeInfo splitNodeInfo : splitNodeInfoList)
@@ -325,22 +319,8 @@ public class TitleMetadataServiceImpl implements TitleMetadataService
         {
             final String message =
                 "Could not write out Split Node information to following file: " + docToSplitBookFile.getAbsolutePath();
-            LOG.error(message);
+            LOG.error(message, e);
             throw new IOException(); //EBookFormatException(message, e);
-        }
-        finally
-        {
-            try
-            {
-                if (writer != null)
-                {
-                    writer.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close generated docToSplitBook file.", e);
-            }
         }
     }
 
@@ -348,12 +328,9 @@ public class TitleMetadataServiceImpl implements TitleMetadataService
         throws IOException
     {
         final File docToSplitBookFile = new File(docToSplitBookFileName);
-        BufferedWriter writer = null;
 
-        try
+        try (BufferedWriter writer = new BufferedWriter(new FileWriterWithEncoding(docToSplitBookFile, "UTF-8")))
         {
-            writer = new BufferedWriter(new FileWriterWithEncoding(docToSplitBookFile, "UTF-8"));
-
             if (orderedDocuments.size() > 0)
             {
                 for (final Doc document : orderedDocuments)
@@ -389,22 +366,8 @@ public class TitleMetadataServiceImpl implements TitleMetadataService
         {
             final String message =
                 "Could not write out ImageMetadata to following file: " + docToSplitBookFile.getAbsolutePath();
-            LOG.error(message);
+            LOG.error(message, e);
             throw new IOException(); //EBookFormatException(message, e);
-        }
-        finally
-        {
-            try
-            {
-                if (writer != null)
-                {
-                    writer.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close generated docToSplitBook file.", e);
-            }
         }
     }
 
@@ -418,12 +381,11 @@ public class TitleMetadataServiceImpl implements TitleMetadataService
 
         final File altIdFile = new File(altIdFileDir, altIdFileName);
 
-        final Map<String, String> altIdMap = new HashMap<String, String>();
+        final Map<String, String> altIdMap = new HashMap<>();
         String line = null;
-        BufferedReader stream = null;
-        try
+
+        try (BufferedReader stream = new BufferedReader(new FileReader(altIdFile));)
         {
-            stream = new BufferedReader(new FileReader(altIdFile));
             while ((line = stream.readLine()) != null)
             {
                 final String[] splitted = line.split(",");
@@ -440,20 +402,6 @@ public class TitleMetadataServiceImpl implements TitleMetadataService
         catch (final IOException iox)
         {
             throw new RuntimeException("Unable to find File : " + altIdFile.getAbsolutePath() + " " + iox);
-        }
-        finally
-        {
-            if (stream != null)
-            {
-                try
-                {
-                    stream.close();
-                }
-                catch (final IOException e)
-                {
-                    throw new RuntimeException("An IOException occurred while closing a file ", e);
-                }
-            }
         }
 
         return altIdMap;

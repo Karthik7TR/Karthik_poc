@@ -92,15 +92,11 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
         final File titleXml = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.TITLE_XML_FILE));
 
         final String tocXmlFile = getRequiredStringProperty(jobExecutionContext, JobExecutionKey.GATHER_TOC_FILE);
-        OutputStream titleManifest = null;
-        InputStream tocXml = null;
         String status = "Completed";
 
-        try
+        try (OutputStream titleManifest = new FileOutputStream(titleXml);
+            InputStream tocXml = new FileInputStream(tocXmlFile);)
         {
-            titleManifest = new FileOutputStream(titleXml);
-            tocXml = new FileInputStream(tocXmlFile);
-
             final File documentsDirectory =
                 new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR));
             //TODO: refactor the titleMetadataService to use the method that takes a book definition instead of a titleManifest object.
@@ -128,8 +124,6 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
         }
         finally
         {
-            tocXml.close();
-            titleManifest.close();
             final PublishingStats jobstats = new PublishingStats();
             jobstats.setJobInstanceId(jobId);
             jobstats.setPublishStatus("generateTitleManifest : " + status);
@@ -144,20 +138,15 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
         final Long jobInstanceId,
         final ExecutionContext jobExecutionContext) throws Exception
     {
-        OutputStream splitTitleManifest = null;
+        final File splitTitleXml =
+            new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.SPLIT_TITLE_XML_FILE));
 
-        InputStream splitTocXml = null;
+        final String splitTocXmlFile =
+            getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_SPLITTOC_FILE);
 
-        try
+        try (OutputStream splitTitleManifest = new FileOutputStream(splitTitleXml);
+            InputStream splitTocXml = new FileInputStream(splitTocXmlFile);)
         {
-            final File splitTitleXml =
-                new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.SPLIT_TITLE_XML_FILE));
-
-            final String splitTocXmlFile =
-                getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_SPLITTOC_FILE);
-
-            splitTocXml = new FileInputStream(splitTocXmlFile);
-            splitTitleManifest = new FileOutputStream(splitTitleXml);
             final File transformedDocsDir = new File(
                 getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH));
             final String docToSplitBookFile =
@@ -177,11 +166,6 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
         {
             throw (e);
         }
-        finally
-        {
-            splitTocXml.close();
-            splitTitleManifest.close();
-        }
     }
 
     /**
@@ -195,13 +179,11 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
     {
         final List<Doc> docToTocGuidList = new ArrayList<>();
 
-        BufferedReader reader = null;
-        try
+        try (BufferedReader reader = new BufferedReader(new FileReader(docGuidsFile));)
         {
             LOG.info("Reading in TOC anchor map file...");
             int numDocs = 0;
 
-            reader = new BufferedReader(new FileReader(docGuidsFile));
             String input = reader.readLine();
             while (input != null)
             {
@@ -219,20 +201,6 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
             final String message = "Could not read the DOC guid list file: " + docGuidsFile.getAbsolutePath();
             LOG.error(message);
             throw new EBookFormatException(message, e);
-        }
-        finally
-        {
-            try
-            {
-                if (reader != null)
-                {
-                    reader.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close DOC guid to TOC guid file reader.", e);
-            }
         }
         return (docToTocGuidList);
     }

@@ -256,12 +256,8 @@ public final class GenerateSplitTocXMLTest
 
     protected void writeDocumentLinkFile(final File tFile, final boolean addNewLine)
     {
-        BufferedWriter writer = null;
-
-        try
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(tFile)))
         {
-            writer = new BufferedWriter(new FileWriter(tFile));
-
             writer.write("NF8C65500AFF711D8803AE0632FEDDFBF,N129FCFD29AA24CD5ABBAA83B0A8A2D7B275|");
             writer.newLine();
             writer.write("NDF4CB9C0AFF711D8803AE0632FEDDFBF,N8E37708B96244CD1B394155616B3C66F190|");
@@ -279,20 +275,6 @@ public final class GenerateSplitTocXMLTest
         {
             final String errMessage = "Encountered an IO Exception while processing: " + tFile.getAbsolutePath();
             LOG.error(errMessage, e);
-        }
-        finally
-        {
-            try
-            {
-                if (writer != null)
-                {
-                    writer.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close anchor target list file.", e);
-            }
         }
 
         LOG.debug("size of file : " + tFile.length());

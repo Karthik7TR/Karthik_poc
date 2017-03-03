@@ -48,12 +48,9 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService
 
         LOG.debug("Assembling eBook using the input directory: " + eBookDirectory.getAbsolutePath());
 
-        TarOutputStream tarOutputStream = null;
-
-        try
+        try (TarOutputStream tarOutputStream =
+            new TarOutputStream(new GZIPOutputStream(new BufferedOutputStream(new FileOutputStream(eBook))));)
         {
-            tarOutputStream =
-                new TarOutputStream(new GZIPOutputStream(new BufferedOutputStream(new FileOutputStream(eBook))));
             tarOutputStream.setLongFileMode(TarOutputStream.LONGFILE_GNU);
 
             recursivelyTarDirectory(tarOutputStream, eBookDirectory.getAbsolutePath(), "");
@@ -72,10 +69,6 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService
             final String message = "Failed to flush the TarOutputStream to disk.  Is the disk full?";
             LOG.error(message, e);
             throw new EBookAssemblyException(message, e);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(tarOutputStream);
         }
     }
 

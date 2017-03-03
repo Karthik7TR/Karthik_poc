@@ -314,11 +314,8 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
         final Map<String, List<String>> splitBookImgMap)
     {
         String line = null;
-        BufferedReader stream = null;
-        try
+        try (BufferedReader stream = new BufferedReader(new FileReader(docToSplitBook)))
         {
-            stream = new BufferedReader(new FileReader(docToSplitBook));
-
             while ((line = stream.readLine()) != null)
             {
                 List<String> imgList = null;
@@ -376,20 +373,6 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
         catch (final IOException iox)
         {
             throw new RuntimeException("Unable to find File : " + docToSplitBook.getAbsolutePath() + " " + iox);
-        }
-        finally
-        {
-            if (stream != null)
-            {
-                try
-                {
-                    stream.close();
-                }
-                catch (final IOException e)
-                {
-                    throw new RuntimeException("An IOException occurred while closing a file ", e);
-                }
-            }
         }
     }
 

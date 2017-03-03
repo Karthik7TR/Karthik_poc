@@ -69,13 +69,9 @@ public class GenerateSplitTocTask extends AbstractSbTasklet
         final File transformDir = new File(transformDirectory);
         final String splitTitleId = bookDefinition.getFullyQualifiedTitleId();
 
-        InputStream tocXml = null;
-        OutputStream splitTocXml = null;
-
-        try
+        try (InputStream tocXml = new FileInputStream(tocXmlFile);
+            OutputStream splitTocXml = new FileOutputStream(splitTocFilePath);)
         {
-            tocXml = new FileInputStream(tocXmlFile);
-            splitTocXml = new FileOutputStream(splitTocFilePath);
             List<String> splitTocGuidList = new ArrayList<>();
 
             final List<SplitDocument> splitDocuments = bookDefinition.getSplitDocumentsAsList();
@@ -89,10 +85,8 @@ public class GenerateSplitTocTask extends AbstractSbTasklet
 
             if (bookDefinition.isSplitBook() && bookDefinition.isSplitTypeAuto())
             {
-                InputStream tocInputSteam = null;
-                try
+                try (InputStream tocInputSteam = new FileInputStream(tocXmlFile))
                 {
-                    tocInputSteam = new FileInputStream(tocXmlFile);
                     final boolean metrics = false;
                     splitTocGuidList = autoSplitGuidsService
                         .getAutoSplitNodes(tocInputSteam, bookDefinition, tocNodeCount, jobInstanceId, metrics);
@@ -100,20 +94,6 @@ public class GenerateSplitTocTask extends AbstractSbTasklet
                 catch (final IOException iox)
                 {
                     throw new RuntimeException("Unable to find File : " + tocXmlFile + " " + iox);
-                }
-                finally
-                {
-                    if (tocInputSteam != null)
-                    {
-                        try
-                        {
-                            tocInputSteam.close();
-                        }
-                        catch (final IOException e)
-                        {
-                            throw new RuntimeException("An IOException occurred while closing a file ", e);
-                        }
-                    }
                 }
             }
 
@@ -126,14 +106,6 @@ public class GenerateSplitTocTask extends AbstractSbTasklet
         }
         finally
         {
-            if (tocXml != null)
-            {
-                tocXml.close();
-            }
-            if (splitTocXml != null)
-            {
-                splitTocXml.close();
-            }
             jobstats.setJobInstanceId(jobInstanceId);
             jobstats.setPublishStatus("generateSplitToc : " + publishStatus);
             publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);

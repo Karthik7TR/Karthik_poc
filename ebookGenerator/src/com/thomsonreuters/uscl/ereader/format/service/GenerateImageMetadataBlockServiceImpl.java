@@ -91,12 +91,8 @@ public class GenerateImageMetadataBlockServiceImpl implements GenerateImageMetad
      */
     protected void createImageMetadataFile(final File output, final StringBuffer xmlText) throws EBookFormatException
     {
-        BufferedWriter writer = null;
-
-        try
+        try (BufferedWriter writer = new BufferedWriter(new FileWriterWithEncoding(output, "UTF-8")))
         {
-            writer = new BufferedWriter(new FileWriterWithEncoding(output, "UTF-8"));
-
             writer.append(xmlText.toString());
         }
         catch (final IOException e)
@@ -104,20 +100,6 @@ public class GenerateImageMetadataBlockServiceImpl implements GenerateImageMetad
             final String message = "Could not write out ImageMetadata to following file: " + output.getAbsolutePath();
             LOG.error(message);
             throw new EBookFormatException(message, e);
-        }
-        finally
-        {
-            try
-            {
-                if (writer != null)
-                {
-                    writer.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close generated ImageMetadata file.", e);
-            }
         }
     }
 
@@ -207,13 +189,11 @@ public class GenerateImageMetadataBlockServiceImpl implements GenerateImageMetad
     protected void readDocToImgMap(final File docToImg, final Map<String, List<String>> docToImgMap)
         throws EBookFormatException
     {
-        BufferedReader reader = null;
-        try
+        try (BufferedReader reader = new BufferedReader(new FileReader(docToImg));)
         {
             LOG.info("Reading in Doc to Image map file...");
             int numDocs = 0;
             int numImgs = 0;
-            reader = new BufferedReader(new FileReader(docToImg));
             String input = reader.readLine();
             while (input != null)
             {
@@ -239,20 +219,6 @@ public class GenerateImageMetadataBlockServiceImpl implements GenerateImageMetad
             final String message = "Could not read the DOC to Image map file: " + docToImg.getAbsolutePath();
             LOG.error(message);
             throw new EBookFormatException(message, e);
-        }
-        finally
-        {
-            try
-            {
-                if (reader != null)
-                {
-                    reader.close();
-                }
-            }
-            catch (final IOException e)
-            {
-                LOG.error("Unable to close Document to Image mapping file reader.", e);
-            }
         }
     }
 }
