@@ -61,4 +61,7 @@ sed -i "1,/<\/xsl:variable>/ {/<\/xsl:variable>/a \
 sed -i "/<xsl:if test =\"\$contents =','\">/i \
 <xsl:if test=\"\$contents = '.' or \$contents = '_' or \$contents = '-'\">\n\t<xsl:attribute name=\"style\">\n\t\t<xsl:text>opacity:0</xsl:text>\n\t</xsl:attribute>\n</xsl:if>" Platform/Universal/Leader.xsl
 
+echo "Replace string in HistoryNotes.xsl">> log.txt
+sed -i '/<xsl:template match="annotations\/hist.note.block\/\*\[not(.\/\/N-HIT or .\/\/N-LOCATE or .\/\/N-WITHIN)]" \/>/d' Platform/ContentBlocks/HistoryNotes.xsl
+
 echo "**************Done**********" >> log.txt
