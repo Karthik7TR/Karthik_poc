@@ -11,6 +11,7 @@ import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishi
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilder;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
@@ -31,6 +32,8 @@ public class OriginalStructureTransformationStep extends BookStepImpl
     private TransformerBuilder transformerBuilder;
     @Resource(name = "xslTransformationService")
     private XslTransformationService transformationService;
+    @Resource(name = "xppFormatFileSystem")
+    private XppFormatFileSystem fileSystem;
 
     @Override
     public ExitStatus executeStep() throws Exception
@@ -45,7 +48,7 @@ public class OriginalStructureTransformationStep extends BookStepImpl
             return ExitStatus.COMPLETED;
         }
 
-        getFormatOriginalDirectory().mkdirs();
+        fileSystem.getOriginalDirectory(this).mkdirs();
         final Transformer transformer = transformerBuilder.create(transformToOriginalXsl).build();
         for (final File xppFile : xppDirectory.listFiles())
         {
@@ -56,7 +59,7 @@ public class OriginalStructureTransformationStep extends BookStepImpl
 
     private void transformXppFile(final Transformer transformer, final File xppFile)
     {
-        final File originalFile = new File(getFormatOriginalDirectory(), xppFile.getName() + ".original");
+        final File originalFile = fileSystem.getOriginalFile(this, xppFile.getName());
         transformationService.transform(transformer, xppFile, originalFile);
     }
 }

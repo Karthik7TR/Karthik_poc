@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
 import com.thomsonreuters.uscl.ereader.common.group.service.GroupServiceWithRetry;
 import com.thomsonreuters.uscl.ereader.common.service.splitnode.SplitNodesInfoService;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
@@ -26,6 +27,8 @@ public abstract class BaseGroupStep extends BookStepImpl implements GroupStep
     private SplitNodesInfoService splitNodesInfoService;
     @Resource(name = "publishingStatsService")
     private PublishingStatsService publishingStatsService;
+    @Resource(name = "formatFileSystem")
+    private FormatFileSystem fileSystem;
 
     private Long groupVersion;
 
@@ -62,7 +65,7 @@ public abstract class BaseGroupStep extends BookStepImpl implements GroupStep
     private List<String> getSplitTitles()
     {
         final boolean isSplitBook = getBookDefinition().isSplitBook();
-        final File splitBookInfoFile = getSplitBookInfoFile();
+        final File splitBookInfoFile = fileSystem.getSplitBookInfoFile(this);
         final String fullyQualifiedTitleId = getBookDefinition().getFullyQualifiedTitleId();
         return isSplitBook
             ? splitNodesInfoService.getTitleIds(splitBookInfoFile, fullyQualifiedTitleId) : null;

@@ -1,6 +1,6 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.originalstructure.step;
 
-import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenWorkDir;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
@@ -13,6 +13,7 @@ import javax.xml.transform.Transformer;
 
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilder;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.Before;
 import org.junit.Rule;
@@ -36,6 +37,8 @@ public final class OriginalStructureTransformationStepTest
     private TransformerBuilder transformerBuilder;
     @Mock
     private XslTransformationService transformationService;
+    @Mock
+    private XppFormatFileSystem fileSystem;
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
@@ -52,7 +55,7 @@ public final class OriginalStructureTransformationStepTest
         xppFile = new File(xppDirectory, "xpp.xml");
         xppFile.createNewFile();
         transformToOriginalXsl = new File(xppDirectory, "some.xsl");
-        givenWorkDir(chunkContext, xppDirectory);
+        given(fileSystem.getOriginalDirectory(step)).willReturn(xppDirectory);
     }
 
     @Test

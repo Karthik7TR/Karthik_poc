@@ -2,7 +2,6 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.step;
 
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenBook;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenBookVersion;
-import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenWorkDir;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -12,8 +11,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -34,23 +35,30 @@ public final class CreateDummyXppBookTest
     private ChunkContext chunkContext;
     @Mock
     private BookDefinition book;
+    @Mock
+    private AssembleFileSystem fileSystem;
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     private File xppStaticDirectory;
-    private File workDir;
+    private File titleDir;
+    private File titleXml;
 
     @Before
-    public void setUp() throws IOException, URISyntaxException
+    public void setUp() throws IOException, URISyntaxException, IllegalAccessException
     {
         final File root = temporaryFolder.getRoot();
         xppStaticDirectory = new File(root, "xppStatic");
         xppStaticDirectory.mkdir();
-        step.setXppStaticDirectory(xppStaticDirectory);
+        FieldUtils.writeField(step, "xppStaticDirectory", xppStaticDirectory, true);
 
         final File title = new File(CreateDummyXppBookTest.class.getResource("title.xml").toURI());
         FileUtils.copyFileToDirectory(title, xppStaticDirectory);
-        workDir = new File(root, "workDir");
+        titleDir = new File(root, "titleDir");
+        titleXml = new File(titleDir, "title.xml");
+
+        given(fileSystem.getTitleDirectory(step)).willReturn(titleDir);
+        given(fileSystem.getTitleXml(step)).willReturn(titleXml);
     }
 
     @Test
@@ -61,8 +69,7 @@ public final class CreateDummyXppBookTest
         //when
         step.executeStep();
         //then
-        final File title = new File(workDir, "Assemble/titleId/title.xml");
-        assertThat(title.exists(), is(true));
+        assertThat(titleXml.exists(), is(true));
     }
 
     @Test
@@ -73,8 +80,7 @@ public final class CreateDummyXppBookTest
         //when
         step.executeStep();
         //then
-        final File title = new File(workDir, "Assemble/titleId/title.xml");
-        final String titleContent = FileUtils.readFileToString(title);
+        final String titleContent = FileUtils.readFileToString(titleXml);
         assertThat(titleContent, containsString("titleversion=\"v1.1\""));
         assertThat(titleContent, containsString("id=\"id\""));
         assertThat(titleContent, containsString("<name>name</name>"));
@@ -82,7 +88,6 @@ public final class CreateDummyXppBookTest
 
     private void givenAll()
     {
-        givenWorkDir(chunkContext, workDir);
         givenBook(chunkContext, book);
         given(book.getTitleId()).willReturn("titleId");
         given(book.getFullyQualifiedTitleId()).willReturn("id");

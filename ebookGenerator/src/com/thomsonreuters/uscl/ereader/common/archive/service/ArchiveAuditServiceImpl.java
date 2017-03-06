@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.common.archive.step.BaseArchiveStep;
+import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
 import com.thomsonreuters.uscl.ereader.common.service.splitnode.SplitNodesInfoService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
@@ -25,6 +26,8 @@ public class ArchiveAuditServiceImpl implements ArchiveAuditService
     private BookTitlesUtil bookTitlesUtil;
     @Resource(name = "splitNodesInfoService")
     private SplitNodesInfoService splitNodesInfoService;
+    @Resource(name = "formatFileSystem")
+    private FormatFileSystem fileSystem;
 
     @Override
     public void saveAudit(@NotNull final BaseArchiveStep step)
@@ -42,7 +45,7 @@ public class ArchiveAuditServiceImpl implements ArchiveAuditService
     private void saveSplitTitlesAudit(final BaseArchiveStep step, final BookDefinition bookDefinition)
     {
         final Set<SplitNodeInfo> submittedSplitNodes = splitNodesInfoService
-            .getSubmittedSplitNodes(step.getSplitBookInfoFile(), bookDefinition, step.getBookVersion());
+            .getSubmittedSplitNodes(fileSystem.getSplitBookInfoFile(step), bookDefinition, step.getBookVersion());
         saveSubmittedSplitInfo(step, submittedSplitNodes);
 
         final Set<SplitNodeInfo> persistedSplitNodes =

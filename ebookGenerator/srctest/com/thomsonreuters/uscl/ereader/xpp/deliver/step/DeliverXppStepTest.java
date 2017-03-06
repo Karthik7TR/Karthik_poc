@@ -5,7 +5,6 @@ import static java.util.Arrays.asList;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenBook;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenBookVersion;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenJobInstanceId;
-import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenWorkDir;
 import static com.thomsonreuters.uscl.ereader.core.book.BookMatchers.version;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -16,6 +15,7 @@ import static org.mockito.Mockito.doThrow;
 import java.io.File;
 
 import com.thomsonreuters.uscl.ereader.common.deliver.service.ProviewHandlerWithRetry;
+import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
@@ -25,7 +25,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
@@ -48,10 +47,10 @@ public final class DeliverXppStepTest
     private ChunkContext chunkContext;
     @Mock
     private BookDefinition book;
-
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
-    private File workDir;
+    @Mock
+    private File assembledBookFile;
+    @Mock
+    private AssembleFileSystem fileSystem;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -59,9 +58,6 @@ public final class DeliverXppStepTest
     @Before
     public void setUp()
     {
-        workDir = temporaryFolder.getRoot();
-        givenWorkDir(chunkContext, workDir);
-
         givenBookVersion(chunkContext, "1.1");
         givenJobInstanceId(chunkContext, 1L);
 
@@ -75,10 +71,11 @@ public final class DeliverXppStepTest
     {
         //given
         given(book.isSplitBook()).willReturn(false);
+        given(fileSystem.getAssembledBookFile(step)).willReturn(assembledBookFile);
         //when
         step.executeStep();
         //then
-        then(proviewHandler).should().publishTitle("titleId", version("v1.1"), new File(workDir, "titleId.gz"));
+        then(proviewHandler).should().publishTitle("titleId", version("v1.1"), assembledBookFile);
     }
 
     @Test
@@ -88,13 +85,13 @@ public final class DeliverXppStepTest
         given(book.isSplitBook()).willReturn(true);
         given(docMetadataService.findDistinctSplitTitlesByJobId(1L))
             .willReturn(asList("an/splitTitle", "an/splitTitle_pt2"));
+        given(fileSystem.getAssembledSplitTitleFile(step, "an/splitTitle")).willReturn(assembledBookFile);
+        given(fileSystem.getAssembledSplitTitleFile(step, "an/splitTitle_pt2")).willReturn(assembledBookFile);
         //when
         step.executeStep();
         //then
-        then(proviewHandler).should()
-            .publishTitle("an/splitTitle", version("v1.1"), new File(workDir, "splitTitle.gz"));
-        then(proviewHandler).should()
-            .publishTitle("an/splitTitle_pt2", version("v1.1"), new File(workDir, "splitTitle_pt2.gz"));
+        then(proviewHandler).should().publishTitle("an/splitTitle", version("v1.1"), assembledBookFile);
+        then(proviewHandler).should().publishTitle("an/splitTitle_pt2", version("v1.1"), assembledBookFile);
     }
 
     @Test

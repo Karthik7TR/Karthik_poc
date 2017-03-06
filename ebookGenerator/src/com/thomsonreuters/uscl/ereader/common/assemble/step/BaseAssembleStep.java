@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.assemble.exception.EBookAssemblyException;
 import com.thomsonreuters.uscl.ereader.assemble.service.EBookAssemblyService;
+import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
@@ -18,10 +19,9 @@ public abstract class BaseAssembleStep extends BookStepImpl
     private EBookAssemblyService assemblyService;
     @Resource(name = "docMetadataService")
     private DocMetadataService docMetadataService;
+    @Resource(name = "assembleFileSystem")
+    private AssembleFileSystem fileSystem;
 
-    /* (non-Javadoc)
-     * @see com.thomsonreuters.uscl.ereader.common.step.BaseStep#executeStep()
-     */
     @Override
     public ExitStatus executeStep() throws Exception
     {
@@ -32,7 +32,9 @@ public abstract class BaseAssembleStep extends BookStepImpl
         }
         else
         {
-            assemblyService.assembleEBook(getAssembleTitleDirectory(), getAssembledBookFile());
+            final File titleDirectory = fileSystem.getTitleDirectory(this);
+            final File assembledBookFile = fileSystem.getAssembledBookFile(this);
+            assemblyService.assembleEBook(titleDirectory, assembledBookFile);
         }
         return ExitStatus.COMPLETED;
     }
@@ -42,8 +44,8 @@ public abstract class BaseAssembleStep extends BookStepImpl
         final List<String> splitTitles = docMetadataService.findDistinctSplitTitlesByJobId(getJobInstanceId());
         for (final String splitTitleId : splitTitles)
         {
-            final File assembledSplitTitleFile = getAssembledSplitTitleFile(splitTitleId);
-            final File assembleDirectory = getAssembleSplitTitleDirectory(splitTitleId);
+            final File assembledSplitTitleFile = fileSystem.getAssembledSplitTitleFile(this, splitTitleId);
+            final File assembleDirectory = fileSystem.getSplitTitleDirectory(this, splitTitleId);
             assemblyService.assembleEBook(assembleDirectory, assembledSplitTitleFile);
         }
     }

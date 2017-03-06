@@ -3,6 +3,9 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.step;
 import java.io.File;
 import java.io.IOException;
 
+import javax.annotation.Resource;
+
+import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
@@ -18,14 +21,16 @@ public class CreateDummyXppBook extends BookStepImpl
 {
     @Value("${xpp.static.directory}")
     private File xppStaticDirectory;
+    @Resource(name = "assembleFileSystem")
+    private AssembleFileSystem fileSystem;
 
     @Override
     public ExitStatus executeStep() throws Exception
     {
-        final File assembleDirectory = getAssembleTitleDirectory();
-        assembleDirectory.mkdir();
+        final File titleDirectory = fileSystem.getTitleDirectory(this);
+        FileUtils.forceMkdir(titleDirectory);
 
-        FileUtils.copyDirectory(xppStaticDirectory, assembleDirectory);
+        FileUtils.copyDirectory(xppStaticDirectory, titleDirectory);
         prepareTitleXml();
 
         return ExitStatus.COMPLETED;
@@ -34,17 +39,12 @@ public class CreateDummyXppBook extends BookStepImpl
     private void prepareTitleXml() throws IOException
     {
         final BookDefinition bookDefinition = getBookDefinition();
-        final File titleXml = getTitleXml();
+        final File titleXml = fileSystem.getTitleXml(this);
         String titleXmlContent = FileUtils.readFileToString(titleXml);
         titleXmlContent = titleXmlContent.replaceAll("\\$\\{version\\}", getBookVersion().getFullVersion());
         titleXmlContent = titleXmlContent.replaceAll("\\$\\{titleId\\}", bookDefinition.getFullyQualifiedTitleId());
         titleXmlContent =
             titleXmlContent.replaceAll("\\$\\{ProviewDisplayName\\}", bookDefinition.getProviewDisplayName());
         FileUtils.writeStringToFile(titleXml, titleXmlContent);
-    }
-
-    void setXppStaticDirectory(final File xppStaticDirectory)
-    {
-        this.xppStaticDirectory = xppStaticDirectory;
     }
 }

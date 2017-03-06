@@ -11,6 +11,8 @@ import java.io.File;
 import java.net.URISyntaxException;
 
 import com.thomsonreuters.uscl.ereader.common.archive.step.BaseArchiveStep;
+import com.thomsonreuters.uscl.ereader.common.filesystem.ArchiveFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import org.junit.Before;
@@ -33,6 +35,10 @@ public final class ArchiveServiceImplTest
     private BaseArchiveStep step;
     @Mock
     private BookDefinition book;
+    @Mock
+    private AssembleFileSystem assembleFileSystem;
+    @Mock
+    private ArchiveFileSystem archivefileSystem;
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
@@ -46,9 +52,9 @@ public final class ArchiveServiceImplTest
         archiveDir = temporaryFolder.getRoot();
         assembledBookFile = new File(ArchiveServiceImplTest.class.getResource("assembledBookFile").toURI());
         assembledSplitTitleFile = new File(ArchiveServiceImplTest.class.getResource("assembledSplitTitleFile").toURI());
-        given(step.getArchiveDirectory()).willReturn(archiveDir);
-        given(step.getAssembledBookFile()).willReturn(assembledBookFile);
-        given(step.getAssembledSplitTitleFile("splitTitleId")).willReturn(assembledSplitTitleFile);
+        given(archivefileSystem.getArchiveVersionDirectory(step)).willReturn(archiveDir);
+        given(assembleFileSystem.getAssembledBookFile(step)).willReturn(assembledBookFile);
+        given(assembleFileSystem.getAssembledSplitTitleFile(step, "splitTitleId")).willReturn(assembledSplitTitleFile);
 
         given(step.getJobInstanceId()).willReturn(1L);
         given(step.getBookDefinition()).willReturn(book);

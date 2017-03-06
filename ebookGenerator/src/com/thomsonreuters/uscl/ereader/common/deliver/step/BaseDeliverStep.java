@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.common.deliver.service.ProviewHandlerWithRetry;
+import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
@@ -23,12 +24,11 @@ public abstract class BaseDeliverStep extends BookStepImpl
 
     @Resource(name = "docMetadataService")
     private DocMetadataService docMetadataService;
+    @Resource(name = "assembleFileSystem")
+    private AssembleFileSystem fileSystem;
 
     private List<String> publishedSplitTiltes = new ArrayList<>();
 
-    /* (non-Javadoc)
-     * @see com.thomsonreuters.uscl.ereader.common.step.BaseStep#executeStep()
-     */
     @Override
     public ExitStatus executeStep() throws Exception
     {
@@ -53,8 +53,8 @@ public abstract class BaseDeliverStep extends BookStepImpl
         }
         else
         {
-            proviewHandler
-                .publishTitle(bookDefinition.getFullyQualifiedTitleId(), getBookVersion(), getAssembledBookFile());
+            final File assembledBookFile = fileSystem.getAssembledBookFile(this);
+            proviewHandler.publishTitle(bookDefinition.getFullyQualifiedTitleId(), getBookVersion(), assembledBookFile);
         }
     }
 
@@ -63,7 +63,7 @@ public abstract class BaseDeliverStep extends BookStepImpl
         final List<String> splitTitles = docMetadataService.findDistinctSplitTitlesByJobId(getJobInstanceId());
         for (final String splitTitleId : splitTitles)
         {
-            final File assembledSplitTitleFile = getAssembledSplitTitleFile(splitTitleId);
+            final File assembledSplitTitleFile = fileSystem.getAssembledSplitTitleFile(this, splitTitleId);
             proviewHandler.publishTitle(splitTitleId, getBookVersion(), assembledSplitTitleFile);
             publishedSplitTiltes.add(splitTitleId);
         }

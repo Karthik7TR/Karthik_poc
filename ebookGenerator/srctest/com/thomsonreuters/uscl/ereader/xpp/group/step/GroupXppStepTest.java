@@ -2,18 +2,18 @@ package com.thomsonreuters.uscl.ereader.xpp.group.step;
 
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenBook;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenBookVersion;
-import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenWorkDir;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
 
 import java.io.File;
 
+import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
 import com.thomsonreuters.uscl.ereader.common.group.service.GroupServiceWithRetry;
 import com.thomsonreuters.uscl.ereader.common.service.splitnode.SplitNodesInfoService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -24,7 +24,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
@@ -54,9 +53,10 @@ public final class GroupXppStepTest
     @Mock
     private PublishingStatsService publishingStatsService;
 
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
-    private File workDir;
+    @Mock
+    private File splitBookInfoFile;
+    @Mock
+    private FormatFileSystem fileSystem;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -64,8 +64,6 @@ public final class GroupXppStepTest
     @Before
     public void setUp()
     {
-        workDir = temporaryFolder.getRoot();
-        givenWorkDir(chunkContext, workDir);
         givenBook(chunkContext, book);
         given(book.getEbookDefinitionId()).willReturn(1L);
         givenBookVersion(chunkContext, "1.1");
@@ -118,9 +116,10 @@ public final class GroupXppStepTest
         //given
         given(book.getGroupName()).willReturn("groupName");
         given(book.isSplitBook()).willReturn(true);
-        given(splitNodesInfoService.getTitleIds(any(File.class), anyString())).willReturn(null);
+        given(splitNodesInfoService.getTitleIds(eq(splitBookInfoFile), anyString())).willReturn(null);
         given(groupService.createGroupDefinition(book, "v1.1", null)).willReturn(groupDefinition);
         given(groupService.getLastGroup(book)).willReturn(anotherGroupDefinition);
+        given(fileSystem.getSplitBookInfoFile(step)).willReturn(splitBookInfoFile);
         //when
         step.executeStep();
         //then

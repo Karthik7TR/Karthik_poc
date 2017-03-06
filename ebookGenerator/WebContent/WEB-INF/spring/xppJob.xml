@@ -53,9 +53,7 @@
 	<beans:bean id="xppStepFailureNotificationService"
 		class="com.thomsonreuters.uscl.ereader.xpp.common.XppStepFailureNotificationServiceImpl" />
 	<beans:bean id="initializeXppJobTask" scope="step" parent="bookStep"
-		class="com.thomsonreuters.uscl.ereader.xpp.initialize.InitializeTask"
-		p:environmentName-ref="environmentName" p:rootWorkDirectory="${root.work.directory}"
-		p:bookDefnService-ref="bookDefinitionService" />
+		class="com.thomsonreuters.uscl.ereader.xpp.initialize.InitializeTask" />
 	<beans:bean id="originalStructureTransformationTask" scope="step"
 		parent="bookStep"
 		class="com.thomsonreuters.uscl.ereader.xpp.transformation.originalstructure.step.OriginalStructureTransformationStep" />

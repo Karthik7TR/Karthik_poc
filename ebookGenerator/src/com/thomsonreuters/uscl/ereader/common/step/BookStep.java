@@ -1,6 +1,5 @@
 package com.thomsonreuters.uscl.ereader.common.step;
 
-import java.io.File;
 import java.util.Date;
 
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendNotificationStep;
@@ -35,49 +34,4 @@ public interface BookStep extends BaseStep, OutageAwareStep, SendNotificationSte
 
     @NotNull
     Date getSubmitTimestamp();
-
-    @NotNull
-    File getWorkDirectory();
-
-    @NotNull
-    File getBaseArchiveDirectory();
-
-    @NotNull
-    File getArchiveDirectory();
-
-    @NotNull
-    File getFormatDirectory();
-
-    @NotNull
-    File getFormatOriginalDirectory();
-
-    @NotNull
-    File getSplitBookDirectory();
-
-    @NotNull
-    File getSplitBookInfoFile();
-
-    @NotNull
-    File getAssembleDirectory();
-
-    @NotNull
-    File getAssembleTitleDirectory();
-
-    @NotNull
-    File getAssembleSplitTitleDirectory(String splitTitleId);
-
-    @NotNull
-    File getAssembleAssetsDirectory();
-
-    @NotNull
-    File getAssembleDocumentsDirectory();
-
-    @NotNull
-    File getAssembledBookFile();
-
-    @NotNull
-    File getAssembledSplitTitleFile(String splitTitleId);
-
-    @NotNull
-    File getTitleXml();
 }

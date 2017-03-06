@@ -8,12 +8,14 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.times;
 
 import java.io.File;
 import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.common.archive.step.BaseArchiveStep;
+import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
 import com.thomsonreuters.uscl.ereader.common.service.splitnode.SplitNodesInfoService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
@@ -48,6 +50,10 @@ public final class ArchiveAuditServiceImplTest
     private BaseArchiveStep step;
     @Mock
     private BookDefinition book;
+    @Mock
+    private FormatFileSystem fileSystem;
+    @Mock
+    private File splitBookInfoFile;
     @Captor
     private ArgumentCaptor<ProviewAudit> captor;
 
@@ -109,9 +115,10 @@ public final class ArchiveAuditServiceImplTest
         final Set<SplitNodeInfo> submittedSplitNodes,
         final Set<SplitNodeInfo> persistedSplitNodes)
     {
+        given(fileSystem.getSplitBookInfoFile(step)).willReturn(splitBookInfoFile);
         given(
             splitNodesInfoService
-                .getSubmittedSplitNodes(any(File.class), any(BookDefinition.class), any(Version.class)))
+                .getSubmittedSplitNodes(eq(splitBookInfoFile), any(BookDefinition.class), any(Version.class)))
                     .willReturn(submittedSplitNodes);
         given(bookTitlesUtil.getSplitNodeInfosByVersion(any(BookDefinition.class), any(Version.class)))
             .willReturn(persistedSplitNodes);

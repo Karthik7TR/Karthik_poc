@@ -9,6 +9,7 @@ import java.io.File;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.assemble.service.EBookAssemblyService;
+import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.PublishingStatusUpdateStep;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.stats.PublishingStatus;
@@ -35,6 +36,8 @@ public final class AssemblePublishingStatusUpdateServiceTest
     private BookStepImpl step;
     @Mock
     private File dir;
+    @Mock
+    private AssembleFileSystem fileSystem;
 
     @Test
     public void shouldCallGeneralServiceIfFailed()
@@ -50,9 +53,9 @@ public final class AssemblePublishingStatusUpdateServiceTest
     public void shouldSavePublishingStatisIfComplete()
     {
         //given
-        given(step.getAssembleDocumentsDirectory()).willReturn(dir);
-        given(step.getAssembleAssetsDirectory()).willReturn(dir);
-        given(step.getAssembledBookFile()).willReturn(dir);
+        given(fileSystem.getDocumentsDirectory(step)).willReturn(dir);
+        given(fileSystem.getAssetsDirectory(step)).willReturn(dir);
+        given(fileSystem.getAssembledBookFile(step)).willReturn(dir);
         //when
         service.savePublishingStats(step, PublishingStatus.COMPLETED);
         //then
