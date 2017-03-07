@@ -7,9 +7,16 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import javax.annotation.Resource;
+
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
-import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.ImageFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.XppUnpackFileSystem;
+import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
+import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
+import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
+import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageException;
@@ -17,51 +24,48 @@ import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl;
 import com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherService;
 import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
-import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.JobInstance;
-import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.scope.context.ChunkContext;
-import org.springframework.batch.item.ExecutionContext;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.Assert;
 
 /**
  * Fetch book images from the Image Vertical REST web service and save them
  * into a specified image destination directory.
  */
-public class GatherDynamicImagesTask extends AbstractSbTasklet
+@SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
+@SavePublishingStatusPolicy(StatsUpdateTypeEnum.GATHERIMAGE)
+public class GatherDynamicImagesTask extends BookStepImpl
 {
-    //private static final Logger log = LogManager.getLogger(GatherDynamicImagesTask.class);
+    @Resource(name = "imageService")
     private ImageService imageService;
+
+    @Resource(name = "publishingStatsService")
     private PublishingStatsService publishingStatsService;
+
+    @Resource(name = "formatFileSystem")
+    private FormatFileSystem formatFileSystem;
+
+    @Resource(name = "imageFileSystem")
+    private ImageFileSystem imageFileSystem;
+
+    @Resource(name = "xppUnpackFileSystem")
+    private XppUnpackFileSystem xppUnpackFileSystem;
+
+    @Resource(name = "gatherService")
     private GatherService gatherService;
 
-    @Required
-    public void setGatherService(final GatherService service)
-    {
-        gatherService = service;
-    }
+    private int imageGuidNum;
+    private int retrievedCount;
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
+    public ExitStatus executeStep() throws Exception
     {
-        final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
-        final JobInstance jobInstance = getJobInstance(chunkContext);
-
-        final BookDefinition bookDefinition =
-            (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
-
         // Assert the state of the filesystem image directory and expected input files
-        final File dynamicImageDestinationDirectory =
-            new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
-        final File imageGuidFile =
-            new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_TO_DOC_MANIFEST_FILE));
-        final String xppSourceImageGirectory =
-            jobExecutionContext.containsKey(JobExecutionKey.XPP_IMAGES_UNPACK_DIR) ? jobExecutionContext.getString(JobExecutionKey.XPP_IMAGES_UNPACK_DIR) : null;
+        final File dynamicImageDestinationDirectory = imageFileSystem.getImageDynamicDirectory(this);
+        final File imageGuidFile = formatFileSystem.getImageToDocumentManifestFile(this);
+        final String xppSourceImageGirectory = xppUnpackFileSystem.getXppAssetsDirectory(this);
+
         Assert.isTrue(
             dynamicImageDestinationDirectory.exists(),
             String.format(
@@ -80,69 +84,42 @@ public class GatherDynamicImagesTask extends AbstractSbTasklet
                 + " - This file contains image GUID's, one per line, that are requested from the Image Vertical REST service.");
 
         // Fetch the image metadata and file bytes
-        final long jobInstanceId = jobInstance.getId();
-        final String titleId = bookDefinition.getFullyQualifiedTitleId();
-        int imageGuidNum = 0;
-        int retrievedCount = 0;
+        final long jobInstanceId = getJobInstanceId();
+        // Remove all existing image files from image destination directory, covers case of this step failing and restarting the step.
+        ImageServiceImpl.removeAllFilesInDirectory(dynamicImageDestinationDirectory);
 
-        String stepStatus = "Completed";
-        try
+        final Set<String> imgGuidSet = readImageGuidsFromTextFile(imageGuidFile);
+
+        imageGuidNum = imgGuidSet.size();
+
+        if (imageGuidNum > 0)
         {
-            // Remove all existing image files from image destination directory, covers case of this step failing and restarting the step.
-            ImageServiceImpl.removeAllFilesInDirectory(dynamicImageDestinationDirectory);
+            final GatherImgRequest imgRequest = new GatherImgRequest(
+                imageGuidFile,
+                dynamicImageDestinationDirectory,
+                jobInstanceId,
+                getBookDefinition().isFinalStage());
+            //imgRequest.setXpp(isXpp);
+            imgRequest.setXppSourceImageDirectory(xppSourceImageGirectory);
+            final GatherResponse gatherResponse = gatherService.getImg(imgRequest);
 
-            final Set<String> imgGuidSet = readImageGuidsFromTextFile(imageGuidFile);
-
-            imageGuidNum = imgGuidSet.size();
-
-            if (imageGuidNum > 0)
+            if (gatherResponse.getMissingImgCount() > 0)
             {
-                final GatherImgRequest imgRequest = new GatherImgRequest(
-                    imageGuidFile,
-                    dynamicImageDestinationDirectory,
-                    jobInstanceId,
-                    bookDefinition.isFinalStage());
-                //imgRequest.setXpp(isXpp);
-                imgRequest.setXppSourceImageDirectory(xppSourceImageGirectory);
-                final GatherResponse gatherResponse = gatherService.getImg(imgRequest);
+                retrievedCount = imageGuidNum - gatherResponse.getMissingImgCount();
+                throw new ImageException(
+                    String.format(
+                        "Download of dynamic images failed because there were %d missing image(s)",
+                        gatherResponse.getMissingImgCount()));
+            }
+            retrievedCount = imageGuidNum;
 
-                if (gatherResponse.getMissingImgCount() > 0)
+            if (gatherResponse.getImageMetadataList() != null)
+            {
+                for (final ImgMetadataInfo metadata : gatherResponse.getImageMetadataList())
                 {
-                    retrievedCount = imageGuidNum - gatherResponse.getMissingImgCount();
-                    throw new ImageException(
-                        String.format(
-                            "Download of dynamic images failed because there were %d missing image(s)",
-                            gatherResponse.getMissingImgCount()));
-                }
-                retrievedCount = imageGuidNum;
-
-                if (gatherResponse.getImageMetadataList() != null)
-                {
-                    for (final ImgMetadataInfo metadata : gatherResponse.getImageMetadataList())
-                    {
-                        imageService.saveImageMetadata(metadata, jobInstanceId, titleId);
-                    }
+                    imageService.saveImageMetadata(metadata, jobInstanceId, getBookDefinition().getFullyQualifiedTitleId());
                 }
             }
-        }
-        catch (final ImageException e)
-        {
-            stepStatus = "Failed";
-            throw e;
-        }
-        catch (final Exception e)
-        {
-            stepStatus = "Failed";
-            throw e;
-        }
-        finally
-        {
-            final PublishingStats jobstatsDoc = new PublishingStats();
-            jobstatsDoc.setJobInstanceId(jobInstanceId);
-            jobstatsDoc.setGatherImageExpectedCount(imageGuidNum);
-            jobstatsDoc.setGatherImageRetrievedCount(retrievedCount);
-            jobstatsDoc.setPublishStatus("getDynamicImages : " + stepStatus);
-            publishingStatsService.updatePublishingStats(jobstatsDoc, StatsUpdateTypeEnum.GATHERIMAGE);
         }
 
         return ExitStatus.COMPLETED;
@@ -180,15 +157,13 @@ public class GatherDynamicImagesTask extends AbstractSbTasklet
         return imgGuidSet;
     }
 
-    @Required
-    public void setImageService(final ImageService imageService)
+    public int getImageGuidNum()
     {
-        this.imageService = imageService;
+        return imageGuidNum;
     }
 
-    @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
+    public int getRetrievedCount()
     {
-        this.publishingStatsService = publishingStatsService;
+        return retrievedCount;
     }
 }

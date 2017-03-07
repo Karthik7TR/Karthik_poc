@@ -59,4 +59,14 @@ public final class FormatFileSystemImplTest
         //then
         assertThat(file, hasPath("workDirectory/Format/splitEbook/splitNodeInfo.txt"));
     }
+
+    @Test
+    public void shouldReturnImageToDocumentManifestFile()
+    {
+        //given
+        //when
+        final File file = fileSystem.getImageToDocumentManifestFile(step);
+        //then
+        assertThat(file, hasPath("workDirectory/Format/doc-to-image-manifest.txt"));
+    }
 }

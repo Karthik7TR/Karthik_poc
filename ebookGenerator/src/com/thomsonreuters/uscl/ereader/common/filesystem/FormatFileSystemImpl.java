@@ -34,4 +34,11 @@ public class FormatFileSystemImpl implements FormatFileSystem
     {
         return new File(getSplitBookDirectory(step), "splitNodeInfo.txt");
     }
+
+    @NotNull
+    @Override
+    public File getImageToDocumentManifestFile(@NotNull final BookStep step)
+    {
+        return new File(getFormatDirectory(step), "doc-to-image-manifest.txt");
+    }
 }

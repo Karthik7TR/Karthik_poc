@@ -3,7 +3,6 @@ package com.thomsonreuters.uscl.ereader.gather.step;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.verify;
@@ -14,7 +13,10 @@ import java.io.IOException;
 import java.util.Collections;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
-import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
+import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.ImageFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.XppUnpackFileSystem;
+import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
@@ -22,8 +24,6 @@ import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageException;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherService;
 import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
-import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Rule;
@@ -54,18 +54,26 @@ public class GatherDynamicImagesTaskTest
     private ImageService imageService;
 
     @Mock
-    private PublishingStatsService publishingStatsService;
+    private GatherService gatherService;
 
     @Mock
-    private GatherService gatherService;
+    private FormatFileSystem formatFileSystem;
+
+    @Mock
+    private ImageFileSystem imageFileSystem;
+
+    @Mock
+    private XppUnpackFileSystem xppUnpackFileSystem;
 
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
 
     @Before
-    public void setUp()
+    public void setUp() throws IOException
     {
         when(gatherService.getImg((GatherImgRequest) any())).thenReturn(getGatherResponse());
+        when(formatFileSystem.getImageToDocumentManifestFile((BookStep)any())).thenReturn(getManifestFile());
+        when(imageFileSystem.getImageDynamicDirectory((BookStep)any())).thenReturn(tempFolder.newFolder(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
     }
 
     private GatherResponse getGatherResponse()
@@ -78,7 +86,7 @@ public class GatherDynamicImagesTaskTest
     @Test
     public void shouldSendRequestToGatherService() throws Exception
     {
-        gatherDynamicImagesTask.executeStep(null, getChunkContext(false));
+        gatherDynamicImagesTask.execute(null, getChunkContext(false));
 
         final GatherImgRequest request = captureImageRequest();
 
@@ -88,17 +96,14 @@ public class GatherDynamicImagesTaskTest
         assertFalse(request.isXpp());
 
         verify(imageService).saveImageMetadata((ImgMetadataInfo) any(), anyLong(), (String) any());
-
-        verify(publishingStatsService).updatePublishingStats((PublishingStats) any(), (StatsUpdateTypeEnum) any());
     }
 
     @Test
     public void shouldSendRequestToGatherServiceXppPathway() throws Exception
     {
-        gatherDynamicImagesTask.executeStep(null, getChunkContext(true));
+        gatherDynamicImagesTask.execute(null, getChunkContext(true));
         final GatherImgRequest request = captureImageRequest();
         assertNotNull(request.getXppSourceImageDirectory());
-//        assertTrue(request.isXpp());
     }
 
     @Test(expected = ImageException.class)
@@ -108,16 +113,7 @@ public class GatherDynamicImagesTaskTest
         response.setMissingImgCount(1);
         when(gatherService.getImg((GatherImgRequest) any())).thenReturn(response);
 
-        try
-        {
-            gatherDynamicImagesTask.executeStep(null, getChunkContext(true));
-        }
-        finally
-        {
-            final ArgumentCaptor<PublishingStats> argument = ArgumentCaptor.forClass(PublishingStats.class);
-            verify(publishingStatsService).updatePublishingStats(argument.capture(), (StatsUpdateTypeEnum) any());
-            assertTrue(argument.getValue().getPublishStatus().endsWith(STATUS_FAILED));
-        }
+        gatherDynamicImagesTask.execute(null, getChunkContext(true));
     }
 
     private GatherImgRequest captureImageRequest()
@@ -138,16 +134,10 @@ public class GatherDynamicImagesTaskTest
             chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext();
 
         context.put(JobExecutionKey.EBOOK_DEFINITION, new BookDefinition());
-        context.put(
-            JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR,
-            tempFolder.newFolder(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR).getAbsolutePath());
-        context.put(JobExecutionKey.IMAGE_TO_DOC_MANIFEST_FILE, getManifestFile().getAbsolutePath());
 
         if (isXpp)
         {
-            context.put(
-                JobExecutionKey.XPP_IMAGES_UNPACK_DIR,
-                tempFolder.newFolder(JobExecutionKey.XPP_IMAGES_UNPACK_DIR).getAbsolutePath());
+            when(xppUnpackFileSystem.getXppAssetsDirectory((BookStep)any())).thenReturn(tempFolder.newFolder(JobExecutionKey.XPP_IMAGES_UNPACK_DIR).getAbsolutePath());
         }
 
         return chunkContext;

@@ -33,4 +33,12 @@ public interface FormatFileSystem
      */
     @NotNull
     File getSplitBookInfoFile(@NotNull BookStep step);
+
+    /**
+     * Returns split book info file:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link getFormatDirectory Format}{@code /doc-to-image-manifest.txt}
+     */
+    @NotNull
+    File getImageToDocumentManifestFile(@NotNull BookStep step);
 }
