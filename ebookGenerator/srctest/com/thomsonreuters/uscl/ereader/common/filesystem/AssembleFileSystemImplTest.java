@@ -100,10 +100,11 @@ public final class AssembleFileSystemImplTest
     {
         //given
         given(step.getBookDefinition().getTitleId()).willReturn("titleId");
+        given(step.getBookVersion().getVersionForFilePattern()).willReturn("_1_1");
         //when
         final File file = fileSystem.getAssembledBookFile(step);
         //then
-        assertThat(file, hasPath("workDirectory/titleId.gz"));
+        assertThat(file, hasPath("workDirectory/titleId_1_1.gz"));
     }
 
     @Test
@@ -111,9 +112,10 @@ public final class AssembleFileSystemImplTest
     {
         //given
         given(step.getBookDefinition().getTitleId()).willReturn("titleId");
+        given(step.getBookVersion().getVersionForFilePattern()).willReturn("_1_1");
         //when
         final File file = fileSystem.getAssembledSplitTitleFile(step, "an/splitTitleId");
         //then
-        assertThat(file, hasPath("workDirectory/splitTitleId.gz"));
+        assertThat(file, hasPath("workDirectory/splitTitleId_1_1.gz"));
     }
 }

@@ -59,6 +59,13 @@ public class Version
         return new StringBuilder().append(majorVersion).append(".").append(minorVersion).toString();
     }
 
+    @NotNull
+    public String getVersionForFilePattern()
+    {
+        return new StringBuilder().append("_").append(majorVersion).append("_").append(minorVersion).toString();
+    }
+
+
     public boolean isNewMajorVersion()
     {
         return minorVersion == 0;

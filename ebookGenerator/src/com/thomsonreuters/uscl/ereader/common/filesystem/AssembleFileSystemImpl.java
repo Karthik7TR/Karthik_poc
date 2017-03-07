@@ -59,15 +59,17 @@ public class AssembleFileSystemImpl implements AssembleFileSystem
     public File getAssembledBookFile(@NotNull final BookStep step)
     {
         final BookDefinition bookDefinition = step.getBookDefinition();
+        final String version = step.getBookVersion().getVersionForFilePattern();
         return new File(
             bookFileSystem.getWorkDirectory(step),
-            bookDefinition.getTitleId() + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
+            bookDefinition.getTitleId() + version + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
     }
 
     @Override
     public File getAssembledSplitTitleFile(@NotNull final BookStep step, @NotNull final String splitTitleId)
     {
         final String titleId = StringUtils.substringAfterLast(splitTitleId, "/");
-        return new File(bookFileSystem.getWorkDirectory(step), titleId + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
+        final String version = step.getBookVersion().getVersionForFilePattern();
+        return new File(bookFileSystem.getWorkDirectory(step), titleId + version + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
     }
 }
