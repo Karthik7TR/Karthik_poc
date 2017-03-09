@@ -27,6 +27,7 @@
     <target name="coverage-instrumentation">
         <delete includeemptydirs="true" quiet="true">
             <fileset file="${jacoco.data.file.unit}" />
+            <fileset file="${jacoco.data.file.integration}" />
             <fileset dir="${jacoco.reports.dir}" />
             <fileset dir="${jacoco.instrumentedPath}" />
         </delete>
