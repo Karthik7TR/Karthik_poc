@@ -15,7 +15,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     @Override
     public File getOriginalDirectory(@NotNull final BookStep step)
     {
-        return new File(getFormatDirectory(step), "Original");
+        return new File(getFormatDirectory(step), "1_Original");
     }
 
     @NotNull
@@ -29,7 +29,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     @Override
     public File getPagebreakesUpDirectory(@NotNull final BookStep step)
     {
-        return new File(getFormatDirectory(step), "PagebreakesUp");
+        return new File(getFormatDirectory(step), "2_PagebreakesUp");
     }
 
     @Override
@@ -43,7 +43,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     @Override
     public File getOriginalPartsDirectory(@NotNull final BookStep step)
     {
-        return new File(getFormatDirectory(step), "OriginalParts");
+        return new File(getFormatDirectory(step), "3_OriginalParts");
     }
 
     @Override

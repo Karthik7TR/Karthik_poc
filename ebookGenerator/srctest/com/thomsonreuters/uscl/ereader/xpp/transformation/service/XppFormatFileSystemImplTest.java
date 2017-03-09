@@ -38,7 +38,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File directory = fileSystem.getOriginalDirectory(step);
         //then
-        assertThat(directory, hasPath("workDirectory/Format/Original"));
+        assertThat(directory, hasPath("workDirectory/Format/1_Original"));
     }
 
     @Test
@@ -48,7 +48,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File file = fileSystem.getOriginalFile(step, "xppFileName.xml");
         //then
-        assertThat(file, hasPath("workDirectory/Format/Original/xppFileName.original"));
+        assertThat(file, hasPath("workDirectory/Format/1_Original/xppFileName.original"));
     }
 
     @Test
@@ -58,7 +58,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File directory = fileSystem.getPagebreakesUpDirectory(step);
         //then
-        assertThat(directory, hasPath("workDirectory/Format/PagebreakesUp"));
+        assertThat(directory, hasPath("workDirectory/Format/2_PagebreakesUp"));
     }
 
     @Test
@@ -68,7 +68,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File file = fileSystem.getPagebreakesUpFile(step, "fileName.original");
         //then
-        assertThat(file, hasPath("workDirectory/Format/PagebreakesUp/fileName.pagebreakesUp"));
+        assertThat(file, hasPath("workDirectory/Format/2_PagebreakesUp/fileName.pagebreakesUp"));
     }
 
     @Test
@@ -78,7 +78,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File directory = fileSystem.getOriginalPartsDirectory(step);
         //then
-        assertThat(directory, hasPath("workDirectory/Format/OriginalParts"));
+        assertThat(directory, hasPath("workDirectory/Format/3_OriginalParts"));
     }
 
     @Test
@@ -88,6 +88,6 @@ public final class XppFormatFileSystemImplTest
         //when
         final File file = fileSystem.getOriginalPartsFile(step, "fileName.original", 1);
         //then
-        assertThat(file, hasPath("workDirectory/Format/OriginalParts/fileName_1.part"));
+        assertThat(file, hasPath("workDirectory/Format/3_OriginalParts/fileName_1.part"));
     }
 }
