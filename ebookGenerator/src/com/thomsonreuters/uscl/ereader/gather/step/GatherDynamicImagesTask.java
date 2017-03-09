@@ -12,7 +12,6 @@ import javax.annotation.Resource;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.ImageFileSystem;
-import com.thomsonreuters.uscl.ereader.common.filesystem.XppUnpackFileSystem;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
@@ -30,7 +29,7 @@ import org.springframework.batch.core.ExitStatus;
 import org.springframework.util.Assert;
 
 /**
- * Fetch book images from the Image Vertical REST web service and save them
+ * Fetch book images from the Image REST web service and save them
  * into a specified image destination directory.
  */
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
@@ -49,9 +48,6 @@ public class GatherDynamicImagesTask extends BookStepImpl
     @Resource(name = "imageFileSystem")
     private ImageFileSystem imageFileSystem;
 
-    @Resource(name = "xppUnpackFileSystem")
-    private XppUnpackFileSystem xppUnpackFileSystem;
-
     @Resource(name = "gatherService")
     private GatherService gatherService;
 
@@ -64,7 +60,6 @@ public class GatherDynamicImagesTask extends BookStepImpl
         // Assert the state of the filesystem image directory and expected input files
         final File dynamicImageDestinationDirectory = imageFileSystem.getImageDynamicDirectory(this);
         final File imageGuidFile = formatFileSystem.getImageToDocumentManifestFile(this);
-        final String xppSourceImageGirectory = xppUnpackFileSystem.getXppAssetsDirectory(this);
 
         Assert.isTrue(
             dynamicImageDestinationDirectory.exists(),
@@ -94,13 +89,8 @@ public class GatherDynamicImagesTask extends BookStepImpl
 
         if (imageGuidNum > 0)
         {
-            final GatherImgRequest imgRequest = new GatherImgRequest(
-                imageGuidFile,
-                dynamicImageDestinationDirectory,
-                jobInstanceId,
-                getBookDefinition().isFinalStage());
-            //imgRequest.setXpp(isXpp);
-            imgRequest.setXppSourceImageDirectory(xppSourceImageGirectory);
+            final GatherImgRequest imgRequest = constructGatherImageRequest(dynamicImageDestinationDirectory, imageGuidFile, jobInstanceId);
+
             final GatherResponse gatherResponse = gatherService.getImg(imgRequest);
 
             if (gatherResponse.getMissingImgCount() > 0)
@@ -123,6 +113,18 @@ public class GatherDynamicImagesTask extends BookStepImpl
         }
 
         return ExitStatus.COMPLETED;
+    }
+
+    protected GatherImgRequest constructGatherImageRequest(
+        final File dynamicImageDestinationDirectory,
+        final File imageGuidFile,
+        final long jobInstanceId)
+    {
+        return new GatherImgRequest(
+            imageGuidFile,
+            dynamicImageDestinationDirectory,
+            jobInstanceId,
+            getBookDefinition().isFinalStage());
     }
 
     /**
