@@ -11,7 +11,7 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import com.thomsonreuters.uscl.ereader.request.EBookRequestException;
-import com.thomsonreuters.uscl.ereader.request.RequestConstants;
+import com.thomsonreuters.uscl.ereader.request.XPPConstants;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
@@ -58,7 +58,7 @@ public class GZIPService
                     catch (final IOException e)
                     {
                         final String message =
-                            String.format(RequestConstants.ERROR_EXTRACT_FILES, tarEntryFile.getAbsolutePath());
+                            String.format(XPPConstants.ERROR_EXTRACT_FILES, tarEntryFile.getAbsolutePath());
                         LOG.error(message, e);
                         throw new EBookRequestException(message, e);
                     }
@@ -68,7 +68,7 @@ public class GZIPService
         }
         catch (final IOException e)
         {
-            final String message = String.format(RequestConstants.ERROR_TARBALL_NOT_FOUND, tarball.getAbsolutePath());
+            final String message = String.format(XPPConstants.ERROR_TARBALL_NOT_FOUND, tarball.getAbsolutePath());
             LOG.error(message, e);
             throw new EBookRequestException(message, e);
         }

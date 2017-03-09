@@ -26,7 +26,7 @@ public class EBookBundle
     private int releaseNumber;
     @XmlElement(name = "volumes")
     private int volumes;
-    @XmlElement(name = "bunlde_root")
+    @XmlElement(name = "bundle_root")
     private String bundleRoot;
 
     public String getProductTitle()

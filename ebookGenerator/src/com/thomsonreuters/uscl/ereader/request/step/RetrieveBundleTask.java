@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.request.EBookRequest;
-import com.thomsonreuters.uscl.ereader.request.RequestConstants;
+import com.thomsonreuters.uscl.ereader.request.XPPConstants;
 import com.thomsonreuters.uscl.ereader.request.service.EBookRequestValidator;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Required;
 public class RetrieveBundleTask extends AbstractSbTasklet
 {
     public static final SimpleDateFormat DATE_DIRECTORY_FORMATER =
-        new SimpleDateFormat(RequestConstants.PATTERN_BUDNLE_ARCHIVE_DATE_DIRECTORY);
+        new SimpleDateFormat(XPPConstants.PATTERN_BUDNLE_ARCHIVE_DATE_DIRECTORY);
 
     private EBookRequestValidator eBookRequestValidator;
     private static final Logger log = LogManager.getLogger(RetrieveBundleTask.class);
@@ -37,7 +37,7 @@ public class RetrieveBundleTask extends AbstractSbTasklet
         final File ebookFile = request.getEBookSrcFile();
         final File destDir = new File(
             String.format(
-                RequestConstants.PATTERN_BUNDLE_ARCHIVE_FILE,
+                XPPConstants.PATTERN_BUNDLE_ARCHIVE_FILE,
                 jobEnvironment,
                 DATE_DIRECTORY_FORMATER.format(request.getDateTime())));
 

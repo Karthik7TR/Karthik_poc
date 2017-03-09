@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.request.EBookBundle;
 import com.thomsonreuters.uscl.ereader.request.EBookRequestException;
-import com.thomsonreuters.uscl.ereader.request.RequestConstants;
+import com.thomsonreuters.uscl.ereader.request.XPPConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
@@ -17,15 +17,15 @@ public class EBookBundleValidator
         Assert.notNull(bundleDir);
         if (!bundleDir.exists())
         {
-            throw new EBookRequestException(RequestConstants.ERROR_BUNDLE_NOT_FOUND + bundleDir.getAbsolutePath());
+            throw new EBookRequestException(XPPConstants.ERROR_BUNDLE_NOT_FOUND + bundleDir.getAbsolutePath());
         }
         final List<File> contents = Arrays.asList(bundleDir.listFiles());
 
         // TODO update as more of the directory structure is determined
-        validateDir(contents, new File(bundleDir, RequestConstants.FILE_ASSETS_DIRECTORY));
-        validateDir(contents, new File(bundleDir, RequestConstants.FILE_PDF_DIRECTORY));
-        validateDir(contents, new File(bundleDir, RequestConstants.FILE_XPP_DIRECTORY));
-        validateFile(contents, new File(bundleDir, RequestConstants.FILE_BUNDLE_XML));
+        validateDir(contents, new File(bundleDir, XPPConstants.FILE_ASSETS_DIRECTORY));
+        validateDir(contents, new File(bundleDir, XPPConstants.FILE_PDF_DIRECTORY));
+        validateDir(contents, new File(bundleDir, XPPConstants.FILE_XPP_DIRECTORY));
+        validateFile(contents, new File(bundleDir, XPPConstants.FILE_BUNDLE_XML));
     }
 
     private void validateDir(final List<File> bundleFiles, final File target) throws EBookRequestException

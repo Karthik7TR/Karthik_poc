@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import com.thomsonreuters.uscl.ereader.request.EBookBundle;
 import com.thomsonreuters.uscl.ereader.request.EBookRequestException;
-import com.thomsonreuters.uscl.ereader.request.RequestConstants;
+import com.thomsonreuters.uscl.ereader.request.XPPConstants;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Assert;
@@ -73,7 +73,7 @@ public final class EBookBundleValidatorTest
     {
         try
         {
-            new File(tempRootDir, RequestConstants.FILE_ASSETS_DIRECTORY).delete();
+            new File(tempRootDir, XPPConstants.FILE_ASSETS_DIRECTORY).delete();
             validator.validateBundleDirectory(tempRootDir);
 
             Assert.fail("Should thrown EBookRequestException");
@@ -94,7 +94,7 @@ public final class EBookBundleValidatorTest
     {
         try
         {
-            new File(tempRootDir, RequestConstants.FILE_PDF_DIRECTORY).delete();
+            new File(tempRootDir, XPPConstants.FILE_PDF_DIRECTORY).delete();
             validator.validateBundleDirectory(tempRootDir);
 
             Assert.fail("Should thrown EBookRequestException");
@@ -115,7 +115,7 @@ public final class EBookBundleValidatorTest
     {
         try
         {
-            new File(tempRootDir, RequestConstants.FILE_XPP_DIRECTORY).delete();
+            new File(tempRootDir, XPPConstants.FILE_XPP_DIRECTORY).delete();
             validator.validateBundleDirectory(tempRootDir);
 
             Assert.fail("Should thrown EBookRequestException");
@@ -136,7 +136,7 @@ public final class EBookBundleValidatorTest
     {
         try
         {
-            new File(tempRootDir, RequestConstants.FILE_BUNDLE_XML).delete();
+            new File(tempRootDir, XPPConstants.FILE_BUNDLE_XML).delete();
             validator.validateBundleDirectory(tempRootDir);
 
             Assert.fail("Should thrown EBookRequestException");
@@ -154,10 +154,10 @@ public final class EBookBundleValidatorTest
 
     private void initialize_Directory(final File rootDir) throws IOException
     {
-        new File(rootDir, RequestConstants.FILE_ASSETS_DIRECTORY).mkdir();
-        new File(rootDir, RequestConstants.FILE_PDF_DIRECTORY).mkdir();
-        new File(rootDir, RequestConstants.FILE_XPP_DIRECTORY).mkdir();
-        new File(rootDir, RequestConstants.FILE_BUNDLE_XML).createNewFile();
+        new File(rootDir, XPPConstants.FILE_ASSETS_DIRECTORY).mkdir();
+        new File(rootDir, XPPConstants.FILE_PDF_DIRECTORY).mkdir();
+        new File(rootDir, XPPConstants.FILE_XPP_DIRECTORY).mkdir();
+        new File(rootDir, XPPConstants.FILE_BUNDLE_XML).createNewFile();
     }
 
     @Test

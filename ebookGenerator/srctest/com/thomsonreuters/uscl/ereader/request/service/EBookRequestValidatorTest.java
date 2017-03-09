@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import com.thomsonreuters.uscl.ereader.request.EBookRequest;
-import com.thomsonreuters.uscl.ereader.request.RequestConstants;
+import com.thomsonreuters.uscl.ereader.request.XPPConstants;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -78,7 +78,7 @@ public final class EBookRequestValidatorTest
             errorMessage = e.getMessage();
         }
         Assert.assertTrue(thrown);
-        Assert.assertTrue(errorMessage.contains(RequestConstants.ERROR_INCOMPLETE_REQUEST));
+        Assert.assertTrue(errorMessage.contains(XPPConstants.ERROR_INCOMPLETE_REQUEST));
     }
 
     @Test
@@ -98,7 +98,7 @@ public final class EBookRequestValidatorTest
             errorMessage = e.getMessage();
         }
         Assert.assertTrue(thrown);
-        Assert.assertTrue(errorMessage.contains(RequestConstants.ERROR_BUNDLE_NOT_FOUND));
+        Assert.assertTrue(errorMessage.contains(XPPConstants.ERROR_BUNDLE_NOT_FOUND));
     }
 
     @Test
@@ -118,7 +118,7 @@ public final class EBookRequestValidatorTest
             errorMessage = e.getMessage();
         }
         Assert.assertTrue(thrown);
-        Assert.assertTrue(errorMessage.contains(RequestConstants.ERROR_BAD_HASH));
+        Assert.assertTrue(errorMessage.contains(XPPConstants.ERROR_BAD_HASH));
     }
 
     private EBookRequest createRequest()

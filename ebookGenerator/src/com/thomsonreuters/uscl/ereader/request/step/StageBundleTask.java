@@ -10,7 +10,7 @@ import com.thomsonreuters.uscl.ereader.request.BundleToProcess;
 import com.thomsonreuters.uscl.ereader.request.EBookBundle;
 import com.thomsonreuters.uscl.ereader.request.EBookRequest;
 import com.thomsonreuters.uscl.ereader.request.EBookRequestException;
-import com.thomsonreuters.uscl.ereader.request.RequestConstants;
+import com.thomsonreuters.uscl.ereader.request.XPPConstants;
 import com.thomsonreuters.uscl.ereader.request.dao.BundleToProcessDao;
 import com.thomsonreuters.uscl.ereader.request.dao.EBookArchiveDao;
 import com.thomsonreuters.uscl.ereader.request.service.EBookBundleValidator;
@@ -43,8 +43,8 @@ public class StageBundleTask extends AbstractSbTasklet
         final String env = getJobParameters(chunkContext).getString(JobParameterKey.ENVIRONMENT_NAME);
 
         final File tarball = request.getEBookSrcFile();
-        final String destName = StringUtils.substringBefore(tarball.getName(), RequestConstants.FILE_TARBALL_EXTENSION);
-        final String destPath = String.format(RequestConstants.PATTERN_BUDNLE_STAGED_DIRECTORY, env, destName);
+        final String destName = StringUtils.substringBefore(tarball.getName(), XPPConstants.FILE_TARBALL_EXTENSION);
+        final String destPath = String.format(XPPConstants.PATTERN_BUDNLE_STAGED_DIRECTORY, env, destName);
         final File destDir = new File(destPath);
 
         // unpack bundle
@@ -70,7 +70,7 @@ public class StageBundleTask extends AbstractSbTasklet
 
     private @NotNull EBookBundle retrieveBundleXml(@NotNull final File request) throws EBookRequestException
     {
-        final File bundleFile = new File(request, RequestConstants.FILE_BUNDLE_XML);
+        final File bundleFile = new File(request, XPPConstants.FILE_BUNDLE_XML);
         try (FileInputStream inStream = new FileInputStream(bundleFile))
         {
             return JAXBParser.parse(inStream, EBookBundle.class);
@@ -88,7 +88,7 @@ public class StageBundleTask extends AbstractSbTasklet
         {
             if (dup.equals(request))
             {
-                final String msg = RequestConstants.ERROR_DUPLICATE_REQUEST + request;
+                final String msg = XPPConstants.ERROR_DUPLICATE_REQUEST + request;
                 throw new EBookRequestException(msg);
             }
             else

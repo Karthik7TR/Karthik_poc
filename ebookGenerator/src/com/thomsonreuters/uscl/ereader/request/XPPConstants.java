@@ -1,6 +1,6 @@
 package com.thomsonreuters.uscl.ereader.request;
 
-public final class RequestConstants
+public final class XPPConstants
 {
     public static final String PATTERN_BUDNLE_ARCHIVE_DATE_DIRECTORY = "YYYY/MM";
     public static final String PATTERN_BUNDLE_ARCHIVE_FILE = "/apps/eBookBuilder/%s/xpp/archive/%s";
@@ -20,7 +20,7 @@ public final class RequestConstants
     public static final String ERROR_BAD_HASH = "Verification hash does not match for:  ";
     public static final String ERROR_DUPLICATE_REQUEST = "Request already received: ";
 
-    private RequestConstants()
+    private XPPConstants()
     {
         // static content class
     }

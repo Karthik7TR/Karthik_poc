@@ -14,7 +14,7 @@ import com.thomsonreuters.uscl.ereader.request.BundleToProcess;
 import com.thomsonreuters.uscl.ereader.request.EBookBundle;
 import com.thomsonreuters.uscl.ereader.request.EBookRequest;
 import com.thomsonreuters.uscl.ereader.request.EBookRequestException;
-import com.thomsonreuters.uscl.ereader.request.RequestConstants;
+import com.thomsonreuters.uscl.ereader.request.XPPConstants;
 import com.thomsonreuters.uscl.ereader.request.dao.BundleToProcessDao;
 import com.thomsonreuters.uscl.ereader.request.dao.EBookArchiveDao;
 import com.thomsonreuters.uscl.ereader.request.service.EBookBundleValidator;
@@ -140,7 +140,7 @@ public final class StageBundleTaskTest
         final EBookRequest request =
             createRequest("1.0", "ThisIsAnId", "ThisIsTheHash", new Date(1487201107046L), tarball.getAbsolutePath());
         final EBookBundle bundle = createBundle("title", "type");
-        final String expectedError = RequestConstants.ERROR_DUPLICATE_REQUEST + request.getMessageId();
+        final String expectedError = XPPConstants.ERROR_DUPLICATE_REQUEST + request.getMessageId();
 
         mockGetJobExecutionContext(mockChunkContext, mockExecutionContext);
         EasyMock.expect(mockExecutionContext.get(JobParameterKey.KEY_EBOOK_REQUEST)).andReturn(request);

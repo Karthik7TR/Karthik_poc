@@ -7,7 +7,7 @@ import java.io.InputStream;
 
 import com.thomsonreuters.uscl.ereader.jms.exception.MessageQueueException;
 import com.thomsonreuters.uscl.ereader.request.EBookRequest;
-import com.thomsonreuters.uscl.ereader.request.RequestConstants;
+import com.thomsonreuters.uscl.ereader.request.XPPConstants;
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class EBookRequestValidator
@@ -21,13 +21,13 @@ public class EBookRequestValidator
             || request.getMessageId() == null
             || request.getVersion() == null)
         {
-            throw new MessageQueueException(RequestConstants.ERROR_INCOMPLETE_REQUEST);
+            throw new MessageQueueException(XPPConstants.ERROR_INCOMPLETE_REQUEST);
         }
 
         final File ebook = request.getEBookSrcFile();
         if (!ebook.exists())
         {
-            throw new MessageQueueException(RequestConstants.ERROR_BUNDLE_NOT_FOUND + ebook.getAbsolutePath());
+            throw new MessageQueueException(XPPConstants.ERROR_BUNDLE_NOT_FOUND + ebook.getAbsolutePath());
         }
 
         final String hash;
@@ -37,12 +37,12 @@ public class EBookRequestValidator
         }
         catch (final IOException e)
         {
-            throw new MessageQueueException(RequestConstants.ERROR_CREATE_HASH, e);
+            throw new MessageQueueException(XPPConstants.ERROR_CREATE_HASH, e);
         }
 
         if (!request.getBundleHash().equals(hash))
         {
-            throw new MessageQueueException(RequestConstants.ERROR_BAD_HASH + ebook.getAbsolutePath());
+            throw new MessageQueueException(XPPConstants.ERROR_BAD_HASH + ebook.getAbsolutePath());
         }
     }
 }
