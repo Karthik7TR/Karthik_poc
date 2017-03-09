@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
-<Configuration threashold="all">
+<Configuration threashold="all" packages="com.thomsonreuters.enterpriselogging.appender.log4j2,com.thomsonreuters.enterpriselogging.log4j2">
 	<Properties />
-	<!-- empty tag forces properties to be resolved https://issues.apache.org/jira/browse/LOG4J2-470 -->
+	<!-- empty tag forces properties to be resolved https://issues.apache.org/jira/browse/LOG4J2-470  .appender.log4j2,com.thomsonreuters.enterpriselogging.log4j2-->
 	<Appenders>
 		<Console name="console" target="SYSTEM_OUT">
 			<PatternLayout pattern="%d{MM/dd HH:mm:ss.SSS} %-5p %C{1}.%M: %m%n" />
@@ -16,16 +16,27 @@
 			</Policies>
 			<DefaultRolloverStrategy max="5" />
 		</RollingFile>
+		<kafka name="ECPKafkaLog4j2Appender" topic="event.aggregation.default" alertTopic="event.aggregation.priority"  syncSend="false" 
+					headerNames="sp-timestamp,sp-eventSourceUUID,sp-eventType,sp-eventSeverity">
+             <Property name="bootstrap.servers">${sys:bootstrap.servers.url}</Property>
+             <Property name="acks">0</Property>
+             <Property name="compression.type">none</Property>
+             <Log4j2JsonEventLayout/> 
+         </kafka>
+		
 	</Appenders>
+	 
 	<Loggers>
 		<Logger name="com.thomsonreuters.uscl.ereader" level="debug"
 			additivity="false">
 			<AppenderRef ref="console" />
 			<AppenderRef ref="rollingFileAppender" />
+			<AppenderRef ref="ECPKafkaLog4j2Appender" />
 		</Logger>
 		<Root level="warn">
 			<AppenderRef ref="console" />
 			<AppenderRef ref="rollingFileAppender" />
+			<AppenderRef ref="ECPKafkaLog4j2Appender" />
 		</Root>
 	</Loggers>
 </Configuration>
