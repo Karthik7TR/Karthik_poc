@@ -344,7 +344,8 @@ public class TransformerServiceImpl implements TransformerService
         {
             final Source xsltSource = new StreamSource(xslt);
 
-            final TransformerFactory transFact = TransformerFactory.newInstance();
+            final TransformerFactory transFact = TransformerFactory
+                .newInstance("org.apache.xalan.xsltc.trax.SmartTransformerFactoryImpl", TransformerServiceImpl.class.getClassLoader());
 
             final XSLIncludeResolver resolver = new XSLIncludeResolver();
             resolver.setIncludeAnnotations(bookDefinition.getIncludeAnnotations());
