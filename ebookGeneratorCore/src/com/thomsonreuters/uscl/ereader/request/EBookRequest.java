@@ -125,6 +125,16 @@ public class EBookRequest implements Serializable
         this.dateTime = dateTime;
     }
 
+    public String getEBookSrcPath()
+    {
+        return archiveLocation;
+    }
+
+    public void setEBookSrcPath(final String path)
+    {
+        archiveLocation = path;
+    }
+
     public File getEBookSrcFile()
     {
         return archiveLocation == null ? null : new File(archiveLocation);

@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.request.EBookRequestException;
+import com.thomsonreuters.uscl.ereader.request.RequestConstants;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Assert;
@@ -67,7 +68,7 @@ public final class GZIPServiceTest
     public void testMissingTarball()
     {
         tarball = new File("definitely_not_real.bad");
-        final String expectedError = String.format(GZIPService.ERROR_TARBALL_NOT_FOUND, tarball.getAbsolutePath());
+        final String expectedError = String.format(RequestConstants.ERROR_TARBALL_NOT_FOUND, tarball.getAbsolutePath());
         String msg = null;
         try
         {

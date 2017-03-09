@@ -10,12 +10,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
-public class BundleArchiveDaoImpl implements BundleArchiveDao
+public class EBookArchiveDaoImpl implements EBookArchiveDao
 {
-    private static final Logger log = LogManager.getLogger(BundleArchiveDaoImpl.class);
+    private static final Logger log = LogManager.getLogger(EBookArchiveDaoImpl.class);
     private SessionFactory sessionFactory;
 
-    public BundleArchiveDaoImpl(final SessionFactory sessionFactory)
+    public EBookArchiveDaoImpl(final SessionFactory sessionFactory)
     {
         this.sessionFactory = sessionFactory;
     }
@@ -41,7 +41,7 @@ public class BundleArchiveDaoImpl implements BundleArchiveDao
     @Override
     public void deleteRequest(final long ebookRequestId)
     {
-        // possible TODO: log more human-readable information about the request being deleted. (requires a table read)
+        // TODO: Determine whether to log more human-readable information about the request being deleted. (requires a table read)
         log.warn(String.format("Removing request %d from the Bundle Archive.", ebookRequestId));
         final Session session = sessionFactory.getCurrentSession();
         session.delete(findByPrimaryKey(ebookRequestId));

@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 import com.thomsonreuters.uscl.ereader.jms.client.JMSClient;
 import com.thomsonreuters.uscl.ereader.jms.client.impl.JmsClientImpl;
 import com.thomsonreuters.uscl.ereader.request.EBookRequest;
-import com.thomsonreuters.uscl.ereader.request.dao.BundleArchiveDao;
+import com.thomsonreuters.uscl.ereader.request.dao.EBookArchiveDao;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -49,7 +49,7 @@ public final class ArchiverIntegrationTest
     private ThreadPoolTaskExecutor springBatchBundleTaskExecutor;
 
     @Autowired
-    private BundleArchiveDao bundleArchiveDao;
+    private EBookArchiveDao bundleArchiveDao;
 
     @Test
     public void testRun() throws InterruptedException

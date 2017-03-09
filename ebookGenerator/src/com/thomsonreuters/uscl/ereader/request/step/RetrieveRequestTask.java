@@ -2,11 +2,10 @@ package com.thomsonreuters.uscl.ereader.request.step;
 
 import java.io.ByteArrayInputStream;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.jaxb.JAXBParser;
 import com.thomsonreuters.uscl.ereader.jms.exception.MessageQueueException;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.request.EBookRequest;
@@ -50,18 +49,18 @@ public class RetrieveRequestTask extends AbstractSbTasklet
         catch (final JAXBException e)
         {
             // TODO: handle unmarshalling exception
-            log.error("request cannot be parsed: " + request);
+            log.error("request cannot be parsed: " + request, e);
             return ExitStatus.FAILED;
         }
         catch (final MessageQueueException e)
         {
-            log.error("request is invalid: " + e.getMessage());
+            log.error("request is invalid: " + e.getMessage(), e);
             // cannot process
             return ExitStatus.FAILED;
         }
         catch (final Exception e)
         {
-            log.error("Exception encountered: " + e.getMessage());
+            log.error("Exception encountered: " + e.getMessage(), e);
             throw e;
         }
 
@@ -73,10 +72,8 @@ public class RetrieveRequestTask extends AbstractSbTasklet
 
     private EBookRequest unmarshalRequest(final String request) throws JAXBException
     {
-        final JAXBContext context = JAXBContext.newInstance(EBookRequest.class);
-        final Unmarshaller unmarshaller = context.createUnmarshaller();
         final EBookRequest eBookRequest =
-            (EBookRequest) unmarshaller.unmarshal(new ByteArrayInputStream(request.getBytes()));
+            JAXBParser.parse(new ByteArrayInputStream(request.getBytes()), EBookRequest.class);
         eBookRequest.setMessageRequest(request);
         return eBookRequest;
     }

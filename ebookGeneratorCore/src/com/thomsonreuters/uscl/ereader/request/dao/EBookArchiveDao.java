@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.request.EBookRequest;
 
-public interface BundleArchiveDao
+public interface EBookArchiveDao
 {
     /**
      * Add a request to the archive

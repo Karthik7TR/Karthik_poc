@@ -7,16 +7,11 @@ import java.io.InputStream;
 
 import com.thomsonreuters.uscl.ereader.jms.exception.MessageQueueException;
 import com.thomsonreuters.uscl.ereader.request.EBookRequest;
+import com.thomsonreuters.uscl.ereader.request.RequestConstants;
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class EBookRequestValidator
 {
-    public static final String ERROR_INCOMPLETE_REQUEST = "null field detected";
-    public static final String ERROR_EBOOK_NOT_FOUND = "ebook not found at specified location: ";
-    public static final String ERROR_CREATE_HASH = "problem encountered while hashing file";
-    public static final String ERROR_BAD_HASH = "verification hash does not match for ";
-    public static final String ERROR_DUPLICATE_REQUEST = "Request already received";
-
     public void validate(final EBookRequest request) throws MessageQueueException
     {
         if (request == null
@@ -26,13 +21,13 @@ public class EBookRequestValidator
             || request.getMessageId() == null
             || request.getVersion() == null)
         {
-            throw new MessageQueueException(ERROR_INCOMPLETE_REQUEST);
+            throw new MessageQueueException(RequestConstants.ERROR_INCOMPLETE_REQUEST);
         }
 
         final File ebook = request.getEBookSrcFile();
         if (!ebook.exists())
         {
-            throw new MessageQueueException(ERROR_EBOOK_NOT_FOUND + ebook.getAbsolutePath());
+            throw new MessageQueueException(RequestConstants.ERROR_BUNDLE_NOT_FOUND + ebook.getAbsolutePath());
         }
 
         final String hash;
@@ -42,12 +37,12 @@ public class EBookRequestValidator
         }
         catch (final IOException e)
         {
-            throw new MessageQueueException(ERROR_CREATE_HASH, e);
+            throw new MessageQueueException(RequestConstants.ERROR_CREATE_HASH, e);
         }
 
         if (!request.getBundleHash().equals(hash))
         {
-            throw new MessageQueueException(ERROR_BAD_HASH + ebook.getAbsolutePath());
+            throw new MessageQueueException(RequestConstants.ERROR_BAD_HASH + ebook.getAbsolutePath());
         }
     }
 }

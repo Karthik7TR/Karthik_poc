@@ -11,6 +11,7 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import com.thomsonreuters.uscl.ereader.request.EBookRequestException;
+import com.thomsonreuters.uscl.ereader.request.RequestConstants;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
@@ -21,9 +22,6 @@ import org.apache.tools.tar.TarOutputStream;
 
 public class GZIPService
 {
-    public static final String ERROR_TARBALL_NOT_FOUND = "Unable to access tarball  %s";
-    public static final String ERROR_EXTRACT_FILES = "Unable to create output file  %s";
-
     private static final int BUFF_SIZE = 2048;
     private static final Logger LOG = LogManager.getLogger(GZIPService.class);
 
@@ -59,7 +57,8 @@ public class GZIPService
                     }
                     catch (final IOException e)
                     {
-                        final String message = String.format(ERROR_EXTRACT_FILES, tarEntryFile.getAbsolutePath());
+                        final String message =
+                            String.format(RequestConstants.ERROR_EXTRACT_FILES, tarEntryFile.getAbsolutePath());
                         LOG.error(message, e);
                         throw new EBookRequestException(message, e);
                     }
@@ -69,7 +68,7 @@ public class GZIPService
         }
         catch (final IOException e)
         {
-            final String message = String.format(ERROR_TARBALL_NOT_FOUND, tarball.getAbsolutePath());
+            final String message = String.format(RequestConstants.ERROR_TARBALL_NOT_FOUND, tarball.getAbsolutePath());
             LOG.error(message, e);
             throw new EBookRequestException(message, e);
         }

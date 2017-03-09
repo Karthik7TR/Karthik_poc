@@ -1,9 +1,8 @@
 package com.thomsonreuters.uscl.ereader.request;
 
-import java.io.File;
 import java.util.Date;
 
-import com.thomsonreuters.uscl.ereader.request.dao.EBookArchiveDaoImpl;
+import com.thomsonreuters.uscl.ereader.request.dao.BundleToProcessDao;
 import org.easymock.EasyMock;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -12,9 +11,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class BundleArchiveDaoImplTest
+public final class BundleToProcessDaoTest
 {
-    private EBookArchiveDaoImpl archiveDao;
+    private BundleToProcessDao bundleDao;
 
     private SessionFactory mockSessionFactory;
     private Session mockSession;
@@ -27,29 +26,30 @@ public final class BundleArchiveDaoImplTest
         mockSession = EasyMock.createMock(Session.class);
         mockCriteria = EasyMock.createMock(Criteria.class);
 
-        archiveDao = new EBookArchiveDaoImpl(mockSessionFactory);
+        bundleDao = new BundleToProcessDao(mockSessionFactory);
     }
 
     @Test
     public void happyPath()
     {
         final long pkey = 1L;
-        final EBookRequest expected = createEbookRequest();
+        final BundleToProcess expected = createBundleToProcess();
         EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
-        EasyMock.expect(mockSession.get(EBookRequest.class, pkey)).andReturn(expected);
+        EasyMock.expect(mockSession.get(BundleToProcess.class, pkey)).andReturn(expected);
         replayAll();
 
-        final EBookRequest actual = archiveDao.findByPrimaryKey(pkey);
+        final BundleToProcess actual = bundleDao.findByPrimaryKey(pkey);
         Assert.assertEquals(expected, actual);
     }
 
-    private EBookRequest createEbookRequest()
+    private BundleToProcess createBundleToProcess()
     {
-        final EBookRequest request = new EBookRequest();
-        request.setBundleHash("asdfasda");
+        final BundleToProcess request = new BundleToProcess(new EBookRequest());
         request.setDateTime(new Date());
-        request.setEBookArchiveId(127L);
-        request.setEBookSrcFile(new File("asdfasdfa"));
+        request.setBundleToProcessId(127L);
+        request.setSourceLocation("asdfasdfa");
+        request.setProductName("productname");
+        request.setProductType("producttype");
         return request;
     }
 

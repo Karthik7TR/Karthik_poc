@@ -65,6 +65,7 @@
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation</value>
 		    <value>com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit</value>
 		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PilotBook</value>
+		    <value>com.thomsonreuters.uscl.ereader.request.BundleToProcess</value>
 		    <value>com.thomsonreuters.uscl.ereader.request.EBookRequest</value>
 		  </list>
 		</property>
@@ -139,7 +140,11 @@
 		<constructor-arg ref="sessionFactory" />
 	</bean>
 	
-	<bean id="bundleArchiveDao" class="com.thomsonreuters.uscl.ereader.request.dao.BundleArchiveDaoImpl">
+	<bean id="bundleToProcessDao" class="com.thomsonreuters.uscl.ereader.request.dao.BundleToProcessDao">
+		<constructor-arg ref="sessionFactory" />
+	</bean>
+	
+	<bean id="ebookArchiveDao" class="com.thomsonreuters.uscl.ereader.request.dao.EBookArchiveDaoImpl">
 		<constructor-arg ref="sessionFactory" />
 	</bean>
 		  

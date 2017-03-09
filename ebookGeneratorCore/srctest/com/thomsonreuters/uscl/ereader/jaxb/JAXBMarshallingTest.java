@@ -29,6 +29,7 @@ import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
+import com.thomsonreuters.uscl.ereader.request.EBookBundle;
 import com.thomsonreuters.uscl.ereader.request.EBookRequest;
 import org.apache.log4j.Level;
 import org.junit.After;
@@ -53,6 +54,38 @@ public final class JAXBMarshallingTest
     {
         inStream = null;
         outStream = null;
+    }
+
+    @Test
+    public void testMarshalEBookBundle()
+    {
+        try
+        {
+            final JAXBContext context = JAXBContext.newInstance(EBookBundle.class);
+            final Marshaller marshaller = context.createMarshaller();
+            final Unmarshaller unmarshaller = context.createUnmarshaller();
+
+            final EBookBundle expected = new EBookBundle();
+            expected.setProductTitle("1.0");
+            expected.setProductType("ed4abfa40ee548388d39ecad55a0daaa");
+            expected.setMaterialNumber(0x8d8d44aef6464c9aL);
+            expected.setReleaseDate(new Date());
+            expected.setReleaseNumber(5);
+            expected.setVolumes(8);
+            expected.setBundleRoot("/apps/eBookBuilder/prodcontent/xpp/tileName.gz");
+
+            outStream = new ByteArrayOutputStream();
+            marshaller.marshal(expected, outStream);
+            inStream = new ByteArrayInputStream(outStream.toByteArray());
+            final EBookBundle actual = (EBookBundle) unmarshaller.unmarshal(inStream);
+
+            Assert.assertEquals(expected, actual);
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
     }
 
     @Test

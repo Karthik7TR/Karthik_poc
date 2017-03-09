@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.request.EBookRequest;
+import com.thomsonreuters.uscl.ereader.request.RequestConstants;
 import com.thomsonreuters.uscl.ereader.request.service.EBookRequestValidator;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
@@ -18,8 +19,8 @@ import org.springframework.beans.factory.annotation.Required;
 
 public class RetrieveBundleTask extends AbstractSbTasklet
 {
-    public static final String ARCHIVE_FILE_PATTERN = "/apps/eBookBuilder/%s/xpp/archive/%s";
-    public static final SimpleDateFormat DATE_DIRECTORY_FORMATER = new SimpleDateFormat("YYYY/MM");
+    public static final SimpleDateFormat DATE_DIRECTORY_FORMATER =
+        new SimpleDateFormat(RequestConstants.PATTERN_BUDNLE_ARCHIVE_DATE_DIRECTORY);
 
     private EBookRequestValidator eBookRequestValidator;
     private static final Logger log = LogManager.getLogger(RetrieveBundleTask.class);
@@ -35,7 +36,10 @@ public class RetrieveBundleTask extends AbstractSbTasklet
 
         final File ebookFile = request.getEBookSrcFile();
         final File destDir = new File(
-            String.format(ARCHIVE_FILE_PATTERN, jobEnvironment, DATE_DIRECTORY_FORMATER.format(request.getDateTime())));
+            String.format(
+                RequestConstants.PATTERN_BUNDLE_ARCHIVE_FILE,
+                jobEnvironment,
+                DATE_DIRECTORY_FORMATER.format(request.getDateTime())));
 
         if (!destDir.exists() && !destDir.mkdirs())
         {
@@ -51,7 +55,7 @@ public class RetrieveBundleTask extends AbstractSbTasklet
             {
                 // bundle moved, but not deleted (likely permissions issue)
                 // TODO handle this type of error
-                log.error(e.getMessage());
+                log.error(e.getMessage(), e);
             }
             else
             {

@@ -207,7 +207,7 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase
                 titleMetadata,
                 new HashMap<String, String>(),
                 uuidGenerator,
-                new File("test"),
+                new File("test"),//TODO this file is not deleted
                 mockFileUtilsFacade,
                 mockPlaceholderDocumentService,
                 docImageMap);
