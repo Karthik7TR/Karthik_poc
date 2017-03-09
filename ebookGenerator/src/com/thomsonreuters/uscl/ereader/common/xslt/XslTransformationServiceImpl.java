@@ -1,8 +1,8 @@
 package com.thomsonreuters.uscl.ereader.common.xslt;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -24,18 +24,36 @@ public class XslTransformationServiceImpl implements XslTransformationService
     @Override
     public void transform(final Transformer transformer, final File input, final File output)
     {
-        try (final FileInputStream inputStream = FileUtils.openInputStream(input))
+        try (final InputStream inputStream = FileUtils.openInputStream(input))
         {
             final Source source = new StreamSource(inputStream);
-            final Result result = new StreamResult(output);
+            final File out = output.isDirectory() ? getTempOutputFile(output) : output;
+            final Result result = new StreamResult(out);
             transformer.transform(source, result);
-            LOG.debug(String.format("File %s transformed to %s", input.getAbsolutePath(), output.getAbsolutePath()));
+
+            if (getTempOutputFile(output).exists())
+            {
+                FileUtils.forceDelete(getTempOutputFile(output));
+            }
+            LOG.debug(
+                String.format(
+                    "File %s successfully transformed to %s",
+                    input.getAbsolutePath(),
+                    output.getAbsolutePath()));
         }
         catch (final TransformerException | IOException e)
         {
-            final String message = String.format("Transformation error. Cannot produce %s", output.getAbsolutePath());
+            final String message = String.format(
+                "Transformation error. Cannot transform %s to %s",
+                input.getAbsolutePath(),
+                output.getAbsolutePath());
             LOG.error(message, e);
             throw new XslTransformationException(message, e);
         }
+    }
+
+    private File getTempOutputFile(final File output)
+    {
+        return new File(output, "temp");
     }
 }

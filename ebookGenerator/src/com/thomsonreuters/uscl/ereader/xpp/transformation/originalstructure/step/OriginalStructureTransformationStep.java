@@ -9,9 +9,10 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificat
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
-import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilder;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
@@ -28,8 +29,8 @@ public class OriginalStructureTransformationStep extends BookStepImpl
     @Value("${xpp.transform.to.original.xsl}")
     private File transformToOriginalXsl;
 
-    @Resource(name = "transformerBuilder")
-    private TransformerBuilder transformerBuilder;
+    @Resource(name = "transformerBuilderFactory")
+    private TransformerBuilderFactory transformerBuilderFactory;
     @Resource(name = "xslTransformationService")
     private XslTransformationService transformationService;
     @Resource(name = "xppFormatFileSystem")
@@ -41,25 +42,17 @@ public class OriginalStructureTransformationStep extends BookStepImpl
         //TODO: remove after transformer will start to get real input data
         if (!xppDirectory.exists())
         {
-            LOG.debug(
-                String.format(
-                    "%s skipped, because sample xppTemp directory not found",
-                    getStepName()));
+            LOG.debug(String.format("%s skipped, because sample xppTemp directory not found", getStepName()));
             return ExitStatus.COMPLETED;
         }
 
-        fileSystem.getOriginalDirectory(this).mkdirs();
-        final Transformer transformer = transformerBuilder.create(transformToOriginalXsl).build();
+        FileUtils.forceMkdir(fileSystem.getOriginalDirectory(this));
+        final Transformer transformer = transformerBuilderFactory.create().withXsl(transformToOriginalXsl).build();
         for (final File xppFile : xppDirectory.listFiles())
         {
-            transformXppFile(transformer, xppFile);
+            final File originalFile = fileSystem.getOriginalFile(this, xppFile.getName());
+            transformationService.transform(transformer, xppFile, originalFile);
         }
         return ExitStatus.COMPLETED;
-    }
-
-    private void transformXppFile(final Transformer transformer, final File xppFile)
-    {
-        final File originalFile = fileSystem.getOriginalFile(this, xppFile.getName());
-        transformationService.transform(transformer, xppFile, originalFile);
     }
 }

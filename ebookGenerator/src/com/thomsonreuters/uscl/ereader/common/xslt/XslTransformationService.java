@@ -12,7 +12,7 @@ public interface XslTransformationService
     /**
      * Transform source file to output file using transformer
      * @param transformer XSLT transformer
-     * @param inputStream source content to transform
+     * @param input input file
      * @param output output file
      */
     void transform(Transformer transformer, File input, File output);

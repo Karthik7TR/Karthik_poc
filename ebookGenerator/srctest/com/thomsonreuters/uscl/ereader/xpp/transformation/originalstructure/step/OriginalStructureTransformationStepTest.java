@@ -11,7 +11,7 @@ import java.io.IOException;
 
 import javax.xml.transform.Transformer;
 
-import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilder;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -34,7 +34,7 @@ public final class OriginalStructureTransformationStepTest
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private ChunkContext chunkContext;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-    private TransformerBuilder transformerBuilder;
+    private TransformerBuilderFactory transformerBuilderFactory;
     @Mock
     private XslTransformationService transformationService;
     @Mock

@@ -64,4 +64,16 @@ public final class XslTransformationServiceImplTest
         //then
         then(transformer).should().transform(any(Source.class), any(Result.class));
     }
+
+    @Test
+    public void shouldTransformIfOutputIsDirectory() throws TransformerException, IOException
+    {
+        //given
+        input.createNewFile();
+        output = temporaryFolder.getRoot();
+        //when
+        service.transform(transformer, input, output);
+        //then
+        then(transformer).should().transform(any(Source.class), any(Result.class));
+    }
 }

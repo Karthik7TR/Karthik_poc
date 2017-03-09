@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 public interface XppFormatFileSystem extends FormatFileSystem
 {
     /**
-     * Returns split book directory:
+     * Returns original XMLs directory:
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /Original}
      */
@@ -20,11 +20,44 @@ public interface XppFormatFileSystem extends FormatFileSystem
     File getOriginalDirectory(@NotNull BookStep step);
 
     /**
-     * Returns split book directory:
+     * Returns original XML file:
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
      * {@code /}{@link getOriginalDirectory Original}{@code /fileName.original}
      */
     @NotNull
     File getOriginalFile(@NotNull BookStep step, @NotNull String xppFileName);
+
+    /**
+     * Returns original XMLs directory:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /PagebreakesUp}
+     */
+    @NotNull
+    File getPagebreakesUpDirectory(@NotNull BookStep step);
+
+    /**
+     * Returns original XMLs directory:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
+     * {@code /}{@link getPagebreakesUpDirectory PagebreakesUp}{@code /fileName.pagebreakesUp}
+     */
+    @NotNull
+    File getPagebreakesUpFile(@NotNull BookStep step, @NotNull String name);
+
+    /**
+     * Returns original XML part:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /OriginalParts}
+     */
+    @NotNull
+    File getOriginalPartsDirectory(@NotNull BookStep step);
+
+    /**
+     * Returns original XML part:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /OriginalParts}
+     */
+    @NotNull
+    File getOriginalPartsFile(@NotNull BookStep step, @NotNull String name, int partNumber);
 }

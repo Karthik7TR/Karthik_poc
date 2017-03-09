@@ -46,8 +46,48 @@ public final class XppFormatFileSystemImplTest
     {
         //given
         //when
-        final File file = fileSystem.getOriginalFile(step, "xppFileName");
+        final File file = fileSystem.getOriginalFile(step, "xppFileName.xml");
         //then
         assertThat(file, hasPath("workDirectory/Format/Original/xppFileName.original"));
+    }
+
+    @Test
+    public void shouldReturnPageBreakesUpDirectory()
+    {
+        //given
+        //when
+        final File directory = fileSystem.getPagebreakesUpDirectory(step);
+        //then
+        assertThat(directory, hasPath("workDirectory/Format/PagebreakesUp"));
+    }
+
+    @Test
+    public void shouldReturnPageBreakesUpFile()
+    {
+        //given
+        //when
+        final File file = fileSystem.getPagebreakesUpFile(step, "fileName.original");
+        //then
+        assertThat(file, hasPath("workDirectory/Format/PagebreakesUp/fileName.pagebreakesUp"));
+    }
+
+    @Test
+    public void shouldReturnOriginalPartsDirectory()
+    {
+        //given
+        //when
+        final File directory = fileSystem.getOriginalPartsDirectory(step);
+        //then
+        assertThat(directory, hasPath("workDirectory/Format/OriginalParts"));
+    }
+
+    @Test
+    public void shouldReturnOriginalPartsFile()
+    {
+        //given
+        //when
+        final File file = fileSystem.getOriginalPartsFile(step, "fileName.original", 1);
+        //then
+        assertThat(file, hasPath("workDirectory/Format/OriginalParts/fileName_1.part"));
     }
 }
