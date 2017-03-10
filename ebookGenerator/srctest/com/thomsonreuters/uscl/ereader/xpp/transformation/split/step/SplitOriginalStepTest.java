@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.split.step;
 
+import static java.util.Arrays.asList;
+
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
@@ -25,15 +27,12 @@ import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.batch.core.scope.context.ChunkContext;
 
 @RunWith(MockitoJUnitRunner.class)
 public final class SplitOriginalStepTest
 {
     @InjectMocks
     private SplitOriginalStep step;
-    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-    private ChunkContext chunkContext;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private TransformerBuilderFactory transformerBuilderFactory;
     @Mock
@@ -56,15 +55,15 @@ public final class SplitOriginalStepTest
     public void setUp() throws IOException
     {
         final File root = temporaryFolder.getRoot();
-        final File originalDir = new File(root, "Original");
-        FileUtils.forceMkdir(originalDir);
         final File moveUpDir = new File(root, "MoveUp");
         FileUtils.forceMkdir(moveUpDir);
+        final File original = new File(root, "temp");
+        original.createNewFile();
+
         originalPartsDirectory = new File(root, "OriginalParts");
-        given(fileSystem.getOriginalDirectory(step)).willReturn(originalDir);
+        given(fileSystem.getOriginalFiles(step)).willReturn(asList(original));
         given(fileSystem.getPagebreakesUpDirectory(step)).willReturn(moveUpDir);
         given(fileSystem.getOriginalPartsDirectory(step)).willReturn(originalPartsDirectory);
-        new File(originalDir, "temp").createNewFile();
         new File(moveUpDir, "temp").createNewFile();
     }
 

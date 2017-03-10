@@ -25,6 +25,8 @@ public class OriginalStructureTransformationStep extends BookStepImpl
     private File xppDirectory;
     @Value("${xpp.transform.to.original.xsl}")
     private File transformToOriginalXsl;
+    @Value("${xpp.transform.to.footnotes.xsl}")
+    private File transformToFootnotesXsl;
 
     @Resource(name = "transformerBuilderFactory")
     private TransformerBuilderFactory transformerBuilderFactory;
@@ -44,12 +46,30 @@ public class OriginalStructureTransformationStep extends BookStepImpl
         }
 
         FileUtils.forceMkdir(fileSystem.getOriginalDirectory(this));
-        final Transformer transformer = transformerBuilderFactory.create().withXsl(transformToOriginalXsl).build();
+        getOriginalXmls();
+        getFootnotesXmls();
+        return ExitStatus.COMPLETED;
+    }
+
+    private void getOriginalXmls()
+    {
+        final Transformer transformerToOriginal =
+            transformerBuilderFactory.create().withXsl(transformToOriginalXsl).build();
         for (final File xppFile : xppDirectory.listFiles())
         {
             final File originalFile = fileSystem.getOriginalFile(this, xppFile.getName());
-            transformationService.transform(transformer, xppFile, originalFile);
+            transformationService.transform(transformerToOriginal, xppFile, originalFile);
         }
-        return ExitStatus.COMPLETED;
+    }
+
+    private void getFootnotesXmls()
+    {
+        final Transformer transformerToFootnotes =
+            transformerBuilderFactory.create().withXsl(transformToFootnotesXsl).build();
+        for (final File xppFile : xppDirectory.listFiles())
+        {
+            final File footnotesFile = fileSystem.getFootnotesFile(this, xppFile.getName());
+            transformationService.transform(transformerToFootnotes, xppFile, footnotesFile);
+        }
     }
 }

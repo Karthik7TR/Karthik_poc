@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.service;
 
 import java.io.File;
+import java.util.Collection;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
@@ -25,6 +26,30 @@ public interface XppFormatFileSystem extends FormatFileSystem
      */
     @NotNull
     File getOriginalFile(@NotNull BookStep step, @NotNull String xppFileName);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
+     * {@code /}{@link getOriginalDirectory 1_Original}{@code /*.original}
+     */
+    @NotNull
+    Collection<File> getOriginalFiles(@NotNull BookStep step);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
+     * {@code /}{@link getOriginalDirectory 1_Original}{@code /fileName.footnotes}
+     */
+    @NotNull
+    File getFootnotesFile(@NotNull BookStep step, @NotNull String name);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
+     * {@code /}{@link getOriginalDirectory 1_Original}{@code /*.footnotes}
+     */
+    @NotNull
+    Collection<File> getFootnotesFiles(@NotNull BookStep step);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}

@@ -1,10 +1,13 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.service;
 
 import static com.thomsonreuters.uscl.ereader.common.filesystem.FileSystemMatcher.hasPath;
+import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
@@ -49,6 +52,48 @@ public final class XppFormatFileSystemImplTest
         final File file = fileSystem.getOriginalFile(step, "xppFileName.xml");
         //then
         assertThat(file, hasPath("workDirectory/Format/1_Original/xppFileName.original"));
+    }
+
+    @Test
+    public void shouldReturnOriginalFiles() throws IOException
+    {
+        //given
+        final File directory = fileSystem.getOriginalDirectory(step);
+        directory.mkdirs();
+        final File original = new File(directory, "temp.original");
+        final File footnotes = new File(directory, "temp.footnotes");
+        original.createNewFile();
+        footnotes.createNewFile();
+        //when
+        final Collection<File> file = fileSystem.getOriginalFiles(step);
+        //then
+        assertThat(file, contains(original));
+    }
+
+    @Test
+    public void shouldReturnFootnotesFiles() throws IOException
+    {
+        //given
+        final File directory = fileSystem.getOriginalDirectory(step);
+        directory.mkdirs();
+        final File original = new File(directory, "temp.original");
+        final File footnotes = new File(directory, "temp.footnotes");
+        original.createNewFile();
+        footnotes.createNewFile();
+        //when
+        final Collection<File> file = fileSystem.getFootnotesFiles(step);
+        //then
+        assertThat(file, contains(footnotes));
+    }
+
+    @Test
+    public void shouldReturnFootnotesFile()
+    {
+        //given
+        //when
+        final File file = fileSystem.getFootnotesFile(step, "xppFileName.xml");
+        //then
+        assertThat(file, hasPath("workDirectory/Format/1_Original/xppFileName.footnotes"));
     }
 
     @Test

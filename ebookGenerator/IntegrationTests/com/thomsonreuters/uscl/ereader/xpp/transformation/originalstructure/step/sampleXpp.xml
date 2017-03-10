@@ -74,12 +74,659 @@
 								<attr name="date.updated">0</attr>
 							</tag>
 							<t x="0" y="0" style="name">Business Enterprises</t>
+							<xref id="5" type="footnote"/>
 							<endtag name="name" />
 							<endtag name="outline.name.block" />
 							<endtag name="front" />
 							<endtag name="topic" />
 							<endtag name="publication.body" />
 							<endtag name="publication" />
+						</line>
+					</group>
+				</block>
+			</stream>
+			<stream type="footnote" sx="0" sy="4.98i" ssx="4.32i" ssy="2.24i"
+				groupnum="2" svjmode="top" epfilltype="none" class="0" rotate="0"
+				strmrot="0" vj_space="0" cerrors="false" cntedit="false" predit="false"
+				recomp="false" frzcomp="false" ipcbal="false" touched="false"
+				tplaced="false" bplaced="false" firstack="false" lastack="false"
+				direction="false" pgscope="false" hfull="false" vfull="false" here="false"
+				before="false" justified="false" balup="false" baldown="false"
+				balrunaway="false">
+				<block type="footnote" id="separator" bx="0" by="0" bsx="4.32i"
+					bsy="2.24i" bisy="2.24i" biy="0" rotate="0" svjmode="top" btextlen="0.24i"
+					bslack="0" vjerr="0" pgtbl="2" ipcnum="0" ipcgnum="1"
+					background-color="#FFFFFF" background-color-cmyk="0 0 0 0"
+					justified="true" trymode="expand" fipcblk="true" lipcblk="true"
+					original="true" bottom="false" rtl="false">
+					<group class="unknown" pclass="" dh="/unknown" style="unknown.3">
+						<line xfinal="0" yfinal="0.24i" lnwidth="1i" lnmeas="4.32i"
+							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i"
+							letspace="0" maxasc="0.24i" maxdesc="0.12i" ldextra="0.01i"
+							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
+							chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false"
+							kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false"
+							nobkpt="false" ebinline="false" lepgraf="false" leitm="true"
+							quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false"
+							bmline="false">
+							<tag name="foots" />
+							<rule x="0" y="-0.06i" w="1i" d="0.01i" color="#000000"
+								color-cmyk="0 0 0 1" />
+						</line>
+					</group>
+				</block>
+				<block type="footnote" id="1" bx="0" by="0.27i" bsx="4.32i"
+					bsy="1.97i" bisy="1.97i" biy="0" rotate="0" svjmode="top" btextlen="0.33i"
+					bslack="0" vjerr="0" pgtbl="2" ipcnum="11" ipcgnum="2"
+					background-color="#FFFFFF" background-color-cmyk="0 0 0 0"
+					justified="true" trymode="expand" fipcblk="true" lipcblk="true"
+					original="false" bottom="true" rtl="false">
+					<group class="footnote"
+						pclass="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text"
+						dh="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote"
+						style="footnote">
+						<line xfinal="0" yfinal="0.14i" lnwidth="0.87i" lnmeas="4.32i"
+							lindent="0" rindent="0" prelead="0.06i" qdtype="left" bandwidth="0.04i"
+							letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.14i"
+							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
+							chngbar="false" first="false" last="true" vkpstart="false" vkpsa="true"
+							kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false"
+							nobkpt="false" ebinline="false" lepgraf="false" leitm="true"
+							quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false"
+							bmline="false">
+							<tag name="footnote">
+								<attr name="uuid">I334c2d7028b911e69ed7fcedf0a72426</attr>
+								<attr name="date.updated">0</attr>
+							</tag>
+                            <?xpp fnsecbrk;[Section 30:1]?>
+							<t x="0" y="0" style="footnote" cgt="true">[Section 30:1]</t>
+						</line>
+					</group>
+					<group class="footnote.reference"
+						pclass="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote"
+						dh="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.reference"
+						style="footnote.reference">
+						<line xfinal="0.33i" yfinal="0.32i" lnwidth="0.05i" lnmeas="0.37i"
+							lindent="0" rindent="0" prelead="-0.08i" qdtype="right"
+							bandwidth="0.03i" letspace="0" maxasc="0.08i" maxdesc="0.04i"
+							ldextra="0" ljerrs="false" cerrors="false" sobprelead="true"
+							edtrcds="false" chngbar="false" first="true" last="true"
+							vkpstart="false" vkpsa="false" kptype="false" kpstart="true"
+							kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false"
+							lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false"
+							tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote.reference" />
+                            <?xpp fig;1;1?>
+							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">1</t>
+							<endtag name="footnote.reference" />
+						</line>
+					</group>
+					<group class="ref"
+						pclass="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text"
+						dh="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text/ref"
+						style="ref.3">
+						<line xfinal="0.37i" yfinal="0.33i" lnwidth="2.09i" lnmeas="4.32i"
+							lindent="0.37i" rindent="0" prelead="-0.11i" qdtype="left"
+							bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i"
+							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
+							edtrcds="false" chngbar="false" first="true" last="true"
+							vkpstart="false" vkpsa="false" kptype="false" kpstart="false"
+							kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false"
+							lepgraf="false" leitm="true" quadset="false" tbstart="false"
+							tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote.body">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">yes</attr>
+							</tag>
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag>
+                            <?xpp cite finder=&quot;crime&quot; type=&quot;lrre&quot;?>
+                            <?xpp casevalue?>
+							<tag name="ref">
+								<attr name="normalpub">statute-us-fl-stat</attr>
+								<attr name="rangeend">to 620.9902</attr>
+								<attr name="rangetype">secref</attr>
+								<attr name="ref.id">If51395d0046e11e0b42f0000837bc6dd</attr>
+								<attr name="secrange">y</attr>
+								<attr name="secref">620.81001</attr>
+							</tag>
+                            <?xpp dblsect?>
+							<t x="0" y="0" style="ref.3" cgt="true">&#167;&#167;&#8201;</t>
+							<t x="0" y="0" style="ref.3">620.81001 to 620.9902, Fla. Stat.</t>
+							<endtag name="ref" />
+                            <?xpp rcasevalue?>
+                            <?xpp /cite?>
+							<endtag name="para.text" />
+							<endtag name="para" />
+							<endtag name="footnote.body" />
+							<endtag name="footnote" />
+						</line>
+					</group>
+				</block>
+				<block type="footnote" id="2" bx="0" by="0.27i" bsx="4.32i"
+					bsy="1.97i" bisy="1.97i" biy="0.27i" rotate="0" svjmode="top"
+					btextlen="1.11i" bslack="0" vjerr="0" pgtbl="2" ipcnum="11"
+					ipcgnum="0" background-color="#FFFFFF" background-color-cmyk="0 0 0 0"
+					justified="true" trymode="expand" fipcblk="true" lipcblk="true"
+					original="true" bottom="false" rtl="false">
+					<group class="footnote.reference"
+						pclass="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote"
+						dh="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.reference"
+						style="footnote.reference">
+						<line xfinal="0.33i" yfinal="0.5i" lnwidth="0.05i" lnmeas="0.37i"
+							lindent="0" rindent="0" prelead="0.03i" qdtype="right" bandwidth="0.04i"
+							letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false"
+							cerrors="false" sobprelead="true" edtrcds="false" chngbar="false"
+							first="true" last="true" vkpstart="false" vkpsa="false" kptype="false"
+							kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false"
+							ebinline="false" lepgraf="false" leitm="true" quadset="true"
+							tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote">
+								<attr name="uuid">I334cf0c028b911e69ed7fcedf0a72426</attr>
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="footnote.reference" />
+                            <?xpp fig;2;1?>
+							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">2</t>
+							<endtag name="footnote.reference" />
+						</line>
+					</group>
+					<group class="ref"
+						pclass="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text"
+						dh="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text/ref"
+						style="ref.3">
+						<line xfinal="0.37i" yfinal="0.51i" lnwidth="2.01i" lnmeas="4.32i"
+							lindent="0.37i" rindent="0" prelead="-0.11i" qdtype="left"
+							bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i"
+							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
+							edtrcds="false" chngbar="false" first="true" last="true"
+							vkpstart="false" vkpsa="false" kptype="false" kpstart="false"
+							kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false"
+							lepgraf="false" leitm="true" quadset="false" tbstart="false"
+							tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote.body">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">yes</attr>
+							</tag>
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag>
+                            <?xpp cite finder=&quot;crime&quot; type=&quot;lrre&quot;?>
+                            <?xpp casevalue?>
+							<tag name="ref">
+								<attr name="normalpub">statute-us-fl-stat</attr>
+								<attr name="rangeend">to 620.2205</attr>
+								<attr name="rangetype">secref</attr>
+								<attr name="ref.id">If5154380046e11e0b42f0000837bc6dd</attr>
+								<attr name="secrange">y</attr>
+								<attr name="secref">620.1101</attr>
+							</tag>
+                            <?xpp dblsect?>
+							<t x="0" y="0" style="ref.3" cgt="true">&#167;&#167;&#8201;</t>
+							<t x="0" y="0" style="ref.3">620.1101 to 620.2205, Fla. Stat.</t>
+							<endtag name="ref" />
+                            <?xpp rcasevalue?>
+                            <?xpp /cite?>
+							<endtag name="para.text" />
+							<endtag name="para" />
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">no</attr>
+							</tag>
+						</line>
+					</group>
+					<group class="para.text"
+						pclass="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para"
+						dh="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text"
+						style="para.text.3">
+						<line xfinal="0.37i" yfinal="0.67i" lnwidth="3.95i" lnmeas="4.32i"
+							lindent="0.37i" rindent="0" prelead="0.01i" qdtype="justify"
+							bandwidth="0.03i" letspace="0" maxasc="0.08i" maxdesc="0.04i"
+							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
+							edtrcds="false" chngbar="false" first="true" last="false"
+							vkpstart="true" vkpsa="false" kptype="false" kpstart="false"
+							kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false"
+							lepgraf="false" leitm="false" quadset="false" tbstart="false"
+							tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag>
+							<t x="0" y="0" style="para.text.3">
+								For forms and material concerning limited partnerships, see <?xpp cite finder=&quot;manual&quot; type=&quot;secondaryxref&quot;?>
+							</t>
+							<tag name="ref">
+								<attr name="ref.id">I693e1ba0048e11e0b695ad88e467dce8</attr>
+								<attr name="secref">30:23 et seq.</attr>
+							</tag>
+                            <?xpp dblsect?>
+							<t x="0" y="0" style="ref.3" cgt="true">&#167;&#167;&#8201;</t>
+							<t x="0" y="0" style="ref.3">30:23 </t>
+						</line>
+						<line xfinal="0" yfinal="0.8i" lnwidth="0.38i" lnmeas="4.32i"
+							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i"
+							letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i"
+							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
+							chngbar="false" first="false" last="true" vkpstart="false" vkpsa="true"
+							kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false"
+							nobkpt="false" ebinline="false" lepgraf="false" leitm="true"
+							quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false"
+							bmline="false">
+							<t x="0" y="0" style="ref.3">et seq.</t>
+							<endtag name="ref" />
+                            <?xpp /cite?>
+							<endtag name="para.text" />
+							<endtag name="para" />
+						</line>
+					</group>
+					<group class="name"
+						pclass="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.body/research.reference.block/reference.entry.group/name.block"
+						dh="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.body/research.reference.block/reference.entry.group/name.block/name"
+						style="name.10">
+						<line xfinal="0.25i" yfinal="0.97i" lnwidth="4.07i" lnmeas="4.32i"
+							lindent="0.25i" rindent="0" prelead="0.03i" qdtype="justify"
+							bandwidth="0.05i" letspace="0" maxasc="0.08i" maxdesc="0.04i"
+							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
+							edtrcds="false" chngbar="false" first="true" last="false"
+							vkpstart="true" vkpsa="false" kptype="false" kpstart="false"
+							kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false"
+							lepgraf="false" leitm="false" quadset="false" tbstart="false"
+							tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="research.reference.block">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="reference.entry.group">
+								<attr name="first.in.footnote">yes</attr>
+							</tag>
+							<tag name="name.block" />
+							<tag name="name" />
+							<t x="0" y="0" style="name.10">Legal Encyclopedias</t>
+							<endtag name="name" />
+							<t x="0" y="0" style="name.block" cgt="true">:&#8194;</t>
+							<endtag name="name.block" />
+							<tag name="reference.entry">
+								<attr name="render">all</attr>
+								<attr name="date.updated">0</attr>
+								<attr name="first.in.footnote">yes</attr>
+							</tag>
+							<tag name="ref.text">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<t x="0" y="0" style="ref.text">
+								For discussion of the law relating to partner
+								<dt>-</dt>
+							</t>
+						</line>
+						<line xfinal="0" yfinal="1.11i" lnwidth="4.13i" lnmeas="4.32i"
+							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i"
+							letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i"
+							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
+							chngbar="false" first="false" last="true" vkpstart="false" vkpsa="true"
+							kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false"
+							nobkpt="false" ebinline="false" lepgraf="false" leitm="true"
+							quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false"
+							bmline="false">
+							<t x="0" y="0" style="ref.text">
+								ships, generally, see <?xpp cite finder=&quot;crime&quot; type=&quot;secondary&quot;?>
+							</t>
+							<tag name="ref">
+								<attr name="normalpub">flj2</attr>
+								<attr name="rangeend">et seq.</attr>
+								<attr name="rangetype">secref</attr>
+								<attr name="ref.id">If516a310046e11e0b42f0000837bc6dd</attr>
+								<attr name="reftext">Business Relationships</attr>
+								<attr name="secrange">y</attr>
+								<attr name="secref">498</attr>
+							</tag>
+							<t x="0" y="0" style="ref.3">
+								Fla. Jur. 2d, Business Relationships <?xpp dblsect?>
+							</t>
+							<t x="0" y="0" style="ref.3" cgt="true">&#167;&#167;&#8201;</t>
+							<t x="0" y="0" style="ref.3">498 et seq.</t>
+							<endtag name="ref" />
+                            <?xpp /cite?>
+							<endtag name="ref.text" />
+							<endtag name="reference.entry" />
+							<endtag name="reference.entry.group" />
+							<endtag name="research.reference.block" />
+							<endtag name="footnote.body" />
+							<endtag name="footnote" />
+						</line>
+					</group>
+				</block>
+				<block type="footnote" id="3" bx="0" by="0.27i" bsx="4.32i"
+					bsy="1.97i" bisy="1.97i" biy="0.27i" rotate="0" svjmode="top"
+					btextlen="1.29i" bslack="0" vjerr="0" pgtbl="2" ipcnum="11"
+					ipcgnum="0" background-color="#FFFFFF" background-color-cmyk="0 0 0 0"
+					justified="true" trymode="expand" fipcblk="true" lipcblk="true"
+					original="true" bottom="false" rtl="false">
+					<group class="footnote.reference"
+						pclass="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote"
+						dh="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.reference"
+						style="footnote.reference">
+						<line xfinal="0.33i" yfinal="1.27i" lnwidth="0.05i" lnmeas="0.37i"
+							lindent="0" rindent="0" prelead="0.03i" qdtype="right" bandwidth="0.04i"
+							letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false"
+							cerrors="false" sobprelead="true" edtrcds="false" chngbar="false"
+							first="true" last="true" vkpstart="false" vkpsa="false" kptype="false"
+							kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false"
+							ebinline="false" lepgraf="false" leitm="true" quadset="true"
+							tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote">
+								<attr name="uuid">I334ec58028b911e69ed7fcedf0a72426</attr>
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="footnote.reference" />
+                            <?xpp fig;3;1?>
+							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">3</t>
+							<endtag name="footnote.reference" />
+						</line>
+					</group>
+					<group class="ref"
+						pclass="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text"
+						dh="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text/ref"
+						style="ref.3">
+						<line xfinal="0.37i" yfinal="1.29i" lnwidth="1.24i" lnmeas="4.32i"
+							lindent="0.37i" rindent="0" prelead="-0.11i" qdtype="left"
+							bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i"
+							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
+							edtrcds="false" chngbar="false" first="true" last="true"
+							vkpstart="false" vkpsa="false" kptype="false" kpstart="false"
+							kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false"
+							lepgraf="false" leitm="true" quadset="false" tbstart="false"
+							tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote.body">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">yes</attr>
+							</tag>
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag>
+                            <?xpp cite finder=&quot;crime&quot; type=&quot;lrre&quot;?>
+                            <?xpp casevalue?>
+							<tag name="ref">
+								<attr name="normalpub">statute-us-fl-stat</attr>
+								<attr name="ref.id">If5189ee0046e11e0b42f0000837bc6dd</attr>
+								<attr name="secref">620.9901</attr>
+							</tag>
+                            <?xpp sect?>
+							<t x="0" y="0" style="ref.3" cgt="true">&#167;&#8201;</t>
+							<t x="0" y="0" style="ref.3">620.9901, Fla. Stat.</t>
+							<endtag name="ref" />
+                            <?xpp rcasevalue?>
+                            <?xpp /cite?>
+							<endtag name="para.text" />
+							<endtag name="para" />
+							<endtag name="footnote.body" />
+							<endtag name="footnote" />
+						</line>
+					</group>
+				</block>
+				<block type="footnote" id="4" bx="0" by="0.27i" bsx="4.32i"
+					bsy="1.97i" bisy="1.97i" biy="0.27i" rotate="0" svjmode="top"
+					btextlen="1.47i" bslack="0" vjerr="0" pgtbl="2" ipcnum="11"
+					ipcgnum="0" background-color="#FFFFFF" background-color-cmyk="0 0 0 0"
+					justified="true" trymode="expand" fipcblk="true" lipcblk="true"
+					original="true" bottom="false" rtl="false">
+					<group class="footnote.reference"
+						pclass="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote"
+						dh="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.reference"
+						style="footnote.reference">
+						<line xfinal="0.33i" yfinal="1.46i" lnwidth="0.05i" lnmeas="0.37i"
+							lindent="0" rindent="0" prelead="0.03i" qdtype="right" bandwidth="0.04i"
+							letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false"
+							cerrors="false" sobprelead="true" edtrcds="false" chngbar="false"
+							first="true" last="true" vkpstart="false" vkpsa="false" kptype="false"
+							kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false"
+							ebinline="false" lepgraf="false" leitm="true" quadset="true"
+							tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote">
+								<attr name="uuid">I334fafe028b911e69ed7fcedf0a72426</attr>
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="footnote.reference" />
+                            <?xpp fig;4;1?>
+							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">4</t>
+							<endtag name="footnote.reference" />
+						</line>
+					</group>
+					<group class="ref"
+						pclass="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text"
+						dh="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text/ref"
+						style="ref.3">
+						<line xfinal="0.37i" yfinal="1.47i" lnwidth="1.24i" lnmeas="4.32i"
+							lindent="0.37i" rindent="0" prelead="-0.11i" qdtype="left"
+							bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i"
+							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
+							edtrcds="false" chngbar="false" first="true" last="true"
+							vkpstart="false" vkpsa="false" kptype="false" kpstart="false"
+							kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false"
+							lepgraf="false" leitm="true" quadset="false" tbstart="false"
+							tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote.body">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">yes</attr>
+							</tag>
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag>
+                            <?xpp cite finder=&quot;crime&quot; type=&quot;lrre&quot;?>
+                            <?xpp casevalue?>
+							<tag name="ref">
+								<attr name="normalpub">statute-us-fl-stat</attr>
+								<attr name="ref.id">If519fe70046e11e0b42f0000837bc6dd</attr>
+								<attr name="secref">620.9902</attr>
+							</tag>
+                            <?xpp sect?>
+							<t x="0" y="0" style="ref.3" cgt="true">&#167;&#8201;</t>
+							<t x="0" y="0" style="ref.3">620.9902, Fla. Stat.</t>
+							<endtag name="ref" />
+                            <?xpp rcasevalue?>
+                            <?xpp /cite?>
+							<endtag name="para.text" />
+							<endtag name="para" />
+							<endtag name="footnote.body" />
+							<endtag name="footnote" />
+						</line>
+					</group>
+				</block>
+				<block type="footnote" id="5" bx="0" by="0.27i" bsx="4.32i"
+					bsy="1.97i" bisy="2.79i" biy="0.27i" rotate="0" svjmode="top"
+					btextlen="1.79i" bslack="0" vjerr="0" pgtbl="2" ipcnum="11"
+					ipcgnum="0" background-color="#FFFFFF" background-color-cmyk="0 0 0 0"
+					justified="true" trymode="expand" fipcblk="true" lipcblk="true"
+					original="true" bottom="false" rtl="false">
+					<group class="footnote.reference"
+						pclass="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote"
+						dh="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.reference"
+						style="footnote.reference">
+						<line xfinal="0.33i" yfinal="1.64i" lnwidth="0.05i" lnmeas="0.37i"
+							lindent="0" rindent="0" prelead="0.03i" qdtype="right" bandwidth="0.04i"
+							letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false"
+							cerrors="false" sobprelead="true" edtrcds="false" chngbar="false"
+							first="true" last="true" vkpstart="false" vkpsa="false" kptype="false"
+							kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false"
+							ebinline="false" lepgraf="false" leitm="true" quadset="true"
+							tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote">
+								<attr name="uuid">I3350733028b911e69ed7fcedf0a72426</attr>
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="footnote.reference" />
+                            <?xpp fig;5;1?>
+							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">5</t>
+							<endtag name="footnote.reference" />
+						</line>
+					</group>
+					<group class="para.text"
+						pclass="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para"
+						dh="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text"
+						style="para.text.3">
+						<line xfinal="0.37i" yfinal="1.65i" lnwidth="3.95i" lnmeas="4.32i"
+							lindent="0.37i" rindent="0" prelead="-0.11i" qdtype="justify"
+							bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i"
+							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
+							edtrcds="false" chngbar="false" first="true" last="false"
+							vkpstart="false" vkpsa="false" kptype="false" kpstart="false"
+							kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false"
+							lepgraf="false" leitm="false" quadset="false" tbstart="false"
+							tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote.body">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">yes</attr>
+							</tag>
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag>
+							<t x="0" y="0" style="para.text.3">
+								For former law, see <?xpp cite finder=&quot;legacy&quot; type=&quot;lrre&quot;?><?xpp casevalue?>
+							</t>
+							<tag name="ref">
+								<attr name="ref.id">If51b5e00046e11e0b42f0000837bc6dd</attr>
+								<attr name="short">y</attr>
+							</tag>
+							<t x="0" y="0" style="ref.3">Florida Uniform Partnership Act</t>
+							<endtag name="ref" />
+                            <?xpp rcasevalue?>
+                            <?xpp /cite?>
+							<t x="0" y="0" style="para.text.3">
+								(<?xpp cite finder=&quot;legacy&quot; type=&quot;lrre&quot;?><?xpp casevalue?>
+							</t>
+							<tag name="ref">
+								<attr name="normalpub">statute-us-fl-stat</attr>
+								<attr name="ref.id">If51bfa40046e11e0b42f0000837bc6dd</attr>
+								<attr name="secref">620.56</attr>
+							</tag>
+                            <?xpp sect?>
+							<t x="0" y="0" style="ref.3" cgt="true">&#167;&#8201;</t>
+							<t x="0" y="0" style="ref.3">620.56, Fla. </t>
+						</line>
+						<line xfinal="0" yfinal="1.79i" lnwidth="1.53i" lnmeas="4.32i"
+							lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i"
+							letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i"
+							ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false"
+							chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false"
+							kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false"
+							nobkpt="false" ebinline="false" lepgraf="false" leitm="true"
+							quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false"
+							bmline="false">
+							<t x="0" y="0" style="ref.3">Stat.</t>
+							<endtag name="ref" />
+                            <?xpp rcasevalue?>
+                            <?xpp /cite?>
+							<t x="0" y="0" style="para.text.3">
+								, <?xpp cite finder=&quot;legacy&quot; type=&quot;lrre&quot;?><?xpp casevalue?>
+							</t>
+							<tag name="ref">
+								<attr name="normalpub">statute-us-fl-stat</attr>
+								<attr name="ref.id">If51cbd90046e11e0b42f0000837bc6dd</attr>
+								<attr name="secref">620.77</attr>
+							</tag>
+                            <?xpp sect?>
+							<t x="0" y="0" style="ref.3" cgt="true">&#167;&#8201;</t>
+							<t x="0" y="0" style="ref.3">620.77, Fla. Stat.</t>
+							<endtag name="ref" />
+                            <?xpp rcasevalue?>
+                            <?xpp /cite?>
+							<t x="0" y="0" style="para.text.3">).</t>
+							<endtag name="para.text" />
+							<endtag name="para" />
+							<endtag name="footnote.body" />
+							<endtag name="footnote" />
+						</line>
+					</group>
+				</block>
+				<block type="footnote" id="6" bx="0" by="0.27i" bsx="4.32i"
+					bsy="1.97i" bisy="1.97i" biy="0.27i" rotate="0" svjmode="top"
+					btextlen="1.97i" bslack="0" vjerr="0" pgtbl="2" ipcnum="11"
+					ipcgnum="0" background-color="#FFFFFF" background-color-cmyk="0 0 0 0"
+					justified="false" trymode="expand" fipcblk="false" lipcblk="false"
+					original="true" bottom="false" rtl="false">
+					<group class="footnote.reference"
+						pclass="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote"
+						dh="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.reference"
+						style="footnote.reference">
+						<line xfinal="0.33i" yfinal="1.95i" lnwidth="0.05i" lnmeas="0.37i"
+							lindent="0" rindent="0" prelead="0.03i" qdtype="right" bandwidth="0.04i"
+							letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false"
+							cerrors="false" sobprelead="true" edtrcds="false" chngbar="false"
+							first="true" last="true" vkpstart="false" vkpsa="false" kptype="false"
+							kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false"
+							ebinline="false" lepgraf="false" leitm="true" quadset="true"
+							tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote">
+								<attr name="uuid">I3351abb028b911e69ed7fcedf0a72426</attr>
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="footnote.reference" />
+                            <?xpp fig;6;1?>
+							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">6</t>
+							<endtag name="footnote.reference" />
+						</line>
+					</group>
+					<group class="ref"
+						pclass="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text"
+						dh="/publication/publication.body/topic/topic.body/chapter/chapter.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/analytical.level/analytical.level.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text/ref"
+						style="ref.3">
+						<line xfinal="0.37i" yfinal="1.97i" lnwidth="1.39i" lnmeas="4.32i"
+							lindent="0.37i" rindent="0" prelead="-0.11i" qdtype="left"
+							bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i"
+							ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true"
+							edtrcds="false" chngbar="false" first="true" last="true"
+							vkpstart="false" vkpsa="false" kptype="false" kpstart="false"
+							kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false"
+							lepgraf="false" leitm="true" quadset="false" tbstart="false"
+							tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote.body">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">yes</attr>
+							</tag>
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag>
+                            <?xpp cite finder=&quot;crime&quot; type=&quot;lrre&quot;?>
+                            <?xpp casevalue?>
+							<tag name="ref">
+								<attr name="normalpub">statute-us-fl-stat</attr>
+								<attr name="ref.id">If51d80e0046e11e0b42f0000837bc6dd</attr>
+								<attr name="secref">620.8104</attr>
+								<attr name="subref">(1)</attr>
+							</tag>
+                            <?xpp sect?>
+							<t x="0" y="0" style="ref.3" cgt="true">&#167;&#8201;</t>
+							<t x="0" y="0" style="ref.3">620.8104(1), Fla. Stat.</t>
+							<endtag name="ref" />
+                            <?xpp rcasevalue?>
+                            <?xpp /cite?>
+							<endtag name="para.text" />
+							<endtag name="para" />
+							<endtag name="footnote.body" />
+							<endtag name="footnote" />
 						</line>
 					</group>
 				</block>

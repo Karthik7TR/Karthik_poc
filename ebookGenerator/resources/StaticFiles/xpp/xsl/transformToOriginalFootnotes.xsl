@@ -13,11 +13,18 @@
 		<xsl:element name="pagebreak">
 			<xsl:attribute name="num" select="@p4" />
 		</xsl:element>
-		<xsl:apply-templates select="x:stream[@type='main']" />
+		<xsl:apply-templates select="x:stream[@type='footnote']" />
+	</xsl:template>
+	
+	<xsl:template match="x:block[@type='footnote' and @id!='separator']">
+		<xsl:element name="block.footnote">
+			<xsl:attribute name="id" select="@id" />
+			<xsl:apply-templates/>
+		</xsl:element>
 	</xsl:template>
 
 	<xsl:template
-		match="x:tag[@name != 'row' and @name != 'entry' and @name != 'image']">
+		match="x:tag[@name != 'row' and @name != 'entry' and @name != 'image' and @name != 'foots']">
 		<xsl:text disable-output-escaping="yes"><![CDATA[<]]></xsl:text>
 		<xsl:value-of select="@name" />
 		<xsl:apply-templates select="x:attr" />
@@ -47,10 +54,6 @@
 		<xsl:if test="not(@suppress='true' or @cgt='true')">
 			<xsl:value-of select="self::node()" />
 		</xsl:if>
-	</xsl:template>
-
-	<xsl:template match="x:xref">
-		<xsl:copy-of select="self::node()" />
 	</xsl:template>
 
 	<xsl:template match="text()" />

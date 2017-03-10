@@ -1,11 +1,13 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.service;
 
 import java.io.File;
+import java.util.Collection;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystemImpl;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import org.apache.commons.io.FilenameUtils;
 import org.jetbrains.annotations.NotNull;
+import org.sonar.runner.commonsio.FileUtils;
 import org.springframework.stereotype.Component;
 
 @Component("xppFormatFileSystem")
@@ -24,6 +26,28 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     {
         final String fileName = FilenameUtils.removeExtension(xppFileName);
         return new File(getOriginalDirectory(step), fileName + ".original");
+    }
+
+    @NotNull
+    @Override
+    public Collection<File> getOriginalFiles(@NotNull final BookStep step)
+    {
+        return FileUtils.listFiles(getOriginalDirectory(step), new String[] {"original"}, false);
+    }
+
+    @NotNull
+    @Override
+    public File getFootnotesFile(@NotNull final BookStep step, @NotNull final String xppFileName)
+    {
+        final String fileName = FilenameUtils.removeExtension(xppFileName);
+        return new File(getOriginalDirectory(step), fileName + ".footnotes");
+    }
+
+    @NotNull
+    @Override
+    public Collection<File> getFootnotesFiles(@NotNull final BookStep step)
+    {
+        return FileUtils.listFiles(getOriginalDirectory(step), new String[] {"footnotes"}, false);
     }
 
     @Override
