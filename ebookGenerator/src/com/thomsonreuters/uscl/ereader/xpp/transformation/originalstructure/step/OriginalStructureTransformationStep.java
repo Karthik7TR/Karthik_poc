@@ -11,10 +11,9 @@ import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishi
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.TransformationUtil;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -22,8 +21,6 @@ import org.springframework.beans.factory.annotation.Value;
 @SavePublishingStatusPolicy
 public class OriginalStructureTransformationStep extends BookStepImpl
 {
-    private static final Logger LOG = LogManager.getLogger(OriginalStructureTransformationStep.class);
-
     @Value("${xpp.sample.xpp.directory}")
     private File xppDirectory;
     @Value("${xpp.transform.to.original.xsl}")
@@ -35,14 +32,14 @@ public class OriginalStructureTransformationStep extends BookStepImpl
     private XslTransformationService transformationService;
     @Resource(name = "xppFormatFileSystem")
     private XppFormatFileSystem fileSystem;
+    @Resource(name = "transformationUtil")
+    private TransformationUtil transformationUtil;
 
     @Override
     public ExitStatus executeStep() throws Exception
     {
-        //TODO: remove after transformer will start to get real input data
-        if (!xppDirectory.exists())
+        if (transformationUtil.shouldSkip(this))
         {
-            LOG.debug(String.format("%s skipped, because sample xppTemp directory not found", getStepName()));
             return ExitStatus.COMPLETED;
         }
 

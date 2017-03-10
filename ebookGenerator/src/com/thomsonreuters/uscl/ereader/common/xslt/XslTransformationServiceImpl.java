@@ -26,6 +26,7 @@ public class XslTransformationServiceImpl implements XslTransformationService
     {
         try (final InputStream inputStream = FileUtils.openInputStream(input))
         {
+            final long start = System.currentTimeMillis();
             final Source source = new StreamSource(inputStream);
             final File out = output.isDirectory() ? getTempOutputFile(output) : output;
             final Result result = new StreamResult(out);
@@ -35,11 +36,14 @@ public class XslTransformationServiceImpl implements XslTransformationService
             {
                 FileUtils.forceDelete(getTempOutputFile(output));
             }
+            final long end = System.currentTimeMillis();
+            final long totalTime = end - start;
             LOG.debug(
                 String.format(
-                    "File %s successfully transformed to %s",
+                    "File %s transformed to %s. Total time: %dms",
                     input.getAbsolutePath(),
-                    output.getAbsolutePath()));
+                    output.getAbsolutePath(),
+                    totalTime));
         }
         catch (final TransformerException | IOException e)
         {

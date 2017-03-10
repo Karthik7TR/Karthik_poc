@@ -90,4 +90,24 @@ public final class XppFormatFileSystemImplTest
         //then
         assertThat(file, hasPath("workDirectory/Format/3_OriginalParts/fileName_1.part"));
     }
+
+    @Test
+    public void shouldReturnToHtmlDirectory()
+    {
+        //given
+        //when
+        final File directory = fileSystem.getToHtmlDirectory(step);
+        //then
+        assertThat(directory, hasPath("workDirectory/Format/4_ToHtml"));
+    }
+
+    @Test
+    public void shouldReturnToHtmlFile()
+    {
+        //given
+        //when
+        final File file = fileSystem.getToHtmlFile(step, "fileName.part");
+        //then
+        assertThat(file, hasPath("workDirectory/Format/4_ToHtml/fileName.html"));
+    }
 }

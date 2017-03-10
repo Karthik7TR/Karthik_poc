@@ -46,10 +46,26 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
         return new File(getFormatDirectory(step), "3_OriginalParts");
     }
 
+    @NotNull
     @Override
     public File getOriginalPartsFile(@NotNull final BookStep step, @NotNull final String name, final int partNumber)
     {
         final String fileName = FilenameUtils.removeExtension(name);
         return new File(getOriginalPartsDirectory(step), fileName + "_" + partNumber + ".part");
+    }
+
+    @NotNull
+    @Override
+    public File getToHtmlDirectory(@NotNull final BookStep step)
+    {
+        return new File(getFormatDirectory(step), "4_ToHtml");
+    }
+
+    @NotNull
+    @Override
+    public File getToHtmlFile(@NotNull final BookStep step, @NotNull final String name)
+    {
+        final String fileName = FilenameUtils.removeExtension(name);
+        return new File(getToHtmlDirectory(step), fileName + ".html");
     }
 }

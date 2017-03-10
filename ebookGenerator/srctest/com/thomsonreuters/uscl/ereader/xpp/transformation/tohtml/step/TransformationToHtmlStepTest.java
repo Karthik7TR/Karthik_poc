@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.xpp.transformation.split.step;
+package com.thomsonreuters.uscl.ereader.xpp.transformation.tohtml.step;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -25,47 +25,42 @@ import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.batch.core.scope.context.ChunkContext;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class SplitOriginalStepTest
+public final class TransformationToHtmlStepTest
 {
     @InjectMocks
-    private SplitOriginalStep step;
-    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-    private ChunkContext chunkContext;
-    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-    private TransformerBuilderFactory transformerBuilderFactory;
+    private TransformationToHtmlStep step;
     @Mock
     private XppFormatFileSystem fileSystem;
-    @Mock
-    private File movePagebreakesUpXsl;
-    @Mock
-    private File splitOriginalXsl;
     @Mock
     private XslTransformationService transformationService;
     @Mock
     private TransformationUtil transformationUtil;
+    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+    private TransformerBuilderFactory transformerBuilderFactory;
+    @Mock
+    private File transformToHtmlXsl;
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
-    private File originalPartsDirectory;
+    private File toHtmlFile;
 
     @Before
     public void setUp() throws IOException
     {
         final File root = temporaryFolder.getRoot();
-        final File originalDir = new File(root, "Original");
-        FileUtils.forceMkdir(originalDir);
-        final File moveUpDir = new File(root, "MoveUp");
-        FileUtils.forceMkdir(moveUpDir);
-        originalPartsDirectory = new File(root, "OriginalParts");
-        given(fileSystem.getOriginalDirectory(step)).willReturn(originalDir);
-        given(fileSystem.getPagebreakesUpDirectory(step)).willReturn(moveUpDir);
-        given(fileSystem.getOriginalPartsDirectory(step)).willReturn(originalPartsDirectory);
-        new File(originalDir, "temp").createNewFile();
-        new File(moveUpDir, "temp").createNewFile();
+
+        final File originalPartsDir = new File(root, "OriginalParts");
+        FileUtils.forceMkdir(originalPartsDir);
+        new File(originalPartsDir, "temp").createNewFile();
+        given(fileSystem.getOriginalPartsDirectory(step)).willReturn(originalPartsDir);
+
+        final File toHtmlDirectory = new File(root, "toHtmlDirectory");
+        toHtmlFile = new File(toHtmlDirectory, "temp");
+        given(fileSystem.getToHtmlDirectory(step)).willReturn(toHtmlDirectory);
+        given(fileSystem.getToHtmlFile(step, "temp")).willReturn(toHtmlFile);
     }
 
     @Test
@@ -86,7 +81,6 @@ public final class SplitOriginalStepTest
         //when
         step.executeStep();
         //then
-        then(transformationService).should()
-            .transform(any(Transformer.class), any(File.class), eq(originalPartsDirectory));
+        then(transformationService).should().transform(any(Transformer.class), any(File.class), eq(toHtmlFile));
     }
 }

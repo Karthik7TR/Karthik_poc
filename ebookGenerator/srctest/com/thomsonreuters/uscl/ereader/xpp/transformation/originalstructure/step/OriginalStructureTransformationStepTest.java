@@ -13,6 +13,7 @@ import javax.xml.transform.Transformer;
 
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.TransformationUtil;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.Before;
@@ -39,18 +40,18 @@ public final class OriginalStructureTransformationStepTest
     private XslTransformationService transformationService;
     @Mock
     private XppFormatFileSystem fileSystem;
+    @Mock
+    private TransformationUtil transformationUtil;
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     private File transformToOriginalXsl;
     private File xppDirectory;
-    private File incorrectXppDirectory;
     private File xppFile;
 
     @Before
     public void setUp() throws IOException
     {
-        incorrectXppDirectory = new File("");
         xppDirectory = temporaryFolder.getRoot();
         xppFile = new File(xppDirectory, "xpp.xml");
         xppFile.createNewFile();
@@ -62,7 +63,7 @@ public final class OriginalStructureTransformationStepTest
     public void shouldSkipStepIfNoInputFileFound() throws Exception
     {
         //given
-        FieldUtils.writeField(step, "xppDirectory", incorrectXppDirectory, true);
+        given(transformationUtil.shouldSkip(step)).willReturn(true);
         //when
         step.executeStep();
         //then
