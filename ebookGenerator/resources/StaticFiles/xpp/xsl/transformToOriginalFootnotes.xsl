@@ -15,16 +15,18 @@
 		</xsl:element>
 		<xsl:apply-templates select="x:stream[@type='footnote']" />
 	</xsl:template>
-	
-	<xsl:template match="x:block[@type='footnote' and @id!='separator']">
-		<xsl:element name="block.footnote">
-			<xsl:attribute name="id" select="@id" />
-			<xsl:apply-templates/>
-		</xsl:element>
+
+	<xsl:template match="x:tag[@name = 'footnote']">
+		<xsl:text disable-output-escaping="yes"><![CDATA[<]]></xsl:text>
+		<xsl:value-of select="@name" />
+		<xsl:apply-templates select="x:attr" />
+		<xsl:text disable-output-escaping="yes"><![CDATA[ id="]]></xsl:text>
+		<xsl:value-of select="ancestor::x:block/@id" />
+		<xsl:text disable-output-escaping="yes"><![CDATA[">]]></xsl:text>
 	</xsl:template>
 
 	<xsl:template
-		match="x:tag[@name != 'row' and @name != 'entry' and @name != 'image' and @name != 'foots']">
+		match="x:tag[@name != 'row' and @name != 'entry' and @name != 'image' and @name != 'foots' and @name != 'footnote']">
 		<xsl:text disable-output-escaping="yes"><![CDATA[<]]></xsl:text>
 		<xsl:value-of select="@name" />
 		<xsl:apply-templates select="x:attr" />

@@ -113,7 +113,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File file = fileSystem.getPagebreakesUpFile(step, "fileName.original");
         //then
-        assertThat(file, hasPath("workDirectory/Format/2_PagebreakesUp/fileName.pagebreakesUp"));
+        assertThat(file, hasPath("workDirectory/Format/2_PagebreakesUp/fileName_original.pagebreakesUp"));
     }
 
     @Test
@@ -131,9 +131,9 @@ public final class XppFormatFileSystemImplTest
     {
         //given
         //when
-        final File file = fileSystem.getOriginalPartsFile(step, "fileName.original", 1);
+        final File file = fileSystem.getOriginalPartsFile(step, "fileName", PartType.MAIN, 1);
         //then
-        assertThat(file, hasPath("workDirectory/Format/3_OriginalParts/fileName_1.part"));
+        assertThat(file, hasPath("workDirectory/Format/3_OriginalParts/fileName_original_1.part"));
     }
 
     @Test

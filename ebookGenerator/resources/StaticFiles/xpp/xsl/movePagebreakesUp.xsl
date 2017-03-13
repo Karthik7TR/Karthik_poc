@@ -17,11 +17,18 @@
 			<xsl:if test="local-name(.) != '' and local-name(.) != 'root'">
 				<xsl:text disable-output-escaping="yes"><![CDATA[<]]></xsl:text>
 				<xsl:value-of select="local-name(.)" />
+				<xsl:for-each select="./@*">
+					<xsl:text> </xsl:text>
+					<xsl:value-of select="local-name(.)" />
+					<xsl:text disable-output-escaping="yes"><![CDATA[="]]></xsl:text>
+					<xsl:value-of select="." />
+					<xsl:text disable-output-escaping="yes"><![CDATA["]]></xsl:text>
+				</xsl:for-each>
 				<xsl:text disable-output-escaping="yes"><![CDATA[>]]></xsl:text>
 			</xsl:if>
 		</xsl:for-each>
 	</xsl:template>
-	
+
 	<xsl:template match="node()|@*">
 		<xsl:copy>
 			<xsl:apply-templates select="node()|@*" />

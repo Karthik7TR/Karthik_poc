@@ -1,12 +1,11 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.split.step;
 
-import static java.util.Arrays.asList;
-
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,22 +48,32 @@ public final class SplitOriginalStepTest
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
+    private File originalDirectory;
     private File originalPartsDirectory;
+    private File original;
+    private File footnotes;
 
     @Before
     public void setUp() throws IOException
     {
         final File root = temporaryFolder.getRoot();
+        originalDirectory = new File(root, "originalDirectory");
+        FileUtils.forceMkdir(originalDirectory);
+        original = new File(originalDirectory, "original");
+        original.createNewFile();
+        footnotes = new File(originalDirectory, "footnotes");
+        footnotes.createNewFile();
+
         final File moveUpDir = new File(root, "MoveUp");
         FileUtils.forceMkdir(moveUpDir);
-        final File original = new File(root, "temp");
-        original.createNewFile();
+        new File(moveUpDir, "original").createNewFile();
+        new File(moveUpDir, "footnotes").createNewFile();
 
-        originalPartsDirectory = new File(root, "OriginalParts");
-        given(fileSystem.getOriginalFiles(step)).willReturn(asList(original));
+        originalPartsDirectory = new File(root, "originalPartsDirectory");
+
+        given(fileSystem.getOriginalDirectory(step)).willReturn(originalDirectory);
         given(fileSystem.getPagebreakesUpDirectory(step)).willReturn(moveUpDir);
         given(fileSystem.getOriginalPartsDirectory(step)).willReturn(originalPartsDirectory);
-        new File(moveUpDir, "temp").createNewFile();
     }
 
     @Test
@@ -85,7 +94,9 @@ public final class SplitOriginalStepTest
         //when
         step.executeStep();
         //then
-        then(transformationService).should()
+        then(transformationService).should().transform(any(Transformer.class), eq(original), any(File.class));
+        then(transformationService).should().transform(any(Transformer.class), eq(footnotes), any(File.class));
+        then(transformationService).should(times(2))
             .transform(any(Transformer.class), any(File.class), eq(originalPartsDirectory));
     }
 }

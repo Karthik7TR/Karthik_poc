@@ -60,7 +60,9 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     public File getPagebreakesUpFile(@NotNull final BookStep step, @NotNull final String name)
     {
         final String fileName = FilenameUtils.removeExtension(name);
-        return new File(getPagebreakesUpDirectory(step), fileName + ".pagebreakesUp");
+        final String extension = FilenameUtils.getExtension(name);
+        final String pagebreakesUpFileName = String.format("%s_%s.pagebreakesUp", fileName, extension);
+        return new File(getPagebreakesUpDirectory(step), pagebreakesUpFileName);
     }
 
     @NotNull
@@ -72,10 +74,15 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     @Override
-    public File getOriginalPartsFile(@NotNull final BookStep step, @NotNull final String name, final int partNumber)
+    public File getOriginalPartsFile(
+        @NotNull final BookStep step,
+        @NotNull final String name,
+        @NotNull final PartType type,
+        final int partNumber)
     {
         final String fileName = FilenameUtils.removeExtension(name);
-        return new File(getOriginalPartsDirectory(step), fileName + "_" + partNumber + ".part");
+        final String partFileName = String.format("%s_%s_%s.part", fileName, type.getName(), partNumber);
+        return new File(getOriginalPartsDirectory(step), partFileName);
     }
 
     @NotNull

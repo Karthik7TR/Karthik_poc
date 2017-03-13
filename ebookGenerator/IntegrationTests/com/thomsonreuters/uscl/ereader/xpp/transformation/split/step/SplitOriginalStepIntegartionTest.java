@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 
 import javax.annotation.Resource;
 
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.PartType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
@@ -27,15 +28,25 @@ public final class SplitOriginalStepIntegartionTest
     private XppFormatFileSystem fileSystem;
 
     private File original;
-    private File part1;
-    private File part2;
+    private File footnotes;
+    private File expectedOriginalPart1;
+    private File expectedOriginalPart2;
+    private File expectedFootnotesPart1;
+    private File expectedFootnotesPart2;
 
     @Before
     public void setUp() throws URISyntaxException
     {
         original = new File(SplitOriginalStepIntegartionTest.class.getResource("sample.original").toURI());
-        part1 = new File(SplitOriginalStepIntegartionTest.class.getResource("sample_1.part").toURI());
-        part2 = new File(SplitOriginalStepIntegartionTest.class.getResource("sample_2.part").toURI());
+        footnotes = new File(SplitOriginalStepIntegartionTest.class.getResource("sample.footnotes").toURI());
+        expectedOriginalPart1 =
+            new File(SplitOriginalStepIntegartionTest.class.getResource("sample_original_1.part").toURI());
+        expectedOriginalPart2 =
+            new File(SplitOriginalStepIntegartionTest.class.getResource("sample_original_2.part").toURI());
+        expectedFootnotesPart1 =
+            new File(SplitOriginalStepIntegartionTest.class.getResource("sample_footnotes_1.part").toURI());
+        expectedFootnotesPart2 =
+            new File(SplitOriginalStepIntegartionTest.class.getResource("sample_footnotes_2.part").toURI());
     }
 
     @Test
@@ -45,12 +56,17 @@ public final class SplitOriginalStepIntegartionTest
         final File originalDirectory = fileSystem.getOriginalDirectory(step);
         FileUtils.forceMkdir(originalDirectory);
         FileUtils.copyFileToDirectory(original, originalDirectory);
+        FileUtils.copyFileToDirectory(footnotes, originalDirectory);
         //when
         step.executeStep();
         //then
-        final File actualPart1 = fileSystem.getOriginalPartsFile(step, "sample", 1);
-        final File actualPart2 = fileSystem.getOriginalPartsFile(step, "sample", 2);
-        assertThat(actualPart1, hasSameContentAs(part1));
-        assertThat(actualPart2, hasSameContentAs(part2));
+        final File actualOriginalPart1 = fileSystem.getOriginalPartsFile(step, "sample", PartType.MAIN, 1);
+        final File actualOriginalPart2 = fileSystem.getOriginalPartsFile(step, "sample", PartType.MAIN, 2);
+        final File actualFootnotesPart1 = fileSystem.getOriginalPartsFile(step, "sample", PartType.FOOTNOTE, 1);
+        final File actualFootnotesPart2 = fileSystem.getOriginalPartsFile(step, "sample", PartType.FOOTNOTE, 2);
+        assertThat(expectedOriginalPart1, hasSameContentAs(actualOriginalPart1));
+        assertThat(expectedOriginalPart2, hasSameContentAs(actualOriginalPart2));
+        assertThat(expectedFootnotesPart1, hasSameContentAs(actualFootnotesPart1));
+        assertThat(expectedFootnotesPart2, hasSameContentAs(actualFootnotesPart2));
     }
 }

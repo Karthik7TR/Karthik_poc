@@ -7,7 +7,7 @@
 	<xsl:template match="x:root">
 		<xsl:for-each-group select="*" group-starting-with="x:pagebreak">
 			<xsl:variable name="fileName"
-				select="concat('./', $fileBaseName,'_', position(), '.part')" />
+				select="concat('./', $fileBaseName, '_', position(), '.part')" />
 			<xsl:result-document href="{$fileName}">
 				<page>
 					<xsl:apply-templates select="current-group()" />

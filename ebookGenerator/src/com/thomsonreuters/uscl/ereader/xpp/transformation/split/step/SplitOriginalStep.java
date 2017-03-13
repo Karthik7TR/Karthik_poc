@@ -54,10 +54,9 @@ public class SplitOriginalStep extends BookStepImpl
     {
         FileUtils.forceMkdir(fileSystem.getPagebreakesUpDirectory(this));
         final Transformer transformer = transformerBuilderFactory.create().withXsl(movePagebreakesUpXsl).build();
-        for (final File original : fileSystem.getOriginalFiles(this))
+        for (final File file : fileSystem.getOriginalDirectory(this).listFiles())
         {
-            transformationService
-                .transform(transformer, original, fileSystem.getPagebreakesUpFile(this, original.getName()));
+            transformationService.transform(transformer, file, fileSystem.getPagebreakesUpFile(this, file.getName()));
         }
     }
 
@@ -65,11 +64,11 @@ public class SplitOriginalStep extends BookStepImpl
     {
         FileUtils.forceMkdir(fileSystem.getOriginalPartsDirectory(this));
         final Transformer transformer = transformerBuilderFactory.create().withXsl(splitOriginalXsl).build();
-        for (final File original : fileSystem.getPagebreakesUpDirectory(this).listFiles())
+        for (final File file : fileSystem.getPagebreakesUpDirectory(this).listFiles())
         {
-            final String fileBaseName = FilenameUtils.removeExtension(original.getName());
+            final String fileBaseName = FilenameUtils.removeExtension(file.getName());
             transformer.setParameter("fileBaseName", fileBaseName);
-            transformationService.transform(transformer, original, fileSystem.getOriginalPartsDirectory(this));
+            transformationService.transform(transformer, file, fileSystem.getOriginalPartsDirectory(this));
         }
     }
 }

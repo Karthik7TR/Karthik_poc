@@ -61,7 +61,7 @@ public interface XppFormatFileSystem extends FormatFileSystem
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getPagebreakesUpDirectory 2_PagebreakesUp}{@code /fileName.pagebreakesUp}
+     * {@code /}{@link getPagebreakesUpDirectory 2_PagebreakesUp}{@code /fileName_type.pagebreakesUp}
      */
     @NotNull
     File getPagebreakesUpFile(@NotNull BookStep step, @NotNull String name);
@@ -77,10 +77,10 @@ public interface XppFormatFileSystem extends FormatFileSystem
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
      * {@code /}{@link getOriginalPartsDirectory 3_OriginalParts}
-     * {@code /fileName.part}
+     * {@code /fileName_type_number.part}
      */
     @NotNull
-    File getOriginalPartsFile(@NotNull BookStep step, @NotNull String name, int partNumber);
+    File getOriginalPartsFile(@NotNull BookStep step, @NotNull String name, @NotNull PartType type, int partNumber);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
