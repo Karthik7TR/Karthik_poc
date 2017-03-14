@@ -99,4 +99,12 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
         final String fileName = FilenameUtils.removeExtension(name);
         return new File(getToHtmlDirectory(step), fileName + ".html");
     }
+
+    @NotNull
+    @Override
+    public File getAnchorToDocumentIdMapFile(final BookStep step)
+    {
+        return new File(getToHtmlDirectory(step), "anchorToDocumentIdMapFile.txt");
+    }
+
 }

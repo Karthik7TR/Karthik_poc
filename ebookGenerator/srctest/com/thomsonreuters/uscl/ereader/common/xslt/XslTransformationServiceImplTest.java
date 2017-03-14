@@ -5,6 +5,7 @@ import static org.mockito.Matchers.any;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -34,12 +35,14 @@ public final class XslTransformationServiceImplTest
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     private File input;
+    private File input2;
     private File output;
 
     @Before
     public void setUp()
     {
         input = new File(temporaryFolder.getRoot(), "input.xsl");
+        input2 = new File(temporaryFolder.getRoot(), "input2.xsl");
         output = new File(temporaryFolder.getRoot(), "output.xsl");
     }
 
@@ -73,6 +76,19 @@ public final class XslTransformationServiceImplTest
         output = temporaryFolder.getRoot();
         //when
         service.transform(transformer, input, output);
+        //then
+        then(transformer).should().transform(any(Source.class), any(Result.class));
+    }
+
+    @Test
+    public void shouldTransformIfMultipleFiles() throws TransformerException, IOException
+    {
+        //given
+        input.createNewFile();
+        input2.createNewFile();
+        output = temporaryFolder.getRoot();
+        //when
+        service.transform(transformer, Arrays.asList(input, input2), output);
         //then
         then(transformer).should().transform(any(Source.class), any(Result.class));
     }

@@ -1,7 +1,7 @@
-package com.thomsonreuters.uscl.ereader.xpp.transformation.tohtml.step;
+package com.thomsonreuters.uscl.ereader.xpp.transformation.internalAnchors.step;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.Arrays;
 
 import javax.annotation.Resource;
 import javax.xml.transform.Transformer;
@@ -14,17 +14,18 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.TransformationUtil;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.beans.factory.annotation.Value;
 
+/**
+ * Generates mapping file between anchors and pages where they are.
+ */
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
-public class TransformationToHtmlStep extends BookStepImpl
+public class InternalAnchorsStep extends BookStepImpl
 {
-    @Value("${xpp.transform.to.html.xsl}")
-    private File transformToHtmlXsl;
+    @Value("${xpp.anchor.to.document.map.xsl}")
+    private File transformToAnchorToDocumentIdMapXsl;
     @Resource(name = "transformerBuilderFactory")
     private TransformerBuilderFactory transformerBuilderFactory;
     @Resource(name = "xslTransformationService")
@@ -42,19 +43,15 @@ public class TransformationToHtmlStep extends BookStepImpl
             return ExitStatus.COMPLETED;
         }
 
-        transformToHtml();
+        generateAnchorToDocumentMap();
         return ExitStatus.COMPLETED;
     }
 
-    private void transformToHtml() throws IOException
+    private void generateAnchorToDocumentMap()
     {
-        FileUtils.forceMkdir(fileSystem.getToHtmlDirectory(this));
-        final Transformer transformer = transformerBuilderFactory.create().withXsl(transformToHtmlXsl).build();
-        for (final File part : fileSystem.getOriginalPartsDirectory(this).listFiles())
-        {
-            transformer.setParameter("fileBaseName", FilenameUtils.removeExtension(part.getName()));
-            transformationService
-                .transform(transformer, part, fileSystem.getToHtmlFile(this, part.getName()));
-        }
+        final Transformer transformer = transformerBuilderFactory.create().withXsl(transformToAnchorToDocumentIdMapXsl).build();
+
+        transformationService
+            .transform(transformer, Arrays.asList(fileSystem.getToHtmlDirectory(this).listFiles()), fileSystem.getAnchorToDocumentIdMapFile(this));
     }
 }

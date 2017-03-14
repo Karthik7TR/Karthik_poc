@@ -96,4 +96,12 @@ public interface XppFormatFileSystem extends FormatFileSystem
      */
     @NotNull
     File getToHtmlFile(@NotNull BookStep step, @NotNull String name);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
+     * {@code /}{@link getToHtmlDirectory 4_ToHtml}{@code /anchorToDocumentIdMapFile}
+     */
+    @NotNull
+    File getAnchorToDocumentIdMapFile(@NotNull BookStep step);
 }

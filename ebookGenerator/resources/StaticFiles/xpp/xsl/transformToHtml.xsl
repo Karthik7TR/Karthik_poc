@@ -2,13 +2,15 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
+    <xsl:output method="html" indent="yes" omit-xml-declaration="yes"/>
 	<xsl:param name="fileBaseName" />
 
 	<xsl:template match="x:page">
 		<html>
-			<body>
+            <xsl:element name="body">
+                <xsl:attribute name="fileBaseName" select="$fileBaseName" />
 				<xsl:apply-templates />
-			</body>
+            </xsl:element>
 		</html>
 	</xsl:template>
 
