@@ -15,8 +15,13 @@
 	<xsl:template match="element()">
 		<xsl:element name="div">
 			<xsl:attribute name="class" select="x:get-class-name(name(.))" />
+			<xsl:copy-of select="./@uuid | ./@tocuuid" />
 			<xsl:apply-templates />
 		</xsl:element>
+	</xsl:template>
+
+	<xsl:template match="x:ref">
+		<xsl:copy-of select="self::node()" />
 	</xsl:template>
 
 	<xsl:template match="text()">
