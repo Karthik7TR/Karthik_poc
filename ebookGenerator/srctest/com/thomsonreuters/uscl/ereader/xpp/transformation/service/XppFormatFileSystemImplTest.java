@@ -41,7 +41,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File directory = fileSystem.getOriginalDirectory(step);
         //then
-        assertThat(directory, hasPath("workDirectory/Format/1_Original"));
+        assertThat(directory, hasPath("workDirectory/Format/01_Original"));
     }
 
     @Test
@@ -51,7 +51,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File file = fileSystem.getOriginalFile(step, "xppFileName.xml");
         //then
-        assertThat(file, hasPath("workDirectory/Format/1_Original/xppFileName.original"));
+        assertThat(file, hasPath("workDirectory/Format/01_Original/xppFileName.original"));
     }
 
     @Test
@@ -93,7 +93,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File file = fileSystem.getFootnotesFile(step, "xppFileName.xml");
         //then
-        assertThat(file, hasPath("workDirectory/Format/1_Original/xppFileName.footnotes"));
+        assertThat(file, hasPath("workDirectory/Format/01_Original/xppFileName.footnotes"));
     }
 
     @Test
@@ -103,7 +103,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File directory = fileSystem.getPagebreakesUpDirectory(step);
         //then
-        assertThat(directory, hasPath("workDirectory/Format/2_PagebreakesUp"));
+        assertThat(directory, hasPath("workDirectory/Format/02_PagebreakesUp"));
     }
 
     @Test
@@ -113,7 +113,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File file = fileSystem.getPagebreakesUpFile(step, "fileName.original");
         //then
-        assertThat(file, hasPath("workDirectory/Format/2_PagebreakesUp/fileName_original.pagebreakesUp"));
+        assertThat(file, hasPath("workDirectory/Format/02_PagebreakesUp/fileName_original.pagebreakesUp"));
     }
 
     @Test
@@ -123,7 +123,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File directory = fileSystem.getOriginalPartsDirectory(step);
         //then
-        assertThat(directory, hasPath("workDirectory/Format/3_OriginalParts"));
+        assertThat(directory, hasPath("workDirectory/Format/03_OriginalParts"));
     }
 
     @Test
@@ -133,7 +133,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File file = fileSystem.getOriginalPartsFile(step, "fileName", PartType.MAIN, 1);
         //then
-        assertThat(file, hasPath("workDirectory/Format/3_OriginalParts/fileName_original_1.part"));
+        assertThat(file, hasPath("workDirectory/Format/03_OriginalParts/fileName_original_1.part"));
     }
 
     @Test
@@ -143,7 +143,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File directory = fileSystem.getToHtmlDirectory(step);
         //then
-        assertThat(directory, hasPath("workDirectory/Format/4_ToHtml"));
+        assertThat(directory, hasPath("workDirectory/Format/04_ToHtml"));
     }
 
     @Test
@@ -153,6 +153,6 @@ public final class XppFormatFileSystemImplTest
         //when
         final File file = fileSystem.getToHtmlFile(step, "fileName.part");
         //then
-        assertThat(file, hasPath("workDirectory/Format/4_ToHtml/fileName.html"));
+        assertThat(file, hasPath("workDirectory/Format/04_ToHtml/fileName.html"));
     }
 }
