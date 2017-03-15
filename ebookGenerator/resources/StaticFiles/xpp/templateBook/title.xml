@@ -17,6 +17,7 @@
 		<asset id="EBook_Generator_WestLogo" src="EBook_Generator_WestLogo.png"/>
 		<asset id="keycite" src="keycite.png"/>
 		<asset id="WestlawLogo" src="WestlawLogo.png"/>
+		<asset id="I2E4A077B567A11D5978200C04F42DFD" src="I2E4A077B567A11D5978200C04F42DFD.png"/>
 	</assets>
 	<name>${ProviewDisplayName}</name>
 	<authors>
