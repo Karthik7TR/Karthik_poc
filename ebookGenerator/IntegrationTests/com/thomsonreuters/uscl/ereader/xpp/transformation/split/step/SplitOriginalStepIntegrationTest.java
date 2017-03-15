@@ -20,7 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
-public final class SplitOriginalStepIntegartionTest
+public final class SplitOriginalStepIntegrationTest
 {
     @Resource(name = "splitOriginalTask")
     private SplitOriginalStep step;
@@ -37,16 +37,16 @@ public final class SplitOriginalStepIntegartionTest
     @Before
     public void setUp() throws URISyntaxException
     {
-        original = new File(SplitOriginalStepIntegartionTest.class.getResource("sample.original").toURI());
-        footnotes = new File(SplitOriginalStepIntegartionTest.class.getResource("sample.footnotes").toURI());
+        original = new File(SplitOriginalStepIntegrationTest.class.getResource("sample.original").toURI());
+        footnotes = new File(SplitOriginalStepIntegrationTest.class.getResource("sample.footnotes").toURI());
         expectedOriginalPart1 =
-            new File(SplitOriginalStepIntegartionTest.class.getResource("sample_original_1.part").toURI());
+            new File(SplitOriginalStepIntegrationTest.class.getResource("sample_original_1.part").toURI());
         expectedOriginalPart2 =
-            new File(SplitOriginalStepIntegartionTest.class.getResource("sample_original_2.part").toURI());
+            new File(SplitOriginalStepIntegrationTest.class.getResource("sample_original_2.part").toURI());
         expectedFootnotesPart1 =
-            new File(SplitOriginalStepIntegartionTest.class.getResource("sample_footnotes_1.part").toURI());
+            new File(SplitOriginalStepIntegrationTest.class.getResource("sample_footnotes_1.part").toURI());
         expectedFootnotesPart2 =
-            new File(SplitOriginalStepIntegartionTest.class.getResource("sample_footnotes_2.part").toURI());
+            new File(SplitOriginalStepIntegrationTest.class.getResource("sample_footnotes_2.part").toURI());
     }
 
     @Test

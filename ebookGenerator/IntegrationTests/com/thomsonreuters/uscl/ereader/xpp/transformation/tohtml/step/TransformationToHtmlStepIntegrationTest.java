@@ -19,7 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
-public final class TransformationToHtmlStepIntegartionTest
+public final class TransformationToHtmlStepIntegrationTest
 {
     @Resource(name = "transformToHtmlTask")
     private TransformationToHtmlStep step;
@@ -32,8 +32,8 @@ public final class TransformationToHtmlStepIntegartionTest
     @Before
     public void setUp() throws URISyntaxException
     {
-        original = new File(TransformationToHtmlStepIntegartionTest.class.getResource("sample.part").toURI());
-        expected = new File(TransformationToHtmlStepIntegartionTest.class.getResource("expected.html").toURI());
+        original = new File(TransformationToHtmlStepIntegrationTest.class.getResource("sample.part").toURI());
+        expected = new File(TransformationToHtmlStepIntegrationTest.class.getResource("expected.html").toURI());
     }
 
     @Test

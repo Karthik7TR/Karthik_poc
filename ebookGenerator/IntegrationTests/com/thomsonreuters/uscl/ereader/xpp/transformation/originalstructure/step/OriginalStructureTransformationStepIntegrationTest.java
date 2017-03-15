@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
-public final class OriginalStructureTransformationStepIntegartionTest
+public final class OriginalStructureTransformationStepIntegrationTest
 {
     @Resource(name = "originalStructureTransformationTask")
     private OriginalStructureTransformationStep step;
@@ -38,11 +38,11 @@ public final class OriginalStructureTransformationStepIntegartionTest
     @Before
     public void setUp() throws URISyntaxException, IllegalAccessException
     {
-        xpp = new File(OriginalStructureTransformationStepIntegartionTest.class.getResource("sampleXpp.xml").toURI());
+        xpp = new File(OriginalStructureTransformationStepIntegrationTest.class.getResource("sampleXpp.xml").toURI());
         expextedOriginal =
-            new File(OriginalStructureTransformationStepIntegartionTest.class.getResource("expected.original").toURI());
+            new File(OriginalStructureTransformationStepIntegrationTest.class.getResource("expected.original").toURI());
         expextedFootnotes = new File(
-            OriginalStructureTransformationStepIntegartionTest.class.getResource("expected.footnotes").toURI());
+            OriginalStructureTransformationStepIntegrationTest.class.getResource("expected.footnotes").toURI());
         xppDirectory = new File(bookFileSystem.getWorkDirectory(step), "xppDirectory");
         FieldUtils.writeField(step, "xppDirectory", xppDirectory, true);
     }
