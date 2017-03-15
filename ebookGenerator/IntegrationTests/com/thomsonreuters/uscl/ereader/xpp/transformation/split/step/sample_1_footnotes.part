@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><page xmlns="http://www.sdl.com/xpp"><footnote uuid="I441f46a028b911e69ed7fcedf0a72426" date.updated="0" id="586">
+<part.footnotes xmlns="http://www.sdl.com/xpp"><footnote uuid="I441f46a028b911e69ed7fcedf0a72426" date.updated="0" id="586">
 		<footnote.reference/>
 		<footnote.body date.updated="0">
 			<para date.updated="0" first.para="yes">
@@ -82,4 +82,4 @@
 				<para.text date.updated="0" first.para.text="yes">
 					<ref case.id="2017675850" court="Fla." date="2008" fjur="Fla" jur="Fla" norm.rptr="so3d" p1="Jackson-Shaw Co." p2="Jacksonville Aviation Authority" post.rptr="1076" pre.rptr="8" ref.id="Ic433fa10048f11e096c4ae1e58ea447b" title="Jackson-Shaw Co. v. Jacksonville Aviation Authority">
 						Jackson-Shaw Co. v. Jacksonville Aviation Authority, 8 So. 3d 1076
-						</ref></para.text></para></footnote.body></footnote></page>
+						</ref></para.text></para></footnote.body></footnote></part.footnotes>

@@ -29,7 +29,7 @@ public class InternalAnchorsStep extends XppTransformationStep
 
         transformationService.transform(
             transformer,
-            Arrays.asList(fileSystem.getToHtmlDirectory(this).listFiles()),
+            Arrays.asList(fileSystem.getHtmlPagesDirectory(this).listFiles()),
             fileSystem.getAnchorToDocumentIdMapFile(this));
     }
 }

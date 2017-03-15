@@ -5,7 +5,7 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.service;
  */
 public enum PartType
 {
-    MAIN("original"),
+    MAIN("main"),
     FOOTNOTE("footnotes");
 
     private final String name;

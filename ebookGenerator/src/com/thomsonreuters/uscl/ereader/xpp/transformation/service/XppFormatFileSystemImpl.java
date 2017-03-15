@@ -25,14 +25,14 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     public File getOriginalFile(@NotNull final BookStep step, @NotNull final String xppFileName)
     {
         final String fileName = FilenameUtils.removeExtension(xppFileName);
-        return new File(getOriginalDirectory(step), fileName + ".original");
+        return new File(getOriginalDirectory(step), fileName + ".main");
     }
 
     @NotNull
     @Override
     public Collection<File> getOriginalFiles(@NotNull final BookStep step)
     {
-        return FileUtils.listFiles(getOriginalDirectory(step), new String[] {"original"}, false);
+        return FileUtils.listFiles(getOriginalDirectory(step), new String[] {"main"}, false);
     }
 
     @NotNull
@@ -59,10 +59,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     @Override
     public File getPagebreakesUpFile(@NotNull final BookStep step, @NotNull final String name)
     {
-        final String fileName = FilenameUtils.removeExtension(name);
-        final String extension = FilenameUtils.getExtension(name);
-        final String pagebreakesUpFileName = String.format("%s_%s.pagebreakesUp", fileName, extension);
-        return new File(getPagebreakesUpDirectory(step), pagebreakesUpFileName);
+        return new File(getPagebreakesUpDirectory(step), name);
     }
 
     @NotNull
@@ -77,33 +74,49 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     public File getOriginalPartsFile(
         @NotNull final BookStep step,
         @NotNull final String name,
-        @NotNull final PartType type,
-        final int partNumber)
+        final int partNumber,
+        @NotNull final PartType type)
     {
         final String fileName = FilenameUtils.removeExtension(name);
-        final String partFileName = String.format("%s_%s_%s.part", fileName, type.getName(), partNumber);
+        final String partFileName = String.format("%s_%s_%s.part", fileName, partNumber, type.getName());
         return new File(getOriginalPartsDirectory(step), partFileName);
     }
 
     @NotNull
     @Override
-    public File getToHtmlDirectory(@NotNull final BookStep step)
+    public File getOriginalPagesDirectory(@NotNull final BookStep step)
     {
-        return new File(getFormatDirectory(step), "04_ToHtml");
+        return new File(getFormatDirectory(step), "04_OriginalPages");
     }
 
     @NotNull
     @Override
-    public File getToHtmlFile(@NotNull final BookStep step, @NotNull final String name)
+    public File getOriginalPageFile(@NotNull final BookStep step, @NotNull final String name, final int pageNumber)
+    {
+        final String fileBaseName = FilenameUtils.removeExtension(name);
+        final String fileName = String.format("%s_%d.page", fileBaseName, pageNumber);
+        return new File(getOriginalPagesDirectory(step), fileName);
+    }
+
+    @NotNull
+    @Override
+    public File getHtmlPagesDirectory(@NotNull final BookStep step)
+    {
+        return new File(getFormatDirectory(step), "05_HtmlPages");
+    }
+
+    @NotNull
+    @Override
+    public File getHtmlPageFile(@NotNull final BookStep step, @NotNull final String name)
     {
         final String fileName = FilenameUtils.removeExtension(name);
-        return new File(getToHtmlDirectory(step), fileName + ".html");
+        return new File(getHtmlPagesDirectory(step), fileName + ".html");
     }
 
     @NotNull
     @Override
     public File getAnchorToDocumentIdMapFile(final BookStep step)
     {
-        return new File(getToHtmlDirectory(step), "anchorToDocumentIdMapFile.txt");
+        return new File(getHtmlPagesDirectory(step), "anchorToDocumentIdMapFile.txt");
     }
 }

@@ -1,21 +1,23 @@
-package com.thomsonreuters.uscl.ereader.xpp.transformation.tohtml.step;
+package com.thomsonreuters.uscl.ereader.xpp.transformation.uniteparts.step;
+
+import static java.util.Arrays.asList;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.never;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.xml.transform.Transformer;
 
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.PartType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.TransformationUtil;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
-import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,10 +29,10 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class TransformationToHtmlStepTest
+public final class UnitePagePartsStepTest
 {
     @InjectMocks
-    private TransformationToHtmlStep step;
+    private UnitePagePartsStep step;
     @Mock
     private XppFormatFileSystem fileSystem;
     @Mock
@@ -40,47 +42,44 @@ public final class TransformationToHtmlStepTest
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private TransformerBuilderFactory transformerBuilderFactory;
     @Mock
-    private File transformToHtmlXsl;
+    private File unitePagePartsXsl;
+    @Mock
+    private File page;
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
-
-    private File toHtmlFile;
 
     @Before
     public void setUp() throws IOException
     {
         final File root = temporaryFolder.getRoot();
 
+        final File originalPagesDir = new File(root, "OriginalPages");
+        given(fileSystem.getOriginalPagesDirectory(step)).willReturn(originalPagesDir);
+
+        final File originalFile = new File(root, "sample");
+        originalFile.createNewFile();
+        given(fileSystem.getOriginalFiles(step)).willReturn(asList(originalFile));
+
         final File originalPartsDir = new File(root, "OriginalParts");
-        FileUtils.forceMkdir(originalPartsDir);
-        new File(originalPartsDir, "temp").createNewFile();
+        originalPartsDir.mkdirs();
         given(fileSystem.getOriginalPartsDirectory(step)).willReturn(originalPartsDir);
-
-        final File toHtmlDirectory = new File(root, "toHtmlDirectory");
-        toHtmlFile = new File(toHtmlDirectory, "temp");
-        given(fileSystem.getHtmlPagesDirectory(step)).willReturn(toHtmlDirectory);
-        given(fileSystem.getHtmlPageFile(step, "temp")).willReturn(toHtmlFile);
-    }
-
-    @Test
-    public void shouldSkipStepIfNoInputFileFound() throws Exception
-    {
-        //given
-        given(transformationUtil.shouldSkip(step)).willReturn(true);
-        //when
-        step.executeStep();
-        //then
-        then(transformationService).should(never()).transform((Transformer) any(), (File) any(), (File) any());
+        final File main = new File(originalPartsDir, "main");
+        final File footnotes = new File(originalPartsDir, "footnotes");
+        main.createNewFile();
+        footnotes.createNewFile();
+        given(fileSystem.getOriginalPartsFile(step, "sample", 1, PartType.MAIN)).willReturn(main);
+        given(fileSystem.getOriginalPartsFile(step, "footnotes", 1, PartType.FOOTNOTE)).willReturn(footnotes);
     }
 
     @Test
     public void shouldTransform() throws Exception
     {
         //given
+        given(fileSystem.getOriginalPageFile(step, "sample", 1)).willReturn(page);
         //when
-        step.executeStep();
+        step.executeTransformation();
         //then
-        then(transformationService).should().transform(any(Transformer.class), any(File.class), eq(toHtmlFile));
+        then(transformationService).should().transform(any(Transformer.class), any(List.class), eq(page));
     }
 }

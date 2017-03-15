@@ -25,13 +25,13 @@ public class TransformationToHtmlStep extends XppTransformationStep
     @Override
     public void executeTransformation() throws Exception
     {
-        FileUtils.forceMkdir(fileSystem.getToHtmlDirectory(this));
+        FileUtils.forceMkdir(fileSystem.getHtmlPagesDirectory(this));
         final Transformer transformer = transformerBuilderFactory.create().withXsl(transformToHtmlXsl).build();
         for (final File part : fileSystem.getOriginalPartsDirectory(this).listFiles())
         {
             transformer.setParameter("fileBaseName", FilenameUtils.removeExtension(part.getName()));
             transformationService
-                .transform(transformer, part, fileSystem.getToHtmlFile(this, part.getName()));
+                .transform(transformer, part, fileSystem.getHtmlPageFile(this, part.getName()));
         }
     }
 }

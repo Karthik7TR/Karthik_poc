@@ -51,7 +51,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File file = fileSystem.getOriginalFile(step, "xppFileName.xml");
         //then
-        assertThat(file, hasPath("workDirectory/Format/01_Original/xppFileName.original"));
+        assertThat(file, hasPath("workDirectory/Format/01_Original/xppFileName.main"));
     }
 
     @Test
@@ -60,7 +60,7 @@ public final class XppFormatFileSystemImplTest
         //given
         final File directory = fileSystem.getOriginalDirectory(step);
         directory.mkdirs();
-        final File original = new File(directory, "temp.original");
+        final File original = new File(directory, "temp.main");
         final File footnotes = new File(directory, "temp.footnotes");
         original.createNewFile();
         footnotes.createNewFile();
@@ -76,7 +76,7 @@ public final class XppFormatFileSystemImplTest
         //given
         final File directory = fileSystem.getOriginalDirectory(step);
         directory.mkdirs();
-        final File original = new File(directory, "temp.original");
+        final File original = new File(directory, "temp.main");
         final File footnotes = new File(directory, "temp.footnotes");
         original.createNewFile();
         footnotes.createNewFile();
@@ -111,9 +111,9 @@ public final class XppFormatFileSystemImplTest
     {
         //given
         //when
-        final File file = fileSystem.getPagebreakesUpFile(step, "fileName.original");
+        final File file = fileSystem.getPagebreakesUpFile(step, "fileName.main");
         //then
-        assertThat(file, hasPath("workDirectory/Format/02_PagebreakesUp/fileName_original.pagebreakesUp"));
+        assertThat(file, hasPath("workDirectory/Format/02_PagebreakesUp/fileName.main"));
     }
 
     @Test
@@ -131,28 +131,48 @@ public final class XppFormatFileSystemImplTest
     {
         //given
         //when
-        final File file = fileSystem.getOriginalPartsFile(step, "fileName", PartType.MAIN, 1);
+        final File file = fileSystem.getOriginalPartsFile(step, "fileName", 1, PartType.MAIN);
         //then
-        assertThat(file, hasPath("workDirectory/Format/03_OriginalParts/fileName_original_1.part"));
+        assertThat(file, hasPath("workDirectory/Format/03_OriginalParts/fileName_1_main.part"));
     }
 
     @Test
-    public void shouldReturnToHtmlDirectory()
+    public void shouldReturnOriginalPagesDirectory()
     {
         //given
         //when
-        final File directory = fileSystem.getToHtmlDirectory(step);
+        final File directory = fileSystem.getOriginalPagesDirectory(step);
         //then
-        assertThat(directory, hasPath("workDirectory/Format/04_ToHtml"));
+        assertThat(directory, hasPath("workDirectory/Format/04_OriginalPages"));
     }
 
     @Test
-    public void shouldReturnToHtmlFile()
+    public void shouldReturnOriginalPageFile()
     {
         //given
         //when
-        final File file = fileSystem.getToHtmlFile(step, "fileName.part");
+        final File file = fileSystem.getOriginalPageFile(step, "fileName.original", 1);
         //then
-        assertThat(file, hasPath("workDirectory/Format/04_ToHtml/fileName.html"));
+        assertThat(file, hasPath("workDirectory/Format/04_OriginalPages/fileName_1.page"));
+    }
+
+    @Test
+    public void shouldReturnHtmlPagesDirectory()
+    {
+        //given
+        //when
+        final File directory = fileSystem.getHtmlPagesDirectory(step);
+        //then
+        assertThat(directory, hasPath("workDirectory/Format/05_HtmlPages"));
+    }
+
+    @Test
+    public void shouldReturnHtmlPageFile()
+    {
+        //given
+        //when
+        final File file = fileSystem.getHtmlPageFile(step, "fileName.part");
+        //then
+        assertThat(file, hasPath("workDirectory/Format/05_HtmlPages/fileName.html"));
     }
 }

@@ -22,15 +22,15 @@ public interface XppFormatFileSystem extends FormatFileSystem
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getOriginalDirectory 01_Original}{@code /fileName.original}
+     * {@code /}{@link getOriginalDirectory 01_Original}{@code /fileName.main}
      */
     @NotNull
-    File getOriginalFile(@NotNull BookStep step, @NotNull String xppFileName);
+    File getOriginalFile(@NotNull BookStep step, @NotNull String name);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getOriginalDirectory 01_Original}{@code /*.original}
+     * {@code /}{@link getOriginalDirectory 01_Original}{@code /*.main}
      */
     @NotNull
     Collection<File> getOriginalFiles(@NotNull BookStep step);
@@ -61,7 +61,7 @@ public interface XppFormatFileSystem extends FormatFileSystem
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getPagebreakesUpDirectory 02_PagebreakesUp}{@code /fileName_type.pagebreakesUp}
+     * {@code /}{@link getPagebreakesUpDirectory 02_PagebreakesUp}{@code /fileName.type}
      */
     @NotNull
     File getPagebreakesUpFile(@NotNull BookStep step, @NotNull String name);
@@ -77,30 +77,45 @@ public interface XppFormatFileSystem extends FormatFileSystem
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
      * {@code /}{@link getOriginalPartsDirectory 03_OriginalParts}
-     * {@code /fileName_type_number.part}
+     * {@code /fileName_number_type.part}
      */
     @NotNull
-    File getOriginalPartsFile(@NotNull BookStep step, @NotNull String name, @NotNull PartType type, int partNumber);
+    File getOriginalPartsFile(@NotNull BookStep step, @NotNull String name, int partNumber, @NotNull PartType type);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /04_ToHtml}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /04_OriginalPages}
      */
     @NotNull
-    File getToHtmlDirectory(@NotNull BookStep step);
-
-    /**
-     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getToHtmlDirectory 04_ToHtml}{@code /fileName.html}
-     */
-    @NotNull
-    File getToHtmlFile(@NotNull BookStep step, @NotNull String name);
+    File getOriginalPagesDirectory(@NotNull BookStep step);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getToHtmlDirectory 04_ToHtml}{@code /anchorToDocumentIdMapFile}
+     * {@code /}{@link getOriginalPagesDirectory 04_OriginalPages}{@code /fileName_#.page}
+     */
+    @NotNull
+    File getOriginalPageFile(@NotNull BookStep step, @NotNull String name, int pageNumber);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /05_HtmlPages}
+     */
+    @NotNull
+    File getHtmlPagesDirectory(@NotNull BookStep step);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
+     * {@code /}{@link getHtmlPagesDirectory 05_HtmlPages}{@code /fileName.html}
+     */
+    @NotNull
+    File getHtmlPageFile(@NotNull BookStep step, @NotNull String name);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
+     * {@code /}{@link getHtmlPagesDirectory 05_HtmlPages}{@code /anchorToDocumentIdMapFile}
      */
     @NotNull
     File getAnchorToDocumentIdMapFile(@NotNull BookStep step);

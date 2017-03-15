@@ -2,16 +2,18 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.sdl.com/xpp"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
+	<xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
 	<xsl:param name="fileBaseName" />
+	<xsl:param name="fileType" />
 
 	<xsl:template match="x:root">
 		<xsl:for-each-group select="*" group-starting-with="x:pagebreak">
 			<xsl:variable name="fileName"
-				select="concat('./', $fileBaseName, '_', position(), '.part')" />
+				select="concat('./', $fileBaseName, '_', position(), '_', $fileType, '.part')" />
 			<xsl:result-document href="{$fileName}">
-				<page>
+				<xsl:element name="{concat('part.', $fileType)}">
 					<xsl:apply-templates select="current-group()" />
-				</page>
+				</xsl:element>
 			</xsl:result-document>
 		</xsl:for-each-group>
 	</xsl:template>

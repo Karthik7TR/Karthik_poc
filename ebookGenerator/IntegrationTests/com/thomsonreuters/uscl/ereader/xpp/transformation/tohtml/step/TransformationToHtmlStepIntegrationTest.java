@@ -46,7 +46,7 @@ public final class TransformationToHtmlStepIntegrationTest
         //when
         step.executeStep();
         //then
-        final File html = fileSystem.getToHtmlFile(step, "sample");
+        final File html = fileSystem.getHtmlPageFile(step, "sample");
         assertThat(html, hasSameContentAs(expected));
     }
 }

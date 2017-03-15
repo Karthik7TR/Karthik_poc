@@ -48,8 +48,12 @@ public class SplitOriginalStep extends XppTransformationStep
         final Transformer transformer = transformerBuilderFactory.create().withXsl(splitOriginalXsl).build();
         for (final File file : fileSystem.getPagebreakesUpDirectory(this).listFiles())
         {
-            final String fileBaseName = FilenameUtils.removeExtension(file.getName());
+            final String fileName = file.getName();
+            final String fileBaseName = FilenameUtils.removeExtension(fileName);
+            final String fileType = FilenameUtils.getExtension(fileName);
+
             transformer.setParameter("fileBaseName", fileBaseName);
+            transformer.setParameter("fileType", fileType);
             transformationService.transform(transformer, file, fileSystem.getOriginalPartsDirectory(this));
         }
     }

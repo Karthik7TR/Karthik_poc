@@ -19,7 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
-public class InternalAnchorsStepIntegrationTest
+public final class InternalAnchorsStepIntegrationTest
 {
     @Resource(name = "internalAnchorsTask")
     private InternalAnchorsStep step;
@@ -42,7 +42,7 @@ public class InternalAnchorsStepIntegrationTest
     public void shouldCreateMappingFile() throws Exception
     {
         //given
-        final File originalPartsDirectory = fileSystem.getToHtmlDirectory(step);
+        final File originalPartsDirectory = fileSystem.getHtmlPagesDirectory(step);
         FileUtils.forceMkdir(originalPartsDirectory);
         FileUtils.copyFileToDirectory(originalHtml1, originalPartsDirectory);
         FileUtils.copyFileToDirectory(originalHtml2, originalPartsDirectory);
