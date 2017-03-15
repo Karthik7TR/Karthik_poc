@@ -164,10 +164,10 @@ public class ManagerServiceImpl implements ManagerService
         log.info(
             String.format(
                 "Starting to remove codes workbench files older than %d days old.  These are files created before: %s",
-                daysBack,
+                cwbFilesDaysBack,
                 deleteFilesBefore.toString()));
         removeOldCwbFiles(cwbDeleteFilesBefore);
-        log.info(String.format("Finished removing codes workbench files older than %d days old.", daysBack));
+        log.info(String.format("Finished removing codes workbench files older than %d days old.", cwbFilesDaysBack));
     }
 
     @Override
