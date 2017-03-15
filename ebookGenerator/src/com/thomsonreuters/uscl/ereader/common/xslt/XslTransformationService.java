@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.xml.transform.Transformer;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Performs XSLT transformation
  */
@@ -16,7 +18,7 @@ public interface XslTransformationService
      * @param input input file
      * @param output output file
      */
-    void transform(Transformer transformer, File input, File output);
+    void transform(@NotNull Transformer transformer, @NotNull File input, @NotNull File output);
 
     /**
      * Transform list of source input files to output file using transformer
@@ -24,5 +26,5 @@ public interface XslTransformationService
      * @param input input file
      * @param output output file
      */
-    void transform(Transformer transformer, List<File> input, File output);
+    void transform(@NotNull Transformer transformer, @NotNull List<File> input, @NotNull File output);
 }

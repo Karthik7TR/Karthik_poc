@@ -21,7 +21,9 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 @Service("xslTransformationService")
@@ -32,81 +34,85 @@ public class XslTransformationServiceImpl implements XslTransformationService
     private static final String END_WRAPPER_TAG = "</Document>";
 
     @Override
-    public void transform(final Transformer transformer, final File input, final File output)
+    public void transform(@NotNull final Transformer transformer, @NotNull final File input, @NotNull final File output)
     {
-        try (final InputStream inputStream = FileUtils.openInputStream(input))
+        try
         {
-            LOG.debug(String.format("Transforming %s.", input.getAbsolutePath()));
-            transform(transformer, inputStream, output);
+            final InputStream inputStream = FileUtils.openInputStream(input);
+            innerTransform(transformer, inputStream, output, input.getAbsolutePath());
         }
-        catch (final IOException | TransformerException e)
+        catch (final IOException e)
         {
-            final String message = String.format(
-                "Transformation error. Cannot transform %s to %s",
-                input.getAbsolutePath(),
-                output.getAbsolutePath());
+            final String message = String.format("Transformation error. Cannot open file %s", input.getAbsolutePath());
             LOG.error(message, e);
             throw new XslTransformationException(message, e);
         }
     }
 
     @Override
-    public void transform(final Transformer transformer, final List<File> input, final File output)
+    public void transform(
+        @NotNull final Transformer transformer,
+        @NotNull final List<File> input,
+        @NotNull final File output)
     {
-        if (!CollectionUtils.isEmpty(input))
+        try
         {
-            LOG.debug(String.format("Transforming %s.", input.get(0).getParentFile().getAbsolutePath()));
-            try
-            {
-                final List<InputStream> inputStreams = combineToWrappedListOfStreams(input);
+            Assert.isTrue(!CollectionUtils.isEmpty(input), "List of input files should not be empty");
 
-                try (final SequenceInputStream sequenceInputStream = new SequenceInputStream(Collections.enumeration(inputStreams)))
-                {
-                    transform(transformer, sequenceInputStream, output);
-                }
-            }
-            catch (final IOException | TransformerException e)
-            {
-                final String message = String.format(
-                    "Transformation error. Cannot transform %s to %s",
-                    input.get(0).getParentFile().getAbsolutePath(),
-                    output.getAbsolutePath());
-                LOG.error(message, e);
-                throw new XslTransformationException(message, e);
-            }
+            final String inputPath = input.get(0).getParentFile().getAbsolutePath();
+            final List<InputStream> inputStreams = combineToWrappedListOfStreams(input);
+            final SequenceInputStream sequenceInputStream =
+                new SequenceInputStream(Collections.enumeration(inputStreams));
+            innerTransform(transformer, sequenceInputStream, output, inputPath);
+        }
+        catch (final IOException e)
+        {
+            final String message = "Transformation error. Cannot open file";
+            LOG.error(message, e);
+            throw new XslTransformationException(message, e);
         }
     }
 
-    private void transform(final Transformer transformer, final InputStream inputStream, final File output) throws TransformerException, IOException
+    private void innerTransform(
+        final Transformer transformer,
+        final InputStream inputStream,
+        final File output,
+        final String inputPath)
     {
-        final long start = System.currentTimeMillis();
-
-        final Source source = new StreamSource(inputStream);
-        final File out = output.isDirectory() ? getTempOutputFile(output) : output;
-        final Result result = new StreamResult(out);
-        transformer.transform(source, result);
-
-        if (getTempOutputFile(output).exists())
+        try (final InputStream input = inputStream)
         {
-            FileUtils.forceDelete(getTempOutputFile(output));
-        }
+            final long start = System.currentTimeMillis();
 
-        final long end = System.currentTimeMillis();
-        final long totalTime = end - start;
-        LOG.debug(
-            String.format(
-                "Transformed to %s. Total time: %dms",
-                output.getAbsolutePath(),
-                totalTime));
+            final Source source = new StreamSource(input);
+            final File out = output.isDirectory() ? getTempOutputFile(output) : output;
+            final Result result = new StreamResult(out);
+            transformer.transform(source, result);
+
+            if (getTempOutputFile(output).exists())
+            {
+                FileUtils.forceDelete(getTempOutputFile(output));
+            }
+
+            final long end = System.currentTimeMillis();
+            final long totalTime = end - start;
+            LOG.debug(String.format("Transformed to %s. Total time: %dms", output.getAbsolutePath(), totalTime));
+        }
+        catch (final IOException | TransformerException e)
+        {
+            final String message =
+                String.format("Transformation error. Cannot transform %s to %s", inputPath, output.getAbsolutePath());
+            LOG.error(message, e);
+            throw new XslTransformationException(message, e);
+        }
     }
 
     private List<InputStream> combineToWrappedListOfStreams(final List<File> input) throws FileNotFoundException
     {
         final List<InputStream> inputStreams = new ArrayList<>();
         inputStreams.add(new ByteArrayInputStream(START_WRAPPER_TAG.getBytes()));
-        for (final File html : input)
+        for (final File inputFile : input)
         {
-            inputStreams.add(new FileInputStream(html));
+            inputStreams.add(new FileInputStream(inputFile));
         }
         inputStreams.add(new ByteArrayInputStream(END_WRAPPER_TAG.getBytes()));
         return inputStreams;

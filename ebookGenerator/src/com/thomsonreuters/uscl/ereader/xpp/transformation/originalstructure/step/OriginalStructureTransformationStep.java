@@ -2,24 +2,21 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.originalstructure.ste
 
 import java.io.File;
 
-import javax.annotation.Resource;
 import javax.xml.transform.Transformer;
 
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
-import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
-import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
-import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
-import com.thomsonreuters.uscl.ereader.xpp.transformation.service.TransformationUtil;
-import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
 import org.apache.commons.io.FileUtils;
-import org.springframework.batch.core.ExitStatus;
 import org.springframework.beans.factory.annotation.Value;
 
+/**
+ * Creates original XMLs from XPP XMLs
+ */
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
-public class OriginalStructureTransformationStep extends BookStepImpl
+public class OriginalStructureTransformationStep extends XppTransformationStep
 {
     @Value("${xpp.sample.xpp.directory}")
     private File xppDirectory;
@@ -28,27 +25,12 @@ public class OriginalStructureTransformationStep extends BookStepImpl
     @Value("${xpp.transform.to.footnotes.xsl}")
     private File transformToFootnotesXsl;
 
-    @Resource(name = "transformerBuilderFactory")
-    private TransformerBuilderFactory transformerBuilderFactory;
-    @Resource(name = "xslTransformationService")
-    private XslTransformationService transformationService;
-    @Resource(name = "xppFormatFileSystem")
-    private XppFormatFileSystem fileSystem;
-    @Resource(name = "transformationUtil")
-    private TransformationUtil transformationUtil;
-
     @Override
-    public ExitStatus executeStep() throws Exception
+    public void executeTransformation() throws Exception
     {
-        if (transformationUtil.shouldSkip(this))
-        {
-            return ExitStatus.COMPLETED;
-        }
-
         FileUtils.forceMkdir(fileSystem.getOriginalDirectory(this));
         getOriginalXmls();
         getFootnotesXmls();
-        return ExitStatus.COMPLETED;
     }
 
     private void getOriginalXmls()

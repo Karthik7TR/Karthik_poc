@@ -2,10 +2,12 @@ package com.thomsonreuters.uscl.ereader.common.xslt;
 
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doThrow;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -47,7 +49,7 @@ public final class XslTransformationServiceImplTest
     }
 
     @Test
-    public void shouldThrowExceptionIfCannotTransform()
+    public void shouldThrowExceptionIfCannotOpenFile()
     {
         //given
         thrown.expect(XslTransformationException.class);
@@ -91,5 +93,38 @@ public final class XslTransformationServiceImplTest
         service.transform(transformer, Arrays.asList(input, input2), output);
         //then
         then(transformer).should().transform(any(Source.class), any(Result.class));
+    }
+
+    @Test
+    public void shouldThrowExceptionIfCannotOpenOneOfFiles()
+    {
+        //given
+        thrown.expect(XslTransformationException.class);
+        //when
+        service.transform(transformer, Arrays.asList(input, input2), output);
+        //then
+    }
+
+    @Test
+    public void shouldThrowExceptionIfCannotTransform() throws TransformerException, IOException
+    {
+        //given
+        input.createNewFile();
+        input2.createNewFile();
+        thrown.expect(XslTransformationException.class);
+        doThrow(new TransformerException("")).when(transformer).transform(any(Source.class), any(Result.class));
+        //when
+        service.transform(transformer, Arrays.asList(input, input2), output);
+        //then
+    }
+
+    @Test
+    public void shouldThrowExceptionIfNoInputFiles()
+    {
+        //given
+        thrown.expect(IllegalArgumentException.class);
+        //when
+        service.transform(transformer, Collections.<File>emptyList(), output);
+        //then
     }
 }
