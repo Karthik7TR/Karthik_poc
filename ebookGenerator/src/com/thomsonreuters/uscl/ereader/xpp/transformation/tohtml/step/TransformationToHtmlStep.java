@@ -27,7 +27,7 @@ public class TransformationToHtmlStep extends XppTransformationStep
     {
         FileUtils.forceMkdir(fileSystem.getHtmlPagesDirectory(this));
         final Transformer transformer = transformerBuilderFactory.create().withXsl(transformToHtmlXsl).build();
-        for (final File part : fileSystem.getOriginalPartsDirectory(this).listFiles())
+        for (final File part : fileSystem.getOriginalPagesDirectory(this).listFiles())
         {
             transformer.setParameter("fileBaseName", FilenameUtils.removeExtension(part.getName()));
             transformationService

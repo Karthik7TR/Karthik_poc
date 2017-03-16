@@ -52,10 +52,10 @@ public final class TransformationToHtmlStepTest
     {
         final File root = temporaryFolder.getRoot();
 
-        final File originalPartsDir = new File(root, "OriginalParts");
-        FileUtils.forceMkdir(originalPartsDir);
-        new File(originalPartsDir, "temp").createNewFile();
-        given(fileSystem.getOriginalPartsDirectory(step)).willReturn(originalPartsDir);
+        final File originalPagesDir = new File(root, "OriginalPages");
+        FileUtils.forceMkdir(originalPagesDir);
+        new File(originalPagesDir, "temp").createNewFile();
+        given(fileSystem.getOriginalPagesDirectory(step)).willReturn(originalPagesDir);
 
         final File toHtmlDirectory = new File(root, "toHtmlDirectory");
         toHtmlFile = new File(toHtmlDirectory, "temp");

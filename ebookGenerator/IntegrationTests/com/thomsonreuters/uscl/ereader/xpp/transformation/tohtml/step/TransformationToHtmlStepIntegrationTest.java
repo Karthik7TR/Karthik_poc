@@ -32,7 +32,7 @@ public final class TransformationToHtmlStepIntegrationTest
     @Before
     public void setUp() throws URISyntaxException
     {
-        original = new File(TransformationToHtmlStepIntegrationTest.class.getResource("sample.part").toURI());
+        original = new File(TransformationToHtmlStepIntegrationTest.class.getResource("sample.page").toURI());
         expected = new File(TransformationToHtmlStepIntegrationTest.class.getResource("expected.html").toURI());
     }
 
@@ -40,9 +40,9 @@ public final class TransformationToHtmlStepIntegrationTest
     public void shouldTransformPartsToHtml() throws Exception
     {
         //given
-        final File originalPartsDirectory = fileSystem.getOriginalPartsDirectory(step);
-        FileUtils.forceMkdir(originalPartsDirectory);
-        FileUtils.copyFileToDirectory(original, originalPartsDirectory);
+        final File originalPagesDirectory = fileSystem.getOriginalPagesDirectory(step);
+        FileUtils.forceMkdir(originalPagesDirectory);
+        FileUtils.copyFileToDirectory(original, originalPagesDirectory);
         //when
         step.executeStep();
         //then
