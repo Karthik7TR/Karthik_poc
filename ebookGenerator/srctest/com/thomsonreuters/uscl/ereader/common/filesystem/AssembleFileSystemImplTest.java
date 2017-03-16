@@ -8,7 +8,9 @@ import java.io.File;
 
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
@@ -24,11 +26,13 @@ public final class AssembleFileSystemImplTest
     private BookFileSystem bookFileSystem;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private BookStep step;
+    @Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Before
     public void setUp()
     {
-        given(bookFileSystem.getWorkDirectory(step)).willReturn(new File("workDirectory"));
+        given(bookFileSystem.getWorkDirectory(step)).willReturn(new File(temporaryFolder.getRoot(), "workDirectory"));
     }
 
     @Test

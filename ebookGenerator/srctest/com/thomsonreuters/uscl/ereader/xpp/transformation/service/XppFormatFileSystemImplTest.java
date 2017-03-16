@@ -12,7 +12,9 @@ import java.util.Collection;
 import com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -27,11 +29,13 @@ public final class XppFormatFileSystemImplTest
     private BookFileSystem bookFileSystem;
     @Mock
     private BookStep step;
+    @Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Before
     public void setUp()
     {
-        given(bookFileSystem.getWorkDirectory(step)).willReturn(new File("workDirectory"));
+        given(bookFileSystem.getWorkDirectory(step)).willReturn(new File(temporaryFolder.getRoot(), "workDirectory"));
     }
 
     @Test
@@ -65,9 +69,9 @@ public final class XppFormatFileSystemImplTest
         original.createNewFile();
         footnotes.createNewFile();
         //when
-        final Collection<File> file = fileSystem.getOriginalFiles(step);
+        final Collection<File> files = fileSystem.getOriginalFiles(step);
         //then
-        assertThat(file, contains(original));
+        assertThat(files, contains(original));
     }
 
     @Test
@@ -81,9 +85,9 @@ public final class XppFormatFileSystemImplTest
         original.createNewFile();
         footnotes.createNewFile();
         //when
-        final Collection<File> file = fileSystem.getFootnotesFiles(step);
+        final Collection<File> files = fileSystem.getFootnotesFiles(step);
         //then
-        assertThat(file, contains(footnotes));
+        assertThat(files, contains(footnotes));
     }
 
     @Test
