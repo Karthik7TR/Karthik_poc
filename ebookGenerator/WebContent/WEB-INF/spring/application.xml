@@ -1,52 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 						   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
 						   http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
-        				   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
-        				   
+        				   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+           				   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 
-  	<aop:aspectj-autoproxy />
-  	<mvc:annotation-driven/>
-  	<context:annotation-config/>
-  	<context:component-scan base-package="com.thomsonreuters.uscl.ereader"/>
-  	
-  	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
 
-	<!-- Application properties.
-		 Note: the "environment" property is set as a JVM argument at server start and is used to drive the loading of environment specific properties
-		 that override any loaded from the default-application.properties file.
-	-->
-	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<aop:aspectj-autoproxy />
+	<mvc:annotation-driven />
+	<context:annotation-config />
+	<context:component-scan base-package="com.thomsonreuters.uscl.ereader" />
+
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+
+	<!-- Application properties. Note: the "environment" property is set as 
+		a JVM argument at server start and is used to drive the loading of environment 
+		specific properties that override any loaded from the default-application.properties 
+		file. -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
-       	  <list>
-       	    <!-- Common properties (defined in core project) -->
-       	   	<value>classpath:spring/properties/default-spring.properties</value>
-           	<value>classpath:spring/properties/${environment}-spring.properties</value>
-           	<!-- Application Specific properties -->
-          	<value>/WEB-INF/spring/properties/default-spring.properties</value>
-           	<value>/WEB-INF/spring/properties/${environment}-spring.properties</value>
-           	<!-- XPP Specific properties -->
-           	<value>/WEB-INF/spring/properties/xpp.properties</value>
-         </list>
-       </property>
+			<list>
+				<!-- Common properties (defined in core project) -->
+				<value>classpath:spring/properties/default-spring.properties</value>
+				<value>classpath:spring/properties/${environment}-spring.properties
+				</value>
+				<!-- Application Specific properties -->
+				<value>/WEB-INF/spring/properties/default-spring.properties</value>
+				<value>/WEB-INF/spring/properties/${environment}-spring.properties
+				</value>
+				<!-- XPP Specific properties -->
+				<value>/WEB-INF/spring/properties/xpp.properties</value>
+			</list>
+		</property>
+		<property name="systemPropertiesMode">
+			<util:constant
+				static-field="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer.SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		</property>
 	</bean>
 	<bean id="environmentName" class="java.lang.String">
-  		<constructor-arg value="#{systemProperties['environment']}"/>
-  	</bean>
-	
-	<!-- Define message resource bundles used by the application.  These bundle files must be on the classpath. -->
-  	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-	  <property name="basename" value="messages" />
-  	</bean>
-  	<!-- Encapsulates the message source and its locale -->
- 	<bean id="messageSourceAccessor" class="org.springframework.context.support.MessageSourceAccessor">
-  		<constructor-arg ref="messageSource" /> 
-  	</bean>
+		<constructor-arg value="#{systemProperties['environment']}" />
+	</bean>
+
+	<!-- Define message resource bundles used by the application. These bundle 
+		files must be on the classpath. -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
+	</bean>
+	<!-- Encapsulates the message source and its locale -->
+	<bean id="messageSourceAccessor"
+		class="org.springframework.context.support.MessageSourceAccessor">
+		<constructor-arg ref="messageSource" />
+	</bean>
 
 </beans>
