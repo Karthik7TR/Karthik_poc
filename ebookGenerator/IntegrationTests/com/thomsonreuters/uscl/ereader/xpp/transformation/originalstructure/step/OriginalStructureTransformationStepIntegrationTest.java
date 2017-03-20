@@ -32,16 +32,16 @@ public final class OriginalStructureTransformationStepIntegrationTest
 
     private File xppDirectory;
     private File xpp;
-    private File expextedOriginal;
-    private File expextedFootnotes;
+    private File expectedOriginal;
+    private File expectedFootnotes;
 
     @Before
     public void setUp() throws URISyntaxException, IllegalAccessException
     {
         xpp = new File(OriginalStructureTransformationStepIntegrationTest.class.getResource("sampleXpp.xml").toURI());
-        expextedOriginal =
+        expectedOriginal =
             new File(OriginalStructureTransformationStepIntegrationTest.class.getResource("expected.original").toURI());
-        expextedFootnotes = new File(
+        expectedFootnotes = new File(
             OriginalStructureTransformationStepIntegrationTest.class.getResource("expected.footnotes").toURI());
         xppDirectory = new File(bookFileSystem.getWorkDirectory(step), "xppDirectory");
         FieldUtils.writeField(step, "xppDirectory", xppDirectory, true);
@@ -58,7 +58,7 @@ public final class OriginalStructureTransformationStepIntegrationTest
         //then
         final File original = fileSystem.getOriginalFile(step, "sampleXpp");
         final File footnotes = fileSystem.getFootnotesFile(step, "sampleXpp");
-        assertThat(expextedOriginal, hasSameContentAs(original));
-        assertThat(expextedFootnotes, hasSameContentAs(footnotes));
+        assertThat(expectedOriginal, hasSameContentAs(original));
+        assertThat(expectedFootnotes, hasSameContentAs(footnotes));
     }
 }

@@ -24,7 +24,6 @@ import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 
 @Service("xslTransformationService")
 public class XslTransformationServiceImpl implements XslTransformationService
@@ -57,7 +56,7 @@ public class XslTransformationServiceImpl implements XslTransformationService
     {
         try
         {
-            Assert.isTrue(!CollectionUtils.isEmpty(input), "List of input files should not be empty");
+            Assert.isTrue(!input.isEmpty(), "List of input files should not be empty");
 
             final String inputPath = input.get(0).getParentFile().getAbsolutePath();
             final List<InputStream> inputStreams = combineToWrappedListOfStreams(input);
