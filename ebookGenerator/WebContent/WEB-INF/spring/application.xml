@@ -32,7 +32,7 @@
 				<value>classpath:spring/properties/${environment}-spring.properties</value>
 				<!-- Application Specific properties -->
 				<value>/WEB-INF/spring/properties/default-spring.properties</value>
-				<value>${catalina.base}/resources/eBookGenerator.properties</value>
+				<value>classpath:eBookGenerator.properties</value>
 				<!-- XPP Specific properties -->
 				<value>/WEB-INF/spring/properties/xpp.properties</value>
 			</list>
