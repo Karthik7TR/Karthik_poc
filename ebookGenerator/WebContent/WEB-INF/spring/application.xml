@@ -2,14 +2,15 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-						   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
-						   http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
-        				   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
-           				   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
-
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+						http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+						http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 
 	<aop:aspectj-autoproxy />
 	<mvc:annotation-driven />
@@ -32,6 +33,7 @@
 				<value>classpath:spring/properties/${environment}-spring.properties</value>
 				<!-- Application Specific properties -->
 				<value>/WEB-INF/spring/properties/default-spring.properties</value>
+				<value>/WEB-INF/spring/properties/${environment}-spring.properties</value>
 				<value>classpath:eBookGenerator.properties</value>
 				<!-- XPP Specific properties -->
 				<value>/WEB-INF/spring/properties/xpp.properties</value>
