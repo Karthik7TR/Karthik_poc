@@ -35,6 +35,11 @@
 		</step>
         <step id="generateInternalAnchorsMapStep">
             <tasklet ref="internalAnchorsTask" />
+            <next on="COMPLETED" to="createDocToImageMappingStep" />
+            <fail on="FAILED" />
+        </step>
+        <step id="createDocToImageMappingStep">
+            <tasklet ref="createDocToImageMappingTask" />
             <next on="COMPLETED" to="createDummyXppBookStep" />
             <fail on="FAILED" />
         </step>
@@ -85,6 +90,8 @@
         class="com.thomsonreuters.uscl.ereader.xpp.transformation.uniteparts.step.UnitePagePartsStep" />
     <beans:bean id="internalAnchorsTask" scope="step" parent="bookStep"
         class="com.thomsonreuters.uscl.ereader.xpp.transformation.internalAnchors.step.InternalAnchorsStep" />
+    <beans:bean id="createDocToImageMappingTask" scope="step" parent="bookStep"
+         class="com.thomsonreuters.uscl.ereader.xpp.gather.docToImageMapping.step.DocToImageMappingStep" />
 	<beans:bean id="createDummyXppBookTask" scope="step" parent="bookStep"
 		class="com.thomsonreuters.uscl.ereader.xpp.transformation.step.CreateDummyXppBook" />
     <beans:bean id="getXppDynamicImagesTask" scope="step" parent="getDynamicImagesTask"

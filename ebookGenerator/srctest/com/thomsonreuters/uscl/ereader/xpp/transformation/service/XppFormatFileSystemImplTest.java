@@ -179,4 +179,24 @@ public final class XppFormatFileSystemImplTest
         //then
         assertThat(file, hasPath("workDirectory/Format/05_HtmlPages/fileName.html"));
     }
+
+    @Test
+    public void shouldReturnAnchorsMapFile()
+    {
+        //given
+        //when
+        final File file = fileSystem.getAnchorToDocumentIdMapFile(step);
+        //then
+        assertThat(file, hasPath("workDirectory/Format/anchorToDocumentIdMapFile.txt"));
+    }
+
+    @Test
+    public void shouldReturnDocToImagesMapFile()
+    {
+        //given
+        //when
+        final File file = fileSystem.getDocToImageMapFile(step);
+        //then
+        assertThat(file, hasPath("workDirectory/Format/doc-to-image-manifest.txt"));
+    }
 }

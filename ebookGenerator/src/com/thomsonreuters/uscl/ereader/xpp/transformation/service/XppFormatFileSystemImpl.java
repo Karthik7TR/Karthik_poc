@@ -117,6 +117,13 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     @Override
     public File getAnchorToDocumentIdMapFile(final BookStep step)
     {
-        return new File(getHtmlPagesDirectory(step), "anchorToDocumentIdMapFile.txt");
+        return new File(getFormatDirectory(step), "anchorToDocumentIdMapFile.txt");
+    }
+
+    @NotNull
+    @Override
+    public File getDocToImageMapFile(final BookStep step)
+    {
+        return new File(getFormatDirectory(step), "doc-to-image-manifest.txt");
     }
 }
