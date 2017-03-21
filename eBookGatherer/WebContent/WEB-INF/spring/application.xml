@@ -7,10 +7,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-						   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
-						   http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
-        				   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
-           				   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+						http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+						http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 
 	<mvc:annotation-driven />
 	<context:annotation-config />
@@ -27,12 +27,11 @@
 			<list>
 				<!-- Common properties (defined in core project) -->
 				<value>classpath:spring/properties/default-spring.properties</value>
-				<value>classpath:spring/properties/${environment}-spring.properties
-				</value>
+				<value>classpath:spring/properties/${environment}-spring.properties</value>
 				<!-- Application Specific properties -->
 				<value>/WEB-INF/spring/properties/default-spring.properties</value>
-				<value>/WEB-INF/spring/properties/${environment}-spring.properties
-				</value>
+				<value>/WEB-INF/spring/properties/${environment}-spring.properties</value>
+				<!-- <value>classpath:eBookGatherer.properties</value> -->
 			</list>
 		</property>
 		<property name="systemPropertiesMode">
