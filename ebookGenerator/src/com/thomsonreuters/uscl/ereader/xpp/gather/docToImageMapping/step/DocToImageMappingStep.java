@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Value;
 @SavePublishingStatusPolicy
 public class DocToImageMappingStep extends XppTransformationStep
 {
-
     @Value("${xpp.document.to.image.map.xsl}")
     private File transformToAnchorToDocumentIdMapXsl;
 
