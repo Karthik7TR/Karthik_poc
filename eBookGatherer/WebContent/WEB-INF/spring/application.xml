@@ -29,8 +29,6 @@
 				<value>classpath:spring/properties/default-spring.properties</value>
 				<value>classpath:spring/properties/${environment}-spring.properties</value>
 				<!-- Application Specific properties -->
-				<value>/WEB-INF/spring/properties/default-spring.properties</value>
-				<value>/WEB-INF/spring/properties/${environment}-spring.properties</value>
 				<!-- <value>classpath:eBookGatherer.properties</value> -->
 			</list>
 		</property>
