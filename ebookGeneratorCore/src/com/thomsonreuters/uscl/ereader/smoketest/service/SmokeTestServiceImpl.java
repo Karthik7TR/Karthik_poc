@@ -193,8 +193,7 @@ public class SmokeTestServiceImpl implements SmokeTestService
         final List<SmokeTest> statuses = new ArrayList<>();
 
         // Prod Database servers
-        statuses.add(getServerStatus("c111fwnctdbpf"));
-        statuses.add(getServerStatus("c111gkjctdbpf"));
+        statuses.add(getServerStatus("c279znzctdbpf.int.thomsonreuters.com"));
 
         return statuses;
     }
