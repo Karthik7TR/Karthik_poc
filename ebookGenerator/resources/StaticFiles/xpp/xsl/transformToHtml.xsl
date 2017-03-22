@@ -26,6 +26,16 @@
 		<xsl:copy-of select="self::node()" />
 	</xsl:template>
 
+	<xsl:template match="x:image.block">
+		<xsl:param name="quote">"</xsl:param>
+		<xsl:param name="ident">ident="</xsl:param>
+		<xsl:variable name='guid' select='substring-before(substring-after(self::node(),$ident),".")'/>
+		<xsl:element name="img">
+			<xsl:attribute name="class" select="'tr_image'" />
+			<xsl:attribute name="assetid" select="concat('er:#', $guid)" />
+		</xsl:element>
+	</xsl:template>
+
 	<xsl:template match="text()">
 		<xsl:value-of select="." />
 	</xsl:template>
