@@ -98,10 +98,11 @@ public class JmsClientImpl implements JMSClient
                     if (msgBody.contains(searchText))
                     {
                         messages.add(msgBody);
-                        final MessageConsumer consumer =
-                            session.createConsumer(browser.getQueue(), "JMSMessageID='" + msg.getJMSMessageID() + "'");
-                        consumer.receive(1000);
-                        consumer.close();
+                        try (MessageConsumer consumer =
+                            session.createConsumer(browser.getQueue(), "JMSMessageID='" + msg.getJMSMessageID() + "'"))
+                        {
+                            consumer.receive(1000);
+                        }
                     }
                 }
                 return messages;

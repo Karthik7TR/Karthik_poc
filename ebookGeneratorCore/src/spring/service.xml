@@ -90,7 +90,7 @@
 	<bean id="jmsClient" class="com.thomsonreuters.uscl.ereader.jms.client.impl.JmsClientImpl"/>
 	
 	<bean id="connectionFactory" class="com.ibm.mq.jms.MQQueueConnectionFactory"
-		  p:hostName="${jms.host.name}"
+		  p:connectionNameList="${jms.host.name}, ${jms.host.name.spare}"
 		  p:port="${jms.port}"
 		  p:queueManager="${jms.queue.manager}"
 		  p:channel="${jms.channel}"
