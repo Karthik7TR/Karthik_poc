@@ -65,8 +65,8 @@ public class GatherDynamicImagesTask extends BookStepImpl
         if (!dynamicImageDestinationDirectory.exists())
         {
             FileUtils.forceMkdir(dynamicImageDestinationDirectory);
-        } 
-        else 
+        }
+        else
         {
             Assert.isTrue(
                 dynamicImageDestinationDirectory.canWrite(),
@@ -85,7 +85,6 @@ public class GatherDynamicImagesTask extends BookStepImpl
 
         // Fetch the image metadata and file bytes
         final long jobInstanceId = getJobInstanceId();
-        // Remove all existing image files from image destination directory, covers case of this step failing and restarting the step.
         final Set<String> imgGuidSet = readImageGuidsFromTextFile(imageGuidFile);
 
         imageGuidNum = imgGuidSet.size();

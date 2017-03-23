@@ -13,12 +13,16 @@ import com.thomsonreuters.uscl.ereader.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.NotificationService;
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 
 public class GeneratorNotificationServiceImpl implements NotificationService
 {
+    private static Logger LOG = LogManager.getLogger(GeneratorNotificationServiceImpl.class);
+
     private CoreService coreService;
 
     @Override
@@ -52,22 +56,8 @@ public class GeneratorNotificationServiceImpl implements NotificationService
         bodyMessage = failedJobInfo + "  \n" + bodyMessage;
         subject = failedJobInfo;
 
-        final String imgGuidsFile = jobExecutionContext.getString(JobParameterKey.IMAGE_MISSING_GUIDS_FILE);
-
-        if (getFileSize(imgGuidsFile) > 0)
-        {
-            fileList.add(imgGuidsFile);
-        }
-
-        final String gatherDir = jobExecutionContext.getString(JobParameterKey.GATHER_DOCS_DIR);
-
-        final String missingGuidsFile =
-            StringUtils.substringBeforeLast(gatherDir, System.getProperty("file.separator")) + "_doc_missing_guids.txt";
-
-        if (getFileSize(missingGuidsFile) > 0)
-        {
-            fileList.add(missingGuidsFile);
-        }
+        getImageMissingGuidsFileFromContextPath(jobExecutionContext, fileList);
+        getImageMissingGuidsFileFromGatherDocsDir(jobExecutionContext, fileList);
 
         if (fileList.size() > 0)
         {
@@ -76,6 +66,47 @@ public class GeneratorNotificationServiceImpl implements NotificationService
         else
         {
             EmailNotification.send(emailRecipients, subject, bodyMessage.toString());
+        }
+    }
+
+    private void getImageMissingGuidsFileFromContextPath(
+        final ExecutionContext jobExecutionContext,
+        final List<String> fileList)
+    {
+        try
+        {
+            final String imgGuidsFile = jobExecutionContext.getString(JobParameterKey.IMAGE_MISSING_GUIDS_FILE);
+
+            if (getFileSize(imgGuidsFile) > 0)
+            {
+                fileList.add(imgGuidsFile);
+            }
+        }
+        catch (final Exception e)
+        {
+            LOG.error("", e);
+        }
+    }
+
+    private void getImageMissingGuidsFileFromGatherDocsDir(
+        final ExecutionContext jobExecutionContext,
+        final List<String> fileList)
+    {
+        try
+        {
+            final String gatherDir = jobExecutionContext.getString(JobParameterKey.GATHER_DOCS_DIR);
+
+            final String missingGuidsFile =
+                StringUtils.substringBeforeLast(gatherDir, System.getProperty("file.separator")) + "_doc_missing_guids.txt";
+
+            if (getFileSize(missingGuidsFile) > 0)
+            {
+                fileList.add(missingGuidsFile);
+            }
+        }
+        catch (final Exception e)
+        {
+            LOG.error("", e);
         }
     }
 
