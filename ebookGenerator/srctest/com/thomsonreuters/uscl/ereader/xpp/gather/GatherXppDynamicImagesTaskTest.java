@@ -18,6 +18,7 @@ import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
 import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherService;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.TransformationUtil;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -48,6 +49,9 @@ public class GatherXppDynamicImagesTaskTest
     @Mock
     private XppUnpackFileSystem xppUnpackFileSystem;
 
+    @Mock
+    protected TransformationUtil transformationUtil;
+
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
 
@@ -59,6 +63,7 @@ public class GatherXppDynamicImagesTaskTest
         when(imageFileSystem.getImageDynamicDirectory((BookStep)any())).thenReturn(tempFolder.newFolder(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
 
         when(xppUnpackFileSystem.getXppAssetsDirectory((BookStep)any())).thenReturn(tempFolder.newFolder(JobExecutionKey.XPP_IMAGES_UNPACK_DIR).getAbsolutePath());
+        when(transformationUtil.shouldSkip(any(BookStep.class))).thenReturn(false);
     }
 
     @Test

@@ -15,10 +15,13 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @RunWith(MockitoJUnitRunner.class)
 public final class XppUnpackFileSystemImplTest
 {
+    private static final String gatherDir = "/apps/eBookBuilder/xppTemp"; //"workDirectory/Gather"
+
     @InjectMocks
     private XppUnpackFileSystemImpl fileSystem;
     @Mock
@@ -33,6 +36,8 @@ public final class XppUnpackFileSystemImplTest
     {
         given(gatherFileSystem.getGatherRootDirectory(step))
             .willReturn(new File(temporaryFolder.getRoot(), "workDirectory/Gather"));
+
+        ReflectionTestUtils.setField(fileSystem, "xppTempDirectory", "/apps/eBookBuilder/xppTemp/");
     }
 
     @Test
@@ -42,7 +47,7 @@ public final class XppUnpackFileSystemImplTest
         //when
         final File file = fileSystem.getXppUnpackDirectory(step);
         //then
-        assertThat(file, hasPath("workDirectory/Gather/XppUnpack"));
+        assertThat(file, hasPath(gatherDir + "/XppUnpack"));
     }
 
     @Test
@@ -52,6 +57,6 @@ public final class XppUnpackFileSystemImplTest
         //when
         final File file = new File(fileSystem.getXppAssetsDirectory(step));
         //then
-        assertThat(file, hasPath("workDirectory/Gather/XppUnpack/assets"));
+        assertThat(file, hasPath(gatherDir + "/XppUnpack/assets"));
     }
 }

@@ -24,6 +24,7 @@ import com.thomsonreuters.uscl.ereader.gather.image.service.ImageServiceImpl;
 import com.thomsonreuters.uscl.ereader.gather.restclient.service.GatherService;
 import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.util.Assert;
@@ -61,17 +62,21 @@ public class GatherDynamicImagesTask extends BookStepImpl
         final File dynamicImageDestinationDirectory = imageFileSystem.getImageDynamicDirectory(this);
         final File imageGuidFile = formatFileSystem.getImageToDocumentManifestFile(this);
 
-        Assert.isTrue(
-            dynamicImageDestinationDirectory.exists(),
-            String.format(
-                "The dynamic image destination directory does not exist in the filesystem: "
-                    + dynamicImageDestinationDirectory,
-                dynamicImageDestinationDirectory.getAbsolutePath()));
-        Assert.isTrue(
-            dynamicImageDestinationDirectory.canWrite(),
-            String.format(
-                "The dynamic image destination directory is not writable: " + dynamicImageDestinationDirectory,
-                dynamicImageDestinationDirectory.getAbsolutePath()));
+        if (!dynamicImageDestinationDirectory.exists())
+        {
+            FileUtils.forceMkdir(dynamicImageDestinationDirectory);
+        } 
+        else 
+        {
+            Assert.isTrue(
+                dynamicImageDestinationDirectory.canWrite(),
+                String.format(
+                    "The dynamic image destination directory is not writable: " + dynamicImageDestinationDirectory,
+                    dynamicImageDestinationDirectory.getAbsolutePath()));
+            // Remove all existing image files from image destination directory, covers case of this step failing and restarting the step.
+            ImageServiceImpl.removeAllFilesInDirectory(dynamicImageDestinationDirectory);
+        }
+
         Assert.isTrue(
             imageGuidFile.exists(),
             "The dynamic image GUID list text file does not exist: "
@@ -81,8 +86,6 @@ public class GatherDynamicImagesTask extends BookStepImpl
         // Fetch the image metadata and file bytes
         final long jobInstanceId = getJobInstanceId();
         // Remove all existing image files from image destination directory, covers case of this step failing and restarting the step.
-        ImageServiceImpl.removeAllFilesInDirectory(dynamicImageDestinationDirectory);
-
         final Set<String> imgGuidSet = readImageGuidsFromTextFile(imageGuidFile);
 
         imageGuidNum = imgGuidSet.size();

@@ -32,7 +32,8 @@ public class XppImageService implements ImageService
     private static final Logger Log = LogManager.getLogger(XppImageService.class);
 
     private static final String PNG = "PNG";
-    private static final String TIFF = "tif";
+    private static final String TIF = "tif";
+    private static final String TIFF = "tiff";
     private DocToImageManifestUtil docToImageManifestUtil;
     private ImageConverter imageConverter;
 
@@ -154,7 +155,8 @@ public class XppImageService implements ImageService
 
     private boolean isTiffImage(final File sourceImage)
     {
-        return FilenameUtils.getExtension(sourceImage.getName()).equalsIgnoreCase(TIFF);
+        return FilenameUtils.getExtension(sourceImage.getName()).equalsIgnoreCase(TIF) ||
+               FilenameUtils.getExtension(sourceImage.getName()).equalsIgnoreCase(TIFF);
     }
 
     @Required

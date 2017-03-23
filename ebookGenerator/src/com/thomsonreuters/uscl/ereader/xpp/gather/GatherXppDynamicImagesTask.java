@@ -11,6 +11,8 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotif
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
 import com.thomsonreuters.uscl.ereader.gather.step.GatherDynamicImagesTask;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.TransformationUtil;
+import org.springframework.batch.core.ExitStatus;
 
 /**
  * Gather dynamic images task for XPP pathway.
@@ -21,6 +23,20 @@ public class GatherXppDynamicImagesTask extends GatherDynamicImagesTask
 {
     @Resource(name = "xppUnpackFileSystem")
     private XppUnpackFileSystem xppUnpackFileSystem;
+    @Resource(name = "transformationUtil")
+    protected TransformationUtil transformationUtil;
+
+    @Override
+    public ExitStatus executeStep() throws Exception
+    {
+        if (transformationUtil.shouldSkip(this))
+        {
+            return ExitStatus.COMPLETED;
+        }
+
+        super.executeStep();
+        return ExitStatus.COMPLETED;
+    }
 
     @Override
     protected GatherImgRequest constructGatherImageRequest(
