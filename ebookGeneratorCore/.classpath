@@ -628,5 +628,6 @@
 	<classpathentry kind="lib" path="lib/activemq-unit-test/hawtbuf-1.11.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/hsqldb-2.3.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/DbSetup-1.6.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/activation-1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -51,6 +51,7 @@ public final class XppImageServiceIntegrationTest
         assertEquals(TIF_IMAGE_ID, response.getImageMetadataList().get(0).getImgGuid());
         assertEquals(1733, response.getImageMetadataList().get(0).getWidth().longValue());
         assertEquals(765, response.getImageMetadataList().get(0).getHeight().longValue());
+        assertEquals("image/png", response.getImageMetadataList().get(0).getMimeType());
     }
 
     private ImageRequestParameters getImageRequestParameters() throws IOException

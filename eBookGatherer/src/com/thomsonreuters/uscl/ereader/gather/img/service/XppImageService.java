@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.activation.MimetypesFileTypeMap;
 import javax.imageio.ImageIO;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
@@ -34,6 +35,7 @@ public class XppImageService implements ImageService
     private static final String PNG = "PNG";
     private static final String TIF = "tif";
     private static final String TIFF = "tiff";
+    private final MimetypesFileTypeMap mimetypesFileTypeMap = new MimetypesFileTypeMap();
     private DocToImageManifestUtil docToImageManifestUtil;
     private ImageConverter imageConverter;
 
@@ -94,12 +96,23 @@ public class XppImageService implements ImageService
         final File imageFile) throws IOException
     {
         final ImgMetadataInfo metadata = new ImgMetadataInfo();
-        metadata.setMimeType(Files.probeContentType(imageFile.toPath()));
+        metadata.setMimeType(getMimeType(imageFile));
         metadata.setSize(imageFile.length());
         metadata.setImgGuid(imageId);
         metadata.setWidth((long) bufferedImage.getWidth());
         metadata.setHeight((long) bufferedImage.getHeight());
         return metadata;
+    }
+
+    private String getMimeType(final File imageFile) throws IOException
+    {
+        String mimeType = Files.probeContentType(imageFile.toPath());
+
+        if (mimeType == null)
+        {
+            mimeType = mimetypesFileTypeMap.getContentType(imageFile.getAbsolutePath());
+        }
+        return mimeType;
     }
 
     private Map<String, ImgMetadataInfo> copyImagesToWorkDir(final String xppSourceImageDirectory, final File destDir)

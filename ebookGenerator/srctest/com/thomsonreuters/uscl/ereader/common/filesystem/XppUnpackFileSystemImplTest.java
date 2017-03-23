@@ -7,6 +7,7 @@ import static org.mockito.BDDMockito.given;
 import java.io.File;
 
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,7 +16,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.test.util.ReflectionTestUtils;
 
 @RunWith(MockitoJUnitRunner.class)
 public final class XppUnpackFileSystemImplTest
@@ -32,12 +32,12 @@ public final class XppUnpackFileSystemImplTest
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Before
-    public void setUp()
+    public void setUp() throws IllegalAccessException
     {
         given(gatherFileSystem.getGatherRootDirectory(step))
             .willReturn(new File(temporaryFolder.getRoot(), "workDirectory/Gather"));
 
-        ReflectionTestUtils.setField(fileSystem, "xppTempDirectory", "/apps/eBookBuilder/xppTemp/");
+        FieldUtils.writeField(fileSystem, "xppTempDirectory", "/apps/eBookBuilder/xppTemp/", true);
     }
 
     @Test
