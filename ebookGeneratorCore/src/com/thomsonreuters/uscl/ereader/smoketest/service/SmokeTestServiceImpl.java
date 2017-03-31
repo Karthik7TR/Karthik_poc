@@ -24,7 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public class SmokeTestServiceImpl implements SmokeTestService
 {
-    //private static final Logger log = LogManager.getLogger(SmokeTestServiceImpl.class);
+    private static final String GENERATOR = "Generator";
+    private static final String MANAGER = "Manager";
+    private static final String GATHERER = "Gatherer";
     public static final File APPSERVER_TOMCAT_DIR = new File("/appserver/tomcat");
 
     private SmokeTestDao dao;
@@ -55,9 +57,10 @@ public class SmokeTestServiceImpl implements SmokeTestService
     {
         final List<SmokeTest> statuses = new ArrayList<>();
 
-        statuses.add(getApplicationStatus("Manager", "http://c708pfmctasdf.int.thomsonreuters.com:9007/ebookManager"));
-        statuses.add(getApplicationStatus("Generator", "http://c708pfmctasdf.int.thomsonreuters.com:9002/ebookGenerator"));
-        statuses.add(getApplicationStatus("Gatherer", "http://c708pfmctasdf.int.thomsonreuters.com:9001/ebookGatherer"));
+        statuses.add(getApplicationStatus(MANAGER, "http://c708pfmctasdf.int.thomsonreuters.com:9007/ebookManager"));
+        statuses
+            .add(getApplicationStatus(GENERATOR, "http://c708pfmctasdf.int.thomsonreuters.com:9002/ebookGenerator"));
+        statuses.add(getApplicationStatus(GATHERER, "http://c708pfmctasdf.int.thomsonreuters.com:9001/ebookGatherer"));
 
         return statuses;
     }
@@ -67,8 +70,8 @@ public class SmokeTestServiceImpl implements SmokeTestService
     {
         final List<SmokeTest> statuses = new ArrayList<>();
 
-        statuses.add(getServerStatus("c111heyctasqx"));
-        statuses.add(getServerStatus("c111gvvctasqx"));
+        statuses.add(getServerStatus("c281ffzctastf.int.thomsonreuters.com"));
+        statuses.add(getServerStatus("c273pevctastf.int.thomsonreuters.com"));
 
         return statuses;
     }
@@ -78,9 +81,10 @@ public class SmokeTestServiceImpl implements SmokeTestService
     {
         final List<SmokeTest> statuses = new ArrayList<>();
 
-        statuses.add(getApplicationStatus("Manager", "http://c111heyctasqx:9003/ebookManager"));
-        statuses.add(getApplicationStatus("Generator", "http://c111gvvctasqx:9002/ebookGenerator"));
-        statuses.add(getApplicationStatus("Gatherer", "http://c111gvvctasqx:9001/ebookGatherer"));
+        statuses.add(getApplicationStatus(MANAGER, "http://c281ffzctastf.int.thomsonreuters.com:9003/ebookManager"));
+        statuses
+            .add(getApplicationStatus(GENERATOR, "http://c273pevctastf.int.thomsonreuters.com:9002/ebookGenerator"));
+        statuses.add(getApplicationStatus(GATHERER, "http://c273pevctastf.int.thomsonreuters.com:9001/ebookGatherer"));
 
         return statuses;
     }
@@ -113,20 +117,19 @@ public class SmokeTestServiceImpl implements SmokeTestService
         // List of eBook Manager Servers
         for (final String server : qedManagerServers)
         {
-            statuses.add(getApplicationStatus("Manager", String.format("http://%s:9001/ebookManager", server)));
+            statuses.add(getApplicationStatus(MANAGER, String.format("http://%s:9001/ebookManager", server)));
         }
 
         // List of eBook Generator Servers
         for (final String server : qedGeneratorServers)
         {
-            statuses.add(getApplicationStatus("Gatherer", String.format("http://%s:9001/ebookGatherer", server)));
-            statuses.add(getApplicationStatus("Generator", String.format("http://%s:9002/ebookGenerator", server)));
+            statuses.add(getApplicationStatus(GATHERER, String.format("http://%s:9001/ebookGatherer", server)));
+            statuses.add(getApplicationStatus(GENERATOR, String.format("http://%s:9002/ebookGenerator", server)));
         }
 
-        statuses.add(getApplicationStatus("Manager", "http://qa.ebookmanager.uslf.int.westgroup.com/ebookManager"));
-        statuses.add(getApplicationStatus("Gatherer", "http://qa.ebookgatherer.uslf.int.westgroup.com/ebookGatherer"));
-        statuses
-            .add(getApplicationStatus("Generator", "http://qa.ebookgenerator.uslf.int.westgroup.com/ebookGenerator"));
+        statuses.add(getApplicationStatus(MANAGER, "http://qa.ebookmanager.uslf.int.westgroup.com/ebookManager"));
+        statuses.add(getApplicationStatus(GATHERER, "http://qa.ebookgatherer.uslf.int.westgroup.com/ebookGatherer"));
+        statuses.add(getApplicationStatus(GENERATOR, "http://qa.ebookgenerator.uslf.int.westgroup.com/ebookGenerator"));
 
         return statuses;
     }
@@ -170,19 +173,19 @@ public class SmokeTestServiceImpl implements SmokeTestService
         // List of eBook Manager Servers
         for (final String server : prodManagerServers)
         {
-            statuses.add(getApplicationStatus("Manager", String.format("http://%s:9001/ebookManager", server)));
+            statuses.add(getApplicationStatus(MANAGER, String.format("http://%s:9001/ebookManager", server)));
         }
 
         // List of eBook Generator Servers
         for (final String server : prodGeneratorServers)
         {
-            statuses.add(getApplicationStatus("Gatherer", String.format("http://%s:9001/ebookGatherer", server)));
-            statuses.add(getApplicationStatus("Generator", String.format("http://%s:9002/ebookGenerator", server)));
+            statuses.add(getApplicationStatus(GATHERER, String.format("http://%s:9001/ebookGatherer", server)));
+            statuses.add(getApplicationStatus(GENERATOR, String.format("http://%s:9002/ebookGenerator", server)));
         }
 
-        statuses.add(getApplicationStatus("Manager", "http://ebookmanager.uslf.int.westgroup.com/ebookManager"));
-        statuses.add(getApplicationStatus("Gatherer", "http://ebookgatherer.uslf.int.westgroup.com/ebookGatherer"));
-        statuses.add(getApplicationStatus("Generator", "http://ebookgenerator.uslf.int.westgroup.com/ebookGenerator"));
+        statuses.add(getApplicationStatus(MANAGER, "http://ebookmanager.uslf.int.westgroup.com/ebookManager"));
+        statuses.add(getApplicationStatus(GATHERER, "http://ebookgatherer.uslf.int.westgroup.com/ebookGatherer"));
+        statuses.add(getApplicationStatus(GENERATOR, "http://ebookgenerator.uslf.int.westgroup.com/ebookGenerator"));
 
         return statuses;
     }
