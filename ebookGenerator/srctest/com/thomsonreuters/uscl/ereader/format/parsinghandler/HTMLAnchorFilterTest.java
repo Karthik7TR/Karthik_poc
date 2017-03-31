@@ -309,6 +309,31 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
+    public void testRutterAnchorWithSP() throws SAXException
+    {
+        final ImageService mockImgService = EasyMock.createMock(ImageService.class);
+
+        final String xmlTestStr = "<test><a refType=\"TS\" href=\"er:#co_pp_sp_1000600_50660000823d1\" class=\"test\">Test123</a></test>";
+        final String expectedResult =
+            "<test><a refType=\"TS\" href=\"er:#ABC1234/co_pp_sp_1000600_50660000823d1\" class=\"test\">Test123</a></test>";
+
+        testHelper(mockImgService, xmlTestStr, expectedResult);
+    }
+
+    @Test
+    public void testNonRutterAnchorWithSP() throws SAXException
+    {
+        final ImageService mockImgService = EasyMock.createMock(ImageService.class);
+
+        final String xmlTestStr = "<test><a href=\"er:#co_pp_sp_1000600_50660000823d1\" class=\"test\">Test123</a></test>";
+        final String expectedResult =
+            "<test><a href=\"er:#ABC1234/co_pp_50660000823d1\" class=\"test\">Test123</a></test>";
+
+        testHelper(mockImgService, xmlTestStr, expectedResult);
+    }
+
+
+    @Test
     public void testSimpleNonEmptyAnchorWithERSP() throws SAXException
     {
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);

@@ -206,7 +206,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl
                         // set href to er:#docFamilyGuid/namedAnchor
                         if (attsHrefValue != null && attsHrefValue.startsWith("#"))
                         {
-//                              Change to this format: href=�er:#currentDocFamilyGuid/namedAnchor�
+//                              Change to this format: href=er:#currentDocFamilyGuid/namedAnchor
                             attsHrefValue = FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX
                                 + currentGuid
                                 + "/"
@@ -245,20 +245,28 @@ public class HTMLAnchorFilter extends XMLFilterImpl
                                         + "/"
                                         + attsHrefValue.substring(4));
 
-//                              Change to this format: href=�er:#currentDocFamilyGuid/namedAnchor�
+//                              Change to this format: href=er:#currentDocFamilyGuid/namedAnchor
                                 attsHrefValue = FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX
                                     + currentGuid
                                     + "/"
                                     + attsHrefValue.substring(4);
                             }
+                            final String attsRefTypeValue = atts.getValue("refType");
                             // Temp fix for sp_pubnumber references from URL builder
                             if (attsHrefValue.contains("_sp_"))
                             {
-                                final int idxHrefSpStart = attsHrefValue.indexOf("_sp_");
-                                final int idxHrefSpEnd =
-                                    attsHrefValue.substring(idxHrefSpStart + 4).indexOf("_") + idxHrefSpStart + 4;
-                                final String removeSp = attsHrefValue.substring(idxHrefSpStart, idxHrefSpEnd);
-                                attsHrefValue = attsHrefValue.replace(removeSp, "");
+                                if (attsRefTypeValue != null && attsRefTypeValue.equalsIgnoreCase("TS")){
+                                    //Skip changing href value as this is needed for
+                                    //refType "TS" which is specific to Rutter internal links
+                                }
+                                else
+                                {
+                                    final int idxHrefSpStart = attsHrefValue.indexOf("_sp_");
+                                    final int idxHrefSpEnd =
+                                        attsHrefValue.substring(idxHrefSpStart + 4).indexOf("_") + idxHrefSpStart + 4;
+                                    final String removeSp = attsHrefValue.substring(idxHrefSpStart, idxHrefSpEnd);
+                                    attsHrefValue = attsHrefValue.replace(removeSp, "");
+                                }
                             }
 
                             //                          Add to Target list.

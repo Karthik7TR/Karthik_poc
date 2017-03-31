@@ -288,6 +288,19 @@ public class InternalLinkResolverFilter extends XMLFilterImpl
         {
             return resolvedAttributes;
         }
+        //For Rutter titles external link should be changed to internal links
+        //RefType TS is specific to Rutter titles.
+        //We are adding RefType TS as an attribute here to avoid modification to href value containing _sp_ in HTMLAnchorFilter
+        final String refType = urlContents.get("refType");
+        final String externalLinkClass = resolvedAttributes.getValue("class");
+        if (refType != null
+            && refType.equalsIgnoreCase("TS")
+            && externalLinkClass.equalsIgnoreCase("co_link co_drag ui-draggable"))
+        {
+            final int classIndex = resolvedAttributes.getIndex("class");
+            resolvedAttributes.setValue(classIndex, "co_internalLink");
+            resolvedAttributes.addAttribute("", "refType", "refType", "CDATA", "TS");
+        }
 
         final StringBuilder ebookResourceIdentifier = new StringBuilder();
 

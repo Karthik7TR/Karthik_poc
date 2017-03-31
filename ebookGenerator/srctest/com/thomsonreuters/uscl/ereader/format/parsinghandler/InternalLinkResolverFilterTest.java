@@ -315,6 +315,42 @@ public final class InternalLinkResolverFilterTest
     }
 
     @Test
+    public void testRutterLink() throws Exception
+    {
+        final String resourceUrl =
+            "http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546 &cite=42USCAS1395W-133&originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a";
+        final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
+        final String linkParameter = urlValues.get("reference");
+        final String normalizedCite = urlValues.get("cite");
+        final String expectedLinkParameter = "co_pp_8b3b0000958a";
+        Assert.assertEquals(expectedLinkParameter, linkParameter);
+
+        final DocMetadata dm = new DocMetadata();
+        dm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
+        dm.setDocUuid("NF8C65500AFF711D8803AE0632FEDDFBF");
+
+        final Map<String, DocMetadata> mp = new HashMap<>();
+        mp.put(normalizedCite, dm);
+        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByCite()).andReturn(mp);
+
+        final Map<String, DocMetadata> splitMp = new HashMap<>();
+        final DocMetadata splitDm = new DocMetadata();
+        splitDm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
+        splitDm.setDocUuid(docGuid);
+        splitMp.put(docGuid, splitDm);
+
+        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataKeyedByDocumentUuid()).andReturn(splitMp);
+        EasyMock.replay(mockDocumentMetadataAuthority);
+
+        final String inputXML =
+            "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_link co_drag ui-draggable\" href=\"http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=%20&amp;cite=42USCAS1395W-133&amp;refType=TS&amp;originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a4\">section 1395w-133(a)</a>";
+        final String expectedResult =
+            "<a id=\"co_link_I2c86d170883611e19a0cc90d102a8215\" class=\"co_internalLink\" href=\"er:#IC6A94E80FF6011DC95B0EEFA5102EA59/co_pp_8b3b0000958a4\" refType=\"TS\">section 1395w-133(a)</a>";
+
+        testHelper(inputXML, expectedResult);
+    }
+
+    @Test
     @Ignore
     public void testGetNormalizedCiteWithPaceMetadata() throws Exception
     {
