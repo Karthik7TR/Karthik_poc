@@ -21,9 +21,9 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-public class EBookRequestQueuePoller
+public class XppBundleQueuePoller
 {
-    private static final Logger log = LogManager.getLogger(EBookRequestQueuePoller.class);
+    private static final Logger log = LogManager.getLogger(XppBundleQueuePoller.class);
 
     private JMSClient jmsClient;
     private JmsTemplate jmsTemplate;

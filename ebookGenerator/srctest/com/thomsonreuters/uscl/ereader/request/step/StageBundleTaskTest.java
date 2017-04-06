@@ -10,15 +10,10 @@ import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.NotificationService;
-import com.thomsonreuters.uscl.ereader.request.BundleToProcess;
-import com.thomsonreuters.uscl.ereader.request.EBookBundle;
-import com.thomsonreuters.uscl.ereader.request.EBookRequest;
-import com.thomsonreuters.uscl.ereader.request.EBookRequestException;
-import com.thomsonreuters.uscl.ereader.request.XPPConstants;
-import com.thomsonreuters.uscl.ereader.request.dao.BundleToProcessDao;
-import com.thomsonreuters.uscl.ereader.request.dao.EBookArchiveDao;
-import com.thomsonreuters.uscl.ereader.request.service.EBookBundleValidator;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 import com.thomsonreuters.uscl.ereader.request.service.GZIPService;
+import com.thomsonreuters.uscl.ereader.request.service.XppBundleValidator;
 import org.apache.commons.io.FileUtils;
 import org.easymock.EasyMock;
 import org.junit.After;
@@ -38,9 +33,7 @@ public final class StageBundleTaskTest
 {
     private StageBundleTask tasklet;
     private GZIPService mockGZIP;
-    private EBookBundleValidator mockBundleValidator;
-    private EBookArchiveDao mockArchiveDao;
-    private BundleToProcessDao mockBundleDao;
+    private XppBundleValidator mockBundleValidator;
     private CoreService mockCoreService;
     private NotificationService mockNotificationService;
     private OutageProcessor mockOutageService;
@@ -58,18 +51,14 @@ public final class StageBundleTaskTest
     public void setUp() throws Exception
     {
         mockGZIP = EasyMock.createMock(GZIPService.class);
-        mockBundleValidator = EasyMock.createMock(EBookBundleValidator.class);
-        mockArchiveDao = EasyMock.createMock(EBookArchiveDao.class);
-        mockBundleDao = EasyMock.createMock(BundleToProcessDao.class);
+        mockBundleValidator = EasyMock.createMock(XppBundleValidator.class);
         mockCoreService = EasyMock.createMock(CoreService.class);
         mockNotificationService = EasyMock.createMock(NotificationService.class);
         mockOutageService = EasyMock.createMock(OutageProcessor.class);
 
         tasklet = new StageBundleTask();
         tasklet.setGZIPService(mockGZIP);
-        tasklet.setEBookArchiveDao(mockArchiveDao);
         tasklet.setBundleValidator(mockBundleValidator);
-        tasklet.setBundleToProcessDao(mockBundleDao);
         tasklet.setCoreService(mockCoreService);
         tasklet.setNotificationService(mockNotificationService);
         tasklet.setOutageProcessor(mockOutageService);
@@ -99,16 +88,11 @@ public final class StageBundleTaskTest
     public void testHappyPath() throws Exception
     {
         ExitStatus exitCode = null;
-        final EBookRequest request =
+        final XppBundleArchive request =
             createRequest("1.0", "ThisIsAnId", "ThisIsTheHash", new Date(1487201107046L), tarball.getAbsolutePath());
-        final EBookBundle bundle = createBundle("title", "type");
-        final BundleToProcess job = new BundleToProcess(request);
-        job.setBundleToProcessId(1L);
-        job.setProductName("title");
-        job.setProductType("type");
-        job.setSourceLocation(targetDir.getAbsolutePath());
+        final XppBundle bundle = createBundle("title", "type");
         mockGetJobExecutionContext(mockChunkContext, mockExecutionContext);
-        EasyMock.expect(mockExecutionContext.get(JobParameterKey.KEY_EBOOK_REQUEST)).andReturn(request);
+        EasyMock.expect(mockExecutionContext.get(JobParameterKey.KEY_XPP_BUNDLE)).andReturn(request);
         mockGetJobParameters(mockChunkContext, mockJobParameters);
         EasyMock.expect(mockJobParameters.getString(JobParameterKey.ENVIRONMENT_NAME)).andReturn("AutomatedTest");
         mockGZIP.untarzip(tarball, targetDir);
@@ -117,9 +101,6 @@ public final class StageBundleTaskTest
         EasyMock.expectLastCall();
         mockBundleValidator.validateBundleXml(bundle);
         EasyMock.expectLastCall();
-        EasyMock.expect(mockArchiveDao.findByRequestId(request.getMessageId())).andReturn(null);
-        EasyMock.expect(mockArchiveDao.saveRequest(request)).andReturn(1L);
-        EasyMock.expect(mockBundleDao.save(job)).andReturn(1L);
         replayAll();
         try
         {
@@ -133,38 +114,6 @@ public final class StageBundleTaskTest
         Assert.assertEquals(ExitStatus.COMPLETED, exitCode);
     }
 
-    @Test
-    public void testDuplicateRequest() throws EBookRequestException
-    {
-        String errorMessage = null;
-        final EBookRequest request =
-            createRequest("1.0", "ThisIsAnId", "ThisIsTheHash", new Date(1487201107046L), tarball.getAbsolutePath());
-        final EBookBundle bundle = createBundle("title", "type");
-        final String expectedError = XPPConstants.ERROR_DUPLICATE_REQUEST + request.getMessageId();
-
-        mockGetJobExecutionContext(mockChunkContext, mockExecutionContext);
-        EasyMock.expect(mockExecutionContext.get(JobParameterKey.KEY_EBOOK_REQUEST)).andReturn(request);
-        mockGetJobParameters(mockChunkContext, mockJobParameters);
-        EasyMock.expect(mockJobParameters.getString(JobParameterKey.ENVIRONMENT_NAME)).andReturn("AutomatedTest");
-        mockGZIP.untarzip(tarball, targetDir);
-        EasyMock.expectLastCall();
-        mockBundleValidator.validateBundleDirectory(targetDir);
-        EasyMock.expectLastCall();
-        mockBundleValidator.validateBundleXml(bundle);
-        EasyMock.expectLastCall();
-        EasyMock.expect(mockArchiveDao.findByRequestId(request.getMessageId())).andReturn(request);
-        replayAll();
-        try
-        {
-            tasklet.executeStep(mockContribution, mockChunkContext);
-        }
-        catch (final Exception e)
-        {
-            errorMessage = e.getMessage();
-        }
-        Assert.assertEquals(expectedError, errorMessage);
-    }
-
     private void writeFile(final File dir, final String name, final String content) throws Exception
     {
         dir.mkdirs();
@@ -174,14 +123,14 @@ public final class StageBundleTaskTest
         }
     }
 
-    private static EBookRequest createRequest(
+    private static XppBundleArchive createRequest(
         final String version,
         final String messageId,
         final String bundleHash,
         final Date dateTime,
         final String ebookSrcFile)
     {
-        final EBookRequest request = new EBookRequest();
+        final XppBundleArchive request = new XppBundleArchive();
         request.setVersion(version);
         request.setMessageId(messageId);
         request.setDateTime(dateTime);
@@ -190,9 +139,9 @@ public final class StageBundleTaskTest
         return request;
     }
 
-    private static EBookBundle createBundle(final String productTitle, final String productType)
+    private static XppBundle createBundle(final String productTitle, final String productType)
     {
-        final EBookBundle bundle = new EBookBundle();
+        final XppBundle bundle = new XppBundle();
         bundle.setProductTitle(productTitle);
         bundle.setProductType(productType);
         return bundle;
@@ -231,8 +180,6 @@ public final class StageBundleTaskTest
     {
         EasyMock.replay(mockGZIP);
         EasyMock.replay(mockBundleValidator);
-        EasyMock.replay(mockArchiveDao);
-        EasyMock.replay(mockBundleDao);
         EasyMock.replay(mockCoreService);
         EasyMock.replay(mockNotificationService);
         EasyMock.replay(mockOutageService);

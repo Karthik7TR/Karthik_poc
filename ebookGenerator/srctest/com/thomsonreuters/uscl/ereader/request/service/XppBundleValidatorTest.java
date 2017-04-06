@@ -3,24 +3,24 @@ package com.thomsonreuters.uscl.ereader.request.service;
 import java.io.File;
 import java.io.IOException;
 
-import com.thomsonreuters.uscl.ereader.request.EBookBundle;
-import com.thomsonreuters.uscl.ereader.request.EBookRequestException;
 import com.thomsonreuters.uscl.ereader.request.XPPConstants;
+import com.thomsonreuters.uscl.ereader.request.XppMessageException;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class EBookBundleValidatorTest
+public final class XppBundleValidatorTest
 {
-    private EBookBundleValidator validator;
+    private XppBundleValidator validator;
     private File tempRootDir;
 
     @Before
     public void setUp() throws IOException
     {
-        validator = new EBookBundleValidator();
+        validator = new XppBundleValidator();
 
         tempRootDir = new File(System.getProperty("java.io.tmpdir") + this.getClass().getName());
         tempRootDir.mkdir();
@@ -78,7 +78,7 @@ public final class EBookBundleValidatorTest
 
             Assert.fail("Should thrown EBookRequestException");
         }
-        catch (final EBookRequestException e)
+        catch (final XppMessageException e)
         {
             Assert.assertEquals("assets directory must exist", e.getMessage());
         }
@@ -99,7 +99,7 @@ public final class EBookBundleValidatorTest
 
             Assert.fail("Should thrown EBookRequestException");
         }
-        catch (final EBookRequestException e)
+        catch (final XppMessageException e)
         {
             Assert.assertEquals("PDF directory must exist", e.getMessage());
         }
@@ -120,7 +120,7 @@ public final class EBookBundleValidatorTest
 
             Assert.fail("Should thrown EBookRequestException");
         }
-        catch (final EBookRequestException e)
+        catch (final XppMessageException e)
         {
             Assert.assertEquals("XPP directory must exist", e.getMessage());
         }
@@ -141,7 +141,7 @@ public final class EBookBundleValidatorTest
 
             Assert.fail("Should thrown EBookRequestException");
         }
-        catch (final EBookRequestException e)
+        catch (final XppMessageException e)
         {
             Assert.assertEquals("bundle.xml must exist", e.getMessage());
         }
@@ -163,7 +163,7 @@ public final class EBookBundleValidatorTest
     @Test
     public void testValidateBundleXml()
     {
-        final EBookBundle bundle = new EBookBundle();
+        final XppBundle bundle = new XppBundle();
         bundle.setProductTitle("title");
         bundle.setProductType("type");
         try
@@ -186,7 +186,7 @@ public final class EBookBundleValidatorTest
 
             Assert.fail("Should thrown IllegalArgumentException");
         }
-        catch (final EBookRequestException e)
+        catch (final XppMessageException e)
         {
             Assert.assertTrue(e.getMessage().contains("not be null"));
         }
@@ -200,7 +200,7 @@ public final class EBookBundleValidatorTest
     @Test
     public void testValidateBundleXml_noTitle()
     {
-        final EBookBundle bundle = new EBookBundle();
+        final XppBundle bundle = new XppBundle();
         bundle.setProductType("type");
         try
         {
@@ -208,7 +208,7 @@ public final class EBookBundleValidatorTest
 
             Assert.fail("Should thrown IllegalArgumentException");
         }
-        catch (final EBookRequestException e)
+        catch (final XppMessageException e)
         {
             Assert.assertEquals("ProductTitle must not be blank", e.getMessage());
         }
@@ -222,7 +222,7 @@ public final class EBookBundleValidatorTest
     @Test
     public void testValidateBundleXml_noType()
     {
-        final EBookBundle bundle = new EBookBundle();
+        final XppBundle bundle = new XppBundle();
         bundle.setProductTitle("title");
         try
         {
@@ -230,7 +230,7 @@ public final class EBookBundleValidatorTest
 
             Assert.fail("Should thrown IllegalArgumentException");
         }
-        catch (final EBookRequestException e)
+        catch (final XppMessageException e)
         {
             Assert.assertEquals("ProductType must not be blank", e.getMessage());
         }

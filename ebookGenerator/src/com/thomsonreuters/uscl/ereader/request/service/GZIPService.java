@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import com.thomsonreuters.uscl.ereader.request.EBookRequestException;
+import com.thomsonreuters.uscl.ereader.request.XppMessageException;
 import com.thomsonreuters.uscl.ereader.request.XPPConstants;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -25,7 +25,7 @@ public class GZIPService
     private static final int BUFF_SIZE = 2048;
     private static final Logger LOG = LogManager.getLogger(GZIPService.class);
 
-    public void untarzip(final File tarball, final File destDir) throws EBookRequestException
+    public void untarzip(final File tarball, final File destDir) throws XppMessageException
     {
         try (TarInputStream tarIn =
             new TarInputStream(new GZIPInputStream(new BufferedInputStream(new FileInputStream(tarball)))))
@@ -60,7 +60,7 @@ public class GZIPService
                         final String message =
                             String.format(XPPConstants.ERROR_EXTRACT_FILES, tarEntryFile.getAbsolutePath());
                         LOG.error(message, e);
-                        throw new EBookRequestException(message, e);
+                        throw new XppMessageException(message, e);
                     }
                 }
             }
@@ -70,7 +70,7 @@ public class GZIPService
         {
             final String message = String.format(XPPConstants.ERROR_TARBALL_NOT_FOUND, tarball.getAbsolutePath());
             LOG.error(message, e);
-            throw new EBookRequestException(message, e);
+            throw new XppMessageException(message, e);
         }
     }
 

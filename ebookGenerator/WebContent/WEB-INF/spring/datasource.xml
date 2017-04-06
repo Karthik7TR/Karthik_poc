@@ -11,7 +11,3 @@
   <jee:jndi-lookup id="dataSource" jndi-name="jdbc/DataSource" resource-ref="true"/>
  	
 </beans>
-	
-	
-	
-	

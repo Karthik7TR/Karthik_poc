@@ -4,20 +4,20 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-import com.thomsonreuters.uscl.ereader.request.EBookBundle;
-import com.thomsonreuters.uscl.ereader.request.EBookRequestException;
 import com.thomsonreuters.uscl.ereader.request.XPPConstants;
+import com.thomsonreuters.uscl.ereader.request.XppMessageException;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
-public class EBookBundleValidator
+public class XppBundleValidator
 {
-    public void validateBundleDirectory(final File bundleDir) throws EBookRequestException
+    public void validateBundleDirectory(final File bundleDir) throws XppMessageException
     {
         Assert.notNull(bundleDir);
         if (!bundleDir.exists())
         {
-            throw new EBookRequestException(XPPConstants.ERROR_BUNDLE_NOT_FOUND + bundleDir.getAbsolutePath());
+            throw new XppMessageException(XPPConstants.ERROR_BUNDLE_NOT_FOUND + bundleDir.getAbsolutePath());
         }
         final List<File> contents = Arrays.asList(bundleDir.listFiles());
 
@@ -28,31 +28,31 @@ public class EBookBundleValidator
         validateFile(contents, new File(bundleDir, XPPConstants.FILE_BUNDLE_XML));
     }
 
-    private void validateDir(final List<File> bundleFiles, final File target) throws EBookRequestException
+    private void validateDir(final List<File> bundleFiles, final File target) throws XppMessageException
     {
         if (!bundleFiles.contains(target) || !target.isDirectory())
         {
-            throw new EBookRequestException(target.getName() + " directory must exist");
+            throw new XppMessageException(target.getName() + " directory must exist");
         }
     }
 
-    private void validateFile(final List<File> bundleFiles, final File target) throws EBookRequestException
+    private void validateFile(final List<File> bundleFiles, final File target) throws XppMessageException
     {
         if (!bundleFiles.contains(target) || !target.isFile())
         {
-            throw new EBookRequestException(target.getName() + " must exist");
+            throw new XppMessageException(target.getName() + " must exist");
         }
     }
 
-    public void validateBundleXml(final EBookBundle bundle) throws EBookRequestException
+    public void validateBundleXml(final XppBundle bundle) throws XppMessageException
     {
         if (bundle == null)
-            throw new EBookRequestException("bundle must not be null");
+            throw new XppMessageException("bundle must not be null");
 
         // TODO update as more of the bundle.xml information is determined
         if (!StringUtils.isNotBlank(bundle.getProductTitle()))
-            throw new EBookRequestException("ProductTitle must not be blank");
+            throw new XppMessageException("ProductTitle must not be blank");
         if (!StringUtils.isNotBlank(bundle.getProductType()))
-            throw new EBookRequestException("ProductType must not be blank");
+            throw new XppMessageException("ProductType must not be blank");
     }
 }

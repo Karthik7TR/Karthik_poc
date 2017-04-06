@@ -33,7 +33,7 @@ public class JobParameterKey
     public static final String GATHER_DOCS_DIR = "gatherDocsDir";
 
     public static final String KEY_REQUEST_XML = "ebookrequestXml";
-    public static final String KEY_EBOOK_REQUEST = "ebookRequest";
+    public static final String KEY_XPP_BUNDLE = "xppBundle";
     public static final String JOB_NAME_PROCESS_BUNDLE = "ebookBundleJob";
     public static final String KEY_JOB_NAME = "jobName";
 }

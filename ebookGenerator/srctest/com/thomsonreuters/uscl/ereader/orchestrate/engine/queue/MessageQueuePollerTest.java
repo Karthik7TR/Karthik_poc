@@ -14,12 +14,12 @@ public final class MessageQueuePollerTest
     private JMSClient mockJmsClient;
     private JmsTemplate mockJmsTemplate;
 
-    private EBookRequestQueuePoller poller;
+    private XppBundleQueuePoller poller;
 
     @Before
     public void setUp()
     {
-        poller = new EBookRequestQueuePoller();
+        poller = new XppBundleQueuePoller();
 
         mockJmsClient = EasyMock.createMock(JmsClientImpl.class);
         mockJmsTemplate = EasyMock.createMock(JmsTemplate.class);

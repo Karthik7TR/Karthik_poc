@@ -29,8 +29,8 @@ import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
-import com.thomsonreuters.uscl.ereader.request.EBookBundle;
-import com.thomsonreuters.uscl.ereader.request.EBookRequest;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 import org.apache.log4j.Level;
 import org.junit.After;
 import org.junit.Assert;
@@ -61,11 +61,11 @@ public final class JAXBMarshallingTest
     {
         try
         {
-            final JAXBContext context = JAXBContext.newInstance(EBookBundle.class);
+            final JAXBContext context = JAXBContext.newInstance(XppBundle.class);
             final Marshaller marshaller = context.createMarshaller();
             final Unmarshaller unmarshaller = context.createUnmarshaller();
 
-            final EBookBundle expected = new EBookBundle();
+            final XppBundle expected = new XppBundle();
             expected.setProductTitle("1.0");
             expected.setProductType("ed4abfa40ee548388d39ecad55a0daaa");
             expected.setMaterialNumber(0x8d8d44aef6464c9aL);
@@ -77,7 +77,7 @@ public final class JAXBMarshallingTest
             outStream = new ByteArrayOutputStream();
             marshaller.marshal(expected, outStream);
             inStream = new ByteArrayInputStream(outStream.toByteArray());
-            final EBookBundle actual = (EBookBundle) unmarshaller.unmarshal(inStream);
+            final XppBundle actual = (XppBundle) unmarshaller.unmarshal(inStream);
 
             Assert.assertEquals(expected, actual);
         }
@@ -93,11 +93,11 @@ public final class JAXBMarshallingTest
     {
         try
         {
-            final JAXBContext context = JAXBContext.newInstance(EBookRequest.class);
+            final JAXBContext context = JAXBContext.newInstance(XppBundleArchive.class);
             final Marshaller marshaller = context.createMarshaller();
             final Unmarshaller unmarshaller = context.createUnmarshaller();
 
-            final EBookRequest expected = new EBookRequest();
+            final XppBundleArchive expected = new XppBundleArchive();
             expected.setVersion("1.0");
             expected.setMessageId("ed4abfa40ee548388d39ecad55a0daaa");
             expected.setBundleHash("8d8d44aef6464c9ab8326e08edbf96d6");
@@ -107,7 +107,7 @@ public final class JAXBMarshallingTest
             outStream = new ByteArrayOutputStream();
             marshaller.marshal(expected, outStream);
             inStream = new ByteArrayInputStream(outStream.toByteArray());
-            final EBookRequest actual = (EBookRequest) unmarshaller.unmarshal(inStream);
+            final XppBundleArchive actual = (XppBundleArchive) unmarshaller.unmarshal(inStream);
 
             Assert.assertEquals(expected, actual);
         }
@@ -123,11 +123,11 @@ public final class JAXBMarshallingTest
     {
         try
         {
-            final JAXBContext context = JAXBContext.newInstance(EBookRequest.class);
+            final JAXBContext context = JAXBContext.newInstance(XppBundleArchive.class);
             final Marshaller marshaller = context.createMarshaller();
             final Unmarshaller unmarshaller = context.createUnmarshaller();
 
-            final EBookRequest expected = new EBookRequest();
+            final XppBundleArchive expected = new XppBundleArchive();
             expected.setVersion("1.0");
             expected.setMessageId("ed4abfa40ee548388d39ecad55a0daaa");
             expected.setBundleHash("8d8d44aef6464c9ab8326e08edbf96d6");
@@ -137,7 +137,7 @@ public final class JAXBMarshallingTest
             outStream = new ByteArrayOutputStream();
             marshaller.marshal(expected, outStream);
             inStream = new ByteArrayInputStream(outStream.toByteArray());
-            final EBookRequest actual = (EBookRequest) unmarshaller.unmarshal(inStream);
+            final XppBundleArchive actual = (XppBundleArchive) unmarshaller.unmarshal(inStream);
 
             Assert.assertEquals(expected, actual);
         }

@@ -10,18 +10,13 @@
 
 	<job id="ebookBundleJob">
 	<!-- Job for retrieving and preparing XPP source bundles sent by Phoenix -->
-		<step id="retrieveRequest">
-			<tasklet ref="retrieveRequestTask" />
+		<step id="processMessage">
+			<tasklet ref="processMessageTask" />
 			<next on="COMPLETED" to="retrieveBundle" />
 			<fail on="FAILED" />
 		</step>
 		<step id="retrieveBundle">
 			<tasklet ref="retrieveBundleTask" />
-			<next on="COMPLETED" to="stageBundle" />
-			<fail on="FAILED" />
-		</step>
-		<step id="stageBundle">
-			<tasklet ref="stageBundleTask" />
 			<end on="COMPLETED" />
 			<fail on="FAILED" />
 		</step>
@@ -31,15 +26,11 @@
 				p:coreService-ref="coreService"
 				p:outageProcessor-ref="outageProcessor"
 				p:notificationService-ref="requestNotificationService"/>
-	<beans:bean id="retrieveRequestTask" class="com.thomsonreuters.uscl.ereader.request.step.RetrieveRequestTask" parent="requestParentTask"
-		  		p:EBookRequestValidator-ref="eBookRequestValidator"/>
+	<beans:bean id="processMessageTask" class="com.thomsonreuters.uscl.ereader.request.step.ProcessMessageTask" parent="requestParentTask"
+		  		p:xppMessageValidator-ref="xppMessageValidator"/>
 	<beans:bean id="retrieveBundleTask" class="com.thomsonreuters.uscl.ereader.request.step.RetrieveBundleTask" parent="requestParentTask" 
-				p:EBookRequestValidator-ref="eBookRequestValidator"/>
-	<beans:bean id="stageBundleTask" class="com.thomsonreuters.uscl.ereader.request.step.StageBundleTask" parent="requestParentTask"
-				p:GZIPService-ref="gzipService" 
-				p:bundleValidator-ref="ebookBundleValidator"
-		  		p:EBookArchiveDao-ref="ebookArchiveDao" 
-		  		p:bundleToProcessDao-ref="bundleToProcessDao"/>
+				p:xppMessageValidator-ref="xppMessageValidator"
+				p:xppBundleArchiveDao-ref="xppBundleArchiveDao"/>
 		  		
 	<beans:bean id="generatorStepFailureNotificationService" 
 		class="com.thomsonreuters.uscl.ereader.generator.common.GeneratorStepFailureNotificationServiceImpl" />

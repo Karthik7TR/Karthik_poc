@@ -6,15 +6,12 @@ import java.io.FileInputStream;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.jaxb.JAXBParser;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
-import com.thomsonreuters.uscl.ereader.request.BundleToProcess;
-import com.thomsonreuters.uscl.ereader.request.EBookBundle;
-import com.thomsonreuters.uscl.ereader.request.EBookRequest;
-import com.thomsonreuters.uscl.ereader.request.EBookRequestException;
 import com.thomsonreuters.uscl.ereader.request.XPPConstants;
-import com.thomsonreuters.uscl.ereader.request.dao.BundleToProcessDao;
-import com.thomsonreuters.uscl.ereader.request.dao.EBookArchiveDao;
-import com.thomsonreuters.uscl.ereader.request.service.EBookBundleValidator;
+import com.thomsonreuters.uscl.ereader.request.XppMessageException;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 import com.thomsonreuters.uscl.ereader.request.service.GZIPService;
+import com.thomsonreuters.uscl.ereader.request.service.XppBundleValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -28,9 +25,7 @@ public class StageBundleTask extends AbstractSbTasklet
 {
     private static final Logger log = LogManager.getLogger(StageBundleTask.class);
     private GZIPService gzipService;
-    private EBookBundleValidator bundleValidator;
-    private EBookArchiveDao ebookArchiveDao;
-    private BundleToProcessDao bundleToProcessDao;
+    private XppBundleValidator bundleValidator;
 
     @Override
     public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
@@ -38,8 +33,8 @@ public class StageBundleTask extends AbstractSbTasklet
         log.debug("Staging Bundle...");
 
         // extract job parameters
-        final EBookRequest request =
-            (EBookRequest) getJobExecutionContext(chunkContext).get(JobParameterKey.KEY_EBOOK_REQUEST);
+        final XppBundleArchive request =
+            (XppBundleArchive) getJobExecutionContext(chunkContext).get(JobParameterKey.KEY_XPP_BUNDLE);
         final String env = getJobParameters(chunkContext).getString(JobParameterKey.ENVIRONMENT_NAME);
 
         final File tarball = request.getEBookSrcFile();
@@ -50,58 +45,23 @@ public class StageBundleTask extends AbstractSbTasklet
         // unpack bundle
         gzipService.untarzip(tarball, destDir);
         bundleValidator.validateBundleDirectory(destDir);
-        final EBookBundle bundle = retrieveBundleXml(destDir);
+        final XppBundle bundle = retrieveBundleXml(destDir);
         bundleValidator.validateBundleXml(bundle);
-
-        // set additional request fields and archive
-        request.setProductName(bundle.getProductTitle());
-        request.setProductType(bundle.getProductType());
-        archiveRequest(request);
-
-        // add bundle to the BUNLE_TO_PROCESS queue
-        final BundleToProcess job = new BundleToProcess(request);
-        job.setSourceLocation(destDir.getAbsolutePath());
-        // TODO set additional fields parsed from bundle.xml
-        bundleToProcessDao.save(job);
 
         log.debug("request staged.");
         return ExitStatus.COMPLETED;
     }
 
-    private @NotNull EBookBundle retrieveBundleXml(@NotNull final File request) throws EBookRequestException
+    private @NotNull XppBundle retrieveBundleXml(@NotNull final File request) throws XppMessageException
     {
         final File bundleFile = new File(request, XPPConstants.FILE_BUNDLE_XML);
         try (FileInputStream inStream = new FileInputStream(bundleFile))
         {
-            return JAXBParser.parse(inStream, EBookBundle.class);
+            return JAXBParser.parse(inStream, XppBundle.class);
         }
         catch (final Exception e)
         {
-            throw new EBookRequestException("error parsing bundle", e);
-        }
-    }
-
-    private void archiveRequest(@NotNull final EBookRequest request) throws EBookRequestException
-    {
-        final EBookRequest dup = ebookArchiveDao.findByRequestId(request.getMessageId());
-        if (dup != null)
-        {
-            if (dup.equals(request))
-            {
-                final String msg = XPPConstants.ERROR_DUPLICATE_REQUEST + request;
-                throw new EBookRequestException(msg);
-            }
-            else
-            {
-                // two non-identical requests have been received with the same ID
-                // TODO identify steps for processing this scenario
-                throw new EBookRequestException("non-identical duplicate request received");
-            }
-        }
-        else
-        {
-            final long pk = ebookArchiveDao.saveRequest(request);
-            request.setEBookArchiveId(pk);
+            throw new XppMessageException("error parsing bundle", e);
         }
     }
 
@@ -112,20 +72,8 @@ public class StageBundleTask extends AbstractSbTasklet
     }
 
     @Required
-    public void setBundleValidator(final EBookBundleValidator bundleValidator)
+    public void setBundleValidator(final XppBundleValidator bundleValidator)
     {
         this.bundleValidator = bundleValidator;
-    }
-
-    @Required
-    public void setEBookArchiveDao(final EBookArchiveDao ebookArchiveDao)
-    {
-        this.ebookArchiveDao = ebookArchiveDao;
-    }
-
-    @Required
-    public void setBundleToProcessDao(final BundleToProcessDao bundleToProcessDao)
-    {
-        this.bundleToProcessDao = bundleToProcessDao;
     }
 }

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import com.thomsonreuters.uscl.ereader.request.EBookRequestException;
+import com.thomsonreuters.uscl.ereader.request.XppMessageException;
 import com.thomsonreuters.uscl.ereader.request.XPPConstants;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -74,7 +74,7 @@ public final class GZIPServiceTest
         {
             service.untarzip(tarball, destDir);
         }
-        catch (final EBookRequestException e)
+        catch (final XppMessageException e)
         {
             msg = e.getMessage();
         }

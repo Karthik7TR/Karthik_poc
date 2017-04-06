@@ -8,8 +8,10 @@ import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.NotificationService;
-import com.thomsonreuters.uscl.ereader.request.EBookRequest;
-import com.thomsonreuters.uscl.ereader.request.service.EBookRequestValidator;
+import com.thomsonreuters.uscl.ereader.request.XPPConstants;
+import com.thomsonreuters.uscl.ereader.request.dao.XppBundleArchiveDao;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
+import com.thomsonreuters.uscl.ereader.request.service.XppMessageValidator;
 import org.apache.commons.io.FileUtils;
 import org.easymock.Capture;
 import org.easymock.EasyMock;
@@ -29,7 +31,8 @@ import org.springframework.batch.item.ExecutionContext;
 public final class RetrieveBundleTaskTest
 {
     private RetrieveBundleTask tasklet;
-    private EBookRequestValidator mockValidator;
+    private XppMessageValidator mockValidator;
+    private XppBundleArchiveDao mockArchiveDao;
     private CoreService mockCoreService;
     private NotificationService mockNotificationService;
     private OutageProcessor mockOutageService;
@@ -42,18 +45,20 @@ public final class RetrieveBundleTaskTest
     private File ebookBundle;
     private File targetDir = new File("/apps/eBookBuilder/AutomatedTest/");
 
-    private Capture<EBookRequest> capturedRequest;
+    private Capture<XppBundleArchive> capturedRequest;
 
     @Before
     public void setUp() throws IOException
     {
-        mockValidator = EasyMock.createMock(EBookRequestValidator.class);
+        mockValidator = EasyMock.createMock(XppMessageValidator.class);
         mockCoreService = EasyMock.createMock(CoreService.class);
         mockNotificationService = EasyMock.createMock(NotificationService.class);
         mockOutageService = EasyMock.createMock(OutageProcessor.class);
+        mockArchiveDao = EasyMock.createMock(XppBundleArchiveDao.class);
 
         tasklet = new RetrieveBundleTask();
-        tasklet.setEBookRequestValidator(mockValidator);
+        tasklet.setXppMessageValidator(mockValidator);
+        tasklet.setXppBundleArchiveDao(mockArchiveDao);
         tasklet.setCoreService(mockCoreService);
         tasklet.setNotificationService(mockNotificationService);
         tasklet.setOutageProcessor(mockOutageService);
@@ -79,18 +84,24 @@ public final class RetrieveBundleTaskTest
     public void testHappyPath() throws Exception
     {
         ExitStatus exitCode = null;
-        final EBookRequest expected = createRequest(
+        final XppBundleArchive expected = createRequest(
             "1.0",
             "ThisIsAnId",
             "ThisIsTheHash",
             new Date(1487201107046L),
             ebookBundle.getAbsolutePath());
 
-        mockGetJobExecutionContext(mockChunkContext, mockExecutionContext);
-        EasyMock.expect(mockExecutionContext.get(JobParameterKey.KEY_EBOOK_REQUEST)).andReturn(expected);
         mockGetJobParameters(mockChunkContext, mockJobParameters);
         EasyMock.expect(mockJobParameters.getString(JobParameterKey.ENVIRONMENT_NAME)).andReturn("AutomatedTest");
-        mockValidator.validate(EasyMock.and(EasyMock.capture(capturedRequest), EasyMock.isA(EBookRequest.class)));
+
+        mockGetJobExecutionContext(mockChunkContext, mockExecutionContext);
+        EasyMock.expect(mockExecutionContext.get(JobParameterKey.KEY_XPP_BUNDLE)).andReturn(expected);
+
+        EasyMock.expect(mockArchiveDao.findByRequestId("ThisIsAnId")).andReturn(null);
+
+        mockValidator.validate(EasyMock.and(EasyMock.capture(capturedRequest), EasyMock.isA(XppBundleArchive.class)));
+
+        EasyMock.expect(mockArchiveDao.saveRequest(expected)).andReturn(1L);
         replayAll();
         try
         {
@@ -103,10 +114,43 @@ public final class RetrieveBundleTaskTest
         }
         Assert.assertEquals(ExitStatus.COMPLETED, exitCode);
 
-        final EBookRequest request = capturedRequest.getValue();
+        final XppBundleArchive request = capturedRequest.getValue();
         Assert.assertEquals(
             new File(targetDir.getAbsolutePath() + "/xpp/archive/2017/02/filename.gz"),
             request.getEBookSrcFile());
+    }
+
+    @Test
+    public void testDuplicateRequest()
+    {
+        Exception e = null;
+        final XppBundleArchive bundle = createRequest(
+            "1.0",
+            "ThisIsAnId",
+            "ThisIsTheHash",
+            new Date(1487201107046L),
+            ebookBundle.getAbsolutePath());
+
+        mockGetJobParameters(mockChunkContext, mockJobParameters);
+        EasyMock.expect(mockJobParameters.getString(JobParameterKey.ENVIRONMENT_NAME)).andReturn("AutomatedTest");
+
+        mockGetJobExecutionContext(mockChunkContext, mockExecutionContext);
+        EasyMock.expect(mockExecutionContext.get(JobParameterKey.KEY_XPP_BUNDLE)).andReturn(bundle);
+
+        EasyMock.expect(mockArchiveDao.findByRequestId("ThisIsAnId")).andReturn(bundle);
+
+        replayAll();
+        try
+        {
+            tasklet.executeStep(mockContribution, mockChunkContext);
+            Assert.fail("should throw XppMessageException");
+        }
+        catch (final Exception exc)
+        {
+            e = exc;
+        }
+        Assert.assertNotNull(e);
+        Assert.assertEquals(XPPConstants.ERROR_DUPLICATE_REQUEST + bundle, e.getMessage());
     }
 
     private static File initBundleFile() throws IOException
@@ -117,14 +161,14 @@ public final class RetrieveBundleTaskTest
         return ebookBundle;
     }
 
-    private static EBookRequest createRequest(
+    private static XppBundleArchive createRequest(
         final String version,
         final String messageId,
         final String bundleHash,
         final Date dateTime,
         final String ebookSrcFile)
     {
-        final EBookRequest request = new EBookRequest();
+        final XppBundleArchive request = new XppBundleArchive();
         request.setVersion(version);
         request.setMessageId(messageId);
         request.setDateTime(dateTime);
@@ -165,6 +209,7 @@ public final class RetrieveBundleTaskTest
     private void replayAll()
     {
         EasyMock.replay(mockValidator);
+        EasyMock.replay(mockArchiveDao);
         EasyMock.replay(mockCoreService);
         EasyMock.replay(mockNotificationService);
         EasyMock.replay(mockOutageService);

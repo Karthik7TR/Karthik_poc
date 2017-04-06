@@ -1,10 +1,10 @@
 package com.thomsonreuters.uscl.ereader.request;
 
-public class EBookRequestException extends Exception
+public class XppMessageException extends Exception
 {
     private static final long serialVersionUID = 643110191834508482L;
 
-    public EBookRequestException(final String message, final Throwable cause)
+    public XppMessageException(final String message, final Throwable cause)
     {
         super(message, cause);
     }
@@ -12,7 +12,7 @@ public class EBookRequestException extends Exception
     /**
      * @param error message
      */
-    public EBookRequestException(final String message)
+    public XppMessageException(final String message)
     {
         super(message);
     }

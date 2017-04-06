@@ -2,7 +2,7 @@ package com.thomsonreuters.uscl.ereader.request.dao;
 
 import java.util.List;
 
-import com.thomsonreuters.uscl.ereader.request.EBookRequest;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Criteria;
@@ -10,18 +10,18 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
-public class EBookArchiveDaoImpl implements EBookArchiveDao
+public class XppBundleArchiveDaoImpl implements XppBundleArchiveDao
 {
-    private static final Logger log = LogManager.getLogger(EBookArchiveDaoImpl.class);
+    private static final Logger log = LogManager.getLogger(XppBundleArchiveDaoImpl.class);
     private SessionFactory sessionFactory;
 
-    public EBookArchiveDaoImpl(final SessionFactory sessionFactory)
+    public XppBundleArchiveDaoImpl(final SessionFactory sessionFactory)
     {
         this.sessionFactory = sessionFactory;
     }
 
     @Override
-    public Long saveRequest(final EBookRequest ebookRequest)
+    public Long saveRequest(final XppBundleArchive ebookRequest)
     {
         final Session session = sessionFactory.getCurrentSession();
         final long pk = (Long) session.save(ebookRequest);
@@ -30,10 +30,10 @@ public class EBookArchiveDaoImpl implements EBookArchiveDao
     }
 
     @Override
-    public EBookRequest findByPrimaryKey(final long ebookRequestId)
+    public XppBundleArchive findByPrimaryKey(final long ebookRequestId)
     {
         final Session session = sessionFactory.getCurrentSession();
-        final EBookRequest request = (EBookRequest) session.get(EBookRequest.class, ebookRequestId);
+        final XppBundleArchive request = (XppBundleArchive) session.get(XppBundleArchive.class, ebookRequestId);
 
         return request;
     }
@@ -49,10 +49,10 @@ public class EBookArchiveDaoImpl implements EBookArchiveDao
     }
 
     @Override
-    public EBookRequest findByRequestId(final String messageId)
+    public XppBundleArchive findByRequestId(final String messageId)
     {
-        final List<EBookRequest> eBookRequestList = sessionFactory.getCurrentSession()
-            .createCriteria(EBookRequest.class)
+        final List<XppBundleArchive> eBookRequestList = sessionFactory.getCurrentSession()
+            .createCriteria(XppBundleArchive.class)
             .add(Restrictions.eq("messageId", messageId))
             .list();
 
@@ -64,9 +64,24 @@ public class EBookArchiveDaoImpl implements EBookArchiveDao
     }
 
     @Override
-    public List<EBookRequest> findAllRequests()
+    public XppBundleArchive findByMaterialNumber(final Long messageId)
     {
-        final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(EBookRequest.class);
+        final List<XppBundleArchive> archive = sessionFactory.getCurrentSession()
+            .createCriteria(XppBundleArchive.class)
+            .add(Restrictions.eq("materialNumber", messageId))
+            .list();
+
+        if (archive.size() > 0)
+        {
+            return archive.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public List<XppBundleArchive> findAllRequests()
+    {
+        final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(XppBundleArchive.class);
         return criteria.list();
     }
 }

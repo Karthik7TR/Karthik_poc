@@ -5,8 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Date;
 
-import com.thomsonreuters.uscl.ereader.request.EBookRequest;
 import com.thomsonreuters.uscl.ereader.request.XPPConstants;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -14,20 +14,21 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class EBookRequestValidatorTest
+public final class XppMessageValidatorTest
 {
-    private EBookRequestValidator validator;
+    private XppMessageValidator validator;
 
     private static final String FILE_CONTENTS = "file contents";
     private String requestId = "ed4abfa40ee548388d39ecad55a0daaa";
     private String bundleHash;
+    private Long materialNumber = 1L;
     private Date requestDate = new Date();
     private File mockEbookSrcFile;
 
     @Before
     public void setUp() throws IOException
     {
-        validator = new EBookRequestValidator();
+        validator = new XppMessageValidator();
         mockEbookSrcFile = initMockEbookSrcFile();
 
         bundleHash = DigestUtils.md5Hex(new FileInputStream(mockEbookSrcFile));
@@ -70,7 +71,7 @@ public final class EBookRequestValidatorTest
         String errorMessage = "";
         try
         {
-            validator.validate(new EBookRequest());
+            validator.validate(new XppBundleArchive());
         }
         catch (final Exception e)
         {
@@ -121,11 +122,12 @@ public final class EBookRequestValidatorTest
         Assert.assertTrue(errorMessage.contains(XPPConstants.ERROR_BAD_HASH));
     }
 
-    private EBookRequest createRequest()
+    private XppBundleArchive createRequest()
     {
-        final EBookRequest request = new EBookRequest();
+        final XppBundleArchive request = new XppBundleArchive();
         request.setVersion("1.0");
         request.setMessageId(requestId);
+        request.setMaterialNumber(materialNumber);
         request.setBundleHash(bundleHash);
         request.setDateTime(requestDate);
         request.setEBookSrcFile(mockEbookSrcFile);

@@ -8,7 +8,7 @@ import javax.mail.internet.InternetAddress;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.NotificationService;
-import com.thomsonreuters.uscl.ereader.request.EBookRequest;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.item.ExecutionContext;
@@ -28,20 +28,20 @@ public class RequestNotificationServiceImpl implements NotificationService
     {
         final String subject;
         final String failedJobInfo;
-        final EBookRequest eBookRequest = (EBookRequest) jobExecutionContext.get(JobParameterKey.KEY_EBOOK_REQUEST);
+        final XppBundleArchive xppBundleArchive = (XppBundleArchive) jobExecutionContext.get(JobParameterKey.KEY_XPP_BUNDLE);
         final String jobEnvironment = jobParams.getString(JobParameterKey.ENVIRONMENT_NAME);
 
-        if (eBookRequest != null)
+        if (xppBundleArchive != null)
         {
             failedJobInfo = "eBook Request Failure:  "
                 + jobEnvironment
-                + "  "
-                + eBookRequest.getMessageId()
-                + "  "
-                + eBookRequest.getProductName()
-                + "  "
+                + "\nMessage ID: "
+                + xppBundleArchive.getMessageId()
+                + "\nMaterial Number: "
+                + xppBundleArchive.getMaterialNumber()
+                + "\nJob Instance ID: "
                 + jobInstanceId
-                + "  "
+                + "\nJob Execution ID: "
                 + jobExecutionId;
         }
         else

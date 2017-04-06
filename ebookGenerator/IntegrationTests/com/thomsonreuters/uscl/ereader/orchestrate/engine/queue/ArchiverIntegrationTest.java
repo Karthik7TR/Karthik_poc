@@ -10,8 +10,8 @@ import java.util.concurrent.TimeUnit;
 
 import com.thomsonreuters.uscl.ereader.jms.client.JMSClient;
 import com.thomsonreuters.uscl.ereader.jms.client.impl.JmsClientImpl;
-import com.thomsonreuters.uscl.ereader.request.EBookRequest;
-import com.thomsonreuters.uscl.ereader.request.dao.EBookArchiveDao;
+import com.thomsonreuters.uscl.ereader.request.dao.XppBundleArchiveDao;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -43,13 +43,13 @@ public final class ArchiverIntegrationTest
     private JmsTemplate jmsTemplate;
 
     @Autowired
-    private EBookRequestQueuePoller eBookRequestQueuePoller;
+    private XppBundleQueuePoller xppBundleQueuePoller;
 
     @Autowired
     private ThreadPoolTaskExecutor springBatchBundleTaskExecutor;
 
     @Autowired
-    private EBookArchiveDao bundleArchiveDao;
+    private XppBundleArchiveDao bundleArchiveDao;
 
     @Test
     public void testRun() throws InterruptedException
@@ -59,7 +59,7 @@ public final class ArchiverIntegrationTest
         final String messageUuid = uuidWithoutDashes();
         jmsClient.sendMessageToQueue(jmsTemplate, String.format(message, messageUuid), null);
 
-        eBookRequestQueuePoller.pollMessageQueue();
+        xppBundleQueuePoller.pollMessageQueue();
 
         waitTillJobDone();
 
@@ -84,7 +84,7 @@ public final class ArchiverIntegrationTest
     {
         try
         {
-            final EBookRequest dup = bundleArchiveDao.findByRequestId(mesageUuid);
+            final XppBundleArchive dup = bundleArchiveDao.findByRequestId(mesageUuid);
             assertNotNull(dup);
         }
         catch (final Exception e)

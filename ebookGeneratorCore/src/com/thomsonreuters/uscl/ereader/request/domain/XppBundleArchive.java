@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.request;
+package com.thomsonreuters.uscl.ereader.request.domain;
 
 import java.io.File;
 import java.io.Serializable;
@@ -20,19 +20,23 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 @XmlRootElement(name = "eBookRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(name = "EBOOK_ARCHIVE")
-public class EBookRequest implements Serializable
+@Table(name = "XPP_BUNDLE_ARCHIVE")
+public class XppBundleArchive implements Serializable
 {
     private static final long serialVersionUID = -5662203902532139594L;
 
+    @XmlTransient
     @Id
-    @GeneratedValue(generator = "EBookRequestSequence")
-    @SequenceGenerator(name = "EBookRequestSequence", sequenceName = "EBOOK_ARCHIVE_ID_SEQ")
-    @Column(name = "EBOOK_ARCHIVE_ID", nullable = false)
-    private Long ebookArchiveId;
+    @GeneratedValue(generator = "XppBundleSequence")
+    @SequenceGenerator(name = "XppBundleSequence", sequenceName = "XPP_BUNDLE_ARCHIVE_ID_SEQ")
+    @Column(name = "XPP_BUNDLE_ARCHIVE_ID", nullable = false)
+    private Long xppBundleArchiveId;
 
     @XmlAttribute(name = "version")
     @Transient
@@ -59,13 +63,9 @@ public class EBookRequest implements Serializable
     @Column(name = "MESSAGE_REQUEST", nullable = false)
     private String messageRequest;
 
-    @XmlTransient
-    @Column(name = "PRODUCT_NAME", nullable = false)
-    private String productName = "UNKNOWN";
-
-    @XmlTransient
-    @Column(name = "PRODUCT_TYPE", nullable = false)
-    private String productType = "UNKNOWN";
+    @XmlElement(name = "materialNumber")
+    @Column(name = "MATERIAL_NUMBER", nullable = false)
+    private Long materialNumber;
 
     @XmlTransient
     @Column(name = "RESURRECT_COUNT", nullable = false)
@@ -75,14 +75,14 @@ public class EBookRequest implements Serializable
     @Column(name = "DELETED", nullable = false)
     private String isDeleted = "N";
 
-    public Long getEBookArchiveId()
+    public Long getXppBundleArchiveId()
     {
-        return ebookArchiveId;
+        return xppBundleArchiveId;
     }
 
-    public void setEBookArchiveId(final Long eBookArchiveId)
+    public void setXppBundleArchiveId(final Long eBookArchiveId)
     {
-        ebookArchiveId = eBookArchiveId;
+        xppBundleArchiveId = eBookArchiveId;
     }
 
     public String getVersion()
@@ -155,24 +155,14 @@ public class EBookRequest implements Serializable
         this.messageRequest = messageRequest;
     }
 
-    public String getProductName()
+    public Long getMaterialNumber()
     {
-        return productName;
+        return materialNumber;
     }
 
-    public void setProductName(final String productName)
+    public void setMaterialNumber(final Long materialNumber)
     {
-        this.productName = productName;
-    }
-
-    public String getProductType()
-    {
-        return productType;
-    }
-
-    public void setProductType(final String productType)
-    {
-        this.productType = productType;
+        this.materialNumber = materialNumber;
     }
 
     public int getResurrectionCount()
@@ -195,8 +185,7 @@ public class EBookRequest implements Serializable
         this.isDeleted = ((isDeleted) ? "Y" : "N");
     }
 
-    @Override
-    public boolean equals(final Object obj)
+    public boolean isSimilar(final Object obj)
     {
         if (this == obj)
             return true;
@@ -205,7 +194,7 @@ public class EBookRequest implements Serializable
 
         if (getClass() != obj.getClass())
             return false;
-        final EBookRequest that = (EBookRequest) obj;
+        final XppBundleArchive that = (XppBundleArchive) obj;
 
         if (version != null)
         {
@@ -251,16 +240,15 @@ public class EBookRequest implements Serializable
     }
 
     @Override
+    public boolean equals(final Object obj)
+    {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
     public int hashCode()
     {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((version == null) ? 0 : version.hashCode());
-        result = prime * result + ((messageId == null) ? 0 : messageId.hashCode());
-        result = prime * result + ((bundleHash == null) ? 0 : bundleHash.hashCode());
-        result = prime * result + ((dateTime == null) ? 0 : dateTime.hashCode());
-        result = prime * result + ((archiveLocation == null) ? 0 : archiveLocation.hashCode());
-        return result;
+        return HashCodeBuilder.reflectionHashCode(this);
     }
 
     @Override

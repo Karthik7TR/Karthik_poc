@@ -3,7 +3,8 @@ package com.thomsonreuters.uscl.ereader.request;
 import java.io.File;
 import java.util.Date;
 
-import com.thomsonreuters.uscl.ereader.request.dao.EBookArchiveDaoImpl;
+import com.thomsonreuters.uscl.ereader.request.dao.XppBundleArchiveDaoImpl;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 import org.easymock.EasyMock;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -14,7 +15,7 @@ import org.junit.Test;
 
 public final class BundleArchiveDaoImplTest
 {
-    private EBookArchiveDaoImpl archiveDao;
+    private XppBundleArchiveDaoImpl archiveDao;
 
     private SessionFactory mockSessionFactory;
     private Session mockSession;
@@ -27,28 +28,28 @@ public final class BundleArchiveDaoImplTest
         mockSession = EasyMock.createMock(Session.class);
         mockCriteria = EasyMock.createMock(Criteria.class);
 
-        archiveDao = new EBookArchiveDaoImpl(mockSessionFactory);
+        archiveDao = new XppBundleArchiveDaoImpl(mockSessionFactory);
     }
 
     @Test
     public void happyPath()
     {
         final long pkey = 1L;
-        final EBookRequest expected = createEbookRequest();
+        final XppBundleArchive expected = createEBookArchive();
         EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
-        EasyMock.expect(mockSession.get(EBookRequest.class, pkey)).andReturn(expected);
+        EasyMock.expect(mockSession.get(XppBundleArchive.class, pkey)).andReturn(expected);
         replayAll();
 
-        final EBookRequest actual = archiveDao.findByPrimaryKey(pkey);
+        final XppBundleArchive actual = archiveDao.findByPrimaryKey(pkey);
         Assert.assertEquals(expected, actual);
     }
 
-    private EBookRequest createEbookRequest()
+    private XppBundleArchive createEBookArchive()
     {
-        final EBookRequest request = new EBookRequest();
+        final XppBundleArchive request = new XppBundleArchive();
         request.setBundleHash("asdfasda");
         request.setDateTime(new Date());
-        request.setEBookArchiveId(127L);
+        request.setXppBundleArchiveId(127L);
         request.setEBookSrcFile(new File("asdfasdfa"));
         return request;
     }

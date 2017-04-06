@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.request;
+package com.thomsonreuters.uscl.ereader.request.domain;
 
 import java.util.Date;
 
@@ -12,7 +12,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @XmlRootElement(name = "bundle")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EBookBundle
+public class XppBundle
 {
     @XmlElement(name = "product_title")
     private String productTitle;

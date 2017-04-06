@@ -31,54 +31,53 @@
 		</property>
 		<property name="annotatedClasses">
 		  <list>
-		    <value>com.thomsonreuters.uscl.ereader.core.job.domain.AppParameter</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType</value>
+			<value>com.thomsonreuters.uscl.ereader.core.job.domain.AppParameter</value>
+			<value>com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage</value>
+			<value>com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType</value>
 			<value>com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition</value>
-		  	<value>com.thomsonreuters.uscl.ereader.format.domain.XSLTMapperEntity</value>
-		  	<value>com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity</value>
-		  	<value>com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata</value>
-		  	<value>com.thomsonreuters.uscl.ereader.gather.metadata.domain.PaceMetadata</value>
+			<value>com.thomsonreuters.uscl.ereader.format.domain.XSLTMapperEntity</value>
+			<value>com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity</value>
+			<value>com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata</value>
+			<value>com.thomsonreuters.uscl.ereader.gather.metadata.domain.PaceMetadata</value>
 			<value>com.thomsonreuters.uscl.ereader.core.book.domain.Author</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookName</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode</value>	
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode</value>	
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode</value>
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode</value>
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit</value>
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.EbookName</value>
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode</value>	
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode</value>	
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue</value>
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode</value>
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode</value>
 			<value>com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage</value>	
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection</value>	
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer</value>
-		    <value>com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCopyright</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation</value>
-		    <value>com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit</value>
-		    <value>com.thomsonreuters.uscl.ereader.core.book.domain.PilotBook</value>
-		    <value>com.thomsonreuters.uscl.ereader.request.BundleToProcess</value>
-		    <value>com.thomsonreuters.uscl.ereader.request.EBookRequest</value>
+			<value>com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode</value>
+			<value>com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest</value>
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage</value>	
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection</value>	
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf</value>
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument</value>
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry</value>
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer</value>
+			<value>com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference</value>
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCopyright</value>
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument</value>
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo</value>
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency</value>
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation</value>
+			<value>com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit</value>
+			<value>com.thomsonreuters.uscl.ereader.core.book.domain.PilotBook</value>
+			<value>com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive</value>
 		  </list>
 		</property>
-  	</bean>
+	</bean>
 
 	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"
 		  p:sessionFactory-ref="sessionFactory"/>
 
 	<!-- Enable the configuration of transactional behavior based on @Transactional annotations -->
-    <tx:annotation-driven transaction-manager="transactionManager"/>
+	<tx:annotation-driven transaction-manager="transactionManager"/>
 
-  	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
-  		  p:dataSource-ref="dataSource"/>
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
+		  p:dataSource-ref="dataSource"/>
 
 	<!-- ====================================== 
 			Data Access Objects (DAO's)
@@ -128,25 +127,19 @@
 	<bean id="jobRequestDao" class="com.thomsonreuters.uscl.ereader.core.job.dao.JobRequestDaoImpl">
 		<constructor-arg ref="sessionFactory" />
 	</bean>
-  	<bean id="xsltMapperDao" class="com.thomsonreuters.uscl.ereader.format.dao.XSLTMapperDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>		
-	
+	<bean id="xsltMapperDao" class="com.thomsonreuters.uscl.ereader.format.dao.XSLTMapperDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>		
+
 	<bean id="jobCleanupDao" class="com.thomsonreuters.uscl.ereader.core.job.dao.JobCleanupDaoImpl">
 		<constructor-arg ref="sessionFactory" />
 	</bean>	
-	
+
 	<bean id="userPreferenceDao" class="com.thomsonreuters.uscl.ereader.userpreference.dao.UserPreferenceDaoImpl">
 		<constructor-arg ref="sessionFactory" />
 	</bean>
-	
-	<bean id="bundleToProcessDao" class="com.thomsonreuters.uscl.ereader.request.dao.BundleToProcessDao">
+
+	<bean id="xppBundleArchiveDao" class="com.thomsonreuters.uscl.ereader.request.dao.XppBundleArchiveDaoImpl">
 		<constructor-arg ref="sessionFactory" />
 	</bean>
-	
-	<bean id="ebookArchiveDao" class="com.thomsonreuters.uscl.ereader.request.dao.EBookArchiveDaoImpl">
-		<constructor-arg ref="sessionFactory" />
-	</bean>
-		  
 </beans>
-	
