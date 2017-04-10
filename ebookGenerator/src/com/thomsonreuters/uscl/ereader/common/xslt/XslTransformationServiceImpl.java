@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -51,14 +52,14 @@ public class XslTransformationServiceImpl implements XslTransformationService
     @Override
     public void transform(
         @NotNull final Transformer transformer,
-        @NotNull final List<File> input,
+        @NotNull final Collection<File> input,
         @NotNull final File output)
     {
         try
         {
             Assert.isTrue(!input.isEmpty(), "List of input files should not be empty");
 
-            final String inputPath = input.get(0).getParentFile().getAbsolutePath();
+            final String inputPath = input.iterator().next().getParentFile().getAbsolutePath();
             final List<InputStream> inputStreams = combineToWrappedListOfStreams(input);
             final SequenceInputStream sequenceInputStream =
                 new SequenceInputStream(Collections.enumeration(inputStreams));
@@ -105,7 +106,7 @@ public class XslTransformationServiceImpl implements XslTransformationService
         }
     }
 
-    private List<InputStream> combineToWrappedListOfStreams(final List<File> input) throws FileNotFoundException
+    private List<InputStream> combineToWrappedListOfStreams(final Collection<File> input) throws FileNotFoundException
     {
         final List<InputStream> inputStreams = new ArrayList<>();
         inputStreams.add(new ByteArrayInputStream(START_WRAPPER_TAG.getBytes()));

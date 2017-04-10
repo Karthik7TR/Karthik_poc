@@ -126,4 +126,25 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     {
         return new File(getFormatDirectory(step), "doc-to-image-manifest.txt");
     }
+
+    @NotNull
+    @Override
+    public File getTocDirectory(@NotNull final BookStep step)
+    {
+        return new File(getFormatDirectory(step), "06_Toc");
+    }
+
+    @NotNull
+    @Override
+    public File getTocItemToDocumentIdMapFile(@NotNull final BookStep step)
+    {
+        return new File(getTocDirectory(step), "tocItemToDocumentIdMap.xml");
+    }
+
+    @NotNull
+    @Override
+    public File getTocFile(@NotNull final BookStep step)
+    {
+        return new File(getTocDirectory(step), "toc.xml");
+    }
 }

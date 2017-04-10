@@ -1,7 +1,7 @@
 package com.thomsonreuters.uscl.ereader.common.xslt;
 
 import java.io.File;
-import java.util.List;
+import java.util.Collection;
 
 import javax.xml.transform.Transformer;
 
@@ -26,5 +26,5 @@ public interface XslTransformationService
      * @param input input file
      * @param output output file
      */
-    void transform(@NotNull Transformer transformer, @NotNull List<File> input, @NotNull File output);
+    void transform(@NotNull Transformer transformer, @NotNull Collection<File> input, @NotNull File output);
 }

@@ -45,6 +45,11 @@
         </step>
         <step id="getXppDynamicImagesStep">
             <tasklet ref="getXppDynamicImagesTask" />
+            <next on="COMPLETED" to="extractTocStep" />
+            <fail on="FAILED" />
+        </step>
+        <step id="extractTocStep">
+            <tasklet ref="extractTocTask" />
             <next on="COMPLETED" to="createDummyXppBookStep" />
             <fail on="FAILED" />
         </step>
@@ -99,6 +104,8 @@
          class="com.thomsonreuters.uscl.ereader.xpp.gather.docToImageMapping.step.DocToImageMappingStep" />
     <beans:bean id="getXppDynamicImagesTask" scope="step" parent="bookStep"
         class="com.thomsonreuters.uscl.ereader.xpp.gather.GatherXppDynamicImagesTask" />
+    <beans:bean id="extractTocTask" scope="step" parent="bookStep"
+        class="com.thomsonreuters.uscl.ereader.xpp.transformation.toc.step.ExtractTocStep" />
 	<beans:bean id="createDummyXppBookTask" scope="step" parent="bookStep"
 		class="com.thomsonreuters.uscl.ereader.xpp.transformation.step.CreateDummyXppBook" />
 	<beans:bean id="assembleXppBookTask" scope="step" parent="assembleStep"

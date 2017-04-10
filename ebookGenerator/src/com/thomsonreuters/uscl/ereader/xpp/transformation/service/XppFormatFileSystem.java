@@ -127,4 +127,27 @@ public interface XppFormatFileSystem extends FormatFileSystem
      */
     @NotNull
     File getDocToImageMapFile(@NotNull BookStep step);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /06_Toc}
+     */
+    @NotNull
+    File getTocDirectory(@NotNull BookStep step);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
+     * {@code /}{@link getTocDirectory 06_Toc}{@code /tocItemToDocumentIdMap.xml}
+     */
+    @NotNull
+    File getTocItemToDocumentIdMapFile(@NotNull BookStep step);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
+     * {@code /}{@link getTocDirectory 06_Toc}{@code /toc.xml}
+     */
+    @NotNull
+    File getTocFile(@NotNull BookStep step);
 }

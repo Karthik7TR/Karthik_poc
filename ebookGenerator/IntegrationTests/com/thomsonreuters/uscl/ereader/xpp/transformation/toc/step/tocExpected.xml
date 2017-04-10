@@ -1,0 +1,72 @@
+<EBook xmlns="http://www.sdl.com/xpp">
+   <EBookToc>
+      <Name>Business Enterprises</Name>
+      <Guid>I18b49f1028b911e69ed7fcedf0a72426</Guid>
+      <DocumentGuid>sampleXpp_1</DocumentGuid>
+      <EBookToc>
+         <Name>Chapter 30 Partnerships</Name>
+         <Guid>I333dd59028b911e69ed7fcedf0a72426</Guid>
+         <DocumentGuid>sampleXpp_1</DocumentGuid>
+         <EBookToc>
+            <Name>I General Partnerships</Name>
+            <Guid>I334a31a028b911e69ed7fcedf0a72426</Guid>
+            <DocumentGuid>sampleXpp_15</DocumentGuid>
+            <EBookToc>
+               <Name>A General Considerations</Name>
+               <Guid>I334a7fc028b911e69ed7fcedf0a72426</Guid>
+               <DocumentGuid>sampleXpp_15</DocumentGuid>
+               <EBookToc>
+                  <Name>1 Introduction</Name>
+                  <Guid>I334acde028b911e69ed7fcedf0a72426</Guid>
+                  <DocumentGuid>sampleXpp_15</DocumentGuid>
+                  <EBookToc>
+                     <Name>30:1 In general; definitions and distinctions</Name>
+                     <Guid>sampleXpp_15</Guid>
+                     <DocumentGuid>sampleXpp_15</DocumentGuid>
+                  </EBookToc>
+                  <EBookToc>
+                     <Name>30:2 Determining existence of partnership</Name>
+                     <Guid>sampleXpp_15</Guid>
+                     <DocumentGuid>sampleXpp_15</DocumentGuid>
+                  </EBookToc>
+               </EBookToc>
+            </EBookToc>
+            <EBookToc>
+               <Name>B Forms</Name>
+               <Guid>I34145f7028b911e69ed7fcedf0a72426</Guid>
+               <DocumentGuid>sampleXpp_15</DocumentGuid>
+               <EBookToc>
+                  <Name>30:13 General partnership agreement</Name>
+                  <Guid>sampleXpp_15</Guid>
+                  <DocumentGuid>sampleXpp_15</DocumentGuid>
+               </EBookToc>
+               <EBookToc>
+                  <Name>30:14 Short form</Name>
+                  <Guid>sampleXpp_15</Guid>
+                  <DocumentGuid>sampleXpp_15</DocumentGuid>
+               </EBookToc>
+            </EBookToc>
+         </EBookToc>
+      </EBookToc>
+      <EBookToc>
+         <Name>Chapter 30A Franchises</Name>
+         <Guid>I3e74ed9028b911e69ed7fcedf0a72426</Guid>
+         <DocumentGuid>sampleXpp_15</DocumentGuid>
+         <EBookToc>
+            <Name>I General Considerations</Name>
+            <Guid>I3e836c8028b911e69ed7fcedf0a72426</Guid>
+            <DocumentGuid>sampleXpp_15</DocumentGuid>
+            <EBookToc>
+               <Name>A Introduction</Name>
+               <Guid>I3e83baa028b911e69ed7fcedf0a72426</Guid>
+               <DocumentGuid>sampleXpp_15</DocumentGuid>
+               <EBookToc>
+                  <Name>30A:1 General background</Name>
+                  <Guid>sampleXpp_15</Guid>
+                  <DocumentGuid>sampleXpp_15</DocumentGuid>
+               </EBookToc>
+            </EBookToc>
+         </EBookToc>
+      </EBookToc>
+   </EBookToc>
+</EBook>

@@ -8,10 +8,14 @@
 
 	<xsl:template match="x:root">
 		<xsl:for-each-group select="*" group-starting-with="x:pagebreak">
+			<xsl:variable name="fileNameSuffix" select="concat($fileBaseName, '_', position())" />
 			<xsl:variable name="fileName"
-				select="concat('./', $fileBaseName, '_', position(), '_', $fileType, '.part')" />
+				select="concat('./', $fileNameSuffix, '_', $fileType, '.part')" />
 			<xsl:result-document href="{$fileName}">
 				<xsl:element name="{concat('part.', $fileType)}">
+					<xsl:attribute name="fileName" >
+						<xsl:value-of select="$fileNameSuffix" />
+					</xsl:attribute>
 					<xsl:apply-templates select="current-group()" />
 				</xsl:element>
 			</xsl:result-document>
