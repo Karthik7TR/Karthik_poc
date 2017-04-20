@@ -2,7 +2,10 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:x="http://www.sdl.com/xpp"
 	xmlns="http://www.sdl.com/xpp" exclude-result-prefixes="x">
-    <xsl:output method="xml" indent="no" omit-xml-declaration="yes"/>
+	<xsl:import href="transform-utils.xsl" />
+	
+	<xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
+	
 
 	<xsl:template match="x:document">
 		<root>
@@ -33,7 +36,7 @@
 		<xsl:text> </xsl:text>
 		<xsl:value-of select="@name" />
 		<xsl:text disable-output-escaping="yes"><![CDATA[="]]></xsl:text>
-		<xsl:value-of select="." />
+		<xsl:value-of select="x:get-fixed-text(.)" />
 		<xsl:text disable-output-escaping="yes"><![CDATA["]]></xsl:text>
 	</xsl:template>
 
@@ -46,7 +49,7 @@
 
 	<xsl:template match="x:t">
 		<xsl:if test="not(@suppress='true' or @cgt='true')">
-			<xsl:value-of select="self::node()" />
+			<xsl:value-of select="x:get-fixed-text(self::node())" />
 		</xsl:if>
 	</xsl:template>
 

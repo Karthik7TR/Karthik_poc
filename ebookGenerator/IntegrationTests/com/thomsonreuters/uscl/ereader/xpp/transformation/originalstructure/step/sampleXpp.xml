@@ -71,9 +71,10 @@
 								<attr name="date.updated">0</attr>
 							</tag>
 							<tag name="name">
+								<attr name="xpp.measure">&#984237;</attr>
 								<attr name="date.updated">0</attr>
 							</tag>
-							<t x="0" y="0" style="name">Business Enterprises</t>
+							<t x="0" y="0" style="name">Business Enterprises&#984237;</t>
 							<xref id="5" type="footnote"/>
 							<endtag name="name" />
 							<endtag name="outline.name.block" />
@@ -137,6 +138,7 @@
 							<tag name="footnote">
 								<attr name="uuid">I334c2d7028b911e69ed7fcedf0a72426</attr>
 								<attr name="date.updated">0</attr>
+								<attr name="xpp.measure">&#984237;</attr>
 							</tag>
                             <?xpp fnsecbrk;[Section 30:1]?>
 							<t x="0" y="0" style="footnote" cgt="true">[Section 30:1]</t>
@@ -272,7 +274,7 @@
 							</tag>
                             <?xpp dblsect?>
 							<t x="0" y="0" style="ref.3" cgt="true">&#167;&#167;&#8201;</t>
-							<t x="0" y="0" style="ref.3">620.1101 to 620.2205, Fla. Stat.</t>
+							<t x="0" y="0" style="ref.3">620.1101 to 620.2205, Fla. Stat.&#984237;</t>
 							<endtag name="ref" />
                             <?xpp rcasevalue?>
                             <?xpp /cite?>
