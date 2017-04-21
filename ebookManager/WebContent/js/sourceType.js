@@ -134,6 +134,7 @@ $(function() {
 		$("#displayTOC").hide();
 		$("#displayNORT").hide();
 		$("#displayFILE").hide();
+		$("#displayXPP").hide();
 		$("#displayFinalStage").hide();
 		
 		if(sourceType == "TOC") {
@@ -150,6 +151,13 @@ $(function() {
 			$("#tocCollectionName").val("");
 			$("#docCollectionName").val("");
 			clearCodesWorkbenchFileDetails();
+		} else if(sourceType == "XPP") {
+			$("#displayXPP").show();
+			$("#rootTocGuid").val("");
+			$("#tocCollectionName").val("");
+			$("#docCollectionName").val("");
+			$("#nortFilterView").val("");
+			$("#nortDomain").val("");
 		} else {
 			$("#displayFILE").show();
 			$("#rootTocGuid").val("");

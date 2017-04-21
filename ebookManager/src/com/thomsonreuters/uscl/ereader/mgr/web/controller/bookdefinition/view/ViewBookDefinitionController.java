@@ -41,6 +41,7 @@ public class ViewBookDefinitionController
         // Lookup the book by its primary key
         final BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
         form.setId(id);
+        form.setBookDefinition(bookDef);
 
         if (bookDef != null)
         {
@@ -57,6 +58,7 @@ public class ViewBookDefinitionController
             }
         }
         model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
+        model.addAttribute(WebConstants.KEY_FORM, form);
 
         return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_VIEW);
     }

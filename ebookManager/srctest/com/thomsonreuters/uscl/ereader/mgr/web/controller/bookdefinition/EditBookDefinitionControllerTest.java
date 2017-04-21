@@ -1130,6 +1130,7 @@ public final class EditBookDefinitionControllerTest
         final int splitDocs = Integer.valueOf(model.get(WebConstants.KEY_NUMBER_OF_SPLIT_DOCUMENTS).toString());
         assertEquals(0, numAuthors);
         assertEquals(0, splitDocs);
+        assertNotNull(model.get(WebConstants.KEY_FORM));
     }
 
     private void setupMockServices(final BookDefinition book, final int times, final boolean isComplete)

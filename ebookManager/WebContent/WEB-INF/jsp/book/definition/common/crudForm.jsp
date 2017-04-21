@@ -366,6 +366,11 @@
 					</div>
 				</div>
 			</div>
+			<div id="displayXPP" style="display:none">
+                <jsp:include page="../xppTable/printComponentsTable.jsp" >
+                    <jsp:param name="edit" value="true"/>
+                </jsp:include>
+			</div>
 			<div class="row">
 				<form:label path="keyCiteToplineFlag" class="labelCol">KeyCite Topline Flag</form:label>
 				<form:radiobutton disabled="${disableOptions}" path="keyCiteToplineFlag" value="true" />True

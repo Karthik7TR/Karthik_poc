@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.thomsonreuters.uscl.ereader.proview.Feature;
 import com.thomsonreuters.uscl.ereader.proview.Keyword;
+import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -254,6 +255,10 @@ public class BookDefinition implements Serializable
     @OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
     @Cascade(CascadeType.ALL)
     private Set<SplitDocument> splitDocuments;
+
+    @OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
+    @Cascade(CascadeType.ALL)
+    private Set<PrintComponent> printComponents;
 
     @OneToMany(mappedBy = "ebookDefinition", fetch = FetchType.EAGER, orphanRemoval = true)
     @Cascade(CascadeType.ALL)
@@ -1054,6 +1059,20 @@ public class BookDefinition implements Serializable
         this.splitDocuments = new HashSet<>(splitDocuments);
     }
 
+    public Set<PrintComponent> getPrintComponents()
+    {
+        if (printComponents == null)
+        {
+            printComponents = new HashSet<>();
+        }
+        return printComponents;
+    }
+
+    public void setPrintComponents(final Collection<PrintComponent> printComponents)
+    {
+        this.printComponents = new HashSet<>(printComponents);
+    }
+
     public List<RenameTocEntry> getRenameTocEntries()
     {
         if (renameTocEntries == null)
@@ -1227,6 +1246,7 @@ public class BookDefinition implements Serializable
         setFrontMatterPages(new java.util.LinkedHashSet<>(that.getFrontMatterPages()));
         setExcludeDocuments(new HashSet<>(that.getExcludeDocuments()));
         setSplitDocuments(new HashSet<>(that.getSplitDocuments()));
+        setPrintComponents(new HashSet<>(that.getPrintComponents()));
         setRenameTocEntries(new HashSet<>(that.getRenameTocEntries()));
         setTableViewers(new HashSet<>(that.getTableViewers()));
         setDocumentCopyrights(new HashSet<>(that.getDocumentCopyrights()));

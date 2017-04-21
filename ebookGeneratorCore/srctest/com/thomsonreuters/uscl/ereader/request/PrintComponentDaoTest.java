@@ -111,7 +111,7 @@ public final class PrintComponentDaoTest
         final PrintComponent component = new PrintComponent();
         component.setPrintComponentId(String.valueOf(pkey));
         component.setMaterialNumber("ThisIsAMaterialNumber");
-        component.setOrder(1);
+        component.setComponentOrder(1);
         component.setComponentName("ThisIsAName");
         return component;
     }

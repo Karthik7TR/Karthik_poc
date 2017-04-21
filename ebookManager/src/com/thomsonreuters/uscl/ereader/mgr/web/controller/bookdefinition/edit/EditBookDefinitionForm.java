@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,6 +14,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -35,6 +40,8 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
+import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -102,6 +109,7 @@ public class EditBookDefinitionForm
     private boolean isSplitLock;
     private Integer splitEBookParts;
     private Collection<SplitDocument> splitDocuments;
+    private Collection<PrintComponent> printComponents;
 
     // Proview Group information
     private boolean isGroupsEnabled;
@@ -142,6 +150,9 @@ public class EditBookDefinitionForm
     private Long selectedFrontMatterPreviewPage;
 
     private boolean validateForm;
+
+    private ObjectMapper jsonMapper;
+    private UuidGenerator uuidGenerator;
 
     public EditBookDefinitionForm()
     {
@@ -187,7 +198,11 @@ public class EditBookDefinitionForm
         isSplitLock = false;
         isSplitTypeAuto = true;
         splitDocuments = new AutoPopulatingList<>(SplitDocument.class);
+        printComponents = new AutoPopulatingList<>(PrintComponent.class);
         isGroupsEnabled = true;
+
+        jsonMapper = new ObjectMapper();
+        uuidGenerator = new UuidGenerator();
     }
 
     /**
@@ -207,6 +222,7 @@ public class EditBookDefinitionForm
         bookDef.setFrontMatterPages(new AutoPopulatingList<>(FrontMatterPage.class));
         bookDef.setExcludeDocuments(new AutoPopulatingList<>(ExcludeDocument.class));
         bookDef.setSplitDocuments(new AutoPopulatingList<>(SplitDocument.class));
+        bookDef.setPrintComponents(new AutoPopulatingList<>(PrintComponent.class));
         bookDef.setRenameTocEntries(new AutoPopulatingList<>(RenameTocEntry.class));
         bookDef.setTableViewers(new AutoPopulatingList<>(TableViewer.class));
         bookDef.setDocumentCopyrights(new AutoPopulatingList<>(DocumentCopyright.class));
@@ -271,6 +287,7 @@ public class EditBookDefinitionForm
             excludeDocuments = book.getExcludeDocuments();
             excludeDocumentsCopy = book.getExcludeDocuments();
             splitDocuments = book.getSplitDocuments();
+            printComponents = book.getPrintComponents();
             renameTocEntries = book.getRenameTocEntries();
             renameTocEntriesCopy = book.getRenameTocEntries();
             tableViewers = book.getTableViewers();
@@ -489,6 +506,8 @@ public class EditBookDefinitionForm
         }
         book.setSplitDocuments(splitDocuments);
 
+        loadPrintComponents(book);
+
         // Compare with copy to determine if date needs update
         for (final RenameTocEntry label : renameTocEntries)
         {
@@ -651,6 +670,19 @@ public class EditBookDefinitionForm
         }
         book.setNortFileLocations(tempNortFileLocations);
         book.setFrontMatterTheme(fmThemeText);
+    }
+
+    private void loadPrintComponents(final BookDefinition book)
+    {
+        for (final PrintComponent printComponent : printComponents)
+        {
+            printComponent.setBookDefinition(book);
+            if (printComponent.getPrintComponentId() == null)
+            {
+                printComponent.setPrintComponentId(uuidGenerator.generateUuid());
+            }
+        }
+        book.setPrintComponents(printComponents);
     }
 
     private void parseTitleId(final BookDefinition book)
@@ -1438,6 +1470,16 @@ public class EditBookDefinitionForm
     public void setSplitDocuments(final Collection<SplitDocument> splitDocuments)
     {
         this.splitDocuments = splitDocuments;
+    }
+
+    public String getPrintComponents() throws JsonProcessingException
+    {
+        return jsonMapper.writeValueAsString(printComponents);
+    }
+
+    public void setPrintComponents(final String printComponents) throws JsonParseException, JsonMappingException, IOException
+    {
+        this.printComponents = jsonMapper.readValue(printComponents, jsonMapper.getTypeFactory().constructCollectionType(List.class, PrintComponent.class));
     }
 
     public boolean isSplitTypeAuto()

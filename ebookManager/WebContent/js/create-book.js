@@ -613,7 +613,7 @@ $(function() {
 		});
 		
 		// Clicking the Additional Front Matter preview button 
-		$('.fmPreview').live("click", function() {
+		$('.fmPreview').on("click", function() {
 			var pageSequenceNumber = $(this).parent().children(".sequence").val();
 			$('#selectedFrontMatterPreviewPage').val(pageSequenceNumber);
 			submitFormForValidation();
@@ -674,7 +674,7 @@ $(function() {
 		});
 		
 		// delete confirmation box
-		$(".rdelete").live("click", function () {
+		$(".rdelete").on("click", function () {
 			var deleteTitle = $(this).attr("title");
 			var deleteMessage = $(this).attr("deleteMessage");
 			
@@ -723,7 +723,7 @@ $(function() {
 			addFrontMatterPageRow();
 		});
 		
-		$(".addSection").live("click", function () {
+		$(".addSection").on("click", function () {
 			// Retrieve additional page and section indexes from DOM object
 			pageIndex = $(this).attr("pageIndex");
 			sectionIndex = $(this).attr("sectionIndex");
@@ -734,7 +734,7 @@ $(function() {
 			$(this).attr("sectionIndex", nextIndex);
 		});
 		
-		$(".addPdf").live("click", function () {
+		$(".addPdf").on("click", function () {
 			// Retrieve additional page, section, and pdf indexes from DOM object
 			pageIndex = $(this).attr("pageIndex");
 			sectionIndex = $(this).attr("sectionIndex");

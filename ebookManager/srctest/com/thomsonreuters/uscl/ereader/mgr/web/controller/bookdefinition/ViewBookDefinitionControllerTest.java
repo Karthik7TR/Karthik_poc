@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -7,7 +9,9 @@ import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionController;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
+import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,6 +29,7 @@ public final class ViewBookDefinitionControllerTest
 {
     private static final String TITLE_ID = "a/b/c/d";
     private static final Long BOOK_DEFINITION_ID = Long.valueOf(1);
+    private static final String printComponentsJson = "[{\"printComponentId\":\"1\",\"componentOrder\":1,\"materialNumber\":\"123\",\"componentName\":\"c1\"}]";
     private ViewBookDefinitionController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
@@ -53,6 +58,7 @@ public final class ViewBookDefinitionControllerTest
         final BookDefinition bookDef = new BookDefinition();
         bookDef.setFullyQualifiedTitleId(TITLE_ID);
         bookDef.setEbookDefinitionId(BOOK_DEFINITION_ID);
+        bookDef.setPrintComponents(getPrintComponents());
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_VIEW_GET);
         request.setMethod(HttpMethod.GET.name());
         request.addParameter(WebConstants.KEY_ID, Long.toString(BOOK_DEFINITION_ID));
@@ -72,8 +78,22 @@ public final class ViewBookDefinitionControllerTest
         Assert.assertEquals(bookDef, model.get(WebConstants.KEY_BOOK_DEFINITION));
         Assert.assertEquals(WebConstants.VIEW_BOOK_DEFINITION_VIEW, mav.getViewName());
 
+        final ViewBookDefinitionForm form = (ViewBookDefinitionForm)model.get(WebConstants.KEY_FORM);
+        Assert.assertNotNull(form);
+        Assert.assertEquals(printComponentsJson, form.getPrintComponents());
+
         EasyMock.verify(mockBookDefinitionService);
         EasyMock.verify(mockJobRequestService);
+    }
+
+    private List<PrintComponent> getPrintComponents()
+    {
+        final PrintComponent printComponent = new PrintComponent();
+        printComponent.setPrintComponentId("1");
+        printComponent.setComponentOrder(1);
+        printComponent.setMaterialNumber("123");
+        printComponent.setComponentName("c1");
+        return Collections.singletonList(printComponent);
     }
 
     @Test

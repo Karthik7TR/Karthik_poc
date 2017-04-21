@@ -434,6 +434,7 @@ public class EditBookDefinitionController
         model.addAttribute(WebConstants.KEY_PUBLISHERS, editBookDefinitionService.getPublishers());
         model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, editBookDefinitionService.getKeywordCodes());
         model.addAttribute(WebConstants.KEY_MAX_SPLIT_PARTS, miscConfigService.getMiscConfig().getMaxSplitParts());
+        model.addAttribute(WebConstants.KEY_FORM, form);
     }
 
     /**

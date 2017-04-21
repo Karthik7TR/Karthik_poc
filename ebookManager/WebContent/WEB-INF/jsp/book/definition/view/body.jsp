@@ -123,6 +123,13 @@ function submitForm(cmd)
 							</div>
 						</div>
 					</c:when>
+                    <c:when test="${ book.sourceType == 'XPP' }">
+                        <div id="displayXPP">
+                            <jsp:include page="../xppTable/printComponentsTable.jsp" >
+                                <jsp:param name="edit" value="false"/>
+                            </jsp:include>
+                        </div>
+                    </c:when>
 					<c:otherwise>
 						<div id="displayFile">
 							<div class="row">

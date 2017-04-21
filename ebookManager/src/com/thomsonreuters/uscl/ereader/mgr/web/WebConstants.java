@@ -10,6 +10,7 @@ public class WebConstants
     public static final String KEY_PROVIEW_TITLE_INFO_FORM = "proviewTitleInfoForm";
     public static final String KEY_PROVIEW_GROUP_FORM = "proviewGroupForm";
     public static final String KEY_PROVIEW_GROUP_LIST_FILTER_FORM = "proviewGroupListFilterForm";
+    public static final String KEY_FORM = "form";
     public static final String KEY_PAGINATED_LIST = "paginatedList";
     public static final String KEY_GROUP = "group";
     public static final String KEY_GROUP_DETAIL = "groupDetail";

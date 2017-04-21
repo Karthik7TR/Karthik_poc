@@ -2,10 +2,13 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCopyright;
@@ -27,6 +30,8 @@ import org.junit.Test;
 
 public final class EditBookDefinitionFormTest
 {
+    private static final String printComponentsJson = "[{\"printComponentId\":\"1\",\"componentOrder\":1,\"materialNumber\":\"123\",\"componentName\":\"c1\"},{\"printComponentId\":\"2\",\"componentOrder\":2,\"materialNumber\":\"234\",\"componentName\":\"c2\"}]";
+
     private EditBookDefinitionForm form;
 
     private String titleId = "test/test/titleId";
@@ -68,7 +73,7 @@ public final class EditBookDefinitionFormTest
     }
 
     @Test
-    public void testLoadBookDefinition()
+    public void testLoadBookDefinition() throws JsonParseException, JsonMappingException, IOException
     {
         final BookDefinition book = new BookDefinition();
 
@@ -124,6 +129,7 @@ public final class EditBookDefinitionFormTest
         keywords.add(keyword);
         form.setNortFileLocations(nortFileLocations);
         nortFileLocations.add(location);
+        form.setPrintComponents(printComponentsJson);
 
         try
         {
@@ -143,6 +149,7 @@ public final class EditBookDefinitionFormTest
         Assert.assertEquals(1, book.getDocumentCurrencies().size());
         Assert.assertEquals(1, book.getKeywordTypeValues().size());
         Assert.assertEquals(1, book.getNortFileLocations().size());
+        Assert.assertEquals(2, book.getPrintComponents().size());
     }
 
     @Test

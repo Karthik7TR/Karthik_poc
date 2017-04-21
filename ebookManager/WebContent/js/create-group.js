@@ -108,7 +108,7 @@ $(function() {
 		});
 		
 		// delete confirmation box
-		$(".removeSubgroup").live("click", function () {
+		$(".removeSubgroup").on("click", function () {
 			var srow = $(this).parent();
 			var titles = $(this).siblings("ul").children("li");
 			$( "#delete-confirm" ).dialog({

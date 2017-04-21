@@ -66,6 +66,7 @@
 			<value>com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit</value>
 			<value>com.thomsonreuters.uscl.ereader.core.book.domain.PilotBook</value>
 			<value>com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive</value>
+			<value>com.thomsonreuters.uscl.ereader.request.domain.PrintComponent</value>
 		  </list>
 		</property>
 	</bean>

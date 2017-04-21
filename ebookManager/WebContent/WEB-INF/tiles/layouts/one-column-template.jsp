@@ -9,9 +9,12 @@
   	<link rel="stylesheet" href="theme/jquery-ui-1.8.17.custom.css" />
 	<link rel="stylesheet" href="theme/layout.css"/>
 	<link rel="stylesheet" href="theme/displaytag-table.css"/>
+	
+	<link rel="stylesheet" type="text/css" href="js/jsgrid/css/jsgrid.css" />
+	<link rel="stylesheet" type="text/css" href="js/jsgrid/css/theme.css" />
   	
-  	<script type="text/javascript" src="js/jquery-1.7.1.js"></script>
-  	<script type="text/javascript" src="js/jquery-ui-1.8.17.custom.js"></script>
+  	<script type="text/javascript" src="js/jquery-1.10.2.js"></script>
+  	<script type="text/javascript" src="js/jquery-ui-1.11.2.js"></script>
   	<script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
   	<script type="text/javascript" src="js/textboxHint.js"></script>
   	<script type="text/javascript">

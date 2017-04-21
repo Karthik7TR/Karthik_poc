@@ -1,5 +1,8 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -21,6 +24,8 @@ public class ViewBookDefinitionForm
 
     private Command command;
     private Long id;
+    private ObjectMapper jsonMapper = new ObjectMapper();
+    private BookDefinition bookDefinition;
 
     public Command getCommand()
     {
@@ -40,6 +45,16 @@ public class ViewBookDefinitionForm
     public void setId(final Long id)
     {
         this.id = id;
+    }
+
+    public void setBookDefinition(final BookDefinition bookDefinition)
+    {
+        this.bookDefinition = bookDefinition;
+    }
+
+    public String getPrintComponents() throws JsonProcessingException
+    {
+        return jsonMapper.writeValueAsString(bookDefinition.getPrintComponents());
     }
 
     @Override

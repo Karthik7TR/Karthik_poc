@@ -19,12 +19,21 @@ public class UuidGenerator
 
     public String generateUuid()
     {
-        final UUID rawUuid = uuidFactory.getUUID();
-        return (rawUuid != null && StringUtils.isNotBlank(rawUuid.toString())) ? rawUuid.toString() : "";
+        if (uuidFactory != null)
+        {
+            final UUID rawUuid = uuidFactory.getUUID();
+            return (rawUuid != null && StringUtils.isNotBlank(rawUuid.toString())) ? rawUuid.toString() : uuidWithoutDashes();
+        }
+        return uuidWithoutDashes();
     }
 
     public void setUuidFactory(final UUIDFactory uuidFactory)
     {
         this.uuidFactory = uuidFactory;
+    }
+
+    private String uuidWithoutDashes()
+    {
+        return java.util.UUID.randomUUID().toString().replaceAll("-", "");
     }
 }
