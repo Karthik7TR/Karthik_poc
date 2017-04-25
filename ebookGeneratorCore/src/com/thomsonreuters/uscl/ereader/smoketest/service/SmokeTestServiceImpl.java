@@ -58,6 +58,7 @@ public class SmokeTestServiceImpl implements SmokeTestService
         final List<SmokeTest> statuses = new ArrayList<>();
 
         statuses.add(getApplicationStatus(MANAGER, "http://c708pfmctasdf.int.thomsonreuters.com:9007/ebookManager"));
+        statuses.add(getApplicationStatus(MANAGER, "http://ebookmanager-ci.int.thomsonreuters.com/ebookManager"));
         statuses
             .add(getApplicationStatus(GENERATOR, "http://c708pfmctasdf.int.thomsonreuters.com:9002/ebookGenerator"));
         statuses.add(getApplicationStatus(GATHERER, "http://c708pfmctasdf.int.thomsonreuters.com:9001/ebookGatherer"));
@@ -82,6 +83,7 @@ public class SmokeTestServiceImpl implements SmokeTestService
         final List<SmokeTest> statuses = new ArrayList<>();
 
         statuses.add(getApplicationStatus(MANAGER, "http://c281ffzctastf.int.thomsonreuters.com:9003/ebookManager"));
+        statuses.add(getApplicationStatus(MANAGER, "http://ebookmanager-demo.int.thomsonreuters.com/ebookManager"));
         statuses
             .add(getApplicationStatus(GENERATOR, "http://c273pevctastf.int.thomsonreuters.com:9002/ebookGenerator"));
         statuses.add(getApplicationStatus(GATHERER, "http://c273pevctastf.int.thomsonreuters.com:9001/ebookGatherer"));
