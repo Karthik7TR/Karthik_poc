@@ -21,7 +21,8 @@
   <!-- This does all the work for deployment. -->
   <target name="fulldeploy" description="this does the full deploy of the vertical">
     <!--Update deployment database info-->
-    <antcall target="UpdateInfo"/>
+    <!-- No longer updating DID
+    <antcall target="UpdateInfo"/>-->
     <antcall target="connect"/>
     <antcall target="cleanup"/>
     <antcall target="copy env"/>
@@ -39,9 +40,10 @@
     trust="yes"
     command="cd ${target-folder}; rm *.tar"/>
     <!--Update deployment database info-->
+    <!-- No longer updating DID
     <antcall target="UpdateStatus">
       <param name="deploy.status" value="SUCCESSFUL"/>
-    </antcall>
+    </antcall>-->
   </target>
 
   <!-- copy over the files -->
