@@ -101,6 +101,69 @@ $(function() {
 			}
 		};
 		
+		var onClickToFmPreviewButton = function() {
+			var pageSequenceNumber = $(this).parent().children(".sequence").val();
+			$('#selectedFrontMatterPreviewPage').val(pageSequenceNumber);
+			submitFormForValidation();
+		}; 
+		
+		var onClickToAddSectionButton = function () {
+			// Retrieve additional page and section indexes from DOM object
+			pageIndex = $(this).attr("pageIndex");
+			sectionIndex = $(this).attr("sectionIndex");
+			addFrontMatterSectionRow(pageIndex, sectionIndex);
+			
+			// Increment sectionIndex
+			nextIndex = parseInt(sectionIndex) + 1;
+			$(this).attr("sectionIndex", nextIndex);
+		}
+		
+		var onClickToAddPdfButton = function () {
+			// Retrieve additional page, section, and pdf indexes from DOM object
+			pageIndex = $(this).attr("pageIndex");
+			sectionIndex = $(this).attr("sectionIndex");
+			pdfIndex = $(this).attr("pdfIndex");
+			addFrontMatterPdfRow(pageIndex, sectionIndex, pdfIndex);
+			
+			// Increment pdfIndex
+			nextIndex = parseInt(pdfIndex) + 1;
+			$(this).attr("pdfIndex", nextIndex);
+		}
+		
+		var onClickToDeleteButton = function () {
+			var deleteTitle = $(this).attr("title");
+			var deleteMessage = $(this).attr("deleteMessage");
+			
+			// If there the attribute does not exist, reset the delete message
+			if(!deleteMessage) {
+				deleteMessage = "";
+			}
+			$("#deleteMessage").html(deleteMessage);
+			var srow = $(this).parent();
+			
+			$( "#delete-confirm" ).dialog({
+				autoOpen: false,
+				resizable: false,
+				height:260,
+				width:500,
+				title: deleteTitle,
+				modal: true,
+				draggable:false,
+				buttons: {
+					"Delete": function() {
+						// Remove the element
+						srow.remove();
+						
+						$( this ).dialog( "close" );
+					},
+					Cancel: function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			});
+			$( "#delete-confirm" ).dialog( "open" );
+		};
+		
 		var addPilotBookRow = function() {
 			var expandingBox = $("<div>").addClass("expandingBox");
 			var id = "pilotBookInfo" + pilotBookIndex;
@@ -120,7 +183,7 @@ $(function() {
 			expandingBox.append(addDynamicRow("textarea", id, name, "pilotBookNote", "Note"));
 			
 			// Add delete button
-			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Pilot Book").attr("type", "button").attr("id","pilotDelete"+pilotBookIndex).val("Delete"));
+			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Pilot Book").attr("type", "button").attr("id","pilotDelete"+pilotBookIndex).val("Delete").on("click", onClickToDeleteButton));
 		
 			$("#addPilotBookHere").append(expandingBox);
 			pilotBookIndex = pilotBookIndex + 1;
@@ -158,7 +221,7 @@ $(function() {
 			expandingBox.append(useCommaBeforeSuffix);
 			
 			// Add delete button
-			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Author").attr("type", "button").attr("id","authorDelete"+authorIndex).val("Delete"));
+			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Author").attr("type", "button").attr("id","authorDelete"+authorIndex).val("Delete").on("click", onClickToDeleteButton));
 		
 			$("#addAuthorHere").append(expandingBox);
 			authorIndex = authorIndex + 1;
@@ -228,7 +291,6 @@ $(function() {
 			addHere.before(expandingBox);
 		};
 		
-	
 		// Add rows for Table Viewer, exclude document, rename toc entry, document copyright, and document currency
 		var addGuidRow = function(elementName, index, guidAttrName, guidLabelName, titleMessage, textAttrArray, textLabelArray, addHere) {
 			var expandingBox = $("<div>").addClass("expandingBox");
@@ -255,7 +317,7 @@ $(function() {
 			expandingBox.append(lastUpdated);
 			
 			// Add delete button
-			expandingBox.append($("<input>").addClass("rdelete").attr("title",titleMessage).attr("type", "button").val("Delete"));
+			expandingBox.append($("<input>").addClass("rdelete").attr("title",titleMessage).attr("type", "button").val("Delete").on("click", onClickToDeleteButton));
 
 			addHere.before(expandingBox);
 		};
@@ -277,11 +339,11 @@ $(function() {
 			// Add buttons
 			expandingBox.append($("<button>").attr("type","button").addClass("moveUp").html("Up"));
 			expandingBox.append($("<button>").attr("type","button").addClass("moveDown").html("Down"));
-			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Page, Sections, and Pdfs?").attr("type", "button").attr("deleteMessage", "This will also delete all the sections and pdfs in this front matter page.").val("Delete Page"));
-			expandingBox.append($("<button>").attr("type","button").addClass("fmPreview").html("Preview"));
+			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Page, Sections, and Pdfs?").attr("type", "button").attr("deleteMessage", "This will also delete all the sections and pdfs in this front matter page.").val("Delete Page").on("click", onClickToDeleteButton));
+			expandingBox.append($("<button>").attr("type","button").addClass("fmPreview").html("Preview").on("click", onClickToFmPreviewButton));
 			
 			var section = $("<div>").attr("id", "addAdditionalSection_" + frontMatterPageIndex);
-			section.append($("<input>").addClass("addSection").attr("pageIndex", frontMatterPageIndex).attr("sectionIndex", 0).attr("type", "button").val("Add Section"));
+			section.append($("<input>").addClass("addSection").attr("pageIndex", frontMatterPageIndex).attr("sectionIndex", 0).attr("type", "button").val("Add Section").on("click", onClickToAddSectionButton));
 			expandingBox.append(section);
 
 			$("#addAdditionPageHere").append(expandingBox);
@@ -307,7 +369,7 @@ $(function() {
 			// Add buttons
 			expandingBox.append($("<button>").attr("type","button").addClass("moveUp").html("Up"));
 			expandingBox.append($("<button>").attr("type","button").addClass("moveDown").html("Down"));
-			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Section and Pdfs?").attr("type", "button").attr("deleteMessage", "This will also delete all the pdfs in this front matter section.").val("Delete Section"));
+			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Section and Pdfs?").attr("type", "button").attr("deleteMessage", "This will also delete all the pdfs in this front matter section.").val("Delete Section").on("click", onClickToDeleteButton));
 
 			// Add addition text input box
 			var additionalText = $("<div>").addClass("dynamicRow");
@@ -315,7 +377,7 @@ $(function() {
 			expandingBox.append(additionalText);
 
 			var pdfSection = $("<div>").attr("id", "addAdditionalPdf_" + pageIndex + "_" + sectionIndex);
-			pdfSection.append($("<input>").addClass("addPdf").attr("pageIndex", pageIndex).attr("sectionIndex", sectionIndex).attr("pdfIndex", 0).attr("type", "button").val("Add Pdf"));
+			pdfSection.append($("<input>").addClass("addPdf").attr("pageIndex", pageIndex).attr("sectionIndex", sectionIndex).attr("pdfIndex", 0).attr("type", "button").val("Add Pdf").on("click", onClickToAddPdfButton));
 			expandingBox.append(pdfSection);
 			
 			$(addAdditionalSection).append(expandingBox);
@@ -344,7 +406,7 @@ $(function() {
 			// Add buttons
 			expandingBox.append($("<button>").attr("type","button").addClass("moveUp").html("Up"));
 			expandingBox.append($("<button>").attr("type","button").addClass("moveDown").html("Down"));
-			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Pdf").attr("type", "button").val("Delete Pdf"));
+			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Pdf").attr("type", "button").val("Delete Pdf").on("click", onClickToDeleteButton));
 			
 			$(addAdditionalPdf).append(expandingBox);
 			
@@ -440,9 +502,8 @@ $(function() {
 		var submitFormForValidation = function() {
 			warning = false;
 			$('#validateForm').val(true);
-			$('#<%= EditBookDefinitionForm.FORM_NAME %>').submit();
+			//$('#<%= EditBookDefinitionForm.FORM_NAME %>').submit(); --todo
 		};
-
 		
 		var getSequenceNumber = function(element) {
 			var sequenceNum = parseInt(element.children(".sequence").val());
@@ -613,11 +674,7 @@ $(function() {
 		});
 		
 		// Clicking the Additional Front Matter preview button 
-		$('.fmPreview').on("click", function() {
-			var pageSequenceNumber = $(this).parent().children(".sequence").val();
-			$('#selectedFrontMatterPreviewPage').val(pageSequenceNumber);
-			submitFormForValidation();
-		});
+		$('.fmPreview').on("click", onClickToFmPreviewButton);
 	
 		//Update formValidation field if Validation button is pressed
 		$('#validate').click(submitFormForValidation);
@@ -674,39 +731,7 @@ $(function() {
 		});
 		
 		// delete confirmation box
-		$(".rdelete").on("click", function () {
-			var deleteTitle = $(this).attr("title");
-			var deleteMessage = $(this).attr("deleteMessage");
-			
-			// If there the attribute does not exist, reset the delete message
-			if(!deleteMessage) {
-				deleteMessage = "";
-			}
-			$("#deleteMessage").html(deleteMessage);
-			var srow = $(this).parent();
-			
-			$( "#delete-confirm" ).dialog({
-				autoOpen: false,
-				resizable: false,
-				height:260,
-				width:500,
-				title: deleteTitle,
-				modal: true,
-				draggable:false,
-				buttons: {
-					"Delete": function() {
-						// Remove the element
-						srow.remove();
-						
-						$( this ).dialog( "close" );
-					},
-					Cancel: function() {
-						$( this ).dialog( "close" );
-					}
-				}
-			});
-			$( "#delete-confirm" ).dialog( "open" );
-		});
+		$(".rdelete").on("click", onClickToDeleteButton);
 		
 		$("#additionFrontMatterBlock").delegate(".pageTocLabel", "focusout", function () {
 			var pageHeadingLabel = $(this).siblings(".pageHeadingLabel");
@@ -723,28 +748,9 @@ $(function() {
 			addFrontMatterPageRow();
 		});
 		
-		$(".addSection").on("click", function () {
-			// Retrieve additional page and section indexes from DOM object
-			pageIndex = $(this).attr("pageIndex");
-			sectionIndex = $(this).attr("sectionIndex");
-			addFrontMatterSectionRow(pageIndex, sectionIndex);
-			
-			// Increment sectionIndex
-			nextIndex = parseInt(sectionIndex) + 1;
-			$(this).attr("sectionIndex", nextIndex);
-		});
+		$(".addSection").on("click", onClickToAddSectionButton);
 		
-		$(".addPdf").on("click", function () {
-			// Retrieve additional page, section, and pdf indexes from DOM object
-			pageIndex = $(this).attr("pageIndex");
-			sectionIndex = $(this).attr("sectionIndex");
-			pdfIndex = $(this).attr("pdfIndex");
-			addFrontMatterPdfRow(pageIndex, sectionIndex, pdfIndex);
-			
-			// Increment pdfIndex
-			nextIndex = parseInt(pdfIndex) + 1;
-			$(this).attr("pdfIndex", nextIndex);
-		});
+		$(".addPdf").on("click", onClickToAddPdfButton);
 		
 		$('body').delegate(".moveUp", "click", function(){
 		  var current = $(this).parent();

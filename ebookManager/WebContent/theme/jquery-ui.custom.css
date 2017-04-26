@@ -1,0 +1,23 @@
+.ui-widget {
+    font-family: Verdana,Arial,sans-serif;
+}
+
+.ui-widget-header {
+    border: 1px solid #aaaaaa;
+    background: #cccccc url(images/ui-bg_highlight-soft_75_cccccc_1x100.png) 50% 50% repeat-x;
+}
+
+.ui-widget-header .ui-icon {
+    background-image: url(images/ui-icons_222222_256x240.png);
+}
+
+.ui-button.ui-corner-all.ui-widget.ui-button-icon-only {
+    border: none;
+    background: #cccccc url(images/ui-bg_highlight-soft_75_cccccc_1x100.png) 50% 50% repeat-x;
+}
+
+.ui-button.ui-corner-all.ui-widget.ui-button-icon-only:hover {
+    border: 1px solid #999999;
+    background: #cccccc url(images/ui-bg_glass_75_dadada_1x400.png) 50% 50% repeat-x;
+    
+}

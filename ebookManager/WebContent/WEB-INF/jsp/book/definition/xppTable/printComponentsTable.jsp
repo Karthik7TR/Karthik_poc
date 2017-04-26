@@ -63,7 +63,7 @@
             },
             fields: [
                 { name: "componentOrder", title: "Order", type: "text", width: 30},
-                { name: "materialNumber", title: "Material", type: "text", width: 100 },
+                { name: "materialNumber", title: "Material Number", type: "text", width: 100 },
                 { name: "componentName", title: "Component Name", type: "text", width: 80 },
                 { type: "control", editButton: false, modeSwitchButton: false, deleteButton: true, visible: ${param.edit} }
             ],

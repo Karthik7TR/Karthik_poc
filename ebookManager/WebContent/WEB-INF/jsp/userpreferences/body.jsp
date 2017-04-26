@@ -15,6 +15,10 @@
 		// Declare Global Variables
 		var emailIndex = ${numberOfEmails};
 		
+        var onClickToDeleteButton = function () {
+            var srow = $(this).parent();
+            srow.remove();
+         };
 		// Add another author row
 		var addEmailRow = function() {
 			var expandingBox = $("<div>").addClass("expandingBox");
@@ -25,7 +29,7 @@
 			expandingBox.append($("<input>").attr("id",id).attr("name", name).attr("type", "text"));
 			
 			// Add delete button
-			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Email").attr("type", "button").val("Delete"));
+			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Email").attr("type", "button").val("Delete").on("click", onClickToDeleteButton));
 		
 			$("#addEmailHere").before(expandingBox);
 			emailIndex = emailIndex + 1;
@@ -38,10 +42,7 @@
 			});
 			
 			// delete confirmation box
-			$(".rdelete").live("click", function () {
-				var srow = $(this).parent();
-				srow.remove();
-			});
+			$(".rdelete").on("click", onClickToDeleteButton);
 		});
 </script>
 
