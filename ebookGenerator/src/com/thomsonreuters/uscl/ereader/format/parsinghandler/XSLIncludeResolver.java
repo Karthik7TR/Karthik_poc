@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -17,6 +19,7 @@ import javax.xml.transform.stream.StreamSource;
 
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
@@ -35,6 +38,7 @@ public class XSLIncludeResolver implements URIResolver
     private static final Logger LOG = LogManager.getLogger(XSLIncludeResolver.class);
     private static final String CONTEXT_AND_ANALYSIS = "ContextAndAnalysis.xsl";
     private static final String NOTES_OF_DECISIONS = "NotesOfDecisions.xsl";
+    private Map<String, Collection<String>> staticContentCache = new HashMap<>();
     private List<String> includedXSLTs = new ArrayList<>();
     private File emptyXSL;
     private File platformDir;
@@ -164,21 +168,37 @@ public class XSLIncludeResolver implements URIResolver
 
     private File recursivelySearchXslInDirectory(final String filename, final File directory) throws IOException
     {
-        final Collection<File> xslFiles =
-            FileUtils.listFiles(directory, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
+        final Collection<String> xslFiles = getFilesListFromStaticContentCache(directory);
 
-        for (final File xsl : xslFiles)
+        for (final String xslPath : xslFiles)
         {
-            if (!StringUtils.containsIgnoreCase(xsl.getCanonicalPath(), "CobaltMobile")
-                && !StringUtils.containsIgnoreCase(xsl.getCanonicalPath(), "web2")
-                && !StringUtils.containsIgnoreCase(xsl.getCanonicalPath(), "Weblinks")
-                && xsl.getName().equals(filename))
+            if (!StringUtils.containsIgnoreCase(xslPath, "CobaltMobile")
+                && !StringUtils.containsIgnoreCase(xslPath, "web2")
+                && !StringUtils.containsIgnoreCase(xslPath, "Weblinks")
+                && FilenameUtils.getName(xslPath).equals(filename))
             {
-                return xsl;
+                return new File(xslPath);
             }
         }
 
         return null;
+    }
+
+    private Collection<String> getFilesListFromStaticContentCache(final File directory) throws IOException
+    {
+        final String path = directory.getAbsolutePath();
+        if (!staticContentCache.containsKey(path))
+        {
+            final Collection<File> xslFiles = FileUtils.listFiles(directory, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
+            final Collection<String> xslFilePaths = new ArrayList<>();
+            for (final File xsl : xslFiles)
+            {
+                xslFilePaths.add(xsl.getCanonicalPath());
+            }
+            staticContentCache.put(path, xslFilePaths);
+        }
+
+        return staticContentCache.get(path);
     }
 
     private boolean findForcePlatformAttribute(final String href, final String base) throws Exception
