@@ -3,7 +3,6 @@ package com.thomsonreuters.uscl.ereader.stats.dao;
 import static org.hibernate.criterion.Order.desc;
 import static org.hibernate.criterion.Projections.property;
 import static org.hibernate.criterion.Restrictions.eq;
-import static org.hibernate.criterion.Restrictions.in;
 import static org.hibernate.criterion.Restrictions.lt;
 
 import java.util.HashMap;
@@ -27,6 +26,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
@@ -355,9 +355,7 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao
             .createAlias("audit", "book")
             .setFetchMode("audit", FetchMode.JOIN)
             .add(Restrictions.eq("book.titleId", titleId))
-            .add(Restrictions.in(
-                "publishStatus",
-                new String[] {PublishingStats.SEND_EMAIL_COMPLETE, PublishingStats.SUCCESFULL_PUBLISH_STATUS}))
+            .add(getSuccessfulPublishStatusRestriction())
             .setProjection(Projections.distinct(Projections.property("book.isbn")));
         return criteria.list();
     }
@@ -371,9 +369,7 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao
             .createAlias("audit", "book")
             .setFetchMode("audit", FetchMode.JOIN)
             .add(Restrictions.eq("book.ebookDefinitionId", ebookDefId))
-            .add(Restrictions.in(
-                "publishStatus",
-                new String[] {PublishingStats.SEND_EMAIL_COMPLETE, PublishingStats.SUCCESFULL_PUBLISH_STATUS}))
+            .add(getSuccessfulPublishStatusRestriction())
             .setProjection(Projections.distinct(Projections.property("book.subGroupHeading")));
         return criteria.list();
     }
@@ -387,9 +383,7 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao
             .createAlias("audit", "book")
             .setFetchMode("audit", FetchMode.JOIN)
             .add(Restrictions.eq("book.ebookDefinitionId", ebookDefId))
-            .add(Restrictions.in(
-                "publishStatus",
-                new String[] {PublishingStats.SEND_EMAIL_COMPLETE, PublishingStats.SUCCESFULL_PUBLISH_STATUS}))
+            .add(getSuccessfulPublishStatusRestriction())
             .add(Restrictions.isNotNull("book.groupName"))
             .setProjection(Projections.distinct(Projections.property("book.ebookDefinitionId")));
         return (Long) criteria.uniqueResult();
@@ -445,9 +439,7 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao
         final Criteria criteria =
             session.createCriteria(PublishingStats.class)
                 .add(Property.forName("ebookDefId").eq(subQuery))
-                .add(in(
-                    "publishStatus",
-                    new String[] {PublishingStats.SEND_EMAIL_COMPLETE, PublishingStats.SUCCESFULL_PUBLISH_STATUS}))
+                .add(getSuccessfulPublishStatusRestriction())
                 //jobInstanceId of prev job instances are less then current one
                 .add(lt("jobInstanceId", jobInstanceId))
                 .addOrder(desc("jobInstanceId"))
@@ -540,5 +532,13 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao
         final Session session = sessionFactory.getCurrentSession();
         final Query query = session.createQuery("from PublishingStats");
         return query.list();
+    }
+
+    private LogicalExpression getSuccessfulPublishStatusRestriction()
+    {
+        return Restrictions.or(
+                Restrictions.eq("publishStatus", PublishingStats.SEND_EMAIL_COMPLETE).ignoreCase(),
+                Restrictions.eq("publishStatus", PublishingStats.SUCCESFULL_PUBLISH_STATUS).ignoreCase()
+            );
     }
 }
