@@ -64,6 +64,41 @@ public class PublishingStatsSort
         return sortProperty;
     }
 
+    public String getOrderByColumnName()
+    {
+        switch (sortProperty)
+        {
+        case AUDIT_ID:
+            return "book.auditId";
+        case BOOK_SIZE:
+            return "bookSize";
+        case BOOK_VERSION:
+            return "bookVersionSubmitted";
+        case EBOOK_DEFINITION_ID:
+            return "ebookDefId";
+        case JOB_INSTANCE_ID:
+            return "jobInstanceId";
+        case JOB_SUBMIT_TIMESTAMP:
+            return "jobSubmitTimestamp";
+        case JOB_SUBMITTER:
+            return "jobSubmitterName";
+        case LARGEST_DOC_SIZE:
+            return "largestDocSize";
+        case LARGEST_IMAGE_SIZE:
+            return "largestImageSize";
+        case LARGEST_PDF_SIZE:
+            return "largestPdfSize";
+        case PUBLISH_STATUS:
+            return "publishStatus";
+        case PROVIEW_DISPLAY_NAME:
+            return "book.proviewDisplayName";
+        case TITLE_ID:
+            return "book.titleId";
+        default:
+            throw new IllegalArgumentException("Unexpected sort property: " + sortProperty);
+        }
+    }
+
     public boolean isAscending()
     {
         return ascending;

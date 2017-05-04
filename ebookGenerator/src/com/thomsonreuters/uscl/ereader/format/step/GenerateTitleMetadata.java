@@ -24,7 +24,6 @@ import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
@@ -72,10 +71,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
             bookDefinition.getAuthors(),
             bookDefinition.getIsPilotBook(),
             bookDefinition.getIsbnNormalized());
-        final String materialId = bookDefinition.getMaterialId();
-
-        //TODO: verify that default of 1234 for material id is valid.
-        titleMetadata.setMaterialId(StringUtils.isNotBlank(materialId) ? materialId : "1234");
+        titleMetadata.setMaterialId(bookDefinition.getMaterialId());
         titleMetadata.setCopyright(bookDefinition.getCopyright());
         titleMetadata.setDisplayName(bookDefinition.getProviewDisplayName());
         titleMetadata.setFrontMatterTocLabel(bookDefinition.getFrontMatterTocLabel());

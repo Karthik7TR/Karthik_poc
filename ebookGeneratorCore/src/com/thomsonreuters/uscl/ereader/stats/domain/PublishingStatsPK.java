@@ -15,6 +15,11 @@ public class PublishingStatsPK implements Serializable
     {
     }
 
+    public PublishingStatsPK(final long jobInstanceId)
+    {
+        this.jobInstanceId = jobInstanceId;
+    }
+
     @Column(name = "JOB_INSTANCE_ID", nullable = false)
     @Basic(fetch = FetchType.EAGER)
     @Id

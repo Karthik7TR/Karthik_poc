@@ -45,14 +45,14 @@ public class SendEmailNotificationStepImpl extends BookStepImpl implements SendE
         final Collection<InternetAddress> recipients = coreService.getEmailRecipientsByUsername(getUserName());
         LOG.debug("Sending job completion notification to: " + recipients);
 
-        getPublishingStats();
+        initializePublishingStats();
         final EmailBuilder emailBuilder = emailBuilderFactory.create();
 
         emailService.send(recipients, emailBuilder.getSubject(), emailBuilder.getBody());
         return ExitStatus.COMPLETED;
     }
 
-    private void getPublishingStats()
+    private void initializePublishingStats()
     {
         currentsStats = publishingStatsService.findPublishingStatsByJobId(getJobInstanceId());
         Assert.notNull(currentsStats, "publishingStats not found for jobInstanceId=" + getJobInstanceId());

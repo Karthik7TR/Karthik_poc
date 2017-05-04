@@ -2,66 +2,36 @@ package com.thomsonreuters.uscl.ereader.stats.service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDao;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsPK;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 public class PublishingStatsServiceImpl implements PublishingStatsService
 {
-    // private static final Logger LOG =
-    // LogManager.getLogger(PublishingStatsServiceImpl.class);
+    private static final Logger LOG = LogManager.getLogger(PublishingStatsServiceImpl.class);
     private PublishingStatsDao publishingStatsDAO;
 
+    @Override
+    @Transactional(readOnly = true)
+    public Date getSysDate()
+    {
+        return publishingStatsDAO.getSysDate();
+    }
     @Override
     @Transactional(readOnly = true)
     public PublishingStats findPublishingStatsByJobId(final Long JobId)
     {
         return publishingStatsDAO.findJobStatsByJobId(JobId);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Map<String, String> findSubGroupByVersion(final Long boofDefnition)
-    {
-        return publishingStatsDAO.findSubGroupByVersion(boofDefnition);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public String findNameByBoofDefAndVersion(final Long boofDefnition, final String version)
-    {
-        return publishingStatsDAO.findNameByIdAndVersion(boofDefnition, version);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<PublishingStats> getPubStatsByEbookDefSort(final Long EbookDefId)
-    {
-        return publishingStatsDAO.findPubStatsByEbookDefSort(EbookDefId);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public PublishingStats findStatsByLastUpdated(final Long jobId)
-    {
-        return publishingStatsDAO.findStatsByLastUpdated(jobId);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public PublishingStats findJobStatsByPubStatsPK(final PublishingStatsPK jobIdPK)
-    {
-        return publishingStatsDAO.findJobStatsByPubStatsPK(jobIdPK);
     }
 
     @Override
@@ -108,9 +78,70 @@ public class PublishingStatsServiceImpl implements PublishingStatsService
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-    public int updatePublishingStats(final PublishingStats jobstats, final StatsUpdateTypeEnum updateType)
+    public void updatePublishingStats(final PublishingStats newstats, final StatsUpdateTypeEnum updateType)
     {
-        return publishingStatsDAO.updateJobStats(jobstats, updateType);
+        PublishingStats stats = publishingStatsDAO.findJobStatsByJobId(newstats.getJobInstanceId());
+        final Date rightNow = publishingStatsDAO.getSysDate();
+        if (stats == null)
+        {
+            stats = newstats;
+        }
+        else
+        {
+            switch (updateType)
+            {
+            case GATHERTOC:
+            case GENERATETOC:
+                stats.setGatherTocNodeCount(newstats.getGatherTocNodeCount());
+                stats.setGatherTocDocCount(newstats.getGatherTocDocCount());
+                stats.setGatherTocRetryCount(newstats.getGatherTocRetryCount());
+                stats.setGatherTocSkippedCount(newstats.getGatherTocSkippedCount());
+                break;
+            case GATHERDOC:
+            case GENERATEDOC:
+                stats.setGatherDocExpectedCount(newstats.getGatherDocExpectedCount());
+                stats.setGatherDocRetrievedCount(newstats.getGatherDocRetrievedCount());
+                stats.setGatherDocRetryCount(newstats.getGatherDocRetryCount());
+                stats.setGatherMetaExpectedCount(newstats.getGatherMetaExpectedCount());
+                stats.setGatherMetaRetrievedCount(newstats.getGatherMetaRetrievedCount());
+                stats.setGatherMetaRetryCount(newstats.getGatherMetaRetryCount());
+                break;
+            case GATHERIMAGE:
+                stats.setGatherImageExpectedCount(newstats.getGatherImageExpectedCount());
+                stats.setGatherImageRetrievedCount(newstats.getGatherImageRetrievedCount());
+                stats.setGatherImageRetryCount(newstats.getGatherImageRetryCount());
+                break;
+            case TITLEDOC:
+                stats.setTitleDocCount(newstats.getTitleDocCount());
+                break;
+            case TITLEDUPDOCCOUNT:
+                stats.setTitleDupDocCount(newstats.getTitleDupDocCount());
+                break;
+            case FORMATDOC:
+                stats.setFormatDocCount(newstats.getFormatDocCount());
+                break;
+            case ASSEMBLEDOC:
+                stats.setBookSize(newstats.getBookSize());
+                stats.setLargestDocSize(newstats.getLargestDocSize());
+                stats.setLargestImageSize(newstats.getLargestImageSize());
+                stats.setLargestPdfSize(newstats.getLargestPdfSize());
+                break;
+            case FINALPUBLISH:
+                stats.setPublishEndTimestamp(rightNow);
+                break;
+            case GENERAL:
+                break;
+            case GROUPEBOOK:
+                stats.setGroupVersion(newstats.getGroupVersion());
+                break;
+            default:
+                LOG.error("Unknown StatsUpdateTypeEnum");
+                // TODO: failure logic
+            }
+            stats.setPublishStatus(newstats.getPublishStatus());
+        }
+        stats.setLastUpdated(rightNow);
+        publishingStatsDAO.saveJobStats(stats);
     }
 
     @Override
@@ -118,13 +149,6 @@ public class PublishingStatsServiceImpl implements PublishingStatsService
     public void deleteJobStats(final PublishingStats jobStats)
     {
         publishingStatsDAO.deleteJobStats(jobStats);
-    }
-
-    @Override
-    @Transactional
-    public Long getMaxGroupVersionById(final Long ebookDefId)
-    {
-        return publishingStatsDAO.getMaxGroupVersionById(ebookDefId);
     }
 
     @Override
@@ -154,25 +178,6 @@ public class PublishingStatsServiceImpl implements PublishingStatsService
             }
         }
         return hasBeenPublished;
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Boolean hasSubGroupChanged(final String subGroupHeading, final Long ebookDefId)
-    {
-        Boolean hasSubGroupChanged = true;
-        final List<String> previousSubGroupList = publishingStatsDAO.findSuccessfullyPublishedsubGroupById(ebookDefId);
-        for (final String previousSubGroupHeading : previousSubGroupList)
-        {
-            // previousSubGroupHeading could be null as it may be single book in
-            // previous version
-            if (previousSubGroupHeading != null && previousSubGroupHeading.equalsIgnoreCase(subGroupHeading))
-            {
-                hasSubGroupChanged = false;
-                break;
-            }
-        }
-        return hasSubGroupChanged;
     }
 
     @Override
@@ -221,30 +226,24 @@ public class PublishingStatsServiceImpl implements PublishingStatsService
     {
         Date lastPublishDate = null;
         final List<PublishingStats> publishingStats = publishingStatsDAO.findPublishingStatsByEbookDef(EbookDefId);
-        PublishingStats lastPublishingStat = null;
 
         if (publishingStats != null && publishingStats.size() > 0)
         {
-            lastPublishingStat = publishingStats.get(0);
             for (final PublishingStats publishingStat : publishingStats)
             {
-                if (lastPublishingStat.getPublishEndTimestamp() == null)
+                if (publishingStat.getPublishEndTimestamp() != null)
                 {
-                    lastPublishingStat = publishingStat;
-                }
-                if (lastPublishingStat.getPublishEndTimestamp() != null
-                    && publishingStat.getPublishEndTimestamp() != null
-                    && (publishingStat.getPublishEndTimestamp() == lastPublishingStat.getPublishEndTimestamp()
-                        || publishingStat.getPublishEndTimestamp().after(lastPublishingStat.getPublishEndTimestamp())))
-                {
-                    lastPublishingStat = publishingStat;
+                    if (lastPublishDate == null)
+                    {
+                        lastPublishDate = publishingStat.getPublishEndTimestamp();
+                    }
+                    else if (publishingStat.getPublishEndTimestamp().equals(lastPublishDate)
+                        || publishingStat.getPublishEndTimestamp().after(lastPublishDate))
+                    {
+                        lastPublishDate = publishingStat.getPublishEndTimestamp();
+                    }
                 }
             }
-        }
-
-        if (lastPublishingStat != null)
-        {
-            lastPublishDate = lastPublishingStat.getPublishEndTimestamp();
         }
 
         return lastPublishDate;
@@ -261,13 +260,6 @@ public class PublishingStatsServiceImpl implements PublishingStatsService
     public void setPublishingStatsDAO(final PublishingStatsDao dao)
     {
         publishingStatsDAO = dao;
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public EbookAudit getMaxAuditId(final Long eBookDefId)
-    {
-        return publishingStatsDAO.getMaxAuditId(eBookDefId);
     }
 
     @Transactional(readOnly = true)

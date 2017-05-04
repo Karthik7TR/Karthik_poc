@@ -23,7 +23,7 @@ public class InitializePublishingStatusUpdateService extends BasePublishingStatu
     @Override
     public void savePublishingStats(final BookStep step, final PublishingStatus publishStatus)
     {
-        final Date rightNow = new Date();
+        final Date rightNow = publishingStatsService.getSysDate();
         final Long ebookDefId = step.getBookDefinitionId();
 
         final Long auditId = eBookAuditService.findEbookAuditByEbookDefId(ebookDefId);
@@ -40,7 +40,6 @@ public class InitializePublishingStatusUpdateService extends BasePublishingStatu
         pubStats.setJobSubmitTimestamp(step.getSubmitTimestamp());
         pubStats.setPublishStatus(getPublishStatusString(step, publishStatus));
         pubStats.setPublishStartTimestamp(rightNow);
-        pubStats.setLastUpdated(rightNow);
         publishingStatsService.savePublishingStats(pubStats);
     }
 }

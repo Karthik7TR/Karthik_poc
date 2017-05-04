@@ -2,18 +2,18 @@ package com.thomsonreuters.uscl.ereader.stats.service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsPK;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
 import org.jetbrains.annotations.Nullable;
 
 public interface PublishingStatsService
 {
+    Date getSysDate();
+
     /**
      * Find Job Stats by Job Id
      *
@@ -22,17 +22,11 @@ public interface PublishingStatsService
      */
     PublishingStats findPublishingStatsByJobId(Long JobId);
 
-    Map<String, String> findSubGroupByVersion(Long boofDefnition);
-
-    String findNameByBoofDefAndVersion(Long boofDefnition, String version);
-
     /**
      * Save an Job Stats entry
      *
      */
     void savePublishingStats(PublishingStats jobstats);
-
-    PublishingStats findStatsByLastUpdated(Long jobId);
 
     Boolean hasBeenGrouped(Long ebookDefId);
 
@@ -42,23 +36,11 @@ public interface PublishingStatsService
      * @param StatsUpdateTypeEnum
      *
      */
-    int updatePublishingStats(PublishingStats jobstats, StatsUpdateTypeEnum updateType);
+    void updatePublishingStats(PublishingStats jobstats, StatsUpdateTypeEnum updateType);
 
     List<PublishingStats> findPublishingStatsByEbookDef(Long EbookDefId);
 
-    List<PublishingStats> getPubStatsByEbookDefSort(Long EbookDefId);
-
     Boolean hasIsbnBeenPublished(String isbn, String titleId);
-
-    /**
-     * To verify if subgroupheading has been updated with major version
-     *
-     * @param subGroupHeading
-     * @param Long
-     *            ebookDefId
-     * @return
-     */
-    Boolean hasSubGroupChanged(String subGroupHeading, Long ebookDefId);
 
     List<PublishingStats> findPublishingStats(PublishingStatsFilter filter, PublishingStatsSort sort);
 
@@ -68,8 +50,6 @@ public interface PublishingStatsService
 
     EbookAudit findLastSuccessfulJobStatsAuditByEbookDef(Long EbookDefId);
 
-    PublishingStats findJobStatsByPubStatsPK(PublishingStatsPK jobIdPK);
-
     void deleteJobStats(PublishingStats jobStats);
 
     EbookAudit findAuditInfoByJobId(Long jobId);
@@ -77,10 +57,6 @@ public interface PublishingStatsService
     Date findLastPublishDateForBook(Long EbookDefId);
 
     List<PublishingStats> findAllPublishingStats();
-
-    Long getMaxGroupVersionById(Long ebookDefId);
-
-    EbookAudit getMaxAuditId(Long eBookDefId);
 
     /**
      * Returns publishing stats of previous to jobInstanceId successful book

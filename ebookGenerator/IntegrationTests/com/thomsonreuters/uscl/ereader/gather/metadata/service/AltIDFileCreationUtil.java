@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,7 +82,8 @@ public class AltIDFileCreationUtil
 
         LOG.info("Generating CVS file for BookId " + BOOK_DEF_ID + " and title " + book.getFullyQualifiedTitleId());
 
-        final List<PublishingStats> pubStatsList = publishingStatsService.getPubStatsByEbookDefSort(BOOK_DEF_ID);
+        final List<PublishingStats> pubStatsList = publishingStatsService.findPublishingStatsByEbookDef(BOOK_DEF_ID);
+        Collections.sort(pubStatsList, Collections.reverseOrder());
 
         Long newJobInstanceId = null;
         String newVersion = null;

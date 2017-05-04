@@ -12,6 +12,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,10 +28,11 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 @IdClass(com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsPK.class)
 @Entity
+@NamedNativeQuery(name = "getSysdate", query = "SELECT SYSDATE FROM DUAL")
 @Table(name = "PUBLISHING_STATS")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/job/domain", name = "PublishingStats")
-public class PublishingStats implements Serializable
+public class PublishingStats implements Serializable, Comparable<PublishingStats>
 {
     public static final String SUCCESFULL_PUBLISH_STATUS = "Publish Step Completed";
     public static final String SEND_EMAIL_COMPLETE = "sendEmailNotification : Completed";
@@ -170,7 +172,7 @@ public class PublishingStats implements Serializable
     private String publishStatus;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "PUBLISH_END_TIMESTAMP", nullable = false)
+    @Column(name = "PUBLISH_END_TIMESTAMP")
     @Basic(fetch = FetchType.EAGER)
     @XmlElement
     private Date publishEndTimestamp;
@@ -634,6 +636,7 @@ public class PublishingStats implements Serializable
         result = prime * result + ((publishStatus == null) ? 0 : publishStatus.hashCode());
         result = prime * result + ((titleDocCount == null) ? 0 : titleDocCount.hashCode());
         result = prime * result + ((titleDupDocCount == null) ? 0 : titleDupDocCount.hashCode());
+        result = prime * result + ((groupVersion == null) ? 0 : groupVersion.hashCode());
         return result;
     }
 
@@ -871,6 +874,19 @@ public class PublishingStats implements Serializable
         }
         else if (!titleDupDocCount.equals(other.titleDupDocCount))
             return false;
+        if (groupVersion == null)
+        {
+            if (other.groupVersion != null)
+                return false;
+        }
+        else if (!groupVersion.equals(other.groupVersion))
+            return false;
         return true;
+    }
+
+    @Override
+    public int compareTo(final PublishingStats o)
+    {
+        return jobInstanceId.compareTo(o.jobInstanceId);
     }
 }

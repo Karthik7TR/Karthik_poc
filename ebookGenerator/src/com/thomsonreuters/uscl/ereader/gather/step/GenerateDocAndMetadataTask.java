@@ -61,8 +61,7 @@ public class GenerateDocAndMetadataTask extends AbstractSbTasklet
 
         final String cwbBookName = bookDefinition.getCwbBookName();
         final List<NortFileLocation> fileLocations = bookDefinition.getNortFileLocations();
-        final Long jobInstance =
-            chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
+        final Long jobInstance = getJobInstance(chunkContext).getId();
         final PublishingStats jobstatsDoc = new PublishingStats();
         jobstatsDoc.setJobInstanceId(jobInstance);
 

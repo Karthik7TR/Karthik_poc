@@ -282,7 +282,7 @@ public class InitializeTask extends AbstractSbTasklet
             final PublishingStats pubStats = new PublishingStats();
 
             // TODO: replace with call to job queue?
-            final Date rightNow = new Date();
+            final Date rightNow = publishingStatsService.getSysDate();
             final Long ebookDefId = jobParams.getLong(JobParameterKey.BOOK_DEFINITION_ID);
             pubStats.setEbookDefId(ebookDefId);
             final Long auditId = eBookAuditService.findEbookAuditByEbookDefId(ebookDefId);
@@ -297,7 +297,6 @@ public class InitializeTask extends AbstractSbTasklet
             pubStats.setPublishStatus("initializeJob : " + publishStatus);
             pubStats.setPublishStartTimestamp(rightNow);
             pubStats.setLastUpdated(rightNow);
-
             publishingStatsService.savePublishingStats(pubStats);
         }
 
