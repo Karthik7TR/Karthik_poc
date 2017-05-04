@@ -2,6 +2,7 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
+	<xsl:import href="transform-utils.xsl" />
     <xsl:output method="html" indent="yes" omit-xml-declaration="yes"/>
 	<xsl:param name="fileBaseName" />
 
@@ -22,10 +23,24 @@
 		</xsl:element>
 	</xsl:template>
 
-	<xsl:template match="x:ref">
+	<xsl:template match="x:part.footnotes|x:foots|x:footnote">
+		<xsl:copy>
+			<xsl:copy-of select="./@id" />
+			<xsl:apply-templates />
+		</xsl:copy>
+	</xsl:template>
+
+	<xsl:template match="x:ref|x:xref|x:footnote.reference">
 		<xsl:copy-of select="self::node()" />
 	</xsl:template>
 
+	<xsl:template match="x:ital|x:bold|x:cgt">
+		<xsl:element name="span">
+			<xsl:attribute name="class" select="x:get-class-name(name(.))" />
+			<xsl:value-of select="." />
+		</xsl:element>
+	</xsl:template>
+	
 	<xsl:template match="x:image.block">
 		<xsl:param name="quote">"</xsl:param>
 		<xsl:param name="ident">ident="</xsl:param>
@@ -39,10 +54,4 @@
 	<xsl:template match="text()">
 		<xsl:value-of select="." />
 	</xsl:template>
-
-	<!-- get CSS friendly class name -->
-	<xsl:function name="x:get-class-name">
-		<xsl:param name="value" />
-		<xsl:value-of select="translate($value,'.','_')" />
-	</xsl:function>
 </xsl:stylesheet>

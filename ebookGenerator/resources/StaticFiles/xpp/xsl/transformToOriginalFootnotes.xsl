@@ -54,9 +54,17 @@
 	</xsl:template>
 
 	<xsl:template match="x:t">
-		<xsl:if test="not(@suppress='true' or @cgt='true')">
-			<xsl:value-of select="x:get-fixed-text(self::node())" />
-		</xsl:if>
+		<xsl:choose>
+			<xsl:when test="@suppress='true'" />
+			<xsl:when test="@cgt='true'">
+				<xsl:element name="cgt">
+					<xsl:value-of select="x:get-fixed-text(self::node())" />
+				</xsl:element>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="x:get-fixed-text(self::node())" />
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<xsl:template match="text()" />

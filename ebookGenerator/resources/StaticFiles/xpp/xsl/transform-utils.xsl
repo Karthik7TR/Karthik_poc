@@ -13,4 +13,9 @@
 		<xsl:value-of
 			select="translate($value, $olds, $news)" />
 	</xsl:function>
+	
+	<xsl:function name="x:get-class-name">
+		<xsl:param name="value" />
+		<xsl:value-of select="translate($value,'.','_')" />
+	</xsl:function>
 </xsl:stylesheet>
