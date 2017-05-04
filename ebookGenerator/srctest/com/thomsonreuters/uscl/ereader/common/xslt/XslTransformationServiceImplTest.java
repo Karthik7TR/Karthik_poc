@@ -5,7 +5,9 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -91,6 +93,19 @@ public final class XslTransformationServiceImplTest
         output = temporaryFolder.getRoot();
         //when
         service.transform(transformer, Arrays.asList(input, input2), output);
+        //then
+        then(transformer).should().transform(any(Source.class), any(Result.class));
+    }
+
+    @Test
+    public void shouldTransformIfMultipleStreams() throws TransformerException, IOException
+    {
+        //given
+        input.createNewFile();
+        input2.createNewFile();
+        output = temporaryFolder.getRoot();
+        //when
+        service.transform(transformer, Arrays.asList((InputStream) new FileInputStream(input), new FileInputStream(input2)), "", output);
         //then
         then(transformer).should().transform(any(Source.class), any(Result.class));
     }

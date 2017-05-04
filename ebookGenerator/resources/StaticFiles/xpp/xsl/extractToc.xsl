@@ -15,6 +15,10 @@
         </EBook>
     </xsl:template>
     
+    <xsl:template match="titlebreak">
+        <xsl:copy-of select="self::node()" />
+    </xsl:template>
+    
     <xsl:template match="x:publication.body/x:topic/x:front/x:outline.name.block[@toc.include='y']">
         <xsl:variable name="uuid" select="../../@uuid" />
         <EBookToc>

@@ -29,16 +29,23 @@ public final class UnitePagePartsStepIntegrationTest
 
     private File mainPart;
     private File footnotesPart;
+    private File mainPartTwo;
+    private File footnotesPartTwo;
     private File expected;
+    private File expectedTwo;
 
     @Before
     public void setUp() throws URISyntaxException, IOException
     {
         fileSystem.getOriginalDirectory(step).mkdirs();
         fileSystem.getOriginalFile(step, "sample").createNewFile();
+        fileSystem.getOriginalFile(step, "sampleTwo").createNewFile();
         mainPart = new File(UnitePagePartsStepIntegrationTest.class.getResource("sample_1_main.part").toURI());
         footnotesPart = new File(UnitePagePartsStepIntegrationTest.class.getResource("sample_1_footnotes.part").toURI());
+        mainPartTwo = new File(UnitePagePartsStepIntegrationTest.class.getResource("sampleTwo_1_main.part").toURI());
+        footnotesPartTwo = new File(UnitePagePartsStepIntegrationTest.class.getResource("sampleTwo_1_footnotes.part").toURI());
         expected = new File(UnitePagePartsStepIntegrationTest.class.getResource("sample_1.page").toURI());
+        expectedTwo = new File(UnitePagePartsStepIntegrationTest.class.getResource("sampleTwo_1.page").toURI());
     }
 
     @Test
@@ -49,10 +56,14 @@ public final class UnitePagePartsStepIntegrationTest
         FileUtils.forceMkdir(originalPartsDirectory);
         FileUtils.copyFileToDirectory(mainPart, originalPartsDirectory);
         FileUtils.copyFileToDirectory(footnotesPart, originalPartsDirectory);
+        FileUtils.copyFileToDirectory(mainPartTwo, originalPartsDirectory);
+        FileUtils.copyFileToDirectory(footnotesPartTwo, originalPartsDirectory);
         //when
         step.executeStep();
         //then
         final File actual = fileSystem.getOriginalPageFile(step, "sample", 1);
         assertThat(expected, hasSameContentAs(actual));
+        final File actualTwo = fileSystem.getOriginalPageFile(step, "sampleTwo", 1);
+        assertThat(expectedTwo, hasSameContentAs(actualTwo));
     }
 }

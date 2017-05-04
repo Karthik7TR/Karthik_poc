@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.times;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import javax.xml.transform.Transformer;
 
+import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.PartType;
@@ -59,27 +61,41 @@ public final class UnitePagePartsStepTest
 
         final File originalFile = new File(root, "sample");
         originalFile.createNewFile();
-        given(fileSystem.getOriginalFiles(step)).willReturn(asList(originalFile));
+        final File originalFile2 = new File(root, "sampleTwo");
+        originalFile2.createNewFile();
+        given(fileSystem.getOriginalFiles(step)).willReturn(asList(originalFile, originalFile2));
 
         final File originalPartsDir = new File(root, "OriginalParts");
         originalPartsDir.mkdirs();
         given(fileSystem.getOriginalPartsDirectory(step)).willReturn(originalPartsDir);
-        final File main = new File(originalPartsDir, "main");
-        final File footnotes = new File(originalPartsDir, "footnotes");
-        main.createNewFile();
-        footnotes.createNewFile();
-        given(fileSystem.getOriginalPartsFile(step, "sample", 1, PartType.MAIN)).willReturn(main);
-        given(fileSystem.getOriginalPartsFile(step, "footnotes", 1, PartType.FOOTNOTE)).willReturn(footnotes);
+        final File main11 = new File(originalPartsDir, "sample_1_main.part");
+        final File footnotes11 = new File(originalPartsDir, "sample_1_footnotes.part");
+        final File main12 = new File(originalPartsDir, "sample_2_main.part");
+        final File footnotes12 = new File(originalPartsDir, "sample_2_footnotes.part");
+        final File main2 = new File(originalPartsDir, "sampleTwo_1_main.part");
+        final File footnotes2 = new File(originalPartsDir, "sampleTwo_1_footnotes.part");
+
+        main11.createNewFile();
+        footnotes11.createNewFile();
+        main12.createNewFile();
+        footnotes12.createNewFile();
+        main2.createNewFile();
+        footnotes2.createNewFile();
+
+        given(fileSystem.getOriginalPartsFile(step, "sample", 1, PartType.MAIN)).willReturn(main11);
+        given(fileSystem.getOriginalPartsFile(step, "footnotes", 1, PartType.FOOTNOTE)).willReturn(footnotes11);
     }
 
     @Test
     public void shouldTransform() throws Exception
     {
         //given
-        given(fileSystem.getOriginalPageFile(step, "sample", 1)).willReturn(page);
+        given(fileSystem.getOriginalPageFile(any(BookStep.class), any(String.class), any(Integer.class))).willReturn(page);
         //when
         step.executeTransformation();
         //then
-        then(transformationService).should().transform(any(Transformer.class), any(List.class), eq(page));
+        then(fileSystem).should(times(2)).getOriginalPartsDirectory(any(BookStep.class));
+        then(fileSystem).should(times(6)).getOriginalPartsFile(any(BookStep.class), any(String.class), any(Integer.class), any(PartType.class));
+        then(transformationService).should(times(3)).transform(any(Transformer.class), any(List.class), eq(page));
     }
 }

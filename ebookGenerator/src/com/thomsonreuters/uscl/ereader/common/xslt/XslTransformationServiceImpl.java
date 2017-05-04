@@ -60,10 +60,8 @@ public class XslTransformationServiceImpl implements XslTransformationService
             Assert.isTrue(!input.isEmpty(), "List of input files should not be empty");
 
             final String inputPath = input.iterator().next().getParentFile().getAbsolutePath();
-            final List<InputStream> inputStreams = combineToWrappedListOfStreams(input);
-            final SequenceInputStream sequenceInputStream =
-                new SequenceInputStream(Collections.enumeration(inputStreams));
-            innerTransform(transformer, sequenceInputStream, output, inputPath);
+
+            transform(transformer, combineToStreams(input), inputPath, output);
         }
         catch (final IOException e)
         {
@@ -71,6 +69,18 @@ public class XslTransformationServiceImpl implements XslTransformationService
             LOG.error(message, e);
             throw new XslTransformationException(message, e);
         }
+    }
+
+    @Override
+    public void transform(
+        @NotNull final Transformer transformer,
+        @NotNull final Collection<InputStream> inputStreams,
+        @NotNull final String inputPath,
+        @NotNull final File output)
+    {
+            final SequenceInputStream sequenceInputStream =
+                new SequenceInputStream(Collections.enumeration(wrapStreamsToStartEndTag(inputStreams)));
+            innerTransform(transformer, sequenceInputStream, output, inputPath);
     }
 
     private void innerTransform(
@@ -106,15 +116,22 @@ public class XslTransformationServiceImpl implements XslTransformationService
         }
     }
 
-    private List<InputStream> combineToWrappedListOfStreams(final Collection<File> input) throws FileNotFoundException
+    private List<InputStream> wrapStreamsToStartEndTag(final Collection<InputStream> streams)
+    {
+        final List<InputStream> wrappedStreams = new ArrayList<>();
+        wrappedStreams.add(new ByteArrayInputStream(START_WRAPPER_TAG.getBytes()));
+        wrappedStreams.addAll(streams);
+        wrappedStreams.add(new ByteArrayInputStream(END_WRAPPER_TAG.getBytes()));
+        return wrappedStreams;
+    }
+
+    private Collection<InputStream> combineToStreams(final Collection<File> input) throws FileNotFoundException
     {
         final List<InputStream> inputStreams = new ArrayList<>();
-        inputStreams.add(new ByteArrayInputStream(START_WRAPPER_TAG.getBytes()));
         for (final File inputFile : input)
         {
             inputStreams.add(new FileInputStream(inputFile));
         }
-        inputStreams.add(new ByteArrayInputStream(END_WRAPPER_TAG.getBytes()));
         return inputStreams;
     }
 
