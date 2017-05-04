@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.generate;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +24,8 @@ import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils.SecurityRole;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
+import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
+import com.thomsonreuters.uscl.ereader.request.service.XppBundleArchiveService;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
@@ -57,6 +60,7 @@ public class GenerateEbookController
     private ManagerService managerService;
     private OutageService outageService;
     private MiscConfigSyncService miscConfigService;
+    private XppBundleArchiveService xppBundleArchiveService;
     private static final String REVIEW_STATUS = "Review";
 
     private static final SimpleDateFormat formatter = new SimpleDateFormat(CoreConstants.DATE_FORMAT_PATTERN);
@@ -141,6 +145,12 @@ public class GenerateEbookController
             else if (book.isDeletedFlag())
             {
                 final String errMessage = messageSourceAccessor.getMessage("mesg.book.deleted");
+                model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
+                log.error(errMessage);
+            }
+            else if (!allBundlesPresent(book.getPrintComponents()))
+            {
+                final String errMessage = messageSourceAccessor.getMessage("mesg.missing.bundles");
                 model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
                 log.error(errMessage);
             }
@@ -289,6 +299,28 @@ public class GenerateEbookController
 
         model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
         return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
+    }
+
+    /**
+     * Determine whether the Bundles for the specified print components have been received and saved yet, and
+     * set the corresponding field in PrintComponent to display for each.
+     *
+     * @param components
+     * @return
+     */
+    private boolean allBundlesPresent(final Collection<PrintComponent> components)
+    {
+        boolean allPresent = true;
+        // TODO Refactor to verify all archive entries in one call
+        for (final PrintComponent component : components)
+        {
+            if (xppBundleArchiveService.findByMaterialNumber(component.getMaterialNumber()) == null)
+            {
+                component.setComponentInArchive(false);
+                allPresent = false;
+            }
+        }
+        return allPresent;
     }
 
     /**
@@ -640,5 +672,11 @@ public class GenerateEbookController
     public void setMiscConfigSyncService(final MiscConfigSyncService miscConfigService)
     {
         this.miscConfigService = miscConfigService;
+    }
+
+    @Required
+    public void setXppBundleArchiveService(final XppBundleArchiveService xppBundleArchiveService)
+    {
+        this.xppBundleArchiveService = xppBundleArchiveService;
     }
 }

@@ -47,32 +47,35 @@
   		  <property name="stateCodeService" ref="stateCodeService" />
   		  <property name ="rootCodesWorkbenchLandingStrip" value="${codes.workbench.root.dir}" />
   		  <property name="frontMatterThemes">
-             <list>                
-                <value>WestLaw Next</value>               
-                <value>AAJ Press</value>
-            </list>
-         </property>
-  	</bean>
+			<list>
+				<value>WestLaw Next</value>
+				<value>AAJ Press</value>
+			</list>
+		  </property>
+	</bean>
 
 	<bean id="miscConfigSyncService" class="com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerMiscConfigSyncService"
 	  	  p:proviewClient-ref="proviewClient"
-  		  p:httpClientFactory-ref="closeableAuthenticationHttpClientFactory"
-  		  p:proviewRestTemplate-ref="proviewRestTemplate"/>
+		  p:httpClientFactory-ref="closeableAuthenticationHttpClientFactory"
+		  p:proviewRestTemplate-ref="proviewRestTemplate"/>
 	
 	<bean id="managerAppConfigLoader" class="com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerAppConfigLoader"
 		  p:appConfigService-ref="appConfigService"
 		  p:miscConfigSyncService-ref="miscConfigSyncService"/>
 
-  	<bean id="managerService" class="com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerServiceImpl"
-  		  p:environmentName-ref="environmentName"
-  		  p:generatorContextName="${generator.context.name}"
+	<bean id="managerService" class="com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerServiceImpl"
+		  p:environmentName-ref="environmentName"
+		  p:generatorContextName="${generator.context.name}"
 		  p:rootWorkDirectory="${root.work.directory}"
 		  p:rootCodesWorkbenchLandingStrip="${codes.workbench.root.dir}"
-  		  p:restTemplate-ref="generatorRestTemplate"
-  		  p:managerDao-ref="managerDao"
-  		  p:jobService-ref="jobService"
-  		  p:jobRequestService-ref="jobRequestService"/>
-  		  
+		  p:restTemplate-ref="generatorRestTemplate"
+		  p:managerDao-ref="managerDao"
+		  p:jobService-ref="jobService"
+		  p:jobRequestService-ref="jobRequestService"/>
+
+	<bean id="xppBundleArchiveService" class="com.thomsonreuters.uscl.ereader.request.service.XppBundleArchiveService"
+		p:xppBundleArchiveDao-ref="xppBundleArchiveDao"/>
+	
 	<bean id="generatorRestClient" class="com.thomsonreuters.uscl.ereader.core.service.GeneratorRestClientImpl"
 		  p:restTemplate-ref="generatorRestTemplate"
 		  p:generatorContextUrl="${generator.context.url}"/>

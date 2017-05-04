@@ -64,11 +64,11 @@ public class XppBundleArchiveDaoImpl implements XppBundleArchiveDao
     }
 
     @Override
-    public XppBundleArchive findByMaterialNumber(final Long messageId)
+    public XppBundleArchive findByMaterialNumber(final String materialNumber)
     {
         final List<XppBundleArchive> archive = sessionFactory.getCurrentSession()
             .createCriteria(XppBundleArchive.class)
-            .add(Restrictions.eq("materialNumber", messageId))
+            .add(Restrictions.eq("materialNumber", materialNumber))
             .list();
 
         if (archive.size() > 0)

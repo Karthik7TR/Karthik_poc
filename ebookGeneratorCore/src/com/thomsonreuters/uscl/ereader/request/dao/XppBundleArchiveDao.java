@@ -37,7 +37,7 @@ public interface XppBundleArchiveDao
      * @param requestId the primary key
      * @return the object found or null if not found
      */
-    XppBundleArchive findByMaterialNumber(Long materialNumber);
+    XppBundleArchive findByMaterialNumber(String materialNumber);
 
     /**
      * Returns all rows of the Phoenix bundle table, in no particular order.

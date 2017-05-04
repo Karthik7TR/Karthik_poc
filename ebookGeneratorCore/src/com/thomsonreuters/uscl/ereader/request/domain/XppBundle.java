@@ -10,6 +10,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+/**
+ * This class is the POJO version of the information stored in bundle.xml, the metadata file inside
+ * the .tar.gz bundle housing the source files for an XPP job.
+ *
+ *  Not to be confused with XppBundleArchive, which is the POJO representation of the xml notification
+ *  sent by Pheonix via Java Message Queue.
+ */
+
 @XmlRootElement(name = "bundle")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class XppBundle

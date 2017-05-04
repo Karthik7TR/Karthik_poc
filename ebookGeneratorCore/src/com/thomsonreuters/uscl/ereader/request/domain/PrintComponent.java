@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -37,6 +38,13 @@ public class PrintComponent implements Serializable
 
     @Column(name = "COMPONENT_NAME", nullable = false)
     private String componentName;
+
+    /**
+     * records whether the component exists in the XPP_BUNDLE_ARCHIVE table, for later display in the generation
+     * preview page
+     */
+    @Transient
+    private boolean componentInArchive;
 
     @JsonIgnore
     public BookDefinition getBookDefinition()
@@ -87,5 +95,15 @@ public class PrintComponent implements Serializable
     public void setComponentName(final String componentName)
     {
         this.componentName = componentName;
+    }
+
+    public void setComponentInArchive(final boolean componentInArchive)
+    {
+        this.componentInArchive = componentInArchive;
+    }
+
+    public boolean getComponentInArchive()
+    {
+        return componentInArchive;
     }
 }
