@@ -207,7 +207,6 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                 validateNortFileLocations(form, errors);
                 break;
             case XPP:
-                checkPrintSetNumber(errors, form.getPrintSetNumber(), "printSetNumber");
                 break;
             }
 
@@ -1109,19 +1108,6 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             else
             {
                 sequenceChecker.add(sequenceNumber);
-            }
-        }
-    }
-
-    private void checkPrintSetNumber(final Errors errors, final String text, final String fieldName)
-    {
-        if (StringUtils.isNotEmpty(text))
-        {
-            final Pattern pattern = Pattern.compile("\\d");
-            final Matcher matcher = pattern.matcher(text);
-            if (!matcher.find())
-            {
-                errors.rejectValue(fieldName, "typeMismatch.java.lang.Long");
             }
         }
     }
