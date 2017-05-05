@@ -324,6 +324,10 @@ public class BookDefinition implements Serializable
     @Basic(fetch = FetchType.EAGER)
     private String groupName;
 
+    @Column(name = "PRINT_SET_NUMBER")
+    @Basic(fetch = FetchType.EAGER)
+    private String printSetNumber;
+
     public void setEbookDefinitionId(final Long ebookDefinitionId)
     {
         this.ebookDefinitionId = ebookDefinitionId;
@@ -1181,6 +1185,16 @@ public class BookDefinition implements Serializable
         frontMatterPages = new java.util.LinkedHashSet<>(frontMatterPage);
     }
 
+    public String getPrintSetNumber()
+    {
+        return printSetNumber;
+    }
+
+    public void setPrintSetNumber(final String printSetNumber)
+    {
+        this.printSetNumber = printSetNumber;
+    }
+
     public BookDefinition()
     {
         super();
@@ -1264,6 +1278,7 @@ public class BookDefinition implements Serializable
         setIsSplitLock(that.isSplitLock());
         setSubGroupHeading(that.getSubGroupHeading());
         setGroupName(that.getGroupName());
+        setPrintSetNumber(that.getPrintSetNumber());
     }
 
     /**

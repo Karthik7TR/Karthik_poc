@@ -94,6 +94,7 @@ public class EditBookDefinitionForm
     private String nortFilterView;
     private Long contentTypeId;
     private String fmThemeText;
+    private String printSetNumber;
 
     private String isbn;
     private boolean isPublicationCutoffDateUsed;
@@ -268,6 +269,7 @@ public class EditBookDefinitionForm
             docCollectionName = book.getDocCollectionName();
             nortDomain = book.getNortDomain();
             nortFilterView = book.getNortFilterView();
+            printSetNumber = book.getPrintSetNumber();
             isbn = book.getIsbn();
             authorInfo = book.getAuthors();
             pilotBookInfo = book.getPilotBooks();
@@ -619,6 +621,7 @@ public class EditBookDefinitionForm
         book.setMaterialId(materialId);
         book.setNortDomain(nortDomain);
         book.setNortFilterView(nortFilterView);
+        book.setPrintSetNumber(printSetNumber);
         book.setProviewDisplayName(proviewDisplayName);
 
         // Parse Date
@@ -1070,6 +1073,16 @@ public class EditBookDefinitionForm
     public void setNortFilterView(final String nortFilterView)
     {
         this.nortFilterView = nortFilterView;
+    }
+
+    public String getPrintSetNumber()
+    {
+        return printSetNumber;
+    }
+
+    public void setPrintSetNumber(final String printSetNumber)
+    {
+        this.printSetNumber = printSetNumber;
     }
 
     public Long getContentTypeId()

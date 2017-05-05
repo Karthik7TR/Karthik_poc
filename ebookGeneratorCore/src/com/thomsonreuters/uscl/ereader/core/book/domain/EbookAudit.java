@@ -306,6 +306,10 @@ public class EbookAudit implements Serializable
     @Basic(fetch = FetchType.EAGER)
     private String groupName;
 
+    @Column(name = "PRINT_SET_NUMBER")
+    @Basic(fetch = FetchType.EAGER)
+    private String printSetNumber;
+
     public void setAuditId(final Long auditId)
     {
         this.auditId = auditId;
@@ -709,6 +713,7 @@ public class EbookAudit implements Serializable
         setSplitEBookParts(that.getSplitEBookParts());
         setSubGroupHeading(that.getSubGroupHeading());
         setGroupName(that.getGroupName());
+        setPrintSetNumber(that.getPrintSetNumber());
     }
 
     /**
@@ -785,6 +790,7 @@ public class EbookAudit implements Serializable
         setSplitEBookParts(that.getSplitEBookParts());
         setSubGroupHeading(that.getSubGroupHeading());
         setGroupName(that.getGroupName());
+        setPrintSetNumber(that.getPrintSetNumber());
     }
 
     @Transient
@@ -876,6 +882,7 @@ public class EbookAudit implements Serializable
         buffer.append("SplitEBookParts=[").append(splitEBookParts).append("] ");
         buffer.append("subGroupHeading=[").append(subGroupHeading).append("] ");
         buffer.append("groupName=[").append(groupName).append("] ");
+        buffer.append("printSetNumber=[").append(printSetNumber).append("] ");
         return buffer.toString();
     }
 
@@ -1266,5 +1273,17 @@ public class EbookAudit implements Serializable
     public void setGroupName(final String groupName)
     {
         this.groupName = groupName;
+    }
+
+
+
+    public String getPrintSetNumber()
+    {
+        return printSetNumber;
+    }
+
+    public void setPrintSetNumber(final String printSetNumber)
+    {
+        this.printSetNumber = printSetNumber;
     }
 }

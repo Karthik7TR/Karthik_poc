@@ -142,6 +142,7 @@ $(function() {
 			$("#displayFinalStage").show();
 			$("#nortFilterView").val("");
 			$("#nortDomain").val("");
+			$("#printSetNumber").val("");
 			$("input:radio[name=useReloadContent][value=false]").attr('checked', true);
 			clearCodesWorkbenchFileDetails();
 		} else if(sourceType == "NORT") {
@@ -150,6 +151,7 @@ $(function() {
 			$("#rootTocGuid").val("");
 			$("#tocCollectionName").val("");
 			$("#docCollectionName").val("");
+			$("#printSetNumber").val("");
 			clearCodesWorkbenchFileDetails();
 		} else if(sourceType == "XPP") {
 			$("#displayXPP").show();
@@ -165,6 +167,7 @@ $(function() {
 			$("#docCollectionName").val("");
 			$("#nortFilterView").val("");
 			$("#nortDomain").val("");
+			$("#printSetNumber").val("");
 		}
 	};
 	

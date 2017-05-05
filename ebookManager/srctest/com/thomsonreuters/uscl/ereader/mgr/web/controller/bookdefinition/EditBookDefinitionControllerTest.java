@@ -1175,6 +1175,7 @@ public final class EditBookDefinitionControllerTest
         book.setEnableCopyFeatureFlag(false);
         book.setIsSplitBook(false);
         book.setIsSplitTypeAuto(true);
+        book.setPrintSetNumber("dummy");
         return book;
     }
 
