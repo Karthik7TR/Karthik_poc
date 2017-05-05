@@ -147,6 +147,31 @@ public final class EditBookDefinitionFormValidatorTest
     }
 
     @Test
+    public void testNullPrintSetNumber()
+    {
+        form.setIsComplete(true);
+        form.setSourceType(SourceType.XPP);
+
+        EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
+        EasyMock.replay(mockCodeService);
+        validator.validate(form, errors);
+        Assert.assertEquals("error.required", errors.getFieldError("printSetNumber").getCode());
+    }
+
+    @Test
+    public void testPrintSetNumber()
+    {
+        form.setIsComplete(true);
+        form.setSourceType(SourceType.XPP);
+        form.setPrintSetNumber("abcd");
+
+        EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
+        EasyMock.replay(mockCodeService);
+        validator.validate(form, errors);
+        Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
+    }
+
+    @Test
     public void testFileExist() throws Exception
     {
         form.setIsComplete(true);

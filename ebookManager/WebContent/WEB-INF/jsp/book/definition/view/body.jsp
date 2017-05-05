@@ -128,6 +128,10 @@ function submitForm(cmd)
                             <jsp:include page="../xppTable/printComponentsTable.jsp" >
                                 <jsp:param name="edit" value="false"/>
                             </jsp:include>
+                            <div class="row">
+								<label class="labelCol">Set Number</label>
+								<span class="field">${ book.printSetNumber }</span>
+							</div>
                         </div>
                     </c:when>
 					<c:otherwise>

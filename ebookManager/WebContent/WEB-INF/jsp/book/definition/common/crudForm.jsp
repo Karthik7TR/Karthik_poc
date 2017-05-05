@@ -245,6 +245,7 @@
 				<form:hidden path="docCollectionName"/>
 				<form:hidden path="rootTocGuid"/>
 				<form:hidden path="nortDomain"/>
+				<form:hidden path="printSetNumber"/>
 				<form:hidden path="nortFilterView"/>
 				<form:hidden path="sourceType"/>
 				<form:hidden path="removeEditorNoteHeading"/>
@@ -370,6 +371,13 @@
                 <jsp:include page="../xppTable/printComponentsTable.jsp" >
                     <jsp:param name="edit" value="true"/>
                 </jsp:include>
+                <div class="row">
+					<form:label disabled="${disableUnderPubPlusRole}" path="printSetNumber" class="labelCol">Set Number</form:label>
+					<form:input disabled="${disableUnderPubPlusRole}" path="printSetNumber" />
+					<div class="errorDiv">
+						<form:errors path="printSetNumber" cssClass="errorMessage" />
+					</div>
+				</div>
 			</div>
 			<div class="row">
 				<form:label path="keyCiteToplineFlag" class="labelCol">KeyCite Topline Flag</form:label>
