@@ -140,7 +140,7 @@ public final class ProcessMessageTaskTest
         request.setDateTime(dateTime);
         request.setEBookSrcFile(new File(ebookSrcFile));
         request.setBundleHash(bundleHash);
-        request.setMaterialNumber(materialNumber);
+        request.setMaterialNumber(String.valueOf(materialNumber));
         return request;
     }
 

@@ -40,6 +40,7 @@ public class InitializePublishingStatusUpdateService extends BasePublishingStatu
         pubStats.setJobSubmitTimestamp(step.getSubmitTimestamp());
         pubStats.setPublishStatus(getPublishStatusString(step, publishStatus));
         pubStats.setPublishStartTimestamp(rightNow);
+        pubStats.setLastUpdated(rightNow);
         publishingStatsService.savePublishingStats(pubStats);
     }
 }

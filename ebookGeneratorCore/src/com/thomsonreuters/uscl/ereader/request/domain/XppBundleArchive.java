@@ -72,7 +72,7 @@ public class XppBundleArchive implements Serializable
 
     @XmlElement(name = "materialNumber")
     @Column(name = "MATERIAL_NUMBER", nullable = false)
-    private Long materialNumber;
+    private String materialNumber;
 
     @XmlTransient
     @Column(name = "RESURRECT_COUNT", nullable = false)
@@ -162,12 +162,12 @@ public class XppBundleArchive implements Serializable
         this.messageRequest = messageRequest;
     }
 
-    public Long getMaterialNumber()
+    public String getMaterialNumber()
     {
         return materialNumber;
     }
 
-    public void setMaterialNumber(final Long materialNumber)
+    public void setMaterialNumber(final String materialNumber)
     {
         this.materialNumber = materialNumber;
     }

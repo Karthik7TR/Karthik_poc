@@ -127,7 +127,7 @@ public final class XppMessageValidatorTest
         final XppBundleArchive request = new XppBundleArchive();
         request.setVersion("1.0");
         request.setMessageId(requestId);
-        request.setMaterialNumber(materialNumber);
+        request.setMaterialNumber(materialNumber.toString());
         request.setBundleHash(bundleHash);
         request.setDateTime(requestDate);
         request.setEBookSrcFile(mockEbookSrcFile);

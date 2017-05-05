@@ -150,7 +150,7 @@ public class GenerateEbookController
             }
             else if (!allBundlesPresent(book.getPrintComponents()))
             {
-                final String errMessage = messageSourceAccessor.getMessage("mesg.missing.bundles");
+                final String errMessage = messageSourceAccessor.getMessage("mesg.missing.bundle");
                 model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
                 log.error(errMessage);
             }

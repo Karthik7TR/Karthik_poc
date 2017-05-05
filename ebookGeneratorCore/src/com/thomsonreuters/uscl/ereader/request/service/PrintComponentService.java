@@ -4,11 +4,14 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.request.dao.PrintComponentDao;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional(readOnly = true)
 public class PrintComponentService
 {
     private PrintComponentDao printComponentDao;
 
+    @Transactional
     public Long saveRequest(final PrintComponent ebookRequest)
     {
         return printComponentDao.saveRequest(ebookRequest);
@@ -19,6 +22,7 @@ public class PrintComponentService
         return printComponentDao.findByPrimaryKey(printComponentId);
     }
 
+    @Transactional
     public void deleteComponent(final long printComponentId)
     {
         printComponentDao.deleteComponent(printComponentId);
