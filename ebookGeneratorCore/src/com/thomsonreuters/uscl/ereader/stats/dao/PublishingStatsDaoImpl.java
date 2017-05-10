@@ -16,6 +16,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -83,7 +84,12 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao
             .add(Restrictions.eq("jobInstanceId", jobId))
             .uniqueResult();
 
-        return stats == null ? null : stats.getAudit();
+        EbookAudit ebookAudit = null;
+        if(stats != null) {
+            ebookAudit = stats.getAudit();
+            Hibernate.initialize(ebookAudit);
+        }
+        return ebookAudit;
     }
 
     /**
