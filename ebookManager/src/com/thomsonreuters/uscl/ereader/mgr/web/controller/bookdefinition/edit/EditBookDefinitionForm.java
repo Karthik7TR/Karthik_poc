@@ -42,6 +42,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -1073,7 +1074,7 @@ public class EditBookDefinitionForm
     {
         this.nortFilterView = nortFilterView;
     }
-    
+
     public String getPrintSetNumber()
     {
         return printSetNumber;
@@ -1486,7 +1487,8 @@ public class EditBookDefinitionForm
 
     public String getPrintComponents() throws JsonProcessingException
     {
-        return jsonMapper.writeValueAsString(printComponents);
+        final String printComponentsString = StringEscapeUtils.escapeXml(jsonMapper.writeValueAsString(printComponents));
+        return printComponentsString;
     }
 
     public void setPrintComponents(final String printComponents) throws JsonParseException, JsonMappingException, IOException
