@@ -152,7 +152,7 @@ function submitExapndOrCollapse()
 							  		</div>	
 							 </div>	 
                             <div class="row">
-								<label class="labelCol">Set Number</label>
+								<label class="labelCol">Print Set/Sub Number</label>
 								<span class="field">${ book.printSetNumber }</span>
 							</div>
                         </div>

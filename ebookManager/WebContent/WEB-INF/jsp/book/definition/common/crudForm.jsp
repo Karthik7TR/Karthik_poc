@@ -378,7 +378,7 @@
                 			</jsp:include>
 				 </div>
                 <div class="row">
-					<form:label disabled="${disableUnderPubPlusRole}" path="printSetNumber" class="labelCol">Set Number</form:label>
+					<form:label disabled="${disableUnderPubPlusRole}" path="printSetNumber" class="labelCol">Print Set/Sub Number</form:label>
 					<form:input disabled="${disableUnderPubPlusRole}" path="printSetNumber" />
 					<div class="errorDiv">
 						<form:errors path="printSetNumber" cssClass="errorMessage" />
