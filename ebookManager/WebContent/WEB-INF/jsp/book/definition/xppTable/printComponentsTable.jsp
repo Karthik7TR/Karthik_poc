@@ -9,6 +9,7 @@
 <script src="js/jsgrid/src/jsgrid.field.js"></script>
 <script src="js/jsgrid/src/fields/jsgrid.field.text.js"></script>
 <script src="js/jsgrid/src/fields/jsgrid.field.control.js"></script>
+<script src="js/jsgrid/src/jsgrid.validation.js"></script>
     
 <style>
    .hasDatepicker {
@@ -62,9 +63,19 @@
                 }
             },
             fields: [
-                { name: "componentOrder", title: "Order", type: "text", width: 40, sorter: "numberAsString" },
-                { name: "materialNumber", title: "Material Number", type: "text", width: 100 },
-                { name: "componentName", title: "Component Name", type: "text", width: 80 },
+                { name: "componentOrder", title: "Order", type: "text", width: 40, sorter: "numberAsString", validate: "required"  },
+                { name: "materialNumber", title: "Material Number", type: "text", width: 100,
+                    validate: [
+                               "required",
+                               { 
+                            	   message: "Only numbers are allowed for Material",
+                            	   validator: function(value, item) {
+                                   return !isNaN(value) ;
+                               }
+                               }
+                           ]
+                },
+                { name: "componentName", title: "Component Name", type: "text", width: 80, validate: "required"},
                 { type: "control", editButton: false, modeSwitchButton: false, deleteButton: true, visible: ${param.edit} }
             ],
             onRefreshed: function() {
