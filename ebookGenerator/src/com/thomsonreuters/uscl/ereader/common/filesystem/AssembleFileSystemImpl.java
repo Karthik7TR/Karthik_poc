@@ -72,4 +72,11 @@ public class AssembleFileSystemImpl implements AssembleFileSystem
         final String version = step.getBookVersion().getVersionForFilePattern();
         return new File(bookFileSystem.getWorkDirectory(step), titleId + version + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
     }
+
+    @Override
+    public File getArtworkFile(final BookStep step)
+    {
+        final File artworkDir = new File(getTitleDirectory(step), "artwork");
+        return new File(artworkDir, "coverArt.PNG");
+    }
 }

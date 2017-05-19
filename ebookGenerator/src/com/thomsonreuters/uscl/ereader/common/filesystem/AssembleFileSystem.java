@@ -73,4 +73,12 @@ public interface AssembleFileSystem
      */
     @NotNull
     File getAssembledSplitTitleFile(@NotNull BookStep step, @NotNull String splitTitleId);
+
+    /**
+     * Returns artwork from assemble directory:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /titleId/Assemble/artwork/coverArt.png}
+     */
+    @NotNull
+    File getArtworkFile(@NotNull BookStep step);
 }

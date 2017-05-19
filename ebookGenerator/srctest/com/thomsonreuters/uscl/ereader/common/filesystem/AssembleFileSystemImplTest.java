@@ -122,4 +122,15 @@ public final class AssembleFileSystemImplTest
         //then
         assertThat(file, hasPath("workDirectory/splitTitleId_1_1.gz"));
     }
+
+    @Test
+    public void testGetArtworkFile()
+    {
+        //given
+        given(step.getBookDefinition().getTitleId()).willReturn("titleId");
+        //when
+        final File file = fileSystem.getArtworkFile(step);
+        //then
+        assertThat(file, hasPath("Assemble/titleId/artwork/coverArt.PNG"));
+    }
 }
