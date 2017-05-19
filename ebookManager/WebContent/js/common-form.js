@@ -42,6 +42,6 @@ $(function() {
 	    $('#mask').click(function () {
 	        $(this).hide();
 	        $('.window').hide();
-	    });    
+	    });
 	});
 });

@@ -16,21 +16,6 @@ function submitForm(cmd)
 	$('#<%=ViewBookDefinitionForm.FORM_NAME%>').submit();
 	return true;
 };
-
-function submitExapndOrCollapse()
-{
-	var displayGridDiv = $("#displayTableGrid");
-	var visible = !(displayGridDiv.is(":visible"));
-	var imgSrc = (visible) ? "theme/images/wf_minus.gif" : "theme/images/wf_plus.gif";
-	$(this).children("img").attr("src", imgSrc);
-	
-	if (visible) {
-		displayGridDiv.show();
-	} else {
-		displayGridDiv.hide();
-	};
-}
-
 </script>
 
 <%-- Check if there is a book model to render, if not don't display a bunch of unvalued labels. --%>
@@ -138,25 +123,24 @@ function submitExapndOrCollapse()
 							</div>
 						</div>
 					</c:when>
-                    <c:when test="${ book.sourceType == 'XPP' }">
-                        <div id="displayXPP">
-                            <div id="tableId">
-						       		<div id="displayECImage" onclick="submitExapndOrCollapse();">
-										<img src="theme/images/wf_plus.gif"> Oder details for XPP
-							   		</div>
-							   		
-							   		<div id="displayTableGrid" style="display:none">
-		                				<jsp:include page="../xppTable/printComponentsTable.jsp" >
-		                    			<jsp:param name="edit" value="false"/>
-		                				</jsp:include>
-							  		</div>	
-							 </div>	 
-                            <div class="row">
+					<c:when test="${ book.sourceType == 'XPP' }">
+						<div id="displayXPP">
+							<div id="tableId">
+								<div id="displayWFImage" class="tableGridView">
+									<img src="theme/images/wf_minus.gif" /> Order details for XPP
+								</div>
+								<div id="displayGrid" style="display:visible">
+									<jsp:include page="../xppTable/printComponentsTable.jsp" >
+										<jsp:param name="edit" value="false"/>
+									</jsp:include>
+								</div>
+							</div>
+							<div class="row">
 								<label class="labelCol">Print Set/Sub Number</label>
 								<span class="field">${ book.printSetNumber }</span>
 							</div>
-                        </div>
-                    </c:when>
+						</div>
+				</c:when>
 					<c:otherwise>
 						<div id="displayFile">
 							<div class="row">

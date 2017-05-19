@@ -368,16 +368,17 @@
 				</div>
 			</div>
 			<div id="displayXPP" style="display:none">
-                <div id="tableId">
-				       <div id="displayWFImage" class="tableGridView">
-							<img src="theme/images/wf_plus.gif"> Oder details for XPP
-					   </div>
-					   <div id="displayGrid" style="display:none">
-                			<jsp:include page="../xppTable/printComponentsTable.jsp" >
-                    		<jsp:param name="edit" value="true"/>
-                			</jsp:include>
-				 </div>
-                <div class="row">
+				<div id="tableId">
+					<div id="displayWFImage" class="tableGridView">
+						<img src="theme/images/wf_minus.gif" /> Order details for XPP
+					</div>
+					<div id="displayGrid" style="display:visible">
+						<jsp:include page="../xppTable/printComponentsTable.jsp" >
+							<jsp:param name="edit" value="true"/>
+						</jsp:include>
+					</div>
+				</div>
+				<div class="row">
 					<form:label disabled="${disableUnderPubPlusRole}" path="printSetNumber" class="labelCol">Print Set/Sub Number</form:label>
 					<form:input disabled="${disableUnderPubPlusRole}" path="printSetNumber" />
 					<div class="errorDiv">

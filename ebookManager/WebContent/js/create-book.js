@@ -730,23 +730,6 @@ $(function() {
 				$("#proviewSection").show();
 		});
 		
-				
-		// Close or open table Grid 
-		$( ".tableGridView" ).click(function() {
-			
-			var displayGridDiv = $("#displayGrid");
-			var visible = !(displayGridDiv.is(":visible"));
-			var imgSrc = (visible) ? "theme/images/wf_minus.gif" : "theme/images/wf_plus.gif";
-			$(this).children("img").attr("src", imgSrc);
-			
-			if (visible) {
-				displayGridDiv.show();
-			} else {
-				displayGridDiv.hide();
-			};
-		});
-		
-		
 		// delete confirmation box
 		$(".rdelete").on("click", onClickToDeleteButton);
 		
