@@ -369,10 +369,10 @@
 			</div>
 			<div id="displayXPP" style="display:none">
 				<div id="tableId">
-					<div id="displayWFImage" class="tableGridView">
+					<div id="print_component_expander" class="keywordLabel">
 						<img src="theme/images/wf_minus.gif" /> Order details for XPP
 					</div>
-					<div id="displayGrid" style="display:visible">
+					<div id="print_component_expander_values">
 						<jsp:include page="../xppTable/printComponentsTable.jsp" >
 							<jsp:param name="edit" value="true"/>
 						</jsp:include>
@@ -703,7 +703,7 @@
 				<label class="labelCol">Keywords</label>
 				<div id="keywordBox">
 					<c:forEach items="${keywordTypeCode}" var="keyword" varStatus="keywordStatus">
-						<div id="keyword_${keywordStatus.index}"  class="keywordLabel">
+						<div id="keyword_${keywordStatus.index}" class="keywordLabel">
 							<img src="theme/images/wf_plus.gif"> ${keyword.name} <form:errors path="keywords[${keywordStatus.index}]" cssClass="errorMessage" />
 						</div>
 						<div id="keyword_${keywordStatus.index}_values" class="keywordValueBox" style="display:none;">

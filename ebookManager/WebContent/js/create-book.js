@@ -516,7 +516,9 @@ $(function() {
 		};
 	
 		// If there is front matter preview content to display, then display it in its own window 
-		openFrontMatterPreviewWindow();
+		if (typeof openFrontMatterPreviewWindow === "function") {
+			openFrontMatterPreviewWindow();
+		}
 		
 		// Setup change handlers  
 		$('#contentTypeId').change(function () {

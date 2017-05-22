@@ -8,7 +8,7 @@
 <%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm"%>
 
-
+<script type="text/javascript" src="js/create-book.js"></script>
 <script>
 function submitForm(cmd)
 {
@@ -126,10 +126,10 @@ function submitForm(cmd)
 					<c:when test="${ book.sourceType == 'XPP' }">
 						<div id="displayXPP">
 							<div id="tableId">
-								<div id="displayWFImage" class="tableGridView">
+								<div id="print_component_expander" class="keywordLabel">
 									<img src="theme/images/wf_minus.gif" /> Order details for XPP
 								</div>
-								<div id="displayGrid" style="display:visible">
+								<div id="print_component_expander_values" class="keywordValueBox">
 									<jsp:include page="../xppTable/printComponentsTable.jsp" >
 										<jsp:param name="edit" value="false"/>
 									</jsp:include>

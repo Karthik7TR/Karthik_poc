@@ -559,7 +559,7 @@ a:hover {
 	clear:both;
 }
 
-#keywordBox .keywordLabel{
+.keywordLabel{
 	background: #EAF3F8;
     border: thin double gray;
     font-weight: bold;
@@ -568,7 +568,7 @@ a:hover {
 	cursor:pointer;
 }
 
-#keywordBox .keywordLabel:hover{
+.keywordLabel:hover{
 	background: #BCF7F8;
 }
 
