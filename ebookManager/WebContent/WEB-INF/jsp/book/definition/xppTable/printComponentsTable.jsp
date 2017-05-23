@@ -183,7 +183,7 @@
                     title: "Order",
                     width: 40,
                     sorter: "numberAsString",
-                    validate: "required",
+                    //validate: "required",
                     editing: false
                 }, {
                     name: "materialNumber",
