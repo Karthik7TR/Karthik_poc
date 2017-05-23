@@ -199,4 +199,24 @@ public final class XppFormatFileSystemImplTest
         //then
         assertThat(file, hasPath("workDirectory/Format/doc-to-image-manifest.txt"));
     }
+
+    @Test
+    public void shouldReturnTitleMetadataDirectory()
+    {
+        //given
+        //when
+        final File file = fileSystem.getTitleMetadataDirectory(step);
+        //then
+        assertThat(file, hasPath("workDirectory/Format/07_title_metadata"));
+    }
+
+    @Test
+    public void shouldReturnTitleMetadataFile()
+    {
+        //given
+        //when
+        final File file = fileSystem.getTitleMetadataFile(step);
+        //then
+        assertThat(file, hasPath("workDirectory/Format/07_title_metadata/titleMetadata.xml"));
+    }
 }

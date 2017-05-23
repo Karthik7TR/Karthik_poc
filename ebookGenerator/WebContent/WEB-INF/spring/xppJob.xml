@@ -55,6 +55,11 @@
         </step>
 		<step id="moveResourcesToAssembleDirectoryXppStep">
 			<tasklet ref="moveResourcesToAssembleDirectoryXppTask" />
+			<next on="COMPLETED" to="generateTitleMetadataStep" />
+			<fail on="FAILED" />
+		</step>
+		<step id="generateTitleMetadataStep">
+			<tasklet ref="generateTitleMetadataTask" />
 			<next on="COMPLETED" to="createDummyXppBookStep" />
 			<fail on="FAILED" />
 		</step>
@@ -113,6 +118,8 @@
         class="com.thomsonreuters.uscl.ereader.xpp.transformation.toc.step.ExtractTocStep" />
 	<beans:bean id="moveResourcesToAssembleDirectoryXppTask" scope="step" parent="bookStep"
 		class="com.thomsonreuters.uscl.ereader.xpp.transformation.move.resources.step.MoveResourcesToAssembleDirectoryXpp" />
+	<beans:bean id="generateTitleMetadataTask" scope="step" parent="bookStep"
+		class="com.thomsonreuters.uscl.ereader.xpp.transformation.generate.title.metadata.step.GenerateTitleMetadataStep" />
 	<beans:bean id="createDummyXppBookTask" scope="step" parent="bookStep"
 		class="com.thomsonreuters.uscl.ereader.xpp.transformation.move.resources.step.CreateDummyXppBook"/>
 	<beans:bean id="assembleXppBookTask" scope="step" parent="assembleStep"

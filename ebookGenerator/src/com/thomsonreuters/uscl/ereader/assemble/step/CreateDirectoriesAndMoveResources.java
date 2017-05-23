@@ -24,10 +24,9 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
-import com.thomsonreuters.uscl.ereader.proview.Artwork;
-import com.thomsonreuters.uscl.ereader.proview.Asset;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
+import com.thomsonreuters.uscl.ereader.proview.TitleMetadata.TitleMetadataBuilder;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.apache.commons.io.FileUtils;
@@ -45,7 +44,6 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
      * To update publishingStatsService table.
      */
     private PublishingStatsService publishingStatsService;
-    private static final String VERSION_NUMBER_PREFIX = "v";
 
     private MoveResourcesUtil moveResourcesUtil;
 
@@ -74,25 +72,14 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
             (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
 
         final String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
-        final String versionNumber =
-            VERSION_NUMBER_PREFIX + jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
-        final TitleMetadata titleMetadata = new TitleMetadata(
-            fullyQualifiedTitleId,
-            versionNumber,
-            bookDefinition.getProviewFeatures(),
-            bookDefinition.getKeyWords(),
-            bookDefinition.getAuthors(),
-            bookDefinition.getIsPilotBook(),
-            bookDefinition.getIsbnNormalized());
         final String materialId = bookDefinition.getMaterialId();
+        final File coverArtFile = moveResourcesUtil.createCoverArt(jobExecutionContext);
 
-        // TODO: verify that default of 1234 for material id is valid.
-        titleMetadata.setMaterialId(StringUtils.isNotBlank(materialId) ? materialId : "1234");
-        titleMetadata.setCopyright(bookDefinition.getCopyright());
-        titleMetadata.setFrontMatterTocLabel(bookDefinition.getFrontMatterTocLabel());
-        titleMetadata.setFrontMatterPages(bookDefinition.getFrontMatterPages());
-
-        final File coverArtFile = addArtwork(jobExecutionContext, titleMetadata);
+        final TitleMetadataBuilder titleMetadataBuilder = TitleMetadata.builder(bookDefinition)
+            .versionNumber(jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED))
+            // TODO: verify that default of 1234 for material id is valid.
+            .materialId(StringUtils.isNotBlank(materialId) ? materialId : "1234")
+            .artworkFile(coverArtFile);
 
         OutputStream titleManifest = null;
         InputStream splitTitleXMLStream = null;
@@ -122,7 +109,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
             readDocImgFile(new File(docToSplitBook), docMap, splitBookImgMap);
 
             // Assets that are needed for all books
-            final List<Asset> assetsForAllbooks = getAssetsListForAllBooks(jobExecutionContext, bookDefinition);
+            addAssetsForAllBooks(jobExecutionContext, bookDefinition, titleMetadataBuilder);
 
             // Create title.xml and directories needed. Move content for all
             // splitBooks
@@ -135,15 +122,12 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
                 proviewDisplayName.append(" (eBook " + i);
                 proviewDisplayName.append(" of " + parts);
                 proviewDisplayName.append(")");
-                titleMetadata.setDisplayName(proviewDisplayName.toString());
-                titleMetadata.setTitleId(fullyQualifiedTitleId + "_pt" + i);
+                titleMetadataBuilder.displayName(proviewDisplayName.toString());
+                titleMetadataBuilder.fullyQualifiedTitleId(fullyQualifiedTitleId + "_pt" + i);
 
                 final String key = String.valueOf(i);
 
                 // Add needed images corresponding to the split Book to Assets
-                // list
-                final List<Asset> assetsForSplitBook = new ArrayList<>();
-                assetsForSplitBook.addAll(assetsForAllbooks);
                 // imgList contains file names belong to the split book
                 List<String> imgList = new ArrayList<>();
 
@@ -152,12 +136,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
                     imgList = splitBookImgMap.get(key);
                     for (final String imgFileName : imgList)
                     {
-                        final Asset asset = new Asset(StringUtils.substringBeforeLast(imgFileName, "."), imgFileName);
-                        //To avoid duplicate asset
-                        if (!assetsForSplitBook.contains(asset))
-                        {
-                            assetsForSplitBook.add(asset);
-                        }
+                        titleMetadataBuilder.assetFileName(imgFileName);
                     }
                 }
 
@@ -184,15 +163,11 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
 
                     for (final FrontMatterPdf pdf : pdfList)
                     {
-                        final Asset asset =
-                            new Asset(StringUtils.substringBeforeLast(pdf.getPdfFilename(), "."), pdf.getPdfFilename());
-                        assetsForSplitBook.add(asset);
+                        titleMetadataBuilder.assetFileName(pdf.getPdfFilename());
                     }
-                    titleMetadata.setTitleId(fullyQualifiedTitleId);
+                    titleMetadataBuilder.fullyQualifiedTitleId(fullyQualifiedTitleId);
                     firstSplitBook = true;
                 }
-
-                titleMetadata.setAssets(assetsForSplitBook);
 
                 final File ebookDirectory = new File(assembleDirectory, splitTitle);
                 ebookDirectory.mkdir();
@@ -205,7 +180,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
                 titleManifest = new FileOutputStream(titleXml);
 
                 titleMetadataService.generateTitleXML(
-                    titleMetadata,
+                    titleMetadataBuilder.build(),
                     docList,
                     splitTitleXMLStream,
                     titleManifest,
@@ -383,20 +358,19 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
      * @param bookDefinition
      * @throws FileNotFoundException
      */
-    protected List<Asset> getAssetsListForAllBooks(
+    protected void addAssetsForAllBooks(
         final ExecutionContext jobExecutionContext,
-        final BookDefinition bookDefinition) throws FileNotFoundException
+        final BookDefinition bookDefinition,
+        final TitleMetadataBuilder builder) throws FileNotFoundException
     {
-        final List<Asset> assets = new ArrayList<>();
         final File staticImagesDir =
             new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_STATIC_DEST_DIR));
         final String staticContentDir =
             getRequiredStringProperty(jobExecutionContext, JobExecutionKey.STATIC_CONTENT_DIR);
-        assets.addAll(getAssetsfromDirectories(staticImagesDir));
-        File stylesheet = new File(staticContentDir, MoveResourcesUtil.DOCUMENT_CSS_FILE);
-        assets.add(getAssetsfromFile(stylesheet));
-        stylesheet = new File(MoveResourcesUtil.EBOOK_GENERATOR_CSS_FILE);
-        assets.add(getAssetsfromFile(stylesheet));
+        builder
+            .assetFilesFromDirectory(staticImagesDir)
+            .assetFile(new File(staticContentDir, MoveResourcesUtil.DOCUMENT_CSS_FILE))
+            .assetFile(new File(MoveResourcesUtil.EBOOK_GENERATOR_CSS_FILE));
 
         final File frontMatterImagesDir = new File(MoveResourcesUtil.EBOOK_GENERATOR_IMAGES_DIR);
         final List<File> filter = moveResourcesUtil.filterFiles(frontMatterImagesDir, bookDefinition);
@@ -404,61 +378,9 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
         {
             if (!filter.contains(file))
             {
-                final Asset asset = new Asset(StringUtils.substringBeforeLast(file.getName(), "."), file.getName());
-                assets.add(asset);
+                builder.assetFileName(file.getName());
             }
         }
-        return assets;
-    }
-
-    /**
-     * Add only image files that are required.
-     *
-     * @param frontMatterImagesDir
-     * @param bookDefinition
-     * @return
-     */
-    public List<Asset> getAssetsfromDirectories(final File directory)
-    {
-        final List<Asset> assets = new ArrayList<>();
-        if (directory == null || !directory.isDirectory())
-        {
-            throw new IllegalArgumentException("Directory must not be null and must be a directory.");
-        }
-        for (final File file : directory.listFiles())
-        {
-            final Asset asset = new Asset(StringUtils.substringBeforeLast(file.getName(), "."), file.getName());
-            assets.add(asset);
-        }
-
-        return assets;
-    }
-
-    private File addArtwork(final ExecutionContext jobExecutionContext, final TitleMetadata titleMetadata)
-    {
-        final File coverArtFile = moveResourcesUtil.createCoverArt(jobExecutionContext);
-        final Artwork coverArt = titleMetadataService.createArtwork(coverArtFile);
-        titleMetadata.setArtwork(coverArt);
-        return coverArtFile;
-    }
-
-    /**
-     * Add only image files that are required.
-     *
-     * @param frontMatterImagesDir
-     * @param bookDefinition
-     * @return
-     */
-    public Asset getAssetsfromFile(final File file)
-    {
-        if (file == null || !file.exists())
-        {
-            throw new IllegalArgumentException("File must not be null and should exist.");
-        }
-
-        final Asset asset = new Asset(StringUtils.substringBeforeLast(file.getName(), "."), file.getName());
-
-        return asset;
     }
 
     private File createDocumentsDirectory(final File ebookDirectory)

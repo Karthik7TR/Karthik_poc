@@ -1,28 +1,58 @@
 package com.thomsonreuters.uscl.ereader.proview;
 
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public final class TitleMetadataTest
 {
+    private static final String BLACK_PEARLS_ASSET_NAME = "BlackPearl.png";
+    private static final String PIRATES_COVE_ASSET_NAME = "PiratesCove.png";
+    private static final String TORTUGA_ASSET_NAME = "Tortuga.png";
+
     private String titleId = "yarr/pirates";
-    private String titleVersion = "v1";
+    private String titleVersion = "1";
     private String displayName = "YARR! The Comprehensive Guide to Plundering the Seven Seas.";
     private String materialId = "Plunder2";
     private String copyright = "The High Seas Trading Company.";
+    private String isbnNormalized = "9783161484100";
+    private String frontMatterTocLabel = "tocLabel";
     private Artwork artwork = new Artwork("swashbuckling.gif");
 
     private TableOfContents tableOfContents = new TableOfContents();
-    private List<String> authorNames = new ArrayList<>();
     private List<Doc> documents = new ArrayList<>();
-    private List<Asset> assets = new ArrayList<>();
-    private List<Feature> proviewFeatures;
-    private List<Keyword> keywords = new ArrayList<>();
+    private final List<Asset> assets = Arrays.asList(
+        new Asset("BlackPearl", BLACK_PEARLS_ASSET_NAME),
+        new Asset("PiratesCove", PIRATES_COVE_ASSET_NAME),
+        new Asset("Tortuga", TORTUGA_ASSET_NAME));
+    private final List<Keyword> keywords = Arrays.asList(
+        new Keyword("publisher", "High Seas Trading Company"),
+        new Keyword("jurisdiction", "International Waters"));
+    private final List<Feature> features =
+        Arrays.asList(new Feature("Copy"), new Feature("OnePassSSO", "www.westlaw.com"));
     private boolean isPilotBook;
 
     @Before
@@ -35,10 +65,11 @@ public final class TitleMetadataTest
     public void testTitleMetadataDefaultConstructorWithExpectedDefaults()
     {
         final TitleMetadata metadata = new TitleMetadata();
-        keywords = metadata.getKeywords();
-        final Keyword publisher = keywords.get(0);
-        final Keyword jurisdiction = keywords.get(1);
-        Assert.assertTrue("Metadata should contain two keywords, publisher and jurisdiction", keywords.size() == 2);
+        final List<Keyword> actualkeywords = metadata.getKeywords();
+        final Keyword publisher = actualkeywords.get(0);
+        final Keyword jurisdiction = actualkeywords.get(1);
+        Assert
+            .assertTrue("Metadata should contain two keywords, publisher and jurisdiction", actualkeywords.size() == 2);
         Assert.assertTrue(
             "publisher should be Thomson Reuters, but was: " + publisher,
             "Thomson Reuters".equals(publisher.getText()));
@@ -51,10 +82,11 @@ public final class TitleMetadataTest
     public void testTitleMetadataFullConstructorWithExpectedDefaults()
     {
         final TitleMetadata metadata = new TitleMetadata("1337/b00k", "v1337");
-        keywords = metadata.getKeywords();
-        final Keyword publisher = keywords.get(0);
-        final Keyword jurisdiction = keywords.get(1);
-        Assert.assertTrue("Metadata should contain two keywords, publisher and jurisdiction", keywords.size() == 2);
+        final List<Keyword> actualKeywords = metadata.getKeywords();
+        final Keyword publisher = actualKeywords.get(0);
+        final Keyword jurisdiction = actualKeywords.get(1);
+        Assert
+            .assertTrue("Metadata should contain two keywords, publisher and jurisdiction", actualKeywords.size() == 2);
         Assert.assertTrue(
             "publisher should be Thomson Reuters, but was: " + publisher,
             "Thomson Reuters".equals(publisher.getText()));
@@ -67,23 +99,32 @@ public final class TitleMetadataTest
     public void testEqualsMethod()
     {
         final TitleMetadata one = getTitleMetadata();
-        final TitleMetadata two = new TitleMetadata(
-            titleId,
-            titleVersion,
-            proviewFeatures,
-            keywords,
-            new ArrayList<Author>(),
-            isPilotBook,
-            copyright);
-        two.setAuthors(authorNames);
+        final TitleMetadata two = TitleMetadata.builder()
+            .fullyQualifiedTitleId(titleId)
+            .versionNumber(titleVersion)
+            .proviewFeatures(features)
+            .keywords(keywords)
+            .authors(new ArrayList<Author>())
+            .isPilotBook(isPilotBook)
+            .isbn(copyright)
+            .authors(createAuthors())
+            .build();
         Assert.assertTrue(one.equals(two));
         Assert.assertTrue(!one.equals(new TitleMetadata()));
     }
 
     private TitleMetadata getTitleMetadata()
     {
-        final TitleMetadata titleMetadata = new TitleMetadata(titleId, titleVersion);
-        titleMetadata.setCopyright(copyright);
+        final TitleMetadata titleMetadata = TitleMetadata.builder()
+            .fullyQualifiedTitleId(titleId)
+            .versionNumber(titleVersion)
+            .copyright(copyright)
+            .displayName(displayName)
+            .authors(createAuthors())
+            .keywords(keywords)
+            .materialId(materialId)
+            .build();
+
         titleMetadata.setArtwork(artwork);
         final Doc pirates = new Doc("1", "pirates.htm", 0, null);
         final Doc scallywags = new Doc("2", "scallywags.htm", 0, null);
@@ -92,18 +133,6 @@ public final class TitleMetadataTest
         documents.add(scallywags);
         documents.add(landlubbers);
         titleMetadata.setDocuments(documents);
-        titleMetadata.setDisplayName(displayName);
-        authorNames.add(new String("Captain Jack Sparrow"));
-        authorNames.add(new String("Davey Jones"));
-        titleMetadata.setAuthors(authorNames);
-        final Keyword publisher = new Keyword("publisher", "High Seas Trading Company");
-        final Keyword jurisdiction = new Keyword("jurisdiction", "International Waters");
-        keywords.add(publisher);
-        keywords.add(jurisdiction);
-        titleMetadata.setKeywords(keywords);
-        assets.add(new Asset("123", "BlackPearl.png"));
-        assets.add(new Asset("456", "PiratesCove.png"));
-        assets.add(new Asset("789", "Tortuga.png"));
         titleMetadata.setAssets(assets);
         final List<TocNode> tocEntries = new ArrayList<>();
         tocEntries.add(new TocEntry("1", "heading", "All About Pirates", 1));
@@ -126,5 +155,221 @@ public final class TitleMetadataTest
         titleMetadata.setTableOfContents(tableOfContents);
         titleMetadata.setMaterialId(materialId);
         return titleMetadata;
+    }
+
+    @Test
+    public void testBuilderWithBookDefinition()
+    {
+        final BookDefinition bookDefinitionMock = mock(BookDefinition.class);
+        when(bookDefinitionMock.getFullyQualifiedTitleId()).thenReturn(titleId);
+        when(bookDefinitionMock.getProviewFeatures()).thenReturn(features);
+        when(bookDefinitionMock.getKeyWords()).thenReturn(keywords);
+        when(bookDefinitionMock.getAuthors()).thenReturn(createAuthors());
+        when(bookDefinitionMock.getIsPilotBook()).thenReturn(true);
+        when(bookDefinitionMock.getIsbnNormalized()).thenReturn(isbnNormalized);
+        when(bookDefinitionMock.getMaterialId()).thenReturn(materialId);
+        when(bookDefinitionMock.getCopyright()).thenReturn(copyright);
+        when(bookDefinitionMock.getProviewDisplayName()).thenReturn(displayName);
+        when(bookDefinitionMock.getFrontMatterTocLabel()).thenReturn(frontMatterTocLabel);
+        when(bookDefinitionMock.getFrontMatterPages()).thenReturn(createFrontMatterPages());
+
+        checkFieldsValues(TitleMetadata.builder(bookDefinitionMock).build());
+    }
+
+    private void checkFieldsValues(final TitleMetadata actualMetadata)
+    {
+        assertEquals(titleId, actualMetadata.getTitleId());
+        checkCollectionValues(actualMetadata.getProviewFeatures(), features.toArray(new Feature[0]));
+        checkCollectionValues(actualMetadata.getKeywords(), keywords.toArray(new Keyword[0]));
+        checkCollectionValues(actualMetadata.getAuthorNames(), "Jack Sparrow", "Davey Jones");
+        assertTrue(actualMetadata.getIsPilotBook());
+        assertEquals(isbnNormalized, actualMetadata.getIsbn());
+        assertEquals(materialId, actualMetadata.getMaterialId());
+        assertEquals(copyright, actualMetadata.getCopyright());
+        assertEquals(displayName, actualMetadata.getDisplayName());
+        assertEquals(frontMatterTocLabel, actualMetadata.getFrontMatterTocLabel());
+        checkCollectionValues(
+            actualMetadata.getFrontMatterPages(),
+            createFrontMatterPages().toArray(new FrontMatterPage[0]));
+    }
+
+    private List<Author> createAuthors()
+    {
+        final Author jackSparrow = new Author();
+        jackSparrow.setAuthorFirstName("Jack");
+        jackSparrow.setAuthorLastName("Sparrow");
+
+        final Author daveyJones = new Author();
+        daveyJones.setAuthorFirstName("Davey");
+        daveyJones.setAuthorLastName("Jones");
+
+        return Arrays.asList(jackSparrow, daveyJones);
+    }
+
+    private List<FrontMatterPage> createFrontMatterPages()
+    {
+        final FrontMatterPage pageOne = new FrontMatterPage();
+        pageOne.setId(1L);
+
+        final FrontMatterPage pageTwo = new FrontMatterPage();
+        pageTwo.setId(2L);
+
+        return Arrays.asList(pageOne, pageTwo);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBuilderArtworkFileNullSetup()
+    {
+        TitleMetadata.builder().artworkFile(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBuilderArtworkNonExistentFileSetup()
+    {
+        final File artworkFile = mock(File.class);
+        when(artworkFile.exists()).thenReturn(false);
+        TitleMetadata.builder().artworkFile(artworkFile);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBuilderArtworkFileNameNullSetup()
+    {
+        TitleMetadata.builder().artworkFile(null);
+    }
+
+    @Test
+    public void testBuilderArtworkFileSetup()
+    {
+        final File artworkFile = getResourceFileMock("swashbuckling.gif");
+        when(artworkFile.exists()).thenReturn(true);
+
+        final Artwork actualArtwork = TitleMetadata.builder()
+            .artworkFile(artworkFile)
+            .build()
+            .getArtwork();
+        assertEquals(artwork, actualArtwork);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBuilderAssetsDirectoryNullSetup()
+    {
+        TitleMetadata.builder().assetFilesFromDirectory(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBuilderAssetsNotDirectorySetup()
+    {
+        final File directory = mock(File.class);
+        when(directory.isDirectory()).thenReturn(false);
+        TitleMetadata.builder().assetFilesFromDirectory(directory);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBuilderAssetsFileNullSetup()
+    {
+        TitleMetadata.builder().assetFile(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBuilderAssetsNonExistentFileSetup()
+    {
+        final File assetFile = mock(File.class);
+        when(assetFile.exists()).thenReturn(false);
+        TitleMetadata.builder().assetFile(assetFile);
+    }
+
+    @Test
+    public void testBuilderAssetsFromDirectorySetup()
+    {
+        final File directory = mock(File.class);
+        final File blackPearlFile = getResourceFileMock(BLACK_PEARLS_ASSET_NAME);
+        final File piratesCoveFile = getResourceFileMock(PIRATES_COVE_ASSET_NAME);
+        final File tortugaFile = getResourceFileMock(TORTUGA_ASSET_NAME);
+
+        when(directory.isDirectory()).thenReturn(true);
+        when(directory.listFiles())
+            .thenReturn(new File[]{blackPearlFile, piratesCoveFile, tortugaFile});
+
+        final List<Asset> actualAssets = TitleMetadata.builder()
+            .assetFilesFromDirectory(directory)
+            .build()
+            .getAssets();
+        checkCollectionValues(actualAssets, assets.toArray(new Asset[0]));
+    }
+
+    @Test
+    public void testBuilderAssetsFromFilesSetup()
+    {
+        final File blackPearlFile = getResourceFileMock(BLACK_PEARLS_ASSET_NAME);
+        final File piratesCoveFile = getResourceFileMock(PIRATES_COVE_ASSET_NAME);
+        final File tortugaFile = getResourceFileMock(TORTUGA_ASSET_NAME);
+
+        when(blackPearlFile.exists()).thenReturn(true);
+        when(piratesCoveFile.exists()).thenReturn(true);
+        when(tortugaFile.exists()).thenReturn(true);
+
+        final List<Asset> actualAssets = TitleMetadata.builder()
+            .assetFile(blackPearlFile)
+            .assetFile(piratesCoveFile)
+            .assetFile(tortugaFile)
+            .build()
+            .getAssets();
+        checkCollectionValues(actualAssets, assets.toArray(new Asset[0]));
+    }
+
+    @Test
+    public void testBuilderAssetsFromFilesNamesSetup()
+    {
+        final List<Asset> actualAssets = TitleMetadata.builder()
+            .assetFileName(BLACK_PEARLS_ASSET_NAME)
+            .assetFileName(PIRATES_COVE_ASSET_NAME)
+            .assetFileName(TORTUGA_ASSET_NAME)
+            .build()
+            .getAssets();
+        checkCollectionValues(actualAssets, assets.toArray(new Asset[0]));
+    }
+
+    @Test
+    public void testBuilderAssetsFromFilesNamesListSetup()
+    {
+        final Set<String> names = new HashSet<>(
+            Arrays.asList(BLACK_PEARLS_ASSET_NAME, PIRATES_COVE_ASSET_NAME, TORTUGA_ASSET_NAME));
+
+        final List<Asset> actualAssets = TitleMetadata.builder()
+            .assetFileNames(names)
+            .build()
+            .getAssets();
+        checkCollectionValues(actualAssets, assets.toArray(new Asset[0]));
+    }
+
+    private File getResourceFileMock(final String fileName)
+    {
+        final File file = mock(File.class);
+        when(file.getName()).thenReturn(fileName);
+        return file;
+    }
+
+    private <I> void checkCollectionValues(final Collection<I> actualCollection, final I... expectedValues)
+    {
+        final int expectedSize = expectedValues.length;
+
+        if (expectedSize == 0)
+        {
+            throw new UnsupportedOperationException("expectedValues could not be null or empty");
+        }
+
+        assertThat(actualCollection, hasSize(expectedSize));
+        for (final I expectedValue : expectedValues)
+        {
+            assertThat("item " + expectedValue + " not found", actualCollection, hasItem(expectedValue));
+        }
+    }
+
+    @Test
+    public void testBuilderAssetsAndArtworkWasNotSetup()
+    {
+        final TitleMetadata titleMetadata = TitleMetadata.builder().build();
+        assertThat(titleMetadata.getArtwork(), nullValue());
+        assertThat(titleMetadata.getAssets(), nullValue());
     }
 }

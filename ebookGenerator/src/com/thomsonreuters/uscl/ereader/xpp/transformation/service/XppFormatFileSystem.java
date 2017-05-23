@@ -150,4 +150,19 @@ public interface XppFormatFileSystem extends FormatFileSystem
      */
     @NotNull
     File getTocFile(@NotNull BookStep step);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /07_title_metadata}
+     */
+    @NotNull
+    File getTitleMetadataDirectory(@NotNull BookStep step);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
+     * {@code /}{@link getTitleDirectory/07_title_metadata}{@code /titleMetadata.xml}
+     */
+    @NotNull
+    File getTitleMetadataFile(@NotNull BookStep step);
 }

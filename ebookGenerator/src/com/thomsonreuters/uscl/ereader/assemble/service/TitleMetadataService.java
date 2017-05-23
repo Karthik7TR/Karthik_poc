@@ -5,8 +5,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
-import com.thomsonreuters.uscl.ereader.proview.Artwork;
-import com.thomsonreuters.uscl.ereader.proview.Asset;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 
@@ -17,12 +15,6 @@ import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
  */
 public interface TitleMetadataService
 {
-    List<Asset> createAssets(File imagesDirectory);
-
-    Artwork createArtwork(File coverImage);
-
-    Asset createStylesheet(File stylesheet);
-
     /**
      * Creates a title manifest to be included within the assembled ebook.
      *

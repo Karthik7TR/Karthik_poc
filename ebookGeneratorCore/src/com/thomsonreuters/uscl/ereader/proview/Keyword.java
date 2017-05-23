@@ -1,5 +1,10 @@
 package com.thomsonreuters.uscl.ereader.proview;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlValue;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -9,9 +14,12 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Keyword
 {
+    @XmlAttribute(name = "type")
     private String type;
+    @XmlValue
     private String text;
 
     public Keyword()

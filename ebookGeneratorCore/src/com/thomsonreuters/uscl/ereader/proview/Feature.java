@@ -1,5 +1,9 @@
 package com.thomsonreuters.uscl.ereader.proview;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -10,9 +14,12 @@ import org.apache.commons.lang3.StringUtils;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  *
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Feature
 {
+    @XmlAttribute
     private String name;
+    @XmlAttribute
     private String value;
 
     public Feature()

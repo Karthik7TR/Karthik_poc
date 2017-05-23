@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ContentHandler;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,14 +22,11 @@ import com.thomsonreuters.uscl.ereader.gather.image.service.ImageService;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityDecodedOutputStream;
 import com.thomsonreuters.uscl.ereader.ioutil.EntityEncodedInputStream;
-import com.thomsonreuters.uscl.ereader.proview.Artwork;
-import com.thomsonreuters.uscl.ereader.proview.Asset;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.util.FileUtilsFacade;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
 import org.apache.commons.io.output.FileWriterWithEncoding;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.xml.serializer.Method;
@@ -55,56 +50,11 @@ import org.xml.sax.XMLReader;
 public class TitleMetadataServiceImpl implements TitleMetadataService
 {
     private static final Logger LOG = LogManager.getLogger(TitleMetadataServiceImpl.class);
-    private static final String STYLESHEET_ID = "css";
     private DocMetadataService docMetadataService;
     private PlaceholderDocumentService placeholderDocumentService;
     private FileUtilsFacade fileUtilsFacade;
     private UuidGenerator uuidGenerator;
     private ImageService imageService;
-
-    /**
-     * The file path to the ebookGenerator Alternate ID Directory.
-     */
-
-    @Override
-    public List<Asset> createAssets(final File imagesDirectory)
-    {
-        if (null == imagesDirectory || !imagesDirectory.isDirectory())
-        {
-            throw new IllegalArgumentException(
-                "Images Directory must not be null and must be a directory that exists [" + imagesDirectory + "].");
-        }
-
-        final List<File> images = Arrays.asList(imagesDirectory.listFiles());
-        final List<Asset> assets = new ArrayList<>();
-        for (final File image : images)
-        {
-            final String filename = image.getName();
-            final Asset asset = new Asset(StringUtils.substringBeforeLast(filename, "."), filename);
-            assets.add(asset);
-        }
-
-        return assets;
-    }
-
-    @Override
-    public Artwork createArtwork(final File coverImage)
-    {
-        if (null == coverImage || !coverImage.exists())
-        {
-            throw new IllegalArgumentException(
-                "coverImage must not be null and must be a directory that exists [" + coverImage + "].");
-        }
-
-        final Artwork coverArt = new Artwork(coverImage.getName());
-        return coverArt;
-    }
-
-    @Override
-    public Asset createStylesheet(final File stylesheet)
-    {
-        return new Asset(STYLESHEET_ID, stylesheet.getName());
-    }
 
     @Override
     public void generateTitleManifest(

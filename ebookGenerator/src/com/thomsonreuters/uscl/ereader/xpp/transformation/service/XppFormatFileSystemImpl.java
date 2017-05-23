@@ -147,4 +147,18 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     {
         return new File(getTocDirectory(step), "toc.xml");
     }
+
+    @NotNull
+    @Override
+    public File getTitleMetadataDirectory(@NotNull final BookStep step)
+    {
+        return new File(getFormatDirectory(step), "07_title_metadata");
+    }
+
+    @NotNull
+    @Override
+    public File getTitleMetadataFile(@NotNull final BookStep step)
+    {
+        return new File(getTitleMetadataDirectory(step), "titleMetadata.xml");
+    }
 }

@@ -1,5 +1,11 @@
 package com.thomsonreuters.uscl.ereader.proview;
 
+import java.util.Objects;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -9,9 +15,12 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Asset
 {
+    @XmlAttribute(name = "id")
     private String id;
+    @XmlAttribute(name = "src")
     private String src;
 
     public Asset()
@@ -52,18 +61,21 @@ public class Asset
     public boolean equals(final Object obj)
     {
         if (obj == this)
+        {
             return true;
+        }
         if (!(obj instanceof Asset))
+        {
             return false;
+        }
         final Asset equalCheck = (Asset) obj;
-        if ((id == null && equalCheck.id != null) || (id != null && equalCheck.id == null))
-            return false;
-        if (id != null && !id.equals(equalCheck.id))
-            return false;
-        if ((src == null && equalCheck.src != null) || (src != null && equalCheck.src == null))
-            return false;
-        if (src != null && !src.equals(equalCheck.src))
-            return false;
-        return true;
+        return Objects.equals(id, equalCheck.id)
+            && Objects.equals(src, equalCheck.src);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, src);
     }
 }

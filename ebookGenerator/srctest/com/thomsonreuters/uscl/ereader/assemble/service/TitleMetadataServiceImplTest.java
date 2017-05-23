@@ -101,7 +101,10 @@ public final class TitleMetadataServiceImplTest extends TitleMetadataTestBase
     public void testCreateArtworkHappyPath() throws Exception
     {
         final File coverArt = File.createTempFile("cover", ".png");
-        final Artwork artwork = titleMetadataService.createArtwork(coverArt);
+        final Artwork artwork = TitleMetadata.builder()
+            .artworkFile(coverArt)
+            .build()
+            .getArtwork();
         final String coverSrc = coverArt.getName();
         FileUtils.deleteQuietly(coverArt);
         assertTrue(
@@ -115,7 +118,9 @@ public final class TitleMetadataServiceImplTest extends TitleMetadataTestBase
         boolean thrown = false;
         try
         {
-            titleMetadataService.createArtwork(null);
+            TitleMetadata.builder()
+                .artworkFile(null)
+                .build();
         }
         catch (final IllegalArgumentException e)
         {
@@ -128,7 +133,10 @@ public final class TitleMetadataServiceImplTest extends TitleMetadataTestBase
     public void testAddAssetsHappyPath() throws Exception
     {
         createAssets();
-        final List<Asset> actualAssets = titleMetadataService.createAssets(assetsDirectory);
+        final List<Asset> actualAssets = TitleMetadata.builder()
+            .assetFilesFromDirectory(assetsDirectory)
+            .build()
+            .getAssets();
         assertTrue("Expected 3 assets, but was: " + actualAssets.size(), actualAssets.size() == 3);
     }
 

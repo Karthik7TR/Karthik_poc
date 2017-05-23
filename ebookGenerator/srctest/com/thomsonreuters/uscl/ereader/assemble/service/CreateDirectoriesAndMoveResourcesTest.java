@@ -19,6 +19,7 @@ import com.thomsonreuters.uscl.ereader.assemble.step.CreateDirectoriesAndMoveRes
 import com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesUtil;
 import com.thomsonreuters.uscl.ereader.proview.Asset;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
+import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tools.ant.util.FileUtils;
 import org.junit.After;
@@ -98,23 +99,23 @@ public final class CreateDirectoriesAndMoveResourcesTest
     {
         try
         {
-            createDirectoriesAndMoveResources.getAssetsfromDirectories(null);
+            TitleMetadata.builder().assetFilesFromDirectory(null);
             fail("should have thrown IllegalArgumentException");
         }
         catch (final IllegalArgumentException e)
         {
             e.printStackTrace();
             final File temp2 = makeFile(tempRootDir, "ninja.star", "totally exists");
-            final List<Asset> assets = createDirectoriesAndMoveResources.getAssetsfromDirectories(tempRootDir);
-            //Asset constructor format: Asset( [file name w/o extension], [file name] )
+            final List<Asset> assets = TitleMetadata.builder()
+                .assetFilesFromDirectory(tempRootDir)
+                .build()
+                .getAssets();
 
-            Asset check = assets.get(1);
-            assertTrue(check.getId().equals("pirate"));
-            assertTrue(check.getSrc().equals("pirate.ship"));
-
-            check = assets.get(0);
-            assertTrue(check.getId().equals("ninja"));
-            assertTrue(check.getSrc().equals("ninja.star"));
+            assertTrue("Extra assets was found", assets.size() == 2);
+            final Asset expectedPiratAsset = new Asset("pirate", "pirate.ship");
+            final Asset expectedNinjaAsset = new Asset("ninja", "ninja.star");
+            assertTrue(assets.contains(expectedPiratAsset));
+            assertTrue(assets.contains(expectedNinjaAsset));
 
             FileUtils.delete(temp2);
         }
@@ -158,7 +159,7 @@ public final class CreateDirectoriesAndMoveResourcesTest
     {
         try
         {
-            createDirectoriesAndMoveResources.getAssetsfromFile(null);
+            TitleMetadata.builder().assetFile(null);
             fail("should have thrown IllegalArgumentException");
         }
         catch (final IllegalArgumentException e)
@@ -171,7 +172,11 @@ public final class CreateDirectoriesAndMoveResourcesTest
     @Test
     public void testGetAssetsfromFile()
     {
-        final Asset asset = createDirectoriesAndMoveResources.getAssetsfromFile(tempFile);
+        final Asset asset = TitleMetadata.builder()
+            .assetFile(tempFile)
+            .build()
+            .getAssets()
+            .get(0);
         assertTrue(asset.getId().contains("pirate"));
     }
 
@@ -243,7 +248,7 @@ public final class CreateDirectoriesAndMoveResourcesTest
         boolean thrown = false;
         try
         {
-            createDirectoriesAndMoveResources.getAssetsfromDirectories(null);
+            TitleMetadata.builder().assetFilesFromDirectory(null);
         }
         catch (final IllegalArgumentException e)
         {
@@ -256,7 +261,11 @@ public final class CreateDirectoriesAndMoveResourcesTest
     public void testGetAsset()
     {
         Asset asset = new Asset();
-        asset = createDirectoriesAndMoveResources.getAssetsfromFile(tempFile);
+        asset = TitleMetadata.builder()
+            .assetFile(tempFile)
+            .build()
+            .getAssets()
+            .get(0);
         System.out.println(asset.toString());
         assertTrue(asset != null);
         assertTrue(asset.getId().equals("pirate"));

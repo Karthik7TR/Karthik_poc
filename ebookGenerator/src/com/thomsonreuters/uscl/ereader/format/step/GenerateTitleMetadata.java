@@ -18,10 +18,9 @@ import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
-import com.thomsonreuters.uscl.ereader.proview.Artwork;
-import com.thomsonreuters.uscl.ereader.proview.Asset;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
+import com.thomsonreuters.uscl.ereader.proview.TitleMetadata.TitleMetadataBuilder;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.apache.log4j.LogManager;
@@ -41,7 +40,6 @@ import org.springframework.beans.factory.annotation.Required;
 public class GenerateTitleMetadata extends AbstractSbTasklet
 {
     private static final Logger LOG = LogManager.getLogger(GenerateTitleMetadata.class);
-    private static final String VERSION_NUMBER_PREFIX = "v";
     private TitleMetadataService titleMetadataService;
 
     /**
@@ -59,23 +57,8 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
         final BookDefinition bookDefinition =
             (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
 
-        final String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
-        final String versionNumber =
-            VERSION_NUMBER_PREFIX + jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
-
-        final TitleMetadata titleMetadata = new TitleMetadata(
-            fullyQualifiedTitleId,
-            versionNumber,
-            bookDefinition.getProviewFeatures(),
-            bookDefinition.getKeyWords(),
-            bookDefinition.getAuthors(),
-            bookDefinition.getIsPilotBook(),
-            bookDefinition.getIsbnNormalized());
-        titleMetadata.setMaterialId(bookDefinition.getMaterialId());
-        titleMetadata.setCopyright(bookDefinition.getCopyright());
-        titleMetadata.setDisplayName(bookDefinition.getProviewDisplayName());
-        titleMetadata.setFrontMatterTocLabel(bookDefinition.getFrontMatterTocLabel());
-        titleMetadata.setFrontMatterPages(bookDefinition.getFrontMatterPages());
+        final TitleMetadataBuilder titleMetadataBuilder = TitleMetadata.builder(bookDefinition)
+            .versionNumber(jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED));
 
         //TODO: Remove the calls to these methods when the book definition object is introduced to this step.
 //		addAuthors(bookDefinition, titleMetadata);
@@ -83,7 +66,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
         final Long jobInstanceId =
             chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId();
 
-        LOG.debug("Generated title metadata for display name: " + titleMetadata.getDisplayName());
+        LOG.debug("Generated title metadata for display name: " + bookDefinition.getProviewDisplayName());
 
         final File titleXml = new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.TITLE_XML_FILE));
 
@@ -98,16 +81,18 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
             //TODO: refactor the titleMetadataService to use the method that takes a book definition instead of a titleManifest object.
             if (bookDefinition.isSplitBook())
             {
-                splitBookTitle(titleMetadata, jobInstanceId, jobExecutionContext);
+                splitBookTitle(titleMetadataBuilder.build(), jobInstanceId, jobExecutionContext);
             }
             else
             {
-                addArtwork(jobExecutionContext, titleMetadata);
-                addAssets(jobExecutionContext, titleMetadata);
+                titleMetadataBuilder
+                    .artworkFile(new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.COVER_ART_PATH)))
+                    .assetFilesFromDirectory(new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_ASSETS_DIR)))
+                    .build();
                 titleMetadataService.generateTitleManifest(
                     titleManifest,
                     tocXml,
-                    titleMetadata,
+                    titleMetadataBuilder.build(),
                     jobInstanceId,
                     documentsDirectory,
                     JobExecutionKey.ALT_ID_DIR_PATH);
@@ -199,24 +184,6 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
             throw new EBookFormatException(message, e);
         }
         return (docToTocGuidList);
-    }
-
-    private void addAssets(final ExecutionContext jobExecutionContext, final TitleMetadata titleMetadata)
-    {
-        //All gathered images (dynamic and static) are expected to be here by the time this step executes.
-        final File imagesDirectory =
-            new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_ASSETS_DIR));
-        final List<Asset> assets = titleMetadataService.createAssets(imagesDirectory);
-        LOG.debug(assets);
-        titleMetadata.setAssets(assets);
-    }
-
-    private void addArtwork(final ExecutionContext jobExecutionContext, final TitleMetadata titleMetadata)
-    {
-        final File coverArtFile =
-            new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.COVER_ART_PATH));
-        final Artwork coverArt = titleMetadataService.createArtwork(coverArtFile); //factory method, returns Artwork.
-        titleMetadata.setArtwork(coverArt);
     }
 
     public void setTitleMetadataService(final TitleMetadataService titleMetadataService)
