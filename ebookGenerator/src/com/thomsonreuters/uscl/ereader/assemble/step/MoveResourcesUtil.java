@@ -35,21 +35,20 @@ public class MoveResourcesUtil
      * The file path to the ebookGenerator CSS file used by front matter.
      */
     public static final String EBOOK_GENERATOR_CSS_FILE = "/apps/eBookBuilder/coreStatic/css/ebook_generator.css";
-    /**
-     * The file path to the ebookGenerator Cover Image.
-     */
-    public static final String EBOOK_COVER_FILEPATH = "/apps/eBookBuilder/generator/images/cover/";
 
-    /**
-     * The default file to the ebookGenerator Cover Image.
-     */
-    public static final String DEFAULT_EBOOK_COVER_FILE = "coverArt.PNG";
     private File staticContentDirectory;
+    private CoverArtUtil coverArtUtil;
 
     @Required
     public void setStaticContentDirectory(final File staticContentDirectory)
     {
         this.staticContentDirectory = staticContentDirectory;
+    }
+
+    @Required
+    public void setCoverArtUtil(final CoverArtUtil coverArtUtil)
+    {
+        this.coverArtUtil = coverArtUtil;
     }
 
     public void moveCoverArt(final ExecutionContext jobExecutionContext, final File artworkDirectory) throws IOException
@@ -60,15 +59,8 @@ public class MoveResourcesUtil
 
     public File createCoverArt(final ExecutionContext jobExecutionContext)
     {
-        final BookDefinition bookDefinition =
-            (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
-        final String titleCover = bookDefinition.getCoverImage();
-
-        File coverArt = new File(EBOOK_COVER_FILEPATH + titleCover);
-        if (!coverArt.exists())
-        {
-            coverArt = new File(staticContentDirectory, DEFAULT_EBOOK_COVER_FILE);
-        }
+        final File coverArt = coverArtUtil.getCoverArt(
+            (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION));
         jobExecutionContext.putString(JobExecutionKey.COVER_ART_PATH, coverArt.getAbsolutePath());
         return coverArt;
     }

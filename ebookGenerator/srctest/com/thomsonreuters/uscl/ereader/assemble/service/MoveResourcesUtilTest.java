@@ -5,11 +5,13 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
+import com.thomsonreuters.uscl.ereader.assemble.step.CoverArtUtil;
 import com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesUtil;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import org.apache.commons.io.FileUtils;
@@ -20,6 +22,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.batch.item.ExecutionContext;
+import org.springframework.util.ReflectionUtils;
 
 public final class MoveResourcesUtilTest
 {
@@ -47,12 +50,28 @@ public final class MoveResourcesUtilTest
     @Before
     public void setUp() throws Exception
     {
+        final CoverArtUtil coverArtUtil = new CoverArtUtil();
+        setFieldValue(coverArtUtil, "defaultCoverPath", "/apps/eBookBuilder/generator/images/cover/");
+        setFieldValue(coverArtUtil, "coverFileName", "coverArt.PNG");
+        setFieldValue(coverArtUtil, "staticContentDirectory", new File("/apps/eBookBuilder/staticContent"));
+
         moveResourcesUtil = new MoveResourcesUtil();
+        moveResourcesUtil.setCoverArtUtil(coverArtUtil);
         //tempFile = File.createTempFile("pirate", "ship");
         tempRootDir = new File(System.getProperty("java.io.tmpdir"));
         final URL url = this.getClass().getResource(FILE_NAME);
         docToSplitBookFile = new File(url.toURI());
         jobExecutionContext = new ExecutionContext();
+    }
+
+    private void setFieldValue(final Object target, final String fieldName, final Object fieldValue) {
+        final Field field = ReflectionUtils.findField(target.getClass(), fieldName);
+        if(field == null)
+        {
+            throw new UnsupportedOperationException("Cannot inject field value, field does not exist");
+        }
+        ReflectionUtils.makeAccessible(field);
+        ReflectionUtils.setField(field, target, fieldValue);
     }
 
     @After

@@ -195,7 +195,8 @@
 		  p:gatherAppContextUrl="${gather.context.url}"/>
 		  
 	<bean id="moveResourcesUtil" class="com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesUtil"
-		  p:staticContentDirectory="${static.content.dir}"/>
+		  p:staticContentDirectory="${static.content.dir}"
+		  p:coverArtUtil-ref="coverArtUtil"/>
 		  
 	<bean id="docMetadataGuidParserService" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetaDataGuidParserServiceImpl"/>
 		  

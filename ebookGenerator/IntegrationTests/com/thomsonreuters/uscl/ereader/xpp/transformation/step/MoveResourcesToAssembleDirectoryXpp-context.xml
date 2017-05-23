@@ -12,17 +12,17 @@
 	<context:annotation-config />
 	<context:component-scan
 		base-package="com.thomsonreuters.uscl.ereader.xpp, 
-						com.thomsonreuters.uscl.ereader.common,
+						com.thomsonreuters.uscl.ereader.common, 
 						com.thomsonreuters.uscl.ereader.assemble" />
 
 	<bean name="bookFileSystem"
 		class="com.thomsonreuters.uscl.ereader.common.filesystem.TestBookFileSystemImpl" />
-    <bean name="transformationUtil"
-        class="com.thomsonreuters.uscl.ereader.xpp.transformation.service.TestTransformationUtil" />
-	<bean name="originalStructureTransformationTask" scope="singleton"
-		class="com.thomsonreuters.uscl.ereader.xpp.transformation.originalstructure.step.OriginalStructureTransformationStep" />
+	<bean name="moveResourcesToAssembleDirectoryXppTask" scope="singleton"
+		class="com.thomsonreuters.uscl.ereader.xpp.transformation.move.resources.step.MoveResourcesToAssembleDirectoryXpp" />
+	<bean name="resourcesFileSystemXpp"
+		class="com.thomsonreuters.uscl.ereader.common.filesystem.ResourcesFileSystemXppImpl" />
 
 	<context:property-placeholder
-		location="file:**/WebContent/WEB-INF/spring/properties/xpp.properties,
+		location="file:**/WebContent/WEB-INF/spring/properties/xpp.properties,  
 				  file:**/IntegrationTests/WEB-INF/spring/properties/default-spring.properties" />
 </beans>

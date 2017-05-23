@@ -74,9 +74,14 @@ public class AssembleFileSystemImpl implements AssembleFileSystem
     }
 
     @Override
+    public File getArtworkDirectory(final BookStep step)
+    {
+        return new File(getTitleDirectory(step), "artwork");
+    }
+
+    @Override
     public File getArtworkFile(final BookStep step)
     {
-        final File artworkDir = new File(getTitleDirectory(step), "artwork");
-        return new File(artworkDir, "coverArt.PNG");
+        return new File(getArtworkDirectory(step), "coverArt.PNG");
     }
 }

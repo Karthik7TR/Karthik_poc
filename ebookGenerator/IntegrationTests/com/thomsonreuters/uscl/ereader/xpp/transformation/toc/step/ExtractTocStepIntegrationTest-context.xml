@@ -11,7 +11,9 @@
 
     <context:annotation-config />
     <context:component-scan
-        base-package="com.thomsonreuters.uscl.ereader.xpp, com.thomsonreuters.uscl.ereader.common" />
+        base-package="com.thomsonreuters.uscl.ereader.xpp, 
+        				com.thomsonreuters.uscl.ereader.common,
+        				com.thomsonreuters.uscl.ereader.assemble" />
 
     <bean name="bookFileSystem"
         class="com.thomsonreuters.uscl.ereader.common.filesystem.TestBookFileSystemImpl" />
@@ -21,5 +23,6 @@
         class="com.thomsonreuters.uscl.ereader.xpp.transformation.toc.step.ExtractTocStep" />
 
     <context:property-placeholder
-        location="file:**/WebContent/WEB-INF/spring/properties/xpp.properties" />
+        location="file:**/WebContent/WEB-INF/spring/properties/xpp.properties,
+        		  file:**/IntegrationTests/WEB-INF/spring/properties/default-spring.properties" />
 </beans>
