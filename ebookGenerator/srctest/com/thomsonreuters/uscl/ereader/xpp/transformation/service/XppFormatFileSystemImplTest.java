@@ -101,6 +101,26 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
+    public void shouldReturnSectionbreaksDirectory()
+    {
+        //given
+        //when
+        final File directory = fileSystem.getSectionbreaksDirectory(step);
+        //then
+        assertThat(directory, hasPath("workDirectory/Format/02_Sectionbreaks"));
+    }
+
+    @Test
+    public void shouldReturnSectionbreaksFile()
+    {
+        //given
+        //when
+        final File file = fileSystem.getSectionbreaksFile(step, "fileName.main");
+        //then
+        assertThat(file, hasPath("workDirectory/Format/02_Sectionbreaks/fileName.main"));
+    }
+
+    @Test
     public void shouldReturnPageBreakesUpDirectory()
     {
         //given

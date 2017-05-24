@@ -51,6 +51,18 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     }
 
     @Override
+    public File getSectionbreaksDirectory(@NotNull final BookStep step)
+    {
+        return new File(getFormatDirectory(step), "02_Sectionbreaks");
+    }
+
+    @Override
+    public File getSectionbreaksFile(@NotNull final BookStep step, @NotNull final String name)
+    {
+        return new File(getSectionbreaksDirectory(step), name);
+    }
+
+    @Override
     public File getPagebreakesUpDirectory(@NotNull final BookStep step)
     {
         return new File(getFormatDirectory(step), "02_PagebreakesUp");

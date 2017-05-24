@@ -102,6 +102,8 @@
 	<beans:bean id="originalStructureTransformationTask" scope="step"
 		parent="bookStep"
 		class="com.thomsonreuters.uscl.ereader.xpp.transformation.originalstructure.step.OriginalStructureTransformationStep" />
+    <beans:bean id="addSectionbreaksToOriginalTask" scope="step" parent="bookStep"
+        class="com.thomsonreuters.uscl.ereader.xpp.transformation.sectionbreaks.step.AddSectionbreaksStep" />
 	<beans:bean id="splitOriginalTask" scope="step" parent="bookStep"
 		class="com.thomsonreuters.uscl.ereader.xpp.transformation.split.step.SplitOriginalStep" />
 	<beans:bean id="transformToHtmlTask" scope="step" parent="bookStep"
