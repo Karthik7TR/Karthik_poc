@@ -186,6 +186,9 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
                     titleManifest,
                     JobExecutionKey.ALT_ID_DIR_PATH);
                 moveResources(jobExecutionContext, ebookDirectory, firstSplitBook, imgList, docList, coverArtFile);
+                //Drop assets for current split book part
+                titleMetadataBuilder.assetFileNames(null);
+                addAssetsForAllBooks(jobExecutionContext, bookDefinition, titleMetadataBuilder);
             }
         }
         catch (final Exception e)
