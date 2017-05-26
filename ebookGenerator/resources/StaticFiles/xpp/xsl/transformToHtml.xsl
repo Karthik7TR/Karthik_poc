@@ -8,11 +8,28 @@
 
 	<xsl:template match="x:parts">
 		<html>
-            <xsl:element name="body">
-                <xsl:attribute name="fileBaseName" select="$fileBaseName" />
+			<head>
+      			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+      			<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"></meta>
+      			<title>Thomson Reuters eBook</title>
+      			<link rel="stylesheet" type="text/css" href="er:#document"></link>
+			</head>
+			<xsl:element name="body">
+            	<xsl:attribute name="fileBaseName" select="$fileBaseName" />
 				<xsl:apply-templates />
             </xsl:element>
 		</html>
+	</xsl:template>
+
+	<xsl:template match="x:part.main">
+		<section>
+			<xsl:apply-templates />
+		</section>
+	</xsl:template>
+
+	<xsl:template match="x:pagebreak">
+		<xsl:variable name="apostrophe">'</xsl:variable>
+		<xsl:processing-instruction name="pb" select="concat('label', '=', $apostrophe, ./@num, $apostrophe, '?')" />
 	</xsl:template>
 
 	<xsl:template match="element()">
