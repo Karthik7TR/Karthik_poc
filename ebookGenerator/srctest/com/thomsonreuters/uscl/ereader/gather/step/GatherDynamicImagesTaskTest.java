@@ -17,7 +17,6 @@ import java.io.IOException;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.ImageFileSystem;
-import com.thomsonreuters.uscl.ereader.common.filesystem.XppUnpackFileSystem;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
@@ -51,9 +50,6 @@ public class GatherDynamicImagesTaskTest
 
     @Mock
     private ImageFileSystem imageFileSystem;
-
-    @Mock
-    private XppUnpackFileSystem xppUnpackFileSystem;
 
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();

@@ -193,6 +193,7 @@ public final class JAXBMarshallingTest
             final boolean isFinal = true;
 
             final GatherImgRequest expected = new GatherImgRequest(manifest, dynamicImgDir, id, isFinal);
+            expected.setXppSourceImageDirectory(Arrays.asList("path1", "path2"));
 
             outStream = new ByteArrayOutputStream();
             marshaller.marshal(expected, outStream);

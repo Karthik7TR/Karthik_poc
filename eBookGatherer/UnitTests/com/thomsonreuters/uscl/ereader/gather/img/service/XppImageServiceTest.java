@@ -38,7 +38,8 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 @RunWith(MockitoJUnitRunner.class)
 public final class XppImageServiceTest
 {
-    private static final String UNPACKED_IMAGES_DIR = "com/thomsonreuters/uscl/ereader/gather/img/service/images";
+    private static final String UNPACKED_IMAGES_DIR1 = "com/thomsonreuters/uscl/ereader/gather/img/service/images/bundle1";
+    private static final String UNPACKED_IMAGES_DIR2 = "com/thomsonreuters/uscl/ereader/gather/img/service/images/bundle2";
     private static final String DOC_ID = "docId";
     private static final String TIF_IMAGE_ID =  "I2943f88028b911e69ed7fcedf0a72426";
     private static final String TIFF_IMAGE_ID = "I3749e7f028b911e69ed7fcedf0a72426";
@@ -70,7 +71,7 @@ public final class XppImageServiceTest
         final GatherResponse response = service.getImages(getImageRequestParameters());
 
         final ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
-        verify(imageConverter, times(2)).convertByteImg((byte[]) any(), argument.capture(), (String) any());
+        verify(imageConverter, times(4)).convertByteImg((byte[]) any(), argument.capture(), (String) any());
         assertTrue(new File(tempFolder.getRoot(), TIF_IMAGE_ID + ".png").getAbsolutePath().equalsIgnoreCase(argument.getAllValues().get(0)));
         assertTrue(new File(tempFolder.getRoot(), TIFF_IMAGE_ID + ".png").getAbsolutePath().equalsIgnoreCase(argument.getAllValues().get(1)));
 
@@ -87,8 +88,10 @@ public final class XppImageServiceTest
     {
         final ImageRequestParameters parameters = new ImageRequestParameters();
 
-        parameters.setXppSourceImageDirectory(
-            new PathMatchingResourcePatternResolver().getResource(UNPACKED_IMAGES_DIR).getFile().getAbsolutePath());
+        parameters.setXppSourceImageDirectory(Arrays.asList(
+            new PathMatchingResourcePatternResolver().getResource(UNPACKED_IMAGES_DIR1).getFile().getAbsolutePath(),
+            new PathMatchingResourcePatternResolver().getResource(UNPACKED_IMAGES_DIR2).getFile().getAbsolutePath()
+            ));
         parameters.setDynamicImageDirectory(tempFolder.getRoot());
 
         return parameters;

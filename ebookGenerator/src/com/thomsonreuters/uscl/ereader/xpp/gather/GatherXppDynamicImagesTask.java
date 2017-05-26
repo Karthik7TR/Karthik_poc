@@ -5,13 +5,13 @@ import java.io.File;
 import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
-import com.thomsonreuters.uscl.ereader.common.filesystem.XppUnpackFileSystem;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
 import com.thomsonreuters.uscl.ereader.gather.step.GatherDynamicImagesTask;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.TransformationUtil;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppGatherFileSystem;
 import org.springframework.batch.core.ExitStatus;
 
 /**
@@ -21,8 +21,8 @@ import org.springframework.batch.core.ExitStatus;
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.GATHERIMAGE)
 public class GatherXppDynamicImagesTask extends GatherDynamicImagesTask
 {
-    @Resource(name = "xppUnpackFileSystem")
-    private XppUnpackFileSystem xppUnpackFileSystem;
+    @Resource(name = "xppGatherFileSystem")
+    private XppGatherFileSystem xppGatherFileSystem;
     @Resource(name = "transformationUtil")
     protected TransformationUtil transformationUtil;
 
@@ -45,7 +45,7 @@ public class GatherXppDynamicImagesTask extends GatherDynamicImagesTask
         final long jobInstanceId)
     {
         final GatherImgRequest imgRequest = super.constructGatherImageRequest(dynamicImageDestinationDirectory, imageGuidFile, jobInstanceId);
-        imgRequest.setXppSourceImageDirectory(xppUnpackFileSystem.getXppAssetsDirectory(this));
+        imgRequest.setXppSourceImageDirectory(xppGatherFileSystem.getXppAssetsDirectories(this));
         imgRequest.setXpp(true);
         return imgRequest;
     }

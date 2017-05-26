@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
@@ -22,11 +23,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration
 public final class XppImageServiceIntegrationTest
 {
-    private static final String UNPACKED_IMAGES_DIR = "com/thomsonreuters/uscl/ereader/gather/img/service/images";
+    private static final String UNPACKED_IMAGES_DIR1 = "com/thomsonreuters/uscl/ereader/gather/img/service/images/bundle1";
+    private static final String UNPACKED_IMAGES_DIR2 = "com/thomsonreuters/uscl/ereader/gather/img/service/images/bundle2";
     private static final String DOC_TO_IMAGE_FILE =
         "com/thomsonreuters/uscl/ereader/gather/img/service/doc-to-image-manifest.txt";
     private static final String TIF_IMAGE_ID =  "I2943f88028b911e69ed7fcedf0a72426";
     private static final String TIFF_IMAGE_ID = "I3749e7f028b911e69ed7fcedf0a72426";
+    private static final String TIFF_IMAGE_ID_2 = "tiffImage";
     private static final String PNG_IMAGE_ID =  "I3831d6f128b911e69ed7fcedf0a72426";
 
     @Autowired
@@ -42,10 +45,12 @@ public final class XppImageServiceIntegrationTest
 
         final File destinationImageTifFile = new File(tempFolder.getRoot(), TIF_IMAGE_ID + ".png");
         final File destinationImageTiffFile = new File(tempFolder.getRoot(), TIFF_IMAGE_ID + ".png");
+        final File destinationImageTiffFile2 = new File(tempFolder.getRoot(), TIFF_IMAGE_ID_2 + ".png");
         final File destinationImagePngFile = new File(tempFolder.getRoot(), PNG_IMAGE_ID + ".png");
 
         assertTrue(destinationImageTifFile.exists());
         assertTrue(destinationImageTiffFile.exists());
+        assertTrue(destinationImageTiffFile2.exists());
         assertTrue(destinationImagePngFile.exists());
 
         assertEquals(TIF_IMAGE_ID, response.getImageMetadataList().get(0).getImgGuid());
@@ -58,8 +63,10 @@ public final class XppImageServiceIntegrationTest
     {
         final ImageRequestParameters parameters = new ImageRequestParameters();
 
-        parameters.setXppSourceImageDirectory(
-            new PathMatchingResourcePatternResolver().getResource(UNPACKED_IMAGES_DIR).getFile().getAbsolutePath());
+        parameters.setXppSourceImageDirectory(Arrays.asList(
+            new PathMatchingResourcePatternResolver().getResource(UNPACKED_IMAGES_DIR1).getFile().getAbsolutePath(),
+            new PathMatchingResourcePatternResolver().getResource(UNPACKED_IMAGES_DIR2).getFile().getAbsolutePath()
+            ));
         parameters.setDynamicImageDirectory(tempFolder.getRoot());
 
         parameters.setDocToImageManifestFile(

@@ -1,13 +1,14 @@
 package com.thomsonreuters.uscl.ereader.gather.img.model;
 
 import java.io.File;
+import java.util.Collection;
 
 public class ImageRequestParameters
 {
     private File docToImageManifestFile;
     private File dynamicImageDirectory;
     private boolean isFinalStage;
-    private String xppSourceImageDirectory;
+    private Collection<String> xppSourceImageDirectory;
 
     public File getDocToImageManifestFile()
     {
@@ -39,12 +40,12 @@ public class ImageRequestParameters
         this.isFinalStage = isFinalStage;
     }
 
-    public String getXppSourceImageDirectory()
+    public Collection<String> getXppSourceImageDirectory()
     {
         return xppSourceImageDirectory;
     }
 
-    public void setXppSourceImageDirectory(final String xppSourceImageDirectory)
+    public void setXppSourceImageDirectory(final Collection<String> xppSourceImageDirectory)
     {
         this.xppSourceImageDirectory = xppSourceImageDirectory;
     }

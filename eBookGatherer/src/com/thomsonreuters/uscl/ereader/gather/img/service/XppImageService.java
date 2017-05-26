@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,6 +114,17 @@ public class XppImageService implements ImageService
             mimeType = mimetypesFileTypeMap.getContentType(imageFile.getAbsolutePath());
         }
         return mimeType;
+    }
+
+    private Map<String, ImgMetadataInfo> copyImagesToWorkDir(final Collection<String> xppSourceImageDirectories, final File destDir)
+    {
+        final Map<String, ImgMetadataInfo> imageFiles = new HashMap<>();
+
+        for (final String xppSourceImageDirectory : xppSourceImageDirectories)
+        {
+            imageFiles.putAll(copyImagesToWorkDir(xppSourceImageDirectory, destDir));
+        }
+        return imageFiles;
     }
 
     private Map<String, ImgMetadataInfo> copyImagesToWorkDir(final String xppSourceImageDirectory, final File destDir)
