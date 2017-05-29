@@ -8,6 +8,9 @@ import static org.mockito.Mockito.never;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 
 import javax.xml.transform.Transformer;
 
@@ -15,7 +18,7 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.TransformationUtil;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
-import org.apache.commons.lang3.reflect.FieldUtils;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppGatherFileSystem;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -29,12 +32,16 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public final class OriginalStructureTransformationStepTest
 {
+    private static final String MATERIAL_NUMBER = "11111111";
+
     @InjectMocks
     private OriginalStructureTransformationStep step;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private TransformerBuilderFactory transformerBuilderFactory;
     @Mock
     private XslTransformationService transformationService;
+    @Mock
+    private XppGatherFileSystem xppGatherFileSystem;
     @Mock
     private XppFormatFileSystem fileSystem;
     @Mock
@@ -57,11 +64,24 @@ public final class OriginalStructureTransformationStepTest
     public void setUp() throws IOException
     {
         xppDirectory = temporaryFolder.getRoot();
-        xppFile = new File(xppDirectory, "xpp.xml");
+        final File bundleDir = new File(xppDirectory + "/" + MATERIAL_NUMBER);
+        bundleDir.mkdirs();
+        final File xppDir = new File(bundleDir + "/bundleName/XPP");
+        xppDir.mkdirs();
+
+        xppFile = new File(xppDir, "xpp.xml");
         xppFile.createNewFile();
+
+        given(xppGatherFileSystem.getXppSourceXmls(step)).willReturn(getSourceXmlsFromGatherDir());
         given(fileSystem.getOriginalDirectory(step)).willReturn(xppDirectory);
-        given(fileSystem.getOriginalFile(step, "xpp.xml")).willReturn(originalFile);
-        given(fileSystem.getFootnotesFile(step, "xpp.xml")).willReturn(footnotesFile);
+        given(fileSystem.getOriginalBundleDirectory(step, MATERIAL_NUMBER)).willReturn(bundleDir);
+        given(fileSystem.getOriginalFile(step, MATERIAL_NUMBER, "xpp.xml")).willReturn(originalFile);
+        given(fileSystem.getFootnotesFile(step, MATERIAL_NUMBER, "xpp.xml")).willReturn(footnotesFile);
+    }
+
+    private Map<String, Collection<File>> getSourceXmlsFromGatherDir()
+    {
+        return Collections.singletonMap(MATERIAL_NUMBER, (Collection<File>) Collections.singletonList(xppFile));
     }
 
     @Test
@@ -79,7 +99,6 @@ public final class OriginalStructureTransformationStepTest
     public void shouldTransform() throws Exception
     {
         //given
-        FieldUtils.writeField(step, "xppDirectory", xppDirectory, true);
         //when
         step.executeStep();
         //then

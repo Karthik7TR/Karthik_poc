@@ -5,6 +5,8 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.FileSystemException;
 import com.thomsonreuters.uscl.ereader.common.filesystem.GatherFileSystemImpl;
@@ -27,7 +29,7 @@ public class XppGatherFileSystemImpl extends GatherFileSystemImpl implements Xpp
 
     //TODO: temp usage to static xpp source directory
     @Value("${xpp.sample.xppTemp.directory}")
-    private String xppTempDirectory;
+    private File xppTempDirectory;
 
     //TODO: temp overriding
     @Override
@@ -46,12 +48,12 @@ public class XppGatherFileSystemImpl extends GatherFileSystemImpl implements Xpp
     public Collection<File> getXppBundleContentDirectories(final BookStep step)
     {
         final File bundlesDir = getXppBundlesDirectory(step);
-        final File[] bundlesRootDirs = bundlesDir.listFiles();
+        final File[] bundlesMaterialNumberDirs = bundlesDir.listFiles();
 
         final Collection<File> bundlesContentDirs = new ArrayList<>();
-        for (final File bundleRootDir : bundlesRootDirs)
+        for (final File bundleMaterialNumberDir : bundlesMaterialNumberDirs)
         {
-            bundlesContentDirs.add(extractBundleRootDir(bundleRootDir));
+            bundlesContentDirs.add(extractBundleRootDir(bundleMaterialNumberDir));
         }
         return bundlesContentDirs;
     }
@@ -83,12 +85,13 @@ public class XppGatherFileSystemImpl extends GatherFileSystemImpl implements Xpp
     }
 
     @Override
-    public Collection<File> getXppSourceXmls(final BookStep step)
+    public Map<String, Collection<File>> getXppSourceXmls(final BookStep step)
     {
-        final Collection<File> xppSourceXmlDirectories = new ArrayList<>();
+        final Map<String, Collection<File>> xppSourceXmlDirectories = new HashMap<>();
         for (final File sourceDir : getXppSourceXmlDirectories(step))
         {
-            xppSourceXmlDirectories.addAll(Arrays.asList(sourceDir.listFiles(XML_FILES_FILENAME_FILTER)));
+            final String materialNumber = sourceDir.getParentFile().getParentFile().getName();
+            xppSourceXmlDirectories.put(materialNumber, Arrays.asList(sourceDir.listFiles(XML_FILES_FILENAME_FILTER)));
         }
         return xppSourceXmlDirectories;
     }

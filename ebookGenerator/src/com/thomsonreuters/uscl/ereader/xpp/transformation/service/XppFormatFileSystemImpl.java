@@ -22,6 +22,21 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     @Override
+    public File getOriginalBundleDirectory(@NotNull final BookStep step, @NotNull final String materialNumber)
+    {
+        return new File(getOriginalDirectory(step), materialNumber);
+    }
+
+    @NotNull
+    @Override
+    public File getOriginalFile(@NotNull final BookStep step, @NotNull final String materialNumber, @NotNull final String xppFileName)
+    {
+        final String fileName = FilenameUtils.removeExtension(xppFileName);
+        return new File(getOriginalBundleDirectory(step, materialNumber), fileName + ".main");
+    }
+
+    @NotNull
+    @Override
     public File getOriginalFile(@NotNull final BookStep step, @NotNull final String xppFileName)
     {
         final String fileName = FilenameUtils.removeExtension(xppFileName);
@@ -33,6 +48,14 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     public Collection<File> getOriginalFiles(@NotNull final BookStep step)
     {
         return FileUtils.listFiles(getOriginalDirectory(step), new String[] {"main"}, false);
+    }
+
+    @NotNull
+    @Override
+    public File getFootnotesFile(@NotNull final BookStep step, @NotNull final String materialNumber, @NotNull final String xppFileName)
+    {
+        final String fileName = FilenameUtils.removeExtension(xppFileName);
+        return new File(getOriginalBundleDirectory(step, materialNumber), fileName + ".footnotes");
     }
 
     @NotNull

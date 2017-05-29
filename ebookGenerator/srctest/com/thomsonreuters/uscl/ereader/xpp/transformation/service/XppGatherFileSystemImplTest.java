@@ -8,8 +8,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.FileSystemMatcher;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
@@ -27,8 +26,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class XppGatherFileSystemImplTest
 {
     private static final String bundlesDir = "/Gather/Bundles";
-    private static final String bundle1 = "/111111/bundleName1";
-    private static final String bundle2 = "/2222/bundleName2";
+    private static final String materialNumber1 = "11111111";
+    private static final String materialNumber2 = "22222222";
+    private static final String bundle1 = "/" + materialNumber1 + "/bundleName1";
+    private static final String bundle2 = "/" + materialNumber2 + "/bundleName2";
     private static final String assets = "/assets";
     private static final String xpp = "/XPP";
 
@@ -49,7 +50,7 @@ public class XppGatherFileSystemImplTest
     @Before
     public void setUp() throws IllegalAccessException, IOException
     {
-        FieldUtils.writeField(fileSystem, "xppTempDirectory", temporaryFolder.getRoot().getAbsolutePath(), true);
+        FieldUtils.writeField(fileSystem, "xppTempDirectory", temporaryFolder.getRoot(), true);
 
         final File bundleDir1 = mkdir(temporaryFolder.getRoot(), bundleRoot1);
         final File bundleDir2 = mkdir(temporaryFolder.getRoot(), bundleRoot2);
@@ -131,11 +132,12 @@ public class XppGatherFileSystemImplTest
     {
         //given
         //when
-        final Set<File> files = new HashSet<>(fileSystem.getXppSourceXmls(step));
+//        final Set<File> files = new HashSet<>(fileSystem.getXppSourceXmls(step));
+        final Map<String, Collection<File>> sourceXmls = fileSystem.getXppSourceXmls(step);
         //then
-        assertTrue(files.contains(xppFile1));
-        assertTrue(files.contains(xppFile2));
-        assertFalse(files.contains(txtFile));
+        assertTrue(sourceXmls.get(materialNumber1).contains(xppFile1));
+        assertFalse(sourceXmls.get(materialNumber1).contains(txtFile));
+        assertTrue(sourceXmls.get(materialNumber2).contains(xppFile2));
     }
 
     private File mkdir(final File base, final String subPath)

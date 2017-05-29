@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.service;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.GatherFileSystem;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
@@ -50,5 +51,5 @@ public interface XppGatherFileSystem extends GatherFileSystem
      * {@code /}{@link getXppBundlesDirectory Bundles}{@code /[bundle material number]/[bundle name]}{@code /XPP}{@code /*.xml}
      */
     @NotNull
-    Collection<File> getXppSourceXmls(@NotNull BookStep step);
+    Map<String, Collection<File>> getXppSourceXmls(@NotNull BookStep step);
 }

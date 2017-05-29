@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppGatherFileSystem;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.junit.Before;
@@ -23,8 +24,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration
 public final class OriginalStructureTransformationStepIntegrationTest
 {
+    private static final String MATERIAL_NUMBER = "11111111";
+
     @Resource(name = "originalStructureTransformationTask")
     private OriginalStructureTransformationStep step;
+    @Autowired
+    private XppGatherFileSystem xppGatherFileSystem;
     @Autowired
     private XppFormatFileSystem fileSystem;
     @Autowired
@@ -44,20 +49,21 @@ public final class OriginalStructureTransformationStepIntegrationTest
         expectedFootnotes = new File(
             OriginalStructureTransformationStepIntegrationTest.class.getResource("expected.footnotes").toURI());
         xppDirectory = new File(bookFileSystem.getWorkDirectory(step), "xppDirectory");
-        FieldUtils.writeField(step, "xppDirectory", xppDirectory, true);
+        FieldUtils.writeField(xppGatherFileSystem, "xppTempDirectory", xppDirectory, true);
     }
 
     @Test
     public void shouldReturnOriginalXml() throws Exception
     {
         //given
-        FileUtils.forceMkdir(xppDirectory);
-        FileUtils.copyFileToDirectory(xpp, xppDirectory);
+        final File xppDir = new File(xppDirectory + "/Gather/Bundles/" + MATERIAL_NUMBER + "/bundleName/XPP");
+        FileUtils.forceMkdir(xppDir);
+        FileUtils.copyFileToDirectory(xpp, xppDir);
         //when
         step.executeStep();
         //then
-        final File original = fileSystem.getOriginalFile(step, "sampleXpp");
-        final File footnotes = fileSystem.getFootnotesFile(step, "sampleXpp");
+        final File original = fileSystem.getOriginalFile(step, MATERIAL_NUMBER, "sampleXpp");
+        final File footnotes = fileSystem.getFootnotesFile(step, MATERIAL_NUMBER, "sampleXpp");
         assertThat(expectedOriginal, hasSameContentAs(original));
         assertThat(expectedFootnotes, hasSameContentAs(footnotes));
     }
