@@ -15,7 +15,6 @@ import com.thomsonreuters.uscl.ereader.xpp.transformation.move.resources.step.Mo
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Answers;
@@ -60,7 +59,6 @@ public final class MoveResourcesToAssembleDirectoryXppTest
     }
 
     @Test
-    @Ignore
     public void test() throws Exception
     {
         //given
