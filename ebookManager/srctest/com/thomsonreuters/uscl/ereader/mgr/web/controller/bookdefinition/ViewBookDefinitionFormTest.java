@@ -21,7 +21,6 @@ public final class ViewBookDefinitionFormTest
 
     private static final String specialCharacterPrintComp = "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c@1&quot;}]";
 
-
     private ViewBookDefinitionForm form;
 
     @Before

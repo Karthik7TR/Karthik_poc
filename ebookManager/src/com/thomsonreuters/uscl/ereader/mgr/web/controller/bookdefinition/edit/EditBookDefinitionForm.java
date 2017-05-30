@@ -14,9 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
@@ -42,7 +40,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -1487,11 +1485,10 @@ public class EditBookDefinitionForm
 
     public String getPrintComponents() throws JsonProcessingException
     {
-        final String printComponentsString = StringEscapeUtils.escapeXml(jsonMapper.writeValueAsString(printComponents));
-        return printComponentsString;
+        return StringEscapeUtils.escapeXml10(jsonMapper.writeValueAsString(printComponents));
     }
 
-    public void setPrintComponents(final String printComponents) throws JsonParseException, JsonMappingException, IOException
+    public void setPrintComponents(final String printComponents) throws IOException
     {
         this.printComponents = jsonMapper.readValue(printComponents, jsonMapper.getTypeFactory().constructCollectionType(List.class, PrintComponent.class));
     }

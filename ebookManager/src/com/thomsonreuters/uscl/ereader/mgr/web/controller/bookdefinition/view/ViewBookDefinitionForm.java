@@ -3,7 +3,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -21,7 +21,7 @@ public class ViewBookDefinitionForm
         COPY,
         RESTORE,
         GROUP
-    };
+    }
 
     private Command command;
     private Long id;
@@ -55,8 +55,7 @@ public class ViewBookDefinitionForm
 
     public String getPrintComponents() throws JsonProcessingException
     {
-        final String printComponentsString = StringEscapeUtils.escapeXml(jsonMapper.writeValueAsString(bookDefinition.getPrintComponents()));
-        return printComponentsString;
+        return StringEscapeUtils.escapeXml10(jsonMapper.writeValueAsString(bookDefinition.getPrintComponents()));
     }
 
     @Override
