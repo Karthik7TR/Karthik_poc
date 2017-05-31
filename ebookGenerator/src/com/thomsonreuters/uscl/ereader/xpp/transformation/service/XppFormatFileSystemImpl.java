@@ -1,7 +1,10 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.service;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystemImpl;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
@@ -73,24 +76,42 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
         return FileUtils.listFiles(getOriginalDirectory(step), new String[] {"footnotes"}, false);
     }
 
+    @NotNull
+    @Override
+    public Map<String, Collection<File>> getOriginalMainAndFootnoteFiles(@NotNull final BookStep step)
+    {
+        return getMaterialNumberToFilesMap(getOriginalDirectory(step));
+    }
+
+    @NotNull
     @Override
     public File getSectionbreaksDirectory(@NotNull final BookStep step)
     {
         return new File(getFormatDirectory(step), "02_Sectionbreaks");
     }
 
+    @NotNull
     @Override
     public File getSectionbreaksFile(@NotNull final BookStep step, @NotNull final String name)
     {
         return new File(getSectionbreaksDirectory(step), name);
     }
 
+    @NotNull
     @Override
     public File getPagebreakesUpDirectory(@NotNull final BookStep step)
     {
         return new File(getFormatDirectory(step), "02_PagebreakesUp");
     }
 
+    @NotNull
+    @Override
+    public File getPagebreakesUpDirectory(@NotNull final BookStep step, @NotNull final String materialNumber)
+    {
+        return new File(getFormatDirectory(step), "02_PagebreakesUp/" + materialNumber);
+    }
+
+    @NotNull
     @Override
     public File getPagebreakesUpFile(@NotNull final BookStep step, @NotNull final String name)
     {
@@ -99,9 +120,30 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     @Override
+    public File getPagebreakesUpFile(@NotNull final BookStep step, @NotNull final String materialNumber, @NotNull final String name)
+    {
+        return new File(getPagebreakesUpDirectory(step), materialNumber + "/" + name);
+    }
+
+    @NotNull
+    @Override
+    public Map<String, Collection<File>> getPagebreakesUpFiles(@NotNull final BookStep step)
+    {
+        return getMaterialNumberToFilesMap(getPagebreakesUpDirectory(step));
+    }
+
+    @NotNull
+    @Override
     public File getOriginalPartsDirectory(@NotNull final BookStep step)
     {
         return new File(getFormatDirectory(step), "03_OriginalParts");
+    }
+
+    @NotNull
+    @Override
+    public File getOriginalPartsDirectory(@NotNull final BookStep step, @NotNull final String materialNumber)
+    {
+        return new File(getOriginalPartsDirectory(step), materialNumber);
     }
 
     @NotNull
@@ -150,14 +192,14 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     @Override
-    public File getAnchorToDocumentIdMapFile(final BookStep step)
+    public File getAnchorToDocumentIdMapFile(@NotNull final BookStep step)
     {
         return new File(getFormatDirectory(step), "anchorToDocumentIdMapFile.txt");
     }
 
     @NotNull
     @Override
-    public File getDocToImageMapFile(final BookStep step)
+    public File getDocToImageMapFile(@NotNull final BookStep step)
     {
         return new File(getFormatDirectory(step), "doc-to-image-manifest.txt");
     }
@@ -195,5 +237,19 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     public File getTitleMetadataFile(@NotNull final BookStep step)
     {
         return new File(getTitleMetadataDirectory(step), "titleMetadata.xml");
+    }
+
+    private Map<String, Collection<File>> getMaterialNumberToFilesMap(@NotNull final File root)
+    {
+        final Map<String, Collection<File>> files = new HashMap<>();
+        for (final File sourceDir : root.listFiles())
+        {
+            if (sourceDir.isDirectory()) //TODO: need this check till use both multibundle and noBundle approaches
+            {
+                final String materialNumber = sourceDir.getName();
+                files.put(materialNumber, Arrays.asList(sourceDir.listFiles()));
+            }
+        }
+        return files;
     }
 }

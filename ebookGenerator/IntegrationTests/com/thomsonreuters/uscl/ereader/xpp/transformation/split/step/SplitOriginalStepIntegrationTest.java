@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.split.step;
 
 import static com.thomsonreuters.uscl.ereader.common.filesystem.FileContentMatcher.hasSameContentAs;
+import static com.thomsonreuters.uscl.ereader.core.book.util.BookTestUtil.mkdir;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
@@ -22,6 +23,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration
 public final class SplitOriginalStepIntegrationTest
 {
+    private static final String MATERIAL_NUMBER = "11111111";
+
     @Resource(name = "splitOriginalTask")
     private SplitOriginalStep step;
     @Autowired
@@ -53,8 +56,7 @@ public final class SplitOriginalStepIntegrationTest
     public void shouldSplitOriginalXml() throws Exception
     {
         //given
-        final File originalDirectory = fileSystem.getOriginalDirectory(step);
-        FileUtils.forceMkdir(originalDirectory);
+        final File originalDirectory = mkdir(fileSystem.getOriginalBundleDirectory(step, MATERIAL_NUMBER));
         FileUtils.copyFileToDirectory(main, originalDirectory);
         FileUtils.copyFileToDirectory(footnotes, originalDirectory);
         //when

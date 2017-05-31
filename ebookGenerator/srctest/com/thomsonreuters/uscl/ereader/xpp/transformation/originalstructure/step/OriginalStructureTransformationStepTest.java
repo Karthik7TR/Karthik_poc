@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.originalstructure.step;
 
+import static com.thomsonreuters.uscl.ereader.core.book.util.BookTestUtil.mkdir;
+import static com.thomsonreuters.uscl.ereader.core.book.util.BookTestUtil.mkfile;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
@@ -64,24 +66,15 @@ public final class OriginalStructureTransformationStepTest
     public void setUp() throws IOException
     {
         xppDirectory = temporaryFolder.getRoot();
-        final File bundleDir = new File(xppDirectory + "/" + MATERIAL_NUMBER);
-        bundleDir.mkdirs();
-        final File xppDir = new File(bundleDir + "/bundleName/XPP");
-        xppDir.mkdirs();
-
-        xppFile = new File(xppDir, "xpp.xml");
-        xppFile.createNewFile();
+        final File bundleDir = mkdir(xppDirectory, MATERIAL_NUMBER);
+        final File xppDir = mkdir(bundleDir, "/bundleName/XPP");
+        xppFile = mkfile(xppDir, "xpp.xml");
 
         given(xppGatherFileSystem.getXppSourceXmls(step)).willReturn(getSourceXmlsFromGatherDir());
         given(fileSystem.getOriginalDirectory(step)).willReturn(xppDirectory);
         given(fileSystem.getOriginalBundleDirectory(step, MATERIAL_NUMBER)).willReturn(bundleDir);
         given(fileSystem.getOriginalFile(step, MATERIAL_NUMBER, "xpp.xml")).willReturn(originalFile);
         given(fileSystem.getFootnotesFile(step, MATERIAL_NUMBER, "xpp.xml")).willReturn(footnotesFile);
-    }
-
-    private Map<String, Collection<File>> getSourceXmlsFromGatherDir()
-    {
-        return Collections.singletonMap(MATERIAL_NUMBER, (Collection<File>) Collections.singletonList(xppFile));
     }
 
     @Test
@@ -104,5 +97,10 @@ public final class OriginalStructureTransformationStepTest
         //then
         then(transformationService).should().transform((Transformer) any(), eq(xppFile), eq(originalFile));
         then(transformationService).should().transform((Transformer) any(), eq(xppFile), eq(footnotesFile));
+    }
+
+    private Map<String, Collection<File>> getSourceXmlsFromGatherDir()
+    {
+        return Collections.singletonMap(MATERIAL_NUMBER, (Collection<File>) Collections.singletonList(xppFile));
     }
 }

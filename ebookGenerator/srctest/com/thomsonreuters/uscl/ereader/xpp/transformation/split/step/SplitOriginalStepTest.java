@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.split.step;
 
+import static com.thomsonreuters.uscl.ereader.core.book.util.BookTestUtil.mkdir;
+import static com.thomsonreuters.uscl.ereader.core.book.util.BookTestUtil.mkfile;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
@@ -9,6 +11,10 @@ import static org.mockito.Mockito.times;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 
 import javax.xml.transform.Transformer;
 
@@ -16,7 +22,6 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.TransformationUtil;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
-import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,6 +35,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public final class SplitOriginalStepTest
 {
+    private static final String MATERIAL_NUMBER = "11111111";
     @InjectMocks
     private SplitOriginalStep step;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -57,23 +63,22 @@ public final class SplitOriginalStepTest
     public void setUp() throws IOException
     {
         final File root = temporaryFolder.getRoot();
-        originalDirectory = new File(root, "originalDirectory");
-        FileUtils.forceMkdir(originalDirectory);
-        original = new File(originalDirectory, "original");
-        original.createNewFile();
-        footnotes = new File(originalDirectory, "footnotes");
-        footnotes.createNewFile();
+        originalDirectory = mkdir(root, "originalDirectory");
+        original = mkfile(originalDirectory, "original");
+        footnotes = mkfile(originalDirectory, "footnotes");
 
-        final File moveUpDir = new File(root, "MoveUp");
-        FileUtils.forceMkdir(moveUpDir);
-        new File(moveUpDir, "original").createNewFile();
-        new File(moveUpDir, "footnotes").createNewFile();
+        final File moveUpDir = mkdir(root, "MoveUp");
+        final File moveUpOriginal = mkfile(moveUpDir, "original");
+        final File moveUpFootnotes = mkfile(moveUpDir, "footnotes");
 
         originalPartsDirectory = new File(root, "originalPartsDirectory");
 
-        given(fileSystem.getOriginalDirectory(step)).willReturn(originalDirectory);
-        given(fileSystem.getPagebreakesUpDirectory(step)).willReturn(moveUpDir);
-        given(fileSystem.getOriginalPartsDirectory(step)).willReturn(originalPartsDirectory);
+        given(fileSystem.getOriginalMainAndFootnoteFiles(step)).willReturn(getFilesFromBundleStructure(original, footnotes));
+        given(fileSystem.getPagebreakesUpFiles(step)).willReturn(getFilesFromBundleStructure(moveUpOriginal, moveUpFootnotes));
+
+        given(fileSystem.getPagebreakesUpDirectory(step, MATERIAL_NUMBER)).willReturn(moveUpDir);
+        given(fileSystem.getOriginalPartsDirectory(step, MATERIAL_NUMBER)).willReturn(originalPartsDirectory);
+        given(fileSystem.getOriginalPartsDirectory(step)).willReturn(root);
     }
 
     @Test
@@ -98,5 +103,10 @@ public final class SplitOriginalStepTest
         then(transformationService).should().transform(any(Transformer.class), eq(footnotes), any(File.class));
         then(transformationService).should(times(2))
             .transform(any(Transformer.class), any(File.class), eq(originalPartsDirectory));
+    }
+
+    private Map<String, Collection<File>> getFilesFromBundleStructure(final File...files)
+    {
+        return Collections.singletonMap(MATERIAL_NUMBER, (Collection<File>) Arrays.asList(files));
     }
 }

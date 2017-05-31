@@ -46,7 +46,7 @@ public interface XppGatherFileSystem extends GatherFileSystem
     Collection<File> getXppSourceXmlDirectories(@NotNull BookStep step);
 
     /**
-     * Returns source XPP XMLs for all bundles as plain list:
+     * Returns source XPP XMLs for all bundles as mapping bundle material number to list of files related to this bundle:
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link getXppBundlesDirectory Bundles}{@code /[bundle material number]/[bundle name]}{@code /XPP}{@code /*.xml}
      */

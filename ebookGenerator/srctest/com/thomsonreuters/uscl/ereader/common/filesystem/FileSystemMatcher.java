@@ -17,6 +17,7 @@ public class FileSystemMatcher extends BaseMatcher<Object>
         this.path = path;
     }
 
+    //TODO: make it apply multiple path parts
     public static FileSystemMatcher hasPath(@NotNull final String path)
     {
         return new FileSystemMatcher(path);

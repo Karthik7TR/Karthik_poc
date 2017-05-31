@@ -35,7 +35,11 @@ public class UnitePagePartsStep extends XppTransformationStep
         final Transformer transformer = transformerBuilderFactory.create().withXsl(unitePagePartsXsl).build();
         for (final File originalFile : fileSystem.getOriginalFiles(this))
         {
-            createPage(transformer, originalFile.getName());
+        	//TODO: temporary check to make next steps work with old directory structure
+            if (originalFile.isFile())
+            {
+                createPage(transformer, originalFile.getName());
+            }
         }
     }
 

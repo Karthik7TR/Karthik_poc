@@ -9,6 +9,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 @XmlRootElement(name = "gatherImgRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GatherImgRequest
@@ -126,6 +128,6 @@ public class GatherImgRequest
 
     private static boolean equals(final Collection<String> lhs, final Collection<String> rhs)
     {
-        return lhs == null && rhs == null || lhs != null && rhs != null && lhs.size() == rhs.size() && lhs.containsAll(rhs) && rhs.containsAll(lhs);
+        return lhs == null && rhs == null || lhs != null && rhs != null && CollectionUtils.isEqualCollection(lhs, rhs);
     }
 }

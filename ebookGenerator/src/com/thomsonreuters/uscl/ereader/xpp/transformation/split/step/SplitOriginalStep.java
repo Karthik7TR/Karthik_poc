@@ -2,6 +2,8 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.split.step;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Map;
 
 import javax.xml.transform.Transformer;
 
@@ -34,30 +36,36 @@ public class SplitOriginalStep extends XppTransformationStep
 
     private void movePageBreakesToTopLevel() throws IOException
     {
-        FileUtils.forceMkdir(fileSystem.getPagebreakesUpDirectory(this));
         final Transformer transformer = transformerBuilderFactory.create().withXsl(movePagebreakesUpXsl).build();
-        for (final File file : fileSystem.getOriginalDirectory(this).listFiles())
+        for (final Map.Entry<String, Collection<File>> dir : fileSystem.getOriginalMainAndFootnoteFiles(this).entrySet())
         {
-            if (file.isFile())
+            FileUtils.forceMkdir(fileSystem.getPagebreakesUpDirectory(this, dir.getKey()));
+            for (final File file : dir.getValue())
             {
-                transformationService.transform(transformer, file, fileSystem.getPagebreakesUpFile(this, file.getName()));
+                transformationService.transform(transformer, file, fileSystem.getPagebreakesUpFile(this, dir.getKey(), file.getName()));
             }
         }
     }
 
     private void splitByPages() throws IOException
     {
-        FileUtils.forceMkdir(fileSystem.getOriginalPartsDirectory(this));
         final Transformer transformer = transformerBuilderFactory.create().withXsl(splitOriginalXsl).build();
-        for (final File file : fileSystem.getPagebreakesUpDirectory(this).listFiles())
+        for (final Map.Entry<String, Collection<File>> entry : fileSystem.getPagebreakesUpFiles(this).entrySet())
         {
-            final String fileName = file.getName();
-            final String fileBaseName = FilenameUtils.removeExtension(fileName);
-            final String fileType = FilenameUtils.getExtension(fileName);
+            FileUtils.forceMkdir(fileSystem.getOriginalPartsDirectory(this, entry.getKey()));
+            for (final File file : entry.getValue())
+            {
+                final String fileName = file.getName();
+                final String fileBaseName = FilenameUtils.removeExtension(fileName);
+                final String fileType = FilenameUtils.getExtension(fileName);
 
-            transformer.setParameter("fileBaseName", fileBaseName);
-            transformer.setParameter("fileType", fileType);
-            transformationService.transform(transformer, file, fileSystem.getOriginalPartsDirectory(this));
+                transformer.setParameter("fileBaseName", fileBaseName);
+                transformer.setParameter("fileType", fileType);
+                transformationService.transform(transformer, file, fileSystem.getOriginalPartsDirectory(this, entry.getKey()));
+            }
+
+            //TODO: temporary solution to make next steps work with old directory structure
+            FileUtils.copyDirectory(fileSystem.getOriginalPartsDirectory(this, entry.getKey()), fileSystem.getOriginalPartsDirectory(this));
         }
     }
 }

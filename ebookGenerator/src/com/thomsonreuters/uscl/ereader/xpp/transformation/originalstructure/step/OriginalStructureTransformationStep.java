@@ -12,7 +12,6 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotif
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppGatherFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -32,8 +31,6 @@ public class OriginalStructureTransformationStep extends XppTransformationStep
     @Override
     public void executeTransformation() throws Exception
     {
-        FileUtils.forceMkdir(fileSystem.getOriginalDirectory(this));
-
         final Map<String, Collection<File>> xppXmls = xppGatherFileSystem.getXppSourceXmls(this);
         for (final Map.Entry<String, Collection<File>> xppDir : xppXmls.entrySet())
         {

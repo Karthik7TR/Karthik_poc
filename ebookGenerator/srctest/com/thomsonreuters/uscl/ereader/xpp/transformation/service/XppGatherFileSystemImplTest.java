@@ -1,6 +1,8 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.service;
 
 import static com.thomsonreuters.uscl.ereader.common.filesystem.FileSystemMatcher.hasPath;
+import static com.thomsonreuters.uscl.ereader.core.book.util.BookTestUtil.mkdir;
+import static com.thomsonreuters.uscl.ereader.core.book.util.BookTestUtil.mkfile;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -132,25 +134,10 @@ public class XppGatherFileSystemImplTest
     {
         //given
         //when
-//        final Set<File> files = new HashSet<>(fileSystem.getXppSourceXmls(step));
         final Map<String, Collection<File>> sourceXmls = fileSystem.getXppSourceXmls(step);
         //then
         assertTrue(sourceXmls.get(materialNumber1).contains(xppFile1));
         assertFalse(sourceXmls.get(materialNumber1).contains(txtFile));
         assertTrue(sourceXmls.get(materialNumber2).contains(xppFile2));
-    }
-
-    private File mkdir(final File base, final String subPath)
-    {
-        final File newDir = new File(base, subPath);
-        newDir.mkdirs();
-        return newDir;
-    }
-
-    private File mkfile(final File base, final String fileName) throws IOException
-    {
-        final File newFile = new File(base, fileName);
-        newFile.createNewFile();
-        return newFile;
     }
 }

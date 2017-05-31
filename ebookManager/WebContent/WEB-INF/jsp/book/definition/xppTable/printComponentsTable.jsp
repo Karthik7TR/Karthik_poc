@@ -198,13 +198,23 @@
                                   return !isNaN(value) ;
                               }
                               }
-                          ]
+                          ],
+                    insertTemplate: function() {
+                        var $result = jsGrid.fields.text.prototype.insertTemplate.call(this);
+                        $result.attr("id", "materialNumberId");
+                        return $result;
+                    }
                 }, {
                     name: "componentName",
                     title: "Component Name",
                     type: "text",
                     width: 80,
-                    validate: "required"
+                    validate: "required",
+                    insertTemplate: function() {
+                        var $result = jsGrid.fields.text.prototype.insertTemplate.call(this);
+                        $result.attr("id", "componentNameId");
+                        return $result;
+                    }
                 },
                 {
                    type: "control",
