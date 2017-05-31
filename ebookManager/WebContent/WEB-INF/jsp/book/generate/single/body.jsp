@@ -16,6 +16,7 @@
 	 var newVersionType = versionTypeSelection.options[versionTypeSelection.selectedIndex].value;
 	 var newVersion = "";
 	 var isMajorVersion;
+	 var isMinorVersion = "N";
 	 var isSplitBook = document.getElementById('isSplitBook').innerHTML;
 	 var disableTitleFromSplit = document.getElementById('disableTitleFromSplit').innerHTML;
 	 $("#nextMajorVersionGroup").hide();
@@ -29,6 +30,7 @@
 	 else if (newVersionType == "MINOR"){
 		 newVersion = '${newMinorVersionNumber}';
 		 isMajorVersion = "N";
+		 isMinorVersion = "Y";
 		 $("#currentMajorVersionGroup").show();
 	 }
 	 else if (newVersionType == "MAJOR"){
@@ -50,6 +52,7 @@
 	 
 	 document.getElementById('newVersionNumber').innerHTML = newVersion;
 	 document.getElementById('isMajorVersion').innerHTML = isMajorVersion;
+	 document.getElementById('isMinorVersion').innerHTML = isMinorVersion;
 	 
 	 return true;
   }
@@ -121,6 +124,8 @@
 	  var isNewISBN = document.getElementById('isNewISBN').innerHTML;
 	  var isbn = document.getElementById('isbn').innerHTML;
 	  var isMajorVersion = document.getElementById('isMajorVersion').innerHTML;
+	  var isMinorVersion = document.getElementById('isMinorVersion').innerHTML;
+	  var newVersion = document.getElementById('newVersionNumber').innerHTML;
 		
 	   
 	  if (isMajorVersion == "Y"){
@@ -128,8 +133,12 @@
 			alert("Cannot generate book: Current ISBN " + isbn + " has already been used to publish a book. ISBN must be changed for major version.");
 		  	confirmed= false;
 	  	}
-	  } else {
-		if (isNewISBN != "N") {
+	  }
+	  else if (isMinorVersion == "Y" && isNewISBN =="Y" && newVersion == "1.0"){
+		  //ignore as the book has not been generated yet
+	  }	 
+	  else {
+		if (isNewISBN == "Y") {
 			confirmed = confirm("You are running a MINOR version with a new ISBN number\n" + isbn + "\nAre you sure this is not a MAJOR version? Do you still want to continue?");
 		}
 	  }
@@ -451,6 +460,7 @@ $(document).ready(function() {
 		  	<p id="publishingCutOffDate">${publishingCutOffDate}</p>
 		  	<p id="isNewISBN">${isNewISBN}</p>
 			<p id="isMajorVersion"></p>
+			<p id="isMinorVersion"></p>
 		  	<p id="usePublishingCutOffDate">${usePublishingCutOffDate}</p>
 		  	<p id="isComplete">${isComplete}</p>
 		 	<p id="isbn">${isbn}</p>
