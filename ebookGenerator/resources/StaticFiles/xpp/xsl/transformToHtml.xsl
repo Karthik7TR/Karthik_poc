@@ -32,6 +32,12 @@
 		<xsl:processing-instruction name="pb" select="concat('label', '=', $apostrophe, ./@num, $apostrophe, '?')" />
 	</xsl:template>
 
+	<xsl:template match="x:document.hier|x:document.break">
+		<xsl:element name="a">
+			<xsl:attribute name="name" select="./@guid" />
+		</xsl:element>
+	</xsl:template>
+
 	<xsl:template match="element()">
 		<xsl:element name="div">
 			<xsl:attribute name="class" select="x:get-class-name(name(.))" />
