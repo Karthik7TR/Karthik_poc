@@ -60,25 +60,10 @@ public final class XppFormatFileSystemImplTest
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
-    private File originalFile1;
-    private File originalFile2;
-
-    private File pageBreaksUpFile1;
-    private File pageBreaksUpFile2;
-
     @Before
     public void setUp() throws IOException
     {
         given(bookFileSystem.getWorkDirectory(step)).willReturn(new File(temporaryFolder.getRoot(), "workDirectory"));
-
-        final File originalDir = mkdir(temporaryFolder.getRoot(), ORIGINAL_DIR);
-        final File pagebreakesUpDir = mkdir(temporaryFolder.getRoot(), PAGEBREAKES_UP_DIR);
-
-        originalFile1 = mkfile(mkdir(originalDir, MATERIAL_NUMBER), FILE_NAME_XML);
-        originalFile2 = mkfile(mkdir(originalDir, MATERIAL_NUMBER_2), FILE_NAME_XML);
-
-        pageBreaksUpFile1 = mkfile(mkdir(pagebreakesUpDir, MATERIAL_NUMBER), FILE_NAME_XML);
-        pageBreaksUpFile2 = mkfile(mkdir(pagebreakesUpDir, MATERIAL_NUMBER_2), FILE_NAME_XML);
     }
 
     @Test
@@ -174,10 +159,15 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnOriginalMainAndFootnoteFiles()
+    public void shouldReturnOriginalMainAndFootnoteFiles() throws IOException
     {
+        //given
+        final File originalDir = mkdir(temporaryFolder.getRoot(), ORIGINAL_DIR);
+        final File originalFile1 = mkfile(mkdir(originalDir, MATERIAL_NUMBER), FILE_NAME_XML);
+        final File originalFile2 = mkfile(mkdir(originalDir, MATERIAL_NUMBER_2), FILE_NAME_XML);
+        //when
         final Map<String, Collection<File>> map = fileSystem.getOriginalMainAndFootnoteFiles(step);
-
+        //then
         assertTrue(map.get(MATERIAL_NUMBER).contains(originalFile1));
         assertTrue(map.get(MATERIAL_NUMBER_2).contains(originalFile2));
     }
@@ -243,10 +233,15 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnPagebreakesUpFiles()
+    public void shouldReturnPagebreakesUpFiles() throws IOException
     {
+        //given
+        final File pagebreakesUpDir = mkdir(temporaryFolder.getRoot(), PAGEBREAKES_UP_DIR);
+        final File pageBreaksUpFile1 = mkfile(mkdir(pagebreakesUpDir, MATERIAL_NUMBER), FILE_NAME_XML);
+        final File pageBreaksUpFile2 = mkfile(mkdir(pagebreakesUpDir, MATERIAL_NUMBER_2), FILE_NAME_XML);
+        //when
         final Map<String, Collection<File>> map = fileSystem.getPagebreakesUpFiles(step);
-
+        //then
         assertTrue(map.get(MATERIAL_NUMBER).contains(pageBreaksUpFile1));
         assertTrue(map.get(MATERIAL_NUMBER_2).contains(pageBreaksUpFile2));
     }
@@ -322,6 +317,20 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
+    public void shouldReturnOriginalPageFilesMap() throws IOException
+    {
+        //given
+        final File originalPagesDir = mkdir(temporaryFolder.getRoot(), ORIGINAL_PAGES_DIR);
+        final File file1 = mkfile(mkdir(originalPagesDir, MATERIAL_NUMBER), FILE_NAME_XML);
+        final File file2 = mkfile(mkdir(originalPagesDir, MATERIAL_NUMBER_2), FILE_NAME_XML);
+        //when
+        final Map<String, Collection<File>> map = fileSystem.getOriginalPageFiles(step);
+        //then
+        assertTrue(map.get(MATERIAL_NUMBER).contains(file1));
+        assertTrue(map.get(MATERIAL_NUMBER_2).contains(file2));
+    }
+
+    @Test
     public void shouldReturnHtmlPagesDirectory()
     {
         //given
@@ -332,6 +341,16 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
+    public void shouldReturnHtmlPagesDirectoryForBundleStructure()
+    {
+        //given
+        //when
+        final File directory = fileSystem.getHtmlPagesDirectory(step, MATERIAL_NUMBER);
+        //then
+        assertThat(directory, hasPath(HTML_PAGES_DIR + "/" + MATERIAL_NUMBER));
+    }
+
+    @Test
     public void shouldReturnHtmlPageFile()
     {
         //given
@@ -339,6 +358,16 @@ public final class XppFormatFileSystemImplTest
         final File file = fileSystem.getHtmlPageFile(step, FILE_NAME_PART);
         //then
         assertThat(file, hasPath(HTML_PAGES_DIR + "/" + FILE_NAME_HTML));
+    }
+
+    @Test
+    public void shouldReturnHtmlPageFileForBundleStructure()
+    {
+        //given
+        //when
+        final File file = fileSystem.getHtmlPageFile(step, MATERIAL_NUMBER, FILE_NAME_PART);
+        //then
+        assertThat(file, hasPath(HTML_PAGES_DIR + "/" + MATERIAL_NUMBER + "/" + FILE_NAME_HTML));
     }
 
     @Test

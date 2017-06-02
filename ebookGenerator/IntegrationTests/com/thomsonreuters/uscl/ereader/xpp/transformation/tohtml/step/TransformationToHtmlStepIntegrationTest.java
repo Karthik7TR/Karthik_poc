@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.tohtml.step;
 
 import static com.thomsonreuters.uscl.ereader.common.filesystem.FileContentMatcher.hasSameContentAs;
+import static com.thomsonreuters.uscl.ereader.core.book.util.BookTestUtil.mkdir;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
@@ -21,6 +22,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration
 public final class TransformationToHtmlStepIntegrationTest
 {
+    private static final String MATERIAL_NUMBER = "11111111";
+
     @Resource(name = "transformToHtmlTask")
     private TransformationToHtmlStep step;
     @Autowired
@@ -40,13 +43,13 @@ public final class TransformationToHtmlStepIntegrationTest
     public void shouldTransformPartsToHtml() throws Exception
     {
         //given
-        final File originalPagesDirectory = fileSystem.getOriginalPagesDirectory(step);
-        FileUtils.forceMkdir(originalPagesDirectory);
+        final File originalPagesDirectory = mkdir(fileSystem.getOriginalPagesDirectory(step, MATERIAL_NUMBER));
+
         FileUtils.copyFileToDirectory(original, originalPagesDirectory);
         //when
         step.executeStep();
         //then
-        final File html = fileSystem.getHtmlPageFile(step, "sample");
+        final File html = fileSystem.getHtmlPageFile(step, MATERIAL_NUMBER, "sample");
         assertThat(html, hasSameContentAs(expected));
     }
 }

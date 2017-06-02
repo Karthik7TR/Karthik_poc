@@ -7,6 +7,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.List;
 
 import javax.xml.transform.Transformer;
@@ -43,6 +44,7 @@ public class InternalAnchorsStepTest
     public void setUp()
     {
         final File htmlPagesDir = mock(File.class);
+        given(htmlPagesDir.listFiles(any(FileFilter.class))).willReturn(new File[] {});
         given(fileSystem.getHtmlPagesDirectory(step)).willReturn(htmlPagesDir);
         given(htmlPagesDir.listFiles()).willReturn(new File[]{});
 

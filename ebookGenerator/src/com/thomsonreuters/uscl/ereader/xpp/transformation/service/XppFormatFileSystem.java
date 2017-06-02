@@ -166,7 +166,6 @@ public interface XppFormatFileSystem extends FormatFileSystem
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /04_OriginalPages}
      */
-    @Deprecated
     @NotNull
     File getOriginalPagesDirectory(@NotNull BookStep step);
 
@@ -195,6 +194,15 @@ public interface XppFormatFileSystem extends FormatFileSystem
     File getOriginalPageFile(@NotNull BookStep step, @NotNull String materialNumber, @NotNull String name, int pageNumber);
 
     /**
+     * Returns map "bundle name (material number) to list of files related to this bundle" from original pages directory.
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
+     * {@code /}{@link getOriginalPagesDirectory 04_OriginalPages}{@code /[material number]}{@code /fileName_#.page}
+     */
+    @NotNull
+    Map<String, Collection<File>> getOriginalPageFiles(@NotNull BookStep step);
+
+    /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /05_HtmlPages}
      */
@@ -203,11 +211,27 @@ public interface XppFormatFileSystem extends FormatFileSystem
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /05_HtmlPages}{@code /[material number]}
+     */
+    @NotNull
+    File getHtmlPagesDirectory(@NotNull BookStep step, @NotNull String materialNumber);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
      * {@code /}{@link getHtmlPagesDirectory 05_HtmlPages}{@code /fileName.html}
      */
+    @Deprecated
     @NotNull
     File getHtmlPageFile(@NotNull BookStep step, @NotNull String name);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
+     * {@code /}{@link getHtmlPagesDirectory 05_HtmlPages}{@code /[material number]}{@code /fileName.html}
+     */
+    @NotNull
+    File getHtmlPageFile(@NotNull BookStep step, @NotNull String materialNumber, @NotNull String name);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}

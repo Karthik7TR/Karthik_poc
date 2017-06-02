@@ -7,6 +7,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.List;
 
 import javax.xml.transform.Transformer;
@@ -44,7 +45,7 @@ public class DocToImageMappingStepTest
     {
         final File htmlPagesDir = mock(File.class);
         given(fileSystem.getHtmlPagesDirectory(step)).willReturn(htmlPagesDir);
-        given(htmlPagesDir.listFiles()).willReturn(new File[]{});
+        given(htmlPagesDir.listFiles(any(FileFilter.class))).willReturn(new File[]{});
 
         final TransformerBuilder builder = mock(TransformerBuilder.class);
         given(transformerBuilderFactory.create()).willReturn(builder);

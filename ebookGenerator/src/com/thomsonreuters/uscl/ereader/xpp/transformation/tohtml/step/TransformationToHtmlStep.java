@@ -1,6 +1,8 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.tohtml.step;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.Map;
 
 import javax.xml.transform.Transformer;
 
@@ -25,17 +27,19 @@ public class TransformationToHtmlStep extends XppTransformationStep
     @Override
     public void executeTransformation() throws Exception
     {
-        FileUtils.forceMkdir(fileSystem.getHtmlPagesDirectory(this));
         final Transformer transformer = transformerBuilderFactory.create().withXsl(transformToHtmlXsl).build();
-        for (final File part : fileSystem.getOriginalPagesDirectory(this).listFiles())
+        for (final Map.Entry<String, Collection<File>> dir : fileSystem.getOriginalPageFiles(this).entrySet())
         {
-            //TODO: temporary check to make next steps work with old directory structure
-            if (part.isFile())
+            FileUtils.forceMkdir(fileSystem.getHtmlPagesDirectory(this, dir.getKey()));
+            for (final File part : dir.getValue())
             {
                 transformer.setParameter("fileBaseName", FilenameUtils.removeExtension(part.getName()));
                 transformationService
-                    .transform(transformer, part, fileSystem.getHtmlPageFile(this, part.getName()));
+                    .transform(transformer, part, fileSystem.getHtmlPageFile(this, dir.getKey(), part.getName()));
             }
+
+            //TODO: temporary solution to make next steps work with old directory structure
+            FileUtils.copyDirectory(fileSystem.getHtmlPagesDirectory(this, dir.getKey()), fileSystem.getHtmlPagesDirectory(this));
         }
     }
 }

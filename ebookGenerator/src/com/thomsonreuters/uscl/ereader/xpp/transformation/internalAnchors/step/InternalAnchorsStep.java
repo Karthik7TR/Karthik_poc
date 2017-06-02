@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.internalAnchors.step;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.Arrays;
 
 import javax.xml.transform.Transformer;
@@ -29,7 +30,15 @@ public class InternalAnchorsStep extends XppTransformationStep
 
         transformationService.transform(
             transformer,
-            Arrays.asList(fileSystem.getHtmlPagesDirectory(this).listFiles()),
+            Arrays.asList(fileSystem.getHtmlPagesDirectory(this).listFiles(new FileFilter()
+            {
+                @Override
+                public boolean accept(final File pathname)
+                {
+                    //TODO: temporary filter to make next steps work with old directory structure
+                    return pathname.isFile();
+                }
+            })),
             fileSystem.getAnchorToDocumentIdMapFile(this));
     }
 }
