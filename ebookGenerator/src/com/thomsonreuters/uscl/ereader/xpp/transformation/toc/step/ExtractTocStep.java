@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.toc.step;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -50,7 +51,15 @@ public class ExtractTocStep extends XppTransformationStep
 
         transformationService.transform(
             transformer,
-            Arrays.asList(fileSystem.getOriginalPagesDirectory(this).listFiles()),
+            Arrays.asList(fileSystem.getOriginalPagesDirectory(this).listFiles(new FileFilter()
+            {
+                @Override
+                public boolean accept(final File pathname)
+                {
+                    //TODO: temporary filter to make next steps work with old directory structure
+                    return pathname.isFile();
+                }
+            })),
             fileSystem.getTocItemToDocumentIdMapFile(this));
     }
 

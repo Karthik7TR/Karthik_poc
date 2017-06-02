@@ -29,9 +29,13 @@ public class TransformationToHtmlStep extends XppTransformationStep
         final Transformer transformer = transformerBuilderFactory.create().withXsl(transformToHtmlXsl).build();
         for (final File part : fileSystem.getOriginalPagesDirectory(this).listFiles())
         {
-            transformer.setParameter("fileBaseName", FilenameUtils.removeExtension(part.getName()));
-            transformationService
-                .transform(transformer, part, fileSystem.getHtmlPageFile(this, part.getName()));
+            //TODO: temporary check to make next steps work with old directory structure
+            if (part.isFile())
+            {
+                transformer.setParameter("fileBaseName", FilenameUtils.removeExtension(part.getName()));
+                transformationService
+                    .transform(transformer, part, fileSystem.getHtmlPageFile(this, part.getName()));
+            }
         }
     }
 }

@@ -4,7 +4,9 @@ import static java.util.Arrays.asList;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.xml.transform.Transformer;
@@ -31,37 +33,43 @@ public class UnitePagePartsStep extends XppTransformationStep
     @Override
     public void executeTransformation() throws Exception
     {
-        FileUtils.forceMkdir(fileSystem.getOriginalPagesDirectory(this));
         final Transformer transformer = transformerBuilderFactory.create().withXsl(unitePagePartsXsl).build();
-        for (final File originalFile : fileSystem.getOriginalFiles(this))
+
+        for (final Map.Entry<String, Collection<File>> dir : fileSystem.getOriginalMainAndFootnoteFiles(this).entrySet())
         {
-        	//TODO: temporary check to make next steps work with old directory structure
-            if (originalFile.isFile())
+            FileUtils.forceMkdir(fileSystem.getOriginalPagesDirectory(this, dir.getKey()));
+            for (final File originalFile : dir.getValue())
             {
-                createPage(transformer, originalFile.getName());
+                if (originalFile.getName().endsWith(".main"))
+                {
+                    createPage(transformer, dir.getKey(), originalFile.getName());
+                }
             }
+
+            //TODO: temporary solution to make next steps work with old directory structure
+            FileUtils.copyDirectory(fileSystem.getOriginalPagesDirectory(this, dir.getKey()), fileSystem.getOriginalPagesDirectory(this));
         }
     }
 
-    private void createPage(final Transformer transformer, final String fileName)
+    private void createPage(final Transformer transformer, final String materialNumber, final String fileName)
     {
-        final int numberOfPages = getNumberOfPagesForGivenBasefile(fileName);
+        final int numberOfPages = getNumberOfPagesForGivenBasefile(materialNumber, fileName);
         for (int i = 1; i <= numberOfPages; i++)
         {
-            final File mainPart = fileSystem.getOriginalPartsFile(this, fileName, i, PartType.MAIN);
-            final File footnotesPart = fileSystem.getOriginalPartsFile(this, fileName, i, PartType.FOOTNOTE);
+            final File mainPart = fileSystem.getOriginalPartsFile(this, materialNumber, fileName, i, PartType.MAIN);
+            final File footnotesPart = fileSystem.getOriginalPartsFile(this, materialNumber, fileName, i, PartType.FOOTNOTE);
             final List<File> files = asList(mainPart, footnotesPart);
 
-            transformationService.transform(transformer, files, fileSystem.getOriginalPageFile(this, fileName, i));
+            transformationService.transform(transformer, files, fileSystem.getOriginalPageFile(this, materialNumber, fileName, i));
         }
     }
 
-    private int getNumberOfPagesForGivenBasefile(final String fileName)
+    private int getNumberOfPagesForGivenBasefile(final String materialNumber, final String fileName)
     {
         final String baseFileName = FilenameUtils.removeExtension(fileName);
         final Pattern pattern = Pattern.compile(baseFileName + "_[0-9]+_.+\\.part");
         return
-            fileSystem.getOriginalPartsDirectory(this).listFiles(new FilenameFilter()
+            fileSystem.getOriginalPartsDirectory(this, materialNumber).listFiles(new FilenameFilter()
             {
                 @Override
                 public boolean accept(final File dir, final String name)

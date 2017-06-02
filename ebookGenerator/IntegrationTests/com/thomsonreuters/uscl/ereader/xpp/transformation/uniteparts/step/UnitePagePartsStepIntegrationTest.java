@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.uniteparts.step;
 
 import static com.thomsonreuters.uscl.ereader.common.filesystem.FileContentMatcher.hasSameContentAs;
+import static com.thomsonreuters.uscl.ereader.core.book.util.BookTestUtil.mkdir;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
@@ -22,6 +23,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration
 public final class UnitePagePartsStepIntegrationTest
 {
+    private static final String MATERIAL_NUMBER = "11111111";
+    private static final String MATERIAL_NUMBER_2 = "22222222";
+
     @Resource(name = "unitePagesPartsTask")
     private UnitePagePartsStep step;
     @Autowired
@@ -37,9 +41,10 @@ public final class UnitePagePartsStepIntegrationTest
     @Before
     public void setUp() throws URISyntaxException, IOException
     {
-        fileSystem.getOriginalDirectory(step).mkdirs();
-        fileSystem.getOriginalFile(step, "sample").createNewFile();
-        fileSystem.getOriginalFile(step, "sampleTwo").createNewFile();
+        fileSystem.getOriginalBundleDirectory(step, MATERIAL_NUMBER).mkdirs();
+        fileSystem.getOriginalBundleDirectory(step, MATERIAL_NUMBER_2).mkdirs();
+        fileSystem.getOriginalFile(step, MATERIAL_NUMBER, "sample").createNewFile();
+        fileSystem.getOriginalFile(step, MATERIAL_NUMBER_2, "sampleTwo").createNewFile();
         mainPart = new File(UnitePagePartsStepIntegrationTest.class.getResource("sample_1_main.part").toURI());
         footnotesPart = new File(UnitePagePartsStepIntegrationTest.class.getResource("sample_1_footnotes.part").toURI());
         mainPartTwo = new File(UnitePagePartsStepIntegrationTest.class.getResource("sampleTwo_1_main.part").toURI());
@@ -52,18 +57,18 @@ public final class UnitePagePartsStepIntegrationTest
     public void shouldUnitePageParts() throws Exception
     {
         //given
-        final File originalPartsDirectory = fileSystem.getOriginalPartsDirectory(step);
-        FileUtils.forceMkdir(originalPartsDirectory);
+        final File originalPartsDirectory = mkdir(fileSystem.getOriginalPartsDirectory(step, MATERIAL_NUMBER));
+        final File originalPartsDirectory2 = mkdir(fileSystem.getOriginalPartsDirectory(step, MATERIAL_NUMBER_2));
         FileUtils.copyFileToDirectory(mainPart, originalPartsDirectory);
         FileUtils.copyFileToDirectory(footnotesPart, originalPartsDirectory);
-        FileUtils.copyFileToDirectory(mainPartTwo, originalPartsDirectory);
-        FileUtils.copyFileToDirectory(footnotesPartTwo, originalPartsDirectory);
+        FileUtils.copyFileToDirectory(mainPartTwo, originalPartsDirectory2);
+        FileUtils.copyFileToDirectory(footnotesPartTwo, originalPartsDirectory2);
         //when
         step.executeStep();
         //then
-        final File actual = fileSystem.getOriginalPageFile(step, "sample", 1);
+        final File actual = fileSystem.getOriginalPageFile(step, MATERIAL_NUMBER, "sample", 1);
         assertThat(expected, hasSameContentAs(actual));
-        final File actualTwo = fileSystem.getOriginalPageFile(step, "sampleTwo", 1);
+        final File actualTwo = fileSystem.getOriginalPageFile(step, MATERIAL_NUMBER_2, "sampleTwo", 1);
         assertThat(expectedTwo, hasSameContentAs(actualTwo));
     }
 }

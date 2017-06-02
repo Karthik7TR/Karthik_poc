@@ -62,10 +62,10 @@ public final class SplitOriginalStepIntegrationTest
         //when
         step.executeStep();
         //then
-        final File actualMainPart1 = fileSystem.getOriginalPartsFile(step, "sample", 1, PartType.MAIN);
-        final File actualMainPart2 = fileSystem.getOriginalPartsFile(step, "sample", 2, PartType.MAIN);
-        final File actualFootnotesPart1 = fileSystem.getOriginalPartsFile(step, "sample", 1, PartType.FOOTNOTE);
-        final File actualFootnotesPart2 = fileSystem.getOriginalPartsFile(step, "sample", 2, PartType.FOOTNOTE);
+        final File actualMainPart1 = fileSystem.getOriginalPartsFile(step, MATERIAL_NUMBER, "sample", 1, PartType.MAIN);
+        final File actualMainPart2 = fileSystem.getOriginalPartsFile(step, MATERIAL_NUMBER, "sample", 2, PartType.MAIN);
+        final File actualFootnotesPart1 = fileSystem.getOriginalPartsFile(step, MATERIAL_NUMBER, "sample", 1, PartType.FOOTNOTE);
+        final File actualFootnotesPart2 = fileSystem.getOriginalPartsFile(step, MATERIAL_NUMBER, "sample", 2, PartType.FOOTNOTE);
         assertThat(expectedMainPart1, hasSameContentAs(actualMainPart1));
         assertThat(expectedMainPart2, hasSameContentAs(actualMainPart2));
         assertThat(expectedFootnotesPart1, hasSameContentAs(actualFootnotesPart1));

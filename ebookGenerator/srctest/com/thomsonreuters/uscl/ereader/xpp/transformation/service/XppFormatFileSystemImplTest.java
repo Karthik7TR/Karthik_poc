@@ -276,9 +276,9 @@ public final class XppFormatFileSystemImplTest
     {
         //given
         //when
-        final File file = fileSystem.getOriginalPartsFile(step, FILE_NAME, 1, PartType.MAIN);
+        final File file = fileSystem.getOriginalPartsFile(step, MATERIAL_NUMBER, FILE_NAME, 1, PartType.MAIN);
         //then
-        assertThat(file, hasPath(ORIGINAL_PARTS_DIR + "/" + FILE_NAME_1_MAIN_PART));
+        assertThat(file, hasPath(ORIGINAL_PARTS_DIR + "/" + MATERIAL_NUMBER + "/" + FILE_NAME_1_MAIN_PART));
     }
 
     @Test
@@ -292,6 +292,16 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
+    public void shouldReturnOriginalPagesDirectoryForBundleStructure()
+    {
+        //given
+        //when
+        final File directory = fileSystem.getOriginalPagesDirectory(step, MATERIAL_NUMBER);
+        //then
+        assertThat(directory, hasPath(ORIGINAL_PAGES_DIR + "/" + MATERIAL_NUMBER));
+    }
+
+    @Test
     public void shouldReturnOriginalPageFile()
     {
         //given
@@ -299,6 +309,16 @@ public final class XppFormatFileSystemImplTest
         final File file = fileSystem.getOriginalPageFile(step, FILE_NAME_ORIGINAL, 1);
         //then
         assertThat(file, hasPath(ORIGINAL_PAGES_DIR + "/" + FILE_NAME_1_PAGE));
+    }
+
+    @Test
+    public void shouldReturnOriginalPageFileForBundleStructure()
+    {
+        //given
+        //when
+        final File file = fileSystem.getOriginalPageFile(step, MATERIAL_NUMBER, FILE_NAME_ORIGINAL, 1);
+        //then
+        assertThat(file, hasPath(ORIGINAL_PAGES_DIR + "/" + MATERIAL_NUMBER + "/" + FILE_NAME_1_PAGE));
     }
 
     @Test

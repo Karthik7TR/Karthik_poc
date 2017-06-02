@@ -143,20 +143,21 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     @Override
     public File getOriginalPartsDirectory(@NotNull final BookStep step, @NotNull final String materialNumber)
     {
-        return new File(getOriginalPartsDirectory(step), materialNumber);
+        return new File(getFormatDirectory(step), "03_OriginalParts/" + materialNumber);
     }
 
     @NotNull
     @Override
     public File getOriginalPartsFile(
         @NotNull final BookStep step,
+        @NotNull final String materialNumber,
         @NotNull final String name,
         final int partNumber,
         @NotNull final PartType type)
     {
         final String fileName = FilenameUtils.removeExtension(name);
         final String partFileName = String.format("%s_%s_%s.part", fileName, partNumber, type.getName());
-        return new File(getOriginalPartsDirectory(step), partFileName);
+        return new File(getOriginalPartsDirectory(step, materialNumber), partFileName);
     }
 
     @NotNull
@@ -168,11 +169,27 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     @Override
+    public File getOriginalPagesDirectory(@NotNull final BookStep step, @NotNull final String materialNumber)
+    {
+        return new File(getFormatDirectory(step), "04_OriginalPages/" + materialNumber);
+    }
+
+    @NotNull
+    @Override
     public File getOriginalPageFile(@NotNull final BookStep step, @NotNull final String name, final int pageNumber)
     {
         final String fileBaseName = FilenameUtils.removeExtension(name);
         final String fileName = String.format("%s_%d.page", fileBaseName, pageNumber);
         return new File(getOriginalPagesDirectory(step), fileName);
+    }
+
+    @NotNull
+    @Override
+    public File getOriginalPageFile(@NotNull final BookStep step, @NotNull final String materialNumber, @NotNull final String name, final int pageNumber)
+    {
+        final String fileBaseName = FilenameUtils.removeExtension(name);
+        final String fileName = String.format("%s_%d.page", fileBaseName, pageNumber);
+        return new File(getOriginalPagesDirectory(step, materialNumber), fileName);
     }
 
     @NotNull
