@@ -49,9 +49,9 @@ public class SplitOriginalStep extends XppTransformationStep
 
     private void splitByPages() throws IOException
     {
-        final Transformer transformer = transformerBuilderFactory.create().withXsl(splitOriginalXsl).build();
         for (final Map.Entry<String, Collection<File>> entry : fileSystem.getPagebreakesUpFiles(this).entrySet())
         {
+            final Transformer transformer = transformerBuilderFactory.create().withXsl(splitOriginalXsl).build();
             FileUtils.forceMkdir(fileSystem.getOriginalPartsDirectory(this, entry.getKey()));
             for (final File file : entry.getValue())
             {
