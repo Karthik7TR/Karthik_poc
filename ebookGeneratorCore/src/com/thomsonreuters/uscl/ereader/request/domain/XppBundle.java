@@ -1,10 +1,12 @@
 package com.thomsonreuters.uscl.ereader.request.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -27,7 +29,7 @@ public class XppBundle
     @XmlElement(name = "product_type")
     private String productType;
     @XmlElement(name = "material_no")
-    private long materialNumber;
+    private String materialNumber;
     @XmlElement(name = "release_date")
     private Date releaseDate;
     @XmlElement(name = "release_number")
@@ -36,6 +38,9 @@ public class XppBundle
     private int volumes;
     @XmlElement(name = "bundle_root")
     private String bundleRoot;
+    @XmlElementWrapper(name = "file_order")
+    @XmlElement(name = "file")
+    private List<String> orderedFileList;
 
     public String getProductTitle()
     {
@@ -57,12 +62,12 @@ public class XppBundle
         this.productType = productType;
     }
 
-    public long getMaterialNumber()
+    public String getMaterialNumber()
     {
         return materialNumber;
     }
 
-    public void setMaterialNumber(final long materialNumber)
+    public void setMaterialNumber(final String materialNumber)
     {
         this.materialNumber = materialNumber;
     }
@@ -105,6 +110,16 @@ public class XppBundle
     public void setBundleRoot(final String bundleRoot)
     {
         this.bundleRoot = bundleRoot;
+    }
+
+    public List<String> getOrderedFileList()
+    {
+        return orderedFileList;
+    }
+
+    public void setOrderedFileList(final List<String> orderedFileList)
+    {
+        this.orderedFileList = orderedFileList;
     }
 
     @Override

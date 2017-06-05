@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.xpp.toc.step.strategy;
 import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.toc.step.strategy.type.BundleFileType;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,5 +21,5 @@ public interface TocGenerationStrategy
     /**
      * Performing generation of TOC
      */
-    void performTocGeneration(@NotNull BookStep bookStep);
+    void performTocGeneration(@NotNull String bundleFileName, @NotNull XppBundle bundle, @NotNull BookStep bookStep);
 }

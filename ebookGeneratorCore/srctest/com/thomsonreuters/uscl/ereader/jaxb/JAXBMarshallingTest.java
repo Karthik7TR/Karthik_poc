@@ -68,7 +68,7 @@ public final class JAXBMarshallingTest
             final XppBundle expected = new XppBundle();
             expected.setProductTitle("1.0");
             expected.setProductType("ed4abfa40ee548388d39ecad55a0daaa");
-            expected.setMaterialNumber(0x8d8d44aef6464c9aL);
+            expected.setMaterialNumber("0x8d8d44aef6464c9aL");
             expected.setReleaseDate(new Date());
             expected.setReleaseNumber(5);
             expected.setVolumes(8);

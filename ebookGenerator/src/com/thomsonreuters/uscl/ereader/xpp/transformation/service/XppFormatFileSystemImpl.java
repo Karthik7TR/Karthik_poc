@@ -285,6 +285,16 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     @Override
+    public File getBundlePartTocFile(@NotNull final String bundleFile, @NotNull final String materialNumber, @NotNull final BookStep step)
+    {
+        return getTocDirectory(step).toPath()
+            .resolve(materialNumber)
+            .resolve("toc_" + bundleFile)
+            .toFile();
+    }
+
+    @NotNull
+    @Override
     public File getTitleMetadataDirectory(@NotNull final BookStep step)
     {
         return new File(getFormatDirectory(step), TITLE_METADATA_DIR);

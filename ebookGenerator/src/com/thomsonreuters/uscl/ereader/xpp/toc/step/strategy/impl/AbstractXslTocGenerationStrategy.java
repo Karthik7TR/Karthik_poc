@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.xpp.toc.step.strategy.impl;
 import static java.util.Objects.requireNonNull;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilder;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.toc.step.strategy.TocGenerationStrategy;
 import com.thomsonreuters.uscl.ereader.xpp.toc.step.strategy.type.BundleFileType;
 import org.jetbrains.annotations.NotNull;
@@ -54,34 +56,28 @@ public abstract class AbstractXslTocGenerationStrategy implements TocGenerationS
     }
 
     @Override
-    public void performTocGeneration(@NotNull final BookStep bookStep)
+    public void performTocGeneration(@NotNull final String bundleFileName, @NotNull final XppBundle bundle, @NotNull final BookStep bookStep)
     {
-        xslTransformationService.transform(createTransformer(bookStep), getInputFile(bookStep), getOutputFile(bookStep));
+        final TransformationUnit[] transformationUnits = getTransformationUnits();
+        for (final TransformationUnit unit : transformationUnits)
+        {
+            xslTransformationService.transform(unit.createTransformer(bundle, transformerBuilder(), bookStep),
+                                               unit.getInputFiles(bundleFileName, bundle, bookStep),
+                                               unit.getOutputFile(bundleFileName, bundle, bookStep));
+        }
     }
 
     /**
-     * Create xsl transformer, set xsl file, params etc.
+     * Get transformation units, number of units equal number of transformations
+     * Transformation units have to be ordered
+     * @return
      */
-    @NotNull
-    protected abstract Transformer createTransformer(@NotNull BookStep bookStep);
-
-    /**
-     * Get File representation of input DIVXML file
-     */
-    @NotNull
-    protected abstract File getInputFile(@NotNull BookStep bookStep);
-
-    /**
-     * Get File representatiob of output file
-     */
-    @NotNull
-    protected abstract File getOutputFile(@NotNull BookStep bookStep);
+    protected abstract TransformationUnit[] getTransformationUnits();
 
     /**
      * Creates transformBuilder, to build new transformer
      */
-    @NotNull
-    protected TransformerBuilder transformerBuilder()
+    private TransformerBuilder transformerBuilder()
     {
         return transformerBuilderFactory.create();
     }
@@ -91,5 +87,29 @@ public abstract class AbstractXslTocGenerationStrategy implements TocGenerationS
     public Set<BundleFileType> getBundleFileTypes()
     {
         return bundleFileTypes;
+    }
+
+    /**
+     * Unit of transformation, provide needed transformation data, Like I/O files, transformer params etc.
+     */
+    protected interface TransformationUnit
+    {
+        /**
+         * Create xsl transformer, set xsl file, params etc.
+         */
+        @NotNull
+        Transformer createTransformer(@NotNull XppBundle bundle, @NotNull TransformerBuilder builder, @NotNull BookStep step);
+
+        /**
+         * Get File representation of input DIVXML file(s)
+         */
+        @NotNull
+        Collection<File> getInputFiles(@NotNull String bundleFileName, @NotNull XppBundle bundle, @NotNull BookStep step);
+
+        /**
+         * Get File representation of output file
+         */
+        @NotNull
+        File getOutputFile(@NotNull String fileName, @NotNull XppBundle bundle, @NotNull BookStep step);
     }
 }

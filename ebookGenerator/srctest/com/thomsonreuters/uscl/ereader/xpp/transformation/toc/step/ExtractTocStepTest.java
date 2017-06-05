@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.toc.step;
 
+import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenBookBundles;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -21,6 +22,7 @@ import javax.xml.transform.Transformer;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.TransformationUtil;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.junit.Before;
@@ -33,6 +35,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.batch.core.scope.context.ChunkContext;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ExtractTocStepTest
@@ -52,6 +55,8 @@ public class ExtractTocStepTest
     private File buildTocItemToDocumentIdMapXsl;
     @Mock
     private File extractTocXsl;
+    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+    private ChunkContext chunkContext;
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -78,6 +83,8 @@ public class ExtractTocStepTest
 
         originalFile2 = new File(originalDir, "original2.main");
         Files.createFile(originalFile2.toPath());
+
+        givenBookBundles(chunkContext, Collections.<XppBundle>emptyList());
     }
 
     @Test

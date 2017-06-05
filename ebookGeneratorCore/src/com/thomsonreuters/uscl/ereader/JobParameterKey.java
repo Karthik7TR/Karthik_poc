@@ -5,8 +5,12 @@ package com.thomsonreuters.uscl.ereader;
  * These key/value pairs have been loaded prior to the launch of the job
  *
  */
-public class JobParameterKey
+public final class JobParameterKey
 {
+    private JobParameterKey()
+    {
+    }
+
     // ===== Standard values from job request and misc =====
     /** Who started the job. */
     public static final String USER_NAME = "userName";
@@ -36,4 +40,5 @@ public class JobParameterKey
     public static final String KEY_XPP_BUNDLE = "xppBundle";
     public static final String JOB_NAME_PROCESS_BUNDLE = "ebookBundleJob";
     public static final String KEY_JOB_NAME = "jobName";
+    public static final String XPP_BUNDLES = "xppBundles";
 }

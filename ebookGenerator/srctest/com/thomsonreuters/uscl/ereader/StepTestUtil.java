@@ -2,7 +2,10 @@ package com.thomsonreuters.uscl.ereader;
 
 import static org.mockito.BDDMockito.given;
 
+import java.util.List;
+
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
@@ -81,5 +84,15 @@ public final class StepTestUtil
     public static void givenBookVersion(final ChunkContext chunkContext, final String value)
     {
         givenJobParameter(chunkContext, JobParameterKey.BOOK_VERSION_SUBMITTED, value);
+    }
+
+    public static void givenBookBundles(final ChunkContext chunkContext, final List<XppBundle> bundles)
+    {
+        given(chunkContext.getStepContext()
+            .getStepExecution()
+            .getJobExecution()
+            .getExecutionContext()
+            .get(JobParameterKey.XPP_BUNDLES)
+        ).willReturn(bundles);
     }
 }

@@ -391,6 +391,16 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
+    public void shouldReturnBundlePartTocFile()
+    {
+        //given
+        //when
+        final File file = fileSystem.getBundlePartTocFile(FILE_NAME_XML, MATERIAL_NUMBER, step);
+        //then
+        assertThat(file, hasPath("workDirectory/Format/06_Toc/11111111/toc_fileName.xml"));
+    }
+
+    @Test
     public void shouldReturnTitleMetadataDirectory()
     {
         //given
