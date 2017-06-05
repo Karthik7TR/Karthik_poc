@@ -269,6 +269,58 @@ public final class GenerateEbookControllerTest
             assertNotNull(mav);
 
             Assert.assertEquals(WebConstants.VIEW_BOOK_GENERATE_PREVIEW, mav.getViewName());
+            Assert.assertTrue(mav.getModel().containsKey(WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS));
+
+            EasyMock.verify(mockOutageService);
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testGenerateEbookDisableButton()
+    {
+        final String message = "";
+        final Long bookDefinitionId = Long.valueOf(127);
+        final BookDefinition book = new BookDefinition();
+        book.setEbookDefinitionId(bookDefinitionId);
+        book.setIsDeletedFlag(false);
+        book.setPublishedOnceFlag(true);
+        book.setFullyQualifiedTitleId("");
+        book.setProviewDisplayName("");
+        book.setIsDeletedFlag(true);
+
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
+        request.setMethod(HttpMethod.POST.name());
+        request.setParameter("command", Command.GENERATE.toString());
+        request.setParameter("id", bookDefinitionId.toString());
+        request.setParameter("isHighPriorityJob", "true");
+
+        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+        EasyMock.expect(mockManagerService.findRunningJob(book)).andReturn(null);
+        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(bookDefinitionId)).andReturn(book);
+        EasyMock.expect(mockJobRequestService.isBookInJobRequest(bookDefinitionId)).andReturn(false);
+        EasyMock.expect(mockJobRequestService.saveQueuedJobRequest(book, "", 5, null)).andReturn(null);
+        EasyMock.expect(
+            mockMessageSourceAccessor.getMessage(EasyMock.anyObject(String.class), EasyMock.anyObject(Object[].class)))
+            .andReturn(null);
+        EasyMock.expect(mockMessageSourceAccessor.getMessage("label.normal")).andReturn(message);
+        EasyMock.expect(mockMessageSourceAccessor.getMessage("mesg.book.deleted")).andReturn(message);
+        replayAll();
+
+        final ModelAndView mav;
+        try
+        {
+            mav = handlerAdapter.handle(request, response, controller);
+
+            assertNotNull(mav);
+
+            Assert.assertEquals(WebConstants.VIEW_BOOK_GENERATE_PREVIEW, mav.getViewName());
+
+            Assert.assertFalse(mav.getModel().containsKey(WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS));
 
             EasyMock.verify(mockOutageService);
         }

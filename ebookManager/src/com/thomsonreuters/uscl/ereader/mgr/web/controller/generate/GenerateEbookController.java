@@ -134,6 +134,9 @@ public class GenerateEbookController
             final BookDefinition book = bookDefinitionService.findBookDefinitionByEbookDefId(form.getId());
 
             final boolean jobAlreadyQueued = jobRequestService.isBookInJobRequest(book.getEbookDefinitionId());
+
+            boolean disableButton = false;
+
             if (jobAlreadyQueued)
             {
                 final Object[] args =
@@ -191,6 +194,7 @@ public class GenerateEbookController
                         {
                             bookDefinitionService.updatePublishedStatus(book.getEbookDefinitionId(), true);
                         }
+                        disableButton = true;
                     }
                     catch (final Exception e)
                     { // Report failure on page in error message area
@@ -203,7 +207,9 @@ public class GenerateEbookController
             }
             model.addAttribute(WebConstants.TITLE_ID, book.getTitleId());
             model.addAttribute(WebConstants.TITLE, book.getProviewDisplayName());
-            model.addAttribute(WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS, "disabled=\"disabled\"");
+            if (disableButton){
+                model.addAttribute(WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS, "disabled=\"disabled\"");
+            }
             model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, book);
 
             form.setFullyQualifiedTitleId(book.getTitleId());
