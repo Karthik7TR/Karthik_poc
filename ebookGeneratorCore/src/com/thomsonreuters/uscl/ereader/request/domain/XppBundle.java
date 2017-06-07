@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * This class is the POJO version of the information stored in bundle.xml, the metadata file inside
@@ -132,5 +133,11 @@ public class XppBundle
     public int hashCode()
     {
         return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    @Override
+    public String toString()
+    {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

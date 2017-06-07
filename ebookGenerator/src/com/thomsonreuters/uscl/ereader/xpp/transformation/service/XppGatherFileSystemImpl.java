@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.FileSystemException;
@@ -31,7 +32,6 @@ public class XppGatherFileSystemImpl extends GatherFileSystemImpl implements Xpp
     @Value("${xpp.sample.xppTemp.directory}")
     private File xppTempDirectory;
 
-    //TODO: temp overriding
     @Override
     public File getGatherRootDirectory(@NotNull final BookStep step)
     {
@@ -96,6 +96,26 @@ public class XppGatherFileSystemImpl extends GatherFileSystemImpl implements Xpp
         return xppSourceXmlDirectories;
     }
 
+    @Override
+    @NotNull
+    public File getXppBundleMaterialNumberDirectory(@NotNull final BookStep step, @NotNull final String materialNumber)
+    {
+        return new File(getXppBundlesDirectory(step), materialNumber);
+    }
+
+    @Override
+    @NotNull
+    public List<File> getAllBundleXmls(final BookStep step)
+    {
+        final List<File> resultList = new ArrayList<>();
+        for (final File bundleMaterialNumberDir : getXppBundlesDirectory(step).listFiles())
+        {
+            resultList.add(new File(bundleMaterialNumberDir, "bundle.xml"));
+        }
+
+        return resultList;
+    }
+
     private void validateExistence(final File item)
     {
         if (!item.exists())
@@ -113,6 +133,7 @@ public class XppGatherFileSystemImpl extends GatherFileSystemImpl implements Xpp
                 return item;
             }
         }
-        throw new FileSystemException(bundlesMaterialNumberDir.getAbsolutePath() + " doesn't contain contents directory.");
+        throw new FileSystemException(
+            bundlesMaterialNumberDir.getAbsolutePath() + " doesn't contain contents directory.");
     }
 }
