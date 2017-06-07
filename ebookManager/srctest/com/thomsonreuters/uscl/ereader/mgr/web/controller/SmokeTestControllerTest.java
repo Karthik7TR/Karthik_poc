@@ -84,6 +84,8 @@ public final class SmokeTestControllerTest
         EasyMock.expect(mockService.getTestApplicationStatuses()).andReturn(SMOKE_TEST_LIST);
         EasyMock.expect(mockService.getQAServerStatuses()).andReturn(SMOKE_TEST_LIST);
         EasyMock.expect(mockService.getQAApplicationStatuses()).andReturn(SMOKE_TEST_LIST);
+        EasyMock.expect(mockService.getQANewServerStatuses()).andReturn(SMOKE_TEST_LIST);
+        EasyMock.expect(mockService.getQANewApplicationStatuses()).andReturn(SMOKE_TEST_LIST);
         EasyMock.expect(mockService.getLowerEnvDatabaseServerStatuses()).andReturn(SMOKE_TEST_LIST);
         EasyMock.expect(mockService.getProdServerStatuses()).andReturn(SMOKE_TEST_LIST);
         EasyMock.expect(mockService.getProdApplicationStatuses()).andReturn(SMOKE_TEST_LIST);
