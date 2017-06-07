@@ -59,6 +59,8 @@ public final class UnpackBundleTaskTest
     private File archiveFile;
     @Mock
     private File destinationDirectoryFile;
+    @Mock
+    private File bundleDir;
     @Captor
     private ArgumentCaptor<List<XppBundle>> captor;
 
@@ -73,6 +75,7 @@ public final class UnpackBundleTaskTest
         given(xppBundleArchive.getEBookSrcFile()).willReturn(archiveFile);
         given(xppGatherFileSystem.getXppBundleMaterialNumberDirectory(step, MATERIAL_NUMBER))
             .willReturn(destinationDirectoryFile);
+        given(xppGatherFileSystem.getXppBundlesDirectory(step)).willReturn(bundleDir);
         bundleXmlFile = new File(UnpackBundleTaskTest.class.getResource("bundle.xml").toURI());
     }
 
