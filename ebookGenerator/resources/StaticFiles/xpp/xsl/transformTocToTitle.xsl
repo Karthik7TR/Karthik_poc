@@ -39,7 +39,10 @@
 	
 	<xsl:template match="x:EBookToc" mode="toc">
 		<xsl:element name="entry">
-			<xsl:attribute name="s" select="concat(x:DocumentGuid, '/', x:Guid)" />
+			<xsl:variable name="docGuid">
+				<xsl:apply-templates select="self::node()" mode="finding_doc_guid" />
+			</xsl:variable>
+			<xsl:attribute name="s" select="concat($docGuid, '/', x:Guid)" />
 			<xsl:element name="text">
 				<xsl:value-of select="x:Name" />
 			</xsl:element>
@@ -47,12 +50,29 @@
 		</xsl:element>
 	</xsl:template>
 	
+	<xsl:template match="x:EBookToc" mode="finding_doc_guid">
+		<xsl:choose>
+			<xsl:when test="./x:EBookToc">
+				<xsl:apply-templates select="child::x:EBookToc[1]" mode="finding_doc_guid" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="x:DocumentGuid" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	
 	<xsl:template match="x:EBookToc" mode="doc">
-		<xsl:element name="doc">
-			<xsl:variable name="guid" select="x:DocumentGuid" />
-			<xsl:attribute name="id" select="$guid" />
-			<xsl:attribute name="src" select="concat($guid, '.html')" />
-		</xsl:element>
-		<xsl:apply-templates select="x:EBookToc" mode="doc" />
+		<xsl:choose>
+			<xsl:when test="child::x:EBookToc">
+				<xsl:apply-templates select="x:EBookToc" mode="doc" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:element name="doc">
+					<xsl:variable name="guid" select="x:DocumentGuid" />
+					<xsl:attribute name="id" select="$guid" />
+					<xsl:attribute name="src" select="concat($guid, '.html')" />
+				</xsl:element>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 </xsl:stylesheet>

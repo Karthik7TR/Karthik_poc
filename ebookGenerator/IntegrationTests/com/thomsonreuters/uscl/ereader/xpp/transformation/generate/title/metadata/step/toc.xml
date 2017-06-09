@@ -2,38 +2,32 @@
    <EBookToc>
       <Name>Chapter_1</Name>
       <Guid>I18b49f1028b911e69ed7fcedf0a72426</Guid>
-      <DocumentGuid>Chapter_1</DocumentGuid>
       <EBookToc>
          <Name>Chapter_1:2</Name>
          <Guid>I333dd59028b911e69ed7fcedf0a72426</Guid>
-         <DocumentGuid>Chapter_1:2</DocumentGuid>
          <EBookToc>
             <Name>Chapter_1:2:3</Name>
             <Guid>I334a31a028b911e69ed7fcedf0a72426</Guid>
-            <DocumentGuid>Chapter_1:2:3</DocumentGuid>
             <EBookToc>
                <Name>Chapter_1:2:3:4</Name>
                <Guid>I334a7fc028b911e69ed7fcedf0a72426</Guid>
-               <DocumentGuid>Chapter_1:2:3:4</DocumentGuid>
                <EBookToc>
                   <Name>Chapter_1:2:3:4:5</Name>
                   <Guid>I334acde028b911e69ed7fcedf0a72426</Guid>
-                  <DocumentGuid>Chapter_1:2:3:4:5</DocumentGuid>
                   <EBookToc>
                      <Name>Chapter_1:2:3:4:5:6</Name>
                      <Guid>I334acde028b47ft34ed7fcedf0a72426</Guid>
-                     <DocumentGuid>Chapter_1:2:3:4:5:6</DocumentGuid>
+                     <DocumentGuid>I334acde028b47ft34ed7fcedf0a72426</DocumentGuid>
                   </EBookToc>
                </EBookToc>
             </EBookToc>
             <EBookToc>
                <Name>Chapter_1:2:3:5</Name>
                <Guid>I34145f7028b911e69ed7fcedf0a72426</Guid>
-               <DocumentGuid>Chapter_1:2:3:5</DocumentGuid>
                <EBookToc>
                   <Name>Chapter_1:2:3:5:6</Name>
                   <Guid>I3416j47028b911e69ed7fcedf0a72426</Guid>
-                  <DocumentGuid>Chapter_1:2:3:5:6</DocumentGuid>
+                  <DocumentGuid>I3416j47028b911e69ed7fcedf0a72426</DocumentGuid>
                </EBookToc>
             </EBookToc>
          </EBookToc>
@@ -41,24 +35,21 @@
       <EBookToc>
          <Name>Chapter_1:3</Name>
          <Guid>I440afb5028b911e69ed7fcedf0a72426</Guid>
-         <DocumentGuid>Chapter_1:3</DocumentGuid>
          <EBookToc>
             <Name>Chapter_1:3:4</Name>
             <Guid>I44534ef028b911e69ed7fcedf0a72426</Guid>
-            <DocumentGuid>Chapter_1:3:4</DocumentGuid>
             <EBookToc>
                <Name>Chapter_1:3:4:5</Name>
                <Guid>I4700e2c028b911e69ed7fcedf0a72426</Guid>
-               <DocumentGuid>Chapter_1:3:4:5</DocumentGuid>
                <EBookToc>
                   <Name>Chapter_1:3:4:5:6</Name>
                   <Guid>I4700e2c0g6kz11e69ed7fcedf0a72426</Guid>
-                  <DocumentGuid>Chapter_1:3:4:5:6</DocumentGuid>
+                  <DocumentGuid>I4700e2c0g6kz11e69ed7fcedf0a72426</DocumentGuid>
                </EBookToc>
                <EBookToc>
                   <Name>Chapter_1:3:4:5:7</Name>
                   <Guid>I4700e2c028b911e69ed7fcedfyt4l426</Guid>
-                  <DocumentGuid>Chapter_1:3:4:5:7</DocumentGuid>
+                  <DocumentGuid>I4700e2c028b911e69ed7fcedfyt4l426</DocumentGuid>
                </EBookToc>
             </EBookToc>
          </EBookToc>

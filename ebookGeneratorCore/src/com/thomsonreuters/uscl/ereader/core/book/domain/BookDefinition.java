@@ -1406,6 +1406,10 @@ public class BookDefinition implements Serializable
             proviewFeatures.add(new Feature("FullAnchorMap"));
             proviewFeatures.add(new Feature("CombinedTOC"));
         }
+        if (getSourceType() == SourceType.XPP)
+        {
+            proviewFeatures.add(new Feature("PageNos"));
+        }
         return (proviewFeatures);
     }
 

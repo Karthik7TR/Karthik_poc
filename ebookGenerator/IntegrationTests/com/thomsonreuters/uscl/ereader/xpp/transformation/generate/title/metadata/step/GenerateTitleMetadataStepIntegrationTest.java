@@ -111,7 +111,8 @@ public final class GenerateTitleMetadataStepIntegrationTest
         final Feature copyFeature = new Feature("Copy");
         final Feature wwwWestlawFeature = new Feature("OnePassSSO", "www.westlaw.com");
         final Feature nextWestlawFeature = new Feature("OnePassSSO", "next.westlaw.com");
-        return Arrays.asList(printFeature, autoUpdateFeature, copyFeature, wwwWestlawFeature, nextWestlawFeature);
+        final Feature pageNosFeature = new Feature("PageNos");
+        return Arrays.asList(printFeature, autoUpdateFeature, copyFeature, wwwWestlawFeature, nextWestlawFeature, pageNosFeature);
     }
 
     private List<Keyword> getKeywords()
