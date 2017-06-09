@@ -2,11 +2,9 @@
    <EBookToc>
       <Name>Chapter 1</Name>
       <Guid>I7f66dd0028b811e69ed7fcedf0a72426</Guid>
-      <DocumentGuid>I7f66dd0028b811e69ed7fcedf0a72426</DocumentGuid>
       <EBookToc>
          <Name>Section 1</Name>
          <Guid>I18b49f1028b911e69ed7fcedf0a72426</Guid>
-         <DocumentGuid>I18b49f1028b911e69ed7fcedf0a72426</DocumentGuid>
          <EBookToc>
             <Name>Content 1</Name>
             <Guid>I333dd59028b911e69ed7fcedf0a72426</Guid>
@@ -21,11 +19,9 @@
       <EBookToc>
          <Name>Section 2</Name>
          <Guid>I334a7fc028b911e69ed7fcedf0a72426</Guid>
-         <DocumentGuid>I334a7fc028b911e69ed7fcedf0a72426</DocumentGuid>
          <EBookToc>
             <Name>Section 2_1</Name>
             <Guid>I334acde028b911e69ed7fcedf0a72426</Guid>
-            <DocumentGuid>I334acde028b911e69ed7fcedf0a72426</DocumentGuid>
             <EBookToc>
                <Name>Content 2_1</Name>
                <Guid>I34145f7028b911e69ed7fcedf0a72426</Guid>
@@ -37,7 +33,6 @@
    <EBookToc>
       <Name>Chapter 2</Name>
       <Guid>I334a31a028b911e69ed7fcedf0a72427</Guid>
-      <DocumentGuid>I334a31a028b911e69ed7fcedf0a72427</DocumentGuid>
       <EBookToc>
          <Name>Chapter 2 content</Name>
          <Guid>I334a7fc028b911e69ed7fcedf0a72426</Guid>

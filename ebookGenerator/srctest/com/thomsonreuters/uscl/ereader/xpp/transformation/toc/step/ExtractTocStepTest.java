@@ -1,127 +1,92 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.toc.step;
 
-import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenBookBundles;
-import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 
 import javax.xml.transform.Transformer;
 
-import com.thomsonreuters.uscl.ereader.common.step.BookStep;
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
-import com.thomsonreuters.uscl.ereader.xpp.transformation.service.TransformationUtil;
+import com.thomsonreuters.uscl.ereader.xpp.toc.step.strategy.TocGenerationStrategy;
+import com.thomsonreuters.uscl.ereader.xpp.toc.step.strategy.provider.TocGenerationStrategyProvider;
+import com.thomsonreuters.uscl.ereader.xpp.toc.step.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.Answers;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.batch.core.scope.context.ChunkContext;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ExtractTocStepTest
+public final class ExtractTocStepTest
 {
+    private static final String FIRST_BUNDLE_FILE_NAME = "one.DIVXML.xml";
+    private static final String SECOND_BUNDLE_FILE_NAME = "two.DIVXML.xml";
+
     @InjectMocks
     private ExtractTocStep step;
 
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private TransformerBuilderFactory transformerBuilderFactory;
+    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+    private TocGenerationStrategyProvider tocGenerationStrategyProvider;
+    @Mock
+    private XppFormatFileSystem fileSystem;
+    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+    private ChunkContext chunkContext;
     @Mock
     private XslTransformationService transformationService;
     @Mock
-    private TransformationUtil transformationUtil;
+    private XppBundle bundle;
     @Mock
-    private XppFormatFileSystem fileSystem;
+    private File firstTocBundleFile;
     @Mock
-    private File buildTocItemToDocumentIdMapXsl;
+    private File secondTocBundleFile;
     @Mock
-    private File extractTocXsl;
-    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-    private ChunkContext chunkContext;
-
-    @Rule
-    public TemporaryFolder temporaryFolder = new TemporaryFolder();
-
-    private File originalFile;
-    private File originalFile2;
+    private File tocFile;
 
     @Before
-    public void init() throws IOException
+    public void init()
     {
-        final File root = temporaryFolder.getRoot();
-        final File originalPagesDir = new File(root, "04_OriginalPages");
-        final File originalDir = new File(root, "01_Original");
+        given(bundle.getOrderedFileList()).willReturn(Arrays.asList(FIRST_BUNDLE_FILE_NAME, SECOND_BUNDLE_FILE_NAME));
+        given(chunkContext.getStepContext()
+            .getStepExecution()
+            .getJobExecution()
+            .getExecutionContext()
+            .get(JobParameterKey.XPP_BUNDLES)
+        ).willReturn(Arrays.asList(bundle));
 
-        originalDir.mkdirs();
-        originalPagesDir.mkdirs();
-
-        given(fileSystem.getOriginalPagesDirectory(step)).willReturn(root);
-        given(fileSystem.getTocItemToDocumentIdMapFile(step)).willReturn(new File(root, "tocItemToDocumentIdMap.xml"));
-        given(fileSystem.getOriginalDirectory(step)).willReturn(root);
-
-        originalFile = new File(originalDir, "original.main");
-        Files.createFile(originalFile.toPath());
-
-        originalFile2 = new File(originalDir, "original2.main");
-        Files.createFile(originalFile2.toPath());
-
-        givenBookBundles(chunkContext, Collections.<XppBundle>emptyList());
+        given(fileSystem.getBundlePartTocFile(eq(FIRST_BUNDLE_FILE_NAME), anyString(), eq(step))).willReturn(firstTocBundleFile);
+        given(fileSystem.getBundlePartTocFile(eq(SECOND_BUNDLE_FILE_NAME), anyString(), eq(step))).willReturn(secondTocBundleFile);
+        given(fileSystem.getTocFile(step)).willReturn(tocFile);
     }
 
     @Test
     public void shouldTransformOneFile() throws Exception
     {
-        given(fileSystem.getOriginalFiles(any(BookStep.class))).willReturn(Collections.singleton(originalFile));
-
+        //given
         step.executeTransformation();
 
-        then(transformationService).should(times(1)).transform(
-            any(Transformer.class),
-            any(ArrayList.class),
-            any(File.class));
+        verify(tocGenerationStrategyProvider, times(2)).getTocGenerationStrategy(BundleFileType.MAIN_CONTENT);
 
-        final ArgumentCaptor<Collection<InputStream>> inputStreams = ArgumentCaptor.forClass((Class<Collection<InputStream>>)(Class)Collection.class);
-        verify(transformationService).transform(
-            any(Transformer.class),
-            inputStreams.capture(),
-            any(String.class),
-            any(File.class));
-        assertEquals(1, inputStreams.getValue().size());
+        final TocGenerationStrategy strategy = tocGenerationStrategyProvider
+            .getTocGenerationStrategy(BundleFileType.MAIN_CONTENT);
+        verify(strategy).performTocGeneration(FIRST_BUNDLE_FILE_NAME, bundle, step);
+        verify(strategy).performTocGeneration(SECOND_BUNDLE_FILE_NAME, bundle, step);
+
+        verify(transformationService)
+            .transform(any(Transformer.class), eq(Arrays.asList(firstTocBundleFile, secondTocBundleFile)), eq(tocFile));
     }
-
-    @Test
-    public void shouldTransformMultipleFiles() throws Exception
-    {
-        given(fileSystem.getOriginalFiles(any(BookStep.class))).willReturn(Arrays.asList(originalFile, originalFile2));
-
-        step.executeTransformation();
-
-        final ArgumentCaptor<Collection<InputStream>> inputStreams = ArgumentCaptor.forClass((Class<Collection<InputStream>>)(Class)Collection.class);
-        verify(transformationService).transform(
-            any(Transformer.class),
-            inputStreams.capture(),
-            any(String.class),
-            any(File.class));
-        assertEquals(4, inputStreams.getValue().size());
-    }
-
 }

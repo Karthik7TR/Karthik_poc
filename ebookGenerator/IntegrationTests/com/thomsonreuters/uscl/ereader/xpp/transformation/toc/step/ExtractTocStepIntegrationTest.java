@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -50,21 +49,15 @@ public final class ExtractTocStepIntegrationTest
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private ChunkContext chunkContext;
 
-    //TODO: fields below should be removed when books will generate from bundles in XPP pathway.
-    private File originalXml;
-    private File originalXmlTwo;
-
-    private File pageXml11;
-    private File pageXml12;
-    private File pageXml2;
-
-    private File tocMapExpectedSingle;
-    private File tocExpectedSingle;
-    private File tocMapExpectedMultiple;
-    private File tocExpectedMultiple;
-
     @Before
     public void setUp() throws Exception
+    {
+        initMocks();
+        initFiles();
+        prepareDirectories();
+    }
+
+    private void initMocks()
     {
         org.mockito.MockitoAnnotations.initMocks(this);
         when(chunkContext.getStepContext()
@@ -73,7 +66,10 @@ public final class ExtractTocStepIntegrationTest
             .getExecutionContext()
             .get(JobParameterKey.XPP_BUNDLES)
         ).thenReturn(getBundlesList());
+    }
 
+    private void initFiles() throws Exception
+    {
         bundleMainContentOriginalFile = new File(
             ExtractTocStepIntegrationTest.class.getResource("mainContent1.DIVXML.main").toURI());
         bundleMainContentOriginalAdditionalFile = new File(
@@ -84,7 +80,10 @@ public final class ExtractTocStepIntegrationTest
             ExtractTocStepIntegrationTest.class.getResource("expectedMainContent_2_TocFile.xml").toURI());
         expectedTocFile = new File(
             ExtractTocStepIntegrationTest.class.getResource("expectedToc.xml").toURI());
+    }
 
+    private void prepareDirectories() throws Exception
+    {
         final File bundleVolOneOriginalFilesDir = fileSystem.getOriginalBundleDirectory(step, VOL_ONE_MATERIAL_NUMBER);
         FileUtils.forceMkdir(bundleVolOneOriginalFilesDir);
         FileUtils.copyFileToDirectory(bundleMainContentOriginalFile, bundleVolOneOriginalFilesDir);
@@ -123,80 +122,5 @@ public final class ExtractTocStepIntegrationTest
         assertThat(expectedMainContentAdditionalTocFile, hasSameContentAs(fileSystem.getBundlePartTocFile(
             "mainContent2.DIVXML.xml", VOL_TWO_MATERIAL_NUMBER, step)));
         assertThat(expectedTocFile, hasSameContentAs(fileSystem.getTocFile(step)));
-    }
-
-    //TODO: code below should be removed when books will generate from bundles in XPP pathway.
-    //TODO: test should be removed when books will generate from bundles in XPP pathway.
-    @Test
-    public void shouldCreateTocFileBasedOnSingleOriginalFile() throws Exception
-    {
-        initMocksFilesAndDirectories();
-        //given
-        final File originalPagesSourceDir = fileSystem.getOriginalPagesDirectory(step);
-        FileUtils.forceMkdir(originalPagesSourceDir);
-        FileUtils.copyFileToDirectory(pageXml11, originalPagesSourceDir);
-        FileUtils.copyFileToDirectory(pageXml12, originalPagesSourceDir);
-
-        final File originalMainSourceDir = fileSystem.getOriginalDirectory(step);
-        FileUtils.forceMkdir(originalMainSourceDir);
-        FileUtils.copyFileToDirectory(originalXml, originalMainSourceDir);
-
-        //when
-        step.executeStep();
-        //then
-        final File mapActual = fileSystem.getTocItemToDocumentIdMapFile(step);
-        assertThat(mapActual, hasSameContentAs(tocMapExpectedSingle));
-
-        final File tocActual = fileSystem.getTocFile(step);
-        assertThat(tocActual, hasSameContentAs(tocExpectedSingle));
-    }
-
-    //TODO: test should be removed when books will generate from bundles in XPP pathway.
-    @Test
-    public void shouldCreateTocFileBasedOnMultipleOriginalFiles() throws Exception
-    {
-        initMocksFilesAndDirectories();
-        //given
-        final File originalPagesSourceDir = fileSystem.getOriginalPagesDirectory(step);
-        FileUtils.forceMkdir(originalPagesSourceDir);
-        FileUtils.copyFileToDirectory(pageXml11, originalPagesSourceDir);
-        FileUtils.copyFileToDirectory(pageXml12, originalPagesSourceDir);
-        FileUtils.copyFileToDirectory(pageXml2, originalPagesSourceDir);
-
-        final File originalMainSourceDir = fileSystem.getOriginalDirectory(step);
-        FileUtils.forceMkdir(originalMainSourceDir);
-        FileUtils.copyFileToDirectory(originalXml, originalMainSourceDir);
-        FileUtils.copyFileToDirectory(originalXmlTwo, originalMainSourceDir);
-
-        //when
-        step.executeStep();
-        //then
-        final File mapActual = fileSystem.getTocItemToDocumentIdMapFile(step);
-        assertThat(mapActual, hasSameContentAs(tocMapExpectedMultiple));
-        final File tocActual = fileSystem.getTocFile(step);
-        assertThat(tocActual, hasSameContentAs(tocExpectedMultiple));
-    }
-
-    private void initMocksFilesAndDirectories() throws Exception
-    {
-        org.mockito.MockitoAnnotations.initMocks(this);
-        when(chunkContext.getStepContext()
-            .getStepExecution()
-            .getJobExecution()
-            .getExecutionContext()
-            .get(JobParameterKey.XPP_BUNDLES)
-        ).thenReturn(Collections.emptyList());
-        originalXml = new File(ExtractTocStepIntegrationTest.class.getResource("originalXpp.main").toURI());
-        originalXmlTwo = new File(ExtractTocStepIntegrationTest.class.getResource("originalXppTwo.main").toURI());
-
-        pageXml11 = new File(ExtractTocStepIntegrationTest.class.getResource("sampleXpp_1.page").toURI());
-        pageXml12 = new File(ExtractTocStepIntegrationTest.class.getResource("sampleXpp_15.page").toURI());
-        pageXml2 = new File(ExtractTocStepIntegrationTest.class.getResource("sampleXppTwo_1.page").toURI());
-
-        tocMapExpectedSingle = new File(ExtractTocStepIntegrationTest.class.getResource("tocItemToDocumentIdMapExpectedSingle.xml").toURI());
-        tocExpectedSingle = new File(ExtractTocStepIntegrationTest.class.getResource("tocExpectedSingle.xml").toURI());
-
-        tocMapExpectedMultiple = new File(ExtractTocStepIntegrationTest.class.getResource("tocItemToDocumentIdMapExpectedMultiple.xml").toURI());
-        tocExpectedMultiple = new File(ExtractTocStepIntegrationTest.class.getResource("tocExpectedMultiple.xml").toURI());
     }
 }

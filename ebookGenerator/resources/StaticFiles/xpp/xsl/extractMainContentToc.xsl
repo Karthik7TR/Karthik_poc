@@ -12,45 +12,48 @@
 		</EBook>
 	</xsl:template>
 	
-	<xsl:template match="x:document.hier[@parent_guid = @guid]">
-		<xsl:variable name="guid" select="./@guid" />
+	<xsl:template match="x:XPPHier[@parent_uuid = @uuid]">
+		<xsl:variable name="uuid" select="./@uuid" />
 		<xsl:call-template name="create-entry">
 			<xsl:with-param name="name" select="./@name" />
-			<xsl:with-param name="guid" select="$guid" />
-			<xsl:with-param name="document" select="$guid" />
+			<xsl:with-param name="uuid" select="$uuid" />
 		</xsl:call-template>
 	</xsl:template>
 	
-	<xsl:template match="x:document.hier[@parent_guid != @guid]">
+	<xsl:template match="x:XPPHier[@parent_uuid != @uuid]">
 		<xsl:param name="parent" />
 		
-		<xsl:if test="./@parent_guid = $parent">
-			<xsl:variable name="guid" select="./@guid" />
+		<xsl:if test="./@parent_uuid = $parent">
+			<xsl:variable name="uuid" select="./@uuid" />
 			<xsl:call-template name="create-entry">
 				<xsl:with-param name="name" select="./@name" />
-				<xsl:with-param name="guid" select="$guid" />
-				<xsl:with-param name="document" select="$guid" />
+				<xsl:with-param name="uuid" select="$uuid" />
 			</xsl:call-template>
 		</xsl:if>	
 	</xsl:template>
 	
 	<xsl:template name="create-entry">
 		<xsl:param name="name" />
-		<xsl:param name="guid" />
-		<xsl:param name="document" />
+		<xsl:param name="uuid" />
 		<EBookToc>
 			<Name>
 				<xsl:value-of select="$name" />
 			</Name>
 			<Guid>
-				<xsl:value-of select="$guid" />
+				<xsl:value-of select="$uuid" />
 			</Guid>
-			<DocumentGuid>
-				<xsl:value-of select="$document" />
-			</DocumentGuid>
-			<xsl:apply-templates select="following::x:document.hier[@parent_guid != @guid]">
-				<xsl:with-param name="parent" select="$guid" />
-			</xsl:apply-templates>
+			<xsl:choose>
+				<xsl:when test="following::x:XPPHier[@parent_uuid = $uuid]">
+					<xsl:apply-templates select="following::x:XPPHier[@parent_uuid != @uuid]">
+						<xsl:with-param name="parent" select="$uuid" />
+					</xsl:apply-templates>
+				</xsl:when>
+				<xsl:otherwise>
+					<DocumentGuid>
+						<xsl:value-of select="$uuid" />
+					</DocumentGuid>
+				</xsl:otherwise>
+			</xsl:choose>
 		</EBookToc>
 	</xsl:template>
 
