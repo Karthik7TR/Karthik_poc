@@ -31,7 +31,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
-public final class UnpackBundleTaskTest
+public final class UnpackBundleIntegrationTest
 {
     private static final String MATERIAL_NUMBER = "123456";
 
@@ -58,8 +58,8 @@ public final class UnpackBundleTaskTest
     {
         org.mockito.MockitoAnnotations.initMocks(this);
         targetArchive =
-            new File(UnpackBundleTaskTest.class.getResource("AJ2D_41963403_2017-04-17_04.07.22.610.-0400.zip").toURI());
-        expectedUnpackedArchive = new File(UnpackBundleTaskTest.class.getResource("standard").toURI());
+            new File(UnpackBundleIntegrationTest.class.getResource("AJ2D_41963403_2017-04-17_04.07.22.610.-0400.zip").toURI());
+        expectedUnpackedArchive = new File(UnpackBundleIntegrationTest.class.getResource("standard").toURI());
         outputDirectory = fileSystem.getXppBundleMaterialNumberDirectory(step, MATERIAL_NUMBER);
 
         given(

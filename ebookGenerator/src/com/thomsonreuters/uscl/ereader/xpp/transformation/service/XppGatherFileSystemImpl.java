@@ -13,13 +13,12 @@ import com.thomsonreuters.uscl.ereader.common.filesystem.FileSystemException;
 import com.thomsonreuters.uscl.ereader.common.filesystem.GatherFileSystemImpl;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component("xppGatherFileSystem")
 public class XppGatherFileSystemImpl extends GatherFileSystemImpl implements XppGatherFileSystem
 {
-    private static FilenameFilter XML_FILES_FILENAME_FILTER = new FilenameFilter()
+    private static final FilenameFilter XML_FILES_FILENAME_FILTER = new FilenameFilter()
     {
         @Override
         public boolean accept(final File dir, final String name)
@@ -27,16 +26,6 @@ public class XppGatherFileSystemImpl extends GatherFileSystemImpl implements Xpp
             return name.toLowerCase().endsWith(".xml");
         }
     };
-
-    //TODO: temp usage to static xpp source directory
-    @Value("${xpp.sample.xppTemp.directory}")
-    private File xppTempDirectory;
-
-    @Override
-    public File getGatherRootDirectory(@NotNull final BookStep step)
-    {
-        return new File(xppTempDirectory, "Gather");
-    }
 
     @Override
     public File getXppBundlesDirectory(final BookStep step)

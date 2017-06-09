@@ -1,0 +1,91 @@
+<root xmlns="http://www.sdl.com/xpp"><pagebreak num="3"/><publication online.royalty.id="CALA" uuid="I0f72523026a511d99b08a92d7e97623c"><publication.body><chapter uuid="I49dd324026a611d99b08a92d7e97623c" date.revised="0" date.updated="0"><front date.updated="0"><generated.toc><full.toc><toc.appendix><outline.name.block></outline.name.block></toc.appendix></full.toc></generated.toc><research.reference.block date.updated="0"><cgt>
+								Research References
+							</cgt><reference.entry.group><name.block><name>
+								West
+							<cgt>’</cgt>s Key Number Digest</name></name.block><reference.entry><ref.text><ref>Guardian and Ward 󰔓1 to 74;
+								Infants 󰔓76 to 87</ref></ref.text></reference.entry></reference.entry.group></research.reference.block><cgt> 
+							</cgt><cgt>
+								Ke
+								yCite󰄥:
+							</cgt><cgt> Cases and other legal
+								materials listed in KeyCite Scope can be
+							</cgt><cgt>researched through the
+								KeyCite service on Westlaw󰄥. Use KeyCite to </cgt><cgt>check citations for form,
+								parallel references, prior and later history, and
+							</cgt><cgt>comprehensive citator
+								information, including citations to other decisions
+							</cgt><cgt>
+								and secondary materials.
+							</cgt></front><chapter.body date.updated="0"><analytical.hierarchy uuid="I49df7c3026a611d99b08a92d7e97623c" date.revised="0" date.updated="0"><XPPHier guid='I49df7c3026a611d99b08a92d7e97623c' name='I. Introduction' parent_guid='I49dd324026a611d99b08a92d7e97623c' /><front date.updated="0"><outline.name.block toc.include="y" date.updated="0"><designator date.updated="0">
+								I
+							<cgt>.</cgt></designator><name date.updated="0">Introduction</name></outline.name.block></front><analytical.hierarchy.body date.updated="0"><section.block><section uuid="I49e03f8026a611d99b08a92d7e97623c" date.revised="0" date.updated="0"><section.front date.updated="0"><outline.name.block toc.include="y" date.updated="0"><label date.updated="0"><cgt>§ </cgt></label><designator date.updated="0">7:1</designator><name date.updated="0"><cgt> 
+							</cgt>Scope of chapter</name></outline.name.block></section.front><section.body date.updated="0"><para date.updated="0" first.para="yes"><para.text date.updated="0" first.para.text="yes">The purpose of this chapter is to
+								familiarize the reader with guardianship through a summary of
+								guardianship law. Since guardianship is statutory, there is
+								no substitute for a review of applicable state law. However,
+								statutes are not 
+								always grouped together in one section or volume and por
+								-
+							tions of the law may be left to local
+								rules or customs. An overview of the general law will assist in
+								understanding guardianship procedures and requirements.
+							</para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes">A national review of guardianship cannot
+								provide answers to specific disputed issues among parties
+								in one state, nor can it cover every possible issue that
+								might be litigated. This discussion provides the juvenile and
+								family law practitioner with a basic understanding in order that
+								the statutes of his or her state can be read more meaningfully
+								and with an awareness of common issues.</para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes">Cases presented involve minors, even
+								though adult 
+								incompetency guardianship cases might be applicable. Ap
+								-
+							pellate review is confined to issues of
+								appointment, removal 
+								of guardian and settlements on account.
+							<cgt>1</cgt><xref id="2" type="footnote"/> Although juries 
+								may be used to hear and determine whether the appoint
+								-
+							ment of a guardian is necessary, it is the
+								court that decides 
+								who will be appointed as guardian. 
+							<cgt>‘‘</cgt>
+								Notice
+							<cgt>’’</cgt> is discussed in <pagebreak num="4"/>
+								relation to the petition process,
+							<cgt>2</cgt><xref id="3" type="footnote"/> although notice regarding other aspects of guardianship (i.e.,
+								notice to creditors), has 
+								been one of the most violated rules in guardianship.
+							<cgt>3</cgt><xref id="4" type="footnote"/></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes">
+								Some alternatives to guardianship are discussed,
+							<cgt>4</cgt><xref id="5" type="footnote"/> as 
+								counsel may recommend such a course of action in a particu
+								-
+							lar case. Related issues are addressed in
+								other chapters on 
+								adoption, divorce and mental health.
+							<cgt>5</cgt><xref id="6" type="footnote"/> Forms at the end of the chapter were collected from various
+								state statutes as a guide, and may need to be altered for
+								individual use.</para.text></para></section.body></section><section uuid="I4a6f120026a611d99b08a92d7e97623c" date.revised="0" date.updated="0"><section.front date.updated="0"><outline.name.block toc.include="y" date.updated="0"><label date.updated="0"><cgt>§ </cgt></label><designator date.updated="0">7:2</designator><name date.updated="0"><cgt> 
+							</cgt>Definitions</name></outline.name.block></section.front><section.body date.updated="0"><para date.updated="0" first.para="yes"><para.text date.updated="0" first.para.text="yes"><ital>Ancillary Guardian.</ital> Guardian appointed in a state other 
+								than the state of original appointment and who is subservi
+								-
+							ent and assistive to the original
+								guardian.</para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital>Conservator.</ital> Interchangeable with guardian in some 
+								courts; other courts reserve the term to relate only to guard
+								-
+							
+								ian of the property. A state may use the term guardian refer
+								-
+							
+								ring to minors and conservator applying to adults.
+							<cgt>1</cgt><xref id="7" type="footnote"/></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital>Curator.</ital> French civil law term for guardian
+								appointed to control minor's property. Has other
+								meanings in other contexts.</para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital>Domicile.</ital> Intended legal residence.</para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital>Domiciliary Guardian.</ital> Guardian appointed by the state of the guardian's and ward's
+								domicile.</para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital>Emancipation.</ital> Adult status obtained in some states
+								prior to age of majority by marriage, court
+								decree or military 
+								enlistment.
+							<cgt>2</cgt><xref id="8" type="footnote"/></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital>Foreign Guardian.</ital> Guardian whose appointment was granted in another state. Outside the
+								original appointment jurisdiction the guardian is considered a
+								foreign guardian. The foreign guardian must be assisted by a
+								local guardian. </para.text></para></section.body></section></section.block></analytical.hierarchy.body></analytical.hierarchy></chapter.body></chapter></publication.body></publication></root>

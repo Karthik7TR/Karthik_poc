@@ -55,16 +55,17 @@ public interface XppGatherFileSystem extends GatherFileSystem
     Map<String, Collection<File>> getXppSourceXmls(@NotNull BookStep step);
 
     /**
-     * @param step
-     * @param materialNumber
-     * @return
+     * Returns root directory for XPP bundle
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link getXppBundlesDirectory Bundles}{@code /[bundle material number]/}
      */
     @NotNull
     File getXppBundleMaterialNumberDirectory(@NotNull BookStep step, @NotNull String materialNumber);
 
     /**
-     * @param step
-     * @return
+     * Returns list of all bundle.xml files
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link getXppBundlesDirectory Bundles}{@code /*[bundle material number]/bundle.xml}
      */
     @NotNull
     List<File> getAllBundleXmls(@NotNull BookStep step);
