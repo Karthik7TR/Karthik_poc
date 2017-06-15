@@ -20,9 +20,16 @@
 		</step>
 		<step id="originalStructureTransformationStep">
 			<tasklet ref="originalStructureTransformationTask" />
-			<next on="COMPLETED" to="splitOriginalStep" />
+			<next on="COMPLETED" to="addSectionbreaksToOriginalStep" />
 			<fail on="FAILED" />
 		</step>
+        
+        <step id="addSectionbreaksToOriginalStep">
+            <tasklet ref="addSectionbreaksToOriginalTask" />
+            <next on="COMPLETED" to="splitOriginalStep" />
+            <fail on="FAILED" />
+        </step>
+        
 		<step id="splitOriginalStep">
 			<tasklet ref="splitOriginalTask" />
 			<next on="COMPLETED" to="unitePagesPartsStep" />
@@ -113,10 +120,10 @@
         class="com.thomsonreuters.uscl.ereader.xpp.transformation.sectionbreaks.step.AddSectionbreaksStep" />
 	<beans:bean id="splitOriginalTask" scope="step" parent="bookStep"
 		class="com.thomsonreuters.uscl.ereader.xpp.transformation.split.step.SplitOriginalStep" />
-	<beans:bean id="transformToHtmlTask" scope="step" parent="bookStep"
-		class="com.thomsonreuters.uscl.ereader.xpp.transformation.tohtml.step.TransformationToHtmlStep" />
     <beans:bean id="unitePagesPartsTask" scope="step" parent="bookStep"
         class="com.thomsonreuters.uscl.ereader.xpp.transformation.uniteparts.step.UnitePagePartsStep" />
+    <beans:bean id="transformToHtmlTask" scope="step" parent="bookStep"
+        class="com.thomsonreuters.uscl.ereader.xpp.transformation.tohtml.step.TransformationToHtmlStep" />
     <beans:bean id="internalAnchorsTask" scope="step" parent="bookStep"
         class="com.thomsonreuters.uscl.ereader.xpp.transformation.internalAnchors.step.InternalAnchorsStep" />
     <beans:bean id="createDocToImageMappingTask" scope="step" parent="bookStep"
