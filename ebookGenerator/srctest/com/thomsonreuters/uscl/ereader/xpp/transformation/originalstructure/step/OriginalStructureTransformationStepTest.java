@@ -72,7 +72,7 @@ public final class OriginalStructureTransformationStepTest
 
         given(xppGatherFileSystem.getXppSourceXmls(step)).willReturn(getSourceXmlsFromGatherDir());
         given(fileSystem.getOriginalDirectory(step)).willReturn(xppDirectory);
-        given(fileSystem.getOriginalBundleDirectory(step, MATERIAL_NUMBER)).willReturn(bundleDir);
+        given(fileSystem.getOriginalDirectory(step, MATERIAL_NUMBER)).willReturn(bundleDir);
         given(fileSystem.getOriginalFile(step, MATERIAL_NUMBER, "xpp.xml")).willReturn(originalFile);
         given(fileSystem.getFootnotesFile(step, MATERIAL_NUMBER, "xpp.xml")).willReturn(footnotesFile);
     }

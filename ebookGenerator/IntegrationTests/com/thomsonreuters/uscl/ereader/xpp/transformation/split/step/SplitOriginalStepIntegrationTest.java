@@ -34,8 +34,8 @@ public final class SplitOriginalStepIntegrationTest
     private File footnotes;
     private File expectedMainPart1;
     private File expectedMainPart2;
-    private File expectedFootnotesPart1;
-    private File expectedFootnotesPart2;
+    private File expectedMainPart3;
+    private File expectedMainPart4;
 
     @Before
     public void setUp() throws URISyntaxException
@@ -46,17 +46,17 @@ public final class SplitOriginalStepIntegrationTest
             new File(SplitOriginalStepIntegrationTest.class.getResource("sample_1_main.part").toURI());
         expectedMainPart2 =
             new File(SplitOriginalStepIntegrationTest.class.getResource("sample_2_main.part").toURI());
-        expectedFootnotesPart1 =
-            new File(SplitOriginalStepIntegrationTest.class.getResource("sample_1_footnotes.part").toURI());
-        expectedFootnotesPart2 =
-            new File(SplitOriginalStepIntegrationTest.class.getResource("sample_2_footnotes.part").toURI());
+        expectedMainPart3 =
+            new File(SplitOriginalStepIntegrationTest.class.getResource("sample_3_main.part").toURI());
+        expectedMainPart4 =
+            new File(SplitOriginalStepIntegrationTest.class.getResource("sample_4_main.part").toURI());
     }
 
     @Test
     public void shouldSplitOriginalXml() throws Exception
     {
         //given
-        final File originalDirectory = mkdir(fileSystem.getOriginalBundleDirectory(step, MATERIAL_NUMBER));
+        final File originalDirectory = mkdir(fileSystem.getSectionbreaksDirectory(step, MATERIAL_NUMBER));
         FileUtils.copyFileToDirectory(main, originalDirectory);
         FileUtils.copyFileToDirectory(footnotes, originalDirectory);
         //when
@@ -64,11 +64,13 @@ public final class SplitOriginalStepIntegrationTest
         //then
         final File actualMainPart1 = fileSystem.getOriginalPartsFile(step, MATERIAL_NUMBER, "sample", 1, PartType.MAIN);
         final File actualMainPart2 = fileSystem.getOriginalPartsFile(step, MATERIAL_NUMBER, "sample", 2, PartType.MAIN);
-        final File actualFootnotesPart1 = fileSystem.getOriginalPartsFile(step, MATERIAL_NUMBER, "sample", 1, PartType.FOOTNOTE);
-        final File actualFootnotesPart2 = fileSystem.getOriginalPartsFile(step, MATERIAL_NUMBER, "sample", 2, PartType.FOOTNOTE);
+        final File actualMainPart3 = fileSystem.getOriginalPartsFile(step, MATERIAL_NUMBER, "sample", 3, PartType.MAIN);
+        final File actualMainPart4 = fileSystem.getOriginalPartsFile(step, MATERIAL_NUMBER, "sample", 4, PartType.MAIN);
         assertThat(expectedMainPart1, hasSameContentAs(actualMainPart1));
         assertThat(expectedMainPart2, hasSameContentAs(actualMainPart2));
-        assertThat(expectedFootnotesPart1, hasSameContentAs(actualFootnotesPart1));
-        assertThat(expectedFootnotesPart2, hasSameContentAs(actualFootnotesPart2));
+        assertThat(expectedMainPart3, hasSameContentAs(actualMainPart3));
+        assertThat(expectedMainPart4, hasSameContentAs(actualMainPart4));
+
+        //TODO: return checking footnotes when split by structure for footnotes is ready
     }
 }

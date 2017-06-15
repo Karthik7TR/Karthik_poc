@@ -57,8 +57,9 @@ public class UnitePagePartsStep extends XppTransformationStep
         for (int i = 1; i <= numberOfPages; i++)
         {
             final File mainPart = fileSystem.getOriginalPartsFile(this, materialNumber, fileName, i, PartType.MAIN);
-            final File footnotesPart = fileSystem.getOriginalPartsFile(this, materialNumber, fileName, i, PartType.FOOTNOTE);
-            final List<File> files = asList(mainPart, footnotesPart);
+            //TODO: return back when split by structure for footnotes is ready
+            //final File footnotesPart = fileSystem.getOriginalPartsFile(this, materialNumber, fileName, i, PartType.FOOTNOTE);
+            final List<File> files = asList(mainPart);
 
             transformationService.transform(transformer, files, fileSystem.getOriginalPageFile(this, materialNumber, fileName, i));
         }

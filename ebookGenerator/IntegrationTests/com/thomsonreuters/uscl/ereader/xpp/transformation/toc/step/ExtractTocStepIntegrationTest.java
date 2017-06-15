@@ -84,11 +84,11 @@ public final class ExtractTocStepIntegrationTest
 
     private void prepareDirectories() throws Exception
     {
-        final File bundleVolOneOriginalFilesDir = fileSystem.getOriginalBundleDirectory(step, VOL_ONE_MATERIAL_NUMBER);
+        final File bundleVolOneOriginalFilesDir = fileSystem.getOriginalDirectory(step, VOL_ONE_MATERIAL_NUMBER);
         FileUtils.forceMkdir(bundleVolOneOriginalFilesDir);
         FileUtils.copyFileToDirectory(bundleMainContentOriginalFile, bundleVolOneOriginalFilesDir);
 
-        final File bundleVolTwoOriginalFilesDir = fileSystem.getOriginalBundleDirectory(step, VOL_TWO_MATERIAL_NUMBER);
+        final File bundleVolTwoOriginalFilesDir = fileSystem.getOriginalDirectory(step, VOL_TWO_MATERIAL_NUMBER);
         FileUtils.forceMkdir(bundleVolTwoOriginalFilesDir);
         FileUtils.copyFileToDirectory(bundleMainContentOriginalAdditionalFile, bundleVolTwoOriginalFilesDir);
     }

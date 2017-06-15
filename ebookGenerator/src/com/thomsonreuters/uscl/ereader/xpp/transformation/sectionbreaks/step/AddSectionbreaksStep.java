@@ -1,6 +1,8 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.sectionbreaks.step;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.Map;
 
 import javax.xml.transform.Transformer;
 
@@ -24,11 +26,14 @@ public class AddSectionbreaksStep extends XppTransformationStep
     @Override
     public void executeTransformation() throws Exception
     {
-        FileUtils.forceMkdir(fileSystem.getSectionbreaksDirectory(this));
         final Transformer transformer = transformerBuilderFactory.create().withXsl(addSectionbreaksToOriginalXsl).build();
-        for (final File file : fileSystem.getOriginalDirectory(this).listFiles())
+        for (final Map.Entry<String, Collection<File>> dir : fileSystem.getOriginalMainAndFootnoteFiles(this).entrySet())
         {
-            transformationService.transform(transformer, file, fileSystem.getSectionbreaksFile(this, file.getName()));
+            FileUtils.forceMkdir(fileSystem.getSectionbreaksDirectory(this, dir.getKey()));
+            for (final File file : dir.getValue())
+            {
+                transformationService.transform(transformer, file, fileSystem.getSectionbreaksFile(this, dir.getKey(), file.getName()));
+            }
         }
     }
 

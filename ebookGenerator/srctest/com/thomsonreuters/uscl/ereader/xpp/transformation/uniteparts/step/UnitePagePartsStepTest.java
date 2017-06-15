@@ -97,7 +97,9 @@ public final class UnitePagePartsStepTest
         step.executeTransformation();
         //then
         then(fileSystem).should(times(2)).getOriginalPartsDirectory(any(BookStep.class), eq(MATERIAL_NUMBER));
-        then(fileSystem).should(times(6)).getOriginalPartsFile(any(BookStep.class), eq(MATERIAL_NUMBER), any(String.class), any(Integer.class), any(PartType.class));
+
+        //TODO: return checking footnotes invocations when split by structure for footnotes is ready
+        then(fileSystem).should(times(3)).getOriginalPartsFile(any(BookStep.class), eq(MATERIAL_NUMBER), any(String.class), any(Integer.class), any(PartType.class));
         then(transformationService).should(times(3)).transform(any(Transformer.class), any(List.class), eq(page));
     }
 }

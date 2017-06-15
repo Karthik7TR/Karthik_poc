@@ -25,7 +25,7 @@ public interface XppFormatFileSystem extends FormatFileSystem
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /01_Original}{@code /[material number]}
      */
     @NotNull
-    File getOriginalBundleDirectory(@NotNull BookStep step, @NotNull String materialNumber);
+    File getOriginalDirectory(@NotNull BookStep step, @NotNull String materialNumber);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
@@ -92,22 +92,36 @@ public interface XppFormatFileSystem extends FormatFileSystem
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getPagebreakesUpDirectory 02_Sectionbreaks}{@code /fileName.type}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /02_Sectionbreaks}{@code /[material number]}
      */
     @NotNull
-    File getSectionbreaksFile(@NotNull BookStep step, @NotNull String name);
+    File getSectionbreaksDirectory(@NotNull BookStep step, @NotNull String materialNumber);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /02_PagebreakesUp}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
+     * {@code /}{@link getPagebreakesUpDirectory 02_Sectionbreaks}{@code /[material number]}{@code /fileName.type}
+     */
+    @NotNull
+    File getSectionbreaksFile(@NotNull BookStep step, @NotNull String materialNumber, @NotNull String name);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /02_Sectionbreaks}{@code /[material number]}{@code /*.*}
+     */
+    @NotNull
+    Map<String, Collection<File>> getSectionBreaksFiles(@NotNull BookStep step);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /03_SectionbreaksUp}
      */
     @NotNull
     File getPagebreakesUpDirectory(@NotNull BookStep step);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /02_PagebreakesUp}{@code /[material number]}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /03_SectionbreaksUp}{@code /[material number]}
      */
     @NotNull
     File getPagebreakesUpDirectory(@NotNull BookStep step, @NotNull String materialNumber);
@@ -115,7 +129,7 @@ public interface XppFormatFileSystem extends FormatFileSystem
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getPagebreakesUpDirectory 02_PagebreakesUp}{@code /fileName.type}
+     * {@code /}{@link getPagebreakesUpDirectory 03_SectionbreaksUp}{@code /fileName.type}
      */
     @NotNull
     File getPagebreakesUpFile(@NotNull BookStep step, @NotNull String name);
@@ -123,7 +137,7 @@ public interface XppFormatFileSystem extends FormatFileSystem
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getPagebreakesUpDirectory 02_PagebreakesUp}{@code /[material number]}{@code /fileName.type}
+     * {@code /}{@link getPagebreakesUpDirectory 03_SectionbreaksUp}{@code /[material number]}{@code /fileName.type}
      */
     @NotNull
     File getPagebreakesUpFile(@NotNull BookStep step, @NotNull String materialNumber, @NotNull String name);
@@ -132,14 +146,14 @@ public interface XppFormatFileSystem extends FormatFileSystem
      * Bundle name (material number) to list of files related to this bundle.
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getPagebreakesUpDirectory 02_PagebreakesUp}{@code /[material number]}{@code /fileName.type}
+     * {@code /}{@link getPagebreakesUpDirectory 03_SectionbreaksUp}{@code /[material number]}{@code /fileName.type}
      */
     @NotNull
     Map<String, Collection<File>> getPagebreakesUpFiles(@NotNull BookStep step);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /03_OriginalParts}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /04_OriginalParts}
      */
     @Deprecated
     @NotNull
@@ -147,7 +161,7 @@ public interface XppFormatFileSystem extends FormatFileSystem
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /03_OriginalParts}{@code /[material number]}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /04_OriginalParts}{@code /[material number]}
      */
     @NotNull
     File getOriginalPartsDirectory(@NotNull BookStep step, @NotNull String materialNumber);
@@ -155,7 +169,7 @@ public interface XppFormatFileSystem extends FormatFileSystem
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getOriginalPartsDirectory 03_OriginalParts}
+     * {@code /}{@link getOriginalPartsDirectory 04_OriginalParts}
      * {@code /[material number]}
      * {@code /fileName_number_type.part}
      */
@@ -164,14 +178,14 @@ public interface XppFormatFileSystem extends FormatFileSystem
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /04_OriginalPages}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /05_OriginalPages}
      */
     @NotNull
     File getOriginalPagesDirectory(@NotNull BookStep step);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /04_OriginalPages}{@code /[material number]}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /05_OriginalPages}{@code /[material number]}
      */
     @NotNull
     File getOriginalPagesDirectory(@NotNull BookStep step, @NotNull String materialNumber);
@@ -179,7 +193,7 @@ public interface XppFormatFileSystem extends FormatFileSystem
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getOriginalPagesDirectory 04_OriginalPages}{@code /fileName_#.page}
+     * {@code /}{@link getOriginalPagesDirectory 05_OriginalPages}{@code /fileName_#.page}
      */
     @Deprecated
     @NotNull
@@ -188,7 +202,7 @@ public interface XppFormatFileSystem extends FormatFileSystem
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getOriginalPagesDirectory 04_OriginalPages}{@code /[material number]}{@code /fileName_#.page}
+     * {@code /}{@link getOriginalPagesDirectory 05_OriginalPages}{@code /[material number]}{@code /fileName_#.page}
      */
     @NotNull
     File getOriginalPageFile(@NotNull BookStep step, @NotNull String materialNumber, @NotNull String name, int pageNumber);
@@ -197,21 +211,21 @@ public interface XppFormatFileSystem extends FormatFileSystem
      * Returns map "bundle name (material number) to list of files related to this bundle" from original pages directory.
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getOriginalPagesDirectory 04_OriginalPages}{@code /[material number]}{@code /fileName_#.page}
+     * {@code /}{@link getOriginalPagesDirectory 05_OriginalPages}{@code /[material number]}{@code /fileName_#.page}
      */
     @NotNull
     Map<String, Collection<File>> getOriginalPageFiles(@NotNull BookStep step);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /05_HtmlPages}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /06_HtmlPages}
      */
     @NotNull
     File getHtmlPagesDirectory(@NotNull BookStep step);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /05_HtmlPages}{@code /[material number]}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /06_HtmlPages}{@code /[material number]}
      */
     @NotNull
     File getHtmlPagesDirectory(@NotNull BookStep step, @NotNull String materialNumber);
@@ -219,7 +233,7 @@ public interface XppFormatFileSystem extends FormatFileSystem
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getHtmlPagesDirectory 05_HtmlPages}{@code /fileName.html}
+     * {@code /}{@link getHtmlPagesDirectory 06_HtmlPages}{@code /fileName.html}
      */
     @Deprecated
     @NotNull
@@ -228,7 +242,7 @@ public interface XppFormatFileSystem extends FormatFileSystem
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getHtmlPagesDirectory 05_HtmlPages}{@code /[material number]}{@code /fileName.html}
+     * {@code /}{@link getHtmlPagesDirectory 06_HtmlPages}{@code /[material number]}{@code /fileName.html}
      */
     @NotNull
     File getHtmlPageFile(@NotNull BookStep step, @NotNull String materialNumber, @NotNull String name);
@@ -251,7 +265,7 @@ public interface XppFormatFileSystem extends FormatFileSystem
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /06_Toc}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /07_Toc}
      */
     @NotNull
     File getTocDirectory(@NotNull BookStep step);
@@ -259,7 +273,7 @@ public interface XppFormatFileSystem extends FormatFileSystem
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getTocDirectory 06_Toc}{@code /tocItemToDocumentIdMap.xml}
+     * {@code /}{@link getTocDirectory 07_Toc}{@code /tocItemToDocumentIdMap.xml}
      */
     @NotNull
     File getTocItemToDocumentIdMapFile(@NotNull BookStep step);
@@ -267,7 +281,7 @@ public interface XppFormatFileSystem extends FormatFileSystem
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getTocDirectory 06_Toc}{@code /toc.xml}
+     * {@code /}{@link getTocDirectory 07_Toc}{@code /toc.xml}
      */
     @NotNull
     File getTocFile(@NotNull BookStep step);
@@ -275,14 +289,14 @@ public interface XppFormatFileSystem extends FormatFileSystem
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getTocDirectory 06_Toc}{/@code materialNumber}{/@code toc_bundleFile}
+     * {@code /}{@link getTocDirectory 07_Toc}{/@code materialNumber}{/@code toc_bundleFile}
      */
     @NotNull
     File getBundlePartTocFile(@NotNull String bundleFile, @NotNull String materialNumber, @NotNull BookStep step);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /07_title_metadata}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /08_title_metadata}
      */
     @NotNull
     File getTitleMetadataDirectory(@NotNull BookStep step);
@@ -290,7 +304,7 @@ public interface XppFormatFileSystem extends FormatFileSystem
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getTitleDirectory/07_title_metadata}{@code /titleMetadata.xml}
+     * {@code /}{@link getTitleDirectory/08_title_metadata}{@code /titleMetadata.xml}
      */
     @NotNull
     File getTitleMetadataFile(@NotNull BookStep step);

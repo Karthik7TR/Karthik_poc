@@ -29,11 +29,11 @@ public final class XppFormatFileSystemImplTest
 {
     private static final String ORIGINAL_DIR       = "workDirectory/Format/01_Original";
     private static final String SECTIONBREAKS_DIR  = "workDirectory/Format/02_Sectionbreaks";
-    private static final String PAGEBREAKES_UP_DIR = "workDirectory/Format/02_PagebreakesUp";
-    private static final String ORIGINAL_PARTS_DIR = "workDirectory/Format/03_OriginalParts";
-    private static final String ORIGINAL_PAGES_DIR = "workDirectory/Format/04_OriginalPages";
-    private static final String HTML_PAGES_DIR     = "workDirectory/Format/05_HtmlPages";
-    private static final String TITLE_METADATA_DIR = "workDirectory/Format/07_title_metadata";
+    private static final String PAGEBREAKES_UP_DIR = "workDirectory/Format/03_SectionbreaksUp";
+    private static final String ORIGINAL_PARTS_DIR = "workDirectory/Format/04_OriginalParts";
+    private static final String ORIGINAL_PAGES_DIR = "workDirectory/Format/05_OriginalPages";
+    private static final String HTML_PAGES_DIR     = "workDirectory/Format/06_HtmlPages";
+    private static final String TITLE_METADATA_DIR = "workDirectory/Format/08_title_metadata";
 
     private static final String FILE_NAME_XML         = "fileName.xml";
     private static final String FILE_NAME_ORIGINAL    = "fileName.original";
@@ -81,7 +81,7 @@ public final class XppFormatFileSystemImplTest
     {
         //given
         //when
-        final File directory = fileSystem.getOriginalBundleDirectory(step, MATERIAL_NUMBER);
+        final File directory = fileSystem.getOriginalDirectory(step, MATERIAL_NUMBER);
         //then
         assertThat(directory, hasPath(ORIGINAL_DIR + "/" + MATERIAL_NUMBER));
     }
@@ -177,6 +177,16 @@ public final class XppFormatFileSystemImplTest
     {
         //given
         //when
+        final File directory = fileSystem.getSectionbreaksDirectory(step, MATERIAL_NUMBER);
+        //then
+        assertThat(directory, hasPath(SECTIONBREAKS_DIR + "/" + MATERIAL_NUMBER));
+    }
+
+    @Test
+    public void shouldReturnSectionbreaksDirectoryForBundleStructure()
+    {
+        //given
+        //when
         final File directory = fileSystem.getSectionbreaksDirectory(step);
         //then
         assertThat(directory, hasPath(SECTIONBREAKS_DIR));
@@ -187,9 +197,23 @@ public final class XppFormatFileSystemImplTest
     {
         //given
         //when
-        final File file = fileSystem.getSectionbreaksFile(step, FILE_NAME_MAIN);
+        final File file = fileSystem.getSectionbreaksFile(step, MATERIAL_NUMBER, FILE_NAME_MAIN);
         //then
-        assertThat(file, hasPath(SECTIONBREAKS_DIR + "/" + FILE_NAME_MAIN));
+        assertThat(file, hasPath(SECTIONBREAKS_DIR + "/" + MATERIAL_NUMBER + "/" + FILE_NAME_MAIN));
+    }
+
+    @Test
+    public void shouldReturnSectionbreaksFiles() throws IOException
+    {
+        //given
+        final File dir = mkdir(temporaryFolder.getRoot(), SECTIONBREAKS_DIR);
+        final File file1 = mkfile(mkdir(dir, MATERIAL_NUMBER), FILE_NAME_XML);
+        final File file2 = mkfile(mkdir(dir, MATERIAL_NUMBER_2), FILE_NAME_XML);
+        //when
+        final Map<String, Collection<File>> map = fileSystem.getSectionBreaksFiles(step);
+        //then
+        assertTrue(map.get(MATERIAL_NUMBER).contains(file1));
+        assertTrue(map.get(MATERIAL_NUMBER_2).contains(file2));
     }
 
     @Test
@@ -397,7 +421,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File file = fileSystem.getBundlePartTocFile(FILE_NAME_XML, MATERIAL_NUMBER, step);
         //then
-        assertThat(file, hasPath("workDirectory/Format/06_Toc/11111111/toc_fileName.xml"));
+        assertThat(file, hasPath("workDirectory/Format/07_Toc/11111111/toc_fileName.xml"));
     }
 
     @Test

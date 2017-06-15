@@ -34,7 +34,7 @@ public class OriginalStructureTransformationStep extends XppTransformationStep
         final Map<String, Collection<File>> xppXmls = xppGatherFileSystem.getXppSourceXmls(this);
         for (final Map.Entry<String, Collection<File>> xppDir : xppXmls.entrySet())
         {
-            final File bundleOriginalDir = fileSystem.getOriginalBundleDirectory(this, xppDir.getKey());
+            final File bundleOriginalDir = fileSystem.getOriginalDirectory(this, xppDir.getKey());
             bundleOriginalDir.mkdirs();
         }
 

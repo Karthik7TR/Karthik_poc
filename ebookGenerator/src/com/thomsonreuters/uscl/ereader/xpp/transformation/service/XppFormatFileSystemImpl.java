@@ -18,12 +18,12 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 {
     private static final String ORIGINAL_DIR       = "01_Original";
     private static final String SECTIONBREAKS_DIR  = "02_Sectionbreaks";
-    private static final String PAGEBREAKES_UP_DIR = "02_PagebreakesUp";
-    private static final String ORIGINAL_PARTS_DIR = "03_OriginalParts";
-    private static final String ORIGINAL_PAGES_DIR = "04_OriginalPages";
-    private static final String HTML_PAGES_DIR     = "05_HtmlPages";
-    private static final String TOC_DIR            = "06_Toc";
-    private static final String TITLE_METADATA_DIR = "07_title_metadata";
+    private static final String PAGEBREAKES_UP_DIR = "03_SectionbreaksUp";
+    private static final String ORIGINAL_PARTS_DIR = "04_OriginalParts";
+    private static final String ORIGINAL_PAGES_DIR = "05_OriginalPages";
+    private static final String HTML_PAGES_DIR     = "06_HtmlPages";
+    private static final String TOC_DIR            = "07_Toc";
+    private static final String TITLE_METADATA_DIR = "08_title_metadata";
 
     private static final String TITLE_METADATA_FILE = "titleMetadata.xml";
     private static final String TOC_FILE = "toc.xml";
@@ -44,7 +44,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     @Override
-    public File getOriginalBundleDirectory(@NotNull final BookStep step, @NotNull final String materialNumber)
+    public File getOriginalDirectory(@NotNull final BookStep step, @NotNull final String materialNumber)
     {
         return new File(getOriginalDirectory(step), materialNumber);
     }
@@ -54,7 +54,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     public File getOriginalFile(@NotNull final BookStep step, @NotNull final String materialNumber, @NotNull final String xppFileName)
     {
         final String fileName = FilenameUtils.removeExtension(xppFileName);
-        return new File(getOriginalBundleDirectory(step, materialNumber), fileName + "." + MAIN);
+        return new File(getOriginalDirectory(step, materialNumber), fileName + "." + MAIN);
     }
 
     @NotNull
@@ -77,7 +77,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     public File getFootnotesFile(@NotNull final BookStep step, @NotNull final String materialNumber, @NotNull final String xppFileName)
     {
         final String fileName = FilenameUtils.removeExtension(xppFileName);
-        return new File(getOriginalBundleDirectory(step, materialNumber), fileName + "." + FOOTNOTES);
+        return new File(getOriginalDirectory(step, materialNumber), fileName + "." + FOOTNOTES);
     }
 
     @NotNull
@@ -111,9 +111,22 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     @Override
-    public File getSectionbreaksFile(@NotNull final BookStep step, @NotNull final String name)
+    public File getSectionbreaksDirectory(@NotNull final BookStep step, @NotNull final String materialNumber)
     {
-        return new File(getSectionbreaksDirectory(step), name);
+        return new File(getSectionbreaksDirectory(step), materialNumber);
+    }
+
+    @NotNull
+    @Override
+    public File getSectionbreaksFile(@NotNull final BookStep step, @NotNull final String materialNumber, @NotNull final String name)
+    {
+        return new File(getSectionbreaksDirectory(step, materialNumber), name);
+    }
+
+    @NotNull
+    @Override
+    public Map<String, Collection<File>> getSectionBreaksFiles(@NotNull final BookStep step) {
+        return getMaterialNumberToFilesMap(getSectionbreaksDirectory(step));
     }
 
     @NotNull

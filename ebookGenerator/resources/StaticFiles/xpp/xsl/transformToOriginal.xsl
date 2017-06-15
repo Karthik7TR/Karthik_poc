@@ -61,6 +61,12 @@
 		<xsl:copy-of select="self::node()" />
 	</xsl:template>
     
+    <xsl:template match="processing-instruction('XPPMetaData')">
+        <xsl:text disable-output-escaping="yes"><![CDATA[<XPPMetaData ]]></xsl:text>
+        <xsl:value-of select="."/>
+        <xsl:text disable-output-escaping="yes"><![CDATA[/>]]></xsl:text>
+    </xsl:template>
+
     <xsl:template match="processing-instruction('XPPHier')">
         <xsl:text disable-output-escaping="yes"><![CDATA[<XPPHier ]]></xsl:text>
         <xsl:value-of select="."/>

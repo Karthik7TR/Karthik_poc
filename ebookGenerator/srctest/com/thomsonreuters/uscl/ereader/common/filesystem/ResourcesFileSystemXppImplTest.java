@@ -43,11 +43,11 @@ public final class ResourcesFileSystemXppImplTest
     {
         //given
         given(xppFormatFileSystemImpl.getHtmlPagesDirectory(step))
-            .willReturn(new File(temporaryFolder.getRoot(), "workDirectory/Format/05_HtmlPages"));
+            .willReturn(new File(temporaryFolder.getRoot(), "workDirectory/Format/06_HtmlPages"));
         //when
         final File file = sut.getDocumentsDirectory(step);
         //then
-        assertThat(file, hasPath("workDirectory/Format/05_HtmlPages"));
+        assertThat(file, hasPath("workDirectory/Format/06_HtmlPages"));
     }
 
     @Test

@@ -29,7 +29,12 @@
 
 	<xsl:template match="x:pagebreak">
 		<xsl:variable name="apostrophe">'</xsl:variable>
-		<xsl:processing-instruction name="pb" select="concat('label', '=', $apostrophe, ./@num, $apostrophe, '?')" />
+		<xsl:variable name="continuation">
+			<xsl:if test="@continuation">
+				<xsl:value-of select="' (cont.)'" />
+			</xsl:if>
+		</xsl:variable>
+		<xsl:processing-instruction name="pb" select="concat('label', '=', $apostrophe, ./@num, $continuation, $apostrophe, '?')" />
 	</xsl:template>
 
 	<xsl:template match="x:document.hier|x:document.break">

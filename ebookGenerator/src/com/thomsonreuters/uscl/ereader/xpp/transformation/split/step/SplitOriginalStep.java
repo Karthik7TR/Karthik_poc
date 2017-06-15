@@ -37,7 +37,7 @@ public class SplitOriginalStep extends XppTransformationStep
     private void movePageBreakesToTopLevel() throws IOException
     {
         final Transformer transformer = transformerBuilderFactory.create().withXsl(movePagebreakesUpXsl).build();
-        for (final Map.Entry<String, Collection<File>> dir : fileSystem.getOriginalMainAndFootnoteFiles(this).entrySet())
+        for (final Map.Entry<String, Collection<File>> dir : fileSystem.getSectionBreaksFiles(this).entrySet())
         {
             FileUtils.forceMkdir(fileSystem.getPagebreakesUpDirectory(this, dir.getKey()));
             for (final File file : dir.getValue())

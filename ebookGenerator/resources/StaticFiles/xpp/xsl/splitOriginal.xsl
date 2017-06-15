@@ -7,7 +7,7 @@
 	<xsl:param name="fileType" />
 
 	<xsl:template match="x:root">
-		<xsl:for-each-group select="*" group-starting-with="x:pagebreak">
+		<xsl:for-each-group select="*" group-starting-with="x:sectionbreak">
 			<xsl:variable name="fileNameSuffix" select="concat($fileBaseName, '_', position())" />
 			<xsl:variable name="fileName"
 				select="concat('./', $fileNameSuffix, '_', $fileType, '.part')" />
@@ -28,5 +28,5 @@
 		</xsl:copy>
 	</xsl:template>
 
-	<xsl:template match="x:pagebreak" />
+	<xsl:template match="x:sectionbreak" />
 </xsl:stylesheet>

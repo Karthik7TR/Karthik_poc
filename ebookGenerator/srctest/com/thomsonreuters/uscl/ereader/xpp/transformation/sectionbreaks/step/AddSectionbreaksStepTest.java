@@ -7,6 +7,9 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 import javax.xml.transform.Transformer;
 
@@ -27,6 +30,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class AddSectionbreaksStepTest
 {
+    private static final String MATERIAL_NUMBER = "11111111";
+
     @InjectMocks
     private AddSectionbreaksStep step;
     @Mock
@@ -50,12 +55,9 @@ public class AddSectionbreaksStepTest
         inputFile = mock(File.class);
         outputFile = mock(File.class);
 
-        final File inputDir = mock(File.class);
-        given(fileSystem.getOriginalDirectory(step)).willReturn(inputDir);
-        given(inputDir.listFiles()).willReturn(new File[]{inputFile});
-
-        given(fileSystem.getSectionbreaksDirectory(step)).willReturn(new File(temporaryFolder.getRoot(), "02_Sectionbreaks"));
-        given(fileSystem.getSectionbreaksFile(any(AddSectionbreaksStep.class), any(String.class))).willReturn(outputFile);
+        given(fileSystem.getOriginalMainAndFootnoteFiles(step)).willReturn(Collections.singletonMap(MATERIAL_NUMBER, (Collection<File>) Arrays.asList(inputFile)));
+        given(fileSystem.getSectionbreaksDirectory(step, MATERIAL_NUMBER)).willReturn(new File(temporaryFolder.getRoot(), "02_Sectionbreaks"));
+        given(fileSystem.getSectionbreaksFile(any(AddSectionbreaksStep.class), any(String.class), any(String.class))).willReturn(outputFile);
 
         final TransformerBuilder builder = mock(TransformerBuilder.class);
         given(transformerBuilderFactory.create()).willReturn(builder);
@@ -70,8 +72,8 @@ public class AddSectionbreaksStepTest
         //when
         step.executeStep();
         //then
-        then(fileSystem).should().getSectionbreaksDirectory(eq(step));
+        then(fileSystem).should().getSectionbreaksDirectory(eq(step), any(String.class));
         then(transformationService).should().transform(any(Transformer.class), eq(inputFile), eq(outputFile));
-        then(fileSystem).should().getSectionbreaksFile(eq(step), any(String.class));
+        then(fileSystem).should().getSectionbreaksFile(eq(step), any(String.class), any(String.class));
     }
 }

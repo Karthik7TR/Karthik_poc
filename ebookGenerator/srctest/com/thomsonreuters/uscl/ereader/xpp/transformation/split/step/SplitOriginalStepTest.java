@@ -73,7 +73,7 @@ public final class SplitOriginalStepTest
 
         originalPartsDirectory = new File(root, "originalPartsDirectory");
 
-        given(fileSystem.getOriginalMainAndFootnoteFiles(step)).willReturn(getFilesFromBundleStructure(original, footnotes));
+        given(fileSystem.getSectionBreaksFiles(step)).willReturn(getFilesFromBundleStructure(original, footnotes));
         given(fileSystem.getPagebreakesUpFiles(step)).willReturn(getFilesFromBundleStructure(moveUpOriginal, moveUpFootnotes));
 
         given(fileSystem.getPagebreakesUpDirectory(step, MATERIAL_NUMBER)).willReturn(moveUpDir);

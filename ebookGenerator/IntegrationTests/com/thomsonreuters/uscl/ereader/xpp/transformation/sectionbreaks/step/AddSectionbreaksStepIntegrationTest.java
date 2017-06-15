@@ -23,6 +23,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration
 public class AddSectionbreaksStepIntegrationTest
 {
+    private static final String MATERIAL_NUMBER = "11111111";
+
     @Resource(name = "addSectionbreaksTask")
     private AddSectionbreaksStep step;
     @Autowired
@@ -54,7 +56,7 @@ public class AddSectionbreaksStepIntegrationTest
     public void shouldCreateOriginalFileWithSectionbreaks() throws Exception
     {
         //given
-        final File originalMainSourceDir = fileSystem.getOriginalDirectory(step);
+        final File originalMainSourceDir = fileSystem.getOriginalDirectory(step, MATERIAL_NUMBER);
         FileUtils.forceMkdir(originalMainSourceDir);
         FileUtils.copyFileToDirectory(originalXml, originalMainSourceDir);
         FileUtils.copyFileToDirectory(originalXmlTwo, originalMainSourceDir);
@@ -62,10 +64,10 @@ public class AddSectionbreaksStepIntegrationTest
         //when
         step.executeStep();
         //then
-        final File actualOuput1 = fileSystem.getSectionbreaksFile(step, originalXml.getName());
+        final File actualOuput1 = fileSystem.getSectionbreaksFile(step, MATERIAL_NUMBER, originalXml.getName());
         assertThat(actualOuput1, hasSameContentAs(expectedOuput1));
 
-        final File actualOuput2 = fileSystem.getSectionbreaksFile(step, originalXmlTwo.getName());
+        final File actualOuput2 = fileSystem.getSectionbreaksFile(step, MATERIAL_NUMBER, originalXmlTwo.getName());
         assertThat(actualOuput2, hasSameContentAs(expectedOuput2));
     }
 }
