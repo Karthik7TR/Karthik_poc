@@ -38,11 +38,11 @@ public class OriginalStructureTransformationStep extends XppTransformationStep
             bundleOriginalDir.mkdirs();
         }
 
-        getOriginalXmls(xppXmls);
-        getFootnotesXmls(xppXmls);
+        generateMainXmls(xppXmls);
+        generateFootnotesXmls(xppXmls);
     }
 
-    private void getOriginalXmls(final Map<String, Collection<File>> xppXmls)
+    private void generateMainXmls(final Map<String, Collection<File>> xppXmls)
     {
         final Transformer transformerToOriginal =
             transformerBuilderFactory.create().withXsl(transformToOriginalXsl).build();
@@ -53,14 +53,11 @@ public class OriginalStructureTransformationStep extends XppTransformationStep
             {
                 final File originalFile = fileSystem.getOriginalFile(this, xppDir.getKey(), xppFile.getName());
                 transformationService.transform(transformerToOriginal, xppFile, originalFile);
-
-                //TODO: temporary solution to make next steps work with old directory structure
-                transformationService.transform(transformerToOriginal, xppFile, fileSystem.getOriginalFile(this, xppFile.getName()));
             }
         }
     }
 
-    private void getFootnotesXmls(final Map<String, Collection<File>> xppXmls)
+    private void generateFootnotesXmls(final Map<String, Collection<File>> xppXmls)
     {
         final Transformer transformerToFootnotes =
             transformerBuilderFactory.create().withXsl(transformToFootnotesXsl).build();
@@ -71,9 +68,6 @@ public class OriginalStructureTransformationStep extends XppTransformationStep
             {
                 final File footnotesFile = fileSystem.getFootnotesFile(this, xppDir.getKey(), xppFile.getName());
                 transformationService.transform(transformerToFootnotes, xppFile, footnotesFile);
-
-                //TODO: temporary solution to make next steps work with old directory structure
-                transformationService.transform(transformerToFootnotes, xppFile, fileSystem.getFootnotesFile(this, xppFile.getName()));
             }
         }
     }

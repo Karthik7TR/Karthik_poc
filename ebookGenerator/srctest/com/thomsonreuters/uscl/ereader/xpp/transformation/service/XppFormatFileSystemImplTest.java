@@ -3,7 +3,6 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.service;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.FileSystemMatcher.hasPath;
 import static com.thomsonreuters.uscl.ereader.core.book.util.BookTestUtil.mkdir;
 import static com.thomsonreuters.uscl.ereader.core.book.util.BookTestUtil.mkfile;
-import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
@@ -61,7 +60,7 @@ public final class XppFormatFileSystemImplTest
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Before
-    public void setUp() throws IOException
+    public void setUp()
     {
         given(bookFileSystem.getWorkDirectory(step)).willReturn(new File(temporaryFolder.getRoot(), "workDirectory"));
     }
@@ -97,48 +96,6 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnOriginalFile()
-    {
-        //given
-        //when
-        final File file = fileSystem.getOriginalFile(step, FILE_NAME_XML);
-        //then
-        assertThat(file, hasPath(ORIGINAL_DIR + "/" + FILE_NAME_MAIN));
-    }
-
-    @Test
-    public void shouldReturnOriginalFiles() throws IOException
-    {
-        //given
-        final File directory = fileSystem.getOriginalDirectory(step);
-        directory.mkdirs();
-        final File original = new File(directory, FILE_NAME_MAIN);
-        final File footnotes = new File(directory, FILE_NAME_FOOTNOTES);
-        original.createNewFile();
-        footnotes.createNewFile();
-        //when
-        final Collection<File> files = fileSystem.getOriginalFiles(step);
-        //then
-        assertThat(files, contains(original));
-    }
-
-    @Test
-    public void shouldReturnFootnotesFiles() throws IOException
-    {
-        //given
-        final File directory = fileSystem.getOriginalDirectory(step);
-        directory.mkdirs();
-        final File original = new File(directory, FILE_NAME_MAIN);
-        final File footnotes = new File(directory, FILE_NAME_FOOTNOTES);
-        original.createNewFile();
-        footnotes.createNewFile();
-        //when
-        final Collection<File> files = fileSystem.getFootnotesFiles(step);
-        //then
-        assertThat(files, contains(footnotes));
-    }
-
-    @Test
     public void shouldReturnFootnotesFileForBundleStructure()
     {
         //given
@@ -146,16 +103,6 @@ public final class XppFormatFileSystemImplTest
         final File file = fileSystem.getFootnotesFile(step, MATERIAL_NUMBER, FILE_NAME_XML);
         //then
         assertThat(file, hasPath(ORIGINAL_DIR + "/" + MATERIAL_NUMBER + "/" + FILE_NAME_FOOTNOTES));
-    }
-
-    @Test
-    public void shouldReturnFootnotesFile()
-    {
-        //given
-        //when
-        final File file = fileSystem.getFootnotesFile(step, FILE_NAME_XML);
-        //then
-        assertThat(file, hasPath(ORIGINAL_DIR + "/" + FILE_NAME_FOOTNOTES));
     }
 
     @Test

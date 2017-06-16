@@ -10,7 +10,6 @@ import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystemImpl;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import org.apache.commons.io.FilenameUtils;
 import org.jetbrains.annotations.NotNull;
-import org.sonar.runner.commonsio.FileUtils;
 import org.springframework.stereotype.Component;
 
 @Component("xppFormatFileSystem")
@@ -59,40 +58,10 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     @Override
-    public File getOriginalFile(@NotNull final BookStep step, @NotNull final String xppFileName)
-    {
-        final String fileName = FilenameUtils.removeExtension(xppFileName);
-        return new File(getOriginalDirectory(step), fileName + "." + MAIN);
-    }
-
-    @NotNull
-    @Override
-    public Collection<File> getOriginalFiles(@NotNull final BookStep step)
-    {
-        return FileUtils.listFiles(getOriginalDirectory(step), new String[] {MAIN}, false);
-    }
-
-    @NotNull
-    @Override
     public File getFootnotesFile(@NotNull final BookStep step, @NotNull final String materialNumber, @NotNull final String xppFileName)
     {
         final String fileName = FilenameUtils.removeExtension(xppFileName);
         return new File(getOriginalDirectory(step, materialNumber), fileName + "." + FOOTNOTES);
-    }
-
-    @NotNull
-    @Override
-    public File getFootnotesFile(@NotNull final BookStep step, @NotNull final String xppFileName)
-    {
-        final String fileName = FilenameUtils.removeExtension(xppFileName);
-        return new File(getOriginalDirectory(step), fileName + "." + FOOTNOTES);
-    }
-
-    @NotNull
-    @Override
-    public Collection<File> getFootnotesFiles(@NotNull final BookStep step)
-    {
-        return FileUtils.listFiles(getOriginalDirectory(step), new String[] {FOOTNOTES}, false);
     }
 
     @NotNull

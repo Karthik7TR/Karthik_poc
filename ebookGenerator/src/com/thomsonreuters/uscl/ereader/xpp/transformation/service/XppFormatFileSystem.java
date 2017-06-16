@@ -38,43 +38,10 @@ public interface XppFormatFileSystem extends FormatFileSystem
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getOriginalDirectory 01_Original}{@code /fileName.main}
-     */
-    @NotNull
-    File getOriginalFile(@NotNull BookStep step, @NotNull String name);
-
-    /**
-     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getOriginalDirectory 01_Original}{@code /*.main}
-     */
-    @Deprecated
-    @NotNull
-    Collection<File> getOriginalFiles(@NotNull BookStep step);
-
-    /**
-     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
      * {@code /}{@link getOriginalDirectory 01_Original}{@code /[material number]}{@code /fileName.footnotes}
      */
     @NotNull
     File getFootnotesFile(@NotNull BookStep step, @NotNull String materialNumber, @NotNull String name);
-
-    /**
-     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getOriginalDirectory 01_Original}{@code /fileName.footnotes}
-     */
-    @NotNull
-    File getFootnotesFile(@NotNull BookStep step, @NotNull String name);
-
-    /**
-     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getOriginalDirectory 01_Original}{@code /*.footnotes}
-     */
-    @NotNull
-    Collection<File> getFootnotesFiles(@NotNull BookStep step);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
