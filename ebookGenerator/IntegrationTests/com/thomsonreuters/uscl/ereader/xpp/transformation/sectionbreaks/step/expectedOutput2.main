@@ -1,6 +1,6 @@
 <root xmlns="http://www.sdl.com/xpp">
     <pagebreak num="1"/>
-    <sectionbreak sectionuuid="I7f66dd0028b811e69ed7fcedf0a72427"/><publication online.royalty.id="FLLF" uuid="I7f66dd0028b811e69ed7fcedf0a72427">
+    <publication online.royalty.id="FLLF" uuid="I7f66dd0028b811e69ed7fcedf0a72427">
         <XPPHier uuid="I7f66dd0028b811e69ed7fcedf0a72427" name="" parent_uuid="I7f66dd0028b811e69ed7fcedf0a72427"/>
         <metadata.block>
             <metadata field="left.running.head">
@@ -18,7 +18,7 @@
                 </front>
                 <topic.body date.updated="0">
                     <chapter uuid="I333dd59028b911e69ed7fcedf0a72427" date.revised="0" date.updated="0">
-                        <XPPHier uuid="I333dd59028b911e69ed7fcedf0a72427" name="" parent_uuid="I18b49f1028b911e69ed7fcedf0a72427"/>
+                        <XPPHier uuid="I333dd59028b911e69ed7fcedf0a72427" name="" parent_uuid="I18b49f1028b911e69ed7fcedf0a72427"/><sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2575"/>
                         <metadata.block metadata.store="yes">
                             <metadata field="right.running.head">
                                 <value/>
@@ -30,6 +30,7 @@
                                 <designator date.updated="0">30</designator>
                                 <name date.updated="0">Partnerships</name>
                             </outline.name.block>
+                            <XPPMetaData guid="I445a1ac6c61c11d9962fb5f8354828db" md.doc_family_uuid="Ie0b81373f8fb11d99f28ffa0ae8c2575" parent_uuid="I333dd59028b911e69ed7fcedf0a72427"/>
                             <generated.toc>
                                 <full.toc>
                                     <toc.analytical.level tocuuid="I334a31a028b911e69ed7fcedf0a72427">
@@ -37,6 +38,7 @@
                                             <designator date.updated="0">I</designator>
                                             <name>General Partnerships</name>
                                         </outline.name.block>
+                                        <XPPMetaData guid="I445a1ac6c61c11d9962fb5f8354828dc" md.doc_family_uuid="Ie0b81373f8fb11d99f28ffa0ae8c2576" parent_uuid="I333dd59028b911e69ed7fcedf0a72427"/><sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2576"/>
                                         <toc.analytical.level tocuuid="I334a7fc028b911e69ed7fcedf0a72427">
                                             <outline.name.block>
                                                 <designator date.updated="0">A</designator>
@@ -47,6 +49,7 @@
                                                     <designator date.updated="0">1</designator>
                                                     <name>Introduction</name>
                                                 </outline.name.block>
+                                                <XPPMetaData guid="I445a1ac6c61c11d9962fb5f8354828dd" md.doc_family_uuid="Ie0b81373f8fb11d99f28ffa0ae8c2577" parent_uuid="I333dd59028b911e69ed7fcedf0a72428"/><sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2577"/>
                                                 <toc.section>
                                                     <outline.name.block>
                                                         <label date.updated="0"/>
