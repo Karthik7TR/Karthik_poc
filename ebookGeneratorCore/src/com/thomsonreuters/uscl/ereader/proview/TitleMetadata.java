@@ -74,6 +74,8 @@ public class TitleMetadata implements Serializable
     @XmlElementWrapper(name = "authors")
     @XmlElement(name = "author")
     private List<String> authorNames;
+    @XmlElementWrapper(name = "docs")
+    @XmlElement(name = "doc")
     private List<Doc> documents;
     @XmlElementWrapper(name = "assets")
     @XmlElement(name = "asset")
@@ -115,6 +117,7 @@ public class TitleMetadata implements Serializable
         displayName = builder.displayName;
         frontMatterTocLabel = builder.frontMatterTocLabel;
         frontMatterPages = builder.frontMatterPages;
+        documents = builder.documents;
 
         authorNames = new ArrayList<>();
         if (builder.authors == null || builder.authors.isEmpty())
@@ -445,6 +448,7 @@ public class TitleMetadata implements Serializable
         private List<FrontMatterPage> frontMatterPages;
         private String artworkFileName;
         private Set<String> assetFileNames;
+        private List<Doc> documents;
 
         private TitleMetadataBuilder()
         {
@@ -598,6 +602,12 @@ public class TitleMetadata implements Serializable
         public TitleMetadataBuilder assetFileNames(@NotNull final Set<String> assetFileNames)
         {
             this.assetFileNames = assetFileNames;
+            return this;
+        }
+
+        public TitleMetadataBuilder documents(@NotNull final List<Doc> documents)
+        {
+            this.documents = documents;
             return this;
         }
 

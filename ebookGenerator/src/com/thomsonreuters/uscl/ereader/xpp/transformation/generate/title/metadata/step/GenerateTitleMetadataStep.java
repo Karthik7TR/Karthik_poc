@@ -1,6 +1,12 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.generate.title.metadata.step;
 
 import java.io.File;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.annotation.Resource;
 import javax.xml.bind.JAXBContext;
@@ -12,9 +18,13 @@ import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
+import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
+import com.thomsonreuters.uscl.ereader.xpp.toc.step.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
 import org.apache.commons.io.FileUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -38,22 +48,78 @@ public class GenerateTitleMetadataStep extends XppTransformationStep
     public void executeTransformation() throws Exception
     {
         FileUtils.forceMkdir(fileSystem.getTitleMetadataDirectory(this));
+
+        final DocumentsCollector documentsCollector = new DocumentsCollector();
+        for (final XppBundle bundle : getXppBundles())
+        {
+            collectDocumentsForBundle(bundle, documentsCollector);
+        }
+
         final Transformer transformer = transformerBuilderFactory.create().withXsl(tocToTitleXsl).build();
-        transformer.setParameter("titleMetadataDoc", saveMetadataAndGetFilePath());
+        transformer.setParameter("titleMetadataDoc", saveMetadataAndGetFilePath(documentsCollector.getCollectedDocuments()));
         transformationService.transform(transformer, fileSystem.getTocFile(this), assembleFileSystem.getTitleXml(this));
     }
 
-    private String saveMetadataAndGetFilePath() throws JAXBException
+    private void collectDocumentsForBundle(@NotNull final XppBundle bundle,
+                                           @NotNull final DocumentsCollector documentsCollector)
+    {
+        for (final String fileName : bundle.getOrderedFileList())
+        {
+            final FilenameFilter filter = BundleFileType.getByFileName(fileName).getHtmlDocFileNameFilter();
+            final String[] documentsNames = fileSystem.getHtmlPagesDirectory(this, bundle.getMaterialNumber()).list(filter);
+            documentsCollector.addDocuments(documentsNames);
+        }
+    }
+
+    private String saveMetadataAndGetFilePath(final List<Doc> documents) throws JAXBException
     {
         final TitleMetadata titleMetadata = TitleMetadata.builder(getBookDefinition())
             .versionNumber(getBookVersionString())
             .artworkFile(assembleFileSystem.getArtworkFile(this))
             .assetFilesFromDirectory(assembleFileSystem.getAssetsDirectory(this))
+            .documents(documents)
             .build();
 
         final File titleBookDefinitionFile = fileSystem.getTitleMetadataFile(this);
         final Marshaller marshaller = JAXBContext.newInstance(TitleMetadata.class).createMarshaller();
         marshaller.marshal(titleMetadata, titleBookDefinitionFile);
         return titleBookDefinitionFile.getAbsolutePath().replace("\\", "/");
+    }
+
+    private static class DocumentsCollector
+    {
+        private static final Comparator<DocumentName> DOC_NAMES_COMPARATOR = new DocumentOrderComparator();
+
+        private final List<DocumentName> allDocumentsNames = new ArrayList<>();
+
+        public void addDocuments(@NotNull final String[] documentsNames)
+        {
+            final Set<DocumentName> names = new TreeSet<>(DOC_NAMES_COMPARATOR);
+            for (final String documentName : documentsNames)
+            {
+                names.add(new DocumentName(documentName));
+            }
+            allDocumentsNames.addAll(names);
+        }
+
+        @NotNull
+        public List<Doc> getCollectedDocuments()
+        {
+            final List<Doc> documentList = new ArrayList<>();
+            for (final DocumentName documentName : allDocumentsNames)
+            {
+                documentList.add(new Doc(documentName.getDocFamilyGuid(), documentName.getOriginalFileName(), 0, null));
+            }
+            return documentList;
+        }
+    }
+
+    private static class DocumentOrderComparator implements Comparator<DocumentName>
+    {
+        @Override
+        public int compare(@NotNull final DocumentName doc, @NotNull final DocumentName docToCompare)
+        {
+            return Integer.compare(doc.getOrder(), docToCompare.getOrder());
+        }
     }
 }

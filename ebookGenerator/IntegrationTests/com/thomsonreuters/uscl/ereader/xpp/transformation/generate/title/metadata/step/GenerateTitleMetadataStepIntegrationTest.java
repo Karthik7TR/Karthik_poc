@@ -20,6 +20,7 @@ import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.proview.Feature;
 import com.thomsonreuters.uscl.ereader.proview.Keyword;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -35,14 +36,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-/**
- *
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 public final class GenerateTitleMetadataStepIntegrationTest
 {
     private static final String CURRENT_DATE_PLACEHOLDER = "${currentDate}";
+    private static final String MATERIAL_NUMBER = "123456";
+    private static final String ADDITIONAL_MATERIAL_NUMBER = "123457";
 
     @Resource(name = "generateTitleMetadataTask")
     @InjectMocks
@@ -89,6 +89,27 @@ public final class GenerateTitleMetadataStepIntegrationTest
                 .getJobParameters()
                 .getString(JobParameterKey.BOOK_VERSION_SUBMITTED))
         .thenReturn("5.0");
+
+        when(chunkContext
+            .getStepContext()
+            .getStepExecution()
+            .getJobExecution()
+            .getExecutionContext()
+            .get(JobParameterKey.XPP_BUNDLES))
+        .thenReturn(getXppBundles());
+    }
+
+    private List<XppBundle> getXppBundles()
+    {
+        final XppBundle firstBundle = new XppBundle();
+        firstBundle.setMaterialNumber(MATERIAL_NUMBER);
+        firstBundle.setOrderedFileList(Arrays.asList("Useless_test_file.DIVXML.xml"));
+
+        final XppBundle secondBundle = new XppBundle();
+        secondBundle.setMaterialNumber(ADDITIONAL_MATERIAL_NUMBER);
+        secondBundle.setOrderedFileList(Arrays.asList("Useless_test_file.DIVXML.xml"));
+
+        return Arrays.asList(firstBundle, secondBundle);
     }
 
     private void initBookDefinitionMockBehavior()
@@ -148,6 +169,20 @@ public final class GenerateTitleMetadataStepIntegrationTest
         final File coverArtDirectory = assembleFileSystem.getArtworkFile(step).toPath().getParent().toFile();
         FileUtils.forceMkdir(coverArtDirectory);
         FileUtils.copyFileToDirectory(coverArtFile, coverArtDirectory);
+
+        File bundleDocsDirectory = fileSystem.getHtmlPagesDirectory(step, MATERIAL_NUMBER);
+        FileUtils.forceMkdir(bundleDocsDirectory);
+        FileUtils.copyFileToDirectory(loadFileFromResources(
+            "Useless_test_file.DIVXML_1_I334acde028b47ft34ed7fcedf0a72426.html"), bundleDocsDirectory);
+        FileUtils.copyFileToDirectory(loadFileFromResources(
+            "Useless_test_file.DIVXML_3_I4700e2c0g6kz11e69ed7fcedf0a72426.html"), bundleDocsDirectory);
+
+        bundleDocsDirectory = fileSystem.getHtmlPagesDirectory(step, ADDITIONAL_MATERIAL_NUMBER);
+        FileUtils.forceMkdir(bundleDocsDirectory);
+        FileUtils.copyFileToDirectory(loadFileFromResources(
+            "Useless_test_file.DIVXML_2_I3416j47028b911e69ed7fcedf0a72426.html"), bundleDocsDirectory);
+        FileUtils.copyFileToDirectory(loadFileFromResources(
+            "Useless_test_file.DIVXML_4_I4700e2c028b911e69ed7fcedfyt4l426.html"), bundleDocsDirectory);
     }
 
     private File loadFileFromResources(final String fileName) throws URISyntaxException

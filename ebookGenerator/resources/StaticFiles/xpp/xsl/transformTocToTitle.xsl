@@ -29,9 +29,8 @@
 			<xsl:element name="toc">
 				<xsl:apply-templates select="x:EBookToc" mode="toc" />
 			</xsl:element>
-			<xsl:element name="docs">
-				<xsl:apply-templates select="x:EBookToc" mode="doc" />
-			</xsl:element>
+			
+			<xsl:copy-of select="$titleMetadata/ManifestMetadata/docs" />
 			
 			<xsl:copy-of select="$titleMetadata/ManifestMetadata/isbn" />
 		</xsl:element>
@@ -60,19 +59,5 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	
-	<xsl:template match="x:EBookToc" mode="doc">
-		<xsl:choose>
-			<xsl:when test="child::x:EBookToc">
-				<xsl:apply-templates select="x:EBookToc" mode="doc" />
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:element name="doc">
-					<xsl:variable name="guid" select="x:DocumentGuid" />
-					<xsl:attribute name="id" select="$guid" />
-					<xsl:attribute name="src" select="concat($guid, '.html')" />
-				</xsl:element>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
+
 </xsl:stylesheet>
