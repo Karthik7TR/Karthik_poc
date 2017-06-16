@@ -18,12 +18,14 @@
                 </front>
                 <topic.body date.updated="0">
                 	<XPPHier uuid="I333dd59028b911e69ed7fcedf0a72426" parent_uuid="I18b49f1028b911e69ed7fcedf0a72426" name="Content 1"/>
+                	<XPPMetaData uuid="I333dd59028b911e69ed7fcedf0a72426" parent_uuid="I333dd59028b911e69ed7fcedf0a72426" md.doc_family_uuid="I333ddfh6p2u911e69ed7fcedf0a72426"/>
                     <chapter uuid="c" date.revised="0" date.updated="0">
                         <metadata.block metadata.store="yes">
                             <metadata field="right.running.head">
                                 <value/>
                             </metadata>
                         </metadata.block>
+                        <XPPMetaData uuid="I333dd59028b9sdf5tgd7fcedf0a72426" parent_uuid="I333dd59028b911e69ed7fcedf0a72426" md.doc_family_uuid="I333ddfh6p2u911e69ed7fcedf0a72456"/>
                         <front date.updated="0">
                             <outline.name.block toc.include="y" date.updated="0">
                                 <label date.updated="0">Chapter</label>
@@ -34,6 +36,7 @@
                                 <full.toc>
                                 	<XPPHier uuid="I334a31a028b911e69ed7fcedf0a72426" parent_uuid="I18b49f1028b911e69ed7fcedf0a72426" name="Content 2"/>
                                     <toc.analytical.level tocuuid="I334a31a028b911e69ed7fcedf0a72426">
+                                    <XPPMetaData uuid="I333gh56028b9sdf5tgd7fcedf0a72426" parent_uuid="I334a31a028b911e69ed7fcedf0a72426" md.doc_family_uuid="I333ddfh6p2u911e69ed7fcedf0a72fg5"/>
                                         <outline.name.block>
                                             <designator date.updated="0">I</designator>
                                             <name>General Partnerships</name>
@@ -67,6 +70,7 @@
                                             </toc.analytical.level>
                                         </toc.analytical.level>
                                         <XPPHier uuid="I34145f7028b911e69ed7fcedf0a72426" parent_uuid="I334acde028b911e69ed7fcedf0a72426" name="Content 2_1"/>
+                                        <XPPMetaData uuid="I333gh560dg56hdf5tgd7fcedf0a72426" parent_uuid="I34145f7028b911e69ed7fcedf0a72426" md.doc_family_uuid="Igk54oofh6p2u911e69ed7fcedf0a72fg5"/>
                                         <toc.analytical.level tocuuid="I34145f7028b911e69ed7fcedf0a72426">
                                             <outline.name.block>
                                                 <designator date.updated="0">B</designator>
@@ -108,6 +112,7 @@
                                 </front>
                                 <analytical.level.body date.updated="0">
                                     <XPPHier uuid="I334a7fc028b911e69ed7fcedf0a72426" parent_uuid="I334a31a028b911e69ed7fcedf0a72427" name="Chapter 2 content"/>
+                                    <XPPMetaData uuid="I333fl58fdg56hdf5tgd7fcedf0a72426" parent_uuid="I334a7fc028b911e69ed7fcedf0a72426" md.doc_family_uuid="Igk54oofh6p2u9f5e69ed7fcedf0a72fg5"/>
                                     <analytical.level uuid="I334a7fc028b911e69ed7fcedf0a72426" date.revised="0" date.updated="0">
                                         <front date.updated="0">
                                             <outline.name.block toc.include="y" date.updated="0">
