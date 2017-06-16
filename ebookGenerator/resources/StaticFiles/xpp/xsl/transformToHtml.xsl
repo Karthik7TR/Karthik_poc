@@ -37,9 +37,9 @@
 		<xsl:processing-instruction name="pb" select="concat('label', '=', $apostrophe, ./@num, $continuation, $apostrophe, '?')" />
 	</xsl:template>
 
-	<xsl:template match="x:document.hier|x:document.break">
+	<xsl:template match="x:XPPHier|x:XPPMetaData">
 		<xsl:element name="a">
-			<xsl:attribute name="name" select="./@guid" />
+			<xsl:attribute name="name" select="./@uuid" />
 		</xsl:element>
 	</xsl:template>
 
