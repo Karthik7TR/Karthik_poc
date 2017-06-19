@@ -27,4 +27,10 @@ public interface ResourcesFileSystem
      */
     @NotNull
     File getArtwork(@NotNull BookStep step);
+
+    /**
+     * Returns common CSS file for all XPP books
+     */
+    @NotNull
+    File getDocumentCss();
 }

@@ -1,5 +1,10 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.move.resources.step;
 
+import static org.apache.commons.io.FileUtils.copyDirectory;
+import static org.apache.commons.io.FileUtils.copyFile;
+import static org.apache.commons.io.FileUtils.copyFileToDirectory;
+import static org.apache.commons.io.FileUtils.forceMkdir;
+
 import java.io.File;
 
 import javax.annotation.Resource;
@@ -10,7 +15,6 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificat
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
-import org.apache.commons.io.FileUtils;
 import org.springframework.batch.core.ExitStatus;
 
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
@@ -31,17 +35,18 @@ public class MoveResourcesToAssembleDirectoryXpp extends BookStepImpl
         final File assetsDir = assembleFileSystem.getAssetsDirectory(this);
         final File documentsDir = assembleFileSystem.getDocumentsDirectory(this);
 
-        FileUtils.forceMkdir(titleDirectory);
+        forceMkdir(titleDirectory);
         artworkDir.mkdir();
         assetsDir.mkdir();
         documentsDir.mkdir();
 
         final File destinationArtworkFile = assembleFileSystem.getArtworkFile(this);
 
-        FileUtils.copyFile(resourcesFileSystem.getArtwork(this), destinationArtworkFile);
-        FileUtils.copyFileToDirectory(destinationArtworkFile, assetsDir);
-        FileUtils.copyDirectory(resourcesFileSystem.getAssetsDirectory(this), assetsDir);
-        FileUtils.copyDirectory(resourcesFileSystem.getDocumentsDirectory(this), documentsDir);
+        copyFile(resourcesFileSystem.getArtwork(this), destinationArtworkFile);
+        copyFileToDirectory(resourcesFileSystem.getDocumentCss(), assetsDir);
+        copyFileToDirectory(destinationArtworkFile, assetsDir);
+        copyDirectory(resourcesFileSystem.getAssetsDirectory(this), assetsDir);
+        copyDirectory(resourcesFileSystem.getDocumentsDirectory(this), documentsDir);
 
         return ExitStatus.COMPLETED;
     }

@@ -8,6 +8,7 @@ import com.thomsonreuters.uscl.ereader.assemble.step.CoverArtUtil;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component("resourcesFileSystemXpp")
@@ -21,6 +22,9 @@ public class ResourcesFileSystemXppImpl implements ResourcesFileSystem
 
     @Resource(name = "coverArtUtil")
     private CoverArtUtil coverArtUtil;
+
+    @Value("${xpp.document.css}")
+    private File documentCssFile;
 
     @NotNull
     @Override
@@ -41,5 +45,12 @@ public class ResourcesFileSystemXppImpl implements ResourcesFileSystem
     public File getArtwork(@NotNull final BookStep step)
     {
         return coverArtUtil.getCoverArt(step.getBookDefinition());
+    }
+
+    @NotNull
+    @Override
+    public File getDocumentCss()
+    {
+        return documentCssFile;
     }
 }
