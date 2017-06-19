@@ -37,9 +37,6 @@ public class TransformationToHtmlStep extends XppTransformationStep
                 transformationService
                     .transform(transformer, part, fileSystem.getHtmlPageFile(this, dir.getKey(), part.getName()));
             }
-
-            //TODO: temporary solution to make next steps work with old directory structure
-            FileUtils.copyDirectory(fileSystem.getHtmlPagesDirectory(this, dir.getKey()), fileSystem.getHtmlPagesDirectory(this));
         }
     }
 }

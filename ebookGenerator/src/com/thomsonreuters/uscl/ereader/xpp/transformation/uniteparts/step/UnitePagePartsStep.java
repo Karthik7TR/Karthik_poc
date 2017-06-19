@@ -45,9 +45,6 @@ public class UnitePagePartsStep extends XppTransformationStep
                     createPage(transformer, dir.getKey(), originalFile.getName());
                 }
             }
-
-            //TODO: temporary solution to make next steps work with old directory structure
-            FileUtils.copyDirectory(fileSystem.getOriginalPagesDirectory(this, dir.getKey()), fileSystem.getOriginalPagesDirectory(this));
         }
     }
 

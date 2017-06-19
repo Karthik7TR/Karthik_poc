@@ -63,9 +63,6 @@ public class SplitOriginalStep extends XppTransformationStep
                 transformer.setParameter("fileType", fileType);
                 transformationService.transform(transformer, file, fileSystem.getOriginalPartsDirectory(this, entry.getKey()));
             }
-
-            //TODO: temporary solution to make next steps work with old directory structure
-            FileUtils.copyDirectory(fileSystem.getOriginalPartsDirectory(this, entry.getKey()), fileSystem.getOriginalPartsDirectory(this));
         }
     }
 }

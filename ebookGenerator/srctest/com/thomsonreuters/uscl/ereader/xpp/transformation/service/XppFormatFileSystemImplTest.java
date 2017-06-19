@@ -218,16 +218,6 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnOriginalPartsDirectory()
-    {
-        //given
-        //when
-        final File directory = fileSystem.getOriginalPartsDirectory(step);
-        //then
-        assertThat(directory, hasPath(ORIGINAL_PARTS_DIR));
-    }
-
-    @Test
     public void shouldReturnOriginalPartsDirectoryForBundleStructure()
     {
         //given
@@ -248,16 +238,6 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnOriginalPagesDirectory()
-    {
-        //given
-        //when
-        final File directory = fileSystem.getOriginalPagesDirectory(step);
-        //then
-        assertThat(directory, hasPath(ORIGINAL_PAGES_DIR));
-    }
-
-    @Test
     public void shouldReturnOriginalPagesDirectoryForBundleStructure()
     {
         //given
@@ -265,16 +245,6 @@ public final class XppFormatFileSystemImplTest
         final File directory = fileSystem.getOriginalPagesDirectory(step, MATERIAL_NUMBER);
         //then
         assertThat(directory, hasPath(ORIGINAL_PAGES_DIR + "/" + MATERIAL_NUMBER));
-    }
-
-    @Test
-    public void shouldReturnOriginalPageFile()
-    {
-        //given
-        //when
-        final File file = fileSystem.getOriginalPageFile(step, FILE_NAME_ORIGINAL, 1);
-        //then
-        assertThat(file, hasPath(ORIGINAL_PAGES_DIR + "/" + FILE_NAME_1_PAGE));
     }
 
     @Test

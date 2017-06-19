@@ -78,7 +78,6 @@ public final class SplitOriginalStepTest
 
         given(fileSystem.getPagebreakesUpDirectory(step, MATERIAL_NUMBER)).willReturn(moveUpDir);
         given(fileSystem.getOriginalPartsDirectory(step, MATERIAL_NUMBER)).willReturn(originalPartsDirectory);
-        given(fileSystem.getOriginalPartsDirectory(step)).willReturn(root);
     }
 
     @Test

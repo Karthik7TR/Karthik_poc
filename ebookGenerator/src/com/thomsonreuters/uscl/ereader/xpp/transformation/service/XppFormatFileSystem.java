@@ -120,14 +120,6 @@ public interface XppFormatFileSystem extends FormatFileSystem
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /04_OriginalParts}
-     */
-    @Deprecated
-    @NotNull
-    File getOriginalPartsDirectory(@NotNull BookStep step);
-
-    /**
-     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /04_OriginalParts}{@code /[material number]}
      */
     @NotNull
@@ -156,15 +148,6 @@ public interface XppFormatFileSystem extends FormatFileSystem
      */
     @NotNull
     File getOriginalPagesDirectory(@NotNull BookStep step, @NotNull String materialNumber);
-
-    /**
-     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
-     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getOriginalPagesDirectory 05_OriginalPages}{@code /fileName_#.page}
-     */
-    @Deprecated
-    @NotNull
-    File getOriginalPageFile(@NotNull BookStep step, @NotNull String name, int pageNumber);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}

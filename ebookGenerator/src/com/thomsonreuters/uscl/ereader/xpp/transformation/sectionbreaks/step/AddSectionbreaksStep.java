@@ -36,5 +36,4 @@ public class AddSectionbreaksStep extends XppTransformationStep
             }
         }
     }
-
 }
