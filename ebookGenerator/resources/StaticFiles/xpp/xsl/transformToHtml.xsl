@@ -30,7 +30,7 @@
 	<xsl:template match="x:pagebreak">
 		<xsl:variable name="apostrophe">'</xsl:variable>
 		<xsl:variable name="continuation">
-			<xsl:if test="@continuation">
+			<xsl:if test="@continuation = true()">
 				<xsl:value-of select="' (cont.)'" />
 			</xsl:if>
 		</xsl:variable>

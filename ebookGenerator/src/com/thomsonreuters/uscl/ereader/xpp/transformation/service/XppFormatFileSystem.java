@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.entity.PartFilesIndex;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import org.jetbrains.annotations.NotNull;
 
@@ -120,20 +121,54 @@ public interface XppFormatFileSystem extends FormatFileSystem
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /04_OriginalParts}
+     */
+    @NotNull
+    File getOriginalPartsDirectory(@NotNull BookStep step);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /04_OriginalParts}{@code /[material number]}
      */
     @NotNull
     File getOriginalPartsDirectory(@NotNull BookStep step, @NotNull String materialNumber);
 
     /**
+     * Returns map of material number to
+     * collection of groups of files with different types united by base name and index
+     * like
+     * material-number-1 ->
+     *          [
+     *              baseName1 ->
+     *                  [
+     *                      1 -> [
+     *                          main     -> baseName1_1_main_familyNumber1.part,
+     *                          footnote -> baseName1_1_footnote_familyNumber1.part
+     *                      ],
+     *                      2 -> [
+     *                          main     -> baseName1_2_main_familyNumber1.part,
+     *                          footnote -> baseName1_2_footnote_familyNumber1.part
+     *                      ]
+     *                  ],
+     *              baseName2 ->
+     *                  [
+     *                      1 -> [
+     *                          main     -> baseName2_1_main_familyNumber2.part,
+     *                          footnote -> baseName2_1_footnote_familyNumber2.part
+     *                      ]
+     *                  ],
+     *              ...
+     *          ],
+     * material-number-2 -> [...]
+     *
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
      * {@code /}{@link getOriginalPartsDirectory 04_OriginalParts}
      * {@code /[material number]}
-     * {@code /fileName_number_type.part}
+     * {@code /fileName_#_type_family-number.part}
      */
     @NotNull
-    File getOriginalPartsFile(@NotNull BookStep step, @NotNull String materialNumber, @NotNull String name, int partNumber, @NotNull PartType type);
+    PartFilesIndex getOriginalPartsFiles(@NotNull BookStep step);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
@@ -152,10 +187,10 @@ public interface XppFormatFileSystem extends FormatFileSystem
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getOriginalPagesDirectory 05_OriginalPages}{@code /[material number]}{@code /fileName_#.page}
+     * {@code /}{@link getOriginalPagesDirectory 05_OriginalPages}{@code /[material number]}{@code /fileName_#_docFamilyGuid.page}
      */
     @NotNull
-    File getOriginalPageFile(@NotNull BookStep step, @NotNull String materialNumber, @NotNull String name, int pageNumber);
+    File getOriginalPageFile(@NotNull BookStep step, @NotNull String materialNumber, @NotNull String fileBaseName, int pageNumber, @NotNull String docFamilyGuid);
 
     /**
      * Returns map "bundle name (material number) to list of files related to this bundle" from original pages directory.
@@ -196,6 +231,15 @@ public interface XppFormatFileSystem extends FormatFileSystem
      */
     @NotNull
     File getHtmlPageFile(@NotNull BookStep step, @NotNull String materialNumber, @NotNull String name);
+
+    /**
+     * Returns map "bundle name (material number) to list of files related to this bundle" from original pages directory.
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
+     * {@code /}{@link getHtmlPagesDirectory 06_HtmlPages}{@code /[material number]}{@code /fileName_#.html}
+     */
+    @NotNull
+    Map<String, Collection<File>> getHtmlPageFiles(@NotNull BookStep step);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}

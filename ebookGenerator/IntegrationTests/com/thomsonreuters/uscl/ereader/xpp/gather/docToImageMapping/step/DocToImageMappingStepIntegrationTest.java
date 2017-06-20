@@ -42,7 +42,7 @@ public class DocToImageMappingStepIntegrationTest
     public void shouldCreateMappingFile() throws Exception
     {
         //given
-        final File originalPartsDirectory = fileSystem.getHtmlPagesDirectory(step);
+        final File originalPartsDirectory = fileSystem.getHtmlPagesDirectory(step, "11111111");
         FileUtils.forceMkdir(originalPartsDirectory);
         FileUtils.copyFileToDirectory(originalHtml1, originalPartsDirectory);
         FileUtils.copyFileToDirectory(originalHtml2, originalPartsDirectory);

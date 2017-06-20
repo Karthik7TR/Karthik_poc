@@ -44,9 +44,10 @@
     </xsl:template>
     
     <xsl:template name="insertContinuationPagebreak">
+        <xsl:variable name="precedingPagebreak" select="preceding::x:pagebreak[1]"/>
         <xsl:element name="pagebreak">
-            <xsl:attribute name="num" select="preceding::x:pagebreak[1]/@num" />
-            <xsl:attribute name="continuation" select="true()" />
+            <xsl:attribute name="num" select="$precedingPagebreak/@num" />
+            <xsl:attribute name="continuation" select="not($precedingPagebreak/../name() = 'root')" />
         </xsl:element>
     </xsl:template>
     

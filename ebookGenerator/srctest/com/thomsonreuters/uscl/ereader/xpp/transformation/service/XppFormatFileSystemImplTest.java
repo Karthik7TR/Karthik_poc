@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem;
+import com.thomsonreuters.uscl.ereader.common.filesystem.entity.PartFilesIndex;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import org.junit.Before;
 import org.junit.Rule;
@@ -39,16 +40,20 @@ public final class XppFormatFileSystemImplTest
     private static final String FILE_NAME_MAIN        = "fileName.main";
     private static final String FILE_NAME_FOOTNOTES   = "fileName.footnotes";
     private static final String FILE_NAME_PART        = "fileName.part";
-    private static final String FILE_NAME_1_MAIN_PART = "fileName_1_main.part";
+    private static final String FILE_NAME_1_MAIN_PART = "fileName.DIVXML_1_main_Ie0b9c12bf8fb11d99f28ffa0ae8c2575.part";
+    private static final String FILE_NAME_2_FOOTNOTES_PART = "fileName.DIVXML_2_footnotes_Ie0b9c12bf8fb11d99f28ffa0ae8c2576.part";
     private static final String FILE_NAME_1_PAGE      = "fileName_1.page";
+    private static final String FILE_NAME_1_PAGE_WITH_GUID = "fileName_0001_Ie0b9c12bf8fb11d99f28ffa0ae8c2575.page";
     private static final String FILE_NAME_HTML        = "fileName.html";
     private static final String FILE_NAME             = "fileName";
+    private static final String BASE_FILE_NAME        = "fileName.DIVXML";
     private static final String TITLE_METADATA_XML    = "titleMetadata.xml";
     private static final String DOC_TO_IMAGE_MANIFEST = "workDirectory/Format/doc-to-image-manifest.txt";
     private static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "workDirectory/Format/anchorToDocumentIdMapFile.txt";
 
     private static final String MATERIAL_NUMBER = "11111111";
     private static final String MATERIAL_NUMBER_2 = "22222222";
+    private static final String DOC_FAMILY_GUID = "Ie0b9c12bf8fb11d99f28ffa0ae8c2575";
 
     @InjectMocks
     private XppFormatFileSystemImpl fileSystem;
@@ -218,6 +223,16 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
+    public void shouldReturnOriginalPartsDirectory()
+    {
+        //given
+        //when
+        final File directory = fileSystem.getOriginalPartsDirectory(step);
+        //then
+        assertThat(directory, hasPath(ORIGINAL_PARTS_DIR));
+    }
+
+    @Test
     public void shouldReturnOriginalPartsDirectoryForBundleStructure()
     {
         //given
@@ -228,13 +243,17 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnOriginalPartsFile()
+    public void shouldReturnOriginalPartsFiles() throws IOException
     {
         //given
+        final File originalPartsDir = mkdir(temporaryFolder.getRoot(), ORIGINAL_PARTS_DIR);
+        final File file1 = mkfile(mkdir(originalPartsDir, MATERIAL_NUMBER), FILE_NAME_1_MAIN_PART);
+        final File file2 = mkfile(mkdir(originalPartsDir, MATERIAL_NUMBER_2), FILE_NAME_2_FOOTNOTES_PART);
         //when
-        final File file = fileSystem.getOriginalPartsFile(step, MATERIAL_NUMBER, FILE_NAME, 1, PartType.MAIN);
+        final PartFilesIndex partFilesIndex = fileSystem.getOriginalPartsFiles(step);
         //then
-        assertThat(file, hasPath(ORIGINAL_PARTS_DIR + "/" + MATERIAL_NUMBER + "/" + FILE_NAME_1_MAIN_PART));
+        assertTrue(partFilesIndex.get(MATERIAL_NUMBER, BASE_FILE_NAME, 1, PartType.MAIN).getFile().equals(file1));
+        assertTrue(partFilesIndex.get(MATERIAL_NUMBER_2, BASE_FILE_NAME, 2, PartType.FOOTNOTE).getFile().equals(file2));
     }
 
     @Test
@@ -252,9 +271,9 @@ public final class XppFormatFileSystemImplTest
     {
         //given
         //when
-        final File file = fileSystem.getOriginalPageFile(step, MATERIAL_NUMBER, FILE_NAME_ORIGINAL, 1);
+        final File file = fileSystem.getOriginalPageFile(step, MATERIAL_NUMBER, FILE_NAME, 1, DOC_FAMILY_GUID);
         //then
-        assertThat(file, hasPath(ORIGINAL_PAGES_DIR + "/" + MATERIAL_NUMBER + "/" + FILE_NAME_1_PAGE));
+        assertThat(file, hasPath(ORIGINAL_PAGES_DIR + "/" + MATERIAL_NUMBER + "/" + FILE_NAME_1_PAGE_WITH_GUID));
     }
 
     @Test

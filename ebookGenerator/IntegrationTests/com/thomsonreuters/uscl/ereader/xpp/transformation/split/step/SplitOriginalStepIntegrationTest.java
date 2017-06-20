@@ -9,6 +9,7 @@ import java.net.URISyntaxException;
 
 import javax.annotation.Resource;
 
+import com.thomsonreuters.uscl.ereader.common.filesystem.entity.PartFilesIndex;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.PartType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.apache.commons.io.FileUtils;
@@ -24,6 +25,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public final class SplitOriginalStepIntegrationTest
 {
     private static final String MATERIAL_NUMBER = "11111111";
+    private static final String BASE_FILE_NAME = "sample.DIVXML";
 
     @Resource(name = "splitOriginalTask")
     private SplitOriginalStep step;
@@ -40,16 +42,16 @@ public final class SplitOriginalStepIntegrationTest
     @Before
     public void setUp() throws URISyntaxException
     {
-        main = new File(SplitOriginalStepIntegrationTest.class.getResource("sample.main").toURI());
+        main = new File(SplitOriginalStepIntegrationTest.class.getResource("sample.DIVXML.main").toURI());
         footnotes = new File(SplitOriginalStepIntegrationTest.class.getResource("sample.footnotes").toURI());
         expectedMainPart1 =
-            new File(SplitOriginalStepIntegrationTest.class.getResource("sample_1_main.part").toURI());
+            new File(SplitOriginalStepIntegrationTest.class.getResource("sample.DIVXML_0001_main_I0f72523026a511d99b08a92d7e97623c.part").toURI());
         expectedMainPart2 =
-            new File(SplitOriginalStepIntegrationTest.class.getResource("sample_2_main.part").toURI());
+            new File(SplitOriginalStepIntegrationTest.class.getResource("sample.DIVXML_0002_main_I4a6f120026a611d99b08a92d7e97623c.part").toURI());
         expectedMainPart3 =
-            new File(SplitOriginalStepIntegrationTest.class.getResource("sample_3_main.part").toURI());
+            new File(SplitOriginalStepIntegrationTest.class.getResource("sample.DIVXML_0003_main_I4a6f120026a611d99b08a92d7e97623d.part").toURI());
         expectedMainPart4 =
-            new File(SplitOriginalStepIntegrationTest.class.getResource("sample_4_main.part").toURI());
+            new File(SplitOriginalStepIntegrationTest.class.getResource("sample.DIVXML_0004_main_I4a6f120026a611d99b08a92d7e97623e.part").toURI());
     }
 
     @Test
@@ -62,10 +64,13 @@ public final class SplitOriginalStepIntegrationTest
         //when
         step.executeStep();
         //then
-        final File actualMainPart1 = fileSystem.getOriginalPartsFile(step, MATERIAL_NUMBER, "sample", 1, PartType.MAIN);
-        final File actualMainPart2 = fileSystem.getOriginalPartsFile(step, MATERIAL_NUMBER, "sample", 2, PartType.MAIN);
-        final File actualMainPart3 = fileSystem.getOriginalPartsFile(step, MATERIAL_NUMBER, "sample", 3, PartType.MAIN);
-        final File actualMainPart4 = fileSystem.getOriginalPartsFile(step, MATERIAL_NUMBER, "sample", 4, PartType.MAIN);
+        final PartFilesIndex partFilesIndex = fileSystem.getOriginalPartsFiles(step);
+
+        final File actualMainPart1 = partFilesIndex.get(MATERIAL_NUMBER, BASE_FILE_NAME, 1, PartType.MAIN).getFile();
+        final File actualMainPart2 = partFilesIndex.get(MATERIAL_NUMBER, BASE_FILE_NAME, 2, PartType.MAIN).getFile();
+        final File actualMainPart3 = partFilesIndex.get(MATERIAL_NUMBER, BASE_FILE_NAME, 3, PartType.MAIN).getFile();
+        final File actualMainPart4 = partFilesIndex.get(MATERIAL_NUMBER, BASE_FILE_NAME, 4, PartType.MAIN).getFile();
+
         assertThat(expectedMainPart1, hasSameContentAs(actualMainPart1));
         assertThat(expectedMainPart2, hasSameContentAs(actualMainPart2));
         assertThat(expectedMainPart3, hasSameContentAs(actualMainPart3));

@@ -28,6 +28,7 @@ public final class UnitePagePartsStepIntegrationTest
 {
     private static final String MATERIAL_NUMBER = "11111111";
     private static final String MATERIAL_NUMBER_2 = "22222222";
+    private static final String DOC_FAMILY_GUID = "Ie0b9c12bf8fb11d99f28ffa0ae8c2575";
 
     @Resource(name = "unitePagesPartsTask")
     private UnitePagePartsStep step;
@@ -69,9 +70,9 @@ public final class UnitePagePartsStepIntegrationTest
         //when
         step.executeStep();
         //then
-        final File actual = fileSystem.getOriginalPageFile(step, MATERIAL_NUMBER, "sample", 1);
+        final File actual = fileSystem.getOriginalPageFile(step, MATERIAL_NUMBER, "sample", 1, DOC_FAMILY_GUID);
         assertThat(expected, hasSameContentAs(actual));
-        final File actualTwo = fileSystem.getOriginalPageFile(step, MATERIAL_NUMBER_2, "sampleTwo", 1);
+        final File actualTwo = fileSystem.getOriginalPageFile(step, MATERIAL_NUMBER_2, "sampleTwo", 1, DOC_FAMILY_GUID);
         assertThat(expectedTwo, hasSameContentAs(actualTwo));
     }
 }

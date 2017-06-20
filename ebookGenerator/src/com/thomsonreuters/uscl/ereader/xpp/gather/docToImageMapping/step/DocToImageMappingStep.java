@@ -1,8 +1,10 @@
 package com.thomsonreuters.uscl.ereader.xpp.gather.docToImageMapping.step;
 
 import java.io.File;
-import java.io.FileFilter;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.transform.Transformer;
 
@@ -27,18 +29,16 @@ public class DocToImageMappingStep extends XppTransformationStep
     {
         final Transformer transformer =
             transformerBuilderFactory.create().withXsl(transformToAnchorToDocumentIdMapXsl).build();
+        final List<File> htmls = new ArrayList<>();
+
+        for (final Map.Entry<String, Collection<File>> materialNumberDir : fileSystem.getHtmlPageFiles(this).entrySet())
+        {
+            htmls.addAll(materialNumberDir.getValue());
+        }
 
         transformationService.transform(
             transformer,
-            Arrays.asList(fileSystem.getHtmlPagesDirectory(this).listFiles(new FileFilter()
-            {
-                @Override
-                public boolean accept(final File pathname)
-                {
-                    //TODO: temporary filter to make next steps work with old directory structure
-                    return pathname.isFile();
-                }
-            })),
+            htmls,
             fileSystem.getDocToImageMapFile(this));
     }
 

@@ -3,21 +3,20 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.uniteparts.step;
 import static java.util.Arrays.asList;
 
 import java.io.File;
-import java.io.FilenameFilter;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import javax.xml.transform.Transformer;
 
+import com.thomsonreuters.uscl.ereader.common.filesystem.entity.PartFilesByBaseNameIndex;
+import com.thomsonreuters.uscl.ereader.common.filesystem.entity.PartFilesByOrderIndex;
+import com.thomsonreuters.uscl.ereader.common.filesystem.entity.PartFilesByTypeIndex;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.PartType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -35,45 +34,28 @@ public class UnitePagePartsStep extends XppTransformationStep
     {
         final Transformer transformer = transformerBuilderFactory.create().withXsl(unitePagePartsXsl).build();
 
-        for (final Map.Entry<String, Collection<File>> dir : fileSystem.getOriginalMainAndFootnoteFiles(this).entrySet())
+        for (final Map.Entry<String, PartFilesByBaseNameIndex> fileGroupsByMaterialNumber : fileSystem.getOriginalPartsFiles(this).getPartFilesByMaterialNumber().entrySet())
         {
-            FileUtils.forceMkdir(fileSystem.getOriginalPagesDirectory(this, dir.getKey()));
-            for (final File originalFile : dir.getValue())
+            final String materialNumber = fileGroupsByMaterialNumber.getKey();
+            FileUtils.forceMkdir(fileSystem.getOriginalPagesDirectory(this, materialNumber));
+            for (final Map.Entry<String, PartFilesByOrderIndex> pagesGroupedByBaseFileName : fileGroupsByMaterialNumber.getValue().getPartFilesByBaseName().entrySet())
             {
-                if (originalFile.getName().endsWith(".main"))
+                for (final Map.Entry<Integer, PartFilesByTypeIndex> pageParts : pagesGroupedByBaseFileName.getValue().getPartFilesByOrder().entrySet())
                 {
-                    createPage(transformer, dir.getKey(), originalFile.getName());
+                    createPage(transformer, materialNumber, pagesGroupedByBaseFileName.getKey(), pageParts.getKey(), pageParts.getValue());
                 }
             }
         }
     }
 
-    private void createPage(final Transformer transformer, final String materialNumber, final String fileName)
+    private void createPage(final Transformer transformer, final String materialNumber, final String fileName, final Integer index, final PartFilesByTypeIndex filesByType)
     {
-        final int numberOfPages = getNumberOfPagesForGivenBasefile(materialNumber, fileName);
-        for (int i = 1; i <= numberOfPages; i++)
-        {
-            final File mainPart = fileSystem.getOriginalPartsFile(this, materialNumber, fileName, i, PartType.MAIN);
-            //TODO: return back when split by structure for footnotes is ready
-            //final File footnotesPart = fileSystem.getOriginalPartsFile(this, materialNumber, fileName, i, PartType.FOOTNOTE);
-            final List<File> files = asList(mainPart);
+        final File mainPart = filesByType.getPartFilesByType().get(PartType.MAIN).getFile();
+        //TODO: return back when split by structure for footnotes is ready
+        //final File footnotesPart = filesByType.getPartFilesByType().get(PartType.FOOTNOTE).getFile();
+        final List<File> files = asList(mainPart);
 
-            transformationService.transform(transformer, files, fileSystem.getOriginalPageFile(this, materialNumber, fileName, i));
-        }
-    }
-
-    private int getNumberOfPagesForGivenBasefile(final String materialNumber, final String fileName)
-    {
-        final String baseFileName = FilenameUtils.removeExtension(fileName);
-        final Pattern pattern = Pattern.compile(baseFileName + "_[0-9]+_.+\\.part");
-        return
-            fileSystem.getOriginalPartsDirectory(this, materialNumber).listFiles(new FilenameFilter()
-            {
-                @Override
-                public boolean accept(final File dir, final String name)
-                {
-                    return pattern.matcher(name).matches();
-                }
-            }).length / PartType.values().length;
+        transformationService.transform(transformer, files, fileSystem.getOriginalPageFile(this, materialNumber, fileName, index,
+            filesByType.getPartFilesByType().entrySet().iterator().next().getValue().getDocumentName().getDocFamilyGuid()));
     }
 }

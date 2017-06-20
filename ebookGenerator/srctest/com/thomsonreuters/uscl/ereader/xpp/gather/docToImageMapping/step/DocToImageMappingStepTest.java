@@ -64,6 +64,5 @@ public class DocToImageMappingStepTest
         step.executeStep();
         //then
         then(transformationService).should().transform(any(Transformer.class), any(List.class), eq(mapFile));
-        then(fileSystem).should().getHtmlPagesDirectory(eq(step));
     }
 }

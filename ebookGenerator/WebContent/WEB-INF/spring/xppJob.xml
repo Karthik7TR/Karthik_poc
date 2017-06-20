@@ -42,14 +42,14 @@
 		</step>
 		<step id="transformToHtmlStep">
 			<tasklet ref="transformToHtmlTask" />
-			<next on="COMPLETED" to="generateInternalAnchorsMapStep" />
+			<next on="COMPLETED" to="createDocToImageMappingStep" />
 			<fail on="FAILED" />
 		</step>
-        <step id="generateInternalAnchorsMapStep">
+        <!-- <step id="generateInternalAnchorsMapStep">
             <tasklet ref="internalAnchorsTask" />
             <next on="COMPLETED" to="createDocToImageMappingStep" />
             <fail on="FAILED" />
-        </step>
+        </step> -->
         <step id="createDocToImageMappingStep">
             <tasklet ref="createDocToImageMappingTask" />
             <next on="COMPLETED" to="getXppDynamicImagesStep" />
