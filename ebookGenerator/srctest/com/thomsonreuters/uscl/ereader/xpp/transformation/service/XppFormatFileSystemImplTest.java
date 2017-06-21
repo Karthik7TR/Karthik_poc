@@ -34,6 +34,7 @@ public final class XppFormatFileSystemImplTest
     private static final String ORIGINAL_PARTS_DIR = "workDirectory/Format/05_OriginalParts";
     private static final String ORIGINAL_PAGES_DIR = "workDirectory/Format/06_OriginalPages";
     private static final String HTML_PAGES_DIR     = "workDirectory/Format/07_HtmlPages";
+    private static final String TOC_DIR            = "workDirectory/Format/08_Toc";
     private static final String TITLE_METADATA_DIR = "workDirectory/Format/09_title_metadata";
 
     private static final String FILE_NAME_XML         = "fileName.xml";
@@ -228,16 +229,6 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnSectionbreaksUpFile()
-    {
-        //given
-        //when
-        final File file = fileSystem.getSectionbreaksUpFile(step, FILE_NAME_MAIN);
-        //then
-        assertThat(file, hasPath(SECTIONBREAKS_UP_DIR + "/" + FILE_NAME_MAIN));
-    }
-
-    @Test
     public void shouldReturnSectionbreaksUpFileForBundleStructure()
     {
         //given
@@ -296,6 +287,16 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
+    public void shouldReturnOriginalPagesDirectory()
+    {
+        //given
+        //when
+        final File directory = fileSystem.getOriginalPagesDirectory(step);
+        //then
+        assertThat(directory, hasPath(ORIGINAL_PAGES_DIR));
+    }
+
+    @Test
     public void shouldReturnOriginalPagesDirectoryForBundleStructure()
     {
         //given
@@ -350,13 +351,17 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnHtmlPageFile()
+    public void shouldReturnHtmlPageFilesMap() throws IOException
     {
         //given
+        final File dir = mkdir(temporaryFolder.getRoot(), HTML_PAGES_DIR);
+        final File file1 = mkfile(mkdir(dir, MATERIAL_NUMBER), FILE_NAME_XML);
+        final File file2 = mkfile(mkdir(dir, MATERIAL_NUMBER_2), FILE_NAME_XML);
         //when
-        final File file = fileSystem.getHtmlPageFile(step, FILE_NAME_PART);
+        final Map<String, Collection<File>> map = fileSystem.getHtmlPageFiles(step);
         //then
-        assertThat(file, hasPath(HTML_PAGES_DIR + "/" + FILE_NAME_HTML));
+        assertTrue(map.get(MATERIAL_NUMBER).contains(file1));
+        assertTrue(map.get(MATERIAL_NUMBER_2).contains(file2));
     }
 
     @Test
@@ -387,6 +392,16 @@ public final class XppFormatFileSystemImplTest
         final File file = fileSystem.getDocToImageMapFile(step);
         //then
         assertThat(file, hasPath(DOC_TO_IMAGE_MANIFEST));
+    }
+
+    @Test
+    public void shouldReturnTocDirectory()
+    {
+        //given
+        //when
+        final File directory = fileSystem.getTocDirectory(step);
+        //then
+        assertThat(directory, hasPath(TOC_DIR));
     }
 
     @Test

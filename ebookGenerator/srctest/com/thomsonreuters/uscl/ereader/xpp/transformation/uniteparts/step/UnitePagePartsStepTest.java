@@ -64,7 +64,6 @@ public final class UnitePagePartsStepTest
 
         final File originalPagesDir = mkdir(root, "OriginalPages", MATERIAL_NUMBER);
         given(fileSystem.getOriginalPagesDirectory(step, MATERIAL_NUMBER)).willReturn(originalPagesDir);
-        given(fileSystem.getOriginalPagesDirectory(step)).willReturn(originalPagesDir.getParentFile());
 
         final File originalPartsDir = mkdir(root, "OriginalParts");
         given(fileSystem.getOriginalPartsDirectory(step, MATERIAL_NUMBER)).willReturn(originalPartsDir);

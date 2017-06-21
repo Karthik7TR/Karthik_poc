@@ -31,7 +31,6 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     private static final String TITLE_METADATA_FILE = "titleMetadata.xml";
     private static final String TOC_FILE = "toc.xml";
-    private static final String TOC_ITEM_TO_DOCUMENT_ID_MAP_FILE = "tocItemToDocumentIdMap.xml";
     private static final String DOC_TO_IMAGE_MANIFEST_FILE = "doc-to-image-manifest.txt";
     private static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "anchorToDocumentIdMapFile.txt";
 
@@ -40,8 +39,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     private static final String FOOTNOTES = "footnotes";
 
     @NotNull
-    @Override
-    public File getStructureWithMetadataDirectory(@NotNull final BookStep step)
+    File getStructureWithMetadataDirectory(@NotNull final BookStep step)
     {
         return new File(getFormatDirectory(step), SOURCE_DIR);
     }
@@ -68,8 +66,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     }
 
     @NotNull
-    @Override
-    public File getOriginalDirectory(@NotNull final BookStep step)
+    File getOriginalDirectory(@NotNull final BookStep step)
     {
         return new File(getFormatDirectory(step), ORIGINAL_DIR);
     }
@@ -111,8 +108,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     }
 
     @NotNull
-    @Override
-    public File getSectionbreaksDirectory(@NotNull final BookStep step)
+    File getSectionbreaksDirectory(@NotNull final BookStep step)
     {
         return new File(getFormatDirectory(step), SECTIONBREAKS_DIR);
     }
@@ -142,8 +138,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     }
 
     @NotNull
-    @Override
-    public File getSectionbreaksUpDirectory(@NotNull final BookStep step)
+    File getSectionbreaksUpDirectory(@NotNull final BookStep step)
     {
         return new File(getFormatDirectory(step), SECTIONBREAKS_UP_DIR);
     }
@@ -153,13 +148,6 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     public File getSectionbreaksUpDirectory(@NotNull final BookStep step, @NotNull final String materialNumber)
     {
         return new File(getSectionbreaksUpDirectory(step), materialNumber);
-    }
-
-    @NotNull
-    @Override
-    public File getSectionbreaksUpFile(@NotNull final BookStep step, @NotNull final String name)
-    {
-        return new File(getSectionbreaksUpDirectory(step), name);
     }
 
     @NotNull
@@ -180,8 +168,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     }
 
     @NotNull
-    @Override
-    public File getOriginalPartsDirectory(@NotNull final BookStep step)
+    File getOriginalPartsDirectory(@NotNull final BookStep step)
     {
         return new File(getFormatDirectory(step), ORIGINAL_PARTS_DIR);
     }
@@ -215,8 +202,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     }
 
     @NotNull
-    @Override
-    public File getOriginalPagesDirectory(@NotNull final BookStep step)
+    File getOriginalPagesDirectory(@NotNull final BookStep step)
     {
         return new File(getFormatDirectory(step), ORIGINAL_PAGES_DIR);
     }
@@ -264,14 +250,6 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     @Override
-    public File getHtmlPageFile(@NotNull final BookStep step, @NotNull final String name)
-    {
-        final String fileName = FilenameUtils.removeExtension(name);
-        return new File(getHtmlPagesDirectory(step), fileName + "." + HTML);
-    }
-
-    @NotNull
-    @Override
     public File getHtmlPageFile(
         @NotNull final BookStep step,
         @NotNull final String materialNumber,
@@ -307,13 +285,6 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     public File getTocDirectory(@NotNull final BookStep step)
     {
         return new File(getFormatDirectory(step), TOC_DIR);
-    }
-
-    @NotNull
-    @Override
-    public File getTocItemToDocumentIdMapFile(@NotNull final BookStep step)
-    {
-        return new File(getTocDirectory(step), TOC_ITEM_TO_DOCUMENT_ID_MAP_FILE);
     }
 
     @NotNull
