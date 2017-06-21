@@ -28,21 +28,20 @@ import org.mockito.runners.MockitoJUnitRunner;
 public final class XppFormatFileSystemImplTest
 {
     private static final String ORIGINAL_DIR       = "workDirectory/Format/01_Original";
-    private static final String SECTIONBREAKS_DIR  = "workDirectory/Format/02_Sectionbreaks";
-    private static final String PAGEBREAKES_UP_DIR = "workDirectory/Format/03_SectionbreaksUp";
-    private static final String ORIGINAL_PARTS_DIR = "workDirectory/Format/04_OriginalParts";
-    private static final String ORIGINAL_PAGES_DIR = "workDirectory/Format/05_OriginalPages";
-    private static final String HTML_PAGES_DIR     = "workDirectory/Format/06_HtmlPages";
-    private static final String TITLE_METADATA_DIR = "workDirectory/Format/08_title_metadata";
+    private static final String SOURCE_DIR         = "workDirectory/Format/02_StructureWithMetadata";
+    private static final String SECTIONBREAKS_DIR  = "workDirectory/Format/03_Sectionbreaks";
+    private static final String PAGEBREAKES_UP_DIR = "workDirectory/Format/04_SectionbreaksUp";
+    private static final String ORIGINAL_PARTS_DIR = "workDirectory/Format/05_OriginalParts";
+    private static final String ORIGINAL_PAGES_DIR = "workDirectory/Format/06_OriginalPages";
+    private static final String HTML_PAGES_DIR     = "workDirectory/Format/07_HtmlPages";
+    private static final String TITLE_METADATA_DIR = "workDirectory/Format/09_title_metadata";
 
     private static final String FILE_NAME_XML         = "fileName.xml";
-    private static final String FILE_NAME_ORIGINAL    = "fileName.original";
     private static final String FILE_NAME_MAIN        = "fileName.main";
     private static final String FILE_NAME_FOOTNOTES   = "fileName.footnotes";
     private static final String FILE_NAME_PART        = "fileName.part";
     private static final String FILE_NAME_1_MAIN_PART = "fileName.DIVXML_1_main_Ie0b9c12bf8fb11d99f28ffa0ae8c2575.part";
     private static final String FILE_NAME_2_FOOTNOTES_PART = "fileName.DIVXML_2_footnotes_Ie0b9c12bf8fb11d99f28ffa0ae8c2576.part";
-    private static final String FILE_NAME_1_PAGE      = "fileName_1.page";
     private static final String FILE_NAME_1_PAGE_WITH_GUID = "fileName_0001_Ie0b9c12bf8fb11d99f28ffa0ae8c2575.page";
     private static final String FILE_NAME_HTML        = "fileName.html";
     private static final String FILE_NAME             = "fileName";
@@ -68,6 +67,46 @@ public final class XppFormatFileSystemImplTest
     public void setUp()
     {
         given(bookFileSystem.getWorkDirectory(step)).willReturn(new File(temporaryFolder.getRoot(), "workDirectory"));
+    }
+
+    public void shouldReturnStructureWithMetadataDirectory()
+    {
+        //given
+        //when
+        final File directory = fileSystem.getStructureWithMetadataDirectory(step);
+        //then
+        assertThat(directory, hasPath(SOURCE_DIR));
+    }
+
+    public void shouldReturnStructureWithMetadataBundleDirectory()
+    {
+        //given
+        //when
+        final File directory = fileSystem.getStructureWithMetadataBundleDirectory(step, MATERIAL_NUMBER);
+        //then
+        assertThat(directory, hasPath(SOURCE_DIR + "/" + MATERIAL_NUMBER));
+    }
+
+    public void shouldReturnStructureWithMetadataFiles() throws IOException
+    {
+        //given
+        final File sourcelDir = mkdir(temporaryFolder.getRoot(), SOURCE_DIR);
+        final File originalFile1 = mkfile(mkdir(sourcelDir, MATERIAL_NUMBER), FILE_NAME_XML);
+        final File originalFile2 = mkfile(mkdir(sourcelDir, MATERIAL_NUMBER_2), FILE_NAME_XML);
+        //when
+        final Map<String, Collection<File>> map = fileSystem.getStructureWithMetadataFiles(step);
+        //then
+        assertTrue(map.get(MATERIAL_NUMBER).contains(originalFile1));
+        assertTrue(map.get(MATERIAL_NUMBER_2).contains(originalFile2));
+    }
+
+    public void shouldReturnStructureWithMetadataFile()
+    {
+        //given
+        //when
+        final File file = fileSystem.getStructureWithMetadataFile(step, MATERIAL_NUMBER, FILE_NAME_XML);
+        //then
+        assertThat(file, hasPath(SOURCE_DIR + "/" + MATERIAL_NUMBER + "/" + FILE_NAME_XML));
     }
 
     @Test
@@ -357,7 +396,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File file = fileSystem.getBundlePartTocFile(FILE_NAME_XML, MATERIAL_NUMBER, step);
         //then
-        assertThat(file, hasPath("workDirectory/Format/07_Toc/11111111/toc_fileName.xml"));
+        assertThat(file, hasPath("workDirectory/Format/08_Toc/11111111/toc_fileName.xml"));
     }
 
     @Test

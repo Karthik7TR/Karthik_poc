@@ -21,7 +21,7 @@ import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishi
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
-import com.thomsonreuters.uscl.ereader.xpp.toc.step.strategy.type.BundleFileType;
+import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;

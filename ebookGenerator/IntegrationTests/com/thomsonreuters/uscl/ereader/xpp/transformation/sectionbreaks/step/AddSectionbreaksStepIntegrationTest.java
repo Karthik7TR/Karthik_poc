@@ -56,7 +56,7 @@ public class AddSectionbreaksStepIntegrationTest
     public void shouldCreateOriginalFileWithSectionbreaks() throws Exception
     {
         //given
-        final File originalMainSourceDir = fileSystem.getOriginalDirectory(step, MATERIAL_NUMBER);
+        final File originalMainSourceDir = fileSystem.getStructureWithMetadataBundleDirectory(step, MATERIAL_NUMBER);
         FileUtils.forceMkdir(originalMainSourceDir);
         FileUtils.copyFileToDirectory(originalXml, originalMainSourceDir);
         FileUtils.copyFileToDirectory(originalXmlTwo, originalMainSourceDir);

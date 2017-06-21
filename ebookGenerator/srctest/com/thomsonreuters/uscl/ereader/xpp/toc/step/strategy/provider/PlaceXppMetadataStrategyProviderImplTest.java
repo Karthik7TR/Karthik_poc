@@ -10,34 +10,37 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-import com.thomsonreuters.uscl.ereader.xpp.toc.step.strategy.TocGenerationStrategy;
-import com.thomsonreuters.uscl.ereader.xpp.toc.step.strategy.type.BundleFileType;
+import com.thomsonreuters.uscl.ereader.xpp.strategy.BundleFileHandlingStrategy;
+import com.thomsonreuters.uscl.ereader.xpp.strategy.provider.BundleFileHandlingStrategyProvider;
+import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step.strategy.PlaceXppMetadataStrategy;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step.strategy.provider.PlaceXppMetadataStrategyProviderImpl;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class TocGenerationStrategyProviderImplTest
+public final class PlaceXppMetadataStrategyProviderImplTest
 {
-    private TocGenerationStrategyProvider tocGenerationStrategyProvider;
+    private BundleFileHandlingStrategyProvider<PlaceXppMetadataStrategy> tocGenerationStrategyProvider;
 
     @Before
     public void onTestSetUp()
     {
-        final List<TocGenerationStrategy> strategies = new ArrayList<>();
+        final List<PlaceXppMetadataStrategy> strategies = new ArrayList<>();
 
         for (final BundleFileType fileType : BundleFileType.values())
         {
-            final TocGenerationStrategy strategy = mock(TocGenerationStrategy.class);
+            final PlaceXppMetadataStrategy strategy = mock(PlaceXppMetadataStrategy.class);
             when(strategy.getBundleFileTypes()).thenReturn(new HashSet<>(Arrays.asList(fileType)));
             strategies.add(strategy);
         }
 
-        tocGenerationStrategyProvider = new TocGenerationStrategyProviderImpl(strategies);
+        tocGenerationStrategyProvider = new PlaceXppMetadataStrategyProviderImpl(strategies);
     }
 
     @Test
     public void shouldReturnMainContentStrategy()
     {
-        testStrategyProvider("1-CHAL_APX_21.DIVXML.xml", BundleFileType.MAIN_CONTENT);
+        testStrategyProvider("1-CHAL_APX_21.DIVXML.main", BundleFileType.MAIN_CONTENT);
     }
 
     @Test
@@ -140,13 +143,13 @@ public final class TocGenerationStrategyProviderImplTest
     public void shouldThrowUnsupportedOperationException()
     {
         tocGenerationStrategyProvider
-            .getTocGenerationStrategy(BundleFileType.getByFileName("100018-volume_1_Table_of_Added_LRRE.FROMXSF.txt"));
+            .getStrategy(BundleFileType.getByFileName("100018-volume_1_Table_of_Added_LRRE.FROMXSF.txt"));
     }
 
     private void testStrategyProvider(final String fileName, final BundleFileType expectedFileType)
     {
-        final TocGenerationStrategy strategy = tocGenerationStrategyProvider
-            .getTocGenerationStrategy(BundleFileType.getByFileName(fileName));
+        final BundleFileHandlingStrategy strategy = tocGenerationStrategyProvider
+            .getStrategy(BundleFileType.getByFileName(fileName));
         assertThat(strategy.getBundleFileTypes(), hasItem(expectedFileType));
     }
 }

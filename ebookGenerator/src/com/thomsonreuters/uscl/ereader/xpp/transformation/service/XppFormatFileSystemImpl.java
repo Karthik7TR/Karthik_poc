@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.service;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -19,13 +20,14 @@ import org.springframework.stereotype.Component;
 public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements XppFormatFileSystem
 {
     private static final String ORIGINAL_DIR       = "01_Original";
-    private static final String SECTIONBREAKS_DIR  = "02_Sectionbreaks";
-    private static final String PAGEBREAKES_UP_DIR = "03_SectionbreaksUp";
-    private static final String ORIGINAL_PARTS_DIR = "04_OriginalParts";
-    private static final String ORIGINAL_PAGES_DIR = "05_OriginalPages";
-    private static final String HTML_PAGES_DIR     = "06_HtmlPages";
-    private static final String TOC_DIR            = "07_Toc";
-    private static final String TITLE_METADATA_DIR = "08_title_metadata";
+    private static final String SOURCE_DIR         = "02_StructureWithMetadata";
+    private static final String SECTIONBREAKS_DIR  = "03_Sectionbreaks";
+    private static final String PAGEBREAKES_UP_DIR = "04_SectionbreaksUp";
+    private static final String ORIGINAL_PARTS_DIR = "05_OriginalParts";
+    private static final String ORIGINAL_PAGES_DIR = "06_OriginalPages";
+    private static final String HTML_PAGES_DIR     = "07_HtmlPages";
+    private static final String TOC_DIR            = "08_Toc";
+    private static final String TITLE_METADATA_DIR = "09_title_metadata";
 
     private static final String TITLE_METADATA_FILE = "titleMetadata.xml";
     private static final String TOC_FILE = "toc.xml";
@@ -36,6 +38,34 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     private static final String HTML = "html";
     private static final String MAIN = "main";
     private static final String FOOTNOTES = "footnotes";
+
+    @NotNull
+    @Override
+    public File getStructureWithMetadataDirectory(@NotNull final BookStep step)
+    {
+        return new File(getFormatDirectory(step), SOURCE_DIR);
+    }
+
+    @NotNull
+    @Override
+    public File getStructureWithMetadataBundleDirectory(@NotNull final BookStep step, @NotNull final String materialNumber)
+    {
+        return new File(getStructureWithMetadataDirectory(step), materialNumber);
+    }
+
+    @NotNull
+    @Override
+    public Map<String, Collection<File>> getStructureWithMetadataFiles(@NotNull final BookStep step)
+    {
+        return getMaterialNumberToFilesMap(getStructureWithMetadataDirectory(step));
+    }
+
+    @NotNull
+    @Override
+    public File getStructureWithMetadataFile(@NotNull final BookStep step, @NotNull final String materialNumber, @NotNull final String fileName)
+    {
+        return Paths.get(getStructureWithMetadataDirectory(step).toString(), materialNumber, fileName).toFile();
+    }
 
     @NotNull
     @Override

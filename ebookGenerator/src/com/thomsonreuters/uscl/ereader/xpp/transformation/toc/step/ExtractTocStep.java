@@ -10,10 +10,7 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificat
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
-import com.thomsonreuters.uscl.ereader.xpp.toc.step.strategy.provider.TocGenerationStrategyProvider;
-import com.thomsonreuters.uscl.ereader.xpp.toc.step.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -25,8 +22,8 @@ public class ExtractTocStep extends XppTransformationStep
 {
     @Value("${xpp.unite.tocs.xsl}")
     private File uniteTocsXsl;
-    @Autowired
-    private TocGenerationStrategyProvider tocGenerationStrategyProvider;
+    @Value("${xpp.extract.toc.xsl}")
+    private File extractTocXsl;
 
     @Override
     public void executeTransformation() throws Exception
@@ -45,9 +42,13 @@ public class ExtractTocStep extends XppTransformationStep
     {
         for (final String fileName : bundle.getOrderedFileList())
         {
-            tocGenerationStrategyProvider.getTocGenerationStrategy(BundleFileType.getByFileName(fileName))
-                .performTocGeneration(fileName, bundle, this);
-            tocFiles.add(fileSystem.getBundlePartTocFile(fileName, bundle.getMaterialNumber(), this));
+            final Transformer transformer = transformerBuilderFactory.create()
+                .withXsl(extractTocXsl)
+                .build();
+            final File sourceFile = fileSystem.getOriginalFile(this, bundle.getMaterialNumber(), fileName);
+            final File outputFile = fileSystem.getBundlePartTocFile(fileName, bundle.getMaterialNumber(), this);
+            transformationService.transform(transformer, sourceFile, outputFile);
+            tocFiles.add(outputFile);
         }
     }
 }

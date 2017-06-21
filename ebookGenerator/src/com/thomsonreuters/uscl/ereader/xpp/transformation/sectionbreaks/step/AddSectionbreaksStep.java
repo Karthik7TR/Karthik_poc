@@ -27,7 +27,7 @@ public class AddSectionbreaksStep extends XppTransformationStep
     public void executeTransformation() throws Exception
     {
         final Transformer transformer = transformerBuilderFactory.create().withXsl(addSectionbreaksToOriginalXsl).build();
-        for (final Map.Entry<String, Collection<File>> dir : fileSystem.getOriginalMainAndFootnoteFiles(this).entrySet())
+        for (final Map.Entry<String, Collection<File>> dir : fileSystem.getStructureWithMetadataFiles(this).entrySet())
         {
             FileUtils.forceMkdir(fileSystem.getSectionbreaksDirectory(this, dir.getKey()));
             for (final File file : dir.getValue())

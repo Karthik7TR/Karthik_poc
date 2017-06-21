@@ -18,8 +18,15 @@
 			<next on="COMPLETED" to="originalStructureTransformationStep" />
 			<fail on="FAILED" />
 		</step>
+		
 		<step id="originalStructureTransformationStep">
 			<tasklet ref="originalStructureTransformationTask" />
+			<next on="COMPLETED" to="placeXppMetadataStep" />
+			<fail on="FAILED" />
+		</step>
+        
+        <step id="placeXppMetadataStep">
+			<tasklet ref="placeXppMetadataTask" />
 			<next on="COMPLETED" to="addSectionbreaksToOriginalStep" />
 			<fail on="FAILED" />
 		</step>
@@ -45,11 +52,11 @@
 			<next on="COMPLETED" to="createDocToImageMappingStep" />
 			<fail on="FAILED" />
 		</step>
-        <!-- <step id="generateInternalAnchorsMapStep">
+        <!--<step id="generateInternalAnchorsMapStep">
             <tasklet ref="internalAnchorsTask" />
             <next on="COMPLETED" to="createDocToImageMappingStep" />
             <fail on="FAILED" />
-        </step> -->
+        </step>-->
         <step id="createDocToImageMappingStep">
             <tasklet ref="createDocToImageMappingTask" />
             <next on="COMPLETED" to="getXppDynamicImagesStep" />
@@ -111,6 +118,9 @@
 	<beans:bean id="originalStructureTransformationTask" scope="step"
 		parent="bookStep"
 		class="com.thomsonreuters.uscl.ereader.xpp.transformation.originalstructure.step.OriginalStructureTransformationStep" />
+	<beans:bean id="placeXppMetadataTask" scope="step"
+		parent="bookStep"
+		class="com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step.PlaceXppMetadataStep" />	
     <beans:bean id="addSectionbreaksToOriginalTask" scope="step" parent="bookStep"
         class="com.thomsonreuters.uscl.ereader.xpp.transformation.sectionbreaks.step.AddSectionbreaksStep" />
 	<beans:bean id="splitOriginalTask" scope="step" parent="bookStep"

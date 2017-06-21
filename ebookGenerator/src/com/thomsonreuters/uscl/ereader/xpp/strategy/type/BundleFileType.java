@@ -1,9 +1,10 @@
-package com.thomsonreuters.uscl.ereader.xpp.toc.step.strategy.type;
+package com.thomsonreuters.uscl.ereader.xpp.strategy.type;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -35,7 +36,7 @@ public enum BundleFileType
 
     BundleFileType(final String pattern)
     {
-        originalFileNamePattern = Pattern.compile(pattern + "\\.xml");
+        originalFileNamePattern = Pattern.compile(pattern);
         htmlDocumentFileNamePattern = Pattern.compile(pattern + "_\\d+_[a-zA-Z0-9]*\\.[a-z]*");
         fileNameFilter = new HtmlDocumentFileNameFilter(this);
     }
@@ -51,7 +52,7 @@ public enum BundleFileType
     @NotNull
     public static BundleFileType getByFileName(@NotNull final String fileName)
     {
-        return getByName(fileName, true);
+        return getByName(StringUtils.substringBeforeLast(fileName, "."), true);
     }
 
     /**
