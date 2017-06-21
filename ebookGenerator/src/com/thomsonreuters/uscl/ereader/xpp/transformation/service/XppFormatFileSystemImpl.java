@@ -22,7 +22,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     private static final String ORIGINAL_DIR       = "01_Original";
     private static final String SOURCE_DIR         = "02_StructureWithMetadata";
     private static final String SECTIONBREAKS_DIR  = "03_Sectionbreaks";
-    private static final String PAGEBREAKES_UP_DIR = "04_SectionbreaksUp";
+    private static final String SECTIONBREAKS_UP_DIR = "04_SectionbreaksUp";
     private static final String ORIGINAL_PARTS_DIR = "05_OriginalParts";
     private static final String ORIGINAL_PAGES_DIR = "06_OriginalPages";
     private static final String HTML_PAGES_DIR     = "07_HtmlPages";
@@ -143,40 +143,40 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     @Override
-    public File getPagebreakesUpDirectory(@NotNull final BookStep step)
+    public File getSectionbreaksUpDirectory(@NotNull final BookStep step)
     {
-        return new File(getFormatDirectory(step), PAGEBREAKES_UP_DIR);
+        return new File(getFormatDirectory(step), SECTIONBREAKS_UP_DIR);
     }
 
     @NotNull
     @Override
-    public File getPagebreakesUpDirectory(@NotNull final BookStep step, @NotNull final String materialNumber)
+    public File getSectionbreaksUpDirectory(@NotNull final BookStep step, @NotNull final String materialNumber)
     {
-        return new File(getPagebreakesUpDirectory(step), materialNumber);
+        return new File(getSectionbreaksUpDirectory(step), materialNumber);
     }
 
     @NotNull
     @Override
-    public File getPagebreakesUpFile(@NotNull final BookStep step, @NotNull final String name)
+    public File getSectionbreaksUpFile(@NotNull final BookStep step, @NotNull final String name)
     {
-        return new File(getPagebreakesUpDirectory(step), name);
+        return new File(getSectionbreaksUpDirectory(step), name);
     }
 
     @NotNull
     @Override
-    public File getPagebreakesUpFile(
+    public File getSectionbreaksUpFile(
         @NotNull final BookStep step,
         @NotNull final String materialNumber,
         @NotNull final String name)
     {
-        return new File(getPagebreakesUpDirectory(step), materialNumber + "/" + name);
+        return new File(getSectionbreaksUpDirectory(step), materialNumber + "/" + name);
     }
 
     @NotNull
     @Override
-    public Map<String, Collection<File>> getPagebreakesUpFiles(@NotNull final BookStep step)
+    public Map<String, Collection<File>> getSectionbreaksUpFiles(@NotNull final BookStep step)
     {
-        return getMaterialNumberToFilesMap(getPagebreakesUpDirectory(step));
+        return getMaterialNumberToFilesMap(getSectionbreaksUpDirectory(step));
     }
 
     @NotNull

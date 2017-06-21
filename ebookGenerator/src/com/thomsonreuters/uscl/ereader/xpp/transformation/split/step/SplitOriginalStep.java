@@ -22,34 +22,34 @@ import org.springframework.beans.factory.annotation.Value;
 @SavePublishingStatusPolicy
 public class SplitOriginalStep extends XppTransformationStep
 {
-    @Value("${xpp.move.pagebreakes.up.xsl}")
-    private File movePagebreakesUpXsl;
+    @Value("${xpp.move.sectionbreaks.up.xsl}")
+    private File moveSectionbreaksUpXsl;
     @Value("${xpp.split.original.xsl}")
     private File splitOriginalXsl;
 
     @Override
     public void executeTransformation() throws Exception
     {
-        movePageBreakesToTopLevel();
+        moveSectionbreaksToTopLevel();
         splitByPages();
     }
 
-    private void movePageBreakesToTopLevel() throws IOException
+    private void moveSectionbreaksToTopLevel() throws IOException
     {
-        final Transformer transformer = transformerBuilderFactory.create().withXsl(movePagebreakesUpXsl).build();
+        final Transformer transformer = transformerBuilderFactory.create().withXsl(moveSectionbreaksUpXsl).build();
         for (final Map.Entry<String, Collection<File>> dir : fileSystem.getSectionBreaksFiles(this).entrySet())
         {
-            FileUtils.forceMkdir(fileSystem.getPagebreakesUpDirectory(this, dir.getKey()));
+            FileUtils.forceMkdir(fileSystem.getSectionbreaksUpDirectory(this, dir.getKey()));
             for (final File file : dir.getValue())
             {
-                transformationService.transform(transformer, file, fileSystem.getPagebreakesUpFile(this, dir.getKey(), file.getName()));
+                transformationService.transform(transformer, file, fileSystem.getSectionbreaksUpFile(this, dir.getKey(), file.getName()));
             }
         }
     }
 
     private void splitByPages() throws IOException
     {
-        for (final Map.Entry<String, Collection<File>> entry : fileSystem.getPagebreakesUpFiles(this).entrySet())
+        for (final Map.Entry<String, Collection<File>> entry : fileSystem.getSectionbreaksUpFiles(this).entrySet())
         {
             final Transformer transformer = transformerBuilderFactory.create().withXsl(splitOriginalXsl).build();
             FileUtils.forceMkdir(fileSystem.getOriginalPartsDirectory(this, entry.getKey()));

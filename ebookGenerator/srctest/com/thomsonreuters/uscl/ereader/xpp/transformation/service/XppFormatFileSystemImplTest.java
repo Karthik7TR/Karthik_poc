@@ -30,7 +30,7 @@ public final class XppFormatFileSystemImplTest
     private static final String ORIGINAL_DIR       = "workDirectory/Format/01_Original";
     private static final String SOURCE_DIR         = "workDirectory/Format/02_StructureWithMetadata";
     private static final String SECTIONBREAKS_DIR  = "workDirectory/Format/03_Sectionbreaks";
-    private static final String PAGEBREAKES_UP_DIR = "workDirectory/Format/04_SectionbreaksUp";
+    private static final String SECTIONBREAKS_UP_DIR = "workDirectory/Format/04_SectionbreaksUp";
     private static final String ORIGINAL_PARTS_DIR = "workDirectory/Format/05_OriginalParts";
     private static final String ORIGINAL_PAGES_DIR = "workDirectory/Format/06_OriginalPages";
     private static final String HTML_PAGES_DIR     = "workDirectory/Format/07_HtmlPages";
@@ -208,57 +208,57 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnPageBreakesUpDirectory()
+    public void shouldReturnSectionbreaksUpDirectory()
     {
         //given
         //when
-        final File directory = fileSystem.getPagebreakesUpDirectory(step);
+        final File directory = fileSystem.getSectionbreaksUpDirectory(step);
         //then
-        assertThat(directory, hasPath(PAGEBREAKES_UP_DIR));
+        assertThat(directory, hasPath(SECTIONBREAKS_UP_DIR));
     }
 
     @Test
-    public void shouldReturnPageBreakesUpDirectoryForBundleStructure()
+    public void shouldReturnSectionbreaksUpDirectoryForBundleStructure()
     {
         //given
         //when
-        final File directory = fileSystem.getPagebreakesUpDirectory(step, MATERIAL_NUMBER);
+        final File directory = fileSystem.getSectionbreaksUpDirectory(step, MATERIAL_NUMBER);
         //then
-        assertThat(directory, hasPath(PAGEBREAKES_UP_DIR + "/" + MATERIAL_NUMBER));
+        assertThat(directory, hasPath(SECTIONBREAKS_UP_DIR + "/" + MATERIAL_NUMBER));
     }
 
     @Test
-    public void shouldReturnPageBreakesUpFile()
+    public void shouldReturnSectionbreaksUpFile()
     {
         //given
         //when
-        final File file = fileSystem.getPagebreakesUpFile(step, FILE_NAME_MAIN);
+        final File file = fileSystem.getSectionbreaksUpFile(step, FILE_NAME_MAIN);
         //then
-        assertThat(file, hasPath(PAGEBREAKES_UP_DIR + "/" + FILE_NAME_MAIN));
+        assertThat(file, hasPath(SECTIONBREAKS_UP_DIR + "/" + FILE_NAME_MAIN));
     }
 
     @Test
-    public void shouldReturnPageBreakesUpFileForBundleStructure()
+    public void shouldReturnSectionbreaksUpFileForBundleStructure()
     {
         //given
         //when
-        final File file = fileSystem.getPagebreakesUpFile(step, MATERIAL_NUMBER, FILE_NAME_MAIN);
+        final File file = fileSystem.getSectionbreaksUpFile(step, MATERIAL_NUMBER, FILE_NAME_MAIN);
         //then
-        assertThat(file, hasPath(PAGEBREAKES_UP_DIR + "/" + MATERIAL_NUMBER + "/" + FILE_NAME_MAIN));
+        assertThat(file, hasPath(SECTIONBREAKS_UP_DIR + "/" + MATERIAL_NUMBER + "/" + FILE_NAME_MAIN));
     }
 
     @Test
-    public void shouldReturnPagebreakesUpFiles() throws IOException
+    public void shouldReturnSectionbreaksUpFiles() throws IOException
     {
         //given
-        final File pagebreakesUpDir = mkdir(temporaryFolder.getRoot(), PAGEBREAKES_UP_DIR);
-        final File pageBreaksUpFile1 = mkfile(mkdir(pagebreakesUpDir, MATERIAL_NUMBER), FILE_NAME_XML);
-        final File pageBreaksUpFile2 = mkfile(mkdir(pagebreakesUpDir, MATERIAL_NUMBER_2), FILE_NAME_XML);
+        final File sectionbreaksUpDir = mkdir(temporaryFolder.getRoot(), SECTIONBREAKS_UP_DIR);
+        final File sectionbreaksUpFile1 = mkfile(mkdir(sectionbreaksUpDir, MATERIAL_NUMBER), FILE_NAME_XML);
+        final File sectionbreaksUpFile2 = mkfile(mkdir(sectionbreaksUpDir, MATERIAL_NUMBER_2), FILE_NAME_XML);
         //when
-        final Map<String, Collection<File>> map = fileSystem.getPagebreakesUpFiles(step);
+        final Map<String, Collection<File>> map = fileSystem.getSectionbreaksUpFiles(step);
         //then
-        assertTrue(map.get(MATERIAL_NUMBER).contains(pageBreaksUpFile1));
-        assertTrue(map.get(MATERIAL_NUMBER_2).contains(pageBreaksUpFile2));
+        assertTrue(map.get(MATERIAL_NUMBER).contains(sectionbreaksUpFile1));
+        assertTrue(map.get(MATERIAL_NUMBER_2).contains(sectionbreaksUpFile2));
     }
 
     @Test

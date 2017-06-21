@@ -97,7 +97,7 @@ public interface XppFormatFileSystem extends FormatFileSystem
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getPagebreakesUpDirectory 04_Sectionbreaks}{@code /[material number]}{@code /fileName.type}
+     * {@code /}{@link getSectionbreaksUpDirectory 04_Sectionbreaks}{@code /[material number]}{@code /fileName.type}
      */
     @NotNull
     File getSectionbreaksFile(@NotNull BookStep step, @NotNull String materialNumber, @NotNull String name);
@@ -114,39 +114,39 @@ public interface XppFormatFileSystem extends FormatFileSystem
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /04_SectionbreaksUp}
      */
     @NotNull
-    File getPagebreakesUpDirectory(@NotNull BookStep step);
+    File getSectionbreaksUpDirectory(@NotNull BookStep step);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /04_SectionbreaksUp}{@code /[material number]}
      */
     @NotNull
-    File getPagebreakesUpDirectory(@NotNull BookStep step, @NotNull String materialNumber);
+    File getSectionbreaksUpDirectory(@NotNull BookStep step, @NotNull String materialNumber);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getPagebreakesUpDirectory 04_SectionbreaksUp}{@code /fileName.type}
+     * {@code /}{@link getSectionbreaksUpDirectory 04_SectionbreaksUp}{@code /fileName.type}
      */
     @NotNull
-    File getPagebreakesUpFile(@NotNull BookStep step, @NotNull String name);
+    File getSectionbreaksUpFile(@NotNull BookStep step, @NotNull String name);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getPagebreakesUpDirectory 04_SectionbreaksUp}{@code /[material number]}{@code /fileName.type}
+     * {@code /}{@link getSectionbreaksUpDirectory 04_SectionbreaksUp}{@code /[material number]}{@code /fileName.type}
      */
     @NotNull
-    File getPagebreakesUpFile(@NotNull BookStep step, @NotNull String materialNumber, @NotNull String name);
+    File getSectionbreaksUpFile(@NotNull BookStep step, @NotNull String materialNumber, @NotNull String name);
 
     /**
      * Bundle name (material number) to list of files related to this bundle.
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
-     * {@code /}{@link getPagebreakesUpDirectory 04_SectionbreaksUp}{@code /[material number]}{@code /fileName.type}
+     * {@code /}{@link getSectionbreaksUpDirectory 04_SectionbreaksUp}{@code /[material number]}{@code /fileName.type}
      */
     @NotNull
-    Map<String, Collection<File>> getPagebreakesUpFiles(@NotNull BookStep step);
+    Map<String, Collection<File>> getSectionbreaksUpFiles(@NotNull BookStep step);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}

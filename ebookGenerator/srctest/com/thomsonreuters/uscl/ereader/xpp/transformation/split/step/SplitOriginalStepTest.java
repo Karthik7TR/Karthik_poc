@@ -43,7 +43,7 @@ public final class SplitOriginalStepTest
     @Mock
     private XppFormatFileSystem fileSystem;
     @Mock
-    private File movePagebreakesUpXsl;
+    private File moveSectionbreaksUpXsl;
     @Mock
     private File splitOriginalXsl;
     @Mock
@@ -74,9 +74,9 @@ public final class SplitOriginalStepTest
         originalPartsDirectory = new File(root, "originalPartsDirectory");
 
         given(fileSystem.getSectionBreaksFiles(step)).willReturn(getFilesFromBundleStructure(original, footnotes));
-        given(fileSystem.getPagebreakesUpFiles(step)).willReturn(getFilesFromBundleStructure(moveUpOriginal, moveUpFootnotes));
+        given(fileSystem.getSectionbreaksUpFiles(step)).willReturn(getFilesFromBundleStructure(moveUpOriginal, moveUpFootnotes));
 
-        given(fileSystem.getPagebreakesUpDirectory(step, MATERIAL_NUMBER)).willReturn(moveUpDir);
+        given(fileSystem.getSectionbreaksUpDirectory(step, MATERIAL_NUMBER)).willReturn(moveUpDir);
         given(fileSystem.getOriginalPartsDirectory(step, MATERIAL_NUMBER)).willReturn(originalPartsDirectory);
     }
 
