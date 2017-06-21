@@ -34,10 +34,15 @@
 				<xsl:value-of select="' (cont.)'" />
 			</xsl:if>
 		</xsl:variable>
-		<xsl:processing-instruction name="pb" select="concat('label', '=', $apostrophe, ./@num, $continuation, $apostrophe, '?')" />
+        <xsl:variable name="continuationIndex">
+            <xsl:if test="@continuationIndex and  not(@continuationIndex = 0)">
+				<xsl:value-of select="concat(' ', @continuationIndex)" />
+			</xsl:if>
+		</xsl:variable>
+		<xsl:processing-instruction name="pb" select="concat('label', '=', $apostrophe, ./@num, $continuation, $continuationIndex, $apostrophe, '?')" />
 	</xsl:template>
 
-	<xsl:template match="x:XPPHier|x:XPPMetaData">
+	<xsl:template match="x:XPPHier">
 		<xsl:element name="a">
 			<xsl:attribute name="name" select="./@uuid" />
 		</xsl:element>

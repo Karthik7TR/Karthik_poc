@@ -21,7 +21,7 @@ import org.springframework.batch.core.ExitStatus;
 @SavePublishingStatusPolicy
 public class MoveResourcesToAssembleDirectoryXpp extends BookStepImpl
 {
-    @Resource(name = "assembleFileSystemTemp")
+    @Resource(name = "assembleFileSystem")
     private AssembleFileSystem assembleFileSystem;
 
     @Resource(name = "resourcesFileSystemXpp")

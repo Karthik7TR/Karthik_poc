@@ -72,11 +72,6 @@
 		</step>
 		<step id="generateTitleMetadataStep">
 			<tasklet ref="generateTitleMetadataTask" />
-			<next on="COMPLETED" to="createDummyXppBookStep" />
-			<fail on="FAILED" />
-		</step>
-		<step id="createDummyXppBookStep">
-			<tasklet ref="createDummyXppBookTask" />
 			<next on="COMPLETED" to="assembleXppBookStep" />
 			<fail on="FAILED" />
 		</step>
@@ -136,8 +131,6 @@
 		class="com.thomsonreuters.uscl.ereader.xpp.transformation.move.resources.step.MoveResourcesToAssembleDirectoryXpp" />
 	<beans:bean id="generateTitleMetadataTask" scope="step" parent="bookStep"
 		class="com.thomsonreuters.uscl.ereader.xpp.transformation.generate.title.metadata.step.GenerateTitleMetadataStep" />
-	<beans:bean id="createDummyXppBookTask" scope="step" parent="bookStep"
-		class="com.thomsonreuters.uscl.ereader.xpp.transformation.move.resources.step.CreateDummyXppBook"/>
 	<beans:bean id="assembleXppBookTask" scope="step" parent="assembleStep"
 		class="com.thomsonreuters.uscl.ereader.xpp.assemble.step.AssembleXppStep" />
 	<beans:bean id="deliverXppBookTask" scope="step" parent="deliverStep"

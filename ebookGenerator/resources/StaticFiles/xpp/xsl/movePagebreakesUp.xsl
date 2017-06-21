@@ -45,9 +45,11 @@
     
     <xsl:template name="insertContinuationPagebreak">
         <xsl:variable name="precedingPagebreak" select="preceding::x:pagebreak[1]"/>
+        <xsl:variable name="countSectionbreaks" select="count($precedingPagebreak/following::x:sectionbreak intersect preceding::x:sectionbreak)"/>
         <xsl:element name="pagebreak">
             <xsl:attribute name="num" select="$precedingPagebreak/@num" />
             <xsl:attribute name="continuation" select="not($precedingPagebreak/../name() = 'root')" />
+            <xsl:attribute name="continuationIndex" select="$countSectionbreaks" />
         </xsl:element>
     </xsl:template>
     

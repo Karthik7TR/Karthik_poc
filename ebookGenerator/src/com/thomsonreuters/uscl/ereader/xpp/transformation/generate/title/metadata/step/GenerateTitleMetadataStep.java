@@ -41,7 +41,7 @@ public class GenerateTitleMetadataStep extends XppTransformationStep
 {
     @Value("${xpp.toc.to.title.xsl}")
     private File tocToTitleXsl;
-    @Resource(name = "assembleFileSystemTemp")
+    @Resource(name = "assembleFileSystem")
     private AssembleFileSystem assembleFileSystem;
 
     @Override

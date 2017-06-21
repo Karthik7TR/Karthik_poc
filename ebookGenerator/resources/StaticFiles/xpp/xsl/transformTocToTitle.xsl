@@ -39,7 +39,7 @@
 	<xsl:template match="x:EBookToc" mode="toc">
 		<xsl:element name="entry">
 			<xsl:variable name="docGuid">
-				<xsl:apply-templates select="self::node()" mode="finding_doc_guid" />
+				<xsl:value-of select="./x:DocumentGuid"/>
 			</xsl:variable>
 			<xsl:attribute name="s" select="concat($docGuid, '/', x:Guid)" />
 			<xsl:element name="text">

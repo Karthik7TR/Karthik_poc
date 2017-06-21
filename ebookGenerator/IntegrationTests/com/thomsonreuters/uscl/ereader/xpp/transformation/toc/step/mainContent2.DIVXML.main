@@ -1,6 +1,7 @@
 <root xmlns="http://www.sdl.com/xpp">
     <pagebreak num="1"/>
     <XPPHier uuid="I7f66dd0028b811e69ed7fcedf0a72426" parent_uuid="I7f66dd0028b811e69ed7fcedf0a72426" name="Chapter 1 vol.2"/>
+    <XPPMetaData uuid="I333flsdvdg56hdf5sdd7fcedf0a72426" parent_uuid="I7f66dd0028b811e69ed7fcedf0a72426" md.doc_family_uuid="Igka4oasd4p2u9r4e69ed7sdfdf0a72fg5"/>
     <publication online.royalty.id="FLLF" uuid="I7f66dd0028b811e69ed7fcedf0a72426">
         <metadata.block>
             <metadata field="left.running.head">

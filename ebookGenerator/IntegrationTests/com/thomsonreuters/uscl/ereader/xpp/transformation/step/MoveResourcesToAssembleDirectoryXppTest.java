@@ -35,7 +35,7 @@ public final class MoveResourcesToAssembleDirectoryXppTest
     private MoveResourcesToAssembleDirectoryXpp sut;
     @Resource(name = "bookFileSystem")
     private BookFileSystem bookFileSystem;
-    @Resource(name = "assembleFileSystemTemp")
+    @Resource(name = "assembleFileSystem")
     private AssembleFileSystem assembleFileSystem;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private ChunkContext chunkContext;

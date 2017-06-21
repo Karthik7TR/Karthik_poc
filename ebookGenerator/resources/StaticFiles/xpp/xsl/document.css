@@ -26,7 +26,6 @@
 .ref:active,
 .ref:visited,
 .ref:hover {
-  color: black;
   text-decoration: none; }
 
 .outline_name_block {
@@ -98,7 +97,7 @@
   display: inline; }
 
 .cgt {
-  color: red; }
+  }
   .toc_analytical_hierarchy > .cgt {
     display: none; }
   .research_reference_block .cgt {
@@ -130,7 +129,7 @@
 
 .para_text .cgt {
   vertical-align: super;
-  font-size: calc(1em/2);
+  font-size: 0.5em;
   font-weight: bold; }
 .section_front .cgt {
   font-weight: normal; }
@@ -187,7 +186,7 @@
     width: 100%;
     display: flex; }
   .section_body .thead .entry {
-    border-bottom: calc(1em / 10) solid black; }
+    border-bottom: 0.1em solid black; }
 
 .entry:first-of-type {
   padding-left: 0; }
@@ -199,7 +198,7 @@
   border: none; }
 
 .name_block {
-  margin-right: calc(1em / 2); }
+  margin-right: 0.5em; }
   .form_item > .name_block {
     margin: 0; }
   .list_item > .name_block {
@@ -242,8 +241,8 @@
   text-indent: 0; }
 
 .toc_appendix .designator {
-  min-width: calc(1em*2);
-  max-width: calc(1em*2); }
+  min-width: 2em;
+  max-width: 2em; }
 .appendix_section_front .designator {
   margin-right: 1em; }
 

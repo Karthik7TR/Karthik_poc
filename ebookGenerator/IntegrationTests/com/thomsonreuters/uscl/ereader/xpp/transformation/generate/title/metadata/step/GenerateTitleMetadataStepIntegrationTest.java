@@ -49,7 +49,7 @@ public final class GenerateTitleMetadataStepIntegrationTest
     private BookStep step;
     @Autowired
     private XppFormatFileSystem fileSystem;
-    @Resource(name = "assembleFileSystemTemp")
+    @Resource(name = "assembleFileSystem")
     private AssembleFileSystem assembleFileSystem;
 
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)

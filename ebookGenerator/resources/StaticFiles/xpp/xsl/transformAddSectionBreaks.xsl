@@ -11,15 +11,15 @@
     </xsl:template>
     
     <xsl:template match="x:XPPHier">
-        <xsl:copy>
-            <xsl:apply-templates select="node()|@*" />
-        </xsl:copy>
         <xsl:variable name="closestFollowingMetaElement" select="following::*[name() = 'XPPMetaData' or name() = 'XPPHier'][1]" />
         <xsl:if test="$closestFollowingMetaElement/name() = 'XPPMetaData' and ($closestFollowingMetaElement/@parent_uuid = @uuid or $closestFollowingMetaElement/@parent_uuid = @guid)" >
             <xsl:call-template name="addSectionbreak" >
                 <xsl:with-param name="sectionuuid" select="$closestFollowingMetaElement/@md.doc_family_uuid" />
             </xsl:call-template>
         </xsl:if>
+        <xsl:copy>
+            <xsl:apply-templates select="node()|@*" />
+        </xsl:copy>
     </xsl:template>
     
     <xsl:template match="x:XPPMetaData">
