@@ -50,7 +50,15 @@
 
 	<xsl:template match="element()">
 		<xsl:element name="div">
-			<xsl:attribute name="class" select="x:get-class-name(name(.))" />
+			<xsl:attribute name="class">
+				<xsl:value-of select="x:get-class-name(name(.))" />
+					<xsl:if test=".[@align]">
+						<xsl:value-of select="concat(' ', x:get-class-name(@align))" />
+					</xsl:if>
+					<xsl:if test="matches(@style, '.*[0-9]')">
+						<xsl:value-of select="concat(' ', x:get-class-name(@style))" />
+					</xsl:if>
+			</xsl:attribute>
 			<xsl:copy-of select="./@uuid | ./@tocuuid" />
 			<xsl:apply-templates />
 		</xsl:element>

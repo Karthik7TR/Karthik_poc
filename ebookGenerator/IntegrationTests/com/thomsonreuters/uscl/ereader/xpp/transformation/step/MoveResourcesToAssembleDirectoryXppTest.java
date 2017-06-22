@@ -21,6 +21,7 @@ import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.batch.core.scope.context.ChunkContext;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -41,14 +42,21 @@ public final class MoveResourcesToAssembleDirectoryXppTest
     private ChunkContext chunkContext;
     @Mock
     private BookDefinition book;
+    @Value("${xpp.document.css}")
+    private File documentCssFile;
+
+    private File expectedDir;
 
     @Before
     public void setUp() throws Exception
     {
         org.mockito.MockitoAnnotations.initMocks(this);
         mockBook();
+        expectedDir = new File(this.getClass().getResource("expected").toURI());
         final File workDirectory = bookFileSystem.getWorkDirectory(sut);
         FileUtils.copyDirectory(new File(this.getClass().getResource("testdata").toURI()), workDirectory);
+        final File assetsDir = new File(expectedDir, "assets");
+        FileUtils.copyFileToDirectory(documentCssFile, assetsDir);
     }
 
     @After
@@ -64,11 +72,10 @@ public final class MoveResourcesToAssembleDirectoryXppTest
         //given
         final File assembleDirectory = assembleFileSystem.getAssembleDirectory(sut);
         final File titleDirectory = new File(assembleDirectory, "titleId");
-        final File expected = new File(this.getClass().getResource("expected").toURI());
         //when
         sut.executeStep();
         //then
-        assertThat(expected, hasSameContentAs(titleDirectory));
+        assertThat(expectedDir, hasSameContentAs(titleDirectory));
     }
 
     private void mockBook()
