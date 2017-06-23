@@ -196,8 +196,20 @@
                                message: "Only numbers are allowed for Material",
                                validator: function(value, item) {
                                   return !isNaN(value) ;
-                              }
-                              }
+                               }
+                              },                              
+                              {
+                                  message: "Material number has already been added",
+                                  validator: function(value, item) {
+                                	  var gridData = $("#jsGrid").jsGrid("option", "data");
+                                	  for (i = 0; i < gridData.length; i++) {
+                                          if(value == gridData[i].materialNumber){
+                                        	  return false;
+                                          }
+                                      }
+                                	  return true;
+                                 }
+                              }                              
                           ],
                     insertTemplate: function() {
                         var $result = jsGrid.fields.text.prototype.insertTemplate.call(this);
