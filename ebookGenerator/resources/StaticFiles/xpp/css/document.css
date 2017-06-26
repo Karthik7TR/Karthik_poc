@@ -19,6 +19,19 @@
 
 .inline_instr {
   font-style: italic;
+  display: inline;
+}
+
+.c {
+  text-align: center;
+}
+
+.l {
+  text-align: left;
+}
+
+.r {
+  text-align: right;
 }
 
 .metadata_block,
@@ -526,18 +539,17 @@
   padding-left: 1em;
 }
 
-.c {
-  text-align: center;
+.text_line,
+.endline {
+  display: block;
 }
 
-.l {
-  text-align: left;
-}
-
-.r {
-  text-align: right;
-}
-
-.inline_instr {
+.fm_date_variable,
+.fm_variable,
+.fm_copyright_page .cgt {
   display: inline;
+}
+
+.fm_copyright_clearance {
+  margin-top: calc(1em * 2);
 }

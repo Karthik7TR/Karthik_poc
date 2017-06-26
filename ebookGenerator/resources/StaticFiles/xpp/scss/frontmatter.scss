@@ -1,0 +1,15 @@
+@import "constants.scss";
+.text_line,
+.endline {
+    display: block;
+}
+
+.fm_date_variable,
+.fm_variable,
+.fm_copyright_page .cgt {
+    display: inline;
+}
+
+.fm_copyright_clearance {
+    margin-top: calc(#{$indent} * 2);
+}

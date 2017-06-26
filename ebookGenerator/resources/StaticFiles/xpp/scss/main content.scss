@@ -1,0 +1,171 @@
+@import "constants.scss";
+.para_text {
+    text-indent: $indent;
+    * {
+        display: inline;
+    }
+}
+
+.name {
+    .analytical_hierarchy & {
+        display: inline;
+    }
+    .analytical_hierarchy>.front>.outline_name_block & {
+        font-weight: bold;
+    }
+    .appendix_front & {
+        display: block;
+    }
+}
+
+.designator {
+    .analytical_hierarchy .front & {
+        font-weight: bold;
+        margin-right: $indent;
+    }
+    .section_front & {
+        margin-right: calc(#{$indent}/2);
+    }
+}
+
+.ital {
+    display: inline;
+    font-style: italic;
+}
+
+.cgt {
+    .para_text & {
+        vertical-align: super;
+        font-size: calc(#{$indent}/2);
+        font-weight: bold;
+    }
+    .para_text>a & {
+        font-size: initial;
+        vertical-align: initial;
+    }
+    .section_front & {
+        font-weight: normal;
+    }
+    .reference_entry &,
+    .entry & {
+        display: inline;
+    }
+}
+
+.section_front {
+    font-weight: bold;
+    display: flex;
+    margin: $indent 0;
+}
+
+.xref {
+    &:empty {
+        display: none;
+    }
+}
+
+.outline_name_block {
+    .front>& {
+        font-size: $header-size;
+    }
+}
+
+.table {
+    margin: $indent 0;
+}
+
+.tbl_name {
+    margin: $indent auto;
+    width: auto;
+    text-align: center;
+}
+
+.tgroup {
+    display: table;
+    justify-content: space-between;
+    .signature_block &,
+    .form_para>.tbl & {
+        width: 100%;
+    }
+}
+
+.thead {
+    display: table-header-group;
+    text-align: center;
+}
+
+.tbody {
+    display: table-row-group;
+    .signature_block &,
+    .form_para>.tbl & {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.row {
+    display: table-row;
+    .signature_block &,
+    .form_para>.tbl & {
+        display: flex;
+    }
+}
+
+.entry {
+    display: table-cell;
+    text-align: left;
+    padding: 0 $indent 0 $indent;
+    .signature_block &,
+    .form_para>.tbl & {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+    }
+    .section_body .thead & {
+        border-bottom: calc(#{$indent} / 10) solid black;
+    }
+}
+
+.entry:first-of-type {
+    padding-left: 0;
+}
+
+.entry:last-of-type {
+    padding-right: 0;
+}
+
+.entry:empty {
+    .section_body .thead & {
+        border: none;
+    }
+}
+
+.name_block {
+    margin-right: calc(#{$indent} / 2);
+    .form_item>& {
+        margin: 0;
+    }
+    .list_item>& {
+        display: inline;
+    }
+}
+
+.para_text {
+    .list_item & {
+        text-indent: 0;
+    }
+}
+
+.para {
+    .list_item>&,
+    .list_item>& * {
+        display: inline;
+    }
+}
+
+.list_item {
+    margin-left: $indent;
+    display: list-item;
+    list-style: none;
+}
