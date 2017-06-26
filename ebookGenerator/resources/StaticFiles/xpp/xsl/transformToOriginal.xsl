@@ -5,8 +5,13 @@
 	<xsl:import href="transform-utils.xsl" />
 
 	<xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
+	
+	<xsl:param name="entitiesDocType" />
 
 	<xsl:template match="x:document">
+		<xsl:text disable-output-escaping="yes">&lt;!DOCTYPE root SYSTEM &#34;</xsl:text>
+		<xsl:value-of select="$entitiesDocType" />
+		<xsl:text disable-output-escaping="yes">&#34;&gt;</xsl:text>
 		<root>
 			<xsl:apply-templates />
 		</root>
@@ -70,17 +75,17 @@
 		<xsl:copy-of select="self::node()" />
 	</xsl:template>
 
-	<xsl:template match="processing-instruction('XPPMetaData')">
-		<xsl:text disable-output-escaping="yes"><![CDATA[<XPPMetaData ]]></xsl:text>
-		<xsl:value-of select="." />
-		<xsl:text disable-output-escaping="yes"><![CDATA[/>]]></xsl:text>
-	</xsl:template>
-
-	<xsl:template match="processing-instruction('XPPHier')">
-		<xsl:text disable-output-escaping="yes"><![CDATA[<XPPHier ]]></xsl:text>
-		<xsl:value-of select="." />
-		<xsl:text disable-output-escaping="yes"><![CDATA[/>]]></xsl:text>
-	</xsl:template>
+	<xsl:template match="processing-instruction('XPPMetaData') | processing-instruction('XPPHier')">
+        <xsl:variable name="apostrophe">'</xsl:variable>
+       	<xsl:variable name="tail" select="substring-after(., ' name=')" />
+       	<xsl:variable name="name" select="replace(replace($tail, '\s[A-Za-z._]{1,}=.*', ''), $apostrophe, '')" />
+                
+        <xsl:value-of select="concat('&lt;', name(), ' ')" disable-output-escaping="yes"/>
+        <xsl:value-of select="."/>
+        <xsl:text disable-output-escaping="yes"><![CDATA[>]]></xsl:text>
+        <xsl:value-of select="$name" disable-output-escaping="yes"/>
+        <xsl:value-of select="concat('&lt;/', name(), '&gt;')" disable-output-escaping="yes"/>
+    </xsl:template>
 
 	<xsl:template match="text()" />
 </xsl:stylesheet>

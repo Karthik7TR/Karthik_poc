@@ -21,6 +21,8 @@ import org.springframework.beans.factory.annotation.Value;
 @SavePublishingStatusPolicy
 public class OriginalStructureTransformationStep extends XppTransformationStep
 {
+    @Value("${xpp.entities.dtd}")
+    private File entitiesDtdFile;
     @Value("${xpp.transform.to.original.xsl}")
     private File transformToOriginalXsl;
     @Value("${xpp.transform.to.footnotes.xsl}")
@@ -45,7 +47,9 @@ public class OriginalStructureTransformationStep extends XppTransformationStep
     private void generateMainXmls(final Map<String, Collection<File>> xppXmls)
     {
         final Transformer transformerToOriginal =
-            transformerBuilderFactory.create().withXsl(transformToOriginalXsl).build();
+            transformerBuilderFactory.create().withXsl(transformToOriginalXsl)
+            .withParameter("entitiesDocType", entitiesDtdFile.getAbsolutePath().replace("\\", "/"))
+            .build();
 
         for (final Map.Entry<String, Collection<File>> xppDir : xppXmls.entrySet())
         {

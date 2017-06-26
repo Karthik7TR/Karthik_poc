@@ -14,7 +14,9 @@
 	<xsl:template match="x:XPPHier[@parent_uuid = @uuid]">
 		<xsl:variable name="uuid" select="./@uuid" />
 		<xsl:call-template name="create-entry">
-			<xsl:with-param name="name" select="./@name" />
+			<xsl:with-param name="name">
+				<xsl:apply-templates select="x:sep|text()" mode="extract-name" />
+			</xsl:with-param>
 			<xsl:with-param name="uuid" select="$uuid" />
 		</xsl:call-template>
 	</xsl:template>
@@ -25,7 +27,9 @@
 		<xsl:if test="./@parent_uuid = $parent">
 			<xsl:variable name="uuid" select="./@uuid" />
 			<xsl:call-template name="create-entry">
-				<xsl:with-param name="name" select="./@name" />
+				<xsl:with-param name="name">
+					<xsl:apply-templates select="x:sep|text()" mode="extract-name" />
+				</xsl:with-param>
 				<xsl:with-param name="uuid" select="$uuid" />
 			</xsl:call-template>
 		</xsl:if>
@@ -59,6 +63,14 @@
 				</xsl:apply-templates>
 			</xsl:if>
 		</EBookToc>
+	</xsl:template>
+
+	<xsl:template match="x:sep" mode="extract-name">
+		<xsl:value-of select="'—'" />
+	</xsl:template>
+
+	<xsl:template match="text()" mode="extract-name">
+		<xsl:copy-of select="." />
 	</xsl:template>
 
 	<xsl:template match="text()" />

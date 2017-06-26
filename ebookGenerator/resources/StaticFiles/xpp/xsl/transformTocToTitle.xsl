@@ -43,7 +43,7 @@
 			</xsl:variable>
 			<xsl:attribute name="s" select="concat($docGuid, '/', x:Guid)" />
 			<xsl:element name="text">
-				<xsl:value-of select="x:Name" />
+				<xsl:value-of select="replace(x:Name/text(), '&amp; ', '&amp;amp; ')" disable-output-escaping="yes" />
 			</xsl:element>
 			<xsl:apply-templates select="x:EBookToc" mode="toc" />
 		</xsl:element>

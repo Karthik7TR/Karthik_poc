@@ -53,6 +53,8 @@
 			<xsl:apply-templates />
 		</xsl:element>
 	</xsl:template>
+	
+	<xsl:template match="x:XPPMetaData| XPPHier" />
 
 	<xsl:template match="x:part.footnotes|x:foots|x:footnote">
 		<xsl:copy>
