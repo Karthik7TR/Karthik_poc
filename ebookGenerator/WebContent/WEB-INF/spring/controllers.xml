@@ -36,5 +36,5 @@
 	p:serverAccessService-ref ="serverAccessService"
 	p:emailGroup="${kill.email.group}"/>
 		 
-
+    <bean id="xppBundleQueueJmsController" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.XppBundleQueueJmsController" />
 </beans>
