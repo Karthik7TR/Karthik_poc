@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.originalstructure.step;
 
 import static com.thomsonreuters.uscl.ereader.common.filesystem.FileContentMatcher.hasSameContentAs;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
@@ -15,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -23,6 +25,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public final class OriginalStructureTransformationStepIntegrationTest
 {
     private static final String MATERIAL_NUMBER = "11111111";
+    private static final String REF_PLACE_HOLDER = "${refPlaceHolder}";
 
     @Resource(name = "originalStructureTransformationTask")
     private OriginalStructureTransformationStep step;
@@ -30,17 +33,20 @@ public final class OriginalStructureTransformationStepIntegrationTest
     private XppGatherFileSystem xppGatherFileSystem;
     @Autowired
     private XppFormatFileSystem fileSystem;
+    @Value("${xpp.entities.dtd}")
+    private File entitiesDtdFile;
 
     private File xpp;
-    private File expectedMain;
+    private String expectedMain;
     private File expectedFootnotes;
 
     @Before
-    public void setUp() throws URISyntaxException
+    public void setUp() throws URISyntaxException, Exception
     {
         xpp = new File(OriginalStructureTransformationStepIntegrationTest.class.getResource("sampleXpp.xml").toURI());
-        expectedMain =
-            new File(OriginalStructureTransformationStepIntegrationTest.class.getResource("expected.main").toURI());
+        expectedMain = FileUtils.readFileToString(
+            new File(OriginalStructureTransformationStepIntegrationTest.class.getResource("expected.main").toURI()))
+            .replace(REF_PLACE_HOLDER, entitiesDtdFile.getAbsolutePath().replace("\\", "/"));
         expectedFootnotes = new File(
             OriginalStructureTransformationStepIntegrationTest.class.getResource("expected.footnote").toURI());
     }
@@ -61,7 +67,7 @@ public final class OriginalStructureTransformationStepIntegrationTest
         //then
         final File main = fileSystem.getOriginalFile(step, MATERIAL_NUMBER, "sampleXpp");
         final File footnotes = fileSystem.getFootnotesFile(step, MATERIAL_NUMBER, "sampleXpp");
-        assertThat(expectedMain, hasSameContentAs(main));
+        assertThat(expectedMain, equalTo(FileUtils.readFileToString(main)));
         assertThat(expectedFootnotes, hasSameContentAs(footnotes));
     }
 }

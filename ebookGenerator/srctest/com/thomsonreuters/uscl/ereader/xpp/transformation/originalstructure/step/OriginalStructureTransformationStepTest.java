@@ -35,6 +35,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public final class OriginalStructureTransformationStepTest
 {
     private static final String MATERIAL_NUMBER = "11111111";
+    private static final String DTD_FILE_PATH = "some/path";
 
     @InjectMocks
     private OriginalStructureTransformationStep step;
@@ -56,6 +57,8 @@ public final class OriginalStructureTransformationStepTest
     private File originalFile;
     @Mock
     private File footnotesFile;
+    @Mock
+    private File entitiesDtdFile;
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
@@ -70,6 +73,7 @@ public final class OriginalStructureTransformationStepTest
         final File xppDir = mkdir(bundleDir, "/bundleName/XPP");
         xppFile = mkfile(xppDir, "xpp.xml");
 
+        given(entitiesDtdFile.getAbsolutePath()).willReturn(DTD_FILE_PATH);
         given(xppGatherFileSystem.getXppSourceXmls(step)).willReturn(getSourceXmlsFromGatherDir());
         given(fileSystem.getOriginalDirectory(step, MATERIAL_NUMBER)).willReturn(bundleDir);
         given(fileSystem.getOriginalFile(step, MATERIAL_NUMBER, "xpp.xml")).willReturn(originalFile);

@@ -1,6 +1,6 @@
 <root xmlns="http://www.sdl.com/xpp">
     <pagebreak num="1"/>
-    <XPPHier uuid="I7f66dd0028b811e69ed7fcedf0a72426" parent_uuid="I7f66dd0028b811e69ed7fcedf0a72426" name="Chapter 1"/>
+    <XPPHier uuid="I7f66dd0028b811e69ed7fcedf0a72426" parent_uuid="I7f66dd0028b811e69ed7fcedf0a72426" name="Chapter 1">Chapter 1</XPPHier>
     <publication online.royalty.id="FLLF" uuid="I7f66dd0028b811e69ed7fcedf0a72426">
         <metadata.block>
             <metadata field="left.running.head">
@@ -9,7 +9,7 @@
         </metadata.block>
         <publication.body>
         	<XPPMetaData uuid="I18b49f1028b911e69ed7fcedf0a72426" guid="I445a1ac3c61c11d9962fb5f8354828db" md.uuid="I445a1ac3c61c11d9962fb5f8354828db" md.dmsserial="331482376" md.first_line_cite="CALRO CH 7 REF" md.second_line_cite="2 Children &amp;amp; the Law: Rights and Obligations Ch. 7 Refs." md.pubpage="CH 7 REF" md.pubid="177882" md.doc_family_uuid="Ic06f56e5607311dcb2b50000837214a9" md.normalizedcite="CALROCH7REF" md.third_line_cite="" name="Chapter 7. Guardianship" parent_uuid="I7f66dd0028b811e69ed7fcedf0a72426"/>
-        	<XPPHier uuid="I18b49f1028b911e69ed7fcedf0a72426" parent_uuid="I7f66dd0028b811e69ed7fcedf0a72426" name="Section 1"/>
+        	<XPPHier uuid="I18b49f1028b911e69ed7fcedf0a72426" parent_uuid="I7f66dd0028b811e69ed7fcedf0a72426" name="Section 1">Section 1</XPPHier>
             <topic uuid="I18b49f1028b911e69ed7fcedf0a72426" stage="stable" date.revised="0" date.updated="0">
                 <metadata.block metadata.store="yes"/>
                 <front date.updated="0">
@@ -18,7 +18,7 @@
                     </outline.name.block>
                 </front>
                 <topic.body date.updated="0">
-                	<XPPHier uuid="I333dd59028b911e69ed7fcedf0a72426" parent_uuid="I18b49f1028b911e69ed7fcedf0a72426" name="Content 1"/>
+                	<XPPHier uuid="I333dd59028b911e69ed7fcedf0a72426" parent_uuid="I18b49f1028b911e69ed7fcedf0a72426" name="Content 1">Content 1</XPPHier>
                 	<XPPMetaData uuid="I333dd59028b911e69ed7fcedf0a72426" parent_uuid="I333dd59028b911e69ed7fcedf0a72426" md.doc_family_uuid="I333ddfh6p2u911e69ed7fcedf0a72426"/>
                     <chapter uuid="c" date.revised="0" date.updated="0">
                         <metadata.block metadata.store="yes">
@@ -35,20 +35,20 @@
                             </outline.name.block>
                             <generated.toc>
                                 <full.toc>
-                                	<XPPHier uuid="I334a31a028b911e69ed7fcedf0a72426" parent_uuid="I18b49f1028b911e69ed7fcedf0a72426" name="Content 2"/>
+                                	<XPPHier uuid="I334a31a028b911e69ed7fcedf0a72426" parent_uuid="I18b49f1028b911e69ed7fcedf0a72426" name="Content 2">Content 2</XPPHier>
                                     <toc.analytical.level tocuuid="I334a31a028b911e69ed7fcedf0a72426">
                                     <XPPMetaData uuid="I333gh56028b9sdf5tgd7fcedf0a72426" parent_uuid="I334a31a028b911e69ed7fcedf0a72426" md.doc_family_uuid="I333ddfh6p2u911e69ed7fcedf0a72fg5"/>
                                         <outline.name.block>
                                             <designator date.updated="0">I</designator>
                                             <name>General Partnerships</name>
                                         </outline.name.block>
-                                        <XPPHier uuid="I334a7fc028b911e69ed7fcedf0a72426" parent_uuid="I7f66dd0028b811e69ed7fcedf0a72426" name="Section 2"/>
+                                        <XPPHier uuid="I334a7fc028b911e69ed7fcedf0a72426" parent_uuid="I7f66dd0028b811e69ed7fcedf0a72426" name="Section 2">Section 2</XPPHier>
                                         <toc.analytical.level tocuuid="I334a7fc028b911e69ed7fcedf0a72426">
                                             <outline.name.block>
                                                 <designator date.updated="0">A</designator>
                                                 <name>General Considerations</name>
                                             </outline.name.block>
-                                        	<XPPHier uuid="I334acde028b911e69ed7fcedf0a72426" parent_uuid="I334a7fc028b911e69ed7fcedf0a72426" name="Section 2_1"/>
+                                        	<XPPHier uuid="I334acde028b911e69ed7fcedf0a72426" parent_uuid="I334a7fc028b911e69ed7fcedf0a72426" name="Section 2_1">Section 2_1</XPPHier>
                                             <toc.analytical.level tocuuid="I334acde028b911e69ed7fcedf0a72426">
                                                 <outline.name.block>
                                                     <designator date.updated="0">1</designator>
@@ -70,7 +70,7 @@
                                                 </toc.section>
                                             </toc.analytical.level>
                                         </toc.analytical.level>
-                                        <XPPHier uuid="I34145f7028b911e69ed7fcedf0a72426" parent_uuid="I334acde028b911e69ed7fcedf0a72426" name="Content 2_1"/>
+                                        <XPPHier uuid="I34145f7028b911e69ed7fcedf0a72426" parent_uuid="I334acde028b911e69ed7fcedf0a72426" name="Content 2_1">Content 2_1</XPPHier>
                                         <XPPMetaData uuid="I333gh560dg56hdf5tgd7fcedf0a72426" parent_uuid="I34145f7028b911e69ed7fcedf0a72426" md.doc_family_uuid="Igk54oofh6p2u911e69ed7fcedf0a72fg5"/>
                                         <toc.analytical.level tocuuid="I34145f7028b911e69ed7fcedf0a72426">
                                             <outline.name.block>
@@ -103,7 +103,7 @@
                             <pagebreak num="15"/>
                         </front>
                         <chapter.body date.updated="0">
-                            <XPPHier uuid="I334a31a028b911e69ed7fcedf0a72427" parent_uuid="I334a31a028b911e69ed7fcedf0a72427" name="Chapter 2"/>
+                            <XPPHier uuid="I334a31a028b911e69ed7fcedf0a72427" parent_uuid="I334a31a028b911e69ed7fcedf0a72427" name="Chapter 2">Chapter 2</XPPHier>
                             <analytical.level uuid="I334a31a028b911e69ed7fcedf0a72427" date.revised="0" date.updated="0">
                                 <front date.updated="0">
                                     <outline.name.block toc.include="y" date.updated="0">
@@ -112,7 +112,7 @@
                                     </outline.name.block>
                                 </front>
                                 <analytical.level.body date.updated="0">
-                                    <XPPHier uuid="I334a7fc028b911e69ed7fcedf0a72426" parent_uuid="I334a31a028b911e69ed7fcedf0a72427" name="Chapter 2 content"/>
+                                    <XPPHier uuid="I334a7fc028b911e69ed7fcedf0a72426" parent_uuid="I334a31a028b911e69ed7fcedf0a72427" name="Chapter 2 content">Chapter 2 content</XPPHier>
                                     <XPPMetaData uuid="I333fl58fdg56hdf5tgd7fcedf0a72426" parent_uuid="I334a7fc028b911e69ed7fcedf0a72426" md.doc_family_uuid="Igk54oofh6p2u9f5e69ed7fcedf0a72fg5"/>
                                     <analytical.level uuid="I334a7fc028b911e69ed7fcedf0a72426" date.revised="0" date.updated="0">
                                         <front date.updated="0">
@@ -122,7 +122,7 @@
                                             </outline.name.block>
                                         </front>
                                         <analytical.level.body date.updated="0">
-                                        	<XPPHier uuid="I334acde028b911e69ed7fcedf0a72426" parent_uuid="I334acde028b911e69ed7fcedf0a72426" name="Chapter 3 content"/>
+                                        	<XPPHier uuid="I334acde028b911e69ed7fcedf0a72426" parent_uuid="I334acde028b911e69ed7fcedf0a72426" name="Chapter 3 content">Chapter 3 content</XPPHier>
                                             <analytical.level uuid="I334acde028b911e69ed7fcedf0a72426" date.revised="0" date.updated="0">
                                                 <front date.updated="0">
                                                     <outline.name.block toc.include="y" date.updated="0">
