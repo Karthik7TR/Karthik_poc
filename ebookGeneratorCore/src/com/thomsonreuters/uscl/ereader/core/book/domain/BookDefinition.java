@@ -1409,6 +1409,7 @@ public class BookDefinition implements Serializable
         if (getSourceType() == SourceType.XPP)
         {
             proviewFeatures.add(new Feature("PageNos"));
+            proviewFeatures.add(new Feature("SpanPages"));
         }
         return (proviewFeatures);
     }

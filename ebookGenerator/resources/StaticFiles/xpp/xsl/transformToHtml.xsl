@@ -29,17 +29,7 @@
 
 	<xsl:template match="x:pagebreak">
 		<xsl:variable name="apostrophe">'</xsl:variable>
-		<xsl:variable name="continuation">
-			<xsl:if test="@continuation = true()">
-				<xsl:value-of select="' (cont.)'" />
-			</xsl:if>
-		</xsl:variable>
-        <xsl:variable name="continuationIndex">
-            <xsl:if test="@continuationIndex and  not(@continuationIndex = 0)">
-				<xsl:value-of select="concat(' ', @continuationIndex)" />
-			</xsl:if>
-		</xsl:variable>
-		<xsl:processing-instruction name="pb" select="concat('label', '=', $apostrophe, ./@num, $continuation, $continuationIndex, $apostrophe, '?')" />
+		<xsl:processing-instruction name="pb" select="concat('label', '=', $apostrophe, ./@num, $apostrophe, '?')" />
 	</xsl:template>
 
 	<xsl:template match="x:XPPHier">
@@ -81,11 +71,11 @@
 			<xsl:value-of select="." />
 		</xsl:element>
 	</xsl:template>
-	
+
 	<xsl:template match="x:image.block">
 		<xsl:param name="quote">"</xsl:param>
 		<xsl:param name="ident">ident="</xsl:param>
-		<xsl:variable name='guid' select='substring-before(substring-after(self::node(),$ident),".")'/>
+		<xsl:variable name='guid' select='substring-before(substring-after(self::node(),$ident),".")' />
 		<xsl:element name="img">
 			<xsl:attribute name="class" select="'tr_image'" />
 			<xsl:attribute name="assetid" select="concat('er:#', $guid)" />
