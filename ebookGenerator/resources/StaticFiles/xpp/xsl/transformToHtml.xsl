@@ -64,7 +64,10 @@
 	</xsl:template>
 
 	<xsl:template match="x:ref|x:xref|x:footnote.reference">
-		<xsl:copy-of select="self::node()" />
+		<xsl:element name="{name()}">
+			<xsl:copy-of select="@*" />
+			<xsl:apply-templates />
+		</xsl:element>
 	</xsl:template>
 
 	<xsl:template match="x:ital|x:bold|x:cgt">
