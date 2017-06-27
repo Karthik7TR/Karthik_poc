@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration
 public final class TransformationToHtmlStepIntegrationTest
 {
+    private static final String SAMPLE_DIVXML_PAGE = "sample.DIVXML.page";
     private static final String MATERIAL_NUMBER = "11111111";
 
     @Resource(name = "transformToHtmlTask")
@@ -35,7 +36,7 @@ public final class TransformationToHtmlStepIntegrationTest
     @Before
     public void setUp() throws URISyntaxException
     {
-        original = new File(TransformationToHtmlStepIntegrationTest.class.getResource("sample.page").toURI());
+        original = new File(TransformationToHtmlStepIntegrationTest.class.getResource(SAMPLE_DIVXML_PAGE).toURI());
         expected = new File(TransformationToHtmlStepIntegrationTest.class.getResource("expected.html").toURI());
     }
 
@@ -49,7 +50,7 @@ public final class TransformationToHtmlStepIntegrationTest
         //when
         step.executeStep();
         //then
-        final File html = fileSystem.getHtmlPageFile(step, MATERIAL_NUMBER, "sample");
+        final File html = fileSystem.getHtmlPageFile(step, MATERIAL_NUMBER, SAMPLE_DIVXML_PAGE);
         assertThat(html, hasSameContentAs(expected));
     }
 }

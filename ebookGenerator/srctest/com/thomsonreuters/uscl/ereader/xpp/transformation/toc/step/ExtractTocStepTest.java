@@ -68,8 +68,10 @@ public final class ExtractTocStepTest
             .get(JobParameterKey.XPP_BUNDLES)
         ).willReturn(Arrays.asList(bundle));
 
-        given(fileSystem.getOriginalFile(step, MATERIAL_NUMBER, FIRST_BUNDLE_FILE_NAME)).willReturn(sourceFirstBundleFile);
-        given(fileSystem.getOriginalFile(step, MATERIAL_NUMBER, SECOND_BUNDLE_FILE_NAME)).willReturn(sourceSecondBundleFile);
+        given(fileSystem.getStructureWithMetadataFile(
+            step, MATERIAL_NUMBER, FIRST_BUNDLE_FILE_NAME.replaceAll(".xml", ".main"))).willReturn(sourceFirstBundleFile);
+        given(fileSystem.getStructureWithMetadataFile(
+            step, MATERIAL_NUMBER, SECOND_BUNDLE_FILE_NAME.replaceAll(".xml", ".main"))).willReturn(sourceSecondBundleFile);
         given(fileSystem.getBundlePartTocFile(eq(FIRST_BUNDLE_FILE_NAME), anyString(), eq(step))).willReturn(firstTocBundleFile);
         given(fileSystem.getBundlePartTocFile(eq(SECOND_BUNDLE_FILE_NAME), anyString(), eq(step))).willReturn(secondTocBundleFile);
         given(fileSystem.getTocFile(step)).willReturn(tocFile);

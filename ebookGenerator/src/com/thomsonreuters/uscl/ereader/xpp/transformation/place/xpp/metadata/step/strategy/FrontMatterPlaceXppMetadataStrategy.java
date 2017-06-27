@@ -3,15 +3,17 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.st
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.xml.transform.Transformer;
 
-import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppBookStep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -34,7 +36,7 @@ public class FrontMatterPlaceXppMetadataStrategy implements PlaceXppMetadataStra
         final XslTransformationService xslTransformationService,
         final TransformerBuilderFactory transformerBuilderFactory,
         final XppFormatFileSystem xppFormatFileSystem,
-        @Value("${xpp.extract.toc.xsl}"/*TODO: <-- put xslt file key here*/) final File xslTransformationFile)
+        @Value("${xpp.add.metadata.to.frontmatter.xsl}") final File xslTransformationFile)
     {
         this.xslTransformationService = xslTransformationService;
         this.transformerBuilderFactory = transformerBuilderFactory;
@@ -49,12 +51,25 @@ public class FrontMatterPlaceXppMetadataStrategy implements PlaceXppMetadataStra
     }
 
     @Override
-    public void performHandling(final File inputFile, final String materialNumber, final BookStep bookStep)
+    public void performHandling(final File inputFile, final String materialNumber, final XppBookStep bookStep)
     {
-        final Transformer transformer = transformerBuilderFactory.create()
-            .withXsl(xslTransformationFile)
-            .build();
+        final Transformer transformer = transformerBuilderFactory.create().withXsl(xslTransformationFile).build();
+        final int volumeIndex = getBundleIndexByMaterialNumber(bookStep.getXppBundles(), materialNumber);
+        transformer.setParameter("volumeName", String.format("vol%s", volumeIndex + 1));
         xslTransformationService.transform(
-            transformer, inputFile, xppFormatFileSystem.getStructureWithMetadataFile(bookStep, materialNumber, inputFile.getName()));
+            transformer,
+            inputFile,
+            xppFormatFileSystem.getStructureWithMetadataFile(bookStep, materialNumber, inputFile.getName()));
+    }
+
+    private int getBundleIndexByMaterialNumber(final List<XppBundle> xppBundles, final String materialNumber)
+    {
+        for (int i = 0; i < xppBundles.size(); i++)
+        {
+            if (materialNumber.equals(xppBundles.get(i).getMaterialNumber()))
+                return i;
+        }
+        throw new IllegalArgumentException(
+            String.format("Book does not contain bundle with material number %s", materialNumber));
     }
 }

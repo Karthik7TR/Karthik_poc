@@ -84,11 +84,11 @@ public final class ExtractTocStepIntegrationTest
 
     private void prepareDirectories() throws Exception
     {
-        final File bundleVolOneOriginalFilesDir = fileSystem.getOriginalDirectory(step, VOL_ONE_MATERIAL_NUMBER);
+        final File bundleVolOneOriginalFilesDir = fileSystem.getStructureWithMetadataBundleDirectory(step, VOL_ONE_MATERIAL_NUMBER);
         FileUtils.forceMkdir(bundleVolOneOriginalFilesDir);
         FileUtils.copyFileToDirectory(bundleMainContentOriginalFile, bundleVolOneOriginalFilesDir);
 
-        final File bundleVolTwoOriginalFilesDir = fileSystem.getOriginalDirectory(step, VOL_TWO_MATERIAL_NUMBER);
+        final File bundleVolTwoOriginalFilesDir = fileSystem.getStructureWithMetadataBundleDirectory(step, VOL_TWO_MATERIAL_NUMBER);
         FileUtils.forceMkdir(bundleVolTwoOriginalFilesDir);
         FileUtils.copyFileToDirectory(bundleMainContentOriginalAdditionalFile, bundleVolTwoOriginalFilesDir);
     }
@@ -116,7 +116,6 @@ public final class ExtractTocStepIntegrationTest
     public void shouldCreateTocFileBasedBundleMainContentOriginalFile() throws Exception
     {
         step.executeStep();
-        System.out.println(fileSystem.getTocFile(step));
         assertThat(expectedMainContentTocFile, hasSameContentAs(fileSystem.getBundlePartTocFile(
             "mainContent1.DIVXML.xml", VOL_ONE_MATERIAL_NUMBER, step)));
         assertThat(expectedMainContentAdditionalTocFile, hasSameContentAs(fileSystem.getBundlePartTocFile(

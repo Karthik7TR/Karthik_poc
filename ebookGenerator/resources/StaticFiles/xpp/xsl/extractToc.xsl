@@ -47,12 +47,19 @@
 			</Guid>
 			<DocumentGuid>
 				<xsl:choose>
-					<xsl:when test="following::x:XPPMetaData[@parent_uuid = $uuid]">
-						<xsl:value-of
-							select="following::x:XPPMetaData[@parent_uuid = $uuid][1]/@md.doc_family_uuid" />
+					<xsl:when test="@md.doc_family_uuid">
+						<xsl:value-of select="@md.doc_family_uuid" />
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="preceding::x:XPPMetaData[1]/@md.doc_family_uuid" />
+						<xsl:choose>
+							<xsl:when test="following::x:XPPMetaData[@parent_uuid = $uuid]">
+								<xsl:value-of
+									select="following::x:XPPMetaData[@parent_uuid = $uuid][1]/@md.doc_family_uuid" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="preceding::x:XPPMetaData[1]/@md.doc_family_uuid" />
+							</xsl:otherwise>
+						</xsl:choose>
 					</xsl:otherwise>
 				</xsl:choose>
 			</DocumentGuid>

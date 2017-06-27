@@ -9,6 +9,7 @@ import javax.xml.transform.Transformer;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
+import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -34,6 +35,8 @@ public class TransformationToHtmlStep extends XppTransformationStep
             for (final File part : dir.getValue())
             {
                 transformer.setParameter("fileBaseName", FilenameUtils.removeExtension(part.getName()));
+                final String pagePrefix = BundleFileType.getByFileName(part.getName()).getPagePrefix();
+                transformer.setParameter("pagePrefix", pagePrefix);
                 transformationService
                     .transform(transformer, part, fileSystem.getHtmlPageFile(this, dir.getKey(), part.getName()));
             }

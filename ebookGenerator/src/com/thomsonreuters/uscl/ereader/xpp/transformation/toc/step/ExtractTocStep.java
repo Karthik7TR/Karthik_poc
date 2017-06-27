@@ -45,7 +45,8 @@ public class ExtractTocStep extends XppTransformationStep
             final Transformer transformer = transformerBuilderFactory.create()
                 .withXsl(extractTocXsl)
                 .build();
-            final File sourceFile = fileSystem.getOriginalFile(this, bundle.getMaterialNumber(), fileName);
+            final File sourceFile = fileSystem.getStructureWithMetadataFile(
+                this, bundle.getMaterialNumber(), fileName.replaceAll(".xml", ".main"));
             final File outputFile = fileSystem.getBundlePartTocFile(fileName, bundle.getMaterialNumber(), this);
             transformationService.transform(transformer, sourceFile, outputFile);
             tocFiles.add(outputFile);

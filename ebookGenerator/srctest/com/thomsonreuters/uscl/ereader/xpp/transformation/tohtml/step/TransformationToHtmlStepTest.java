@@ -33,6 +33,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public final class TransformationToHtmlStepTest
 {
+    private static final String TEMP_DIVXML_XML = "temp.DIVXML.xml";
     private static final String MATERIAL_NUMBER = "11111111";
 
     @InjectMocks
@@ -59,14 +60,14 @@ public final class TransformationToHtmlStepTest
         final File root = temporaryFolder.getRoot();
 
         final File originalPagesDir = mkdir(root, "OriginalPages", MATERIAL_NUMBER);
-        final File originalFile = mkfile(originalPagesDir, "temp");
+        final File originalFile = mkfile(originalPagesDir, TEMP_DIVXML_XML);
 
         given(fileSystem.getOriginalPageFiles(step)).willReturn(Collections.singletonMap(MATERIAL_NUMBER, (Collection<File>) Arrays.asList(originalFile)));
 
         final File toHtmlDirectory = mkdir(root, "toHtmlDirectory", MATERIAL_NUMBER);
         toHtmlFile = new File(toHtmlDirectory, "temp");
         given(fileSystem.getHtmlPagesDirectory(step, MATERIAL_NUMBER)).willReturn(toHtmlDirectory);
-        given(fileSystem.getHtmlPageFile(step, MATERIAL_NUMBER, "temp")).willReturn(toHtmlFile);
+        given(fileSystem.getHtmlPageFile(step, MATERIAL_NUMBER, TEMP_DIVXML_XML)).willReturn(toHtmlFile);
 
         //TODO: remove when nobundles directory structure is no longer in use
         given(fileSystem.getHtmlPagesDirectory(step)).willReturn(toHtmlDirectory.getParentFile());

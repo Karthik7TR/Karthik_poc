@@ -17,7 +17,7 @@ public class DocumentName
     private static final String DOCUMENT_FAMILY_UUID_GROUP = "familyGuid";
 
     private static final Pattern PARTS_DOCUMENT_NAMING_PATTERN = Pattern.compile(String.format(
-        "((?<%s>.*\\.DIVXML)_(?<%s>\\d+)(_(?<%s>%s|%s)){0,1}_(?<%s>[a-zA-Z0-9]{1,})\\.[a-z]*)",
+        "((?<%s>.*\\.DIVXML)_(?<%s>\\d+)(_(?<%s>%s|%s)){0,1}_(?<%s>[a-zA-Z0-9.]{1,})\\.[a-z]*)",
             BASE_NAME_GROUP,
             DOCUMENT_ORDER_GROUP,
             TYPE_GROUP,

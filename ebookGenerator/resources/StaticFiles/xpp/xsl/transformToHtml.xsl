@@ -5,6 +5,7 @@
 	<xsl:import href="transform-utils.xsl" />
     <xsl:output method="html" indent="yes" omit-xml-declaration="yes"/>
 	<xsl:param name="fileBaseName" />
+	<xsl:param name="pagePrefix" />
 
 	<xsl:template match="x:parts">
 		<html>
@@ -29,7 +30,7 @@
 
 	<xsl:template match="x:pagebreak">
 		<xsl:variable name="apostrophe">'</xsl:variable>
-		<xsl:processing-instruction name="pb" select="concat('label', '=', $apostrophe, ./@num, $apostrophe, '?')" />
+		<xsl:processing-instruction name="pb" select="concat('label', '=', $apostrophe, $pagePrefix, ./@num, $apostrophe, '?')" />
 	</xsl:template>
 
 	<xsl:template match="x:XPPHier">
