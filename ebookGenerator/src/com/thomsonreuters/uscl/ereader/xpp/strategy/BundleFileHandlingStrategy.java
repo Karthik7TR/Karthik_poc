@@ -3,8 +3,8 @@ package com.thomsonreuters.uscl.ereader.xpp.strategy;
 import java.io.File;
 import java.util.Set;
 
-import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppBookStep;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -21,5 +21,5 @@ public interface BundleFileHandlingStrategy
     /**
      * Performing handling
      */
-    void performHandling(@NotNull File inputFile, @NotNull String materialNumber, @NotNull BookStep bookStep);
+    void performHandling(@NotNull File inputFile, @NotNull String materialNumber, @NotNull XppBookStep bookStep);
 }
