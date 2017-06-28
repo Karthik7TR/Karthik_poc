@@ -22,13 +22,13 @@
 		</step>
 	</job>
 	
-	<beans:bean id="requestParentTask" abstract="true" class="com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet"
+	<beans:bean id="requestParentTask" scope="step" abstract="true" class="com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet"
 				p:coreService-ref="coreService"
 				p:outageProcessor-ref="outageProcessor"
 				p:notificationService-ref="requestNotificationService"/>
-	<beans:bean id="processMessageTask" class="com.thomsonreuters.uscl.ereader.request.step.ProcessMessageTask" parent="requestParentTask"
+	<beans:bean id="processMessageTask" scope="step" class="com.thomsonreuters.uscl.ereader.request.step.ProcessMessageTask" parent="requestParentTask"
 		  		p:xppMessageValidator-ref="xppMessageValidator"/>
-	<beans:bean id="retrieveBundleTask" class="com.thomsonreuters.uscl.ereader.request.step.RetrieveBundleTask" parent="requestParentTask" 
+	<beans:bean id="retrieveBundleTask" scope="step" class="com.thomsonreuters.uscl.ereader.request.step.RetrieveBundleTask" parent="requestParentTask" 
 				p:xppMessageValidator-ref="xppMessageValidator"
 				p:xppBundleArchiveDao-ref="xppBundleArchiveDao"/>
 		  		
@@ -235,12 +235,12 @@
 	</job>
 	
 	<!-- Define each task here -->
-	<beans:bean id="generatorParentTask" abstract="true" class="com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet"
+	<beans:bean id="generatorParentTask" scope="step" abstract="true" class="com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet"
 			    p:coreService-ref="coreService"
 				p:outageProcessor-ref="outageProcessor"
 				p:notificationService-ref="generatorNotificationService"/>
-	<beans:bean id="stubTask" class="com.thomsonreuters.uscl.ereader.stub.StubTasklet" parent="generatorParentTask"/>
-	<beans:bean id="initializeTask" class="com.thomsonreuters.uscl.ereader.InitializeTask" parent="generatorParentTask"
+	<beans:bean id="stubTask" scope="step" class="com.thomsonreuters.uscl.ereader.stub.StubTasklet" parent="generatorParentTask"/>
+	<beans:bean id="initializeTask" scope="step" class="com.thomsonreuters.uscl.ereader.InitializeTask" parent="generatorParentTask"
 				p:environmentName-ref="environmentName"
 				p:rootWorkDirectory="${root.work.directory}"
 				p:rootCodesWorkbenchLandingStrip="${codes.workbench.root.dir}"
@@ -249,43 +249,43 @@
 				p:bookDefnService-ref="bookDefinitionService"
 				p:staticContentDirectory="${static.content.dir}"/>
 	<beans:bean id="NovusOrFileDecider" class="com.thomsonreuters.uscl.ereader.decider.NovusOrFileDecider"/>
-	<beans:bean id="getTocTask" class="com.thomsonreuters.uscl.ereader.gather.step.GetTocTask" parent="generatorParentTask"
+	<beans:bean id="getTocTask" scope="step" class="com.thomsonreuters.uscl.ereader.gather.step.GetTocTask" parent="generatorParentTask"
 				p:gatherService-ref="gatherService"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:bookDefinitionService-ref="bookDefinitionService"/>				
-	<beans:bean id="getDocAndMetadataTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherDocAndMetadataTask" parent="generatorParentTask"
+	<beans:bean id="getDocAndMetadataTask" scope="step" class="com.thomsonreuters.uscl.ereader.gather.step.GatherDocAndMetadataTask" parent="generatorParentTask"
 				p:gatherService-ref="gatherService"
 				p:docMetadataGuidParserService-ref="docMetadataGuidParserService"
 				p:publishingStatsService-ref="publishingStatsService"/>
-	<beans:bean id="generateTocTask" class="com.thomsonreuters.uscl.ereader.gather.step.GenerateTocTask" parent="generatorParentTask"
+	<beans:bean id="generateTocTask" scope="step" class="com.thomsonreuters.uscl.ereader.gather.step.GenerateTocTask" parent="generatorParentTask"
 				p:novusNortFileService-ref="novusNortFileService"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:bookDefinitionService-ref="bookDefinitionService"/>				
-	<beans:bean id="generateDocAndMetadataTask" class="com.thomsonreuters.uscl.ereader.gather.step.GenerateDocAndMetadataTask" parent="generatorParentTask"
+	<beans:bean id="generateDocAndMetadataTask" scope="step" class="com.thomsonreuters.uscl.ereader.gather.step.GenerateDocAndMetadataTask" parent="generatorParentTask"
 				p:novusDocFileService-ref="novusDocFileService"
 				p:docMetadataGuidParserService-ref="docMetadataGuidParserService"
 				p:publishingStatsService-ref="publishingStatsService"/>
-	<beans:bean id="persistDocMetadataTask" class="com.thomsonreuters.uscl.ereader.gather.step.PersistMetadataXMLTask" parent="generatorParentTask"
+	<beans:bean id="persistDocMetadataTask" scope="step" class="com.thomsonreuters.uscl.ereader.gather.step.PersistMetadataXMLTask" parent="generatorParentTask"
 				p:docMetadataService-ref="docMetadataService"		
 				p:publishingStatsService-ref="publishingStatsService"/>							
 	<beans:bean id="getDynamicImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherDynamicImagesTask" 
                 scope="step" parent="bookStep"/>
-	<beans:bean id="getStaticImagesTask" class="com.thomsonreuters.uscl.ereader.gather.step.GatherStaticImagesTask" parent="generatorParentTask"
+	<beans:bean id="getStaticImagesTask" scope="step" class="com.thomsonreuters.uscl.ereader.gather.step.GatherStaticImagesTask" parent="generatorParentTask"
 	            p:publishingStatsService-ref="publishingStatsService"
 				p:imageService-ref="imageService"/>
-	<beans:bean id="parseImageGuidsTask" class="com.thomsonreuters.uscl.ereader.format.step.ParseImageGUIDList" parent="generatorParentTask"
+	<beans:bean id="parseImageGuidsTask" scope="step" class="com.thomsonreuters.uscl.ereader.format.step.ParseImageGUIDList" parent="generatorParentTask"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:xmlImageParserService-ref="xmlImageParserService"/>
-	<beans:bean id="generateFrontMatterTask" class="com.thomsonreuters.uscl.ereader.format.step.GenerateFrontMatterHTMLPages" parent="generatorParentTask"
+	<beans:bean id="generateFrontMatterTask" scope="step" class="com.thomsonreuters.uscl.ereader.format.step.GenerateFrontMatterHTMLPages" parent="generatorParentTask"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:frontMatterService-ref="createFrontMatterService"/>
-	<beans:bean id="generateImageMetadataTask" class="com.thomsonreuters.uscl.ereader.format.step.GenerateImageMetadataFiles" parent="generatorParentTask"
+	<beans:bean id="generateImageMetadataTask" scope="step" class="com.thomsonreuters.uscl.ereader.format.step.GenerateImageMetadataFiles" parent="generatorParentTask"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:imgMetaBlockService-ref="generateImgMetaBlockService"/>
-	<beans:bean id="formatPreprocessXMLTask" class="com.thomsonreuters.uscl.ereader.format.step.PreprocessXML" parent="generatorParentTask"
+	<beans:bean id="formatPreprocessXMLTask" scope="step" class="com.thomsonreuters.uscl.ereader.format.step.PreprocessXML" parent="generatorParentTask"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:preprocessService-ref="preprocessService"/>
-	<beans:bean id="formatTransformXMLTask" class="com.thomsonreuters.uscl.ereader.format.step.TransformXML" parent="generatorParentTask"
+	<beans:bean id="formatTransformXMLTask" scope="step" class="com.thomsonreuters.uscl.ereader.format.step.TransformXML" parent="generatorParentTask"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:transformerService-ref="tranformerService"/>
 				
@@ -297,29 +297,29 @@
 				p:docMetadataService-ref="docMetadataService"
 				p:autoSplitGuidsService-ref="autoSplitGuidsService"/>  
 							
-	<beans:bean id="formatHTMLTransformerTask" class="com.thomsonreuters.uscl.ereader.format.step.HTMLPostTransform" parent="generatorParentTask"
+	<beans:bean id="formatHTMLTransformerTask" scope="step" class="com.thomsonreuters.uscl.ereader.format.step.HTMLPostTransform" parent="generatorParentTask"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:transformerService-ref="htmlTransformerService"/>
 				
-	<beans:bean id="formatHTMLCreateNamedAnchorsTask" class="com.thomsonreuters.uscl.ereader.format.step.HTMLCreateNamedAnchors" parent="generatorParentTask"
+	<beans:bean id="formatHTMLCreateNamedAnchorsTask" scope="step" class="com.thomsonreuters.uscl.ereader.format.step.HTMLCreateNamedAnchors" parent="generatorParentTask"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:transformerCreateAnchorService-ref="htmlCreateNamedAnchorsService"/>
-	<beans:bean id="formatHTMLRemoveBrokenInternalLinksTask" class="com.thomsonreuters.uscl.ereader.format.step.HTMLRemoveBrokenInternalLinks" parent="generatorParentTask"
+	<beans:bean id="formatHTMLRemoveBrokenInternalLinksTask" scope="step" class="com.thomsonreuters.uscl.ereader.format.step.HTMLRemoveBrokenInternalLinks" parent="generatorParentTask"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:transformerUnlinkService-ref="htmlRemoveBrokenInternalLinksService"/>
 				
-	<beans:bean id="formatAddHTMLWrapperTask" class="com.thomsonreuters.uscl.ereader.format.step.AddHTMLWrapper" parent="generatorParentTask"
+	<beans:bean id="formatAddHTMLWrapperTask" scope="step" class="com.thomsonreuters.uscl.ereader.format.step.AddHTMLWrapper" parent="generatorParentTask"
 				p:htmlWrapperService-ref="htmlWrapperService"
 				p:publishingStatsService-ref="publishingStatsService"/>
-	<beans:bean id="moveResourcesToAssemblyDirectoryTask" class="com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesToAssemblyDirectory" parent="generatorParentTask"
+	<beans:bean id="moveResourcesToAssemblyDirectoryTask" scope="step" class="com.thomsonreuters.uscl.ereader.assemble.step.MoveResourcesToAssemblyDirectory" parent="generatorParentTask"
 	            p:publishingStatsService-ref="publishingStatsService"
 	            p:moveResourcesUtil-ref="moveResourcesUtil"/>
-	<beans:bean id="createDirectoriesAndMoveResourcesTask" class="com.thomsonreuters.uscl.ereader.assemble.step.CreateDirectoriesAndMoveResources" parent="generatorParentTask"
+	<beans:bean id="createDirectoriesAndMoveResourcesTask" scope="step" class="com.thomsonreuters.uscl.ereader.assemble.step.CreateDirectoriesAndMoveResources" parent="generatorParentTask"
 	            p:publishingStatsService-ref="publishingStatsService"
 	            p:titleMetadataService-ref="titleMetadataService"
 	            p:moveResourcesUtil-ref="moveResourcesUtil"
 	            p:bookDefinitionService-ref="bookDefinitionService"/>
-	<beans:bean id="generateTitleManifestTask" class="com.thomsonreuters.uscl.ereader.format.step.GenerateTitleMetadata" parent="generatorParentTask"
+	<beans:bean id="generateTitleManifestTask" scope="step" class="com.thomsonreuters.uscl.ereader.format.step.GenerateTitleMetadata" parent="generatorParentTask"
 				p:publishingStatsService-ref="publishingStatsService"
 				p:titleMetadataService-ref="titleMetadataService"/>	
 	<beans:bean id="assembleEBookTask" scope="step" parent="assembleStep"
@@ -344,7 +344,7 @@
 	<beans:bean id="splitBookGeneratorNotificationEmailBuilder" 
 		class="com.thomsonreuters.uscl.ereader.notification.service.SplitBookEmailBuilder"  
 		scope="step" parent="abstractGeneratorNotificationEmailBuilder" />
-	<beans:bean id="sendNotificationEmailBuilderFactory"
+	<beans:bean id="sendNotificationEmailBuilderFactory" scope="step"
 		class="com.thomsonreuters.uscl.ereader.notification.service.SendNotificationEmailBuilderFactory" />
 
 </beans:beans>
