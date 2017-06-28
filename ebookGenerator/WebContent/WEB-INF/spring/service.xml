@@ -43,9 +43,7 @@
 	<bean id="xppMessageValidator" class="com.thomsonreuters.uscl.ereader.request.service.XppMessageValidator" />
 	
 	<bean id="xppBundleValidator" class="com.thomsonreuters.uscl.ereader.request.service.XppBundleValidator" />
-	
-	<bean id="gzipService" class="com.thomsonreuters.uscl.ereader.request.service.GZIPService" />
-	
+		
 	<bean class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.GeneratorAppConfigLoader"
 		  p:appConfigService-ref="appConfigService"
 		  p:miscConfigSyncService-ref="miscConfigSyncService"

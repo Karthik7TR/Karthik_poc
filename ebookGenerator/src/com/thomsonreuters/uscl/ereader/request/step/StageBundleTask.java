@@ -4,13 +4,13 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.common.service.compress.GZIPService;
 import com.thomsonreuters.uscl.ereader.jaxb.JAXBParser;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.request.XPPConstants;
 import com.thomsonreuters.uscl.ereader.request.XppMessageException;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
-import com.thomsonreuters.uscl.ereader.request.service.GZIPService;
 import com.thomsonreuters.uscl.ereader.request.service.XppBundleValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
@@ -43,7 +43,7 @@ public class StageBundleTask extends AbstractSbTasklet
         final File destDir = new File(destPath);
 
         // unpack bundle
-        gzipService.untarzip(tarball, destDir);
+        gzipService.decompress(tarball, destDir);
         bundleValidator.validateBundleDirectory(destDir);
         final XppBundle bundle = retrieveBundleXml(destDir);
         bundleValidator.validateBundleXml(bundle);

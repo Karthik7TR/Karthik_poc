@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import com.thomsonreuters.uscl.ereader.request.XppMessageException;
+import com.thomsonreuters.uscl.ereader.common.service.compress.GZIPService;
 import com.thomsonreuters.uscl.ereader.request.XPPConstants;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -42,7 +42,7 @@ public final class GZIPServiceTest
     {
         try
         {
-            service.untarzip(tarball, destDir);
+            service.decompress(tarball, destDir);
         }
         catch (final Exception e)
         {
@@ -72,9 +72,9 @@ public final class GZIPServiceTest
         String msg = null;
         try
         {
-            service.untarzip(tarball, destDir);
+            service.decompress(tarball, destDir);
         }
-        catch (final XppMessageException e)
+        catch (final Exception e)
         {
             msg = e.getMessage();
         }

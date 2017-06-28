@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.common.filesystem;
+package com.thomsonreuters.uscl.ereader.common.service.compress;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -8,26 +8,20 @@ import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  *Utility class to manage functionality to do common operatopns with zip archives
  */
-@Component("zipService")
-public class ZipServiceImpl implements ZipService
+@Service("zipService")
+public class ZipServiceImpl implements CompressService
 {
     private static final int BUFFER_SIZE = 4096;
 
-    /**
-     * Unpacks file from
-     * @param zipFilePath to
-     * @param destDirectory
-     * @return directory File with unpacked archive
-     */
-    @NotNull
     @Override
-    public File unzip(@NotNull final File zipFilePath, @NotNull final File destDirectory)
+    public void decompress(final File zipFilePath, final File destDirectory, final String pathToSkip) throws Exception
     {
         if (!destDirectory.exists())
         {
@@ -40,7 +34,7 @@ public class ZipServiceImpl implements ZipService
             File file = null;
             while (entry != null)
             {
-                file = new File(destDirectory, entry.getName());
+                file = new File(destDirectory, entry.getName().replaceFirst(pathToSkip, StringUtils.EMPTY));
                 if (!entry.isDirectory())
                 {
                     // if the entry is a file, extracts it
@@ -53,12 +47,20 @@ public class ZipServiceImpl implements ZipService
                 }
                 entry = zipIn.getNextEntry();
             }
-            return file;
         }
-        catch (final IOException e)
-        {
-            throw new RuntimeException(e.getMessage(), e);
-        }
+    }
+
+    /**
+     * Unpacks file from
+     * @param zipFilePath to
+     * @param destDirectory
+     * @return directory File with unpacked archive
+     * @throws Exception
+     */
+    @Override
+    public void decompress(@NotNull final File zipFilePath, @NotNull final File destDirectory) throws Exception
+    {
+        decompress(zipFilePath, destDirectory, StringUtils.EMPTY);
     }
 
     private void extractFile(final ZipInputStream zipIn, final File file) throws IOException
@@ -72,5 +74,11 @@ public class ZipServiceImpl implements ZipService
                 bos.write(bytesIn, 0, read);
             }
         }
+    }
+
+    @Override
+    public void compress(final File srcDir, final File dest) throws Exception
+    {
+        throw new UnsupportedOperationException("Compression operation not supported for zip archives");
     }
 }

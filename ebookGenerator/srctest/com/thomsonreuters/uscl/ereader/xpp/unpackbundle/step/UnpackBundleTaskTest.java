@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
-import com.thomsonreuters.uscl.ereader.common.filesystem.ZipService;
+import com.thomsonreuters.uscl.ereader.common.service.compress.CompressService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
@@ -44,7 +44,9 @@ public final class UnpackBundleTaskTest
     @Mock
     private XppGatherFileSystem xppGatherFileSystem;
     @Mock
-    private ZipService zipService;
+    private CompressService zipService;
+    @Mock
+    private CompressService gzipService;
     @Mock
     private XppBundleArchiveService xppBundleArchiveService;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -72,7 +74,7 @@ public final class UnpackBundleTaskTest
         given(executionContext.get(JobParameterKey.EBOOK_DEFINITON)).willReturn(book);
         given(book.getPrintComponents()).willReturn(printComponents());
         given(xppBundleArchiveService.findByMaterialNumber(MATERIAL_NUMBER)).willReturn(xppBundleArchive);
-        given(xppBundleArchive.getEBookSrcFile()).willReturn(archiveFile);
+
         given(xppGatherFileSystem.getXppBundleMaterialNumberDirectory(step, MATERIAL_NUMBER))
             .willReturn(destinationDirectoryFile);
         given(xppGatherFileSystem.getXppBundlesDirectory(step)).willReturn(bundleDir);
@@ -80,19 +82,35 @@ public final class UnpackBundleTaskTest
     }
 
     @Test
-    public void shouldUnpackBundles() throws Exception
+    public void shouldUnpackZipBundles() throws Exception
     {
         //given
+        given(archiveFile.getName()).willReturn("archive.zip");
+        given(xppBundleArchive.getEBookSrcFile()).willReturn(archiveFile);
         //when
         step.executeStep();
         //then
-        then(zipService).should().unzip(archiveFile, destinationDirectoryFile);
+        then(zipService).should().decompress(archiveFile, destinationDirectoryFile);
+    }
+
+    @Test
+    public void shouldUnpackTarGzBundles() throws Exception
+    {
+        //given
+        given(archiveFile.getName()).willReturn("archive.tar.gz");
+        given(xppBundleArchive.getEBookSrcFile()).willReturn(archiveFile);
+        //when
+        step.executeStep();
+        //then
+        then(gzipService).should().decompress(archiveFile, destinationDirectoryFile, "archive/");
     }
 
     @Test
     public void shouldUnmarshalBundleXmlFiles() throws Exception
     {
         //given
+        given(archiveFile.getName()).willReturn("archive.zip");
+        given(xppBundleArchive.getEBookSrcFile()).willReturn(archiveFile);
         given(xppGatherFileSystem.getAllBundleXmls(step)).willReturn(Arrays.asList(bundleXmlFile));
         //when
         step.executeStep();

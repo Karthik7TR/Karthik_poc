@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.request.service;
+package com.thomsonreuters.uscl.ereader.common.service.compress;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import com.thomsonreuters.uscl.ereader.request.XppMessageException;
 import com.thomsonreuters.uscl.ereader.request.XPPConstants;
+import com.thomsonreuters.uscl.ereader.request.XppMessageException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
@@ -19,13 +19,17 @@ import org.apache.log4j.Logger;
 import org.apache.tools.tar.TarEntry;
 import org.apache.tools.tar.TarInputStream;
 import org.apache.tools.tar.TarOutputStream;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Service;
 
-public class GZIPService
+@Service("gzipService")
+public class GZIPService implements CompressService
 {
     private static final int BUFF_SIZE = 2048;
     private static final Logger LOG = LogManager.getLogger(GZIPService.class);
 
-    public void untarzip(final File tarball, final File destDir) throws XppMessageException
+    @Override
+    public void decompress(final File tarball, final File destDir, final String pathToSkip) throws Exception
     {
         try (TarInputStream tarIn =
             new TarInputStream(new GZIPInputStream(new BufferedInputStream(new FileInputStream(tarball)))))
@@ -35,7 +39,7 @@ public class GZIPService
             while ((entry = tarIn.getNextEntry()) != null)
             {
                 LOG.debug("Extracting: " + entry.getName());
-                final File tarEntryFile = new File(destDir, entry.getName());
+                final File tarEntryFile = new File(destDir, entry.getName().replaceFirst(pathToSkip, StringUtils.EMPTY));
                 if (entry.isDirectory())
                 {
                     // create directory
@@ -74,7 +78,14 @@ public class GZIPService
         }
     }
 
-    public void tarzip(final File srcDir, final File dest) throws IOException
+    @Override
+    public void decompress(@NotNull final File tarball, @NotNull final File destDir) throws Exception
+    {
+        decompress(tarball, destDir, StringUtils.EMPTY);
+    }
+
+    @Override
+    public void compress(@NotNull final File srcDir, @NotNull final File dest) throws IOException
     {
         try (TarOutputStream tarout =
             new TarOutputStream(new GZIPOutputStream(new BufferedOutputStream(new FileOutputStream(dest), BUFF_SIZE))))

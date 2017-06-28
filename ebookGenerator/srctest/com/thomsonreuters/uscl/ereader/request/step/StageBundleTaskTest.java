@@ -7,12 +7,12 @@ import java.io.OutputStream;
 import java.util.Date;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.common.service.compress.GZIPService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.NotificationService;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
-import com.thomsonreuters.uscl.ereader.request.service.GZIPService;
 import com.thomsonreuters.uscl.ereader.request.service.XppBundleValidator;
 import org.apache.commons.io.FileUtils;
 import org.easymock.EasyMock;
@@ -95,7 +95,7 @@ public final class StageBundleTaskTest
         EasyMock.expect(mockExecutionContext.get(JobParameterKey.KEY_XPP_BUNDLE)).andReturn(request);
         mockGetJobParameters(mockChunkContext, mockJobParameters);
         EasyMock.expect(mockJobParameters.getString(JobParameterKey.ENVIRONMENT_NAME)).andReturn("AutomatedTest");
-        mockGZIP.untarzip(tarball, targetDir);
+        mockGZIP.decompress(tarball, targetDir);
         EasyMock.expectLastCall();
         mockBundleValidator.validateBundleDirectory(targetDir);
         EasyMock.expectLastCall();

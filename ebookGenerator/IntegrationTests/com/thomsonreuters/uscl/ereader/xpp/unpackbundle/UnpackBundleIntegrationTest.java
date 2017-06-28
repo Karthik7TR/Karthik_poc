@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +19,8 @@ import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 import com.thomsonreuters.uscl.ereader.request.service.XppBundleArchiveService;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppGatherFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.unpackbundle.step.UnpackBundleTask;
+import org.apache.commons.io.FileUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,11 +60,11 @@ public final class UnpackBundleIntegrationTest
     public void setUp() throws URISyntaxException
     {
         org.mockito.MockitoAnnotations.initMocks(this);
-        targetArchive =
-            new File(UnpackBundleIntegrationTest.class.getResource("AJ2D_41963403_2017-04-17_04.07.22.610.-0400.zip").toURI());
         expectedUnpackedArchive = new File(UnpackBundleIntegrationTest.class.getResource("standard").toURI());
         outputDirectory = fileSystem.getXppBundleMaterialNumberDirectory(step, MATERIAL_NUMBER);
 
+        given(book.getPrintComponents()).willReturn(printComponents());
+        given(xppBundleArchiveService.findByMaterialNumber(MATERIAL_NUMBER)).willReturn(xppBundleArchive);
         given(
             chunkContext.getStepContext()
                 .getStepExecution()
@@ -71,16 +74,35 @@ public final class UnpackBundleIntegrationTest
     }
 
     @Test
-    public void shouldUnpackBundle() throws Exception
+    public void shouldUnpackZipBundle() throws Exception
     {
         //given
-        given(book.getPrintComponents()).willReturn(printComponents());
-        given(xppBundleArchiveService.findByMaterialNumber(MATERIAL_NUMBER)).willReturn(xppBundleArchive);
+        targetArchive =
+            new File(UnpackBundleIntegrationTest.class.getResource("AJ2D_41963403_2017-04-17_04.07.22.610.-0400.zip").toURI());
         given(xppBundleArchive.getEBookSrcFile()).willReturn(targetArchive);
         //when
         step.executeStep();
         //then
         assertThat(expectedUnpackedArchive, hasSameFileHierarchy(outputDirectory));
+    }
+
+    @Test
+    public void shouldUnpackTarGzBundle() throws Exception
+    {
+        //given
+        targetArchive =
+            new File(UnpackBundleIntegrationTest.class.getResource("AJ2D_41963403_2017-04-17_04.07.22.610.-0400.tar.gz").toURI());
+        given(xppBundleArchive.getEBookSrcFile()).willReturn(targetArchive);
+        //when
+        step.executeStep();
+        //then
+        assertThat(expectedUnpackedArchive, hasSameFileHierarchy(outputDirectory));
+    }
+
+    @After
+    public void onTestComplete() throws IOException
+    {
+        FileUtils.cleanDirectory(outputDirectory);
     }
 
     private Set<PrintComponent> printComponents()
