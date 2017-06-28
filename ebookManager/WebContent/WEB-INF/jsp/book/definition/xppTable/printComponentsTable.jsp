@@ -182,8 +182,6 @@
                     name: "componentOrder",
                     title: "Order",
                     width: 40,
-                    sorter: "numberAsString",
-                    //validate: "required",
                     editing: false
                 }, {
                     name: "materialNumber",
@@ -197,7 +195,7 @@
                                validator: function(value, item) {
                                   return !isNaN(value) ;
                                }
-                              },                              
+                              },
                               {
                                   message: "Material number has already been added",
                                   validator: function(value, item) {
@@ -209,7 +207,7 @@
                                       }
                                 	  return true;
                                  }
-                              }                              
+                              }
                           ],
                     insertTemplate: function() {
                         var $result = jsGrid.fields.text.prototype.insertTemplate.call(this);
@@ -218,9 +216,9 @@
                     }
                 }, {
                     name: "componentName",
-                    title: "Component Name",
+                    title: "SAP Description",
                     type: "text",
-                    width: 80,
+                    width: 120,
                     validate: "required",
                     insertTemplate: function() {
                         var $result = jsGrid.fields.text.prototype.insertTemplate.call(this);
