@@ -5,7 +5,6 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.never;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -103,8 +102,7 @@ public final class UnpackBundleTaskTest
         //when
         step.executeStep();
         //then
-        //TODO remove never()
-        then(gzipService).should(never()).decompress(archiveFile, destinationDirectoryFile, "archive/");
+        then(gzipService).should().decompress(archiveFile, destinationDirectoryFile, "archive/");
     }
 
     @Test
