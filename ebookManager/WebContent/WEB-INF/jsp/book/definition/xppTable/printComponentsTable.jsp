@@ -101,7 +101,7 @@
                 fields: [{
                     // <!--Custom field wich does not need no hold data.
                     // We use no type to implement custom element without transfer data-->
-                    width: 60,
+                    width: 80,
                     inserting: false,
                     itemTemplate: function(_, item, items) {
                         var customDiv = $("<div>");
@@ -195,18 +195,6 @@
                                validator: function(value, item) {
                                   return !isNaN(value) ;
                                }
-                              },
-                              {
-                                  message: "Material number has already been added",
-                                  validator: function(value, item) {
-                                	  var gridData = $("#jsGrid").jsGrid("option", "data");
-                                	  for (i = 0; i < gridData.length; i++) {
-                                          if(value == gridData[i].materialNumber){
-                                        	  return false;
-                                          }
-                                      }
-                                	  return true;
-                                 }
                               }
                           ],
                     insertTemplate: function() {
@@ -279,21 +267,42 @@
                         args.cancel = true;
                         alert("Specify the materialNumber and componentName of the item!");
                     } else {
-                        item = args.item;
-                        var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
-                        items = $.map($gridData.find("tr"), function(row) {
-                            return $(row).data("JSGridItem");
-                        });
-                        var tempPrintComponent = {
-                            componentOrder: Number(item.componentOrder),
-                            materialNumber: item.materialNumber,
-                            componentName: item.componentName
-                        };
-                        item = tempPrintComponent;
-                        args.item = tempPrintComponent;
-                        items[items.length - 1] = tempPrintComponent;
+                    	var gridData = $("#jsGrid").jsGrid("option", "data");
+	                  	for (i = 0; i < gridData.length; i++) {
+	                            if(args.item.materialNumber == gridData[i].materialNumber){
+	                            	args.cancel = true;
+	                            	alert(args.item.materialNumber+" Material Number is duplicate.");
+	                            }
+	                    }                    	
+	                  	if(!args.cancel){
+	                        item = args.item;
+	                        var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
+	                        items = $.map($gridData.find("tr"), function(row) {
+	                            return $(row).data("JSGridItem");
+	                        });
+	                        var tempPrintComponent = {
+	                            componentOrder: Number(item.componentOrder),
+	                            materialNumber: item.materialNumber,
+	                            componentName: item.componentName
+	                        };
+	                        item = tempPrintComponent;
+	                        args.item = tempPrintComponent;
+	                        items[items.length - 1] = tempPrintComponent;
+	                   }
                     }
 
+                },
+                
+                onItemUpdating: function(args) {
+                	var arg = args;
+                	var gridData = $("#jsGrid").jsGrid("option", "data");
+                	  for (i = 0; i < gridData.length; i++) {
+                          if(args.item.materialNumber == gridData[i].materialNumber && !isNaN(args.item.componentOrder) 
+                        		  && args.item.componentOrder != gridData[i].componentOrder){
+                          	args.cancel = true;
+                          	alert("Material Number already exists "+args.item.materialNumber);
+                          }
+                      }
                 },
 
                 onItemInserted: function(insertedArgs) {
