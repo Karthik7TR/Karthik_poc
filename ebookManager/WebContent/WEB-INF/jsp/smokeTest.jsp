@@ -294,5 +294,34 @@
 	</display:column>
 </display:table>
 
+<h3>NEW Prod Server Ping Tests</h3>
+<display:table id="<%= WebConstants.KEY_VDO %>" name="prodNew" class="displayTagTable" cellpadding="2">
+	<display:column title="Server Name" property="name" />
+	<display:column title="Server Address" property="address" />
+	<display:column title="Server Status">
+		<c:set var="status" value="Failed" />
+		<c:if test="${vdo.running}">
+			<c:set var="status" value="Passed" />
+		</c:if>
+		<div class="${status}">${status}</div>
+	</display:column>
+</display:table>
+
+
+<h3>Page Retrieval Test on NEW Prod</h3>
+<display:table id="<%= WebConstants.KEY_VDO %>" name="prodNewApps" class="displayTagTable" cellpadding="2">
+	<display:column title="Application Name" property="name" />
+	<display:column title="Application Address">
+		<a target="_blank" href="${ vdo.address }">${ vdo.address }</a>
+	</display:column>
+	<display:column title="Server Status">
+		<c:set var="status" value="Failed" />
+		<c:if test="${vdo.running}">
+			<c:set var="status" value="Passed" />
+		</c:if>
+		<div class="${status}">${status}</div>
+	</display:column>
+</display:table>
+
 </body>
 </html>

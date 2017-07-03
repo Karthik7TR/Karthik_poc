@@ -32,6 +32,10 @@ public interface SmokeTestService
 
     List<SmokeTest> getProdApplicationStatuses();
 
+    List<SmokeTest> getProdNewServerStatuses();
+
+    List<SmokeTest> getProdNewApplicationStatuses();
+
     List<SmokeTest> getProdDatabaseServerStatuses();
 
     List<String> getRunningApplications();
