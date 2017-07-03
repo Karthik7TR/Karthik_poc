@@ -13,11 +13,14 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import javax.xml.transform.Transformer;
 
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.TransformationUtil;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.junit.Before;
@@ -29,6 +32,7 @@ import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.batch.core.scope.context.ChunkContext;
 
 @RunWith(MockitoJUnitRunner.class)
 public final class TransformationToHtmlStepTest
@@ -48,6 +52,8 @@ public final class TransformationToHtmlStepTest
     private TransformerBuilderFactory transformerBuilderFactory;
     @Mock
     private File transformToHtmlXsl;
+    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+    private ChunkContext chunkContext;
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -62,6 +68,14 @@ public final class TransformationToHtmlStepTest
         final File originalPagesDir = mkdir(root, "OriginalPages", MATERIAL_NUMBER);
         final File originalFile = mkfile(originalPagesDir, TEMP_DIVXML_XML);
 
+        given(chunkContext
+            .getStepContext()
+            .getStepExecution()
+            .getJobExecution()
+            .getExecutionContext()
+            .get(JobParameterKey.XPP_BUNDLES))
+        .willReturn(getXppBundles());
+
         given(fileSystem.getOriginalPageFiles(step)).willReturn(Collections.singletonMap(MATERIAL_NUMBER, (Collection<File>) Arrays.asList(originalFile)));
 
         final File toHtmlDirectory = mkdir(root, "toHtmlDirectory", MATERIAL_NUMBER);
@@ -71,6 +85,14 @@ public final class TransformationToHtmlStepTest
 
         //TODO: remove when nobundles directory structure is no longer in use
         given(fileSystem.getHtmlPagesDirectory(step)).willReturn(toHtmlDirectory.getParentFile());
+    }
+
+    private List<XppBundle> getXppBundles()
+    {
+        final XppBundle firstBundle = new XppBundle();
+        firstBundle.setMaterialNumber(MATERIAL_NUMBER);
+        firstBundle.setOrderedFileList(Arrays.asList("Useless_test_file.DIVXML.xml"));
+        return Arrays.asList(firstBundle);
     }
 
     @Test

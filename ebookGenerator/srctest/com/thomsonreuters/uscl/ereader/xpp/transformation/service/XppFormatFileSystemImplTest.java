@@ -70,6 +70,7 @@ public final class XppFormatFileSystemImplTest
         given(bookFileSystem.getWorkDirectory(step)).willReturn(new File(temporaryFolder.getRoot(), "workDirectory"));
     }
 
+    @Test
     public void shouldReturnStructureWithMetadataDirectory()
     {
         //given
@@ -79,6 +80,7 @@ public final class XppFormatFileSystemImplTest
         assertThat(directory, hasPath(SOURCE_DIR));
     }
 
+    @Test
     public void shouldReturnStructureWithMetadataBundleDirectory()
     {
         //given
@@ -88,6 +90,7 @@ public final class XppFormatFileSystemImplTest
         assertThat(directory, hasPath(SOURCE_DIR + "/" + MATERIAL_NUMBER));
     }
 
+    @Test
     public void shouldReturnStructureWithMetadataFiles() throws IOException
     {
         //given
@@ -101,6 +104,7 @@ public final class XppFormatFileSystemImplTest
         assertTrue(map.get(MATERIAL_NUMBER_2).contains(originalFile2));
     }
 
+    @Test
     public void shouldReturnStructureWithMetadataFile()
     {
         //given

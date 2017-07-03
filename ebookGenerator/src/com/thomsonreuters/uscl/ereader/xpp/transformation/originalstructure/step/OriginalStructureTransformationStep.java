@@ -10,6 +10,7 @@ import javax.xml.transform.Transformer;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
+import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppGatherFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,6 +56,7 @@ public class OriginalStructureTransformationStep extends XppTransformationStep
         {
             for (final File xppFile : xppDir.getValue())
             {
+                transformerToOriginal.setParameter("bundlePartType", BundleFileType.getByFileName(xppFile.getName()).name());
                 final File originalFile = fileSystem.getOriginalFile(this, xppDir.getKey(), xppFile.getName());
                 transformationService.transform(transformerToOriginal, xppFile, originalFile);
             }
@@ -70,6 +72,7 @@ public class OriginalStructureTransformationStep extends XppTransformationStep
         {
             for (final File xppFile : xppDir.getValue())
             {
+                transformerToFootnotes.setParameter("bundlePartType", BundleFileType.getByFileName(xppFile.getName()).name());
                 final File footnotesFile = fileSystem.getFootnotesFile(this, xppDir.getKey(), xppFile.getName());
                 transformationService.transform(transformerToFootnotes, xppFile, footnotesFile);
             }

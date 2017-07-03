@@ -2,6 +2,8 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.tohtml.step;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.transform.Transformer;
@@ -9,10 +11,13 @@ import javax.xml.transform.Transformer;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -29,17 +34,62 @@ public class TransformationToHtmlStep extends XppTransformationStep
     public void executeTransformation() throws Exception
     {
         final Transformer transformer = transformerBuilderFactory.create().withXsl(transformToHtmlXsl).build();
+        final PagePrefix pagePrefix = new PagePrefix(getXppBundles());
         for (final Map.Entry<String, Collection<File>> dir : fileSystem.getOriginalPageFiles(this).entrySet())
         {
+            pagePrefix.switchVolume(dir.getKey());
             FileUtils.forceMkdir(fileSystem.getHtmlPagesDirectory(this, dir.getKey()));
             for (final File part : dir.getValue())
             {
+                pagePrefix.switchFileType(part.getName());
                 transformer.setParameter("fileBaseName", FilenameUtils.removeExtension(part.getName()));
-                final String pagePrefix = BundleFileType.getByFileName(part.getName()).getPagePrefix();
-                transformer.setParameter("pagePrefix", pagePrefix);
+                transformer.setParameter("pagePrefix", pagePrefix.getPagePrefix());
                 transformationService
                     .transform(transformer, part, fileSystem.getHtmlPageFile(this, dir.getKey(), part.getName()));
             }
+        }
+    }
+
+    private static final class PagePrefix
+    {
+        private final Map<String, Integer> volumesNumberMap = new HashMap<>();
+        private Integer currentVolume;
+        private String currentPrefix;
+
+        private PagePrefix(@NotNull final List<XppBundle> bundles)
+        {
+            Integer volume = 1;
+            for (final XppBundle bundle : bundles)
+            {
+                volumesNumberMap.put(bundle.getMaterialNumber(), volume++);
+            }
+        }
+
+        private void switchFileType(@NotNull final String fileName)
+        {
+            currentPrefix = BundleFileType.getByFileName(fileName).getPagePrefix();
+        }
+
+        private void switchVolume(@NotNull final String materialNumber)
+        {
+            currentVolume = volumesNumberMap.get(materialNumber);
+        }
+
+        private String getPagePrefix()
+        {
+            final StringBuilder builder = new StringBuilder();
+            if (volumesNumberMap.size() > 1)
+            {
+                builder.append("Vol")
+                       .append(currentVolume)
+                       .append("-");
+            }
+            if (StringUtils.isNotBlank(currentPrefix))
+            {
+                builder.append(currentPrefix)
+                       .append("-");
+            }
+            return builder.toString();
         }
     }
 }
