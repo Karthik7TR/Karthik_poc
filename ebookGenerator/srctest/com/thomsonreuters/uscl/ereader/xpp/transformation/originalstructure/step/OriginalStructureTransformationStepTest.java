@@ -34,6 +34,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public final class OriginalStructureTransformationStepTest
 {
+    private static final String XPP_DIVXML_XML = "xpp.DIVXML.xml";
     private static final String MATERIAL_NUMBER = "11111111";
     private static final String DTD_FILE_PATH = "some/path";
 
@@ -71,13 +72,13 @@ public final class OriginalStructureTransformationStepTest
         xppDirectory = temporaryFolder.getRoot();
         final File bundleDir = mkdir(xppDirectory, MATERIAL_NUMBER);
         final File xppDir = mkdir(bundleDir, "/bundleName/XPP");
-        xppFile = mkfile(xppDir, "xpp.xml");
+        xppFile = mkfile(xppDir, XPP_DIVXML_XML);
 
         given(entitiesDtdFile.getAbsolutePath()).willReturn(DTD_FILE_PATH);
         given(xppGatherFileSystem.getXppSourceXmls(step)).willReturn(getSourceXmlsFromGatherDir());
         given(fileSystem.getOriginalDirectory(step, MATERIAL_NUMBER)).willReturn(bundleDir);
-        given(fileSystem.getOriginalFile(step, MATERIAL_NUMBER, "xpp.xml")).willReturn(originalFile);
-        given(fileSystem.getFootnotesFile(step, MATERIAL_NUMBER, "xpp.xml")).willReturn(footnotesFile);
+        given(fileSystem.getOriginalFile(step, MATERIAL_NUMBER, XPP_DIVXML_XML)).willReturn(originalFile);
+        given(fileSystem.getFootnotesFile(step, MATERIAL_NUMBER, XPP_DIVXML_XML)).willReturn(footnotesFile);
     }
 
     @Test

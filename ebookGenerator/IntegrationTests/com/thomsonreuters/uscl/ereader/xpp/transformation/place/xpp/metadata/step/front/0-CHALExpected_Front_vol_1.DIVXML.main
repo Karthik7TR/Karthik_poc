@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?><root xmlns="http://www.sdl.com/xpp"><sectionbreak/><sectionbreak sectionuuid="vol1.fm.title.page"/>
+	<pagebreak num="1"/>
+	<frontmatter>
+		<fm.pub.variable name="matnum"/>
+		<fm.pub.variable name="pubYear"/>
+		<fm.pub.variable name="pubMonth"/>
+		<fm.pub.variable name="pubDate1" month="5" year="2017" both="5/2017"/>
+		<XPPHier uuid="vol1.fm.title.page" name="Title page" parent_uuid="vol1.fm.title.page" md.doc_family_uuid="vol1.fm.title.page">Title page</XPPHier><fm.title.page>
+			<text.line align="l" emph="bold" font.size="28q" pre.leading="2p">
+				Children and
+				<endline/>
+				the Law:
+				<endline/>Rights
+				&amp; Obligations
+			</text.line>
+			<text.line align="l">
+				<textrule length="fill" weight="2q"/>
+			</text.line>
+			<text.line align="l" emph="bold" font.size="18q" pre.leading="1p">
+				<fm.date.variable format="yyyy" name="pubYear">2017
+				</fm.date.variable>
+				Edition
+			</text.line>
+			<text.line align="l" font.size="12q" pre.leading="2p">
+				Issued in
+				<fm.date.variable format="MMMM" name="pubMonth">May
+				</fm.date.variable>
+				<fm.date.variable format="yyyy" name="pubYear">2017
+				</fm.date.variable>
+			</text.line>
+			<text.line align="l" emph="bold" font.size="1p" pre.leading="8q">By Thomas A. Jacobs</text.line>
+			<text.line align="l" emph="ital" font.size="1p" pre.leading="2q">Commissioner/Judge Pro-Tem</text.line>
+			<text.line align="l" emph="ital" font.size="1p" pre.leading="2q">Maricopa County Superior Court</text.line>
+			<text.line align="l" font.size="16q" pre.leading="2.6p">
+				Volume
+				<fm.variable name="volno">1</fm.variable>
+			</text.line>
+		</fm.title.page>
+		<pagebreak num="2"/>
+		<sectionbreak sectionuuid="vol1.fm.copyright.page"/><XPPHier uuid="vol1.fm.copyright.page" name="Copyright Page" parent_uuid="vol1.fm.copyright.page" md.doc_family_uuid="vol1.fm.copyright.page">Copyright Page</XPPHier><fm.copyright.page>
+			<fm.current.copyright>
+				<text.line align="c" pre.leading="12p">
+					©
+					<fm.variable name="copyrightYear">2017</fm.variable>
+					Thomson Reuters
+				</text.line>
+			</fm.current.copyright>
+			<fm.disclaimer>
+				<cgt>This publication was created to provide you with accurate and
+				</cgt>
+				<cgt>authoritative information concerning the subject matter
+					covered;
+				</cgt>
+				<cgt>however, this publication was not necessarily prepared by
+					persons
+				</cgt>
+				<cgt>licensed to practice law in a particular jurisdiction. The
+					publisher is not
+				</cgt>
+				<cgt>engaged in rendering legal or other professional advice and
+					this
+				</cgt>
+				<cgt>publication is not a substitute for the advice of an attorney.
+					If you require
+				</cgt>
+				<cgt>legal or other expert advice, you should seek the services of a
+					competent
+				</cgt>
+				<cgt>attorney or other professional.</cgt>
+			</fm.disclaimer>
+			<fm.copyright.clearance>
+				<cgt>For authorization to photocopy, please contact the </cgt>
+				<cgt>Copyright Clearance </cgt>
+				<cgt>Center </cgt>
+				<cgt>at 222 Rosewood Drive, Danvers, MA 01923, USA (978) 750-8400;
+				</cgt>
+				<cgt>fax (978) 646-8600 or </cgt>
+				<cgt>West’s Copyright Services</cgt>
+				<cgt> at 610 Opperman </cgt>
+				<cgt>Drive, Eagan, MN 55123, fax (651) 687-7551. Please outline the
+					specific
+				</cgt>
+				<cgt>material involved, the number of copies you wish to distribute
+					and the
+				</cgt>
+				<cgt>purpose or format of the use.</cgt>
+			</fm.copyright.clearance>
+			<pagebreak num="3"/>
+		</fm.copyright.page><XPPHier uuid="vol1.FrontMatter" name="Front matter" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.fm.copyright.page">Front matter</XPPHier>
+		<sectionbreak sectionuuid="vol1.fm.online.research.guide"/><XPPHier uuid="vol1.fm.online.research.guide" name="Westlaw Online Research Guide" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.fm.online.research.guide">Westlaw Online Research Guide</XPPHier><fm.online.research.guide/>
+		<cgt>
+		</cgt>
+		<pagebreak num="4"/>
+		<sectionbreak sectionuuid="vol1.fm.proview"/><XPPHier uuid="vol1.fm.proview" name="ProView page" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.fm.proview">ProView page</XPPHier><fm.proview/>
+		<cgt>
+		</cgt>
+		<pagebreak num="5"/>
+		<sectionbreak sectionuuid="vol1.About.the.Author"/><XPPHier uuid="vol1.About.the.Author" name="About the Author" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.About.the.Author">About the Author</XPPHier><fm.about.the.author>
+			<metadata.block metadata.store="yes">
+				<metadata field="left.running.head">
+					<value/>
+				</metadata>
+				<metadata field="right.running.head">
+					<value/>
+				</metadata>
+			</metadata.block>
+			<head align="c" emph="bold" font.size="16q">
+				<name.block>
+					<name>About the Author</name>
+				</name.block>
+			</head>
+			<para pre.leading="12q" first.para="yes">
+				<para.text first.para.text="yes">
+					Thomas A. Jacobs attended Loyola University at Los Angeles and
+					Arizona State University College of Law. He served as an Assistant
+					Attorney General from 1972 to 1985, handling civil, criminal, and
+					child welfare matters. In 1985, he was appointed to the Maricopa
+					County Superior Court, and served in the Juvenile and Family Court
+					Departments for 23 years. Mr. Jacobs has published several books
+					and articles on extradition, habeas corpus, children’s rights, and
+					other juvenile law topics. His works include:
+					<ital>Arizona Community Property Law 3d </ital>
+					(2004) and
+					<ital>Arizona Juvenile Law and Practice,</ital>
+					both published by Thomson Reuters;
+					<ital>The Legal Directory of Children’s Rights </ital>
+					(1989), published by University Publications of America;
+					<ital> “Teen Cyberbulling Investigated: Where Do Your Rights End
+						and Consequences Begin?’’</ital>
+					(2010);
+					<ital>What are My Rights? Questions and Answers About Teens and the
+						Law </ital>
+					(1997), revised in 2011,
+					<ital>Teens on Trial—Young People Who Challenged the Law, and
+						Changed Your Life</ital>
+					(2000) 2006 and renamed
+					<ital>Teens Take It to Court—Young People Who Challenged the Law
+						and Changed Your Life, </ital>
+					<ital>They Broke the Law: You Be the Judge (True Cases of Teen
+						Crime) </ital>
+					(2003), and Every Vote Matters: The Power of Your Voice from School
+					Elections to the Supreme Court (2016), all published by Free Spirit
+					Publishing, Minneapolis, MN;
+					<ital>“Ten Supreme Court Cases Every Teen Should Know,’’ </ital>NY
+					Times/Scholastic Magazine Up Front (Sept. &amp; Oct. 2007), revised
+					in September 2011 as well as an educational board game,
+					<ital>Century—The Board Game, </ital>
+					published by Creative Teaching Associates (1999). Mr. Jacobs also
+					writes a teen-law website called www.askthejudge.info.
+				</para.text>
+			</para>
+			<para pre.leading="12q" first.para="no">
+				<para.text first.para.text="yes">A regular speaker and
+					instructor at community functions and educational programs, he has
+					also served as an adjunct professor at the Arizona State University
+					School of Social Work.</para.text>
+			</para>
+		</fm.about.the.author>
+	</frontmatter>
+</root>

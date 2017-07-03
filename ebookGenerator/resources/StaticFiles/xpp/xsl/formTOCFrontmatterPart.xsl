@@ -5,24 +5,34 @@
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
 
 	<xsl:param name="volumeName" select="volumeName" />
-
 	<xsl:variable name="front_matter_uuid" select="concat($volumeName,'.','FrontMatter')" />
-
-
 
 	<xsl:template match="node()|@*">
 		<xsl:copy>
 			<xsl:apply-templates select="node()|@*" />
 		</xsl:copy>
 	</xsl:template>
+	
+	<xsl:template match="x:root">
+		<root>
+			<sectionbreak/>
+			<xsl:element name="sectionbreak">
+				<xsl:attribute name="sectionuuid" select="concat($volumeName,'.fm.title.page')" />
+			</xsl:element>
+			<xsl:apply-templates />
+		</root>
+	</xsl:template>
 
 	<xsl:template match="x:fm.title.page">
 		<xsl:variable name="uuid" select="concat($volumeName,'.',name())" />
-		<xsl:call-template name="createMetadataAndHier">
-			<xsl:with-param name="uuid" select="$uuid" />
-			<xsl:with-param name="parent_uuid" select="$uuid" />
-			<xsl:with-param name="hierName" select="'Title page'" />
-		</xsl:call-template>
+
+		<xsl:element name="XPPHier">
+			<xsl:attribute name="uuid" select="$uuid" />
+			<xsl:attribute name="name" select="'Title page'" />
+			<xsl:attribute name="parent_uuid" select="$uuid" />
+			<xsl:attribute name="md.doc_family_uuid" select="$uuid" />
+			<xsl:value-of select="'Title page'" />
+		</xsl:element>
 
 		<xsl:copy>
 			<xsl:apply-templates select="node()|@*" />
@@ -46,7 +56,7 @@
 			<xsl:attribute name="name" select="'Front matter'" />
 			<xsl:attribute name="parent_uuid" select="$front_matter_uuid" />
 			<xsl:attribute name="md.doc_family_uuid" select="$uuid" />
-			<xsl:value-of select="'Front matter'"/>
+			<xsl:value-of select="'Front matter'" />
 		</xsl:element>
 	</xsl:template>
 
@@ -69,17 +79,14 @@
 	</xsl:template>
 
 	<xsl:template match="x:fm.about.the.author|x:fm.other.structure">
+		<xsl:variable name="other_label" select="x:head/x:name.block/x:name/text()" />
 		<xsl:variable name="other_uuid"
-			select="concat($volumeName,'.',./head/name.block/name)" />
+			select="concat($volumeName,'.',translate($other_label, ' ', '.'))" />
 
 		<xsl:call-template name="createMetadataAndHier">
 			<xsl:with-param name="uuid" select="$other_uuid" />
 			<xsl:with-param name="parent_uuid" select="$front_matter_uuid" />
-			<xsl:with-param name="hierName">
-				<xsl:call-template name="defineTagTitle">
-					<xsl:with-param name="tag_name" select="name()" />
-				</xsl:call-template>
-			</xsl:with-param>
+			<xsl:with-param name="hierName" select="$other_label" />
 		</xsl:call-template>
 
 		<xsl:copy>
@@ -100,7 +107,7 @@
 			<xsl:attribute name="name" select="$hierName" />
 			<xsl:attribute name="parent_uuid" select="$parent_uuid" />
 			<xsl:attribute name="md.doc_family_uuid" select="$uuid" />
-			<xsl:value-of select="$hierName"/>
+			<xsl:value-of select="$hierName" />
 		</xsl:element>
 	</xsl:template>
 
