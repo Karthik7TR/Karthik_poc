@@ -42,8 +42,10 @@ public final class ExtractTocStepIntegrationTest
 
     private File bundleMainContentOriginalFile;
     private File bundleMainContentOriginalAdditionalFile;
+    private File bundleMainContentOriginalXppHierWithoutChildXppMetadataFile;
     private File expectedMainContentTocFile;
     private File expectedMainContentAdditionalTocFile;
+    private File expectedMainContentXppHierWithoutChildXppMetadataFile;
     private File expectedTocFile;
 
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -74,10 +76,14 @@ public final class ExtractTocStepIntegrationTest
             ExtractTocStepIntegrationTest.class.getResource("mainContent1.DIVXML.main").toURI());
         bundleMainContentOriginalAdditionalFile = new File(
             ExtractTocStepIntegrationTest.class.getResource("mainContent2.DIVXML.main").toURI());
+        bundleMainContentOriginalXppHierWithoutChildXppMetadataFile = new File(
+            ExtractTocStepIntegrationTest.class.getResource("mainContent3.DIVXML.main").toURI());
         expectedMainContentTocFile = new File(
             ExtractTocStepIntegrationTest.class.getResource("expectedMainContent_1_TocFile.xml").toURI());
         expectedMainContentAdditionalTocFile = new File(
             ExtractTocStepIntegrationTest.class.getResource("expectedMainContent_2_TocFile.xml").toURI());
+        expectedMainContentXppHierWithoutChildXppMetadataFile = new File(
+            ExtractTocStepIntegrationTest.class.getResource("expectedMainContent_3_TocFile.xml").toURI());
         expectedTocFile = new File(
             ExtractTocStepIntegrationTest.class.getResource("expectedToc.xml").toURI());
     }
@@ -91,6 +97,7 @@ public final class ExtractTocStepIntegrationTest
         final File bundleVolTwoOriginalFilesDir = fileSystem.getStructureWithMetadataBundleDirectory(step, VOL_TWO_MATERIAL_NUMBER);
         FileUtils.forceMkdir(bundleVolTwoOriginalFilesDir);
         FileUtils.copyFileToDirectory(bundleMainContentOriginalAdditionalFile, bundleVolTwoOriginalFilesDir);
+        FileUtils.copyFileToDirectory(bundleMainContentOriginalXppHierWithoutChildXppMetadataFile, bundleVolTwoOriginalFilesDir);
     }
 
     private List<XppBundle> getBundlesList()
@@ -103,7 +110,11 @@ public final class ExtractTocStepIntegrationTest
         volumeTwoBundle.setMaterialNumber(VOL_TWO_MATERIAL_NUMBER);
         volumeTwoBundle.setOrderedFileList(Arrays.asList("mainContent2.DIVXML.xml"));
 
-        return Arrays.asList(volumeOneBundle, volumeTwoBundle);
+        final XppBundle volumeThreeBundle = new XppBundle();
+        volumeThreeBundle.setMaterialNumber(VOL_TWO_MATERIAL_NUMBER);
+        volumeThreeBundle.setOrderedFileList(Arrays.asList("mainContent3.DIVXML.xml"));
+
+        return Arrays.asList(volumeOneBundle, volumeTwoBundle, volumeThreeBundle);
     }
 
     @After
@@ -120,6 +131,8 @@ public final class ExtractTocStepIntegrationTest
             "mainContent1.DIVXML.xml", VOL_ONE_MATERIAL_NUMBER, step)));
         assertThat(expectedMainContentAdditionalTocFile, hasSameContentAs(fileSystem.getBundlePartTocFile(
             "mainContent2.DIVXML.xml", VOL_TWO_MATERIAL_NUMBER, step)));
+        assertThat(expectedMainContentXppHierWithoutChildXppMetadataFile, hasSameContentAs(fileSystem.getBundlePartTocFile(
+            "mainContent3.DIVXML.xml", VOL_TWO_MATERIAL_NUMBER, step)));
         assertThat(expectedTocFile, hasSameContentAs(fileSystem.getTocFile(step)));
     }
 }

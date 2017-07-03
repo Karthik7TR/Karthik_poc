@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><root xmlns="http://www.sdl.com/xpp"><sectionbreak/><sectionbreak sectionuuid="vol1.fm.title.page"/>
+<?xml version="1.0" encoding="UTF-8"?><root xmlns="http://www.sdl.com/xpp"><sectionbreak sectionuuid="vol1.fm.title.page"/>
 	<pagebreak num="1"/>
 	<frontmatter>
 		<fm.pub.variable name="matnum"/>

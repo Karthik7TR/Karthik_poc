@@ -10,6 +10,7 @@ import javax.xml.transform.Transformer;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.PartType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -42,7 +43,11 @@ public class SplitOriginalStep extends XppTransformationStep
             FileUtils.forceMkdir(fileSystem.getSectionbreaksUpDirectory(this, dir.getKey()));
             for (final File file : dir.getValue())
             {
-                transformationService.transform(transformer, file, fileSystem.getSectionbreaksUpFile(this, dir.getKey(), file.getName()));
+                //TODO: temporary exclude footnotes
+                if (!PartType.FOOTNOTE.getName().equals(FilenameUtils.getExtension(file.getName())))
+                {
+                    transformationService.transform(transformer, file, fileSystem.getSectionbreaksUpFile(this, dir.getKey(), file.getName()));
+                }
             }
         }
     }

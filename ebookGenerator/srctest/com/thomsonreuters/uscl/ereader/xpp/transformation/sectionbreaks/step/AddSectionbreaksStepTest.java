@@ -55,6 +55,8 @@ public class AddSectionbreaksStepTest
         inputFile = mock(File.class);
         outputFile = mock(File.class);
 
+        given(inputFile.getName()).willReturn("1-CHAL_7.DIVXML.main");
+
         given(fileSystem.getStructureWithMetadataFiles(step)).willReturn(Collections.singletonMap(MATERIAL_NUMBER, (Collection<File>) Arrays.asList(inputFile)));
         given(fileSystem.getSectionbreaksDirectory(step, MATERIAL_NUMBER)).willReturn(new File(temporaryFolder.getRoot(), "02_Sectionbreaks"));
         given(fileSystem.getSectionbreaksFile(any(AddSectionbreaksStep.class), any(String.class), any(String.class))).willReturn(outputFile);

@@ -1,4 +1,4 @@
-<root xmlns="http://www.sdl.com/xpp">
+<root xmlns="http://www.sdl.com/xpp"><sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2575"/>
     <pagebreak num="1"/>
     <publication online.royalty.id="FLLF" uuid="I7f66dd0028b811e69ed7fcedf0a72427">
         <XPPHier uuid="I7f66dd0028b811e69ed7fcedf0a72427" name="" parent_uuid="I7f66dd0028b811e69ed7fcedf0a72427"/>
@@ -18,7 +18,7 @@
                 </front>
                 <topic.body date.updated="0">
                     <chapter uuid="I333dd59028b911e69ed7fcedf0a72427" date.revised="0" date.updated="0">
-                        <sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2575"/><XPPHier uuid="I333dd59028b911e69ed7fcedf0a72427" name="" parent_uuid="I18b49f1028b911e69ed7fcedf0a72427"/>
+                        <XPPHier uuid="I333dd59028b911e69ed7fcedf0a72427" name="" parent_uuid="I18b49f1028b911e69ed7fcedf0a72427"/>
                         <metadata.block metadata.store="yes">
                             <metadata field="right.running.head">
                                 <value/>

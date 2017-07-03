@@ -3,7 +3,18 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.sdl.com/xpp"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
     <xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
+    
+    <xsl:variable name="firstDocFamilyUuid" select="(x:root//x:XPPMetaData)[1]/@md.doc_family_uuid"/>
 
+    <xsl:template match="x:root">
+        <root>
+            <xsl:call-template name="addSectionbreak" >
+                <xsl:with-param name="sectionuuid" select="$firstDocFamilyUuid" />
+            </xsl:call-template>
+            <xsl:apply-templates />
+        </root>
+    </xsl:template>
+    
     <xsl:template match="node()|@*">
         <xsl:copy>
             <xsl:apply-templates select="node()|@*" />
@@ -13,9 +24,13 @@
     <xsl:template match="x:XPPHier">
         <xsl:variable name="closestFollowingMetaElement" select="following::*[name() = 'XPPMetaData' or name() = 'XPPHier'][1]" />
         <xsl:if test="$closestFollowingMetaElement/name() = 'XPPMetaData' and ($closestFollowingMetaElement/@parent_uuid = @uuid or $closestFollowingMetaElement/@parent_uuid = @guid)" >
-            <xsl:call-template name="addSectionbreak" >
-                <xsl:with-param name="sectionuuid" select="$closestFollowingMetaElement/@md.doc_family_uuid" />
-            </xsl:call-template>
+            <xsl:variable name="docFamilyUuid" select="$closestFollowingMetaElement/@md.doc_family_uuid" />
+            
+            <xsl:if test="not($docFamilyUuid=$firstDocFamilyUuid)">
+                <xsl:call-template name="addSectionbreak" >
+                    <xsl:with-param name="sectionuuid" select="$docFamilyUuid" />
+                </xsl:call-template>
+            </xsl:if>
         </xsl:if>
         <xsl:copy>
             <xsl:apply-templates select="node()|@*" />
@@ -26,12 +41,14 @@
         <xsl:copy>
             <xsl:apply-templates select="node()|@*" />
         </xsl:copy>
-        <xsl:variable name="closestPrecedingMetaElement" select="preceding::*[name() = 'XPPMetaData' or name() = 'XPPHier'][1]" />
         
-        <xsl:if test="($closestPrecedingMetaElement/name() = 'XPPMetaData') or ($closestPrecedingMetaElement/name() = 'XPPHier' and not($closestPrecedingMetaElement/@uuid = @parent_uuid) and not($closestPrecedingMetaElement/@guid = @parent_uuid))" >
-            <xsl:call-template name="addSectionbreak" >
-                <xsl:with-param name="sectionuuid" select="@md.doc_family_uuid" />
-            </xsl:call-template>
+        <xsl:if test="not(@md.doc_family_uuid=$firstDocFamilyUuid)">
+            <xsl:variable name="closestPrecedingMetaElement" select="preceding::*[name() = 'XPPMetaData' or name() = 'XPPHier'][1]" />        
+            <xsl:if test="($closestPrecedingMetaElement/name() = 'XPPMetaData') or ($closestPrecedingMetaElement/name() = 'XPPHier' and not($closestPrecedingMetaElement/@uuid = @parent_uuid) and not($closestPrecedingMetaElement/@guid = @parent_uuid))" >
+                <xsl:call-template name="addSectionbreak" >
+                    <xsl:with-param name="sectionuuid" select="@md.doc_family_uuid" />
+                </xsl:call-template>
+            </xsl:if>
         </xsl:if>
     </xsl:template>
 

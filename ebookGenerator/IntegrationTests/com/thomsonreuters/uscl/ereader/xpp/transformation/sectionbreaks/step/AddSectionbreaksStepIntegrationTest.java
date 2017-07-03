@@ -39,8 +39,8 @@ public class AddSectionbreaksStepIntegrationTest
     @Before
     public void setUp() throws URISyntaxException
     {
-        originalXml = new File(AddSectionbreaksStepIntegrationTest.class.getResource("originalXpp.main").toURI());
-        originalXmlTwo = new File(AddSectionbreaksStepIntegrationTest.class.getResource("originalXppTwo.main").toURI());
+        originalXml = new File(AddSectionbreaksStepIntegrationTest.class.getResource("1-CHAL_7.DIVXML.main").toURI());
+        originalXmlTwo = new File(AddSectionbreaksStepIntegrationTest.class.getResource("1-CHAL_APX_21.DIVXML.main").toURI());
 
         expectedOuput1 = new File(AddSectionbreaksStepIntegrationTest.class.getResource("expectedOutput1.main").toURI());
         expectedOuput2 = new File(AddSectionbreaksStepIntegrationTest.class.getResource("expectedOutput2.main").toURI());

@@ -8,19 +8,17 @@
 
 	<xsl:template match="x:root">
 		<xsl:for-each-group select="*" group-starting-with="x:sectionbreak">
-            <xsl:if test="not(position() = 1)">
-                <xsl:variable name="fileNameSuffix" select="concat($fileBaseName, '_', format-number(position() - 1, '0000'))" />
-                <xsl:variable name="fileName"
-                    select="concat('./', $fileNameSuffix, '_', $fileType, '_', @sectionuuid ,'.part')" />
-                <xsl:result-document href="{$fileName}">
-                    <xsl:element name="{concat('part.', $fileType)}">
-                        <xsl:attribute name="fileName" >
-                            <xsl:value-of select="$fileNameSuffix" />
-                        </xsl:attribute>
-                        <xsl:apply-templates select="current-group()" />
-                    </xsl:element>
-                </xsl:result-document>
-            </xsl:if>
+            <xsl:variable name="fileNameSuffix" select="concat($fileBaseName, '_', format-number(position(), '0000'))" />
+            <xsl:variable name="fileName"
+                select="concat('./', $fileNameSuffix, '_', $fileType, '_', @sectionuuid ,'.part')" />
+            <xsl:result-document href="{$fileName}">
+                <xsl:element name="{concat('part.', $fileType)}">
+                    <xsl:attribute name="fileName" >
+                        <xsl:value-of select="$fileNameSuffix" />
+                    </xsl:attribute>
+                    <xsl:apply-templates select="current-group()" />
+                </xsl:element>
+            </xsl:result-document>
 		</xsl:for-each-group>
 	</xsl:template>
 

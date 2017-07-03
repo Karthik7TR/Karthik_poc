@@ -15,7 +15,6 @@
 	
 	<xsl:template match="x:root">
 		<root>
-			<sectionbreak/>
 			<xsl:element name="sectionbreak">
 				<xsl:attribute name="sectionuuid" select="concat($volumeName,'.fm.title.page')" />
 			</xsl:element>
