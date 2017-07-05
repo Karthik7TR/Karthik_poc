@@ -6,7 +6,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 
 import java.io.File;
@@ -20,7 +19,6 @@ import javax.xml.transform.Transformer;
 
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
-import com.thomsonreuters.uscl.ereader.xpp.transformation.service.TransformationUtil;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.junit.Before;
 import org.junit.Rule;
@@ -48,8 +46,6 @@ public final class SplitOriginalStepTest
     private File splitOriginalXsl;
     @Mock
     private XslTransformationService transformationService;
-    @Mock
-    private TransformationUtil transformationUtil;
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -78,17 +74,6 @@ public final class SplitOriginalStepTest
 
         given(fileSystem.getSectionbreaksUpDirectory(step, MATERIAL_NUMBER)).willReturn(moveUpDir);
         given(fileSystem.getOriginalPartsDirectory(step, MATERIAL_NUMBER)).willReturn(originalPartsDirectory);
-    }
-
-    @Test
-    public void shouldSkipStepIfNoInputFileFound() throws Exception
-    {
-        //given
-        given(transformationUtil.shouldSkip(step)).willReturn(true);
-        //when
-        step.executeStep();
-        //then
-        then(transformationService).should(never()).transform((Transformer) any(), (File) any(), (File) any());
     }
 
     @Test

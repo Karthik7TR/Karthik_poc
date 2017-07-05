@@ -6,7 +6,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.never;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +17,6 @@ import javax.xml.transform.Transformer;
 
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
-import com.thomsonreuters.uscl.ereader.xpp.transformation.service.TransformationUtil;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppGatherFileSystem;
 import org.junit.Before;
@@ -49,8 +47,6 @@ public final class OriginalStructureTransformationStepTest
     @Mock
     private XppFormatFileSystem fileSystem;
     @Mock
-    private TransformationUtil transformationUtil;
-    @Mock
     private File transformToOriginalXsl;
     @Mock
     private File transformToFootnotesXsl;
@@ -79,17 +75,6 @@ public final class OriginalStructureTransformationStepTest
         given(fileSystem.getOriginalDirectory(step, MATERIAL_NUMBER)).willReturn(bundleDir);
         given(fileSystem.getOriginalFile(step, MATERIAL_NUMBER, XPP_DIVXML_XML)).willReturn(originalFile);
         given(fileSystem.getFootnotesFile(step, MATERIAL_NUMBER, XPP_DIVXML_XML)).willReturn(footnotesFile);
-    }
-
-    @Test
-    public void shouldSkipStepIfNoInputFileFound() throws Exception
-    {
-        //given
-        given(transformationUtil.shouldSkip(step)).willReturn(true);
-        //when
-        step.executeStep();
-        //then
-        then(transformationService).should(never()).transform((Transformer) any(), (File) any(), (File) any());
     }
 
     @Test

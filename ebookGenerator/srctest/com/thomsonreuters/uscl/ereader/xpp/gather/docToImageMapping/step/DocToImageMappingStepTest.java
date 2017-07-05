@@ -15,7 +15,6 @@ import javax.xml.transform.Transformer;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilder;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
-import com.thomsonreuters.uscl.ereader.xpp.transformation.service.TransformationUtil;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +24,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DocToImageMappingStepTest
+public final class DocToImageMappingStepTest
 {
     @InjectMocks
     private DocToImageMappingStep step;
@@ -35,8 +34,6 @@ public class DocToImageMappingStepTest
     private XslTransformationService transformationService;
     @Mock
     private TransformerBuilderFactory transformerBuilderFactory;
-    @Mock
-    private TransformationUtil transformationUtil;
 
     private File mapFile;
 
@@ -59,7 +56,6 @@ public class DocToImageMappingStepTest
     public void shouldTransform() throws Exception
     {
         //given
-        given(transformationUtil.shouldSkip(step)).willReturn(false);
         //when
         step.executeStep();
         //then

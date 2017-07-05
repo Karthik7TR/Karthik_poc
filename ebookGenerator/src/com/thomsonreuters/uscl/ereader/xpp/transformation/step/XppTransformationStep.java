@@ -10,7 +10,6 @@ import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
-import com.thomsonreuters.uscl.ereader.xpp.transformation.service.TransformationUtil;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.ExitStatus;
@@ -24,19 +23,12 @@ public abstract class XppTransformationStep extends BookStepImpl implements XppB
     protected TransformerBuilderFactory transformerBuilderFactory;
     @Resource(name = "xslTransformationService")
     protected XslTransformationService transformationService;
-    @Resource(name = "transformationUtil")
-    protected TransformationUtil transformationUtil;
     @Resource(name = "xppFormatFileSystem")
     protected XppFormatFileSystem fileSystem;
 
     @Override
     public ExitStatus executeStep() throws Exception
     {
-        if (transformationUtil.shouldSkip(this))
-        {
-            return ExitStatus.COMPLETED;
-        }
-
         executeTransformation();
         return ExitStatus.COMPLETED;
     }

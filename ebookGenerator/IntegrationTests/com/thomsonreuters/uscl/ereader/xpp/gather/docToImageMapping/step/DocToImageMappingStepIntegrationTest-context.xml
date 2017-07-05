@@ -17,8 +17,6 @@
 
     <bean name="bookFileSystem"
         class="com.thomsonreuters.uscl.ereader.common.filesystem.TestBookFileSystemImpl" />
-    <bean name="transformationUtil"
-        class="com.thomsonreuters.uscl.ereader.xpp.transformation.service.TestTransformationUtil" />
     <bean id="createDocToImageMappingTask" scope="singleton"
         class="com.thomsonreuters.uscl.ereader.xpp.gather.docToImageMapping.step.DocToImageMappingStep" />
 

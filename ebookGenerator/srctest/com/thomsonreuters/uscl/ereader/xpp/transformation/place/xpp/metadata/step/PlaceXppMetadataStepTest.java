@@ -13,7 +13,6 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step.strategy.provider.PlaceXppMetadataStrategyProviderImpl;
-import com.thomsonreuters.uscl.ereader.xpp.transformation.service.TransformationUtil;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,9 +23,6 @@ import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-/**
- *
- */
 @RunWith(MockitoJUnitRunner.class)
 public final class PlaceXppMetadataStepTest
 {
@@ -40,8 +36,6 @@ public final class PlaceXppMetadataStepTest
     private XslTransformationService transformationService;
     @Mock
     private XppFormatFileSystem fileSystem;
-    @Mock
-    private TransformationUtil transformationUtil;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private PlaceXppMetadataStrategyProviderImpl strategyProvider;
 

@@ -6,7 +6,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.never;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +20,6 @@ import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
-import com.thomsonreuters.uscl.ereader.xpp.transformation.service.TransformationUtil;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.junit.Before;
 import org.junit.Rule;
@@ -46,8 +44,6 @@ public final class TransformationToHtmlStepTest
     private XppFormatFileSystem fileSystem;
     @Mock
     private XslTransformationService transformationService;
-    @Mock
-    private TransformationUtil transformationUtil;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private TransformerBuilderFactory transformerBuilderFactory;
     @Mock
@@ -82,9 +78,6 @@ public final class TransformationToHtmlStepTest
         toHtmlFile = new File(toHtmlDirectory, "temp");
         given(fileSystem.getHtmlPagesDirectory(step, MATERIAL_NUMBER)).willReturn(toHtmlDirectory);
         given(fileSystem.getHtmlPageFile(step, MATERIAL_NUMBER, TEMP_DIVXML_XML)).willReturn(toHtmlFile);
-
-        //TODO: remove when nobundles directory structure is no longer in use
-        given(fileSystem.getHtmlPagesDirectory(step)).willReturn(toHtmlDirectory.getParentFile());
     }
 
     private List<XppBundle> getXppBundles()
@@ -93,17 +86,6 @@ public final class TransformationToHtmlStepTest
         firstBundle.setMaterialNumber(MATERIAL_NUMBER);
         firstBundle.setOrderedFileList(Arrays.asList("Useless_test_file.DIVXML.xml"));
         return Arrays.asList(firstBundle);
-    }
-
-    @Test
-    public void shouldSkipStepIfNoInputFileFound() throws Exception
-    {
-        //given
-        given(transformationUtil.shouldSkip(step)).willReturn(true);
-        //when
-        step.executeStep();
-        //then
-        then(transformationService).should(never()).transform((Transformer) any(), (File) any(), (File) any());
     }
 
     @Test

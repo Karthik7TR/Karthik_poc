@@ -22,7 +22,6 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.generate.title.metadata.step.DocumentName;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.PartType;
-import com.thomsonreuters.uscl.ereader.xpp.transformation.service.TransformationUtil;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.junit.Before;
 import org.junit.Rule;
@@ -45,8 +44,6 @@ public final class UnitePagePartsStepTest
     private XppFormatFileSystem fileSystem;
     @Mock
     private XslTransformationService transformationService;
-    @Mock
-    private TransformationUtil transformationUtil;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private TransformerBuilderFactory transformerBuilderFactory;
     @Mock
