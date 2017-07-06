@@ -6,6 +6,7 @@
     <xsl:output method="html" indent="yes" omit-xml-declaration="yes"/>
 	<xsl:param name="fileBaseName" />
 	<xsl:param name="pagePrefix" />
+	<xsl:param name="divXmlName" />
 
 	<xsl:template match="x:parts">
 		<html>
@@ -14,6 +15,11 @@
       			<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"></meta>
       			<title>Thomson Reuters eBook</title>
       			<link rel="stylesheet" type="text/css" href="er:#document"></link>
+      			<xsl:element name="link">
+      				<xsl:attribute name="rel">stylesheet</xsl:attribute>
+      				<xsl:attribute name="type">text/css</xsl:attribute>
+      				<xsl:attribute name="href" >er:#<xsl:value-of select="$divXmlName" /></xsl:attribute>
+      			</xsl:element>
 			</head>
 			<xsl:element name="body">
             	<xsl:attribute name="fileBaseName" select="$fileBaseName" />
@@ -46,8 +52,11 @@
 					<xsl:if test=".[@align]">
 						<xsl:value-of select="concat(' ', x:get-class-name(@align))" />
 					</xsl:if>
-					<xsl:if test="matches(@style, '.*[0-9]')">
-						<xsl:value-of select="concat(' ', x:get-class-name(@style))" />
+					<xsl:if test="@style">
+						<xsl:value-of select="concat(' font_', x:get-class-name(@style))" />
+					</xsl:if>
+					<xsl:if test="@pre.leading">
+						<xsl:value-of select="concat(' pre_leading_', x:get-class-name(@pre.leading))" />
 					</xsl:if>
 			</xsl:attribute>
 			<xsl:copy-of select="./@uuid | ./@tocuuid" />
@@ -71,10 +80,19 @@
 		</xsl:element>
 	</xsl:template>
 
-	<xsl:template match="x:ital|x:bold|x:cgt">
+	<xsl:template match="x:ital|x:bold">
+		<xsl:value-of select="." />
+	</xsl:template>
+
+	<xsl:template match="x:t">
 		<xsl:element name="span">
-			<xsl:attribute name="class" select="x:get-class-name(name(.))" />
-			<xsl:value-of select="." />
+			<xsl:attribute name="class">
+				<xsl:value-of select="x:get-class-name(name(.))" />
+				<xsl:if test="@style">
+						<xsl:value-of select="concat(' font_', x:get-class-name(@style))" />
+				</xsl:if>
+			</xsl:attribute>
+			<xsl:apply-templates />
 		</xsl:element>
 	</xsl:template>
 

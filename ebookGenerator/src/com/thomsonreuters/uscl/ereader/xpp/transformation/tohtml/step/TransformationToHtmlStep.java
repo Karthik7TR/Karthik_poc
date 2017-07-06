@@ -13,6 +13,7 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotif
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.generate.title.metadata.step.DocumentName;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -41,11 +42,13 @@ public class TransformationToHtmlStep extends XppTransformationStep
             FileUtils.forceMkdir(fileSystem.getHtmlPagesDirectory(this, dir.getKey()));
             for (final File part : dir.getValue())
             {
-                pagePrefix.switchFileType(part.getName());
-                transformer.setParameter("fileBaseName", FilenameUtils.removeExtension(part.getName()));
+                final String partName = part.getName();
+                pagePrefix.switchFileType(partName);
+                transformer.setParameter("fileBaseName", FilenameUtils.removeExtension(partName));
                 transformer.setParameter("pagePrefix", pagePrefix.getPagePrefix());
+                transformer.setParameter("divXmlName", new DocumentName(partName).getBaseName());
                 transformationService
-                    .transform(transformer, part, fileSystem.getHtmlPageFile(this, dir.getKey(), part.getName()));
+                    .transform(transformer, part, fileSystem.getHtmlPageFile(this, dir.getKey(), partName));
             }
         }
     }

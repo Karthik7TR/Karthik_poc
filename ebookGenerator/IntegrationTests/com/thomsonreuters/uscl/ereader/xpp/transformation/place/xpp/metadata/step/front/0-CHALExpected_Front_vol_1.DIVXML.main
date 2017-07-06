@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><root xmlns="http://www.sdl.com/xpp"><sectionbreak sectionuuid="vol1.fm.title.page"/>
-	<pagebreak num="1"/>
+	<sectionbreak sectionuuid="vol1.fm.title.page"/>
+	<pagebreak num="I" num-string="0"/>
 	<frontmatter>
 		<fm.pub.variable name="matnum"/>
 		<fm.pub.variable name="pubYear"/>
@@ -7,94 +8,353 @@
 		<fm.pub.variable name="pubDate1" month="5" year="2017" both="5/2017"/>
 		<XPPHier uuid="vol1.fm.title.page" name="Title page" parent_uuid="vol1.fm.title.page" md.doc_family_uuid="vol1.fm.title.page">Title page</XPPHier><fm.title.page>
 			<text.line align="l" emph="bold" font.size="28q" pre.leading="2p">
-				Children and
+				<t style="text.line">Children and</t>
 				<endline/>
-				the Law:
-				<endline/>Rights
-				&amp; Obligations
+				<t style="text.line.1">the Law:</t>
+				<endline/>
+				<t style="text.line.1">Rights &amp; Obligations</t>
 			</text.line>
 			<text.line align="l">
 				<textrule length="fill" weight="2q"/>
 			</text.line>
 			<text.line align="l" emph="bold" font.size="18q" pre.leading="1p">
-				<fm.date.variable format="yyyy" name="pubYear">2017
+				<fm.date.variable format="yyyy" name="pubYear">
+					<t style="fm.date.variable">2017</t>
 				</fm.date.variable>
-				Edition
+				<t style="text.line.3"> Edition</t>
 			</text.line>
 			<text.line align="l" font.size="12q" pre.leading="2p">
-				Issued in
-				<fm.date.variable format="MMMM" name="pubMonth">May
+				<t style="text.line.4">Issued in </t>
+				<fm.date.variable format="MMMM" name="pubMonth">
+					<t style="fm.date.variable.1">May</t>
 				</fm.date.variable>
-				<fm.date.variable format="yyyy" name="pubYear">2017
+				<t style="text.line.4"> </t>
+				<fm.date.variable format="yyyy" name="pubYear">
+					<t style="fm.date.variable.1">2017</t>
 				</fm.date.variable>
 			</text.line>
-			<text.line align="l" emph="bold" font.size="1p" pre.leading="8q">By Thomas A. Jacobs</text.line>
-			<text.line align="l" emph="ital" font.size="1p" pre.leading="2q">Commissioner/Judge Pro-Tem</text.line>
-			<text.line align="l" emph="ital" font.size="1p" pre.leading="2q">Maricopa County Superior Court</text.line>
+			<text.line align="l" emph="bold" font.size="1p" pre.leading="8q">
+				<t style="text.line.5">By Thomas A. Jacobs</t>
+			</text.line>
+			<text.line align="l" emph="ital" font.size="1p" pre.leading="2q">
+				<t style="text.line.6">Commissioner/Judge Pro-Tem</t>
+			</text.line>
+			<text.line align="l" emph="ital" font.size="1p" pre.leading="2q">
+				<t style="text.line.6">Maricopa County Superior Court</t>
+			</text.line>
 			<text.line align="l" font.size="16q" pre.leading="2.6p">
-				Volume
-				<fm.variable name="volno">1</fm.variable>
+				<t style="text.line.7">Volume </t>
+				<fm.variable name="volno">
+					<t style="fm.variable">1</t>
+				</fm.variable>
 			</text.line>
 		</fm.title.page>
-		<pagebreak num="2"/>
+		<pagebreak num="II" num-string="0"/>
+		<sectionbreak sectionuuid="vol1.fm.copyright.page"/>
 		<sectionbreak sectionuuid="vol1.fm.copyright.page"/><XPPHier uuid="vol1.fm.copyright.page" name="Copyright Page" parent_uuid="vol1.fm.copyright.page" md.doc_family_uuid="vol1.fm.copyright.page">Copyright Page</XPPHier><fm.copyright.page>
 			<fm.current.copyright>
 				<text.line align="c" pre.leading="12p">
-					©
-					<fm.variable name="copyrightYear">2017</fm.variable>
-					Thomson Reuters
+					<t style="text.line.2">© </t>
+					<fm.variable name="copyrightYear">
+						<t style="fm.variable.1">2017</t>
+					</fm.variable>
+					<t style="text.line.2"> Thomson Reuters</t>
 				</text.line>
 			</fm.current.copyright>
 			<fm.disclaimer>
-				<cgt>This publication was created to provide you with accurate and
-				</cgt>
-				<cgt>authoritative information concerning the subject matter
-					covered;
-				</cgt>
-				<cgt>however, this publication was not necessarily prepared by
-					persons
-				</cgt>
-				<cgt>licensed to practice law in a particular jurisdiction. The
-					publisher is not
-				</cgt>
-				<cgt>engaged in rendering legal or other professional advice and
-					this
-				</cgt>
-				<cgt>publication is not a substitute for the advice of an attorney.
-					If you require
-				</cgt>
-				<cgt>legal or other expert advice, you should seek the services of a
-					competent
-				</cgt>
-				<cgt>attorney or other professional.</cgt>
+				<t style="fm.copyright.page cgt">This publication was created to provide you with accurate and </t>
+				<t style="fm.copyright.page cgt">authoritative information concerning the subject matter covered; </t>
+				<t style="fm.copyright.page cgt">however, this publication was not necessarily prepared by persons </t>
+				<t style="fm.copyright.page cgt">licensed to practice law in a particular jurisdiction. The publisher is not </t>
+				<t style="fm.copyright.page cgt">engaged in rendering legal or other professional advice and this </t>
+				<t style="fm.copyright.page cgt">publication is not a substitute for the advice of an attorney. If you require </t>
+				<t style="fm.copyright.page cgt">legal or other expert advice, you should seek the services of a competent </t>
+				<t style="fm.copyright.page cgt">attorney or other professional.</t>
 			</fm.disclaimer>
 			<fm.copyright.clearance>
-				<cgt>For authorization to photocopy, please contact the </cgt>
-				<cgt>Copyright Clearance </cgt>
-				<cgt>Center </cgt>
-				<cgt>at 222 Rosewood Drive, Danvers, MA 01923, USA (978) 750-8400;
-				</cgt>
-				<cgt>fax (978) 646-8600 or </cgt>
-				<cgt>West’s Copyright Services</cgt>
-				<cgt> at 610 Opperman </cgt>
-				<cgt>Drive, Eagan, MN 55123, fax (651) 687-7551. Please outline the
-					specific
-				</cgt>
-				<cgt>material involved, the number of copies you wish to distribute
-					and the
-				</cgt>
-				<cgt>purpose or format of the use.</cgt>
+				<t style="fm.copyright.page cgt">For authorization to photocopy, please contact the </t>
+				<t style="fm.copyright.page.1 cgt">Copyright Clearance </t>
+				<t style="fm.copyright.page.1 cgt">Center </t>
+				<t style="fm.copyright.page cgt">at 222 Rosewood Drive, Danvers, MA 01923, USA (978) 750-8400; </t>
+				<t style="fm.copyright.page cgt">fax (978) 646-8600 or </t>
+				<t style="fm.copyright.page.1 cgt">West’s Copyright Services</t>
+				<t style="fm.copyright.page cgt"> at 610 Opperman </t>
+				<t style="fm.copyright.page cgt">Drive, Eagan, MN 55123, fax (651) 687-7551. Please outline the specific </t>
+				<t style="fm.copyright.page cgt">material involved, the number of copies you wish to distribute and the </t>
+				<t style="fm.copyright.page cgt">purpose or format of the use.</t>
 			</fm.copyright.clearance>
-			<pagebreak num="3"/>
+			<pagebreak num="III" num-string="iii"/>
 		</fm.copyright.page><XPPHier uuid="vol1.FrontMatter" name="Front matter" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.fm.copyright.page">Front matter</XPPHier>
-		<sectionbreak sectionuuid="vol1.fm.online.research.guide"/><XPPHier uuid="vol1.fm.online.research.guide" name="Westlaw Online Research Guide" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.fm.online.research.guide">Westlaw Online Research Guide</XPPHier><fm.online.research.guide/>
-		<cgt>
-		</cgt>
-		<pagebreak num="4"/>
-		<sectionbreak sectionuuid="vol1.fm.proview"/><XPPHier uuid="vol1.fm.proview" name="ProView page" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.fm.proview">ProView page</XPPHier><fm.proview/>
-		<cgt>
-		</cgt>
-		<pagebreak num="5"/>
+		<sectionbreak sectionuuid="vol1.fm.highlights"/>
+		<XPPHier uuid="vol1.fm.highlights" name="Introduction to Edition" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.fm.highlights">Introduction to Edition</XPPHier>
+		<sectionbreak sectionuuid="vol1.fm.highlights"/><XPPHier uuid="vol1.fm.highlights" name="Introduction to Edition" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.fm.highlights">Introduction to Edition</XPPHier><fm.highlights>
+			<head align="c" emph="bold" font.size="16q">
+				<name.block>
+					<name>
+						<t style="name">Introduction to the 2017 Edition</t>
+					</name>
+				</name.block>
+			</head>
+			<para pre.leading="12q" first.para="yes">
+				<para.text first.para.text="yes">
+					<t style="para.text">Since the creation of the first juvenile court in Chicago </t>
+					<t style="para.text">in 1899, the practice of juvenile law continues to evolve. </t>
+					<t style="para.text">Once considered the property of their parents, children and </t>
+					<t style="para.text">teenagers now enjoy considerable due process and equal </t>
+					<t style="para.text">protection rights under the U.S. Constitution, the Bill of </t>
+					<t style="para.text">Rights, and state constitutions.</t>
+				</para.text>
+			</para>
+			<para pre.leading="12q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">With the increasing number of minors in both the </t>
+					<t style="para.text">juvenile justice system and the country</t>
+					<t style="para.text cgt">’</t>
+					<t style="para.text">s family courts, </t>
+					<t style="para.text">attorneys specialize in sub-categories of children</t>
+					<t style="para.text cgt">’</t>
+					<t style="para.text">s law. Some </t>
+					<t style="para.text">handle dependencies and termination of parental rights </t>
+					<t style="para.text">cases only, while others specialize in adoptions. Prosecutors </t>
+					<t style="para.text">deal with delinquency and incorrigibility cases in juvenile </t>
+					<t style="para.text">court as well as transfer (waiver) cases in both juvenile </t>
+					<t style="para.text">court and adult criminal court. Defense lawyers, public and </t>
+					<t style="para.text">private, represent the juvenile population caught up in the </t>
+					<t style="para.text">system. Others practice in family court handling custody, </t>
+					<t style="para.text">parenting time, child support, and guardianship cases. </t>
+					<t style="para.text">Occasionally, representation is called for when a school </t>
+					<t style="para.text">related issue, such as cyberbullying or transgender privacy </t>
+					<t style="para.text">in bathrooms, arises.</t>
+				</para.text>
+			</para>
+			<para pre.leading="12q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">It is incumbent upon attorneys practicing in these areas </t>
+					<t style="para.text">of law to stay current with changes, trends, and pending </t>
+					<t style="para.text">issues affecting their clients. That includes staying abreast </t>
+					<t style="para.text">of the rules of court regarding the appellate process. </t>
+					<t style="para.text">Advances in technology outpace legislation and judicial </t>
+					<t style="para.text">review, leaving attorneys and judges responsible for keeping </t>
+					<t style="para.text">up with the latest social issues that surface in litigation.</t>
+				</para.text>
+			</para>
+			<para pre.leading="12q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">Some of the highlights of this past year include the </t>
+					<t style="para.text">following:</t>
+				</para.text>
+				<quote.block>
+					<list xpp.nestCount="0" xpp.measure="" list.style="block">
+						<list.item>
+							<para first.para="yes">
+								<para.text first.para.text="yes">
+									<t style="para.text">• A Georgia court order finalizing the </t>
+									<t style="bold">adoption</t>
+									<t style="para.text"> of a </t>
+									<t style="para.text">partner</t>
+									<t style="para.text cgt">’</t>
+									<t style="para.text">s children is to be given full faith and credit by </t>
+									<t style="para.text">an Alabama court, thereby granting visitation rights to </t>
+									<t style="para.text">the non-biological parent upon the couple</t>
+									<t style="para.text cgt">’</t>
+									<t style="para.text">s separation. </t>
+									<t style="para.text cgt">§ </t>
+									<t style="bold">4:67</t>
+									<t style="para.text">—</t>
+									<ital>
+										<t style="ital">V.L. v. E.L</t>
+									</ital>
+									<t style="para.text">. (2016).</t>
+								</para.text>
+							</para>
+						</list.item>
+						<pagebreak num="IV" num-string="iv"/>
+						<list.item>
+							<para first.para="yes">
+								<para.text first.para.text="yes">
+									<t style="para.text">• A trial court had jurisdiction to </t>
+									<t style="bold">divorce</t>
+									<t style="para.text"> a same-sex </t>
+									<t style="para.text">couple married in another state. </t>
+									<t style="para.text cgt">§ </t>
+									<t style="bold">6:4</t>
+									<t style="para.text">—</t>
+									<ital>
+										<t style="ital">Brandon-Thomas v. Brandon-Thomas</t>
+									</ital>
+									<t style="para.text"> (2015).</t>
+								</para.text>
+							</para>
+						</list.item>
+						<list.item>
+							<para first.para="yes">
+								<para.text first.para.text="yes">
+									<t style="para.text">• Discussion of qualification for special </t>
+									<t style="bold">immigrant</t>
+									<t style="para.text"> </t>
+									<t style="para.text">juvenile status. </t>
+									<t style="para.text cgt">§ </t>
+									<t style="bold">6:6</t>
+									<t style="para.text">—</t>
+									<ital>
+										<t style="ital">In re Israel O.</t>
+									</ital>
+									<t style="para.text"> (2015).</t>
+								</para.text>
+							</para>
+						</list.item>
+						<list.item>
+							<para first.para="yes">
+								<para.text first.para.text="yes">
+									<t style="para.text">• </t>
+									<t style="bold">Custody</t>
+									<t style="para.text"> should not be denied based solely on </t>
+									<t style="para.text">parent</t>
+									<t style="para.text cgt">’</t>
+									<t style="para.text">s use of medical marijuana; instead, ability to </t>
+									<t style="para.text">care for the child and best interest must be considered. </t>
+									<t style="para.text cgt">§ </t>
+									<t style="bold">6:6</t>
+									<t style="para.text">—</t>
+									<ital>
+										<t style="ital">Daggett v. Sternick</t>
+									</ital>
+									<t style="para.text"> (2015).</t>
+								</para.text>
+							</para>
+						</list.item>
+						<list.item>
+							<para first.para="yes">
+								<para.text first.para.text="yes">
+									<t style="para.text">• Admission of out-of-court statements made by a </t>
+									<t style="para.text">four-year-old victim of sexual assault did not violate the </t>
+									<t style="para.text">Sixth Amendment</t>
+									<t style="para.text cgt">’</t>
+									<t style="para.text">s right of </t>
+									<t style="bold">confrontation</t>
+									<t style="para.text">. </t>
+									<t style="para.text cgt">§ </t>
+									<t style="bold">8:33</t>
+									<t style="para.text">—</t>
+									<ital>
+										<t style="ital">In </t>
+										<t style="ital">re J.C.</t>
+									</ital>
+									<t style="para.text"> (2016).</t>
+								</para.text>
+							</para>
+						</list.item>
+						<list.item>
+							<para first.para="yes">
+								<para.text first.para.text="yes">
+									<t style="para.text">• Probation term restricting use of electronics and </t>
+									<t style="para.text">requiring probationer to consent to a search of devices </t>
+									<t style="para.text">was not unconstitutional. </t>
+									<t style="para.text cgt">§ </t>
+									<t style="bold">8:40</t>
+									<t style="para.text">—</t>
+									<ital>
+										<t style="ital">In re George F.</t>
+									</ital>
+									<t style="para.text"> (2016).</t>
+								</para.text>
+							</para>
+						</list.item>
+					</list>
+				</quote.block>
+			</para>
+			<para pre.leading="12q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">In addition to these Highlights are cases that address a </t>
+					<t style="para.text">broad spectrum of rights and responsibilities of minors. </t>
+					<t style="para.text">General categories of discussion cover topics in the juvenile </t>
+					<t style="para.text">justice system, education, family law, digital speech, and </t>
+					<t style="para.text">Native American law under the Indian Child Welfare Act of </t>
+					<t style="para.text">1978.</t>
+					<t style="para.text.1 super cgt">1</t>
+					<xref id="1" type="footnote"/>
+					<t style="para.text"> Specific cases included in this new edition of </t>
+					<ital>
+						<t style="ital">Children and the Law</t>
+					</ital>
+					<t style="para.text"> cover such topics as revenge porn, </t>
+					<t style="para.text">surrogacy agreements, sperm donor consent to adoption, </t>
+					<t style="para.text">ICWA issues in state court, </t>
+					<t style="para.text cgt">‘‘</t>
+					<t style="para.text">home</t>
+					<t style="para.text cgt">’’</t>
+					<t style="para.text"> state of child in family </t>
+					<t style="para.text">court, and juvenile immigrant issues.</t>
+				</para.text>
+			</para>
+			<para pre.leading="12q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">Also presented in this edition are relevant law review </t>
+					<t style="para.text">articles in support of current legal topics facing </t>
+					<t style="para.text">practitioners and students of the law. These include such </t>
+					<t style="para.text">subjects as social media evidence in criminal prosecutions, </t>
+					<t style="para.text">transgender parents, unaccompanied alien children, and </t>
+					<t style="para.text">sexual orientation privacy for school children.</t>
+				</para.text>
+			</para>
+			<para pre.leading="12q" first.para="no">
+				<para.text first.para.text="yes">
+					<ital>
+						<t style="ital">Children and the Law</t>
+					</ital>
+					<t style="para.text"> is updated annually so that </t>
+					<t style="para.text">juvenile and family law practitioners can be knowledgeable </t>
+					<t style="para.text">about relevant statutes, recent decisions from appellate </t>
+					<t style="para.text">courts, and developing legal concepts. Congress and state </t>
+					<t style="para.text">legislatures strive to address our changing times while the </t>
+					<t style="para.text">judicial system continues to afford all litigants equal justice </t>
+					<pagebreak num="V" num-string="v"/>
+					<t style="para.text">under the law.</t>
+				</para.text>
+			</para>
+			<para pre.leading="12q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">Thank you for subscribing to </t>
+					<ital>
+						<t style="ital">Children and the Law</t>
+					</ital>
+					<t style="para.text">. We </t>
+					<t style="para.text">work diligently each year to make the publication the most </t>
+					<t style="para.text">important resource available on these topics. I hope that </t>
+					<t style="para.text">you will find it a valuable addition to your practice.</t>
+				</para.text>
+			</para>
+			<text.line align="r" font.size="11q" left.indent="12p" pre.leading="6q">
+				<t style="text.line.8">Thomas A. Jacobs</t>
+			</text.line>
+			<text.line align="r" font.size="11q" left.indent="12p" pre.leading="6q">
+				<t style="text.line.8">February 2017</t>
+			</text.line>
+		</fm.highlights>
+		<pagebreak num="VI" num-string=""/>
+		<pagebreak num="VII" num-string="vii"/>
+		<fm.dedication>
+			<head align="l" emph="bold" font.size="18q" pre.leading="5p">
+				<name.block>
+					<name>
+						<t style="name.1">DEDICATION</t>
+					</name>
+				</name.block>
+			</head>
+			<text.line align="l" font.size="11q" pre.leading="1p">
+				<t style="text.line.8">To my parents, Dr. Harry J and Lucie C. Jacobs, for their </t>
+				<t style="text.line.8">inspiration and example; and my children and </t>
+				<t style="text.line.8">grandchildren, that they may benefit as well from their </t>
+				<t style="text.line.8">parents</t>
+				<t style="text.line.8 cgt">’</t>
+				<t style="text.line.8"> and grandparents</t>
+				<t style="text.line.8 cgt">’</t>
+				<t style="text.line.8"> love.</t>
+			</text.line>
+		</fm.dedication>
+		<pagebreak num="VIII" num-string=""/>
+		<pagebreak num="IX" num-string="ix"/>
+		<sectionbreak sectionuuid="vol1."/>
 		<sectionbreak sectionuuid="vol1.About.the.Author"/><XPPHier uuid="vol1.About.the.Author" name="About the Author" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.About.the.Author">About the Author</XPPHier><fm.about.the.author>
 			<metadata.block metadata.store="yes">
 				<metadata field="left.running.head">
@@ -106,55 +366,621 @@
 			</metadata.block>
 			<head align="c" emph="bold" font.size="16q">
 				<name.block>
-					<name>About the Author</name>
+					<name>
+						<t style="name">About the Author</t>
+					</name>
 				</name.block>
 			</head>
 			<para pre.leading="12q" first.para="yes">
 				<para.text first.para.text="yes">
-					Thomas A. Jacobs attended Loyola University at Los Angeles and
-					Arizona State University College of Law. He served as an Assistant
-					Attorney General from 1972 to 1985, handling civil, criminal, and
-					child welfare matters. In 1985, he was appointed to the Maricopa
-					County Superior Court, and served in the Juvenile and Family Court
-					Departments for 23 years. Mr. Jacobs has published several books
-					and articles on extradition, habeas corpus, children’s rights, and
-					other juvenile law topics. His works include:
-					<ital>Arizona Community Property Law 3d </ital>
-					(2004) and
-					<ital>Arizona Juvenile Law and Practice,</ital>
-					both published by Thomson Reuters;
-					<ital>The Legal Directory of Children’s Rights </ital>
-					(1989), published by University Publications of America;
-					<ital> “Teen Cyberbulling Investigated: Where Do Your Rights End
-						and Consequences Begin?’’</ital>
-					(2010);
-					<ital>What are My Rights? Questions and Answers About Teens and the
-						Law </ital>
-					(1997), revised in 2011,
-					<ital>Teens on Trial—Young People Who Challenged the Law, and
-						Changed Your Life</ital>
-					(2000) 2006 and renamed
-					<ital>Teens Take It to Court—Young People Who Challenged the Law
-						and Changed Your Life, </ital>
-					<ital>They Broke the Law: You Be the Judge (True Cases of Teen
-						Crime) </ital>
-					(2003), and Every Vote Matters: The Power of Your Voice from School
-					Elections to the Supreme Court (2016), all published by Free Spirit
-					Publishing, Minneapolis, MN;
-					<ital>“Ten Supreme Court Cases Every Teen Should Know,’’ </ital>NY
-					Times/Scholastic Magazine Up Front (Sept. &amp; Oct. 2007), revised
-					in September 2011 as well as an educational board game,
-					<ital>Century—The Board Game, </ital>
-					published by Creative Teaching Associates (1999). Mr. Jacobs also
-					writes a teen-law website called www.askthejudge.info.
+					<t style="para.text">Thomas A. Jacobs attended Loyola University at Los </t>
+					<t style="para.text">Angeles and Arizona State University College of Law. He </t>
+					<t style="para.text">served as an Assistant Attorney General from 1972 to 1985, </t>
+					<t style="para.text">handling civil, criminal, and child welfare matters. In 1985, </t>
+					<t style="para.text">he was appointed to the Maricopa County Superior Court, </t>
+					<t style="para.text">and served in the Juvenile and Family Court Departments </t>
+					<t style="para.text">for 23 years. Mr. Jacobs has published several books and </t>
+					<t style="para.text">articles on extradition, habeas corpus, children’s rights, and </t>
+					<t style="para.text">other juvenile law topics. His works include: </t>
+					<ital>
+						<t style="ital">Arizona </t>
+						<t style="ital">Community Property Law 3d </t>
+					</ital>
+					<t style="para.text">(2004) and </t>
+					<ital>
+						<t style="ital">Arizona Juvenile </t>
+						<t style="ital">Law and Practice,</t>
+					</ital>
+					<t style="para.text"> both published by Thomson Reuters; </t>
+					<ital>
+						<t style="ital">The </t>
+						<t style="ital">Legal Directory of Children’s Rights </t>
+					</ital>
+					<t style="para.text">(1989), published by </t>
+					<t style="para.text">University Publications of America;</t>
+					<ital>
+						<t style="ital"> “Teen Cyberbulling </t>
+						<t style="ital">Investigated: Where Do Your Rights End and Consequences </t>
+						<t style="ital">Begin?’’</t>
+					</ital>
+					<t style="para.text"> (2010); </t>
+					<ital>
+						<t style="ital">What are My Rights? Questions and Answers </t>
+						<t style="ital">About Teens and the Law </t>
+					</ital>
+					<t style="para.text">(1997), revised in 2011, </t>
+					<ital>
+						<t style="ital">Teens on </t>
+						<t style="ital">Trial—Young People Who Challenged the Law, and Changed </t>
+						<t style="ital">Your Life</t>
+					</ital>
+					<t style="para.text"> (2000) 2006 and renamed </t>
+					<ital>
+						<t style="ital">Teens Take It to </t>
+						<t style="ital">Court—Young People Who Challenged the Law and Changed </t>
+						<t style="ital">Your Life, </t>
+					</ital>
+					<ital>
+						<t style="ital">They Broke the Law: You Be the Judge (True </t>
+						<t style="ital">Cases of Teen Crime) </t>
+					</ital>
+					<t style="para.text">(2003), and Every Vote Matters: The </t>
+					<t style="para.text">Power of Your Voice from School Elections to the Supreme </t>
+					<t style="para.text">Court (2016), all published by Free Spirit Publishing, </t>
+					<t style="para.text">Minneapolis, MN; </t>
+					<ital>
+						<t style="ital">“Ten Supreme Court Cases Every Teen </t>
+						<t style="ital">Should Know,’’ </t>
+					</ital>
+					<t style="para.text">NY Times/Scholastic Magazine Up Front </t>
+					<t style="para.text">(Sept. &amp; Oct. 2007), revised in September 2011 as well as </t>
+					<t style="para.text">an educational board game, </t>
+					<ital>
+						<t style="ital">Century—The Board Game, </t>
+					</ital>
+					<t style="para.text">published by Creative Teaching Associates (1999). Mr. </t>
+					<t style="para.text">Jacobs also writes a teen-law website called </t>
+					<t style="para.text">www.askthejudge.info.</t>
 				</para.text>
 			</para>
 			<para pre.leading="12q" first.para="no">
-				<para.text first.para.text="yes">A regular speaker and
-					instructor at community functions and educational programs, he has
-					also served as an adjunct professor at the Arizona State University
-					School of Social Work.</para.text>
+				<para.text first.para.text="yes">
+					<t style="para.text">A regular speaker and instructor at community </t>
+					<t style="para.text">functions and educational programs, he has also served as </t>
+					<t style="para.text">an adjunct professor at the Arizona State University School </t>
+					<t style="para.text">of Social Work.</t>
+				</para.text>
 			</para>
 		</fm.about.the.author>
+		<pagebreak num="X" num-string=""/>
+		<pagebreak num="XI" num-string="xi"/>
+		<sectionbreak sectionuuid="vol1."/>
+		<sectionbreak sectionuuid="vol1.About.the.Contributors"/><XPPHier uuid="vol1.About.the.Contributors" name="About the Contributors" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.About.the.Contributors">About the Contributors</XPPHier><fm.about.the.author>
+			<metadata.block metadata.store="yes">
+				<metadata field="left.running.head">
+					<value/>
+				</metadata>
+				<metadata field="right.running.head">
+					<value/>
+				</metadata>
+			</metadata.block>
+			<head align="c" emph="bold" font.size="16q">
+				<name.block>
+					<name>
+						<t style="name">About the Contributors</t>
+					</name>
+				</name.block>
+			</head>
+			<para pre.leading="6q" first.para="yes">
+				<para.text first.para.text="yes">
+					<t style="bold">Michael D. Hintze</t>
+					<t style="para.text">, coauthor of Chapter 2, Protection </t>
+					<t style="para.text">of Children (Dependency), is senior partner of Michael D. </t>
+					<t style="para.text">Hintze &amp; Associates, Ltd., in Phoenix, Arizona. He received </t>
+					<t style="para.text">his B.B.A. from Loyola Marymount University, and his J.D. </t>
+					<t style="para.text">from the University of Arizona. Mr. Hintze served as the </t>
+					<t style="para.text">U.S. Pro Se Law Clerk for the U.S. District Court, District </t>
+					<t style="para.text">of Arizona; and as a U.S. EEOC Trial Attorney. He is a </t>
+					<t style="para.text">member of the National Institute of Trial Advocacy and </t>
+					<t style="para.text">National Association of Counsel for Children. Mr. Hintze </t>
+					<t style="para.text">has been in private practice with primary emphasis in Civil </t>
+					<t style="para.text">Litigation with a substantial portion of his practice being </t>
+					<t style="para.text">devoted to Guardian/Conservatorship, Elderly, Juvenile and </t>
+					<t style="para.text">Employment Law. In addition to his private practice, Mr. </t>
+					<t style="para.text">Hintze has acted as a legal ethics instructor at Phoenix </t>
+					<t style="para.text">College and is frequently invited to speak to bar and </t>
+					<t style="para.text">community groups on subjects relating to guardianships, </t>
+					<t style="para.text">conservatorships, Title VII, dependencies and severances.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="bold">Richard Douglas Dault</t>
+					<t style="para.text">, coauthor of Chapter 2, </t>
+					<t style="para.text">Protection of Children (Dependency), is an associate </t>
+					<t style="para.text">attorney with Michael D. Hintze &amp; Associates, Ltd., in </t>
+					<t style="para.text">Phoenix, Arizona. He received his B.A. in economics in </t>
+					<t style="para.text">international relations from American University, and his </t>
+					<t style="para.text">Juris Doctor, magna cum laude from the University of </t>
+					<t style="para.text">Arizona. He is published in the area of eminent domain and </t>
+					<t style="para.text">was a draft author of Supplemental Treaties to the North </t>
+					<t style="para.text">American Free Trade Agreement.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="bold">Mary L. Verdier</t>
+					<t style="para.text">, author of Chapter 3, Termination of </t>
+					<t style="para.text">Parental Rights, is an attorney in private practice, having </t>
+					<t style="para.text">graduated from ASU Law School in 1979. Her experience </t>
+					<t style="para.text">includes serving as an Assistant Attorney General, </t>
+					<t style="para.text">representing the Arizona Department of Economic Security; </t>
+					<t style="para.text">as well as four years as a Maricopa County Juvenile Court </t>
+					<t style="para.text">Commissioner where she presided over more than a </t>
+					<t style="para.text">thousand adoptions a year. She is a past editor of the </t>
+					<t style="para.text">Maricopa Lawyer newspaper and has written many articles </t>
+					<t style="para.text">for that publication as well as spending several years on the </t>
+					<t style="para.text">editorial board. She has taught classes relating to women </t>
+					<pagebreak num="XII" num-string="xii"/>
+					<t style="para.text">and the law at Arizona State University in the Women’s </t>
+					<t style="para.text">Studies Department. Her current practice consists solely of </t>
+					<t style="para.text">juvenile related matters. She authored a book entitled </t>
+					<t style="para.text">“Pathway to Adoption: An Arizona Guide.”</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="bold">Aimee L. Burr</t>
+					<t style="para.text">, coauthor of Chapter 4, Adoption, </t>
+					<t style="para.text">received her J.D. from Arizona State University in 1987. </t>
+					<t style="para.text">She is an Assistant Attorney General for the State of </t>
+					<t style="para.text">Arizona representing the Child Protective Services Unit of </t>
+					<t style="para.text">the Department of Economic Security. Prior to joining the </t>
+					<t style="para.text">Attorney General’s Office, she was the adoptions attorney </t>
+					<t style="para.text">for the Maricopa County Attorney’s Office and has been </t>
+					<t style="para.text">actively involved in the passage of adoption legislation in </t>
+					<t style="para.text">the State of Arizona. Aimee wishes to acknowledge her </t>
+					<t style="para.text">family and friends for their support and patience.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<t style="para"> </t>
+				<para.text first.para.text="yes">
+					<t style="bold">Kathyrn A. Pidgeon</t>
+					<t style="para.text">, coauthor of Chapter 4, Adoption, </t>
+					<t style="para.text">graduated from the University of Miami School of Law and </t>
+					<t style="para.text">is currently in private practice in Phoenix. She specializes </t>
+					<t style="para.text">in adoption and dependency law and is a charter member of </t>
+					<t style="para.text">the American Academy of Adoption Attorneys. She is a </t>
+					<t style="para.text">founder and director of the Arizona Friends of Foster </t>
+					<t style="para.text">Children Foundation. Kathryn is married to Steven, a </t>
+					<t style="para.text">securities lawyer, and has three children named Tyler, </t>
+					<t style="para.text">Gregory and Austin.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="bold">John L. Popilek</t>
+					<t style="para.text">, author of Chapter 6, Domestic </t>
+					<t style="para.text">Relations, is former a Commissioner in the Juvenile </t>
+					<t style="para.text">Division of the Maricopa County Superior Court. He </t>
+					<t style="para.text">received his Bachelor of Arts Degree from Indiana </t>
+					<t style="para.text">University in 1978, and his Juris Doctor from the </t>
+					<t style="para.text">University of Arkansas in 1981. John presided over </t>
+					<t style="para.text">dependency, severance, adoption and delinquency matters. </t>
+					<t style="para.text">Before his appointment to the bench, he was in private </t>
+					<t style="para.text">practice where he specialized in Domestic Relations and </t>
+					<t style="para.text">Juvenile Law. Commissioner Popilek has been a member of </t>
+					<t style="para.text">the Continuing Legal Education Committee of the State Bar </t>
+					<t style="para.text">of Arizona since 1992. He is the Chair of the Juvenile </t>
+					<t style="para.text">Practice Committee for the General Practice Section of the </t>
+					<t style="para.text">American Bar Association. He has also been a member of </t>
+					<t style="para.text">the Presidential Working Group on the Unmet Legal Needs </t>
+					<t style="para.text">of Children and Their Families for the American Bar </t>
+					<t style="para.text">Association, and is a past presiding Commissioner of the </t>
+					<t style="para.text">Maricopa County Juvenile Court. He is a Board Member of </t>
+					<t style="para.text">the Phoenix Fire Department Juvenile Firestarters Program </t>
+					<t style="para.text">and is on the Board of Directors of the Juvenile Law and </t>
+					<pagebreak num="XIII" num-string="xiii"/>
+					<t style="para.text">Public Lawyers Sections for the State Bar of Arizona.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="bold">Terri Zimmerman</t>
+					<t style="para.text">, author of Chapter 7, Guardianship, </t>
+					<t style="para.text">has been working for the Maricopa County Public </t>
+					<t style="para.text">Defender’s Office in Phoenix, Arizona since 1987 and the </t>
+					<t style="para.text">juvenile division of that office since 1991. Her law </t>
+					<t style="para.text">background includes: private practitioner; law clerk for a </t>
+					<t style="para.text">Federal Magistrate in Phoenix, Arizona; Kansas Assistant </t>
+					<t style="para.text">Attorney General, Antitrust and Consumer Protection </t>
+					<t style="para.text">Division; and student attorney handling juvenile </t>
+					<t style="para.text">delinquency cases and mental health commitments for the </t>
+					<t style="para.text">District Attorney’s Office in Topeka, Kansas. Ms. </t>
+					<t style="para.text">Zimmerman graduated from Washburn Law School and has </t>
+					<t style="para.text">a master of music education degree.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">She has held the positions of President and Treasurer of </t>
+					<t style="para.text">the Counselor’s Club in Topeka, Kansas. Presently she is </t>
+					<t style="para.text">President-Elect and has served as Treasurer of the Public </t>
+					<t style="para.text">Lawyer Board of the Maricopa County Bar Association in </t>
+					<t style="para.text">Phoenix, Arizona. She has coauthored a manual on hearsay </t>
+					<t style="para.text">hazards and is an editorial committee member of the </t>
+					<t style="para.text">Maricopa Lawyer, a monthly legal publication in Phoenix, </t>
+					<t style="para.text">Arizona. (applying search warrant exceptions to a wiretap </t>
+					<t style="para.text">statute in computer fraud cases) in Jurimetrics Journal, an </t>
+					<t style="para.text">American Bar Association and Arizona State University </t>
+					<t style="para.text">College of Law publication.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="bold">Diana Wilkes</t>
+					<t style="para.text">, coauthor of Chapter 8, Delinquency, </t>
+					<t style="para.text">received her B.S., magna cum laude, from Arizona State </t>
+					<t style="para.text">University and J.D. from Arizona State University College </t>
+					<t style="para.text">of Law. Ms. Wilkes served as judicial law clerk to the </t>
+					<t style="para.text">Honorable Jefferson L. Lankford, Arizona Court of Appeals, </t>
+					<t style="para.text">and is currently a Deputy Maricopa County (Arizona) </t>
+					<t style="para.text">Attorney. Ms. Wilkes has published an article entitled The </t>
+					<t style="para.text">Wiretap Statute: A Haven for Hackers</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="bold">Jana Sorensen</t>
+					<t style="para.text">, coauthor of Chapter 8, Delinquency, </t>
+					<t style="para.text">graduated from the University of Texas with a B.S. in </t>
+					<t style="para.text">communications and received her J.D. from the University </t>
+					<t style="para.text">of Nebraska. She has been employed as an Assistant </t>
+					<t style="para.text">Attorney General (Arizona) and is currently a Bureau Chief </t>
+					<t style="para.text">at the Maricopa County (Arizona) Attorney’s Office.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="bold">Diane E.W. Gunnels</t>
+					<t style="para.text">, coauthor of Chapter 8, </t>
+					<t style="para.text">Delinquency, received her undergraduate degree with </t>
+					<t style="para.text">distinction and honors from the University of Kansas. A </t>
+					<pagebreak num="XIV" num-string="xiv"/>
+					<t style="para.text">member of Phi Beta Kappa, she graduated cum laude from </t>
+					<t style="para.text">the Arizona State University College of Law in 1980. She </t>
+					<t style="para.text">served as law clerk for the Hon. Sandra Day O’Connor at </t>
+					<t style="para.text">the Arizona State Court of Appeals and for Justice William </t>
+					<t style="para.text">A. Holohan at the Arizona Supreme Court. She is a deputy </t>
+					<t style="para.text">in the Maricopa County Attorney’s Office in Phoenix, </t>
+					<t style="para.text">Arizona. After serving as a Juvenile Division prosecutor for </t>
+					<t style="para.text">seven years, she now works in the Appeals Division of her </t>
+					<t style="para.text">office. She served as Chair of the Public Lawyers Section of </t>
+					<t style="para.text">the State Bar of Arizona in 1990–1991 and became </t>
+					<t style="para.text">President of the Public Lawyers Division of the Maricopa </t>
+					<t style="para.text">County Bar Association in 1994.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="bold">Jennifer Chan</t>
+					<t style="para.text">, coauthor of Chapter 9, Student Rights </t>
+					<t style="para.text">and Responsibilities, is an attorney for the Illinois State </t>
+					<t style="para.text">Board of Education and a former Assistant Public Guardian </t>
+					<t style="para.text">with the Office of the Cook County Public Guardian.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="bold">Susanne Galler</t>
+					<t style="para.text">, coauthor of Chapter 9, Student Rights </t>
+					<t style="para.text">and Responsibilities, is an Assistant Public Guardian with </t>
+					<t style="para.text">the Office of the Cook County (Illinois) Public Guardian. </t>
+					<t style="para.text">She was formerly with a litigation firm in Chicago.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="bold">Margo Lynn Hablutzel</t>
+					<t style="para.text">, coauthor of Chapter 9, </t>
+					<t style="para.text">Student Rights and Responsibilities, is an attorney in </t>
+					<t style="para.text">private practice in Chicago, specializing in matters related </t>
+					<t style="para.text">to children and disabled people and intellectual property </t>
+					<t style="para.text">law. She is Chair of the Standing Committee on Technology </t>
+					<t style="para.text">and the Law of the Illinois State Bar Association and a </t>
+					<t style="para.text">member of its Intellectual Property Section Council.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="bold">Nancy Hablutzel</t>
+					<t style="para.text">, coauthor of Chapter 9, Student </t>
+					<t style="para.text">Rights and Responsibilities, is a hearing officer with the </t>
+					<t style="para.text">Office of the Chief Judge, Circuit Court of Cook County, </t>
+					<t style="para.text">Illinois, hearing abuse and neglect cases in Juvenile Court. </t>
+					<t style="para.text">She has been an Adjunct Professor of Law at Chicago-Kent </t>
+					<t style="para.text">College of Law since 1982. She is former Chair of the </t>
+					<t style="para.text">Standing Committee on Juvenile Justice of the Illinois State </t>
+					<t style="para.text">Bar Association and a member of the ISBA Juvenile Justice </t>
+					<t style="para.text">Section Council. She is coauthor of a book on the Americans </t>
+					<t style="para.text">with Disabilities Act.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="bold">Laura Cabanski-Dunning</t>
+					<t style="para.text">, coauthor of Chapter 10, </t>
+					<t style="para.text">Health Care, is a clinical psychologist, specializing in the </t>
+					<t style="para.text">psychological evaluation of juvenile offenders. She received </t>
+					<t style="para.text">her Ph.D. from The Union Institute in Cincinnati and is </t>
+					<pagebreak num="XV" num-string="xv"/>
+					<t style="para.text">involved in ongoing research of the Rorschach Test.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="bold">Ann M. Stanton</t>
+					<t style="para.text">, coauthor of Chapter 10, Medical Care </t>
+					<t style="para.text">and Treatment, is a law professor at Arizona State </t>
+					<t style="para.text">University College of Law. She specializes in family and </t>
+					<t style="para.text">juvenile law and law and social science. She currently </t>
+					<t style="para.text">serves on the Committee on Legal Issues of the American </t>
+					<t style="para.text">Psychological Association.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="bold">Michele J. Hanigsberg</t>
+					<t style="para.text">, coauthor of Chapter 10, </t>
+					<t style="para.text">Health Care, is a graduate of Golden Gate University </t>
+					<t style="para.text">School of Law in San Francisco, California. She is admitted </t>
+					<t style="para.text">to practice in Arizona and is a member of the Juvenile Law </t>
+					<t style="para.text">Section of the State Bar of Arizona. Michele was the </t>
+					<t style="para.text">recipient of the Volunteer of the Year Award for the </t>
+					<t style="para.text">Volunteer Legal Services Program of the San Francisco Bar </t>
+					<t style="para.text">Association in 1992. She is currently working as a </t>
+					<t style="para.text">congressional aide for the United States House of </t>
+					<t style="para.text">Representatives.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="bold">Paul J. Matte, III, Ph.D., J.D.</t>
+					<t style="para.text">, coauthor of Chapter 11, </t>
+					<t style="para.text">General Considerations, is an Assistant Attorney General </t>
+					<t style="para.text">for the State of Arizona representing the Division of </t>
+					<t style="para.text">Developmental Disabilities, Arizona Department of </t>
+					<t style="para.text">Economic Security. He received his B.A. from the University </t>
+					<t style="para.text">of the South in 1964 and M.A, Ph.D. and J.D. degrees from </t>
+					<t style="para.text">Arizona State University. He is licensed to practice in </t>
+					<t style="para.text">Arizona, Federal Court and the Ninth Circuit Court of </t>
+					<t style="para.text">Appeals. (He leaves practice in the United States Supreme </t>
+					<t style="para.text">Court to his wife.) He is also a professional Dixieland piano </t>
+					<t style="para.text">player.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="bold">Virginia S. Matte</t>
+					<t style="para.text">, coauthor of Chapter 11, General </t>
+					<t style="para.text">Considerations practices law in Phoenix, Arizona, where she </t>
+					<t style="para.text">is a partner in the firm of Davis &amp; Lowe, P.C. The firm </t>
+					<t style="para.text">specializes in bankruptcy matters, and Ms. Matte practices </t>
+					<t style="para.text">in the areas of bankruptcy and juvenile law. She received </t>
+					<t style="para.text">her B.A. from the University of Oklahoma in 1964 and her </t>
+					<t style="para.text">Juris Doctor from the Oklahoma City University School of </t>
+					<t style="para.text">Law in 1974. She is licensed to practice in Oklahoma and </t>
+					<t style="para.text">Arizona, the United States District Courts for the Western </t>
+					<t style="para.text">District of Oklahoma and the District of Arizona, the Ninth </t>
+					<t style="para.text">Circuit Court of Appeals, and the United States Supreme </t>
+					<t style="para.text">Court. She is a member of the Maricopa County Juvenile </t>
+					<t style="para.text">Practice Committee, the State Bar of Arizona Juvenile Law </t>
+					<pagebreak num="XVI" num-string="xvi"/>
+					<t style="para.text">Section, and the National Association of Counsel for </t>
+					<t style="para.text">Children.</t>
+				</para.text>
+			</para>
+		</fm.about.the.author>
+		<pagebreak num="XVII" num-string="xvii"/>
+		<sectionbreak sectionuuid="vol1.fm.acknowledgment"/>
+		<sectionbreak sectionuuid="vol1.fm.acknowledgment"/><XPPHier uuid="vol1.fm.acknowledgment" name="Acknowledgment" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.fm.acknowledgment">Acknowledgment</XPPHier><fm.acknowledgment>
+			<metadata.block metadata.store="yes">
+				<metadata field="left.running.head">
+					<value/>
+				</metadata>
+				<metadata field="right.running.head">
+					<value/>
+				</metadata>
+			</metadata.block>
+			<head align="c" emph="bold" font.size="16q">
+				<name.block>
+					<name>
+						<t style="name">Acknowledgment</t>
+					</name>
+				</name.block>
+			</head>
+			<para pre.leading="6q" first.para="yes">
+				<para.text first.para.text="yes">
+					<t style="para.text">A work of this magnitude is obviously not the result of </t>
+					<t style="para.text">one person’s toil. The contributing authors and their </t>
+					<t style="para.text">editorial teams tirelessly went about the task of </t>
+					<t style="para.text">researching, writing and editing the entire manuscript. </t>
+					<t style="para.text">Each person involved became an integral part of the </t>
+					<t style="para.text">process. The time and energy brought to this effort is </t>
+					<t style="para.text">immeasurable and deeply appreciated. Deadlines were met, </t>
+					<t style="para.text">oftentimes due to individual sacrifice. There is no one </t>
+					<t style="para.text">involved with Children and the Law: Rights and </t>
+					<t style="para.text">Obligations who doesn’t share in the credit and pride in this </t>
+					<t style="para.text">superb accomplishment.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">My personal thanks are extended to the coauthors of </t>
+					<t style="para.text">individual chapters and their support staffs including: Nino </t>
+					<t style="para.text">Abate; Dr. Stan Cabanski, Ph.D.; Brenda Crutchfield; </t>
+					<t style="para.text">Michael Czerniejewski; Andrew M. Davidson; Sharon </t>
+					<t style="para.text">Denny; Carolyn M. Ellsworth; Paula Feldman; Robert B. </t>
+					<t style="para.text">Fleming, Esq.; Kathy Franklin; Matthew Gabe; Ernest B. </t>
+					<t style="para.text">Grundy, Ph.D.; Professor Philip Hablutzel; Gregory Hintze, </t>
+					<t style="para.text">Esq.; Maureen P. Kane; Carolyn Landry; Denise Rejent Lee; </t>
+					<t style="para.text">Vickie Lee; Charles Dow and Mary Kaye Long; Paul and </t>
+					<t style="para.text">Virginia Matte, Esq.; the Maricopa County Attorney’s Office; </t>
+					<t style="para.text">Christine E. Morden; Janet McNaughton, Esq.; Sharon </t>
+					<t style="para.text">McNeely; John W. Nelson, Esq.; Tina Pernosky; Professor </t>
+					<t style="para.text">Lynette Petty; Jeffrey W. Pitts, Esq.; Justin Ray; Corinne </t>
+					<t style="para.text">Reynolds; Larissa Roberts; Gary Sheets, Esq.; Karen Sipes; </t>
+					<t style="para.text">G. Wayne Stewart, Esq.; Amanda Taylor; Allison Tengan; </t>
+					<t style="para.text">Sue Tone; Glenda Vittone; Galen H. Wilkes, Esq.; and the </t>
+					<t style="para.text">Honorable Sally N. Willett.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">A special note of appreciation is extended to three </t>
+					<t style="para.text">friends for their assistance and professionalism throughout </t>
+					<t style="para.text">this endeavor. Were it not for Jami Taylor, Debora L. </t>
+					<t style="para.text">Verdier, and Kathy Welch, this book would never have seen </t>
+					<t style="para.text">the light of day. Their patience and apparent inability to </t>
+					<t style="para.text">say no, has made the project manageable for all of us. </t>
+					<t style="para.text">Thanks Jami, Debora, and Kathy for everything.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<t style="para"> </t>
+				<para.text first.para.text="yes">
+					<t style="para.text">I also wish to thank the reference librarians who saved </t>
+					<t style="para.text">me innumerable hours of research by applying their skills </t>
+					<t style="para.text">so generously and graciously—Julia Best, Frances </t>
+					<pagebreak num="XVIII" num-string="xviii"/>
+					<t style="para.text">Desmond, Louise Muir, and Pat Wood.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">Since the first publication of Children and the Law: </t>
+					<t style="para.text">Rights and Obligations, several people are credited with </t>
+					<t style="para.text">keeping me abreast of new laws, court cases, appellate </t>
+					<t style="para.text">decisions and relevant legal articles. Without the assistance </t>
+					<t style="para.text">of Edward B. Truman, Esq., Judge Glenn M. Davis, and </t>
+					<t style="para.text">Maricopa County Law Librarian Susan Armstrong, the </t>
+					<t style="para.text">annual supplements would not have been current or </t>
+					<t style="para.text">complete.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<t style="para"> </t>
+				<para.text first.para.text="yes">
+					<t style="para.text">I am grateful to Clark Boardman Callaghan, not only for </t>
+					<t style="para.text">the opportunity to write this book, but for their continuous </t>
+					<t style="para.text">support and assistance, particularly Lenore M. Zajdel, </t>
+					<t style="para.text">Maris Fineberg, Elizabeth Berman, and Ellen Poler.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">Finally, thanks to my family for their patience and </t>
+					<t style="para.text">support throughout this undertaking.</t>
+				</para.text>
+			</para>
+			<text.line align="l2" font.size="11q" left.indent="12p" pre.leading="6q">
+				<t style="text.line.8">Thomas A. Jacobs</t>
+			</text.line>
+		</fm.acknowledgment>
+		<pagebreak num="XIX" num-string="xix"/>
+		<sectionbreak sectionuuid="vol1.fm.foreword"/>
+		<sectionbreak sectionuuid="vol1.fm.foreword"/><XPPHier uuid="vol1.fm.foreword" name="Foreword" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.fm.foreword">Foreword</XPPHier><fm.foreword>
+			<metadata.block metadata.store="yes">
+				<metadata field="left.running.head">
+					<value/>
+				</metadata>
+				<metadata field="right.running.head">
+					<value/>
+				</metadata>
+			</metadata.block>
+			<head align="c" emph="bold" font.size="16q">
+				<name.block>
+					<name>
+						<t style="name">Foreword</t>
+					</name>
+				</name.block>
+			</head>
+			<para pre.leading="6q" first.para="yes">
+				<para.text first.para.text="yes">
+					<t style="para.text">Children—as consumers, victims or perpetrators—need </t>
+					<t style="para.text">advocates. In the area of law, child advocacy has evolved </t>
+					<t style="para.text">over the years. In the 1960’s and 1970’s the so-called </t>
+					<t style="para.text">“children’s movement” focused on ensuring that children </t>
+					<t style="para.text">received the same constitutional protections as adults. </t>
+					<t style="para.text">Much of the case law arose in the area of involuntary </t>
+					<t style="para.text">commitment of minors and juvenile delinquency. Courts also </t>
+					<t style="para.text">examined the rights of students to free speech and exercise </t>
+					<t style="para.text">of religion.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">During the 1980’s and 1990’s, courts have focused on </t>
+					<t style="para.text">protecting children. There is growing case law on the rights </t>
+					<t style="para.text">of children in foster care, children who have been sexually </t>
+					<t style="para.text">abused, and children in need of financial support from their </t>
+					<t style="para.text">parents. Perhaps the best indication of the priority courts </t>
+					<t style="para.text">have given children and their legal needs is the calendar of </t>
+					<t style="para.text">the United States Supreme Court. In the last five years, the </t>
+					<t style="para.text">Supreme Court has issued 25 decisions affecting minors or </t>
+					<t style="para.text">child-related issues. This book is a comprehensive guide for </t>
+					<t style="para.text">every lawyer who works with children. It provides an </t>
+					<t style="para.text">excellent overview of the challenging and diverse areas of </t>
+					<t style="para.text">child advocacy. In addition to historical and policy </t>
+					<t style="para.text">discussions, the author also addresses practical concerns </t>
+					<t style="para.text">that attorneys will face in their representation. The book </t>
+					<t style="para.text">covers federal and state statutes and case law. It explores </t>
+					<t style="para.text">almost every conceivable area of law affecting children. </t>
+					<t style="para.text">Topics include termination of parental rights, adoption, </t>
+					<t style="para.text">child custody and support, guardianship, juvenile </t>
+					<t style="para.text">delinquency and dependency, education, and health care. </t>
+					<t style="para.text">Lawyers representing children will find Children and the </t>
+					<t style="para.text">Law: Rights &amp; Obligations a very valuable resource.</t>
+				</para.text>
+			</para>
+			<para pre.leading="6q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">This book is a comprehensive guide for every lawyer </t>
+					<t style="para.text">who works with children. It provides an excellent overview </t>
+					<t style="para.text">of the challenging and diverse areas of child advocacy. In </t>
+					<t style="para.text">addition to historical and policy discussions, the author also </t>
+					<t style="para.text">addresses practical concerns that attorneys will face in their </t>
+					<t style="para.text">representation. The book covers federal and state statutes </t>
+					<t style="para.text">and case law. It explores almost every conceivable area of </t>
+					<pagebreak num="XX" num-string="xx"/>
+					<t style="para.text">law affecting children. Topics include termination of </t>
+					<t style="para.text">parental rights, adoption, child custody and support, </t>
+					<t style="para.text">guardianship, juvenile delinquency and dependency, </t>
+					<t style="para.text">education, and health care. Lawyers representing children </t>
+					<t style="para.text">will find Children and the Law: Rights &amp; Obligations a very </t>
+					<t style="para.text">valuable resource.</t>
+				</para.text>
+			</para>
+			<text.line align="l2" font.size="11q" left.indent="12p" pre.leading="6q">
+				<t style="text.line.8">Margaret Campbell Haynes</t>
+			</text.line>
+			<text.line align="l2" font.size="11q" left.indent="12p">
+				<t style="text.line.8">Chair, U.S. Commission on </t>
+				<t style="text.line.8">Interstate Child Support</t>
+			</text.line>
+			<text.line align="l2" font.size="11q" left.indent="12p">
+				<t style="text.line.8">1995</t>
+			</text.line>
+		</fm.foreword>
+		<pagebreak num="XXI" num-string="xxi"/>
+		<sectionbreak sectionuuid="vol1.fm.online.research.guide"/>
+		<sectionbreak sectionuuid="vol1.fm.online.research.guide"/><XPPHier uuid="vol1.fm.online.research.guide" name="Westlaw Online Research Guide" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.fm.online.research.guide">Westlaw Online Research Guide</XPPHier><fm.online.research.guide/>
+		<t style="frontmatter cgt"> </t>
+		<pagebreak num="XXII" num-string="xxii"/>
+		<sectionbreak sectionuuid="vol1.fm.proview"/>
+		<XPPHier uuid="vol1.fm.proview" name="ProView page" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.fm.proview">ProView page</XPPHier>
+		<sectionbreak sectionuuid="vol1.fm.proview"/><XPPHier uuid="vol1.fm.proview" name="ProView page" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.fm.proview">ProView page</XPPHier><fm.proview/>
+		<t style="frontmatter cgt"> </t>
 	</frontmatter>
 </root>

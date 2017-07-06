@@ -1,12 +1,15 @@
 package com.thomsonreuters.uscl.ereader.common.filesystem;
 
 import java.io.File;
+import java.util.Collection;
 
 import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.assemble.step.CoverArtUtil;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -52,5 +55,13 @@ public class ResourcesFileSystemXppImpl implements ResourcesFileSystem
     public File getDocumentCss()
     {
         return documentCssFile;
+    }
+
+    @NotNull
+    @Override
+    public Collection<File> getFontsCssFiles(@NotNull final BookStep step)
+    {
+        final File cssDir = xppFormatFileSystem.getFontsCssDirectory(step);
+        return FileUtils.listFiles(cssDir, TrueFileFilter.INSTANCE,  TrueFileFilter.INSTANCE);
     }
 }

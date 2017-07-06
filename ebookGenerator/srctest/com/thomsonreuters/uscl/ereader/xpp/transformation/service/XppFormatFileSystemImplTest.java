@@ -27,15 +27,16 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public final class XppFormatFileSystemImplTest
 {
-    private static final String ORIGINAL_DIR       = "workDirectory/Format/01_Original";
-    private static final String SOURCE_DIR         = "workDirectory/Format/02_StructureWithMetadata";
-    private static final String SECTIONBREAKS_DIR  = "workDirectory/Format/03_Sectionbreaks";
-    private static final String SECTIONBREAKS_UP_DIR = "workDirectory/Format/04_SectionbreaksUp";
-    private static final String ORIGINAL_PARTS_DIR = "workDirectory/Format/05_OriginalParts";
-    private static final String ORIGINAL_PAGES_DIR = "workDirectory/Format/06_OriginalPages";
-    private static final String HTML_PAGES_DIR     = "workDirectory/Format/07_HtmlPages";
-    private static final String TOC_DIR            = "workDirectory/Format/08_Toc";
-    private static final String TITLE_METADATA_DIR = "workDirectory/Format/09_title_metadata";
+    private static final String CSS_DIR = "01_Css";
+    private static final String ORIGINAL_DIR = "workDirectory/Format/02_Original";
+    private static final String SOURCE_DIR = "workDirectory/Format/03_StructureWithMetadata";
+    private static final String SECTIONBREAKS_DIR = "workDirectory/Format/04_Sectionbreaks";
+    private static final String SECTIONBREAKS_UP_DIR = "workDirectory/Format/05_SectionbreaksUp";
+    private static final String ORIGINAL_PARTS_DIR = "workDirectory/Format/06_OriginalParts";
+    private static final String ORIGINAL_PAGES_DIR = "workDirectory/Format/07_OriginalPages";
+    private static final String HTML_PAGES_DIR = "workDirectory/Format/08_HtmlPages";
+    private static final String TOC_DIR = "workDirectory/Format/09_Toc";
+    private static final String TITLE_METADATA_DIR = "workDirectory/Format/10_title_metadata";
 
     private static final String FILE_NAME_XML         = "fileName.xml";
     private static final String FILE_NAME_MAIN        = "fileName.main";
@@ -44,10 +45,11 @@ public final class XppFormatFileSystemImplTest
     private static final String FILE_NAME_1_MAIN_PART = "fileName.DIVXML_1_main_Ie0b9c12bf8fb11d99f28ffa0ae8c2575.part";
     private static final String FILE_NAME_2_FOOTNOTES_PART = "fileName.DIVXML_2_footnotes_Ie0b9c12bf8fb11d99f28ffa0ae8c2576.part";
     private static final String FILE_NAME_1_PAGE_WITH_GUID = "fileName_0001_Ie0b9c12bf8fb11d99f28ffa0ae8c2575.page";
-    private static final String FILE_NAME_HTML        = "fileName.html";
-    private static final String FILE_NAME             = "fileName";
-    private static final String BASE_FILE_NAME        = "fileName.DIVXML";
-    private static final String TITLE_METADATA_XML    = "titleMetadata.xml";
+    private static final String FILE_NAME_HTML = "fileName.html";
+    private static final String FILE_NAME = "fileName";
+    private static final String FILE_NAME_CSS = "fileName.css";
+    private static final String BASE_FILE_NAME = "fileName.DIVXML";
+    private static final String TITLE_METADATA_XML = "titleMetadata.xml";
     private static final String DOC_TO_IMAGE_MANIFEST = "workDirectory/Format/doc-to-image-manifest.txt";
     private static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "workDirectory/Format/anchorToDocumentIdMapFile.txt";
 
@@ -112,6 +114,37 @@ public final class XppFormatFileSystemImplTest
         final File file = fileSystem.getStructureWithMetadataFile(step, MATERIAL_NUMBER, FILE_NAME_XML);
         //then
         assertThat(file, hasPath(SOURCE_DIR + "/" + MATERIAL_NUMBER + "/" + FILE_NAME_XML));
+    }
+
+    @Test
+    public void shouldReturnFontsCssDirectory()
+    {
+        //given
+        //when
+        final File dir = fileSystem.getFontsCssDirectory(step);
+        //then
+        assertThat(dir, hasPath(CSS_DIR));
+    }
+
+    @Test
+    public void shouldReturnCssDirectory()
+    {
+        //given
+        //when
+        final File dir = fileSystem.getFontsCssDirectory(step, MATERIAL_NUMBER);
+        //then
+        assertThat(dir, hasPath(CSS_DIR));
+        assertThat(dir, hasPath(MATERIAL_NUMBER));
+    }
+
+    @Test
+    public void shouldReturnCssFile()
+    {
+        //given
+        //when
+        final File dir = fileSystem.getFontsCssFile(step, MATERIAL_NUMBER, FILE_NAME_XML);
+        //then
+        assertThat(dir, hasPath(CSS_DIR + "/" + MATERIAL_NUMBER + "/" + FILE_NAME_CSS));
     }
 
     @Test
@@ -415,7 +448,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File file = fileSystem.getBundlePartTocFile(FILE_NAME_XML, MATERIAL_NUMBER, step);
         //then
-        assertThat(file, hasPath("workDirectory/Format/08_Toc/11111111/toc_fileName.xml"));
+        assertThat(file, hasPath("workDirectory/Format/09_Toc/11111111/toc_fileName.xml"));
     }
 
     @Test

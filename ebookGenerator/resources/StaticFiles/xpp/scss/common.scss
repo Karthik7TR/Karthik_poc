@@ -1,6 +1,5 @@
 @import "constants.scss";
-.root {
-    @include margins();
+.publication {
     text-align: justify;
 }
 
@@ -16,7 +15,6 @@
 }
 
 .inline_instr {
-    font-style: italic;
     display: inline;
 }
 
@@ -57,12 +55,12 @@
     flex-grow: 0;
 }
 
-.bold {
-    font-weight: bold;
-}
-
 .front {
     margin: $indent 0;
+}
+
+.ital {
+    display: inline;
 }
 
 .label,
@@ -77,4 +75,14 @@
 
 .name_block_1 {
     display: inline;
+}
+
+.sub, .sub * {
+    font-size: x-small;
+    vertical-align: sub;
+}
+
+.super, .super * {
+    font-size: x-small;
+    vertical-align: super;
 }

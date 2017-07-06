@@ -4,10 +4,4 @@ $margin-left-primary: 20%;
 $margin-right-primary: $margin-left-primary;
 $margin-top-primary: 10%;
 $margin-bottom-primary: $margin-top-primary;
-$cgt-color: black;
-@mixin margins() {
-    margin-left: $margin-left-primary;
-    margin-right: $margin-right-primary;
-    margin-top: $margin-top-primary;
-    margin-bottom: $margin-bottom-primary;
-}
+$cgt-color: inherit;

@@ -1,8 +1,4 @@
-.root {
-  margin-left: 20%;
-  margin-right: 20%;
-  margin-top: 10%;
-  margin-bottom: 10%;
+.publication {
   text-align: justify;
 }
 
@@ -18,7 +14,6 @@
 }
 
 .inline_instr {
-  font-style: italic;
   display: inline;
 }
 
@@ -59,12 +54,12 @@
   flex-grow: 0;
 }
 
-.bold {
-  font-weight: bold;
-}
-
 .front {
   margin: 1em 0;
+}
+
+.ital {
+  display: inline;
 }
 
 .label,
@@ -73,7 +68,7 @@
 }
 
 .cgt {
-  color: black;
+  color: inherit;
   display: none;
 }
 
@@ -81,12 +76,14 @@
   display: inline;
 }
 
-.toc_analytical_hierarchy > .outline_name_block {
-  font-size: 1.3em;
+.sub, .sub * {
+  font-size: x-small;
+  vertical-align: sub;
 }
 
-.front > .outline_name_block {
-  display: block;
+.super, .super * {
+  font-size: x-small;
+  vertical-align: super;
 }
 
 .toc_analytical_hierarchy {
@@ -96,43 +93,34 @@
 .toc_analytical_hierarchy .name {
   display: inline;
   text-transform: uppercase;
-  font-weight: bold;
 }
 
 .toc_section .name {
-  font-weight: normal;
   text-transform: none;
 }
 
 .name_block > .name {
-  font-style: italic;
-  font-weight: normal;
   text-indent: 1em;
 }
 
 .toc_appendix .name {
   display: inline;
-  font-weight: normal;
 }
 
 .chapter > .front > .outline_name_block > .name {
   display: block;
-  font-weight: bold;
   margin: 1em 0;
 }
 
 .toc_analytical_hierarchy .designator {
-  font-weight: bold;
   margin-right: calc(1em/2);
 }
 
 .toc_section .designator {
-  font-weight: normal;
   min-width: calc(1em*3);
 }
 
 .toc_appendix .designator {
-  font-weight: normal;
   margin-right: 1em;
 }
 
@@ -153,17 +141,6 @@
   margin-right: calc(1em/2);
 }
 
-.research_reference_block .cgt {
-  font-weight: bold;
-}
-
-.label > .cgt,
-.name > .cgt,
-.designator > .cgt,
-.research_reference_block .cgt {
-  display: inline;
-}
-
 .para_text {
   text-indent: 1em;
 }
@@ -172,12 +149,9 @@
   display: inline;
 }
 
-.analytical_hierarchy .name {
+.analytical_hierarchy .name,
+.outline_name_block .name {
   display: inline;
-}
-
-.analytical_hierarchy > .front > .outline_name_block .name {
-  font-weight: bold;
 }
 
 .appendix_front .name {
@@ -185,7 +159,6 @@
 }
 
 .analytical_hierarchy .front .designator {
-  font-weight: bold;
   margin-right: 1em;
 }
 
@@ -193,43 +166,13 @@
   margin-right: calc(1em/2);
 }
 
-.ital {
-  display: inline;
-  font-style: italic;
-}
-
-.para_text .cgt {
-  vertical-align: super;
-  font-size: calc(1em/2);
-  font-weight: bold;
-}
-
-.para_text > a .cgt {
-  font-size: initial;
-  vertical-align: initial;
-}
-
-.section_front .cgt {
-  font-weight: normal;
-}
-
-.reference_entry .cgt,
-.entry .cgt {
-  display: inline;
-}
-
 .section_front {
-  font-weight: bold;
   display: flex;
   margin: 1em 0;
 }
 
 .xref:empty {
   display: none;
-}
-
-.front > .outline_name_block {
-  font-size: 1.3em;
 }
 
 .table {
@@ -339,14 +282,10 @@
 
 .appendix_front > .outline_name_block,
 .toc_appendix_block > .outline_name_block {
-  display: block;
-  font-weight: bold;
-  font-size: 1.3em;
   margin: 1em 0;
 }
 
 .appendix_section_front > .outline_name_block {
-  font-weight: bold;
   margin: 1em 1em 0 0;
 }
 
@@ -368,7 +307,6 @@
 }
 
 .stat_head > .name_block > .name {
-  font-weight: bold;
   font-style: normal;
   text-align: center;
   text-indent: 0;
@@ -456,44 +394,21 @@
   margin: 1em 0;
 }
 
-.signature_block .form_line > .cgt {
+.form_line > .t:first-of-type {
   display: block;
 }
 
-.form_line .cgt,
-.stat_subsect .form_text > .cgt,
-.cgt .stat_subsect > .form > .caption_block,
-.cgt .designator,
-.stat_text > .cgt {
+.form_line .leaveout + .t {
   display: inline;
-}
-
-.appendix_section_body .stat_para > .stat_text > a ~ .cgt {
-  vertical-align: super;
-  font-size: calc(1em / 2);
-  display: inline;
-}
-
-.leaveout > .cgt,
-.leaveout + .cgt,
-.form .cgt + .cgt {
-  display: inline;
-  color: transparent;
-  border-bottom: calc(1em / 20) solid black;
 }
 
 .stat_text_1 {
   vertical-align: super;
-  font-size: calc(1em / 2);
   display: inline;
 }
 
 .ref_6 {
   display: inline;
-}
-
-.form_vertical_space {
-  margin: 1em 0;
 }
 
 .leaveout {
@@ -508,6 +423,10 @@
   display: inline;
   min-width: 0;
   border-bottom: none;
+}
+
+.leaveout * {
+  text-indent: 0;
 }
 
 .leaveout_block {
@@ -539,6 +458,10 @@
   padding-left: 1em;
 }
 
+.frontmatter {
+  text-align: justify;
+}
+
 .text_line,
 .endline {
   display: block;
@@ -552,4 +475,57 @@
 
 .fm_copyright_clearance {
   margin-top: calc(1em * 2);
+}
+
+.fm_title_page > .text_line:first-of-type > .t:last-of-type {
+  border-bottom: solid calc(1em/10);
+  padding-bottom: calc(1em/10);
+}
+
+.pre_leading_1p {
+  margin-top: 1em;
+}
+
+.pre_leading_2p {
+  margin-top: calc(1em*2);
+}
+
+.pre_leading_8q {
+  margin-top: calc(1em*0.8);
+}
+
+.pre_leading_2_6p {
+  margin-top: calc(1em*2.6);
+}
+
+.pre_leading_12p {
+  margin-top: calc(1em*12);
+}
+
+.leaveout .cgt,
+.fixed_footnote_reference .cgt,
+.form_line .cgt,
+.form_vertical_space .cgt,
+.form_line > .leaveout .cgt,
+.front .cgt,
+.ref .cgt,
+.name_block .cgt,
+.outline_name_block > .designator .cgt,
+.outline_name_block > .name .cgt,
+.para_text > .ref .cgt,
+.entry .cgt,
+.stat_text .cgt,
+.cgt .tgroup > .tbody,
+.outline_name_block > .label .cgt {
+  display: inline;
+}
+
+.signature_group > .form_line .cgt {
+  display: block;
+}
+
+.entry .leaveout + .cgt,
+.entry .cgt + .cgt,
+.name_block > .designator + .cgt {
+  display: none;
 }

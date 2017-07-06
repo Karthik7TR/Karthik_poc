@@ -1,12 +1,4 @@
 @import "constants.scss";
-.outline_name_block {
-    .toc_analytical_hierarchy>& {
-        font-size: $header-size;
-    }
-    .front>& {
-        display: block;
-    }
-}
 
 .toc_analytical_hierarchy {
     margin-bottom: $indent;
@@ -16,39 +8,30 @@
     .toc_analytical_hierarchy & {
         display: inline;
         text-transform: uppercase;
-        font-weight: bold;
     }
     .toc_section & {
-        font-weight: normal;
         text-transform: none;
     }
     .name_block>& {
-        font-style: italic;
-        font-weight: normal;
         text-indent: $indent;
     }
     .toc_appendix & {
         display: inline;
-        font-weight: normal;
     }
     .chapter>.front>.outline_name_block>& {
         display: block;
-        font-weight: bold;
         margin: $indent 0;
     }
 }
 
 .designator {
     .toc_analytical_hierarchy & {
-        font-weight: bold;
         margin-right: calc(#{$indent}/2);
     }
     .toc_section & {
-        font-weight: normal;
         min-width: calc(#{$indent}*3);
     }
     .toc_appendix & {
-        font-weight: normal;
         margin-right: $indent;
     }
     .form_item & {
@@ -66,17 +49,5 @@
     .front>.outline_name_block>& {
         display: inline;
         margin-right: calc(#{$indent}/2);
-    }
-}
-
-.cgt {
-    .research_reference_block & {
-        font-weight: bold;
-    }
-    .label>&,
-    .name>&,
-    .designator>&,
-    .research_reference_block & {
-        display: inline;
     }
 }

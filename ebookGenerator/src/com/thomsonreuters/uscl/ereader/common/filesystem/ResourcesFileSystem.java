@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.common.filesystem;
 
 import java.io.File;
+import java.util.Collection;
 
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import org.jetbrains.annotations.NotNull;
@@ -33,4 +34,10 @@ public interface ResourcesFileSystem
      */
     @NotNull
     File getDocumentCss();
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem#getFontsCssDirectory}
+     */
+    @NotNull
+    Collection<File> getFontsCssFiles(@NotNull BookStep step);
 }

@@ -35,7 +35,7 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 @RunWith(MockitoJUnitRunner.class)
 public final class TransformationToHtmlStepTest
 {
-    private static final String TEMP_DIVXML_XML = "temp.DIVXML.xml";
+    private static final String TEMP_DIVXML_XML = "1-sample_1.DIVXML_0_test.xml";
     private static final String MATERIAL_NUMBER = "11111111";
 
     @InjectMocks
@@ -50,7 +50,6 @@ public final class TransformationToHtmlStepTest
     private File transformToHtmlXsl;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private ChunkContext chunkContext;
-
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
@@ -84,7 +83,7 @@ public final class TransformationToHtmlStepTest
     {
         final XppBundle firstBundle = new XppBundle();
         firstBundle.setMaterialNumber(MATERIAL_NUMBER);
-        firstBundle.setOrderedFileList(Arrays.asList("Useless_test_file.DIVXML.xml"));
+        firstBundle.setOrderedFileList(Arrays.asList("1-TEST_7.DIVXML.xml"));
         return Arrays.asList(firstBundle);
     }
 

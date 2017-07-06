@@ -19,15 +19,16 @@ import org.springframework.stereotype.Component;
 @Component("xppFormatFileSystem")
 public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements XppFormatFileSystem
 {
-    private static final String ORIGINAL_DIR       = "01_Original";
-    private static final String SOURCE_DIR         = "02_StructureWithMetadata";
-    private static final String SECTIONBREAKS_DIR  = "03_Sectionbreaks";
-    private static final String SECTIONBREAKS_UP_DIR = "04_SectionbreaksUp";
-    private static final String ORIGINAL_PARTS_DIR = "05_OriginalParts";
-    private static final String ORIGINAL_PAGES_DIR = "06_OriginalPages";
-    private static final String HTML_PAGES_DIR     = "07_HtmlPages";
-    private static final String TOC_DIR            = "08_Toc";
-    private static final String TITLE_METADATA_DIR = "09_title_metadata";
+    private static final String FONTS_CSS_DIR = "01_Css";
+    private static final String ORIGINAL_DIR = "02_Original";
+    private static final String SOURCE_DIR = "03_StructureWithMetadata";
+    private static final String SECTIONBREAKS_DIR = "04_Sectionbreaks";
+    private static final String SECTIONBREAKS_UP_DIR = "05_SectionbreaksUp";
+    private static final String ORIGINAL_PARTS_DIR = "06_OriginalParts";
+    private static final String ORIGINAL_PAGES_DIR = "07_OriginalPages";
+    private static final String HTML_PAGES_DIR = "08_HtmlPages";
+    private static final String TOC_DIR = "09_Toc";
+    private static final String TITLE_METADATA_DIR = "10_title_metadata";
 
     private static final String TITLE_METADATA_FILE = "titleMetadata.xml";
     private static final String TOC_FILE = "toc.xml";
@@ -36,6 +37,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     private static final String HTML = "html";
     private static final String MAIN = "main";
+    private static final String CSS = "css";
     private static final String FOOTNOTES = "footnotes";
 
     @NotNull
@@ -63,6 +65,28 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     public File getStructureWithMetadataFile(@NotNull final BookStep step, @NotNull final String materialNumber, @NotNull final String fileName)
     {
         return Paths.get(getStructureWithMetadataDirectory(step).toString(), materialNumber, fileName).toFile();
+    }
+
+    @Override
+    @NotNull
+    public File getFontsCssDirectory(@NotNull final BookStep step)
+    {
+        return new File(getFormatDirectory(step), FONTS_CSS_DIR);
+    }
+
+    @NotNull
+    @Override
+    public File getFontsCssDirectory(@NotNull final BookStep step, final String materialNumber)
+    {
+        return new File(getFontsCssDirectory(step), materialNumber);
+    }
+
+    @NotNull
+    @Override
+    public File getFontsCssFile(@NotNull final BookStep step, final String materialNumber, final String name)
+    {
+        final String fileName = FilenameUtils.removeExtension(name);
+        return new File(getFontsCssDirectory(step, materialNumber), fileName + "." + CSS);
     }
 
     @NotNull

@@ -18,4 +18,17 @@
 		<xsl:param name="value" />
 		<xsl:value-of select="translate($value,'.','_')" />
 	</xsl:function>
+	
+	<!-- for inline index numbers -->
+	<xsl:function name="x:get-vertical-align">
+		<xsl:param name="y" />
+		<xsl:choose>
+			<xsl:when test="number(substring($y, 1, string-length($y)-1)) > 0" >
+				<xsl:text>sub</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:text>super</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
 </xsl:stylesheet>

@@ -7,11 +7,9 @@
 }
 
 .name {
-    .analytical_hierarchy & {
+    .analytical_hierarchy &,
+    .outline_name_block & {
         display: inline;
-    }
-    .analytical_hierarchy>.front>.outline_name_block & {
-        font-weight: bold;
     }
     .appendix_front & {
         display: block;
@@ -20,7 +18,6 @@
 
 .designator {
     .analytical_hierarchy .front & {
-        font-weight: bold;
         margin-right: $indent;
     }
     .section_front & {
@@ -28,32 +25,7 @@
     }
 }
 
-.ital {
-    display: inline;
-    font-style: italic;
-}
-
-.cgt {
-    .para_text & {
-        vertical-align: super;
-        font-size: calc(#{$indent}/2);
-        font-weight: bold;
-    }
-    .para_text>a & {
-        font-size: initial;
-        vertical-align: initial;
-    }
-    .section_front & {
-        font-weight: normal;
-    }
-    .reference_entry &,
-    .entry & {
-        display: inline;
-    }
-}
-
 .section_front {
-    font-weight: bold;
     display: flex;
     margin: $indent 0;
 }
@@ -64,11 +36,6 @@
     }
 }
 
-.outline_name_block {
-    .front>& {
-        font-size: $header-size;
-    }
-}
 
 .table {
     margin: $indent 0;

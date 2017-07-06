@@ -1,4 +1,8 @@
 @import "constants.scss";
+.frontmatter {
+    text-align: justify;
+}
+
 .text_line,
 .endline {
     display: block;
@@ -12,4 +16,27 @@
 
 .fm_copyright_clearance {
     margin-top: calc(#{$indent} * 2);
+}
+
+.t:last-of-type {
+    .fm_title_page>.text_line:first-of-type>& {
+        border-bottom: solid calc(#{$indent}/10);
+        padding-bottom: calc(#{$indent}/10);
+    }
+}
+
+.pre_leading_1p {
+    margin-top: $indent;
+}
+.pre_leading_2p {
+    margin-top: calc(#{$indent}*2);    
+}
+.pre_leading_8q {
+    margin-top: calc(#{$indent}*0.8);        
+}
+.pre_leading_2_6p {
+    margin-top: calc(#{$indent}*2.6);        
+}
+.pre_leading_12p {
+    margin-top: calc(#{$indent}*12);        
 }

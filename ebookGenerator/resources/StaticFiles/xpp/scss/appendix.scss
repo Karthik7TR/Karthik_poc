@@ -5,13 +5,9 @@
     }
     .appendix_front>&,
     .toc_appendix_block>& {
-        display: block;
-        font-weight: bold;
-        font-size: $header-size;
         margin: $indent 0;
     }
     .appendix_section_front>& {
-        font-weight: bold;
         margin: $indent $indent 0 0;
     }
 }
@@ -31,7 +27,6 @@
         text-align: center;
     }
     .stat_head>.name_block>& {
-        font-weight: bold;
         font-style: normal;
         text-align: center;
         text-indent: 0;
@@ -114,45 +109,21 @@
     .stat_subsect>.form>& {
         margin: $indent 0;
     }
-}
-
-.cgt {
-    .signature_block .form_line>& {
+    &>.t:first-of-type {
         display: block;
     }
-    .form_line &,
-    .stat_subsect .form_text>&,
-    .stat_subsect>.form>.caption_block,
-    .designator,
-    .stat_text>& {
+    .leaveout+.t {
         display: inline;
-    }
-    .appendix_section_body .stat_para>.stat_text>a~& {
-        vertical-align: super;
-        font-size: calc(#{$indent} / 2);
-        display: inline;
-    }
-    .leaveout>&,
-    .leaveout+&,
-    .form &+& {
-        display: inline;
-        color: transparent;
-        border-bottom: calc(#{$indent} / 20) solid $cgt-color;
     }
 }
 
 .stat_text_1 {
     vertical-align: super;
-    font-size: calc(#{$indent} / 2);
     display: inline;
 }
 
 .ref_6 {
     display: inline;
-}
-
-.form_vertical_space {
-    margin: $indent 0;
 }
 
 .leaveout {
@@ -165,6 +136,9 @@
         display: inline;
         min-width: 0;
         border-bottom: none;
+    }
+    * {
+        text-indent: 0;
     }
 }
 

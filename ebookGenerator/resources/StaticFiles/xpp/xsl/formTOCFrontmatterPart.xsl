@@ -78,7 +78,7 @@
 	</xsl:template>
 
 	<xsl:template match="x:fm.about.the.author|x:fm.other.structure">
-		<xsl:variable name="other_label" select="x:head/x:name.block/x:name/text()" />
+		<xsl:variable name="other_label" select="x:head/x:name.block/x:name/x:t/text()" />
 		<xsl:variable name="other_uuid"
 			select="concat($volumeName,'.',translate($other_label, ' ', '.'))" />
 

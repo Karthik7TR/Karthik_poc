@@ -32,7 +32,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration
 public final class TransformationToHtmlStepIntegrationTest
 {
-    private static final String SAMPLE_DIVXML_PAGE = "sample.DIVXML.page";
+    private static final String SAMPLE_DIVXML_PAGE = "1-sample_1.DIVXML_0_test.page";
     private static final String MATERIAL_NUMBER = "11111111";
     private static final String ADDITIONAL_MATERIAL_NUMBER = "11111112";
 

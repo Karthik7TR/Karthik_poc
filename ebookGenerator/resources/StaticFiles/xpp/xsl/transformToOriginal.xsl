@@ -6,7 +6,7 @@
 	<xsl:import href="PageNumbers.xsl" />
 
 	<xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
-	
+
 	<xsl:param name="entitiesDocType" />
 	<xsl:param name="bundlePartType" />
 
@@ -58,19 +58,18 @@
 	<xsl:template match="x:t[not(@suppress='true')]">
 		<xsl:variable name="text"
 			select="x:get-fixed-text(string-join(text(), ''))" />
-		<xsl:choose>
-			<xsl:when test="@cgt='true'">
-				<xsl:element name="cgt">
-					<xsl:if test="@style">
-						<xsl:attribute name="style" select="@style" />
-					</xsl:if>
-					<xsl:value-of select="$text" />
-				</xsl:element>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="$text" />
-			</xsl:otherwise>
-		</xsl:choose>
+		<xsl:copy>
+			<xsl:attribute name="style">
+				<xsl:value-of select="@style" />
+				<xsl:if test="@y!='0'">
+					<xsl:value-of select="concat(' ', x:get-vertical-align(@y))" />
+				</xsl:if>
+				<xsl:if test="@cgt='true'">
+					<xsl:value-of select="concat(' ', 'cgt')" />
+				</xsl:if>
+			</xsl:attribute>
+			<xsl:value-of select="$text" />
+		</xsl:copy>
 		<xsl:apply-templates />
 	</xsl:template>
 

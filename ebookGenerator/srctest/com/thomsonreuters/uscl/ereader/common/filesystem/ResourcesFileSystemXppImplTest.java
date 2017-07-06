@@ -4,6 +4,7 @@ import static com.thomsonreuters.uscl.ereader.common.filesystem.FileSystemMatche
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
@@ -32,6 +33,8 @@ public final class ResourcesFileSystemXppImplTest
     private CoverArtUtil coverArtUtil;
     @Mock
     private BookStep step;
+    @Mock
+    private File fakeDir;
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
@@ -72,5 +75,17 @@ public final class ResourcesFileSystemXppImplTest
         final File file = sut.getArtwork(step);
         //then
         assertThat(file, hasPath("coverArt.PNG"));
+    }
+
+    @Test
+    public void shouldReturnFontsCssFiles()
+    {
+        //given
+        given(fakeDir.isDirectory()).willReturn(true);
+        given(xppFormatFileSystemImpl.getFontsCssDirectory(step)).willReturn(fakeDir);
+        //when
+        sut.getFontsCssFiles(step);
+        //then
+        verify(xppFormatFileSystemImpl).getFontsCssDirectory(step);
     }
 }

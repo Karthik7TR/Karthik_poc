@@ -1,0 +1,37 @@
+.cgt {
+    .leaveout &,
+    .fixed_footnote_reference &,
+    .form_line &,
+    .form_vertical_space &,
+    .form_line>.leaveout &,
+    .front &,
+    .ref &,
+    .name_block &,
+    .outline_name_block>.designator &,
+    .outline_name_block>.name &,
+    .para_text>.ref &,
+    .entry &,
+    .stat_text &,
+    .tgroup>.tbody,
+    .outline_name_block>.label & {
+        display: inline;
+    }
+    .signature_group>.form_line & {
+        display: block;
+    }
+    .entry .leaveout+&,
+    .entry &+&,
+    .name_block>.designator+& {
+        display: none;
+    } //12) ???
+    // .form_item>.name_block>.font_name_block_1>& {}
+    //21) ???
+    // .full_toc>.toc_analytical_hierarchy>.font_toc_analytical_hierarchy>& {}
+    //41) ???
+    // .quote_para>.para_text>.font_para_text_3>& {}
+    //42)
+    // .quote_para>.para_text>.font_para_text_4>& {}
+    // .toc_analytical_hierarchy>.outline_name_block>.font_outline_name_block_1>& {}
+    //64)
+    // .toc_analytical_hierarchy>.toc_analytical_hierarchy>.font_toc_analytical_hierarchy>& {}
+}

@@ -47,6 +47,10 @@ public class MoveResourcesToAssembleDirectoryXpp extends BookStepImpl
         copyFileToDirectory(destinationArtworkFile, assetsDir);
         copyDirectory(resourcesFileSystem.getAssetsDirectory(this), assetsDir);
         copyDirectory(resourcesFileSystem.getDocumentsDirectory(this), documentsDir);
+        for (final File cssFile : resourcesFileSystem.getFontsCssFiles(this))
+        {
+            copyFileToDirectory(cssFile, assetsDir);
+        }
 
         return ExitStatus.COMPLETED;
     }
