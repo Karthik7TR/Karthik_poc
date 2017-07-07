@@ -1,39 +1,44 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 
-    <script src="js/jsgrid/db.js"></script>
-    <script src="js/jsgrid/src/jsgrid.core.js"></script>
-    <script src="js/jsgrid/src/jsgrid.load-indicator.js"></script>
-    <script src="js/jsgrid/src/jsgrid.load-strategies.js"></script>
-    <script src="js/jsgrid/src/jsgrid.sort-strategies.js"></script>
-    <script src="js/jsgrid/src/jsgrid.field.js"></script>
-    <script src="js/jsgrid/src/fields/jsgrid.field.text.js"></script>
-    <script src="js/jsgrid/src/fields/jsgrid.field.control.js"></script>
-    <script src="js/jsgrid/src/jsgrid.validation.js"></script>
+<script src="js/jsgrid/db.js"></script>
+<script src="js/jsgrid/src/jsgrid.core.js"></script>
+<script src="js/jsgrid/src/jsgrid.load-indicator.js"></script>
+<script src="js/jsgrid/src/jsgrid.load-strategies.js"></script>
+<script src="js/jsgrid/src/jsgrid.sort-strategies.js"></script>
+<script src="js/jsgrid/src/jsgrid.field.js"></script>
+<script src="js/jsgrid/src/fields/jsgrid.field.text.js"></script>
+<script src="js/jsgrid/src/fields/jsgrid.field.control.js"></script>
+<script src="js/jsgrid/src/jsgrid.validation.js"></script>
 
-    <style>
-        .hasDatepicker {
-            width: 100px;
-            text-align: center;
-        }
-        .ui-datepicker * {
-            font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
-            font-size: 14px;
-            font-weight: 300 !important;
-        }
-        #jsGrid input {
-            width: 100%;
-        }
-        #jsGrid input[type='button'] {
-            width: 0;
-            padding-right: 10px;
-        }
-    </style>
+<style>
+.hasDatepicker {
+	width: 100px;
+	text-align: center;
+}
 
-    <div id="jsGrid"></div>
+.ui-datepicker * {
+	font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
+	font-size: 14px;
+	font-weight: 300 !important;
+}
 
-    <input type='hidden' id='printComponents' name='printComponents' value='${form.printComponents}'>
+#jsGrid input {
+	width: 100%;
+}
 
-    <script>
+#jsGrid input[type='button'] {
+	width: 0;
+	padding-right: 10px;
+}
+</style>
+
+<div id="jsGrid"></div>
+
+<input type='hidden' id='printComponents' name='printComponents'
+	value='${form.printComponents}'>
+
+<script>
         //read recieved data to printComponents variable
         printComponents = $.parseJSON($('#printComponents').val());
 
@@ -49,6 +54,24 @@
                 sortGridByComponentOrder();
             }
         }
+
+        function colorNoArchivePrintComponents(){
+        					console.log("colorNoArchivePrintComponents started");
+        					var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
+        					items = $.map($gridData.find("tr"), function(row) {
+        							// return $(row).data("JSGridItem");
+        							return $(row);
+        					});
+        					console.log("items = " + items);
+        					for(i=0;i<printComponents.length;i++){
+        						var $tempRow = $("#grid").jsGrid("rowByItem", items[i]);
+        						if(printComponents[i].componentInArchive == false){
+
+											$(".client-" + i + " > td").css("background","#ff7D7D");
+
+        						}
+        					}
+        				}
 
         //Method to shift idexes of elements and sort table.
         //Is usualy used after manual changes in table
@@ -273,7 +296,7 @@
 	                            	args.cancel = true;
 	                            	alert(args.item.materialNumber+" Material Number is duplicate.");
 	                            }
-	                    }                    	
+	                    }
 	                  	if(!args.cancel){
 	                        item = args.item;
 	                        var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
@@ -292,12 +315,12 @@
                     }
 
                 },
-                
+
                 onItemUpdating: function(args) {
                 	var arg = args;
                 	var gridData = $("#jsGrid").jsGrid("option", "data");
                 	  for (i = 0; i < gridData.length; i++) {
-                          if(args.item.materialNumber == gridData[i].materialNumber && !isNaN(args.item.componentOrder) 
+                          if(args.item.materialNumber == gridData[i].materialNumber && !isNaN(args.item.componentOrder)
                         		  && args.item.componentOrder != gridData[i].componentOrder){
                           	args.cancel = true;
                           	alert("Material Number already exists "+args.item.materialNumber);
@@ -320,5 +343,8 @@
                     exchangeIndexes();
                 }
             });
+            if (${form.colorPrintComponentTable}) {
+      					colorNoArchivePrintComponents();
+  					}
         });
     </script>

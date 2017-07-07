@@ -43,4 +43,9 @@ public interface XppBundleArchiveDao
      * Returns all rows of the Phoenix bundle table, in no particular order.
      */
     List<XppBundleArchive> findAllRequests();
+
+    /**
+     * Returns rows of the Phoenix bundle table by @param material numbers list.
+     */
+    List<XppBundleArchive> findByMaterialNumberList(List<String> sourceMaterialNumberList);
 }

@@ -44,7 +44,6 @@ public class PrintComponent implements Serializable
      * preview page
      */
     @Transient
-    @JsonIgnore
     private boolean componentInArchive;
 
     @JsonIgnore

@@ -1,12 +1,18 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
+import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
+import com.thomsonreuters.uscl.ereader.request.service.PrintComponentUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
@@ -26,6 +32,7 @@ public class ViewBookDefinitionController
 
     private BookDefinitionService bookDefinitionService;
     private JobRequestService jobRequestService;
+    private PrintComponentUtil printComponentUtil;
 
     /**
      * Handle the in-bound GET to the Book Definition read-only view page.
@@ -60,6 +67,20 @@ public class ViewBookDefinitionController
         model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
         model.addAttribute(WebConstants.KEY_FORM, form);
 
+        if (form.getBookDefinition().getSourceType().equals(SourceType.XPP))
+        {
+            final List<PrintComponent> currentPrintComponentsList =
+                new ArrayList<>(form.getBookDefinition().getPrintComponents());
+            form.getBookDefinition()
+                .setPrintComponents(printComponentUtil.getAllInitializedPrintComponents(currentPrintComponentsList));
+            for (final PrintComponent element : form.getBookDefinition().getPrintComponents())
+            {
+                if (!element.getComponentInArchive())
+                {
+                    form.setGenerateButtonDisabled(true);
+                }
+            }
+        }
         return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_VIEW);
     }
 
@@ -118,5 +139,11 @@ public class ViewBookDefinitionController
     public void setJobRequestService(final JobRequestService service)
     {
         jobRequestService = service;
+    }
+
+    @Required
+    public void setPrintComponentUtil(final PrintComponentUtil util)
+    {
+        printComponentUtil = util;
     }
 }

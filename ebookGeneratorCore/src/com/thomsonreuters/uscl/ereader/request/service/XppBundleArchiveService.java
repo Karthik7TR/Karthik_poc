@@ -44,6 +44,11 @@ public class XppBundleArchiveService
         return xppBundleArchiveDao.findAllRequests();
     }
 
+    public List<XppBundleArchive> findByMaterialNumberList(final List<String> sourceMaterialNumberList)
+    {
+        return xppBundleArchiveDao.findByMaterialNumberList(sourceMaterialNumberList);
+    }
+
     @Required
     public void setXppBundleArchiveDao(final XppBundleArchiveDao dao)
     {

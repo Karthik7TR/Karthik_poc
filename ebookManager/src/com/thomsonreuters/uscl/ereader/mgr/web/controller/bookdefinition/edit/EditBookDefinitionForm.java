@@ -153,6 +153,8 @@ public class EditBookDefinitionForm
     private ObjectMapper jsonMapper;
     private UuidGenerator uuidGenerator;
 
+    private boolean colorPrintComponentTable = false;
+
     public EditBookDefinitionForm()
     {
         super();
@@ -1481,6 +1483,16 @@ public class EditBookDefinitionForm
     public void setSplitDocuments(final Collection<SplitDocument> splitDocuments)
     {
         this.splitDocuments = splitDocuments;
+    }
+
+    public void setColorPrintComponentTable(final boolean value)
+    {
+        colorPrintComponentTable = value;
+    }
+
+    public boolean getColorPrintComponentTable()
+    {
+        return colorPrintComponentTable;
     }
 
     public String getPrintComponents() throws JsonProcessingException

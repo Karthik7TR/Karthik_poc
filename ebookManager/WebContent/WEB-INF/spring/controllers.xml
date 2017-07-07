@@ -126,7 +126,8 @@
 
 	<bean id="viewBookDefinitionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionController"
 		p:bookDefinitionService-ref="bookDefinitionService"
-		p:jobRequestService-ref="jobRequestService" />
+		p:jobRequestService-ref="jobRequestService" 
+		p:printComponentUtil-ref="printComponentUtil"/>
 
 	<bean id="appExceptionController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.AppExceptionController" />
 

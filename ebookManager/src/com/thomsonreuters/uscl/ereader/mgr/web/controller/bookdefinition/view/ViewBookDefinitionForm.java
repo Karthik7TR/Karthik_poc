@@ -27,6 +27,28 @@ public class ViewBookDefinitionForm
     private Long id;
     private ObjectMapper jsonMapper = new ObjectMapper();
     private BookDefinition bookDefinition;
+    private boolean generateButtonDisabled;
+    private boolean colorPrintComponentTable = true;
+
+    public void setColorPrintComponentTable(final boolean value)
+    {
+        colorPrintComponentTable = value;
+    }
+
+    public boolean getColorPrintComponentTable()
+    {
+        return colorPrintComponentTable;
+    }
+
+    public void setGenerateButtonDisabled(final boolean value)
+    {
+        generateButtonDisabled = value;
+    }
+
+    public boolean getGenerateButtonDisabled()
+    {
+        return generateButtonDisabled;
+    }
 
     public Command getCommand()
     {
@@ -46,6 +68,11 @@ public class ViewBookDefinitionForm
     public void setId(final Long id)
     {
         this.id = id;
+    }
+
+    public BookDefinition getBookDefinition()
+    {
+        return bookDefinition;
     }
 
     public void setBookDefinition(final BookDefinition bookDefinition)

@@ -84,4 +84,12 @@ public class XppBundleArchiveDaoImpl implements XppBundleArchiveDao
         final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(XppBundleArchive.class);
         return criteria.list();
     }
+
+    @Override
+    public List<XppBundleArchive> findByMaterialNumberList(final List<String> sourceMaterialNumberList)
+    {
+        final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(XppBundleArchive.class);
+        criteria.add(Restrictions.in("materialNumber", sourceMaterialNumberList));
+        return criteria.list();
+    }
 }
