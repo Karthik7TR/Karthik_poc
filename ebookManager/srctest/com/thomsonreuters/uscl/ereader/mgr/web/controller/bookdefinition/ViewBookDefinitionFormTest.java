@@ -15,11 +15,11 @@ import org.junit.Test;
 
 public final class ViewBookDefinitionFormTest
 {
-    private static final String printComponentsJson = "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c1&quot;}]";
+    private static final String printComponentsJson = "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c1&quot;,&quot;componentInArchive&quot;:false}]";
 
-    private static final String escaleXMLPrintComp = "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c&apos;1&quot;}]";
+    private static final String escaleXMLPrintComp = "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c&apos;1&quot;,&quot;componentInArchive&quot;:false}]";
 
-    private static final String specialCharacterPrintComp = "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c@1&quot;}]";
+    private static final String specialCharacterPrintComp = "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c@1&quot;,&quot;componentInArchive&quot;:false}]";
 
     private ViewBookDefinitionForm form;
 
