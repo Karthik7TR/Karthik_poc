@@ -81,8 +81,8 @@
 	</xsl:template>
 
 	<xsl:template match="x:ital|x:bold">
-		<xsl:value-of select="." />
-	</xsl:template>
+  		<xsl:apply-templates />
+ 	</xsl:template>
 
 	<xsl:template match="x:t">
 		<xsl:element name="span">

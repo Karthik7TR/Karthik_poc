@@ -77,12 +77,10 @@
 }
 
 .sub, .sub * {
-  font-size: x-small;
   vertical-align: sub;
 }
 
 .super, .super * {
-  font-size: x-small;
   vertical-align: super;
 }
 
@@ -139,6 +137,10 @@
 .front > .outline_name_block > .label {
   display: inline;
   margin-right: calc(1em/2);
+}
+
+.front > .outline_name_block {
+  display: block;
 }
 
 .para_text {
@@ -278,6 +280,7 @@
 
 .appendix_front > .outline_name_block {
   margin: 1em 0;
+  display: block;
 }
 
 .appendix_front > .outline_name_block,
@@ -317,7 +320,8 @@
   max-width: calc(1em*2);
 }
 
-.appendix_section_front .designator {
+.appendix_section_front .designator,
+.form_item .designator {
   margin-right: 1em;
 }
 
@@ -394,10 +398,6 @@
   margin: 1em 0;
 }
 
-.form_line > .t:first-of-type {
-  display: block;
-}
-
 .form_line .leaveout + .t {
   display: inline;
 }
@@ -414,6 +414,7 @@
 .leaveout {
   display: inline-flex;
   align-items: flex-end;
+  vertical-align: sub;
   overflow: hidden;
 }
 
@@ -526,6 +527,7 @@
 
 .entry .leaveout + .cgt,
 .entry .cgt + .cgt,
-.name_block > .designator + .cgt {
+.name_block > .designator + .cgt,
+.toc_analytical_hierarchy .cgt {
   display: none;
 }

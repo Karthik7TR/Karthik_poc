@@ -2,6 +2,7 @@
 .outline_name_block {
     .appendix_front>& {
         margin: $indent 0;
+        display: block;
     }
     .appendix_front>&,
     .toc_appendix_block>& {
@@ -38,7 +39,8 @@
         min-width: calc(#{$indent}*2);
         max-width: calc(#{$indent}*2);
     }
-    .appendix_section_front & {
+    .appendix_section_front &,
+    .form_item & {
         margin-right: $indent;
     }
 }
@@ -109,9 +111,6 @@
     .stat_subsect>.form>& {
         margin: $indent 0;
     }
-    &>.t:first-of-type {
-        display: block;
-    }
     .leaveout+.t {
         display: inline;
     }
@@ -129,6 +128,7 @@
 .leaveout {
     display: inline-flex;
     align-items: flex-end;
+    vertical-align: sub;
     overflow: hidden;
     .stat_structure .form_line &,
     .stat_subsect .form_text>&,

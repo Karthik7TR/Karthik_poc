@@ -51,3 +51,9 @@
         margin-right: calc(#{$indent}/2);
     }
 }
+
+.outline_name_block {
+    .front>& {
+        display: block;
+    }
+}

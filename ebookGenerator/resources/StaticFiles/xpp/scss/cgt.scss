@@ -21,7 +21,8 @@
     }
     .entry .leaveout+&,
     .entry &+&,
-    .name_block>.designator+& {
+    .name_block>.designator+&,
+    .toc_analytical_hierarchy & {
         display: none;
     } //12) ???
     // .form_item>.name_block>.font_name_block_1>& {}
