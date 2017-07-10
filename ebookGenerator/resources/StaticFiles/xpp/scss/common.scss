@@ -84,3 +84,11 @@
 .super, .super * {
     vertical-align: super;
 }
+
+.font_dt {
+    display: none !important;
+}
+
+.font_dt:last-child {
+    display: inline !important;
+}

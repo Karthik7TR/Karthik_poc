@@ -75,7 +75,12 @@
 
 	<xsl:template match="x:dt">
 		<xsl:if test="../parent::x:line[not(following-sibling::x:line)]">
-			<xsl:value-of select="." />
+			<xsl:element name="t" inherit-namespaces="yes">
+				<xsl:attribute name="style">
+					<xsl:text>dt</xsl:text>
+				</xsl:attribute>
+				<xsl:value-of select="." />
+			</xsl:element>
 		</xsl:if>
 	</xsl:template>
 
