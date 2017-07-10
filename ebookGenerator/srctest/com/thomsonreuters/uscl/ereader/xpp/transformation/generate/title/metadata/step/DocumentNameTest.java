@@ -49,10 +49,10 @@ public final class DocumentNameTest
     }
 
     @Test
-    public void testGetDocFamilyGuid()
+    public void testGetDocFamilyUuid()
     {
         final DocumentName documentName = new DocumentName(CORRECT_FILE_NAME);
-        assertThat(documentName.getDocFamilyGuid(), equalTo(DOC_FAMILY_UUID));
+        assertThat(documentName.getDocFamilyUuid(), equalTo(DOC_FAMILY_UUID));
     }
 
     @Test
@@ -93,7 +93,7 @@ public final class DocumentNameTest
         assertThat(documentName.getBaseName(), equalTo(BASE_FILE_NAME));
         assertThat(documentName.getOrder(), equalTo(ORDER));
         assertThat(documentName.getPartType(), equalTo(PartType.MAIN));
-        assertThat(documentName.getDocFamilyGuid(), equalTo(DOC_FAMILY_UUID));
+        assertThat(documentName.getDocFamilyUuid(), equalTo(DOC_FAMILY_UUID));
     }
 
     @Test

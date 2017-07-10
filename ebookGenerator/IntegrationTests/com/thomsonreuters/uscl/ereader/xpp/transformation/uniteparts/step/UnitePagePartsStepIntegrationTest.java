@@ -10,25 +10,26 @@ import java.net.URISyntaxException;
 
 import javax.annotation.Resource;
 
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.PartType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-//TODO: return test when split by structure for footnotes is ready
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 public final class UnitePagePartsStepIntegrationTest
 {
+    private static final String BASE_FILENAME = "sample.DIVXML";
+    private static final String BASE_FILENAME_TWO = "sampleTwo.DIVXML";
     private static final String MATERIAL_NUMBER = "11111111";
     private static final String MATERIAL_NUMBER_2 = "22222222";
-    private static final String DOC_FAMILY_GUID = "Ie0b9c12bf8fb11d99f28ffa0ae8c2575";
+    private static final String DOC_FAMILY_GUID = "Ie0b7c56cf8fb11d99f28ffa0ae8c2575";
+    private static final String DOC_FAMILY_GUID_TWO = "Ic06e6c80607311dcb2b50000837214a9";
 
     @Resource(name = "unitePagesPartsTask")
     private UnitePagePartsStep step;
@@ -49,12 +50,20 @@ public final class UnitePagePartsStepIntegrationTest
         fileSystem.getOriginalDirectory(step, MATERIAL_NUMBER_2).mkdirs();
         fileSystem.getOriginalFile(step, MATERIAL_NUMBER, "sample").createNewFile();
         fileSystem.getOriginalFile(step, MATERIAL_NUMBER_2, "sampleTwo").createNewFile();
-        mainPart = new File(UnitePagePartsStepIntegrationTest.class.getResource("sample_1_main.part").toURI());
-        footnotesPart = new File(UnitePagePartsStepIntegrationTest.class.getResource("sample_1_footnotes.part").toURI());
-        mainPartTwo = new File(UnitePagePartsStepIntegrationTest.class.getResource("sampleTwo_1_main.part").toURI());
-        footnotesPartTwo = new File(UnitePagePartsStepIntegrationTest.class.getResource("sampleTwo_1_footnotes.part").toURI());
-        expected = new File(UnitePagePartsStepIntegrationTest.class.getResource("sample_1.page").toURI());
-        expectedTwo = new File(UnitePagePartsStepIntegrationTest.class.getResource("sampleTwo_1.page").toURI());
+
+        mainPart = new File(UnitePagePartsStepIntegrationTest.class.getResource(
+            fileSystem.getPartFileName(BASE_FILENAME, 1, PartType.MAIN, DOC_FAMILY_GUID)).toURI());
+        footnotesPart = new File(UnitePagePartsStepIntegrationTest.class.getResource(
+            fileSystem.getPartFileName(BASE_FILENAME, 1, PartType.FOOTNOTE, DOC_FAMILY_GUID)).toURI());
+        mainPartTwo = new File(UnitePagePartsStepIntegrationTest.class.getResource(
+            fileSystem.getPartFileName(BASE_FILENAME_TWO, 1, PartType.MAIN, DOC_FAMILY_GUID_TWO)).toURI());
+        footnotesPartTwo = new File(UnitePagePartsStepIntegrationTest.class.getResource(
+            fileSystem.getPartFileName(BASE_FILENAME_TWO, 1, PartType.FOOTNOTE, DOC_FAMILY_GUID_TWO)).toURI());
+
+        expected = new File(UnitePagePartsStepIntegrationTest.class.getResource(
+            fileSystem.getPageFileName(BASE_FILENAME, 1, DOC_FAMILY_GUID)).toURI());
+        expectedTwo = new File(UnitePagePartsStepIntegrationTest.class.getResource(
+            fileSystem.getPageFileName(BASE_FILENAME_TWO, 1, DOC_FAMILY_GUID_TWO)).toURI());
     }
 
     @Test
@@ -70,9 +79,9 @@ public final class UnitePagePartsStepIntegrationTest
         //when
         step.executeStep();
         //then
-        final File actual = fileSystem.getOriginalPageFile(step, MATERIAL_NUMBER, "sample", 1, DOC_FAMILY_GUID);
+        final File actual = fileSystem.getOriginalPageFile(step, MATERIAL_NUMBER, BASE_FILENAME, 1, DOC_FAMILY_GUID);
         assertThat(expected, hasSameContentAs(actual));
-        final File actualTwo = fileSystem.getOriginalPageFile(step, MATERIAL_NUMBER_2, "sampleTwo", 1, DOC_FAMILY_GUID);
+        final File actualTwo = fileSystem.getOriginalPageFile(step, MATERIAL_NUMBER_2, BASE_FILENAME_TWO, 1, DOC_FAMILY_GUID_TWO);
         assertThat(expectedTwo, hasSameContentAs(actualTwo));
     }
 }

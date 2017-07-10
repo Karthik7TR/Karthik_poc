@@ -108,7 +108,7 @@ public class GenerateTitleMetadataStep extends XppTransformationStep
             final List<Doc> documentList = new ArrayList<>();
             for (final DocumentName documentName : allDocumentsNames)
             {
-                documentList.add(new Doc(documentName.getDocFamilyGuid(), documentName.getOriginalFileName(), 0, null));
+                documentList.add(new Doc(documentName.getDocFamilyUuid(), documentName.getOriginalFileName(), 0, null));
             }
             return documentList;
         }

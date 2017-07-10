@@ -1,0 +1,11 @@
+<part.footnotes xmlns="http://www.sdl.com/xpp" fileName="sample.DIVXML_0003"><pagebreak num="4" num-string="4"/><foots/><footnote uuid="I42a8ea5013c911e7b9e3acd823573d3d" date.updated="0" id="6">
+        <footnote.reference>
+            <cgt>5</cgt>
+        </footnote.reference>
+        <footnote.body date.updated="0">
+            <para date.updated="0" first.para="yes">
+                <para.text date.updated="0" first.para.text="yes">
+                    <ref date="1899" normalpub="statute-us-il-laws" ref.id="Id9369ae097b711e297060000833f9e5b" secref="131-37">1899 Ill. Laws 131-37</ref>.</para.text>
+            </para>
+        </footnote.body>
+    </footnote></part.footnotes>

@@ -5,7 +5,8 @@ import java.util.Collection;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem;
-import com.thomsonreuters.uscl.ereader.common.filesystem.entity.PartFilesIndex;
+import com.thomsonreuters.uscl.ereader.common.filesystem.entity.basefiles.BaseFilesIndex;
+import com.thomsonreuters.uscl.ereader.common.filesystem.entity.partfiles.PartFilesIndex;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,6 +28,14 @@ public interface XppFormatFileSystem extends FormatFileSystem
      */
     @NotNull
     Map<String, Collection<File>> getStructureWithMetadataFiles(@NotNull BookStep step);
+
+    /**
+     * Returns index file based on maps: by material number then by base filename then by content type (main or footnotes).
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /02_StructureWithMetadata}{@code /[material number]/[Map<MaterialNumber, Map<BaseFilename, Map<PartType, File>>>]}
+     */
+    @NotNull
+    BaseFilesIndex getStructureWithMetadataFilesIndex(@NotNull BookStep step);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
@@ -286,4 +295,16 @@ public interface XppFormatFileSystem extends FormatFileSystem
      */
     @NotNull
     File getTitleMetadataFile(@NotNull BookStep step);
+
+    /**
+     * Utility method to get fileName of .part file by given parameters.
+     */
+    @NotNull
+    String getPartFileName(@NotNull String baseFilename, @NotNull int pageNumber, @NotNull PartType type, @NotNull String docFamilyGuid);
+
+    /**
+     * Utility method to get fileName of .page file by given parameters.
+     */
+    @NotNull
+    String getPageFileName(@NotNull String baseFilename, @NotNull int pageNumber, @NotNull String docFamilyGuid);
 }

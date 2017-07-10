@@ -13,7 +13,7 @@
                 <metadata.block metadata.store="yes"/>
                 <front date.updated="0">
                     <outline.name.block toc.include="y" date.updated="0">
-                        <name date.updated="0">Business Enterprises</name>
+                        <name date.updated="0">Business Enterprises</name><xref id="2" type="footnote"/>
                     </outline.name.block>
                 </front>
                 <topic.body date.updated="0">

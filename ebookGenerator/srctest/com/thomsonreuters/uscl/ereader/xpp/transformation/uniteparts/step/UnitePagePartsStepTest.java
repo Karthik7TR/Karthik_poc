@@ -15,8 +15,8 @@ import java.util.List;
 
 import javax.xml.transform.Transformer;
 
-import com.thomsonreuters.uscl.ereader.common.filesystem.entity.DocumentFile;
-import com.thomsonreuters.uscl.ereader.common.filesystem.entity.PartFilesIndex;
+import com.thomsonreuters.uscl.ereader.common.filesystem.entity.partfiles.DocumentFile;
+import com.thomsonreuters.uscl.ereader.common.filesystem.entity.partfiles.PartFilesIndex;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
@@ -74,21 +74,24 @@ public final class UnitePagePartsStepTest
 
         final PartFilesIndex partFilesIndex = new PartFilesIndex();
 
-        partFilesIndex.put(MATERIAL_NUMBER, "sample", 1, PartType.MAIN, mockDocumentFile(main11));
-        partFilesIndex.put(MATERIAL_NUMBER, "sample", 1, PartType.FOOTNOTE, mockDocumentFile(footnotes11));
-        partFilesIndex.put(MATERIAL_NUMBER, "sample", 2, PartType.MAIN, mockDocumentFile(main12));
-        partFilesIndex.put(MATERIAL_NUMBER, "sample", 2, PartType.FOOTNOTE, mockDocumentFile(footnotes12));
-        partFilesIndex.put(MATERIAL_NUMBER, "sampleTwo", 1, PartType.MAIN, mockDocumentFile(main2));
-        partFilesIndex.put(MATERIAL_NUMBER, "sampleTwo", 1, PartType.FOOTNOTE, mockDocumentFile(footnotes2));
+        partFilesIndex.put(MATERIAL_NUMBER, "sample", PartType.MAIN, mockDocumentFile(main11, "1"));
+        partFilesIndex.put(MATERIAL_NUMBER, "sample", PartType.FOOTNOTE, mockDocumentFile(footnotes11, "1"));
+        partFilesIndex.put(MATERIAL_NUMBER, "sample", PartType.MAIN, mockDocumentFile(main12, "2"));
+        partFilesIndex.put(MATERIAL_NUMBER, "sample", PartType.FOOTNOTE, mockDocumentFile(footnotes12, "2"));
+        partFilesIndex.put(MATERIAL_NUMBER, "sampleTwo", PartType.MAIN, mockDocumentFile(main2, "3"));
+        partFilesIndex.put(MATERIAL_NUMBER, "sampleTwo", PartType.FOOTNOTE, mockDocumentFile(footnotes2, "3"));
 
         given(fileSystem.getOriginalPartsFiles(step)).willReturn(partFilesIndex);
     }
 
-    private DocumentFile mockDocumentFile(final File file)
+    private DocumentFile mockDocumentFile(final File file, final String uuid)
     {
+        final DocumentName documentName = mock(DocumentName.class);
+        given(documentName.getDocFamilyUuid()).willReturn(uuid);
+
         final DocumentFile documentFile = mock(DocumentFile.class);
         given(documentFile.getFile()).willReturn(file);
-        given(documentFile.getDocumentName()).willReturn(mock(DocumentName.class));
+        given(documentFile.getDocumentName()).willReturn(documentName);
         return documentFile;
     }
 

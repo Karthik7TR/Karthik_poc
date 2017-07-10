@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns="http://www.sdl.com/xpp">
+    <sectionbreak sectionuuid="vol1.fm.title.page"/>
+    <pagebreak num="I" num-string="0"/>
+    <frontmatter>
+        <fm.pub.variable name="matnum"/>
+        <fm.pub.variable name="pubYear"/>
+        <fm.pub.variable name="pubMonth"/>
+        <fm.pub.variable name="pubDate1" month="5" year="2017" both="5/2017"/>
+        <XPPHier uuid="vol1.fm.title.page" name="Title page" parent_uuid="vol1.fm.title.page" md.doc_family_uuid="vol1.fm.title.page">Title page</XPPHier>
+        <fm.title.page>
+            <text.line align="l" emph="bold" font.size="28q" pre.leading="2p">Children and<endline/>the Law:<endline/>Rights &amp; Obligations</text.line>
+        </fm.title.page>
+        <pagebreak num="II" num-string="0"/>
+        <sectionbreak sectionuuid="vol1.fm.copyright.page"/>
+        <XPPHier uuid="vol1.fm.copyright.page" name="Copyright Page" parent_uuid="vol1.fm.copyright.page" md.doc_family_uuid="vol1.fm.copyright.page">Copyright Page</XPPHier>
+        <fm.copyright.page>
+            <fm.current.copyright>
+                <text.line align="c" pre.leading="12p">© <fm.variable name="copyrightYear">2017</fm.variable> Thomson Reuters</text.line>
+            </fm.current.copyright>
+            <fm.disclaimer>
+                <cgt style="fm.copyright.page">This publication was created to provide you with accurate and </cgt>
+            </fm.disclaimer>
+            <fm.copyright.clearance>
+                <cgt style="fm.copyright.page">For authorization to photocopy, please contact the </cgt>
+            </fm.copyright.clearance>
+            <pagebreak num="III" num-string="iii"/>
+        </fm.copyright.page>
+        <XPPHier uuid="vol1.FrontMatter" name="Front matter" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.fm.copyright.page">Front matter</XPPHier>
+        <sectionbreak sectionuuid="vol1.fm.highlights"/>
+        <XPPHier uuid="vol1.fm.highlights" name="Introduction to Edition" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.fm.highlights">Introduction to Edition</XPPHier>
+        <fm.highlights>
+            <para pre.leading="12q" first.para="no">
+                <para.text first.para.text="yes">Some of the highlights of this past year include the following:</para.text>
+                <quote.block>
+                    <list xpp.nestCount="0" xpp.measure="" list.style="block">
+                        <pagebreak num="IV" num-string="iv"/>
+                    </list>
+                </quote.block>
+            </para>
+            <para pre.leading="12q" first.para="no">
+                <para.text first.para.text="yes">
+                    <ital>Children and the Law</ital> is updated annually so that juvenile and family law practitioners can be knowledgeable about relevant statutes, recent decisions from appellate courts, and developing legal concepts. Congress and state legislatures strive to address our changing times while the judicial system continues to afford all litigants equal justice <pagebreak num="V" num-string="v"/>under the law.</para.text>
+            </para>
+        </fm.highlights>
+        <pagebreak num="VI" num-string=""/>
+        <pagebreak num="VII" num-string="vii"/>
+        <fm.dedication>
+        </fm.dedication>
+        <pagebreak num="VIII" num-string=""/>
+        <pagebreak num="IX" num-string="ix"/>
+        <sectionbreak sectionuuid="vol1.About.the.Author"/>
+        <XPPHier uuid="vol1.About.the.Author" name="About the Author" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.About.the.Author">About the Author</XPPHier>
+        <fm.about.the.author>
+            <para pre.leading="12q" first.para="no">
+                <para.text first.para.text="yes">A regular speaker.</para.text>
+            </para>
+        </fm.about.the.author>
+        <pagebreak num="X" num-string=""/>
+        <pagebreak num="XI" num-string="xi"/>
+        <pagebreak num="XII" num-string="xii"/>
+        <sectionbreak sectionuuid="vol1.fm.proview"/>
+        <XPPHier uuid="vol1.fm.proview" name="ProView page" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.fm.proview">ProView page</XPPHier>
+        <fm.proview/>
+        <cgt style="frontmatter"> </cgt>
+    </frontmatter>
+</root>

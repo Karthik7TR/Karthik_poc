@@ -14,7 +14,7 @@ public class DocumentName
     private static final String BASE_NAME_GROUP = "baseName";
     private static final String DOCUMENT_ORDER_GROUP = "documentOrderGroup";
     private static final String TYPE_GROUP = "type";
-    private static final String DOCUMENT_FAMILY_UUID_GROUP = "familyGuid";
+    private static final String DOCUMENT_FAMILY_UUID_GROUP = "familyUuid";
 
     private static final Pattern PARTS_DOCUMENT_NAMING_PATTERN = Pattern.compile(String.format(
         "((?<%s>.*\\.DIVXML)_(?<%s>\\d+)(_(?<%s>%s|%s)){0,1}_(?<%s>[a-zA-Z0-9.]{1,})\\.[a-z]*)",
@@ -73,7 +73,7 @@ public class DocumentName
      * Extract family uuid from file name
      */
     @NotNull
-    public String getDocFamilyGuid()
+    public String getDocFamilyUuid()
     {
         return matcher.group(DOCUMENT_FAMILY_UUID_GROUP);
     }

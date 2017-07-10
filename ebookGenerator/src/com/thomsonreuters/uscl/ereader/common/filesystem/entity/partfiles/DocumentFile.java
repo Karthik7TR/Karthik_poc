@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.common.filesystem.entity;
+package com.thomsonreuters.uscl.ereader.common.filesystem.entity.partfiles;
 
 import java.io.File;
 

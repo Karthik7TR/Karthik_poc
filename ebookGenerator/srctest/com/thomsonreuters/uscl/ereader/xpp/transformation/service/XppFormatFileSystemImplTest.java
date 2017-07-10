@@ -13,7 +13,8 @@ import java.util.Collection;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem;
-import com.thomsonreuters.uscl.ereader.common.filesystem.entity.PartFilesIndex;
+import com.thomsonreuters.uscl.ereader.common.filesystem.entity.basefiles.BaseFilesIndex;
+import com.thomsonreuters.uscl.ereader.common.filesystem.entity.partfiles.PartFilesIndex;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import org.junit.Before;
 import org.junit.Rule;
@@ -27,6 +28,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public final class XppFormatFileSystemImplTest
 {
+    private static final String SECTION_UUID = "Ie0b9c12bf8fb11d99f28ffa0ae8c2575";
+    private static final String SECTION_UUID_2 = "Ie0b9c12bf8fb11d99f28ffa0ae8c2576";
     private static final String CSS_DIR = "01_Css";
     private static final String ORIGINAL_DIR = "workDirectory/Format/02_Original";
     private static final String SOURCE_DIR = "workDirectory/Format/03_StructureWithMetadata";
@@ -43,6 +46,8 @@ public final class XppFormatFileSystemImplTest
     private static final String FILE_NAME_FOOTNOTES   = "fileName.footnotes";
     private static final String FILE_NAME_PART        = "fileName.part";
     private static final String FILE_NAME_1_MAIN_PART = "fileName.DIVXML_1_main_Ie0b9c12bf8fb11d99f28ffa0ae8c2575.part";
+    private static final String FILE_NAME_1_FOOTNOTES_PART = "fileName.DIVXML_1_footnotes_Ie0b9c12bf8fb11d99f28ffa0ae8c2575.part";
+    private static final String FILE_NAME_2_MAIN_PART = "fileName.DIVXML_2_main_Ie0b9c12bf8fb11d99f28ffa0ae8c2576.part";
     private static final String FILE_NAME_2_FOOTNOTES_PART = "fileName.DIVXML_2_footnotes_Ie0b9c12bf8fb11d99f28ffa0ae8c2576.part";
     private static final String FILE_NAME_1_PAGE_WITH_GUID = "fileName_0001_Ie0b9c12bf8fb11d99f28ffa0ae8c2575.page";
     private static final String FILE_NAME_HTML = "fileName.html";
@@ -55,7 +60,7 @@ public final class XppFormatFileSystemImplTest
 
     private static final String MATERIAL_NUMBER = "11111111";
     private static final String MATERIAL_NUMBER_2 = "22222222";
-    private static final String DOC_FAMILY_GUID = "Ie0b9c12bf8fb11d99f28ffa0ae8c2575";
+    private static final String DOC_FAMILY_GUID = SECTION_UUID;
 
     @InjectMocks
     private XppFormatFileSystemImpl fileSystem;
@@ -104,6 +109,20 @@ public final class XppFormatFileSystemImplTest
         //then
         assertTrue(map.get(MATERIAL_NUMBER).contains(originalFile1));
         assertTrue(map.get(MATERIAL_NUMBER_2).contains(originalFile2));
+    }
+
+    @Test
+    public void shouldReturnStructureWithMetadataFilesIndex() throws IOException
+    {
+        //given
+        final File sourcelDir = mkdir(temporaryFolder.getRoot(), SOURCE_DIR);
+        final File originalFileMain = mkfile(mkdir(sourcelDir, MATERIAL_NUMBER), FILE_NAME_MAIN);
+        final File originalFileFootnotes = mkfile(mkdir(sourcelDir, MATERIAL_NUMBER), FILE_NAME_FOOTNOTES);
+        //when
+        final BaseFilesIndex baseFilesIndex = fileSystem.getStructureWithMetadataFilesIndex(step);
+        //then
+        assertTrue(baseFilesIndex.get(MATERIAL_NUMBER, FILE_NAME, PartType.MAIN).equals(originalFileMain));
+        assertTrue(baseFilesIndex.get(MATERIAL_NUMBER, FILE_NAME, PartType.FOOTNOTE).equals(originalFileFootnotes));
     }
 
     @Test
@@ -314,13 +333,17 @@ public final class XppFormatFileSystemImplTest
     {
         //given
         final File originalPartsDir = mkdir(temporaryFolder.getRoot(), ORIGINAL_PARTS_DIR);
-        final File file1 = mkfile(mkdir(originalPartsDir, MATERIAL_NUMBER), FILE_NAME_1_MAIN_PART);
-        final File file2 = mkfile(mkdir(originalPartsDir, MATERIAL_NUMBER_2), FILE_NAME_2_FOOTNOTES_PART);
+        final File file1Main = mkfile(mkdir(originalPartsDir, MATERIAL_NUMBER), FILE_NAME_1_MAIN_PART);
+        final File file1Footnotes = mkfile(mkdir(originalPartsDir, MATERIAL_NUMBER), FILE_NAME_1_FOOTNOTES_PART);
+        final File file2Main = mkfile(mkdir(originalPartsDir, MATERIAL_NUMBER_2), FILE_NAME_2_MAIN_PART);
+        final File file2Footnotes = mkfile(mkdir(originalPartsDir, MATERIAL_NUMBER_2), FILE_NAME_2_FOOTNOTES_PART);
         //when
         final PartFilesIndex partFilesIndex = fileSystem.getOriginalPartsFiles(step);
         //then
-        assertTrue(partFilesIndex.get(MATERIAL_NUMBER, BASE_FILE_NAME, 1, PartType.MAIN).getFile().equals(file1));
-        assertTrue(partFilesIndex.get(MATERIAL_NUMBER_2, BASE_FILE_NAME, 2, PartType.FOOTNOTE).getFile().equals(file2));
+        assertTrue(partFilesIndex.get(MATERIAL_NUMBER, BASE_FILE_NAME, SECTION_UUID, PartType.MAIN).getFile().equals(file1Main));
+        assertTrue(partFilesIndex.get(MATERIAL_NUMBER, BASE_FILE_NAME, SECTION_UUID, PartType.FOOTNOTE).getFile().equals(file1Footnotes));
+        assertTrue(partFilesIndex.get(MATERIAL_NUMBER_2, BASE_FILE_NAME, SECTION_UUID_2, PartType.MAIN).getFile().equals(file2Main));
+        assertTrue(partFilesIndex.get(MATERIAL_NUMBER_2, BASE_FILE_NAME, SECTION_UUID_2, PartType.FOOTNOTE).getFile().equals(file2Footnotes));
     }
 
     @Test

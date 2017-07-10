@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
-public class AddSectionbreaksStepIntegrationTest
+public final class AddSectionbreaksStepIntegrationTest
 {
     private static final String MATERIAL_NUMBER = "11111111";
 
@@ -30,20 +30,36 @@ public class AddSectionbreaksStepIntegrationTest
     @Autowired
     private XppFormatFileSystem fileSystem;
 
-    private File originalXml;
-    private File originalXmlTwo;
+    private File frontXml;
+    private File frontXmlFootnotes;
+    private File expectedFrontXmlFootnotes;
 
-    private File expectedOuput1;
-    private File expectedOuput2;
+    private File mainXmlOne;
+    private File mainXmlOneFootnotes;
+    private File expectedMainXmlOne;
+    private File expectedMainXmlOneFootnotes;
+
+    private File mainXmlTwo;
+    private File mainXmlTwoFootnotes;
+    private File expectedMainXmlTwo;
+    private File expectedMainXmlTwoFootnotes;
 
     @Before
     public void setUp() throws URISyntaxException
     {
-        originalXml = new File(AddSectionbreaksStepIntegrationTest.class.getResource("1-CHAL_7.DIVXML.main").toURI());
-        originalXmlTwo = new File(AddSectionbreaksStepIntegrationTest.class.getResource("1-CHAL_APX_21.DIVXML.main").toURI());
+        frontXml = new File(AddSectionbreaksStepIntegrationTest.class.getResource("0-CHAL_Front_vol_1.DIVXML.main").toURI());
+        frontXmlFootnotes = new File(AddSectionbreaksStepIntegrationTest.class.getResource("0-CHAL_Front_vol_1.DIVXML.footnotes").toURI());
+        expectedFrontXmlFootnotes = new File(AddSectionbreaksStepIntegrationTest.class.getResource("expected-0-CHAL_Front_vol_1.DIVXML.footnotes").toURI());
 
-        expectedOuput1 = new File(AddSectionbreaksStepIntegrationTest.class.getResource("expectedOutput1.main").toURI());
-        expectedOuput2 = new File(AddSectionbreaksStepIntegrationTest.class.getResource("expectedOutput2.main").toURI());
+        mainXmlOne = new File(AddSectionbreaksStepIntegrationTest.class.getResource("1-CHAL_7.DIVXML.main").toURI());
+        mainXmlOneFootnotes = new File(AddSectionbreaksStepIntegrationTest.class.getResource("1-CHAL_7.DIVXML.footnotes").toURI());
+        expectedMainXmlOne = new File(AddSectionbreaksStepIntegrationTest.class.getResource("expected-1-CHAL_7.DIVXML.main").toURI());
+        expectedMainXmlOneFootnotes = new File(AddSectionbreaksStepIntegrationTest.class.getResource("expected-1-CHAL_7.DIVXML.footnotes").toURI());
+
+        mainXmlTwo = new File(AddSectionbreaksStepIntegrationTest.class.getResource("1-CHAL_APX_21.DIVXML.main").toURI());
+        mainXmlTwoFootnotes = new File(AddSectionbreaksStepIntegrationTest.class.getResource("1-CHAL_APX_21.DIVXML.footnotes").toURI());
+        expectedMainXmlTwo = new File(AddSectionbreaksStepIntegrationTest.class.getResource("expected-1-CHAL_APX_21.DIVXML.main").toURI());
+        expectedMainXmlTwoFootnotes = new File(AddSectionbreaksStepIntegrationTest.class.getResource("expected-1-CHAL_APX_21.DIVXML.footnotes").toURI());
     }
 
     @After
@@ -58,16 +74,27 @@ public class AddSectionbreaksStepIntegrationTest
         //given
         final File originalMainSourceDir = fileSystem.getStructureWithMetadataBundleDirectory(step, MATERIAL_NUMBER);
         FileUtils.forceMkdir(originalMainSourceDir);
-        FileUtils.copyFileToDirectory(originalXml, originalMainSourceDir);
-        FileUtils.copyFileToDirectory(originalXmlTwo, originalMainSourceDir);
+        FileUtils.copyFileToDirectory(frontXml, originalMainSourceDir);
+        FileUtils.copyFileToDirectory(frontXmlFootnotes, originalMainSourceDir);
+        FileUtils.copyFileToDirectory(mainXmlOne, originalMainSourceDir);
+        FileUtils.copyFileToDirectory(mainXmlOneFootnotes, originalMainSourceDir);
+        FileUtils.copyFileToDirectory(mainXmlTwo, originalMainSourceDir);
+        FileUtils.copyFileToDirectory(mainXmlTwoFootnotes, originalMainSourceDir);
 
         //when
         step.executeStep();
         //then
-        final File actualOuput1 = fileSystem.getSectionbreaksFile(step, MATERIAL_NUMBER, originalXml.getName());
-        assertThat(actualOuput1, hasSameContentAs(expectedOuput1));
+        assertOutputContent(frontXml, frontXml);
+        assertOutputContent(frontXmlFootnotes, expectedFrontXmlFootnotes);
+        assertOutputContent(mainXmlOne, expectedMainXmlOne);
+        assertOutputContent(mainXmlOneFootnotes, expectedMainXmlOneFootnotes);
+        assertOutputContent(mainXmlTwo, expectedMainXmlTwo);
+        assertOutputContent(mainXmlTwoFootnotes, expectedMainXmlTwoFootnotes);
+    }
 
-        final File actualOuput2 = fileSystem.getSectionbreaksFile(step, MATERIAL_NUMBER, originalXmlTwo.getName());
-        assertThat(actualOuput2, hasSameContentAs(expectedOuput2));
+    private void assertOutputContent(final File original, final File expected)
+    {
+        final File actualOuput = fileSystem.getSectionbreaksFile(step, MATERIAL_NUMBER, original.getName());
+        assertThat(actualOuput, hasSameContentAs(expected));
     }
 }

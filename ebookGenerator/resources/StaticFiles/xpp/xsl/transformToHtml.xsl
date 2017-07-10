@@ -66,7 +66,21 @@
 	
 	<xsl:template match="x:XPPMetaData" />
 
-	<xsl:template match="x:part.footnotes|x:foots|x:footnote">
+    <xsl:template match="x:part.footnotes">
+		<section class="tr_footnotes">
+			<xsl:apply-templates />
+		</section>
+	</xsl:template>
+    
+    <xsl:template match="x:footnote">
+		<div class="tr_footnote">
+            <div class="footnote">
+                <xsl:apply-templates />
+            </div>
+		</div>
+	</xsl:template>
+    
+	<xsl:template match="x:foots">
 		<xsl:copy>
 			<xsl:copy-of select="./@id" />
 			<xsl:apply-templates />
@@ -81,8 +95,8 @@
 	</xsl:template>
 
 	<xsl:template match="x:ital|x:bold">
-  		<xsl:apply-templates />
- 	</xsl:template>
+		<xsl:apply-templates />
+	</xsl:template>
 
 	<xsl:template match="x:t">
 		<xsl:element name="span">
@@ -97,7 +111,6 @@
 	</xsl:template>
 
 <!--    TODO: move to img step -->
-	<xsl:template match="x:image.block"/>
 <!-- 	<xsl:template match="x:image.block"> -->
 <!-- 		<xsl:param name="quote">"</xsl:param> -->
 <!-- 		<xsl:param name="ident">ident="</xsl:param> -->

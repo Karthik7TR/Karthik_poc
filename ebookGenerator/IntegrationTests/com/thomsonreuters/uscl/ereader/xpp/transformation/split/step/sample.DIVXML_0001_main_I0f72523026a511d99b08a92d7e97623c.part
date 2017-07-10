@@ -1,1 +1,180 @@
-<part.main xmlns="http://www.sdl.com/xpp" fileName="sample.DIVXML_0001"><pagebreak num="1"/><publication><metadata.block><metadata><value/></metadata></metadata.block><publication.body><topic><metadata.block/><front><outline.name.block><name>Business Enterprises</name></outline.name.block></front><topic.body><chapter><metadata.block><metadata><value/></metadata></metadata.block><front><outline.name.block><label>Chapter</label> <designator>30</designator><name>Partnerships</name></outline.name.block><generated.toc><full.toc><toc.analytical.level><outline.name.block><designator>I.</designator><name> General Partnerships</name></outline.name.block><toc.analytical.level><outline.name.block><designator>A.</designator><name> General Considerations</name></outline.name.block><toc.analytical.level><outline.name.block><designator>1.</designator><name> Introduction</name></outline.name.block><toc.section><outline.name.block><label>§ </label><designator>30:1</designator><name>In general; definitions and distinctions</name></outline.name.block></toc.section><toc.section><outline.name.block><label>§ </label><designator>30:2</designator><name>Determining existence of partnership</name></outline.name.block></toc.section></toc.analytical.level><toc.analytical.level><outline.name.block><designator>2.</designator><name> Form Drafting Principles</name></outline.name.block><toc.section><outline.name.block><label>§ </label><designator>30:3</designator><name>General requirements; necessity for writing</name></outline.name.block></toc.section><toc.section><outline.name.block><label>§ </label><designator>30:4</designator><name>Provisions of partnership agreement</name></outline.name.block></toc.section><toc.section><outline.name.block><label>§ </label><designator>30:5</designator><name>Partnership registration statement preparation and filing</name></outline.name.block></toc.section><toc.section><outline.name.block><label>§ </label><designator>30:6</designator><name>Amendment or cancellation</name></outline.name.block></toc.section><toc.section><outline.name.block><label>§ </label><designator>30:7</designator><name>Formal requirements—Fictitious business name certificate</name></outline.name.block></toc.section></toc.analytical.level><toc.analytical.level><outline.name.block><designator>3.</designator><name> Tax Aspects</name></outline.name.block><toc.section><outline.name.block><label>§ </label><designator>30:8</designator><name>Principles of partnership taxation</name></outline.name.block></toc.section><toc.section><outline.name.block><label>§ </label><designator>30:9</designator><name>Income, losses and deductions</name></outline.name.block></toc.section><toc.section><outline.name.block><label>§ </label><designator>30:10</designator><name>Distributions</name></outline.name.block></toc.section><toc.section><outline.name.block><label>§ </label><designator>30:11</designator><name>Basis</name></outline.name.block></toc.section></toc.analytical.level><toc.analytical.level><outline.name.block><designator>4.</designator><name> Checklists</name></outline.name.block><toc.section><outline.name.block><label>§ </label><designator>30:12</designator><name>Drafting general partnership agreement</name></outline.name.block></toc.section></toc.analytical.level></toc.analytical.level><toc.analytical.level><outline.name.block><designator>B.</designator><name> Forms</name></outline.name.block><toc.section><outline.name.block><label>§ </label><designator>30:13</designator><name>General partnership agreement</name></outline.name.block></toc.section><toc.section><outline.name.block><label>§ </label><designator>30:14</designator><name>—Short form</name></outline.name.block></toc.section><toc.section><outline.name.block><label>§ </label><designator>30:15</designator><name>—Investor and worker</name></outline.name.block></toc.section><toc.section><outline.name.block><label>§ </label><designator>30:16</designator><name>—Husband and wife</name></outline.name.block></toc.section></toc.analytical.level></toc.analytical.level></full.toc></generated.toc></front></chapter></topic.body></topic></publication.body></publication></part.main>
+<part.main xmlns="http://www.sdl.com/xpp" fileName="sample.DIVXML_0001"><pagebreak num="1"/><publication>
+        <metadata.block>
+            <metadata>
+                <value/>
+            </metadata>
+        </metadata.block>
+        <publication.body>
+            <topic>
+                <metadata.block/>
+                <front>
+                    <outline.name.block>
+                        <name>Business Enterprises</name>
+                    </outline.name.block>
+                </front>
+                <topic.body>
+                    <chapter>
+                        <metadata.block>
+                            <metadata>
+                                <value/>
+                            </metadata>
+                        </metadata.block>
+                        <front>
+                            <outline.name.block>
+                                <label>Chapter</label> <designator>30</designator>
+                                <name>Partnerships</name>
+                            </outline.name.block>
+                            <generated.toc>
+                                <full.toc>
+                                    <toc.analytical.level>
+                                        <outline.name.block>
+                                            <designator>I.</designator>
+                                            <name> General Partnerships</name>
+                                        </outline.name.block>
+                                        <toc.analytical.level>
+                                            <outline.name.block>
+                                                <designator>A.</designator>
+                                                <name> General Considerations</name>
+                                            </outline.name.block>
+                                            <toc.analytical.level>
+                                                <outline.name.block>
+                                                    <designator>1.</designator>
+                                                    <name> Introduction</name>
+                                                </outline.name.block>
+                                                <toc.section>
+                                                    <outline.name.block>
+                                                        <label>§ </label>
+                                                        <designator>30:1</designator>
+                                                        <name>In general; definitions and distinctions</name>
+                                                    </outline.name.block>
+                                                </toc.section>
+                                                <toc.section>
+                                                    <outline.name.block>
+                                                        <label>§ </label>
+                                                        <designator>30:2</designator>
+                                                        <name>Determining existence of partnership</name>
+                                                    </outline.name.block>
+                                                </toc.section>
+                                            </toc.analytical.level>
+                                            <toc.analytical.level>
+                                                <outline.name.block>
+                                                    <designator>2.</designator>
+                                                    <name> Form Drafting Principles</name>
+                                                </outline.name.block>
+                                                <toc.section>
+                                                    <outline.name.block>
+                                                        <label>§ </label>
+                                                        <designator>30:3</designator>
+                                                        <name>General requirements; necessity for writing</name>
+                                                    </outline.name.block>
+                                                </toc.section>
+                                                <toc.section>
+                                                    <outline.name.block>
+                                                        <label>§ </label>
+                                                        <designator>30:4</designator>
+                                                        <name>Provisions of partnership agreement</name>
+                                                    </outline.name.block>
+                                                </toc.section>
+                                                <toc.section>
+                                                    <outline.name.block>
+                                                        <label>§ </label>
+                                                        <designator>30:5</designator>
+                                                        <name>Partnership registration statement preparation and filing</name>
+                                                    </outline.name.block>
+                                                </toc.section>
+                                                <toc.section>
+                                                    <outline.name.block>
+                                                        <label>§ </label>
+                                                        <designator>30:6</designator>
+                                                        <name>Amendment or cancellation</name>
+                                                    </outline.name.block>
+                                                </toc.section>
+                                                <toc.section>
+                                                    <outline.name.block>
+                                                        <label>§ </label>
+                                                        <designator>30:7</designator>
+                                                        <name>Formal requirements—Fictitious business name certificate</name>
+                                                    </outline.name.block>
+                                                </toc.section>
+                                            </toc.analytical.level>
+                                            <toc.analytical.level>
+                                                <outline.name.block>
+                                                    <designator>3.</designator>
+                                                    <name> Tax Aspects</name>
+                                                </outline.name.block>
+                                                <toc.section>
+                                                    <outline.name.block>
+                                                        <label>§ </label>
+                                                        <designator>30:8</designator>
+                                                        <name>Principles of partnership taxation</name>
+                                                    </outline.name.block>
+                                                </toc.section>
+                                                <toc.section>
+                                                    <outline.name.block>
+                                                        <label>§ </label>
+                                                        <designator>30:9</designator>
+                                                        <name>Income, losses and deductions</name>
+                                                    </outline.name.block>
+                                                </toc.section>
+                                                <toc.section>
+                                                    <outline.name.block>
+                                                        <label>§ </label>
+                                                        <designator>30:10</designator>
+                                                        <name>Distributions</name>
+                                                    </outline.name.block>
+                                                </toc.section>
+                                                <toc.section>
+                                                    <outline.name.block>
+                                                        <label>§ </label>
+                                                        <designator>30:11</designator>
+                                                        <name>Basis</name>
+                                                    </outline.name.block>
+                                                </toc.section>
+                                            </toc.analytical.level>
+                                            <toc.analytical.level>
+                                                <outline.name.block>
+                                                    <designator>4.</designator>
+                                                    <name> Checklists</name>
+                                                </outline.name.block>
+                                                <toc.section>
+                                                    <outline.name.block>
+                                                        <label>§ </label>
+                                                        <designator>30:12</designator>
+                                                        <name>Drafting general partnership agreement</name>
+                                                    </outline.name.block>
+                                                </toc.section>
+                                            </toc.analytical.level>
+                                        </toc.analytical.level>
+                                        <toc.analytical.level>
+                                            <outline.name.block>
+                                                <designator>B.</designator>
+                                                <name> Forms</name>
+                                            </outline.name.block>
+                                            <toc.section>
+                                                <outline.name.block>
+                                                    <label>§ </label>
+                                                    <designator>30:13</designator>
+                                                    <name>General partnership agreement</name>
+                                                </outline.name.block>
+                                            </toc.section>
+                                            <toc.section>
+                                                <outline.name.block>
+                                                    <label>§ </label>
+                                                    <designator>30:14</designator>
+                                                    <name>—Short form</name>
+                                                </outline.name.block>
+                                            </toc.section>
+                                            <toc.section>
+                                                <outline.name.block>
+                                                    <label>§ </label>
+                                                    <designator>30:15</designator>
+                                                    <name>—Investor and worker</name>
+                                                </outline.name.block>
+                                            </toc.section>
+                                            <toc.section>
+                                                <outline.name.block>
+                                                    <label>§ </label>
+                                                    <designator>30:16</designator>
+                                                    <name>—Husband and wife</name>
+                                                    <pagebreak num="2"/>
+                                                    </outline.name.block></toc.section></toc.analytical.level></toc.analytical.level></full.toc></generated.toc></front></chapter></topic.body></topic></publication.body></publication></part.main>

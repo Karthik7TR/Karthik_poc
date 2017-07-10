@@ -14,6 +14,7 @@ import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishi
 import com.thomsonreuters.uscl.ereader.xpp.strategy.provider.BundleFileHandlingStrategyProvider;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step.strategy.PlaceXppMetadataStrategy;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.PartType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
 import org.sonar.runner.commonsio.FileUtils;
 
@@ -44,7 +45,7 @@ public class PlaceXppMetadataStep extends XppTransformationStep
         {
             final String fileName = file.getName();
             final BundleFileType bundleFileType = BundleFileType.getByFileName(fileName);
-            if (bundleFileType == BundleFileType.MAIN_CONTENT || fileName.endsWith(".footnote"))
+            if (bundleFileType == BundleFileType.MAIN_CONTENT || fileName.endsWith(PartType.FOOTNOTE.getName()))
             {
                 FileUtils.copyFile(file, fileSystem.getStructureWithMetadataFile(this, materialNumber, fileName));
             }

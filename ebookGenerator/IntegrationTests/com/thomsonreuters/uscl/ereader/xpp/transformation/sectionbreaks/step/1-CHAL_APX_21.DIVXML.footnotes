@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns="http://www.sdl.com/xpp">
+    <pagebreak num="1" num-string="1"/>
+    <footnote uuid="I42a3e14013c911e7b9e3acd823573d3d" date.updated="0" id="2">
+        <cgt>[Section 1:1]</cgt>
+        <footnote.reference>
+            <cgt>1</cgt>
+        </footnote.reference>
+        <footnote.body date.updated="0">
+            <para date.updated="0" first.para="yes">
+                <para.text date.updated="0" first.para.text="yes">
+                    <ref normalpub="lr" ref.id="Id932f16097b711e297060000833f9e5b" reftext="Mack, The Juvenile Court">Mack, The Juvenile Court, 23 Harv. L. Rev. 104 (1909)</ref>.</para.text>
+            </para>
+        </footnote.body>
+    </footnote>
+    <footnote uuid="I42e15f7013c911e7b9e3acd823573d3d" date.updated="0" id="27">
+        <footnote.body date.updated="0">
+            <para date.updated="0" first.para="no">
+                <pagebreak num="2" num-string="2"/>
+            </para>
+        </footnote.body>
+    </footnote>
+</root>

@@ -1,16 +1,16 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.uniteparts.step;
 
-import static java.util.Arrays.asList;
-
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.transform.Transformer;
 
-import com.thomsonreuters.uscl.ereader.common.filesystem.entity.PartFilesByBaseNameIndex;
-import com.thomsonreuters.uscl.ereader.common.filesystem.entity.PartFilesByOrderIndex;
-import com.thomsonreuters.uscl.ereader.common.filesystem.entity.PartFilesByTypeIndex;
+import com.thomsonreuters.uscl.ereader.common.filesystem.entity.partfiles.DocumentFile;
+import com.thomsonreuters.uscl.ereader.common.filesystem.entity.partfiles.PartFilesByBaseNameIndex;
+import com.thomsonreuters.uscl.ereader.common.filesystem.entity.partfiles.PartFilesByTypeIndex;
+import com.thomsonreuters.uscl.ereader.common.filesystem.entity.partfiles.PartFilesByUuidIndex;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
@@ -38,24 +38,31 @@ public class UnitePagePartsStep extends XppTransformationStep
         {
             final String materialNumber = fileGroupsByMaterialNumber.getKey();
             FileUtils.forceMkdir(fileSystem.getOriginalPagesDirectory(this, materialNumber));
-            for (final Map.Entry<String, PartFilesByOrderIndex> pagesGroupedByBaseFileName : fileGroupsByMaterialNumber.getValue().getPartFilesByBaseName().entrySet())
+            for (final Map.Entry<String, PartFilesByUuidIndex> pagesGroupedByBaseFileName : fileGroupsByMaterialNumber.getValue().getPartFilesByBaseName().entrySet())
             {
-                for (final Map.Entry<Integer, PartFilesByTypeIndex> pageParts : pagesGroupedByBaseFileName.getValue().getPartFilesByOrder().entrySet())
+                for (final Map.Entry<String, PartFilesByTypeIndex> pageParts : pagesGroupedByBaseFileName.getValue().getPartFilesByUuid().entrySet())
                 {
-                    createPage(transformer, materialNumber, pagesGroupedByBaseFileName.getKey(), pageParts.getKey(), pageParts.getValue());
+                    createPage(transformer, materialNumber, pagesGroupedByBaseFileName.getKey(), pageParts.getValue());
                 }
             }
         }
     }
 
-    private void createPage(final Transformer transformer, final String materialNumber, final String fileName, final Integer index, final PartFilesByTypeIndex filesByType)
+    private void createPage(final Transformer transformer, final String materialNumber, final String fileName, final PartFilesByTypeIndex filesByType)
     {
-        final File mainPart = filesByType.getPartFilesByType().get(PartType.MAIN).getFile();
-        //TODO: return back when split by structure for footnotes is ready
-        //final File footnotesPart = filesByType.getPartFilesByType().get(PartType.FOOTNOTE).getFile();
-        final List<File> files = asList(mainPart);
+        final Map<PartType, DocumentFile> parts = filesByType.getPartFilesByType();
+        final List<File> files = new ArrayList<>();
 
-        transformationService.transform(transformer, files, fileSystem.getOriginalPageFile(this, materialNumber, fileName, index,
-            filesByType.getPartFilesByType().entrySet().iterator().next().getValue().getDocumentName().getDocFamilyGuid()));
+        final DocumentFile mainFile = parts.get(PartType.MAIN);
+
+        files.add(mainFile.getFile());
+
+        if (parts.get(PartType.FOOTNOTE) != null)
+        {
+            files.add(parts.get(PartType.FOOTNOTE).getFile());
+        }
+
+        transformationService.transform(transformer, files, fileSystem.getOriginalPageFile(this, materialNumber, fileName, mainFile.getDocumentName().getOrder(),
+            filesByType.getPartFilesByType().entrySet().iterator().next().getValue().getDocumentName().getDocFamilyUuid()));
     }
 }

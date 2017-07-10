@@ -8,8 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystemImpl;
-import com.thomsonreuters.uscl.ereader.common.filesystem.entity.DocumentFile;
-import com.thomsonreuters.uscl.ereader.common.filesystem.entity.PartFilesIndex;
+import com.thomsonreuters.uscl.ereader.common.filesystem.entity.basefiles.BaseFilesIndex;
+import com.thomsonreuters.uscl.ereader.common.filesystem.entity.partfiles.DocumentFile;
+import com.thomsonreuters.uscl.ereader.common.filesystem.entity.partfiles.PartFilesIndex;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.generate.title.metadata.step.DocumentName;
 import org.apache.commons.io.FilenameUtils;
@@ -58,6 +59,13 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     public Map<String, Collection<File>> getStructureWithMetadataFiles(@NotNull final BookStep step)
     {
         return getMaterialNumberToFilesMap(getStructureWithMetadataDirectory(step));
+    }
+
+    @NotNull
+    @Override
+    public BaseFilesIndex getStructureWithMetadataFilesIndex(@NotNull final BookStep step)
+    {
+        return getBaseFilesIndex(getStructureWithMetadataDirectory(step));
     }
 
     @NotNull
@@ -216,10 +224,9 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
                 final DocumentFile documentFile = new DocumentFile(file);
                 final DocumentName documentName = documentFile.getDocumentName();
                 final String baseName = documentName.getBaseName();
-                final Integer index = documentName.getOrder();
                 final PartType type = documentName.getPartType();
 
-                result.put(dir.getKey(), baseName, index, type, documentFile);
+                result.put(dir.getKey(), baseName, type, documentFile);
             }
         }
         return result;
@@ -247,8 +254,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
         final int pageNumber,
         @NotNull final String docFamilyGuid)
     {
-        final String fileName = String.format("%s_%04d_%s.page", fileBaseName, pageNumber, docFamilyGuid);
-        return new File(getOriginalPagesDirectory(step, materialNumber), fileName);
+        return new File(getOriginalPagesDirectory(step, materialNumber), getPageFileName(fileBaseName, pageNumber, docFamilyGuid));
     }
 
     @NotNull
@@ -342,6 +348,20 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
         return new File(getTitleMetadataDirectory(step), TITLE_METADATA_FILE);
     }
 
+    @NotNull
+    @Override
+    public String getPartFileName(@NotNull final String baseFilename, @NotNull final int pageNumber, @NotNull final PartType type, @NotNull final String docFamilyGuid)
+    {
+        return String.format("%s_%04d_%s_%s.part", baseFilename, pageNumber, type.getName(), docFamilyGuid);
+    }
+
+    @NotNull
+    @Override
+    public String getPageFileName(@NotNull final String baseFilename, @NotNull final int pageNumber, @NotNull final String docFamilyGuid)
+    {
+        return String.format("%s_%04d_%s.page", baseFilename, pageNumber, docFamilyGuid);
+    }
+
     private Map<String, Collection<File>> getMaterialNumberToFilesMap(@NotNull final File root)
     {
         final Map<String, Collection<File>> files = new HashMap<>();
@@ -351,5 +371,24 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
             files.put(materialNumber, Arrays.asList(sourceDir.listFiles()));
         }
         return files;
+    }
+
+    /**
+     * Builds index for base files with name [base file name].[part type like 'main' and 'footnotes'].
+     * @param baseFilesDir - location of bundles with indexing files.
+     */
+    private BaseFilesIndex getBaseFilesIndex(@NotNull final File baseFilesDir)
+    {
+        final BaseFilesIndex result = new BaseFilesIndex();
+        for (final Map.Entry<String, Collection<File>> dir : getMaterialNumberToFilesMap(baseFilesDir).entrySet())
+        {
+            for (final File file : dir.getValue())
+            {
+                final String baseName = FilenameUtils.removeExtension(file.getName());
+                final PartType type = PartType.valueOfByName(FilenameUtils.getExtension(file.getName()));
+                result.put(dir.getKey(), baseName, type, file);
+            }
+        }
+        return result;
     }
 }

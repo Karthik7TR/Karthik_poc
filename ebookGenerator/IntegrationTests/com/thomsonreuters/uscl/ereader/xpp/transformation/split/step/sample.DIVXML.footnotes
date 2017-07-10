@@ -1,0 +1,56 @@
+<root xmlns="http://www.sdl.com/xpp">
+    <sectionbreak sectionuuid="I0f72523026a511d99b08a92d7e97623c"/><pagebreak num="1" num-string="1"/>
+    <pagebreak num="2" num-string="2"/>
+    <sectionbreak sectionuuid="I4a6f120026a611d99b08a92d7e97623c"/><pagebreak num="3" num-string="3"/>
+    <foots/>
+    <footnote uuid="I42a3e14013c911e7b9e3acd823573d3d" date.updated="0" id="2">
+        <cgt>[Section 1:1]</cgt>
+        <footnote.reference>
+            <cgt>1</cgt>
+        </footnote.reference>
+        <footnote.body date.updated="0">
+            <para date.updated="0" first.para="yes">
+                <para.text date.updated="0" first.para.text="yes">
+                    <ref normalpub="lr" ref.id="Id932f16097b711e297060000833f9e5b" reftext="Mack, The Juvenile Court">Mack, The Juvenile Court, 23 Harv. L. Rev. 104 (1909)</ref>.</para.text>
+            </para>
+        </footnote.body>
+    </footnote>
+    <sectionbreak sectionuuid="I4a6f120026a611d99b08a92d7e97623d"/><pagebreak num="4" num-string="4"/>
+    <foots/>
+    <footnote uuid="I42a8ea5013c911e7b9e3acd823573d3d" date.updated="0" id="6">
+        <footnote.reference>
+            <cgt>5</cgt>
+        </footnote.reference>
+        <footnote.body date.updated="0">
+            <para date.updated="0" first.para="yes">
+                <para.text date.updated="0" first.para.text="yes">
+                    <ref date="1899" normalpub="statute-us-il-laws" ref.id="Id9369ae097b711e297060000833f9e5b" secref="131-37">1899 Ill. Laws 131-37</ref>.</para.text>
+            </para>
+        </footnote.body>
+    </footnote>
+    <sectionbreak sectionuuid="I4a6f120026a611d99b08a92d7e97623e"/><footnote uuid="I42e15f7013c911e7b9e3acd823573d3d" date.updated="0" id="27">
+        <footnote.reference>
+            <cgt>8</cgt>
+        </footnote.reference>
+        <footnote.body date.updated="0">
+            <para date.updated="0" first.para="no">
+                <para.text date.updated="0" first.para.text="yes">
+                    <ital>See also:</ital>
+                </para.text>
+            </para>
+            <para date.updated="0" first.para="no">
+                <pagebreak num="5" num-string="5"/>
+                <foots/>
+                <para.text date.updated="0" first.para.text="yes">A good discussion of the rehabilitative and punishment models is found in <ref normalpub="lr" ref.id="Id9508b8097b711e297060000833f9e5b" reftext="Gardner, Punishment and Juvenile Justice: A Conceptual Framework for Assessing Constitutional Rights of Youthful Offenders">Gardner, Punishment and Juvenile Justice: A Conceptual Framework for Assessing Constitutional Rights of Youthful Offenders, 35 Vand. L. Rev. 791 (1982)</ref>.</para.text>
+            </para>
+        </footnote.body>
+    </footnote>
+    <footnote uuid="I42e15f7013c911e7b9e3acd823573d3d" date.updated="0" id="27">
+        <footnote.body date.updated="0">
+            <para date.updated="0" first.para="no">
+                <pagebreak num="6" num-string="6"/>
+            </para>
+        </footnote.body>
+    </footnote>
+    <pagebreak num="7" num-string="7"/>
+</root>

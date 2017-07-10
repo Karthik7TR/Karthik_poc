@@ -1,0 +1,27 @@
+<root xmlns="http://www.sdl.com/xpp">
+    <sectionbreak sectionuuid="vol1.fm.title.page"/><pagebreak num="I" num-string="0"/>
+    <pagebreak num="II" num-string="0"/>
+    <sectionbreak sectionuuid="vol1.fm.copyright.page"/><pagebreak num="III" num-string="iii"/>
+    <sectionbreak sectionuuid="vol1.fm.highlights"/><pagebreak num="IV" num-string="iv"/>
+    <foots/>
+    <footnote id="1">
+        <footnote.reference>
+            <cgt> </cgt>
+            <cgt>1</cgt>
+        </footnote.reference>
+        <footnote.body>
+            <para first.para="yes">
+                <para.text first.para.text="yes">
+                    <cgt> </cgt>New ICWA Regulations were passed effective December 12, 2016. See <cgt>§ </cgt>5:1. Revised Guidelines are forthcoming.</para.text>
+            </para>
+        </footnote.body>
+    </footnote>
+    <pagebreak num="V" num-string="v"/>
+    <pagebreak num="VI" num-string=""/>
+    <pagebreak num="VII" num-string="vii"/>
+    <pagebreak num="VIII" num-string=""/>
+    <pagebreak num="IX" num-string="ix"/>
+    <sectionbreak sectionuuid="vol1.About.the.Author"/><pagebreak num="X" num-string=""/>
+    <pagebreak num="XI" num-string="xi"/>
+    <pagebreak num="XII" num-string="xii"/>
+</root>
