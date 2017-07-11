@@ -40,6 +40,10 @@
 <div class="validateFormDiv">
 	<form:errors path="validateForm" cssClass="errorMessage" />
 </div>
+	<c:set var="xppHide" value=""/>
+	<c:if test="${ book.sourceType == 'XPP' }">
+		<c:set var="xppHide" value="style=\"display: none;\""/>
+	</c:if>
 <%-- Check if book has been published --%>
 <c:choose>
 	<c:when test="${!isPublished}">
@@ -419,7 +423,7 @@
 					<form:errors path="finalStage" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" ${xppHide}>
 				<form:label path="insTagStyleEnabled" class="labelCol">Added Material Blue Highlighting</form:label>
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="insTagStyleEnabled" value="true" />True
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="insTagStyleEnabled" value="false" />False
@@ -427,7 +431,7 @@
 					<form:errors path="insTagStyleEnabled" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" ${xppHide}>
 				<form:label path="delTagStyleEnabled" class="labelCol">Deleted Material Strike-Through</form:label>
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="delTagStyleEnabled" value="true" />True
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="delTagStyleEnabled" value="false" />False
@@ -435,7 +439,7 @@
 					<form:errors path="delTagStyleEnabled" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" ${xppHide}>
 				<form:label path="removeEditorNoteHeading" class="labelCol">Remove Editors' Notes Heading</form:label>
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="removeEditorNoteHeading" value="true" />True
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="removeEditorNoteHeading" value="false" />False
@@ -595,7 +599,7 @@
 	<div id="addRenameTocEntryHere"></div>
 </div>
 
-<div id="displayDocumentCopyright" class="dynamicContent">
+<div id="displayDocumentCopyright" class="dynamicContent" ${xppHide}>
 	<c:forEach items="${editBookDefinitionForm.documentCopyrightsCopy}" varStatus="aStatus">
 			<form:hidden path="documentCopyrightsCopy[${aStatus.index}].copyrightGuid" />
 			<form:hidden path="documentCopyrightsCopy[${aStatus.index}].newText" />
@@ -880,28 +884,28 @@
 	</div>
 	<div class="centerSection">
 		<div class="leftDefinitionForm">
-			<div class="row">
+			<div class="row" ${xppHide}>
 				<form:label path="frontMatterTocLabel" class="labelCol">Front Matter TOC Label</form:label>
 				<form:input path="frontMatterTocLabel" />
 				<div class="errorDiv">
 					<form:errors path="frontMatterTocLabel" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" ${xppHide}>
 				<form:label path="copyright" class="labelCol">Copyright</form:label>
 				<form:textarea path="copyright" />
 				<div class="errorDiv">
 					<form:errors path="copyright" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" ${xppHide}>
 				<form:label path="copyrightPageText" class="labelCol">Copyright Page Text</form:label>
 				<form:textarea path="copyrightPageText" />
 				<div class="errorDiv">
 					<form:errors path="copyrightPageText" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" ${xppHide}>
 				<form:label path="frontMatterTitle" class="labelCol">Main Title</form:label>
 				<form:hidden path="frontMatterTitle.ebookNameId" />
 				<form:hidden path="frontMatterTitle.sequenceNum" value="1" />
@@ -910,7 +914,7 @@
 					<form:errors path="frontMatterTitle.bookNameText" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" ${xppHide}>
 				<form:label path="frontMatterSubtitle" class="labelCol">Sub Title</form:label>
 				<form:hidden path="frontMatterSubtitle.ebookNameId"/>
 				<form:hidden path="frontMatterSubtitle.sequenceNum" value="2"/>
@@ -919,7 +923,7 @@
 					<form:errors path="frontMatterSubtitle.bookNameText" cssClass="errorMessage" />
 				</div>
 			</div> 
-			<div class="row">
+			<div class="row" ${xppHide}>
 				<form:label path="frontMatterSeries" class="labelCol">Series</form:label>
 				<form:hidden path="frontMatterSeries.ebookNameId"/>
 				<form:hidden path="frontMatterSeries.sequenceNum" value="3"/>
@@ -930,21 +934,21 @@
 			</div> 
 		</div>
 		<div class="rightDefinitionForm">
-			<div class="row">
+			<div class="row" ${xppHide}>
 				<form:label path="additionalTrademarkInfo" class="labelCol">Additional Patent/Trademark Message</form:label>
 				<form:textarea path="additionalTrademarkInfo" />
 				<div class="errorDiv">
 					<form:errors path="additionalTrademarkInfo" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" ${xppHide}>
 				<form:label path="currency" class="labelCol">Currentness Message</form:label>
 				<form:textarea path="currency" />
 				<div class="errorDiv">
 					<form:errors path="currency" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" ${xppHide}>
 						<form:label path="fmThemeText" class="labelCol">Front Matter Theme</form:label>
 						<form:select path="fmThemeText" >
 							<form:options items="${frontMatterThemes}" />
@@ -1030,7 +1034,7 @@
 	</div>
 </div>
 
-<div id="additionFrontMatterBlock" class="centerSection">
+<div id="additionFrontMatterBlock" class="centerSection" ${xppHide}>
 	<form:label path="frontMatters" class="labelCol">Additional Front Matter Pages</form:label>
 	<input type="button" id="addFrontMatterPage" value="add" />
 	<div class="errorDiv">

@@ -29,6 +29,12 @@ function submitForm(cmd)
 	<c:if test="${isInJobRequest}">
 		<div style="color:red;">Note: This book definition is already in the job run queue, and thus cannot be edited.</div>
 	</c:if>
+	<c:set var="xppHide" value=""/>
+	<c:set var="xppDisablePreviewButton" value=""/>
+	<c:if test="${ book.sourceType == 'XPP' }">
+		<c:set var="xppHide" value="style=\"display: none;\""/>
+		<c:set var="xppDisablePreviewButton" value="disabled"/>
+	</c:if>
 	<div class="bookDefinitionView">
 		<div class="section">
 			<div class="sectionLabel">
@@ -183,15 +189,15 @@ function submitForm(cmd)
 							</c:choose>
 						</span>
 					</div>
-					<div class="row">
-						<label class="labelCol">Added Material Blue Highlighting</label>
+					<div class="row" ${xppHide}>
+						<label class="labelCol" >Added Material Blue Highlighting</label>
 						<span class="field">${ book.insStyleFlag }</span>
 					</div>
-					<div class="row">
+					<div class="row" ${xppHide}>
 						<label class="labelCol">Deleted Material Strike-Through</label>
 						<span class="field">${ book.delStyleFlag }</span>
 					</div>
-					<div class="row">
+					<div class="row" ${xppHide}>
 						<label class="labelCol">Remove Editors' Notes Heading</label>
 						<span class="field">${ book.removeEditorNoteHeadFlag }</span>
 					</div>
@@ -416,11 +422,11 @@ function submitForm(cmd)
 		</div>
 		
 		<div class="section">
-			<div class="sectionLabel">
+			<div class="sectionLabel" ${xppHide}>
 				Front Matter
 			</div>
 			<div class="centerSection">
-				<div class="leftDefinitionForm">
+				<div class="leftDefinitionForm" ${xppHide}>
 					<div class="row">
 						<label class="labelCol">Front Matter TOC Label</label>
 						<span class="field">${ fn:escapeXml(book.frontMatterTocLabel) }</span>
@@ -450,20 +456,20 @@ function submitForm(cmd)
 					</div>					
 				</div>
 				<div class="rightDefinitionForm">
-					<div class="row">
+					<div class="row" ${xppHide}>
 						<label class="labelCol">Additional Patent/Trademark Message</label>
 						<div class="field wordwrap">${ fn:escapeXml(book.additionalTrademarkInfo) }</div>
 					</div>
-					<div class="row">
+					<div class="row" ${xppHide}>
 						<label class="labelCol">Currentness Message</label>
 						<div class="field wordwrap">${ fn:escapeXml(book.currency) }</div>
 					</div>
-					<div class="row">
+					<div class="row" ${xppHide}>
 						<label class="labelCol">Front Matter Theme</label>
 						<div class="field wordwrap">${ fn:escapeXml(book.frontMatterTheme) }</div>
 					</div>
 					
-					<div class="row">
+					<div class="row" ${xppHide}>
 						<label class="labelCol">Author Display</label>
 						<c:set var="authorDisplay" value="${ book.authorDisplayVertical ? 'Vertical' : 'Horizontal'  }"/>
 						<span class="field wordwrap">${ authorDisplay }</span>
@@ -480,7 +486,7 @@ function submitForm(cmd)
 				</div>
 			</div>
 		</div>
-		<div class="section">
+		<div class="section" ${xppHide}>
 			<div class="sectionLabel">
 				Additional Front Matter
 			</div>
@@ -520,6 +526,10 @@ function submitForm(cmd)
 	<sec:authorize access="hasRole('ROLE_SUPERUSER')">
 		<c:set var="superUser" value=""/>
 	</sec:authorize>
+	<c:set var="generateButtonDisable" value=""/>
+	<c:if test="${form.generateButtonDisabled}">
+		<c:set var="generateButtonDisable" value="disabled"/>
+	</c:if>
 	<div style="font-family:Arial">
 		<%-- Action buttons for the displayed book definition --%>
 		<br/>
@@ -534,7 +544,7 @@ function submitForm(cmd)
 							<input id="editBookDefinition" type="submit" ${editBook} value="Edit" onclick="submitForm('<%=ViewBookDefinitionForm.Command.EDIT%>')"/>
 						</c:if>
 						<input id="copy" type="submit" ${copyGenerateBook} value="Copy" onclick="submitForm('<%=ViewBookDefinitionForm.Command.COPY%>')"/>
-						<input id="generate" type="submit" ${copyGenerateBook} value="Generate" onclick="submitForm('<%=ViewBookDefinitionForm.Command.GENERATE%>')"/>
+						<input id="generate" type="submit" ${generateButtonDisable} ${copyGenerateBook} value="Generate" onclick="submitForm('<%=ViewBookDefinitionForm.Command.GENERATE%>')"/>
 						<input id="createEdit" type="submit" ${superUser} value="Create/Edit Group" onclick="submitForm('<%=ViewBookDefinitionForm.Command.GROUP%>')"/>
 						<input id="delete" type="submit" ${superUser} value="Delete" onclick="submitForm('<%=ViewBookDefinitionForm.Command.DELETE%>')"/>
 					</c:when>
@@ -544,7 +554,7 @@ function submitForm(cmd)
 				</c:choose>
 				<input id="auditLog" type="submit" value="Audit Log" onclick="submitForm('<%=ViewBookDefinitionForm.Command.AUDIT_LOG%>')"/>
 				<input id="publishingStats" type="submit" value="Publishing Stats" onclick="submitForm('<%=ViewBookDefinitionForm.Command.BOOK_PUBLISH_STATS%>')"/>
-				<input id="frontMatterPreview" type="button" value="Front Matter Preview" onclick="location.href='<%=WebConstants.MVC_FRONT_MATTER_PREVIEW%>?id=${book.ebookDefinitionId}'"/>
+				<input id="frontMatterPreview" type="button" ${xppDisablePreviewButton} value="Front Matter Preview" onclick="location.href='<%=WebConstants.MVC_FRONT_MATTER_PREVIEW%>?id=${book.ebookDefinitionId}'"/>
 			</div>
 		</form:form>
 	</div>

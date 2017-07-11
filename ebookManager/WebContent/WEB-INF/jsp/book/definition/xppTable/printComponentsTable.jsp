@@ -56,13 +56,11 @@
         }
 
         function colorNoArchivePrintComponents(){
-        					console.log("colorNoArchivePrintComponents started");
         					var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
         					items = $.map($gridData.find("tr"), function(row) {
         							// return $(row).data("JSGridItem");
         							return $(row);
         					});
-        					console.log("items = " + items);
         					for(i=0;i<printComponents.length;i++){
         						var $tempRow = $("#grid").jsGrid("rowByItem", items[i]);
         						if(printComponents[i].componentInArchive == false){
