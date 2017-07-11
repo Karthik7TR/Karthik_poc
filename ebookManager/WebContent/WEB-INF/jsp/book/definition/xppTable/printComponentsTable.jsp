@@ -31,6 +31,10 @@
 	width: 0;
 	padding-right: 10px;
 }
+
+.jsgrid-header-row .jsgrid-header-sort-asc:before{
+	border-color: transparent transparent #ffffff transparent;
+}
 </style>
 
 <div id="jsGrid"></div>
@@ -53,6 +57,7 @@
 
                 sortGridByComponentOrder();
             }
+            
         }
 
         function colorNoArchivePrintComponents(){
@@ -79,7 +84,7 @@
               field: "componentOrder",
               order: "asc"
           });
-        }
+         }
 
         function reorderIndexes() {
 
@@ -202,8 +207,10 @@
                 , {
                     name: "componentOrder",
                     title: "Order",
-                    width: 40,
-                    editing: false
+                    width: 50,
+                    editing: false,
+                    sorting: false,
+                    align: "center"
                 }, {
                     name: "materialNumber",
                     title: "Material Number",
