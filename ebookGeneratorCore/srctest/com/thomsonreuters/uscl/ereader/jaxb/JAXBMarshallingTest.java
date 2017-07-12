@@ -355,7 +355,7 @@ public final class JAXBMarshallingTest
             final Unmarshaller unmarshaller = context.createUnmarshaller();
 
             final MiscConfig expected =
-                new MiscConfig(Level.ALL, Level.TRACE, NovusEnvironment.Prod, "hostname", false, 10);
+                new MiscConfig(Level.ALL, Level.TRACE, NovusEnvironment.Prod, "hostname", 10);
 
             outStream = new ByteArrayOutputStream();
             marshaller.marshal(expected, outStream);

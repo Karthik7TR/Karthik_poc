@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.generate.title.metada
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
@@ -16,9 +17,14 @@ import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
+import com.thomsonreuters.uscl.ereader.common.proview.feature.ProviewFeaturesListBuilderFactory;
+import com.thomsonreuters.uscl.ereader.common.proview.feature.ProviewFeaturesListBuilderFactoryImpl;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
+import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.proview.Feature;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
+import com.thomsonreuters.uscl.ereader.deliver.service.title.ProviewTitleService;
 import com.thomsonreuters.uscl.ereader.proview.Keyword;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
@@ -33,16 +39,23 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
+@ActiveProfiles("IntegrationTests")
 public final class GenerateTitleMetadataStepIntegrationTest
 {
     private static final String CURRENT_DATE_PLACEHOLDER = "${currentDate}";
     private static final String MATERIAL_NUMBER = "123456";
     private static final String ADDITIONAL_MATERIAL_NUMBER = "123457";
+    private static final String TITLE_ID = "uscl/gen/title_metadata_integration_test";
 
     @Resource(name = "generateTitleMetadataTask")
     @InjectMocks
@@ -114,26 +127,18 @@ public final class GenerateTitleMetadataStepIntegrationTest
 
     private void initBookDefinitionMockBehavior()
     {
-        when(bookDefinition.getProviewFeatures()).thenReturn(getFeatures());
         when(bookDefinition.getMaterialId()).thenReturn("someMaterialId");
         when(bookDefinition.getProviewDisplayName()).thenReturn("Integration test book");
         when(bookDefinition.getAuthors()).thenReturn(Collections.EMPTY_LIST);
         when(bookDefinition.getKeyWords()).thenReturn(getKeywords());
         when(bookDefinition.getCopyright()).thenReturn("©");
         when(bookDefinition.getIsbnNormalized()).thenReturn("9780314943910");
-        when(bookDefinition.getFullyQualifiedTitleId()).thenReturn("uscl/gen/title_metadata_integration_test");
+        when(bookDefinition.getFullyQualifiedTitleId()).thenReturn(TITLE_ID);
         when(bookDefinition.getTitleId()).thenReturn("title_metadata_integration_test");
-    }
-
-    private List<Feature> getFeatures()
-    {
-        final Feature printFeature = new Feature("Print");
-        final Feature autoUpdateFeature = new Feature("AutoUpdate");
-        final Feature copyFeature = new Feature("Copy");
-        final Feature wwwWestlawFeature = new Feature("OnePassSSO", "www.westlaw.com");
-        final Feature nextWestlawFeature = new Feature("OnePassSSO", "next.westlaw.com");
-        final Feature pageNosFeature = new Feature("PageNos");
-        return Arrays.asList(printFeature, autoUpdateFeature, copyFeature, wwwWestlawFeature, nextWestlawFeature, pageNosFeature);
+        when(bookDefinition.getAutoUpdateSupportFlag()).thenReturn(true);
+        when(bookDefinition.getEnableCopyFeatureFlag()).thenReturn(true);
+        when(bookDefinition.getOnePassSsoLinkFlag()).thenReturn(true);
+        when(bookDefinition.getSourceType()).thenReturn(SourceType.XPP);
     }
 
     private List<Keyword> getKeywords()
@@ -203,5 +208,26 @@ public final class GenerateTitleMetadataStepIntegrationTest
         step.executeStep();
         assertThat(FileUtils.readFileToString(fileSystem.getTitleMetadataFile(step)), equalTo(expectedTitleMetadataFileContent));
         assertThat(FileUtils.readFileToString(assembleFileSystem.getTitleXml(step)), equalTo(expectedTitleFileContent));
+    }
+
+    @Configuration
+    @Profile("IntegrationTests")
+    @Import(CommonTestContextConfiguration.class)
+    public static class GenerateTitleMetadataStepIntegrationTestConfiguration
+    {
+        @Bean(name = "generateTitleMetadataTask")
+        public GenerateTitleMetadataStep generateTitleMetadataTask()
+        {
+            return new GenerateTitleMetadataStep();
+        }
+
+        @Bean
+        public ProviewFeaturesListBuilderFactory proviewFeaturesListBuilderFactory()
+        {
+            final ProviewTitleService proviewTitleService = mock(ProviewTitleService.class);
+            when(proviewTitleService.getLatestProviewTitleVersion(TITLE_ID))
+                .thenReturn(new Version("v1.0"));
+            return new ProviewFeaturesListBuilderFactoryImpl(null, proviewTitleService);
+        }
     }
 }

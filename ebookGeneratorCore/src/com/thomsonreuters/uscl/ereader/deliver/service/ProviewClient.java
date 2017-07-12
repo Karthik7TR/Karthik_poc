@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Implementors of this interface are responsible for interacting with ProView
@@ -39,6 +40,9 @@ public interface ProviewClient
     String removeGroup(String groupId, String groupVersion) throws ProviewException;
 
     String deleteGroup(String groupId, String groupVersion) throws ProviewException;
+
+    @NotNull
+    String getTitleInfo(@NotNull String titleId, @NotNull String version) throws ProviewException;
 
     /* proview list */
     String getAllPublishedTitles() throws ProviewException;

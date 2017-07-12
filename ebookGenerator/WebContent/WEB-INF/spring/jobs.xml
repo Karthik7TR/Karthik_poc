@@ -318,10 +318,12 @@
 	            p:publishingStatsService-ref="publishingStatsService"
 	            p:titleMetadataService-ref="titleMetadataService"
 	            p:moveResourcesUtil-ref="moveResourcesUtil"
-	            p:bookDefinitionService-ref="bookDefinitionService"/>
+	            p:bookDefinitionService-ref="bookDefinitionService"
+	            p:featuresListBuilderFactory-ref="proviewFeaturesListBuilderFactory"/>
 	<beans:bean id="generateTitleManifestTask" scope="step" class="com.thomsonreuters.uscl.ereader.format.step.GenerateTitleMetadata" parent="generatorParentTask"
 				p:publishingStatsService-ref="publishingStatsService"
-				p:titleMetadataService-ref="titleMetadataService"/>	
+				p:titleMetadataService-ref="titleMetadataService"
+				p:featuresListBuilderFactory-ref="proviewFeaturesListBuilderFactory"/>	
 	<beans:bean id="assembleEBookTask" scope="step" parent="assembleStep"
 				class="com.thomsonreuters.uscl.ereader.assemble.step.AssembleEbook" />
 	<beans:bean id="deliverEBookTask" scope="step" parent="deliverStep"

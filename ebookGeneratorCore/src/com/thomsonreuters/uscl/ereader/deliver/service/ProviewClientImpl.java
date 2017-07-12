@@ -22,6 +22,7 @@ import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewXMLRequestCallback;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
@@ -49,6 +50,7 @@ public class ProviewClientImpl implements ProviewClient
     private String deleteGroupUriTemplate;
 
     private String getTitlesUriTemplate;
+    private String getTitleInfoUriTemplate;
     private String singleTitleTemplate;
     private String singleTitleByVersionUriTemplate;
     private String publishTitleUriTemplate;
@@ -249,6 +251,28 @@ public class ProviewClientImpl implements ProviewClient
 
         // to-do response could be "status cannot be changed from removed to removed"
         return proviewResponse;
+    }
+
+    @NotNull
+    @Override
+    public String getTitleInfo(@NotNull final String titleId, @NotNull final String version) throws ProviewException
+    {
+        try
+        {
+            LOG.debug("Proview host: " + proviewHost.getHostName());
+            final Map<String, String> urlParameters = new HashMap<>();
+            urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+            urlParameters.put("titleId", titleId);
+            urlParameters.put("eBookVersionNumber", version);
+            return restTemplate.execute(getTitleInfoUriTemplate, HttpMethod.GET,
+                    proviewRequestCallbackFactory.getStreamRequestCallback(),
+                    proviewResponseExtractorFactory.getResponseExtractor(), urlParameters);
+        }
+        catch (final Exception e)
+        {
+            LOG.error("getTitleInfo fails (titleId=" + titleId + "; version=" + version + ")", e);
+            throw new ProviewException(e.getMessage(), e);
+        }
     }
 
     /*-----------------------Proview Title operations-----------------------------*/
@@ -553,6 +577,12 @@ public class ProviewClientImpl implements ProviewClient
     public void setGetTitlesUriTemplate(final String getTitlesUriTemplate)
     {
         this.getTitlesUriTemplate = getTitlesUriTemplate;
+    }
+
+    @Required
+    public void setGetTitleInfoUriTemplate(final String getTitleInfoUriTemplate)
+    {
+        this.getTitleInfoUriTemplate = getTitleInfoUriTemplate;
     }
 
     @Required

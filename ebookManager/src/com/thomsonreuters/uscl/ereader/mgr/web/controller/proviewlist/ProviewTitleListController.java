@@ -572,17 +572,6 @@ public class ProviewTitleListController
 
                 sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject, emailBody);
                 proviewAuditService.save(form.createAudit());
-
-                // TODO: clean up after ProView add notes migration changes for
-                // Multi-volume.
-                // Lock book so it cannot be split. Book has been promoted as
-                // single title.
-                final BookDefinition book = bookDefinitionService.findBookDefinitionByTitle(form.getTitleId());
-                if (book != null && !book.isSplitBook())
-                {
-                    book.setIsSplitLock(true);
-                    bookDefinitionService.saveBookDefinition(book);
-                }
             }
         }
         catch (final Exception e)

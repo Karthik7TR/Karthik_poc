@@ -35,7 +35,6 @@ public class MiscConfig
         rootLogLevel,
         novusEnvironment,
         proviewHostname,
-        disableExistingSingleTitleSplit,
         maxSplitParts
     };
 
@@ -56,7 +55,6 @@ public class MiscConfig
      * field.
      */
     private String proviewHostname;
-    private boolean disableExistingSingleTitleSplit;
     private int maxSplitParts;
 
     public MiscConfig()
@@ -65,7 +63,6 @@ public class MiscConfig
         setAppLogLevel(DEFAULT_APP_LOG_LEVEL);
         setRootLogLevel(DEFAULT_ROOT_LOG_LEVEL);
         setNovusEnvironment(NovusEnvironment.Client); // Initial default
-        setDisableExistingSingleTitleSplit(true);
         setMaxSplitParts(MAX_EBOOK_SPLIT_SIZE);
         try
         {
@@ -85,7 +82,6 @@ public class MiscConfig
         final Level rootLogLevel,
         final NovusEnvironment novusEnv,
         final String proviewHostname,
-        final boolean disableExistingSingleTitleSplit,
         final int maxSplitParts)
     {
         setAllProperties(
@@ -93,7 +89,6 @@ public class MiscConfig
             rootLogLevel,
             novusEnv,
             proviewHostname,
-            disableExistingSingleTitleSplit,
             maxSplitParts);
     }
 
@@ -110,7 +105,6 @@ public class MiscConfig
             config.getRootLogLevel(),
             config.getNovusEnvironment(),
             config.getProviewHostname(),
-            config.getDisableExistingSingleTitleSplit(),
             config.getMaxSplitParts());
     }
 
@@ -119,14 +113,12 @@ public class MiscConfig
         final Level rootLogLevel,
         final NovusEnvironment novusEnv,
         final String proviewHostname,
-        final boolean disableExistingSingleTitleSplit,
         final int maxSplitParts)
     {
         setAppLogLevel(appLogLevel);
         setRootLogLevel(rootLogLevel);
         setNovusEnvironment(novusEnv);
         setProviewHostname(proviewHostname);
-        setDisableExistingSingleTitleSplit(disableExistingSingleTitleSplit);
         setMaxSplitParts(maxSplitParts);
     }
 
@@ -206,17 +198,6 @@ public class MiscConfig
         proviewHostname = hostname;
     }
 
-    public boolean getDisableExistingSingleTitleSplit()
-    {
-        return disableExistingSingleTitleSplit;
-    }
-
-    @XmlElement(name = "disableExistingSingleTitleSplit", required = false)
-    public void setDisableExistingSingleTitleSplit(final boolean disableExistingSingleTitleSplit)
-    {
-        this.disableExistingSingleTitleSplit = disableExistingSingleTitleSplit;
-    }
-
     @Override
     public String toString()
     {
@@ -230,7 +211,6 @@ public class MiscConfig
         int result = 1;
         result = prime * result + ((appLogLevel == null) ? 0 : appLogLevel.hashCode());
         result = prime * result + ((rootLogLevel == null) ? 0 : rootLogLevel.hashCode());
-        result = prime * result + (disableExistingSingleTitleSplit ? 1231 : 1237);
         return result;
     }
 
@@ -250,8 +230,6 @@ public class MiscConfig
                 return false;
         }
         else if (!appLogLevel.equals(other.appLogLevel))
-            return false;
-        if (disableExistingSingleTitleSplit != other.disableExistingSingleTitleSplit)
             return false;
         if (rootLogLevel == null)
         {

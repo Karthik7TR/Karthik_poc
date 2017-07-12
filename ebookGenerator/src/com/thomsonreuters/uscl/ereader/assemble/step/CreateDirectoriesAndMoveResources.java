@@ -13,15 +13,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataService;
+import com.thomsonreuters.uscl.ereader.common.proview.feature.FeaturesListBuilder;
+import com.thomsonreuters.uscl.ereader.common.proview.feature.ProviewFeaturesListBuilderFactory;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
+import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
@@ -30,7 +35,7 @@ import com.thomsonreuters.uscl.ereader.proview.TitleMetadata.TitleMetadataBuilde
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.StepContribution;
@@ -44,12 +49,10 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
      * To update publishingStatsService table.
      */
     private PublishingStatsService publishingStatsService;
-
     private MoveResourcesUtil moveResourcesUtil;
-
     private TitleMetadataService titleMetadataService;
-
     private BookDefinitionService bookDefinitionService;
+    private ProviewFeaturesListBuilderFactory featuresListBuilderFactory;
 
     /*
      * (non-Javadoc)
@@ -72,13 +75,11 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
             (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
 
         final String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
-        final String materialId = bookDefinition.getMaterialId();
         final File coverArtFile = moveResourcesUtil.createCoverArt(jobExecutionContext);
+        final String versionNumber = jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
 
         final TitleMetadataBuilder titleMetadataBuilder = TitleMetadata.builder(bookDefinition)
-            .versionNumber(jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED))
-            // TODO: verify that default of 1234 for material id is valid.
-            .materialId(StringUtils.isNotBlank(materialId) ? materialId : "1234")
+            .versionNumber(versionNumber)
             .artworkFile(coverArtFile);
 
         OutputStream titleManifest = null;
@@ -110,6 +111,10 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
 
             // Assets that are needed for all books
             addAssetsForAllBooks(jobExecutionContext, bookDefinition, titleMetadataBuilder);
+
+            final FeaturesListBuilder featuresListBuilder = featuresListBuilderFactory.create(bookDefinition)
+                .withBookVersion(new Version("v" + versionNumber))
+                .withTitleDocs(getDocsByTitles(docMap));
 
             // Create title.xml and directories needed. Move content for all
             // splitBooks
@@ -169,6 +174,9 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
                     firstSplitBook = true;
                 }
 
+                featuresListBuilder.forTitleId(new BookTitleId(key, new Version(0, 0)));
+                titleMetadataBuilder.proviewFeatures(featuresListBuilder.getFeatures());
+
                 final File ebookDirectory = new File(assembleDirectory, splitTitle);
                 ebookDirectory.mkdir();
 
@@ -205,6 +213,17 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
         return ExitStatus.COMPLETED;
     }
 
+    @NotNull
+    private Map<BookTitleId, List<Doc>> getDocsByTitles(@NotNull final Map<String, List<Doc>> docMap)
+    {
+        final Map<BookTitleId, List<Doc>> map = new HashMap<>();
+        for (final Entry<String, List<Doc>> e : docMap.entrySet())
+        {
+            map.put(new BookTitleId(e.getKey(), new Version(0, 0)), e.getValue());
+        }
+        return map;
+    }
+
     /**
      * Move resources to appropriate splitbook
      * @param jobExecutionContext
@@ -214,7 +233,6 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
      * @param docList
      * @throws IOException
      */
-
     public void moveResources(
         final ExecutionContext jobExecutionContext,
         final File ebookDirectory,
@@ -436,5 +454,12 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
     public void setBookDefinitionService(final BookDefinitionService bookDefinitionService)
     {
         this.bookDefinitionService = bookDefinitionService;
+    }
+
+
+    @Required
+    public void setFeaturesListBuilderFactory(final ProviewFeaturesListBuilderFactory featuresListBuilderFactory)
+    {
+        this.featuresListBuilderFactory = featuresListBuilderFactory;
     }
 }

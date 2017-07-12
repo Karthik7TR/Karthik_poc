@@ -14,7 +14,6 @@ public class MiscConfigForm extends MiscConfig
         setRootLogLevel(config.getRootLogLevel());
         setNovusEnvironment(config.getNovusEnvironment());
         setProviewHostname(config.getProviewHostname());
-        setDisableExistingSingleTitleSplit(config.getDisableExistingSingleTitleSplit());
         setMaxSplitParts(config.getMaxSplitParts());
     }
 

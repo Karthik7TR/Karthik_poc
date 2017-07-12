@@ -17,7 +17,9 @@ import javax.xml.transform.Transformer;
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
+import com.thomsonreuters.uscl.ereader.common.proview.feature.ProviewFeaturesListBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
@@ -25,6 +27,7 @@ import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -43,6 +46,8 @@ public class GenerateTitleMetadataStep extends XppTransformationStep
     private File tocToTitleXsl;
     @Resource(name = "assembleFileSystem")
     private AssembleFileSystem assembleFileSystem;
+    @Autowired
+    private ProviewFeaturesListBuilderFactory proviewFeaturesListBuilderFactory;
 
     @Override
     public void executeTransformation() throws Exception
@@ -73,7 +78,9 @@ public class GenerateTitleMetadataStep extends XppTransformationStep
 
     private String saveMetadataAndGetFilePath(final List<Doc> documents) throws JAXBException
     {
-        final TitleMetadata titleMetadata = TitleMetadata.builder(getBookDefinition())
+        final BookDefinition bookDefinition = getBookDefinition();
+        final TitleMetadata titleMetadata = TitleMetadata.builder(bookDefinition)
+            .proviewFeatures(proviewFeaturesListBuilderFactory.create(bookDefinition).getFeatures())
             .versionNumber(getBookVersionString())
             .artworkFile(assembleFileSystem.getArtworkFile(this))
             .assetFilesFromDirectory(assembleFileSystem.getAssetsDirectory(this))

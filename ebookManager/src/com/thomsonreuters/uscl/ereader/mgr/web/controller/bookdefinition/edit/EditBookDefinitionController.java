@@ -134,7 +134,6 @@ public class EditBookDefinitionController
         final Model model) throws Exception
     {
         boolean isPublished = false;
-        boolean disableTitleFromSplit = true;
         final String username = UserUtils.getAuthenticatedUserName();
 
         // Lookup the book by its primary key
@@ -170,15 +169,10 @@ public class EditBookDefinitionController
             bookLockService.lockBookDefinition(bookDef, username, UserUtils.getAuthenticatedUserFullName());
 
             isPublished = bookDef.getPublishedOnceFlag();
-
-            // Lock multivolume splitting for titles already published as single.
-            disableTitleFromSplit =
-                miscConfigService.getMiscConfig().getDisableExistingSingleTitleSplit() && bookDef.isSplitLock();
         }
 
         form.initialize(bookDef, editBookDefinitionService.getKeywordCodes());
         model.addAttribute(WebConstants.KEY_IS_PUBLISHED, isPublished);
-        model.addAttribute(WebConstants.KEY_DISABLE_TITLE_FROM_SPLIT, disableTitleFromSplit);
         model.addAttribute(WebConstants.KEY_MAX_SPLIT_PARTS, miscConfigService.getMiscConfig().getMaxSplitParts());
 
         initializeModel(model, form);
@@ -220,8 +214,7 @@ public class EditBookDefinitionController
     {
         setUpFrontMatterPreviewModel(httpSession, form, bindingResult);
 
-        boolean isPublished = false;
-        boolean disableTitleFromSplit = true;
+        final boolean isPublished = false;
         final Long bookDefinitionId = form.getBookdefinitionId();
         final String username = UserUtils.getAuthenticatedUserName();
 
@@ -264,12 +257,6 @@ public class EditBookDefinitionController
                 return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_ERROR_QUEUED);
             }
 
-            isPublished = bookDef.getPublishedOnceFlag();
-
-            // Lock multivolume splitting for titles already published as single.
-            disableTitleFromSplit =
-                miscConfigService.getMiscConfig().getDisableExistingSingleTitleSplit() && bookDef.isSplitLock();
-            model.addAttribute(WebConstants.KEY_DISABLE_TITLE_FROM_SPLIT, disableTitleFromSplit);
             model.addAttribute(WebConstants.KEY_MAX_SPLIT_PARTS, miscConfigService.getMiscConfig().getMaxSplitParts());
         }
         else
@@ -302,7 +289,6 @@ public class EditBookDefinitionController
         }
 
         model.addAttribute(WebConstants.KEY_IS_PUBLISHED, isPublished);
-        model.addAttribute(WebConstants.KEY_DISABLE_TITLE_FROM_SPLIT, disableTitleFromSplit);
         model.addAttribute(WebConstants.KEY_MAX_SPLIT_PARTS, miscConfigService.getMiscConfig().getMaxSplitParts());
         initializeModel(model, form);
 

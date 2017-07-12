@@ -17,8 +17,6 @@
 	 var newVersion = "";
 	 var isMajorVersion;
 	 var isMinorVersion = "N";
-	 var isSplitBook = document.getElementById('isSplitBook').innerHTML;
-	 var disableTitleFromSplit = document.getElementById('disableTitleFromSplit').innerHTML;
 	 $("#nextMajorVersionGroup").hide();
 	 $("#currentMajorVersionGroup").hide();
 	 
@@ -41,12 +39,6 @@
 	 else if (newVersionType == ""){
 		 newVersion = "";
 		 isMajorVersion = "N";
-	 }
-	 
-	 if (newVersion > 1.0 && isSplitBook == "true" && disableTitleFromSplit == "true") {
-		 $("#splitWarning").show();
-	 } else {
-		 $("#splitWarning").hide();
 	 }
 	 
 	 
@@ -176,20 +168,6 @@
 		
 		return confirmed;
 	}
-  
-  
-	function checkSplitStatus() {
-
-		var confirmed = true;
-		var isSplitBook = document.getElementById('isSplitBook').innerHTML;
-		var disableTitleFromSplit = document.getElementById('disableTitleFromSplit').innerHTML;
-
-		if (isSplitBook == "true" && disableTitleFromSplit == "true") {
-			confirmed = confirm("You are about to generate a split book with minor/major update. ProView notes migration enhancements are still in process.  Be aware customers might lose their annotations and/or notes if the split location(s) has changed from the previous book version.");
-		}
-
-		return confirmed;
-	}
 	
 	function groupValidation() {
 		var confirmed = true;
@@ -215,10 +193,7 @@
 				if (confirmed) {
 					confirmed = checkPilotBookStatus();
 					if (confirmed) {
-						confirmed = checkSplitStatus();
-						if (confirmed) {
-							confirmed = groupValidation();
-						}
+						confirmed = groupValidation();
 					}
 				}
 			}
@@ -233,10 +208,6 @@ $(document).ready(function() {
   
  <c:choose>
  <c:when test="${book != null}">
- 
- 	<div id="splitWarning" class="infoMessageWarning" style="display:none">
- 		You are about to generate a split book with minor/major update. ProView notes migration enhancements are still in process.  Be aware customers might lose their annotations and/or notes if the split location(s) has changed from the previous book version.
- 	</div>
  
 	<form:form action="<%=WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW%>"
 			   commandName="<%=GenerateBookForm.FORM_NAME%>" name="theForm" method="post">
@@ -466,8 +437,6 @@ $(document).ready(function() {
 		 	<p id="isbn">${isbn}</p>
 		  	<p id="publishingCutOffDateGreaterOrEqualToday">${publishingCutOffDateGreaterOrEqualToday}</p>
 		  	<p id="pilotBookStatus">${pilotBookStatus}</p>
-		  	<p id="isSplitBook">${isSplitBook}</p>
-		  	<p id="disableTitleFromSplit">${disableTitleFromSplit}</p>
 		  	<p id="isNewSUB">${isNewSUB}</p>
 		 </div>	
 		

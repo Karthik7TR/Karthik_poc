@@ -15,7 +15,10 @@ import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.assemble.service.TitleMetadataService;
+import com.thomsonreuters.uscl.ereader.common.proview.feature.FeaturesListBuilder;
+import com.thomsonreuters.uscl.ereader.common.proview.feature.ProviewFeaturesListBuilderFactory;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
@@ -46,6 +49,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
      * To update publishingStatsService table.
      */
     private PublishingStatsService publishingStatsService;
+    private ProviewFeaturesListBuilderFactory featuresListBuilderFactory;
 
     @Override
     public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
@@ -56,9 +60,10 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
 
         final BookDefinition bookDefinition =
             (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
+        final String versionNumber = jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
 
         final TitleMetadataBuilder titleMetadataBuilder = TitleMetadata.builder(bookDefinition)
-            .versionNumber(jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED));
+            .versionNumber(versionNumber);
 
         //TODO: Remove the calls to these methods when the book definition object is introduced to this step.
 //		addAuthors(bookDefinition, titleMetadata);
@@ -79,6 +84,9 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
             final File documentsDirectory =
                 new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR));
             //TODO: refactor the titleMetadataService to use the method that takes a book definition instead of a titleManifest object.
+
+            final FeaturesListBuilder featureListBuilder = featuresListBuilderFactory.create(bookDefinition)
+                .withBookVersion(new Version("v" + versionNumber));
             if (bookDefinition.isSplitBook())
             {
                 splitBookTitle(titleMetadataBuilder.build(), jobInstanceId, jobExecutionContext);
@@ -88,6 +96,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
                 titleMetadataBuilder
                     .artworkFile(new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.COVER_ART_PATH)))
                     .assetFilesFromDirectory(new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_ASSETS_DIR)))
+                    .proviewFeatures(featureListBuilder.getFeatures())
                     .build();
                 titleMetadataService.generateTitleManifest(
                     titleManifest,
@@ -195,5 +204,11 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
     public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
     {
         this.publishingStatsService = publishingStatsService;
+    }
+
+    @Required
+    public void setFeaturesListBuilderFactory(final ProviewFeaturesListBuilderFactory featuresListBuilderFactory)
+    {
+        this.featuresListBuilderFactory = featuresListBuilderFactory;
     }
 }

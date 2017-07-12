@@ -12,6 +12,7 @@
       <feature name="OnePassSSO" value="www.westlaw.com"/>
       <feature name="OnePassSSO" value="next.westlaw.com"/>
       <feature name="PageNos"/>
+      <feature name="SpanPages"/>
    </features>
    <material>someMaterialId</material>
    <artwork src="coverArt.PNG" type="cover"/>

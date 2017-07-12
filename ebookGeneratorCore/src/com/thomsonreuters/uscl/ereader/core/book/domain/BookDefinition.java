@@ -33,7 +33,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import com.thomsonreuters.uscl.ereader.proview.Feature;
 import com.thomsonreuters.uscl.ereader.proview.Keyword;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import org.apache.commons.lang3.StringUtils;
@@ -311,10 +310,6 @@ public class BookDefinition implements Serializable
     @Column(name = "SPLIT_EBOOK_PARTS")
     @Basic(fetch = FetchType.EAGER)
     private Integer splitEBookParts;
-
-    @Column(name = "IS_SPLIT_LOCK")
-    @Basic(fetch = FetchType.EAGER)
-    private String isSplitLock;
 
     @Column(name = "SUBGROUP_HEADING")
     @Basic(fetch = FetchType.EAGER)
@@ -815,16 +810,6 @@ public class BookDefinition implements Serializable
         this.isSplitBook = ((isSplitBook) ? "Y" : "N");
     }
 
-    public boolean isSplitLock()
-    {
-        return ((isSplitLock.equalsIgnoreCase("Y") ? true : false));
-    }
-
-    public void setIsSplitLock(final boolean isSplitLock)
-    {
-        this.isSplitLock = ((isSplitLock) ? "Y" : "N");
-    }
-
     public boolean isSplitTypeAuto()
     {
         return ((isSplitTypeAuto.equalsIgnoreCase("Y") ? true : false));
@@ -1212,7 +1197,6 @@ public class BookDefinition implements Serializable
         setIsInsStyleFlag(false);
         setIsDelStyleFlag(false);
         setIsRemoveEditorNoteHeadFlag(false);
-        setIsSplitLock(false);
     }
 
     /**
@@ -1275,7 +1259,6 @@ public class BookDefinition implements Serializable
         setIsDelStyleFlag(that.isDelStyleFlag());
         setIsRemoveEditorNoteHeadFlag(that.isRemoveEditorNoteHeadFlag());
         setIsSplitBook(that.isSplitBook());
-        setIsSplitLock(that.isSplitLock());
         setSubGroupHeading(that.getSubGroupHeading());
         setGroupName(that.getGroupName());
         setPrintSetNumber(that.getPrintSetNumber());
@@ -1379,39 +1362,6 @@ public class BookDefinition implements Serializable
             component = tokenizer.nextToken();
         }
         return (component);
-    }
-
-    /**
-     * The proview features as derived from the book definition.
-     * @return List of Feature.
-     */
-    @Transient
-    public List<Feature> getProviewFeatures()
-    {
-        final List<Feature> proviewFeatures = new ArrayList<>();
-        proviewFeatures.add(new Feature("Print"));
-        if (getAutoUpdateSupportFlag())
-            proviewFeatures.add(new Feature("AutoUpdate"));
-        if (getSearchIndexFlag())
-            proviewFeatures.add(new Feature("SearchIndex"));
-        if (getEnableCopyFeatureFlag())
-            proviewFeatures.add(new Feature("Copy"));
-        if (getOnePassSsoLinkFlag())
-        {
-            proviewFeatures.add(new Feature("OnePassSSO", "www.westlaw.com"));
-            proviewFeatures.add(new Feature("OnePassSSO", "next.westlaw.com"));
-        }
-        if (isSplitBook())
-        {
-            proviewFeatures.add(new Feature("FullAnchorMap"));
-            proviewFeatures.add(new Feature("CombinedTOC"));
-        }
-        if (getSourceType() == SourceType.XPP)
-        {
-            proviewFeatures.add(new Feature("PageNos"));
-            proviewFeatures.add(new Feature("SpanPages"));
-        }
-        return (proviewFeatures);
     }
 
     /**

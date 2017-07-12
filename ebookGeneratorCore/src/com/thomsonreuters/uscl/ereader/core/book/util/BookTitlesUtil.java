@@ -1,9 +1,11 @@
 package com.thomsonreuters.uscl.ereader.core.book.util;
 
+import java.util.List;
 import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
+import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,4 +32,13 @@ public interface BookTitlesUtil
      */
     @NotNull
     Set<SplitNodeInfo> getSplitNodeInfosByVersion(@NotNull BookDefinition book, @NotNull Version version);
+
+    /**
+     * List of all title IDs of book
+     * @param book book definition
+     * @param version book version
+     * @return list of title IDs
+     */
+    @NotNull
+    List<BookTitleId> getTitleIds(@NotNull BookDefinition book, @NotNull Version version);
 }

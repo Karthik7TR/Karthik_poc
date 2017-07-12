@@ -162,7 +162,6 @@ public final class TitleMetadataTest
     {
         final BookDefinition bookDefinitionMock = mock(BookDefinition.class);
         when(bookDefinitionMock.getFullyQualifiedTitleId()).thenReturn(titleId);
-        when(bookDefinitionMock.getProviewFeatures()).thenReturn(features);
         when(bookDefinitionMock.getKeyWords()).thenReturn(keywords);
         when(bookDefinitionMock.getAuthors()).thenReturn(createAuthors());
         when(bookDefinitionMock.getIsPilotBook()).thenReturn(true);
@@ -179,7 +178,6 @@ public final class TitleMetadataTest
     private void checkFieldsValues(final TitleMetadata actualMetadata)
     {
         assertEquals(titleId, actualMetadata.getTitleId());
-        checkCollectionValues(actualMetadata.getProviewFeatures(), features.toArray(new Feature[0]));
         checkCollectionValues(actualMetadata.getKeywords(), keywords.toArray(new Keyword[0]));
         checkCollectionValues(actualMetadata.getAuthorNames(), "Jack Sparrow", "Davey Jones");
         assertTrue(actualMetadata.getIsPilotBook());

@@ -10,6 +10,7 @@ import java.net.URISyntaxException;
 import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.entity.partfiles.PartFilesIndex;
+import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.PartType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.apache.commons.io.FileUtils;
@@ -18,11 +19,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
+@ActiveProfiles("IntegrationTests")
 public final class SplitOriginalStepIntegrationTest
 {
     private static final String SECTION_1_UUID = "I0f72523026a511d99b08a92d7e97623c";
@@ -102,5 +109,17 @@ public final class SplitOriginalStepIntegrationTest
     private String getFileName(@NotNull final int pageNumber, @NotNull final PartType type, @NotNull final String docFamilyGuid)
     {
         return fileSystem.getPartFileName(BASE_FILE_NAME, pageNumber, type, docFamilyGuid);
+    }
+
+    @Configuration
+    @Profile("IntegrationTests")
+    @Import(CommonTestContextConfiguration.class)
+    public static class UnitePagePartsStepIntegrationTestConfiguration
+    {
+        @Bean(name = "splitOriginalTask")
+        public SplitOriginalStep splitOriginalTask()
+        {
+            return new SplitOriginalStep();
+        }
     }
 }

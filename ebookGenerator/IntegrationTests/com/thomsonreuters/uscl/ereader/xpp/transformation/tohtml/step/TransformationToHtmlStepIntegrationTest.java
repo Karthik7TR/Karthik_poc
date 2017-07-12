@@ -14,6 +14,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.apache.commons.io.FileUtils;
@@ -25,11 +26,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
+@ActiveProfiles("IntegrationTests")
 public final class TransformationToHtmlStepIntegrationTest
 {
     private static final String SAMPLE_DIVXML_PAGE = "1-sample_1.DIVXML_0_test.page";
@@ -119,5 +126,17 @@ public final class TransformationToHtmlStepIntegrationTest
         }
 
         return bundles;
+    }
+
+    @Configuration
+    @Profile("IntegrationTests")
+    @Import(CommonTestContextConfiguration.class)
+    public static class UnitePagePartsStepIntegrationTestConfiguration
+    {
+        @Bean(name = "transformToHtmlTask")
+        public TransformationToHtmlStep transformToHtmlTask()
+        {
+            return new TransformationToHtmlStep();
+        }
     }
 }

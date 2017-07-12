@@ -13,7 +13,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
-import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
@@ -59,7 +58,6 @@ public class GenerateEbookController
     private PublishingStatsService publishingStatsService;
     private ManagerService managerService;
     private OutageService outageService;
-    private MiscConfigSyncService miscConfigService;
     private XppBundleArchiveService xppBundleArchiveService;
     private static final String REVIEW_STATUS = "Review";
 
@@ -207,7 +205,8 @@ public class GenerateEbookController
             }
             model.addAttribute(WebConstants.TITLE_ID, book.getTitleId());
             model.addAttribute(WebConstants.TITLE, book.getProviewDisplayName());
-            if (disableButton){
+            if (disableButton)
+            {
                 model.addAttribute(WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS, "disabled=\"disabled\"");
             }
             model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, book);
@@ -280,10 +279,6 @@ public class GenerateEbookController
 
             model.addAttribute(WebConstants.KEY_IS_COMPLETE, book.getEbookDefinitionCompleteFlag());
             model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS, book.getPilotBookStatus());
-            model.addAttribute(WebConstants.KEY_IS_SPLIT_BOOK, book.isSplitBook());
-            model.addAttribute(
-                WebConstants.KEY_DISABLE_TITLE_FROM_SPLIT,
-                miscConfigService.getMiscConfig().getDisableExistingSingleTitleSplit());
 
             form.setFullyQualifiedTitleId(book.getFullyQualifiedTitleId());
             setModelVersion(model, form, book.getFullyQualifiedTitleId());
@@ -672,12 +667,6 @@ public class GenerateEbookController
     public void setOutageService(final OutageService service)
     {
         outageService = service;
-    }
-
-    @Required
-    public void setMiscConfigSyncService(final MiscConfigSyncService miscConfigService)
-    {
-        this.miscConfigService = miscConfigService;
     }
 
     @Required

@@ -13,11 +13,16 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.common.filesystem.GatherFileSystem;
+import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.request.dao.XppBundleArchiveDao;
+import com.thomsonreuters.uscl.ereader.request.dao.XppBundleArchiveDaoImpl;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 import com.thomsonreuters.uscl.ereader.request.service.XppBundleArchiveService;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppGatherFileSystem;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppGatherFileSystemImpl;
 import com.thomsonreuters.uscl.ereader.xpp.unpackbundle.step.UnpackBundleTask;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -29,11 +34,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
+@ActiveProfiles("IntegrationTests")
 public final class UnpackBundleIntegrationTest
 {
     private static final String MATERIAL_NUMBER = "123456";
@@ -112,5 +123,35 @@ public final class UnpackBundleIntegrationTest
         printComponent.setMaterialNumber(MATERIAL_NUMBER);
         printComponents.add(printComponent);
         return printComponents;
+    }
+
+    @Configuration
+    @Profile("IntegrationTests")
+    @Import(CommonTestContextConfiguration.class)
+    public static class UnpackBundleIntegrationTestConfiguration
+    {
+        @Bean
+        public UnpackBundleTask unpackBundleTask()
+        {
+            return new UnpackBundleTask();
+        }
+
+        @Bean
+        public GatherFileSystem xppGatherFileSystem()
+        {
+            return new XppGatherFileSystemImpl();
+        }
+
+        @Bean
+        public XppBundleArchiveService xppBundleArchiveService()
+        {
+            return new XppBundleArchiveService();
+        }
+
+        @Bean
+        public XppBundleArchiveDao xppBundleArchiveDao()
+        {
+            return new XppBundleArchiveDaoImpl(null);
+        }
     }
 }

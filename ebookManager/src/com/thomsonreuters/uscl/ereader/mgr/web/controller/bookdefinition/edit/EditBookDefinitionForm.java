@@ -105,7 +105,6 @@ public class EditBookDefinitionForm
     private boolean isRemoveEditorNoteHeading;
     private boolean isSplitBook;
     private boolean isSplitTypeAuto;
-    private boolean isSplitLock;
     private Integer splitEBookParts;
     private Collection<SplitDocument> splitDocuments;
     private Collection<PrintComponent> printComponents;
@@ -196,7 +195,6 @@ public class EditBookDefinitionForm
         isDelTagStyleEnabled = false;
         isRemoveEditorNoteHeading = false;
         isSplitBook = false;
-        isSplitLock = false;
         isSplitTypeAuto = true;
         splitDocuments = new AutoPopulatingList<>(SplitDocument.class);
         printComponents = new AutoPopulatingList<>(PrintComponent.class);
@@ -230,7 +228,6 @@ public class EditBookDefinitionForm
         bookDef.setDocumentCurrencies(new AutoPopulatingList<>(DocumentCurrency.class));
         bookDef.setPilotBookStatus(PilotBookStatus.FALSE);
         bookDef.setUseReloadContent(false);
-        bookDef.setIsSplitLock(false);
         bookDef.setSubGroupHeading(null);
 
         // Need to null surrogate and foreign keys.
@@ -310,7 +307,6 @@ public class EditBookDefinitionForm
             isSplitBook = book.isSplitBook();
             isSplitTypeAuto = book.isSplitTypeAuto();
             splitEBookParts = book.getSplitEBookParts();
-            isSplitLock = book.isSplitLock();
             fmThemeText = book.getFrontMatterTheme();
 
             // Determine if ProView groups are set
@@ -655,7 +651,6 @@ public class EditBookDefinitionForm
         book.setIsSplitBook(isSplitBook);
         book.setIsSplitTypeAuto(isSplitTypeAuto);
         book.setSplitEBookParts(splitEBookParts);
-        book.setIsSplitLock(isSplitLock);
         book.setSubGroupHeading(subGroupHeading);
         book.setGroupName(groupName);
 
@@ -1523,16 +1518,6 @@ public class EditBookDefinitionForm
     public void setSplitEBookParts(final Integer splitEBookParts)
     {
         this.splitEBookParts = splitEBookParts;
-    }
-
-    public boolean isSplitLock()
-    {
-        return isSplitLock;
-    }
-
-    public void setSplitLock(final boolean isSplitLock)
-    {
-        this.isSplitLock = isSplitLock;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.proview;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -84,6 +85,30 @@ public class Doc
             imageIdList = new ArrayList<>();
         }
         this.imageIdList = imageIdList;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, src);
+    }
+
+    @Override
+    public boolean equals(final Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+
+        boolean isEqual = false;
+        if (obj instanceof Doc)
+        {
+            final Doc doc = (Doc) obj;
+            isEqual = Objects.equals(id, doc.id)
+                && Objects.equals(src, doc.src);
+        }
+        return isEqual;
     }
 
     @Override

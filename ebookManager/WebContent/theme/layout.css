@@ -798,10 +798,6 @@ div.ui-datepicker{
 	margin-right:0.2em;
 }
 
-#splitWarning {
-	display: none;
-}
-
 #currentMajorVersionGroup,
 #nextMajorVersionGroup {
 	margin-top: 1em;

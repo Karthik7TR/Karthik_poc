@@ -415,7 +415,6 @@ public class TitleMetadata implements Serializable
     public static TitleMetadataBuilder builder(final BookDefinition bookDefinition)
     {
         return new TitleMetadataBuilder().fullyQualifiedTitleId(bookDefinition.getFullyQualifiedTitleId())
-            .proviewFeatures(bookDefinition.getProviewFeatures())
             .keywords(bookDefinition.getKeyWords())
             .authors(bookDefinition.getAuthors())
             .isPilotBook(bookDefinition.getIsPilotBook())

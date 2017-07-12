@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.proview;
 
+import java.util.Objects;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -50,4 +52,30 @@ public class Feature
     {
         return value;
     }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(name, value);
+    }
+
+    @Override
+    public boolean equals(final Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+
+        boolean isEqual = false;
+        if (obj instanceof Feature)
+        {
+            final Feature feature = (Feature) obj;
+            isEqual = Objects.equals(name, feature.name)
+                && Objects.equals(value, feature.value);
+        }
+        return isEqual;
+    }
+
+
 }

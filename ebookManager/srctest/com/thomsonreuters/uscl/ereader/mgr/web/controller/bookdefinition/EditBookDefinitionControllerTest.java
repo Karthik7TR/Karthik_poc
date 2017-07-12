@@ -404,7 +404,7 @@ public final class EditBookDefinitionControllerTest
 
         final MiscConfig miscConfig = new MiscConfig();
         EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
-        EasyMock.expectLastCall().times(3);
+        EasyMock.expectLastCall().times(2);
         EasyMock.replay(mockMiscConfigService);
 
         bookDefinitionLock.setEbookDefinition(book);
@@ -606,7 +606,7 @@ public final class EditBookDefinitionControllerTest
 
         final MiscConfig miscConfig = new MiscConfig();
         EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
-        EasyMock.expectLastCall().times(2);
+        EasyMock.expectLastCall().times(1);
         EasyMock.replay(mockMiscConfigService);
 
         final DocumentTypeCode code = new DocumentTypeCode();
@@ -699,7 +699,7 @@ public final class EditBookDefinitionControllerTest
 
         final MiscConfig miscConfig = new MiscConfig();
         EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
-        EasyMock.expectLastCall().times(4);
+        EasyMock.expectLastCall().times(3);
         EasyMock.replay(mockMiscConfigService);
 
         setupDropdownMenuAndKeywords(1);

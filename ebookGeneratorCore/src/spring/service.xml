@@ -61,6 +61,7 @@
 	<bean id="proviewClient" class="com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl"
 		  p:proviewHostname="${proview.host}"
 		  p:getTitlesUriTemplate="http://{proviewHost}/v1/titles/uscl/all"
+		  p:getTitleInfoUriTemplate="http://{proviewHost}/v1/title/{titleId}/{eBookVersionNumber}/info"
 		  p:singleTitleTemplate="http://{proviewHost}/v1/titles/{titleId}"
 		  p:publishTitleUriTemplate="http://{proviewHost}/v1/title/{titleId}/{eBookVersionNumber}"
 		  p:removeTitleUriTemplate="http://{proviewHost}/v1/title/{titleId}/{eBookVersionNumber}/status/removed"
@@ -119,5 +120,7 @@
 			p:proviewHandler-ref="proviewHandler"/>				
 			
 	<bean id="bookTitlesUtil" class="com.thomsonreuters.uscl.ereader.core.book.util.BookTitlesUtilImpl"/>
+	
+	<bean id="versionUtil" class="com.thomsonreuters.uscl.ereader.core.book.util.VersionUtilImpl"/>	
 	
 </beans>	

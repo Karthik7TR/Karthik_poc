@@ -93,7 +93,6 @@ public final class GenerateEbookControllerTest
         controller.setPublishingStatsService(mockPublishingStatsService);
         controller.setManagerService(mockManagerService);
         controller.setOutageService(mockOutageService);
-        controller.setMiscConfigSyncService(mockMiscConfigService);
     }
 
     /**
@@ -119,7 +118,6 @@ public final class GenerateEbookControllerTest
         final GroupDefinition group = new GroupDefinition();
 
         final MiscConfig miscConfig = new MiscConfig();
-        miscConfig.setDisableExistingSingleTitleSplit(true);
 
         request.setRequestURI("/" + WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
         request.setMethod(HttpMethod.GET.name());
@@ -186,7 +184,6 @@ public final class GenerateEbookControllerTest
         final GroupDefinition group = new GroupDefinition();
 
         final MiscConfig miscConfig = new MiscConfig();
-        miscConfig.setDisableExistingSingleTitleSplit(true);
 
         request.setRequestURI("/" + WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
         request.setMethod(HttpMethod.GET.name());

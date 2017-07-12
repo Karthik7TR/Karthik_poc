@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
+import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import org.jetbrains.annotations.NotNull;
@@ -67,5 +68,17 @@ public final class BookMatchers
             splitNodes.add(node);
         }
         return splitNodes;
+    }
+
+    @NotNull
+    public static BookTitleId titleId(@NotNull final String titleId, @NotNull final String version)
+    {
+        return new BookTitleId(titleId, version(version));
+    }
+
+    @NotNull
+    public static BookTitleId titleId(@NotNull final String titleId, @NotNull final Version version)
+    {
+        return new BookTitleId(titleId, version);
     }
 }

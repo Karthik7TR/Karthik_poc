@@ -60,11 +60,7 @@ public class AppConfigServiceImpl implements AppConfigService
         {
             proviewHostname = defaultProviewHostname;
         }
-        // TODO: clean up once ProView adds notes migration for multivolume books
-        final String disableExistingSingleTitleSplitString =
-            getConfigValue(MiscConfig.Key.disableExistingSingleTitleSplit.toString());
-        final boolean disableExistingSingleTitleSplit = (StringUtils.isNotBlank(disableExistingSingleTitleSplitString))
-            ? Boolean.valueOf(disableExistingSingleTitleSplitString) : true;
+
         final int maxSplitParts = Integer.parseInt(getConfigValue(MiscConfig.Key.maxSplitParts.toString()));
 
         final MiscConfig config = new MiscConfig(
@@ -72,7 +68,6 @@ public class AppConfigServiceImpl implements AppConfigService
             rootLogLevel,
             defaultNovusEnvironment,
             proviewHostname,
-            disableExistingSingleTitleSplit,
             maxSplitParts);
         return config;
     }
@@ -113,15 +108,11 @@ public class AppConfigServiceImpl implements AppConfigService
         dao.save(param);
         param = new AppParameter(MiscConfig.Key.proviewHostname.toString(), config.getProviewHost().getHostName());
         dao.save(param);
-        param = new AppParameter(
-            MiscConfig.Key.disableExistingSingleTitleSplit.toString(),
-            config.getDisableExistingSingleTitleSplit());
-        dao.save(param);
     }
 
     private List<AppParameter> createJobThrottleConfigAppParameterList(final JobThrottleConfig config)
     {
-        final List<AppParameter> parameters = new ArrayList<AppParameter>();
+        final List<AppParameter> parameters = new ArrayList<>();
         parameters
             .add(new AppParameter(JobThrottleConfig.Key.coreThreadPoolSize.toString(), config.getCoreThreadPoolSize()));
         parameters.add(

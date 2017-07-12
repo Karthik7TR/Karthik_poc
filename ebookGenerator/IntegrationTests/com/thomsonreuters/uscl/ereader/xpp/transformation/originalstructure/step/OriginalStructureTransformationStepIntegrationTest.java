@@ -8,6 +8,7 @@ import java.io.File;
 
 import javax.annotation.Resource;
 
+import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppGatherFileSystem;
 import org.apache.commons.io.FileUtils;
@@ -15,11 +16,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
+@ActiveProfiles("IntegrationTests")
 public final class OriginalStructureTransformationStepIntegrationTest
 {
     private static final String MATERIAL_NUMBER = "11111111";
@@ -72,5 +79,17 @@ public final class OriginalStructureTransformationStepIntegrationTest
         final File footnotes = fileSystem.getFootnotesFile(step, MATERIAL_NUMBER, sampleFileName);
         assertThat(expectedMain, equalTo(FileUtils.readFileToString(main)));
         assertThat(expectedFootnotes, hasSameContentAs(footnotes));
+    }
+
+    @Configuration
+    @Profile("IntegrationTests")
+    @Import(CommonTestContextConfiguration.class)
+    public static class OriginalStructureTransformationStepIntegrationTestConfiguration
+    {
+        @Bean(name = "originalStructureTransformationTask")
+        public OriginalStructureTransformationStep originalStructureTransformationTask()
+        {
+            return new OriginalStructureTransformationStep();
+        }
     }
 }
