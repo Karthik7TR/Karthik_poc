@@ -152,6 +152,11 @@
 	<c:set var="disableUnderPubPlusRoleButton" value=""/>
 </sec:authorize>
 
+<c:if test="${!disableTitleFromSplit}">
+	<c:set var="disableTitleFromSplit" value="${disableUnderPubPlusRole}"/>
+</c:if>
+
+<form:hidden path="splitLock"/>
 <form:hidden path="bookdefinitionId" />
 <div id="generalSection" class="section">
 	<div class="sectionLabel">
@@ -250,6 +255,10 @@
 				<form:hidden path="removeEditorNoteHeading"/>
 				<form:hidden path="delTagStyleEnabled"/>
 				<form:hidden path="insTagStyleEnabled"/>
+			</c:if>
+			<c:if test="${disableTitleFromSplit}">
+				<%-- Hidden fields needed when options are disabled.
+					 Options reset to defaults if hidden fields are missing. --%>
 				<form:hidden path="splitBook"/>
 				<form:hidden path="splitTypeAuto"/>
 				<form:hidden path="splitEBookParts"/>
@@ -414,7 +423,7 @@
 					<form:errors path="finalStage" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row" ${xppHide}>
+			<div class="row xppHideClass" >
 				<form:label path="insTagStyleEnabled" class="labelCol">Added Material Blue Highlighting</form:label>
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="insTagStyleEnabled" value="true" />True
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="insTagStyleEnabled" value="false" />False
@@ -422,7 +431,7 @@
 					<form:errors path="insTagStyleEnabled" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row" ${xppHide}>
+			<div class="row xppHideClass" >
 				<form:label path="delTagStyleEnabled" class="labelCol">Deleted Material Strike-Through</form:label>
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="delTagStyleEnabled" value="true" />True
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="delTagStyleEnabled" value="false" />False
@@ -430,7 +439,7 @@
 					<form:errors path="delTagStyleEnabled" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row" ${xppHide}>
+			<div class="row xppHideClass" >
 				<form:label path="removeEditorNoteHeading" class="labelCol">Remove Editors' Notes Heading</form:label>
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="removeEditorNoteHeading" value="true" />True
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="removeEditorNoteHeading" value="false" />False
@@ -440,8 +449,8 @@
 			</div>
 			<div class="row">
 				<form:label path="splitBook" class="labelCol">Split book</form:label>
-				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitBook" value="true" />True
-				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitBook" value="false" />False
+				<form:radiobutton disabled="${disableTitleFromSplit}" path="splitBook" value="true" />True
+				<form:radiobutton disabled="${disableTitleFromSplit}" path="splitBook" value="false" />False
 				<div class="errorDiv">
 						<form:errors path="splitBook" cssClass="errorMessage" />
 				</div>
@@ -449,8 +458,8 @@
 			<div id="splitTypeDiv" style="display:none">
 				<div class="row">
 					<form:label path="splitTypeAuto" class="labelCol">Choose Split Type</form:label>	
-					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitTypeAuto" value="true" />Auto				
-				    <form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitTypeAuto" value="false" />Manual					
+					<form:radiobutton disabled="${disableTitleFromSplit}" path="splitTypeAuto" value="true" />Auto				
+				    <form:radiobutton disabled="${disableTitleFromSplit}" path="splitTypeAuto" value="false" />Manual					
 				</div>
 				<div class="errorDiv">
 						<form:errors path="splitTypeAuto" cssClass="errorMessage" />
@@ -458,7 +467,7 @@
 			</div>
 			<div id="ebookSizeDiv" style="display:none">
 				<form:label path="splitEBookParts" class="labelCol">Number of eBook Splits</form:label>
-						<form:select  disabled="${disableUnderPubPlusRole}" path="splitEBookParts">
+						<form:select  disabled="${disableTitleFromSplit}" path="splitEBookParts">
 							<form:option value="" label="SELECT" />
 							<c:forEach var="i" begin="2" end="${maxEbookSplitParts}" step="1" varStatus ="status">
 								<form:option label="${i}" value="${i}"/>
@@ -478,14 +487,14 @@
 						<div class="expandingBox">
 							<div class="dynamicRow">
 								<label>TOC/NORT GUID</label>
-								<form:input disabled="${disableUnderPubPlusRole}" cssClass="guid" path="splitDocuments[${status.index}].tocGuid" maxlength="33" />
+								<form:input disabled="${disableTitleFromSplit}" cssClass="guid" path="splitDocuments[${status.index}].tocGuid" maxlength="33" />
 								<div class="errorDiv">
 									<form:errors path="splitDocuments[${status.index}].tocGuid" cssClass="errorMessage" />
 								</div>
 							</div>
 							<div class="dynamicRow">
 								<label>Note</label>
-								<form:textarea disabled="${disableUnderPubPlusRole}" path="splitDocuments[${status.index}].note" />
+								<form:textarea disabled="${disableTitleFromSplit}" path="splitDocuments[${status.index}].note" />
 								<div class="errorDiv">
 									<form:errors  path="splitDocuments[${status.index}].note" cssClass="errorMessage" />
 								</div>								
@@ -590,7 +599,7 @@
 	<div id="addRenameTocEntryHere"></div>
 </div>
 
-<div id="displayDocumentCopyright" class="dynamicContent" ${xppHide}>
+<div id="displayDocumentCopyright" class="dynamicContent xppHideClass" >
 	<c:forEach items="${editBookDefinitionForm.documentCopyrightsCopy}" varStatus="aStatus">
 			<form:hidden path="documentCopyrightsCopy[${aStatus.index}].copyrightGuid" />
 			<form:hidden path="documentCopyrightsCopy[${aStatus.index}].newText" />
@@ -869,34 +878,34 @@
 	<div id="addTableViewerHere"></div>
 </div>
 
-<div class="section">
+<div class="section xppHideClass">
 	<div class="sectionLabel">
 		Front Matter
 	</div>
 	<div class="centerSection">
 		<div class="leftDefinitionForm">
-			<div class="row" ${xppHide}>
+			<div class="row xppHideClass" >
 				<form:label path="frontMatterTocLabel" class="labelCol">Front Matter TOC Label</form:label>
 				<form:input path="frontMatterTocLabel" />
 				<div class="errorDiv">
 					<form:errors path="frontMatterTocLabel" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row" ${xppHide}>
+			<div class="row xppHideClass" >
 				<form:label path="copyright" class="labelCol">Copyright</form:label>
 				<form:textarea path="copyright" />
 				<div class="errorDiv">
 					<form:errors path="copyright" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row" ${xppHide}>
+			<div class="row xppHideClass" >
 				<form:label path="copyrightPageText" class="labelCol">Copyright Page Text</form:label>
 				<form:textarea path="copyrightPageText" />
 				<div class="errorDiv">
 					<form:errors path="copyrightPageText" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row" ${xppHide}>
+			<div class="row xppHideClass" >
 				<form:label path="frontMatterTitle" class="labelCol">Main Title</form:label>
 				<form:hidden path="frontMatterTitle.ebookNameId" />
 				<form:hidden path="frontMatterTitle.sequenceNum" value="1" />
@@ -905,7 +914,7 @@
 					<form:errors path="frontMatterTitle.bookNameText" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row" ${xppHide}>
+			<div class="row xppHideClass" >
 				<form:label path="frontMatterSubtitle" class="labelCol">Sub Title</form:label>
 				<form:hidden path="frontMatterSubtitle.ebookNameId"/>
 				<form:hidden path="frontMatterSubtitle.sequenceNum" value="2"/>
@@ -914,7 +923,7 @@
 					<form:errors path="frontMatterSubtitle.bookNameText" cssClass="errorMessage" />
 				</div>
 			</div> 
-			<div class="row" ${xppHide}>
+			<div class="row xppHideClass" >
 				<form:label path="frontMatterSeries" class="labelCol">Series</form:label>
 				<form:hidden path="frontMatterSeries.ebookNameId"/>
 				<form:hidden path="frontMatterSeries.sequenceNum" value="3"/>
@@ -925,21 +934,21 @@
 			</div> 
 		</div>
 		<div class="rightDefinitionForm">
-			<div class="row" ${xppHide}>
+			<div class="row xppHideClass" >
 				<form:label path="additionalTrademarkInfo" class="labelCol">Additional Patent/Trademark Message</form:label>
 				<form:textarea path="additionalTrademarkInfo" />
 				<div class="errorDiv">
 					<form:errors path="additionalTrademarkInfo" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row" ${xppHide}>
+			<div class="row xppHideClass" >
 				<form:label path="currency" class="labelCol">Currentness Message</form:label>
 				<form:textarea path="currency" />
 				<div class="errorDiv">
 					<form:errors path="currency" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row" ${xppHide}>
+			<div class="row xppHideClass" >
 						<form:label path="fmThemeText" class="labelCol">Front Matter Theme</form:label>
 						<form:select path="fmThemeText" >
 							<form:options items="${frontMatterThemes}" />
@@ -1025,7 +1034,7 @@
 	</div>
 </div>
 
-<div id="additionFrontMatterBlock" class="centerSection" ${xppHide}>
+<div id="additionFrontMatterBlock" class="centerSection xppHideClass" >
 	<form:label path="frontMatters" class="labelCol">Additional Front Matter Pages</form:label>
 	<input type="button" id="addFrontMatterPage" value="add" />
 	<div class="errorDiv">

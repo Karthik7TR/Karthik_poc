@@ -136,7 +136,7 @@ $(function() {
 		$("#displayFILE").hide();
 		$("#displayXPP").hide();
 		$("#displayFinalStage").hide();
-		
+		$(".xppHideClass").css("display","block");
 		if(sourceType == "TOC") {
 			$("#displayTOC").show();
 			$("#displayFinalStage").show();
@@ -160,6 +160,7 @@ $(function() {
 			$("#docCollectionName").val("");
 			$("#nortFilterView").val("");
 			$("#nortDomain").val("");
+			$(".xppHideClass").css("display","none");
 		} else {
 			$("#displayFILE").show();
 			$("#rootTocGuid").val("");

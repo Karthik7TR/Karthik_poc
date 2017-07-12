@@ -35,6 +35,7 @@
 .jsgrid-header-row .jsgrid-header-sort-asc:before{
 	border-color: transparent transparent #ffffff transparent;
 }
+
 </style>
 
 <div id="jsGrid"></div>

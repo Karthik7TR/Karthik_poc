@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.request.dao;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
@@ -89,7 +90,14 @@ public class XppBundleArchiveDaoImpl implements XppBundleArchiveDao
     public List<XppBundleArchive> findByMaterialNumberList(final List<String> sourceMaterialNumberList)
     {
         final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(XppBundleArchive.class);
-        criteria.add(Restrictions.in("materialNumber", sourceMaterialNumberList));
-        return criteria.list();
+        if (sourceMaterialNumberList != null && !sourceMaterialNumberList.isEmpty())
+        {
+            criteria.add(Restrictions.in("materialNumber", sourceMaterialNumberList));
+            return criteria.list();
+        }
+        else
+        {
+            return Collections.EMPTY_LIST;
+        }
     }
 }
