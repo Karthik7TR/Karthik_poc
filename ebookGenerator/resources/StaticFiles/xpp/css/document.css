@@ -92,6 +92,10 @@
   display: inline !important;
 }
 
+.no-indent {
+  margin-left: calc(-1.1 * 1em);
+}
+
 .toc_analytical_hierarchy {
   margin-bottom: 1em;
 }

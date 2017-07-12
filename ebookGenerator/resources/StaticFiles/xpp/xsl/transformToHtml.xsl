@@ -105,6 +105,9 @@
 				<xsl:if test="@style">
 						<xsl:value-of select="concat(' font_', x:get-class-name(@style))" />
 				</xsl:if>
+				<xsl:if test="./preceding-sibling::*[1][self::x:pagebreak]">
+					<xsl:value-of select="concat(' ', 'no-indent')" />
+				</xsl:if>
 			</xsl:attribute>
 			<xsl:apply-templates />
 		</xsl:element>
