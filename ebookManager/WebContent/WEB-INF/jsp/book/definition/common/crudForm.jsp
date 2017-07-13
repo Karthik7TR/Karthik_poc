@@ -2,7 +2,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm"%>
@@ -152,11 +152,6 @@
 	<c:set var="disableUnderPubPlusRoleButton" value=""/>
 </sec:authorize>
 
-<c:if test="${!disableTitleFromSplit}">
-	<c:set var="disableTitleFromSplit" value="${disableUnderPubPlusRole}"/>
-</c:if>
-
-<form:hidden path="splitLock"/>
 <form:hidden path="bookdefinitionId" />
 <div id="generalSection" class="section">
 	<div class="sectionLabel">
@@ -193,13 +188,13 @@
 					<form:errors path="isbn" cssClass="errorMessage" />
 				</div>
 			</div>
-		
+
 			<div class="row">
 				<form:label path="materialId" class="labelCol">Sub Material Number</form:label>
 				<form:input path="materialId" maxlength="18" />
 				<div class="errorDiv">
 					<form:errors path="materialId" cssClass="errorMessage" />
-				</div>	
+				</div>
 			</div>
 			<c:if test="${disableUnderPubPlusRole}">
 				<%-- Hidden fields needed when options are disabled.
@@ -240,7 +235,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="rightDefinitionForm">
 			<c:if test="${disableUnderPubPlusRole}">
 				<%-- Hidden fields needed when options are disabled.
@@ -255,10 +250,6 @@
 				<form:hidden path="removeEditorNoteHeading"/>
 				<form:hidden path="delTagStyleEnabled"/>
 				<form:hidden path="insTagStyleEnabled"/>
-			</c:if>
-			<c:if test="${disableTitleFromSplit}">
-				<%-- Hidden fields needed when options are disabled.
-					 Options reset to defaults if hidden fields are missing. --%>
 				<form:hidden path="splitBook"/>
 				<form:hidden path="splitTypeAuto"/>
 				<form:hidden path="splitEBookParts"/>
@@ -351,7 +342,7 @@
 					<div id="addNortFileLocationHere">
 						<c:forEach items="${editBookDefinitionForm.nortFileLocations}" var="fileLocation" varStatus="aStatus">
 							<div class="expandingBox">
-							
+
 								<div class="errorDiv">
 									<form:errors path="nortFileLocations[${aStatus.index}].sequenceNum" cssClass="errorMessage" />
 								</div>
@@ -449,17 +440,17 @@
 			</div>
 			<div class="row">
 				<form:label path="splitBook" class="labelCol">Split book</form:label>
-				<form:radiobutton disabled="${disableTitleFromSplit}" path="splitBook" value="true" />True
-				<form:radiobutton disabled="${disableTitleFromSplit}" path="splitBook" value="false" />False
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitBook" value="true" />True
+				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitBook" value="false" />False
 				<div class="errorDiv">
 						<form:errors path="splitBook" cssClass="errorMessage" />
 				</div>
-			</div>				
+			</div>
 			<div id="splitTypeDiv" style="display:none">
 				<div class="row">
-					<form:label path="splitTypeAuto" class="labelCol">Choose Split Type</form:label>	
-					<form:radiobutton disabled="${disableTitleFromSplit}" path="splitTypeAuto" value="true" />Auto				
-				    <form:radiobutton disabled="${disableTitleFromSplit}" path="splitTypeAuto" value="false" />Manual					
+					<form:label path="splitTypeAuto" class="labelCol">Choose Split Type</form:label>
+					<form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitTypeAuto" value="true" />Auto
+				    <form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitTypeAuto" value="false" />Manual
 				</div>
 				<div class="errorDiv">
 						<form:errors path="splitTypeAuto" cssClass="errorMessage" />
@@ -467,7 +458,7 @@
 			</div>
 			<div id="ebookSizeDiv" style="display:none">
 				<form:label path="splitEBookParts" class="labelCol">Number of eBook Splits</form:label>
-						<form:select  disabled="${disableTitleFromSplit}" path="splitEBookParts">
+						<form:select  disabled="${disableUnderPubPlusRole}" path="splitEBookParts">
 							<form:option value="" label="SELECT" />
 							<c:forEach var="i" begin="2" end="${maxEbookSplitParts}" step="1" varStatus ="status">
 								<form:option label="${i}" value="${i}"/>
@@ -476,35 +467,35 @@
 				<div class="errorDiv">
 						<form:errors path="splitEBookParts" cssClass="errorMessage" />
 				</div>
-			</div>	
-			
+			</div>
+
 			<div id="displaySplitDocument" style="display:none;">
 				<div class="row" style="font-size:.7em; text-align: center;">
 						Enter Toc/Nort GUID of split location(s). GUID entered indicates the beginning of the next eBook part.
-				</div>	
-				
-				<c:forEach items="${editBookDefinitionForm.splitDocuments}" var="toc" varStatus ="status">	
+				</div>
+
+				<c:forEach items="${editBookDefinitionForm.splitDocuments}" var="toc" varStatus ="status">
 						<div class="expandingBox">
 							<div class="dynamicRow">
 								<label>TOC/NORT GUID</label>
-								<form:input disabled="${disableTitleFromSplit}" cssClass="guid" path="splitDocuments[${status.index}].tocGuid" maxlength="33" />
+								<form:input disabled="${disableUnderPubPlusRole}" cssClass="guid" path="splitDocuments[${status.index}].tocGuid" maxlength="33" />
 								<div class="errorDiv">
 									<form:errors path="splitDocuments[${status.index}].tocGuid" cssClass="errorMessage" />
 								</div>
 							</div>
 							<div class="dynamicRow">
 								<label>Note</label>
-								<form:textarea disabled="${disableTitleFromSplit}" path="splitDocuments[${status.index}].note" />
+								<form:textarea disabled="${disableUnderPubPlusRole}" path="splitDocuments[${status.index}].note" />
 								<div class="errorDiv">
 									<form:errors  path="splitDocuments[${status.index}].note" cssClass="errorMessage" />
-								</div>								
-						    </div>								
-						</div>						
-				</c:forEach>				
+								</div>
+						    </div>
+						</div>
+				</c:forEach>
 				<div id="addSplitDocumentsHere"></div>
 			</div>
-			
-					
+
+
 		</div>
 	</div>
 </div>
@@ -767,7 +758,7 @@
 			<div class="row" style="font-size:.7em; text-align: center;">
 				*Only Super Users are able to modify above options.
 			</div>
-			
+
 			<div class="row">
 				<form:label path="tableViewersUsed" class="labelCol">Enable Table Viewer</form:label>
 				<form:radiobutton path="tableViewersUsed" value="true" />Yes
@@ -922,7 +913,7 @@
 				<div class="errorDiv">
 					<form:errors path="frontMatterSubtitle.bookNameText" cssClass="errorMessage" />
 				</div>
-			</div> 
+			</div>
 			<div class="row xppHideClass" >
 				<form:label path="frontMatterSeries" class="labelCol">Series</form:label>
 				<form:hidden path="frontMatterSeries.ebookNameId"/>
@@ -931,7 +922,7 @@
 				<div class="errorDiv">
 					<form:errors path="frontMatterSeries.bookNameText" cssClass="errorMessage" />
 				</div>
-			</div> 
+			</div>
 		</div>
 		<div class="rightDefinitionForm">
 			<div class="row xppHideClass" >
@@ -952,7 +943,7 @@
 						<form:label path="fmThemeText" class="labelCol">Front Matter Theme</form:label>
 						<form:select path="fmThemeText" >
 							<form:options items="${frontMatterThemes}" />
-						</form:select>							
+						</form:select>
 					</div>
 			<div class="row">
 				<form:label path="isAuthorDisplayVertical" class="labelCol">Author Display</form:label>
@@ -962,7 +953,7 @@
 					<form:errors path="isAuthorDisplayVertical" cssClass="errorMessage" />
 				</div>
 			</div>
-			
+
 			<div id="authorName" class="row">
 				<form:label path="authorInfo" class="labelCol">Author Information</form:label>
 				<input type="button" id="addAuthor" value="add" />
@@ -1045,7 +1036,7 @@
 			<div class="row frontMatterPage">
 				<form:hidden path="frontMatters[${pageStatus.index}].id"/>
 				<form:hidden path="frontMatters[${pageStatus.index}].sequenceNum" cssClass="sequence" />
-				<form:input path="frontMatters[${pageStatus.index}].pageTocLabel" title="Page TOC Label" cssClass="pageTocLabel" /><form:input path="frontMatters[${pageStatus.index}].pageHeadingLabel" title="Page Heading Label" cssClass="pageHeadingLabel" /><button class="moveUp" type="button">Up</button><button class="moveDown" type="button">Down</button><input type="button" value="Delete Page" class="rdelete" title="Delete Page, Sections, and Pdfs?" deleteMessage="This will also delete all the sections and pdfs in this front matter page." /><input type="button" value="Preview" class="fmPreview"/>   
+				<form:input path="frontMatters[${pageStatus.index}].pageTocLabel" title="Page TOC Label" cssClass="pageTocLabel" /><form:input path="frontMatters[${pageStatus.index}].pageHeadingLabel" title="Page Heading Label" cssClass="pageHeadingLabel" /><button class="moveUp" type="button">Up</button><button class="moveDown" type="button">Down</button><input type="button" value="Delete Page" class="rdelete" title="Delete Page, Sections, and Pdfs?" deleteMessage="This will also delete all the sections and pdfs in this front matter page." /><input type="button" value="Preview" class="fmPreview"/>
 				<div class="errorDiv2">
 					<form:errors path="frontMatters[${pageStatus.index}].pageTocLabel" cssClass="errorMessage" />
 					<form:errors path="frontMatters[${pageStatus.index}].pageHeadingLabel" cssClass="errorMessage" />
@@ -1093,9 +1084,9 @@
 			</div>
 		</c:forEach>
 	</div>
-</div> 
+</div>
 
-<div id="modal"> 
+<div id="modal">
     <div id="dialog" class="window" style="display:none;">
         <div class="modelTitle">Comments</div>
         <form:textarea path="comment"/>
