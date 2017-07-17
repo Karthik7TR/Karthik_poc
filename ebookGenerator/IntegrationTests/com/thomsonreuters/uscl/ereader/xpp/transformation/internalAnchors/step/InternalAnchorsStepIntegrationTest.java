@@ -8,23 +8,18 @@ import java.net.URISyntaxException;
 
 import javax.annotation.Resource;
 
-import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
+@ContextConfiguration(classes = InternalAnchorsStepIntegrationTestConfiguration.class)
 @ActiveProfiles("IntegrationTests")
 public final class InternalAnchorsStepIntegrationTest
 {
@@ -58,17 +53,5 @@ public final class InternalAnchorsStepIntegrationTest
         //then
         final File anchors = fileSystem.getAnchorToDocumentIdMapFile(step);
         assertThat(anchors, hasSameContentAs(expected));
-    }
-
-    @Configuration
-    @Profile("IntegrationTests")
-    @Import(CommonTestContextConfiguration.class)
-    public static class SplitOriginalStepIntegrationTestConfiguration
-    {
-        @Bean(name = "internalAnchorsTask")
-        public InternalAnchorsStep internalAnchorsTask()
-        {
-            return new InternalAnchorsStep();
-        }
     }
 }

@@ -114,7 +114,7 @@ public final class SplitOriginalStepIntegrationTest
     @Configuration
     @Profile("IntegrationTests")
     @Import(CommonTestContextConfiguration.class)
-    public static class UnitePagePartsStepIntegrationTestConfiguration
+    public static class SplitOriginalStepIntegrationTestConfiguration
     {
         @Bean(name = "splitOriginalTask")
         public SplitOriginalStep splitOriginalTask()

@@ -75,7 +75,7 @@ public final class GenerateFontsCssStepIntegrationTest
     @Configuration
     @Profile("IntegrationTests")
     @Import(CommonTestContextConfiguration.class)
-    public static class UnitePagePartsStepIntegrationTestConfiguration
+    public static class GenerateFontsCssStepIntegrationTestConfiguration
     {
         @Bean(name = "generateFontsStepBean")
         public GenerateFontsCssStep generateFontsStepBean()
