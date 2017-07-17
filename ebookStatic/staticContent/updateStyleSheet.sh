@@ -43,11 +43,6 @@ sed -i '/<\/xsl:stylesheet>/i \
 \t<!-- suppress the label.designator when within codes.para --> \
 \t<xsl:template match="codes.para\/head[following-sibling::node()[1][self::paratext] and child::label.designator]" \/>' WestlawNext/DefaultProductView/ContentTypes/AnalyticalTreatisesAndAnnoCodes.xsl
 
-echo "Add string in AnalyticalArticleBased.xsl">> log.txt
-sed -i '/<\/xsl:stylesheet>/i \
-\t<!-- suppress the label.designator when within codes.para --> \
-\t<xsl:template match="codes.para\/head[following-sibling::node()[1][self::paratext] and child::label.designator]" \/>' WestlawNext/DefaultProductView/ContentTypes/AnalyticalArticleBased.xsl
-
 echo "Add string in AnalyticalTreatisePracticeGuides.xsl">> log.txt
 sed -i '/<\/xsl:stylesheet>/i \
 \t<!-- suppress the label.designator when within codes.para --> \
