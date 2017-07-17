@@ -869,8 +869,8 @@
 	<div id="addTableViewerHere"></div>
 </div>
 
-<div class="section xppHideClass">
-	<div class="sectionLabel">
+<div class="section">
+	<div class="sectionLabel xppHideClass">
 		Front Matter
 	</div>
 	<div class="centerSection">

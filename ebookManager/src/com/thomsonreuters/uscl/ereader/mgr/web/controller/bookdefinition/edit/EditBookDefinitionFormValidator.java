@@ -11,6 +11,7 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCopyright;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCurrency;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
@@ -149,12 +150,15 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             form.getFrontMatterTitle().getBookNameText(),
             "frontMatterTitle.bookNameText",
             new Object[] {"Main Title", MAXIMUM_CHARACTER_2048});
-        checkMaxLength(
-            errors,
-            MAXIMUM_CHARACTER_2048,
-            form.getFrontMatterSubtitle().getBookNameText(),
-            "frontMatterSubtitle.bookNameText",
-            new Object[] {"Sub Title", MAXIMUM_CHARACTER_2048});
+        if (form.getSourceType() != SourceType.XPP)
+        {
+            checkMaxLength(
+                errors,
+                MAXIMUM_CHARACTER_2048,
+                form.getFrontMatterSubtitle().getBookNameText(),
+                "frontMatterSubtitle.bookNameText",
+                new Object[] {"Sub Title", MAXIMUM_CHARACTER_2048});
+        }
         checkMaxLength(
             errors,
             MAXIMUM_CHARACTER_2048,
@@ -558,7 +562,11 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         }
     }
 
-    private boolean validateFileExists(final Errors errors, final String fieldName, final File directory, final String fileName)
+    private boolean validateFileExists(
+        final Errors errors,
+        final String fieldName,
+        final File directory,
+        final String fileName)
     {
         if (StringUtils.isBlank(fileName))
         {
@@ -1070,7 +1078,12 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         }
     }
 
-    private void fileExist(final Errors errors, final String filename, final String location, final String fieldName, final String errorMessage)
+    private void fileExist(
+        final Errors errors,
+        final String filename,
+        final String location,
+        final String fieldName,
+        final String errorMessage)
     {
         final File file = new File(location, filename);
         if (!file.isFile())
