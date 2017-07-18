@@ -47,7 +47,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ActiveProfiles("IntegrationTests")
 public final class UnpackBundleIntegrationTest
 {
-    private static final String MATERIAL_NUMBER = "123456";
+    private static final String MATERIAL_NUMBER = "41963403";
 
     @InjectMocks
     @Resource(name = "unpackBundleTask")
@@ -121,6 +121,7 @@ public final class UnpackBundleIntegrationTest
         final Set<PrintComponent> printComponents = new HashSet<>();
         final PrintComponent printComponent = new PrintComponent();
         printComponent.setMaterialNumber(MATERIAL_NUMBER);
+        printComponent.setComponentOrder(1);
         printComponents.add(printComponent);
         return printComponents;
     }

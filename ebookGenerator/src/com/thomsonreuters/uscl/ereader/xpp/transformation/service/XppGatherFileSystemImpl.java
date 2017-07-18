@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.FileSystemException;
@@ -94,15 +93,15 @@ public class XppGatherFileSystemImpl extends GatherFileSystemImpl implements Xpp
 
     @Override
     @NotNull
-    public List<File> getAllBundleXmls(final BookStep step)
+    public Map<String, File> getAllBundleXmls(@NotNull final BookStep step)
     {
-        final List<File> resultList = new ArrayList<>();
+        final Map<String, File> result = new HashMap<>();
         for (final File bundleMaterialNumberDir : getXppBundlesDirectory(step).listFiles())
         {
-            resultList.add(new File(bundleMaterialNumberDir, "bundle.xml"));
+            result.put(bundleMaterialNumberDir.getName(), new File(bundleMaterialNumberDir, "bundle.xml"));
         }
 
-        return resultList;
+        return result;
     }
 
     private void validateExistence(final File item)

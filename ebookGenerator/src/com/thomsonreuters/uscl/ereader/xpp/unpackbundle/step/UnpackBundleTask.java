@@ -2,7 +2,10 @@ package com.thomsonreuters.uscl.ereader.xpp.unpackbundle.step;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.xml.bind.JAXBContext;
@@ -76,29 +79,42 @@ public class UnpackBundleTask extends BookStepImpl
     {
         switch (ArchiveType.getTypeByName(targetArchive.getName()))
         {
-            case ZIP:
-                zipService.decompress(targetArchive, currentBundleDirectory);
-                break;
-            case TAR_GZ:
-                final String bundleName = StringUtils.substringBefore(targetArchive.getName(), ".tar.gz");
-                gzipService.decompress(targetArchive, currentBundleDirectory, bundleName + "/");
-                break;
-            default:
-                throw new UnsupportedOperationException();
+        case ZIP:
+            zipService.decompress(targetArchive, currentBundleDirectory);
+            break;
+        case TAR_GZ:
+            final String bundleName = StringUtils.substringBefore(targetArchive.getName(), ".tar.gz");
+            gzipService.decompress(targetArchive, currentBundleDirectory, bundleName + "/");
+            break;
+        default:
+            throw new UnsupportedOperationException();
         }
     }
 
     private void unmarshalBundleXmlFiles() throws JAXBException
     {
         final Unmarshaller unmarshaller = JAXBContext.newInstance(XppBundle.class).createUnmarshaller();
-        final List<XppBundle> xppBundleList = new ArrayList<>();
+        final List<PrintComponent> printComponents = new ArrayList<>(getBookDefinition().getPrintComponents());
+        final Map<String, File> bundleXmls = xppGatherFileSystem.getAllBundleXmls(this);
+        final List<XppBundle> bundles = new ArrayList<>();
 
-        for (final File element : xppGatherFileSystem.getAllBundleXmls(this))
+        Collections.sort(printComponents, new Comparator<PrintComponent>()
         {
-            xppBundleList.add((XppBundle) unmarshaller.unmarshal(element));
+            @Override
+            public int compare(final PrintComponent a, final PrintComponent b)
+            {
+                return Integer.compare(a.getComponentOrder(), b.getComponentOrder());
+            }
+        });
+
+        for (final PrintComponent pc : printComponents)
+        {
+            final File xmlFile = bundleXmls.get(pc.getMaterialNumber());
+            final XppBundle bundle = (XppBundle) unmarshaller.unmarshal(xmlFile);
+            bundles.add(bundle);
         }
 
-        setJobExecutionProperty(JobParameterKey.XPP_BUNDLES, xppBundleList);
+        setJobExecutionProperty(JobParameterKey.XPP_BUNDLES, bundles);
     }
 
     private enum ArchiveType

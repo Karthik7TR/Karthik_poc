@@ -5,10 +5,12 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.net.URISyntaxException;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,7 +38,7 @@ import org.springframework.batch.item.ExecutionContext;
 @RunWith(MockitoJUnitRunner.class)
 public final class UnpackBundleTaskTest
 {
-    private static final String MATERIAL_NUMBER = "123456";
+    private static final String MATERIAL_NUMBER = "41963403";
     private File bundleXmlFile;
 
     @InjectMocks
@@ -72,13 +74,14 @@ public final class UnpackBundleTaskTest
         given(chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext())
             .willReturn(executionContext);
         given(executionContext.get(JobParameterKey.EBOOK_DEFINITON)).willReturn(book);
-        given(book.getPrintComponents()).willReturn(printComponents());
+        given(book.getPrintComponents()).willReturn(printComponents(2));
         given(xppBundleArchiveService.findByMaterialNumber(MATERIAL_NUMBER)).willReturn(xppBundleArchive);
 
         given(xppGatherFileSystem.getXppBundleMaterialNumberDirectory(step, MATERIAL_NUMBER))
             .willReturn(destinationDirectoryFile);
         given(xppGatherFileSystem.getXppBundlesDirectory(step)).willReturn(bundleDir);
         bundleXmlFile = new File(UnpackBundleTaskTest.class.getResource("bundle.xml").toURI());
+        given(xppGatherFileSystem.getAllBundleXmls(step)).willReturn(Collections.singletonMap(MATERIAL_NUMBER, bundleXmlFile));
     }
 
     @Test
@@ -90,7 +93,7 @@ public final class UnpackBundleTaskTest
         //when
         step.executeStep();
         //then
-        then(zipService).should().decompress(archiveFile, destinationDirectoryFile);
+        verify(zipService, times(2)).decompress(archiveFile, destinationDirectoryFile);
     }
 
     @Test
@@ -102,7 +105,7 @@ public final class UnpackBundleTaskTest
         //when
         step.executeStep();
         //then
-        then(gzipService).should().decompress(archiveFile, destinationDirectoryFile, "archive/");
+        verify(gzipService, times(2)).decompress(archiveFile, destinationDirectoryFile, "archive/");
     }
 
     @Test
@@ -111,7 +114,7 @@ public final class UnpackBundleTaskTest
         //given
         given(archiveFile.getName()).willReturn("archive.zip");
         given(xppBundleArchive.getEBookSrcFile()).willReturn(archiveFile);
-        given(xppGatherFileSystem.getAllBundleXmls(step)).willReturn(Arrays.asList(bundleXmlFile));
+        given(book.getPrintComponents()).willReturn(printComponents(1));
         //when
         step.executeStep();
         //then
@@ -119,7 +122,7 @@ public final class UnpackBundleTaskTest
         final XppBundle xppBundle = new XppBundle();
         xppBundle.setBundleRoot(
             "/apps/workflow-prod/data/phoenix_AJ2D_31908510//AJ2D_41963403_2017-04-17_04.07.22.610.-0400\n\t");
-        xppBundle.setMaterialNumber("41963403");
+        xppBundle.setMaterialNumber(MATERIAL_NUMBER);
         xppBundle.setProductTitle("AM JUR 2D V6 REV 2017 PP IT-9");
         xppBundle.setProductType("supp");
         xppBundle.setReleaseDate(null);
@@ -127,12 +130,16 @@ public final class UnpackBundleTaskTest
         assertThat(captor.getValue(), contains(xppBundle));
     }
 
-    private Set<PrintComponent> printComponents()
+    private Set<PrintComponent> printComponents(final int size)
     {
         final Set<PrintComponent> printComponents = new HashSet<>();
-        final PrintComponent printComponent = new PrintComponent();
-        printComponent.setMaterialNumber(MATERIAL_NUMBER);
-        printComponents.add(printComponent);
+        for (int i = 0; i < size; i++)
+        {
+            final PrintComponent printComponent = new PrintComponent();
+            printComponent.setMaterialNumber(MATERIAL_NUMBER);
+            printComponent.setComponentOrder(i + 1);
+            printComponents.add(printComponent);
+        }
         return printComponents;
     }
 }

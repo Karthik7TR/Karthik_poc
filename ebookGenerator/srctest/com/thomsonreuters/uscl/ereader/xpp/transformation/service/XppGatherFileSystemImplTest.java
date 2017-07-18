@@ -11,7 +11,6 @@ import static org.mockito.BDDMockito.given;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem;
@@ -161,10 +160,10 @@ public final class XppGatherFileSystemImplTest
     {
         //given
         //when
-        final List<File> bundleXmlFileList = fileSystem.getAllBundleXmls(step);
+        final Map<String, File> bundleXmlFiles = fileSystem.getAllBundleXmls(step);
 
         //then
-        for (final File element : bundleXmlFileList)
+        for (final File element : bundleXmlFiles.values())
         {
             assertTrue(element.getName().equals("bundle.xml"));
             assertFalse(element.getName().equals("xpp.xml"));
