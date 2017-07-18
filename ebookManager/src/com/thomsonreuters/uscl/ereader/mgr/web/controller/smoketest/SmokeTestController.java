@@ -73,13 +73,9 @@ public class SmokeTestController
         model.addAttribute("testApps", smokeTestService.getTestApplicationStatuses());
         model.addAttribute("qa", smokeTestService.getQAServerStatuses());
         model.addAttribute("qaApps", smokeTestService.getQAApplicationStatuses());
-        model.addAttribute("qaNew", smokeTestService.getQANewServerStatuses());
-        model.addAttribute("qaNewApps", smokeTestService.getQANewApplicationStatuses());
         model.addAttribute("lowerEnvDatabase", smokeTestService.getLowerEnvDatabaseServerStatuses());
         model.addAttribute("prod", smokeTestService.getProdServerStatuses());
         model.addAttribute("prodApps", smokeTestService.getProdApplicationStatuses());
-        model.addAttribute("prodNew", smokeTestService.getProdNewServerStatuses());
-        model.addAttribute("prodNewApps", smokeTestService.getProdNewApplicationStatuses());
         model.addAttribute("prodDatabase", smokeTestService.getProdDatabaseServerStatuses());
 
         return new ModelAndView(WebConstants.VIEW_SMOKE_TEST);

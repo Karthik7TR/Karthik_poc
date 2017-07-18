@@ -35,22 +35,12 @@ public class SmokeTestServiceImpl implements SmokeTestService
 
     private static final int TIME_OUT = 3000; // In milliseconds
 
-    private static final String[] qedManagerServers = {"c111zmxctasux", "c111fesctasux"};
-    private static final String[] qedGeneratorServers = {"c111trvctasux", "c111ermctasux", "c111udzctasux"};
+    private static final String[] qedManagerServers = {"c045ydwctasqf.int.thomsonreuters.com", "c088jzvctasqf.int.thomsonreuters.com"};
+    private static final String[] qedGeneratorServers = {"c311ppwctasqf.int.thomsonreuters.com", "c531tqhctasqf.int.thomsonreuters.com", "c931dsectasqf.int.thomsonreuters.com", "c959hcyctasqf.int.thomsonreuters.com"};
 
-    private static final String[] qedNewManagerServers = {"c045ydwctasqf.int.thomsonreuters.com","c088jzvctasqf.int.thomsonreuters.com"};
-    private static final String[] qedNewGeneratorServers = {"c311ppwctasqf.int.thomsonreuters.com","c531tqhctasqf.int.thomsonreuters.com","c931dsectasqf.int.thomsonreuters.com","c959hcyctasqf.int.thomsonreuters.com"};
-
-    private static final String[] prodManagerServers = {"c111hzactaspf", "c111yqpctaspf"};
+    private static final String[] prodManagerServers = {"c250ektctaspf.int.thomsonreuters.com", "c312kjfctaspf.int.thomsonreuters.com"};
     private static final String[] prodGeneratorServers =
-        {"c111pjdctaspf", "c111rgfctaspf", "c111wkxctaspf", "c111gmkctaspf"};
-
-
-    private static final String[] prodNewManagerServers = {"c250ektctaspf.int.thomsonreuters.com", "c312kjfctaspf.int.thomsonreuters.com"};
-    private static final String[] prodNewGeneratorServers ={"c378nnactaspf.int.thomsonreuters.com",
-        "c634tcpctaspf.int.thomsonreuters.com",
-        "c730rejctaspf.int.thomsonreuters.com",
-        "c747kpbctaspf.int.thomsonreuters.com"};
+        {"c378nnactaspf.int.thomsonreuters.com", "c634tcpctaspf.int.thomsonreuters.com", "c730rejctaspf.int.thomsonreuters.com", "c747kpbctaspf.int.thomsonreuters.com"};
 
     @Override
     public List<SmokeTest> getCIServerStatuses()
@@ -139,58 +129,12 @@ public class SmokeTestServiceImpl implements SmokeTestService
             statuses.add(getApplicationStatus(GENERATOR, String.format("http://%s:9002/ebookGenerator", server)));
         }
 
-        statuses.add(getApplicationStatus(MANAGER, "http://qa.ebookmanager.uslf.int.westgroup.com/ebookManager"));
-        statuses.add(getApplicationStatus(GATHERER, "http://qa.ebookgatherer.uslf.int.westgroup.com/ebookGatherer"));
-        statuses.add(getApplicationStatus(GENERATOR, "http://qa.ebookgenerator.uslf.int.westgroup.com/ebookGenerator"));
-
-                return statuses;
-    }
-
-    @Override
-    public List<SmokeTest> getQANewServerStatuses()
-    {
-        final List<SmokeTest> statuses = new ArrayList<>();
-
-        // List of eBook Manager Servers
-        for (final String server : qedNewManagerServers)
-        {
-            statuses.add(getServerStatus(server));
-        }
-
-        // List of eBook Generator Servers
-        for (final String server : qedNewGeneratorServers)
-        {
-            statuses.add(getServerStatus(server));
-        }
-
-        return statuses;
-    }
-
-    @Override
-    public List<SmokeTest> getQANewApplicationStatuses()
-    {
-        final List<SmokeTest> statuses = new ArrayList<>();
-
-        // List of eBook Manager Servers
-        for (final String server : qedNewManagerServers)
-        {
-            statuses.add(getApplicationStatus(MANAGER, String.format("http://%s:9001/ebookManager", server)));
-        }
-
-        // List of eBook Generator Servers
-        for (final String server : qedNewGeneratorServers)
-        {
-            statuses.add(getApplicationStatus(GATHERER, String.format("http://%s:9001/ebookGatherer", server)));
-            statuses.add(getApplicationStatus(GENERATOR, String.format("http://%s:9002/ebookGenerator", server)));
-        }
-
-        statuses.add(getApplicationStatus(MANAGER, "http://ebookmanager-qed.int.thomsonreuters.com/ebookManager"));
+		statuses.add(getApplicationStatus(MANAGER, "http://ebookmanager-qed.int.thomsonreuters.com/ebookManager"));
         statuses.add(getApplicationStatus(GATHERER, "http://ebookgatherer-qed.int.thomsonreuters.com/ebookGatherer"));
         statuses.add(getApplicationStatus(GENERATOR, "http://ebookgenerator-qed.int.thomsonreuters.com/ebookGenerator"));
 
-                return statuses;
+        return statuses;
     }
-
 
     @Override
     public List<SmokeTest> getLowerEnvDatabaseServerStatuses()
@@ -241,52 +185,7 @@ public class SmokeTestServiceImpl implements SmokeTestService
             statuses.add(getApplicationStatus(GENERATOR, String.format("http://%s:9002/ebookGenerator", server)));
         }
 
-        statuses.add(getApplicationStatus(MANAGER, "http://ebookmanager.uslf.int.westgroup.com/ebookManager"));
-        statuses.add(getApplicationStatus(GATHERER, "http://ebookgatherer.uslf.int.westgroup.com/ebookGatherer"));
-        statuses.add(getApplicationStatus(GENERATOR, "http://ebookgenerator.uslf.int.westgroup.com/ebookGenerator"));
-
-        return statuses;
-    }
-
-    @Override
-    public List<SmokeTest> getProdNewServerStatuses()
-    {
-        final List<SmokeTest> statuses = new ArrayList<>();
-
-        // List of eBook Manager Servers
-        for (final String server : prodNewManagerServers)
-        {
-            statuses.add(getServerStatus(server));
-        }
-
-        // List of eBook Generator Servers
-        for (final String server : prodNewGeneratorServers)
-        {
-            statuses.add(getServerStatus(server));
-        }
-
-        return statuses;
-    }
-
-    @Override
-    public List<SmokeTest> getProdNewApplicationStatuses()
-    {
-        final List<SmokeTest> statuses = new ArrayList<>();
-
-        // List of eBook Manager Servers
-        for (final String server : prodNewManagerServers)
-        {
-            statuses.add(getApplicationStatus(MANAGER, String.format("http://%s:9001/ebookManager", server)));
-        }
-
-        // List of eBook Generator Servers
-        for (final String server : prodNewGeneratorServers)
-        {
-            statuses.add(getApplicationStatus(GATHERER, String.format("http://%s:9001/ebookGatherer", server)));
-            statuses.add(getApplicationStatus(GENERATOR, String.format("http://%s:9002/ebookGenerator", server)));
-        }
-
-        statuses.add(getApplicationStatus(MANAGER, "http://ebookmanager.int.thomsonreuters.com/ebookManager"));
+		statuses.add(getApplicationStatus(MANAGER, "http://ebookmanager.int.thomsonreuters.com/ebookManager"));
         statuses.add(getApplicationStatus(GATHERER, "http://ebookgatherer.int.thomsonreuters.com/ebookGatherer"));
         statuses.add(getApplicationStatus(GENERATOR, "http://ebookgenerator.int.thomsonreuters.com/ebookGenerator"));
 

@@ -22,19 +22,11 @@ public interface SmokeTestService
 
     List<SmokeTest> getQAApplicationStatuses();
 
-    List<SmokeTest> getQANewServerStatuses();
-
-    List<SmokeTest> getQANewApplicationStatuses();
-
     List<SmokeTest> getLowerEnvDatabaseServerStatuses();
 
     List<SmokeTest> getProdServerStatuses();
 
     List<SmokeTest> getProdApplicationStatuses();
-
-    List<SmokeTest> getProdNewServerStatuses();
-
-    List<SmokeTest> getProdNewApplicationStatuses();
 
     List<SmokeTest> getProdDatabaseServerStatuses();
 
