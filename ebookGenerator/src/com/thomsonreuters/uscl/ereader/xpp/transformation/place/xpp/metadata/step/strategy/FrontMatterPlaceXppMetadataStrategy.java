@@ -3,17 +3,15 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.st
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import javax.xml.transform.Transformer;
 
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
-import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppBookStep;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -22,14 +20,10 @@ import org.springframework.stereotype.Component;
  * Place Xpp metadata tags to FrontMatter document of bundle main content files
  */
 @Component
-public class FrontMatterPlaceXppMetadataStrategy implements PlaceXppMetadataStrategy
+public class FrontMatterPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataSimpleTransformationStrategy
 {
-    private static final Set<BundleFileType> TYPES = new HashSet<>(Arrays.asList(BundleFileType.FRONT));
-
-    private final XslTransformationService xslTransformationService;
-    private final TransformerBuilderFactory transformerBuilderFactory;
-    private final XppFormatFileSystem xppFormatFileSystem;
     private final File xslTransformationFile;
+    private final XppFormatFileSystem xppFormatFileSystem;
 
     @Autowired
     public FrontMatterPlaceXppMetadataStrategy(
@@ -38,38 +32,20 @@ public class FrontMatterPlaceXppMetadataStrategy implements PlaceXppMetadataStra
         final XppFormatFileSystem xppFormatFileSystem,
         @Value("${xpp.add.metadata.to.frontmatter.xsl}") final File xslTransformationFile)
     {
-        this.xslTransformationService = xslTransformationService;
-        this.transformerBuilderFactory = transformerBuilderFactory;
-        this.xppFormatFileSystem = xppFormatFileSystem;
+        super(xslTransformationService, transformerBuilderFactory, new HashSet<>(Arrays.asList(BundleFileType.FRONT)));
         this.xslTransformationFile = xslTransformationFile;
+        this.xppFormatFileSystem = xppFormatFileSystem;
     }
 
+    @NotNull
     @Override
-    public Set<BundleFileType> getBundleFileTypes()
-    {
-        return TYPES;
-    }
-
-    @Override
-    public void performHandling(final File inputFile, final String materialNumber, final XppBookStep bookStep)
+    protected TransformationUnit[] getTransformationUnits(@NotNull final TransformerBuilderFactory transformerBuilderFactory,
+                                                          @NotNull final File inputFile,
+                                                          @NotNull final String materialNumber,
+                                                          @NotNull final XppBookStep bookStep)
     {
         final Transformer transformer = transformerBuilderFactory.create().withXsl(xslTransformationFile).build();
-        final int volumeIndex = getBundleIndexByMaterialNumber(bookStep.getXppBundles(), materialNumber);
-        transformer.setParameter("volumeName", String.format("vol%s", volumeIndex + 1));
-        xslTransformationService.transform(
-            transformer,
-            inputFile,
-            xppFormatFileSystem.getStructureWithMetadataFile(bookStep, materialNumber, inputFile.getName()));
-    }
-
-    private int getBundleIndexByMaterialNumber(final List<XppBundle> xppBundles, final String materialNumber)
-    {
-        for (int i = 0; i < xppBundles.size(); i++)
-        {
-            if (materialNumber.equals(xppBundles.get(i).getMaterialNumber()))
-                return i;
-        }
-        throw new IllegalArgumentException(
-            String.format("Book does not contain bundle with material number %s", materialNumber));
+        final File outputFile = xppFormatFileSystem.getStructureWithMetadataFile(bookStep, materialNumber, inputFile.getName());
+        return new TransformationUnit[]{new TransformationUnit(inputFile, outputFile, transformer)};
     }
 }

@@ -15,7 +15,7 @@ public enum BundleFileType
     MAIN_CONTENT(".*\\.DIVXML.*", ""),
     SUMMARY_TABLE_OF_CONTENTS(".*_Summary_Table_of_Contents\\.DIVXML.*", "Summ ToC"),
     CORRELATION_TABLE(".*_Correlation_Table\\.DIVXML.*", "Corr. tbl"),
-    INDEX(".*_Index\\.DIVXML.*", "Index-"),
+    INDEX(".*_Index\\.DIVXML.*", "Index"),
     ADDED_REVISED_JUDGES_CARDS(".*_AddedRevised_Judges_Cards\\.DIVXML.*", "Added rev. JC"),
     FULL_SET_JUDGES_CARDS(".*_Full_Set_Judges_Cards\\.DIVXML.*", "Full set JC"),
     TABLE_OF_ADDED_LRRE(".*_Table_of_Added_LRRE\\.DIVXML.*", "Tbl of added LRRE"),

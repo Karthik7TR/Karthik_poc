@@ -312,6 +312,17 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     @Override
+    public File getIndexBreaksFile(@NotNull final BookStep step, @NotNull final String materialNumber, @NotNull final String fileName)
+    {
+        return getFormatDirectory(step).toPath()
+            .resolve("indexBreaks")
+            .resolve(materialNumber)
+            .resolve("indexbreak-" + fileName)
+            .toFile();
+    }
+
+    @NotNull
+    @Override
     public File getTocDirectory(@NotNull final BookStep step)
     {
         return new File(getFormatDirectory(step), TOC_DIR);

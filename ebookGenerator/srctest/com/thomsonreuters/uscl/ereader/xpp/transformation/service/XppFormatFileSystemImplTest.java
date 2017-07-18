@@ -455,6 +455,16 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
+    public void shouldReturnIndexBreaksFile()
+    {
+        //given
+        //when
+        final File file = fileSystem.getIndexBreaksFile(step, MATERIAL_NUMBER, FILE_NAME_MAIN);
+        //then
+        assertThat(file, hasPath("workDirectory/Format/indexBreaks/" + MATERIAL_NUMBER + "/indexbreak-" + FILE_NAME_MAIN));
+    }
+
+    @Test
     public void shouldReturnTocDirectory()
     {
         //given
