@@ -39,7 +39,6 @@ import org.springframework.validation.Validator;
 @Component("editBookDefinitionFormValidator")
 public class EditBookDefinitionFormValidator extends BaseFormValidator implements Validator
 {
-    //private static final Logger log = LogManager.getLogger(EditBookDefinitionFormValidator.class);
     private static final int MAXIMUM_CHARACTER_40 = 40;
     private static final int MAXIMUM_CHARACTER_64 = 64;
     private static final int MAXIMUM_CHARACTER_512 = 512;
@@ -144,21 +143,24 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             form.getAdditionalTrademarkInfo(),
             "currency",
             new Object[] {"Additional Trademark/Patent Info", MAXIMUM_CHARACTER_2048});
-        checkMaxLength(
-            errors,
-            MAXIMUM_CHARACTER_2048,
-            form.getFrontMatterTitle().getBookNameText(),
-            "frontMatterTitle.bookNameText",
-            new Object[] {"Main Title", MAXIMUM_CHARACTER_2048});
+
         if (form.getSourceType() != SourceType.XPP)
         {
             checkMaxLength(
                 errors,
                 MAXIMUM_CHARACTER_2048,
-                form.getFrontMatterSubtitle().getBookNameText(),
-                "frontMatterSubtitle.bookNameText",
-                new Object[] {"Sub Title", MAXIMUM_CHARACTER_2048});
+                form.getFrontMatterTitle().getBookNameText(),
+                "frontMatterTitle.bookNameText",
+                new Object[] {"Main Title", MAXIMUM_CHARACTER_2048});
         }
+
+        checkMaxLength(
+            errors,
+            MAXIMUM_CHARACTER_2048,
+            form.getFrontMatterSubtitle().getBookNameText(),
+            "frontMatterSubtitle.bookNameText",
+            new Object[] {"Sub Title", MAXIMUM_CHARACTER_2048});
+
         checkMaxLength(
             errors,
             MAXIMUM_CHARACTER_2048,
@@ -188,8 +190,10 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "copyright", "error.required");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "materialId", "error.required");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTocLabel", "error.required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle.bookNameText", "error.required");
-
+            if (form.getSourceType() != SourceType.XPP)
+            {
+                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle.bookNameText", "error.required");
+            }
             switch (form.getSourceType())
             {
             case TOC:
