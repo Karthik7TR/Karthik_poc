@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
  * Place Xpp metadata tags to FrontMatter document of bundle main content files
  */
 @Component
-public class FrontMatterPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataSimpleTransformationStrategy
+public class FrontMatterPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTransformStrategy
 {
     private final File xslTransformationFile;
     private final XppFormatFileSystem xppFormatFileSystem;

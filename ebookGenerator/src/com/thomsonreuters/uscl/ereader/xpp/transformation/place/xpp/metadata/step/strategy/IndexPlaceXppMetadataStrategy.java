@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class IndexPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataSimpleTransformationStrategy
+public class IndexPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTransformStrategy
 {
     private final File xslTransformationFile;
     private final File xslIndexBreakTransformationFile;

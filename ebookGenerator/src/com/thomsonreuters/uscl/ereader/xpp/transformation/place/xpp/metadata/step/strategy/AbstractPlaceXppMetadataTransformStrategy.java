@@ -13,13 +13,13 @@ import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppBookStep;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class AbstractPlaceXppMetadataSimpleTransformationStrategy implements PlaceXppMetadataStrategy
+public abstract class AbstractPlaceXppMetadataTransformStrategy implements PlaceXppMetadataStrategy
 {
     private final XslTransformationService xslTransformationService;
     private final TransformerBuilderFactory transformerBuilderFactory;
     private final Set<BundleFileType> bundleFileTypes;
 
-    protected AbstractPlaceXppMetadataSimpleTransformationStrategy(
+    protected AbstractPlaceXppMetadataTransformStrategy(
         @NotNull final XslTransformationService xslTransformationService,
         @NotNull final TransformerBuilderFactory transformerBuilderFactory,
         @NotNull final Set<BundleFileType> bundleFileTypes)
