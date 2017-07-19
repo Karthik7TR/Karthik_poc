@@ -66,36 +66,4 @@ public abstract class AbstractPlaceXppMetadataSimpleTransformationStrategy imple
         throw new IllegalArgumentException(
             String.format("Book does not contain bundle with material number %s", materialNumber));
     }
-
-    protected static class TransformationUnit
-    {
-        private final File inputFile;
-        private final File outputFile;
-        private final Transformer transformer;
-
-        public TransformationUnit(@NotNull final File inputFile, @NotNull final File outputFile, @NotNull final Transformer transformer)
-        {
-            this.inputFile = inputFile;
-            this.outputFile = outputFile;
-            this.transformer = transformer;
-        }
-
-        @NotNull
-        public File getInputFile()
-        {
-            return inputFile;
-        }
-
-        @NotNull
-        public File getOutputFile()
-        {
-            return outputFile;
-        }
-
-        @NotNull
-        public Transformer getTransformer()
-        {
-            return transformer;
-        }
-    }
 }
