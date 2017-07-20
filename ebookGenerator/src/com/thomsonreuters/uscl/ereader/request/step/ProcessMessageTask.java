@@ -66,7 +66,10 @@ public class ProcessMessageTask extends AbstractSbTasklet
         return ExitStatus.COMPLETED;
     }
 
-    private XppBundleArchive unmarshalRequest(@NotNull final String request) throws JAXBException
+    /**
+     * package-private for testing purposes
+     */
+    XppBundleArchive unmarshalRequest(@NotNull final String request) throws JAXBException
     {
         final XppBundleArchive xppBundleArchive =
             JAXBParser.parse(new ByteArrayInputStream(request.getBytes()), XppBundleArchive.class);

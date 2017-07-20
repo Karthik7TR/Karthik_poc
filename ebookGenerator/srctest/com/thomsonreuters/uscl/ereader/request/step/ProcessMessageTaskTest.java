@@ -31,6 +31,16 @@ import org.springframework.batch.item.ExecutionContext;
 
 public final class ProcessMessageTaskTest
 {
+    private static final String MESSAGE_ID = "Ia9e003a05bdd11e7991a005056b56b77";
+    private static final String BUNDLE_HASH = "1919244a0a6dda548aabbf426ae3a45f";
+    private static final String DATE_TIME_CURRENT_TIMEZONE ="2016-01-21T23:42:03.522Z";
+    private static final String DATE_TIME_COLON_DIVIDED_TIMEZONE ="2017-06-23T14:01:22.644+03:00";
+    private static final String DATE_TIME_NO_COLON_TIMEZONE ="2017-06-23T14:01:22.644+0300";
+    private static final String DATE_TIME_GMT_TIMEZONE ="2017-06-28T15:34:33.900GMT";
+    private static final String SRC_FILE ="/apps/eBookBuilder/cicontent/xpp/drop/FLLB_22992299_2017-06-28_00.00.00.00.-0000.tar.gz";
+    private static final String MATERIAL_NUMBER = "11111111";
+    private static final String REQUEST= "<eBookRequest version=\"1.0\"><messageId>%s</messageId><bundleHash>%s</bundleHash><dateTime>%s</dateTime><srcFile>%s</srcFile><materialNumber>%s</materialNumber></eBookRequest>";
+
     private ProcessMessageTask tasklet;
     private XppMessageValidator mockValidator;
     private CoreService mockCoreService;
@@ -124,6 +134,70 @@ public final class ProcessMessageTaskTest
             Assert.fail(e.getMessage());
         }
         Assert.assertEquals(ExitStatus.FAILED, exitCode);
+    }
+
+    @Test
+    public void shouldUnmarshallRequest() throws Exception
+    {
+        //when
+        final XppBundleArchive xppBundleArchive = tasklet.unmarshalRequest(String.format(REQUEST,
+                MESSAGE_ID,
+                BUNDLE_HASH,
+                DATE_TIME_CURRENT_TIMEZONE,
+                SRC_FILE,
+                MATERIAL_NUMBER
+            ));
+        //then
+        Assert.assertEquals(MESSAGE_ID, xppBundleArchive.getMessageId());
+        Assert.assertEquals(BUNDLE_HASH, xppBundleArchive.getBundleHash());
+        Assert.assertNotNull(xppBundleArchive.getDateTime());
+        Assert.assertEquals(SRC_FILE, xppBundleArchive.getEBookSrcPath());
+        Assert.assertEquals(MATERIAL_NUMBER, xppBundleArchive.getMaterialNumber());
+    }
+
+    @Test
+    public void shouldUnmarshallTimezoneDividedByColon() throws Exception
+    {
+        //when
+        final XppBundleArchive xppBundleArchive = tasklet.unmarshalRequest(String.format(REQUEST,
+                MESSAGE_ID,
+                BUNDLE_HASH,
+                DATE_TIME_COLON_DIVIDED_TIMEZONE,
+                SRC_FILE,
+                MATERIAL_NUMBER
+            ));
+        //then
+        Assert.assertNotNull(xppBundleArchive.getDateTime());
+    }
+
+    @Test
+    public void shouldNotUnmarshallNoColonTimezone() throws Exception
+    {
+        //when
+        final XppBundleArchive xppBundleArchive = tasklet.unmarshalRequest(String.format(REQUEST,
+                MESSAGE_ID,
+                BUNDLE_HASH,
+                DATE_TIME_NO_COLON_TIMEZONE,
+                SRC_FILE,
+                MATERIAL_NUMBER
+            ));
+        //then
+        Assert.assertNull(xppBundleArchive.getDateTime());
+    }
+
+    @Test
+    public void shouldNotUnmarshallGmtTimezone() throws Exception
+    {
+        //when
+        final XppBundleArchive xppBundleArchive = tasklet.unmarshalRequest(String.format(REQUEST,
+                MESSAGE_ID,
+                BUNDLE_HASH,
+                DATE_TIME_GMT_TIMEZONE,
+                SRC_FILE,
+                MATERIAL_NUMBER
+            ));
+        //then
+        Assert.assertNull(xppBundleArchive.getDateTime());
     }
 
     private static XppBundleArchive createRequest(

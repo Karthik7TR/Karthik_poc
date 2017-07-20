@@ -40,16 +40,16 @@
     <xsl:template match="x:XPPMetaData">
         <xsl:variable name="closestPrecedingMetaElement" select="preceding::*[name() = 'XPPMetaData' or name() = 'XPPHier'][1]" />
         <xsl:variable name="shouldAddSectionbreak" select="not(@md.doc_family_uuid=$firstDocFamilyUuid) and ($closestPrecedingMetaElement/name() = 'XPPMetaData') or ($closestPrecedingMetaElement/name() = 'XPPHier' and not($closestPrecedingMetaElement/@uuid = @parent_uuid) and not($closestPrecedingMetaElement/@guid = @parent_uuid))" />
-        
-        <xsl:copy>
-            <xsl:apply-templates select="node()|@*" />
-        </xsl:copy>
 
         <xsl:if test="$shouldAddSectionbreak" >
             <xsl:call-template name="addSectionbreak" >
                 <xsl:with-param name="sectionuuid" select="@md.doc_family_uuid" />
             </xsl:call-template>
         </xsl:if>
+
+        <xsl:copy>
+            <xsl:apply-templates select="node()|@*" />
+        </xsl:copy>
     </xsl:template>
 
     <xsl:template name="addSectionbreak">
