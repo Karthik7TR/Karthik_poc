@@ -80,12 +80,6 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         checkMaxLength(
             errors,
             MAXIMUM_CHARACTER_2048,
-            form.getCopyright(),
-            "copyright",
-            new Object[] {"Copyright", MAXIMUM_CHARACTER_2048});
-        checkMaxLength(
-            errors,
-            MAXIMUM_CHARACTER_2048,
             form.getCopyrightPageText(),
             "copyrightPageText",
             new Object[] {"Copyright Page Text", MAXIMUM_CHARACTER_2048});
@@ -149,6 +143,13 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             checkMaxLength(
                 errors,
                 MAXIMUM_CHARACTER_2048,
+                form.getCopyright(),
+                "copyright",
+                new Object[] {"Copyright", MAXIMUM_CHARACTER_2048});
+
+            checkMaxLength(
+                errors,
+                MAXIMUM_CHARACTER_2048,
                 form.getFrontMatterTitle().getBookNameText(),
                 "frontMatterTitle.bookNameText",
                 new Object[] {"Main Title", MAXIMUM_CHARACTER_2048});
@@ -174,8 +175,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         validateRenameTocEntries(form, errors);
         validateTableViewers(form, errors);
         validateAdditionalFrontMatter(form, errors);
-        validateDocumentCopyrights(form, errors);
         validateDocumentCurrencies(form, errors);
+        validateDocumentCopyrights(form, errors);
 
         if (form.isPublicationCutoffDateUsed())
         {
@@ -187,12 +188,13 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         if (form.getIsComplete() || validateForm)
         {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "proviewDisplayName", "error.required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "copyright", "error.required");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "materialId", "error.required");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTocLabel", "error.required");
+
             if (form.getSourceType() != SourceType.XPP)
             {
+                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTocLabel", "error.required");
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle.bookNameText", "error.required");
+                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "copyright", "error.required");
             }
             switch (form.getSourceType())
             {

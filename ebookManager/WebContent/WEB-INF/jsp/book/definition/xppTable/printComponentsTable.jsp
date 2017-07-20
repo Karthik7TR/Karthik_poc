@@ -32,10 +32,9 @@
 	padding-right: 10px;
 }
 
-.jsgrid-header-row .jsgrid-header-sort-asc:before{
+.jsgrid-header-row .jsgrid-header-sort-asc:before {
 	border-color: transparent transparent #ffffff transparent;
 }
-
 </style>
 
 <div id="jsGrid"></div>
@@ -46,7 +45,6 @@
 <script>
         //read recieved data to printComponents variable
         printComponents = $.parseJSON($('#printComponents').val());
-
         //sort rows in case if data is not sorted-ordered
         reorderIndexes();
 
@@ -55,10 +53,8 @@
         function exchangeIndexes() {
             for (i = 0; i < printComponents.length; i++) {
                 printComponents[i].componentOrder = i + 1;
-
                 sortGridByComponentOrder();
             }
-            
         }
 
         function colorNoArchivePrintComponents(){
@@ -70,13 +66,45 @@
         					for(i=0;i<printComponents.length;i++){
         						var $tempRow = $("#grid").jsGrid("rowByItem", items[i]);
         						if(printComponents[i].componentInArchive == false){
-
 											$(".client-" + i + " > td").css("background","#ff7D7D");
-
         						}
         					}
         				}
 
+
+				function refreshingRowActivities(){
+					var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
+					$gridData.sortable({cancel:'.jsgrid-edit-row'});
+					if(${param.edit}){
+						$gridData.sortable({
+							update: function(e, ui) {
+
+								if ( $(".jsgrid-edit-row" ).length ) {
+									$gridData.sortable({cancel:'.jsgrid-edit-row'});
+								}
+									// array of indexes
+									var clientIndexRegExp = /\s*client-(\d+)\s*/;
+									var indexes = $.map($gridData.sortable("toArray", {
+											attribute: "class"
+									}), function(classes) {
+											if ( $(".jsgrid-edit-row" ).length ) {
+												$gridData.sortable({cancel:'.jsgrid-edit-row'});
+											} else {
+											return clientIndexRegExp.exec(classes)[1];
+										}
+									});
+									// arrays of items
+									var items = $.map($gridData.find("tr"), function(row) {
+											return $(row).data("JSGridItem");
+									});
+									// console && console.log("Reordered items", items);
+									printComponents = items;
+									exchangeIndexes();
+									sortGridByComponentOrder();
+							}
+					});
+				}
+				}
         //Method to shift idexes of elements and sort table.
         //Is usualy used after manual changes in table
 
@@ -88,9 +116,8 @@
          }
 
         function reorderIndexes() {
-
             printComponents.sort(function(a, b) {
-                return a.componentOrder - b.componentOrder
+                return parseInt(a.componentOrder) - parseInt(b.componentOrder)
             })
             exchangeIndexes();
         }
@@ -103,8 +130,6 @@
                 deleteConfirm: "Do you really want to delete the client?",
                 editing: ${param.edit},
                 inserting: ${param.edit},
-                paging: true,
-
                 rowClass: function(item, itemIndex) {
                   return "client-" + itemIndex;
                   },
@@ -166,7 +191,6 @@
                               }
                             }
                           });
-
                         });
 
                         customDiv.append(function() {
@@ -211,6 +235,7 @@
                     width: 50,
                     editing: false,
                     sorting: false,
+					sorter: "numberAsString",
                     align: "center"
                 }, {
                     name: "materialNumber",
@@ -252,35 +277,10 @@
                }
 
               ],
+
                 onRefreshed: function() {
-
-                    var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
-
-                    if(${param.edit}){
-                      $gridData.sortable({
-                        update: function(e, ui) {
-                            // array of indexes
-                            var clientIndexRegExp = /\s*client-(\d+)\s*/;
-                            var indexes = $.map($gridData.sortable("toArray", {
-                                attribute: "class"
-                            }), function(classes) {
-                                return clientIndexRegExp.exec(classes)[1];
-                            });
-
-                            // arrays of items
-                            var items = $.map($gridData.find("tr"), function(row) {
-                                return $(row).data("JSGridItem");
-                            });
-                            // console && console.log("Reordered items", items);
-                            console.log("Inside sortable");
-                            printComponents = items;
-                            exchangeIndexes();
-                            sortGridByComponentOrder();
-                        }
-                    });
-                  }
-
-                },
+									refreshingRowActivities()
+								},
                 onItemDeleted: function() {
                     var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
                     items = $.map($gridData.find("tr"), function(row) {
@@ -329,7 +329,7 @@
                           if(args.item.materialNumber == gridData[i].materialNumber && !isNaN(args.item.componentOrder)
                         		  && args.item.componentOrder != gridData[i].componentOrder){
                           	args.cancel = true;
-                          	alert("Material Number already exists "+args.item.materialNumber);
+                          	alert("Material Number already exists " + args.item.materialNumber);
                           }
                       }
                 },
