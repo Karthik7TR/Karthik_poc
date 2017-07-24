@@ -54,6 +54,8 @@ public final class TransformationToHtmlStepTest
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     private File toHtmlFile;
+    @Mock
+    private File tocUnitsMapFile;
 
     @Before
     public void setUp() throws IOException
@@ -77,6 +79,9 @@ public final class TransformationToHtmlStepTest
         toHtmlFile = new File(toHtmlDirectory, "temp");
         given(fileSystem.getHtmlPagesDirectory(step, MATERIAL_NUMBER)).willReturn(toHtmlDirectory);
         given(fileSystem.getHtmlPageFile(step, MATERIAL_NUMBER, TEMP_DIVXML_XML)).willReturn(toHtmlFile);
+
+        given(tocUnitsMapFile.getAbsolutePath()).willReturn("toc\\Units\\Map\\File\\path");
+        given(fileSystem.getAnchorToDocumentIdMapFile(step)).willReturn(tocUnitsMapFile);
     }
 
     private List<XppBundle> getXppBundles()

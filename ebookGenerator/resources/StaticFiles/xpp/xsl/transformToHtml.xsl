@@ -7,6 +7,9 @@
 	<xsl:param name="fileBaseName" />
 	<xsl:param name="pagePrefix" />
 	<xsl:param name="divXmlName" />
+	<xsl:param name="documentUidMapDoc" />
+	
+	<xsl:variable name="documentUidMap" select="document($documentUidMapDoc)" />
 
 	<xsl:template match="x:parts">
 		<html>
@@ -111,6 +114,31 @@
 			</xsl:attribute>
 			<xsl:apply-templates />
 		</xsl:element>
+	</xsl:template>
+	
+	<xsl:template match="x:XPPLink|x:XPPTOCLink">
+		<xsl:variable name="uid">
+			<xsl:choose>
+				<xsl:when test="not(./@uuid)">
+					<xsl:value-of select="./@guid" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="./@uuid" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="docId" select="$documentUidMap/x:uuidmap/x:item[@key = $uid]" />
+		<xsl:choose>
+			<xsl:when test="$docId">
+				<xsl:element name="a">
+					<xsl:attribute name="href" select="concat('er:#', $docId, '/', $uid)" />
+					<xsl:apply-templates />
+				</xsl:element>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:apply-templates />
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 <!--    TODO: move to img step -->

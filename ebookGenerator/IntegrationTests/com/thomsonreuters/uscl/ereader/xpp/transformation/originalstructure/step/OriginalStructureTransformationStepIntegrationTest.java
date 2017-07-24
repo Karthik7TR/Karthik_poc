@@ -46,7 +46,7 @@ public final class OriginalStructureTransformationStepIntegrationTest
     public void shouldReturnOriginalXmlWithRomanPageNumbers() throws Exception
     {
         testOriginalStructureTransformationStep(
-            "sampleXpp_Front_vol_1.DIVXML.xml", "expected-roman.main", "expected-roman.footnote");
+            "sampleXpp_Front_vol_1.DIVXML.xml", "expected-roman.main", "expected-roman.footnotes");
     }
 
     private void testOriginalStructureTransformationStep(final String sampleFileName,

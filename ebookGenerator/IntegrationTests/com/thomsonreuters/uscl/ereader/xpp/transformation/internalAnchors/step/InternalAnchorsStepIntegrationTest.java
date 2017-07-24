@@ -4,12 +4,14 @@ import static com.thomsonreuters.uscl.ereader.common.filesystem.FileContentMatch
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 
 import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.apache.commons.io.FileUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +25,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ActiveProfiles("IntegrationTests")
 public final class InternalAnchorsStepIntegrationTest
 {
+    private static final String MATERIAL_NUMBER = "111111";
+
     @Resource(name = "internalAnchorsTask")
     private InternalAnchorsStep step;
     @Autowired
@@ -33,21 +37,29 @@ public final class InternalAnchorsStepIntegrationTest
     private File expected;
 
     @Before
-    public void setUp() throws URISyntaxException
+    public void setUp() throws URISyntaxException, Exception
     {
-        originalHtml1 = new File(InternalAnchorsStepIntegrationTest.class.getResource("sampleXpp_1.html").toURI());
-        originalHtml2 = new File(InternalAnchorsStepIntegrationTest.class.getResource("sampleXpp_2.html").toURI());
-        expected = new File(InternalAnchorsStepIntegrationTest.class.getResource("expectedAnchorToDocumentIdMapFile.txt").toURI());
+        final File originalPagesDirectory = fileSystem.getOriginalPagesDirectory(step, MATERIAL_NUMBER);
+        FileUtils.forceMkdir(originalPagesDirectory);
+
+        originalHtml1 = new File(InternalAnchorsStepIntegrationTest.class.getResource("sampleXpp_1.page").toURI());
+        originalHtml2 = new File(InternalAnchorsStepIntegrationTest.class.getResource("sampleXpp_2.page").toURI());
+        FileUtils.copyFileToDirectory(originalHtml1, originalPagesDirectory);
+        FileUtils.copyFileToDirectory(originalHtml2, originalPagesDirectory);
+
+        expected = new File(InternalAnchorsStepIntegrationTest.class.getResource("expectedAnchorToDocumentIdMapFile.xml").toURI());
+    }
+
+    @After
+    public void onTestComplete() throws IOException
+    {
+        FileUtils.forceDelete(fileSystem.getFormatDirectory(step));
     }
 
     @Test
     public void shouldCreateMappingFile() throws Exception
     {
         //given
-        final File originalPartsDirectory = fileSystem.getHtmlPagesDirectory(step);
-        FileUtils.forceMkdir(originalPartsDirectory);
-        FileUtils.copyFileToDirectory(originalHtml1, originalPartsDirectory);
-        FileUtils.copyFileToDirectory(originalHtml2, originalPartsDirectory);
         //when
         step.executeStep();
         //then

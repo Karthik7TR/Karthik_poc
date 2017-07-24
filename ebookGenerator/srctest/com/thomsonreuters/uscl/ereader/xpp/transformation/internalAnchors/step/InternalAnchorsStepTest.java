@@ -8,7 +8,11 @@ import static org.mockito.Mockito.mock;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.transform.Transformer;
 
@@ -41,8 +45,11 @@ public final class InternalAnchorsStepTest
     public void setUp()
     {
         final File htmlPagesDir = mock(File.class);
+        final Map<String, Collection<File>> files = new HashMap<>();
+        files.put("111111", Arrays.asList(htmlPagesDir));
+
         given(htmlPagesDir.listFiles(any(FileFilter.class))).willReturn(new File[] {});
-        given(fileSystem.getHtmlPagesDirectory(step)).willReturn(htmlPagesDir);
+        given(fileSystem.getOriginalPageFiles(step)).willReturn(files);
         given(htmlPagesDir.listFiles()).willReturn(new File[]{});
 
         final TransformerBuilder builder = mock(TransformerBuilder.class);
@@ -61,6 +68,6 @@ public final class InternalAnchorsStepTest
         step.executeStep();
         //then
         then(transformationService).should().transform(any(Transformer.class), any(List.class), eq(mapFile));
-        then(fileSystem).should().getHtmlPagesDirectory(eq(step));
+        then(fileSystem).should().getOriginalPageFiles(eq(step));
     }
 }

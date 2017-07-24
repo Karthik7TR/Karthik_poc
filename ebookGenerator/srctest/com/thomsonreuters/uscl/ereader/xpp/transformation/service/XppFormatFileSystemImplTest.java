@@ -56,7 +56,7 @@ public final class XppFormatFileSystemImplTest
     private static final String BASE_FILE_NAME = "fileName.DIVXML";
     private static final String TITLE_METADATA_XML = "titleMetadata.xml";
     private static final String DOC_TO_IMAGE_MANIFEST = "workDirectory/Format/doc-to-image-manifest.txt";
-    private static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "workDirectory/Format/anchorToDocumentIdMapFile.txt";
+    private static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "workDirectory/Format/anchorToDocumentIdMapFile.xml";
 
     private static final String MATERIAL_NUMBER = "11111111";
     private static final String MATERIAL_NUMBER_2 = "22222222";

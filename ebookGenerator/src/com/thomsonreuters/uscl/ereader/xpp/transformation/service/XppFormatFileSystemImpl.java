@@ -34,7 +34,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     private static final String TITLE_METADATA_FILE = "titleMetadata.xml";
     private static final String TOC_FILE = "toc.xml";
     private static final String DOC_TO_IMAGE_MANIFEST_FILE = "doc-to-image-manifest.txt";
-    private static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "anchorToDocumentIdMapFile.txt";
+    private static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "anchorToDocumentIdMapFile.xml";
 
     private static final String HTML = "html";
     private static final String MAIN = "main";

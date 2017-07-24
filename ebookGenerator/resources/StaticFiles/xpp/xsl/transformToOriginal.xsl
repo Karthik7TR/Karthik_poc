@@ -68,11 +68,34 @@
 					<xsl:value-of select="concat(' ', 'cgt')" />
 				</xsl:if>
 			</xsl:attribute>
-			<xsl:value-of select="$text" />
+			<xsl:choose>
+				<xsl:when test="./processing-instruction('XPPLink')">
+					<xsl:apply-templates select="processing-instruction('XPPLink') | processing-instruction('XPPTOCLink')" />
+					<xsl:apply-templates mode="link-text"/>
+					<xsl:apply-templates select="processing-instruction('XPPEndLink') | processing-instruction('XPPTOCEndLink')" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$text" />
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:copy>
-		<xsl:apply-templates />
+		<xsl:apply-templates select="*[not(processing-instruction('XPPLink') | processing-instruction('XPPTOCLink') | processing-instruction('XPPEndLink') | processing-instruction('XPPTOCEndLink'))]" />
 	</xsl:template>
-
+	
+	<xsl:template match="text()" mode="link-text">
+		<xsl:value-of select="x:get-fixed-text(string-join(., ''))" />
+	</xsl:template>
+	
+	<xsl:template match="processing-instruction('XPPLink') | processing-instruction('XPPTOCLink')">
+		<xsl:value-of select="concat('&lt;', name(), ' ')" disable-output-escaping="yes"/>
+        <xsl:value-of select="."/>
+        <xsl:text disable-output-escaping="yes"><![CDATA[>]]></xsl:text>
+	</xsl:template>
+	
+	<xsl:template match="processing-instruction('XPPEndLink') | processing-instruction('XPPTOCEndLink')">
+		<xsl:value-of select="concat('&lt;', '/', replace(name(), 'End', ''), '&gt;')" disable-output-escaping="yes"/>
+	</xsl:template>
+		
 	<xsl:template match="x:dt">
 		<xsl:if test="../parent::x:line[not(following-sibling::x:line)]">
 			<xsl:element name="t" inherit-namespaces="yes">
