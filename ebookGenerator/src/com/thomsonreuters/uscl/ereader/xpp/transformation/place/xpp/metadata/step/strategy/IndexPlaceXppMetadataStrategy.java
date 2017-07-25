@@ -37,7 +37,6 @@ public class IndexPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTrans
         this.xppFormatFileSystem = xppFormatFileSystem;
     }
 
-
     @NotNull
     @Override
     protected TransformationUnit[] getTransformationUnits(
