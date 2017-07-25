@@ -87,13 +87,23 @@
 		<xsl:value-of select="x:get-fixed-text(string-join(., ''))" />
 	</xsl:template>
 	
-	<xsl:template match="processing-instruction('XPPLink') | processing-instruction('XPPTOCLink')">
+	<!-- xsl:template match="processing-instruction('XPPLink') | processing-instruction('XPPTOCLink')">
 		<xsl:value-of select="concat('&lt;', name(), ' ')" disable-output-escaping="yes"/>
         <xsl:value-of select="."/>
         <xsl:text disable-output-escaping="yes"><![CDATA[>]]></xsl:text>
 	</xsl:template>
 	
 	<xsl:template match="processing-instruction('XPPEndLink') | processing-instruction('XPPTOCEndLink')">
+		<xsl:value-of select="concat('&lt;', '/', replace(name(), 'End', ''), '&gt;')" disable-output-escaping="yes"/>
+	</xsl:template-->
+	
+	<xsl:template match="processing-instruction('XPPTOCLink')">
+		<xsl:value-of select="concat('&lt;', name(), ' ')" disable-output-escaping="yes"/>
+        <xsl:value-of select="."/>
+        <xsl:text disable-output-escaping="yes"><![CDATA[>]]></xsl:text>
+	</xsl:template>
+	
+	<xsl:template match="processing-instruction('XPPTOCEndLink')">
 		<xsl:value-of select="concat('&lt;', '/', replace(name(), 'End', ''), '&gt;')" disable-output-escaping="yes"/>
 	</xsl:template>
 		
