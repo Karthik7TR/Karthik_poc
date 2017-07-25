@@ -53,6 +53,7 @@
 		<xsl:text disable-output-escaping="yes"><![CDATA[</]]></xsl:text>
 		<xsl:value-of select="@name" />
 		<xsl:text disable-output-escaping="yes"><![CDATA[>]]></xsl:text>
+		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="x:t[not(@suppress='true')]">
