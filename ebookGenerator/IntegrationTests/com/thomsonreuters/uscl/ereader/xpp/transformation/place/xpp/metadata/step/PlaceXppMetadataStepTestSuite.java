@@ -5,7 +5,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({PlaceXppMetadataStepMainIntegrationTest.class, PlaceXppMetadataStepFrontIntegrationTest.class, PlaceXppMetadataStepIndexIntegrationTest.class})
+@SuiteClasses({PlaceXppMetadataStepMainIntegrationTest.class, PlaceXppMetadataStepFrontIntegrationTest.class,
+    PlaceXppMetadataStepIndexIntegrationTest.class, PlaceXppMetadataStepSummaryAndDetailedTocIntegrationTest.class})
 public class PlaceXppMetadataStepTestSuite
 {
     //Intentionally left blank

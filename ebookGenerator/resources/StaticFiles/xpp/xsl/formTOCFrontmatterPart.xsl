@@ -3,35 +3,30 @@
 
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.sdl.com/xpp"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
+	
+	<xsl:import href="placeXppMarks.xsl" />
 
 	<xsl:param name="volumeName" select="volumeName" />
 	<xsl:variable name="front_matter_uuid" select="concat($volumeName,'.','FrontMatter')" />
 
-	<xsl:template match="node()|@*">
-		<xsl:copy>
-			<xsl:apply-templates select="node()|@*" />
-		</xsl:copy>
-	</xsl:template>
-	
 	<xsl:template match="x:root">
 		<root>
-			<xsl:element name="sectionbreak">
-				<xsl:attribute name="sectionuuid" select="concat($volumeName,'.fm.title.page')" />
-			</xsl:element>
+			<xsl:call-template name="placeSectionbreak">
+				<xsl:with-param name="sectionuuid" select="concat($volumeName,'.fm.title.page')" />
+			</xsl:call-template>
 			<xsl:apply-templates />
 		</root>
 	</xsl:template>
 
 	<xsl:template match="x:fm.title.page">
 		<xsl:variable name="uuid" select="concat($volumeName,'.',name())" />
-
-		<xsl:element name="XPPHier">
-			<xsl:attribute name="uuid" select="$uuid" />
-			<xsl:attribute name="name" select="'Title page'" />
-			<xsl:attribute name="parent_uuid" select="$uuid" />
-			<xsl:attribute name="md.doc_family_uuid" select="$uuid" />
-			<xsl:value-of select="'Title page'" />
-		</xsl:element>
+		
+		<xsl:call-template name="placeXppHier">
+			<xsl:with-param name="uuid" select="$uuid" />
+			<xsl:with-param name="name" select="'Title page'" />
+			<xsl:with-param name="parent_uuid" select="$uuid" />
+			<xsl:with-param name="doc_family_uuid" select="$uuid"/>
+		</xsl:call-template>
 
 		<xsl:copy>
 			<xsl:apply-templates select="node()|@*" />
@@ -50,13 +45,12 @@
 			<xsl:apply-templates select="node()|@*" />
 		</xsl:copy>
 
-		<xsl:element name="XPPHier">
-			<xsl:attribute name="uuid" select="$front_matter_uuid" />
-			<xsl:attribute name="name" select="'Front matter'" />
-			<xsl:attribute name="parent_uuid" select="$front_matter_uuid" />
-			<xsl:attribute name="md.doc_family_uuid" select="$uuid" />
-			<xsl:value-of select="'Front matter'" />
-		</xsl:element>
+		<xsl:call-template name="placeXppHier">
+			<xsl:with-param name="uuid" select="$front_matter_uuid" />
+			<xsl:with-param name="name" select="'Front matter'" />
+			<xsl:with-param name="parent_uuid" select="$front_matter_uuid" />
+			<xsl:with-param name="doc_family_uuid" select="$uuid"/>
+		</xsl:call-template>
 	</xsl:template>
 
 	<xsl:template
@@ -98,16 +92,15 @@
 		<xsl:param name="parent_uuid" />
 		<xsl:param name="hierName" />
 
-		<xsl:element name="sectionbreak">
-			<xsl:attribute name="sectionuuid" select="$uuid" />
-		</xsl:element>
-		<xsl:element name="XPPHier">
-			<xsl:attribute name="uuid" select="$uuid" />
-			<xsl:attribute name="name" select="$hierName" />
-			<xsl:attribute name="parent_uuid" select="$parent_uuid" />
-			<xsl:attribute name="md.doc_family_uuid" select="$uuid" />
-			<xsl:value-of select="$hierName" />
-		</xsl:element>
+		<xsl:call-template name="placeSectionbreak">
+			<xsl:with-param name="sectionuuid" select="$uuid" />
+		</xsl:call-template>
+		<xsl:call-template name="placeXppHier">
+			<xsl:with-param name="uuid" select="$uuid" />
+			<xsl:with-param name="name" select="$hierName" />
+			<xsl:with-param name="parent_uuid" select="$parent_uuid" />
+			<xsl:with-param name="doc_family_uuid" select="$uuid"/>
+		</xsl:call-template>
 	</xsl:template>
 
 	<xsl:template name="defineTagTitle">

@@ -1,0 +1,4090 @@
+<?xml version="1.0" encoding="UTF-8"?><root xmlns="http://www.sdl.com/xpp"><sectionbreak sectionuuid="1111111.summary.toc"/>
+	<pagebreak num="5" num-string="v"/>
+	<toc.wrapper>
+		<generated.toc>
+			<XPPHier uuid="1111111.summary.toc" name="Summary of Contents" parent_uuid="1111111.summary.toc" md.doc_family_uuid="1111111.summary.toc">Summary of Contents</XPPHier><summary.toc>
+				<t style="summary.toc cgt">Summary of Contents</t>
+				<metadata.block>
+					<metadata field="left.running.head">
+						<value/>
+					</metadata>
+					<metadata field="right.running.head">
+						<value/>
+					</metadata>
+				</metadata.block>
+				<name.block>
+					<name>
+						<t style="name.block cgt"> </t>
+					</name>
+				</name.block>
+				<toc.volbreak value="2" print="no"/>
+				<toc.chapter>
+					<outline.name.block>
+						<label>
+							<t style="label">Chapter</t>
+						</label><t style="outline.name.block cgt"> </t>
+						<designator>
+							<t style="designator">7</t><t style="designator cgt">.</t>
+						</designator>
+						<name>
+							<t style="name">Guardianship</t>
+						</name>
+					</outline.name.block>
+					<toc.appendix.block>
+						<toc.appendix>
+							<outline.name.block>
+								<label>
+									<t style="label">APPENDIX</t>
+								</label><t style="outline.name.block.1 cgt"> </t>
+								<designator>
+									<t style="designator">7A</t><t style="designator cgt">.</t>
+								</designator><t style="outline.name.block.1 cgt"> </t>
+								<name>
+									<t style="name">Forms</t>
+								</name>
+							</outline.name.block>
+						</toc.appendix>
+						<toc.appendix>
+							<outline.name.block>
+								<label>
+									<t style="label">APPENDIX</t>
+								</label><t style="outline.name.block.1 cgt"> </t>
+								<designator>
+									<t style="designator">7B</t><t style="designator cgt">.</t>
+								</designator><t style="outline.name.block.1 cgt"> </t>
+								<name>
+									<t style="name">Petition for Appointment of Guardian </t><t style="name">of and Conservator for a Minor</t>
+								</name>
+							</outline.name.block>
+						</toc.appendix>
+						<toc.appendix>
+							<outline.name.block>
+								<label>
+									<t style="label">APPENDIX</t>
+								</label><t style="outline.name.block.1 cgt"> </t>
+								<designator>
+									<t style="designator">7C</t><t style="designator cgt">.</t>
+								</designator><t style="outline.name.block.1 cgt"> </t>
+								<name>
+									<t style="name">Notice of Hearing</t>
+								</name>
+							</outline.name.block>
+						</toc.appendix>
+						<toc.appendix>
+							<outline.name.block>
+								<label>
+									<t style="label">APPENDIX</t>
+								</label><t style="outline.name.block.1 cgt"> </t>
+								<designator>
+									<t style="designator">7D</t><t style="designator cgt">.</t>
+								</designator><t style="outline.name.block.1 cgt"> </t>
+								<name>
+									<t style="name">Consent and Nomination by Natural </t><t style="name">Parent</t>
+								</name>
+							</outline.name.block>
+						</toc.appendix>
+						<toc.appendix>
+							<outline.name.block>
+								<label>
+									<t style="label">APPENDIX</t>
+								</label><t style="outline.name.block.1 cgt"> </t>
+								<designator>
+									<t style="designator">7E</t><t style="designator cgt">.</t>
+								</designator><t style="outline.name.block.1 cgt"> </t>
+								<name>
+									<t style="name">Order Appointing Guardian of and </t><t style="name">Conservator for a Minor</t>
+								</name>
+							</outline.name.block>
+						</toc.appendix>
+						<toc.appendix>
+							<outline.name.block>
+								<label>
+									<t style="label">APPENDIX</t>
+								</label><t style="outline.name.block.1 cgt"> </t>
+								<designator>
+									<t style="designator">7F</t><t style="designator cgt">.</t>
+								</designator><t style="outline.name.block.1 cgt"> </t>
+								<name>
+									<t style="name">Acceptance of Appointment as </t><t style="name">Guardian of and Conservator for a </t><t style="name">Minor</t>
+								</name>
+							</outline.name.block>
+						</toc.appendix>
+						<toc.appendix>
+							<outline.name.block>
+								<label>
+									<t style="label">APPENDIX</t>
+								</label><t style="outline.name.block.1 cgt"> </t>
+								<designator>
+									<t style="designator">7G</t><t style="designator cgt">.</t>
+								</designator><t style="outline.name.block.1 cgt"> </t>
+								<name>
+									<t style="name">Letters of Guardian of and </t><t style="name">Conservator for a Minor</t>
+								</name>
+							</outline.name.block>
+						</toc.appendix>
+					</toc.appendix.block>
+				</toc.chapter>
+				<toc.chapter>
+					<outline.name.block>
+						<label>
+							<t style="label">Chapter</t>
+						</label><t style="outline.name.block cgt"> </t>
+						<designator>
+							<t style="designator">8</t><t style="designator cgt">.</t>
+						</designator>
+						<name>
+							<t style="name">Delinquency</t>
+						</name>
+					</outline.name.block>
+				</toc.chapter>
+				<toc.chapter>
+					<outline.name.block>
+						<label>
+							<t style="label">Chapter</t>
+						</label><t style="outline.name.block cgt"> </t>
+						<designator>
+							<t style="designator">9</t><t style="designator cgt">.</t>
+						</designator>
+						<name>
+							<t style="name">Education: Student Rights and </t><t style="name">Responsibilities</t>
+						</name>
+					</outline.name.block>
+				</toc.chapter>
+				<toc.chapter>
+					<outline.name.block>
+						<label>
+							<t style="label">Chapter</t>
+						</label><t style="outline.name.block cgt"> </t>
+						<designator>
+							<t style="designator">10</t><t style="designator cgt">.</t>
+						</designator>
+						<name>
+							<t style="name">Health Care</t>
+						</name>
+					</outline.name.block>
+					<toc.appendix.block>
+						<toc.appendix>
+							<outline.name.block>
+								<label>
+									<t style="label">APPENDIX</t>
+								</label><t style="outline.name.block.1 cgt"> </t>
+								<designator>
+									<t style="designator">10A</t><t style="designator cgt">.</t>
+								</designator><t style="outline.name.block.1 cgt"> </t>
+								<name>
+									<t style="name">Motion for Court Approval of </t><t style="name">Inpatient Evaluation/Order</t>
+								</name>
+							</outline.name.block>
+						</toc.appendix>
+						<toc.appendix>
+							<outline.name.block>
+								<label>
+									<t style="label">APPENDIX</t>
+								</label><t style="outline.name.block.1 cgt"> </t>
+								<designator>
+									<t style="designator">10B</t><t style="designator cgt">.</t>
+								</designator><t style="outline.name.block.1 cgt"> </t>
+								<name>
+									<t style="name">Motion for Court Approval of </t><t style="name">Inpatient/Treatment Order</t>
+								</name>
+							</outline.name.block>
+						</toc.appendix>
+					</toc.appendix.block>
+				</toc.chapter>
+				<toc.chapter>
+					<outline.name.block>
+						<label>
+							<t style="label">Chapter</t>
+						</label><t style="outline.name.block cgt"> </t>
+						<designator>
+							<t style="designator">11</t><t style="designator cgt">.</t>
+						</designator>
+						<name>
+							<t style="name">General Considerations</t>
+						</name>
+					</outline.name.block>
+				</toc.chapter>
+				<toc.appendix.block>
+					<outline.name.block>
+						<name>
+							<t style="name.1">Appendices</t>
+						</name>
+					</outline.name.block>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block.2 cgt"> </t>
+							<designator>
+								<t style="designator">1</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name">Alabama</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block.2 cgt"> </t>
+							<designator>
+								<t style="designator">2</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name">Alaska</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block.2 cgt"> </t>
+							<designator>
+								<t style="designator">3</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name">Arizona</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block.2 cgt"> </t>
+							<designator>
+								<t style="designator">4</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name">Arkansas</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block.2 cgt"> </t>
+							<designator>
+								<t style="designator">5</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name">California</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<pagebreak num="6" num-string="vi"/>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block.2 cgt"> </t>
+							<designator>
+								<t style="designator">6</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name">Colorado</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block.2 cgt"> </t>
+							<designator>
+								<t style="designator">7</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name">Connecticut</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block.2 cgt"> </t>
+							<designator>
+								<t style="designator">8</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name">Delaware</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block.2 cgt"> </t>
+							<designator>
+								<t style="designator">9</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name">District of Columbia</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block.2 cgt"> </t>
+							<designator>
+								<t style="designator">10</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name">Florida</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block.2 cgt"> </t>
+							<designator>
+								<t style="designator">11</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name">Georgia</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block.2 cgt"> </t>
+							<designator>
+								<t style="designator">12</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name">Hawaii</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block.2 cgt"> </t>
+							<designator>
+								<t style="designator">13</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name">Idaho</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block.2 cgt"> </t>
+							<designator>
+								<t style="designator">14</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name">Illinois</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block.2 cgt"> </t>
+							<designator>
+								<t style="designator">15</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name">Indiana</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block.2 cgt"> </t>
+							<designator>
+								<t style="designator">16</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name">Iowa</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block.2 cgt"> </t>
+							<designator>
+								<t style="designator">17</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name">Kansas</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block.2 cgt"> </t>
+							<designator>
+								<t style="designator">18</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name">Kentucky</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block.2 cgt"> </t>
+							<designator>
+								<t style="designator">19</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name">Louisiana</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block.2 cgt"> </t>
+							<designator>
+								<t style="designator">20</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name">Maine</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<pagebreak num="7" num-string="vii"/>
+				</toc.appendix.block>
+			</summary.toc>
+		</generated.toc>
+		<generated.toc>
+			<sectionbreak sectionuuid="1111111.full.toc"/><XPPHier uuid="1111111.full.toc" name="Table of Contents" parent_uuid="1111111.full.toc" md.doc_family_uuid="1111111.full.toc">Table of Contents</XPPHier><full.toc>
+				<metadata.block>
+					<metadata field="left.running.head">
+						<value/>
+					</metadata>
+					<metadata field="right.running.head">
+						<value/>
+					</metadata>
+				</metadata.block>
+				<name.block>
+					<name>
+						<t style="name.2">Table of Contents</t>
+					</name>
+				</name.block>
+				<toc.volbreak value="2" print="no"/>
+				<toc.chapter>
+					<outline.name.block>
+						<label>
+							<t style="label.1">Chapter</t>
+						</label><t style="outline.name.block cgt"> </t>
+						<designator>
+							<t style="designator.1">7</t><t style="designator.1 cgt">.</t>
+						</designator><t style="outline.name.block cgt"> </t>
+						<name>
+							<t style="name.3">Guardianship</t>
+						</name>
+					</outline.name.block>
+					<toc.analytical.hierarchy uuid="I49df7c3026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">I</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Introduction</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="I49e03f8026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:1</t>
+								</designator>
+								<name>
+									<t style="name.4">Scope of chapter</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I4a6f120026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:2</t>
+								</designator>
+								<name>
+									<t style="name.4">Definitions</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I4b1452b026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:3</t>
+								</designator>
+								<name>
+									<t style="name.4">Jurisdiction</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I4dc9127026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:4</t>
+								</designator>
+								<name>
+									<t style="name.4">Venue</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="I4f0207a026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">II</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Types of Guardianship</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="I4f02a3e026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:5</t>
+								</designator>
+								<name>
+									<t style="name.4">Natural guardian</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I5103a40026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:6</t>
+								</designator>
+								<name>
+									<t style="name.4">Volunteer or de facto guardianship</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I51b037b026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:7</t>
+								</designator>
+								<name>
+									<t style="name.4">Testamentary guardianship</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I531bd5a026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:8</t>
+								</designator>
+								<name>
+									<t style="name.4">Temporary guardianship</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I54174ca026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:9</t>
+								</designator>
+								<name>
+									<t style="name.4">Special guardian and limited guardian</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I54d852b026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:10</t>
+								</designator>
+								<name>
+									<t style="name.4">Standby guardian</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I55ad55f026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:11</t>
+								</designator>
+								<name>
+									<t style="name.4">Joint guardianship</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I56a4ae4026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:12</t>
+								</designator>
+								<name>
+									<t style="name.4">Public guardian</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I5718ccd026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:13</t>
+								</designator>
+								<name>
+									<t style="name.4">Guardian ad litem</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="I58dd392026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">III</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Who May Be Appointed</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="I58ddfc7026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:14</t>
+								</designator>
+								<name>
+									<t style="name.4">Purpose</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I5a69305026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:15</t>
+								</designator>
+								<name>
+									<t style="name.4">Who may serve as guardians</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I5b0ff7a026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:16</t>
+								</designator>
+								<name>
+									<t style="name.4">Priority for appointment</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="I5daee57026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">IV</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Procedure for Appointment</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="I5dafa8c026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:17</t>
+								</designator>
+								<name>
+									<t style="name.4">Petition</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I5e3fb3c026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:18</t>
+								</designator>
+								<name>
+									<t style="name.4">Notice</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I5ede16a026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:19</t>
+								</designator>
+								<name>
+									<t style="name.4">Burden of proof</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I5f848fd026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:20</t>
+								</designator>
+								<name>
+									<t style="name.4">Findings required</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I5fe4b13026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:21</t>
+								</designator>
+								<name>
+									<t style="name.4">Bond</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I60ec362026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:22</t>
+								</designator>
+								<name>
+									<t style="name.4">Letters of guardianship</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I618baa7026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:23</t>
+								</designator>
+								<name>
+									<t style="name.4">Estoppel</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="I6238653026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">V</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Duties and Powers of Guardian </t><t style="name.3">of Person</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="I6239288026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:24</t>
+								</designator>
+								<name>
+									<t style="name.4">General duties</t>
+								</name>
+								<pagebreak num="8" num-string="viii"/>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I648cb57026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:25</t>
+								</designator>
+								<name>
+									<t style="name.4">Duty to support</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="I65ee414026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">VI</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Duties and Powers of </t><t style="name.3">Guardian of Property</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="I65efc7e026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:26</t>
+								</designator>
+								<name>
+									<t style="name.4">General duties</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I6741000026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:27</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Management of property</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I6979b1f026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:28</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Investments</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I6b3544a026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:29</t>
+								</designator>
+								<name>
+									<t style="name.4">Inventory</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I6c4973c026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:30</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Accounting</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I6e1e0cb026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:31</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Compensation</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I6eecce6026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:32</t>
+								</designator>
+								<name>
+									<t style="name.4">Foreign guardianship</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I706ba63026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:33</t>
+								</designator>
+								<name>
+									<t style="name.4">Ancillary guardianship</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="I710bddd026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">VII</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Post-Appointment</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="I710ca12026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:34</t>
+								</designator>
+								<name>
+									<t style="name.4">Change of guardianship</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I71beda2026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:35</t>
+								</designator>
+								<name>
+									<t style="name.4">Termination of guardianship</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I73c817a026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:36</t>
+								</designator>
+								<name>
+									<t style="name.4">Power of attorney</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I746c1fd026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:37</t>
+								</designator>
+								<name>
+									<t style="name.4">Surrogate parent</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I74df05e026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:38</t>
+								</designator>
+								<name>
+									<t style="name.4">Liability of guardian</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I768c19a026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:39</t>
+								</designator>
+								<name>
+									<t style="name.4">Appeal</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="I79cb3f1026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">VIII</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Uniform Acts</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="I79cc026026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:40</t>
+								</designator>
+								<name>
+									<t style="name.4">Uniform Guardianship and Protective </t><t style="name.4">Proceedings Act</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I7a7513a026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:41</t>
+								</designator>
+								<name>
+									<t style="name.4">Uniform Veterans' Guardianship Act</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I7b424eb026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:42</t>
+								</designator>
+								<name>
+									<t style="name.4">Uniform Gifts to Minors Act</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I7bf5e74026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">7:43</t>
+								</designator>
+								<name>
+									<t style="name.4">Uniform Transfers to Minors Act</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.appendix.block>
+						<toc.appendix>
+							<outline.name.block>
+								<label>
+									<t style="label.2">APPENDIX</t>
+								</label><t style="outline.name.block.4 cgt"> </t>
+								<designator>
+									<t style="designator.2">7A</t><t style="designator.2 cgt">.</t>
+								</designator><t style="outline.name.block.1 cgt"> </t>
+								<name>
+									<t style="name.4">Forms</t>
+								</name>
+							</outline.name.block>
+						</toc.appendix>
+						<toc.appendix>
+							<outline.name.block>
+								<label>
+									<t style="label.2">APPENDIX</t>
+								</label><t style="outline.name.block.4 cgt"> </t>
+								<designator>
+									<t style="designator.2">7B</t><t style="designator.2 cgt">.</t>
+								</designator><t style="outline.name.block.1 cgt"> </t>
+								<name>
+									<t style="name.4">Petition for Appointment of Guardian of </t><t style="name.4">and Conservator for a Minor</t>
+								</name>
+							</outline.name.block>
+						</toc.appendix>
+						<toc.appendix>
+							<outline.name.block>
+								<label>
+									<t style="label.2">APPENDIX</t>
+								</label><t style="outline.name.block.4 cgt"> </t>
+								<designator>
+									<t style="designator.2">7C</t><t style="designator.2 cgt">.</t>
+								</designator><t style="outline.name.block.1 cgt"> </t>
+								<name>
+									<t style="name.4">Notice of Hearing</t>
+								</name>
+							</outline.name.block>
+						</toc.appendix>
+						<toc.appendix>
+							<outline.name.block>
+								<label>
+									<t style="label.2">APPENDIX</t>
+								</label><t style="outline.name.block.4 cgt"> </t>
+								<designator>
+									<t style="designator.2">7D</t><t style="designator.2 cgt">.</t>
+								</designator><t style="outline.name.block.1 cgt"> </t>
+								<name>
+									<t style="name.4">Consent and Nomination by Natural </t><t style="name.4">Parent</t>
+								</name>
+							</outline.name.block>
+						</toc.appendix>
+						<toc.appendix>
+							<outline.name.block>
+								<label>
+									<t style="label.2">APPENDIX</t>
+								</label><t style="outline.name.block.4 cgt"> </t>
+								<designator>
+									<t style="designator.2">7E</t><t style="designator.2 cgt">.</t>
+								</designator><t style="outline.name.block.1 cgt"> </t>
+								<name>
+									<t style="name.4">Order Appointing Guardian of and </t><t style="name.4">Conservator for a Minor</t>
+								</name>
+							</outline.name.block>
+						</toc.appendix>
+						<toc.appendix>
+							<outline.name.block>
+								<label>
+									<t style="label.2">APPENDIX</t>
+								</label><t style="outline.name.block.4 cgt"> </t>
+								<designator>
+									<t style="designator.2">7F</t><t style="designator.2 cgt">.</t>
+								</designator><t style="outline.name.block.1 cgt"> </t>
+								<name>
+									<t style="name.4">Acceptance of Appointment as Guardian </t><t style="name.4">of and Conservator for a Minor</t>
+								</name>
+							</outline.name.block>
+						</toc.appendix>
+						<toc.appendix>
+							<outline.name.block>
+								<label>
+									<t style="label.2">APPENDIX</t>
+								</label><t style="outline.name.block.4 cgt"> </t>
+								<designator>
+									<t style="designator.2">7G</t><t style="designator.2 cgt">.</t>
+								</designator><t style="outline.name.block.1 cgt"> </t>
+								<name>
+									<t style="name.4">Letters of Guardian of and Conservator </t><t style="name.4">for a Minor</t>
+								</name>
+								<pagebreak num="9" num-string="ix"/>
+							</outline.name.block>
+						</toc.appendix>
+					</toc.appendix.block>
+				</toc.chapter>
+				<toc.chapter>
+					<outline.name.block>
+						<label>
+							<t style="label.1">Chapter</t>
+						</label><t style="outline.name.block cgt"> </t>
+						<designator>
+							<t style="designator.1">8</t><t style="designator.1 cgt">.</t>
+						</designator><t style="outline.name.block cgt"> </t>
+						<name>
+							<t style="name.3">Delinquency</t>
+						</name>
+					</outline.name.block>
+					<toc.analytical.hierarchy uuid="I831b6ea026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">I</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Introduction</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="I831c0ae026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:1</t>
+								</designator>
+								<name>
+									<t style="name.4">Scope of chapter</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="I83ff17e026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">II</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Jurisdiction</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="I83ffdb3026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:2</t>
+								</designator>
+								<name>
+									<t style="name.4">In general</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I8446a83026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:3</t>
+								</designator>
+								<name>
+									<t style="name.4">Procedural jurisdiction</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I85c2e7f026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:4</t>
+								</designator>
+								<name>
+									<t style="name.4">Substantive jurisdiction</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I8884c71026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:5</t>
+								</designator>
+								<name>
+									<t style="name.4">Age</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I8c9b12a026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:6</t>
+								</designator>
+								<name>
+									<t style="name.4">Waiver of jurisdiction</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I8e2e5cd026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:7</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Procedural due process</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I91cb0b9026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:8</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Substantive law</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I97ba5ce026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:9</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Automatic waiver of jurisdiction</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I9bd2cb5026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:10</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Juvenile sentence in adult court</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I9d97109026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:11</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Review of waiver of jurisdiction</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="I9ee5899026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">III</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Investigation and Referral </t><t style="name.3">Process</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="I9eeeb15026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:12</t>
+								</designator>
+								<name>
+									<t style="name.4">Stops and arrests</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ia058055026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:13</t>
+								</designator>
+								<name>
+									<t style="name.4">Search and seizure</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ia124a42026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:14</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Nonschool searches</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ia2a1591026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:15</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">School searches</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ia39de18026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:16</t>
+								</designator>
+								<name>
+									<t style="name.4">Confessions</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ia410eea026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:17</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Custodial and noncustodial interrogation</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ia4de29b026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:18</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Variances in voluntariness standards</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ia635554026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:19</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Other factors regarding voluntariness</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ia718d77026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:20</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Admissible confessions</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="Ia7aa902026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">IV</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Adjudicatory Process</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="Ia7ab537026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:21</t>
+								</designator>
+								<name>
+									<t style="name.4">Constitutional due process rights</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Iab62b62026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:22</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Age</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Iacf38f5026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:23</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Double jeopardy</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Iae924b3026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:24</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Right to notice</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ib0c7efe026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:25</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Equal protection</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ib1cdee3026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:26</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Right to counsel</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ib536468026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:27</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Right to speedy trial</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ib9f3596026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:28</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Guardian ad litem</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ibb07135026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:29</t>
+								</designator>
+								<name>
+									<t style="name.4">Preadjudication issues</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ibb291a4026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:30</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Diversion vs. prosecution</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ibc55654026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:31</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Initial appearance and plea</t>
+								</name>
+								<pagebreak num="10" num-string="x"/>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ibfbdbd9026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:32</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Mental competency</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ic16b468026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:33</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Discovery and disclosure</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ic2b1d04026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:34</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Pretrial detention</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ic47fd98026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:35</t>
+								</designator>
+								<name>
+									<t style="name.4">Adjudication</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ic497a74026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:36</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Procedural matters</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ic5bc9f4026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:37</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Burden and standard of proof</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ic6f98c1026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:38</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Nondelinquency matters</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="Ic7b8483026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">V</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Disposition</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="Ic7b90b8026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:39</t>
+								</designator>
+								<name>
+									<t style="name.4">Disposition and sentencing</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ic9267e3026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:40</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Disposition alternatives</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Icbb20b1026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:41</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Confinement</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Icca4a87026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:42</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Restitution and fines</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Icfbb5e5026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:43</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Capital punishment</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="Id14113f026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">VI</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Probation Revocation</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="Id142256026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:44</t>
+								</designator>
+								<name>
+									<t style="name.4">Revocation of probation</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Id16c42a026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:45</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Historical analysis</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Id22d48b026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:46</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Standard of proof</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Id27bb6d026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:47</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Related revocation issues</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="Id35e4ea026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">VII</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Confidentiality</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="Id35f872026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:48</t>
+								</designator>
+								<name>
+									<t style="name.4">In general</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Id3acbcc026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:49</t>
+								</designator>
+								<name>
+									<t style="name.4">Juvenile records</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Id498f18026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:50</t>
+								</designator>
+								<name>
+									<t style="name.4">Media issues</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="Id5b02de026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">VIII</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Postadjudication Issues</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="Id5b277d026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:51</t>
+								</designator>
+								<name>
+									<t style="name.4">Appeals</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Id878278026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:52</t>
+								</designator>
+								<name>
+									<t style="name.4">Destruction of records</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Id9b8bdd026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">8:53</t>
+								</designator>
+								<name>
+									<t style="name.4">Interstate compact on juveniles</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+				</toc.chapter>
+				<toc.chapter>
+					<outline.name.block>
+						<label>
+							<t style="label.1">Chapter</t>
+						</label><t style="outline.name.block cgt"> </t>
+						<designator>
+							<t style="designator.1">9</t><t style="designator.1 cgt">.</t>
+						</designator><t style="outline.name.block cgt"> </t>
+						<name>
+							<t style="name.3">Education: Student </t><t style="name.3">Rights and Responsibilities</t>
+						</name>
+					</outline.name.block>
+					<toc.analytical.hierarchy uuid="Idac090e026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">I</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Introduction</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="Idac1543026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:1</t>
+								</designator>
+								<name>
+									<t style="name.4">Scope of chapter</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="Idbb5c65026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">II</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">First Amendment</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="Idbb689a026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:2</t>
+								</designator>
+								<name>
+									<t style="name.4">Freedom of expression</t><t style="name.4 cgt">—</t><t style="name.4">In general</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Idc9e2a8026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:3</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Definition</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Idf306e2026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:4</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Personal expression</t><t style="name.4 cgt">—</t><t style="name.4">Nonschool publications</t>
+								</name>
+								<pagebreak num="11" num-string="xi"/>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ie4c4f54026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:5</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">School sponsored expression</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ie6474f8026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:6</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Via the Internet</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ie67e16f026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:7</t>
+								</designator>
+								<name>
+									<t style="name.4">Freedom of religion</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ie72db7e026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:8</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Religious worship</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ie8d2dc6026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:9</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Religion in school curriculum and instruction</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ie9a0dac026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:10</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Governmental aid to parochial schools</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="Ie9a0177026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">III</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Fourth Amendment</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="Ieb48be6026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:11</t>
+								</designator>
+								<name>
+									<t style="name.4">Search and seizure</t><t style="name.4 cgt">—</t><t style="name.4">In general</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Iec35b67026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:12</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Locker searches</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ied4db62026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:13</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Canine searches</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Iee3493b026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:14</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Strip searches</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="If06444f026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:15</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Drug testing</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="If0630c7026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">IV</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Discipline</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="If0dea51026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:16</t>
+								</designator>
+								<name>
+									<t style="name.4">Regulating student conduct and due process</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="If2608a2026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:17</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Suspensions</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="If2d78ee026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:18</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Suspensions affecting extracurricular activities</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="If3249d7026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:19</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Remedies for unwarranted expulsions or </t><t style="name.4">suspensions</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="If3663a5026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:20</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Disciplinary transfers</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="If39846d026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:21</t>
+								</designator>
+								<name>
+									<t style="name.4">Corporal punishment</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="If4a3ea7026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:22</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Eighth Amendment</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="If534dfd026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:23</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Fourteenth Amendment</t><t style="name.4 cgt">—</t><t style="name.4">Procedural due </t><t style="name.4">process</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="If639096026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:24</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4"> </t><t style="name.4 cgt">—</t><t style="name.4">Substantive due process</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="If67e76d026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:25</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">When corporal punishment violates due process</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="If71cb2a026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:26</t>
+								</designator>
+								<name>
+									<t style="name.4">Academic sanctions</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="If793694026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:27</t>
+								</designator>
+								<name>
+									<t style="name.4">Other forms of discipline</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="If7e1623026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:28</t>
+								</designator>
+								<name>
+									<t style="name.4">Remedies for unlawful disciplinary actions</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="If82b8a9026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:29</t>
+								</designator>
+								<name>
+									<t style="name.4">Special education student's conduct and due </t><t style="name.4">process</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="If93ea84026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:30</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Expulsion and suspension</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="If93de4f026a611d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">V</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Government Entitlements</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="Ifa4fca2026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:31</t>
+								</designator>
+								<name>
+									<t style="name.4">Special education</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ifb092f1026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:32</t>
+								</designator>
+								<name>
+									<t style="name.4">Federal school lunch program</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ifb89d0c026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:33</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Adoption of National School Lunch Act (NSLA)</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ifc86804026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:34</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Pre-1970 litigation</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ifd551ae026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:35</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">1970 Amendment to NSLA</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ifdb27d2026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:36</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">1970 Department of agriculture regulations</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Iffadff0026a611d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:37</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Litigation concerning amendments</t>
+								</name>
+								<pagebreak num="12" num-string="xii"/>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I0060fb5026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:38</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Effects of Omnibus Budget Reconciliation Act </t><t style="name.4">(OBRA) on National School Lunch Act</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I01534a9026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:39</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Litigation relating to Omnibus Budget </t><t style="name.4">Reconciliation Act (OBRA) and National School </t><t style="name.4">Lunch Act (NSLA)</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I020e5d3026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:40</t>
+								</designator>
+								<name>
+									<t style="name.4">School breakfast program</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I03769fc026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:41</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Litigation and pre-1975 Amendments</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I03d365c026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:42</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Child Nutrition Act</t><t style="name.4 cgt">—</t><t style="name.4">1975 Amendment</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I0467b68026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:43</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Litigation</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ib53c6800a33311e1b0118c10f5167757">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">9:44</t>
+								</designator>
+								<name>
+									<t style="name.4">Conclusion</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+				</toc.chapter>
+				<toc.chapter>
+					<outline.name.block>
+						<label>
+							<t style="label.1">Chapter</t>
+						</label><t style="outline.name.block cgt"> </t>
+						<designator>
+							<t style="designator.1">10</t><t style="designator.1 cgt">.</t>
+						</designator><t style="outline.name.block cgt"> </t>
+						<name>
+							<t style="name.3">Health Care</t>
+						</name>
+					</outline.name.block>
+					<toc.analytical.hierarchy uuid="I0514e67026a711d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">I</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Introduction</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="I0515a9c026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:1</t>
+								</designator>
+								<name>
+									<t style="name.4">Scope of chapter</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="I05fdbfd026a711d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">II</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Medical Care and Treatment</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.analytical.hierarchy uuid="I05fe5c1026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<designator>
+									<t style="designator.1">A</t><t style="designator.1 cgt">.</t>
+								</designator><t style="outline.name.block.3 cgt"> </t>
+								<name>
+									<t style="name.3 cgt"> </t><t style="name.3">Medical Care</t>
+								</name>
+							</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+							<toc.section uuid="I05ff467026a711d99b08a92d7e97623c">
+								<outline.name.block>
+									<label>
+										<t style="label.2 cgt">§ </t>
+									</label>
+									<designator>
+										<t style="designator.2">10:2</t>
+									</designator>
+									<name>
+										<t style="name.4">In general</t>
+									</name>
+								</outline.name.block>
+							</toc.section>
+							<toc.section uuid="I06fc923026a711d99b08a92d7e97623c">
+								<outline.name.block>
+									<label>
+										<t style="label.2 cgt">§ </t>
+									</label>
+									<designator>
+										<t style="designator.2">10:3</t>
+									</designator>
+									<name>
+										<t style="name.4">Children's health insurance</t>
+									</name>
+								</outline.name.block>
+							</toc.section>
+							<toc.section uuid="I083957f026a711d99b08a92d7e97623c">
+								<outline.name.block>
+									<label>
+										<t style="label.2 cgt">§ </t>
+									</label>
+									<designator>
+										<t style="designator.2">10:4</t>
+									</designator>
+									<name>
+										<t style="name.4">Consent to treatment</t>
+									</name>
+								</outline.name.block>
+							</toc.section>
+							<toc.section uuid="I0a2856b026a711d99b08a92d7e97623c">
+								<outline.name.block>
+									<label>
+										<t style="label.2 cgt">§ </t>
+									</label>
+									<designator>
+										<t style="designator.2">10:5</t>
+									</designator>
+									<name>
+										<t style="name.4 cgt">—</t><t style="name.4">Emergency care</t>
+									</name>
+								</outline.name.block>
+							</toc.section>
+							<toc.section uuid="I0ae7fd3026a711d99b08a92d7e97623c">
+								<outline.name.block>
+									<label>
+										<t style="label.2 cgt">§ </t>
+									</label>
+									<designator>
+										<t style="designator.2">10:6</t>
+									</designator>
+									<name>
+										<t style="name.4 cgt">—</t><t style="name.4">Emancipated minors</t>
+									</name>
+								</outline.name.block>
+							</toc.section>
+							<toc.section uuid="I0c1e5a5026a711d99b08a92d7e97623c">
+								<outline.name.block>
+									<label>
+										<t style="label.2 cgt">§ </t>
+									</label>
+									<designator>
+										<t style="designator.2">10:7</t>
+									</designator>
+									<name>
+										<t style="name.4 cgt">—</t><t style="name.4">Mature minor</t>
+									</name>
+								</outline.name.block>
+							</toc.section>
+							<toc.section uuid="I11c027e026a711d99b08a92d7e97623c">
+								<outline.name.block>
+									<label>
+										<t style="label.2 cgt">§ </t>
+									</label>
+									<designator>
+										<t style="designator.2">10:8</t>
+									</designator>
+									<name>
+										<t style="name.4">Refusal of treatment</t>
+									</name>
+								</outline.name.block>
+							</toc.section>
+							<toc.section uuid="I15795f5026a711d99b08a92d7e97623c">
+								<outline.name.block>
+									<label>
+										<t style="label.2 cgt">§ </t>
+									</label>
+									<designator>
+										<t style="designator.2">10:9</t>
+									</designator>
+									<name>
+										<t style="name.4">First Amendment</t>
+									</name>
+								</outline.name.block>
+							</toc.section>
+						</toc.analytical.hierarchy>
+						<toc.analytical.hierarchy uuid="I1577d8b026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<designator>
+									<t style="designator.1">B</t><t style="designator.1 cgt">.</t>
+								</designator><t style="outline.name.block.3 cgt"> </t>
+								<name>
+									<t style="name.3 cgt"> </t><t style="name.3">Specific Types of Treatment</t>
+								</name>
+							</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+							<toc.section uuid="I169ea57026a711d99b08a92d7e97623c">
+								<outline.name.block>
+									<label>
+										<t style="label.2 cgt">§ </t>
+									</label>
+									<designator>
+										<t style="designator.2">10:10</t>
+									</designator>
+									<name>
+										<t style="name.4">Sexually transmitted diseases</t>
+									</name>
+								</outline.name.block>
+							</toc.section>
+							<toc.section uuid="I1802c95026a711d99b08a92d7e97623c">
+								<outline.name.block>
+									<label>
+										<t style="label.2 cgt">§ </t>
+									</label>
+									<designator>
+										<t style="designator.2">10:11</t>
+									</designator>
+									<name>
+										<t style="name.4">Drug and alcohol treatment</t>
+									</name>
+								</outline.name.block>
+							</toc.section>
+							<toc.section uuid="I19051e2026a711d99b08a92d7e97623c">
+								<outline.name.block>
+									<label>
+										<t style="label.2 cgt">§ </t>
+									</label>
+									<designator>
+										<t style="designator.2">10:12</t>
+									</designator>
+									<name>
+										<t style="name.4">Blood donation</t>
+									</name>
+								</outline.name.block>
+							</toc.section>
+							<toc.section uuid="I1a76fda026a711d99b08a92d7e97623c">
+								<outline.name.block>
+									<label>
+										<t style="label.2 cgt">§ </t>
+									</label>
+									<designator>
+										<t style="designator.2">10:13</t>
+									</designator>
+									<name>
+										<t style="name.4">Transplant donation</t>
+									</name>
+								</outline.name.block>
+							</toc.section>
+							<toc.section uuid="I1c41d29026a711d99b08a92d7e97623c">
+								<outline.name.block>
+									<label>
+										<t style="label.2 cgt">§ </t>
+									</label>
+									<designator>
+										<t style="designator.2">10:14</t>
+									</designator>
+									<name>
+										<t style="name.4">Immunizations</t>
+									</name>
+								</outline.name.block>
+							</toc.section>
+						</toc.analytical.hierarchy>
+						<toc.analytical.hierarchy uuid="I1c40e83026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<designator>
+									<t style="designator.1">C</t><t style="designator.1 cgt">.</t>
+								</designator><t style="outline.name.block.3 cgt"> </t>
+								<name>
+									<t style="name.3 cgt"> </t><t style="name.3">Reproductive Rights</t>
+								</name>
+							</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+							<toc.section uuid="I1d72635026a711d99b08a92d7e97623c">
+								<outline.name.block>
+									<label>
+										<t style="label.2 cgt">§ </t>
+									</label>
+									<designator>
+										<t style="designator.2">10:15</t>
+									</designator>
+									<name>
+										<t style="name.4">Contraceptives</t>
+									</name>
+								</outline.name.block>
+							</toc.section>
+							<toc.section uuid="I1fd5a7b026a711d99b08a92d7e97623c">
+								<outline.name.block>
+									<label>
+										<t style="label.2 cgt">§ </t>
+									</label>
+									<designator>
+										<t style="designator.2">10:16</t>
+									</designator>
+									<name>
+										<t style="name.4">Sterilization</t>
+									</name>
+								</outline.name.block>
+							</toc.section>
+							<toc.section uuid="I22d8395026a711d99b08a92d7e97623c">
+								<outline.name.block>
+									<label>
+										<t style="label.2 cgt">§ </t>
+									</label>
+									<designator>
+										<t style="designator.2">10:17</t>
+									</designator>
+									<name>
+										<t style="name.4">Abortion</t>
+									</name>
+								</outline.name.block>
+							</toc.section>
+						</toc.analytical.hierarchy>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="I22d7760026a711d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">III</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Mental Health Care and </t><t style="name.3">Treatment</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="I2343091026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:18</t>
+								</designator>
+								<name>
+									<t style="name.4">Ethical concerns of mental health professional</t>
+								</name>
+								<pagebreak num="13" num-string="xiii"/>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I23eae1d026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:19</t>
+								</designator>
+								<name>
+									<t style="name.4">Right to treatment</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I248eea0026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:20</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Right to refuse treatment</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I24cbf30026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:21</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Ethical concerns</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I251c35e026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:22</t>
+								</designator>
+								<name>
+									<t style="name.4">Commitment process</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I2534c6f026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:23</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Civil commitment</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I258c35c026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:24</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Legal criteria for civil commitment</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I26c3f27026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:25</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Due process</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I275b296026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:26</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Voluntary admission of minor</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I27c9f0c026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:27</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Release of voluntary patients</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I288885d026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:28</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Emergency admission</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I28e8a73026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:29</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Court ward</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I291646e026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:30</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Noncourt ward</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I294ff48026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:31</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Role of guardian ad litem</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I296f636026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:32</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Role of attorney</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I29bb126026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:33</t>
+								</designator>
+								<name>
+									<t style="name.4">Consent</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I2a09a79026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:34</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Parental consent and notification</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I2a697ad026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:35</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Judicial limit on parental consent</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I2bea758026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:36</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Minor's consent</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I2c23fc1026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:37</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Outpatient mental health services</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I2d1057e026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:38</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Ethical concerns</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I2d3a270026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:39</t>
+								</designator>
+								<name>
+									<t style="name.4">Rights of patients</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I2d50200026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:40</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Religious freedom</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I2e555b0026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:41</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Least restrictive alternative</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I2e97460026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:42</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Restrictions on treatment procedures</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I2eb09a6026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:43</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Confidentiality</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="Ifff55a20a33111e18032edbc84cdbf91">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">10:44</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Ethical concerns</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.appendix.block>
+						<toc.appendix>
+							<outline.name.block>
+								<label>
+									<t style="label.2">APPENDIX</t>
+								</label><t style="outline.name.block.4 cgt"> </t>
+								<designator>
+									<t style="designator.2">10A</t><t style="designator.2 cgt">.</t>
+								</designator><t style="outline.name.block.1 cgt"> </t>
+								<name>
+									<t style="name.4">Motion for Court Approval of Inpatient </t><t style="name.4">Evaluation/Order</t>
+								</name>
+							</outline.name.block>
+						</toc.appendix>
+						<toc.appendix>
+							<outline.name.block>
+								<label>
+									<t style="label.2">APPENDIX</t>
+								</label><t style="outline.name.block.4 cgt"> </t>
+								<designator>
+									<t style="designator.2">10B</t><t style="designator.2 cgt">.</t>
+								</designator><t style="outline.name.block.1 cgt"> </t>
+								<name>
+									<t style="name.4">Motion for Court Approval of </t><t style="name.4">Inpatient/Treatment Order</t>
+								</name>
+							</outline.name.block>
+						</toc.appendix>
+					</toc.appendix.block>
+				</toc.chapter>
+				<toc.chapter>
+					<outline.name.block>
+						<label>
+							<t style="label.1">Chapter</t>
+						</label><t style="outline.name.block cgt"> </t>
+						<designator>
+							<t style="designator.1">11</t><t style="designator.1 cgt">.</t>
+						</designator><t style="outline.name.block cgt"> </t>
+						<name>
+							<t style="name.3">General </t><t style="name.3">Considerations</t>
+						</name>
+					</outline.name.block>
+					<toc.analytical.hierarchy uuid="I31b6fc9026a711d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">I</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Introduction</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="I31b7bfe026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:1</t>
+								</designator>
+								<name>
+									<t style="name.4">Scope of chapter</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="I32d90e6026a711d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">II</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Parent-Child Issues</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="I32d9aaa026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:2</t>
+								</designator>
+								<name>
+									<t style="name.4">Emancipation</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I3413d85026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:3</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">By judicial process</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I36e1774026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:4</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">By circumstance or operation of law</t>
+								</name>
+								<pagebreak num="14" num-string="xiv"/>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I37e9716026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:5</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Social and legal effect</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I38dfb84026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:6</t>
+								</designator>
+								<name>
+									<t style="name.4">Parental liability for acts of child</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I3b4f7fc026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:7</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Responsibility for child's minor child</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I3c36f99026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:8</t>
+								</designator>
+								<name>
+									<t style="name.4">Parents' remedies for injuries to child</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="I3ddedd3026a711d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">III</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Rights, Privileges and </t><t style="name.3">Liabilities of Child</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="I3ddfa08026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:9</t>
+								</designator>
+								<name>
+									<t style="name.4">Capacity to contract</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I3fc836a026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:10</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Necessaries vs. Nonnecessaries</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I428051c026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:11</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Ratification</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I43d5818026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:12</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Avoidance</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I4698992026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:13</t>
+								</designator>
+								<name>
+									<t style="name.4">Capacity to sue and be sued</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I4ad99e3026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:14</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Tolling statute of limitations by minority</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I4dabd10026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:15</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Repressed memory</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I4fad6d6026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:16</t>
+								</designator>
+								<name>
+									<t style="name.4">Capacity to make a will and act as witness or </t><t style="name.4">executor</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I515b447026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:17</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Child as beneficiary by bequest or intestate </t><t style="name.4">succession</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I52ac076026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:18</t>
+								</designator>
+								<name>
+									<t style="name.4">Name change</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I52ffa5a026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:19</t>
+								</designator>
+								<name>
+									<t style="name.4">Employment</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I5388abc026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:20</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Age limitations</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I541e350026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:21</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Hour restriction</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I552a74e026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:22</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Occupation restriction</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I5570ccb026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:23</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Licensing of child</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I56f45f7026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:24</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4"> </t><t style="name.4 cgt">—</t><t style="name.4">Driver's licenses</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I57a8bb5026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:25</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4"> </t><t style="name.4 cgt">—</t><t style="name.4">Hunting and fishing licenses</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I58b8cbc026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:26</t>
+								</designator>
+								<name>
+									<t style="name.4">Family rights and obligations</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I59391f5026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:27</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Right to support from parents</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I5a5da22026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:28</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Obligation of minor child to support his or her </t><t style="name.4">child</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+					<toc.analytical.hierarchy uuid="I5a5cded026a711d99b08a92d7e97623c">
+						<outline.name.block>
+							<designator>
+								<t style="designator.1">IV</t><t style="designator.1 cgt">.</t>
+							</designator><t style="outline.name.block.3 cgt"> </t>
+							<name>
+								<t style="name.3 cgt"> </t><t style="name.3">Government Programs and </t><t style="name.3">the Child</t>
+							</name>
+						</outline.name.block><t style="toc.analytical.hierarchy cgt"> </t>
+						<toc.section uuid="I5ab1406026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:29</t>
+								</designator>
+								<name>
+									<t style="name.4">Social security benefits</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I5c04745026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:30</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Based upon relationships</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I5c7621e026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:31</t>
+								</designator>
+								<name>
+									<t style="name.4 cgt">—</t><t style="name.4">Based upon child's status</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I5cb092d026a711d99b08a92d7e97623c">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:32</t>
+								</designator>
+								<name>
+									<t style="name.4">Immigration law</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+						<toc.section uuid="I3dcef090a33211e18d380000837bc6dd">
+							<outline.name.block>
+								<label>
+									<t style="label.2 cgt">§ </t>
+								</label>
+								<designator>
+									<t style="designator.2">11:33</t>
+								</designator>
+								<name>
+									<t style="name.4">Rights of child upon deportation of parent</t>
+								</name>
+							</outline.name.block>
+						</toc.section>
+					</toc.analytical.hierarchy>
+				</toc.chapter>
+				<toc.appendix.block>
+					<outline.name.block>
+						<name>
+							<t style="name.3">Appendices</t>
+						</name>
+					</outline.name.block>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label.2">APPENDIX</t>
+							</label><t style="outline.name.block.4 cgt"> </t>
+							<designator>
+								<t style="designator.2">1</t><t style="designator.2 cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.4">Alabama</t>
+							</name>
+							<pagebreak num="15" num-string="xv"/>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label.2">APPENDIX</t>
+							</label><t style="outline.name.block.4 cgt"> </t>
+							<designator>
+								<t style="designator.2">2</t><t style="designator.2 cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.4">Alaska</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label.2">APPENDIX</t>
+							</label><t style="outline.name.block.4 cgt"> </t>
+							<designator>
+								<t style="designator.2">3</t><t style="designator.2 cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.4">Arizona</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label.2">APPENDIX</t>
+							</label><t style="outline.name.block.4 cgt"> </t>
+							<designator>
+								<t style="designator.2">4</t><t style="designator.2 cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.4">Arkansas</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label.2">APPENDIX</t>
+							</label><t style="outline.name.block.4 cgt"> </t>
+							<designator>
+								<t style="designator.2">5</t><t style="designator.2 cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.4">California</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label.2">APPENDIX</t>
+							</label><t style="outline.name.block.4 cgt"> </t>
+							<designator>
+								<t style="designator.2">6</t><t style="designator.2 cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.4">Colorado</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label.2">APPENDIX</t>
+							</label><t style="outline.name.block.4 cgt"> </t>
+							<designator>
+								<t style="designator.2">7</t><t style="designator.2 cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.4">Connecticut</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label.2">APPENDIX</t>
+							</label><t style="outline.name.block.4 cgt"> </t>
+							<designator>
+								<t style="designator.2">8</t><t style="designator.2 cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.4">Delaware</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label.2">APPENDIX</t>
+							</label><t style="outline.name.block.4 cgt"> </t>
+							<designator>
+								<t style="designator.2">9</t><t style="designator.2 cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.4">District of Columbia</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label.2">APPENDIX</t>
+							</label><t style="outline.name.block.4 cgt"> </t>
+							<designator>
+								<t style="designator.2">10</t><t style="designator.2 cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.4">Florida</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label.2">APPENDIX</t>
+							</label><t style="outline.name.block.4 cgt"> </t>
+							<designator>
+								<t style="designator.2">11</t><t style="designator.2 cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.4">Georgia</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label.2">APPENDIX</t>
+							</label><t style="outline.name.block.4 cgt"> </t>
+							<designator>
+								<t style="designator.2">12</t><t style="designator.2 cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.4">Hawaii</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label.2">APPENDIX</t>
+							</label><t style="outline.name.block.4 cgt"> </t>
+							<designator>
+								<t style="designator.2">13</t><t style="designator.2 cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.4">Idaho</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label.2">APPENDIX</t>
+							</label><t style="outline.name.block.4 cgt"> </t>
+							<designator>
+								<t style="designator.2">14</t><t style="designator.2 cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.4">Illinois</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label.2">APPENDIX</t>
+							</label><t style="outline.name.block.4 cgt"> </t>
+							<designator>
+								<t style="designator.2">15</t><t style="designator.2 cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.4">Indiana</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label.2">APPENDIX</t>
+							</label><t style="outline.name.block.4 cgt"> </t>
+							<designator>
+								<t style="designator.2">16</t><t style="designator.2 cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.4">Iowa</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label.2">APPENDIX</t>
+							</label><t style="outline.name.block.4 cgt"> </t>
+							<designator>
+								<t style="designator.2">17</t><t style="designator.2 cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.4">Kansas</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label.2">APPENDIX</t>
+							</label><t style="outline.name.block.4 cgt"> </t>
+							<designator>
+								<t style="designator.2">18</t><t style="designator.2 cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.4">Kentucky</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label.2">APPENDIX</t>
+							</label><t style="outline.name.block.4 cgt"> </t>
+							<designator>
+								<t style="designator.2">19</t><t style="designator.2 cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.4">Louisiana</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label.2">APPENDIX</t>
+							</label><t style="outline.name.block.4 cgt"> </t>
+							<designator>
+								<t style="designator.2">20</t><t style="designator.2 cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.4">Maine</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+				</toc.appendix.block>
+			</full.toc>
+		</generated.toc>
+	</toc.wrapper>
+	<pagebreak num="16" num-string=""/>
+</root>
