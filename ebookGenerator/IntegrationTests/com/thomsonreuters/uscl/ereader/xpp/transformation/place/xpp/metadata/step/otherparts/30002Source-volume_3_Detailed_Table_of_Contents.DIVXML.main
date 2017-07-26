@@ -1,0 +1,456 @@
+<!DOCTYPE root SYSTEM "C:/TR/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/ebookGenerator/WEB-INF/classes/StaticFiles/xpp/dtd/entities.dtd">
+<root xmlns="http://www.sdl.com/xpp">
+	<pagebreak num="5" num-string="v"/>
+	<toc.wrapper>
+		<generated.toc>
+			<full.toc>
+				<metadata.block>
+					<metadata field="left.running.head">
+						<value/>
+					</metadata>
+					<metadata field="right.running.head">
+						<value/>
+					</metadata>
+				</metadata.block>
+				<name.block>
+					<name>
+						<t style="name">Table of Contents</t>
+					</name>
+				</name.block>
+				<toc.appendix.block>
+					<outline.name.block>
+						<name>
+							<t style="name.1">Appendices (Continued)</t>
+						</name>
+					</outline.name.block>
+					<toc.volbreak value="3" print="no"/>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">21</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Maryland</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">22</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Massachusetts</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">23</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Michigan</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">24</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Minnesota</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">25</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Mississippi</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">26</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Missouri</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">27</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Montana</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">28</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Nebraska</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">29</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Nevada</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">30</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">New Hampshire</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">31</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">New Jersey</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">32</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">New Mexico</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">33</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">New York</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">34</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">North Carolina</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">35</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">North Dakota</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">36</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Ohio</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">37</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Oklahoma</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">38</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Oregon</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">39</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Pennsylvania</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">40</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Rhode Island</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">41</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">South Carolina</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">42</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">South Dakota</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">43</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Tennessee</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">44</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Texas</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">45</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Utah</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">46</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Vermont</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">47</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Virginia</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">48</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Washington</t>
+							</name>
+							<pagebreak num="6" num-string="vi"/>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">49</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">West Virginia</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">50</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Wisconsin</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+					<toc.appendix>
+						<outline.name.block>
+							<label>
+								<t style="label">APPENDIX</t>
+							</label><t style="outline.name.block cgt"> </t>
+							<designator>
+								<t style="designator">51</t><t style="designator cgt">.</t>
+							</designator><t style="outline.name.block.1 cgt"> </t>
+							<name>
+								<t style="name.2">Wyoming</t>
+							</name>
+						</outline.name.block>
+					</toc.appendix>
+				</toc.appendix.block>
+				<toc.fa.entry>
+					<outline.name.block>
+						<name>
+							<t style="name.3">Table of Laws and Rules</t>
+						</name><t style="outline.name.block.2 cgt"> </t>
+					</outline.name.block>
+				</toc.fa.entry>
+				<toc.fa.entry>
+					<outline.name.block>
+						<name>
+							<t style="name.3">Table of Cases</t>
+						</name><t style="outline.name.block.2 cgt"> </t>
+					</outline.name.block>
+				</toc.fa.entry>
+				<toc.fa.entry>
+					<outline.name.block>
+						<name>
+							<t style="name.3">Index</t>
+						</name><t style="outline.name.block.2 cgt"> </t>
+					</outline.name.block>
+				</toc.fa.entry>
+			</full.toc>
+		</generated.toc>
+	</toc.wrapper>
+</root>
