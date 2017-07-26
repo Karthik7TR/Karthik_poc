@@ -138,14 +138,15 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             "currency",
             new Object[] {"Additional Trademark/Patent Info", MAXIMUM_CHARACTER_2048});
 
+        checkMaxLength(
+            errors,
+            MAXIMUM_CHARACTER_2048,
+            form.getCopyright(),
+            "copyright",
+            new Object[] {"Copyright", MAXIMUM_CHARACTER_2048});
+
         if (form.getSourceType() != SourceType.XPP)
         {
-            checkMaxLength(
-                errors,
-                MAXIMUM_CHARACTER_2048,
-                form.getCopyright(),
-                "copyright",
-                new Object[] {"Copyright", MAXIMUM_CHARACTER_2048});
 
             checkMaxLength(
                 errors,
@@ -189,12 +190,12 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "proviewDisplayName", "error.required");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "materialId", "error.required");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "copyright", "error.required");
 
             if (form.getSourceType() != SourceType.XPP)
             {
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTocLabel", "error.required");
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle.bookNameText", "error.required");
-                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "copyright", "error.required");
             }
             switch (form.getSourceType())
             {

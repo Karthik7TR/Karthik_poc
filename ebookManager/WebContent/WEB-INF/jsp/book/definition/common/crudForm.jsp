@@ -882,7 +882,7 @@
 					<form:errors path="frontMatterTocLabel" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row xppHideClass" >
+			<div class="row" >
 				<form:label path="copyright" class="labelCol">Copyright</form:label>
 				<form:textarea path="copyright" />
 				<div class="errorDiv">

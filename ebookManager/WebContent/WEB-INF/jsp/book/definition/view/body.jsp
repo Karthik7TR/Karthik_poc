@@ -426,13 +426,13 @@ function submitForm(cmd)
 				Front Matter
 			</div>
 			<div class="centerSection">
-				<div class="leftDefinitionForm" ${xppHide}>
-					<div class="row">
+				<div class="leftDefinitionForm">
+					<div class="row" ${xppHide}>
 						<label class="labelCol">Front Matter TOC Label</label>
 						<span class="field">${ fn:escapeXml(book.frontMatterTocLabel) }</span>
 					</div>
 					<c:forEach items="${book.ebookNames}" var="name">
-						<div class="row">
+						<div class="row" ${xppHide}>
 							<c:if test="${ name.sequenceNum == 1 }">
 								<c:set var="frontMatterNameLabel" value="Main Title" />
 							</c:if>
@@ -450,7 +450,7 @@ function submitForm(cmd)
 						<label class="labelCol">Copyright</label>
 						<div class="field wordwrap">${ fn:escapeXml(book.copyright) }</div>
 					</div>
-					<div class="row">
+					<div class="row" ${xppHide}>
 						<label class="labelCol">Copyright Page Text</label>
 						<div class="field wordwrap">${ fn:escapeXml(book.copyrightPageText) }</div>
 					</div>					
