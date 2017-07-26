@@ -14,20 +14,18 @@
 
 	<xsl:template match="x:XPPHier[@parent_uuid = @uuid]">
 		<xsl:variable name="uuid" select="./@uuid" />
-		<xsl:if test="not(contains(., $volNamePlaceholder))">
 			<xsl:call-template name="create-entry">
 				<xsl:with-param name="name">
 					<xsl:apply-templates select="x:sep|text()" mode="extract-name" />
 				</xsl:with-param>
 				<xsl:with-param name="uuid" select="$uuid" />
 			</xsl:call-template>
-		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="x:XPPHier[@parent_uuid != @uuid]">
 		<xsl:param name="parent" />
 
-		<xsl:if test="./@parent_uuid = $parent and not(contains(., $volNamePlaceholder))">
+		<xsl:if test="./@parent_uuid = $parent">
 			<xsl:variable name="uuid" select="./@uuid" />
 			<xsl:call-template name="create-entry">
 				<xsl:with-param name="name">

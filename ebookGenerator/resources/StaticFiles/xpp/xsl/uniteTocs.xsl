@@ -2,6 +2,7 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.sdl.com/xpp"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
+	<xsl:import href="transform-utils.xsl" />
     <xsl:output method="xml" indent="no" omit-xml-declaration="yes"/>
 
 	<xsl:template match="Document">
@@ -12,10 +13,10 @@
 						<xsl:value-of select="concat('Volume ', position())" />
 					</xsl:element>
 					<xsl:element name="Guid">
-						<xsl:value-of select="concat('vol', position())" />
+						<xsl:value-of select=".//x:EBookToc[./x:Name[contains(., $volNamePlaceholder)]]/x:Guid" />
 					</xsl:element>
 					<xsl:element name="DocumentGuid">
-						<xsl:value-of select="(.//*[name() = 'DocumentGuid'])[1]" />
+						<xsl:value-of select="(.//x:EBookToc[./x:Name[not(contains(., $volNamePlaceholder))]])[1]/x:DocumentGuid" />
 					</xsl:element>
 					<xsl:apply-templates select="x:EBook" />
 				</xsl:element>
@@ -28,8 +29,10 @@
 	</xsl:template>
 
 	<xsl:template match="node()|@*">
-		<xsl:copy>
-			<xsl:apply-templates select="node()|@*" />
-		</xsl:copy>
+		<xsl:if test=".[not(./x:Name[contains(., $volNamePlaceholder)])]">
+			<xsl:copy>
+				<xsl:apply-templates select="node()|@*" />
+			</xsl:copy>
+		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>
