@@ -291,6 +291,14 @@ public interface XppFormatFileSystem extends FormatFileSystem
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
+     * {@code /}{@link getTocDirectory 09_Toc}{/@code materialNumber}{/@code toc_mergedFile}
+     */
+    @NotNull
+    File getMergedBundleTocFile(@NotNull String materialNumber, @NotNull BookStep step);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /10_title_metadata}
      */
     @NotNull

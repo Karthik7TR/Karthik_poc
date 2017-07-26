@@ -7,7 +7,9 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 
 import javax.xml.transform.Transformer;
 
@@ -55,9 +57,11 @@ public final class ExtractTocStepTest
     private File sourceFirstBundleFile;
     @Mock
     private File sourceSecondBundleFile;
+    @Mock
+    private File mergedTocFile;
 
     @Before
-    public void init()
+    public void init() throws IOException
     {
         given(bundle.getOrderedFileList()).willReturn(Arrays.asList(FIRST_BUNDLE_FILE_NAME, SECOND_BUNDLE_FILE_NAME));
         given(bundle.getMaterialNumber()).willReturn(MATERIAL_NUMBER);
@@ -75,6 +79,9 @@ public final class ExtractTocStepTest
         given(fileSystem.getBundlePartTocFile(eq(FIRST_BUNDLE_FILE_NAME), anyString(), eq(step))).willReturn(firstTocBundleFile);
         given(fileSystem.getBundlePartTocFile(eq(SECOND_BUNDLE_FILE_NAME), anyString(), eq(step))).willReturn(secondTocBundleFile);
         given(fileSystem.getTocFile(step)).willReturn(tocFile);
+        given(fileSystem.getMergedBundleTocFile(MATERIAL_NUMBER, step)).willReturn(mergedTocFile);
+
+        given(mergedTocFile.createNewFile()).willReturn(true);
     }
 
     @Test
@@ -87,6 +94,8 @@ public final class ExtractTocStepTest
         verify(transformationService)
             .transform(any(Transformer.class), eq(sourceSecondBundleFile), eq(secondTocBundleFile));
         verify(transformationService)
-            .transform(any(Transformer.class), eq(Arrays.asList(firstTocBundleFile, secondTocBundleFile)), eq(tocFile));
+            .transform(any(Transformer.class), eq(Arrays.asList(firstTocBundleFile, secondTocBundleFile)), eq(mergedTocFile));
+        verify(transformationService)
+            .transform(any(Transformer.class), eq(Collections.singletonList(mergedTocFile)), eq(tocFile));
     }
 }

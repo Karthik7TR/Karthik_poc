@@ -6,10 +6,23 @@
 
 	<xsl:template match="Document">
 		<EBook>
-			<xsl:apply-templates select="x:EBook" />
+			<xsl:for-each select="x:Volume">
+				<xsl:element name="EBookToc">
+					<xsl:element name="Name">
+						<xsl:value-of select="concat('Volume ', position())" />
+					</xsl:element>
+					<xsl:element name="Guid">
+						<xsl:value-of select="concat('vol', position())" />
+					</xsl:element>
+					<xsl:element name="DocumentGuid">
+						<xsl:value-of select="(.//*[name() = 'DocumentGuid'])[1]" />
+					</xsl:element>
+					<xsl:apply-templates select="x:EBook" />
+				</xsl:element>
+			</xsl:for-each>
 		</EBook>
 	</xsl:template>
-	
+
 	<xsl:template match="x:EBook">
 		<xsl:apply-templates select="node()|@*" />
 	</xsl:template>

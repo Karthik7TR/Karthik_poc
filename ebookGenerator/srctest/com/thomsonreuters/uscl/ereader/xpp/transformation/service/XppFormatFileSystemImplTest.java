@@ -485,6 +485,16 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
+    public void shouldReturnMergedTocFile()
+    {
+        //given
+        //when
+        final File file = fileSystem.getMergedBundleTocFile(MATERIAL_NUMBER, step);
+        //then
+        assertThat(file, hasPath("workDirectory/Format/09_Toc/11111111/toc_merged.xml"));
+    }
+
+    @Test
     public void shouldReturnTitleMetadataDirectory()
     {
         //given

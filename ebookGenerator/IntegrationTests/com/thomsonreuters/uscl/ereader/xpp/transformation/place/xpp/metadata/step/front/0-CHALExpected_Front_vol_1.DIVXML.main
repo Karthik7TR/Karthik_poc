@@ -6,7 +6,7 @@
 		<fm.pub.variable name="pubYear"/>
 		<fm.pub.variable name="pubMonth"/>
 		<fm.pub.variable name="pubDate1" month="5" year="2017" both="5/2017"/>
-		<XPPHier uuid="1111111.fm.title.page" name="Title page" parent_uuid="1111111.fm.title.page" md.doc_family_uuid="1111111.fm.title.page">Title page</XPPHier><fm.title.page>
+		<XPPHier uuid="1111111" name="VOLUME_NAME_PLACEHOLDER1" parent_uuid="1111111" md.doc_family_uuid="1111111.fm.title.page">VOLUME_NAME_PLACEHOLDER</XPPHier><XPPHier uuid="1111111.fm.title.page" name="Title page" parent_uuid="1111111.fm.title.page" md.doc_family_uuid="1111111.fm.title.page">Title page</XPPHier><fm.title.page>
 			<text.line align="l" emph="bold" font.size="28q" pre.leading="2p">
 				<t style="text.line">Children and</t>
 				<endline/>

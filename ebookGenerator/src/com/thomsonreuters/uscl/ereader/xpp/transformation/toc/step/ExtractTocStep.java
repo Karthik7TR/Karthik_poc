@@ -24,6 +24,8 @@ public class ExtractTocStep extends XppTransformationStep
     private File uniteTocsXsl;
     @Value("${xpp.extract.toc.xsl}")
     private File extractTocXsl;
+    @Value("${xpp.merge.volume.tocs.xsl}")
+    private File mergeVolumeTocsXsl;
 
     @Override
     public void executeTransformation() throws Exception
@@ -40,16 +42,22 @@ public class ExtractTocStep extends XppTransformationStep
 
     private void generateBundleTocs(final XppBundle bundle, final List<File> tocFiles)
     {
+        final Transformer transformer = transformerBuilderFactory.create().withXsl(extractTocXsl).build();
+        final List<File> transformedFiles = new ArrayList<>();
+
         for (final String fileName : bundle.getOrderedFileList())
         {
-            final Transformer transformer = transformerBuilderFactory.create()
-                .withXsl(extractTocXsl)
-                .build();
-            final File sourceFile = fileSystem.getStructureWithMetadataFile(
-                this, bundle.getMaterialNumber(), fileName.replaceAll(".xml", ".main"));
+            final File sourceFile = fileSystem
+                .getStructureWithMetadataFile(this, bundle.getMaterialNumber(), fileName.replaceAll(".xml", ".main"));
             final File outputFile = fileSystem.getBundlePartTocFile(fileName, bundle.getMaterialNumber(), this);
             transformationService.transform(transformer, sourceFile, outputFile);
-            tocFiles.add(outputFile);
+            transformedFiles.add(outputFile);
         }
+
+        final File mergedVolumeTOC = fileSystem.getMergedBundleTocFile(bundle.getMaterialNumber(), this);
+
+        final Transformer merger = transformerBuilderFactory.create().withXsl(mergeVolumeTocsXsl).build();
+        transformationService.transform(merger, transformedFiles, mergedVolumeTOC);
+        tocFiles.add(mergedVolumeTOC);
     }
 }

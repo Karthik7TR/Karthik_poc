@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="2.0"
 
+<xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.sdl.com/xpp"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
 	
 	<xsl:import href="placeXppMarks.xsl" />
-
+	<xsl:import href="transform-utils.xsl" />
 	<xsl:param name="volumeName" select="volumeName" />
 	<xsl:variable name="front_matter_uuid" select="concat($volumeName,'.','FrontMatter')" />
 
@@ -20,7 +20,16 @@
 
 	<xsl:template match="x:fm.title.page">
 		<xsl:variable name="uuid" select="concat($volumeName,'.',name())" />
-		
+		<xsl:variable name="volNumber" select="substring($volumeName, string-length($volumeName), 1)" />
+
+		<xsl:element name="XPPHier">
+			<xsl:attribute name="uuid" select="$volumeName" />
+			<xsl:attribute name="name" select="concat($volNamePlaceholder, $volNumber)" />
+			<xsl:attribute name="parent_uuid" select="$volumeName" />
+			<xsl:attribute name="md.doc_family_uuid" select="$uuid" />
+			<xsl:value-of select="$volNamePlaceholder"  />
+		</xsl:element>
+
 		<xsl:call-template name="placeXppHier">
 			<xsl:with-param name="uuid" select="$uuid" />
 			<xsl:with-param name="name" select="'Title page'" />

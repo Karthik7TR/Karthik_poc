@@ -3,6 +3,7 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.sdl.com/xpp"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
+	<xsl:import href="transform-utils.xsl" />
 	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
 
 	<xsl:template match="/">
@@ -13,18 +14,20 @@
 
 	<xsl:template match="x:XPPHier[@parent_uuid = @uuid]">
 		<xsl:variable name="uuid" select="./@uuid" />
-		<xsl:call-template name="create-entry">
-			<xsl:with-param name="name">
-				<xsl:apply-templates select="x:sep|text()" mode="extract-name" />
-			</xsl:with-param>
-			<xsl:with-param name="uuid" select="$uuid" />
-		</xsl:call-template>
+		<xsl:if test="not(contains(., $volNamePlaceholder))">
+			<xsl:call-template name="create-entry">
+				<xsl:with-param name="name">
+					<xsl:apply-templates select="x:sep|text()" mode="extract-name" />
+				</xsl:with-param>
+				<xsl:with-param name="uuid" select="$uuid" />
+			</xsl:call-template>
+		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="x:XPPHier[@parent_uuid != @uuid]">
 		<xsl:param name="parent" />
 
-		<xsl:if test="./@parent_uuid = $parent">
+		<xsl:if test="./@parent_uuid = $parent and not(contains(., $volNamePlaceholder))">
 			<xsl:variable name="uuid" select="./@uuid" />
 			<xsl:call-template name="create-entry">
 				<xsl:with-param name="name">

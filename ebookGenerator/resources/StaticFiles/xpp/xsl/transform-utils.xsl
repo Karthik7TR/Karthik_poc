@@ -7,6 +7,8 @@
 	<xsl:variable name="characters" select="document('specialCharacters.xml')" />
 	<xsl:variable name="olds" select="string-join($characters/specialChars/charsPair/@old, '')" />
 	<xsl:variable name="news" select="string-join($characters/specialChars/charsPair/@new, '')" />
+	<xsl:variable name="volNamePlaceholder" select="'VOLUME_NAME_PLACEHOLDER'" />
+	
 
 	<xsl:function name="x:get-fixed-text">
 		<xsl:param name="value" />

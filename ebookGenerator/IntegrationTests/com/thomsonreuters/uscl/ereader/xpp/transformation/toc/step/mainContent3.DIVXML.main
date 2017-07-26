@@ -1,6 +1,6 @@
 <root xmlns="http://www.sdl.com/xpp">
     <pagebreak num="1"/>
-    <XPPHier uuid="I7f66dd0028b811e69ed7fcedf0a72426" parent_uuid="I7f66dd0028b811e69ed7fcedf0a72426" name="Chapter 1 vol.3">Chapter 1 vol.3</XPPHier>
+    <XPPHier uuid="I7f66dd0028b811e69ed7fcedf0a72426" parent_uuid="I7f66dd0028b811e69ed7fcedf0a72426" name="Chapter 1 vol.2_1">Chapter 1 vol.2_1</XPPHier>
     <publication online.royalty.id="FLLF" uuid="I7f66dd0028b811e69ed7fcedf0a72426">
         <metadata.block>
             <metadata field="left.running.head">
@@ -101,7 +101,7 @@
                             <pagebreak num="15"/>
                         </front>
                         <chapter.body date.updated="0">
-                            <XPPHier uuid="I334a31a028b911e69ed7fcedf0a72427" parent_uuid="I334a31a028b911e69ed7fcedf0a72427" name="Chapter 2 vol.3">Chapter 2 vol.3</XPPHier>
+                            <XPPHier uuid="I334a31a028b911e69ed7fcedf0a72427" parent_uuid="I334a31a028b911e69ed7fcedf0a72427" name="Chapter 2 vol.2_1">Chapter 2 vol.2_1</XPPHier>
                             <analytical.level uuid="I334a31a028b911e69ed7fcedf0a72427" date.revised="0" date.updated="0">
                                 <front date.updated="0">
                                     <outline.name.block toc.include="y" date.updated="0">
@@ -110,7 +110,7 @@
                                     </outline.name.block>
                                 </front>
                                 <analytical.level.body date.updated="0">
-                                    <XPPHier uuid="I334a7fc028b911e69ed7fcedf0a72426" parent_uuid="I334a31a028b911e69ed7fcedf0a72427" name="Chapter 2 vol.3 content">Chapter 2 vol.3 content</XPPHier>
+                                    <XPPHier uuid="I334a7fc028b911e69ed7fcedf0a72426" parent_uuid="I334a31a028b911e69ed7fcedf0a72427" name="Chapter 2 vol.2_1 content">Chapter 2 vol.2_1 content</XPPHier>
                                     <analytical.level uuid="I334a7fc028b911e69ed7fcedf0a72426" date.revised="0" date.updated="0">
                                         <front date.updated="0">
                                             <outline.name.block toc.include="y" date.updated="0">
@@ -119,7 +119,7 @@
                                             </outline.name.block>
                                         </front>
                                         <analytical.level.body date.updated="0">
-                                        	<XPPHier uuid="I334acde028b911e69ed7fcedf0a72426" parent_uuid="I334acde028b911e69ed7fcedf0a72426" name="Chapter 3 vol.3 content">Chapter 3 vol.3 content</XPPHier>
+                                        	<XPPHier uuid="I334acde028b911e69ed7fcedf0a72426" parent_uuid="I334acde028b911e69ed7fcedf0a72426" name="Chapter 3 vol.2_1 content">Chapter 3 vol.2_1 content</XPPHier>
                                             <analytical.level uuid="I334acde028b911e69ed7fcedf0a72426" date.revised="0" date.updated="0">
                                                 <front date.updated="0">
                                                     <outline.name.block toc.include="y" date.updated="0">
