@@ -1,4 +1,8 @@
 @import "constants.scss";
+.no-indent:first-child {
+    margin-left: calc(-1.1 * 1em);
+}
+
 .publication {
     text-align: justify;
 }
@@ -19,15 +23,24 @@
 }
 
 .c {
-    text-align: center;
+    text-align: center !important;
+    * {
+        text-align: center !important;
+    }
 }
 
 .l {
-    text-align: left;
+    text-align: left !important;
+    * {
+        text-align: left !important;
+    }
 }
 
 .r {
-    text-align: right;
+    text-align: right !important;
+    * {
+        text-align: right !important;
+    }
 }
 
 .metadata_block,
@@ -77,11 +90,13 @@
     display: inline;
 }
 
-.sub, .sub * {
+.sub,
+.sub * {
     vertical-align: sub;
 }
 
-.super, .super * {
+.super,
+.super * {
     vertical-align: super;
 }
 

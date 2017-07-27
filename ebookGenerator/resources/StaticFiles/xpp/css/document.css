@@ -1,3 +1,7 @@
+.no-indent:first-child {
+  margin-left: calc(-1.1 * 1em);
+}
+
 .publication {
   text-align: justify;
 }
@@ -18,15 +22,27 @@
 }
 
 .c {
-  text-align: center;
+  text-align: center !important;
+}
+
+.c * {
+  text-align: center !important;
 }
 
 .l {
-  text-align: left;
+  text-align: left !important;
+}
+
+.l * {
+  text-align: left !important;
 }
 
 .r {
-  text-align: right;
+  text-align: right !important;
+}
+
+.r * {
+  text-align: right !important;
 }
 
 .metadata_block,
@@ -76,11 +92,13 @@
   display: inline;
 }
 
-.sub, .sub * {
+.sub,
+.sub * {
   vertical-align: sub;
 }
 
-.super, .super * {
+.super,
+.super * {
   vertical-align: super;
 }
 
@@ -90,10 +108,6 @@
 
 .font_dt:last-child {
   display: inline !important;
-}
-
-.no-indent {
-  margin-left: calc(-1.1 * 1em);
 }
 
 .toc_analytical_hierarchy {
@@ -288,6 +302,11 @@
   margin-left: 1em;
   display: list-item;
   list-style: none;
+}
+
+.quote_para {
+  margin: 1em;
+  text-indent: 0;
 }
 
 .appendix_front > .outline_name_block {
@@ -540,6 +559,7 @@
 .entry .leaveout + .cgt,
 .entry .cgt + .cgt,
 .name_block > .designator + .cgt,
-.toc_analytical_hierarchy .cgt {
+.toc_analytical_hierarchy .cgt,
+.stat_head .name_block .cgt {
   display: none;
 }
