@@ -11,9 +11,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("IntegrationTests")
 @ContextConfiguration(classes = PlaceXppMetadataStepIntegrationTestConfig.class)
-public final class PlaceXppMetadataStepSummaryAndDetailedTocIntegrationTest extends PlaceXppMetadataStepFixture
+public final class SummaryAndDetailedTocIntegrationTest extends PlaceXppMetadataStepFixture
 {
-    public PlaceXppMetadataStepSummaryAndDetailedTocIntegrationTest()
+    public SummaryAndDetailedTocIntegrationTest()
         throws URISyntaxException
     {
         super("sum/det/toc/20002-volume_2_Summary_and_Detailed_Table_of_Contents.DIVXML.main",
