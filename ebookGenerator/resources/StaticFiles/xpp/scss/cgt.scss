@@ -13,17 +13,21 @@
     .entry &,
     .stat_text &,
     .tgroup>.tbody,
-    .outline_name_block>.label & {
+    .outline_name_block>.label &,
+    .toc_chapter>.outline_name_block>& {
         display: inline;
     }
-    .signature_group>.form_line & {
+    .signature_group>.form_line &,
+    .summary_toc>&,
+    .toc_volbreak>& {
         display: block;
     }
     .entry .leaveout+&,
     .entry &+&,
     .name_block>.designator+&,
     .toc_analytical_hierarchy &,
-    .stat_head .name_block & {
+    .stat_head .name_block &,
+    .full_toc .designator+& {
         display: none;
     } 
 }

@@ -548,11 +548,14 @@
 .entry .cgt,
 .stat_text .cgt,
 .cgt .tgroup > .tbody,
-.outline_name_block > .label .cgt {
+.outline_name_block > .label .cgt,
+.toc_chapter > .outline_name_block > .cgt {
   display: inline;
 }
 
-.signature_group > .form_line .cgt {
+.signature_group > .form_line .cgt,
+.summary_toc > .cgt,
+.toc_volbreak > .cgt {
   display: block;
 }
 
@@ -560,6 +563,54 @@
 .entry .cgt + .cgt,
 .name_block > .designator + .cgt,
 .toc_analytical_hierarchy .cgt,
-.stat_head .name_block .cgt {
+.stat_head .name_block .cgt,
+.full_toc .designator + .cgt {
   display: none;
+}
+
+.full_toc .name *,
+.full_toc .name {
+  text-indent: 0;
+}
+
+.toc_volbreak {
+  margin-top: 1em;
+}
+
+.toc_volbreak * {
+  text-align: center;
+}
+
+.toc_volbreak:first-of-type {
+  margin-top: 0;
+}
+
+.toc_chapter .outline_name_block {
+  display: flex;
+}
+
+.toc_analytical_level > .toc_analytical_level > .outline_name_block {
+  margin-left: 1em;
+}
+
+.toc_chapter .designator {
+  min-width: calc(1em * 2);
+}
+
+.generated_toc .toc_appendix .designator,
+.full_toc .toc_section .designator {
+  max-width: none;
+  min-width: calc(1em * 3.15);
+}
+
+.toc_analytical_level .designator {
+  min-width: 0;
+}
+
+.toc_section:last-of-type {
+  margin-bottom: 1em;
+}
+
+.toc_chapter > .toc_appendix_block {
+  margin-left: calc(1em * 1.5);
 }

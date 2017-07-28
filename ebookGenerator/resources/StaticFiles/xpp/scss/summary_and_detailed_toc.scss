@@ -1,5 +1,53 @@
+@import "constants.scss";
 .name {
-    .full_toc & * {
+    .full_toc & *,
+    .full_toc & {
         text-indent: 0;
+    }
+}
+
+.toc_volbreak {
+    & * {
+        text-align: center;
+    }
+    margin-top: $indent;
+}
+
+.toc_volbreak:first-of-type {
+    margin-top: 0;
+}
+
+.outline_name_block {
+    .toc_chapter & {
+        display: flex;
+    }
+    .toc_analytical_level>.toc_analytical_level>& {
+        margin-left: $indent;
+    }
+}
+
+.designator {
+    .toc_chapter & {
+        min-width: calc(#{$indent} * 2);
+    }
+    .generated_toc .toc_appendix &,
+    .full_toc .toc_section & {
+        max-width: none;
+        min-width: calc(#{$indent} * 3.15);
+    }
+    .toc_analytical_level & {
+        min-width: 0;
+    }
+}
+
+.toc_section {
+    &:last-of-type {
+        margin-bottom: $indent;
+    }
+}
+
+.toc_appendix_block {
+    .toc_chapter>& {
+        margin-left: calc(#{$indent} * 1.5);
     }
 }
