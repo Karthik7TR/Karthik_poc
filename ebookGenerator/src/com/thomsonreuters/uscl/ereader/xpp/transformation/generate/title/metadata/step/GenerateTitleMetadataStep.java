@@ -19,6 +19,8 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificat
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.proview.feature.ProviewFeaturesListBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
@@ -53,25 +55,35 @@ public class GenerateTitleMetadataStep extends XppTransformationStep
     public void executeTransformation() throws Exception
     {
         FileUtils.forceMkdir(fileSystem.getTitleMetadataDirectory(this));
-
         final DocumentsCollector documentsCollector = new DocumentsCollector();
         for (final XppBundle bundle : getXppBundles())
         {
             collectDocumentsForBundle(bundle, documentsCollector);
         }
-
-        final Transformer transformer = transformerBuilderFactory.create().withXsl(tocToTitleXsl).build();
-        transformer.setParameter("titleMetadataDoc", saveMetadataAndGetFilePath(documentsCollector.getCollectedDocuments()));
-        transformationService.transform(transformer, fileSystem.getTocFile(this), assembleFileSystem.getTitleXml(this));
+        generateTitleMetadata(documentsCollector);
     }
 
-    private void collectDocumentsForBundle(@NotNull final XppBundle bundle,
-                                           @NotNull final DocumentsCollector documentsCollector)
+    private void generateTitleMetadata(final DocumentsCollector documentsCollector) throws JAXBException
+    {
+        final Transformer transformer = transformerBuilderFactory.create().withXsl(tocToTitleXsl).build();
+        transformer
+            .setParameter("titleMetadataDoc", saveMetadataAndGetFilePath(documentsCollector.getCollectedDocuments()));
+
+        final TransformationCommand command =
+            new TransformationCommandBuilder(transformer, assembleFileSystem.getTitleXml(this))
+                .withInput(fileSystem.getTocFile(this)).build();
+        transformationService.transform(command);
+    }
+
+    private void collectDocumentsForBundle(
+        @NotNull final XppBundle bundle,
+        @NotNull final DocumentsCollector documentsCollector)
     {
         for (final String fileName : bundle.getOrderedFileList())
         {
             final FilenameFilter filter = BundleFileType.getByFileName(fileName).getHtmlDocFileNameFilter();
-            final String[] documentsNames = fileSystem.getHtmlPagesDirectory(this, bundle.getMaterialNumber()).list(filter);
+            final String[] documentsNames =
+                fileSystem.getHtmlPagesDirectory(this, bundle.getMaterialNumber()).list(filter);
             documentsCollector.addDocuments(documentsNames);
         }
     }

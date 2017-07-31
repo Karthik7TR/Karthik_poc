@@ -11,6 +11,8 @@ import javax.xml.transform.Transformer;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.generate.title.metadata.step.DocumentName;
@@ -42,17 +44,28 @@ public class TransformationToHtmlStep extends XppTransformationStep
             FileUtils.forceMkdir(fileSystem.getHtmlPagesDirectory(this, dir.getKey()));
             for (final File part : dir.getValue())
             {
-                final String partName = part.getName();
-                pagePrefix.switchFileType(partName);
-                transformer.setParameter("fileBaseName", FilenameUtils.removeExtension(partName));
-                transformer.setParameter("pagePrefix", pagePrefix.getPagePrefix());
-                transformer.setParameter("divXmlName", new DocumentName(partName).getBaseName());
-                transformer.setParameter("documentUidMapDoc",
-                    fileSystem.getAnchorToDocumentIdMapFile(this).getAbsolutePath().replace("\\", "/"));
-                transformationService
-                    .transform(transformer, part, fileSystem.getHtmlPageFile(this, dir.getKey(), partName));
+                final TransformationCommand command = createCommand(transformer, part, pagePrefix);
+                transformationService.transform(command);
             }
         }
+    }
+
+    private TransformationCommand createCommand(
+        final Transformer transformer,
+        final File part,
+        final PagePrefix pagePrefix)
+    {
+        final String partName = part.getName();
+        pagePrefix.switchFileType(partName);
+        transformer.setParameter("fileBaseName", FilenameUtils.removeExtension(partName));
+        transformer.setParameter("pagePrefix", pagePrefix.getPagePrefix());
+        transformer.setParameter("divXmlName", new DocumentName(partName).getBaseName());
+        transformer.setParameter(
+            "documentUidMapDoc",
+            fileSystem.getAnchorToDocumentIdMapFile(this).getAbsolutePath().replace("\\", "/"));
+
+        final File htmlPageFile = fileSystem.getHtmlPageFile(this, pagePrefix.getMaterialNumber(), partName);
+        return new TransformationCommandBuilder(transformer, htmlPageFile).withInput(part).build();
     }
 
     private static final class PagePrefix
@@ -60,6 +73,7 @@ public class TransformationToHtmlStep extends XppTransformationStep
         private final Map<String, Integer> volumesNumberMap = new HashMap<>();
         private Integer currentVolume;
         private String currentPrefix;
+        private String materialNumber;
 
         private PagePrefix(@NotNull final List<XppBundle> bundles)
         {
@@ -77,6 +91,7 @@ public class TransformationToHtmlStep extends XppTransformationStep
 
         private void switchVolume(@NotNull final String materialNumber)
         {
+            this.materialNumber = materialNumber;
             currentVolume = volumesNumberMap.get(materialNumber);
         }
 
@@ -85,16 +100,18 @@ public class TransformationToHtmlStep extends XppTransformationStep
             final StringBuilder builder = new StringBuilder();
             if (volumesNumberMap.size() > 1)
             {
-                builder.append("Vol")
-                       .append(currentVolume)
-                       .append("-");
+                builder.append("Vol").append(currentVolume).append("-");
             }
             if (StringUtils.isNotBlank(currentPrefix))
             {
-                builder.append(currentPrefix)
-                       .append("-");
+                builder.append(currentPrefix).append("-");
             }
             return builder.toString();
+        }
+
+        private String getMaterialNumber()
+        {
+            return materialNumber;
         }
     }
 }

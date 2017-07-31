@@ -12,6 +12,7 @@ import java.io.File;
 import javax.xml.transform.Transformer;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.entity.basefiles.BaseFilesIndex;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilder;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
@@ -81,7 +82,7 @@ public final class AddSectionbreaksStepTest
         step.executeStep();
         //then
         then(fileSystem).should().getSectionbreaksDirectory(eq(step), any(String.class));
-        then(transformationService).should().transform(any(Transformer.class), eq(inputFile), eq(outputFile));
+        then(transformationService).should(times(2)).transform(any(TransformationCommand.class));
         then(fileSystem).should(times(2)).getSectionbreaksFile(eq(step), any(String.class), any(String.class));
         then(transformer).should().setParameter(eq(MAIN_DOCUMENT_WITH_SECTIONBREAKS_PARAM), eq(MAIN_CONTENT_FILE_PATH));
     }

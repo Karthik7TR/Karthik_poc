@@ -5,7 +5,6 @@ import static com.thomsonreuters.uscl.ereader.core.book.util.BookTestUtil.mkfile
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,8 +12,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
-import javax.xml.transform.Transformer;
-
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
@@ -74,7 +72,7 @@ public final class GenerateFontsCssStepTest
         //when
         step.executeStep();
         //then
-        then(transformationService).should().transform((Transformer) any(), eq(xppFile), eq(cssFile));
+        then(transformationService).should().transform((TransformationCommand) any());
     }
 
     private Map<String, Collection<File>> getSourceXmlsFromGatherDir()

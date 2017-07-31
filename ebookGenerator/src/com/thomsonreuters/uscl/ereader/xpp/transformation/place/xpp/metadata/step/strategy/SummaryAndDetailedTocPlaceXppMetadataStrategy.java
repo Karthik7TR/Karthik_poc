@@ -1,11 +1,16 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step.strategy;
 
+import static java.util.Arrays.asList;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.xml.transform.Transformer;
 
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
@@ -29,7 +34,9 @@ public class SummaryAndDetailedTocPlaceXppMetadataStrategy extends AbstractPlace
         final XppFormatFileSystem xppFormatFileSystem,
         @Value("${xpp.add.metadata.to.summary.and.detailed.toc.xsl}") final File xslTransformationFile)
     {
-        super(xslTransformationService, transformerBuilderFactory,
+        super(
+            xslTransformationService,
+            transformerBuilderFactory,
             new HashSet<>(Arrays.asList(BundleFileType.SUMMARY_AND_DETAILED_TABLE_OF_CONTENTS)));
         this.xslTransformationFile = xslTransformationFile;
         this.xppFormatFileSystem = xppFormatFileSystem;
@@ -37,16 +44,14 @@ public class SummaryAndDetailedTocPlaceXppMetadataStrategy extends AbstractPlace
 
     @NotNull
     @Override
-    protected TransformationUnit[] getTransformationUnits(
-        @NotNull final TransformerBuilderFactory transformerBuilderFactory,
+    protected List<TransformationCommand> getTransformationCommands(
         @NotNull final File inputFile,
         @NotNull final String materialNumber,
-        @NotNull final XppBookStep bookStep)
+        @NotNull final XppBookStep step)
     {
-        final File outputFile = xppFormatFileSystem.getStructureWithMetadataFile(bookStep, materialNumber, inputFile.getName());
-        final Transformer transformer = transformerBuilderFactory.create()
-            .withXsl(xslTransformationFile)
-            .build();
-        return new TransformationUnit[]{new TransformationUnit(inputFile, outputFile, transformer)};
+        final File outputFile =
+            xppFormatFileSystem.getStructureWithMetadataFile(step, materialNumber, inputFile.getName());
+        final Transformer transformer = transformerBuilderFactory.create().withXsl(xslTransformationFile).build();
+        return asList(new TransformationCommandBuilder(transformer, outputFile).withInput(inputFile).build());
     }
 }

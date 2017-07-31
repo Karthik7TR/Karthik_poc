@@ -5,10 +5,9 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 
 import javax.xml.transform.Result;
@@ -56,7 +55,7 @@ public final class XslTransformationServiceImplTest
         //given
         thrown.expect(XslTransformationException.class);
         //when
-        service.transform(transformer, input, output);
+        service.transform(command(transformer, input, output));
         //then
     }
 
@@ -67,7 +66,7 @@ public final class XslTransformationServiceImplTest
         input.createNewFile();
         output.createNewFile();
         //when
-        service.transform(transformer, input, output);
+        service.transform(command(transformer, input, output));
         //then
         then(transformer).should().transform(any(Source.class), any(Result.class));
     }
@@ -79,7 +78,7 @@ public final class XslTransformationServiceImplTest
         input.createNewFile();
         output = temporaryFolder.getRoot();
         //when
-        service.transform(transformer, input, output);
+        service.transform(command(transformer, input, output));
         //then
         then(transformer).should().transform(any(Source.class), any(Result.class));
     }
@@ -92,20 +91,7 @@ public final class XslTransformationServiceImplTest
         input2.createNewFile();
         output = temporaryFolder.getRoot();
         //when
-        service.transform(transformer, Arrays.asList(input, input2), output);
-        //then
-        then(transformer).should().transform(any(Source.class), any(Result.class));
-    }
-
-    @Test
-    public void shouldTransformIfMultipleStreams() throws TransformerException, IOException
-    {
-        //given
-        input.createNewFile();
-        input2.createNewFile();
-        output = temporaryFolder.getRoot();
-        //when
-        service.transform(transformer, Arrays.asList((InputStream) new FileInputStream(input), new FileInputStream(input2)), "", output);
+        service.transform(command(transformer, Arrays.asList(input, input2), output));
         //then
         then(transformer).should().transform(any(Source.class), any(Result.class));
     }
@@ -116,7 +102,7 @@ public final class XslTransformationServiceImplTest
         //given
         thrown.expect(XslTransformationException.class);
         //when
-        service.transform(transformer, Arrays.asList(input, input2), output);
+        service.transform(command(transformer, Arrays.asList(input, input2), output));
         //then
     }
 
@@ -129,7 +115,7 @@ public final class XslTransformationServiceImplTest
         thrown.expect(XslTransformationException.class);
         doThrow(new TransformerException("")).when(transformer).transform(any(Source.class), any(Result.class));
         //when
-        service.transform(transformer, Arrays.asList(input, input2), output);
+        service.transform(command(transformer, Arrays.asList(input, input2), output));
         //then
     }
 
@@ -139,7 +125,20 @@ public final class XslTransformationServiceImplTest
         //given
         thrown.expect(IllegalArgumentException.class);
         //when
-        service.transform(transformer, Collections.<File>emptyList(), output);
+        service.transform(command(transformer, Collections.<File>emptyList(), output));
         //then
+    }
+
+    private TransformationCommand command(final Transformer transformer, final File input, final File output)
+    {
+        return new TransformationCommandBuilder(transformer, output).withInput(input).build();
+    }
+
+    private TransformationCommand command(
+        final Transformer transformer,
+        final Collection<File> input,
+        final File output)
+    {
+        return new TransformationCommandBuilder(transformer, output).withInput(input).build();
     }
 }

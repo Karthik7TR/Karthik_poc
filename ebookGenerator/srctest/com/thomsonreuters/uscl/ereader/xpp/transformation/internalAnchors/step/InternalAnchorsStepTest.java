@@ -11,11 +11,9 @@ import java.io.FileFilter;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import javax.xml.transform.Transformer;
-
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilder;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
@@ -67,7 +65,7 @@ public final class InternalAnchorsStepTest
         //when
         step.executeStep();
         //then
-        then(transformationService).should().transform(any(Transformer.class), any(List.class), eq(mapFile));
+        then(transformationService).should().transform((TransformationCommand) any());
         then(fileSystem).should().getOriginalPageFiles(eq(step));
     }
 }

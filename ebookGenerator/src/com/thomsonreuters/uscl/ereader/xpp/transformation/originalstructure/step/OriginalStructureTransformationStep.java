@@ -10,6 +10,8 @@ import javax.xml.transform.Transformer;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppGatherFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
@@ -47,8 +49,8 @@ public class OriginalStructureTransformationStep extends XppTransformationStep
 
     private void generateMainXmls(final Map<String, Collection<File>> xppXmls)
     {
-        final Transformer transformerToOriginal =
-            transformerBuilderFactory.create().withXsl(transformToOriginalXsl)
+        final Transformer transformerToOriginal = transformerBuilderFactory.create()
+            .withXsl(transformToOriginalXsl)
             .withParameter("entitiesDocType", entitiesDtdFile.getAbsolutePath().replace("\\", "/"))
             .build();
 
@@ -56,9 +58,12 @@ public class OriginalStructureTransformationStep extends XppTransformationStep
         {
             for (final File xppFile : xppDir.getValue())
             {
-                transformerToOriginal.setParameter("bundlePartType", BundleFileType.getByFileName(xppFile.getName()).name());
+                transformerToOriginal
+                    .setParameter("bundlePartType", BundleFileType.getByFileName(xppFile.getName()).name());
                 final File originalFile = fileSystem.getOriginalFile(this, xppDir.getKey(), xppFile.getName());
-                transformationService.transform(transformerToOriginal, xppFile, originalFile);
+                final TransformationCommand command =
+                    new TransformationCommandBuilder(transformerToOriginal, originalFile).withInput(xppFile).build();
+                transformationService.transform(command);
             }
         }
     }
@@ -72,9 +77,12 @@ public class OriginalStructureTransformationStep extends XppTransformationStep
         {
             for (final File xppFile : xppDir.getValue())
             {
-                transformerToFootnotes.setParameter("bundlePartType", BundleFileType.getByFileName(xppFile.getName()).name());
+                transformerToFootnotes
+                    .setParameter("bundlePartType", BundleFileType.getByFileName(xppFile.getName()).name());
                 final File footnotesFile = fileSystem.getFootnotesFile(this, xppDir.getKey(), xppFile.getName());
-                transformationService.transform(transformerToFootnotes, xppFile, footnotesFile);
+                final TransformationCommand command =
+                    new TransformationCommandBuilder(transformerToFootnotes, footnotesFile).withInput(xppFile).build();
+                transformationService.transform(command);
             }
         }
     }

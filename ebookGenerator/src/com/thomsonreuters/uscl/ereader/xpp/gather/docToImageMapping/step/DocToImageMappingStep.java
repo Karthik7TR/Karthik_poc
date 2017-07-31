@@ -11,6 +11,8 @@ import javax.xml.transform.Transformer;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -30,16 +32,13 @@ public class DocToImageMappingStep extends XppTransformationStep
         final Transformer transformer =
             transformerBuilderFactory.create().withXsl(transformToAnchorToDocumentIdMapXsl).build();
         final List<File> htmls = new ArrayList<>();
-
         for (final Map.Entry<String, Collection<File>> materialNumberDir : fileSystem.getHtmlPageFiles(this).entrySet())
         {
             htmls.addAll(materialNumberDir.getValue());
         }
-
-        transformationService.transform(
-            transformer,
-            htmls,
-            fileSystem.getDocToImageMapFile(this));
+        final TransformationCommand command =
+            new TransformationCommandBuilder(transformer, fileSystem.getDocToImageMapFile(this)).withInput(htmls)
+                .build();
+        transformationService.transform(command);
     }
-
 }

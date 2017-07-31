@@ -1,11 +1,16 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step.strategy;
 
+import static java.util.Arrays.asList;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.xml.transform.Transformer;
 
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
@@ -39,13 +44,14 @@ public class FrontMatterPlaceXppMetadataStrategy extends AbstractPlaceXppMetadat
 
     @NotNull
     @Override
-    protected TransformationUnit[] getTransformationUnits(@NotNull final TransformerBuilderFactory transformerBuilderFactory,
-                                                          @NotNull final File inputFile,
-                                                          @NotNull final String materialNumber,
-                                                          @NotNull final XppBookStep bookStep)
+    protected List<TransformationCommand> getTransformationCommands(
+        @NotNull final File inputFile,
+        @NotNull final String materialNumber,
+        @NotNull final XppBookStep step)
     {
         final Transformer transformer = transformerBuilderFactory.create().withXsl(xslTransformationFile).build();
-        final File outputFile = xppFormatFileSystem.getStructureWithMetadataFile(bookStep, materialNumber, inputFile.getName());
-        return new TransformationUnit[]{new TransformationUnit(inputFile, outputFile, transformer)};
+        final File outputFile =
+            xppFormatFileSystem.getStructureWithMetadataFile(step, materialNumber, inputFile.getName());
+        return asList(new TransformationCommandBuilder(transformer, outputFile).withInput(inputFile).build());
     }
 }

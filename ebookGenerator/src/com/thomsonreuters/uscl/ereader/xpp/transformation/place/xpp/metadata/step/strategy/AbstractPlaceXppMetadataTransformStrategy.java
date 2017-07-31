@@ -1,10 +1,12 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step.strategy;
 
 import java.io.File;
+import java.util.List;
 import java.util.Set;
 
 import javax.xml.transform.Transformer;
 
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
@@ -14,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 public abstract class AbstractPlaceXppMetadataTransformStrategy implements PlaceXppMetadataStrategy
 {
     private final XslTransformationService xslTransformationService;
-    private final TransformerBuilderFactory transformerBuilderFactory;
+    protected final TransformerBuilderFactory transformerBuilderFactory;
     private final Set<BundleFileType> bundleFileTypes;
 
     protected AbstractPlaceXppMetadataTransformStrategy(
@@ -35,19 +37,22 @@ public abstract class AbstractPlaceXppMetadataTransformStrategy implements Place
     }
 
     @Override
-    public void performHandling(@NotNull final File inputFile, @NotNull final String materialNumber, @NotNull final XppBookStep bookStep)
+    public void performHandling(
+        @NotNull final File inputFile,
+        @NotNull final String materialNumber,
+        @NotNull final XppBookStep step)
     {
-        for (final TransformationUnit unit : getTransformationUnits(transformerBuilderFactory, inputFile, materialNumber, bookStep))
+        for (final TransformationCommand command : getTransformationCommands(inputFile, materialNumber, step))
         {
-            final Transformer transformer = unit.getTransformer();
+            final Transformer transformer = command.getTransformer();
             transformer.setParameter("volumeName", materialNumber);
-            xslTransformationService.transform(transformer, unit.getInputFile(), unit.getOutputFile());
+            xslTransformationService.transform(command);
         }
     }
 
     @NotNull
-    protected abstract TransformationUnit[] getTransformationUnits(@NotNull TransformerBuilderFactory transformerBuilderFactory,
-                                                                   @NotNull File inputFile,
-                                                                   @NotNull String materialNumber,
-                                                                   @NotNull XppBookStep bookStep);
+    protected abstract List<TransformationCommand> getTransformationCommands(
+        @NotNull File inputFile,
+        @NotNull String materialNumber,
+        @NotNull XppBookStep bookStep);
 }

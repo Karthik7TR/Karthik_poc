@@ -1,17 +1,18 @@
 package com.thomsonreuters.uscl.ereader.xpp.gather.docToImageMapping.step;
 
+import static java.util.Arrays.asList;
+
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 
 import java.io.File;
-import java.io.FileFilter;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.xml.transform.Transformer;
-
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilder;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
@@ -40,9 +41,9 @@ public final class DocToImageMappingStepTest
     @Before
     public void setUp()
     {
-        final File htmlPagesDir = mock(File.class);
-        given(fileSystem.getHtmlPagesDirectory(step)).willReturn(htmlPagesDir);
-        given(htmlPagesDir.listFiles(any(FileFilter.class))).willReturn(new File[]{});
+        final Map<String, Collection<File>> map = new HashMap<>();
+        map.put("123", asList(new File("abc")));
+        given(fileSystem.getHtmlPageFiles(step)).willReturn(map);
 
         final TransformerBuilder builder = mock(TransformerBuilder.class);
         given(transformerBuilderFactory.create()).willReturn(builder);
@@ -59,6 +60,6 @@ public final class DocToImageMappingStepTest
         //when
         step.executeStep();
         //then
-        then(transformationService).should().transform(any(Transformer.class), any(List.class), eq(mapFile));
+        then(transformationService).should().transform(any(TransformationCommand.class));
     }
 }

@@ -1,19 +1,21 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.toc.step;
 
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
-
-import javax.xml.transform.Transformer;
+import java.util.Iterator;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
@@ -22,6 +24,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Answers;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -59,6 +63,8 @@ public final class ExtractTocStepTest
     private File sourceSecondBundleFile;
     @Mock
     private File mergedTocFile;
+    @Captor
+    private ArgumentCaptor<TransformationCommand> commandCaptor;
 
     @Before
     public void init() throws IOException
@@ -88,14 +94,26 @@ public final class ExtractTocStepTest
     public void shouldTransformOneFile() throws Exception
     {
         //given
+        //when
         step.executeTransformation();
-        verify(transformationService)
-            .transform(any(Transformer.class), eq(sourceFirstBundleFile), eq(firstTocBundleFile));
-        verify(transformationService)
-            .transform(any(Transformer.class), eq(sourceSecondBundleFile), eq(secondTocBundleFile));
-        verify(transformationService)
-            .transform(any(Transformer.class), eq(Arrays.asList(firstTocBundleFile, secondTocBundleFile)), eq(mergedTocFile));
-        verify(transformationService)
-            .transform(any(Transformer.class), eq(Collections.singletonList(mergedTocFile)), eq(tocFile));
+        //then
+        then(transformationService).should(times(4)).transform(commandCaptor.capture());
+        final Iterator<TransformationCommand> iterator = commandCaptor.getAllValues().iterator();
+
+        TransformationCommand command = iterator.next();
+        assertThat(command.getInputFile(), is(sourceFirstBundleFile));
+        assertThat(command.getOutputFile(), is(firstTocBundleFile));
+
+        command = iterator.next();
+        assertThat(command.getInputFile(), is(sourceSecondBundleFile));
+        assertThat(command.getOutputFile(), is(secondTocBundleFile));
+
+        command = iterator.next();
+        assertThat(command.getInputFiles(), contains(firstTocBundleFile, secondTocBundleFile));
+        assertThat(command.getOutputFile(), is(mergedTocFile));
+
+        command = iterator.next();
+        assertThat(command.getInputFiles(), contains(mergedTocFile));
+        assertThat(command.getOutputFile(), is(tocFile));
     }
 }

@@ -1,11 +1,16 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step.strategy;
 
+import static java.util.Arrays.asList;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.xml.transform.Transformer;
 
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
@@ -39,24 +44,25 @@ public class IndexPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTrans
 
     @NotNull
     @Override
-    protected TransformationUnit[] getTransformationUnits(
-        @NotNull final TransformerBuilderFactory transformerBuilderFactory,
+    protected List<TransformationCommand> getTransformationCommands(
         @NotNull final File inputFile,
         @NotNull final String materialNumber,
-        @NotNull final XppBookStep bookStep)
+        @NotNull final XppBookStep step)
     {
-        final Transformer indexBreakTransformer = transformerBuilderFactory.create()
-            .withXsl(xslIndexBreakTransformationFile).build();
-        final File indexBreakFile = xppFormatFileSystem.getIndexBreaksFile(
-            bookStep, materialNumber, "indexBreaks-" + inputFile.getName());
+        final Transformer indexBreakTransformer =
+            transformerBuilderFactory.create().withXsl(xslIndexBreakTransformationFile).build();
+        final File indexBreakFile =
+            xppFormatFileSystem.getIndexBreaksFile(step, materialNumber, "indexBreaks-" + inputFile.getName());
 
         final Transformer transformer = transformerBuilderFactory.create().withXsl(xslTransformationFile).build();
         transformer.setParameter("indexBreaksDoc", indexBreakFile.getAbsolutePath().replace("\\", "/"));
-        final File outputFile = xppFormatFileSystem.getStructureWithMetadataFile(
-            bookStep, materialNumber, inputFile.getName());
+        final File outputFile =
+            xppFormatFileSystem.getStructureWithMetadataFile(step, materialNumber, inputFile.getName());
 
-        return new TransformationUnit[]{
-            new TransformationUnit(inputFile, indexBreakFile, indexBreakTransformer),
-            new TransformationUnit(inputFile, outputFile, transformer)};
+        final TransformationCommand indexBreakCommand =
+            new TransformationCommandBuilder(indexBreakTransformer, indexBreakFile).withInput(inputFile).build();
+        final TransformationCommand addMetadataToIndexCommand =
+            new TransformationCommandBuilder(transformer, outputFile).withInput(inputFile).build();
+        return asList(indexBreakCommand, addMetadataToIndexCommand);
     }
 }

@@ -10,6 +10,8 @@ import javax.xml.transform.Transformer;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppGatherFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +20,6 @@ import org.springframework.beans.factory.annotation.Value;
 @SavePublishingStatusPolicy
 public class GenerateFontsCssStep extends XppTransformationStep
 {
-
     @Value("${xpp.transform.fonts.css.xsl}")
     private File transformFontsCssXsl;
 
@@ -37,7 +38,9 @@ public class GenerateFontsCssStep extends XppTransformationStep
             for (final File xppFile : xppDir.getValue())
             {
                 final File cssFile = fileSystem.getFontsCssFile(this, xppDir.getKey(), xppFile.getName());
-                transformationService.transform(transformer, xppFile, cssFile);
+                final TransformationCommand command =
+                    new TransformationCommandBuilder(transformer, cssFile).withInput(xppFile).build();
+                transformationService.transform(command);
             }
         }
     }

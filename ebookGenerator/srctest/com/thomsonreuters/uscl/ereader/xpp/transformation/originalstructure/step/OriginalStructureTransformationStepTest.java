@@ -2,19 +2,20 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.originalstructure.ste
 
 import static com.thomsonreuters.uscl.ereader.core.book.util.BookTestUtil.mkdir;
 import static com.thomsonreuters.uscl.ereader.core.book.util.BookTestUtil.mkfile;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.times;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Map;
 
-import javax.xml.transform.Transformer;
-
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
@@ -25,6 +26,8 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.Answers;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -58,6 +61,8 @@ public final class OriginalStructureTransformationStepTest
     private File entitiesDtdFile;
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @Captor
+    private ArgumentCaptor<TransformationCommand> commandCaptor;
 
     private File xppDirectory;
     private File xppFile;
@@ -84,8 +89,10 @@ public final class OriginalStructureTransformationStepTest
         //when
         step.executeStep();
         //then
-        then(transformationService).should().transform((Transformer) any(), eq(xppFile), eq(originalFile));
-        then(transformationService).should().transform((Transformer) any(), eq(xppFile), eq(footnotesFile));
+        then(transformationService).should(times(2)).transform(commandCaptor.capture());
+        final Iterator<TransformationCommand> iterator = commandCaptor.getAllValues().iterator();
+        assertThat(iterator.next().getOutputFile(), is(originalFile));
+        assertThat(iterator.next().getOutputFile(), is(footnotesFile));
     }
 
     private Map<String, Collection<File>> getSourceXmlsFromGatherDir()

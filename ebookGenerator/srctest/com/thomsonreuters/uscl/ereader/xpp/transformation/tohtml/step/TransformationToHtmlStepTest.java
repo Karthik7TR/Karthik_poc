@@ -5,7 +5,6 @@ import static com.thomsonreuters.uscl.ereader.core.book.util.BookTestUtil.mkfile
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,9 +13,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import javax.xml.transform.Transformer;
-
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
@@ -65,15 +63,15 @@ public final class TransformationToHtmlStepTest
         final File originalPagesDir = mkdir(root, "OriginalPages", MATERIAL_NUMBER);
         final File originalFile = mkfile(originalPagesDir, TEMP_DIVXML_XML);
 
-        given(chunkContext
-            .getStepContext()
-            .getStepExecution()
-            .getJobExecution()
-            .getExecutionContext()
-            .get(JobParameterKey.XPP_BUNDLES))
-        .willReturn(getXppBundles());
+        given(
+            chunkContext.getStepContext()
+                .getStepExecution()
+                .getJobExecution()
+                .getExecutionContext()
+                .get(JobParameterKey.XPP_BUNDLES)).willReturn(getXppBundles());
 
-        given(fileSystem.getOriginalPageFiles(step)).willReturn(Collections.singletonMap(MATERIAL_NUMBER, (Collection<File>) Arrays.asList(originalFile)));
+        given(fileSystem.getOriginalPageFiles(step))
+            .willReturn(Collections.singletonMap(MATERIAL_NUMBER, (Collection<File>) Arrays.asList(originalFile)));
 
         final File toHtmlDirectory = mkdir(root, "toHtmlDirectory", MATERIAL_NUMBER);
         toHtmlFile = new File(toHtmlDirectory, "temp");
@@ -99,6 +97,6 @@ public final class TransformationToHtmlStepTest
         //when
         step.executeStep();
         //then
-        then(transformationService).should().transform(any(Transformer.class), any(File.class), eq(toHtmlFile));
+        then(transformationService).should().transform(any(TransformationCommand.class));
     }
 }

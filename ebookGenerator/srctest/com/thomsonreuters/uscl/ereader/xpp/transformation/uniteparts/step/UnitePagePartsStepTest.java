@@ -11,13 +11,11 @@ import static org.mockito.Mockito.times;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-
-import javax.xml.transform.Transformer;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.entity.partfiles.DocumentFile;
 import com.thomsonreuters.uscl.ereader.common.filesystem.entity.partfiles.PartFilesIndex;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.generate.title.metadata.step.DocumentName;
@@ -104,7 +102,7 @@ public final class UnitePagePartsStepTest
         step.executeTransformation();
         //then
         //TODO: return checking footnotes invocations when split by structure for footnotes is ready
-        then(fileSystem).should(times(1)).getOriginalPartsFiles(any(BookStep.class));
-        then(transformationService).should(times(3)).transform(any(Transformer.class), any(List.class), eq(page));
+        then(fileSystem).should().getOriginalPartsFiles(any(BookStep.class));
+        then(transformationService).should(times(3)).transform(any(TransformationCommand.class));
     }
 }

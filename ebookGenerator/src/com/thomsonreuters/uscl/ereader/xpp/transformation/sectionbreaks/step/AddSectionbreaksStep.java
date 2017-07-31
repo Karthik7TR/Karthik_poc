@@ -11,6 +11,8 @@ import com.thomsonreuters.uscl.ereader.common.filesystem.entity.basefiles.BaseFi
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.PartType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
@@ -36,34 +38,57 @@ public class AddSectionbreaksStep extends XppTransformationStep
     @Override
     public void executeTransformation() throws IOException
     {
-        final Transformer transformerMain = transformerBuilderFactory.create().withXsl(addSectionbreaksToOriginalXsl).build();
-        final Transformer transformerFootnotes = transformerBuilderFactory.create().withXsl(addSectionbreaksToOriginalFootnotesXsl).build();
+        final Transformer transformerMain =
+            transformerBuilderFactory.create().withXsl(addSectionbreaksToOriginalXsl).build();
+        final Transformer transformerFootnotes =
+            transformerBuilderFactory.create().withXsl(addSectionbreaksToOriginalFootnotesXsl).build();
 
-        for (final Map.Entry<String, BaseFilesByBaseNameIndex> filesByMaterialNumber : fileSystem.getStructureWithMetadataFilesIndex(this).getFilesByMaterialNumber())
+        for (final Map.Entry<String, BaseFilesByBaseNameIndex> filesByMaterialNumber : fileSystem
+            .getStructureWithMetadataFilesIndex(this).getFilesByMaterialNumber())
         {
             final String materialNumber = filesByMaterialNumber.getKey();
             FileUtils.forceMkdir(fileSystem.getSectionbreaksDirectory(this, materialNumber));
-            for (final Map.Entry<String, BaseFilesByTypeIndex> filesByBaseName : filesByMaterialNumber.getValue().filesByBaseName())
+            for (final Map.Entry<String, BaseFilesByTypeIndex> filesByBaseName : filesByMaterialNumber.getValue()
+                .filesByBaseName())
             {
-                final File mainFile = filesByBaseName.getValue().get(PartType.MAIN);
-                final File footnotesFile = filesByBaseName.getValue().get(PartType.FOOTNOTE);
-
-                final File mainFileWithSectionbreaks = fileSystem.getSectionbreaksFile(this, materialNumber, mainFile.getName());
-                final File footnotesFileWithSectionbreaks = fileSystem.getSectionbreaksFile(this, materialNumber, footnotesFile.getName());
-
-                final BundleFileType bundleFileType = BundleFileType.getByFileName(mainFile.getName());
-                if (bundleFileType == BundleFileType.MAIN_CONTENT)
-                {
-                    transformationService.transform(transformerMain, mainFile, mainFileWithSectionbreaks);
-                }
-                else
-                {
-                    FileUtils.copyFile(mainFile, mainFileWithSectionbreaks);
-                }
-
-                transformerFootnotes.setParameter(MAIN_DOCUMENT_WITH_SECTIONBREAKS_PARAM, mainFileWithSectionbreaks.getAbsolutePath().replace("\\", "/"));
-                transformationService.transform(transformerFootnotes, footnotesFile, footnotesFileWithSectionbreaks);
+                transformSingleFile(transformerMain, transformerFootnotes, materialNumber, filesByBaseName);
             }
         }
+    }
+
+    private void transformSingleFile(
+        final Transformer transformerMain,
+        final Transformer transformerFootnotes,
+        final String materialNumber,
+        final Map.Entry<String, BaseFilesByTypeIndex> filesByBaseName) throws IOException
+    {
+        final File mainFile = filesByBaseName.getValue().get(PartType.MAIN);
+        final File footnotesFile = filesByBaseName.getValue().get(PartType.FOOTNOTE);
+
+        final File mainFileWithSectionbreaks =
+            fileSystem.getSectionbreaksFile(this, materialNumber, mainFile.getName());
+        final File footnotesFileWithSectionbreaks =
+            fileSystem.getSectionbreaksFile(this, materialNumber, footnotesFile.getName());
+
+        final BundleFileType bundleFileType = BundleFileType.getByFileName(mainFile.getName());
+        if (bundleFileType == BundleFileType.MAIN_CONTENT)
+        {
+            final TransformationCommand command =
+                new TransformationCommandBuilder(transformerMain, mainFileWithSectionbreaks).withInput(mainFile)
+                    .build();
+            transformationService.transform(command);
+        }
+        else
+        {
+            FileUtils.copyFile(mainFile, mainFileWithSectionbreaks);
+        }
+
+        transformerFootnotes.setParameter(
+            MAIN_DOCUMENT_WITH_SECTIONBREAKS_PARAM,
+            mainFileWithSectionbreaks.getAbsolutePath().replace("\\", "/"));
+        final TransformationCommand command =
+            new TransformationCommandBuilder(transformerFootnotes, footnotesFileWithSectionbreaks)
+                .withInput(footnotesFile).build();
+        transformationService.transform(command);
     }
 }
