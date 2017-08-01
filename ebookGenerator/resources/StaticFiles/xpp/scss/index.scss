@@ -1,0 +1,12 @@
+@import "constants.scss";
+.INDEX {
+    margin-top: #{$indent};
+
+    .l2, .l3, .l4 {
+        margin-left: #{$indent};
+    }
+
+    .CITE {
+        display: inline;
+    }
+}

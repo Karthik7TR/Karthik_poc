@@ -18,7 +18,7 @@
 	
 	<xsl:function name="x:get-class-name">
 		<xsl:param name="value" />
-		<xsl:value-of select="translate($value,'.','_')" />
+		<xsl:value-of select="translate(translate($value,'.','_'), ';', '_')" />
 	</xsl:function>
 	
 	<!-- for inline index numbers -->

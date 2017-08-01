@@ -614,3 +614,15 @@
 .toc_chapter > .toc_appendix_block {
   margin-left: calc(1em * 1.5);
 }
+
+.INDEX {
+  margin-top: 1em;
+}
+
+.INDEX .l2, .INDEX .l3, .INDEX .l4 {
+  margin-left: 1em;
+}
+
+.INDEX .CITE {
+  display: inline;
+}

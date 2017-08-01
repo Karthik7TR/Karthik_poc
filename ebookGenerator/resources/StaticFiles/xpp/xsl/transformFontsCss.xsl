@@ -2,6 +2,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
 	<xsl:import href="utils.xsl" />
+	<xsl:import href="transform-utils.xsl" />
 	<xsl:output omit-xml-declaration="yes" method="text" indent="no" />
 	<xsl:template match="/">
 		<xsl:apply-templates />

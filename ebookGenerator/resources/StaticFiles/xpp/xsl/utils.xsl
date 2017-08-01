@@ -11,12 +11,6 @@
 		<xsl:value-of select="concat('.',$selector,'{', $body, '}')" />
 	</xsl:template>
 
-	<!-- get CSS friendly class name -->
-	<xsl:function name="x:get-class-name">
-		<xsl:param name="value" />
-		<xsl:value-of select="translate($value,'.','_')" />
-	</xsl:function>
-
 	<!-- create property with specified name and value -->
 	<xsl:function name="x:create-property">
 		<xsl:param name="name" />
