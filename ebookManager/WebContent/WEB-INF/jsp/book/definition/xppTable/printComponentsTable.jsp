@@ -71,27 +71,19 @@
         					}
         				}
 
-
 				function refreshingRowActivities(){
 					var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
-					$gridData.sortable({cancel:'.jsgrid-edit-row'});
+						$gridData.sortable({cancel:'.jsgrid-edit-row'});
 					if(${param.edit}){
 						$gridData.sortable({
 							update: function(e, ui) {
 
-								if ( $(".jsgrid-edit-row" ).length ) {
-									$gridData.sortable({cancel:'.jsgrid-edit-row'});
-								}
 									// array of indexes
 									var clientIndexRegExp = /\s*client-(\d+)\s*/;
 									var indexes = $.map($gridData.sortable("toArray", {
 											attribute: "class"
 									}), function(classes) {
-											if ( $(".jsgrid-edit-row" ).length ) {
-												$gridData.sortable({cancel:'.jsgrid-edit-row'});
-											} else {
 											return clientIndexRegExp.exec(classes)[1];
-										}
 									});
 									// arrays of items
 									var items = $.map($gridData.find("tr"), function(row) {
@@ -101,10 +93,13 @@
 									printComponents = items;
 									exchangeIndexes();
 									sortGridByComponentOrder();
+									$('#up_button, #down_button').removeAttr('disabled');
 							}
 					});
 				}
+				$('#up_button, #down_button').removeAttr('disabled');
 				}
+
         //Method to shift idexes of elements and sort table.
         //Is usualy used after manual changes in table
 
@@ -133,6 +128,16 @@
                 rowClass: function(item, itemIndex) {
                   return "client-" + itemIndex;
                   },
+									onItemEditing: function(){
+										$gridData.sortable({cancel:'.jsgrid-edit-row, .ui-sortable, .jsgrid-cell, .jsgrid-grid-body tbody, .jsgrid-row, .jsgrid-alt-row'});
+											$('#up_button, #down_button').prop('disabled','disabled');
+									},
+									onItemUpdated: function(){
+										if ( $(".jsgrid-edit-row" ).length == 0 ) {
+											$gridData.sortable({cancel:'.jsgrid-edit-row'});
+											$('#up_button, #down_button').removeAttr('disabled');
+										}
+									},
 
                 controller: {
                     //<!--Method to initialize values of data table.-->
@@ -147,6 +152,7 @@
                     },
                     loadData: function() {
                         this.init();
+						$(".jsgrid-edit-row" ).remove();
                         return printComponents;
                     }
                 },
@@ -168,6 +174,7 @@
                            return $('<button/>', {
                             text: "\u25B2",
                             id: 'up_button',
+							disabled: '$(".jsgrid-edit-row" ).length',
                             click: function() {
                                 var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
                                 items = $.map($gridData.find("tr"), function(row) {
@@ -183,6 +190,7 @@
                                     items[currentElementIndex - 1].componentOrder++;
                                     reorderIndexes();
                                     $("#grid").jsGrid("refresh");
+									$('#up_button, #down_button').removeAttr('disabled');
                                 }
                             },
                             onload: function(){
@@ -198,6 +206,7 @@
                             return $('<button/>', {
                              text: "\u25BC",
                              id: 'down_button',
+														 disabled: '$(".jsgrid-edit-row" ).length',
                              click: function() {
                                  $gridData = $("#jsGrid .jsgrid-grid-body tbody");
                                  items = $.map($gridData.find("tr"), function(row) {
@@ -211,6 +220,7 @@
                                      items[currentElementIndex + 1].componentOrder--;
                                      reorderIndexes();
                                      $("#grid").jsGrid("refresh");
+																		 $('#up_button, #down_button').removeAttr('disabled');
                                  }
                              },
                              onload: function(){
@@ -218,7 +228,7 @@
                                items = $.map($gridData.find("tr"), function(row) {
                                    return $(row).data("JSGridItem");
                                });
-                               if(item.componentOrder+1 > printComponents.length){
+                               if(item.componentOrder + 1 > printComponents.length){
                                  this.style.display = 'none';
                                }
                              }
@@ -251,7 +261,7 @@
                                }
                               }
                           ],
-                    insertTemplate: function() {
+                    	insertTemplate: function() {
                         var $result = jsGrid.fields.text.prototype.insertTemplate.call(this);
                         $result.attr("id", "materialNumberId");
                         return $result;
@@ -273,14 +283,25 @@
                    editButton: false,
                    modeSwitchButton: false,
                    deleteButton: true,
-                   visible: ${param.edit}
+                   visible: ${param.edit},
+									 _createCancelEditButton: function() {
+						      var $result = jsGrid.fields.control.prototype._createCancelEditButton.apply(this, arguments);
+								      $result.on("click", function() {
+														var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
+														$(".jsgrid-edit-row" ).remove();
+														$("tr[style='display: none;']").css("display","");
+														$(".jsgrid-filter-row" ).remove();
+														$gridData.sortable({cancel:'.jsgrid-edit-row'});
+														$('#up_button, #down_button').removeAttr('disabled');
+									 });
+						      return $result;
                }
-
+						 }
               ],
 
                 onRefreshed: function() {
 									refreshingRowActivities()
-								},
+									},
                 onItemDeleted: function() {
                     var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
                     items = $.map($gridData.find("tr"), function(row) {
@@ -319,7 +340,6 @@
 	                        items[items.length - 1] = tempPrintComponent;
 	                   }
                     }
-
                 },
 
                 onItemUpdating: function(args) {
@@ -347,10 +367,12 @@
                     });
                     printComponents = items;
                     exchangeIndexes();
+					$('#up_button, #down_button').removeAttr('disabled');
                 }
             });
             if (${form.colorPrintComponentTable}) {
       					colorNoArchivePrintComponents();
   					}
+						$('#up_button, #down_button').removeAttr('disabled');
         });
     </script>
