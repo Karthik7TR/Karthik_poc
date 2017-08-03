@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step.strategy;
+package com.thomsonreuters.uscl.ereader.xpp.transformation.metadata.step.strategy;
 
 import static java.util.Arrays.asList;
 
@@ -22,31 +22,23 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OtherPartsPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTransformStrategy
+public class IndexPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTransformStrategy
 {
     private final File xslTransformationFile;
+    private final File xslIndexBreakTransformationFile;
     private final XppFormatFileSystem xppFormatFileSystem;
 
     @Autowired
-    public OtherPartsPlaceXppMetadataStrategy(
+    public IndexPlaceXppMetadataStrategy(
         final XslTransformationService xslTransformationService,
         final TransformerBuilderFactory transformerBuilderFactory,
         final XppFormatFileSystem xppFormatFileSystem,
-        @Value("${xpp.add.metadata.to.otherparts.xsl}") final File xslTransformationFile)
+        @Value("${xpp.add.metadata.to.index.xsl}") final File xslTransformationFile,
+        @Value("${xpp.index.toc.breaks.xsl}") final File xslIndexBreakTransformationFile)
     {
-        super(
-            xslTransformationService,
-            transformerBuilderFactory,
-            new HashSet<>(
-                Arrays.asList(
-                    BundleFileType.SUMMARY_TABLE_OF_CONTENTS,
-                    BundleFileType.DETAILED_TABLE_OF_CONTENTS,
-                    BundleFileType.IMPOSITION_LIST,
-                    BundleFileType.CORRELATION_TABLE,
-                    BundleFileType.KEY_NUMBER_TABLE,
-                    BundleFileType.TABLE_OF_ADDED_KEY_NUMBERS,
-                    BundleFileType.FILLING_INSTRUCTIONS)));
+        super(xslTransformationService, transformerBuilderFactory, new HashSet<>(Arrays.asList(BundleFileType.INDEX)));
         this.xslTransformationFile = xslTransformationFile;
+        this.xslIndexBreakTransformationFile = xslIndexBreakTransformationFile;
         this.xppFormatFileSystem = xppFormatFileSystem;
     }
 
@@ -57,11 +49,20 @@ public class OtherPartsPlaceXppMetadataStrategy extends AbstractPlaceXppMetadata
         @NotNull final String materialNumber,
         @NotNull final XppBookStep step)
     {
-        final Transformer transformer = transformerBuilderFactory.create().withXsl(xslTransformationFile).build();
-        transformer.setParameter("TOCPartName", BundleFileType.getByFileName(inputFile.getName()));
+        final Transformer indexBreakTransformer =
+            transformerBuilderFactory.create().withXsl(xslIndexBreakTransformationFile).build();
+        final File indexBreakFile =
+            xppFormatFileSystem.getIndexBreaksFile(step, materialNumber, "indexBreaks-" + inputFile.getName());
 
+        final Transformer transformer = transformerBuilderFactory.create().withXsl(xslTransformationFile).build();
+        transformer.setParameter("indexBreaksDoc", indexBreakFile.getAbsolutePath().replace("\\", "/"));
         final File outputFile =
             xppFormatFileSystem.getStructureWithMetadataFile(step, materialNumber, inputFile.getName());
-        return asList(new TransformationCommandBuilder(transformer, outputFile).withInput(inputFile).build());
+
+        final TransformationCommand indexBreakCommand =
+            new TransformationCommandBuilder(indexBreakTransformer, indexBreakFile).withInput(inputFile).build();
+        final TransformationCommand addMetadataToIndexCommand =
+            new TransformationCommandBuilder(transformer, outputFile).withInput(inputFile).build();
+        return asList(indexBreakCommand, addMetadataToIndexCommand);
     }
 }

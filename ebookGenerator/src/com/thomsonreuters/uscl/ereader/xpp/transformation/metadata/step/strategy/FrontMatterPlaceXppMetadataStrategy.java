@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step.strategy;
+package com.thomsonreuters.uscl.ereader.xpp.transformation.metadata.step.strategy;
 
 import static java.util.Arrays.asList;
 

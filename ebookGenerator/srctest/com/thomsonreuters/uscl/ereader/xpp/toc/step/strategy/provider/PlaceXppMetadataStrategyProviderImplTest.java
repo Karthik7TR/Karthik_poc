@@ -13,8 +13,8 @@ import java.util.List;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.BundleFileHandlingStrategy;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.provider.BundleFileHandlingStrategyProvider;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
-import com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step.strategy.PlaceXppMetadataStrategy;
-import com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step.strategy.provider.PlaceXppMetadataStrategyProviderImpl;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.metadata.step.strategy.PlaceXppMetadataStrategy;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.metadata.step.strategy.PlaceXppMetadataStrategyProviderImpl;
 import org.junit.Before;
 import org.junit.Test;
 

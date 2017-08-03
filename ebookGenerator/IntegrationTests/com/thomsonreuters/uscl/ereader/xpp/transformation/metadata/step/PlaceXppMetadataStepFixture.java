@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step;
+package com.thomsonreuters.uscl.ereader.xpp.transformation.metadata.step;
 
 import static com.thomsonreuters.uscl.ereader.common.filesystem.FileContentMatcher.hasSameContentAs;
 import static org.junit.Assert.assertThat;

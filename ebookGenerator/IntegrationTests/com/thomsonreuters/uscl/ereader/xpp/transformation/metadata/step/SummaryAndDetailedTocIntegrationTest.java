@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step;
+package com.thomsonreuters.uscl.ereader.xpp.transformation.metadata.step;
 
 import java.net.URISyntaxException;
 
@@ -16,8 +16,8 @@ public final class SummaryAndDetailedTocIntegrationTest extends PlaceXppMetadata
     public SummaryAndDetailedTocIntegrationTest()
         throws URISyntaxException
     {
-        super("sum/det/toc/20002-volume_2_Summary_and_Detailed_Table_of_Contents.DIVXML.main",
-            "sum/det/toc/Expected20002-volume_2_Summary_and_Detailed_Table_of_Contents.DIVXML.main");
+        super("sumdettoc/20002-volume_2_Summary_and_Detailed_Table_of_Contents.DIVXML.main",
+            "sumdettoc/Expected20002-volume_2_Summary_and_Detailed_Table_of_Contents.DIVXML.main");
     }
 
     @Test

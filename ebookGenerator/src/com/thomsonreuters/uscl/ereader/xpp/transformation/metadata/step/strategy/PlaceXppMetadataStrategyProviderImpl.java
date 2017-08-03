@@ -1,10 +1,9 @@
-package com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step.strategy.provider;
+package com.thomsonreuters.uscl.ereader.xpp.transformation.metadata.step.strategy;
 
 import java.util.Collections;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.xpp.strategy.provider.AbstractBundleFileHandlingStrategyProvider;
-import com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step.strategy.PlaceXppMetadataStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

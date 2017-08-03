@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step.strategy;
+package com.thomsonreuters.uscl.ereader.xpp.transformation.metadata.step.strategy;
 
 import static java.util.Arrays.asList;
 
@@ -22,23 +22,23 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class IndexPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTransformStrategy
+public class SummaryAndDetailedTocPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTransformStrategy
 {
     private final File xslTransformationFile;
-    private final File xslIndexBreakTransformationFile;
     private final XppFormatFileSystem xppFormatFileSystem;
 
     @Autowired
-    public IndexPlaceXppMetadataStrategy(
+    public SummaryAndDetailedTocPlaceXppMetadataStrategy(
         final XslTransformationService xslTransformationService,
         final TransformerBuilderFactory transformerBuilderFactory,
         final XppFormatFileSystem xppFormatFileSystem,
-        @Value("${xpp.add.metadata.to.index.xsl}") final File xslTransformationFile,
-        @Value("${xpp.index.toc.breaks.xsl}") final File xslIndexBreakTransformationFile)
+        @Value("${xpp.add.metadata.to.summary.and.detailed.toc.xsl}") final File xslTransformationFile)
     {
-        super(xslTransformationService, transformerBuilderFactory, new HashSet<>(Arrays.asList(BundleFileType.INDEX)));
+        super(
+            xslTransformationService,
+            transformerBuilderFactory,
+            new HashSet<>(Arrays.asList(BundleFileType.SUMMARY_AND_DETAILED_TABLE_OF_CONTENTS)));
         this.xslTransformationFile = xslTransformationFile;
-        this.xslIndexBreakTransformationFile = xslIndexBreakTransformationFile;
         this.xppFormatFileSystem = xppFormatFileSystem;
     }
 
@@ -49,20 +49,9 @@ public class IndexPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTrans
         @NotNull final String materialNumber,
         @NotNull final XppBookStep step)
     {
-        final Transformer indexBreakTransformer =
-            transformerBuilderFactory.create().withXsl(xslIndexBreakTransformationFile).build();
-        final File indexBreakFile =
-            xppFormatFileSystem.getIndexBreaksFile(step, materialNumber, "indexBreaks-" + inputFile.getName());
-
-        final Transformer transformer = transformerBuilderFactory.create().withXsl(xslTransformationFile).build();
-        transformer.setParameter("indexBreaksDoc", indexBreakFile.getAbsolutePath().replace("\\", "/"));
         final File outputFile =
             xppFormatFileSystem.getStructureWithMetadataFile(step, materialNumber, inputFile.getName());
-
-        final TransformationCommand indexBreakCommand =
-            new TransformationCommandBuilder(indexBreakTransformer, indexBreakFile).withInput(inputFile).build();
-        final TransformationCommand addMetadataToIndexCommand =
-            new TransformationCommandBuilder(transformer, outputFile).withInput(inputFile).build();
-        return asList(indexBreakCommand, addMetadataToIndexCommand);
+        final Transformer transformer = transformerBuilderFactory.create().withXsl(xslTransformationFile).build();
+        return asList(new TransformationCommandBuilder(transformer, outputFile).withInput(inputFile).build());
     }
 }

@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step;
+package com.thomsonreuters.uscl.ereader.xpp.transformation.metadata.step;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotif
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.provider.BundleFileHandlingStrategyProvider;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
-import com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step.strategy.PlaceXppMetadataStrategy;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.metadata.step.strategy.PlaceXppMetadataStrategy;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.PartType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
 import org.sonar.runner.commonsio.FileUtils;

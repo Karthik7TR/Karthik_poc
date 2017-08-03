@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step;
+package com.thomsonreuters.uscl.ereader.xpp.transformation.metadata.step;
 
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import org.springframework.context.annotation.Bean;

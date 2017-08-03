@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step;
+package com.thomsonreuters.uscl.ereader.xpp.transformation.metadata.step;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

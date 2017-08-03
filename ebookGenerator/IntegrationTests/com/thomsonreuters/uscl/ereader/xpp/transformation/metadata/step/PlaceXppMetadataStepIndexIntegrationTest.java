@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.xpp.transformation.place.xpp.metadata.step;
+package com.thomsonreuters.uscl.ereader.xpp.transformation.metadata.step;
 
 import java.net.URISyntaxException;
 
@@ -11,16 +11,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("IntegrationTests")
 @ContextConfiguration(classes = PlaceXppMetadataStepIntegrationTestConfig.class)
-public final class PlaceXppMetadataStepFrontIntegrationTest extends PlaceXppMetadataStepFixture
+public final class PlaceXppMetadataStepIndexIntegrationTest extends PlaceXppMetadataStepFixture
 {
-    public PlaceXppMetadataStepFrontIntegrationTest()
+    public PlaceXppMetadataStepIndexIntegrationTest()
         throws URISyntaxException
     {
-        super("front/0-CHALSource_Front_vol_1.DIVXML.main", "front/0-CHALExpected_Front_vol_1.DIVXML.main");
+        super("index/1001-CHAL_Volume_3_Index.DIVXML.main", "index/1001-CHALExpected_Volume_3_Index.DIVXML.main");
     }
 
     @Test
-    public void shouldInsertCorrectMetadataAndHierToOriginalFile() throws Exception
+    public void shouldInsertCorrectMetadataAndHierToIndexFile() throws Exception
     {
         testPlacedMetadata();
     }
