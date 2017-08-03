@@ -89,7 +89,7 @@
                             </generated.toc>
                             <scope.statement.block date.updated="0">
                                 <para date.updated="0" first.para="yes">
-                                    <para.text date.updated="0" first.para.text="yes">This chapter contains forms for use in drafting documents relat-ing to the formation, management, and termination of partner-<pagebreak num="3" num-string="3"/>ships, together with a discussion of the legal requirements and tax aspects that should be considered in drafting those documents.</para.text>
+                                    <para.text date.updated="0" first.para.text="yes">This chapter contains forms for use in drafting documents relat-ing to the formation, management, and termination of partner-<pagebreak num="3" num-string="3"/>ships, together with a discussion of the legal requirements and tax aspects that should be<xref id="2" type="footnote"/> considered in drafting those documents.</para.text>
                                 </para>
                             </scope.statement.block>
                             <XPPMetaData guid="I445a1ac6c61c11d9962fb5f8354828dd" md.uuid="I445a1ac6c61c11d9962fb5f8354828dd" md.dmsserial="303448441" md.first_line_cite="CALRO S 7:1" md.second_line_cite="2 Children &amp; the Law: Rights and Obligations s 7:1" md.pubpage="s 7:1" md.pubid="177882" md.doc_family_uuid="Ie0b81373f8fb11d99f28ffa0ae8c2577" md.normalizedcite="CALROS7:1" md.third_line_cite="" name="7:1. Scope of chapter" parent_uuid="I333dd59028b911e69ed7fcedf0a72426" comment="sectionbreak here because between this XPPMetaData and parent XPPHier exists one more XPPMetadata (this XPPMetadata is not the first after it's parent)"/>
@@ -101,7 +101,7 @@
                                 <front date.updated="0">
                                     <outline.name.block toc.include="y" date.updated="0">
                                         <designator date.updated="0">I</designator>
-                                        <name date.updated="0">General Partnerships</name>
+                                        <name date.updated="0">General<xref id="6" type="footnote"/> Partnerships</name>
                                     </outline.name.block>
                                 </front>
                                 <analytical.level.body date.updated="0">
@@ -133,13 +133,13 @@
                                                                     <name date.updated="0">In general; definitions and distinctions</name>
                                                                 </outline.name.block>
                                                             </section.front>
-                                                            <XPPMetaData guid="I445a1ac6c61c11d9962fb5f8354828dd" md.uuid="I445a1ac6c61c11d9962fb5f8354828dd" md.dmsserial="303448441" md.first_line_cite="CALRO S 7:1" md.second_line_cite="2 Children &amp; the Law: Rights and Obligations s 7:1" md.pubpage="s 7:1" md.pubid="177882" md.doc_family_uuid="Ie0b81373f8fb11d99f28ffa0ae8c2577" md.normalizedcite="CALROS7:1" md.third_line_cite="" name="7:1. Scope of chapter" parent_uuid="I334acde028b911e69ed7fcedf0a72426" comment="sectionbreak here because between this XPPMetadata and parent XPPHier exists one more XPPHier"/>
+                                                            <XPPMetaData guid="I445a1ac6c61c11d9962fb5f8354828dd" md.uuid="I445a1ac6c61c11d9962fb5f8354828dd" md.dmsserial="303448441" md.first_line_cite="CALRO S 7:1" md.second_line_cite="2 Children &amp; the Law: Rights and Obligations s 7:1" md.pubpage="s 7:1" md.pubid="177882" md.doc_family_uuid="Ie0b81373f8fb11d99f28ffa0ae8c2588" md.normalizedcite="CALROS7:1" md.third_line_cite="" name="7:1. Scope of chapter" parent_uuid="I334acde028b911e69ed7fcedf0a72426" comment="sectionbreak here because between this XPPMetadata and parent XPPHier exists one more XPPHier"/>
                                                             <section.body date.updated="0">
                                                                 <para date.updated="0" first.para="yes">
-                                                                    <para.text date.updated="0" first.para.text="yes">Basic Florida law governing partnerships is embodied in the <ref ref.id="If512f990046e11e0b42f0000837bc6dd" short="y">Florida Revised Uniform Partnership Act of 1995</ref> (FRUPA)<xref id="1" type="footnote"/> and the <ref ref.id="If5148030046e11e0b42f0000837bc6dd" short="y">Florida Revised Uniform Limited Partner-ship Act of 2005</ref>.<xref id="2" type="footnote"/>
+                                                                    <para.text date.updated="0" first.para.text="yes">Basic Florida law governing partnerships is embodied in the <ref ref.id="If512f990046e11e0b42f0000837bc6dd" short="y">Florida Revised Uniform Partnership Act of 1995</ref> (FRUPA) and the <ref ref.id="If5148030046e11e0b42f0000837bc6dd" short="y">Florida Revised Uniform Limited Partner-ship Act of 2005</ref>.<xref id="20" type="footnote"/>
                                                                     </para.text>
                                                                 </para>
-                                                                <XPPMetaData guid="I445a1ac6c61c11d9962fb5f8354828de" md.uuid="I445a1ac6c61c11d9962fb5f8354828de" md.dmsserial="303448441" md.first_line_cite="CALRO S 7:1" md.second_line_cite="2 Children &amp; the Law: Rights and Obligations s 7:1" md.pubpage="s 7:1" md.pubid="177882" md.doc_family_uuid="Ie0b81373f8fb11d99f28ffa0ae8c2577" md.normalizedcite="CALROS7:1" md.third_line_cite="" name="7:1. Scope of chapter" parent_uuid="I334b431028b911e69ed7fcedf0a72426" comment="sectionbreak here because between parent XPPHier and this XPPMetadata exists one more XPPMetadata"/>
+                                                                <XPPMetaData guid="I445a1ac6c61c11d9962fb5f8354828de" md.uuid="I445a1ac6c61c11d9962fb5f8354828de" md.dmsserial="303448441" md.first_line_cite="CALRO S 7:1" md.second_line_cite="2 Children &amp; the Law: Rights and Obligations s 7:1" md.pubpage="s 7:1" md.pubid="177882" md.doc_family_uuid="Ie0b81373f8fb11d99f28ffa0ae8c2599" md.normalizedcite="CALROS7:1" md.third_line_cite="" name="7:1. Scope of chapter" parent_uuid="I334b431028b911e69ed7fcedf0a72426" comment="sectionbreak here because between parent XPPHier and this XPPMetadata exists one more XPPMetadata"/>
                                                             </section.body>
                                                         </section>
                                                         <section uuid="I335a373028b911e69ed7fcedf0a72426" date.revised="0" date.updated="0">
@@ -153,7 +153,7 @@
                                                             </section.front>
                                                             <section.body date.updated="0">
                                                                 <para date.updated="0" first.para="yes">
-                                                                    <para.text date.updated="0" first.para.text="yes">Whether persons are partners depends on their contract with each other, and a partnership is never created by <pagebreak num="5" num-string="5"/>implication or operation of law apart from the express or implied intention and agreement that constitutes the partnership relationship.<xref id="12" type="footnote"/>
+                                                                    <para.text date.updated="0" first.para.text="yes">Whether persons are partners depends on their contract with each other, and a partnership is never created by <pagebreak num="5" num-string="5"/>implication or operation of law apart from the express or implied intention and agreement that constitutes the partnership relationship.<xref id="27" type="footnote"/>
                                                                     </para.text>
                                                                 </para>
                                                             </section.body>
@@ -236,7 +236,7 @@
                                                 <outline.name.block>
                                                     <label date.updated="0"/>
                                                     <designator date.updated="0">30A:1</designator>
-                                                    <name>General background</name>
+                                                    <name>General <pagebreak num="7" num-string="7"/>background</name>
                                                 </outline.name.block>
                                             </toc.section>
                                         </toc.analytical.level>
@@ -276,7 +276,7 @@
                                                     </section.front>
                                                     <section.body date.updated="0">
                                                         <para date.updated="0" first.para="yes">
-                                                            <para.text date.updated="0" first.para.text="yes">Private franchising is a marketing concept by which products or services are distributed to numerous areas under the banner of a single identity.<xref id="525" type="footnote"/> Under this concept, a franchise company is a business management organization specializing in a particular product or service. The franchi-sor is expected to develop and to deliver expertise in such di-verse fields as product specialization and development, real estate, finance, advertising, public relations, and operational know-how.<xref id="526" type="footnote"/> The franchisee purchases an interest in the franchisor, payment for such interest being known as the “franchise fee,” in return for which the franchisee receives the right to operate a business using the franchise trademark and fulfilling various requirements of the franchise contract, such as furnishing a standardized product associated with the franchise trademark.<xref id="527" type="footnote"/>
+                                                            <para.text date.updated="0" first.para.text="yes">Private franchising is a marketing concept by which products or services are distributed to numerous areas under the banner of a single identity. Under this concept, a franchise company is a business management organization specializing in a particular product or service. The franchi-sor is expected to develop and to deliver expertise in such di-verse fields as product specialization and development, real estate, finance, advertising, public relations, and operational know-how. The franchisee <pagebreak num="8" num-string="8"/>purchases an interest in the franchisor, payment for such interest being known as the “franchise fee,” in return for which the franchisee receives the right to operate a business using the franchise trademark and fulfilling various requirements of the franchise contract, such as furnishing a standardized product associated with the franchise trademark.
                                                             </para.text>
                                                         </para>
                                                     </section.body>
@@ -292,5 +292,5 @@
             </topic>
         </publication.body>
     </publication>
-    <pagebreak num="7" num-string="7"/>
+    <pagebreak num="9" num-string="9"/>
 </root>

@@ -29,7 +29,7 @@
             </para>
         </footnote.body>
     </footnote>
-    <footnote uuid="I42e15f7013c911e7b9e3acd823573d3d" date.updated="0" id="27">
+    <footnote uuid="I42e15f7013c911e7b9e3acd823573d3d" date.updated="0" id="20">
         <footnote.reference>
             <cgt>8</cgt>
         </footnote.reference>
@@ -40,6 +40,7 @@
                 </para.text>
             </para>
             <para date.updated="0" first.para="no">
+                footnote on page 4
                 <pagebreak num="5" num-string="5"/>
                 <foots/>
                 <para.text date.updated="0" first.para.text="yes">A good discussion of the rehabilitative and punishment models is found in <ref normalpub="lr" ref.id="Id9508b8097b711e297060000833f9e5b" reftext="Gardner, Punishment and Juvenile Justice: A Conceptual Framework for Assessing Constitutional Rights of Youthful Offenders">Gardner, Punishment and Juvenile Justice: A Conceptual Framework for Assessing Constitutional Rights of Youthful Offenders, 35 Vand. L. Rev. 791 (1982)</ref>.</para.text>
@@ -49,9 +50,16 @@
     <footnote uuid="I42e15f7013c911e7b9e3acd823573d3d" date.updated="0" id="27">
         <footnote.body date.updated="0">
             <para date.updated="0" first.para="no">
+                footnote on page 5
                 <pagebreak num="6" num-string="6"/>
+                footnote on page 6
+                <pagebreak num="7" num-string="7"/>
+                footnote on page 7
+                <pagebreak num="8" num-string="8"/>
+                footnote on page 8
+                <pagebreak num="9" num-string="9"/>
+                footnote on page 9
             </para>
         </footnote.body>
     </footnote>
-    <pagebreak num="7" num-string="7"/>
 </root>

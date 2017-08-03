@@ -3,6 +3,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
 	<xsl:import href="transform-utils.xsl" />
+    <xsl:include href="transformFootnotesToLinks.xsl" />
     <xsl:output method="html" indent="yes" omit-xml-declaration="yes"/>
 	<xsl:param name="fileBaseName" />
 	<xsl:param name="pagePrefix" />
@@ -69,28 +70,7 @@
 	
 	<xsl:template match="x:XPPMetaData" />
 
-    <xsl:template match="x:part.footnotes">
-		<section class="tr_footnotes">
-			<xsl:apply-templates />
-		</section>
-	</xsl:template>
-    
-    <xsl:template match="x:footnote">
-		<div class="tr_footnote">
-            <div class="footnote">
-                <xsl:apply-templates />
-            </div>
-		</div>
-	</xsl:template>
-    
-	<xsl:template match="x:foots">
-		<xsl:copy>
-			<xsl:copy-of select="./@id" />
-			<xsl:apply-templates />
-		</xsl:copy>
-	</xsl:template>
-
-	<xsl:template match="x:ref|x:xref|x:footnote.reference">
+	<xsl:template match="x:ref">
 		<xsl:element name="{name()}">
 			<xsl:copy-of select="@*" />
 			<xsl:apply-templates />
@@ -100,20 +80,31 @@
 	<xsl:template match="x:ital|x:bold">
 		<xsl:apply-templates />
 	</xsl:template>
-
+    
 	<xsl:template match="x:t">
-		<xsl:element name="span">
-			<xsl:attribute name="class">
-				<xsl:value-of select="x:get-class-name(name(.))" />
-				<xsl:if test="@style">
-						<xsl:value-of select="concat(' font_', x:get-class-name(@style))" />
-				</xsl:if>
-				<xsl:if test="./preceding-sibling::*[1][self::x:pagebreak]">
-					<xsl:value-of select="concat(' ', 'no-indent')" />
-				</xsl:if>
-			</xsl:attribute>
-			<xsl:apply-templates />
-		</xsl:element>
+        <xsl:variable name="footnoteRefId" select="x:footnote-reference-id(.)" />
+
+        <xsl:choose>
+            <xsl:when test="number($footnoteRefId)">
+                <xsl:call-template name="addFootnoteReferenceTag">
+                    <xsl:with-param name="refId" select="$footnoteRefId" />
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:element name="span">
+                    <xsl:attribute name="class">
+                        <xsl:value-of select="x:get-class-name(name(.))" />
+                        <xsl:if test="@style">
+                            <xsl:value-of select="concat(' font_', x:get-class-name(@style))" />
+                        </xsl:if>
+                        <xsl:if test="./preceding-sibling::*[1][self::x:pagebreak]">
+                            <xsl:value-of select="concat(' ', 'no-indent')" />
+                        </xsl:if>
+                    </xsl:attribute>
+                    <xsl:apply-templates />
+                </xsl:element>
+            </xsl:otherwise>
+        </xsl:choose>
 	</xsl:template>
 	
 	<xsl:template match="x:XPPLink|x:XPPTOCLink">
