@@ -22,7 +22,7 @@
 		<xsl:param name="bundlePartType" />
 		<xsl:variable name="pageNumber" select="@p4" />
 		<xsl:choose>
-			<xsl:when test="$bundlePartType = 'FRONT'">
+			<xsl:when test="$bundlePartType = 'FRONT' or $bundlePartType = 'SUMMARY_AND_DETAILED_TABLE_OF_CONTENTS' or $bundlePartType = 'SUMMARY_TABLE_OF_CONTENTS' or $bundlePartType = 'DETAILED_TABLE_OF_CONTENTS'">
 				<xsl:value-of select="x:transform-arabic-to-roman($pageNumber)" />
 			</xsl:when>
 			<xsl:otherwise>

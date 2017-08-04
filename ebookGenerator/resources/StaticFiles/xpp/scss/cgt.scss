@@ -14,7 +14,8 @@
     .stat_text &,
     .tgroup>.tbody,
     .outline_name_block>.label &,
-    .toc_chapter>.outline_name_block>& {
+    .toc_chapter>.outline_name_block>&,
+    .mte2 > & {
         display: inline;
     }
     .signature_group>.form_line &,

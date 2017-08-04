@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 public enum BundleFileType
 {
     MAIN_CONTENT(".*\\.DIVXML.*", ""),
-    SUMMARY_TABLE_OF_CONTENTS(".*_Summary_Table_of_Contents\\.DIVXML.*", "Summ ToC"),
+    SUMMARY_TABLE_OF_CONTENTS(".*_Summary_Table_of_Contents\\.DIVXML.*", ""),
     CORRELATION_TABLE(".*_Correlation_Table\\.DIVXML.*", "Corr. tbl"),
     INDEX(".*_Index\\.DIVXML.*", "Index"),
     ADDED_REVISED_JUDGES_CARDS(".*_AddedRevised_Judges_Cards\\.DIVXML.*", "Added rev. JC"),
@@ -23,8 +23,8 @@ public enum BundleFileType
     TABLE_OF_CASES(".*_Table_of_Cases\\.DIVXML.*", "Tbl of cases"),
     KEY_NUMBER_TABLE(".*_Key_Number_Table\\.DIVXML.*", "Key num tbl"),
     TABLE_OF_ADDED_CASES(".*_Table_of_Added_Cases\\.DIVXML.*", "Tbl of cases"),
-    SUMMARY_AND_DETAILED_TABLE_OF_CONTENTS(".*_Summary_and_Detailed_Table_of_Contents\\.DIVXML.*", "Summ and detailed ToC"),
-    DETAILED_TABLE_OF_CONTENTS(".*_Detailed_Table_of_Contents\\.DIVXML.*", "Detailed ToC"),
+    SUMMARY_AND_DETAILED_TABLE_OF_CONTENTS(".*_Summary_and_Detailed_Table_of_Contents\\.DIVXML.*", ""),
+    DETAILED_TABLE_OF_CONTENTS(".*_Detailed_Table_of_Contents\\.DIVXML.*", ""),
     FRONT(".*_Front_vol_\\d*\\.DIVXML.*", ""),
     FILLING_INSTRUCTIONS(".*-Filing_Instructions\\.DIVXML.*", "Fill inst"),
     TABLE_OF_ADDED_KEY_NUMBERS(".*_Table_of_Added_Key_Numbers\\.DIVXML.*", "Tbl of added ket nums"),

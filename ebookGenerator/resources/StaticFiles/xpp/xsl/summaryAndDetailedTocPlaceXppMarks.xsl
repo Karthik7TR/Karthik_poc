@@ -20,7 +20,7 @@
 	
 		<xsl:call-template name="placeXppHier">
 			<xsl:with-param name="uuid" select="$uuid" />
-			<xsl:with-param name="name" select="./x:t[1]" />
+			<xsl:with-param name="name" select="'Summary Table of Contents'" />
 			<xsl:with-param name="parent_uuid" select="$uuid" />
 			<xsl:with-param name="doc_family_uuid" select="$uuid"/>
 		</xsl:call-template>
@@ -36,7 +36,7 @@
 
 		<xsl:call-template name="placeXppHier">
 			<xsl:with-param name="uuid" select="$uuid" />
-			<xsl:with-param name="name" select="./x:name.block/x:name/x:t" />
+			<xsl:with-param name="name" select="'Detailed Table of Contents'" />
 			<xsl:with-param name="parent_uuid" select="$uuid" />
 			<xsl:with-param name="doc_family_uuid" select="$uuid"/>
 		</xsl:call-template>

@@ -18,6 +18,26 @@
 			<xsl:apply-templates />
 		</root>
 	</xsl:template>
+	
+	<xsl:template match="x:line">
+		<xsl:if test="$bundlePartType = 'INDEX'">
+			<xsl:variable name="endTagsCount">
+				<xsl:variable name="previousEndTagsCount" select="count(preceding::x:endtag[@name = 'mte2'])" />
+				<xsl:choose>
+					<xsl:when test="x:endtag[@name = 'mte2']">
+						<xsl:value-of select="$previousEndTagsCount + 1" />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$previousEndTagsCount" />
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<xsl:if test="count(preceding::x:tag[@name = 'mte2']) > $endTagsCount">
+				<linebreak/>
+			</xsl:if>
+		</xsl:if>
+		<xsl:apply-templates />
+	</xsl:template>
 
 	<xsl:template match="x:page">
 		<xsl:element name="pagebreak">

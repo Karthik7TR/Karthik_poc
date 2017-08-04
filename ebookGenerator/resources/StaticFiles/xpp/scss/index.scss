@@ -9,4 +9,28 @@
     .CITE {
         display: inline;
     }
+
+    .mte2 {
+        .linebreak + span {
+            margin-left: #{$indent};
+        }
+    }
+
+    .l2 {
+        .mte2 {
+            margin-left: calc(#{$indent} * -1);
+        }
+    }
+
+    .l3 {
+        .mte2 {
+            margin-left: calc(#{$indent} * -2);
+        }
+    }
+
+    .l4 {
+        .mte2 {
+            margin-left: calc(#{$indent} * -3);
+        }
+    }
 }

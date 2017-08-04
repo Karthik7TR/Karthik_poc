@@ -549,7 +549,8 @@
 .stat_text .cgt,
 .cgt .tgroup > .tbody,
 .outline_name_block > .label .cgt,
-.toc_chapter > .outline_name_block > .cgt {
+.toc_chapter > .outline_name_block > .cgt,
+.mte2 > .cgt {
   display: inline;
 }
 
@@ -625,4 +626,20 @@
 
 .INDEX .CITE {
   display: inline;
+}
+
+.INDEX .mte2 .linebreak + span {
+  margin-left: 1em;
+}
+
+.INDEX .l2 .mte2 {
+  margin-left: calc(1em * -1);
+}
+
+.INDEX .l3 .mte2 {
+  margin-left: calc(1em * -2);
+}
+
+.INDEX .l4 .mte2 {
+  margin-left: calc(1em * -3);
 }
