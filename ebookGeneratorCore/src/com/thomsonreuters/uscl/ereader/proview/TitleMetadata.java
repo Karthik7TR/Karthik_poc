@@ -6,9 +6,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -591,7 +591,7 @@ public class TitleMetadata implements Serializable
         {
             if (assetFileNames == null)
             {
-                assetFileNames = new HashSet<>();
+                assetFileNames = new TreeSet<>();
             }
             assetFileNames.add(assetFileName);
             return this;

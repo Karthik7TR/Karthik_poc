@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -117,40 +118,32 @@ public class SplitNodeInfo implements Serializable
     public boolean equals(final Object obj)
     {
         if (this == obj)
+        {
             return true;
-        if (obj == null)
+        }
+        if (!(obj instanceof SplitNodeInfo))
+        {
             return false;
-        if (getClass() != obj.getClass())
-            return false;
+        }
         final SplitNodeInfo other = (SplitNodeInfo) obj;
-        if (bookVersionSubmitted == null)
+        if (!Objects.equals(bookVersionSubmitted, other.bookVersionSubmitted))
         {
-            if (other.bookVersionSubmitted != null)
-                return false;
-        }
-        else if (!bookVersionSubmitted.equals(other.bookVersionSubmitted))
             return false;
-        if (ebookDefinition == null)
+        }
+        final Long thisBookDefId = ebookDefinition == null ? null : ebookDefinition.getEbookDefinitionId();
+        final Long otherBookDefId = other.ebookDefinition == null ? null : other.ebookDefinition.getEbookDefinitionId();
+        if (!Objects.equals(thisBookDefId, otherBookDefId))
         {
-            if (other.ebookDefinition != null)
-                return false;
-        }
-        else if (!ebookDefinition.getEbookDefinitionId().equals(other.ebookDefinition.getEbookDefinitionId()))
             return false;
-        if (splitBookTitleId == null)
+        }
+        if (!Objects.equals(splitBookTitleId, other.splitBookTitleId))
         {
-            if (other.splitBookTitleId != null)
-                return false;
-        }
-        else if (!splitBookTitleId.equals(other.splitBookTitleId))
             return false;
-        if (splitNodeGuid == null)
+        }
+        if (!Objects.equals(splitNodeGuid, other.splitNodeGuid))
         {
-            if (other.splitNodeGuid != null)
-                return false;
-        }
-        else if (!splitNodeGuid.equals(other.splitNodeGuid))
             return false;
+        }
         return true;
     }
 

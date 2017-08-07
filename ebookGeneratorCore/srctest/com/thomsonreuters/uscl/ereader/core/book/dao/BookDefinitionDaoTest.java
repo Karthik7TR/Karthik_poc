@@ -1,5 +1,10 @@
 package com.thomsonreuters.uscl.ereader.core.book.dao;
 
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +14,6 @@ import org.easymock.EasyMock;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,7 +44,7 @@ public final class BookDefinitionDaoTest
         EasyMock.replay(mockSessionFactory);
         EasyMock.replay(mockSession);
         final BookDefinition actualBookDefinition = dao.findBookDefinitionByEbookDefId(BOOK_KEY);
-        Assert.assertEquals(BOOK_DEFINITION, actualBookDefinition);
+        assertEquals(BOOK_DEFINITION, actualBookDefinition);
         EasyMock.verify(mockSessionFactory);
         EasyMock.verify(mockSession);
     }
@@ -89,7 +93,9 @@ public final class BookDefinitionDaoTest
         expectedSplitNodes.addAll(splitNodes);
 
         bookDefinition.getSplitNodes();
-        Assert.assertEquals(bookDefinition.getSplitNodesAsList(), expectedSplitNodes);
+
+        assertThat(bookDefinition.getSplitNodesAsList(), hasSize(expectedSplitNodes.size()));
+        assertThat(bookDefinition.getSplitNodesAsList(), hasItems(expectedSplitNodes.toArray(new SplitNodeInfo[0])));
     }
 
     @Test
@@ -135,7 +141,7 @@ public final class BookDefinitionDaoTest
         expectedSplitNodes.addAll(splitNodeInfoList);
 
         bookDefinition.getSplitNodes();
-        Assert.assertEquals(bookDefinition.getSplitNodesAsList(), expectedSplitNodes);
+        assertEquals(bookDefinition.getSplitNodesAsList(), expectedSplitNodes);
     }
 
     @Test
@@ -175,6 +181,6 @@ public final class BookDefinitionDaoTest
         expectedSplitNodes.addAll(splitNodeInfoList);
 
         bookDefinition.getSplitNodes();
-        Assert.assertEquals(bookDefinition.getSplitNodesAsList(), expectedSplitNodes);
+        assertEquals(bookDefinition.getSplitNodesAsList(), expectedSplitNodes);
     }
 }
