@@ -2,7 +2,7 @@
 	<pagebreak num="5" num-string="v"/>
 	<toc.wrapper>
 		<generated.toc>
-			<XPPHier uuid="1111111.summary.toc" name="Summary of Contents" parent_uuid="1111111.summary.toc" md.doc_family_uuid="1111111.summary.toc">Summary of Contents</XPPHier><summary.toc>
+			<XPPHier uuid="1111111.summary.toc" name="Summary Table of Contents" parent_uuid="1111111.summary.toc" md.doc_family_uuid="1111111.summary.toc">Summary Table of Contents</XPPHier><summary.toc>
 				<t style="summary.toc cgt">Summary of Contents</t>
 				<metadata.block>
 					<metadata field="left.running.head">
@@ -476,7 +476,7 @@
 			</summary.toc>
 		</generated.toc>
 		<generated.toc>
-			<sectionbreak sectionuuid="1111111.full.toc"/><XPPHier uuid="1111111.full.toc" name="Table of Contents" parent_uuid="1111111.full.toc" md.doc_family_uuid="1111111.full.toc">Table of Contents</XPPHier><full.toc>
+			<sectionbreak sectionuuid="1111111.full.toc"/><XPPHier uuid="1111111.full.toc" name="Detailed Table of Contents" parent_uuid="1111111.full.toc" md.doc_family_uuid="1111111.full.toc">Detailed Table of Contents</XPPHier><full.toc>
 				<metadata.block>
 					<metadata field="left.running.head">
 						<value/>
