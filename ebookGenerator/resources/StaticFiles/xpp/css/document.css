@@ -555,12 +555,14 @@
 .cgt .tgroup > .tbody,
 .outline_name_block > .label .cgt,
 .toc_chapter > .outline_name_block > .cgt,
+.footnote_reference > .cgt,
 .mte2 > .cgt {
   display: inline;
 }
 
 .signature_group > .form_line .cgt,
 .summary_toc > .cgt,
+.footnote > .cgt,
 .toc_volbreak > .cgt {
   display: block;
 }
@@ -647,4 +649,50 @@
 
 .INDEX .l4 .mte2 {
   margin-left: calc(1em * -3);
+}
+
+.footnote > sup {
+  display: inline;
+  margin-left: calc(1em*2);
+}
+
+.footnote_body {
+  display: inline;
+}
+
+.footnote_body .para_text {
+  display: inline;
+}
+
+.footnote_body .para {
+  display: block;
+  text-indent: calc(1em*2.3);
+}
+
+.footnote_body .para:first-child {
+  display: inline;
+  text-indent: 0;
+}
+
+.reference_entry_group > .name_block,
+.name_block * {
+  display: inline;
+}
+
+.reference_entry_group > .name_block {
+  margin-left: calc(1em*2.3);
+  margin-right: 0;
+}
+
+.reference_entry,
+.reference_entry * {
+  display: inline;
+}
+
+.research_reference_block {
+  display: inline;
+}
+
+.footnote_body > .research_reference_block {
+  margin-left: calc(1em*2.3);
 }

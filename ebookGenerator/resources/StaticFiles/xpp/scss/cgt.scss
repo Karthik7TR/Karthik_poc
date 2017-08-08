@@ -15,11 +15,13 @@
     .tgroup>.tbody,
     .outline_name_block>.label &,
     .toc_chapter>.outline_name_block>&,
-    .mte2 > & {
+    .footnote_reference>&,
+    .mte2>& {
         display: inline;
     }
     .signature_group>.form_line &,
     .summary_toc>&,
+    .footnote>&,
     .toc_volbreak>& {
         display: block;
     }
@@ -30,5 +32,5 @@
     .stat_head .name_block &,
     .full_toc .designator+& {
         display: none;
-    } 
+    }
 }

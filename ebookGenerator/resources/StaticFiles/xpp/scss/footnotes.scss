@@ -1,0 +1,56 @@
+@import "constants.scss";
+sup {
+    .footnote>& {
+        display: inline;
+        margin-left: calc(#{$indent}*2);
+    }
+}
+
+.footnote_body {
+    display: inline;
+}
+
+.para_text {
+    .footnote_body & {
+        display: inline;
+    }
+}
+
+.para {
+    .footnote_body & {
+        display: block;
+        text-indent: calc(#{$indent}*2.3);
+    }
+}
+
+.para:first-child {
+    .footnote_body & {
+        display: inline;
+        text-indent: 0;
+    }
+}
+
+.name_block {
+    .reference_entry_group>&,
+    & * {
+        display: inline;
+    }
+    .reference_entry_group>& {
+        margin-left: calc(#{$indent}*2.3);
+        margin-right: 0;
+    }
+}
+
+.reference_entry {
+    &,
+    & * {
+        display: inline;
+    }
+}
+
+.research_reference_block {
+    display: inline;
+    .footnote_body>& {
+        margin-left: calc(#{$indent}*2.3);
+    }
+}
