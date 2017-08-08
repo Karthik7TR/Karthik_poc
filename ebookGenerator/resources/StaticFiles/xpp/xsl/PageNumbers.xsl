@@ -18,6 +18,10 @@
 			<entry key="1000">M</entry>
 	</xsl:variable>
 	
+	<xsl:template match="x:page" mode="prev_page">
+		<xsl:call-template name="print-page-numbers" />
+	</xsl:template>
+	
 	<xsl:template name="page-numbers">
 		<xsl:param name="bundlePartType" />
 		<xsl:variable name="pageNumber" select="@p4" />

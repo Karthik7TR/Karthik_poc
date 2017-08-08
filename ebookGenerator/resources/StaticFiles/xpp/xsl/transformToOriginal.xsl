@@ -49,6 +49,9 @@
 			<xsl:attribute name="num-string">
 				<xsl:call-template name="print-page-numbers" />
 			</xsl:attribute>
+			<xsl:attribute name="prev_page">
+				<xsl:apply-templates select="preceding::x:page[1]" mode="prev_page" />
+			</xsl:attribute>
 		</xsl:element>
 		<xsl:apply-templates select="x:stream[@type='main']" />
 	</xsl:template>

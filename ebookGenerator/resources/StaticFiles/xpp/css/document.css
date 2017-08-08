@@ -110,6 +110,11 @@
   display: inline !important;
 }
 
+.page_number {
+  text-align: center;
+  vertical-align: bottom;
+}
+
 .toc_analytical_hierarchy {
   margin-bottom: 1em;
 }
