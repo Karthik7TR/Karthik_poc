@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
+import static java.util.Arrays.asList;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -9,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
@@ -31,6 +34,8 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateEbook
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerMiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerServiceImpl;
+import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
+import com.thomsonreuters.uscl.ereader.request.service.XppBundleArchiveService;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsServiceImpl;
 import org.easymock.EasyMock;
@@ -63,6 +68,7 @@ public final class GenerateEbookControllerTest
     private ManagerService mockManagerService;
     private OutageService mockOutageService;
     private MiscConfigSyncService mockMiscConfigService;
+    private XppBundleArchiveService mockXppBundleArchiveService;
 
     @Before
     public void setUp()
@@ -81,6 +87,7 @@ public final class GenerateEbookControllerTest
         mockManagerService = EasyMock.createMock(ManagerServiceImpl.class);
         mockOutageService = EasyMock.createMock(OutageServiceImpl.class);
         mockMiscConfigService = EasyMock.createMock(ManagerMiscConfigSyncService.class);
+        mockXppBundleArchiveService = EasyMock.createMock(XppBundleArchiveService.class);
 
         // Set up the controller
         controller = new GenerateEbookController();
@@ -93,6 +100,7 @@ public final class GenerateEbookControllerTest
         controller.setPublishingStatsService(mockPublishingStatsService);
         controller.setManagerService(mockManagerService);
         controller.setOutageService(mockOutageService);
+        controller.setXppBundleArchiveService(mockXppBundleArchiveService);
     }
 
     /**
@@ -328,6 +336,68 @@ public final class GenerateEbookControllerTest
         }
     }
 
+    @Test
+    public void shouldShowErrorMessageWhenPrintComponentsEmpty() throws Exception
+    {
+        //given
+        final String message = "mesg.empty.printcomponents";
+        final BookDefinition book = givenBook();
+        book.setSourceType(SourceType.XPP);
+
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
+        request.setMethod(HttpMethod.POST.name());
+        request.setParameter("command", Command.GENERATE.toString());
+        request.setParameter("id", book.getEbookDefinitionId().toString());
+        request.setParameter("isHighPriorityJob", "true");
+
+        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+        EasyMock.expect(mockManagerService.findRunningJob(book)).andReturn(null);
+        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(book.getEbookDefinitionId())).andReturn(book);
+        EasyMock.expect(mockJobRequestService.isBookInJobRequest(book.getEbookDefinitionId())).andReturn(false);
+        EasyMock.expect(mockJobRequestService.saveQueuedJobRequest(book, "", 5, null)).andReturn(null);
+        EasyMock.expect(mockMessageSourceAccessor.getMessage("label.normal")).andReturn("");
+        EasyMock.expect(mockMessageSourceAccessor.getMessage(message)).andReturn(message);
+        replayAll();
+        //when
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        //then
+        assertNotNull(mav);
+        Assert.assertEquals(mav.getModel().get(WebConstants.KEY_ERR_MESSAGE), message);
+    }
+
+    @Test
+    public void shouldShowErrorMessageWhenBundlesMissed() throws Exception
+    {
+        //given
+        final String message = "mesg.missing.bundle";
+        final BookDefinition book = givenBook();
+        book.setSourceType(SourceType.XPP);
+        final PrintComponent printComponent = new PrintComponent();
+        printComponent.setMaterialNumber("123");
+        book.setPrintComponents(asList(printComponent));
+
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
+        request.setMethod(HttpMethod.POST.name());
+        request.setParameter("command", Command.GENERATE.toString());
+        request.setParameter("id", book.getEbookDefinitionId().toString());
+        request.setParameter("isHighPriorityJob", "true");
+
+        EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
+        EasyMock.expect(mockManagerService.findRunningJob(book)).andReturn(null);
+        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(book.getEbookDefinitionId())).andReturn(book);
+        EasyMock.expect(mockJobRequestService.isBookInJobRequest(book.getEbookDefinitionId())).andReturn(false);
+        EasyMock.expect(mockJobRequestService.saveQueuedJobRequest(book, "", 5, null)).andReturn(null);
+        EasyMock.expect(mockMessageSourceAccessor.getMessage("label.normal")).andReturn("");
+        EasyMock.expect(mockXppBundleArchiveService.findByMaterialNumber("123")).andReturn(null);
+        EasyMock.expect(mockMessageSourceAccessor.getMessage(message)).andReturn(message);
+        replayAll();
+        //when
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        //then
+        assertNotNull(mav);
+        Assert.assertEquals(mav.getModel().get(WebConstants.KEY_ERR_MESSAGE), message);
+    }
+
     /**
      * Test the Get of no book selected to generator preview
      */
@@ -395,5 +465,17 @@ public final class GenerateEbookControllerTest
         EasyMock.replay(mockManagerService);
         EasyMock.replay(mockOutageService);
         EasyMock.replay(mockMiscConfigService);
+        EasyMock.replay(mockXppBundleArchiveService);
+    }
+
+    private BookDefinition givenBook()
+    {
+        final BookDefinition book = new BookDefinition();
+        book.setEbookDefinitionId(127L);
+        book.setIsDeletedFlag(false);
+        book.setPublishedOnceFlag(true);
+        book.setFullyQualifiedTitleId("");
+        book.setProviewDisplayName("");
+        return book;
     }
 }

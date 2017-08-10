@@ -71,13 +71,20 @@ public class ViewBookDefinitionController
         {
             final List<PrintComponent> currentPrintComponentsList =
                 new ArrayList<>(form.getBookDefinition().getPrintComponents());
-            form.getBookDefinition()
-                .setPrintComponents(printComponentUtil.getAllInitializedPrintComponents(currentPrintComponentsList));
-            for (final PrintComponent element : form.getBookDefinition().getPrintComponents())
+            if (currentPrintComponentsList.isEmpty())
             {
-                if (!element.getComponentInArchive())
+                form.setGenerateButtonDisabled(true);
+            }
+            else
+            {
+                form.getBookDefinition().setPrintComponents(
+                    printComponentUtil.getAllInitializedPrintComponents(currentPrintComponentsList));
+                for (final PrintComponent element : form.getBookDefinition().getPrintComponents())
                 {
-                    form.setGenerateButtonDisabled(true);
+                    if (!element.getComponentInArchive())
+                    {
+                        form.setGenerateButtonDisabled(true);
+                    }
                 }
             }
         }

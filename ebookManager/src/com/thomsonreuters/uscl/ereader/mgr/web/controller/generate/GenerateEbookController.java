@@ -2,7 +2,6 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.generate;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
@@ -61,13 +61,10 @@ public class GenerateEbookController
     private XppBundleArchiveService xppBundleArchiveService;
     private static final String REVIEW_STATUS = "Review";
 
-    private static final SimpleDateFormat formatter = new SimpleDateFormat(CoreConstants.DATE_FORMAT_PATTERN);
-
     @RequestMapping(value = WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW, method = RequestMethod.GET)
     public ModelAndView generateBulkEbookPreview(@RequestParam("id") final List<Long> id, final Model model)
-        throws Exception
     {
-        final List<GenerateBulkBooksContainer> booksToGenerate = new ArrayList<GenerateBulkBooksContainer>();
+        final List<GenerateBulkBooksContainer> booksToGenerate = new ArrayList<>();
         for (final Long bookId : id)
         {
             final BookDefinition book = bookDefinitionService.findBookDefinitionByEbookDefId(bookId);
@@ -88,13 +85,6 @@ public class GenerateEbookController
         return new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_BULK_PREVIEW);
     }
 
-    /**
-     *
-     * @param form
-     * @param model
-     * @param session
-     * @return
-     */
     @RequestMapping(value = WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW, method = RequestMethod.POST)
     public ModelAndView doPost(
         @ModelAttribute(GenerateBookForm.FORM_NAME) final GenerateBookForm form,
@@ -139,21 +129,19 @@ public class GenerateEbookController
             {
                 final Object[] args =
                     {book.getFullyQualifiedTitleId(), queuePriorityLabel, "This book is already in the job queue"};
-                final String errMessage = messageSourceAccessor.getMessage("mesg.job.enqueued.fail", args);
-                model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
-                log.error(errMessage);
+                showErrorMessage(model, "mesg.job.enqueued.fail", null, args);
             }
             else if (book.isDeletedFlag())
             {
-                final String errMessage = messageSourceAccessor.getMessage("mesg.book.deleted");
-                model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
-                log.error(errMessage);
+                showErrorMessage(model, "mesg.book.deleted", null);
             }
-            else if (!allBundlesPresent(book.getPrintComponents()))
+            else if (emptyPrintComponents(book))
             {
-                final String errMessage = messageSourceAccessor.getMessage("mesg.missing.bundle");
-                model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
-                log.error(errMessage);
+                showErrorMessage(model, "mesg.empty.printcomponents", null);
+            }
+            else if (bundlesMissed(book))
+            {
+                showErrorMessage(model, "mesg.missing.bundle", null);
             }
             else
             {
@@ -197,9 +185,7 @@ public class GenerateEbookController
                     catch (final Exception e)
                     { // Report failure on page in error message area
                         final Object[] args = {book.getFullyQualifiedTitleId(), queuePriorityLabel, e.getMessage()};
-                        final String errMessage = messageSourceAccessor.getMessage("mesg.job.enqueued.fail", args);
-                        log.error(errMessage, e);
-                        model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
+                        showErrorMessage(model, "mesg.job.enqueued.fail", e, args);
                     }
                 }
             }
@@ -215,7 +201,6 @@ public class GenerateEbookController
 
             model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
             mav = new ModelAndView(WebConstants.VIEW_BOOK_GENERATE_PREVIEW);
-
             break;
         }
         case EDIT:
@@ -236,6 +221,14 @@ public class GenerateEbookController
         }
         }
         return mav;
+    }
+
+    private void showErrorMessage(final Model model, final String messageId, final Exception e, final Object... args)
+    {
+        final String errMessage = args.length == 0
+            ? messageSourceAccessor.getMessage(messageId) : messageSourceAccessor.getMessage(messageId, args);
+        model.addAttribute(WebConstants.KEY_ERR_MESSAGE, errMessage);
+        log.error(errMessage, e);
     }
 
     /**
@@ -264,7 +257,8 @@ public class GenerateEbookController
             String cutOffDate = null;
             if (book.getPublishCutoffDate() != null)
             {
-                cutOffDate = formatter.format(book.getPublishCutoffDate().getTime());
+                cutOffDate = new SimpleDateFormat(CoreConstants.DATE_FORMAT_PATTERN)
+                    .format(book.getPublishCutoffDate().getTime());
             }
             model.addAttribute(WebConstants.TITLE, book.getProviewDisplayName());
             model.addAttribute(WebConstants.KEY_ISBN, book.getIsbn());
@@ -306,22 +300,30 @@ public class GenerateEbookController
      * Determine whether the Bundles for the specified print components have been received and saved yet, and
      * set the corresponding field in PrintComponent to display for each.
      *
-     * @param components
+     * @param book
      * @return
      */
-    private boolean allBundlesPresent(final Collection<PrintComponent> components)
+    private boolean bundlesMissed(final BookDefinition book)
     {
-        boolean allPresent = true;
+        if (book.getSourceType() != SourceType.XPP)
+        {
+            return false;
+        }
+
         // TODO Refactor to verify all archive entries in one call
-        for (final PrintComponent component : components)
+        for (final PrintComponent component : book.getPrintComponents())
         {
             if (xppBundleArchiveService.findByMaterialNumber(component.getMaterialNumber()) == null)
             {
-                component.setComponentInArchive(false);
-                allPresent = false;
+                return true;
             }
         }
-        return allPresent;
+        return false;
+    }
+
+    private boolean emptyPrintComponents(final BookDefinition book)
+    {
+        return book.getSourceType() == SourceType.XPP && book.getPrintComponents().isEmpty();
     }
 
     /**
