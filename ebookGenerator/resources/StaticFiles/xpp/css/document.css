@@ -111,8 +111,8 @@
 }
 
 .page_number {
+  display: block;
   text-align: center;
-  vertical-align: bottom;
 }
 
 .toc_analytical_hierarchy {

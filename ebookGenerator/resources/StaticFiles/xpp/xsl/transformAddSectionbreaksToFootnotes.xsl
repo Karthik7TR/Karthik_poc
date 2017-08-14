@@ -27,7 +27,7 @@
         <xsl:variable name="outerFootnote" select="ancestor::x:footnote[1]" />
 
         <xsl:choose>
-            <xsl:when test="$outerFootnote and x:pagebreak-and-footnote-from-different-sections($outerFootnote, .)">
+            <xsl:when test="$outerFootnote">
                 <xsl:call-template name="insertCloseTags" />
                 <xsl:call-template name="processPagebreak" />
                 <xsl:call-template name="insertOpenTags" />

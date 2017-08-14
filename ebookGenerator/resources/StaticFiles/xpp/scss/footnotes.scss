@@ -54,3 +54,8 @@ sup {
         margin-left: calc(#{$indent}*2.3);
     }
 }
+
+.page_number {
+    display: block;
+    text-align: center;
+}
