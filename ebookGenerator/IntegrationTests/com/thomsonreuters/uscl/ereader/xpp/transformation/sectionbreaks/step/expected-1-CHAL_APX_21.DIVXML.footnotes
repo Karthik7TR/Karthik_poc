@@ -15,14 +15,14 @@
     <footnote uuid="I42e15f7013c911e7b9e3acd823573d3d" date.updated="0" id="2">
         <footnote.body date.updated="0">
             <para date.updated="0" first.para="no">
-                <pagebreak num="2" num-string="2"/>
+                </para></footnote.body></footnote><pagebreak num="2" num-string="2"/><footnote><footnote.body date.updated="0"><para date.updated="0" first.para="no">
             </para>
         </footnote.body>
     </footnote>
     <sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2577"/><footnote uuid="I42e15f7013c911e7b9e3acd823573d4e" date.updated="0" id="3">
         <footnote.body date.updated="0">
             <para date.updated="0" first.para="no">
-                <pagebreak num="3" num-string="3"/>
+                </para></footnote.body></footnote><pagebreak num="3" num-string="3"/><footnote><footnote.body date.updated="0"><para date.updated="0" first.para="no">
             </para>
         </footnote.body>
     </footnote>

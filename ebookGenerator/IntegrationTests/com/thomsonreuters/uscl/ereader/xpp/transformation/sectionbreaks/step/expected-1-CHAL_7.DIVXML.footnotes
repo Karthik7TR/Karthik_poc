@@ -50,9 +50,9 @@
         <footnote.body date.updated="0">
             <para date.updated="0" first.para="no">
                 footnote on page 5
-                <pagebreak num="6" num-string="6"/>
+                </para></footnote.body></footnote><pagebreak num="6" num-string="6"/><footnote><footnote.body date.updated="0"><para date.updated="0" first.para="no">
                 footnote on page 6
-                <pagebreak num="7" num-string="7"/>
+                </para></footnote.body></footnote><pagebreak num="7" num-string="7"/><footnote><footnote.body date.updated="0"><para date.updated="0" first.para="no">
                 footnote on page 7
                 </para></footnote.body></footnote><sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2581"/><pagebreak num="8" num-string="8"/><footnote><footnote.body date.updated="0"><para date.updated="0" first.para="no">
                 footnote on page 8
