@@ -19,7 +19,7 @@
 
 .outline_name_block {
     .toc_chapter & {
-        display: flex;
+        display: inline-flex;
     }
     .toc_analytical_level>.toc_analytical_level>& {
         margin-left: $indent;

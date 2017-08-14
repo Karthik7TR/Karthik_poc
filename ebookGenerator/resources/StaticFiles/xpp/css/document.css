@@ -60,7 +60,7 @@
 }
 
 .outline_name_block {
-  display: flex;
+  display: inline-flex;
   align-items: baseline;
 }
 
@@ -594,7 +594,7 @@
 }
 
 .toc_chapter .outline_name_block {
-  display: flex;
+  display: inline-flex;
 }
 
 .toc_analytical_level > .toc_analytical_level > .outline_name_block {
