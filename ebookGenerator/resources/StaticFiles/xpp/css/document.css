@@ -110,9 +110,10 @@
   display: inline !important;
 }
 
-.page_number {
-  display: block;
-  text-align: center;
+.TLRkey {
+  height: 8px;
+  vertical-align: middle;
+  width: 16px;
 }
 
 .toc_analytical_hierarchy {
@@ -695,4 +696,9 @@
 
 .footnote_body > .research_reference_block {
   margin-left: calc(1em*2.3);
+}
+
+.page_number {
+  display: block;
+  text-align: center;
 }

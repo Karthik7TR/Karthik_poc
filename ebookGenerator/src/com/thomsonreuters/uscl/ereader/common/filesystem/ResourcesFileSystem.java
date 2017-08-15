@@ -36,6 +36,12 @@ public interface ResourcesFileSystem
     File getDocumentCss();
 
     /**
+     * Special image to display TLRkey character
+     */
+    @NotNull
+    File getTlrKeyImage();
+
+    /**
      * {@link com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem#getFontsCssDirectory}
      */
     @NotNull

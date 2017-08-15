@@ -19,15 +19,14 @@ public class ResourcesFileSystemXppImpl implements ResourcesFileSystem
 {
     @Resource(name = "xppFormatFileSystem")
     private XppFormatFileSystem xppFormatFileSystem;
-
     @Resource(name = "imageFileSystem")
     private ImageFileSystem imageFileSystem;
-
     @Resource(name = "coverArtUtil")
     private CoverArtUtil coverArtUtil;
-
     @Value("${xpp.document.css}")
     private File documentCssFile;
+    @Value("${xpp.tlrkey.image}")
+    private File tlrKeyImage;
 
     @NotNull
     @Override
@@ -55,6 +54,13 @@ public class ResourcesFileSystemXppImpl implements ResourcesFileSystem
     public File getDocumentCss()
     {
         return documentCssFile;
+    }
+
+    @NotNull
+    @Override
+    public File getTlrKeyImage()
+    {
+        return tlrKeyImage;
     }
 
     @NotNull

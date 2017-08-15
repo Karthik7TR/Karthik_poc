@@ -62,7 +62,9 @@ public class OriginalStructureTransformationStep extends XppTransformationStep
                     .setParameter("bundlePartType", BundleFileType.getByFileName(xppFile.getName()).name());
                 final File originalFile = fileSystem.getOriginalFile(this, xppDir.getKey(), xppFile.getName());
                 final TransformationCommand command =
-                    new TransformationCommandBuilder(transformerToOriginal, originalFile).withInput(xppFile).build();
+                    new TransformationCommandBuilder(transformerToOriginal, originalFile).withInput(xppFile)
+                        .withDtd(entitiesDtdFile)
+                        .build();
                 transformationService.transform(command);
             }
         }
@@ -81,7 +83,9 @@ public class OriginalStructureTransformationStep extends XppTransformationStep
                     .setParameter("bundlePartType", BundleFileType.getByFileName(xppFile.getName()).name());
                 final File footnotesFile = fileSystem.getFootnotesFile(this, xppDir.getKey(), xppFile.getName());
                 final TransformationCommand command =
-                    new TransformationCommandBuilder(transformerToFootnotes, footnotesFile).withInput(xppFile).build();
+                    new TransformationCommandBuilder(transformerToFootnotes, footnotesFile).withInput(xppFile)
+                        .withDtd(entitiesDtdFile)
+                        .build();
                 transformationService.transform(command);
             }
         }

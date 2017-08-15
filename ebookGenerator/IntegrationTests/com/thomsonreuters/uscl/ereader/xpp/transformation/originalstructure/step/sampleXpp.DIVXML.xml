@@ -102,7 +102,7 @@
 							bmline="false">
 							<tag name="ref.text"></tag><?xpp COLNUM?><?xpp cite?>
 							<tag name="ref"></tag>
-							<t x="0" y="0" style="ref">Guardian and Ward &#984339;1 to 74;
+							<t x="0" y="0" style="ref">Guardian and Ward &TLRkey; &#984339;1 to 74;
 								Infants &#984339;76 to 87</t>
 							<endtag name="ref"></endtag><?xpp /cite?>
 							<endtag name="ref.text"></endtag>

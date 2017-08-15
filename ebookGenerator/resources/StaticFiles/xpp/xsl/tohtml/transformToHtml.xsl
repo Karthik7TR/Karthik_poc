@@ -2,8 +2,10 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
-	<xsl:import href="transform-utils.xsl" />
+	<xsl:import href="../transform-utils.xsl" />
     <xsl:include href="transformFootnotesToLinks.xsl" />
+    <xsl:include href="transformTlrKey.xsl" />
+    
     <xsl:output method="html" indent="yes" omit-xml-declaration="yes"/>
 	<xsl:param name="fileBaseName" />
 	<xsl:param name="pagePrefix" />
@@ -22,8 +24,9 @@
       			<xsl:element name="link">
       				<xsl:attribute name="rel">stylesheet</xsl:attribute>
       				<xsl:attribute name="type">text/css</xsl:attribute>
-      				<xsl:attribute name="href" >er:#<xsl:value-of select="$divXmlName" /></xsl:attribute>
+      				<xsl:attribute name="href">er:#<xsl:value-of select="$divXmlName" /></xsl:attribute>
       			</xsl:element>
+      			<link rel="stylesheet" type="text/css" href="er:#blackkey"></link>
 			</head>
 			<xsl:element name="body">
             	<xsl:attribute name="fileBaseName" select="$fileBaseName" />

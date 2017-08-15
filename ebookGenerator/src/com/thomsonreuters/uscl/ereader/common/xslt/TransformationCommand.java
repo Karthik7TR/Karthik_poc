@@ -18,6 +18,8 @@ public final class TransformationCommand
     private Collection<File> inputFiles;
     @NotNull
     private File outputFile;
+    @Nullable
+    private File dtdFile;
 
     TransformationCommand(@NotNull final Transformer transformer, final File outputFile)
     {
@@ -57,6 +59,16 @@ public final class TransformationCommand
     public Transformer getTransformer()
     {
         return transformer;
+    }
+
+    void setDtdFile(final File dtdFile)
+    {
+        this.dtdFile = dtdFile;
+    }
+
+    public File getDtdFile()
+    {
+        return dtdFile;
     }
 
     public boolean isMultiInput()

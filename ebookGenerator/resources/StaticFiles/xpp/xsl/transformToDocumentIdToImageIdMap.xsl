@@ -10,7 +10,7 @@
         <xsl:text>&#xd;&#xa;</xsl:text>
     </xsl:template>
     
-    <xsl:template match="x:img[@assetid]">
+    <xsl:template match="x:img[@assetid != 'er:#blackkey']">
         <xsl:value-of select="concat(substring-after(@assetid,'#'), ',')" />
     </xsl:template>
 

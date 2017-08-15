@@ -80,34 +80,26 @@
 	</xsl:template>
 
 	<xsl:template match="x:t[not(@suppress='true')]">
-		<xsl:variable name="text"
-			select="x:get-fixed-text(string-join(text(), ''))" />
-		<xsl:copy>
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="x:t[not(@suppress='true')]/text()">
+		<xsl:element name="t">
 			<xsl:attribute name="style">
-				<xsl:value-of select="@style" />
-				<xsl:if test="@y!='0'">
-					<xsl:value-of select="concat(' ', x:get-vertical-align(@y))" />
+				<xsl:value-of select="../@style" />
+				<xsl:if test="../@y!='0'">
+					<xsl:value-of select="concat(' ', x:get-vertical-align(../@y))" />
 				</xsl:if>
-				<xsl:if test="@cgt='true'">
+				<xsl:if test="../@cgt='true'">
 					<xsl:value-of select="concat(' ', 'cgt')" />
 				</xsl:if>
 			</xsl:attribute>
-			<xsl:choose>
-				<xsl:when test="./processing-instruction('XPPLink')">
-					<xsl:apply-templates select="processing-instruction('XPPLink') | processing-instruction('XPPTOCLink')" />
-					<xsl:apply-templates mode="link-text"/>
-					<xsl:apply-templates select="processing-instruction('XPPEndLink') | processing-instruction('XPPTOCEndLink')" />
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="$text" />
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:copy>
-		<xsl:apply-templates select="*[not(processing-instruction('XPPLink') | processing-instruction('XPPTOCLink') | processing-instruction('XPPEndLink') | processing-instruction('XPPTOCEndLink'))]" />
+			<xsl:value-of select="x:get-fixed-text(.)" />
+		</xsl:element>
 	</xsl:template>
-	
-	<xsl:template match="text()" mode="link-text">
-		<xsl:value-of select="x:get-fixed-text(string-join(., ''))" />
+
+	<xsl:template match="x:TLRkey">
+		<xsl:copy />
 	</xsl:template>
 	
 	<!-- xsl:template match="processing-instruction('XPPLink') | processing-instruction('XPPTOCLink')">

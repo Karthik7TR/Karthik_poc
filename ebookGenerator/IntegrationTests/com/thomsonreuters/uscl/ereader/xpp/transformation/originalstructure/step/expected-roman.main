@@ -1,12 +1,12 @@
 <!DOCTYPE root SYSTEM "${refPlaceHolder}"><root xmlns="http://www.sdl.com/xpp"><pagebreak num="III" num-string="3" prev_page=""/><publication online.royalty.id="CALA" uuid="I0f72523026a511d99b08a92d7e97623c"><publication.body><chapter uuid="I49dd324026a611d99b08a92d7e97623c" date.revised="0" date.updated="0"><front date.updated="0"><generated.toc><full.toc><toc.appendix><outline.name.block></outline.name.block></toc.appendix></full.toc></generated.toc><research.reference.block date.updated="0"><t style="research.reference.block cgt">
-								Research References
+								Research References</t><t style="research.reference.block cgt">
 							</t><reference.entry.group><name.block><name><t style="name.3">
-								West
+								West</t><t style="name.3">
 							</t><t style="name.3 cgt">’</t><t style="name.3">s Key Number Digest</t></name></name.block><reference.entry><ref.text><ref><t style="ref">Guardian and Ward 󰔓1 to 74;
-								Infants 󰔓76 to 87</t></ref></ref.text></reference.entry></reference.entry.group></research.reference.block><t style="front cgt"> 
+								Infants 󰔓76 to 87</t></ref></ref.text></reference.entry></reference.entry.group></research.reference.block><t style="front cgt"> </t><t style="front cgt">
 							</t><t style="front.1 cgt">
-								Ke
-								yCite󰄥:
+								Ke</t><t style="front.1 cgt">
+								yCite󰄥:</t><t style="front.1 cgt">
 							</t><t style="front.2 cgt"> Cases and other legal
 								materials listed in KeyCite Scope can be
 							</t><t style="front.2 cgt">researched through the
@@ -15,9 +15,9 @@
 							</t><t style="front.2 cgt">comprehensive citator
 								information, including citations to other decisions
 							</t><t style="front.2 cgt">
-								and secondary materials.
+								and secondary materials.</t><t style="front.2 cgt">
 							</t></front><chapter.body date.updated="0"><analytical.hierarchy uuid="I49df7c3026a611d99b08a92d7e97623c" date.revised="0" date.updated="0"><XPPHier guid='I49df7c3026a611d99b08a92d7e97623c' name='I. Introduction' parent_guid='I49dd324026a611d99b08a92d7e97623c' >I. Introduction</XPPHier><front date.updated="0"><outline.name.block toc.include="y" date.updated="0"><designator date.updated="0"><t style="designator.3">
-								I
+								I</t><t style="designator.3">
 							</t><t style="designator.3 cgt">.</t></designator><name date.updated="0"><t style="name.4">Introduction</t></name></outline.name.block></front><analytical.hierarchy.body date.updated="0"><section.block><section uuid="I49e03f8026a611d99b08a92d7e97623c" date.revised="0" date.updated="0"><XPPMetaData guid='I445a1ac6c61c11d9962fb5f8354828db' md.uuid='I445a1ac6c61c11d9962fb5f8354828db' md.dmsserial='303448441' md.first_line_cite='CALRO S 7:1' md.second_line_cite='2 Children &amp;amp; the Law: Rights and Obligations s 7:1' md.pubpage='s 7:1' md.pubid='177882' md.doc_family_uuid='Ie0b81373f8fb11d99f28ffa0ae8c2575' md.normalizedcite='CALROS7:1' md.third_line_cite=''  name='&amp;sect; 7:1. Scope of chapter' parent_uuid='I49df7c3026a611d99b08a92d7e97623c' >&sect; 7:1. Scope of chapter</XPPMetaData><section.front date.updated="0"><outline.name.block toc.include="y" date.updated="0"><label date.updated="0"><t style="label.2 cgt">§ </t></label><designator date.updated="0"><t style="designator.4">7:1</t></designator><name date.updated="0"><t style="name.5 cgt"> 
 							</t><t style="name.5">Scope of chapter</t></name></outline.name.block></section.front><section.body date.updated="0"><para date.updated="0" first.para="yes"><para.text date.updated="0" first.para.text="yes"><t style="para.text">The purpose of this chapter is to
 								familiarize the reader </t><t style="para.text">with guardianship through a summary of
@@ -25,7 +25,7 @@
 								no substitute for a </t><t style="para.text">review of applicable state law. However,
 								statutes are not </t><t style="para.text">
 								always grouped together in one section or volume and por
-								
+								</t><t style="para.text">
 							</t><t style="para.text">tions of the law may be left to local
 								rules or customs. An </t><t style="para.text">overview of the general law will assist in
 								understanding </t><t style="para.text">guardianship procedures and requirements.
@@ -38,53 +38,53 @@
 								and with an </t><t style="para.text">awareness of common issues.</t></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><t style="para.text">Cases presented involve minors, even
 								though adult </t><t style="para.text">
 								incompetency guardianship cases might be applicable. Ap
-								
+								</t><t style="para.text">
 							</t><t style="para.text">pellate review is confined to issues of
 								appointment, removal </t><t style="para.text">
-								of guardian and settlements on account.
+								of guardian and settlements on account.</t><t style="para.text">
 							</t><t style="para.text.1 super cgt">1</t><xref id="2" type="footnote"/><t style="para.text"> Although juries </t><t style="para.text">
 								may be used to hear and determine whether the appoint
-								
+								</t><t style="para.text">
 							</t><t style="para.text">ment of a guardian is necessary, it is the
 								court that decides </t><t style="para.text">
-								who will be appointed as guardian. 
+								who will be appointed as guardian. </t><t style="para.text">
 							</t><t style="para.text cgt">‘‘</t><t style="para.text">
-								Notice
+								Notice</t><t style="para.text">
 							</t><t style="para.text cgt">’’</t><t style="para.text"> is discussed in </t><pagebreak num="IV" num-string="4" prev_page="3"/><t style="para.text">
-								relation to the petition process,
+								relation to the petition process,</t><t style="para.text">
 							</t><t style="para.text.1 super cgt">2</t><xref id="3" type="footnote"/><t style="para.text"> although notice regarding </t><t style="para.text">other aspects of guardianship (i.e.,
 								notice to creditors), has </t><t style="para.text">
-								been one of the most violated rules in guardianship.
+								been one of the most violated rules in guardianship.</t><t style="para.text">
 							</t><t style="para.text.1 super cgt">3</t><xref id="4" type="footnote"/></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><t style="para.text">
-								Some alternatives to guardianship are discussed,
+								Some alternatives to guardianship are discussed,</t><t style="para.text">
 							</t><t style="para.text.1 super cgt">4</t><xref id="5" type="footnote"/><t style="para.text"> as </t><t style="para.text">
 								counsel may recommend such a course of action in a particu
-								
+								</t><t style="para.text">
 							</t><t style="para.text">lar case. Related issues are addressed in
 								other chapters on </t><t style="para.text">
-								adoption, divorce and mental health.
+								adoption, divorce and mental health.</t><t style="para.text">
 							</t><t style="para.text.1 super cgt">5</t><xref id="6" type="footnote"/><t style="para.text"> Forms at the end of </t><t style="para.text">the chapter were collected from various
 								state statutes as a </t><t style="para.text">guide, and may need to be altered for
 								individual use.</t></para.text></para></section.body></section><section uuid="I4a6f120026a611d99b08a92d7e97623c" date.revised="0" date.updated="0"><XPPMetaData guid='I445a1ac9c61c11d9962fb5f8354828db' md.uuid='I445a1ac9c61c11d9962fb5f8354828db' md.dmsserial='303448442' md.first_line_cite='CALRO S 7:2' md.second_line_cite='2 Children &amp;amp; the Law: Rights and Obligations s 7:2' md.pubpage='s 7:2' md.pubid='177882' md.doc_family_uuid='Ie0b81374f8fb11d99f28ffa0ae8c2575' md.normalizedcite='CALROS7:2' md.third_line_cite=''  name='&amp;sect; 7:2. Definitions' parent_uuid='I49df7c3026a611d99b08a92d7e97623c' >&sect; 7:2. Definitions</XPPMetaData><section.front date.updated="0"><outline.name.block toc.include="y" date.updated="0"><label date.updated="0"><t style="label.2 cgt">§ </t></label><designator date.updated="0"><t style="designator.4">7:2</t></designator><name date.updated="0"><t style="name.5 cgt"> 
 							</t><t style="name.5">Definitions</t></name></outline.name.block></section.front><section.body date.updated="0"><para date.updated="0" first.para="yes"><para.text date.updated="0" first.para.text="yes"><ital><t style="ital">Ancillary Guardian.</t></ital><t style="para.text"> Guardian appointed in a state other </t><t style="para.text">
 								than the state of original appointment and who is subservi
-								
+								</t><t style="para.text">
 							</t><t style="para.text">ent and assistive to the original
 								guardian.</t></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital><t style="ital">Conservator.</t></ital><t style="para.text"> Interchangeable with guardian in some </t><t style="para.text">
 								courts; other courts reserve the term to relate only to guard
-								
+								</t><t style="para.text">
 							</t><t style="para.text">
 								ian of the property. A state may use the term guardian refer
-								
+								</t><t style="para.text">
 							</t><t style="para.text">
-								ring to minors and conservator applying to adults.
+								ring to minors and conservator applying to adults.</t><t style="para.text">
 							</t><t style="para.text.1 super cgt">1</t><xref id="7" type="footnote"/></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital><t style="ital">Curator.</t></ital><t style="para.text"> French civil law term for guardian
 								appointed to </t><t style="para.text">control minor's property. Has other
 								meanings in other </t><t style="para.text">contexts.</t></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital><t style="ital">Domicile.</t></ital><t style="para.text"> Intended legal residence.</t></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital><t style="ital">Domiciliary Guardian.</t></ital><t style="para.text"> Guardian appointed by the state of </t><t style="para.text">the guardian's and ward's
 								domicile.</t></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital><t style="ital">Emancipation.</t></ital><t style="para.text"> Adult status obtained in some states
 								prior </t><t style="para.text">to age of majority by marriage, court
 								decree or military </t><t style="para.text">
-								enlistment.
+								enlistment.</t><t style="para.text">
 							</t><t style="para.text.1 super cgt">2</t><xref id="8" type="footnote"/></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital><t style="ital">Foreign Guardian.</t></ital><t style="para.text"> Guardian whose appointment was </t><t style="para.text">granted in another state. Outside the
 								original appointment </t><t style="para.text">jurisdiction the guardian is considered a
 								foreign guardian. </t><t style="para.text">The foreign guardian must be assisted by a

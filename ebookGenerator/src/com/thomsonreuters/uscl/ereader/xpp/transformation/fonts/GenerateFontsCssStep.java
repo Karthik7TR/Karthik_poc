@@ -22,6 +22,8 @@ public class GenerateFontsCssStep extends XppTransformationStep
 {
     @Value("${xpp.transform.fonts.css.xsl}")
     private File transformFontsCssXsl;
+    @Value("${xpp.entities.dtd}")
+    private File entitiesDtdFile;
 
     @Resource(name = "xppGatherFileSystem")
     private XppGatherFileSystem xppGatherFileSystem;
@@ -39,7 +41,7 @@ public class GenerateFontsCssStep extends XppTransformationStep
             {
                 final File cssFile = fileSystem.getFontsCssFile(this, xppDir.getKey(), xppFile.getName());
                 final TransformationCommand command =
-                    new TransformationCommandBuilder(transformer, cssFile).withInput(xppFile).build();
+                    new TransformationCommandBuilder(transformer, cssFile).withInput(xppFile).withDtd(entitiesDtdFile).build();
                 transformationService.transform(command);
             }
         }

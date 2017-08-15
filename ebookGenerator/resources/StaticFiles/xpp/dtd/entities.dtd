@@ -18,7 +18,7 @@
      Public identifier:
      -//ISO 8879:1986//ENTITIES Added Latin 1//EN
 -->
-
+<!ENTITY TLRkey "<TLRkey/>"> <!-- key img marker -->
 
 <!ENTITY aacute "&amp;#225;"> <!-- small a, acute accent -->
 <!ENTITY Aacute "&amp;#193;"> <!-- capital A, acute accent -->

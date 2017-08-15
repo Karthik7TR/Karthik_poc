@@ -15,16 +15,16 @@ public class FileContentMatcher extends BaseMatcher<Object>
     private static final Logger LOG = LogManager.getLogger(FileContentMatcher.class);
 
     @NotNull
-    private File actual;
+    private File expected;
 
-    public FileContentMatcher(@NotNull final File actual)
+    public FileContentMatcher(@NotNull final File expected)
     {
-        this.actual = actual;
+        this.expected = expected;
     }
 
-    public static FileContentMatcher hasSameContentAs(@NotNull final File actual)
+    public static FileContentMatcher hasSameContentAs(@NotNull final File expected)
     {
-        return new FileContentMatcher(actual);
+        return new FileContentMatcher(expected);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class FileContentMatcher extends BaseMatcher<Object>
         final File file = (File) item;
         try
         {
-            return FileUtils.contentEquals(actual, file);
+            return FileUtils.contentEquals(expected, file);
         }
         catch (final IOException e)
         {
@@ -57,7 +57,7 @@ public class FileContentMatcher extends BaseMatcher<Object>
             description.appendText("file content was \n")
                 .appendValue(FileUtils.readFileToString(file))
                 .appendText("\n but expected \n")
-                .appendValue(FileUtils.readFileToString(actual));
+                .appendValue(FileUtils.readFileToString(expected));
         }
         catch (final IOException e)
         {

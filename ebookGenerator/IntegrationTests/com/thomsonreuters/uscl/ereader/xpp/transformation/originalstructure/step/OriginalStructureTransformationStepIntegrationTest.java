@@ -46,20 +46,26 @@ public final class OriginalStructureTransformationStepIntegrationTest
     public void shouldReturnOriginalXmlWithRomanPageNumbers() throws Exception
     {
         testOriginalStructureTransformationStep(
-            "sampleXpp_Front_vol_1.DIVXML.xml", "expected-roman.main", "expected-roman.footnotes");
+            "sampleXpp_Front_vol_1.DIVXML.xml",
+            "expected-roman.main",
+            "expected-roman.footnotes");
     }
 
-    private void testOriginalStructureTransformationStep(final String sampleFileName,
-                                                         final String expectedMainFileName,
-                                                         final String expectedFootnoteFileName) throws Exception
+    private void testOriginalStructureTransformationStep(
+        final String sampleFileName,
+        final String expectedMainFileName,
+        final String expectedFootnoteFileName) throws Exception
     {
         //given
-        final String expectedMain = FileUtils.readFileToString(
-            new File(OriginalStructureTransformationStepIntegrationTest.class.getResource(expectedMainFileName).toURI()))
+        final String expectedMain = FileUtils
+            .readFileToString(
+                new File(
+                    OriginalStructureTransformationStepIntegrationTest.class.getResource(expectedMainFileName).toURI()))
             .replace(REF_PLACE_HOLDER, entitiesDtdFile.getAbsolutePath().replace("\\", "/"));
         final File expectedFootnotes = new File(
             OriginalStructureTransformationStepIntegrationTest.class.getResource(expectedFootnoteFileName).toURI());
-        final File xpp = new File(OriginalStructureTransformationStepIntegrationTest.class.getResource(sampleFileName).toURI());
+        final File xpp =
+            new File(OriginalStructureTransformationStepIntegrationTest.class.getResource(sampleFileName).toURI());
         final File xppDir = xppGatherFileSystem.getXppBundleMaterialNumberDirectory(step, MATERIAL_NUMBER)
             .toPath()
             .resolve("bundleName")
@@ -72,7 +78,7 @@ public final class OriginalStructureTransformationStepIntegrationTest
         //then
         final File main = fileSystem.getOriginalFile(step, MATERIAL_NUMBER, sampleFileName);
         final File footnotes = fileSystem.getFootnotesFile(step, MATERIAL_NUMBER, sampleFileName);
-        assertThat(expectedMain, equalTo(FileUtils.readFileToString(main)));
-        assertThat(expectedFootnotes, hasSameContentAs(footnotes));
+        assertThat(FileUtils.readFileToString(main), equalTo(expectedMain));
+        assertThat(footnotes, hasSameContentAs(expectedFootnotes));
     }
 }

@@ -16,7 +16,11 @@ public class PartFilesIndex
         return partFilesByMaterialNumber;
     }
 
-    public void put(@NotNull final String materialNumber, @NotNull final String baseName, @NotNull final PartType type, @NotNull final DocumentFile documentFile)
+    public void put(
+        @NotNull final String materialNumber,
+        @NotNull final String baseName,
+        @NotNull final PartType type,
+        @NotNull final DocumentFile documentFile)
     {
         if (!partFilesByMaterialNumber.containsKey(materialNumber))
         {
@@ -26,7 +30,18 @@ public class PartFilesIndex
     }
 
     @NotNull
-    public DocumentFile get(@NotNull final String materialNumber, @NotNull final String baseName, @NotNull final String uuid, @NotNull final PartType type) {
-        return partFilesByMaterialNumber.get(materialNumber).getPartFilesByBaseName().get(baseName).getPartFilesByUuid().get(uuid).getPartFilesByType().get(type);
+    public DocumentFile get(
+        @NotNull final String materialNumber,
+        @NotNull final String baseName,
+        @NotNull final String uuid,
+        @NotNull final PartType type)
+    {
+        return partFilesByMaterialNumber.get(materialNumber)
+            .getPartFilesByBaseName()
+            .get(baseName)
+            .getPartFilesByUuid()
+            .get(uuid)
+            .getPartFilesByType()
+            .get(type);
     }
 }

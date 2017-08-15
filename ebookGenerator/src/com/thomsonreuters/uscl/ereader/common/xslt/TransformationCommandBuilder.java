@@ -33,6 +33,12 @@ public final class TransformationCommandBuilder
         return this;
     }
 
+    public TransformationCommandBuilder withDtd(@NotNull final File dtdFile)
+    {
+        command.setDtdFile(dtdFile);
+        return this;
+    }
+
     @NotNull
     public TransformationCommand build()
     {
