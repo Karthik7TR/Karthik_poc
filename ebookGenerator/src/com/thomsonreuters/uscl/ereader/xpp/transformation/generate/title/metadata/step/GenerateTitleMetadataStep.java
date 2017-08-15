@@ -92,7 +92,10 @@ public class GenerateTitleMetadataStep extends XppTransformationStep
     {
         final BookDefinition bookDefinition = getBookDefinition();
         final TitleMetadata titleMetadata = TitleMetadata.builder(bookDefinition)
-            .proviewFeatures(proviewFeaturesListBuilderFactory.create(bookDefinition).getFeatures())
+            .proviewFeatures(
+                proviewFeaturesListBuilderFactory.create(bookDefinition)
+                    .withBookVersion(getBookVersion())
+                    .getFeatures())
             .versionNumber(getBookVersionString())
             .artworkFile(assembleFileSystem.getArtworkFile(this))
             .assetFilesFromDirectory(assembleFileSystem.getAssetsDirectory(this))
