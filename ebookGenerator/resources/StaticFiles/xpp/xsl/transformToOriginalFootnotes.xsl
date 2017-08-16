@@ -62,18 +62,23 @@
 		<xsl:text disable-output-escaping="yes"><![CDATA[>]]></xsl:text>
 	</xsl:template>
 
-	<xsl:template match="x:t">
-		<xsl:choose>
-			<xsl:when test="@suppress='true'" />
-			<xsl:when test="@cgt='true'">
-				<xsl:element name="cgt">
-					<xsl:value-of select="x:get-fixed-text(self::node())" />
-				</xsl:element>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="x:get-fixed-text(self::node())" />
-			</xsl:otherwise>
-		</xsl:choose>
+	<xsl:template match="x:t[not(@suppress='true')]">
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="x:t[not(@suppress='true')]/text()">
+		<xsl:element name="t">
+			<xsl:attribute name="style">
+				<xsl:value-of select="../@style" />
+				<xsl:if test="../@y!='0'">
+					<xsl:value-of select="concat(' ', x:get-vertical-align(../@y))" />
+				</xsl:if>
+				<xsl:if test="../@cgt='true'">
+					<xsl:value-of select="concat(' ', 'cgt')" />
+				</xsl:if>
+			</xsl:attribute>
+			<xsl:value-of select="x:get-fixed-text(.)" />
+		</xsl:element>
 	</xsl:template>
 
 	<xsl:template match="text()" />

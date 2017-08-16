@@ -2,8 +2,12 @@
 sup {
     .footnote>& {
         display: inline;
-        margin-left: calc(#{$indent}*2);
+        margin-left: calc(#{$indent}*2.2);
     }
+}
+
+sup, sup * {
+    display: inline !important;
 }
 
 .footnote_body {
@@ -16,6 +20,16 @@ sup {
     }
 }
 
+.research_reference_block {
+    .footnote & {
+        margin: 0;
+    }
+}
+
+.footnote {
+    text-align: justify;
+}
+
 .para {
     .footnote_body & {
         display: block;
@@ -24,7 +38,7 @@ sup {
 }
 
 .para:first-child {
-    .footnote_body & {
+    sup+.footnote_body>& {
         display: inline;
         text-indent: 0;
     }

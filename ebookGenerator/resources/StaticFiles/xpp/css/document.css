@@ -557,7 +557,8 @@
 .outline_name_block > .label .cgt,
 .toc_chapter > .outline_name_block > .cgt,
 .footnote_reference > .cgt,
-.mte2 > .cgt {
+.mte2 > .cgt,
+sup .cgt {
   display: inline;
 }
 
@@ -654,7 +655,11 @@
 
 .footnote > sup {
   display: inline;
-  margin-left: calc(1em*2);
+  margin-left: calc(1em*2.2);
+}
+
+sup, sup * {
+  display: inline !important;
 }
 
 .footnote_body {
@@ -665,12 +670,20 @@
   display: inline;
 }
 
+.footnote .research_reference_block {
+  margin: 0;
+}
+
+.footnote {
+  text-align: justify;
+}
+
 .footnote_body .para {
   display: block;
   text-indent: calc(1em*2.3);
 }
 
-.footnote_body .para:first-child {
+sup + .footnote_body > .para:first-child {
   display: inline;
   text-indent: 0;
 }

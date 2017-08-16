@@ -16,7 +16,8 @@
     .outline_name_block>.label &,
     .toc_chapter>.outline_name_block>&,
     .footnote_reference>&,
-    .mte2>& {
+    .mte2>&,
+    sup & {
         display: inline;
     }
     .signature_group>.form_line &,
