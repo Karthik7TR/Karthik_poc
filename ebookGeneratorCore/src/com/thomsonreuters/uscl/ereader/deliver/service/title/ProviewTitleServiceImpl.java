@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.deliver.service.title;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
@@ -108,5 +109,20 @@ public class ProviewTitleServiceImpl implements ProviewTitleService
         }
         while (hasParts);
         return titleIds;
+    }
+
+    @Override
+    public boolean isMajorVersionPromotedToFinal(@NotNull final String fullyQualifiedTitleId, @NotNull final Version newVersion)
+    {
+        try
+        {
+            final String response = proviewClient.getTitleInfosByStatus(fullyQualifiedTitleId, "Final");
+            final Pattern pattern = Pattern.compile(String.format("version=\"v%d\\.\\d+\"", newVersion.getMajorNumber()));
+            return pattern.matcher(response).find();
+        }
+        catch (final ProviewException e)
+        {
+            throw new RuntimeException("Cannot get title info from ProView", e);
+        }
     }
 }

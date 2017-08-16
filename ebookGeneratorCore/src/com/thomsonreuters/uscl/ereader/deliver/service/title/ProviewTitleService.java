@@ -21,4 +21,6 @@ public interface ProviewTitleService
 
     @NotNull
     List<BookTitleId> getPreviousTitles(@NotNull Version previousVersion, @NotNull String titleId);
+
+    boolean isMajorVersionPromotedToFinal(@NotNull String fullyQualifiedTitleId, @NotNull Version newVersion);
 }

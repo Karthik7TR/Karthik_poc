@@ -51,6 +51,15 @@ public interface ProviewClient
 
     String getSingleTitleInfoByVersion(String fullyQualifiedTitleId, String version) throws ProviewException;
 
+    /**
+     * Get all title publications with provided status.
+     * @param fullyQualifiedTitleId
+     * @param status
+     * @return
+     * @throws ProviewException
+     */
+    String getTitleInfosByStatus(@NotNull String fullyQualifiedTitleId, @NotNull String status) throws ProviewException;
+
     String publishTitle(String fullyQualifiedTitleId, String versionNumber, File eBook)
         throws ProviewException;
 

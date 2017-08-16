@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.common.proview.feature;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,6 +40,8 @@ public abstract class FeatureListBuilderFixture
         given(proviewTitleService.getLatestProviewTitleVersion(anyString())).willReturn(version);
         given(proviewTitleService.getPreviousTitles(version, "FullyQualifiedTitleId"))
             .willReturn(Collections.singletonList(new BookTitleId("FullyQualifiedTitleId", version)));
+        given(proviewTitleService.isMajorVersionPromotedToFinal(anyString(), eq(new Version("v1.1"))))
+            .willReturn(true);
 
         given(splitNodeInfo.getBookVersionSubmitted()).willReturn("1.0");
         given(splitNodeInfo.getSplitBookTitle()).willReturn("SplitBookTitle");

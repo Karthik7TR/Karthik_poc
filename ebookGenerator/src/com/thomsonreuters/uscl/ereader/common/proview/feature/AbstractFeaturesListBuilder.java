@@ -107,7 +107,7 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
     protected Feature createNotesMigrationFeature(@NotNull final Collection<BookTitleId> titleIds)
     {
         Feature feature = null;
-        if (!titleIds.isEmpty())
+        if (!titleIds.isEmpty() && isTitlesPromotedToFinal(titleIds))
         {
             final List<String> titlesWithMajorVersion = new ArrayList<>();
             for (final BookTitleId bookTitle : titleIds)
@@ -118,6 +118,20 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
             feature = new Feature("AnnosSource", featureValue);
         }
         return feature;
+    }
+
+    private boolean isTitlesPromotedToFinal(final Collection<BookTitleId> titleIds)
+    {
+        boolean isTitlesFinal = true;
+        for (final BookTitleId bookTitle : titleIds)
+        {
+            if (!proviewTitleService.isMajorVersionPromotedToFinal(bookTitle.getTitleId(), newBookVersion))
+            {
+                isTitlesFinal = false;
+                break;
+            }
+        }
+        return isTitlesFinal;
     }
 
     private boolean shouldCreateFeature(final Version previousVersion, final Version newVersion)

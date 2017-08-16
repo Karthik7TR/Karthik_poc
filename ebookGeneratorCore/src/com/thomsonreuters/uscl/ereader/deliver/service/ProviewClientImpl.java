@@ -36,6 +36,7 @@ import org.springframework.web.client.RestTemplate;
 public class ProviewClientImpl implements ProviewClient
 {
     private static final Logger LOG = LogManager.getLogger(ProviewClientImpl.class);
+    private static final String TITLE_ID = "titleId";
 
     public static final String PROVIEW_HOST_PARAM = "proviewHost";
     private RestTemplate restTemplate;
@@ -57,6 +58,7 @@ public class ProviewClientImpl implements ProviewClient
     private String promoteTitleUriTemplate;
     private String removeTitleUriTemplate;
     private String deleteTitleUriTemplate;
+    private String getTitlesByStatusTemplate;
 
     private ProviewRequestCallbackFactory proviewRequestCallbackFactory;
     private ProviewResponseExtractorFactory proviewResponseExtractorFactory;
@@ -262,7 +264,7 @@ public class ProviewClientImpl implements ProviewClient
             LOG.debug("Proview host: " + proviewHost.getHostName());
             final Map<String, String> urlParameters = new HashMap<>();
             urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-            urlParameters.put("titleId", titleId);
+            urlParameters.put(TITLE_ID, titleId);
             urlParameters.put("eBookVersionNumber", version);
             return restTemplate.execute(getTitleInfoUriTemplate, HttpMethod.GET,
                     proviewRequestCallbackFactory.getStreamRequestCallback(),
@@ -311,7 +313,7 @@ public class ProviewClientImpl implements ProviewClient
             final Map<String, String> urlParameters = new HashMap<>();
             LOG.debug("Proview host: " + proviewHost.getHostName());
             urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-            urlParameters.put("titleId", fullyQualifiedTitleId);
+            urlParameters.put(TITLE_ID, fullyQualifiedTitleId);
             response = restTemplate.execute(
                 singleTitleTemplate,
                 HttpMethod.GET,
@@ -345,11 +347,46 @@ public class ProviewClientImpl implements ProviewClient
             }
 
             final Map<String, String> urlParameters = new HashMap<>();
-            urlParameters.put("titleId", fullyQualifiedTitleId);
+            urlParameters.put(TITLE_ID, fullyQualifiedTitleId);
             urlParameters.put("eBookVersionNumber", version);
             urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
             response = restTemplate.execute(
                 singleTitleByVersionUriTemplate,
+                HttpMethod.GET,
+                proviewRequestCallbackFactory.getXMLRequestCallback(),
+                proviewResponseExtractorFactory.getResponseExtractor(),
+                urlParameters);
+        }
+        catch (final Exception e)
+        {
+            LOG.debug(e);
+            throw new ProviewException(e.getMessage());
+        }
+        return response;
+    }
+
+    @Override
+    public String getTitleInfosByStatus(@NotNull final String fullyQualifiedTitleId, @NotNull final String status) throws ProviewException
+    {
+        String response = null;
+        try
+        {
+            if (StringUtils.isBlank(fullyQualifiedTitleId) || StringUtils.isBlank(status))
+            {
+                throw new IllegalArgumentException(
+                    "Cannot get publishing status for titleId: "
+                        + fullyQualifiedTitleId
+                        + " with status"
+                        + status
+                        + ". Both parameters should be provided.");
+            }
+
+            final Map<String, String> urlParameters = new HashMap<>();
+            urlParameters.put(TITLE_ID, fullyQualifiedTitleId);
+            urlParameters.put("status", status);
+            urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
+            response = restTemplate.execute(
+                getTitlesByStatusTemplate,
                 HttpMethod.GET,
                 proviewRequestCallbackFactory.getXMLRequestCallback(),
                 proviewResponseExtractorFactory.getResponseExtractor(),
@@ -396,7 +433,7 @@ public class ProviewClientImpl implements ProviewClient
 
         final Map<String, String> urlParameters = new HashMap<>();
         urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-        urlParameters.put("titleId", fullyQualifiedTitleId);
+        urlParameters.put(TITLE_ID, fullyQualifiedTitleId);
         urlParameters.put("eBookVersionNumber", eBookVersionNumber);
 
         final ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory.getStreamRequestCallback();
@@ -438,7 +475,7 @@ public class ProviewClientImpl implements ProviewClient
 
         final Map<String, String> urlParameters = new HashMap<>();
         urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-        urlParameters.put("titleId", fullyQualifiedTitleId);
+        urlParameters.put(TITLE_ID, fullyQualifiedTitleId);
         urlParameters.put("eBookVersionNumber", eBookVersionNumber);
 
         final ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory.getStreamRequestCallback();
@@ -475,7 +512,7 @@ public class ProviewClientImpl implements ProviewClient
 
         final Map<String, String> urlParameters = new HashMap<>();
         urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-        urlParameters.put("titleId", fullyQualifiedTitleId);
+        urlParameters.put(TITLE_ID, fullyQualifiedTitleId);
         urlParameters.put("eBookVersionNumber", eBookVersionNumber);
 
         final ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory.getStreamRequestCallback();
@@ -512,7 +549,7 @@ public class ProviewClientImpl implements ProviewClient
 
         final Map<String, String> urlParameters = new HashMap<>();
         urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
-        urlParameters.put("titleId", fullyQualifiedTitleId);
+        urlParameters.put(TITLE_ID, fullyQualifiedTitleId);
         urlParameters.put("eBookVersionNumber", eBookVersionNumber);
 
         final ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory.getStreamRequestCallback();
@@ -728,5 +765,13 @@ public class ProviewClientImpl implements ProviewClient
     public void setSingleGroupUriTemplate(final String singleGroupUriTemplate)
     {
         this.singleGroupUriTemplate = singleGroupUriTemplate;
+    }
+
+
+
+    @Required
+    public void setGetTitlesByStatusTemplate(final String getTitlesByStatusTemplate)
+    {
+        this.getTitlesByStatusTemplate = getTitlesByStatusTemplate;
     }
 }

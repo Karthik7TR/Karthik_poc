@@ -77,7 +77,8 @@
 		  p:allGroupsUriTemplate="http://{proviewHost}/v1/group/uscl"
 		  p:singleGroupUriTemplate="http://{proviewHost}/v1/group/{groupId}"
 		  p:deleteGroupUriTemplate="http://{proviewHost}/v1/group/{groupId}/{groupVersionNumber}"
-		  p:singleTitleByVersionUriTemplate="http://{proviewHost}/v1/titles/{titleId}/{eBookVersionNumber}"/>
+		  p:singleTitleByVersionUriTemplate="http://{proviewHost}/v1/titles/{titleId}/{eBookVersionNumber}"
+		  p:getTitlesByStatusTemplate="http://{proviewHost}/v1/titles/{titleId}?status={status}"/>
 		  
 	<bean id="proviewHandler" class="com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandlerImpl"
 		  p:proviewClient-ref="proviewClient"/>
