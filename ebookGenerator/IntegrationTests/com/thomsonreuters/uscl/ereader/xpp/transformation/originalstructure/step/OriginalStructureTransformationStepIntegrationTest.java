@@ -39,7 +39,7 @@ public final class OriginalStructureTransformationStepIntegrationTest
     @Test
     public void shouldReturnOriginalXml() throws Exception
     {
-        testOriginalStructureTransformationStep("sampleXpp.DIVXML.xml", "expected.main", "expected.footnote");
+        testOriginalStructureTransformationStep("sampleXpp.DIVXML.xml", "expected.main", "expected.footnotes");
     }
 
     @Test
