@@ -114,15 +114,25 @@ public class ProviewTitleServiceImpl implements ProviewTitleService
     @Override
     public boolean isMajorVersionPromotedToFinal(@NotNull final String fullyQualifiedTitleId, @NotNull final Version newVersion)
     {
+        boolean result;
         try
         {
             final String response = proviewClient.getTitleInfosByStatus(fullyQualifiedTitleId, "Final");
             final Pattern pattern = Pattern.compile(String.format("version=\"v%d\\.\\d+\"", newVersion.getMajorNumber()));
-            return pattern.matcher(response).find();
+            result = pattern.matcher(response).find();
         }
         catch (final ProviewException e)
         {
-            throw new RuntimeException("Cannot get title info from ProView", e);
+            if (e.getMessage().contains(fullyQualifiedTitleId + " does not exist"))
+            {
+                result = false;
+            }
+            else
+            {
+                LOG.error(e.getMessage(), e);
+                throw new RuntimeException(e);
+            }
         }
+        return result;
     }
 }
