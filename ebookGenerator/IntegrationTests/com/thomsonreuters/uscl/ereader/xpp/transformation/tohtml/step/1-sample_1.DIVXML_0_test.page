@@ -195,10 +195,12 @@
                             <para date.updated="0" first.para="no">
                                 <para.text date.updated="0" first.para.text="yes">
                                     <t style="para.text">A national review of guardianship cannot provide answers </t><TLRkey/>
+                                    <t style="para.text.1 super cgt">12</t>
+                                    <xref id="31" type="footnote"/>
                                     <t style="para.text">to specific disputed issues among parties in one state, nor </t>
                                     <t style="para.text">can it cover every possible issue that might be litigated. This </t>
                                     <t style="para.text">discussion provides </t>
-                                    <pagebreak num="17"/>
+                                    <pagebreak num="17"/><xref id="31-17" type="footnote" split="true"/>
                                     <t style="para.text">the juvenile and family law practitioner </t>
                                     <t style="para.text.1 super cgt">12</t>
                                     <t style="para.text">with a basic understanding in order that the statutes of his </t>
@@ -215,10 +217,29 @@
         </publication>
     </part.main>
     <part.footnotes fileName="sampleXpp_15">
+        <footnote uuid="I42e15f7013c911e7b9e3acd823573d3d" date.updated="0" id="31">
+            <footnote.reference>
+                <cgt>12</cgt>
+            </footnote.reference>
+            <footnote.body date.updated="0">
+                <para date.updated="0" first.para="no">
+                    footnote on page 16
+                </para>
+            </footnote.body>
+        </footnote>
+        <pagebreak num="17" num-string="17"/>
+        <footnote>
+            <hidden.footnote.reference refId="31-17"/>
+            <footnote.body date.updated="0">
+                <para date.updated="0" first.para="no">
+                    footnote on page 17
+                </para>
+            </footnote.body>
+        </footnote>
         <footnote uuid="I7c757a20152011e786bd8201462bf663" date.updated="0" id="32">
             <cgt>[Section 3:4]</cgt>
             <footnote.reference>
-                <cgt>1</cgt>
+                <cgt>13</cgt>
             </footnote.reference>
             <footnote.body date.updated="0">
                 <para date.updated="0" first.para="yes">

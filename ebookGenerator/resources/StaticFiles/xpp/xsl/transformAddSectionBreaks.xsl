@@ -5,6 +5,8 @@
     <xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
     
     <xsl:variable name="firstDocFamilyUuid" select="(x:root//x:XPPMetaData)[1]/@md.doc_family_uuid"/>
+    <xsl:param name="footnotesOriginal"/>
+    <xsl:variable name="footnotesDocument" select="document($footnotesOriginal)" />
 
     <xsl:template match="x:root">
         <root>
@@ -50,6 +52,33 @@
         <xsl:copy>
             <xsl:apply-templates select="node()|@*" />
         </xsl:copy>
+    </xsl:template>
+
+    <xsl:template match="x:pagebreak">
+        <xsl:copy>
+            <xsl:apply-templates select="node()|@*" />
+        </xsl:copy>
+        
+        <xsl:call-template name="addReferenceToSplitFootnotePart" >
+            <xsl:with-param name="pageNum" select="@num" />
+        </xsl:call-template>
+    </xsl:template>
+    
+    <xsl:template name="addReferenceToSplitFootnotePart">
+        <xsl:param name="pageNum" />
+        
+        <xsl:variable name="splitFootnoteId">
+            <xsl:variable name="footnotePagebreak" select="$footnotesDocument//x:pagebreak[@num=$pageNum]" />
+            <xsl:value-of select="$footnotePagebreak/ancestor::x:footnote[1]/@id" />
+        </xsl:variable>
+        
+        <xsl:if test="$splitFootnoteId != ''">
+            <xsl:element name="xref">
+                <xsl:attribute name="id" select="concat($splitFootnoteId, '-', $pageNum)" />
+                <xsl:attribute name="type" select="'footnote'" />
+                <xsl:attribute name="split" select="true()" />
+            </xsl:element>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template name="addSectionbreak">

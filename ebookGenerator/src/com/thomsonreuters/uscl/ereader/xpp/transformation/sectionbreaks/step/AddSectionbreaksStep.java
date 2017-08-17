@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Value;
 public class AddSectionbreaksStep extends XppTransformationStep
 {
     private static final String MAIN_DOCUMENT_WITH_SECTIONBREAKS_PARAM = "mainDocumentWithSectionbreaks";
+    private static final String FOOTNOTES_DOCUMENT_ORIGINAL_PARAM = "footnotesOriginal";
 
     @Value("${xpp.add.sectionbreaks.original.xsl}")
     private File addSectionbreaksToOriginalXsl;
@@ -73,6 +74,10 @@ public class AddSectionbreaksStep extends XppTransformationStep
         final BundleFileType bundleFileType = BundleFileType.getByFileName(mainFile.getName());
         if (bundleFileType == BundleFileType.MAIN_CONTENT)
         {
+            transformerMain.setParameter(
+                FOOTNOTES_DOCUMENT_ORIGINAL_PARAM,
+                footnotesFile.getAbsolutePath().replace("\\", "/"));
+
             final TransformationCommand command =
                 new TransformationCommandBuilder(transformerMain, mainFileWithSectionbreaks).withInput(mainFile)
                     .build();

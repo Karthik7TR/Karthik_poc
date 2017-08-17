@@ -33,6 +33,7 @@ public final class AddSectionbreaksStepTest
     private static final String MAIN_DOCUMENT_WITH_SECTIONBREAKS_PARAM = "mainDocumentWithSectionbreaks";
     private static final String BASE_FILENAME = "1-CHAL_7.DIVXML";
     private static final String MAIN_CONTENT_FILE_PATH = "path";
+    private static final String FOOTNOTES_CONTENT_FILE_PATH = "path";
 
     private static final String MATERIAL_NUMBER = "11111111";
 
@@ -61,6 +62,7 @@ public final class AddSectionbreaksStepTest
     public void setUp()
     {
         given(inputFile.getName()).willReturn("1-CHAL_7.DIVXML.main");
+        given(footnotesFile.getAbsolutePath()).willReturn(FOOTNOTES_CONTENT_FILE_PATH);
 
         given(fileSystem.getStructureWithMetadataFilesIndex(step)).willReturn(getFilesIndex());
 

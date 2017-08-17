@@ -4,7 +4,7 @@
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
     <xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
 
-    <xsl:param name="mainDocumentWithSectionbreaks" />
+    <xsl:param name="mainDocumentWithSectionbreaks"/>
     <xsl:variable name="main" select="document($mainDocumentWithSectionbreaks)" />
 
     <xsl:template match="node()|@*">
@@ -30,7 +30,9 @@
             <xsl:when test="$outerFootnote">
                 <xsl:call-template name="insertCloseTags" />
                 <xsl:call-template name="processPagebreak" />
-                <xsl:call-template name="insertOpenTags" />
+                <xsl:call-template name="insertOpenTags">
+                    <xsl:with-param name="refId" select="concat($outerFootnote/@id, '-', @num)" />
+                </xsl:call-template>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:call-template name="processPagebreak" />
@@ -60,22 +62,7 @@
             <xsl:copy-of select="$sectionbreak" />
         </xsl:if>
     </xsl:template>
-    
-    <xsl:function name="x:pagebreak-and-footnote-from-different-sections">
-		<xsl:param name="footnote" as="node()" />
-        <xsl:param name="pagebreak" as="node()" />
-        
-        <xsl:variable name="footnoteRef" select="$footnote/@id"/>
-        <xsl:variable name="mainXref" select="$main//x:xref[@id=$footnoteRef]" />
-        <xsl:variable name="footnoteSectionbreak" select="$mainXref/preceding::x:sectionbreak[1]" />
-        
-        <xsl:variable name="pageNumber" select="$pagebreak/@num"/>
-        <xsl:variable name="mainPagebreak" select="$main//x:pagebreak[@num=$pageNumber]" />
-        <xsl:variable name="pageSectionbreak" select="$mainPagebreak/preceding::x:sectionbreak[1]" />
-        
-		<xsl:sequence select="$footnoteSectionbreak/@sectionuuid != $pageSectionbreak/@sectionuuid" />
-	</xsl:function>
-    
+
     <xsl:template name="insertCloseTags">
         <xsl:for-each select="ancestor::node()">
             <xsl:sort select="position()" data-type="number" order="descending" />
@@ -88,11 +75,14 @@
     </xsl:template>
 
     <xsl:template name="insertOpenTags">
+        <xsl:param name="refId" />
+        
         <xsl:for-each select="ancestor::node()">
             <xsl:variable name="isFootnote" select="local-name(.) = 'footnote'" />
             <xsl:if test="local-name(.) != '' and (ancestor::x:footnote or $isFootnote)">
                 <xsl:text disable-output-escaping="yes"><![CDATA[<]]></xsl:text>
                 <xsl:value-of select="local-name(.)" />
+                
                 <xsl:if test="not($isFootnote)">
                     <xsl:for-each select="./@*">
                         <xsl:text> </xsl:text>
@@ -103,6 +93,12 @@
                     </xsl:for-each>
                 </xsl:if>
                 <xsl:text disable-output-escaping="yes"><![CDATA[>]]></xsl:text>
+                
+                <xsl:if test="$isFootnote">
+                    <xsl:element name="hidden.footnote.reference">
+                        <xsl:attribute name="refId" select="$refId" />
+                    </xsl:element>
+                </xsl:if>
             </xsl:if>
         </xsl:for-each>
     </xsl:template>

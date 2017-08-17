@@ -119,7 +119,7 @@
 
         <xsl:choose>
             <xsl:when test="number($footnoteRefId)">
-                <xsl:call-template name="addFootnoteReferenceTag">
+                <xsl:call-template name="addFootnoteReference">
                     <xsl:with-param name="refId" select="$footnoteRefId" />
                 </xsl:call-template>
             </xsl:when>
@@ -130,7 +130,8 @@
                         <xsl:if test="@style">
                             <xsl:value-of select="concat(' font_', x:get-class-name(@style))" />
                         </xsl:if>
-                        <xsl:if test="./preceding-sibling::*[1][self::x:pagebreak]">
+                        <xsl:variable name="pagebreakSibling" select="preceding-sibling::x:pagebreak" />
+                        <xsl:if test="$pagebreakSibling and count($pagebreakSibling/following-sibling::x:t intersect preceding-sibling::x:t)=0">
                             <xsl:value-of select="concat(' ', 'no-indent')" />
                         </xsl:if>
                     </xsl:attribute>
