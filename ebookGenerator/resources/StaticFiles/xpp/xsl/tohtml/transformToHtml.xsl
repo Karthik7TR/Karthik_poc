@@ -5,6 +5,7 @@
 	<xsl:import href="../transform-utils.xsl" />
     <xsl:include href="transformFootnotesToLinks.xsl" />
     <xsl:include href="transformTlrKey.xsl" />
+    <xsl:include href="transformImagesTags.xsl" />
     
     <xsl:output method="html" indent="yes" omit-xml-declaration="yes"/>
 	<xsl:param name="fileBaseName" />

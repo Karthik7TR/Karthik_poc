@@ -137,6 +137,12 @@
 		<xsl:copy-of select="self::node()" />
 	</xsl:template>
 
+	<xsl:template match="x:image">
+		<xsl:element name = "proview_image">
+			<xsl:copy-of select="@*" />
+		</xsl:element>
+	</xsl:template>
+
 	<xsl:template match="processing-instruction('XPPMetaData') | processing-instruction('XPPHier')">
         <xsl:variable name="apostrophe">'</xsl:variable>
        	<xsl:variable name="tail" select="substring-after(., ' name=')" />

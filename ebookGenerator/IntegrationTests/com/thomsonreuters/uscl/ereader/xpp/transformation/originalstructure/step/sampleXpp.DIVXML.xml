@@ -685,6 +685,9 @@
 							<tag name="foots"></tag>
 							<rule x="0" y="-0.06i" w="1i" d="0.01i" color="#000000"
 								color-cmyk="0 0 0 1"></rule>
+								<image id="thwest-k" type="tif" path="/apps/xpp/shared/images/lib01/thwest-k" 
+								x="0" y="-0.13i" w="2.77i" h="1.02i" color="#000000" color-cmyk="0 0 0 1" rotation="0" 
+								priority="0" scale="1.000000" cropx="0" cropy="0" cropw="2.77i" croph="1.02i"/>
 							<endtag name="foots"></endtag>
 						</line>
 					</group>

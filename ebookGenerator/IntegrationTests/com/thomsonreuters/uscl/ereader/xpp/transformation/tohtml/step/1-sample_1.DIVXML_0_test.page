@@ -25,8 +25,13 @@
                                     <value/>
                                 </metadata>
                             </metadata.block>
-                            <image.block newpage="withseconly" date.updated="0"> ident="I34e766e128b911e69ed7fcedf0a72426.tif" url="http://phoenix-devd.roc.westgroup.com/images-0001/I34e766e128b911e69ed7fcedf0a72426.tif" file.system.path="/apps/images-devd-0001/I34e766e128b911e69ed7fcedf0a72426.tif" status="" original.id="555139.t02" format="tif" suppress.print="no" suppress.cd="no" suppress.premise="no" suppress.focd="no" suppress.folio="no" suppress.online="no" date.updated="0"</image.block>
-                            <front date.updated="0">
+							<image.block date.updated="0">
+								<image ident="I2451885026a611d99b08a92d7e97623c.tif" url="http://phoenix.int.thomsonreuters.com/images-0001/I2451885026a611d99b08a92d7e97623c.tif" file.system.path="/apps/images-prod-0001/I2451885026a611d99b08a92d7e97623c.tif" status="" original.id="00322853.t01" format="tif" suppress.print="no" suppress.cd="no" suppress.premise="no" suppress.focd="no" suppress.folio="no" suppress.online="no" date.updated="0">
+									<proview_image id="I2451885026a611d99b08a92d7e97623c.tif" type="tif" path="/apps/xpp/shared/data/alljobz/CLS_phx-prod/GRP_bound/JOB_CHAL/DIV_I0f7697f026a511d99b08a92d7e97623c_13450040/I2451885026a611d99b08a92d7e97623c.tif" x="0" y="-0.05i" w="4.35i" h="5.75i" color="#000000" color-cmyk="0 0 0 1" rotation="0" priority="0" scale="0.980000" cropx="0" cropy="0" cropw="4.35i" croph="5.75i"/>
+									<t style="image.block cgt"> </t>
+								</image>
+							</image.block>	
+									<front date.updated="0">
                                 <outline.name.block toc.include="y" date.updated="0">
                                     <label date.updated="0">Chapter</label>
                                     <designator date.updated="0" style="some.font.style" align="l">30</designator>
@@ -195,12 +200,10 @@
                             <para date.updated="0" first.para="no">
                                 <para.text date.updated="0" first.para.text="yes">
                                     <t style="para.text">A national review of guardianship cannot provide answers </t><TLRkey/>
-                                    <t style="para.text.1 super cgt">12</t>
-                                    <xref id="31" type="footnote"/>
                                     <t style="para.text">to specific disputed issues among parties in one state, nor </t>
                                     <t style="para.text">can it cover every possible issue that might be litigated. This </t>
                                     <t style="para.text">discussion provides </t>
-                                    <pagebreak num="17"/><xref id="31-17" type="footnote" split="true"/>
+                                    <pagebreak num="17"/>
                                     <t style="para.text">the juvenile and family law practitioner </t>
                                     <t style="para.text.1 super cgt">12</t>
                                     <t style="para.text">with a basic understanding in order that the statutes of his </t>
@@ -217,29 +220,10 @@
         </publication>
     </part.main>
     <part.footnotes fileName="sampleXpp_15">
-        <footnote uuid="I42e15f7013c911e7b9e3acd823573d3d" date.updated="0" id="31">
-            <footnote.reference>
-                <cgt>12</cgt>
-            </footnote.reference>
-            <footnote.body date.updated="0">
-                <para date.updated="0" first.para="no">
-                    footnote on page 16
-                </para>
-            </footnote.body>
-        </footnote>
-        <pagebreak num="17" num-string="17"/>
-        <footnote>
-            <hidden.footnote.reference refId="31-17"/>
-            <footnote.body date.updated="0">
-                <para date.updated="0" first.para="no">
-                    footnote on page 17
-                </para>
-            </footnote.body>
-        </footnote>
         <footnote uuid="I7c757a20152011e786bd8201462bf663" date.updated="0" id="32">
             <cgt>[Section 3:4]</cgt>
             <footnote.reference>
-                <cgt>13</cgt>
+                <cgt>1</cgt>
             </footnote.reference>
             <footnote.body date.updated="0">
                 <para date.updated="0" first.para="yes">

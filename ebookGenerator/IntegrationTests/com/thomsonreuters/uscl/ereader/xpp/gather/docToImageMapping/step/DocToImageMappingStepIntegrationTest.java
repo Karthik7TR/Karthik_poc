@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = DocToImageMappingStepIntegrationTestConfiguration.class)
 @ActiveProfiles("IntegrationTests")
-public class DocToImageMappingStepIntegrationTest
+public final class DocToImageMappingStepIntegrationTest
 {
     @Resource(name = "createDocToImageMappingTask")
     private DocToImageMappingStep step;
