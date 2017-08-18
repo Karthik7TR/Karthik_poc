@@ -374,46 +374,22 @@
   margin-bottom: calc(1em / 2);
 }
 
-.form_text {
-  display: inline;
-}
-
 .form_item {
-  display: block;
-  flex-wrap: wrap;
+  margin-left: 1em;
 }
 
-.form_item .name_block {
-  flex: 0;
-  max-width: fit-content;
+.form_para,
+.form_para * {
   display: inline;
 }
 
-.form_item .name_block .ital {
-  display: inline-flex;
-}
-
-.form_item .pagebreak {
-  display: block;
+.name_block {
+  display: inline-block;
+  min-width: calc(1em / 1.5);
 }
 
 .form_name_block {
   margin: calc(1em /2) auto;
-}
-
-.form_para {
-  text-indent: 1em;
-  margin: calc(1em / 5) 0;
-}
-
-.form_item > .form_para {
-  display: inline;
-  text-indent: 0;
-  margin: 0;
-}
-
-.form_unit > .form_para {
-  margin: 0;
 }
 
 .form_para + .form_para {

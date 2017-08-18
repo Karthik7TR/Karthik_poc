@@ -57,41 +57,22 @@
     }
 }
 
-.form_text {
+.form_item {
+    margin-left: $indent;
+}
+
+.form_para,
+.form_para * {
     display: inline;
 }
 
-.form_item {
-    display: block;
-    flex-wrap: wrap;
-    .name_block {
-        flex: 0;
-        max-width: fit-content;
-        display: inline;
-        .ital {
-            display: inline-flex;
-        }
-    }
-    .pagebreak {
-        display: block;
-    }
+.name_block {
+    display: inline-block;
+    min-width: calc(#{$indent} / 1.5)
 }
 
 .form_name_block {
     margin: calc(#{$indent} /2) auto;
-}
-
-.form_para {
-    .form_item>& {
-        display: inline;
-        text-indent: 0;
-        margin: 0;
-    }
-    .form_unit>& {
-        margin: 0;
-    }
-    text-indent: $indent;
-    margin: calc(#{$indent} / 5) 0;
 }
 
 .form_para+.form_para {
