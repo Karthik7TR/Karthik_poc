@@ -60,9 +60,16 @@
         </step>
 		<step id="transformToHtmlStep">
 			<tasklet ref="transformToHtmlTask" />
+			<next on="COMPLETED" to="externalLinksXppStep" />
+			<fail on="FAILED" />
+		</step>
+		
+		<step id="externalLinksXppStep">
+			<tasklet ref="externalLinksXppTask" />
 			<next on="COMPLETED" to="createDocToImageMappingStep" />
 			<fail on="FAILED" />
 		</step>
+		
         <step id="createDocToImageMappingStep">
             <tasklet ref="createDocToImageMappingTask" />
             <next on="COMPLETED" to="getXppDynamicImagesStep" />
@@ -138,6 +145,8 @@
         class="com.thomsonreuters.uscl.ereader.xpp.transformation.uniteparts.step.UnitePagePartsStep" />
     <beans:bean id="transformToHtmlTask" scope="step" parent="bookStep"
         class="com.thomsonreuters.uscl.ereader.xpp.transformation.tohtml.step.TransformationToHtmlStep" />
+    <beans:bean id="externalLinksXppTask" scope="step" parent="bookStep"
+        class="com.thomsonreuters.uscl.ereader.xpp.transformation.externallinks.step.ExternalLinksXppStep" />
     <beans:bean id="internalAnchorsTask" scope="step" parent="bookStep"
         class="com.thomsonreuters.uscl.ereader.xpp.transformation.internalAnchors.step.InternalAnchorsStep" />
     <beans:bean id="createDocToImageMappingTask" scope="step" parent="bookStep"

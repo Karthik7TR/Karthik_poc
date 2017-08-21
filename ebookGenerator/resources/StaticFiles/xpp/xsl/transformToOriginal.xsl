@@ -172,5 +172,12 @@
     <xsl:template match="x:tag[@name = 'table' or @name = 'tgroup' or @name = 'thead' or @name = 'tbody' or @name = 'row' or @name = 'entry']" />
     <xsl:template match="x:endtag[@name = 'table' or @name = 'tgroup' or @name = 'thead' or @name = 'tbody' or @name = 'row' or @name = 'entry']" />
     
+	<xsl:template match="x:cite.query">
+		<xsl:copy>
+			<xsl:copy-of select="@*" />
+			<xsl:apply-templates />
+		</xsl:copy>
+	</xsl:template>
+
 	<xsl:template match="text()" />
 </xsl:stylesheet>

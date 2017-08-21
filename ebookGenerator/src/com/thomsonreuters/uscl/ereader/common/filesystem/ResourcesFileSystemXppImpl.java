@@ -32,7 +32,7 @@ public class ResourcesFileSystemXppImpl implements ResourcesFileSystem
     @Override
     public File getDocumentsDirectory(@NotNull final BookStep step)
     {
-        return xppFormatFileSystem.getHtmlPagesDirectory(step);
+        return xppFormatFileSystem.getExternalLinksDirectory(step);
     }
 
     @NotNull
@@ -68,6 +68,6 @@ public class ResourcesFileSystemXppImpl implements ResourcesFileSystem
     public Collection<File> getFontsCssFiles(@NotNull final BookStep step)
     {
         final File cssDir = xppFormatFileSystem.getFontsCssDirectory(step);
-        return FileUtils.listFiles(cssDir, TrueFileFilter.INSTANCE,  TrueFileFilter.INSTANCE);
+        return FileUtils.listFiles(cssDir, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
     }
 }

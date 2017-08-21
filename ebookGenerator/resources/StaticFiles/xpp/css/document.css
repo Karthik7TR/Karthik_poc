@@ -55,7 +55,6 @@
 .ref:active,
 .ref:visited,
 .ref:hover {
-  color: black;
   text-decoration: none;
 }
 
@@ -84,7 +83,6 @@
 }
 
 .cgt {
-  color: inherit;
   display: none;
 }
 
@@ -508,7 +506,7 @@ td:last-of-type {
 .para_text > .ref .cgt,
 .entry .cgt,
 .stat_text .cgt,
-.cgt tgroup > .tbody,
+.cgt .tgroup > .tbody,
 .outline_name_block > .label .cgt,
 .toc_chapter > .outline_name_block > .cgt,
 .footnote_reference > .cgt,
@@ -670,20 +668,4 @@ sup + .footnote_body > .para:first-child {
 .page_number {
   display: block;
   text-align: center;
-}
-
-.er_rp_ftbox_content .footnote_body {
-    display:none;
-}
-
-.er_rp_ftbox_content .footnote_body_main_popup_pane {
-    display:inline;
-}
-
-.tr_footnotes .footnote_body {
-    display:inline;
-}
-
-.tr_footnotes .footnote_body_main_popup_pane {
-    display:none;
 }

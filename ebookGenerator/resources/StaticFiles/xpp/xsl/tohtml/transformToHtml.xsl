@@ -167,6 +167,12 @@
 		</xsl:choose>
 	</xsl:template>
 
+	<xsl:template match="x:cite.query">
+		<xsl:copy>
+			<xsl:copy-of select="@*"/>
+			<xsl:apply-templates />
+		</xsl:copy>
+	</xsl:template>
 <!--    TODO: move to img step -->
 <!-- 	<xsl:template match="x:image.block"> -->
 <!-- 		<xsl:param name="quote">"</xsl:param> -->

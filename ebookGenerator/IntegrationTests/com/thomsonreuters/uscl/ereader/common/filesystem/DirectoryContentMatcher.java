@@ -19,27 +19,33 @@ public final class DirectoryContentMatcher extends BaseMatcher<Object>
     private static final Logger LOG = LogManager.getLogger(DirectoryContentMatcher.class);
     @NotNull
     private File actual;
+    private boolean recursive;
 
     /**
      * @param actual
      */
-    private DirectoryContentMatcher(final File actual)
+    private DirectoryContentMatcher(final File actual, final boolean recursive)
     {
         this.actual = actual;
+        this.recursive = recursive;
     }
 
-    public static DirectoryContentMatcher hasSameContentAs(@NotNull final File actual)
+    public static DirectoryContentMatcher hasSameContentAs(@NotNull final File actual, final boolean recursive)
     {
-        return new DirectoryContentMatcher(actual);
+        return new DirectoryContentMatcher(actual, recursive);
     }
 
     @Override
     public boolean matches(final Object item)
     {
-        final List<File> items =
-            (List<File>) FileUtils.listFiles((File) item, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
-        final List<File> actualItems =
-            (List<File>) FileUtils.listFiles(actual, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
+        final List<File> items = recursive
+            ? (List<File>) FileUtils.listFiles((File) item, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE)
+            : (List<File>) FileUtils.listFiles((File) item, TrueFileFilter.INSTANCE, null);
+        final List<File> actualItems = recursive
+            ? (List<File>) FileUtils.listFiles(actual, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE)
+            : (List<File>) FileUtils.listFiles(actual, TrueFileFilter.INSTANCE, null);
+        if (!(items.size() == actualItems.size()))
+            return false;
         for (final File file : items)
         {
             final File actualFile = actualItems.get(items.indexOf(file));

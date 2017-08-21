@@ -165,14 +165,14 @@ public final class GenerateTitleMetadataStepIntegrationTest
         FileUtils.forceMkdir(coverArtDirectory);
         FileUtils.copyFileToDirectory(coverArtFile, coverArtDirectory);
 
-        File bundleDocsDirectory = fileSystem.getHtmlPagesDirectory(step, MATERIAL_NUMBER);
+        File bundleDocsDirectory = fileSystem.getExternalLinksDirectory(step, MATERIAL_NUMBER);
         FileUtils.forceMkdir(bundleDocsDirectory);
         FileUtils.copyFileToDirectory(loadFileFromResources(
             "Useless_test_file.DIVXML_1_I334acde028b47ft34ed7fcedf0a72426.html"), bundleDocsDirectory);
         FileUtils.copyFileToDirectory(loadFileFromResources(
             "Useless_test_file.DIVXML_3_I4700e2c0g6kz11e69ed7fcedf0a72426.html"), bundleDocsDirectory);
 
-        bundleDocsDirectory = fileSystem.getHtmlPagesDirectory(step, ADDITIONAL_MATERIAL_NUMBER);
+        bundleDocsDirectory = fileSystem.getExternalLinksDirectory(step, ADDITIONAL_MATERIAL_NUMBER);
         FileUtils.forceMkdir(bundleDocsDirectory);
         FileUtils.copyFileToDirectory(loadFileFromResources(
             "Useless_test_file.DIVXML_2_I3416j47028b911e69ed7fcedf0a72426.html"), bundleDocsDirectory);

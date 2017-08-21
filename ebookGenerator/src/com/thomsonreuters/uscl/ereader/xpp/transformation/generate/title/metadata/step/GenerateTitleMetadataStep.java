@@ -83,7 +83,7 @@ public class GenerateTitleMetadataStep extends XppTransformationStep
         {
             final FilenameFilter filter = BundleFileType.getByFileName(fileName).getHtmlDocFileNameFilter();
             final String[] documentsNames =
-                fileSystem.getHtmlPagesDirectory(this, bundle.getMaterialNumber()).list(filter);
+                fileSystem.getExternalLinksDirectory(this, bundle.getMaterialNumber()).list(filter);
             documentsCollector.addDocuments(documentsNames);
         }
     }

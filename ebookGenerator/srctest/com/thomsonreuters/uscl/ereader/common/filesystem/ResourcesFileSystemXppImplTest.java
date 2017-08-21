@@ -39,18 +39,18 @@ public final class ResourcesFileSystemXppImplTest
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     /**
-     * Test method for {@link com.thomsonreuters.uscl.ereader.common.filesystem.ResourcesFileSystemXppImpl#getDocumentsDirectory(com.thomsonreuters.uscl.ereader.common.step.BookStep)}.
+     * Test method for {@link com.thomsonreuters.uscl.ereader.common.filesystem.ResourcesFileSystemXppImpl#getExternalLinksDirectory(com.thomsonreuters.uscl.ereader.common.step.BookStep)}.
      */
     @Test
     public void shouldReturnDocumentsDirectory()
     {
         //given
-        given(xppFormatFileSystemImpl.getHtmlPagesDirectory(step))
-            .willReturn(new File(temporaryFolder.getRoot(), "workDirectory/Format/06_HtmlPages"));
+        given(xppFormatFileSystemImpl.getExternalLinksDirectory(step))
+            .willReturn(new File(temporaryFolder.getRoot(), "workDirectory/Format/09_ExternalLinks"));
         //when
         final File file = sut.getDocumentsDirectory(step);
         //then
-        assertThat(file, hasPath("workDirectory/Format/06_HtmlPages"));
+        assertThat(file, hasPath("workDirectory/Format/09_ExternalLinks"));
     }
 
     @Test

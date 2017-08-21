@@ -1,0 +1,1063 @@
+<?xml version="1.0" encoding="UTF-8"?><document xmlns="http://www.sdl.com/xpp" version="1.0">
+	<pages>
+		<page relpgnum="3" p1="0" p2="0" p3="0" p4="3" p5="0" p6="0" psrnum="3" plname="standard" px="0" py="0" psx="4.32i" psy="7.65i" fsx="6.49i" fsy="10.12i" rotate="0" forcepend="false" lastpage="false" notextinpg="false" filler="false" pfexcept="false" rlfiller="false" pagetype="right">
+			<stream type="main" sx="0" sy="0" ssx="0" ssy="0" groupnum="1" svjmode="justify" epfilltype="none" class="0" rotate="0" strmrot="0" vj_space="0" cerrors="true" cntedit="false" predit="false" recomp="false" frzcomp="false" ipcbal="false" touched="false" tplaced="false" bplaced="false" firstack="false" lastack="false" direction="false" pgscope="false" hfull="false" vfull="false" here="false" before="false" justified="false" balup="false" baldown="false" balrunaway="false">
+				<block type="main" bx="0" by="0.3i" bsx="4.32i" bsy="7.05i" bisy="7.05i" biy="0.3i" rotate="0" svjmode="justify" btextlen="6.18i" bslack="0.27i" vjerr="0" pgtbl="0" ipcnum="0" ipcgnum="1" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="true" rtl="false">
+					<group class="research.reference.block" pclass="/publication/publication.body/chapter/front" dh="/publication/publication.body/chapter/front/research.reference.block" style="research.reference.block">
+						<line xfinal="0" yfinal="0.09i" lnwidth="1.51i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0.1i" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="true" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="true" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false"><?xpp /ns;43;0?><?xpp /ns;105;0?><?xpp /ei;0?>
+							<tag name="publication">
+								<attr name="online.royalty.id">CALA</attr>
+								<attr name="uuid">I0f72523026a511d99b08a92d7e97623c</attr>
+							</tag>
+							<tag name="publication.body"/>
+							<tag name="chapter">
+								<attr name="uuid">I49dd324026a611d99b08a92d7e97623c</attr>
+								<attr name="date.revised">0</attr>
+								<attr name="date.updated">0</attr>
+							</tag>
+
+							<tag name="front">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="generated.toc"/>
+							<tag name="full.toc"/>
+							<tag name="toc.appendix"/>
+							<tag name="outline.name.block"/>
+							<endtag name="outline.name.block"/>
+							<endtag name="toc.appendix"/>
+							<endtag name="full.toc"/>
+							<endtag name="generated.toc"/>
+							<tag name="research.reference.block">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<t x="0" y="0" style="research.reference.block" cgt="true">
+								Research References<?xpp /ns;14;1?><?xpp /ns;43;0?>
+							</t>
+							<tag name="reference.entry.group"/>
+							<tag name="name.block"/><?xpp xfSizeTest?>
+						</line>
+					</group>
+					<group class="name" pclass="/publication/publication.body/chapter/front/research.reference.block/reference.entry.group/name.block" dh="/publication/publication.body/chapter/front/research.reference.block/reference.entry.group/name.block/name" style="name.3">
+						<line xfinal="0.28i" yfinal="0.34i" lnwidth="1.68i" lnmeas="4.32i" lindent="0.28i" rindent="0" prelead="0.08i" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="true" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="name"/>
+							
+								<cite.query w-seq-number="00004" w-ref-type="LQ" w-normalized-cite="MIST712A.18S" w-pub-number="1000043" ID="If47b0960627111e78600cc06009ba385"><t x="0" y="0" style="name.3">
+									West<?xpp apos?>
+								</t></cite.query>
+								<cite.query w-seq-number="00004" w-ref-type="LQ" w-normalized-cite="MIST712A.18S" w-pub-number="1000043" ID="If47b0960627111e78600cc06009ba385"><t x="0" y="0" style="name.3" cgt="true">’</t></cite.query>
+								<cite.query w-seq-number="00004" w-ref-type="LQ" w-normalized-cite="MIST712A.18S" w-pub-number="1000043" ID="If47b0960627111e78600cc06009ba385"><t x="0" y="0" style="name.3">s Key Number Digest</t></cite.query>
+								<endtag name="name"/>
+								<endtag name="name.block"/>
+								<tag name="reference.entry"/>
+							
+						</line>
+					</group>
+					<group class="ref" pclass="/publication/publication.body/chapter/front/research.reference.block/reference.entry.group/reference.entry/ref.text" dh="/publication/publication.body/chapter/front/research.reference.block/reference.entry.group/reference.entry/ref.text/ref" style="ref">
+						<line xfinal="0" yfinal="0.52i" lnwidth="3.26i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0.03i" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="true" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="true" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="ref.text"/><?xpp COLNUM?><?xpp cite?>
+							<tag name="ref"/>
+							<t x="0" y="0" style="ref">Guardian and Ward <TLRkey/> 󰔓1 to 74;
+								Infants 󰔓76 to 87</t>
+							<endtag name="ref"/><?xpp /cite?>
+							<endtag name="ref.text"/>
+							<endtag name="reference.entry"/>
+							<endtag name="reference.entry.group"/>
+							<endtag name="research.reference.block"/>
+						</line>
+						<line xfinal="0.14i" yfinal="0.57i" lnwidth="0.08i" lnmeas="4.32i" lindent="0.14i" rindent="0" prelead="-0.11i" qdtype="left" bandwidth="0.03i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false"><?xpp /lp;&amp;-8q;?>
+							<t x="0" y="0" style="front" cgt="true"> <?xpp /qa?>
+							</t>
+						</line>
+						<line xfinal="0.14i" yfinal="0.59i" lnwidth="0" lnmeas="4.32i" lindent="0.14i" rindent="0" prelead="-0.14i" qdtype="left" bandwidth="0.03i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false"><?xpp keycite?>
+						</line>
+						<line xfinal="0.2i" yfinal="0.93i" lnwidth="3.92i" lnmeas="4.12i" lindent="0.2i" rindent="0" prelead="0.2i" qdtype="justify" bandwidth="0.04i" letspace="0" maxasc="0.07i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false"><?xpp /ks;?><?xpp /in;0?><?xpp /ns;2;%lnmeas/.5q?><?xpp /me;0=0?0:%avlnmeas+%xrelsob-0?><?xpp /tj;1?><?xpp /tq;l?><?xpp /cm;0?><?xpp /lp;1q;?><?xpp /xs;705;.5q?><?xpp /xs;706;8q?><?xpp /xs;707;6q?><?xpp /xs;708;%yrelsob?><?xpp /mc;%blines=1;skp;nul?><?xpp /xs;708;x708-%ldextra+x706?><?xpp /lp;&amp;(x705+x707);1?><?xpp /mc;%blines=1;skp;nul?><?xpp /lp;&amp;(x706-%ldextra);1?><?xpp /xs;709;%xrelsob+%avlnmeas?><?xpp /xs;710;%lindent?><?xpp /me;x709-x705-x706-x707?><?xpp /in;&amp;(x705+x706+x707)?><?xpp /vx?><?xpp /ks?><?xpp /sz;8q;1q?><?xpp /ff;2?><?xpp /fv;1?>
+							<t x="0" y="0" style="front.1" cgt="true">
+								Ke<?xpp /ns;1;%lindent/.5q?><?xpp /in;%xrelsob+%lnwidth?>
+								yCite󰄥:<?xpp /fv;0?>
+							</t>
+							<t x="0" y="0" style="front.2" cgt="true"> Cases and other legal
+								materials listed in KeyCite Scope can be
+							</t>
+						</line>
+						<line xfinal="0.35i" yfinal="1.05i" lnwidth="3.77i" lnmeas="4.12i" lindent="0.35i" rindent="0" prelead="0" qdtype="justify" bandwidth="0.05i" letspace="0" maxasc="0.07i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="front.2" cgt="true">researched through the
+								KeyCite service on Westlaw󰄥. Use KeyCite to </t>
+						</line>
+						<line xfinal="0.35i" yfinal="1.17i" lnwidth="3.77i" lnmeas="4.12i" lindent="0.35i" rindent="0" prelead="0" qdtype="justify" bandwidth="0.04i" letspace="0" maxasc="0.07i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="front.2" cgt="true">check citations for form,
+								parallel references, prior and later history, and
+							</t>
+						</line>
+						<line xfinal="0.35i" yfinal="1.3i" lnwidth="3.77i" lnmeas="4.12i" lindent="0.35i" rindent="0" prelead="0" qdtype="justify" bandwidth="0.04i" letspace="0" maxasc="0.07i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="front.2" cgt="true">comprehensive citator
+								information, including citations to other decisions
+							</t>
+						</line>
+						<line xfinal="0.35i" yfinal="1.42i" lnwidth="1.3i" lnmeas="4.12i" lindent="0.35i" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.07i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="front.2" cgt="true">
+								and secondary materials.<?xpp /qa?>
+							</t>
+						</line>
+						<line xfinal="0" yfinal="1.55i" lnwidth="0.11i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.03i" letspace="0" maxasc="0.07i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false"><?xpp /xs;711;%yrelsob-%ldextra+x707+x705?><?xpp /me;x709?><?xpp /in;x710?><?xpp /mh;x706?><?xpp /ru;x705;x711-x708;;-(%yrelsob-x708+%ldasc)?>
+							<rule x="0.11i" y="-0.8i" w="0.01i" d="0.8i" color="#000000" color-cmyk="0 0 0 1"/><?xpp /ru;x709-x710-x706-x706-x705;x705?>
+							<rule x="0" y="-0.8i" w="4.1i" d="0.01i" color="#000000" color-cmyk="0 0 0 1"/><?xpp /ru;x705;x711-x708;-x705?>
+							<rule x="-0.01i" y="-0.8i" w="0.01i" d="0.8i" color="#000000" color-cmyk="0 0 0 1"/><?xpp /ru;x709-x710-x706-x706-x705;x705;-(x709-x710-x706-x706);x711-x708-x705?>
+							<rule x="-4.1i" y="0" w="4.1i" d="0.01i" color="#000000" color-cmyk="0 0 0 1"/><?xpp /mh;-(x709-x710-x706-x706)+x705?><?xpp /mb;0?><?xpp /ql?>
+						</line>
+					</group>
+					<group class="designator" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/front/outline.name.block" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/front/outline.name.block/designator" style="designator.3">
+						<line xfinal="0" yfinal="2.06i" lnwidth="1.86i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0.22i" qdtype="left" bandwidth="0.03i" letspace="0" maxasc="0.15i" maxdesc="0.07i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="true" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false"><?xpp /lp;x706+x707+x705-%ldextra-%ldasc-%lddesc-%ldextra?><?xpp /xi;705;711?><?xpp /va?><?xpp /ke?><?xpp /ke?><?xpp measure;?>
+							<endtag name="front"/>
+							<tag name="chapter.body">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="analytical.hierarchy">
+								<attr name="uuid">I49df7c3026a611d99b08a92d7e97623c</attr>
+								<attr name="date.revised">0</attr>
+								<attr name="date.updated">0</attr>
+							</tag>
+<?XPPHier guid='I49df7c3026a611d99b08a92d7e97623c' name='I. Introduction' parent_guid='I49dd324026a611d99b08a92d7e97623c' ?>
+							<tag name="front">
+								<attr name="date.updated">0</attr>
+							</tag><?xpp secno;&#167; 7:1?>
+							<t x="0" y="0" style="front.2" cgt="true" suppress="true">§ 7:1
+							</t>
+							<tag name="outline.name.block">
+								<attr name="toc.include">y</attr>
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="designator">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<t x="0" y="0" style="designator.3">
+								I<?xpp period?>
+							</t>
+							<t x="0" y="0" style="designator.3" cgt="true">.</t>
+							<endtag name="designator"/>
+							<tag name="name">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<t x="0.22i" y="0" style="name.4">Introduction</t>
+							<endtag name="name"/>
+						</line>
+						<line xfinal="0.25i" yfinal="2.17i" lnwidth="0" lnmeas="4.32i" lindent="0.25i" rindent="0" prelead="-0.12i" qdtype="left" bandwidth="0.06i" letspace="0" maxasc="0.15i" maxdesc="0.07i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="true" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false"><?xpp /lp;&amp;-9q;?><?xpp /mh;0?><?xpp /qa?>
+						</line>
+					</group>
+					<group class="label" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.front/outline.name.block" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.front/outline.name.block/label" style="label.2">
+						<line xfinal="0" yfinal="2.51i" lnwidth="1.83i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0.17i" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="true" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="true" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false"><?xpp /ns;44;1?>
+							<endtag name="outline.name.block"/><?xpp measure;?>
+							<endtag name="front"/>
+							<tag name="analytical.hierarchy.body">
+								<attr name="date.updated">0</attr>
+							</tag><?xpp vol.break.value;2?>
+							<tag name="section.block"/>
+							<tag name="section">
+								<attr name="uuid">I49e03f8026a611d99b08a92d7e97623c</attr>
+								<attr name="date.revised">0</attr>
+								<attr name="date.updated">0</attr>
+							</tag>
+<?XPPMetaData guid='I445a1ac6c61c11d9962fb5f8354828db' md.uuid='I445a1ac6c61c11d9962fb5f8354828db' md.dmsserial='303448441' md.first_line_cite='CALRO S 7:1' md.second_line_cite='2 Children &amp; the Law: Rights and Obligations s 7:1' md.pubpage='s 7:1' md.pubid='177882' md.doc_family_uuid='Ie0b81373f8fb11d99f28ffa0ae8c2575' md.normalizedcite='CALROS7:1' md.third_line_cite=''  name='&sect; 7:1. Scope of chapter' parent_uuid='I49df7c3026a611d99b08a92d7e97623c' ?>
+							<tag name="section.front">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="outline.name.block">
+								<attr name="toc.include">y</attr>
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="label">
+								<attr name="date.updated">0</attr>
+							</tag><?xpp COLNUM?><?xpp sect?>
+							<t x="0" y="0" style="label.2" cgt="true">§ </t>
+							<endtag name="label"/><?xpp secno;&#167; 7:1?>
+							<t x="0" y="0" style="outline.name.block.2" cgt="true" suppress="true">§ 7:1</t>
+							<tag name="designator">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<t x="0" y="0" style="designator.4">7:1</t>
+							<endtag name="designator"/>
+							<tag name="name">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<t x="0" y="0" style="name.5" cgt="true"> 
+							</t>
+							<t x="0" y="0" style="name.5">Scope of chapter</t>
+							<endtag name="name"/>
+							<endtag name="outline.name.block"/>
+						</line>
+					</group>
+					<group class="para.text" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text" style="para.text">
+						<line xfinal="0.15i" yfinal="2.78i" lnwidth="4.17i" lnmeas="4.32i" lindent="0.15i" rindent="0" prelead="0.08i" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<endtag name="section.front"/>
+							<tag name="section.body">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">yes</attr>
+							</tag>
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag><?xpp wo;0;0?>
+							<t x="0" y="0" style="para.text">The purpose of this chapter is to
+								familiarize the reader </t>
+						</line>
+						<line xfinal="0" yfinal="2.96i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">with guardianship through a summary of
+								guardianship law. </t>
+						</line>
+						<line xfinal="0" yfinal="3.13i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">Since guardianship is statutory, there is
+								no substitute for a </t>
+						</line>
+						<line xfinal="0" yfinal="3.3i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">review of applicable state law. However,
+								statutes are not </t>
+						</line>
+						<line xfinal="0" yfinal="3.47i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">
+								always grouped together in one section or volume and por
+								<dt>-</dt>
+							</t>
+						</line>
+						<line xfinal="0" yfinal="3.65i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">tions of the law may be left to local
+								rules or customs. An </t>
+						</line>
+						<line xfinal="0" yfinal="3.82i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.07i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">overview of the general law will assist in
+								understanding </t>
+						</line>
+						<line xfinal="0" yfinal="3.99i" lnwidth="3.12i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">guardianship procedures and requirements.
+							</t>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">no</attr>
+							</tag>
+						</line>
+					</group>
+					<group class="para.text" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text" style="para.text">
+						<line xfinal="0.15i" yfinal="4.21i" lnwidth="4.17i" lnmeas="4.32i" lindent="0.15i" rindent="0" prelead="0.03i" qdtype="justify" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag><?xpp wo;0;0?>
+							<t x="0" y="0" style="para.text">A national review of guardianship cannot
+								provide answers </t>
+						</line>
+						<line xfinal="0" yfinal="4.38i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">to specific disputed issues among parties
+								in one state, nor </t>
+						</line>
+						<line xfinal="0" yfinal="4.56i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">can it cover every possible issue that
+								might be litigated. This </t>
+						</line>
+						<line xfinal="0" yfinal="4.73i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">discussion provides the juvenile and
+								family law practitioner </t>
+						</line>
+						<line xfinal="0" yfinal="4.9i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">with a basic understanding in order that
+								the statutes of his </t>
+						</line>
+						<line xfinal="0" yfinal="5.08i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">or her state can be read more meaningfully
+								and with an </t>
+						</line>
+						<line xfinal="0" yfinal="5.24i" lnwidth="2.08i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">awareness of common issues.</t>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">no</attr>
+							</tag>
+						</line>
+					</group>
+					<group class="para.text" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text" style="para.text">
+						<line xfinal="0.15i" yfinal="5.45i" lnwidth="4.17i" lnmeas="4.32i" lindent="0.15i" rindent="0" prelead="0.03i" qdtype="justify" bandwidth="0.08i" letspace="0.01i" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag><?xpp wo;0;0?>
+							<t x="0" y="0" style="para.text">Cases presented involve minors, even
+								though adult </t>
+						</line>
+						<line xfinal="0" yfinal="5.62i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">
+								incompetency guardianship cases might be applicable. Ap
+								<dt>-</dt>
+							</t>
+						</line>
+						<line xfinal="0" yfinal="5.78i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">pellate review is confined to issues of
+								appointment, removal </t>
+						</line>
+						<line xfinal="0" yfinal="5.95i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">
+								of guardian and settlements on account.<?xpp fig;1;1?>
+							</t>
+							<t x="0" y="-0.06i" style="para.text.1" cgt="true">1</t><?xpp foot;2;10?>
+							<xref id="2" type="footnote"/>
+							<t x="0" y="0" style="para.text"> Although juries </t>
+						</line>
+						<line xfinal="0" yfinal="6.11i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">
+								may be used to hear and determine whether the appoint
+								<dt>-</dt>
+							</t>
+						</line>
+						<line xfinal="0" yfinal="6.28i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">ment of a guardian is necessary, it is the
+								court that decides </t>
+						</line>
+						<line xfinal="0" yfinal="6.45i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">
+								who will be appointed as guardian. <?xpp ldquo?>
+							</t>
+							<t x="0" y="0" style="para.text" cgt="true">‘‘</t>
+							<t x="0" y="0" style="para.text">
+								Notice<?xpp rdquo?>
+							</t>
+							<t x="0" y="0" style="para.text" cgt="true">’’</t>
+							<t x="0" y="0" style="para.text"> is discussed in </t>
+						</line>
+					</group>
+				</block>
+			</stream>
+			<stream type="footnote" sx="0" sy="6.75i" ssx="4.32i" ssy="0.6i" groupnum="2" svjmode="top" epfilltype="none" class="0" rotate="0" strmrot="0" vj_space="0" cerrors="false" cntedit="false" predit="false" recomp="false" frzcomp="false" ipcbal="false" touched="false" tplaced="false" bplaced="false" firstack="false" lastack="false" direction="false" pgscope="false" hfull="false" vfull="false" here="false" before="false" justified="false" balup="false" baldown="false" balrunaway="false">
+				<block type="footnote" id="separator" bx="0" by="0" bsx="4.32i" bsy="0.6i" bisy="0.6i" biy="0" rotate="0" svjmode="top" btextlen="0.24i" bslack="0" vjerr="0" pgtbl="2" ipcnum="0" ipcgnum="1" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="false" rtl="false">
+					<group class="unknown" pclass="" dh="/unknown" style="unknown.3">
+						<line xfinal="0" yfinal="0.24i" lnwidth="1i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.24i" maxdesc="0.12i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="foots"/>
+							<rule x="0" y="-0.06i" w="1i" d="0.01i" color="#000000" color-cmyk="0 0 0 1"/>
+								<image id="thwest-k" type="tif" path="/apps/xpp/shared/images/lib01/thwest-k" x="0" y="-0.13i" w="2.77i" h="1.02i" color="#000000" color-cmyk="0 0 0 1" rotation="0" priority="0" scale="1.000000" cropx="0" cropy="0" cropw="2.77i" croph="1.02i"/>
+							<endtag name="foots"/>
+						</line>
+					</group>
+				</block>
+				<block type="footnote" id="2" bx="0" by="0.27i" bsx="4.32i" bsy="0.33i" bisy="0.33i" biy="0" rotate="0" svjmode="top" btextlen="0.33i" bslack="-0.09i" vjerr="0.09i" pgtbl="2" ipcnum="11" ipcgnum="2" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="false" bottom="true" rtl="false">
+					<group class="footnote" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote" style="footnote">
+						<line xfinal="0" yfinal="0.14i" lnwidth="0.8i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0.06i" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.14i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="true" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote">
+								<attr name="uuid">I6b33750013cc11e7bd7d9047e60fccb2</attr>
+								<attr name="date.updated">0</attr>
+							</tag><?xpp fnsecbrk;[Section 7:1]?>
+							<t x="0" y="0" style="footnote" cgt="true">[Section 7:1]</t>
+						</line>
+					</group>
+					<group class="footnote.reference" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.reference" style="footnote.reference">
+						<line xfinal="0.33i" yfinal="0.32i" lnwidth="0.05i" lnmeas="0.37i" lindent="0" rindent="0" prelead="-0.08i" qdtype="right" bandwidth="0.03i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote.reference"/><?xpp fig;1;1?>
+							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">1</t>
+							<endtag name="footnote.reference"/>
+						</line>
+					</group>
+					<group class="para.text" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text" style="para.text.2">
+						<line xfinal="0.37i" yfinal="0.33i" lnwidth="0.62i" lnmeas="4.32i" lindent="0.37i" rindent="0" prelead="-0.11i" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote.body">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">yes</attr>
+							</tag>
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag>
+							<t x="0" y="0" style="para.text.2">
+								See <?xpp cite finder=&quot;legacy&quot; type=&quot;secondaryxref&quot;?>
+							</t>
+							<tag name="ref">
+								<attr name="ref.id">I468686d017f811d9a95ebeb796057129</attr>
+								<attr name="secref">7:39</attr>
+							</tag><?xpp sect?>
+							<t x="0" y="0" style="ref.1" cgt="true">§ </t>
+							<t x="0" y="0" style="ref.1">7:39</t>
+							<endtag name="ref"/><?xpp /cite?>
+							<t x="0" y="0" style="para.text.2">.</t>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<endtag name="footnote.body"/>
+							<endtag name="footnote"/>
+						</line>
+					</group>
+				</block>
+			</stream>
+			<stream type="frills" sx="0" sy="0" ssx="0" ssy="0" groupnum="2" svjmode="bottom" epfilltype="none" class="0" rotate="0" strmrot="0" vj_space="0" cerrors="true" cntedit="false" predit="false" recomp="false" frzcomp="false" ipcbal="false" touched="false" tplaced="false" bplaced="false" firstack="false" lastack="false" direction="false" pgscope="false" hfull="false" vfull="false" here="false" before="false" justified="false" balup="false" baldown="false" balrunaway="false">
+				<block type="frill" id="0" bx="0" by="0" bsx="4.32i" bsy="0.14i" bisy="0.14i" biy="0" rotate="0" svjmode="top" btextlen="0.23i" bslack="0" vjerr="-0.09i" pgtbl="0" ipcnum="0" ipcgnum="1" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="false" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="false" rtl="false">
+					<group class="unknown" pclass="" dh="/unknown" style="unknown.4">
+						<line xfinal="4.01i" yfinal="0.09i" lnwidth="0.31i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="right" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="true" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="rh1"/>
+							<t x="0" y="0" style="rh1.2" cgt="true">
+								§ 7:1<?xpp /mc;%pgtype;ql;qr?><?xpp /qr?>
+							</t>
+						</line>
+						<line xfinal="0" yfinal="0.09i" lnwidth="0.81i" lnmeas="4.32i" lindent="0" rindent="0" prelead="-0.14i" qdtype="left" bandwidth="0.03i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="rh1" cgt="true">Guardianship</t>
+						</line>
+						<line xfinal="0" yfinal="0.23i" lnwidth="0" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.03i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<endtag name="rh1"/>
+						</line>
+					</group>
+				</block>
+				<block type="frill" id="0" bx="0" by="7.53i" bsx="4.32i" bsy="0.12i" bisy="0.12i" biy="7.53i" rotate="0" svjmode="bottom" btextlen="0.08i" bslack="0.04i" vjerr="0" pgtbl="0" ipcnum="0" ipcgnum="2" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="false" rtl="false">
+					<group class="rf3" pclass="" dh="/rf3" style="rf3">
+						<line xfinal="4.25i" yfinal="0.12i" lnwidth="0.07i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0.01i" qdtype="right" bandwidth="0.05i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="rf3"/>
+							<t x="0" y="0" style="unknown" cgt="true" suppress="true">@FSTART@</t>
+							<t x="0" y="0" style="unknown.1" cgt="true">3</t>
+							<t x="0" y="0" style="unknown.1" cgt="true" suppress="true">@FEND@</t>
+							<endtag name="rf3"/>
+						</line>
+					</group>
+				</block>
+			</stream>
+		</page>
+		<page relpgnum="4" p1="0" p2="0" p3="0" p4="4" p5="0" p6="0" psrnum="3" plname="standard" px="0" py="0" psx="4.32i" psy="7.65i" fsx="6.49i" fsy="10.12i" rotate="0" forcepend="false" lastpage="false" notextinpg="false" filler="false" pfexcept="false" rlfiller="false" pagetype="left">
+			<stream type="main" sx="0" sy="0" ssx="0" ssy="0" groupnum="1" svjmode="justify" epfilltype="none" class="0" rotate="0" strmrot="0" vj_space="0" cerrors="true" cntedit="false" predit="false" recomp="false" frzcomp="false" ipcbal="false" touched="false" tplaced="false" bplaced="false" firstack="false" lastack="false" direction="false" pgscope="false" hfull="false" vfull="false" here="false" before="false" justified="false" balup="false" baldown="false" balrunaway="false">
+				<block type="main" bx="0" by="0.3i" bsx="4.32i" bsy="7.05i" bisy="7.05i" biy="0.3i" rotate="0" svjmode="justify" btextlen="5.37i" bslack="-0.06i" vjerr="0" pgtbl="0" ipcnum="0" ipcgnum="1" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="true" trymode="squeeze" fipcblk="true" lipcblk="true" original="true" bottom="true" rtl="false">
+					<group class="para.text" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text" style="para.text">
+						<line xfinal="0" yfinal="0.1i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">
+								relation to the petition process,<?xpp fig;2;1?>
+							</t>
+							<t x="0" y="-0.06i" style="para.text.1" cgt="true">2</t><?xpp foot;3;10?>
+							<xref id="3" type="footnote"/>
+							<t x="0" y="0" style="para.text"> although notice regarding </t>
+						</line>
+						<line xfinal="0" yfinal="0.27i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">other aspects of guardianship (i.e.,
+								notice to creditors), has </t>
+						</line>
+						<line xfinal="0" yfinal="0.43i" lnwidth="3.77i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">
+								been one of the most violated rules in guardianship.<?xpp fig;3;1?>
+							</t>
+							<t x="0" y="-0.06i" style="para.text.1" cgt="true">3</t><?xpp foot;4;10?>
+							<xref id="4" type="footnote"/>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">no</attr>
+							</tag>
+						</line>
+					</group>
+					<group class="para.text" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text" style="para.text">
+						<line xfinal="0.15i" yfinal="0.63i" lnwidth="4.17i" lnmeas="4.32i" lindent="0.15i" rindent="0" prelead="0.03i" qdtype="justify" bandwidth="0.08i" letspace="0.01i" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag><?xpp wo;0;0?>
+							<t x="0" y="0" style="para.text">
+								Some alternatives to guardianship are discussed,<?xpp fig;4;1?>
+							</t>
+							<t x="0" y="-0.06i" style="para.text.1" cgt="true">4</t><?xpp foot;5;10?>
+							<xref id="5" type="footnote"/>
+							<t x="0" y="0" style="para.text"> as </t>
+						</line>
+						<line xfinal="0" yfinal="0.79i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">
+								counsel may recommend such a course of action in a particu
+								<dt>-</dt>
+							</t>
+						</line>
+						<line xfinal="0" yfinal="0.96i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">lar case. Related issues are addressed in
+								other chapters on </t>
+						</line>
+						<line xfinal="0" yfinal="1.13i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">
+								adoption, divorce and mental health.<?xpp fig;5;1?>
+							</t>
+							<t x="0" y="-0.06i" style="para.text.1" cgt="true">5</t><?xpp foot;6;10?>
+							<xref id="6" type="footnote"/>
+							<t x="0" y="0" style="para.text"> Forms at the end of </t>
+						</line>
+						<line xfinal="0" yfinal="1.29i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">the chapter were collected from various
+								state statutes as a </t>
+						</line>
+						<line xfinal="0" yfinal="1.46i" lnwidth="3.78i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">guide, and may need to be altered for
+								individual use.</t>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<endtag name="section.body"/>
+							<endtag name="section"/>
+							<tag name="section">
+								<attr name="uuid">I4a6f120026a611d99b08a92d7e97623c</attr>
+								<attr name="date.revised">0</attr>
+								<attr name="date.updated">0</attr>
+							</tag>
+<?XPPMetaData guid='I445a1ac9c61c11d9962fb5f8354828db' md.uuid='I445a1ac9c61c11d9962fb5f8354828db' md.dmsserial='303448442' md.first_line_cite='CALRO S 7:2' md.second_line_cite='2 Children &amp; the Law: Rights and Obligations s 7:2' md.pubpage='s 7:2' md.pubid='177882' md.doc_family_uuid='Ie0b81374f8fb11d99f28ffa0ae8c2575' md.normalizedcite='CALROS7:2' md.third_line_cite=''  name='&sect; 7:2. Definitions' parent_uuid='I49df7c3026a611d99b08a92d7e97623c' ?>
+							<tag name="section.front">
+								<attr name="date.updated">0</attr>
+							</tag>
+						</line>
+					</group>
+					<group class="label" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.front/outline.name.block" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.front/outline.name.block/label" style="label.2">
+						<line xfinal="0" yfinal="1.79i" lnwidth="1.36i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0.17i" qdtype="left" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="true" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="true" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="outline.name.block">
+								<attr name="toc.include">y</attr>
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="label">
+								<attr name="date.updated">0</attr>
+							</tag><?xpp COLNUM?><?xpp sect?>
+							<t x="0" y="0" style="label.2" cgt="true">§ </t>
+							<endtag name="label"/><?xpp secno;&#167; 7:2?>
+							<t x="0" y="0" style="outline.name.block.2" cgt="true" suppress="true">§ 7:2</t>
+							<tag name="designator">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<t x="0" y="0" style="designator.4">7:2</t>
+							<endtag name="designator"/>
+							<tag name="name">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<t x="0" y="0" style="name.5" cgt="true"> 
+							</t>
+							<t x="0" y="0" style="name.5">Definitions</t>
+							<endtag name="name"/>
+							<endtag name="outline.name.block"/>
+						</line>
+					</group>
+					<group class="ital" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/ital" style="ital">
+						<line xfinal="0.15i" yfinal="2.02i" lnwidth="4.17i" lnmeas="4.32i" lindent="0.15i" rindent="0" prelead="0.08i" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<endtag name="section.front"/>
+							<tag name="section.body">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">yes</attr>
+							</tag>
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag><?xpp wo;0;0?>
+							<tag name="ital"/>
+							<t x="0" y="0" style="ital">Ancillary Guardian.</t>
+							<endtag name="ital"/>
+							<t x="0" y="0" style="para.text"> Guardian appointed in a state other </t>
+						</line>
+						<line xfinal="0" yfinal="2.19i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="true" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">
+								than the state of original appointment and who is subservi
+								<dt>-</dt>
+							</t>
+						</line>
+						<line xfinal="0" yfinal="2.35i" lnwidth="3i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">ent and assistive to the original
+								guardian.</t>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">no</attr>
+							</tag>
+						</line>
+					</group>
+					<group class="ital" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/ital" style="ital">
+						<line xfinal="0.15i" yfinal="2.54i" lnwidth="4.17i" lnmeas="4.32i" lindent="0.15i" rindent="0" prelead="0.03i" qdtype="justify" bandwidth="0.08i" letspace="0.01i" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag><?xpp wo;0;0?>
+							<tag name="ital"/>
+							<t x="0" y="0" style="ital">Conservator.</t>
+							<endtag name="ital"/>
+							<t x="0" y="0" style="para.text"> Interchangeable with guardian in some </t>
+						</line>
+						<line xfinal="0" yfinal="2.71i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">
+								courts; other courts reserve the term to relate only to guard
+								<dt>-</dt>
+							</t>
+						</line>
+						<line xfinal="0" yfinal="2.87i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">
+								ian of the property. A state may use the term guardian refer
+								<dt>-</dt>
+							</t>
+						</line>
+						<line xfinal="0" yfinal="3.04i" lnwidth="3.64i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">
+								ring to minors and conservator applying to adults.<?xpp fig;1;1?>
+							</t>
+							<t x="0" y="-0.06i" style="para.text.1" cgt="true">1</t><?xpp foot;7;10?>
+							<xref id="7" type="footnote"/>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">no</attr>
+							</tag>
+						</line>
+					</group>
+					<group class="ital" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/ital" style="ital">
+						<line xfinal="0.15i" yfinal="3.23i" lnwidth="4.17i" lnmeas="4.32i" lindent="0.15i" rindent="0" prelead="0.03i" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag><?xpp wo;0;0?>
+							<tag name="ital"/>
+							<t x="0" y="0" style="ital">Curator.</t>
+							<endtag name="ital"/>
+							<t x="0" y="0" style="para.text"> French civil law term for guardian
+								appointed to </t>
+						</line>
+						<line xfinal="0" yfinal="3.39i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.08i" letspace="0.01i" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">control minor's property. Has other
+								meanings in other </t>
+						</line>
+						<line xfinal="0" yfinal="3.56i" lnwidth="0.63i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">contexts.</t>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">no</attr>
+							</tag>
+						</line>
+					</group>
+					<group class="ital" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/ital" style="ital">
+						<line xfinal="0.15i" yfinal="3.75i" lnwidth="2.49i" lnmeas="4.32i" lindent="0.15i" rindent="0" prelead="0.03i" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag><?xpp wo;0;0?>
+							<tag name="ital"/>
+							<t x="0" y="0" style="ital">Domicile.</t>
+							<endtag name="ital"/>
+							<t x="0" y="0" style="para.text"> Intended legal residence.</t>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">no</attr>
+							</tag>
+						</line>
+					</group>
+					<group class="ital" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/ital" style="ital">
+						<line xfinal="0.15i" yfinal="3.93i" lnwidth="4.17i" lnmeas="4.32i" lindent="0.15i" rindent="0" prelead="0.03i" qdtype="justify" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag><?xpp wo;0;0?>
+							<tag name="ital"/>
+							<t x="0" y="0" style="ital">Domiciliary Guardian.</t>
+							<endtag name="ital"/>
+							<t x="0" y="0" style="para.text"> Guardian appointed by the state of </t>
+						</line>
+						<line xfinal="0" yfinal="4.1i" lnwidth="2.53i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">the guardian's and ward's
+								domicile.</t>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">no</attr>
+							</tag>
+						</line>
+					</group>
+					<group class="ital" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/ital" style="ital">
+						<line xfinal="0.15i" yfinal="4.29i" lnwidth="4.17i" lnmeas="4.32i" lindent="0.15i" rindent="0" prelead="0.03i" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag><?xpp wo;0;0?>
+							<tag name="ital"/>
+							<t x="0" y="0" style="ital">Emancipation.</t>
+							<endtag name="ital"/>
+							<t x="0" y="0" style="para.text"> Adult status obtained in some states
+								prior </t>
+						</line>
+						<line xfinal="0" yfinal="4.45i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.09i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">to age of majority by marriage, court
+								decree or military </t>
+						</line>
+						<line xfinal="0" yfinal="4.62i" lnwidth="0.85i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">
+								enlistment.<?xpp fig;2;1?>
+							</t>
+							<t x="0" y="-0.06i" style="para.text.1" cgt="true">2</t><?xpp foot;8;10?>
+							<xref id="8" type="footnote"/>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">no</attr>
+							</tag>
+						</line>
+					</group>
+					<group class="ital" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/ital" style="ital">
+						<line xfinal="0.15i" yfinal="4.81i" lnwidth="4.17i" lnmeas="4.32i" lindent="0.15i" rindent="0" prelead="0.03i" qdtype="justify" bandwidth="0.08i" letspace="0.01i" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag><?xpp wo;0;0?>
+							<tag name="ital"/>
+							<t x="0" y="0" style="ital">Foreign Guardian.</t>
+							<endtag name="ital"/>
+							<t x="0" y="0" style="para.text"> Guardian whose appointment was </t>
+						</line>
+						<line xfinal="0" yfinal="4.97i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">granted in another state. Outside the
+								original appointment </t>
+						</line>
+						<line xfinal="0" yfinal="5.14i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">jurisdiction the guardian is considered a
+								foreign guardian. </t>
+						</line>
+						<line xfinal="0" yfinal="5.3i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">The foreign guardian must be assisted by a
+								local guardian. </t>
+								<endtag name="para.text"/>
+							<endtag name="para"/>
+							<endtag name="section.body"/>
+							<endtag name="section"/>
+							<endtag name="section.block"/>
+							<endtag name="analytical.hierarchy.body"/>
+							<endtag name="analytical.hierarchy"/>
+							<endtag name="chapter.body"/>
+							<endtag name="chapter"/>
+							<endtag name="publication.body"/>
+							<endtag name="publication"/>
+						</line>
+					</group>
+				</block>
+			</stream>
+			<stream type="footnote" sx="0" sy="5.61i" ssx="4.32i" ssy="1.75i" groupnum="2" svjmode="top" epfilltype="none" class="0" rotate="0" strmrot="0" vj_space="0" cerrors="false" cntedit="false" predit="false" recomp="false" frzcomp="false" ipcbal="false" touched="false" tplaced="false" bplaced="false" firstack="false" lastack="false" direction="false" pgscope="false" hfull="false" vfull="false" here="false" before="false" justified="false" balup="false" baldown="false" balrunaway="false">
+				<block type="footnote" id="separator" bx="0" by="0" bsx="4.32i" bsy="1.75i" bisy="1.75i" biy="0" rotate="0" svjmode="top" btextlen="0.24i" bslack="0" vjerr="0" pgtbl="2" ipcnum="0" ipcgnum="1" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="false" rtl="false">
+					<group class="unknown" pclass="" dh="/unknown" style="unknown.3">
+						<line xfinal="0" yfinal="0.24i" lnwidth="1i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.24i" maxdesc="0.12i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="foots"/>
+							<rule x="0" y="-0.06i" w="1i" d="0.01i" color="#000000" color-cmyk="0 0 0 1"/>
+							<endtag name="foots"/>
+						</line>
+					</group>
+				</block>
+				<block type="footnote" id="3" bx="0" by="0.27i" bsx="4.32i" bsy="1.48i" bisy="1.48i" biy="0" rotate="0" svjmode="top" btextlen="0.1i" bslack="0" vjerr="0" pgtbl="2" ipcnum="11" ipcgnum="2" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="false" bottom="true" rtl="false">
+					<group class="footnote.reference" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.reference" style="footnote.reference">
+						<line xfinal="0.33i" yfinal="0.08i" lnwidth="0.05i" lnmeas="0.37i" lindent="0" rindent="0" prelead="0.03i" qdtype="right" bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote">
+								<attr name="uuid">I6b3549c013cc11e7bd7d9047e60fccb2</attr>
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="footnote.reference"/><?xpp fig;2;1?>
+							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">2</t>
+							<endtag name="footnote.reference"/>
+						</line>
+					</group>
+					<group class="para.text" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text" style="para.text.2">
+						<line xfinal="0.37i" yfinal="0.1i" lnwidth="0.62i" lnmeas="4.32i" lindent="0.37i" rindent="0" prelead="-0.11i" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote.body">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">yes</attr>
+							</tag>
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag>
+							<t x="0" y="0" style="para.text.2">
+								See <?xpp cite finder=&quot;legacy&quot; type=&quot;secondaryxref&quot;?>
+							</t>
+							<tag name="ref">
+								<attr name="ref.id">I4687231017f811d9a95ebeb796057129</attr>
+								<attr name="secref">7:18</attr>
+							</tag><?xpp sect?>
+							<t x="0" y="0" style="ref.1" cgt="true">§ </t>
+							<t x="0" y="0" style="ref.1">7:18</t>
+							<endtag name="ref"/><?xpp /cite?>
+							<t x="0" y="0" style="para.text.2">.</t>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<endtag name="footnote.body"/>
+							<endtag name="footnote"/>
+						</line>
+					</group>
+				</block>
+				<block type="footnote" id="4" bx="0" by="0.27i" bsx="4.32i" bsy="1.48i" bisy="1.48i" biy="0.27i" rotate="0" svjmode="top" btextlen="0.42i" bslack="0" vjerr="0" pgtbl="2" ipcnum="11" ipcgnum="0" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="false" rtl="false">
+					<group class="footnote.reference" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.reference" style="footnote.reference">
+						<line xfinal="0.33i" yfinal="0.26i" lnwidth="0.05i" lnmeas="0.37i" lindent="0" rindent="0" prelead="0.03i" qdtype="right" bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote">
+								<attr name="uuid">I6b36a95013cc11e7bd7d9047e60fccb2</attr>
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="footnote.reference"/><?xpp fig;3;1?>
+							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">3</t>
+							<endtag name="footnote.reference"/>
+						</line>
+					</group>
+					<group class="ref" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text/ref" style="ref.1">
+						<line xfinal="0.37i" yfinal="0.28i" lnwidth="3.95i" lnmeas="4.32i" lindent="0.37i" rindent="0" prelead="-0.11i" qdtype="justify" bandwidth="0.05i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote.body">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">yes</attr>
+							</tag>
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag><?xpp cite finder=&quot;legacy&quot; type=&quot;periodical&quot;?>
+							<tag name="ref">
+								<attr name="ref.id">I4fe0cd90b60511e194ed0000837bc6dd</attr>
+							</tag>
+							<t x="0" y="0" style="ref.1">Austin, Court Supervision of the
+								Administration of Estates and </t>
+						</line>
+						<line xfinal="0" yfinal="0.42i" lnwidth="2.88i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="ref.1">Guardianships, 34 Wash. L. Rev. 263, 267
+								(1959)</t>
+							<endtag name="ref"/><?xpp /cite?>
+							<t x="0" y="0" style="para.text.2">.</t>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<endtag name="footnote.body"/>
+							<endtag name="footnote"/>
+						</line>
+					</group>
+				</block>
+				<block type="footnote" id="5" bx="0" by="0.27i" bsx="4.32i" bsy="1.48i" bisy="1.48i" biy="0.27i" rotate="0" svjmode="top" btextlen="0.6i" bslack="0" vjerr="0" pgtbl="2" ipcnum="11" ipcgnum="0" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="false" rtl="false">
+					<group class="footnote.reference" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.reference" style="footnote.reference">
+						<line xfinal="0.33i" yfinal="0.58i" lnwidth="0.05i" lnmeas="0.37i" lindent="0" rindent="0" prelead="0.03i" qdtype="right" bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote">
+								<attr name="uuid">I6b37e1d013cc11e7bd7d9047e60fccb2</attr>
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="footnote.reference"/><?xpp fig;4;1?>
+							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">4</t>
+							<endtag name="footnote.reference"/>
+						</line>
+					</group>
+					<group class="para.text" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text" style="para.text.2">
+						<line xfinal="0.37i" yfinal="0.6i" lnwidth="1i" lnmeas="4.32i" lindent="0.37i" rindent="0" prelead="-0.11i" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote.body">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">yes</attr>
+							</tag>
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag>
+							<t x="0" y="0" style="para.text.2">
+								See <?xpp cite finder=&quot;legacy&quot; type=&quot;secondaryxref&quot;?>
+							</t>
+							<tag name="ref">
+								<attr name="ref.id">I468882a017f811d9a95ebeb796057129</attr>
+								<attr name="secrange">y</attr>
+								<attr name="secref">7:36, 7:37</attr>
+							</tag><?xpp dblsect?>
+							<t x="0" y="0" style="ref.1" cgt="true">§§ </t>
+							<t x="0" y="0" style="ref.1">7:36, 7:37</t>
+							<endtag name="ref"/><?xpp /cite?>
+							<t x="0" y="0" style="para.text.2">.</t>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<endtag name="footnote.body"/>
+							<endtag name="footnote"/>
+						</line>
+					</group>
+				</block>
+				<block type="footnote" id="6" bx="0" by="0.27i" bsx="4.32i" bsy="1.48i" bisy="1.48i" biy="0.27i" rotate="0" svjmode="top" btextlen="0.78i" bslack="0" vjerr="0" pgtbl="2" ipcnum="11" ipcgnum="0" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="false" rtl="false">
+					<group class="footnote.reference" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.reference" style="footnote.reference">
+						<line xfinal="0.33i" yfinal="0.76i" lnwidth="0.05i" lnmeas="0.37i" lindent="0" rindent="0" prelead="0.03i" qdtype="right" bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote">
+								<attr name="uuid">I6b391a5013cc11e7bd7d9047e60fccb2</attr>
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="footnote.reference"/><?xpp fig;5;1?>
+							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">5</t>
+							<endtag name="footnote.reference"/>
+						</line>
+					</group>
+					<group class="para.text" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text" style="para.text.2">
+						<line xfinal="0.37i" yfinal="0.78i" lnwidth="2.4i" lnmeas="4.32i" lindent="0.37i" rindent="0" prelead="-0.11i" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote.body">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">yes</attr>
+							</tag>
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag>
+							<t x="0" y="0" style="para.text.2">
+								See <?xpp cite finder=&quot;crime&quot; type=&quot;secondaryxref&quot;?>
+							</t>
+							<tag name="ref">
+								<attr name="ref.id">I4fe4c530b60511e194ed0000837bc6dd</attr>
+								<attr name="secref">4:1 et seq., 6:1 et seq., 10:1 et seq.</attr>
+							</tag><?xpp dblsect?>
+							<t x="0" y="0" style="ref.1" cgt="true">§§ </t>
+							<t x="0" y="0" style="ref.1">4:1 et seq., 6:1 et seq., 10:1 et seq</t>
+							<endtag name="ref"/><?xpp /cite?>
+							<t x="0" y="0" style="para.text.2">.</t>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<endtag name="footnote.body"/>
+							<endtag name="footnote"/>
+						</line>
+					</group>
+				</block>
+				<block type="footnote" id="7" bx="0" by="0.27i" bsx="4.32i" bsy="1.48i" bisy="2.09i" biy="0.27i" rotate="0" svjmode="top" btextlen="1.3i" bslack="0" vjerr="0" pgtbl="2" ipcnum="11" ipcgnum="0" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="false" rtl="false">
+					<group class="footnote" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote" style="footnote.1">
+						<line xfinal="0" yfinal="0.97i" lnwidth="0.8i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0.06i" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.14i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="true" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote">
+								<attr name="uuid">I6bce075013cc11e7bd7d9047e60fccb2</attr>
+								<attr name="date.updated">0</attr>
+							</tag><?xpp fnsecbrk;[Section 7:2]?>
+							<t x="0" y="0" style="footnote.1" cgt="true">[Section 7:2]</t>
+						</line>
+					</group>
+					<group class="footnote.reference" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.reference" style="footnote.reference">
+						<line xfinal="0.33i" yfinal="1.15i" lnwidth="0.05i" lnmeas="0.37i" lindent="0" rindent="0" prelead="-0.08i" qdtype="right" bandwidth="0.03i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote.reference"/><?xpp fig;1;1?>
+							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">1</t>
+							<endtag name="footnote.reference"/>
+						</line>
+					</group>
+					<group class="bold" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text/bold" style="bold">
+						<line xfinal="0.37i" yfinal="1.16i" lnwidth="3.95i" lnmeas="4.32i" lindent="0.37i" rindent="0" prelead="-0.11i" qdtype="justify" bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote.body">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">yes</attr>
+							</tag>
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag>
+							<tag name="bold"/>
+							<t x="0" y="0" style="bold">California.</t>
+							<endtag name="bold"/>
+							<t x="0" y="0" style="para.text.2"> <?xpp cite finder=&quot;manual&quot; type=&quot;case&quot;?>
+							</t>
+							<tag name="ref">
+								<attr name="case.id">1993227244</attr>
+								<attr name="court">5th Dist.</attr>
+								<attr name="date">1993</attr>
+								<attr name="fjur">Cal</attr>
+								<attr name="jur">Cal</attr>
+								<attr name="norm.rptr">calapp4th</attr>
+								<attr name="p1">Poaster</attr>
+								<attr name="p2">Superior Court</attr>
+								<attr name="post.rptr">948</attr>
+								<attr name="pre.rptr">20</attr>
+								<attr name="ref.id">I01a009909f2411e1bf4a8c7f64b907c3</attr>
+								<attr name="title">Poaster v. Superior Court</attr>
+							</tag>
+							<t x="0" y="0" style="ref.1">Poaster v. Superior Court, 20 Cal. App.
+								4th 948, 24 Cal. </t>
+						</line>
+						<line xfinal="0" yfinal="1.3i" lnwidth="1.71i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="ref.1">Rptr. 2d 582 (5th Dist. 1993)</t>
+							<endtag name="ref"/><?xpp /cite?>
+							<t x="0" y="0" style="para.text.2">.</t>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<endtag name="footnote.body"/>
+							<endtag name="footnote"/>
+						</line>
+					</group>
+				</block>
+				<block type="footnote" id="8" bx="0" by="0.27i" bsx="4.32i" bsy="1.48i" bisy="1.48i" biy="0.27i" rotate="0" svjmode="top" btextlen="1.48i" bslack="0" vjerr="0" pgtbl="2" ipcnum="11" ipcgnum="0" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="false" trymode="expand" fipcblk="false" lipcblk="false" original="true" bottom="false" rtl="false">
+					<group class="footnote.reference" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.reference" style="footnote.reference">
+						<line xfinal="0.33i" yfinal="1.47i" lnwidth="0.05i" lnmeas="0.37i" lindent="0" rindent="0" prelead="0.03i" qdtype="right" bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote">
+								<attr name="uuid">I6bd0785013cc11e7bd7d9047e60fccb2</attr>
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="footnote.reference"/><?xpp fig;2;1?>
+							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">2</t>
+							<endtag name="footnote.reference"/>
+						</line>
+					</group>
+					<group class="para.text" pclass="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para" dh="/publication/publication.body/chapter/chapter.body/analytical.hierarchy/analytical.hierarchy.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text" style="para.text.2">
+						<line xfinal="0.37i" yfinal="1.48i" lnwidth="2.42i" lnmeas="4.32i" lindent="0.37i" rindent="0" prelead="-0.11i" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote.body">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">yes</attr>
+							</tag>
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag>
+							<t x="0" y="0" style="para.text.2">
+								See <?xpp cite finder=&quot;legacy&quot; type=&quot;secondaryxref&quot;?>
+							</t>
+							<tag name="ref">
+								<attr name="ref.id">I468b41c017f811d9a95ebeb796057129</attr>
+								<attr name="secref">11:2</attr>
+							</tag><?xpp sect?>
+							<t x="0" y="0" style="ref.1" cgt="true">§ </t>
+							<t x="0" y="0" style="ref.1">11:2</t>
+							<endtag name="ref"/><?xpp /cite?>
+							<t x="0" y="0" style="para.text.2"> for discussion of emancipation.</t>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<endtag name="footnote.body"/>
+							<endtag name="footnote"/>
+						</line>
+					</group>
+				</block>
+			</stream>
+			<stream type="frills" sx="0" sy="0" ssx="0" ssy="0" groupnum="2" svjmode="bottom" epfilltype="none" class="0" rotate="0" strmrot="0" vj_space="0" cerrors="true" cntedit="false" predit="false" recomp="false" frzcomp="false" ipcbal="false" touched="false" tplaced="false" bplaced="false" firstack="false" lastack="false" direction="false" pgscope="false" hfull="false" vfull="false" here="false" before="false" justified="false" balup="false" baldown="false" balrunaway="false">
+				<block type="frill" id="0" bx="0" by="0" bsx="4.32i" bsy="0.14i" bisy="0.14i" biy="0" rotate="0" svjmode="top" btextlen="0.23i" bslack="0" vjerr="-0.09i" pgtbl="0" ipcnum="0" ipcgnum="1" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="false" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="false" rtl="false">
+					<group class="unknown" pclass="" dh="/unknown" style="unknown.4">
+						<line xfinal="0" yfinal="0.09i" lnwidth="0.31i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="true" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="rh1"/>
+							<t x="0" y="0" style="rh1.2" cgt="true">
+								§ 7:1<?xpp /mc;%pgtype;ql;qr?><?xpp /ql?>
+							</t>
+						</line>
+						<line xfinal="1.65i" yfinal="0.09i" lnwidth="2.67i" lnmeas="4.32i" lindent="0" rindent="0" prelead="-0.14i" qdtype="right" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="rh1" cgt="true">Children </t>
+							<t x="0" y="0" style="rh1.1" cgt="true">&amp; </t>
+							<t x="0" y="0" style="rh1" cgt="true">the Law: Rights </t>
+							<t x="0" y="0" style="rh1.1" cgt="true">&amp; </t>
+							<t x="0" y="0" style="rh1" cgt="true">Obligations</t>
+						</line>
+						<line xfinal="0" yfinal="0.23i" lnwidth="0" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.03i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<endtag name="rh1"/>
+						</line>
+					</group>
+				</block>
+				<block type="frill" id="0" bx="0" by="7.53i" bsx="4.32i" bsy="0.12i" bisy="0.12i" biy="7.53i" rotate="0" svjmode="bottom" btextlen="0.08i" bslack="0.04i" vjerr="0" pgtbl="0" ipcnum="0" ipcgnum="2" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="false" rtl="false">
+					<group class="rf3" pclass="" dh="/rf3" style="rf3">
+						<line xfinal="0" yfinal="0.12i" lnwidth="0.07i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0.01i" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="rf3"/>
+							<t x="0" y="0" style="unknown" cgt="true" suppress="true">@FSTART@</t>
+							<t x="0" y="0" style="unknown.1" cgt="true">4</t>
+							<t x="0" y="0" style="unknown.1" cgt="true" suppress="true">@FEND@</t>
+							<endtag name="rf3"/>
+						</line>
+					</group>
+				</block>
+			</stream>
+		</page>
+	</pages>
+</document>

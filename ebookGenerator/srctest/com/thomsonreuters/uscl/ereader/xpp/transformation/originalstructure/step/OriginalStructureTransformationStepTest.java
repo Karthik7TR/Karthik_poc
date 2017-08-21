@@ -54,6 +54,8 @@ public final class OriginalStructureTransformationStepTest
     @Mock
     private File transformToFootnotesXsl;
     @Mock
+    private File citeQueryProcessedFile;
+    @Mock
     private File originalFile;
     @Mock
     private File footnotesFile;
@@ -74,12 +76,13 @@ public final class OriginalStructureTransformationStepTest
         final File bundleDir = mkdir(xppDirectory, MATERIAL_NUMBER);
         final File xppDir = mkdir(bundleDir, "/bundleName/XPP");
         xppFile = mkfile(xppDir, XPP_DIVXML_XML);
-
         given(entitiesDtdFile.getAbsolutePath()).willReturn(DTD_FILE_PATH);
         given(xppGatherFileSystem.getXppSourceXmls(step)).willReturn(getSourceXmlsFromGatherDir());
         given(fileSystem.getOriginalDirectory(step, MATERIAL_NUMBER)).willReturn(bundleDir);
         given(fileSystem.getOriginalFile(step, MATERIAL_NUMBER, XPP_DIVXML_XML)).willReturn(originalFile);
         given(fileSystem.getFootnotesFile(step, MATERIAL_NUMBER, XPP_DIVXML_XML)).willReturn(footnotesFile);
+        given(fileSystem.getCiteQueryProcessedFile(step, MATERIAL_NUMBER, XPP_DIVXML_XML)).willReturn(citeQueryProcessedFile);
+        given(citeQueryProcessedFile.getName()).willReturn(XPP_DIVXML_XML);
     }
 
     @Test
@@ -89,8 +92,9 @@ public final class OriginalStructureTransformationStepTest
         //when
         step.executeStep();
         //then
-        then(transformationService).should(times(2)).transform(commandCaptor.capture());
+        then(transformationService).should(times(3)).transform(commandCaptor.capture());
         final Iterator<TransformationCommand> iterator = commandCaptor.getAllValues().iterator();
+        assertThat(iterator.next().getOutputFile(), is(citeQueryProcessedFile));
         assertThat(iterator.next().getOutputFile(), is(originalFile));
         assertThat(iterator.next().getOutputFile(), is(footnotesFile));
     }

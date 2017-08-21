@@ -33,4 +33,12 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:function>
+	
+	<!-- for external links -->
+	<xsl:function name="x:get-href-by-id">
+		<xsl:param name="id" />
+		<xsl:param name="mappingFile" />
+		<xsl:value-of
+			select="$mappingFile/mapping/entry[@id=$id]/@href" />
+	</xsl:function>
 </xsl:stylesheet>

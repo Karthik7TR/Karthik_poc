@@ -28,27 +28,36 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public final class XppFormatFileSystemImplTest
 {
+    private static final String MATERIAL_NUMBER = "11111111";
+    private static final String MATERIAL_NUMBER_2 = "22222222";
+
     private static final String SECTION_UUID = "Ie0b9c12bf8fb11d99f28ffa0ae8c2575";
     private static final String SECTION_UUID_2 = "Ie0b9c12bf8fb11d99f28ffa0ae8c2576";
     private static final String CSS_DIR = "01_Css";
     private static final String ORIGINAL_DIR = "workDirectory/Format/02_Original";
+    private static final String PROCESSED_CITE_QUERIES_DIR =
+        "workDirectory/Format/02_Original/" + MATERIAL_NUMBER + "/Processed Cite Queries";
     private static final String SOURCE_DIR = "workDirectory/Format/03_StructureWithMetadata";
     private static final String SECTIONBREAKS_DIR = "workDirectory/Format/04_Sectionbreaks";
     private static final String SECTIONBREAKS_UP_DIR = "workDirectory/Format/05_SectionbreaksUp";
     private static final String ORIGINAL_PARTS_DIR = "workDirectory/Format/06_OriginalParts";
     private static final String ORIGINAL_PAGES_DIR = "workDirectory/Format/07_OriginalPages";
     private static final String HTML_PAGES_DIR = "workDirectory/Format/08_HtmlPages";
-    private static final String TOC_DIR = "workDirectory/Format/09_Toc";
-    private static final String TITLE_METADATA_DIR = "workDirectory/Format/10_title_metadata";
+    private static final String EXTERNAL_LINKS_DIR = "workDirectory/Format/09_ExternalLinks";
+    private static final String EXTERNAL_LINKS_MAPPING_DIR = "workDirectory/Format/09_ExternalLinks_Mapping";
+    private static final String TOC_DIR = "workDirectory/Format/10_Toc";
+    private static final String TITLE_METADATA_DIR = "workDirectory/Format/11_title_metadata";
 
-    private static final String FILE_NAME_XML         = "fileName.xml";
-    private static final String FILE_NAME_MAIN        = "fileName.main";
-    private static final String FILE_NAME_FOOTNOTES   = "fileName.footnotes";
-    private static final String FILE_NAME_PART        = "fileName.part";
+    private static final String FILE_NAME_XML = "fileName.xml";
+    private static final String FILE_NAME_MAIN = "fileName.main";
+    private static final String FILE_NAME_FOOTNOTES = "fileName.footnotes";
+    private static final String FILE_NAME_PART = "fileName.part";
     private static final String FILE_NAME_1_MAIN_PART = "fileName.DIVXML_1_main_Ie0b9c12bf8fb11d99f28ffa0ae8c2575.part";
-    private static final String FILE_NAME_1_FOOTNOTES_PART = "fileName.DIVXML_1_footnotes_Ie0b9c12bf8fb11d99f28ffa0ae8c2575.part";
+    private static final String FILE_NAME_1_FOOTNOTES_PART =
+        "fileName.DIVXML_1_footnotes_Ie0b9c12bf8fb11d99f28ffa0ae8c2575.part";
     private static final String FILE_NAME_2_MAIN_PART = "fileName.DIVXML_2_main_Ie0b9c12bf8fb11d99f28ffa0ae8c2576.part";
-    private static final String FILE_NAME_2_FOOTNOTES_PART = "fileName.DIVXML_2_footnotes_Ie0b9c12bf8fb11d99f28ffa0ae8c2576.part";
+    private static final String FILE_NAME_2_FOOTNOTES_PART =
+        "fileName.DIVXML_2_footnotes_Ie0b9c12bf8fb11d99f28ffa0ae8c2576.part";
     private static final String FILE_NAME_1_PAGE_WITH_GUID = "fileName_0001_Ie0b9c12bf8fb11d99f28ffa0ae8c2575.page";
     private static final String FILE_NAME_HTML = "fileName.html";
     private static final String FILE_NAME = "fileName";
@@ -58,8 +67,6 @@ public final class XppFormatFileSystemImplTest
     private static final String DOC_TO_IMAGE_MANIFEST = "workDirectory/Format/doc-to-image-manifest.txt";
     private static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "workDirectory/Format/anchorToDocumentIdMapFile.xml";
 
-    private static final String MATERIAL_NUMBER = "11111111";
-    private static final String MATERIAL_NUMBER_2 = "22222222";
     private static final String DOC_FAMILY_GUID = SECTION_UUID;
 
     @InjectMocks
@@ -221,6 +228,26 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
+    public void shouldReturnProcessedCiteQueryDirectory()
+    {
+        //given
+        //when
+        final File res = fileSystem.getCiteQueryProcessedDirectory(step, MATERIAL_NUMBER);
+        //then
+        assertThat(res, hasPath(PROCESSED_CITE_QUERIES_DIR));
+    }
+
+    @Test
+    public void shouldReturnProcessedCiteQueryFile()
+    {
+        //given
+        //when
+        final File res = fileSystem.getCiteQueryProcessedFile(step, MATERIAL_NUMBER, BASE_FILE_NAME + ".xml");
+        //then
+        assertThat(res, hasPath(PROCESSED_CITE_QUERIES_DIR + "/" + BASE_FILE_NAME + ".xml"));
+    }
+
+    @Test
     public void shouldReturnSectionbreaksDirectory()
     {
         //given
@@ -340,10 +367,22 @@ public final class XppFormatFileSystemImplTest
         //when
         final PartFilesIndex partFilesIndex = fileSystem.getOriginalPartsFiles(step);
         //then
-        assertTrue(partFilesIndex.get(MATERIAL_NUMBER, BASE_FILE_NAME, SECTION_UUID, PartType.MAIN).getFile().equals(file1Main));
-        assertTrue(partFilesIndex.get(MATERIAL_NUMBER, BASE_FILE_NAME, SECTION_UUID, PartType.FOOTNOTE).getFile().equals(file1Footnotes));
-        assertTrue(partFilesIndex.get(MATERIAL_NUMBER_2, BASE_FILE_NAME, SECTION_UUID_2, PartType.MAIN).getFile().equals(file2Main));
-        assertTrue(partFilesIndex.get(MATERIAL_NUMBER_2, BASE_FILE_NAME, SECTION_UUID_2, PartType.FOOTNOTE).getFile().equals(file2Footnotes));
+        assertTrue(
+            partFilesIndex.get(MATERIAL_NUMBER, BASE_FILE_NAME, SECTION_UUID, PartType.MAIN)
+                .getFile()
+                .equals(file1Main));
+        assertTrue(
+            partFilesIndex.get(MATERIAL_NUMBER, BASE_FILE_NAME, SECTION_UUID, PartType.FOOTNOTE)
+                .getFile()
+                .equals(file1Footnotes));
+        assertTrue(
+            partFilesIndex.get(MATERIAL_NUMBER_2, BASE_FILE_NAME, SECTION_UUID_2, PartType.MAIN)
+                .getFile()
+                .equals(file2Main));
+        assertTrue(
+            partFilesIndex.get(MATERIAL_NUMBER_2, BASE_FILE_NAME, SECTION_UUID_2, PartType.FOOTNOTE)
+                .getFile()
+                .equals(file2Footnotes));
     }
 
     @Test
@@ -435,6 +474,66 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
+    public void shouldReturnExternalLinksDirectory()
+    {
+        //given
+        //when
+        final File file = fileSystem.getExternalLinksDirectory(step);
+        //then
+        assertThat(file, hasPath(EXTERNAL_LINKS_DIR));
+    }
+
+    @Test
+    public void shouldReturnExternalLinksDirectoryForMaterialNumber()
+    {
+        //given
+        //when
+        final File file = fileSystem.getExternalLinksDirectory(step, MATERIAL_NUMBER);
+        //then
+        assertThat(file, hasPath(EXTERNAL_LINKS_DIR + "/" + MATERIAL_NUMBER));
+    }
+
+    @Test
+    public void shouldReturnExternalLinksFile()
+    {
+        //given
+        //when
+        final File file = fileSystem.getExternalLinksFile(step, MATERIAL_NUMBER, FILE_NAME_HTML);
+        //then
+        assertThat(file, hasPath(EXTERNAL_LINKS_DIR + "/" + MATERIAL_NUMBER + "/" + FILE_NAME_HTML));
+    }
+
+    @Test
+    public void shouldReturnExternalLinksMappingDirectory()
+    {
+        //given
+        //when
+        final File file = fileSystem.getExternalLinksMappingDirectory(step);
+        //then
+        assertThat(file, hasPath(EXTERNAL_LINKS_MAPPING_DIR));
+    }
+
+    @Test
+    public void shouldReturnExternalLinksMappingDirectoryForMaterialNumber()
+    {
+        //given
+        //when
+        final File file = fileSystem.getExternalLinksMappingDirectory(step, MATERIAL_NUMBER);
+        //then
+        assertThat(file, hasPath(EXTERNAL_LINKS_MAPPING_DIR + "/" + MATERIAL_NUMBER));
+    }
+
+    @Test
+    public void shouldReturnExternalLinksMappingFile()
+    {
+        //given
+        //when
+        final File file = fileSystem.getExternalLinksMappingFile(step, MATERIAL_NUMBER, FILE_NAME_HTML);
+        //then
+        assertThat(file, hasPath(EXTERNAL_LINKS_MAPPING_DIR + "/" + MATERIAL_NUMBER + "/" + FILE_NAME_HTML));
+    }
+
+    @Test
     public void shouldReturnAnchorsMapFile()
     {
         //given
@@ -461,7 +560,9 @@ public final class XppFormatFileSystemImplTest
         //when
         final File file = fileSystem.getIndexBreaksFile(step, MATERIAL_NUMBER, FILE_NAME_MAIN);
         //then
-        assertThat(file, hasPath("workDirectory/Format/indexBreaks/" + MATERIAL_NUMBER + "/indexbreak-" + FILE_NAME_MAIN));
+        assertThat(
+            file,
+            hasPath("workDirectory/Format/indexBreaks/" + MATERIAL_NUMBER + "/indexbreak-" + FILE_NAME_MAIN));
     }
 
     @Test
@@ -481,7 +582,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File file = fileSystem.getBundlePartTocFile(FILE_NAME_XML, MATERIAL_NUMBER, step);
         //then
-        assertThat(file, hasPath("workDirectory/Format/09_Toc/11111111/toc_fileName.xml"));
+        assertThat(file, hasPath("workDirectory/Format/10_Toc/11111111/toc_fileName.xml"));
     }
 
     @Test
@@ -491,7 +592,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File file = fileSystem.getMergedBundleTocFile(MATERIAL_NUMBER, step);
         //then
-        assertThat(file, hasPath("workDirectory/Format/09_Toc/11111111/toc_merged.xml"));
+        assertThat(file, hasPath("workDirectory/Format/10_Toc/11111111/toc_merged.xml"));
     }
 
     @Test

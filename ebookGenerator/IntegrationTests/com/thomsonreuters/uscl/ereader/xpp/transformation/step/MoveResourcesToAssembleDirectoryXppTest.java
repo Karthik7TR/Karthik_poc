@@ -84,7 +84,7 @@ public final class MoveResourcesToAssembleDirectoryXppTest
         //when
         sut.executeStep();
         //then
-        assertThat(expectedDir, hasSameContentAs(titleDirectory));
+        assertThat(expectedDir, hasSameContentAs(titleDirectory, true));
     }
 
     private void mockBook()
