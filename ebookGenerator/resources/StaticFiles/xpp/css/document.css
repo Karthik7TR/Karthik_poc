@@ -671,3 +671,19 @@ sup + .footnote_body > .para:first-child {
   display: block;
   text-align: center;
 }
+
+.er_rp_ftbox_content .footnote_body {
+    display:none;
+}
+
+.er_rp_ftbox_content .footnote_body_main_popup_pane {
+    display:inline;
+}
+
+.tr_footnotes .footnote_body {
+    display:inline;
+}
+
+.tr_footnotes .footnote_body_main_popup_pane {
+    display:none;
+}

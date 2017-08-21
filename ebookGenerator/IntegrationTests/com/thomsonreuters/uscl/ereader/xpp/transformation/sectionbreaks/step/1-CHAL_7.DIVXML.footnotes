@@ -48,6 +48,9 @@
         </footnote.body>
     </footnote>
     <footnote uuid="I42e15f7013c911e7b9e3acd823573d3d" date.updated="0" id="27">
+        <footnote.reference>
+            <cgt>27</cgt>
+        </footnote.reference>
         <footnote.body date.updated="0">
             <para date.updated="0" first.para="no">
                 footnote on page 5

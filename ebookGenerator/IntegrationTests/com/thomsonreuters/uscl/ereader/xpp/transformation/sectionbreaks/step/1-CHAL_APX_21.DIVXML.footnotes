@@ -14,16 +14,26 @@
         </footnote.body>
     </footnote>
     <footnote uuid="I42e15f7013c911e7b9e3acd823573d3d" date.updated="0" id="2">
+        <footnote.reference>
+            <cgt>2</cgt>
+        </footnote.reference>
         <footnote.body date.updated="0">
             <para date.updated="0" first.para="no">
+                content on page 1
                 <pagebreak num="2" num-string="2"/>
+                content on page 2
             </para>
         </footnote.body>
     </footnote>
     <footnote uuid="I42e15f7013c911e7b9e3acd823573d4e" date.updated="0" id="3">
+        <footnote.reference>
+            <cgt>3</cgt>
+        </footnote.reference>
         <footnote.body date.updated="0">
             <para date.updated="0" first.para="no">
+                content on page 2
                 <pagebreak num="3" num-string="3"/>
+                content on page 3
             </para>
         </footnote.body>
     </footnote>

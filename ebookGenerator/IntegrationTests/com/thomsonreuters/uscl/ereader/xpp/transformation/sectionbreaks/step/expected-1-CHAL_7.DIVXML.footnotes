@@ -40,17 +40,44 @@
             </para>
             <para date.updated="0" first.para="no">
                 footnote on page 4
-                </para></footnote.body></footnote><sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2599"/><pagebreak num="5" num-string="5"/><footnote><hidden.footnote.reference refId="20-5"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
+                </para></footnote.body><footnote.body.main.popup.pane date.updated="0">
+            <para date.updated="0" first.para="no">
+                <para.text date.updated="0" first.para.text="yes">
+                    <ital>See also:</ital>
+                </para.text>
+            </para>
+            <para date.updated="0" first.para="no">
+                footnote on page 4
+                
+                <foots/>
+                <para.text date.updated="0" first.para.text="yes">A good discussion of the rehabilitative and punishment models is found in <ref normalpub="lr" ref.id="Id9508b8097b711e297060000833f9e5b" reftext="Gardner, Punishment and Juvenile Justice: A Conceptual Framework for Assessing Constitutional Rights of Youthful Offenders">Gardner, Punishment and Juvenile Justice: A Conceptual Framework for Assessing Constitutional Rights of Youthful Offenders, 35 Vand. L. Rev. 791 (1982)</ref>.</para.text>
+            </para>
+        </footnote.body.main.popup.pane></footnote><sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2599"/><pagebreak num="5" num-string="5"/><footnote><hidden.footnote.reference refId="20-5"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
                 <foots/>
                 <para.text date.updated="0" first.para.text="yes">A good discussion of the rehabilitative and punishment models is found in <ref normalpub="lr" ref.id="Id9508b8097b711e297060000833f9e5b" reftext="Gardner, Punishment and Juvenile Justice: A Conceptual Framework for Assessing Constitutional Rights of Youthful Offenders">Gardner, Punishment and Juvenile Justice: A Conceptual Framework for Assessing Constitutional Rights of Youthful Offenders, 35 Vand. L. Rev. 791 (1982)</ref>.</para.text>
             </para>
         </footnote.body>
     </footnote>
     <footnote uuid="I42e15f7013c911e7b9e3acd823573d3d" date.updated="0" id="27">
+        <footnote.reference>
+            <cgt>27</cgt>
+        </footnote.reference>
         <footnote.body date.updated="0">
             <para date.updated="0" first.para="no">
                 footnote on page 5
-                </para></footnote.body></footnote><pagebreak num="6" num-string="6"/><footnote><hidden.footnote.reference refId="27-6"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
+                </para></footnote.body><footnote.body.main.popup.pane date.updated="0">
+            <para date.updated="0" first.para="no">
+                footnote on page 5
+                
+                footnote on page 6
+                
+                footnote on page 7
+                
+                footnote on page 8
+                
+                footnote on page 9
+            </para>
+        </footnote.body.main.popup.pane></footnote><pagebreak num="6" num-string="6"/><footnote><hidden.footnote.reference refId="27-6"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
                 footnote on page 6
                 </para></footnote.body></footnote><pagebreak num="7" num-string="7"/><footnote><hidden.footnote.reference refId="27-7"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
                 footnote on page 7

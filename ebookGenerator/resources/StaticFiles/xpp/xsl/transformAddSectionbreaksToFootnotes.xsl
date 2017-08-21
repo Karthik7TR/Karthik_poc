@@ -7,9 +7,9 @@
     <xsl:param name="mainDocumentWithSectionbreaks"/>
     <xsl:variable name="main" select="document($mainDocumentWithSectionbreaks)" />
 
-    <xsl:template match="node()|@*">
+    <xsl:template match="node()|@*" mode="#all">
         <xsl:copy>
-            <xsl:apply-templates select="node()|@*" />
+            <xsl:apply-templates select="node()|@*" mode="#current" />
         </xsl:copy>
     </xsl:template>
     
@@ -23,12 +23,23 @@
         </xsl:copy>
     </xsl:template>
     
+    <xsl:template match="x:footnote.body" mode="mainPopupPane">
+        <footnote.body.main.popup.pane>
+            <xsl:apply-templates select="node()|@*" mode="mainPopupPane"/>
+        </footnote.body.main.popup.pane>
+    </xsl:template>
+    
+    <xsl:template match="x:pagebreak" mode="mainPopupPane" />
+    
     <xsl:template match="x:pagebreak">
         <xsl:variable name="outerFootnote" select="ancestor::x:footnote[1]" />
 
         <xsl:choose>
             <xsl:when test="$outerFootnote">
-                <xsl:call-template name="insertCloseTags" />
+                <xsl:call-template name="insertCloseTags">
+                    <xsl:with-param name="shouldAddFullFootnote" select="count($outerFootnote//following::x:pagebreak intersect preceding::x:pagebreak)=0" />
+                    <xsl:with-param name="footnote" select="$outerFootnote" />
+                </xsl:call-template>
                 <xsl:call-template name="processPagebreak" />
                 <xsl:call-template name="insertOpenTags">
                     <xsl:with-param name="refId" select="concat($outerFootnote/@id, '-', @num)" />
@@ -64,12 +75,18 @@
     </xsl:template>
 
     <xsl:template name="insertCloseTags">
+        <xsl:param name="shouldAddFullFootnote" />
+        <xsl:param name="footnote" />
+        
         <xsl:for-each select="ancestor::node()">
             <xsl:sort select="position()" data-type="number" order="descending" />
-            <xsl:if test="local-name(.) != '' and (ancestor::x:footnote or local-name(.) = 'footnote')">
+            <xsl:if test="local-name(.) = 'footnote' or local-name(.) != '' and ancestor::x:footnote">
                 <xsl:text disable-output-escaping="yes"><![CDATA[</]]></xsl:text>
                 <xsl:value-of select="local-name(.)" />
                 <xsl:text disable-output-escaping="yes"><![CDATA[>]]></xsl:text>
+            </xsl:if>
+            <xsl:if test="local-name(.) = 'footnote.body' and $shouldAddFullFootnote">
+                <xsl:apply-templates select="$footnote/x:footnote.body" mode="mainPopupPane"/>
             </xsl:if>
         </xsl:for-each>
     </xsl:template>
