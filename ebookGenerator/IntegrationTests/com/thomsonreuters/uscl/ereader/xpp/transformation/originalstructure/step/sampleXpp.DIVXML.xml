@@ -30,12 +30,15 @@
 							kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false"
 							nobkpt="false" ebinline="false" lepgraf="false" leitm="true"
 							quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false"
-							bmline="false"><?xpp /ns;43;0?><?xpp /ns;105;0?><?xpp /ei;0?>
+							bmline="false">
+							<?xpp /ns;43;0?>
+							<?xpp /ns;105;0?>
+							<?xpp /ei;0?>
 							<tag name="publication">
 								<attr name="online.royalty.id">CALA</attr>
 								<attr name="uuid">I0f72523026a511d99b08a92d7e97623c</attr>
 							</tag>
-							<tag name="publication.body"></tag>
+							<tag name="publication.body"/>
 							<tag name="chapter">
 								<attr name="uuid">I49dd324026a611d99b08a92d7e97623c</attr>
 								<attr name="date.revised">0</attr>
@@ -45,22 +48,24 @@
 							<tag name="front">
 								<attr name="date.updated">0</attr>
 							</tag>
-							<tag name="generated.toc"></tag>
-							<tag name="full.toc"></tag>
-							<tag name="toc.appendix"></tag>
-							<tag name="outline.name.block"></tag>
-							<endtag name="outline.name.block"></endtag>
-							<endtag name="toc.appendix"></endtag>
-							<endtag name="full.toc"></endtag>
-							<endtag name="generated.toc"></endtag>
+							<tag name="generated.toc"/>
+							<tag name="full.toc"/>
+							<tag name="toc.appendix"/>
+							<tag name="outline.name.block"/>
+							<endtag name="outline.name.block"/>
+							<endtag name="toc.appendix"/>
+							<endtag name="full.toc"/>
+							<endtag name="generated.toc"/>
 							<tag name="research.reference.block">
 								<attr name="date.updated">0</attr>
 							</tag>
 							<t x="0" y="0" style="research.reference.block" cgt="true">
-								Research References<?xpp /ns;14;1?><?xpp /ns;43;0?>
+								Research References<?xpp /ns;14;1?>
+								<?xpp /ns;43;0?>
 							</t>
-							<tag name="reference.entry.group"></tag>
-							<tag name="name.block"></tag><?xpp xfSizeTest?>
+							<tag name="reference.entry.group"/>
+							<tag name="name.block"/>
+							<?xpp xfSizeTest?>
 						</line>
 					</group>
 					<group class="name"
@@ -76,15 +81,15 @@
 							kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false"
 							lepgraf="false" leitm="true" quadset="false" tbstart="false"
 							tbsa="false" tbend="false" tbrhd="false" bmline="false">
-							<tag name="name"></tag>
+							<tag name="name"/>
 							<t x="0" y="0" style="name.3">
 								West<?xpp apos?>
 							</t>
 							<t x="0" y="0" style="name.3" cgt="true">&#8217;</t>
 							<t x="0" y="0" style="name.3">s Key Number Digest</t>
-							<endtag name="name"></endtag>
-							<endtag name="name.block"></endtag>
-							<tag name="reference.entry"></tag>
+							<endtag name="name"/>
+							<endtag name="name.block"/>
+							<tag name="reference.entry"/>
 						</line>
 					</group>
 					<group class="ref"
@@ -100,15 +105,18 @@
 							nobkpt="false" ebinline="false" lepgraf="false" leitm="false"
 							quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false"
 							bmline="false">
-							<tag name="ref.text"></tag><?xpp COLNUM?><?xpp cite?>
-							<tag name="ref"></tag>
+							<tag name="ref.text"/>
+							<?xpp COLNUM?>
+							<?xpp cite?>
+							<tag name="ref"/>
 							<t x="0" y="0" style="ref">Guardian and Ward &TLRkey; &#984339;1 to 74;
 								Infants &#984339;76 to 87</t>
-							<endtag name="ref"></endtag><?xpp /cite?>
-							<endtag name="ref.text"></endtag>
-							<endtag name="reference.entry"></endtag>
-							<endtag name="reference.entry.group"></endtag>
-							<endtag name="research.reference.block"></endtag>
+							<endtag name="ref"/>
+							<?xpp /cite?>
+							<endtag name="ref.text"/>
+							<endtag name="reference.entry"/>
+							<endtag name="reference.entry.group"/>
+							<endtag name="research.reference.block"/>
 						</line>
 						<line xfinal="0.14i" yfinal="0.57i" lnwidth="0.08i" lnmeas="4.32i"
 							lindent="0.14i" rindent="0" prelead="-0.11i" qdtype="left"
@@ -118,7 +126,8 @@
 							vkpstart="false" vkpsa="true" kptype="false" kpstart="false"
 							kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false"
 							lepgraf="false" leitm="false" quadset="true" tbstart="false"
-							tbsa="false" tbend="false" tbrhd="false" bmline="false"><?xpp /lp;&amp;-8q;?>
+							tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<?xpp /lp;&amp;-8q;?>
 							<t x="0" y="0" style="front" cgt="true">&#8194;<?xpp /qa?>
 							</t>
 						</line>
@@ -130,7 +139,8 @@
 							vkpstart="false" vkpsa="false" kptype="false" kpstart="false"
 							kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false"
 							lepgraf="false" leitm="false" quadset="true" tbstart="false"
-							tbsa="false" tbend="false" tbrhd="false" bmline="false"><?xpp keycite?>
+							tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<?xpp keycite?>
 						</line>
 						<line xfinal="0.2i" yfinal="0.93i" lnwidth="3.92i" lnmeas="4.12i"
 							lindent="0.2i" rindent="0" prelead="0.2i" qdtype="justify"
@@ -140,9 +150,36 @@
 							vkpstart="false" vkpsa="false" kptype="false" kpstart="true"
 							kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false"
 							lepgraf="false" leitm="false" quadset="false" tbstart="false"
-							tbsa="false" tbend="false" tbrhd="false" bmline="false"><?xpp /ks;?><?xpp /in;0?><?xpp /ns;2;%lnmeas/.5q?><?xpp /me;0=0?0:%avlnmeas+%xrelsob-0?><?xpp /tj;1?><?xpp /tq;l?><?xpp /cm;0?><?xpp /lp;1q;?><?xpp /xs;705;.5q?><?xpp /xs;706;8q?><?xpp /xs;707;6q?><?xpp /xs;708;%yrelsob?><?xpp /mc;%blines=1;skp;nul?><?xpp /xs;708;x708-%ldextra+x706?><?xpp /lp;&amp;(x705+x707);1?><?xpp /mc;%blines=1;skp;nul?><?xpp /lp;&amp;(x706-%ldextra);1?><?xpp /xs;709;%xrelsob+%avlnmeas?><?xpp /xs;710;%lindent?><?xpp /me;x709-x705-x706-x707?><?xpp /in;&amp;(x705+x706+x707)?><?xpp /vx?><?xpp /ks?><?xpp /sz;8q;1q?><?xpp /ff;2?><?xpp /fv;1?>
+							tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<?xpp /ks;?>
+							<?xpp /in;0?>
+							<?xpp /ns;2;%lnmeas/.5q?>
+							<?xpp /me;0=0?0:%avlnmeas+%xrelsob-0?>
+							<?xpp /tj;1?>
+							<?xpp /tq;l?>
+							<?xpp /cm;0?>
+							<?xpp /lp;1q;?>
+							<?xpp /xs;705;.5q?>
+							<?xpp /xs;706;8q?>
+							<?xpp /xs;707;6q?>
+							<?xpp /xs;708;%yrelsob?>
+							<?xpp /mc;%blines=1;skp;nul?>
+							<?xpp /xs;708;x708-%ldextra+x706?>
+							<?xpp /lp;&amp;(x705+x707);1?>
+							<?xpp /mc;%blines=1;skp;nul?>
+							<?xpp /lp;&amp;(x706-%ldextra);1?>
+							<?xpp /xs;709;%xrelsob+%avlnmeas?>
+							<?xpp /xs;710;%lindent?>
+							<?xpp /me;x709-x705-x706-x707?>
+							<?xpp /in;&amp;(x705+x706+x707)?>
+							<?xpp /vx?>
+							<?xpp /ks?>
+							<?xpp /sz;8q;1q?>
+							<?xpp /ff;2?>
+							<?xpp /fv;1?>
 							<t x="0" y="0" style="front.1" cgt="true">
-								Ke<?xpp /ns;1;%lindent/.5q?><?xpp /in;%xrelsob+%lnwidth?>
+								Ke<?xpp /ns;1;%lindent/.5q?>
+								<?xpp /in;%xrelsob+%lnwidth?>
 								yCite&#983333;:<?xpp /fv;0?>
 							</t>
 							<t x="0" y="0" style="front.2" cgt="true"> Cases and other legal
@@ -208,15 +245,26 @@
 							kptype="false" kpstart="false" kpsa="true" kpse="false" bkpt="false"
 							nobkpt="false" ebinline="false" lepgraf="false" leitm="true"
 							quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false"
-							bmline="false"><?xpp /xs;711;%yrelsob-%ldextra+x707+x705?><?xpp /me;x709?><?xpp /in;x710?><?xpp /mh;x706?><?xpp /ru;x705;x711-x708;;-(%yrelsob-x708+%ldasc)?>
+							bmline="false">
+							<?xpp /xs;711;%yrelsob-%ldextra+x707+x705?>
+							<?xpp /me;x709?>
+							<?xpp /in;x710?>
+							<?xpp /mh;x706?>
+							<?xpp /ru;x705;x711-x708;;-(%yrelsob-x708+%ldasc)?>
 							<rule x="0.11i" y="-0.8i" w="0.01i" d="0.8i" color="#000000"
-								color-cmyk="0 0 0 1"></rule><?xpp /ru;x709-x710-x706-x706-x705;x705?>
+								color-cmyk="0 0 0 1"/>
+							<?xpp /ru;x709-x710-x706-x706-x705;x705?>
 							<rule x="0" y="-0.8i" w="4.1i" d="0.01i" color="#000000"
-								color-cmyk="0 0 0 1"></rule><?xpp /ru;x705;x711-x708;-x705?>
+								color-cmyk="0 0 0 1"/>
+							<?xpp /ru;x705;x711-x708;-x705?>
 							<rule x="-0.01i" y="-0.8i" w="0.01i" d="0.8i" color="#000000"
-								color-cmyk="0 0 0 1"></rule><?xpp /ru;x709-x710-x706-x706-x705;x705;-(x709-x710-x706-x706);x711-x708-x705?>
+								color-cmyk="0 0 0 1"/>
+							<?xpp /ru;x709-x710-x706-x706-x705;x705;-(x709-x710-x706-x706);x711-x708-x705?>
 							<rule x="-4.1i" y="0" w="4.1i" d="0.01i" color="#000000"
-								color-cmyk="0 0 0 1"></rule><?xpp /mh;-(x709-x710-x706-x706)+x705?><?xpp /mb;0?><?xpp /ql?>
+								color-cmyk="0 0 0 1"/>
+							<?xpp /mh;-(x709-x710-x706-x706)+x705?>
+							<?xpp /mb;0?>
+							<?xpp /ql?>
 						</line>
 					</group>
 					<group class="designator"
@@ -230,8 +278,14 @@
 							first="true" last="false" vkpstart="true" vkpsa="false" kptype="false"
 							kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false"
 							ebinline="false" lepgraf="false" leitm="false" quadset="true"
-							tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false"><?xpp /lp;x706+x707+x705-%ldextra-%ldasc-%lddesc-%ldextra?><?xpp /xi;705;711?><?xpp /va?><?xpp /ke?><?xpp /ke?><?xpp measure;?>
-							<endtag name="front"></endtag>
+							tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<?xpp /lp;x706+x707+x705-%ldextra-%ldasc-%lddesc-%ldextra?>
+							<?xpp /xi;705;711?>
+							<?xpp /va?>
+							<?xpp /ke?>
+							<?xpp /ke?>
+							<?xpp measure;?>
+							<endtag name="front"/>
 							<tag name="chapter.body">
 								<attr name="date.updated">0</attr>
 							</tag>
@@ -240,10 +294,11 @@
 								<attr name="date.revised">0</attr>
 								<attr name="date.updated">0</attr>
 							</tag>
-<?XPPHier guid='I49df7c3026a611d99b08a92d7e97623c' name='I. Introduction' parent_guid='I49dd324026a611d99b08a92d7e97623c' ?>
+							<?XPPHier guid='I49df7c3026a611d99b08a92d7e97623c' name='I. Introduction' parent_guid='I49dd324026a611d99b08a92d7e97623c' ?>
 							<tag name="front">
 								<attr name="date.updated">0</attr>
-							</tag><?xpp secno;&#167; 7:1?>
+							</tag>
+							<?xpp secno;&#167; 7:1?>
 							<t x="0" y="0" style="front.2" cgt="true" suppress="true">&#167; 7:1
 							</t>
 							<tag name="outline.name.block">
@@ -257,12 +312,12 @@
 								I<?xpp period?>
 							</t>
 							<t x="0" y="0" style="designator.3" cgt="true">.</t>
-							<endtag name="designator"></endtag>
+							<endtag name="designator"/>
 							<tag name="name">
 								<attr name="date.updated">0</attr>
 							</tag>
 							<t x="0.22i" y="0" style="name.4">Introduction</t>
-							<endtag name="name"></endtag>
+							<endtag name="name"/>
 						</line>
 						<line xfinal="0.25i" yfinal="2.17i" lnwidth="0" lnmeas="4.32i"
 							lindent="0.25i" rindent="0" prelead="-0.12i" qdtype="left"
@@ -272,7 +327,10 @@
 							vkpstart="true" vkpsa="true" kptype="false" kpstart="false" kpsa="false"
 							kpse="false" bkpt="false" nobkpt="false" ebinline="false"
 							lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false"
-							tbend="false" tbrhd="false" bmline="false"><?xpp /lp;&amp;-9q;?><?xpp /mh;0?><?xpp /qa?>
+							tbend="false" tbrhd="false" bmline="false">
+							<?xpp /lp;&amp;-9q;?>
+							<?xpp /mh;0?>
+							<?xpp /qa?>
 						</line>
 					</group>
 					<group class="label"
@@ -287,19 +345,22 @@
 							kptype="false" kpstart="true" kpsa="true" kpse="true" bkpt="false"
 							nobkpt="false" ebinline="false" lepgraf="false" leitm="true"
 							quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false"
-							bmline="false"><?xpp /ns;44;1?>
-							<endtag name="outline.name.block"></endtag><?xpp measure;?>
-							<endtag name="front"></endtag>
+							bmline="false">
+							<?xpp /ns;44;1?>
+							<endtag name="outline.name.block"/>
+							<?xpp measure;?>
+							<endtag name="front"/>
 							<tag name="analytical.hierarchy.body">
 								<attr name="date.updated">0</attr>
-							</tag><?xpp vol.break.value;2?>
-							<tag name="section.block"></tag>
+							</tag>
+							<?xpp vol.break.value;2?>
+							<tag name="section.block"/>
 							<tag name="section">
 								<attr name="uuid">I49e03f8026a611d99b08a92d7e97623c</attr>
 								<attr name="date.revised">0</attr>
 								<attr name="date.updated">0</attr>
 							</tag>
-<?XPPMetaData guid='I445a1ac6c61c11d9962fb5f8354828db' md.uuid='I445a1ac6c61c11d9962fb5f8354828db' md.dmsserial='303448441' md.first_line_cite='CALRO S 7:1' md.second_line_cite='2 Children &amp; the Law: Rights and Obligations s 7:1' md.pubpage='s 7:1' md.pubid='177882' md.doc_family_uuid='Ie0b81373f8fb11d99f28ffa0ae8c2575' md.normalizedcite='CALROS7:1' md.third_line_cite=''  name='&sect; 7:1. Scope of chapter' parent_uuid='I49df7c3026a611d99b08a92d7e97623c' ?>
+							<?XPPMetaData guid='I445a1ac6c61c11d9962fb5f8354828db' md.uuid='I445a1ac6c61c11d9962fb5f8354828db' md.dmsserial='303448441' md.first_line_cite='CALRO S 7:1' md.second_line_cite='2 Children &amp; the Law: Rights and Obligations s 7:1' md.pubpage='s 7:1' md.pubid='177882' md.doc_family_uuid='Ie0b81373f8fb11d99f28ffa0ae8c2575' md.normalizedcite='CALROS7:1' md.third_line_cite=''  name='&sect; 7:1. Scope of chapter' parent_uuid='I49df7c3026a611d99b08a92d7e97623c' ?>
 							<tag name="section.front">
 								<attr name="date.updated">0</attr>
 							</tag>
@@ -309,24 +370,27 @@
 							</tag>
 							<tag name="label">
 								<attr name="date.updated">0</attr>
-							</tag><?xpp COLNUM?><?xpp sect?>
+							</tag>
+							<?xpp COLNUM?>
+							<?xpp sect?>
 							<t x="0" y="0" style="label.2" cgt="true">&#167;&#8201;</t>
-							<endtag name="label"></endtag><?xpp secno;&#167; 7:1?>
+							<endtag name="label"/>
+							<?xpp secno;&#167; 7:1?>
 							<t x="0" y="0" style="outline.name.block.2" cgt="true"
 								suppress="true">&#167; 7:1</t>
 							<tag name="designator">
 								<attr name="date.updated">0</attr>
 							</tag>
 							<t x="0" y="0" style="designator.4">7:1</t>
-							<endtag name="designator"></endtag>
+							<endtag name="designator"/>
 							<tag name="name">
 								<attr name="date.updated">0</attr>
 							</tag>
 							<t x="0" y="0" style="name.5" cgt="true">&#8195;
 							</t>
 							<t x="0" y="0" style="name.5">Scope of chapter</t>
-							<endtag name="name"></endtag>
-							<endtag name="outline.name.block"></endtag>
+							<endtag name="name"/>
+							<endtag name="outline.name.block"/>
 						</line>
 					</group>
 					<group class="para.text"
@@ -342,7 +406,7 @@
 							kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false"
 							lepgraf="false" leitm="false" quadset="false" tbstart="false"
 							tbsa="false" tbend="false" tbrhd="false" bmline="false">
-							<endtag name="section.front"></endtag>
+							<endtag name="section.front"/>
 							<tag name="section.body">
 								<attr name="date.updated">0</attr>
 							</tag>
@@ -353,7 +417,8 @@
 							<tag name="para.text">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para.text">yes</attr>
-							</tag><?xpp wo;0;0?>
+							</tag>
+							<?xpp wo;0;0?>
 							<t x="0" y="0" style="para.text">The purpose of this chapter is to
 								familiarize the reader </t>
 						</line>
@@ -442,8 +507,8 @@
 							bmline="false">
 							<t x="0" y="0" style="para.text">guardianship procedures and requirements.
 							</t>
-							<endtag name="para.text"></endtag>
-							<endtag name="para"></endtag>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
 							<tag name="para">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para">no</attr>
@@ -466,7 +531,8 @@
 							<tag name="para.text">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para.text">yes</attr>
-							</tag><?xpp wo;0;0?>
+							</tag>
+							<?xpp wo;0;0?>
 							<t x="0" y="0" style="para.text">A national review of guardianship cannot
 								provide answers </t>
 						</line>
@@ -540,8 +606,8 @@
 							quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false"
 							bmline="false">
 							<t x="0" y="0" style="para.text">awareness of common issues.</t>
-							<endtag name="para.text"></endtag>
-							<endtag name="para"></endtag>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
 							<tag name="para">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para">no</attr>
@@ -564,7 +630,8 @@
 							<tag name="para.text">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para.text">yes</attr>
-							</tag><?xpp wo;0;0?>
+							</tag>
+							<?xpp wo;0;0?>
 							<t x="0" y="0" style="para.text">Cases presented involve minors, even
 								though adult </t>
 						</line>
@@ -606,8 +673,9 @@
 							<t x="0" y="0" style="para.text">
 								of guardian and settlements on account.<?xpp fig;1;1?>
 							</t>
-							<t x="0" y="-0.06i" style="para.text.1" cgt="true">1</t><?xpp foot;2;10?>
-							<xref id="2" type="footnote"></xref>
+							<t x="0" y="-0.06i" style="para.text.1" cgt="true">1</t>
+							<?xpp foot;2;10?>
+							<xref id="2" type="footnote"/>
 							<t x="0" y="0" style="para.text"> Although juries </t>
 						</line>
 						<line xfinal="0" yfinal="6.11i" lnwidth="4.32i" lnmeas="4.32i"
@@ -682,13 +750,13 @@
 							nobkpt="false" ebinline="false" lepgraf="false" leitm="true"
 							quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false"
 							bmline="false">
-							<tag name="foots"></tag>
+							<tag name="foots"/>
 							<rule x="0" y="-0.06i" w="1i" d="0.01i" color="#000000"
-								color-cmyk="0 0 0 1"></rule>
-								<image id="thwest-k" type="tif" path="/apps/xpp/shared/images/lib01/thwest-k" 
+								color-cmyk="0 0 0 1"/>
+							<image id="thwest-k" type="tif" path="/apps/xpp/shared/images/lib01/thwest-k" 
 								x="0" y="-0.13i" w="2.77i" h="1.02i" color="#000000" color-cmyk="0 0 0 1" rotation="0" 
 								priority="0" scale="1.000000" cropx="0" cropy="0" cropw="2.77i" croph="1.02i"/>
-							<endtag name="foots"></endtag>
+							<endtag name="foots"/>
 						</line>
 					</group>
 				</block>
@@ -714,7 +782,8 @@
 							<tag name="footnote">
 								<attr name="uuid">I6b33750013cc11e7bd7d9047e60fccb2</attr>
 								<attr name="date.updated">0</attr>
-							</tag><?xpp fnsecbrk;[Section 7:1]?>
+							</tag>
+							<?xpp fnsecbrk;[Section 7:1]?>
 							<t x="0" y="0" style="footnote" cgt="true">[Section 7:1]</t>
 						</line>
 					</group>
@@ -731,9 +800,10 @@
 							kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false"
 							lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false"
 							tbend="false" tbrhd="false" bmline="false">
-							<tag name="footnote.reference"></tag><?xpp fig;1;1?>
+							<tag name="footnote.reference"/>
+							<?xpp fig;1;1?>
 							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">1</t>
-							<endtag name="footnote.reference"></endtag>
+							<endtag name="footnote.reference"/>
 						</line>
 					</group>
 					<group class="para.text"
@@ -766,15 +836,17 @@
 							<tag name="ref">
 								<attr name="ref.id">I468686d017f811d9a95ebeb796057129</attr>
 								<attr name="secref">7:39</attr>
-							</tag><?xpp sect?>
+							</tag>
+							<?xpp sect?>
 							<t x="0" y="0" style="ref.1" cgt="true">&#167;&#8201;</t>
 							<t x="0" y="0" style="ref.1">7:39</t>
-							<endtag name="ref"></endtag><?xpp /cite?>
+							<endtag name="ref"/>
+							<?xpp /cite?>
 							<t x="0" y="0" style="para.text.2">.</t>
-							<endtag name="para.text"></endtag>
-							<endtag name="para"></endtag>
-							<endtag name="footnote.body"></endtag>
-							<endtag name="footnote"></endtag>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<endtag name="footnote.body"/>
+							<endtag name="footnote"/>
 						</line>
 					</group>
 				</block>
@@ -801,9 +873,10 @@
 							kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false"
 							ebinline="false" lepgraf="false" leitm="false" quadset="true"
 							tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
-							<tag name="rh1"></tag>
+							<tag name="rh1"/>
 							<t x="0" y="0" style="rh1.2" cgt="true">
-								&#167; 7:1<?xpp /mc;%pgtype;ql;qr?><?xpp /qr?>
+								&#167; 7:1<?xpp /mc;%pgtype;ql;qr?>
+								<?xpp /qr?>
 							</t>
 						</line>
 						<line xfinal="0" yfinal="0.09i" lnwidth="0.81i" lnmeas="4.32i"
@@ -824,7 +897,7 @@
 							kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false"
 							ebinline="false" lepgraf="false" leitm="true" quadset="false"
 							tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
-							<endtag name="rh1"></endtag>
+							<endtag name="rh1"/>
 						</line>
 					</group>
 				</block>
@@ -843,11 +916,11 @@
 							kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false"
 							ebinline="false" lepgraf="false" leitm="true" quadset="true"
 							tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
-							<tag name="rf3"></tag>
+							<tag name="rf3"/>
 							<t x="0" y="0" style="unknown" cgt="true" suppress="true">@FSTART@</t>
 							<t x="0" y="0" style="unknown.1" cgt="true">3</t>
 							<t x="0" y="0" style="unknown.1" cgt="true" suppress="true">@FEND@</t>
-							<endtag name="rf3"></endtag>
+							<endtag name="rf3"/>
 						</line>
 					</group>
 				</block>
@@ -887,8 +960,9 @@
 							<t x="0" y="0" style="para.text">
 								relation to the petition process,<?xpp fig;2;1?>
 							</t>
-							<t x="0" y="-0.06i" style="para.text.1" cgt="true">2</t><?xpp foot;3;10?>
-							<xref id="3" type="footnote"></xref>
+							<t x="0" y="-0.06i" style="para.text.1" cgt="true">2</t>
+							<?xpp foot;3;10?>
+							<xref id="3" type="footnote"/>
 							<t x="0" y="0" style="para.text"> although notice regarding </t>
 						</line>
 						<line xfinal="0" yfinal="0.27i" lnwidth="4.32i" lnmeas="4.32i"
@@ -915,10 +989,11 @@
 							<t x="0" y="0" style="para.text">
 								been one of the most violated rules in guardianship.<?xpp fig;3;1?>
 							</t>
-							<t x="0" y="-0.06i" style="para.text.1" cgt="true">3</t><?xpp foot;4;10?>
-							<xref id="4" type="footnote"></xref>
-							<endtag name="para.text"></endtag>
-							<endtag name="para"></endtag>
+							<t x="0" y="-0.06i" style="para.text.1" cgt="true">3</t>
+							<?xpp foot;4;10?>
+							<xref id="4" type="footnote"/>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
 							<tag name="para">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para">no</attr>
@@ -941,12 +1016,14 @@
 							<tag name="para.text">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para.text">yes</attr>
-							</tag><?xpp wo;0;0?>
+							</tag>
+							<?xpp wo;0;0?>
 							<t x="0" y="0" style="para.text">
 								Some alternatives to guardianship are discussed,<?xpp fig;4;1?>
 							</t>
-							<t x="0" y="-0.06i" style="para.text.1" cgt="true">4</t><?xpp foot;5;10?>
-							<xref id="5" type="footnote"></xref>
+							<t x="0" y="-0.06i" style="para.text.1" cgt="true">4</t>
+							<?xpp foot;5;10?>
+							<xref id="5" type="footnote"/>
 							<t x="0" y="0" style="para.text"> as </t>
 						</line>
 						<line xfinal="0" yfinal="0.79i" lnwidth="4.32i" lnmeas="4.32i"
@@ -987,8 +1064,9 @@
 							<t x="0" y="0" style="para.text">
 								adoption, divorce and mental health.<?xpp fig;5;1?>
 							</t>
-							<t x="0" y="-0.06i" style="para.text.1" cgt="true">5</t><?xpp foot;6;10?>
-							<xref id="6" type="footnote"></xref>
+							<t x="0" y="-0.06i" style="para.text.1" cgt="true">5</t>
+							<?xpp foot;6;10?>
+							<xref id="6" type="footnote"/>
 							<t x="0" y="0" style="para.text"> Forms at the end of </t>
 						</line>
 						<line xfinal="0" yfinal="1.29i" lnwidth="4.32i" lnmeas="4.32i"
@@ -1014,16 +1092,16 @@
 							bmline="false">
 							<t x="0" y="0" style="para.text">guide, and may need to be altered for
 								individual use.</t>
-							<endtag name="para.text"></endtag>
-							<endtag name="para"></endtag>
-							<endtag name="section.body"></endtag>
-							<endtag name="section"></endtag>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<endtag name="section.body"/>
+							<endtag name="section"/>
 							<tag name="section">
 								<attr name="uuid">I4a6f120026a611d99b08a92d7e97623c</attr>
 								<attr name="date.revised">0</attr>
 								<attr name="date.updated">0</attr>
 							</tag>
-<?XPPMetaData guid='I445a1ac9c61c11d9962fb5f8354828db' md.uuid='I445a1ac9c61c11d9962fb5f8354828db' md.dmsserial='303448442' md.first_line_cite='CALRO S 7:2' md.second_line_cite='2 Children &amp; the Law: Rights and Obligations s 7:2' md.pubpage='s 7:2' md.pubid='177882' md.doc_family_uuid='Ie0b81374f8fb11d99f28ffa0ae8c2575' md.normalizedcite='CALROS7:2' md.third_line_cite=''  name='&sect; 7:2. Definitions' parent_uuid='I49df7c3026a611d99b08a92d7e97623c' ?>
+							<?XPPMetaData guid='I445a1ac9c61c11d9962fb5f8354828db' md.uuid='I445a1ac9c61c11d9962fb5f8354828db' md.dmsserial='303448442' md.first_line_cite='CALRO S 7:2' md.second_line_cite='2 Children &amp; the Law: Rights and Obligations s 7:2' md.pubpage='s 7:2' md.pubid='177882' md.doc_family_uuid='Ie0b81374f8fb11d99f28ffa0ae8c2575' md.normalizedcite='CALROS7:2' md.third_line_cite=''  name='&sect; 7:2. Definitions' parent_uuid='I49df7c3026a611d99b08a92d7e97623c' ?>
 							<tag name="section.front">
 								<attr name="date.updated">0</attr>
 							</tag>
@@ -1048,24 +1126,27 @@
 							</tag>
 							<tag name="label">
 								<attr name="date.updated">0</attr>
-							</tag><?xpp COLNUM?><?xpp sect?>
+							</tag>
+							<?xpp COLNUM?>
+							<?xpp sect?>
 							<t x="0" y="0" style="label.2" cgt="true">&#167;&#8201;</t>
-							<endtag name="label"></endtag><?xpp secno;&#167; 7:2?>
+							<endtag name="label"/>
+							<?xpp secno;&#167; 7:2?>
 							<t x="0" y="0" style="outline.name.block.2" cgt="true"
 								suppress="true">&#167; 7:2</t>
 							<tag name="designator">
 								<attr name="date.updated">0</attr>
 							</tag>
 							<t x="0" y="0" style="designator.4">7:2</t>
-							<endtag name="designator"></endtag>
+							<endtag name="designator"/>
 							<tag name="name">
 								<attr name="date.updated">0</attr>
 							</tag>
 							<t x="0" y="0" style="name.5" cgt="true">&#8195;
 							</t>
 							<t x="0" y="0" style="name.5">Definitions</t>
-							<endtag name="name"></endtag>
-							<endtag name="outline.name.block"></endtag>
+							<endtag name="name"/>
+							<endtag name="outline.name.block"/>
 						</line>
 					</group>
 					<group class="ital"
@@ -1081,7 +1162,7 @@
 							kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false"
 							lepgraf="false" leitm="false" quadset="false" tbstart="false"
 							tbsa="false" tbend="false" tbrhd="false" bmline="false">
-							<endtag name="section.front"></endtag>
+							<endtag name="section.front"/>
 							<tag name="section.body">
 								<attr name="date.updated">0</attr>
 							</tag>
@@ -1092,10 +1173,11 @@
 							<tag name="para.text">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para.text">yes</attr>
-							</tag><?xpp wo;0;0?>
-							<tag name="ital"></tag>
+							</tag>
+							<?xpp wo;0;0?>
+							<tag name="ital"/>
 							<t x="0" y="0" style="ital">Ancillary Guardian.</t>
-							<endtag name="ital"></endtag>
+							<endtag name="ital"/>
 							<t x="0" y="0" style="para.text"> Guardian appointed in a state other </t>
 						</line>
 						<line xfinal="0" yfinal="2.19i" lnwidth="4.32i" lnmeas="4.32i"
@@ -1123,8 +1205,8 @@
 							bmline="false">
 							<t x="0" y="0" style="para.text">ent and assistive to the original
 								guardian.</t>
-							<endtag name="para.text"></endtag>
-							<endtag name="para"></endtag>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
 							<tag name="para">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para">no</attr>
@@ -1147,10 +1229,11 @@
 							<tag name="para.text">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para.text">yes</attr>
-							</tag><?xpp wo;0;0?>
-							<tag name="ital"></tag>
+							</tag>
+							<?xpp wo;0;0?>
+							<tag name="ital"/>
 							<t x="0" y="0" style="ital">Conservator.</t>
-							<endtag name="ital"></endtag>
+							<endtag name="ital"/>
 							<t x="0" y="0" style="para.text"> Interchangeable with guardian in some </t>
 						</line>
 						<line xfinal="0" yfinal="2.71i" lnwidth="4.32i" lnmeas="4.32i"
@@ -1193,10 +1276,11 @@
 							<t x="0" y="0" style="para.text">
 								ring to minors and conservator applying to adults.<?xpp fig;1;1?>
 							</t>
-							<t x="0" y="-0.06i" style="para.text.1" cgt="true">1</t><?xpp foot;7;10?>
-							<xref id="7" type="footnote"></xref>
-							<endtag name="para.text"></endtag>
-							<endtag name="para"></endtag>
+							<t x="0" y="-0.06i" style="para.text.1" cgt="true">1</t>
+							<?xpp foot;7;10?>
+							<xref id="7" type="footnote"/>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
 							<tag name="para">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para">no</attr>
@@ -1219,10 +1303,11 @@
 							<tag name="para.text">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para.text">yes</attr>
-							</tag><?xpp wo;0;0?>
-							<tag name="ital"></tag>
+							</tag>
+							<?xpp wo;0;0?>
+							<tag name="ital"/>
 							<t x="0" y="0" style="ital">Curator.</t>
-							<endtag name="ital"></endtag>
+							<endtag name="ital"/>
 							<t x="0" y="0" style="para.text"> French civil law term for guardian
 								appointed to </t>
 						</line>
@@ -1248,8 +1333,8 @@
 							quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false"
 							bmline="false">
 							<t x="0" y="0" style="para.text">contexts.</t>
-							<endtag name="para.text"></endtag>
-							<endtag name="para"></endtag>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
 							<tag name="para">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para">no</attr>
@@ -1272,13 +1357,14 @@
 							<tag name="para.text">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para.text">yes</attr>
-							</tag><?xpp wo;0;0?>
-							<tag name="ital"></tag>
+							</tag>
+							<?xpp wo;0;0?>
+							<tag name="ital"/>
 							<t x="0" y="0" style="ital">Domicile.</t>
-							<endtag name="ital"></endtag>
+							<endtag name="ital"/>
 							<t x="0" y="0" style="para.text"> Intended legal residence.</t>
-							<endtag name="para.text"></endtag>
-							<endtag name="para"></endtag>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
 							<tag name="para">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para">no</attr>
@@ -1301,10 +1387,11 @@
 							<tag name="para.text">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para.text">yes</attr>
-							</tag><?xpp wo;0;0?>
-							<tag name="ital"></tag>
+							</tag>
+							<?xpp wo;0;0?>
+							<tag name="ital"/>
 							<t x="0" y="0" style="ital">Domiciliary Guardian.</t>
-							<endtag name="ital"></endtag>
+							<endtag name="ital"/>
 							<t x="0" y="0" style="para.text"> Guardian appointed by the state of </t>
 						</line>
 						<line xfinal="0" yfinal="4.1i" lnwidth="2.53i" lnmeas="4.32i"
@@ -1318,8 +1405,8 @@
 							bmline="false">
 							<t x="0" y="0" style="para.text">the guardian&apos;s and ward&apos;s
 								domicile.</t>
-							<endtag name="para.text"></endtag>
-							<endtag name="para"></endtag>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
 							<tag name="para">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para">no</attr>
@@ -1342,10 +1429,11 @@
 							<tag name="para.text">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para.text">yes</attr>
-							</tag><?xpp wo;0;0?>
-							<tag name="ital"></tag>
+							</tag>
+							<?xpp wo;0;0?>
+							<tag name="ital"/>
 							<t x="0" y="0" style="ital">Emancipation.</t>
-							<endtag name="ital"></endtag>
+							<endtag name="ital"/>
 							<t x="0" y="0" style="para.text"> Adult status obtained in some states
 								prior </t>
 						</line>
@@ -1373,10 +1461,11 @@
 							<t x="0" y="0" style="para.text">
 								enlistment.<?xpp fig;2;1?>
 							</t>
-							<t x="0" y="-0.06i" style="para.text.1" cgt="true">2</t><?xpp foot;8;10?>
-							<xref id="8" type="footnote"></xref>
-							<endtag name="para.text"></endtag>
-							<endtag name="para"></endtag>
+							<t x="0" y="-0.06i" style="para.text.1" cgt="true">2</t>
+							<?xpp foot;8;10?>
+							<xref id="8" type="footnote"/>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
 							<tag name="para">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para">no</attr>
@@ -1399,10 +1488,11 @@
 							<tag name="para.text">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para.text">yes</attr>
-							</tag><?xpp wo;0;0?>
-							<tag name="ital"></tag>
+							</tag>
+							<?xpp wo;0;0?>
+							<tag name="ital"/>
 							<t x="0" y="0" style="ital">Foreign Guardian.</t>
-							<endtag name="ital"></endtag>
+							<endtag name="ital"/>
 							<t x="0" y="0" style="para.text"> Guardian whose appointment was </t>
 						</line>
 						<line xfinal="0" yfinal="4.97i" lnwidth="4.32i" lnmeas="4.32i"
@@ -1440,7 +1530,7 @@
 							tbrhd="false" bmline="false">
 							<t x="0" y="0" style="para.text">The foreign guardian must be assisted by a
 								local guardian. </t>
-								<endtag name="para.text"/>
+							<endtag name="para.text"/>
 							<endtag name="para"/>
 							<endtag name="section.body"/>
 							<endtag name="section"/>
@@ -1453,6 +1543,1179 @@
 							<endtag name="publication"/>
 						</line>
 					</group>
+					<table tabstyle="text" frame="all" topbox="0.01i" btcolor="#000000" btcolor-cmyk="0 0 0 1" lsidbox="0.01i" rsidbox="0.01i" blcolor="#000000" blcolor-cmyk="0 0 0 1" brcolor="#000000" brcolor-cmyk="0 0 0 1" botbox="0.01i" bbcolor="#000000" bbcolor-cmyk="0 0 0 1" colsep="1" rowsep="1" cals="true">
+						<tag name="table" tabstyle="text" frame="all" topbox="0.01i" btcolor="#000000" btcolor-cmyk="0 0 0 1" lsidbox="0.01i" rsidbox="0.01i" blcolor="#000000" blcolor-cmyk="0 0 0 1" brcolor="#000000" brcolor-cmyk="0 0 0 1" botbox="0.01i" bbcolor="#000000" bbcolor-cmyk="0 0 0 1" colsep="1" rowsep="1" cals="true"/>
+						<tgroup tgroupstyle="text" cols="4" mx_rows="22" tbox_row="0" cals_intertgrule="rowrule" hj_mode="left" lnmeas="0" mx_rtl="0" tbwidth="4.32i" tbdepth="5.29i" tbtotvj="0" tbxposn="0" tbyposn="1.23i" tgroup="1" hdstyle_rows="1" min_colwidth="0" min_rowdepth="0" hdr_rows="1" colstyle="0" tblbrk="row" max_colwidth="2.99i" ctbl_depth="5.19i" yshift="1.08i" pgh_break="any" bkh_break="any" hdr_sup_rows="false" lim_bywid="false" bbxcol="0" ebxcol="0" ob_hdr_rows="0" tnoutput="block" tnrenum="block" tnrefstyle="an" tnoutorder="0" eb_ep_row="0" stubcols="false">
+							<tag name="tgroup" tgroupstyle="text" cols="4" mx_rows="22" tbox_row="0" cals_intertgrule="rowrule" hj_mode="left" lnmeas="0" mx_rtl="0" tbwidth="4.32i" tbdepth="5.29i" tbtotvj="0" tbxposn="0" tbyposn="1.23i" tgroup="1" hdstyle_rows="1" min_colwidth="0" min_rowdepth="0" hdr_rows="1" colstyle="0" tblbrk="row" max_colwidth="2.99i" ctbl_depth="5.19i" yshift="1.08i" pgh_break="any" bkh_break="any" hdr_sup_rows="false" lim_bywid="false" bbxcol="0" ebxcol="0" ob_hdr_rows="0" tnoutput="block" tnrenum="block" tnrefstyle="an" tnoutorder="0" eb_ep_row="0" stubcols="false"/>
+							<colspec colnum="1" colname="col1" colwidth="1.07i" tbclwsp="0.04i" tbcrwsp="0.08i" tbclgut="0.04i" tbcrgut="0.17i" tbclrule="0.01i" tbcrrule="0.01i" tbcmeas="0.93i" tbmxalnw="0" tbctpos="0.06i" tbcxpos="0.01i" tbcr_rcolor="#000000" tbcr_rcolor-cmyk="0 0 0 1" tbcl_rcolor="#000000" tbcl_rcolor-cmyk="0 0 0 1"/>
+							<colspec colnum="2" colname="col2" colwidth="1.09i" tbclwsp="0.08i" tbcrwsp="0.08i" tbclgut="0.17i" tbcrgut="0.17i" tbclrule="0.01i" tbcrrule="0.01i" tbcmeas="0.93i" tbmxalnw="0" tbctpos="1.15i" tbcxpos="1.07i" tbcr_rcolor="#000000" tbcr_rcolor-cmyk="0 0 0 1" tbcl_rcolor="#000000" tbcl_rcolor-cmyk="0 0 0 1"/>
+							<colspec colnum="3" colname="col3" colwidth="1.09i" tbclwsp="0.08i" tbcrwsp="0.08i" tbclgut="0.17i" tbcrgut="0.17i" tbclrule="0.01i" tbcrrule="0.01i" tbcmeas="0.93i" tbmxalnw="0" tbctpos="2.25i" tbcxpos="2.16i" tbcr_rcolor="#000000" tbcr_rcolor-cmyk="0 0 0 1" tbcl_rcolor="#000000" tbcl_rcolor-cmyk="0 0 0 1"/>
+							<colspec colnum="4" colname="col4" colwidth="1.07i" tbclwsp="0.08i" tbcrwsp="0.04i" tbclgut="0.17i" tbcrgut="0.04i" tbclrule="0.01i" tbcrrule="0.01i" tbcmeas="0.93i" tbmxalnw="0" tbctpos="3.34i" tbcxpos="3.26i" tbcr_rcolor="#000000" tbcr_rcolor-cmyk="0 0 0 1" tbcl_rcolor="#000000" tbcl_rcolor-cmyk="0 0 0 1"/>
+							<thead>
+								<tag name="thead"/>
+								<row row="1" rowrel="1" tbrdepth="0.2i" row_pos="0.06i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="row" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/thead" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/thead/row" style="row">
+											<line xfinal="0.06i" yfinal="1.39i" lnwidth="0" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="true" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/thead/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/thead/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="1.39i" lnwidth="0.71i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="colname">2</attr>
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">Residency</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="row" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/thead" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/thead/row" style="row">
+											<line xfinal="2.25i" yfinal="1.39i" lnwidth="0" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/thead/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/thead/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="1.39i" lnwidth="0.71i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="colname">4</attr>
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">Residency</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+												<endtag name="thead"/>
+												<tag name="tbody"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+							</thead>
+							<tbody>
+								<row row="1" rowrel="2" tbrdepth="0.18i" row_pos="0.24i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="1.57i" lnwidth="0.63i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="true" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">Alabama</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="1.57i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 months</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="1.57i" lnwidth="0.68i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">Nebraska</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="1.57i" lnwidth="0.45i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">1 year</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+								<row row="2" rowrel="3" tbrdepth="0.18i" row_pos="0.42i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="1.76i" lnwidth="0.49i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">Alaska</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="1.76i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 months</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="1.76i" lnwidth="0.54i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">Nevada</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="1.76i" lnwidth="0.57i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 weeks</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+								<row row="3" rowrel="4" tbrdepth="0.34i" row_pos="0.61i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="1.94i" lnwidth="0.55i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">Arizona</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="1.94i" lnwidth="0.54i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">90 days</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="1.94i" lnwidth="0.86i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">New Hamp<dt>-</dt>
+												</t>
+											</line>
+											<line xfinal="2.25i" yfinal="2.09i" lnwidth="0.36i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<t x="0" y="0" style="entry">shire</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="1.94i" lnwidth="0.45i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">1 year</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+								<row row="4" rowrel="5" tbrdepth="0.18i" row_pos="0.94i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="2.28i" lnwidth="0.67i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">Arkansas</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="2.28i" lnwidth="0.54i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">60 days</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="2.28i" lnwidth="0.83i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">New Jersey</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="2.28i" lnwidth="0.45i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">1 year</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+								<row row="5" rowrel="6" tbrdepth="0.18i" row_pos="1.13i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="2.46i" lnwidth="0.71i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">California</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="2.46i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 months</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="2.46i" lnwidth="0.86i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">New Mexico</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="2.46i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 months</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+								<row row="6" rowrel="7" tbrdepth="0.18i" row_pos="1.31i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="2.64i" lnwidth="0.63i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">Colorado</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="2.64i" lnwidth="0.54i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">90 days</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="2.64i" lnwidth="0.69i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">New York</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="2.64i" lnwidth="0.45i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">1 year</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+								<row row="7" rowrel="8" tbrdepth="0.34i" row_pos="1.49i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="2.83i" lnwidth="0.84i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">Connecticut</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="2.83i" lnwidth="0.75i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">12 months</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="2.83i" lnwidth="0.86i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">North Caro<dt>-</dt>
+												</t>
+											</line>
+											<line xfinal="2.25i" yfinal="2.98i" lnwidth="0.27i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<t x="0" y="0" style="entry">lina</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="2.83i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 months</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+								<row row="8" rowrel="9" tbrdepth="0.34i" row_pos="1.83i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="3.16i" lnwidth="0.67i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">Delaware</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="3.16i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 months</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="3.16i" lnwidth="0.73i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">North Da<dt>-</dt>
+												</t>
+											</line>
+											<line xfinal="2.25i" yfinal="3.32i" lnwidth="0.31i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<t x="0" y="0" style="entry">kota</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="3.16i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 months</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+								<row row="9" rowrel="10" tbrdepth="0.18i" row_pos="2.17i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="3.5i" lnwidth="0.51i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">Florida</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="3.5i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 months</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="3.5i" lnwidth="0.34i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">Ohio</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="3.5i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 months</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+								<row row="10" rowrel="11" tbrdepth="0.18i" row_pos="2.35i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="3.68i" lnwidth="0.55i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">Georgia</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="3.68i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 months</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="3.68i" lnwidth="0.73i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">Oklahoma</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="3.68i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 months</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+								<row row="11" rowrel="12" tbrdepth="0.18i" row_pos="2.53i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="3.87i" lnwidth="0.51i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">Hawaii</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="3.87i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 months</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="3.87i" lnwidth="0.51i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">Oregon</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="3.87i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 months</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+								<row row="12" rowrel="13" tbrdepth="0.34i" row_pos="2.72i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="4.05i" lnwidth="0.4i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">Idaho</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="4.05i" lnwidth="0.57i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 weeks</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="4.05i" lnwidth="0.78i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">Pennsylva<dt>-</dt>
+												</t>
+											</line>
+											<line xfinal="2.25i" yfinal="4.2i" lnwidth="0.23i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<t x="0" y="0" style="entry">nia</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="4.05i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 months</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+								<row row="13" rowrel="14" tbrdepth="0.34i" row_pos="3.05i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="4.39i" lnwidth="0.49i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">Illinois</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="4.39i" lnwidth="0.54i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">90 days</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="4.39i" lnwidth="0.68i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">Rhode Is<dt>-</dt>
+												</t>
+											</line>
+											<line xfinal="2.25i" yfinal="4.54i" lnwidth="0.31i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<t x="0" y="0" style="entry">land</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="4.39i" lnwidth="0.45i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">1 year</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+								<row row="14" rowrel="15" tbrdepth="0.34i" row_pos="3.39i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="4.72i" lnwidth="0.55i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">Indiana</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="4.72i" lnwidth="0.54i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">60 days</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="4.72i" lnwidth="0.86i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">South Caro<dt>-</dt>
+												</t>
+											</line>
+											<line xfinal="2.25i" yfinal="4.87i" lnwidth="0.27i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<t x="0" y="0" style="entry">lina</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="4.72i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">3 months</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+								<row row="15" rowrel="16" tbrdepth="0.34i" row_pos="3.72i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="5.06i" lnwidth="0.34i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">Iowa</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="5.06i" lnwidth="0.45i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">1 year</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="5.06i" lnwidth="0.72i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">South Da<dt>-</dt>
+												</t>
+											</line>
+											<line xfinal="2.25i" yfinal="5.21i" lnwidth="0.31i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<t x="0" y="0" style="entry">kota</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="5.06i" lnwidth="0.37i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">None</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+								<row row="16" rowrel="17" tbrdepth="0.18i" row_pos="4.06i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="5.39i" lnwidth="0.52i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">Kansas</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="5.39i" lnwidth="0.54i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">60 days</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="5.39i" lnwidth="0.72i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">Tennessee</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="5.39i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 months</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+								<row row="17" rowrel="18" tbrdepth="0.18i" row_pos="4.24i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="5.58i" lnwidth="0.68i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">Kentucky</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="5.58i" lnwidth="0.63i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">180 days</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="5.58i" lnwidth="0.4i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">Texas</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="5.58i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 months</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+								<row row="18" rowrel="19" tbrdepth="0.18i" row_pos="4.43i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="5.76i" lnwidth="0.7i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">Louisiana</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="5.76i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 months</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="5.76i" lnwidth="0.36i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">Utah</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="5.76i" lnwidth="0.54i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">90 days</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+								<row row="19" rowrel="20" tbrdepth="0.18i" row_pos="4.61i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="5.95i" lnwidth="0.45i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">Maine</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="5.95i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 months</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="5.95i" lnwidth="0.6i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">Vermont</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="5.95i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 months</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+								<row row="20" rowrel="21" tbrdepth="0.18i" row_pos="4.79i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="6.13i" lnwidth="0.69i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">Maryland</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="6.13i" lnwidth="0.45i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">1 year</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="6.13i" lnwidth="0.57i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">Virginia</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="6.13i" lnwidth="0.66i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">6 months</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+								<row row="21" rowrel="22" tbrdepth="0.35i" row_pos="4.98i" row_gutter="0" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+									<entry col="1" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="0.06i" yfinal="6.31i" lnwidth="0.76i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="row">
+													<attr name="date.updated">0</attr>
+												</tag>
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+													<attr name="xpp.colname">1</attr>
+												</tag><t x="0" y="0" style="entry">Massachu<dt>-</dt>
+												</t>
+											</line>
+											<line xfinal="0.06i" yfinal="6.46i" lnwidth="0.34i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<t x="0" y="0" style="entry">setts</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="2" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="1.15i" yfinal="6.31i" lnwidth="0.37i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">None</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="3" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="2.25i" yfinal="6.31i" lnwidth="0.84i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">Washington</t>
+												<endtag name="entry"/>
+											</line>
+										</group>
+									</entry>
+									<entry col="4" align="left" valign="top">
+										<group class="entry" pclass="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/chapter/chapter.back/appendix.block/appendix/appendix.body/tbl/table/tgroup/tbody/row/entry" style="entry">
+											<line xfinal="3.34i" yfinal="6.31i" lnwidth="0.45i" lnmeas="0.93i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+												<tag name="entry">
+													<attr name="style">block</attr>
+													<attr name="resize">same</attr>
+												</tag><t x="0" y="0" style="entry">1 year</t>
+												<endtag name="entry"/>
+												<endtag name="row"/>
+											</line>
+										</group>
+									</entry>
+								</row>
+							</tbody>
+						</tgroup>
+					</table>
 				</block>
 			</stream>
 			<stream type="footnote" sx="0" sy="5.61i" ssx="4.32i" ssy="1.75i"
@@ -1479,10 +2742,10 @@
 							nobkpt="false" ebinline="false" lepgraf="false" leitm="true"
 							quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false"
 							bmline="false">
-							<tag name="foots"></tag>
+							<tag name="foots"/>
 							<rule x="0" y="-0.06i" w="1i" d="0.01i" color="#000000"
-								color-cmyk="0 0 0 1"></rule>
-							<endtag name="foots"></endtag>
+								color-cmyk="0 0 0 1"/>
+							<endtag name="foots"/>
 						</line>
 					</group>
 				</block>
@@ -1508,9 +2771,10 @@
 								<attr name="uuid">I6b3549c013cc11e7bd7d9047e60fccb2</attr>
 								<attr name="date.updated">0</attr>
 							</tag>
-							<tag name="footnote.reference"></tag><?xpp fig;2;1?>
+							<tag name="footnote.reference"/>
+							<?xpp fig;2;1?>
 							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">2</t>
-							<endtag name="footnote.reference"></endtag>
+							<endtag name="footnote.reference"/>
 						</line>
 					</group>
 					<group class="para.text"
@@ -1543,15 +2807,17 @@
 							<tag name="ref">
 								<attr name="ref.id">I4687231017f811d9a95ebeb796057129</attr>
 								<attr name="secref">7:18</attr>
-							</tag><?xpp sect?>
+							</tag>
+							<?xpp sect?>
 							<t x="0" y="0" style="ref.1" cgt="true">&#167;&#8201;</t>
 							<t x="0" y="0" style="ref.1">7:18</t>
-							<endtag name="ref"></endtag><?xpp /cite?>
+							<endtag name="ref"/>
+							<?xpp /cite?>
 							<t x="0" y="0" style="para.text.2">.</t>
-							<endtag name="para.text"></endtag>
-							<endtag name="para"></endtag>
-							<endtag name="footnote.body"></endtag>
-							<endtag name="footnote"></endtag>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<endtag name="footnote.body"/>
+							<endtag name="footnote"/>
 						</line>
 					</group>
 				</block>
@@ -1577,9 +2843,10 @@
 								<attr name="uuid">I6b36a95013cc11e7bd7d9047e60fccb2</attr>
 								<attr name="date.updated">0</attr>
 							</tag>
-							<tag name="footnote.reference"></tag><?xpp fig;3;1?>
+							<tag name="footnote.reference"/>
+							<?xpp fig;3;1?>
 							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">3</t>
-							<endtag name="footnote.reference"></endtag>
+							<endtag name="footnote.reference"/>
 						</line>
 					</group>
 					<group class="ref"
@@ -1605,7 +2872,8 @@
 							<tag name="para.text">
 								<attr name="date.updated">0</attr>
 								<attr name="first.para.text">yes</attr>
-							</tag><?xpp cite finder=&quot;legacy&quot; type=&quot;periodical&quot;?>
+							</tag>
+							<?xpp cite finder=&quot;legacy&quot; type=&quot;periodical&quot;?>
 							<tag name="ref">
 								<attr name="ref.id">I4fe0cd90b60511e194ed0000837bc6dd</attr>
 							</tag>
@@ -1623,12 +2891,13 @@
 							bmline="false">
 							<t x="0" y="0" style="ref.1">Guardianships, 34 Wash. L. Rev. 263, 267
 								(1959)</t>
-							<endtag name="ref"></endtag><?xpp /cite?>
+							<endtag name="ref"/>
+							<?xpp /cite?>
 							<t x="0" y="0" style="para.text.2">.</t>
-							<endtag name="para.text"></endtag>
-							<endtag name="para"></endtag>
-							<endtag name="footnote.body"></endtag>
-							<endtag name="footnote"></endtag>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<endtag name="footnote.body"/>
+							<endtag name="footnote"/>
 						</line>
 					</group>
 				</block>
@@ -1654,9 +2923,10 @@
 								<attr name="uuid">I6b37e1d013cc11e7bd7d9047e60fccb2</attr>
 								<attr name="date.updated">0</attr>
 							</tag>
-							<tag name="footnote.reference"></tag><?xpp fig;4;1?>
+							<tag name="footnote.reference"/>
+							<?xpp fig;4;1?>
 							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">4</t>
-							<endtag name="footnote.reference"></endtag>
+							<endtag name="footnote.reference"/>
 						</line>
 					</group>
 					<group class="para.text"
@@ -1690,15 +2960,17 @@
 								<attr name="ref.id">I468882a017f811d9a95ebeb796057129</attr>
 								<attr name="secrange">y</attr>
 								<attr name="secref">7:36, 7:37</attr>
-							</tag><?xpp dblsect?>
+							</tag>
+							<?xpp dblsect?>
 							<t x="0" y="0" style="ref.1" cgt="true">&#167;&#167;&#8201;</t>
 							<t x="0" y="0" style="ref.1">7:36, 7:37</t>
-							<endtag name="ref"></endtag><?xpp /cite?>
+							<endtag name="ref"/>
+							<?xpp /cite?>
 							<t x="0" y="0" style="para.text.2">.</t>
-							<endtag name="para.text"></endtag>
-							<endtag name="para"></endtag>
-							<endtag name="footnote.body"></endtag>
-							<endtag name="footnote"></endtag>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<endtag name="footnote.body"/>
+							<endtag name="footnote"/>
 						</line>
 					</group>
 				</block>
@@ -1724,9 +2996,10 @@
 								<attr name="uuid">I6b391a5013cc11e7bd7d9047e60fccb2</attr>
 								<attr name="date.updated">0</attr>
 							</tag>
-							<tag name="footnote.reference"></tag><?xpp fig;5;1?>
+							<tag name="footnote.reference"/>
+							<?xpp fig;5;1?>
 							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">5</t>
-							<endtag name="footnote.reference"></endtag>
+							<endtag name="footnote.reference"/>
 						</line>
 					</group>
 					<group class="para.text"
@@ -1759,15 +3032,17 @@
 							<tag name="ref">
 								<attr name="ref.id">I4fe4c530b60511e194ed0000837bc6dd</attr>
 								<attr name="secref">4:1 et seq., 6:1 et seq., 10:1 et seq.</attr>
-							</tag><?xpp dblsect?>
+							</tag>
+							<?xpp dblsect?>
 							<t x="0" y="0" style="ref.1" cgt="true">&#167;&#167;&#8201;</t>
 							<t x="0" y="0" style="ref.1">4:1 et seq., 6:1 et seq., 10:1 et seq</t>
-							<endtag name="ref"></endtag><?xpp /cite?>
+							<endtag name="ref"/>
+							<?xpp /cite?>
 							<t x="0" y="0" style="para.text.2">.</t>
-							<endtag name="para.text"></endtag>
-							<endtag name="para"></endtag>
-							<endtag name="footnote.body"></endtag>
-							<endtag name="footnote"></endtag>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<endtag name="footnote.body"/>
+							<endtag name="footnote"/>
 						</line>
 					</group>
 				</block>
@@ -1793,7 +3068,8 @@
 							<tag name="footnote">
 								<attr name="uuid">I6bce075013cc11e7bd7d9047e60fccb2</attr>
 								<attr name="date.updated">0</attr>
-							</tag><?xpp fnsecbrk;[Section 7:2]?>
+							</tag>
+							<?xpp fnsecbrk;[Section 7:2]?>
 							<t x="0" y="0" style="footnote.1" cgt="true">[Section 7:2]</t>
 						</line>
 					</group>
@@ -1810,9 +3086,10 @@
 							kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false"
 							lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false"
 							tbend="false" tbrhd="false" bmline="false">
-							<tag name="footnote.reference"></tag><?xpp fig;1;1?>
+							<tag name="footnote.reference"/>
+							<?xpp fig;1;1?>
 							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">1</t>
-							<endtag name="footnote.reference"></endtag>
+							<endtag name="footnote.reference"/>
 						</line>
 					</group>
 					<group class="bold"
@@ -1839,10 +3116,11 @@
 								<attr name="date.updated">0</attr>
 								<attr name="first.para.text">yes</attr>
 							</tag>
-							<tag name="bold"></tag>
+							<tag name="bold"/>
 							<t x="0" y="0" style="bold">California.</t>
-							<endtag name="bold"></endtag>
-							<t x="0" y="0" style="para.text.2"> <?xpp cite finder=&quot;manual&quot; type=&quot;case&quot;?>
+							<endtag name="bold"/>
+							<t x="0" y="0" style="para.text.2">
+								<?xpp cite finder=&quot;manual&quot; type=&quot;case&quot;?>
 							</t>
 							<tag name="ref">
 								<attr name="case.id">1993227244</attr>
@@ -1871,12 +3149,13 @@
 							quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false"
 							bmline="false">
 							<t x="0" y="0" style="ref.1">Rptr. 2d 582 (5th Dist. 1993)</t>
-							<endtag name="ref"></endtag><?xpp /cite?>
+							<endtag name="ref"/>
+							<?xpp /cite?>
 							<t x="0" y="0" style="para.text.2">.</t>
-							<endtag name="para.text"></endtag>
-							<endtag name="para"></endtag>
-							<endtag name="footnote.body"></endtag>
-							<endtag name="footnote"></endtag>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<endtag name="footnote.body"/>
+							<endtag name="footnote"/>
 						</line>
 					</group>
 				</block>
@@ -1902,9 +3181,10 @@
 								<attr name="uuid">I6bd0785013cc11e7bd7d9047e60fccb2</attr>
 								<attr name="date.updated">0</attr>
 							</tag>
-							<tag name="footnote.reference"></tag><?xpp fig;2;1?>
+							<tag name="footnote.reference"/>
+							<?xpp fig;2;1?>
 							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">2</t>
-							<endtag name="footnote.reference"></endtag>
+							<endtag name="footnote.reference"/>
 						</line>
 					</group>
 					<group class="para.text"
@@ -1937,15 +3217,17 @@
 							<tag name="ref">
 								<attr name="ref.id">I468b41c017f811d9a95ebeb796057129</attr>
 								<attr name="secref">11:2</attr>
-							</tag><?xpp sect?>
+							</tag>
+							<?xpp sect?>
 							<t x="0" y="0" style="ref.1" cgt="true">&#167;&#8201;</t>
 							<t x="0" y="0" style="ref.1">11:2</t>
-							<endtag name="ref"></endtag><?xpp /cite?>
+							<endtag name="ref"/>
+							<?xpp /cite?>
 							<t x="0" y="0" style="para.text.2"> for discussion of emancipation.</t>
-							<endtag name="para.text"></endtag>
-							<endtag name="para"></endtag>
-							<endtag name="footnote.body"></endtag>
-							<endtag name="footnote"></endtag>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<endtag name="footnote.body"/>
+							<endtag name="footnote"/>
 						</line>
 					</group>
 				</block>
@@ -1972,9 +3254,10 @@
 							kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false"
 							ebinline="false" lepgraf="false" leitm="false" quadset="true"
 							tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
-							<tag name="rh1"></tag>
+							<tag name="rh1"/>
 							<t x="0" y="0" style="rh1.2" cgt="true">
-								&#167; 7:1<?xpp /mc;%pgtype;ql;qr?><?xpp /ql?>
+								&#167; 7:1<?xpp /mc;%pgtype;ql;qr?>
+								<?xpp /ql?>
 							</t>
 						</line>
 						<line xfinal="1.65i" yfinal="0.09i" lnwidth="2.67i" lnmeas="4.32i"
@@ -2000,7 +3283,7 @@
 							kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false"
 							ebinline="false" lepgraf="false" leitm="true" quadset="false"
 							tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
-							<endtag name="rh1"></endtag>
+							<endtag name="rh1"/>
 						</line>
 					</group>
 				</block>
@@ -2019,11 +3302,11 @@
 							kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false"
 							ebinline="false" lepgraf="false" leitm="true" quadset="true"
 							tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
-							<tag name="rf3"></tag>
+							<tag name="rf3"/>
 							<t x="0" y="0" style="unknown" cgt="true" suppress="true">@FSTART@</t>
 							<t x="0" y="0" style="unknown.1" cgt="true">4</t>
 							<t x="0" y="0" style="unknown.1" cgt="true" suppress="true">@FEND@</t>
-							<endtag name="rf3"></endtag>
+							<endtag name="rf3"/>
 						</line>
 					</group>
 				</block>

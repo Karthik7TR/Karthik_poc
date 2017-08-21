@@ -178,6 +178,42 @@
 <!-- 		</xsl:element> -->
 <!-- 	</xsl:template> -->
 
+	<xsl:template match="x:table">
+		<xsl:if test="not(./@cont)">
+		
+		</xsl:if>
+		<xsl:element name="table">
+			<xsl:if test="number(@cols) > 3 and @tgroupstyle = 'text'">
+				<xsl:attribute name="class" select="'tr_table'" />
+			</xsl:if>
+			<xsl:apply-templates />
+		</xsl:element>
+	</xsl:template>
+	
+	<xsl:template match="x:thead">
+		<xsl:element name="thead">
+			<xsl:apply-templates />
+		</xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="x:tbody">
+		<xsl:element name="tbody">
+			<xsl:apply-templates />
+		</xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="x:row">
+		<xsl:element name="tr">
+			<xsl:apply-templates />
+		</xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="x:row/x:entry">
+		<xsl:element name="td">
+			<xsl:apply-templates />
+		</xsl:element>
+    </xsl:template>
+
 	<xsl:template match="text()">
 		<xsl:value-of select="." />
 	</xsl:template>
