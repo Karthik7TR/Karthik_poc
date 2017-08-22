@@ -73,3 +73,21 @@ sup, sup * {
     display: block;
     text-align: center;
 }
+
+.er_rp_ftbox_content {
+    .footnote_body {
+        display: none;
+    }
+    .footnote_body_main_popup_pane {
+        display: inline;
+    }
+}
+
+.tr_footnotes {
+    .footnote_body {
+        display: inline;
+    }
+    .footnote_body_main_popup_pane {
+        display: none;
+    }
+}
