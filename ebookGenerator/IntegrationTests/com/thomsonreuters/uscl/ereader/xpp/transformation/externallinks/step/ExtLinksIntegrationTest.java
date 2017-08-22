@@ -30,7 +30,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = OriginalStructureTransformationStepIntegrationTestConfiguration.class)
 @ActiveProfiles("IntegrationTests")
-public final class ExternalLinksXppStepIntegrationTest
+public final class ExtLinksIntegrationTest
 {
     private static final String MATERIAL_NUMBER = "88005553535";
     @Resource(name = "externalLinksXppStepBean")
@@ -49,9 +49,9 @@ public final class ExternalLinksXppStepIntegrationTest
     @Before
     public void setUp() throws URISyntaxException, IOException
     {
-        sourceDir = new File(ExternalLinksXppStepIntegrationTest.class.getResource("source").toURI());
-        expectedExternalLinksDir = new File(ExternalLinksXppStepIntegrationTest.class.getResource("expected").toURI());
-        expectedMapping = new File(ExternalLinksXppStepIntegrationTest.class.getResource("expectedmapping\\test.html").toURI());
+        sourceDir = new File(ExtLinksIntegrationTest.class.getResource("source").toURI());
+        expectedExternalLinksDir = new File(ExtLinksIntegrationTest.class.getResource("expected").toURI());
+        expectedMapping = new File(ExtLinksIntegrationTest.class.getResource("expectedmapping\\test.html").toURI());
         actualExternalLinksDir = fileSystem.getExternalLinksDirectory(sut, MATERIAL_NUMBER);
         actualMapping = fileSystem.getExternalLinksMappingFile(sut, MATERIAL_NUMBER, "test.html");
         htmlDir = fileSystem.getHtmlPagesDirectory(sut, MATERIAL_NUMBER);
@@ -79,7 +79,7 @@ public final class ExternalLinksXppStepIntegrationTest
     @Configuration
     @Profile("IntegrationTests")
     @Import(CommonTestContextConfiguration.class)
-    public static class GenerateFontsCssStepIntegrationTestConfiguration
+    public static class TestConfig
     {
         @Bean(name = "externalLinksXppStepBean")
         public ExternalLinksXppStep externalLinksXppStepBean()
