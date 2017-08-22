@@ -365,6 +365,10 @@ td:last-of-type {
   min-width: calc(1em / 1.5);
 }
 
+.form_item > .name_block {
+  text-indent: 1em;
+}
+
 .form_name_block {
   margin: calc(1em /2) auto;
 }
@@ -612,7 +616,8 @@ thead > tr > td > .cgt {
   margin-left: calc(1em*2.2);
 }
 
-sup, sup * {
+sup,
+sup * {
   display: inline !important;
 }
 

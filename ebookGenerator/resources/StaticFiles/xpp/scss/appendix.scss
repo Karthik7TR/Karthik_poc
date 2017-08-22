@@ -68,7 +68,10 @@
 
 .name_block {
     display: inline-block;
-    min-width: calc(#{$indent} / 1.5)
+    min-width: calc(#{$indent} / 1.5);
+    .form_item > & {
+        text-indent: $indent;
+    }
 }
 
 .form_name_block {
