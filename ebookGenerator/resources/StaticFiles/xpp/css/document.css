@@ -104,7 +104,8 @@
   display: none !important;
 }
 
-.font_dt:last-child {
+.last_dt:last-child,
+.last_dt:nth-last-child(2) {
   display: inline !important;
 }
 
@@ -616,8 +617,7 @@ thead > tr > td > .cgt {
   margin-left: calc(1em*2.2);
 }
 
-sup,
-sup * {
+sup, sup * {
   display: inline !important;
 }
 

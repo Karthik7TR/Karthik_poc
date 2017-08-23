@@ -130,6 +130,10 @@
                         <xsl:value-of select="x:get-class-name(name(.))" />
                         <xsl:if test="@style">
                             <xsl:value-of select="concat(' font_', x:get-class-name(@style))" />
+                        	<xsl:variable name="tAmount" select="count(preceding-sibling::x:t) + 1" />
+                            <xsl:if test="(following-sibling::x:pagebreak[count(preceding-sibling::x:t)=$tAmount] or not(following-sibling::x:t)) and @style='dt'">
+                            	<xsl:value-of select="concat(' ', 'last_dt')"/>
+                            </xsl:if>
                         </xsl:if>
                         <xsl:variable name="pagebreakSibling" select="preceding-sibling::x:pagebreak" />
                         <xsl:if test="$pagebreakSibling and count($pagebreakSibling/following-sibling::x:t intersect preceding-sibling::x:t)=0">
