@@ -1,0 +1,4165 @@
+<root xmlns="http://www.sdl.com/xpp">
+	<pagebreak num="1" num-string="1" prev_page="" />
+	<publication online.royalty.id="LAEVID"
+		uuid="I39bed690a5fc11d9b0c7867999d61bde">
+		<XPPHier uuid='I39bed690a5fc11d9b0c7867999d61bde' name='Louisiana Evidence'
+			parent_uuid='I39bed690a5fc11d9b0c7867999d61bde'>Louisiana Evidence</XPPHier>
+		<metadata.block>
+			<metadata field="left.running.head">
+				<value></value>
+			</metadata>
+		</metadata.block>
+		<publication.body>
+			<primary date.updated="0">
+				<primary.source uuid="I39c713f0a5fc11d9b0c7867999d61bde"
+					date.updated="0">
+					<XPPHier uuid='I39c713f0a5fc11d9b0c7867999d61bde' name='Primary Source with Annotations'
+						parent_uuid='I39bed690a5fc11d9b0c7867999d61bde'>Primary Source
+						with Annotations
+					</XPPHier>
+					<metadata.block metadata.store="yes">
+						<metadata field="copyright.year">
+							<value></value>
+						</metadata>
+						<md.entry></md.entry>
+						<md.entry></md.entry>
+					</metadata.block>
+					<primary.source.front date.updated="0">
+						<primary.outline.name.block
+							toc.include="n" date.updated="0">
+							<repository.display.name></repository.display.name>
+						</primary.outline.name.block>
+					</primary.source.front>
+					<primary.source.body date.updated="0">
+						<primary.hierarchy primary.hierarchy.type="chapter"
+							uuid="I39cb32a0a5fc11d9b0c7867999d61bde" date.revised="0"
+							date.updated="0" value="right" page.type="all" left.fixed="Louisiana Evidence"
+							left.format.type="fixed" left.placement="left.center"
+							right.placement="right.center" left.element.value="name"
+							right.format.type="element.value" right.element.value="name"
+							edcomm.font.size="11" edcomm.date.updated="0">
+							<XPPHier uuid='I39cb32a0a5fc11d9b0c7867999d61bde' name='Chapter 1. General Provisions'
+								parent_uuid='I39c713f0a5fc11d9b0c7867999d61bde'>Chapter 1.
+								General Provisions
+							</XPPHier>
+							<metadata.block metadata.store="yes">
+								<metadata field="right.running.head">
+									<value></value>
+								</metadata>
+							</metadata.block>
+							<primary.hierarchy.front date.updated="0">
+								<primary.outline.name.block
+									toc.include="y" date.updated="0" labeldesignator.align="l"
+									labeldesignator.capitalization="uc"
+									labeldesignator.element.group="labeldesignator"
+									labeldesignator.style="block" labeldesignator.indent="0"
+									labeldesignator.name.block.font.size="11"
+									labeldesignator.date.updated="0" name.align="l"
+									name.capitalization="uc" name.element.group="name" name.style="block"
+									name.indent="0" name.name.block.font.size="11"
+									name.date.updated="0">
+									<label date.updated="0">
+										<t style="label">Chapter</t>
+									</label>
+									<t style="primary.outline.name.block cgt">
+									</t>
+									<designator date.updated="0">
+										<t style="designator">1</t>
+									</designator>
+									<primary.name date.updated="0">
+										<name date.updated="0">
+											<t style="name">
+											</t>
+											<t style="name.1">General Provisions</t>
+										</name>
+									</primary.name>
+								</primary.outline.name.block>
+								<generated.toc>
+									<full.toc></full.toc>
+								</generated.toc>
+							</primary.hierarchy.front>
+							<primary.hierarchy.body date.updated="0">
+								<primary.section primary.section.type="article"
+									uuid="I431a81b0d68211e3a4e491f0ab88f383" pgwidth="broad"
+									date.revised="0" date.updated="0" element1="designator"
+									prefix1="Art." suffix1=".">
+									<XPPMetaData uuid='I431a81b0d68211e3a4e491f0ab88f383'
+										guid='I3ce3111102ae11da9c03bd72365340b3' md.uuid='I3ce3111102ae11da9c03bd72365340b3'
+										md.dmsserial='296365656' md.first_line_cite='LAPRAC&amp;ndash;EVID ART. 101'
+										md.pubpage='ART. 101' md.second_line_cite='La. Prac. Evidence Art. 101 (2017 ed.)'
+										md.normalizedcite='LAPRAC-EVIDART.101' md.doc_family_uuid='I45989a50eac711d8b93285946e571caf'
+										md.third_line_cite='' md.pubid='165245' name='Art 101. Scope'
+										parent_uuid='I39cb32a0a5fc11d9b0c7867999d61bde'>Art 101. Scope</XPPMetaData>
+									<XPPHier uuid='I431a81b0d68211e3a4e491f0ab88f383' name='Art 101. Scope'
+										parent_uuid='I39cb32a0a5fc11d9b0c7867999d61bde'>Art 101. Scope</XPPHier>
+									<primary.section.front date.updated="0">
+										<primary.outline.name.block
+											toc.include="y" date.updated="0" all.align="l"
+											all.designator.suffix="." all.label.suffix="."
+											all.element.group="all" all.style="block" all.indent="0"
+											all.capitalization="asis" all.name.block.font.size="11"
+											all.date.updated="0">
+											<label date.updated="0">
+												<t style="label.1">Art</t>
+											</label>
+											<t style="primary.outline.name.block cgt">. </t>
+											<designator date.updated="0">
+												<t style="designator">101</t>
+											</designator>
+											<t style="primary.outline.name.block cgt">. </t>
+											<primary.name date.updated="0">
+												<name date.updated="0">
+													<t style="name">Scope</t>
+												</name>
+												<t style="primary.name">
+												</t>
+											</primary.name>
+										</primary.outline.name.block>
+									</primary.section.front>
+									<primary.section.body date.updated="0">
+										<primary.official.content
+											date.updated="0">
+											<stat.subsect uuid="Iedac70302b3d11e7b6a3d85239113e25"
+												sameline="no" date.updated="0">
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">This Code governs proceedings in the courts of
+														Louisiana to the
+													</t>
+													<t style="stat.text">extent and with the exceptions stated in Article
+														1101.
+													</t>
+												</stat.text>
+											</stat.subsect>
+										</primary.official.content>
+										<primary.features date.updated="0">
+											<official.commentary uuid="Iedb067d02b3d11e7b6a3d85239113e25"
+												date.updated="0">
+												<primary.head align="c" date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<name date.updated="0">
+															<t style="bold">LEGISLATIVE COMMENTS</t>
+														</name>
+													</name.block>
+												</primary.head>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(a) This Article follows the pattern set by </t>
+														<cite>
+															<ref normalpub="judicial-us-revid" ref.id="Id297ac00241411e68b798696bfab1886"
+																ruleref="101">
+																<t style="ref">Federal Rule of Evidence 101</t>
+															</ref>
+														</cite>
+														<t style="para.text">. The </t>
+														<t style="para.text">provisions of this Code are largely modeled
+															after the provisions of the Federal
+														</t>
+														<t style="para.text">Rules of Evidence of 1975.</t>
+													</para.text>
+												</primary.para>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(b) The provisions of this Code generally apply
+															in both criminal and civil
+														</t>
+														<t style="para.text">proceedings. Generally hereafter, when a rule
+															is designed and intended to apply
+														</t>
+														<t style="para.text">solely in criminal matters, the use of the word
+															“accused” in the text will signify
+														</t>
+														<t style="para.text">its limited applicability or the rule will
+															expressly state its limited applicability.
+														</t>
+													</para.text>
+												</primary.para>
+											</official.commentary>
+											<editorial.commentary date.updated="0">
+												<head align="c" toc.include="y" date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<name date.updated="0">
+															<t style="bold.1">AUTHORS' COMMENTS</t>
+														</name>
+														<t style="name.block cgt">
+														</t>
+													</name.block>
+												</head>
+												<para date.updated="0" first.para="yes">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">This Article governs the scope of the Louisiana
+															Code of Evi
+														</t>
+														<t style="para.text.1">dence, which was enacted by the Louisiana
+															Legislature in 1988.
+														</t>
+														<t style="para.text.1">The Code of Evidence, which became effective on
+															January 1, 1989,
+														</t>
+														<t style="para.text.1">is applicable to all civil and criminal
+															proceedings in Louisiana
+														</t>
+														<t style="para.text.1">courts instituted on or after January 1, 1989.
+														</t>
+														<t style="para.text.2 super cgt">1</t>
+														<xref id="1" type="footnote" />
+														<t style="para.text.1"> When an Article </t>
+														<t style="para.text.1">applies solely to criminal cases, the Article
+															will use the word “ac
+														</t>
+														<t style="para.text.1">cused” or the Article will expressly state its
+															limited applicability
+														</t>
+														<t style="para.text.1">to such cases.</t>
+														<t style="para.text.2 super cgt">2</t>
+														<xref id="2" type="footnote" />
+														<t style="para.text.1"> Although the adoption of the Louisiana Code of
+														</t>
+														<t style="para.text.1">Evidence promotes the movement towards a
+															uniform national
+														</t>
+														<t style="para.text.1">law of evidence, trial judges continue to have
+															substantial discre
+														</t>
+														<t style="para.text.1">tion in many areas.</t>
+														<t style="para.text.2 super cgt">3</t>
+														<xref id="3" type="footnote" />
+														<t style="para.text.1"> While patterned after the Federal Rules of </t>
+														<t style="para.text.1">Evidence, the Louisiana Code of Evidence, in
+															large part, codifies
+														</t>
+														<t style="para.text.1">and clarifies prior Louisiana law.</t>
+													</para.text>
+												</para>
+											</editorial.commentary>
+										</primary.features>
+									</primary.section.body>
+								</primary.section>
+								<primary.section primary.section.type="article"
+									uuid="I43473700d68211e3a4e491f0ab88f383" pgwidth="broad"
+									date.revised="0" date.updated="0" element1="designator"
+									prefix1="Art." suffix1=".">
+									<XPPMetaData uuid='I43473700d68211e3a4e491f0ab88f383'
+										guid='I3ce3382202ae11da9c03bd72365340b3' md.uuid='I3ce3382202ae11da9c03bd72365340b3'
+										md.dmsserial='296365682' md.first_line_cite='LAPRAC&amp;ndash;EVID ART. 102'
+										md.pubpage='ART. 102' md.second_line_cite='La. Prac. Evidence Art. 102 (2017 ed.)'
+										md.normalizedcite='LAPRAC-EVIDART.102' md.doc_family_uuid='I45a396d0eac711d8b93285946e571caf'
+										md.third_line_cite='' md.pubid='165245'
+										name='Art 102. Purpose and construction' parent_uuid='I39cb32a0a5fc11d9b0c7867999d61bde'>Art
+										102.
+										Purpose and construction
+									</XPPMetaData>
+									<XPPHier uuid='I43473700d68211e3a4e491f0ab88f383' name='Art 102. Purpose and construction'
+										parent_uuid='I39cb32a0a5fc11d9b0c7867999d61bde'>Art 102.
+										Purpose and construction
+									</XPPHier>
+									<primary.section.front date.updated="0">
+										<primary.outline.name.block
+											toc.include="y" date.updated="0" all.align="l"
+											all.designator.suffix="." all.label.suffix="."
+											all.element.group="all" all.style="block" all.indent="0"
+											all.capitalization="asis" all.name.block.font.size="11"
+											all.date.updated="0">
+											<label date.updated="0">
+												<t style="label.1">Art</t>
+											</label>
+											<t style="primary.outline.name.block cgt">. </t>
+											<designator date.updated="0">
+												<t style="designator">102</t>
+											</designator>
+											<t style="primary.outline.name.block cgt">. </t>
+											<primary.name date.updated="0">
+												<name date.updated="0">
+													<t style="name">Purpose and construction</t>
+												</name>
+												<t style="primary.name">
+												</t>
+											</primary.name>
+										</primary.outline.name.block>
+									</primary.section.front>
+									<primary.section.body date.updated="0">
+										<primary.official.content
+											date.updated="0">
+											<stat.subsect uuid="Iee30e2702b3d11e7b6a3d85239113e25"
+												sameline="no" date.updated="0">
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">These articles shall be construed to secure
+														fairness and effi
+													</t>
+													<t style="stat.text">ciency in administration of the law of evidence
+														to the end that
+													</t>
+													<t style="stat.text">the truth may be ascertained and proceedings
+														justly determined.
+													</t>
+												</stat.text>
+											</stat.subsect>
+										</primary.official.content>
+										<primary.features date.updated="0">
+											<official.commentary uuid="Iee3353702b3d11e7b6a3d85239113e25"
+												date.updated="0">
+												<primary.head align="c" date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<name date.updated="0">
+															<t style="bold">LEGISLATIVE COMMENTS</t>
+														</name>
+													</name.block>
+												</primary.head>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(a) This Article is a condensation of </t>
+														<cite>
+															<ref normalpub="judicial-us-revid" ref.id="Id29d0330241411e68b798696bfab1886"
+																ruleref="102">
+																<t style="ref">Federal Rule of Evidence 102</t>
+															</ref>
+														</cite>
+														<t style="para.text">. It is </t>
+														<t style="para.text">intended to particularize prior Louisiana law.
+															The trial court continues to have
+														</t>
+														<t style="para.text">substantial discretion in many areas. On the
+															other hand, the adoption of this
+														</t>
+														<pagebreak num="2" num-string="2" prev_page="1" />
+														<t style="para.text">Code facilitates the movement towards a uniform
+															national law of evidence.
+														</t>
+														<t style="para.text">Thus, especially where the language of the
+															Louisiana Code is identical or virtu
+														</t>
+														<t style="para.text">ally identical with that used by other states
+															or in the federal rules, Louisiana
+														</t>
+														<t style="para.text">courts now have available a body of persuasive
+															authority which may be instruc
+														</t>
+														<t style="para.text">tive in interpreting the Louisiana Code.
+															However, the federal rules have not
+														</t>
+														<t style="para.text">been followed slavishly, and Louisiana courts
+															are by no means bound to follow
+														</t>
+														<t style="para.text">the precedents of these other courts.
+															Furthermore, it is intended that the
+														</t>
+														<t style="para.text">Articles be interpreted in light of their
+															underlying spirit and that Louisiana
+														</t>
+														<t style="para.text">courts not be inexorably bound by prior
+															interpretations of similar language in
+														</t>
+														<t style="para.text">pre-existing statutes. See </t>
+														<cite>
+															<ref ref.id="Id29d9f70241411e68b798696bfab1886"
+																secref="611" subref="(A)">
+																<t style="ref">Art. 611(A)</t>
+															</ref>
+														</cite>
+														<t style="para.text">.</t>
+													</para.text>
+												</primary.para>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(b) The rules and procedures embodied in the
+															Articles of this Code do not rep
+														</t>
+														<t style="para.text">resent an attempt to interpret the Federal or
+															Louisiana constitution.
+														</t>
+														<t style="para.text">Constitutional questions should be resolved by
+															the principles and rules of
+														</t>
+														<t style="para.text">constitutional law. See generally </t>
+														<cite>
+															<ref normalpub="miscpub" ref.id="Id29dc680241411e68b798696bfab1886">
+																<t style="ref">G. Pugh, Louisiana Evidence Law, Ch. 5 (1974)
+																</t>
+															</ref>
+														</cite>
+														<t style="para.text">; </t>
+														<cite>
+															<ref case.id="1982154630" court="La." date="1982"
+																fjur="La" jur="La" norm.rptr="so2d" p1="State" p2="Ludwig"
+																post.rptr="1073" pre.rptr="423"
+																ref.id="Id29ded90241411e68b798696bfab1886" title="State v. Ludwig">
+																<t style="ref">State v. Ludwig, 423 So. 2d 1073 (La. 1982)
+																</t>
+															</ref>
+														</cite>
+														<t style="para.text">; </t>
+														<cite>
+															<ref case.id="1983112842" court="La." date="1983"
+																fjur="La" jur="La" norm.rptr="so2d" p1="State" p2="Brown"
+																post.rptr="438" pre.rptr="428"
+																ref.id="Id29e14a0241411e68b798696bfab1886" title="State v. Brown">
+																<t style="ref">State v. Brown, 428 So. 2d 438 (La. </t>
+																<t style="ref">1983)</t>
+															</ref>
+														</cite>
+														<t style="para.text">; </t>
+														<cite>
+															<ref case.id="1983149956" court="La." date="1983"
+																fjur="La" jur="La" norm.rptr="so2d" p1="State" p2="Vaughn"
+																post.rptr="1260" pre.rptr="448"
+																ref.id="Id29fc250241411e68b798696bfab1886" title="State v. Vaughn">
+																<t style="ref">State v. Vaughn, 448 So. 2d 1260 (La. 1983)
+																</t>
+															</ref>
+															<t style="para.text"> (overruled by, State v. </t>
+															<t style="para.text">Johnson, 664 So. 2d 94 (La. 1995)</t>
+														</cite>
+														<t style="para.text">. In criminal matters especially the Articles
+															of
+														</t>
+														<t style="para.text">this Code must be interpreted and applied in
+															light of and within the confines
+														</t>
+														<t style="para.text">mandated by the Louisiana and federal
+															constitutions. See
+														</t>
+														<cite>
+															<ref amendref="IV" normalpub="statute-us-const"
+																ref.id="Id2a19710241411e68b798696bfab1886">
+																<t style="ref">U.S. Const. Amends. </t>
+																<t style="ref">IV</t>
+															</ref>
+															<t style="para.text">, </t>
+															<ref amendref="V" normalpub="statute-us-const"
+																ref.id="Id2a19711241411e68b798696bfab1886">
+																<t style="ref">V</t>
+															</ref>
+															<t style="para.text">, </t>
+															<ref amendref="VI" normalpub="statute-us-const"
+																ref.id="Id2a1be20241411e68b798696bfab1886">
+																<t style="ref">VI</t>
+															</ref>
+														</cite>
+														<t style="para.text">, &amp; </t>
+														<cite>
+															<ref amendref="IV" normalpub="statute-us-const"
+																ref.id="Id2a1e530241411e68b798696bfab1886">
+																<t style="ref">XIV</t>
+															</ref>
+														</cite>
+														<t style="para.text">; </t>
+														<cite>
+															<ref artref="I" date="1974" normalpub="statute-us-la-const"
+																ref.id="Id2a20c40241411e68b798696bfab1886" secref="2">
+																<t style="ref">La. Const. Art. I, </t>
+																<t style="ref cgt">§§ </t>
+																<t style="ref">2</t>
+															</ref>
+															<t style="para.text">, </t>
+															<ref artref="I" date="1974" normalpub="statute-us-la-const"
+																ref.id="Id2a20c41241411e68b798696bfab1886" secref="3">
+																<t style="ref">3</t>
+															</ref>
+															<t style="para.text">, </t>
+															<ref artref="I" date="1974" normalpub="statute-us-la-const"
+																ref.id="Id2a20c42241411e68b798696bfab1886" secref="5">
+																<t style="ref">5</t>
+															</ref>
+															<t style="para.text">, </t>
+															<ref artref="I" date="1974" normalpub="statute-us-la-const"
+																rangeend="to 19" rangetype="secref"
+																ref.id="Id2a47d40241411e68b798696bfab1886" secrange="y"
+																secref="13">
+																<t style="ref">13 to 19 (1974)</t>
+															</ref>
+														</cite>
+														<t style="para.text">. Louisiana has </t>
+														<t style="para.text">developed a firm tradition of commitment to the
+															scrupulous observance of the
+														</t>
+														<t style="para.text">basic tenets of fair play inherent in the
+															constitutional safeguards of due process.
+														</t>
+														<t style="para.text">See, e.g., </t>
+														<cite>
+															<ref case.id="1983112842" court="La." date="1983"
+																fjur="La" jur="La" norm.rptr="so2d" p1="State" p2="Brown"
+																post.rptr="438" pre.rptr="428"
+																ref.id="Id2a4cb60241411e68b798696bfab1886" title="State v. Brown">
+																<t style="ref">State v. Brown, 428 So. 2d 438 (La. 1983)</t>
+															</ref>
+															<t style="para.text"> (overruled by, State v. </t>
+															<t style="para.text">Johnson, 664 So. 2d 94 (La. 1995)</t>
+														</cite>
+														<t style="para.text">; </t>
+														<cite>
+															<ref case.id="1983134072" court="La." date="1983"
+																fjur="La" jur="La" norm.rptr="so2d" p1="State" p2="Kahey"
+																post.rptr="475" pre.rptr="436"
+																ref.id="Id2a51980241411e68b798696bfab1886" title="State v. Kahey">
+																<t style="ref">State v. Kahey, 436 So. 2d 475 (La. 1983)</t>
+															</ref>
+														</cite>
+														<t style="para.text">; </t>
+														<cite>
+															<ref case.id="1983127399" court="La." date="1983"
+																fjur="La" jur="La" norm.rptr="so2d" p1="State" p2="Square"
+																post.rptr="104" pre.rptr="433"
+																ref.id="Id2a54090241411e68b798696bfab1886" title="State v. Square">
+																<t style="ref">State v. Square, 433 So. 2d 104 (La. 1983)
+																</t>
+															</ref>
+														</cite>
+														<t style="para.text">. In various particulars the Louisiana </t>
+														<t style="para.text">Constitution of 1974 goes further than its
+															federal counterpart in protecting the
+														</t>
+														<t style="para.text">interests of the accused and the general
+															citizenry against governmental and
+														</t>
+														<t style="para.text">private abuses, intrusions, and improprieties.
+															Compare
+														</t>
+														<cite>
+															<ref artref="I" date="1974" normalpub="statute-us-la-const"
+																ref.id="Id2a567a0241411e68b798696bfab1886">
+																<t style="ref">La. Const. Art. I (1974)</t>
+															</ref>
+														</cite>
+														<t style="para.text">
+														</t>
+														<t style="para.text">(Declaration of Rights) with </t>
+														<cite>
+															<ref amendrange="y" amendref="1" normalpub="statute-us-const"
+																rangeend="to 10" rangetype="amendref"
+																ref.id="Id2a84dd0241411e68b798696bfab1886">
+																<t style="ref">U.S. Const. Amends. 1 to 10</t>
+															</ref>
+														</cite>
+														<t style="para.text"> (Bill of Rights). No </t>
+														<t style="para.text">intent to alter or delimit these safeguards and
+															principles is intended, nor would
+														</t>
+														<t style="para.text">any such attempt or effect be constitutionally
+															permissible.
+														</t>
+														<cite>
+															<ref artref="VI" normalpub="statute-us-const"
+																ref.id="Id2a874e0241411e68b798696bfab1886">
+																<t style="ref">U.S. Const. Art. VI</t>
+															</ref>
+														</cite>
+														<t style="para.text">. </t>
+														<t style="para.text">Under special factual circumstances certain
+															specific and otherwise mandatory
+														</t>
+														<t style="para.text">provisions of this Code must necessarily bow to
+															these notions of fundamental
+														</t>
+														<t style="para.text">fairness. See, e.g., </t>
+														<cite>
+															<ref case.id="1973126337" date="1973" fjur="Sup Ct"
+																jur="US" norm.rptr="us" p1="Chambers" p2="Mississippi"
+																post.rptr="284" pre.rptr="410"
+																ref.id="Id2a89bf0241411e68b798696bfab1886" title="Chambers v. Mississippi">
+																<t style="ref">Chambers v. Mississippi, 410 U.S. 284, 93 S.
+																	Ct. 1038, 35 L.
+																</t>
+																<t style="ref">Ed. 2d 297 (1973)</t>
+															</ref>
+														</cite>
+														<t style="para.text">; </t>
+														<cite>
+															<ref case.id="1974127137" date="1974" fjur="Sup Ct"
+																jur="US" norm.rptr="us" p1="Davis" p2="Alaska"
+																post.rptr="308" pre.rptr="415"
+																ref.id="Id2a8c300241411e68b798696bfab1886" title="Davis v. Alaska">
+																<t style="ref">Davis v. Alaska, 415 U.S. 308, 94 S. Ct.
+																	1105, 39 L. Ed. 2d
+																</t>
+																<t style="ref">347 (1974)</t>
+															</ref>
+														</cite>
+														<t style="para.text">; </t>
+														<cite>
+															<ref case.id="1983149956" court="La." date="1983"
+																fjur="La" jur="La" norm.rptr="so2d" p1="State" p2="Vaughn"
+																post.rptr="1260" pre.rptr="448"
+																ref.id="Id2ab0cf0241411e68b798696bfab1886" title="State v. Vaughn">
+																<t style="ref">State v. Vaughn, 448 So. 2d 1260 (La. 1983)
+																</t>
+															</ref>
+														</cite>
+														<t style="para.text">. The constitutional in</t>
+														<t style="para.text">terpretation and application of this Code in
+															these circumstances is entrusted to
+														</t>
+														<t style="para.text">the judiciary.</t>
+													</para.text>
+												</primary.para>
+											</official.commentary>
+											<editorial.commentary date.updated="0">
+												<head align="c" toc.include="y" date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<name date.updated="0">
+															<t style="bold.1">AUTHORS' COMMENTS</t>
+														</name>
+														<t style="name.block cgt">
+														</t>
+													</name.block>
+												</head>
+												<para date.updated="0" first.para="yes">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">This Article addresses how the articles
+															contained in the Louisi
+														</t>
+														<t style="para.text.1">ana Code of Evidence are to be construed which
+															is to secure fair
+														</t>
+														<t style="para.text.1">ness and efficiency in administration of the
+															law of evidence to the
+														</t>
+														<t style="para.text.1">end that the truth may be ascertained and
+															proceedings justly
+														</t>
+														<t style="para.text.1">determined. In construing the Code of Evidence,
+															trial judges
+														</t>
+														<t style="para.text.1">should feel free to exercise their considerable
+															discretion in order
+														</t>
+														<t style="para.text.1">to achieve the objectives contained in Article
+															102.
+														</t>
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">In </t>
+														<t style="ital">State v. Rosales</t>
+														<t style="para.text.1">, the court used Article 102 to hold that the
+														</t>
+														<t style="para.text.1">defendant, a non-native speaker of English, was
+															not denied his
+														</t>
+														<t style="para.text.1">fundamental right to a sworn-in interpreter
+															because the defen
+														</t>
+														<t style="dt">-</t>
+														<pagebreak num="3" num-string="3" prev_page="2" />
+														<t style="para.text.1">dant could understand and express himself in
+															English.
+														</t>
+														<t style="para.text.2 super cgt">1</t>
+														<xref id="4" type="footnote" />
+														<t style="para.text.1"> On ap</t>
+														<t style="para.text.1">peal of his conviction for driving while
+															intoxicated (DWI), third
+														</t>
+														<t style="para.text.1">offense, the defendant argued that the trial
+															court erred in deny
+														</t>
+														<t style="para.text.1">ing his motion to quash predicate offense
+															number one where, he,
+														</t>
+														<t style="para.text.1">a non-native speaker, was denied his
+															fundamental right to a
+														</t>
+														<t style="para.text.1">sworn-in interpreter, resulting in a violation
+															of his
+														</t>
+														<t style="ital">Boykin</t>
+														<t style="para.text.1"> rights.</t>
+														<t style="para.text.2 super cgt">2</t>
+														<xref id="5" type="footnote" />
+														<t style="para.text.1">
+														</t>
+														<t style="para.text.1">The court held that a defendant who understands
+															the English
+														</t>
+														<t style="para.text.1">language renders an interpreter gratuitous as
+															the interpreter
+														</t>
+														<t style="para.text.1">cannot assist the judge in understanding the
+															evidence or to
+														</t>
+														<t style="para.text.1">determine a fact at issue.</t>
+														<t style="para.text.2 super cgt">3</t>
+														<xref id="6" type="footnote" />
+														<t style="para.text.1"> Consequently, requiring an interpreter </t>
+														<t style="para.text.1">for an English-speaking defendant would be the
+															height of ineffi
+														</t>
+														<t style="para.text.1">ciency, something that Article 102 is designed
+															to eliminate.
+														</t>
+														<t style="para.text.2 super cgt">4</t>
+														<xref id="7" type="footnote" />
+													</para.text>
+												</para>
+											</editorial.commentary>
+										</primary.features>
+									</primary.section.body>
+								</primary.section>
+								<primary.section primary.section.type="article"
+									uuid="I435a22c0d68211e3a4e491f0ab88f383" pgwidth="broad"
+									date.revised="0" date.updated="0" element1="designator"
+									prefix1="Art." suffix1=".">
+									<XPPMetaData uuid='I435a22c0d68211e3a4e491f0ab88f383'
+										guid='I3ce3382502ae11da9c03bd72365340b3' md.uuid='I3ce3382502ae11da9c03bd72365340b3'
+										md.dmsserial='296365705' md.first_line_cite='LAPRAC&amp;ndash;EVID ART. 103'
+										md.pubpage='ART. 103' md.second_line_cite='La. Prac. Evidence Art. 103 (2017 ed.)'
+										md.normalizedcite='LAPRAC-EVIDART.103' md.doc_family_uuid='I45a396d1eac711d8b93285946e571caf'
+										md.third_line_cite='' md.pubid='165245' name='Art 103. Rulings on evidence'
+										parent_uuid='I39cb32a0a5fc11d9b0c7867999d61bde'>Art 103.
+										Rulings on evidence
+									</XPPMetaData>
+									<XPPHier uuid='I435a22c0d68211e3a4e491f0ab88f383' name='Art 103. Rulings on evidence'
+										parent_uuid='I39cb32a0a5fc11d9b0c7867999d61bde'>Art 103.
+										Rulings on evidence
+									</XPPHier>
+									<primary.section.front date.updated="0">
+										<primary.outline.name.block
+											toc.include="y" date.updated="0" all.align="l"
+											all.designator.suffix="." all.label.suffix="."
+											all.element.group="all" all.style="block" all.indent="0"
+											all.capitalization="asis" all.name.block.font.size="11"
+											all.date.updated="0">
+											<label date.updated="0">
+												<t style="label.1">Art</t>
+											</label>
+											<t style="primary.outline.name.block cgt">. </t>
+											<designator date.updated="0">
+												<t style="designator">103</t>
+											</designator>
+											<t style="primary.outline.name.block cgt">. </t>
+											<primary.name date.updated="0">
+												<name date.updated="0">
+													<t style="name">Rulings on evidence</t>
+												</name>
+												<t style="primary.name">
+												</t>
+											</primary.name>
+										</primary.outline.name.block>
+									</primary.section.front>
+									<primary.section.body date.updated="0">
+										<primary.official.content
+											date.updated="0">
+											<stat.subsect uuid="Iee7b31e02b3d11e7b6a3d85239113e25"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="designator.2">A.</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+														<name date.updated="0">
+															<t style="bold.2">Effect of erroneous ruling.</t>
+														</name>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">Error may not be predicated </t>
+													<t style="stat.text">upon a ruling which admits or excludes evidence
+														unless a
+													</t>
+													<t style="stat.text">substantial right of the party is affected, and
+													</t>
+												</stat.text>
+												<stat.para uuid="Iee7c91702b3d11e7b6a3d85239113e25"
+													sameline="no" date.updated="0" first.para="yes">
+													<stat.name.block date.updated="0">
+														<name.block toc.include="y" date.updated="0">
+															<designator date.updated="0">
+																<t style="designator.2">(1)</t>
+															</designator>
+															<t style="name.block.1 cgt">
+															</t>
+															<name date.updated="0">
+																<t style="bold.2">Ruling admitting evidence.</t>
+															</name>
+															<t style="name.block.1 cgt">
+															</t>
+														</name.block>
+													</stat.name.block>
+													<stat.text date.updated="0" first.para.text="yes">
+														<t style="stat.text">When the ruling is one </t>
+														<t style="stat.text">admitting evidence, a timely objection or
+															motion to admonish
+														</t>
+														<t style="stat.text">the jury to limit or disregard appears of
+															record, stating the
+														</t>
+														<t style="stat.text">specific ground of objection; or</t>
+													</stat.text>
+												</stat.para>
+												<stat.para uuid="Iee8432902b3d11e7b6a3d85239113e25"
+													sameline="no" date.updated="0" first.para="no">
+													<stat.name.block date.updated="0">
+														<name.block toc.include="y" date.updated="0">
+															<designator date.updated="0">
+																<t style="designator.2">(2)</t>
+															</designator>
+															<t style="name.block.1 cgt">
+															</t>
+															<name date.updated="0">
+																<t style="bold.2">Ruling excluding evidence.</t>
+															</name>
+															<t style="name.block.1 cgt">
+															</t>
+														</name.block>
+													</stat.name.block>
+													<stat.text date.updated="0" first.para.text="yes">
+														<t style="stat.text">When the ruling is one </t>
+														<t style="stat.text">excluding evidence, the substance of the
+															evidence was made
+														</t>
+														<t style="stat.text">known to the court by counsel.</t>
+													</stat.text>
+												</stat.para>
+											</stat.subsect>
+											<stat.subsect uuid="Iee8655702b3d11e7b6a3d85239113e25"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="designator.2">B.</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+														<name date.updated="0">
+															<t style="bold.2">Record of ruling.</t>
+														</name>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">The court may add any other or further </t>
+													<t style="stat.text">statement which shows the character of the
+														evidence, the form in
+													</t>
+													<t style="stat.text">which it was offered, the objection made, and
+														the ruling thereon.
+													</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="Iee8718c02b3d11e7b6a3d85239113e25"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="designator.2">C.</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+														<name date.updated="0">
+															<t style="bold.2">Hearing of jury.</t>
+														</name>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">In jury cases, proceedings shall be </t>
+													<t style="stat.text">conducted, to the extent practicable, so as to
+														prevent inadmis
+													</t>
+													<t style="stat.text">sible evidence from being suggested to the jury
+														by any means,
+													</t>
+													<t style="stat.text">such as making statements or asking questions in
+														the hearing of
+													</t>
+													<t style="stat.text">the jury.</t>
+												</stat.text>
+											</stat.subsect>
+										</primary.official.content>
+										<primary.features date.updated="0">
+											<official.commentary uuid="Iee8914902b3d11e7b6a3d85239113e25"
+												date.updated="0">
+												<primary.head align="c" date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<name date.updated="0">
+															<t style="bold">LEGISLATIVE COMMENTS</t>
+														</name>
+													</name.block>
+												</primary.head>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(a) Paragraph A of this Article generally
+															follows
+														</t>
+														<cite>
+															<ref normalpub="judicial-us-revid" ref.id="Id2ae6850241411e68b798696bfab1886"
+																ruleref="103" subref="(a)">
+																<t style="ref">Federal Rule of Evidence </t>
+																<t style="ref">103(a)</t>
+															</ref>
+														</cite>
+														<t style="para.text">, but as a result of Senate Committee
+															amendments is more exacting than
+														</t>
+														<t style="para.text">its Federal Rules counterpart. It continues the
+															general requirement in Louisi
+														</t>
+														<t style="para.text">ana law that there be a contemporaneous
+															objection.
+														</t>
+													</para.text>
+												</primary.para>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(b) Paragraph B of this Article generally
+															follows
+														</t>
+														<cite>
+															<ref normalpub="judicial-us-revid" ref.id="Id2ae8f60241411e68b798696bfab1886"
+																ruleref="103" subref="(b)">
+																<t style="ref">Federal Rule of Evidence </t>
+																<pagebreak num="4" num-string="4" prev_page="3" />
+																<t style="ref">103(b)</t>
+															</ref>
+														</cite>
+														<t style="para.text">, and is not intended to change Louisiana law.
+															It simply clarifies the prior
+														</t>
+														<t style="para.text">practice of trial judges' offering brief “per
+															curiam” explanations regarding the
+														</t>
+														<t style="para.text">admission or exclusion of evidence. See </t>
+														<cite>
+															<ref artref="17" normalpub="statute-us-la-cdcrimp"
+																ref.id="Id2b0d950241411e68b798696bfab1886">
+																<t style="ref">La. C.Cr.P. Arts. 17</t>
+															</ref>
+															<t style="para.text">, </t>
+															<ref artref="844" normalpub="statute-us-la-cdcrimp"
+																ref.id="Id2b10060241411e68b798696bfab1886" subref="(D)">
+																<t style="ref">844(D)</t>
+															</ref>
+														</cite>
+														<t style="para.text">; </t>
+														<cite>
+															<ref artref="1631" normalpub="statute-us-la-cdcivp"
+																ref.id="Id2b12770241411e68b798696bfab1886">
+																<t style="ref">La. C.C.P. </t>
+																<t style="ref">Arts. 1631</t>
+															</ref>
+															<t style="para.text">, </t>
+															<ref artref="1636" normalpub="statute-us-la-cdcivp"
+																ref.id="Id2b12771241411e68b798696bfab1886">
+																<t style="ref">1636</t>
+															</ref>
+														</cite>
+														<t style="para.text">.</t>
+													</para.text>
+												</primary.para>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(c) Paragraph C of this Article generally
+															follows
+														</t>
+														<cite>
+															<ref normalpub="judicial-us-revid" ref.id="Id2b14e80241411e68b798696bfab1886"
+																ruleref="103" subref="(c)">
+																<t style="ref">Federal Rule of Evidence </t>
+																<t style="ref">103(c)</t>
+															</ref>
+														</cite>
+														<t style="para.text"> and is not intended to change prior law. See
+														</t>
+														<cite>
+															<ref artref="794" normalpub="statute-us-la-cdcrimp"
+																ref.id="Id2b17590241411e68b798696bfab1886">
+																<t style="ref">La. C.Cr.P. Art. 794</t>
+															</ref>
+														</cite>
+														<t style="para.text">. </t>
+														<t style="para.text">Implementation of the rule is left to the broad
+															discretion of the trial judge. See
+														</t>
+														<cite>
+															<ref ref.id="Id2b3bf80241411e68b798696bfab1886"
+																secref="611" subref="(A)">
+																<t style="ref">Art. 611(A)</t>
+															</ref>
+														</cite>
+														<t style="para.text">.</t>
+													</para.text>
+												</primary.para>
+											</official.commentary>
+											<editorial.commentary date.updated="0">
+												<head align="c" toc.include="y" date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<name date.updated="0">
+															<t style="bold.1">AUTHORS' COMMENTS</t>
+														</name>
+														<t style="name.block cgt">
+														</t>
+													</name.block>
+												</head>
+												<para date.updated="0" first.para="yes">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">Subparagraph A(1) of this Article preserves the
+															contemporane
+														</t>
+														<t style="para.text.1">ous objection rule relative to rulings
+															admitting evidence.
+														</t>
+														<t style="para.text.2 super cgt">1</t>
+														<xref id="8" type="footnote" />
+														<t style="para.text.1"> Under </t>
+														<t style="para.text.1">this rule, to preserve the right to appeal an
+															erroneous trial court
+														</t>
+														<t style="para.text.1">ruling related to the admission of evidence,
+															the objecting party
+														</t>
+														<t style="para.text.1">must make a timely and specific objection.</t>
+														<t style="para.text.2 super cgt">2</t>
+														<xref id="9" type="footnote" />
+														<t style="para.text.1"> The objecting party </t>
+														<pagebreak num="5" num-string="5" prev_page="4" />
+														<t style="para.text.1">should, at the time the ruling is made, make
+															known to the trial
+														</t>
+														<t style="para.text.1">court his objections and the specific grounds
+															therefor. In criminal
+														</t>
+														<t style="para.text.1">cases, Article 103 and </t>
+														<cite>
+															<ref artref="841" normalpub="statute-us-la-cdcivp"
+																ref.id="Id2bbfce0241411e68b798696bfab1886" subref="(A)">
+																<t style="ref.2">C.C.P. art. 841(A)</t>
+															</ref>
+														</cite>
+														<t style="para.text.1"> are designed to promote </t>
+														<t style="para.text.1">judicial efficiency by preventing a criminal
+															defendant from
+														</t>
+														<t style="para.text.1">gambling on a favorable verdict and, then, upon
+															conviction, as
+														</t>
+														<t style="para.text.1">serting on appeal errors which either could
+															have been avoided or
+														</t>
+														<t style="para.text.1">corrected at the time or should have put an
+															immediate halt to the
+														</t>
+														<t style="para.text.1">proceedings.</t>
+														<t style="para.text.2 super cgt">3</t>
+														<xref id="10" type="footnote" />
+														<t style="para.text.1"> This informs the court and the opponent of the
+														</t>
+														<t style="para.text.1">basis of the objection. Moreover, a new basis
+															for an objection may
+														</t>
+														<t style="para.text.1">not be urged for the first time on appeal.</t>
+														<t style="para.text.2 super cgt">4</t>
+														<xref id="11" type="footnote" />
+														<t style="para.text.1"> When the alleged er</t>
+														<t style="para.text.1">roneous evidence has been heard by the jury,
+															the objecting party
+														</t>
+														<t style="para.text.1">should move to strike the evidence from the
+															record and request
+														</t>
+														<t style="para.text.1">that the judge admonish the jury not to
+															consider such evidence.
+														</t>
+														<t style="para.text.2 super cgt">5</t>
+														<xref id="12" type="footnote" />
+														<t style="para.text.1">
+														</t>
+														<t style="para.text.1">If a timely and specific objection is not made
+															to a ruling admit
+														</t>
+														<t style="para.text.1">ting evidence, the objection is waived and
+															cannot be raised on
+														</t>
+														<t style="para.text.1">appeal.</t>
+														<t style="para.text.2 super cgt">6</t>
+														<xref id="13" type="footnote" />
+														<t style="para.text.1"> Further, under the Article, error may not be
+															successfully
+														</t>
+														<t style="para.text.1">raised on appeal unless a substantial right of
+															the party is
+														</t>
+														<pagebreak num="6" num-string="6" prev_page="5" />
+														<pagebreak num="7" num-string="7" prev_page="6" />
+														<t style="para.text.1">affected.</t>
+														<t style="para.text.2 super cgt">7</t>
+														<xref id="14" type="footnote" />
+														<t style="para.text.1"> When determining whether a substantial right
+															of the
+														</t>
+														<pagebreak num="8" num-string="8" prev_page="7" />
+														<t style="para.text.1">party has been affected, the court considers
+															whether the alleged
+														</t>
+														<t style="para.text.1">error as compared to the entire record had a
+															substantial effect on
+														</t>
+														<t style="para.text.1">the outcome of the case.</t>
+														<t style="para.text.2 super cgt">8</t>
+														<xref id="15" type="footnote" />
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<pagebreak num="9" num-string="9" prev_page="8" />
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">Under prior law, the contemporaneous objection
+															rule did not
+														</t>
+														<t style="para.text.1">apply in capital cases; in capital cases, all
+															assignments of error
+														</t>
+														<t style="para.text.1">are reviewed by the appellate court.</t>
+														<t style="para.text.2 super cgt">9</t>
+														<xref id="16" type="footnote" />
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">Presumably, this rule applies under the
+															Louisiana Code of
+														</t>
+														<t style="para.text.1">Evidence.</t>
+														<t style="para.text.2 super cgt">10</t>
+														<xref id="17" type="footnote" />
+														<t style="para.text.1"> The contemporaneous objection rule also
+															applies to
+														</t>
+														<t style="para.text.1">prosecutorial misconduct. Thus, if a criminal
+															defendant fails to
+														</t>
+														<t style="para.text.1">contemporaneously object at trial to the
+															prosecutor's alleged
+														</t>
+														<t style="para.text.1">conduct, the defendant has waived any error
+															based on these
+														</t>
+														<t style="para.text.1">allegations.</t>
+														<t style="para.text.2 super cgt">11</t>
+														<xref id="18" type="footnote" />
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">Subparagraph A(2) of the Article governs offers
+															of proof or
+														</t>
+														<t style="para.text.1">proffers. When a trial court sustains an
+															objection excluding evi
+														</t>
+														<t style="para.text.1">dence, the proponent should then make an offer
+															of proof in order
+														</t>
+														<t style="para.text.1">to preserve the trial record for the appellate
+															court to review.
+														</t>
+														<t style="para.text.2 super cgt">12</t>
+														<xref id="19" type="footnote" />
+														<t style="para.text.1">
+														</t>
+														<t style="para.text.1">The offer of proof may also persuade the trial
+															judge to change his
+														</t>
+														<t style="para.text.1">ruling. Under Subparagraph A(2), “in criminal
+															cases as well as
+														</t>
+														<t style="para.text.1">civil cases, a party now has a legal right,
+															when evidence has been
+														</t>
+														<t style="para.text.1">excluded, to make an offer of proof of what
+															counsel expects to
+														</t>
+														<t style="para.text.1">prove, outside the presence of the jury.”</t>
+														<t style="para.text.2 super cgt">13</t>
+														<xref id="20" type="footnote" />
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">An offer of proof is simply an offer of the
+															evidence that is being
+														</t>
+														<t style="para.text.1">excluded. The purpose of an offer of proof is
+															to create a record of
+														</t>
+														<t style="para.text.1">the excluded evidence so that the reviewing
+															court will know what
+														</t>
+														<t style="para.text.1">the evidence was and will thus be able to
+															determine if the exclu
+														</t>
+														<t style="para.text.1">sion was improper and, if so, whether the
+															improper exclusion
+														</t>
+														<t style="para.text.1">constituted reversible error.</t>
+														<t style="para.text.2 super cgt">14</t>
+														<xref id="21" type="footnote" />
+														<t style="para.text.1"> The offer of proof also informs the </t>
+														<t style="para.text.1">trial court and the opposing party of the
+															substance of the excluded
+														</t>
+														<t style="para.text.1">evidence. In order to preserve the right to
+															appeal a trial court
+														</t>
+														<t style="para.text.1">ruling that excludes evidence, the party must
+															make the substance
+														</t>
+														<t style="para.text.1">of the evidence known to the trial court.</t>
+														<t style="para.text.2 super cgt">15</t>
+														<xref id="22" type="footnote" />
+														<t style="para.text.1"> Furthermore, error </t>
+														<t style="para.text.1">may not be successfully raised on appeal unless
+															a substantial
+														</t>
+														<pagebreak num="10" num-string="10" prev_page="9" />
+														<t style="para.text.1">right of the party is affected.</t>
+														<t style="para.text.2 super cgt">16</t>
+														<xref id="23" type="footnote" />
+														<t style="para.text.1"> If the proponent of the excluded </t>
+														<t style="para.text.1">evidence either fails to request an opportunity
+															to make an offer of
+														</t>
+														<t style="para.text.1">proof or to make a proffer at the trial, he
+															cannot contend on ap
+														</t>
+														<t style="para.text.1">peal that such exclusion was erroneous.</t>
+														<t style="para.text.2 super cgt">17</t>
+														<xref id="24" type="footnote" />
+														<t style="para.text.1"> When a request for a </t>
+														<t style="para.text.1">proffer of evidence is made, the proponent of
+															the evidence must
+														</t>
+														<t style="para.text.1">make the proffer as directed by the trial
+															judge. Thus, when the
+														</t>
+														<t style="para.text.1">trial judge states that the proffer of evidence
+															must be made after
+														</t>
+														<t style="para.text.1">the completion of the trial, the proffering
+															party is responsible for
+														</t>
+														<t style="para.text.1">ensuring that the proffer of evidence is made.
+															If the proffer of ev
+														</t>
+														<t style="para.text.1">idence is not made, there will be no evidence
+															for the court of ap
+														</t>
+														<t style="para.text.1">peal to review and the action of the trial
+															court will not be in
+														</t>
+														<t style="para.text.1">error.</t>
+														<t style="para.text.2 super cgt">18</t>
+														<xref id="25" type="footnote" />
+														<t style="para.text.1"> In proffering evidence, the offering party
+															may: (1) make a
+														</t>
+														<t style="para.text.1">complete record of the proffered testimony or
+															(2) present a state
+														</t>
+														<t style="para.text.1">ment describing what he expects to prove by the
+															proffered
+														</t>
+														<t style="para.text.1">evidence.</t>
+														<t style="para.text.2 super cgt">19</t>
+														<xref id="26" type="footnote" />
+														<t style="para.text.1"> In other words, when making an offer of proof,
+															the of
+														</t>
+														<t style="para.text.1">fering party can either make a narrative
+															statement of the prof
+														</t>
+														<t style="para.text.1">fered evidence on the record, or it can present
+															the evidence in
+														</t>
+														<t style="para.text.1">question and answer form by calling the witness
+															to the stand and
+														</t>
+														<t style="para.text.1">asking him questions. The witness is then
+															subject to cross-
+														</t>
+														<pagebreak num="11" num-string="11" prev_page="10" />
+														<t style="para.text.1">examination. In each instance, the offer of
+															proof should be made
+														</t>
+														<t style="para.text.1">out of the jury's presence.</t>
+														<t style="para.text.2 super cgt">20</t>
+														<xref id="27" type="footnote" />
+														<t style="para.text.1"> The trial judge has discretion as to </t>
+														<t style="para.text.1">what type of proffer is allowed.</t>
+													</para.text>
+												</para>
+											</editorial.commentary>
+										</primary.features>
+									</primary.section.body>
+								</primary.section>
+								<primary.section primary.section.type="article"
+									uuid="I438db5e0d68211e3a4e491f0ab88f383" pgwidth="broad"
+									date.revised="0" date.updated="0" element1="designator"
+									prefix1="Art." suffix1=".">
+									<XPPMetaData uuid='I438db5e0d68211e3a4e491f0ab88f383'
+										guid='I3ce3382802ae11da9c03bd72365340b3' md.uuid='I3ce3382802ae11da9c03bd72365340b3'
+										md.dmsserial='296365732' md.first_line_cite='LAPRAC&amp;ndash;EVID ART. 104'
+										md.pubpage='ART. 104' md.second_line_cite='La. Prac. Evidence Art. 104 (2017 ed.)'
+										md.normalizedcite='LAPRAC-EVIDART.104' md.doc_family_uuid='I45a3bde0eac711d8b93285946e571caf'
+										md.third_line_cite='' md.pubid='165245'
+										name='Art 104. Preliminary questions' parent_uuid='I39cb32a0a5fc11d9b0c7867999d61bde'>Art
+										104.
+										Preliminary questions
+									</XPPMetaData>
+									<XPPHier uuid='I438db5e0d68211e3a4e491f0ab88f383' name='Art 104. Preliminary questions'
+										parent_uuid='I39cb32a0a5fc11d9b0c7867999d61bde'>Art 104.
+										Preliminary questions
+									</XPPHier>
+									<primary.section.front date.updated="0">
+										<primary.outline.name.block
+											toc.include="y" date.updated="0" all.align="l"
+											all.designator.suffix="." all.label.suffix="."
+											all.element.group="all" all.style="block" all.indent="0"
+											all.capitalization="asis" all.name.block.font.size="11"
+											all.date.updated="0">
+											<label date.updated="0">
+												<t style="label.1">Art</t>
+											</label>
+											<t style="primary.outline.name.block cgt">. </t>
+											<designator date.updated="0">
+												<t style="designator">104</t>
+											</designator>
+											<t style="primary.outline.name.block cgt">. </t>
+											<primary.name date.updated="0">
+												<name date.updated="0">
+													<t style="name">Preliminary questions</t>
+												</name>
+												<t style="primary.name">
+												</t>
+											</primary.name>
+										</primary.outline.name.block>
+									</primary.section.front>
+									<primary.section.body date.updated="0">
+										<primary.official.content
+											date.updated="0">
+											<stat.subsect uuid="Ief4d9d102b3d11e7b6a3d85239113e25"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="designator.2">A.</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+														<name date.updated="0">
+															<t style="bold.2">Questions of admissibility generally.</t>
+														</name>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">Preliminary ques</t>
+													<t style="stat.text">tions concerning the competency or qualification
+														of a person to be
+													</t>
+													<t style="stat.text">a witness, the existence of a privilege, or the
+														admissibility of evi
+													</t>
+													<t style="stat.text">dence shall be determined by the court, subject
+														to the provisions
+													</t>
+													<t style="stat.text">of Paragraph B. In making its determination, it
+														is not bound by
+													</t>
+													<t style="stat.text">the rules of evidence except those with respect
+														to privileges.
+													</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="Ief4e39502b3d11e7b6a3d85239113e25"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="designator.2">B.</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+														<name date.updated="0">
+															<t style="bold.2">Relevancy conditioned on fact.</t>
+														</name>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">Subject to other provi</t>
+													<t style="stat.text">sions of this Code, when the relevancy of
+														evidence depends upon
+													</t>
+													<t style="stat.text">the fulfillment of a condition of fact, the
+														court shall admit it
+													</t>
+													<t style="stat.text">upon, or subject to, the introduction of
+														evidence sufficient to sup
+													</t>
+													<t style="stat.text">port a finding of the fulfillment of the
+														condition.
+													</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="Ief4ed5902b3d11e7b6a3d85239113e25"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="designator.2">C.</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+														<name date.updated="0">
+															<t style="bold.2">Hearing of jury.</t>
+														</name>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">Hearings on matters to be decided by the </t>
+													<t style="stat.text">judge alone shall be conducted out of the
+														hearing of the jury
+													</t>
+													<t style="stat.text">when the interests of justice require. Hearings
+														on the admissibil
+													</t>
+													<t style="stat.text">ity of confessions or admissions by the accused
+														or evidence alleg
+													</t>
+													<t style="stat.text">edly unlawfully obtained shall in all cases be
+														conducted out of the
+													</t>
+													<t style="stat.text">hearing of the jury, but when there has been a
+														ruling prior to
+													</t>
+													<t style="stat.text">trial, it shall not be necessary to conduct
+														another hearing as to
+													</t>
+													<t style="stat.text">admissibility before presentation of the
+														evidence to a jury.
+													</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="Ief5083402b3d11e7b6a3d85239113e25"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="designator.2">D.</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+														<name date.updated="0">
+															<t style="bold.2">Weight and credibility.</t>
+														</name>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">The preliminary determination by </t>
+													<t style="stat.text">the court that evidence is admissible does not
+														limit the right of a
+													</t>
+													<t style="stat.text">party to introduce evidence relevant to weight
+														or credibility at
+													</t>
+													<t style="stat.text">the trial.</t>
+												</stat.text>
+											</stat.subsect>
+										</primary.official.content>
+										<primary.features date.updated="0">
+											<official.commentary uuid="Ief527f102b3d11e7b6a3d85239113e25"
+												date.updated="0">
+												<primary.head align="c" date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<name date.updated="0">
+															<t style="bold">LEGISLATIVE COMMENTS</t>
+														</name>
+													</name.block>
+												</primary.head>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(a) Paragraph A of this Article is based
+															substantially on
+														</t>
+														<cite>
+															<ref normalpub="judicial-us-revid" ref.id="Id2e508b0241411e68b798696bfab1886"
+																ruleref="104" subref="(a)">
+																<t style="ref">Federal Rule of Evi</t>
+																<t style="ref">dence 104(a)</t>
+															</ref>
+														</cite>
+														<t style="para.text">. Unlike the federal model, this Article
+															distinguishes between wit
+														</t>
+														<t style="para.text">ness competency and witness qualification. See
+														</t>
+														<cite>
+															<ref commentref="(c)" ref.id="Id2e52fc0241411e68b798696bfab1886"
+																secref="601">
+																<t style="ref">Art. 601, comment (c)</t>
+															</ref>
+														</cite>
+														<t style="para.text">; </t>
+														<cite>
+															<ref ref.id="Id2e52fc1241411e68b798696bfab1886"
+																secref="605">
+																<t style="ref">Art. 605</t>
+															</ref>
+														</cite>
+														<t style="para.text">; </t>
+														<cite>
+															<ref commentref="(a)" ref.id="Id2e52fc2241411e68b798696bfab1886"
+																secref="606">
+																<t style="ref">Art. 606, comment (a)</t>
+															</ref>
+														</cite>
+														<t style="para.text">. The Paragraph is intended to clarify and
+															particularize,
+														</t>
+														<t style="para.text">but not to change, prior Louisiana law. See,
+															e.g., former La. R.S. 15:466;
+														</t>
+														<cite>
+															<ref case.id="1982147746" court="La." date="1982"
+																fjur="La" jur="La" norm.rptr="so2d" p1="State" p2="Michel"
+																post.rptr="1115" pre.rptr="422"
+																ref.id="Id2e556d0241411e68b798696bfab1886" title="State v. Michel">
+																<t style="ref">State </t>
+																<t style="ref">v. Michel, 422 So. 2d 1115 (La. 1982)</t>
+															</ref>
+														</cite>
+														<t style="para.text">; </t>
+														<cite>
+															<ref case.id="1911000589" date="1911" fjur="La" jur="La"
+																norm.rptr="la" p1="State" p2="Lee" post.rptr="1077"
+																pre.rptr="127" ref.id="Id2e556d1241411e68b798696bfab1886"
+																title="State v. Lee">
+																<t style="ref">State v. Lee, 127 La. 1077, 54 So. 356 </t>
+																<t style="ref">(1911)</t>
+															</ref>
+														</cite>
+														<t style="para.text">.</t>
+													</para.text>
+												</primary.para>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(b) Distinguishing between the situations to
+															which Paragraphs A and B of
+														</t>
+														<t style="para.text">this Article are applicable can be difficult.
+															In general, when the law expressly
+														</t>
+														<t style="para.text">requires the satisfaction of a factual
+															precondition to the admissibility of evi
+														</t>
+														<t style="para.text">dence, as for example with all of the hearsay
+															exceptions and the rule on admis
+														</t>
+														<t style="para.text">sibility of co-conspirators' statements,
+															Paragraph A requires the judge alone to
+														</t>
+														<t style="para.text">determine whether the precondition is
+															satisfied. The contrary approach of
+														</t>
+														<t style="para.text">Paragraph B applies in those comparatively
+															infrequent situations where an
+														</t>
+														<t style="para.text">objection is based on conditional relevancy. In
+															Paragraph B situations the judge
+														</t>
+														<t style="para.text">decides admissibility by a lesser standard than
+															in those governed by Paragraph
+														</t>
+														<t style="para.text">A, and the jury undertakes the ultimate
+															decision as to probative value.
+														</t>
+													</para.text>
+												</primary.para>
+												<primary.para date.updated="0">
+													<pagebreak num="12" num-string="12" prev_page="11" />
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(c) In making the determinations called for by
+															Paragraph A the trial judge
+														</t>
+														<t style="para.text">should generally apply the preponderance of
+															evidence standard. McCormick
+														</t>
+														<t style="para.text">states that this is “[t]he most commonly
+															accepted standard” (
+														</t>
+														<cite>
+															<ref author="C. McCormick" date="1984" normalpub="mccorev3"
+																noteref="8" pageref="136" ref.id="Id2e68f50241411e68b798696bfab1886"
+																secref="53">
+																<t style="ref">C. McCormick, On </t>
+																<t style="ref">Evidence </t>
+																<t style="ref cgt">§ </t>
+																<t style="ref">53, at 136 n.8 (3d ed. 1984)</t>
+															</ref>
+														</cite>
+														<t style="para.text">) and has generally not given the courts </t>
+														<t style="para.text">difficulty. If, of course, the law prescribes a
+															particular foundation or sets forth
+														</t>
+														<t style="para.text">other special prerequisites for the
+															admissibility of evidence, those requirements
+														</t>
+														<t style="para.text">must be met. See, e.g., </t>
+														<cite>
+															<ref ref.id="Id2e6b660241411e68b798696bfab1886"
+																secrange="y" secref="602 and 901 et seq.">
+																<t style="ref">Arts. 602 and 901 et seq.</t>
+															</ref>
+														</cite>
+														<t style="para.text"> (sufficient to support a finding); </t>
+														<t style="para.text">Art. 1103, </t>
+														<cite>
+															<ref case.id="1973134140" court="La." date="1973"
+																fjur="La" jur="La" norm.rptr="so2d" p1="State" p2="Prieur"
+																post.rptr="126" pre.rptr="277"
+																ref.id="Id2e70480241411e68b798696bfab1886" title="State v. Prieur">
+																<t style="ref">State v. Prieur, 277 So. 2d 126 (La. 1973)
+																</t>
+															</ref>
+														</cite>
+														<t style="para.text">and </t>
+														<cite>
+															<ref case.id="1984120230" court="La." date="1984"
+																fjur="La" jur="La" norm.rptr="so2d" p1="State" p2="Davis"
+																post.rptr="466" pre.rptr="449"
+																ref.id="Id2e70481241411e68b798696bfab1886" title="State v. Davis">
+																<t style="ref">State v. Davis, 449 So. </t>
+																<t style="ref">2d 466 (La. 1984)</t>
+															</ref>
+														</cite>
+														<t style="para.text"> (clear and convincing evidence of other
+															criminal acts);
+														</t>
+														<cite>
+															<ref normalpub="statute-us-la-revstat" ref.id="Id2e752a0241411e68b798696bfab1886"
+																secref="15:451">
+																<t style="ref">La. </t>
+																<t style="ref">R.S. 15:451</t>
+															</ref>
+														</cite>
+														<t style="para.text"> (requirement for admission of confessions);
+														</t>
+														<cite>
+															<ref case.id="1983127381" court="La." date="1983"
+																fjur="La" jur="La" norm.rptr="so2d" p1="State" p2="Neslo"
+																post.rptr="73" pre.rptr="433"
+																ref.id="Id2e779b0241411e68b798696bfab1886" title="State v. Neslo">
+																<t style="ref">State v. Neslo, 433 So. </t>
+																<t style="ref">2d 73 (La. 1983)</t>
+															</ref>
+														</cite>
+														<t style="para.text"> (proof beyond a reasonable doubt of
+															voluntariness required);
+														</t>
+														<t style="para.text">Art. 801(D)(3)(b) (coconspirator's statements;
+															prima facie standard).
+														</t>
+													</para.text>
+												</primary.para>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(d) The final sentence of Paragraph A is based
+															on the recognition that most of
+														</t>
+														<t style="para.text">the rules of evidence are intended to regulate
+															the quality and reliability of evi
+														</t>
+														<t style="para.text">dence reaching the untrained juror, not the
+															court. Privileged matters receive
+														</t>
+														<t style="para.text">special treatment, however, due to the interest
+															in and need for confidentiality
+														</t>
+														<t style="para.text">as to them. This provision supersedes decisions
+															such as
+														</t>
+														<cite>
+															<ref case.id="1982155093" court="La. Ct. App. 1st Cir."
+																date="1982" fjur="La" jur="La" norm.rptr="so2d"
+																p1="Matter of Succession of Martin" p1.pp="Matter of"
+																post.rptr="1219" pre.rptr="424"
+																ref.id="Id2e7c7d0241411e68b798696bfab1886" title="Matter of Succession of Martin">
+																<t style="ref">Matter of Succession of </t>
+																<t style="ref">Martin, 424 So. 2d 1219 (La. Ct. App. 1st
+																	Cir. 1982)
+																</t>
+															</ref>
+														</cite>
+														<t style="para.text">, which held that a trial </t>
+														<t style="para.text">court may not consider hearsay in determining
+															whether a declarant is unavail
+														</t>
+														<t style="para.text">able for purposes of the hearsay rule. Other
+															examples of preliminary determina
+														</t>
+														<t style="para.text">tions to which this sentence applies include
+															whether the foundation of Article
+														</t>
+														<t style="para.text">608(A)(2) has been established or whether a
+															hearsay declarant was sufficiently
+														</t>
+														<t style="para.text">excited under Article 803(2). Although as to
+															preliminary matters the judge is
+														</t>
+														<t style="para.text">not normally bound by the rules of evidence,
+															the record must reflect the basis
+														</t>
+														<t style="para.text">for the court's decision. As regards claims of
+															privilege, since
+														</t>
+														<cite>
+															<ref artref="1422" normalpub="statute-us-la-cdcivp"
+																ref.id="Id2e83d00241411e68b798696bfab1886">
+																<t style="ref">Article 1422 of the </t>
+																<t style="ref">La. Code of Civil Procedure</t>
+															</ref>
+														</cite>
+														<t style="para.text"> exempts privileged matters from discovery, in
+															some
+														</t>
+														<t style="para.text">cases the trial judge may be called upon to
+															decide the existence of a privilege
+														</t>
+														<t style="para.text">prior to trial rather than during it. The issue
+															may also arise in pretrial discus
+														</t>
+														<t style="para.text">sions in criminal matters.</t>
+													</para.text>
+												</primary.para>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(e) Paragraph B of this Article is based on </t>
+														<cite>
+															<ref normalpub="judicial-us-revid" ref.id="Id2e83d01241411e68b798696bfab1886"
+																ruleref="104" subref="(b)">
+																<t style="ref">Federal Rule of Evidence 104(b)</t>
+															</ref>
+														</cite>
+														<t style="para.text">. It </t>
+														<t style="para.text">is intended to clarify prior Louisiana law. See
+														</t>
+														<cite>
+															<ref case.id="1933127688" court="La. Ct. App. 2d Cir."
+																date="1933" fjur="La" jur="La" norm.rptr="so" p1="Kinnison"
+																p2="Wall" post.rptr="371" pre.rptr="146"
+																ref.id="Id2e83d02241411e68b798696bfab1886" title="Kinnison v. Wall">
+																<t style="ref">Kinnison v. Wall, 146 So. 371 (La. </t>
+																<t style="ref">Ct. App. 2d Cir. 1933)</t>
+															</ref>
+														</cite>
+														<t style="para.text">; </t>
+														<cite>
+															<ref case.id="1943121329" court="La. Ct. App. 1st Cir."
+																date="1942" fjur="La" jur="La" norm.rptr="so2d"
+																p1="Camden Fire Ins. Ass'n" p2="Fontenot" post.rptr="99"
+																pre.rptr="11" ref.id="Id2e90050241411e68b798696bfab1886"
+																title="Camden Fire Ins. Ass'n v. Fontenot">
+																<t style="ref">Camden Fire Ins. Ass'n v. Fontenot, 11 So. 2d
+																	99 (La. Ct.
+																</t>
+																<t style="ref">App. 1st Cir. 1942)</t>
+															</ref>
+														</cite>
+														<t style="para.text">. This provision does not affect preconditions
+															to admissibility
+														</t>
+														<t style="para.text">imposed by particularized rules that are not
+															concerned with conditional
+														</t>
+														<t style="para.text">relevancy. See, e.g., </t>
+														<cite>
+															<ref normalpub="statute-us-la-revstat" ref.id="Id2e90051241411e68b798696bfab1886"
+																secref="15:451">
+																<t style="ref">La. R.S. 15:451</t>
+															</ref>
+														</cite>
+														<t style="para.text"> (free and voluntary confessions); </t>
+														<cite>
+															<ref case.id="1959128308" date="1959" fjur="La" jur="La"
+																norm.rptr="la" p1="State" p2="Brown" post.rptr="562"
+																pre.rptr="236" ref.id="Id2e97580241411e68b798696bfab1886"
+																title="State v. Brown">
+																<t style="ref">State v. </t>
+																<t style="ref">Brown, 236 La. 562, 108 So. 2d 233 (1959)</t>
+															</ref>
+														</cite>
+														<t style="para.text"> (corpus delicti).</t>
+													</para.text>
+												</primary.para>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(f) The phrase “evidence sufficient to support
+															a finding” in Paragraph B is also
+														</t>
+														<t style="para.text">used in Articles 602 and 901. It suggests that
+															the trial court should admit the
+														</t>
+														<t style="para.text">conditionally relevant evidence if the
+															preliminary evidence of the condition is
+														</t>
+														<t style="para.text">such that a rational juror could conclude that
+															the condition exists fulfilled.
+														</t>
+													</para.text>
+												</primary.para>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(g) Paragraph C of this Article is based on </t>
+														<cite>
+															<ref normalpub="judicial-us-revid" ref.id="Id2e97581241411e68b798696bfab1886"
+																ruleref="104" subref="(c)">
+																<t style="ref">Federal Rule of Evidence 104(c)</t>
+															</ref>
+														</cite>
+														<t style="para.text">. It </t>
+														<t style="para.text">includes language originally submitted by the
+															United States Supreme Court's
+														</t>
+														<t style="para.text">Advisory Committee mandating that motions to
+															suppress evidence be conducted
+														</t>
+														<t style="para.text">out of the hearing of the jury. That additional
+															language was inexplicably deleted
+														</t>
+														<t style="para.text">from the final federal source provision. See
+														</t>
+														<cite>
+															<ref normalpub="miscpub" ref.id="Id2ea86f0241411e68b798696bfab1886">
+																<t style="ref">1 J. Weinstein &amp; M. Berger, </t>
+																<t style="ref">Weinstein's Evidence </t>
+																<t style="ref cgt">¶ </t>
+																<t style="ref">104[10] (1982)</t>
+															</ref>
+														</cite>
+														<t style="para.text">. It does not change Louisiana law. See </t>
+														<cite>
+															<ref normalpub="statute-us-la-revstat" ref.id="Id2eaae00241411e68b798696bfab1886"
+																secref="15:451">
+																<t style="ref">La. R.S. 15:451</t>
+															</ref>
+														</cite>
+														<t style="para.text">; </t>
+														<cite>
+															<ref artref="703" normalpub="statute-us-la-cdcrimp"
+																ref.id="Id2eaae01241411e68b798696bfab1886">
+																<t style="ref">La. C.Cr.P. Arts. 703</t>
+															</ref>
+															<t style="para.text">, </t>
+															<ref artref="794" normalpub="statute-us-la-cdcrimp"
+																ref.id="Id2eaae02241411e68b798696bfab1886">
+																<t style="ref">794</t>
+															</ref>
+														</cite>
+														<t style="para.text">. As in the federal model, in this </t>
+														<t style="para.text">Paragraph and in Article 103(C), no attempt has
+															been made to detail what
+														</t>
+														<t style="para.text">other matters should be heard out of the
+															hearing of the jury, except for the al
+														</t>
+														<t style="para.text">leged confessions and admissions of accuseds.
+															See
+														</t>
+														<cite>
+															<ref ref.id="Id2eb9860241411e68b798696bfab1886"
+																secref="104" subref="(A)">
+																<t style="ref">Art. 104(A)</t>
+															</ref>
+														</cite>
+														<t style="para.text">; </t>
+														<cite>
+															<ref case.id="1964124873" date="1964" fjur="Sup Ct"
+																jur="US" norm.rptr="us" p1="Jackson" p2="Denno"
+																post.rptr="368" pre.rptr="378"
+																ref.id="Id2ebbf70241411e68b798696bfab1886" title="Jackson v. Denno">
+																<t style="ref">Jackson v. Denno, </t>
+																<t style="ref">378 U.S. 368, 84 S. Ct. 1774, 12 L. Ed. 2d
+																	908 (1964)
+																</t>
+															</ref>
+														</cite>
+														<t style="para.text">; </t>
+														<cite>
+															<ref normalpub="miscpub" ref.id="Id2ebbf71241411e68b798696bfab1886">
+																<t style="ref">1 J. Weinstein &amp; M. </t>
+																<t style="ref">Berger, Weinstein's Evidence </t>
+																<t style="ref cgt">¶ </t>
+																<t style="ref">104[07] (1982)</t>
+															</ref>
+														</cite>
+														<t style="para.text">.</t>
+													</para.text>
+												</primary.para>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(h) Paragraph D of this Article is based
+															substantially on
+														</t>
+														<cite>
+															<ref normalpub="judicial-us-revid" ref.id="Id2ebe680241411e68b798696bfab1886"
+																ruleref="104" subref="(e)">
+																<t style="ref">Federal Rule of Evi</t>
+																<t style="ref">dence 104(e)</t>
+															</ref>
+														</cite>
+														<t style="para.text">. It is not intended to change prior Louisiana
+															law. See former La.
+														</t>
+														<t style="para.text">R.S. 15:462. The use of the phrase “at the
+															trial” instead of “before the jury,”
+														</t>
+														<t style="para.text">which is used in the federal rule, makes clear
+															that this rule is applicable in both
+														</t>
+														<pagebreak num="13" num-string="13" prev_page="12" />
+														<t style="para.text">jury and bench trials.</t>
+													</para.text>
+												</primary.para>
+											</official.commentary>
+											<editorial.commentary date.updated="0">
+												<head align="c" toc.include="y" date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<name date.updated="0">
+															<t style="bold.1">AUTHORS' COMMENTS</t>
+														</name>
+														<t style="name.block cgt">
+														</t>
+													</name.block>
+												</head>
+												<para date.updated="0" first.para="yes">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">At a trial, the judge has the power to regulate
+															and control the
+														</t>
+														<t style="para.text.1">proceedings in his court. As to factual or
+															legal determinations
+														</t>
+														<t style="para.text.1">during a trial, the judge will determine
+															questions of law while
+														</t>
+														<t style="para.text.1">the jury will determine questions of fact.</t>
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">However, a number of issues such as the
+															competency or qualifi
+														</t>
+														<t style="para.text.1">cation of a person to be a witness,</t>
+														<t style="para.text.2 super cgt">1</t>
+														<xref id="28" type="footnote" />
+														<t style="para.text.1"> the existence of a privilege,</t>
+														<t style="para.text.2 super cgt">2</t>
+														<xref id="29" type="footnote" />
+														<t style="para.text.1">
+														</t>
+														<t style="para.text.1">and the admissibility of evidence often depend
+															on the determina
+														</t>
+														<t style="para.text.1">tion of certain preliminary factual questions
+															that may be in
+														</t>
+														<t style="para.text.1">dispute. Under Article 104(A), which is based
+															substantially on
+														</t>
+														<cite>
+															<ref normalpub="judicial-us-revid" ref.id="Id2ec34a0241411e68b798696bfab1886"
+																ruleref="104" subref="(a)">
+																<t style="ref.2">Federal Rule of Evidence 104(a)</t>
+															</ref>
+														</cite>
+														<t style="para.text.1">, these preliminary questions of </t>
+														<t style="para.text.1">fact shall be determined by the trial judge. In
+															making these
+														</t>
+														<t style="para.text.1">determinations, the judge should apply the
+															preponderance of the
+														</t>
+														<t style="para.text.1">evidence standard unless the law prescribes a
+															particular founda
+														</t>
+														<t style="para.text.1">tion or sets forth other special prerequisites
+															for the admissibility
+														</t>
+														<t style="para.text.1">of evidence.</t>
+														<t style="para.text.2 super cgt">3</t>
+														<xref id="30" type="footnote" />
+														<t style="para.text.1"> Except for privilege questions, the judge is
+															not bound
+														</t>
+														<t style="para.text.1">by the rules of evidence in making his
+															determination.
+														</t>
+														<t style="para.text.2 super cgt">4</t>
+														<xref id="31" type="footnote" />
+														<t style="para.text.1"> This is </t>
+														<t style="para.text.1">based on the recognition that most of the rules
+															of evidence are
+														</t>
+														<t style="para.text.1">intended to regulate the quality and
+															reliability of evidence reach
+														</t>
+														<t style="para.text.1">ing the untrained juror, not the judge.</t>
+														<t style="para.text.2 super cgt">5</t>
+														<xref id="32" type="footnote" />
+														<t style="para.text.1"> For example, in determin</t>
+														<t style="para.text.1">ing whether a hearsay statement by a declarant
+															falls under the
+														</t>
+														<t style="para.text.1">present sense impression exception to the
+															hearsay rule, the judge
+														</t>
+														<t style="para.text.1">may consider evidence that is inadmissible at
+															the trial. Even
+														</t>
+														<t style="para.text.1">though as to preliminary matters the judge is
+															not normally bound
+														</t>
+														<pagebreak num="14" num-string="14" prev_page="13" />
+														<t style="para.text.1">by the rules of evidence, the record must
+															reflect the basis for the
+														</t>
+														<t style="para.text.1">court's decision.</t>
+														<t style="para.text.2 super cgt">6</t>
+														<xref id="33" type="footnote" />
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">Hearings on preliminary matters that must be
+															determined by
+														</t>
+														<t style="para.text.1">the trial judge under this Article should
+															generally be conducted
+														</t>
+														<t style="para.text.1">out of the hearing of the jury.</t>
+														<t style="para.text.2 super cgt">7</t>
+														<xref id="34" type="footnote" />
+														<t style="para.text.1"> The purpose of this requirement is </t>
+														<t style="para.text.1">to prevent the jury from being prejudiced by
+															hearing evidence
+														</t>
+														<t style="para.text.1">that may later be ruled inadmissible. The judge
+															has great discre
+														</t>
+														<t style="para.text.1">tion as to which matters should be determined
+															within the hear
+														</t>
+														<t style="para.text.1">ing of the jury. However, hearings on the
+															voluntariness of a
+														</t>
+														<t style="para.text.1">confession or admission by the accused or
+															evidence allegedly
+														</t>
+														<t style="para.text.1">unlawfully obtained should always be conducted
+															out of the hear
+														</t>
+														<t style="para.text.1">ing of the jury.</t>
+														<t style="para.text.2 super cgt">8</t>
+														<xref id="35" type="footnote" />
+														<t style="para.text.1"> It should also be noted that the judge may </t>
+														<t style="para.text.1">determine many preliminary matters at pre-trial
+															hearings. When
+														</t>
+														<t style="para.text.1">this occurs, it is not necessary for the judge
+															to conduct additional
+														</t>
+														<t style="para.text.1">hearings on the matters before the presentation
+															of the evidence
+														</t>
+														<t style="para.text.1">to the jury.</t>
+														<t style="para.text.2 super cgt">9</t>
+														<xref id="36" type="footnote" />
+														<t style="para.text.1"> Finally, the preliminary determination by a
+															trial
+														</t>
+														<t style="para.text.1">judge that evidence is admissible does not
+															limit the right of a
+														</t>
+														<t style="para.text.1">party to introduce evidence relevant to weight
+															or credibility at
+														</t>
+														<t style="para.text.1">trial.</t>
+														<t style="para.text.2 super cgt">10</t>
+														<xref id="37" type="footnote" />
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">Sometimes the relevancy of a particular item of
+															evidence
+														</t>
+														<t style="para.text.1">depends on the fulfillment of a related
+															condition of fact. This sit
+														</t>
+														<t style="para.text.1">uation is known as conditional relevancy and is
+															governed by
+														</t>
+														<t style="para.text.1">Paragraph B of the Article. Under Paragraph B,
+															it is the jury, not
+														</t>
+														<t style="para.text.1">the judge, who determines issues of conditional
+															relevance. The
+														</t>
+														<t style="para.text.1">judge has the discretion to admit conditionally
+															relevant evidence
+														</t>
+														<t style="para.text.1">“upon, or subject to, the introduction of
+															evidence sufficient to sup
+														</t>
+														<t style="para.text.1">port a finding of the fulfillment of the
+															condition.” This means that
+														</t>
+														<t style="para.text.1">the judge could admit the conditionally
+															relevant evidence prior
+														</t>
+														<pagebreak num="15" num-string="15" prev_page="14" />
+														<t style="para.text.1">to, or after, the introduction of sufficient
+															evidence such that a
+														</t>
+														<t style="para.text.1">reasonable jury could find that the condition
+															was met. For
+														</t>
+														<t style="para.text.1">example, when a spoken statement is relied upon
+															to prove notice
+														</t>
+														<t style="para.text.1">to X, the statement has no relevance to the
+															case unless it is
+														</t>
+														<t style="para.text.1">proven that X heard the statement.</t>
+														<t style="para.text.2 super cgt">11</t>
+														<xref id="38" type="footnote" />
+														<t style="para.text.1"> If the judge admits the </t>
+														<t style="para.text.1">conditionally relevant evidence prior to the
+															introduction of the
+														</t>
+														<t style="para.text.1">preliminary evidence sufficient to fulfill the
+															condition, the
+														</t>
+														<t style="para.text.1">proponent of the evidence then has a duty to
+															“connect up” or “link
+														</t>
+														<t style="para.text.1">up” the conditionally relevant evidence at a
+															later time. When the
+														</t>
+														<t style="para.text.1">proponent proceeds to link up the conditionally
+															relevant evidence,
+														</t>
+														<t style="para.text.1">the jury, as the finder of fact, then
+															determines whether the condi
+														</t>
+														<t style="para.text.1">tion has been met. If after all the evidence is
+															in on the issue, and
+														</t>
+														<t style="para.text.1">the judge determines that a reasonable jury
+															could determine that
+														</t>
+														<t style="para.text.1">the condition was established, the issue is for
+															them. On the other
+														</t>
+														<t style="para.text.1">hand, if the judge determines that the evidence
+															is not such as to
+														</t>
+														<t style="para.text.1">allow a finding of the condition, after a
+															motion to strike by the
+														</t>
+														<t style="para.text.1">opponent of the evidence, the judge should
+															withdraw the prelimi
+														</t>
+														<t style="para.text.1">nary evidence from the jury's consideration and
+															instruct the jury
+														</t>
+														<t style="para.text.1">to disregard the evidence.</t>
+														<t style="para.text.2 super cgt">12</t>
+														<xref id="39" type="footnote" />
+														<t style="para.text.1"> In the example above, if the spoken </t>
+														<t style="para.text.1">statement is introduced subject to the
+															introduction of evidence
+														</t>
+														<t style="para.text.1">that X heard the statement and such evidence is
+															not produced,
+														</t>
+														<t style="para.text.1">the judge should withdraw the spoken statement
+															from the
+														</t>
+														<t style="para.text.1">consideration of the jury and instruct the jury
+															not to consider the
+														</t>
+														<t style="para.text.1">spoken statement in its deliberations.</t>
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">Alternatively, the judge could admit the
+															conditionally relevant
+														</t>
+														<t style="para.text.1">evidence only after the introduction of the
+															evidence sufficient to
+														</t>
+														<t style="para.text.1">support a finding of the condition. Before the
+															judge admits the
+														</t>
+														<t style="para.text.1">conditionally relevant evidence, he will first
+															decide whether a
+														</t>
+														<t style="para.text.1">reasonable jury could conclude that the
+															condition has been met.
+														</t>
+														<t style="para.text.1">If the judge determines that a reasonable jury
+															could not so
+														</t>
+														<t style="para.text.1">conclude, the jury will not hear the
+															conditionally relevant
+														</t>
+														<t style="para.text.1">evidence. If the judge determines that a
+															reasonable jury could
+														</t>
+														<t style="para.text.1">find that the condition was met, he will allow
+															the jury to hear the
+														</t>
+														<t style="para.text.1">conditionally relevant evidence. The judge may
+															also instruct the
+														</t>
+														<t style="para.text.1">jury that, if it concludes that the condition
+															was not met by a
+														</t>
+														<t style="para.text.1">preponderance of the evidence, it must
+															disregard the condition
+														</t>
+														<t style="para.text.1">ally relevant evidence. In the above example,
+															if the judge, after
+														</t>
+														<t style="para.text.1">hearing evidence of the spoken statement,
+															determines that a rea
+														</t>
+														<t style="para.text.1">sonable jury could not conclude that X heard
+															the statement, he
+														</t>
+														<t style="para.text.1">will not allow the jury to hear the contents of
+															the spoken
+														</t>
+														<t style="para.text.1">statement. However, if the judge determines
+															that a reasonable
+														</t>
+														<t style="para.text.1">jury could conclude that X heard the statement,
+															the judge will al
+														</t>
+														<t style="para.text.1">low the jury to hear the contents of the
+															statement. The jury will
+														</t>
+														<t style="para.text.1">then decide whether X in fact heard the
+															statement.
+														</t>
+													</para.text>
+												</para>
+											</editorial.commentary>
+										</primary.features>
+									</primary.section.body>
+								</primary.section>
+								<pagebreak num="16" num-string="16" prev_page="15" />
+								<primary.section primary.section.type="article"
+									uuid="I43a387d0d68211e3a4e491f0ab88f383" pgwidth="broad"
+									date.revised="0" date.updated="0" element1="designator"
+									prefix1="Art." suffix1=".">
+									<XPPMetaData uuid='I43a387d0d68211e3a4e491f0ab88f383'
+										guid='I3ce35f3202ae11da9c03bd72365340b3' md.uuid='I3ce35f3202ae11da9c03bd72365340b3'
+										md.dmsserial='296365758' md.first_line_cite='LAPRAC&amp;ndash;EVID ART. 105'
+										md.pubpage='ART. 105' md.second_line_cite='La. Prac. Evidence Art. 105 (2017 ed.)'
+										md.normalizedcite='LAPRAC-EVIDART.105' md.doc_family_uuid='I45a3bde1eac711d8b93285946e571caf'
+										md.third_line_cite='' md.pubid='165245'
+										name='Art 105. Limited admissibility' parent_uuid='I39cb32a0a5fc11d9b0c7867999d61bde'>Art
+										105.
+										Limited admissibility
+									</XPPMetaData>
+									<XPPHier uuid='I43a387d0d68211e3a4e491f0ab88f383' name='Art 105. Limited admissibility'
+										parent_uuid='I39cb32a0a5fc11d9b0c7867999d61bde'>Art 105.
+										Limited admissibility
+									</XPPHier>
+									<primary.section.front date.updated="0">
+										<primary.outline.name.block
+											toc.include="y" date.updated="0" all.align="l"
+											all.designator.suffix="." all.label.suffix="."
+											all.element.group="all" all.style="block" all.indent="0"
+											all.capitalization="asis" all.name.block.font.size="11"
+											all.date.updated="0">
+											<label date.updated="0">
+												<t style="label.1">Art</t>
+											</label>
+											<t style="primary.outline.name.block cgt">. </t>
+											<designator date.updated="0">
+												<t style="designator">105</t>
+											</designator>
+											<t style="primary.outline.name.block cgt">. </t>
+											<primary.name date.updated="0">
+												<name date.updated="0">
+													<t style="name">Limited admissibility</t>
+												</name>
+												<t style="primary.name">
+												</t>
+											</primary.name>
+										</primary.outline.name.block>
+									</primary.section.front>
+									<primary.section.body date.updated="0">
+										<primary.official.content
+											date.updated="0">
+											<stat.subsect uuid="Ief99e8502b3d11e7b6a3d85239113e25"
+												sameline="no" date.updated="0">
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">When evidence which is admissible as to one
+														party or for one
+													</t>
+													<t style="stat.text">purpose but not admissible as to another party
+														or for another
+													</t>
+													<t style="stat.text">purpose is admitted, the court, upon request,
+														shall restrict the
+													</t>
+													<t style="stat.text">evidence to its proper scope and instruct the
+														jury accordingly.
+													</t>
+													<t style="stat.text">Failure to restrict the evidence and instruct
+														the jury shall not
+													</t>
+													<t style="stat.text">constitute error absent a request to do so.</t>
+												</stat.text>
+											</stat.subsect>
+										</primary.official.content>
+										<primary.features date.updated="0">
+											<official.commentary uuid="Ief9c0b302b3d11e7b6a3d85239113e25"
+												date.updated="0">
+												<primary.head align="c" date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<name date.updated="0">
+															<t style="bold">LEGISLATIVE COMMENTS</t>
+														</name>
+													</name.block>
+												</primary.head>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">This Article differs somewhat from </t>
+														<cite>
+															<ref normalpub="judicial-us-revid" ref.id="Id2f4c020241411e68b798696bfab1886"
+																ruleref="105">
+																<t style="ref">Federal Rule of Evidence 105</t>
+															</ref>
+														</cite>
+														<t style="para.text">. Although </t>
+														<t style="para.text">generally it follows prior Louisiana law, see
+														</t>
+														<cite>
+															<ref case.id="1978139212" court="La. Ct. App. 2d Cir."
+																date="1978" fjur="La" jur="La" norm.rptr="so2d" p1="Freeman"
+																p2="Bell" post.rptr="197" pre.rptr="366"
+																ref.id="Id2f4c021241411e68b798696bfab1886" title="Freeman v. Bell">
+																<t style="ref">Freeman v. Bell, 366 So. 2d 197 </t>
+																<t style="ref">(La. Ct. App. 2d Cir. 1978)</t>
+															</ref>
+														</cite>
+														<t style="para.text">, in civil cases this Article makes mandatory a
+															class
+														</t>
+														<t style="para.text">of instructions that were formerly
+															discretionary under
+														</t>
+														<cite>
+															<ref artref="1792" normalpub="statute-us-la-cdcivp"
+																ref.id="Id2f4c022241411e68b798696bfab1886" subref="(A)">
+																<t style="ref">Article 1792(A) of the La. </t>
+																<t style="ref">Code of Civil Procedure</t>
+															</ref>
+														</cite>
+														<t style="para.text">.</t>
+													</para.text>
+												</primary.para>
+											</official.commentary>
+											<editorial.commentary date.updated="0">
+												<head align="c" toc.include="y" date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<name date.updated="0">
+															<t style="bold.1">AUTHORS' COMMENTS</t>
+														</name>
+														<t style="name.block cgt">
+														</t>
+													</name.block>
+												</head>
+												<para date.updated="0" first.para="yes">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">Recognizing that evidence may be admissible for
+															one purpose
+														</t>
+														<t style="para.text.1">and not for another or as to one party and not
+															as to another, this
+														</t>
+														<t style="para.text.1">Article directs the trial judge, upon request,
+															to admit the evi
+														</t>
+														<t style="para.text.1">dence for such purpose or as to such party with
+															a limiting instruc
+														</t>
+														<t style="para.text.1">tion to the jury that restricts the scope and
+															purpose of the
+														</t>
+														<t style="para.text.1">evidence. The Article also states that failure
+															of the trial judge to
+														</t>
+														<t style="para.text.1">restrict the evidence and instruct the jury
+															shall not constitute er
+														</t>
+														<t style="para.text.1">ror absent a request to do so.</t>
+														<t style="para.text.2 super cgt">1</t>
+														<xref id="40" type="footnote" />
+														<t style="para.text.1"> On the other hand, the failure of </t>
+														<t style="para.text.1">the trial judge to give a limiting instruction,
+															upon request, consti
+														</t>
+														<t style="para.text.1">tutes error.</t>
+														<t style="para.text.2 super cgt">2</t>
+														<xref id="41" type="footnote" />
+														<t style="para.text.1"> Moreover, in a criminal case, if a limiting
+															instruction
+														</t>
+														<t style="para.text.1">is desired, it is defense counsel's
+															responsibility to request one.
+														</t>
+														<t style="para.text.2 super cgt">3</t>
+														<xref id="42" type="footnote" />
+														<t style="para.text.1">
+														</t>
+														<t style="para.text.1">Because a jury is not present in a bench trial,
+															this article does
+														</t>
+														<t style="para.text.1">not apply in such a trial as the trial judge is
+															presumed to
+														</t>
+														<t style="para.text.1">understand what evidence is admissible and for
+															what purposes.
+														</t>
+														<t style="para.text.2 super cgt">4</t>
+														<xref id="43" type="footnote" />
+													</para.text>
+												</para>
+											</editorial.commentary>
+										</primary.features>
+									</primary.section.body>
+								</primary.section>
+							</primary.hierarchy.body>
+						</primary.hierarchy>
+						<pagebreak num="17" num-string="17" prev_page="16" />
+						<primary.hierarchy pgwidth="broad"
+							primary.hierarchy.type="chapter" uuid="I3f0abbf0a5fc11d9b0c7867999d61bde"
+							date.revised="0" date.updated="0" value="right" page.type="all"
+							left.fixed="Louisiana Evidence" left.format.type="fixed"
+							left.placement="left.center" right.placement="right.center"
+							left.element.value="name" right.format.type="element.value"
+							right.element.value="name" edcomm.font.size="11"
+							edcomm.date.updated="0">
+							<XPPHier uuid='I3f0abbf0a5fc11d9b0c7867999d61bde' name='Chapter 2. Judicial Notice'
+								parent_uuid='I39c713f0a5fc11d9b0c7867999d61bde'>Chapter 2.
+								Judicial Notice
+							</XPPHier>
+							<metadata.block metadata.store="yes">
+								<metadata field="right.running.head">
+									<value></value>
+								</metadata>
+							</metadata.block>
+							<primary.hierarchy.front date.updated="0">
+								<primary.outline.name.block
+									toc.include="y" date.updated="0" labeldesignator.align="l"
+									labeldesignator.capitalization="uc"
+									labeldesignator.element.group="labeldesignator"
+									labeldesignator.style="block" labeldesignator.indent="0"
+									labeldesignator.name.block.font.size="11"
+									labeldesignator.date.updated="0" name.align="l"
+									name.capitalization="uc" name.element.group="name" name.style="block"
+									name.indent="0" name.name.block.font.size="11"
+									name.date.updated="0">
+									<label date.updated="0">
+										<t style="label">Chapter</t>
+									</label>
+									<t style="primary.outline.name.block cgt">
+									</t>
+									<designator date.updated="0">
+										<t style="designator">2</t>
+									</designator>
+									<primary.name date.updated="0">
+										<name date.updated="0">
+											<t style="name">
+											</t>
+											<t style="name.1">Judicial Notice</t>
+										</name>
+									</primary.name>
+								</primary.outline.name.block>
+								<generated.toc>
+									<full.toc></full.toc>
+								</generated.toc>
+							</primary.hierarchy.front>
+							<primary.hierarchy.body date.updated="0">
+								<primary.section primary.section.type="article"
+									uuid="Ia65fb6f0d68211e3b7dd813169fddf2b" pgwidth="broad"
+									date.revised="0" date.updated="0" element1="designator"
+									prefix1="Art." suffix1=".">
+									<XPPMetaData uuid='Ia65fb6f0d68211e3b7dd813169fddf2b'
+										guid='I3ce35f3502ae11da9c03bd72365340b3' md.uuid='I3ce35f3502ae11da9c03bd72365340b3'
+										md.dmsserial='296365778' md.first_line_cite='LAPRAC&amp;ndash;EVID ART. 201'
+										md.pubpage='ART. 201' md.second_line_cite='La. Prac. Evidence Art. 201 (2017 ed.)'
+										md.normalizedcite='LAPRAC-EVIDART.201' md.doc_family_uuid='I45a3bde2eac711d8b93285946e571caf'
+										md.third_line_cite='' md.pubid='165245'
+										name='Art 201. Judicial notice of adjudicative facts generally'
+										parent_uuid='I3f0abbf0a5fc11d9b0c7867999d61bde'>Art 201.
+										Judicial notice of adjudicative facts
+										generally
+									</XPPMetaData>
+									<XPPHier uuid='Ia65fb6f0d68211e3b7dd813169fddf2b'
+										name='Art 201. Judicial notice of adjudicative facts generally'
+										parent_uuid='I3f0abbf0a5fc11d9b0c7867999d61bde'>Art 201.
+										Judicial notice of adjudicative facts
+										generally
+									</XPPHier>
+									<primary.section.front date.updated="0">
+										<primary.outline.name.block
+											toc.include="y" date.updated="0" all.align="l"
+											all.designator.suffix="." all.label.suffix="."
+											all.element.group="all" all.style="block" all.indent="0"
+											all.capitalization="asis" all.name.block.font.size="11"
+											all.date.updated="0">
+											<label date.updated="0">
+												<t style="label.1">Art</t>
+											</label>
+											<t style="primary.outline.name.block cgt">. </t>
+											<designator date.updated="0">
+												<t style="designator">201</t>
+											</designator>
+											<t style="primary.outline.name.block cgt">. </t>
+											<primary.name date.updated="0">
+												<name date.updated="0">
+													<t style="name">Judicial notice of adjudicative facts generally
+													</t>
+												</name>
+												<t style="primary.name">
+												</t>
+											</primary.name>
+										</primary.outline.name.block>
+									</primary.section.front>
+									<primary.section.body date.updated="0">
+										<primary.official.content
+											date.updated="0">
+											<stat.subsect uuid="I41639f40580811e79de69e924078ecad"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="bold.2">A.</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+														<name date.updated="0">
+															<t style="bold.2">Scope of Article.</t>
+														</name>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">This Article governs only judicial notice </t>
+													<t style="stat.text">of adjudicative facts. An “adjudicative fact” is
+														a fact normally
+													</t>
+													<t style="stat.text">determined by the trier of fact.</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="I41676fd0580811e79de69e924078ecad"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="bold.2">B.</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+														<name date.updated="0">
+															<t style="bold.2">Kinds of facts.</t>
+														</name>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">A judicially noticed fact must be one not </t>
+													<t style="stat.text">subject to reasonable dispute in that it is
+														either:
+													</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="I416af240580811e79de69e924078ecad"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="designator.2">(1)</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">Generally known within the territorial
+														jurisdiction of the
+													</t>
+													<t style="stat.text">trial court; or</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="I416d1520580811e79de69e924078ecad"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="designator.2">(2)</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">Capable of accurate and ready determination by
+														resort to
+													</t>
+													<t style="stat.text">sources whose accuracy cannot reasonably be
+														questioned.
+													</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="I416f3800580811e79de69e924078ecad"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="bold.2">C.</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+														<name date.updated="0">
+															<t style="bold.2">When discretionary.</t>
+														</name>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">A court may take judicial notice, </t>
+													<t style="stat.text">whether requested or not.</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="I41707080580811e79de69e924078ecad"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="bold.2">D.</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+														<name date.updated="0">
+															<t style="bold.2">When mandatory.</t>
+														</name>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">A court shall take judicial notice upon </t>
+													<t style="stat.text">request if supplied with the information
+														necessary for the court
+													</t>
+													<t style="stat.text">to determine that there is no reasonable dispute
+														as to the fact.
+													</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="I41729360580811e79de69e924078ecad"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="bold.2">E.</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+														<name date.updated="0">
+															<t style="bold.2">Opportunity to be heard.</t>
+														</name>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">A party is entitled upon timely </t>
+													<t style="stat.text">request to an opportunity to be heard as to the
+														propriety of tak
+													</t>
+													<t style="stat.text">ing judicial notice and the tenor of the matter
+														noticed. In the
+													</t>
+													<t style="stat.text">absence of prior opportunity to be heard, the
+														request may be
+													</t>
+													<t style="stat.text">made after judicial notice has been taken.</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="I4173cbe0580811e79de69e924078ecad"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="bold.2">F.</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+														<name date.updated="0">
+															<t style="bold.2">Time of taking notice.</t>
+														</name>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">A party may request judicial notice </t>
+													<t style="stat.text">at any stage of the proceeding but shall not do
+														so in the hearing
+													</t>
+													<t style="stat.text">of a jury. Before taking judicial notice of a
+														matter in its instruc
+													</t>
+													<t style="stat.text">tions to the jury, the court shall inform the
+														parties before closing
+													</t>
+													<t style="stat.text">arguments begin.</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="I41752b70580811e79de69e924078ecad"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="bold.2">G.</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+														<name date.updated="0">
+															<t style="bold.2">Instructing jury.</t>
+														</name>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">In a civil case, the court shall instruct </t>
+													<t style="stat.text">the jury to accept as conclusive any fact
+														judicially noticed. In a
+													</t>
+													<t style="stat.text">criminal case, the court shall instruct the jury
+														that it may, but is
+													</t>
+													<t style="stat.text">not required to, accept as conclusive any fact
+														judicially noticed.
+													</t>
+												</stat.text>
+											</stat.subsect>
+										</primary.official.content>
+										<primary.features date.updated="0">
+											<official.commentary uuid="I41768b00580811e79de69e924078ecad"
+												date.updated="0">
+												<primary.head align="c" date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<name date.updated="0">
+															<t style="bold">LEGISLATIVE COMMENTS</t>
+														</name>
+													</name.block>
+												</primary.head>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(a) This Article is intended to codify and
+															clarify prior Louisiana law and does
+														</t>
+														<t style="para.text">not substantially change it. This Article
+															generally follows
+														</t>
+														<cite>
+															<ref normalpub="judicial-us-revid" ref.id="Ie55cdec0b45a11e0af82cf6e7edf7251"
+																ruleref="201">
+																<t style="ref">Federal Rule of Evi</t>
+																<t style="ref">dence 201</t>
+															</ref>
+														</cite>
+														<t style="para.text">.</t>
+													</para.text>
+												</primary.para>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(b) Paragraph A states that this Article does
+															not control judicial notice of facts
+														</t>
+														<t style="para.text">in all situations. It recognizes that there is
+															a difference between so-called
+														</t>
+														<t style="para.text">“adjudicative facts,” which are defined in
+															Paragraph A and to which this Article
+														</t>
+														<t style="para.text">applies, and “legislative facts,” which are not
+															governed by the Article. The defi
+														</t>
+														<t style="para.text">nition of adjudicative facts given in Paragraph
+															A is based on that given in
+														</t>
+														<cite>
+															<ref normalpub="judicial-us-ak-revid" ref.id="Ie55d7b00b45a11e0af82cf6e7edf7251"
+																ruleref="201" subref="(a)">
+																<t style="ref">Alaska Rule of Evidence 201(a)</t>
+															</ref>
+														</cite>
+														<t style="para.text">. Legislative facts are those used by a court
+															“to
+														</t>
+														<t style="para.text">determine law, to declare policy, or to
+															exercise discretion.”
+														</t>
+														<cite>
+															<ref normalpub="miscpub" ref.id="Ie55da210b45a11e0af82cf6e7edf7251">
+																<t style="ref">1 J. Weinstein &amp; M. </t>
+																<t style="ref">Berger, Weinstein's Evidence </t>
+																<t style="ref cgt">¶ </t>
+																<t style="ref">201[02] (1982)</t>
+															</ref>
+														</cite>
+														<t style="para.text"> (definition coined by Professor </t>
+														<pagebreak num="18" num-string="18" prev_page="17" />
+														<t style="para.text">K.C. Davis). In other words, a legislative fact
+															is one determined by a court in
+														</t>
+														<t style="para.text">fashioning legal standards, as when a court
+															must decide upon the constitutional
+														</t>
+														<t style="para.text">validity or interpretation of a statute, or the
+															extension or restriction of a
+														</t>
+														<t style="para.text">judicially created rule on grounds of policy
+															that hinge upon social, economic, po
+														</t>
+														<t style="para.text">litical, or scientific facts. </t>
+														<cite>
+															<ref author="C. McCormick" date="1984" normalpub="mccorev3"
+																pageref="1919" ref.id="Ie55dc920b45a11e0af82cf6e7edf7251"
+																secref="328">
+																<t style="ref">C. McCormick, On Evidence </t>
+																<t style="ref cgt">§ </t>
+																<t style="ref">328, at 1919 (3d ed. </t>
+																<t style="ref">1984)</t>
+															</ref>
+														</cite>
+														<t style="para.text">.</t>
+													</para.text>
+												</primary.para>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(c) Paragraph G must be read in pari materia
+															with Paragraph E, which clearly
+														</t>
+														<t style="para.text">contemplates that a party be given an
+															opportunity to contest the propriety of
+														</t>
+														<t style="para.text">taking judicial notice before a court has made
+															its ultimate conclusion on the
+														</t>
+														<t style="para.text">matter and removed it from consideration by the
+															fact-finder.
+														</t>
+													</para.text>
+												</primary.para>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(d) This Article should be read in pari materia
+															with
+														</t>
+														<cite>
+															<ref ref.id="Ie55e1740b45a11e0af82cf6e7edf7251"
+																short="y">
+																<t style="ref">Article 104 of this Code</t>
+															</ref>
+														</cite>
+														<t style="para.text">, </t>
+														<t style="para.text">which specifically provides that certain
+															preliminary factual questions “shall be
+														</t>
+														<t style="para.text">determined by the court” without its being
+															“bound by the rules of evidence,” and
+														</t>
+														<t style="para.text">Article 202, which deals with judicial notice
+															of various matters of law.
+														</t>
+													</para.text>
+												</primary.para>
+											</official.commentary>
+											<editorial.commentary date.updated="0">
+												<head align="c" toc.include="y" date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<name date.updated="0">
+															<t style="bold.1">AUTHORS' COMMENTS</t>
+														</name>
+														<t style="name.block cgt">
+														</t>
+													</name.block>
+												</head>
+												<para date.updated="0" first.para="yes">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">When a court judicially notices a matter, it
+															accepts the matter
+														</t>
+														<t style="para.text.1">as true without requiring the proffering party
+															to offer formal evi
+														</t>
+														<t style="para.text.1">dence because the matter is indisputable either
+															as a matter of
+														</t>
+														<t style="para.text.1">notoriety in the common knowledge or is easily
+															capable of quick
+														</t>
+														<t style="para.text.1">verification. However, since judicial notice is
+															equivalent to and a
+														</t>
+														<t style="para.text.1">substitute for evidence, only otherwise
+															admissible facts should be
+														</t>
+														<t style="para.text.1">noticed; it is improper to judicially notice a
+															disputed material
+														</t>
+														<t style="para.text.1">issue.</t>
+														<t style="para.text.2 super cgt">1</t>
+														<xref id="44" type="footnote" />
+														<t style="para.text.1"> Facts are judicially noticed to save the time
+															and expense
+														</t>
+														<t style="para.text.1">involved in the introduction of evidence to
+															prove the matter.
+														</t>
+														<t style="para.text.1">Judicial notice may be taken by the trial court
+														</t>
+														<t style="para.text.2 super cgt">2</t>
+														<xref id="45" type="footnote" />
+														<t style="para.text.1"> as well as the ap</t>
+														<t style="para.text.1">pellate court.</t>
+														<t style="para.text.2 super cgt">3</t>
+														<xref id="46" type="footnote" />
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<cite>
+															<ref artref="201" normalpub="statute-us-la-cdevi"
+																ref.id="Ie561c0c0b45a11e0af82cf6e7edf7251">
+																<t style="ref.2">Article 201 of the Louisiana Code of Evidence
+																</t>
+															</ref>
+														</cite>
+														<t style="para.text.1"> governs judicial </t>
+														<pagebreak num="19" num-string="19" prev_page="18" />
+														<t style="para.text.1">notice of adjudicative facts. An adjudicative
+															fact is one normally
+														</t>
+														<t style="para.text.1">determined by the trier of fact. “When a court
+															or an agency finds
+														</t>
+														<t style="para.text.1">facts concerning the immediate parties—who did
+															what, where,
+														</t>
+														<t style="para.text.1">when, how, and with what motive or intent—the
+															court or agency
+														</t>
+														<t style="para.text.1">is performing an adjudicative function, and the
+															facts are
+														</t>
+														<t style="para.text.1">conveniently called adjudicative facts . . . .”
+														</t>
+														<t style="para.text.2 super cgt">4</t>
+														<xref id="47" type="footnote" />
+														<t style="para.text.1"> This Article does </t>
+														<t style="para.text.1">not cover judicial notice of legislative facts.
+															As stated in the of
+														</t>
+														<t style="para.text.1">ficial comments, legislative facts are those
+															used by a court to
+														</t>
+														<t style="para.text.1">determine law, to declare policy, or to
+															exercise discretion.
+														</t>
+														<t style="para.text.2 super cgt">5</t>
+														<xref id="48" type="footnote" />
+														<t style="para.text.1">
+														</t>
+														<t style="para.text.1">Legislative facts pertain to the history and
+															meaning of an act of
+														</t>
+														<t style="para.text.1">the legislature. An example of a legislative
+															fact is the legislative
+														</t>
+														<t style="para.text.1">history that resulted in a particular act of
+															the legislature. To
+														</t>
+														<t style="para.text.1">understand the intent of a particular statute,
+															the trial judge
+														</t>
+														<t style="para.text.1">might want to understand the context in which
+															the statute was
+														</t>
+														<t style="para.text.1">enacted. In exploring the intent behind the
+															statute, the trial
+														</t>
+														<t style="para.text.1">judge can consult all resources necessary to
+															ensure that he has
+														</t>
+														<t style="para.text.1">the proper understanding of the statute.
+															Because a judge is unre
+														</t>
+														<t style="para.text.1">stricted in his investigation and conclusion
+															while determining the
+														</t>
+														<t style="para.text.1">content or applicability of a rule of law, “he
+															may reject the
+														</t>
+														<t style="para.text.1">propositions of either or of both parties; he
+															may consult the
+														</t>
+														<t style="para.text.1">sources of pertinent data to which they refer,
+															or he may refuse to
+														</t>
+														<t style="para.text.1">do so; and he may also make an independent
+															search for persuasive
+														</t>
+														<t style="para.text.1">data or rest content with what he has or what
+															the parties
+														</t>
+														<t style="para.text.1">present.”</t>
+														<t style="para.text.2 super cgt">6</t>
+														<xref id="49" type="footnote" />
+														<t style="para.text.1"> These facts are known as legislative facts. In
+															other
+														</t>
+														<t style="para.text.1">words, a legislative fact is one determined by
+															a court in fashion
+														</t>
+														<t style="para.text.1">ing legal standards.</t>
+														<t style="para.text.2 super cgt">7</t>
+														<xref id="50" type="footnote" />
+														<t style="para.text.1"> There is no rule of evidence governing the </t>
+														<t style="para.text.1">judge's use of legislative facts.</t>
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">Judicially noticing adjudicative facts has
+															followed a tradition of
+														</t>
+														<t style="para.text.1">caution where the matter is required to be
+															beyond reasonable
+														</t>
+														<pagebreak num="20" num-string="20" prev_page="19" />
+														<t style="para.text.1">controversy.</t>
+														<t style="para.text.2 super cgt">8</t>
+														<xref id="51" type="footnote" />
+														<t style="para.text.1"> In order for an adjudicative fact to be
+															judicially
+														</t>
+														<t style="para.text.1">noticed in Louisiana, Paragraph B requires that
+															it be one not
+														</t>
+														<t style="para.text.1">subject to reasonable dispute in that it is
+															either generally known
+														</t>
+														<t style="para.text.1">within the territorial jurisdiction of the
+															trial court (for example,
+														</t>
+														<t style="para.text.1">Lake Charles is located in Calcasieu Parish)
+														</t>
+														<t style="para.text.2 super cgt">9</t>
+														<xref id="52" type="footnote" />
+														<t style="para.text.1"> or capable of ac</t>
+														<t style="para.text.1">curate and ready determination by resort to
+															sources whose ac
+														</t>
+														<t style="para.text.1">curacy cannot be questioned (there were 29 days
+															in February in
+														</t>
+														<t style="para.text.1">1968).</t>
+														<t style="para.text.2 super cgt">10</t>
+														<xref id="53" type="footnote" />
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">Matters that are susceptible of judicial notice
+															because of their
+														</t>
+														<t style="para.text.1">universal recognition as forming part of the
+															common knowledge
+														</t>
+														<t style="para.text.1">are many and varied. In Louisiana, judicial
+															notice has been taken
+														</t>
+														<t style="para.text.1">of geographical facts,</t>
+														<t style="para.text.2 super cgt">11</t>
+														<xref id="54" type="footnote" />
+														<t style="para.text.1"> facts of nature,</t>
+														<t style="para.text.2 super cgt">12</t>
+														<xref id="55" type="footnote" />
+														<t style="para.text.1"> time measurement,</t>
+														<t style="para.text.2 super cgt">13</t>
+														<xref id="56" type="footnote" />
+														<t style="para.text.1">
+														</t>
+														<pagebreak num="21" num-string="21" prev_page="20" />
+														<t style="para.text.1">facts of the calendar,</t>
+														<t style="para.text.2 super cgt">14</t>
+														<xref id="57" type="footnote" />
+														<t style="para.text.1"> the prevailing racial and social conditions
+														</t>
+														<t style="para.text.1">of the state,</t>
+														<t style="para.text.2 super cgt">15</t>
+														<xref id="58" type="footnote" />
+														<t style="para.text.1"> scientific principles,</t>
+														<t style="para.text.2 super cgt">16</t>
+														<xref id="59" type="footnote" />
+														<t style="para.text.1"> the general existent custom </t>
+														<t style="para.text.1">under which divorced women are known,</t>
+														<t style="para.text.2 super cgt">17</t>
+														<xref id="60" type="footnote" />
+														<t style="para.text.1"> the list of elected of</t>
+														<t style="para.text.1">ficials in the Louisiana Secretary of State's
+															“Elected Official
+														</t>
+														<t style="para.text.1">Database,”</t>
+														<t style="para.text.2 super cgt">18</t>
+														<xref id="61" type="footnote" />
+														<t style="para.text.1"> and various other miscellaneous matters.</t>
+														<t style="para.text.2 super cgt">19</t>
+														<xref id="62" type="footnote" />
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<pagebreak num="22" num-string="22" prev_page="21" />
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">Although the terms “judicial knowledge” and
+															“judicial notice”
+														</t>
+														<t style="para.text.1">are often confused, they are used to denote
+															separate and distinct
+														</t>
+														<t style="para.text.1">concepts. The former generally refers to
+															knowledge that an indi
+														</t>
+														<t style="para.text.1">vidual gains because of his position, while the
+															latter refers to
+														</t>
+														<t style="para.text.1">matters that are within the common knowledge of
+															all persons of
+														</t>
+														<t style="para.text.1">common understanding and intelligence. The
+															distinction is
+														</t>
+														<t style="para.text.1">important because a judge can judicially notice
+															only matters of
+														</t>
+														<t style="para.text.1">common knowledge and not facts merely within
+															his personal
+														</t>
+														<t style="para.text.1">knowledge.</t>
+														<t style="para.text.2 super cgt">20</t>
+														<xref id="63" type="footnote" />
+														<t style="para.text.1"> Furthermore, a judge may not visit an accident
+															site
+														</t>
+														<t style="para.text.1">to perform tests and measurements and make
+															visual observa
+														</t>
+														<t style="para.text.1">tions without the knowledge, consent, or
+															presence of the attorneys
+														</t>
+														<t style="para.text.1">because any factual insight gained through
+															these observations
+														</t>
+														<pagebreak num="23" num-string="23" prev_page="22" />
+														<t style="para.text.1">and calculations are not the type of facts of
+															which judicial notice
+														</t>
+														<t style="para.text.1">may be taken.</t>
+														<t style="para.text.2 super cgt">21</t>
+														<xref id="64" type="footnote" />
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">However, a trial judge “may generally conduct
+															an inspection of
+														</t>
+														<t style="para.text.1">a site if the testimony at trial is so
+															confusing and conflicting that
+														</t>
+														<t style="para.text.1">such an inspection would aid the court in
+															visualizing the disputed
+														</t>
+														<t style="para.text.1">occurrence.”</t>
+														<t style="para.text.2 super cgt">22</t>
+														<xref id="65" type="footnote" />
+														<t style="para.text.1"> This inspection is within the discretionary
+															author
+														</t>
+														<t style="para.text.1">ity of the trial court. However, such an
+															inspection is properly
+														</t>
+														<t style="para.text.1">done with the presence of the attorneys.</t>
+														<t style="para.text.2 super cgt">23</t>
+														<xref id="66" type="footnote" />
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">In </t>
+														<cite>
+															<ref ref.id="Ie569b001b45a11e0af82cf6e7edf7251"
+																short="y">
+																<t style="ref.3">State v. Hotoph</t>
+															</ref>
+														</cite>
+														<t style="para.text.1">,</t>
+														<t style="para.text.2 super cgt">24</t>
+														<xref id="67" type="footnote" />
+														<t style="para.text.1"> the court held that it is improper for a </t>
+														<t style="para.text.1">court to take judicial notice of an accuser's
+															out-of-court juvenile
+														</t>
+														<t style="para.text.1">record.</t>
+														<t style="para.text.2 super cgt">25</t>
+														<xref id="68" type="footnote" />
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">In </t>
+														<cite>
+															<ref ref.id="Ie56a2530b45a11e0af82cf6e7edf7251"
+																short="y">
+																<t style="ref.3">Hotoph</t>
+															</ref>
+														</cite>
+														<t style="para.text.1">, the defendant had simply attached the un-</t>
+														<t style="para.text.1">introduced evidence to his appellate brief.
+															Since the evidence had
+														</t>
+														<t style="para.text.1">not been introduced at trial, it was beyond the
+															scope of appellate
+														</t>
+														<t style="para.text.1">review.</t>
+														<t style="para.text.2 super cgt">26</t>
+														<xref id="69" type="footnote" />
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">A court is required to take judicial notice
+															upon a party's request
+														</t>
+														<t style="para.text.1">if the court is supplied with the information
+															necessary to
+														</t>
+														<t style="para.text.1">determine that there is no reasonable dispute
+															as to the fact.
+														</t>
+														<t style="para.text.2 super cgt">27</t>
+														<xref id="70" type="footnote" />
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">Thus, “judicial notice is discretionary except
+															when the court is
+														</t>
+														<t style="para.text.1">“supplied with the information necessary for
+															the court to
+														</t>
+														<t style="para.text.1">determine that there is no reasonable dispute
+															as to the fact” for
+														</t>
+														<t style="para.text.1">which judicial notice is sought.”</t>
+														<t style="para.text.2 super cgt">28</t>
+														<xref id="71" type="footnote" />
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">Consequently, when there is not sufficient time
+															for the trial
+														</t>
+														<t style="para.text.1">court and opposing counsel to satisfy their
+															concerns regarding
+														</t>
+														<t style="para.text.1">the information sought to be provided to the
+															jury and to
+														</t>
+														<t style="para.text.1">determine the exact information that would be
+															appropriate to
+														</t>
+														<pagebreak num="24" num-string="24" prev_page="23" />
+														<t style="para.text.1">present to the jury, the trial court does not
+															commit error when it
+														</t>
+														<t style="para.text.1">refuses to take judicial notice.</t>
+														<t style="para.text.2 super cgt">29</t>
+														<xref id="72" type="footnote" />
+													</para.text>
+												</para>
+											</editorial.commentary>
+										</primary.features>
+									</primary.section.body>
+								</primary.section>
+								<primary.section primary.section.type="article"
+									uuid="Ia6cc0d50d68211e3b7dd813169fddf2b" pgwidth="broad"
+									date.revised="0" date.updated="0" element1="designator"
+									prefix1="Art." suffix1=".">
+									<XPPMetaData uuid='Ia6cc0d50d68211e3b7dd813169fddf2b'
+										guid='I3ce35f3802ae11da9c03bd72365340b3' md.uuid='I3ce35f3802ae11da9c03bd72365340b3'
+										md.dmsserial='296365798' md.first_line_cite='LAPRAC&amp;ndash;EVID ART. 202'
+										md.pubpage='ART. 202' md.second_line_cite='La. Prac. Evidence Art. 202 (2017 ed.)'
+										md.normalizedcite='LAPRAC-EVIDART.202' md.doc_family_uuid='I45a3e4f0eac711d8b93285946e571caf'
+										md.third_line_cite='' md.pubid='165245'
+										name='Art 202. Judicial notice of legal matters' parent_uuid='I3f0abbf0a5fc11d9b0c7867999d61bde'>Art
+										202. Judicial notice of legal matters
+									</XPPMetaData>
+									<XPPHier uuid='Ia6cc0d50d68211e3b7dd813169fddf2b'
+										name='Art 202. Judicial notice of legal matters' parent_uuid='I3f0abbf0a5fc11d9b0c7867999d61bde'>Art
+										202. Judicial notice of legal matters
+									</XPPHier>
+									<primary.section.front date.updated="0">
+										<primary.outline.name.block
+											toc.include="y" date.updated="0" all.align="l"
+											all.designator.suffix="." all.label.suffix="."
+											all.element.group="all" all.style="block" all.indent="0"
+											all.capitalization="asis" all.name.block.font.size="11"
+											all.date.updated="0">
+											<label date.updated="0">
+												<t style="label.1">Art</t>
+											</label>
+											<t style="primary.outline.name.block cgt">. </t>
+											<designator date.updated="0">
+												<t style="designator">202</t>
+											</designator>
+											<t style="primary.outline.name.block cgt">. </t>
+											<primary.name date.updated="0">
+												<name date.updated="0">
+													<t style="name">Judicial notice of legal matters</t>
+												</name>
+												<t style="primary.name">
+												</t>
+											</primary.name>
+										</primary.outline.name.block>
+									</primary.section.front>
+									<primary.section.body date.updated="0">
+										<primary.official.content
+											date.updated="0">
+											<stat.subsect uuid="I8dd12f002b3f11e7a156abe03e79eacc"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="bold.2">A.</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+														<name date.updated="0">
+															<t style="bold.2">Mandatory.</t>
+														</name>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">A court, whether requested to do so or not, </t>
+													<t style="stat.text">shall take judicial notice of the laws of the
+														United States, of
+													</t>
+													<t style="stat.text">every state, territory, and other jurisdiction
+														of the United States,
+													</t>
+													<t style="stat.text">and of the ordinances enacted by any political
+														subdivision within
+													</t>
+													<t style="stat.text">the court's territorial jurisdiction whenever
+														certified copies of the
+													</t>
+													<t style="stat.text">ordinances have been filed with the clerk of
+														that court.
+													</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="I8dd240702b3f11e7a156abe03e79eacc"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="bold.2">B.</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+														<name date.updated="0">
+															<t style="bold.2">Other legal matters.</t>
+														</name>
+													</name.block>
+												</stat.name.block>
+											</stat.subsect>
+											<t style="primary.official.content">
+											</t>
+											<stat.subsect uuid="I8dd32ad02b3f11e7a156abe03e79eacc"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="designator.2">(1)</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">A court shall take judicial notice of the
+														following if a party
+													</t>
+													<t style="stat.text">requests it and provides the court with the
+														information needed
+													</t>
+													<t style="stat.text">by it to comply with the request, and may take
+														judicial notice
+													</t>
+													<t style="stat.text">without request of a party of:</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="I8dd3c7102b3f11e7a156abe03e79eacc"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="designator.2">(a)</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">Proclamations of the President of the United
+														States and the
+													</t>
+													<t style="stat.text">governor of this state.</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="I8dd463502b3f11e7a156abe03e79eacc"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="designator.2">(b)</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">Rules of boards, commissions, and agencies of
+														this state
+													</t>
+													<t style="stat.text">that have been duly published and promulgated in
+														the Louisiana
+													</t>
+													<t style="stat.text">Register.</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="I8dd4ff902b3f11e7a156abe03e79eacc"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="designator.2">(c)</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">Ordinances enacted by any political subdivision
+														of the state
+													</t>
+													<t style="stat.text">of Louisiana.</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="I8dd59bd02b3f11e7a156abe03e79eacc"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="designator.2">(d)</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">Rules which govern the practice and procedure in
+														a court of
+													</t>
+													<t style="stat.text">the United States or of any state, territory, or
+														other jurisdiction
+													</t>
+													<t style="stat.text">of the United States, and which have been
+														published in a form
+													</t>
+													<t style="stat.text">which makes them readily accessible.</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="I8dd611002b3f11e7a156abe03e79eacc"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="designator.2">(e)</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">Rules and decisions of boards, commissions, and
+														agencies of
+													</t>
+													<t style="stat.text">the United States or of any state, territory, or
+														other jurisdiction
+													</t>
+													<t style="stat.text">of the United States which have been duly
+														published and
+													</t>
+													<t style="stat.text">promulgated and which have the effect of law
+														within their re
+													</t>
+													<t style="stat.text">spective jurisdictions.</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="I8dd686302b3f11e7a156abe03e79eacc"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="designator.2">(f)</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">Law of foreign countries, international law, and
+														maritime
+													</t>
+													<t style="stat.text">law.</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="I8dd6fb602b3f11e7a156abe03e79eacc"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="designator.2">(2)</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">A party who requests that judicial notice be
+														taken and the
+													</t>
+													<t style="stat.text">court, if notice is taken without request shall
+														give reasonable no
+													</t>
+													<t style="stat.text">tice during trial to all other parties.</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="I8dd770902b3f11e7a156abe03e79eacc"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="bold.2">C.</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+														<name date.updated="0">
+															<t style="bold.2">Information by court.</t>
+														</name>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">The court may inform itself of any </t>
+													<t style="stat.text">of the foregoing legal matters in such manner as
+														it may deem
+													</t>
+													<t style="stat.text">proper, and the court may call upon counsel to
+														aid it in obtaining
+													</t>
+													<t style="stat.text">such information.</t>
+												</stat.text>
+											</stat.subsect>
+											<pagebreak num="25" num-string="25" prev_page="24" />
+											<stat.subsect uuid="I8dd833e02b3f11e7a156abe03e79eacc"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="bold.2">D.</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+														<name date.updated="0">
+															<t style="bold.2">Time of taking notice.</t>
+														</name>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">Judicial notice of the foregoing </t>
+													<t style="stat.text">legal matters may be taken at any stage of the
+														proceeding,
+													</t>
+													<t style="stat.text">provided that before taking judicial notice of a
+														matter in its
+													</t>
+													<t style="stat.text">instructions to the jury, the court shall inform
+														the parties before
+													</t>
+													<t style="stat.text">closing arguments begin.</t>
+												</stat.text>
+											</stat.subsect>
+											<stat.subsect uuid="I8dd8f7302b3f11e7a156abe03e79eacc"
+												sameline="no" date.updated="0">
+												<stat.name.block date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<designator date.updated="0">
+															<t style="bold.2">E.</t>
+														</designator>
+														<t style="name.block.1 cgt">
+														</t>
+														<name date.updated="0">
+															<t style="bold.2">Question for court.</t>
+														</name>
+														<t style="name.block.1 cgt">
+														</t>
+													</name.block>
+												</stat.name.block>
+												<stat.text date.updated="0" first.para.text="yes">
+													<t style="stat.text">The determination of the foregoing </t>
+													<t style="stat.text">legal matters shall be made by the court.</t>
+												</stat.text>
+											</stat.subsect>
+										</primary.official.content>
+										<primary.features date.updated="0">
+											<official.commentary uuid="I8dd9e1902b3f11e7a156abe03e79eacc"
+												date.updated="0">
+												<primary.head align="c" date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<name date.updated="0">
+															<t style="bold">LEGISLATIVE COMMENTS</t>
+														</name>
+													</name.block>
+												</primary.head>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(a) This Article essentially follows prior
+															Louisiana law. There is no compara
+														</t>
+														<t style="para.text">ble provision in the Federal Rules of Evidence.
+														</t>
+													</para.text>
+												</primary.para>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(b) This Article makes several minor changes in
+															prior law. The approach of
+														</t>
+														<cite>
+															<ref normalpub="statute-us-la-revstat" ref.id="Ie56b5db0b45a11e0af82cf6e7edf7251"
+																secref="13:3712">
+																<t style="ref">La. R.S. 13:3712</t>
+															</ref>
+														</cite>
+														<t style="para.text"> is incorporated in Paragraph A. (</t>
+														<cite>
+															<ref normalpub="statute-us-la-revstat" ref.id="Ie56b5db1b45a11e0af82cf6e7edf7251"
+																secref="13:3712">
+																<t style="ref">La. R.S. 13:3712</t>
+															</ref>
+														</cite>
+														<t style="para.text"> supplemented </t>
+														<t style="para.text">former </t>
+														<cite>
+															<ref normalpub="statute-us-la-revstat" ref.id="Ie56b84c0b45a11e0af82cf6e7edf7251"
+																secref="15:422" subref="(1)">
+																<t style="ref">La. R.S. 15:422(1)</t>
+															</ref>
+														</cite>
+														<t style="para.text">, which provided for judicial notice of “laws”
+															but
+														</t>
+														<t style="para.text">excluded municipal and parochial ordinances.)
+															The Article, however, goes fur
+														</t>
+														<t style="para.text">ther than </t>
+														<cite>
+															<ref normalpub="statute-us-la-revstat" ref.id="Ie56b84c1b45a11e0af82cf6e7edf7251"
+																secref="13:3712">
+																<t style="ref">La. R.S. 13:3712</t>
+															</ref>
+														</cite>
+														<t style="para.text">. First, under Paragraphs A and B, a court must
+															take
+														</t>
+														<t style="para.text">judicial notice of an ordinance of any
+															political subdivision within its jurisdiction
+														</t>
+														<t style="para.text">either when the proper certified copy has been
+															filed with the clerk of court or
+														</t>
+														<t style="para.text">when a party “provides the court any
+															information needed by it to comply with
+														</t>
+														<t style="para.text">the request”; and under Paragraph B alone the
+															court must take judicial notice
+														</t>
+														<t style="para.text">of an ordinance of a political subdivision
+															beyond its territorial jurisdiction
+														</t>
+														<t style="para.text">whenever a party provides the court with the
+															necessary information. The court
+														</t>
+														<t style="para.text">may require a party to furnish certified copies
+															of the ordinance to satisfy the
+														</t>
+														<t style="para.text">“sufficient information” requirement. Second,
+															this Article specifically provides
+														</t>
+														<t style="para.text">for taking judicial notice of administrative
+															rules and regulations and court
+														</t>
+														<t style="para.text">rules, including those of trial courts, so long
+															as they have been published and
+														</t>
+														<t style="para.text">are readily accessible. The rules of various
+															district courts of Louisiana would be
+														</t>
+														<t style="para.text">included because they are now contained in
+															West's Louisiana Rules of Court.
+														</t>
+													</para.text>
+												</primary.para>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(c) The term “law” as used in Paragraph A of
+															this Article includes common
+														</t>
+														<t style="para.text">law as well as statutory law thus incorporating
+															all judicial decisions that are
+														</t>
+														<t style="para.text">authoritative in their respective
+															jurisdictions, and embraces decisions that
+														</t>
+														<t style="para.text">interpret or apply both the common law and
+															statutes.
+														</t>
+													</para.text>
+												</primary.para>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(d) The term “maritime law” as used in
+															Paragraph B of this Article refers to
+														</t>
+														<t style="para.text">those principles and rules of the general
+															maritime law that are recognized by
+														</t>
+														<t style="para.text">the maritime nations of the world.</t>
+													</para.text>
+												</primary.para>
+												<primary.para date.updated="0">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text">(e) A legal matter that is not included in this
+															Article and therefore may not be
+														</t>
+														<t style="para.text">judicially noticed may be established by the
+															usual modes of proof or as may be
+														</t>
+														<t style="para.text">specially provided for by the legislature.</t>
+													</para.text>
+												</primary.para>
+											</official.commentary>
+											<editorial.commentary date.updated="0">
+												<head align="c" toc.include="y" date.updated="0">
+													<name.block toc.include="y" date.updated="0">
+														<name date.updated="0">
+															<t style="bold.1">AUTHORS' COMMENTS</t>
+														</name>
+														<t style="name.block cgt">
+														</t>
+													</name.block>
+												</head>
+												<para date.updated="0" first.para="yes">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">This Article governs judicial notice of legal
+															matters. Although
+														</t>
+														<t style="para.text.1">this Article generally follows prior Louisiana
+															law, it does make
+														</t>
+														<t style="para.text.1">several minor changes in prior law.</t>
+														<t style="para.text.2 super cgt">1</t>
+														<xref id="73" type="footnote" />
+														<t style="para.text.1"> With respect to judicial no</t>
+														<t style="para.text.1">tice of legal matters, some matters are
+															mandatory, and the court
+														</t>
+														<t style="para.text.1">must take judicial notice whether requested to
+															do so by a party
+														</t>
+														<pagebreak num="26" num-string="26" prev_page="25" />
+														<t style="para.text.1">or not; with other matters, the court need only
+															take judicial no
+														</t>
+														<t style="para.text.1">tice if requested to do so by a party or if it
+															deems it necessary in
+														</t>
+														<t style="para.text.1">its discretion. Paragraph A states that a court
+															must take judicial
+														</t>
+														<t style="para.text.1">notice of the laws of the United States, of
+															every state,
+														</t>
+														<t style="para.text.2 super cgt">2</t>
+														<xref id="74" type="footnote" />
+														<t style="para.text.1"> territory, </t>
+														<t style="para.text.1">and other jurisdiction of the United States,
+															and of the ordinances
+														</t>
+														<t style="para.text.1">enacted by any political subdivision within the
+															court's territorial
+														</t>
+														<t style="para.text.1">jurisdiction whenever certified copies of the
+															ordinances have been
+														</t>
+														<t style="para.text.1">filed with the clerk of that court.</t>
+														<t style="para.text.2 super cgt">3</t>
+														<xref id="75" type="footnote" />
+														<t style="para.text.1"> The term “law” in Paragraph A </t>
+														<t style="para.text.1">also refers to judicial decisions that are
+															authoritative in a partic
+														</t>
+														<t style="para.text.1">ular jurisdiction.</t>
+														<t style="para.text.2 super cgt">4</t>
+														<xref id="76" type="footnote" />
+														<t style="para.text.1"> However, a court is not required to take
+															judicial
+														</t>
+														<t style="para.text.1">notice of a non-published opinion from another
+															court even though
+														</t>
+														<t style="para.text.1">the decision is found in an electronic database
+															because the
+														</t>
+														<t style="para.text.1">opinion is not authoritative and not published.
+														</t>
+														<t style="para.text.2 super cgt">5</t>
+														<xref id="77" type="footnote" />
+														<t style="para.text.1"> A court may also </t>
+														<t style="para.text.1">take judicial notice of its official minutes.
+														</t>
+														<t style="para.text.2 super cgt">6</t>
+														<xref id="78" type="footnote" />
+														<t style="para.text.1"> Furthermore, a court </t>
+														<t style="para.text.1">may take judicial notice of the record of the
+															earlier proceedings
+														</t>
+														<t style="para.text.1">before the court.</t>
+														<t style="para.text.2 super cgt">7</t>
+														<xref id="79" type="footnote" />
+														<t style="para.text.1"> However, a court may not take judicial notice
+															of
+														</t>
+														<t style="para.text.1">suit records in other courts.</t>
+														<t style="para.text.2 super cgt">8</t>
+														<xref id="80" type="footnote" />
+														<t style="para.text.1"> To be considered as evidence, docu</t>
+														<t style="para.text.1">ments of other courts must be introduced as
+															evidence in the rec
+														</t>
+														<t style="para.text.1">ord in the trial court in the customary manner.
+														</t>
+														<t style="para.text.2 super cgt">9</t>
+														<xref id="81" type="footnote" />
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">One of the minor changes made by Article 202 is
+															that it
+														</t>
+														<t style="para.text.1">provides for judicial notice of ordinances.
+															Prior law provided for
+														</t>
+														<t style="para.text.1">judicial notice of laws, but excluded municipal
+															and parochial
+														</t>
+														<pagebreak num="27" num-string="27" prev_page="26" />
+														<t style="para.text.1">ordinances.</t>
+														<t style="para.text.2 super cgt">10</t>
+														<xref id="82" type="footnote" />
+														<t style="para.text.1"> However, the minutes of a meeting where a
+															political
+														</t>
+														<t style="para.text.1">subdivision discussed the enactment of an
+															ordinance is not the
+														</t>
+														<t style="para.text.1">proper subject of judicial notice.</t>
+														<t style="para.text.2 super cgt">11</t>
+														<xref id="83" type="footnote" />
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">Paragraph B allows the court to take judicial
+															notice of the fol
+														</t>
+														<t style="para.text.1">lowing without request of a party, or if a
+															party requests the court
+														</t>
+														<t style="para.text.1">to take judicial notice and if the party
+															provides the court with the
+														</t>
+														<t style="para.text.1">information needed by it to comply with the
+															request,
+														</t>
+														<t style="para.text.2 super cgt">12</t>
+														<xref id="84" type="footnote" />
+														<t style="para.text.1"> the court </t>
+														<t style="para.text.1">shall take judicial notice of:</t>
+													</para.text>
+													<list xpp.nestCount="0" list.style="block"
+														date.updated="0">
+														<list.item date.updated="0">
+															<para date.updated="0" first.para="yes">
+																<para.text date.updated="0" first.para.text="yes">
+																	<t style="para.text.4">(a) Proclamations of the President of the
+																		United States and the governor of
+																	</t>
+																	<t style="para.text.4">this state.</t>
+																</para.text>
+															</para>
+														</list.item>
+														<list.item date.updated="0">
+															<para date.updated="0" first.para="yes">
+																<para.text date.updated="0" first.para.text="yes">
+																	<t style="para.text.4">(b) Rules of boards, commissions, and
+																		agencies of this state that have been
+																	</t>
+																	<t style="para.text.4">duly published and promulgated in the
+																		Louisiana Register.
+																	</t>
+																</para.text>
+															</para>
+														</list.item>
+														<list.item date.updated="0">
+															<para date.updated="0" first.para="yes">
+																<para.text date.updated="0" first.para.text="yes">
+																	<t style="para.text.4">(c) Ordinances enacted by any political
+																		subdivision of the state of Louisiana.
+																	</t>
+																</para.text>
+															</para>
+														</list.item>
+														<list.item date.updated="0">
+															<para date.updated="0" first.para="yes">
+																<para.text date.updated="0" first.para.text="yes">
+																	<t style="para.text.4">(d) Rules which govern the practice and
+																		procedure in a court of the United
+																	</t>
+																	<t style="para.text.4">States or of any state, territory, or other
+																		jurisdiction of the United States,
+																	</t>
+																	<t style="para.text.4">and which have been published in a form
+																		which makes them readily
+																	</t>
+																	<t style="para.text.4">accessible.</t>
+																</para.text>
+															</para>
+														</list.item>
+														<list.item date.updated="0">
+															<para date.updated="0" first.para="yes">
+																<para.text date.updated="0" first.para.text="yes">
+																	<t style="para.text.4">(e) Rules and decisions of boards,
+																		commissions, and agencies of the United
+																	</t>
+																	<t style="para.text.4">States or of any state, territory, or other
+																		jurisdiction of the United States
+																	</t>
+																	<t style="para.text.4">which have been duly published and
+																		promulgated and which have the effect
+																	</t>
+																	<t style="para.text.4">of law within their respective
+																		jurisdictions.
+																	</t>
+																	<t style="para.text.5 super cgt">13</t>
+																	<xref id="85" type="footnote" />
+																</para.text>
+															</para>
+														</list.item>
+														<list.item date.updated="0">
+															<para date.updated="0" first.para="yes">
+																<para.text date.updated="0" first.para.text="yes">
+																	<t style="para.text.4">(f) Law of foreign countries, international
+																		law, and maritime law.
+																	</t>
+																	<t style="para.text.5 super cgt">14</t>
+																	<xref id="86" type="footnote" />
+																</para.text>
+															</para>
+														</list.item>
+													</list>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">Another change brought about by Article 202 is
+															that under
+														</t>
+														<t style="para.text.1">Paragraph B the court must take judicial notice
+															of an ordinance
+														</t>
+														<t style="para.text.1">of a political subdivision beyond its
+															territorial jurisdiction when
+														</t>
+														<t style="para.text.1">ever a party provides the court with the
+															necessary information.
+														</t>
+														<pagebreak num="28" num-string="28" prev_page="27" />
+														<t style="para.text.1">This “necessary information” may be a
+															requirement by the judge
+														</t>
+														<t style="para.text.1">that the parties furnish certified copies of
+															the ordinance.
+														</t>
+														<t style="para.text.2 super cgt">15</t>
+														<xref id="87" type="footnote" />
+														<t style="para.text.1">
+														</t>
+														<t style="para.text.1">However, the minutes of a meeting of a
+															political subdivision are
+														</t>
+														<t style="para.text.1">not the proper subject of judicial notice.</t>
+														<t style="para.text.2 super cgt">16</t>
+														<xref id="88" type="footnote" />
+														<t style="para.text.1"> Article 202 further </t>
+														<t style="para.text.1">changes Louisiana law in that it specifically
+															provides for the tak
+														</t>
+														<t style="para.text.1">ing of judicial notice of administrative rules
+															and regulations and
+														</t>
+														<t style="para.text.1">court rules, including those of trial courts,
+															so long as they have
+														</t>
+														<t style="para.text.1">been published and are readily accessible.</t>
+														<t style="para.text.2 super cgt">17</t>
+														<xref id="89" type="footnote" />
+														<t style="para.text.1"> Prior law did not </t>
+														<t style="para.text.1">provide for judicial notice of such matters.
+															Thus, under Article
+														</t>
+														<t style="para.text.1">202 the rules of various district courts of
+															Louisiana would be
+														</t>
+														<t style="para.text.1">included.</t>
+														<t style="para.text.2 super cgt">18</t>
+														<xref id="90" type="footnote" />
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">Notice must be given to a party that judicial
+															notice will be
+														</t>
+														<t style="para.text.1">taken. Subparagraph B(2) states that both a
+															party who requests
+														</t>
+														<t style="para.text.1">judicial notice be taken and the court, if
+															notice is taken without
+														</t>
+														<t style="para.text.1">request, shall give reasonable notice during
+															trial to all other
+														</t>
+														<t style="para.text.1">parties. The court also has the power to inform
+															itself of any of the
+														</t>
+														<t style="para.text.1">legal matters listed in Paragraphs A and B in
+															any manner that it
+														</t>
+														<t style="para.text.1">deems proper, and it may call upon counsel to
+															aid it in obtaining
+														</t>
+														<t style="para.text.1">such information.</t>
+														<t style="para.text.2 super cgt">19</t>
+														<xref id="91" type="footnote" />
+													</para.text>
+												</para>
+												<para date.updated="0" first.para="no">
+													<para.text date.updated="0" first.para.text="yes">
+														<t style="para.text.1">When may judicial notice of legal matters be
+															taken? Paragraph
+														</t>
+														<t style="para.text.1">D states that it may be taken at any stage of
+															the proceeding,
+														</t>
+														<t style="para.text.1">provided that before taking judicial notice of
+															a matter in its
+														</t>
+														<t style="para.text.1">instructions to the jury, the court shall
+															inform the parties before
+														</t>
+														<t style="para.text.1">closing arguments begin.</t>
+													</para.text>
+												</para>
+											</editorial.commentary>
+										</primary.features>
+									</primary.section.body>
+								</primary.section>
+							</primary.hierarchy.body>
+						</primary.hierarchy>
+					</primary.source.body>
+				</primary.source>
+			</primary>
+		</publication.body>
+	</publication>
+</root>

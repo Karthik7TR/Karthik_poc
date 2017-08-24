@@ -54,7 +54,7 @@ public class ExtractTocStep extends XppTransformationStep
     private File generatePartToc(final XppBundle bundle, final Transformer transformer, final String fileName)
     {
         final File sourceFile = fileSystem
-            .getStructureWithMetadataFile(this, bundle.getMaterialNumber(), fileName.replaceAll(".xml", ".main"));
+            .getSectionbreaksFile(this, bundle.getMaterialNumber(), fileName.replaceAll(".xml", ".main"));
         final File outputFile = fileSystem.getBundlePartTocFile(fileName, bundle.getMaterialNumber(), this);
         final TransformationCommand command =
             new TransformationCommandBuilder(transformer, outputFile).withInput(sourceFile).build();

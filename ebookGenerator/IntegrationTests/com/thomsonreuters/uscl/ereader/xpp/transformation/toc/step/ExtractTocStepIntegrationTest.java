@@ -97,11 +97,11 @@ public final class ExtractTocStepIntegrationTest
 
     private void prepareDirectories() throws Exception
     {
-        final File bundleVolOneOriginalFilesDir = fileSystem.getStructureWithMetadataBundleDirectory(step, VOL_ONE_MATERIAL_NUMBER);
+        final File bundleVolOneOriginalFilesDir = fileSystem.getSectionbreaksDirectory(step, VOL_ONE_MATERIAL_NUMBER);
         FileUtils.forceMkdir(bundleVolOneOriginalFilesDir);
         FileUtils.copyFileToDirectory(bundleMainContentOriginalFile, bundleVolOneOriginalFilesDir);
 
-        final File bundleVolTwoOriginalFilesDir = fileSystem.getStructureWithMetadataBundleDirectory(step, VOL_TWO_MATERIAL_NUMBER);
+        final File bundleVolTwoOriginalFilesDir = fileSystem.getSectionbreaksDirectory(step, VOL_TWO_MATERIAL_NUMBER);
         FileUtils.forceMkdir(bundleVolTwoOriginalFilesDir);
         FileUtils.copyFileToDirectory(bundleMainContentOriginalAdditionalFile, bundleVolTwoOriginalFilesDir);
         FileUtils.copyFileToDirectory(bundleMainContentOriginalXppHierWithoutChildXppMetadataFile, bundleVolTwoOriginalFilesDir);

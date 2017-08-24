@@ -133,6 +133,9 @@
 			<xsl:when test="$tag_name = 'fm.proview'">
 				<xsl:value-of select="'ProView page'" />
 			</xsl:when>
+			<xsl:when test="$tag_name = 'fm.related.products'">
+				<xsl:value-of select="'Related products'" />
+			</xsl:when>
 		</xsl:choose>
 	</xsl:template>
 </xsl:stylesheet>

@@ -8,6 +8,7 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -80,28 +81,48 @@ public class XslTransformationServiceImpl implements XslTransformationService
 
     private InputStream getInputStream(final TransformationCommand command, final File tempInputFile) throws IOException
     {
-        if (command.getDtdFile() != null)
-        {
-            final List<InputStream> inputStreams = new ArrayList<>();
-            final String dtdDefinition = String.format(DOCTYPE, command.getDtdFile().getAbsolutePath());
-            inputStreams.add(new ByteArrayInputStream(dtdDefinition.getBytes()));
-            inputStreams.add(getInputWithoutXmlDeclaration(command, tempInputFile));
-            return new SequenceInputStream(Collections.enumeration(inputStreams));
-        }
+        final String dtdDefinition =
+            command.getDtdFile() != null ? String.format(DOCTYPE, command.getDtdFile().getAbsolutePath()) : null;
         if (command.isMultiInput())
         {
-            final List<InputStream> inputStreams = new ArrayList<>();
-            inputStreams.add(new ByteArrayInputStream(START_WRAPPER_TAG.getBytes()));
-            for (final File inputFile : command.getInputFiles())
-            {
-                inputStreams.add(new FileInputStream(inputFile));
-            }
-            inputStreams.add(new ByteArrayInputStream(END_WRAPPER_TAG.getBytes()));
-            return new SequenceInputStream(Collections.enumeration(inputStreams));
+            return getMultiFilesStream(command, dtdDefinition);
         }
         else
         {
+            return getSingleFileInputStream(command, tempInputFile, dtdDefinition);
+        }
+    }
+
+    private InputStream getMultiFilesStream(final TransformationCommand command, final String dtdDefinition)
+        throws FileNotFoundException
+    {
+        final List<InputStream> inputStreams = new ArrayList<>();
+        if (dtdDefinition != null)
+            inputStreams.add(new ByteArrayInputStream(dtdDefinition.getBytes()));
+        inputStreams.add(new ByteArrayInputStream(START_WRAPPER_TAG.getBytes()));
+        for (final File inputFile : command.getInputFiles())
+        {
+            inputStreams.add(new FileInputStream(inputFile));
+        }
+        inputStreams.add(new ByteArrayInputStream(END_WRAPPER_TAG.getBytes()));
+        return new SequenceInputStream(Collections.enumeration(inputStreams));
+    }
+
+    private InputStream getSingleFileInputStream(
+        final TransformationCommand command,
+        final File tempInputFile,
+        final String dtdDefinition) throws IOException
+    {
+        if (dtdDefinition == null)
+        {
             return openInputStream(command.getInputFile());
+        }
+        else
+        {
+            final List<InputStream> inputStreams = new ArrayList<>();
+            inputStreams.add(new ByteArrayInputStream(dtdDefinition.getBytes()));
+            inputStreams.add(getInputWithoutXmlDeclaration(command, tempInputFile));
+            return new SequenceInputStream(Collections.enumeration(inputStreams));
         }
     }
 

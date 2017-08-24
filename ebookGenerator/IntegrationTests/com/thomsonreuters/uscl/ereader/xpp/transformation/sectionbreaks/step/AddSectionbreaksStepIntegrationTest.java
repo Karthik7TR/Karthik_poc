@@ -46,6 +46,10 @@ public final class AddSectionbreaksStepIntegrationTest
     private File expectedMainXmlTwo;
     private File expectedMainXmlTwoFootnotes;
 
+    private File mainXmlThree;
+    private File mainXmlThreeFootnotes;
+    private File expectedMainXmlThree;
+
     @Before
     public void setUp() throws URISyntaxException
     {
@@ -62,6 +66,10 @@ public final class AddSectionbreaksStepIntegrationTest
         mainXmlTwoFootnotes = new File(AddSectionbreaksStepIntegrationTest.class.getResource("1-CHAL_APX_21.DIVXML.footnotes").toURI());
         expectedMainXmlTwo = new File(AddSectionbreaksStepIntegrationTest.class.getResource("expected-1-CHAL_APX_21.DIVXML.main").toURI());
         expectedMainXmlTwoFootnotes = new File(AddSectionbreaksStepIntegrationTest.class.getResource("expected-1-CHAL_APX_21.DIVXML.footnotes").toURI());
+
+        mainXmlThree = new File(AddSectionbreaksStepIntegrationTest.class.getResource("1-LAPRACEVID.DIVXML.main").toURI());
+        mainXmlThreeFootnotes = new File(AddSectionbreaksStepIntegrationTest.class.getResource("1-LAPRACEVID.DIVXML.footnotes").toURI());
+        expectedMainXmlThree = new File(AddSectionbreaksStepIntegrationTest.class.getResource("expected-1-LAPRACEVID.DIVXML.main").toURI());
     }
 
     @After
@@ -82,6 +90,8 @@ public final class AddSectionbreaksStepIntegrationTest
         FileUtils.copyFileToDirectory(mainXmlOneFootnotes, originalMainSourceDir);
         FileUtils.copyFileToDirectory(mainXmlTwo, originalMainSourceDir);
         FileUtils.copyFileToDirectory(mainXmlTwoFootnotes, originalMainSourceDir);
+        FileUtils.copyFileToDirectory(mainXmlThree, originalMainSourceDir);
+        FileUtils.copyFileToDirectory(mainXmlThreeFootnotes, originalMainSourceDir);
 
         //when
         step.executeStep();
@@ -92,6 +102,7 @@ public final class AddSectionbreaksStepIntegrationTest
         assertOutputContent(mainXmlOneFootnotes, expectedMainXmlOneFootnotes);
         assertOutputContent(mainXmlTwo, expectedMainXmlTwo);
         assertOutputContent(mainXmlTwoFootnotes, expectedMainXmlTwoFootnotes);
+        assertOutputContent(mainXmlThree, expectedMainXmlThree);
     }
 
     private void assertOutputContent(final File original, final File expected)

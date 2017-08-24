@@ -1,6 +1,7 @@
 <root xmlns="http://www.sdl.com/xpp">
     <pagebreak num="1"/>
     <XPPHier uuid="vol2" name="1" parent_uuid="vol2" md.doc_family_uuid="Igka4oasd4p2u9r4e69ed7sdfdf0a72fg5">VOLUME_NAME_PLACEHOLDER 2</XPPHier>
+    <sectionbreak sectionuuid="Igka4oasd4p2u9r4e69ed7sdfdf0a72fg5"/>
     <XPPHier uuid="I7f66dd0028b811e69ed7fcedf0a72426" parent_uuid="I7f66dd0028b811e69ed7fcedf0a72426" name="Chapter 1 vol.2">Chapter 1 vol.2</XPPHier>
     <XPPMetaData uuid="I333flsdvdg56hdf5sdd7fcedf0a72426" parent_uuid="I7f66dd0028b811e69ed7fcedf0a72426" md.doc_family_uuid="Igka4oasd4p2u9r4e69ed7sdfdf0a72fg5"/>
     <publication online.royalty.id="FLLF" uuid="I7f66dd0028b811e69ed7fcedf0a72426">
@@ -19,6 +20,7 @@
                     </outline.name.block>
                 </front>
                 <topic.body date.updated="0">
+                	<sectionbreak sectionuuid="Igk54oasd4p2u9r4e69ed7sdfdf0a72fg5"/>
                 	<XPPHier uuid="I333dd59028b911e69ed7fcedf0a72426" parent_uuid="I18b49f1028b911e69ed7fcedf0a72426" name="Content 1">Content 1</XPPHier>
                 	<XPPMetaData uuid="I333fl58fdg56hdf5sdd7fcedf0a72426" parent_uuid="I333dd59028b911e69ed7fcedf0a72426" md.doc_family_uuid="Igk54oasd4p2u9r4e69ed7sdfdf0a72fg5"/>
                     <chapter uuid="c" date.revised="0" date.updated="0">
@@ -35,6 +37,7 @@
                             </outline.name.block>
                             <generated.toc>
                                 <full.toc>
+                                	<sectionbreak sectionuuid="Igk54oofh6p2u9r4e69ed7fcedf0a72fg5"/>
                                 	<XPPHier uuid="I334a31a028b911e69ed7fcedf0a72426" parent_uuid="I18b49f1028b911e69ed7fcedf0a72426" name="Content 2">Content 2</XPPHier>
                                 	<XPPMetaData uuid="I333fl58fdg56hdf5sdd7fcedf0a72426" parent_uuid="I334a31a028b911e69ed7fcedf0a72426" md.doc_family_uuid="Igk54oofh6p2u9r4e69ed7fcedf0a72fg5"/>
                                     <toc.analytical.level tocuuid="I334a31a028b911e69ed7fcedf0a72426">
@@ -70,6 +73,7 @@
                                                 </toc.section>
                                             </toc.analytical.level>
                                         </toc.analytical.level>
+                                        <sectionbreak sectionuuid="Igk54oofh6p2u9r4e69esdfcedf0a72fg5"/>
                                         <XPPHier uuid="I34145f7028b911e69ed7fcedf0a72426" parent_uuid="I334acde028b911e69ed7fcedf0a72426" name="Content 2_1">Content 2_1</XPPHier>
                                         <toc.analytical.level tocuuid="I34145f7028b911e69ed7fcedf0a72426">
                                             <outline.name.block>

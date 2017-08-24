@@ -14,12 +14,12 @@
 
 	<xsl:template match="x:XPPHier[@parent_uuid = @uuid]">
 		<xsl:variable name="uuid" select="./@uuid" />
-			<xsl:call-template name="create-entry">
-				<xsl:with-param name="name">
-					<xsl:apply-templates select="x:sep|text()" mode="extract-name" />
-				</xsl:with-param>
-				<xsl:with-param name="uuid" select="$uuid" />
-			</xsl:call-template>
+		<xsl:call-template name="create-entry">
+			<xsl:with-param name="name">
+				<xsl:apply-templates select="x:sep|text()" mode="extract-name" />
+			</xsl:with-param>
+			<xsl:with-param name="uuid" select="$uuid" />
+		</xsl:call-template>
 	</xsl:template>
 
 	<xsl:template match="x:XPPHier[@parent_uuid != @uuid]">
@@ -29,7 +29,8 @@
 			<xsl:variable name="uuid" select="./@uuid" />
 			<xsl:call-template name="create-entry">
 				<xsl:with-param name="name">
-					<xsl:apply-templates select="x:sep|text()" mode="extract-name" />
+					<xsl:apply-templates select="x:sep|text()"
+						mode="extract-name" />
 				</xsl:with-param>
 				<xsl:with-param name="uuid" select="$uuid" />
 			</xsl:call-template>
@@ -52,18 +53,7 @@
 						<xsl:value-of select="@md.doc_family_uuid" />
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:choose>
-							<xsl:when test="following::x:XPPMetaData[@parent_uuid = $uuid]">
-								<xsl:value-of
-									select="following::x:XPPMetaData[@parent_uuid = $uuid][1]/@md.doc_family_uuid" />
-							</xsl:when>
-							<xsl:when test="preceding::x:XPPMetaData[1]/@md.doc_family_uuid">
-								<xsl:value-of select="preceding::x:XPPMetaData[1]/@md.doc_family_uuid" />
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="following::x:XPPMetaData[1]/@md.doc_family_uuid" />
-							</xsl:otherwise>
-						</xsl:choose>
+						<xsl:value-of select="preceding::x:sectionbreak[1]/@sectionuuid" />
 					</xsl:otherwise>
 				</xsl:choose>
 			</DocumentGuid>
