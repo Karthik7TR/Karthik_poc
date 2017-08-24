@@ -4,7 +4,7 @@
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
     <xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
 
-    <xsl:param name="mainDocumentWithSectionbreaks"/>
+    <xsl:param name="mainDocumentWithSectionbreaks" />
     <xsl:variable name="main" select="document($mainDocumentWithSectionbreaks)" />
 
     <xsl:template match="node()|@*" mode="#all">
@@ -15,7 +15,7 @@
     
     <xsl:template match="x:footnote">
         <xsl:call-template name="addSectionbreak">
-            <xsl:with-param name="mainNode" select="$main//x:xref[@id=current()/@id]" />
+            <xsl:with-param name="mainNode" select="$main//x:xref[@id=current()/@id and @type='footnote']" />
         </xsl:call-template>
         
         <xsl:copy>
@@ -66,7 +66,7 @@
         
         <xsl:variable name="sectionbreak" select="$mainNode/preceding::x:sectionbreak[1]" />
 
-        <xsl:variable name="noPreceidingXrefs" select="count($sectionbreak/following::x:xref intersect $mainNode/preceding::x:xref)=0" />
+        <xsl:variable name="noPreceidingXrefs" select="count($sectionbreak/following::x:xref[@type='footnote'] intersect $mainNode/preceding::x:xref[@type='footnote'])=0" />
         <xsl:variable name="noPreceidingPagebreaks" select="count($sectionbreak/following::x:pagebreak intersect $mainNode/preceding::x:pagebreak)=0" />
 
         <xsl:if test="$noPreceidingXrefs and $noPreceidingPagebreaks">

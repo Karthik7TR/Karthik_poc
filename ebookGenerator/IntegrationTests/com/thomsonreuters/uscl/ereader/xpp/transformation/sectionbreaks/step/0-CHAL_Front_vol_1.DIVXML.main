@@ -54,6 +54,7 @@
         <fm.about.the.author>
             <para pre.leading="12q" first.para="no">
                 <para.text first.para.text="yes">A regular speaker.</para.text>
+                <xref id="1ps27" type="main"/>
             </para>
         </fm.about.the.author>
         <pagebreak num="X" num-string=""/>
