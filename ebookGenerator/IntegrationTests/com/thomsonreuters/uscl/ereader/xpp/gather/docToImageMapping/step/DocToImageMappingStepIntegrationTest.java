@@ -28,15 +28,15 @@ public final class DocToImageMappingStepIntegrationTest
     @Autowired
     private XppFormatFileSystem fileSystem;
 
-    private File originalHtml1;
-    private File originalHtml2;
+    private File sourceHtml1;
+    private File sourceHtml2;
     private File expected;
 
     @Before
     public void setUp() throws URISyntaxException
     {
-        originalHtml1 = new File(DocToImageMappingStepIntegrationTest.class.getResource("sampleXpp_1.html").toURI());
-        originalHtml2 = new File(DocToImageMappingStepIntegrationTest.class.getResource("sampleXpp_2.html").toURI());
+        sourceHtml1 = new File(DocToImageMappingStepIntegrationTest.class.getResource("sampleXpp_1.html").toURI());
+        sourceHtml2 = new File(DocToImageMappingStepIntegrationTest.class.getResource("sampleXpp_2.html").toURI());
         expected = new File(DocToImageMappingStepIntegrationTest.class.getResource("expectedDocToImageIdMapFile.txt").toURI());
     }
 
@@ -44,10 +44,10 @@ public final class DocToImageMappingStepIntegrationTest
     public void shouldCreateMappingFile() throws Exception
     {
         //given
-        final File originalPartsDirectory = fileSystem.getHtmlPagesDirectory(step, "11111111");
-        FileUtils.forceMkdir(originalPartsDirectory);
-        FileUtils.copyFileToDirectory(originalHtml1, originalPartsDirectory);
-        FileUtils.copyFileToDirectory(originalHtml2, originalPartsDirectory);
+        final File externalLinksDirectory = fileSystem.getExternalLinksDirectory(step, "11111111");
+        FileUtils.forceMkdir(externalLinksDirectory);
+        FileUtils.copyFileToDirectory(sourceHtml1, externalLinksDirectory);
+        FileUtils.copyFileToDirectory(sourceHtml2, externalLinksDirectory);
         //when
         step.executeStep();
         //then

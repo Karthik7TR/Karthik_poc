@@ -1,11 +1,12 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.tohtml.step;
 
-import static com.thomsonreuters.uscl.ereader.common.filesystem.FileContentMatcher.hasSameContentAs;
 import static com.thomsonreuters.uscl.ereader.core.book.util.BookTestUtil.mkdir;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +26,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -37,12 +39,15 @@ public final class TransformationToHtmlStepIntegrationTest
     private static final String SAMPLE_DIVXML_PAGE = "1-sample_1.DIVXML_0_test.page";
     private static final String MATERIAL_NUMBER = "11111111";
     private static final String ADDITIONAL_MATERIAL_NUMBER = "11111112";
+    private static final String REF_PLACE_HOLDER = "${refPlaceHolder}";
 
     @Resource(name = "transformToHtmlTask")
     @InjectMocks
     private TransformationToHtmlStep step;
     @Autowired
     private XppFormatFileSystem fileSystem;
+    @Value("${xpp.entities.dtd}")
+    private File entitiesDtdFile;
 
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private ChunkContext chunkContext;
@@ -61,13 +66,13 @@ public final class TransformationToHtmlStepIntegrationTest
     {
         //given
         initGiven(false);
-        final File expected = new File(TransformationToHtmlStepIntegrationTest.class.getResource("expected.html").toURI());
-
+        final File expected =
+            new File(TransformationToHtmlStepIntegrationTest.class.getResource("expected.html").toURI());
         //when
         step.executeStep();
         //then
         final File html = fileSystem.getHtmlPageFile(step, MATERIAL_NUMBER, SAMPLE_DIVXML_PAGE);
-        assertThat(html, hasSameContentAs(expected));
+        assertThat(FileUtils.readFileToString(html), equalTo(getExpectedString(expected)));
     }
 
     @Test
@@ -75,31 +80,34 @@ public final class TransformationToHtmlStepIntegrationTest
     {
         //given
         initGiven(true);
-        final File expectedVol1 = new File(TransformationToHtmlStepIntegrationTest.class.getResource("expected-with-prefix-vol1.html").toURI());
-        final File expectedVol2 = new File(TransformationToHtmlStepIntegrationTest.class.getResource("expected-with-prefix-vol2.html").toURI());
+        final File expectedVol1 = new File(
+            TransformationToHtmlStepIntegrationTest.class.getResource("expected-with-prefix-vol1.html").toURI());
+        final File expectedVol2 = new File(
+            TransformationToHtmlStepIntegrationTest.class.getResource("expected-with-prefix-vol2.html").toURI());
         //when
         step.executeStep();
         //then
         File html = fileSystem.getHtmlPageFile(step, MATERIAL_NUMBER, SAMPLE_DIVXML_PAGE);
-        assertThat(html, hasSameContentAs(expectedVol1));
+        assertThat(FileUtils.readFileToString(html), equalTo(getExpectedString(expectedVol1)));
         html = fileSystem.getHtmlPageFile(step, ADDITIONAL_MATERIAL_NUMBER, SAMPLE_DIVXML_PAGE);
-        assertThat(html, hasSameContentAs(expectedVol2));
+        assertThat(FileUtils.readFileToString(html), equalTo(getExpectedString(expectedVol2)));
     }
 
     private void initGiven(final boolean multiVolume) throws Exception
     {
-        given(chunkContext
-            .getStepContext()
-            .getStepExecution()
-            .getJobExecution()
-            .getExecutionContext()
-            .get(JobParameterKey.XPP_BUNDLES))
-        .willReturn(getXppBundles(multiVolume));
+        given(
+            chunkContext.getStepContext()
+                .getStepExecution()
+                .getJobExecution()
+                .getExecutionContext()
+                .get(JobParameterKey.XPP_BUNDLES)).willReturn(getXppBundles(multiVolume));
 
         FileUtils.copyFileToDirectory(original, mkdir(fileSystem.getOriginalPagesDirectory(step, MATERIAL_NUMBER)));
         if (multiVolume)
         {
-            FileUtils.copyFileToDirectory(original, mkdir(fileSystem.getOriginalPagesDirectory(step, ADDITIONAL_MATERIAL_NUMBER)));
+            FileUtils.copyFileToDirectory(
+                original,
+                mkdir(fileSystem.getOriginalPagesDirectory(step, ADDITIONAL_MATERIAL_NUMBER)));
         }
     }
 
@@ -121,5 +129,11 @@ public final class TransformationToHtmlStepIntegrationTest
         }
 
         return bundles;
+    }
+
+    private String getExpectedString(final File expected) throws IOException
+    {
+        return FileUtils.readFileToString(expected)
+            .replace(REF_PLACE_HOLDER, entitiesDtdFile.getAbsolutePath().replace("\\", "/"));
     }
 }

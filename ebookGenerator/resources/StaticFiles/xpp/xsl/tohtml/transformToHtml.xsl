@@ -12,10 +12,14 @@
 	<xsl:param name="pagePrefix" />
 	<xsl:param name="divXmlName" />
 	<xsl:param name="documentUidMapDoc" />
+	<xsl:param name="entitiesDocType" />
 	
 	<xsl:variable name="documentUidMap" select="document($documentUidMapDoc)" />
 
 	<xsl:template match="x:parts">
+		<xsl:text disable-output-escaping="yes">&lt;!DOCTYPE root SYSTEM &#34;</xsl:text>
+		<xsl:value-of select="$entitiesDocType" />
+		<xsl:text disable-output-escaping="yes">&#34;&gt;</xsl:text>
 		<html>
 			<head>
       			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>

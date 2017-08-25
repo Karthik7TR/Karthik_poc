@@ -32,7 +32,7 @@ public class DocToImageMappingStep extends XppTransformationStep
         final Transformer transformer =
             transformerBuilderFactory.create().withXsl(transformToAnchorToDocumentIdMapXsl).build();
         final List<File> htmls = new ArrayList<>();
-        for (final Map.Entry<String, Collection<File>> materialNumberDir : fileSystem.getHtmlPageFiles(this).entrySet())
+        for (final Map.Entry<String, Collection<File>> materialNumberDir : fileSystem.getExternalLinksFiles(this).entrySet())
         {
             htmls.addAll(materialNumberDir.getValue());
         }

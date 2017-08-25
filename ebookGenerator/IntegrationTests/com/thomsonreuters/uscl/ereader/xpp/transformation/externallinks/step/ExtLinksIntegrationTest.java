@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -32,12 +33,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ActiveProfiles("IntegrationTests")
 public final class ExtLinksIntegrationTest
 {
+    private static final String REF_PLACE_HOLDER = "${refPlaceHolder}";
     private static final String MATERIAL_NUMBER = "88005553535";
     @Resource(name = "externalLinksXppStepBean")
     private ExternalLinksXppStep sut;
 
     @Autowired
     private XppFormatFileSystem fileSystem;
+    @Value("${xpp.entities.dtd}")
+    private File entitiesDtdFile;
 
     private File sourceDir;
     private File expectedExternalLinksDir;
@@ -50,6 +54,11 @@ public final class ExtLinksIntegrationTest
     public void setUp() throws URISyntaxException, IOException
     {
         sourceDir = new File(ExtLinksIntegrationTest.class.getResource("source").toURI());
+        final File sourceHtml = new File(sourceDir, "test.html");
+        final String sourceHtmlString = FileUtils.readFileToString(sourceHtml)
+            .replace(REF_PLACE_HOLDER, entitiesDtdFile.getAbsolutePath().replace("\\", "/"));
+        FileUtils.writeStringToFile(sourceHtml, sourceHtmlString);
+
         expectedExternalLinksDir = new File(ExtLinksIntegrationTest.class.getResource("expected").toURI());
         expectedMapping = new File(ExtLinksIntegrationTest.class.getResource("expectedmapping\\test.html").toURI());
         actualExternalLinksDir = fileSystem.getExternalLinksDirectory(sut, MATERIAL_NUMBER);

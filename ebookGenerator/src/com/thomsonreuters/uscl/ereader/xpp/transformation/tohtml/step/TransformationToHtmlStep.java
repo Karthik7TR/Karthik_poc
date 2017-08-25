@@ -32,11 +32,16 @@ public class TransformationToHtmlStep extends XppTransformationStep
 {
     @Value("${xpp.transform.to.html.xsl}")
     private File transformToHtmlXsl;
+    @Value("${xpp.entities.dtd}")
+    private File entitiesDtdFile;
 
     @Override
     public void executeTransformation() throws Exception
     {
-        final Transformer transformer = transformerBuilderFactory.create().withXsl(transformToHtmlXsl).build();
+        final Transformer transformer = transformerBuilderFactory.create()
+            .withXsl(transformToHtmlXsl)
+            .withParameter("entitiesDocType", entitiesDtdFile.getAbsolutePath().replace("\\", "/"))
+            .build();
         final PagePrefix pagePrefix = new PagePrefix(getXppBundles());
         for (final Map.Entry<String, Collection<File>> dir : fileSystem.getOriginalPageFiles(this).entrySet())
         {

@@ -504,6 +504,20 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
+    public void shouldReturnExternalLinksFilesMap() throws IOException
+    {
+        //given
+        final File dir = mkdir(temporaryFolder.getRoot(), EXTERNAL_LINKS_DIR);
+        final File file1 = mkfile(mkdir(dir, MATERIAL_NUMBER), FILE_NAME_XML);
+        final File file2 = mkfile(mkdir(dir, MATERIAL_NUMBER_2), FILE_NAME_XML);
+        //when
+        final Map<String, Collection<File>> map = fileSystem.getExternalLinksFiles(step);
+        //then
+        assertTrue(map.get(MATERIAL_NUMBER).contains(file1));
+        assertTrue(map.get(MATERIAL_NUMBER_2).contains(file2));
+    }
+
+    @Test
     public void shouldReturnExternalLinksMappingDirectory()
     {
         //given

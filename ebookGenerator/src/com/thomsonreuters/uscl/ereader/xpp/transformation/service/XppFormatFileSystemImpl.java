@@ -376,6 +376,13 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     @Override
+    public Map<String, Collection<File>> getExternalLinksFiles(@NotNull final BookStep step)
+    {
+        return getMaterialNumberToFilesMap(getExternalLinksDirectory(step));
+    }
+
+    @NotNull
+    @Override
     public File getExternalLinksMappingFile(final BookStep step, final String materialNumber, final String name)
     {
         return new File(getExternalLinksMappingDirectory(step, materialNumber), name);

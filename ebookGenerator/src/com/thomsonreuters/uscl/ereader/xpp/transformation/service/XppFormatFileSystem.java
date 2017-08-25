@@ -248,7 +248,7 @@ public interface XppFormatFileSystem extends FormatFileSystem
     File getHtmlPageFile(@NotNull BookStep step, @NotNull String materialNumber, @NotNull String name);
 
     /**
-     * Returns map "bundle name (material number) to list of files related to this bundle" from original pages directory.
+     * Returns map "bundle name (material number) to list of files related to this bundle" from html pages directory.
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
      * {@code /}{@link getHtmlPagesDirectory 08_HtmlPages}{@code /[material number]}{@code /fileName_#.html}
@@ -277,6 +277,15 @@ public interface XppFormatFileSystem extends FormatFileSystem
      */
     @NotNull
     File getExternalLinksFile(@NotNull BookStep step, @NotNull String materialNumber, @NotNull String name);
+
+    /**
+     * Returns map "bundle name (material number) to list of files related to this bundle" from external links directory.
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
+     * {@code /}{@link getHtmlPagesDirectory 09_ExternalLinks}{@code /[material number]}{@code /fileName_#.html}
+     */
+    @NotNull
+    Map<String, Collection<File>> getExternalLinksFiles(@NotNull BookStep step);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}

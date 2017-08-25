@@ -43,7 +43,7 @@ public final class DocToImageMappingStepTest
     {
         final Map<String, Collection<File>> map = new HashMap<>();
         map.put("123", asList(new File("abc")));
-        given(fileSystem.getHtmlPageFiles(step)).willReturn(map);
+        given(fileSystem.getExternalLinksFiles(step)).willReturn(map);
 
         final TransformerBuilder builder = mock(TransformerBuilder.class);
         given(transformerBuilderFactory.create()).willReturn(builder);
