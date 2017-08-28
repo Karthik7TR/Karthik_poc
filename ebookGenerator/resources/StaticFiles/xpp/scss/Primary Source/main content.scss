@@ -1,0 +1,14 @@
+@import "~/constants";
+.primary_hierarchy_front,
+.primary_section_body {
+    margin-bottom: $indent;
+}
+
+.primary_outline_name_block>.label {
+    display: inline !important;
+}
+
+.primary_section_front .primary_name,
+.primary_name .name {
+    display: inline;
+}

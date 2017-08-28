@@ -18,7 +18,8 @@
 }
 
 .outline_name_block {
-    .toc_chapter & {
+    .toc_chapter &,
+    .toc_chapter &>a {
         display: inline-flex;
     }
     .toc_analytical_level>.toc_analytical_level>& {

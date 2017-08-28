@@ -1,0 +1,14 @@
+.cgt {
+    .fm_title_page .text_line &,
+    .primary_outline_name_block>& {
+        display: inline !important;
+    }
+    .xref+& {
+        display: block !important;
+        float: right;
+    }
+    .toc_primary_hierarchy>.primary_outline_name_block>.primary_name~&,
+    .toc_primary_hierarchy>.toc_appendix_block>.toc_appendix>.outline_name_block>.designator>& {
+        display: none !important;
+    }
+}
