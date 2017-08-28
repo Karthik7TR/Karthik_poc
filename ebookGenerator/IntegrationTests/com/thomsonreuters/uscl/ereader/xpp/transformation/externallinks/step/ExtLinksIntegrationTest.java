@@ -53,19 +53,19 @@ public final class ExtLinksIntegrationTest
     @Before
     public void setUp() throws URISyntaxException, IOException
     {
+        htmlDir = fileSystem.getHtmlPagesDirectory(sut, MATERIAL_NUMBER);
+        FileUtils.forceMkdir(htmlDir);
         sourceDir = new File(ExtLinksIntegrationTest.class.getResource("source").toURI());
         final File sourceHtml = new File(sourceDir, "test.html");
         final String sourceHtmlString = FileUtils.readFileToString(sourceHtml)
             .replace(REF_PLACE_HOLDER, entitiesDtdFile.getAbsolutePath().replace("\\", "/"));
-        FileUtils.writeStringToFile(sourceHtml, sourceHtmlString);
+        final File actualSourceHtml = new File(htmlDir, "test.html");
+        FileUtils.writeStringToFile(actualSourceHtml, sourceHtmlString);
 
         expectedExternalLinksDir = new File(ExtLinksIntegrationTest.class.getResource("expected").toURI());
         expectedMapping = new File(ExtLinksIntegrationTest.class.getResource("expectedmapping\\test.html").toURI());
         actualExternalLinksDir = fileSystem.getExternalLinksDirectory(sut, MATERIAL_NUMBER);
         actualMapping = fileSystem.getExternalLinksMappingFile(sut, MATERIAL_NUMBER, "test.html");
-        htmlDir = fileSystem.getHtmlPagesDirectory(sut, MATERIAL_NUMBER);
-        FileUtils.forceMkdir(htmlDir);
-        FileUtils.copyDirectory(sourceDir, htmlDir);
     }
 
     @Test
