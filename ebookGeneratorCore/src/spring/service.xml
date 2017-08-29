@@ -124,4 +124,12 @@
 	
 	<bean id="versionUtil" class="com.thomsonreuters.uscl.ereader.core.book.util.VersionUtilImpl"/>	
 	
+	<bean id="sapService" class="com.thomsonreuters.uscl.ereader.sap.service.SapServiceImpl">
+		<constructor-arg type="java.lang.String" value="${sap.api.login}"/>
+		<constructor-arg type="java.lang.String" value="${sap.api.password}"/>
+		<constructor-arg type="java.lang.String" value="${sap.api.get.material.url}"/>
+		<constructor-arg type="java.lang.String" value="${sap.api.plant}"/>
+		<constructor-arg type="java.lang.String" value="${sap.api.client}"/>
+	</bean>
+	
 </beans>	
