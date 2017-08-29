@@ -12,3 +12,10 @@
 .primary_name .name {
     display: inline;
 }
+
+.designator {
+    .primary_source_body .primary_hierarchy_body>.primary_section>.primary_section_front>.primary_outline_name_block>& {
+        min-width: 0;
+        margin: 0;
+    }
+}
