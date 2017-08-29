@@ -693,7 +693,8 @@ sup + .footnote_body > .para:first-child {
 }
 
 .fm_title_page .text_line .cgt,
-.primary_outline_name_block > .cgt {
+.primary_outline_name_block > .cgt,
+.fm_related_products_boilerplate > .cgt {
   display: inline !important;
 }
 
@@ -785,4 +786,8 @@ sup + .footnote_body > .para:first-child {
 
 .toc_primary_hierarchy > .toc_appendix_block > .toc_appendix > .outline_name_block .name {
   width: 100%;
+}
+
+.fm_related_products_boilerplate > .no-indent {
+  margin: 0;
 }
