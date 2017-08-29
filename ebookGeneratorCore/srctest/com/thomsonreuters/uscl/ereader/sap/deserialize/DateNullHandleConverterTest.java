@@ -56,7 +56,7 @@ public final class DateNullHandleConverterTest
         final Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(result.getTime());
         assertThat(calendar.get(Calendar.YEAR), equalTo(2017));
-        assertThat(calendar.get(Calendar.MONTH), equalTo(7));
-        assertThat(calendar.get(Calendar.DAY_OF_MONTH), equalTo(27));
+        assertThat(calendar.get(Calendar.MONTH), equalTo(8));
+        assertThat(calendar.get(Calendar.DAY_OF_MONTH), equalTo(28));
     }
 }
