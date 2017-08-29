@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
@@ -12,8 +13,6 @@ import org.junit.Test;
 
 public final class DateNullHandleConverterTest
 {
-    private static final Long EXPECTED_MILLIS = 1503864000000L;
-
     private DateNullHandleConverter converter;
 
     @Before
@@ -54,6 +53,10 @@ public final class DateNullHandleConverterTest
     public void shouldReturnDate()
     {
         final Date result = converter.convert("2017-08-28");
-        assertThat(result.getTime(), equalTo(EXPECTED_MILLIS));
+        final Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(result.getTime());
+        assertThat(calendar.get(Calendar.YEAR), equalTo(2017));
+        assertThat(calendar.get(Calendar.MONTH), equalTo(7));
+        assertThat(calendar.get(Calendar.DAY_OF_MONTH), equalTo(27));
     }
 }
