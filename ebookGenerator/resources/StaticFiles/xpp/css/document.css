@@ -692,6 +692,16 @@ sup + .footnote_body > .para:first-child {
   display: none;
 }
 
+.columns {
+  width: 100%;
+  display: flex;
+}
+
+.column {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
 .fm_title_page .text_line .cgt,
 .primary_outline_name_block > .cgt,
 .fm_related_products_boilerplate > .cgt {

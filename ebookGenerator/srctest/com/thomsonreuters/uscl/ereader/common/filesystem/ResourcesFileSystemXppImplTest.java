@@ -46,11 +46,11 @@ public final class ResourcesFileSystemXppImplTest
     {
         //given
         given(xppFormatFileSystemImpl.getExternalLinksDirectory(step))
-            .willReturn(new File(temporaryFolder.getRoot(), "workDirectory/Format/09_ExternalLinks"));
+            .willReturn(new File(temporaryFolder.getRoot(), "workDirectory/Format/10_ExternalLinks"));
         //when
         final File file = sut.getDocumentsDirectory(step);
         //then
-        assertThat(file, hasPath("workDirectory/Format/09_ExternalLinks"));
+        assertThat(file, hasPath("workDirectory/Format/10_ExternalLinks"));
     }
 
     @Test

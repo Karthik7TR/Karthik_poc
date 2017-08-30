@@ -27,15 +27,16 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     private static final String CITE_QUERY_PROCESSED_DIR = "Processed Cite Queries";
     private static final String SOURCE_DIR = "03_StructureWithMetadata";
     private static final String SECTIONBREAKS_DIR = "04_Sectionbreaks";
-    private static final String SECTIONBREAKS_UP_DIR = "05_SectionbreaksUp";
-    private static final String ORIGINAL_PARTS_DIR = "06_OriginalParts";
-    private static final String ORIGINAL_PAGES_DIR = "07_OriginalPages";
-    private static final String HTML_PAGES_DIR = "08_HtmlPages";
-    private static final String EXTERNAL_LINKS_DIR = "09_ExternalLinks";
-    private static final String TOC_DIR = "10_Toc";
-    private static final String TITLE_METADATA_DIR = "11_title_metadata";
+    private static final String MULTICOLUMNS_UP_DIR = "05_MultiColumnsUp";
+    private static final String SECTIONBREAKS_UP_DIR = "06_SectionbreaksUp";
+    private static final String ORIGINAL_PARTS_DIR = "07_OriginalParts";
+    private static final String ORIGINAL_PAGES_DIR = "08_OriginalPages";
+    private static final String HTML_PAGES_DIR = "09_HtmlPages";
+    private static final String EXTERNAL_LINKS_DIR = "10_ExternalLinks";
+    private static final String TOC_DIR = "11_Toc";
+    private static final String TITLE_METADATA_DIR = "12_title_metadata";
 
-    private static final String EXTERNAL_LINKS_MAPPING = "09_ExternalLinks_Mapping";
+    private static final String EXTERNAL_LINKS_MAPPING = "10_ExternalLinks_Mapping";
 
     private static final String TITLE_METADATA_FILE = "titleMetadata.xml";
     private static final String TOC_FILE = "toc.xml";
@@ -204,6 +205,33 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     public Map<String, Collection<File>> getSectionBreaksFiles(@NotNull final BookStep step)
     {
         return getMaterialNumberToFilesMap(getSectionbreaksDirectory(step));
+    }
+
+    @NotNull
+    File getMultiColumnsUpDirectory(@NotNull final BookStep step)
+    {
+        return new File(getFormatDirectory(step), MULTICOLUMNS_UP_DIR);
+    }
+
+    @NotNull
+    @Override
+    public File getMultiColumnsUpDirectory(@NotNull final BookStep step, @NotNull final String materialNumber)
+    {
+        return new File(getMultiColumnsUpDirectory(step), materialNumber);
+    }
+
+    @NotNull
+    @Override
+    public File getMultiColumnsUpFile(@NotNull final BookStep step, @NotNull final String materialNumber, @NotNull final String name)
+    {
+        return new File(getMultiColumnsUpDirectory(step), materialNumber + "/" + name);
+    }
+
+    @NotNull
+    @Override
+    public Map<String, Collection<File>> getMultiColumnsUpFiles(@NotNull final BookStep step)
+    {
+        return getMaterialNumberToFilesMap(getMultiColumnsUpDirectory(step));
     }
 
     @NotNull

@@ -1,4 +1,6 @@
 <part.main xmlns="http://www.sdl.com/xpp" fileName="sample.DIVXML_0002"><publication><publication.body><topic><topic.body><chapter><front><generated.toc><full.toc><toc.analytical.level><toc.analytical.level><toc.section><outline.name.block>
+                                                    </outline.name.block></toc.section></toc.analytical.level></toc.analytical.level></full.toc></generated.toc></front></chapter></topic.body></topic></publication.body></publication><columns>
+                                                    <column><publication><publication.body><topic><topic.body><chapter><front><generated.toc><full.toc><toc.analytical.level><toc.analytical.level><toc.section><outline.name.block>
                                                 </outline.name.block>
                                             </toc.section>
                                             <toc.section>
@@ -15,9 +17,11 @@
                                                     <name>Partnership registration statement—Official form</name>
                                                 </outline.name.block>
                                             </toc.section>
+                                            </toc.analytical.level></toc.analytical.level></full.toc></generated.toc></front></chapter></topic.body></topic></publication.body></publication></column>
+                                            <column><publication><publication.body><topic><topic.body><chapter><front><generated.toc><full.toc><toc.analytical.level><toc.analytical.level>
                                             <toc.section>
                                                 <outline.name.block>
                                                     <label>§ </label>
                                                     <designator>30:19</designator>
                                                     <name>Amendment to partnership registration—Official form</name>
-                                                    </outline.name.block></toc.section></toc.analytical.level></toc.analytical.level></full.toc></generated.toc></front></chapter></topic.body></topic></publication.body></publication></part.main>
+                                                    </outline.name.block></toc.section></toc.analytical.level></toc.analytical.level></full.toc></generated.toc></front></chapter></topic.body></topic></publication.body></publication></column></columns></part.main>

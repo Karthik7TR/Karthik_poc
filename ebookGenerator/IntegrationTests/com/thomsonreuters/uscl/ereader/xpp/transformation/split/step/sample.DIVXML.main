@@ -182,6 +182,8 @@
                                                     <name>—Husband and wife</name>
                                                     <pagebreak num="2"/>
                                                     <sectionbreak sectionuuid="I4a6f120026a611d99b08a92d7e97623c"/>
+                                                    <columns/>
+                                                    <column/>
                                                 </outline.name.block>
                                             </toc.section>
                                             <toc.section>
@@ -198,6 +200,8 @@
                                                     <name>Partnership registration statement—Official form</name>
                                                 </outline.name.block>
                                             </toc.section>
+                                            <endcolumn/>
+                                            <column/>
                                             <toc.section>
                                                 <outline.name.block>
                                                     <label>§ </label>
@@ -218,7 +222,11 @@
                                                     <label>§ </label>
                                                     <designator>30:21</designator>
                                                     <name>Statement of partnership authority—Official form</name>
+                                                    <endcolumn/>
+                                                    <endcolumns/>
                                                     <pagebreak num="3"/>
+                                                    <columns/>
+                                                    <column/>
                                                 </outline.name.block>
                                             </toc.section>
                                             <toc.section>
@@ -244,6 +252,8 @@
                                                 <outline.name.block>
                                                     <designator>1.</designator>
                                                     <name> Introduction</name>
+                                                    <endcolumn/>
+                                                    <column/>
                                                 </outline.name.block>
                                                 <toc.section>
                                                     <outline.name.block>
@@ -271,6 +281,8 @@
                                                         <label>§ </label>
                                                         <designator>30:26</designator>
                                                         <name>Rights of limited partner</name>
+                                                        <endcolumn/>
+                                                        <endcolumns/>
                                                         <sectionbreak sectionuuid="I4a6f120026a611d99b08a92d7e97623e"/>
                                                         <pagebreak num="4"/>
                                                     </outline.name.block>

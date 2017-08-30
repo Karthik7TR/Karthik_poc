@@ -4,6 +4,7 @@
 	xmlns="http://www.sdl.com/xpp" exclude-result-prefixes="x">
 	<xsl:import href="transform-utils.xsl" />
 	<xsl:import href="PageNumbers.xsl" />
+	<xsl:include href="multiColumnsOriginal.xsl" />
 
 	<xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
 

@@ -59,6 +59,9 @@ public final class SplitOriginalStepTest
     private File original;
     private File footnotes;
 
+    private File moveUpOriginal;
+    private File moveUpFootnotes;
+
     @Before
     public void setUp() throws IOException
     {
@@ -67,18 +70,28 @@ public final class SplitOriginalStepTest
         original = mkfile(originalDirectory, "original");
         footnotes = mkfile(originalDirectory, "footnotes");
 
+        final File columnsUpDir = mkdir(root, "ColumnsUp");
+        final File columnsUpOriginal = mkfile(columnsUpDir, "original");
+        final File columnsUpFootnotes = mkfile(columnsUpDir, "footnotes");
+
         final File moveUpDir = mkdir(root, "MoveUp");
-        final File moveUpOriginal = mkfile(moveUpDir, "original");
-        final File moveUpFootnotes = mkfile(moveUpDir, "footnotes");
+        moveUpOriginal = mkfile(moveUpDir, "original");
+        moveUpFootnotes = mkfile(moveUpDir, "footnotes");
 
         originalPartsDirectory = new File(root, "originalPartsDirectory");
 
         given(fileSystem.getSectionBreaksFiles(step)).willReturn(getFilesFromBundleStructure(original, footnotes));
+
+        given(fileSystem.getMultiColumnsUpFiles(step)).willReturn(getFilesFromBundleStructure(columnsUpOriginal, columnsUpFootnotes));
+        given(fileSystem.getMultiColumnsUpFile(step, MATERIAL_NUMBER, "original")).willReturn(columnsUpOriginal);
+        given(fileSystem.getMultiColumnsUpFile(step, MATERIAL_NUMBER, "footnotes")).willReturn(columnsUpFootnotes);
+        given(fileSystem.getMultiColumnsUpDirectory(step, MATERIAL_NUMBER)).willReturn(columnsUpDir);
+
         given(fileSystem.getSectionbreaksUpFiles(step)).willReturn(getFilesFromBundleStructure(moveUpOriginal, moveUpFootnotes));
         given(fileSystem.getSectionbreaksUpFile(step, MATERIAL_NUMBER, "original")).willReturn(moveUpOriginal);
         given(fileSystem.getSectionbreaksUpFile(step, MATERIAL_NUMBER, "footnotes")).willReturn(moveUpFootnotes);
-
         given(fileSystem.getSectionbreaksUpDirectory(step, MATERIAL_NUMBER)).willReturn(moveUpDir);
+
         given(fileSystem.getOriginalPartsDirectory(step, MATERIAL_NUMBER)).willReturn(originalPartsDirectory);
     }
 
@@ -89,10 +102,12 @@ public final class SplitOriginalStepTest
         //when
         step.executeStep();
         //then
-        then(transformationService).should(times(4)).transform(commandCaptor.capture());
+        then(transformationService).should(times(6)).transform(commandCaptor.capture());
         final Iterator<TransformationCommand> iterator = commandCaptor.getAllValues().iterator();
         assertThat(iterator.next().getInputFile(), is(original));
         assertThat(iterator.next().getInputFile(), is(footnotes));
+        assertThat(iterator.next().getOutputFile(), is(moveUpOriginal));
+        assertThat(iterator.next().getOutputFile(), is(moveUpFootnotes));
         assertThat(iterator.next().getOutputFile(), is(originalPartsDirectory));
         assertThat(iterator.next().getOutputFile(), is(originalPartsDirectory));
     }

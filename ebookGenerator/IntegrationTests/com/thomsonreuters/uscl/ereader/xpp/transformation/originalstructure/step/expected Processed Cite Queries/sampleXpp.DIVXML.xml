@@ -328,6 +328,24 @@
 						</line>
 					</group>
 				</block>
+				<block type="main" bx="0" by="0.3i" bsx="4.32i" bsy="7.05i" bisy="7.05i" biy="0.3i" rotate="0" svjmode="justify" btextlen="6.18i" bslack="0.27i" vjerr="0" pgtbl="0" ipcnum="0" ipcgnum="1" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="true" trymode="expand" fipcblk="true" lipcblk="false" original="true" bottom="true" rtl="false">
+					<group class="research.reference.block" pclass="/publication/publication.body/chapter/front" dh="/publication/publication.body/chapter/front/research.reference.block" style="research.reference.block">
+						<line xfinal="0" yfinal="0.1i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">
+								column 1
+							</t>
+						</line>
+					</group>
+				</block>
+				<block type="main" bx="0" by="0.3i" bsx="4.32i" bsy="7.05i" bisy="7.05i" biy="0.3i" rotate="0" svjmode="justify" btextlen="6.18i" bslack="0.27i" vjerr="0" pgtbl="0" ipcnum="0" ipcgnum="1" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="true" trymode="expand" fipcblk="false" lipcblk="true" original="true" bottom="true" rtl="false">
+					<group class="research.reference.block" pclass="/publication/publication.body/chapter/front" dh="/publication/publication.body/chapter/front/research.reference.block" style="research.reference.block">
+						<line xfinal="0" yfinal="0.1i" lnwidth="4.32i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="justify" bandwidth="0.06i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="para.text">
+								column 2
+							</t>
+						</line>
+					</group>
+				</block>
 			</stream>
 			<stream type="footnote" sx="0" sy="6.75i" ssx="4.32i" ssy="0.6i" groupnum="2" svjmode="top" epfilltype="none" class="0" rotate="0" strmrot="0" vj_space="0" cerrors="false" cntedit="false" predit="false" recomp="false" frzcomp="false" ipcbal="false" touched="false" tplaced="false" bplaced="false" firstack="false" lastack="false" direction="false" pgscope="false" hfull="false" vfull="false" here="false" before="false" justified="false" balup="false" baldown="false" balrunaway="false">
 				<block type="footnote" id="separator" bx="0" by="0" bsx="4.32i" bsy="0.6i" bisy="0.6i" biy="0" rotate="0" svjmode="top" btextlen="0.24i" bslack="0" vjerr="0" pgtbl="2" ipcnum="0" ipcgnum="1" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="false" rtl="false">

@@ -39,14 +39,15 @@ public final class XppFormatFileSystemImplTest
         "workDirectory/Format/02_Original/" + MATERIAL_NUMBER + "/Processed Cite Queries";
     private static final String SOURCE_DIR = "workDirectory/Format/03_StructureWithMetadata";
     private static final String SECTIONBREAKS_DIR = "workDirectory/Format/04_Sectionbreaks";
-    private static final String SECTIONBREAKS_UP_DIR = "workDirectory/Format/05_SectionbreaksUp";
-    private static final String ORIGINAL_PARTS_DIR = "workDirectory/Format/06_OriginalParts";
-    private static final String ORIGINAL_PAGES_DIR = "workDirectory/Format/07_OriginalPages";
-    private static final String HTML_PAGES_DIR = "workDirectory/Format/08_HtmlPages";
-    private static final String EXTERNAL_LINKS_DIR = "workDirectory/Format/09_ExternalLinks";
-    private static final String EXTERNAL_LINKS_MAPPING_DIR = "workDirectory/Format/09_ExternalLinks_Mapping";
-    private static final String TOC_DIR = "workDirectory/Format/10_Toc";
-    private static final String TITLE_METADATA_DIR = "workDirectory/Format/11_title_metadata";
+    private static final String MULTICOLUMNS_UP_DIR = "workDirectory/Format/05_MultiColumnsUp";
+    private static final String SECTIONBREAKS_UP_DIR = "workDirectory/Format/06_SectionbreaksUp";
+    private static final String ORIGINAL_PARTS_DIR = "workDirectory/Format/07_OriginalParts";
+    private static final String ORIGINAL_PAGES_DIR = "workDirectory/Format/08_OriginalPages";
+    private static final String HTML_PAGES_DIR = "workDirectory/Format/09_HtmlPages";
+    private static final String EXTERNAL_LINKS_DIR = "workDirectory/Format/10_ExternalLinks";
+    private static final String EXTERNAL_LINKS_MAPPING_DIR = "workDirectory/Format/10_ExternalLinks_Mapping";
+    private static final String TOC_DIR = "workDirectory/Format/11_Toc";
+    private static final String TITLE_METADATA_DIR = "workDirectory/Format/12_title_metadata";
 
     private static final String FILE_NAME_XML = "fileName.xml";
     private static final String FILE_NAME_MAIN = "fileName.main";
@@ -289,6 +290,36 @@ public final class XppFormatFileSystemImplTest
         //then
         assertTrue(map.get(MATERIAL_NUMBER).contains(file1));
         assertTrue(map.get(MATERIAL_NUMBER_2).contains(file2));
+    }
+
+    @Test
+    public void shouldReturnMultiColumnsUpDirectory()
+    {
+        //given
+        //when
+        final File directory = fileSystem.getMultiColumnsUpDirectory(step);
+        //then
+        assertThat(directory, hasPath(MULTICOLUMNS_UP_DIR));
+    }
+
+    @Test
+    public void shouldReturnMultiColumnsUpFile()
+    {
+        //given
+        //when
+        final File directory = fileSystem.getMultiColumnsUpDirectory(step, MATERIAL_NUMBER);
+        //then
+        assertThat(directory, hasPath(MULTICOLUMNS_UP_DIR + "/" + MATERIAL_NUMBER));
+    }
+
+    @Test
+    public void shouldReturnMultiColumnsUpFiles()
+    {
+        //given
+        //when
+        final File file = fileSystem.getMultiColumnsUpFile(step, MATERIAL_NUMBER, FILE_NAME_MAIN);
+        //then
+        assertThat(file, hasPath(MULTICOLUMNS_UP_DIR + "/" + MATERIAL_NUMBER + "/" + FILE_NAME_MAIN));
     }
 
     @Test
@@ -596,7 +627,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File file = fileSystem.getBundlePartTocFile(FILE_NAME_XML, MATERIAL_NUMBER, step);
         //then
-        assertThat(file, hasPath("workDirectory/Format/10_Toc/11111111/toc_fileName.xml"));
+        assertThat(file, hasPath("workDirectory/Format/11_Toc/11111111/toc_fileName.xml"));
     }
 
     @Test
@@ -606,7 +637,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File file = fileSystem.getMergedBundleTocFile(MATERIAL_NUMBER, step);
         //then
-        assertThat(file, hasPath("workDirectory/Format/10_Toc/11111111/toc_merged.xml"));
+        assertThat(file, hasPath("workDirectory/Format/11_Toc/11111111/toc_merged.xml"));
     }
 
     @Test

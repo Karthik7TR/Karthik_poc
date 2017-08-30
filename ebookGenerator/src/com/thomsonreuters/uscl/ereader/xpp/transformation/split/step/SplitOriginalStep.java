@@ -24,6 +24,8 @@ import org.springframework.beans.factory.annotation.Value;
 @SavePublishingStatusPolicy
 public class SplitOriginalStep extends XppTransformationStep
 {
+    @Value("${xpp.move.multicolumns.up.xsl}")
+    private File moveMultiColumnsUpXsl;
     @Value("${xpp.move.sectionbreaks.up.xsl}")
     private File moveSectionbreaksUpXsl;
     @Value("${xpp.split.original.xsl}")
@@ -32,14 +34,34 @@ public class SplitOriginalStep extends XppTransformationStep
     @Override
     public void executeTransformation() throws Exception
     {
+        moveMultiColumnsToTopLevel();
         moveSectionbreaksToTopLevel();
         splitByPages();
+    }
+
+    /**
+     * TODO: unite functionality of moveMultiColumnsToTopLevel() and moveSectionbreaksToTopLevel() in java8
+     */
+    private void moveMultiColumnsToTopLevel() throws IOException
+    {
+        final Transformer transformer = transformerBuilderFactory.create().withXsl(moveMultiColumnsUpXsl).build();
+        for (final Map.Entry<String, Collection<File>> dir : fileSystem.getSectionBreaksFiles(this).entrySet())
+        {
+            FileUtils.forceMkdir(fileSystem.getMultiColumnsUpDirectory(this, dir.getKey()));
+            for (final File file : dir.getValue())
+            {
+                final File multiColumnsUpFile = fileSystem.getMultiColumnsUpFile(this, dir.getKey(), file.getName());
+                final TransformationCommand command =
+                    new TransformationCommandBuilder(transformer, multiColumnsUpFile).withInput(file).build();
+                transformationService.transform(command);
+            }
+        }
     }
 
     private void moveSectionbreaksToTopLevel() throws IOException
     {
         final Transformer transformer = transformerBuilderFactory.create().withXsl(moveSectionbreaksUpXsl).build();
-        for (final Map.Entry<String, Collection<File>> dir : fileSystem.getSectionBreaksFiles(this).entrySet())
+        for (final Map.Entry<String, Collection<File>> dir : fileSystem.getMultiColumnsUpFiles(this).entrySet())
         {
             FileUtils.forceMkdir(fileSystem.getSectionbreaksUpDirectory(this, dir.getKey()));
             for (final File file : dir.getValue())
