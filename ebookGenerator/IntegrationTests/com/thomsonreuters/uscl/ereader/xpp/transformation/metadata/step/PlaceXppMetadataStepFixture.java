@@ -82,7 +82,7 @@ public abstract class PlaceXppMetadataStepFixture
                 .get(JobParameterKey.XPP_BUNDLES)).thenReturn(getBundlesList());
     }
 
-    private List<XppBundle> getBundlesList()
+    List<XppBundle> getBundlesList()
     {
         final XppBundle volumeOneBundle = new XppBundle();
         volumeOneBundle.setMaterialNumber(VOL_MATERIAL_NUMBER);

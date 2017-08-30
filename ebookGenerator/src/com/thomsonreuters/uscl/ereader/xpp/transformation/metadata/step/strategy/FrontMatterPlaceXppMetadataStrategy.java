@@ -49,7 +49,8 @@ public class FrontMatterPlaceXppMetadataStrategy extends AbstractPlaceXppMetadat
         @NotNull final String materialNumber,
         @NotNull final XppBookStep step)
     {
-        final Transformer transformer = transformerBuilderFactory.create().withXsl(xslTransformationFile).build();
+        final Transformer transformer = transformerBuilderFactory.create().withXsl(xslTransformationFile)
+            .withParameter("isMultiVolume", step.getXppBundles().size() > 1).build();
         final File outputFile =
             xppFormatFileSystem.getStructureWithMetadataFile(step, materialNumber, inputFile.getName());
         return asList(new TransformationCommandBuilder(transformer, outputFile).withInput(inputFile).build());

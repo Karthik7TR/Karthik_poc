@@ -3,16 +3,18 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.sdl.com/xpp"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
-	
+
 	<xsl:import href="placeXppMarks.xsl" />
 	<xsl:import href="transform-utils.xsl" />
 	<xsl:param name="volumeName" select="volumeName" />
+	<xsl:param name="isMultiVolume" select="isMultiVolume" />
 	<xsl:variable name="front_matter_uuid" select="concat($volumeName,'.','FrontMatter')" />
 
 	<xsl:template match="x:root">
 		<root>
 			<xsl:call-template name="placeSectionbreak">
-				<xsl:with-param name="sectionuuid" select="concat($volumeName,'.fm.title.page')" />
+				<xsl:with-param name="sectionuuid"
+					select="concat($volumeName,'.fm.title.page')" />
 			</xsl:call-template>
 			<xsl:apply-templates />
 		</root>
@@ -20,21 +22,25 @@
 
 	<xsl:template match="x:fm.title.page">
 		<xsl:variable name="uuid" select="concat($volumeName,'.',name())" />
-		<xsl:variable name="volNumber" select="substring($volumeName, string-length($volumeName), 1)" />
+		<xsl:variable name="volNumber"
+			select="substring($volumeName, string-length($volumeName), 1)" />
 
-		<xsl:element name="XPPHier">
-			<xsl:attribute name="uuid" select="$volumeName" />
-			<xsl:attribute name="name" select="concat($volNamePlaceholder, $volNumber)" />
-			<xsl:attribute name="parent_uuid" select="$volumeName" />
-			<xsl:attribute name="md.doc_family_uuid" select="$uuid" />
-			<xsl:value-of select="$volNamePlaceholder"  />
-		</xsl:element>
+		<xsl:if test="$isMultiVolume">
+			<xsl:element name="XPPHier">
+				<xsl:attribute name="uuid" select="$volumeName" />
+				<xsl:attribute name="name"
+					select="concat($volNamePlaceholder, $volNumber)" />
+				<xsl:attribute name="parent_uuid" select="$volumeName" />
+				<xsl:attribute name="md.doc_family_uuid" select="$uuid" />
+				<xsl:value-of select="$volNamePlaceholder" />
+			</xsl:element>
+		</xsl:if>
 
 		<xsl:call-template name="placeXppHier">
 			<xsl:with-param name="uuid" select="$uuid" />
 			<xsl:with-param name="name" select="'Title page'" />
 			<xsl:with-param name="parent_uuid" select="$uuid" />
-			<xsl:with-param name="doc_family_uuid" select="$uuid"/>
+			<xsl:with-param name="doc_family_uuid" select="$uuid" />
 		</xsl:call-template>
 
 		<xsl:copy>
@@ -58,7 +64,7 @@
 			<xsl:with-param name="uuid" select="$front_matter_uuid" />
 			<xsl:with-param name="name" select="'Front matter'" />
 			<xsl:with-param name="parent_uuid" select="$front_matter_uuid" />
-			<xsl:with-param name="doc_family_uuid" select="$uuid"/>
+			<xsl:with-param name="doc_family_uuid" select="$uuid" />
 		</xsl:call-template>
 	</xsl:template>
 
@@ -81,7 +87,8 @@
 	</xsl:template>
 
 	<xsl:template match="x:fm.about.the.author|x:fm.other.structure">
-		<xsl:variable name="other_label" select="x:head/x:name.block/x:name/x:t/text()" />
+		<xsl:variable name="other_label"
+			select="x:head/x:name.block/x:name/x:t/text()" />
 		<xsl:variable name="other_uuid"
 			select="concat($volumeName,'.',translate($other_label, ' ', '.'))" />
 
@@ -108,7 +115,7 @@
 			<xsl:with-param name="uuid" select="$uuid" />
 			<xsl:with-param name="name" select="$hierName" />
 			<xsl:with-param name="parent_uuid" select="$parent_uuid" />
-			<xsl:with-param name="doc_family_uuid" select="$uuid"/>
+			<xsl:with-param name="doc_family_uuid" select="$uuid" />
 		</xsl:call-template>
 	</xsl:template>
 
