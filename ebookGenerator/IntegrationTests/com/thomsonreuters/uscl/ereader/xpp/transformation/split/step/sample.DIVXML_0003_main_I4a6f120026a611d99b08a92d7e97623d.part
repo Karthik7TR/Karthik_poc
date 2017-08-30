@@ -1,4 +1,4 @@
-<part.main xmlns="http://www.sdl.com/xpp" fileName="sample.DIVXML_0003"><publication><publication.body><topic><topic.body><chapter><front><generated.toc><full.toc><toc.analytical.level><toc.analytical.level><toc.section><outline.name.block>
+<part.main xmlns="http://www.sdl.com/xpp" fileName="sample.DIVXML_0003"><columns><column><publication><publication.body><topic><topic.body><chapter><front><generated.toc><full.toc><toc.analytical.level><toc.analytical.level><toc.section><outline.name.block>
                                                 </outline.name.block>
                                             </toc.section>
                                             <toc.section>
@@ -13,7 +13,11 @@
                                                     <label>§ </label>
                                                     <designator>30:21</designator>
                                                     <name>Statement of partnership authority—Official form</name>
+                                                    </outline.name.block></toc.section></toc.analytical.level></toc.analytical.level></full.toc></generated.toc></front></chapter></topic.body></topic></publication.body></publication></column>
+                                                    </columns><publication><publication.body><topic><topic.body><chapter><front><generated.toc><full.toc><toc.analytical.level><toc.analytical.level><toc.section><outline.name.block>
                                                     <pagebreak num="3"/>
+                                                    </outline.name.block></toc.section></toc.analytical.level></toc.analytical.level></full.toc></generated.toc></front></chapter></topic.body></topic></publication.body></publication><columns>
+                                                    <column><publication><publication.body><topic><topic.body><chapter><front><generated.toc><full.toc><toc.analytical.level><toc.analytical.level><toc.section><outline.name.block>
                                                 </outline.name.block>
                                             </toc.section>
                                             <toc.section>
@@ -39,6 +43,8 @@
                                                 <outline.name.block>
                                                     <designator>1.</designator>
                                                     <name> Introduction</name>
+                                                    </outline.name.block></toc.analytical.level></toc.analytical.level></toc.analytical.level></full.toc></generated.toc></front></chapter></topic.body></topic></publication.body></publication></column>
+                                                    <column><publication><publication.body><topic><topic.body><chapter><front><generated.toc><full.toc><toc.analytical.level><toc.analytical.level><toc.analytical.level><outline.name.block>
                                                 </outline.name.block>
                                                 <toc.section>
                                                     <outline.name.block>
@@ -66,4 +72,6 @@
                                                         <label>§ </label>
                                                         <designator>30:26</designator>
                                                         <name>Rights of limited partner</name>
+                                                        </outline.name.block></toc.section></toc.analytical.level></toc.analytical.level></toc.analytical.level></full.toc></generated.toc></front></chapter></topic.body></topic></publication.body></publication></column>
+                                                        </columns><publication><publication.body><topic><topic.body><chapter><front><generated.toc><full.toc><toc.analytical.level><toc.analytical.level><toc.analytical.level><toc.section><outline.name.block>
                                                         </outline.name.block></toc.section></toc.analytical.level></toc.analytical.level></toc.analytical.level></full.toc></generated.toc></front></chapter></topic.body></topic></publication.body></publication></part.main>
