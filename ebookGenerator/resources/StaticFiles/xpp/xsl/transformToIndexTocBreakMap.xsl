@@ -5,9 +5,11 @@
                       
     <xsl:template match="x:root">
     	<indexbreaks>
+    	<xsl:if test="count(//x:pagebreak)>20">
     		<xsl:apply-templates>
     			<xsl:with-param name="firstPage" select="x:pagebreak[1]/@num" />
     		</xsl:apply-templates>
+    	</xsl:if>
     	</indexbreaks>
     </xsl:template>    
     

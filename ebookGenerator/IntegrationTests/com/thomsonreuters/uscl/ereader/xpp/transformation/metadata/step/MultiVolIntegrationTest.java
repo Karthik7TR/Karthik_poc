@@ -14,10 +14,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("IntegrationTests")
 @ContextConfiguration(classes = PlaceXppMetadataStepIntegrationTestConfig.class)
-public final class MetadataMultiVolIntegrationTest extends PlaceXppMetadataStepFixture
+public final class MultiVolIntegrationTest extends PlaceXppMetadataStepFixture
 {
 
-    public MetadataMultiVolIntegrationTest()
+    public MultiVolIntegrationTest()
         throws URISyntaxException
     {
         super("multivol/0-CHALSource_Front_vol_1.DIVXML.main", "multivol/0-CHALExpected_Front_vol_1.DIVXML.main");
@@ -30,7 +30,7 @@ public final class MetadataMultiVolIntegrationTest extends PlaceXppMetadataStepF
     }
 
     @Override
-    List<XppBundle> getBundlesList()
+    protected List<XppBundle> getBundlesList()
     {
         final XppBundle volumeOneBundle = new XppBundle();
         volumeOneBundle.setMaterialNumber(VOL_MATERIAL_NUMBER);
