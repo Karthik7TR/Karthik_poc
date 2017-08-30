@@ -737,6 +737,10 @@ sup + .footnote_body > .para:first-child {
   margin: 0;
 }
 
+.cite {
+  display: inline;
+}
+
 .toc_primary_hierarchy > .primary_outline_name_block > .label + .t,
 .toc_primary_hierarchy > .primary_outline_name_block > .designator + .t {
   width: auto;
