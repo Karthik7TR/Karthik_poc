@@ -29,7 +29,7 @@
         </footnote.body.main.popup.pane>
     </xsl:template>
     
-    <xsl:template match="x:pagebreak" mode="mainPopupPane" />
+    <xsl:template match="x:pagebreak | x:columns | x:column | x:endcolumn | x:endcolumns" mode="mainPopupPane" />
     
     <xsl:template match="x:pagebreak">
         <xsl:variable name="outerFootnote" select="ancestor::x:footnote[1]" />

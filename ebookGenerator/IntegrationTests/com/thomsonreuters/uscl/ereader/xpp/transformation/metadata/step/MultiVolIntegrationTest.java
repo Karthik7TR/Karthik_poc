@@ -16,7 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(classes = PlaceXppMetadataStepIntegrationTestConfig.class)
 public final class MultiVolIntegrationTest extends PlaceXppMetadataStepFixture
 {
-
     public MultiVolIntegrationTest()
         throws URISyntaxException
     {

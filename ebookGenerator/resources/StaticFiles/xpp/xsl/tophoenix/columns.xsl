@@ -3,7 +3,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:x="http://www.sdl.com/xpp"
     xmlns="http://www.sdl.com/xpp" exclude-result-prefixes="x">
 
-    <xsl:template match="x:stream">
+    <xsl:template match="x:stream[@type='main']">
         <xsl:for-each-group select="x:block" group-starting-with="x:block[@fipcblk = 'true']">
             <xsl:variable name="numberOfColumns" select="count(current-group())" />
             <xsl:choose>

@@ -14,6 +14,7 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotif
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
+import com.thomsonreuters.uscl.ereader.xpp.common.StreamType;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppGatherFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
@@ -28,10 +29,8 @@ public class OriginalStructureTransformationStep extends XppTransformationStep
 {
     @Value("${xpp.entities.dtd}")
     private File entitiesDtdFile;
-    @Value("${xpp.transform.to.original.xsl}")
-    private File transformToOriginalXsl;
-    @Value("${xpp.transform.to.footnotes.xsl}")
-    private File transformToFootnotesXsl;
+    @Value("${xpp.transform.to.phoenix.xsl}")
+    private File transformToPhoenixXsl;
     @Value("${xpp.cite.query.processor.xsl}")
     private File citeQueryProcessorXsl;
     @Resource(name = "xppGatherFileSystem")
@@ -47,15 +46,16 @@ public class OriginalStructureTransformationStep extends XppTransformationStep
             bundleOriginalDir.mkdirs();
         }
         xppXmls = processCiteQueries(xppXmls);
-        generateMainXmls(xppXmls);
-        generateFootnotesXmls(xppXmls);
+        generateXmls(xppXmls, StreamType.MAIN);
+        generateXmls(xppXmls, StreamType.FOOTNOTES);
     }
 
-    private void generateMainXmls(final Map<String, Collection<File>> xppXmls)
+    private void generateXmls(final Map<String, Collection<File>> xppXmls, final StreamType type)
     {
         final Transformer transformerToOriginal = transformerBuilderFactory.create()
-            .withXsl(transformToOriginalXsl)
+            .withXsl(transformToPhoenixXsl)
             .withParameter("entitiesDocType", entitiesDtdFile.getAbsolutePath().replace("\\", "/"))
+            .withParameter("type", type.getName())
             .build();
 
         for (final Map.Entry<String, Collection<File>> xppDir : xppXmls.entrySet())
@@ -64,33 +64,26 @@ public class OriginalStructureTransformationStep extends XppTransformationStep
             {
                 transformerToOriginal
                     .setParameter("bundlePartType", BundleFileType.getByFileName(xppFile.getName()).name());
-                final File originalFile = fileSystem.getOriginalFile(this, xppDir.getKey(), xppFile.getName());
+                final File originalFile = getOutputFile(xppDir.getKey(), xppFile.getName(), type);
+
                 final TransformationCommand command =
-                    new TransformationCommandBuilder(transformerToOriginal, originalFile).withInput(xppFile)
-                        .build();
+                    new TransformationCommandBuilder(transformerToOriginal, originalFile).withInput(xppFile).build();
                 transformationService.transform(command);
             }
         }
     }
 
-    private void generateFootnotesXmls(final Map<String, Collection<File>> xppXmls)
+    private File getOutputFile(final String materialNumber, final String fileName, final StreamType type)
     {
-        final Transformer transformerToFootnotes =
-            transformerBuilderFactory.create().withXsl(transformToFootnotesXsl).build();
-
-        for (final Map.Entry<String, Collection<File>> xppDir : xppXmls.entrySet())
+        if (type == StreamType.MAIN)
         {
-            for (final File xppFile : xppDir.getValue())
-            {
-                transformerToFootnotes
-                    .setParameter("bundlePartType", BundleFileType.getByFileName(xppFile.getName()).name());
-                final File footnotesFile = fileSystem.getFootnotesFile(this, xppDir.getKey(), xppFile.getName());
-                final TransformationCommand command =
-                    new TransformationCommandBuilder(transformerToFootnotes, footnotesFile).withInput(xppFile)
-                        .build();
-                transformationService.transform(command);
-            }
+            return fileSystem.getOriginalFile(this, materialNumber, fileName);
         }
+        else if (type == StreamType.FOOTNOTES)
+        {
+            return fileSystem.getFootnotesFile(this, materialNumber, fileName);
+        }
+        throw new IllegalArgumentException("Unsupported stream type: " + type.getName());
     }
 
     private Map<String, Collection<File>> processCiteQueries(final Map<String, Collection<File>> originalBundles)

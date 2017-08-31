@@ -1,11 +1,11 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.originalstructure.step;
 
-import static com.thomsonreuters.uscl.ereader.common.filesystem.FileContentMatcher.hasSameContentAs;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javax.annotation.Resource;
 
@@ -62,9 +62,8 @@ public final class OriginalStructureTransformationStepIntegrationTest
     @After
     public void cleanUpProcessedDir() throws IOException
     {
-        final File xppDir = xppGatherFileSystem.getXppBundleMaterialNumberDirectory(step, MATERIAL_NUMBER)
-            .toPath()
-            .toFile();
+        final File xppDir =
+            xppGatherFileSystem.getXppBundleMaterialNumberDirectory(step, MATERIAL_NUMBER).toPath().toFile();
         final File processedCiteQueriesDir = fileSystem.getCiteQueryProcessedDirectory(step, MATERIAL_NUMBER);
         FileUtils.forceDelete(xppDir);
         FileUtils.forceDelete(processedCiteQueriesDir);
@@ -77,13 +76,8 @@ public final class OriginalStructureTransformationStepIntegrationTest
         final String processedCiteQueriesDirName) throws Exception
     {
         //given
-        final String expectedMain = FileUtils
-            .readFileToString(
-                new File(
-                    OriginalStructureTransformationStepIntegrationTest.class.getResource(expectedMainFileName).toURI()))
-            .replace(REF_PLACE_HOLDER, entitiesDtdFile.getAbsolutePath().replace("\\", "/"));
-        final File expectedFootnotes = new File(
-            OriginalStructureTransformationStepIntegrationTest.class.getResource(expectedFootnoteFileName).toURI());
+        final String expectedMain = getFileContent(expectedMainFileName);
+        final String expectedFootnotes = getFileContent(expectedFootnoteFileName);
         final File expectedProcessedCiteQueriesDir = new File(
             OriginalStructureTransformationStepIntegrationTest.class.getResource(processedCiteQueriesDirName).toURI());
         final File xpp =
@@ -102,9 +96,17 @@ public final class OriginalStructureTransformationStepIntegrationTest
         final File footnotes = fileSystem.getFootnotesFile(step, MATERIAL_NUMBER, sampleFileName);
         final File processedCiteQueriesDir = fileSystem.getCiteQueryProcessedDirectory(step, MATERIAL_NUMBER);
         assertThat(FileUtils.readFileToString(main), equalTo(expectedMain));
-        assertThat(footnotes, hasSameContentAs(expectedFootnotes));
+        assertThat(FileUtils.readFileToString(footnotes), equalTo(expectedFootnotes));
         assertThat(
             processedCiteQueriesDir,
             DirectoryContentMatcher.hasSameContentAs(expectedProcessedCiteQueriesDir, true));
+    }
+
+    private String getFileContent(final String fileName) throws URISyntaxException, IOException
+    {
+        final File file =
+            new File(OriginalStructureTransformationStepIntegrationTest.class.getResource(fileName).toURI());
+        return FileUtils.readFileToString(file)
+            .replace(REF_PLACE_HOLDER, entitiesDtdFile.getAbsolutePath().replace("\\", "/"));
     }
 }
