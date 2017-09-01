@@ -700,6 +700,8 @@ sup + .footnote_body > .para:first-child {
 .column {
   padding-left: 1em;
   padding-right: 1em;
+  flex-grow: 1;
+  flex-basis: 0;
 }
 
 .fm_title_page .text_line .cgt,

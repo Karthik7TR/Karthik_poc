@@ -4,6 +4,8 @@
 }
 
 .column {
-    padding-left: 1em;
-    padding-right: 1em;
+    padding-left: $indent;
+    padding-right: $indent;
+    flex-grow: 1;
+    flex-basis: 0;
 }
