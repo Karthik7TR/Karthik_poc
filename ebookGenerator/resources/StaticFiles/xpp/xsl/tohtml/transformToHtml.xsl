@@ -88,6 +88,12 @@
 	</xsl:template>
 
 	<xsl:template match="element()">
+		<xsl:variable name="isFootnotePart" select="parent::x:footnote" />
+		<xsl:if test="$isFootnotePart">
+			<xsl:text disable-output-escaping="yes"><![CDATA[<]]></xsl:text>
+			<xsl:text>div class="er_rp_search_volume_content_data"</xsl:text>
+			<xsl:text disable-output-escaping="yes"><![CDATA[>]]></xsl:text>
+		</xsl:if>
 		<xsl:element name="div">
 			<xsl:attribute name="class">
 				<xsl:value-of select="x:get-class-name(name(.))" />
@@ -100,10 +106,18 @@
 					<xsl:if test="@pre.leading">
 						<xsl:value-of select="concat(' pre_leading_', x:get-class-name(@pre.leading))" />
 					</xsl:if>
+					<xsl:if test="name()='footnote.body' and not(following-sibling::x:footnote.body.main.popup.pane)">
+						<xsl:value-of select="concat(' ', 'no-popup-sibling')" />
+					</xsl:if>
 			</xsl:attribute>
 			<xsl:copy-of select="./@uuid | ./@tocuuid" />
 			<xsl:apply-templates />
 		</xsl:element>
+		<xsl:if test="$isFootnotePart">
+			<xsl:text disable-output-escaping="yes"><![CDATA[</]]></xsl:text>
+			<xsl:text>div</xsl:text>
+			<xsl:text disable-output-escaping="yes"><![CDATA[>]]></xsl:text>
+		</xsl:if>
 	</xsl:template>
 	
 	<xsl:template match="x:XPPMetaData" />

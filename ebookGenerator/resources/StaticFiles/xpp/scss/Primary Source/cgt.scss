@@ -12,4 +12,8 @@
     .toc_primary_hierarchy>.toc_appendix_block>.toc_appendix>.outline_name_block>.designator>& {
         display: none !important;
     }
+    .footnote>& {
+        display: block;
+        width: 100%;
+    }
 }

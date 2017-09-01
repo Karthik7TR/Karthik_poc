@@ -1,17 +1,10 @@
 @import "constants.scss";
 sup {
     .footnote>& {
-        display: inline;
-        margin-left: calc(#{$indent}*2.2);
+        display: block;
+        height: 0;
+        text-indent: calc(#{$indent} * 2.3);
     }
-}
-
-sup, sup * {
-    display: inline !important;
-}
-
-.footnote_body {
-    display: inline;
 }
 
 .para_text {
@@ -28,6 +21,8 @@ sup, sup * {
 
 .footnote {
     text-align: justify;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .para {
@@ -45,13 +40,13 @@ sup, sup * {
 }
 
 .name_block {
-    .reference_entry_group>&,
     & * {
         display: inline;
     }
     .reference_entry_group>& {
         margin-left: calc(#{$indent}*2.3);
         margin-right: 0;
+        display: inline-block;
     }
 }
 
@@ -74,20 +69,24 @@ sup, sup * {
     text-align: center;
 }
 
-.er_rp_ftbox_content {
-    .footnote_body {
-        display: none;
+.footnote_body {
+    text-align: justify;
+    display: none;
+    .tr_footnotes & {
+        display: block;
     }
-    .footnote_body_main_popup_pane {
-        display: inline;
+    a+& {
+        margin: auto;
     }
 }
 
-.tr_footnotes {
-    .footnote_body {
-        display: inline;
-    }
-    .footnote_body_main_popup_pane {
+.footnote_body_main_popup_pane {
+    text-align: justify;
+    .tr_footnotes & {
         display: none;
     }
+}
+
+.no-popup-sibling {
+    display: block !important;
 }

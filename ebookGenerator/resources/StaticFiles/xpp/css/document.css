@@ -614,16 +614,9 @@ thead > tr > td > .cgt {
 }
 
 .footnote > sup {
-  display: inline;
-  margin-left: calc(1em*2.2);
-}
-
-sup, sup * {
-  display: inline !important;
-}
-
-.footnote_body {
-  display: inline;
+  display: block;
+  height: 0;
+  text-indent: calc(1em * 2.3);
 }
 
 .footnote_body .para_text {
@@ -636,6 +629,8 @@ sup, sup * {
 
 .footnote {
   text-align: justify;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .footnote_body .para {
@@ -648,7 +643,6 @@ sup + .footnote_body > .para:first-child {
   text-indent: 0;
 }
 
-.reference_entry_group > .name_block,
 .name_block * {
   display: inline;
 }
@@ -656,6 +650,7 @@ sup + .footnote_body > .para:first-child {
 .reference_entry_group > .name_block {
   margin-left: calc(1em*2.3);
   margin-right: 0;
+  display: inline-block;
 }
 
 .reference_entry,
@@ -676,20 +671,29 @@ sup + .footnote_body > .para:first-child {
   text-align: center;
 }
 
-.er_rp_ftbox_content .footnote_body {
+.footnote_body {
+  text-align: justify;
   display: none;
 }
 
-.er_rp_ftbox_content .footnote_body_main_popup_pane {
-  display: inline;
+.tr_footnotes .footnote_body {
+  display: block;
 }
 
-.tr_footnotes .footnote_body {
-  display: inline;
+a + .footnote_body {
+  margin: auto;
+}
+
+.footnote_body_main_popup_pane {
+  text-align: justify;
 }
 
 .tr_footnotes .footnote_body_main_popup_pane {
   display: none;
+}
+
+.no-popup-sibling {
+  display: block !important;
 }
 
 .columns {
@@ -718,6 +722,11 @@ sup + .footnote_body > .para:first-child {
 .toc_primary_hierarchy > .primary_outline_name_block > .primary_name ~ .cgt,
 .toc_primary_hierarchy > .toc_appendix_block > .toc_appendix > .outline_name_block > .designator > .cgt {
   display: none !important;
+}
+
+.footnote > .cgt {
+  display: block;
+  width: 100%;
 }
 
 .primary_hierarchy_front,
