@@ -49,6 +49,10 @@
 	<bean id="libraryListService"
 		class="com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListServiceImpl"
 		p:libraryListDao-ref="libraryListDao" />
+		
+	<bean id="materialComponentComparatorProvider" class="com.thomsonreuters.uscl.ereader.sap.comparsion.MaterialComponentComparatorProviderImpl">
+		<constructor-arg ref="bookDefinitionService" />
+	</bean>
 
 	<bean id="editBookDefinitionService"
 		class="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionServiceImpl">
@@ -61,6 +65,8 @@
 				<value>AAJ Press</value>
 			</list>
 		</property>
+		<property name="sapService" ref="sapService" />
+		<property name="materialComponentComparatorProvider" ref="materialComponentComparatorProvider" />
 	</bean>
 
 	<bean id="miscConfigSyncService"

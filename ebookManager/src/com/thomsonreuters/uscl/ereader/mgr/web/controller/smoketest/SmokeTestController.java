@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.sap.service.SapService;
 import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTest;
 import com.thomsonreuters.uscl.ereader.smoketest.service.SmokeTestService;
 import org.apache.log4j.LogManager;
@@ -29,6 +30,7 @@ public class SmokeTestController
 
     private MiscConfigSyncService miscConfigSyncService;
     private SmokeTestService smokeTestService;
+    private SapService sapService;
     private String environmentName;
     private String imageVertical;
 
@@ -59,6 +61,7 @@ public class SmokeTestController
         statuses.add(
             smokeTestService
                 .getApplicationStatus("ProView", String.format("http://%s/v1/statuscheck", proviewHost.getHostName())));
+        statuses.add(sapService.checkSapStatus());
         statuses.add(smokeTestService.testConnection());
         model.addAttribute("currentProperties", statuses);
 
@@ -103,5 +106,11 @@ public class SmokeTestController
     public void setMiscConfigSyncService(final MiscConfigSyncService service)
     {
         miscConfigSyncService = service;
+    }
+
+    @Required
+    public void setSapService(final SapService sapService)
+    {
+        this.sapService = sapService;
     }
 }

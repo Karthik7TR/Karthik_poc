@@ -8,6 +8,7 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.smoketest.SmokeTestController;
+import com.thomsonreuters.uscl.ereader.sap.service.SapService;
 import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTest;
 import com.thomsonreuters.uscl.ereader.smoketest.service.SmokeTestService;
 import org.easymock.EasyMock;
@@ -37,6 +38,7 @@ public final class SmokeTestControllerTest
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
+    private SapService sapService;
 
     @Before
     public void setUp() throws Exception
@@ -47,12 +49,14 @@ public final class SmokeTestControllerTest
 
         mockService = EasyMock.createMock(SmokeTestService.class);
         mockMiscConfigSyncService = EasyMock.createMock(MiscConfigSyncService.class);
+        sapService = EasyMock.createMock(SapService.class);
 
         controller = new SmokeTestController();
         controller.setEnvironmentName("workstation");
         controller.setImageVertical("image");
         controller.setSmokeTestService(mockService);
         controller.setMiscConfigSyncService(mockMiscConfigSyncService);
+        controller.setSapService(sapService);
 
         SMOKE_TEST = new SmokeTest();
         SMOKE_TEST.setName("name");

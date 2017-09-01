@@ -779,7 +779,75 @@ $(function() {
 			 next.after(current);
 			}
 		});
-
+		
+		var clearGrid = function(grid) {
+			var gridData = grid.jsGrid("option", "data");
+			grid.jsGrid("option", "confirmDeleting", false);
+			while(gridData.length > 0) {
+				grid.jsGrid("deleteItem", gridData[0]);
+			}
+			grid.jsGrid("option", "confirmDeleting", true);
+		};
+		
+		var isSameData = function(grid, sapData) {
+			var result = true; 
+			var gridData = grid.jsGrid("option", "data");
+			if(sapData.length == gridData.length) {
+				for(var i=0; i<sapData.length; i++) {
+					if(sapData[i].bom_component != gridData[i].materialNumber || sapData[i].material_desc != gridData[i].componentName) {
+						result = false;
+						break;
+					}
+				}
+			} else {
+				result = false;
+			}
+			return result;
+		};
+		
+		$('#performSapRequest').click(function() {
+			var subNumber = $('#printSetNumber').val();
+			if(subNumber == "") {
+				alert("Please enter Print Set/Sub Number first");
+				return;
+			}
+			
+			if(confirm("All data in print components table will be overwritten, continue?")) {
+				$.ajax({
+					url: "/ebookManager/getDataFromSap.mvc",
+					type: "Post",
+					data: {"subNumber":subNumber, "titleId":$('#titleIdBox').val()},
+					dataType: "json",
+					success: function(response) {
+						var data = response.materialComponents;
+						var grid = $('#jsGrid');
+						
+						if(data.length == 0) {
+							alert(response.message);
+							return;
+						}
+						
+						if(isSameData(grid, data)) {
+							alert('There is no changes in Print components table');
+							return;
+						}
+						
+						clearGrid(grid);
+						for(let index = 0; index < data.length;) {
+							let currentData = data[index];
+							grid.jsGrid("insertItem", {
+								componentOrder: ++index,
+								materialNumber: currentData.bom_component,
+								componentName: currentData.material_desc
+							});
+						}
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						alert("Unknown error")
+					}
+				});
+			}		
+		});
 		
 		// Initialize Global variables
 		publisher = $('#publisher').val();

@@ -1,8 +1,15 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,24 +21,51 @@ import com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceImpl;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionServiceImpl;
+import com.thomsonreuters.uscl.ereader.sap.comparsion.MaterialComponentComparatorProvider;
+import com.thomsonreuters.uscl.ereader.sap.component.Material;
+import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponent;
+import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponentsResponse;
+import com.thomsonreuters.uscl.ereader.sap.service.SapService;
 import org.apache.commons.io.FileUtils;
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Answers;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.web.client.HttpStatusCodeException;
 
+@RunWith(MockitoJUnitRunner.class)
 public final class EditBookDefinitionServiceImplTest
 {
+    private static final String VALID_SUB_NUMBER = "12345678";
+    private static final String EMPTY_SUB_NUMBER = "12345679";
+    private static final String INVALID_SUB_NUMBER = "12345670";
+    private static final String UNAVAILABLE_SUB_NUMBER = "1234567";
+
+    private static final String TITLE_ID = "titleId";
+
     private EditBookDefinitionServiceImpl bookService;
 
     private CodeService mockCodeService;
     private StateCodeService mockStateCodeService;
     private File tempRootDir;
+    @Mock
+    private SapService sapService;
+    @Mock
+    private HttpStatusCodeException invalidParamException;
+    @Mock
+    private HttpStatusCodeException componentNotFoundException;
+    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+    private MaterialComponentComparatorProvider materialComponentComparatorProvider;
 
     @Before
     public void setUp()
     {
+        initMocks();
         bookService = new EditBookDefinitionServiceImpl();
 
         mockCodeService = EasyMock.createMock(CodeServiceImpl.class);
@@ -42,6 +76,68 @@ public final class EditBookDefinitionServiceImplTest
         bookService.setCodeService(mockCodeService);
         bookService.setStateCodeService(mockStateCodeService);
         bookService.setRootCodesWorkbenchLandingStrip(tempRootDir);
+        bookService.setSapService(sapService);
+        bookService.setMaterialComponentComparatorProvider(materialComponentComparatorProvider);
+    }
+
+    private void initMocks()
+    {
+        when(sapService.getMaterialByNumber(VALID_SUB_NUMBER))
+            .thenReturn(getMaterialComponents(VALID_SUB_NUMBER));
+        when(sapService.getMaterialByNumber(EMPTY_SUB_NUMBER))
+            .thenReturn(getMaterialComponents(EMPTY_SUB_NUMBER));
+
+        when(invalidParamException.getResponseBodyAsString())
+            .thenReturn("enter a valid");
+        when(componentNotFoundException.getResponseBodyAsString())
+            .thenReturn("not found");
+
+        when(sapService.getMaterialByNumber(INVALID_SUB_NUMBER))
+            .thenThrow(invalidParamException);
+        when(sapService.getMaterialByNumber(UNAVAILABLE_SUB_NUMBER))
+            .thenThrow(componentNotFoundException);
+
+        when(materialComponentComparatorProvider.getComparator(TITLE_ID)
+                .compare(any(MaterialComponent.class), any(MaterialComponent.class)))
+            .thenReturn(0);
+    }
+
+    private Material getMaterialComponents(final String subNumber)
+    {
+        final List<MaterialComponent> materialComponents = new ArrayList<>();
+
+        MaterialComponent component = new MaterialComponent();
+        component.setDchainStatus("Z7");
+        component.setMediahlRule("Print");
+        component.setEffectiveDate(new Date(100));
+        component.setBomComponent("1");
+        materialComponents.add(component);
+
+        component = new MaterialComponent();
+        component.setMediahlRule("CDROM");
+        component.setEffectiveDate(new Date(100));
+        component.setBomComponent("2");
+        materialComponents.add(component);
+
+        component = new MaterialComponent();
+        component.setMediahlRule("Print");
+        component.setEffectiveDate(new Date(Long.MAX_VALUE));
+        component.setBomComponent("3");
+        materialComponents.add(component);
+
+        if (VALID_SUB_NUMBER.equals(subNumber))
+        {
+            component = new MaterialComponent();
+            component.setMediahlRule("Print");
+            component.setEffectiveDate(new Date(100));
+            component.setBomComponent("4");
+            materialComponents.add(component);
+        }
+
+        final Material material = new Material();
+        material.setMaterialNumber(subNumber);
+        material.setComponents(materialComponents);
+        return material;
     }
 
     @After
@@ -127,5 +223,50 @@ public final class EditBookDefinitionServiceImplTest
 
         fileList = bookService.getCodesWorkbenchDirectory("");
         Assert.assertEquals(1, fileList.size());
+    }
+
+    @Test
+    public void shouldReturnListWithOneElement()
+    {
+        //given
+        //when
+        final MaterialComponentsResponse response = bookService.getMaterialBySubNumber(VALID_SUB_NUMBER, TITLE_ID);
+        //then
+        assertThat(response.getMessage(), equalTo("OK"));
+        assertThat(response.getMaterialComponents(), hasSize(1));
+        assertThat(response.getMaterialComponents().get(0).getBomComponent(), equalTo("4"));
+    }
+
+    @Test
+    public void shouldReturnEmptyResponse()
+    {
+        //given
+        //when
+        final MaterialComponentsResponse response = bookService.getMaterialBySubNumber(EMPTY_SUB_NUMBER, TITLE_ID);
+        //then
+        assertThat(response.getMessage(), equalTo("Material components not found, for Print Set/Sub Number: 12345679"));
+        assertThat(response.getMaterialComponents(), hasSize(0));
+    }
+
+    @Test
+    public void shouldReturnInvalidResponse()
+    {
+        //given
+        //when
+        final MaterialComponentsResponse response = bookService.getMaterialBySubNumber(INVALID_SUB_NUMBER, TITLE_ID);
+        //then
+        assertThat(response.getMessage(), equalTo("Print Set/Sub Number: 12345670 is invalid"));
+        assertThat(response.getMaterialComponents(), hasSize(0));
+    }
+
+    @Test
+    public void shouldReturnUnavailableResponse()
+    {
+        //given
+        //when
+        final MaterialComponentsResponse response = bookService.getMaterialBySubNumber(UNAVAILABLE_SUB_NUMBER, TITLE_ID);
+        //then
+        assertThat(response.getMessage(), equalTo("Material components not found, for Print Set/Sub Number: 1234567"));
+        assertThat(response.getMaterialComponents(), hasSize(0));
     }
 }

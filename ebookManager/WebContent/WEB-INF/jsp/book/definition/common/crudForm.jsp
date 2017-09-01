@@ -380,6 +380,9 @@
 						<form:errors path="printSetNumber" cssClass="errorMessage" />
 					</div>
 				</div>
+				<div class="row">
+					<input type="button" id="performSapRequest" value="Request data from SAP" />
+				</div>
 			</div>
 			<div class="row">
 				<form:label path="keyCiteToplineFlag" class="labelCol">KeyCite Topline Flag</form:label>

@@ -5,6 +5,8 @@ import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
+import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponentsResponse;
+import org.jetbrains.annotations.NotNull;
 
 public interface EditBookDefinitionService
 {
@@ -25,4 +27,7 @@ public interface EditBookDefinitionService
     DocumentTypeCode getContentTypeById(Long id);
 
     List<String> getCodesWorkbenchDirectory(String folder);
+
+    @NotNull
+    MaterialComponentsResponse getMaterialBySubNumber(@NotNull String subNumber, @NotNull String titleId);
 }

@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.sap.service;
 
 import com.thomsonreuters.uscl.ereader.sap.component.Material;
+import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTest;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -13,4 +14,7 @@ public interface SapService
      */
     @NotNull
     Material getMaterialByNumber(@NotNull String materialNumber);
+
+    @NotNull
+    SmokeTest checkSapStatus();
 }

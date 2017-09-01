@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.thomsonreuters.uscl.ereader.sap.deserialize.DateNullHandleConverter;
+import com.thomsonreuters.uscl.ereader.sap.deserialize.StringNullHandleConverter;
 
 public class MaterialComponent
 {
@@ -20,14 +21,17 @@ public class MaterialComponent
     @JsonDeserialize(converter = DateNullHandleConverter.class)
     private Date planOrderDate;
     @JsonProperty("material_desc")
+    @JsonDeserialize(converter = StringNullHandleConverter.class)
     private String materialDesc;
     @JsonProperty("material_type")
     private String materialType;
     @JsonProperty("mediahl_rule")
+    @JsonDeserialize(converter = StringNullHandleConverter.class)
     private String mediahlRule;
     @JsonProperty("mediall_rule")
     private String mediallRule;
     @JsonProperty("dchain_status")
+    @JsonDeserialize(converter = StringNullHandleConverter.class)
     private String dchainStatus;
     @JsonProperty("dchain_eff_date")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "CTZ")
@@ -46,6 +50,7 @@ public class MaterialComponent
     {
         return bomComponent;
     }
+
     public void setBomComponent(final String bomComponent)
     {
         this.bomComponent = bomComponent;
@@ -55,6 +60,7 @@ public class MaterialComponent
     {
         return effectiveDate;
     }
+
     public void setEffectiveDate(final Date effectiveDate)
     {
         this.effectiveDate = effectiveDate;
@@ -64,6 +70,7 @@ public class MaterialComponent
     {
         return planOrderDate;
     }
+
     public void setPlanOrderDate(final Date planOrderDate)
     {
         this.planOrderDate = planOrderDate;
@@ -73,6 +80,7 @@ public class MaterialComponent
     {
         return materialDesc;
     }
+
     public void setMaterialDesc(final String materialDesc)
     {
         this.materialDesc = materialDesc;
@@ -82,6 +90,7 @@ public class MaterialComponent
     {
         return materialType;
     }
+
     public void setMaterialType(final String materialType)
     {
         this.materialType = materialType;
@@ -91,6 +100,7 @@ public class MaterialComponent
     {
         return mediahlRule;
     }
+
     public void setMediahlRule(final String mediahlRule)
     {
         this.mediahlRule = mediahlRule;
@@ -100,6 +110,7 @@ public class MaterialComponent
     {
         return mediallRule;
     }
+
     public void setMediallRule(final String mediallRule)
     {
         this.mediallRule = mediallRule;
@@ -109,6 +120,7 @@ public class MaterialComponent
     {
         return dchainStatus;
     }
+
     public void setDchainStatus(final String dchainStatus)
     {
         this.dchainStatus = dchainStatus;
@@ -118,6 +130,7 @@ public class MaterialComponent
     {
         return dchainEffectiveDate;
     }
+
     public void setDchainEffectiveDate(final Date dchainEffectiveDate)
     {
         this.dchainEffectiveDate = dchainEffectiveDate;
@@ -127,6 +140,7 @@ public class MaterialComponent
     {
         return prodDate;
     }
+
     public void setProdDate(final Date prodDate)
     {
         this.prodDate = prodDate;
@@ -136,6 +150,7 @@ public class MaterialComponent
     {
         return shipDate;
     }
+
     public void setShipDate(final Date shipDate)
     {
         this.shipDate = shipDate;

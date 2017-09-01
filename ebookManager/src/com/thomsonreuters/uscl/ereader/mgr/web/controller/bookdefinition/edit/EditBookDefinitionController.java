@@ -21,6 +21,8 @@ import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterService;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponentsResponse;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -390,6 +392,15 @@ public class EditBookDefinitionController
     public List<String> getCodesWorkbenchFolders(@RequestParam("folderName") final String folderName)
     {
         return editBookDefinitionService.getCodesWorkbenchDirectory(folderName);
+    }
+
+    @RequestMapping(value = "getDataFromSap.mvc", method = RequestMethod.POST)
+    @ResponseBody
+    @NotNull
+    public MaterialComponentsResponse getDataFromSap(@NotNull @RequestParam("subNumber") final String subNumber,
+                                                     @NotNull @RequestParam("titleId") final String titleId)
+    {
+        return editBookDefinitionService.getMaterialBySubNumber(subNumber, titleId);
     }
 
     /**

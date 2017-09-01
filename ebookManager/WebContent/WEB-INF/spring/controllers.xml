@@ -260,7 +260,8 @@
 		p:environmentName-ref="environmentName"
 		p:imageVertical-ref="imageVertical"
 		p:smokeTestService-ref="smokeTestService"
-		p:miscConfigSyncService-ref="miscConfigSyncService" />
+		p:miscConfigSyncService-ref="miscConfigSyncService"
+		p:sapService-ref="sapService" />
 
 	<bean id="eBookJobMetricsController" class="com.thomsonreuters.uscl.ereader.mgr.web.controller.job.metrics.EBookJobMetricsController"
 		p:bookDefinitionService-ref="bookDefinitionService"

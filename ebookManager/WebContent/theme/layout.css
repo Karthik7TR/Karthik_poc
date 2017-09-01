@@ -296,11 +296,18 @@ a:hover {
 }
 
 .bookDefinitionCRUD .leftDefinitionForm label,
-.bookDefinitionCRUD .rightDefinitionForm label{
+.bookDefinitionCRUD .rightDefinitionForm label {
 	float:left;
 	margin-right:.6em;
 	text-align:right;
 	width:12.5em;
+}
+
+#performSapRequest {
+	display:block;
+	float:right;
+	margin-right:45px;
+	margin-bottom:2px;
 }
 
 .bookDefinitionView label {
