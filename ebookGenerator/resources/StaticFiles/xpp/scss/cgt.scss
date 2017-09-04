@@ -19,7 +19,8 @@
     .footnote_reference>&,
     .mte2>&,
     sup &,
-    thead>tr>td>& {
+    thead>tr>td>&,
+    tbody & {
         display: inline;
     }
     .signature_group>.form_line &,

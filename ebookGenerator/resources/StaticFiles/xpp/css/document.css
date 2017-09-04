@@ -517,7 +517,8 @@ td:last-of-type {
 .footnote_reference > .cgt,
 .mte2 > .cgt,
 sup .cgt,
-thead > tr > td > .cgt {
+thead > tr > td > .cgt,
+tbody .cgt {
   display: inline;
 }
 
