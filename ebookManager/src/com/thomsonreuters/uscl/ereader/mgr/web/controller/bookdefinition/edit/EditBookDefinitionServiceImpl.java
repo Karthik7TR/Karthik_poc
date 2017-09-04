@@ -25,6 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.springframework.beans.factory.annotation.Required;
@@ -157,7 +158,7 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService
 
     @NotNull
     @Override
-    public MaterialComponentsResponse getMaterialBySubNumber(@NotNull final String subNumber,  @NotNull final String titleId)
+    public MaterialComponentsResponse getMaterialBySubNumber(@NotNull final String subNumber, @Nullable final String titleId)
     {
         final List<MaterialComponent> filteredComponents = new ArrayList<>();
         String responseMessage;

@@ -398,7 +398,7 @@ public class EditBookDefinitionController
     @ResponseBody
     @NotNull
     public MaterialComponentsResponse getDataFromSap(@NotNull @RequestParam("subNumber") final String subNumber,
-                                                     @NotNull @RequestParam("titleId") final String titleId)
+                                                     @NotNull @RequestParam(value = "titleId", required = false) final String titleId)
     {
         return editBookDefinitionService.getMaterialBySubNumber(subNumber, titleId);
     }
