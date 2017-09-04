@@ -1,5 +1,5 @@
 .no-indent:first-child {
-  margin-left: calc(-1.1 * 1em);
+  margin-left: calc(-1.5 * 1em);
 }
 
 .publication {
@@ -694,6 +694,10 @@ a + .footnote_body {
 
 .no-popup-sibling {
   display: block !important;
+}
+
+.footnote > .er_rp_search_volume_content_data {
+  width: 100%;
 }
 
 .columns {

@@ -7,7 +7,7 @@
     <xsl:include href="transformTlrKey.xsl" />
     <xsl:include href="transformImagesTags.xsl" />
     
-    <xsl:output method="html" indent="yes" omit-xml-declaration="yes"/>
+    <xsl:output method="html" indent="no" omit-xml-declaration="yes"/>
 	<xsl:param name="fileBaseName" />
 	<xsl:param name="pagePrefix" />
 	<xsl:param name="divXmlName" />

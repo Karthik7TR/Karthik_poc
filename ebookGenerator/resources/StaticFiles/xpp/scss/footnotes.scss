@@ -90,3 +90,9 @@ sup {
 .no-popup-sibling {
     display: block !important;
 }
+
+.er_rp_search_volume_content_data {
+    .footnote>& {
+        width: 100%;
+    }
+}
