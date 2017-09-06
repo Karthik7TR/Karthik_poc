@@ -123,21 +123,21 @@
                 width: "100%",
                 autoload: true,
                 deleteConfirm: "Do you really want to delete the client?",
-                editing: ${param.edit},
-                inserting: ${param.edit},
+                editing: ${param.edit && param.superUserParam},
+                inserting: ${param.edit && param.superUserParam},
                 rowClass: function(item, itemIndex) {
                   return "client-" + itemIndex;
                   },
-									onItemEditing: function(){
-										$gridData.sortable({cancel:'.jsgrid-edit-row, .ui-sortable, .jsgrid-cell, .jsgrid-grid-body tbody, .jsgrid-row, .jsgrid-alt-row'});
-											$('#up_button, #down_button').prop('disabled','disabled');
-									},
-									onItemUpdated: function(){
-										if ( $(".jsgrid-edit-row" ).length == 0 ) {
-											$gridData.sortable({cancel:'.jsgrid-edit-row'});
-											$('#up_button, #down_button').removeAttr('disabled');
-										}
-									},
+					onItemEditing: function(){
+						$gridData.sortable({cancel:'.jsgrid-edit-row, .ui-sortable, .jsgrid-cell, .jsgrid-grid-body tbody, .jsgrid-row, .jsgrid-alt-row'});
+							$('#up_button, #down_button').prop('disabled','disabled');
+					},
+					onItemUpdated: function(){
+						if ( $(".jsgrid-edit-row" ).length == 0 ) {
+							$gridData.sortable({cancel:'.jsgrid-edit-row'});
+							$('#up_button, #down_button').removeAttr('disabled');
+						}
+					},
 
                 controller: {
                     //<!--Method to initialize values of data table.-->
@@ -220,7 +220,7 @@
                                      items[currentElementIndex + 1].componentOrder--;
                                      reorderIndexes();
                                      $("#grid").jsGrid("refresh");
-																		 $('#up_button, #down_button').removeAttr('disabled');
+									 $('#up_button, #down_button').removeAttr('disabled');
                                  }
                              },
                              onload: function(){
@@ -283,7 +283,7 @@
                    editButton: false,
                    modeSwitchButton: false,
                    deleteButton: true,
-                   visible: ${param.edit},
+                   visible: ${param.edit && param.superUserParam},
 									 _createCancelEditButton: function() {
 						      var $result = jsGrid.fields.control.prototype._createCancelEditButton.apply(this, arguments);
 								      $result.on("click", function() {
@@ -300,8 +300,8 @@
               ],
 
                 onRefreshed: function() {
-									refreshingRowActivities()
-									},
+											refreshingRowActivities()
+										},
                 onItemDeleted: function() {
                     var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
                     items = $.map($gridData.find("tr"), function(row) {

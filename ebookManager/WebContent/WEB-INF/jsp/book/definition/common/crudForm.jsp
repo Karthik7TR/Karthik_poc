@@ -142,9 +142,16 @@
 	</c:otherwise>
 </c:choose>
 <c:set var="disableOptions" value="true"/>
+<c:set var="superUser" value="false"/>
 <sec:authorize access="hasRole('ROLE_SUPERUSER')">
 	<c:set var="disableOptions" value=""/>
+	<c:set var="superUser" value="true"/>
 </sec:authorize>
+
+<sec:authorize access="!hasRole('ROLE_SUPERUSER')">
+	<c:set var="superUser" value="false"/>
+</sec:authorize>
+
 <c:set var="disableUnderPubPlusRole" value="true"/>
 <c:set var="disableUnderPubPlusRoleButton" value="disabled"/>
 <sec:authorize access="hasAnyRole('ROLE_SUPERUSER,ROLE_PUBLISHER_PLUS')">
@@ -370,6 +377,7 @@
 					<div id="print_component_expander_values">
 						<jsp:include page="../xppTable/printComponentsTable.jsp" >
 							<jsp:param name="edit" value="true"/>
+							<jsp:param name="superUserParam" value="${superUser}"/>
 						</jsp:include>
 					</div>
 				</div>
