@@ -47,36 +47,6 @@
 	</xsl:template>
 
 	<xsl:template match="x:pagebreak">
-		<xsl:variable name="previousPageLabel" select="./@prev_page" />
-		
-		<xsl:choose>
-			<xsl:when test="ancestor::x:part.footnotes and $previousPageLabel != '' and $previousPageLabel != '0'">
-				<div class="tr_footnote">
-            		<div class="footnote">
-            			<xsl:element name="a">
-            				<xsl:attribute name="class" select="'tr_ftn'" />
-            				<xsl:attribute name="href" select="'javascript:void(0)'" />
-            				<xsl:attribute name="name" select="concat('ftn.pn.', $previousPageLabel)" />
-            				<xsl:attribute name="ftnname" select="concat('pn.', $previousPageLabel)" />
-            			</xsl:element>
-            			<div class="footnote_body">
-                			<div class="page_number">
-								<xsl:value-of select="$previousPageLabel" />
-							</div>
-                		</div>
-            		</div>
-        		</div>
-			</xsl:when>
-			<xsl:when test="ancestor::x:part.main and $previousPageLabel != '' and $previousPageLabel != '0'">
-				<xsl:element name="a">
-            		<xsl:attribute name="class" select="'tr_ftn footnote_access_point'" />
-            		<xsl:attribute name="href" select="concat('#', 'ftn.pn.', $previousPageLabel)" />
-            		<xsl:attribute name="name" select="concat('pn.', $previousPageLabel)" />
-            		<xsl:attribute name="ftnname" select="concat('ftn.pn.', $previousPageLabel)" />
-            	</xsl:element>            		
-			</xsl:when>
-		</xsl:choose>
-	
 		<xsl:variable name="apostrophe">'</xsl:variable>
 		<xsl:processing-instruction name="pb" select="concat('label', '=', $apostrophe, $pagePrefix, ./@num, $apostrophe, '?')" />
 	</xsl:template>
@@ -240,6 +210,16 @@
 			<xsl:apply-templates />
 		</xsl:element>
     </xsl:template>
+
+	<xsl:template match="x:page.number.ref">
+		<xsl:variable name="pgNum" select="./@page-number" />
+
+		<xsl:if test="following::x:page.number[@page-num = $pgNum] and ancestor::x:part.main">
+			<xsl:call-template name="addReferenceTag">
+				<xsl:with-param name="refId" select="concat('pn.', $pgNum)" />
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
 
 	<xsl:template match="text()">
 		<xsl:value-of select="." />

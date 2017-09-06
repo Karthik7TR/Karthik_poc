@@ -15,7 +15,22 @@
                 <xsl:apply-templates />
             </div>
         </div>
+        <xsl:if test="./x:footnote.body//x:page.number[1]">
+			<xsl:apply-templates select="./x:footnote.body//x:page.number[1]" mode="place-page-number" />	
+		</xsl:if>
     </xsl:template>
+    
+    <xsl:template match="x:page.number">
+		<xsl:if test="not(ancestor::x:footnote)">	
+			<xsl:apply-templates select="self::node()" mode="place-page-number" />				
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template match="x:page.number" mode="place-page-number">
+		<xsl:call-template name="addPageNumber">
+			<xsl:with-param name="pgNum" select="./@page-num" />
+		</xsl:call-template>
+	</xsl:template>
     
     <xsl:template match="x:foots">
         <xsl:copy>
@@ -98,5 +113,24 @@
             <xsl:apply-templates />
         </xsl:element>
     </xsl:template>
-
+    
+    <xsl:template name="addPageNumber">
+    	<xsl:param name="pgNum" />
+    	
+    	<div class="tr_footnote">
+           	<div class="footnote">
+           		<xsl:if test="preceding::x:part.main//x:page.number.ref[@page-number = $pgNum]">
+           			<xsl:call-template name="addAnchorTag">
+           				<xsl:with-param name="refId" select="concat('pn.', $pgNum)" />
+           			</xsl:call-template>
+           		</xsl:if>
+           		<div class="footnote_body no-popup-sibling">
+               		<div class="page_number">
+						<xsl:value-of select="$pgNum" />
+					</div>
+               	</div>
+           	</div>
+        </div>
+    </xsl:template>
+    
 </xsl:stylesheet>
