@@ -32,20 +32,20 @@ public final class InternalAnchorsStepIntegrationTest
     @Autowired
     private XppFormatFileSystem fileSystem;
 
-    private File originalHtml1;
-    private File originalHtml2;
+    private File source1;
+    private File source2;
     private File expected;
 
     @Before
     public void setUp() throws URISyntaxException, Exception
     {
-        final File originalPagesDirectory = fileSystem.getOriginalPagesDirectory(step, MATERIAL_NUMBER);
-        FileUtils.forceMkdir(originalPagesDirectory);
+        final File sectionBreaksDirectory = fileSystem.getSectionbreaksDirectory(step, MATERIAL_NUMBER);
+        FileUtils.forceMkdir(sectionBreaksDirectory);
 
-        originalHtml1 = new File(InternalAnchorsStepIntegrationTest.class.getResource("sampleXpp_1.page").toURI());
-        originalHtml2 = new File(InternalAnchorsStepIntegrationTest.class.getResource("sampleXpp_2.page").toURI());
-        FileUtils.copyFileToDirectory(originalHtml1, originalPagesDirectory);
-        FileUtils.copyFileToDirectory(originalHtml2, originalPagesDirectory);
+        source1 = new File(InternalAnchorsStepIntegrationTest.class.getResource("source-1-CHAL_7.DIVXML.main").toURI());
+        source2 = new File(InternalAnchorsStepIntegrationTest.class.getResource("source-1-CHAL_APX_21.DIVXML.main").toURI());
+        FileUtils.copyFileToDirectory(source1, sectionBreaksDirectory);
+        FileUtils.copyFileToDirectory(source2, sectionBreaksDirectory);
 
         expected = new File(InternalAnchorsStepIntegrationTest.class.getResource("expectedAnchorToDocumentIdMapFile.xml").toURI());
     }
@@ -63,7 +63,7 @@ public final class InternalAnchorsStepIntegrationTest
         //when
         step.executeStep();
         //then
-        final File anchors = fileSystem.getAnchorToDocumentIdMapFile(step);
+        final File anchors = fileSystem.getAnchorToDocumentIdMapFile(step, MATERIAL_NUMBER);
         assertThat(anchors, hasSameContentAs(expected));
     }
 }

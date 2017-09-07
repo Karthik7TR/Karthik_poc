@@ -3,6 +3,8 @@
                 xmlns="http://www.sdl.com/xpp" xmlns:x="http://www.sdl.com/xpp" 
                 exclude-result-prefixes="x">
     <xsl:import href="placeXppMarks.xsl" />
+    
+    <xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
                       
     <xsl:param name="volumeName" />
                       	

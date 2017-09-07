@@ -3,6 +3,7 @@
 
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.sdl.com/xpp"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
+	<xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
 
  	<xsl:param name="TOCPartName" select="TOCPartName" />
  	<xsl:param name="volumeName" select="volumeName" />

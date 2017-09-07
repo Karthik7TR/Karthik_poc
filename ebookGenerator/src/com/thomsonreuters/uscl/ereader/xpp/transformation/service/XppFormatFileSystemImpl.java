@@ -22,27 +22,27 @@ import org.springframework.stereotype.Component;
 @Component("xppFormatFileSystem")
 public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements XppFormatFileSystem
 {
-    private static final String FONTS_CSS_DIR = "01_Css";
-    private static final String ORIGINAL_DIR = "02_Original";
-    private static final String CITE_QUERY_PROCESSED_DIR = "Processed Cite Queries";
-    private static final String SOURCE_DIR = "03_StructureWithMetadata";
-    private static final String SECTIONBREAKS_DIR = "04_Sectionbreaks";
-    private static final String MULTICOLUMNS_UP_DIR = "05_MultiColumnsUp";
-    private static final String SECTIONBREAKS_UP_DIR = "06_SectionbreaksUp";
-    private static final String ORIGINAL_PARTS_DIR = "07_OriginalParts";
-    private static final String ORIGINAL_PAGES_DIR = "08_OriginalPages";
-    private static final String HTML_PAGES_DIR = "09_HtmlPages";
-    private static final String EXTERNAL_LINKS_DIR = "10_ExternalLinks";
-    private static final String TOC_DIR = "11_Toc";
-    private static final String TITLE_METADATA_DIR = "12_title_metadata";
-
-    private static final String EXTERNAL_LINKS_MAPPING = "10_ExternalLinks_Mapping";
+    static final String FONTS_CSS_DIR = "01_Css";
+    static final String ORIGINAL_DIR = "02_Original";
+    static final String CITE_QUERY_PROCESSED_DIR = "Processed Cite Queries";
+    static final String SOURCE_DIR = "03_StructureWithMetadata";
+    static final String SECTIONBREAKS_DIR = "04_Sectionbreaks";
+    static final String ANCHORS_DIR = "05_Anchors";
+    static final String MULTICOLUMNS_UP_DIR = "06_MultiColumnsUp";
+    static final String SECTIONBREAKS_UP_DIR = "07_SectionbreaksUp";
+    static final String ORIGINAL_PARTS_DIR = "08_OriginalParts";
+    static final String ORIGINAL_PAGES_DIR = "09_OriginalPages";
+    static final String HTML_PAGES_DIR = "10_HtmlPages";
+    static final String EXTERNAL_LINKS_DIR = "11_ExternalLinks";
+    static final String EXTERNAL_LINKS_MAPPING = "11_ExternalLinks_Mapping";
+    static final String TOC_DIR = "12_Toc";
+    static final String TITLE_METADATA_DIR = "13_title_metadata";
 
     private static final String TITLE_METADATA_FILE = "titleMetadata.xml";
     private static final String TOC_FILE = "toc.xml";
     private static final String MERGED_BUNDLE_TOC_FILE = "toc_merged.xml";
     private static final String DOC_TO_IMAGE_MANIFEST_FILE = "doc-to-image-manifest.txt";
-    private static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "anchorToDocumentIdMapFile.xml";
+    private static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "anchorToDocumentIdMapFile.%s.xml";
 
     private static final String HTML = "html";
     private static final String MAIN = "main";
@@ -222,7 +222,10 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     @Override
-    public File getMultiColumnsUpFile(@NotNull final BookStep step, @NotNull final String materialNumber, @NotNull final String name)
+    public File getMultiColumnsUpFile(
+        @NotNull final BookStep step,
+        @NotNull final String materialNumber,
+        @NotNull final String name)
     {
         return new File(getMultiColumnsUpDirectory(step), materialNumber + "/" + name);
     }
@@ -417,10 +420,18 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     }
 
     @NotNull
-    @Override
-    public File getAnchorToDocumentIdMapFile(@NotNull final BookStep step)
+    File getAnchorToDocumentIdMapDirectory(@NotNull final BookStep step)
     {
-        return new File(getFormatDirectory(step), ANCHOR_TO_DOCUMENT_ID_MAP_FILE);
+        return new File(getFormatDirectory(step), ANCHORS_DIR);
+    }
+
+    @NotNull
+    @Override
+    public File getAnchorToDocumentIdMapFile(@NotNull final BookStep step, @NotNull final String materialNumber)
+    {
+        return new File(
+            getAnchorToDocumentIdMapDirectory(step),
+            String.format(ANCHOR_TO_DOCUMENT_ID_MAP_FILE, materialNumber));
     }
 
     @NotNull

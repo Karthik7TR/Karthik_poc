@@ -12,21 +12,9 @@
 	
 	<xsl:template match="x:XPPHier">
 		<xsl:element name="item">
-			<xsl:variable name="uuid" select="./@uuid" />
+			<xsl:variable name="uuid" select="@uuid" />
 			<xsl:attribute name="key" select="$uuid" />
-			<xsl:value-of>
-				<xsl:choose>
-					<xsl:when test="following::x:XPPMetaData[@parent_uuid = $uuid]">
-						<xsl:value-of select="following::x:XPPMetaData[@parent_uuid = $uuid][1]/@md.doc_family_uuid" />
-					</xsl:when>
-					<xsl:when test="preceding::x:XPPMetaData[1]/@md.doc_family_uuid">
-						<xsl:value-of select="preceding::x:XPPMetaData[1]/@md.doc_family_uuid" />
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="following::x:XPPMetaData[1]/@md.doc_family_uuid" />
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:value-of>
+			<xsl:value-of select="preceding::x:sectionbreak[1]/@sectionuuid" />
 		</xsl:element>
 	</xsl:template>
 	

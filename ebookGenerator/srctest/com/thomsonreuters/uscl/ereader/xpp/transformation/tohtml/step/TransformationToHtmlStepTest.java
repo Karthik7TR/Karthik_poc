@@ -79,7 +79,7 @@ public final class TransformationToHtmlStepTest
         given(fileSystem.getHtmlPageFile(step, MATERIAL_NUMBER, TEMP_DIVXML_XML)).willReturn(toHtmlFile);
 
         given(tocUnitsMapFile.getAbsolutePath()).willReturn("toc\\Units\\Map\\File\\path");
-        given(fileSystem.getAnchorToDocumentIdMapFile(step)).willReturn(tocUnitsMapFile);
+        given(fileSystem.getAnchorToDocumentIdMapFile(step, MATERIAL_NUMBER)).willReturn(tocUnitsMapFile);
     }
 
     private List<XppBundle> getXppBundles()

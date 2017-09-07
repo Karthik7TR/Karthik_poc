@@ -3,9 +3,11 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.sdl.com/xpp"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
-
 	<xsl:import href="placeXppMarks.xsl" />
-	<xsl:import href="transform-utils.xsl" />
+	<xsl:import href="../transform-utils.xsl" />
+	
+	<xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
+	
 	<xsl:param name="volumeName" select="volumeName" />
 	<xsl:param name="isMultiVolume" select="isMultiVolume" />
 	<xsl:variable name="front_matter_uuid" select="concat($volumeName,'.','FrontMatter')" />
@@ -88,9 +90,9 @@
 
 	<xsl:template match="x:fm.about.the.author|x:fm.other.structure">
 		<xsl:variable name="other_label"
-			select="x:head/x:name.block/x:name/x:t/text()" />
+			select="x:head[1]/x:name.block[1]/x:name[1]/x:t[1]/text()" />
 		<xsl:variable name="other_uuid"
-			select="concat($volumeName,'.',translate($other_label, ' ', '.'))" />
+			select="concat($volumeName,'.',name(),'.',position())" />
 
 		<xsl:call-template name="createMetadataAndHier">
 			<xsl:with-param name="uuid" select="$other_uuid" />

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.transform.Transformer;
 
@@ -43,13 +44,14 @@ public class TransformationToHtmlStep extends XppTransformationStep
             .withParameter("entitiesDocType", entitiesDtdFile.getAbsolutePath().replace("\\", "/"))
             .build();
         final PagePrefix pagePrefix = new PagePrefix(getXppBundles());
-        for (final Map.Entry<String, Collection<File>> dir : fileSystem.getOriginalPageFiles(this).entrySet())
+        for (final Entry<String, Collection<File>> dir : fileSystem.getOriginalPageFiles(this).entrySet())
         {
-            pagePrefix.switchVolume(dir.getKey());
-            FileUtils.forceMkdir(fileSystem.getHtmlPagesDirectory(this, dir.getKey()));
+            final String materialNumber = dir.getKey();
+            pagePrefix.switchVolume(materialNumber);
+            FileUtils.forceMkdir(fileSystem.getHtmlPagesDirectory(this, materialNumber));
             for (final File part : dir.getValue())
             {
-                final TransformationCommand command = createCommand(transformer, part, pagePrefix);
+                final TransformationCommand command = createCommand(transformer, materialNumber, part, pagePrefix);
                 transformationService.transform(command);
             }
         }
@@ -57,6 +59,7 @@ public class TransformationToHtmlStep extends XppTransformationStep
 
     private TransformationCommand createCommand(
         final Transformer transformer,
+        final String materialNumber,
         final File part,
         final PagePrefix pagePrefix)
     {
@@ -67,7 +70,7 @@ public class TransformationToHtmlStep extends XppTransformationStep
         transformer.setParameter("divXmlName", new DocumentName(partName).getBaseName());
         transformer.setParameter(
             "documentUidMapDoc",
-            fileSystem.getAnchorToDocumentIdMapFile(this).getAbsolutePath().replace("\\", "/"));
+            fileSystem.getAnchorToDocumentIdMapFile(this, materialNumber).getAbsolutePath().replace("\\", "/"));
 
         final File htmlPageFile = fileSystem.getHtmlPageFile(this, pagePrefix.getMaterialNumber(), partName);
         return new TransformationCommandBuilder(transformer, htmlPageFile).withInput(part).build();

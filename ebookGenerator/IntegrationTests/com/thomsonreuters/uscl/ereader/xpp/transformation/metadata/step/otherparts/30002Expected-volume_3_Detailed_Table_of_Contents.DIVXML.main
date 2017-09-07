@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><root xmlns="http://www.sdl.com/xpp"><sectionbreak sectionuuid="1111111.DETAILED.TABLE.OF.CONTENTS"/><XPPHier uuid="1111111.DETAILED.TABLE.OF.CONTENTS" name="Detailed Table of Contents" parent_uuid="1111111.DETAILED.TABLE.OF.CONTENTS" md.doc_family_uuid="1111111.DETAILED.TABLE.OF.CONTENTS">Detailed Table of Contents</XPPHier>
+<root xmlns="http://www.sdl.com/xpp"><sectionbreak sectionuuid="1111111.DETAILED.TABLE.OF.CONTENTS"/><XPPHier uuid="1111111.DETAILED.TABLE.OF.CONTENTS" name="Detailed Table of Contents" parent_uuid="1111111.DETAILED.TABLE.OF.CONTENTS" md.doc_family_uuid="1111111.DETAILED.TABLE.OF.CONTENTS">Detailed Table of Contents</XPPHier>
 	<pagebreak num="5" num-string="v"/>
 	<toc.wrapper>
 		<generated.toc>

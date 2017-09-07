@@ -1,9 +1,8 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.internalAnchors.step;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.Map.Entry;
 
 import javax.xml.transform.Transformer;
 
@@ -31,14 +30,13 @@ public class InternalAnchorsStep extends XppTransformationStep
         final Transformer transformer =
             transformerBuilderFactory.create().withXsl(transformToAnchorToDocumentIdMapXsl).build();
 
-        final List<File> pageFiles = new ArrayList<>();
-        for (final Collection<File> files : fileSystem.getOriginalPageFiles(this).values())
+        for (final Entry<String, Collection<File>> entry : fileSystem.getSectionBreaksFiles(this).entrySet())
         {
-            pageFiles.addAll(files);
+            final String materialNumber = entry.getKey();
+            final TransformationCommand command =
+                new TransformationCommandBuilder(transformer, fileSystem.getAnchorToDocumentIdMapFile(this, materialNumber))
+                    .withInput(entry.getValue()).build();
+            transformationService.transform(command);
         }
-        final TransformationCommand command =
-            new TransformationCommandBuilder(transformer, fileSystem.getAnchorToDocumentIdMapFile(this))
-                .withInput(pageFiles).build();
-        transformationService.transform(command);
     }
 }

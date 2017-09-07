@@ -28,10 +28,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public final class InternalAnchorsStepTest
 {
+    private static final String MATERIAL_NUMBER = "11111111";
+
     @InjectMocks
     private InternalAnchorsStep step;
     @Mock
-    private XppFormatFileSystem fileSystem;;
+    private XppFormatFileSystem fileSystem;
     @Mock
     private XslTransformationService transformationService;
     @Mock
@@ -44,10 +46,10 @@ public final class InternalAnchorsStepTest
     {
         final File htmlPagesDir = mock(File.class);
         final Map<String, Collection<File>> files = new HashMap<>();
-        files.put("111111", Arrays.asList(htmlPagesDir));
+        files.put(MATERIAL_NUMBER, Arrays.asList(htmlPagesDir));
 
         given(htmlPagesDir.listFiles(any(FileFilter.class))).willReturn(new File[] {});
-        given(fileSystem.getOriginalPageFiles(step)).willReturn(files);
+        given(fileSystem.getSectionBreaksFiles(step)).willReturn(files);
         given(htmlPagesDir.listFiles()).willReturn(new File[]{});
 
         final TransformerBuilder builder = mock(TransformerBuilder.class);
@@ -55,7 +57,7 @@ public final class InternalAnchorsStepTest
         given(builder.withXsl(any(File.class))).willReturn(builder);
 
         mapFile = new File("mapFile");
-        given(fileSystem.getAnchorToDocumentIdMapFile(step)).willReturn(mapFile);
+        given(fileSystem.getAnchorToDocumentIdMapFile(step, MATERIAL_NUMBER)).willReturn(mapFile);
     }
 
     @Test
@@ -66,6 +68,6 @@ public final class InternalAnchorsStepTest
         step.executeStep();
         //then
         then(transformationService).should().transform((TransformationCommand) any());
-        then(fileSystem).should().getOriginalPageFiles(eq(step));
+        then(fileSystem).should().getSectionBreaksFiles(eq(step));
     }
 }

@@ -28,26 +28,28 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public final class XppFormatFileSystemImplTest
 {
+    private static final String FORMAT_DIR = "workDirectory/Format/";
     private static final String MATERIAL_NUMBER = "11111111";
     private static final String MATERIAL_NUMBER_2 = "22222222";
 
     private static final String SECTION_UUID = "Ie0b9c12bf8fb11d99f28ffa0ae8c2575";
     private static final String SECTION_UUID_2 = "Ie0b9c12bf8fb11d99f28ffa0ae8c2576";
-    private static final String CSS_DIR = "01_Css";
-    private static final String ORIGINAL_DIR = "workDirectory/Format/02_Original";
-    private static final String PROCESSED_CITE_QUERIES_DIR =
-        "workDirectory/Format/02_Original/" + MATERIAL_NUMBER + "/Processed Cite Queries";
-    private static final String SOURCE_DIR = "workDirectory/Format/03_StructureWithMetadata";
-    private static final String SECTIONBREAKS_DIR = "workDirectory/Format/04_Sectionbreaks";
-    private static final String MULTICOLUMNS_UP_DIR = "workDirectory/Format/05_MultiColumnsUp";
-    private static final String SECTIONBREAKS_UP_DIR = "workDirectory/Format/06_SectionbreaksUp";
-    private static final String ORIGINAL_PARTS_DIR = "workDirectory/Format/07_OriginalParts";
-    private static final String ORIGINAL_PAGES_DIR = "workDirectory/Format/08_OriginalPages";
-    private static final String HTML_PAGES_DIR = "workDirectory/Format/09_HtmlPages";
-    private static final String EXTERNAL_LINKS_DIR = "workDirectory/Format/10_ExternalLinks";
-    private static final String EXTERNAL_LINKS_MAPPING_DIR = "workDirectory/Format/10_ExternalLinks_Mapping";
-    private static final String TOC_DIR = "workDirectory/Format/11_Toc";
-    private static final String TITLE_METADATA_DIR = "workDirectory/Format/12_title_metadata";
+    private static final String CSS_DIR = FORMAT_DIR + XppFormatFileSystemImpl.FONTS_CSS_DIR;
+    private static final String ORIGINAL_DIR = FORMAT_DIR + XppFormatFileSystemImpl.ORIGINAL_DIR;
+    private static final String PROCESSED_CITE_QUERIES_DIR = ORIGINAL_DIR + "/" + MATERIAL_NUMBER + "/Processed Cite Queries";
+    private static final String SOURCE_DIR = FORMAT_DIR + XppFormatFileSystemImpl.SOURCE_DIR;
+    private static final String SECTIONBREAKS_DIR = FORMAT_DIR + XppFormatFileSystemImpl.SECTIONBREAKS_DIR;
+    private static final String MULTICOLUMNS_UP_DIR = FORMAT_DIR + XppFormatFileSystemImpl.MULTICOLUMNS_UP_DIR;
+    private static final String SECTIONBREAKS_UP_DIR = FORMAT_DIR + XppFormatFileSystemImpl.SECTIONBREAKS_UP_DIR;
+    private static final String ORIGINAL_PARTS_DIR = FORMAT_DIR + XppFormatFileSystemImpl.ORIGINAL_PARTS_DIR;
+    private static final String ORIGINAL_PAGES_DIR = FORMAT_DIR + XppFormatFileSystemImpl.ORIGINAL_PAGES_DIR;
+    private static final String HTML_PAGES_DIR = FORMAT_DIR + XppFormatFileSystemImpl.HTML_PAGES_DIR;
+    private static final String EXTERNAL_LINKS_DIR = FORMAT_DIR + XppFormatFileSystemImpl.EXTERNAL_LINKS_DIR;
+    private static final String EXTERNAL_LINKS_MAPPING_DIR =
+        FORMAT_DIR + XppFormatFileSystemImpl.EXTERNAL_LINKS_MAPPING;
+    private static final String ANCHORS_DIR = FORMAT_DIR + XppFormatFileSystemImpl.ANCHORS_DIR;
+    private static final String TOC_DIR = FORMAT_DIR + XppFormatFileSystemImpl.TOC_DIR;
+    private static final String TITLE_METADATA_DIR = FORMAT_DIR + XppFormatFileSystemImpl.TITLE_METADATA_DIR;
 
     private static final String FILE_NAME_XML = "fileName.xml";
     private static final String FILE_NAME_MAIN = "fileName.main";
@@ -66,7 +68,7 @@ public final class XppFormatFileSystemImplTest
     private static final String BASE_FILE_NAME = "fileName.DIVXML";
     private static final String TITLE_METADATA_XML = "titleMetadata.xml";
     private static final String DOC_TO_IMAGE_MANIFEST = "workDirectory/Format/doc-to-image-manifest.txt";
-    private static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "workDirectory/Format/anchorToDocumentIdMapFile.xml";
+    private static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "anchorToDocumentIdMapFile.%s.xml";
 
     private static final String DOC_FAMILY_GUID = SECTION_UUID;
 
@@ -583,9 +585,9 @@ public final class XppFormatFileSystemImplTest
     {
         //given
         //when
-        final File file = fileSystem.getAnchorToDocumentIdMapFile(step);
+        final File file = fileSystem.getAnchorToDocumentIdMapFile(step, MATERIAL_NUMBER);
         //then
-        assertThat(file, hasPath(ANCHOR_TO_DOCUMENT_ID_MAP_FILE));
+        assertThat(file, hasPath(ANCHORS_DIR + "/" + String.format(ANCHOR_TO_DOCUMENT_ID_MAP_FILE, MATERIAL_NUMBER)));
     }
 
     @Test
@@ -627,7 +629,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File file = fileSystem.getBundlePartTocFile(FILE_NAME_XML, MATERIAL_NUMBER, step);
         //then
-        assertThat(file, hasPath("workDirectory/Format/11_Toc/11111111/toc_fileName.xml"));
+        assertThat(file, hasPath(TOC_DIR + "/" + MATERIAL_NUMBER + "/toc_fileName.xml"));
     }
 
     @Test
@@ -637,7 +639,7 @@ public final class XppFormatFileSystemImplTest
         //when
         final File file = fileSystem.getMergedBundleTocFile(MATERIAL_NUMBER, step);
         //then
-        assertThat(file, hasPath("workDirectory/Format/11_Toc/11111111/toc_merged.xml"));
+        assertThat(file, hasPath(TOC_DIR + "/" + MATERIAL_NUMBER + "/toc_merged.xml"));
     }
 
     @Test
