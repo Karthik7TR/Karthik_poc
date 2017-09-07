@@ -716,17 +716,17 @@ a + .footnote_body {
 .fm_title_page .text_line .cgt,
 .primary_outline_name_block > .cgt,
 .fm_related_products_boilerplate > .cgt {
-  display: inline !important;
+  display: inline;
 }
 
 .xref + .cgt {
-  display: block !important;
+  display: block;
   float: right;
 }
 
 .toc_primary_hierarchy > .primary_outline_name_block > .primary_name ~ .cgt,
 .toc_primary_hierarchy > .toc_appendix_block > .toc_appendix > .outline_name_block > .designator > .cgt {
-  display: none !important;
+  display: none;
 }
 
 .footnote > .cgt {
@@ -820,4 +820,11 @@ a + .footnote_body {
 
 .fm_related_products_boilerplate > .no-indent {
   margin: 0;
+}
+
+.font_fm_related_products_1,
+.font_fm_related_products_2,
+.font_fm_related_products_3 {
+  display: block !important;
+  text-align: center;
 }

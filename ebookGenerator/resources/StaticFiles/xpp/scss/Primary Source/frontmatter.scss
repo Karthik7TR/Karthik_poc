@@ -1,5 +1,13 @@
 .no-indent {
-    .fm_related_products_boilerplate>&{
+    .fm_related_products_boilerplate>& {
         margin: 0;
     }
+}
+
+// related products page
+.font_fm_related_products_1,
+.font_fm_related_products_2,
+.font_fm_related_products_3 {
+    display: block !important;
+    text-align: center;
 }
