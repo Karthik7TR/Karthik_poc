@@ -41,4 +41,17 @@
 		<xsl:value-of
 			select="$mappingFile/mapping/entry[@id=$id]/@href" />
 	</xsl:function>
+	
+	<!-- for index breaks -->
+	<xsl:function name="x:get-first-word">
+		<xsl:param name="indexString" />
+		<xsl:choose>
+			<xsl:when test="contains($indexString, ' ')">
+				<xsl:value-of select="substring-before($indexString, ' ')" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$indexString" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
 </xsl:stylesheet>

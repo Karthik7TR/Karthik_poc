@@ -1,5 +1,9 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.metadata.step;
 
+import static com.thomsonreuters.uscl.ereader.common.filesystem.FileContentMatcher.hasSameContentAs;
+import static org.junit.Assert.assertThat;
+
+import java.io.File;
 import java.net.URISyntaxException;
 
 import org.junit.Test;
@@ -24,4 +28,21 @@ public final class PlaceXppMetadataStepIndexIntegrationTest extends PlaceXppMeta
     {
         testPlacedMetadata();
     }
+
+    @Override
+    protected void testPlacedMetadata() throws Exception
+    {
+        //given
+        //when
+        step.executeStep();
+        //then
+        final File actual = fileSystem
+            .getStructureWithMetadataFile(step, VOL_MATERIAL_NUMBER, source.getName());
+        final File expectedBreaks = new File(this.getClass().getResource("index/expected_breaks.main").toURI());
+        final File actualBreaks = fileSystem
+            .getIndexBreaksFile(step, VOL_MATERIAL_NUMBER,  "indexBreaks-" + source.getName());
+        assertThat(expected, hasSameContentAs(actual));
+        assertThat(expectedBreaks, hasSameContentAs(actualBreaks));
+    }
+
 }
