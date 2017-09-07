@@ -5,11 +5,11 @@
     <sectionbreak sectionuuid="vol1.fm.highlights"/><pagebreak num="IV" num-string="iv"/>
     <foots/>
     <footnote id="1">
-        <footnote.reference>
+        
+        <footnote.reference class="show_in_main_and_footnotes">
             <cgt> </cgt>
             <cgt>1</cgt>
-        </footnote.reference>
-        <footnote.body>
+        </footnote.reference><footnote.body class="show_in_main_and_footnotes">
             <para first.para="yes">
                 <para.text first.para.text="yes">
                     <cgt> </cgt>New ICWA Regulations were passed effective December 12, 2016. See <cgt>§ </cgt>5:1. Revised Guidelines are forthcoming.</para.text>

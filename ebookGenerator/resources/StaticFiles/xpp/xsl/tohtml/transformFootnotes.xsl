@@ -32,6 +32,17 @@
 		</xsl:call-template>
 	</xsl:template>
     
+    <xsl:template match="x:footnote.body">
+        <div class="er_rp_search_volume_content_data">
+            <xsl:element name="div">
+                <xsl:attribute name="class">
+                    <xsl:value-of select="concat('footnote_body ', @class)" />
+                </xsl:attribute>
+                <xsl:apply-templates />
+            </xsl:element>
+        </div>
+    </xsl:template>
+    
     <xsl:template match="x:foots">
         <xsl:copy>
             <xsl:copy-of select="./@id" />
@@ -39,7 +50,35 @@
         </xsl:copy>
     </xsl:template>
 
-    <xsl:template match="x:footnote.reference">
+    <xsl:template match="x:footnote.reference[@class='show_in_main']">
+        <div class="er_rp_search_volume_content_data">
+            <sup class="show_in_main">
+                <span class="tr_footnote_name">
+                    <xsl:value-of select="x:t/text()" />
+                </span>
+            </sup>
+        </div>
+    </xsl:template>
+    
+    <xsl:template match="x:footnote.reference[@class='show_in_footnotes']">
+        <xsl:variable name="refId" select="ancestor::x:footnote[1]/@id" />
+        
+        <xsl:element name="sup">
+            <xsl:call-template name="addAnchorTag">
+                <xsl:with-param name="refId" select="$refId" />
+                <xsl:with-param name="excludeText" select="true()" />
+            </xsl:call-template>
+            
+            <div class="er_rp_search_volume_content_data">
+                <xsl:call-template name="addAnchorTag">
+                    <xsl:with-param name="refId" select="$refId" />
+                    <xsl:with-param name="excludeName" select="true()" />
+                </xsl:call-template>
+            </div>
+        </xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="x:footnote.reference[@class='show_in_main_and_footnotes']">
         <xsl:element name="sup">
             <xsl:call-template name="addAnchorTag">
                 <xsl:with-param name="refId" select="ancestor::x:footnote[1]/@id" />
@@ -47,8 +86,10 @@
         </xsl:element>
     </xsl:template>
     
-    <xsl:template match="x:footnote.reference/x:cgt">
-        <sup><xsl:apply-templates /></sup>
+    <xsl:template match="x:footnote/x:t[@style='footnote cgt']">
+        <div class="er_rp_search_volume_content_data">
+            <xsl:call-template name="convertToSpan" />
+        </div>
     </xsl:template>
     
     <xsl:template match="x:xref[@type='footnote']">
@@ -105,12 +146,19 @@
     
     <xsl:template name="addAnchorTag">
         <xsl:param name="refId" />
+        <xsl:param name="excludeName" />
+        <xsl:param name="excludeText" />
+        
         <xsl:element name="a">
             <xsl:attribute name="class" select="'tr_ftn'" />
             <xsl:attribute name="href" select="''" />
-            <xsl:attribute name="name" select="concat('ftn.', $refId)" />
             <xsl:attribute name="ftnname" select="concat('f', $refId)" />
-            <xsl:apply-templates />
+            <xsl:if test="not($excludeName)">
+                <xsl:attribute name="name" select="concat('ftn.', $refId)" />
+            </xsl:if>
+            <xsl:if test="not($excludeText)">
+                <xsl:apply-templates />
+            </xsl:if>
         </xsl:element>
     </xsl:template>
     
@@ -124,7 +172,7 @@
            				<xsl:with-param name="refId" select="concat('pn.', $pgNum)" />
            			</xsl:call-template>
            		</xsl:if>
-           		<div class="footnote_body no-popup-sibling">
+           		<div class="footnote_body page_number">
                		<div class="page_number">
 						<xsl:value-of select="$pgNum" />
 					</div>

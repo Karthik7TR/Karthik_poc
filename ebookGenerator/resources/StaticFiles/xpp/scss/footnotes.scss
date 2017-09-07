@@ -65,7 +65,7 @@ sup {
 }
 
 .page_number {
-    display: block;
+    display: block !important;
     text-align: center;
 }
 
@@ -78,17 +78,23 @@ sup {
     a+& {
         margin: auto;
     }
+    &.show_in_main_and_footnotes {
+        display: block;
+    }
 }
 
-.footnote_body_main_popup_pane {
-    text-align: justify;
+.show_in_main {
+    display: block;
     .tr_footnotes & {
         display: none;
     }
 }
 
-.no-popup-sibling {
-    display: block !important;
+.show_in_footnotes {
+    display: none;
+    .tr_footnotes & {
+        display: block;
+    }
 }
 
 .er_rp_search_volume_content_data {

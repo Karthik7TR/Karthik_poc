@@ -222,24 +222,35 @@
                 </topic>
             </publication.body>
         </publication>
+        <columns>
+            <column>
+                <t style="para.text">text in column 1</t>
+            </column>
+            <column>
+                <t style="para.text">text in column 2</t>
+            </column>
+        </columns>
     </part.main>
     <part.footnotes fileName="sampleXpp_15">
         <footnote uuid="I42e15f7013c911e7b9e3acd823573d3d" date.updated="0" id="31">
-            <footnote.reference>
-                <cgt>12</cgt>
+            <footnote.reference class="show_in_main">
+                <t style="footnote.reference super cgt">12</t>
             </footnote.reference>
-            <footnote.body date.updated="0">
-                <para date.updated="0" first.para="no">
-                    footnote on page 16
-                </para>
-            </footnote.body>
-            <footnote.body.main.popup.pane date.updated="0">
+            <footnote.body class="show_in_main" date.updated="0">
                 <para date.updated="0" first.para="no">
                     footnote on page 16
                     
                     footnote on page 17
                 </para>
-            </footnote.body.main.popup.pane>
+            </footnote.body>
+            <footnote.reference class="show_in_footnotes">
+                <t style="footnote.reference super cgt">12</t>
+            </footnote.reference>
+            <footnote.body class="show_in_footnotes" date.updated="0">
+                <para date.updated="0" first.para="no">
+                    footnote on page 16
+                </para>
+            </footnote.body>
         </footnote>
         <pagebreak num="17" num-string="17"/>
         <footnote>
@@ -251,11 +262,11 @@
             </footnote.body>
         </footnote>
         <footnote uuid="I7c757a20152011e786bd8201462bf663" date.updated="0" id="32">
-            <cgt>[Section 3:4]</cgt>
-            <footnote.reference>
-                <cgt>13</cgt>
+            <t style="footnote cgt">[Section 3:4]</t>
+            <footnote.reference class="show_in_main_and_footnotes">
+                <t style="footnote.reference super cgt">13</t>
             </footnote.reference>
-            <footnote.body date.updated="0">
+            <footnote.body class="show_in_main_and_footnotes" date.updated="0">
                 <para date.updated="0" first.para="yes">
                     <para.text date.updated="0" first.para.text="yes">Oklahoma. <ref case.id="1983120565" court="Okla." date="1983" fjur="Okla" jur="Okla" norm.rptr="okpdc" p1="Matter of Jerry L." p1.pp="Matter of" post.rptr="43" pre.rptr="1983" ref.id="I14b7777097bc11e2b9050000833f9e5b" title="Matter of Jerry L.">Matter of Jerry L., 1983 OK 43, 662 P.2d 1372 (Okla. 1983)</ref> (court rejected mother's argument that rights could only be terminated upon second account of abuse).</para.text>
                 </para>

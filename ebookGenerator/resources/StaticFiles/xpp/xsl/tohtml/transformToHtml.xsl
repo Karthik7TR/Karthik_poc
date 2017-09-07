@@ -3,7 +3,8 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
 	<xsl:import href="../transform-utils.xsl" />
-    <xsl:include href="transformFootnotesToLinks.xsl" />
+    <xsl:include href="transformText.xsl" />
+    <xsl:include href="transformFootnotes.xsl" />
     <xsl:include href="transformTlrKey.xsl" />
     <xsl:include href="transformImagesTags.xsl" />
     
@@ -58,12 +59,6 @@
 	</xsl:template>
 
 	<xsl:template match="element()">
-		<xsl:variable name="isFootnotePart" select="parent::x:footnote" />
-		<xsl:if test="$isFootnotePart">
-			<xsl:text disable-output-escaping="yes"><![CDATA[<]]></xsl:text>
-			<xsl:text>div class="er_rp_search_volume_content_data"</xsl:text>
-			<xsl:text disable-output-escaping="yes"><![CDATA[>]]></xsl:text>
-		</xsl:if>
 		<xsl:element name="div">
 			<xsl:attribute name="class">
 				<xsl:value-of select="x:get-class-name(name(.))" />
@@ -76,18 +71,10 @@
 					<xsl:if test="@pre.leading">
 						<xsl:value-of select="concat(' pre_leading_', x:get-class-name(@pre.leading))" />
 					</xsl:if>
-					<xsl:if test="name()='footnote.body' and not(following-sibling::x:footnote.body.main.popup.pane)">
-						<xsl:value-of select="concat(' ', 'no-popup-sibling')" />
-					</xsl:if>
 			</xsl:attribute>
 			<xsl:copy-of select="./@uuid | ./@tocuuid" />
 			<xsl:apply-templates />
 		</xsl:element>
-		<xsl:if test="$isFootnotePart">
-			<xsl:text disable-output-escaping="yes"><![CDATA[</]]></xsl:text>
-			<xsl:text>div</xsl:text>
-			<xsl:text disable-output-escaping="yes"><![CDATA[>]]></xsl:text>
-		</xsl:if>
 	</xsl:template>
 	
 	<xsl:template match="x:XPPMetaData" />
@@ -113,22 +100,7 @@
                 </xsl:call-template>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:element name="span">
-                    <xsl:attribute name="class">
-                        <xsl:value-of select="x:get-class-name(name(.))" />
-                        <xsl:if test="@style">
-                            <xsl:value-of select="concat(' font_', x:get-class-name(@style))" />
-                        	<xsl:if test="@style='dt' and count(following::x:pagebreak[1]/preceding::x:t intersect following::x:t)=0">
-                            	<xsl:value-of select="concat(' ', 'last_dt')"/>
-                            </xsl:if>
-                        </xsl:if>
-                        <xsl:variable name="pagebreakSibling" select="preceding-sibling::x:pagebreak" />
-                        <xsl:if test="$pagebreakSibling and count($pagebreakSibling/following-sibling::x:t intersect preceding-sibling::x:t)=0">
-                            <xsl:value-of select="concat(' ', 'no-indent')" />
-                        </xsl:if>
-                    </xsl:attribute>
-                    <xsl:apply-templates />
-                </xsl:element>
+                <xsl:call-template name="convertToSpan" />
             </xsl:otherwise>
         </xsl:choose>
 	</xsl:template>
@@ -221,7 +193,4 @@
 		</xsl:if>
 	</xsl:template>
 
-	<xsl:template match="text()">
-		<xsl:value-of select="." />
-	</xsl:template>
 </xsl:stylesheet>

@@ -23,13 +23,54 @@
         </xsl:copy>
     </xsl:template>
     
-    <xsl:template match="x:footnote.body" mode="mainPopupPane">
-        <footnote.body.main.popup.pane>
-            <xsl:apply-templates select="node()|@*" mode="mainPopupPane"/>
-        </footnote.body.main.popup.pane>
+    <xsl:template match="x:footnote.body">
+        <xsl:choose>
+            <xsl:when test="x:hasInnerPagebreaksOrColumnbreaks(.)=true()">
+                <xsl:call-template name="footnoteReferenceAndBody">
+                    <xsl:with-param name="class" select="'show_in_main'"/>
+                    <xsl:with-param name="fullContentMode" select="true()"/>
+                </xsl:call-template>
+                <xsl:call-template name="footnoteReferenceAndBody">
+                    <xsl:with-param name="class" select="'show_in_footnotes'"/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:call-template name="footnoteReferenceAndBody">
+                    <xsl:with-param name="class" select="'show_in_main_and_footnotes'"/>
+                </xsl:call-template>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
     
-    <xsl:template match="x:pagebreak | x:columns | x:column | x:endcolumn | x:endcolumns" mode="mainPopupPane" />
+    <xsl:template name="footnoteReferenceAndBody">
+        <xsl:param name="class"/>
+        <xsl:param name="fullContentMode"/>
+        <xsl:variable name="footnoteReference" select="ancestor::x:footnote[1]/x:footnote.reference" />
+        
+        <xsl:element name="footnote.reference">
+            <xsl:attribute name="class" select="$class"/>
+            <xsl:apply-templates select="$footnoteReference" mode="content" />
+        </xsl:element>
+        <xsl:element name="footnote.body">
+            <xsl:attribute name="class" select="$class"/>
+            <xsl:choose>
+                <xsl:when test="$fullContentMode">
+                    <xsl:apply-templates select="node()|@*" mode="fullContent" />
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:apply-templates select="node()|@*" />
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="x:footnote.reference" />
+    
+    <xsl:template match="x:footnote.reference" mode="content">
+        <xsl:apply-templates select="node()|@*" />
+    </xsl:template>
+    
+    <xsl:template match="x:pagebreak | x:columns | x:column | x:endcolumn | x:endcolumns | x:page.number" mode="fullContent" />
     
     <xsl:template match="x:pagebreak">
         <xsl:variable name="outerFootnote" select="ancestor::x:footnote[1]" />
@@ -37,7 +78,6 @@
         <xsl:choose>
             <xsl:when test="$outerFootnote">
                 <xsl:call-template name="insertCloseTags">
-                    <xsl:with-param name="shouldAddFullFootnote" select="count($outerFootnote//following::x:pagebreak intersect preceding::x:pagebreak)=0" />
                     <xsl:with-param name="footnote" select="$outerFootnote" />
                 </xsl:call-template>
                 <xsl:call-template name="processPagebreak" />
@@ -75,7 +115,6 @@
     </xsl:template>
 
     <xsl:template name="insertCloseTags">
-        <xsl:param name="shouldAddFullFootnote" />
         <xsl:param name="footnote" />
         
         <xsl:for-each select="ancestor::node()">
@@ -84,9 +123,6 @@
                 <xsl:text disable-output-escaping="yes"><![CDATA[</]]></xsl:text>
                 <xsl:value-of select="local-name(.)" />
                 <xsl:text disable-output-escaping="yes"><![CDATA[>]]></xsl:text>
-            </xsl:if>
-            <xsl:if test="local-name(.) = 'footnote.body' and $shouldAddFullFootnote">
-                <xsl:apply-templates select="$footnote/x:footnote.body" mode="mainPopupPane"/>
             </xsl:if>
         </xsl:for-each>
     </xsl:template>
@@ -119,5 +155,10 @@
             </xsl:if>
         </xsl:for-each>
     </xsl:template>
+    
+    <xsl:function name="x:hasInnerPagebreaksOrColumnbreaks">
+        <xsl:param name="node" as="node()"/>
+        <xsl:value-of select="count($node//x:pagebreak | $node//x:column | $node//x:endcolumn) > 0" />
+    </xsl:function>
     
 </xsl:stylesheet>

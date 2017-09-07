@@ -668,7 +668,7 @@ sup + .footnote_body > .para:first-child {
 }
 
 .page_number {
-  display: block;
+  display: block !important;
   text-align: center;
 }
 
@@ -685,16 +685,24 @@ a + .footnote_body {
   margin: auto;
 }
 
-.footnote_body_main_popup_pane {
-  text-align: justify;
+.footnote_body.show_in_main_and_footnotes {
+  display: block;
 }
 
-.tr_footnotes .footnote_body_main_popup_pane {
+.show_in_main {
+  display: block;
+}
+
+.tr_footnotes .show_in_main {
   display: none;
 }
 
-.no-popup-sibling {
-  display: block !important;
+.show_in_footnotes {
+  display: none;
+}
+
+.tr_footnotes .show_in_footnotes {
+  display: block;
 }
 
 .footnote > .er_rp_search_volume_content_data {
