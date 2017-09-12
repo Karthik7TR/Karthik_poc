@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 public class XppBundleArchiveDaoImpl implements XppBundleArchiveDao
@@ -69,7 +70,7 @@ public class XppBundleArchiveDaoImpl implements XppBundleArchiveDao
     {
         final List<XppBundleArchive> archive = sessionFactory.getCurrentSession()
             .createCriteria(XppBundleArchive.class)
-            .add(Restrictions.eq("materialNumber", materialNumber))
+            .add(Restrictions.eq("materialNumber", materialNumber)).addOrder(Order.desc("dateTime"))
             .list();
 
         if (archive.size() > 0)

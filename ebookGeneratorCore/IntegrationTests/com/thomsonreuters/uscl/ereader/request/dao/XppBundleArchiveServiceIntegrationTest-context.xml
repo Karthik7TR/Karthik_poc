@@ -8,16 +8,21 @@
 
 	<import resource="classpath:springtest/dbTest.xml" />
 
-	<bean id="stateCodeService"
-		class="com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeServiceImpl"
-		p:stateCodeDao-ref="stateCodeDao" />
-	<bean id="stateCodeDao"
-		class="com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeDaoImpl">
+	<bean id="xppBundleArchiveDao"
+		class="com.thomsonreuters.uscl.ereader.request.dao.XppBundleArchiveDaoImpl">
 		<constructor-arg ref="sessionFactory" />
 	</bean>
-	
+	<bean id="xppBundleArchiveService"
+		class="com.thomsonreuters.uscl.ereader.request.service.XppBundleArchiveService"
+		p:xppBundleArchiveDao-ref="xppBundleArchiveDao" />
+
 	<bean id="sessionFactory" parent="sessionFactoryAbstract"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-		<property name="packagesToScan" value="com.thomsonreuters.uscl.ereader.sql, com.thomsonreuters.uscl.ereader.core.book.statecode" />
+		<property name="annotatedClasses">
+			<list>
+				<value>com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive
+				</value>
+			</list>
+		</property>
 	</bean>
 </beans>
