@@ -73,11 +73,11 @@
 
 				function refreshingRowActivities(){
 					var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
-						$gridData.sortable({cancel:'.jsgrid-edit-row'});
 					if(${param.edit}){
 						$gridData.sortable({
 							update: function(e, ui) {
-
+									$gridData.sortable({cancel:'.jsgrid-edit-row'});
+									
 									// array of indexes
 									var clientIndexRegExp = /\s*client-(\d+)\s*/;
 									var indexes = $.map($gridData.sortable("toArray", {
