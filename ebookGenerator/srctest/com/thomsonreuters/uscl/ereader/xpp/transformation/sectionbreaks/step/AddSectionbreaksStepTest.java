@@ -30,7 +30,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public final class AddSectionbreaksStepTest
 {
-    private static final String MAIN_DOCUMENT_WITH_SECTIONBREAKS_PARAM = "mainDocumentWithSectionbreaks";
+    private static final String MAIN_DOCUMENT_WITH_SECTIONBREAKS_PARAM = "mainFile";
     private static final String BASE_FILENAME = "1-CHAL_7.DIVXML";
     private static final String MAIN_CONTENT_FILE_PATH = "path";
     private static final String FOOTNOTES_CONTENT_FILE_PATH = "path";

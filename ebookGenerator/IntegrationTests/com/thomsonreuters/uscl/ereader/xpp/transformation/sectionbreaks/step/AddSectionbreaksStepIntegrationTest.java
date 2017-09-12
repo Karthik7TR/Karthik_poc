@@ -34,6 +34,7 @@ public final class AddSectionbreaksStepIntegrationTest
 
     private File frontXml;
     private File frontXmlFootnotes;
+    private File expectedFrontXml;
     private File expectedFrontXmlFootnotes;
 
     private File mainXmlOne;
@@ -55,6 +56,7 @@ public final class AddSectionbreaksStepIntegrationTest
     {
         frontXml = new File(AddSectionbreaksStepIntegrationTest.class.getResource("0-CHAL_Front_vol_1.DIVXML.main").toURI());
         frontXmlFootnotes = new File(AddSectionbreaksStepIntegrationTest.class.getResource("0-CHAL_Front_vol_1.DIVXML.footnotes").toURI());
+        expectedFrontXml = new File(AddSectionbreaksStepIntegrationTest.class.getResource("expected-0-CHAL_Front_vol_1.DIVXML.main").toURI());
         expectedFrontXmlFootnotes = new File(AddSectionbreaksStepIntegrationTest.class.getResource("expected-0-CHAL_Front_vol_1.DIVXML.footnotes").toURI());
 
         mainXmlOne = new File(AddSectionbreaksStepIntegrationTest.class.getResource("1-CHAL_7.DIVXML.main").toURI());
@@ -96,7 +98,7 @@ public final class AddSectionbreaksStepIntegrationTest
         //when
         step.executeStep();
         //then
-        assertOutputContent(frontXml, frontXml);
+        assertOutputContent(frontXml, expectedFrontXml);
         assertOutputContent(frontXmlFootnotes, expectedFrontXmlFootnotes);
         assertOutputContent(mainXmlOne, expectedMainXmlOne);
         assertOutputContent(mainXmlOneFootnotes, expectedMainXmlOneFootnotes);

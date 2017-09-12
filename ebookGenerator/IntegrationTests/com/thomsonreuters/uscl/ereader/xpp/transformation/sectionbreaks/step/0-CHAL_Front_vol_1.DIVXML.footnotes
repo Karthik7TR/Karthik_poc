@@ -24,5 +24,14 @@
     <pagebreak num="IX" num-string="ix"/>
     <pagebreak num="X" num-string=""/>
     <pagebreak num="XI" num-string="xi"/>
-    <pagebreak num="XII" num-string="xii"/>
+    <footnote id="2">
+        <footnote.reference>
+            <cgt>2</cgt>
+        </footnote.reference>
+        <footnote.body>
+            content on page XI
+            <pagebreak num="XII" num-string="xii"/>
+            content on page XII
+        </footnote.body>
+    </footnote>
 </root>

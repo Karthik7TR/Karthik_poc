@@ -23,5 +23,20 @@
     <pagebreak num="IX" num-string="ix"/>
     <sectionbreak sectionuuid="vol1.About.the.Author"/><pagebreak num="X" num-string=""/>
     <pagebreak num="XI" num-string="xi"/>
-    <pagebreak num="XII" num-string="xii"/>
+    <footnote id="2">
+        
+        <footnote.reference class="show_in_main">
+            <cgt>2</cgt>
+        </footnote.reference><footnote.body class="show_in_main">
+            content on page XI
+            
+            content on page XII
+        </footnote.body><footnote.reference class="show_in_footnotes">
+            <cgt>2</cgt>
+        </footnote.reference><footnote.body class="show_in_footnotes">
+            content on page XI
+            </footnote.body></footnote><pagebreak num="XII" num-string="xii"/><footnote><hidden.footnote.reference refId="2-XII"/><footnote.body>
+            content on page XII
+        </footnote.body>
+    </footnote>
 </root>

@@ -11,7 +11,6 @@ import com.thomsonreuters.uscl.ereader.common.filesystem.entity.basefiles.BaseFi
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
-import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.PartType;
@@ -27,22 +26,28 @@ import org.springframework.beans.factory.annotation.Value;
 @SavePublishingStatusPolicy
 public class AddSectionbreaksStep extends XppTransformationStep
 {
-    private static final String MAIN_DOCUMENT_WITH_SECTIONBREAKS_PARAM = "mainDocumentWithSectionbreaks";
-    private static final String FOOTNOTES_DOCUMENT_ORIGINAL_PARAM = "footnotesOriginal";
+    private static final String MAIN_DOCUMENT_WITH_SECTIONBREAKS_PARAM = "mainFile";
+    private static final String FOOTNOTES_DOCUMENT_ORIGINAL_PARAM = "footnotesFile";
 
     @Value("${xpp.add.sectionbreaks.original.xsl}")
     private File addSectionbreaksToOriginalXsl;
 
+    @Value("${xpp.add.links.from.main.to.footnotes.xsl}")
+    private File addLinksFromMainToFootnotes;
+
     @Value("${xpp.add.sectionbreaks.original.footnotes.xsl}")
     private File addSectionbreaksToOriginalFootnotesXsl;
+
+    private Transformer transformerMainType;
+    private Transformer transformerOtherTypes;
+    private Transformer transformerFootnotes;
 
     @Override
     public void executeTransformation() throws IOException
     {
-        final Transformer transformerMain =
-            transformerBuilderFactory.create().withXsl(addSectionbreaksToOriginalXsl).build();
-        final Transformer transformerFootnotes =
-            transformerBuilderFactory.create().withXsl(addSectionbreaksToOriginalFootnotesXsl).build();
+        transformerMainType = transformerBuilderFactory.create().withXsl(addSectionbreaksToOriginalXsl).build();
+        transformerOtherTypes = transformerBuilderFactory.create().withXsl(addLinksFromMainToFootnotes).build();
+        transformerFootnotes = transformerBuilderFactory.create().withXsl(addSectionbreaksToOriginalFootnotesXsl).build();
 
         for (final Map.Entry<String, BaseFilesByBaseNameIndex> filesByMaterialNumber : fileSystem
             .getStructureWithMetadataFilesIndex(this).getFilesByMaterialNumber())
@@ -52,16 +57,14 @@ public class AddSectionbreaksStep extends XppTransformationStep
             for (final Map.Entry<String, BaseFilesByTypeIndex> filesByBaseName : filesByMaterialNumber.getValue()
                 .filesByBaseName())
             {
-                transformSingleFile(transformerMain, transformerFootnotes, materialNumber, filesByBaseName);
+                transformSingleFile(materialNumber, filesByBaseName);
             }
         }
     }
 
     private void transformSingleFile(
-        final Transformer transformerMain,
-        final Transformer transformerFootnotes,
         final String materialNumber,
-        final Map.Entry<String, BaseFilesByTypeIndex> filesByBaseName) throws IOException
+        final Map.Entry<String, BaseFilesByTypeIndex> filesByBaseName)
     {
         final File mainFile = filesByBaseName.getValue().get(PartType.MAIN);
         final File footnotesFile = filesByBaseName.getValue().get(PartType.FOOTNOTE);
@@ -74,26 +77,34 @@ public class AddSectionbreaksStep extends XppTransformationStep
         final BundleFileType bundleFileType = BundleFileType.getByFileName(mainFile.getName());
         if (bundleFileType == BundleFileType.MAIN_CONTENT)
         {
-            transformerMain.setParameter(
-                FOOTNOTES_DOCUMENT_ORIGINAL_PARAM,
-                footnotesFile.getAbsolutePath().replace("\\", "/"));
-
-            final TransformationCommand command =
-                new TransformationCommandBuilder(transformerMain, mainFileWithSectionbreaks).withInput(mainFile)
-                    .build();
-            transformationService.transform(command);
+            transformMainFile(transformerMainType, mainFile, footnotesFile, mainFileWithSectionbreaks);
         }
         else
         {
-            FileUtils.copyFile(mainFile, mainFileWithSectionbreaks);
+            transformMainFile(transformerOtherTypes, mainFile, footnotesFile, mainFileWithSectionbreaks);
         }
 
-        transformerFootnotes.setParameter(
-            MAIN_DOCUMENT_WITH_SECTIONBREAKS_PARAM,
-            mainFileWithSectionbreaks.getAbsolutePath().replace("\\", "/"));
-        final TransformationCommand command =
-            new TransformationCommandBuilder(transformerFootnotes, footnotesFileWithSectionbreaks)
-                .withInput(footnotesFile).build();
-        transformationService.transform(command);
+        transformFootnoteFile(footnotesFile, mainFileWithSectionbreaks, footnotesFileWithSectionbreaks);
+    }
+
+    private void transformMainFile(final Transformer transformer, final File inputMainFile, final File parameterFootnoteFile, final File outputMainFile)
+    {
+        transformFile(transformer, inputMainFile, FOOTNOTES_DOCUMENT_ORIGINAL_PARAM, parameterFootnoteFile, outputMainFile);
+    }
+
+    private void transformFootnoteFile(final File inputFootnoteFile, final File parameterMainFile, final File outputFootnotesFile)
+    {
+        transformFile(transformerFootnotes, inputFootnoteFile, MAIN_DOCUMENT_WITH_SECTIONBREAKS_PARAM, parameterMainFile, outputFootnotesFile);
+    }
+
+    private void transformFile(final Transformer transformer, final File inputFile, final String paramName, final File parameterFile, final File outputFile)
+    {
+        transformer.setParameter(
+            paramName,
+            parameterFile.getAbsolutePath().replace("\\", "/"));
+
+        transformationService.transform(
+            new TransformationCommandBuilder(transformer, outputFile).withInput(inputFile)
+            .build());
     }
 }

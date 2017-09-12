@@ -4,8 +4,8 @@
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
     <xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
 
-    <xsl:param name="mainDocumentWithSectionbreaks" />
-    <xsl:variable name="main" select="document($mainDocumentWithSectionbreaks)" />
+    <xsl:param name="mainFile" />
+    <xsl:variable name="main" select="document($mainFile)" />
 
     <xsl:template match="node()|@*" mode="#all">
         <xsl:copy>
