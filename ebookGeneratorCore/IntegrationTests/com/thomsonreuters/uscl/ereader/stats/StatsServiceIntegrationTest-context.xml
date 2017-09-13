@@ -8,14 +8,16 @@
 
 	<import resource="classpath:springtest/dbTest.xml" />
 
-	<context:property-placeholder
-		location="classpath:com/thomsonreuters/uscl/ereader/stats/test.properties" />
-
 	<bean id="publishingStatsService"
 		class="com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsServiceImpl"
 		p:publishingStatsDAO-ref="publishingStatsDao" />
 	<bean id="publishingStatsDao"
 		class="com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDaoImpl">
 		<constructor-arg ref="sessionFactory" />
+	</bean>
+	
+	<bean id="sessionFactory" parent="sessionFactoryAbstract"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="packagesToScan" value="com.thomsonreuters.uscl.ereader.sql, com.thomsonreuters.uscl.ereader.stats, com.thomsonreuters.uscl.ereader.core.book.domain, com.thomsonreuters.uscl.ereader.request.domain" />
 	</bean>
 </beans>
