@@ -3,9 +3,12 @@ package com.thomsonreuters.uscl.ereader.common.deliver.step;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.annotation.Resource;
 
+import com.thomsonreuters.uscl.ereader.common.deliver.comparsion.SplitTitleIdsComparator;
 import com.thomsonreuters.uscl.ereader.common.deliver.service.ProviewHandlerWithRetry;
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
@@ -60,8 +63,10 @@ public abstract class BaseDeliverStep extends BookStepImpl
 
     private void publishSplitBook() throws ProviewException
     {
-        final List<String> splitTitles = docMetadataService.findDistinctSplitTitlesByJobId(getJobInstanceId());
-        for (final String splitTitleId : splitTitles)
+        final Set<String> splitTitleIds =
+            new TreeSet<>(new SplitTitleIdsComparator(getBookDefinition().getFullyQualifiedTitleId()));
+        splitTitleIds.addAll(docMetadataService.findDistinctSplitTitlesByJobId(getJobInstanceId()));
+        for (final String splitTitleId : splitTitleIds)
         {
             final File assembledSplitTitleFile = fileSystem.getAssembledSplitTitleFile(this, splitTitleId);
             proviewHandler.publishTitle(splitTitleId, getBookVersion(), assembledSplitTitleFile);

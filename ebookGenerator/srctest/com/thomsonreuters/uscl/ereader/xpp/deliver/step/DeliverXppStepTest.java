@@ -83,6 +83,7 @@ public final class DeliverXppStepTest
     {
         //given
         given(book.isSplitBook()).willReturn(true);
+        given(book.getFullyQualifiedTitleId()).willReturn("an/splitTitle");
         given(docMetadataService.findDistinctSplitTitlesByJobId(1L))
             .willReturn(asList("an/splitTitle", "an/splitTitle_pt2"));
         given(fileSystem.getAssembledSplitTitleFile(step, "an/splitTitle")).willReturn(assembledBookFile);
@@ -101,6 +102,7 @@ public final class DeliverXppStepTest
         thrown.expect(ProviewException.class);
 
         given(book.isSplitBook()).willReturn(true);
+        given(book.getFullyQualifiedTitleId()).willReturn("an/splitTitle");
         given(docMetadataService.findDistinctSplitTitlesByJobId(1L))
             .willReturn(asList("an/splitTitle", "an/splitTitle_pt2"));
 
