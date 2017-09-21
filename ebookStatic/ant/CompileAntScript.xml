@@ -107,7 +107,9 @@
 	<copy todir="${dir.dist}">
       <fileset dir="ebookStatic/staticContent">
         <include name="coverArt.PNG"/>
-		<include name="updateStyleSheet.sh"/>
+	  </fileset>
+	  <fileset dir="ebookStatic/staticContent">
+        <include name="updateStyleSheet.sh"/>
       </fileset>
     </copy>
 
