@@ -518,7 +518,8 @@ td:last-of-type {
 .mte2 > .cgt,
 sup .cgt,
 thead > tr > td > .cgt,
-tbody .cgt {
+tbody .cgt,
+.int_ref_list > .cgt {
   display: inline;
 }
 
@@ -835,4 +836,31 @@ a + .footnote_body {
 .font_fm_related_products_3 {
   display: block !important;
   text-align: center;
+}
+
+.main_head {
+  text-align: center;
+}
+
+.tbl_row {
+  margin-left: calc(1em * 2);
+}
+
+.tbl_row_ref {
+  display: inline;
+}
+
+.tbl_row_ref > .t {
+  display: inline-block;
+}
+
+.tbl_row_ref > .t:first-child,
+.tbl_row_ref > .repeat_party:first-child > .t {
+  text-indent: calc(1em * -2);
+}
+
+.int_ref_list,
+.int_ref,
+.repeat_party {
+  display: inline;
 }

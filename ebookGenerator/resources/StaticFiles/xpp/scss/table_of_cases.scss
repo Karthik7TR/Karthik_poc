@@ -1,0 +1,28 @@
+@import "constants.scss";
+
+.main_head {
+    text-align: center;
+}
+
+.tbl_row {
+    margin-left: calc(#{$indent} * 2);
+}
+
+.tbl_row_ref {
+    display: inline;
+
+    & > .t {
+        display: inline-block;
+    }
+    
+    & > .t:first-child,
+    & > .repeat_party:first-child > .t {
+        text-indent: calc(#{$indent} * -2);
+    }
+}
+
+.int_ref_list,
+.int_ref,
+.repeat_party {
+    display: inline;
+}
