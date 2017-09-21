@@ -108,10 +108,7 @@
       <fileset dir="ebookStatic/staticContent">
         <include name="coverArt.PNG"/>
 	  </fileset>
-	  <fileset dir="ebookStatic/staticContent">
-        <include name="updateStyleSheet.sh"/>
-      </fileset>
-    </copy>
+	</copy>
 
   </target>
 
