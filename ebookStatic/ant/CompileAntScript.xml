@@ -102,6 +102,12 @@
       <fileset dir="Provider/ContentMapper">
         <include name="ContentTypeMapData.xml"/>
       </fileset>
+	</copy>
+
+	<copy todir="${dir.dist}">
+      <fileset dir="staticContent">
+        <include name="coverArt.PNG"/>
+      </fileset>
     </copy>
 
   </target>
