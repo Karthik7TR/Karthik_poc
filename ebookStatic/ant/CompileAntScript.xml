@@ -104,12 +104,6 @@
       </fileset>
     </copy>
 
-	<copy todir="${dir.dist}">
-      <fileset dir="ebookStatic/staticContent">
-        <include name="coverArt.PNG"/>
-	  </fileset>
-	</copy>
-
   </target>
 
 
