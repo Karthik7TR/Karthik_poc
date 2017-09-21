@@ -44,5 +44,4 @@ public final class PlaceXppMetadataStepIndexIntegrationTest extends PlaceXppMeta
         assertThat(expected, hasSameContentAs(actual));
         assertThat(expectedBreaks, hasSameContentAs(actualBreaks));
     }
-
 }

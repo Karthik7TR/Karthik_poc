@@ -16,6 +16,11 @@
 			select="translate($value, $olds, $news)" />
 	</xsl:function>
 	
+	<xsl:function name="x:fix-lrre-page">
+		<xsl:param name="pageNum" />
+		<xsl:value-of select="replace($pageNum, 'L&amp;R', 'L&amp;amp;R')" />
+	</xsl:function>
+	
 	<xsl:function name="x:get-class-name">
 		<xsl:param name="value" />
 		<xsl:value-of select="translate(translate($value,'.','_'), ';', '_')" />

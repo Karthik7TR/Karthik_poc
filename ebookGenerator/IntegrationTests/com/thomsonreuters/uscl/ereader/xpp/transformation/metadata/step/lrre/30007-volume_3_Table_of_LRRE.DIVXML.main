@@ -1,0 +1,153 @@
+<!DOCTYPE root SYSTEM "C:/Users/UC228950/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/ebookGenerator/WEB-INF/classes/StaticFiles/xpp/dtd/entities.dtd">
+<root xmlns="http://www.sdl.com/xpp">
+	<pagebreak num="1" num-string="Tbl of L&amp;R-1" prev_page=""/>
+	<page.number.ref page-number="Tbl of L&amp;R-1"/>
+	<pagebreak num="2" num-string="Tbl of L&amp;R-2" prev_page="Tbl of L&amp;R-1"/>
+	<pagebreak num="3" num-string="Tbl of L&amp;R-3" prev_page="Tbl of L&amp;R-2"/>
+	<pagebreak num="4" num-string="Tbl of L&amp;R-4" prev_page="Tbl of L&amp;R-3"/>
+	<pagebreak num="5" num-string="Tbl of L&amp;R-5" prev_page="Tbl of L&amp;R-4"/>
+	<pagebreak num="6" num-string="Tbl of L&amp;R-6" prev_page="Tbl of L&amp;R-5"/>
+	<pagebreak num="7" num-string="Tbl of L&amp;R-7" prev_page="Tbl of L&amp;R-6"/>
+	<pagebreak num="8" num-string="Tbl of L&amp;R-8" prev_page="Tbl of L&amp;R-7"/>
+	<pagebreak num="9" num-string="Tbl of L&amp;R-9" prev_page="Tbl of L&amp;R-8"/>
+	<pagebreak num="10" num-string="Tbl of L&amp;R-10" prev_page="Tbl of L&amp;R-9"/>
+	<pagebreak num="11" num-string="Tbl of L&amp;R-11" prev_page="Tbl of L&amp;R-10"/>
+	<pagebreak num="12" num-string="Tbl of L&amp;R-12" prev_page="Tbl of L&amp;R-11"/>
+	<pagebreak num="13" num-string="Tbl of L&amp;R-13" prev_page="Tbl of L&amp;R-12"/>
+	<pagebreak num="14" num-string="Tbl of L&amp;R-14" prev_page="Tbl of L&amp;R-13"/>
+	<pagebreak num="15" num-string="Tbl of L&amp;R-15" prev_page="Tbl of L&amp;R-14"/>
+	<pagebreak num="16" num-string="Tbl of L&amp;R-16" prev_page="Tbl of L&amp;R-15"/>
+	<pagebreak num="17" num-string="Tbl of L&amp;R-17" prev_page="Tbl of L&amp;R-16"/>
+	<pagebreak num="18" num-string="Tbl of L&amp;R-18" prev_page="Tbl of L&amp;R-17"/>
+	<pagebreak num="19" num-string="Tbl of L&amp;R-19" prev_page="Tbl of L&amp;R-18"/>
+	<pagebreak num="20" num-string="Tbl of L&amp;R-20" prev_page="Tbl of L&amp;R-19"/>
+	<generated.finding.aids.tables>
+		<generated.lrre.tbl scope="pub">
+			<metadata.block>
+				<metadata field="table.head">
+					<value>
+						<t style="value">Table of Laws and Rules</t>
+					</value>
+				</metadata>
+				<metadata field="left.running.head">
+					<value/>
+				</metadata>
+				<metadata field="right.running.head">
+					<value/>
+				</metadata>
+			</metadata.block>
+			<tbl.unit>
+				<main.head>
+					<t style="main.head">United States Constitution</t>
+				</main.head>
+				<columns/>
+				<column/>
+				<col.head>
+					<leader.fill/>
+					<t style="col.head">Sec.</t>
+				</col.head>
+				<tbl.row>
+					<tbl.row.ref>
+						<t style="tbl.row.ref">Art. I, </t>
+						<t style="tbl.row.ref cgt">§ </t>
+						<t style="tbl.row.ref">8</t>
+					</tbl.row.ref>
+					<int.ref.list>
+						<t style="int.ref.list cgt">.</t>
+						<int.ref citeas="n/a_9:1_n/a">
+							<t style="int.ref">9:1</t>
+						</int.ref>
+						<t style="int.ref.list">, </t>
+						<int.ref citeas="n/a_11:32_n/a">
+							<t style="int.ref">11:32</t>
+						</int.ref>
+					</int.ref.list>
+				</tbl.row>
+			</tbl.unit>
+			<tbl.unit>
+				<endcolumn/>
+				<endcolumns/>
+				<main.head>
+					<t style="main.head">Civil Rights Act of 1871</t>
+				</main.head>
+				<columns/>
+				<column/>
+				<col.head>
+					<t style="col.head">Sec.</t>
+					<leader.fill/>
+					<t style="col.head">Sec.</t>
+				</col.head>
+				<tbl.row>
+					<tbl.row.ref>
+						<t style="tbl.row.ref">1983</t>
+					</tbl.row.ref>
+					<int.ref.list>
+						<t style="int.ref.list cgt">.</t>
+						<int.ref citeas="n/a_9:2_n/a">
+							<t style="int.ref">9:2</t>
+						</int.ref>
+					</int.ref.list>
+				</tbl.row>
+			</tbl.unit>
+			<tbl.unit>
+				<endcolumn/>
+				<column/>
+				<endcolumn/>
+				<endcolumns/>
+				<main.head>
+					<pagebreak num="21" num-string="Tbl of L&amp;R-21" prev_page="Tbl of L&amp;R-20"/>
+					<t style="main.head">statute-us-ny-law-judctacts not in Format </t>
+					<t style="main.head">Table</t>
+				</main.head>
+				<columns/>
+				<column/>
+				<col.head>
+					<t style="col.head">none</t>
+					<leader.fill/>
+					<t style="col.head">Sec.</t>
+				</col.head>
+				<tbl.row>
+					<tbl.row.ref>
+						<t style="tbl.row.ref">522</t>
+					</tbl.row.ref>
+					<int.ref.list>
+						<t style="int.ref.list cgt">.</t>
+						<int.ref citeas="n/a_4:55_n/a">
+							<t style="int.ref">4:55</t>
+						</int.ref>
+					</int.ref.list>
+				</tbl.row>
+			</tbl.unit>
+			<tbl.unit>
+				<endcolumn/>
+				<column/>
+				<endcolumn/>
+				<endcolumns/>
+				<main.head>
+					<t style="main.head">Other text </t>
+					<t style="main.head">Table</t>
+				</main.head>
+				<columns/>
+				<column/>
+				<col.head>
+					<t style="col.head">none</t>
+					<leader.fill/>
+					<t style="col.head">Sec.</t>
+				</col.head>
+				<tbl.row>
+					<tbl.row.ref>
+						<t style="tbl.row.ref">522</t>
+					</tbl.row.ref>
+					<int.ref.list>
+						<t style="int.ref.list cgt">.</t>
+						<int.ref citeas="n/a_4:55_n/a">
+							<t style="int.ref">4:55</t>
+						</int.ref>
+					</int.ref.list>
+				</tbl.row>
+			</tbl.unit>
+		</generated.lrre.tbl>
+	</generated.finding.aids.tables>
+	<endcolumn/>
+	<endcolumns/>
+</root>

@@ -134,10 +134,10 @@
     
     <xsl:template name="addReferenceTag">
         <xsl:param name="refId" />
-        <xsl:variable name="ftnname" select="concat('ftn.', $refId)"/>
+        <xsl:variable name="ftnname" select="concat('ftn.', x:fix-lrre-page($refId))"/>
         <xsl:element name="a">
             <xsl:attribute name="ftnname" select="$ftnname" />
-            <xsl:attribute name="name" select="concat('f', $refId)" />
+            <xsl:attribute name="name" select="x:fix-lrre-page(concat('f', $refId))" />
             <xsl:attribute name="href" select="concat('#', $ftnname)" />
             <xsl:attribute name="class" select="'tr_ftn'" />
             <xsl:apply-templates />
@@ -152,9 +152,9 @@
         <xsl:element name="a">
             <xsl:attribute name="class" select="'tr_ftn'" />
             <xsl:attribute name="href" select="''" />
-            <xsl:attribute name="ftnname" select="concat('f', $refId)" />
+            <xsl:attribute name="ftnname" select="x:fix-lrre-page(concat('f', $refId))" />
             <xsl:if test="not($excludeName)">
-                <xsl:attribute name="name" select="concat('ftn.', $refId)" />
+                <xsl:attribute name="name" select="x:fix-lrre-page(concat('ftn.', $refId))" />
             </xsl:if>
             <xsl:if test="not($excludeText)">
                 <xsl:apply-templates />
