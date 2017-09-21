@@ -107,6 +107,7 @@
 	<copy todir="${dir.dist}">
       <fileset dir="staticContent">
         <include name="coverArt.PNG"/>
+		<include name="updateStyleSheet.sh"/>
       </fileset>
     </copy>
 
