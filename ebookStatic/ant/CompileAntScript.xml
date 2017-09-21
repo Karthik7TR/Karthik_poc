@@ -97,11 +97,20 @@
         <include name="document.css"/>
       </fileset>
     </copy>
+
     <copy todir="${dir.dist}">
       <fileset dir="Provider/ContentMapper">
         <include name="ContentTypeMapData.xml"/>
       </fileset>
     </copy>
+
+	<copy todir="${dir.dist}">
+      <fileset dir="ebookStatic/staticContent">
+        <include name="coverArt.PNG"/>
+		<include name="updateStyleSheet.sh"/>
+      </fileset>
+    </copy>
+
   </target>
 
 
