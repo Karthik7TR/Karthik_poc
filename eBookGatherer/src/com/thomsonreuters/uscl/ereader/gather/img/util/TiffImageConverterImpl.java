@@ -15,6 +15,7 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 
 import com.thomsonreuters.uscl.ereader.gather.util.images.ImageConverterException;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -26,12 +27,7 @@ public class TiffImageConverterImpl implements ImageConverter
     private static final String PREFERABLE_TIFF_READER_NOT_FOUND = "Preferable TIFF reader not found: ";
 
     private String tiffReaderClass;
-
-    @Required
-    public void setTiffReaderClass(final String tiffReaderClass)
-    {
-        this.tiffReaderClass = tiffReaderClass;
-    }
+    private File substituteImagesDir;
 
     public void init()
     {
@@ -49,12 +45,41 @@ public class TiffImageConverterImpl implements ImageConverter
     @Override
     public BufferedImage convertByteImg(final byte[] imgBytes, final String outputImagePath, final String formatName)
     {
+        final BufferedImage convertedImage = convertImage(imgBytes, outputImagePath, formatName);
+        if (isCorrectImage(outputImagePath))
+        {
+            return convertedImage;
+        }
+        else
+        {
+            return substituteFile(outputImagePath);
+        }
+    }
+
+    private BufferedImage substituteFile(final String outputImagePath)
+    {
+        final File outputFile = new File(outputImagePath);
+        final File substituteFile = new File(substituteImagesDir, outputFile.getName());
+        try
+        {
+            FileUtils.copyFile(substituteFile, outputFile);
+            return ImageIO.read(outputFile);
+        }
+        catch (final IOException e)
+        {
+            throw new ImageConverterException(
+                String.format("Substitute image %s not found", substituteFile.getName()),
+                e);
+        }
+    }
+
+    private BufferedImage convertImage(final byte[] imgBytes, final String outputImagePath, final String formatName)
+    {
         try (OutputStream os = new FileOutputStream(outputImagePath);
             InputStream is = new ByteArrayInputStream(imgBytes))
         {
             final BufferedImage image = readTiff(is);
             ImageIO.write(image, formatName, os);
-            checkImage(outputImagePath);
             return image;
         }
         catch (final IOException e)
@@ -63,13 +88,10 @@ public class TiffImageConverterImpl implements ImageConverter
         }
     }
 
-    private void checkImage(final String outputImagePath)
+    private boolean isCorrectImage(final String outputImagePath)
     {
         final File file = new File(outputImagePath);
-        if (!file.exists() || file.length() == 0)
-        {
-            throw new ImageConverterException("Image " + outputImagePath + " was not converted successfully");
-        }
+        return file.exists() && file.length() > 0;
     }
 
     private BufferedImage readTiff(final InputStream is) throws IOException
@@ -111,5 +133,17 @@ public class TiffImageConverterImpl implements ImageConverter
         }
         LOG.warn(PREFERABLE_TIFF_READER_NOT_FOUND + tiffReaderClass);
         return imageReader;
+    }
+
+    @Required
+    public void setTiffReaderClass(final String tiffReaderClass)
+    {
+        this.tiffReaderClass = tiffReaderClass;
+    }
+
+    @Required
+    public void setSubstituteImagesDir(final File substituteImagesDir)
+    {
+        this.substituteImagesDir = substituteImagesDir;
     }
 }

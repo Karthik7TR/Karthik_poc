@@ -20,7 +20,10 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 import org.junit.rules.TestName;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public final class TiffImageConverterImplTest
 {
     private static final String INCORRECT_PATH = "\\***\\\\\\\\\\\\";
@@ -38,15 +41,20 @@ public final class TiffImageConverterImplTest
     public ExpectedException thrown = ExpectedException.none();
 
     private File workDir;
+    private File substituteImagesDir;
     private TiffImageConverterImpl converter;
 
     @Before
     public void setUp()
     {
         workDir = temporaryFolder.getRoot();
+        substituteImagesDir = new File(workDir, "substituteImages");
+        substituteImagesDir.mkdirs();
+
         converter = new TiffImageConverterImpl();
         converter.init();
         converter.setTiffReaderClass(IMAGEIO_EXT_TIFF_READER_CLASS);
+        converter.setSubstituteImagesDir(substituteImagesDir);
     }
 
     @After
@@ -76,6 +84,17 @@ public final class TiffImageConverterImplTest
     @Test
     public void convertNotTiff() throws Exception
     {
+        doTest();
+    }
+
+    @Test
+    public void convertWithSubstitute() throws Exception
+    {
+        //given
+        final File substituteImageFile =
+            new File(TiffImageConverterImplTest.class.getResource("convertWithSubstitute.png").toURI());
+        FileUtils.copyFileToDirectory(substituteImageFile, substituteImagesDir);
+        //when //then
         doTest();
     }
 

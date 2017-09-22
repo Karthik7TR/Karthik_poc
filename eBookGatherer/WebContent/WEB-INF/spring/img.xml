@@ -67,6 +67,6 @@
 
 	<bean id="tiffImageConverter" class="com.thomsonreuters.uscl.ereader.gather.img.util.TiffImageConverterImpl"
 		init-method="init" 
-		p:tiffReaderClass="it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReader" />
-
+		p:tiffReaderClass="it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReader" 
+		p:substituteImagesDir="${img.substitute.directory}" />
 </beans>
