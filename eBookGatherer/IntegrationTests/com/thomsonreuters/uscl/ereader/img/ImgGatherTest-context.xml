@@ -8,18 +8,19 @@
 						   http://www.springframework.org/schema/context/spring-context-4.0.xsd
 						   http://www.springframework.org/schema/aop
         				   http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<context:annotation-config />
+	<context:component-scan
+		base-package="com.thomsonreuters.uscl.ereader.gather.img.util" />
 
 	<import resource="file:**/WebContent/WEB-INF/spring/img.xml" />
-	
+
 	<bean id="novusFactoryforImage"
 		class="com.thomsonreuters.uscl.ereader.gather.services.NovusFactoryImpl"
-		p:novusEnvironment="Prod" 
-		p:productName="EBOOKGENERATOR-USCL"
+		p:novusEnvironment="Prod" p:productName="EBOOKGENERATOR-USCL"
 		p:businessUnit="WestCobalt" />
 
 	<bean id="novusUtility"
 		class="com.thomsonreuters.uscl.ereader.gather.services.NovusUtility"
 		p:docRetryCount="3" p:tocRetryCount="3" p:nortRetryCount="3"
 		p:imgRetryCount="3" p:showMissDocsList="Y" />
-
 </beans>

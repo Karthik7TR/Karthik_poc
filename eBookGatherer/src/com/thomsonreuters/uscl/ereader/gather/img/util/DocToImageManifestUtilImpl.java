@@ -10,8 +10,10 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+@Service("docToImageManifestUtil")
 public class DocToImageManifestUtilImpl implements DocToImageManifestUtil
 {
     @Override

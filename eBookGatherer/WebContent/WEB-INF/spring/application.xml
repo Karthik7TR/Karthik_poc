@@ -14,6 +14,7 @@
 
 	<mvc:annotation-driven />
 	<context:annotation-config />
+	<context:component-scan base-package="com.thomsonreuters.uscl.ereader.gather"/>
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
 

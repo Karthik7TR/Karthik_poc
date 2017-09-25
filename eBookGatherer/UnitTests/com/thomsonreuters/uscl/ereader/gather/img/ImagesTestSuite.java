@@ -7,7 +7,7 @@ import com.thomsonreuters.uscl.ereader.gather.img.service.NovusImageServiceImplT
 import com.thomsonreuters.uscl.ereader.gather.img.util.DocToImageManifestUtilImplTest;
 import com.thomsonreuters.uscl.ereader.gather.img.util.ImageMetadataHandlerTest;
 import com.thomsonreuters.uscl.ereader.gather.img.util.NovusImageMetadataParserImplTest;
-import com.thomsonreuters.uscl.ereader.gather.img.util.TiffImageConverterImplTest;
+import com.thomsonreuters.uscl.ereader.gather.img.util.TiffImageConverterTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -21,7 +21,7 @@ import org.junit.runners.Suite.SuiteClasses;
     NovusImageMetadataParserImplTest.class,
     NovusImageProcessorImplTest.class,
     ImgControllerTest.class,
-    TiffImageConverterImplTest.class})
+    TiffImageConverterTest.class})
 public class ImagesTestSuite
 {
     //Intentionally left blank

@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-        xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-        xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
             http://www.springframework.org/schema/context
             http://www.springframework.org/schema/context/spring-context-4.0.xsd
             http://www.springframework.org/schema/aop
             http://www.springframework.org/schema/aop/spring-aop.xsd">
-                           
-    <bean id="xppImageService" class="com.thomsonreuters.uscl.ereader.gather.img.service.XppImageService"
-        p:docToImageManifestUtil-ref="docToImageManifestUtil"
-        p:imageConverter-ref="tiffImageConverter">
-        <aop:scoped-proxy />
-    </bean>
-    
-    <bean id="docToImageManifestUtil" class="com.thomsonreuters.uscl.ereader.gather.img.util.DocToImageManifestUtilImpl" />
-    
-    <bean id="tiffImageConverter" class="com.thomsonreuters.uscl.ereader.gather.img.util.TiffImageConverterImpl"
-        init-method="init" 
-        p:tiffReaderClass="it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReader" 
-        p:substituteImagesDir="${img.substitute.directory}" />
+
+	<context:annotation-config />
+	<context:component-scan
+		base-package="com.thomsonreuters.uscl.ereader.gather.img.util" />
+
+	<bean id="xppImageService"
+		class="com.thomsonreuters.uscl.ereader.gather.img.service.XppImageService">
+		<aop:scoped-proxy />
+	</bean>
 </beans>

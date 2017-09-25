@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.gather.img.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -21,6 +22,7 @@ import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.img.model.ImageRequestParameters;
 import com.thomsonreuters.uscl.ereader.gather.img.util.DocToImageManifestUtil;
 import com.thomsonreuters.uscl.ereader.gather.img.util.ImageConverter;
+import com.thomsonreuters.uscl.ereader.gather.img.util.ImageTypeResolver;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -38,21 +40,23 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 @RunWith(MockitoJUnitRunner.class)
 public final class XppImageServiceTest
 {
-    private static final String UNPACKED_IMAGES_DIR1 = "com/thomsonreuters/uscl/ereader/gather/img/service/images/bundle1";
-    private static final String UNPACKED_IMAGES_DIR2 = "com/thomsonreuters/uscl/ereader/gather/img/service/images/bundle2";
+    private static final String UNPACKED_IMAGES_DIR1 =
+        "com/thomsonreuters/uscl/ereader/gather/img/service/images/bundle1";
+    private static final String UNPACKED_IMAGES_DIR2 =
+        "com/thomsonreuters/uscl/ereader/gather/img/service/images/bundle2";
     private static final String DOC_ID = "docId";
-    private static final String TIF_IMAGE_ID =  "I2943f88028b911e69ed7fcedf0a72426";
+    private static final String TIF_IMAGE_ID = "I2943f88028b911e69ed7fcedf0a72426";
     private static final String TIFF_IMAGE_ID = "I3749e7f028b911e69ed7fcedf0a72426";
-    private static final String PNG_IMAGE_ID =  "I3831d6f128b911e69ed7fcedf0a72426";
+    private static final String PNG_IMAGE_ID = "I3831d6f128b911e69ed7fcedf0a72426";
 
     @InjectMocks
     private XppImageService service;
-
     @Mock
     private DocToImageManifestUtil docToImageManifestUtil;
-
     @Mock
     private ImageConverter imageConverter;
+    @Mock
+    private ImageTypeResolver imageTypeResolver;
 
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
@@ -63,6 +67,8 @@ public final class XppImageServiceTest
         when(docToImageManifestUtil.getDocsWithImages((File) any())).thenReturn(getDocsWithImages());
         when(imageConverter.convertByteImg((byte[]) any(), (String) any(), (String) any()))
             .thenReturn(mock(BufferedImage.class));
+        given(imageTypeResolver.hasTiffExtension((File) any())).willReturn(true, true, false, true, true, false);
+        given(imageTypeResolver.isTiff((File) any())).willReturn(true, true, false, true, true, false);
     }
 
     @Test
@@ -72,8 +78,12 @@ public final class XppImageServiceTest
 
         final ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
         verify(imageConverter, times(4)).convertByteImg((byte[]) any(), argument.capture(), (String) any());
-        assertTrue(new File(tempFolder.getRoot(), TIF_IMAGE_ID + ".png").getAbsolutePath().equalsIgnoreCase(argument.getAllValues().get(0)));
-        assertTrue(new File(tempFolder.getRoot(), TIFF_IMAGE_ID + ".png").getAbsolutePath().equalsIgnoreCase(argument.getAllValues().get(1)));
+        assertTrue(
+            new File(tempFolder.getRoot(), TIF_IMAGE_ID + ".png").getAbsolutePath()
+                .equalsIgnoreCase(argument.getAllValues().get(0)));
+        assertTrue(
+            new File(tempFolder.getRoot(), TIFF_IMAGE_ID + ".png").getAbsolutePath()
+                .equalsIgnoreCase(argument.getAllValues().get(1)));
 
         assertEquals(DOC_ID, response.getImageMetadataList().get(0).getDocGuid());
         assertEquals(TIF_IMAGE_ID, response.getImageMetadataList().get(0).getImgGuid());
@@ -88,10 +98,12 @@ public final class XppImageServiceTest
     {
         final ImageRequestParameters parameters = new ImageRequestParameters();
 
-        parameters.setXppSourceImageDirectory(Arrays.asList(
-            new PathMatchingResourcePatternResolver().getResource(UNPACKED_IMAGES_DIR1).getFile().getAbsolutePath(),
-            new PathMatchingResourcePatternResolver().getResource(UNPACKED_IMAGES_DIR2).getFile().getAbsolutePath()
-            ));
+        parameters.setXppSourceImageDirectory(
+            Arrays.asList(
+                new PathMatchingResourcePatternResolver().getResource(UNPACKED_IMAGES_DIR1).getFile().getAbsolutePath(),
+                new PathMatchingResourcePatternResolver().getResource(UNPACKED_IMAGES_DIR2)
+                    .getFile()
+                    .getAbsolutePath()));
         parameters.setDynamicImageDirectory(tempFolder.getRoot());
 
         return parameters;

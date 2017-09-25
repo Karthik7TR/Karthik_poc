@@ -3,12 +3,15 @@ package com.thomsonreuters.uscl.ereader.gather.img.util;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
+
+import javax.imageio.ImageIO;
 
 import com.thomsonreuters.uscl.ereader.gather.util.images.ImageConverterException;
 import org.apache.commons.io.FileUtils;
@@ -21,17 +24,16 @@ import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class TiffImageConverterImplTest
+public final class TiffImageConverterTest
 {
     private static final String INCORRECT_PATH = "\\***\\\\\\\\\\\\";
     private static final String PNG_EXTENSION = ".png";
     private static final String TIFF_EXTENSION = ".tif";
     private static final String PNG = "PNG";
-    private static final String IMAGEIO_EXT_TIFF_READER_CLASS =
-        "it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReader";
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -42,7 +44,10 @@ public final class TiffImageConverterImplTest
 
     private File workDir;
     private File substituteImagesDir;
-    private TiffImageConverterImpl converter;
+
+    private TiffImageConverter converter;
+    @Mock
+    private TiffReader tiffReader;
 
     @Before
     public void setUp()
@@ -50,11 +55,7 @@ public final class TiffImageConverterImplTest
         workDir = temporaryFolder.getRoot();
         substituteImagesDir = new File(workDir, "substituteImages");
         substituteImagesDir.mkdirs();
-
-        converter = new TiffImageConverterImpl();
-        converter.init();
-        converter.setTiffReaderClass(IMAGEIO_EXT_TIFF_READER_CLASS);
-        converter.setSubstituteImagesDir(substituteImagesDir);
+        converter = new TiffImageConverter(tiffReader, substituteImagesDir);
     }
 
     @After
@@ -92,17 +93,9 @@ public final class TiffImageConverterImplTest
     {
         //given
         final File substituteImageFile =
-            new File(TiffImageConverterImplTest.class.getResource("convertWithSubstitute.png").toURI());
+            new File(TiffImageConverterTest.class.getResource("convertWithSubstitute.png").toURI());
         FileUtils.copyFileToDirectory(substituteImageFile, substituteImagesDir);
         //when //then
-        doTest();
-    }
-
-    @Test
-    public void convertNotImage() throws Exception
-    {
-        thrown.expect(ImageConverterException.class);
-        thrown.expectMessage("No TIFF reader found");
         doTest();
     }
 
@@ -114,13 +107,6 @@ public final class TiffImageConverterImplTest
         doTest(true);
     }
 
-    @Test
-    public void readingError() throws Exception
-    {
-        thrown.expect(ImageConverterException.class);
-        doTest();
-    }
-
     private void doTest() throws ImageConverterException, IOException, URISyntaxException
     {
         doTest(false);
@@ -128,16 +114,23 @@ public final class TiffImageConverterImplTest
 
     private void doTest(final boolean withWriteError) throws ImageConverterException, IOException, URISyntaxException
     {
-        final String testName = name.getMethodName();
-        final URL url = TiffImageConverterImplTest.class.getResource(testName + TIFF_EXTENSION);
-        final File tiff = new File(url.toURI());
+        //given
+        final File tiff = getFile(name.getMethodName());
         final byte[] imgBytes = Files.readAllBytes(tiff.toPath());
         final String outputImagePath =
-            withWriteError ? INCORRECT_PATH : new File(workDir, testName + PNG_EXTENSION).getAbsolutePath();
+            withWriteError ? INCORRECT_PATH : new File(workDir, name.getMethodName() + PNG_EXTENSION).getAbsolutePath();
+        final BufferedImage bimage = ImageIO.read(getFile("convertUncompressed"));
+        given(tiffReader.readTiff(imgBytes)).willReturn(bimage);
+        //when
         converter.convertByteImg(imgBytes, outputImagePath, PNG);
-
+        //then
         final File outputFile = new File(outputImagePath);
         assertTrue(outputFile.exists());
         assertThat(outputFile.length(), not(0L));
+    }
+
+    private File getFile(final String fileName) throws URISyntaxException
+    {
+        return new File(TiffImageConverterTest.class.getResource(fileName + TIFF_EXTENSION).toURI());
     }
 }

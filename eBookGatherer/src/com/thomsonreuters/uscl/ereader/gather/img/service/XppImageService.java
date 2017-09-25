@@ -19,12 +19,13 @@ import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.img.model.ImageRequestParameters;
 import com.thomsonreuters.uscl.ereader.gather.img.util.DocToImageManifestUtil;
 import com.thomsonreuters.uscl.ereader.gather.img.util.ImageConverter;
+import com.thomsonreuters.uscl.ereader.gather.img.util.ImageTypeResolver;
 import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Copies images from unpacked XPP archive to work folder.
@@ -34,11 +35,13 @@ public class XppImageService implements ImageService
     private static final Logger Log = LogManager.getLogger(XppImageService.class);
 
     private static final String PNG = "PNG";
-    private static final String TIF = "tif";
-    private static final String TIFF = "tiff";
     private final MimetypesFileTypeMap mimetypesFileTypeMap = new MimetypesFileTypeMap();
+    @Autowired
     private DocToImageManifestUtil docToImageManifestUtil;
+    @Autowired
     private ImageConverter imageConverter;
+    @Autowired
+    private ImageTypeResolver imageTypeResolver;
 
     @Override
     public GatherResponse getImages(final ImageRequestParameters imageRequestParameters) throws GatherException
@@ -51,7 +54,7 @@ public class XppImageService implements ImageService
             docToImageManifestUtil.getDocsWithImages(imageRequestParameters.getDocToImageManifestFile());
 
         final List<ImgMetadataInfo> imagesMetadata = new ArrayList<>();
-        final int missingImagesCount = filllMetadataWithDocIds(imagesMetadata, imageFiles, docsWithImages);
+        final int missingImagesCount = fillMetadataWithDocIds(imagesMetadata, imageFiles, docsWithImages);
 
         return populateResponse(imagesMetadata, missingImagesCount);
     }
@@ -64,7 +67,7 @@ public class XppImageService implements ImageService
         return response;
     }
 
-    private int filllMetadataWithDocIds(
+    private int fillMetadataWithDocIds(
         final List<ImgMetadataInfo> imagesMetadata,
         final Map<String, ImgMetadataInfo> imageFiles,
         final Map<String, List<String>> docsWithImages)
@@ -116,7 +119,9 @@ public class XppImageService implements ImageService
         return mimeType;
     }
 
-    private Map<String, ImgMetadataInfo> copyImagesToWorkDir(final Collection<String> xppSourceImageDirectories, final File destDir)
+    private Map<String, ImgMetadataInfo> copyImagesToWorkDir(
+        final Collection<String> xppSourceImageDirectories,
+        final File destDir)
     {
         final Map<String, ImgMetadataInfo> imageFiles = new HashMap<>();
 
@@ -139,10 +144,7 @@ public class XppImageService implements ImageService
                 try
                 {
                     final String imageId = FilenameUtils.removeExtension(srcImage.getName());
-                    final File destImage = new File(destDir, getDestImageName(imageId, srcImage));
-
-                    final ImgMetadataInfo metadata = writeImage(imageId, srcImage, destImage);
-
+                    final ImgMetadataInfo metadata = writeImage(imageId, srcImage, destDir);
                     imageFiles.put(imageId, metadata);
                 }
                 catch (final IOException e)
@@ -154,45 +156,29 @@ public class XppImageService implements ImageService
         return imageFiles;
     }
 
-    private String getDestImageName(final String imageId, final File srcImage)
+    private ImgMetadataInfo writeImage(final String imageId, final File srcImage, final File destDir) throws IOException
     {
-        return isTiffImage(srcImage) ? imageId + "." + PNG : srcImage.getName();
-    }
+        final boolean isTiff = imageTypeResolver.isTiff(srcImage);
+        final File destImage = new File(destDir, getDestImageName(imageId, srcImage, isTiff));
 
-    private ImgMetadataInfo writeImage(final String imageId, final File srcImage, final File destImage)
-        throws IOException
-    {
-        BufferedImage image;
-
-        if (isTiffImage(srcImage))
+        final BufferedImage image;
+        if (isTiff)
         {
-            image =
-                imageConverter.convertByteImg(Files.readAllBytes(srcImage.toPath()), destImage.getAbsolutePath(), PNG);
+            final byte[] imgBytes = Files.readAllBytes(srcImage.toPath());
+            image = imageConverter.convertByteImg(imgBytes, destImage.getAbsolutePath(), PNG);
         }
         else
         {
             FileUtils.copyFile(srcImage, destImage);
             image = ImageIO.read(destImage);
         }
-
         return getImageMetadata(image, imageId, destImage);
     }
 
-    private boolean isTiffImage(final File sourceImage)
+    private String getDestImageName(final String imageId, final File srcImage, final boolean isTiff)
     {
-        return FilenameUtils.getExtension(sourceImage.getName()).equalsIgnoreCase(TIF) ||
-               FilenameUtils.getExtension(sourceImage.getName()).equalsIgnoreCase(TIFF);
-    }
-
-    @Required
-    public void setDocToImageManifestUtil(final DocToImageManifestUtil docToImageManifestUtil)
-    {
-        this.docToImageManifestUtil = docToImageManifestUtil;
-    }
-
-    @Required
-    public void setImageConverter(final ImageConverter imageConverter)
-    {
-        this.imageConverter = imageConverter;
+        final boolean hasTiffExtension = imageTypeResolver.hasTiffExtension(srcImage);
+        final boolean noExtension = FilenameUtils.getExtension(srcImage.getName()).isEmpty();
+        return hasTiffExtension || (noExtension && isTiff) ? imageId + "." + PNG : srcImage.getName();
     }
 }

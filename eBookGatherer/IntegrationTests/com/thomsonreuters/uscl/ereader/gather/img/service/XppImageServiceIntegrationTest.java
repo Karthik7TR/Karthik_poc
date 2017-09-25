@@ -31,6 +31,8 @@ public final class XppImageServiceIntegrationTest
     private static final String TIFF_IMAGE_ID = "I3749e7f028b911e69ed7fcedf0a72426";
     private static final String TIFF_IMAGE_ID_2 = "tiffImage";
     private static final String PNG_IMAGE_ID =  "I3831d6f128b911e69ed7fcedf0a72426";
+    private static final String NO_EXTENSION_TIFF = "noExtensionTiff";
+    private static final String NO_EXTENSION_PNG = "noExtensionPng";
 
     @Autowired
     private XppImageService service;
@@ -47,11 +49,15 @@ public final class XppImageServiceIntegrationTest
         final File destinationImageTiffFile = new File(tempFolder.getRoot(), TIFF_IMAGE_ID + ".png");
         final File destinationImageTiffFile2 = new File(tempFolder.getRoot(), TIFF_IMAGE_ID_2 + ".png");
         final File destinationImagePngFile = new File(tempFolder.getRoot(), PNG_IMAGE_ID + ".png");
+        final File noExstensionPngFile = new File(tempFolder.getRoot(), NO_EXTENSION_TIFF + ".png");
+        final File noExstensionPngFile2 = new File(tempFolder.getRoot(), NO_EXTENSION_PNG);
 
         assertTrue(destinationImageTifFile.exists());
         assertTrue(destinationImageTiffFile.exists());
         assertTrue(destinationImageTiffFile2.exists());
         assertTrue(destinationImagePngFile.exists());
+        assertTrue(noExstensionPngFile.exists());
+        assertTrue(noExstensionPngFile2.exists());
 
         assertEquals(TIF_IMAGE_ID, response.getImageMetadataList().get(0).getImgGuid());
         assertEquals(1733, response.getImageMetadataList().get(0).getWidth().longValue());
