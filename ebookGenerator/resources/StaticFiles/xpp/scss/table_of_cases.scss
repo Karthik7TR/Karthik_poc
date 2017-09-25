@@ -1,22 +1,19 @@
 @import "constants.scss";
-
 .main_head {
     text-align: center;
 }
 
-.tbl_row {
+.generated_case_tbl .tbl_row {
     margin-left: calc(#{$indent} * 2);
 }
 
 .tbl_row_ref {
     display: inline;
-
-    & > .t {
+    &>.t {
         display: inline-block;
     }
-    
-    & > .t:first-child,
-    & > .repeat_party:first-child > .t {
+    .generated_case_tbl &>.t:first-child,
+    .generated_case_tbl &>.repeat_party:first-child>.t {
         text-indent: calc(#{$indent} * -2);
     }
 }

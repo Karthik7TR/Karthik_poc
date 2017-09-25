@@ -35,7 +35,8 @@
     .name_block>.designator+&,
     .toc_analytical_hierarchy &,
     .stat_head .name_block &,
-    .full_toc .designator+& {
+    .full_toc .designator+&,
+    .int_ref_list>& {
         display: none;
     }
 }
