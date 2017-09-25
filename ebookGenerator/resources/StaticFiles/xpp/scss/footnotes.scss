@@ -13,12 +13,6 @@ sup {
     }
 }
 
-.research_reference_block {
-    .footnote & {
-        margin: 0;
-    }
-}
-
 .footnote {
     text-align: justify;
     display: flex;
@@ -59,8 +53,8 @@ sup {
 
 .research_reference_block {
     display: inline;
-    .footnote_body>& {
-        margin-left: calc(#{$indent}*2.3);
+    .footnote & {
+        margin: 0;
     }
 }
 
