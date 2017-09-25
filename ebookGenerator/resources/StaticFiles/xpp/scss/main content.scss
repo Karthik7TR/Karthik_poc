@@ -98,6 +98,10 @@ td:empty {
     .list_item>& {
         display: inline;
     }
+    .head>& {
+        margin-left: $indent;
+        margin-top: $indent;
+    }
 }
 
 .para_text {
@@ -122,4 +126,7 @@ td:empty {
 .quote_para {
     margin: $indent;
     text-indent: 0;
+    .section_body>.quote_block>& *{
+        text-indent: 0;
+    }
 }
