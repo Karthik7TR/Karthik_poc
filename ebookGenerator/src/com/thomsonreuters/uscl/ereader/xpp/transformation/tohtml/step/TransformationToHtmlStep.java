@@ -70,7 +70,7 @@ public class TransformationToHtmlStep extends XppTransformationStep
         transformer.setParameter("divXmlName", new DocumentName(partName).getBaseName());
         transformer.setParameter(
             "documentUidMapDoc",
-            fileSystem.getAnchorToDocumentIdMapFile(this, materialNumber).getAbsolutePath().replace("\\", "/"));
+            fileSystem.getAnchorToDocumentIdMapFile(this).getAbsolutePath().replace("\\", "/"));
 
         final File htmlPageFile = fileSystem.getHtmlPageFile(this, pagePrefix.getMaterialNumber(), partName);
         return new TransformationCommandBuilder(transformer, htmlPageFile).withInput(part).build();

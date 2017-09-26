@@ -52,9 +52,20 @@
 		<xsl:processing-instruction name="pb" select="concat('label', '=', $apostrophe, $pagePrefix, ./@num, $apostrophe, '?')" />
 	</xsl:template>
 
-	<xsl:template match="x:XPPHier">
+	<xsl:template match="x:XPPHier | x:XPPMetaData">
+		<xsl:variable name="uid">
+			<xsl:choose>
+				<xsl:when test="@guid">
+					<xsl:value-of select="@guid" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="@uuid" />
+				</xsl:otherwise>
+			</xsl:choose>	
+		</xsl:variable>
+		
 		<xsl:element name="a">
-			<xsl:attribute name="name" select="./@uuid" />
+			<xsl:attribute name="name" select="$uid" />
 		</xsl:element>
 	</xsl:template>
 
@@ -77,8 +88,6 @@
 		</xsl:element>
 	</xsl:template>
 	
-	<xsl:template match="x:XPPMetaData" />
-
 	<xsl:template match="x:ref">
 		<xsl:element name="{name()}">
 			<xsl:copy-of select="@*" />

@@ -42,7 +42,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     private static final String TOC_FILE = "toc.xml";
     private static final String MERGED_BUNDLE_TOC_FILE = "toc_merged.xml";
     private static final String DOC_TO_IMAGE_MANIFEST_FILE = "doc-to-image-manifest.txt";
-    private static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "anchorToDocumentIdMapFile.%s.xml";
+    private static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "anchorToDocumentIdMapFile.xml";
 
     private static final String HTML = "html";
     private static final String MAIN = "main";
@@ -427,11 +427,9 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     @Override
-    public File getAnchorToDocumentIdMapFile(@NotNull final BookStep step, @NotNull final String materialNumber)
+    public File getAnchorToDocumentIdMapFile(@NotNull final BookStep step)
     {
-        return new File(
-            getAnchorToDocumentIdMapDirectory(step),
-            String.format(ANCHOR_TO_DOCUMENT_ID_MAP_FILE, materialNumber));
+        return new File(getAnchorToDocumentIdMapDirectory(step), ANCHOR_TO_DOCUMENT_ID_MAP_FILE);
     }
 
     @NotNull

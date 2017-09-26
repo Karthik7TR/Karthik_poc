@@ -63,7 +63,7 @@ public final class InternalAnchorsStepIntegrationTest
         //when
         step.executeStep();
         //then
-        final File anchors = fileSystem.getAnchorToDocumentIdMapFile(step, MATERIAL_NUMBER);
+        final File anchors = fileSystem.getAnchorToDocumentIdMapFile(step);
         assertThat(anchors, hasSameContentAs(expected));
     }
 }

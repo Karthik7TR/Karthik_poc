@@ -57,7 +57,7 @@ public final class InternalAnchorsStepTest
         given(builder.withXsl(any(File.class))).willReturn(builder);
 
         mapFile = new File("mapFile");
-        given(fileSystem.getAnchorToDocumentIdMapFile(step, MATERIAL_NUMBER)).willReturn(mapFile);
+        given(fileSystem.getAnchorToDocumentIdMapFile(step)).willReturn(mapFile);
     }
 
     @Test

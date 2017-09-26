@@ -70,7 +70,7 @@
 		<xsl:text> </xsl:text>
 		<xsl:value-of select="@name" />
 		<xsl:text disable-output-escaping="yes"><![CDATA[="]]></xsl:text>
-		<xsl:value-of select="x:get-fixed-text(.)" />
+		<xsl:value-of select="replace(x:get-fixed-text(.), '&quot;', '&amp;quot')" />
 		<xsl:text disable-output-escaping="yes"><![CDATA["]]></xsl:text>
 	</xsl:template>
 

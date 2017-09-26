@@ -68,7 +68,7 @@ public final class XppFormatFileSystemImplTest
     private static final String BASE_FILE_NAME = "fileName.DIVXML";
     private static final String TITLE_METADATA_XML = "titleMetadata.xml";
     private static final String DOC_TO_IMAGE_MANIFEST = "workDirectory/Format/doc-to-image-manifest.txt";
-    private static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "anchorToDocumentIdMapFile.%s.xml";
+    private static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "anchorToDocumentIdMapFile.xml";
 
     private static final String DOC_FAMILY_GUID = SECTION_UUID;
 
@@ -585,9 +585,9 @@ public final class XppFormatFileSystemImplTest
     {
         //given
         //when
-        final File file = fileSystem.getAnchorToDocumentIdMapFile(step, MATERIAL_NUMBER);
+        final File file = fileSystem.getAnchorToDocumentIdMapFile(step);
         //then
-        assertThat(file, hasPath(ANCHORS_DIR + "/" + String.format(ANCHOR_TO_DOCUMENT_ID_MAP_FILE, MATERIAL_NUMBER)));
+        assertThat(file, hasPath(ANCHORS_DIR + "/" + ANCHOR_TO_DOCUMENT_ID_MAP_FILE));
     }
 
     @Test

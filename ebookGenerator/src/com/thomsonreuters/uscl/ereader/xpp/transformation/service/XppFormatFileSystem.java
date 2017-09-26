@@ -341,7 +341,7 @@ public interface XppFormatFileSystem extends FormatFileSystem
      * {@code /#_Anchors/anchorToDocumentIdMapFile.<materialNumber>.xml}
      */
     @NotNull
-    File getAnchorToDocumentIdMapFile(@NotNull BookStep step, @NotNull String materialNumber);
+    File getAnchorToDocumentIdMapFile(@NotNull BookStep step);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
