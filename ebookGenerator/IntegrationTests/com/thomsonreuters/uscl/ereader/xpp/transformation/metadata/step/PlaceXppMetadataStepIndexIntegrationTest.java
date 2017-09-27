@@ -38,10 +38,6 @@ public final class PlaceXppMetadataStepIndexIntegrationTest extends PlaceXppMeta
         //then
         final File actual = fileSystem
             .getStructureWithMetadataFile(step, VOL_MATERIAL_NUMBER, source.getName());
-        final File expectedBreaks = new File(this.getClass().getResource("index/expected_breaks.main").toURI());
-        final File actualBreaks = fileSystem
-            .getIndexBreaksFile(step, VOL_MATERIAL_NUMBER,  "indexBreaks-" + source.getName());
         assertThat(expected, hasSameContentAs(actual));
-        assertThat(expectedBreaks, hasSameContentAs(actualBreaks));
     }
 }

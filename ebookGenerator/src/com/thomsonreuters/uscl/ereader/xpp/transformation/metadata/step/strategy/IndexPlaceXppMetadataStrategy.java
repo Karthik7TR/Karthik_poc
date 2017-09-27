@@ -25,7 +25,6 @@ import org.springframework.stereotype.Component;
 public class IndexPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTransformStrategy
 {
     private final File xslTransformationFile;
-    private final File xslIndexBreakTransformationFile;
     private final XppFormatFileSystem xppFormatFileSystem;
 
     @Autowired
@@ -33,12 +32,10 @@ public class IndexPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTrans
         final XslTransformationService xslTransformationService,
         final TransformerBuilderFactory transformerBuilderFactory,
         final XppFormatFileSystem xppFormatFileSystem,
-        @Value("${xpp.add.metadata.to.index.xsl}") final File xslTransformationFile,
-        @Value("${xpp.index.toc.breaks.xsl}") final File xslIndexBreakTransformationFile)
+        @Value("${xpp.add.metadata.to.index.xsl}") final File xslTransformationFile)
     {
         super(xslTransformationService, transformerBuilderFactory, new HashSet<>(Arrays.asList(BundleFileType.INDEX)));
         this.xslTransformationFile = xslTransformationFile;
-        this.xslIndexBreakTransformationFile = xslIndexBreakTransformationFile;
         this.xppFormatFileSystem = xppFormatFileSystem;
     }
 
@@ -49,20 +46,12 @@ public class IndexPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTrans
         @NotNull final String materialNumber,
         @NotNull final XppBookStep step)
     {
-        final Transformer indexBreakTransformer =
-            transformerBuilderFactory.create().withXsl(xslIndexBreakTransformationFile).build();
-        final File indexBreakFile =
-            xppFormatFileSystem.getIndexBreaksFile(step, materialNumber, "indexBreaks-" + inputFile.getName());
-
         final Transformer transformer = transformerBuilderFactory.create().withXsl(xslTransformationFile).build();
-        transformer.setParameter("indexBreaksDoc", indexBreakFile.getAbsolutePath().replace("\\", "/"));
         final File outputFile =
             xppFormatFileSystem.getStructureWithMetadataFile(step, materialNumber, inputFile.getName());
 
-        final TransformationCommand indexBreakCommand =
-            new TransformationCommandBuilder(indexBreakTransformer, indexBreakFile).withInput(inputFile).build();
         final TransformationCommand addMetadataToIndexCommand =
             new TransformationCommandBuilder(transformer, outputFile).withInput(inputFile).build();
-        return asList(indexBreakCommand, addMetadataToIndexCommand);
+        return asList(addMetadataToIndexCommand);
     }
 }
