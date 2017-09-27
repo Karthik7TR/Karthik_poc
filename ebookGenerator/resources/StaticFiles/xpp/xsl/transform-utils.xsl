@@ -75,6 +75,6 @@
 		<xsl:variable name="noLongDash">
 			<xsl:value-of select="x:substring-before($noQuote, '—')" />
 		</xsl:variable>
-		<xsl:value-of select="$noQuote" />
+		<xsl:value-of select="$noLongDash" />
 	</xsl:function>
 </xsl:stylesheet>
