@@ -34,9 +34,11 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/job/domain", name = "PublishingStats")
 public class PublishingStats implements Serializable, Comparable<PublishingStats>
 {
+    private static final long serialVersionUID = 1L;
+
     public static final String SUCCESFULL_PUBLISH_STATUS = "Publish Step Completed";
     public static final String SEND_EMAIL_COMPLETE = "sendEmailNotification : Completed";
-    private static final long serialVersionUID = 1L;
+    public static final String SEND_EMAIL_COMPLETE_XPP = "sendEmailNotificationXppStep : COMPLETED";
 
     @Column(name = "JOB_INSTANCE_ID", nullable = false)
     @Basic(fetch = FetchType.EAGER)

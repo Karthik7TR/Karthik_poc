@@ -10,6 +10,7 @@ import java.util.Set;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobNameProvider;
+import com.thomsonreuters.uscl.ereader.stats.util.PublishingStatsUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
@@ -29,6 +30,7 @@ public class ManagerDaoImpl implements ManagerDao
     private JdbcTemplate jdbcTemplate;
     private JobExplorer jobExplorer;
     private JobNameProvider jobNameProvider;
+    private PublishingStatsUtil publishingStatsUtil;
 
     @Override
     public JobExecution findRunningJobExecution(@NotNull final BookDefinition book)
@@ -223,9 +225,11 @@ public class ManagerDaoImpl implements ManagerDao
                 {
                     status = arr[3].toString();
                 }
+
+                final boolean publishedSuccessfully = publishingStatsUtil.isPublishedSuccessfully(status);
                 if (prevBookId == bookId
                     && prevMajorVersion == majorVersion
-                    && (!status.equals("Publish Step Completed") || maxPublishedCntr >= maxVersionKept))
+                    && (!publishedSuccessfully || maxPublishedCntr >= maxVersionKept))
                 {
                     // Add to list to be deleted
                     jobInstanceIds.add(jobId);
@@ -251,7 +255,7 @@ public class ManagerDaoImpl implements ManagerDao
                     // so if we have a version 1.0 success, 1.1 success but a
                     // version 1.2 fail and then a version 2.0
                     // we would want to keep all version 1.1, 1.2 and 2.0.
-                    if (status.equals("Publish Step Completed"))
+                    if (publishedSuccessfully)
                     {
                         maxPublishedCntr++;
                     }
@@ -363,5 +367,11 @@ public class ManagerDaoImpl implements ManagerDao
     public void setJobNameProvider(final JobNameProvider jobNameProvider)
     {
         this.jobNameProvider = jobNameProvider;
+    }
+
+    @Required
+    public void setPublishingStatsUtil(final PublishingStatsUtil publishingStatsUtil)
+    {
+        this.publishingStatsUtil = publishingStatsUtil;
     }
 }

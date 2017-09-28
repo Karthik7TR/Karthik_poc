@@ -138,7 +138,8 @@
 		p:sessionFactory-ref="sessionFactory"
 		p:jdbcTemplate-ref="jdbcTemplate"
 		p:jobExplorer-ref="jobExplorer"
-		p:jobNameProvider-ref="jobNameProvider" />
+		p:jobNameProvider-ref="jobNameProvider"
+		p:publishingStatsUtil-ref="publishingStatsUtil" />
 
 	<bean id="outageDao" class="com.thomsonreuters.uscl.ereader.core.outage.dao.OutageDaoImpl">
 		<constructor-arg ref="sessionFactory" />

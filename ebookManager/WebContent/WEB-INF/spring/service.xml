@@ -40,7 +40,8 @@
 
 	<bean id="publishingStatsService"
 		class="com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsServiceImpl"
-		p:publishingStatsDAO-ref="publishingStatsDao" />
+		p:publishingStatsDAO-ref="publishingStatsDao" 
+		p:publishingStatsUtil-ref="publishingStatsUtil"/>
 
 	<bean id="jobService"
 		class="com.thomsonreuters.uscl.ereader.core.job.service.JobServiceImpl"
@@ -85,6 +86,9 @@
 		p:rootCodesWorkbenchLandingStrip="${codes.workbench.root.dir}"
 		p:restTemplate-ref="generatorRestTemplate" p:managerDao-ref="managerDao"
 		p:jobService-ref="jobService" p:jobRequestService-ref="jobRequestService" />
+		
+	<bean id="publishingStatsUtil"
+		class="com.thomsonreuters.uscl.ereader.stats.util.PublishingStatsUtilImpl" />
 
 	<bean id="xppBundleArchiveService"
 		class="com.thomsonreuters.uscl.ereader.request.service.XppBundleArchiveService"

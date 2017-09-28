@@ -6,6 +6,7 @@ import java.util.List;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDao;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
+import com.thomsonreuters.uscl.ereader.stats.util.PublishingStatsUtil;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,14 +21,17 @@ public final class PublishingStatsServiceTest
     private PublishingStatsServiceImpl service;
 
     private PublishingStatsDao mockDao;
+    private PublishingStatsUtil mockUtil;
 
     @Before
     public void setUp()
     {
         mockDao = EasyMock.createMock(PublishingStatsDao.class);
+        mockUtil = EasyMock.createMock(PublishingStatsUtil.class);
 
         service = new PublishingStatsServiceImpl();
         service.setPublishingStatsDAO(mockDao);
+        service.setPublishingStatsUtil(mockUtil);
 
         for (int i = 0; i < 10; i++)
         {
@@ -58,13 +62,18 @@ public final class PublishingStatsServiceTest
     public void testFindLastSuccessfulJobStatsAuditByEbookDef()
     {
         EasyMock.expect(mockDao.findPublishingStatsByEbookDef(BOOK_DEFINITION_ID)).andReturn(STATS);
+        EasyMock.expect(mockUtil.isPublishedSuccessfully("not this one")).andReturn(false).times(8);
+        EasyMock.expect(mockUtil.isPublishedSuccessfully(PublishingStats.SEND_EMAIL_COMPLETE)).andReturn(true);
+        EasyMock.expect(mockUtil.isPublishedSuccessfully(PublishingStats.SUCCESFULL_PUBLISH_STATUS)).andReturn(true);
         EasyMock.replay(mockDao);
+        EasyMock.replay(mockUtil);
 
         final EbookAudit audit = service.findLastSuccessfulJobStatsAuditByEbookDef(BOOK_DEFINITION_ID);
 
         final Long auditId = 5L;
         Assert.assertEquals(auditId, audit.getAuditId());
         EasyMock.verify(mockDao);
+        EasyMock.verify(mockUtil);
     }
 
     @Test

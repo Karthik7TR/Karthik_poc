@@ -9,7 +9,6 @@ import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 @SavePublishingStatusStrategy(StatsUpdateTypeEnum.GATHERIMAGE)
 public class GatherImagePublishingStatusUpdateService extends BasePublishingStatusUpdateService<BookStep>
 {
-
     @Override
     public void savePublishingStats(final BookStep step, final PublishingStatus publishStatus)
     {
@@ -18,8 +17,8 @@ public class GatherImagePublishingStatusUpdateService extends BasePublishingStat
 
         if (step instanceof GatherDynamicImagesTask)
         {
-            jobstatsDoc.setGatherImageExpectedCount(((GatherDynamicImagesTask)step).getImageGuidNum());
-            jobstatsDoc.setGatherImageRetrievedCount(((GatherDynamicImagesTask)step).getRetrievedCount());
+            jobstatsDoc.setGatherImageExpectedCount(((GatherDynamicImagesTask) step).getImageGuidNum());
+            jobstatsDoc.setGatherImageRetrievedCount(((GatherDynamicImagesTask) step).getRetrievedCount());
         }
         jobstatsDoc.setPublishStatus(getPublishStatusString(step, publishStatus));
         publishingStatsService.updatePublishingStats(jobstatsDoc, StatsUpdateTypeEnum.GATHERIMAGE);

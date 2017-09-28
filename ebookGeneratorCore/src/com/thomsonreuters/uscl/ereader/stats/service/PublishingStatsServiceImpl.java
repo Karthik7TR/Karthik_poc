@@ -9,6 +9,7 @@ import com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDao;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
+import com.thomsonreuters.uscl.ereader.stats.util.PublishingStatsUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -20,6 +21,7 @@ public class PublishingStatsServiceImpl implements PublishingStatsService
 {
     private static final Logger LOG = LogManager.getLogger(PublishingStatsServiceImpl.class);
     private PublishingStatsDao publishingStatsDAO;
+    private PublishingStatsUtil publishingStatsUtil;
 
     @Override
     @Transactional(readOnly = true)
@@ -27,6 +29,7 @@ public class PublishingStatsServiceImpl implements PublishingStatsService
     {
         return publishingStatsDAO.getSysDate();
     }
+
     @Override
     @Transactional(readOnly = true)
     public PublishingStats findPublishingStatsByJobId(final Long JobId)
@@ -202,15 +205,13 @@ public class PublishingStatsServiceImpl implements PublishingStatsService
 
         final List<PublishingStats> publishingStats = publishingStatsDAO.findPublishingStatsByEbookDef(EbookDefId);
 
-        if (publishingStats != null && publishingStats.size() > 0)
+        if (publishingStats != null && !publishingStats.isEmpty())
         {
             lastSuccessfulPublishingStat = publishingStats.get(0);
             for (final PublishingStats publishingStat : publishingStats)
             {
                 if (publishingStat.getJobInstanceId().longValue() >= lastSuccessfulPublishingStat.getJobInstanceId()
-                    .longValue()
-                    && (PublishingStats.SUCCESFULL_PUBLISH_STATUS.equalsIgnoreCase(publishingStat.getPublishStatus())
-                        || PublishingStats.SEND_EMAIL_COMPLETE.equalsIgnoreCase(publishingStat.getPublishStatus())))
+                    .longValue() && publishingStatsUtil.isPublishedSuccessfully(publishingStat.getPublishStatus()))
                 {
                     lastSuccessfulPublishingStat = publishingStat;
                     lastAuditSuccessful = publishingStat.getAudit();
@@ -227,7 +228,7 @@ public class PublishingStatsServiceImpl implements PublishingStatsService
         Date lastPublishDate = null;
         final List<PublishingStats> publishingStats = publishingStatsDAO.findPublishingStatsByEbookDef(EbookDefId);
 
-        if (publishingStats != null && publishingStats.size() > 0)
+        if (publishingStats != null && !publishingStats.isEmpty())
         {
             for (final PublishingStats publishingStat : publishingStats)
             {
@@ -260,6 +261,12 @@ public class PublishingStatsServiceImpl implements PublishingStatsService
     public void setPublishingStatsDAO(final PublishingStatsDao dao)
     {
         publishingStatsDAO = dao;
+    }
+
+    @Required
+    public void setPublishingStatsUtil(final PublishingStatsUtil publishingStatsUtil)
+    {
+        this.publishingStatsUtil = publishingStatsUtil;
     }
 
     @Transactional(readOnly = true)

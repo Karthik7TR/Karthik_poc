@@ -6,11 +6,15 @@
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
            http://www.springframework.org/schema/tx      http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
+	<context:annotation-config />
+	<context:component-scan base-package="com.thomsonreuters.uscl.ereader.stats.util" />
+
 	<import resource="classpath:springtest/dbTest.xml" />
 
 	<bean id="publishingStatsService"
 		class="com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsServiceImpl"
-		p:publishingStatsDAO-ref="publishingStatsDao" />
+		p:publishingStatsDAO-ref="publishingStatsDao" 
+		p:publishingStatsUtil-ref="publishingStatsUtil"/>
 	<bean id="publishingStatsDao"
 		class="com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDaoImpl">
 		<constructor-arg ref="sessionFactory" />
