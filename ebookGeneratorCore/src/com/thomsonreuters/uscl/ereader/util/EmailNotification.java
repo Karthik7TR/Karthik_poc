@@ -107,7 +107,7 @@ public class EmailNotification
             }
             catch (final MessagingException mex)
             {
-                mex.printStackTrace();
+                log.error(mex.getMessage(), mex);
             }
         }
     }
@@ -157,7 +157,7 @@ public class EmailNotification
             }
             catch (final MessagingException mex)
             {
-                mex.printStackTrace();
+                log.error(mex.getMessage(), mex);
             }
         }
     }

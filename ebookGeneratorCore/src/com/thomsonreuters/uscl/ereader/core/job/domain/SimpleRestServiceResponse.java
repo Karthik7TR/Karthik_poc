@@ -1,8 +1,11 @@
 package com.thomsonreuters.uscl.ereader.core.job.domain;
 
+import java.util.Objects;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -86,29 +89,15 @@ public class SimpleRestServiceResponse
     @Override
     public boolean equals(final Object obj)
     {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final SimpleRestServiceResponse other = (SimpleRestServiceResponse) obj;
-        if (id == null)
-        {
-            if (other.id != null)
-                return false;
-        }
-        else if (!id.equals(other.id))
-            return false;
-        if (success != other.success)
-            return false;
-        if (message == null)
-        {
-            if (other.message != null)
-                return false;
-        }
-        else if (!message.equals(other.message))
-            return false;
-        return true;
+        return Objects.equals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .append(success)
+                .append(message)
+                .toHashCode();
     }
 }

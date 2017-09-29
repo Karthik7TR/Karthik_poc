@@ -1,8 +1,5 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.text.SimpleDateFormat;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
@@ -11,6 +8,7 @@ import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageException
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.NotificationService;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
@@ -93,9 +91,7 @@ public abstract class AbstractSbTasklet implements Tasklet
         }
         catch (final Exception e)
         {
-            String stackTrace = getStackTrace(e);
-
-            stackTrace = "Error Message : " + e.getMessage() + "\nStack Trace is " + stackTrace;
+            final String stackTrace = String.format("Error Message : %s \nStack Trace is %s", e.getMessage(), ExceptionUtils.getStackTrace(e));
             notificationService.sendNotification(
                 getJobExecutionContext(chunkContext),
                 getJobParameters(chunkContext),
@@ -205,18 +201,6 @@ public abstract class AbstractSbTasklet implements Tasklet
                     + propertyKey
                     + "' property is present.");
         }
-    }
-
-    /**
-     * @param aThrowable
-     * @return string corresponding to the provided exception's stack trace.
-     */
-    private String getStackTrace(final Throwable aThrowable)
-    {
-        final Writer result = new StringWriter();
-        final PrintWriter printWriter = new PrintWriter(result);
-        aThrowable.printStackTrace(printWriter);
-        return result.toString();
     }
 
     @Required

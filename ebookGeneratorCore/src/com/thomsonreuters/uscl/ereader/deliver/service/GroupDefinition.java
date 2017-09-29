@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class GroupDefinition implements Comparable<GroupDefinition>
 {
@@ -259,6 +260,20 @@ public class GroupDefinition implements Comparable<GroupDefinition>
     }
 
     @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(groupId)
+                .append(groupVersion)
+                .append(name)
+                .append(type)
+                .append(status)
+                .append(order)
+                .append(headTitle)
+                .append(subGroupInfoList)
+                .toHashCode();
+    }
+
+    @Override
     public int compareTo(final GroupDefinition o)
     {
         return o.getGroupVersion().compareTo(getGroupVersion());
@@ -297,11 +312,10 @@ public class GroupDefinition implements Comparable<GroupDefinition>
         @Override
         public int hashCode()
         {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + ((heading == null) ? 0 : heading.hashCode());
-            result = prime * result + ((titles == null) ? 0 : titles.hashCode());
-            return result;
+            return new HashCodeBuilder(17, 37)
+                .append(heading)
+                .append(titles)
+                .toHashCode();
         }
 
         @Override

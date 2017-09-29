@@ -63,10 +63,11 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao
         final int itemsPerPage)
     {
         final String namedQuery = "findBookDefnBySearchCriterion";
-        String bookDefnQuery =
-            sessionFactory.getCurrentSession().getNamedQuery(namedQuery).getQueryString() + "order by " + sortProperty;
-        bookDefnQuery += (isAscending) ? " asc" : " desc";
+        final String bookDefnQuery =
+            sessionFactory.getCurrentSession().getNamedQuery(namedQuery).getQueryString() + "order by ?";
+
         final Query query = sessionFactory.getCurrentSession().createQuery(bookDefnQuery);
+        query.setParameter(0, (isAscending) ? " asc" : " desc");
         query.setFirstResult((pageNumber - 1) * (itemsPerPage));
         query.setMaxResults(itemsPerPage);
         return query.list();

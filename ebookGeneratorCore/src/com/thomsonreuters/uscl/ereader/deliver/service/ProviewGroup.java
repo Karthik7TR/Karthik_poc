@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 public class ProviewGroup implements Serializable, Comparable<ProviewGroup>
 {
@@ -24,6 +26,8 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup>
     //For third screen
     private List<GroupDetails> groupDetailList;
     private String groupStatus;
+
+    private static Logger LOG = LogManager.getLogger(ProviewGroup.class);
 
     public Integer getTotalNumberOfVersions()
     {
@@ -154,7 +158,7 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup>
         }
         catch (final Exception e)
         {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return majorVersion;
     }
@@ -432,7 +436,7 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup>
             }
             catch (final Exception e)
             {
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
             return majorVersion;
         }

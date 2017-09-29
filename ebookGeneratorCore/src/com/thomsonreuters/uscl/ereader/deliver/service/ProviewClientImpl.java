@@ -3,7 +3,7 @@ package com.thomsonreuters.uscl.ereader.deliver.service;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
@@ -420,17 +420,10 @@ public class ProviewClientImpl implements ProviewClient
             throw new IllegalArgumentException(
                 "eBookVersionNumber must not be null or empty, but was [" + eBookVersionNumber + "].");
         }
-        final FileInputStream ebookInputStream;
 
-        try
-        {
-            ebookInputStream = new FileInputStream(eBook);
-        }
-        catch (final FileNotFoundException e)
-        {
-            throw new RuntimeException("Cannot send a null or empty File to ProView.", e);
-        }
+        String proviewResponse = null;
 
+        try (FileInputStream ebookInputStream = new FileInputStream(eBook)){
         final Map<String, String> urlParameters = new HashMap<>();
         urlParameters.put(PROVIEW_HOST_PARAM, proviewHost.getHostName());
         urlParameters.put(TITLE_ID, fullyQualifiedTitleId);
@@ -439,17 +432,15 @@ public class ProviewClientImpl implements ProviewClient
         final ProviewRequestCallback proviewRequestCallback = proviewRequestCallbackFactory.getStreamRequestCallback();
         proviewRequestCallback.setEbookInputStream(ebookInputStream);
 
-        final String proviewResponse = restTemplate.execute(
+        proviewResponse = restTemplate.execute(
             publishTitleUriTemplate,
             HttpMethod.PUT,
             proviewRequestCallback,
             proviewResponseExtractorFactory.getResponseExtractor(),
             urlParameters);
-
-        // restTemplate.put(publishTitleUriTemplate, eBook, urlParameters);
-
-        // logResponse(response);
-
+        } catch (final IOException e){
+            LOG.error(e.getMessage(), e);
+       }
         return proviewResponse;
     }
 

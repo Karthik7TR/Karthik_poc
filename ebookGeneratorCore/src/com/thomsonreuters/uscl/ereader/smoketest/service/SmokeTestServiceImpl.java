@@ -15,6 +15,8 @@ import javax.annotation.Resource;
 import com.thomsonreuters.uscl.ereader.smoketest.dao.SmokeTestDao;
 import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTest;
 import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +30,8 @@ public class SmokeTestServiceImpl implements SmokeTestService
     private static final String MANAGER = "Manager";
     private static final String GATHERER = "Gatherer";
     public static final File APPSERVER_TOMCAT_DIR = new File("/appserver/tomcat");
+
+    private static Logger LOG = LogManager.getLogger(SmokeTestServiceImpl.class);
 
     private SmokeTestDao dao;
     @Resource(name = "dataSource")
@@ -218,7 +222,7 @@ public class SmokeTestServiceImpl implements SmokeTestService
         }
         catch (final Exception e)
         {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
 
         return appNames;
@@ -242,7 +246,7 @@ public class SmokeTestServiceImpl implements SmokeTestService
         }
         catch (final Exception e)
         {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
             serverStatus.setIsRunning(false);
         }
 
@@ -279,12 +283,12 @@ public class SmokeTestServiceImpl implements SmokeTestService
         }
         catch (final UnknownHostException e)
         {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
             serverStatus.setIsRunning(false);
         }
         catch (final IOException e)
         {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
             serverStatus.setIsRunning(false);
         }
 
