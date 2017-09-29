@@ -38,6 +38,8 @@ public class XppBundleQueuePoller
     @Scheduled(fixedDelay = 60000) // 1 minute
     public void pollMessageQueue()
     {
+        if ("workstation".equals(environmentName))
+            return;
         try
         {
             /**
