@@ -38,7 +38,6 @@ public class XppBundleQueuePoller
     @Scheduled(fixedDelay = 60000) // 1 minute
     public void pollMessageQueue()
     {
-        log.debug("XppBundleQueuePoller: scheduler works");
         if ("workstation".equals(environmentName))
             return;
         try
@@ -52,7 +51,6 @@ public class XppBundleQueuePoller
             final PlannedOutage outage = outageProcessor.processPlannedOutages();
             if (outage == null)
             {
-                log.debug("XppBundleQueuePoller: no outage");
                 // Core pool size is the task executor pool size, effectively the maximum number of concurrent jobs.
                 // This is dynamic and can be changed through the administrative UI.
                 final int coreThreadPoolSize = threadPoolTaskExecutor.getCorePoolSize();
@@ -60,7 +58,6 @@ public class XppBundleQueuePoller
                 if (activeThreads < coreThreadPoolSize)
                 {
                     final String request = jmsClient.receiveSingleMessage(jmsTemplate, StringUtils.EMPTY);
-                    log.debug("XppBundleQueuePoller: message read");
                     if (StringUtils.isNotEmpty(request))
                     {
                         // start ebookBundleJob
@@ -69,7 +66,6 @@ public class XppBundleQueuePoller
                         builder.addParameter(JobParameterKey.KEY_REQUEST_XML, new JobParameter(request));
                         builder.addParameter(JobParameterKey.ENVIRONMENT_NAME, new JobParameter(environmentName));
                         runJob(JobParameterKey.JOB_NAME_PROCESS_BUNDLE, builder.toJobParameters());
-                        log.debug("XppBundleQueuePoller: job ran");
                     }
                     else
                     {
