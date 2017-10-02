@@ -528,7 +528,7 @@ td:last-of-type {
 sup .cgt,
 thead > tr > td > .cgt,
 tbody .cgt,
-.int_ref_list > .cgt {
+.generated_case_tbl .int_ref_list > .cgt {
   display: inline;
 }
 
@@ -545,7 +545,7 @@ tbody .cgt,
 .toc_analytical_hierarchy .cgt,
 .stat_head .name_block .cgt,
 .full_toc .designator + .cgt,
-.int_ref_list > .cgt {
+.generated_lrre_tbl .int_ref_list > .cgt {
   display: none;
 }
 
@@ -856,7 +856,7 @@ a + .footnote_body {
   display: inline;
 }
 
-.tbl_row_ref > .t {
+.tbl_row_ref .t {
   display: inline-block;
 }
 
@@ -883,19 +883,19 @@ a + .footnote_body {
   margin-bottom: calc(1em * 2);
 }
 
-.tbl_row {
+.generated_lrre_tbl .tbl_row {
   display: flex;
 }
 
-.tbl_row * {
+.generated_lrre_tbl .tbl_row * {
   display: inline;
 }
 
-.generated_lrre_tbl > .tbl_unit:first-child > .tbl_row:first-child {
+.generated_lrre_tbl > .tbl_unit:first-child > .generated_lrre_tbl .tbl_row:first-child {
   flex-wrap: wrap;
 }
 
-section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tbl_row {
+section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .generated_lrre_tbl .tbl_row {
   margin-bottom: calc(1em * 1.5);
   display: block;
 }
@@ -904,7 +904,7 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   text-align: justify;
 }
 
-.tbl_row_ref {
+.generated_lrre_tbl .tbl_row_ref {
   display: block;
   flex-shrink: 0;
 }

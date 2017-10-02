@@ -9,7 +9,7 @@
 
 .tbl_row_ref {
     display: inline;
-    &>.t {
+    & .t {
         display: inline-block;
     }
     .generated_case_tbl &>.t:first-child,

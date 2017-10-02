@@ -21,7 +21,7 @@
     sup &,
     thead>tr>td>&,
     tbody &,
-    .int_ref_list>& {
+    .generated_case_tbl .int_ref_list>& {
         display: inline;
     }
     .signature_group>.form_line &,
@@ -36,7 +36,7 @@
     .toc_analytical_hierarchy &,
     .stat_head .name_block &,
     .full_toc .designator+&,
-    .int_ref_list>& {
+    .generated_lrre_tbl .int_ref_list>& {
         display: none;
     }
 }

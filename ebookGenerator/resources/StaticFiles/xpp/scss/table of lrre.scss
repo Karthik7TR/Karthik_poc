@@ -13,7 +13,7 @@
     }
 }
 
-.tbl_row {
+.generated_lrre_tbl .tbl_row {
     & {
         display: flex;
     }
@@ -29,11 +29,7 @@
     }
 }
 
-.column {
-    text-align: justify;
-}
-
-.tbl_row_ref {
+.generated_lrre_tbl .tbl_row_ref {
     display: block;
     flex-shrink: 0;
 }
