@@ -34,16 +34,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="lib/aspectjrt-1.6.9.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="lib/aspectjweaver-1.6.9.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="lib/bcel-5.1.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
@@ -630,5 +620,15 @@
 	<classpathentry exported="true" kind="lib" path="lib/DbSetup-1.6.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/activation-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-collections4-4.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/aspectjrt-1.8.10.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="lib/aspectjweaver-1.8.10.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
