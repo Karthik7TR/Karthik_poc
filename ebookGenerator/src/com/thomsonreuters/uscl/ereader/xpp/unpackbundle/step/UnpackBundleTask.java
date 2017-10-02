@@ -70,6 +70,7 @@ public class UnpackBundleTask extends BookStepImpl
 
             final File currentBundleDirectory =
                 xppGatherFileSystem.getXppBundleMaterialNumberDirectory(this, currentMaterialNumber);
+            currentBundleDirectory.mkdirs();
 
             unpackBundle(targetArchive, currentBundleDirectory);
         }

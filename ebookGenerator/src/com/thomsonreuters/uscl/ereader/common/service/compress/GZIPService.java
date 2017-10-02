@@ -39,7 +39,7 @@ public class GZIPService implements CompressService
             while ((entry = tarIn.getNextEntry()) != null)
             {
                 LOG.debug("Extracting: " + entry.getName());
-                final File tarEntryFile = new File(destDir, entry.getName().replaceFirst(pathToSkip, StringUtils.EMPTY));
+                final File tarEntryFile = new File(destDir, entry.getName());
                 if (entry.isDirectory())
                 {
                     // create directory
