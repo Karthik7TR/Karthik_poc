@@ -34,7 +34,7 @@
 
 			<xsl:call-template name="placeXppHier">
 				<xsl:with-param name="uuid" select="$root_uuid" />
-				<xsl:with-param name="name" select="'Table Of Cases'" />
+				<xsl:with-param name="name" select="'Table of Cases'" />
 				<xsl:with-param name="parent_uuid" select="$root_uuid" />
 				<xsl:with-param name="doc_family_uuid" select="$first_item" />
 			</xsl:call-template>
