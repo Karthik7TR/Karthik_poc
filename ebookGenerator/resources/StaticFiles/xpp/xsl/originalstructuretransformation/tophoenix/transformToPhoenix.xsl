@@ -2,7 +2,7 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:x="http://www.sdl.com/xpp"
 	xmlns="http://www.sdl.com/xpp" exclude-result-prefixes="x">
-	<xsl:import href="../transform-utils.xsl" />
+	<xsl:import href="../../transform-utils.xsl" />
 	<xsl:import href="pageNumbers.xsl" />
 	<xsl:include href="footnotes.xsl" />
 	<xsl:include href="xppMetadata.xsl" />

@@ -3,7 +3,7 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.sdl.com/xpp"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
-	<xsl:import href="transform-utils.xsl" />
+	<xsl:import href="../transform-utils.xsl" />
 	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
 
 	<xsl:template match="/">

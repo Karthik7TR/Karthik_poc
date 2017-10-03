@@ -2,7 +2,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://www.w3.org/1999/xhtml"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
-	<xsl:import href="transform-utils.xsl" />
+	<xsl:import href="../transform-utils.xsl" />
 	<xsl:output method="xml" omit-xml-declaration="yes" />
 	<xsl:param name="mappingFile" />
 	<xsl:variable name="mapping" select="document($mappingFile)" />
