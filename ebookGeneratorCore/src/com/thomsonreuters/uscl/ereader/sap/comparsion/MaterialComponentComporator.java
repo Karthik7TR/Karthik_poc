@@ -23,19 +23,12 @@ public class MaterialComponentComporator implements Comparator<MaterialComponent
         final Integer secondOrder = getCurrentOrder(secondMaterialComponent);
 
         Integer result = 0;
-        if (firstOrder == null && secondOrder == null)
+        if (firstOrder == null || secondOrder == null)
         {
             result = 0;
         }
-        else if (firstOrder == null && secondOrder != null)
-        {
-            result = 1;
-        }
-        else if (firstOrder != null && secondOrder == null)
-        {
-            result = -1;
-        }
-        else if (firstOrder != null)
+
+        else
         {
             result = firstOrder.compareTo(secondOrder);
         }
