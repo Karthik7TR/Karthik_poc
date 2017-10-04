@@ -144,6 +144,9 @@
 
 .stat_name_block {
     float: left;
+    .footnote & {
+        float: none;
+    }
 }
 
 .stat_subsect,

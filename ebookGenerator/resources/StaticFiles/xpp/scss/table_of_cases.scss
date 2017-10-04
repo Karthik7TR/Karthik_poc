@@ -3,23 +3,21 @@
     text-align: center;
 }
 
-.generated_case_tbl .tbl_row {
-    margin-left: calc(#{$indent} * 2);
-}
-
-.tbl_row_ref {
-    display: inline;
-    & .t {
-        display: inline-block;
-    }
-    .generated_case_tbl &>.t:first-child,
-    .generated_case_tbl &>.repeat_party:first-child>.t {
+.tbl_row {
+    .generated_case_tbl & {
+        margin-left: calc(#{$indent} * 2);
         text-indent: calc(#{$indent} * -2);
     }
 }
 
-.int_ref_list,
-.int_ref,
-.repeat_party {
+.tbl_row_ref {
+    .generated_case_tbl & {
+        display: inline;
+    }
+}
+
+.generated_case_tbl .int_ref_list,
+.generated_case_tbl .int_ref,
+.generated_case_tbl .repeat_party {
     display: inline;
 }

@@ -2,6 +2,10 @@
   margin-left: calc(-1.1 * 1em);
 }
 
+a + .no-indent {
+  margin-left: calc(-1.1 * 1em);
+}
+
 .publication {
   text-align: justify;
 }
@@ -452,6 +456,10 @@ td:last-of-type {
   float: left;
 }
 
+.footnote .stat_name_block {
+  float: none;
+}
+
 .stat_subsect,
 .stat_para,
 .stat_subpara,
@@ -850,28 +858,20 @@ a + .footnote_body {
 
 .generated_case_tbl .tbl_row {
   margin-left: calc(1em * 2);
-}
-
-.tbl_row_ref {
-  display: inline;
-}
-
-.tbl_row_ref .t {
-  display: inline-block;
-}
-
-.generated_case_tbl .tbl_row_ref > .t:first-child,
-.generated_case_tbl .tbl_row_ref > .repeat_party:first-child > .t {
   text-indent: calc(1em * -2);
 }
 
-.int_ref_list,
-.int_ref,
-.repeat_party {
+.generated_case_tbl .tbl_row_ref {
   display: inline;
 }
 
-.main_head {
+.generated_case_tbl .int_ref_list,
+.generated_case_tbl .int_ref,
+.generated_case_tbl .repeat_party {
+  display: inline;
+}
+
+.generated_lrre_tbl .main_head {
   text-align: center;
   margin-bottom: 1em;
   margin-top: calc(1em * 1.5);
@@ -891,17 +891,18 @@ a + .footnote_body {
   display: inline;
 }
 
-.generated_lrre_tbl > .tbl_unit:first-child > .generated_lrre_tbl .tbl_row:first-child {
+.generated_lrre_tbl > .tbl_unit:first-child > .tbl_row:first-child {
   flex-wrap: wrap;
 }
 
-section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .generated_lrre_tbl .tbl_row {
+section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tbl_row {
   margin-bottom: calc(1em * 1.5);
   display: block;
+  text-align: center;
 }
 
-.column {
-  text-align: justify;
+.generated_lrre_tbl .tbl_row:first-of-type {
+  flex-wrap: wrap;
 }
 
 .generated_lrre_tbl .tbl_row_ref {
@@ -909,33 +910,32 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .ge
   flex-shrink: 0;
 }
 
-.int_ref_list {
+.generated_lrre_tbl .int_ref_list {
   display: inline;
   flex-grow: 1;
   text-align: right;
 }
 
-.mte3,
-.mte3 * {
-  display: flex;
+.generated_lrre_tbl .mte3,
+.generated_lrre_tbl .mte3 * {
+  display: flex !important;
   width: 100%;
   white-space: nowrap;
 }
 
-.col_head {
+.generated_lrre_tbl .col_head {
   display: flex;
   justify-content: space-between;
 }
 
-.tbl_row + .col_head {
+.generated_lrre_tbl .tbl_row + .col_head {
   margin-top: 1em;
 }
 
-.int_ref + .t {
+.generated_lrre_tbl .int_ref + .t {
   white-space: pre-wrap;
 }
 
-.mte3 > .t::nth-child(2) {
-  display: inline-block;
-  text-align: right;
+.generated_lrre_tbl .mte3 > .t:nth-of-type(2) {
+  justify-content: flex-end;
 }

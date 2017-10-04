@@ -3,6 +3,12 @@
     margin-left: calc(-1.1 * 1em);
 }
 
+.no-indent {
+    a+& {
+        margin-left: calc(-1.1 * 1em);
+    }
+}
+
 .publication {
     text-align: justify;
 }
