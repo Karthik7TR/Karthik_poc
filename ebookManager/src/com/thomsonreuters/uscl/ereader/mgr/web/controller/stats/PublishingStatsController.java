@@ -26,13 +26,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class PublishingStatsController extends BasePublishingStatsController
-{
+public class PublishingStatsController extends BasePublishingStatsController {
     private static final Logger log = LogManager.getLogger(PublishingStatsController.class);
 
     @Autowired
-    public PublishingStatsController(final PublishingStatsService publishingStatsService)
-    {
+    public PublishingStatsController(final PublishingStatsService publishingStatsService) {
         super(publishingStatsService);
     }
 
@@ -41,8 +39,7 @@ public class PublishingStatsController extends BasePublishingStatsController
      * No query string parameters are expected.
      */
     @RequestMapping(value = WebConstants.MVC_STATS, method = RequestMethod.GET)
-    public ModelAndView stats(final HttpSession httpSession, final Model model)
-    {
+    public ModelAndView stats(final HttpSession httpSession, final Model model) {
         final PublishingStatsFilterForm filterForm = fetchSavedFilterForm(httpSession);
 
         return setupInitialView(model, filterForm, httpSession);
@@ -53,8 +50,10 @@ public class PublishingStatsController extends BasePublishingStatsController
      * Used from the View Book Definition page.
      */
     @RequestMapping(value = WebConstants.MVC_STATS_SPECIFIC_BOOK, method = RequestMethod.GET)
-    public ModelAndView specificBookStat(final HttpSession httpSession, @RequestParam("id") final Long id, final Model model)
-    {
+    public ModelAndView specificBookStat(
+        final HttpSession httpSession,
+        @RequestParam("id") final Long id,
+        final Model model) {
         final PublishingStatsFilterForm filterForm = new PublishingStatsFilterForm(id); // from session
 
         return setupInitialView(model, filterForm, httpSession);
@@ -63,8 +62,10 @@ public class PublishingStatsController extends BasePublishingStatsController
     /**
      * Setup of Form and sorting shared by two different incoming HTTP get request
      */
-    private ModelAndView setupInitialView(final Model model, final PublishingStatsFilterForm filterForm, final HttpSession httpSession)
-    {
+    private ModelAndView setupInitialView(
+        final Model model,
+        final PublishingStatsFilterForm filterForm,
+        final HttpSession httpSession) {
         final PageAndSort<DisplayTagSortProperty> savedPageAndSort = fetchSavedPageAndSort(httpSession);
 
         final PublishingStatsForm publishingStatsForm = new PublishingStatsForm();
@@ -84,8 +85,7 @@ public class PublishingStatsController extends BasePublishingStatsController
     public ModelAndView publishingStatsPagingAndSorting(
         final HttpSession httpSession,
         @ModelAttribute(PublishingStatsForm.FORM_NAME) final PublishingStatsForm form,
-        final Model model)
-    {
+        final Model model) {
         final PublishingStatsFilterForm filterForm = fetchSavedFilterForm(httpSession);
         final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
         form.setObjectsPerPage(pageAndSort.getObjectsPerPage());
@@ -93,12 +93,9 @@ public class PublishingStatsController extends BasePublishingStatsController
 
         // If there was a page=n query string parameter, then we assume we are paging since this
         // parameter is not present on the query string when display tag sorting.
-        if (nextPageNumber != null)
-        { // PAGING
+        if (nextPageNumber != null) { // PAGING
             pageAndSort.setPageNumber(nextPageNumber);
-        }
-        else
-        { // SORTING
+        } else { // SORTING
             pageAndSort.setPageNumber(1);
             pageAndSort.setSortProperty(form.getSort());
             pageAndSort.setAscendingSort(form.isAscendingSort());
@@ -115,8 +112,7 @@ public class PublishingStatsController extends BasePublishingStatsController
     public ModelAndView handleChangeInItemsToDisplay(
         final HttpSession httpSession,
         @ModelAttribute(PublishingStatsForm.FORM_NAME) @Valid final PublishingStatsForm form,
-        final Model model)
-    {
+        final Model model) {
         final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
         pageAndSort.setPageNumber(1); // Always start from first page again once changing row count to avoid index out of bounds
         pageAndSort.setObjectsPerPage(form.getObjectsPerPage()); // Update the new number of items to be shown at one time
@@ -130,12 +126,10 @@ public class PublishingStatsController extends BasePublishingStatsController
     public void downloadPublishingStatsExcel(
         final HttpSession httpSession,
         final HttpServletRequest request,
-        final HttpServletResponse response)
-    {
+        final HttpServletResponse response) {
         final PublishingStatsExcelExportService excelExportService = new PublishingStatsExcelExportService();
 
-        try
-        {
+        try {
             final Workbook wb = excelExportService.createExcelDocument(httpSession);
             final Date date = new Date();
             final SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd");
@@ -145,9 +139,7 @@ public class PublishingStatsController extends BasePublishingStatsController
             final ServletOutputStream out = response.getOutputStream();
             wb.write(out);
             out.flush();
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error(e.getMessage());
         }
     }

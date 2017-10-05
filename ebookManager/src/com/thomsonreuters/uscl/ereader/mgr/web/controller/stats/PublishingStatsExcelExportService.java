@@ -12,8 +12,7 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
-public class PublishingStatsExcelExportService extends BaseExcelExportService
-{
+public class PublishingStatsExcelExportService extends BaseExcelExportService {
     public static final String STATS_NAME = "Publishing Stats";
     public static final String[] STATS_HEADER = {
         "TITLE_ID",
@@ -50,157 +49,124 @@ public class PublishingStatsExcelExportService extends BaseExcelExportService
         "LARGEST_IMAGE_SIZE",
         "LARGEST_PDF_SIZE"};
 
-    public PublishingStatsExcelExportService()
-    {
+    public PublishingStatsExcelExportService() {
         super();
         EXCEL_HEADER = STATS_HEADER;
         SHEET_NAME = STATS_NAME;
     }
 
     @Override
-    protected void fillRows(final Sheet sheet, final CellStyle cellStyle, final HttpSession session)
-    {
+    protected void fillRows(final Sheet sheet, final CellStyle cellStyle, final HttpSession session) {
         final List<PublishingStats> stats = fetchPaginatedList(session);
-        if (stats == null)
-        {
+        if (stats == null) {
             throw new NullPointerException("No Publishing Statistics Found");
         }
         Cell cell = null;
 
         int rowIndex = 1;
-        for (final PublishingStats stat : stats)
-        {
+        for (final PublishingStats stat : stats) {
             // Create a row and put some cells in it.
             Row row = sheet.createRow(rowIndex);
             row.createCell(0).setCellValue(stat.getAudit().getTitleId());
             row.createCell(1).setCellValue(stat.getAudit().getProviewDisplayName());
-            if (stat.getJobInstanceId() != null)
-            {
+            if (stat.getJobInstanceId() != null) {
                 row.createCell(2).setCellValue(stat.getJobInstanceId());
             }
-            if (stat.getAudit().getAuditId() != null)
-            {
+            if (stat.getAudit().getAuditId() != null) {
                 row.createCell(3).setCellValue(stat.getAudit().getAuditId());
             }
-            if (stat.getEbookDefId() != null)
-            {
+            if (stat.getEbookDefId() != null) {
                 row.createCell(4).setCellValue(stat.getEbookDefId());
             }
             row.createCell(5).setCellValue(stat.getBookVersionSubmitted());
             row.createCell(6).setCellValue(stat.getJobHostName());
             row.createCell(7).setCellValue(stat.getJobSubmitterName());
-            if (stat.getJobSubmitTimestamp() != null)
-            {
+            if (stat.getJobSubmitTimestamp() != null) {
                 cell = row.createCell(8);
                 cell.setCellValue(stat.getJobSubmitTimestamp());
                 cell.setCellStyle(cellStyle);
             }
-            if (stat.getPublishStartTimestamp() != null)
-            {
+            if (stat.getPublishStartTimestamp() != null) {
                 cell = row.createCell(9);
                 cell.setCellValue(stat.getPublishStartTimestamp());
                 cell.setCellStyle(cellStyle);
             }
-            if (stat.getGatherTocNodeCount() != null)
-            {
+            if (stat.getGatherTocNodeCount() != null) {
                 row.createCell(10).setCellValue(stat.getGatherTocNodeCount());
             }
-            if (stat.getGatherTocSkippedCount() != null)
-            {
+            if (stat.getGatherTocSkippedCount() != null) {
                 row.createCell(11).setCellValue(stat.getGatherTocSkippedCount());
             }
-            if (stat.getGatherTocDocCount() != null)
-            {
+            if (stat.getGatherTocDocCount() != null) {
                 row.createCell(12).setCellValue(stat.getGatherTocDocCount());
             }
-            if (stat.getGatherTocRetryCount() != null)
-            {
+            if (stat.getGatherTocRetryCount() != null) {
                 row.createCell(13).setCellValue(stat.getGatherTocRetryCount());
             }
-            if (stat.getGatherDocExpectedCount() != null)
-            {
+            if (stat.getGatherDocExpectedCount() != null) {
                 row.createCell(14).setCellValue(stat.getGatherDocExpectedCount());
             }
-            if (stat.getGatherDocRetryCount() != null)
-            {
+            if (stat.getGatherDocRetryCount() != null) {
                 row.createCell(15).setCellValue(stat.getGatherDocRetryCount());
             }
-            if (stat.getGatherDocRetrievedCount() != null)
-            {
+            if (stat.getGatherDocRetrievedCount() != null) {
                 row.createCell(16).setCellValue(stat.getGatherDocRetrievedCount());
             }
-            if (stat.getGatherMetaExpectedCount() != null)
-            {
+            if (stat.getGatherMetaExpectedCount() != null) {
                 row.createCell(17).setCellValue(stat.getGatherMetaExpectedCount());
             }
-            if (stat.getGatherMetaRetrievedCount() != null)
-            {
+            if (stat.getGatherMetaRetrievedCount() != null) {
                 row.createCell(18).setCellValue(stat.getGatherMetaRetrievedCount());
             }
-            if (stat.getGatherMetaRetryCount() != null)
-            {
+            if (stat.getGatherMetaRetryCount() != null) {
                 row.createCell(19).setCellValue(stat.getGatherMetaRetryCount());
             }
-            if (stat.getGatherImageExpectedCount() != null)
-            {
+            if (stat.getGatherImageExpectedCount() != null) {
                 row.createCell(20).setCellValue(stat.getGatherImageExpectedCount());
             }
-            if (stat.getGatherImageRetrievedCount() != null)
-            {
+            if (stat.getGatherImageRetrievedCount() != null) {
                 row.createCell(21).setCellValue(stat.getGatherImageRetrievedCount());
             }
-            if (stat.getGatherImageRetryCount() != null)
-            {
+            if (stat.getGatherImageRetryCount() != null) {
                 row.createCell(22).setCellValue(stat.getGatherImageRetryCount());
             }
-            if (stat.getFormatDocCount() != null)
-            {
+            if (stat.getFormatDocCount() != null) {
                 row.createCell(23).setCellValue(stat.getFormatDocCount());
             }
-            if (stat.getTitleDocCount() != null)
-            {
+            if (stat.getTitleDocCount() != null) {
                 row.createCell(24).setCellValue(stat.getTitleDocCount());
             }
-            if (stat.getTitleDupDocCount() != null)
-            {
+            if (stat.getTitleDupDocCount() != null) {
                 row.createCell(25).setCellValue(stat.getTitleDupDocCount());
             }
-            if (stat.getPublishStatus() != null)
-            {
+            if (stat.getPublishStatus() != null) {
                 row.createCell(26).setCellValue(stat.getPublishStatus());
             }
 
-            if (stat.getPublishEndTimestamp() != null)
-            {
+            if (stat.getPublishEndTimestamp() != null) {
                 cell = row.createCell(27);
                 cell.setCellValue(stat.getPublishEndTimestamp());
                 cell.setCellStyle(cellStyle);
             }
-            if (stat.getLastUpdated() != null)
-            {
+            if (stat.getLastUpdated() != null) {
                 cell = row.createCell(28);
                 cell.setCellValue(stat.getLastUpdated());
                 cell.setCellStyle(cellStyle);
             }
-            if (stat.getBookSize() != null)
-            {
+            if (stat.getBookSize() != null) {
                 row.createCell(29).setCellValue(stat.getBookSize());
             }
-            if (stat.getLargestDocSize() != null)
-            {
+            if (stat.getLargestDocSize() != null) {
                 row.createCell(30).setCellValue(stat.getLargestDocSize());
             }
-            if (stat.getLargestImageSize() != null)
-            {
+            if (stat.getLargestImageSize() != null) {
                 row.createCell(31).setCellValue(stat.getLargestImageSize());
             }
-            if (stat.getLargestPdfSize() != null)
-            {
+            if (stat.getLargestPdfSize() != null) {
                 row.createCell(32).setCellValue(stat.getLargestPdfSize());
             }
 
-            if (rowIndex == (MAX_EXCEL_SHEET_ROW_NUM - 1))
-            {
+            if (rowIndex == (MAX_EXCEL_SHEET_ROW_NUM - 1)) {
                 row = sheet.createRow(MAX_EXCEL_SHEET_ROW_NUM);
                 row.createCell(0).setCellValue(
                     "You have reached the maximum amount of rows.  Please reduce the amount of rows by using the filter on the eBook Manager before generating the Excel file.");
@@ -210,8 +176,7 @@ public class PublishingStatsExcelExportService extends BaseExcelExportService
         }
     }
 
-    private List<PublishingStats> fetchPaginatedList(final HttpSession session)
-    {
+    private List<PublishingStats> fetchPaginatedList(final HttpSession session) {
         final PublishingStatsPaginatedList paginated =
             (PublishingStatsPaginatedList) session.getAttribute(WebConstants.KEY_PAGINATED_LIST);
         return paginated == null ? null : paginated.getList();

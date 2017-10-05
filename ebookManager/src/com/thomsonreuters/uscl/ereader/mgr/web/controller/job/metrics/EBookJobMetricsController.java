@@ -13,15 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class EBookJobMetricsController
-{
+public class EBookJobMetricsController {
     private final PublishingStatsService publishingStatsService;
     private final BookDefinitionService bookDefinitionService;
 
     @Autowired
-    public EBookJobMetricsController(final PublishingStatsService publishingStatsService,
-                                     final BookDefinitionService bookDefinitionService)
-    {
+    public EBookJobMetricsController(
+        final PublishingStatsService publishingStatsService,
+        final BookDefinitionService bookDefinitionService) {
         this.publishingStatsService = publishingStatsService;
         this.bookDefinitionService = bookDefinitionService;
     }
@@ -34,11 +33,9 @@ public class EBookJobMetricsController
      * @throws Exception
      */
     @RequestMapping(value = WebConstants.MVC_BOOK_JOB_METRICS, method = RequestMethod.GET)
-    public ModelAndView bookPublishingHistory(final Long jobInstanceId, final Model model) throws Exception
-    {
+    public ModelAndView bookPublishingHistory(final Long jobInstanceId, final Model model) throws Exception {
         final PublishingStats ebookPublishingStats = publishingStatsService.findPublishingStatsByJobId(jobInstanceId);
-        if (ebookPublishingStats != null)
-        {
+        if (ebookPublishingStats != null) {
             final BookDefinition book =
                 bookDefinitionService.findBookDefinitionByEbookDefId(ebookPublishingStats.getEbookDefId());
             model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, book);

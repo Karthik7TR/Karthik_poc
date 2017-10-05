@@ -6,23 +6,18 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component("jobSummaryValidator")
-public class JobSummaryValidator implements Validator
-{
+public class JobSummaryValidator implements Validator {
     @Override
-    public boolean supports(final Class<?> clazz)
-    {
+    public boolean supports(final Class<?> clazz) {
         return (JobSummaryForm.class.isAssignableFrom(clazz));
     }
 
     @Override
-    public void validate(final Object obj, final Errors errors)
-    {
+    public void validate(final Object obj, final Errors errors) {
         final JobSummaryForm form = (JobSummaryForm) obj;
 
-        if ((form.getJobCommand() == JobCommand.STOP_JOB) || (form.getJobCommand() == JobCommand.RESTART_JOB))
-        {
-            if (form.getJobExecutionIds().length == 0)
-            {
+        if ((form.getJobCommand() == JobCommand.STOP_JOB) || (form.getJobCommand() == JobCommand.RESTART_JOB)) {
+            if (form.getJobExecutionIds().length == 0) {
                 errors.reject("error.required.bookselection");
             }
         }

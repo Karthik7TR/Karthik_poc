@@ -15,8 +15,7 @@ import org.springframework.beans.factory.annotation.Required;
  * Its properties are then subsequently modifiable via the Manager administration page.
  *
  */
-public class ManagerAppConfigLoader implements AppConfigLoader
-{
+public class ManagerAppConfigLoader implements AppConfigLoader {
     private static Logger log = LogManager.getLogger(ManagerAppConfigLoader.class);
 
     private AppConfigService appConfigService;
@@ -24,29 +23,23 @@ public class ManagerAppConfigLoader implements AppConfigLoader
 
     @PostConstruct
     @Override
-    public void loadApplicationConfiguration() throws Exception
-    {
+    public void loadApplicationConfiguration() throws Exception {
         log.debug(">>>");
-        try
-        {
+        try {
             final MiscConfig miscConfig = appConfigService.loadMiscConfig();
             miscConfigSyncService.sync(miscConfig);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error(e);
         }
     }
 
     @Required
-    public void setAppConfigService(final AppConfigService service)
-    {
+    public void setAppConfigService(final AppConfigService service) {
         appConfigService = service;
     }
 
     @Required
-    public void setMiscConfigSyncService(final MiscConfigSyncService service)
-    {
+    public void setMiscConfigSyncService(final MiscConfigSyncService service) {
         miscConfigSyncService = service;
     }
 }

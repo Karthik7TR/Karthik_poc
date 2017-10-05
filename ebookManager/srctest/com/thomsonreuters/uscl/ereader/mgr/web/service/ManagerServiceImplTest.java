@@ -24,8 +24,7 @@ import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.web.client.RestTemplate;
 
-public final class ManagerServiceImplTest
-{
+public final class ManagerServiceImplTest {
     private ManagerServiceImpl service;
 
     private String contextName;
@@ -38,8 +37,7 @@ public final class ManagerServiceImplTest
     private JobRequestService mockJobRequestService;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         service = new ManagerServiceImpl();
 
         contextName = "";
@@ -64,21 +62,16 @@ public final class ManagerServiceImplTest
     }
 
     @After
-    public void tearDown()
-    {
-        try
-        {
+    public void tearDown() {
+        try {
             FileUtils.deleteDirectory(tempRootDir);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             //Intentionally left blank
         }
     }
 
     @Test
-    public void testIsAnyJobsStartedOrQueued()
-    {
+    public void testIsAnyJobsStartedOrQueued() {
         EasyMock.expect(mockJobService.getStartedJobCount()).andReturn(1);
         EasyMock.replay(mockJobService);
         Boolean jobs = service.isAnyJobsStartedOrQueued();
@@ -110,8 +103,7 @@ public final class ManagerServiceImplTest
     }
 
     @Test
-    public void testFindRunningJob()
-    {
+    public void testFindRunningJob() {
         final BookDefinition book = new BookDefinition();
         final Long bookDefinitionId = Long.valueOf(127);
         final JobExecution jobExecution = new JobExecution(bookDefinitionId);
@@ -125,8 +117,7 @@ public final class ManagerServiceImplTest
 
     @Ignore
     @Test
-    public void testPushPlannedOutage()
-    {
+    public void testPushPlannedOutage() {
         final String ipAddress = "";
         final int port = 0;
         // can't Instantiate for some reason
@@ -144,8 +135,7 @@ public final class ManagerServiceImplTest
     }
 
     @Test
-    public void testCleanupOldSpringBatchDatabaseRecords()
-    {
+    public void testCleanupOldSpringBatchDatabaseRecords() {
         final int daysBack = 0;
 
         EasyMock.expect(mockDao.archiveAndDeleteSpringBatchJobRecordsBefore(EasyMock.anyObject(Date.class)))
@@ -156,8 +146,7 @@ public final class ManagerServiceImplTest
     }
 
     @Test
-    public void testCleanupOldFilesystemFiles()
-    {
+    public void testCleanupOldFilesystemFiles() {
         final int daysBack = 0;
         final int cwbFilesDaysBack = 0;
 
@@ -172,8 +161,7 @@ public final class ManagerServiceImplTest
     }
 
     @Test
-    public void testCleanupOldPlannedOutages()
-    {
+    public void testCleanupOldPlannedOutages() {
         final int daysBack = 0;
         mockDao.deletePlannedOutagesBefore(EasyMock.anyObject(Date.class));
         EasyMock.expectLastCall();
@@ -182,8 +170,7 @@ public final class ManagerServiceImplTest
     }
 
     @Test
-    public void testCleanupOldTransientMetadata()
-    {
+    public void testCleanupOldTransientMetadata() {
         final int numberLastMajorVersionKept = 0;
         final int daysBeforeDocMetadataDelete = 0;
         mockDao.deleteTransientMetadata(numberLastMajorVersionKept, daysBeforeDocMetadataDelete);

@@ -4,8 +4,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue;
  * A view data object (VDO) used to hold data presented in a table of job requests.
  */
 @Deprecated
-public class JobRequestRow
-{
+public class JobRequestRow {
 //	private JobRequest job;
 //	private BookDefinition book;
 //

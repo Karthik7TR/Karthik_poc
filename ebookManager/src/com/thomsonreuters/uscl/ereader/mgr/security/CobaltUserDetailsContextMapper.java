@@ -19,13 +19,11 @@ import org.springframework.security.ldap.userdetails.UserDetailsContextMapper;
  * Object mapper used to create a user object from the attributes contained within a specified LDAP directory context.
  * Delegates to a standard LDAP AttributesMapper to accomplish this.
  */
-public class CobaltUserDetailsContextMapper implements UserDetailsContextMapper
-{
+public class CobaltUserDetailsContextMapper implements UserDetailsContextMapper {
     private static final Logger log = LogManager.getLogger(CobaltUserDetailsContextMapper.class);
     private AttributesMapper userEntryAttributesMapper;
 
-    public CobaltUserDetailsContextMapper(final AttributesMapper userEntryAttributesMapper)
-    {
+    public CobaltUserDetailsContextMapper(final AttributesMapper userEntryAttributesMapper) {
         this.userEntryAttributesMapper = userEntryAttributesMapper;
     }
 
@@ -33,25 +31,20 @@ public class CobaltUserDetailsContextMapper implements UserDetailsContextMapper
     public UserDetails mapUserFromContext(
         final DirContextOperations userDirectoryContext,
         final String username,
-        final Collection<? extends GrantedAuthority> authorities)
-    {
+        final Collection<? extends GrantedAuthority> authorities) {
         log.debug("Creating user object from LDAP entry at DN: " + userDirectoryContext.getDn());
         final Attributes userAttrs = userDirectoryContext.getAttributes();
         CobaltUser user = null;
-        try
-        {
+        try {
             user = (CobaltUser) userEntryAttributesMapper.mapFromAttributes(userAttrs);
-        }
-        catch (final NamingException e)
-        {
+        } catch (final NamingException e) {
             log.error("Unable to map user entry for username=" + username, e);
         }
         return user;
     }
 
     @Override
-    public void mapUserToContext(final UserDetails paramUserDetails, final DirContextAdapter paramDirContextAdapter)
-    {
+    public void mapUserToContext(final UserDetails paramUserDetails, final DirContextAdapter paramDirContextAdapter) {
         throw new NotImplementedException("Not Implemented");
     }
 }

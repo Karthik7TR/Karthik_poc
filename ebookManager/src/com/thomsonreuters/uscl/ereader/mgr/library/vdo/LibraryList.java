@@ -6,8 +6,7 @@ import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 
-public class LibraryList implements Serializable
-{
+public class LibraryList implements Serializable {
     private static final long serialVersionUID = -4057949125475314670L;
 
     private Long bookDefinitionId;
@@ -27,8 +26,7 @@ public class LibraryList implements Serializable
         final String isDeleted,
         final Date lastUpdate,
         final Date lastPublished,
-        final Set<Author> authors)
-    {
+        final Set<Author> authors) {
         this.bookDefinitionId = bookDefinitionId;
         proviewDisplayName = proviewName;
         fullyQualifiedTitleId = titleId;
@@ -40,8 +38,7 @@ public class LibraryList implements Serializable
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -49,73 +46,55 @@ public class LibraryList implements Serializable
         if (getClass() != obj.getClass())
             return false;
         final LibraryList other = (LibraryList) obj;
-        if (authorList == null)
-        {
+        if (authorList == null) {
             if (other.authorList != null)
                 return false;
-        }
-        else if (!authorList.equals(other.authorList))
+        } else if (!authorList.equals(other.authorList))
             return false;
-        if (ebookDefinitionCompleteFlag == null)
-        {
+        if (ebookDefinitionCompleteFlag == null) {
             if (other.ebookDefinitionCompleteFlag != null)
                 return false;
-        }
-        else if (!ebookDefinitionCompleteFlag.equals(other.ebookDefinitionCompleteFlag))
+        } else if (!ebookDefinitionCompleteFlag.equals(other.ebookDefinitionCompleteFlag))
             return false;
-        if (bookDefinitionId == null)
-        {
+        if (bookDefinitionId == null) {
             if (other.bookDefinitionId != null)
                 return false;
-        }
-        else if (!bookDefinitionId.equals(other.bookDefinitionId))
+        } else if (!bookDefinitionId.equals(other.bookDefinitionId))
             return false;
-        if (fullyQualifiedTitleId == null)
-        {
+        if (fullyQualifiedTitleId == null) {
             if (other.fullyQualifiedTitleId != null)
                 return false;
-        }
-        else if (!fullyQualifiedTitleId.equals(other.fullyQualifiedTitleId))
+        } else if (!fullyQualifiedTitleId.equals(other.fullyQualifiedTitleId))
             return false;
-        if (isDeletedFlag == null)
-        {
+        if (isDeletedFlag == null) {
             if (other.isDeletedFlag != null)
                 return false;
-        }
-        else if (!isDeletedFlag.equals(other.isDeletedFlag))
+        } else if (!isDeletedFlag.equals(other.isDeletedFlag))
             return false;
-        if (lastPublishDate == null)
-        {
+        if (lastPublishDate == null) {
             if (other.lastPublishDate != null)
                 return false;
-        }
-        else if (!lastPublishDate.equals(other.lastPublishDate))
+        } else if (!lastPublishDate.equals(other.lastPublishDate))
             return false;
-        if (lastUpdated == null)
-        {
+        if (lastUpdated == null) {
             if (other.lastUpdated != null)
                 return false;
-        }
-        else if (!lastUpdated.equals(other.lastUpdated))
+        } else if (!lastUpdated.equals(other.lastUpdated))
             return false;
-        if (proviewDisplayName == null)
-        {
+        if (proviewDisplayName == null) {
             if (other.proviewDisplayName != null)
                 return false;
-        }
-        else if (!proviewDisplayName.equals(other.proviewDisplayName))
+        } else if (!proviewDisplayName.equals(other.proviewDisplayName))
             return false;
         return true;
     }
 
     /**
      */
-    public String getAuthorList()
-    {
+    public String getAuthorList() {
         final StringBuilder buffer = new StringBuilder();
 
-        for (final Author author : authorList)
-        {
+        for (final Author author : authorList) {
             buffer.append(author.getFullName()).append("<br>");
         }
         return buffer.toString();
@@ -123,8 +102,7 @@ public class LibraryList implements Serializable
 
     /**
      */
-    public Long getBookDefinitionId()
-    {
+    public Long getBookDefinitionId() {
         return bookDefinitionId;
     }
 
@@ -132,21 +110,14 @@ public class LibraryList implements Serializable
      * Provides the status of the book definition
      * @return String indicating the status
      */
-    public String getBookStatus()
-    {
+    public String getBookStatus() {
         final String status;
-        if (getIsDeletedFlag())
-        {
+        if (getIsDeletedFlag()) {
             status = "Deleted";
-        }
-        else
-        {
-            if (IsEbookDefinitionCompleteFlag())
-            {
+        } else {
+            if (IsEbookDefinitionCompleteFlag()) {
                 status = "Ready";
-            }
-            else
-            {
+            } else {
                 status = "Incomplete";
             }
         }
@@ -155,40 +126,34 @@ public class LibraryList implements Serializable
 
     /**
      */
-    public String getFullyQualifiedTitleId()
-    {
+    public String getFullyQualifiedTitleId() {
         return fullyQualifiedTitleId;
     }
 
     /**
      */
-    public boolean getIsDeletedFlag()
-    {
+    public boolean getIsDeletedFlag() {
         return ((isDeletedFlag.equalsIgnoreCase("Y") ? true : false));
     }
 
-    public Date getLastPublishDate()
-    {
+    public Date getLastPublishDate() {
         return lastPublishDate;
     }
 
     /**
      */
-    public Date getLastUpdated()
-    {
+    public Date getLastUpdated() {
         return lastUpdated;
     }
 
     /**
      */
-    public String getProviewDisplayName()
-    {
+    public String getProviewDisplayName() {
         return proviewDisplayName;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((authorList == null) ? 0 : authorList.hashCode());
@@ -204,8 +169,7 @@ public class LibraryList implements Serializable
 
     /**
      */
-    public boolean IsEbookDefinitionCompleteFlag()
-    {
+    public boolean IsEbookDefinitionCompleteFlag() {
         return ((ebookDefinitionCompleteFlag.equalsIgnoreCase("Y") ? true : false));
     }
 
@@ -214,8 +178,7 @@ public class LibraryList implements Serializable
      *
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         final StringBuilder buffer = new StringBuilder();
 
         buffer.append("ebookDefinitionId=[").append(bookDefinitionId).append("] ");

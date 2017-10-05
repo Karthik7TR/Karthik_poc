@@ -7,10 +7,8 @@ import org.springframework.util.Assert;
 /**
  * Holds sorting data used in Library List
  */
-public class LibraryListSort
-{
-    public enum SortProperty
-    {
+public class LibraryListSort {
+    public enum SortProperty {
         PROVIEW_DISPLAY_NAME,
         TITLE_ID,
         LAST_GENERATED_DATE,
@@ -29,8 +27,7 @@ public class LibraryListSort
     /**
      * Default Library List sort order is on ProView Display Name, ascending order.
      */
-    public LibraryListSort()
-    {
+    public LibraryListSort() {
         this(SortProperty.PROVIEW_DISPLAY_NAME, true, 1, 20);
     }
 
@@ -39,8 +36,11 @@ public class LibraryListSort
      * @param sortProperty
      * @param ascending true for an ascending direction sort
      */
-    public LibraryListSort(final SortProperty sortProperty, final boolean ascending, final int pageNumber, final int itemsPerPage)
-    {
+    public LibraryListSort(
+        final SortProperty sortProperty,
+        final boolean ascending,
+        final int pageNumber,
+        final int itemsPerPage) {
         Assert.notNull(sortProperty);
         this.sortProperty = sortProperty;
         this.ascending = ascending;
@@ -48,39 +48,32 @@ public class LibraryListSort
         this.itemsPerPage = itemsPerPage;
     }
 
-    public SortProperty getSortProperty()
-    {
+    public SortProperty getSortProperty() {
         return sortProperty;
     }
 
-    public boolean isAscending()
-    {
+    public boolean isAscending() {
         return ascending;
     }
 
-    public String getSortDirection()
-    {
+    public String getSortDirection() {
         return getSortDirection(ascending);
     }
 
-    public static String getSortDirection(final boolean anAscendingSort)
-    {
+    public static String getSortDirection(final boolean anAscendingSort) {
         return (anAscendingSort) ? "asc" : "desc";
     }
 
-    public int getPageNumber()
-    {
+    public int getPageNumber() {
         return pageNumber;
     }
 
-    public int getItemsPerPage()
-    {
+    public int getItemsPerPage() {
         return itemsPerPage;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

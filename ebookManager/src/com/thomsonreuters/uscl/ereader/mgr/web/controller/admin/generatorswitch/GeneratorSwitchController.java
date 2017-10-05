@@ -24,8 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class GeneratorSwitchController
-{
+public class GeneratorSwitchController {
     private final ServerAccessService serverAccessService;
     private final Validator validator;
     private final String serverNames;
@@ -35,14 +34,14 @@ public class GeneratorSwitchController
     private final String emailGroup;
 
     @Autowired
-    public GeneratorSwitchController(final ServerAccessService serverAccessService,
-                                     @Qualifier("killSwitchFormValidator") final Validator validator,
-                                     @Value("${generator.hosts}") final String serverNames,
-                                     @Value("${server.username}") final String userName,
-                                     @Value("${server.password}") final String password,
-                                     @Value("${kill.app.names}") final String appNames,
-                                     @Value("${kill.email.group}") final String emailGroup)
-    {
+    public GeneratorSwitchController(
+        final ServerAccessService serverAccessService,
+        @Qualifier("killSwitchFormValidator") final Validator validator,
+        @Value("${generator.hosts}") final String serverNames,
+        @Value("${server.username}") final String userName,
+        @Value("${server.password}") final String password,
+        @Value("${kill.app.names}") final String appNames,
+        @Value("${kill.email.group}") final String emailGroup) {
         this.serverAccessService = serverAccessService;
         this.validator = validator;
         this.serverNames = serverNames;
@@ -53,8 +52,7 @@ public class GeneratorSwitchController
     }
 
     @InitBinder(StopGeneratorForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.setValidator(validator);
     }
 
@@ -69,8 +67,7 @@ public class GeneratorSwitchController
     public ModelAndView getStopGenerator(
         @ModelAttribute(StopGeneratorForm.FORM_NAME) final StopGeneratorForm form,
         final BindingResult bindingResult,
-        final Model model) throws Exception
-    {
+        final Model model) throws Exception {
         return new ModelAndView(WebConstants.VIEW_ADMIN_STOP_GENERATOR);
     }
 
@@ -78,21 +75,16 @@ public class GeneratorSwitchController
     public ModelAndView postStopGenerator(
         @ModelAttribute(StopGeneratorForm.FORM_NAME) @Valid final StopGeneratorForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
-        if (!bindingResult.hasErrors())
-        {
+        final Model model) {
+        if (!bindingResult.hasErrors()) {
             String serviceError = "";
             final List<InfoMessage> infoMessages = new ArrayList<InfoMessage>();
 
-            try
-            {
+            try {
                 String status = serverAccessService.stopServer(serverNames, userName, password, appNames, emailGroup);
                 status = StringUtils.replace(status, "\n", "<br />");
                 infoMessages.add(new InfoMessage(InfoMessage.Type.INFO, status));
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 serviceError = e.getMessage();
                 infoMessages.add(new InfoMessage(InfoMessage.Type.ERROR, serviceError));
             }
@@ -107,25 +99,20 @@ public class GeneratorSwitchController
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_START_GENERATOR, method = RequestMethod.GET)
-    public ModelAndView getStartGenerator(final Model model)
-    {
+    public ModelAndView getStartGenerator(final Model model) {
         return new ModelAndView(WebConstants.VIEW_ADMIN_START_GENERATOR);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_START_GENERATOR, method = RequestMethod.POST)
-    public ModelAndView postStartGenerator(final Model model) throws Exception
-    {
+    public ModelAndView postStartGenerator(final Model model) throws Exception {
         String serviceError = "";
         final List<InfoMessage> infoMessages = new ArrayList<>();
 
-        try
-        {
+        try {
             String status = serverAccessService.startServer(serverNames, userName, password, appNames, emailGroup);
             status = StringUtils.replace(status, "\n", "<br />");
             infoMessages.add(new InfoMessage(InfoMessage.Type.INFO, status));
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             serviceError = e.getMessage();
             infoMessages.add(new InfoMessage(InfoMessage.Type.ERROR, serviceError));
         }

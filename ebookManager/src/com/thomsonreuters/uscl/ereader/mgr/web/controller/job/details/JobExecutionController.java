@@ -41,8 +41,7 @@ import org.springframework.web.servlet.ModelAndView;
  * Controller for the Job Execution Details page.
  */
 @Controller
-public class JobExecutionController
-{
+public class JobExecutionController {
     private static final Logger log = LogManager.getLogger(JobExecutionController.class);
     private static final String CODE_JOB_OPERATION_PRIVILEGE = "job.operation.privilege";
     private static final String CODE_JOB_RESTART_SUCCESS = "job.restart.success";
@@ -70,8 +69,7 @@ public class JobExecutionController
     private JobSummaryController jobSummaryController;
 
     @InitBinder(JobExecutionForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.setValidator(validator);
     }
 
@@ -82,8 +80,7 @@ public class JobExecutionController
     public ModelAndView inboundGet(
         final HttpServletRequest request,
         @RequestParam("jobExecutionId") final Long jobExecutionId,
-        final Model model)
-    {
+        final Model model) {
         final JobExecutionVdo vdo = createJobExecutionVdo(jobExecutionId);
         populateModel(model, vdo);
         model.addAttribute(JobExecutionForm.FORM_NAME, new JobExecutionForm());
@@ -97,21 +94,16 @@ public class JobExecutionController
     public ModelAndView handlePost(
         @ModelAttribute(JobExecutionForm.FORM_NAME) @Valid final JobExecutionForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         JobExecutionVdo vdo = null;
-        if (!bindingResult.hasErrors())
-        {
+        if (!bindingResult.hasErrors()) {
             vdo = createJobExecutionVdo(form.getJobExecutionId());
             final JobExecution jobExecution = vdo.getJobExecution();
-            if (jobExecution == null)
-            {
+            if (jobExecution == null) {
                 final String[] args = {form.getJobExecutionId().toString()};
                 bindingResult.reject("executionId.not.found", args, "Job execution not found");
             }
-        }
-        else
-        {
+        } else {
             vdo = new JobExecutionVdo();
         }
         populateModel(model, vdo);
@@ -127,19 +119,14 @@ public class JobExecutionController
     public ModelAndView restartJob(
         final HttpSession httpSession,
         @RequestParam("jobExecutionId") final Long jobExecutionId,
-        final Model model) throws Exception
-    {
+        final Model model) throws Exception {
         final List<InfoMessage> messages = new ArrayList<>();
-        if (authorizedForJobOperation(jobExecutionId, LABEL_RESTART, messages))
-        {
-            try
-            {
+        if (authorizedForJobOperation(jobExecutionId, LABEL_RESTART, messages)) {
+            try {
                 final SimpleRestServiceResponse restResponse = generatorRestClient.restartJob(jobExecutionId);
                 handleRestartJobOperationResponse(messages, jobExecutionId, restResponse, messageSourceAccessor);
                 Thread.sleep(1);
-            }
-            catch (final HttpClientErrorException e)
-            {
+            } catch (final HttpClientErrorException e) {
                 final InfoMessage errorMessage = JobSummaryController
                     .createRestExceptionMessage("job.restart.fail", jobExecutionId, e, messageSourceAccessor);
                 messages.add(errorMessage);
@@ -160,19 +147,14 @@ public class JobExecutionController
     public ModelAndView stopJob(
         final HttpSession httpSession,
         @RequestParam("jobExecutionId") final Long jobExecutionId,
-        final Model model) throws Exception
-    {
+        final Model model) throws Exception {
         final List<InfoMessage> messages = new ArrayList<>();
-        if (authorizedForJobOperation(jobExecutionId, LABEL_STOP, messages))
-        {
-            try
-            {
+        if (authorizedForJobOperation(jobExecutionId, LABEL_STOP, messages)) {
+            try {
                 final SimpleRestServiceResponse restResponse = generatorRestClient.stopJob(jobExecutionId);
                 handleStopJobOperationResponse(messages, jobExecutionId, restResponse, messageSourceAccessor);
                 Thread.sleep(1);
-            }
-            catch (final HttpClientErrorException e)
-            {
+            } catch (final HttpClientErrorException e) {
                 final InfoMessage errorMessage = JobSummaryController
                     .createRestExceptionMessage("job.stop.fail", jobExecutionId, e, messageSourceAccessor);
                 messages.add(errorMessage);
@@ -189,10 +171,8 @@ public class JobExecutionController
         final List<InfoMessage> messages,
         final Long jobExecutionIdToRestart,
         final SimpleRestServiceResponse restResponse,
-        final MessageSourceAccessor messageSourceAccessor)
-    {
-        if (restResponse == null)
-        {
+        final MessageSourceAccessor messageSourceAccessor) {
+        if (restResponse == null) {
             final String errorMessage = messageSourceAccessor.getMessage(CODE_JOB_OPERATION_NO_RESPONSE);
             final Object[] args = {jobExecutionIdToRestart.toString(), errorMessage};
             messages.add(
@@ -200,16 +180,13 @@ public class JobExecutionController
             return;
         }
         final String execId = restResponse.getId().toString();
-        if (restResponse.isSuccess())
-        {
+        if (restResponse.isSuccess()) {
             final Object[] args = {jobExecutionIdToRestart.toString(), restResponse.getId().toString()};
             messages.add(
                 new InfoMessage(
                     InfoMessage.Type.SUCCESS,
                     messageSourceAccessor.getMessage(CODE_JOB_RESTART_SUCCESS, args)));
-        }
-        else
-        {
+        } else {
             final Object[] args = {execId, restResponse.getMessage()};
             messages.add(
                 new InfoMessage(InfoMessage.Type.FAIL, messageSourceAccessor.getMessage(CODE_JOB_RESTART_FAIL, args)));
@@ -220,10 +197,8 @@ public class JobExecutionController
         final List<InfoMessage> messages,
         final Long jobExecutionIdToStop,
         final SimpleRestServiceResponse restResponse,
-        final MessageSourceAccessor messageSourceAccessor)
-    {
-        if (restResponse == null)
-        {
+        final MessageSourceAccessor messageSourceAccessor) {
+        if (restResponse == null) {
             final String errorMessage = messageSourceAccessor.getMessage(CODE_JOB_OPERATION_NO_RESPONSE);
             final Object[] args = {jobExecutionIdToStop.toString(), errorMessage};
             messages.add(
@@ -231,29 +206,24 @@ public class JobExecutionController
             return;
         }
         final String execId = restResponse.getId().toString();
-        if (restResponse.isSuccess())
-        {
+        if (restResponse.isSuccess()) {
             final Object[] args = {execId};
             messages.add(
                 new InfoMessage(
                     InfoMessage.Type.SUCCESS,
                     messageSourceAccessor.getMessage(CODE_JOB_STOP_SUCCESS, args)));
-        }
-        else
-        {
+        } else {
             final Object[] args = {execId, restResponse.getMessage()};
             messages.add(
                 new InfoMessage(InfoMessage.Type.FAIL, messageSourceAccessor.getMessage(CODE_JOB_STOP_FAIL, args)));
         }
     }
 
-    private JobExecutionVdo createJobExecutionVdo(final Long jobExecutionId)
-    {
+    private JobExecutionVdo createJobExecutionVdo(final Long jobExecutionId) {
         EbookAudit bookInfo = null;
         PublishingStats stats = null;
         final JobExecution jobExecution = (jobExecutionId != null) ? jobService.findJobExecution(jobExecutionId) : null;
-        if (jobExecution != null)
-        {
+        if (jobExecution != null) {
             final Long jobInstanceId = jobExecution.getJobId();
             stats = publishingStatsService.findPublishingStatsByJobId(jobInstanceId);
             bookInfo = stats.getAudit();
@@ -262,11 +232,12 @@ public class JobExecutionController
         return vdo;
     }
 
-    public boolean authorizedForJobOperation(final Long jobExecutionId, final String operation, final List<InfoMessage> messages)
-    {
+    public boolean authorizedForJobOperation(
+        final Long jobExecutionId,
+        final String operation,
+        final List<InfoMessage> messages) {
         final JobExecutionVdo vdo = createJobExecutionVdo(jobExecutionId);
-        if (vdo.getJobExecution() == null)
-        {
+        if (vdo.getJobExecution() == null) {
             final Object[] args = {jobExecutionId.toString()};
             messages.add(
                 new InfoMessage(
@@ -274,8 +245,7 @@ public class JobExecutionController
                     messageSourceAccessor.getMessage("job.execution.does.not.exist", args)));
             return false;
         }
-        if (!vdo.isUserAllowedToStopAndRestartJob())
-        {
+        if (!vdo.isUserAllowedToStopAndRestartJob()) {
             final Object[] args = {operation, jobExecutionId.toString()};
             messages.add(
                 new InfoMessage(
@@ -286,8 +256,7 @@ public class JobExecutionController
         return true;
     }
 
-    private void populateModel(final Model model, final JobExecutionVdo vdo)
-    {
+    private void populateModel(final Model model, final JobExecutionVdo vdo) {
         model.addAttribute(WebConstants.KEY_JOB, vdo);
         model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
     }

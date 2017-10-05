@@ -24,8 +24,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
-public final class StateCodeControllerTest
-{
+public final class StateCodeControllerTest {
     private static final String BINDING_RESULT_KEY = BindingResult.class.getName() + "." + StateCodeForm.FORM_NAME;
     private static final StateCode STATE_CODE = new StateCode();
     private static final Long STATE_ID = 1L;
@@ -37,8 +36,7 @@ public final class StateCodeControllerTest
     private StateCodeFormValidator validator;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -58,8 +56,7 @@ public final class StateCodeControllerTest
      * Test the GET to the List page
      */
     @Test
-    public void testViewStateCodeList()
-    {
+    public void testViewStateCodeList() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_STATE_CODE_VIEW);
         request.setMethod(HttpMethod.GET.name());
 
@@ -67,8 +64,7 @@ public final class StateCodeControllerTest
         EasyMock.replay(mockStateCodeService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -79,9 +75,7 @@ public final class StateCodeControllerTest
             final Map<String, Object> model = mav.getModel();
             final List<StateCode> codes = (List<StateCode>) model.get(WebConstants.KEY_STATE_CODE);
             assertEquals(0, codes.size());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -93,21 +87,17 @@ public final class StateCodeControllerTest
      * Test the GET to the Create Page
      */
     @Test
-    public void testCreateStateCodeGet()
-    {
+    public void testCreateStateCodeGet() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_STATE_CODE_CREATE);
         request.setMethod(HttpMethod.GET.name());
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
             // Verify the returned view name
             assertEquals(WebConstants.VIEW_ADMIN_STATE_CODE_CREATE, mav.getViewName());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -117,8 +107,7 @@ public final class StateCodeControllerTest
      * Test the POST to the Create Page Success
      */
     @Test
-    public void testCreateStateCodePost()
-    {
+    public void testCreateStateCodePost() {
         final String name = "test";
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_STATE_CODE_CREATE);
         request.setMethod(HttpMethod.POST.name());
@@ -132,8 +121,7 @@ public final class StateCodeControllerTest
         EasyMock.replay(mockStateCodeService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -148,9 +136,7 @@ public final class StateCodeControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -161,14 +147,12 @@ public final class StateCodeControllerTest
      * Test the POST to the Create Page Fail
      */
     @Test
-    public void testCreateStateCodePostFail()
-    {
+    public void testCreateStateCodePostFail() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_STATE_CODE_CREATE);
         request.setMethod(HttpMethod.POST.name());
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -182,9 +166,7 @@ public final class StateCodeControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertTrue(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -194,8 +176,7 @@ public final class StateCodeControllerTest
      * Test the GET to the Edit Page
      */
     @Test
-    public void testEditStateCodeGet()
-    {
+    public void testEditStateCodeGet() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_STATE_CODE_EDIT);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("id", STATE_ID.toString());
@@ -204,8 +185,7 @@ public final class StateCodeControllerTest
         EasyMock.replay(mockStateCodeService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -217,9 +197,7 @@ public final class StateCodeControllerTest
             final StateCode actual = (StateCode) model.get(WebConstants.KEY_STATE_CODE);
 
             Assert.assertEquals(STATE_CODE, actual);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -229,8 +207,7 @@ public final class StateCodeControllerTest
      * Test the POST to the Edit Page Success
      */
     @Test
-    public void testEditStateCodePost()
-    {
+    public void testEditStateCodePost() {
         final String name = STATE_CODE.getName();
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_STATE_CODE_EDIT);
         request.setMethod(HttpMethod.POST.name());
@@ -242,8 +219,7 @@ public final class StateCodeControllerTest
         EasyMock.replay(mockStateCodeService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -258,9 +234,7 @@ public final class StateCodeControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -271,14 +245,12 @@ public final class StateCodeControllerTest
      * Test the POST to the Edit Page Fail
      */
     @Test
-    public void testEditStateCodePostFail()
-    {
+    public void testEditStateCodePostFail() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_STATE_CODE_EDIT);
         request.setMethod(HttpMethod.POST.name());
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -292,9 +264,7 @@ public final class StateCodeControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertTrue(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }

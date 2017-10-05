@@ -25,8 +25,7 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 /**
  * Tests for login/logouot and authentication.
  */
-public final class SmokeTestControllerTest
-{
+public final class SmokeTestControllerTest {
     private SmokeTest SMOKE_TEST;
     private List<SmokeTest> SMOKE_TEST_LIST;
     private List<String> APP_NAMES;
@@ -41,8 +40,7 @@ public final class SmokeTestControllerTest
     private SapService sapService;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -51,7 +49,8 @@ public final class SmokeTestControllerTest
         mockMiscConfigSyncService = EasyMock.createMock(MiscConfigSyncService.class);
         sapService = EasyMock.createMock(SapService.class);
 
-        controller = new SmokeTestController(mockMiscConfigSyncService, mockService, sapService, "workstation", "image");
+        controller =
+            new SmokeTestController(mockMiscConfigSyncService, mockService, sapService, "workstation", "image");
 
         SMOKE_TEST = new SmokeTest();
         SMOKE_TEST.setName("name");
@@ -93,8 +92,7 @@ public final class SmokeTestControllerTest
     }
 
     @Test
-    public void testInboundGet() throws Exception
-    {
+    public void testInboundGet() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_SMOKE_TEST);
         request.setMethod(HttpMethod.GET.name());
 

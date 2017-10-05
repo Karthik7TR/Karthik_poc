@@ -15,8 +15,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class ProviewTitleListService_GetBookTest
-{
+public final class ProviewTitleListService_GetBookTest {
     @InjectMocks
     private ProviewTitleListServiceImpl service;
     @Mock
@@ -25,8 +24,7 @@ public final class ProviewTitleListService_GetBookTest
     private BookDefinition book;
 
     @Test
-    public void shouldReturnBookByTitleId()
-    {
+    public void shouldReturnBookByTitleId() {
         //given
         given(bookDefinitionService.findBookDefinitionByTitle("title")).willReturn(book);
         //when
@@ -36,8 +34,7 @@ public final class ProviewTitleListService_GetBookTest
     }
 
     @Test
-    public void shouldReturnBookByHeadTitleId()
-    {
+    public void shouldReturnBookByHeadTitleId() {
         //given
         given(bookDefinitionService.findBookDefinitionByTitle("title")).willReturn(book);
         //when
@@ -47,8 +44,7 @@ public final class ProviewTitleListService_GetBookTest
     }
 
     @Test
-    public void shouldReturnBookForStrangeTitleId()
-    {
+    public void shouldReturnBookForStrangeTitleId() {
         //given
         given(bookDefinitionService.findBookDefinitionByTitle("title_pt_pt2")).willReturn(book);
         //when
@@ -58,8 +54,7 @@ public final class ProviewTitleListService_GetBookTest
     }
 
     @NotNull
-    private static TitleId titleId(final String titleId)
-    {
+    private static TitleId titleId(final String titleId) {
         return new TitleId(titleId);
     }
 }

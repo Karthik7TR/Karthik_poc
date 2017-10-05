@@ -20,11 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class ProviewListFilterController
-{
+public class ProviewListFilterController {
     @InitBinder(ProviewListFilterForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 
@@ -33,8 +31,7 @@ public class ProviewListFilterController
      * @param httpSession
      * @return
      */
-    private List<ProviewTitleInfo> fetchAllLatestProviewTitleInfo(final HttpSession httpSession)
-    {
+    private List<ProviewTitleInfo> fetchAllLatestProviewTitleInfo(final HttpSession httpSession) {
         final List<ProviewTitleInfo> allLatestProviewTitleInfo =
             (List<ProviewTitleInfo>) httpSession.getAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_TITLES);
         return allLatestProviewTitleInfo;
@@ -45,8 +42,9 @@ public class ProviewListFilterController
      * @param httpSession
      * @param selectedProviewTitleInfo
      */
-    private void saveSelectedProviewTitleInfo(final HttpSession httpSession, final List<ProviewTitleInfo> selectedProviewTitleInfo)
-    {
+    private void saveSelectedProviewTitleInfo(
+        final HttpSession httpSession,
+        final List<ProviewTitleInfo> selectedProviewTitleInfo) {
         httpSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES, selectedProviewTitleInfo);
     }
 
@@ -55,8 +53,7 @@ public class ProviewListFilterController
      * @param httpSession
      * @param filterForm
      */
-    private void saveProviewListFilterForm(final HttpSession httpSession, final ProviewListFilterForm filterForm)
-    {
+    private void saveProviewListFilterForm(final HttpSession httpSession, final ProviewListFilterForm filterForm) {
         httpSession.setAttribute(ProviewListFilterForm.FORM_NAME, filterForm);
     }
 
@@ -65,11 +62,9 @@ public class ProviewListFilterController
      * @param httpSession
      * @return
      */
-    protected ProviewTitleForm fetchSavedProviewTitleForm(final HttpSession httpSession)
-    {
+    protected ProviewTitleForm fetchSavedProviewTitleForm(final HttpSession httpSession) {
         ProviewTitleForm form = (ProviewTitleForm) httpSession.getAttribute(ProviewTitleForm.FORM_NAME);
-        if (form == null)
-        {
+        if (form == null) {
             form = new ProviewTitleForm();
         }
         return form;
@@ -83,18 +78,14 @@ public class ProviewListFilterController
         final HttpSession httpSession,
         @ModelAttribute(ProviewListFilterForm.FORM_NAME) final ProviewListFilterForm filterForm,
         final BindingResult errors,
-        final Model model)
-    {
+        final Model model) {
         List<ProviewTitleInfo> selectedProviewTitleInfo = new ArrayList<ProviewTitleInfo>();
         final List<ProviewTitleInfo> allLatestProviewTitleInfo = fetchAllLatestProviewTitleInfo(httpSession);
 
-        if (FilterCommand.RESET.equals(filterForm.getFilterCommand()))
-        {
+        if (FilterCommand.RESET.equals(filterForm.getFilterCommand())) {
             filterForm.initNull();
             selectedProviewTitleInfo = allLatestProviewTitleInfo;
-        }
-        else
-        {
+        } else {
             boolean proviewDisplayNameBothWayWildCard = false;
             boolean proviewDisplayNameEndsWithWildCard = false;
             boolean proviewDisplayNameStartsWithWildCard = false;
@@ -104,137 +95,90 @@ public class ProviewListFilterController
             String proviewDisplayNameSearchTerm = filterForm.getProviewDisplayName();
             String titleIdSearchTerm = filterForm.getTitleId();
 
-            if (filterForm.getProviewDisplayName() != null)
-            {
+            if (filterForm.getProviewDisplayName() != null) {
                 if (filterForm.getProviewDisplayName().endsWith("%")
-                    && filterForm.getProviewDisplayName().startsWith("%"))
-                {
+                    && filterForm.getProviewDisplayName().startsWith("%")) {
                     proviewDisplayNameBothWayWildCard = true;
-                }
-                else if (filterForm.getProviewDisplayName().endsWith("%"))
-                {
+                } else if (filterForm.getProviewDisplayName().endsWith("%")) {
                     proviewDisplayNameStartsWithWildCard = true;
-                }
-                else if (filterForm.getProviewDisplayName().startsWith("%"))
-                {
+                } else if (filterForm.getProviewDisplayName().startsWith("%")) {
                     proviewDisplayNameEndsWithWildCard = true;
                 }
 
                 proviewDisplayNameSearchTerm = proviewDisplayNameSearchTerm.replaceAll("%", "");
             }
 
-            if (filterForm.getTitleId() != null)
-            {
-                if (filterForm.getTitleId().endsWith("%") && filterForm.getTitleId().startsWith("%"))
-                {
+            if (filterForm.getTitleId() != null) {
+                if (filterForm.getTitleId().endsWith("%") && filterForm.getTitleId().startsWith("%")) {
                     titleIdBothWayWildCard = true;
-                }
-                else if (filterForm.getTitleId().endsWith("%"))
-                {
+                } else if (filterForm.getTitleId().endsWith("%")) {
                     titleIdStartsWithWildCard = true;
-                }
-                else if (filterForm.getTitleId().startsWith("%"))
-                {
+                } else if (filterForm.getTitleId().startsWith("%")) {
                     titleIdEndsWithWildCard = true;
                 }
 
                 titleIdSearchTerm = titleIdSearchTerm.replaceAll("%", "");
             }
 
-            for (final ProviewTitleInfo titleInfo : allLatestProviewTitleInfo)
-            {
+            for (final ProviewTitleInfo titleInfo : allLatestProviewTitleInfo) {
                 boolean selected = true;
 
-                if (proviewDisplayNameSearchTerm != null)
-                {
-                    if (titleInfo.getTitle() == null)
-                    {
+                if (proviewDisplayNameSearchTerm != null) {
+                    if (titleInfo.getTitle() == null) {
                         selected = false;
-                    }
-                    else
-                    {
-                        if (proviewDisplayNameBothWayWildCard)
-                        {
-                            if (!titleInfo.getTitle().contains(proviewDisplayNameSearchTerm))
-                            {
+                    } else {
+                        if (proviewDisplayNameBothWayWildCard) {
+                            if (!titleInfo.getTitle().contains(proviewDisplayNameSearchTerm)) {
                                 selected = false;
                             }
-                        }
-                        else if (proviewDisplayNameEndsWithWildCard)
-                        {
-                            if (!titleInfo.getTitle().endsWith(proviewDisplayNameSearchTerm))
-                            {
+                        } else if (proviewDisplayNameEndsWithWildCard) {
+                            if (!titleInfo.getTitle().endsWith(proviewDisplayNameSearchTerm)) {
                                 selected = false;
                             }
-                        }
-                        else if (proviewDisplayNameStartsWithWildCard)
-                        {
-                            if (!titleInfo.getTitle().startsWith(proviewDisplayNameSearchTerm))
-                            {
+                        } else if (proviewDisplayNameStartsWithWildCard) {
+                            if (!titleInfo.getTitle().startsWith(proviewDisplayNameSearchTerm)) {
                                 selected = false;
                             }
-                        }
-                        else if (!titleInfo.getTitle().equals(proviewDisplayNameSearchTerm))
-                        {
+                        } else if (!titleInfo.getTitle().equals(proviewDisplayNameSearchTerm)) {
                             selected = false;
                         }
                     }
                 }
-                if (selected)
-                {
-                    if (titleIdSearchTerm != null)
-                    {
-                        if (titleInfo.getTitleId() == null)
-                        {
+                if (selected) {
+                    if (titleIdSearchTerm != null) {
+                        if (titleInfo.getTitleId() == null) {
                             selected = false;
-                        }
-                        else
-                        {
-                            if (titleIdBothWayWildCard)
-                            {
-                                if (!titleInfo.getTitleId().contains(titleIdSearchTerm))
-                                {
+                        } else {
+                            if (titleIdBothWayWildCard) {
+                                if (!titleInfo.getTitleId().contains(titleIdSearchTerm)) {
                                     selected = false;
                                 }
-                            }
-                            else if (titleIdEndsWithWildCard)
-                            {
-                                if (!titleInfo.getTitleId().endsWith(titleIdSearchTerm))
-                                {
+                            } else if (titleIdEndsWithWildCard) {
+                                if (!titleInfo.getTitleId().endsWith(titleIdSearchTerm)) {
                                     selected = false;
                                 }
-                            }
-                            else if (titleIdStartsWithWildCard)
-                            {
-                                if (!titleInfo.getTitleId().startsWith(titleIdSearchTerm))
-                                {
+                            } else if (titleIdStartsWithWildCard) {
+                                if (!titleInfo.getTitleId().startsWith(titleIdSearchTerm)) {
                                     selected = false;
                                 }
-                            }
-                            else if (!titleInfo.getTitleId().equals(titleIdSearchTerm))
-                            {
+                            } else if (!titleInfo.getTitleId().equals(titleIdSearchTerm)) {
                                 selected = false;
                             }
                         }
                     }
                 }
 
-                if (selected)
-                {
-                    if (!(titleInfo.getTotalNumberOfVersions() >= filterForm.getMinVersionsInt()))
-                    {
+                if (selected) {
+                    if (!(titleInfo.getTotalNumberOfVersions() >= filterForm.getMinVersionsInt())) {
                         selected = false;
                     }
                 }
-                if (selected)
-                {
-                    if (!(titleInfo.getTotalNumberOfVersions() <= filterForm.getMaxVersionsInt()))
-                    {
+                if (selected) {
+                    if (!(titleInfo.getTotalNumberOfVersions() <= filterForm.getMaxVersionsInt())) {
                         selected = false;
                     }
                 }
-                if (selected)
-                {
+                if (selected) {
                     selectedProviewTitleInfo.add(titleInfo);
                 }
             }
@@ -244,8 +188,7 @@ public class ProviewListFilterController
         saveProviewListFilterForm(httpSession, filterForm);
 
         final ProviewTitleForm proviewTitleForm = fetchSavedProviewTitleForm(httpSession);
-        if (proviewTitleForm.getObjectsPerPage() == null)
-        {
+        if (proviewTitleForm.getObjectsPerPage() == null) {
             proviewTitleForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
         }
         model.addAttribute(ProviewTitleForm.FORM_NAME, proviewTitleForm);

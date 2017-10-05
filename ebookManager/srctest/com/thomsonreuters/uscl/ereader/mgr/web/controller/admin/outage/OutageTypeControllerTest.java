@@ -24,8 +24,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
-public final class OutageTypeControllerTest
-{
+public final class OutageTypeControllerTest {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
@@ -33,8 +32,7 @@ public final class OutageTypeControllerTest
     private OutageTypeController controller;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -45,8 +43,7 @@ public final class OutageTypeControllerTest
     }
 
     @Test
-    public void testGetList() throws Exception
-    {
+    public void testGetList() throws Exception {
         final List<OutageType> outages = new ArrayList<OutageType>();
 
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST);
@@ -68,8 +65,7 @@ public final class OutageTypeControllerTest
     }
 
     @Test
-    public void testCreateGet() throws Exception
-    {
+    public void testCreateGet() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_TYPE_CREATE);
         request.setMethod(HttpMethod.GET.name());
 
@@ -79,8 +75,7 @@ public final class OutageTypeControllerTest
     }
 
     @Test
-    public void testCreatePost() throws Exception
-    {
+    public void testCreatePost() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_TYPE_CREATE);
         request.setMethod(HttpMethod.POST.name());
 
@@ -99,8 +94,7 @@ public final class OutageTypeControllerTest
     }
 
     @Test
-    public void testEditGet() throws Exception
-    {
+    public void testEditGet() throws Exception {
         final Long id = 99L;
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_TYPE_EDIT);
         request.setMethod(HttpMethod.GET.name());
@@ -120,8 +114,7 @@ public final class OutageTypeControllerTest
     }
 
     @Test
-    public void testEditPost() throws Exception
-    {
+    public void testEditPost() throws Exception {
         final String id = "99";
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_TYPE_EDIT);
         request.setMethod(HttpMethod.POST.name());
@@ -142,8 +135,7 @@ public final class OutageTypeControllerTest
     }
 
     @Test
-    public void testDeleteGet() throws Exception
-    {
+    public void testDeleteGet() throws Exception {
         final Long id = 99L;
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_TYPE_DELETE);
         request.setMethod(HttpMethod.GET.name());
@@ -170,8 +162,7 @@ public final class OutageTypeControllerTest
     }
 
     @Test
-    public void testDeletePost() throws Exception
-    {
+    public void testDeletePost() throws Exception {
         final Long id = 99L;
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_TYPE_DELETE);
         request.setMethod(HttpMethod.POST.name());
@@ -193,8 +184,7 @@ public final class OutageTypeControllerTest
         EasyMock.verify(outageService);
     }
 
-    private OutageType setupParametersAndOutage()
-    {
+    private OutageType setupParametersAndOutage() {
         final String system = "system";
         final String subSystem = "subSystem";
 

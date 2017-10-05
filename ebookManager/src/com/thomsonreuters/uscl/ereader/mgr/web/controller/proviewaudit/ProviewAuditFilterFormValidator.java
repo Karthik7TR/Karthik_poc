@@ -9,33 +9,27 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component("proviewAuditFilterFormValidator")
-public class ProviewAuditFilterFormValidator extends BaseFormValidator implements Validator
-{
+public class ProviewAuditFilterFormValidator extends BaseFormValidator implements Validator {
     @Override
-    public boolean supports(final Class<?> clazz)
-    {
+    public boolean supports(final Class<?> clazz) {
         return (ProviewAuditFilterForm.class.isAssignableFrom(clazz));
     }
 
     @Override
-    public void validate(final Object obj, final Errors errors)
-    {
+    public void validate(final Object obj, final Errors errors) {
         final ProviewAuditFilterForm form = (ProviewAuditFilterForm) obj;
         // Do not validate form if we are simply resetting its values to the defaults
-        if (ProviewAuditFilterForm.FilterCommand.RESET.equals(form.getFilterCommand()))
-        {
+        if (ProviewAuditFilterForm.FilterCommand.RESET.equals(form.getFilterCommand())) {
             return;
         }
 
         final Date fromDate = form.getRequestFromDate();
         final Date toDate = form.getRequestToDate();
 
-        if (StringUtils.isNotBlank(form.getRequestFromDateString()))
-        {
+        if (StringUtils.isNotBlank(form.getRequestFromDateString())) {
             validateDate(form.getRequestFromDateString(), fromDate, "FROM", errors);
         }
-        if (StringUtils.isNotBlank(form.getRequestToDateString()))
-        {
+        if (StringUtils.isNotBlank(form.getRequestToDateString())) {
             validateDate(form.getRequestToDateString(), toDate, "TO", errors);
         }
 

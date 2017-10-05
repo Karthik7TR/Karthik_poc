@@ -24,8 +24,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
-public final class JurisdictionCodeControllerTest
-{
+public final class JurisdictionCodeControllerTest {
     private static final String BINDING_RESULT_KEY =
         BindingResult.class.getName() + "." + JurisdictionCodeForm.FORM_NAME;
     private static final JurisTypeCode JURIS_CODE = new JurisTypeCode();
@@ -38,8 +37,7 @@ public final class JurisdictionCodeControllerTest
     private JurisdictionCodeFormValidator validator;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -59,8 +57,7 @@ public final class JurisdictionCodeControllerTest
      * Test the GET to the List page
      */
     @Test
-    public void testViewJurisCodeList()
-    {
+    public void testViewJurisCodeList() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_JURIS_CODE_VIEW);
         request.setMethod(HttpMethod.GET.name());
 
@@ -68,8 +65,7 @@ public final class JurisdictionCodeControllerTest
         EasyMock.replay(mockCodeService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -80,9 +76,7 @@ public final class JurisdictionCodeControllerTest
             final Map<String, Object> model = mav.getModel();
             final List<JurisTypeCode> codes = (List<JurisTypeCode>) model.get(WebConstants.KEY_JURIS_TYPE_CODE);
             assertEquals(0, codes.size());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -94,22 +88,18 @@ public final class JurisdictionCodeControllerTest
      * Test the GET to the Create Page
      */
     @Test
-    public void testCreateJurisCodeGet()
-    {
+    public void testCreateJurisCodeGet() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_JURIS_CODE_CREATE);
         request.setMethod(HttpMethod.GET.name());
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
             // Verify the returned view name
             assertEquals(WebConstants.VIEW_ADMIN_JURIS_CODE_CREATE, mav.getViewName());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -119,8 +109,7 @@ public final class JurisdictionCodeControllerTest
      * Test the POST to the Create Page Success
      */
     @Test
-    public void testCreateJurisCodePost()
-    {
+    public void testCreateJurisCodePost() {
         final String name = "test";
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_JURIS_CODE_CREATE);
         request.setMethod(HttpMethod.POST.name());
@@ -134,8 +123,7 @@ public final class JurisdictionCodeControllerTest
         EasyMock.replay(mockCodeService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -150,9 +138,7 @@ public final class JurisdictionCodeControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -163,14 +149,12 @@ public final class JurisdictionCodeControllerTest
      * Test the POST to the Create Page Fail
      */
     @Test
-    public void testCreateJurisCodePostFail()
-    {
+    public void testCreateJurisCodePostFail() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_JURIS_CODE_CREATE);
         request.setMethod(HttpMethod.POST.name());
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -184,9 +168,7 @@ public final class JurisdictionCodeControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertTrue(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -196,8 +178,7 @@ public final class JurisdictionCodeControllerTest
      * Test the GET to the Edit Page
      */
     @Test
-    public void testEditJurisCodeGet()
-    {
+    public void testEditJurisCodeGet() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_JURIS_CODE_EDIT);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("id", JURIS_ID.toString());
@@ -206,8 +187,7 @@ public final class JurisdictionCodeControllerTest
         EasyMock.replay(mockCodeService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -219,9 +199,7 @@ public final class JurisdictionCodeControllerTest
             final JurisTypeCode actual = (JurisTypeCode) model.get(WebConstants.KEY_JURIS_TYPE_CODE);
 
             Assert.assertEquals(JURIS_CODE, actual);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -231,8 +209,7 @@ public final class JurisdictionCodeControllerTest
      * Test the POST to the Edit Page Success
      */
     @Test
-    public void testEditJurisCodePost()
-    {
+    public void testEditJurisCodePost() {
         final String name = JURIS_CODE.getName();
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_JURIS_CODE_EDIT);
         request.setMethod(HttpMethod.POST.name());
@@ -244,8 +221,7 @@ public final class JurisdictionCodeControllerTest
         EasyMock.replay(mockCodeService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -260,9 +236,7 @@ public final class JurisdictionCodeControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -273,14 +247,12 @@ public final class JurisdictionCodeControllerTest
      * Test the POST to the Edit Page Fail
      */
     @Test
-    public void testEditJurisCodePostFail()
-    {
+    public void testEditJurisCodePostFail() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_JURIS_CODE_EDIT);
         request.setMethod(HttpMethod.POST.name());
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -294,9 +266,7 @@ public final class JurisdictionCodeControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertTrue(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }

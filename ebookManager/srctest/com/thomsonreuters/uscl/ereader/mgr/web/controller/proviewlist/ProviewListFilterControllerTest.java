@@ -17,16 +17,14 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public final class ProviewListFilterControllerTest
-{
+public final class ProviewListFilterControllerTest {
     private ProviewListFilterController controller;
     private MockHttpServletResponse response;
     private MockHttpServletRequest request;
     private AnnotationMethodHandlerAdapter handlerAdapter;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         controller = new ProviewListFilterController();
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
@@ -38,8 +36,7 @@ public final class ProviewListFilterControllerTest
      * @throws Exception
      */
     @Test
-    public void testStartWildcard() throws Exception
-    {
+    public void testStartWildcard() throws Exception {
         final String title = "testTitle";
         final String titleId = "testId";
         final Integer totalNumberOfVersions = Integer.valueOf(1);
@@ -72,8 +69,7 @@ public final class ProviewListFilterControllerTest
      * @throws Exception
      */
     @Test
-    public void testEndWildcard() throws Exception
-    {
+    public void testEndWildcard() throws Exception {
         final String title = "testTitle";
         final String titleId = "testId";
         final Integer totalNumberOfVersions = Integer.valueOf(1);
@@ -106,8 +102,7 @@ public final class ProviewListFilterControllerTest
      * @throws Exception
      */
     @Test
-    public void testAllWildcard() throws Exception
-    {
+    public void testAllWildcard() throws Exception {
         final String title = "testTitle";
         final String titleId = "testId";
         final Integer totalNumberOfVersions = Integer.valueOf(1);
@@ -140,8 +135,7 @@ public final class ProviewListFilterControllerTest
      * @throws Exception
      */
     @Test
-    public void testNoWildcard() throws Exception
-    {
+    public void testNoWildcard() throws Exception {
         final String title = "testTitle";
         final String titleId = "testId";
         final Integer totalNumberOfVersions = Integer.valueOf(1);
@@ -171,8 +165,7 @@ public final class ProviewListFilterControllerTest
     }
 
     @Test
-    public void testReset() throws Exception
-    {
+    public void testReset() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_LIST_FILTERED_POST);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("FilterCommand", FilterCommand.RESET.toString());

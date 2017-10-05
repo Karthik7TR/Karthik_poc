@@ -22,8 +22,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
-public final class UserPreferencesControllerTest
-{
+public final class UserPreferencesControllerTest {
     private static final String BINDING_RESULT_KEY =
         BindingResult.class.getName() + "." + UserPreferencesForm.FORM_NAME;
 
@@ -35,8 +34,7 @@ public final class UserPreferencesControllerTest
     private UserPreferencesFormValidator validator;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -52,8 +50,7 @@ public final class UserPreferencesControllerTest
      * Test the GET to the User Preferences Page
      */
     @Test
-    public void testGetPreferences()
-    {
+    public void testGetPreferences() {
         request.setRequestURI("/" + WebConstants.MVC_USER_PREFERENCES);
         request.setMethod(HttpMethod.GET.name());
 
@@ -64,8 +61,7 @@ public final class UserPreferencesControllerTest
         EasyMock.replay(mockService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -77,9 +73,7 @@ public final class UserPreferencesControllerTest
             final Integer emailSize = (Integer) model.get("numberOfEmails");
 
             Assert.assertTrue(2 == emailSize);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -91,8 +85,7 @@ public final class UserPreferencesControllerTest
      * Test the POST to the User Preferences Success
      */
     @Test
-    public void testPostPreferences()
-    {
+    public void testPostPreferences() {
         request.setRequestURI("/" + WebConstants.MVC_USER_PREFERENCES);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("emails", new String[] {"a@a.com"});
@@ -102,8 +95,7 @@ public final class UserPreferencesControllerTest
         EasyMock.replay(mockService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -118,9 +110,7 @@ public final class UserPreferencesControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -131,15 +121,13 @@ public final class UserPreferencesControllerTest
      * Test the POST to the User Preferences with validation error
      */
     @Test
-    public void testPostPreferencesFail()
-    {
+    public void testPostPreferencesFail() {
         request.setRequestURI("/" + WebConstants.MVC_USER_PREFERENCES);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("emails", new String[] {"acom"});
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -152,9 +140,7 @@ public final class UserPreferencesControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertTrue(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }

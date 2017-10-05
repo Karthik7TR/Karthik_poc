@@ -39,8 +39,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.web.client.HttpStatusCodeException;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class EditBookDefinitionServiceImplTest
-{
+public final class EditBookDefinitionServiceImplTest {
     private static final String VALID_SUB_NUMBER = "12345678";
     private static final String EMPTY_SUB_NUMBER = "12345679";
     private static final String INVALID_SUB_NUMBER = "12345670";
@@ -63,8 +62,7 @@ public final class EditBookDefinitionServiceImplTest
     private MaterialComponentComparatorProvider materialComponentComparatorProvider;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         initMocks();
         bookService = new EditBookDefinitionServiceImpl();
 
@@ -80,30 +78,22 @@ public final class EditBookDefinitionServiceImplTest
         bookService.setMaterialComponentComparatorProvider(materialComponentComparatorProvider);
     }
 
-    private void initMocks()
-    {
-        when(sapService.getMaterialByNumber(VALID_SUB_NUMBER))
-            .thenReturn(getMaterialComponents(VALID_SUB_NUMBER));
-        when(sapService.getMaterialByNumber(EMPTY_SUB_NUMBER))
-            .thenReturn(getMaterialComponents(EMPTY_SUB_NUMBER));
+    private void initMocks() {
+        when(sapService.getMaterialByNumber(VALID_SUB_NUMBER)).thenReturn(getMaterialComponents(VALID_SUB_NUMBER));
+        when(sapService.getMaterialByNumber(EMPTY_SUB_NUMBER)).thenReturn(getMaterialComponents(EMPTY_SUB_NUMBER));
 
-        when(invalidParamException.getResponseBodyAsString())
-            .thenReturn("enter a valid");
-        when(componentNotFoundException.getResponseBodyAsString())
-            .thenReturn("not found");
+        when(invalidParamException.getResponseBodyAsString()).thenReturn("enter a valid");
+        when(componentNotFoundException.getResponseBodyAsString()).thenReturn("not found");
 
-        when(sapService.getMaterialByNumber(INVALID_SUB_NUMBER))
-            .thenThrow(invalidParamException);
-        when(sapService.getMaterialByNumber(UNAVAILABLE_SUB_NUMBER))
-            .thenThrow(componentNotFoundException);
+        when(sapService.getMaterialByNumber(INVALID_SUB_NUMBER)).thenThrow(invalidParamException);
+        when(sapService.getMaterialByNumber(UNAVAILABLE_SUB_NUMBER)).thenThrow(componentNotFoundException);
 
-        when(materialComponentComparatorProvider.getComparator(TITLE_ID)
-                .compare(any(MaterialComponent.class), any(MaterialComponent.class)))
-            .thenReturn(0);
+        when(
+            materialComponentComparatorProvider.getComparator(TITLE_ID)
+                .compare(any(MaterialComponent.class), any(MaterialComponent.class))).thenReturn(0);
     }
 
-    private Material getMaterialComponents(final String subNumber)
-    {
+    private Material getMaterialComponents(final String subNumber) {
         final List<MaterialComponent> materialComponents = new ArrayList<>();
 
         MaterialComponent component = new MaterialComponent();
@@ -125,8 +115,7 @@ public final class EditBookDefinitionServiceImplTest
         component.setBomComponent("3");
         materialComponents.add(component);
 
-        if (VALID_SUB_NUMBER.equals(subNumber))
-        {
+        if (VALID_SUB_NUMBER.equals(subNumber)) {
             component = new MaterialComponent();
             component.setMediahlRule("Print");
             component.setEffectiveDate(new Date(100));
@@ -141,8 +130,7 @@ public final class EditBookDefinitionServiceImplTest
     }
 
     @After
-    public void tearDown() throws Exception
-    {
+    public void tearDown() throws Exception {
         /*
          * recursively deletes the root directory, and all its subdirectories
          * and files
@@ -151,8 +139,7 @@ public final class EditBookDefinitionServiceImplTest
     }
 
     @Test
-    public void testGetStates()
-    {
+    public void testGetStates() {
         final StateCode code = new StateCode();
         code.setName("aAa");
         final List<StateCode> codes = new ArrayList<>();
@@ -166,8 +153,7 @@ public final class EditBookDefinitionServiceImplTest
     }
 
     @Test
-    public void testGetJurisdictions()
-    {
+    public void testGetJurisdictions() {
         final JurisTypeCode code = new JurisTypeCode();
         code.setName("aAa");
         final List<JurisTypeCode> codes = new ArrayList<>();
@@ -181,8 +167,7 @@ public final class EditBookDefinitionServiceImplTest
     }
 
     @Test
-    public void testGetPubTypes()
-    {
+    public void testGetPubTypes() {
         final PubTypeCode code = new PubTypeCode();
         code.setName("aAa");
         final List<PubTypeCode> codes = new ArrayList<>();
@@ -196,8 +181,7 @@ public final class EditBookDefinitionServiceImplTest
     }
 
     @Test
-    public void testGetPublishers()
-    {
+    public void testGetPublishers() {
         final PublisherCode code = new PublisherCode();
         code.setName("aAa");
         final List<PublisherCode> codes = new ArrayList<>();
@@ -211,8 +195,7 @@ public final class EditBookDefinitionServiceImplTest
     }
 
     @Test
-    public void testGetCodesWorkbenchDirectory() throws IOException
-    {
+    public void testGetCodesWorkbenchDirectory() throws IOException {
         final File folder = new File(tempRootDir, "folder");
         folder.mkdir();
         final File file = new File(folder, "file");
@@ -226,8 +209,7 @@ public final class EditBookDefinitionServiceImplTest
     }
 
     @Test
-    public void shouldReturnListWithOneElement()
-    {
+    public void shouldReturnListWithOneElement() {
         //given
         //when
         final MaterialComponentsResponse response = bookService.getMaterialBySubNumber(VALID_SUB_NUMBER, TITLE_ID);
@@ -238,8 +220,7 @@ public final class EditBookDefinitionServiceImplTest
     }
 
     @Test
-    public void shouldReturnEmptyResponse()
-    {
+    public void shouldReturnEmptyResponse() {
         //given
         //when
         final MaterialComponentsResponse response = bookService.getMaterialBySubNumber(EMPTY_SUB_NUMBER, TITLE_ID);
@@ -249,8 +230,7 @@ public final class EditBookDefinitionServiceImplTest
     }
 
     @Test
-    public void shouldReturnInvalidResponse()
-    {
+    public void shouldReturnInvalidResponse() {
         //given
         //when
         final MaterialComponentsResponse response = bookService.getMaterialBySubNumber(INVALID_SUB_NUMBER, TITLE_ID);
@@ -260,11 +240,11 @@ public final class EditBookDefinitionServiceImplTest
     }
 
     @Test
-    public void shouldReturnUnavailableResponse()
-    {
+    public void shouldReturnUnavailableResponse() {
         //given
         //when
-        final MaterialComponentsResponse response = bookService.getMaterialBySubNumber(UNAVAILABLE_SUB_NUMBER, TITLE_ID);
+        final MaterialComponentsResponse response =
+            bookService.getMaterialBySubNumber(UNAVAILABLE_SUB_NUMBER, TITLE_ID);
         //then
         assertThat(response.getMessage(), equalTo("Material components not found, for Print Set/Sub Number: 1234567"));
         assertThat(response.getMaterialComponents(), hasSize(0));

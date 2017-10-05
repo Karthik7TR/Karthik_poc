@@ -13,25 +13,25 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class ViewBookDefinitionFormTest
-{
-    private static final String printComponentsJson = "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c1&quot;,&quot;componentInArchive&quot;:false}]";
+public final class ViewBookDefinitionFormTest {
+    private static final String printComponentsJson =
+        "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c1&quot;,&quot;componentInArchive&quot;:false}]";
 
-    private static final String escaleXMLPrintComp = "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c&apos;1&quot;,&quot;componentInArchive&quot;:false}]";
+    private static final String escaleXMLPrintComp =
+        "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c&apos;1&quot;,&quot;componentInArchive&quot;:false}]";
 
-    private static final String specialCharacterPrintComp = "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c@1&quot;,&quot;componentInArchive&quot;:false}]";
+    private static final String specialCharacterPrintComp =
+        "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c@1&quot;,&quot;componentInArchive&quot;:false}]";
 
     private ViewBookDefinitionForm form;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         form = new ViewBookDefinitionForm();
     }
 
     @Test
-    public void shouldReturnPrintComponentsInJsonFormat() throws JsonParseException, JsonMappingException, IOException
-    {
+    public void shouldReturnPrintComponentsInJsonFormat() throws JsonParseException, JsonMappingException, IOException {
         final BookDefinition bookDef = new BookDefinition();
         bookDef.setPrintComponents(getPrintComponents());
         form.setBookDefinition(bookDef);
@@ -40,8 +40,7 @@ public final class ViewBookDefinitionFormTest
     }
 
     @Test
-    public void testEscaleXML() throws JsonParseException, JsonMappingException, IOException
-    {
+    public void testEscaleXML() throws JsonParseException, JsonMappingException, IOException {
         final BookDefinition bookDef = new BookDefinition();
         final List<PrintComponent> printComponents = getPrintComponents();
         printComponents.get(0).setComponentName("c'1");
@@ -52,8 +51,7 @@ public final class ViewBookDefinitionFormTest
     }
 
     @Test
-    public void testSpecialCharacter() throws JsonParseException, JsonMappingException, IOException
-    {
+    public void testSpecialCharacter() throws JsonParseException, JsonMappingException, IOException {
         final BookDefinition bookDef = new BookDefinition();
         final List<PrintComponent> printComponents = getPrintComponents();
         printComponents.get(0).setComponentName("c@1");
@@ -63,8 +61,7 @@ public final class ViewBookDefinitionFormTest
         Assert.assertEquals(specialCharacterPrintComp, form.getPrintComponents());
     }
 
-    private List<PrintComponent> getPrintComponents()
-    {
+    private List<PrintComponent> getPrintComponents() {
         final PrintComponent printComponent = new PrintComponent();
         printComponent.setPrintComponentId("1");
         printComponent.setComponentOrder(1);

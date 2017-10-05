@@ -25,23 +25,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class BookLibraryFilterController extends BaseBookLibraryController
-{
+public class BookLibraryFilterController extends BaseBookLibraryController {
     private final Validator validator;
 
     @Autowired
-    public BookLibraryFilterController(final LibraryListService libraryService,
-                                          final CodeService codeService,
-                                          final OutageService outageService,
-                                          @Qualifier("bookLibraryFilterFormValidator") final Validator validator)
-    {
+    public BookLibraryFilterController(
+        final LibraryListService libraryService,
+        final CodeService codeService,
+        final OutageService outageService,
+        @Qualifier("bookLibraryFilterFormValidator") final Validator validator) {
         super(libraryService, codeService, outageService);
         this.validator = validator;
     }
 
     @InitBinder(BookLibraryFilterForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.setValidator(validator);
     }
@@ -54,15 +52,13 @@ public class BookLibraryFilterController extends BaseBookLibraryController
         final HttpSession httpSession,
         @ModelAttribute(BookLibraryFilterForm.FORM_NAME) @Valid final BookLibraryFilterForm filterForm,
         final BindingResult errors,
-        final Model model)
-    {
+        final Model model) {
         // Restore state of paging and sorting
         final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
         final BookLibrarySelectionForm librarySelectionForm = new BookLibrarySelectionForm();
         librarySelectionForm.setObjectsPerPage(pageAndSort.getObjectsPerPage());
 
-        if (FilterCommand.RESET.equals(filterForm.getFilterCommand()))
-        {
+        if (FilterCommand.RESET.equals(filterForm.getFilterCommand())) {
             filterForm.initialize();
         }
 

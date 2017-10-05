@@ -16,21 +16,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-public final class PublishingStatsExcelExportServiceTest
-{
+public final class PublishingStatsExcelExportServiceTest {
     private PublishingStatsExcelExportService exportService;
     private HttpSession httpSession;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         exportService = new PublishingStatsExcelExportService();
         httpSession = (new MockHttpServletRequest()).getSession();
     }
 
     @Test
-    public void testHappyPath()
-    {
+    public void testHappyPath() {
         final EbookAudit audit = new EbookAudit();
         audit.setTitleId("titleId");
         audit.setProviewDisplayName("ProviewName");
@@ -75,15 +72,13 @@ public final class PublishingStatsExcelExportServiceTest
     }
 
     @Test
-    public void testMaxExcelRows()
-    {
+    public void testMaxExcelRows() {
         final EbookAudit audit = new EbookAudit();
         final PublishingStats stat = new PublishingStats();
         stat.setAudit(audit);
         final List<PublishingStats> stats = new ArrayList<>();
 
-        for (int i = 0; i < BaseExcelExportService.MAX_EXCEL_SHEET_ROW_NUM; i++)
-        {
+        for (int i = 0; i < BaseExcelExportService.MAX_EXCEL_SHEET_ROW_NUM; i++) {
             stats.add(stat);
         }
 

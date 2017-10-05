@@ -25,8 +25,7 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public final class ProviewAuditControllerTest
-{
+public final class ProviewAuditControllerTest {
     //private static final Logger log = LogManager.getLogger(ProviewAuditControllerTest.class);
     private ProviewAuditController controller;
     private MockHttpServletRequest request;
@@ -35,8 +34,7 @@ public final class ProviewAuditControllerTest
     private HandlerAdapter handlerAdapter;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         mockAuditService = EasyMock.createMock(ProviewAuditService.class);
@@ -47,8 +45,7 @@ public final class ProviewAuditControllerTest
     }
 
     @Test
-    public void testAuditListInboundGet() throws Exception
-    {
+    public void testAuditListInboundGet() throws Exception {
         // Set up the request URL
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_AUDIT_LIST);
         request.setMethod(HttpMethod.GET.name());
@@ -83,8 +80,7 @@ public final class ProviewAuditControllerTest
     }
 
     @Test
-    public void testAuditListPaging() throws Exception
-    {
+    public void testAuditListPaging() throws Exception {
         // Set up the request URL
         final int newPageNumber = 2;
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_AUDIT_LIST_PAGE_AND_SORT);
@@ -120,8 +116,7 @@ public final class ProviewAuditControllerTest
     }
 
     @Test
-    public void testAuditListSorting() throws Exception
-    {
+    public void testAuditListSorting() throws Exception {
         final String direction = "asc";
         final String sort = DisplayTagSortProperty.TITLE_ID.toString();
         // Set up the request URL
@@ -163,8 +158,7 @@ public final class ProviewAuditControllerTest
      * Verify the state of the session and request (model) as expected before the
      * rendering of the Audit List page.
      */
-    public static void validateModel(final HttpSession session, final Map<String, Object> model)
-    {
+    public static void validateModel(final HttpSession session, final Map<String, Object> model) {
         Assert.assertNotNull(session.getAttribute(ProviewAuditFilterForm.FORM_NAME));
         Assert.assertNotNull(session.getAttribute(BaseProviewAuditController.PAGE_AND_SORT_NAME));
         Assert.assertNotNull(model.get(WebConstants.KEY_PAGINATED_LIST));

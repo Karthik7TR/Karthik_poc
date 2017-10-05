@@ -13,18 +13,15 @@ import org.apache.commons.lang3.time.DateUtils;
 /**
  * The form backing object that holds the data the user enters into the Audit List book audit filter HTML form.
  */
-public class BookAuditFilterForm
-{
+public class BookAuditFilterForm {
     public static final String FORM_NAME = "ebookAuditFilterForm";
 
-    public enum FilterCommand
-    {
+    public enum FilterCommand {
         SEARCH,
         RESET
     };
 
-    public enum Action
-    {
+    public enum Action {
         DELETE,
         CREATE,
         EDIT,
@@ -42,13 +39,11 @@ public class BookAuditFilterForm
     private Action action;
     private FilterCommand command;
 
-    public BookAuditFilterForm()
-    {
+    public BookAuditFilterForm() {
         initialize();
     }
 
-    public BookAuditFilterForm(final Long bookDefinitionId)
-    {
+    public BookAuditFilterForm(final Long bookDefinitionId) {
         populate(null, null, null, null, null, null, bookDefinitionId);
     }
 
@@ -56,8 +51,7 @@ public class BookAuditFilterForm
      * Set all values back to defaults.
      * Used in resetting the form.
      */
-    public void initialize()
-    {
+    public void initialize() {
         populate(null, null, null, null, null, null, null);
     }
 
@@ -68,8 +62,7 @@ public class BookAuditFilterForm
         final String fromDateString,
         final String toDateString,
         final Action action,
-        final Long bookId)
-    {
+        final Long bookId) {
         this.titleId = titleId;
         this.proviewDisplayName = proviewDisplayName;
         this.submittedBy = submittedBy;
@@ -79,137 +72,109 @@ public class BookAuditFilterForm
         bookDefinitionId = bookId;
     }
 
-    public String getProviewDisplayName()
-    {
+    public String getProviewDisplayName() {
         return proviewDisplayName;
     }
 
-    public FilterCommand getFilterCommand()
-    {
+    public FilterCommand getFilterCommand() {
         return command;
     }
 
-    public String getTitleId()
-    {
+    public String getTitleId() {
         return titleId;
     }
 
-    public Date getFromDate()
-    {
+    public Date getFromDate() {
         return parseDate(fromDateString);
     }
 
-    public String getFromDateString()
-    {
+    public String getFromDateString() {
         return fromDateString;
     }
 
-    public Date getToDate()
-    {
+    public Date getToDate() {
         return parseDate(toDateString);
     }
 
-    public String getToDateString()
-    {
+    public String getToDateString() {
         return toDateString;
     }
 
-    public Action getAction()
-    {
+    public Action getAction() {
         return action;
     }
 
-    public String getSubmittedBy()
-    {
+    public String getSubmittedBy() {
         return submittedBy;
     }
 
-    public Long getBookDefinitionId()
-    {
+    public Long getBookDefinitionId() {
         return bookDefinitionId;
     }
 
-    public void setProviewDisplayName(final String name)
-    {
+    public void setProviewDisplayName(final String name) {
         proviewDisplayName = (name != null) ? name.trim() : null;
     }
 
-    public void setFilterCommand(final FilterCommand cmd)
-    {
+    public void setFilterCommand(final FilterCommand cmd) {
         command = cmd;
     }
 
-    public void setTitleId(final String titleId)
-    {
+    public void setTitleId(final String titleId) {
         this.titleId = (titleId != null) ? titleId.trim() : null;
     }
 
-    public void setFromDate(final Date fromDate)
-    {
+    public void setFromDate(final Date fromDate) {
         fromDateString = parseDate(fromDate);
     }
 
-    public void setFromDateString(final String fromDate)
-    {
+    public void setFromDateString(final String fromDate) {
         fromDateString = fromDate;
     }
 
-    public void setToDateString(final String toDate)
-    {
+    public void setToDateString(final String toDate) {
         toDateString = toDate;
     }
 
-    public void setToDate(final Date toDate)
-    {
+    public void setToDate(final Date toDate) {
         toDateString = parseDate(toDate);
     }
 
-    public void setAction(final Action action)
-    {
+    public void setAction(final Action action) {
         this.action = action;
     }
 
-    public void setSubmittedBy(final String username)
-    {
+    public void setSubmittedBy(final String username) {
         submittedBy = username;
     }
 
-    public void setBookDefinitionId(final Long bookDefinitionId)
-    {
+    public void setBookDefinitionId(final Long bookDefinitionId) {
         this.bookDefinitionId = bookDefinitionId;
     }
 
-    public static String parseDate(final Date date)
-    {
-        if (date != null)
-        {
+    public static String parseDate(final Date date) {
+        if (date != null) {
             final SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
             return sdf.format(date);
         }
         return null;
     }
 
-    public static Date parseDate(final String dateString)
-    {
+    public static Date parseDate(final String dateString) {
         Date date = null;
-        try
-        {
-            if (StringUtils.isNotBlank(dateString))
-            {
+        try {
+            if (StringUtils.isNotBlank(dateString)) {
                 final String[] parsePatterns = {CoreConstants.DATE_TIME_FORMAT_PATTERN};
                 date = DateUtils.parseDate(dateString, parsePatterns);
             }
-        }
-        catch (final ParseException e)
-        {
+        } catch (final ParseException e) {
             //Intentionally left blank
         }
         return date;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

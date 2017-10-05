@@ -14,21 +14,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-public final class ProviewListExcelExportServiceTest
-{
+public final class ProviewListExcelExportServiceTest {
     private ProviewListExcelExportService exportService;
     private HttpSession httpSession;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         exportService = new ProviewListExcelExportService();
         httpSession = (new MockHttpServletRequest()).getSession();
     }
 
     @Test
-    public void testHappyPath()
-    {
+    public void testHappyPath() {
         final ProviewTitleInfo title = new ProviewTitleInfo();
         title.setTitle("");
         title.setTitleId("");
@@ -46,14 +43,12 @@ public final class ProviewListExcelExportServiceTest
     }
 
     @Test
-    public void testMaxExcelRows()
-    {
+    public void testMaxExcelRows() {
         final ProviewTitleInfo title = new ProviewTitleInfo();
         title.setTotalNumberOfVersions(1);
         final List<ProviewTitleInfo> titles = new ArrayList<>();
 
-        for (int i = 0; i < BaseExcelExportService.MAX_EXCEL_SHEET_ROW_NUM; i++)
-        {
+        for (int i = 0; i < BaseExcelExportService.MAX_EXCEL_SHEET_ROW_NUM; i++) {
             titles.add(title);
         }
 

@@ -1,7 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web;
 
-public class WebConstants
-{
+public class WebConstants {
     public static final String FRONT_MATTER_PREVIEW_WINDOW_SPECS =
         "height=800,width=768,top=0,resizable=yes,scrollbars=yes";
 
@@ -420,8 +419,7 @@ public class WebConstants
     public static final String ERROR_PROVIEW =
         "Proview Exception occured. Please check if ProView outage was set.  Otherwise, please contact your administrator.";
 
-    private WebConstants()
-    {
+    private WebConstants() {
         //Utility class
     }
 }

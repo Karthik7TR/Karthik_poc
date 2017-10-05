@@ -27,8 +27,7 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public final class QueueControllerTest
-{
+public final class QueueControllerTest {
     private static final int OBJECTS_PER_PAGE = 20;
     private static final int JOB_REQUEST_COUNT = 21;
     private static final PageAndSort<DisplayTagSortProperty> PAGE_AND_SORT =
@@ -45,11 +44,9 @@ public final class QueueControllerTest
     private HandlerAdapter handlerAdapter;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         JOB_REQUESTS = new ArrayList<>();
-        for (long pk = 0; pk < JOB_REQUEST_COUNT; pk++)
-        {
+        for (long pk = 0; pk < JOB_REQUEST_COUNT; pk++) {
             BOOK_DEF.setEbookDefinitionId(pk + 345);
             final int priority = (int) pk;
             final JobRequest jr = JobRequest.createQueuedJobRequest(BOOK_DEF, "ver" + pk, priority, "auser");
@@ -74,8 +71,7 @@ public final class QueueControllerTest
      * Test the inbound GET to the page
      */
     @Test
-    public void testInboundGet() throws Exception
-    {
+    public void testInboundGet() throws Exception {
         // Set up the request URL
         request.setRequestURI(String.format("/" + WebConstants.MVC_JOB_QUEUE));
         request.setMethod(HttpMethod.GET.name());
@@ -99,8 +95,7 @@ public final class QueueControllerTest
     }
 
     @Test
-    public void testPaging() throws Exception
-    {
+    public void testPaging() throws Exception {
         final Integer pageNumber = Integer.valueOf(1);
         // Set up the request URL
         request.setRequestURI(String.format("/" + WebConstants.MVC_JOB_QUEUE_PAGE_AND_SORT));
@@ -135,8 +130,7 @@ public final class QueueControllerTest
      * This was causing a sublist index problem.
      */
     @Test
-    public void testPagingOnEmptyList() throws Exception
-    {
+    public void testPagingOnEmptyList() throws Exception {
         final int nextPageNumber = 2; // but the list is going to be empty
         JOB_REQUESTS.remove(0); // Lower the list size to OBJECTS_PER_PAGE
         Assert.assertEquals(OBJECTS_PER_PAGE, JOB_REQUESTS.size());
@@ -167,8 +161,7 @@ public final class QueueControllerTest
     }
 
     @Test
-    public void testSorting() throws Exception
-    {
+    public void testSorting() throws Exception {
         // Set up the request URL
         request.setRequestURI(String.format("/" + WebConstants.MVC_JOB_QUEUE_PAGE_AND_SORT));
         request.setMethod(HttpMethod.GET.name());
@@ -197,8 +190,7 @@ public final class QueueControllerTest
         final List<JobRequest> actualJobRequestRows = paginatedList.getList();
         // Verify that the job request priorities are in ascending order or run (highest to lowest is considered ascending in this case).
         int lastPriority = Integer.MIN_VALUE;
-        for (int i = 0; i < actualPageAndSort.getObjectsPerPage(); i++)
-        {
+        for (int i = 0; i < actualPageAndSort.getObjectsPerPage(); i++) {
             final JobRequest row = actualJobRequestRows.get(i);
             final int priority = row.getPriority();
             Assert.assertTrue(priority > lastPriority);
@@ -208,8 +200,7 @@ public final class QueueControllerTest
         EasyMock.verify(mockOutageService);
     }
 
-    private void verifyModel(final Map<String, Object> model, final HttpSession httpSession)
-    {
+    private void verifyModel(final Map<String, Object> model, final HttpSession httpSession) {
         Assert.assertNotNull(model.get(WebConstants.KEY_PAGINATED_LIST));
         Assert.assertEquals(PAGE_AND_SORT, httpSession.getAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT));
     }

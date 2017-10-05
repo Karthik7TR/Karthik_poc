@@ -12,13 +12,11 @@ import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.RowMapper;
 
-public class LibraryListRowMapper implements RowMapper<LibraryList>
-{
+public class LibraryListRowMapper implements RowMapper<LibraryList> {
     private static AuthorService authorService;
 
     @Override
-    public LibraryList mapRow(final ResultSet resultSet, final int rowNum) throws SQLException
-    {
+    public LibraryList mapRow(final ResultSet resultSet, final int rowNum) throws SQLException {
         final Long bookDefinitionId = resultSet.getLong("EBOOK_DEFINITION_ID");
         final String proviewName = resultSet.getString("PROVIEW_DISPLAY_NAME");
         final String titleId = resultSet.getString("TITLE_ID");
@@ -43,8 +41,7 @@ public class LibraryListRowMapper implements RowMapper<LibraryList>
     }
 
     @Required
-    public static void setAuthorService(final AuthorService service)
-    {
+    public static void setAuthorService(final AuthorService service) {
         authorService = service;
     }
 }

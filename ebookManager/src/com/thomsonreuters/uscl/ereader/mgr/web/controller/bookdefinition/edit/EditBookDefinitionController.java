@@ -42,8 +42,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class EditBookDefinitionController
-{
+public class EditBookDefinitionController {
     @Autowired
     private BookDefinitionService bookDefinitionService;
     @Autowired
@@ -63,8 +62,7 @@ public class EditBookDefinitionController
     private Validator validator;
 
     @InitBinder(EditBookDefinitionForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.setAutoGrowNestedPaths(false);
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 
@@ -84,8 +82,7 @@ public class EditBookDefinitionController
     public ModelAndView createBookDefintionGet(
         @ModelAttribute(EditBookDefinitionForm.FORM_NAME) final EditBookDefinitionForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         initializeModel(model, form);
 
         return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_CREATE);
@@ -104,12 +101,10 @@ public class EditBookDefinitionController
         final HttpSession httpSession,
         @ModelAttribute(EditBookDefinitionForm.FORM_NAME) @Valid final EditBookDefinitionForm form,
         final BindingResult bindingResult,
-        final Model model) throws Exception
-    {
+        final Model model) throws Exception {
         setUpFrontMatterPreviewModel(httpSession, form, bindingResult);
 
-        if (!bindingResult.hasErrors())
-        {
+        if (!bindingResult.hasErrors()) {
             BookDefinition book = new BookDefinition();
             form.loadBookDefinition(book);
             book = bookDefinitionService.saveBookDefinition(book);
@@ -142,8 +137,7 @@ public class EditBookDefinitionController
         @RequestParam("id") final Long id,
         @ModelAttribute(EditBookDefinitionForm.FORM_NAME) final EditBookDefinitionForm form,
         final BindingResult bindingResult,
-        final Model model) throws Exception
-    {
+        final Model model) throws Exception {
         boolean isPublished = false;
         final String username = UserUtils.getAuthenticatedUserName();
 
@@ -154,25 +148,21 @@ public class EditBookDefinitionController
         model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
 
         // Check if user needs to be shown an error
-        if (bookDef != null)
-        {
+        if (bookDef != null) {
             // Check if book is soft deleted
-            if (bookDef.isDeletedFlag())
-            {
+            if (bookDef.isDeletedFlag()) {
                 return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));
             }
 
             // Check if book is being edited by another user
             final BookDefinitionLock lock = bookLockService.findBookLockByBookDefinition(bookDef);
-            if (lock != null && !lock.getUsername().equalsIgnoreCase(username))
-            {
+            if (lock != null && !lock.getUsername().equalsIgnoreCase(username)) {
                 model.addAttribute(WebConstants.KEY_BOOK_DEFINITION_LOCK, lock);
                 return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_ERROR_LOCKED);
             }
 
             // Check if book is in queue to be generated
-            if (jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId()))
-            {
+            if (jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId())) {
                 return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_ERROR_QUEUED);
             }
 
@@ -194,12 +184,10 @@ public class EditBookDefinitionController
     private void setUpFrontMatterPreviewModel(
         final HttpSession httpSession,
         final EditBookDefinitionForm form,
-        final BindingResult bindingResult) throws Exception
-    {
+        final BindingResult bindingResult) throws Exception {
         // The one error is the message indicating that the form was validated, any more than this indicates other problems
         final Long frontMatterPreviewPageId = form.getSelectedFrontMatterPreviewPage();
-        if ((frontMatterPreviewPageId != null) && (bindingResult.getErrorCount() == 1))
-        {
+        if ((frontMatterPreviewPageId != null) && (bindingResult.getErrorCount() == 1)) {
             final BookDefinition fmBookDef = createFrontMatterPreviewBookDefinitionFromForm(form);
             final String html = frontMatterService.getAdditionalFrontPage(fmBookDef, frontMatterPreviewPageId);
             //model.addAttribute(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML, html);
@@ -221,8 +209,7 @@ public class EditBookDefinitionController
         final HttpSession httpSession,
         @ModelAttribute(EditBookDefinitionForm.FORM_NAME) @Valid final EditBookDefinitionForm form,
         final BindingResult bindingResult,
-        final Model model) throws Exception
-    {
+        final Model model) throws Exception {
         setUpFrontMatterPreviewModel(httpSession, form, bindingResult);
 
         final boolean isPublished = false;
@@ -230,13 +217,10 @@ public class EditBookDefinitionController
         final String username = UserUtils.getAuthenticatedUserName();
 
         BookDefinition bookDef = null;
-        try
-        {
+        try {
             // Lookup the book by its primary key
             bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(bookDefinitionId);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             // Error happens when POST of form is over Tomcat post limit. // Default is set at 2 mb.
             // The processed form is empty.
             return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DEFINITION));
@@ -246,39 +230,32 @@ public class EditBookDefinitionController
         model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
 
         // Check if user needs to be shown an error
-        if (bookDef != null)
-        {
+        if (bookDef != null) {
             // Check if book is soft deleted
-            if (bookDef.isDeletedFlag())
-            {
+            if (bookDef.isDeletedFlag()) {
                 return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));
             }
 
             // Check if book is being edited by another user
             final BookDefinitionLock lock = bookLockService.findBookLockByBookDefinition(bookDef);
-            if (lock != null && !lock.getUsername().equalsIgnoreCase(username))
-            {
+            if (lock != null && !lock.getUsername().equalsIgnoreCase(username)) {
                 model.addAttribute(WebConstants.KEY_BOOK_DEFINITION_LOCK, lock);
                 return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_ERROR_LOCKED);
             }
 
             // Check if book is in queue to be generated
-            if (jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId()))
-            {
+            if (jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId())) {
                 return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_ERROR_QUEUED);
             }
 
             model.addAttribute(WebConstants.KEY_MAX_SPLIT_PARTS, miscConfigService.getMiscConfig().getMaxSplitParts());
-        }
-        else
-        {
+        } else {
             // Book Definition has been deleted from the database when user saved the book.
             // Show error page
             return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));
         }
 
-        if (!bindingResult.hasErrors())
-        {
+        if (!bindingResult.hasErrors()) {
             form.loadBookDefinition(bookDef);
             bookDef = bookDefinitionService.saveBookDefinition(bookDef);
 
@@ -310,18 +287,15 @@ public class EditBookDefinitionController
      * AJAX call to remove lock on book definition
      */
     @RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_UNLOCK, method = RequestMethod.POST)
-    public @ResponseBody String unlockBookDefinition(@RequestParam("id") final Long id)
-    {
+    public @ResponseBody String unlockBookDefinition(@RequestParam("id") final Long id) {
         final String username = UserUtils.getAuthenticatedUserName();
 
         final BookDefinition book = bookDefinitionService.findBookDefinitionByEbookDefId(id);
 
-        if (book != null)
-        {
+        if (book != null) {
             // Check if current user is the one with the lock
             final BookDefinitionLock lock = bookLockService.findBookLockByBookDefinition(book);
-            if (lock != null && lock.getUsername().equalsIgnoreCase(username))
-            {
+            if (lock != null && lock.getUsername().equalsIgnoreCase(username)) {
                 bookLockService.removeLock(book);
             }
         }
@@ -337,17 +311,13 @@ public class EditBookDefinitionController
         @RequestParam("id") final Long id,
         @ModelAttribute(EditBookDefinitionForm.FORM_NAME) final EditBookDefinitionForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         // Lookup the book by its primary key
         final BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
 
-        if (bookDef.isDeletedFlag())
-        {
+        if (bookDef.isDeletedFlag()) {
             return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));
-        }
-        else
-        {
+        } else {
             form.copyBookDefinition(bookDef, editBookDefinitionService.getKeywordCodes());
             initializeModel(model, form);
             return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_COPY);
@@ -367,12 +337,10 @@ public class EditBookDefinitionController
         final HttpSession httpSession,
         @ModelAttribute(EditBookDefinitionForm.FORM_NAME) @Valid final EditBookDefinitionForm form,
         final BindingResult bindingResult,
-        final Model model) throws Exception
-    {
+        final Model model) throws Exception {
         setUpFrontMatterPreviewModel(httpSession, form, bindingResult);
 
-        if (!bindingResult.hasErrors())
-        {
+        if (!bindingResult.hasErrors()) {
             BookDefinition book = new BookDefinition();
             form.loadBookDefinition(book);
             book = bookDefinitionService.saveBookDefinition(book);
@@ -398,17 +366,16 @@ public class EditBookDefinitionController
 
     @RequestMapping(value = WebConstants.MVC_CODES_WORKBENCH_FOLDERS, method = RequestMethod.GET)
     @ResponseBody
-    public List<String> getCodesWorkbenchFolders(@RequestParam("folderName") final String folderName)
-    {
+    public List<String> getCodesWorkbenchFolders(@RequestParam("folderName") final String folderName) {
         return editBookDefinitionService.getCodesWorkbenchDirectory(folderName);
     }
 
     @RequestMapping(value = "getDataFromSap.mvc", method = RequestMethod.POST)
     @ResponseBody
     @NotNull
-    public MaterialComponentsResponse getDataFromSap(@NotNull @RequestParam("subNumber") final String subNumber,
-                                                     @NotNull @RequestParam(value = "titleId", required = false) final String titleId)
-    {
+    public MaterialComponentsResponse getDataFromSap(
+        @NotNull @RequestParam("subNumber") final String subNumber,
+        @NotNull @RequestParam(value = "titleId", required = false) final String titleId) {
         return editBookDefinitionService.getMaterialBySubNumber(subNumber, titleId);
     }
 
@@ -417,8 +384,7 @@ public class EditBookDefinitionController
      * @param model
      * @param form
      */
-    private void initializeModel(final Model model, final EditBookDefinitionForm form)
-    {
+    private void initializeModel(final Model model, final EditBookDefinitionForm form) {
         // Get Collection sizes to display on form
         model.addAttribute(WebConstants.KEY_NUMBER_OF_AUTHORS, form.getAuthorInfo().size());
         model.addAttribute(WebConstants.KEY_NUMBER_OF_PILOT_BOOKS, form.getPilotBookInfo().size());
@@ -449,13 +415,11 @@ public class EditBookDefinitionController
      * @return
      */
     public static BookDefinition createFrontMatterPreviewBookDefinitionFromForm(final EditBookDefinitionForm form)
-        throws ParseException
-    {
+        throws ParseException {
         final BookDefinition book = new BookDefinition();
         form.loadBookDefinition(book);
         final List<FrontMatterPage> pages = book.getFrontMatterPages();
-        for (final FrontMatterPage page : pages)
-        {
+        for (final FrontMatterPage page : pages) {
             final Long pk = Long.valueOf(page.getSequenceNum());
             page.setId(pk);
         }

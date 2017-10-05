@@ -32,8 +32,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class JobThrottleConfigController
-{
+public class JobThrottleConfigController {
     private static final Logger log = LogManager.getLogger(JobThrottleConfigController.class);
     public static final String KEY_STEP_NAMES = "stepNames";
 
@@ -45,13 +44,14 @@ public class JobThrottleConfigController
     private final Validator validator;
 
     @Autowired
-    public JobThrottleConfigController(final AppConfigService appConfigService,
-                                       final ManagerService managerService,
-                                       final GeneratorRestClient generatorRestClient,
-                                       @Qualifier("jobThrottleConfigFormValidator") final Validator validator,
-                                       @Value("${generator.hosts}") final String commaSeparatedHostNames,
-                                       @Value("${generator.port}") final int generatorPort) throws UnknownHostException
-    {
+    public JobThrottleConfigController(
+        final AppConfigService appConfigService,
+        final ManagerService managerService,
+        final GeneratorRestClient generatorRestClient,
+        @Qualifier("jobThrottleConfigFormValidator") final Validator validator,
+        @Value("${generator.hosts}") final String commaSeparatedHostNames,
+        @Value("${generator.port}") final int generatorPort)
+        throws UnknownHostException {
         this.appConfigService = appConfigService;
         this.managerService = managerService;
         this.generatorRestClient = generatorRestClient;
@@ -60,16 +60,14 @@ public class JobThrottleConfigController
     }
 
     @InitBinder(JobThrottleConfigForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.setValidator(validator);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG, method = RequestMethod.GET)
     public ModelAndView inboundGet(
         @ModelAttribute(JobThrottleConfigForm.FORM_NAME) final JobThrottleConfigForm form,
-        final Model model)
-    {
+        final Model model) {
         final JobThrottleConfig databaseJobThrottleConfig = appConfigService.loadJobThrottleConfig();
         form.initialize(databaseJobThrottleConfig);
         setUpModel(model);
@@ -80,22 +78,17 @@ public class JobThrottleConfigController
     public ModelAndView submitForm(
         @ModelAttribute(JobThrottleConfigForm.FORM_NAME) @Valid final JobThrottleConfigForm form,
         final BindingResult errors,
-        final Model model)
-    {
+        final Model model) {
         final List<InfoMessage> infoMessages = new ArrayList<>();
-        if (!errors.hasErrors())
-        {
+        if (!errors.hasErrors()) {
             boolean anySaveErrors = false;
             // Persist the changed Throttle configuration
-            try
-            {
+            try {
                 final JobThrottleConfig jobThrottleConfig = form.getJobThrottleConfig();
                 appConfigService.saveJobThrottleConfig(jobThrottleConfig);
                 infoMessages
                     .add(new InfoMessage(InfoMessage.Type.SUCCESS, "Successfully saved throttle configuration."));
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 anySaveErrors = true;
                 final String errorMessage =
                     String.format("Failed to save new throttle configuration - %s", e.getMessage());
@@ -105,40 +98,32 @@ public class JobThrottleConfigController
 
             // If no data persistence errors, then
             // Sync the new configuration out to all listening ebookGenerator hosts who care about the change.
-            if (!anySaveErrors)
-            {
+            if (!anySaveErrors) {
                 InetSocketAddress currentSocketAddr = null;
                 final String errorMessageTemplate =
                     "Failed to push new job throttle configuration to host socket %s - %s";
                 // Fetch the complete current state of the application configuration
-                for (final InetSocketAddress socketAddr : socketAddrs)
-                {
-                    try
-                    {
+                for (final InetSocketAddress socketAddr : socketAddrs) {
+                    try {
                         currentSocketAddr = socketAddr;
                         // Notify the generator app to pick up the changes
                         final JobThrottleConfig jobThrottleConfig = appConfigService.loadJobThrottleConfig();
                         final SimpleRestServiceResponse opResponse =
                             managerService.pushJobThrottleConfiguration(jobThrottleConfig, socketAddr);
-                        if (opResponse.isSuccess())
-                        {
+                        if (opResponse.isSuccess()) {
                             infoMessages.add(
                                 new InfoMessage(
                                     InfoMessage.Type.SUCCESS,
                                     String.format(
                                         "Successfully pushed new throttle configuration to host %s",
                                         socketAddr)));
-                        }
-                        else
-                        {
+                        } else {
                             final String errorMessage =
                                 String.format(errorMessageTemplate, socketAddr, opResponse.getMessage());
                             log.error("REST response failure: " + errorMessage);
                             infoMessages.add(new InfoMessage(InfoMessage.Type.FAIL, errorMessage));
                         }
-                    }
-                    catch (final Exception e)
-                    {
+                    } catch (final Exception e) {
                         final String errorMessage =
                             String.format(errorMessageTemplate, currentSocketAddr, e.getMessage());
                         log.error("Exception occurred: " + errorMessage, e);
@@ -152,8 +137,7 @@ public class JobThrottleConfigController
         return new ModelAndView(WebConstants.VIEW_ADMIN_JOB_THROTTLE_CONFIG);
     }
 
-    private void setUpModel(final Model model)
-    {
+    private void setUpModel(final Model model) {
         final List<String> stepNames = generatorRestClient.getStepNames();
         model.addAttribute(KEY_STEP_NAMES, stepNames);
     }

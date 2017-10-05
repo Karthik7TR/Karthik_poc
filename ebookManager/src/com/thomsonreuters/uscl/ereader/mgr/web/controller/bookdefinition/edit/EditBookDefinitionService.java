@@ -9,8 +9,7 @@ import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponentsResponse;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface EditBookDefinitionService
-{
+public interface EditBookDefinitionService {
     List<DocumentTypeCode> getDocumentTypes();
 
     Map<String, String> getStates();

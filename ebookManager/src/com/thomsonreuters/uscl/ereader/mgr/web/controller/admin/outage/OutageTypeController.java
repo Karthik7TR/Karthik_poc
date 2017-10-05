@@ -26,30 +26,27 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class OutageTypeController
-{
+public class OutageTypeController {
     private static final Logger log = LogManager.getLogger(OutageTypeController.class);
 
     private final OutageService outageService;
     private final Validator validator;
 
     @Autowired
-    public OutageTypeController(final OutageService outageService,
-                                @Qualifier("outageTypeFormValidator") final Validator validator)
-    {
+    public OutageTypeController(
+        final OutageService outageService,
+        @Qualifier("outageTypeFormValidator") final Validator validator) {
         this.outageService = outageService;
         this.validator = validator;
     }
 
     @InitBinder(OutageTypeForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.setValidator(validator);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST, method = RequestMethod.GET)
-    public ModelAndView getOutageTypeList(final Model model)
-    {
+    public ModelAndView getOutageTypeList(final Model model) {
         model.addAttribute(WebConstants.KEY_OUTAGE, outageService.getAllOutageType());
 
         return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_LIST);
@@ -59,8 +56,7 @@ public class OutageTypeController
     public ModelAndView createOutageType(
         @ModelAttribute(OutageTypeForm.FORM_NAME) final OutageTypeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_CREATE);
     }
 
@@ -68,12 +64,10 @@ public class OutageTypeController
     public ModelAndView createOutageTypePost(
         @ModelAttribute(OutageTypeForm.FORM_NAME) @Valid final OutageTypeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         log.debug(form);
 
-        if (!bindingResult.hasErrors())
-        {
+        if (!bindingResult.hasErrors()) {
             final OutageType outageType = form.createOutageType();
             outageService.saveOutageType(outageType);
             return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST));
@@ -87,12 +81,10 @@ public class OutageTypeController
         @RequestParam("id") final Long id,
         @ModelAttribute(OutageTypeForm.FORM_NAME) final OutageTypeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         final OutageType outageType = outageService.findOutageTypeByPrimaryKey(id);
 
-        if (outageType != null)
-        {
+        if (outageType != null) {
             model.addAttribute(WebConstants.KEY_OUTAGE, outageType);
             form.initialize(outageType);
         }
@@ -103,14 +95,12 @@ public class OutageTypeController
     public ModelAndView editOutageTypePost(
         @ModelAttribute(OutageTypeForm.FORM_NAME) @Valid final OutageTypeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         log.debug(form);
 
         final OutageType outageType = form.createOutageType();
 
-        if (!bindingResult.hasErrors())
-        {
+        if (!bindingResult.hasErrors()) {
             outageService.saveOutageType(outageType);
             return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST));
         }
@@ -124,12 +114,10 @@ public class OutageTypeController
         @RequestParam("id") final Long id,
         @ModelAttribute(OutageTypeForm.FORM_NAME) final OutageTypeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         final OutageType outageType = outageService.findOutageTypeByPrimaryKey(id);
 
-        if (outageType != null)
-        {
+        if (outageType != null) {
             model.addAttribute(WebConstants.KEY_OUTAGE, outageType);
             final Long outageTypeId = outageType.getId();
             final List<PlannedOutage> outageList = outageService.getAllPlannedOutagesForType(outageTypeId);
@@ -144,13 +132,11 @@ public class OutageTypeController
     public ModelAndView deleteOutageTypePost(
         @ModelAttribute(OutageTypeForm.FORM_NAME) final OutageTypeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         log.debug(form);
 
         final OutageType outageType = form.createOutageType();
-        if (!bindingResult.hasErrors())
-        {
+        if (!bindingResult.hasErrors()) {
             outageService.deleteOutageType(outageType.getId());
             return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST));
         }

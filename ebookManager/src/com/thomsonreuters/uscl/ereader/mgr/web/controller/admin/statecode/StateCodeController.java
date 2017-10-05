@@ -22,22 +22,20 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class StateCodeController
-{
+public class StateCodeController {
     private final StateCodeService stateCodeService;
     private final Validator validator;
 
     @Autowired
-    public StateCodeController(final StateCodeService stateCodeService,
-                               @Qualifier("stateCodeFormValidator") final Validator validator)
-    {
+    public StateCodeController(
+        final StateCodeService stateCodeService,
+        @Qualifier("stateCodeFormValidator") final Validator validator) {
         this.stateCodeService = stateCodeService;
         this.validator = validator;
     }
 
     @InitBinder(StateCodeForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.setValidator(validator);
     }
@@ -50,8 +48,7 @@ public class StateCodeController
      * @throws Exception
      */
     @RequestMapping(value = WebConstants.MVC_ADMIN_STATE_CODE_VIEW, method = RequestMethod.GET)
-    public ModelAndView viewStateCode(final Model model) throws Exception
-    {
+    public ModelAndView viewStateCode(final Model model) throws Exception {
         model.addAttribute(WebConstants.KEY_STATE_CODE, stateCodeService.getAllStateCodes());
 
         return new ModelAndView(WebConstants.VIEW_ADMIN_STATE_CODE_VIEW);
@@ -61,8 +58,7 @@ public class StateCodeController
     public ModelAndView createStateCode(
         @ModelAttribute(StateCodeForm.FORM_NAME) final StateCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         return new ModelAndView(WebConstants.VIEW_ADMIN_STATE_CODE_CREATE);
     }
 
@@ -70,10 +66,8 @@ public class StateCodeController
     public ModelAndView createStateCodePost(
         @ModelAttribute(StateCodeForm.FORM_NAME) @Valid final StateCodeForm form,
         final BindingResult bindingResult,
-        final Model model) throws Exception
-    {
-        if (!bindingResult.hasErrors())
-        {
+        final Model model) throws Exception {
+        if (!bindingResult.hasErrors()) {
             stateCodeService.saveStateCode(form.makeCode());
             // Redirect user
             return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_STATE_CODE_VIEW));
@@ -87,12 +81,10 @@ public class StateCodeController
         @RequestParam("id") final Long id,
         @ModelAttribute(StateCodeForm.FORM_NAME) final StateCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         final StateCode code = stateCodeService.getStateCodeById(id);
 
-        if (code != null)
-        {
+        if (code != null) {
             model.addAttribute(WebConstants.KEY_STATE_CODE, code);
             form.initialize(code);
         }
@@ -104,10 +96,8 @@ public class StateCodeController
     public ModelAndView editStateCodePost(
         @ModelAttribute(StateCodeForm.FORM_NAME) @Valid final StateCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
-        if (!bindingResult.hasErrors())
-        {
+        final Model model) {
+        if (!bindingResult.hasErrors()) {
             stateCodeService.saveStateCode(form.makeCode());
 
             // Redirect user
@@ -124,12 +114,10 @@ public class StateCodeController
         @RequestParam("id") final Long id,
         @ModelAttribute(StateCodeForm.FORM_NAME) final StateCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         final StateCode code = stateCodeService.getStateCodeById(id);
 
-        if (code != null)
-        {
+        if (code != null) {
             model.addAttribute(WebConstants.KEY_STATE_CODE, code);
             form.initialize(code);
         }
@@ -141,8 +129,7 @@ public class StateCodeController
     public ModelAndView deleteStateCodePost(
         @ModelAttribute(StateCodeForm.FORM_NAME) final StateCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         stateCodeService.deleteStateCode(form.makeCode());
 
         // Redirect user

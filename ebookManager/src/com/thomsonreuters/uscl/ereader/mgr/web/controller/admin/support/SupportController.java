@@ -22,22 +22,20 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class SupportController
-{
+public class SupportController {
     private final SupportPageLinkService service;
     private final Validator validator;
 
     @Autowired
-    public SupportController(final SupportPageLinkService service,
-                             @Qualifier("supportFormValidator") final Validator validator)
-    {
+    public SupportController(
+        final SupportPageLinkService service,
+        @Qualifier("supportFormValidator") final Validator validator) {
         this.service = service;
         this.validator = validator;
     }
 
     @InitBinder(SupportForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.setValidator(validator);
     }
@@ -50,8 +48,7 @@ public class SupportController
      * @throws Exception
      */
     @RequestMapping(value = WebConstants.MVC_ADMIN_SUPPORT_VIEW, method = RequestMethod.GET)
-    public ModelAndView adminSupportPageLink(final Model model) throws Exception
-    {
+    public ModelAndView adminSupportPageLink(final Model model) throws Exception {
         model.addAttribute(WebConstants.KEY_SUPPORT, service.findAllSupportPageLink());
 
         return new ModelAndView(WebConstants.VIEW_ADMIN_SUPPORT_VIEW);
@@ -64,8 +61,7 @@ public class SupportController
      * @throws Exception
      */
     @RequestMapping(value = WebConstants.MVC_SUPPORT_PAGE_VIEW, method = RequestMethod.GET)
-    public ModelAndView supportPageLink(final Model model) throws Exception
-    {
+    public ModelAndView supportPageLink(final Model model) throws Exception {
         model.addAttribute(WebConstants.KEY_SUPPORT, service.findAllSupportPageLink());
 
         return new ModelAndView(WebConstants.VIEW_SUPPORT_PAGE_VIEW);
@@ -74,8 +70,7 @@ public class SupportController
     @RequestMapping(value = WebConstants.MVC_ADMIN_SUPPORT_CREATE, method = RequestMethod.GET)
     public ModelAndView createSupportPageLink(
         @ModelAttribute(SupportForm.FORM_NAME) final SupportForm form,
-        final Model model)
-    {
+        final Model model) {
         return new ModelAndView(WebConstants.VIEW_ADMIN_SUPPORT_CREATE);
     }
 
@@ -83,10 +78,8 @@ public class SupportController
     public ModelAndView createSupportPageLinkPost(
         @ModelAttribute(SupportForm.FORM_NAME) @Valid final SupportForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
-        if (!bindingResult.hasErrors())
-        {
+        final Model model) {
+        if (!bindingResult.hasErrors()) {
             service.save(form.makeCode());
 
             // Redirect user
@@ -100,12 +93,10 @@ public class SupportController
     public ModelAndView editSupportPageLink(
         @RequestParam("id") final Long id,
         @ModelAttribute(SupportForm.FORM_NAME) final SupportForm form,
-        final Model model)
-    {
+        final Model model) {
         final SupportPageLink spl = service.findByPrimaryKey(id);
 
-        if (spl != null)
-        {
+        if (spl != null) {
             model.addAttribute(WebConstants.KEY_SUPPORT, spl);
             form.initialize(spl);
         }
@@ -117,10 +108,8 @@ public class SupportController
     public ModelAndView editSupportPageLinkPost(
         @ModelAttribute(SupportForm.FORM_NAME) @Valid final SupportForm form,
         final BindingResult bindingResult,
-        final Model model) throws Exception
-    {
-        if (!bindingResult.hasErrors())
-        {
+        final Model model) throws Exception {
+        if (!bindingResult.hasErrors()) {
             service.save(form.makeCode());
 
             // Redirect user
@@ -137,12 +126,10 @@ public class SupportController
         @RequestParam("id") final Long id,
         @ModelAttribute(SupportForm.FORM_NAME) final SupportForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         final SupportPageLink code = service.findByPrimaryKey(id);
 
-        if (code != null)
-        {
+        if (code != null) {
             model.addAttribute(WebConstants.KEY_SUPPORT, code);
             form.initialize(code);
         }
@@ -154,8 +141,7 @@ public class SupportController
     public ModelAndView deleteSupportPageLinkPost(
         @ModelAttribute(SupportForm.FORM_NAME) final SupportForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         service.delete(form.makeCode());
 
         // Redirect user

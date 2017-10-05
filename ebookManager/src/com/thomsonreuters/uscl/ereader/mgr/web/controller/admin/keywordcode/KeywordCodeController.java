@@ -26,8 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class KeywordCodeController
-{
+public class KeywordCodeController {
     //private static final Logger log = LogManager.getLogger(PubdictionCodeController.class);
 
     private final CodeService codeService;
@@ -35,18 +34,17 @@ public class KeywordCodeController
     private final Validator validator;
 
     @Autowired
-    public KeywordCodeController(final CodeService codeService,
-                                 final BookDefinitionService bookService,
-                                 @Qualifier("keywordCodeFormValidator") final Validator validator)
-    {
+    public KeywordCodeController(
+        final CodeService codeService,
+        final BookDefinitionService bookService,
+        @Qualifier("keywordCodeFormValidator") final Validator validator) {
         this.codeService = codeService;
         this.bookService = bookService;
         this.validator = validator;
     }
 
     @InitBinder(KeywordCodeForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.setValidator(validator);
     }
@@ -59,8 +57,7 @@ public class KeywordCodeController
      * @throws Exception
      */
     @RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_CODE_VIEW, method = RequestMethod.GET)
-    public ModelAndView viewKeywordsCode(final Model model) throws Exception
-    {
+    public ModelAndView viewKeywordsCode(final Model model) throws Exception {
         model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, codeService.getAllKeywordTypeCodes());
 
         return new ModelAndView(WebConstants.VIEW_ADMIN_KEYWORD_CODE_VIEW);
@@ -70,8 +67,7 @@ public class KeywordCodeController
     public ModelAndView createKeywordCode(
         @ModelAttribute(KeywordCodeForm.FORM_NAME) final KeywordCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         return new ModelAndView(WebConstants.VIEW_ADMIN_KEYWORD_CODE_CREATE);
     }
 
@@ -79,10 +75,8 @@ public class KeywordCodeController
     public ModelAndView createKeywordCodePost(
         @ModelAttribute(KeywordCodeForm.FORM_NAME) @Valid final KeywordCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
-        if (!bindingResult.hasErrors())
-        {
+        final Model model) {
+        if (!bindingResult.hasErrors()) {
             codeService.saveKeywordTypeCode(form.makeCode());
 
             // Redirect user
@@ -97,12 +91,10 @@ public class KeywordCodeController
         @RequestParam("id") final Long id,
         @ModelAttribute(KeywordCodeForm.FORM_NAME) final KeywordCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         final KeywordTypeCode code = codeService.getKeywordTypeCodeById(id);
 
-        if (code != null)
-        {
+        if (code != null) {
             model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, code);
             form.initialize(code);
         }
@@ -114,10 +106,8 @@ public class KeywordCodeController
     public ModelAndView editKeywordCodePost(
         @ModelAttribute(KeywordCodeForm.FORM_NAME) @Valid final KeywordCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
-        if (!bindingResult.hasErrors())
-        {
+        final Model model) {
+        if (!bindingResult.hasErrors()) {
             codeService.saveKeywordTypeCode(form.makeCode());
 
             // Redirect user
@@ -134,12 +124,10 @@ public class KeywordCodeController
         @RequestParam("id") final Long id,
         @ModelAttribute(KeywordCodeForm.FORM_NAME) final KeywordCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         final KeywordTypeCode code = codeService.getKeywordTypeCodeById(id);
 
-        if (code != null)
-        {
+        if (code != null) {
             final List<BookDefinition> books = bookService.findAllBookDefinitionsByKeywordCodeId(id);
 
             model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, code);
@@ -154,8 +142,7 @@ public class KeywordCodeController
     public ModelAndView deleteKeywordCodePost(
         @ModelAttribute(KeywordCodeForm.FORM_NAME) final KeywordCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         codeService.deleteKeywordTypeCode(form.makeCode());
 
         // Redirect user

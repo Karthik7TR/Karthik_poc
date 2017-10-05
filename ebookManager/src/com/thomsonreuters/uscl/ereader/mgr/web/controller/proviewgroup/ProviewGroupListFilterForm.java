@@ -9,18 +9,15 @@ import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class ProviewGroupListFilterForm
-{
+public class ProviewGroupListFilterForm {
     public static final String FORM_NAME = "proviewGroupListFilterForm";
 
-    public enum FilterCommand
-    {
+    public enum FilterCommand {
         SEARCH,
         RESET
     };
 
-    public enum GroupCmd
-    {
+    public enum GroupCmd {
         REMOVE,
         DELETE,
         PROMOTE
@@ -40,141 +37,114 @@ public class ProviewGroupListFilterForm
     private String comments;
     private boolean groupOperation;
 
-    public boolean isGroupOperation()
-    {
+    public boolean isGroupOperation() {
         return groupOperation;
     }
 
-    public void setGroupOperation(final boolean groupOperation)
-    {
+    public void setGroupOperation(final boolean groupOperation) {
         this.groupOperation = groupOperation;
     }
 
     private String groupIdByVersion;
 
-    public String getGroupIdByVersion()
-    {
+    public String getGroupIdByVersion() {
         return groupIdByVersion;
     }
 
-    public void setGroupIdByVersion(final String groupIdByVersion)
-    {
+    public void setGroupIdByVersion(final String groupIdByVersion) {
         this.groupIdByVersion = groupIdByVersion;
     }
 
-    public ProviewGroupListFilterForm()
-    {
+    public ProviewGroupListFilterForm() {
         //Intentionally left blank
     }
 
-    public List<String> getGroupIds()
-    {
+    public List<String> getGroupIds() {
         return groupIds;
     }
 
-    public void setGroupIds(final List<String> groupIds)
-    {
+    public void setGroupIds(final List<String> groupIds) {
         this.groupIds = groupIds;
     }
 
-    public List<String> getGroupMembers()
-    {
+    public List<String> getGroupMembers() {
         return groupMembers;
     }
 
-    public void setGroupMembers(final List<String> groupMembers)
-    {
+    public void setGroupMembers(final List<String> groupMembers) {
         this.groupMembers = groupMembers;
     }
 
-    public List<GroupDetails> getGroupDetails()
-    {
+    public List<GroupDetails> getGroupDetails() {
         return groupDetails;
     }
 
-    public void setGroupDetails(final List<GroupDetails> groupDetails)
-    {
+    public void setGroupDetails(final List<GroupDetails> groupDetails) {
         this.groupDetails = groupDetails;
     }
 
-    public String getProviewGroupID()
-    {
+    public String getProviewGroupID() {
         return proviewGroupID;
     }
 
-    public Long getBookDefinitionId()
-    {
+    public Long getBookDefinitionId() {
         return bookDefinitionId;
     }
 
-    public void setBookDefinitionId(final Long bookDefinitionId)
-    {
+    public void setBookDefinitionId(final Long bookDefinitionId) {
         this.bookDefinitionId = bookDefinitionId;
     }
 
-    public void setProviewGroupID(final String groupID)
-    {
+    public void setProviewGroupID(final String groupID) {
         proviewGroupID = groupID;
     }
 
-    public String getGroupVersion()
-    {
+    public String getGroupVersion() {
         return groupVersion;
     }
 
-    public String getGroupStatus()
-    {
+    public String getGroupStatus() {
         return groupStatus;
     }
 
-    public void setGroupStatus(final String groupStatus)
-    {
+    public void setGroupStatus(final String groupStatus) {
         this.groupStatus = groupStatus;
     }
 
-    public void setGroupVersion(final String groupVersion)
-    {
+    public void setGroupVersion(final String groupVersion) {
         this.groupVersion = groupVersion;
     }
 
-    public GroupCmd getGroupCmd()
-    {
+    public GroupCmd getGroupCmd() {
         return groupCmd;
     }
 
-    public void setGroupCmd(final GroupCmd groupCmd)
-    {
+    public void setGroupCmd(final GroupCmd groupCmd) {
         this.groupCmd = groupCmd;
     }
 
-    public void initNull()
-    {
+    public void initNull() {
         init(null, null);
     }
 
-    private void init(final String proviewGroupID, final String groupName)
-    {
+    private void init(final String proviewGroupID, final String groupName) {
         this.proviewGroupID = proviewGroupID;
         this.groupName = groupName;
     }
 
-    public String getGroupName()
-    {
+    public String getGroupName() {
         return groupName;
     }
 
-    public void setGroupName(final String groupName)
-    {
+    public void setGroupName(final String groupName) {
         this.groupName = groupName;
     }
 
-    public FilterCommand getFilterCommand()
-    {
+    public FilterCommand getFilterCommand() {
         return filterCommand;
     }
 
-    public void setFilterCommand(final FilterCommand filterCommand)
-    {
+    public void setFilterCommand(final FilterCommand filterCommand) {
         this.filterCommand = filterCommand;
     }
 
@@ -183,8 +153,7 @@ public class ProviewGroupListFilterForm
         final String bookVersion,
         final Date lastUpdate,
         final String command,
-        final String comments)
-    {
+        final String comments) {
         final ProviewAudit audit = new ProviewAudit();
         audit.setAuditNote(comments);
         audit.setBookLastUpdated(lastUpdate);
@@ -196,13 +165,11 @@ public class ProviewGroupListFilterForm
         return audit;
     }
 
-    public String getComments()
-    {
+    public String getComments() {
         return comments;
     }
 
-    public void setComments(final String comments)
-    {
+    public void setComments(final String comments) {
         this.comments = comments;
     }
 
@@ -213,8 +180,7 @@ public class ProviewGroupListFilterForm
         final String groupID,
         final String groupVersion,
         final String groupByVersion,
-        final boolean groupOperation)
-    {
+        final boolean groupOperation) {
         this.groupName = groupName;
         bookDefinitionId = bookId;
         this.groupIds = groupIds;
@@ -225,8 +191,7 @@ public class ProviewGroupListFilterForm
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

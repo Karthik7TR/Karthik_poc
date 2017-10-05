@@ -11,26 +11,22 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component("jurisdictionCodeFormValidator")
-public class JurisdictionCodeFormValidator extends BaseFormValidator implements Validator
-{
+public class JurisdictionCodeFormValidator extends BaseFormValidator implements Validator {
     private static final int MAXIMUM_CHARACTER_1024 = 1024;
     private final CodeService codeService;
 
     @Autowired
-    public JurisdictionCodeFormValidator(final CodeService codeService)
-    {
+    public JurisdictionCodeFormValidator(final CodeService codeService) {
         this.codeService = codeService;
     }
 
     @Override
-    public boolean supports(final Class<?> clazz)
-    {
+    public boolean supports(final Class<?> clazz) {
         return (JurisdictionCodeForm.class.isAssignableFrom(clazz));
     }
 
     @Override
-    public void validate(final Object obj, final Errors errors)
-    {
+    public void validate(final Object obj, final Errors errors) {
         final JurisdictionCodeForm form = (JurisdictionCodeForm) obj;
 
         final String name = form.getName();
@@ -40,11 +36,9 @@ public class JurisdictionCodeFormValidator extends BaseFormValidator implements 
         checkForSpaces(errors, name, "name", "Name");
         checkSpecialCharacters(errors, name, "name", true);
 
-        if (!StringUtils.isBlank(name))
-        {
+        if (!StringUtils.isBlank(name)) {
             final JurisTypeCode code = codeService.getJurisTypeCodeByName(name);
-            if (code != null && code.getId() != form.getJurisId())
-            {
+            if (code != null && code.getId() != form.getJurisId()) {
                 errors.rejectValue("name", "error.exist", new Object[] {"Name"}, "Already exists");
             }
         }

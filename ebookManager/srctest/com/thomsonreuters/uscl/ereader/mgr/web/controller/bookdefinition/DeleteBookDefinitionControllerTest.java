@@ -34,8 +34,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
-public final class DeleteBookDefinitionControllerTest
-{
+public final class DeleteBookDefinitionControllerTest {
     private static final String BINDING_RESULT_KEY =
         BindingResult.class.getName() + "." + DeleteBookDefinitionForm.FORM_NAME;
     private BookDefinition bookDefinition = new BookDefinition();
@@ -54,8 +53,7 @@ public final class DeleteBookDefinitionControllerTest
     private DeleteBookDefinitionFormValidator validator;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -69,7 +67,11 @@ public final class DeleteBookDefinitionControllerTest
 
         // Set up the controller
         controller = new DeleteBookDefinitionController(
-            mockBookDefinitionService, mockAuditService, mockJobRequestService, mockLockService, validator);
+            mockBookDefinitionService,
+            mockAuditService,
+            mockJobRequestService,
+            mockLockService,
+            validator);
 
         bookDefinitionLock = new BookDefinitionLock();
         bookDefinitionLock.setCheckoutTimestamp(new Date());
@@ -101,8 +103,7 @@ public final class DeleteBookDefinitionControllerTest
      * Test the GET to the Delete Book Definition page
      */
     @Test
-    public void testDeleteBookDefintionGet()
-    {
+    public void testDeleteBookDefintionGet() {
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_DELETE);
         request.setParameter("id", BOOK_DEFINITION_ID.toString());
         request.setMethod(HttpMethod.GET.name());
@@ -116,8 +117,7 @@ public final class DeleteBookDefinitionControllerTest
         EasyMock.replay(mockLockService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -132,9 +132,7 @@ public final class DeleteBookDefinitionControllerTest
 
             Assert.assertEquals(false, isInQueue);
             Assert.assertEquals(lock, null);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -148,8 +146,7 @@ public final class DeleteBookDefinitionControllerTest
      * Test the POST to the Delete Book Definition page when there are validation errors
      */
     @Test
-    public void testDeleteBookDefintionPostFailed()
-    {
+    public void testDeleteBookDefintionPostFailed() {
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_DELETE);
         request.setParameter("id", BOOK_DEFINITION_ID.toString());
         request.setParameter("Action", DeleteBookDefinitionForm.Action.DELETE.toString());
@@ -161,8 +158,7 @@ public final class DeleteBookDefinitionControllerTest
         EasyMock.replay(mockLockService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -176,9 +172,7 @@ public final class DeleteBookDefinitionControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             assertTrue(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -192,8 +186,7 @@ public final class DeleteBookDefinitionControllerTest
      * Permanent delete from database.
      */
     @Test
-    public void testDeleteBookDefintionPostSuccessPermanent()
-    {
+    public void testDeleteBookDefintionPostSuccessPermanent() {
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_DELETE);
         request.setParameter("id", BOOK_DEFINITION_ID.toString());
         request.setParameter("comment", "Delete");
@@ -213,8 +206,7 @@ public final class DeleteBookDefinitionControllerTest
         EasyMock.replay(mockLockService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -229,9 +221,7 @@ public final class DeleteBookDefinitionControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -246,8 +236,7 @@ public final class DeleteBookDefinitionControllerTest
      * Soft delete.
      */
     @Test
-    public void testDeleteBookDefintionPostSuccessSoft()
-    {
+    public void testDeleteBookDefintionPostSuccessSoft() {
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_DELETE);
         request.setParameter("id", BOOK_DEFINITION_ID.toString());
         request.setParameter("comment", "Delete");
@@ -267,8 +256,7 @@ public final class DeleteBookDefinitionControllerTest
         EasyMock.replay(mockLockService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -283,9 +271,7 @@ public final class DeleteBookDefinitionControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -299,8 +285,7 @@ public final class DeleteBookDefinitionControllerTest
      * Test the GET to the Restore Book Definition page
      */
     @Test
-    public void testRestoreBookDefintionGet()
-    {
+    public void testRestoreBookDefintionGet() {
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_RESTORE);
         request.setParameter("id", BOOK_DEFINITION_ID.toString());
         request.setMethod(HttpMethod.GET.name());
@@ -310,8 +295,7 @@ public final class DeleteBookDefinitionControllerTest
         EasyMock.replay(mockBookDefinitionService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -324,9 +308,7 @@ public final class DeleteBookDefinitionControllerTest
             final BookDefinition book = (BookDefinition) model.get(WebConstants.KEY_BOOK_DEFINITION);
 
             Assert.assertEquals(bookDefinition, book);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -338,16 +320,14 @@ public final class DeleteBookDefinitionControllerTest
      * Test the POST to the Restore Book Definition page when there are validation errors
      */
     @Test
-    public void testRestoreBookDefintionPostFailed()
-    {
+    public void testRestoreBookDefintionPostFailed() {
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_RESTORE);
         request.setParameter("id", BOOK_DEFINITION_ID.toString());
         request.setParameter("Action", DeleteBookDefinitionForm.Action.RESTORE.toString());
         request.setMethod(HttpMethod.POST.name());
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -361,9 +341,7 @@ public final class DeleteBookDefinitionControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             assertTrue(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -373,8 +351,7 @@ public final class DeleteBookDefinitionControllerTest
      * Test the POST to the Restore Book Definition page when success
      */
     @Test
-    public void testRestoreBookDefintionPostSuccessPermanent()
-    {
+    public void testRestoreBookDefintionPostSuccessPermanent() {
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_RESTORE);
         request.setParameter("id", BOOK_DEFINITION_ID.toString());
         request.setParameter("comment", "Restore");
@@ -389,8 +366,7 @@ public final class DeleteBookDefinitionControllerTest
         EasyMock.replay(mockBookDefinitionService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -405,9 +381,7 @@ public final class DeleteBookDefinitionControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }

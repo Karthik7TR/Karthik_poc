@@ -14,21 +14,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-public final class ProviewGroupExcelExportServiceTest
-{
+public final class ProviewGroupExcelExportServiceTest {
     private ProviewGroupExcelExportService exportService;
     private HttpSession httpSession;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         exportService = new ProviewGroupExcelExportService();
         httpSession = (new MockHttpServletRequest()).getSession();
     }
 
     @Test
-    public void testHappyPath()
-    {
+    public void testHappyPath() {
         final ProviewGroup group = new ProviewGroup();
         group.setGroupName("");
         group.setGroupId("");
@@ -44,14 +41,12 @@ public final class ProviewGroupExcelExportServiceTest
     }
 
     @Test
-    public void testMaxExcelRows()
-    {
+    public void testMaxExcelRows() {
         final ProviewGroup group = new ProviewGroup();
         group.setTotalNumberOfVersions(1);
         final List<ProviewGroup> groups = new ArrayList<>();
 
-        for (int i = 0; i < BaseExcelExportService.MAX_EXCEL_SHEET_ROW_NUM; i++)
-        {
+        for (int i = 0; i < BaseExcelExportService.MAX_EXCEL_SHEET_ROW_NUM; i++) {
             groups.add(group);
         }
 

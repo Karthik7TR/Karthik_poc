@@ -23,8 +23,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
-public final class KeywordValueControllerTest
-{
+public final class KeywordValueControllerTest {
     private static final String BINDING_RESULT_KEY = BindingResult.class.getName() + "." + KeywordValueForm.FORM_NAME;
     private static final KeywordTypeValue KEYWORD_VALUE = new KeywordTypeValue();
     private static final Long KEYWORD_VALUE_ID = 1L;
@@ -38,8 +37,7 @@ public final class KeywordValueControllerTest
     private KeywordValueFormValidator validator;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -62,8 +60,7 @@ public final class KeywordValueControllerTest
      * Test the GET to the Create Page
      */
     @Test
-    public void testCreateKeywordValueGet()
-    {
+    public void testCreateKeywordValueGet() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_KEYWORD_VALUE_CREATE);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("keywordCodeId", KEYWORD_CODE_ID.toString());
@@ -72,8 +69,7 @@ public final class KeywordValueControllerTest
         EasyMock.replay(mockCodeService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -86,9 +82,7 @@ public final class KeywordValueControllerTest
             final KeywordTypeCode actual = (KeywordTypeCode) model.get(WebConstants.KEY_KEYWORD_TYPE_CODE);
 
             Assert.assertEquals(KEYWORD_CODE, actual);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -100,8 +94,7 @@ public final class KeywordValueControllerTest
      * Test the POST to the Create Page Success
      */
     @Test
-    public void testCreateKeywordValuePost()
-    {
+    public void testCreateKeywordValuePost() {
         final String name = "test";
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_KEYWORD_VALUE_CREATE);
         request.setMethod(HttpMethod.POST.name());
@@ -118,8 +111,7 @@ public final class KeywordValueControllerTest
         EasyMock.replay(mockCodeService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -134,9 +126,7 @@ public final class KeywordValueControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -147,8 +137,7 @@ public final class KeywordValueControllerTest
      * Test the POST to the Create Page Fail
      */
     @Test
-    public void testCreateKeywordValuePostFail()
-    {
+    public void testCreateKeywordValuePostFail() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_KEYWORD_VALUE_CREATE);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("keywordTypeCode.id", KEYWORD_CODE_ID.toString());
@@ -163,8 +152,7 @@ public final class KeywordValueControllerTest
         EasyMock.replay(mockCodeService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -178,9 +166,7 @@ public final class KeywordValueControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertTrue(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -190,8 +176,7 @@ public final class KeywordValueControllerTest
      * Test the GET to the Edit Page
      */
     @Test
-    public void testEditKeywordValueGet()
-    {
+    public void testEditKeywordValueGet() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_KEYWORD_VALUE_EDIT);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("id", KEYWORD_VALUE_ID.toString());
@@ -200,8 +185,7 @@ public final class KeywordValueControllerTest
         EasyMock.replay(mockCodeService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -213,9 +197,7 @@ public final class KeywordValueControllerTest
             final KeywordTypeValue actual = (KeywordTypeValue) model.get(WebConstants.KEY_KEYWORD_TYPE_VALUE);
 
             Assert.assertEquals(KEYWORD_VALUE, actual);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -225,8 +207,7 @@ public final class KeywordValueControllerTest
      * Test the POST to the Edit Page Success
      */
     @Test
-    public void testEditKeywordValuePost()
-    {
+    public void testEditKeywordValuePost() {
         final String name = KEYWORD_VALUE.getName();
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_KEYWORD_VALUE_EDIT);
         request.setMethod(HttpMethod.POST.name());
@@ -240,8 +221,7 @@ public final class KeywordValueControllerTest
         EasyMock.replay(mockCodeService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -256,9 +236,7 @@ public final class KeywordValueControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -269,8 +247,7 @@ public final class KeywordValueControllerTest
      * Test the POST to the Edit Page Fail
      */
     @Test
-    public void testEditKeywordValuePostFail()
-    {
+    public void testEditKeywordValuePostFail() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_KEYWORD_VALUE_EDIT);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("typeId", KEYWORD_VALUE_ID.toString());
@@ -282,8 +259,7 @@ public final class KeywordValueControllerTest
         EasyMock.replay(mockCodeService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -297,9 +273,7 @@ public final class KeywordValueControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertTrue(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }

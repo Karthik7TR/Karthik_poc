@@ -39,8 +39,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component("editBookDefinitionFormValidator")
-public class EditBookDefinitionFormValidator extends BaseFormValidator implements Validator
-{
+public class EditBookDefinitionFormValidator extends BaseFormValidator implements Validator {
     private static final int MAXIMUM_CHARACTER_40 = 40;
     private static final int MAXIMUM_CHARACTER_64 = 64;
     private static final int MAXIMUM_CHARACTER_512 = 512;
@@ -55,11 +54,11 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     private final File rootCodesWorkbenchLandingStrip;
 
     @Autowired
-    public EditBookDefinitionFormValidator(final BookDefinitionService bookDefinitionService,
-                                           final CodeService codeService,
-                                           @Qualifier("environmentName") final String environmentName,
-                                           @Value("${codes.workbench.root.dir}") final File rootCodesWorkbenchLandingStrip)
-    {
+    public EditBookDefinitionFormValidator(
+        final BookDefinitionService bookDefinitionService,
+        final CodeService codeService,
+        @Qualifier("environmentName") final String environmentName,
+        @Value("${codes.workbench.root.dir}") final File rootCodesWorkbenchLandingStrip) {
         this.bookDefinitionService = bookDefinitionService;
         this.codeService = codeService;
         this.environmentName = environmentName;
@@ -67,14 +66,12 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     }
 
     @Override
-    public boolean supports(final Class clazz)
-    {
+    public boolean supports(final Class clazz) {
         return (EditBookDefinitionForm.class.isAssignableFrom(clazz));
     }
 
     @Override
-    public void validate(final Object obj, final Errors errors)
-    {
+    public void validate(final Object obj, final Errors errors) {
         final EditBookDefinitionForm form = (EditBookDefinitionForm) obj;
 
         // Clear out empty rows in authors, nameLines, and additionalFrontMatters before validation
@@ -160,8 +157,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             "copyright",
             new Object[] {"Copyright", MAXIMUM_CHARACTER_2048});
 
-        if (form.getSourceType() != SourceType.XPP)
-        {
+        if (form.getSourceType() != SourceType.XPP) {
 
             checkMaxLength(
                 errors,
@@ -194,26 +190,22 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         validateDocumentCurrencies(form, errors);
         validateDocumentCopyrights(form, errors);
 
-        if (form.isPublicationCutoffDateUsed())
-        {
+        if (form.isPublicationCutoffDateUsed()) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publicationCutoffDate", "error.publication.cutoff.date");
         }
         checkDateFormat(errors, form.getPublicationCutoffDate(), "publicationCutoffDate");
 
         // Only run these validation when Validate Button or Book Definition is set as Complete.
-        if (form.getIsComplete() || validateForm)
-        {
+        if (form.getIsComplete() || validateForm) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "proviewDisplayName", "error.required");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "materialId", "error.required");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "copyright", "error.required");
 
-            if (form.getSourceType() != SourceType.XPP)
-            {
+            if (form.getSourceType() != SourceType.XPP) {
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTocLabel", "error.required");
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "frontMatterTitle.bookNameText", "error.required");
             }
-            switch (form.getSourceType())
-            {
+            switch (form.getSourceType()) {
             case TOC:
                 checkGuidFormat(errors, form.getRootTocGuid(), "rootTocGuid");
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "rootTocGuid", "error.required");
@@ -246,49 +238,40 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             validateProviewKeywords(errors);
             validateProdOnlyRequirements(form, errors);
 
-            if (form.isSplitBook())
-            {
-                if (!form.isGroupsEnabled())
-                {
+            if (form.isSplitBook()) {
+                if (!form.isGroupsEnabled()) {
                     errors.rejectValue("groupsEnabled", "error.required");
                 }
             }
         }
 
-        if (form.isGroupsEnabled())
-        {
+        if (form.isGroupsEnabled()) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "groupName", "error.required");
-            if (form.isSplitBook())
-            {
+            if (form.isSplitBook()) {
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "subGroupHeading", "error.required");
             }
         }
 
-        if (!form.isSplitTypeAuto())
-        {
+        if (!form.isSplitTypeAuto()) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "splitEBookParts", "error.required");
-            if (form.getSplitEBookParts() != null && form.getSplitEBookParts() > 0)
-            {
+            if (form.getSplitEBookParts() != null && form.getSplitEBookParts() > 0) {
                 validateSplitDocuments(form, errors);
             }
         }
 
         // Adding error message if any validation fails
-        if (errors.hasErrors())
-        {
+        if (errors.hasErrors()) {
             errors.rejectValue("validateForm", "mesg.errors.form");
         }
 
         // Adding validation message if Validation button was pressed.
-        if (validateForm)
-        {
+        if (validateForm) {
             errors.rejectValue("validateForm", "mesg.validate.form");
         }
     }
 
     // All the validations to verify that the Title ID is formed with all requirements
-    private void validateTitleId(final EditBookDefinitionForm form, final Errors errors)
-    {
+    private void validateTitleId(final EditBookDefinitionForm form, final Errors errors) {
         final String titleId = form.getTitleId();
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "titleId", "error.required");
         checkForSpaces(errors, titleId, "titleId", "Title ID");
@@ -303,46 +286,35 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "publisher", "error.required");
 
         // Validate publication and title ID
-        if (StringUtils.isNotEmpty(titleId))
-        {
+        if (StringUtils.isNotEmpty(titleId)) {
             final Long contentTypeId = form.getContentTypeId();
             final String publisher = form.getPublisher();
             final DocumentTypeCode contentType =
                 (contentTypeId != null) ? codeService.getDocumentTypeCodeById(contentTypeId) : null;
 
-            if ("uscl".equalsIgnoreCase(publisher))
-            {
+            if ("uscl".equalsIgnoreCase(publisher)) {
                 if (contentType != null
-                    && WebConstants.DOCUMENT_TYPE_ANALYTICAL.equalsIgnoreCase(contentType.getName()))
-                {
+                    && WebConstants.DOCUMENT_TYPE_ANALYTICAL.equalsIgnoreCase(contentType.getName())) {
                     // Validate Analytical fields are filled out
                     final String pubAbbr = form.getPubAbbr();
                     checkForSpaces(errors, pubAbbr, "pubAbbr", "Pub Abbreviation");
                     checkSpecialCharacters(errors, pubAbbr, "pubAbbr", false);
                     ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubAbbr", "error.required");
-                }
-                else if (contentType != null
-                    && WebConstants.DOCUMENT_TYPE_COURT_RULES.equalsIgnoreCase(contentType.getName()))
-                {
+                } else if (contentType != null
+                    && WebConstants.DOCUMENT_TYPE_COURT_RULES.equalsIgnoreCase(contentType.getName())) {
                     // Validate Court Rules fields are filled out
                     ValidationUtils.rejectIfEmptyOrWhitespace(errors, "state", "error.required");
                     ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubType", "error.required");
-                }
-                else if (contentType != null
-                    && WebConstants.DOCUMENT_TYPE_SLICE_CODES.equalsIgnoreCase(contentType.getName()))
-                {
+                } else if (contentType != null
+                    && WebConstants.DOCUMENT_TYPE_SLICE_CODES.equalsIgnoreCase(contentType.getName())) {
                     // Validate Slice Codes fields are filled out
                     ValidationUtils.rejectIfEmptyOrWhitespace(errors, "jurisdiction", "error.required");
                     ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
-                }
-                else
-                {
+                } else {
                     ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
                 }
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contentTypeId", "error.required");
-            }
-            else
-            {
+            } else {
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
 
                 // Validate Product Code
@@ -353,15 +325,13 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             }
 
             final Long bookDefinitionId = form.getBookdefinitionId();
-            if (bookDefinitionId != null)
-            {
+            if (bookDefinitionId != null) {
                 // Lookup the book by its primary key
                 final BookDefinition bookDef =
                     bookDefinitionService.findBookDefinitionByEbookDefId(form.getBookdefinitionId());
 
                 // Bug 297047: Super user deletes Book Definition while another user is editing the Book Definition.
-                if (bookDef == null)
-                {
+                if (bookDef == null) {
                     // Let controller redirect the user to error: Book Definition Deleted
                     return;
                 }
@@ -369,31 +339,23 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                 final String oldTitleId = bookDef.getFullyQualifiedTitleId();
 
                 // Check if Book Definition is deleted
-                if (bookDef.isDeletedFlag())
-                {
+                if (bookDef.isDeletedFlag()) {
                     errors.rejectValue("validateForm", "mesg.book.deleted");
                 }
 
                 // This is from the book definition edit
-                if (bookDef.getPublishedOnceFlag())
-                {
+                if (bookDef.getPublishedOnceFlag()) {
                     // Been published to Proview and set to F
-                    if (!oldTitleId.equals(titleId))
-                    {
+                    if (!oldTitleId.equals(titleId)) {
                         errors.rejectValue("titleId", "error.titleid.changed");
                     }
-                }
-                else
-                {
+                } else {
                     // Check new TitleId is unique if it changed
-                    if (!oldTitleId.equals(titleId))
-                    {
+                    if (!oldTitleId.equals(titleId)) {
                         checkUniqueTitleId(errors, titleId);
                     }
                 }
-            }
-            else
-            {
+            } else {
                 // This is from the book definition create
                 checkUniqueTitleId(errors, titleId);
             }
@@ -402,9 +364,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             final String pubInfo = form.getPubInfo();
             checkForSpaces(errors, pubInfo, "pubInfo", "Pub Info");
             checkSpecialCharacters(errors, pubInfo, "pubInfo", true);
-        }
-        else
-        {
+        } else {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "jurisdiction", "error.required");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pubInfo", "error.required");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "productCode", "error.required");
@@ -412,8 +372,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         }
     }
 
-    private void validateAuthors(final EditBookDefinitionForm form, final Errors errors)
-    {
+    private void validateAuthors(final EditBookDefinitionForm form, final Errors errors) {
         // Require last name to be filled if there are authors
         // Also check max character length for all the fields
         final List<Author> authors = form.getAuthorInfo();
@@ -422,8 +381,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         form.setAuthorInfo(authors);
         final List<Integer> authorSequenceChecker = new ArrayList<>();
         int i = 0;
-        for (final Author author : authors)
-        {
+        for (final Author author : authors) {
             ValidationUtils.rejectIfEmptyOrWhitespace(
                 errors,
                 "authorInfo[" + i + "].sequenceNum",
@@ -477,8 +435,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         }
     }
 
-    private void validatePilotBooks(final EditBookDefinitionForm form, final Errors errors)
-    {
+    private void validatePilotBooks(final EditBookDefinitionForm form, final Errors errors) {
         // Require last name to be filled if there are pilot books
         // Also check max character length for all the fields
         final List<PilotBook> books = form.getPilotBookInfo();
@@ -487,8 +444,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         form.setPilotBookInfo(books);
         final List<Integer> pilotBookSequenceChecker = new ArrayList<>();
         int i = 0;
-        for (final PilotBook book : books)
-        {
+        for (final PilotBook book : books) {
             ValidationUtils.rejectIfEmptyOrWhitespace(
                 errors,
                 "pilotBookInfo[" + i + "].sequenceNum",
@@ -500,8 +456,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                 book.getPilotBookTitleId(),
                 "pilotBookInfo[" + i + "].pilotBookTitleId",
                 new Object[] {"pilotBookTitleId", MAXIMUM_CHARACTER_40});
-            if (!book.getPilotBookTitleId().startsWith("uscl/"))
-            {
+            if (!book.getPilotBookTitleId().startsWith("uscl/")) {
                 errors.rejectValue("pilotBookInfo[" + i + "].pilotBookTitleId", "error.pilotBook.titleId");
             }
             checkMaxLength(
@@ -524,8 +479,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         }
     }
 
-    private void validateNortFileLocations(final EditBookDefinitionForm form, final Errors errors)
-    {
+    private void validateNortFileLocations(final EditBookDefinitionForm form, final Errors errors) {
         // Require at least one file location
         // Also check max character length for all the fields
         final List<NortFileLocation> nortFileLocations = form.getNortFileLocations();
@@ -537,12 +491,10 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         // Check if book Folder exists
         final String bookFolderName = form.getCodesWorkbenchBookName();
 
-        if (validateFileExists(errors, "codesWorkbenchBookName", rootCodesWorkbenchLandingStrip, bookFolderName))
-        {
+        if (validateFileExists(errors, "codesWorkbenchBookName", rootCodesWorkbenchLandingStrip, bookFolderName)) {
             final File bookDirectory = new File(rootCodesWorkbenchLandingStrip, bookFolderName);
             int i = 0;
-            for (final NortFileLocation fileLocation : nortFileLocations)
-            {
+            for (final NortFileLocation fileLocation : nortFileLocations) {
                 ValidationUtils.rejectIfEmptyOrWhitespace(
                     errors,
                     "nortFileLocations[" + i + "].sequenceNum",
@@ -573,8 +525,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                 i++;
             }
 
-            if (i == 0)
-            {
+            if (i == 0) {
                 errors.rejectValue(
                     "nortFileLocations",
                     "error.at.least.one",
@@ -588,18 +539,13 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         final Errors errors,
         final String fieldName,
         final File directory,
-        final String fileName)
-    {
-        if (StringUtils.isBlank(fileName))
-        {
+        final String fileName) {
+        if (StringUtils.isBlank(fileName)) {
             errors.rejectValue(fieldName, "error.required");
             return false;
-        }
-        else
-        {
+        } else {
             final File file = new File(directory, fileName);
-            if (!file.exists())
-            {
+            if (!file.exists()) {
                 errors.rejectValue(
                     fieldName,
                     "error.not.exist",
@@ -611,39 +557,32 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         return true;
     }
 
-    private void validateSplitDocuments(final EditBookDefinitionForm form, final Errors errors)
-    {
+    private void validateSplitDocuments(final EditBookDefinitionForm form, final Errors errors) {
         int i = 0;
         final List<String> tocGuids = new ArrayList<>();
-        for (final SplitDocument document : form.getSplitDocuments())
-        {
+        for (final SplitDocument document : form.getSplitDocuments()) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "splitDocuments[" + i + "].tocGuid", "error.required");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "splitDocuments[" + i + "].note", "error.required");
 
             String tocGuid = null;
             // Check if there are duplicate guids
-            if (document != null && !document.isEmpty())
-            {
+            if (document != null && !document.isEmpty()) {
                 tocGuid = document.getTocGuid();
             }
-            if (StringUtils.isNotBlank(tocGuid))
-            {
+            if (StringUtils.isNotBlank(tocGuid)) {
                 checkMaxLength(
                     errors,
                     MAXIMUM_CHARACTER_512,
                     document.getNote(),
                     "splitDocuments[" + i + "].note",
                     new Object[] {"Note", MAXIMUM_CHARACTER_512});
-                if (tocGuids.contains(tocGuid))
-                {
+                if (tocGuids.contains(tocGuid)) {
                     errors.rejectValue(
                         "splitDocuments[" + i + "].tocGuid",
                         "error.duplicate",
                         new Object[] {"TOC/NORT GUID"},
                         "Duplicate Toc Guid");
-                }
-                else
-                {
+                } else {
                     checkGuidFormat(errors, tocGuid, "splitDocuments[" + i + "].tocGuid");
                     tocGuids.add(tocGuid);
                 }
@@ -652,13 +591,11 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         }
     }
 
-    private void validateExcludeDocuments(final EditBookDefinitionForm form, final Errors errors)
-    {
+    private void validateExcludeDocuments(final EditBookDefinitionForm form, final Errors errors) {
         // Validate Exclude Documents has all required fields
         int i = 0;
         final List<String> documentGuids = new ArrayList<>();
-        for (final ExcludeDocument document : form.getExcludeDocuments())
-        {
+        for (final ExcludeDocument document : form.getExcludeDocuments()) {
             ValidationUtils
                 .rejectIfEmptyOrWhitespace(errors, "excludeDocuments[" + i + "].documentGuid", "error.required");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "excludeDocuments[" + i + "].note", "error.required");
@@ -671,28 +608,22 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 
             // Check if there are duplicate guids
             final String documentGuid = document.getDocumentGuid();
-            if (StringUtils.isNotBlank(documentGuid))
-            {
-                if (documentGuids.contains(documentGuid))
-                {
+            if (StringUtils.isNotBlank(documentGuid)) {
+                if (documentGuids.contains(documentGuid)) {
                     errors.rejectValue(
                         "excludeDocuments[" + i + "].documentGuid",
                         "error.duplicate",
                         new Object[] {"Document Guid"},
                         "Duplicate Document Guid");
-                }
-                else
-                {
+                } else {
                     checkGuidFormat(errors, documentGuid, "excludeDocuments[" + i + "].documentGuid");
                     documentGuids.add(documentGuid);
                 }
             }
             i++;
         }
-        if (form.isExcludeDocumentsUsed())
-        {
-            if (form.getExcludeDocuments().size() == 0)
-            {
+        if (form.isExcludeDocumentsUsed()) {
+            if (form.getExcludeDocuments().size() == 0) {
                 errors.rejectValue(
                     "excludeDocuments",
                     "error.used.selected",
@@ -702,13 +633,11 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         }
     }
 
-    private void validateRenameTocEntries(final EditBookDefinitionForm form, final Errors errors)
-    {
+    private void validateRenameTocEntries(final EditBookDefinitionForm form, final Errors errors) {
         // Validate RenameTocEntry has all required fields
         int i = 0;
         final List<String> tocGuids = new ArrayList<>();
-        for (final RenameTocEntry label : form.getRenameTocEntries())
-        {
+        for (final RenameTocEntry label : form.getRenameTocEntries()) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "renameTocEntries[" + i + "].tocGuid", "error.required");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "renameTocEntries[" + i + "].oldLabel", "error.required");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "renameTocEntries[" + i + "].newLabel", "error.required");
@@ -734,18 +663,14 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 
             // Check if there are duplicate guids
             final String tocGuid = label.getTocGuid();
-            if (StringUtils.isNotBlank(tocGuid))
-            {
-                if (tocGuids.contains(tocGuid))
-                {
+            if (StringUtils.isNotBlank(tocGuid)) {
+                if (tocGuids.contains(tocGuid)) {
                     errors.rejectValue(
                         "renameTocEntries[" + i + "].tocGuid",
                         "error.duplicate",
                         new Object[] {"Guid"},
                         "Duplicate Guid");
-                }
-                else
-                {
+                } else {
                     checkGuidFormat(errors, tocGuid, "renameTocEntries[" + i + "].tocGuid");
                     tocGuids.add(tocGuid);
                 }
@@ -753,10 +678,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             i++;
         }
 
-        if (form.isRenameTocEntriesUsed())
-        {
-            if (form.getRenameTocEntries().size() == 0)
-            {
+        if (form.isRenameTocEntriesUsed()) {
+            if (form.getRenameTocEntries().size() == 0) {
                 errors.rejectValue(
                     "renameTocEntries",
                     "error.used.selected",
@@ -766,13 +689,11 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         }
     }
 
-    private void validateTableViewers(final EditBookDefinitionForm form, final Errors errors)
-    {
+    private void validateTableViewers(final EditBookDefinitionForm form, final Errors errors) {
         // Validate Table Viewers has all required fields
         int i = 0;
         final List<String> documentGuids = new ArrayList<>();
-        for (final TableViewer document : form.getTableViewers())
-        {
+        for (final TableViewer document : form.getTableViewers()) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tableViewers[" + i + "].documentGuid", "error.required");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "tableViewers[" + i + "].note", "error.required");
             checkMaxLength(
@@ -784,18 +705,14 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 
             // Check if there are duplicate guids
             final String documentGuid = document.getDocumentGuid();
-            if (StringUtils.isNotBlank(documentGuid))
-            {
-                if (documentGuids.contains(documentGuid))
-                {
+            if (StringUtils.isNotBlank(documentGuid)) {
+                if (documentGuids.contains(documentGuid)) {
                     errors.rejectValue(
                         "tableViewers[" + i + "].documentGuid",
                         "error.duplicate",
                         new Object[] {"Document Guid"},
                         "Duplicate Document Guid");
-                }
-                else
-                {
+                } else {
                     checkGuidFormat(errors, documentGuid, "tableViewers[" + i + "].documentGuid");
                     documentGuids.add(documentGuid);
                 }
@@ -803,10 +720,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             i++;
         }
 
-        if (form.isTableViewersUsed())
-        {
-            if (form.getTableViewers().size() == 0)
-            {
+        if (form.isTableViewersUsed()) {
+            if (form.getTableViewers().size() == 0) {
                 errors.rejectValue(
                     "tableViewers",
                     "error.used.selected",
@@ -816,13 +731,11 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         }
     }
 
-    private void validateDocumentCopyrights(final EditBookDefinitionForm form, final Errors errors)
-    {
+    private void validateDocumentCopyrights(final EditBookDefinitionForm form, final Errors errors) {
         // Validate document copyright has all required fields
         int i = 0;
         final List<String> copyrightGuids = new ArrayList<>();
-        for (final DocumentCopyright documentCopyright : form.getDocumentCopyrights())
-        {
+        for (final DocumentCopyright documentCopyright : form.getDocumentCopyrights()) {
             ValidationUtils
                 .rejectIfEmptyOrWhitespace(errors, "documentCopyrights[" + i + "].copyrightGuid", "error.required");
             ValidationUtils
@@ -843,18 +756,14 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 
             // Check if there are duplicate guids
             final String documentGuid = documentCopyright.getCopyrightGuid();
-            if (StringUtils.isNotBlank(documentGuid))
-            {
-                if (copyrightGuids.contains(documentGuid))
-                {
+            if (StringUtils.isNotBlank(documentGuid)) {
+                if (copyrightGuids.contains(documentGuid)) {
                     errors.rejectValue(
                         "documentCopyrights[" + i + "].copyrightGuid",
                         "error.duplicate",
                         new Object[] {"Copyright Guid"},
                         "Duplicate Copyright Guid");
-                }
-                else
-                {
+                } else {
                     checkGuidFormat(errors, documentGuid, "documentCopyrights[" + i + "].copyrightGuid");
                     copyrightGuids.add(documentGuid);
                 }
@@ -863,13 +772,11 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         }
     }
 
-    private void validateDocumentCurrencies(final EditBookDefinitionForm form, final Errors errors)
-    {
+    private void validateDocumentCurrencies(final EditBookDefinitionForm form, final Errors errors) {
         // Validate document currency has all required fields
         int i = 0;
         final List<String> currencyGuids = new ArrayList<>();
-        for (final DocumentCurrency documentCurrency : form.getDocumentCurrencies())
-        {
+        for (final DocumentCurrency documentCurrency : form.getDocumentCurrencies()) {
             ValidationUtils
                 .rejectIfEmptyOrWhitespace(errors, "documentCurrencies[" + i + "].currencyGuid", "error.required");
             ValidationUtils
@@ -890,18 +797,14 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 
             // Check if there are duplicate guids
             final String documentGuid = documentCurrency.getCurrencyGuid();
-            if (StringUtils.isNotBlank(documentGuid))
-            {
-                if (currencyGuids.contains(documentGuid))
-                {
+            if (StringUtils.isNotBlank(documentGuid)) {
+                if (currencyGuids.contains(documentGuid)) {
                     errors.rejectValue(
                         "documentCurrencies[" + i + "].currencyGuid",
                         "error.duplicate",
                         new Object[] {"Currency Guid"},
                         "Duplicate Currency Guid");
-                }
-                else
-                {
+                } else {
                     checkGuidFormat(errors, documentGuid, "documentCurrencies[" + i + "].currencyGuid");
                     currencyGuids.add(documentGuid);
                 }
@@ -910,8 +813,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         }
     }
 
-    private void validateAdditionalFrontMatter(final EditBookDefinitionForm form, final Errors errors)
-    {
+    private void validateAdditionalFrontMatter(final EditBookDefinitionForm form, final Errors errors) {
         // Sort the list before validations
         final List<FrontMatterPage> pages = form.getFrontMatters();
         Collections.sort(pages);
@@ -920,8 +822,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         // Check max character and required fields for Front Matter
         int i = 0;
         final List<Integer> pageSequenceChecker = new ArrayList<>();
-        for (final FrontMatterPage page : pages)
-        {
+        for (final FrontMatterPage page : pages) {
             checkMaxLength(
                 errors,
                 MAXIMUM_CHARACTER_1024,
@@ -959,8 +860,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             final List<FrontMatterSection> sections = page.getFrontMatterSections();
             Collections.sort(sections);
             page.setFrontMatterSections(sections);
-            for (final FrontMatterSection section : sections)
-            {
+            for (final FrontMatterSection section : sections) {
                 checkMaxLength(
                     errors,
                     MAXIMUM_CHARACTER_1024,
@@ -987,8 +887,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                 final List<FrontMatterPdf> pdfs = section.getPdfs();
                 Collections.sort(pdfs);
                 section.setPdfs(pdfs);
-                for (final FrontMatterPdf pdf : pdfs)
-                {
+                for (final FrontMatterPdf pdf : pdfs) {
                     checkMaxLength(
                         errors,
                         MAXIMUM_CHARACTER_1024,
@@ -1014,8 +913,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                         pdfSequenceChecker);
 
                     // Check both fields of PDF is filled
-                    if (StringUtils.isBlank(pdf.getPdfFilename()) || StringUtils.isBlank(pdf.getPdfLinkText()))
-                    {
+                    if (StringUtils.isBlank(pdf.getPdfFilename()) || StringUtils.isBlank(pdf.getPdfLinkText())) {
                         errors.rejectValue(
                             "frontMatters[" + i + "].frontMatterSections[" + j + "].pdfs[" + k + "].pdfFilename",
                             "error.required.pdf");
@@ -1028,41 +926,34 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         }
     }
 
-    private void validateProviewKeywords(final Errors errors)
-    {
+    private void validateProviewKeywords(final Errors errors) {
         // Validate that required keyword are selected
         // getAllKeywordTypeCodes must be in sorted order by the name because
         // form.getKeywords returns a String Collection of KeywordTypeValues placed
         // in the order of KeywordTypeCodes.
         final List<KeywordTypeCode> keywordCodes = codeService.getAllKeywordTypeCodes();
         int i = 0;
-        for (final KeywordTypeCode code : keywordCodes)
-        {
+        for (final KeywordTypeCode code : keywordCodes) {
             // Check that user has selected a keyword if that KeywordTypeCode is required
-            if (code.getIsRequired())
-            {
+            if (code.getIsRequired()) {
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "keywords[" + i + "]", "error.required");
             }
             i++;
         }
     }
 
-    private void validateProdOnlyRequirements(final EditBookDefinitionForm form, final Errors errors)
-    {
+    private void validateProdOnlyRequirements(final EditBookDefinitionForm form, final Errors errors) {
         // Check if pdf file and cover image exists on NAS location when on prod server
-        if (environmentName.equalsIgnoreCase(CoreConstants.PROD_ENVIRONMENT_NAME))
-        {
+        if (environmentName.equalsIgnoreCase(CoreConstants.PROD_ENVIRONMENT_NAME)) {
             // Check cover image exists
-            if (StringUtils.isNotBlank(form.getTitleId()))
-            {
+            if (StringUtils.isNotBlank(form.getTitleId())) {
                 fileExist(
                     errors,
                     form.createCoverImageName(),
                     WebConstants.LOCATION_COVER_IMAGE,
                     "validateForm",
                     "error.not.exist");
-                if (form.getPilotBook() == PilotBookStatus.TRUE)
-                {
+                if (form.getPilotBook() == PilotBookStatus.TRUE) {
                     fileExist(
                         errors,
                         form.createPilotBookCsvName(),
@@ -1073,17 +964,13 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             }
             // Check all pdfs on Front Matter
             int i = 0;
-            for (final FrontMatterPage page : form.getFrontMatters())
-            {
+            for (final FrontMatterPage page : form.getFrontMatters()) {
                 int j = 0;
-                for (final FrontMatterSection section : page.getFrontMatterSections())
-                {
+                for (final FrontMatterSection section : page.getFrontMatterSections()) {
                     int k = 0;
-                    for (final FrontMatterPdf pdf : section.getPdfs())
-                    {
+                    for (final FrontMatterPdf pdf : section.getPdfs()) {
                         final String filename = pdf.getPdfFilename();
-                        if (StringUtils.isNotBlank(filename))
-                        {
+                        if (StringUtils.isNotBlank(filename)) {
                             fileExist(
                                 errors,
                                 filename,
@@ -1105,11 +992,9 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         final String filename,
         final String location,
         final String fieldName,
-        final String errorMessage)
-    {
+        final String errorMessage) {
         final File file = new File(location, filename);
-        if (!file.isFile())
-        {
+        if (!file.isFile()) {
             errors.rejectValue(
                 fieldName,
                 errorMessage,
@@ -1118,12 +1003,10 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         }
     }
 
-    private void checkUniqueTitleId(final Errors errors, final String titleId)
-    {
+    private void checkUniqueTitleId(final Errors errors, final String titleId) {
         final BookDefinition newBookDef = bookDefinitionService.findBookDefinitionByTitle(titleId);
 
-        if (newBookDef != null)
-        {
+        if (newBookDef != null) {
             errors.rejectValue("titleId", "error.titleid.exist");
         }
     }
@@ -1132,72 +1015,53 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         final Errors errors,
         final Integer sequenceNumber,
         final String fieldName,
-        final List<Integer> sequenceChecker)
-    {
+        final List<Integer> sequenceChecker) {
         // Check duplicate sequence numbers exist
-        if (sequenceNumber != null)
-        {
-            if (sequenceChecker.contains(sequenceNumber))
-            {
+        if (sequenceNumber != null) {
+            if (sequenceChecker.contains(sequenceNumber)) {
                 errors.rejectValue(fieldName, "error.sequence.number");
-            }
-            else
-            {
+            } else {
                 sequenceChecker.add(sequenceNumber);
             }
         }
     }
 
-    private void checkPrintSetNumber(final Errors errors, final String text, final String fieldName)
-    {
+    private void checkPrintSetNumber(final Errors errors, final String text, final String fieldName) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, fieldName, "error.required");
-        if (StringUtils.isNotEmpty(text))
-        {
+        if (StringUtils.isNotEmpty(text)) {
             final Pattern pattern = Pattern.compile("\\d");
             final Matcher matcher = pattern.matcher(text);
-            if (!matcher.find())
-            {
+            if (!matcher.find()) {
                 errors.rejectValue(fieldName, "typeMismatch.java.lang.Long");
             }
         }
     }
 
-    private void checkIsbnNumber(final Errors errors, final String text, final String fieldName)
-    {
-        if (StringUtils.isNotEmpty(text))
-        {
-            if (text.length() == ISBN_TOTAL_CHARACTER_LENGTH)
-            {
+    private void checkIsbnNumber(final Errors errors, final String text, final String fieldName) {
+        if (StringUtils.isNotEmpty(text)) {
+            if (text.length() == ISBN_TOTAL_CHARACTER_LENGTH) {
                 final String tempIsbn = text.replace("-", "");
                 final Pattern pattern = Pattern.compile("^\\d{13}$");
                 final Matcher matcher = pattern.matcher(tempIsbn);
                 // Validate ISBN number
-                if (matcher.find())
-                {
+                if (matcher.find()) {
                     int checkSum = 0;
-                    for (int i = 0; i < ISBN_NUMBER_LENGTH; i += 2)
-                    {
+                    for (int i = 0; i < ISBN_NUMBER_LENGTH; i += 2) {
                         final String number = tempIsbn.substring(i, i + 1);
                         checkSum += Integer.parseInt(number);
                     }
-                    for (int i = 1; i < ISBN_NUMBER_LENGTH - 1; i += 2)
-                    {
+                    for (int i = 1; i < ISBN_NUMBER_LENGTH - 1; i += 2) {
                         final String number = tempIsbn.substring(i, i + 1);
                         checkSum += 3 * Integer.parseInt(number);
                     }
 
-                    if (checkSum % 10 != 0)
-                    {
+                    if (checkSum % 10 != 0) {
                         errors.rejectValue(fieldName, "error.isbn.checksum");
                     }
-                }
-                else
-                {
+                } else {
                     errors.rejectValue(fieldName, "error.isbn.format");
                 }
-            }
-            else
-            {
+            } else {
                 errors.rejectValue(fieldName, "error.isbn.format");
             }
         }

@@ -10,19 +10,16 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component("outageFormValidator")
-public class OutageFormValidator extends BaseFormValidator implements Validator
-{
+public class OutageFormValidator extends BaseFormValidator implements Validator {
     private static final int MAXIMUM_CHARACTER_2048 = 2048;
 
     @Override
-    public boolean supports(final Class<?> clazz)
-    {
+    public boolean supports(final Class<?> clazz) {
         return (OutageForm.class.isAssignableFrom(clazz));
     }
 
     @Override
-    public void validate(final Object obj, final Errors errors)
-    {
+    public void validate(final Object obj, final Errors errors) {
         final OutageForm form = (OutageForm) obj;
 
         ValidationUtils
@@ -58,30 +55,23 @@ public class OutageFormValidator extends BaseFormValidator implements Validator
         final Date fromDate = form.getStartTime();
         final Date toDate = form.getEndTime();
 
-        if (StringUtils.isNotBlank(form.getStartTimeString()))
-        {
+        if (StringUtils.isNotBlank(form.getStartTimeString())) {
             validateDate(form.getStartTimeString(), fromDate, "Start", errors);
         }
-        if (StringUtils.isNotBlank(form.getEndTimeString()))
-        {
+        if (StringUtils.isNotBlank(form.getEndTimeString())) {
             validateDate(form.getEndTimeString(), toDate, "End", errors);
         }
 
         checkDateRange(fromDate, toDate, errors);
     }
 
-    private void checkDateRange(final Date fromDate, final Date toDate, final Errors errors)
-    {
-        if (fromDate != null)
-        {
-            if (toDate != null)
-            {
-                if (fromDate.after(toDate))
-                {
+    private void checkDateRange(final Date fromDate, final Date toDate, final Errors errors) {
+        if (fromDate != null) {
+            if (toDate != null) {
+                if (fromDate.after(toDate)) {
                     errors.reject("error.start.date.after.end.date");
                 }
-                if (toDate.before(fromDate))
-                {
+                if (toDate.before(fromDate)) {
                     errors.reject("error.end.date.before.start.date");
                 }
             }

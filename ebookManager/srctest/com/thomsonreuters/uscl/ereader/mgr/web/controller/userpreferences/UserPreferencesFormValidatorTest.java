@@ -10,15 +10,13 @@ import org.junit.Test;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 
-public final class UserPreferencesFormValidatorTest
-{
+public final class UserPreferencesFormValidatorTest {
     private UserPreferencesFormValidator validator;
     private UserPreferencesForm form;
     private Errors errors;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         validator = new UserPreferencesFormValidator();
         form = new UserPreferencesForm();
         form.setStartPage(HomepageProperty.LIBRARY);
@@ -27,8 +25,7 @@ public final class UserPreferencesFormValidatorTest
     }
 
     @Test
-    public void testSaveOnlyStartPage()
-    {
+    public void testSaveOnlyStartPage() {
         validator.validate(form, errors);
         Assert.assertFalse(errors.hasErrors());
 
@@ -39,8 +36,7 @@ public final class UserPreferencesFormValidatorTest
     }
 
     @Test
-    public void testLength()
-    {
+    public void testLength() {
         final String length =
             "dfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsaffffffffffffffffffdfdsafffsdf@as.com";
         validator.validate(form, errors);
@@ -64,8 +60,7 @@ public final class UserPreferencesFormValidatorTest
     }
 
     @Test
-    public void testEmailLength()
-    {
+    public void testEmailLength() {
         final String email =
             "asdasdsadsadsaasdasdsadsadsaasdasdsadsadsaasdasdsadsadsaasdasdsadsadsaasdasdsadsadsaasdasdsadsadsaasdasdsadsadsaasdasdsadsadsaasdasdsadsadsaasdasdsaddsaasdasdsadsadsaasdasdsadsadsaasdasdsadsadsaasdasdsadsadsaasdasdsadsadsaasdasdsadsadsaasdasdsadsadsa@as.com";
 
@@ -83,8 +78,7 @@ public final class UserPreferencesFormValidatorTest
     }
 
     @Test
-    public void testEmailMax()
-    {
+    public void testEmailMax() {
         final String email = "@as.com";
 
         validator.validate(form, errors);
@@ -92,8 +86,7 @@ public final class UserPreferencesFormValidatorTest
 
         final List<String> emails = new ArrayList<>();
 
-        for (int i = 0; i < 500; i++)
-        {
+        for (int i = 0; i < 500; i++) {
             emails.add(i + email);
         }
 
@@ -105,8 +98,7 @@ public final class UserPreferencesFormValidatorTest
     }
 
     @Test
-    public void testEmailDuplicate()
-    {
+    public void testEmailDuplicate() {
         final String email = "as@as.com";
 
         validator.validate(form, errors);

@@ -14,13 +14,11 @@ import org.springframework.web.servlet.ModelAndView;
  * the exception stack trace on its own page.
  */
 @Controller
-public class AppExceptionController
-{
+public class AppExceptionController {
     // private static final Logger log = LogManager.getLogger(AppExceptionController.class);
 
     @RequestMapping(value = WebConstants.MVC_APP_EXCEPTION, method = RequestMethod.GET)
-    public ModelAndView handleException(final HttpServletRequest request, final HttpServletResponse response)
-    {
+    public ModelAndView handleException(final HttpServletRequest request, final HttpServletResponse response) {
         return new ModelAndView(WebConstants.VIEW_APP_EXCEPTION);
     }
 }

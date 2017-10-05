@@ -25,12 +25,12 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
-public final class ViewBookDefinitionControllerTest
-{
+public final class ViewBookDefinitionControllerTest {
     private static final String TITLE_ID = "a/b/c/d";
     private static final Long BOOK_DEFINITION_ID = Long.valueOf(1);
 //    private static final String printComponentsJson = "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c1&quot;}]";
-    private static final String printComponentsJson = "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c1&quot;,&quot;componentInArchive&quot;:false}]";
+    private static final String printComponentsJson =
+        "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c1&quot;,&quot;componentInArchive&quot;:false}]";
     private ViewBookDefinitionController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
@@ -39,8 +39,7 @@ public final class ViewBookDefinitionControllerTest
     private JobRequestService mockJobRequestService;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -50,8 +49,7 @@ public final class ViewBookDefinitionControllerTest
     }
 
     @Test
-    public void testBookDefinitionViewGet() throws Exception
-    {
+    public void testBookDefinitionViewGet() throws Exception {
         // Set up the request URL
 
         final BookDefinition bookDef = new BookDefinition();
@@ -77,7 +75,7 @@ public final class ViewBookDefinitionControllerTest
         Assert.assertEquals(bookDef, model.get(WebConstants.KEY_BOOK_DEFINITION));
         Assert.assertEquals(WebConstants.VIEW_BOOK_DEFINITION_VIEW, mav.getViewName());
 
-        final ViewBookDefinitionForm form = (ViewBookDefinitionForm)model.get(WebConstants.KEY_FORM);
+        final ViewBookDefinitionForm form = (ViewBookDefinitionForm) model.get(WebConstants.KEY_FORM);
         Assert.assertNotNull(form);
         Assert.assertEquals(printComponentsJson, form.getPrintComponents());
 
@@ -85,8 +83,7 @@ public final class ViewBookDefinitionControllerTest
         EasyMock.verify(mockJobRequestService);
     }
 
-    private List<PrintComponent> getPrintComponents()
-    {
+    private List<PrintComponent> getPrintComponents() {
         final PrintComponent printComponent = new PrintComponent();
         printComponent.setPrintComponentId("1");
         printComponent.setComponentOrder(1);
@@ -96,19 +93,16 @@ public final class ViewBookDefinitionControllerTest
     }
 
     @Test
-    public void testEditPost() throws Exception
-    {
+    public void testEditPost() throws Exception {
         testBookDefinitionViewPostCommand(Command.EDIT, WebConstants.MVC_BOOK_DEFINITION_EDIT);
     }
 
     @Test
-    public void testGeneratePost() throws Exception
-    {
+    public void testGeneratePost() throws Exception {
         testBookDefinitionViewPostCommand(Command.GENERATE, WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
     }
 
-    private void testBookDefinitionViewPostCommand(final Command command, final String viewUri) throws Exception
-    {
+    private void testBookDefinitionViewPostCommand(final Command command, final String viewUri) throws Exception {
         // Set up the request URL
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_VIEW_POST);
         request.setMethod(HttpMethod.POST.name());

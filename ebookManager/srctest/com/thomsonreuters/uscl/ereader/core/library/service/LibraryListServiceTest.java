@@ -13,24 +13,21 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class LibraryListServiceTest
-{
+public final class LibraryListServiceTest {
     private static final List<LibraryList> EXPECTED_LIBRARY_LIST = new ArrayList<LibraryList>();
     private static final Integer EXPECTED_NUMBER_BOOKS = 1;
     private LibraryListDao mockDao;
     private LibraryListServiceImpl LibraryListService;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockDao = EasyMock.createMock(LibraryListDao.class);
         LibraryListService = new LibraryListServiceImpl();
         LibraryListService.setLibraryListDao(mockDao);
     }
 
     @Test
-    public void testFindBookDefinitions()
-    {
+    public void testFindBookDefinitions() {
         final LibraryListFilter filter = new LibraryListFilter();
         final LibraryListSort sort = new LibraryListSort();
 
@@ -45,8 +42,7 @@ public final class LibraryListServiceTest
     }
 
     @Test
-    public void testCountNumberOfBookDefinitions()
-    {
+    public void testCountNumberOfBookDefinitions() {
         final LibraryListFilter filter = new LibraryListFilter();
         EasyMock.expect(mockDao.numberOfBookDefinitions(filter)).andReturn(EXPECTED_NUMBER_BOOKS);
         EasyMock.replay(mockDao);

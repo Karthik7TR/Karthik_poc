@@ -25,8 +25,7 @@ import org.springframework.batch.item.ExecutionContext;
  * Exists to provide convenience methods to expose complex calculated data and values which would otherwise be very
  * messy to calculate directly within the JSP.
  */
-public class JobExecutionVdo
-{
+public class JobExecutionVdo {
     //private static final Logger log = LogManager.getLogger(JobExecutionVdo.class);
     private static final Comparator<StepExecution> STEP_START_TIME_COMPARATOR = new StepStartTimeComparator();
     /** Comparator to sort lists of properties into ascending key order */
@@ -36,8 +35,7 @@ public class JobExecutionVdo
     private EbookAudit bookInfo;
     private PublishingStats stats;
 
-    public JobExecutionVdo()
-    {
+    public JobExecutionVdo() {
         super();
     }
 
@@ -47,33 +45,28 @@ public class JobExecutionVdo
      * that the jobExecution property is not null.
      * @param bookInfo book data needed for presentation that is associated with this instance.
      */
-    public JobExecutionVdo(final JobExecution jobExecution, final EbookAudit bookInfo, final PublishingStats stats)
-    {
+    public JobExecutionVdo(final JobExecution jobExecution, final EbookAudit bookInfo, final PublishingStats stats) {
         this.jobExecution = jobExecution;
         this.bookInfo = bookInfo;
         this.stats = stats;
     }
 
-    public JobExecution getJobExecution()
-    {
+    public JobExecution getJobExecution() {
         return jobExecution;
     }
 
-    public EbookAudit getBookInfo()
-    {
+    public EbookAudit getBookInfo() {
         return bookInfo;
     }
 
-    public PublishingStats getPublishingStats()
-    {
+    public PublishingStats getPublishingStats() {
         return stats;
     }
 
     /**
      * Get the job execution steps in descending start time order.
      */
-    public List<StepExecution> getSteps()
-    {
+    public List<StepExecution> getSteps() {
         final Collection<StepExecution> stepColl = jobExecution.getStepExecutions();
         final List<StepExecution> stepList = new ArrayList<>(stepColl);
         Collections.sort(stepList, STEP_START_TIME_COMPARATOR);
@@ -84,8 +77,7 @@ public class JobExecutionVdo
      * Returns true if the Spring Batch job is restartable per Spring Batch rules.
      * Used to determine if the job "Restart" button should be displayed.
      */
-    public boolean isJobRestartable()
-    {
+    public boolean isJobRestartable() {
         final BatchStatus batchStatus = jobExecution.getStatus();
         return ((BatchStatus.STOPPED == batchStatus) || (BatchStatus.FAILED == batchStatus));
     }
@@ -94,8 +86,7 @@ public class JobExecutionVdo
      * Returns true if the Spring Batch job is stoppable per Spring Batch rules.
      * Used to determine if the job "Stop" button should be displayed.
      */
-    public boolean isJobStoppable()
-    {
+    public boolean isJobStoppable() {
         return (BatchStatus.STARTED == jobExecution.getStatus());
     }
 
@@ -103,18 +94,15 @@ public class JobExecutionVdo
      * Returns true if the user is a SUPERUSER or the user who launched the job in the first place
      * which means that they can stop or restart it.
      */
-    public boolean isUserAllowedToStopAndRestartJob()
-    {
+    public boolean isUserAllowedToStopAndRestartJob() {
         stats = getPublishingStats();
         final String submittedBy = (stats != null) ? stats.getJobSubmitterName() : null;
         return UserUtils.isUserAuthorizedToStopOrRestartBatchJob(submittedBy);
     }
 
-    public String getDuration()
-    {
+    public String getDuration() {
         String duration = null;
-        if (jobExecution != null)
-        {
+        if (jobExecution != null) {
             duration = JobSummary.getExecutionDuration(
                 JobSummary.getExecutionDuration(jobExecution.getStartTime(), jobExecution.getEndTime()));
         }
@@ -126,10 +114,8 @@ public class JobExecutionVdo
      * This list of key/value pairs is then presented on the JSP.
      * @return a sorted list of job parameter map entries, possibly empty, never null
      */
-    public List<Map.Entry<String, ?>> getJobParameterMapEntryList()
-    {
-        if (jobExecution != null)
-        {
+    public List<Map.Entry<String, ?>> getJobParameterMapEntryList() {
+        if (jobExecution != null) {
             final JobParameters jobParameters = jobExecution.getJobParameters();
             final Map<String, JobParameter> jobParameterMap = jobParameters.getParameters();
             final Set entrySet = jobParameterMap.entrySet();
@@ -143,10 +129,8 @@ public class JobExecutionVdo
      * 	 * This list of key/value pairs is then presented on the JSP.
      * @return a sorted list of job execution context map entries, possibly empty, never null
      */
-    public List<Map.Entry<String, ?>> getJobExecutionContextMapEntryList()
-    {
-        if (jobExecution != null)
-        {
+    public List<Map.Entry<String, ?>> getJobExecutionContextMapEntryList() {
+        if (jobExecution != null) {
             final ExecutionContext execContext = jobExecution.getExecutionContext();
             final Set entrySet = execContext.entrySet();
             return createMapEntryList(entrySet);
@@ -159,12 +143,10 @@ public class JobExecutionVdo
      * @param map the map whose entries will be extracted into a list sorted by key in ascending order.
      * @return a list of map entries sorted by key.
      */
-    private List<Map.Entry<String, ?>> createMapEntryList(final Set<Map.Entry<String, ?>> entrySet)
-    {
+    private List<Map.Entry<String, ?>> createMapEntryList(final Set<Map.Entry<String, ?>> entrySet) {
         final List<Map.Entry<String, ?>> mapEntryList = new ArrayList<>();
         final Iterator<Map.Entry<String, ?>> entryIterator = entrySet.iterator();
-        while (entryIterator.hasNext())
-        {
+        while (entryIterator.hasNext()) {
             mapEntryList.add(entryIterator.next());
         }
         Collections.sort(mapEntryList, MAP_ENTRY_KEY_COMPARATOR);

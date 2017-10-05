@@ -31,8 +31,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
-public final class OutageControllerTest
-{
+public final class OutageControllerTest {
     private static final String HOST_NAME = "localhost";
     private static final int PORT_NUM = 1289;
     private MockHttpServletRequest request;
@@ -43,8 +42,7 @@ public final class OutageControllerTest
     private OutageController controller;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -52,12 +50,16 @@ public final class OutageControllerTest
         mockManagerService = EasyMock.createMock(ManagerService.class);
 
         // Set up the controller
-        controller = new OutageController(mockManagerService, outageService, new OutageFormValidator(), HOST_NAME + "," + HOST_NAME, PORT_NUM);
+        controller = new OutageController(
+            mockManagerService,
+            outageService,
+            new OutageFormValidator(),
+            HOST_NAME + "," + HOST_NAME,
+            PORT_NUM);
     }
 
     @Test
-    public void testGetAllActiveAndScheduledOutages() throws Exception
-    {
+    public void testGetAllActiveAndScheduledOutages() throws Exception {
         final List<PlannedOutage> outages = new ArrayList<>();
 
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_ACTIVE_LIST);
@@ -79,8 +81,7 @@ public final class OutageControllerTest
     }
 
     @Test
-    public void testGetAllOutages() throws Exception
-    {
+    public void testGetAllOutages() throws Exception {
         final List<PlannedOutage> outages = new ArrayList<>();
 
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_FULL_LIST);
@@ -102,8 +103,7 @@ public final class OutageControllerTest
     }
 
     @Test
-    public void testCreateGet() throws Exception
-    {
+    public void testCreateGet() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_CREATE);
         request.setMethod(HttpMethod.GET.name());
 
@@ -123,8 +123,7 @@ public final class OutageControllerTest
     }
 
     @Test
-    public void testCreatePost() throws Exception
-    {
+    public void testCreatePost() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_CREATE);
         request.setMethod(HttpMethod.POST.name());
 
@@ -152,8 +151,7 @@ public final class OutageControllerTest
     }
 
     @Test
-    public void testEditGet() throws Exception
-    {
+    public void testEditGet() throws Exception {
         final Long id = 99L;
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_EDIT);
         request.setMethod(HttpMethod.GET.name());
@@ -177,8 +175,7 @@ public final class OutageControllerTest
     }
 
     @Test
-    public void testEditPost() throws Exception
-    {
+    public void testEditPost() throws Exception {
         final String id = "99";
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_EDIT);
         request.setMethod(HttpMethod.POST.name());
@@ -214,8 +211,7 @@ public final class OutageControllerTest
     }
 
     @Test
-    public void testDeleteGet() throws Exception
-    {
+    public void testDeleteGet() throws Exception {
         final Long id = 99L;
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_DELETE);
         request.setMethod(HttpMethod.GET.name());
@@ -242,8 +238,7 @@ public final class OutageControllerTest
     }
 
     @Test
-    public void testDeletePost() throws Exception
-    {
+    public void testDeletePost() throws Exception {
         final Long id = 99L;
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_OUTAGE_DELETE);
         request.setMethod(HttpMethod.POST.name());
@@ -277,8 +272,7 @@ public final class OutageControllerTest
         EasyMock.verify(mockManagerService);
     }
 
-    private PlannedOutage setupParametersAndOutage() throws Exception
-    {
+    private PlannedOutage setupParametersAndOutage() throws Exception {
         final String outageTypeId = "1";
         final String startTimeString = "05/30/2012 15:41:55";
         final String endTimeString = "05/30/2012 15:41:56";

@@ -18,16 +18,14 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public final class ProviewGroupListFilterControllerTest
-{
+public final class ProviewGroupListFilterControllerTest {
     private ProviewGroupListFilterController controller;
     private MockHttpServletResponse response;
     private MockHttpServletRequest request;
     private AnnotationMethodHandlerAdapter handlerAdapter;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         controller = new ProviewGroupListFilterController();
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
@@ -39,8 +37,7 @@ public final class ProviewGroupListFilterControllerTest
      * @throws Exception
      */
     @Test
-    public void testDoFilterPost() throws Exception
-    {
+    public void testDoFilterPost() throws Exception {
         final String groupName = "GroupName";
         final String groupId = "GroupID";
 

@@ -36,8 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class OutageController
-{
+public class OutageController {
     private static final Logger log = LogManager.getLogger(OutageController.class);
 
     private final ManagerService managerService;
@@ -46,12 +45,13 @@ public class OutageController
     private final List<InetSocketAddress> generatorSocketAddrs;
 
     @Autowired
-    public OutageController(final ManagerService managerService,
-                            final OutageService outageService,
-                            @Qualifier("outageFormValidator") final Validator validator,
-                            @Value("${generator.hosts}") final String commaSeparatedHostNames,
-                            @Value("${generator.port}") final int generatorPort) throws UnknownHostException
-    {
+    public OutageController(
+        final ManagerService managerService,
+        final OutageService outageService,
+        @Qualifier("outageFormValidator") final Validator validator,
+        @Value("${generator.hosts}") final String commaSeparatedHostNames,
+        @Value("${generator.port}") final int generatorPort)
+        throws UnknownHostException {
         this.managerService = managerService;
         this.outageService = outageService;
         this.validator = validator;
@@ -59,20 +59,17 @@ public class OutageController
     }
 
     @InitBinder(OutageForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.setValidator(validator);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_ACTIVE_LIST, method = RequestMethod.GET)
-    public ModelAndView getActiveList(final Model model, final HttpSession session)
-    {
+    public ModelAndView getActiveList(final Model model, final HttpSession session) {
         // Get InfoMessages from session
         final List<InfoMessage> infoMessages =
             (List<InfoMessage>) session.getAttribute(WebConstants.KEY_PLANNED_OUTAGE_INFO_MESSAGES);
         session.removeAttribute(WebConstants.KEY_PLANNED_OUTAGE_INFO_MESSAGES); // Clear message out of the session
-        if (infoMessages != null)
-        {
+        if (infoMessages != null) {
             model.addAttribute(WebConstants.KEY_INFO_MESSAGES, infoMessages);
         }
 
@@ -82,8 +79,7 @@ public class OutageController
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_OUTAGE_FULL_LIST, method = RequestMethod.GET)
-    public ModelAndView getFullList(final Model model)
-    {
+    public ModelAndView getFullList(final Model model) {
         model.addAttribute(WebConstants.KEY_OUTAGE, outageService.getAllPlannedOutages());
 
         return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_FULL_LIST);
@@ -93,8 +89,7 @@ public class OutageController
     public ModelAndView createOutage(
         @ModelAttribute(OutageForm.FORM_NAME) final OutageForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         model.addAttribute("outageType", outageService.getAllOutageType());
         return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_CREATE);
     }
@@ -104,10 +99,8 @@ public class OutageController
         @ModelAttribute(OutageForm.FORM_NAME) @Valid final OutageForm form,
         final BindingResult bindingResult,
         final Model model,
-        final HttpSession session) throws Exception
-    {
-        if (!bindingResult.hasErrors())
-        {
+        final HttpSession session) throws Exception {
+        if (!bindingResult.hasErrors()) {
             final PlannedOutage outage = form.createPlannedOutage();
             outage.setOperation(Operation.SAVE);
             session.setAttribute(
@@ -125,12 +118,10 @@ public class OutageController
         @RequestParam("id") final Long id,
         @ModelAttribute(OutageForm.FORM_NAME) final OutageForm form,
         final BindingResult bindingResult,
-        final Model model) throws Exception
-    {
+        final Model model) throws Exception {
         final PlannedOutage outage = outageService.findPlannedOutageByPrimaryKey(id);
 
-        if (outage != null)
-        {
+        if (outage != null) {
             model.addAttribute(WebConstants.KEY_OUTAGE, outage);
             form.initialize(outage);
         }
@@ -142,8 +133,7 @@ public class OutageController
     public ModelAndView editOutagePost(
         @ModelAttribute(OutageForm.FORM_NAME) @Valid final OutageForm form,
         final BindingResult bindingResult,
-        final Model model) throws Exception
-    {
+        final Model model) throws Exception {
         final PlannedOutage outage = form.createPlannedOutage();
         outage.setOperation(Operation.SAVE);
         model.addAttribute(WebConstants.KEY_INFO_MESSAGES, submitPlannedOutage(bindingResult, model, outage));
@@ -157,12 +147,10 @@ public class OutageController
         @RequestParam("id") final Long id,
         @ModelAttribute(OutageForm.FORM_NAME) final OutageForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         final PlannedOutage outage = outageService.findPlannedOutageByPrimaryKey(id);
 
-        if (outage != null)
-        {
+        if (outage != null) {
             model.addAttribute(WebConstants.KEY_OUTAGE, outage);
             form.initialize(outage);
         }
@@ -173,8 +161,7 @@ public class OutageController
     public ModelAndView deleteOutagePost(
         @ModelAttribute(OutageForm.FORM_NAME) final OutageForm form,
         final BindingResult bindingResult,
-        final Model model) throws Exception
-    {
+        final Model model) throws Exception {
         final PlannedOutage outage = form.createPlannedOutage();
         outage.setOperation(Operation.REMOVE);
 
@@ -186,20 +173,15 @@ public class OutageController
     public List<InfoMessage> submitPlannedOutage(
         final BindingResult bindingResult,
         final Model model,
-        PlannedOutage outage)
-    {
+        PlannedOutage outage) {
         final List<InfoMessage> infoMessages = new ArrayList<InfoMessage>();
-        if (!bindingResult.hasErrors())
-        {
+        if (!bindingResult.hasErrors()) {
             boolean anySaveErrors = false;
             // Persist/delete the outage
-            try
-            {
-                if (outage.getOperation() == Operation.SAVE)
-                {
+            try {
+                if (outage.getOperation() == Operation.SAVE) {
                     // Retrieve the outage from database to get the status of emails sent if already present
-                    if (outage.getId() != null)
-                    {
+                    if (outage.getId() != null) {
                         final PlannedOutage persistentOutage =
                             outageService.findPlannedOutageByPrimaryKey(outage.getId());
                         outage.setAllClearEmailSent(persistentOutage.isAllClearEmailSent());
@@ -212,31 +194,23 @@ public class OutageController
                     outage = outageService.findPlannedOutageByPrimaryKey(outage.getId());
                     outage.setOperation(Operation.SAVE);
                     infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, "Successfully saved planned outage."));
-                }
-                else
-                {
+                } else {
                     // Get latest outage to marshall to generator
                     final PlannedOutage latestOutage = outageService.findPlannedOutageByPrimaryKey(outage.getId());
                     // Only replace if the outage entity exists.
-                    if (latestOutage != null)
-                    {
+                    if (latestOutage != null) {
                         outage = latestOutage;
                     }
                     outage.setOperation(Operation.REMOVE);
                     outageService.deletePlannedOutage(outage.getId());
                     infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, "Successfully deleted planned outage."));
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 anySaveErrors = true;
                 final String errorMessage;
-                if (outage.getOperation() == Operation.SAVE)
-                {
+                if (outage.getOperation() == Operation.SAVE) {
                     errorMessage = String.format("Failed to save planned outage - %s", e.getMessage());
-                }
-                else
-                {
+                } else {
                     errorMessage = String.format("Failed to delete planned outage - %s", e.getMessage());
                 }
                 log.error(errorMessage, e);
@@ -245,11 +219,9 @@ public class OutageController
 
             // If no data persistence errors, then
             // Push/synchronize the outage out to all listening ebookGenerator hosts who care about the change.
-            if (!anySaveErrors)
-            {
+            if (!anySaveErrors) {
                 // Push the config to all generator applications
-                for (final InetSocketAddress generatorSocketAddr : generatorSocketAddrs)
-                {
+                for (final InetSocketAddress generatorSocketAddr : generatorSocketAddrs) {
                     pushPlannedOutage(outage, generatorSocketAddr, infoMessages);
                 }
             }
@@ -260,28 +232,21 @@ public class OutageController
     private void pushPlannedOutage(
         final PlannedOutage outage,
         final InetSocketAddress socketAddr,
-        final List<InfoMessage> infoMessages)
-    {
+        final List<InfoMessage> infoMessages) {
         final String errorMessageTemplate = "Failed to push outage to host %s - %s";
-        try
-        {
+        try {
             final SimpleRestServiceResponse opResponse = managerService.pushPlannedOutage(outage, socketAddr);
-            if (opResponse.isSuccess())
-            {
+            if (opResponse.isSuccess()) {
                 infoMessages.add(
                     new InfoMessage(
                         InfoMessage.Type.SUCCESS,
                         String.format("Successfully pushed planned outage to host %s", socketAddr)));
-            }
-            else
-            {
+            } else {
                 final String errorMessage = String.format(errorMessageTemplate, socketAddr, opResponse.getMessage());
                 log.error("Response failure: " + errorMessage);
                 infoMessages.add(new InfoMessage(InfoMessage.Type.FAIL, errorMessage));
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             final String errorMessage = String.format(errorMessageTemplate, socketAddr, e.getMessage());
             log.error(errorMessage, e);
             infoMessages.add(new InfoMessage(InfoMessage.Type.FAIL, errorMessage));
@@ -294,8 +259,7 @@ public class OutageController
      */
     @RequestMapping(value = WebConstants.MVC_DISMISS_OUTAGE, method = RequestMethod.POST)
     @ResponseBody
-    public void dismissOutage(final HttpSession session)
-    {
+    public void dismissOutage(final HttpSession session) {
         log.debug("<<< Ajax call for outage");
         session.setAttribute(WebConstants.KEY_DISMISS_OUTAGE, true);
     }

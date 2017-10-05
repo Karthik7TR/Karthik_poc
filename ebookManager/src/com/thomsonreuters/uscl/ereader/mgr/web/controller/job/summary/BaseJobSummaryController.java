@@ -19,13 +19,11 @@ import org.springframework.ui.Model;
 /**
  * Methods common to, and needed by both the JobSummaryController and the FilterFormController.
  */
-public abstract class BaseJobSummaryController
-{
+public abstract class BaseJobSummaryController {
     protected final JobService jobService;
     protected final OutageService outageService;
 
-    protected BaseJobSummaryController(final JobService jobService, final OutageService outageService)
-    {
+    protected BaseJobSummaryController(final JobService jobService, final OutageService outageService) {
         this.jobService = jobService;
         this.outageService = outageService;
     }
@@ -35,11 +33,9 @@ public abstract class BaseJobSummaryController
      * a new current list from the service.
      * @return a list of job execution ID's
      */
-    protected List<Long> fetchSavedJobExecutionIdList(final HttpSession httpSession)
-    {
+    protected List<Long> fetchSavedJobExecutionIdList(final HttpSession httpSession) {
         List<Long> jobExecutionIds = (List<Long>) httpSession.getAttribute(WebConstants.KEY_JOB_EXECUTION_IDS);
-        if (jobExecutionIds == null)
-        {
+        if (jobExecutionIds == null) {
             jobExecutionIds = Collections.EMPTY_LIST;
         }
         return jobExecutionIds;
@@ -48,26 +44,19 @@ public abstract class BaseJobSummaryController
     /**
      * Fetch object containing the current page number, sort column, and sort direction as saved on the session.
      */
-    protected PageAndSort<DisplayTagSortProperty> fetchSavedPageAndSort(final HttpSession httpSession)
-    {
+    protected PageAndSort<DisplayTagSortProperty> fetchSavedPageAndSort(final HttpSession httpSession) {
         PageAndSort<DisplayTagSortProperty> pageAndSort =
             (PageAndSort<DisplayTagSortProperty>) httpSession.getAttribute(PageAndSort.class.getName());
-        if (pageAndSort == null)
-        {
-            pageAndSort = new PageAndSort<>(
-                1,
-                PageAndSort.DEFAULT_ITEMS_PER_PAGE,
-                DisplayTagSortProperty.START_TIME,
-                false);
+        if (pageAndSort == null) {
+            pageAndSort =
+                new PageAndSort<>(1, PageAndSort.DEFAULT_ITEMS_PER_PAGE, DisplayTagSortProperty.START_TIME, false);
         }
         return pageAndSort;
     }
 
-    protected FilterForm fetchSavedFilterForm(final HttpSession httpSession)
-    {
+    protected FilterForm fetchSavedFilterForm(final HttpSession httpSession) {
         FilterForm form = (FilterForm) httpSession.getAttribute(FilterForm.FORM_NAME);
-        if (form == null)
-        {
+        if (form == null) {
             form = new FilterForm();
         }
         return form;
@@ -86,8 +75,7 @@ public abstract class BaseJobSummaryController
         final FilterForm filterForm,
         final PageAndSort<DisplayTagSortProperty> pageAndSort,
         final HttpSession httpSession,
-        final Model model)
-    {
+        final Model model) {
         // Save filter and paging state in the session
         httpSession.setAttribute(FilterForm.FORM_NAME, filterForm);
         httpSession.setAttribute(PageAndSort.class.getName(), pageAndSort);
@@ -109,8 +97,7 @@ public abstract class BaseJobSummaryController
      * @param ascendingSort true to sort in ascending order
      * @return a job sort business object used by the service to fetch the job execution entities.
      */
-    protected static JobSort createJobSort(final DisplayTagSortProperty dtSortProperty, final boolean ascendingSort)
-    {
+    protected static JobSort createJobSort(final DisplayTagSortProperty dtSortProperty, final boolean ascendingSort) {
         return new JobSort(SortProperty.valueOf(dtSortProperty.toString()), ascendingSort);
     }
 
@@ -123,8 +110,7 @@ public abstract class BaseJobSummaryController
      */
     private PaginatedList createPaginatedList(
         final List<Long> jobExecutionIds,
-        final PageAndSort<DisplayTagSortProperty> pageAndSort)
-    {
+        final PageAndSort<DisplayTagSortProperty> pageAndSort) {
         // Calculate begin and end index for the current page number
         final int fromIndex = (pageAndSort.getPageNumber() - 1) * pageAndSort.getObjectsPerPage();
         int toIndex = fromIndex + pageAndSort.getObjectsPerPage();

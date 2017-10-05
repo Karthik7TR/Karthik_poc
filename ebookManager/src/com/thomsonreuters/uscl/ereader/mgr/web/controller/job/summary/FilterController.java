@@ -30,23 +30,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class FilterController extends BaseJobSummaryController
-{
+public class FilterController extends BaseJobSummaryController {
     private static final Logger log = LogManager.getLogger(FilterController.class);
     private final Validator validator;
 
     @Autowired
-    public FilterController(final JobService jobService,
-                            final OutageService outageService,
-                            @Qualifier("filterFormValidator") final Validator validator)
-    {
+    public FilterController(
+        final JobService jobService,
+        final OutageService outageService,
+        @Qualifier("filterFormValidator") final Validator validator) {
         super(jobService, outageService);
         this.validator = validator;
     }
 
     @InitBinder(FilterForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.setValidator(validator);
     }
@@ -59,8 +57,7 @@ public class FilterController extends BaseJobSummaryController
         final HttpSession httpSession,
         @ModelAttribute(FilterForm.FORM_NAME) @Valid final FilterForm filterForm,
         final BindingResult errors,
-        final Model model)
-    {
+        final Model model) {
         log.debug(filterForm);
         // Fetch the existing saved list of job execution ID's from the last successful query
         List<Long> jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
@@ -70,14 +67,12 @@ public class FilterController extends BaseJobSummaryController
         final JobSummaryForm jobSummaryForm = new JobSummaryForm();
         jobSummaryForm.setObjectsPerPage(pageAndSort.getObjectsPerPage());
 
-        if (FilterCommand.RESET.equals(filterForm.getFilterCommand()))
-        {
+        if (FilterCommand.RESET.equals(filterForm.getFilterCommand())) {
             filterForm.initialize();
         }
 
         pageAndSort.setPageNumber(1);
-        if (!errors.hasErrors())
-        {
+        if (!errors.hasErrors()) {
             final JobFilter filter = new JobFilter(
                 filterForm.getFromDate(),
                 filterForm.getToDate(),

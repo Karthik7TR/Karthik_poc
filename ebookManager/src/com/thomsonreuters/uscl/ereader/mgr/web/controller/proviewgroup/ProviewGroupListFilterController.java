@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class ProviewGroupListFilterController extends BaseProviewGroupListController
-{
+public class ProviewGroupListFilterController extends BaseProviewGroupListController {
     /**
      * Handle submit/post of a new set of filter criteria.
      */
@@ -27,18 +26,14 @@ public class ProviewGroupListFilterController extends BaseProviewGroupListContro
         final HttpSession httpSession,
         @ModelAttribute(ProviewGroupListFilterForm.FORM_NAME) final ProviewGroupListFilterForm filterForm,
         final BindingResult errors,
-        final Model model)
-    {
+        final Model model) {
         List<ProviewGroup> selectedProviewGroupList = new ArrayList<ProviewGroup>();
         final List<ProviewGroup> allLatestProviewGroupList = fetchAllLatestProviewGroups(httpSession);
 
-        if (FilterCommand.RESET.equals(filterForm.getFilterCommand()))
-        {
+        if (FilterCommand.RESET.equals(filterForm.getFilterCommand())) {
             filterForm.initNull();
             selectedProviewGroupList = allLatestProviewGroupList;
-        }
-        else
-        {
+        } else {
             selectedProviewGroupList = filterProviewGroupList(filterForm, allLatestProviewGroupList);
         }
 
@@ -46,8 +41,7 @@ public class ProviewGroupListFilterController extends BaseProviewGroupListContro
         saveProviewGroupListFilterForm(httpSession, filterForm);
 
         final ProviewGroupForm proviewGroupForm = fetchProviewGroupForm(httpSession);
-        if (proviewGroupForm.getObjectsPerPage() == null)
-        {
+        if (proviewGroupForm.getObjectsPerPage() == null) {
             proviewGroupForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
         }
         model.addAttribute(ProviewGroupForm.FORM_NAME, proviewGroupForm);

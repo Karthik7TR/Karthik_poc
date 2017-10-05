@@ -29,8 +29,7 @@ import org.springframework.web.servlet.view.RedirectView;
 /**
  * Tests for login/logouot and authentication.
  */
-public final class LoginControllerTest
-{
+public final class LoginControllerTest {
     private LoginController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
@@ -41,8 +40,7 @@ public final class LoginControllerTest
     private MiscConfigSyncService mockMiscConfigSyncService;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -51,12 +49,16 @@ public final class LoginControllerTest
         mockOutageService = EasyMock.createMock(OutageService.class);
         mockMiscConfigSyncService = EasyMock.createMock(MiscConfigSyncService.class);
 
-        controller = new LoginController(mockPreferenceService, mockOutageService, mockMiscConfigSyncService, null, "workstation");
+        controller = new LoginController(
+            mockPreferenceService,
+            mockOutageService,
+            mockMiscConfigSyncService,
+            null,
+            "workstation");
     }
 
     @Test
-    public void testInboundGet() throws Exception
-    {
+    public void testInboundGet() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_SEC_LOGIN);
         request.setMethod(HttpMethod.GET.name());
 
@@ -77,8 +79,7 @@ public final class LoginControllerTest
     }
 
     @Test
-    public void testHandleLoginFormPostSuccess() throws Exception
-    {
+    public void testHandleLoginFormPostSuccess() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_SEC_LOGIN);
         request.setMethod(HttpMethod.POST.name());
         final String username = "fooUser";
@@ -102,8 +103,7 @@ public final class LoginControllerTest
     }
 
     @Test
-    public void testhandleAuthenticationFailure() throws Exception
-    {
+    public void testhandleAuthenticationFailure() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_SEC_LOGIN_FAIL);
         request.setMethod(HttpMethod.GET.name());
 
@@ -122,8 +122,7 @@ public final class LoginControllerTest
     }
 
     @Test
-    public void testHandleAuthenticationSuccess() throws Exception
-    {
+    public void testHandleAuthenticationSuccess() throws Exception {
         // Set up the request URL
         request.setRequestURI("/" + WebConstants.MVC_SEC_AFTER_AUTHENTICATION);
         request.setMethod(HttpMethod.GET.name());

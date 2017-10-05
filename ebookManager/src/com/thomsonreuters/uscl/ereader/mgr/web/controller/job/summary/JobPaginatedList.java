@@ -12,8 +12,7 @@ import org.displaytag.properties.SortOrderEnum;
  * Note that the JobExecution business object is wrappered by a JobExecutionVdo to allow for the exposing
  * of presentation related properties.
  */
-public class JobPaginatedList implements PaginatedList
-{
+public class JobPaginatedList implements PaginatedList {
     //private static final Logger log = LogManager.getLogger(JobPaginatedList.class);
 
     private List<JobSummary> partialList;
@@ -33,8 +32,7 @@ public class JobPaginatedList implements PaginatedList
         final int pageNumber,
         final int itemsPerPage,
         final DisplayTagSortProperty sortProperty,
-        final boolean ascending)
-    {
+        final boolean ascending) {
         this.partialList = partialList;
         this.fullListSize = fullListSize;
         this.pageNumber = pageNumber;
@@ -44,50 +42,42 @@ public class JobPaginatedList implements PaginatedList
     }
 
     @Override
-    public int getFullListSize()
-    {
+    public int getFullListSize() {
         return fullListSize;
     }
 
     @Override
-    public List<JobSummary> getList()
-    {
+    public List<JobSummary> getList() {
         return partialList;
     }
 
     @Override
-    public int getObjectsPerPage()
-    {
+    public int getObjectsPerPage() {
         return itemsPerPage;
     }
 
     @Override
-    public int getPageNumber()
-    {
+    public int getPageNumber() {
         return pageNumber;
     }
 
     @Override
-    public String getSearchId()
-    {
+    public String getSearchId() {
         return null;
     }
 
     @Override
     /** Returns of of the SortProperty values */
-    public String getSortCriterion()
-    {
+    public String getSortCriterion() {
         return sortProperty.toString();
     }
 
     @Override
-    public SortOrderEnum getSortDirection()
-    {
+    public SortOrderEnum getSortDirection() {
         return (ascending) ? SortOrderEnum.ASCENDING : SortOrderEnum.DESCENDING;
     }
 
-    public boolean isAscendingSort()
-    {
+    public boolean isAscendingSort() {
         return ascending;
     }
 }

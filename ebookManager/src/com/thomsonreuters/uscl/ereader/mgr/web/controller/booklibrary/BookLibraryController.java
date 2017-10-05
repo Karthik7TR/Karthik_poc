@@ -28,25 +28,23 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class BookLibraryController extends BaseBookLibraryController
-{
+public class BookLibraryController extends BaseBookLibraryController {
     private static final Logger log = LogManager.getLogger(BookLibraryController.class);
 
     private final Validator validator;
 
     @Autowired
-    public BookLibraryController(final LibraryListService libraryService,
-                                 final CodeService codeService,
-                                 final OutageService outageService,
-                                 @Qualifier("bookLibrarySelectionFormValidator") final Validator validator)
-    {
+    public BookLibraryController(
+        final LibraryListService libraryService,
+        final CodeService codeService,
+        final OutageService outageService,
+        @Qualifier("bookLibrarySelectionFormValidator") final Validator validator) {
         super(libraryService, codeService, outageService);
         this.validator = validator;
     }
 
     @InitBinder(BookLibrarySelectionForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.setValidator(validator);
     }
 
@@ -61,8 +59,7 @@ public class BookLibraryController extends BaseBookLibraryController
      * @throws Exception
      */
     @RequestMapping(value = WebConstants.MVC_BOOK_LIBRARY_LIST, method = RequestMethod.GET)
-    public ModelAndView inboundGet(final HttpSession httpSession, final Model model)
-    {
+    public ModelAndView inboundGet(final HttpSession httpSession, final Model model) {
         log.debug(">>>");
         final BookLibraryFilterForm filterForm = fetchSavedFilterForm(httpSession); // from session
         final PageAndSort<DisplayTagSortProperty> savedPageAndSort = fetchSavedPageAndSort(httpSession); // from session
@@ -88,8 +85,7 @@ public class BookLibraryController extends BaseBookLibraryController
     public ModelAndView pagingAndSorting(
         final HttpSession httpSession,
         @ModelAttribute(BookLibrarySelectionForm.FORM_NAME) final BookLibrarySelectionForm form,
-        final Model model)
-    {
+        final Model model) {
         final BookLibraryFilterForm filterForm = fetchSavedFilterForm(httpSession);
         final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
         form.setObjectsPerPage(pageAndSort.getObjectsPerPage());
@@ -97,12 +93,9 @@ public class BookLibraryController extends BaseBookLibraryController
 
         // If there was a page=n query string parameter, then we assume we are paging since this
         // parameter is not present on the query string when display tag sorting.
-        if (nextPageNumber != null)
-        { // PAGING
+        if (nextPageNumber != null) { // PAGING
             pageAndSort.setPageNumber(nextPageNumber);
-        }
-        else
-        { // SORTING
+        } else { // SORTING
             pageAndSort.setPageNumber(1);
             pageAndSort.setSortProperty(form.getSort());
             pageAndSort.setAscendingSort(form.isAscendingSort());
@@ -118,31 +111,24 @@ public class BookLibraryController extends BaseBookLibraryController
         final HttpServletRequest request,
         @ModelAttribute(BookLibrarySelectionForm.FORM_NAME) @Valid final BookLibrarySelectionForm form,
         final BindingResult bindingResult,
-        final Model model) throws Exception
-    {
-        if (!bindingResult.hasErrors())
-        {
+        final Model model) throws Exception {
+        if (!bindingResult.hasErrors()) {
             ModelAndView mav = null;
             final String[] bookKeys = form.getSelectedEbookKeys();
             final StringBuilder parameters = new StringBuilder();
             parameters.append("?");
-            for (final String key : bookKeys)
-            {
+            for (final String key : bookKeys) {
                 parameters.append("id=" + key + "&");
             }
             parameters.deleteCharAt(parameters.length() - 1);
 
             final Command command = form.getCommand();
-            switch (command)
-            {
+            switch (command) {
             case GENERATE:
-                if (bookKeys.length > 1)
-                {
+                if (bookKeys.length > 1) {
                     mav = new ModelAndView(
                         new RedirectView(WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW + parameters.toString()));
-                }
-                else
-                {
+                } else {
                     mav = new ModelAndView(
                         new RedirectView(WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW + parameters.toString()));
                 }
@@ -170,8 +156,7 @@ public class BookLibraryController extends BaseBookLibraryController
     public ModelAndView handleChangeInItemsToDisplay(
         final HttpSession httpSession,
         @ModelAttribute(BookLibrarySelectionForm.FORM_NAME) @Valid final BookLibrarySelectionForm form,
-        final Model model)
-    {
+        final Model model) {
         log.debug(form);
         final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
         pageAndSort.setPageNumber(1); // Always start from first page again once changing row count to avoid index out of bounds

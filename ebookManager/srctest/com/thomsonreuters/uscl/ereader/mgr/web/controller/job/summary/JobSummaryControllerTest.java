@@ -35,8 +35,7 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public final class JobSummaryControllerTest
-{
+public final class JobSummaryControllerTest {
     //private static final Logger log = LogManager.getLogger(JobSummaryControllerTest.class);
     public static final int JOB_EXEC_ID_COUNT = 50;
     private JobSummaryController controller;
@@ -54,8 +53,7 @@ public final class JobSummaryControllerTest
     private List<JobSummary> JOB_SUMMARY_LIST = new ArrayList<>();
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
 
@@ -68,15 +66,17 @@ public final class JobSummaryControllerTest
 
         controller = new JobSummaryController(mockJobService, mockOutageService);
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "validator", new JobSummaryValidator());
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "generatorRestClient", mockManagerService);
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "messageSourceAccessor", mockMessageSourceAccessor);
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "jobExecutionController", mockJobExecutionController);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "generatorRestClient", mockManagerService);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "messageSourceAccessor", mockMessageSourceAccessor);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "jobExecutionController", mockJobExecutionController);
 
         // Set up the Job execution ID list stored in the session
         jobExecutionIds = new ArrayList<>();
         jobExecutions = new ArrayList<>();
-        for (long id = 0; id < JOB_EXEC_ID_COUNT; id++)
-        {
+        for (long id = 0; id < JOB_EXEC_ID_COUNT; id++) {
             jobExecutionIds.add(id);
             final JobExecution jobExecution = new JobExecution(id);
             jobExecution.setJobInstance(new JobInstance(id + 100, "bogusJobName"));
@@ -87,8 +87,7 @@ public final class JobSummaryControllerTest
     }
 
     @Test
-    public void testJobSummaryInboundGet() throws Exception
-    {
+    public void testJobSummaryInboundGet() throws Exception {
         // Set up the request URL
         request.setRequestURI("/" + WebConstants.MVC_JOB_SUMMARY);
         request.setMethod(HttpMethod.GET.name());
@@ -123,8 +122,7 @@ public final class JobSummaryControllerTest
     }
 
     @Test
-    public void testJobSummaryPaging() throws Exception
-    {
+    public void testJobSummaryPaging() throws Exception {
         // Set up the request URL
         final int newPageNumber = 2;
         request.setRequestURI("/" + WebConstants.MVC_JOB_SUMMARY_PAGE_AND_SORT);
@@ -160,8 +158,7 @@ public final class JobSummaryControllerTest
     }
 
     @Test
-    public void testJobSummarySorting() throws Exception
-    {
+    public void testJobSummarySorting() throws Exception {
         // Set up the request URL
         request.setRequestURI("/" + WebConstants.MVC_JOB_SUMMARY_PAGE_AND_SORT);
         request.setMethod(HttpMethod.GET.name());
@@ -193,8 +190,7 @@ public final class JobSummaryControllerTest
     }
 
     @Test
-    public void testRestartJob() throws Exception
-    {
+    public void testRestartJob() throws Exception {
         final Long id = 2002L;
 
         // Set up the request URL
@@ -212,8 +208,7 @@ public final class JobSummaryControllerTest
     }
 
     @Test
-    public void testStopJob() throws Exception
-    {
+    public void testStopJob() throws Exception {
         final Long id = 2003L;
 
         // Set up the request URL
@@ -230,8 +225,7 @@ public final class JobSummaryControllerTest
         verifyJobOperation();
     }
 
-    private void verifyJobOperation() throws Exception
-    {
+    private void verifyJobOperation() throws Exception {
         // Common recordings for stop and restart
         EasyMock.expect(mockJobService.findJobSummary(jobExecutionIdSubList)).andReturn(JOB_SUMMARY_LIST);
         EasyMock
@@ -268,8 +262,7 @@ public final class JobSummaryControllerTest
      * @throws Exception
      */
     @Test
-    public void testChangeDisplayedRowsPerPage() throws Exception
-    {
+    public void testChangeDisplayedRowsPerPage() throws Exception {
         final int EXPECTED_OBJECTS_PER_PAGE = 33;
         // Set up the request URL
         request.setRequestURI("/" + WebConstants.MVC_JOB_SUMMARY_CHANGE_ROW_COUNT);
@@ -307,8 +300,7 @@ public final class JobSummaryControllerTest
      * Verify the state of the session and reqeust (model) as expected before the
      * rendering of the job Summary page.
      */
-    public static void validateModel(final HttpSession session, final Map<String, Object> model)
-    {
+    public static void validateModel(final HttpSession session, final Map<String, Object> model) {
         Assert.assertNotNull(session.getAttribute(FilterForm.FORM_NAME));
         Assert.assertNotNull(session.getAttribute(PageAndSort.class.getName()));
         Assert.assertNotNull(session.getAttribute(WebConstants.KEY_JOB_EXECUTION_IDS));

@@ -12,8 +12,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
-public class LibraryListDaoImpl implements LibraryListDao
-{
+public class LibraryListDaoImpl implements LibraryListDao {
     // private static final Logger log =
     // LogManager.getLogger(LibraryListDaoImpl.class);
     private static final LibraryListRowMapper LIBRARY_LIST_ROW_MAPPER = new LibraryListRowMapper();
@@ -21,8 +20,7 @@ public class LibraryListDaoImpl implements LibraryListDao
 
     @Override
     @Transactional(readOnly = true)
-    public List<LibraryList> findBookDefinitions(final LibraryListFilter filter, final LibraryListSort sort)
-    {
+    public List<LibraryList> findBookDefinitions(final LibraryListFilter filter, final LibraryListSort sort) {
         final StringBuffer sql = new StringBuffer();
         sql.append("select * from ( select row_.*, ROWNUM rownum_ from ( ");
         sql.append("select book.EBOOK_DEFINITION_ID, book.PROVIEW_DISPLAY_NAME, book.TITLE_ID, ");
@@ -39,24 +37,16 @@ public class LibraryListDaoImpl implements LibraryListDao
 
         final SortProperty sortProperty = sort.getSortProperty();
 
-        if (sortProperty.equals(SortProperty.DEFINITION_STATUS))
-        {
+        if (sortProperty.equals(SortProperty.DEFINITION_STATUS)) {
             final String sortDelete = "book.IS_DELETED_FLAG";
             final String sortComplete = "book.EBOOK_DEFINITION_COMPLETE_FLAG";
             sql.append(String.format("order by %s %s, %s %s", sortDelete, direction, sortComplete, direction));
-        }
-        else
-        {
-            if (sortProperty.equals(SortProperty.TITLE_ID))
-            {
+        } else {
+            if (sortProperty.equals(SortProperty.TITLE_ID)) {
                 sortPropertySQL = "book.TITLE_ID";
-            }
-            else if (sortProperty.equals(SortProperty.LAST_GENERATED_DATE))
-            {
+            } else if (sortProperty.equals(SortProperty.LAST_GENERATED_DATE)) {
                 sortPropertySQL = "ps.PUB_DATE";
-            }
-            else if (sortProperty.equals(SortProperty.LAST_EDIT_DATE))
-            {
+            } else if (sortProperty.equals(SortProperty.LAST_EDIT_DATE)) {
                 sortPropertySQL = "book.LAST_UPDATED";
             }
 
@@ -75,8 +65,7 @@ public class LibraryListDaoImpl implements LibraryListDao
     }
 
     @Override
-    public Integer numberOfBookDefinitions(final LibraryListFilter filter)
-    {
+    public Integer numberOfBookDefinitions(final LibraryListFilter filter) {
         final StringBuffer sql = new StringBuffer();
         sql.append("SELECT COUNT(book.EBOOK_DEFINITION_ID) FROM ");
         sql.append("EBOOK_DEFINITION book ");
@@ -88,65 +77,49 @@ public class LibraryListDaoImpl implements LibraryListDao
         return jdbcTemplate.queryForObject(sql.toString(), args, Integer.class);
     }
 
-    private StringBuffer addFiltersToQuery(final LibraryListFilter filter)
-    {
+    private StringBuffer addFiltersToQuery(final LibraryListFilter filter) {
         final StringBuffer sql = new StringBuffer();
 
-        if (filter.getKeywordValue() != null)
-        {
+        if (filter.getKeywordValue() != null) {
             sql.append("INNER JOIN EBOOK_KEYWORDS k ON book.EBOOK_DEFINITION_ID = k.EBOOK_DEFINITION_ID ");
         }
 
         sql.append("WHERE ");
-        if (filter.getKeywordValue() != null)
-        {
+        if (filter.getKeywordValue() != null) {
             sql.append(String.format("(k.KEYWORD_TYPE_VALUES_ID = '%d') and ", filter.getKeywordValue()));
         }
-        if (filter.getFrom() != null)
-        {
+        if (filter.getFrom() != null) {
             sql.append("(book.LAST_UPDATED >= ?) and ");
         }
-        if (filter.getTo() != null)
-        {
+        if (filter.getTo() != null) {
             sql.append("(book.LAST_UPDATED < ?) and ");
         }
-        if (StringUtils.isNotBlank(filter.getAction()))
-        {
+        if (StringUtils.isNotBlank(filter.getAction())) {
             final String action = filter.getAction();
-            if (action.equalsIgnoreCase("DELETED"))
-            {
+            if (action.equalsIgnoreCase("DELETED")) {
                 sql.append(String.format("(book.IS_DELETED_FLAG = '%s') and ", "Y"));
-            }
-            else
-            {
+            } else {
                 final String flag;
 
-                if (action.equalsIgnoreCase("READY"))
-                {
+                if (action.equalsIgnoreCase("READY")) {
                     flag = "Y";
-                }
-                else
-                {
+                } else {
                     flag = "N";
                 }
                 sql.append(String.format("(book.IS_DELETED_FLAG = '%s') and ", "N"));
                 sql.append(String.format("(book.EBOOK_DEFINITION_COMPLETE_FLAG = '%s') and ", flag));
             }
         }
-        if (StringUtils.isNotBlank(filter.getIsbn()))
-        {
+        if (StringUtils.isNotBlank(filter.getIsbn())) {
             sql.append("(book.ISBN LIKE ?) and ");
         }
-        if (StringUtils.isNotBlank(filter.getMaterialId()))
-        {
+        if (StringUtils.isNotBlank(filter.getMaterialId())) {
             sql.append("(book.MATERIAL_ID LIKE ?) and ");
         }
-        if (StringUtils.isNotBlank(filter.getProviewDisplayName()))
-        {
+        if (StringUtils.isNotBlank(filter.getProviewDisplayName())) {
             sql.append("(UPPER(book.PROVIEW_DISPLAY_NAME) LIKE UPPER(?)) and ");
         }
-        if (StringUtils.isNotBlank(filter.getTitleId()))
-        {
+        if (StringUtils.isNotBlank(filter.getTitleId())) {
             sql.append("(UPPER(book.TITLE_ID) LIKE UPPER(?)) and ");
         }
         sql.append("(1=1) "); // end of WHERE clause, ensure proper SQL syntax
@@ -154,33 +127,26 @@ public class LibraryListDaoImpl implements LibraryListDao
         return sql;
     }
 
-    private Object[] argumentsAddToFilter(final LibraryListFilter filter)
-    {
+    private Object[] argumentsAddToFilter(final LibraryListFilter filter) {
         final List<Object> args = new ArrayList<>();
         // The order of the arguments being added needs to match the order in
         // addFiltersToQuery method.
-        if (filter.getFrom() != null)
-        {
+        if (filter.getFrom() != null) {
             args.add(filter.getFrom());
         }
-        if (filter.getTo() != null)
-        {
+        if (filter.getTo() != null) {
             args.add(filter.getTo());
         }
-        if (StringUtils.isNotBlank(filter.getIsbn()))
-        {
+        if (StringUtils.isNotBlank(filter.getIsbn())) {
             args.add(filter.getIsbn());
         }
-        if (StringUtils.isNotBlank(filter.getMaterialId()))
-        {
+        if (StringUtils.isNotBlank(filter.getMaterialId())) {
             args.add(filter.getMaterialId());
         }
-        if (StringUtils.isNotBlank(filter.getProviewDisplayName()))
-        {
+        if (StringUtils.isNotBlank(filter.getProviewDisplayName())) {
             args.add(filter.getProviewDisplayName());
         }
-        if (StringUtils.isNotBlank(filter.getTitleId()))
-        {
+        if (StringUtils.isNotBlank(filter.getTitleId())) {
             args.add(filter.getTitleId());
         }
 
@@ -188,8 +154,7 @@ public class LibraryListDaoImpl implements LibraryListDao
     }
 
     @Required
-    public void setJdbcTemplate(final JdbcTemplate template)
-    {
+    public void setJdbcTemplate(final JdbcTemplate template) {
         jdbcTemplate = template;
     }
 }

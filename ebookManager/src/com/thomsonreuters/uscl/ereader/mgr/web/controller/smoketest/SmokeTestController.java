@@ -26,8 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class SmokeTestController
-{
+public class SmokeTestController {
     private static final Logger log = LogManager.getLogger(SmokeTestController.class);
 
     private final MiscConfigSyncService miscConfigSyncService;
@@ -37,12 +36,12 @@ public class SmokeTestController
     private final String imageVertical;
 
     @Autowired
-    public SmokeTestController(final MiscConfigSyncService miscConfigSyncService,
-                               final SmokeTestService smokeTestService,
-                               final SapService sapService,
-                               @Qualifier("environmentName") final String environmentName,
-                               @Value("${image.vertical.context.url}") final String imageVertical)
-    {
+    public SmokeTestController(
+        final MiscConfigSyncService miscConfigSyncService,
+        final SmokeTestService smokeTestService,
+        final SapService sapService,
+        @Qualifier("environmentName") final String environmentName,
+        @Value("${image.vertical.context.url}") final String imageVertical) {
         this.miscConfigSyncService = miscConfigSyncService;
         this.smokeTestService = smokeTestService;
         this.sapService = sapService;
@@ -50,20 +49,15 @@ public class SmokeTestController
         this.imageVertical = imageVertical;
     }
 
-
     /**
      * Handle the inbound GET to the smoke test page.
      */
     @RequestMapping(value = WebConstants.MVC_SMOKE_TEST, method = RequestMethod.GET)
-    public ModelAndView inboundGet(final HttpSession httpSession, final Model model)
-    {
+    public ModelAndView inboundGet(final HttpSession httpSession, final Model model) {
         final InetAddress proviewHost = miscConfigSyncService.getProviewHost();
-        try
-        {
+        try {
             model.addAttribute("localHost", InetAddress.getLocalHost().getHostName());
-        }
-        catch (final UnknownHostException e)
-        {
+        } catch (final UnknownHostException e) {
             log.error(e);
         }
 

@@ -23,21 +23,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class PublishingStatsFilterController extends BasePublishingStatsController
-{
+public class PublishingStatsFilterController extends BasePublishingStatsController {
     private final Validator validator;
 
     @Autowired
-    public PublishingStatsFilterController(final PublishingStatsService publishingStatsService,
-                                           @Qualifier("publishingStatsFormValidator") final Validator validator)
-    {
+    public PublishingStatsFilterController(
+        final PublishingStatsService publishingStatsService,
+        @Qualifier("publishingStatsFormValidator") final Validator validator) {
         super(publishingStatsService);
         this.validator = validator;
     }
 
     @InitBinder(PublishingStatsFilterForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.setValidator(validator);
     }
@@ -50,15 +48,13 @@ public class PublishingStatsFilterController extends BasePublishingStatsControll
         final HttpSession httpSession,
         @ModelAttribute(PublishingStatsFilterForm.FORM_NAME) @Valid final PublishingStatsFilterForm filterForm,
         final BindingResult errors,
-        final Model model)
-    {
+        final Model model) {
         // Restore state of paging and sorting
         final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
         final PublishingStatsForm jobSummaryForm = new PublishingStatsForm();
         jobSummaryForm.setObjectsPerPage(pageAndSort.getObjectsPerPage());
 
-        if (FilterCommand.RESET.equals(filterForm.getFilterCommand()))
-        {
+        if (FilterCommand.RESET.equals(filterForm.getFilterCommand())) {
             filterForm.initialize();
         }
 

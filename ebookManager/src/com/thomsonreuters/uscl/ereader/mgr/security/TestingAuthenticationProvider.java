@@ -13,25 +13,21 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  * Will authenticate a username of any valid application role name along with a password of "password".
  * Example: ROLE_PUBLISHER / password will successfully authenticate.
  */
-public class TestingAuthenticationProvider implements AuthenticationProvider
-{
+public class TestingAuthenticationProvider implements AuthenticationProvider {
     //private static final Logger log = LogManager.getLogger(TestingAuthenticationProvider.class);
 
     private UserDetailsService userDetailsService;
     private static String environmentName;
 
     @Override
-    public Authentication authenticate(final Authentication authentication) throws AuthenticationException
-    {
+    public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
         final String username = authentication.getPrincipal().toString();
         final String password = (String) authentication.getCredentials();
 
-        if (mapGroupFromUsername(username) == null)
-        {
+        if (mapGroupFromUsername(username) == null) {
             return null;
         }
-        if (!"password".equals(password))
-        { // Verify the password is "password"
+        if (!"password".equals(password)) { // Verify the password is "password"
             return null;
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -40,38 +36,30 @@ public class TestingAuthenticationProvider implements AuthenticationProvider
         return authToken;
     }
 
-    public static SecurityRole mapGroupFromUsername(final String name)
-    {
+    public static SecurityRole mapGroupFromUsername(final String name) {
         // Only allow this to work in Test, CI, and Workstation for testing purposes.
         if (environmentName != null
             && (environmentName.equalsIgnoreCase("ci")
                 || environmentName.equalsIgnoreCase("cicontent")
                 || environmentName.equalsIgnoreCase("test")
                 || environmentName.equalsIgnoreCase("testcontent")
-                || environmentName.equalsIgnoreCase("workstation")))
-        {
-            if (name.contains(SecurityRole.ROLE_GUEST.toString()))
-            {
+                || environmentName.equalsIgnoreCase("workstation"))) {
+            if (name.contains(SecurityRole.ROLE_GUEST.toString())) {
                 return SecurityRole.ROLE_GUEST;
             }
-            if (name.contains(SecurityRole.ROLE_PUBLISHER_PLUS.toString()))
-            {
+            if (name.contains(SecurityRole.ROLE_PUBLISHER_PLUS.toString())) {
                 return SecurityRole.ROLE_PUBLISHER_PLUS;
             }
-            if (name.contains(SecurityRole.ROLE_PUBLISHER.toString()))
-            {
+            if (name.contains(SecurityRole.ROLE_PUBLISHER.toString())) {
                 return SecurityRole.ROLE_PUBLISHER;
             }
-            if (name.contains(SecurityRole.ROLE_SUPERUSER.toString()))
-            {
+            if (name.contains(SecurityRole.ROLE_SUPERUSER.toString())) {
                 return SecurityRole.ROLE_SUPERUSER;
             }
-            if (name.contains(SecurityRole.ROLE_SUPPORT.toString()))
-            {
+            if (name.contains(SecurityRole.ROLE_SUPPORT.toString())) {
                 return SecurityRole.ROLE_SUPPORT;
             }
-            if (name.contains(SecurityRole.ROLE_EDITOR.toString()))
-            {
+            if (name.contains(SecurityRole.ROLE_EDITOR.toString())) {
                 return SecurityRole.ROLE_EDITOR;
             }
         }
@@ -79,20 +67,17 @@ public class TestingAuthenticationProvider implements AuthenticationProvider
     }
 
     @Override
-    public boolean supports(final Class<?> paramClass)
-    {
+    public boolean supports(final Class<?> paramClass) {
         return true;
     }
 
     @Required
-    public void setUserDetailsService(final UserDetailsService service)
-    {
+    public void setUserDetailsService(final UserDetailsService service) {
         userDetailsService = service;
     }
 
     @Required
-    public static void setEnvironmentName(final String environment)
-    {
+    public static void setEnvironmentName(final String environment) {
         environmentName = environment;
     }
 }

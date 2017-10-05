@@ -6,25 +6,21 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 /**
  * Form backing object for the Job Summary/Executions page.
  */
-public class JobExecutionForm
-{
+public class JobExecutionForm {
     public static final String FORM_NAME = "jobExecutionForm";
 
     private Long jobExecutionId;
 
-    public Long getJobExecutionId()
-    {
+    public Long getJobExecutionId() {
         return jobExecutionId;
     }
 
-    public void setJobExecutionId(final Long executionId)
-    {
+    public void setJobExecutionId(final Long executionId) {
         jobExecutionId = executionId;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

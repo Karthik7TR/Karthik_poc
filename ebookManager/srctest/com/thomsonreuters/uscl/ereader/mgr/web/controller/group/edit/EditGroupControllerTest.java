@@ -31,8 +31,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
-public final class EditGroupControllerTest
-{
+public final class EditGroupControllerTest {
     private static final String BINDING_RESULT_KEY =
         BindingResult.class.getName() + "." + EditGroupDefinitionForm.FORM_NAME;
     private static final Long BOOK_DEFINITION_ID = 1L;
@@ -50,8 +49,7 @@ public final class EditGroupControllerTest
     private PublisherCode publisherCode;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -80,8 +78,7 @@ public final class EditGroupControllerTest
      * @throws Exception
      */
     @Test
-    public void testEditGroupDefinitionGet() throws Exception
-    {
+    public void testEditGroupDefinitionGet() throws Exception {
         final String fullyQualifiedTitleId = "uscl/an/abcd";
         final String groupId = "uscl/an_abcd";
         request.setRequestURI("/" + WebConstants.MVC_GROUP_DEFINITION_EDIT);
@@ -103,8 +100,7 @@ public final class EditGroupControllerTest
         EasyMock.replay(mockGroupService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -118,9 +114,7 @@ public final class EditGroupControllerTest
             Assert.assertEquals(book, actualBook);
             final int actualProviewTitles = Integer.valueOf(model.get(WebConstants.KEY_ALL_PROVIEW_TITLES).toString());
             Assert.assertEquals(proviewTitleMap.size(), actualProviewTitles);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -134,8 +128,7 @@ public final class EditGroupControllerTest
      * @throws Exception
      */
     @Test
-    public void testEditGroupDefinitionGetDeletedBook() throws Exception
-    {
+    public void testEditGroupDefinitionGetDeletedBook() throws Exception {
         final String fullyQualifiedTitleId = "uscl/an/abcd";
         request.setRequestURI("/" + WebConstants.MVC_GROUP_DEFINITION_EDIT);
         request.setParameter("id", Long.toString(BOOK_DEFINITION_ID));
@@ -148,17 +141,14 @@ public final class EditGroupControllerTest
         EasyMock.replay(mockBookDefinitionService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
             // Verify mav is a RedirectView
             final View view = mav.getView();
             assertEquals(RedirectView.class, view.getClass());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -171,8 +161,7 @@ public final class EditGroupControllerTest
      * @throws Exception
      */
     @Test
-    public void testEditGroupDefintionPost() throws Exception
-    {
+    public void testEditGroupDefintionPost() throws Exception {
         final String fullyQualifiedTitleId = "uscl/an/abcd";
         final String groupId = "uscl/an_abcd";
         request.setRequestURI("/" + WebConstants.MVC_GROUP_DEFINITION_EDIT);
@@ -205,8 +194,7 @@ public final class EditGroupControllerTest
         EasyMock.replay(mockAuditService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -221,9 +209,7 @@ public final class EditGroupControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -238,8 +224,7 @@ public final class EditGroupControllerTest
      * @throws Exception
      */
     @Test
-    public void testEditGroupDefintionPostError() throws Exception
-    {
+    public void testEditGroupDefintionPostError() throws Exception {
         final String fullyQualifiedTitleId = "uscl/an/abcd";
         final String groupId = "uscl/an_abcd";
         request.setRequestURI("/" + WebConstants.MVC_GROUP_DEFINITION_EDIT);
@@ -265,8 +250,7 @@ public final class EditGroupControllerTest
         EasyMock.replay(mockGroupService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -280,9 +264,7 @@ public final class EditGroupControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertTrue(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -291,8 +273,7 @@ public final class EditGroupControllerTest
         EasyMock.verify(mockBookDefinitionService);
     }
 
-    private Map<String, ProviewTitleInfo> createProviewTitleMap(final String fullyQualifiedTitleId)
-    {
+    private Map<String, ProviewTitleInfo> createProviewTitleMap(final String fullyQualifiedTitleId) {
         final ProviewTitleInfo info = new ProviewTitleInfo();
         info.setLastupdate("date");
         info.setPublisher(publisherCode.getName());
@@ -307,8 +288,7 @@ public final class EditGroupControllerTest
         return map;
     }
 
-    private BookDefinition createBookDef(final String fullyQualifiedTitleId)
-    {
+    private BookDefinition createBookDef(final String fullyQualifiedTitleId) {
         final BookDefinition book = new BookDefinition();
         book.setEbookDefinitionId(BOOK_DEFINITION_ID);
         book.setFullyQualifiedTitleId(fullyQualifiedTitleId);

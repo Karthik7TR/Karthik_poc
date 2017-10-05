@@ -43,8 +43,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
-public final class EditBookDefinitionControllerTest
-{
+public final class EditBookDefinitionControllerTest {
     private static final String BINDING_RESULT_KEY =
         BindingResult.class.getName() + "." + EditBookDefinitionForm.FORM_NAME;
     private static final long BOOK_DEFINITION_ID = 1;
@@ -69,8 +68,7 @@ public final class EditBookDefinitionControllerTest
     private PublisherCode publisherCode;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -88,16 +86,21 @@ public final class EditBookDefinitionControllerTest
         frontMatterThemes.add("WestLaw Next");
 
         EasyMock.expect(mockEditBookDefinitionService.getFrontMatterThemes()).andReturn(frontMatterThemes);
-        validator = new EditBookDefinitionFormValidator(mockBookDefinitionService, mockCodeService, "workstation", null);
+        validator =
+            new EditBookDefinitionFormValidator(mockBookDefinitionService, mockCodeService, "workstation", null);
 
         // Set up the controller
         controller = new EditBookDefinitionController();
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "editBookDefinitionService", mockEditBookDefinitionService);
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "bookDefinitionService", mockBookDefinitionService);
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "jobRequestService", mockJobRequestService);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "editBookDefinitionService", mockEditBookDefinitionService);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "bookDefinitionService", mockBookDefinitionService);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "jobRequestService", mockJobRequestService);
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "auditService", mockAuditService);
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "bookLockService", mockLockService);
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "miscConfigService", mockMiscConfigService);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "miscConfigService", mockMiscConfigService);
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "validator", validator);
 
         bookName = new EbookName();
@@ -125,8 +128,7 @@ public final class EditBookDefinitionControllerTest
      * Test the GET to the Create Book Definition page
      */
     @Test
-    public void testCreateBookDefintionGet()
-    {
+    public void testCreateBookDefintionGet() {
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_CREATE);
         request.setMethod(HttpMethod.GET.name());
 
@@ -137,8 +139,7 @@ public final class EditBookDefinitionControllerTest
         EasyMock.replay(mockMiscConfigService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -148,9 +149,7 @@ public final class EditBookDefinitionControllerTest
             // Check the state of the model
             final Map<String, Object> model = mav.getModel();
             checkInitialValuesDynamicContent(model);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -164,8 +163,7 @@ public final class EditBookDefinitionControllerTest
      * validation errors
      */
     @Test
-    public void testCreateBookDefintionPostFailed()
-    {
+    public void testCreateBookDefintionPostFailed() {
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_CREATE);
         request.setMethod(HttpMethod.POST.name());
 
@@ -176,8 +174,7 @@ public final class EditBookDefinitionControllerTest
         EasyMock.replay(mockMiscConfigService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -192,9 +189,7 @@ public final class EditBookDefinitionControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             assertTrue(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -208,8 +203,7 @@ public final class EditBookDefinitionControllerTest
      * and Definition in incomplete state
      */
     @Test
-    public void testCreateBookDefintionPostIncompleteSuccess()
-    {
+    public void testCreateBookDefintionPostIncompleteSuccess() {
         final String titleId = "uscl/an/abcd";
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_CREATE);
         request.setMethod(HttpMethod.POST.name());
@@ -230,8 +224,7 @@ public final class EditBookDefinitionControllerTest
         EasyMock.replay(mockAuditService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -246,9 +239,7 @@ public final class EditBookDefinitionControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -263,8 +254,7 @@ public final class EditBookDefinitionControllerTest
      * but no other required fields are complete while marked as complete
      */
     @Test
-    public void testCreateBookDefintionPostCompleteStateFailed()
-    {
+    public void testCreateBookDefintionPostCompleteStateFailed() {
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_CREATE);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("contentTypeId", "1");
@@ -281,8 +271,7 @@ public final class EditBookDefinitionControllerTest
         EasyMock.replay(mockMiscConfigService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -298,9 +287,7 @@ public final class EditBookDefinitionControllerTest
             assertTrue(bindingResult.hasErrors());
 
             checkInitialValuesDynamicContent(model);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -316,8 +303,7 @@ public final class EditBookDefinitionControllerTest
      * and Definition in incomplete state
      */
     @Test
-    public void testCreateBookDefintionPostCompleteStateSuccess()
-    {
+    public void testCreateBookDefintionPostCompleteStateSuccess() {
         final String titleId = "uscl/an/abcd";
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_CREATE);
         request.setMethod(HttpMethod.POST.name());
@@ -350,8 +336,7 @@ public final class EditBookDefinitionControllerTest
         EasyMock.replay(mockAuditService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -366,9 +351,7 @@ public final class EditBookDefinitionControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -381,8 +364,7 @@ public final class EditBookDefinitionControllerTest
      * Test the GET to the Edit Book Definition page
      */
     @Test
-    public void testEditBookDefintionGet()
-    {
+    public void testEditBookDefintionGet() {
         final String fullyQualifiedTitleId = "uscl/an/abcd";
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_EDIT);
         request.setParameter("id", Long.toString(BOOK_DEFINITION_ID));
@@ -409,8 +391,7 @@ public final class EditBookDefinitionControllerTest
         EasyMock.replay(mockLockService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -420,9 +401,7 @@ public final class EditBookDefinitionControllerTest
             // Check the state of the model
             final Map<String, Object> model = mav.getModel();
             checkInitialValuesDynamicContentForPublished(model);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -438,8 +417,7 @@ public final class EditBookDefinitionControllerTest
      * Test the GET to the Edit Book Definition page for invalid book
      */
     @Test
-    public void testEditBookDefintionGetInvalidBook()
-    {
+    public void testEditBookDefintionGetInvalidBook() {
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_EDIT);
         request.setParameter("id", Long.toString(BOOK_DEFINITION_ID));
         request.setMethod(HttpMethod.GET.name());
@@ -455,16 +433,13 @@ public final class EditBookDefinitionControllerTest
         EasyMock.replay(mockMiscConfigService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
             // Verify the returned view name
             assertEquals(WebConstants.VIEW_BOOK_DEFINITION_EDIT, mav.getViewName());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -478,8 +453,7 @@ public final class EditBookDefinitionControllerTest
      * Test the GET to the Edit Book Definition page for deleted book
      */
     @Test
-    public void testEditBookDefintionGetDeletedBook()
-    {
+    public void testEditBookDefintionGetDeletedBook() {
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_EDIT);
         request.setParameter("id", Long.toString(BOOK_DEFINITION_ID));
         request.setMethod(HttpMethod.GET.name());
@@ -494,17 +468,14 @@ public final class EditBookDefinitionControllerTest
         EasyMock.replay(mockBookDefinitionService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
             // Verify mav is a RedirectView
             final View view = mav.getView();
             assertEquals(RedirectView.class, view.getClass());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -516,8 +487,7 @@ public final class EditBookDefinitionControllerTest
      * Test the GET to the Edit Book Definition page when locked
      */
     @Test
-    public void testEditBookDefintionLocked()
-    {
+    public void testEditBookDefintionLocked() {
         final String fullyQualifiedTitleId = "uscl/an/abcd";
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_EDIT);
         request.setParameter("id", Long.toString(BOOK_DEFINITION_ID));
@@ -534,8 +504,7 @@ public final class EditBookDefinitionControllerTest
         EasyMock.replay(mockLockService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -549,9 +518,7 @@ public final class EditBookDefinitionControllerTest
 
             Assert.assertEquals(book, actualBook);
             Assert.assertEquals(bookDefinitionLock, actualLock);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -564,8 +531,7 @@ public final class EditBookDefinitionControllerTest
      * Test the POST to the Edit Book Definition page
      */
     @Test
-    public void testEditBookDefintionPOST()
-    {
+    public void testEditBookDefintionPOST() {
         final String fullyQualifiedTitleId = "uscl/an/abcd";
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_EDIT);
         request.setParameter("ProviewDisplayName", "Name in Proview");
@@ -619,8 +585,7 @@ public final class EditBookDefinitionControllerTest
         EasyMock.replay(mockAuditService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -635,9 +600,7 @@ public final class EditBookDefinitionControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -654,8 +617,7 @@ public final class EditBookDefinitionControllerTest
      * no name line
      */
     @Test
-    public void testEditBookDefintionPOSTFailed()
-    {
+    public void testEditBookDefintionPOSTFailed() {
         final String fullyQualifiedTitleId = "uscl/an/abcd";
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_EDIT);
         request.setParameter("contentTypeId", "1");
@@ -701,8 +663,7 @@ public final class EditBookDefinitionControllerTest
         setupDropdownMenuAndKeywords(1);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -716,9 +677,7 @@ public final class EditBookDefinitionControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             assertTrue(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -736,8 +695,7 @@ public final class EditBookDefinitionControllerTest
      * another user
      */
     @Test
-    public void testEditBookDefintionLockedPOST()
-    {
+    public void testEditBookDefintionLockedPOST() {
         final String fullyQualifiedTitleId = "uscl/an/abcd";
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_EDIT);
         request.setParameter("ProviewDisplayName", "Name in Proview");
@@ -780,8 +738,7 @@ public final class EditBookDefinitionControllerTest
         setupDropdownMenuAndKeywords(2);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -800,9 +757,7 @@ public final class EditBookDefinitionControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -816,8 +771,7 @@ public final class EditBookDefinitionControllerTest
      * Test the GET to the Copy Book Definition page
      */
     @Test
-    public void testCopyBookDefintionGet()
-    {
+    public void testCopyBookDefintionGet() {
         final String fullyQualifiedTitleId = "uscl/an/abcd";
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_COPY);
         request.setParameter("id", Long.toString(BOOK_DEFINITION_ID));
@@ -835,8 +789,7 @@ public final class EditBookDefinitionControllerTest
         setupDropdownMenuAndKeywords(2);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -846,9 +799,7 @@ public final class EditBookDefinitionControllerTest
             // Check the state of the model
             final Map<String, Object> model = mav.getModel();
             checkInitialValuesDynamicContent(model);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -862,8 +813,7 @@ public final class EditBookDefinitionControllerTest
      * Test the GET to the Copy Book Definition page for deleted book
      */
     @Test
-    public void testCopyBookDefintionGetDeletedBook()
-    {
+    public void testCopyBookDefintionGetDeletedBook() {
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_COPY);
         request.setParameter("id", Long.toString(BOOK_DEFINITION_ID));
         request.setMethod(HttpMethod.GET.name());
@@ -878,17 +828,14 @@ public final class EditBookDefinitionControllerTest
         setupDropdownMenuAndKeywords(2);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
             // Verify mav is a RedirectView
             final View view = mav.getView();
             assertEquals(RedirectView.class, view.getClass());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -901,8 +848,7 @@ public final class EditBookDefinitionControllerTest
      * errors
      */
     @Test
-    public void testCopyBookDefintionPostFailed()
-    {
+    public void testCopyBookDefintionPostFailed() {
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_COPY);
         request.setMethod(HttpMethod.POST.name());
 
@@ -913,8 +859,7 @@ public final class EditBookDefinitionControllerTest
         EasyMock.replay(mockMiscConfigService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -929,9 +874,7 @@ public final class EditBookDefinitionControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             assertTrue(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -945,8 +888,7 @@ public final class EditBookDefinitionControllerTest
      * and Definition in incomplete state
      */
     @Test
-    public void testCopyBookDefintionPostIncompleteSuccess()
-    {
+    public void testCopyBookDefintionPostIncompleteSuccess() {
         final String titleId = "uscl/an/abcd";
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_COPY);
         request.setMethod(HttpMethod.POST.name());
@@ -967,8 +909,7 @@ public final class EditBookDefinitionControllerTest
         setupDropdownMenuAndKeywords(2);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -983,9 +924,7 @@ public final class EditBookDefinitionControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -999,8 +938,7 @@ public final class EditBookDefinitionControllerTest
      * but no other required fields are complete while marked as complete
      */
     @Test
-    public void testCopyBookDefintionPostCompleteStateFailed()
-    {
+    public void testCopyBookDefintionPostCompleteStateFailed() {
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_COPY);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("contentTypeId", "1");
@@ -1017,8 +955,7 @@ public final class EditBookDefinitionControllerTest
         EasyMock.replay(mockMiscConfigService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -1034,9 +971,7 @@ public final class EditBookDefinitionControllerTest
             assertTrue(bindingResult.hasErrors());
 
             checkInitialValuesDynamicContent(model);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -1052,8 +987,7 @@ public final class EditBookDefinitionControllerTest
      * and Definition in incomplete state
      */
     @Test
-    public void testCopyBookDefintionPostCompleteStateSuccess()
-    {
+    public void testCopyBookDefintionPostCompleteStateSuccess() {
         final String titleId = "uscl/an/abcd";
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_COPY);
         request.setMethod(HttpMethod.POST.name());
@@ -1086,8 +1020,7 @@ public final class EditBookDefinitionControllerTest
         setupDropdownMenuAndKeywords(2);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -1102,9 +1035,7 @@ public final class EditBookDefinitionControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -1112,16 +1043,14 @@ public final class EditBookDefinitionControllerTest
         EasyMock.verify(mockBookDefinitionService);
     }
 
-    private void checkInitialValuesDynamicContentForPublished(final Map<String, Object> model)
-    {
+    private void checkInitialValuesDynamicContentForPublished(final Map<String, Object> model) {
         final boolean isPublished = Boolean.parseBoolean(model.get(WebConstants.KEY_IS_PUBLISHED).toString());
         assertEquals(false, isPublished);
 
         checkInitialValuesDynamicContent(model);
     }
 
-    private void checkInitialValuesDynamicContent(final Map<String, Object> model)
-    {
+    private void checkInitialValuesDynamicContent(final Map<String, Object> model) {
         final int numAuthors = Integer.valueOf(model.get(WebConstants.KEY_NUMBER_OF_AUTHORS).toString());
         final int splitDocs = Integer.valueOf(model.get(WebConstants.KEY_NUMBER_OF_SPLIT_DOCUMENTS).toString());
         assertEquals(0, numAuthors);
@@ -1129,8 +1058,7 @@ public final class EditBookDefinitionControllerTest
         assertNotNull(model.get(WebConstants.KEY_FORM));
     }
 
-    private void setupMockServices(final BookDefinition book, final int times, final boolean isComplete)
-    {
+    private void setupMockServices(final BookDefinition book, final int times, final boolean isComplete) {
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class)))
             .andReturn(book)
             .times(times);
@@ -1141,15 +1069,13 @@ public final class EditBookDefinitionControllerTest
         code.setAbbreviation("an");
         code.setName("Analytical");
         EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(code);
-        if (isComplete)
-        {
+        if (isComplete) {
             EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
         }
         EasyMock.replay(mockCodeService);
     }
 
-    private BookDefinition createBookDef(final String fullyQualifiedTitleId)
-    {
+    private BookDefinition createBookDef(final String fullyQualifiedTitleId) {
         final BookDefinition book = new BookDefinition();
         book.setEbookDefinitionId(BOOK_DEFINITION_ID);
         book.setFullyQualifiedTitleId(fullyQualifiedTitleId);
@@ -1175,8 +1101,7 @@ public final class EditBookDefinitionControllerTest
         return book;
     }
 
-    private void setupDropdownMenuAndKeywords(final int keywordCodeTimes)
-    {
+    private void setupDropdownMenuAndKeywords(final int keywordCodeTimes) {
         EasyMock.expect(mockEditBookDefinitionService.getStates()).andReturn(null);
         EasyMock.expect(mockEditBookDefinitionService.getDocumentTypes()).andReturn(null);
         EasyMock.expect(mockEditBookDefinitionService.getJurisdictions()).andReturn(null);

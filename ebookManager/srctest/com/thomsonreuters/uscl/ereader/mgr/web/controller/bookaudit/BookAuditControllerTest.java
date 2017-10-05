@@ -25,8 +25,7 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public final class BookAuditControllerTest
-{
+public final class BookAuditControllerTest {
     //private static final Logger log = LogManager.getLogger(BookAuditControllerTest.class);
     private BookAuditController controller;
     private MockHttpServletRequest request;
@@ -35,8 +34,7 @@ public final class BookAuditControllerTest
     private HandlerAdapter handlerAdapter;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         mockAuditService = EasyMock.createMock(EBookAuditService.class);
@@ -47,8 +45,7 @@ public final class BookAuditControllerTest
     }
 
     @Test
-    public void testAuditListInboundGet() throws Exception
-    {
+    public void testAuditListInboundGet() throws Exception {
         // Set up the request URL
         request.setRequestURI("/" + WebConstants.MVC_BOOK_AUDIT_LIST);
         request.setMethod(HttpMethod.GET.name());
@@ -82,8 +79,7 @@ public final class BookAuditControllerTest
     }
 
     @Test
-    public void testSpecificAuditListInboundGet() throws Exception
-    {
+    public void testSpecificAuditListInboundGet() throws Exception {
         final Long bookDefinitionId = 1L;
         // Set up the request URL
         request.setRequestURI("/" + WebConstants.MVC_BOOK_AUDIT_SPECIFIC);
@@ -122,8 +118,7 @@ public final class BookAuditControllerTest
     }
 
     @Test
-    public void testAuditListPaging() throws Exception
-    {
+    public void testAuditListPaging() throws Exception {
         // Set up the request URL
         final int newPageNumber = 2;
         request.setRequestURI("/" + WebConstants.MVC_BOOK_AUDIT_LIST_PAGE_AND_SORT);
@@ -158,8 +153,7 @@ public final class BookAuditControllerTest
     }
 
     @Test
-    public void testAuditListSorting() throws Exception
-    {
+    public void testAuditListSorting() throws Exception {
         final String direction = "asc";
         final String sort = DisplayTagSortProperty.ACTION.toString();
         // Set up the request URL
@@ -197,8 +191,7 @@ public final class BookAuditControllerTest
     }
 
     @Test
-    public void testAuditDetail() throws Exception
-    {
+    public void testAuditDetail() throws Exception {
         final Long auditId = 1L;
         final EbookAudit audit = new EbookAudit();
         audit.setAuditId(auditId);
@@ -230,8 +223,7 @@ public final class BookAuditControllerTest
      * @throws Exception
      */
     @Test
-    public void testChangeDisplayedRowsPerPage() throws Exception
-    {
+    public void testChangeDisplayedRowsPerPage() throws Exception {
         final int EXPECTED_OBJECTS_PER_PAGE = 33;
         // Set up the request URL
         request.setRequestURI("/" + WebConstants.MVC_BOOK_AUDIT_CHANGE_ROW_COUNT);
@@ -269,8 +261,7 @@ public final class BookAuditControllerTest
      * Verify the state of the session and request (model) as expected before the
      * rendering of the Audit List page.
      */
-    public static void validateModel(final HttpSession session, final Map<String, Object> model)
-    {
+    public static void validateModel(final HttpSession session, final Map<String, Object> model) {
         Assert.assertNotNull(session.getAttribute(BookAuditFilterForm.FORM_NAME));
         Assert.assertNotNull(session.getAttribute(BaseBookAuditController.PAGE_AND_SORT_NAME));
         Assert.assertNotNull(model.get(WebConstants.KEY_PAGINATED_LIST));

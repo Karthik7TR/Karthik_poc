@@ -22,22 +22,20 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class PublishTypeCodeController
-{
+public class PublishTypeCodeController {
     private final CodeService codeService;
     private final Validator validator;
 
     @Autowired
-    public PublishTypeCodeController(final CodeService codeService,
-                                     @Qualifier("publishTypeCodeFormValidator") final Validator validator)
-    {
+    public PublishTypeCodeController(
+        final CodeService codeService,
+        @Qualifier("publishTypeCodeFormValidator") final Validator validator) {
         this.codeService = codeService;
         this.validator = validator;
     }
 
     @InitBinder(PublishTypeCodeForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.setValidator(validator);
     }
@@ -50,8 +48,7 @@ public class PublishTypeCodeController
      * @throws Exception
      */
     @RequestMapping(value = WebConstants.MVC_ADMIN_PUBLISH_TYPE_CODE_VIEW, method = RequestMethod.GET)
-    public ModelAndView viewPublishTypeCode(final Model model) throws Exception
-    {
+    public ModelAndView viewPublishTypeCode(final Model model) throws Exception {
         model.addAttribute(WebConstants.KEY_PUB_TYPE_CODE, codeService.getAllPubTypeCodes());
 
         return new ModelAndView(WebConstants.VIEW_ADMIN_PUBLISH_TYPE_CODE_VIEW);
@@ -61,8 +58,7 @@ public class PublishTypeCodeController
     public ModelAndView createPublishTypeCode(
         @ModelAttribute(PublishTypeCodeForm.FORM_NAME) final PublishTypeCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         return new ModelAndView(WebConstants.VIEW_ADMIN_PUBLISH_TYPE_CODE_CREATE);
     }
 
@@ -70,10 +66,8 @@ public class PublishTypeCodeController
     public ModelAndView createPublishTypeCodePost(
         @ModelAttribute(PublishTypeCodeForm.FORM_NAME) @Valid final PublishTypeCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
-        if (!bindingResult.hasErrors())
-        {
+        final Model model) {
+        if (!bindingResult.hasErrors()) {
             codeService.savePubTypeCode(form.makeCode());
 
             // Redirect user
@@ -88,12 +82,10 @@ public class PublishTypeCodeController
         @RequestParam("id") final Long id,
         @ModelAttribute(PublishTypeCodeForm.FORM_NAME) final PublishTypeCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         final PubTypeCode code = codeService.getPubTypeCodeById(id);
 
-        if (code != null)
-        {
+        if (code != null) {
             model.addAttribute(WebConstants.KEY_PUB_TYPE_CODE, code);
             form.initialize(code);
         }
@@ -105,10 +97,8 @@ public class PublishTypeCodeController
     public ModelAndView editPublishTypeCodePost(
         @ModelAttribute(PublishTypeCodeForm.FORM_NAME) @Valid final PublishTypeCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
-        if (!bindingResult.hasErrors())
-        {
+        final Model model) {
+        if (!bindingResult.hasErrors()) {
             codeService.savePubTypeCode(form.makeCode());
 
             // Redirect user
@@ -125,12 +115,10 @@ public class PublishTypeCodeController
         @RequestParam("id") final Long id,
         @ModelAttribute(PublishTypeCodeForm.FORM_NAME) final PublishTypeCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         final PubTypeCode code = codeService.getPubTypeCodeById(id);
 
-        if (code != null)
-        {
+        if (code != null) {
             model.addAttribute(WebConstants.KEY_PUB_TYPE_CODE, code);
             form.initialize(code);
         }
@@ -142,8 +130,7 @@ public class PublishTypeCodeController
     public ModelAndView deletePublishTypeCodePost(
         @ModelAttribute(PublishTypeCodeForm.FORM_NAME) final PublishTypeCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         codeService.deletePubTypeCode(form.makeCode());
 
         // Redirect user

@@ -8,28 +8,22 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component("killSwitchFormValidator")
-public class StopGeneratorFormValidator implements Validator
-{
+public class StopGeneratorFormValidator implements Validator {
     //private static final Logger log = LogManager.getLogger(KillSwitchFormValidator.class);
 
     @Override
-    public boolean supports(final Class clazz)
-    {
+    public boolean supports(final Class clazz) {
         return (StopGeneratorForm.class.isAssignableFrom(clazz));
     }
 
     @Override
-    public void validate(final Object obj, final Errors errors)
-    {
+    public void validate(final Object obj, final Errors errors) {
         final StopGeneratorForm form = (StopGeneratorForm) obj;
 
         final String code = form.getCode();
-        if (StringUtils.isBlank(code))
-        {
+        if (StringUtils.isBlank(code)) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "code", "error.required");
-        }
-        else if (!code.equals(WebConstants.CONFIRM_CODE_KILL_SWITCH))
-        {
+        } else if (!code.equals(WebConstants.CONFIRM_CODE_KILL_SWITCH)) {
             errors.rejectValue("code", "error.invalid", new Object[] {"Code"}, "Invalid code");
         }
     }

@@ -11,19 +11,16 @@ import org.springframework.web.servlet.ModelAndView;
  * This is where the user is sent to if they try and access a page that will cause an error
  */
 @Controller
-public class ErrorController
-{
+public class ErrorController {
     //private static final Logger log = LogManager.getLogger(ErrorController.class);
 
     @RequestMapping(value = WebConstants.MVC_ERROR_BOOK_DELETED, method = RequestMethod.GET)
-    public ModelAndView getBookDeleted()
-    {
+    public ModelAndView getBookDeleted() {
         return new ModelAndView(WebConstants.VIEW_ERROR_BOOK_DELETED);
     }
 
     @RequestMapping(value = WebConstants.MVC_ERROR_BOOK_DEFINITION, method = RequestMethod.GET)
-    public ModelAndView getBookDefinitionError()
-    {
+    public ModelAndView getBookDefinitionError() {
         return new ModelAndView(WebConstants.VIEW_ERROR_BOOK_DEFINTION);
     }
 }

@@ -9,8 +9,7 @@ import org.displaytag.properties.SortOrderEnum;
 /**
  * A DisplayTag PaginatedList implementation for paging through a list of job run requests.
  */
-public class QueuePaginatedList<SortProperty> implements PaginatedList
-{
+public class QueuePaginatedList<SortProperty> implements PaginatedList {
     //private static final Logger log = LogManager.getLogger(JobPaginatedList.class);
 
     private List<JobRequest> partialList;
@@ -30,8 +29,7 @@ public class QueuePaginatedList<SortProperty> implements PaginatedList
         final int pageNumber,
         final int objectsPerPage,
         final SortProperty sortProperty,
-        final boolean ascending)
-    {
+        final boolean ascending) {
         this.partialList = partialList;
         this.fullListSize = fullListSize;
         this.pageNumber = pageNumber;
@@ -41,49 +39,41 @@ public class QueuePaginatedList<SortProperty> implements PaginatedList
     }
 
     @Override
-    public int getFullListSize()
-    {
+    public int getFullListSize() {
         return fullListSize;
     }
 
     @Override
-    public List<JobRequest> getList()
-    {
+    public List<JobRequest> getList() {
         return partialList;
     }
 
     @Override
-    public int getObjectsPerPage()
-    {
+    public int getObjectsPerPage() {
         return objectsPerPage;
     }
 
     @Override
-    public int getPageNumber()
-    {
+    public int getPageNumber() {
         return pageNumber;
     }
 
     @Override
-    public String getSearchId()
-    {
+    public String getSearchId() {
         return null;
     }
 
     @Override
-    public String getSortCriterion()
-    {
+    public String getSortCriterion() {
         return sortProperty.toString();
     }
 
     @Override
-    public SortOrderEnum getSortDirection()
-    {
+    public SortOrderEnum getSortDirection() {
         return (ascending) ? SortOrderEnum.ASCENDING : SortOrderEnum.DESCENDING;
     }
 
-    public boolean isAscendingSort()
-    {
+    public boolean isAscendingSort() {
         return ascending;
     }
 }

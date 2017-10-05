@@ -28,17 +28,16 @@ import org.springframework.web.servlet.ModelAndView;
  * Controller for the Step Execution Details page.
  */
 @Controller
-public class StepExecutionController
-{
+public class StepExecutionController {
     private final JobService jobService;
     private final PublishingStatsService publishingStatsService;
     private final OutageService outageService;
 
     @Autowired
-    public StepExecutionController(final JobService jobService,
-                                   final PublishingStatsService publishingStatsService,
-                                   final OutageService outageService)
-    {
+    public StepExecutionController(
+        final JobService jobService,
+        final PublishingStatsService publishingStatsService,
+        final OutageService outageService) {
         this.jobService = jobService;
         this.publishingStatsService = publishingStatsService;
         this.outageService = outageService;
@@ -56,8 +55,7 @@ public class StepExecutionController
         @RequestParam("jobInstanceId") final Long jobInstanceId, // job instance ID
         @RequestParam("jobExecutionId") final Long jobExecutionId, // job execution ID
         @RequestParam("stepExecutionId") final Long stepExecutionId, // step execution ID
-        final Model model)
-    {
+        final Model model) {
 //		log.debug(">>> jobInstanceId="+jobInstanceId + ",jobExecutionId="+jobExecutionId + ",stepExecutionId="+stepExecutionId);
         final JobInstance jobInstance = jobService.findJobInstance(jobInstanceId);
         final EbookAudit bookInfo = publishingStatsService.findAuditInfoByJobId(jobInstance.getId());
@@ -70,8 +68,7 @@ public class StepExecutionController
         final Model model,
         final JobInstance jobInstance,
         final EbookAudit bookInfo,
-        final StepExecution stepExecution)
-    {
+        final StepExecution stepExecution) {
         final List<Map.Entry<String, Object>> mapEntryList = createStepExecutionContextMapEntryList(stepExecution);
         model.addAttribute(WebConstants.KEY_JOB_INSTANCE, jobInstance);
         model.addAttribute(WebConstants.KEY_JOB_BOOK_INFO, bookInfo);
@@ -86,16 +83,13 @@ public class StepExecutionController
      * @return a list of map entries inside the step execution context.
      */
     private static List<Map.Entry<String, Object>> createStepExecutionContextMapEntryList(
-        final StepExecution stepExecution)
-    {
+        final StepExecution stepExecution) {
         final List<Map.Entry<String, Object>> list = new ArrayList<>();
-        if (stepExecution != null)
-        {
+        if (stepExecution != null) {
             final ExecutionContext execContext = stepExecution.getExecutionContext();
             final Set<Map.Entry<String, Object>> entrySet = execContext.entrySet();
             final Iterator<Map.Entry<String, Object>> entryIterator = entrySet.iterator();
-            while (entryIterator.hasNext())
-            {
+            while (entryIterator.hasNext()) {
                 list.add(entryIterator.next());
             }
         }

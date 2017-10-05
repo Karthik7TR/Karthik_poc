@@ -2,8 +2,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.outage;
 
 import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
 
-public class OutageTypeForm
-{
+public class OutageTypeForm {
     //private static final Logger log = LogManager.getLogger(OutageTypeForm.class);
     public static final String FORM_NAME = "outageTypeForm";
 
@@ -11,20 +10,17 @@ public class OutageTypeForm
     private String system;
     private String subSystem;
 
-    public OutageTypeForm()
-    {
+    public OutageTypeForm() {
         super();
     }
 
-    public void initialize(final OutageType outageType)
-    {
+    public void initialize(final OutageType outageType) {
         outageTypeId = outageType.getId();
         system = outageType.getSystem();
         subSystem = outageType.getSubSystem();
     }
 
-    public OutageType createOutageType()
-    {
+    public OutageType createOutageType() {
         final OutageType outageType = new OutageType();
         outageType.setId(outageTypeId);
         outageType.setSystem(system);
@@ -32,33 +28,27 @@ public class OutageTypeForm
         return outageType;
     }
 
-    public Long getOutageTypeId()
-    {
+    public Long getOutageTypeId() {
         return outageTypeId;
     }
 
-    public void setOutageTypeId(final Long id)
-    {
+    public void setOutageTypeId(final Long id) {
         outageTypeId = id;
     }
 
-    public String getSystem()
-    {
+    public String getSystem() {
         return system;
     }
 
-    public void setSystem(final String system)
-    {
+    public void setSystem(final String system) {
         this.system = system;
     }
 
-    public String getSubSystem()
-    {
+    public String getSubSystem() {
         return subSystem;
     }
 
-    public void setSubSystem(final String subSystem)
-    {
+    public void setSubSystem(final String subSystem) {
         this.subSystem = subSystem;
     }
 }

@@ -10,8 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.client.RestTemplate;
 
-public class ManagerMiscConfigSyncService extends AbstractMiscConfigSyncService implements MiscConfigSyncService
-{
+public class ManagerMiscConfigSyncService extends AbstractMiscConfigSyncService implements MiscConfigSyncService {
     private static Logger log = LogManager.getLogger(ManagerMiscConfigSyncService.class);
 
     private CloseableAuthenticationHttpClientFactory httpClientFactory;
@@ -19,27 +18,23 @@ public class ManagerMiscConfigSyncService extends AbstractMiscConfigSyncService 
     private RestTemplate proviewRestTemplate;
 
     @Override
-    public void syncSpecific(final MiscConfig config) throws Exception
-    {
+    public void syncSpecific(final MiscConfig config) throws Exception {
         log.info(config);
         super.syncProviewHost(config, httpClientFactory, proviewClient, proviewRestTemplate);
     }
 
     @Required
-    public void setHttpClientFactory(final CloseableAuthenticationHttpClientFactory httpClientFactory)
-    {
+    public void setHttpClientFactory(final CloseableAuthenticationHttpClientFactory httpClientFactory) {
         this.httpClientFactory = httpClientFactory;
     }
 
     @Required
-    public void setProviewClient(final ProviewClient proviewClient)
-    {
+    public void setProviewClient(final ProviewClient proviewClient) {
         this.proviewClient = proviewClient;
     }
 
     @Required
-    public void setProviewRestTemplate(final RestTemplate proviewRestTemplate)
-    {
+    public void setProviewRestTemplate(final RestTemplate proviewRestTemplate) {
         this.proviewRestTemplate = proviewRestTemplate;
     }
 }

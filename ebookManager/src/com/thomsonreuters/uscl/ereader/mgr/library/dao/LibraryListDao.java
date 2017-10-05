@@ -6,8 +6,7 @@ import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListFilter;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListSort;
 
-public interface LibraryListDao
-{
+public interface LibraryListDao {
     /**
      * Returns all the current book definitions based on the search criterion
      *

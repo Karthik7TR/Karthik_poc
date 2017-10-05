@@ -9,33 +9,27 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component("filterFormValidator")
-public class FilterFormValidator extends BaseFormValidator implements Validator
-{
+public class FilterFormValidator extends BaseFormValidator implements Validator {
     @Override
-    public boolean supports(final Class<?> clazz)
-    {
+    public boolean supports(final Class<?> clazz) {
         return (FilterForm.class.isAssignableFrom(clazz));
     }
 
     @Override
-    public void validate(final Object obj, final Errors errors)
-    {
+    public void validate(final Object obj, final Errors errors) {
         final FilterForm form = (FilterForm) obj;
         // Do not validate form if we are simply resetting its values to the defaults
-        if (FilterForm.FilterCommand.RESET.equals(form.getFilterCommand()))
-        {
+        if (FilterForm.FilterCommand.RESET.equals(form.getFilterCommand())) {
             return;
         }
 
         final Date fromDate = form.getFromDate();
         final Date toDate = form.getToDate();
 
-        if (StringUtils.isNotBlank(form.getFromDateString()))
-        {
+        if (StringUtils.isNotBlank(form.getFromDateString())) {
             validateDate(form.getFromDateString(), fromDate, "FROM", errors);
         }
-        if (StringUtils.isNotBlank(form.getToDateString()))
-        {
+        if (StringUtils.isNotBlank(form.getToDateString())) {
             validateDate(form.getToDateString(), toDate, "TO", errors);
         }
 

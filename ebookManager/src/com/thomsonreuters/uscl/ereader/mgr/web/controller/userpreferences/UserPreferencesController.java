@@ -22,22 +22,20 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class UserPreferencesController
-{
+public class UserPreferencesController {
     private final UserPreferenceService service;
     private final Validator validator;
 
     @Autowired
-    public UserPreferencesController(final UserPreferenceService service,
-                                     @Qualifier("userPreferencesFormValidator") final Validator validator)
-    {
+    public UserPreferencesController(
+        final UserPreferenceService service,
+        @Qualifier("userPreferencesFormValidator") final Validator validator) {
         this.service = service;
         this.validator = validator;
     }
 
     @InitBinder(UserPreferencesForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 
         binder.setValidator(validator);
@@ -47,8 +45,7 @@ public class UserPreferencesController
     public ModelAndView getPreferences(
         @ModelAttribute(UserPreferencesForm.FORM_NAME) final UserPreferencesForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         final UserPreference preference = service.findByUsername(UserUtils.getAuthenticatedUserName());
         form.load(preference);
         model.addAttribute("numberOfEmails", form.getEmails().size());
@@ -60,10 +57,8 @@ public class UserPreferencesController
     public ModelAndView postPreferences(
         @ModelAttribute(UserPreferencesForm.FORM_NAME) @Valid final UserPreferencesForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
-        if (!bindingResult.hasErrors())
-        {
+        final Model model) {
+        if (!bindingResult.hasErrors()) {
             final UserPreference preference = form.makeUserPreference();
             preference.setUserName(UserUtils.getAuthenticatedUserName());
             service.save(preference);

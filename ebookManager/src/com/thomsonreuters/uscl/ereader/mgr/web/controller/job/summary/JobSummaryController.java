@@ -36,8 +36,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class JobSummaryController extends BaseJobSummaryController
-{
+public class JobSummaryController extends BaseJobSummaryController {
     private static final Logger log = LogManager.getLogger(JobSummaryController.class);
 
     @Autowired
@@ -51,15 +50,12 @@ public class JobSummaryController extends BaseJobSummaryController
     private JobExecutionController jobExecutionController;
 
     @Autowired
-    public JobSummaryController(final JobService jobService,
-                                final OutageService outageService)
-    {
+    public JobSummaryController(final JobService jobService, final OutageService outageService) {
         super(jobService, outageService);
     }
 
     @InitBinder(JobSummaryForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.setValidator(validator);
     }
 
@@ -68,8 +64,7 @@ public class JobSummaryController extends BaseJobSummaryController
      * No query string parameters are expected.
      */
     @RequestMapping(value = WebConstants.MVC_JOB_SUMMARY, method = RequestMethod.GET)
-    public ModelAndView inboundGet(final HttpSession httpSession, final Model model)
-    {
+    public ModelAndView inboundGet(final HttpSession httpSession, final Model model) {
 //		log.debug(">>>");
         final FilterForm filterForm = fetchSavedFilterForm(httpSession); // from session
         final PageAndSort<DisplayTagSortProperty> savedPageAndSort = fetchSavedPageAndSort(httpSession); // from session
@@ -101,8 +96,7 @@ public class JobSummaryController extends BaseJobSummaryController
     public ModelAndView doPagingAndSorting(
         final HttpSession httpSession,
         @ModelAttribute(JobSummaryForm.FORM_NAME) final JobSummaryForm form,
-        final Model model)
-    {
+        final Model model) {
         log.debug(form);
         List<Long> jobExecutionIds = null;
         final FilterForm filterForm = fetchSavedFilterForm(httpSession);
@@ -112,13 +106,10 @@ public class JobSummaryController extends BaseJobSummaryController
 
         // If there was a page=n query string parameter, then we assume we are paging since this
         // parameter is not present on the query string when display tag sorting.
-        if (nextPageNumber != null)
-        { // PAGING
+        if (nextPageNumber != null) { // PAGING
             pageAndSort.setPageNumber(nextPageNumber);
             jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
-        }
-        else
-        { // SORTING
+        } else { // SORTING
             pageAndSort.setPageNumber(1);
             pageAndSort.setSortProperty(form.getSort());
             pageAndSort.setAscendingSort(form.isAscendingSort());
@@ -147,27 +138,23 @@ public class JobSummaryController extends BaseJobSummaryController
         final HttpSession httpSession,
         @ModelAttribute(JobSummaryForm.FORM_NAME) @Valid final JobSummaryForm form,
         final BindingResult errors,
-        final Model model)
-    {
+        final Model model) {
         log.debug(form);
         final List<InfoMessage> messages = new ArrayList<>();
 
-        if (!errors.hasErrors())
-        {
+        if (!errors.hasErrors()) {
             final JobCommand command = form.getJobCommand();
             String mesgCode = null; // resource bundle message key/code
-            for (final Long jobExecutionId : form.getJobExecutionIds())
-            {
-                try
-                {
+            for (final Long jobExecutionId : form.getJobExecutionIds()) {
+                try {
                     SimpleRestServiceResponse restResponse = null;
-                    switch (command)
-                    {
+                    switch (command) {
                     case RESTART_JOB:
                         mesgCode = "job.restart.fail";
-                        if (jobExecutionController
-                            .authorizedForJobOperation(jobExecutionId, JobExecutionController.LABEL_RESTART, messages))
-                        {
+                        if (jobExecutionController.authorizedForJobOperation(
+                            jobExecutionId,
+                            JobExecutionController.LABEL_RESTART,
+                            messages)) {
                             restResponse = generatorRestClient.restartJob(jobExecutionId);
                             JobExecutionController.handleRestartJobOperationResponse(
                                 messages,
@@ -179,8 +166,7 @@ public class JobSummaryController extends BaseJobSummaryController
                     case STOP_JOB:
                         mesgCode = "job.stop.fail";
                         if (jobExecutionController
-                            .authorizedForJobOperation(jobExecutionId, JobExecutionController.LABEL_STOP, messages))
-                        {
+                            .authorizedForJobOperation(jobExecutionId, JobExecutionController.LABEL_STOP, messages)) {
                             restResponse = generatorRestClient.stopJob(jobExecutionId);
                             JobExecutionController.handleStopJobOperationResponse(
                                 messages,
@@ -192,9 +178,7 @@ public class JobSummaryController extends BaseJobSummaryController
                     default:
                         throw new IllegalArgumentException("Programming error - Unexpected command: " + command);
                     }
-                }
-                catch (final Exception e)
-                {
+                } catch (final Exception e) {
                     final InfoMessage errorMessage =
                         createRestExceptionMessage(mesgCode, jobExecutionId, e, messageSourceAccessor);
                     log.error(errorMessage.getText(), e);
@@ -225,8 +209,7 @@ public class JobSummaryController extends BaseJobSummaryController
     public ModelAndView handleChangeInItemsToDisplay(
         final HttpSession httpSession,
         @ModelAttribute(JobSummaryForm.FORM_NAME) @Valid final JobSummaryForm form,
-        final Model model)
-    {
+        final Model model) {
         log.debug(form);
         final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
         pageAndSort.setPageNumber(1); // Always start from first page again once changing row count to avoid index out of bounds
@@ -249,8 +232,7 @@ public class JobSummaryController extends BaseJobSummaryController
         final String mesgCode,
         final Long id,
         final Throwable cause,
-        final MessageSourceAccessor messageSourceAccessor)
-    {
+        final MessageSourceAccessor messageSourceAccessor) {
         final String[] args = {id.toString(), cause.getMessage()};
         final String messageText = messageSourceAccessor.getMessage(mesgCode, args);
         return new InfoMessage(Type.ERROR, messageText);

@@ -24,8 +24,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
-public final class SupportControllerTest
-{
+public final class SupportControllerTest {
     private static final String BINDING_RESULT_KEY = BindingResult.class.getName() + "." + SupportForm.FORM_NAME;
     private static final SupportPageLink SUPPORT_PAGE_LINK = new SupportPageLink();
     private static final Long SUPPORT_PAGE_LINK_ID = 1L;
@@ -37,8 +36,7 @@ public final class SupportControllerTest
     private SupportFormValidator validator;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -57,8 +55,7 @@ public final class SupportControllerTest
      * Test the GET to the List page
      */
     @Test
-    public void testViewAdminSupportLinkList()
-    {
+    public void testViewAdminSupportLinkList() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_SUPPORT_VIEW);
         request.setMethod(HttpMethod.GET.name());
 
@@ -66,8 +63,7 @@ public final class SupportControllerTest
         EasyMock.replay(mockService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -78,9 +74,7 @@ public final class SupportControllerTest
             final Map<String, Object> model = mav.getModel();
             final List<SupportPageLink> supportPageLink = (List<SupportPageLink>) model.get(WebConstants.KEY_SUPPORT);
             assertEquals(0, supportPageLink.size());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -92,8 +86,7 @@ public final class SupportControllerTest
      * Test the GET to the List page
      */
     @Test
-    public void testViewSupportLinkList()
-    {
+    public void testViewSupportLinkList() {
         request.setRequestURI("/" + WebConstants.MVC_SUPPORT_PAGE_VIEW);
         request.setMethod(HttpMethod.GET.name());
 
@@ -101,8 +94,7 @@ public final class SupportControllerTest
         EasyMock.replay(mockService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -113,9 +105,7 @@ public final class SupportControllerTest
             final Map<String, Object> model = mav.getModel();
             final List<SupportPageLink> supportPageLink = (List<SupportPageLink>) model.get(WebConstants.KEY_SUPPORT);
             assertEquals(0, supportPageLink.size());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -127,22 +117,18 @@ public final class SupportControllerTest
      * Test the GET to the Create Page
      */
     @Test
-    public void testCreateSupportPageLinkGet()
-    {
+    public void testCreateSupportPageLinkGet() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_SUPPORT_CREATE);
         request.setMethod(HttpMethod.GET.name());
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
             // Verify the returned view name
             assertEquals(WebConstants.VIEW_ADMIN_SUPPORT_CREATE, mav.getViewName());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -152,8 +138,7 @@ public final class SupportControllerTest
      * Test the POST to the Create Page Success
      */
     @Test
-    public void testCreateSupportPageLinkPost()
-    {
+    public void testCreateSupportPageLinkPost() {
         final String description = "test";
         final String url = "http://www.google.com";
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_SUPPORT_CREATE);
@@ -169,8 +154,7 @@ public final class SupportControllerTest
         EasyMock.replay(mockService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -185,9 +169,7 @@ public final class SupportControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -198,14 +180,12 @@ public final class SupportControllerTest
      * Test the POST to the Create Page Fail
      */
     @Test
-    public void testCreateSupportPageLinkPostFail()
-    {
+    public void testCreateSupportPageLinkPostFail() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_SUPPORT_CREATE);
         request.setMethod(HttpMethod.POST.name());
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -219,9 +199,7 @@ public final class SupportControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertTrue(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -231,8 +209,7 @@ public final class SupportControllerTest
      * Test the GET to the Edit Page
      */
     @Test
-    public void testEditSupportPageLinkGet()
-    {
+    public void testEditSupportPageLinkGet() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_SUPPORT_EDIT);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("id", SUPPORT_PAGE_LINK_ID.toString());
@@ -241,8 +218,7 @@ public final class SupportControllerTest
         EasyMock.replay(mockService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -254,9 +230,7 @@ public final class SupportControllerTest
             final SupportPageLink actual = (SupportPageLink) model.get(WebConstants.KEY_SUPPORT);
 
             Assert.assertEquals(SUPPORT_PAGE_LINK, actual);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -266,8 +240,7 @@ public final class SupportControllerTest
      * Test the POST to the Edit Page Success
      */
     @Test
-    public void testEditSupportPageLinkPost()
-    {
+    public void testEditSupportPageLinkPost() {
         final String description = "description";
         final String address = "http://www.google.com";
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_SUPPORT_EDIT);
@@ -283,8 +256,7 @@ public final class SupportControllerTest
         EasyMock.replay(mockService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -299,9 +271,7 @@ public final class SupportControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -312,14 +282,12 @@ public final class SupportControllerTest
      * Test the POST to the Edit Page Fail
      */
     @Test
-    public void testEditSupportPageLinkPostFail()
-    {
+    public void testEditSupportPageLinkPostFail() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_SUPPORT_EDIT);
         request.setMethod(HttpMethod.POST.name());
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -333,9 +301,7 @@ public final class SupportControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertTrue(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }

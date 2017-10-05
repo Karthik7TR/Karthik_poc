@@ -67,7 +67,6 @@ import org.junit.runners.Suite.SuiteClasses;
     UserPreferencesControllerTest.class,
     UserPreferencesFormValidatorTest.class})
 
-public class ManagerTestSuite
-{
+public class ManagerTestSuite {
     //Intentionally left blank
 }

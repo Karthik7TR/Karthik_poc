@@ -28,9 +28,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class EditBookDefinitionFormTest
-{
-    private static final String printComponentsJson = "[{\"printComponentId\":\"1\",\"componentOrder\":1,\"materialNumber\":\"123\",\"componentName\":\"c1\"},{\"printComponentId\":\"2\",\"componentOrder\":2,\"materialNumber\":\"234\",\"componentName\":\"c2\"}]";
+public final class EditBookDefinitionFormTest {
+    private static final String printComponentsJson =
+        "[{\"printComponentId\":\"1\",\"componentOrder\":1,\"materialNumber\":\"123\",\"componentName\":\"c1\"},{\"printComponentId\":\"2\",\"componentOrder\":2,\"materialNumber\":\"234\",\"componentName\":\"c2\"}]";
 
     private EditBookDefinitionForm form;
 
@@ -52,8 +52,7 @@ public final class EditBookDefinitionFormTest
     private List<NortFileLocation> nortFileLocations;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         form = new EditBookDefinitionForm();
         authorInfo = new ArrayList<>();
         pilotBookInfo = new ArrayList<>();
@@ -73,8 +72,7 @@ public final class EditBookDefinitionFormTest
     }
 
     @Test
-    public void testLoadBookDefinition() throws JsonParseException, JsonMappingException, IOException
-    {
+    public void testLoadBookDefinition() throws JsonParseException, JsonMappingException, IOException {
         final BookDefinition book = new BookDefinition();
 
         final Author author = new Author();
@@ -131,12 +129,9 @@ public final class EditBookDefinitionFormTest
         nortFileLocations.add(location);
         form.setPrintComponents(printComponentsJson);
 
-        try
-        {
+        try {
             form.loadBookDefinition(book);
-        }
-        catch (final ParseException e)
-        {
+        } catch (final ParseException e) {
             Assert.fail(e.getMessage());
         }
         Assert.assertEquals(1, book.getAuthors().size());
@@ -153,8 +148,7 @@ public final class EditBookDefinitionFormTest
     }
 
     @Test
-    public void testCopyBookDefinition()
-    {
+    public void testCopyBookDefinition() {
         final DocumentTypeCode documentTypeCodes = new DocumentTypeCode();
         documentTypeCodes.setName("");
 
@@ -176,8 +170,7 @@ public final class EditBookDefinitionFormTest
     }
 
     @Test
-    public void testRemoveEmptyRows()
-    {
+    public void testRemoveEmptyRows() {
         final Author author = new Author();
         final PilotBook pilot = new PilotBook();
         final NortFileLocation location = new NortFileLocation();
@@ -213,8 +206,7 @@ public final class EditBookDefinitionFormTest
     }
 
     @Test
-    public void defaultNotesOfDecisionsValue()
-    {
+    public void defaultNotesOfDecisionsValue() {
         assertTrue(form.isIncludeNotesOfDecisions());
     }
 }

@@ -5,12 +5,10 @@ import java.util.Date;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
 
-public class ProviewGroupForm
-{
+public class ProviewGroupForm {
     public static final String FORM_NAME = "proviewGroupForm";
 
-    public enum Command
-    {
+    public enum Command {
         REMOVE,
         DELETE,
         PROMOTE,
@@ -23,13 +21,11 @@ public class ProviewGroupForm
     private Command command;
     private String objectsPerPage;
 
-    public ProviewGroupForm()
-    {
+    public ProviewGroupForm() {
         super();
     }
 
-    public ProviewAudit createAudit()
-    {
+    public ProviewAudit createAudit() {
         final ProviewAudit audit = new ProviewAudit();
         audit.setBookVersion(version);
         audit.setProviewRequest(command.toString());
@@ -40,50 +36,41 @@ public class ProviewGroupForm
         return audit;
     }
 
-    public ProviewGroupForm(final String titleId, final String version, final String status, final String lastUpdate)
-    {
+    public ProviewGroupForm(final String titleId, final String version, final String status, final String lastUpdate) {
         super();
         this.titleId = titleId;
         this.version = version;
     }
 
-    public String getObjectsPerPage()
-    {
+    public String getObjectsPerPage() {
         return objectsPerPage;
     }
 
-    public void setObjectsPerPage(final String objectsPerPage)
-    {
+    public void setObjectsPerPage(final String objectsPerPage) {
         this.objectsPerPage = objectsPerPage;
     }
 
-    public String getTitleId()
-    {
+    public String getTitleId() {
         return titleId;
     }
 
-    public void setTitleId(final String titleId)
-    {
+    public void setTitleId(final String titleId) {
         this.titleId = titleId;
     }
 
-    public String getVersion()
-    {
+    public String getVersion() {
         return version;
     }
 
-    public void setVersion(final String version)
-    {
+    public void setVersion(final String version) {
         this.version = version;
     }
 
-    public Command getCommand()
-    {
+    public Command getCommand() {
         return command;
     }
 
-    public void setCommand(final Command cmd)
-    {
+    public void setCommand(final Command cmd) {
         command = cmd;
     }
 }

@@ -29,8 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
  * Controller for the Job Instance Details page.
  */
 @Controller
-public class JobInstanceController
-{
+public class JobInstanceController {
     private static final StepStartTimeComparator STEPS_START_TIME_COMPARATOR = new StepStartTimeComparator();
 
     private final JobService jobService;
@@ -38,10 +37,10 @@ public class JobInstanceController
     private final OutageService outageService;
 
     @Autowired
-    public JobInstanceController(final JobService jobService,
-                                 final PublishingStatsService publishingStatsService,
-                                 final OutageService outageService)
-    {
+    public JobInstanceController(
+        final JobService jobService,
+        final PublishingStatsService publishingStatsService,
+        final OutageService outageService) {
         this.jobService = jobService;
         this.publishingStatsService = publishingStatsService;
         this.outageService = outageService;
@@ -55,27 +54,25 @@ public class JobInstanceController
      * @throws Exception
      */
     @RequestMapping(value = WebConstants.MVC_JOB_INSTANCE_DETAILS, method = RequestMethod.GET)
-    public ModelAndView inboundGet(@RequestParam("jobInstanceId") final Long jobInstanceId, final Model model) throws Exception
-    {
+    public ModelAndView inboundGet(@RequestParam("jobInstanceId") final Long jobInstanceId, final Model model)
+        throws Exception {
 //		log.debug(">>> jobInstanceId="+jobInstanceId);
         final JobInstance jobInstance = (jobInstanceId != null) ? jobService.findJobInstance(jobInstanceId) : null;
-        if (jobInstance != null)
-        {
+        if (jobInstance != null) {
             long totalDurationOfAllExecutions = 0;
-            final PublishingStats publishingStats = publishingStatsService.findPublishingStatsByJobId(jobInstance.getId());
+            final PublishingStats publishingStats =
+                publishingStatsService.findPublishingStatsByJobId(jobInstance.getId());
             final EbookAudit bookInfo = publishingStats.getAudit();
             final List<JobExecution> jobExecutions = jobService.findJobExecutions(jobInstance);
             final List<StepExecution> allJobInstanceSteps = new ArrayList<>();
-            for (final JobExecution je : jobExecutions)
-            {
+            for (final JobExecution je : jobExecutions) {
                 totalDurationOfAllExecutions += JobSummary.getExecutionDuration(je.getStartTime(), je.getEndTime());
                 final Collection<StepExecution> stepExecutions = je.getStepExecutions();
                 allJobInstanceSteps.addAll(stepExecutions);
             }
 
             // Get the job execution for the last step run, used to determine if we can restart the job here
-            if (allJobInstanceSteps.size() > 0)
-            {
+            if (allJobInstanceSteps.size() > 0) {
                 Collections.sort(allJobInstanceSteps, STEPS_START_TIME_COMPARATOR); // Descending sort
                 final StepExecution lastStepExecution = allJobInstanceSteps.get(0);
                 final JobExecution lastJobExecution = lastStepExecution.getJobExecution();
@@ -95,8 +92,7 @@ public class JobInstanceController
         final Model model,
         final JobInstance jobInstance,
         final EbookAudit bookInfo,
-        final List<StepExecution> allJobInstanceSteps)
-    {
+        final List<StepExecution> allJobInstanceSteps) {
         model.addAttribute(WebConstants.KEY_JOB_INSTANCE, jobInstance);
         model.addAttribute(WebConstants.KEY_JOB_BOOK_INFO, bookInfo);
         model.addAttribute(WebConstants.KEY_JOB_STEP_EXECUTIONS, allJobInstanceSteps);

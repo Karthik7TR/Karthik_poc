@@ -26,8 +26,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class ProviewTitleListService_GetProviewTitlesTest
-{
+public final class ProviewTitleListService_GetProviewTitlesTest {
     @InjectMocks
     private ProviewTitleListServiceImpl service;
     @Mock
@@ -36,8 +35,7 @@ public final class ProviewTitleListService_GetProviewTitlesTest
     private BookDefinition book;
 
     @Test
-    public void shouldNotAllowRemovalAndPromotionIfBookNotFound()
-    {
+    public void shouldNotAllowRemovalAndPromotionIfBookNotFound() {
         // given
         final List<ProviewTitleInfo> titleInfos = asList(titleInfo("v1.0", "Final"), titleInfo("v1.1", "Review"));
         given(bookTitlesUtil.isSplitBook(any(BookDefinition.class), any(Version.class))).willReturn(false);
@@ -49,8 +47,7 @@ public final class ProviewTitleListService_GetProviewTitlesTest
     }
 
     @Test
-    public void shouldNotAllowPromotionInProgressBook()
-    {
+    public void shouldNotAllowPromotionInProgressBook() {
         // given
         final List<ProviewTitleInfo> titleInfos = asList(titleInfo("v1.0", "Final"), titleInfo("v1.1", "Review"));
         given(bookTitlesUtil.isSplitBook(eq(book), any(Version.class))).willReturn(false);
@@ -63,8 +60,7 @@ public final class ProviewTitleListService_GetProviewTitlesTest
     }
 
     @Test
-    public void shouldNotAllowRemovalAndPromotionOfSplitBook()
-    {
+    public void shouldNotAllowRemovalAndPromotionOfSplitBook() {
         // given
         final List<ProviewTitleInfo> titleInfos = asList(titleInfo("v1.0", "Review"));
         given(bookTitlesUtil.isSplitBook(eq(book), any(Version.class))).willReturn(true);
@@ -75,8 +71,7 @@ public final class ProviewTitleListService_GetProviewTitlesTest
     }
 
     @Test
-    public void shouldNotAllowPromotionOfFinalBook()
-    {
+    public void shouldNotAllowPromotionOfFinalBook() {
         // given
         final List<ProviewTitleInfo> titleInfos = asList(titleInfo("v1.0", "Final"), titleInfo("v1.1", "Review"));
         given(bookTitlesUtil.isSplitBook(eq(book), any(Version.class))).willReturn(false);

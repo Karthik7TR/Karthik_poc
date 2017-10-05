@@ -22,22 +22,20 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class JurisdictionCodeController
-{
+public class JurisdictionCodeController {
     private final CodeService codeService;
     private final Validator validator;
 
     @Autowired
-    public JurisdictionCodeController(final CodeService codeService,
-                                      @Qualifier("jurisdictionCodeFormValidator") final Validator validator)
-    {
+    public JurisdictionCodeController(
+        final CodeService codeService,
+        @Qualifier("jurisdictionCodeFormValidator") final Validator validator) {
         this.codeService = codeService;
         this.validator = validator;
     }
 
     @InitBinder(JurisdictionCodeForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.setValidator(validator);
     }
@@ -50,8 +48,7 @@ public class JurisdictionCodeController
      * @throws Exception
      */
     @RequestMapping(value = WebConstants.MVC_ADMIN_JURIS_CODE_VIEW, method = RequestMethod.GET)
-    public ModelAndView viewJurisCodeList(final Model model) throws Exception
-    {
+    public ModelAndView viewJurisCodeList(final Model model) throws Exception {
         model.addAttribute(WebConstants.KEY_JURIS_TYPE_CODE, codeService.getAllJurisTypeCodes());
 
         return new ModelAndView(WebConstants.VIEW_ADMIN_JURIS_CODE_VIEW);
@@ -61,8 +58,7 @@ public class JurisdictionCodeController
     public ModelAndView createJurisCode(
         @ModelAttribute(JurisdictionCodeForm.FORM_NAME) final JurisdictionCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         return new ModelAndView(WebConstants.VIEW_ADMIN_JURIS_CODE_CREATE);
     }
 
@@ -70,10 +66,8 @@ public class JurisdictionCodeController
     public ModelAndView createJurisCodePost(
         @ModelAttribute(JurisdictionCodeForm.FORM_NAME) @Valid final JurisdictionCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
-        if (!bindingResult.hasErrors())
-        {
+        final Model model) {
+        if (!bindingResult.hasErrors()) {
             codeService.saveJurisTypeCode(form.makeCode());
 
             // Redirect user
@@ -88,12 +82,10 @@ public class JurisdictionCodeController
         @RequestParam("id") final Long id,
         @ModelAttribute(JurisdictionCodeForm.FORM_NAME) final JurisdictionCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         final JurisTypeCode code = codeService.getJurisTypeCodeById(id);
 
-        if (code != null)
-        {
+        if (code != null) {
             model.addAttribute(WebConstants.KEY_JURIS_TYPE_CODE, code);
             form.initialize(code);
         }
@@ -105,10 +97,8 @@ public class JurisdictionCodeController
     public ModelAndView editJurisCodePost(
         @ModelAttribute(JurisdictionCodeForm.FORM_NAME) @Valid final JurisdictionCodeForm form,
         final BindingResult bindingResult,
-        final Model model) throws Exception
-    {
-        if (!bindingResult.hasErrors())
-        {
+        final Model model) throws Exception {
+        if (!bindingResult.hasErrors()) {
             codeService.saveJurisTypeCode(form.makeCode());
 
             // Redirect user
@@ -125,12 +115,10 @@ public class JurisdictionCodeController
         @RequestParam("id") final Long id,
         @ModelAttribute(JurisdictionCodeForm.FORM_NAME) final JurisdictionCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         final JurisTypeCode code = codeService.getJurisTypeCodeById(id);
 
-        if (code != null)
-        {
+        if (code != null) {
             model.addAttribute(WebConstants.KEY_JURIS_TYPE_CODE, code);
             form.initialize(code);
         }
@@ -142,8 +130,7 @@ public class JurisdictionCodeController
     public ModelAndView deleteJurisCodePost(
         @ModelAttribute(JurisdictionCodeForm.FORM_NAME) final JurisdictionCodeForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         codeService.deleteJurisTypeCode(form.makeCode());
 
         // Redirect user

@@ -6,15 +6,13 @@ import org.junit.Test;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 
-public final class SupportFormValidatorTest
-{
+public final class SupportFormValidatorTest {
     private SupportFormValidator validator;
     private SupportForm form;
     private Errors errors;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         // Setup Validator
         validator = new SupportFormValidator();
         form = new SupportForm();
@@ -25,8 +23,7 @@ public final class SupportFormValidatorTest
     }
 
     @Test
-    public void testNoLinkAddress()
-    {
+    public void testNoLinkAddress() {
         // Check Valid name entry
         validator.validate(form, errors);
         Assert.assertFalse(errors.hasErrors());
@@ -38,8 +35,7 @@ public final class SupportFormValidatorTest
     }
 
     @Test
-    public void testInvalidAddress()
-    {
+    public void testInvalidAddress() {
         // Check Valid name entry
         validator.validate(form, errors);
         Assert.assertFalse(errors.hasErrors());
@@ -51,8 +47,7 @@ public final class SupportFormValidatorTest
     }
 
     @Test
-    public void testNoLinkDescription()
-    {
+    public void testNoLinkDescription() {
         // Verify name requirement
         validator.validate(form, errors);
         Assert.assertFalse(errors.hasErrors());

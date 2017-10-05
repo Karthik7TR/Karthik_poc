@@ -7,25 +7,20 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component("jobThrottleConfigFormValidator")
-public class JobThrottleConfigFormValidator extends BaseFormValidator implements Validator
-{
+public class JobThrottleConfigFormValidator extends BaseFormValidator implements Validator {
     @Override
-    public boolean supports(final Class<?> clazz)
-    {
+    public boolean supports(final Class<?> clazz) {
         return (JobThrottleConfigForm.class.isAssignableFrom(clazz));
     }
 
     @Override
-    public void validate(final Object obj, final Errors errors)
-    {
+    public void validate(final Object obj, final Errors errors) {
         final JobThrottleConfigForm form = (JobThrottleConfigForm) obj;
-        if ((form.isStepThrottleEnabled() && StringUtils.isBlank(form.getThrottleStepName())))
-        {
+        if ((form.isStepThrottleEnabled() && StringUtils.isBlank(form.getThrottleStepName()))) {
             errors.reject("throttle.admin.step.name.blank");
         }
 
-        if (form.getThrotttleStepMaxJobs() > form.getCoreThreadPoolSize())
-        {
+        if (form.getThrotttleStepMaxJobs() > form.getCoreThreadPoolSize()) {
             errors.reject("throttle.admin.step.max.jobs");
         }
     }

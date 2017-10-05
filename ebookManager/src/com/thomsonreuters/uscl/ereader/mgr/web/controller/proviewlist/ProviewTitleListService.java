@@ -8,8 +8,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface ProviewTitleListService
-{
+public interface ProviewTitleListService {
     /**
      * Get list of titles to display on 'Proview list' page
      * @param titleInfos list of titles from ProView

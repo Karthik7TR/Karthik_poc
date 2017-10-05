@@ -2,70 +2,58 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jobthrottleconf
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 
-public class JobThrottleConfigForm
-{
+public class JobThrottleConfigForm {
     private JobThrottleConfig jobThrottleConfig = new JobThrottleConfig();
 
     public static final String FORM_NAME = "jobThrottleForm";
 
-    public JobThrottleConfigForm()
-    {
+    public JobThrottleConfigForm() {
         super();
     }
 
     /**
      * Populate the form from the corresponding domain object.
      */
-    public void initialize(final JobThrottleConfig config)
-    {
+    public void initialize(final JobThrottleConfig config) {
         setCoreThreadPoolSize(config.getCoreThreadPoolSize());
         setStepThrottleEnabled(config.isStepThrottleEnabled());
         setThrottleStepName(config.getThrottleStepName());
         setThrotttleStepMaxJobs(config.getThrottleStepMaxJobs());
     }
 
-    public JobThrottleConfig getJobThrottleConfig()
-    {
+    public JobThrottleConfig getJobThrottleConfig() {
         return jobThrottleConfig;
     }
 
-    public int getCoreThreadPoolSize()
-    {
+    public int getCoreThreadPoolSize() {
         return jobThrottleConfig.getCoreThreadPoolSize();
     }
 
-    public boolean isStepThrottleEnabled()
-    {
+    public boolean isStepThrottleEnabled() {
         return jobThrottleConfig.isStepThrottleEnabled();
     }
 
-    public String getThrottleStepName()
-    {
+    public String getThrottleStepName() {
         return jobThrottleConfig.getThrottleStepName();
     }
 
-    public int getThrotttleStepMaxJobs()
-    {
+    public int getThrotttleStepMaxJobs() {
         return jobThrottleConfig.getThrottleStepMaxJobs();
     }
 
-    public void setCoreThreadPoolSize(final int coreThreadPoolSize)
-    {
+    public void setCoreThreadPoolSize(final int coreThreadPoolSize) {
         jobThrottleConfig.setCoreThreadPoolSize(coreThreadPoolSize);
     }
 
-    public void setStepThrottleEnabled(final boolean enabled)
-    {
+    public void setStepThrottleEnabled(final boolean enabled) {
         jobThrottleConfig.setStepThrottleEnabled(enabled);
     }
 
-    public void setThrottleStepName(final String throttleStepName)
-    {
+    public void setThrottleStepName(final String throttleStepName) {
         jobThrottleConfig.setThrottleStepName(throttleStepName);
     }
 
-    public void setThrotttleStepMaxJobs(final int throtttleStepMaxJobs)
-    {
+    public void setThrotttleStepMaxJobs(final int throtttleStepMaxJobs) {
         jobThrottleConfig.setThrottleStepMaxJobs(throtttleStepMaxJobs);
     }
 }

@@ -25,8 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
  * the book front matter pages prior to publishing.
  */
 @Controller
-public class FmPreviewController
-{
+public class FmPreviewController {
     private static final Logger log = LogManager.getLogger(FmPreviewController.class);
     private static final String BOOK_FIND_FAIL_MESG = "Could not find book definition with ID %d";
 
@@ -34,13 +33,12 @@ public class FmPreviewController
     private final CreateFrontMatterService frontMatterService;
 
     @Autowired
-    public FmPreviewController(final BookDefinitionService bookDefinitionService,
-                               final CreateFrontMatterService frontMatterService)
-    {
+    public FmPreviewController(
+        final BookDefinitionService bookDefinitionService,
+        final CreateFrontMatterService frontMatterService) {
         this.bookDefinitionService = bookDefinitionService;
         this.frontMatterService = frontMatterService;
     }
-
 
     /**
      * The main selection page where the user can select the static or dynamic
@@ -50,11 +48,9 @@ public class FmPreviewController
      *            book definition primary key
      */
     @RequestMapping(value = WebConstants.MVC_FRONT_MATTER_PREVIEW, method = RequestMethod.GET)
-    public ModelAndView previewContentSelection(@RequestParam("id") final Long id, final Model model)
-    {
+    public ModelAndView previewContentSelection(@RequestParam("id") final Long id, final Model model) {
         final BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
-        if (bookDef == null)
-        {
+        if (bookDef == null) {
             final InfoMessage mesg = new InfoMessage(InfoMessage.Type.FAIL, String.format(BOOK_FIND_FAIL_MESG, id));
             model.addAttribute(WebConstants.KEY_ERR_MESSAGE, mesg);
         }
@@ -68,8 +64,7 @@ public class FmPreviewController
      * HTML content was put on the session by the previous form submit.
      */
     @RequestMapping(value = WebConstants.MVC_FRONT_MATTER_PREVIEW_EDIT, method = RequestMethod.GET)
-    public ModelAndView previewContentSelectionFromEdit(final HttpSession httpSession, final Model model)
-    {
+    public ModelAndView previewContentSelectionFromEdit(final HttpSession httpSession, final Model model) {
         String frontMatterPreviewHtml = (String) httpSession.getAttribute(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML);
         httpSession.removeAttribute(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML); // Clear
                                                                                  // the
@@ -79,8 +74,7 @@ public class FmPreviewController
                                                                                  // the
                                                                                  // session
 
-        if (frontMatterPreviewHtml == null)
-        {
+        if (frontMatterPreviewHtml == null) {
             frontMatterPreviewHtml =
                 "The front matter preview cannot be refreshed.  Click the Preview button for the Front Matter page you with to view.";
         }
@@ -98,8 +92,7 @@ public class FmPreviewController
      *            book definition primary key
      */
     @RequestMapping(value = WebConstants.MVC_FRONT_MATTER_PREVIEW_TITLE, method = RequestMethod.GET)
-    public ModelAndView viewTitleContent(@RequestParam("id") final Long id, final Model model) throws Exception
-    {
+    public ModelAndView viewTitleContent(@RequestParam("id") final Long id, final Model model) throws Exception {
         final Method method = frontMatterService.getClass().getMethod("getTitlePage", BookDefinition.class);
         return createStaticFrontMatterContentView(method, id, "Title", model);
     }
@@ -111,8 +104,7 @@ public class FmPreviewController
      *            book definition primary key
      */
     @RequestMapping(value = WebConstants.MVC_FRONT_MATTER_PREVIEW_COPYRIGHT, method = RequestMethod.GET)
-    public ModelAndView viewCopyrightContent(@RequestParam("id") final Long id, final Model model) throws Exception
-    {
+    public ModelAndView viewCopyrightContent(@RequestParam("id") final Long id, final Model model) throws Exception {
         final Method method = frontMatterService.getClass().getMethod("getCopyrightPage", BookDefinition.class);
         return createStaticFrontMatterContentView(method, id, "Copyright", model);
     }
@@ -127,25 +119,20 @@ public class FmPreviewController
     public ModelAndView viewAdditionalFrontMatterContent(
         @RequestParam("bookDefinitionId") final Long bookDefinitionId,
         @RequestParam("frontMatterPageId") final Long frontMatterPageId,
-        final Model model)
-    {
+        final Model model) {
         // log.debug(String.format("bookDefinitionId=%d&frontMatterPageId=%d",bookDefinitionId,
         // frontMatterPageId));
         final BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(bookDefinitionId);
-        if (bookDef == null)
-        {
+        if (bookDef == null) {
             final InfoMessage mesg =
                 new InfoMessage(InfoMessage.Type.FAIL, String.format(BOOK_FIND_FAIL_MESG, bookDefinitionId));
             model.addAttribute(WebConstants.KEY_ERR_MESSAGE, mesg);
             return previewContentSelection(bookDefinitionId, model);
         }
-        try
-        {
+        try {
             final String html = frontMatterService.getAdditionalFrontPage(bookDef, frontMatterPageId);
             model.addAttribute(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML, html);
-        }
-        catch (final EBookFrontMatterGenerationException e)
-        {
+        } catch (final EBookFrontMatterGenerationException e) {
             final String errMesg = String.format(
                 "Could not fetch additional front matter preview content for book definition ID %d, front matter page ID %d",
                 bookDefinitionId,
@@ -165,9 +152,10 @@ public class FmPreviewController
      *            book definition primary key
      */
     @RequestMapping(value = WebConstants.MVC_FRONT_MATTER_PREVIEW_RESEARCH, method = RequestMethod.GET)
-    public ModelAndView viewResearchAssistanceContent(@RequestParam("id") final Long id, final Model model) throws Exception
-    {
-        final Method method = frontMatterService.getClass().getMethod("getResearchAssistancePage", BookDefinition.class);
+    public ModelAndView viewResearchAssistanceContent(@RequestParam("id") final Long id, final Model model)
+        throws Exception {
+        final Method method =
+            frontMatterService.getClass().getMethod("getResearchAssistancePage", BookDefinition.class);
         return createStaticFrontMatterContentView(method, id, "Research Assistance", model);
     }
 
@@ -178,8 +166,7 @@ public class FmPreviewController
      *            book definition primary key
      */
     @RequestMapping(value = WebConstants.MVC_FRONT_MATTER_PREVIEW_WESTLAWNEXT, method = RequestMethod.GET)
-    public ModelAndView viewWestlawNextContent(@RequestParam("id") final Long id, final Model model) throws Exception
-    {
+    public ModelAndView viewWestlawNextContent(@RequestParam("id") final Long id, final Model model) throws Exception {
         final Method method = frontMatterService.getClass().getMethod("getWestlawNextPage", BookDefinition.class);
         return createStaticFrontMatterContentView(method, id, "WestlawNext", model);
     }
@@ -188,13 +175,10 @@ public class FmPreviewController
         final Method staticContentGetter,
         final Long id,
         final String label,
-        final Model model)
-    {
-        try
-        {
+        final Model model) {
+        try {
             final BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
-            if (bookDef == null)
-            {
+            if (bookDef == null) {
                 final InfoMessage mesg = new InfoMessage(InfoMessage.Type.FAIL, String.format(BOOK_FIND_FAIL_MESG, id));
                 model.addAttribute(WebConstants.KEY_ERR_MESSAGE, mesg);
                 return previewContentSelection(id, model);
@@ -202,9 +186,7 @@ public class FmPreviewController
             final String html = (String) staticContentGetter.invoke(frontMatterService, bookDef);
             model.addAttribute(WebConstants.KEY_ID, id);
             model.addAttribute(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML, html);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             final InfoMessage mesg = new InfoMessage(
                 InfoMessage.Type.FAIL,
                 String.format("Could not fetch static front matter for book definition ID %d", id));

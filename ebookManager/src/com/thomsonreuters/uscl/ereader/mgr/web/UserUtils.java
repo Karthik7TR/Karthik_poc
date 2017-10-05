@@ -10,12 +10,10 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.security.core.GrantedAuthority;
 
-public class UserUtils
-{
+public class UserUtils {
     private static final Logger log = LogManager.getLogger(UserUtils.class);
 
-    public enum SecurityRole
-    {
+    public enum SecurityRole {
         ROLE_SUPERUSER,
         ROLE_PUBLISHER_PLUS,
         ROLE_PUBLISHER,
@@ -29,8 +27,7 @@ public class UserUtils
      *
      * @return user's full name, like "John Galt", or null if not authenticated.
      */
-    public static String getAuthenticatedUserFullName()
-    {
+    public static String getAuthenticatedUserFullName() {
         final CobaltUser user = CobaltUser.getAuthenticatedUser();
         return (user != null) ? user.getFullName() : null;
     }
@@ -41,8 +38,7 @@ public class UserUtils
      * @return user's email, like "xyz@thomsonreuters.com", or null if not
      *         authenticated.
      */
-    public static String getAuthenticatedUserEmail()
-    {
+    public static String getAuthenticatedUserEmail() {
         final CobaltUser user = CobaltUser.getAuthenticatedUser();
         return (user != null) ? user.getEmail() : null;
     }
@@ -52,8 +48,7 @@ public class UserUtils
      *
      * @return username, like U1234567, or null if not authenticated.
      */
-    public static String getAuthenticatedUserName()
-    {
+    public static String getAuthenticatedUserName() {
         final CobaltUser user = CobaltUser.getAuthenticatedUser();
         return (user != null) ? user.getUsername() : null;
     }
@@ -64,23 +59,19 @@ public class UserUtils
      *
      * @return a CSV list of user roles
      */
-    public static String getUserRolesAsCsv()
-    {
+    public static String getUserRolesAsCsv() {
         final CobaltUser user = CobaltUser.getAuthenticatedUser();
         final StringBuffer buffer = new StringBuffer();
-        if (user != null)
-        {
+        if (user != null) {
             final Collection<GrantedAuthority> gas = user.getAuthorities();
-            for (final GrantedAuthority ga : gas)
-            {
+            for (final GrantedAuthority ga : gas) {
                 buffer.append(ga);
                 buffer.append(",");
             }
         }
         String csv = buffer.toString();
         final int len = csv.length();
-        if (len > 0)
-        {
+        if (len > 0) {
             csv = csv.substring(0, len - 1); // strip off last ","
         }
         return csv;
@@ -89,24 +80,20 @@ public class UserUtils
     /**
      * Returns true if the currently authenticated user is in the specified role.
      */
-    public static boolean isUserInRole(final SecurityRole role)
-    {
+    public static boolean isUserInRole(final SecurityRole role) {
         final CobaltUser user = CobaltUser.getAuthenticatedUser();
         boolean isInRole = false;
-        if (user != null)
-        {
+        if (user != null) {
             isInRole = user.isInRole(role.toString());
         }
         return isInRole;
     }
 
-    public static boolean isUserInRole(final SecurityRole[] roles)
-    {
+    public static boolean isUserInRole(final SecurityRole[] roles) {
         final CobaltUser user = CobaltUser.getAuthenticatedUser();
 
         final List<String> buffer = new ArrayList<>();
-        for (final SecurityRole role : roles)
-        {
+        for (final SecurityRole role : roles) {
             buffer.add(role.toString());
         }
         return (user != null) ? user.isInRole(buffer.toArray(new String[buffer.size()])) : false;
@@ -117,28 +104,23 @@ public class UserUtils
      * stop or restart a batch job.
      * @param usernameThatStartedTheJob the user who wants to stop or restart a job, may be null
      */
-    public static boolean isUserAuthorizedToStopOrRestartBatchJob(final String usernameThatStartedTheJob)
-    {
+    public static boolean isUserAuthorizedToStopOrRestartBatchJob(final String usernameThatStartedTheJob) {
 //		log.debug("Username that started the job: " + usernameThatStartedTheJob);
         final CobaltUser user = CobaltUser.getAuthenticatedUser();
 //		log.debug("Current authenticated user: " + user);
-        if (user == null)
-        { // if not authenticated
+        if (user == null) { // if not authenticated
 //			log.debug("Null user - not authenticated.");
             return false;
         }
-        if (user.isInRole(SecurityRole.ROLE_SUPERUSER.toString()))
-        { // if they are a superuser
+        if (user.isInRole(SecurityRole.ROLE_SUPERUSER.toString())) { // if they are a superuser
 //			log.debug("Current user is a superuser - proceed.");
             return true;
         }
-        if (StringUtils.isBlank(usernameThatStartedTheJob))
-        {
+        if (StringUtils.isBlank(usernameThatStartedTheJob)) {
 //			log.warn("Username for user that started the job is blank.");
             return false;
         }
-        if (user.getUsername().equalsIgnoreCase(usernameThatStartedTheJob))
-        {
+        if (user.getUsername().equalsIgnoreCase(usernameThatStartedTheJob)) {
 //			log.debug("Authenticated username matches user that started the job.");
             return true;
         }

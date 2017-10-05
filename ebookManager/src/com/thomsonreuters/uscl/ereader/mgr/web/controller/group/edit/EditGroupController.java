@@ -33,19 +33,18 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class EditGroupController
-{
+public class EditGroupController {
     private final BookDefinitionService bookDefinitionService;
     private final GroupService groupService;
     private final EBookAuditService auditService;
     private final Validator validator;
 
     @Autowired
-    public EditGroupController(final BookDefinitionService bookDefinitionService,
-                               final GroupService groupService,
-                               final EBookAuditService auditService,
-                               @Qualifier("editGroupDefinitionFormValidator") final Validator validator)
-    {
+    public EditGroupController(
+        final BookDefinitionService bookDefinitionService,
+        final GroupService groupService,
+        final EBookAuditService auditService,
+        @Qualifier("editGroupDefinitionFormValidator") final Validator validator) {
         this.bookDefinitionService = bookDefinitionService;
         this.groupService = groupService;
         this.auditService = auditService;
@@ -53,8 +52,7 @@ public class EditGroupController
     }
 
     @InitBinder(EditGroupDefinitionForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.setAutoGrowNestedPaths(false);
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 
@@ -70,22 +68,18 @@ public class EditGroupController
         @RequestParam("id") final Long id,
         @ModelAttribute(EditGroupDefinitionForm.FORM_NAME) final EditGroupDefinitionForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         // Lookup the book by its primary key
         final BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
 
         // Check if user needs to be shown an error
-        if (bookDef != null)
-        {
+        if (bookDef != null) {
             // Check if book is soft deleted
-            if (bookDef.isDeletedFlag())
-            {
+            if (bookDef.isDeletedFlag()) {
                 return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));
             }
 
-            try
-            {
+            try {
                 final String groupId = groupService.getGroupId(bookDef);
                 form.setBookDefinitionId(bookDef.getEbookDefinitionId());
                 form.setFullyQualifiedTitleId(bookDef.getFullyQualifiedTitleId());
@@ -99,12 +93,10 @@ public class EditGroupController
 
                 final Map<String, ProviewTitleInfo> proviewTitleMap = groupService.getProViewTitlesForGroup(bookDef);
                 final Map<String, ProviewTitleInfo> pilotBookMap = groupService.getPilotBooksForGroup(bookDef);
-                if (pilotBookMap.size() > 0)
-                {
+                if (pilotBookMap.size() > 0) {
                     proviewTitleMap.putAll(pilotBookMap);
                 }
-                if (groupService.getPilotBooksNotFound().size() > 0)
-                {
+                if (groupService.getPilotBooksNotFound().size() > 0) {
                     String msg = groupService.getPilotBooksNotFound().toString();
                     msg = msg.replaceAll("\\[|\\]|\\{|\\}", "");
                     model.addAttribute(
@@ -114,15 +106,11 @@ public class EditGroupController
 
                 setupModel(model, bookDef, proviewTitleMap.size());
                 form.initialize(bookDef, proviewTitleMap, pilotBookMap, group);
-            }
-            catch (final ProviewException ex)
-            {
+            } catch (final ProviewException ex) {
                 setupModel(model, bookDef, 1);
                 model.addAttribute(WebConstants.KEY_ERR_MESSAGE, WebConstants.ERROR_PROVIEW);
                 model.addAttribute(WebConstants.KEY_WARNING_MESSAGE, Arrays.asList(ex.getMessage().split("\\s*,\\s*")));
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 model.addAttribute(WebConstants.KEY_ERR_MESSAGE, WebConstants.ERROR_PROVIEW);
             }
         }
@@ -130,23 +118,18 @@ public class EditGroupController
         return new ModelAndView(WebConstants.VIEW_GROUP_DEFINITION_EDIT);
     }
 
-    private void setupVersion(final GroupDefinition group, final EditGroupDefinitionForm form, final Model model)
-    {
+    private void setupVersion(final GroupDefinition group, final EditGroupDefinitionForm form, final Model model) {
         String status = null;
-        if (group != null)
-        {
+        if (group != null) {
             status = group.getStatus();
         }
 
         model.addAttribute(WebConstants.KEY_GROUP_STATUS_IN_PROVIEW, status);
-        if ("review".equalsIgnoreCase(status))
-        {
+        if ("review".equalsIgnoreCase(status)) {
             String formatedVersion = EditGroupDefinitionForm.Version.OVERWRITE.toString();
             formatedVersion = formatedVersion.charAt(0) + formatedVersion.substring(1).toLowerCase();
             model.addAttribute(WebConstants.KEY_OVERWRITE_ALLOWED, formatedVersion);
-        }
-        else
-        {
+        } else {
             String formatedVersion = EditGroupDefinitionForm.Version.MAJOR.toString();
             formatedVersion = formatedVersion.charAt(0) + formatedVersion.substring(1).toLowerCase();
             model.addAttribute(WebConstants.KEY_OVERWRITE_ALLOWED, formatedVersion);
@@ -167,55 +150,41 @@ public class EditGroupController
         final HttpSession httpSession,
         @ModelAttribute(EditGroupDefinitionForm.FORM_NAME) @Valid final EditGroupDefinitionForm form,
         final BindingResult bindingResult,
-        final Model model) throws Exception
-    {
+        final Model model) throws Exception {
         BookDefinition bookDef = null;
-        try
-        {
+        try {
             // Lookup the book by its primary key
             bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(form.getBookDefinitionId());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             // Error happens when POST of form is over Tomcat post limit. // Default is set at 2 mb.
             // The processed form is empty.
             return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DEFINITION));
         }
 
         // Check if user needs to be shown an error
-        if (bookDef == null)
-        {
+        if (bookDef == null) {
             return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));
         }
 
         final Map<String, ProviewTitleInfo> proviewTitleMap = groupService.getProViewTitlesForGroup(bookDef);
-        if (form.getIncludePilotBook())
-        {
+        if (form.getIncludePilotBook()) {
             final Map<String, ProviewTitleInfo> pilotBookMap = groupService.getPilotBooksForGroup(bookDef);
             proviewTitleMap.putAll(pilotBookMap);
         }
 
-        if (!bindingResult.hasErrors())
-        {
-            try
-            {
+        if (!bindingResult.hasErrors()) {
+            try {
                 final GroupDefinition groupDefinition = form.createGroupDefinition(proviewTitleMap.values());
 
                 // determine group version
                 final GroupDefinition lastGroup = groupService.getLastGroup(groupDefinition.getGroupId());
-                if (lastGroup != null)
-                {
-                    if (lastGroup.getStatus().equalsIgnoreCase(GroupDefinition.REVIEW_STATUS))
-                    {
+                if (lastGroup != null) {
+                    if (lastGroup.getStatus().equalsIgnoreCase(GroupDefinition.REVIEW_STATUS)) {
                         groupDefinition.setGroupVersion(lastGroup.getGroupVersion());
-                    }
-                    else
-                    {
+                    } else {
                         groupDefinition.setGroupVersion(lastGroup.getGroupVersion() + 1);
                     }
-                }
-                else
-                {
+                } else {
                     // first group being created
                     groupDefinition.setGroupVersion(1L);
                 }
@@ -238,9 +207,7 @@ public class EditGroupController
                 // Redirect user
                 final String queryString = String.format("?%s=%s", WebConstants.KEY_ID, form.getBookDefinitionId());
                 return new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_VIEW_GET + queryString));
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 model.addAttribute(WebConstants.KEY_WARNING_MESSAGE, e.getMessage());
             }
         }
@@ -251,8 +218,7 @@ public class EditGroupController
         return new ModelAndView(WebConstants.VIEW_GROUP_DEFINITION_EDIT);
     }
 
-    private void setupModel(final Model model, final BookDefinition bookDef, final Integer numOfProviewTitles)
-    {
+    private void setupModel(final Model model, final BookDefinition bookDef, final Integer numOfProviewTitles) {
         model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
         model.addAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES, numOfProviewTitles);
     }

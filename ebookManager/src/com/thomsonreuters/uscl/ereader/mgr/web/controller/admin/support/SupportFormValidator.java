@@ -8,21 +8,18 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component("supportFormValidator")
-public class SupportFormValidator extends BaseFormValidator implements Validator
-{
+public class SupportFormValidator extends BaseFormValidator implements Validator {
     //private static final Logger log = LogManager.getLogger(SupportFormValidator.class);
     private static final int MAXIMUM_CHARACTER_512 = 512;
     private static final int MAXIMUM_CHARACTER_1024 = 1024;
 
     @Override
-    public boolean supports(final Class<?> clazz)
-    {
+    public boolean supports(final Class<?> clazz) {
         return (SupportForm.class.isAssignableFrom(clazz));
     }
 
     @Override
-    public void validate(final Object obj, final Errors errors)
-    {
+    public void validate(final Object obj, final Errors errors) {
         final SupportForm form = (SupportForm) obj;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "linkDescription", "error.required");
@@ -41,8 +38,7 @@ public class SupportFormValidator extends BaseFormValidator implements Validator
             new Object[] {"Link Address", MAXIMUM_CHARACTER_1024});
 
         final UrlValidator urlValidator = new UrlValidator();
-        if (!urlValidator.isValid(form.getLinkAddress()))
-        {
+        if (!urlValidator.isValid(form.getLinkAddress())) {
             errors.rejectValue("linkAddress", "error.invalid.url");
         }
     }

@@ -42,8 +42,7 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public final class ProviewTitleListControllerTest
-{
+public final class ProviewTitleListControllerTest {
     private ProviewTitleListController controller;
     private MockHttpServletResponse response;
     private MockHttpServletRequest request;
@@ -56,8 +55,7 @@ public final class ProviewTitleListControllerTest
     private JobRequestService mockJobRequestService;
 
     @Before
-    public void SetUp()
-    {
+    public void SetUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
 
@@ -69,20 +67,23 @@ public final class ProviewTitleListControllerTest
         mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
         mockJobRequestService = EasyMock.createMock(JobRequestService.class);
 
-        controller = new ProviewTitleListController(mockProviewHandler, mockBookDefinitionService,
-            mockProviewAuditService, mockManagerService,
-            mockMessageSourceAccessor, mockJobRequestService, null);
+        controller = new ProviewTitleListController(
+            mockProviewHandler,
+            mockBookDefinitionService,
+            mockProviewAuditService,
+            mockManagerService,
+            mockMessageSourceAccessor,
+            mockJobRequestService,
+            null);
     }
 
     @After
-    public void reset()
-    {
+    public void reset() {
         SecurityContextHolder.getContext().setAuthentication(null);
     }
 
     @Test
-    public void testSelectedLatestProviewTitleInfo() throws Exception
-    {
+    public void testSelectedLatestProviewTitleInfo() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLES);
         request.setMethod(HttpMethod.GET.name());
         final HttpSession session = request.getSession();
@@ -110,8 +111,7 @@ public final class ProviewTitleListControllerTest
     }
 
     @Test
-    public void testPostSelectionsRefresh() throws Exception
-    {
+    public void testPostSelectionsRefresh() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLES);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("command", ProviewTitleForm.Command.REFRESH.toString());
@@ -141,8 +141,7 @@ public final class ProviewTitleListControllerTest
     }
 
     @Test
-    public void testPostSelectionsPageSize() throws Exception
-    {
+    public void testPostSelectionsPageSize() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLES);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("command", ProviewTitleForm.Command.PAGESIZE.toString());
@@ -164,8 +163,7 @@ public final class ProviewTitleListControllerTest
     }
 
     @Test
-    public void testDownloadProviewListExcel() throws Exception
-    {
+    public void testDownloadProviewListExcel() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLE_DOWNLOAD);
         request.setMethod(HttpMethod.GET.name());
 
@@ -181,8 +179,7 @@ public final class ProviewTitleListControllerTest
     }
 
     @Test
-    public void testProviewTitleDelete() throws Exception
-    {
+    public void testProviewTitleDelete() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLE_DELETE);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("titleId", WebConstants.KEY_TITLE_ID);
@@ -200,8 +197,7 @@ public final class ProviewTitleListControllerTest
     }
 
     @Test
-    public void testProviewTitleRemove() throws Exception
-    {
+    public void testProviewTitleRemove() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLE_REMOVE);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("titleId", WebConstants.KEY_TITLE_ID);
@@ -219,8 +215,7 @@ public final class ProviewTitleListControllerTest
     }
 
     @Test
-    public void testProviewTitlePromote() throws Exception
-    {
+    public void testProviewTitlePromote() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_TITLE_PROMOTE);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("titleId", WebConstants.KEY_TITLE_ID);
@@ -238,8 +233,7 @@ public final class ProviewTitleListControllerTest
     }
 
     @Test
-    public void testProviewTitlePromotePost() throws Exception
-    {
+    public void testProviewTitlePromotePost() throws Exception {
         final String uName = "tester";
         final String first = "first";
         final String last = "last";
@@ -283,8 +277,7 @@ public final class ProviewTitleListControllerTest
     }
 
     @Test
-    public void testProviewTitleRemovePost() throws Exception
-    {
+    public void testProviewTitleRemovePost() throws Exception {
         final String uName = "tester";
         final String first = "first";
         final String last = "last";
@@ -311,8 +304,7 @@ public final class ProviewTitleListControllerTest
     }
 
     @Test
-    public void testProviewTitleDeletePost() throws Exception
-    {
+    public void testProviewTitleDeletePost() throws Exception {
         final String uName = "tester";
         final String first = "first";
         final String last = "last";

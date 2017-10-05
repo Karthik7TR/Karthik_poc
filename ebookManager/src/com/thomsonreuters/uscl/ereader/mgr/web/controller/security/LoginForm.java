@@ -7,48 +7,40 @@ import org.apache.commons.lang3.StringUtils;
  * the j_username and j_password parameters used by
  * the j_spring_security_check filter intercepter.
  */
-public class LoginForm
-{
+public class LoginForm {
     public static final String FORM_NAME = "loginForm";
 
     private String username;
     private String password;
 
     /** The property that Spring Security authentication expects for the username */
-    public String getJ_username()
-    {
+    public String getJ_username() {
         return getUsername();
     }
 
     /** The property that Spring Security authentication expects for the password */
-    public String getJ_password()
-    {
+    public String getJ_password() {
         return getPassword();
     }
 
-    public String getUsername()
-    {
+    public String getUsername() {
         return username;
     }
 
-    public String getPassword()
-    {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(final String password)
-    {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
-    public void setUsername(final String username)
-    {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "username=" + username + ",password=" + (StringUtils.isNotBlank(password) ? "<not-blank>" : password);
     }
 }

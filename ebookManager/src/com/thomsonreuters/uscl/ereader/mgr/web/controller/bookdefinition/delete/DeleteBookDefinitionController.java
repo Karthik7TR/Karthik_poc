@@ -26,8 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class DeleteBookDefinitionController
-{
+public class DeleteBookDefinitionController {
     private final BookDefinitionService bookDefinitionService;
     private final EBookAuditService auditService;
     private final JobRequestService jobRequestService;
@@ -35,12 +34,12 @@ public class DeleteBookDefinitionController
     private final Validator validator;
 
     @Autowired
-    public DeleteBookDefinitionController(final BookDefinitionService bookDefinitionService,
-                                          final EBookAuditService auditService,
-                                          final JobRequestService jobRequestService,
-                                          final BookDefinitionLockService bookLockService,
-                                          @Qualifier("deleteBookDefinitionFormValidator") final Validator validator)
-    {
+    public DeleteBookDefinitionController(
+        final BookDefinitionService bookDefinitionService,
+        final EBookAuditService auditService,
+        final JobRequestService jobRequestService,
+        final BookDefinitionLockService bookLockService,
+        @Qualifier("deleteBookDefinitionFormValidator") final Validator validator) {
         this.bookDefinitionService = bookDefinitionService;
         this.auditService = auditService;
         this.jobRequestService = jobRequestService;
@@ -49,8 +48,7 @@ public class DeleteBookDefinitionController
     }
 
     @InitBinder(DeleteBookDefinitionForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.setValidator(validator);
     }
 
@@ -62,8 +60,7 @@ public class DeleteBookDefinitionController
     public ModelAndView getDeleteBookDefintion(
         @RequestParam("id") final Long id,
         @ModelAttribute(DeleteBookDefinitionForm.FORM_NAME) final DeleteBookDefinitionForm form,
-        final Model model)
-    {
+        final Model model) {
         // Lookup the book by its primary key
         final BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
 
@@ -79,25 +76,20 @@ public class DeleteBookDefinitionController
     public ModelAndView postDeleteBookDefinition(
         @ModelAttribute(DeleteBookDefinitionForm.FORM_NAME) @Valid final DeleteBookDefinitionForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         // Lookup the book by its primary key
         final BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(form.getId());
 
-        if (!bindingResult.hasErrors())
-        {
+        if (!bindingResult.hasErrors()) {
             final String url;
             // Soft delete Book Definition if book has been published
-            if (bookDef.getPublishedOnceFlag())
-            {
+            if (bookDef.getPublishedOnceFlag()) {
                 // Set flag as deleted
                 bookDefinitionService.updateDeletedStatus(bookDef.getEbookDefinitionId(), true);
 
                 final String queryString = String.format("?%s=%s", WebConstants.KEY_ID, form.getId());
                 url = WebConstants.MVC_BOOK_DEFINITION_VIEW_GET + queryString;
-            }
-            else
-            {
+            } else {
                 // Otherwise Delete Book Definition from the database.
                 bookDefinitionService.removeBookDefinition(bookDef.getEbookDefinitionId());
 
@@ -128,8 +120,7 @@ public class DeleteBookDefinitionController
     public ModelAndView getRestoreBookDefintion(
         @RequestParam("id") final Long id,
         @ModelAttribute(DeleteBookDefinitionForm.FORM_NAME) final DeleteBookDefinitionForm form,
-        final Model model)
-    {
+        final Model model) {
         // Lookup the book by its primary key
         final BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
         model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
@@ -144,13 +135,11 @@ public class DeleteBookDefinitionController
     public ModelAndView postRestoreBookDefinition(
         @ModelAttribute(DeleteBookDefinitionForm.FORM_NAME) @Valid final DeleteBookDefinitionForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         // Lookup the book by its primary key
         final BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(form.getId());
 
-        if (!bindingResult.hasErrors())
-        {
+        if (!bindingResult.hasErrors()) {
             // Save in Audit
             final EbookAudit audit = new EbookAudit();
             audit.loadBookDefinition(
@@ -171,10 +160,8 @@ public class DeleteBookDefinitionController
         return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_RESTORE);
     }
 
-    private void setupModel(final Model model, final BookDefinition bookDef)
-    {
-        if (bookDef != null)
-        {
+    private void setupModel(final Model model, final BookDefinition bookDef) {
+        if (bookDef != null) {
             model.addAttribute(
                 WebConstants.KEY_IS_IN_JOB_REQUEST,
                 jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId()));

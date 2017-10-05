@@ -23,8 +23,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public final class PublishingStatsControllerTest
-{
+public final class PublishingStatsControllerTest {
     private PublishingStatsController controller;
     private MockHttpServletResponse response;
     private MockHttpServletRequest request;
@@ -32,8 +31,7 @@ public final class PublishingStatsControllerTest
     private PublishingStatsService mockService;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -43,8 +41,7 @@ public final class PublishingStatsControllerTest
     }
 
     @Test
-    public void testStats() throws Exception
-    {
+    public void testStats() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_STATS);
         request.setMethod(HttpMethod.GET.name());
 
@@ -69,8 +66,7 @@ public final class PublishingStatsControllerTest
     }
 
     @Test
-    public void testPublishingStatsSorting() throws Exception
-    {
+    public void testPublishingStatsSorting() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_STATS_PAGE_AND_SORT);
         request.setMethod(HttpMethod.GET.name());
 
@@ -96,8 +92,7 @@ public final class PublishingStatsControllerTest
     }
 
     @Test
-    public void testPublishingStatsPaging() throws Exception
-    {
+    public void testPublishingStatsPaging() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_STATS_PAGE_AND_SORT);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("page", "5");
@@ -124,8 +119,7 @@ public final class PublishingStatsControllerTest
     }
 
     @Test
-    public void testHandleChangeInItemsToDisplay() throws Exception
-    {
+    public void testHandleChangeInItemsToDisplay() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_STATS_CHANGE_ROW_COUNT);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("objectsPerPage", "20");
@@ -152,8 +146,7 @@ public final class PublishingStatsControllerTest
     }
 
     @Test
-    public void testDownloadPublishingStatsExcel() throws Exception
-    {
+    public void testDownloadPublishingStatsExcel() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_STATS_DOWNLOAD);
         request.setMethod(HttpMethod.GET.name());
 

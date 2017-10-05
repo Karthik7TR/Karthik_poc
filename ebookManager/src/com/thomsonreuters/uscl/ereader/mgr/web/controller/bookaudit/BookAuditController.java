@@ -18,11 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class BookAuditController extends BaseBookAuditController
-{
+public class BookAuditController extends BaseBookAuditController {
     @Autowired
-    public BookAuditController(final EBookAuditService auditService)
-    {
+    public BookAuditController(final EBookAuditService auditService) {
         super(auditService);
     }
 
@@ -31,8 +29,7 @@ public class BookAuditController extends BaseBookAuditController
      * No query string parameters are expected.
      */
     @RequestMapping(value = WebConstants.MVC_BOOK_AUDIT_LIST, method = RequestMethod.GET)
-    public ModelAndView auditList(final HttpSession httpSession, final Model model)
-    {
+    public ModelAndView auditList(final HttpSession httpSession, final Model model) {
         final BookAuditFilterForm filterForm = fetchSavedFilterForm(httpSession);
 
         return setupInitialView(model, filterForm, httpSession);
@@ -46,8 +43,7 @@ public class BookAuditController extends BaseBookAuditController
     public ModelAndView specificBookAuditList(
         final HttpSession httpSession,
         @RequestParam("id") final Long id,
-        final Model model)
-    {
+        final Model model) {
         final BookAuditFilterForm filterForm = new BookAuditFilterForm(id); // from session
 
         return setupInitialView(model, filterForm, httpSession);
@@ -59,8 +55,7 @@ public class BookAuditController extends BaseBookAuditController
     private ModelAndView setupInitialView(
         final Model model,
         final BookAuditFilterForm filterForm,
-        final HttpSession httpSession)
-    {
+        final HttpSession httpSession) {
         final PageAndSort<DisplayTagSortProperty> savedPageAndSort = fetchSavedPageAndSort(httpSession);
 
         final BookAuditForm ebookAuditForm = new BookAuditForm();
@@ -80,8 +75,7 @@ public class BookAuditController extends BaseBookAuditController
     public ModelAndView auditListPagingAndSorting(
         final HttpSession httpSession,
         @ModelAttribute(BookAuditForm.FORM_NAME) final BookAuditForm form,
-        final Model model)
-    {
+        final Model model) {
         final BookAuditFilterForm filterForm = fetchSavedFilterForm(httpSession);
         final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
         form.setObjectsPerPage(pageAndSort.getObjectsPerPage());
@@ -89,12 +83,9 @@ public class BookAuditController extends BaseBookAuditController
 
         // If there was a page=n query string parameter, then we assume we are paging since this
         // parameter is not present on the query string when display tag sorting.
-        if (nextPageNumber != null)
-        { // PAGING
+        if (nextPageNumber != null) { // PAGING
             pageAndSort.setPageNumber(nextPageNumber);
-        }
-        else
-        { // SORTING
+        } else { // SORTING
             pageAndSort.setPageNumber(1);
             pageAndSort.setSortProperty(form.getSort());
             pageAndSort.setAscendingSort(form.isAscendingSort());
@@ -111,8 +102,7 @@ public class BookAuditController extends BaseBookAuditController
     public ModelAndView handleChangeInItemsToDisplay(
         final HttpSession httpSession,
         @ModelAttribute(BookAuditForm.FORM_NAME) @Valid final BookAuditForm form,
-        final Model model)
-    {
+        final Model model) {
         final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
         pageAndSort.setPageNumber(1); // Always start from first page again once changing row count to avoid index out of bounds
         pageAndSort.setObjectsPerPage(form.getObjectsPerPage()); // Update the new number of items to be shown at one time
@@ -126,8 +116,10 @@ public class BookAuditController extends BaseBookAuditController
      * Handle initial in-bound HTTP get request for specific book audit detail.
      */
     @RequestMapping(value = WebConstants.MVC_BOOK_AUDIT_DETAIL, method = RequestMethod.GET)
-    public ModelAndView auditDetail(final HttpSession httpSession, @RequestParam("id") final Long id, final Model model)
-    {
+    public ModelAndView auditDetail(
+        final HttpSession httpSession,
+        @RequestParam("id") final Long id,
+        final Model model) {
         final EbookAudit audit = auditService.findEBookAuditByPrimaryKey(id);
         model.addAttribute(WebConstants.KEY_BOOK_AUDIT_DETAIL, audit);
 

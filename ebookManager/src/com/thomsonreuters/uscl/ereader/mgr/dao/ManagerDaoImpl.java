@@ -23,8 +23,7 @@ import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class ManagerDaoImpl implements ManagerDao
-{
+public class ManagerDaoImpl implements ManagerDao {
     private static final Logger log = LogManager.getLogger(ManagerDaoImpl.class);
     private SessionFactory sessionFactory;
     private JdbcTemplate jdbcTemplate;
@@ -33,16 +32,13 @@ public class ManagerDaoImpl implements ManagerDao
     private PublishingStatsUtil publishingStatsUtil;
 
     @Override
-    public JobExecution findRunningJobExecution(@NotNull final BookDefinition book)
-    {
+    public JobExecution findRunningJobExecution(@NotNull final BookDefinition book) {
         final String jobName = jobNameProvider.getJobName(book);
         final Set<JobExecution> runningJobs = jobExplorer.findRunningJobExecutions(jobName);
-        for (final JobExecution jobExec : runningJobs)
-        {
+        for (final JobExecution jobExec : runningJobs) {
             final JobParameters params = jobExec.getJobParameters();
             final Long bookDefIdParamValue = params.getLong(JobParameterKey.BOOK_DEFINITION_ID);
-            if (book.getEbookDefinitionId().equals(bookDefIdParamValue))
-            {
+            if (book.getEbookDefinitionId().equals(bookDefIdParamValue)) {
                 return jobExec;
             }
         }
@@ -55,8 +51,7 @@ public class ManagerDaoImpl implements ManagerDao
      * @return the number of job step executions that were archived/deleted
      */
     @Override
-    public int archiveAndDeleteSpringBatchJobRecordsBefore(final Date deleteBefore)
-    {
+    public int archiveAndDeleteSpringBatchJobRecordsBefore(final Date deleteBefore) {
         final Object[] args = {deleteBefore};
         final int[] argTypes = {Types.TIMESTAMP};
         final List<Long> stepExecutionIds = new ArrayList<>();
@@ -73,10 +68,9 @@ public class ManagerDaoImpl implements ManagerDao
             argTypes,
             Long.class);
 
-        if (jobExecutionIds.size() > 0)
-        { // if no executions, there will be no
-              // instance or step data
-          // INSTANCES to be cleaned up
+        if (jobExecutionIds.size() > 0) { // if no executions, there will be no
+                                              // instance or step data
+                                          // INSTANCES to be cleaned up
             final List<Long> jobInstanceIds = jdbcTemplate.queryForList(
                 "select unique job_instance_id from batch_job_execution where ("
                     + TIME_COMPARISON_COLUMN_NAME
@@ -86,8 +80,7 @@ public class ManagerDaoImpl implements ManagerDao
                 Long.class);
 
             // STEPS to be cleaned up, fetching them exec id, by exec id
-            for (final Long jobExecutionId : jobExecutionIds)
-            {
+            for (final Long jobExecutionId : jobExecutionIds) {
                 final List<Long> stepExecutionIdsForJobExecutionId = jdbcTemplate.queryForList(
                     String.format(
                         "select step_execution_id from batch_step_execution where (job_execution_id = %d)",
@@ -96,8 +89,7 @@ public class ManagerDaoImpl implements ManagerDao
                 stepExecutionIds.addAll(stepExecutionIdsForJobExecutionId);
             }
 
-            if (log.isDebugEnabled())
-            {
+            if (log.isDebugEnabled()) {
                 Collections.sort(jobInstanceIds);
                 Collections.sort(jobExecutionIds);
                 Collections.sort(stepExecutionIds);
@@ -128,8 +120,7 @@ public class ManagerDaoImpl implements ManagerDao
     }
 
     @Override
-    public void deletePlannedOutagesBefore(final Date deleteBefore)
-    {
+    public void deletePlannedOutagesBefore(final Date deleteBefore) {
         final Session session = sessionFactory.getCurrentSession();
         final String hql = "delete from PlannedOutage where endTime < :deleteBefore";
         final Query query = session.createQuery(hql);
@@ -148,8 +139,7 @@ public class ManagerDaoImpl implements ManagerDao
      *            deleting data
      */
     @Override
-    public void deleteTransientMetadata(final int numberLastMajorVersionKept, final int daysBeforeDocMetadataDelete)
-    {
+    public void deleteTransientMetadata(final int numberLastMajorVersionKept, final int daysBeforeDocMetadataDelete) {
         /*
          * If we have both 1.1 and 1.0 as successful runs then just keep 1.1.
          * However, if we have 1.1 and 2.0 then we need to keep both if
@@ -175,8 +165,7 @@ public class ManagerDaoImpl implements ManagerDao
         hql.append(daysBeforeDocMetadataDelete);
         hql.append(" order by ebook_definition_id, book_version_submitted desc, job_instance_id desc ");
 
-        try
-        {
+        try {
             final Session session = sessionFactory.getCurrentSession();
 
             final Query query = session.createSQLQuery(hql.toString());
@@ -187,13 +176,11 @@ public class ManagerDaoImpl implements ManagerDao
             int maxPublishedCntr = 0;
             final int maxVersionKept = numberLastMajorVersionKept;
 
-            for (final Object[] arr : objectList)
-            {
+            for (final Object[] arr : objectList) {
                 final long jobId;
                 final long bookId;
                 long majorVersion;
-                try
-                {
+                try {
                     jobId = Long.parseLong(arr[0].toString());
                     bookId = Long.parseLong(arr[1].toString());
                     final String fullVersion = arr[2].toString();
@@ -202,14 +189,10 @@ public class ManagerDaoImpl implements ManagerDao
                     {
                         final String[] version = fullVersion.split("\\.", -1);
                         majorVersion = Long.parseLong(version[0]);
-                    }
-                    else
-                    {
+                    } else {
                         majorVersion = Long.parseLong(fullVersion);
                     }
-                }
-                catch (final NumberFormatException e)
-                {
+                } catch (final NumberFormatException e) {
                     log.error(
                         "Encountered a version which is not a valid number in document metadata for book "
                             + arr[1].toString()
@@ -221,16 +204,14 @@ public class ManagerDaoImpl implements ManagerDao
                 }
                 String status = "NO_STATUS";
 
-                if (arr[3] != null)
-                {
+                if (arr[3] != null) {
                     status = arr[3].toString();
                 }
 
                 final boolean publishedSuccessfully = publishingStatsUtil.isPublishedSuccessfully(status);
                 if (prevBookId == bookId
                     && prevMajorVersion == majorVersion
-                    && (!publishedSuccessfully || maxPublishedCntr >= maxVersionKept))
-                {
+                    && (!publishedSuccessfully || maxPublishedCntr >= maxVersionKept)) {
                     // Add to list to be deleted
                     jobInstanceIds.add(jobId);
                     log.debug(
@@ -242,36 +223,29 @@ public class ManagerDaoImpl implements ManagerDao
                             + majorVersion
                             + " status "
                             + status);
-                }
-                else
-                {
+                } else {
                     // log.debug("Keep book " + bookId + " jobId " + jobId + "
                     // major version " + majorVersion + " status " + status);
-                    if (prevBookId != bookId)
-                    {
+                    if (prevBookId != bookId) {
                         maxPublishedCntr = 0;
                     }
                     // only increment a successful publish
                     // so if we have a version 1.0 success, 1.1 success but a
                     // version 1.2 fail and then a version 2.0
                     // we would want to keep all version 1.1, 1.2 and 2.0.
-                    if (publishedSuccessfully)
-                    {
+                    if (publishedSuccessfully) {
                         maxPublishedCntr++;
                     }
                     prevBookId = bookId;
                     prevMajorVersion = majorVersion;
                 }
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error("Failed to get list of docmetadata to delete", e);
         }
 
         // Delete the old document_metadata rows by job instance
-        if (jobInstanceIds.size() > 0)
-        {
+        if (jobInstanceIds.size() > 0) {
             deleteSpringBatchRecords("delete from IMAGE_METADATA where (JOB_INSTANCE_ID = %d)", jobInstanceIds);
             deleteSpringBatchRecords("delete from DOCUMENT_METADATA where (JOB_INSTANCE_ID = %d)", jobInstanceIds);
         }
@@ -288,8 +262,7 @@ public class ManagerDaoImpl implements ManagerDao
      * @param stepExecutionIds
      *            steps whose data is to be archived.
      */
-    private void archiveJobStepDataToJobHistoryTable(final List<Long> stepExecutionIds)
-    {
+    private void archiveJobStepDataToJobHistoryTable(final List<Long> stepExecutionIds) {
         final StringBuffer sqlTemplate = new StringBuffer();
         sqlTemplate.append("INSERT INTO job_history ");
         sqlTemplate.append(
@@ -298,15 +271,11 @@ public class ManagerDaoImpl implements ManagerDao
             "SELECT se.step_execution_id, se.step_name, je.job_instance_id, se.job_execution_id, se.start_time, se.end_time, se.exit_code, se.exit_message ");
         sqlTemplate.append("FROM batch_step_execution se, batch_job_execution je ");
         sqlTemplate.append("WHERE (se.step_execution_id = %d) and (se.job_execution_id = je.job_execution_id)");
-        for (final Long stepId : stepExecutionIds)
-        {
-            try
-            {
+        for (final Long stepId : stepExecutionIds) {
+            try {
                 final String sql = String.format(sqlTemplate.toString(), stepId);
                 jdbcTemplate.update(sql);
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 log.error(
                     String.format(
                         "Error archiving job step ID %d to the JOB_HISTORY table - %s",
@@ -325,19 +294,14 @@ public class ManagerDaoImpl implements ManagerDao
      *            the list of primary key's suitable for the provided delete
      *            statement
      */
-    private void deleteSpringBatchRecords(final String sqlTemplate, final List<Long> ids)
-    {
-        for (final Long id : ids)
-        {
+    private void deleteSpringBatchRecords(final String sqlTemplate, final List<Long> ids) {
+        for (final Long id : ids) {
             String sql = null;
-            try
-            {
+            try {
                 sql = String.format(sqlTemplate, id);
                 // log.debug("sql: " + sql);
                 jdbcTemplate.update(sql);
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 log.error(
                     String
                         .format("Error deleting old Spring Batch job record using SQL: %s - %s", sql, e.getMessage()));
@@ -346,32 +310,27 @@ public class ManagerDaoImpl implements ManagerDao
     }
 
     @Required
-    public void setSessionFactory(final SessionFactory factory)
-    {
+    public void setSessionFactory(final SessionFactory factory) {
         sessionFactory = factory;
     }
 
     @Required
-    public void setJdbcTemplate(final JdbcTemplate template)
-    {
+    public void setJdbcTemplate(final JdbcTemplate template) {
         jdbcTemplate = template;
     }
 
     @Required
-    public void setJobExplorer(final JobExplorer explorer)
-    {
+    public void setJobExplorer(final JobExplorer explorer) {
         jobExplorer = explorer;
     }
 
     @Required
-    public void setJobNameProvider(final JobNameProvider jobNameProvider)
-    {
+    public void setJobNameProvider(final JobNameProvider jobNameProvider) {
         this.jobNameProvider = jobNameProvider;
     }
 
     @Required
-    public void setPublishingStatsUtil(final PublishingStatsUtil publishingStatsUtil)
-    {
+    public void setPublishingStatsUtil(final PublishingStatsUtil publishingStatsUtil) {
         this.publishingStatsUtil = publishingStatsUtil;
     }
 }

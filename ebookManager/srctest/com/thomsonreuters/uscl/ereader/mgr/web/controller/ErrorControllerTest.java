@@ -20,16 +20,14 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public final class ErrorControllerTest
-{
+public final class ErrorControllerTest {
     private ErrorController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -42,22 +40,18 @@ public final class ErrorControllerTest
      * Test the GET to the Delete Book Definition page
      */
     @Test
-    public void testDeleteBookDefintionGet()
-    {
+    public void testDeleteBookDefintionGet() {
         request.setRequestURI("/" + WebConstants.MVC_ERROR_BOOK_DELETED);
         request.setMethod(HttpMethod.GET.name());
 
         ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
             // Verify the returned view name
             assertEquals(WebConstants.VIEW_ERROR_BOOK_DELETED, mav.getViewName());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }

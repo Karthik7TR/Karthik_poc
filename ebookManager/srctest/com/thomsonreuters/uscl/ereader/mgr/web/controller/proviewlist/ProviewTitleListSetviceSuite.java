@@ -6,7 +6,6 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ProviewTitleListService_GetBookTest.class, ProviewTitleListService_GetProviewTitlesTest.class})
-public class ProviewTitleListSetviceSuite
-{
+public class ProviewTitleListSetviceSuite {
     //Intentionally left blank
 }

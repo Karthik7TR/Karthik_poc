@@ -4,12 +4,10 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class JobSummaryForm
-{
+public class JobSummaryForm {
     public static final String FORM_NAME = "jobSummaryForm";
 
-    public enum DisplayTagSortProperty
-    {
+    public enum DisplayTagSortProperty {
         TITLE_ID,
         BOOK_NAME,
         SOURCE_TYPE,
@@ -20,8 +18,7 @@ public class JobSummaryForm
         JOB_EXECUTION_ID
     }
 
-    public enum JobCommand
-    {
+    public enum JobCommand {
         STOP_JOB,
         RESTART_JOB
     };
@@ -31,75 +28,61 @@ public class JobSummaryForm
     private PageAndSort<DisplayTagSortProperty> pageAndSort = new PageAndSort<>(); // sort, page, dir, objectsPerPage
 
     /** Discriminator between which post action is to be performed. */
-    public JobCommand getJobCommand()
-    {
+    public JobCommand getJobCommand() {
         return command;
     }
 
     /** Selected Job execution ID for multi-select. */
-    public Long[] getJobExecutionIds()
-    {
+    public Long[] getJobExecutionIds() {
         return jobExecutionIds;
     }
 
-    public String getDir()
-    {
+    public String getDir() {
         return (pageAndSort.isAscendingSort()) ? "asc" : "desc";
     }
 
-    public Integer getPage()
-    {
+    public Integer getPage() {
         return pageAndSort.getPageNumber();
     }
 
-    public DisplayTagSortProperty getSort()
-    {
+    public DisplayTagSortProperty getSort() {
         return pageAndSort.getSortProperty();
     }
 
-    public Integer getObjectsPerPage()
-    {
+    public Integer getObjectsPerPage() {
         return pageAndSort.getObjectsPerPage();
     }
 
-    public boolean isAscendingSort()
-    {
+    public boolean isAscendingSort() {
         return pageAndSort.isAscendingSort();
     }
 
-    public void setJobCommand(final JobCommand command)
-    {
+    public void setJobCommand(final JobCommand command) {
         this.command = command;
     }
 
-    public void setJobExecutionIds(final Long[] ids)
-    {
+    public void setJobExecutionIds(final Long[] ids) {
         jobExecutionIds = ids;
     }
 
-    public void setDir(final String direction)
-    {
+    public void setDir(final String direction) {
         pageAndSort.setAscendingSort("asc".equals(direction));
     }
 
-    public void setObjectsPerPage(final Integer objectsPerPage)
-    {
+    public void setObjectsPerPage(final Integer objectsPerPage) {
         pageAndSort.setObjectsPerPage(objectsPerPage);
     }
 
-    public void setPage(final Integer pageNumber)
-    {
+    public void setPage(final Integer pageNumber) {
         pageAndSort.setPageNumber(pageNumber);
     }
 
-    public void setSort(final DisplayTagSortProperty sortProperty)
-    {
+    public void setSort(final DisplayTagSortProperty sortProperty) {
         pageAndSort.setSortProperty(sortProperty);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

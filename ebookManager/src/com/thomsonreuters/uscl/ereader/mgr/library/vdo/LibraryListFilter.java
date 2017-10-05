@@ -9,8 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * The filter criteria used when searching for book definitions to display in the Library List table.
  * A null or blank property value indicates that it is to be ignored and not included as part of the search criteria.
  */
-public class LibraryListFilter
-{
+public class LibraryListFilter {
     // Book Definition properties
     private Date from; // start date on and after this calendar date (inclusive)
     private Date to; // start date on and before this calendar date (inclusive)
@@ -21,8 +20,7 @@ public class LibraryListFilter
     private String materialId;
     private Long keywordValue;
 
-    public LibraryListFilter()
-    {
+    public LibraryListFilter() {
         super();
     }
 
@@ -34,8 +32,7 @@ public class LibraryListFilter
         final String proviewDisplayName,
         final String isbn,
         final String materialId,
-        final Long keywordValue)
-    {
+        final Long keywordValue) {
         this.from = from;
         this.to = to;
         this.action = action;
@@ -47,19 +44,16 @@ public class LibraryListFilter
     }
 
     /** Include executions with a start time from the start of (00:00:00) of this calendar date and after. */
-    public Date getFrom()
-    {
+    public Date getFrom() {
         return from;
     }
 
     /** Filter to date entered by user, normalized to (00:00:00) of the entered day. */
-    public Date getTo()
-    {
+    public Date getTo() {
         return to;
     }
 
-    public String getAction()
-    {
+    public String getAction() {
         return action;
     }
 
@@ -68,34 +62,28 @@ public class LibraryListFilter
      * the actual definition title ID as a 'like' comparison '%titleID%'.
      * @return
      */
-    public String getTitleId()
-    {
+    public String getTitleId() {
         return titleId;
     }
 
-    public String getProviewDisplayName()
-    {
+    public String getProviewDisplayName() {
         return proviewDisplayName;
     }
 
-    public String getIsbn()
-    {
+    public String getIsbn() {
         return isbn;
     }
 
-    public String getMaterialId()
-    {
+    public String getMaterialId() {
         return materialId;
     }
 
-    public Long getKeywordValue()
-    {
+    public Long getKeywordValue() {
         return keywordValue;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

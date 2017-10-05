@@ -22,16 +22,14 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Controller used to stream files from NAS location to the web application.
  */
 @Controller
-public class FileStreamController
-{
+public class FileStreamController {
     private static final Logger log = LogManager.getLogger(AppExceptionController.class);
 
     @RequestMapping(value = WebConstants.MVC_COVER_IMAGE, method = RequestMethod.GET)
     public void getCoverImage(
         @RequestParam("imageName") final String imageName,
         final HttpServletRequest request,
-        final HttpServletResponse response)
-    {
+        final HttpServletResponse response) {
         retrieveFile(request, response, WebConstants.LOCATION_COVER_IMAGE, imageName, "image/png");
     }
 
@@ -39,8 +37,7 @@ public class FileStreamController
     public void getFrontMatterImage(
         @RequestParam("imageName") final String imageName,
         final HttpServletRequest request,
-        final HttpServletResponse response)
-    {
+        final HttpServletResponse response) {
         retrieveFile(request, response, WebConstants.LOCATION_FRONT_MATTER_IMAGE, imageName, "image/png");
     }
 
@@ -48,8 +45,7 @@ public class FileStreamController
     public void getFrontMatterCss(
         @RequestParam("cssName") final String cssName,
         final HttpServletRequest request,
-        final HttpServletResponse response)
-    {
+        final HttpServletResponse response) {
         retrieveFile(request, response, WebConstants.LOCATION_FRONT_MATTER_CSS, cssName, "text/css");
     }
 
@@ -58,22 +54,17 @@ public class FileStreamController
         final HttpServletResponse response,
         final String nasLocation,
         final String filename,
-        final String mediaType)
-    {
+        final String mediaType) {
         InputStream fin = null;
         byte[] content = null;
 
         final File file = new File(nasLocation, filename);
 
-        try
-        {
-            if (!file.isFile() && nasLocation.equalsIgnoreCase(WebConstants.LOCATION_COVER_IMAGE))
-            {
+        try {
+            if (!file.isFile() && nasLocation.equalsIgnoreCase(WebConstants.LOCATION_COVER_IMAGE)) {
                 final ServletContext ctx = request.getSession().getServletContext();
                 fin = ctx.getResourceAsStream("/theme/images/missingCover.png");
-            }
-            else
-            {
+            } else {
                 fin = new FileInputStream(file);
             }
 
@@ -84,22 +75,14 @@ public class FileStreamController
             final ServletOutputStream out = response.getOutputStream();
             out.write(content);
             out.flush();
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error("Error streaming file: ", e);
-        }
-        finally
-        {
-            try
-            {
-                if (fin != null)
-                {
+        } finally {
+            try {
+                if (fin != null) {
                     fin.close();
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 log.error("Error closing input stream: ", e);
             }
         }

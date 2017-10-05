@@ -14,24 +14,21 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public final class LibraryListDaoTest
-{
+public final class LibraryListDaoTest {
     private static final List<LibraryList> EXPECTED_LIBRARY_LIST = new ArrayList<LibraryList>();
     private static final Integer EXPECTED_NUMBER_BOOKS = 1;
     private LibraryListDaoImpl dao;
     private JdbcTemplate mockJdbcTemplate;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockJdbcTemplate = EasyMock.createMock(JdbcTemplate.class);
         dao = new LibraryListDaoImpl();
         dao.setJdbcTemplate(mockJdbcTemplate);
     }
 
     @Test
-    public void testFindBookDefinitions()
-    {
+    public void testFindBookDefinitions() {
         final LibraryListFilter filter = new LibraryListFilter();
         final LibraryListSort sort = new LibraryListSort();
 
@@ -52,8 +49,7 @@ public final class LibraryListDaoTest
     }
 
     @Test
-    public void testCountNumberOfBookDefinitions()
-    {
+    public void testCountNumberOfBookDefinitions() {
         final LibraryListFilter filter = new LibraryListFilter();
 
         EasyMock

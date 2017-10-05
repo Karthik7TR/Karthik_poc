@@ -14,16 +14,14 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public final class AdminControllerTest
-{
+public final class AdminControllerTest {
     private AdminController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -36,18 +34,14 @@ public final class AdminControllerTest
      * Test the Get of Admin page
      */
     @Test
-    public void testAdmin()
-    {
+    public void testAdmin() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_MAIN);
         request.setMethod(HttpMethod.GET.name());
 
-        try
-        {
+        try {
             final ModelAndView mav = handlerAdapter.handle(request, response, controller);
             assertNotNull(mav);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             assertEquals(e.getClass(), MissingServletRequestParameterException.class);
         }
     }

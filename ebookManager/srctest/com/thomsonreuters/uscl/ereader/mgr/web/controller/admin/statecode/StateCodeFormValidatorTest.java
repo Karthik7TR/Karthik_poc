@@ -9,8 +9,7 @@ import org.junit.Test;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 
-public final class StateCodeFormValidatorTest
-{
+public final class StateCodeFormValidatorTest {
     private static final String STATE_NAME = "test";
     private StateCodeService mockStateCodeService;
     private StateCodeFormValidator validator;
@@ -18,8 +17,7 @@ public final class StateCodeFormValidatorTest
     private Errors errors;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         // Mock up the service
         mockStateCodeService = EasyMock.createMock(StateCodeService.class);
 
@@ -34,8 +32,7 @@ public final class StateCodeFormValidatorTest
     }
 
     @Test
-    public void testNoName()
-    {
+    public void testNoName() {
         // Check Valid name entry
         validator.validate(form, errors);
         Assert.assertFalse(errors.hasErrors());
@@ -47,8 +44,7 @@ public final class StateCodeFormValidatorTest
     }
 
     @Test
-    public void testNameExists()
-    {
+    public void testNameExists() {
         final StateCode stateCode = new StateCode();
         stateCode.setId(2L);
         EasyMock.expect(mockStateCodeService.getStateCodeByName(STATE_NAME)).andReturn(stateCode);

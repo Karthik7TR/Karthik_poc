@@ -52,8 +52,7 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public final class GenerateEbookControllerTest
-{
+public final class GenerateEbookControllerTest {
     private GenerateEbookController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
@@ -71,8 +70,7 @@ public final class GenerateEbookControllerTest
     private XppBundleArchiveService mockXppBundleArchiveService;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -91,15 +89,20 @@ public final class GenerateEbookControllerTest
 
         // Set up the controller
         controller = new GenerateEbookController();
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "messageSourceAccessor", mockMessageSourceAccessor);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "messageSourceAccessor", mockMessageSourceAccessor);
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "proviewHandler", mockProviewHandler);
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "groupService", mockGroupService);
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "jobRequestService", mockJobRequestService);
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "publishingStatsService", mockPublishingStatsService);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "jobRequestService", mockJobRequestService);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "publishingStatsService", mockPublishingStatsService);
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "managerService", mockManagerService);
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "outageService", mockOutageService);
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "xppBundleArchiveService", mockXppBundleArchiveService);
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "bookDefinitionService", mockBookDefinitionService);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "xppBundleArchiveService", mockXppBundleArchiveService);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "bookDefinitionService", mockBookDefinitionService);
     }
 
     /**
@@ -108,8 +111,7 @@ public final class GenerateEbookControllerTest
      * @throws Exception
      */
     @Test
-    public void testGenerateEbookPreviewGET() throws Exception
-    {
+    public void testGenerateEbookPreviewGET() throws Exception {
         final ProviewTitleInfo titleInfo = new ProviewTitleInfo();
         titleInfo.setVersion("v5.3");
         titleInfo.setStatus("test");
@@ -144,8 +146,7 @@ public final class GenerateEbookControllerTest
         replayAll();
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -153,9 +154,7 @@ public final class GenerateEbookControllerTest
             Assert.assertEquals(WebConstants.VIEW_BOOK_GENERATE_PREVIEW, mav.getViewName());
 
             EasyMock.verify(mockOutageService);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -167,8 +166,7 @@ public final class GenerateEbookControllerTest
      * @throws Exception
      */
     @Test
-    public void testGenerateEbookPreviewSplitBookGET() throws Exception
-    {
+    public void testGenerateEbookPreviewSplitBookGET() throws Exception {
         final ProviewTitleInfo titleInfo = new ProviewTitleInfo();
         titleInfo.setVersion("v5.3");
         titleInfo.setStatus("test");
@@ -215,8 +213,7 @@ public final class GenerateEbookControllerTest
         replayAll();
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -224,9 +221,7 @@ public final class GenerateEbookControllerTest
             Assert.assertEquals(WebConstants.VIEW_BOOK_GENERATE_PREVIEW, mav.getViewName());
 
             EasyMock.verify(mockOutageService);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -236,8 +231,7 @@ public final class GenerateEbookControllerTest
      * Test the POST of one book selected to generator preview
      */
     @Test
-    public void testGenerateEbookPreviewPOST()
-    {
+    public void testGenerateEbookPreviewPOST() {
         final String message = "";
         final Long bookDefinitionId = Long.valueOf(127);
         final BookDefinition book = new BookDefinition();
@@ -266,8 +260,7 @@ public final class GenerateEbookControllerTest
         replayAll();
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -276,17 +269,14 @@ public final class GenerateEbookControllerTest
             Assert.assertTrue(mav.getModel().containsKey(WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS));
 
             EasyMock.verify(mockOutageService);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void testGenerateEbookDisableButton()
-    {
+    public void testGenerateEbookDisableButton() {
         final String message = "";
         final Long bookDefinitionId = Long.valueOf(127);
         final BookDefinition book = new BookDefinition();
@@ -316,8 +306,7 @@ public final class GenerateEbookControllerTest
         replayAll();
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -327,17 +316,14 @@ public final class GenerateEbookControllerTest
             Assert.assertFalse(mav.getModel().containsKey(WebConstants.KEY_SUPER_PUBLISHER_PUBLISHERPLUS));
 
             EasyMock.verify(mockOutageService);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void shouldShowErrorMessageWhenPrintComponentsEmpty() throws Exception
-    {
+    public void shouldShowErrorMessageWhenPrintComponentsEmpty() throws Exception {
         //given
         final String message = "mesg.empty.printcomponents";
         final BookDefinition book = givenBook();
@@ -351,7 +337,8 @@ public final class GenerateEbookControllerTest
 
         EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
         EasyMock.expect(mockManagerService.findRunningJob(book)).andReturn(null);
-        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(book.getEbookDefinitionId())).andReturn(book);
+        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(book.getEbookDefinitionId()))
+            .andReturn(book);
         EasyMock.expect(mockJobRequestService.isBookInJobRequest(book.getEbookDefinitionId())).andReturn(false);
         EasyMock.expect(mockJobRequestService.saveQueuedJobRequest(book, "", 5, null)).andReturn(null);
         EasyMock.expect(mockMessageSourceAccessor.getMessage("label.normal")).andReturn("");
@@ -365,8 +352,7 @@ public final class GenerateEbookControllerTest
     }
 
     @Test
-    public void shouldShowErrorMessageWhenBundlesMissed() throws Exception
-    {
+    public void shouldShowErrorMessageWhenBundlesMissed() throws Exception {
         //given
         final String message = "mesg.missing.bundle";
         final BookDefinition book = givenBook();
@@ -383,7 +369,8 @@ public final class GenerateEbookControllerTest
 
         EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
         EasyMock.expect(mockManagerService.findRunningJob(book)).andReturn(null);
-        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(book.getEbookDefinitionId())).andReturn(book);
+        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(book.getEbookDefinitionId()))
+            .andReturn(book);
         EasyMock.expect(mockJobRequestService.isBookInJobRequest(book.getEbookDefinitionId())).andReturn(false);
         EasyMock.expect(mockJobRequestService.saveQueuedJobRequest(book, "", 5, null)).andReturn(null);
         EasyMock.expect(mockMessageSourceAccessor.getMessage("label.normal")).andReturn("");
@@ -401,18 +388,14 @@ public final class GenerateEbookControllerTest
      * Test the Get of no book selected to generator preview
      */
     @Test
-    public void testGenerateEbookPreviewNoBooks()
-    {
+    public void testGenerateEbookPreviewNoBooks() {
         request.setRequestURI("/" + WebConstants.MVC_BOOK_SINGLE_GENERATE_PREVIEW);
         request.setMethod(HttpMethod.GET.name());
 
-        try
-        {
+        try {
             final ModelAndView mav = handlerAdapter.handle(request, response, controller);
             assertNotNull(mav);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             assertEquals(e.getClass(), MissingServletRequestParameterException.class);
         }
     }
@@ -421,8 +404,7 @@ public final class GenerateEbookControllerTest
      * Test the POST of multiple books selected to generator preview
      */
     @Test
-    public void testGenerateBulkEbookPreview()
-    {
+    public void testGenerateBulkEbookPreview() {
         final Long bookDefinitionId = Long.valueOf(127);
         final BookDefinition book = new BookDefinition();
         book.setFullyQualifiedTitleId("");
@@ -438,23 +420,19 @@ public final class GenerateEbookControllerTest
         EasyMock.replay(mockBookDefinitionService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
 
             Assert.assertEquals(WebConstants.VIEW_BOOK_GENERATE_BULK_PREVIEW, mav.getViewName());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
     }
 
-    private void replayAll()
-    {
+    private void replayAll() {
         EasyMock.replay(mockBookDefinitionService);
         EasyMock.replay(mockMessageSourceAccessor);
         EasyMock.replay(mockProviewHandler);
@@ -467,8 +445,7 @@ public final class GenerateEbookControllerTest
         EasyMock.replay(mockXppBundleArchiveService);
     }
 
-    private BookDefinition givenBook()
-    {
+    private BookDefinition givenBook() {
         final BookDefinition book = new BookDefinition();
         book.setEbookDefinitionId(127L);
         book.setIsDeletedFlag(false);

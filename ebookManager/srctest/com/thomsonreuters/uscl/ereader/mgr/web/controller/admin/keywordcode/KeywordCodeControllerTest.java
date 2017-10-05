@@ -24,8 +24,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
-public final class KeywordCodeControllerTest
-{
+public final class KeywordCodeControllerTest {
     private static final String BINDING_RESULT_KEY = BindingResult.class.getName() + "." + KeywordCodeForm.FORM_NAME;
     private static final KeywordTypeCode KEYWORD_CODE = new KeywordTypeCode();
     private static final Long KEYWORD_CODE_ID = 1L;
@@ -37,8 +36,7 @@ public final class KeywordCodeControllerTest
     private KeywordCodeFormValidator validator;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -59,8 +57,7 @@ public final class KeywordCodeControllerTest
      * Test the GET to the List page
      */
     @Test
-    public void testViewKeywordCodeList()
-    {
+    public void testViewKeywordCodeList() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_KEYWORD_CODE_VIEW);
         request.setMethod(HttpMethod.GET.name());
 
@@ -68,8 +65,7 @@ public final class KeywordCodeControllerTest
         EasyMock.replay(mockCodeService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -80,9 +76,7 @@ public final class KeywordCodeControllerTest
             final Map<String, Object> model = mav.getModel();
             final List<KeywordTypeCode> codes = (List<KeywordTypeCode>) model.get(WebConstants.KEY_KEYWORD_TYPE_CODE);
             assertEquals(0, codes.size());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -94,22 +88,18 @@ public final class KeywordCodeControllerTest
      * Test the GET to the Create Page
      */
     @Test
-    public void testCreateKeywordCodeGet()
-    {
+    public void testCreateKeywordCodeGet() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_KEYWORD_CODE_CREATE);
         request.setMethod(HttpMethod.GET.name());
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
             // Verify the returned view name
             assertEquals(WebConstants.VIEW_ADMIN_KEYWORD_CODE_CREATE, mav.getViewName());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -119,8 +109,7 @@ public final class KeywordCodeControllerTest
      * Test the POST to the Create Page Success
      */
     @Test
-    public void testCreateKeywordCodePost()
-    {
+    public void testCreateKeywordCodePost() {
         final String name = "test";
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_KEYWORD_CODE_CREATE);
         request.setMethod(HttpMethod.POST.name());
@@ -134,8 +123,7 @@ public final class KeywordCodeControllerTest
         EasyMock.replay(mockCodeService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -150,9 +138,7 @@ public final class KeywordCodeControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -163,14 +149,12 @@ public final class KeywordCodeControllerTest
      * Test the POST to the Create Page Fail
      */
     @Test
-    public void testCreateKeywordCodePostFail()
-    {
+    public void testCreateKeywordCodePostFail() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_KEYWORD_CODE_CREATE);
         request.setMethod(HttpMethod.POST.name());
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -184,9 +168,7 @@ public final class KeywordCodeControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertTrue(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -196,8 +178,7 @@ public final class KeywordCodeControllerTest
      * Test the GET to the Edit Page
      */
     @Test
-    public void testEditKeywordCodeGet()
-    {
+    public void testEditKeywordCodeGet() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_KEYWORD_CODE_EDIT);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("id", KEYWORD_CODE_ID.toString());
@@ -206,8 +187,7 @@ public final class KeywordCodeControllerTest
         EasyMock.replay(mockCodeService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -219,9 +199,7 @@ public final class KeywordCodeControllerTest
             final KeywordTypeCode actual = (KeywordTypeCode) model.get(WebConstants.KEY_KEYWORD_TYPE_CODE);
 
             Assert.assertEquals(KEYWORD_CODE, actual);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -231,8 +209,7 @@ public final class KeywordCodeControllerTest
      * Test the POST to the Edit Page Success
      */
     @Test
-    public void testEditKeywordCodePost()
-    {
+    public void testEditKeywordCodePost() {
         final String name = KEYWORD_CODE.getName();
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_KEYWORD_CODE_EDIT);
         request.setMethod(HttpMethod.POST.name());
@@ -244,8 +221,7 @@ public final class KeywordCodeControllerTest
         EasyMock.replay(mockCodeService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -260,9 +236,7 @@ public final class KeywordCodeControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertFalse(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -273,14 +247,12 @@ public final class KeywordCodeControllerTest
      * Test the POST to the Edit Page Fail
      */
     @Test
-    public void testEditKeywordCodePostFail()
-    {
+    public void testEditKeywordCodePostFail() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_KEYWORD_CODE_EDIT);
         request.setMethod(HttpMethod.POST.name());
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -294,9 +266,7 @@ public final class KeywordCodeControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertTrue(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }

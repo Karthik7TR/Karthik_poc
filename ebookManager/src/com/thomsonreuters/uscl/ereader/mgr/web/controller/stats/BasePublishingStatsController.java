@@ -18,37 +18,30 @@ import org.springframework.ui.Model;
 /**
  * Methods common to, and needed by both the PublishingStatsController and the PublishingStatsFilterController.
  */
-public abstract class BasePublishingStatsController
-{
+public abstract class BasePublishingStatsController {
     protected static final String PAGE_AND_SORT_NAME = "publishingStatsPageAndSort";
     protected final PublishingStatsService publishingStatsService;
 
-    protected BasePublishingStatsController(final PublishingStatsService publishingStatsService)
-    {
+    protected BasePublishingStatsController(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
-
 
     /**
      * Fetch object containing the current page number, sort column, and sort direction as saved on the session.
      */
-    protected PageAndSort<DisplayTagSortProperty> fetchSavedPageAndSort(final HttpSession httpSession)
-    {
+    protected PageAndSort<DisplayTagSortProperty> fetchSavedPageAndSort(final HttpSession httpSession) {
         PageAndSort<DisplayTagSortProperty> pageAndSort =
             (PageAndSort<DisplayTagSortProperty>) httpSession.getAttribute(PAGE_AND_SORT_NAME);
-        if (pageAndSort == null)
-        {
+        if (pageAndSort == null) {
             pageAndSort = new PageAndSort<>(1, DisplayTagSortProperty.JOB_SUBMIT_TIMESTAMP, false);
         }
         return pageAndSort;
     }
 
-    protected PublishingStatsFilterForm fetchSavedFilterForm(final HttpSession httpSession)
-    {
+    protected PublishingStatsFilterForm fetchSavedFilterForm(final HttpSession httpSession) {
         PublishingStatsFilterForm form =
             (PublishingStatsFilterForm) httpSession.getAttribute(PublishingStatsFilterForm.FORM_NAME);
-        if (form == null)
-        {
+        if (form == null) {
             form = new PublishingStatsFilterForm();
         }
         return form;
@@ -66,8 +59,7 @@ public abstract class BasePublishingStatsController
         final PublishingStatsFilterForm filterForm,
         final PageAndSort<DisplayTagSortProperty> pageAndSort,
         final HttpSession httpSession,
-        final Model model)
-    {
+        final Model model) {
         // Save filter and paging state in the session
         httpSession.setAttribute(PublishingStatsFilterForm.FORM_NAME, filterForm);
         httpSession.setAttribute(PAGE_AND_SORT_NAME, pageAndSort);
@@ -88,8 +80,7 @@ public abstract class BasePublishingStatsController
      * @param ascendingSort true to sort in ascending order
      * @return a ebookAudit sort business object used by the service to fetch the audit entities.
      */
-    protected static PublishingStatsSort createStatsSort(final PageAndSort<DisplayTagSortProperty> pageAndSort)
-    {
+    protected static PublishingStatsSort createStatsSort(final PageAndSort<DisplayTagSortProperty> pageAndSort) {
         return new PublishingStatsSort(
             SortProperty.valueOf(pageAndSort.getSortProperty().toString()),
             pageAndSort.isAscendingSort(),
@@ -97,8 +88,7 @@ public abstract class BasePublishingStatsController
             pageAndSort.getObjectsPerPage());
     }
 
-    protected static PublishingStatsFilter createStatsFilter(final PublishingStatsFilterForm filterForm)
-    {
+    protected static PublishingStatsFilter createStatsFilter(final PublishingStatsFilterForm filterForm) {
         return new PublishingStatsFilter(
             filterForm.getFromDate(),
             filterForm.getToDate(),
@@ -115,8 +105,7 @@ public abstract class BasePublishingStatsController
      */
     private PaginatedList createPaginatedList(
         final PageAndSort<DisplayTagSortProperty> pageAndSort,
-        final PublishingStatsFilterForm filterForm)
-    {
+        final PublishingStatsFilterForm filterForm) {
         final PublishingStatsFilter publishingStatsFilter = createStatsFilter(filterForm);
         final PublishingStatsSort publishingStatsSort = createStatsSort(pageAndSort);
 

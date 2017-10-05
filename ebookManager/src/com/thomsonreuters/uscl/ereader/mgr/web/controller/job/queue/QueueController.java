@@ -35,18 +35,15 @@ import org.springframework.web.servlet.ModelAndView;
  * at some point in the future.
  */
 @Controller
-public class QueueController
-{
+public class QueueController {
     private static final Logger log = LogManager.getLogger(QueueController.class);
 
     private final JobRequestService jobRequestService;
     private final OutageService outageService;
     private final Validator validator;
 
-    private static Map<DisplayTagSortProperty, Comparator<JobRequest>> comparators =
-        new HashMap<>();
-    static
-    {
+    private static Map<DisplayTagSortProperty, Comparator<JobRequest>> comparators = new HashMap<>();
+    static {
         comparators.put(DisplayTagSortProperty.BOOK_NAME, new JobRequestComparators.BookNameComparator());
         comparators.put(DisplayTagSortProperty.BOOK_VERSION, new JobRequestComparators.BookVersionComparator());
         comparators.put(DisplayTagSortProperty.PRIORITY, new JobRequestComparators.PriorityComparator());
@@ -57,18 +54,17 @@ public class QueueController
     }
 
     @Autowired
-    public QueueController(final JobRequestService jobRequestService,
-                           final OutageService outageService,
-                           @Qualifier("queueFormValidator") final Validator validator)
-    {
+    public QueueController(
+        final JobRequestService jobRequestService,
+        final OutageService outageService,
+        @Qualifier("queueFormValidator") final Validator validator) {
         this.jobRequestService = jobRequestService;
         this.outageService = outageService;
         this.validator = validator;
     }
 
     @InitBinder(QueueForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.setValidator(validator);
     }
 
@@ -77,8 +73,7 @@ public class QueueController
      * No query string parameters are expected.
      */
     @RequestMapping(value = WebConstants.MVC_JOB_QUEUE, method = RequestMethod.GET)
-    public ModelAndView inboundGet(final HttpSession httpSession, final Model model)
-    {
+    public ModelAndView inboundGet(final HttpSession httpSession, final Model model) {
         log.debug(">>>");
         final PageAndSort<DisplayTagSortProperty> queuedPageAndSort = fetchSavedQueuedPageAndSort(httpSession);
         final List<JobRequest> allQueuedJobs = jobRequestService.findAllJobRequests();
@@ -91,8 +86,7 @@ public class QueueController
     public ModelAndView doPagingAndSorting(
         final HttpSession httpSession,
         @ModelAttribute(QueueForm.FORM_NAME) final QueueForm form,
-        final Model model)
-    {
+        final Model model) {
         log.debug(form);
         final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedQueuedPageAndSort(httpSession);
         final List<JobRequest> allQueuedJobs = jobRequestService.findAllJobRequests();
@@ -100,18 +94,14 @@ public class QueueController
         Integer nextPageNumber = form.getPage();
         // If there was a page=n query string parameter, then we assume we are paging since this
         // parameter is not present on the query string when display tag sorting.
-        if (nextPageNumber != null)
-        { // PAGING (1..n)
-            // Guard against a shrinking list and user selecting a forward page that no longer exists because the count of jobs has dropped
+        if (nextPageNumber != null) { // PAGING (1..n)
+                                          // Guard against a shrinking list and user selecting a forward page that no longer exists because the count of jobs has dropped
             final int startIndex = (nextPageNumber - 1) * pageAndSort.getObjectsPerPage();
-            if (startIndex >= allQueuedJobs.size())
-            {
+            if (startIndex >= allQueuedJobs.size()) {
                 nextPageNumber = 1;
             }
             pageAndSort.setPageNumber(nextPageNumber);
-        }
-        else
-        { // SORTING
+        } else { // SORTING
             pageAndSort.setPageNumber(1);
             pageAndSort.setSortProperty(form.getSortProperty());
             pageAndSort.setAscendingSort(form.isAscendingSort());
@@ -120,12 +110,10 @@ public class QueueController
         return new ModelAndView(WebConstants.VIEW_JOB_QUEUE);
     }
 
-    private PageAndSort<DisplayTagSortProperty> fetchSavedQueuedPageAndSort(final HttpSession httpSession)
-    {
+    private PageAndSort<DisplayTagSortProperty> fetchSavedQueuedPageAndSort(final HttpSession httpSession) {
         PageAndSort<DisplayTagSortProperty> pageAndSort =
             (PageAndSort<DisplayTagSortProperty>) httpSession.getAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT);
-        if (pageAndSort == null)
-        {
+        if (pageAndSort == null) {
             pageAndSort = new PageAndSort<>(1, DisplayTagSortProperty.PRIORITY, false);
         }
         return pageAndSort;
@@ -135,8 +123,7 @@ public class QueueController
         final List<JobRequest> allQueuedJobs,
         final PageAndSort<DisplayTagSortProperty> queuedPageAndSort,
         final HttpSession httpSession,
-        final Model model)
-    {
+        final Model model) {
         httpSession.setAttribute(WebConstants.KEY_JOB_QUEUED_PAGE_AND_SORT, queuedPageAndSort);
 
         // Create the DisplayTag VDO object - the PaginatedList which wrappers list
@@ -151,8 +138,7 @@ public class QueueController
      */
     private PaginatedList createPaginatedList(
         final List<JobRequest> allQueuedJobs,
-        final PageAndSort<DisplayTagSortProperty> queuedPageAndSort)
-    {
+        final PageAndSort<DisplayTagSortProperty> queuedPageAndSort) {
         final List<JobRequest> onePageOfRows = createOnePageOfRows(allQueuedJobs, queuedPageAndSort);
         // Instantiate the object used by DisplayTag to render a partial list
         final QueuePaginatedList<DisplayTagSortProperty> paginatedList = new QueuePaginatedList<>(
@@ -174,13 +160,11 @@ public class QueueController
      */
     private List<JobRequest> createOnePageOfRows(
         final List<JobRequest> allQueuedJobs,
-        final PageAndSort<DisplayTagSortProperty> queuedPageAndSort)
-    {
+        final PageAndSort<DisplayTagSortProperty> queuedPageAndSort) {
         // Sort into the order/sequence that the jobs will actually appear on the page
         final Comparator<JobRequest> rowComparator = comparators.get(queuedPageAndSort.getSortProperty());
         Collections.sort(allQueuedJobs, rowComparator);
-        if (!queuedPageAndSort.isAscendingSort())
-        {
+        if (!queuedPageAndSort.isAscendingSort()) {
             Collections.reverse(allQueuedJobs);
         }
 

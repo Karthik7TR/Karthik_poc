@@ -21,8 +21,7 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public final class BookAuditFilterControllerTest
-{
+public final class BookAuditFilterControllerTest {
     //private static final Logger log = LogManager.getLogger(BookAuditControllerTest.class);
     private BookAuditFilterController controller;
     private MockHttpServletRequest request;
@@ -31,8 +30,7 @@ public final class BookAuditFilterControllerTest
     private HandlerAdapter handlerAdapter;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         mockAuditService = EasyMock.createMock(EBookAuditService.class);
@@ -43,8 +41,7 @@ public final class BookAuditFilterControllerTest
     }
 
     @Test
-    public void testAuditListFilterPost() throws Exception
-    {
+    public void testAuditListFilterPost() throws Exception {
         // Set up the request URL
         // Filter form values
         final String titleId = "uscl/junit/test/abc";

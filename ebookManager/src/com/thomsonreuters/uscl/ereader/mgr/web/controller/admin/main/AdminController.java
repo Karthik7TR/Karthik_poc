@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class AdminController
-{
+public class AdminController {
     //private static final Logger log = LogManager.getLogger(AdminController.class);
 
     /**
@@ -19,8 +18,7 @@ public class AdminController
      * @throws Exception
      */
     @RequestMapping(value = WebConstants.MVC_ADMIN_MAIN, method = RequestMethod.GET)
-    public ModelAndView admin() throws Exception
-    {
+    public ModelAndView admin() throws Exception {
         return new ModelAndView(WebConstants.VIEW_ADMIN_MAIN);
     }
 }

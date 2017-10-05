@@ -26,8 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class ViewBookDefinitionController
-{
+public class ViewBookDefinitionController {
     private static final Logger log = LogManager.getLogger(ViewBookDefinitionController.class);
 
     private final BookDefinitionService bookDefinitionService;
@@ -35,10 +34,10 @@ public class ViewBookDefinitionController
     private final PrintComponentUtil printComponentUtil;
 
     @Autowired
-    public ViewBookDefinitionController(final BookDefinitionService bookDefinitionService,
-                                        final JobRequestService jobRequestService,
-                                        final PrintComponentUtil printComponentUtil)
-    {
+    public ViewBookDefinitionController(
+        final BookDefinitionService bookDefinitionService,
+        final JobRequestService jobRequestService,
+        final PrintComponentUtil printComponentUtil) {
         this.bookDefinitionService = bookDefinitionService;
         this.jobRequestService = jobRequestService;
         this.printComponentUtil = printComponentUtil;
@@ -53,15 +52,13 @@ public class ViewBookDefinitionController
         @RequestParam("id") final Long id,
         @ModelAttribute(ViewBookDefinitionForm.FORM_NAME) final ViewBookDefinitionForm form,
         final Model model,
-        final HttpSession session)
-    {
+        final HttpSession session) {
         // Lookup the book by its primary key
         final BookDefinition bookDef = bookDefinitionService.findBookDefinitionByEbookDefId(id);
         form.setId(id);
         form.setBookDefinition(bookDef);
 
-        if (bookDef != null)
-        {
+        if (bookDef != null) {
             model.addAttribute(
                 WebConstants.KEY_IS_IN_JOB_REQUEST,
                 jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId()));
@@ -69,30 +66,23 @@ public class ViewBookDefinitionController
             // Check if user canceled from Generate page
             final String generateCanceled = (String) session.getAttribute(WebConstants.KEY_BOOK_GENERATE_CANCEL);
             session.removeAttribute(WebConstants.KEY_BOOK_GENERATE_CANCEL); // Clear the HTML out of the session
-            if (generateCanceled != null)
-            {
+            if (generateCanceled != null) {
                 model.addAttribute(WebConstants.KEY_INFO_MESSAGE, generateCanceled);
             }
         }
         model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
         model.addAttribute(WebConstants.KEY_FORM, form);
 
-        if (form.getBookDefinition().getSourceType().equals(SourceType.XPP))
-        {
+        if (form.getBookDefinition().getSourceType().equals(SourceType.XPP)) {
             final List<PrintComponent> currentPrintComponentsList =
                 new ArrayList<>(form.getBookDefinition().getPrintComponents());
-            if (currentPrintComponentsList.isEmpty())
-            {
+            if (currentPrintComponentsList.isEmpty()) {
                 form.setGenerateButtonDisabled(true);
-            }
-            else
-            {
+            } else {
                 form.getBookDefinition().setPrintComponents(
                     printComponentUtil.getAllInitializedPrintComponents(currentPrintComponentsList));
-                for (final PrintComponent element : form.getBookDefinition().getPrintComponents())
-                {
-                    if (!element.getComponentInArchive())
-                    {
+                for (final PrintComponent element : form.getBookDefinition().getPrintComponents()) {
+                    if (!element.getComponentInArchive()) {
                         form.setGenerateButtonDisabled(true);
                     }
                 }
@@ -108,14 +98,12 @@ public class ViewBookDefinitionController
     @RequestMapping(value = WebConstants.MVC_BOOK_DEFINITION_VIEW_POST, method = RequestMethod.POST)
     public ModelAndView doPost(
         @ModelAttribute(ViewBookDefinitionForm.FORM_NAME) final ViewBookDefinitionForm form,
-        final Model model)
-    {
+        final Model model) {
         ModelAndView mav = null;
         log.debug(form);
         final String queryString = String.format("?%s=%s", WebConstants.KEY_ID, form.getId());
         final Command command = form.getCommand();
-        switch (command)
-        {
+        switch (command) {
         case DELETE:
             mav = new ModelAndView(new RedirectView(WebConstants.MVC_BOOK_DEFINITION_DELETE + queryString));
             break;

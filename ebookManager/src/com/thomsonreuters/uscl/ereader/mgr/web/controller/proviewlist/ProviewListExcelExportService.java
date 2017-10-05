@@ -11,30 +11,25 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
-public class ProviewListExcelExportService extends BaseExcelExportService
-{
+public class ProviewListExcelExportService extends BaseExcelExportService {
     public static final String TITLES_NAME = "ProviewGroups";
     public static final String[] TITLES_HEADER =
         {"ProView DisplayName", "Title ID", "Total Versions", "Latest Version", "Status", "Publisher", "Last Update"};
 
-    public ProviewListExcelExportService()
-    {
+    public ProviewListExcelExportService() {
         super();
         SHEET_NAME = TITLES_NAME;
         EXCEL_HEADER = TITLES_HEADER;
     }
 
     @Override
-    protected void fillRows(final Sheet sheet, final CellStyle cellStyle, final HttpSession session)
-    {
+    protected void fillRows(final Sheet sheet, final CellStyle cellStyle, final HttpSession session) {
         final List<ProviewTitleInfo> titles = fetchSelectedProviewTitleInfo(session);
-        if (titles == null)
-        {
+        if (titles == null) {
             throw new NullPointerException("No Title Information Found");
         }
         int rowIndex = 1;
-        for (final ProviewTitleInfo title : titles)
-        {
+        for (final ProviewTitleInfo title : titles) {
             // Create a row and put some cells in it.
             Row row = sheet.createRow(rowIndex);
             row.createCell(0).setCellValue(title.getTitle());
@@ -44,8 +39,7 @@ public class ProviewListExcelExportService extends BaseExcelExportService
             row.createCell(4).setCellValue(title.getStatus());
             row.createCell(5).setCellValue(title.getPublisher());
             row.createCell(6).setCellValue(title.getLastupdate());
-            if (rowIndex == (MAX_EXCEL_SHEET_ROW_NUM - 1))
-            {
+            if (rowIndex == (MAX_EXCEL_SHEET_ROW_NUM - 1)) {
                 row = sheet.createRow(MAX_EXCEL_SHEET_ROW_NUM);
                 row.createCell(0).setCellValue(
                     "You have reached the maximum amount of rows.  Please reduce the amount of rows by using the filter on the eBook Manager before generating the Excel file.");
@@ -55,8 +49,7 @@ public class ProviewListExcelExportService extends BaseExcelExportService
         }
     }
 
-    private List<ProviewTitleInfo> fetchSelectedProviewTitleInfo(final HttpSession session)
-    {
+    private List<ProviewTitleInfo> fetchSelectedProviewTitleInfo(final HttpSession session) {
         return (List<ProviewTitleInfo>) session.getAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES);
     }
 }

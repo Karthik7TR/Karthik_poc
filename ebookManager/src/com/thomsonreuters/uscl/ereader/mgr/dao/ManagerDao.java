@@ -6,8 +6,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.JobExecution;
 
-public interface ManagerDao
-{
+public interface ManagerDao {
     /**
      * Returns the job execution of a running job, and the job parameter values as specified.
      * Used to determine if a user is attempting to launch a book that is already running.

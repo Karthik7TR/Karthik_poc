@@ -6,27 +6,21 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component("proviewGroupValidator")
-public class ProviewGroupValidator implements Validator
-{
+public class ProviewGroupValidator implements Validator {
     @Override
-    public boolean supports(final Class<?> clazz)
-    {
+    public boolean supports(final Class<?> clazz) {
         return (ProviewGroupListFilterForm.class.isAssignableFrom(clazz));
     }
 
     @Override
-    public void validate(final Object obj, final Errors errors)
-    {
+    public void validate(final Object obj, final Errors errors) {
         final ProviewGroupListFilterForm form = (ProviewGroupListFilterForm) obj;
 
         if ((form.getGroupCmd() == GroupCmd.PROMOTE)
             || (form.getGroupCmd() == GroupCmd.DELETE)
-            || (form.getGroupCmd() == GroupCmd.REMOVE))
-        {
-            if (form.getGroupMembers() == null || form.getGroupMembers().size() == 0)
-            {
-                if (!form.isGroupOperation())
-                {
+            || (form.getGroupCmd() == GroupCmd.REMOVE)) {
+            if (form.getGroupMembers() == null || form.getGroupMembers().size() == 0) {
+                if (!form.isGroupOperation()) {
                     errors.reject("error.required.versionselection");
                 }
             }

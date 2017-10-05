@@ -19,8 +19,7 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public final class FmPreviewControllerTest
-{
+public final class FmPreviewControllerTest {
     private static final Long BOOK_DEF_ID = Long.valueOf(1234);
     private static final String HTML = "<html><body>Some bogus junit testing content</body></html>";
     private MockHttpServletRequest request;
@@ -32,8 +31,7 @@ public final class FmPreviewControllerTest
     private HandlerAdapter handlerAdapter;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
@@ -44,8 +42,7 @@ public final class FmPreviewControllerTest
     }
 
     @Test
-    public void testPreviewContentSelectionFromEdit()
-    {
+    public void testPreviewContentSelectionFromEdit() {
         final String frontMatterPreviewHtml = "something";
 
         request.setRequestURI("/" + WebConstants.MVC_FRONT_MATTER_PREVIEW_EDIT);
@@ -54,8 +51,7 @@ public final class FmPreviewControllerTest
         // Set the HttpSession attribute
         request.getSession().setAttribute(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML, frontMatterPreviewHtml);
 
-        try
-        {
+        try {
             final ModelAndView mav = handlerAdapter.handle(request, response, controller);
             Assert.assertNotNull(mav);
             Assert.assertEquals(WebConstants.VIEW_FRONT_MATTER_PREVIEW_CONTENT, mav.getViewName());
@@ -63,16 +59,13 @@ public final class FmPreviewControllerTest
             final Map<String, Object> model = mav.getModel();
             // retrieve the text set in attribute WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML
             Assert.assertEquals(frontMatterPreviewHtml, model.get(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML));
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void testPreviewContentSelection()
-    {
+    public void testPreviewContentSelection() {
         request.setRequestURI("/" + WebConstants.MVC_FRONT_MATTER_PREVIEW);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter(WebConstants.KEY_ID, BOOK_DEF_ID.toString());
@@ -80,8 +73,7 @@ public final class FmPreviewControllerTest
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEF_ID)).andReturn(mockBookDef);
         EasyMock.replay(mockBookDefinitionService);
 
-        try
-        {
+        try {
             final ModelAndView mav = handlerAdapter.handle(request, response, controller);
             Assert.assertNotNull(mav);
             Assert.assertEquals(WebConstants.VIEW_FRONT_MATTER_PREVIEW, mav.getViewName());
@@ -89,37 +81,31 @@ public final class FmPreviewControllerTest
             final Map<String, Object> model = mav.getModel();
             Assert.assertEquals(mockBookDef, model.get(WebConstants.KEY_BOOK_DEFINITION));
             EasyMock.verify(mockBookDefinitionService);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void testTitleStaticContent() throws Exception
-    {
+    public void testTitleStaticContent() throws Exception {
         EasyMock.expect(mockFrontMatterService.getTitlePage(mockBookDef)).andReturn(HTML);
         testStaticFrontMatterContent(WebConstants.MVC_FRONT_MATTER_PREVIEW_TITLE);
     }
 
     @Test
-    public void testCopyrightStaticContent() throws Exception
-    {
+    public void testCopyrightStaticContent() throws Exception {
         EasyMock.expect(mockFrontMatterService.getCopyrightPage(mockBookDef)).andReturn(HTML);
         testStaticFrontMatterContent(WebConstants.MVC_FRONT_MATTER_PREVIEW_COPYRIGHT);
     }
 
     @Test
-    public void testResearchStaticContent() throws Exception
-    {
+    public void testResearchStaticContent() throws Exception {
         EasyMock.expect(mockFrontMatterService.getResearchAssistancePage(mockBookDef)).andReturn(HTML);
         testStaticFrontMatterContent(WebConstants.MVC_FRONT_MATTER_PREVIEW_RESEARCH);
     }
 
     @Test
-    public void testWestlawNextStaticContent() throws Exception
-    {
+    public void testWestlawNextStaticContent() throws Exception {
         EasyMock.expect(mockFrontMatterService.getWestlawNextPage(mockBookDef)).andReturn(HTML);
         testStaticFrontMatterContent(WebConstants.MVC_FRONT_MATTER_PREVIEW_WESTLAWNEXT);
     }
@@ -128,13 +114,11 @@ public final class FmPreviewControllerTest
      * Tests a failure in fetching the static preview front matter HTML.
      */
     @Test
-    public void testStaticContentFailure()
-    {
+    public void testStaticContentFailure() {
         request.setRequestURI("/" + WebConstants.MVC_FRONT_MATTER_PREVIEW_TITLE);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter(WebConstants.KEY_ID, BOOK_DEF_ID.toString());
-        try
-        {
+        try {
             EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEF_ID))
                 .andReturn(mockBookDef)
                 .times(2);
@@ -152,24 +136,20 @@ public final class FmPreviewControllerTest
             Assert.assertNotNull(errMesg);
             EasyMock.verify(mockBookDefinitionService);
             EasyMock.verify(mockFrontMatterService);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void testAdditionalFrontMatterContent()
-    {
+    public void testAdditionalFrontMatterContent() {
         final Long frontMatterPageId = Long.valueOf(9998);
         request.setRequestURI("/" + WebConstants.MVC_FRONT_MATTER_PREVIEW_ADDITIONAL);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("bookDefinitionId", BOOK_DEF_ID.toString());
         request.setParameter("frontMatterPageId", frontMatterPageId.toString());
 
-        try
-        {
+        try {
             EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEF_ID))
                 .andReturn(mockBookDef);
             EasyMock.expect(mockFrontMatterService.getAdditionalFrontPage(mockBookDef, frontMatterPageId))
@@ -185,21 +165,17 @@ public final class FmPreviewControllerTest
             Assert.assertEquals(HTML, model.get(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML));
             EasyMock.verify(mockBookDefinitionService);
             EasyMock.verify(mockFrontMatterService);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             Assert.fail(e.getMessage());
         }
     }
 
-    private void testStaticFrontMatterContent(final String url)
-    {
+    private void testStaticFrontMatterContent(final String url) {
         request.setRequestURI("/" + url);
         request.setMethod(HttpMethod.GET.name());
         request.setParameter(WebConstants.KEY_ID, BOOK_DEF_ID.toString());
 
-        try
-        {
+        try {
             EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEF_ID))
                 .andReturn(mockBookDef);
             EasyMock.replay(mockBookDefinitionService);
@@ -214,9 +190,7 @@ public final class FmPreviewControllerTest
             Assert.assertEquals(HTML, model.get(WebConstants.KEY_FRONT_MATTER_PREVIEW_HTML));
             EasyMock.verify(mockBookDefinitionService);
             EasyMock.verify(mockFrontMatterService);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             Assert.fail(e.getMessage());
         }
     }

@@ -7,12 +7,10 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class ViewBookDefinitionForm
-{
+public class ViewBookDefinitionForm {
     public static final String FORM_NAME = "viewBookDefinitionForm";
 
-    public enum Command
-    {
+    public enum Command {
         EDIT,
         GENERATE,
         DELETE,
@@ -30,64 +28,52 @@ public class ViewBookDefinitionForm
     private boolean generateButtonDisabled;
     private boolean colorPrintComponentTable = true;
 
-    public void setColorPrintComponentTable(final boolean value)
-    {
+    public void setColorPrintComponentTable(final boolean value) {
         colorPrintComponentTable = value;
     }
 
-    public boolean getColorPrintComponentTable()
-    {
+    public boolean getColorPrintComponentTable() {
         return colorPrintComponentTable;
     }
 
-    public void setGenerateButtonDisabled(final boolean value)
-    {
+    public void setGenerateButtonDisabled(final boolean value) {
         generateButtonDisabled = value;
     }
 
-    public boolean getGenerateButtonDisabled()
-    {
+    public boolean getGenerateButtonDisabled() {
         return generateButtonDisabled;
     }
 
-    public Command getCommand()
-    {
+    public Command getCommand() {
         return command;
     }
 
-    public void setCommand(final Command cmd)
-    {
+    public void setCommand(final Command cmd) {
         command = cmd;
     }
 
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final Long id)
-    {
+    public void setId(final Long id) {
         this.id = id;
     }
 
-    public BookDefinition getBookDefinition()
-    {
+    public BookDefinition getBookDefinition() {
         return bookDefinition;
     }
 
-    public void setBookDefinition(final BookDefinition bookDefinition)
-    {
+    public void setBookDefinition(final BookDefinition bookDefinition) {
         this.bookDefinition = bookDefinition;
     }
 
-    public String getPrintComponents() throws JsonProcessingException
-    {
+    public String getPrintComponents() throws JsonProcessingException {
         return StringEscapeUtils.escapeXml10(jsonMapper.writeValueAsString(bookDefinition.getPrintComponents()));
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

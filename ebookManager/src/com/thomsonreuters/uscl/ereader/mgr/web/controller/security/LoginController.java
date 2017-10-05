@@ -42,8 +42,7 @@ import org.springframework.web.servlet.view.RedirectView;
  * itself to the login j_security_check URL.
  */
 @Controller
-public class LoginController
-{
+public class LoginController {
     private static final Logger log = LogManager.getLogger(LoginController.class);
 
     private final UserPreferenceService preferenceService;
@@ -55,12 +54,12 @@ public class LoginController
     private final String environmentName;
 
     @Autowired
-    public LoginController(final UserPreferenceService preferenceService,
-                           final OutageService outageService,
-                           final MiscConfigSyncService miscConfigSyncService,
-                           @Qualifier("loginFormValidator") final Validator validator,
-                           @Qualifier("environmentName") final String environmentName)
-    {
+    public LoginController(
+        final UserPreferenceService preferenceService,
+        final OutageService outageService,
+        final MiscConfigSyncService miscConfigSyncService,
+        @Qualifier("loginFormValidator") final Validator validator,
+        @Qualifier("environmentName") final String environmentName) {
         this.preferenceService = preferenceService;
         this.outageService = outageService;
         this.miscConfigSyncService = miscConfigSyncService;
@@ -68,10 +67,8 @@ public class LoginController
         this.environmentName = environmentName;
     }
 
-
     @InitBinder(LoginForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.setValidator(validator);
     }
 
@@ -86,12 +83,10 @@ public class LoginController
     public ModelAndView inboundGet(
         final HttpSession httpSession,
         @ModelAttribute(LoginForm.FORM_NAME) final LoginForm form,
-        final Model model)
-    {
+        final Model model) {
         log.debug(">>> environment=" + environmentName);
 
-        if (!environmentName.equalsIgnoreCase(CoreConstants.PROD_ENVIRONMENT_NAME))
-        {
+        if (!environmentName.equalsIgnoreCase(CoreConstants.PROD_ENVIRONMENT_NAME)) {
             // Store the environment name in session so it can be displayed on
             // each page
             httpSession.setAttribute(WebConstants.KEY_ENVIRONMENT_NAME, environmentName);
@@ -116,8 +111,7 @@ public class LoginController
     public ModelAndView handleLoginFormPost(
         @ModelAttribute(LoginForm.FORM_NAME) @Valid final LoginForm form,
         final BindingResult errors,
-        final Model model)
-    {
+        final Model model) {
         log.debug(form);
         final String viewName = (!errors.hasErrors()) ? WebConstants.VIEW_SEC_LOGIN_AUTO : WebConstants.VIEW_SEC_LOGIN;
         model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
@@ -130,10 +124,8 @@ public class LoginController
      * redirects user to the designated "home" page.
      */
     @RequestMapping(value = WebConstants.MVC_SEC_AFTER_AUTHENTICATION, method = RequestMethod.GET)
-    public ModelAndView handleAuthenticationSuccess(final HttpSession httpSession)
-    {
-        if (log.isDebugEnabled())
-        {
+    public ModelAndView handleAuthenticationSuccess(final HttpSession httpSession) {
+        if (log.isDebugEnabled()) {
             log.debug("SUCCESSFULLY AUTHENTICATED: " + CobaltUser.getAuthenticatedUser());
             log.debug("Session ID=" + httpSession.getId());
         }
@@ -173,8 +165,7 @@ public class LoginController
      * with an failure message.
      */
     @RequestMapping(value = WebConstants.MVC_SEC_LOGIN_FAIL)
-    public ModelAndView handleAuthenticationFailure(final Model model)
-    {
+    public ModelAndView handleAuthenticationFailure(final Model model) {
         log.debug("AUTHENTICATION FAILED!");
         final InfoMessage mesg = new InfoMessage(InfoMessage.Type.FAIL, "Authentication Failed");
         final List<InfoMessage> infoMessages = new ArrayList<>(1);
@@ -191,8 +182,7 @@ public class LoginController
      * @return redirection view back to login page
      */
     @RequestMapping(WebConstants.MVC_SEC_AFTER_LOGOUT)
-    public ModelAndView handleLogout()
-    {
+    public ModelAndView handleLogout() {
         log.debug(">>>");
         // Redirect user back to the Login page
         return new ModelAndView(new RedirectView(WebConstants.MVC_SEC_LOGIN));

@@ -23,21 +23,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class ProviewAuditFilterController extends BaseProviewAuditController
-{
+public class ProviewAuditFilterController extends BaseProviewAuditController {
     private final Validator validator;
 
     @Autowired
-    public ProviewAuditFilterController(final ProviewAuditService auditService,
-                                        @Qualifier("proviewAuditFilterFormValidator") final Validator validator)
-    {
+    public ProviewAuditFilterController(
+        final ProviewAuditService auditService,
+        @Qualifier("proviewAuditFilterFormValidator") final Validator validator) {
         super(auditService);
         this.validator = validator;
     }
 
     @InitBinder(ProviewAuditFilterForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.setValidator(validator);
     }
@@ -50,15 +48,13 @@ public class ProviewAuditFilterController extends BaseProviewAuditController
         final HttpSession httpSession,
         @ModelAttribute(ProviewAuditFilterForm.FORM_NAME) @Valid final ProviewAuditFilterForm filterForm,
         final BindingResult errors,
-        final Model model)
-    {
+        final Model model) {
         // Restore state of paging and sorting
         final PageAndSort<DisplayTagSortProperty> pageAndSort = fetchSavedPageAndSort(httpSession);
         final ProviewAuditForm auditForm = new ProviewAuditForm();
         auditForm.setObjectsPerPage(pageAndSort.getObjectsPerPage());
 
-        if (FilterCommand.RESET.equals(filterForm.getFilterCommand()))
-        {
+        if (FilterCommand.RESET.equals(filterForm.getFilterCommand())) {
             filterForm.initialize();
         }
 

@@ -10,8 +10,7 @@ import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.JobExecution;
 
-public interface ManagerService
-{
+public interface ManagerService {
     /**
      * Returns true if there is any currently running batch job or a job queued to run
      * (i.e. a row present in the JOB_REQUEST table).
@@ -37,9 +36,7 @@ public interface ManagerService
         String webAppContextName,
         InetSocketAddress socketAddr);
 
-    SimpleRestServiceResponse pushJobThrottleConfiguration(
-        JobThrottleConfig config,
-        InetSocketAddress socketAddr);
+    SimpleRestServiceResponse pushJobThrottleConfiguration(JobThrottleConfig config, InetSocketAddress socketAddr);
 
     /**
      * Push out to generator applications the notification that there will be a planned

@@ -13,12 +13,10 @@ import org.apache.commons.lang3.time.DateUtils;
 /**
  * The form backing object that holds the data the user enters into the Publishing Stats filter HTML form.
  */
-public class PublishingStatsFilterForm
-{
+public class PublishingStatsFilterForm {
     public static final String FORM_NAME = "publishingStatsFilterForm";
 
-    public enum FilterCommand
-    {
+    public enum FilterCommand {
         SEARCH,
         RESET
     };
@@ -32,13 +30,11 @@ public class PublishingStatsFilterForm
     private Long bookDefinitionId;
     private FilterCommand command;
 
-    public PublishingStatsFilterForm()
-    {
+    public PublishingStatsFilterForm() {
         initialize();
     }
 
-    public PublishingStatsFilterForm(final Long bookDefinitionId)
-    {
+    public PublishingStatsFilterForm(final Long bookDefinitionId) {
         populate(null, null, null, null, bookDefinitionId);
     }
 
@@ -46,8 +42,7 @@ public class PublishingStatsFilterForm
      * Set all values back to defaults.
      * Used in resetting the form.
      */
-    public void initialize()
-    {
+    public void initialize() {
         populate(null, null, null, null, null);
     }
 
@@ -56,8 +51,7 @@ public class PublishingStatsFilterForm
         final String proviewDisplayName,
         final String fromDateString,
         final String toDateString,
-        final Long bookId)
-    {
+        final Long bookId) {
         this.titleId = titleId;
         this.proviewDisplayName = proviewDisplayName;
         this.fromDateString = fromDateString;
@@ -65,117 +59,93 @@ public class PublishingStatsFilterForm
         bookDefinitionId = bookId;
     }
 
-    public String getProviewDisplayName()
-    {
+    public String getProviewDisplayName() {
         return proviewDisplayName;
     }
 
-    public FilterCommand getFilterCommand()
-    {
+    public FilterCommand getFilterCommand() {
         return command;
     }
 
-    public String getTitleId()
-    {
+    public String getTitleId() {
         return titleId;
     }
 
-    public Date getFromDate()
-    {
+    public Date getFromDate() {
         return parseDate(fromDateString);
     }
 
-    public String getFromDateString()
-    {
+    public String getFromDateString() {
         return fromDateString;
     }
 
-    public Date getToDate()
-    {
+    public Date getToDate() {
         return parseDate(toDateString);
     }
 
-    public String getToDateString()
-    {
+    public String getToDateString() {
         return toDateString;
     }
 
-    public Long getBookDefinitionId()
-    {
+    public Long getBookDefinitionId() {
         return bookDefinitionId;
     }
 
-    public void setProviewDisplayName(final String name)
-    {
+    public void setProviewDisplayName(final String name) {
         proviewDisplayName = (name != null) ? name.trim() : null;
     }
 
-    public void setFilterCommand(final FilterCommand cmd)
-    {
+    public void setFilterCommand(final FilterCommand cmd) {
         command = cmd;
     }
 
-    public void setTitleId(final String titleId)
-    {
+    public void setTitleId(final String titleId) {
         this.titleId = (titleId != null) ? titleId.trim() : null;
     }
 
-    public void setFromDate(final Date fromDate)
-    {
+    public void setFromDate(final Date fromDate) {
         fromDateString = parseDate(fromDate);
     }
 
-    public void setFromDateString(final String fromDate)
-    {
+    public void setFromDateString(final String fromDate) {
         fromDateString = fromDate;
     }
 
-    public void setToDateString(final String toDate)
-    {
+    public void setToDateString(final String toDate) {
         toDateString = toDate;
     }
 
-    public void setToDate(final Date toDate)
-    {
+    public void setToDate(final Date toDate) {
         toDateString = parseDate(toDate);
     }
 
-    public void setBookDefinitionId(final Long bookDefinitionId)
-    {
+    public void setBookDefinitionId(final Long bookDefinitionId) {
         this.bookDefinitionId = bookDefinitionId;
     }
 
-    public static String parseDate(final Date date)
-    {
-        if (date != null)
-        {
+    public static String parseDate(final Date date) {
+        if (date != null) {
             final SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
             return sdf.format(date);
         }
         return null;
     }
 
-    public static Date parseDate(final String dateString)
-    {
+    public static Date parseDate(final String dateString) {
         Date date = null;
-        try
-        {
-            if (StringUtils.isNotBlank(dateString))
-            {
+        try {
+            if (StringUtils.isNotBlank(dateString)) {
                 final String[] parsePatterns = {CoreConstants.DATE_TIME_FORMAT_PATTERN};
                 date = DateUtils.parseDate(dateString, parsePatterns);
             }
-        }
-        catch (final ParseException e)
-        {
+        } catch (final ParseException e) {
             //Intentionally left blank
         }
         return date;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

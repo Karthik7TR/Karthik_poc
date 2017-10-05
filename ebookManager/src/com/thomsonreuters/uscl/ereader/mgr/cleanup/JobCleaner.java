@@ -4,8 +4,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.scheduling.annotation.Scheduled;
 
-public class JobCleaner
-{
+public class JobCleaner {
     private ManagerService managerService;
     private int cleanJobsGreaterThanThisManyDaysOld;
     private int cleanPlannedOutagesGreaterThanThisManyDaysOld;
@@ -14,8 +13,7 @@ public class JobCleaner
     private int cleanCwbFilesGreaterThanThisManyDaysOld;
 
     @Scheduled(fixedRate = 24 * 60 * 60 * 1000)
-    public void cleanupOldData()
-    {
+    public void cleanupOldData() {
         managerService.cleanupOldSpringBatchDatabaseRecords(cleanJobsGreaterThanThisManyDaysOld);
         managerService
             .cleanupOldFilesystemFiles(cleanJobsGreaterThanThisManyDaysOld, cleanCwbFilesGreaterThanThisManyDaysOld);
@@ -24,38 +22,32 @@ public class JobCleaner
     }
 
     @Required
-    public void setManagerService(final ManagerService service)
-    {
+    public void setManagerService(final ManagerService service) {
         managerService = service;
     }
 
     @Required
-    public void setCleanJobsGreaterThanThisManyDaysOld(final int daysBack)
-    {
+    public void setCleanJobsGreaterThanThisManyDaysOld(final int daysBack) {
         cleanJobsGreaterThanThisManyDaysOld = daysBack;
     }
 
     @Required
-    public void setCleanPlannedOutagesGreaterThanThisManyDaysOld(final int daysBack)
-    {
+    public void setCleanPlannedOutagesGreaterThanThisManyDaysOld(final int daysBack) {
         cleanPlannedOutagesGreaterThanThisManyDaysOld = daysBack;
     }
 
     @Required
-    public void setNumberLastMajorVersionKept(final int numberLastMajorVersionKept)
-    {
+    public void setNumberLastMajorVersionKept(final int numberLastMajorVersionKept) {
         this.numberLastMajorVersionKept = numberLastMajorVersionKept;
     }
 
     @Required
-    public void setDaysBeforeDocMetadataDelete(final int daysBeforeDocMetadataDelete)
-    {
+    public void setDaysBeforeDocMetadataDelete(final int daysBeforeDocMetadataDelete) {
         this.daysBeforeDocMetadataDelete = daysBeforeDocMetadataDelete;
     }
 
     @Required
-    public void setCleanCwbFilesGreaterThanThisManyDaysOld(final int daysBack)
-    {
+    public void setCleanCwbFilesGreaterThanThisManyDaysOld(final int daysBack) {
         cleanCwbFilesGreaterThanThisManyDaysOld = daysBack;
     }
 }

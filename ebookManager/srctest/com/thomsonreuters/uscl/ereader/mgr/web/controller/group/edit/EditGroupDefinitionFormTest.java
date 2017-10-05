@@ -15,8 +15,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class EditGroupDefinitionFormTest
-{
+public final class EditGroupDefinitionFormTest {
     private static final Long BOOK_DEFINITION_ID = 1L;
     private static final String PROVIEW_DISPLAY_NAME = "Book Name";
     private static final String TITLE_ID = "uscl/an/abcd";
@@ -27,8 +26,7 @@ public final class EditGroupDefinitionFormTest
     private EditGroupDefinitionForm form;
 
     @Before
-    public void setup()
-    {
+    public void setup() {
         form = new EditGroupDefinitionForm();
         form.setBookDefinitionId(BOOK_DEFINITION_ID);
         form.setComment("comment");
@@ -41,8 +39,7 @@ public final class EditGroupDefinitionFormTest
     }
 
     @Test
-    public void createGroupDefinitionNoSubgroupTest()
-    {
+    public void createGroupDefinitionNoSubgroupTest() {
         form.setIncludeSubgroup(false);
 
         final Title title = new Title();
@@ -76,8 +73,7 @@ public final class EditGroupDefinitionFormTest
     }
 
     @Test
-    public void createGroupDefinitionSubgroupTest()
-    {
+    public void createGroupDefinitionSubgroupTest() {
         final String subgroupHeading = "Subgroup heading";
         form.setIncludeSubgroup(true);
 
@@ -112,8 +108,7 @@ public final class EditGroupDefinitionFormTest
     }
 
     @Test
-    public void initializeWithSubgroupsTest()
-    {
+    public void initializeWithSubgroupsTest() {
         final BookDefinition book = createBookDef(TITLE_ID);
         final Map<String, ProviewTitleInfo> proviewTitleMap = createProviewTitleMap(TITLE_ID);
         final GroupDefinition group = new GroupDefinition();
@@ -136,8 +131,7 @@ public final class EditGroupDefinitionFormTest
         Assert.assertEquals(1, form.getNotGrouped().getTitles().size());
     }
 
-    private Map<String, ProviewTitleInfo> createProviewTitleMap(final String fullyQualifiedTitleId)
-    {
+    private Map<String, ProviewTitleInfo> createProviewTitleMap(final String fullyQualifiedTitleId) {
         final ProviewTitleInfo info = new ProviewTitleInfo();
         info.setLastupdate("date");
         info.setStatus("Review");
@@ -151,8 +145,7 @@ public final class EditGroupDefinitionFormTest
         return map;
     }
 
-    private BookDefinition createBookDef(final String fullyQualifiedTitleId)
-    {
+    private BookDefinition createBookDef(final String fullyQualifiedTitleId) {
         final BookDefinition book = new BookDefinition();
         book.setEbookDefinitionId(BOOK_DEFINITION_ID);
         book.setFullyQualifiedTitleId(fullyQualifiedTitleId);

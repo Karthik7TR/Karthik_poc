@@ -11,13 +11,11 @@ import org.springframework.web.servlet.ModelAndView;
  * in the proper role.
  */
 @Controller
-public class AccessDeniedController
-{
+public class AccessDeniedController {
     //private static final Logger log = LogManager.getLogger(AccessDeniedController.class);
 
     @RequestMapping(WebConstants.MVC_SEC_ACCESS_DENIED)
-    public ModelAndView inboundGet()
-    {
+    public ModelAndView inboundGet() {
         return new ModelAndView(WebConstants.VIEW_SEC_ACCESS_DENIED);
     }
 }

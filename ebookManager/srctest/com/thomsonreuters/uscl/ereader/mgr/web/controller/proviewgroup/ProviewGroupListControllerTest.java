@@ -48,8 +48,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public final class ProviewGroupListControllerTest
-{
+public final class ProviewGroupListControllerTest {
     private ProviewGroupListController controller;
     private MockHttpServletResponse response;
     private MockHttpServletRequest request;
@@ -63,8 +62,7 @@ public final class ProviewGroupListControllerTest
     private PublishingStatsService mockPublishingStatsService;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
 
@@ -78,18 +76,22 @@ public final class ProviewGroupListControllerTest
         mockPublishingStatsService = EasyMock.createMock(PublishingStatsService.class);
 
         controller = new ProviewGroupListController();
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "jobRequestService", mockJobRequestService);
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "bookDefinitionService", mockBookDefinitionService);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "jobRequestService", mockJobRequestService);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "bookDefinitionService", mockBookDefinitionService);
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "managerService", mockManagerService);
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "messageSourceAccessor", mockMessageSourceAccessor);
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "proviewAuditService", mockProviewAuditService);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "messageSourceAccessor", mockMessageSourceAccessor);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "proviewAuditService", mockProviewAuditService);
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "proviewHandler", mockProviewHandler);
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "publishingStatsService", mockPublishingStatsService);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "publishingStatsService", mockPublishingStatsService);
     }
 
     @After
-    public void reset()
-    {
+    public void reset() {
         SecurityContextHolder.getContext().setAuthentication(null);
     }
 
@@ -99,8 +101,7 @@ public final class ProviewGroupListControllerTest
      * @throws Exception
      */
     @Test
-    public void testPostSelectionsForGroupsRefresh() throws Exception
-    {
+    public void testPostSelectionsForGroupsRefresh() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUPS);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("command", ProviewGroupForm.Command.REFRESH.toString());
@@ -124,8 +125,7 @@ public final class ProviewGroupListControllerTest
      * @throws Exception
      */
     @Test
-    public void testPostSelectionsForGroupsPagesize() throws Exception
-    {
+    public void testPostSelectionsForGroupsPagesize() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUPS);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("command", ProviewGroupForm.Command.PAGESIZE.toString());
@@ -146,8 +146,7 @@ public final class ProviewGroupListControllerTest
      * @throws Exception
      */
     @Test
-    public void testAllLatestProviewGroupsList() throws Exception
-    {
+    public void testAllLatestProviewGroupsList() throws Exception {
         final String groupName = "GroupName";
         final String groupId = "GroupID";
 
@@ -193,8 +192,7 @@ public final class ProviewGroupListControllerTest
      * @throws Exception
      */
     @Test
-    public void testSingleGroupAllVersions() throws Exception
-    {
+    public void testSingleGroupAllVersions() throws Exception {
         final String groupId = "groupID";
 
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_ALL_VERSIONS);
@@ -224,8 +222,7 @@ public final class ProviewGroupListControllerTest
      * @throws Exception
      */
     @Test
-    public void testSingleGroupTitleSingleVersion() throws Exception
-    {
+    public void testSingleGroupTitleSingleVersion() throws Exception {
         final String groupId = "a/group_testID";
         final String version = "v1";
         final String titleId = "a/title/testID";
@@ -304,8 +301,7 @@ public final class ProviewGroupListControllerTest
     }
 
     @Test
-    public void testDownloadProviewGroupExcel() throws Exception
-    {
+    public void testDownloadProviewGroupExcel() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_DOWNLOAD);
         request.setMethod(HttpMethod.GET.name());
 
@@ -321,8 +317,7 @@ public final class ProviewGroupListControllerTest
     }
 
     @Test
-    public void testPerformGroupOperations() throws Exception
-    {
+    public void testPerformGroupOperations() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_OPERATION);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("formName", ProviewGroupListFilterForm.FORM_NAME.toString());
@@ -355,8 +350,7 @@ public final class ProviewGroupListControllerTest
     }
 
     @Test
-    public void testPerformGroupOperationsNoSelection() throws Exception
-    {
+    public void testPerformGroupOperationsNoSelection() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_OPERATION);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("formName", ProviewGroupListFilterForm.FORM_NAME.toString());
@@ -390,8 +384,7 @@ public final class ProviewGroupListControllerTest
      * @throws Exception
      */
     @Test
-    public void testProviewTitlePromotePost() throws Exception
-    {
+    public void testProviewTitlePromotePost() throws Exception {
         final String uName = "tester";
         final String first = "first";
         final String last = "last";
@@ -429,8 +422,7 @@ public final class ProviewGroupListControllerTest
      * @throws Exception
      */
     @Test
-    public void testProviewTitleRemovePost() throws Exception
-    {
+    public void testProviewTitleRemovePost() throws Exception {
         final String uName = "tester";
         final String first = "first";
         final String last = "last";
@@ -469,8 +461,7 @@ public final class ProviewGroupListControllerTest
      * @throws Exception
      */
     @Test
-    public void testProviewTitleDeletePost() throws Exception
-    {
+    public void testProviewTitleDeletePost() throws Exception {
         final String uName = "tester";
         final String first = "first";
         final String last = "last";

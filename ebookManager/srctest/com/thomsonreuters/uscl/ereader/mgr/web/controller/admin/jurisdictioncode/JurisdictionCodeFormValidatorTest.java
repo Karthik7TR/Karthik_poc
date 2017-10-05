@@ -9,8 +9,7 @@ import org.junit.Test;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 
-public final class JurisdictionCodeFormValidatorTest
-{
+public final class JurisdictionCodeFormValidatorTest {
     private static final String JURIS_NAME = "test";
     private CodeService mockCodeService;
     private JurisdictionCodeFormValidator validator;
@@ -18,8 +17,7 @@ public final class JurisdictionCodeFormValidatorTest
     private Errors errors;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         // Mock up the dashboard service
         mockCodeService = EasyMock.createMock(CodeService.class);
 
@@ -34,8 +32,7 @@ public final class JurisdictionCodeFormValidatorTest
     }
 
     @Test
-    public void testNoName()
-    {
+    public void testNoName() {
         // Check Valid name
         validator.validate(form, errors);
         Assert.assertFalse(errors.hasErrors());
@@ -47,8 +44,7 @@ public final class JurisdictionCodeFormValidatorTest
     }
 
     @Test
-    public void testNameExists()
-    {
+    public void testNameExists() {
         EasyMock.expect(mockCodeService.getJurisTypeCodeByName(JURIS_NAME)).andReturn(new JurisTypeCode());
         EasyMock.replay(mockCodeService);
 

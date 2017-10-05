@@ -26,8 +26,7 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public final class BookLibraryFilterControllerTest
-{
+public final class BookLibraryFilterControllerTest {
     private List<LibraryList> LIBRARY_LIST = new ArrayList<LibraryList>();
 
     private BookLibraryFilterController controller;
@@ -39,8 +38,7 @@ public final class BookLibraryFilterControllerTest
     private HandlerAdapter handlerAdapter;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         mockLibraryListService = EasyMock.createMock(LibraryListService.class);
@@ -53,8 +51,7 @@ public final class BookLibraryFilterControllerTest
     }
 
     @Test
-    public void testBookLibraryFilterPost() throws Exception
-    {
+    public void testBookLibraryFilterPost() throws Exception {
         // Set up the request URL
         // Filter form values
         final String titleId = "uscl/junit/test/abc";

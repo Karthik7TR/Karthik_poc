@@ -26,8 +26,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 /**
  * Map the attributes for a Thomson Reuters LDAP user entry to a User object.
  */
-public class CobaltUserAttributesMapper implements AttributesMapper
-{
+public class CobaltUserAttributesMapper implements AttributesMapper {
     private static final Logger log = LogManager.getLogger(CobaltUserAttributesMapper.class);
     private static final String ATTR_COMMON_NAME = "cn";
     private static final String ATTR_EMAIL_ADDR = "mail";
@@ -48,21 +47,16 @@ public class CobaltUserAttributesMapper implements AttributesMapper
     public CobaltUserAttributesMapper(
         final String environmentName,
         final Map<String, String> productionGroupToRoleMap,
-        final Map<String, String> nonProductionGroupToRoleMap)
-    {
-        if (CoreConstants.PROD_ENVIRONMENT_NAME.equalsIgnoreCase(environmentName))
-        {
+        final Map<String, String> nonProductionGroupToRoleMap) {
+        if (CoreConstants.PROD_ENVIRONMENT_NAME.equalsIgnoreCase(environmentName)) {
             groupToRoleMap = productionGroupToRoleMap;
-        }
-        else
-        {
+        } else {
             groupToRoleMap = nonProductionGroupToRoleMap;
         }
     }
 
     @Override
-    public Object mapFromAttributes(final Attributes attributes) throws NamingException
-    {
+    public Object mapFromAttributes(final Attributes attributes) throws NamingException {
         final String username = attrToString(attributes.get(ATTR_USERNAME));
         final String firstName = attrToString(attributes.get(ATTR_FIRST_NAME));
         final String lastName = attrToString(attributes.get(ATTR_LAST_NAME));
@@ -74,8 +68,7 @@ public class CobaltUserAttributesMapper implements AttributesMapper
         return user;
     }
 
-    private static String attrToString(final Attribute attr) throws NamingException
-    {
+    private static String attrToString(final Attribute attr) throws NamingException {
         return (attr != null) ? (String) attr.get() : null;
     }
 
@@ -84,28 +77,22 @@ public class CobaltUserAttributesMapper implements AttributesMapper
      * These will then in turn be mapped to logical role/authority names.
      * @param attributes the attributed of the user LDAP directory entry
      */
-    private Collection<String> loadLdapGroups(final Attributes attributes) throws NamingException
-    {
+    private Collection<String> loadLdapGroups(final Attributes attributes) throws NamingException {
         final Collection<String> groups = new ArrayList<>();
         final Attribute memberOf = attributes.get(ATTR_GROUP);
-        if (memberOf != null)
-        {
+        if (memberOf != null) {
             final NamingEnumeration<?> ne = memberOf.getAll();
-            while (ne.hasMore())
-            {
+            while (ne.hasMore()) {
                 final String groupDnString = (String) ne.next(); // Fully qualified DN of the group
                 // Parse the full DN to get just the value for the CN attribute
                 final DistinguishedName groupDn = new DistinguishedName(groupDnString);
                 final LdapRdn cn = groupDn.getLdapRdn(ATTR_COMMON_NAME);
-                if (cn != null)
-                {
+                if (cn != null) {
                     final String groupName = cn.getValue();
                     groups.add(groupName);
                 }
             }
-        }
-        else
-        {
+        } else {
             log.warn(
                 "Expected to find a memberOf attribute, but none was present for LDAP entry: "
                     + ReflectionToStringBuilder.toString(attributes, ToStringStyle.SHORT_PREFIX_STYLE));
@@ -119,14 +106,11 @@ public class CobaltUserAttributesMapper implements AttributesMapper
      * @param groups collection of String group names from directory server, may not be null
      * @return collection of GrantedAuthority objects that represent the logical user roles in the application.
      */
-    private Collection<GrantedAuthority> mapGroupsToRoles(final Collection<String> groups)
-    {
+    private Collection<GrantedAuthority> mapGroupsToRoles(final Collection<String> groups) {
         final List<GrantedAuthority> authorities = new ArrayList<>();
-        for (final String group : groups)
-        {
+        for (final String group : groups) {
             final String role = matchGroup(group);
-            if (role != null)
-            {
+            if (role != null) {
                 authorities.add(new SimpleGrantedAuthority(role));
             }
         }
@@ -140,13 +124,10 @@ public class CobaltUserAttributesMapper implements AttributesMapper
      * @param group physical group name to find within the set of regular expressions in the groupToRoleMap.
      * @return the role name for the RE key if a match is found.
      */
-    private String matchGroup(final String group)
-    {
+    private String matchGroup(final String group) {
         final Set<String> groupNameRegularExpressions = groupToRoleMap.keySet();
-        for (final String groupNameExpr : groupNameRegularExpressions)
-        {
-            if (Pattern.matches(groupNameExpr, group))
-            {
+        for (final String groupNameExpr : groupNameRegularExpressions) {
+            if (Pattern.matches(groupNameExpr, group)) {
                 return groupToRoleMap.get(groupNameExpr);
             }
         }

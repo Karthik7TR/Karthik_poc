@@ -9,8 +9,7 @@ import org.junit.Test;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 
-public final class KeywordCodeFormValidatorTest
-{
+public final class KeywordCodeFormValidatorTest {
     private static final String KEYWORD_CODE_NAME = "test";
     private CodeService mockCodeService;
     private KeywordCodeFormValidator validator;
@@ -18,8 +17,7 @@ public final class KeywordCodeFormValidatorTest
     private Errors errors;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         // Mock up the service
         mockCodeService = EasyMock.createMock(CodeService.class);
 
@@ -34,8 +32,7 @@ public final class KeywordCodeFormValidatorTest
     }
 
     @Test
-    public void testNoName()
-    {
+    public void testNoName() {
         // Check Valid name
         validator.validate(form, errors);
         Assert.assertFalse(errors.hasErrors());
@@ -47,8 +44,7 @@ public final class KeywordCodeFormValidatorTest
     }
 
     @Test
-    public void testNameExists()
-    {
+    public void testNameExists() {
         EasyMock.expect(mockCodeService.getKeywordTypeCodeByName(KEYWORD_CODE_NAME)).andReturn(new KeywordTypeCode());
         EasyMock.replay(mockCodeService);
 

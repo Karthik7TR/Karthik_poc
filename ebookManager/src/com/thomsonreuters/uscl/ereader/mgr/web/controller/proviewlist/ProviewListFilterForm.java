@@ -3,12 +3,10 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class ProviewListFilterForm
-{
+public class ProviewListFilterForm {
     public static final String FORM_NAME = "proviewListFilterForm";
 
-    public enum FilterCommand
-    {
+    public enum FilterCommand {
         SEARCH,
         RESET
     };
@@ -21,110 +19,91 @@ public class ProviewListFilterForm
     private Integer maxVersionsInt;
     private FilterCommand filterCommand;
 
-    public void initNull()
-    {
+    public void initNull() {
         init(null, null, null, null);
     }
 
-    private void init(final String proviewDisplayName, final String titleId, final String minVersions, final String maxVersions)
-    {
+    private void init(
+        final String proviewDisplayName,
+        final String titleId,
+        final String minVersions,
+        final String maxVersions) {
         this.proviewDisplayName = proviewDisplayName;
         this.titleId = titleId;
         this.minVersions = minVersions;
         this.maxVersions = maxVersions;
     }
 
-    public Integer getMinVersionsInt()
-    {
+    public Integer getMinVersionsInt() {
         return minVersionsInt;
     }
 
-    public void setMinVersionsInt(final Integer minVersionsInt)
-    {
+    public void setMinVersionsInt(final Integer minVersionsInt) {
         this.minVersionsInt = minVersionsInt;
     }
 
-    public Integer getMaxVersionsInt()
-    {
+    public Integer getMaxVersionsInt() {
         return maxVersionsInt;
     }
 
-    public void setMaxVersionsInt(final Integer maxVersionsInt)
-    {
+    public void setMaxVersionsInt(final Integer maxVersionsInt) {
         this.maxVersionsInt = maxVersionsInt;
     }
 
-    public FilterCommand getFilterCommand()
-    {
+    public FilterCommand getFilterCommand() {
         return filterCommand;
     }
 
-    public void setFilterCommand(final FilterCommand filterCommand)
-    {
+    public void setFilterCommand(final FilterCommand filterCommand) {
         this.filterCommand = filterCommand;
     }
 
-    public String getMinVersions()
-    {
+    public String getMinVersions() {
         return minVersions;
     }
 
-    public void setMinVersions(final String minVersions)
-    {
+    public void setMinVersions(final String minVersions) {
         this.minVersions = minVersions == null ? null : minVersions.trim();
-        try
-        {
+        try {
             minVersionsInt = Integer.parseInt(minVersions);
-        }
-        catch (final NumberFormatException e)
-        {
+        } catch (final NumberFormatException e) {
             this.minVersions = null;
             minVersionsInt = 0;
         }
     }
 
-    public String getMaxVersions()
-    {
+    public String getMaxVersions() {
         return maxVersions;
     }
 
-    public void setMaxVersions(final String maxVersions)
-    {
+    public void setMaxVersions(final String maxVersions) {
         this.maxVersions = maxVersions == null ? null : maxVersions.trim();
-        try
-        {
+        try {
             maxVersionsInt = Integer.parseInt(maxVersions);
-        }
-        catch (final NumberFormatException e)
-        {
+        } catch (final NumberFormatException e) {
             this.maxVersions = null;
             maxVersionsInt = 99999;
         }
     }
 
-    public String getProviewDisplayName()
-    {
+    public String getProviewDisplayName() {
         return proviewDisplayName;
     }
 
-    public void setProviewDisplayName(final String proviewDisplayName)
-    {
+    public void setProviewDisplayName(final String proviewDisplayName) {
         this.proviewDisplayName = proviewDisplayName == null ? null : proviewDisplayName.trim();
     }
 
-    public String getTitleId()
-    {
+    public String getTitleId() {
         return titleId;
     }
 
-    public void setTitleId(final String titleId)
-    {
+    public void setTitleId(final String titleId) {
         this.titleId = titleId == null ? null : titleId.trim();
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

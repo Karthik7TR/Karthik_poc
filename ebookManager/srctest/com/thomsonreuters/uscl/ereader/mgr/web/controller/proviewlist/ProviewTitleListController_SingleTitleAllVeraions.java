@@ -32,8 +32,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ProviewTitleListController_SingleTitleAllVeraions
-{
+public class ProviewTitleListController_SingleTitleAllVeraions {
     @InjectMocks
     private ProviewTitleListController controller;
     @Mock
@@ -45,14 +44,12 @@ public class ProviewTitleListController_SingleTitleAllVeraions
     private MockMvc mockMvc;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
     @Test
-    public void shouldReturnTitlesList() throws Exception
-    {
+    public void shouldReturnTitlesList() throws Exception {
         // given
         final List<ProviewTitleInfo> titleInfos = asList(titleInfo("v1.0", "Final"), titleInfo("v1.1", "Review"));
         final List<ProviewTitle> titles = asList(title("v1.0", "Final"), title("v1.1", "Review"));
@@ -66,8 +63,7 @@ public class ProviewTitleListController_SingleTitleAllVeraions
     }
 
     @Test
-    public void shouldReturnInfoMessageIfNoBookFound() throws Exception
-    {
+    public void shouldReturnInfoMessageIfNoBookFound() throws Exception {
         // given
         // when - then
         mockMvc
@@ -76,8 +72,7 @@ public class ProviewTitleListController_SingleTitleAllVeraions
     }
 
     @Test
-    public void shouldReturnInfoMessageInProgressBook() throws Exception
-    {
+    public void shouldReturnInfoMessageInProgressBook() throws Exception {
         // given
         final List<ProviewTitleInfo> titleInfos = asList(titleInfo("v1.0", "Final"), titleInfo("v1.1", "Review"));
         final List<ProviewTitle> titles = asList(title("v1.0", "Final"), title("v1.1", "Review"));
@@ -95,8 +90,8 @@ public class ProviewTitleListController_SingleTitleAllVeraions
             .andExpect(model().attributeExists(WebConstants.KEY_INFO_MESSAGE));
     }
 
-    private void givenTitles(final List<ProviewTitleInfo> titleInfos, final List<ProviewTitle> titles) throws ProviewException
-    {
+    private void givenTitles(final List<ProviewTitleInfo> titleInfos, final List<ProviewTitle> titles)
+        throws ProviewException {
         final Map<String, ProviewTitleContainer> allTitleInfos = new HashMap<>();
         allTitleInfos.put("titleId", container(titleInfos));
         given(proviewHandler.getAllProviewTitleInfo()).willReturn(allTitleInfos);

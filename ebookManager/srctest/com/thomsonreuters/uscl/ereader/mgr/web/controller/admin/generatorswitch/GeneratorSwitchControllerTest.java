@@ -22,8 +22,7 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public final class GeneratorSwitchControllerTest
-{
+public final class GeneratorSwitchControllerTest {
     private static final String BINDING_RESULT_KEY = BindingResult.class.getName() + "." + StopGeneratorForm.FORM_NAME;
 
     private MockHttpServletRequest request;
@@ -35,8 +34,7 @@ public final class GeneratorSwitchControllerTest
     private ServerAccessService mockServerAccessService;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -45,29 +43,26 @@ public final class GeneratorSwitchControllerTest
         validator = new StopGeneratorFormValidator();
 
         // Set up the controller
-        controller = new GeneratorSwitchController(mockServerAccessService, validator, "test", "test", "test", "test", "test");
+        controller =
+            new GeneratorSwitchController(mockServerAccessService, validator, "test", "test", "test", "test", "test");
     }
 
     /**
      * Test the GET to the Stop Generator page
      */
     @Test
-    public void testGetStopGenerator()
-    {
+    public void testGetStopGenerator() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_STOP_GENERATOR);
         request.setMethod(HttpMethod.GET.name());
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
             // Verify the returned view name
             assertEquals(WebConstants.VIEW_ADMIN_STOP_GENERATOR, mav.getViewName());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -77,28 +72,23 @@ public final class GeneratorSwitchControllerTest
      * Test the POST to the Stop Generator page
      */
     @Test
-    public void testPostStopGenerator()
-    {
+    public void testPostStopGenerator() {
         final String code = "Stop all";
         final String property = "test";
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_STOP_GENERATOR);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("code", code);
 
-        try
-        {
+        try {
             EasyMock.expect(mockServerAccessService.stopServer(property, property, property, property, property))
                 .andReturn("done");
-        }
-        catch (final EBookServerException e1)
-        {
+        } catch (final EBookServerException e1) {
             e1.printStackTrace();
         }
         EasyMock.replay(mockServerAccessService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -118,9 +108,7 @@ public final class GeneratorSwitchControllerTest
 
             final String message = infoMessages.get(0).getText();
             Assert.assertEquals("done", message);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -132,16 +120,14 @@ public final class GeneratorSwitchControllerTest
      * Test the POST to the Stop Generator page validation failure
      */
     @Test
-    public void testPostStopGeneratorFailure()
-    {
+    public void testPostStopGeneratorFailure() {
         final String code = "random";
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_STOP_GENERATOR);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("code", code);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -155,9 +141,7 @@ public final class GeneratorSwitchControllerTest
             final BindingResult bindingResult = (BindingResult) model.get(BINDING_RESULT_KEY);
             assertNotNull(bindingResult);
             Assert.assertTrue(bindingResult.hasErrors());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -167,22 +151,18 @@ public final class GeneratorSwitchControllerTest
      * Test the GET to the Start Generator page
      */
     @Test
-    public void testGetStartGenerator()
-    {
+    public void testGetStartGenerator() {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_START_GENERATOR);
         request.setMethod(HttpMethod.GET.name());
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
             // Verify the returned view name
             assertEquals(WebConstants.VIEW_ADMIN_START_GENERATOR, mav.getViewName());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -192,26 +172,21 @@ public final class GeneratorSwitchControllerTest
      * Test the POST to the Start Generator page
      */
     @Test
-    public void testPostStartGenerator()
-    {
+    public void testPostStartGenerator() {
         final String property = "test";
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_START_GENERATOR);
         request.setMethod(HttpMethod.POST.name());
 
-        try
-        {
+        try {
             EasyMock.expect(mockServerAccessService.startServer(property, property, property, property, property))
                 .andReturn("done");
-        }
-        catch (final EBookServerException e1)
-        {
+        } catch (final EBookServerException e1) {
             e1.printStackTrace();
         }
         EasyMock.replay(mockServerAccessService);
 
         final ModelAndView mav;
-        try
-        {
+        try {
             mav = handlerAdapter.handle(request, response, controller);
 
             assertNotNull(mav);
@@ -226,9 +201,7 @@ public final class GeneratorSwitchControllerTest
 
             final String message = infoMessages.get(0).getText();
             Assert.assertEquals("done", message);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }

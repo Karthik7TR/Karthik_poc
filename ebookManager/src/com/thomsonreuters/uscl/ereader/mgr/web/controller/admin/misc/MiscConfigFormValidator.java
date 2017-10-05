@@ -9,24 +9,18 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component("miscConfigFormValidator")
-public class MiscConfigFormValidator extends BaseFormValidator implements Validator
-{
+public class MiscConfigFormValidator extends BaseFormValidator implements Validator {
     @Override
-    public boolean supports(final Class<?> clazz)
-    {
+    public boolean supports(final Class<?> clazz) {
         return (MiscConfigForm.class.isAssignableFrom(clazz));
     }
 
     @Override
-    public void validate(final Object obj, final Errors errors)
-    {
+    public void validate(final Object obj, final Errors errors) {
         final MiscConfigForm form = (MiscConfigForm) obj;
-        try
-        {
+        try {
             InetAddress.getByName(form.getProviewHostname());
-        }
-        catch (final UnknownHostException e)
-        {
+        } catch (final UnknownHostException e) {
             final Object[] args = {form.getProviewHostname()};
             errors.reject("error.unknown.proview.host", args, "Unknown/Invalid Proview Host");
         }

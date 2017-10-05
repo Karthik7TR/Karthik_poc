@@ -29,8 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class KeywordValueController
-{
+public class KeywordValueController {
     private static final Logger log = LogManager.getLogger(KeywordValueController.class);
 
     private final CodeService codeService;
@@ -38,18 +37,17 @@ public class KeywordValueController
     private final Validator validator;
 
     @Autowired
-    public KeywordValueController(final CodeService codeService,
-                                  final BookDefinitionService bookService,
-                                  @Qualifier("keywordValueFormValidator") final Validator validator)
-    {
+    public KeywordValueController(
+        final CodeService codeService,
+        final BookDefinitionService bookService,
+        @Qualifier("keywordValueFormValidator") final Validator validator) {
         this.codeService = codeService;
         this.bookService = bookService;
         this.validator = validator;
     }
 
     @InitBinder(KeywordValueForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.setValidator(validator);
     }
@@ -66,8 +64,7 @@ public class KeywordValueController
         @RequestParam("keywordCodeId") final Long keywordCodeId,
         @ModelAttribute(KeywordValueForm.FORM_NAME) final KeywordValueForm form,
         final BindingResult bindingResult,
-        final Model model) throws Exception
-    {
+        final Model model) throws Exception {
         final KeywordTypeCode code = codeService.getKeywordTypeCodeById(keywordCodeId);
         form.setKeywordTypeCode(code);
         model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, code);
@@ -78,10 +75,8 @@ public class KeywordValueController
     public ModelAndView createKeywordValuePost(
         @ModelAttribute(KeywordValueForm.FORM_NAME) @Valid final KeywordValueForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
-        if (!bindingResult.hasErrors())
-        {
+        final Model model) {
+        if (!bindingResult.hasErrors()) {
             codeService.saveKeywordTypeValue(form.makeKeywordTypeValue());
 
             // Redirect user
@@ -97,12 +92,10 @@ public class KeywordValueController
     public ModelAndView editKeywordValue(
         @RequestParam("id") final Long id,
         @ModelAttribute(KeywordValueForm.FORM_NAME) final KeywordValueForm form,
-        final Model model)
-    {
+        final Model model) {
         final KeywordTypeValue value = codeService.getKeywordTypeValueById(id);
 
-        if (value != null)
-        {
+        if (value != null) {
             model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, value.getKeywordTypeCode());
             model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_VALUE, value);
             form.initialize(value);
@@ -114,10 +107,8 @@ public class KeywordValueController
     public ModelAndView editKeywordValuePost(
         @ModelAttribute(KeywordValueForm.FORM_NAME) @Valid final KeywordValueForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
-        if (!bindingResult.hasErrors())
-        {
+        final Model model) {
+        if (!bindingResult.hasErrors()) {
             codeService.saveKeywordTypeValue(form.makeKeywordTypeValue());
 
             // Redirect user
@@ -135,12 +126,10 @@ public class KeywordValueController
     public ModelAndView deleteKeywordValue(
         @RequestParam("id") final Long id,
         @ModelAttribute(KeywordValueForm.FORM_NAME) final KeywordValueForm form,
-        final Model model)
-    {
+        final Model model) {
         log.debug(form);
         final KeywordTypeValue value = codeService.getKeywordTypeValueById(id);
-        if (value != null)
-        {
+        if (value != null) {
             final List<BookDefinition> books = bookService.findAllBookDefinitionsByKeywordValueId(id);
             model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, value.getKeywordTypeCode());
             model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_VALUE, value);
@@ -154,8 +143,7 @@ public class KeywordValueController
     @RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_VALUE_DELETE, method = RequestMethod.POST)
     public ModelAndView deleteKeywordValuePost(
         @ModelAttribute(KeywordValueForm.FORM_NAME) final KeywordValueForm form,
-        final Model model)
-    {
+        final Model model) {
         final KeywordTypeValue value = form.makeKeywordTypeValue();
         log.debug(form);
         codeService.deleteKeywordTypeValue(value);

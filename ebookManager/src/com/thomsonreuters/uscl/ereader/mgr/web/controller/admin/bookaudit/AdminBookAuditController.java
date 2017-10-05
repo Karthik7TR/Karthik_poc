@@ -32,25 +32,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class AdminBookAuditController
-{
+public class AdminBookAuditController {
     private final EBookAuditService auditService;
     private final PublishingStatsService publishingStatsService;
     private final Validator validator;
 
     @Autowired
-    public AdminBookAuditController(final EBookAuditService auditService,
-                               final PublishingStatsService publishingStatsService,
-                               @Qualifier("adminAuditFilterFormValidator") final Validator validator)
-    {
+    public AdminBookAuditController(
+        final EBookAuditService auditService,
+        final PublishingStatsService publishingStatsService,
+        @Qualifier("adminAuditFilterFormValidator") final Validator validator) {
         this.auditService = auditService;
         this.publishingStatsService = publishingStatsService;
         this.validator = validator;
     }
 
     @InitBinder(AdminAuditFilterForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.setValidator(validator);
     }
@@ -63,25 +61,19 @@ public class AdminBookAuditController
      * @throws Exception
      */
     @RequestMapping(value = WebConstants.MVC_ADMIN_AUDIT_BOOK_LIST, method = RequestMethod.GET)
-    public ModelAndView viewAuditList(final HttpSession httpSession, final Model model) throws Exception
-    {
+    public ModelAndView viewAuditList(final HttpSession httpSession, final Model model) throws Exception {
         AdminAuditFilterForm form = (AdminAuditFilterForm) httpSession.getAttribute(AdminAuditFilterForm.FORM_NAME);
 
         // Setup form is came from redirect
-        if (model.containsAttribute(AdminAuditFilterForm.FORM_NAME))
-        {
+        if (model.containsAttribute(AdminAuditFilterForm.FORM_NAME)) {
             form = (AdminAuditFilterForm) model.asMap().get(AdminAuditFilterForm.FORM_NAME);
             // Save filter and paging state in the session
             httpSession.setAttribute(AdminAuditFilterForm.FORM_NAME, form);
             setupFilterForm(httpSession, model, form);
-        }
-        else if (form != null)
-        {
+        } else if (form != null) {
             // Setup form from previous saved filter form
             setupFilterForm(httpSession, model, form);
-        }
-        else
-        {
+        } else {
             // new form
             form = new AdminAuditFilterForm();
         }
@@ -91,10 +83,8 @@ public class AdminBookAuditController
         return new ModelAndView(WebConstants.VIEW_ADMIN_AUDIT_BOOK_LIST);
     }
 
-    private void setupFilterForm(final HttpSession httpSession, final Model model, final AdminAuditFilterForm form)
-    {
-        if (!form.isEmpty())
-        {
+    private void setupFilterForm(final HttpSession httpSession, final Model model, final AdminAuditFilterForm form) {
+        if (!form.isEmpty()) {
             final PublishingStatsFilter filter =
                 new PublishingStatsFilter(form.getTitleId(), form.getProviewDisplayName(), form.getIsbn());
             final PublishingStatsSort sort = new PublishingStatsSort(SortProperty.JOB_SUBMIT_TIMESTAMP, false, 1, 100);
@@ -108,10 +98,8 @@ public class AdminBookAuditController
         @ModelAttribute(AdminAuditFilterForm.FORM_NAME) @Valid final AdminAuditFilterForm form,
         @RequestParam final String submit,
         final BindingResult errors,
-        final RedirectAttributes ra)
-    {
-        if ("reset".equalsIgnoreCase(submit))
-        {
+        final RedirectAttributes ra) {
+        if ("reset".equalsIgnoreCase(submit)) {
             form.initialize();
         }
 
@@ -124,11 +112,9 @@ public class AdminBookAuditController
         @ModelAttribute(AdminAuditRecordForm.FORM_NAME) final AdminAuditRecordForm form,
         @RequestParam("id") final Long id,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         final EbookAudit audit = auditService.findEBookAuditByPrimaryKey(id);
-        if (audit != null)
-        {
+        if (audit != null) {
             form.setTitleId(audit.getTitleId());
             form.setAuditId(id);
             form.setBookDefinitionId(audit.getEbookDefinitionId());
@@ -146,14 +132,11 @@ public class AdminBookAuditController
     public ModelAndView modifyAuditIsbnPost(
         @ModelAttribute(AdminAuditRecordForm.FORM_NAME) @Valid final AdminAuditRecordForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
-        if (!bindingResult.hasErrors())
-        {
+        final Model model) {
+        if (!bindingResult.hasErrors()) {
             final EbookAudit audit = auditService.editIsbn(form.getTitleId(), form.getIsbn());
 
-            if (audit != null)
-            {
+            if (audit != null) {
                 // Save audit record to determine user that modified ISBN
                 audit.setAuditId(null);
                 audit.setAuditType(EbookAudit.AUDIT_TYPE.EDIT.toString());

@@ -6,7 +6,6 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ProviewTitleListControllerTest.class, ProviewTitleListController_SingleTitleAllVeraions.class})
-public class ProviewTitleListControllerSuite
-{
+public class ProviewTitleListControllerSuite {
     //Intentionally left blank
 }

@@ -6,16 +6,14 @@ import org.junit.Test;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 
-public final class DocTypeMetricFormValidatorTest
-{
+public final class DocTypeMetricFormValidatorTest {
     private static final String DOCTYPE_CODE_NAME = "test";
     private DocTypeMetricFormValidator validator;
     private DocTypeMetricForm form;
     private Errors errors;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         // Setup Validator
         validator = new DocTypeMetricFormValidator();
 
@@ -28,8 +26,7 @@ public final class DocTypeMetricFormValidatorTest
     }
 
     @Test
-    public void testNoName()
-    {
+    public void testNoName() {
         // Check Valid name
         validator.validate(form, errors);
         Assert.assertFalse(errors.hasErrors());
@@ -41,8 +38,7 @@ public final class DocTypeMetricFormValidatorTest
     }
 
     @Test
-    public void testNoThresholdValue()
-    {
+    public void testNoThresholdValue() {
         // Check Valid name
         validator.validate(form, errors);
         Assert.assertFalse(errors.hasErrors());
@@ -54,8 +50,7 @@ public final class DocTypeMetricFormValidatorTest
     }
 
     @Test
-    public void testNoThresholdPercent()
-    {
+    public void testNoThresholdPercent() {
         // Check Valid name
         validator.validate(form, errors);
         Assert.assertFalse(errors.hasErrors());

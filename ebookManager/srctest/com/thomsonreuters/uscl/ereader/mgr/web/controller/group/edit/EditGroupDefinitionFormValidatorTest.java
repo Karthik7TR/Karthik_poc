@@ -9,8 +9,7 @@ import org.junit.Test;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 
-public final class EditGroupDefinitionFormValidatorTest
-{
+public final class EditGroupDefinitionFormValidatorTest {
     private static final String CHARACTER_1025 =
         "1234567890123456789012345678901234567890123456789012345678901234567890"
             + "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345"
@@ -29,24 +28,21 @@ public final class EditGroupDefinitionFormValidatorTest
     private Errors errors;
 
     @Before
-    public void setup()
-    {
+    public void setup() {
         validator = new EditGroupDefinitionFormValidator();
         form = new EditGroupDefinitionForm();
         errors = new BindException(form, "form");
     }
 
     @Test
-    public void groupNameTest()
-    {
+    public void groupNameTest() {
         // verify errors
         validator.validate(form, errors);
         Assert.assertEquals("error.required", errors.getFieldError("groupName").getCode());
     }
 
     @Test
-    public void maxLengthTest()
-    {
+    public void maxLengthTest() {
         form.setGroupName(CHARACTER_1025);
         form.setComment(CHARACTER_1025);
         validator.validate(form, errors);
@@ -56,8 +52,7 @@ public final class EditGroupDefinitionFormValidatorTest
     }
 
     @Test
-    public void splitTitleTest()
-    {
+    public void splitTitleTest() {
         form.setIncludeSubgroup(false);
         form.setHasSplitTitles(true);
         validator.validate(form, errors);
@@ -66,8 +61,7 @@ public final class EditGroupDefinitionFormValidatorTest
     }
 
     @Test
-    public void noVersionTypeTest()
-    {
+    public void noVersionTypeTest() {
         form.setVersionType(Version.NONE);
         form.setHasSplitTitles(true);
         validator.validate(form, errors);
@@ -76,8 +70,7 @@ public final class EditGroupDefinitionFormValidatorTest
     }
 
     @Test
-    public void titlesNotAssignedTest()
-    {
+    public void titlesNotAssignedTest() {
         form.setIncludeSubgroup(true);
 
         final Subgroup subgroup = new Subgroup();
@@ -89,8 +82,7 @@ public final class EditGroupDefinitionFormValidatorTest
     }
 
     @Test
-    public void emptySubgroupTest()
-    {
+    public void emptySubgroupTest() {
         form.setIncludeSubgroup(true);
 
         final Subgroup subgroup = new Subgroup();
@@ -106,8 +98,7 @@ public final class EditGroupDefinitionFormValidatorTest
     }
 
     @Test
-    public void duplicateSubgroupHeadingTest()
-    {
+    public void duplicateSubgroupHeadingTest() {
         final String heading = "heading";
         form.setIncludeSubgroup(true);
 
@@ -126,8 +117,7 @@ public final class EditGroupDefinitionFormValidatorTest
     }
 
     @Test
-    public void maxLengthSubgroupHeadingTest()
-    {
+    public void maxLengthSubgroupHeadingTest() {
         form.setIncludeSubgroup(true);
 
         final Subgroup subgroup = new Subgroup();
@@ -141,8 +131,7 @@ public final class EditGroupDefinitionFormValidatorTest
     }
 
     @Test
-    public void emptySubgroupHeadingTest()
-    {
+    public void emptySubgroupHeadingTest() {
         form.setIncludeSubgroup(true);
 
         final Subgroup subgroup = new Subgroup();

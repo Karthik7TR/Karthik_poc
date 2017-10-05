@@ -9,16 +9,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public class TestingUserDetailsService implements UserDetailsService
-{
+public class TestingUserDetailsService implements UserDetailsService {
     //private static Logger log = LogManager.getLogger(TestingUserDetailsService.class);
     /**
      * User details where the username is also the role name that will be assigned.
      * E.g. log in as "ROLE_SUPERUSER" and be put into that role.
      */
     @Override
-    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException
-    {
+    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         //log.debug("username="+username);
         final Collection<GrantedAuthority> roles = new ArrayList<>();
         roles.add(new SimpleGrantedAuthority(TestingAuthenticationProvider.mapGroupFromUsername(username).toString()));

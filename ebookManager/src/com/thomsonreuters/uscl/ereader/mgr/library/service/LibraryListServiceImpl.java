@@ -12,8 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Library list service
  */
-public class LibraryListServiceImpl implements LibraryListService
-{
+public class LibraryListServiceImpl implements LibraryListService {
     //private static final Logger log = LogManager.getLogger(LibraryListServiceImpl.class);
 
     private LibraryListDao libraryListDao;
@@ -25,8 +24,7 @@ public class LibraryListServiceImpl implements LibraryListService
      */
     @Override
     @Transactional(readOnly = true)
-    public List<LibraryList> findBookDefinitions(final LibraryListFilter filter, final LibraryListSort sort)
-    {
+    public List<LibraryList> findBookDefinitions(final LibraryListFilter filter, final LibraryListSort sort) {
         return libraryListDao.findBookDefinitions(filter, sort);
     }
 
@@ -36,14 +34,12 @@ public class LibraryListServiceImpl implements LibraryListService
      */
     @Override
     @Transactional(readOnly = true)
-    public Integer numberOfBookDefinitions(final LibraryListFilter filter)
-    {
+    public Integer numberOfBookDefinitions(final LibraryListFilter filter) {
         return libraryListDao.numberOfBookDefinitions(filter);
     }
 
     @Required
-    public void setLibraryListDao(final LibraryListDao dao)
-    {
+    public void setLibraryListDao(final LibraryListDao dao) {
         libraryListDao = dao;
     }
 }

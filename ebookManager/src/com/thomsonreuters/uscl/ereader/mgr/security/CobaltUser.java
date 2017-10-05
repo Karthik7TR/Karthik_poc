@@ -13,8 +13,7 @@ import org.springframework.security.core.userdetails.User;
 /**
  * User info object populated from the LDAP directory server.
  */
-public class CobaltUser extends User
-{
+public class CobaltUser extends User {
     private static final long serialVersionUID = -5170583643786179311L;
     private static final String UNUSED_PASSWORD = "<secret>";
     private String firstName;
@@ -26,8 +25,7 @@ public class CobaltUser extends User
         final String firstName,
         final String lastName,
         final String email,
-        final Collection<GrantedAuthority> authorities)
-    {
+        final Collection<GrantedAuthority> authorities) {
         super(username, UNUSED_PASSWORD, true, true, true, true, authorities);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -39,12 +37,10 @@ public class CobaltUser extends User
      * Assumes usage within a Spring Security based web application.
      * @return currently authenticated user object, or null if not authenticated.
      */
-    public static CobaltUser getAuthenticatedUser()
-    {
+    public static CobaltUser getAuthenticatedUser() {
         final SecurityContext securityContext = SecurityContextHolder.getContext();
         final Authentication authentication = securityContext.getAuthentication();
-        if (authentication == null)
-        {
+        if (authentication == null) {
             return null;
         }
         final Object principal = authentication.getPrincipal();
@@ -52,33 +48,27 @@ public class CobaltUser extends User
         return user;
     }
 
-    public String getFirstName()
-    {
+    public String getFirstName() {
         return firstName;
     }
 
-    public String getLastName()
-    {
+    public String getLastName() {
         return lastName;
     }
 
-    public String getFullName()
-    {
+    public String getFullName() {
         final StringBuilder fullName = new StringBuilder();
-        if (StringUtils.isNotBlank(firstName))
-        {
+        if (StringUtils.isNotBlank(firstName)) {
             fullName.append(firstName);
             fullName.append(" ");
         }
-        if (StringUtils.isNotBlank(lastName))
-        {
+        if (StringUtils.isNotBlank(lastName)) {
             fullName.append(lastName);
         }
         return fullName.toString();
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
@@ -87,18 +77,14 @@ public class CobaltUser extends User
      * @param role the granted authority to check
      * @return true if user is in role, false otherwise.
      */
-    public boolean isInRole(final String role)
-    {
+    public boolean isInRole(final String role) {
         return isInRole(new SimpleGrantedAuthority(role));
     }
 
-    private boolean isInRole(final GrantedAuthority checkAuthority)
-    {
+    private boolean isInRole(final GrantedAuthority checkAuthority) {
         final Collection<GrantedAuthority> authorities = getAuthorities();
-        for (final GrantedAuthority authority : authorities)
-        {
-            if (authority.equals(checkAuthority))
-            {
+        for (final GrantedAuthority authority : authorities) {
+            if (authority.equals(checkAuthority)) {
                 return true;
             }
         }
@@ -108,12 +94,9 @@ public class CobaltUser extends User
     /**
      * Returns true if the user is in any of the listed roles.
      */
-    public boolean isInRole(final String[] roles)
-    {
-        for (final String role : roles)
-        {
-            if (isInRole(role))
-            {
+    public boolean isInRole(final String[] roles) {
+        for (final String role : roles) {
+            if (isInRole(role)) {
                 return true;
             }
         }
@@ -121,8 +104,7 @@ public class CobaltUser extends User
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "username="
             + getUsername()
             + ", firstName="
@@ -135,15 +117,12 @@ public class CobaltUser extends User
             + rolesToString(getAuthorities());
     }
 
-    public static String rolesToString(final Collection<GrantedAuthority> authorities)
-    {
+    public static String rolesToString(final Collection<GrantedAuthority> authorities) {
         final StringBuilder roles = new StringBuilder("[");
         int i = 0;
-        for (final GrantedAuthority authority : authorities)
-        {
+        for (final GrantedAuthority authority : authorities) {
             roles.append(authority);
-            if (i + 1 < authorities.size())
-            {
+            if (i + 1 < authorities.size()) {
                 roles.append(",");
             }
             i++;

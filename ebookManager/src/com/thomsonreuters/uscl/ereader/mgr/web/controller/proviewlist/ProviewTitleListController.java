@@ -46,8 +46,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class ProviewTitleListController
-{
+public class ProviewTitleListController {
     private static final Logger log = LogManager.getLogger(ProviewTitleListController.class);
 
     private final ProviewHandler proviewHandler;
@@ -59,14 +58,14 @@ public class ProviewTitleListController
     private final ProviewTitleListService proviewTitleListService;
 
     @Autowired
-    public ProviewTitleListController(final ProviewHandler proviewHandler,
-                                      final BookDefinitionService bookDefinitionService,
-                                      final ProviewAuditService proviewAuditService,
-                                      final ManagerService managerService,
-                                      final MessageSourceAccessor messageSourceAccessor,
-                                      final JobRequestService jobRequestService,
-                                      final ProviewTitleListService proviewTitleListService)
-    {
+    public ProviewTitleListController(
+        final ProviewHandler proviewHandler,
+        final BookDefinitionService bookDefinitionService,
+        final ProviewAuditService proviewAuditService,
+        final ManagerService managerService,
+        final MessageSourceAccessor messageSourceAccessor,
+        final JobRequestService jobRequestService,
+        final ProviewTitleListService proviewTitleListService) {
         this.proviewHandler = proviewHandler;
         this.bookDefinitionService = bookDefinitionService;
         this.proviewAuditService = proviewAuditService;
@@ -80,8 +79,7 @@ public class ProviewTitleListController
      * @param httpSession
      * @return
      */
-    private List<ProviewTitleInfo> fetchSelectedProviewTitleInfo(final HttpSession httpSession)
-    {
+    private List<ProviewTitleInfo> fetchSelectedProviewTitleInfo(final HttpSession httpSession) {
         final List<ProviewTitleInfo> allLatestProviewTitleInfo =
             (List<ProviewTitleInfo>) httpSession.getAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES);
         return allLatestProviewTitleInfo;
@@ -91,8 +89,9 @@ public class ProviewTitleListController
      * @param httpSession
      * @param selectedProviewTitleInfo
      */
-    private void saveSelectedProviewTitleInfo(final HttpSession httpSession, final List<ProviewTitleInfo> selectedProviewTitleInfo)
-    {
+    private void saveSelectedProviewTitleInfo(
+        final HttpSession httpSession,
+        final List<ProviewTitleInfo> selectedProviewTitleInfo) {
         httpSession.setAttribute(WebConstants.KEY_SELECTED_PROVIEW_TITLES, selectedProviewTitleInfo);
     }
 
@@ -102,8 +101,7 @@ public class ProviewTitleListController
      */
     private void saveAllLatestProviewTitleInfo(
         final HttpSession httpSession,
-        final List<ProviewTitleInfo> allLatestProviewTitleInfo)
-    {
+        final List<ProviewTitleInfo> allLatestProviewTitleInfo) {
         httpSession.setAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_TITLES, allLatestProviewTitleInfo);
     }
 
@@ -111,8 +109,7 @@ public class ProviewTitleListController
      * @param httpSession
      * @return
      */
-    private List<ProviewTitleInfo> fetchAllLatestProviewTitleInfo(final HttpSession httpSession)
-    {
+    private List<ProviewTitleInfo> fetchAllLatestProviewTitleInfo(final HttpSession httpSession) {
         final List<ProviewTitleInfo> allLatestProviewTitleInfo =
             (List<ProviewTitleInfo>) httpSession.getAttribute(WebConstants.KEY_ALL_LATEST_PROVIEW_TITLES);
         return allLatestProviewTitleInfo;
@@ -122,8 +119,7 @@ public class ProviewTitleListController
      * @param httpSession
      * @return
      */
-    private Map<String, ProviewTitleContainer> fetchAllProviewTitleInfo(final HttpSession httpSession)
-    {
+    private Map<String, ProviewTitleContainer> fetchAllProviewTitleInfo(final HttpSession httpSession) {
         final Map<String, ProviewTitleContainer> allProviewTitleInfo =
             (Map<String, ProviewTitleContainer>) httpSession.getAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES);
         return allProviewTitleInfo;
@@ -135,8 +131,7 @@ public class ProviewTitleListController
      */
     private void saveAllProviewTitleInfo(
         final HttpSession httpSession,
-        final Map<String, ProviewTitleContainer> allProviewTitleInfo)
-    {
+        final Map<String, ProviewTitleContainer> allProviewTitleInfo) {
         httpSession.setAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES, allProviewTitleInfo);
     }
 
@@ -144,11 +139,9 @@ public class ProviewTitleListController
      * @param httpSession
      * @return
      */
-    protected ProviewListFilterForm fetchSavedProviewListFilterForm(final HttpSession httpSession)
-    {
+    protected ProviewListFilterForm fetchSavedProviewListFilterForm(final HttpSession httpSession) {
         ProviewListFilterForm form = (ProviewListFilterForm) httpSession.getAttribute(ProviewListFilterForm.FORM_NAME);
-        if (form == null)
-        {
+        if (form == null) {
             form = new ProviewListFilterForm();
         }
         return form;
@@ -158,8 +151,7 @@ public class ProviewTitleListController
      * @param httpSession
      * @return
      */
-    protected ProviewTitleForm fetchSavedProviewTitleForm(final HttpSession httpSession)
-    {
+    protected ProviewTitleForm fetchSavedProviewTitleForm(final HttpSession httpSession) {
         final ProviewTitleForm form = (ProviewTitleForm) httpSession.getAttribute(ProviewTitleForm.FORM_NAME);
         return form;
     }
@@ -168,21 +160,16 @@ public class ProviewTitleListController
      * @param httpSession
      * @param form
      */
-    private void saveProviewTitleForm(final HttpSession httpSession, final ProviewTitleForm form)
-    {
+    private void saveProviewTitleForm(final HttpSession httpSession, final ProviewTitleForm form) {
         httpSession.setAttribute(ProviewTitleForm.FORM_NAME, form);
     }
 
-    private void sendEmail(final String emailAddressString, final String subject, final String body)
-    {
+    private void sendEmail(final String emailAddressString, final String subject, final String body) {
         final List<InternetAddress> emailAddresses = new ArrayList<>();
-        try
-        {
+        try {
             emailAddresses.add(new InternetAddress(emailAddressString));
             EmailNotification.send(emailAddresses, subject, body);
-        }
-        catch (final AddressException e)
-        {
+        } catch (final AddressException e) {
             //Intentionally left blank
         }
     }
@@ -195,13 +182,13 @@ public class ProviewTitleListController
      * @throws Exception
      */
     @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLES, method = RequestMethod.POST)
-    public ModelAndView postSelections(@ModelAttribute final ProviewTitleForm form, final HttpSession httpSession, final Model model)
-        throws Exception
-    {
+    public ModelAndView postSelections(
+        @ModelAttribute final ProviewTitleForm form,
+        final HttpSession httpSession,
+        final Model model) throws Exception {
         final Command command = form.getCommand();
 
-        switch (command)
-        {
+        switch (command) {
         case REFRESH:
 
             final Map<String, ProviewTitleContainer> allProviewTitleInfo = proviewHandler.getAllProviewTitleInfo();
@@ -212,8 +199,7 @@ public class ProviewTitleListController
             saveAllLatestProviewTitleInfo(httpSession, allLatestProviewTitleInfo);
             saveSelectedProviewTitleInfo(httpSession, allLatestProviewTitleInfo);
 
-            if (allLatestProviewTitleInfo != null)
-            {
+            if (allLatestProviewTitleInfo != null) {
                 model.addAttribute(WebConstants.KEY_PAGINATED_LIST, allLatestProviewTitleInfo);
                 model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, allLatestProviewTitleInfo.size());
             }
@@ -221,8 +207,7 @@ public class ProviewTitleListController
             model.addAttribute(ProviewListFilterForm.FORM_NAME, new ProviewListFilterForm());
 
             ProviewTitleForm proviewTitleForm = fetchSavedProviewTitleForm(httpSession);
-            if (proviewTitleForm == null)
-            {
+            if (proviewTitleForm == null) {
                 proviewTitleForm = new ProviewTitleForm();
                 proviewTitleForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
                 saveProviewTitleForm(httpSession, proviewTitleForm);
@@ -250,11 +235,9 @@ public class ProviewTitleListController
     public void downloadPublishingStatsExcel(
         final HttpSession httpSession,
         final HttpServletRequest request,
-        final HttpServletResponse response)
-    {
+        final HttpServletResponse response) {
         final ProviewListExcelExportService excelExportService = new ProviewListExcelExportService();
-        try
-        {
+        try {
             final Workbook wb = excelExportService.createExcelDocument(httpSession);
             final Date date = new Date();
             final SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd");
@@ -266,9 +249,7 @@ public class ProviewTitleListController
             final ServletOutputStream out = response.getOutputStream();
             wb.write(out);
             out.flush();
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error(e.getMessage());
         }
     }
@@ -281,20 +262,15 @@ public class ProviewTitleListController
      * @throws Exception
      */
     @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLES, method = RequestMethod.GET)
-    public ModelAndView allLatestProviewTitleInfo(final HttpSession httpSession, final Model model) throws Exception
-    {
+    public ModelAndView allLatestProviewTitleInfo(final HttpSession httpSession, final Model model) throws Exception {
         List<ProviewTitleInfo> selectedProviewTitleInfo = fetchSelectedProviewTitleInfo(httpSession);
 
-        if (selectedProviewTitleInfo == null)
-        {
+        if (selectedProviewTitleInfo == null) {
             List<ProviewTitleInfo> allLatestProviewTitleInfo = fetchAllLatestProviewTitleInfo(httpSession);
-            if (allLatestProviewTitleInfo == null)
-            {
+            if (allLatestProviewTitleInfo == null) {
                 Map<String, ProviewTitleContainer> allProviewTitleInfo = fetchAllProviewTitleInfo(httpSession);
-                try
-                {
-                    if (allProviewTitleInfo == null)
-                    {
+                try {
+                    if (allProviewTitleInfo == null) {
                         allProviewTitleInfo = proviewHandler.getAllProviewTitleInfo();
                         saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
                     }
@@ -305,9 +281,7 @@ public class ProviewTitleListController
                     selectedProviewTitleInfo = allLatestProviewTitleInfo;
 
                     saveSelectedProviewTitleInfo(httpSession, selectedProviewTitleInfo);
-                }
-                catch (final ProviewException e)
-                {
+                } catch (final ProviewException e) {
                     model.addAttribute(
                         WebConstants.KEY_ERR_MESSAGE,
                         "Proview Exception occured. Please contact your administrator.");
@@ -315,8 +289,7 @@ public class ProviewTitleListController
             }
         }
 
-        if (selectedProviewTitleInfo != null)
-        {
+        if (selectedProviewTitleInfo != null) {
             model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewTitleInfo);
             model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, selectedProviewTitleInfo.size());
         }
@@ -324,8 +297,7 @@ public class ProviewTitleListController
         model.addAttribute(ProviewListFilterForm.FORM_NAME, fetchSavedProviewListFilterForm(httpSession));
 
         ProviewTitleForm proviewTitleForm = fetchSavedProviewTitleForm(httpSession);
-        if (proviewTitleForm == null)
-        {
+        if (proviewTitleForm == null) {
             proviewTitleForm = new ProviewTitleForm();
             proviewTitleForm.setObjectsPerPage(WebConstants.DEFAULT_PAGE_SIZE);
             saveProviewTitleForm(httpSession, proviewTitleForm);
@@ -349,23 +321,21 @@ public class ProviewTitleListController
     public ModelAndView singleTitleAllVersions(
         @RequestParam("titleId") final String titleId,
         final HttpSession httpSession,
-        final Model model) throws Exception
-    {
+        final Model model) throws Exception {
         Assert.notNull(titleId);
 
         Map<String, ProviewTitleContainer> allProviewTitleInfo = fetchAllProviewTitleInfo(httpSession);
-        if (allProviewTitleInfo == null)
-        {
+        if (allProviewTitleInfo == null) {
             allProviewTitleInfo = proviewHandler.getAllProviewTitleInfo();
             saveAllProviewTitleInfo(httpSession, allProviewTitleInfo);
         }
 
         final BookDefinition bookDef = proviewTitleListService.getBook(new TitleId(titleId));
         final ProviewTitleContainer proviewTitleContainer = allProviewTitleInfo.get(titleId);
-        if (proviewTitleContainer != null)
-        {
+        if (proviewTitleContainer != null) {
             final List<ProviewTitleInfo> allTitleVersions = proviewTitleContainer.getProviewTitleInfos();
-            final List<ProviewTitle> proviewTitles = proviewTitleListService.getProviewTitles(allTitleVersions, bookDef);
+            final List<ProviewTitle> proviewTitles =
+                proviewTitleListService.getProviewTitles(allTitleVersions, bookDef);
             model.addAttribute(WebConstants.KEY_PAGINATED_LIST, proviewTitles);
             model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, proviewTitles.size());
         }
@@ -375,14 +345,10 @@ public class ProviewTitleListController
     }
 
     @Nullable
-    private String getBookLevelMessage(@Nullable final BookDefinition bookDef)
-    {
-        if (bookDef == null)
-        {
+    private String getBookLevelMessage(@Nullable final BookDefinition bookDef) {
+        if (bookDef == null) {
             return "Book was not found in DB";
-        }
-        else if (bookDef.getPilotBookStatus() == PilotBookStatus.IN_PROGRESS)
-        {
+        } else if (bookDef.getPilotBookStatus() == PilotBookStatus.IN_PROGRESS) {
             return "Pilot book marked as 'In Progress' for notes migration. Once the note migration csv file is in place, update the Pilot Book status, and regenerate the book before Promoting.";
         }
         return null;
@@ -403,8 +369,7 @@ public class ProviewTitleListController
         @RequestParam("versionNumber") final String versionNumber,
         @RequestParam("status") final String status,
         @RequestParam("lastUpdate") final String lastUpdate,
-        final Model model) throws Exception
-    {
+        final Model model) throws Exception {
         model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
         model.addAttribute(WebConstants.KEY_VERSION_NUMBER, versionNumber);
         model.addAttribute(WebConstants.KEY_STATUS, status);
@@ -430,8 +395,7 @@ public class ProviewTitleListController
         @RequestParam("versionNumber") final String versionNumber,
         @RequestParam("status") final String status,
         @RequestParam("lastUpdate") final String lastUpdate,
-        final Model model) throws Exception
-    {
+        final Model model) throws Exception {
         model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
         model.addAttribute(WebConstants.KEY_VERSION_NUMBER, versionNumber);
         model.addAttribute(WebConstants.KEY_STATUS, status);
@@ -456,8 +420,7 @@ public class ProviewTitleListController
         @RequestParam("versionNumber") final String versionNumber,
         @RequestParam("status") final String status,
         @RequestParam("lastUpdate") final String lastUpdate,
-        final Model model) throws Exception
-    {
+        final Model model) throws Exception {
         model.addAttribute(WebConstants.KEY_TITLE_ID, titleId);
         model.addAttribute(WebConstants.KEY_VERSION_NUMBER, versionNumber);
         model.addAttribute(WebConstants.KEY_STATUS, status);
@@ -474,32 +437,27 @@ public class ProviewTitleListController
      * @param version
      * @return
      */
-    private boolean isJobRunningForBook(final Model model, final String titleId, String version)
-    {
+    private boolean isJobRunningForBook(final Model model, final String titleId, String version) {
         boolean isJobRunning = false;
 
-        if (version.startsWith("v"))
-        {
+        if (version.startsWith("v")) {
             version = version.substring(1);
         }
         final BookDefinition book = bookDefinitionService.findBookDefinitionByTitle(titleId);
-        if (book != null)
-        {
-            if (jobRequestService.isBookInJobRequest(book.getEbookDefinitionId()))
-            {
+        if (book != null) {
+            if (jobRequestService.isBookInJobRequest(book.getEbookDefinitionId())) {
                 final Object[] args = {book.getFullyQualifiedTitleId(), "", "This book is already in the job queue"};
                 final String infoMessage = messageSourceAccessor.getMessage("mesg.job.enqueued.fail", args);
                 model.addAttribute(WebConstants.KEY_ERR_MESSAGE, infoMessage);
                 isJobRunning = true;
             }
 
-            else
-            {
+            else {
                 final JobExecution runningJobExecution = managerService.findRunningJob(book);
 
-                if (runningJobExecution != null)
-                {
-                    final Object[] args = {book.getFullyQualifiedTitleId(), version, runningJobExecution.getId().toString()};
+                if (runningJobExecution != null) {
+                    final Object[] args =
+                        {book.getFullyQualifiedTitleId(), version, runningJobExecution.getId().toString()};
                     final String infoMessage = messageSourceAccessor.getMessage("mesg.job.enqueued.in.progress", args);
                     model.addAttribute(WebConstants.KEY_ERR_MESSAGE, infoMessage);
                     isJobRunning = true;
@@ -519,8 +477,7 @@ public class ProviewTitleListController
     @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_REMOVE, method = RequestMethod.POST)
     public ModelAndView proviewTitleRemovePost(
         @ModelAttribute(ProviewTitleForm.FORM_NAME) final ProviewTitleForm form,
-        final Model model) throws Exception
-    {
+        final Model model) throws Exception {
         model.addAttribute(WebConstants.KEY_TITLE_ID, form.getTitleId());
         model.addAttribute(WebConstants.KEY_VERSION_NUMBER, form.getVersion());
         model.addAttribute(WebConstants.KEY_STATUS, form.getStatus());
@@ -529,10 +486,8 @@ public class ProviewTitleListController
         String emailBody = "";
         String emailSubject = "Proview Remove Request Status: ";
 
-        try
-        {
-            if (!isJobRunningForBook(model, form.getTitleId(), form.getVersion()))
-            {
+        try {
+            if (!isJobRunningForBook(model, form.getTitleId(), form.getVersion())) {
                 proviewHandler.removeTitle(form.getTitleId(), new Version(form.getVersion()));
                 model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Success: removed from Proview.");
                 emailBody =
@@ -541,9 +496,7 @@ public class ProviewTitleListController
                 sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject, emailBody);
                 proviewAuditService.save(form.createAudit());
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             model.addAttribute(WebConstants.KEY_ERR_MESSAGE, "Failed to remove from proview. " + e.getMessage());
             emailBody = "Title id: "
                 + form.getTitleId()
@@ -567,8 +520,7 @@ public class ProviewTitleListController
     @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_PROMOTE, method = RequestMethod.POST)
     public ModelAndView proviewTitlePromotePost(
         @ModelAttribute(ProviewTitleForm.FORM_NAME) final ProviewTitleForm form,
-        final Model model) throws Exception
-    {
+        final Model model) throws Exception {
         model.addAttribute(WebConstants.KEY_TITLE_ID, form.getTitleId());
         model.addAttribute(WebConstants.KEY_VERSION_NUMBER, form.getVersion());
         model.addAttribute(WebConstants.KEY_STATUS, form.getStatus());
@@ -577,10 +529,8 @@ public class ProviewTitleListController
         String emailBody = "";
         String emailSubject = "Proview Promote Request Status: ";
 
-        try
-        {
-            if (!isJobRunningForBook(model, form.getTitleId(), form.getVersion()))
-            {
+        try {
+            if (!isJobRunningForBook(model, form.getTitleId(), form.getVersion())) {
                 proviewHandler.promoteTitle(form.getTitleId(), form.getVersion());
                 model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Success: promoted to Final in Proview.");
 
@@ -591,9 +541,7 @@ public class ProviewTitleListController
                 sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject, emailBody);
                 proviewAuditService.save(form.createAudit());
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             model.addAttribute(
                 WebConstants.KEY_ERR_MESSAGE,
                 "Failed to promote this version in proview. " + e.getMessage());
@@ -619,8 +567,7 @@ public class ProviewTitleListController
     @RequestMapping(value = WebConstants.MVC_PROVIEW_TITLE_DELETE, method = RequestMethod.POST)
     public ModelAndView proviewTitleDeletePost(
         @ModelAttribute(ProviewTitleForm.FORM_NAME) final ProviewTitleForm form,
-        final Model model) throws Exception
-    {
+        final Model model) throws Exception {
         model.addAttribute(WebConstants.KEY_TITLE_ID, form.getTitleId());
         model.addAttribute(WebConstants.KEY_VERSION_NUMBER, form.getVersion());
         model.addAttribute(WebConstants.KEY_STATUS, form.getStatus());
@@ -629,10 +576,8 @@ public class ProviewTitleListController
         String emailBody = "";
         String emailSubject = "Proview Delete Request Status: ";
 
-        try
-        {
-            if (!isJobRunningForBook(model, form.getTitleId(), form.getVersion()))
-            {
+        try {
+            if (!isJobRunningForBook(model, form.getTitleId(), form.getVersion())) {
                 proviewHandler.deleteTitle(form.getTitleId(), new Version(form.getVersion()));
                 model.addAttribute(WebConstants.KEY_INFO_MESSAGE, "Success: deleted from Proview.");
                 emailBody =
@@ -641,9 +586,7 @@ public class ProviewTitleListController
                 sendEmail(UserUtils.getAuthenticatedUserEmail(), emailSubject, emailBody);
                 proviewAuditService.save(form.createAudit());
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             model.addAttribute(WebConstants.KEY_ERR_MESSAGE, "Failed to delete from proview. " + e.getMessage());
             emailBody = "Title id: "
                 + form.getTitleId()

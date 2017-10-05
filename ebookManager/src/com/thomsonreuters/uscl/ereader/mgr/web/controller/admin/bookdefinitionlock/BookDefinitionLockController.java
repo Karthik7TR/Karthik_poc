@@ -16,13 +16,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class BookDefinitionLockController
-{
+public class BookDefinitionLockController {
     private final BookDefinitionLockService bookLockService;
 
     @Autowired
-    public BookDefinitionLockController(final BookDefinitionLockService bookLockService)
-    {
+    public BookDefinitionLockController(final BookDefinitionLockService bookLockService) {
         this.bookLockService = bookLockService;
     }
 
@@ -34,8 +32,7 @@ public class BookDefinitionLockController
      * @throws Exception
      */
     @RequestMapping(value = WebConstants.MVC_ADMIN_BOOK_LOCK_LIST, method = RequestMethod.GET)
-    public ModelAndView viewLockList(final Model model) throws Exception
-    {
+    public ModelAndView viewLockList(final Model model) throws Exception {
         model.addAttribute(WebConstants.KEY_BOOK_DEFINITION_LOCK, bookLockService.findAllActiveLocks());
 
         return new ModelAndView(WebConstants.VIEW_ADMIN_BOOK_LOCK_LIST);
@@ -46,12 +43,10 @@ public class BookDefinitionLockController
         @RequestParam("id") final Long id,
         @ModelAttribute(BookDefinitionLockForm.FORM_NAME) final BookDefinitionLockForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         final BookDefinitionLock lock = bookLockService.findBookDefinitionLockByPrimaryKey(id);
 
-        if (lock != null)
-        {
+        if (lock != null) {
             model.addAttribute(WebConstants.KEY_BOOK_DEFINITION_LOCK, lock);
             form.initialize(lock);
         }
@@ -63,8 +58,7 @@ public class BookDefinitionLockController
     public ModelAndView deleteJurisCodePost(
         @ModelAttribute(BookDefinitionLockForm.FORM_NAME) final BookDefinitionLockForm form,
         final BindingResult bindingResult,
-        final Model model) throws Exception
-    {
+        final Model model) throws Exception {
         final BookDefinition book = new BookDefinition();
         book.setEbookDefinitionId(form.getBookDefinitionId());
 

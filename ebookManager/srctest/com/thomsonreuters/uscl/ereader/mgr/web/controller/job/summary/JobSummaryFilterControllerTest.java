@@ -26,8 +26,7 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public final class JobSummaryFilterControllerTest
-{
+public final class JobSummaryFilterControllerTest {
     private FilterController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
@@ -36,8 +35,7 @@ public final class JobSummaryFilterControllerTest
     private HandlerAdapter handlerAdapter;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         mockJobService = EasyMock.createMock(JobService.class);
@@ -48,8 +46,7 @@ public final class JobSummaryFilterControllerTest
     }
 
     @Test
-    public void testJobSummaryFilterPost() throws Exception
-    {
+    public void testJobSummaryFilterPost() throws Exception {
         // Set up the request URL
         // Filter form values
         final String titleId = "uscl/junit/test/abc";

@@ -21,18 +21,17 @@ import org.springframework.ui.Model;
 /**
  * Methods common to, and needed by both the BookLibraryController and the BookLibraryFilterController.
  */
-public abstract class BaseBookLibraryController
-{
+public abstract class BaseBookLibraryController {
     public static final String PAGE_AND_SORT_NAME = "bookLibraryPageAndSort";
 
     protected final LibraryListService libraryService;
     protected final CodeService codeService;
     protected final OutageService outageService;
 
-    protected BaseBookLibraryController(final LibraryListService libraryService,
-                                        final CodeService codeService,
-                                        final OutageService outageService)
-    {
+    protected BaseBookLibraryController(
+        final LibraryListService libraryService,
+        final CodeService codeService,
+        final OutageService outageService) {
         this.libraryService = libraryService;
         this.codeService = codeService;
         this.outageService = outageService;
@@ -41,22 +40,18 @@ public abstract class BaseBookLibraryController
     /**
      * Fetch object containing the current page number, sort column, and sort direction as saved on the session.
      */
-    protected PageAndSort<DisplayTagSortProperty> fetchSavedPageAndSort(final HttpSession httpSession)
-    {
+    protected PageAndSort<DisplayTagSortProperty> fetchSavedPageAndSort(final HttpSession httpSession) {
         PageAndSort<DisplayTagSortProperty> pageAndSort =
             (PageAndSort<DisplayTagSortProperty>) httpSession.getAttribute(PAGE_AND_SORT_NAME);
-        if (pageAndSort == null)
-        {
+        if (pageAndSort == null) {
             pageAndSort = new PageAndSort<>(1, DisplayTagSortProperty.PROVIEW_DISPLAY_NAME, true);
         }
         return pageAndSort;
     }
 
-    protected BookLibraryFilterForm fetchSavedFilterForm(final HttpSession httpSession)
-    {
+    protected BookLibraryFilterForm fetchSavedFilterForm(final HttpSession httpSession) {
         BookLibraryFilterForm form = (BookLibraryFilterForm) httpSession.getAttribute(BookLibraryFilterForm.FORM_NAME);
-        if (form == null)
-        {
+        if (form == null) {
             form = new BookLibraryFilterForm();
         }
         return form;
@@ -70,8 +65,7 @@ public abstract class BaseBookLibraryController
         final BookLibraryFilterForm filterForm,
         final PageAndSort<DisplayTagSortProperty> pageAndSort,
         final HttpSession httpSession,
-        final Model model)
-    {
+        final Model model) {
         // Save filter and paging state in the session
         httpSession.setAttribute(BookLibraryFilterForm.FORM_NAME, filterForm);
         httpSession.setAttribute(PAGE_AND_SORT_NAME, pageAndSort);
@@ -93,8 +87,7 @@ public abstract class BaseBookLibraryController
      * for sort used in the service.
      * I.e. map a PageAndSortForm.DisplayTagSortProperty to a LibraryListSort.SortProperty
      */
-    protected static LibraryListSort createLibraryListSort(final PageAndSort<DisplayTagSortProperty> pageAndSort)
-    {
+    protected static LibraryListSort createLibraryListSort(final PageAndSort<DisplayTagSortProperty> pageAndSort) {
         return new LibraryListSort(
             SortProperty.valueOf(pageAndSort.getSortProperty().toString()),
             pageAndSort.isAscendingSort(),
@@ -108,8 +101,7 @@ public abstract class BaseBookLibraryController
      */
     private PaginatedList createPaginatedList(
         final PageAndSort<DisplayTagSortProperty> pageAndSort,
-        final BookLibraryFilterForm filterForm)
-    {
+        final BookLibraryFilterForm filterForm) {
         final String action = filterForm.getAction() != null ? filterForm.getAction().toString() : null;
         final LibraryListFilter libraryListFilter = new LibraryListFilter(
             filterForm.getFrom(),

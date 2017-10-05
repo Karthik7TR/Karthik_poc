@@ -18,35 +18,29 @@ import org.springframework.ui.Model;
 /**
  * Methods common to, and needed by both the BookAuditController and the FilterFormController.
  */
-public abstract class BaseBookAuditController
-{
+public abstract class BaseBookAuditController {
     protected static final String PAGE_AND_SORT_NAME = "auditPageAndSort";
     protected final EBookAuditService auditService;
 
-    protected BaseBookAuditController(final EBookAuditService auditService)
-    {
+    protected BaseBookAuditController(final EBookAuditService auditService) {
         this.auditService = auditService;
     }
 
     /**
      * Fetch object containing the current page number, sort column, and sort direction as saved on the session.
      */
-    protected PageAndSort<DisplayTagSortProperty> fetchSavedPageAndSort(final HttpSession httpSession)
-    {
+    protected PageAndSort<DisplayTagSortProperty> fetchSavedPageAndSort(final HttpSession httpSession) {
         PageAndSort<DisplayTagSortProperty> pageAndSort =
             (PageAndSort<DisplayTagSortProperty>) httpSession.getAttribute(PAGE_AND_SORT_NAME);
-        if (pageAndSort == null)
-        {
+        if (pageAndSort == null) {
             pageAndSort = new PageAndSort<>(1, DisplayTagSortProperty.SUBMITTED_DATE, false);
         }
         return pageAndSort;
     }
 
-    protected BookAuditFilterForm fetchSavedFilterForm(final HttpSession httpSession)
-    {
+    protected BookAuditFilterForm fetchSavedFilterForm(final HttpSession httpSession) {
         BookAuditFilterForm form = (BookAuditFilterForm) httpSession.getAttribute(BookAuditFilterForm.FORM_NAME);
-        if (form == null)
-        {
+        if (form == null) {
             form = new BookAuditFilterForm();
         }
         return form;
@@ -64,8 +58,7 @@ public abstract class BaseBookAuditController
         final BookAuditFilterForm filterForm,
         final PageAndSort<DisplayTagSortProperty> pageAndSort,
         final HttpSession httpSession,
-        final Model model)
-    {
+        final Model model) {
         // Save filter and paging state in the session
         httpSession.setAttribute(BookAuditFilterForm.FORM_NAME, filterForm);
         httpSession.setAttribute(PAGE_AND_SORT_NAME, pageAndSort);
@@ -85,8 +78,7 @@ public abstract class BaseBookAuditController
      * @param ascendingSort true to sort in ascending order
      * @return a ebookAudit sort business object used by the service to fetch the audit entities.
      */
-    protected static EbookAuditSort createBookAuditSort(final PageAndSort<DisplayTagSortProperty> pageAndSort)
-    {
+    protected static EbookAuditSort createBookAuditSort(final PageAndSort<DisplayTagSortProperty> pageAndSort) {
         return new EbookAuditSort(
             SortProperty.valueOf(pageAndSort.getSortProperty().toString()),
             pageAndSort.isAscendingSort(),
@@ -102,8 +94,7 @@ public abstract class BaseBookAuditController
      */
     private PaginatedList createPaginatedList(
         final PageAndSort<DisplayTagSortProperty> pageAndSort,
-        final BookAuditFilterForm filterForm)
-    {
+        final BookAuditFilterForm filterForm) {
         final String action = filterForm.getAction() != null ? filterForm.getAction().toString() : null;
         final EbookAuditFilter bookAuditFilter = new EbookAuditFilter(
             filterForm.getFromDate(),

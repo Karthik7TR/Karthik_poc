@@ -10,8 +10,7 @@ import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListSort;
  * Service methods that are common to both the Spring Batch generator engine and
  * manager web applications.
  */
-public interface LibraryListService
-{
+public interface LibraryListService {
     /**
      * Returns all the current book definitions based on the search criterion
      *

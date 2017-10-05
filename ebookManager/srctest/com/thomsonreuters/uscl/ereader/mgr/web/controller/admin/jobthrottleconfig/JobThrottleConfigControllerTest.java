@@ -25,8 +25,7 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public final class JobThrottleConfigControllerTest
-{
+public final class JobThrottleConfigControllerTest {
     private static final String HOST_NAME = "localhost";
     private static final int PORT_NUM = 1289;
     private MockHttpServletRequest request;
@@ -38,8 +37,7 @@ public final class JobThrottleConfigControllerTest
     private JobThrottleConfigController controller;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -48,13 +46,17 @@ public final class JobThrottleConfigControllerTest
         mockGeneratorRestClient = EasyMock.createMock(GeneratorRestClient.class);
 
         // Set up the controller
-        controller = new JobThrottleConfigController(appConfigService, mockManagerService,
-            mockGeneratorRestClient, new JobThrottleConfigFormValidator(), HOST_NAME + "," + HOST_NAME, PORT_NUM);
+        controller = new JobThrottleConfigController(
+            appConfigService,
+            mockManagerService,
+            mockGeneratorRestClient,
+            new JobThrottleConfigFormValidator(),
+            HOST_NAME + "," + HOST_NAME,
+            PORT_NUM);
     }
 
     @Test
-    public void testInboundGet() throws Exception
-    {
+    public void testInboundGet() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG);
         request.setMethod(HttpMethod.GET.name());
         final JobThrottleConfig config = new JobThrottleConfig();
@@ -67,8 +69,7 @@ public final class JobThrottleConfigControllerTest
     }
 
     @Test
-    public void testSubmitForm() throws Exception
-    {
+    public void testSubmitForm() throws Exception {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG);
         request.setMethod(HttpMethod.POST.name());
 
@@ -102,8 +103,7 @@ public final class JobThrottleConfigControllerTest
         assertNotNull(mav);
         assertEquals(WebConstants.VIEW_ADMIN_JOB_THROTTLE_CONFIG, mav.getViewName());
         final Map<String, Object> model = mav.getModel();
-        final
-        List<InfoMessage> mesgs = (List<InfoMessage>) model.get(WebConstants.KEY_INFO_MESSAGES);
+        final List<InfoMessage> mesgs = (List<InfoMessage>) model.get(WebConstants.KEY_INFO_MESSAGES);
         // Expect 3 info messages 1 success, and 2 failures for inability to push to hosts
         assertEquals(3, mesgs.size());
         assertEquals(InfoMessage.Type.SUCCESS, mesgs.get(0).getType());

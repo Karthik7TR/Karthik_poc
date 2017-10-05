@@ -30,8 +30,7 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
-public final class JobExecutionControllerTest
-{
+public final class JobExecutionControllerTest {
     private static final Long JEID = 1936L;
     private static final Long JIID = 1938L;
     private static final Long ID_TO_RESTART = 1965L;
@@ -52,8 +51,7 @@ public final class JobExecutionControllerTest
     private HandlerAdapter handlerAdapter;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         mockJobService = EasyMock.createMock(JobService.class);
@@ -65,9 +63,12 @@ public final class JobExecutionControllerTest
 
         controller = new JobExecutionController();
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "jobService", mockJobService);
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "publishingStatsService", mockPublishingStatsService);
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "validator", new JobExecutionFormValidator());
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "messageSourceAccessor", mockMessageSourceAccessor);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "publishingStatsService", mockPublishingStatsService);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "validator", new JobExecutionFormValidator());
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "messageSourceAccessor", mockMessageSourceAccessor);
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "outageService", mockOutageService);
     }
 
@@ -75,8 +76,7 @@ public final class JobExecutionControllerTest
      * Test the inbound GET to the page
      */
     @Test
-    public void testJobExecutionDetailsInboundGet() throws Exception
-    {
+    public void testJobExecutionDetailsInboundGet() throws Exception {
         // Set up the request URL
         request.setRequestURI(String.format("/" + WebConstants.MVC_JOB_EXECUTION_DETAILS));
         request.setParameter(WebConstants.KEY_JOB_EXECUTION_ID, JEID.toString());
@@ -108,8 +108,7 @@ public final class JobExecutionControllerTest
     }
 
     @Test
-    public void testHandleRestartJobOperationSuccessResponse()
-    {
+    public void testHandleRestartJobOperationSuccessResponse() {
         final List<InfoMessage> messages = new ArrayList<>();
         final SimpleRestServiceResponse joResp = new SimpleRestServiceResponse(RESTARTED_ID);
 
@@ -124,8 +123,7 @@ public final class JobExecutionControllerTest
     }
 
     @Test
-    public void testHandleRestartJobOperationFailureResponse()
-    {
+    public void testHandleRestartJobOperationFailureResponse() {
         final String failureText = "Job already running";
         final List<InfoMessage> messages = new ArrayList<>();
         final SimpleRestServiceResponse joResp = new SimpleRestServiceResponse(ID_TO_RESTART, false, failureText);
@@ -141,8 +139,7 @@ public final class JobExecutionControllerTest
     }
 
     @Test
-    public void testHandleStopJobOperationSuccessResponse()
-    {
+    public void testHandleStopJobOperationSuccessResponse() {
         final List<InfoMessage> messages = new ArrayList<>();
         final SimpleRestServiceResponse joResp = new SimpleRestServiceResponse(ID_TO_STOP);
 
@@ -156,8 +153,7 @@ public final class JobExecutionControllerTest
     }
 
     @Test
-    public void testHandleStopJobOperationFailureResponse()
-    {
+    public void testHandleStopJobOperationFailureResponse() {
         final String failureText = "Job already stopped";
         final List<InfoMessage> messages = new ArrayList<>();
         final SimpleRestServiceResponse joResp = new SimpleRestServiceResponse(ID_TO_STOP, false, failureText);
@@ -173,8 +169,7 @@ public final class JobExecutionControllerTest
 
     private void verifyOperationResponseHandlerMessages(
         final List<InfoMessage> messages,
-        final InfoMessage.Type expectedMessageType)
-    {
+        final InfoMessage.Type expectedMessageType) {
         Assert.assertEquals(1, messages.size());
         final InfoMessage message = messages.get(0);
         Assert.assertEquals(RESOURCE_BUNDLE_MESSAGE, message.getText());

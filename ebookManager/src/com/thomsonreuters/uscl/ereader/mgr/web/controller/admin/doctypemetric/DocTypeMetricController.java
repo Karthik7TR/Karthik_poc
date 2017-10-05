@@ -22,22 +22,20 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class DocTypeMetricController
-{
+public class DocTypeMetricController {
     private final CodeService codeService;
     private final Validator validator;
 
     @Autowired
-    public DocTypeMetricController(final CodeService codeService,
-                                   @Qualifier("docTypeMetricFormValidator") final Validator validator)
-    {
+    public DocTypeMetricController(
+        final CodeService codeService,
+        @Qualifier("docTypeMetricFormValidator") final Validator validator) {
         this.codeService = codeService;
         this.validator = validator;
     }
 
     @InitBinder(DocTypeMetricForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.setValidator(validator);
     }
@@ -50,8 +48,7 @@ public class DocTypeMetricController
      * @throws Exception
      */
     @RequestMapping(value = WebConstants.MVC_ADMIN_DOCTYPE_METRIC_VIEW, method = RequestMethod.GET)
-    public ModelAndView viewKeywordsCode(final Model model) throws Exception
-    {
+    public ModelAndView viewKeywordsCode(final Model model) throws Exception {
         model.addAttribute(WebConstants.KEY_DOC_TYPE_CODE, codeService.getAllDocumentTypeCodes());
 
         return new ModelAndView(WebConstants.VIEW_ADMIN_DOCTYPE_METRIC_VIEW);
@@ -62,12 +59,10 @@ public class DocTypeMetricController
         @RequestParam("id") final Long id,
         @ModelAttribute(DocTypeMetricForm.FORM_NAME) final DocTypeMetricForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
+        final Model model) {
         final DocumentTypeCode code = codeService.getDocumentTypeCodeById(id);
 
-        if (code != null)
-        {
+        if (code != null) {
             model.addAttribute(WebConstants.KEY_DOC_TYPE_CODE, code);
             form.initialize(code);
         }
@@ -79,10 +74,8 @@ public class DocTypeMetricController
     public ModelAndView editDocTypeMetricPost(
         @ModelAttribute(DocTypeMetricForm.FORM_NAME) @Valid final DocTypeMetricForm form,
         final BindingResult bindingResult,
-        final Model model)
-    {
-        if (!bindingResult.hasErrors())
-        {
+        final Model model) {
+        if (!bindingResult.hasErrors()) {
             final DocumentTypeCode code = codeService.getDocumentTypeCodeById(form.getId());
 
             codeService.saveDocumentTypeMetric(form.makeCode(code));

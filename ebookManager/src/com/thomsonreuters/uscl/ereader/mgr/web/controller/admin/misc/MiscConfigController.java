@@ -32,8 +32,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class MiscConfigController
-{
+public class MiscConfigController {
     private static final Logger log = LogManager.getLogger(MiscConfigController.class);
 
     /** Hosts to push new configuration to, assume a listening REST service to receive the new configuration. */
@@ -59,28 +58,27 @@ public class MiscConfigController
     private Validator validator;
 
     @Autowired
-    public MiscConfigController(@Value("${generator.hosts}") final String commaSeparatedGeneratorHostNames,
-                                @Value("${gatherer.port}") final int gathererPort,
-                                @Value("${generator.port}") final int generatorPort,
-                                @Value("${manager.hosts}") final String commaSeparatedManagerHostNames,
-                                @Value("${manager.port}") final int managerPort) throws UnknownHostException
-    {
+    public MiscConfigController(
+        @Value("${generator.hosts}") final String commaSeparatedGeneratorHostNames,
+        @Value("${gatherer.port}") final int gathererPort,
+        @Value("${generator.port}") final int generatorPort,
+        @Value("${manager.hosts}") final String commaSeparatedManagerHostNames,
+        @Value("${manager.port}") final int managerPort)
+        throws UnknownHostException {
         generatorSocketAddrs = createSocketAddressList(commaSeparatedGeneratorHostNames, generatorPort);
         gathererSocketAddrs = createSocketAddressList(commaSeparatedGeneratorHostNames, gathererPort);
         managerSocketAddrs = createSocketAddressList(commaSeparatedManagerHostNames, managerPort);
     }
 
     @InitBinder(MiscConfigForm.FORM_NAME)
-    protected void initDataBinder(final WebDataBinder binder)
-    {
+    protected void initDataBinder(final WebDataBinder binder) {
         binder.setValidator(validator);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_MISC, method = RequestMethod.GET)
     public ModelAndView inboundGet(
         @ModelAttribute(MiscConfigForm.FORM_NAME) final MiscConfigForm form,
-        final Model model)
-    {
+        final Model model) {
         final MiscConfig miscConfig = miscConfigSyncService.getMiscConfig();
         form.initialize(miscConfig);
         return new ModelAndView(WebConstants.VIEW_ADMIN_MISC);
@@ -90,20 +88,16 @@ public class MiscConfigController
     public ModelAndView submitMiscConfigForm(
         @ModelAttribute(MiscConfigForm.FORM_NAME) @Valid final MiscConfigForm form,
         final BindingResult errors,
-        final Model model)
-    {
+        final Model model) {
         log.debug(form);
         final List<InfoMessage> infoMessages = new ArrayList<>();
         final boolean anyFormValidationErrors = errors.hasErrors();
 
-        if (!anyFormValidationErrors)
-        {
+        if (!anyFormValidationErrors) {
             // Check if the Proview host has changed.  If it has, then reject the change if there are any started or queued jobs.
             final MiscConfig originalMiscConfig = miscConfigSyncService.getMiscConfig();
-            if (!originalMiscConfig.getProviewHost().equals(form.getProviewHost()))
-            { // If the Proview hostname has changed
-                if (managerService.isAnyJobsStartedOrQueued())
-                {
+            if (!originalMiscConfig.getProviewHost().equals(form.getProviewHost())) { // If the Proview hostname has changed
+                if (managerService.isAnyJobsStartedOrQueued()) {
                     // Restore the original host name value
                     form.setProviewHost(originalMiscConfig.getProviewHost());
                     infoMessages.add(
@@ -117,13 +111,10 @@ public class MiscConfigController
 
             // Persist the changed configuration
             boolean anySaveErrors = false;
-            try
-            {
+            try {
                 appConfigService.saveMiscConfig(newMiscConfig); // Persist the changed configuration
                 infoMessages.add(new InfoMessage(InfoMessage.Type.SUCCESS, "Successfully saved misc configuration."));
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 anySaveErrors = true;
                 final String errorMessage = String.format("Failed to save new misc configuration - %s", e.getMessage());
                 log.error(errorMessage, e);
@@ -132,11 +123,9 @@ public class MiscConfigController
 
             // If no data persistence errors, then
             // Push/synchronize the new configuration out to all listening ebookGenerator hosts who care about the change.
-            if (!anySaveErrors)
-            {
+            if (!anySaveErrors) {
                 // Push the config to all generator, gatherer applications (which are assumed to be on the same host)
-                for (int i = 0; i < generatorSocketAddrs.size(); i++)
-                {
+                for (int i = 0; i < generatorSocketAddrs.size(); i++) {
                     final InetSocketAddress generatorSocketAddr = generatorSocketAddrs.get(i);
                     final InetSocketAddress gathererSocketAddr = gathererSocketAddrs.get(i);
 
@@ -145,8 +134,7 @@ public class MiscConfigController
                 }
 
                 // Push the config out to the manager applications
-                for (final InetSocketAddress managerSocketAddr : managerSocketAddrs)
-                {
+                for (final InetSocketAddress managerSocketAddr : managerSocketAddrs) {
                     pushMiscConfiguration(newMiscConfig, managerSocketAddr, managerContextName, infoMessages);
                 }
             }
@@ -159,15 +147,12 @@ public class MiscConfigController
         final MiscConfig miscConfig,
         final InetSocketAddress socketAddr,
         final String contextName,
-        final List<InfoMessage> infoMessages)
-    {
+        final List<InfoMessage> infoMessages) {
         final String errorMessageTemplate = "Failed to push new misc configuration to %s on host %s - %s";
-        try
-        {
+        try {
             final SimpleRestServiceResponse opResponse =
                 managerService.pushMiscConfiguration(miscConfig, contextName, socketAddr);
-            if (opResponse.isSuccess())
-            {
+            if (opResponse.isSuccess()) {
                 infoMessages.add(
                     new InfoMessage(
                         InfoMessage.Type.SUCCESS,
@@ -175,17 +160,13 @@ public class MiscConfigController
                             "Successfully pushed misc configuration to %s on host %s",
                             contextName,
                             socketAddr)));
-            }
-            else
-            {
+            } else {
                 final String errorMessage =
                     String.format(errorMessageTemplate, contextName, socketAddr, opResponse.getMessage());
                 log.error("Response failure: " + errorMessage);
                 infoMessages.add(new InfoMessage(InfoMessage.Type.FAIL, errorMessage));
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             final String errorMessage = String.format(errorMessageTemplate, contextName, socketAddr, e.getMessage());
             log.error(errorMessage, e);
             infoMessages.add(new InfoMessage(InfoMessage.Type.FAIL, errorMessage));
@@ -201,16 +182,13 @@ public class MiscConfigController
      * @throws UnknownHostException if a host name cannot resolve
      */
     public static List<InetSocketAddress> createSocketAddressList(final String commaSeparatedHostNames, final int port)
-        throws UnknownHostException
-    {
+        throws UnknownHostException {
         final List<InetSocketAddress> socketAddrs = new ArrayList<>();
         final StringTokenizer hostTokenizer = new StringTokenizer(commaSeparatedHostNames, ", ");
-        while (hostTokenizer.hasMoreTokens())
-        {
+        while (hostTokenizer.hasMoreTokens()) {
             final String hostName = hostTokenizer.nextToken();
             final InetSocketAddress socketAddr = new InetSocketAddress(hostName, port);
-            if (socketAddr.isUnresolved())
-            {
+            if (socketAddr.isUnresolved()) {
                 final String errorMessage = String.format(
                     "Unresolved host socket address <%s>.  Check the environment specific property file and ensure that the CSV generator host names are complete and correct.",
                     socketAddr);
