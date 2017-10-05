@@ -22,8 +22,7 @@ import com.westgroup.novus.productapi.Find;
 import com.westgroup.novus.productapi.Novus;
 import com.westgroup.novus.productapi.NovusException;
 
-public class NovusImageFinderImpl implements NovusImageFinder
-{
+public class NovusImageFinderImpl implements NovusImageFinder {
     private static final Logger Log = LogManager.getLogger(NovusImageFinderImpl.class);
 
     private NovusFactory novusFactory;
@@ -38,17 +37,13 @@ public class NovusImageFinderImpl implements NovusImageFinder
     private int retryCount;
 
     @PostConstruct
-    public void init() throws GatherException
-    {
-        try
-        {
+    public void init() throws GatherException {
+        try {
             novus = novusFactory.createNovus(isFinalStage);
             find = novus.getFind();
             find.setResolveIncludes(true);
             retryCount = Integer.valueOf(novusUtility.getImgRetryCount());
-        }
-        catch (final NovusException e)
-        {
+        } catch (final NovusException e) {
             throw new GatherException(
                 "Novus error occurred while creating Novus object " + e,
                 GatherResponse.CODE_NOVUS_ERROR);
@@ -57,25 +52,19 @@ public class NovusImageFinderImpl implements NovusImageFinder
 
     @Override
     @Nullable
-    public NovusImage getImage(@NotNull final String imageId)
-    {
-        for (int i = 0; i < retryCount; i++)
-        {
-            try
-            {
+    public NovusImage getImage(@NotNull final String imageId) {
+        for (int i = 0; i < retryCount; i++) {
+            try {
                 final BLOB blob = find.getBLOB(null, imageId);
                 final String mimeType = blob.getMimeType();
                 final String metaData = blob.getMetaData();
-                if (StringUtils.isBlank(mimeType) || StringUtils.isBlank(metaData))
-                {
+                if (StringUtils.isBlank(mimeType) || StringUtils.isBlank(metaData)) {
                     throw new Exception("MimeType/Metadata is null for image Guid " + imageId);
                 }
                 final ImgMetadataInfo imgMetadataInfo = parser.parse(metaData);
                 final MediaType mediaType = MediaType.valueOf(mimeType);
                 return new NovusImage(mediaType, imgMetadataInfo, blob.getContents());
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 Log.error(
                     "Exception ocuured while retreiving image for imageGuid "
                         + imageId
@@ -84,12 +73,9 @@ public class NovusImageFinderImpl implements NovusImageFinder
                     e);
                 // Intentionally pause between invocations of the
                 // Image Vertical REST service as not to pound on it
-                try
-                {
+                try {
                     Thread.sleep(sleepIntervalBetweenImages);
-                }
-                catch (final InterruptedException e1)
-                {
+                } catch (final InterruptedException e1) {
                     Log.error("Interrupted Exception: " + e1.getMessage());
                     return null;
                 }
@@ -99,38 +85,32 @@ public class NovusImageFinderImpl implements NovusImageFinder
     }
 
     @Override
-    public void close() throws Exception
-    {
+    public void close() throws Exception {
         novus.shutdownMQ();
     }
 
     @Required
-    public void setNovusFactory(final NovusFactory factory)
-    {
+    public void setNovusFactory(final NovusFactory factory) {
         novusFactory = factory;
     }
 
     @Required
-    public void setNovusUtility(final NovusUtility novusUtil)
-    {
+    public void setNovusUtility(final NovusUtility novusUtil) {
         novusUtility = novusUtil;
     }
 
     @Required
-    public void setFinalStage(final boolean isFinalStage)
-    {
+    public void setFinalStage(final boolean isFinalStage) {
         this.isFinalStage = isFinalStage;
     }
 
     @Required
-    public void setParser(final NovusImageMetadataParser parser)
-    {
+    public void setParser(final NovusImageMetadataParser parser) {
         this.parser = parser;
     }
 
     @Required
-    public void setSleepIntervalBetweenImages(final long sleepIntervalBetweenImages)
-    {
+    public void setSleepIntervalBetweenImages(final long sleepIntervalBetweenImages) {
         this.sleepIntervalBetweenImages = sleepIntervalBetweenImages;
     }
 }

@@ -21,16 +21,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
-public final class XppImageServiceIntegrationTest
-{
-    private static final String UNPACKED_IMAGES_DIR1 = "com/thomsonreuters/uscl/ereader/gather/img/service/images/bundle1";
-    private static final String UNPACKED_IMAGES_DIR2 = "com/thomsonreuters/uscl/ereader/gather/img/service/images/bundle2";
+public final class XppImageServiceIntegrationTest {
+    private static final String UNPACKED_IMAGES_DIR1 =
+        "com/thomsonreuters/uscl/ereader/gather/img/service/images/bundle1";
+    private static final String UNPACKED_IMAGES_DIR2 =
+        "com/thomsonreuters/uscl/ereader/gather/img/service/images/bundle2";
     private static final String DOC_TO_IMAGE_FILE =
         "com/thomsonreuters/uscl/ereader/gather/img/service/doc-to-image-manifest.txt";
-    private static final String TIF_IMAGE_ID =  "I2943f88028b911e69ed7fcedf0a72426";
+    private static final String TIF_IMAGE_ID = "I2943f88028b911e69ed7fcedf0a72426";
     private static final String TIFF_IMAGE_ID = "I3749e7f028b911e69ed7fcedf0a72426";
     private static final String TIFF_IMAGE_ID_2 = "tiffImage";
-    private static final String PNG_IMAGE_ID =  "I3831d6f128b911e69ed7fcedf0a72426";
+    private static final String PNG_IMAGE_ID = "I3831d6f128b911e69ed7fcedf0a72426";
     private static final String NO_EXTENSION_TIFF = "noExtensionTiff";
     private static final String NO_EXTENSION_PNG = "noExtensionPng";
 
@@ -41,8 +42,7 @@ public final class XppImageServiceIntegrationTest
     public TemporaryFolder tempFolder = new TemporaryFolder();
 
     @Test
-    public void shouldCopyImagesAndReturnMetadata() throws GatherException, IOException
-    {
+    public void shouldCopyImagesAndReturnMetadata() throws GatherException, IOException {
         final GatherResponse response = service.getImages(getImageRequestParameters());
 
         final File destinationImageTifFile = new File(tempFolder.getRoot(), TIF_IMAGE_ID + ".png");
@@ -65,14 +65,15 @@ public final class XppImageServiceIntegrationTest
         assertEquals("image/png", response.getImageMetadataList().get(0).getMimeType());
     }
 
-    private ImageRequestParameters getImageRequestParameters() throws IOException
-    {
+    private ImageRequestParameters getImageRequestParameters() throws IOException {
         final ImageRequestParameters parameters = new ImageRequestParameters();
 
-        parameters.setXppSourceImageDirectory(Arrays.asList(
-            new PathMatchingResourcePatternResolver().getResource(UNPACKED_IMAGES_DIR1).getFile().getAbsolutePath(),
-            new PathMatchingResourcePatternResolver().getResource(UNPACKED_IMAGES_DIR2).getFile().getAbsolutePath()
-            ));
+        parameters.setXppSourceImageDirectory(
+            Arrays.asList(
+                new PathMatchingResourcePatternResolver().getResource(UNPACKED_IMAGES_DIR1).getFile().getAbsolutePath(),
+                new PathMatchingResourcePatternResolver().getResource(UNPACKED_IMAGES_DIR2)
+                    .getFile()
+                    .getAbsolutePath()));
         parameters.setDynamicImageDirectory(tempFolder.getRoot());
 
         parameters.setDocToImageManifestFile(

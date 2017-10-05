@@ -22,7 +22,6 @@ import org.junit.runners.Suite.SuiteClasses;
     NovusImageProcessorImplTest.class,
     ImgControllerTest.class,
     TiffImageConverterTest.class})
-public class ImagesTestSuite
-{
+public class ImagesTestSuite {
     //Intentionally left blank
 }

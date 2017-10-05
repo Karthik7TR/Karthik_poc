@@ -27,8 +27,7 @@ import com.westgroup.novus.productapi.NovusException;
  * @author Ray Cracauer
  * @modified 3/9/2012 - Retry looping fix was added to prevent infinite loops.
  */
-public class DocServiceImpl implements DocService
-{
+public class DocServiceImpl implements DocService {
     private static final int META_COUNTER = 1;
 
     private static final int META_RETRY_COUNTER = 0;
@@ -53,8 +52,7 @@ public class DocServiceImpl implements DocService
         final File contentDestinationDirectory,
         final File metadataDestinationDirectory,
         final boolean isFinalStage,
-        final boolean useReloadContent) throws GatherException
-    {
+        final boolean useReloadContent) throws GatherException {
         Assert.isTrue(
             contentDestinationDirectory.exists(),
             "The content destination directory for the documents does not exist: " + contentDestinationDirectory);
@@ -66,12 +64,9 @@ public class DocServiceImpl implements DocService
         final GatherResponse gatherResponse = new GatherResponse();
 
         Novus novus = null;
-        try
-        {
+        try {
             novus = novusFactory.createNovus(isFinalStage);
-        }
-        catch (final NovusException e)
-        {
+        } catch (final NovusException e) {
             final GatherException ge = new GatherException(
                 "Novus error occurred while creating Novus object " + e,
                 GatherResponse.CODE_NOVUS_ERROR);
@@ -96,47 +91,35 @@ public class DocServiceImpl implements DocService
         final String charset = "UTF-8"; // explicitly set the character set
 
         try (FileOutputStream stream = new FileOutputStream(
-                StringUtils.substringBeforeLast(
-                    contentDestinationDirectory.getAbsolutePath(),
-                    System.getProperty("file.separator")) + "_doc_missing_guids.txt");
-            Writer writer = new OutputStreamWriter(stream, charset))
-        {
+            StringUtils.substringBeforeLast(
+                contentDestinationDirectory.getAbsolutePath(),
+                System.getProperty("file.separator")) + "_doc_missing_guids.txt");
+            Writer writer = new OutputStreamWriter(stream, charset)) {
             final Find finder = novus.getFind();
             finder.setResolveIncludes(true);
             finder.setUseReloadContent(useReloadContent);
 
             int tocSequence = 0;
-            for (final String guid : docGuids)
-            {
+            for (final String guid : docGuids) {
                 tocSequence++;
                 docGuid = guid;
                 Document document = null;
 
-                while (novusRetryCounter < docRetryCount)
-                {
-                    try
-                    {
-                        if (collectionName == null)
-                        {
+                while (novusRetryCounter < docRetryCount) {
+                    try {
+                        if (collectionName == null) {
                             document = finder.getDocument(null, guid);
-                        }
-                        else
-                        {
+                        } else {
                             document = finder.getDocument(collectionName, null, guid);
                         }
                         break;
-                    }
-                    catch (final Exception exception)
-                    {
-                        try
-                        {
+                    } catch (final Exception exception) {
+                        try {
                             novusRetryCounter =
                                 novusUtility.handleException(exception, novusRetryCounter, docRetryCount);
 
-                            if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y"))
-                            {
-                                if (novusRetryCounter == 3)
-                                { // just write it once after 3 retries
+                            if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y")) {
+                                if (novusRetryCounter == 3) { // just write it once after 3 retries
                                     Log.debug(
                                         "Text is not found for the guid "
                                             + document.getGuid()
@@ -147,9 +130,7 @@ public class DocServiceImpl implements DocService
                                     missingGuidsCount++;
                                 }
                             }
-                        }
-                        catch (final Exception e)
-                        {
+                        } catch (final Exception e) {
                             final GatherException ge = new GatherException(
                                 "Exception happened in handleException " + docGuid,
                                 e,
@@ -173,34 +154,26 @@ public class DocServiceImpl implements DocService
 
                 docFoundCounter++;
             }
-        }
-        catch (final NovusException e)
-        {
+        } catch (final NovusException e) {
             final GatherException ge = new GatherException(
                 "Novus error occurred fetching document " + docGuid,
                 e,
                 GatherResponse.CODE_NOVUS_ERROR);
             publishStatus = "DOC Step Failed Novus error occurred fetching document";
             throw ge;
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final GatherException ge =
                 new GatherException("File I/O error writing document " + docGuid, e, GatherResponse.CODE_FILE_ERROR);
             publishStatus = "DOC Step Failed File I/O error writing document";
 
             throw ge;
-        }
-        catch (final NullPointerException e)
-        {
+        } catch (final NullPointerException e) {
             final GatherException ge =
                 new GatherException("Null document fetching guid " + docGuid, e, GatherResponse.CODE_FILE_ERROR);
             publishStatus = "DOC Step Failed Null document fetching guid";
 
             throw ge;
-        }
-        finally
-        {
+        } finally {
             gatherResponse.setNodeCount(docGuids.size()); // Expected doc count
             gatherResponse.setDocCount(docFoundCounter); // retrieved doc count
             gatherResponse.setRetryCount(novusRetryCounter); // retry doc count
@@ -210,8 +183,7 @@ public class DocServiceImpl implements DocService
 
             novus.shutdownMQ();
 
-            if (missingGuidsCount > 0)
-            {
+            if (missingGuidsCount > 0) {
                 final GatherException ge = new GatherException(
                     "Null documents are found for the current ebook ",
                     GatherResponse.CODE_FILE_ERROR);
@@ -233,8 +205,7 @@ public class DocServiceImpl implements DocService
         final File destinationDirectory,
         final int retryCount,
         final Writer missingsDocs,
-        int missingGuidsCount) throws NovusException, IOException
-    {
+        int missingGuidsCount) throws NovusException, IOException {
         final String basename = document.getGuid() + EBConstants.XML_FILE_EXTENSION;
         final File destinationFile = new File(destinationDirectory, basename);
         String docText = null;
@@ -242,21 +213,14 @@ public class DocServiceImpl implements DocService
         // This is the counter for checking how many Novus retries we are making
         // for doc retrieval
         Integer novusDocRetryCounter = 0;
-        while (novusDocRetryCounter < retryCount)
-        {
-            try
-            {
+        while (novusDocRetryCounter < retryCount) {
+            try {
                 docText = document.getText();
-                if ((document.getErrorCode() == null) || (document.getErrorCode().endsWith("00")))
-                {
+                if ((document.getErrorCode() == null) || (document.getErrorCode().endsWith("00"))) {
                     break;
-                }
-                else
-                {
-                    if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y"))
-                    {
-                        if (novusDocRetryCounter == 3)
-                        { // just write it once after 3 retries
+                } else {
+                    if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y")) {
+                        if (novusDocRetryCounter == 3) { // just write it once after 3 retries
                             Log.debug(
                                 "Text is not found for the guid "
                                     + document.getGuid()
@@ -277,18 +241,13 @@ public class DocServiceImpl implements DocService
                             + novusDocRetryCounter);
                     novusDocRetryCounter++;
                 }
-            }
-            catch (final Exception exception)
-            {
-                try
-                {
+            } catch (final Exception exception) {
+                try {
                     Log.debug("Before calling handleException in createContentFile()");
                     novusDocRetryCounter = novusUtility.handleException(exception, novusDocRetryCounter, retryCount);
 
-                    if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y"))
-                    {
-                        if (novusDocRetryCounter == 3)
-                        { // just write it once, after 3 retries
+                    if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y")) {
+                        if (novusDocRetryCounter == 3) { // just write it once, after 3 retries
                             Log.debug(
                                 "Text is not found for the guid "
                                     + document.getGuid()
@@ -299,16 +258,13 @@ public class DocServiceImpl implements DocService
                             missingGuidsCount++;
                         }
                     }
-                }
-                catch (final Exception e)
-                {
+                } catch (final Exception e) {
                     Log.error("Exception in handleException() call from createContentFile() " + e.getMessage());
                     novusDocRetryCounter++;
                 }
             }
         }
-        if (docText != null)
-        {
+        if (docText != null) {
             createFile(docText.toString(), destinationFile);
         }
 
@@ -327,8 +283,7 @@ public class DocServiceImpl implements DocService
         final File destinationDirectory,
         final int tocSeqNum,
         final int retryCount,
-        int missingMetaDataCount) throws NovusException, IOException
-    {
+        int missingMetaDataCount) throws NovusException, IOException {
         final String basename =
             tocSeqNum + "-" + document.getCollection() + "-" + document.getGuid() + EBConstants.XML_FILE_EXTENSION;
         final File destinationFile = new File(destinationDirectory, basename);
@@ -338,18 +293,13 @@ public class DocServiceImpl implements DocService
         // for meta data retrieval
         Integer novusMetaRetryCounter = 0;
         Integer novusMetaCounter = 0;
-        while (novusMetaRetryCounter < retryCount)
-        {
-            try
-            {
+        while (novusMetaRetryCounter < retryCount) {
+            try {
                 docMetaData = document.getMetaData();
                 novusMetaCounter++;
-                if ((document.getErrorCode() == null) || (document.getErrorCode().endsWith("00")))
-                {
+                if ((document.getErrorCode() == null) || (document.getErrorCode().endsWith("00"))) {
                     break;
-                }
-                else
-                {
+                } else {
                     Log.error(
                         "Exception happened while retreving metadata for the guid "
                             + document.getGuid()
@@ -359,10 +309,8 @@ public class DocServiceImpl implements DocService
                             + novusMetaRetryCounter);
                     novusMetaRetryCounter++;
 
-                    if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y"))
-                    {
-                        if (novusMetaRetryCounter == 0)
-                        { // just write it once
+                    if (novusUtility.getShowMissDocsList().equalsIgnoreCase("Y")) {
+                        if (novusMetaRetryCounter == 0) { // just write it once
                             Log.debug(
                                 "Metadata is not found for the guid "
                                     + document.getGuid()
@@ -372,16 +320,11 @@ public class DocServiceImpl implements DocService
                         }
                     }
                 }
-            }
-            catch (final Exception exception)
-            {
-                try
-                {
+            } catch (final Exception exception) {
+                try {
                     Log.debug("Before calling handleException in createMetadataFile()");
                     novusMetaRetryCounter = novusUtility.handleException(exception, novusMetaRetryCounter, retryCount);
-                }
-                catch (final Exception e)
-                {
+                } catch (final Exception e) {
                     Log.error("Exception in handleException createMetadataFile()" + e.getMessage());
                     novusMetaRetryCounter++;
                 }
@@ -390,8 +333,7 @@ public class DocServiceImpl implements DocService
         final int[] counters = {0, 0};
         counters[META_RETRY_COUNTER] = novusMetaRetryCounter;
         counters[META_COUNTER] = novusMetaCounter;
-        if (docMetaData != null)
-        {
+        if (docMetaData != null) {
             createFile(docMetaData.toString(), destinationFile);
         }
         return counters;
@@ -400,26 +342,22 @@ public class DocServiceImpl implements DocService
     /**
      * Create a file containing the specified content.
      */
-    private static void createFile(final String content, final File destinationFile) throws IOException
-    {
+    private static void createFile(final String content, final File destinationFile) throws IOException {
         final String charset = "UTF-8"; // explicitly set the character set
         try (FileOutputStream stream = new FileOutputStream(destinationFile);
-             Writer writer = new OutputStreamWriter(stream, charset))
-        {
+            Writer writer = new OutputStreamWriter(stream, charset)) {
             writer.write(content);
             writer.flush();
         }
     }
 
     @Required
-    public void setNovusFactory(final NovusFactory factory)
-    {
+    public void setNovusFactory(final NovusFactory factory) {
         novusFactory = factory;
     }
 
     @Required
-    public void setNovusUtility(final NovusUtility novusUtil)
-    {
+    public void setNovusUtility(final NovusUtility novusUtil) {
         novusUtility = novusUtil;
     }
 }

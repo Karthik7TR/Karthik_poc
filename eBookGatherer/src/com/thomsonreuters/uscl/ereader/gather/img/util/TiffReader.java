@@ -8,8 +8,7 @@ import com.thomsonreuters.uscl.ereader.gather.util.images.ImageConverterExceptio
 /**
  * Reads TIFF images
  */
-public interface TiffReader
-{
+public interface TiffReader {
     /**
      * @param image image file
      * @return image object

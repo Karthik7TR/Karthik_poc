@@ -20,8 +20,7 @@ import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
-public final class NortControllerTest
-{
+public final class NortControllerTest {
     //private static Logger log = LogManager.getLogger(NortControllerTest.class);
     private NortService mockNortService;
     private NortController controller;
@@ -33,8 +32,7 @@ public final class NortControllerTest
     private static final boolean USE_RELOAD_CONTENT = true;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         domain = "a";
         mockNortService = EasyMock.createMock(NortService.class);
         controller = new NortController();
@@ -42,8 +40,7 @@ public final class NortControllerTest
     }
 
     @Test
-    public void testFetchNortumentsSuccessfully() throws Exception
-    {
+    public void testFetchNortumentsSuccessfully() throws Exception {
         final File tocFile = new File(NORTDIR_DIR, "file");
         final Date cutoffDate = new Date();
         GatherResponse gatherResponse = new GatherResponse();
@@ -92,15 +89,13 @@ public final class NortControllerTest
     }
 
     @Test
-    public void testFetchNortumentsWithException()
-    {
+    public void testFetchNortumentsWithException() {
         final File tocFile = new File(NORTDIR_DIR, "file");
 
         final int errorCode = 911;
         final String errorMesg = "bogus error";
         final GatherException expectedException = new GatherException(errorMesg, errorCode);
-        try
-        {
+        try {
             mockNortService.findTableOfContents(
                 domain,
                 FILTER_NAME,
@@ -114,9 +109,7 @@ public final class NortControllerTest
                 0);
             EasyMock.expectLastCall().andThrow(expectedException);
             EasyMock.replay(mockNortService);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             Assert.fail(e.getMessage());
         }
 

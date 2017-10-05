@@ -1,7 +1,6 @@
 package com.thomsonreuters.uscl.ereader.gather.util;
 
-public class ErrorCodeConstants
-{
+public class ErrorCodeConstants {
     /*** TOC errors    ***/
     public static final String ERROR_1001 = "Failed to retrieve toc child element ";
     public static final String ERROR_1002 = "Failed to get TOC useing passed guid ";

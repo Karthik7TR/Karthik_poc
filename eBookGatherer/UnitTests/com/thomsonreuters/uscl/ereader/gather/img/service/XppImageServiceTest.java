@@ -38,8 +38,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
  * Unit test for XppImageService.
  */
 @RunWith(MockitoJUnitRunner.class)
-public final class XppImageServiceTest
-{
+public final class XppImageServiceTest {
     private static final String UNPACKED_IMAGES_DIR1 =
         "com/thomsonreuters/uscl/ereader/gather/img/service/images/bundle1";
     private static final String UNPACKED_IMAGES_DIR2 =
@@ -62,8 +61,7 @@ public final class XppImageServiceTest
     public TemporaryFolder tempFolder = new TemporaryFolder();
 
     @Before
-    public void init()
-    {
+    public void init() {
         when(docToImageManifestUtil.getDocsWithImages((File) any())).thenReturn(getDocsWithImages());
         when(imageConverter.convertByteImg((byte[]) any(), (String) any(), (String) any()))
             .thenReturn(mock(BufferedImage.class));
@@ -72,8 +70,7 @@ public final class XppImageServiceTest
     }
 
     @Test
-    public void shouldCopyImagesAndReturnMetadata() throws GatherException, IOException
-    {
+    public void shouldCopyImagesAndReturnMetadata() throws GatherException, IOException {
         final GatherResponse response = service.getImages(getImageRequestParameters());
 
         final ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
@@ -89,13 +86,11 @@ public final class XppImageServiceTest
         assertEquals(TIF_IMAGE_ID, response.getImageMetadataList().get(0).getImgGuid());
     }
 
-    private Map<String, List<String>> getDocsWithImages()
-    {
+    private Map<String, List<String>> getDocsWithImages() {
         return Collections.singletonMap(DOC_ID, Arrays.asList(TIF_IMAGE_ID, TIFF_IMAGE_ID, PNG_IMAGE_ID));
     }
 
-    private ImageRequestParameters getImageRequestParameters() throws IOException
-    {
+    private ImageRequestParameters getImageRequestParameters() throws IOException {
         final ImageRequestParameters parameters = new ImageRequestParameters();
 
         parameters.setXppSourceImageDirectory(

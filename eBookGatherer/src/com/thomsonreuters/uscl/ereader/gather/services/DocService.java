@@ -6,8 +6,7 @@ import java.util.Collection;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 
-public interface DocService
-{
+public interface DocService {
     /**
      * Fetch documents from novus and create separate content and metadata files in separate directories.
      * @param docGuid the primary key of the document

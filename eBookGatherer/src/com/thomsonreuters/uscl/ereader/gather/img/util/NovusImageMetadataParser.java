@@ -8,8 +8,7 @@ import org.jetbrains.annotations.NotNull;
  * @author Ilia Bochkarev UC220946
  *
  */
-public interface NovusImageMetadataParser
-{
+public interface NovusImageMetadataParser {
     /**
      * Get metadata info from Novus
      * @param metadata string representation of metadata

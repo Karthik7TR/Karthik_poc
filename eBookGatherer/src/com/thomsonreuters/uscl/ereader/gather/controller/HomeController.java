@@ -9,22 +9,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class HomeController
-{
+public class HomeController {
     //private static final Logger log = LogManager.getLogger(HomeController.class);
 
     private String environmentName;
 
     @RequestMapping(value = EBConstants.URI_HOME, method = RequestMethod.GET)
-    public ModelAndView home(final Model model)
-    {
+    public ModelAndView home(final Model model) {
         model.addAttribute("environmentName", environmentName);
         return new ModelAndView(EBConstants.VIEW_HOME);
     }
 
     @Autowired
-    public void setEnvironmentName(final String envName)
-    {
+    public void setEnvironmentName(final String envName) {
         environmentName = envName;
     }
 }

@@ -14,16 +14,14 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 /**
  * Test for HomeController
  */
-public final class HomeControllerTest
-{
+public final class HomeControllerTest {
     private HomeController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
@@ -33,8 +31,7 @@ public final class HomeControllerTest
     }
 
     @Test
-    public void testInboundGet() throws Exception
-    {
+    public void testInboundGet() throws Exception {
         request.setRequestURI("/" + EBConstants.URI_HOME);
         request.setMethod(HttpMethod.GET.name());
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);

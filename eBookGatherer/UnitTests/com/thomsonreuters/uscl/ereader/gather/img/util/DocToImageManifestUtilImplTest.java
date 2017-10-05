@@ -16,14 +16,12 @@ import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class DocToImageManifestUtilImplTest
-{
+public final class DocToImageManifestUtilImplTest {
     @InjectMocks
     private DocToImageManifestUtilImpl util;
 
     @Test
-    public void shouldReadManifestCorrectly() throws Exception
-    {
+    public void shouldReadManifestCorrectly() throws Exception {
         // given
         final File manifestFile =
             new File(DocToImageManifestUtilImplTest.class.getResource("docToImageManifest_correct.txt").toURI());
@@ -36,8 +34,7 @@ public final class DocToImageManifestUtilImplTest
     }
 
     @Test
-    public void shouldReturnEmptyMapIfNoImages() throws Exception
-    {
+    public void shouldReturnEmptyMapIfNoImages() throws Exception {
         // given
         final File manifestFile =
             new File(DocToImageManifestUtilImplTest.class.getResource("docToImageManifest_empty.txt").toURI());

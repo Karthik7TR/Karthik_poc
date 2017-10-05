@@ -4,8 +4,7 @@ import java.awt.image.BufferedImage;
 
 import com.thomsonreuters.uscl.ereader.gather.util.images.ImageConverterException;
 
-public interface ImageConverter
-{
+public interface ImageConverter {
     /**
      * Convert an image to specified format and write result to file system
      *

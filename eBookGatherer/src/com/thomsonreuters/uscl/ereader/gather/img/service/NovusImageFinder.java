@@ -10,8 +10,7 @@ import org.jetbrains.annotations.Nullable;
  * @author Ilia Bochkarev UC220946
  *
  */
-public interface NovusImageFinder extends AutoCloseable
-{
+public interface NovusImageFinder extends AutoCloseable {
     /**
      * Get image from Novus
      *

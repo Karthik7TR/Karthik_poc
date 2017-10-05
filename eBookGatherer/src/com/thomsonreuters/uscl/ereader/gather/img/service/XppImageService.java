@@ -30,8 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * Copies images from unpacked XPP archive to work folder.
  */
-public class XppImageService implements ImageService
-{
+public class XppImageService implements ImageService {
     private static final Logger Log = LogManager.getLogger(XppImageService.class);
 
     private static final String PNG = "PNG";
@@ -44,8 +43,7 @@ public class XppImageService implements ImageService
     private ImageTypeResolver imageTypeResolver;
 
     @Override
-    public GatherResponse getImages(final ImageRequestParameters imageRequestParameters) throws GatherException
-    {
+    public GatherResponse getImages(final ImageRequestParameters imageRequestParameters) throws GatherException {
         final Map<String, ImgMetadataInfo> imageFiles = copyImagesToWorkDir(
             imageRequestParameters.getXppSourceImageDirectory(),
             imageRequestParameters.getDynamicImageDirectory());
@@ -59,8 +57,7 @@ public class XppImageService implements ImageService
         return populateResponse(imagesMetadata, missingImagesCount);
     }
 
-    private GatherResponse populateResponse(final List<ImgMetadataInfo> imagesMetadata, final int missingImagesCount)
-    {
+    private GatherResponse populateResponse(final List<ImgMetadataInfo> imagesMetadata, final int missingImagesCount) {
         final GatherResponse response = new GatherResponse();
         response.setImageMetadataList(imagesMetadata);
         response.setMissingImgCount(missingImagesCount);
@@ -70,22 +67,16 @@ public class XppImageService implements ImageService
     private int fillMetadataWithDocIds(
         final List<ImgMetadataInfo> imagesMetadata,
         final Map<String, ImgMetadataInfo> imageFiles,
-        final Map<String, List<String>> docsWithImages)
-    {
+        final Map<String, List<String>> docsWithImages) {
         int missingImagesCount = 0;
-        for (final Entry<String, List<String>> e : docsWithImages.entrySet())
-        {
+        for (final Entry<String, List<String>> e : docsWithImages.entrySet()) {
             final String docId = e.getKey();
-            for (final String imageId : e.getValue())
-            {
-                try
-                {
+            for (final String imageId : e.getValue()) {
+                try {
                     final ImgMetadataInfo imageMetadata = new ImgMetadataInfo(imageFiles.get(imageId));
                     imageMetadata.setDocGuid(docId);
                     imagesMetadata.add(imageMetadata);
-                }
-                catch (final Exception e1)
-                {
+                } catch (final Exception e1) {
                     Log.error(e1);
                     missingImagesCount++;
                 }
@@ -97,8 +88,7 @@ public class XppImageService implements ImageService
     private ImgMetadataInfo getImageMetadata(
         final BufferedImage bufferedImage,
         final String imageId,
-        final File imageFile) throws IOException
-    {
+        final File imageFile) throws IOException {
         final ImgMetadataInfo metadata = new ImgMetadataInfo();
         metadata.setMimeType(getMimeType(imageFile));
         metadata.setSize(imageFile.length());
@@ -108,12 +98,10 @@ public class XppImageService implements ImageService
         return metadata;
     }
 
-    private String getMimeType(final File imageFile) throws IOException
-    {
+    private String getMimeType(final File imageFile) throws IOException {
         String mimeType = Files.probeContentType(imageFile.toPath());
 
-        if (mimeType == null)
-        {
+        if (mimeType == null) {
             mimeType = mimetypesFileTypeMap.getContentType(imageFile.getAbsolutePath());
         }
         return mimeType;
@@ -121,34 +109,26 @@ public class XppImageService implements ImageService
 
     private Map<String, ImgMetadataInfo> copyImagesToWorkDir(
         final Collection<String> xppSourceImageDirectories,
-        final File destDir)
-    {
+        final File destDir) {
         final Map<String, ImgMetadataInfo> imageFiles = new HashMap<>();
 
-        for (final String xppSourceImageDirectory : xppSourceImageDirectories)
-        {
+        for (final String xppSourceImageDirectory : xppSourceImageDirectories) {
             imageFiles.putAll(copyImagesToWorkDir(xppSourceImageDirectory, destDir));
         }
         return imageFiles;
     }
 
-    private Map<String, ImgMetadataInfo> copyImagesToWorkDir(final String xppSourceImageDirectory, final File destDir)
-    {
+    private Map<String, ImgMetadataInfo> copyImagesToWorkDir(final String xppSourceImageDirectory, final File destDir) {
         final File[] srcImages = new File(xppSourceImageDirectory).listFiles();
         final Map<String, ImgMetadataInfo> imageFiles = new HashMap<>();
 
-        if (srcImages != null)
-        {
-            for (final File srcImage : srcImages)
-            {
-                try
-                {
+        if (srcImages != null) {
+            for (final File srcImage : srcImages) {
+                try {
                     final String imageId = FilenameUtils.removeExtension(srcImage.getName());
                     final ImgMetadataInfo metadata = writeImage(imageId, srcImage, destDir);
                     imageFiles.put(imageId, metadata);
-                }
-                catch (final IOException e)
-                {
+                } catch (final IOException e) {
                     Log.error(e);
                 }
             }
@@ -156,27 +136,23 @@ public class XppImageService implements ImageService
         return imageFiles;
     }
 
-    private ImgMetadataInfo writeImage(final String imageId, final File srcImage, final File destDir) throws IOException
-    {
+    private ImgMetadataInfo writeImage(final String imageId, final File srcImage, final File destDir)
+        throws IOException {
         final boolean isTiff = imageTypeResolver.isTiff(srcImage);
         final File destImage = new File(destDir, getDestImageName(imageId, srcImage, isTiff));
 
         final BufferedImage image;
-        if (isTiff)
-        {
+        if (isTiff) {
             final byte[] imgBytes = Files.readAllBytes(srcImage.toPath());
             image = imageConverter.convertByteImg(imgBytes, destImage.getAbsolutePath(), PNG);
-        }
-        else
-        {
+        } else {
             FileUtils.copyFile(srcImage, destImage);
             image = ImageIO.read(destImage);
         }
         return getImageMetadata(image, imageId, destImage);
     }
 
-    private String getDestImageName(final String imageId, final File srcImage, final boolean isTiff)
-    {
+    private String getDestImageName(final String imageId, final File srcImage, final boolean isTiff) {
         final boolean hasTiffExtension = imageTypeResolver.hasTiffExtension(srcImage);
         final boolean noExtension = FilenameUtils.getExtension(srcImage.getName()).isEmpty();
         return hasTiffExtension || (noExtension && isTiff) ? imageId + "." + PNG : srcImage.getName();

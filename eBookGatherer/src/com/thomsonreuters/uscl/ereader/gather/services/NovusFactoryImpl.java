@@ -10,25 +10,20 @@ import com.westgroup.novus.productapi.NovusException;
  * Factory to create the main Novus API object for communicating with Novus
  * to get document data.
  */
-public class NovusFactoryImpl implements NovusFactory
-{
+public class NovusFactoryImpl implements NovusFactory {
     private NovusEnvironment novusEnvironment;
     private String productName;
     private String businessUnit;
 
     @Override
-    public Novus createNovus(final boolean isFinalStage) throws NovusException
-    {
+    public Novus createNovus(final boolean isFinalStage) throws NovusException {
         final Novus novus = new Novus();
         novus.setQueueCriteria(null, novusEnvironment.toString());
         novus.setResponseTimeout(30000);
 
-        if (isFinalStage)
-        {
+        if (isFinalStage) {
             novus.useLatestPit();
-        }
-        else
-        {
+        } else {
             novus.createRPit();
         }
         novus.setProductName(productName);
@@ -38,20 +33,17 @@ public class NovusFactoryImpl implements NovusFactory
 
     @Override
     @Required
-    public void setNovusEnvironment(final NovusEnvironment env)
-    {
+    public void setNovusEnvironment(final NovusEnvironment env) {
         novusEnvironment = env;
     }
 
     @Required
-    public void setProductName(final String productName)
-    {
+    public void setProductName(final String productName) {
         this.productName = productName;
     }
 
     @Required
-    public void setBusinessUnit(final String businessUnit)
-    {
+    public void setBusinessUnit(final String businessUnit) {
         this.businessUnit = businessUnit;
     }
 }

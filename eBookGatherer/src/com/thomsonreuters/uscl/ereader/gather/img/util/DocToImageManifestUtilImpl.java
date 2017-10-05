@@ -14,27 +14,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 @Service("docToImageManifestUtil")
-public class DocToImageManifestUtilImpl implements DocToImageManifestUtil
-{
+public class DocToImageManifestUtilImpl implements DocToImageManifestUtil {
     @Override
     @NotNull
-    public Map<String, List<String>> getDocsWithImages(@NotNull final File docToImageManifestFile)
-    {
+    public Map<String, List<String>> getDocsWithImages(@NotNull final File docToImageManifestFile) {
         Assert.notNull(docToImageManifestFile);
         Assert.isTrue(docToImageManifestFile.exists(), "doc-to-image-manifest.txt not exist");
 
         final Map<String, List<String>> imgDocGuidMap = new HashMap<>();
         try (FileReader fileReader = new FileReader(docToImageManifestFile);
-            BufferedReader reader = new BufferedReader(fileReader))
-        {
+            BufferedReader reader = new BufferedReader(fileReader)) {
             String textLine;
-            while ((textLine = reader.readLine()) != null)
-            {
-                if (StringUtils.isNotBlank(textLine))
-                {
+            while ((textLine = reader.readLine()) != null) {
+                if (StringUtils.isNotBlank(textLine)) {
                     final String[] ids = textLine.split("\\|");
-                    if (ids.length > 1)
-                    {
+                    if (ids.length > 1) {
                         final String docId = ids[0].trim();
                         final String imageIdsStr = ids[1].trim();
                         final List<String> imageIds = getImageIds(imageIdsStr);
@@ -42,20 +36,16 @@ public class DocToImageManifestUtilImpl implements DocToImageManifestUtil
                     }
                 }
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             throw new RuntimeException("Cannot read doc-to-image-manifest.txt", e);
         }
         return imgDocGuidMap;
     }
 
-    private List<String> getImageIds(final String imageIdsStr)
-    {
+    private List<String> getImageIds(final String imageIdsStr) {
         final String[] imageIds = imageIdsStr.split(",");
         final List<String> list = new ArrayList<>();
-        for (final String id : imageIds)
-        {
+        for (final String id : imageIds) {
             list.add(id);
         }
         return list;

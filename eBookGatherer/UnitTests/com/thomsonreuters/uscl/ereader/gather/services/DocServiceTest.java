@@ -16,8 +16,7 @@ import com.westgroup.novus.productapi.Document;
 import com.westgroup.novus.productapi.Find;
 import com.westgroup.novus.productapi.Novus;
 
-public final class DocServiceTest
-{
+public final class DocServiceTest {
     private static final String COLLECTION_NAME = "w_an_rcc_cajur_toc";
     private static final String GUID = "I8A302FE4920F47B00079B5381C71638B";
     private static final boolean IS_FINAL_STAGE = true;
@@ -33,8 +32,7 @@ public final class DocServiceTest
     private NovusUtility mockNovusUtility;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockNovusFactory = EasyMock.createMock(NovusFactory.class);
         mockNovus = EasyMock.createMock(Novus.class);
         mockFinder = EasyMock.createMock(Find.class);
@@ -48,16 +46,15 @@ public final class DocServiceTest
     }
 
     @Test
-    public void testFetchDocumentsFromNovus()
-    {
+    public void testFetchDocumentsFromNovus() {
         final File workDir = temporaryFolder.getRoot();
         final File contentDir = new File(workDir, "junit_content");
         final File metadataDir = new File(workDir, "junit_metadata");
         final File contentFile = new File(contentDir, GUID + EBConstants.XML_FILE_EXTENSION);
-        final File metadataFile = new File(metadataDir, "1-" + COLLECTION_NAME + "-" + GUID + EBConstants.XML_FILE_EXTENSION);
+        final File metadataFile =
+            new File(metadataDir, "1-" + COLLECTION_NAME + "-" + GUID + EBConstants.XML_FILE_EXTENSION);
 
-        try
-        {
+        try {
             // Record expected calls
             EasyMock.expect(mockNovusFactory.createNovus(IS_FINAL_STAGE)).andReturn(mockNovus);
             EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
@@ -98,28 +95,23 @@ public final class DocServiceTest
             EasyMock.verify(mockNovus);
             EasyMock.verify(mockFinder);
             EasyMock.verify(mockDocument);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             Assert.fail(e.getMessage());
-        }
-        finally
-        {
+        } finally {
             //Intentionally left blank
         }
     }
 
     @Test
-    public void testFetchDocumentsFromNovusNullCollection()
-    {
+    public void testFetchDocumentsFromNovusNullCollection() {
         final File workDir = temporaryFolder.getRoot();
         final File contentDir = new File(workDir, "junit_content");
         final File metadataDir = new File(workDir, "junit_metadata");
         final File contentFile = new File(contentDir, GUID + EBConstants.XML_FILE_EXTENSION);
-        final File metadataFile = new File(metadataDir, "1-" + COLLECTION_NAME + "-" + GUID + EBConstants.XML_FILE_EXTENSION);
+        final File metadataFile =
+            new File(metadataDir, "1-" + COLLECTION_NAME + "-" + GUID + EBConstants.XML_FILE_EXTENSION);
 
-        try
-        {
+        try {
             // Record expected calls
             EasyMock.expect(mockNovusFactory.createNovus(IS_FINAL_STAGE)).andReturn(mockNovus);
             EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
@@ -159,13 +151,9 @@ public final class DocServiceTest
             EasyMock.verify(mockNovus);
             EasyMock.verify(mockFinder);
             EasyMock.verify(mockDocument);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             Assert.fail(e.getMessage());
-        }
-        finally
-        {
+        } finally {
             //Intentionally left blank
         }
     }

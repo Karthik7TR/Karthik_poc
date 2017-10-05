@@ -46,8 +46,7 @@ import com.westgroup.novus.productapi.NovusException;
  * @author Kirsten Gunn
  *
  */
-public class NortServiceImpl implements NortService
-{
+public class NortServiceImpl implements NortService {
     private NovusFactory novusFactory;
 
     private static final Logger LOG = LogManager.getLogger(NortServiceImpl.class);
@@ -66,33 +65,27 @@ public class NortServiceImpl implements NortService
 
     private Integer nortRetryCount;
 
-    public List<String> getDuplicateTocGuids()
-    {
+    public List<String> getDuplicateTocGuids() {
         return duplicateTocGuids;
     }
 
-    public void setDuplicateTocGuids(final List<String> duplicateTocGuids)
-    {
+    public void setDuplicateTocGuids(final List<String> duplicateTocGuids) {
         this.duplicateTocGuids = duplicateTocGuids;
     }
 
-    public boolean isFindSplitsAgain()
-    {
+    public boolean isFindSplitsAgain() {
         return findSplitsAgain;
     }
 
-    public List<String> getSplitTocGuidList()
-    {
+    public List<String> getSplitTocGuidList() {
         return splitTocGuidList;
     }
 
-    public int getThresholdValue()
-    {
+    public int getThresholdValue() {
         return thresholdValue;
     }
 
-    public void setThresholdValue(final int thresholdValue)
-    {
+    public void setThresholdValue(final int thresholdValue) {
         this.thresholdValue = thresholdValue;
     }
 
@@ -105,39 +98,28 @@ public class NortServiceImpl implements NortService
         final List<ExcludeDocument> excludeDocuments,
         final List<ExcludeDocument> copyExcludeDocuments,
         final List<RenameTocEntry> renameTocEntries,
-        final List<RenameTocEntry> copyRenameTocEntries) throws GatherException
-    {
+        final List<RenameTocEntry> copyRenameTocEntries) throws GatherException {
         NortNode[] nortNodes = null;
 
-        try
-        {
+        try {
             // This is the counter for checking how many Novus retries we
             // are making
             Integer novusNortRetryCounter = 0;
             nortRetryCount = Integer.valueOf(novusUtility.getTocRetryCount());
-            while (novusNortRetryCounter < nortRetryCount)
-            {
-                try
-                {
+            while (novusNortRetryCounter < nortRetryCount) {
+                try {
                     nortNodes = _nortManager.getRootNodes();
                     break;
-                }
-                catch (final Exception exception)
-                {
-                    try
-                    {
+                } catch (final Exception exception) {
+                    try {
                         novusNortRetryCounter =
                             novusUtility.handleException(exception, novusNortRetryCounter, nortRetryCount);
-                    }
-                    catch (final NovusException e)
-                    {
+                    } catch (final NovusException e) {
                         LOG.error("Failed with Novus Exception in NORT");
                         final GatherException ge =
                             new GatherException("NORT Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
                         throw ge;
-                    }
-                    catch (final Exception e)
-                    {
+                    } catch (final Exception e) {
                         LOG.error("Failed with Exception in NORT");
                         final GatherException ge =
                             new GatherException("NORT Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
@@ -145,8 +127,7 @@ public class NortServiceImpl implements NortService
                     }
                 }
             }
-            if (nortNodes == null)
-            {
+            if (nortNodes == null) {
                 final String emptyErr = "Failed with EMPTY toc.xml for domain "
                     + _nortManager.getDomainDescriptor()
                     + " and filter "
@@ -169,14 +150,10 @@ public class NortServiceImpl implements NortService
                 copyExcludeDocuments,
                 renameTocEntries,
                 copyRenameTocEntries);
-        }
-        catch (final GatherException e)
-        {
+        } catch (final GatherException e) {
             LOG.error("Failed with Exception in NORT");
             throw e;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             LOG.error("Failed with Exception in NORT");
             final GatherException ge = new GatherException("NORT Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
             throw ge;
@@ -194,16 +171,12 @@ public class NortServiceImpl implements NortService
         final List<ExcludeDocument> excludeDocuments,
         final List<ExcludeDocument> copyExcludeDocuments,
         final List<RenameTocEntry> renameTocEntries,
-        final List<RenameTocEntry> copyRenameTocEntries) throws GatherException
-    {
+        final List<RenameTocEntry> copyRenameTocEntries) throws GatherException {
         boolean docFound = true;
-        if (nodes != null)
-        {
-            try
-            {
+        if (nodes != null) {
+            try {
                 final List<Boolean> documentsFound = new ArrayList<>();
-                for (final NortNode node : nodes)
-                {
+                for (final NortNode node : nodes) {
                     documentsFound.add(
                         printNode(
                             node,
@@ -226,10 +199,8 @@ public class NortServiceImpl implements NortService
                 // Only add MissingDocuments if all nodes return false
                 docFound = documentsFound.contains(true);
 
-                if (iParent[0] > 0)
-                {
-                    if (!docFound)
-                    {
+                if (iParent[0] > 0) {
+                    if (!docFound) {
                         out.write("<MissingDocument></MissingDocument>");
                     }
                     out.write(EBConstants.TOC_END_EBOOKTOC_ELEMENT);
@@ -238,32 +209,24 @@ public class NortServiceImpl implements NortService
 
                     iParent[0]--;
                 }
-            }
-            catch (final IOException e)
-            {
+            } catch (final IOException e) {
                 LOG.error("Failed writing TOC in NORT");
                 final GatherException ge =
                     new GatherException("Failed writing TOC in NORT ", e, GatherResponse.CODE_NOVUS_ERROR);
                 throw ge;
-            }
-            catch (final NovusException e)
-            {
+            } catch (final NovusException e) {
                 LOG.error("Failed with Novus Exception in NORT");
                 final GatherException ge =
                     new GatherException("NORT Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
                 throw ge;
-            }
-            catch (final ParseException e)
-            {
+            } catch (final ParseException e) {
                 LOG.error(e.getMessage());
                 final GatherException ge = new GatherException(
                     "NORT ParseException for start/end node date ",
                     e,
                     GatherResponse.CODE_FILE_ERROR);
                 throw ge;
-            }
-            catch (final NortLabelParseException e)
-            {
+            } catch (final NortLabelParseException e) {
                 LOG.error(e.getMessage());
                 final GatherException ge =
                     new GatherException("NORT LabelParseException ", e, GatherResponse.CODE_DATA_ERROR);
@@ -285,15 +248,13 @@ public class NortServiceImpl implements NortService
         final List<ExcludeDocument> copyExcludeDocuments,
         final List<RenameTocEntry> renameTocEntries,
         final List<RenameTocEntry> copyRenameTocEntries)
-            throws GatherException, NovusException, ParseException, NortLabelParseException
-    {
+        throws GatherException, NovusException, ParseException, NortLabelParseException {
         boolean docFound = true;
         boolean excludeDocumentFound = false;
         String documentGuid = null;
 
         // skip empty node or subsection node
-        if (node != null && !node.getPayloadElement("/n-nortpayload/node-type").equalsIgnoreCase("subsection"))
-        {
+        if (node != null && !node.getPayloadElement("/n-nortpayload/node-type").equalsIgnoreCase("subsection")) {
             docFound = false;
 
             final StringBuffer name = new StringBuffer();
@@ -302,15 +263,11 @@ public class NortServiceImpl implements NortService
 
             counters[NODECOUNT]++;
 
-            if (node.getPayloadElement("/n-nortpayload/n-doc-guid") != null)
-            {
+            if (node.getPayloadElement("/n-nortpayload/n-doc-guid") != null) {
                 documentGuid = node.getPayloadElement("/n-nortpayload/n-doc-guid").replaceAll("\\<.*?>", "");
-                if ((excludeDocuments != null) && (excludeDocuments.size() > 0) && (copyExcludeDocuments != null))
-                {
-                    for (final ExcludeDocument excludeDocument : excludeDocuments)
-                    {
-                        if (excludeDocument.getDocumentGuid().equalsIgnoreCase(documentGuid))
-                        {
+                if ((excludeDocuments != null) && (excludeDocuments.size() > 0) && (copyExcludeDocuments != null)) {
+                    for (final ExcludeDocument excludeDocument : excludeDocuments) {
+                        if (excludeDocument.getDocumentGuid().equalsIgnoreCase(documentGuid)) {
                             excludeDocumentFound = true;
                             copyExcludeDocuments.remove(excludeDocument);
                             break;
@@ -318,16 +275,14 @@ public class NortServiceImpl implements NortService
                     }
                 }
 
-                if (!excludeDocumentFound)
-                {
+                if (!excludeDocumentFound) {
                     docFound = true;
                 }
             }
 
             final String guid = node.getGuid().replaceAll("\\<.*?>", "");
 
-            if (!excludeDocumentFound)
-            {
+            if (!excludeDocumentFound) {
                 tocGuid.append(EBConstants.TOC_START_GUID_ELEMENT)
                     .append(guid)
                     .append(counters[NODECOUNT])
@@ -348,12 +303,9 @@ public class NortServiceImpl implements NortService
                 //String labelHeading = labelRaw.substring(labelRaw.indexOf("<heading>"), labelRaw.indexOf("</heading"));
 
                 // Check if name needs to be relabelled
-                if ((renameTocEntries != null) && (renameTocEntries.size() > 0) && (copyRenameTocEntries != null))
-                {
-                    for (final RenameTocEntry renameTocEntry : renameTocEntries)
-                    {
-                        if (renameTocEntry.getTocGuid().equalsIgnoreCase(guid))
-                        {
+                if ((renameTocEntries != null) && (renameTocEntries.size() > 0) && (copyRenameTocEntries != null)) {
+                    for (final RenameTocEntry renameTocEntry : renameTocEntries) {
+                        if (renameTocEntry.getTocGuid().equalsIgnoreCase(guid)) {
                             final CharSequenceTranslator escapeXml = StringEscapeUtils.ESCAPE_XML10
                                 .with(NumericEntityEscaper.between(0x7f, Integer.MAX_VALUE));
                             label = escapeXml.translate(renameTocEntry.getNewLabel());
@@ -371,8 +323,7 @@ public class NortServiceImpl implements NortService
                 final DateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
                 final DateFormat formatterFinal = new SimpleDateFormat("dd-MMM-yyyy");
 
-                if (Long.valueOf(startDate) > Long.valueOf(YYYYMMDDHHmmss))
-                {
+                if (Long.valueOf(startDate) > Long.valueOf(YYYYMMDDHHmmss)) {
                     final Date date = formatter.parse(startDate);
                     final boolean bAncestorFound = false;
 
@@ -394,8 +345,7 @@ public class NortServiceImpl implements NortService
                     //
                     // }
                     // }
-                    if (!bAncestorFound)
-                    {
+                    if (!bAncestorFound) {
                         name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT)
                             .append(EBConstants.TOC_START_NAME_ELEMENT)
                             .append(label)
@@ -405,9 +355,7 @@ public class NortServiceImpl implements NortService
                             .append(EBConstants.TOC_END_NAME_ELEMENT);
                         tocGuidDateMap.put(tocGuid.toString().replaceAll("\\<.*?>", ""), startDate);
                     }
-                }
-                else if (Long.valueOf(endDate) < Long.valueOf("20970101000000"))
-                {
+                } else if (Long.valueOf(endDate) < Long.valueOf("20970101000000")) {
                     final Date date = formatter.parse(endDate);
                     final boolean bAncestorFound = false;
 
@@ -427,8 +375,7 @@ public class NortServiceImpl implements NortService
                     //
                     // }
                     // }
-                    if (!bAncestorFound)
-                    {
+                    if (!bAncestorFound) {
                         final String endDateFinal = formatterFinal.format(date);
 
                         name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT)
@@ -441,17 +388,14 @@ public class NortServiceImpl implements NortService
 
                         tocGuidDateMap.put(tocGuid.toString().replaceAll("\\<.*?>", ""), endDate);
                     }
-                }
-                else
-                {
+                } else {
                     name.append(EBConstants.TOC_START_EBOOKTOC_ELEMENT)
                         .append(EBConstants.TOC_START_NAME_ELEMENT)
                         .append(label)
                         .append(EBConstants.TOC_END_NAME_ELEMENT);
                 }
 
-                if (docFound)
-                {
+                if (docFound) {
                     docGuid.append(EBConstants.TOC_START_DOCUMENT_GUID_ELEMENT)
                         .append(documentGuid)
                         .append(EBConstants.TOC_END_DOCUMENT_GUID_ELEMENT);
@@ -459,30 +403,23 @@ public class NortServiceImpl implements NortService
                     counters[DOCCOUNT]++;
                 }
 
-                if (node.getChildrenCount() == 0)
-                {
-                    if (!docFound)
-                    {
+                if (node.getChildrenCount() == 0) {
+                    if (!docFound) {
                         docGuid.append("<MissingDocument></MissingDocument>");
                         docFound = true;
                     }
                     docGuid.append(EBConstants.TOC_END_EBOOKTOC_ELEMENT);
-                }
-                else
-                {
+                } else {
                     iParent[0]++;
                 }
 
                 // To verify if the provided split Toc/Nort Node exists in the file
-                if (splitTocGuidList != null && splitTocGuidList.size() > 0 && guid.toString().length() >= 33)
-                {
+                if (splitTocGuidList != null && splitTocGuidList.size() > 0 && guid.toString().length() >= 33) {
                     splitTocCount++;
                     final String splitNode = StringUtils.substring(guid.toString(), 0, 33);
-                    if (splitTocGuidList.contains(splitNode))
-                    {
+                    if (splitTocGuidList.contains(splitNode)) {
                         //Check if the split exceeds threshold value
-                        if (splitTocCount >= thresholdValue)
-                        {
+                        if (splitTocCount >= thresholdValue) {
                             findSplitsAgain = true;
                         }
                         splitTocCount = 0;
@@ -492,12 +429,10 @@ public class NortServiceImpl implements NortService
 
                 //843012:Update Generator for CWB Reorder Changes. For both TOC and Doc guids a six digit suffix has been added
                 //Add only first 33 characters to find the duplicate TOC
-                if (guid.toString().length() >= 33)
-                {
+                if (guid.toString().length() >= 33) {
                     final String guidForDupCheck = StringUtils.substring(guid.toString(), 0, 33);
 
-                    if (tocGuidList.contains(guidForDupCheck) && !duplicateTocGuids.contains(guidForDupCheck))
-                    {
+                    if (tocGuidList.contains(guidForDupCheck) && !duplicateTocGuids.contains(guidForDupCheck)) {
                         duplicateTocGuids.add(guidForDupCheck);
                     }
 
@@ -514,14 +449,11 @@ public class NortServiceImpl implements NortService
                 // LOG.debug(" document count : " + docCounter + " out of " +
                 // counter + " nodes" );
 
-                try
-                {
+                try {
                     out.write(payloadFormatted);
                     out.write("\r\n");
                     out.flush();
-                }
-                catch (final IOException e)
-                {
+                } catch (final IOException e) {
                     LOG.debug(e.getMessage());
                     final GatherException ge =
                         new GatherException("Failed writing to NORT TOC ", e, GatherResponse.CODE_FILE_ERROR);
@@ -532,34 +464,23 @@ public class NortServiceImpl implements NortService
             NortNode[] nortNodes = null;
             Integer novusNortRetryCounter = 0;
             nortRetryCount = Integer.valueOf(novusUtility.getTocRetryCount());
-            while (novusNortRetryCounter < nortRetryCount)
-            {
-                try
-                {
+            while (novusNortRetryCounter < nortRetryCount) {
+                try {
                     nortNodes = node.getChildren();
                     break;
-                }
-                catch (final Exception exception)
-                {
-                    try
-                    {
+                } catch (final Exception exception) {
+                    try {
                         novusNortRetryCounter =
                             novusUtility.handleException(exception, novusNortRetryCounter, nortRetryCount);
-                    }
-                    catch (final NovusException e)
-                    {
+                    } catch (final NovusException e) {
                         LOG.error("Failed with Novus Exception in NORT getChildren()");
                         final GatherException ge =
                             new GatherException("NORT Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
                         throw ge;
-                    }
-                    catch (final GatherException e)
-                    {
+                    } catch (final GatherException e) {
                         LOG.error("Failed with Exception in NORT");
                         throw e;
-                    }
-                    catch (final Exception e)
-                    {
+                    } catch (final Exception e) {
                         LOG.error("Failed with Exception in NORT  getChildren()");
                         final GatherException ge =
                             new GatherException("NORT Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
@@ -568,10 +489,8 @@ public class NortServiceImpl implements NortService
                 }
             }
 
-            if (nortNodes != null)
-            {
-                for (int i = 0; i < nortNodes.length; i += 10)
-                {
+            if (nortNodes != null) {
+                for (int i = 0; i < nortNodes.length; i += 10) {
                     final int length = (i + 10 <= nortNodes.length) ? 10 : (nortNodes.length) - i;
 
                     _nortManager.fillNortNodes(nortNodes, i, length);
@@ -591,9 +510,7 @@ public class NortServiceImpl implements NortService
                     copyRenameTocEntries);
                 docFound = true;
             }
-        }
-        else
-        {
+        } else {
             // LOG.debug(" skipping subsection " );
             counters[SKIPCOUNT]++;
         }
@@ -618,8 +535,7 @@ public class NortServiceImpl implements NortService
         final boolean isFinalStage,
         final boolean useReloadContent,
         final List<String> splitTocGuidList,
-        final int thresholdValue) throws GatherException
-    {
+        final int thresholdValue) throws GatherException {
         NortManager _nortManager = null;
         final int[] counters = {0, 0, 0, 0};
         final int[] iParent = {0};
@@ -627,12 +543,9 @@ public class NortServiceImpl implements NortService
         final GatherResponse gatherResponse = new GatherResponse();
 
         Novus novusObject = null;
-        try
-        {
+        try {
             novusObject = novusFactory.createNovus(isFinalStage);
-        }
-        catch (final NovusException e)
-        {
+        } catch (final NovusException e) {
             final GatherException ge = new GatherException(
                 "Novus error occurred while creating Novus object " + e,
                 GatherResponse.CODE_NOVUS_ERROR);
@@ -652,40 +565,32 @@ public class NortServiceImpl implements NortService
         this.thresholdValue = thresholdValue;
 
         // Make a copy of the original excluded documents to check that all have been accounted for
-        if (excludeDocuments != null)
-        {
+        if (excludeDocuments != null) {
             copyExcludDocs = new ArrayList<>(Arrays.asList(new ExcludeDocument[excludeDocuments.size()]));
         }
 
         List<RenameTocEntry> copyRenameTocs = null;
 
         // Make a copy of the original rename toc entries to check that all have been accounted for
-        if (renameTocEntries != null)
-        {
+        if (renameTocEntries != null) {
             copyRenameTocs = new ArrayList<>(Arrays.asList(new RenameTocEntry[renameTocEntries.size()]));
         }
 
         try (Writer out =
-            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(nortXmlFile.getPath()), "UTF8")))
-        {
-            if (excludeDocuments != null)
-            {
+            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(nortXmlFile.getPath()), "UTF8"))) {
+            if (excludeDocuments != null) {
                 Collections.copy(copyExcludDocs, excludeDocuments);
             }
 
-            if (renameTocEntries != null)
-            {
+            if (renameTocEntries != null) {
                 Collections.copy(copyRenameTocs, renameTocEntries);
             }
 
             // TODO: fix after Test1 testing.
             final String YYYYMMDDHHmmss;
-            if (cutoffDate == null)
-            {
+            if (cutoffDate == null) {
                 YYYYMMDDHHmmss = formatter.format(date);
-            }
-            else
-            {
+            } else {
                 YYYYMMDDHHmmss = formatter.format(cutoffDate);
             }
             // String YYYYMMDDHHmmss = "20120202111111";
@@ -712,65 +617,50 @@ public class NortServiceImpl implements NortService
                 renameTocEntries,
                 copyRenameTocs);
 
-            LOG.info(counters[DOCCOUNT]
-                + " documents "
-                + counters[SKIPCOUNT]
-                + " skipped nodes  and "
-                + counters[NODECOUNT]
-                + " nodes in the NORT hierarchy for domain "
-                + domainName
-                + " and filter "
-                + expressionFilter);
+            LOG.info(
+                counters[DOCCOUNT]
+                    + " documents "
+                    + counters[SKIPCOUNT]
+                    + " skipped nodes  and "
+                    + counters[NODECOUNT]
+                    + " nodes in the NORT hierarchy for domain "
+                    + domainName
+                    + " and filter "
+                    + expressionFilter);
 
             out.write(EBConstants.TOC_END_EBOOK_ELEMENT);
             out.flush();
             out.close();
             LOG.debug("Done with Nort.");
-        }
-        catch (final UnsupportedEncodingException e)
-        {
+        } catch (final UnsupportedEncodingException e) {
             LOG.error(e.getMessage());
             final GatherException ge =
                 new GatherException("NORT UTF-8 encoding error ", e, GatherResponse.CODE_FILE_ERROR);
             publishStatus = "TOC NORT Step Failed UTF-8 encoding error";
             throw ge;
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             LOG.error(e.getMessage());
             final GatherException ge = new GatherException("NORT File not found ", e, GatherResponse.CODE_FILE_ERROR);
             publishStatus = "TOC NORT Step Failed File not found";
             throw ge;
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             LOG.error(e.getMessage());
             final GatherException ge = new GatherException("NORT IOException ", e, GatherResponse.CODE_FILE_ERROR);
             publishStatus = "TOC NORT Step Failed IOException";
             throw ge;
-        }
-        catch (final GatherException e)
-        {
+        } catch (final GatherException e) {
             LOG.error(e.getMessage());
             publishStatus = "TOC NORT Step Failed GatherException";
             throw e;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             LOG.error(e.getMessage());
-            final GatherException ge =
-                new GatherException("Failure in findTOC() ", e, GatherResponse.CODE_DATA_ERROR);
+            final GatherException ge = new GatherException("Failure in findTOC() ", e, GatherResponse.CODE_DATA_ERROR);
             throw ge;
-        }
-        finally
-        {
-            try
-            {
-                if ((copyExcludDocs != null) && (copyExcludDocs.size() > 0))
-                {
+        } finally {
+            try {
+                if ((copyExcludDocs != null) && (copyExcludDocs.size() > 0)) {
                     final StringBuffer unaccountedExcludedDocs = new StringBuffer();
-                    for (final ExcludeDocument excludeDocument : copyExcludDocs)
-                    {
+                    for (final ExcludeDocument excludeDocument : copyExcludDocs) {
                         unaccountedExcludedDocs.append(excludeDocument.getDocumentGuid() + ",");
                     }
                     final GatherException ge = new GatherException(
@@ -778,11 +668,9 @@ public class NortServiceImpl implements NortService
                     publishStatus = "TOC NORT Step Failed with Not all Excluded Docs accounted for error";
                     throw ge;
                 }
-                if ((copyRenameTocs != null) && (copyRenameTocs.size() > 0))
-                {
+                if ((copyRenameTocs != null) && (copyRenameTocs.size() > 0)) {
                     final StringBuffer unaccountedRenameTocs = new StringBuffer();
-                    for (final RenameTocEntry renameTocEntry : copyRenameTocs)
-                    {
+                    for (final RenameTocEntry renameTocEntry : copyRenameTocs) {
                         unaccountedRenameTocs.append(renameTocEntry.getTocGuid() + ",");
                     }
                     final GatherException ge = new GatherException(
@@ -790,16 +678,12 @@ public class NortServiceImpl implements NortService
                     publishStatus = "TOC NORT Step Failed with Not all Rename TOCs accounted for error";
                     throw ge;
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 LOG.error(e.getMessage());
                 final GatherException ge =
                     new GatherException("Failure in findTOC() ", e, GatherResponse.CODE_DATA_ERROR);
                 throw ge;
-            }
-            finally
-            {
+            } finally {
                 gatherResponse.setDocCount(counters[DOCCOUNT]);
                 gatherResponse.setNodeCount(counters[NODECOUNT]);
                 gatherResponse.setSkipCount(counters[SKIPCOUNT]);
@@ -817,14 +701,12 @@ public class NortServiceImpl implements NortService
     }
 
     @Required
-    public void setNovusFactory(final NovusFactory factory)
-    {
+    public void setNovusFactory(final NovusFactory factory) {
         novusFactory = factory;
     }
 
     @Required
-    public void setNovusUtility(final NovusUtility novusUtil)
-    {
+    public void setNovusUtility(final NovusUtility novusUtil) {
         novusUtility = novusUtil;
     }
 }

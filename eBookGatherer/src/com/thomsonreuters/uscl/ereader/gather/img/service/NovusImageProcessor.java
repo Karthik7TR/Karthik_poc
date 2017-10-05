@@ -13,8 +13,7 @@ import org.jetbrains.annotations.NotNull;
  * @author Ilia Bochkarev UC220946
  *
  */
-public interface NovusImageProcessor extends AutoCloseable
-{
+public interface NovusImageProcessor extends AutoCloseable {
     /**
      * Do all the tasks with one image (e.g. get from Novus, add to collection,
      * write to file if necessary, etc.)

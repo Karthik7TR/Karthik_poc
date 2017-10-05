@@ -9,8 +9,7 @@ import com.westgroup.novus.productapi.NovusException;
  * Factory to create the main Novus API object for communicating with Novus
  * to get document data.
  */
-public interface NovusFactory
-{
+public interface NovusFactory {
     /**
      * Create the Novus system connection.
      * @param isFinalStage determines to retrieve content from Final or Review stage

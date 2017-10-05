@@ -22,8 +22,7 @@ import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
-public final class DocControllerTest
-{
+public final class DocControllerTest {
     //private static Logger log = LogManager.getLogger(DocControllerTest.class);
     private DocService mockDocService;
     private DocController controller;
@@ -36,8 +35,7 @@ public final class DocControllerTest
     private static final boolean USE_RELOAD_CONTENT = true;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         final String[] guidArray = {"a", "b", "c"};
         guids = new ArrayList<>(Arrays.asList(guidArray));
         mockDocService = EasyMock.createMock(DocService.class);
@@ -47,8 +45,7 @@ public final class DocControllerTest
     }
 
     @Test
-    public void testFetchDocumentsSuccessfully() throws Exception
-    {
+    public void testFetchDocumentsSuccessfully() throws Exception {
         final GatherResponse gatherResponse1 = new GatherResponse();
         EasyMock
             .expect(
@@ -86,13 +83,11 @@ public final class DocControllerTest
     }
 
     @Test
-    public void testFetchDocumentsWithException()
-    {
+    public void testFetchDocumentsWithException() {
         final int errorCode = 911;
         final String errorMesg = "bogus error";
         final GatherException expectedException = new GatherException(errorMesg, errorCode);
-        try
-        {
+        try {
             mockDocService.fetchDocuments(
                 guids,
                 COLLECTION_NAME,
@@ -102,9 +97,7 @@ public final class DocControllerTest
                 USE_RELOAD_CONTENT);
             EasyMock.expectLastCall().andThrow(expectedException);
             EasyMock.replay(mockDocService);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             Assert.fail(e.getMessage());
         }
 

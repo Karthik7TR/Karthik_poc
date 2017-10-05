@@ -8,8 +8,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 
-public interface TocService
-{
+public interface TocService {
     GatherResponse findTableOfContents(
         String guid,
         String collectionName,

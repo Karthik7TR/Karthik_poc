@@ -16,16 +16,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class ImgController
-{
+public class ImgController {
     private static Logger LOG = LogManager.getLogger(ImgController.class);
 
     private ImageServiceFactory imageServiceFactory;
     private ImageRequestParameters parameters;
 
     @RequestMapping(value = "/img", method = RequestMethod.POST)
-    public ModelAndView fetchImages(@RequestBody final GatherImgRequest imgRequest, final Model model)
-    {
+    public ModelAndView fetchImages(@RequestBody final GatherImgRequest imgRequest, final Model model) {
         LOG.debug(">>> ImgController");
 
         parameters.setDocToImageManifestFile(imgRequest.getImgToDocManifestFile());
@@ -34,12 +32,9 @@ public class ImgController
         parameters.setXppSourceImageDirectory(imgRequest.getXppSourceImageDirectory());
 
         GatherResponse gatherResponse;
-        try
-        {
+        try {
             gatherResponse = imageServiceFactory.getImageService(imgRequest.isXpp()).getImages(parameters);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             gatherResponse = new GatherResponse();
             LOG.error("Failed to get images", e);
         }
@@ -48,14 +43,12 @@ public class ImgController
     }
 
     @Required
-    public void setImageServiceFactory(final ImageServiceFactory imageServiceFactory)
-    {
+    public void setImageServiceFactory(final ImageServiceFactory imageServiceFactory) {
         this.imageServiceFactory = imageServiceFactory;
     }
 
     @Required
-    public void setParameters(final ImageRequestParameters parameters)
-    {
+    public void setParameters(final ImageRequestParameters parameters) {
         this.parameters = parameters;
     }
 }

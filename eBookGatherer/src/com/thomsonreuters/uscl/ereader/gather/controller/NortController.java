@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class NortController
-{
+public class NortController {
     private static Logger LOG = LogManager.getLogger(NortController.class);
 
     private NortService nortService;
@@ -28,14 +27,12 @@ public class NortController
      * Fetch the table of contents XML document.
      */
     @RequestMapping(value = "/nort", method = RequestMethod.POST)
-    public ModelAndView getTableOfContents(@RequestBody final GatherNortRequest nortRequest, final Model model)
-    {
+    public ModelAndView getTableOfContents(@RequestBody final GatherNortRequest nortRequest, final Model model) {
         LOG.debug(">>> " + nortRequest);
         GatherResponse gatherResponse = new GatherResponse();
 
         // Retrieve NORT TOC structure from Novus
-        try
-        {
+        try {
             // Create EBook TOC file on specified path
             final File nortXmlFile = nortRequest.getNortFile();
 
@@ -50,24 +47,18 @@ public class NortController
                 nortRequest.getUseReloadContent(),
                 nortRequest.getSplitTocGuidList(),
                 nortRequest.getThresholdValue());
-        }
-        catch (final GatherException e)
-        {
+        } catch (final GatherException e) {
             String errorMessage = e.getMessage();
             final Throwable cause = e.getCause();
-            if (cause != null)
-            {
+            if (cause != null) {
                 errorMessage = errorMessage + " - " + cause.getMessage();
             }
             LOG.error(errorMessage, e);
             gatherResponse = new GatherResponse(e.getErrorCode(), errorMessage);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             String errorMessage = e.getMessage();
             final Throwable cause = e.getCause();
-            if (cause != null)
-            {
+            if (cause != null) {
                 errorMessage = errorMessage + " - " + cause.getMessage();
             }
             LOG.error(errorMessage, e);
@@ -78,8 +69,7 @@ public class NortController
     }
 
     @Required
-    public void setNortService(final NortService service)
-    {
+    public void setNortService(final NortService service) {
         nortService = service;
     }
 }

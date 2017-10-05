@@ -12,28 +12,23 @@ import com.thomsonreuters.uscl.ereader.gather.img.util.DocToImageManifestUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Required;
 
-public class NovusImageServiceImpl implements ImageService
-{
+public class NovusImageServiceImpl implements ImageService {
     private DocToImageManifestUtil docToImageManifestUtil;
     private NovusImageProcessor imageProcessor;
 
     @Override
     @NotNull
     public GatherResponse getImages(@NotNull final ImageRequestParameters imageRequestParameters)
-        throws GatherException
-    {
+        throws GatherException {
         final File docToImageManifestFile = imageRequestParameters.getDocToImageManifestFile();
-        final Map<String, List<String>> docsWithImages = docToImageManifestUtil.getDocsWithImages(docToImageManifestFile);
+        final Map<String, List<String>> docsWithImages =
+            docToImageManifestUtil.getDocsWithImages(docToImageManifestFile);
 
-        try (NovusImageProcessor processor = imageProcessor)
-        {
-            for (final Entry<String, List<String>> e : docsWithImages.entrySet())
-            {
+        try (NovusImageProcessor processor = imageProcessor) {
+            for (final Entry<String, List<String>> e : docsWithImages.entrySet()) {
                 final String docId = e.getKey();
-                for (final String imageId : e.getValue())
-                {
-                    if (!processor.isProcessed(imageId, docId))
-                    {
+                for (final String imageId : e.getValue()) {
+                    if (!processor.isProcessed(imageId, docId)) {
                         processor.process(imageId, docId);
                     }
                 }
@@ -42,22 +37,18 @@ public class NovusImageServiceImpl implements ImageService
             response.setImageMetadataList(processor.getImagesMetadata());
             response.setMissingImgCount(processor.getMissingImageCount());
             return response;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             throw new GatherException("Cannot process images from Novus", e);
         }
     }
 
     @Required
-    public void setDocToImageManifestUtil(final DocToImageManifestUtil docToImageManifestUtil)
-    {
+    public void setDocToImageManifestUtil(final DocToImageManifestUtil docToImageManifestUtil) {
         this.docToImageManifestUtil = docToImageManifestUtil;
     }
 
     @Required
-    public void setImageProcessor(final NovusImageProcessor imageProcessor)
-    {
+    public void setImageProcessor(final NovusImageProcessor imageProcessor) {
         this.imageProcessor = imageProcessor;
     }
 }

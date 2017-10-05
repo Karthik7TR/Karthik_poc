@@ -15,8 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class NovusImageMetadataParserImplTest
-{
+public final class NovusImageMetadataParserImplTest {
     @InjectMocks
     private NovusImageMetadataParserImpl parser;
 
@@ -24,8 +23,7 @@ public final class NovusImageMetadataParserImplTest
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void shouldParseCorrect() throws Exception
-    {
+    public void shouldParseCorrect() throws Exception {
         // given
         final File correct =
             new File(NovusImageMetadataParserImplTest.class.getResource("imageMetadata_correct.xml").toURI());
@@ -37,8 +35,7 @@ public final class NovusImageMetadataParserImplTest
     }
 
     @Test
-    public void shouldThrowExceptionIfXmlIsIncorrect() throws Exception
-    {
+    public void shouldThrowExceptionIfXmlIsIncorrect() throws Exception {
         // given
         thrown.expect(RuntimeException.class);
         thrown.expectMessage("Cannot parse image metadata from Novus");

@@ -37,8 +37,7 @@ import com.westgroup.novus.productapi.NortManager;
 import com.westgroup.novus.productapi.NortNode;
 import com.westgroup.novus.productapi.Novus;
 
-public final class NortServiceTest
-{
+public final class NortServiceTest {
     private static final String LT_ROOT_AMP_QUOT_NODE_APOS_S_GT =
         "<heading> &lt; Root &amp;  &#65533;  &quot; Node&apos;s &gt; </heading>";
     private static final String DOMAIN_NAME = "w_wlbkrexp";
@@ -65,8 +64,7 @@ public final class NortServiceTest
     private NovusUtility mockNovusUtility;
 
     @Before
-    public void setUp() throws IOException
-    {
+    public void setUp() throws IOException {
         mockNovusFactory = EasyMock.createMock(NovusFactory.class);
         mockNovus = EasyMock.createMock(Novus.class);
         mockNovusUtility = EasyMock.createMock(NovusUtility.class);
@@ -86,8 +84,7 @@ public final class NortServiceTest
     }
 
     @Test
-    public void testCreateNortTreeFile() throws Exception
-    {
+    public void testCreateNortTreeFile() throws Exception {
         final File nortFile = new File(nortDir, "NORT" + DOMAIN_NAME + FILTER + EBConstants.XML_FILE_EXTENSION);
         NortNode[] children = new NortNode[] {};
         mockNortNodeRoot[0] = mockNortNode;
@@ -101,8 +98,7 @@ public final class NortServiceTest
 
         children = getChildNodes(5, 'a', YYYYM1DDHHmmss, 2).toArray(new NortNode[] {});
 
-        try
-        {
+        try {
             // String YYYYMMDDHHmmss = "20120206111111";
             // Record expected calls
             EasyMock.expect(mockNovusFactory.createNovus(IS_FINAL_STAGE)).andReturn(mockNovus);
@@ -209,16 +205,13 @@ public final class NortServiceTest
             LOG.debug("expectedTocContent =" + expectedTocContent.toString());
 
             Assert.assertEquals(expectedTocContent.toString(), tocFromNORT);
-        }
-        finally
-        {
+        } finally {
             // Temporary file will clean up after itself.
         }
     }
 
     @Test
-    public void testCreateNort2NodeTreeFile() throws Exception
-    {
+    public void testCreateNort2NodeTreeFile() throws Exception {
         final File nortFile = new File(nortDir, "DblRootNode" + DOMAIN_NAME + FILTER + EBConstants.XML_FILE_EXTENSION);
 
         NortNode[] children = new NortNode[] {};
@@ -236,8 +229,7 @@ public final class NortServiceTest
         mockNort2NodeRoot[0] = mockNortNode;
         mockNort2NodeRoot[1] = mockNortNode2;
 
-        try
-        {
+        try {
             // Record expected calls
             EasyMock.expect(mockNovusFactory.createNovus(IS_FINAL_STAGE)).andReturn(mockNovus);
             EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").anyTimes();
@@ -383,16 +375,13 @@ public final class NortServiceTest
             LOG.debug("expectedTocContent2roots =" + expectedTocContent.toString());
 
             Assert.assertEquals(expectedTocContent.toString(), tocFromNORT);
-        }
-        finally
-        {
+        } finally {
             // Temporary file will clean up after itself.
         }
     }
 
     @Test
-    public void testMissingDocument() throws Exception
-    {
+    public void testMissingDocument() throws Exception {
         final File nortFile =
             new File(nortDir, "missingDocument" + DOMAIN_NAME + FILTER + EBConstants.XML_FILE_EXTENSION);
 
@@ -409,8 +398,7 @@ public final class NortServiceTest
         mockNort2NodeRoot[0] = mockNortNode;
         mockNort2NodeRoot[1] = mockNortNode2;
 
-        try
-        {
+        try {
             // Record expected calls
             EasyMock.expect(mockNovusFactory.createNovus(IS_FINAL_STAGE)).andReturn(mockNovus);
             EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").anyTimes();
@@ -548,16 +536,13 @@ public final class NortServiceTest
             LOG.debug("expectedTocContent2roots =" + expectedTocContent.toString());
 
             Assert.assertEquals(expectedTocContent.toString(), tocFromNORT);
-        }
-        finally
-        {
+        } finally {
             // Temporary file will clean up after itself.
         }
     }
 
     @Test
-    public void testMissingDoc2Level() throws Exception
-    {
+    public void testMissingDoc2Level() throws Exception {
         final File nortFile = new File(nortDir, "DblRootNode" + DOMAIN_NAME + FILTER + EBConstants.XML_FILE_EXTENSION);
 
         NortNode[] children = new NortNode[] {};
@@ -575,8 +560,7 @@ public final class NortServiceTest
         mockNort2NodeRoot[0] = mockNortNode;
         mockNort2NodeRoot[1] = mockNortNode2;
 
-        try
-        {
+        try {
             // Record expected calls
             EasyMock.expect(mockNovusFactory.createNovus(IS_FINAL_STAGE)).andReturn(mockNovus);
             EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").anyTimes();
@@ -720,16 +704,13 @@ public final class NortServiceTest
             LOG.debug("expectedTocContent2roots =" + expectedTocContent.toString());
 
             Assert.assertEquals(expectedTocContent.toString(), tocFromNORT);
-        }
-        finally
-        {
+        } finally {
             // Temporary file will clean up after itself.
         }
     }
 
     @Test
-    public void testMissingDocSections() throws Exception
-    {
+    public void testMissingDocSections() throws Exception {
         final File nortFile =
             new File(nortDir, "MissingSection" + DOMAIN_NAME + FILTER + EBConstants.XML_FILE_EXTENSION);
 
@@ -745,8 +726,7 @@ public final class NortServiceTest
 
         children = getChildNodeWithChildNodes('c', YYYYM1DDHHmmss, 0).toArray(new NortNode[] {});
 
-        try
-        {
+        try {
             // String YYYYMMDDHHmmss = "20120206111111";
             // Record expected calls
             EasyMock.expect(mockNovusFactory.createNovus(IS_FINAL_STAGE)).andReturn(mockNovus);
@@ -839,9 +819,7 @@ public final class NortServiceTest
             LOG.debug("expectedTocContent =" + expectedTocContent.toString());
 
             Assert.assertEquals(expectedTocContent.toString(), tocFromNORT);
-        }
-        finally
-        {
+        } finally {
             // Temporary file will clean up after itself.
         }
     }
@@ -859,12 +837,10 @@ public final class NortServiceTest
         final int maxChildren,
         final char prefix,
         final String YYYYM1DDHHmmss,
-        final int noDoc) throws Exception
-    {
+        final int noDoc) throws Exception {
         final List<NortNode> childNodes = new ArrayList<>();
 
-        for (int i = 0; i < maxChildren; i++)
-        {
+        for (int i = 0; i < maxChildren; i++) {
             final NortNode child = EasyMock.createMock(NortNode.class);
             EasyMock.expect(child.getLabel()).andReturn("<heading>Child " + i + prefix + "</heading>").anyTimes();
             EasyMock.expect(child.getPayload()).andReturn(LT_ROOT_AMP_QUOT_NODE_APOS_S_GT).anyTimes();
@@ -878,9 +854,7 @@ public final class NortServiceTest
                 EasyMock.expect(child.getPayloadElement("/n-nortpayload/n-doc-guid"))
                     .andReturn("UUID_" + i + prefix)
                     .times(2);
-            }
-            else
-            {
+            } else {
                 EasyMock.expect(child.getPayloadElement("/n-nortpayload/n-doc-guid")).andReturn(null).times(2);
             }
             EasyMock.expect(child.getChildrenCount()).andReturn(0).anyTimes();
@@ -933,8 +907,7 @@ public final class NortServiceTest
      * @throws java.io.IOException
      */
     private List<NortNode> getChildNodeWithChildNodes(final char prefix, final String YYYYM1DDHHmmss, final int noDoc)
-        throws Exception
-    {
+        throws Exception {
         final List<NortNode> childNodes = new ArrayList<>();
 
         NortNode[] rootChildren = new NortNode[] {};
@@ -968,30 +941,24 @@ public final class NortServiceTest
      * @return
      * @throws java.io.IOException
      */
-    private static String readFileAsString(final File filePath)
-    {
+    private static String readFileAsString(final File filePath) {
         final StringBuffer buffer = new StringBuffer();
         try (FileInputStream fis = new FileInputStream(filePath);
-             InputStreamReader isr = new InputStreamReader(fis, "UTF8");
-             Reader in = new BufferedReader(isr))
-        {
+            InputStreamReader isr = new InputStreamReader(fis, "UTF8");
+            Reader in = new BufferedReader(isr)) {
             int ch;
-            while ((ch = in.read()) > -1)
-            {
+            while ((ch = in.read()) > -1) {
                 buffer.append((char) ch);
             }
             return buffer.toString();
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             e.printStackTrace();
             return null;
         }
     }
 
     @Test
-    public void testGetNortDataWithMissingLabel() throws Exception
-    {
+    public void testGetNortDataWithMissingLabel() throws Exception {
         final File nortFile = new File(nortDir, "NORT" + DOMAIN_NAME + FILTER + EBConstants.XML_FILE_EXTENSION);
         mockNortNodeRoot[0] = mockNortNode;
 
@@ -999,8 +966,7 @@ public final class NortServiceTest
         final SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         final String YYYYMMDDHHmmss = formatter.format(date);
         final String YYYYM1DDHHmmss = "" + Long.valueOf(YYYYMMDDHHmmss) + 1;
-        try
-        {
+        try {
             EasyMock.expect(mockNovusFactory.createNovus(IS_FINAL_STAGE)).andReturn(mockNovus);
             EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").anyTimes();
             EasyMock.expect(mockNovus.getNortManager()).andReturn(mockNortManager);
@@ -1037,8 +1003,7 @@ public final class NortServiceTest
             EasyMock.replay(mockNortManager);
             EasyMock.replay(mockNortNode);
             EasyMock.replay(mockNovusUtility);
-            try
-            {
+            try {
                 nortService.findTableOfContents(
                     DOMAIN_NAME,
                     FILTER,
@@ -1050,9 +1015,7 @@ public final class NortServiceTest
                     USE_RELOAD_CONTENT,
                     null,
                     0);
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 e.printStackTrace();
                 LOG.debug(e.getMessage());
                 Assert.assertEquals("Failed with empty node Label for guid nortGuid", e.getMessage());
@@ -1063,16 +1026,13 @@ public final class NortServiceTest
             EasyMock.verify(mockNovusFactory);
             EasyMock.verify(mockNovus);
             EasyMock.verify(mockNortManager);
-        }
-        finally
-        {
+        } finally {
             // Temporary file will clean up after itself.
         }
     }
 
     @Test(expected = GatherException.class)
-    public void testGetNortDataWithNovusException() throws Exception
-    {
+    public void testGetNortDataWithNovusException() throws Exception {
         final File nortFile = new File(nortDir, "FAIL" + DOMAIN_NAME + FILTER + EBConstants.XML_FILE_EXTENSION);
 
         final Date date = new Date();
@@ -1100,8 +1060,7 @@ public final class NortServiceTest
         EasyMock.replay(mockNortManager);
         EasyMock.replay(mockNovusUtility);
 
-        try
-        {
+        try {
             nortService.findTableOfContents(
                 DOMAIN_NAME,
                 FILTER,
@@ -1113,9 +1072,7 @@ public final class NortServiceTest
                 USE_RELOAD_CONTENT,
                 null,
                 0);
-        }
-        finally
-        {
+        } finally {
             FileUtils.deleteQuietly(nortFile);
             EasyMock.verify(mockNovusFactory);
             EasyMock.verify(mockNovus);

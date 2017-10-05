@@ -14,16 +14,14 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class ImageTypeResolverImplTest
-{
+public final class ImageTypeResolverImplTest {
     @InjectMocks
     private ImageTypeResolverImpl sut;
     @Mock
     private TiffReader tiffReader;
 
     @Test
-    public void shouldHaveTiffExtension()
-    {
+    public void shouldHaveTiffExtension() {
         //given
         final File imageTif = new File("/image.tif");
         final File imageTiff = new File("/image.tiff");
@@ -36,8 +34,7 @@ public final class ImageTypeResolverImplTest
     }
 
     @Test
-    public void shouldNotHaveTiffExtension()
-    {
+    public void shouldNotHaveTiffExtension() {
         //given
         final File image = new File("/image");
         //when
@@ -47,8 +44,7 @@ public final class ImageTypeResolverImplTest
     }
 
     @Test
-    public void shouldntBeTiffAsPng()
-    {
+    public void shouldntBeTiffAsPng() {
         //given
         final File image = new File("/notTiff.png");
         doThrow(ImageConverterException.class).when(tiffReader).readTiff(image);
@@ -59,8 +55,7 @@ public final class ImageTypeResolverImplTest
     }
 
     @Test
-    public void shouldBeTiff()
-    {
+    public void shouldBeTiff() {
         //given
         final File image = new File("/tiff");
         //when
@@ -70,8 +65,7 @@ public final class ImageTypeResolverImplTest
     }
 
     @Test
-    public void shouldBeTiffasTiff()
-    {
+    public void shouldBeTiffasTiff() {
         //given
         final File image = new File("/tiff.tif");
         //when

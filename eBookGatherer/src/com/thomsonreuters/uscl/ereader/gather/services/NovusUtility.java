@@ -5,8 +5,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
-public class NovusUtility
-{
+public class NovusUtility {
     /**
      * Retry count. default value 3
      */
@@ -37,19 +36,14 @@ public class NovusUtility
      * @throws Exception
      */
     public Integer handleException(final Exception exception, Integer novusRetryCounter, final Integer retryCount)
-        throws Exception
-    {
-        if (isNovusException(exception))
-        {
+        throws Exception {
+        if (isNovusException(exception)) {
             novusRetryCounter++;
             Log.error("Novus Exception has happened. Retry Count # is " + novusRetryCounter);
-            if (novusRetryCounter == (retryCount - 1))
-            {
+            if (novusRetryCounter == (retryCount - 1)) {
                 throw exception;
             }
-        }
-        else
-        {
+        } else {
             throw exception;
         }
         return novusRetryCounter;
@@ -62,70 +56,58 @@ public class NovusUtility
      *            the exception that's thrown
      * @return Boolean if it is a novus Exception
      */
-    public Boolean isNovusException(final Exception exception)
-    {
+    public Boolean isNovusException(final Exception exception) {
         Boolean isNovusException = Boolean.FALSE;
 
         if (StringUtils.containsIgnoreCase(exception.getMessage(), "NOVUS")
-            || (StringUtils.containsIgnoreCase(exception.getMessage(), "Cannot find the collection")))
-        {
+            || (StringUtils.containsIgnoreCase(exception.getMessage(), "Cannot find the collection"))) {
             isNovusException = Boolean.TRUE;
         }
         return isNovusException;
     }
 
     @Required
-    public void setDocRetryCount(final String docRetryCount)
-    {
+    public void setDocRetryCount(final String docRetryCount) {
         this.docRetryCount = docRetryCount;
     }
 
     @Required
-    public void setTocRetryCount(final String tocRetryCount)
-    {
+    public void setTocRetryCount(final String tocRetryCount) {
         this.tocRetryCount = tocRetryCount;
     }
 
     @Required
-    public void setNortRetryCount(final String nortRetryCount)
-    {
+    public void setNortRetryCount(final String nortRetryCount) {
         this.nortRetryCount = nortRetryCount;
     }
 
     @Required
-    public void setShowMissDocsList(final String showMissDocsList)
-    {
+    public void setShowMissDocsList(final String showMissDocsList) {
         this.showMissDocsList = showMissDocsList;
     }
 
-    public String getDocRetryCount()
-    {
+    public String getDocRetryCount() {
         return docRetryCount;
     }
 
-    public String getTocRetryCount()
-    {
+    public String getTocRetryCount() {
         return tocRetryCount;
     }
 
-    public String getNortRetryCount()
-    {
+    public String getNortRetryCount() {
         return nortRetryCount;
     }
 
-    public String getShowMissDocsList()
-    {
+    public String getShowMissDocsList() {
         return showMissDocsList;
     }
 
-    public String getImgRetryCount()
-    {
+    public String getImgRetryCount() {
         return imgRetryCount;
     }
 
     @Required
-    public void setImgRetryCount(final String imgRetryCount)
-    {
+    public void setImgRetryCount(final String imgRetryCount) {
         this.imgRetryCount = imgRetryCount;
     }
 }

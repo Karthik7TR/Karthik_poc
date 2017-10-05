@@ -25,8 +25,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.ui.Model;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class ImgControllerTest
-{
+public final class ImgControllerTest {
     @InjectMocks
     private ImgController controller;
     @Mock
@@ -39,14 +38,12 @@ public final class ImgControllerTest
     private ImageServiceFactory imageServiceFactory;
 
     @Before
-    public void init()
-    {
+    public void init() {
         when(imageServiceFactory.getImageService(anyBoolean())).thenReturn(novusImageService);
     }
 
     @Test
-    public void shouldReturnResponse() throws Exception
-    {
+    public void shouldReturnResponse() throws Exception {
         // given
         final GatherResponse response = new GatherResponse();
         given(novusImageService.getImages(parameters)).willReturn(response);
@@ -60,8 +57,7 @@ public final class ImgControllerTest
     }
 
     @Test
-    public void shouldReturnEmptyResponseIfServiceFails() throws Exception
-    {
+    public void shouldReturnEmptyResponseIfServiceFails() throws Exception {
         // given
         final GatherResponse response = new GatherResponse();
         doThrow(new GatherException("")).when(novusImageService).getImages(parameters);

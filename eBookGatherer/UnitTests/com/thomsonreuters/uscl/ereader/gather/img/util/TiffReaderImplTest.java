@@ -19,8 +19,7 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class TiffReaderImplTest
-{
+public final class TiffReaderImplTest {
     private static final String IMAGEIO_EXT_TIFF_READER_CLASS =
         "it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReader";
     private static final String TIFF_EXTENSION = ".tif";
@@ -38,21 +37,18 @@ public final class TiffReaderImplTest
     private File workDir;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         workDir = temporaryFolder.getRoot();
         sut = new TiffReaderImpl(IMAGEIO_EXT_TIFF_READER_CLASS);
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         FileUtils.deleteQuietly(workDir);
     }
 
     @Test
-    public void convertUncompressed() throws Exception
-    {
+    public void convertUncompressed() throws Exception {
         //given
         final File file = getFile();
         //when
@@ -62,8 +58,7 @@ public final class TiffReaderImplTest
     }
 
     @Test
-    public void convertNotImage() throws Exception
-    {
+    public void convertNotImage() throws Exception {
         //given
         thrown.expect(ImageConverterException.class);
         thrown.expectMessage("Preferable TIFF reader not found: " + IMAGEIO_EXT_TIFF_READER_CLASS);
@@ -73,8 +68,7 @@ public final class TiffReaderImplTest
     }
 
     @Test
-    public void fileNotFound()
-    {
+    public void fileNotFound() {
         //given
         thrown.expect(ImageConverterException.class);
         final File file = new File(UNEXISTENT_FILE_NAME);
@@ -82,8 +76,7 @@ public final class TiffReaderImplTest
         sut.readTiff(file);
     }
 
-    private File getFile() throws URISyntaxException
-    {
+    private File getFile() throws URISyntaxException {
         return new File(TiffReaderImplTest.class.getResource(name.getMethodName() + TIFF_EXTENSION).toURI());
     }
 }

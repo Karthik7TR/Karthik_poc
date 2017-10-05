@@ -26,8 +26,7 @@ import com.westgroup.novus.productapi.Novus;
 import com.westgroup.novus.productapi.TOC;
 import com.westgroup.novus.productapi.TOCNode;
 
-public final class TocServiceTest
-{
+public final class TocServiceTest {
     private static final String COLLECTION_NAME = "w_an_rcc_cajur_toc";
     private static final String TOC_GUID = "I7b3ec600675a11da90ebf04471783734";
     private static final boolean IS_FINAL_STAGE = true;
@@ -46,8 +45,7 @@ public final class TocServiceTest
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         mockNovusFactory = EasyMock.createMock(NovusFactory.class);
         mockNovus = EasyMock.createMock(Novus.class);
         mockToc = EasyMock.createMock(TOC.class);
@@ -65,8 +63,7 @@ public final class TocServiceTest
     }
 
     @Test
-    public void testGetTocDataFromNovus() throws Exception
-    {
+    public void testGetTocDataFromNovus() throws Exception {
         final File tocFile = new File(tocDir, "TOC" + COLLECTION_NAME + TOC_GUID + EBConstants.XML_FILE_EXTENSION);
 
         // Record expected calls
@@ -99,17 +96,12 @@ public final class TocServiceTest
         EasyMock.replay(mockTocNode);
         EasyMock.replay(mockNovusUtility);
 
-        try
-        {
+        try {
             tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null, IS_FINAL_STAGE, null, 0);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
-        }
-        finally
-        {
+        } finally {
             // Temporary file will clean up after itself.
         }
 
@@ -147,8 +139,7 @@ public final class TocServiceTest
     }
 
     @Test
-    public void testGetTocDataFromNovusWithNoName() throws Exception
-    {
+    public void testGetTocDataFromNovusWithNoName() throws Exception {
         final File tocFile = new File(tocDir, "TOC" + COLLECTION_NAME + TOC_GUID + EBConstants.XML_FILE_EXTENSION);
 
         // Record expected calls
@@ -177,17 +168,12 @@ public final class TocServiceTest
         EasyMock.replay(mockTocNode);
         EasyMock.replay(mockNovusUtility);
 
-        try
-        {
+        try {
             tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null, IS_FINAL_STAGE, null, 0);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             LOG.debug(e.getMessage());
             Assert.assertEquals("Failed with empty node Name for guid tocGuid", e.getMessage());
-        }
-        finally
-        {
+        } finally {
             // Temporary file will clean up after itself.
         }
 
@@ -197,8 +183,7 @@ public final class TocServiceTest
     }
 
     @Test
-    public void testGetTocDataSkipNodesFromNovus() throws Exception
-    {
+    public void testGetTocDataSkipNodesFromNovus() throws Exception {
         final File tocFile = new File(tocDir, "TOC" + COLLECTION_NAME + TOC_GUID + EBConstants.XML_FILE_EXTENSION);
 
         // Record expected calls
@@ -235,18 +220,13 @@ public final class TocServiceTest
         EasyMock.replay(mockToc);
         EasyMock.replay(mockTocNode);
         EasyMock.replay(mockNovusUtility);
-        try
-        {
+        try {
             gatherResponse =
                 tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null, IS_FINAL_STAGE, null, 0);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
-        }
-        finally
-        {
+        } finally {
             // Temporary file will clean up after itself.
         }
         LOG.debug(gatherResponse);
@@ -287,8 +267,7 @@ public final class TocServiceTest
     }
 
     @Test(expected = GatherException.class)
-    public void testGetTocDataWithNovusException() throws Exception
-    {
+    public void testGetTocDataWithNovusException() throws Exception {
         final File tocFile = new File(tocDir, "FAIL" + COLLECTION_NAME + TOC_GUID + EBConstants.XML_FILE_EXTENSION);
 
         // Record expected calls
@@ -308,12 +287,9 @@ public final class TocServiceTest
         EasyMock.replay(mockToc);
         EasyMock.replay(mockNovusUtility);
 
-        try
-        {
+        try {
             tocService.findTableOfContents(TOC_GUID, COLLECTION_NAME, tocFile, null, null, IS_FINAL_STAGE, null, 0);
-        }
-        finally
-        {
+        } finally {
             FileUtils.deleteQuietly(tocFile);
         }
 
@@ -330,32 +306,24 @@ public final class TocServiceTest
      * @return List of TOCNodes with child expects set.
      * @throws java.io.IOException
      */
-    private List<TOCNode> getChildNodes(final int maxChildren, final char prefix, final int skipDoc) throws Exception
-    {
+    private List<TOCNode> getChildNodes(final int maxChildren, final char prefix, final int skipDoc) throws Exception {
         final List<TOCNode> childNodes = new ArrayList<>();
 
-        for (int i = 0; i < maxChildren; i++)
-        {
+        for (int i = 0; i < maxChildren; i++) {
             final TOCNode child = EasyMock.createMock(TOCNode.class);
             EasyMock.expect(child.getName()).andReturn("Child " + i + prefix).anyTimes();
-            if (i == skipDoc)
-            {
+            if (i == skipDoc) {
                 EasyMock.expect(child.getDocGuid()).andReturn(null).times(2);
-            }
-            else
-            {
+            } else {
                 EasyMock.expect(child.getDocGuid()).andReturn("UUID_" + i + prefix).times(2);
             }
             EasyMock.expect(child.getGuid()).andReturn("TOC_UUID_" + i + prefix).times(2);
 
-            if (i == 0 && prefix == 'a')
-            {
+            if (i == 0 && prefix == 'a') {
                 final TOCNode[] tocChildren = getChildNodes(1, 'b', skipDoc - 1).toArray(new TOCNode[] {});
                 EasyMock.expect(child.getChildren()).andReturn(tocChildren).anyTimes();
                 EasyMock.expect(child.getChildrenCount()).andReturn(1).anyTimes();
-            }
-            else
-            {
+            } else {
                 EasyMock.expect(child.getChildrenCount()).andReturn(0).anyTimes();
                 EasyMock.expect(child.getChildren()).andReturn(null).anyTimes();
             }
@@ -367,8 +335,7 @@ public final class TocServiceTest
     }
 
     @Ignore
-    public void testGetTocDataExcludedDocsFromNovus() throws Exception
-    {
+    public void testGetTocDataExcludedDocsFromNovus() throws Exception {
         final File tocFile = new File(tocDir, "TOC" + COLLECTION_NAME + TOC_GUID + EBConstants.XML_FILE_EXTENSION);
 
         // Record expected calls
@@ -405,8 +372,7 @@ public final class TocServiceTest
         EasyMock.replay(mockToc);
         EasyMock.replay(mockTocNode);
         EasyMock.replay(mockNovusUtility);
-        try
-        {
+        try {
             final List<ExcludeDocument> excludeDocuments = new ArrayList<>();
             mockExcludeDocument.setDocumentGuid("UUID_1a");
             excludeDocuments.add(mockExcludeDocument);
@@ -419,14 +385,10 @@ public final class TocServiceTest
                 IS_FINAL_STAGE,
                 null,
                 0);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
-        }
-        finally
-        {
+        } finally {
             // Temporary file will clean up after itself.
         }
         LOG.debug(gatherResponse);
@@ -465,32 +427,25 @@ public final class TocServiceTest
         EasyMock.verify(mockToc);
     }
 
-    private List<TOCNode> getChildNodeswithDuplicateToc(final int maxChildren, final char prefix, final int skipDoc) throws Exception
-    {
+    private List<TOCNode> getChildNodeswithDuplicateToc(final int maxChildren, final char prefix, final int skipDoc)
+        throws Exception {
         final List<TOCNode> childNodes = new ArrayList<>();
 
-        for (int i = 0; i < maxChildren; i++)
-        {
+        for (int i = 0; i < maxChildren; i++) {
             final TOCNode child = EasyMock.createMock(TOCNode.class);
             EasyMock.expect(child.getName()).andReturn("Child " + i + prefix).anyTimes();
-            if (i == skipDoc)
-            {
+            if (i == skipDoc) {
                 EasyMock.expect(child.getDocGuid()).andReturn(null).times(2);
-            }
-            else
-            {
+            } else {
                 EasyMock.expect(child.getDocGuid()).andReturn("UUID_" + i + prefix).times(2);
             }
             EasyMock.expect(child.getGuid()).andReturn("TABLE_OF_CONTENTS_DUPLICATE_UUID_" + i + prefix).times(2);
 
-            if (i == 0 && prefix == 'a')
-            {
+            if (i == 0 && prefix == 'a') {
                 final TOCNode[] tocChildren = getChildNodes(1, 'b', skipDoc - 1).toArray(new TOCNode[] {});
                 EasyMock.expect(child.getChildren()).andReturn(tocChildren).anyTimes();
                 EasyMock.expect(child.getChildrenCount()).andReturn(1).anyTimes();
-            }
-            else
-            {
+            } else {
                 EasyMock.expect(child.getChildrenCount()).andReturn(0).anyTimes();
                 EasyMock.expect(child.getChildren()).andReturn(null).anyTimes();
             }
@@ -502,8 +457,7 @@ public final class TocServiceTest
     }
 
     @Test
-    public void testSplitBook() throws Exception
-    {
+    public void testSplitBook() throws Exception {
         final File tocFile = new File(tocDir, "TOC" + COLLECTION_NAME + TOC_GUID + EBConstants.XML_FILE_EXTENSION);
 
         System.out.println("tocFile " + tocFile.getAbsolutePath());
@@ -546,8 +500,7 @@ public final class TocServiceTest
         EasyMock.replay(mockTocNode);
         EasyMock.replay(mockNovusUtility);
 
-        try
-        {
+        try {
             tocService.findTableOfContents(
                 TOC_GUID,
                 COLLECTION_NAME,
@@ -558,14 +511,10 @@ public final class TocServiceTest
                 splitTocGuidList,
                 0);
             System.out.println("tocService " + tocService.getDuplicateTocGuids());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
-        }
-        finally
-        {
+        } finally {
             // Temporary file will clean up after itself.
         }
 

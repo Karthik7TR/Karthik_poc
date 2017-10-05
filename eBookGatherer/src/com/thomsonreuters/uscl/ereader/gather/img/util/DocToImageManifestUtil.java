@@ -12,8 +12,7 @@ import org.jetbrains.annotations.NotNull;
  * @author Ilia Bochkarev UC220946
  *
  */
-public interface DocToImageManifestUtil
-{
+public interface DocToImageManifestUtil {
     /**
      * Get map containing list of image IDs for every doc ID
      *

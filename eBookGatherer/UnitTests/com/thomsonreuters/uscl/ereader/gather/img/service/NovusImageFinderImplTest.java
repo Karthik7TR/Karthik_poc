@@ -27,8 +27,7 @@ import com.westgroup.novus.productapi.Find;
 import com.westgroup.novus.productapi.NovusException;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class NovusImageFinderImplTest
-{
+public final class NovusImageFinderImplTest {
     @InjectMocks
     private NovusImageFinderImpl service;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -43,16 +42,14 @@ public final class NovusImageFinderImplTest
     private BLOB blob;
 
     @Before
-    public void setUp() throws NovusException, GatherException
-    {
+    public void setUp() throws NovusException, GatherException {
         given(novusFactory.createNovus(false).getFind()).willReturn(find);
         given(novusUtility.getImgRetryCount()).willReturn("3");
         service.init();
     }
 
     @Test
-    public void shouldFindImage() throws Exception
-    {
+    public void shouldFindImage() throws Exception {
         // given
         given(blob.getMimeType()).willReturn("image/png");
         given(blob.getMetaData()).willReturn("metadata");
@@ -64,8 +61,7 @@ public final class NovusImageFinderImplTest
     }
 
     @Test
-    public void shouldTryAgain() throws Exception
-    {
+    public void shouldTryAgain() throws Exception {
         // given
         given(blob.getMimeType()).willReturn(" ", "image/png");
         given(blob.getMetaData()).willReturn("metadata");
@@ -78,8 +74,7 @@ public final class NovusImageFinderImplTest
     }
 
     @Test
-    public void shouldReturnNullIfFailed() throws Exception
-    {
+    public void shouldReturnNullIfFailed() throws Exception {
         // given
         given(blob.getMimeType()).willReturn("image/png");
         given(blob.getMetaData()).willReturn("");

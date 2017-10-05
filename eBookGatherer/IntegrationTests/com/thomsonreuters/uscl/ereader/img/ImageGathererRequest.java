@@ -6,28 +6,22 @@ import java.util.concurrent.CountDownLatch;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-public abstract class ImageGathererRequest implements Callable<Boolean>
-{
+public abstract class ImageGathererRequest implements Callable<Boolean> {
     private static Logger LOG = LogManager.getLogger(ImageGathererRequest.class);
 
     private CountDownLatch countDownLatch;
 
-    public ImageGathererRequest(final CountDownLatch countDownLatch)
-    {
+    public ImageGathererRequest(final CountDownLatch countDownLatch) {
         this.countDownLatch = countDownLatch;
     }
 
     @Override
-    public Boolean call() throws Exception
-    {
-        try
-        {
+    public Boolean call() throws Exception {
+        try {
             countDownLatch.await();
             doRequest();
             return true;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             LOG.error("", e);
             return false;
         }

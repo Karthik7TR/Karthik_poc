@@ -18,8 +18,7 @@ import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
  * @param isFinalStage determines to retrieve content from Final or Review stage
  * @param useReloadContent determines to retrieve content from the Reload stage
  */
-public interface NortService
-{
+public interface NortService {
     GatherResponse findTableOfContents(
         String domainName,
         String expressionFilter,

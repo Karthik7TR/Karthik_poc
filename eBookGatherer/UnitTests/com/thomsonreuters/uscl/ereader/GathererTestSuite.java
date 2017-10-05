@@ -28,7 +28,6 @@ import org.junit.runners.Suite.SuiteClasses;
     HomeControllerTest.class,
     NortLabelParserTest.class})
 
-public class GathererTestSuite
-{
+public class GathererTestSuite {
     //Intentionally left blank
 }

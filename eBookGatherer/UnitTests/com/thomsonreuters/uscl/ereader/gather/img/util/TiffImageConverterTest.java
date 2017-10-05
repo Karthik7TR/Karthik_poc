@@ -28,8 +28,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class TiffImageConverterTest
-{
+public final class TiffImageConverterTest {
     private static final String INCORRECT_PATH = "\\***\\\\\\\\\\\\";
     private static final String PNG_EXTENSION = ".png";
     private static final String TIFF_EXTENSION = ".tif";
@@ -50,8 +49,7 @@ public final class TiffImageConverterTest
     private TiffReader tiffReader;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         workDir = temporaryFolder.getRoot();
         substituteImagesDir = new File(workDir, "substituteImages");
         substituteImagesDir.mkdirs();
@@ -59,38 +57,32 @@ public final class TiffImageConverterTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         FileUtils.deleteQuietly(workDir);
     }
 
     @Test
-    public void convertUncompressed() throws Exception
-    {
+    public void convertUncompressed() throws Exception {
         doTest();
     }
 
     @Test
-    public void convertGroup4() throws Exception
-    {
+    public void convertGroup4() throws Exception {
         doTest();
     }
 
     @Test
-    public void convertBadGroup4() throws Exception
-    {
+    public void convertBadGroup4() throws Exception {
         doTest();
     }
 
     @Test
-    public void convertNotTiff() throws Exception
-    {
+    public void convertNotTiff() throws Exception {
         doTest();
     }
 
     @Test
-    public void convertWithSubstitute() throws Exception
-    {
+    public void convertWithSubstitute() throws Exception {
         //given
         final File substituteImageFile =
             new File(TiffImageConverterTest.class.getResource("convertWithSubstitute.png").toURI());
@@ -100,20 +92,17 @@ public final class TiffImageConverterTest
     }
 
     @Test
-    public void writingError() throws Exception
-    {
+    public void writingError() throws Exception {
         thrown.expect(ImageConverterException.class);
         thrown.expectCause(CoreMatchers.<Throwable>instanceOf(IOException.class));
         doTest(true);
     }
 
-    private void doTest() throws ImageConverterException, IOException, URISyntaxException
-    {
+    private void doTest() throws ImageConverterException, IOException, URISyntaxException {
         doTest(false);
     }
 
-    private void doTest(final boolean withWriteError) throws ImageConverterException, IOException, URISyntaxException
-    {
+    private void doTest(final boolean withWriteError) throws ImageConverterException, IOException, URISyntaxException {
         //given
         final File tiff = getFile(name.getMethodName());
         final byte[] imgBytes = Files.readAllBytes(tiff.toPath());
@@ -129,8 +118,7 @@ public final class TiffImageConverterTest
         assertThat(outputFile.length(), not(0L));
     }
 
-    private File getFile(final String fileName) throws URISyntaxException
-    {
+    private File getFile(final String fileName) throws URISyntaxException {
         return new File(TiffImageConverterTest.class.getResource(fileName + TIFF_EXTENSION).toURI());
     }
 }

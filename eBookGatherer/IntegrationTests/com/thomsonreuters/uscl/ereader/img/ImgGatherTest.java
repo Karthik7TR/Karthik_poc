@@ -48,8 +48,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @WebAppConfiguration
-public final class ImgGatherTest
-{
+public final class ImgGatherTest {
     private static final String IMG = "/img";
 
     @Autowired
@@ -64,8 +63,7 @@ public final class ImgGatherTest
     private File incorrectDocToImageManifestFile;
 
     @Before
-    public void setUp() throws URISyntaxException
-    {
+    public void setUp() throws URISyntaxException {
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         emptyDocToImageManifestFile = new File(ImgGatherTest.class.getResource("emptyDocToImg.txt").toURI());
         pdfDocToImageManifestFile = new File(ImgGatherTest.class.getResource("docToImgPdf.txt").toURI());
@@ -74,8 +72,7 @@ public final class ImgGatherTest
     }
 
     @Test
-    public void shouldDoNothingIfNoImages() throws Exception
-    {
+    public void shouldDoNothingIfNoImages() throws Exception {
         // given
         final File dynamicImageDirectory = createDynamicImageDirectory();
         final String body = getRequestBody(dynamicImageDirectory, emptyDocToImageManifestFile);
@@ -86,8 +83,7 @@ public final class ImgGatherTest
     }
 
     @Test
-    public void shouldReturnEmptyResponseIfExceptionThrown() throws Exception
-    {
+    public void shouldReturnEmptyResponseIfExceptionThrown() throws Exception {
         // given
         final File dynamicImageDirectory = createDynamicImageDirectory();
         final String body = getRequestBody(dynamicImageDirectory, null);
@@ -98,8 +94,7 @@ public final class ImgGatherTest
     }
 
     @Test
-    public void shouldGetPdfImagesFromNovusAndNotTransform() throws Exception
-    {
+    public void shouldGetPdfImagesFromNovusAndNotTransform() throws Exception {
         // given
         final File dynamicImageDirectory = createDynamicImageDirectory();
         final String body = getRequestBody(dynamicImageDirectory, pdfDocToImageManifestFile);
@@ -119,8 +114,7 @@ public final class ImgGatherTest
     }
 
     @Test
-    public void shouldGetTiffImagesFromNovusAndTransformToPng() throws Exception
-    {
+    public void shouldGetTiffImagesFromNovusAndTransformToPng() throws Exception {
         // given
         final File dynamicImageDirectory = createDynamicImageDirectory();
         final String body = getRequestBody(dynamicImageDirectory, pngDocToImageManifestFile);
@@ -140,8 +134,7 @@ public final class ImgGatherTest
     }
 
     @Test
-    public void shouldReturnMissingCountIfImagesNotFound() throws Exception
-    {
+    public void shouldReturnMissingCountIfImagesNotFound() throws Exception {
         // given
         final File dynamicImageDirectory = createDynamicImageDirectory();
         final String body = getRequestBody(dynamicImageDirectory, incorrectDocToImageManifestFile);
@@ -154,48 +147,39 @@ public final class ImgGatherTest
     }
 
     @Test
-    public void shouldWorkInConcurrent() throws InterruptedException, ExecutionException
-    {
+    public void shouldWorkInConcurrent() throws InterruptedException, ExecutionException {
         // given
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final ExecutorService executorService = Executors.newCachedThreadPool();
         final List<Future<Boolean>> results = new ArrayList<>();
         // when
-        results.add(executorService.submit(new ImageGathererRequest(countDownLatch)
-        {
+        results.add(executorService.submit(new ImageGathererRequest(countDownLatch) {
             @Override
-            protected void doRequest() throws Exception
-            {
+            protected void doRequest() throws Exception {
                 shouldGetPdfImagesFromNovusAndNotTransform();
             }
         }));
-        results.add(executorService.submit(new ImageGathererRequest(countDownLatch)
-        {
+        results.add(executorService.submit(new ImageGathererRequest(countDownLatch) {
             @Override
-            protected void doRequest() throws Exception
-            {
+            protected void doRequest() throws Exception {
                 shouldGetTiffImagesFromNovusAndTransformToPng();
             }
         }));
-        results.add(executorService.submit(new ImageGathererRequest(countDownLatch)
-        {
+        results.add(executorService.submit(new ImageGathererRequest(countDownLatch) {
             @Override
-            protected void doRequest() throws Exception
-            {
+            protected void doRequest() throws Exception {
                 shouldReturnMissingCountIfImagesNotFound();
             }
         }));
         countDownLatch.countDown();
         executorService.shutdown();
         // then
-        for (final Future<Boolean> future : results)
-        {
+        for (final Future<Boolean> future : results) {
             assertTrue(future.get());
         }
     }
 
-    private File createDynamicImageDirectory()
-    {
+    private File createDynamicImageDirectory() {
         // Create deep dynamicImageDirectory to have separate missing_image_guids.txt for every test method
         final File parent = new File(temporaryFolder.getRoot(), UUID.randomUUID().toString());
         parent.mkdir();
@@ -204,14 +188,12 @@ public final class ImgGatherTest
         return dynamicImageDirectory;
     }
 
-    private File getMissingImagesGuidsFile(final File dynamicImageDirectory)
-    {
+    private File getMissingImagesGuidsFile(final File dynamicImageDirectory) {
         return new File(dynamicImageDirectory.getParentFile(), "missing_image_guids.txt");
     }
 
     private String getRequestBody(final File dynamicImageDirectory, final File docToImageManifestFile)
-        throws JAXBException
-    {
+        throws JAXBException {
         final GatherImgRequest gatherImgRequest = new GatherImgRequest();
         gatherImgRequest.setDynamicImageDirectory(dynamicImageDirectory);
         gatherImgRequest.setImgToDocManifestFile(docToImageManifestFile);

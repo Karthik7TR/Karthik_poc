@@ -16,19 +16,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class DocController
-{
+public class DocController {
     private static Logger LOG = LogManager.getLogger(DocController.class);
 
     private DocService docService;
 
     @RequestMapping(value = "/doc", method = RequestMethod.POST)
-    public ModelAndView fetchDocuments(@RequestBody final GatherDocRequest docRequest, final Model model)
-    {
+    public ModelAndView fetchDocuments(@RequestBody final GatherDocRequest docRequest, final Model model) {
         LOG.debug(">>> " + docRequest);
         GatherResponse gatherResponse = new GatherResponse();
-        try
-        {
+        try {
             gatherResponse = docService.fetchDocuments(
                 docRequest.getGuids(),
                 docRequest.getCollectionName(),
@@ -36,25 +33,19 @@ public class DocController
                 docRequest.getMetadataDestinationDirectory(),
                 docRequest.getIsFinalStage(),
                 docRequest.getUseReloadContent());
-        }
-        catch (final GatherException e)
-        {
+        } catch (final GatherException e) {
             String errorMessage = e.getMessage();
             final Throwable cause = e.getCause();
-            if (cause != null)
-            {
+            if (cause != null) {
                 errorMessage = errorMessage + " - " + cause.getMessage();
             }
             LOG.error(errorMessage, e);
             gatherResponse.setErrorCode(e.getErrorCode());
             gatherResponse.setErrorMessage(errorMessage);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             String errorMessage = e.getMessage();
             final Throwable cause = e.getCause();
-            if (cause != null)
-            {
+            if (cause != null) {
                 errorMessage = errorMessage + " - " + cause.getMessage();
             }
             LOG.error(errorMessage, e);
@@ -66,8 +57,7 @@ public class DocController
     }
 
     @Required
-    public void setDocService(final DocService service)
-    {
+    public void setDocService(final DocService service) {
         docService = service;
     }
 }

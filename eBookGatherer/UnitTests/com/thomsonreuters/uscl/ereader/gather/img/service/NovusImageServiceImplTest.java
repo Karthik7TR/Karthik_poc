@@ -31,8 +31,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class NovusImageServiceImplTest
-{
+public final class NovusImageServiceImplTest {
     @InjectMocks
     private NovusImageServiceImpl service;
     @Mock
@@ -44,8 +43,7 @@ public final class NovusImageServiceImplTest
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void shouldProcessEveryImageOnce() throws Exception
-    {
+    public void shouldProcessEveryImageOnce() throws Exception {
         // given
         final Map<String, List<String>> docsMap = new HashMap<>();
         docsMap.put("docId", asList("image1", "image2"));
@@ -62,8 +60,7 @@ public final class NovusImageServiceImplTest
     }
 
     @Test
-    public void shouldThrowExceptionIfFailsToProcess() throws Exception
-    {
+    public void shouldThrowExceptionIfFailsToProcess() throws Exception {
         // given
         thrown.expect(GatherException.class);
         thrown.expectMessage("Cannot process images from Novus");

@@ -38,8 +38,7 @@ import com.westgroup.novus.productapi.TOCNode;
  * @author Kirsten Gunn
  *
  */
-public class TocServiceImpl implements TocService
-{
+public class TocServiceImpl implements TocService {
     private NovusFactory novusFactory;
 
     private NovusUtility novusUtility;
@@ -55,33 +54,27 @@ public class TocServiceImpl implements TocService
     private List<String> tocGuidList;
     private List<String> duplicateTocGuids;
 
-    public List<String> getDuplicateTocGuids()
-    {
+    public List<String> getDuplicateTocGuids() {
         return duplicateTocGuids;
     }
 
-    public void setDuplicateTocGuids(final List<String> duplicateTocGuids)
-    {
+    public void setDuplicateTocGuids(final List<String> duplicateTocGuids) {
         this.duplicateTocGuids = duplicateTocGuids;
     }
 
-    public boolean isFindSplitsAgain()
-    {
+    public boolean isFindSplitsAgain() {
         return findSplitsAgain;
     }
 
-    public List<String> getSplitTocGuidList()
-    {
+    public List<String> getSplitTocGuidList() {
         return splitTocGuidList;
     }
 
-    public int getThresholdValue()
-    {
+    public int getThresholdValue() {
         return thresholdValue;
     }
 
-    public void setThresholdValue(final int thresholdValue)
-    {
+    public void setThresholdValue(final int thresholdValue) {
         this.thresholdValue = thresholdValue;
     }
 
@@ -96,40 +89,29 @@ public class TocServiceImpl implements TocService
         final List<ExcludeDocument> excludeDocuments,
         final List<ExcludeDocument> copyExcludeDocuments,
         final List<RenameTocEntry> renameTocEntries,
-        final List<RenameTocEntry> copyRenameTocEntries) throws GatherException
-    {
+        final List<RenameTocEntry> copyRenameTocEntries) throws GatherException {
         TOCNode[] tocNodes = null;
         TOCNode tocNode = null;
 
-        try
-        {
+        try {
             // This is the counter for checking how many Novus retries we
             // are making
             Integer novusTocRetryCounter = 0;
             tocRetryCount = Integer.valueOf(novusUtility.getTocRetryCount());
-            while (novusTocRetryCounter < tocRetryCount)
-            {
-                try
-                {
+            while (novusTocRetryCounter < tocRetryCount) {
+                try {
                     tocNode = _tocManager.getNode(guid);
                     break;
-                }
-                catch (final Exception exception)
-                {
-                    try
-                    {
+                } catch (final Exception exception) {
+                    try {
                         novusTocRetryCounter =
                             novusUtility.handleException(exception, novusTocRetryCounter, tocRetryCount);
-                    }
-                    catch (final NovusException e)
-                    {
+                    } catch (final NovusException e) {
                         LOG.error("Failed with Novus Exception in TOC");
                         final GatherException ge =
                             new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
                         throw ge;
-                    }
-                    catch (final Exception e)
-                    {
+                    } catch (final Exception e) {
                         LOG.error("Failed with Novus Exception in TOC");
                         final GatherException ge =
                             new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
@@ -137,8 +119,7 @@ public class TocServiceImpl implements TocService
                     }
                 }
             }
-            if (tocNode == null)
-            {
+            if (tocNode == null) {
                 final String emptyErr =
                     "Failed with EMPTY toc.xml for collection " + _tocManager.getCollection() + " and guid " + guid;
                 LOG.error(emptyErr);
@@ -162,14 +143,10 @@ public class TocServiceImpl implements TocService
                 copyExcludeDocuments,
                 renameTocEntries,
                 copyRenameTocEntries);
-        }
-        catch (final GatherException e)
-        {
+        } catch (final GatherException e) {
             LOG.error("Failed with GatherException in TOC");
             throw e;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             LOG.debug("Failed with Novus Exception in TOC");
             final GatherException ge = new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
             throw ge;
@@ -186,17 +163,13 @@ public class TocServiceImpl implements TocService
         final List<ExcludeDocument> excludeDocuments,
         final List<ExcludeDocument> copyExcludeDocuments,
         final List<RenameTocEntry> renameTocEntries,
-        final List<RenameTocEntry> copyRenameTocEntries) throws GatherException
-    {
+        final List<RenameTocEntry> copyRenameTocEntries) throws GatherException {
         boolean docFound = true;
 
-        if (nodes != null)
-        {
-            try
-            {
+        if (nodes != null) {
+            try {
                 final List<Boolean> documentsFound = new ArrayList<>();
-                for (final TOCNode node : nodes)
-                {
+                for (final TOCNode node : nodes) {
                     documentsFound.add(
                         printNode(
                             node,
@@ -214,10 +187,8 @@ public class TocServiceImpl implements TocService
                 // Only add MissingDocuments if all nodes return false
                 docFound = documentsFound.contains(true);
 
-                if (iParent[0] > 0)
-                {
-                    if (!docFound)
-                    {
+                if (iParent[0] > 0) {
+                    if (!docFound) {
                         out.write("<MissingDocument></MissingDocument>");
                     }
                     out.write(EBConstants.TOC_END_EBOOKTOC_ELEMENT);
@@ -226,9 +197,7 @@ public class TocServiceImpl implements TocService
 
                     iParent[0]--;
                 }
-            }
-            catch (final IOException e)
-            {
+            } catch (final IOException e) {
                 LOG.error("Failed writing TOC in TOC");
                 final GatherException ge =
                     new GatherException("Failed writing TOC in TOC ", e, GatherResponse.CODE_NOVUS_ERROR);
@@ -248,24 +217,18 @@ public class TocServiceImpl implements TocService
         final List<ExcludeDocument> excludeDocuments,
         final List<ExcludeDocument> copyExcludeDocuments,
         final List<RenameTocEntry> renameTocEntries,
-        final List<RenameTocEntry> copyRenameTocEntries) throws GatherException
-    {
+        final List<RenameTocEntry> copyRenameTocEntries) throws GatherException {
         boolean docFound = true;
         boolean excludeDocumentFound = false;
         String documentGuid = null;
 
-        if (node != null)
-        {
+        if (node != null) {
             documentGuid = node.getDocGuid();
-            if (documentGuid != null)
-            {
+            if (documentGuid != null) {
                 documentGuid = documentGuid.replaceAll("\\<.*?>", "");
-                if ((excludeDocuments != null) && (excludeDocuments.size() > 0) && (copyExcludeDocuments != null))
-                {
-                    for (final ExcludeDocument excludeDocument : excludeDocuments)
-                    {
-                        if (excludeDocument.getDocumentGuid().equalsIgnoreCase(documentGuid))
-                        {
+                if ((excludeDocuments != null) && (excludeDocuments.size() > 0) && (copyExcludeDocuments != null)) {
+                    for (final ExcludeDocument excludeDocument : excludeDocuments) {
+                        if (excludeDocument.getDocumentGuid().equalsIgnoreCase(documentGuid)) {
                             excludeDocumentFound = true;
                             copyExcludeDocuments.remove(excludeDocument);
                             break;
@@ -284,20 +247,16 @@ public class TocServiceImpl implements TocService
                 throw ge;
             }
 
-            if (!excludeDocumentFound)
-            {
+            if (!excludeDocumentFound) {
                 String label = node.getName().replaceAll("\\<.*?>", "");
                 final String guid = node.getGuid().replaceAll("\\<.*?>", "");
 
                 // Check if name needs to be relabelled
-                if ((renameTocEntries != null) && (renameTocEntries.size() > 0) && (copyRenameTocEntries != null))
-                {
-                    for (final RenameTocEntry renameTocEntry : renameTocEntries)
-                    {
-                        if (renameTocEntry.getTocGuid().equalsIgnoreCase(guid))
-                        {
-                            final CharSequenceTranslator escapeXml =
-                                StringEscapeUtils.ESCAPE_XML10.with(NumericEntityEscaper.between(0x7f, Integer.MAX_VALUE));
+                if ((renameTocEntries != null) && (renameTocEntries.size() > 0) && (copyRenameTocEntries != null)) {
+                    for (final RenameTocEntry renameTocEntry : renameTocEntries) {
+                        if (renameTocEntry.getTocGuid().equalsIgnoreCase(guid)) {
+                            final CharSequenceTranslator escapeXml = StringEscapeUtils.ESCAPE_XML10
+                                .with(NumericEntityEscaper.between(0x7f, Integer.MAX_VALUE));
                             label = escapeXml.translate(renameTocEntry.getNewLabel());
                             copyRenameTocEntries.remove(renameTocEntry);
                             break;
@@ -319,8 +278,7 @@ public class TocServiceImpl implements TocService
 
                 final StringBuffer docGuid = new StringBuffer();
 
-                if (documentGuid != null)
-                {
+                if (documentGuid != null) {
                     docFound = true;
                     docCounter[0]++;
                     docGuid.append(EBConstants.TOC_START_DOCUMENT_GUID_ELEMENT)
@@ -328,17 +286,13 @@ public class TocServiceImpl implements TocService
                         .append(EBConstants.TOC_END_DOCUMENT_GUID_ELEMENT);
                 }
 
-                if (node.getChildrenCount() == 0)
-                {
-                    if (!docFound)
-                    {
+                if (node.getChildrenCount() == 0) {
+                    if (!docFound) {
                         docGuid.append("<MissingDocument></MissingDocument>");
                         docFound = true;
                     }
                     docGuid.append(EBConstants.TOC_END_EBOOKTOC_ELEMENT);
-                }
-                else
-                {
+                } else {
                     iParent[0]++;
                 }
 
@@ -348,14 +302,11 @@ public class TocServiceImpl implements TocService
                 // <DocumentGuid>I175bd1b012bb11dc8c0988fbe4566386</DocumentGuid>
 
                 // To verify if the provided split Toc/Nort Node exists in the file
-                if (splitTocGuidList != null && splitTocGuidList.size() > 0 && guid.toString().length() >= 33)
-                {
+                if (splitTocGuidList != null && splitTocGuidList.size() > 0 && guid.toString().length() >= 33) {
                     splitTocCount++;
                     final String splitNode = StringUtils.substring(guid.toString(), 0, 33);
-                    if (splitTocGuidList.contains(splitNode))
-                    {
-                        if (splitTocCount >= thresholdValue)
-                        {
+                    if (splitTocGuidList.contains(splitNode)) {
+                        if (splitTocCount >= thresholdValue) {
                             findSplitsAgain = true;
                         }
                         splitTocCount = 0;
@@ -365,12 +316,10 @@ public class TocServiceImpl implements TocService
 
                 //843012:Update Generator for CWB Reorder Changes. For both TOC and Doc guids a six digit suffix has been added
                 //Add only first 33 characters to find the duplicate TOC
-                if (guid.toString().length() >= 33)
-                {
+                if (guid.toString().length() >= 33) {
                     final String guidForDupCheck = StringUtils.substring(guid.toString(), 0, 33);
 
-                    if (tocGuidList.contains(guidForDupCheck) && !duplicateTocGuids.contains(guidForDupCheck))
-                    {
+                    if (tocGuidList.contains(guidForDupCheck) && !duplicateTocGuids.contains(guidForDupCheck)) {
                         duplicateTocGuids.add(guidForDupCheck);
                     }
 
@@ -384,14 +333,11 @@ public class TocServiceImpl implements TocService
                 // LOG.debug(" document count : " + docCounter + " out of " +
                 // counter + " nodes" );
 
-                try
-                {
+                try {
                     out.write(payloadFormatted);
                     out.write("\r\n");
                     out.flush();
-                }
-                catch (final IOException e)
-                {
+                } catch (final IOException e) {
                     LOG.error(e.getMessage());
                     final GatherException ge =
                         new GatherException("Failed writing to TOC ", e, GatherResponse.CODE_FILE_ERROR);
@@ -401,40 +347,28 @@ public class TocServiceImpl implements TocService
 
             TOCNode[] tocNodes = null;
 
-            try
-            {
+            try {
                 // This is the counter for checking how many Novus retries we
                 // are making
                 Integer novusTocRetryCounter = 0;
                 tocRetryCount = Integer.valueOf(novusUtility.getTocRetryCount());
-                while (novusTocRetryCounter < tocRetryCount)
-                {
-                    try
-                    {
+                while (novusTocRetryCounter < tocRetryCount) {
+                    try {
                         tocNodes = node.getChildren();
                         break;
-                    }
-                    catch (final Exception exception)
-                    {
-                        try
-                        {
+                    } catch (final Exception exception) {
+                        try {
                             novusTocRetryCounter =
                                 novusUtility.handleException(exception, novusTocRetryCounter, tocRetryCount);
-                        }
-                        catch (final NovusException e)
-                        {
+                        } catch (final NovusException e) {
                             LOG.error("Failed with Novus Exception in TOC getChildren()");
                             final GatherException ge =
                                 new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
                             throw ge;
-                        }
-                        catch (final GatherException e)
-                        {
+                        } catch (final GatherException e) {
                             LOG.error("Failed with GatherException in TOC");
                             throw e;
-                        }
-                        catch (final Exception e)
-                        {
+                        } catch (final Exception e) {
                             LOG.error("Failed with Exception in TOC getChildren()");
                             final GatherException ge =
                                 new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
@@ -442,21 +376,17 @@ public class TocServiceImpl implements TocService
                         }
                     }
                 }
-            }
-            catch (final GatherException e)
-            {
+            } catch (final GatherException e) {
                 LOG.error("Failed with GatherException in TOC");
                 throw e;
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 LOG.error("Failed with Novus Exception in TOC");
-                final GatherException ge = new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
+                final GatherException ge =
+                    new GatherException("TOC Novus Exception ", e, GatherResponse.CODE_NOVUS_ERROR);
                 throw ge;
             }
 
-            if (tocNodes != null)
-            {
+            if (tocNodes != null) {
                 printNodes(
                     tocNodes,
                     _tocManager,
@@ -489,8 +419,7 @@ public class TocServiceImpl implements TocService
         final List<RenameTocEntry> renameTocEntries,
         final boolean isFinalStage,
         final List<String> splitTocGuidList,
-        final int thresholdValue) throws GatherException
-    {
+        final int thresholdValue) throws GatherException {
         TOC _tocManager = null;
         final int[] counter = {0};
         final int[] docCounter = {0};
@@ -504,12 +433,9 @@ public class TocServiceImpl implements TocService
         final String type = EBConstants.COLLECTION_TYPE;
 
         Novus novusObject = null;
-        try
-        {
+        try {
             novusObject = novusFactory.createNovus(isFinalStage);
-        }
-        catch (final NovusException e)
-        {
+        } catch (final NovusException e) {
             final GatherException ge = new GatherException(
                 "Novus error occurred while creating Novus object " + e,
                 GatherResponse.CODE_NOVUS_ERROR);
@@ -528,29 +454,24 @@ public class TocServiceImpl implements TocService
         this.thresholdValue = thresholdValue;
 
         // Make a copy of the original excluded documents to check that all have been accounted for
-        if (excludeDocuments != null)
-        {
-            copyExcludDocs =
-                new ArrayList<>(Arrays.asList(new ExcludeDocument[excludeDocuments.size()]));
+        if (excludeDocuments != null) {
+            copyExcludDocs = new ArrayList<>(Arrays.asList(new ExcludeDocument[excludeDocuments.size()]));
         }
 
         List<RenameTocEntry> copyRenameTocs = null;
 
         // Make a copy of the original rename TOC entries to check that all have been accounted for
-        if (renameTocEntries != null)
-        {
+        if (renameTocEntries != null) {
             copyRenameTocs = new ArrayList<>(Arrays.asList(new RenameTocEntry[renameTocEntries.size()]));
         }
 
-        try (Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(tocXmlFile.getPath()), "UTF8")))
-        {
-            if (excludeDocuments != null)
-            {
+        try (Writer out =
+            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(tocXmlFile.getPath()), "UTF8"))) {
+            if (excludeDocuments != null) {
                 Collections.copy(copyExcludDocs, excludeDocuments);
             }
 
-            if (renameTocEntries != null)
-            {
+            if (renameTocEntries != null) {
                 Collections.copy(copyRenameTocs, renameTocEntries);
             }
             out.write(EBConstants.TOC_XML_ELEMENT);
@@ -581,50 +502,36 @@ public class TocServiceImpl implements TocService
             out.write(EBConstants.TOC_END_EBOOK_ELEMENT);
             out.flush();
             LOG.debug("Done with Toc.");
-        }
-        catch (final UnsupportedEncodingException e)
-        {
+        } catch (final UnsupportedEncodingException e) {
             LOG.error(e.getMessage());
-            final GatherException ge = new GatherException("TOC UTF-8 encoding error ", e, GatherResponse.CODE_FILE_ERROR);
+            final GatherException ge =
+                new GatherException("TOC UTF-8 encoding error ", e, GatherResponse.CODE_FILE_ERROR);
             publishStatus = "TOC Step Failed UTF-8 encoding error";
             throw ge;
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             LOG.error(e.getMessage());
             final GatherException ge = new GatherException("TOC File not found ", e, GatherResponse.CODE_FILE_ERROR);
             publishStatus = "TOC Step Failed File not found";
             throw ge;
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             LOG.error(e.getMessage());
             final GatherException ge = new GatherException("TOC IOException ", e, GatherResponse.CODE_FILE_ERROR);
             publishStatus = "TOC Step Failed IOException";
             throw ge;
-        }
-        catch (final GatherException e)
-        {
+        } catch (final GatherException e) {
             LOG.error(e.getMessage());
             publishStatus = "TOC Step Failed GatherException";
             throw e;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             LOG.error(e.getMessage());
             final GatherException ge = new GatherException("TOC IOException ", e, GatherResponse.CODE_FILE_ERROR);
             publishStatus = "TOC Step Failed IOException";
             throw ge;
-        }
-        finally
-        {
-            try
-            {
-                if ((copyExcludDocs != null) && (copyExcludDocs.size() > 0))
-                {
+        } finally {
+            try {
+                if ((copyExcludDocs != null) && (copyExcludDocs.size() > 0)) {
                     final StringBuffer unaccountedExcludedDocs = new StringBuffer();
-                    for (final ExcludeDocument excludeDocument : copyExcludDocs)
-                    {
+                    for (final ExcludeDocument excludeDocument : copyExcludDocs) {
                         unaccountedExcludedDocs.append(excludeDocument.getDocumentGuid() + ",");
                     }
                     final GatherException ge = new GatherException(
@@ -632,11 +539,9 @@ public class TocServiceImpl implements TocService
                     publishStatus = "TOC Step Failed with Not all Excluded Docs accounted for error";
                     throw ge;
                 }
-                if ((copyRenameTocs != null) && (copyRenameTocs.size() > 0))
-                {
+                if ((copyRenameTocs != null) && (copyRenameTocs.size() > 0)) {
                     final StringBuffer unaccountedRenameTocs = new StringBuffer();
-                    for (final RenameTocEntry renameTocEntry : copyRenameTocs)
-                    {
+                    for (final RenameTocEntry renameTocEntry : copyRenameTocs) {
                         unaccountedRenameTocs.append(renameTocEntry.getTocGuid() + ",");
                     }
                     final GatherException ge = new GatherException(
@@ -644,15 +549,12 @@ public class TocServiceImpl implements TocService
                     publishStatus = "TOC Step Failed with Not all Rename TOCs accounted for error";
                     throw ge;
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 LOG.error(e.getMessage());
-                final GatherException ge = new GatherException("Failure in findTOC() ", e, GatherResponse.CODE_DATA_ERROR);
+                final GatherException ge =
+                    new GatherException("Failure in findTOC() ", e, GatherResponse.CODE_DATA_ERROR);
                 throw ge;
-            }
-            finally
-            {
+            } finally {
                 gatherResponse.setDocCount(docCounter[0]);
                 gatherResponse.setNodeCount(counter[0]);
                 gatherResponse.setRetryCount(retryCounter[0]);
@@ -676,16 +578,12 @@ public class TocServiceImpl implements TocService
      * @param novus
      * @return
      */
-    private TOC getTocObject(final String name, final String type, final Novus novus)
-    {
+    private TOC getTocObject(final String name, final String type, final Novus novus) {
         final TOC toc = novus.getTOC();
 
-        if (!"".equals(type) && type.equalsIgnoreCase(EBConstants.COLLECTION_SET_TYPE))
-        {
+        if (!"".equals(type) && type.equalsIgnoreCase(EBConstants.COLLECTION_SET_TYPE)) {
             toc.setCollectionSet(name);
-        }
-        else if (!"".equals(type) && type.equalsIgnoreCase(EBConstants.COLLECTION_TYPE))
-        {
+        } else if (!"".equals(type) && type.equalsIgnoreCase(EBConstants.COLLECTION_TYPE)) {
             toc.setCollection(name);
         }
         toc.setShowChildrenCount(true);
@@ -695,14 +593,12 @@ public class TocServiceImpl implements TocService
     }
 
     @Required
-    public void setNovusFactory(final NovusFactory factory)
-    {
+    public void setNovusFactory(final NovusFactory factory) {
         novusFactory = factory;
     }
 
     @Required
-    public void setNovusUtility(final NovusUtility novusUtil)
-    {
+    public void setNovusUtility(final NovusUtility novusUtil) {
         novusUtility = novusUtil;
     }
 }

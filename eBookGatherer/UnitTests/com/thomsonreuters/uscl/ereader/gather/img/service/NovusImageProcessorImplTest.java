@@ -29,8 +29,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class NovusImageProcessorImplTest
-{
+public final class NovusImageProcessorImplTest {
     @InjectMocks
     private NovusImageProcessorImpl processor;
     @Mock
@@ -42,16 +41,14 @@ public final class NovusImageProcessorImplTest
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Before
-    public void setUp() throws FileNotFoundException
-    {
+    public void setUp() throws FileNotFoundException {
         processor.setDynamicImageDirectory(temporaryFolder.getRoot());
         processor.setMissingImageGuidsFileBasename("temp.txt");
         processor.init();
     }
 
     @Test
-    public void shouldProcessCorrectly()
-    {
+    public void shouldProcessCorrectly() {
         // given
         final ImgMetadataInfo metadata = new ImgMetadataInfo();
         given(finder.getImage("imageId")).willReturn(new NovusImage(MediaType.IMAGE_PNG, metadata, new byte[0]));
@@ -68,8 +65,7 @@ public final class NovusImageProcessorImplTest
     }
 
     @Test
-    public void shouldProcessSameImageInDifferentDocs()
-    {
+    public void shouldProcessSameImageInDifferentDocs() {
         // given
         final ImgMetadataInfo metadata = new ImgMetadataInfo();
         given(finder.getImage("imageId")).willReturn(new NovusImage(MediaType.IMAGE_PNG, metadata, new byte[0]));
@@ -87,8 +83,7 @@ public final class NovusImageProcessorImplTest
     }
 
     @Test
-    public void isProcessedShouldReturnFalseIfDocNotProcessed()
-    {
+    public void isProcessedShouldReturnFalseIfDocNotProcessed() {
         // given
         final ImgMetadataInfo metadata = new ImgMetadataInfo();
         given(finder.getImage("imageId")).willReturn(new NovusImage(MediaType.IMAGE_PNG, metadata, new byte[0]));
@@ -100,8 +95,7 @@ public final class NovusImageProcessorImplTest
     }
 
     @Test
-    public void shouldCountFailsWhenCannotGetImage()
-    {
+    public void shouldCountFailsWhenCannotGetImage() {
         // given
         given(finder.getImage("imageId")).willReturn(null);
         // when
@@ -117,8 +111,7 @@ public final class NovusImageProcessorImplTest
     }
 
     @Test
-    public void shouldConvertTiffs()
-    {
+    public void shouldConvertTiffs() {
         // given
         final ImgMetadataInfo metadata = new ImgMetadataInfo();
         given(finder.getImage("imageId"))
@@ -130,8 +123,7 @@ public final class NovusImageProcessorImplTest
     }
 
     @Test
-    public void shouldCountFailsWhenCannotConvertImage()
-    {
+    public void shouldCountFailsWhenCannotConvertImage() {
         // given
         final ImgMetadataInfo metadata = new ImgMetadataInfo();
         given(finder.getImage("imageId"))
@@ -148,8 +140,7 @@ public final class NovusImageProcessorImplTest
     }
 
     @Test
-    public void shouldProcessUnknownFormat()
-    {
+    public void shouldProcessUnknownFormat() {
         // given
         final ImgMetadataInfo metadata = new ImgMetadataInfo();
         given(finder.getImage("imageId"))

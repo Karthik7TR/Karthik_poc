@@ -19,8 +19,7 @@ import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
-public final class TocControllerTest
-{
+public final class TocControllerTest {
     //private static Logger log = LogManager.getLogger(TocControllerTest.class);
     private TocService mockTocService;
     private TocController controller;
@@ -31,8 +30,7 @@ public final class TocControllerTest
     private static final boolean IS_FINAL_STAGE = true;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         guid = "a";
         mockTocService = EasyMock.createMock(TocService.class);
         controller = new TocController();
@@ -40,8 +38,7 @@ public final class TocControllerTest
     }
 
     @Test
-    public void testFetchTocumentsSuccessfully() throws Exception
-    {
+    public void testFetchTocumentsSuccessfully() throws Exception {
         final File tocFile = new File(TOC_DIR, "file");
 //		Long jobId =  new Long(1);
         GatherResponse gatherResponse = new GatherResponse();
@@ -71,20 +68,16 @@ public final class TocControllerTest
     }
 
     @Test
-    public void testFetchTocumentsWithException()
-    {
+    public void testFetchTocumentsWithException() {
         final File tocFile = new File(TOC_DIR, "file");
         final int errorCode = 911;
         final String errorMesg = "bogus error";
         final GatherException expectedException = new GatherException(errorMesg, errorCode);
-        try
-        {
+        try {
             mockTocService.findTableOfContents(guid, COLLECTION_NAME, tocFile, null, null, IS_FINAL_STAGE, null, 0);
             EasyMock.expectLastCall().andThrow(expectedException);
             EasyMock.replay(mockTocService);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             Assert.fail(e.getMessage());
         }
 
