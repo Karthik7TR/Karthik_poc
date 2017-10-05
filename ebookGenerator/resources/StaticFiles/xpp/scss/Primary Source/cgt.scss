@@ -9,7 +9,8 @@
         float: right;
     }
     .toc_primary_hierarchy>.primary_outline_name_block>.primary_name~&,
-    .toc_primary_hierarchy>.toc_appendix_block>.toc_appendix>.outline_name_block>.designator>& {
+    .toc_primary_hierarchy>.toc_appendix_block>.toc_appendix>.outline_name_block>.designator>&,
+    .toc_primary_source .primary_outline_name_block>& {
         display: none;
     }
     .footnote>& {
