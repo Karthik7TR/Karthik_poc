@@ -17,8 +17,7 @@ import org.xml.sax.helpers.XMLFilterImpl;
  *
  * @author <a href="mailto:Kirsten.Gunn@thomsonreuters.com">Kirsten Gunn</a> u0076257
  */
-public class HTMLIdFilter extends XMLFilterImpl
-{
+public class HTMLIdFilter extends XMLFilterImpl {
     private String currentGuid;
     private String familyGuid;
     private Set<String> nameAnchors;
@@ -29,72 +28,58 @@ public class HTMLIdFilter extends XMLFilterImpl
     private int goodStartCntr;
     private List<Integer> goodCntrList = new ArrayList<>();
 
-    public String getCurrentGuid()
-    {
+    public String getCurrentGuid() {
         return currentGuid;
     }
 
-    public void setCurrentGuid(final String currentGuid)
-    {
+    public void setCurrentGuid(final String currentGuid) {
         this.currentGuid = currentGuid;
     }
 
-    public String getFamilyGuid()
-    {
+    public String getFamilyGuid() {
         return familyGuid;
     }
 
-    public void setFamilyGuid(final String familyGuid)
-    {
+    public void setFamilyGuid(final String familyGuid) {
         this.familyGuid = familyGuid;
     }
 
-    public void setTargetAnchors(final Map<String, Set<String>> targetAnchors)
-    {
+    public void setTargetAnchors(final Map<String, Set<String>> targetAnchors) {
         this.targetAnchors = targetAnchors;
     }
 
-    public Map<String, Set<String>> getTargetAnchors()
-    {
+    public Map<String, Set<String>> getTargetAnchors() {
         return targetAnchors;
     }
 
-    public void setDupTargetAnchors(final Map<String, Set<String>> dupTargetAnchors)
-    {
+    public void setDupTargetAnchors(final Map<String, Set<String>> dupTargetAnchors) {
         this.dupTargetAnchors = dupTargetAnchors;
     }
 
-    public Map<String, Set<String>> getDupTargetAnchors()
-    {
+    public Map<String, Set<String>> getDupTargetAnchors() {
         return dupTargetAnchors;
     }
 
-    public void setDupGuids(final Map<String, String> dupGuids)
-    {
+    public void setDupGuids(final Map<String, String> dupGuids) {
         this.dupGuids = dupGuids;
     }
 
-    public Map<String, String> getDupGuids()
-    {
+    public Map<String, String> getDupGuids() {
         return dupGuids;
     }
 
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
-        throws SAXException
-    {
+        throws SAXException {
         boolean bCreateDupAnchor = false;
         String guid = currentGuid; // proviewId or guid
-        if (atts != null && atts.getValue("id") != null)
-        {
+        if (atts != null && atts.getValue("id") != null) {
             final String[] guidList = atts.getValue("id").split("/");
-            if (guidList.length > 1)
-            {
+            if (guidList.length > 1) {
                 guid = guidList[0];
             }
 
-            if (targetAnchors != null)
-            {
+            if (targetAnchors != null) {
                 nameAnchors = targetAnchors.get(guid);
             }
             // add anchor id after <span id="co_footnote_I6a32d800568d11e199970000837bc6dd"> like
@@ -104,28 +89,21 @@ public class HTMLIdFilter extends XMLFilterImpl
             //determine if should be duplicate guid instead!
             if (((nameAnchors != null && !nameAnchors.contains(fullyQualifiedId)) || nameAnchors == null)
                 && dupGuids != null
-                && dupGuids.containsKey(guid))
-            {
-                for (final String dupProviewId : dupGuids.keySet())
-                {
+                && dupGuids.containsKey(guid)) {
+                for (final String dupProviewId : dupGuids.keySet()) {
                     final String famGuid = dupGuids.get(dupProviewId);
-                    if (famGuid.equals(familyGuid) && !guid.equals(dupProviewId))
-                    {
+                    if (famGuid.equals(familyGuid) && !guid.equals(dupProviewId)) {
                         final String fullyQualifiedDupId = "er:#" + dupProviewId + "/" + atts.getValue("id");
                         final Set<String> nameDupAnchors = targetAnchors.get(dupProviewId);
 
-                        if (nameDupAnchors != null && nameDupAnchors.contains(fullyQualifiedDupId))
-                        {
+                        if (nameDupAnchors != null && nameDupAnchors.contains(fullyQualifiedDupId)) {
                             bCreateDupAnchor = true;
 
                             // Create a file with guid, fullyQualified and fullyQualifiedDupId
                             Set<String> hs = new HashSet<>();
-                            if (dupTargetAnchors != null && dupTargetAnchors.get(guid) != null)
-                            {
+                            if (dupTargetAnchors != null && dupTargetAnchors.get(guid) != null) {
                                 hs = dupTargetAnchors.get(guid);
-                            }
-                            else if (dupTargetAnchors == null)
-                            {
+                            } else if (dupTargetAnchors == null) {
                                 dupTargetAnchors = new HashMap<>();
                             }
                             hs.add(fullyQualifiedDupId + "REPLACEWITH" + fullyQualifiedId);
@@ -133,8 +111,7 @@ public class HTMLIdFilter extends XMLFilterImpl
                         }
                     }
                 }
-                if (bCreateDupAnchor)
-                {
+                if (bCreateDupAnchor) {
                     // Found a match!
                     // Add anchor with fullyQualified but don't remove from list so we can change
                     // the anchor href in the unlink step
@@ -142,8 +119,7 @@ public class HTMLIdFilter extends XMLFilterImpl
 
                     newAtts.addAttribute("", "", "name", "CDATA", atts.getValue("id"));
 
-                    if (anchorAddedCntr > 0)
-                    {
+                    if (anchorAddedCntr > 0) {
                         goodCntrList.add(goodStartCntr);
                         goodStartCntr = 0;
                     }
@@ -152,15 +128,13 @@ public class HTMLIdFilter extends XMLFilterImpl
                     super.startElement(uri, localName, "a", newAtts);
                 }
             }
-            if (nameAnchors != null && nameAnchors.contains(fullyQualifiedId))
-            {
+            if (nameAnchors != null && nameAnchors.contains(fullyQualifiedId)) {
                 // insert missing named anchor
                 final AttributesImpl newAtts = new AttributesImpl();
 
                 newAtts.addAttribute("", "", "name", "CDATA", atts.getValue("id"));
 
-                if (anchorAddedCntr > 0)
-                {
+                if (anchorAddedCntr > 0) {
                     goodCntrList.add(goodStartCntr);
                     goodStartCntr = 0;
                 }
@@ -171,50 +145,37 @@ public class HTMLIdFilter extends XMLFilterImpl
                 // write existing id
                 super.startElement(uri, localName, qName, atts);
                 super.startElement(uri, localName, "a", newAtts);
-            }
-            else if (!bCreateDupAnchor)
-            {
+            } else if (!bCreateDupAnchor) {
                 super.startElement(uri, localName, qName, atts);
-                if (anchorAddedCntr > 0)
-                {
+                if (anchorAddedCntr > 0) {
                     goodStartCntr++;
                 }
             }
-        }
-        else
-        {
+        } else {
             super.startElement(uri, localName, qName, atts);
-            if (anchorAddedCntr > 0)
-            {
+            if (anchorAddedCntr > 0) {
                 goodStartCntr++;
             }
         }
     }
 
     @Override
-    public void characters(final char[] buf, final int offset, final int len) throws SAXException
-    {
+    public void characters(final char[] buf, final int offset, final int len) throws SAXException {
         super.characters(buf, offset, len);
     }
 
     @Override
-    public void endElement(final String uri, final String localName, final String qName) throws SAXException
-    {
-        if (anchorAddedCntr > 0)
-        {
-            if (goodStartCntr == 0)
-            {
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException {
+        if (anchorAddedCntr > 0) {
+            if (goodStartCntr == 0) {
                 super.endElement(uri, localName, "a");
                 anchorAddedCntr--;
-                if (anchorAddedCntr >= 1)
-                {
+                if (anchorAddedCntr >= 1) {
                     final int lastIdx = goodCntrList.size() - 1;
                     goodStartCntr = goodCntrList.get(lastIdx);
                     goodCntrList.remove(lastIdx);
                 }
-            }
-            else
-            {
+            } else {
                 goodStartCntr--;
             }
         }

@@ -16,8 +16,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 
-public final class TransformerBuilderTest
-{
+public final class TransformerBuilderTest {
     private static final String XSL = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
         + " <xsl:stylesheet version=\"2.0\""
         + " xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" xmlns=\"http://www.w3.org/1999/xhtml\""
@@ -33,8 +32,7 @@ public final class TransformerBuilderTest
     private File incorrectXsl;
 
     @Before
-    public void setUp() throws IOException
-    {
+    public void setUp() throws IOException {
         builder = new TransformerBuilder(
             TransformerFactory
                 .newInstance("net.sf.saxon.TransformerFactoryImpl", TransformerBuilderTest.class.getClassLoader()));
@@ -44,8 +42,7 @@ public final class TransformerBuilderTest
     }
 
     @Test
-    public void shouldCreateTransformer()
-    {
+    public void shouldCreateTransformer() {
         //given
         builder.withXsl(xsl);
         //when
@@ -55,8 +52,7 @@ public final class TransformerBuilderTest
     }
 
     @Test
-    public void shouldThrowExceptionIfCannotCreate()
-    {
+    public void shouldThrowExceptionIfCannotCreate() {
         //given
         thrown.expect(XslTransformationException.class);
         //when

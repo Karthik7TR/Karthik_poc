@@ -5,8 +5,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Performs XSLT transformation
  */
-public interface XslTransformationService
-{
+public interface XslTransformationService {
     /**
      * Run XSLT transformation
      * @param command transformation command

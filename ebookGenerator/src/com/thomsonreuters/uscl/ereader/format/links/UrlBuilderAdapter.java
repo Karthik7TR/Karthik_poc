@@ -24,8 +24,7 @@ import com.trgr.cobalt.util.urlbuilder.UrlBuilderException;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public class UrlBuilderAdapter
-{
+public class UrlBuilderAdapter {
     private static Logger LOG = LogManager.getLogger(UrlBuilderAdapter.class);
     private static UrlBuilder URL_BUILDER;
     private static String HOSTNAME;
@@ -34,23 +33,23 @@ public class UrlBuilderAdapter
     private UrlBuilder urlBuilder;
 
     public UrlBuilderAdapter()
-        throws Exception
-    {
+        throws Exception {
         urlBuilder = new ContainerAwareUrlBuilderFactoryBean().getObject();
     }
 
-    public String CreatePersistentUrl(final String input, final String param1)
-    {
+    public String CreatePersistentUrl(final String input, final String param1) {
         return persistentIntermediary(input, param1);
     }
 
-    public String CreatePersistentUrl(final String input, final String param1, final String param2)
-    {
+    public String CreatePersistentUrl(final String input, final String param1, final String param2) {
         return persistentIntermediary(input, param1, param2);
     }
 
-    public String CreatePersistentUrl(final String input, final String param1, final String param2, final String param3)
-    {
+    public String CreatePersistentUrl(
+        final String input,
+        final String param1,
+        final String param2,
+        final String param3) {
         return persistentIntermediary(input, param1, param2, param3);
     }
 
@@ -59,8 +58,7 @@ public class UrlBuilderAdapter
         final String param1,
         final String param2,
         final String param3,
-        final String param4)
-    {
+        final String param4) {
         return persistentIntermediary(input, param1, param2, param3, param4);
     }
 
@@ -70,8 +68,7 @@ public class UrlBuilderAdapter
         final String param2,
         final String param3,
         final String param4,
-        final String param5)
-    {
+        final String param5) {
         return persistentIntermediary(input, param1, param2, param3, param4, param5);
     }
 
@@ -82,8 +79,7 @@ public class UrlBuilderAdapter
         final String param3,
         final String param4,
         final String param5,
-        final String param6)
-    {
+        final String param6) {
         return persistentIntermediary(input, param1, param2, param3, param4, param5, param6);
     }
 
@@ -95,8 +91,7 @@ public class UrlBuilderAdapter
         final String param4,
         final String param5,
         final String param6,
-        final String param7)
-    {
+        final String param7) {
         return persistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7);
     }
 
@@ -109,8 +104,7 @@ public class UrlBuilderAdapter
         final String param5,
         final String param6,
         final String param7,
-        final String param8)
-    {
+        final String param8) {
         return persistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7, param8);
     }
 
@@ -124,8 +118,7 @@ public class UrlBuilderAdapter
         final String param6,
         final String param7,
         final String param8,
-        final String param9)
-    {
+        final String param9) {
         return persistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7, param8, param9);
     }
 
@@ -140,8 +133,7 @@ public class UrlBuilderAdapter
         final String param7,
         final String param8,
         final String param9,
-        final String param10)
-    {
+        final String param10) {
         return persistentIntermediary(
             input,
             param1,
@@ -168,8 +160,7 @@ public class UrlBuilderAdapter
         final String param8,
         final String param9,
         final String param10,
-        final String param11)
-    {
+        final String param11) {
         return persistentIntermediary(
             input,
             param1,
@@ -198,8 +189,7 @@ public class UrlBuilderAdapter
         final String param9,
         final String param10,
         final String param11,
-        final String param12)
-    {
+        final String param12) {
         return persistentIntermediary(
             input,
             param1,
@@ -216,13 +206,11 @@ public class UrlBuilderAdapter
             param12);
     }
 
-    public String CreateRelativePersistentUrl(final String input, final String param1)
-    {
+    public String CreateRelativePersistentUrl(final String input, final String param1) {
         return relativePersistentIntermediary(input, param1);
     }
 
-    public String CreateRelativePersistentUrl(final String input, final String param1, final String param2)
-    {
+    public String CreateRelativePersistentUrl(final String input, final String param1, final String param2) {
         return relativePersistentIntermediary(input, param1, param2);
     }
 
@@ -230,8 +218,7 @@ public class UrlBuilderAdapter
         final String input,
         final String param1,
         final String param2,
-        final String param3)
-    {
+        final String param3) {
         return relativePersistentIntermediary(input, param1, param2, param3);
     }
 
@@ -240,8 +227,7 @@ public class UrlBuilderAdapter
         final String param1,
         final String param2,
         final String param3,
-        final String param4)
-    {
+        final String param4) {
         return relativePersistentIntermediary(input, param1, param2, param3, param4);
     }
 
@@ -251,8 +237,7 @@ public class UrlBuilderAdapter
         final String param2,
         final String param3,
         final String param4,
-        final String param5)
-    {
+        final String param5) {
         return relativePersistentIntermediary(input, param1, param2, param3, param4, param5);
     }
 
@@ -263,8 +248,7 @@ public class UrlBuilderAdapter
         final String param3,
         final String param4,
         final String param5,
-        final String param6)
-    {
+        final String param6) {
         return relativePersistentIntermediary(input, param1, param2, param3, param4, param5, param6);
     }
 
@@ -276,8 +260,7 @@ public class UrlBuilderAdapter
         final String param4,
         final String param5,
         final String param6,
-        final String param7)
-    {
+        final String param7) {
         return relativePersistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7);
     }
 
@@ -290,8 +273,7 @@ public class UrlBuilderAdapter
         final String param5,
         final String param6,
         final String param7,
-        final String param8)
-    {
+        final String param8) {
         return relativePersistentIntermediary(input, param1, param2, param3, param4, param5, param6, param7, param8);
     }
 
@@ -305,8 +287,7 @@ public class UrlBuilderAdapter
         final String param6,
         final String param7,
         final String param8,
-        final String param9)
-    {
+        final String param9) {
         return relativePersistentIntermediary(
             input,
             param1,
@@ -331,8 +312,7 @@ public class UrlBuilderAdapter
         final String param7,
         final String param8,
         final String param9,
-        final String param10)
-    {
+        final String param10) {
         return relativePersistentIntermediary(
             input,
             param1,
@@ -359,8 +339,7 @@ public class UrlBuilderAdapter
         final String param8,
         final String param9,
         final String param10,
-        final String param11)
-    {
+        final String param11) {
         return relativePersistentIntermediary(
             input,
             param1,
@@ -389,8 +368,7 @@ public class UrlBuilderAdapter
         final String param9,
         final String param10,
         final String param11,
-        final String param12)
-    {
+        final String param12) {
         return relativePersistentIntermediary(
             input,
             param1,
@@ -407,13 +385,11 @@ public class UrlBuilderAdapter
             param12);
     }
 
-    public void setHostname(final String hostname)
-    {
+    public void setHostname(final String hostname) {
         UrlBuilderAdapter.HOSTNAME = hostname;
     }
 
-    public void setRs(final String rs)
-    {
+    public void setRs(final String rs) {
         UrlBuilderAdapter.MUD_PARAMETERS_RS = rs;
     }
 
@@ -422,13 +398,11 @@ public class UrlBuilderAdapter
      *
      * @param urlBuilder the UrlBuilder to set.
      */
-    public void setUrlBuilder(final UrlBuilder urlBuilder)
-    {
+    public void setUrlBuilder(final UrlBuilder urlBuilder) {
         UrlBuilderAdapter.URL_BUILDER = urlBuilder;
     }
 
-    public void setVr(final String vr)
-    {
+    public void setVr(final String vr) {
         UrlBuilderAdapter.MUD_PARAMETERS_VR = vr;
     }
 
@@ -438,60 +412,48 @@ public class UrlBuilderAdapter
      *
      * @return Updated Url (with extra parameters)
      */
-    private String addExtraParameters(final String url)
-    {
+    private String addExtraParameters(final String url) {
         final StringBuilder strBuilder = new StringBuilder();
         final String extraParameters = "&RS=" + MUD_PARAMETERS_RS + "&vr=" + MUD_PARAMETERS_VR;
 
-        if (url.contains("#"))
-        {
+        if (url.contains("#")) {
             final String[] strSpliter = url.split("#");
 
             strBuilder.append(strSpliter[0]);
             strBuilder.append(extraParameters);
 
-            if (strSpliter.length > 1)
-            {
-                if (strSpliter[1].contains("&"))
-                {
+            if (strSpliter.length > 1) {
+                if (strSpliter[1].contains("&")) {
                     final String[] newStrSpliter = strSpliter[1].split("&");
                     int i = 1;
 
-                    for (; i < newStrSpliter.length; i++)
-                    {
+                    for (; i < newStrSpliter.length; i++) {
                         strBuilder.append('&');
                         strBuilder.append(newStrSpliter[i]);
                     }
 
                     strBuilder.append("#" + newStrSpliter[0]);
-                }
-                else
-                {
+                } else {
                     strBuilder.append("#" + strSpliter[1]);
                 }
             }
-        }
-        else
-        {
+        } else {
             return url + extraParameters;
         }
 
         return strBuilder.toString();
     }
 
-    private List<Parameter> createParameters(final String... parameters)
-    {
+    private List<Parameter> createParameters(final String... parameters) {
         final List<Parameter> paramList = new ArrayList<>();
 
-        for (final String nameValuePair : parameters)
-        {
+        for (final String nameValuePair : parameters) {
             final String[] nameAndValue = nameValuePair.split("=");
 
             final String name = nameAndValue[0];
             String value = "";
 
-            if (nameAndValue.length > 1)
-            {
+            if (nameAndValue.length > 1) {
                 value = nameAndValue[1];
             }
 
@@ -501,36 +463,28 @@ public class UrlBuilderAdapter
         return paramList;
     }
 
-    private String persistentIntermediary(final String templateName, final String... parameters)
-    {
+    private String persistentIntermediary(final String templateName, final String... parameters) {
         String response = null;
 
-        try
-        {
+        try {
             final List<Parameter> paramList = createParameters(parameters);
             response = HOSTNAME + urlBuilder.createUrl(Container.COBALT.name(), templateName, paramList);
             response = addExtraParameters(response);
-        }
-        catch (final UrlBuilderException e)
-        {
+        } catch (final UrlBuilderException e) {
             response = "";
         }
 
         return response;
     }
 
-    private String relativePersistentIntermediary(final String templateName, final String... parameters)
-    {
+    private String relativePersistentIntermediary(final String templateName, final String... parameters) {
         String response = null;
 
-        try
-        {
+        try {
             final List<Parameter> paramList = createParameters(parameters);
             response = HOSTNAME + urlBuilder.createUrl(Container.COBALT.name(), templateName, paramList);
             response = addExtraParameters(response);
-        }
-        catch (final UrlBuilderException e)
-        {
+        } catch (final UrlBuilderException e) {
             response = "";
         }
 

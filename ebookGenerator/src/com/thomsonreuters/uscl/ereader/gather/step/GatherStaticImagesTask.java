@@ -25,15 +25,14 @@ import org.springframework.util.Assert;
 /**
  * Fetch static book images from a filesystem tree and copy them to the holding destination directory.
  */
-public class GatherStaticImagesTask extends AbstractSbTasklet
-{
+public class GatherStaticImagesTask extends AbstractSbTasklet {
     //private static final Logger log = LogManager.getLogger(GatherStaticImagesTask.class);
     private ImageService imageService;
     private PublishingStatsService publishingStatsService;
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 
         final Long jobInstance =
@@ -62,8 +61,7 @@ public class GatherStaticImagesTask extends AbstractSbTasklet
                 + " - This file contains static image basenames (no directory path info), one per line, that are copied to a destination directory.");
 
         String publishStatus = "Completed";
-        try
-        {
+        try {
             // Remove all existing image files from the static image destination directory, covers case of this step failing and restarting the step.
             ImageServiceImpl.removeAllFilesInDirectory(staticImageDestinationDirectory);
 
@@ -72,14 +70,10 @@ public class GatherStaticImagesTask extends AbstractSbTasklet
 
             // Copy all the static image files from their location in the tree to the destination directory
             imageService.fetchStaticImages(basenames, staticImageDestinationDirectory);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             publishStatus = "Failed";
             throw e;
-        }
-        finally
-        {
+        } finally {
             final PublishingStats jobstats = new PublishingStats();
             jobstats.setJobInstanceId(jobInstance);
             jobstats.setPublishStatus("gatherStaticImagesTask: " + publishStatus);
@@ -95,16 +89,12 @@ public class GatherStaticImagesTask extends AbstractSbTasklet
      * @file textFile the text file to process
      * @return a list of text strings, representing each file of the specified file
      */
-    public static List<String> readLinesFromTextFile(final File textFile) throws IOException
-    {
+    public static List<String> readLinesFromTextFile(final File textFile) throws IOException {
         final List<String> lineList = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(textFile)))
-        {
+        try (BufferedReader reader = new BufferedReader(new FileReader(textFile))) {
             String textLine;
-            while ((textLine = reader.readLine()) != null)
-            {
-                if (StringUtils.isNotBlank(textLine))
-                {
+            while ((textLine = reader.readLine()) != null) {
+                if (StringUtils.isNotBlank(textLine)) {
                     lineList.add(textLine.trim());
                 }
             }
@@ -113,14 +103,12 @@ public class GatherStaticImagesTask extends AbstractSbTasklet
     }
 
     @Required
-    public void setImageService(final ImageService imageService)
-    {
+    public void setImageService(final ImageService imageService) {
         this.imageService = imageService;
     }
 
     @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
 }

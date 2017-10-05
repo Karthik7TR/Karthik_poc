@@ -22,8 +22,7 @@ import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.context.ApplicationContext;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class StepFailureNotificationServiceFactoryTest
-{
+public final class StepFailureNotificationServiceFactoryTest {
     @InjectMocks
     private StepFailureNotificationServiceFactory factory;
     @Mock
@@ -32,8 +31,7 @@ public final class StepFailureNotificationServiceFactoryTest
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void shouldReturnAppropriateService()
-    {
+    public void shouldReturnAppropriateService() {
         //given
         final InitializeTask step = new InitializeTask();
         final StepFailureNotificationService service = new GeneratorStepFailureNotificationServiceImpl();
@@ -49,8 +47,7 @@ public final class StepFailureNotificationServiceFactoryTest
     }
 
     @Test
-    public void shouldThrowExceptionIfNoServiceFound()
-    {
+    public void shouldThrowExceptionIfNoServiceFound() {
         thrown.expect(BeanCreationException.class);
         final InitializeTask step = new InitializeTask();
         final Map<String, Object> beans = new HashMap<>();

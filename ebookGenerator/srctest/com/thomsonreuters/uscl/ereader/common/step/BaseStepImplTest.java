@@ -19,8 +19,7 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.repeat.RepeatStatus;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class BaseStepImplTest
-{
+public final class BaseStepImplTest {
     @Mock(answer = Answers.CALLS_REAL_METHODS)
     private BaseStepImpl step;
     @Mock
@@ -31,15 +30,13 @@ public final class BaseStepImplTest
     private StepExecution stepExecution;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         //given
         givenStepExecution(chunkContext, stepExecution);
     }
 
     @Test
-    public void shouldAlwaysReturnFinished() throws Exception
-    {
+    public void shouldAlwaysReturnFinished() throws Exception {
         //when
         final RepeatStatus status = step.execute(stepContribution, chunkContext);
         //then
@@ -47,8 +44,7 @@ public final class BaseStepImplTest
     }
 
     @Test
-    public void shouldCallExecuteStep() throws Exception
-    {
+    public void shouldCallExecuteStep() throws Exception {
         //given
         given(step.executeStep()).willReturn(ExitStatus.COMPLETED);
         //when

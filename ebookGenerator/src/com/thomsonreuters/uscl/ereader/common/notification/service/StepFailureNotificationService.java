@@ -5,8 +5,7 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.SendNotification
 /**
  * Notifies about exception thrown on a step
  */
-public interface StepFailureNotificationService<T extends SendNotificationStep>
-{
+public interface StepFailureNotificationService<T extends SendNotificationStep> {
     /**
      * Send notification about exception was thrown
      * @param e exception

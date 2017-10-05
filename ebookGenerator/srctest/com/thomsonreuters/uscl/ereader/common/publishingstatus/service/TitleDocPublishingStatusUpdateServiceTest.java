@@ -22,8 +22,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class TitleDocPublishingStatusUpdateServiceTest
-{
+public final class TitleDocPublishingStatusUpdateServiceTest {
     @InjectMocks
     private TitleDocPublishingStatusUpdateService service;
     @Mock
@@ -41,8 +40,7 @@ public final class TitleDocPublishingStatusUpdateServiceTest
     private AssembleFileSystem fileSystem;
 
     @Test
-    public void shouldCallGeneralServiceIfFailed()
-    {
+    public void shouldCallGeneralServiceIfFailed() {
         //given
         //when
         service.savePublishingStats(step, PublishingStatus.FAILED);
@@ -51,8 +49,7 @@ public final class TitleDocPublishingStatusUpdateServiceTest
     }
 
     @Test
-    public void shouldSavePublishingStatisIfComplete()
-    {
+    public void shouldSavePublishingStatisIfComplete() {
         //given
         given(fileSystem.getDocumentsDirectory(step)).willReturn(dir);
         //when

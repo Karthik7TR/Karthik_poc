@@ -17,8 +17,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class SplitBookEmailBuilderTest
-{
+public final class SplitBookEmailBuilderTest {
     @InjectMocks
     private SplitBookEmailBuilder splitBookEmailBuilder;
     @Mock
@@ -29,8 +28,7 @@ public final class SplitBookEmailBuilderTest
     private BookDefinition book;
 
     @Test
-    public void additionalSubjectPartIsCorrect()
-    {
+    public void additionalSubjectPartIsCorrect() {
         //given
         //when
         final String subjectPart = splitBookEmailBuilder.getAdditionalSubjectPart();
@@ -39,8 +37,7 @@ public final class SplitBookEmailBuilderTest
     }
 
     @Test
-    public void additionalBodyPartIsCorrect()
-    {
+    public void additionalBodyPartIsCorrect() {
         //given
         given(step.getBookDefinition()).willReturn(book);
         given(book.getFullyQualifiedTitleId()).willReturn("id");

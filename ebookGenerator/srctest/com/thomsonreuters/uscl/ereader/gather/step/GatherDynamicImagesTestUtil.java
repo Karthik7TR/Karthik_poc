@@ -26,11 +26,9 @@ import org.springframework.batch.item.ExecutionContext;
 /**
  * Auxiliary class for generating dummy objects.
  */
-public class GatherDynamicImagesTestUtil
-{
+public class GatherDynamicImagesTestUtil {
 
-    public static ChunkContext getChunkContext()
-    {
+    public static ChunkContext getChunkContext() {
         final JobParameters jobParameters = new JobParameters();
         final ChunkContext chunkContext = new ChunkContext(
             new StepContext(
@@ -43,23 +41,20 @@ public class GatherDynamicImagesTestUtil
         return chunkContext;
     }
 
-    public static GatherImgRequest captureImageRequest(final GatherService gatherService)
-    {
+    public static GatherImgRequest captureImageRequest(final GatherService gatherService) {
         final ArgumentCaptor<GatherImgRequest> argument = ArgumentCaptor.forClass(GatherImgRequest.class);
         verify(gatherService).getImg(argument.capture());
         final GatherImgRequest request = argument.getValue();
         return request;
     }
 
-    public static GatherResponse getGatherResponse()
-    {
+    public static GatherResponse getGatherResponse() {
         final GatherResponse response = new GatherResponse();
         response.setImageMetadataList(Collections.singletonList(new ImgMetadataInfo()));
         return response;
     }
 
-    public static File getManifestFile(final TemporaryFolder tempFolder) throws IOException
-    {
+    public static File getManifestFile(final TemporaryFolder tempFolder) throws IOException {
         final File manifestFile = tempFolder.newFile(JobExecutionKey.IMAGE_TO_DOC_MANIFEST_FILE);
         FileUtils.writeStringToFile(manifestFile, "docId|I2943f88028b911e69ed7fcedf0a72426");
         return manifestFile;

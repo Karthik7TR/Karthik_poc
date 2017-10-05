@@ -34,8 +34,7 @@ import org.springframework.beans.factory.annotation.Required;
  * This includes various file system path calculations based on the JobParameters used to run the job.
  *
  */
-public class InitializeTask extends AbstractSbTasklet
-{
+public class InitializeTask extends AbstractSbTasklet {
     private static final Logger log = LogManager.getLogger(InitializeTask.class);
 
     private static final String DE_DUPPING_ANCHOR_FILE = "eBG_deDupping_anchors.txt";
@@ -49,8 +48,8 @@ public class InitializeTask extends AbstractSbTasklet
     private File staticContentDirectory;
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         final StepContext stepContext = chunkContext.getStepContext();
         final StepExecution stepExecution = stepContext.getStepExecution();
         final JobExecution jobExecution = stepExecution.getJobExecution();
@@ -58,8 +57,7 @@ public class InitializeTask extends AbstractSbTasklet
         final JobInstance jobInstance = jobExecution.getJobInstance();
         final JobParameters jobParams = jobExecution.getJobParameters();
         String publishStatus = "Completed";
-        try
-        {
+        try {
             // get ebookDefinition
             final BookDefinition bookDefinition =
                 bookDefnService.findBookDefinitionByEbookDefId(jobParams.getLong(JobParameterKey.BOOK_DEFINITION_ID));
@@ -75,17 +73,14 @@ public class InitializeTask extends AbstractSbTasklet
             log.info("NORT Domain: " + bookDefinition.getNortDomain());
             log.info("NORT Filter: " + bookDefinition.getNortFilterView());
 
-            if (!staticContentDirectory.exists())
-            {
+            if (!staticContentDirectory.exists()) {
                 throw new IllegalStateException(
                     "Expected staticContent directory does not exist: " + staticContentDirectory.getAbsolutePath());
             }
             jobExecutionContext.putString(JobExecutionKey.STATIC_CONTENT_DIR, staticContentDirectory.getAbsolutePath());
 
-            if (bookDefinition.getSourceType().equals(SourceType.FILE))
-            {
-                if (!rootCodesWorkbenchLandingStrip.exists())
-                {
+            if (bookDefinition.getSourceType().equals(SourceType.FILE)) {
+                if (!rootCodesWorkbenchLandingStrip.exists()) {
                     throw new IllegalStateException(
                         "Expected Codes Workbench landing strip directory does not exist: "
                             + rootCodesWorkbenchLandingStrip.getAbsolutePath());
@@ -111,8 +106,7 @@ public class InitializeTask extends AbstractSbTasklet
 
             log.info("workDirectory: " + workDirectory.getAbsolutePath());
 
-            if (!workDirectory.exists())
-            {
+            if (!workDirectory.exists()) {
                 throw new IllegalStateException(
                     "Expected work directory was not created in the filesystem: " + workDirectory.getAbsolutePath());
             }
@@ -187,8 +181,7 @@ public class InitializeTask extends AbstractSbTasklet
 
             final File deDuppingAnchorFile = new File(formatDirectory, DE_DUPPING_ANCHOR_FILE);
 
-            if (deDuppingAnchorFile.exists())
-            {
+            if (deDuppingAnchorFile.exists()) {
                 deDuppingAnchorFile.delete();
             }
 
@@ -271,14 +264,10 @@ public class InitializeTask extends AbstractSbTasklet
 
             log.info("Image Service URL: " + System.getProperty("image.vertical.context.url"));
             log.info("Proview Domain URL: " + System.getProperty("proview.domain"));
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             publishStatus = "Failed";
             throw (e);
-        }
-        finally
-        {
+        } finally {
             final PublishingStats pubStats = new PublishingStats();
 
             // TODO: replace with call to job queue?
@@ -304,44 +293,37 @@ public class InitializeTask extends AbstractSbTasklet
     }
 
     @Required
-    public void setRootWorkDirectory(final File rootDir)
-    {
+    public void setRootWorkDirectory(final File rootDir) {
         rootWorkDirectory = rootDir;
     }
 
     @Required
-    public void setRootCodesWorkbenchLandingStrip(final File rootDir)
-    {
+    public void setRootCodesWorkbenchLandingStrip(final File rootDir) {
         rootCodesWorkbenchLandingStrip = rootDir;
     }
 
     @Required
-    public void setStaticContentDirectory(final File staticContentDirectory)
-    {
+    public void setStaticContentDirectory(final File staticContentDirectory) {
         this.staticContentDirectory = staticContentDirectory;
     }
 
     @Required
-    public void setEnvironmentName(final String envName)
-    {
+    public void setEnvironmentName(final String envName) {
         environmentName = envName;
     }
 
     @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
 
     @Required
-    public void setEbookAuditService(final EBookAuditService eBookAuditService)
-    {
+    public void setEbookAuditService(final EBookAuditService eBookAuditService) {
         this.eBookAuditService = eBookAuditService;
     }
 
     @Required
-    public void setBookDefnService(final BookDefinitionService bookDefnService)
-    {
+    public void setBookDefnService(final BookDefinitionService bookDefnService) {
         this.bookDefnService = bookDefnService;
     }
 }

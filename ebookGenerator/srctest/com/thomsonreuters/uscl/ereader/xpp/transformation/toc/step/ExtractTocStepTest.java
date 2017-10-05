@@ -32,8 +32,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.batch.core.scope.context.ChunkContext;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class ExtractTocStepTest
-{
+public final class ExtractTocStepTest {
     private static final String FIRST_BUNDLE_FILE_NAME = "one.DIVXML.xml";
     private static final String SECOND_BUNDLE_FILE_NAME = "two.DIVXML.xml";
     private static final String MATERIAL_NUMBER = "123456";
@@ -67,23 +66,26 @@ public final class ExtractTocStepTest
     private ArgumentCaptor<TransformationCommand> commandCaptor;
 
     @Before
-    public void init() throws IOException
-    {
+    public void init() throws IOException {
         given(bundle.getOrderedFileList()).willReturn(Arrays.asList(FIRST_BUNDLE_FILE_NAME, SECOND_BUNDLE_FILE_NAME));
         given(bundle.getMaterialNumber()).willReturn(MATERIAL_NUMBER);
-        given(chunkContext.getStepContext()
-            .getStepExecution()
-            .getJobExecution()
-            .getExecutionContext()
-            .get(JobParameterKey.XPP_BUNDLES)
-        ).willReturn(Arrays.asList(bundle));
+        given(
+            chunkContext.getStepContext()
+                .getStepExecution()
+                .getJobExecution()
+                .getExecutionContext()
+                .get(JobParameterKey.XPP_BUNDLES)).willReturn(Arrays.asList(bundle));
 
-        given(fileSystem.getSectionbreaksFile(
-            step, MATERIAL_NUMBER, FIRST_BUNDLE_FILE_NAME.replaceAll(".xml", ".main"))).willReturn(sourceFirstBundleFile);
-        given(fileSystem.getSectionbreaksFile(
-            step, MATERIAL_NUMBER, SECOND_BUNDLE_FILE_NAME.replaceAll(".xml", ".main"))).willReturn(sourceSecondBundleFile);
-        given(fileSystem.getBundlePartTocFile(eq(FIRST_BUNDLE_FILE_NAME), anyString(), eq(step))).willReturn(firstTocBundleFile);
-        given(fileSystem.getBundlePartTocFile(eq(SECOND_BUNDLE_FILE_NAME), anyString(), eq(step))).willReturn(secondTocBundleFile);
+        given(
+            fileSystem.getSectionbreaksFile(step, MATERIAL_NUMBER, FIRST_BUNDLE_FILE_NAME.replaceAll(".xml", ".main")))
+                .willReturn(sourceFirstBundleFile);
+        given(
+            fileSystem.getSectionbreaksFile(step, MATERIAL_NUMBER, SECOND_BUNDLE_FILE_NAME.replaceAll(".xml", ".main")))
+                .willReturn(sourceSecondBundleFile);
+        given(fileSystem.getBundlePartTocFile(eq(FIRST_BUNDLE_FILE_NAME), anyString(), eq(step)))
+            .willReturn(firstTocBundleFile);
+        given(fileSystem.getBundlePartTocFile(eq(SECOND_BUNDLE_FILE_NAME), anyString(), eq(step)))
+            .willReturn(secondTocBundleFile);
         given(fileSystem.getTocFile(step)).willReturn(tocFile);
         given(fileSystem.getMergedBundleTocFile(MATERIAL_NUMBER, step)).willReturn(mergedTocFile);
 
@@ -91,8 +93,7 @@ public final class ExtractTocStepTest
     }
 
     @Test
-    public void shouldTransformOneFile() throws Exception
-    {
+    public void shouldTransformOneFile() throws Exception {
         //given
         //when
         step.executeTransformation();

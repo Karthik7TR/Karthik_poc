@@ -25,14 +25,12 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public final class HTMLClassAttributeFilterTest
-{
+public final class HTMLClassAttributeFilterTest {
     private HTMLClassAttributeFilter classAttFilter;
     private Serializer serializer;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
         final SAXParser saxParser = factory.newSAXParser();
@@ -46,8 +44,7 @@ public final class HTMLClassAttributeFilterTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         serializer = null;
         classAttFilter = null;
     }
@@ -59,12 +56,10 @@ public final class HTMLClassAttributeFilterTest
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final String expectedResult) throws SAXException
-    {
+    public void testHelper(final String inputXML, final String expectedResult) throws SAXException {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
-        try
-        {
+        try {
             input = new ByteArrayInputStream(inputXML.getBytes());
             output = new ByteArrayOutputStream();
 
@@ -76,38 +71,26 @@ public final class HTMLClassAttributeFilterTest
             final String result = output.toString();
 
             assertEquals(expectedResult, result);
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             throw e;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             fail("Encountered exception during test: " + e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if (input != null)
-                {
+        } finally {
+            try {
+                if (input != null) {
                     input.close();
                 }
-                if (output != null)
-                {
+                if (output != null) {
                     output.close();
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 fail("Could clean up resources: " + e.getMessage());
             }
         }
     }
 
     @Test
-    public void testNoCSSClass() throws SAXException
-    {
+    public void testNoCSSClass() throws SAXException {
         final String xmlTestStr = "<test><img src=\"/images/TestImage.jpg\"/></test>";
         final String expectedResult = "<test><img src=\"/images/TestImage.jpg\"/></test>";
 
@@ -115,8 +98,7 @@ public final class HTMLClassAttributeFilterTest
     }
 
     @Test
-    public void testOneCSSClassNotChanged() throws SAXException
-    {
+    public void testOneCSSClassNotChanged() throws SAXException {
         final String xmlTestStr = "<test><img class=\"good\" src=\"/images/TestImage.jpg\"/></test>";
         final String expectedResult = "<test><img class=\"good\" src=\"/images/TestImage.jpg\"/></test>";
 
@@ -124,8 +106,7 @@ public final class HTMLClassAttributeFilterTest
     }
 
     @Test
-    public void testTwoCSSClass() throws SAXException
-    {
+    public void testTwoCSSClass() throws SAXException {
         final String xmlTestStr = "<test><img class=\"good bad\" src=\"/images/TestImage.jpg\"/></test>";
         final String expectedResult = "<test><img src=\"/images/TestImage.jpg\" class=\"good\"/></test>";
 
@@ -133,8 +114,7 @@ public final class HTMLClassAttributeFilterTest
     }
 
     @Test
-    public void testFiveCSSClass() throws SAXException
-    {
+    public void testFiveCSSClass() throws SAXException {
         final String xmlTestStr = "<test><img class=\"good bad bad2 bad3 bad4\" src=\"/images/TestImage.jpg\"/></test>";
         final String expectedResult = "<test><img src=\"/images/TestImage.jpg\" class=\"good\"/></test>";
 
@@ -142,8 +122,7 @@ public final class HTMLClassAttributeFilterTest
     }
 
     @Test
-    public void testMultipleTagsWithMulitpleCSSClasses() throws SAXException
-    {
+    public void testMultipleTagsWithMulitpleCSSClasses() throws SAXException {
         final String xmlTestStr = "<test><img class=\"good bad\" src=\"/images/TestImage.jpg\"/>"
             + "<testingMachine id=\"test\" class=\"good bad worse\"/></test>";
         final String expectedResult = "<test><img src=\"/images/TestImage.jpg\" class=\"good\"/>"

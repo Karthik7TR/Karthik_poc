@@ -19,8 +19,7 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 
-public class GeneratorNotificationServiceImpl implements NotificationService
-{
+public class GeneratorNotificationServiceImpl implements NotificationService {
     private static Logger LOG = LogManager.getLogger(GeneratorNotificationServiceImpl.class);
 
     private CoreService coreService;
@@ -31,8 +30,7 @@ public class GeneratorNotificationServiceImpl implements NotificationService
         final JobParameters jobParams,
         String bodyMessage,
         final long jobInstanceId,
-        final long jobExecutionId)
-    {
+        final long jobExecutionId) {
         final List<String> fileList = new ArrayList<>();
         final String subject;
         final String failedJobInfo;
@@ -59,53 +57,41 @@ public class GeneratorNotificationServiceImpl implements NotificationService
         getImageMissingGuidsFileFromContextPath(jobExecutionContext, fileList);
         getImageMissingGuidsFileFromGatherDocsDir(jobExecutionContext, fileList);
 
-        if (fileList.size() > 0)
-        {
+        if (fileList.size() > 0) {
             EmailNotification.sendWithAttachment(emailRecipients, subject, bodyMessage.toString(), fileList);
-        }
-        else
-        {
+        } else {
             EmailNotification.send(emailRecipients, subject, bodyMessage.toString());
         }
     }
 
     private void getImageMissingGuidsFileFromContextPath(
         final ExecutionContext jobExecutionContext,
-        final List<String> fileList)
-    {
-        try
-        {
+        final List<String> fileList) {
+        try {
             final String imgGuidsFile = jobExecutionContext.getString(JobParameterKey.IMAGE_MISSING_GUIDS_FILE);
 
-            if (getFileSize(imgGuidsFile) > 0)
-            {
+            if (getFileSize(imgGuidsFile) > 0) {
                 fileList.add(imgGuidsFile);
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             LOG.error("", e);
         }
     }
 
     private void getImageMissingGuidsFileFromGatherDocsDir(
         final ExecutionContext jobExecutionContext,
-        final List<String> fileList)
-    {
-        try
-        {
+        final List<String> fileList) {
+        try {
             final String gatherDir = jobExecutionContext.getString(JobParameterKey.GATHER_DOCS_DIR);
 
             final String missingGuidsFile =
-                StringUtils.substringBeforeLast(gatherDir, System.getProperty("file.separator")) + "_doc_missing_guids.txt";
+                StringUtils.substringBeforeLast(gatherDir, System.getProperty("file.separator"))
+                    + "_doc_missing_guids.txt";
 
-            if (getFileSize(missingGuidsFile) > 0)
-            {
+            if (getFileSize(missingGuidsFile) > 0) {
                 fileList.add(missingGuidsFile);
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             LOG.error("", e);
         }
     }
@@ -114,19 +100,16 @@ public class GeneratorNotificationServiceImpl implements NotificationService
      * @param filename
      * @return a long value of file length
      */
-    private long getFileSize(final String filename)
-    {
+    private long getFileSize(final String filename) {
         final File file = new File(filename);
-        if (!file.exists() || !file.isFile())
-        {
+        if (!file.exists() || !file.isFile()) {
             return -1;
         }
         return file.length();
     }
 
     @Required
-    public void setCoreService(final CoreService service)
-    {
+    public void setCoreService(final CoreService service) {
         coreService = service;
     }
 }

@@ -25,14 +25,12 @@ import org.xml.sax.InputSource;
  * @author <a href="mailto:Ravi.Nandikolla@thomsonreuters.com">Ravi Nandikolla</a> c139353
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public final class HTMLTableFilterTest
-{
+public final class HTMLTableFilterTest {
     private HTMLTableFilter tableFilter;
     private Serializer serializer;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
         final SAXParser saxParser = factory.newSAXParser();
@@ -46,8 +44,7 @@ public final class HTMLTableFilterTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         serializer = null;
         tableFilter = null;
     }
@@ -59,12 +56,10 @@ public final class HTMLTableFilterTest
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final String expectedResult)
-    {
+    public void testHelper(final String inputXML, final String expectedResult) {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
-        try
-        {
+        try {
             input = new ByteArrayInputStream(inputXML.getBytes());
             output = new ByteArrayOutputStream();
 
@@ -76,34 +71,24 @@ public final class HTMLTableFilterTest
             final String result = output.toString();
 
             assertEquals(expectedResult, result);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             fail("Encountered exception during test: " + e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if (input != null)
-                {
+        } finally {
+            try {
+                if (input != null) {
                     input.close();
                 }
-                if (output != null)
-                {
+                if (output != null) {
                     output.close();
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 fail("Couldn't clean up resources: " + e.getMessage());
             }
         }
     }
 
     @Test
-    public void testTableAnchorWithMultiplearuguments()
-    {
+    public void testTableAnchorWithMultiplearuguments() {
         final String xmlTestStr = "<test><table class=\"co_borderTop \" style=\"width:100%;\"/></test>";
         final String expectedResult = "<test><table class=\"tr_table\"/></test>";
 
@@ -111,8 +96,7 @@ public final class HTMLTableFilterTest
     }
 
     @Test
-    public void testTableAnchor()
-    {
+    public void testTableAnchor() {
         final String xmlTestStr = "<test><table style=\"width:100%;\"/></test>";
         final String expectedResult = "<test><table class=\"tr_table\"/></test>";
 
@@ -120,8 +104,7 @@ public final class HTMLTableFilterTest
     }
 
     @Test
-    public void testCopyrightRemovalNoCopyrightDataBlock()
-    {
+    public void testCopyrightRemovalNoCopyrightDataBlock() {
         final String xmlTestStr = "<test><table id=\"co_endOfDocument\"><tr><td>End of Document</td>"
             + "<td class=\"co_endOfDocCopyright\"></td></tr></table></test>";
         final String expectedResult = "<test><table id=\"co_endOfDocument\"><tr><td>End of Document</td>"
@@ -131,8 +114,7 @@ public final class HTMLTableFilterTest
     }
 
     @Test
-    public void testCopyrightRemoval()
-    {
+    public void testCopyrightRemoval() {
         final String xmlTestStr = "<test><table id=\"co_endOfDocument\"><tr><td>End of Document</td>"
             + "<td class=\"co_endOfDocCopyright\">Copyright Text</td></tr></table></test>";
         final String expectedResult = "<test><table id=\"co_endOfDocument\"><tr><td>End of Document</td>"
@@ -142,8 +124,7 @@ public final class HTMLTableFilterTest
     }
 
     @Test
-    public void testCopyrightRemovalWithoutTableViewerSupport()
-    {
+    public void testCopyrightRemovalWithoutTableViewerSupport() {
         tableFilter.setTableViewerSupport(false);
         final String xmlTestStr = "<test><table id=\"co_endOfDocument\"><tr><td>End of Document</td>"
             + "<td class=\"co_endOfDocCopyright\">Copyright Text</td></tr></table></test>";

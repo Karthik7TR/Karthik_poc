@@ -18,8 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
-public class GenerateFontsCssStep extends XppTransformationStep
-{
+public class GenerateFontsCssStep extends XppTransformationStep {
     @Value("${xpp.transform.fonts.css.xsl}")
     private File transformFontsCssXsl;
     @Value("${xpp.entities.dtd}")
@@ -29,19 +28,16 @@ public class GenerateFontsCssStep extends XppTransformationStep
     private XppGatherFileSystem xppGatherFileSystem;
 
     @Override
-    public void executeTransformation() throws Exception
-    {
+    public void executeTransformation() throws Exception {
         final Transformer transformer = transformerBuilderFactory.create().withXsl(transformFontsCssXsl).build();
         final Map<String, Collection<File>> sourceXmls = xppGatherFileSystem.getXppSourceXmls(this);
-        for (final Map.Entry<String, Collection<File>> xppDir : sourceXmls.entrySet())
-        {
+        for (final Map.Entry<String, Collection<File>> xppDir : sourceXmls.entrySet()) {
             final File bundleCssDir = fileSystem.getFontsCssDirectory(this, xppDir.getKey());
             bundleCssDir.mkdirs();
-            for (final File xppFile : xppDir.getValue())
-            {
+            for (final File xppFile : xppDir.getValue()) {
                 final File cssFile = fileSystem.getFontsCssFile(this, xppDir.getKey(), xppFile.getName());
-                final TransformationCommand command =
-                    new TransformationCommandBuilder(transformer, cssFile).withInput(xppFile).withDtd(entitiesDtdFile).build();
+                final TransformationCommand command = new TransformationCommandBuilder(transformer, cssFile)
+                    .withInput(xppFile).withDtd(entitiesDtdFile).build();
                 transformationService.transform(command);
             }
         }

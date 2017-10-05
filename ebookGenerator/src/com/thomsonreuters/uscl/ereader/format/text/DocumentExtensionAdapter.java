@@ -21,12 +21,10 @@ import org.apache.log4j.Logger;
  * .NET DocumentXslExtension.cs object and performs the same logical operations.
  *
  */
-public class DocumentExtensionAdapter
-{
+public class DocumentExtensionAdapter {
     private static final Logger LOG = LogManager.getLogger(DocumentExtensionAdapter.class);
 
-    public DocumentExtensionAdapter()
-    {
+    public DocumentExtensionAdapter() {
     }
 
     /**
@@ -36,8 +34,7 @@ public class DocumentExtensionAdapter
      * @param defaultText
      * @return
      */
-    public String RetrieveContextValue(final String context, final String key, final String defaultText)
-    {
+    public String RetrieveContextValue(final String context, final String key, final String defaultText) {
         return defaultText;
     }
 
@@ -52,8 +49,7 @@ public class DocumentExtensionAdapter
         final String language,
         final String context,
         final String key,
-        final String defaultText)
-    {
+        final String defaultText) {
         return defaultText;
     }
 
@@ -63,16 +59,13 @@ public class DocumentExtensionAdapter
      * @param documentGuid
      * @return Hash for use with sponsor.
      */
-    public String GenerateSponsorHash(final String sponsorId, final String documentGuid)
-    {
-        if (StringUtils.isEmpty(sponsorId) || StringUtils.isEmpty(documentGuid))
-        {
+    public String GenerateSponsorHash(final String sponsorId, final String documentGuid) {
+        if (StringUtils.isEmpty(sponsorId) || StringUtils.isEmpty(documentGuid)) {
             return null;
         }
 
         String str = null;
-        try
-        {
+        try {
             final MessageDigest md = MessageDigest.getInstance("SHA-1");
             md.update(sponsorId.getBytes("UTF-8"), 0, sponsorId.length());
             final byte[] hashedSponsor = md.digest();
@@ -82,25 +75,18 @@ public class DocumentExtensionAdapter
             hmacSha256.init(localMac);
             final byte[] hmac = hmacSha256.doFinal(documentGuid.getBytes("UTF-8"));
             str = DatatypeConverter.printHexBinary(hmac);
-        }
-        catch (final NoSuchAlgorithmException e)
-        {
+        } catch (final NoSuchAlgorithmException e) {
             LOG.debug(e.getMessage());
-        }
-        catch (final UnsupportedEncodingException e)
-        {
+        } catch (final UnsupportedEncodingException e) {
             LOG.debug(e.getMessage());
-        }
-        catch (final InvalidKeyException e)
-        {
+        } catch (final InvalidKeyException e) {
             LOG.debug(e.getMessage());
         }
 
         return str;
     }
 
-    public boolean ShouldDisplayEffectiveDates(final String documentType)
-    {
+    public boolean ShouldDisplayEffectiveDates(final String documentType) {
         return false;
     }
 
@@ -109,32 +95,22 @@ public class DocumentExtensionAdapter
      * @param inputText - The text that we want to check for encoding issues
      * @return The encoded text.
      */
-    public String ToXmlEncodedString(final String inputText)
-    {
-        if (inputText == null)
-        {
+    public String ToXmlEncodedString(final String inputText) {
+        if (inputText == null) {
             return null;
         }
 
         final StringBuilder outputText = new StringBuilder();
         char c = ' ';
-        for (int i = 0; i < inputText.length(); i++)
-        {
+        for (int i = 0; i < inputText.length(); i++) {
             c = inputText.charAt(i);
-            if ((c == '\u00C2') || (c == '\u00E2') || (c == '\u20AC'))
-            {
+            if ((c == '\u00C2') || (c == '\u00E2') || (c == '\u20AC')) {
                 outputText.append("");
-            }
-            else if (c == '\u201A')
-            {
+            } else if (c == '\u201A') {
                 outputText.append(" ");
-            }
-            else if (c == '\u2002')
-            {
+            } else if (c == '\u2002') {
                 outputText.append(" ");
-            }
-            else
-            {
+            } else {
                 outputText.append(c);
             }
         }
@@ -147,13 +123,11 @@ public class DocumentExtensionAdapter
      * @param pattern regex pattern to match
      * @return
      */
-    public boolean IsMatch(final String input, final String pattern)
-    {
+    public boolean IsMatch(final String input, final String pattern) {
         Validate.notEmpty(pattern);
 
         // Must support null/empty inputs, but they don't count as a match
-        if (StringUtils.isEmpty(input))
-        {
+        if (StringUtils.isEmpty(input)) {
             return false;
         }
 
@@ -165,8 +139,7 @@ public class DocumentExtensionAdapter
     /// </summary>
     /// <param name="tocNodeName">A string to apply capitalization rules to</param>
     /// <returns><paramref name="tocNodeName"/> after applying capitalization rules</returns>
-    public String TocToTitleCase(final String tocNodeName)
-    {
+    public String TocToTitleCase(final String tocNodeName) {
         return WordUtils.capitalize(tocNodeName);
     }
 }

@@ -20,8 +20,7 @@ import org.springframework.http.MediaType;
  */
 @Entity
 @Table(name = "IMAGE_METADATA")
-public class ImageMetadataEntity implements Serializable
-{
+public class ImageMetadataEntity implements Serializable {
     private static final long serialVersionUID = -3714413519050210417L;
 
     private ImageMetadataEntityKey primaryKey; // jobInstanceId & imageGuid
@@ -39,8 +38,7 @@ public class ImageMetadataEntity implements Serializable
      */
     private MediaType mediaType; // the desired/expected media type
 
-    public ImageMetadataEntity()
-    {
+    public ImageMetadataEntity() {
         super();
     }
 
@@ -52,8 +50,7 @@ public class ImageMetadataEntity implements Serializable
         final Long size,
         final Long dpi,
         final String dimUnits,
-        final MediaType mediaType)
-    {
+        final MediaType mediaType) {
         primaryKey = key;
         this.titleId = titleId;
         this.width = width;
@@ -72,102 +69,84 @@ public class ImageMetadataEntity implements Serializable
         @AttributeOverride(name = "jobInstanceId", column = @Column(name = "JOB_INSTANCE_ID", nullable = false)),
         @AttributeOverride(name = "imageGuid", column = @Column(name = "IMAGE_GUID", nullable = false)),
         @AttributeOverride(name = "docUuid", column = @Column(name = "DOC_UUID", nullable = false))})
-    public ImageMetadataEntityKey getPrimaryKey()
-    {
+    public ImageMetadataEntityKey getPrimaryKey() {
         return primaryKey;
     }
 
     @Column(name = "TITLE_ID", length = 64, nullable = false)
-    public String getTitleId()
-    {
+    public String getTitleId() {
         return titleId;
     }
 
     @Column(name = "IMAGE_WIDTH")
-    public Long getWidth()
-    {
+    public Long getWidth() {
         return width;
     }
 
     @Column(name = "IMAGE_HEIGHT")
-    public Long getHeight()
-    {
+    public Long getHeight() {
         return height;
     }
 
     @Column(name = "IMAGE_SIZE")
-    public Long getSize()
-    {
+    public Long getSize() {
         return size;
     }
 
     @Column(name = "IMAGE_DPI")
-    public Long getDpi()
-    {
+    public Long getDpi() {
         return dpi;
     }
 
     @Column(name = "IMAGE_DIM_UNITS", length = 32)
-    public String getDimUnits()
-    {
+    public String getDimUnits() {
         return dimUnits;
     }
 
     @Column(name = "MEDIA_TYPE", length = 64)
-    public String getContentType()
-    {
+    public String getContentType() {
         return (mediaType != null) ? mediaType.toString() : null;
     }
 
     @Transient
-    public MediaType getMediaType()
-    {
+    public MediaType getMediaType() {
         return mediaType;
     }
 
-    public void setPrimaryKey(final ImageMetadataEntityKey pk)
-    {
+    public void setPrimaryKey(final ImageMetadataEntityKey pk) {
         primaryKey = pk;
     }
 
-    public void setTitleId(final String titleId)
-    {
+    public void setTitleId(final String titleId) {
         this.titleId = titleId;
     }
 
-    public void setWidth(final Long width)
-    {
+    public void setWidth(final Long width) {
         this.width = width;
     }
 
-    public void setHeight(final Long height)
-    {
+    public void setHeight(final Long height) {
         this.height = height;
     }
 
-    public void setSize(final Long size)
-    {
+    public void setSize(final Long size) {
         this.size = size;
     }
 
-    public void setDpi(final Long dpi)
-    {
+    public void setDpi(final Long dpi) {
         this.dpi = dpi;
     }
 
-    public void setDimUnits(final String dimUnits)
-    {
+    public void setDimUnits(final String dimUnits) {
         this.dimUnits = dimUnits;
     }
 
-    public void setContentType(final String contentType)
-    {
+    public void setContentType(final String contentType) {
         mediaType = (StringUtils.isNotBlank(contentType)) ? MediaType.parseMediaType(contentType) : null;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

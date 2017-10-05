@@ -28,8 +28,7 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class TitleMetadataAnchorUpdateServiceImpl implements TitleMetadataAnchorUpdateService
-{
+public class TitleMetadataAnchorUpdateServiceImpl implements TitleMetadataAnchorUpdateService {
     private static final Logger LOG = LogManager.getLogger(TitleMetadataAnchorUpdateServiceImpl.class);
 
     /**
@@ -41,17 +40,13 @@ public class TitleMetadataAnchorUpdateServiceImpl implements TitleMetadataAnchor
      */
     @Override
     public void updateAnchors(final File srcTitleXML, final File trgTitleXML, final File docToToc)
-        throws EBookFormatException
-    {
-        if (srcTitleXML == null || !srcTitleXML.exists())
-        {
+        throws EBookFormatException {
+        if (srcTitleXML == null || !srcTitleXML.exists()) {
             throw new IllegalArgumentException("srcTitleXML must be a valid file.");
         }
 
-        try (FileInputStream inStream = new FileInputStream(srcTitleXML))
-        {
-            try (FileOutputStream outStream = new FileOutputStream(trgTitleXML))
-            {
+        try (FileInputStream inStream = new FileInputStream(srcTitleXML)) {
+            try (FileOutputStream outStream = new FileOutputStream(trgTitleXML)) {
                 LOG.debug("Transforming anchor references from Title.xml file: " + srcTitleXML.getAbsolutePath());
 
                 final SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -71,24 +66,18 @@ public class TitleMetadataAnchorUpdateServiceImpl implements TitleMetadataAnchor
 
                 tocFilter.parse(new InputSource(new EntityEncodedInputStream(inStream)));
             }
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String errMessage = "Unable to perform IO operations on Title.xml file: "
                 + srcTitleXML.getAbsolutePath()
                 + " or "
                 + trgTitleXML.getAbsolutePath();
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             final String errMessage = "Encountered a SAX Exception while processing: " + srcTitleXML.getAbsolutePath();
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
-        }
-        catch (final ParserConfigurationException e)
-        {
+        } catch (final ParserConfigurationException e) {
             final String errMessage =
                 "Encountered a SAX Parser Configuration Exception while processing: " + srcTitleXML.getAbsolutePath();
             LOG.error(errMessage);

@@ -7,15 +7,13 @@ import org.xml.sax.Attributes;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class StartElement extends ParserEvent
-{
+public class StartElement extends ParserEvent {
     private String uri;
     private String localName;
     private String qName;
     private Attributes atts;
 
-    public StartElement(final String uri, final String localName, final String qName, final Attributes atts)
-    {
+    public StartElement(final String uri, final String localName, final String qName, final Attributes atts) {
         super(ParserEvent.START_EVENT);
 
         this.uri = uri;
@@ -24,23 +22,19 @@ public class StartElement extends ParserEvent
         this.atts = atts;
     }
 
-    public String getUri()
-    {
+    public String getUri() {
         return uri;
     }
 
-    public String getLocalName()
-    {
+    public String getLocalName() {
         return localName;
     }
 
-    public String getQName()
-    {
+    public String getQName() {
         return qName;
     }
 
-    public Attributes getAtts()
-    {
+    public Attributes getAtts() {
         return atts;
     }
 }

@@ -68,8 +68,7 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:lohitha.talatam@thomsonreuters.com">Lohitha Talatam</a> u0105666
  */
-public class SplitTocManifestFilter extends AbstractTocManifestFilter
-{
+public class SplitTocManifestFilter extends AbstractTocManifestFilter {
     private static final Logger LOG = LogManager.getLogger(SplitTocManifestFilter.class);
     private PlaceholderDocumentService placeholderDocumentService;
     private UuidGenerator uuidGenerator;
@@ -112,33 +111,26 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter
         final File transformedDocsDir,
         final FileUtilsFacade fileUtilsFacade,
         final PlaceholderDocumentService placeholderDocumentService,
-        final Map<String, List<String>> docImageMap)
-    {
-        if (titleMetadata == null)
-        {
+        final Map<String, List<String>> docImageMap) {
+        if (titleMetadata == null) {
             throw new IllegalArgumentException(
                 "Cannot instantiate SplitSplitTitleManifestFilter without initialized TitleMetadata");
         }
-        if (familyGuidMap == null)
-        {
+        if (familyGuidMap == null) {
             throw new IllegalArgumentException(
                 "Cannot instantiate SplitSplitTitleManifestFilter without a valid familyGuidMap");
         }
-        if (uuidGenerator == null)
-        {
+        if (uuidGenerator == null) {
             throw new IllegalArgumentException(
                 "Cannot instantiate SplitSplitTitleManifestFilter without a UuidGenerator.");
         }
-        if (transformedDocsDir == null || !transformedDocsDir.isDirectory())
-        {
+        if (transformedDocsDir == null || !transformedDocsDir.isDirectory()) {
             throw new IllegalArgumentException("Documents directory must not be null and must be a directory.");
         }
-        if (fileUtilsFacade == null)
-        {
+        if (fileUtilsFacade == null) {
             throw new IllegalArgumentException("fileUtilsFacade must not be null.");
         }
-        if (placeholderDocumentService == null)
-        {
+        if (placeholderDocumentService == null) {
             throw new IllegalArgumentException("placeholderDocumentService must not be null.");
         }
 
@@ -158,15 +150,13 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter
      *
      * @param metadata the title metadata.
      */
-    private void validateTitleMetadata(final TitleMetadata metadata)
-    {
+    private void validateTitleMetadata(final TitleMetadata metadata) {
         // TODO: assert additional invariants based on required fields in the
         // manifest.
     }
 
     @Override
-    public void startDocument() throws SAXException
-    {
+    public void startDocument() throws SAXException {
         super.startDocument();
         // write TOC in the manifest .
         startManifest();
@@ -178,34 +168,26 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter
      * @throws SAXException if data could not be written.
      */
     @Override
-    protected void startManifest() throws SAXException
-    {
+    protected void startManifest() throws SAXException {
         super.startElement(URI, TITLE_ELEMENT, TITLE_ELEMENT, EMPTY_ATTRIBUTES);
     }
 
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes attributes)
-        throws SAXException
-    {
-        if (EBOOK.equals(qName))
-        {
+        throws SAXException {
+        if (EBOOK.equals(qName)) {
             currentDepth = 0;
             previousDepth = 0;
             // Add TOC NODES for Front Matter
             buildFrontMatterTOCEntries(true);
-        }
-        else if (EBOOK_TOC.equals(qName))
-        { // we've reached the next element, time to add a new node to the tree.
+        } else if (EBOOK_TOC.equals(qName)) { // we've reached the next element, time to add a new node to the tree.
             currentDepth++;
             currentNode = new TocEntry(currentDepth);
 
             // First splitEbook will get the titleId later parts will be appended with _pt and the number increments
-            if (titleBreakPart <= 1)
-            {
+            if (titleBreakPart <= 1) {
                 currentNode.setSplitTitle(titleMetadata.getTitleId());
-            }
-            else
-            {
+            } else {
                 currentNode.setSplitTitle(titleMetadata.getTitleId() + "_pt" + titleBreakPart);
             }
 
@@ -215,27 +197,18 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter
             parentNode.addChild(currentNode);
             previousDepth = currentDepth;
             previousNode = currentNode;
-        }
-        else if (TOC_GUID.equals(qName))
-        {
+        } else if (TOC_GUID.equals(qName)) {
             bufferingTocGuid = Boolean.TRUE;
-        }
-        else if (DOCUMENT_GUID.equals(qName))
-        {
+        } else if (DOCUMENT_GUID.equals(qName)) {
             bufferingDocGuid = Boolean.TRUE;
-        }
-        else if (NAME.equals(qName))
-        {
+        } else if (NAME.equals(qName)) {
             bufferingText = Boolean.TRUE;
-        }
-        else if (MISSING_DOCUMENT.equals(qName))
-        {
+        } else if (MISSING_DOCUMENT.equals(qName)) {
             // this node is missing text, generate a new doc guid and xhtml5 content for the heading.
             final String missingDocumentGuid = uuidGenerator.generateUuid();
             final String missingDocumentFilename = missingDocumentGuid + HTML_EXTENSION;
             final File missingDocument = new File(documentsDirectory, missingDocumentFilename);
-            try
-            {
+            try {
                 final FileOutputStream missingDocumentOutputStream = new FileOutputStream(missingDocument);
                 currentNode.setDocumentUuid(missingDocumentGuid);
                 cascadeAnchors();
@@ -247,25 +220,19 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter
                     anchors);
                 orderedDocuments.add(new Doc(missingDocumentGuid, missingDocumentFilename, titleBreakPart, null));
                 nodesContainingDocuments.add(currentNode); // need to cascade anchors into placeholder document text.
-            }
-            catch (final FileNotFoundException e)
-            {
+            } catch (final FileNotFoundException e) {
                 throw new SAXException(
                     "A FileNotFoundException occurred when attempting to create an output stream to file: "
                         + missingDocument.getAbsolutePath(),
                     e);
-            }
-            catch (final PlaceholderDocumentServiceException e)
-            {
+            } catch (final PlaceholderDocumentServiceException e) {
                 throw new SAXException(
                     "An unexpected error occurred while generating a placeholder document for Toc Node: ["
                         + tocGuid.toString()
                         + "] while producing the title manifest.",
                     e);
             }
-        }
-        else if (TITLE_BREAK.equals(qName))
-        {
+        } else if (TITLE_BREAK.equals(qName)) {
             titleBreakPart++;
             bufferingSplitTitle = Boolean.TRUE;
         }
@@ -275,70 +242,48 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter
      * Buffers toc and doc guids and the corresponding text for each node encountered during the parse.
      */
     @Override
-    public void characters(final char[] ch, final int start, final int length) throws SAXException
-    {
-        if (bufferingTocGuid)
-        {
+    public void characters(final char[] ch, final int start, final int length) throws SAXException {
+        if (bufferingTocGuid) {
             tocGuid.append(ch, start, length);
-        }
-        else if (bufferingDocGuid)
-        {
+        } else if (bufferingDocGuid) {
             docGuid.append(ch, start, length);
-        }
-        else if (bufferingText)
-        {
+        } else if (bufferingText) {
             textBuffer.append(ch, start, length);
-        }
-        else if (bufferingSplitTitle)
-        {
-            if (titleBreakPart > 1)
-            {
+        } else if (bufferingSplitTitle) {
+            if (titleBreakPart > 1) {
                 titleBreak = new StringBuilder();
                 titleBreak.append(ch, start, length);
-            }
-            else
-            {
+            } else {
                 firstTitleBreak.append(ch, start, length);
             }
         }
     }
 
     @Override
-    public void endElement(final String uri, final String localName, final String qName) throws SAXException
-    {
-        if (TOC_GUID.equals(qName))
-        {
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException {
+        if (TOC_GUID.equals(qName)) {
             bufferingTocGuid = Boolean.FALSE;
             currentNode.setTocNodeUuid(tocGuid.toString());
             tocGuid = new StringBuilder();
 
             // TitleBreak is not needed for the first node as this is being set at the top of the TOC
-            if (bufferingSplitTitle && titleBreakPart > 1)
-            {
+            if (bufferingSplitTitle && titleBreakPart > 1) {
                 currentNode.setTitleBreakString(titleBreak.toString());
                 bufferingSplitTitle = Boolean.FALSE;
             }
-        }
-        else if (DOCUMENT_GUID.equals(qName))
-        {
+        } else if (DOCUMENT_GUID.equals(qName)) {
             bufferingDocGuid = Boolean.FALSE;
             handleDuplicates();
             currentNode.setDocumentUuid(docGuid.toString());
             nodesContainingDocuments.add(currentNode);
             docGuid = new StringBuilder(); // clear the doc guid buffer independently of the other buffers.
-        }
-        else if (NAME.equals(qName))
-        {
+        } else if (NAME.equals(qName)) {
             bufferingText = Boolean.FALSE;
             currentNode.setText(textBuffer.toString());
             textBuffer = new StringBuilder();
-        }
-        else if (EBOOK_TOC.equals(qName))
-        {
+        } else if (EBOOK_TOC.equals(qName)) {
             currentDepth--;
-        }
-        else if (MISSING_DOCUMENT.equals(qName))
-        {
+        } else if (MISSING_DOCUMENT.equals(qName)) {
             // The missing document end element event is eaten, because it isn't used.
         }
         // other elements are also eaten (there shouldn't be any).
@@ -351,12 +296,10 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter
      * Delegates to another service to copy html documents.
      * </p>
      */
-    private void handleDuplicates() throws SAXException
-    {
+    private void handleDuplicates() throws SAXException {
         final String documentGuid = docGuid.toString();
         final List<String> image = docImageMap.get(documentGuid);
-        if (uniqueDocumentIds.contains(documentGuid))
-        {
+        if (uniqueDocumentIds.contains(documentGuid)) {
             // We've already seen this document, it's a duplicate.
             // Generate a new guid for it and add that to the list.
             final String uniqueGuid = uuidGenerator.generateUuid();
@@ -371,31 +314,23 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter
                                                         // in the gathered toc.
             orderedDocuments.add(new Doc(uniqueGuid, uniqueGuid + HTML_EXTENSION, titleBreakPart, image));
             currentNode.setDocumentUuid(uniqueGuid);
-        }
-        else
-        {
+        } else {
             // Replace docGuid with the corresponding family Guid.
-            if (familyGuidMap.containsKey(documentGuid))
-            {
+            if (familyGuidMap.containsKey(documentGuid)) {
                 docGuid = new StringBuilder();
                 String familyGuid = familyGuidMap.get(documentGuid);
-                if (uniqueFamilyGuids.contains(familyGuid))
-                { // Have we already come across this family GUID?
+                if (uniqueFamilyGuids.contains(familyGuid)) { // Have we already come across this family GUID?
                     LOG.debug("Duplicate family GUID " + familyGuid + ", generating new uuid.");
                     familyGuid = uuidGenerator.generateUuid();
                     orderedDocuments.add(new Doc(familyGuid, familyGuid + HTML_EXTENSION, titleBreakPart, image));
                     copyHtmlDocument(documentGuid, familyGuid);
-                }
-                else
-                {
+                } else {
                     orderedDocuments.add(new Doc(familyGuid, documentGuid + HTML_EXTENSION, titleBreakPart, image));
                 }
                 currentNode.setDocumentUuid(familyGuid);
                 docGuid.append(familyGuid); // perform the replacement
                 uniqueFamilyGuids.add(familyGuid);
-            }
-            else
-            {
+            } else {
                 uniqueDocumentIds.add(docGuid.toString());
                 orderedDocuments.add(new Doc(documentGuid, documentGuid + HTML_EXTENSION, titleBreakPart, image));
             }
@@ -408,8 +343,7 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter
      * @throws SAXException if the data could not be written.
      */
     @Override
-    public void endDocument() throws SAXException
-    {
+    public void endDocument() throws SAXException {
         cascadeAnchors();
         writeTableOfContents();
         super.endElement(URI, TITLE_ELEMENT, TITLE_ELEMENT);
@@ -422,10 +356,8 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter
      * @throws SAXException the data could not be written.
      */
     @Override
-    protected void writeTableOfContents() throws SAXException
-    {
-        if (tableOfContents.getChildren().size() > 0)
-        {
+    protected void writeTableOfContents() throws SAXException {
+        if (tableOfContents.getChildren().size() > 0) {
             super.startElement(URI, TOC_ELEMENT, TOC_ELEMENT, EMPTY_ATTRIBUTES);
             super.startElement(URI, TITLE_BREAK, TITLE_BREAK, EMPTY_ATTRIBUTES);
             final String text = firstTitleBreak.toString();
@@ -434,8 +366,7 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter
             super.endElement(URI, TITLE_BREAK, TITLE_BREAK);
             // writeFrontMatterTtitle();
 
-            for (final TocNode child : tableOfContents.getChildren())
-            {
+            for (final TocNode child : tableOfContents.getChildren()) {
                 writeTocNode(child);
             }
             super.endElement(URI, TOC_ELEMENT, TOC_ELEMENT);
@@ -447,11 +378,9 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter
      *
      * @throws SAXException
      */
-    private void writeTocNode(final TocNode node) throws SAXException
-    {
+    private void writeTocNode(final TocNode node) throws SAXException {
         //
-        if (StringUtils.isNotBlank(node.getTitleBreakString()))
-        {
+        if (StringUtils.isNotBlank(node.getTitleBreakString())) {
             super.startElement(URI, TITLE_BREAK, TITLE_BREAK, EMPTY_ATTRIBUTES);
             final String title = node.getTitleBreakString();
             super.characters(title.toCharArray(), 0, title.length());
@@ -468,30 +397,25 @@ public class SplitTocManifestFilter extends AbstractTocManifestFilter
         final String text = node.getText();
         super.characters(text.toCharArray(), 0, text.length());
         super.endElement(URI, TEXT, TEXT);
-        for (final TocNode child : node.getChildren())
-        {
+        for (final TocNode child : node.getChildren()) {
             writeTocNode(child);
         }
         super.endElement(URI, ENTRY, ENTRY);
     }
 
-    protected List<Doc> getOrderedDocuments()
-    {
+    protected List<Doc> getOrderedDocuments() {
         return orderedDocuments;
     }
 
-    protected void setTableOfContents(final TableOfContents tableOfContents)
-    {
+    protected void setTableOfContents(final TableOfContents tableOfContents) {
         this.tableOfContents = tableOfContents;
     }
 
-    public List<SplitNodeInfo> getSplitNodeInfoList()
-    {
+    public List<SplitNodeInfo> getSplitNodeInfoList() {
         return splitNodeInfoList;
     }
 
-    public void setSplitNodeInfoList(final List<SplitNodeInfo> splitNodeInfoList)
-    {
+    public void setSplitNodeInfoList(final List<SplitNodeInfo> splitNodeInfoList) {
         this.splitNodeInfoList = splitNodeInfoList;
     }
 }

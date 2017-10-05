@@ -20,27 +20,23 @@ import org.springframework.beans.factory.annotation.Value;
  */
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
-public class InternalAnchorsStep extends XppTransformationStep
-{
+public class InternalAnchorsStep extends XppTransformationStep {
     @Value("${xpp.anchor.to.document.map.xsl}")
     private File transformToAnchorToDocumentIdMapXsl;
 
     @Override
-    public void executeTransformation() throws Exception
-    {
+    public void executeTransformation() throws Exception {
         final Transformer transformer =
             transformerBuilderFactory.create().withXsl(transformToAnchorToDocumentIdMapXsl).build();
 
         final List<File> inputFiles = new ArrayList<>();
-        for (final Collection<File> materialFiles : fileSystem.getSectionBreaksFiles(this).values())
-        {
+        for (final Collection<File> materialFiles : fileSystem.getSectionBreaksFiles(this).values()) {
             inputFiles.addAll(materialFiles);
         }
 
         final TransformationCommand command =
             new TransformationCommandBuilder(transformer, fileSystem.getAnchorToDocumentIdMapFile(this))
-                .withInput(inputFiles)
-                .build();
+                .withInput(inputFiles).build();
         transformationService.transform(command);
     }
 }

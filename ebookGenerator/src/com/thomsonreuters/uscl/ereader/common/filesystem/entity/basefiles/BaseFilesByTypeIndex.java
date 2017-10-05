@@ -7,24 +7,20 @@ import java.util.Map;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.PartType;
 import org.jetbrains.annotations.NotNull;
 
-public class BaseFilesByTypeIndex
-{
+public class BaseFilesByTypeIndex {
     private Map<PartType, File> filesByType = new EnumMap<>(PartType.class);
 
     @NotNull
-    public File get(@NotNull final PartType type)
-    {
+    public File get(@NotNull final PartType type) {
         return filesByType.get(type);
     }
 
     @NotNull
-    public Map<PartType, File> getFilesByType()
-    {
+    public Map<PartType, File> getFilesByType() {
         return filesByType;
     }
 
-    public void put(@NotNull final PartType type, @NotNull final File file)
-    {
+    public void put(@NotNull final PartType type, @NotNull final File file) {
         filesByType.put(type, file);
     }
 }

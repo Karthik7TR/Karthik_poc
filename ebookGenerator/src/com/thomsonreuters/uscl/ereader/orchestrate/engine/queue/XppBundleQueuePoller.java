@@ -21,8 +21,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-public class XppBundleQueuePoller
-{
+public class XppBundleQueuePoller {
     private static final Logger log = LogManager.getLogger(XppBundleQueuePoller.class);
 
     private JMSClient jmsClient;
@@ -36,12 +35,10 @@ public class XppBundleQueuePoller
     private String environmentName;
 
     @Scheduled(fixedDelay = 60000) // 1 minute
-    public void pollMessageQueue()
-    {
+    public void pollMessageQueue() {
         if ("workstation".equals(environmentName))
             return;
-        try
-        {
+        try {
             /**
              * Do not start bundle processing if:
              * 		1) A planned outage is active, no jobs started until outage is over
@@ -49,31 +46,24 @@ public class XppBundleQueuePoller
              * 		3) The application step specific rules prevent it from running.
              */
             final PlannedOutage outage = outageProcessor.processPlannedOutages();
-            if (outage == null)
-            {
+            if (outage == null) {
                 // Core pool size is the task executor pool size, effectively the maximum number of concurrent jobs.
                 // This is dynamic and can be changed through the administrative UI.
                 final int coreThreadPoolSize = threadPoolTaskExecutor.getCorePoolSize();
                 final int activeThreads = threadPoolTaskExecutor.getActiveCount();
-                if (activeThreads < coreThreadPoolSize)
-                {
+                if (activeThreads < coreThreadPoolSize) {
                     final String request = jmsClient.receiveSingleMessage(jmsTemplate, StringUtils.EMPTY);
-                    if (StringUtils.isNotEmpty(request))
-                    {
+                    if (StringUtils.isNotEmpty(request)) {
                         // start ebookBundleJob
                         final JobParametersBuilder builder = new JobParametersBuilder();
                         builder.addDate("timestamp", new Date());
                         builder.addParameter(JobParameterKey.KEY_REQUEST_XML, new JobParameter(request));
                         builder.addParameter(JobParameterKey.ENVIRONMENT_NAME, new JobParameter(environmentName));
                         runJob(JobParameterKey.JOB_NAME_PROCESS_BUNDLE, builder.toJobParameters());
-                    }
-                    else
-                    {
+                    } else {
                         // log.info("No bundle requests in the message queue.");
                     }
-                }
-                else
-                {
+                } else {
                     log.debug(
                         String.format(
                             "There are %d active bundle processing threads running, the maximum allowed is %d.  "
@@ -81,24 +71,18 @@ public class XppBundleQueuePoller
                             activeThreads,
                             coreThreadPoolSize));
                 }
-            }
-            else
-            {
+            } else {
                 log.debug(String.format("A planned outage is in effect until %s", outage.getEndTime().toString()));
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error("Failed start bundle process request: ", e);
         }
     }
 
-    private JobExecution runJob(final String jobName, final JobParameters jobParameters) throws Exception
-    {
+    private JobExecution runJob(final String jobName, final JobParameters jobParameters) throws Exception {
         // Lookup job object from set of defined collection of jobs
         final Job job = jobRegistry.getJob(jobName);
-        if (job == null)
-        {
+        if (job == null) {
             throw new IllegalArgumentException("Job definition: " + jobName + " was not found!");
         }
 
@@ -109,79 +93,65 @@ public class XppBundleQueuePoller
     }
 
     @Required
-    public void setJobRegistry(final JobRegistry jobRegistry)
-    {
+    public void setJobRegistry(final JobRegistry jobRegistry) {
         this.jobRegistry = jobRegistry;
     }
 
-    public JobRegistry getJobRegistry()
-    {
+    public JobRegistry getJobRegistry() {
         return jobRegistry;
     }
 
     @Required
-    public void setJobLauncher(final JobLauncher jobLauncher)
-    {
+    public void setJobLauncher(final JobLauncher jobLauncher) {
         this.jobLauncher = jobLauncher;
     }
 
-    public JobLauncher getJobLauncher()
-    {
+    public JobLauncher getJobLauncher() {
         return jobLauncher;
     }
 
     @Required
-    public void setJmsClient(final JMSClient jmsClient)
-    {
+    public void setJmsClient(final JMSClient jmsClient) {
         this.jmsClient = jmsClient;
     }
 
-    public JMSClient getJMSClient()
-    {
+    public JMSClient getJMSClient() {
         return jmsClient;
     }
 
     @Required
-    public void setJmsTemplate(final JmsTemplate jmsTemplate)
-    {
+    public void setJmsTemplate(final JmsTemplate jmsTemplate) {
         this.jmsTemplate = jmsTemplate;
     }
 
-    public JmsTemplate getJmsTemplate()
-    {
+    public JmsTemplate getJmsTemplate() {
         return jmsTemplate;
     }
 
     @Required
-    public void setOutageProcessor(final OutageProcessor outageProcessor)
-    {
+    public void setOutageProcessor(final OutageProcessor outageProcessor) {
         this.outageProcessor = outageProcessor;
     }
 
-    public OutageProcessor getOutageProcessor()
-    {
+    public OutageProcessor getOutageProcessor() {
         return outageProcessor;
     }
 
     @Required
-    public void setThreadPoolTaskExecutor(final ThreadPoolTaskExecutor threadPoolTaskExecutor)
-    {
+    public void setThreadPoolTaskExecutor(final ThreadPoolTaskExecutor threadPoolTaskExecutor) {
         this.threadPoolTaskExecutor = threadPoolTaskExecutor;
     }
 
-    public ThreadPoolTaskExecutor getThreadPoolTaskExecutor()
-    {
+    public ThreadPoolTaskExecutor getThreadPoolTaskExecutor() {
         return threadPoolTaskExecutor;
     }
 
     @Required
-    public void setEnvironmentName(final String environmentName)
-    {
+    public void setEnvironmentName(final String environmentName) {
         this.environmentName = environmentName;
     }
 
-    public String getEnvironmentName()
-    {
+    public String getEnvironmentName() {
         return environmentName;
     }
 }

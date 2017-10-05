@@ -14,8 +14,7 @@ import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public interface HTMLTransformerService
-{
+public interface HTMLTransformerService {
     /**
      * This method applies multiple XMLFilters to the source HTML to apply various
      * post transformation rules to the HTML.

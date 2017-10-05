@@ -14,8 +14,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import org.apache.commons.io.FileUtils;
 
-public class ArchiveServiceImpl implements ArchiveService
-{
+public class ArchiveServiceImpl implements ArchiveService {
     @Resource(name = "docMetadataService")
     private DocMetadataService docMetadataService;
     @Resource(name = "archiveFileSystem")
@@ -24,39 +23,29 @@ public class ArchiveServiceImpl implements ArchiveService
     private AssembleFileSystem assembleFileSystem;
 
     @Override
-    public void archiveBook(final BaseArchiveStep step)
-    {
+    public void archiveBook(final BaseArchiveStep step) {
         final File archiveDirectory = createArchiveDirectory(step);
 
         final BookDefinition bookDefinition = step.getBookDefinition();
-        if (bookDefinition.isSplitBook())
-        {
+        if (bookDefinition.isSplitBook()) {
             archiveSplitBook(step, archiveDirectory);
-        }
-        else
-        {
+        } else {
             archiveBook(assembleFileSystem.getAssembledBookFile(step), archiveDirectory);
         }
     }
 
-    private void archiveSplitBook(final BaseArchiveStep step, final File archiveDirectory)
-    {
+    private void archiveSplitBook(final BaseArchiveStep step, final File archiveDirectory) {
         final List<String> splitTitles = docMetadataService.findDistinctSplitTitlesByJobId(step.getJobInstanceId());
-        for (final String splitTitleId : splitTitles)
-        {
+        for (final String splitTitleId : splitTitles) {
             final File assembledSplitTitleFile = assembleFileSystem.getAssembledSplitTitleFile(step, splitTitleId);
             archiveBook(assembledSplitTitleFile, archiveDirectory);
         }
     }
 
-    private void archiveBook(final File assembledBookFile, final File archiveDirectory)
-    {
-        try
-        {
+    private void archiveBook(final File assembledBookFile, final File archiveDirectory) {
+        try {
             FileUtils.copyFileToDirectory(assembledBookFile, archiveDirectory);
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String message = String.format(
                 "Cannot copy file %s to directory %s",
                 assembledBookFile.getAbsolutePath(),
@@ -65,11 +54,9 @@ public class ArchiveServiceImpl implements ArchiveService
         }
     }
 
-    private File createArchiveDirectory(final BaseArchiveStep step)
-    {
+    private File createArchiveDirectory(final BaseArchiveStep step) {
         final File archiveDirectory = archivefileSystem.getArchiveVersionDirectory(step);
-        if (!archiveDirectory.exists() && !archiveDirectory.mkdirs())
-        {
+        if (!archiveDirectory.exists() && !archiveDirectory.mkdirs()) {
             throw new FileSystemException(
                 String.format("Archive directory %s was not created", archiveDirectory.getAbsolutePath()));
         }

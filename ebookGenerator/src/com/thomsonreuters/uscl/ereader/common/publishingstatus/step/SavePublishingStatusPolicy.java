@@ -12,7 +12,6 @@ import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface SavePublishingStatusPolicy
-{
+public @interface SavePublishingStatusPolicy {
     StatsUpdateTypeEnum[] value() default StatsUpdateTypeEnum.GENERAL;
 }

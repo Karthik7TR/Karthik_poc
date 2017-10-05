@@ -22,8 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OtherPartsPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTransformStrategy
-{
+public class OtherPartsPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTransformStrategy {
     private final File xslTransformationFile;
     private final XppFormatFileSystem xppFormatFileSystem;
 
@@ -32,8 +31,7 @@ public class OtherPartsPlaceXppMetadataStrategy extends AbstractPlaceXppMetadata
         final XslTransformationService xslTransformationService,
         final TransformerBuilderFactory transformerBuilderFactory,
         final XppFormatFileSystem xppFormatFileSystem,
-        @Value("${xpp.add.metadata.to.otherparts.xsl}") final File xslTransformationFile)
-    {
+        @Value("${xpp.add.metadata.to.otherparts.xsl}") final File xslTransformationFile) {
         super(
             xslTransformationService,
             transformerBuilderFactory,
@@ -55,8 +53,7 @@ public class OtherPartsPlaceXppMetadataStrategy extends AbstractPlaceXppMetadata
     protected List<TransformationCommand> getTransformationCommands(
         @NotNull final File inputFile,
         @NotNull final String materialNumber,
-        @NotNull final XppBookStep step)
-    {
+        @NotNull final XppBookStep step) {
         final Transformer transformer = transformerBuilderFactory.create().withXsl(xslTransformationFile).build();
         transformer.setParameter("TOCPartName", BundleFileType.getByFileName(inputFile.getName()));
 

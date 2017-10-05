@@ -8,8 +8,7 @@ package com.thomsonreuters.uscl.ereader;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public class JobExecutionKey
-{
+public class JobExecutionKey {
     /**
      * Path to the flat file that contains the mapping of all de-dupping anchors in each document.
      */

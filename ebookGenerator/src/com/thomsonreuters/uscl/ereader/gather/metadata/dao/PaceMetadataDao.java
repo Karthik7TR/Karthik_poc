@@ -9,8 +9,7 @@ import org.springframework.dao.DataAccessException;
  * @author <a href="mailto:ravi.nandikolla@thomsonreuters.com">Ravi Nandikolla</a> c139353
  *
  */
-public interface PaceMetadataDao
-{
+public interface PaceMetadataDao {
     /**
      * Query - findPaceMetadataByPrimaryKey
      */

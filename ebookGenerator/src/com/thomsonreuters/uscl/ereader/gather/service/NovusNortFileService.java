@@ -19,8 +19,7 @@ import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
  * @param isFinalStage determines to retrieve content from Final or Review stage
  * @param useReloadContent determines to retrieve content from the Reload stage
  */
-public interface NovusNortFileService
-{
+public interface NovusNortFileService {
     GatherResponse findTableOfContents(
         List<RelationshipNode> rootNodes,
         File nortXmlFile,

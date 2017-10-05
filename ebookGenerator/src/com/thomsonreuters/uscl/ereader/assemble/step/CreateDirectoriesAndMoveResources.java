@@ -43,8 +43,7 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 
-public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
-{
+public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
     /**
      * To update publishingStatsService table.
      */
@@ -63,8 +62,8 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
      * org.springframework.batch.core.scope.context.ChunkContext)
      */
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
         final JobParameters jobParameters = getJobParameters(chunkContext);
         final Long jobId = getJobInstance(chunkContext).getId();
@@ -78,25 +77,20 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
         final File coverArtFile = moveResourcesUtil.createCoverArt(jobExecutionContext);
         final String versionNumber = jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
 
-        final TitleMetadataBuilder titleMetadataBuilder = TitleMetadata.builder(bookDefinition)
-            .versionNumber(versionNumber)
-            .artworkFile(coverArtFile);
+        final TitleMetadataBuilder titleMetadataBuilder =
+            TitleMetadata.builder(bookDefinition).versionNumber(versionNumber).artworkFile(coverArtFile);
 
         OutputStream titleManifest = null;
         InputStream splitTitleXMLStream = null;
         boolean firstSplitBook;
 
-        try
-        {
+        try {
             final File assembleDirectory =
                 new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_DIR));
             int parts = 0;
-            if (bookDefinition.isSplitTypeAuto())
-            {
+            if (bookDefinition.isSplitTypeAuto()) {
                 parts = bookDefinitionService.getSplitPartsForEbook(bookDefinition.getEbookDefinitionId());
-            }
-            else
-            {
+            } else {
                 parts = bookDefinition.getSplitEBookParts();
             }
 
@@ -118,8 +112,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
 
             // Create title.xml and directories needed. Move content for all
             // splitBooks
-            for (int i = 1; i <= parts; i++)
-            {
+            for (int i = 1; i <= parts; i++) {
                 firstSplitBook = false;
                 String splitTitle = bookDefinition.getTitleId() + "_pt" + i;
                 final StringBuffer proviewDisplayName = new StringBuffer();
@@ -136,38 +129,31 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
                 // imgList contains file names belong to the split book
                 List<String> imgList = new ArrayList<>();
 
-                if (splitBookImgMap.containsKey(key))
-                {
+                if (splitBookImgMap.containsKey(key)) {
                     imgList = splitBookImgMap.get(key);
-                    for (final String imgFileName : imgList)
-                    {
+                    for (final String imgFileName : imgList) {
                         titleMetadataBuilder.assetFileName(imgFileName);
                     }
                 }
 
                 // Get all documents corresponding to the split Book
                 List<Doc> docList = new ArrayList<>();
-                if (docMap.containsKey(key))
-                {
+                if (docMap.containsKey(key)) {
                     docList = docMap.get(key);
                 }
 
                 // Only for first split book
-                if (i == 1)
-                {
+                if (i == 1) {
                     splitTitle = bookDefinition.getTitleId();
                     final List<FrontMatterPdf> pdfList = new ArrayList<>();
                     final List<FrontMatterPage> fmps = bookDefinition.getFrontMatterPages();
-                    for (final FrontMatterPage fmp : fmps)
-                    {
-                        for (final FrontMatterSection fms : fmp.getFrontMatterSections())
-                        {
+                    for (final FrontMatterPage fmp : fmps) {
+                        for (final FrontMatterSection fms : fmp.getFrontMatterSections()) {
                             pdfList.addAll(fms.getPdfs());
                         }
                     }
 
-                    for (final FrontMatterPdf pdf : pdfList)
-                    {
+                    for (final FrontMatterPdf pdf : pdfList) {
                         titleMetadataBuilder.assetFileName(pdf.getPdfFilename());
                     }
                     titleMetadataBuilder.fullyQualifiedTitleId(fullyQualifiedTitleId);
@@ -198,14 +184,10 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
                 titleMetadataBuilder.assetFileNames(null);
                 addAssetsForAllBooks(jobExecutionContext, bookDefinition, titleMetadataBuilder);
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             publishStatus = "Failed";
             throw (e);
-        }
-        finally
-        {
+        } finally {
             jobstats.setPublishStatus("createDirectoriesAndMoveResources: " + publishStatus);
             publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
         }
@@ -214,11 +196,9 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
     }
 
     @NotNull
-    private Map<BookTitleId, List<Doc>> getDocsByTitles(@NotNull final Map<String, List<Doc>> docMap)
-    {
+    private Map<BookTitleId, List<Doc>> getDocsByTitles(@NotNull final Map<String, List<Doc>> docMap) {
         final Map<BookTitleId, List<Doc>> map = new HashMap<>();
-        for (final Entry<String, List<Doc>> e : docMap.entrySet())
-        {
+        for (final Entry<String, List<Doc>> e : docMap.entrySet()) {
             map.put(new BookTitleId(e.getKey(), new Version(0, 0)), e.getValue());
         }
         return map;
@@ -239,8 +219,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
         final boolean firstSplitBook,
         final List<String> imgList,
         final List<Doc> docList,
-        final File coverArtFile) throws IOException
-    {
+        final File coverArtFile) throws IOException {
         // Move assets
         final File assetsDirectory = createAssetsDirectory(ebookDirectory);
         // static images
@@ -263,8 +242,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
 
         // Move Documents
         final File documentsDirectory = createDocumentsDirectory(ebookDirectory);
-        if (firstSplitBook)
-        {
+        if (firstSplitBook) {
             final File frontMatter =
                 new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_FRONT_MATTER_HTML_DIR));
             moveResourcesUtil.copySourceToDestination(frontMatter, documentsDirectory);
@@ -274,25 +252,20 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
             getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH));
 
         final List<String> srcIdList = new ArrayList<>();
-        for (final Doc doc : docList)
-        {
+        for (final Doc doc : docList) {
             srcIdList.add(doc.getSrc());
         }
         final List<File> documentFiles = filterFiles(transformedDocsDir, srcIdList);
         moveResourcesUtil.copyFilesToDestination(documentFiles, documentsDirectory);
     }
 
-    protected List<File> filterFiles(final File directory, final List<String> fileNameList)
-    {
-        if (directory == null || !directory.isDirectory())
-        {
+    protected List<File> filterFiles(final File directory, final List<String> fileNameList) {
+        if (directory == null || !directory.isDirectory()) {
             throw new IllegalArgumentException("Directory must not be null and must be a directory.");
         }
         final List<File> filter = new ArrayList<>();
-        for (final File file : directory.listFiles())
-        {
-            if (fileNameList.contains(file.getName()))
-            {
+        for (final File file : directory.listFiles()) {
+            if (fileNameList.contains(file.getName())) {
                 filter.add(file);
             }
         }
@@ -307,30 +280,22 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
     public void readDocImgFile(
         final File docToSplitBook,
         final Map<String, List<Doc>> docMap,
-        final Map<String, List<String>> splitBookImgMap)
-    {
+        final Map<String, List<String>> splitBookImgMap) {
         String line = null;
-        try (BufferedReader stream = new BufferedReader(new FileReader(docToSplitBook)))
-        {
-            while ((line = stream.readLine()) != null)
-            {
+        try (BufferedReader stream = new BufferedReader(new FileReader(docToSplitBook))) {
+            while ((line = stream.readLine()) != null) {
                 List<String> imgList = null;
                 final String[] splitted = line.split("\\|");
 
-                if (splitted.length == 4)
-                {
+                if (splitted.length == 4) {
                     imgList = new ArrayList<>();
-                    if (splitted[3].contains(","))
-                    {
+                    if (splitted[3].contains(",")) {
                         final String[] imgStringArray = splitted[3].split(",");
 
-                        for (final String imgId : imgStringArray)
-                        {
+                        for (final String imgId : imgStringArray) {
                             imgList.add(imgId);
                         }
-                    }
-                    else
-                    {
+                    } else {
                         imgList.add(splitted[3]);
                     }
                 }
@@ -339,35 +304,26 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
                 final Doc document = new Doc(splitted[0], splitted[1], Integer.parseInt(splitTitlePart), imgList);
 
                 List<Doc> docList = null;
-                if (docMap.containsKey(splitTitlePart))
-                {
+                if (docMap.containsKey(splitTitlePart)) {
                     docList = docMap.get(splitTitlePart);
-                }
-                else
-                {
+                } else {
                     docList = new ArrayList<>();
                 }
 
                 docList.add(document);
                 docMap.put(splitTitlePart, docList);
 
-                if (imgList != null && imgList.size() > 0)
-                {
-                    if (splitBookImgMap.containsKey(splitTitlePart))
-                    {
+                if (imgList != null && imgList.size() > 0) {
+                    if (splitBookImgMap.containsKey(splitTitlePart)) {
                         final List<String> splitImgList = splitBookImgMap.get(splitTitlePart);
                         splitImgList.addAll(imgList);
                         splitBookImgMap.put(splitTitlePart, splitImgList);
-                    }
-                    else
-                    {
+                    } else {
                         splitBookImgMap.put(splitTitlePart, imgList);
                     }
                 }
             }
-        }
-        catch (final IOException iox)
-        {
+        } catch (final IOException iox) {
             throw new RuntimeException("Unable to find File : " + docToSplitBook.getAbsolutePath() + " " + iox);
         }
     }
@@ -382,84 +338,69 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet
     protected void addAssetsForAllBooks(
         final ExecutionContext jobExecutionContext,
         final BookDefinition bookDefinition,
-        final TitleMetadataBuilder builder) throws FileNotFoundException
-    {
+        final TitleMetadataBuilder builder) throws FileNotFoundException {
         final File staticImagesDir =
             new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.IMAGE_STATIC_DEST_DIR));
         final String staticContentDir =
             getRequiredStringProperty(jobExecutionContext, JobExecutionKey.STATIC_CONTENT_DIR);
-        builder
-            .assetFilesFromDirectory(staticImagesDir)
+        builder.assetFilesFromDirectory(staticImagesDir)
             .assetFile(new File(staticContentDir, MoveResourcesUtil.DOCUMENT_CSS_FILE))
             .assetFile(new File(MoveResourcesUtil.EBOOK_GENERATOR_CSS_FILE));
 
         final File frontMatterImagesDir = new File(MoveResourcesUtil.EBOOK_GENERATOR_IMAGES_DIR);
         final List<File> filter = moveResourcesUtil.filterFiles(frontMatterImagesDir, bookDefinition);
-        for (final File file : frontMatterImagesDir.listFiles())
-        {
-            if (!filter.contains(file))
-            {
+        for (final File file : frontMatterImagesDir.listFiles()) {
+            if (!filter.contains(file)) {
                 builder.assetFileName(file.getName());
             }
         }
     }
 
-    private File createDocumentsDirectory(final File ebookDirectory)
-    {
+    private File createDocumentsDirectory(final File ebookDirectory) {
         return new File(ebookDirectory, "documents");
     }
 
-    private File createArtworkDirectory(final File ebookDirectory)
-    {
+    private File createArtworkDirectory(final File ebookDirectory) {
         final File artworkDirectory = new File(ebookDirectory, "artwork");
         artworkDirectory.mkdirs();
         return artworkDirectory;
     }
 
-    private File createAssetsDirectory(final File parentDirectory)
-    {
+    private File createAssetsDirectory(final File parentDirectory) {
         final File assetsDirectory = new File(parentDirectory, "assets");
         return assetsDirectory;
     }
 
     @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
 
     @Required
-    public void setTitleMetadataService(final TitleMetadataService titleMetadataService)
-    {
+    public void setTitleMetadataService(final TitleMetadataService titleMetadataService) {
         this.titleMetadataService = titleMetadataService;
     }
 
-    public MoveResourcesUtil getMoveResourcesUtil()
-    {
+    public MoveResourcesUtil getMoveResourcesUtil() {
         return moveResourcesUtil;
     }
 
     @Required
-    public void setMoveResourcesUtil(final MoveResourcesUtil moveResourcesUtil)
-    {
+    public void setMoveResourcesUtil(final MoveResourcesUtil moveResourcesUtil) {
         this.moveResourcesUtil = moveResourcesUtil;
     }
 
-    public BookDefinitionService getBookDefinitionService()
-    {
+    public BookDefinitionService getBookDefinitionService() {
         return bookDefinitionService;
     }
 
     @Required
-    public void setBookDefinitionService(final BookDefinitionService bookDefinitionService)
-    {
+    public void setBookDefinitionService(final BookDefinitionService bookDefinitionService) {
         this.bookDefinitionService = bookDefinitionService;
     }
 
-
     @Required
-    public void setFeaturesListBuilderFactory(final ProviewFeaturesListBuilderFactory featuresListBuilderFactory)
-    {
+    public void setFeaturesListBuilderFactory(final ProviewFeaturesListBuilderFactory featuresListBuilderFactory) {
         this.featuresListBuilderFactory = featuresListBuilderFactory;
     }
 }

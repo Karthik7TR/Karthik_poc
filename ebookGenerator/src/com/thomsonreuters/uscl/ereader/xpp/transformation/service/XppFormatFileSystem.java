@@ -13,8 +13,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Provides access to files and directories specific for XPP transformation steps
  */
-public interface XppFormatFileSystem extends FormatFileSystem
-{
+public interface XppFormatFileSystem extends FormatFileSystem {
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /#_StructureWithMetadata}{@code /[material number]}
@@ -238,7 +237,12 @@ public interface XppFormatFileSystem extends FormatFileSystem
      * {@code /}{@link getOriginalPagesDirectory #_OriginalPages}{@code /[material number]}{@code /fileName_#_docFamilyGuid.page}
      */
     @NotNull
-    File getOriginalPageFile(@NotNull BookStep step, @NotNull String materialNumber, @NotNull String fileBaseName, int pageNumber, @NotNull String docFamilyGuid);
+    File getOriginalPageFile(
+        @NotNull BookStep step,
+        @NotNull String materialNumber,
+        @NotNull String fileBaseName,
+        int pageNumber,
+        @NotNull String docFamilyGuid);
 
     /**
      * Returns map "bundle name (material number) to list of files related to this bundle" from original pages directory.
@@ -325,7 +329,7 @@ public interface XppFormatFileSystem extends FormatFileSystem
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /#_ExternalLinks_Mapping}
      */
     @NotNull
-    File getExternalLinksMappingDirectory(@NotNull  BookStep step);
+    File getExternalLinksMappingDirectory(@NotNull BookStep step);
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
@@ -409,7 +413,11 @@ public interface XppFormatFileSystem extends FormatFileSystem
      * Utility method to get fileName of .part file by given parameters.
      */
     @NotNull
-    String getPartFileName(@NotNull String baseFilename, @NotNull int pageNumber, @NotNull PartType type, @NotNull String docFamilyGuid);
+    String getPartFileName(
+        @NotNull String baseFilename,
+        @NotNull int pageNumber,
+        @NotNull PartType type,
+        @NotNull String docFamilyGuid);
 
     /**
      * Utility method to get fileName of .page file by given parameters.

@@ -10,8 +10,7 @@ import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
  *
  * @author <a href="mailto:Kirsten.Gunn@thomsonreuters.com">Kirsten Gunn</a> u0076257
  */
-public interface HTMLCreateNamedAnchorsService
-{
+public interface HTMLCreateNamedAnchorsService {
     /**
      * This method applies multiple XMLFilters to the source HTML to apply various
      * post transformation rules to the HTML.

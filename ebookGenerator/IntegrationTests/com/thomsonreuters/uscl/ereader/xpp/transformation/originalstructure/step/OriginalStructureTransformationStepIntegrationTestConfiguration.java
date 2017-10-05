@@ -9,11 +9,9 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @Profile("IntegrationTests")
 @Import(CommonTestContextConfiguration.class)
-public class OriginalStructureTransformationStepIntegrationTestConfiguration
-{
+public class OriginalStructureTransformationStepIntegrationTestConfiguration {
     @Bean(name = "originalStructureTransformationTask")
-    public OriginalStructureTransformationStep originalStructureTransformationTask()
-    {
+    public OriginalStructureTransformationStep originalStructureTransformationTask() {
         return new OriginalStructureTransformationStep();
     }
 }

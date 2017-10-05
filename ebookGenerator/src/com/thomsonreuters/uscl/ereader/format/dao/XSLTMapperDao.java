@@ -7,8 +7,7 @@ import com.thomsonreuters.uscl.ereader.format.domain.XSLTMapperEntity;
  *
  * @author Ripu Jain U0115290
  */
-public interface XSLTMapperDao
-{
+public interface XSLTMapperDao {
     /**
      * Retrieves the XSLT style sheet for a given collection and doc-type.
      *

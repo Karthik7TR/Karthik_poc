@@ -9,8 +9,7 @@ import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntityKey;
 import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 
-public interface ImageService
-{
+public interface ImageService {
     /**
      * Copy a collection of image files to the well-known static image directory for the current job instance.
      * @param basenames a list of image file base names (no dir path info) that are to be searched for within a filesystem tree of images.

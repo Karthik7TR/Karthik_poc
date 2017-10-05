@@ -17,8 +17,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class FormatFileSystemImplTest
-{
+public final class FormatFileSystemImplTest {
     @InjectMocks
     private FormatFileSystemImpl fileSystem;
     @Mock
@@ -29,14 +28,12 @@ public final class FormatFileSystemImplTest
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         given(bookFileSystem.getWorkDirectory(step)).willReturn(new File(temporaryFolder.getRoot(), "workDirectory"));
     }
 
     @Test
-    public void shouldReturnFormatDirectory()
-    {
+    public void shouldReturnFormatDirectory() {
         //given
         //when
         final File directory = fileSystem.getFormatDirectory(step);
@@ -45,8 +42,7 @@ public final class FormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnSplitBookDirectory()
-    {
+    public void shouldReturnSplitBookDirectory() {
         //given
         //when
         final File directory = fileSystem.getSplitBookDirectory(step);
@@ -55,8 +51,7 @@ public final class FormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnSplitBookInfoFile()
-    {
+    public void shouldReturnSplitBookInfoFile() {
         //given
         //when
         final File file = fileSystem.getSplitBookInfoFile(step);
@@ -65,8 +60,7 @@ public final class FormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnImageToDocumentManifestFile()
-    {
+    public void shouldReturnImageToDocumentManifestFile() {
         //given
         //when
         final File file = fileSystem.getImageToDocumentManifestFile(step);

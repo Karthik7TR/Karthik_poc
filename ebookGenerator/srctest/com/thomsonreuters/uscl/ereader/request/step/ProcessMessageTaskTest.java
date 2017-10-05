@@ -29,17 +29,18 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.item.ExecutionContext;
 
-public final class ProcessMessageTaskTest
-{
+public final class ProcessMessageTaskTest {
     private static final String MESSAGE_ID = "Ia9e003a05bdd11e7991a005056b56b77";
     private static final String BUNDLE_HASH = "1919244a0a6dda548aabbf426ae3a45f";
-    private static final String DATE_TIME_CURRENT_TIMEZONE ="2016-01-21T23:42:03.522Z";
-    private static final String DATE_TIME_COLON_DIVIDED_TIMEZONE ="2017-06-23T14:01:22.644+03:00";
-    private static final String DATE_TIME_NO_COLON_TIMEZONE ="2017-06-23T14:01:22.644+0300";
-    private static final String DATE_TIME_GMT_TIMEZONE ="2017-06-28T15:34:33.900GMT";
-    private static final String SRC_FILE ="/apps/eBookBuilder/cicontent/xpp/drop/FLLB_22992299_2017-06-28_00.00.00.00.-0000.tar.gz";
+    private static final String DATE_TIME_CURRENT_TIMEZONE = "2016-01-21T23:42:03.522Z";
+    private static final String DATE_TIME_COLON_DIVIDED_TIMEZONE = "2017-06-23T14:01:22.644+03:00";
+    private static final String DATE_TIME_NO_COLON_TIMEZONE = "2017-06-23T14:01:22.644+0300";
+    private static final String DATE_TIME_GMT_TIMEZONE = "2017-06-28T15:34:33.900GMT";
+    private static final String SRC_FILE =
+        "/apps/eBookBuilder/cicontent/xpp/drop/FLLB_22992299_2017-06-28_00.00.00.00.-0000.tar.gz";
     private static final String MATERIAL_NUMBER = "11111111";
-    private static final String REQUEST= "<eBookRequest version=\"1.0\"><messageId>%s</messageId><bundleHash>%s</bundleHash><dateTime>%s</dateTime><srcFile>%s</srcFile><materialNumber>%s</materialNumber></eBookRequest>";
+    private static final String REQUEST =
+        "<eBookRequest version=\"1.0\"><messageId>%s</messageId><bundleHash>%s</bundleHash><dateTime>%s</dateTime><srcFile>%s</srcFile><materialNumber>%s</materialNumber></eBookRequest>";
 
     private ProcessMessageTask tasklet;
     private XppMessageValidator mockValidator;
@@ -56,8 +57,7 @@ public final class ProcessMessageTaskTest
     private Capture<XppBundleArchive> capturedRequest;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockValidator = EasyMock.createMock(XppMessageValidator.class);
         mockCoreService = EasyMock.createMock(CoreService.class);
         mockNotificationService = EasyMock.createMock(NotificationService.class);
@@ -79,8 +79,7 @@ public final class ProcessMessageTaskTest
     }
 
     @Test
-    public void testHappyPath() throws Exception
-    {
+    public void testHappyPath() throws Exception {
         final XppBundleArchive expected =
             createRequest("1.0", "ThisIsAnId", "ThisIsTheHash", new Date(), "ThisIsTheFileLocation", 127L);
         final String requestXML = createXML(expected);
@@ -96,12 +95,9 @@ public final class ProcessMessageTaskTest
             EasyMock.matches(JobParameterKey.KEY_XPP_BUNDLE),
             EasyMock.and(EasyMock.capture(capturedRequest), EasyMock.isA(XppBundleArchive.class)));
         replayAll();
-        try
-        {
+        try {
             exitCode = tasklet.executeStep(mockContribution, mockChunkContext);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -111,8 +107,7 @@ public final class ProcessMessageTaskTest
     }
 
     @Test
-    public void testValidationException() throws Exception
-    {
+    public void testValidationException() throws Exception {
         final XppBundleArchive expected =
             createRequest("1.0", "ThisIsAnId", "ThisIsTheHash", new Date(), "ThisIsTheFileLocation", 127L);
         final String requestXML = createXML(expected);
@@ -124,12 +119,9 @@ public final class ProcessMessageTaskTest
         mockValidator.validate(EasyMock.anyObject(XppBundleArchive.class));
         EasyMock.expectLastCall().andThrow(new XppMessageException(""));
         replayAll();
-        try
-        {
+        try {
             exitCode = tasklet.executeStep(mockContribution, mockChunkContext);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -137,16 +129,10 @@ public final class ProcessMessageTaskTest
     }
 
     @Test
-    public void shouldUnmarshallRequest() throws Exception
-    {
+    public void shouldUnmarshallRequest() throws Exception {
         //when
-        final XppBundleArchive xppBundleArchive = tasklet.unmarshalRequest(String.format(REQUEST,
-                MESSAGE_ID,
-                BUNDLE_HASH,
-                DATE_TIME_CURRENT_TIMEZONE,
-                SRC_FILE,
-                MATERIAL_NUMBER
-            ));
+        final XppBundleArchive xppBundleArchive = tasklet.unmarshalRequest(
+            String.format(REQUEST, MESSAGE_ID, BUNDLE_HASH, DATE_TIME_CURRENT_TIMEZONE, SRC_FILE, MATERIAL_NUMBER));
         //then
         Assert.assertEquals(MESSAGE_ID, xppBundleArchive.getMessageId());
         Assert.assertEquals(BUNDLE_HASH, xppBundleArchive.getBundleHash());
@@ -156,46 +142,29 @@ public final class ProcessMessageTaskTest
     }
 
     @Test
-    public void shouldUnmarshallTimezoneDividedByColon() throws Exception
-    {
+    public void shouldUnmarshallTimezoneDividedByColon() throws Exception {
         //when
-        final XppBundleArchive xppBundleArchive = tasklet.unmarshalRequest(String.format(REQUEST,
-                MESSAGE_ID,
-                BUNDLE_HASH,
-                DATE_TIME_COLON_DIVIDED_TIMEZONE,
-                SRC_FILE,
-                MATERIAL_NUMBER
-            ));
+        final XppBundleArchive xppBundleArchive = tasklet.unmarshalRequest(
+            String
+                .format(REQUEST, MESSAGE_ID, BUNDLE_HASH, DATE_TIME_COLON_DIVIDED_TIMEZONE, SRC_FILE, MATERIAL_NUMBER));
         //then
         Assert.assertNotNull(xppBundleArchive.getDateTime());
     }
 
     @Test
-    public void shouldNotUnmarshallNoColonTimezone() throws Exception
-    {
+    public void shouldNotUnmarshallNoColonTimezone() throws Exception {
         //when
-        final XppBundleArchive xppBundleArchive = tasklet.unmarshalRequest(String.format(REQUEST,
-                MESSAGE_ID,
-                BUNDLE_HASH,
-                DATE_TIME_NO_COLON_TIMEZONE,
-                SRC_FILE,
-                MATERIAL_NUMBER
-            ));
+        final XppBundleArchive xppBundleArchive = tasklet.unmarshalRequest(
+            String.format(REQUEST, MESSAGE_ID, BUNDLE_HASH, DATE_TIME_NO_COLON_TIMEZONE, SRC_FILE, MATERIAL_NUMBER));
         //then
         Assert.assertNull(xppBundleArchive.getDateTime());
     }
 
     @Test
-    public void shouldNotUnmarshallGmtTimezone() throws Exception
-    {
+    public void shouldNotUnmarshallGmtTimezone() throws Exception {
         //when
-        final XppBundleArchive xppBundleArchive = tasklet.unmarshalRequest(String.format(REQUEST,
-                MESSAGE_ID,
-                BUNDLE_HASH,
-                DATE_TIME_GMT_TIMEZONE,
-                SRC_FILE,
-                MATERIAL_NUMBER
-            ));
+        final XppBundleArchive xppBundleArchive = tasklet.unmarshalRequest(
+            String.format(REQUEST, MESSAGE_ID, BUNDLE_HASH, DATE_TIME_GMT_TIMEZONE, SRC_FILE, MATERIAL_NUMBER));
         //then
         Assert.assertNull(xppBundleArchive.getDateTime());
     }
@@ -206,8 +175,7 @@ public final class ProcessMessageTaskTest
         final String bundleHash,
         final Date dateTime,
         final String ebookSrcFile,
-        final long materialNumber)
-    {
+        final long materialNumber) {
         final XppBundleArchive request = new XppBundleArchive();
         request.setVersion(version);
         request.setMessageId(messageId);
@@ -218,8 +186,7 @@ public final class ProcessMessageTaskTest
         return request;
     }
 
-    private static String createXML(final XppBundleArchive request) throws JAXBException
-    {
+    private static String createXML(final XppBundleArchive request) throws JAXBException {
         final JAXBContext context = JAXBContext.newInstance(XppBundleArchive.class);
         final Marshaller marshaller = context.createMarshaller();
 
@@ -228,8 +195,7 @@ public final class ProcessMessageTaskTest
         return outStream.toString();
     }
 
-    private void mockGetJobParameters(final ChunkContext mockChunk, final JobParameters mockParameters)
-    {
+    private void mockGetJobParameters(final ChunkContext mockChunk, final JobParameters mockParameters) {
         final StepContext step = EasyMock.createMock(StepContext.class);
         final StepExecution stepExecution = EasyMock.createMock(StepExecution.class);
 
@@ -241,8 +207,7 @@ public final class ProcessMessageTaskTest
         EasyMock.replay(stepExecution);
     }
 
-    private void mockGetJobExecutionContext(final ChunkContext mockChunk, final ExecutionContext mockExecution)
-    {
+    private void mockGetJobExecutionContext(final ChunkContext mockChunk, final ExecutionContext mockExecution) {
         final StepContext step = EasyMock.createMock(StepContext.class);
         final StepExecution stepExecution = EasyMock.createMock(StepExecution.class);
         final JobExecution jobExecution = EasyMock.createMock(JobExecution.class);
@@ -257,8 +222,7 @@ public final class ProcessMessageTaskTest
         EasyMock.replay(jobExecution);
     }
 
-    private void replayAll()
-    {
+    private void replayAll() {
         EasyMock.replay(mockValidator);
         EasyMock.replay(mockCoreService);
         EasyMock.replay(mockNotificationService);

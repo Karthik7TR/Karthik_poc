@@ -23,14 +23,12 @@ import org.xml.sax.InputSource;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public final class HTMLEmptyHeading2FilterTest
-{
+public final class HTMLEmptyHeading2FilterTest {
     private HTMLEmptyHeading2Filter h2Filter;
     private Serializer serializer;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
         final SAXParser saxParser = factory.newSAXParser();
@@ -44,8 +42,7 @@ public final class HTMLEmptyHeading2FilterTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         serializer = null;
         h2Filter = null;
     }
@@ -55,12 +52,10 @@ public final class HTMLEmptyHeading2FilterTest
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final String expectedResult)
-    {
+    public void testHelper(final String inputXML, final String expectedResult) {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
-        try
-        {
+        try {
             input = new ByteArrayInputStream(inputXML.getBytes());
             output = new ByteArrayOutputStream();
 
@@ -72,34 +67,24 @@ public final class HTMLEmptyHeading2FilterTest
             final String result = output.toString();
 
             assertEquals(expectedResult, result);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             fail("Encountered exception during test: " + e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if (input != null)
-                {
+        } finally {
+            try {
+                if (input != null) {
                     input.close();
                 }
-                if (output != null)
-                {
+                if (output != null) {
                     output.close();
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 fail("Could clean up resources: " + e.getMessage());
             }
         }
     }
 
     @Test
-    public void testSimpleEmptyH2TagDelete()
-    {
+    public void testSimpleEmptyH2TagDelete() {
         final String xmlTestStr = "<test><h2></h2></test>";
         final String expectedResult = "<test/>";
 
@@ -107,8 +92,7 @@ public final class HTMLEmptyHeading2FilterTest
     }
 
     @Test
-    public void testSimpleH2TagWithTextPreserved()
-    {
+    public void testSimpleH2TagWithTextPreserved() {
         final String xmlTestStr = "<test><h2>Testing</h2></test>";
         final String expectedResult = "<test><h2>Testing</h2></test>";
 
@@ -116,8 +100,7 @@ public final class HTMLEmptyHeading2FilterTest
     }
 
     @Test
-    public void testSimpleH2TagWithTextAndTagsPreserved()
-    {
+    public void testSimpleH2TagWithTextAndTagsPreserved() {
         final String xmlTestStr = "<test><h2>Testing <bold>Bold</bold></h2></test>";
         final String expectedResult = "<test><h2>Testing <bold>Bold</bold></h2></test>";
 
@@ -125,8 +108,7 @@ public final class HTMLEmptyHeading2FilterTest
     }
 
     @Test
-    public void testSimpleH2TagWithAttributesAndTagsPreserved()
-    {
+    public void testSimpleH2TagWithAttributesAndTagsPreserved() {
         final String xmlTestStr = "<test><h2>Testing</h2><test2/><h2></h2>"
             + "<test3/><h2></h2>"
             + "<test4/><h2><a name=\"name1\">Hello</a><a name=\"name2\">Hello2</a></h2></test>";
@@ -138,8 +120,7 @@ public final class HTMLEmptyHeading2FilterTest
     }
 
     @Test
-    public void testSimpleH2TagWithTextAndTagsBeforeAndAfterPreserved()
-    {
+    public void testSimpleH2TagWithTextAndTagsBeforeAndAfterPreserved() {
         final String xmlTestStr = "<test><h2>Testing <bold>Bold</bold> and <i>italics</i></h2></test>";
         final String expectedResult = "<test><h2>Testing <bold>Bold</bold> and <i>italics</i></h2></test>";
 
@@ -147,8 +128,7 @@ public final class HTMLEmptyHeading2FilterTest
     }
 
     @Test
-    public void testMultipleEmptyH2Tags()
-    {
+    public void testMultipleEmptyH2Tags() {
         final String xmlTestStr = "<test><h2></h2><h2></h2><tester/><h2></h2></test>";
         final String expectedResult = "<test><tester/></test>";
 
@@ -156,8 +136,7 @@ public final class HTMLEmptyHeading2FilterTest
     }
 
     @Test
-    public void testMultipleEmptyH2TagsMixedWithNonEmpty()
-    {
+    public void testMultipleEmptyH2TagsMixedWithNonEmpty() {
         final String xmlTestStr =
             "<test><h2>Testing</h2><test2/><h2></h2><test3/><h2></h2>" + "<test4/><h2><a>Hello</a></h2></test>";
         final String expectedResult = "<test><h2>Testing</h2><test2/><test3/><test4/><h2><a>Hello</a></h2></test>";
@@ -166,8 +145,7 @@ public final class HTMLEmptyHeading2FilterTest
     }
 
     @Test
-    public void testNestedMultipleEmptyH2TagsDelete()
-    {
+    public void testNestedMultipleEmptyH2TagsDelete() {
         final String xmlTestStr = "<test><h2><h2></h2><h2></h2></h2></test>";
         final String expectedResult = "<test/>";
 
@@ -175,8 +153,7 @@ public final class HTMLEmptyHeading2FilterTest
     }
 
     @Test
-    public void testNestedMultipleLevelsEmptyH2TagsDelete()
-    {
+    public void testNestedMultipleLevelsEmptyH2TagsDelete() {
         final String xmlTestStr = "<test><h2><h2><h2></h2></h2></h2></test>";
         final String expectedResult = "<test/>";
 
@@ -184,8 +161,7 @@ public final class HTMLEmptyHeading2FilterTest
     }
 
     @Test
-    public void testComplexEmptyH2Tags()
-    {
+    public void testComplexEmptyH2Tags() {
         final String xmlTestStr = "<test><h2></h2><h2><h2><h2><h2><h2></h2></h2></h2></h2></h2>"
             + "<tester/><h2><h2><h2></h2></h2></h2></test>";
         final String expectedResult = "<test><tester/></test>";
@@ -194,8 +170,7 @@ public final class HTMLEmptyHeading2FilterTest
     }
 
     @Test
-    public void testComplexEmptyAndNonEmptyH2Tags()
-    {
+    public void testComplexEmptyAndNonEmptyH2Tags() {
         final String xmlTestStr = "<test><h2></h2><h2><h2><h2><h2><h2></h2></h2></h2></h2></h2>"
             + "<tester/><h2><h2><h2>Test</h2></h2></h2></test>";
         final String expectedResult = "<test><tester/><h2><h2><h2>Test</h2></h2></h2></test>";

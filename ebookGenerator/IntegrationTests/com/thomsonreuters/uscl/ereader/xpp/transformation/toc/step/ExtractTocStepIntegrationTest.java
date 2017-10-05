@@ -36,8 +36,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @ActiveProfiles("IntegrationTests")
-public final class ExtractTocStepIntegrationTest
-{
+public final class ExtractTocStepIntegrationTest {
     private static final String VOL_ONE_MATERIAL_NUMBER = "1111111";
     private static final String VOL_TWO_MATERIAL_NUMBER = "2222222";
 
@@ -59,44 +58,39 @@ public final class ExtractTocStepIntegrationTest
     private ChunkContext chunkContext;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         initMocks();
         initFiles();
         prepareDirectories();
     }
 
-    private void initMocks()
-    {
+    private void initMocks() {
         org.mockito.MockitoAnnotations.initMocks(this);
-        when(chunkContext.getStepContext()
-            .getStepExecution()
-            .getJobExecution()
-            .getExecutionContext()
-            .get(JobParameterKey.XPP_BUNDLES)
-        ).thenReturn(getBundlesList());
+        when(
+            chunkContext.getStepContext()
+                .getStepExecution()
+                .getJobExecution()
+                .getExecutionContext()
+                .get(JobParameterKey.XPP_BUNDLES)).thenReturn(getBundlesList());
     }
 
-    private void initFiles() throws Exception
-    {
-        bundleMainContentOriginalFile = new File(
-            ExtractTocStepIntegrationTest.class.getResource("mainContent1.DIVXML.main").toURI());
-        bundleMainContentOriginalAdditionalFile = new File(
-            ExtractTocStepIntegrationTest.class.getResource("mainContent2.DIVXML.main").toURI());
-        bundleMainContentOriginalXppHierWithoutChildXppMetadataFile = new File(
-            ExtractTocStepIntegrationTest.class.getResource("mainContent3.DIVXML.main").toURI());
-        expectedMainContentTocFile = new File(
-            ExtractTocStepIntegrationTest.class.getResource("expectedMainContent_1_TocFile.xml").toURI());
-        expectedMainContentAdditionalTocFile = new File(
-            ExtractTocStepIntegrationTest.class.getResource("expectedMainContent_2_TocFile.xml").toURI());
-        expectedMainContentXppHierWithoutChildXppMetadataFile = new File(
-            ExtractTocStepIntegrationTest.class.getResource("expectedMainContent_3_TocFile.xml").toURI());
-        expectedTocFile = new File(
-            ExtractTocStepIntegrationTest.class.getResource("expectedToc.xml").toURI());
+    private void initFiles() throws Exception {
+        bundleMainContentOriginalFile =
+            new File(ExtractTocStepIntegrationTest.class.getResource("mainContent1.DIVXML.main").toURI());
+        bundleMainContentOriginalAdditionalFile =
+            new File(ExtractTocStepIntegrationTest.class.getResource("mainContent2.DIVXML.main").toURI());
+        bundleMainContentOriginalXppHierWithoutChildXppMetadataFile =
+            new File(ExtractTocStepIntegrationTest.class.getResource("mainContent3.DIVXML.main").toURI());
+        expectedMainContentTocFile =
+            new File(ExtractTocStepIntegrationTest.class.getResource("expectedMainContent_1_TocFile.xml").toURI());
+        expectedMainContentAdditionalTocFile =
+            new File(ExtractTocStepIntegrationTest.class.getResource("expectedMainContent_2_TocFile.xml").toURI());
+        expectedMainContentXppHierWithoutChildXppMetadataFile =
+            new File(ExtractTocStepIntegrationTest.class.getResource("expectedMainContent_3_TocFile.xml").toURI());
+        expectedTocFile = new File(ExtractTocStepIntegrationTest.class.getResource("expectedToc.xml").toURI());
     }
 
-    private void prepareDirectories() throws Exception
-    {
+    private void prepareDirectories() throws Exception {
         final File bundleVolOneOriginalFilesDir = fileSystem.getSectionbreaksDirectory(step, VOL_ONE_MATERIAL_NUMBER);
         FileUtils.forceMkdir(bundleVolOneOriginalFilesDir);
         FileUtils.copyFileToDirectory(bundleMainContentOriginalFile, bundleVolOneOriginalFilesDir);
@@ -104,11 +98,12 @@ public final class ExtractTocStepIntegrationTest
         final File bundleVolTwoOriginalFilesDir = fileSystem.getSectionbreaksDirectory(step, VOL_TWO_MATERIAL_NUMBER);
         FileUtils.forceMkdir(bundleVolTwoOriginalFilesDir);
         FileUtils.copyFileToDirectory(bundleMainContentOriginalAdditionalFile, bundleVolTwoOriginalFilesDir);
-        FileUtils.copyFileToDirectory(bundleMainContentOriginalXppHierWithoutChildXppMetadataFile, bundleVolTwoOriginalFilesDir);
+        FileUtils.copyFileToDirectory(
+            bundleMainContentOriginalXppHierWithoutChildXppMetadataFile,
+            bundleVolTwoOriginalFilesDir);
     }
 
-    private List<XppBundle> getBundlesList()
-    {
+    private List<XppBundle> getBundlesList() {
         final XppBundle volumeOneBundle = new XppBundle();
         volumeOneBundle.setMaterialNumber(VOL_ONE_MATERIAL_NUMBER);
         volumeOneBundle.setOrderedFileList(Arrays.asList("mainContent1.DIVXML.xml"));
@@ -121,32 +116,34 @@ public final class ExtractTocStepIntegrationTest
     }
 
     @After
-    public void clean() throws IOException
-    {
+    public void clean() throws IOException {
         FileUtils.cleanDirectory(fileSystem.getFormatDirectory(step));
     }
 
     @Test
-    public void shouldCreateTocFileBasedBundleMainContentOriginalFile() throws Exception
-    {
+    public void shouldCreateTocFileBasedBundleMainContentOriginalFile() throws Exception {
         step.executeStep();
-        assertThat(expectedMainContentTocFile, hasSameContentAs(fileSystem.getBundlePartTocFile(
-            "mainContent1.DIVXML.xml", VOL_ONE_MATERIAL_NUMBER, step)));
-        assertThat(expectedMainContentAdditionalTocFile, hasSameContentAs(fileSystem.getBundlePartTocFile(
-            "mainContent2.DIVXML.xml", VOL_TWO_MATERIAL_NUMBER, step)));
-        assertThat(expectedMainContentXppHierWithoutChildXppMetadataFile, hasSameContentAs(fileSystem.getBundlePartTocFile(
-            "mainContent3.DIVXML.xml", VOL_TWO_MATERIAL_NUMBER, step)));
+        assertThat(
+            expectedMainContentTocFile,
+            hasSameContentAs(
+                fileSystem.getBundlePartTocFile("mainContent1.DIVXML.xml", VOL_ONE_MATERIAL_NUMBER, step)));
+        assertThat(
+            expectedMainContentAdditionalTocFile,
+            hasSameContentAs(
+                fileSystem.getBundlePartTocFile("mainContent2.DIVXML.xml", VOL_TWO_MATERIAL_NUMBER, step)));
+        assertThat(
+            expectedMainContentXppHierWithoutChildXppMetadataFile,
+            hasSameContentAs(
+                fileSystem.getBundlePartTocFile("mainContent3.DIVXML.xml", VOL_TWO_MATERIAL_NUMBER, step)));
         assertThat(expectedTocFile, hasSameContentAs(fileSystem.getTocFile(step)));
     }
 
     @Configuration
     @Profile("IntegrationTests")
     @Import(CommonTestContextConfiguration.class)
-    public static class ExtractTocStepIntegrationTestConfiguration
-    {
+    public static class ExtractTocStepIntegrationTestConfiguration {
         @Bean(name = "extractTocTask")
-        public ExtractTocStep extractTocTask()
-        {
+        public ExtractTocStep extractTocTask() {
             return new ExtractTocStep();
         }
     }

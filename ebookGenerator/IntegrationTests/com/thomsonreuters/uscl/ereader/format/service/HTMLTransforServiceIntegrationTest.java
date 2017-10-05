@@ -43,8 +43,7 @@ import org.w3c.dom.NodeList;
  *
  * @author <a href="mailto:ravi.nandikolla@thomsonreuters.com">Ravi Nandikolla</a> c139353
  */
-public final class HTMLTransforServiceIntegrationTest
-{
+public final class HTMLTransforServiceIntegrationTest {
     private static final String preRenderedInput = "NADB029C0880F11D881E9FEF4A4D44D69";
     private String titleId;
     private String novusXmlFilename;
@@ -65,8 +64,7 @@ public final class HTMLTransforServiceIntegrationTest
     private String version = "1";
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
 //        mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
 //        EasyMock.expect(
 //            mockDocMetadataService.findDocMetadataByPrimaryKey(
@@ -95,8 +93,7 @@ public final class HTMLTransforServiceIntegrationTest
 
     @Ignore
     @Test
-    public void transformWithOutTableView() throws EBookFormatException, IOException
-    {
+    public void transformWithOutTableView() throws EBookFormatException, IOException {
         final int count = getTableViewInfo(false);
 
         Assert.isTrue(count > 0, "Unable to find  table in document");
@@ -104,8 +101,7 @@ public final class HTMLTransforServiceIntegrationTest
 
     @Ignore
     @Test
-    public void transformWithTableView() throws EBookFormatException, FileNotFoundException, IOException
-    {
+    public void transformWithTableView() throws EBookFormatException, FileNotFoundException, IOException {
         final int count = getTableViewInfo(true);
 
         Assert.isTrue(count > 0, "Unable to transform as Table View");
@@ -113,16 +109,14 @@ public final class HTMLTransforServiceIntegrationTest
 
     @Ignore
     @Test
-    public void testInternalLinks() throws EBookFormatException, FileNotFoundException, IOException
-    {
+    public void testInternalLinks() throws EBookFormatException, FileNotFoundException, IOException {
         final int count = getInternalLinkInfo();
 
         Assert.isTrue(count == 0, "Unable to transform as Table View");
     }
 
     @Test
-    public void testInternalDocumentLinks()
-    {
+    public void testInternalDocumentLinks() {
 //        int count = getInternalLinkInfo();
 //        Assert.isTrue(count == 0, "Unable to transform as Table View");
     }
@@ -132,16 +126,14 @@ public final class HTMLTransforServiceIntegrationTest
      * @param xpathExpression xpathExpression to extract Table anchors.
      * @return
      */
-    private int buildTableAnchorsFromOutput(final String str, final String xpathExpression)
-    {
+    private int buildTableAnchorsFromOutput(final String str, final String xpathExpression) {
         final DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
         domFactory.setNamespaceAware(true);
 
         final DocumentBuilder builder;
         NodeList nodes = null;
 
-        try
-        {
+        try {
             builder = domFactory.newDocumentBuilder();
 
             final Document doc = builder.parse(new ByteArrayInputStream(str.getBytes("UTF-8")));
@@ -151,9 +143,7 @@ public final class HTMLTransforServiceIntegrationTest
             final XPathExpression expr = xpath.compile(xpathExpression);
             final Object result = expr.evaluate(doc, XPathConstants.NODESET);
             nodes = (NodeList) result;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
         }
 
@@ -169,8 +159,7 @@ public final class HTMLTransforServiceIntegrationTest
      * @throws IOException
      */
     private int getTableViewInfo(final boolean isTableViewRequired)
-        throws EBookFormatException, FileNotFoundException, IOException
-    {
+        throws EBookFormatException, FileNotFoundException, IOException {
         mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
         EasyMock.expect(
             mockDocMetadataService.findDocMetadataByPrimaryKey("uscl/an/IMPH", Long.valueOf(12345), preRenderedInput))
@@ -288,8 +277,7 @@ public final class HTMLTransforServiceIntegrationTest
      * @throws FileNotFoundException
      * @throws IOException
      */
-    private int getInternalLinkInfo() throws EBookFormatException, FileNotFoundException, IOException
-    {
+    private int getInternalLinkInfo() throws EBookFormatException, FileNotFoundException, IOException {
         mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
         EasyMock.expect(
             mockDocMetadataService.findDocMetadataByPrimaryKey("uscl/an/IMPH", Long.valueOf(12345), preRenderedInput))
@@ -417,8 +405,7 @@ public final class HTMLTransforServiceIntegrationTest
      * @throws FileNotFoundException
      * @throws IOException
      */
-    private int getInternalLinkInfo1() throws EBookFormatException, FileNotFoundException, IOException
-    {
+    private int getInternalLinkInfo1() throws EBookFormatException, FileNotFoundException, IOException {
         mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
         EasyMock
             .expect(

@@ -9,21 +9,18 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class NortNodeFilterTest
-{
+public final class NortNodeFilterTest {
     private NortNodeFilter filter;
     private List<RelationshipNode> nodes;
 
     @Before
-    public void setup()
-    {
+    public void setup() {
         nodes = new ArrayList<>();
         filter = new NortNodeFilter(nodes);
     }
 
     @Test
-    public void noEmptyNodesTest()
-    {
+    public void noEmptyNodesTest() {
         nodes.add(createNodes(1, true, false));
         final List<RelationshipNode> emptyNodes = filter.filterEmptyNodes();
         Assert.assertEquals(0, emptyNodes.size());
@@ -32,8 +29,7 @@ public final class NortNodeFilterTest
     }
 
     @Test
-    public void wlNodesTest()
-    {
+    public void wlNodesTest() {
         final RelationshipNode rootNode = createNodes(1, true, false);
         rootNode.setLabel("no WL pubtag");
         nodes.add(rootNode);
@@ -43,8 +39,7 @@ public final class NortNodeFilterTest
     }
 
     @Test
-    public void noWLNodesTest()
-    {
+    public void noWLNodesTest() {
         final RelationshipNode rootNode = createNodes(1, false, false);
         rootNode.setLabel("no WL pubtag");
         nodes.add(rootNode);
@@ -54,8 +49,7 @@ public final class NortNodeFilterTest
     }
 
     @Test
-    public void threeWLNodesTest()
-    {
+    public void threeWLNodesTest() {
         final int numRemovedNodes = 3;
         final RelationshipNode rootNode = createNodes(3, false, true);
         nodes.add(rootNode);
@@ -66,8 +60,7 @@ public final class NortNodeFilterTest
     }
 
     @Test
-    public void oneEmptyNodeTest()
-    {
+    public void oneEmptyNodeTest() {
         final int numRemovedNodes = 1;
         nodes.add(createNodes(numRemovedNodes, false, false));
         final List<RelationshipNode> emptyNodes = filter.filterEmptyNodes();
@@ -75,8 +68,7 @@ public final class NortNodeFilterTest
     }
 
     @Test
-    public void fiveEmptyNodeTest()
-    {
+    public void fiveEmptyNodeTest() {
         final int numRemovedNodes = 5;
         nodes.add(createNodes(numRemovedNodes, false, false));
         final List<RelationshipNode> emptyNodes = filter.filterEmptyNodes();
@@ -85,8 +77,7 @@ public final class NortNodeFilterTest
         Assert.assertEquals(0, wlNodes.size());
     }
 
-    private RelationshipNode createNodes(final int numChildren, final boolean leafContainsDocument, boolean wlNode)
-    {
+    private RelationshipNode createNodes(final int numChildren, final boolean leafContainsDocument, boolean wlNode) {
         final RelationshipNode rootNode = new RelationshipNode();
         rootNode.setLabel("Root node");
         rootNode.setNortGuid("0");
@@ -94,22 +85,19 @@ public final class NortNodeFilterTest
         rootNode.getChildNodes().addAll(generateRandomNumberNodesWithDocument(rootNode));
 
         RelationshipNode parentNode = rootNode;
-        for (int i = 0; i < numChildren; i++)
-        {
+        for (int i = 0; i < numChildren; i++) {
             final RelationshipNode node = new RelationshipNode();
             rootNode.setLabel("Child Node " + i);
             rootNode.setNortGuid("Child Guid " + i);
             parentNode.getChildNodes().add(node);
             node.setParentNode(parentNode);
 
-            if (wlNode)
-            {
+            if (wlNode) {
                 node.setLabel("no WL pubtag");
                 wlNode = false;
             }
 
-            if (leafContainsDocument && (numChildren - 1) == i)
-            {
+            if (leafContainsDocument && (numChildren - 1) == i) {
                 node.setDocumentGuid("Contains Document");
             }
             parentNode = node;
@@ -118,15 +106,13 @@ public final class NortNodeFilterTest
         return rootNode;
     }
 
-    private List<RelationshipNode> generateRandomNumberNodesWithDocument(final RelationshipNode parentNode)
-    {
+    private List<RelationshipNode> generateRandomNumberNodesWithDocument(final RelationshipNode parentNode) {
         final List<RelationshipNode> randNodes = new ArrayList<>();
         final Random ran = new Random();
 
         // Generate upto 9 random nodes
         final int randomNumber = ran.nextInt(10);
-        for (int i = 0; i < randomNumber; i++)
-        {
+        for (int i = 0; i < randomNumber; i++) {
             final RelationshipNode randomNode = new RelationshipNode();
             randomNode.setLabel("Random Node Label" + i);
             randomNode.setNortGuid("Random Node GUID" + i);

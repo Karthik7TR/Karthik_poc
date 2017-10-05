@@ -12,7 +12,6 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificat
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface SendFailureNotificationStrategy
-{
+public @interface SendFailureNotificationStrategy {
     FailureNotificationType value();
 }

@@ -9,11 +9,9 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @Profile("IntegrationTests")
 @Import(CommonTestContextConfiguration.class)
-public class PlaceXppMetadataStepIntegrationTestConfig
-{
+public class PlaceXppMetadataStepIntegrationTestConfig {
     @Bean(name = "placeXppMetadataTask")
-    public PlaceXppMetadataStep placeXppMetadataTask()
-    {
+    public PlaceXppMetadataStep placeXppMetadataTask() {
         return new PlaceXppMetadataStep();
     }
 }

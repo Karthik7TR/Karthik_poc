@@ -60,8 +60,7 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class HTMLTransformerServiceImpl implements HTMLTransformerService
-{
+public class HTMLTransformerServiceImpl implements HTMLTransformerService {
     private static final Logger LOG = LogManager.getLogger(HTMLTransformerServiceImpl.class);
 
     private FileHandlingHelper fileHandlingHelper;
@@ -72,23 +71,19 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
     private static final String START_WRAPPER_TAG = "<div id=\"coid_website_documentWidgetDiv\">";
     private static final String END_WRAPPER_TAG = "</div>";
 
-    public void setfileHandlingHelper(final FileHandlingHelper fileHandlingHelper)
-    {
+    public void setfileHandlingHelper(final FileHandlingHelper fileHandlingHelper) {
         this.fileHandlingHelper = fileHandlingHelper;
     }
 
-    public void setimgService(final ImageService imgService)
-    {
+    public void setimgService(final ImageService imgService) {
         this.imgService = imgService;
     }
 
-    public void setdocMetadataService(final DocMetadataService docMetadataService)
-    {
+    public void setdocMetadataService(final DocMetadataService docMetadataService) {
         this.docMetadataService = docMetadataService;
     }
 
-    public void setpaceMetadataService(final PaceMetadataService paceMetadataService)
-    {
+    public void setpaceMetadataService(final PaceMetadataService paceMetadataService) {
         this.paceMetadataService = paceMetadataService;
     }
 
@@ -124,18 +119,15 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
         final boolean isHighlight,
         final boolean isStrikethrough,
         final boolean delEditorNodeHeading,
-        final String version) throws EBookFormatException
-    {
-        if (srcDir == null || !srcDir.isDirectory())
-        {
+        final String version) throws EBookFormatException {
+        if (srcDir == null || !srcDir.isDirectory()) {
             throw new IllegalArgumentException("srcDir must be a directory, not null or a regular file.");
         }
 
         List<TableViewer> copyTableViewers = null;
 
         // Make a copy of the original table viewers to check that all have been accounted for
-        if (tableViewers != null)
-        {
+        if (tableViewers != null) {
             copyTableViewers = new ArrayList<>(Arrays.asList(new TableViewer[tableViewers.size()]));
             Collections.copy(copyTableViewers, tableViewers);
         }
@@ -143,20 +135,16 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
         //retrieve list of all transformed files that need HTML wrappers
         final List<File> htmlFiles = new ArrayList<>();
 
-        try
-        {
+        try {
             fileHandlingHelper.getFileList(srcDir, htmlFiles);
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             final String errMessage = "No html files were found in specified directory. "
                 + "Please verify that the correct path was specified.";
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
 
-        if (!targetDir.exists())
-        {
+        if (!targetDir.exists()) {
             targetDir.mkdirs();
         }
 
@@ -171,8 +159,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
         //TODO: for each record in the Document Metadata Authority, update it to replace section symbols with lowercase s.
         //There may be other characters that we need to take into account.  There is a XSLT template in SpecialCharacters.xsl.
         int numDocs = 0;
-        for (final File htmlFile : htmlFiles)
-        {
+        for (final File htmlFile : htmlFiles) {
             transformHTMLFile(
                 htmlFile,
                 targetDir,
@@ -193,11 +180,9 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
         }
 
         // Check all the document guids has been accounted for Table Viewer
-        if ((copyTableViewers != null) && (copyTableViewers.size() > 0))
-        {
+        if ((copyTableViewers != null) && (copyTableViewers.size() > 0)) {
             final StringBuffer unaccountedDocs = new StringBuffer();
-            for (final TableViewer document : copyTableViewers)
-            {
+            for (final TableViewer document : copyTableViewers) {
                 unaccountedDocs.append(document.getDocumentGuid() + ",");
             }
 
@@ -245,22 +230,18 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
         final boolean isHighlight,
         final boolean isStrikethrough,
         final boolean delEditorNodeHeading,
-        String version) throws EBookFormatException
-    {
+        String version) throws EBookFormatException {
         final String fileName = sourceFile.getName();
         final String guid = fileName.substring(0, fileName.indexOf("."));
-        try (FileInputStream inStream = new FileInputStream(sourceFile))
-        {
+        try (FileInputStream inStream = new FileInputStream(sourceFile)) {
             try (FileOutputStream outStream = new FileOutputStream(
-                new File(targetDir, fileName.substring(0, fileName.indexOf(".")) + ".postTransform")))
-            {
+                new File(targetDir, fileName.substring(0, fileName.indexOf(".")) + ".postTransform"))) {
                 //LOG.debug("Transforming following html file: " + sourceFile.getAbsolutePath());
                 final DocMetadata docMetadata =
                     docMetadataService.findDocMetadataByPrimaryKey(titleID, jobIdentifier, guid);
 
                 String firstlineCite = "";
-                if (docMetadata != null)
-                {
+                if (docMetadata != null) {
                     firstlineCite = docMetadata.getNormalizedFirstlineCite();
                 }
 
@@ -277,12 +258,9 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 
                 boolean isTableViewRequired = false;
                 // Check if table viewer is turned on for this document guid
-                if ((tableViewers != null) && (tableViewers.size() > 0) && (copyTableViewers != null))
-                {
-                    for (final TableViewer document : tableViewers)
-                    {
-                        if (document.getDocumentGuid().equalsIgnoreCase(guid))
-                        {
+                if ((tableViewers != null) && (tableViewers.size() > 0) && (copyTableViewers != null)) {
+                    for (final TableViewer document : tableViewers) {
+                        if (document.getDocumentGuid().equalsIgnoreCase(guid)) {
                             isTableViewRequired = true;
                             copyTableViewers.remove(document);
                             break;
@@ -299,12 +277,9 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
 
                 final ProcessingInstructionZapperFilter piZapperFilter = new ProcessingInstructionZapperFilter();
                 piZapperFilter.setParent(imageFilter);
-                if (version.indexOf(".") > 0)
-                {
+                if (version.indexOf(".") > 0) {
                     version = StringUtils.substring(version, 0, version.indexOf("."));
-                }
-                else
-                {
+                } else {
                     version = StringUtils.substring(version, 0);
                 }
 
@@ -334,12 +309,9 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
                 anchorFilter.setFirstlineCite(firstlineCite);
                 anchorFilter.setParent(editNotesFilter);
                 anchorFilter.setTargetAnchors(targetAnchors);
-                if (docMetadata != null && docMetadata.getProViewId() != null)
-                {
+                if (docMetadata != null && docMetadata.getProViewId() != null) {
                     anchorFilter.setCurrentGuid(docMetadata.getProViewId());
-                }
-                else
-                {
+                } else {
                     anchorFilter.setCurrentGuid(guid);
                 }
 
@@ -356,36 +328,28 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
                         new SequenceInputStream(new ByteArrayInputStream(START_WRAPPER_TAG.getBytes()), inStream);
                     SequenceInputStream wrappedStream = new SequenceInputStream(
                         intermediateStream,
-                        new ByteArrayInputStream(END_WRAPPER_TAG.getBytes())))
-                {
+                        new ByteArrayInputStream(END_WRAPPER_TAG.getBytes()))) {
                     anchorFilter.parse(new InputSource(wrappedStream));
 
                     targetAnchors.putAll(anchorFilter.getTargetAnchors());
 
                     final List<String> deDuppingList = tagIdDedupingFilter.getDuplicateIdList();
 
-                    if (deDuppingList.size() > 0)
-                    {
+                    if (deDuppingList.size() > 0) {
                         insertDeduppingAnchorRecords(deDuppingList, deDuppingFile);
                     }
                 }
                 LOG.debug("Successfully transformed:" + sourceFile.getAbsolutePath());
             }
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String errMessage = "Unable to perform IO operations related to following source file: " + fileName;
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             final String errMessage = "Encountered a SAX Exception while processing: " + fileName;
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
-        }
-        catch (final ParserConfigurationException e)
-        {
+        } catch (final ParserConfigurationException e) {
             final String errMessage = "Encountered a SAX Parser Configuration Exception while processing: " + fileName;
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
@@ -399,15 +363,11 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
      * @param imgFileNames a set of static image file names to be written
      */
     protected void createStaticImageList(final File imgListFile, final Set<String> imgFileNames)
-        throws EBookFormatException
-    {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(imgListFile)))
-        {
+        throws EBookFormatException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(imgListFile))) {
             LOG.info("Writing static images to " + imgListFile.getAbsolutePath() + " file...");
-            for (final String fileName : imgFileNames)
-            {
-                if (StringUtils.isEmpty(fileName))
-                {
+            for (final String fileName : imgFileNames) {
+                if (StringUtils.isEmpty(fileName)) {
                     final String message = "Invalid image file name encountered: " + fileName;
                     LOG.error(message);
                     throw new EBookFormatException(message);
@@ -417,9 +377,7 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
                 writer.newLine();
             }
             LOG.info(imgFileNames.size() + " image references written successfuly to file.");
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String message = "Could not write to the static image list file: " + imgListFile.getAbsolutePath();
             LOG.error(message);
             throw new EBookFormatException(message, e);
@@ -433,28 +391,22 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
      * @param targetAnchors guids and target anchors for that guid.
      */
     protected void createAnchorTargetList(final File anchorTargetListFile, final Map<String, Set<String>> targetAnchors)
-        throws EBookFormatException
-    {
+        throws EBookFormatException {
         try (BufferedWriter writer =
-            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(anchorTargetListFile), "UTF-8")))
-        {
+            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(anchorTargetListFile), "UTF-8"))) {
             LOG.info("Writing anchor list to " + anchorTargetListFile.getAbsolutePath() + " file...");
 
-            for (final Entry<String, Set<String>> guidAnchorEntry : targetAnchors.entrySet())
-            {
+            for (final Entry<String, Set<String>> guidAnchorEntry : targetAnchors.entrySet()) {
                 writer.write(guidAnchorEntry.getKey());
                 writer.write(",");
-                for (final String anchors : guidAnchorEntry.getValue())
-                {
+                for (final String anchors : guidAnchorEntry.getValue()) {
                     writer.write(anchors);
                     writer.write("|");
                 }
                 writer.newLine();
             }
             LOG.info(targetAnchors.size() + " anchor references written successfuly to file.");
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String message =
                 "Could not write to the static image list file: " + anchorTargetListFile.getAbsolutePath();
             LOG.error(message);
@@ -469,20 +421,15 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService
      * @throws EBookFormatException
      */
     private void insertDeduppingAnchorRecords(final List<String> deduppingIds, final File deDuppingFile)
-        throws EBookFormatException
-    {
+        throws EBookFormatException {
         final String charset = "UTF-8";
-        try (Writer writer = new OutputStreamWriter(new FileOutputStream(deDuppingFile, true), charset))
-        {
+        try (Writer writer = new OutputStreamWriter(new FileOutputStream(deDuppingFile, true), charset)) {
             LOG.info("Writing de-dupping anchors info  to " + deDuppingFile.getAbsolutePath() + " file...");
-            for (final String id : deduppingIds)
-            {
+            for (final String id : deduppingIds) {
                 writer.write(id);
                 writer.write("\n");
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             final String message =
                 "Could not write to the de-dupping anchors list file: " + deDuppingFile.getAbsolutePath();
             LOG.error(message);

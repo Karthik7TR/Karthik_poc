@@ -7,8 +7,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.notification.step.SendEmailNotificationStep;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 
-public abstract class AbstractEmailBuilder implements EmailBuilder
-{
+public abstract class AbstractEmailBuilder implements EmailBuilder {
     @Resource(name = "sendNotificationTask")
     protected SendEmailNotificationStep step;
 
@@ -16,8 +15,7 @@ public abstract class AbstractEmailBuilder implements EmailBuilder
      * @see com.thomsonreuters.uscl.ereader.common.notification.service.EmailBuilder#getSubject()
      */
     @Override
-    public String getSubject()
-    {
+    public String getSubject() {
         final BookDefinition bookDefinition = step.getBookDefinition();
         final StringBuilder sb = new StringBuilder();
         sb.append("eBook Publishing Successful - " + bookDefinition.getFullyQualifiedTitleId());
@@ -29,8 +27,7 @@ public abstract class AbstractEmailBuilder implements EmailBuilder
      * @see com.thomsonreuters.uscl.ereader.common.notification.service.EmailBuilder#getBody()
      */
     @Override
-    public String getBody()
-    {
+    public String getBody() {
         final BookDefinition bookDefinition = step.getBookDefinition();
         final String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
         final String proviewDisplayName = bookDefinition.getProviewDisplayName();
@@ -60,11 +57,9 @@ public abstract class AbstractEmailBuilder implements EmailBuilder
      */
     protected abstract String getAdditionalBodyPart();
 
-    private String getVersionInfo(final boolean isCurrent)
-    {
+    private String getVersionInfo(final boolean isCurrent) {
         final PublishingStats stats = isCurrent ? step.getCurrentsStats() : step.getPreviousStats();
-        if (stats == null)
-        {
+        if (stats == null) {
             return "\t\n\t\nNo Previous Version.";
         }
         final Long bookSize = stats.getBookSize();

@@ -7,8 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Iface to work with archives
  */
-public interface CompressService
-{
+public interface CompressService {
     /**
      * Unpack archive
      * @param archie - archive file

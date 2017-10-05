@@ -24,13 +24,11 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:dong.kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
-public final class HTMLEditorNotesFilterTest
-{
+public final class HTMLEditorNotesFilterTest {
     private HTMLEditorNotesFilter filter;
     private Serializer serializer;
 
-    private void setUp(final boolean removeNote) throws Exception
-    {
+    private void setUp(final boolean removeNote) throws Exception {
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
         final SAXParser saxParser = factory.newSAXParser();
@@ -44,8 +42,7 @@ public final class HTMLEditorNotesFilterTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         serializer = null;
         filter = null;
     }
@@ -57,12 +54,10 @@ public final class HTMLEditorNotesFilterTest
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final String expectedResult) throws SAXException
-    {
+    public void testHelper(final String inputXML, final String expectedResult) throws SAXException {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
-        try
-        {
+        try {
             input = new ByteArrayInputStream(inputXML.getBytes());
             output = new ByteArrayOutputStream();
 
@@ -74,38 +69,26 @@ public final class HTMLEditorNotesFilterTest
             final String result = output.toString();
 
             assertEquals(expectedResult, result);
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             throw e;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             fail("Encountered exception during test: " + e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if (input != null)
-                {
+        } finally {
+            try {
+                if (input != null) {
                     input.close();
                 }
-                if (output != null)
-                {
+                if (output != null) {
                     output.close();
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 fail("Could clean up resources: " + e.getMessage());
             }
         }
     }
 
     @Test
-    public void testRemoveNote() throws Exception
-    {
+    public void testRemoveNote() throws Exception {
         setUp(true);
         final String xmlTestStr = "<div eBookEditorNotes=\"true\">this is gone</div>";
         final String expectedResult = "";
@@ -114,8 +97,7 @@ public final class HTMLEditorNotesFilterTest
     }
 
     @Test
-    public void testRemoveNote2() throws Exception
-    {
+    public void testRemoveNote2() throws Exception {
         setUp(true);
         final String xmlTestStr =
             "<div><div eBookEditorNotes=\"true\"><div>should be gone</div>this is gone</div><div>more text</div></div>";
@@ -125,8 +107,7 @@ public final class HTMLEditorNotesFilterTest
     }
 
     @Test
-    public void testKeepHeading() throws Exception
-    {
+    public void testKeepHeading() throws Exception {
         setUp(false);
         final String xmlTestStr = "<div eBookEditorNotes=\"true\"><h2>should be here</h2></div>";
         final String expectedResult = "<div eBookEditorNotes=\"true\"><h2>should be here</h2></div>";

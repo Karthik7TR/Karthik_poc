@@ -8,8 +8,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * The TraceInformation JSON object that comes back from a Image Vertical HTTP REST web service request.
  * This is a JSON object embedded in the HTTP response body.
  */
-public class TraceInformation
-{
+public class TraceInformation {
     private String executionType;
     private String parentGuid;
     private String product;
@@ -20,96 +19,79 @@ public class TraceInformation
     private String userGuid;
 
     @JsonProperty("ExecutionType")
-    public String getExecutionType()
-    {
+    public String getExecutionType() {
         return executionType;
     }
 
     @JsonProperty("ParentGuid")
-    public String getParentGuid()
-    {
+    public String getParentGuid() {
         return parentGuid;
     }
 
     @JsonProperty("Product")
-    public String getProduct()
-    {
+    public String getProduct() {
         return product;
     }
 
     @JsonProperty("RootGuid")
-    public String getRootGuid()
-    {
+    public String getRootGuid() {
         return rootGuid;
     }
 
     @JsonProperty("ServerInformation")
-    public String getServerInformation()
-    {
+    public String getServerInformation() {
         return serverInformation;
     }
 
     @JsonProperty("SessionGuid")
-    public String getSessionGuid()
-    {
+    public String getSessionGuid() {
         return sessionGuid;
     }
 
     @JsonProperty("TransactionGuid")
-    public String getTransactionGuid()
-    {
+    public String getTransactionGuid() {
         return transactionGuid;
     }
 
     @JsonProperty("UserGuid")
-    public String getUserGuid()
-    {
+    public String getUserGuid() {
         return userGuid;
     }
 
-    public void setExecutionType(final String execType)
-    {
+    public void setExecutionType(final String execType) {
         executionType = execType;
     }
 
-    public void setParentGuid(final String parentGuid)
-    {
+    public void setParentGuid(final String parentGuid) {
         this.parentGuid = parentGuid;
     }
 
-    public void setProduct(final String product)
-    {
+    public void setProduct(final String product) {
         this.product = product;
     }
 
-    public void setRootGuid(final String rootGuid)
-    {
+    public void setRootGuid(final String rootGuid) {
         this.rootGuid = rootGuid;
     }
 
-    public void setServerInformation(final String serverInformation)
-    {
+    public void setServerInformation(final String serverInformation) {
         this.serverInformation = serverInformation;
     }
 
-    public void setSessionGuid(final String sessionGuid)
-    {
+    public void setSessionGuid(final String sessionGuid) {
         this.sessionGuid = sessionGuid;
     }
 
-    public void setTransactionGuid(final String transactionGuid)
-    {
+    public void setTransactionGuid(final String transactionGuid) {
         this.transactionGuid = transactionGuid;
     }
 
-    public void setUserGuid(final String userGuid)
-    {
+    public void setUserGuid(final String userGuid) {
         this.userGuid = userGuid;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

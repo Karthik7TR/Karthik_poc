@@ -26,8 +26,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class XslTransformationServiceImplTest
-{
+public final class XslTransformationServiceImplTest {
     @InjectMocks
     private XslTransformationServiceImpl service;
     @Mock
@@ -42,16 +41,14 @@ public final class XslTransformationServiceImplTest
     private File output;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         input = new File(temporaryFolder.getRoot(), "input.xsl");
         input2 = new File(temporaryFolder.getRoot(), "input2.xsl");
         output = new File(temporaryFolder.getRoot(), "output.xsl");
     }
 
     @Test
-    public void shouldThrowExceptionIfCannotOpenFile()
-    {
+    public void shouldThrowExceptionIfCannotOpenFile() {
         //given
         thrown.expect(XslTransformationException.class);
         //when
@@ -60,8 +57,7 @@ public final class XslTransformationServiceImplTest
     }
 
     @Test
-    public void shouldTransform() throws TransformerException, IOException
-    {
+    public void shouldTransform() throws TransformerException, IOException {
         //given
         input.createNewFile();
         output.createNewFile();
@@ -72,8 +68,7 @@ public final class XslTransformationServiceImplTest
     }
 
     @Test
-    public void shouldTransformIfOutputIsDirectory() throws TransformerException, IOException
-    {
+    public void shouldTransformIfOutputIsDirectory() throws TransformerException, IOException {
         //given
         input.createNewFile();
         output = temporaryFolder.getRoot();
@@ -84,8 +79,7 @@ public final class XslTransformationServiceImplTest
     }
 
     @Test
-    public void shouldTransformIfMultipleFiles() throws TransformerException, IOException
-    {
+    public void shouldTransformIfMultipleFiles() throws TransformerException, IOException {
         //given
         input.createNewFile();
         input2.createNewFile();
@@ -97,8 +91,7 @@ public final class XslTransformationServiceImplTest
     }
 
     @Test
-    public void shouldThrowExceptionIfCannotOpenOneOfFiles()
-    {
+    public void shouldThrowExceptionIfCannotOpenOneOfFiles() {
         //given
         thrown.expect(XslTransformationException.class);
         //when
@@ -107,8 +100,7 @@ public final class XslTransformationServiceImplTest
     }
 
     @Test
-    public void shouldThrowExceptionIfCannotTransform() throws TransformerException, IOException
-    {
+    public void shouldThrowExceptionIfCannotTransform() throws TransformerException, IOException {
         //given
         input.createNewFile();
         input2.createNewFile();
@@ -120,8 +112,7 @@ public final class XslTransformationServiceImplTest
     }
 
     @Test
-    public void shouldThrowExceptionIfNoInputFiles()
-    {
+    public void shouldThrowExceptionIfNoInputFiles() {
         //given
         thrown.expect(IllegalArgumentException.class);
         //when
@@ -129,16 +120,14 @@ public final class XslTransformationServiceImplTest
         //then
     }
 
-    private TransformationCommand command(final Transformer transformer, final File input, final File output)
-    {
+    private TransformationCommand command(final Transformer transformer, final File input, final File output) {
         return new TransformationCommandBuilder(transformer, output).withInput(input).build();
     }
 
     private TransformationCommand command(
         final Transformer transformer,
         final Collection<File> input,
-        final File output)
-    {
+        final File output) {
         return new TransformationCommandBuilder(transformer, output).withInput(input).build();
     }
 }

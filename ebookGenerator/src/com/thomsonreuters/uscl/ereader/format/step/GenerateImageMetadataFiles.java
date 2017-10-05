@@ -22,8 +22,7 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class GenerateImageMetadataFiles extends AbstractSbTasklet
-{
+public class GenerateImageMetadataFiles extends AbstractSbTasklet {
     //TODO: Use logger API to get Logger instance to job-specific appender.
     private static final Logger LOG = LogManager.getLogger(GenerateImageMetadataFiles.class);
 
@@ -31,14 +30,13 @@ public class GenerateImageMetadataFiles extends AbstractSbTasklet
 
     private PublishingStatsService publishingStatsService;
 
-    public void setimgMetaBlockService(final GenerateImageMetadataBlockService imgMetaBlockService)
-    {
+    public void setimgMetaBlockService(final GenerateImageMetadataBlockService imgMetaBlockService) {
         this.imgMetaBlockService = imgMetaBlockService;
     }
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
         final JobInstance jobInstance = getJobInstance(chunkContext);
 
@@ -59,8 +57,7 @@ public class GenerateImageMetadataFiles extends AbstractSbTasklet
         jobstats.setJobInstanceId(jobId);
         String publishStatus = "Completed";
 
-        try
-        {
+        try {
             final long startTime = System.currentTimeMillis();
             final int numImgMetaDocsCreated =
                 imgMetaBlockService.generateImageMetadata(docToImgFile, imgMetadataDir, jobId);
@@ -68,8 +65,7 @@ public class GenerateImageMetadataFiles extends AbstractSbTasklet
             final long elapsedTime = endTime - startTime;
 
             //TODO: Update to check value is equal to execution context value (numDocsInTOC)
-            if (numImgMetaDocsCreated == 0)
-            {
+            if (numImgMetaDocsCreated == 0) {
                 final String message = "The number of ImageMetadata documents created did "
                     + "not match the number of documents retrieved from the eBook TOC. Created "
                     + numImgMetaDocsCreated
@@ -83,14 +79,10 @@ public class GenerateImageMetadataFiles extends AbstractSbTasklet
             //TODO: Improve metrics
             LOG.debug(
                 "Created " + numImgMetaDocsCreated + " ImageMetadata documents in " + elapsedTime + " milliseconds");
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             publishStatus = "Failed";
             throw e;
-        }
-        finally
-        {
+        } finally {
             jobstats.setPublishStatus("generateImageMetadataFiles : " + publishStatus);
             publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
         }
@@ -99,8 +91,7 @@ public class GenerateImageMetadataFiles extends AbstractSbTasklet
     }
 
     @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
 }

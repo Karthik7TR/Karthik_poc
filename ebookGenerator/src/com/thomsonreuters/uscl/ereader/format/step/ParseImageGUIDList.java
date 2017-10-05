@@ -23,22 +23,20 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class ParseImageGUIDList extends AbstractSbTasklet
-{
+public class ParseImageGUIDList extends AbstractSbTasklet {
     //TODO: Use logger API to get Logger instance to job-specific appender.
     private static final Logger LOG = LogManager.getLogger(ParseImageGUIDList.class);
     private PublishingStatsService publishingStatsService;
 
     private XMLImageParserService xmlImageParserService;
 
-    public void setxmlImageParserService(final XMLImageParserService xmlImageParserService)
-    {
+    public void setxmlImageParserService(final XMLImageParserService xmlImageParserService) {
         this.xmlImageParserService = xmlImageParserService;
     }
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 
         final Long jobInstance =
@@ -60,15 +58,13 @@ public class ParseImageGUIDList extends AbstractSbTasklet
         jobstats.setJobInstanceId(jobInstance);
         String publishingStatus = "Completed";
 
-        try
-        {
+        try {
             final long startTime = System.currentTimeMillis();
             final int numDocsParsed = xmlImageParserService.generateImageList(xmlDir, imgGuidList, imgDocMap);
             final long endTime = System.currentTimeMillis();
             final long elapsedTime = endTime - startTime;
 
-            if (numDocsParsed != numDocsInTOC)
-            {
+            if (numDocsParsed != numDocsInTOC) {
                 final String message = "The number of documents wrapped by the HTMLWrapper Service did "
                     + "not match the number of documents retrieved from the eBook TOC. Wrapped "
                     + numDocsParsed
@@ -85,14 +81,10 @@ public class ParseImageGUIDList extends AbstractSbTasklet
                     + " milliseconds from "
                     + +numDocsParsed
                     + " xml documents.");
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             publishingStatus = "Failed";
             throw e;
-        }
-        finally
-        {
+        } finally {
             jobstats.setPublishStatus("parseImageGuids : " + publishingStatus);
             publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
         }
@@ -101,8 +93,7 @@ public class ParseImageGUIDList extends AbstractSbTasklet
     }
 
     @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
 }

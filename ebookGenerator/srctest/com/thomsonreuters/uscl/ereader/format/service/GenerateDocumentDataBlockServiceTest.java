@@ -15,8 +15,7 @@ import org.junit.Test;
  *
  *  @author Mahendra Survase (u0105927)
  */
-public final class GenerateDocumentDataBlockServiceTest
-{
+public final class GenerateDocumentDataBlockServiceTest {
     private GenerateDocumentDataBlockServiceImpl service;
     private DocMetadataService mockDocMetadataService;
 
@@ -25,8 +24,7 @@ public final class GenerateDocumentDataBlockServiceTest
      * @throws Exception
      */
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
         service = new GenerateDocumentDataBlockServiceImpl();
         service.setDocMetadataService(mockDocMetadataService);
@@ -37,8 +35,7 @@ public final class GenerateDocumentDataBlockServiceTest
      *
      */
     @Test
-    public void testGetDocumentDataBlockAsStream()
-    {
+    public void testGetDocumentDataBlockAsStream() {
         // test specific setup.
         final String titleId = "TEST_TITLE_ID";
         final Long jobId = 10L;
@@ -52,12 +49,9 @@ public final class GenerateDocumentDataBlockServiceTest
         EasyMock.replay(mockDocMetadataService);
 
         InputStream docBlockStream = null;
-        try
-        {
+        try {
             docBlockStream = service.getDocumentDataBlockAsStream(titleId, jobId, docGuid);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             e.printStackTrace();
         }
         EasyMock.verify(mockDocMetadataService);

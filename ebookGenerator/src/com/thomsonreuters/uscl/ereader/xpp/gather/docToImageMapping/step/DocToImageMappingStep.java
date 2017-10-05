@@ -21,19 +21,17 @@ import org.springframework.beans.factory.annotation.Value;
  */
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
-public class DocToImageMappingStep extends XppTransformationStep
-{
+public class DocToImageMappingStep extends XppTransformationStep {
     @Value("${xpp.document.to.image.map.xsl}")
     private File transformToAnchorToDocumentIdMapXsl;
 
     @Override
-    public void executeTransformation() throws Exception
-    {
+    public void executeTransformation() throws Exception {
         final Transformer transformer =
             transformerBuilderFactory.create().withXsl(transformToAnchorToDocumentIdMapXsl).build();
         final List<File> htmls = new ArrayList<>();
-        for (final Map.Entry<String, Collection<File>> materialNumberDir : fileSystem.getExternalLinksFiles(this).entrySet())
-        {
+        for (final Map.Entry<String, Collection<File>> materialNumberDir : fileSystem.getExternalLinksFiles(this)
+            .entrySet()) {
             htmls.addAll(materialNumberDir.getValue());
         }
         final TransformationCommand command =

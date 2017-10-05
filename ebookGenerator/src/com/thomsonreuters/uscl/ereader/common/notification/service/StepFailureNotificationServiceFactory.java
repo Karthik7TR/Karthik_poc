@@ -14,8 +14,7 @@ import org.springframework.core.annotation.AnnotationUtils;
 /**
  * Factory class to create {@link com.thomsonreuters.uscl.ereader.common.notification.service.StepFailureNotificationService} depending on context
  */
-public class StepFailureNotificationServiceFactory
-{
+public class StepFailureNotificationServiceFactory {
     @Autowired
     private ApplicationContext applicationContext;
 
@@ -23,8 +22,7 @@ public class StepFailureNotificationServiceFactory
      * Returns notification service specific for step
      */
     @NotNull
-    public StepFailureNotificationService<SendNotificationStep> create(final SendNotificationStep step)
-    {
+    public StepFailureNotificationService<SendNotificationStep> create(final SendNotificationStep step) {
         final FailureNotificationType notificationType =
             AnnotationUtils.findAnnotation(step.getClass(), SendFailureNotificationPolicy.class).value();
         final Collection<Object> beans =
@@ -34,16 +32,13 @@ public class StepFailureNotificationServiceFactory
 
     private StepFailureNotificationService<SendNotificationStep> getServiceBean(
         final FailureNotificationType notificationType,
-        final Collection<Object> beans)
-    {
-        for (final Object bean : beans)
-        {
+        final Collection<Object> beans) {
+        for (final Object bean : beans) {
             final StepFailureNotificationService<SendNotificationStep> service =
                 (StepFailureNotificationService<SendNotificationStep>) bean;
             final FailureNotificationType serviceNotificationType =
                 AnnotationUtils.findAnnotation(service.getClass(), SendFailureNotificationStrategy.class).value();
-            if (notificationType.equals(serviceNotificationType))
-            {
+            if (notificationType.equals(serviceNotificationType)) {
                 return service;
             }
         }

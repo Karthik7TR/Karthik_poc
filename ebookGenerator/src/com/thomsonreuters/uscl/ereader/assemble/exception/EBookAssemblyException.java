@@ -5,12 +5,10 @@ package com.thomsonreuters.uscl.ereader.assemble.exception;
  * @author u0081674
  *
  */
-public class EBookAssemblyException extends Exception
-{
+public class EBookAssemblyException extends Exception {
     private static final long serialVersionUID = 1L;
 
-    public EBookAssemblyException(final String message, final Throwable cause)
-    {
+    public EBookAssemblyException(final String message, final Throwable cause) {
         super(message, cause);
     }
 }

@@ -29,8 +29,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.batch.item.ExecutionContext;
 
-public final class CreateDirectoriesAndMoveResourcesTest
-{
+public final class CreateDirectoriesAndMoveResourcesTest {
     private CreateDirectoriesAndMoveResources createDirectoriesAndMoveResources;
     private Map<String, List<Doc>> docMap = new HashMap<>();
     private Map<String, List<String>> splitBookImgMap = new HashMap<>();
@@ -43,8 +42,7 @@ public final class CreateDirectoriesAndMoveResourcesTest
     private MoveResourcesUtil moveResourcesUtil;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         createDirectoriesAndMoveResources = new CreateDirectoriesAndMoveResources();
         tempRootDir = new File((Files.createTempDirectory("YarrMatey")).toString());
         tempFile = makeFile(tempRootDir, "pirate.ship", "don't crash");
@@ -53,38 +51,31 @@ public final class CreateDirectoriesAndMoveResourcesTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         FileUtils.delete(tempFile);
         FileUtils.delete(tempRootDir);
     }
 
-    private File makeFile(final File directory, final String name, final String content)
-    {
+    private File makeFile(final File directory, final String name, final String content) {
         final File file = new File(directory, name);
-        try (FileOutputStream out = new FileOutputStream(file))
-        {
+        try (FileOutputStream out = new FileOutputStream(file)) {
             out.write(content.getBytes());
             out.close();
             return file;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             return null;
         }
     }
 
     @Ignore
     @Test
-    public void testAddArtwork()
-    {
+    public void testAddArtwork() {
         //add after making test for MoveResourcesUtil.java
     }
 
     @Ignore
     @Test
-    public void testMovesResources() throws Exception
-    {
+    public void testMovesResources() throws Exception {
         jobExecutionContext = new ExecutionContext();
         jobExecutionContext.put(JobExecutionKey.IMAGE_STATIC_DEST_DIR, tempRootDir.getAbsolutePath());
         final List<String> imglist = new ArrayList<>();
@@ -95,21 +86,14 @@ public final class CreateDirectoriesAndMoveResourcesTest
     }
 
     @Test
-    public void testGetAssetsFromDir()
-    {
-        try
-        {
+    public void testGetAssetsFromDir() {
+        try {
             TitleMetadata.builder().assetFilesFromDirectory(null);
             fail("should have thrown IllegalArgumentException");
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             e.printStackTrace();
             final File temp2 = makeFile(tempRootDir, "ninja.star", "totally exists");
-            final List<Asset> assets = TitleMetadata.builder()
-                .assetFilesFromDirectory(tempRootDir)
-                .build()
-                .getAssets();
+            final List<Asset> assets = TitleMetadata.builder().assetFilesFromDirectory(tempRootDir).build().getAssets();
 
             assertTrue("Extra assets was found", assets.size() == 2);
             final Asset expectedPiratAsset = new Asset("pirate", "pirate.ship");
@@ -122,8 +106,7 @@ public final class CreateDirectoriesAndMoveResourcesTest
     }
 
     @Test
-    public void testDuplicateAssets()
-    {
+    public void testDuplicateAssets() {
         splitBookImgMap = new HashMap<>();
         final List<String> imgList1 = new ArrayList<>();
         imgList1.add("img1.xml");
@@ -138,14 +121,11 @@ public final class CreateDirectoriesAndMoveResourcesTest
 
         final List<Asset> assetsForSplitBook = new ArrayList<>();
 
-        for (final Map.Entry<String, List<String>> entry : splitBookImgMap.entrySet())
-        {
-            for (final String imgFileName : entry.getValue())
-            {
+        for (final Map.Entry<String, List<String>> entry : splitBookImgMap.entrySet()) {
+            for (final String imgFileName : entry.getValue()) {
                 final Asset asset = new Asset(StringUtils.substringBeforeLast(imgFileName, "."), imgFileName);
                 //To avoid duplicate asset
-                if (!assetsForSplitBook.contains(asset))
-                {
+                if (!assetsForSplitBook.contains(asset)) {
                     assetsForSplitBook.add(asset);
                 }
             }
@@ -155,45 +135,33 @@ public final class CreateDirectoriesAndMoveResourcesTest
     }
 
     @Test
-    public void testGetAssetsfromFileException()
-    {
-        try
-        {
+    public void testGetAssetsfromFileException() {
+        try {
             TitleMetadata.builder().assetFile(null);
             fail("should have thrown IllegalArgumentException");
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             //expected exception
             e.printStackTrace();
         }
     }
 
     @Test
-    public void testGetAssetsfromFile()
-    {
-        final Asset asset = TitleMetadata.builder()
-            .assetFile(tempFile)
-            .build()
-            .getAssets()
-            .get(0);
+    public void testGetAssetsfromFile() {
+        final Asset asset = TitleMetadata.builder().assetFile(tempFile).build().getAssets().get(0);
         assertTrue(asset.getId().contains("pirate"));
     }
 
     @Test
-    public void testReadDocImgFile()
-    {
+    public void testReadDocImgFile() {
         createDirectoriesAndMoveResources.readDocImgFile(docToSplitBookFile, docMap, splitBookImgMap);
         List<Doc> docList = null;
 
         // Doc List
         final Iterator<Map.Entry<String, List<Doc>>> itr = docMap.entrySet().iterator();
-        while (itr.hasNext())
-        {
+        while (itr.hasNext()) {
             final Map.Entry<String, List<Doc>> pair = itr.next();
 
-            if (pair.getKey().equals(new String("1")))
-            {
+            if (pair.getKey().equals(new String("1"))) {
                 docList = pair.getValue();
                 Assert.assertEquals(docList.size(), 5);
             }
@@ -202,17 +170,14 @@ public final class CreateDirectoriesAndMoveResourcesTest
         // Img List
         List<String> imgList = null;
         final Iterator<Map.Entry<String, List<String>>> it = splitBookImgMap.entrySet().iterator();
-        while (it.hasNext())
-        {
+        while (it.hasNext()) {
             final Map.Entry<String, List<String>> pair = it.next();
 
-            if (pair.getKey().equals(new String("1")))
-            {
+            if (pair.getKey().equals(new String("1"))) {
                 imgList = pair.getValue();
                 Assert.assertEquals(2, imgList.size());
             }
-            if (pair.getKey().equals(new String("3")))
-            {
+            if (pair.getKey().equals(new String("3"))) {
                 Assert.assertNotNull(imgList);
                 Assert.assertEquals(0, imgList.size());
             }
@@ -220,52 +185,39 @@ public final class CreateDirectoriesAndMoveResourcesTest
     }
 
     @Test
-    public void testMoveResourcesNotFound() throws Exception
-    {
+    public void testMoveResourcesNotFound() throws Exception {
         final List<String> imgList = new ArrayList<>();
         final List<Doc> docList = new ArrayList<>();
         moveResourcesUtil = new MoveResourcesUtil();
 
         boolean thrown = false;
-        try
-        {
+        try {
             jobExecutionContext = new ExecutionContext();
             jobExecutionContext.put(JobExecutionKey.IMAGE_STATIC_DEST_DIR, "dir");
             createDirectoriesAndMoveResources.setMoveResourcesUtil(moveResourcesUtil);
             createDirectoriesAndMoveResources
                 .moveResources(jobExecutionContext, tempRootDir, false, imgList, docList, tempFile);
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             thrown = true;
         }
         assertTrue(thrown);
     }
 
     @Test
-    public void testGetAssetsNullInput()
-    {
+    public void testGetAssetsNullInput() {
         boolean thrown = false;
-        try
-        {
+        try {
             TitleMetadata.builder().assetFilesFromDirectory(null);
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             thrown = true;
         }
         assertTrue(thrown);
     }
 
     @Test
-    public void testGetAsset()
-    {
+    public void testGetAsset() {
         Asset asset = new Asset();
-        asset = TitleMetadata.builder()
-            .assetFile(tempFile)
-            .build()
-            .getAssets()
-            .get(0);
+        asset = TitleMetadata.builder().assetFile(tempFile).build().getAssets().get(0);
         System.out.println(asset.toString());
         assertTrue(asset != null);
         assertTrue(asset.getId().equals("pirate"));

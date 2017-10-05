@@ -7,8 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Strategy provider, provide instance of strategy defined by DIVXML component type
  */
-public interface BundleFileHandlingStrategyProvider<S extends BundleFileHandlingStrategy>
-{
+public interface BundleFileHandlingStrategyProvider<S extends BundleFileHandlingStrategy> {
     /**
      * @param bundleFileType - DIVXML component type
      */

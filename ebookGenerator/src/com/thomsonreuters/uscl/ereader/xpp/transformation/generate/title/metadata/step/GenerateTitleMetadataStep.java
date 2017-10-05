@@ -42,8 +42,7 @@ import org.springframework.beans.factory.annotation.Value;
  */
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
-public class GenerateTitleMetadataStep extends XppTransformationStep
-{
+public class GenerateTitleMetadataStep extends XppTransformationStep {
     @Value("${xpp.toc.to.title.xsl}")
     private File tocToTitleXsl;
     @Resource(name = "assembleFileSystem")
@@ -52,19 +51,16 @@ public class GenerateTitleMetadataStep extends XppTransformationStep
     private ProviewFeaturesListBuilderFactory proviewFeaturesListBuilderFactory;
 
     @Override
-    public void executeTransformation() throws Exception
-    {
+    public void executeTransformation() throws Exception {
         FileUtils.forceMkdir(fileSystem.getTitleMetadataDirectory(this));
         final DocumentsCollector documentsCollector = new DocumentsCollector();
-        for (final XppBundle bundle : getXppBundles())
-        {
+        for (final XppBundle bundle : getXppBundles()) {
             collectDocumentsForBundle(bundle, documentsCollector);
         }
         generateTitleMetadata(documentsCollector);
     }
 
-    private void generateTitleMetadata(final DocumentsCollector documentsCollector) throws JAXBException
-    {
+    private void generateTitleMetadata(final DocumentsCollector documentsCollector) throws JAXBException {
         final Transformer transformer = transformerBuilderFactory.create().withXsl(tocToTitleXsl).build();
         transformer
             .setParameter("titleMetadataDoc", saveMetadataAndGetFilePath(documentsCollector.getCollectedDocuments()));
@@ -77,10 +73,8 @@ public class GenerateTitleMetadataStep extends XppTransformationStep
 
     private void collectDocumentsForBundle(
         @NotNull final XppBundle bundle,
-        @NotNull final DocumentsCollector documentsCollector)
-    {
-        for (final String fileName : bundle.getOrderedFileList())
-        {
+        @NotNull final DocumentsCollector documentsCollector) {
+        for (final String fileName : bundle.getOrderedFileList()) {
             final FilenameFilter filter = BundleFileType.getByFileName(fileName).getHtmlDocFileNameFilter();
             final String[] documentsNames =
                 fileSystem.getExternalLinksDirectory(this, bundle.getMaterialNumber()).list(filter);
@@ -88,8 +82,7 @@ public class GenerateTitleMetadataStep extends XppTransformationStep
         }
     }
 
-    private String saveMetadataAndGetFilePath(final List<Doc> documents) throws JAXBException
-    {
+    private String saveMetadataAndGetFilePath(final List<Doc> documents) throws JAXBException {
         final BookDefinition bookDefinition = getBookDefinition();
         final TitleMetadata titleMetadata = TitleMetadata.builder(bookDefinition)
             .proviewFeatures(
@@ -108,39 +101,32 @@ public class GenerateTitleMetadataStep extends XppTransformationStep
         return titleBookDefinitionFile.getAbsolutePath().replace("\\", "/");
     }
 
-    private static class DocumentsCollector
-    {
+    private static class DocumentsCollector {
         private static final Comparator<DocumentName> DOC_NAMES_COMPARATOR = new DocumentOrderComparator();
 
         private final List<DocumentName> allDocumentsNames = new ArrayList<>();
 
-        public void addDocuments(@NotNull final String[] documentsNames)
-        {
+        public void addDocuments(@NotNull final String[] documentsNames) {
             final Set<DocumentName> names = new TreeSet<>(DOC_NAMES_COMPARATOR);
-            for (final String documentName : documentsNames)
-            {
+            for (final String documentName : documentsNames) {
                 names.add(new DocumentName(documentName));
             }
             allDocumentsNames.addAll(names);
         }
 
         @NotNull
-        public List<Doc> getCollectedDocuments()
-        {
+        public List<Doc> getCollectedDocuments() {
             final List<Doc> documentList = new ArrayList<>();
-            for (final DocumentName documentName : allDocumentsNames)
-            {
+            for (final DocumentName documentName : allDocumentsNames) {
                 documentList.add(new Doc(documentName.getDocFamilyUuid(), documentName.getOriginalFileName(), 0, null));
             }
             return documentList;
         }
     }
 
-    private static class DocumentOrderComparator implements Comparator<DocumentName>
-    {
+    private static class DocumentOrderComparator implements Comparator<DocumentName> {
         @Override
-        public int compare(@NotNull final DocumentName doc, @NotNull final DocumentName docToCompare)
-        {
+        public int compare(@NotNull final DocumentName doc, @NotNull final DocumentName docToCompare) {
             return Integer.compare(doc.getOrder(), docToCompare.getOrder());
         }
     }

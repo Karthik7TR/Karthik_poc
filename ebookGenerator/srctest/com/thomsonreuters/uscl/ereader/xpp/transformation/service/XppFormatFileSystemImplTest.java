@@ -26,8 +26,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class XppFormatFileSystemImplTest
-{
+public final class XppFormatFileSystemImplTest {
     private static final String FORMAT_DIR = "workDirectory/Format/";
     private static final String MATERIAL_NUMBER = "11111111";
     private static final String MATERIAL_NUMBER_2 = "22222222";
@@ -36,7 +35,8 @@ public final class XppFormatFileSystemImplTest
     private static final String SECTION_UUID_2 = "Ie0b9c12bf8fb11d99f28ffa0ae8c2576";
     private static final String CSS_DIR = FORMAT_DIR + XppFormatFileSystemImpl.FONTS_CSS_DIR;
     private static final String ORIGINAL_DIR = FORMAT_DIR + XppFormatFileSystemImpl.ORIGINAL_DIR;
-    private static final String PROCESSED_CITE_QUERIES_DIR = ORIGINAL_DIR + "/" + MATERIAL_NUMBER + "/Processed Cite Queries";
+    private static final String PROCESSED_CITE_QUERIES_DIR =
+        ORIGINAL_DIR + "/" + MATERIAL_NUMBER + "/Processed Cite Queries";
     private static final String SOURCE_DIR = FORMAT_DIR + XppFormatFileSystemImpl.SOURCE_DIR;
     private static final String SECTIONBREAKS_DIR = FORMAT_DIR + XppFormatFileSystemImpl.SECTIONBREAKS_DIR;
     private static final String MULTICOLUMNS_UP_DIR = FORMAT_DIR + XppFormatFileSystemImpl.MULTICOLUMNS_UP_DIR;
@@ -82,14 +82,12 @@ public final class XppFormatFileSystemImplTest
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         given(bookFileSystem.getWorkDirectory(step)).willReturn(new File(temporaryFolder.getRoot(), "workDirectory"));
     }
 
     @Test
-    public void shouldReturnStructureWithMetadataDirectory()
-    {
+    public void shouldReturnStructureWithMetadataDirectory() {
         //given
         //when
         final File directory = fileSystem.getStructureWithMetadataDirectory(step);
@@ -98,8 +96,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnStructureWithMetadataBundleDirectory()
-    {
+    public void shouldReturnStructureWithMetadataBundleDirectory() {
         //given
         //when
         final File directory = fileSystem.getStructureWithMetadataBundleDirectory(step, MATERIAL_NUMBER);
@@ -108,8 +105,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnStructureWithMetadataFiles() throws IOException
-    {
+    public void shouldReturnStructureWithMetadataFiles() throws IOException {
         //given
         final File sourcelDir = mkdir(temporaryFolder.getRoot(), SOURCE_DIR);
         final File originalFile1 = mkfile(mkdir(sourcelDir, MATERIAL_NUMBER), FILE_NAME_XML);
@@ -122,8 +118,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnStructureWithMetadataFilesIndex() throws IOException
-    {
+    public void shouldReturnStructureWithMetadataFilesIndex() throws IOException {
         //given
         final File sourcelDir = mkdir(temporaryFolder.getRoot(), SOURCE_DIR);
         final File originalFileMain = mkfile(mkdir(sourcelDir, MATERIAL_NUMBER), FILE_NAME_MAIN);
@@ -136,8 +131,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnStructureWithMetadataFile()
-    {
+    public void shouldReturnStructureWithMetadataFile() {
         //given
         //when
         final File file = fileSystem.getStructureWithMetadataFile(step, MATERIAL_NUMBER, FILE_NAME_XML);
@@ -146,8 +140,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnFontsCssDirectory()
-    {
+    public void shouldReturnFontsCssDirectory() {
         //given
         //when
         final File dir = fileSystem.getFontsCssDirectory(step);
@@ -156,8 +149,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnCssDirectory()
-    {
+    public void shouldReturnCssDirectory() {
         //given
         //when
         final File dir = fileSystem.getFontsCssDirectory(step, MATERIAL_NUMBER);
@@ -167,8 +159,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnCssFile()
-    {
+    public void shouldReturnCssFile() {
         //given
         //when
         final File dir = fileSystem.getFontsCssFile(step, MATERIAL_NUMBER, FILE_NAME_XML);
@@ -177,8 +168,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnOriginalDirectory()
-    {
+    public void shouldReturnOriginalDirectory() {
         //given
         //when
         final File directory = fileSystem.getOriginalDirectory(step);
@@ -187,8 +177,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnOriginalBundleDirectory()
-    {
+    public void shouldReturnOriginalBundleDirectory() {
         //given
         //when
         final File directory = fileSystem.getOriginalDirectory(step, MATERIAL_NUMBER);
@@ -197,8 +186,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnOriginalFileForBundleStructure()
-    {
+    public void shouldReturnOriginalFileForBundleStructure() {
         //given
         //when
         final File directory = fileSystem.getOriginalFile(step, MATERIAL_NUMBER, FILE_NAME_XML);
@@ -207,8 +195,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnFootnotesFileForBundleStructure()
-    {
+    public void shouldReturnFootnotesFileForBundleStructure() {
         //given
         //when
         final File file = fileSystem.getFootnotesFile(step, MATERIAL_NUMBER, FILE_NAME_XML);
@@ -217,8 +204,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnOriginalMainAndFootnoteFiles() throws IOException
-    {
+    public void shouldReturnOriginalMainAndFootnoteFiles() throws IOException {
         //given
         final File originalDir = mkdir(temporaryFolder.getRoot(), ORIGINAL_DIR);
         final File originalFile1 = mkfile(mkdir(originalDir, MATERIAL_NUMBER), FILE_NAME_XML);
@@ -231,8 +217,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnProcessedCiteQueryDirectory()
-    {
+    public void shouldReturnProcessedCiteQueryDirectory() {
         //given
         //when
         final File res = fileSystem.getCiteQueryProcessedDirectory(step, MATERIAL_NUMBER);
@@ -241,8 +226,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnProcessedCiteQueryFile()
-    {
+    public void shouldReturnProcessedCiteQueryFile() {
         //given
         //when
         final File res = fileSystem.getCiteQueryProcessedFile(step, MATERIAL_NUMBER, BASE_FILE_NAME + ".xml");
@@ -251,8 +235,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnSectionbreaksDirectory()
-    {
+    public void shouldReturnSectionbreaksDirectory() {
         //given
         //when
         final File directory = fileSystem.getSectionbreaksDirectory(step, MATERIAL_NUMBER);
@@ -261,8 +244,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnSectionbreaksDirectoryForBundleStructure()
-    {
+    public void shouldReturnSectionbreaksDirectoryForBundleStructure() {
         //given
         //when
         final File directory = fileSystem.getSectionbreaksDirectory(step);
@@ -271,8 +253,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnSectionbreaksFile()
-    {
+    public void shouldReturnSectionbreaksFile() {
         //given
         //when
         final File file = fileSystem.getSectionbreaksFile(step, MATERIAL_NUMBER, FILE_NAME_MAIN);
@@ -281,8 +262,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnSectionbreaksFiles() throws IOException
-    {
+    public void shouldReturnSectionbreaksFiles() throws IOException {
         //given
         final File dir = mkdir(temporaryFolder.getRoot(), SECTIONBREAKS_DIR);
         final File file1 = mkfile(mkdir(dir, MATERIAL_NUMBER), FILE_NAME_XML);
@@ -295,8 +275,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnMultiColumnsUpDirectory()
-    {
+    public void shouldReturnMultiColumnsUpDirectory() {
         //given
         //when
         final File directory = fileSystem.getMultiColumnsUpDirectory(step);
@@ -305,8 +284,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnMultiColumnsUpFile()
-    {
+    public void shouldReturnMultiColumnsUpFile() {
         //given
         //when
         final File directory = fileSystem.getMultiColumnsUpDirectory(step, MATERIAL_NUMBER);
@@ -315,8 +293,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnMultiColumnsUpFiles()
-    {
+    public void shouldReturnMultiColumnsUpFiles() {
         //given
         //when
         final File file = fileSystem.getMultiColumnsUpFile(step, MATERIAL_NUMBER, FILE_NAME_MAIN);
@@ -325,8 +302,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnSectionbreaksUpDirectory()
-    {
+    public void shouldReturnSectionbreaksUpDirectory() {
         //given
         //when
         final File directory = fileSystem.getSectionbreaksUpDirectory(step);
@@ -335,8 +311,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnSectionbreaksUpDirectoryForBundleStructure()
-    {
+    public void shouldReturnSectionbreaksUpDirectoryForBundleStructure() {
         //given
         //when
         final File directory = fileSystem.getSectionbreaksUpDirectory(step, MATERIAL_NUMBER);
@@ -345,8 +320,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnSectionbreaksUpFileForBundleStructure()
-    {
+    public void shouldReturnSectionbreaksUpFileForBundleStructure() {
         //given
         //when
         final File file = fileSystem.getSectionbreaksUpFile(step, MATERIAL_NUMBER, FILE_NAME_MAIN);
@@ -355,8 +329,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnSectionbreaksUpFiles() throws IOException
-    {
+    public void shouldReturnSectionbreaksUpFiles() throws IOException {
         //given
         final File sectionbreaksUpDir = mkdir(temporaryFolder.getRoot(), SECTIONBREAKS_UP_DIR);
         final File sectionbreaksUpFile1 = mkfile(mkdir(sectionbreaksUpDir, MATERIAL_NUMBER), FILE_NAME_XML);
@@ -369,8 +342,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnOriginalPartsDirectory()
-    {
+    public void shouldReturnOriginalPartsDirectory() {
         //given
         //when
         final File directory = fileSystem.getOriginalPartsDirectory(step);
@@ -379,8 +351,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnOriginalPartsDirectoryForBundleStructure()
-    {
+    public void shouldReturnOriginalPartsDirectoryForBundleStructure() {
         //given
         //when
         final File directory = fileSystem.getOriginalPartsDirectory(step, MATERIAL_NUMBER);
@@ -389,8 +360,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnOriginalPartsFiles() throws IOException
-    {
+    public void shouldReturnOriginalPartsFiles() throws IOException {
         //given
         final File originalPartsDir = mkdir(temporaryFolder.getRoot(), ORIGINAL_PARTS_DIR);
         final File file1Main = mkfile(mkdir(originalPartsDir, MATERIAL_NUMBER), FILE_NAME_1_MAIN_PART);
@@ -419,8 +389,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnOriginalPagesDirectory()
-    {
+    public void shouldReturnOriginalPagesDirectory() {
         //given
         //when
         final File directory = fileSystem.getOriginalPagesDirectory(step);
@@ -429,8 +398,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnOriginalPagesDirectoryForBundleStructure()
-    {
+    public void shouldReturnOriginalPagesDirectoryForBundleStructure() {
         //given
         //when
         final File directory = fileSystem.getOriginalPagesDirectory(step, MATERIAL_NUMBER);
@@ -439,8 +407,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnOriginalPageFileForBundleStructure()
-    {
+    public void shouldReturnOriginalPageFileForBundleStructure() {
         //given
         //when
         final File file = fileSystem.getOriginalPageFile(step, MATERIAL_NUMBER, FILE_NAME, 1, DOC_FAMILY_GUID);
@@ -449,8 +416,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnOriginalPageFilesMap() throws IOException
-    {
+    public void shouldReturnOriginalPageFilesMap() throws IOException {
         //given
         final File originalPagesDir = mkdir(temporaryFolder.getRoot(), ORIGINAL_PAGES_DIR);
         final File file1 = mkfile(mkdir(originalPagesDir, MATERIAL_NUMBER), FILE_NAME_XML);
@@ -463,8 +429,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnHtmlPagesDirectory()
-    {
+    public void shouldReturnHtmlPagesDirectory() {
         //given
         //when
         final File directory = fileSystem.getHtmlPagesDirectory(step);
@@ -473,8 +438,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnHtmlPagesDirectoryForBundleStructure()
-    {
+    public void shouldReturnHtmlPagesDirectoryForBundleStructure() {
         //given
         //when
         final File directory = fileSystem.getHtmlPagesDirectory(step, MATERIAL_NUMBER);
@@ -483,8 +447,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnHtmlPageFilesMap() throws IOException
-    {
+    public void shouldReturnHtmlPageFilesMap() throws IOException {
         //given
         final File dir = mkdir(temporaryFolder.getRoot(), HTML_PAGES_DIR);
         final File file1 = mkfile(mkdir(dir, MATERIAL_NUMBER), FILE_NAME_XML);
@@ -497,8 +460,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnHtmlPageFileForBundleStructure()
-    {
+    public void shouldReturnHtmlPageFileForBundleStructure() {
         //given
         //when
         final File file = fileSystem.getHtmlPageFile(step, MATERIAL_NUMBER, FILE_NAME_PART);
@@ -507,8 +469,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnExternalLinksDirectory()
-    {
+    public void shouldReturnExternalLinksDirectory() {
         //given
         //when
         final File file = fileSystem.getExternalLinksDirectory(step);
@@ -517,8 +478,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnExternalLinksDirectoryForMaterialNumber()
-    {
+    public void shouldReturnExternalLinksDirectoryForMaterialNumber() {
         //given
         //when
         final File file = fileSystem.getExternalLinksDirectory(step, MATERIAL_NUMBER);
@@ -527,8 +487,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnExternalLinksFile()
-    {
+    public void shouldReturnExternalLinksFile() {
         //given
         //when
         final File file = fileSystem.getExternalLinksFile(step, MATERIAL_NUMBER, FILE_NAME_HTML);
@@ -537,8 +496,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnExternalLinksFilesMap() throws IOException
-    {
+    public void shouldReturnExternalLinksFilesMap() throws IOException {
         //given
         final File dir = mkdir(temporaryFolder.getRoot(), EXTERNAL_LINKS_DIR);
         final File file1 = mkfile(mkdir(dir, MATERIAL_NUMBER), FILE_NAME_XML);
@@ -551,8 +509,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnExternalLinksMappingDirectory()
-    {
+    public void shouldReturnExternalLinksMappingDirectory() {
         //given
         //when
         final File file = fileSystem.getExternalLinksMappingDirectory(step);
@@ -561,8 +518,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnExternalLinksMappingDirectoryForMaterialNumber()
-    {
+    public void shouldReturnExternalLinksMappingDirectoryForMaterialNumber() {
         //given
         //when
         final File file = fileSystem.getExternalLinksMappingDirectory(step, MATERIAL_NUMBER);
@@ -571,8 +527,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnExternalLinksMappingFile()
-    {
+    public void shouldReturnExternalLinksMappingFile() {
         //given
         //when
         final File file = fileSystem.getExternalLinksMappingFile(step, MATERIAL_NUMBER, FILE_NAME_HTML);
@@ -581,8 +536,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnAnchorsMapFile()
-    {
+    public void shouldReturnAnchorsMapFile() {
         //given
         //when
         final File file = fileSystem.getAnchorToDocumentIdMapFile(step);
@@ -591,8 +545,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnDocToImagesMapFile()
-    {
+    public void shouldReturnDocToImagesMapFile() {
         //given
         //when
         final File file = fileSystem.getDocToImageMapFile(step);
@@ -601,8 +554,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnIndexBreaksFile()
-    {
+    public void shouldReturnIndexBreaksFile() {
         //given
         //when
         final File file = fileSystem.getIndexBreaksFile(step, MATERIAL_NUMBER, FILE_NAME_MAIN);
@@ -613,8 +565,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnTocDirectory()
-    {
+    public void shouldReturnTocDirectory() {
         //given
         //when
         final File directory = fileSystem.getTocDirectory(step);
@@ -623,8 +574,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnBundlePartTocFile()
-    {
+    public void shouldReturnBundlePartTocFile() {
         //given
         //when
         final File file = fileSystem.getBundlePartTocFile(FILE_NAME_XML, MATERIAL_NUMBER, step);
@@ -633,8 +583,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnMergedTocFile()
-    {
+    public void shouldReturnMergedTocFile() {
         //given
         //when
         final File file = fileSystem.getMergedBundleTocFile(MATERIAL_NUMBER, step);
@@ -643,8 +592,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnTitleMetadataDirectory()
-    {
+    public void shouldReturnTitleMetadataDirectory() {
         //given
         //when
         final File file = fileSystem.getTitleMetadataDirectory(step);
@@ -653,8 +601,7 @@ public final class XppFormatFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnTitleMetadataFile()
-    {
+    public void shouldReturnTitleMetadataFile() {
         //given
         //when
         final File file = fileSystem.getTitleMetadataFile(step);

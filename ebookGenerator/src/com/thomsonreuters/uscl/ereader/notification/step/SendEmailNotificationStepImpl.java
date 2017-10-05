@@ -23,8 +23,7 @@ import org.springframework.util.Assert;
 
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
 @SavePublishingStatusPolicy
-public class SendEmailNotificationStepImpl extends BookStepImpl implements SendEmailNotificationStep
-{
+public class SendEmailNotificationStepImpl extends BookStepImpl implements SendEmailNotificationStep {
     private static final Logger LOG = LogManager.getLogger(SendEmailNotificationStepImpl.class);
 
     @Resource(name = "emailService")
@@ -40,8 +39,7 @@ public class SendEmailNotificationStepImpl extends BookStepImpl implements SendE
     private PublishingStats previousStats;
 
     @Override
-    public ExitStatus executeStep() throws Exception
-    {
+    public ExitStatus executeStep() throws Exception {
         final Collection<InternetAddress> recipients = coreService.getEmailRecipientsByUsername(getUserName());
         LOG.debug("Sending job completion notification to: " + recipients);
 
@@ -52,8 +50,7 @@ public class SendEmailNotificationStepImpl extends BookStepImpl implements SendE
         return ExitStatus.COMPLETED;
     }
 
-    private void initializePublishingStats()
-    {
+    private void initializePublishingStats() {
         currentsStats = publishingStatsService.findPublishingStatsByJobId(getJobInstanceId());
         Assert.notNull(currentsStats, "publishingStats not found for jobInstanceId=" + getJobInstanceId());
         previousStats = publishingStatsService.getPreviousPublishingStatsForSameBook(getJobInstanceId());
@@ -61,27 +58,23 @@ public class SendEmailNotificationStepImpl extends BookStepImpl implements SendE
 
     @Override
     @Nullable
-    public Integer getTocNodeCount()
-    {
+    public Integer getTocNodeCount() {
         return currentsStats.getGatherTocNodeCount();
     }
 
     @Override
     @Nullable
-    public Integer getThresholdValue()
-    {
+    public Integer getThresholdValue() {
         return getBookDefinition().getDocumentTypeCodes().getThresholdValue();
     }
 
     @Override
-    public PublishingStats getCurrentsStats()
-    {
+    public PublishingStats getCurrentsStats() {
         return currentsStats;
     }
 
     @Override
-    public PublishingStats getPreviousStats()
-    {
+    public PublishingStats getPreviousStats() {
         return previousStats;
     }
 }

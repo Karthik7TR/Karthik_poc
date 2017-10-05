@@ -15,38 +15,29 @@ import org.xml.sax.helpers.XMLFilterImpl;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class HTMLImageFilter extends XMLFilterImpl
-{
+public class HTMLImageFilter extends XMLFilterImpl {
     private Set<String> staticImageRefs;
     private boolean isNonStaticImage;
     private boolean isPDFIcon;
 
-    public Set<String> getStaticImageRefs()
-    {
+    public Set<String> getStaticImageRefs() {
         return staticImageRefs;
     }
 
-    public void setStaticImageRefs(final Set<String> staticImageRefs)
-    {
+    public void setStaticImageRefs(final Set<String> staticImageRefs) {
         this.staticImageRefs = staticImageRefs;
     }
 
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
-        throws SAXException
-    {
-        if (qName.equalsIgnoreCase("img"))
-        {
-            if (atts != null)
-            {
+        throws SAXException {
+        if (qName.equalsIgnoreCase("img")) {
+            if (atts != null) {
                 String src = atts.getValue("src");
-                if (atts.getValue("alt") != null && atts.getValue("alt").equalsIgnoreCase("PDF"))
-                {
+                if (atts.getValue("alt") != null && atts.getValue("alt").equalsIgnoreCase("PDF")) {
                     //remove PDF icon images
                     isPDFIcon = true;
-                }
-                else if (src != null && src.startsWith("/images/"))
-                {
+                } else if (src != null && src.startsWith("/images/")) {
                     staticImageRefs.add(src.substring(8));
                     src = src.replace(src.substring(0, src.lastIndexOf("/") + 1), "er:#");
                     src = src.substring(0, src.indexOf("."));
@@ -56,53 +47,37 @@ public class HTMLImageFilter extends XMLFilterImpl
                     newAtts.addAttribute("", "", "src", "CDATA", src);
 
                     super.startElement(uri, localName, qName, newAtts);
-                }
-                else if (src != null && src.contains("/Link/Document/Blob"))
-                {
+                } else if (src != null && src.contains("/Link/Document/Blob")) {
                     //remove actual images since the link anchors will be transformed into image tags
                     isNonStaticImage = true;
-                }
-                else
-                {
+                } else {
                     throw new SAXException(
                         "Could not retrieve src attribute for img tag. " + "Code should be added to handle these.");
                 }
-            }
-            else
-            {
+            } else {
                 throw new SAXException("Could not retrieve attributes for an image tag.");
             }
-        }
-        else
-        {
+        } else {
             super.startElement(uri, localName, qName, atts);
         }
     }
 
     @Override
-    public void characters(final char[] buf, final int offset, final int len) throws SAXException
-    {
+    public void characters(final char[] buf, final int offset, final int len) throws SAXException {
         //Remove any non static image tags and pdf icons
-        if (!isNonStaticImage && !isPDFIcon)
-        {
+        if (!isNonStaticImage && !isPDFIcon) {
             super.characters(buf, offset, len);
         }
     }
 
     @Override
-    public void endElement(final String uri, final String localName, final String qName) throws SAXException
-    {
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException {
         //Remove any non static image tags
-        if (!isNonStaticImage && !isPDFIcon)
-        {
+        if (!isNonStaticImage && !isPDFIcon) {
             super.endElement(uri, localName, qName);
-        }
-        else if (isNonStaticImage)
-        {
+        } else if (isNonStaticImage) {
             isNonStaticImage = false;
-        }
-        else if (isPDFIcon)
-        {
+        } else if (isPDFIcon) {
             isPDFIcon = false;
         }
     }

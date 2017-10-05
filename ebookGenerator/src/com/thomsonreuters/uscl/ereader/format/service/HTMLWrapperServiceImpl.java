@@ -26,20 +26,18 @@ import org.apache.log4j.Logger;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class HTMLWrapperServiceImpl implements HTMLWrapperService
-{
+public class HTMLWrapperServiceImpl implements HTMLWrapperService {
     private static final Logger LOG = LogManager.getLogger(TransformerServiceImpl.class);
 
     private FileHandlingHelper fileHandlingHelper;
     private KeyCiteBlockGenerationServiceImpl keyCiteBlockGenerationService;
 
-    public void setfileHandlingHelper(final FileHandlingHelper fileHandlingHelper)
-    {
+    public void setfileHandlingHelper(final FileHandlingHelper fileHandlingHelper) {
         this.fileHandlingHelper = fileHandlingHelper;
     }
 
-    public void setKeyCiteBlockGenerationService(final KeyCiteBlockGenerationServiceImpl keyCiteBlockGenerationService)
-    {
+    public void setKeyCiteBlockGenerationService(
+        final KeyCiteBlockGenerationServiceImpl keyCiteBlockGenerationService) {
         this.keyCiteBlockGenerationService = keyCiteBlockGenerationService;
     }
 
@@ -71,39 +69,32 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
         final File docToTocMap,
         final String titleId,
         final long jobId,
-        final boolean keyciteToplineFlag) throws EBookFormatException
-    {
-        if (transDir == null || !transDir.isDirectory())
-        {
+        final boolean keyciteToplineFlag) throws EBookFormatException {
+        if (transDir == null || !transDir.isDirectory()) {
             throw new IllegalArgumentException("transDir must be a directory, not null or a regular file.");
         }
 
-        if (docToTocMap == null || !docToTocMap.exists())
-        {
+        if (docToTocMap == null || !docToTocMap.exists()) {
             throw new IllegalArgumentException("docToTocMap must be an existing file on the system.");
         }
 
         //retrieve list of all transformed files that need HTML wrappers
         final List<File> transformedFiles = new ArrayList<>();
 
-        try
-        {
+        try {
 //			FileExtensionFilter fileExtFilter = new FileExtensionFilter();
 //			fileExtFilter.setAcceptedFileExtensions(new String[]{"postunlink"}); // lowercase compare
 //			fileHandlingHelper.setFilter(fileExtFilter);
 
             fileHandlingHelper.getFileList(transDir, transformedFiles);
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             final String errMessage = "No transformed files were found in specified directory. "
                 + "Please verify that the correct transformed path was specified.";
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
 
-        if (!htmlDir.exists())
-        {
+        if (!htmlDir.exists()) {
             htmlDir.mkdirs();
         }
 
@@ -113,8 +104,7 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
         LOG.info("Adding HTML containers around transformed files...");
 
         int numDocs = 0;
-        for (final File transFile : transformedFiles)
-        {
+        for (final File transFile : transformedFiles) {
             addHTMLWrapperToFile(transFile, htmlDir, anchorMap, titleId, jobId, keyciteToplineFlag);
             numDocs++;
         }
@@ -142,8 +132,7 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
         final Map<String, String[]> anchorMap,
         final String titleId,
         final Long jobId,
-        final boolean keyciteToplineFlag) throws EBookFormatException
-    {
+        final boolean keyciteToplineFlag) throws EBookFormatException {
         final String fileName = transformedFile.getName();
 
         LOG.debug("Adding wrapper around: " + fileName);
@@ -155,8 +144,7 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
 
         final File output = new File(htmlDir, guid + ".html");
 
-        if (output.exists())
-        {
+        if (output.exists()) {
             //delete file if it exists since the output buffer will just append on to it
             //otherwise restarting the step would double up the file
             output.delete();
@@ -166,16 +154,13 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
             InputStream headerStream = getClass().getResourceAsStream("/StaticFiles/HTMLHeader.txt");
             InputStream transFileStream = new FileInputStream(transformedFile);
             InputStream footerStream = getClass().getResourceAsStream("/StaticFiles/HTMLFooter.txt");
-            ByteArrayInputStream anchorStream = new ByteArrayInputStream(anchors.toString().getBytes());)
-        {
+            ByteArrayInputStream anchorStream = new ByteArrayInputStream(anchors.toString().getBytes());) {
             IOUtils.copy(headerStream, outputStream);
 
             IOUtils.copy(anchorStream, outputStream);
 
-            if (keyciteToplineFlag)
-            {
-                try (InputStream keyciteStream = copyStream(titleId, jobId, guid, outputStream))
-                {
+            if (keyciteToplineFlag) {
+                try (InputStream keyciteStream = copyStream(titleId, jobId, guid, outputStream)) {
                     //Intentionally left blank
                 }
             }
@@ -183,9 +168,7 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
             IOUtils.copy(transFileStream, outputStream);
 
             IOUtils.copy(footerStream, outputStream);
-        }
-        catch (final IOException ioe)
-        {
+        } catch (final IOException ioe) {
             final String errMessage =
                 "Failed to add HTML contrainers around the following transformed file: " + fileName;
             LOG.error(errMessage);
@@ -206,8 +189,7 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
         final String titleId,
         final Long jobId,
         final String guid,
-        final FileOutputStream outputStream) throws EBookFormatException, IOException
-    {
+        final FileOutputStream outputStream) throws EBookFormatException, IOException {
         final InputStream keyciteStream = keyCiteBlockGenerationService.getKeyCiteInfo(titleId, jobId, guid);
         IOUtils.copy(keyciteStream, outputStream);
         return keyciteStream;
@@ -221,27 +203,21 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
      * @param docToTocGuidMap in memory map generated based on values found in the provided file
      */
     protected void readTOCGuidList(final File docGuidsFile, final Map<String, String[]> docToTocGuidMap)
-        throws EBookFormatException
-    {
-        try (BufferedReader reader = new BufferedReader(new FileReader(docGuidsFile));)
-        {
+        throws EBookFormatException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(docGuidsFile));) {
             LOG.info("Reading in TOC anchor map file...");
             int numDocs = 0;
             int numTocs = 0;
 
             String input = reader.readLine();
-            while (input != null)
-            {
+            while (input != null) {
                 numDocs++;
                 final String[] line = input.split(",", -1);
-                if (!line[1].equals(""))
-                {
+                if (!line[1].equals("")) {
                     final String[] tocGuids = line[1].split("\\|");
                     numTocs = numTocs + tocGuids.length;
                     docToTocGuidMap.put(line[0], tocGuids);
-                }
-                else
-                {
+                } else {
                     final String message = "No TOC guid was found for the "
                         + numDocs
                         + " document. "
@@ -254,9 +230,7 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
                 input = reader.readLine();
             }
             LOG.info("Generated a map for " + numDocs + " DOCs with " + numTocs + " TOC references.");
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String message =
                 "Could not read the DOC guid to TOC guid map file: " + docGuidsFile.getAbsolutePath();
             LOG.error(message);
@@ -275,18 +249,15 @@ public class HTMLWrapperServiceImpl implements HTMLWrapperService
     public void generateAnchorStream(
         final Map<String, String[]> anchorMap,
         final String guid,
-        final StringBuffer anchorStr) throws EBookFormatException
-    {
+        final StringBuffer anchorStr) throws EBookFormatException {
         final String[] anchors = anchorMap.get(guid);
-        if (anchors == null || anchors.length < 1)
-        {
+        if (anchors == null || anchors.length < 1) {
             final String errMessage = "No TOC anchor references were found for the following GUID: " + guid;
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage);
         }
 
-        for (final String anchor : anchors)
-        {
+        for (final String anchor : anchors) {
             anchorStr.append("<a name=\"");
             anchorStr.append(anchor);
             anchorStr.append("\"></a>");

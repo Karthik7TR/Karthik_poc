@@ -14,8 +14,7 @@ import javax.persistence.Id;
 @Deprecated // Deprecated in favor of the JobThrottleConfig
 //@Entity
 //@Table(name="JOB_STARTUP_THROTTLE")
-public class JobStartupThrottle implements Serializable
-{
+public class JobStartupThrottle implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column(name = "THROTTLE_TIME_ZONE")
     private String throttleTimeZone;
@@ -27,38 +26,31 @@ public class JobStartupThrottle implements Serializable
     @Column(name = "THROTTLE_LIMIT")
     private int throttleLimit;
 
-    public JobStartupThrottle()
-    {
+    public JobStartupThrottle() {
         super();
     }
 
-    public int getThrottleLimit()
-    {
+    public int getThrottleLimit() {
         return throttleLimit;
     }
 
-    public void setThrottleLimit(final int throttleLimit)
-    {
+    public void setThrottleLimit(final int throttleLimit) {
         this.throttleLimit = throttleLimit;
     }
 
-    public String getThrottleTimeZone()
-    {
+    public String getThrottleTimeZone() {
         return throttleTimeZone;
     }
 
-    public void setThrottleTimeZone(final String throttleTimeZone)
-    {
+    public void setThrottleTimeZone(final String throttleTimeZone) {
         this.throttleTimeZone = throttleTimeZone;
     }
 
-    public String getThrottleStepName()
-    {
+    public String getThrottleStepName() {
         return throttleStepName;
     }
 
-    public void setThrottleStepName(final String throttleStepName)
-    {
+    public void setThrottleStepName(final String throttleStepName) {
         this.throttleStepName = throttleStepName;
     }
 }

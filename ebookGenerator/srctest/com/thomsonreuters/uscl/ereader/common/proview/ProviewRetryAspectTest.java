@@ -20,8 +20,7 @@ import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class ProviewRetryAspectTest
-{
+public final class ProviewRetryAspectTest {
     @InjectMocks
     @Spy
     private ProviewRetryAspect aspect;
@@ -31,15 +30,13 @@ public final class ProviewRetryAspectTest
     public ExpectedException thrown = ExpectedException.none();
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         doNothing().when(aspect).waitProview(anyInt());
         aspect.setMaxNumberOfRetries(2);
     }
 
     @Test
-    public void shouldCallTargetMethod() throws Throwable
-    {
+    public void shouldCallTargetMethod() throws Throwable {
         //given
         //when
         aspect.around(jp);
@@ -48,8 +45,7 @@ public final class ProviewRetryAspectTest
     }
 
     @Test
-    public void shouldThrowExceptionIfProviewFailure() throws Throwable
-    {
+    public void shouldThrowExceptionIfProviewFailure() throws Throwable {
         //given
         thrown.expect(ProviewRuntimeException.class);
         doThrow(new ProviewException(CoreConstants.TTILE_IN_QUEUE)).when(jp).proceed();
@@ -59,8 +55,7 @@ public final class ProviewRetryAspectTest
     }
 
     @Test
-    public void shouldThrowExceptionIfProviewUnexpectedFailure() throws Throwable
-    {
+    public void shouldThrowExceptionIfProviewUnexpectedFailure() throws Throwable {
         //given
         thrown.expect(ProviewRuntimeException.class);
         thrown.expectMessage("msg");

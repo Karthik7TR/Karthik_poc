@@ -13,8 +13,7 @@ import org.springframework.stereotype.Repository;
  * @author Ripu Jain U0115290
  */
 @Repository("xsltMapperDao")
-public class XSLTMapperDaoImpl implements XSLTMapperDao
-{
+public class XSLTMapperDaoImpl implements XSLTMapperDao {
     private SessionFactory sessionFactory;
 
     /**
@@ -25,21 +24,17 @@ public class XSLTMapperDaoImpl implements XSLTMapperDao
      * @return XSLTMapperEntity the XSLT entity object.
      */
     @Override
-    public XSLTMapperEntity getXSLT(final String collection, final String docType)
-    {
+    public XSLTMapperEntity getXSLT(final String collection, final String docType) {
         if (StringUtils.isBlank(collection))
             throw new IllegalArgumentException(
                 "Failed to builed the query to retrieve XSLT. " + "Collection name can not be null.");
 
         final Query query;
-        if (StringUtils.isNotBlank(docType))
-        {
+        if (StringUtils.isNotBlank(docType)) {
             query = sessionFactory.getCurrentSession().getNamedQuery("getXSLT");
             query.setString("collection", collection);
             query.setString("doc_type", docType);
-        }
-        else
-        {
+        } else {
             query = sessionFactory.getCurrentSession().getNamedQuery("getXSLTWhereDocTypeIsNull");
             query.setString("collection", collection);
         }
@@ -50,8 +45,7 @@ public class XSLTMapperDaoImpl implements XSLTMapperDao
     }
 
     @Required
-    public void setSessionFactory(final SessionFactory sessionFactory)
-    {
+    public void setSessionFactory(final SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 }

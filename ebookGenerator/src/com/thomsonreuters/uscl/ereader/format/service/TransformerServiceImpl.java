@@ -46,8 +46,7 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class TransformerServiceImpl implements TransformerService
-{
+public class TransformerServiceImpl implements TransformerService {
     private static final Logger LOG = LogManager.getLogger(TransformerServiceImpl.class);
 
     private static final String START_WRAPPER_TAG = "<Document>";
@@ -65,18 +64,15 @@ public class TransformerServiceImpl implements TransformerService
 
     @Required
     public void setGenerateDocumentDataBlockService(
-        final GenerateDocumentDataBlockService generateDocumentDataBlockService)
-    {
+        final GenerateDocumentDataBlockService generateDocumentDataBlockService) {
         this.generateDocumentDataBlockService = generateDocumentDataBlockService;
     }
 
-    public void setdocMetadataService(final DocMetadataService docMetadataService)
-    {
+    public void setdocMetadataService(final DocMetadataService docMetadataService) {
         this.docMetadataService = docMetadataService;
     }
 
-    public void setfileHandlingHelper(final FileHandlingHelper fileHandlingHelper)
-    {
+    public void setfileHandlingHelper(final FileHandlingHelper fileHandlingHelper) {
         this.fileHandlingHelper = fileHandlingHelper;
     }
 
@@ -104,17 +100,14 @@ public class TransformerServiceImpl implements TransformerService
         final File transDir,
         final Long jobID,
         final BookDefinition bookDefinition,
-        final File staticContentDir) throws EBookFormatException
-    {
+        final File staticContentDir) throws EBookFormatException {
         this.staticContentDir = staticContentDir;
 
-        if (preprocessDir == null || !preprocessDir.isDirectory())
-        {
+        if (preprocessDir == null || !preprocessDir.isDirectory()) {
             throw new IllegalArgumentException("preprocessDir must be a directory, not null or a regular file.");
         }
 
-        if (!transDir.exists())
-        {
+        if (!transDir.exists()) {
             transDir.mkdirs();
         }
 
@@ -122,27 +115,21 @@ public class TransformerServiceImpl implements TransformerService
 
         final List<File> xmlFiles = new ArrayList<>();
 
-        try
-        {
+        try {
             fileHandlingHelper.getFileList(preprocessDir, xmlFiles);
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             final String errMessage = "No XML files were found in specified directory. "
                 + "Please verify that the correct XML path was specified.";
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
 
-        try
-        {
+        try {
             final File mapperFile = new File(this.staticContentDir, "ContentTypeMapData.xml");
 
             final XSLMapperParser xslMapperParser = new XSLMapperParser();
             xsltFileNameByCollectionName = xslMapperParser.parseDocument(mapperFile);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             final String errMessage = "Error processing XSLT Mapper file. " + e.getMessage();
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
@@ -151,8 +138,7 @@ public class TransformerServiceImpl implements TransformerService
         final Map<String, Transformer> xsltCache = new HashMap<>();
 
         int docCount = 0;
-        for (final File xmlFile : xmlFiles)
-        {
+        for (final File xmlFile : xmlFiles) {
             transformFile(xmlFile, metaDir, imgMetaDir, transDir, jobID, xsltCache, bookDefinition);
             docCount++;
         }
@@ -181,8 +167,7 @@ public class TransformerServiceImpl implements TransformerService
         final File targetDir,
         final Long jobId,
         final Map<String, Transformer> stylesheetCache,
-        final BookDefinition bookDefinition) throws EBookFormatException
-    {
+        final BookDefinition bookDefinition) throws EBookFormatException {
         final String fileNameUUID = xmlFile.getName().substring(0, xmlFile.getName().indexOf("."));
 
         final String[] metadata = new String[2];
@@ -208,16 +193,12 @@ public class TransformerServiceImpl implements TransformerService
             FileInputStream imageStream = new FileInputStream(getImageMetadataFile(imgMetadataDir, fileNameUUID));
             SequenceInputStream inStream3 = new SequenceInputStream(inStream2, imageStream);
             SequenceInputStream inStream4 =
-                new SequenceInputStream(inStream3, new ByteArrayInputStream(END_WRAPPER_TAG.getBytes()));)
-        {
+                new SequenceInputStream(inStream3, new ByteArrayInputStream(END_WRAPPER_TAG.getBytes()));) {
             final Source xmlSource = new StreamSource(inStream4);
 
-            if (!stylesheetCache.containsKey(xslt.getAbsolutePath()))
-            {
+            if (!stylesheetCache.containsKey(xslt.getAbsolutePath())) {
                 trans = createTransformer(xslt, stylesheetCache, bookDefinition);
-            }
-            else
-            {
+            } else {
                 trans = stylesheetCache.get(xslt.getAbsolutePath());
             }
 
@@ -228,9 +209,7 @@ public class TransformerServiceImpl implements TransformerService
             trans.transform(xmlSource, result);
 
             //LOG.debug("Successfully transformed: " + xmlFile.getAbsolutePath());
-        }
-        catch (final TransformerException te)
-        {
+        } catch (final TransformerException te) {
             final String errMessage = "Encountered transformation issues trying to transform "
                 + xmlFile.getName()
                 + " xml file using "
@@ -238,15 +217,11 @@ public class TransformerServiceImpl implements TransformerService
                 + " xslt file.";
             LOG.error(errMessage, te);
             throw new EBookFormatException(errMessage, te);
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             final String errMessage = "Could not find the following xml file: " + xmlFile.getName();
             LOG.error(errMessage, e);
             throw new EBookFormatException(errMessage, e);
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String errMessage =
                 "Unable to close files related to the " + xmlFile.getAbsolutePath() + " file transformation.";
             LOG.error(errMessage, e);
@@ -264,20 +239,16 @@ public class TransformerServiceImpl implements TransformerService
      * @return File that contains the ImageMetadata for the passed in document guid
      * @throws EBookFormatException if no ImageMetadata is found for the passed in document guid
      */
-    protected File getImageMetadataFile(final File imgMetaDir, final String docGuid) throws EBookFormatException
-    {
+    protected File getImageMetadataFile(final File imgMetaDir, final String docGuid) throws EBookFormatException {
         File imgMetadata = null;
 
-        for (final File aFile : imgMetaDir.listFiles())
-        {
-            if (aFile.getName().equals(docGuid + ".imgMeta"))
-            {
+        for (final File aFile : imgMetaDir.listFiles()) {
+            if (aFile.getName().equals(docGuid + ".imgMeta")) {
                 imgMetadata = aFile;
             }
         }
 
-        if (imgMetadata == null || !imgMetadata.exists())
-        {
+        if (imgMetadata == null || !imgMetadata.exists()) {
             final String errMessage = "Could not find the ImageMetadata file for  "
                 + docGuid
                 + " GUID in the "
@@ -298,20 +269,16 @@ public class TransformerServiceImpl implements TransformerService
      * @return File representing the metadata associated with the passed in document GUID
      * @throws EBookFormatException no metadata file was found
      */
-    protected File getMetadataFile(final File metaDir, final String docGuid) throws EBookFormatException
-    {
+    protected File getMetadataFile(final File metaDir, final String docGuid) throws EBookFormatException {
         File metadataFile = null;
 
-        for (final File aFile : metaDir.listFiles())
-        {
-            if (aFile.getName().endsWith(docGuid + ".xml"))
-            {
+        for (final File aFile : metaDir.listFiles()) {
+            if (aFile.getName().endsWith(docGuid + ".xml")) {
                 metadataFile = aFile;
             }
         }
 
-        if (metadataFile == null || !metadataFile.exists())
-        {
+        if (metadataFile == null || !metadataFile.exists()) {
             final String errMessage = "Could not find the document metadata file for  "
                 + docGuid
                 + " GUID in the "
@@ -338,14 +305,13 @@ public class TransformerServiceImpl implements TransformerService
     protected Transformer createTransformer(
         final File xslt,
         final Map<String, Transformer> xsltCache,
-        final BookDefinition bookDefinition) throws EBookFormatException
-    {
-        try
-        {
+        final BookDefinition bookDefinition) throws EBookFormatException {
+        try {
             final Source xsltSource = new StreamSource(xslt);
 
-            final TransformerFactory transFact = TransformerFactory
-                .newInstance("org.apache.xalan.xsltc.trax.SmartTransformerFactoryImpl", TransformerServiceImpl.class.getClassLoader());
+            final TransformerFactory transFact = TransformerFactory.newInstance(
+                "org.apache.xalan.xsltc.trax.SmartTransformerFactoryImpl",
+                TransformerServiceImpl.class.getClassLoader());
 
             final XSLIncludeResolver resolver = new XSLIncludeResolver();
             resolver.setIncludeAnnotations(bookDefinition.getIncludeAnnotations());
@@ -410,9 +376,7 @@ public class TransformerServiceImpl implements TransformerService
             xsltCache.put(xslt.getAbsolutePath(), transformer);
 
             return transformer;
-        }
-        catch (final TransformerConfigurationException e)
-        {
+        } catch (final TransformerConfigurationException e) {
             final String errMessage =
                 "Encountered transformer configuration issues with " + xslt.getAbsolutePath() + " xslt file.";
             LOG.error(errMessage, e);
@@ -426,13 +390,11 @@ public class TransformerServiceImpl implements TransformerService
      * @param transformer transformer to be configured
      * @param collection novus collection of document being processed
      */
-    protected void setDocLvlTransParams(final Transformer transformer, final String collection)
-    {
+    protected void setDocLvlTransParams(final Transformer transformer, final String collection) {
         final List<String> royaltyIdCollection =
             Arrays.asList("w_3rd_millann", "w_3rd_millpol", "w_lt_td_motions", "w_lt_td_ew", "w_lt_td_filings");
 
-        if (royaltyIdCollection.contains(collection))
-        {
+        if (royaltyIdCollection.contains(collection)) {
             transformer.setParameter("UseBlobRoyaltyId", true);
         }
     }
@@ -445,36 +407,29 @@ public class TransformerServiceImpl implements TransformerService
      *
      * @return the XSLT file to be used by the transformer
      */
-    protected File getXSLT(final String collection, final String docType) throws EBookFormatException
-    {
+    protected File getXSLT(final String collection, final String docType) throws EBookFormatException {
         final File xsltDir =
             new File(staticContentDir.getAbsolutePath() + "/WestlawNext/DefaultProductView/ContentTypes");
         String xsltName = null;
 
         File xslt = null;
-        if (StringUtils.isNotBlank(docType))
-        {
+        if (StringUtils.isNotBlank(docType)) {
             xsltName = xsltFileNameByCollectionName.get(collection + " " + docType);
         }
-        if (StringUtils.isBlank(xsltName))
-        {
+        if (StringUtils.isBlank(xsltName)) {
             xsltName = xsltFileNameByCollectionName.get(collection);
         }
 
-        if (StringUtils.isNotBlank(xsltName))
-        {
+        if (StringUtils.isNotBlank(xsltName)) {
             xslt = new File(xsltDir, xsltName);
 
-            if (!xslt.exists())
-            {
+            if (!xslt.exists()) {
                 final String errMessage =
                     "Could not find the following XSLT file on the file system: " + xslt.getAbsolutePath();
                 LOG.error(errMessage);
                 throw new EBookFormatException(errMessage);
             }
-        }
-        else
-        {
+        } else {
             final String errMessage = "Could not retrieve xslt name through XSLTMapperService. Please make sure "
                 + "an entry for "
                 + collection
@@ -504,20 +459,16 @@ public class TransformerServiceImpl implements TransformerService
         final String title,
         final Long jobInstanceId,
         final String guid,
-        final String[] metadata) throws EBookFormatException
-    {
+        final String[] metadata) throws EBookFormatException {
         final DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(title, jobInstanceId, guid);
 
         final String collection;
         final String docType;
 
-        if (docMetadata != null && StringUtils.isNotEmpty(docMetadata.getCollectionName()))
-        {
+        if (docMetadata != null && StringUtils.isNotEmpty(docMetadata.getCollectionName())) {
             collection = docMetadata.getCollectionName();
             docType = docMetadata.getDocType();
-        }
-        else
-        {
+        } else {
             final String errMessage = "Could not retrieve document metadata for "
                 + guid
                 + " GUID under book "

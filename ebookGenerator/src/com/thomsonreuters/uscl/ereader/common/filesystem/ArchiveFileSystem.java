@@ -8,8 +8,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Provides access to files and directories specific for archive step of book generation process
  */
-public interface ArchiveFileSystem
-{
+public interface ArchiveFileSystem {
     /**
      * Returns archive directory:
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}

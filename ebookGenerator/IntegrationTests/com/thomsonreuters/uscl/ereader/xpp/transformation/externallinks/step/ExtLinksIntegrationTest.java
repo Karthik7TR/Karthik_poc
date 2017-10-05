@@ -31,8 +31,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = OriginalStructureTransformationStepIntegrationTestConfiguration.class)
 @ActiveProfiles("IntegrationTests")
-public final class ExtLinksIntegrationTest
-{
+public final class ExtLinksIntegrationTest {
     private static final String REF_PLACE_HOLDER = "${refPlaceHolder}";
     private static final String MATERIAL_NUMBER = "88005553535";
     @Resource(name = "externalLinksXppStepBean")
@@ -51,8 +50,7 @@ public final class ExtLinksIntegrationTest
     private File htmlDir;
 
     @Before
-    public void setUp() throws URISyntaxException, IOException
-    {
+    public void setUp() throws URISyntaxException, IOException {
         htmlDir = fileSystem.getHtmlPagesDirectory(sut, MATERIAL_NUMBER);
         FileUtils.forceMkdir(htmlDir);
         sourceDir = new File(ExtLinksIntegrationTest.class.getResource("source").toURI());
@@ -69,8 +67,7 @@ public final class ExtLinksIntegrationTest
     }
 
     @Test
-    public void shouldTransformExternalLinks() throws Exception
-    {
+    public void shouldTransformExternalLinks() throws Exception {
         //given
         //when
         sut.executeTransformation();
@@ -80,19 +77,16 @@ public final class ExtLinksIntegrationTest
     }
 
     @After
-    public void cleanUp() throws IOException
-    {
+    public void cleanUp() throws IOException {
         FileUtils.deleteDirectory(actualExternalLinksDir.getParentFile().getParentFile().getParentFile());
     }
 
     @Configuration
     @Profile("IntegrationTests")
     @Import(CommonTestContextConfiguration.class)
-    public static class TestConfig
-    {
+    public static class TestConfig {
         @Bean(name = "externalLinksXppStepBean")
-        public ExternalLinksXppStep externalLinksXppStepBean()
-        {
+        public ExternalLinksXppStep externalLinksXppStepBean() {
             return new ExternalLinksXppStep();
         }
     }

@@ -13,16 +13,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class GZIPServiceTest
-{
+public final class GZIPServiceTest {
     private GZIPService service;
     private File tmpRootDir;
     private File destDir;
     private File tarball;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         service = new GZIPService();
         tmpRootDir = new File(System.getProperty("java.io.tmpdir") + "/" + this.getClass().getName());
         tmpRootDir.mkdir();
@@ -32,20 +30,15 @@ public final class GZIPServiceTest
     }
 
     @After
-    public void tearDown() throws IOException
-    {
+    public void tearDown() throws IOException {
         FileUtils.deleteDirectory(tmpRootDir);
     }
 
     @Test
-    public void testHappyPath()
-    {
-        try
-        {
+    public void testHappyPath() {
+        try {
             service.decompress(tarball, destDir);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail("exception thrown: " + e.getMessage());
         }
@@ -65,17 +58,13 @@ public final class GZIPServiceTest
     }
 
     @Test
-    public void testMissingTarball()
-    {
+    public void testMissingTarball() {
         tarball = new File("definitely_not_real.bad");
         final String expectedError = String.format(XPPConstants.ERROR_TARBALL_NOT_FOUND, tarball.getAbsolutePath());
         String msg = null;
-        try
-        {
+        try {
             service.decompress(tarball, destDir);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             msg = e.getMessage();
         }
         Assert.assertEquals(expectedError, msg);

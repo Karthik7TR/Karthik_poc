@@ -28,8 +28,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.batch.core.scope.context.ChunkContext;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class AssembleXppStepTest
-{
+public final class AssembleXppStepTest {
     @InjectMocks
     private AssembleXppStep step;
     @Mock
@@ -51,16 +50,14 @@ public final class AssembleXppStepTest
     private File assembledBookFile;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         givenBook(chunkContext, book);
         given(book.getTitleId()).willReturn("titleId");
         givenJobInstanceId(chunkContext, 1L);
     }
 
     @Test
-    public void shouldAssembleSingleVolumeBook() throws Exception
-    {
+    public void shouldAssembleSingleVolumeBook() throws Exception {
         //given
         given(book.isSplitBook()).willReturn(false);
         given(fileSystem.getAssembledBookFile(step)).willReturn(assembledBookFile);
@@ -76,8 +73,7 @@ public final class AssembleXppStepTest
     }
 
     @Test
-    public void shouldAssembleSplitBook() throws Exception
-    {
+    public void shouldAssembleSplitBook() throws Exception {
         //given
         given(book.isSplitBook()).willReturn(true);
         given(fileSystem.getAssembledSplitTitleFile(step, "an/splitTitle")).willReturn(assembledBookFile);

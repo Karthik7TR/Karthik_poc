@@ -25,8 +25,7 @@ import org.springframework.stereotype.Component;
  * Place Xpp metadata tags to FrontMatter document of bundle main content files
  */
 @Component
-public class FrontMatterPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTransformStrategy
-{
+public class FrontMatterPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTransformStrategy {
     private final File xslTransformationFile;
     private final XppFormatFileSystem xppFormatFileSystem;
 
@@ -35,8 +34,7 @@ public class FrontMatterPlaceXppMetadataStrategy extends AbstractPlaceXppMetadat
         final XslTransformationService xslTransformationService,
         final TransformerBuilderFactory transformerBuilderFactory,
         final XppFormatFileSystem xppFormatFileSystem,
-        @Value("${xpp.add.metadata.to.frontmatter.xsl}") final File xslTransformationFile)
-    {
+        @Value("${xpp.add.metadata.to.frontmatter.xsl}") final File xslTransformationFile) {
         super(xslTransformationService, transformerBuilderFactory, new HashSet<>(Arrays.asList(BundleFileType.FRONT)));
         this.xslTransformationFile = xslTransformationFile;
         this.xppFormatFileSystem = xppFormatFileSystem;
@@ -47,10 +45,11 @@ public class FrontMatterPlaceXppMetadataStrategy extends AbstractPlaceXppMetadat
     protected List<TransformationCommand> getTransformationCommands(
         @NotNull final File inputFile,
         @NotNull final String materialNumber,
-        @NotNull final XppBookStep step)
-    {
-        final Transformer transformer = transformerBuilderFactory.create().withXsl(xslTransformationFile)
-            .withParameter("isMultiVolume", step.getXppBundles().size() > 1).build();
+        @NotNull final XppBookStep step) {
+        final Transformer transformer = transformerBuilderFactory.create()
+            .withXsl(xslTransformationFile)
+            .withParameter("isMultiVolume", step.getXppBundles().size() > 1)
+            .build();
         final File outputFile =
             xppFormatFileSystem.getStructureWithMetadataFile(step, materialNumber, inputFile.getName());
         return asList(new TransformationCommandBuilder(transformer, outputFile).withInput(inputFile).build());

@@ -24,12 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 
-public class DocMetadataDaoImpl implements DocMetadataDao
-{
+public class DocMetadataDaoImpl implements DocMetadataDao {
     private SessionFactory sessionFactory;
 
-    public DocMetadataDaoImpl(final SessionFactory hibernateSessionFactory)
-    {
+    public DocMetadataDaoImpl(final SessionFactory hibernateSessionFactory) {
         sessionFactory = hibernateSessionFactory;
     }
 
@@ -41,8 +39,7 @@ public class DocMetadataDaoImpl implements DocMetadataDao
      *
      *
      */
-    public boolean canBeMerged(final DocMetadata entity)
-    {
+    public boolean canBeMerged(final DocMetadata entity) {
         return true;
     }
 
@@ -58,8 +55,7 @@ public class DocMetadataDaoImpl implements DocMetadataDao
      */
     @Override
     @Transactional
-    public Map<String, String> findDocMetadataMapByDocUuid(final String docUuid) throws DataAccessException
-    {
+    public Map<String, String> findDocMetadataMapByDocUuid(final String docUuid) throws DataAccessException {
         final Map<String, String> mp = new HashMap<>();
 
         final Query query = createNamedQuery("findDocMetadataMapByDocUuid");
@@ -67,8 +63,7 @@ public class DocMetadataDaoImpl implements DocMetadataDao
 
         final List<String> docFamilyGuidList = query.list();
 
-        for (int i = 0; i < docFamilyGuidList.size(); i++)
-        {
+        for (int i = 0; i < docFamilyGuidList.size(); i++) {
             mp.put(docFamilyGuidList.get(i), docUuid);
         }
 
@@ -79,8 +74,7 @@ public class DocMetadataDaoImpl implements DocMetadataDao
      * (non-Javadoc)
      */
     @Transactional
-    public Query createNamedQuery(final String queryName)
-    {
+    public Query createNamedQuery(final String queryName) {
         final Query query = sessionFactory.getCurrentSession().getNamedQuery(queryName);
         return query;
     }
@@ -89,8 +83,7 @@ public class DocMetadataDaoImpl implements DocMetadataDao
      * (non-Javadoc)
      */
     @Transactional
-    public DocMetadata persist(final DocMetadata toPersist)
-    {
+    public DocMetadata persist(final DocMetadata toPersist) {
         sessionFactory.getCurrentSession().save(toPersist);
         flush();
         return toPersist;
@@ -101,8 +94,7 @@ public class DocMetadataDaoImpl implements DocMetadataDao
      */
     @Override
     @Transactional
-    public void remove(DocMetadata toRemove)
-    {
+    public void remove(DocMetadata toRemove) {
         toRemove = (DocMetadata) sessionFactory.getCurrentSession().merge(toRemove);
         sessionFactory.getCurrentSession().delete(toRemove);
         flush();
@@ -112,8 +104,7 @@ public class DocMetadataDaoImpl implements DocMetadataDao
      * (non-Javadoc)
      */
     @Transactional
-    public void update(final DocMetadata toUpdate)
-    {
+    public void update(final DocMetadata toUpdate) {
         sessionFactory.getCurrentSession().update(toUpdate);
         flush();
     }
@@ -122,21 +113,18 @@ public class DocMetadataDaoImpl implements DocMetadataDao
      * (non-Javadoc)
      */
     @Transactional
-    public void flush()
-    {
+    public void flush() {
         sessionFactory.getCurrentSession().flush();
     }
 
     @Override
-    public DocMetadata findDocMetadataByPrimaryKey(final DocMetadataPK pk)
-    {
+    public DocMetadata findDocMetadataByPrimaryKey(final DocMetadataPK pk) {
         final Session session = sessionFactory.getCurrentSession();
         return (DocMetadata) session.get(DocMetadata.class, pk);
     }
 
     @Override
-    public Map<String, String> findDistinctFamilyGuidsByJobId(final Long jobInstanceId)
-    {
+    public Map<String, String> findDistinctFamilyGuidsByJobId(final Long jobInstanceId) {
         final Session session = sessionFactory.getCurrentSession();
 
         final List<Object[]> docMetaList = session.createCriteria(DocMetadata.class)
@@ -153,8 +141,7 @@ public class DocMetadataDaoImpl implements DocMetadataDao
 
         final Map<String, String> docMap = new HashMap<>();
 
-        for (final Object[] arr : docMetaList)
-        {
+        for (final Object[] arr : docMetaList) {
             if (arr[1] != null) // Xena content has no docFamilyGuid
             {
                 docMap.put(arr[0].toString(), arr[1].toString());
@@ -164,8 +151,7 @@ public class DocMetadataDaoImpl implements DocMetadataDao
     }
 
     @Override
-    public List<String> findDistinctSplitTitlesByJobId(final Long jobInstanceId)
-    {
+    public List<String> findDistinctSplitTitlesByJobId(final Long jobInstanceId) {
         final Session session = sessionFactory.getCurrentSession();
 
         final List<String> docMetaList = session.createCriteria(DocMetadata.class)
@@ -177,8 +163,7 @@ public class DocMetadataDaoImpl implements DocMetadataDao
 
         final List<String> splitTitleIdList = new ArrayList<>();
 
-        if (docMetaList.size() > 0)
-        {
+        if (docMetaList.size() > 0) {
             splitTitleIdList.addAll(docMetaList);
         }
 
@@ -187,8 +172,7 @@ public class DocMetadataDaoImpl implements DocMetadataDao
 
     @Override
     @Transactional
-    public void saveMetadata(final DocMetadata metadata)
-    {
+    public void saveMetadata(final DocMetadata metadata) {
         final Session session = sessionFactory.getCurrentSession();
         session.save(metadata);
         session.flush();
@@ -196,16 +180,14 @@ public class DocMetadataDaoImpl implements DocMetadataDao
 
     @Override
     @Transactional
-    public void updateMetadata(final DocMetadata metadata)
-    {
+    public void updateMetadata(final DocMetadata metadata) {
         final Session session = sessionFactory.getCurrentSession();
         session.update(metadata);
         session.flush();
     }
 
     @Override
-    public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(final Long jobInstanceId)
-    {
+    public DocumentMetadataAuthority findAllDocMetadataForTitleByJobId(final Long jobInstanceId) {
         final Session session = sessionFactory.getCurrentSession();
 
         // Using LinkedHashSet to preserve insertion order based on what is returned from DB
@@ -235,20 +217,16 @@ public class DocMetadataDaoImpl implements DocMetadataDao
     @Override
     @Transactional
     public DocMetadata findDocMetadataMapByPartialCiteMatchAndJobId(final Long jobInstanceId, final String cite)
-        throws DataAccessException
-    {
+        throws DataAccessException {
         final Query query = createNamedQuery("findDocumentMetaDataByCiteAndJobId");
         query.setParameter("jobInstaneId", jobInstanceId);
         query.setParameter("normalizedCite", "%" + cite);
 
         final List<DocMetadata> docMetaDataList = query.list();
 
-        if (docMetaDataList.size() > 0)
-        {
+        if (docMetaDataList.size() > 0) {
             return docMetaDataList.get(0);
-        }
-        else
-        {
+        } else {
             return null;
         }
     }

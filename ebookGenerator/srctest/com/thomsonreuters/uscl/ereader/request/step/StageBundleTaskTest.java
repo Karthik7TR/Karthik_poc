@@ -29,8 +29,7 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.item.ExecutionContext;
 
-public final class StageBundleTaskTest
-{
+public final class StageBundleTaskTest {
     private StageBundleTask tasklet;
     private GZIPService mockGZIP;
     private XppBundleValidator mockBundleValidator;
@@ -48,8 +47,7 @@ public final class StageBundleTaskTest
     private File tarball;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         mockGZIP = EasyMock.createMock(GZIPService.class);
         mockBundleValidator = EasyMock.createMock(XppBundleValidator.class);
         mockCoreService = EasyMock.createMock(CoreService.class);
@@ -79,14 +77,12 @@ public final class StageBundleTaskTest
     }
 
     @After
-    public void TearDown() throws IOException
-    {
+    public void TearDown() throws IOException {
         FileUtils.deleteDirectory(tempRootDir);
     }
 
     @Test
-    public void testHappyPath() throws Exception
-    {
+    public void testHappyPath() throws Exception {
         ExitStatus exitCode = null;
         final XppBundleArchive request =
             createRequest("1.0", "ThisIsAnId", "ThisIsTheHash", new Date(1487201107046L), tarball.getAbsolutePath());
@@ -102,23 +98,18 @@ public final class StageBundleTaskTest
         mockBundleValidator.validateBundleXml(bundle);
         EasyMock.expectLastCall();
         replayAll();
-        try
-        {
+        try {
             exitCode = tasklet.executeStep(mockContribution, mockChunkContext);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail("exception thrown unexpectedly: " + e.getMessage());
         }
         Assert.assertEquals(ExitStatus.COMPLETED, exitCode);
     }
 
-    private void writeFile(final File dir, final String name, final String content) throws Exception
-    {
+    private void writeFile(final File dir, final String name, final String content) throws Exception {
         dir.mkdirs();
-        try (OutputStream outStream = new FileOutputStream(new File(dir, name)))
-        {
+        try (OutputStream outStream = new FileOutputStream(new File(dir, name))) {
             outStream.write(content.getBytes());
         }
     }
@@ -128,8 +119,7 @@ public final class StageBundleTaskTest
         final String messageId,
         final String bundleHash,
         final Date dateTime,
-        final String ebookSrcFile)
-    {
+        final String ebookSrcFile) {
         final XppBundleArchive request = new XppBundleArchive();
         request.setVersion(version);
         request.setMessageId(messageId);
@@ -139,16 +129,14 @@ public final class StageBundleTaskTest
         return request;
     }
 
-    private static XppBundle createBundle(final String productTitle, final String productType)
-    {
+    private static XppBundle createBundle(final String productTitle, final String productType) {
         final XppBundle bundle = new XppBundle();
         bundle.setProductTitle(productTitle);
         bundle.setProductType(productType);
         return bundle;
     }
 
-    private void mockGetJobExecutionContext(final ChunkContext mockChunk, final ExecutionContext mockExecution)
-    {
+    private void mockGetJobExecutionContext(final ChunkContext mockChunk, final ExecutionContext mockExecution) {
         final StepContext step = EasyMock.createMock(StepContext.class);
         final StepExecution stepExecution = EasyMock.createMock(StepExecution.class);
         final JobExecution jobExecution = EasyMock.createMock(JobExecution.class);
@@ -163,8 +151,7 @@ public final class StageBundleTaskTest
         EasyMock.replay(jobExecution);
     }
 
-    private void mockGetJobParameters(final ChunkContext mockChunk, final JobParameters mockParameters)
-    {
+    private void mockGetJobParameters(final ChunkContext mockChunk, final JobParameters mockParameters) {
         final StepContext step = EasyMock.createMock(StepContext.class);
         final StepExecution stepExecution = EasyMock.createMock(StepExecution.class);
 
@@ -176,8 +163,7 @@ public final class StageBundleTaskTest
         EasyMock.replay(stepExecution);
     }
 
-    private void replayAll()
-    {
+    private void replayAll() {
         EasyMock.replay(mockGZIP);
         EasyMock.replay(mockBundleValidator);
         EasyMock.replay(mockCoreService);

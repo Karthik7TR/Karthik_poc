@@ -31,8 +31,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-public final class GenerateSplitTaskTest
-{
+public final class GenerateSplitTaskTest {
     private InputStream tocXml;
     private OutputStream splitTocXml;
     private File tranformedDirectory;
@@ -49,8 +48,7 @@ public final class GenerateSplitTaskTest
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         generateSplitTocTask = new GenerateSplitTocTask();
         splitTocGuidList = new ArrayList<>();
         final String guid1 = "TABLEOFCONTENTS33CHARACTERSLONG_2";
@@ -82,8 +80,7 @@ public final class GenerateSplitTaskTest
     }
 
     @Test
-    public void stringTest()
-    {
+    public void stringTest() {
         final String s =
             "er:uscl/an/book_lohisplittoctest28_2/0#I90AD73D079DE11DDB771B1D8BA9725E3/NDFF943C0B65511D8983DF34406B5929B1";
 
@@ -101,8 +98,7 @@ public final class GenerateSplitTaskTest
     }
 
     @Test
-    public void testSplitTocHappyPath() throws Exception
-    {
+    public void testSplitTocHappyPath() throws Exception {
         Map<String, DocumentInfo> documentInfoMap = new HashMap<>();
         final File documentFile1 = new File(tranformedDirectory, "DOC_GUID1.transformed");
         writeDocumentLinkFile(documentFile1, false);
@@ -150,8 +146,7 @@ public final class GenerateSplitTaskTest
     }
 
     @Test
-    public void testGenerateSplitToc() throws Exception
-    {
+    public void testGenerateSplitToc() throws Exception {
         final FileExtensionFilter fileExtFilter;
         final FileHandlingHelper mockfileHandlingHelper;
         fileExtFilter = EasyMock.createMock(FileExtensionFilter.class);
@@ -188,16 +183,12 @@ public final class GenerateSplitTaskTest
         Assert.assertEquals(expectedDocInfo2.toString(), docInfo2.toString());
     }
 
-    protected void writeDocumentLinkFile(final File tFile, final boolean addNewLine)
-    {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(tFile)))
-        {
+    protected void writeDocumentLinkFile(final File tFile, final boolean addNewLine) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(tFile))) {
             writer.write("Write anything");
 
             writer.flush();
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String errMessage = "Encountered an IO Exception while processing: " + tFile.getAbsolutePath();
             LOG.error(errMessage, e);
         }

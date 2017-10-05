@@ -24,8 +24,7 @@ import org.hibernate.exception.GenericJDBCException;
 import org.springframework.beans.factory.annotation.Required;
 import org.xml.sax.SAXException;
 
-public class AutoSplitGuidsServiceImpl implements AutoSplitGuidsService
-{
+public class AutoSplitGuidsServiceImpl implements AutoSplitGuidsService {
     private BookDefinitionService bookDefinitionService;
     private PublishingStatsService publishingStatsService;
     private EBookAuditService eBookAuditService;
@@ -34,35 +33,29 @@ public class AutoSplitGuidsServiceImpl implements AutoSplitGuidsService
     private Map<String, String> splitGuidTextMap = new HashMap<String, String>();
 
     @Override
-    public Map<String, String> getSplitGuidTextMap()
-    {
+    public Map<String, String> getSplitGuidTextMap() {
         return splitGuidTextMap;
     }
 
-    public void setSplitGuidTextMap(final Map<String, String> splitGuidTextMap)
-    {
+    public void setSplitGuidTextMap(final Map<String, String> splitGuidTextMap) {
         this.splitGuidTextMap = splitGuidTextMap;
     }
 
-    public EBookAuditService geteBookAuditService()
-    {
+    public EBookAuditService geteBookAuditService() {
         return eBookAuditService;
     }
 
     @Required
-    public void seteBookAuditService(final EBookAuditService eBookAuditService)
-    {
+    public void seteBookAuditService(final EBookAuditService eBookAuditService) {
         this.eBookAuditService = eBookAuditService;
     }
 
-    public PublishingStatsService getPublishingStatsService()
-    {
+    public PublishingStatsService getPublishingStatsService() {
         return publishingStatsService;
     }
 
     @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
 
@@ -72,20 +65,16 @@ public class AutoSplitGuidsServiceImpl implements AutoSplitGuidsService
         final BookDefinition bookDefinition,
         final Integer tocNodeCount,
         final Long jobInstanceId,
-        final boolean metrics)
-    {
-        try
-        {
+        final boolean metrics) {
+        try {
             List<String> splitTocGuidList = new ArrayList<>();
 
             //Check split documents in database in case we might have deleted in earlier steps
             final List<SplitDocument> persistedSplitDocuments =
                 bookDefinitionService.findSplitDocuments(bookDefinition.getEbookDefinitionId());
 
-            if (persistedSplitDocuments != null && persistedSplitDocuments.size() > 0 && !metrics)
-            {
-                for (final SplitDocument splitDocument : persistedSplitDocuments)
-                {
+            if (persistedSplitDocuments != null && persistedSplitDocuments.size() > 0 && !metrics) {
+                for (final SplitDocument splitDocument : persistedSplitDocuments) {
                     splitTocGuidList.add(splitDocument.getTocGuid());
                 }
                 return splitTocGuidList;
@@ -102,8 +91,7 @@ public class AutoSplitGuidsServiceImpl implements AutoSplitGuidsService
 
             final List<SplitDocument> splitDocuments = new ArrayList<>();
             int parts = 1;
-            for (final String node : splitTocGuidList)
-            {
+            for (final String node : splitTocGuidList) {
                 parts++;
                 final SplitDocument splitDocument = new SplitDocument();
                 splitDocument.setBookDefinition(bookDefinition);
@@ -113,8 +101,7 @@ public class AutoSplitGuidsServiceImpl implements AutoSplitGuidsService
                 splitDocuments.add(splitDocument);
             }
 
-            if (!metrics)
-            {
+            if (!metrics) {
                 bookDefinitionService
                     .saveSplitDocumentsforEBook(bookDefinition.getEbookDefinitionId(), splitDocuments, parts);
                 final EbookAudit eBookAudit = publishingStatsService.findAuditInfoByJobId(jobInstanceId);
@@ -124,36 +111,25 @@ public class AutoSplitGuidsServiceImpl implements AutoSplitGuidsService
             }
 
             return splitTocGuidList;
-        }
-        catch (final ParserConfigurationException e)
-        {
+        } catch (final ParserConfigurationException e) {
             throw new RuntimeException("Failed to configure SAX Parser when generating title manifest.", e);
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             throw new RuntimeException("A SAXException occurred while generating the title manifest.", e);
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new RuntimeException("An IOException occurred while generating the title manifest.", e);
-        }
-        catch (final GenericJDBCException e)
-        {
+        } catch (final GenericJDBCException e) {
             e.printStackTrace();
             throw new RuntimeException("An GenericJDBCException occurred while generating the title manifest.", e);
         }
     }
 
-    private String maxString(final String buffer, final int maxCharacters)
-    {
+    private String maxString(final String buffer, final int maxCharacters) {
         return StringUtils.abbreviate(buffer.toString(), maxCharacters);
     }
 
-    private String concatString(final Collection<?> collection)
-    {
+    private String concatString(final Collection<?> collection) {
         final StringBuilder buffer = new StringBuilder();
-        for (final Object item : collection)
-        {
+        for (final Object item : collection) {
             buffer.append(item.toString());
             buffer.append(", ");
         }
@@ -161,8 +137,7 @@ public class AutoSplitGuidsServiceImpl implements AutoSplitGuidsService
         return buffer.toString();
     }
 
-    public int getSizeforEachPart(final Integer thresholdValue, final Integer tocNodeCount)
-    {
+    public int getSizeforEachPart(final Integer thresholdValue, final Integer tocNodeCount) {
         int partSize = 0;
         final int parts = (tocNodeCount / thresholdValue) + 1;
         partSize = tocNodeCount / parts;
@@ -170,14 +145,12 @@ public class AutoSplitGuidsServiceImpl implements AutoSplitGuidsService
         return partSize;
     }
 
-    public BookDefinitionService getBookDefinitionService()
-    {
+    public BookDefinitionService getBookDefinitionService() {
         return bookDefinitionService;
     }
 
     @Required
-    public void setBookDefinitionService(final BookDefinitionService bookDefinitionService)
-    {
+    public void setBookDefinitionService(final BookDefinitionService bookDefinitionService) {
         this.bookDefinitionService = bookDefinitionService;
     }
 }

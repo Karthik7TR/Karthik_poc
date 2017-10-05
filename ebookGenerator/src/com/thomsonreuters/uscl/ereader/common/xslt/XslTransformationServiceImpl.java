@@ -31,22 +31,17 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 @Service("xslTransformationService")
-public class XslTransformationServiceImpl implements XslTransformationService
-{
+public class XslTransformationServiceImpl implements XslTransformationService {
     private static final Logger LOG = LogManager.getLogger(XslTransformationServiceImpl.class);
     private static final String START_WRAPPER_TAG = "<Document>";
     private static final String END_WRAPPER_TAG = "</Document>";
     private static final String DOCTYPE = "<!DOCTYPE root SYSTEM \"%s\">%n";
 
     @Override
-    public void transform(@NotNull final TransformationCommand command)
-    {
-        try
-        {
+    public void transform(@NotNull final TransformationCommand command) {
+        try {
             transformInner(command);
-        }
-        catch (final IOException | TransformerException e)
-        {
+        } catch (final IOException | TransformerException e) {
             final String message = String.format(
                 "Transformation error. Cannot transform %s to %s",
                 command.getInputPath(),
@@ -56,22 +51,18 @@ public class XslTransformationServiceImpl implements XslTransformationService
         }
     }
 
-    private void transformInner(@NotNull final TransformationCommand command) throws IOException, TransformerException
-    {
+    private void transformInner(@NotNull final TransformationCommand command) throws IOException, TransformerException {
         final long start = System.currentTimeMillis();
         final File output = command.getOutputFile();
         final File tempInputFile = Files.createTempFile(command.getOutputFile().getName(), "input").toFile();
         final File tempOutputFile = new File(output, "temp");
 
-        try (final InputStream inputStream = getInputStream(command, tempInputFile))
-        {
+        try (final InputStream inputStream = getInputStream(command, tempInputFile)) {
             final File out = output.isDirectory() ? tempOutputFile : output;
             command.getTransformer().transform(new StreamSource(inputStream), new StreamResult(out));
             final long duration = System.currentTimeMillis() - start;
             LOG.debug(String.format("Transformed to %s. Total time: %dms", output.getAbsolutePath(), duration));
-        }
-        finally
-        {
+        } finally {
             if (tempInputFile.exists())
                 forceDelete(tempInputFile);
             if (tempOutputFile.exists())
@@ -79,29 +70,24 @@ public class XslTransformationServiceImpl implements XslTransformationService
         }
     }
 
-    private InputStream getInputStream(final TransformationCommand command, final File tempInputFile) throws IOException
-    {
+    private InputStream getInputStream(final TransformationCommand command, final File tempInputFile)
+        throws IOException {
         final String dtdDefinition =
             command.getDtdFile() != null ? String.format(DOCTYPE, command.getDtdFile().getAbsolutePath()) : null;
-        if (command.isMultiInput())
-        {
+        if (command.isMultiInput()) {
             return getMultiFilesStream(command, dtdDefinition);
-        }
-        else
-        {
+        } else {
             return getSingleFileInputStream(command, tempInputFile, dtdDefinition);
         }
     }
 
     private InputStream getMultiFilesStream(final TransformationCommand command, final String dtdDefinition)
-        throws FileNotFoundException
-    {
+        throws FileNotFoundException {
         final List<InputStream> inputStreams = new ArrayList<>();
         if (dtdDefinition != null)
             inputStreams.add(new ByteArrayInputStream(dtdDefinition.getBytes()));
         inputStreams.add(new ByteArrayInputStream(START_WRAPPER_TAG.getBytes()));
-        for (final File inputFile : command.getInputFiles())
-        {
+        for (final File inputFile : command.getInputFiles()) {
             inputStreams.add(new FileInputStream(inputFile));
         }
         inputStreams.add(new ByteArrayInputStream(END_WRAPPER_TAG.getBytes()));
@@ -111,14 +97,10 @@ public class XslTransformationServiceImpl implements XslTransformationService
     private InputStream getSingleFileInputStream(
         final TransformationCommand command,
         final File tempInputFile,
-        final String dtdDefinition) throws IOException
-    {
-        if (dtdDefinition == null)
-        {
+        final String dtdDefinition) throws IOException {
+        if (dtdDefinition == null) {
             return openInputStream(command.getInputFile());
-        }
-        else
-        {
+        } else {
             final List<InputStream> inputStreams = new ArrayList<>();
             inputStreams.add(new ByteArrayInputStream(dtdDefinition.getBytes()));
             inputStreams.add(getInputWithoutXmlDeclaration(command, tempInputFile));
@@ -127,21 +109,17 @@ public class XslTransformationServiceImpl implements XslTransformationService
     }
 
     private InputStream getInputWithoutXmlDeclaration(final TransformationCommand command, final File tempInputFile)
-        throws IOException
-    {
+        throws IOException {
         final FileInputStream openInputStream = openInputStream(command.getInputFile());
         try (final BufferedReader reader = new BufferedReader(new InputStreamReader(openInputStream, "UTF-8"));
-            final BufferedWriter writer =
-                new BufferedWriter(new OutputStreamWriter(new FileOutputStream(tempInputFile), StandardCharsets.UTF_8)))
-        {
+            final BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(new FileOutputStream(tempInputFile), StandardCharsets.UTF_8))) {
             final String firstLine = reader.readLine();
-            if (firstLine != null && !firstLine.contains("<?xml "))
-            {
+            if (firstLine != null && !firstLine.contains("<?xml ")) {
                 writer.write(firstLine + System.getProperty("line.separator"));
             }
             String currentLine;
-            while ((currentLine = reader.readLine()) != null)
-            {
+            while ((currentLine = reader.readLine()) != null) {
                 writer.write(currentLine + System.getProperty("line.separator"));
             }
         }

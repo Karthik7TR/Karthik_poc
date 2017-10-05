@@ -13,8 +13,7 @@ import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppBookStep;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class AbstractPlaceXppMetadataTransformStrategy implements PlaceXppMetadataStrategy
-{
+public abstract class AbstractPlaceXppMetadataTransformStrategy implements PlaceXppMetadataStrategy {
     private final XslTransformationService xslTransformationService;
     protected final TransformerBuilderFactory transformerBuilderFactory;
     private final Set<BundleFileType> bundleFileTypes;
@@ -22,8 +21,7 @@ public abstract class AbstractPlaceXppMetadataTransformStrategy implements Place
     protected AbstractPlaceXppMetadataTransformStrategy(
         @NotNull final XslTransformationService xslTransformationService,
         @NotNull final TransformerBuilderFactory transformerBuilderFactory,
-        @NotNull final Set<BundleFileType> bundleFileTypes)
-    {
+        @NotNull final Set<BundleFileType> bundleFileTypes) {
         this.xslTransformationService = xslTransformationService;
         this.transformerBuilderFactory = transformerBuilderFactory;
         this.bundleFileTypes = bundleFileTypes;
@@ -31,8 +29,7 @@ public abstract class AbstractPlaceXppMetadataTransformStrategy implements Place
 
     @NotNull
     @Override
-    public Set<BundleFileType> getBundleFileTypes()
-    {
+    public Set<BundleFileType> getBundleFileTypes() {
         return bundleFileTypes;
     }
 
@@ -40,10 +37,8 @@ public abstract class AbstractPlaceXppMetadataTransformStrategy implements Place
     public void performHandling(
         @NotNull final File inputFile,
         @NotNull final String materialNumber,
-        @NotNull final XppBookStep step)
-    {
-        for (final TransformationCommand command : getTransformationCommands(inputFile, materialNumber, step))
-        {
+        @NotNull final XppBookStep step) {
+        for (final TransformationCommand command : getTransformationCommands(inputFile, materialNumber, step)) {
             final Transformer transformer = command.getTransformer();
             transformer.setParameter("volumeName", materialNumber);
             xslTransformationService.transform(command);

@@ -42,8 +42,7 @@ import org.junit.rules.TemporaryFolder;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
-public final class SplitTocManifestFilterTest extends TitleMetadataTestBase
-{
+public final class SplitTocManifestFilterTest extends TitleMetadataTestBase {
     private UuidGenerator uuidGenerator;
     private SAXParserFactory saxParserFactory;
     private SplitTocManifestFilter splitTocManifestFilterTest;
@@ -74,8 +73,7 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase
 
     @Override
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         // Add 2 years to the current date for online expiration
         final Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
@@ -121,17 +119,14 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase
 
     @Override
     @After
-    public void tearDown() throws Exception
-    {
+    public void tearDown() throws Exception {
         //Intentionally left blank
     }
 
     @Test
-    public void testVoidInput()
-    {
+    public void testVoidInput() {
         // titleMetadata test
-        try
-        {
+        try {
             new SplitTocManifestFilter(
                 null,
                 new HashMap<String, String>(),
@@ -141,15 +136,12 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase
                 mockPlaceholderDocumentService,
                 docImageMap);
             fail("Should throw IllegalArugmentException");
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             // expected exception
             e.printStackTrace();
         }
         // docImage Map test
-        try
-        {
+        try {
             new SplitTocManifestFilter(
                 titleMetadata,
                 null,
@@ -159,15 +151,12 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase
                 mockPlaceholderDocumentService,
                 docImageMap);
             fail("Should throw IllegalArugmentException");
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             // expected exception
             e.printStackTrace();
         }
         // uuidGenerator test
-        try
-        {
+        try {
             new SplitTocManifestFilter(
                 titleMetadata,
                 new HashMap<String, String>(),
@@ -177,15 +166,12 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase
                 mockPlaceholderDocumentService,
                 docImageMap);
             fail("Should throw IllegalArugmentException");
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             // expected exception
             e.printStackTrace();
         }
         // activeDirectory tests
-        try
-        {
+        try {
             new SplitTocManifestFilter(
                 titleMetadata,
                 new HashMap<String, String>(),
@@ -195,32 +181,26 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase
                 mockPlaceholderDocumentService,
                 docImageMap);
             fail("Should throw IllegalArugmentException");
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             // expected exception
             e.printStackTrace();
         }
-        try
-        {
+        try {
             new SplitTocManifestFilter(
                 titleMetadata,
                 new HashMap<String, String>(),
                 uuidGenerator,
-                new File("test"),//TODO this file is not deleted
+                new File("test"), //TODO this file is not deleted
                 mockFileUtilsFacade,
                 mockPlaceholderDocumentService,
                 docImageMap);
             fail("Should throw IllegalArugmentException");
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             // expected exception
             e.printStackTrace();
         }
         // file utilities facade test
-        try
-        {
+        try {
             new SplitTocManifestFilter(
                 titleMetadata,
                 new HashMap<String, String>(),
@@ -230,15 +210,12 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase
                 mockPlaceholderDocumentService,
                 docImageMap);
             fail("Should throw IllegalArugmentException");
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             // expected exception
             e.printStackTrace();
         }
         // placeholder document services test
-        try
-        {
+        try {
             new SplitTocManifestFilter(
                 titleMetadata,
                 new HashMap<String, String>(),
@@ -248,9 +225,7 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase
                 null,
                 docImageMap);
             fail("Should throw IllegalArugmentException");
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             // expected exception
             e.printStackTrace();
         }
@@ -263,23 +238,20 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase
      * }catch(SAXException e){ //expected exception e.printStackTrace(); } }
      */
     @Test
-    public void testStartDocument() throws Exception
-    {
+    public void testStartDocument() throws Exception {
         splitTocManifestFilterTest.startDocument();
         splitTocManifestFilterTest.endDocument();
         Assert.assertEquals("<title/>", resultStreamToString(resultStream));
     }
 
     @Test
-    public void testEndDocumentWithoutParsingToc() throws Exception
-    {
+    public void testEndDocumentWithoutParsingToc() throws Exception {
         splitTocManifestFilterTest.endDocument();
         Assert.assertEquals(EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
     }
 
     @Test
-    public void testEndDocumentWithParsingToc() throws Exception
-    {
+    public void testEndDocumentWithParsingToc() throws Exception {
         splitTocManifestFilterTest.parse(new InputSource(tocXml));
         final String expected = "<title><toc><titlebreak/>"
             + "<entry s=\"yarr/pirates#FrontMatterTitle/FrontMatterTitleAnchor\"><text>Title Page</text></entry>"
@@ -291,8 +263,7 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testTitleManifestFilterHappyPath() throws Exception
-    {
+    public void testTitleManifestFilterHappyPath() throws Exception {
         titleMetadata.setTitleId("uscl/an/book_splittitletest");
         final InputStream immigrationProceduresHandbook =
             SplitTocManifestFilterTest.class.getResourceAsStream("SPLIT_TOC.xml");
@@ -307,8 +278,7 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testFamilyGuidReplacementHappyPath() throws Exception
-    {
+    public void testFamilyGuidReplacementHappyPath() throws Exception {
         final Map<String, String> familyGuidMap = new HashMap<>();
         familyGuidMap.put("DOC_GUID1", "FAM_GUID1");
         familyGuidMap.put("DOC_GUID2", "FAM_GUID2");
@@ -353,8 +323,7 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testDuplicateDocGuidHappyPath() throws Exception
-    {
+    public void testDuplicateDocGuidHappyPath() throws Exception {
         final Map<String, String> familyGuidMap = new HashMap<>();
         familyGuidMap.put("DOC_GUID1", "FAM_GUID1");
         familyGuidMap.put("DOC_GUID3", "FAM_GUID3");
@@ -398,8 +367,7 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testDuplicateFamilyGuidHappyPath() throws Exception
-    {
+    public void testDuplicateFamilyGuidHappyPath() throws Exception {
         final Map<String, String> familyGuidMap = new HashMap<>();
         familyGuidMap.put("DOC_GUID1", "FAM_GUID1");
         familyGuidMap.put("DOC_GUID2", "FAM_GUID2");
@@ -443,8 +411,7 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testDuplicateDocGuidAndFamilyGuidHappyPath() throws Exception
-    {
+    public void testDuplicateDocGuidAndFamilyGuidHappyPath() throws Exception {
         final Map<String, String> familyGuidMap = new HashMap<>();
         familyGuidMap.put("DOC_GUID1", "FAM_GUID1");
         familyGuidMap.put("DOC_GUID2", "FAM_GUID2");
@@ -497,8 +464,7 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase
      * filter; possibly related to the way we cascade identifiers.
      */
     @Test
-    public void testCascadeAcrossSiblingsWorksProperlyCaFedRules2012() throws Exception
-    {
+    public void testCascadeAcrossSiblingsWorksProperlyCaFedRules2012() throws Exception {
         final Map<String, String> familyGuidMap = new HashMap<>();
         familyGuidMap.put("DOC_GUID1", "FAM_GUID1");
         familyGuidMap.put("DOC_GUID2", "FAM_GUID2");
@@ -534,8 +500,7 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testCaFedRules2012WithoutDeletedNodes() throws Exception
-    {
+    public void testCaFedRules2012WithoutDeletedNodes() throws Exception {
         final InputStream caFedRules2012 =
             SplitTocManifestFilterTest.class.getResourceAsStream("CA_FED_RULES_2012_WITHOUT_DELETED_NODES.xml");
         splitTocManifestFilterTest.parse(new InputSource(caFedRules2012));
@@ -551,8 +516,7 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testWriteTocNodeHappyPath() throws Exception
-    {
+    public void testWriteTocNodeHappyPath() throws Exception {
         final TableOfContents tableOfContents = new TableOfContents();
         tableOfContents.addChild(new TocEntry("TOC1", "DOC1", "FOO", 1));
         tableOfContents.addChild(new TocEntry("TOC2", "DOC2", "BAR", 1));
@@ -570,8 +534,7 @@ public final class SplitTocManifestFilterTest extends TitleMetadataTestBase
         Assert.assertEquals(expected, resultStreamToString(resultStream));
     }
 
-    private String resultStreamToString(final ByteArrayOutputStream resultStream) throws Exception
-    {
+    private String resultStreamToString(final ByteArrayOutputStream resultStream) throws Exception {
         return IOUtils.toString(resultStream.toByteArray(), "UTF-8");
     }
 }

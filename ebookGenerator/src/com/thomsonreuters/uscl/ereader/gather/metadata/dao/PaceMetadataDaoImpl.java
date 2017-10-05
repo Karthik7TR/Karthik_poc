@@ -13,12 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author <a href="mailto:ravi.nandikolla@thomsonreuters.com">Ravi Nandikolla</a> c139353
  */
-public class PaceMetadataDaoImpl implements PaceMetadataDao
-{
+public class PaceMetadataDaoImpl implements PaceMetadataDao {
     private SessionFactory sessionFactory;
 
-    public PaceMetadataDaoImpl(final SessionFactory hibernateSessionFactory)
-    {
+    public PaceMetadataDaoImpl(final SessionFactory hibernateSessionFactory) {
         sessionFactory = hibernateSessionFactory;
     }
 
@@ -26,8 +24,7 @@ public class PaceMetadataDaoImpl implements PaceMetadataDao
      * (non-Javadoc)
      */
     @Override
-    public PaceMetadata findPaceMetadataByPrimaryKey(final Long publicationId) throws DataAccessException
-    {
+    public PaceMetadata findPaceMetadataByPrimaryKey(final Long publicationId) throws DataAccessException {
         final Session session = sessionFactory.getCurrentSession();
         return (PaceMetadata) session.get(PaceMetadata.class, publicationId);
     }
@@ -36,8 +33,7 @@ public class PaceMetadataDaoImpl implements PaceMetadataDao
      * (non-Javadoc)
      */
     @Override
-    public List<PaceMetadata> findPaceMetadataByPubCode(final Long pubCode) throws DataAccessException
-    {
+    public List<PaceMetadata> findPaceMetadataByPubCode(final Long pubCode) throws DataAccessException {
         final Session session = sessionFactory.getCurrentSession();
         final List<PaceMetadata> paceMetadata =
             session.createCriteria(PaceMetadata.class).add(Restrictions.eq("publicationCode", pubCode)).list();
@@ -46,8 +42,7 @@ public class PaceMetadataDaoImpl implements PaceMetadataDao
     }
 
     @Transactional
-    public void flush()
-    {
+    public void flush() {
         sessionFactory.getCurrentSession().flush();
     }
 
@@ -56,8 +51,7 @@ public class PaceMetadataDaoImpl implements PaceMetadataDao
      */
     @Override
     @Transactional
-    public void remove(PaceMetadata toRemove) throws DataAccessException
-    {
+    public void remove(PaceMetadata toRemove) throws DataAccessException {
         toRemove = (PaceMetadata) sessionFactory.getCurrentSession().merge(toRemove);
         sessionFactory.getCurrentSession().delete(toRemove);
         flush();
@@ -68,8 +62,7 @@ public class PaceMetadataDaoImpl implements PaceMetadataDao
      */
     @Override
     @Transactional
-    public void saveMetadata(final PaceMetadata metadata)
-    {
+    public void saveMetadata(final PaceMetadata metadata) {
         final Session session = sessionFactory.getCurrentSession();
         session.save(metadata);
         session.flush();
@@ -80,8 +73,7 @@ public class PaceMetadataDaoImpl implements PaceMetadataDao
      */
     @Override
     @Transactional
-    public void updateMetadata(final PaceMetadata metadata)
-    {
+    public void updateMetadata(final PaceMetadata metadata) {
         sessionFactory.getCurrentSession().update(metadata);
         flush();
     }

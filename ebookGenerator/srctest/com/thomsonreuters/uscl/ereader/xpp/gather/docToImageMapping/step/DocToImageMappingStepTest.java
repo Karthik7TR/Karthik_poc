@@ -25,8 +25,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class DocToImageMappingStepTest
-{
+public final class DocToImageMappingStepTest {
     @InjectMocks
     private DocToImageMappingStep step;
     @Mock
@@ -39,8 +38,7 @@ public final class DocToImageMappingStepTest
     private File mapFile;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         final Map<String, Collection<File>> map = new HashMap<>();
         map.put("123", asList(new File("abc")));
         given(fileSystem.getExternalLinksFiles(step)).willReturn(map);
@@ -54,8 +52,7 @@ public final class DocToImageMappingStepTest
     }
 
     @Test
-    public void shouldTransform() throws Exception
-    {
+    public void shouldTransform() throws Exception {
         //given
         //when
         step.executeStep();

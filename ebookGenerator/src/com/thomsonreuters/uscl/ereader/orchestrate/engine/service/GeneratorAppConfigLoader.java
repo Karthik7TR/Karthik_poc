@@ -20,8 +20,7 @@ import org.springframework.beans.factory.annotation.Required;
 /**
  * Perform initial load of dynamic application configurations.
  */
-public class GeneratorAppConfigLoader implements AppConfigLoader
-{
+public class GeneratorAppConfigLoader implements AppConfigLoader {
     private static Logger log = LogManager.getLogger(GeneratorAppConfigLoader.class);
     private AppConfigService appConfigService;
     private MiscConfigSyncService miscConfigSyncService;
@@ -31,19 +30,15 @@ public class GeneratorAppConfigLoader implements AppConfigLoader
 
     @PostConstruct
     @Override
-    public void loadApplicationConfiguration() throws Exception
-    {
+    public void loadApplicationConfiguration() throws Exception {
         log.debug(">>>");
-        try
-        {
+        try {
             final MiscConfig miscConfig = appConfigService.loadMiscConfig();
             final JobThrottleConfig jobThrottleConfig = appConfigService.loadJobThrottleConfig();
             miscConfigSyncService.sync(miscConfig);
             jobThrottleConfigSyncService.syncJobThrottleConfig(jobThrottleConfig);
             loadPlannedOutages();
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error("Error loading application configuration", e);
         }
     }
@@ -51,43 +46,36 @@ public class GeneratorAppConfigLoader implements AppConfigLoader
     /**
      * Perform initial load of all the planned outages.
      */
-    public void loadPlannedOutages()
-    {
+    public void loadPlannedOutages() {
         final Collection<PlannedOutage> allOutages = outageService.getAllActiveAndScheduledPlannedOutages();
-        for (final PlannedOutage outage : allOutages)
-        {
+        for (final PlannedOutage outage : allOutages) {
             outageProcessor.addPlannedOutageToContainer(outage);
         }
         log.debug(String.format("Loaded %d planned outage(s) from PLANNED_OUTAGE table", allOutages.size()));
     }
 
     @Required
-    public void setAppConfigService(final AppConfigService service)
-    {
+    public void setAppConfigService(final AppConfigService service) {
         appConfigService = service;
     }
 
     @Required
-    public void setMiscConfigSyncService(final MiscConfigSyncService service)
-    {
+    public void setMiscConfigSyncService(final MiscConfigSyncService service) {
         miscConfigSyncService = service;
     }
 
     @Required
-    public void setJobThrottleConfigSyncService(final JobThrottleConfigSyncService service)
-    {
+    public void setJobThrottleConfigSyncService(final JobThrottleConfigSyncService service) {
         jobThrottleConfigSyncService = service;
     }
 
     @Required
-    public void setOutageService(final OutageService service)
-    {
+    public void setOutageService(final OutageService service) {
         outageService = service;
     }
 
     @Required
-    public void setOutageProcessor(final OutageProcessor processor)
-    {
+    public void setOutageProcessor(final OutageProcessor processor) {
         outageProcessor = processor;
     }
 }

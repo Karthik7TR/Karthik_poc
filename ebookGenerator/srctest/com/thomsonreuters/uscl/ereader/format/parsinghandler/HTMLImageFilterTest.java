@@ -26,14 +26,12 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public final class HTMLImageFilterTest
-{
+public final class HTMLImageFilterTest {
     private HTMLImageFilter imageFilter;
     private Serializer serializer;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
         final SAXParser saxParser = factory.newSAXParser();
@@ -48,8 +46,7 @@ public final class HTMLImageFilterTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         serializer = null;
         imageFilter = null;
     }
@@ -61,12 +58,10 @@ public final class HTMLImageFilterTest
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final String expectedResult) throws SAXException
-    {
+    public void testHelper(final String inputXML, final String expectedResult) throws SAXException {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
-        try
-        {
+        try {
             input = new ByteArrayInputStream(inputXML.getBytes());
             output = new ByteArrayOutputStream();
 
@@ -78,38 +73,26 @@ public final class HTMLImageFilterTest
             final String result = output.toString();
 
             assertEquals(expectedResult, result);
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             throw e;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             fail("Encountered exception during test: " + e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if (input != null)
-                {
+        } finally {
+            try {
+                if (input != null) {
                     input.close();
                 }
-                if (output != null)
-                {
+                if (output != null) {
                     output.close();
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 fail("Could clean up resources: " + e.getMessage());
             }
         }
     }
 
     @Test
-    public void testValidImageTagSrcUpdate() throws SAXException
-    {
+    public void testValidImageTagSrcUpdate() throws SAXException {
         final String xmlTestStr = "<test><img src=\"/images/TestImage.jpg\"/></test>";
         final String expectedResult = "<test><img src=\"er:#TestImage\"/></test>";
 
@@ -119,8 +102,7 @@ public final class HTMLImageFilterTest
     }
 
     @Test(expected = SAXException.class)
-    public void testImageTagWithoutSrcAttribute() throws SAXException
-    {
+    public void testImageTagWithoutSrcAttribute() throws SAXException {
         final String xmlTestStr = "<test><img/></test>";
         final String expectedResult = "";
 
@@ -128,9 +110,9 @@ public final class HTMLImageFilterTest
     }
 
     @Test
-    public void testImageTagSrcUpdateOtherAttributesPreserved() throws SAXException
-    {
-        final String xmlTestStr = "<test><img type=\"image\" src=\"/images/TestImage.jpg\" " + "class=\"co_test\" /></test>";
+    public void testImageTagSrcUpdateOtherAttributesPreserved() throws SAXException {
+        final String xmlTestStr =
+            "<test><img type=\"image\" src=\"/images/TestImage.jpg\" " + "class=\"co_test\" /></test>";
         final String expectedResult = "<test><img type=\"image\" class=\"co_test\" src=\"er:#TestImage\"/></test>";
 
         testHelper(xmlTestStr, expectedResult);
@@ -139,8 +121,7 @@ public final class HTMLImageFilterTest
     }
 
     @Test
-    public void testMultipleImageTagsBeingParsed() throws SAXException
-    {
+    public void testMultipleImageTagsBeingParsed() throws SAXException {
         final String xmlTestStr = "<test><img src=\"/images/TestImage.jpg\"/><div id=\"testingDiv\">Test"
             + "<img type=\"image\" src=\"/images/TestImage2.jpg\" class=\"co_test\" /></div>"
             + "</test>";
@@ -154,8 +135,7 @@ public final class HTMLImageFilterTest
     }
 
     @Test
-    public void testSimplePDFImageTagRemoval() throws SAXException
-    {
+    public void testSimplePDFImageTagRemoval() throws SAXException {
         final String xmlTestStr = "<test><img alt=\"PDF\" src=\"/images/TestImage.jpg\"/></test>";
         final String expectedResult = "<test/>";
 
@@ -163,8 +143,7 @@ public final class HTMLImageFilterTest
     }
 
     @Test
-    public void testPDFImageTagRemovalWithOtherTags() throws SAXException
-    {
+    public void testPDFImageTagRemovalWithOtherTags() throws SAXException {
         final String xmlTestStr = "<test><img alt=\"PDF\" src=\"/images/TestImage.jpg\"/><div id=\"testingDiv\">Test"
             + "<img type=\"image\" src=\"/images/TestImage2.jpg\" class=\"co_test\" /></div>"
             + "</test>";
@@ -176,8 +155,7 @@ public final class HTMLImageFilterTest
     }
 
     @Test
-    public void testImageRemovalAnchorBecomesImage() throws SAXException
-    {
+    public void testImageRemovalAnchorBecomesImage() throws SAXException {
         final String xmlTestStr = "<test><img src=\"https://1.next.westlaw.com/Link/Document/Blob/"
             + "Ie043aca0675a11da90ebf04471783734.jpg?targetType=&amp;originationContext=document&amp;"
             + "transitionType=DocumentImage\" alt=\"Image 2 within \" height=\"1201\" width=\"925\" "
@@ -188,8 +166,7 @@ public final class HTMLImageFilterTest
     }
 
     @Test
-    public void testImageRemovalDiffDomainAnchorBecomesImage() throws SAXException
-    {
+    public void testImageRemovalDiffDomainAnchorBecomesImage() throws SAXException {
         final String xmlTestStr = "<test><img src=\"https://test.com/Link/Document/Blob/"
             + "Ie043aca0675a11da90ebf04471783734.jpg?targetType=&amp;originationContext=document&amp;"
             + "transitionType=DocumentImage\" alt=\"Image 2 within \" height=\"1201\" width=\"925\" "
@@ -200,8 +177,7 @@ public final class HTMLImageFilterTest
     }
 
     @Test
-    public void testImageRemovalNestedInAnchor() throws SAXException
-    {
+    public void testImageRemovalNestedInAnchor() throws SAXException {
         final String xmlTestStr = "<test><a type=\"image/jpeg\" href=\"https://1.next.westlaw.com/Link/Document/"
             + "Blob/Ie043aca0675a11da90ebf04471783734.jpg?targetType=&amp;originationContext=document&amp;"
             + "transitionType=DocumentImage\" class=\"co_imageLink\">"

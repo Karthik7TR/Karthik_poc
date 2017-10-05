@@ -23,8 +23,7 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 /**
  * Unit tests for the OperationsController which handles the URL request(s) to restart or stop a job.
  */
-public final class OperationsControllerTest
-{
+public final class OperationsControllerTest {
     private static final Long JOB_EXEC_ID = Long.valueOf(1234);
 
     private OperationsController controller;
@@ -36,8 +35,7 @@ public final class OperationsControllerTest
     private HandlerAdapter handlerAdapter;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         mockEngineService = EasyMock.createMock(EngineService.class);
@@ -52,8 +50,7 @@ public final class OperationsControllerTest
     }
 
     @Test
-    public void testRestartJob() throws Exception
-    {
+    public void testRestartJob() throws Exception {
         request.setRequestURI("/service/restart/job/" + JOB_EXEC_ID);
         request.setMethod(HttpMethod.GET.name());
         final Long restartedJobExecId = Long.valueOf(JOB_EXEC_ID.longValue() + 1L);
@@ -78,8 +75,7 @@ public final class OperationsControllerTest
     }
 
     @Test
-    public void futureTest()
-    {
+    public void futureTest() {
         Assert.assertTrue(true);
     }
 }

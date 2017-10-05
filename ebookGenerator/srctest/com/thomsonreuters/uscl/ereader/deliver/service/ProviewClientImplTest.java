@@ -24,8 +24,7 @@ import org.springframework.web.client.RestTemplate;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public final class ProviewClientImplTest
-{
+public final class ProviewClientImplTest {
     //private static final Logger LOG = LogManager.getLogger(ProviewClientImplTest.class);
 
     private static final String PROVIEW_DOMAIN_PREFIX = "proviewpublishing.int.qed.thomsonreuters.com";
@@ -42,8 +41,7 @@ public final class ProviewClientImplTest
     private ProviewResponseExtractor mockResponseExtractor;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         PROVIEW_HOST = InetAddress.getLocalHost();
         proviewClient = new ProviewClientImpl();
         mockRequestCallback = new ProviewRequestCallback();
@@ -60,14 +58,12 @@ public final class ProviewClientImplTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         //Intentionally left blank
     }
 
     @Test
-    public void testGetAllTitlesHappyPath() throws Exception
-    {
+    public void testGetAllTitlesHappyPath() throws Exception {
         proviewClient.setGetTitlesUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
         final String expectedResponse = "YARR!";
 
@@ -91,8 +87,7 @@ public final class ProviewClientImplTest
         assertTrue("Response did not match expected result!", response.equals(expectedResponse));
     }
 
-    private void verifyAll()
-    {
+    private void verifyAll() {
         EasyMock.verify(mockRestTemplate);
         EasyMock.verify(mockResponseEntity);
         EasyMock.verify(mockHeaders);
@@ -100,8 +95,7 @@ public final class ProviewClientImplTest
         EasyMock.verify(mockResponseExtractorFactory);
     }
 
-    private void replayAll()
-    {
+    private void replayAll() {
         EasyMock.replay(mockHeaders);
         EasyMock.replay(mockResponseEntity);
         EasyMock.replay(mockRestTemplate);

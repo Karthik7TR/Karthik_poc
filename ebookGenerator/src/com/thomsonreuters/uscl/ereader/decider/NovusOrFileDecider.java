@@ -8,19 +8,14 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.job.flow.FlowExecutionStatus;
 import org.springframework.batch.core.job.flow.JobExecutionDecider;
 
-public class NovusOrFileDecider implements JobExecutionDecider
-{
+public class NovusOrFileDecider implements JobExecutionDecider {
     @Override
-    public FlowExecutionStatus decide(final JobExecution jobExecution, final StepExecution stepExecution)
-    {
+    public FlowExecutionStatus decide(final JobExecution jobExecution, final StepExecution stepExecution) {
         final BookDefinition bookDefinition =
             (BookDefinition) jobExecution.getExecutionContext().get(JobExecutionKey.EBOOK_DEFINITION);
-        if (SourceType.FILE.equals(bookDefinition.getSourceType()))
-        {
+        if (SourceType.FILE.equals(bookDefinition.getSourceType())) {
             return new FlowExecutionStatus("NAS_FILE");
-        }
-        else
-        {
+        } else {
             return new FlowExecutionStatus("NOVUS");
         }
     }

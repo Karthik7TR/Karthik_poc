@@ -24,8 +24,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
  * because less than the maximum number of concurrent batch jobs is running (not
  * throttled) then the specified job will be run.
  */
-public class JobRunQueuePoller
-{
+public class JobRunQueuePoller {
     private static final Logger LOG = LogManager.getLogger(JobRunQueuePoller.class);
 
     private EngineService engineService;
@@ -38,11 +37,9 @@ public class JobRunQueuePoller
     private BasicDataSource basicDataSource;
 
     @Scheduled(fixedDelay = 15000)
-    public void pollJobQueue()
-    {
+    public void pollJobQueue() {
         JobRequest jobRequest = null;
-        try
-        {
+        try {
             /**
              * Do not consume a JOB_REQUEST record if:
              * 1) A planned outage is active, no jobs started until outage is over
@@ -50,21 +47,17 @@ public class JobRunQueuePoller
              * 3) The application step specific rules prevent it from running.
              */
             final PlannedOutage outage = outageProcessor.processPlannedOutages();
-            if (outage == null)
-            {
+            if (outage == null) {
                 // Core pool size is the task executor pool size, effectively
                 // the maximum number of concurrent jobs.
                 // This is dynamic and can be changed through the administrative
                 // UI.
                 final int coreThreadPoolSize = springBatchTaskExecutor.getCorePoolSize();
                 final int activeThreads = springBatchTaskExecutor.getActiveCount();
-                if (activeThreads < coreThreadPoolSize)
-                {
-                    if (jobStartupThrottleService.checkIfnewJobCanbeLaunched())
-                    {
+                if (activeThreads < coreThreadPoolSize) {
+                    if (jobStartupThrottleService.checkIfnewJobCanbeLaunched()) {
                         jobRequest = jobRequestService.getNextJobToExecute();
-                        if (jobRequest != null)
-                        {
+                        if (jobRequest != null) {
                             // Create the dynamic set of launch parameters,
                             // things like
                             // user name, user email, and a unique serial number
@@ -74,8 +67,7 @@ public class JobRunQueuePoller
                             // Start the job that builds the ebook
                             LOG.debug("Starting Job: " + jobRequest);
                             engineService.runJob(jobNameProvider.getJobName(jobRequest), allJobParameters);
-                            if (LOG.isDebugEnabled())
-                            {
+                            if (LOG.isDebugEnabled()) {
                                 LOG.debug(
                                     String.format(
                                         "THREAD POOL: activeCount=%d,poolSize=%d,corePoolSize=%d,maxPoolSize=%d",
@@ -92,65 +84,51 @@ public class JobRunQueuePoller
                                         basicDataSource.getMaxWait()));
                             }
                         }
-                    }
-                    else
-                    {
+                    } else {
                         LOG.debug("Application step throttling is not allowing any new jobs to run.");
                     }
-                }
-                else
-                {
+                } else {
                     LOG.debug(
                         String.format(
                             "There are %d active job threads running, the maximum allowed is %d.  No new jobs will be started until the active is less than the maximum.",
                             activeThreads,
                             coreThreadPoolSize));
                 }
-            }
-            else
-            {
+            } else {
                 LOG.debug(String.format("A planned outage is in effect until %s", outage.getEndTime().toString()));
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             LOG.error("Failed run job request: " + jobRequest, e);
         }
     }
 
     @Required
-    public void setEngineService(final EngineService engineService)
-    {
+    public void setEngineService(final EngineService engineService) {
         this.engineService = engineService;
     }
 
     @Required
-    public void setJobStartupThrottleService(final JobStartupThrottleService jobStartupThrottleService)
-    {
+    public void setJobStartupThrottleService(final JobStartupThrottleService jobStartupThrottleService) {
         this.jobStartupThrottleService = jobStartupThrottleService;
     }
 
     @Required
-    public void setOutageProcessor(final OutageProcessor processor)
-    {
+    public void setOutageProcessor(final OutageProcessor processor) {
         outageProcessor = processor;
     }
 
     @Required
-    public void setJobRequestService(final JobRequestService jobRequestService)
-    {
+    public void setJobRequestService(final JobRequestService jobRequestService) {
         this.jobRequestService = jobRequestService;
     }
 
     @Required
-    public void setSpringBatchTaskExecutor(final ThreadPoolTaskExecutor taskExecutor)
-    {
+    public void setSpringBatchTaskExecutor(final ThreadPoolTaskExecutor taskExecutor) {
         springBatchTaskExecutor = taskExecutor;
     }
 
     @Required
-    public void setJobNameProvider(final JobNameProvider jobNameProvider)
-    {
+    public void setJobNameProvider(final JobNameProvider jobNameProvider) {
         this.jobNameProvider = jobNameProvider;
     }
 }

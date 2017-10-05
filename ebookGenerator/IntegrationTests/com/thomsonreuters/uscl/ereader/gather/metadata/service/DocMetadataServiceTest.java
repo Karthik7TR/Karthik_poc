@@ -35,8 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
 @Transactional
-public class DocMetadataServiceTest
-{
+public class DocMetadataServiceTest {
     private static Logger LOG = LogManager.getLogger(DocMetadataServiceTest.class);
     private Timestamp UPDATE_DATE = getCurrentTimeStamp();
     /**
@@ -54,8 +53,7 @@ public class DocMetadataServiceTest
      * @throws Exception
      */
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         // mock up the document metadata
 
         saveDocMetadata(Integer.valueOf(1));
@@ -65,8 +63,7 @@ public class DocMetadataServiceTest
      * Operation Unit Test Save an existing DocMetadata entity
      *
      */
-    public void saveDocMetadata(final Integer seqNum)
-    {
+    public void saveDocMetadata(final Integer seqNum) {
         docmetadata = new com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata();
         docmetadata.setCollectionName("test_choto_Collection");
         docmetadata.setDocFamilyUuid("1234567890" + seqNum.toString());
@@ -87,8 +84,7 @@ public class DocMetadataServiceTest
      *
      */
     @After
-    public void deleteDocMetadata()
-    {
+    public void deleteDocMetadata() {
         documentMetadataService.deleteDocMetadata(docmetadata);
     }
 
@@ -96,8 +92,7 @@ public class DocMetadataServiceTest
      * Operation Unit Test
      */
     @Test
-    public void findDocMetadataByPrimaryKey()
-    {
+    public void findDocMetadataByPrimaryKey() {
         final String titleId = docmetadata.getTitleId();
         final Long jobInstanceId = docmetadata.getJobInstanceId();
         final String docUuid = docmetadata.getDocUuid();
@@ -112,8 +107,7 @@ public class DocMetadataServiceTest
      * @author Ray Cracauer
      */
     @Test
-    public void findDocMetadataByPrimaryKeyNegativeTitleId()
-    {
+    public void findDocMetadataByPrimaryKeyNegativeTitleId() {
         final String titleId = "TEST_TILE";
         final Long jobInstanceId = Long.valueOf(-12345);
         final String docUuid = "123456";
@@ -129,8 +123,7 @@ public class DocMetadataServiceTest
      * @author Ray Cracauer
      */
     @Test
-    public void findDocMetadataByPrimaryKeyAllNulls()
-    {
+    public void findDocMetadataByPrimaryKeyAllNulls() {
         final String titleId = null;
         final Long jobInstanceId = null;
         final String docUuid = null;
@@ -146,8 +139,7 @@ public class DocMetadataServiceTest
      * @author Ray Cracauer
      */
     @Test
-    public void findDocMetadataByPrimaryNullTitleId()
-    {
+    public void findDocMetadataByPrimaryNullTitleId() {
         final String titleId = null;
         final Long jobInstanceId = Long.valueOf(12345);
         final String docUuid = "123456";
@@ -163,8 +155,7 @@ public class DocMetadataServiceTest
      * @author Ray Cracauer
      */
     @Test
-    public void findDocMetadataByPrimaryNullJobInstanceId()
-    {
+    public void findDocMetadataByPrimaryNullJobInstanceId() {
         final String titleId = "TEST_TILE";
         final Long jobInstanceId = null;
         final String docUuid = "123456";
@@ -180,8 +171,7 @@ public class DocMetadataServiceTest
      * @author Ray Cracauer
      */
     @Test
-    public void findDocMetadataByPrimaryNullDocUuid()
-    {
+    public void findDocMetadataByPrimaryNullDocUuid() {
         final String titleId = "TEST_TILE";
         final Long jobInstanceId = Long.valueOf(12345);
         final String docUuid = null;
@@ -197,8 +187,7 @@ public class DocMetadataServiceTest
      * @author Ray Cracauer
      */
     @Test
-    public void findDocMetadataByPrimaryKeyObjectValues()
-    {
+    public void findDocMetadataByPrimaryKeyObjectValues() {
         final String titleId = "TL-URB1";
         final Long jobInstanceId = Long.valueOf(99123456);
         final String docUuid = "12345678900011";
@@ -230,8 +219,7 @@ public class DocMetadataServiceTest
      *
      */
     @Ignore
-    public void parseAndStoreDocMetadata() throws Exception
-    {
+    public void parseAndStoreDocMetadata() throws Exception {
         final String titleId = "TEST_TILE";
         final Long jobInstanceId = Long.valueOf(12345);
         final String docUuid = "123456";
@@ -240,8 +228,7 @@ public class DocMetadataServiceTest
     }
 
     @Test
-    public void testFindAllDocumentMetadataForTitleByJobInstanceId()
-    {
+    public void testFindAllDocumentMetadataForTitleByJobInstanceId() {
         final Long jobInstanceId = Long.valueOf(99123456);
         saveDocMetadata(2);
         saveDocMetadata(3);
@@ -252,8 +239,7 @@ public class DocMetadataServiceTest
     }
 
     @Test
-    public void testFindAllDocumentMetadataForTitleByJobInstanceIdDoesNotReturnNullSet()
-    {
+    public void testFindAllDocumentMetadataForTitleByJobInstanceIdDoesNotReturnNullSet() {
         final DocumentMetadataAuthority documentMetadataAuthority =
             documentMetadataService.findAllDocMetadataForTitleByJobId(0L);
         Assert.assertTrue(documentMetadataAuthority != null);
@@ -265,8 +251,7 @@ public class DocMetadataServiceTest
      * This test is here to validate a previously run book's set of document metadata can be retrieved.
      * If job 1804 gets cleaned up, point this at whichever job you like (for your database environment). Change the second assert (and this javadoc) accordingly.
      */
-    public void testFindAllDocumentMetadataForTitleIdByJobInstanceIdIntegrationTest()
-    {
+    public void testFindAllDocumentMetadataForTitleIdByJobInstanceIdIntegrationTest() {
         final DocumentMetadataAuthority documentMetadataAuthority =
             documentMetadataService.findAllDocMetadataForTitleByJobId(1804L);
         Assert.assertTrue(documentMetadataAuthority != null);
@@ -278,8 +263,7 @@ public class DocMetadataServiceTest
      *
      * @return Timestamp
      */
-    private Timestamp getCurrentTimeStamp()
-    {
+    private Timestamp getCurrentTimeStamp() {
         // create a java calendar instance
         final Calendar calendar = Calendar.getInstance();
         return new java.sql.Timestamp(calendar.getTime().getTime());

@@ -12,21 +12,18 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class ProviewFeaturesListBuilderFactoryImplTest
-{
+public final class ProviewFeaturesListBuilderFactoryImplTest {
     private ProviewFeaturesListBuilderFactory proviewFeaturesListBuilderFactory;
     @Mock
     private BookDefinition bookDefinition;
 
     @Before
-    public void onTestSetUp()
-    {
+    public void onTestSetUp() {
         proviewFeaturesListBuilderFactory = new ProviewFeaturesListBuilderFactoryImpl(null, null);
     }
 
     @Test
-    public void shouldReturnFeaturesListBuilderForSplitBook()
-    {
+    public void shouldReturnFeaturesListBuilderForSplitBook() {
         //given
         given(bookDefinition.isSplitBook()).willReturn(true);
         //when
@@ -36,8 +33,7 @@ public final class ProviewFeaturesListBuilderFactoryImplTest
     }
 
     @Test
-    public void shouldReturnFeaturesListBuilderForSingleBook()
-    {
+    public void shouldReturnFeaturesListBuilderForSingleBook() {
         //given
         given(bookDefinition.isSplitBook()).willReturn(false);
         //when

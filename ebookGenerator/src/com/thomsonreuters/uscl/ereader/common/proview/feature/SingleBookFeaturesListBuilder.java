@@ -14,36 +14,32 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Features list builder for single book, titleDocs and TitleId params are ignored
  */
-public class SingleBookFeaturesListBuilder extends AbstractFeaturesListBuilder
-{
+public class SingleBookFeaturesListBuilder extends AbstractFeaturesListBuilder {
     SingleBookFeaturesListBuilder(
         @NotNull final ProviewTitleService proviewTitleService,
         @NotNull final BookDefinition bookDefinition,
-        @NotNull final VersionUtil versionUtil)
-    {
+        @NotNull final VersionUtil versionUtil) {
         super(proviewTitleService, bookDefinition, versionUtil);
     }
 
     @NotNull
     @Override
-    public FeaturesListBuilder withTitleDocs(@NotNull final Map<BookTitleId, List<Doc>> titleDocs)
-    {
+    public FeaturesListBuilder withTitleDocs(@NotNull final Map<BookTitleId, List<Doc>> titleDocs) {
         return this;
     }
 
     @NotNull
     @Override
-    public FeaturesListBuilder forTitleId(@NotNull final BookTitleId titleId)
-    {
+    public FeaturesListBuilder forTitleId(@NotNull final BookTitleId titleId) {
         return this;
     }
 
     @Override
-    protected void addNotesMigrationFeature(@NotNull final List<Feature> features, @NotNull final List<BookTitleId> titleIds)
-    {
+    protected void addNotesMigrationFeature(
+        @NotNull final List<Feature> features,
+        @NotNull final List<BookTitleId> titleIds) {
         final Feature notesMigrationFeature = createNotesMigrationFeature(titleIds);
-        if (notesMigrationFeature != null)
-        {
+        if (notesMigrationFeature != null) {
             features.add(notesMigrationFeature);
         }
     }

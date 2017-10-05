@@ -40,8 +40,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = GenerateTitleMetadataStepIntegrationTestConfiguration.class)
 @ActiveProfiles("IntegrationTests")
-public final class GenerateTitleMetadataStepIntegrationTest
-{
+public final class GenerateTitleMetadataStepIntegrationTest {
     private static final String CURRENT_DATE_PLACEHOLDER = "${currentDate}";
     private static final String MATERIAL_NUMBER = "123456";
     private static final String ADDITIONAL_MATERIAL_NUMBER = "123457";
@@ -68,42 +67,36 @@ public final class GenerateTitleMetadataStepIntegrationTest
     private String expectedTitleMetadataFileContent;
 
     @Before
-    public void onSetUp() throws URISyntaxException, IOException
-    {
+    public void onSetUp() throws URISyntaxException, IOException {
         org.mockito.MockitoAnnotations.initMocks(this);
         initMocksBehavior();
         initBookDefinitionMockBehavior();
         initFiles();
     }
 
-    private void initMocksBehavior()
-    {
-        when(chunkContext
-                .getStepContext()
+    private void initMocksBehavior() {
+        when(
+            chunkContext.getStepContext()
                 .getStepExecution()
                 .getJobExecution()
                 .getExecutionContext()
-                .get(JobParameterKey.EBOOK_DEFINITON))
-        .thenReturn(bookDefinition);
+                .get(JobParameterKey.EBOOK_DEFINITON)).thenReturn(bookDefinition);
 
-        when(chunkContext
-                .getStepContext()
+        when(
+            chunkContext.getStepContext()
                 .getStepExecution()
                 .getJobParameters()
-                .getString(JobParameterKey.BOOK_VERSION_SUBMITTED))
-        .thenReturn("5.0");
+                .getString(JobParameterKey.BOOK_VERSION_SUBMITTED)).thenReturn("5.0");
 
-        when(chunkContext
-            .getStepContext()
-            .getStepExecution()
-            .getJobExecution()
-            .getExecutionContext()
-            .get(JobParameterKey.XPP_BUNDLES))
-        .thenReturn(getXppBundles());
+        when(
+            chunkContext.getStepContext()
+                .getStepExecution()
+                .getJobExecution()
+                .getExecutionContext()
+                .get(JobParameterKey.XPP_BUNDLES)).thenReturn(getXppBundles());
     }
 
-    private List<XppBundle> getXppBundles()
-    {
+    private List<XppBundle> getXppBundles() {
         final XppBundle firstBundle = new XppBundle();
         firstBundle.setMaterialNumber(MATERIAL_NUMBER);
         firstBundle.setOrderedFileList(Arrays.asList("Useless_test_file.DIVXML.xml"));
@@ -115,8 +108,7 @@ public final class GenerateTitleMetadataStepIntegrationTest
         return Arrays.asList(firstBundle, secondBundle);
     }
 
-    private void initBookDefinitionMockBehavior()
-    {
+    private void initBookDefinitionMockBehavior() {
         when(bookDefinition.getMaterialId()).thenReturn("someMaterialId");
         when(bookDefinition.getProviewDisplayName()).thenReturn("Integration test book");
         when(bookDefinition.getAuthors()).thenReturn(Collections.EMPTY_LIST);
@@ -131,22 +123,21 @@ public final class GenerateTitleMetadataStepIntegrationTest
         when(bookDefinition.getSourceType()).thenReturn(SourceType.XPP);
     }
 
-    private List<Keyword> getKeywords()
-    {
+    private List<Keyword> getKeywords() {
         final Keyword publisherKeyword = new Keyword("publisher", "Thomson Reuters Westlaw");
         final Keyword jurisdictionKeyword = new Keyword("jurisdiction", "Alabama");
         return Arrays.asList(publisherKeyword, jurisdictionKeyword);
     }
 
-    private void initFiles() throws URISyntaxException, IOException
-    {
+    private void initFiles() throws URISyntaxException, IOException {
         tocFile = loadFileFromResources("toc.xml");
         coverArtFile = loadFileFromResources("coverArt.PNG");
         documentCssFile = loadFileFromResources("document.css");
         ebookGeneratorCssFile = loadFileFromResources("ebook_generator.css");
 
-        expectedTitleFileContent = FileUtils.readFileToString(
-            new File(GenerateTitleMetadataStepIntegrationTest.class.getResource("expectedTitle.xml").toURI()))
+        expectedTitleFileContent = FileUtils
+            .readFileToString(
+                new File(GenerateTitleMetadataStepIntegrationTest.class.getResource("expectedTitle.xml").toURI()))
             .replace(CURRENT_DATE_PLACEHOLDER, DateFormatUtils.format(new Date(), "yyyyMMdd"));
         expectedTitleMetadataFileContent = FileUtils.readFileToString(
             new File(GenerateTitleMetadataStepIntegrationTest.class.getResource("expectedTitleMetadata.xml").toURI()))
@@ -167,36 +158,39 @@ public final class GenerateTitleMetadataStepIntegrationTest
 
         File bundleDocsDirectory = fileSystem.getExternalLinksDirectory(step, MATERIAL_NUMBER);
         FileUtils.forceMkdir(bundleDocsDirectory);
-        FileUtils.copyFileToDirectory(loadFileFromResources(
-            "Useless_test_file.DIVXML_1_I334acde028b47ft34ed7fcedf0a72426.html"), bundleDocsDirectory);
-        FileUtils.copyFileToDirectory(loadFileFromResources(
-            "Useless_test_file.DIVXML_3_I4700e2c0g6kz11e69ed7fcedf0a72426.html"), bundleDocsDirectory);
+        FileUtils.copyFileToDirectory(
+            loadFileFromResources("Useless_test_file.DIVXML_1_I334acde028b47ft34ed7fcedf0a72426.html"),
+            bundleDocsDirectory);
+        FileUtils.copyFileToDirectory(
+            loadFileFromResources("Useless_test_file.DIVXML_3_I4700e2c0g6kz11e69ed7fcedf0a72426.html"),
+            bundleDocsDirectory);
 
         bundleDocsDirectory = fileSystem.getExternalLinksDirectory(step, ADDITIONAL_MATERIAL_NUMBER);
         FileUtils.forceMkdir(bundleDocsDirectory);
-        FileUtils.copyFileToDirectory(loadFileFromResources(
-            "Useless_test_file.DIVXML_2_I3416j47028b911e69ed7fcedf0a72426.html"), bundleDocsDirectory);
-        FileUtils.copyFileToDirectory(loadFileFromResources(
-            "Useless_test_file.DIVXML_4_I4700e2c028b911e69ed7fcedfyt4l426.html"), bundleDocsDirectory);
+        FileUtils.copyFileToDirectory(
+            loadFileFromResources("Useless_test_file.DIVXML_2_I3416j47028b911e69ed7fcedf0a72426.html"),
+            bundleDocsDirectory);
+        FileUtils.copyFileToDirectory(
+            loadFileFromResources("Useless_test_file.DIVXML_4_I4700e2c028b911e69ed7fcedfyt4l426.html"),
+            bundleDocsDirectory);
     }
 
-    private File loadFileFromResources(final String fileName) throws URISyntaxException
-    {
+    private File loadFileFromResources(final String fileName) throws URISyntaxException {
         return new File(getClass().getResource(fileName).toURI());
     }
 
     @After
-    public void clean() throws IOException
-    {
+    public void clean() throws IOException {
         FileUtils.cleanDirectory(fileSystem.getFormatDirectory(step));
         FileUtils.cleanDirectory(assembleFileSystem.getAssembleDirectory(step));
     }
 
     @Test
-    public void testCommonStepExecution() throws Exception
-    {
+    public void testCommonStepExecution() throws Exception {
         step.executeStep();
-        assertThat(FileUtils.readFileToString(fileSystem.getTitleMetadataFile(step)), equalTo(expectedTitleMetadataFileContent));
+        assertThat(
+            FileUtils.readFileToString(fileSystem.getTitleMetadataFile(step)),
+            equalTo(expectedTitleMetadataFileContent));
         assertThat(FileUtils.readFileToString(assembleFileSystem.getTitleXml(step)), equalTo(expectedTitleFileContent));
     }
 }

@@ -19,8 +19,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public final class DocMetaDataXMLParser extends DefaultHandler
-{
+public final class DocMetaDataXMLParser extends DefaultHandler {
     private static final Logger LOG = LogManager.getLogger(DocMetaDataXMLParser.class);
 
     private static final String MD_ROOT_ID = "n-metadata";
@@ -52,13 +51,11 @@ public final class DocMetaDataXMLParser extends DefaultHandler
     /**
      * Create factory method to defend against it being created as a Spring bean, which it should not be since it is not thread safe.
      */
-    public static DocMetaDataXMLParser create()
-    {
+    public static DocMetaDataXMLParser create() {
         return new DocMetaDataXMLParser();
     }
 
-    private DocMetaDataXMLParser()
-    {
+    private DocMetaDataXMLParser() {
         docMetadata = new DocMetadata();
     }
 
@@ -66,12 +63,10 @@ public final class DocMetaDataXMLParser extends DefaultHandler
         final String titleId,
         final Long jobInstanceId,
         final String collectionName,
-        final File metadataFile) throws Exception
-    {
+        final File metadataFile) throws Exception {
         // get a factory
         final SAXParserFactory spf = SAXParserFactory.newInstance();
-        try (InputStream inputStream = new FileInputStream(metadataFile))
-        {
+        try (InputStream inputStream = new FileInputStream(metadataFile)) {
             // get a new instance of parser
             final SAXParser sp = spf.newSAXParser();
 
@@ -110,12 +105,10 @@ public final class DocMetaDataXMLParser extends DefaultHandler
     // Event Handlers
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes attributes)
-        throws SAXException
-    {
+        throws SAXException {
         // reset
         tempValBuffer = new StringBuffer();
-        if (qName.equalsIgnoreCase(MD_ROOT_ID))
-        {
+        if (qName.equalsIgnoreCase(MD_ROOT_ID)) {
             // create a new instance of doc metadata
             docMetadata = new DocMetadata();
             docMetadata.setTitleId(titleId);
@@ -126,18 +119,15 @@ public final class DocMetaDataXMLParser extends DefaultHandler
     }
 
     @Override
-    public void characters(final char[] ch, final int start, final int length) throws SAXException
-    {
+    public void characters(final char[] ch, final int start, final int length) throws SAXException {
         tempValBuffer.append(new String(ch, start, length));
     }
 
     @Override
-    public void endElement(final String uri, final String localName, final String qName) throws SAXException
-    {
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException {
         String tempVal = tempValBuffer.toString();
 
-        if (qName.equalsIgnoreCase(MD_NORMALIZED_CITE))
-        {
+        if (qName.equalsIgnoreCase(MD_NORMALIZED_CITE)) {
             // add normalized first line cite
 
             // Fix for Bug 339843 replace a hyphen with a dash
@@ -145,69 +135,41 @@ public final class DocMetaDataXMLParser extends DefaultHandler
             // document
             tempVal = tempVal.replaceAll("\u2013", "\u002D");
             docMetadata.setNormalizedFirstlineCite(tempVal);
-        }
-        else if (qName.equalsIgnoreCase(MD_FIRSTLINE_CITE))
-        {
+        } else if (qName.equalsIgnoreCase(MD_FIRSTLINE_CITE)) {
             docMetadata.setFirstlineCite(tempVal);
-        }
-        else if (qName.equalsIgnoreCase(MD_SECONDLINE_CITE))
-        {
+        } else if (qName.equalsIgnoreCase(MD_SECONDLINE_CITE)) {
             docMetadata.setSecondlineCite(tempVal);
-        }
-        else if (qName.equalsIgnoreCase(MD_THIRDLINE_CITE))
-        {
+        } else if (qName.equalsIgnoreCase(MD_THIRDLINE_CITE)) {
             docMetadata.setThirdlineCite(tempVal);
-        }
-        else if (qName.equalsIgnoreCase(MD_UUID))
-        {
+        } else if (qName.equalsIgnoreCase(MD_UUID)) {
             docMetadata.setDocUuid(tempVal);
-        }
-        else if (qName.equalsIgnoreCase(MD_DOC_FAMILY_UUID))
-        {
+        } else if (qName.equalsIgnoreCase(MD_DOC_FAMILY_UUID)) {
             docMetadata.setDocFamilyUuid(tempVal);
-        }
-        else if (qName.equalsIgnoreCase(MD_DOC_TYPE_NAME))
-        {
+        } else if (qName.equalsIgnoreCase(MD_DOC_TYPE_NAME)) {
             docMetadata.setDocType(tempVal);
-        }
-        else if (qName.equalsIgnoreCase(MD_LEGACY_ID))
-        {
+        } else if (qName.equalsIgnoreCase(MD_LEGACY_ID)) {
             docMetadata.setFindOrig(tempVal);
-        }
-        else if (qName.equalsIgnoreCase(MD_DMS_SERIAL))
-        {
+        } else if (qName.equalsIgnoreCase(MD_DMS_SERIAL)) {
             docMetadata.setSerialNumber(Long.valueOf(tempVal));
-        }
-        else if (qName.equalsIgnoreCase(MD_PUB_PAGE) && !processedPubPage)
-        {
+        } else if (qName.equalsIgnoreCase(MD_PUB_PAGE) && !processedPubPage) {
             final String normalizedPubpage = NormalizationRulesUtil.pubPageNormalizationRules(tempVal);
             docMetadata.setFirstlineCitePubpage(normalizedPubpage);
             processedPubPage = true;
-        }
-        else if (qName.equalsIgnoreCase(MD_PUB_ID))
-        {
-            try
-            {
+        } else if (qName.equalsIgnoreCase(MD_PUB_ID)) {
+            try {
                 final Long publicationCode = Long.parseLong(tempVal);
 
-                if (!processedFirstPubId)
-                {
+                if (!processedFirstPubId) {
                     docMetadata.setFirstlineCitePubId(publicationCode);
                     processedFirstPubId = true;
-                }
-                else if (!processedSecondPubId)
-                {
+                } else if (!processedSecondPubId) {
                     docMetadata.setSecondlineCitePubId(publicationCode);
                     processedSecondPubId = true;
-                }
-                else if (!processedThirdPubId)
-                {
+                } else if (!processedThirdPubId) {
                     docMetadata.setThirdlineCitePubId(publicationCode);
                     processedThirdPubId = true;
                 }
-            }
-            catch (final NumberFormatException e)
-            {
+            } catch (final NumberFormatException e) {
                 //not a valid serial number
                 LOG.debug("Encountered a publicationCode: " + tempVal + " which is not a valid number.", e);
             }
@@ -215,8 +177,7 @@ public final class DocMetaDataXMLParser extends DefaultHandler
     }
 
     @Override
-    public void endDocument() throws SAXException
-    {
+    public void endDocument() throws SAXException {
         docMetadata.setLastUpdated(new Date());
     }
 }

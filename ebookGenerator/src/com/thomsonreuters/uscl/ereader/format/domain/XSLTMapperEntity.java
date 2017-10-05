@@ -27,8 +27,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "XSLT_MAPPER")
-public class XSLTMapperEntity implements Serializable
-{
+public class XSLTMapperEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -44,43 +43,35 @@ public class XSLTMapperEntity implements Serializable
     @Column(name = "XSLT")
     private String xslt;
 
-    public String getCollection()
-    {
+    public String getCollection() {
         return collection;
     }
 
-    public void setCollection(final String collection)
-    {
+    public void setCollection(final String collection) {
         this.collection = collection;
     }
 
-    public String getDOC_TYPE()
-    {
+    public String getDOC_TYPE() {
         return doc_type;
     }
 
-    public void setDOC_TYPE(final String dOC_TYPE)
-    {
+    public void setDOC_TYPE(final String dOC_TYPE) {
         doc_type = dOC_TYPE;
     }
 
-    public String getCONTENT_TYPE()
-    {
+    public String getCONTENT_TYPE() {
         return content_type;
     }
 
-    public void setCONTENT_TYPE(final String cONTENT_TYPE)
-    {
+    public void setCONTENT_TYPE(final String cONTENT_TYPE) {
         content_type = cONTENT_TYPE;
     }
 
-    public String getXSLT()
-    {
+    public String getXSLT() {
         return xslt;
     }
 
-    public void setXSLT(final String xSLT)
-    {
+    public void setXSLT(final String xSLT) {
         xslt = xSLT;
     }
 }

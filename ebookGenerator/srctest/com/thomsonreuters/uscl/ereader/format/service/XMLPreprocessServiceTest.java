@@ -22,8 +22,7 @@ import org.junit.Test;
  *
  * @author <a href="mailto:zack.farrell@thomsonreuters.com">Zack Farrell</a> uc209819
  */
-public final class XMLPreprocessServiceTest
-{
+public final class XMLPreprocessServiceTest {
     private XMLPreprocessServiceImpl preprocessService;
     private File tempRootDir;
     private File tempXMLfile;
@@ -35,8 +34,7 @@ public final class XMLPreprocessServiceTest
     private List<DocumentCurrency> currencies;
 
     @Before
-    public void setup()
-    {
+    public void setup() {
         preprocessService = new XMLPreprocessServiceImpl();
         final FileExtensionFilter filter = new FileExtensionFilter();
         filter.setAcceptedFileExtensions(new String[] {"xml"});
@@ -79,8 +77,7 @@ public final class XMLPreprocessServiceTest
     }
 
     @After
-    public void tearDown() throws Exception
-    {
+    public void tearDown() throws Exception {
         /*  recursively deletes the root directory, and all its subdirectories and files  */
         FileUtils.deleteDirectory(tempRootDir);
     }
@@ -93,19 +90,15 @@ public final class XMLPreprocessServiceTest
      * @return			returns a File object directing to the new file
      * 					returns null if any errors occur
      */
-    private File makeFile(final File directory, final String name, final String content)
-    {
+    private File makeFile(final File directory, final String name, final String content) {
         final File file = new File(directory, name);
-        try (FileOutputStream out = new FileOutputStream(file))
-        {
+        try (FileOutputStream out = new FileOutputStream(file)) {
             file.createNewFile();
             out.write(content.getBytes());
             out.flush();
             out.close();
             return file;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             return null;
         }
     }
@@ -116,17 +109,13 @@ public final class XMLPreprocessServiceTest
      * created in the target directory
      */
     @Test
-    public void TestXMLPreprocessServiceHappyPath()
-    {
+    public void TestXMLPreprocessServiceHappyPath() {
         int numDocs = -1;
         boolean thrown = false;
 
-        try
-        {
+        try {
             numDocs = preprocessService.transformXML(srcDir, targetDir, isFinalStage, copyrights, currencies);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             //e.printStackTrace();
             thrown = true;
         }
@@ -140,16 +129,12 @@ public final class XMLPreprocessServiceTest
     }
 
     @Test
-    public void TestXMLPreprocessBadSourceDir() throws Exception
-    {
+    public void TestXMLPreprocessBadSourceDir() throws Exception {
         boolean thrown = false;
 
-        try
-        { /*  null source directory  */
+        try { /*  null source directory  */
             preprocessService.transformXML(null, targetDir, isFinalStage, copyrights, currencies);
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             /*  expected exception  */
             //e.printStackTrace();
             thrown = true;
@@ -157,12 +142,9 @@ public final class XMLPreprocessServiceTest
         assertTrue(thrown);
         thrown = false;
 
-        try
-        { /*  file as a source directory  */
+        try { /*  file as a source directory  */
             preprocessService.transformXML(tempXMLfile, targetDir, isFinalStage, copyrights, currencies);
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             /*  expected exception  */
             //e.printStackTrace();
             thrown = true;
@@ -176,17 +158,13 @@ public final class XMLPreprocessServiceTest
      * creating it on the fly, assuming its parent directory is real
      */
     @Test
-    public void TestXMLPreprocessBadTargetDir()
-    {
+    public void TestXMLPreprocessBadTargetDir() {
         int numDocs = -1;
         boolean thrown = false;
-        try
-        { /*  targetDir does not exist  */
+        try { /*  targetDir does not exist  */
             targetDir = new File(tempRootDir.getAbsolutePath(), "not_real");
             numDocs = preprocessService.transformXML(srcDir, targetDir, isFinalStage, copyrights, currencies);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             //e.printStackTrace();
             thrown = true;
         }
@@ -196,18 +174,14 @@ public final class XMLPreprocessServiceTest
     }
 
     @Test
-    public void TestXMLPreprocessBadXML()
-    {
+    public void TestXMLPreprocessBadXML() {
         boolean thrown = false;
         srcDir = new File(tempRootDir.getAbsolutePath(), "badXML");
         srcDir.mkdir();
 
-        try
-        { /*  source directory with no xml files  */
+        try { /*  source directory with no xml files  */
             preprocessService.transformXML(srcDir, targetDir, isFinalStage, copyrights, currencies);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             /*  expected exception  */
             //e.printStackTrace();
             thrown = true;
@@ -219,12 +193,9 @@ public final class XMLPreprocessServiceTest
         makeFile(srcDir, "bad2.xml", "Excellent xml found in here");
         makeFile(srcDir, "bad3.html", "okay, this isn't even an xml file");
 
-        try
-        { /*  source directory with bad xml files  */
+        try { /*  source directory with bad xml files  */
             preprocessService.transformXML(srcDir, targetDir, isFinalStage, copyrights, currencies);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             /*  expected exception  */
             //e.printStackTrace();
             thrown = true;
@@ -233,8 +204,7 @@ public final class XMLPreprocessServiceTest
     }
 
     @Test
-    public void TestExtraCopyrightCurrencyInfo()
-    {
+    public void TestExtraCopyrightCurrencyInfo() {
         boolean thrown = false;
 
         final DocumentCurrency currency = new DocumentCurrency();
@@ -242,12 +212,9 @@ public final class XMLPreprocessServiceTest
         currency.setNewText("Monay");
         currencies.add(currency);
 
-        try
-        { /*  extra currency info  */
+        try { /*  extra currency info  */
             preprocessService.transformXML(srcDir, targetDir, isFinalStage, copyrights, currencies);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             /*  expected exception  */
             //e.printStackTrace();
             thrown = true;
@@ -260,12 +227,9 @@ public final class XMLPreprocessServiceTest
         copyright.setNewText("Copyleft");
         copyrights.add(copyright);
 
-        try
-        { /*  extra copyright info  */
+        try { /*  extra copyright info  */
             preprocessService.transformXML(srcDir, targetDir, isFinalStage, copyrights, currencies);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             /*  expected exception  */
             //e.printStackTrace();
             thrown = true;

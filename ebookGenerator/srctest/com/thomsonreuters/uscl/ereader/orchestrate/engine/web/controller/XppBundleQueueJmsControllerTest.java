@@ -21,8 +21,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.jms.core.JmsTemplate;
 
 @RunWith(MockitoJUnitRunner.class)
-public class XppBundleQueueJmsControllerTest
-{
+public class XppBundleQueueJmsControllerTest {
     private static final String MATERIAL_NUMBER = "11111111";
 
     @InjectMocks
@@ -36,14 +35,12 @@ public class XppBundleQueueJmsControllerTest
     private UuidGenerator uuidGenerator;
 
     @Before
-    public void init()
-    {
+    public void init() {
         given(uuidGenerator.generateUuid()).willReturn("uuid");
     }
 
     @Test
-    public void shouldSendJmsMessage() throws IOException, JAXBException
-    {
+    public void shouldSendJmsMessage() throws IOException, JAXBException {
         final String srcFile = File.createTempFile("temp", "").getAbsolutePath();
 
         final XppBundleArchive request = xppBundleQueueJmsController.sendJmsMessage(MATERIAL_NUMBER, srcFile);

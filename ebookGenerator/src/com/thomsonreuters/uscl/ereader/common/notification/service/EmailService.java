@@ -15,8 +15,7 @@ import org.jetbrains.annotations.NotNull;
  * @author Ilia Bochkarev UC220946
  *
  */
-public interface EmailService
-{
+public interface EmailService {
     /**
      * Send email
      * @param recipients

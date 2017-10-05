@@ -27,8 +27,7 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568.
  */
-public final class NovusNortFileParserTest
-{
+public final class NovusNortFileParserTest {
     @Rule
     public TemporaryFolder testFiles = new TemporaryFolder();
     private File cwbDir;
@@ -37,8 +36,7 @@ public final class NovusNortFileParserTest
     private Integer documentLevel = 1;
 
     @Before
-    public void setUp() throws IOException
-    {
+    public void setUp() throws IOException {
         cwbDir = testFiles.newFolder("cwb");
         final Date date = new Date();
         documentLevelMap = new HashMap<>();
@@ -46,59 +44,46 @@ public final class NovusNortFileParserTest
     }
 
     @Test
-    public void testNoneExistingFile() throws Exception
-    {
+    public void testNoneExistingFile() throws Exception {
         final File nort = new File(cwbDir, "none.xml");
-        try
-        {
+        try {
             parser.parseDocument(nort);
             fail("Test should throw FileNotFoundException");
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             //expected exception thrown
         }
     }
 
     @Test
-    public void testInvalidXML() throws UnsupportedEncodingException, IOException, ParserConfigurationException
-    {
+    public void testInvalidXML() throws UnsupportedEncodingException, IOException, ParserConfigurationException {
         final File nort = new File(cwbDir, "none.xml");
         addContentToFile(nort, "asdasd");
-        try
-        {
+        try {
             parser.parseDocument(nort);
             fail("Test should throw SAXException");
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             //expected exception thrown
         }
     }
 
     @Test
-    public void testNoRootNode() throws UnsupportedEncodingException, IOException, ParserConfigurationException
-    {
+    public void testNoRootNode() throws UnsupportedEncodingException, IOException, ParserConfigurationException {
         final File nort = new File(cwbDir, "none.xml");
         addContentToFile(
             nort,
             "<n-load><n-relationship guid=\"N6E4FBD50582711DB99C8C2EC4C695390\" control=\"ADD\">"
                 + "<n-end-date>20071202235959</n-end-date></n-relationship></n-load>");
-        try
-        {
+        try {
             parser.parseDocument(nort);
             fail("Test should throw SAXException");
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             //expected exception thrown
         }
     }
 
     @Test
     public void testRootFound()
-        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException
-    {
+        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
         final File nort = new File(cwbDir, "none.xml");
         addContentToFile(
             nort,
@@ -126,8 +111,7 @@ public final class NovusNortFileParserTest
 
     @Test
     public void testRootAndChild()
-        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException
-    {
+        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
         final File nort = new File(cwbDir, "none.xml");
         addContentToFile(
             nort,
@@ -162,8 +146,8 @@ public final class NovusNortFileParserTest
     }
 
     @Test
-    public void testLabel() throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException
-    {
+    public void testLabel()
+        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
         final File nort = new File(cwbDir, "none.xml");
         addContentToFile(
             nort,
@@ -202,8 +186,7 @@ public final class NovusNortFileParserTest
 
     @Test
     public void testDeletedChildNode()
-        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException
-    {
+        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
         final File nort = new File(cwbDir, "none.xml");
         addContentToFile(
             nort,
@@ -238,8 +221,7 @@ public final class NovusNortFileParserTest
 
     @Test
     public void testDeletedChildNode2()
-        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException
-    {
+        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
         final File nort = new File(cwbDir, "none.xml");
         addContentToFile(
             nort,
@@ -274,8 +256,7 @@ public final class NovusNortFileParserTest
 
     @Test
     public void testMultipleRoots()
-        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException
-    {
+        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
         final File nort = new File(cwbDir, "none.xml");
         addContentToFile(
             nort,
@@ -321,8 +302,7 @@ public final class NovusNortFileParserTest
 
     @Test
     public void testMultipleIdenticalRoots()
-        throws UnsupportedEncodingException, IOException, ParserConfigurationException
-    {
+        throws UnsupportedEncodingException, IOException, ParserConfigurationException {
         final File nort = new File(cwbDir, "none.xml");
         addContentToFile(
             nort,
@@ -340,17 +320,13 @@ public final class NovusNortFileParserTest
                 + "<graft-point-flag>Y</graft-point-flag><term>TOCID(N156AF7107C-8011D9BF2BB-0A94FBB0D8D)</term>"
                 + "</n-nortpayload></n-relpayload></n-relationship></n-load>");
 
-        try
-        {
+        try {
             parser.parseDocument(nort);
             fail("Test should throw SAXException");
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             //expected exception thrown
             final String expectedError = "Duplicate NORT node(s) found: N156AF7107C8011D9BF2BB0A94FBB0D8D";
-            if (!e.getMessage().contains(expectedError))
-            {
+            if (!e.getMessage().contains(expectedError)) {
                 fail("Wrong failure message");
             }
         }
@@ -358,8 +334,7 @@ public final class NovusNortFileParserTest
 
     @Test
     public void testChangeRankRoots()
-        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException
-    {
+        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
         final File nort = new File(cwbDir, "none.xml");
         addContentToFile(
             nort,
@@ -405,8 +380,7 @@ public final class NovusNortFileParserTest
 
     @Test
     public void testDocumentGuidFirstTime()
-        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException
-    {
+        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
         final File nort = new File(cwbDir, "none.xml");
         final String docGuid = "N7EB9F7C08D7011D8A785F88B1CCF3D4B";
         addContentToFile(
@@ -439,8 +413,7 @@ public final class NovusNortFileParserTest
 
     @Test
     public void testDuplicateDocumentSameLevel()
-        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException
-    {
+        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
         final File nort = new File(cwbDir, "none.xml");
         final String docGuid = "N7EB9F7C08D7011D8A785F88B1CCF3D4B";
         addContentToFile(
@@ -476,8 +449,7 @@ public final class NovusNortFileParserTest
 
     @Test
     public void testDuplicateDocumentDifferentLevel()
-        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException
-    {
+        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
         final File nort = new File(cwbDir, "none.xml");
         final String docGuid = "N7EB9F7C08D7011D8A785F88B1CCF3D4B";
         addContentToFile(
@@ -511,19 +483,13 @@ public final class NovusNortFileParserTest
         assertEquals(1.0, root.getRank(), 0.0001);
     }
 
-    private void addContentToFile(final File file, final String text)
-    {
-        try (FileWriter fileOut = new FileWriter(file))
-        {
+    private void addContentToFile(final File file, final String text) {
+        try (FileWriter fileOut = new FileWriter(file)) {
             fileOut.write(text);
             fileOut.close();
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             e.printStackTrace();
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }

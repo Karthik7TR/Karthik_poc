@@ -9,8 +9,7 @@ import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public interface XMLImageParserService
-{
+public interface XMLImageParserService {
     /**
      * Reads through all the XML files found in the provided directory and parses out all
      * image references and generates the specified file that contains a list of GUIDs for

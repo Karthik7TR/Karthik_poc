@@ -27,8 +27,7 @@ import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-public class NovusDocFileParser
-{
+public class NovusDocFileParser {
     private static final Logger Log = LogManager.getLogger(NovusDocFileParser.class);
 
     private static final String CHARSET = "UTF-8"; // explicitly set the character set
@@ -62,8 +61,7 @@ public class NovusDocFileParser
         final GatherResponse gatherResponse,
         final Integer tocSequence,
         final int nortFileLevel,
-        final Map<String, Map<Integer, String>> documentLevelMap)
-    {
+        final Map<String, Map<Integer, String>> documentLevelMap) {
         xmlInputFactory = XMLInputFactory.newFactory();
         xmlInputFactory.setProperty("javax.xml.stream.isCoalescing", true);
         xmlOutFactory = XMLOutputFactory.newFactory();
@@ -79,8 +77,7 @@ public class NovusDocFileParser
         this.documentLevelMap = documentLevelMap;
     }
 
-    public void parseXML(final File docFile) throws GatherException
-    {
+    public void parseXML(final File docFile) throws GatherException {
         XMLEventReader reader = null;
         FileOutputStream docbodyOutput = null;
         FileOutputStream metadataOutput = null;
@@ -89,60 +86,46 @@ public class NovusDocFileParser
 
         int docFoundCounter = 0;
         int metaDocFoundCounter = 0;
-        try (FileInputStream input = new FileInputStream(docFile))
-        {
+        try (FileInputStream input = new FileInputStream(docFile)) {
             reader = xmlInputFactory.createXMLEventReader(input, CHARSET);
-            while (reader.hasNext())
-            {
+            while (reader.hasNext()) {
                 XMLEvent event = (XMLEvent) reader.next();
 
-                if (event.isStartElement())
-                {
+                if (event.isStartElement()) {
                     final StartElement element = event.asStartElement();
-                    if (element.getName().getLocalPart().equalsIgnoreCase(N_DOCUMENT))
-                    {
+                    if (element.getName().getLocalPart().equalsIgnoreCase(N_DOCUMENT)) {
                         final Attribute guid = element.getAttributeByName(QName.valueOf("guid"));
                         docGuid = guid.getValue();
 
-                        if (documentLevelMap.containsKey(docGuid))
-                        {
+                        if (documentLevelMap.containsKey(docGuid)) {
                             final Map<Integer, String> nortLevelMap = documentLevelMap.get(docGuid);
 
-                            if (nortLevelMap.containsKey(nortFileLevel))
-                            {
+                            if (nortLevelMap.containsKey(nortFileLevel)) {
                                 // duplicate docGuid found and also exists in NORT Level map
                                 // use DOC GUID from NORT Level map
                                 docGuid = nortLevelMap.get(nortFileLevel);
-                            }
-                            else
-                            {
+                            } else {
                                 // duplicate docGuid found but DOC GUID does not exist in this NORT Level
                                 // generate new docGuid to fix bug: CA Dwyer duplicate doc conflict.  Multiple extracts from
                                 // same content set produces same documents with different prelims.  This is a special case.
                                 // Duplicate documents within same content set can reuse the same document.
-                                if (docGuid.contains("-"))
-                                {
+                                if (docGuid.contains("-")) {
                                     docGuid = docGuid + nortFileLevel;
-                                }
-                                else
-                                {
+                                } else {
                                     docGuid = docGuid + "-" + nortFileLevel;
                                 }
 
                                 nortLevelMap.put(nortFileLevel, docGuid);
                                 documentLevelMap.put(docGuid, nortLevelMap);
                             }
-                        }
-                        else
-                        {
+                        } else {
                             // First time seeing the document
                             final Map<Integer, String> nortLevelMap = new HashMap<>();
                             nortLevelMap.put(nortFileLevel, docGuid);
                             documentLevelMap.put(docGuid, nortLevelMap);
                         }
 
-                        if (docGuidsMap.containsKey(docGuid))
-                        {
+                        if (docGuidsMap.containsKey(docGuid)) {
                             foundDocument = true;
                             tocSequence++;
                             docGuidsMap.remove(docGuid);
@@ -158,164 +141,112 @@ public class NovusDocFileParser
                                 new FileOutputStream(new File(metadataDestinationDirectory, metadataBasename));
                             docbodyWriter = xmlOutFactory.createXMLEventWriter(docbodyOutput, CHARSET);
                             metadataWriter = xmlOutFactory.createXMLEventWriter(metadataOutput, CHARSET);
-                        }
-                        else
-                        {
+                        } else {
                             Log.debug("Match Not Found for Novus Document GUID or was already processed: " + docGuid);
                         }
-                    }
-                    else if (element.getName().getLocalPart().equalsIgnoreCase(N_DOCBODY) && foundDocument)
-                    {
+                    } else if (element.getName().getLocalPart().equalsIgnoreCase(N_DOCBODY) && foundDocument) {
                         isDocbody = true;
                         docFoundCounter++;
-                    }
-                    else if (element.getName().getLocalPart().equalsIgnoreCase(N_METADATA) && foundDocument)
-                    {
+                    } else if (element.getName().getLocalPart().equalsIgnoreCase(N_METADATA) && foundDocument) {
                         isMetadata = true;
                         metaDocFoundCounter++;
-                    }
-                    else if (element.getName().getLocalPart().equalsIgnoreCase(MD_UUID) && foundDocument)
-                    {
+                    } else if (element.getName().getLocalPart().equalsIgnoreCase(MD_UUID) && foundDocument) {
                         isDocGuid = true;
                     }
                 }
                 // Change Document GUID when not matching docGuid from n-document.
-                if (event.isCharacters())
-                {
-                    if (isDocGuid)
-                    {
+                if (event.isCharacters()) {
+                    if (isDocGuid) {
                         final Characters character = event.asCharacters();
                         final String data = character.getData();
-                        if (!docGuid.equalsIgnoreCase(data))
-                        {
+                        if (!docGuid.equalsIgnoreCase(data)) {
                             event = xmlEventFactory.createCharacters(docGuid);
                         }
                     }
                 }
 
                 // write out to files if condition is met
-                if (isDocbody)
-                {
+                if (isDocbody) {
                     docbodyWriter.add(event);
-                }
-                else if (isMetadata)
-                {
+                } else if (isMetadata) {
                     metadataWriter.add(event);
                 }
                 // Needs to be after writers.
-                if (event.isEndElement())
-                {
+                if (event.isEndElement()) {
                     final EndElement element = event.asEndElement();
-                    if (element.getName().getLocalPart().equalsIgnoreCase(N_DOCBODY) && isDocbody)
-                    {
+                    if (element.getName().getLocalPart().equalsIgnoreCase(N_DOCBODY) && isDocbody) {
                         isDocbody = false;
                         docbodyWriter.flush();
                         docbodyWriter.close();
                         docbodyOutput.close();
-                    }
-                    else if (element.getName().getLocalPart().equalsIgnoreCase(N_METADATA) && isMetadata)
-                    {
+                    } else if (element.getName().getLocalPart().equalsIgnoreCase(N_METADATA) && isMetadata) {
                         isMetadata = false;
                         metadataWriter.flush();
                         metadataWriter.close();
                         metadataOutput.close();
-                    }
-                    else if (element.getName().getLocalPart().equalsIgnoreCase(N_DOCUMENT))
-                    {
+                    } else if (element.getName().getLocalPart().equalsIgnoreCase(N_DOCUMENT)) {
                         foundDocument = false;
-                    }
-                    else if (element.getName().getLocalPart().equalsIgnoreCase(MD_UUID))
-                    {
+                    } else if (element.getName().getLocalPart().equalsIgnoreCase(MD_UUID)) {
                         isDocGuid = false;
                     }
                 }
             }
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             final GatherException ge = new GatherException("File Not Found error", e, GatherResponse.CODE_FILE_ERROR);
             throw ge;
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final GatherException ge = new GatherException(
                 "File I/O error on document with GUID " + docGuid,
                 e,
                 GatherResponse.CODE_FILE_ERROR);
             throw ge;
-        }
-        catch (final XMLStreamException e)
-        {
+        } catch (final XMLStreamException e) {
             final GatherException ge =
                 new GatherException("Streaming doc file error " + docGuid, e, GatherResponse.CODE_FILE_ERROR);
             throw ge;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             final GatherException ge =
                 new GatherException("Error occurred parsing " + docGuid, e, GatherResponse.CODE_FILE_ERROR);
             throw ge;
-        }
-        finally
-        {
+        } finally {
             docFoundCounter += gatherResponse.getDocCount();
             gatherResponse.setDocCount(docFoundCounter); // retrieved doc count
             metaDocFoundCounter += gatherResponse.getDocCount2();
             gatherResponse.setDocCount2(metaDocFoundCounter); // retrieved doc count
 
-            if (docbodyWriter != null)
-            {
-                try
-                {
+            if (docbodyWriter != null) {
+                try {
                     docbodyWriter.close();
-                }
-                catch (final XMLStreamException e)
-                {
+                } catch (final XMLStreamException e) {
                     Log.error("Error closing docbody writer.", e);
                 }
             }
-            if (docbodyOutput != null)
-            {
-                try
-                {
+            if (docbodyOutput != null) {
+                try {
                     docbodyOutput.close();
-                }
-                catch (final IOException e)
-                {
+                } catch (final IOException e) {
                     Log.error("Error closing docbody output stream.", e);
                 }
             }
-            if (metadataWriter != null)
-            {
-                try
-                {
+            if (metadataWriter != null) {
+                try {
                     metadataWriter.close();
-                }
-                catch (final XMLStreamException e)
-                {
+                } catch (final XMLStreamException e) {
                     Log.error("Error closing metadata writer.", e);
                 }
             }
-            if (metadataOutput != null)
-            {
-                try
-                {
+            if (metadataOutput != null) {
+                try {
                     metadataOutput.close();
-                }
-                catch (final IOException e)
-                {
+                } catch (final IOException e) {
                     Log.error("Error closing metadata output stream.", e);
                 }
             }
-            try
-            {
-                if (reader != null)
-                {
+            try {
+                if (reader != null) {
                     reader.close();
                 }
-            }
-            catch (final XMLStreamException e)
-            {
+            } catch (final XMLStreamException e) {
                 final GatherException ge =
                     new GatherException("Closing reader doc file error", e, GatherResponse.CODE_FILE_ERROR);
                 throw ge;
@@ -323,13 +254,11 @@ public class NovusDocFileParser
         }
     }
 
-    public Integer getTocSequence()
-    {
+    public Integer getTocSequence() {
         return tocSequence;
     }
 
-    public void setTocSequence(final Integer tocSequence)
-    {
+    public void setTocSequence(final Integer tocSequence) {
         this.tocSequence = tocSequence;
     }
 }

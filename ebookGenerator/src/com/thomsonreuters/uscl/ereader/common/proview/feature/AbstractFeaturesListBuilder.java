@@ -18,18 +18,17 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Abstract class contains common builder methods e.g. creating of default features list.
  */
-public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
-{
+public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder {
     private final ProviewTitleService proviewTitleService;
     private final BookDefinition bookDefinition;
     private final VersionUtil versionUtil;
 
     private Version newBookVersion;
 
-    protected AbstractFeaturesListBuilder(@NotNull final ProviewTitleService proviewTitleService,
-                                          @NotNull final BookDefinition bookDefinition,
-                                          @NotNull final VersionUtil versionUtil)
-    {
+    protected AbstractFeaturesListBuilder(
+        @NotNull final ProviewTitleService proviewTitleService,
+        @NotNull final BookDefinition bookDefinition,
+        @NotNull final VersionUtil versionUtil) {
         this.proviewTitleService = proviewTitleService;
         this.bookDefinition = bookDefinition;
         this.versionUtil = versionUtil;
@@ -37,63 +36,54 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
 
     @NotNull
     @Override
-    public FeaturesListBuilder withBookVersion(final Version version)
-    {
+    public FeaturesListBuilder withBookVersion(final Version version) {
         newBookVersion = version;
         return this;
     }
 
     @NotNull
     @Override
-    public List<Feature> getFeatures()
-    {
+    public List<Feature> getFeatures() {
         final List<Feature> features = createDefaultFeaturesList();
 
-        final Version previousVersion = proviewTitleService
-            .getLatestProviewTitleVersion(bookDefinition.getFullyQualifiedTitleId());
-        if (shouldCreateFeature(previousVersion, newBookVersion))
-        {
-            final List<BookTitleId> previousBookTitles = proviewTitleService.getPreviousTitles(previousVersion, bookDefinition.getFullyQualifiedTitleId());
+        final Version previousVersion =
+            proviewTitleService.getLatestProviewTitleVersion(bookDefinition.getFullyQualifiedTitleId());
+        if (shouldCreateFeature(previousVersion, newBookVersion)) {
+            final List<BookTitleId> previousBookTitles =
+                proviewTitleService.getPreviousTitles(previousVersion, bookDefinition.getFullyQualifiedTitleId());
             addNotesMigrationFeature(features, previousBookTitles);
         }
 
         return features;
     }
 
-    private List<Feature> createDefaultFeaturesList()
-    {
+    private List<Feature> createDefaultFeaturesList() {
         final List<Feature> features = new ArrayList<>();
         features.add(DefaultProviewFeatures.PRINT.feature);
 
-        if (bookDefinition.getAutoUpdateSupportFlag())
-        {
+        if (bookDefinition.getAutoUpdateSupportFlag()) {
             features.add(DefaultProviewFeatures.AUTO_UPDATE.feature);
         }
 
-        if (bookDefinition.getSearchIndexFlag())
-        {
+        if (bookDefinition.getSearchIndexFlag()) {
             features.add(DefaultProviewFeatures.SEARCH_INDEX.feature);
         }
 
-        if (bookDefinition.getEnableCopyFeatureFlag())
-        {
+        if (bookDefinition.getEnableCopyFeatureFlag()) {
             features.add(DefaultProviewFeatures.COPY.feature);
         }
 
-        if (bookDefinition.getOnePassSsoLinkFlag())
-        {
+        if (bookDefinition.getOnePassSsoLinkFlag()) {
             features.add(DefaultProviewFeatures.ONE_PASS_SSO_WWW_WESTLAW.feature);
             features.add(DefaultProviewFeatures.ONE_PASS_SSO_NEXT_WESTLAW.feature);
         }
 
-        if (bookDefinition.isSplitBook())
-        {
+        if (bookDefinition.isSplitBook()) {
             features.add(DefaultProviewFeatures.FULL_ANCHOR_MAP.feature);
             features.add(DefaultProviewFeatures.COMBINED_TOC.feature);
         }
 
-        if (SourceType.XPP == bookDefinition.getSourceType())
-        {
+        if (SourceType.XPP == bookDefinition.getSourceType()) {
             features.add(DefaultProviewFeatures.PAGE_NUMBERS.feature);
             features.add(DefaultProviewFeatures.SPAN_PAGES.feature);
         }
@@ -104,14 +94,11 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
     protected abstract void addNotesMigrationFeature(List<Feature> features, List<BookTitleId> titleIds);
 
     @Nullable
-    protected Feature createNotesMigrationFeature(@NotNull final Collection<BookTitleId> titleIds)
-    {
+    protected Feature createNotesMigrationFeature(@NotNull final Collection<BookTitleId> titleIds) {
         Feature feature = null;
-        if (!titleIds.isEmpty() && isTitlesPromotedToFinal(titleIds))
-        {
+        if (!titleIds.isEmpty() && isTitlesPromotedToFinal(titleIds)) {
             final List<String> titlesWithMajorVersion = new ArrayList<>();
-            for (final BookTitleId bookTitle : titleIds)
-            {
+            for (final BookTitleId bookTitle : titleIds) {
                 titlesWithMajorVersion.add(bookTitle.getTitleIdWithMajorVersion());
             }
             final String featureValue = StringUtils.join(titlesWithMajorVersion, ";");
@@ -120,13 +107,10 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
         return feature;
     }
 
-    private boolean isTitlesPromotedToFinal(final Collection<BookTitleId> titleIds)
-    {
+    private boolean isTitlesPromotedToFinal(final Collection<BookTitleId> titleIds) {
         boolean isTitlesFinal = true;
-        for (final BookTitleId bookTitle : titleIds)
-        {
-            if (!proviewTitleService.isMajorVersionPromotedToFinal(bookTitle.getTitleId(), newBookVersion))
-            {
+        for (final BookTitleId bookTitle : titleIds) {
+            if (!proviewTitleService.isMajorVersionPromotedToFinal(bookTitle.getTitleId(), newBookVersion)) {
                 isTitlesFinal = false;
                 break;
             }
@@ -134,16 +118,14 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
         return isTitlesFinal;
     }
 
-    private boolean shouldCreateFeature(final Version previousVersion, final Version newVersion)
-    {
+    private boolean shouldCreateFeature(final Version previousVersion, final Version newVersion) {
         return previousVersion != null
             && newVersion != null
             && !previousVersion.equals(newVersion)
             && !versionUtil.isMajorUpdate(previousVersion, newVersion);
     }
 
-    private enum DefaultProviewFeatures
-    {
+    private enum DefaultProviewFeatures {
         PRINT(new Feature("Print")),
         AUTO_UPDATE(new Feature("AutoUpdate")),
         SEARCH_INDEX(new Feature("SearchIndex")),
@@ -157,8 +139,7 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
 
         private final Feature feature;
 
-        DefaultProviewFeatures(final Feature feature)
-        {
+        DefaultProviewFeatures(final Feature feature) {
             this.feature = feature;
         }
     }

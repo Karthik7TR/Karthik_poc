@@ -14,23 +14,19 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("IntegrationTests")
 @ContextConfiguration(classes = PlaceXppMetadataStepIntegrationTestConfig.class)
-public final class MultiVolIntegrationTest extends PlaceXppMetadataStepFixture
-{
+public final class MultiVolIntegrationTest extends PlaceXppMetadataStepFixture {
     public MultiVolIntegrationTest()
-        throws URISyntaxException
-    {
+        throws URISyntaxException {
         super("multivol/0-CHALSource_Front_vol_1.DIVXML.main", "multivol/0-CHALExpected_Front_vol_1.DIVXML.main");
     }
 
     @Test
-    public void shouldInsertCorrectMetadataAndHierToOriginalFile() throws Exception
-    {
+    public void shouldInsertCorrectMetadataAndHierToOriginalFile() throws Exception {
         testPlacedMetadata();
     }
 
     @Override
-    protected List<XppBundle> getBundlesList()
-    {
+    protected List<XppBundle> getBundlesList() {
         final XppBundle volumeOneBundle = new XppBundle();
         volumeOneBundle.setMaterialNumber(VOL_MATERIAL_NUMBER);
         volumeOneBundle.setOrderedFileList(Arrays.asList("0-CHALSource_Front_vol_1.DIVXML.main"));

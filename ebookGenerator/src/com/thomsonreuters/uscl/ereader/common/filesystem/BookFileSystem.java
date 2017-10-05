@@ -8,8 +8,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Provides access to files and directories specific for book generation process
  */
-public interface BookFileSystem
-{
+public interface BookFileSystem {
     /**
      * Returns book workDirectory: {@code /apps/eBookBuilder/environment/data/yyyyMMdd/titleId/jobInstanceId/}
      */

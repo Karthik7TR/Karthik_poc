@@ -27,8 +27,7 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.item.ExecutionContext;
 
-public final class InitializeTaskTest
-{
+public final class InitializeTaskTest {
     private static final Long JOB_ID = System.currentTimeMillis();
     private static final String TITLE_ID = "JunitTestTitleId";
     private static final String DATE_STAMP = new SimpleDateFormat("yyyyMMdd").format(new Date());
@@ -45,8 +44,7 @@ public final class InitializeTaskTest
     private EBookAuditService eBookAuditService;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         stepContrib = EasyMock.createMock(StepContribution.class);
         chunkContext = EasyMock.createMock(ChunkContext.class);
         stepContext = EasyMock.createMock(StepContext.class);
@@ -62,15 +60,13 @@ public final class InitializeTaskTest
     }
 
     @Test
-    public void dummyTest()
-    {
+    public void dummyTest() {
         //Intentionally left blank
     }
 
     @Ignore
     @Test
-    public void testExecuteStep() throws Exception
-    {
+    public void testExecuteStep() throws Exception {
         final Map<String, JobParameter> paramMap = new HashMap<>();
         final JobParameters jobParams = new JobParameters(paramMap);
         EasyMock.expect(chunkContext.getStepContext()).andReturn(stepContext);
@@ -102,20 +98,22 @@ public final class InitializeTaskTest
         EasyMock.replay(publishingStatsService);
         EasyMock.replay(eBookAuditService);
         File expectedWorkDirectory = null;
-        try
-        {
+        try {
             final ExitStatus transition = task.executeStep(stepContrib, chunkContext);
 
             // Verify the root directory for this ebook
             final String dynamicPath = "data/" + String.format("%s/%s/%d", DATE_STAMP, TITLE_ID, JOB_ID);
 
             expectedWorkDirectory = new File(tempRootDir, dynamicPath);
-            final File expectedEbookDirectory = new File(expectedWorkDirectory, "Assemble" + File.separatorChar + TITLE_ID);
-            final File expectedEbookFile = new File(expectedWorkDirectory, TITLE_ID + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
+            final File expectedEbookDirectory =
+                new File(expectedWorkDirectory, "Assemble" + File.separatorChar + TITLE_ID);
+            final File expectedEbookFile =
+                new File(expectedWorkDirectory, TITLE_ID + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
 
             final File actualEbookDirectory = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_DIRECTORY));
             final File actualEbookFile = new File(jobExecutionContext.getString(JobExecutionKey.EBOOK_FILE));
-            final File actualImagesRootDirectory = new File(jobExecutionContext.getString(JobExecutionKey.IMAGE_ROOT_DIR));
+            final File actualImagesRootDirectory =
+                new File(jobExecutionContext.getString(JobExecutionKey.IMAGE_ROOT_DIR));
             final File actualStaticImagesDirectory =
                 new File(jobExecutionContext.getString(JobExecutionKey.IMAGE_STATIC_DEST_DIR));
             final File actualDynamicImagesDirectory =
@@ -146,14 +144,10 @@ public final class InitializeTaskTest
             EasyMock.verify(stepExecution);
             EasyMock.verify(jobExecution);
             EasyMock.verify(jobInstance);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
-        }
-        finally
-        {
+        } finally {
             final File dateDir = new File(tempRootDir, DATE_STAMP);
 //			Assert.assertTrue("The date directory (yyyyMMdd) immediately below the root work directory exists", dateDir.exists());
             FileUtils.deleteDirectory(dateDir);

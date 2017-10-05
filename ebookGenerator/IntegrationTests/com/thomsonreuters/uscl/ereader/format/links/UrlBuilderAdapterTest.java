@@ -3,19 +3,16 @@ package com.thomsonreuters.uscl.ereader.format.links;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class UrlBuilderAdapterTest
-{
+public final class UrlBuilderAdapterTest {
     private UrlBuilderAdapter urlBuilderAdapter;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         urlBuilderAdapter = new UrlBuilderAdapter();
     }
 
     @Test
-    public void testDocketBlob()
-    {
+    public void testDocketBlob() {
         //UrlBuilder:CreatePersistentUrl('Page.Document', concat('guid=',$documentGuid), 'viewType=FullText', 'originationContext=&docDisplayOriginationContext;', '&transitionTypeParamName;=&transitionTypeDocument;', $specialVersionParamVariable, $specialRequestSourceParamVariable)"/>
         final String template = "Page.DocketBlob";
         final String param1 = "platform=";
@@ -44,8 +41,7 @@ public final class UrlBuilderAdapterTest
     }
 
     @Test
-    public void testDocketsPdfBatchDownload()
-    {
+    public void testDocketsPdfBatchDownload() {
         final String template = "Page.DocketsPdfBatchDownload";
         final String param1 = "docGuid=Ie043fac0675a11da90ebf04471783734";
         final String param2 = "pdfIndex=";
@@ -59,8 +55,7 @@ public final class UrlBuilderAdapterTest
     }
 
     @Test
-    public void testDocument()
-    {
+    public void testDocument() {
         //UrlBuilder:CreatePersistentUrl('Page.Document', concat('guid=',$documentGuid), 'viewType=FullText', 'originationContext=&docDisplayOriginationContext;', '&transitionTypeParamName;=&transitionTypeDocument;', $specialVersionParamVariable, $specialRequestSourceParamVariable)"/>
         final String template = "Page.Document";
         final String param1 = "guid=Ie043fac0675a11da90ebf04471783734";
@@ -73,8 +68,7 @@ public final class UrlBuilderAdapterTest
     }
 
     @Test
-    public void testDocumentByLookup()
-    {
+    public void testDocumentByLookup() {
         final String template = "Page.DocumentByLookup";
         final String param1 = "findType=Ie043fac0675a11da90ebf04471783734";
         final String param2 = "serNum=";
@@ -90,8 +84,7 @@ public final class UrlBuilderAdapterTest
     }
 
     @Test
-    public void testDocumentHighResolutionBlob()
-    {
+    public void testDocumentHighResolutionBlob() {
         //UrlBuilder:CreateRelativePersistentUrl('Page.DocumentHighResolutionBlob', concat('imageGuid=', $guid), concat('extension=', $extension), concat('maxHeight=', $maxHeight), concat('targetType=', $targetType), concat('originationContext=', $originationContext), $specialVersionParamVariable, $specialRequestSourceParamVariable, '&transitionTypeParamName;=&transitionTypeDocumentImage;', concat('&uniqueIdParamName;=', $UniqueIdForBlobs))
         final String template = "Page.DocumentHighResolutionBlob";
         final String param1 = "imageGuid=Ie043fac0675a11da90ebf04471783734";
@@ -117,8 +110,7 @@ public final class UrlBuilderAdapterTest
     }
 
     @Test
-    public void testDocumentOrderReview()
-    {
+    public void testDocumentOrderReview() {
         final String template = "Page.DocumentOrderReview";
         final String param1 = "docGuid=Ie043fac0675a11da90ebf04471783734";
         final String param2 = "orderedIndex=";
@@ -130,8 +122,7 @@ public final class UrlBuilderAdapterTest
     }
 
     @Test
-    public void testImageMetadataBlock()
-    {
+    public void testImageMetadataBlock() {
         System.out.println(urlBuilderAdapter);
 
         final String template = "Page.DocumentBlobV1";
@@ -148,8 +139,7 @@ public final class UrlBuilderAdapterTest
     }
 
     @Test
-    public void testKeyciteFlagUrl()
-    {
+    public void testKeyciteFlagUrl() {
         final String template = "Page.KeyCiteFlagHistoryByLookup";
         final String param1 = "docGuid=Ie043fac0675a11da90ebf04471783734";
         final String param2 = "originationContext=document";
@@ -159,8 +149,7 @@ public final class UrlBuilderAdapterTest
     }
 
     @Test
-    public void testPdfImageMetadataBlock()
-    {
+    public void testPdfImageMetadataBlock() {
         final String template = "Page.DocumentBlobV1";
         final String param1 = "imageGuid= Ie043fac0675a11da90ebf04471783734";
         final String param2 = "extension=pdf";
@@ -177,8 +166,7 @@ public final class UrlBuilderAdapterTest
     }
 
     @Test
-    public void testRedirectToExpertQA()
-    {
+    public void testRedirectToExpertQA() {
         final String template = "Page.RedirectToExpertQA";
         final String param1 = "query=";
         final String param2 = "originationContext=document";

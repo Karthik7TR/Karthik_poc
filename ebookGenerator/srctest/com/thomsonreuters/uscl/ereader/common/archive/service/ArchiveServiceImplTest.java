@@ -25,8 +25,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class ArchiveServiceImplTest
-{
+public final class ArchiveServiceImplTest {
     @InjectMocks
     private ArchiveServiceImpl service;
     @Mock
@@ -47,8 +46,7 @@ public final class ArchiveServiceImplTest
     private File assembledSplitTitleFile;
 
     @Before
-    public void setUp() throws URISyntaxException
-    {
+    public void setUp() throws URISyntaxException {
         archiveDir = temporaryFolder.getRoot();
         assembledBookFile = new File(ArchiveServiceImplTest.class.getResource("assembledBookFile").toURI());
         assembledSplitTitleFile = new File(ArchiveServiceImplTest.class.getResource("assembledSplitTitleFile").toURI());
@@ -62,8 +60,7 @@ public final class ArchiveServiceImplTest
     }
 
     @Test
-    public void shouldArchiveSingleVolumeBook()
-    {
+    public void shouldArchiveSingleVolumeBook() {
         //given
         given(book.isSplitBook()).willReturn(false);
         final File copiedFile = new File(archiveDir, "assembledBookFile");
@@ -74,8 +71,7 @@ public final class ArchiveServiceImplTest
     }
 
     @Test
-    public void shouldArchiveSplitBook()
-    {
+    public void shouldArchiveSplitBook() {
         //given
         given(book.isSplitBook()).willReturn(true);
         given(docMetadataService.findDistinctSplitTitlesByJobId(1L)).willReturn(asList("splitTitleId"));

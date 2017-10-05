@@ -17,8 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.batch.core.ExitStatus;
 
-public abstract class BaseGroupStep extends BookStepImpl implements GroupStep
-{
+public abstract class BaseGroupStep extends BookStepImpl implements GroupStep {
     @Resource(name = "groupService")
     private GroupService groupService;
     @Resource(name = "groupServiceWithRetry")
@@ -33,47 +32,38 @@ public abstract class BaseGroupStep extends BookStepImpl implements GroupStep
     private Long groupVersion;
 
     @Override
-    public ExitStatus executeStep() throws Exception
-    {
+    public ExitStatus executeStep() throws Exception {
         final BookDefinition bookDefinition = getBookDefinition();
         final String groupName = bookDefinition.getGroupName();
-        if (!StringUtils.isEmpty(groupName))
-        {
+        if (!StringUtils.isEmpty(groupName)) {
             createGroup(bookDefinition);
-        }
-        else if (publishingStatsService.hasBeenGrouped(bookDefinition.getEbookDefinitionId()))
-        {
+        } else if (publishingStatsService.hasBeenGrouped(bookDefinition.getEbookDefinitionId())) {
             groupService.removeAllPreviousGroups(bookDefinition);
         }
         return ExitStatus.COMPLETED;
     }
 
-    private void createGroup(final BookDefinition bookDefinition) throws Exception
-    {
+    private void createGroup(final BookDefinition bookDefinition) throws Exception {
         final List<String> splitTitles = getSplitTitles();
         final GroupDefinition groupDefinition =
             groupService.createGroupDefinition(bookDefinition, getBookVersion().getFullVersion(), splitTitles);
         final GroupDefinition previousGroupDefinition = groupService.getLastGroup(bookDefinition);
-        if (!groupDefinition.isSimilarGroup(previousGroupDefinition))
-        {
+        if (!groupDefinition.isSimilarGroup(previousGroupDefinition)) {
             groupServiceWithRetry.createGroup(groupDefinition);
             groupVersion = groupDefinition.getGroupVersion();
         }
     }
 
     @Nullable
-    private List<String> getSplitTitles()
-    {
+    private List<String> getSplitTitles() {
         final boolean isSplitBook = getBookDefinition().isSplitBook();
         final File splitBookInfoFile = fileSystem.getSplitBookInfoFile(this);
         final String fullyQualifiedTitleId = getBookDefinition().getFullyQualifiedTitleId();
-        return isSplitBook
-            ? splitNodesInfoService.getTitleIds(splitBookInfoFile, fullyQualifiedTitleId) : null;
+        return isSplitBook ? splitNodesInfoService.getTitleIds(splitBookInfoFile, fullyQualifiedTitleId) : null;
     }
 
     @Override
-    public Long getGroupVersion()
-    {
+    public Long getGroupVersion() {
         return groupVersion;
     }
 }

@@ -28,8 +28,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class GenerateFontsCssStepTest
-{
+public final class GenerateFontsCssStepTest {
     private static final String MATERIAL_NUMBER = "11111111";
 
     @InjectMocks
@@ -53,8 +52,7 @@ public final class GenerateFontsCssStepTest
     private File xppFile;
 
     @Before
-    public void setUp() throws IOException
-    {
+    public void setUp() throws IOException {
         xppDirectory = temporaryFolder.getRoot();
         final File bundleDir = mkdir(xppDirectory, MATERIAL_NUMBER);
         final File xppDir = mkdir(bundleDir, "/bundleName/XPP");
@@ -66,8 +64,7 @@ public final class GenerateFontsCssStepTest
     }
 
     @Test
-    public void shouldTransform() throws Exception
-    {
+    public void shouldTransform() throws Exception {
         //given
         //when
         step.executeStep();
@@ -75,8 +72,7 @@ public final class GenerateFontsCssStepTest
         then(transformationService).should().transform((TransformationCommand) any());
     }
 
-    private Map<String, Collection<File>> getSourceXmlsFromGatherDir()
-    {
+    private Map<String, Collection<File>> getSourceXmlsFromGatherDir() {
         return Collections.singletonMap(MATERIAL_NUMBER, (Collection<File>) Collections.singletonList(xppFile));
     }
 }

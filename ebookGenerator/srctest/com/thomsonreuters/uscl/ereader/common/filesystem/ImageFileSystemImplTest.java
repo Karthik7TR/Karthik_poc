@@ -17,8 +17,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class ImageFileSystemImplTest
-{
+public final class ImageFileSystemImplTest {
     @InjectMocks
     private ImageFileSystemImpl fileSystem;
     @Mock
@@ -29,15 +28,13 @@ public final class ImageFileSystemImplTest
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         given(gatherFileSystem.getGatherRootDirectory(step))
             .willReturn(new File(temporaryFolder.getRoot(), "workDirectory/Gather"));
     }
 
     @Test
-    public void shouldReturnImageRootDirectory()
-    {
+    public void shouldReturnImageRootDirectory() {
         //given
         //when
         final File file = fileSystem.getImageRootDirectory(step);
@@ -46,8 +43,7 @@ public final class ImageFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnImageDynamicDirectory()
-    {
+    public void shouldReturnImageDynamicDirectory() {
         //given
         //when
         final File file = fileSystem.getImageDynamicDirectory(step);

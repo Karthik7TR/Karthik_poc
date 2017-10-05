@@ -8,8 +8,7 @@ import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
  *
  * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
-public interface GenerateDocumentDataBlockService
-{
+public interface GenerateDocumentDataBlockService {
     /**
      * Based on passed in document guid this method retrieve corresponding collectionName using metadata service and builds documentData block.
      * returns as InputStream.

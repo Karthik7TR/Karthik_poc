@@ -17,14 +17,12 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
-public class GenerateDocumentDataBlockServiceImpl implements GenerateDocumentDataBlockService
-{
+public class GenerateDocumentDataBlockServiceImpl implements GenerateDocumentDataBlockService {
     private static final Logger LOG = LogManager.getLogger(GenerateDocumentDataBlockServiceImpl.class);
     private DocMetadataService docMetadataService;
 
     @Required
-    public void setDocMetadataService(final DocMetadataService docMetadataService)
-    {
+    public void setDocMetadataService(final DocMetadataService docMetadataService) {
         this.docMetadataService = docMetadataService;
     }
 
@@ -36,8 +34,7 @@ public class GenerateDocumentDataBlockServiceImpl implements GenerateDocumentDat
      * @return
      *
      */
-    private InputStream buildDocumentDataBlock(final String versioned, final String collectionName, final String cite)
-    {
+    private InputStream buildDocumentDataBlock(final String versioned, final String collectionName, final String cite) {
         final String currentDate = dateString();
         final StringBuffer documentDataBlocks = new StringBuffer();
         documentDataBlocks.append("<document-data>");
@@ -67,11 +64,9 @@ public class GenerateDocumentDataBlockServiceImpl implements GenerateDocumentDat
     public InputStream getDocumentDataBlockAsStream(
         final String titleId,
         final Long jobInstanceId,
-        final String docGuid) throws EBookFormatException
-    {
+        final String docGuid) throws EBookFormatException {
         final DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(titleId, jobInstanceId, docGuid);
-        if (docMetadata == null)
-        {
+        if (docMetadata == null) {
             final String message = "Document metadata could not be found for given guid ="
                 + docGuid
                 + " and title Id ="
@@ -95,8 +90,7 @@ public class GenerateDocumentDataBlockServiceImpl implements GenerateDocumentDat
      * Returns data in yyyyddMMhhmmss format.
      * @return
      */
-    private String dateString()
-    {
+    private String dateString() {
         final Date date = new Date();
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyyddMMhhmmss");
         final String formattedDate = sdf.format(date);

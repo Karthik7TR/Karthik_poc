@@ -29,28 +29,24 @@ import org.springframework.beans.factory.annotation.Value;
  */
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
-public class TransformationToHtmlStep extends XppTransformationStep
-{
+public class TransformationToHtmlStep extends XppTransformationStep {
     @Value("${xpp.transform.to.html.xsl}")
     private File transformToHtmlXsl;
     @Value("${xpp.entities.dtd}")
     private File entitiesDtdFile;
 
     @Override
-    public void executeTransformation() throws Exception
-    {
+    public void executeTransformation() throws Exception {
         final Transformer transformer = transformerBuilderFactory.create()
             .withXsl(transformToHtmlXsl)
             .withParameter("entitiesDocType", entitiesDtdFile.getAbsolutePath().replace("\\", "/"))
             .build();
         final PagePrefix pagePrefix = new PagePrefix(getXppBundles());
-        for (final Entry<String, Collection<File>> dir : fileSystem.getOriginalPageFiles(this).entrySet())
-        {
+        for (final Entry<String, Collection<File>> dir : fileSystem.getOriginalPageFiles(this).entrySet()) {
             final String materialNumber = dir.getKey();
             pagePrefix.switchVolume(materialNumber);
             FileUtils.forceMkdir(fileSystem.getHtmlPagesDirectory(this, materialNumber));
-            for (final File part : dir.getValue())
-            {
+            for (final File part : dir.getValue()) {
                 final TransformationCommand command = createCommand(transformer, materialNumber, part, pagePrefix);
                 transformationService.transform(command);
             }
@@ -61,8 +57,7 @@ public class TransformationToHtmlStep extends XppTransformationStep
         final Transformer transformer,
         final String materialNumber,
         final File part,
-        final PagePrefix pagePrefix)
-    {
+        final PagePrefix pagePrefix) {
         final String partName = part.getName();
         pagePrefix.switchFileType(partName);
         transformer.setParameter("fileBaseName", FilenameUtils.removeExtension(partName));
@@ -76,49 +71,40 @@ public class TransformationToHtmlStep extends XppTransformationStep
         return new TransformationCommandBuilder(transformer, htmlPageFile).withInput(part).build();
     }
 
-    private static final class PagePrefix
-    {
+    private static final class PagePrefix {
         private final Map<String, Integer> volumesNumberMap = new HashMap<>();
         private Integer currentVolume;
         private String currentPrefix;
         private String materialNumber;
 
-        private PagePrefix(@NotNull final List<XppBundle> bundles)
-        {
+        private PagePrefix(@NotNull final List<XppBundle> bundles) {
             Integer volume = 1;
-            for (final XppBundle bundle : bundles)
-            {
+            for (final XppBundle bundle : bundles) {
                 volumesNumberMap.put(bundle.getMaterialNumber(), volume++);
             }
         }
 
-        private void switchFileType(@NotNull final String fileName)
-        {
+        private void switchFileType(@NotNull final String fileName) {
             currentPrefix = BundleFileType.getByFileName(fileName).getPagePrefix();
         }
 
-        private void switchVolume(@NotNull final String materialNumber)
-        {
+        private void switchVolume(@NotNull final String materialNumber) {
             this.materialNumber = materialNumber;
             currentVolume = volumesNumberMap.get(materialNumber);
         }
 
-        private String getPagePrefix()
-        {
+        private String getPagePrefix() {
             final StringBuilder builder = new StringBuilder();
-            if (volumesNumberMap.size() > 1)
-            {
+            if (volumesNumberMap.size() > 1) {
                 builder.append("Vol").append(currentVolume).append("-");
             }
-            if (StringUtils.isNotBlank(currentPrefix))
-            {
+            if (StringUtils.isNotBlank(currentPrefix)) {
                 builder.append(currentPrefix).append("-");
             }
             return builder.toString();
         }
 
-        private String getMaterialNumber()
-        {
+        private String getMaterialNumber() {
             return materialNumber;
         }
     }

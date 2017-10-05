@@ -26,8 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public final class HTMLWrapperServiceTest
-{
+public final class HTMLWrapperServiceTest {
     /**
      * The service being tested, injected by Spring.
      */
@@ -61,8 +60,7 @@ public final class HTMLWrapperServiceTest
      * @throws Exception issues encountered during set up
      */
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         outputStreamTOCTests = null;
 
         final FileExtensionFilter filter = new FileExtensionFilter();
@@ -122,10 +120,8 @@ public final class HTMLWrapperServiceTest
     }
 
     @After
-    public void tearDown() throws IOException
-    {
-        if (outputStreamTOCTests != null)
-        {
+    public void tearDown() throws IOException {
+        if (outputStreamTOCTests != null) {
             outputStreamTOCTests.close();
         }
     }
@@ -135,14 +131,10 @@ public final class HTMLWrapperServiceTest
      *
      */
     @Test(expected = IllegalArgumentException.class)
-    public void testNullArgsAddHTMLWrapper()
-    {
-        try
-        {
+    public void testNullArgsAddHTMLWrapper() {
+        try {
             htmlWrapperService.addHTMLWrappers(null, null, docToTocMapFile, titleId, jobId, false);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             fail("EBookFormatException raised instead of IllegalArgumentException");
         }
     }
@@ -152,14 +144,10 @@ public final class HTMLWrapperServiceTest
      *
      */
     @Test(expected = IllegalArgumentException.class)
-    public void testFileArgAddHTMLWrapper()
-    {
-        try
-        {
+    public void testFileArgAddHTMLWrapper() {
+        try {
             htmlWrapperService.addHTMLWrappers(transformedFile, htmlDir, docToTocMapFile, titleId, jobId, false);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             fail("EBookFormatException raised instead of IllegalArgumentException");
         }
     }
@@ -170,14 +158,10 @@ public final class HTMLWrapperServiceTest
      *
      */
     @Test(expected = IllegalArgumentException.class)
-    public void testNullDocToTocFileArgAddHTMLWrapper()
-    {
-        try
-        {
+    public void testNullDocToTocFileArgAddHTMLWrapper() {
+        try {
             htmlWrapperService.addHTMLWrappers(transformedFile, htmlDir, null, titleId, jobId, false);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             fail("EBookFormatException raised instead of IllegalArgumentException");
         }
     }
@@ -188,15 +172,11 @@ public final class HTMLWrapperServiceTest
      *
      */
     @Test(expected = IllegalArgumentException.class)
-    public void testBadDocToTocFileArgAddHTMLWrapper()
-    {
-        try
-        {
+    public void testBadDocToTocFileArgAddHTMLWrapper() {
+        try {
             final File testFile = new File("NonExisting");
             htmlWrapperService.addHTMLWrappers(transformedFile, htmlDir, testFile, titleId, jobId, false);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             fail("EBookFormatException raised instead of IllegalArgumentException");
         }
     }
@@ -206,19 +186,15 @@ public final class HTMLWrapperServiceTest
      *
      */
     @Test
-    public void testWrapFile()
-    {
-        try
-        {
+    public void testWrapFile() {
+        try {
             assertEquals(0, htmlDir.listFiles().length);
             htmlWrapperService.addHTMLWrapperToFile(transformedFile, htmlDir, anchorMap, titleId, jobId, false);
             final File[] htmlFiles = htmlDir.listFiles();
             assertEquals(1, htmlFiles.length);
 
             assertTrue(transformedFile.length() < htmlFiles[0].length());
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             fail("EBookFormatException raised when it was not expected");
         }
     }
@@ -228,18 +204,14 @@ public final class HTMLWrapperServiceTest
      *
      */
     @Test
-    public void testWrapFileWithNonExistingTransFile()
-    {
-        try
-        {
+    public void testWrapFileWithNonExistingTransFile() {
+        try {
             final File test = new File(transDir, "test.transformed");
 
             htmlWrapperService.addHTMLWrapperToFile(test, htmlDir, anchorMap, titleId, jobId, false);
 
             fail("EBookFormatException was not raised when non existing file was passed in.");
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             //Intentionally left blank
         }
     }
@@ -249,10 +221,8 @@ public final class HTMLWrapperServiceTest
      *
      */
     @Test
-    public void testWrapAllFilesInDirectory() throws IOException
-    {
-        try (OutputStream outputStream = new FileOutputStream(docToTocMapFile))
-        {
+    public void testWrapAllFilesInDirectory() throws IOException {
+        try (OutputStream outputStream = new FileOutputStream(docToTocMapFile)) {
             anchorMap.put("transFile", new String[] {"anchor1"});
             anchorMap.put("transFile2", new String[] {"anchor2", "anchor3"});
             outputStream.write("transFile,anchor1|".getBytes());
@@ -264,19 +234,15 @@ public final class HTMLWrapperServiceTest
             assertEquals(
                 2,
                 htmlWrapperService.addHTMLWrappers(transDir, htmlDir, docToTocMapFile, titleId, jobId, false));
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             fail("EBookFormatException raised when it was not expected: " + e.getMessage());
         }
     }
 
     @Test
-    public void testMapGenerationFromTOCFileNoTOCOnThirdDoc() throws IOException
-    {
+    public void testMapGenerationFromTOCFileNoTOCOnThirdDoc() throws IOException {
         final File testFile = testFiles.newFile("DocTOCTestFile1.txt");
-        try (OutputStream outputStream = new FileOutputStream(testFile))
-        {
+        try (OutputStream outputStream = new FileOutputStream(testFile)) {
             outputStream.write("I1f5a5aa17c8f11da9de6e47d6d5aa7a1,TOC1|TOC2|".getBytes());
             outputStream.write("\n".getBytes());
             outputStream.write("I1f5a81a27c8f11da9de6e47d6d5aa7a2,TOC3|".getBytes());
@@ -294,9 +260,7 @@ public final class HTMLWrapperServiceTest
             fail(
                 "Expected EBookFormatException to be thrown since no TOC guids have been "
                     + "associated with one or more DOC guids.");
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             assertEquals(
                 "No TOC guid was found for the 3 document. "
                     + "Please verify that each document GUID in the following file has "
@@ -307,11 +271,9 @@ public final class HTMLWrapperServiceTest
     }
 
     @Test
-    public void testMapGenerationFromTOCFileNoTOCAllDocs() throws IOException
-    {
+    public void testMapGenerationFromTOCFileNoTOCAllDocs() throws IOException {
         final File testFile = testFiles.newFile("DocTOCTestFile1.txt");
-        try (OutputStream outputStream = new FileOutputStream(testFile))
-        {
+        try (OutputStream outputStream = new FileOutputStream(testFile)) {
             outputStream.write("Iff5a5aa17c8f11da9de6e47d6d5aa7a5,".getBytes());
             outputStream.write("\n".getBytes());
             outputStream.write("Iff5a81a27c8f11da9de6e47d6d5aa7a5,".getBytes());
@@ -325,9 +287,7 @@ public final class HTMLWrapperServiceTest
             fail(
                 "Expected EBookFormatException to be thrown since no TOC guids have been "
                     + "associated with one or more DOC guids.");
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             assertEquals(
                 "No TOC guid was found for the 1 document. "
                     + "Please verify that each document GUID in the following file has "
@@ -338,8 +298,7 @@ public final class HTMLWrapperServiceTest
     }
 
     @Test
-    public void testMapGenerationFromTOCFile() throws IOException, EBookFormatException
-    {
+    public void testMapGenerationFromTOCFile() throws IOException, EBookFormatException {
         final File testFile = testFiles.newFile("DocTOCTestFile2.txt");
         outputStreamTOCTests = new FileOutputStream(testFile);
         outputStreamTOCTests.write("Iff5a5aa17c8f11da9de6e47d6d5aa7a1,TocGuid1|TocGuid2|".getBytes());
@@ -366,10 +325,8 @@ public final class HTMLWrapperServiceTest
     }
 
     @Test
-    public void testMapGenerationFromTOCFileBadFile()
-    {
-        try
-        {
+    public void testMapGenerationFromTOCFileBadFile() {
+        try {
             final File testFile = new File("No file");
 
             final Map<String, String[]> docToTocGuidMap = new HashMap<>();
@@ -377,19 +334,15 @@ public final class HTMLWrapperServiceTest
             htmlWrapperService.readTOCGuidList(testFile, docToTocGuidMap);
 
             fail("Expected EBookFormatException to be thrown since none existing file" + " was passed in.");
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             //Intentionally left blank
         }
     }
 
     @Test
-    public void testAnchorCreationGuidNotFound()
-    {
+    public void testAnchorCreationGuidNotFound() {
         final String guid = "TestNotFound";
-        try
-        {
+        try {
             anchorMap.put("Test123", new String[] {"Toc1"});
             anchorMap.put("Test222", new String[] {"Toc2", "Toc3"});
 
@@ -400,9 +353,7 @@ public final class HTMLWrapperServiceTest
             fail(
                 "Expected EBookFormatException to be thrown since document GUID that is being searched"
                     + " for is not in the supplied map.");
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             assertEquals("No TOC anchor references were found for the following GUID: " + guid, e.getMessage());
         }
     }

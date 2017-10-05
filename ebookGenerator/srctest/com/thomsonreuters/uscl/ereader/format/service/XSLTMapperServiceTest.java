@@ -14,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Class to run the XSLTMapperService as a JUnit test.
  * @author Ripu Jain U0115290
  */
-public final class XSLTMapperServiceTest
-{
+public final class XSLTMapperServiceTest {
     private static final String COLLECTION = "w_codesstaflnvdp";
     private static final String DOC_TYPE = "6A";
     private static final String XSLT = "CodesStatutes.xsl";
@@ -33,8 +32,7 @@ public final class XSLTMapperServiceTest
      * @throws Exception
      */
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         //mock up the xslt mapper DAO
         mockXsltMapperDao = EasyMock.createMock(XSLTMapperDao.class);
         mockXsltMapperEntity = EasyMock.createMock(XSLTMapperEntity.class);
@@ -48,8 +46,7 @@ public final class XSLTMapperServiceTest
      * @throws Exception
      */
     @Test
-    public void testGetXsltWorksAsExpected() throws Exception
-    {
+    public void testGetXsltWorksAsExpected() throws Exception {
         EasyMock.expect(mockXsltMapperDao.getXSLT(COLLECTION, DOC_TYPE)).andReturn(mockXsltMapperEntity);
         EasyMock.expect(mockXsltMapperEntity.getXSLT()).andReturn(XSLT);
 
@@ -67,19 +64,13 @@ public final class XSLTMapperServiceTest
      * @throws Exception
      */
     @Test
-    public void testNoNPEThrownWhenDaoIsNotSet() throws Exception
-    {
-        try
-        {
+    public void testNoNPEThrownWhenDaoIsNotSet() throws Exception {
+        try {
             service = new XSLTMapperServiceImpl();
             service.getXSLT(COLLECTION, DOC_TYPE);
-        }
-        catch (final NullPointerException e)
-        {
+        } catch (final NullPointerException e) {
             fail("A NullPointerException should not have been thrown!");
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             //expected scenario
         }
     }

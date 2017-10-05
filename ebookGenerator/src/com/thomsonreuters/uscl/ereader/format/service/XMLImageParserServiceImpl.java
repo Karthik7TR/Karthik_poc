@@ -27,14 +27,12 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class XMLImageParserServiceImpl implements XMLImageParserService
-{
+public class XMLImageParserServiceImpl implements XMLImageParserService {
     private static final Logger LOG = LogManager.getLogger(XMLImageParserServiceImpl.class);
 
     private FileHandlingHelper fileHandlingHelper;
 
-    public void setfileHandlingHelper(final FileHandlingHelper fileHandlingHelper)
-    {
+    public void setfileHandlingHelper(final FileHandlingHelper fileHandlingHelper) {
         this.fileHandlingHelper = fileHandlingHelper;
     }
 
@@ -52,10 +50,8 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
      */
     @Override
     public int generateImageList(final File xmlDir, final File imgRef, final File docImageMap)
-        throws EBookFormatException
-    {
-        if (xmlDir == null || !xmlDir.isDirectory())
-        {
+        throws EBookFormatException {
+        if (xmlDir == null || !xmlDir.isDirectory()) {
             throw new IllegalArgumentException("xmlDir must be a directory, not null or a regular file.");
         }
 
@@ -65,12 +61,9 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
 
         final List<File> fileList = new ArrayList<>();
 
-        try
-        {
+        try {
             fileHandlingHelper.getFileList(xmlDir, fileList);
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             final String errMessage = "No XML files were found in specified directory. "
                 + "Please verify that the correct XML path was specified.";
             LOG.error(errMessage);
@@ -80,8 +73,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
         final List<String> guids = new ArrayList<>();
         final Map<String, List<String>> docImgMap = new HashMap<>();
         int numDocsParsed = 0;
-        for (final File file : fileList)
-        {
+        for (final File file : fileList) {
             parseXMLFile(file, guids, docImgMap);
             numDocsParsed++;
         }
@@ -107,11 +99,9 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
     protected void parseXMLFile(
         final File xmlFile,
         final List<String> guidList,
-        final Map<String, List<String>> docImgMap) throws EBookFormatException
-    {
+        final Map<String, List<String>> docImgMap) throws EBookFormatException {
         final String docGuid = xmlFile.getName().substring(0, xmlFile.getName().indexOf("."));
-        try (FileInputStream xmlStream = new FileInputStream(xmlFile))
-        {
+        try (FileInputStream xmlStream = new FileInputStream(xmlFile)) {
             //LOG.debug("Parsing following doc for image references: " + xmlFile);
             final SAXParserFactory factory = SAXParserFactory.newInstance();
             final SAXParser saxParser = factory.newSAXParser();
@@ -126,23 +116,17 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
             guidList.addAll(imgGuids);
 
             LOG.debug("Parsed out " + guidList.size() + " image guids from " + xmlFile + ".");
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String message =
                 "Parser throw an exception while parsing the following file: " + xmlFile.getAbsolutePath();
             LOG.error(message, e);
             throw new EBookFormatException(message, e);
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             final String message =
                 "Parser throw an exception while parsing the following file: " + xmlFile.getAbsolutePath();
             LOG.error(message, e);
             throw new EBookFormatException(message, e);
-        }
-        catch (final ParserConfigurationException e)
-        {
+        } catch (final ParserConfigurationException e) {
             final String message =
                 "ParserConfigurationException thrown while parsing the following file: " + xmlFile.getAbsolutePath();
             LOG.error(message, e);
@@ -156,14 +140,10 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
      * @param imgListFile file to which the list will be written to
      * @param imgList set of image guids to be written
      */
-    protected void createImageList(final File imgListFile, final List<String> imgList) throws EBookFormatException
-    {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(imgListFile)))
-        {
-            for (final String guid : imgList)
-            {
-                if (guid == null || guid.length() < 30 || guid.length() > 36)
-                {
+    protected void createImageList(final File imgListFile, final List<String> imgList) throws EBookFormatException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(imgListFile))) {
+            for (final String guid : imgList) {
+                if (guid == null || guid.length() < 30 || guid.length() > 36) {
                     final String message = "Invalid GUID encountered in the Image GUID list: " + guid;
                     LOG.error(message);
                     throw new EBookFormatException(message);
@@ -172,9 +152,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
                 writer.write(guid);
                 writer.newLine();
             }
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String message = "Could not write to the Image list file: " + imgListFile.getAbsolutePath();
             LOG.error(message, e);
             throw new EBookFormatException(message, e);
@@ -188,14 +166,10 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
      * @param docToImgMap the map that contains all the document to image associations
      */
     protected void createDocToImgMap(final File docToImgMapFile, final Map<String, List<String>> docToImgMap)
-        throws EBookFormatException
-    {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(docToImgMapFile)))
-        {
-            for (final String doc : docToImgMap.keySet())
-            {
-                if (doc == null || doc.length() < 32 || doc.length() > 42)
-                {
+        throws EBookFormatException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(docToImgMapFile))) {
+            for (final String doc : docToImgMap.keySet()) {
+                if (doc == null || doc.length() < 32 || doc.length() > 42) {
                     final String message =
                         "Invalid document GUID encountered in the Document to Image GUID map: " + doc;
                     LOG.error(message);
@@ -205,10 +179,8 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
                 writer.write(doc);
                 writer.write("|");
 
-                for (final String imgGuid : docToImgMap.get(doc))
-                {
-                    if (imgGuid == null || imgGuid.length() < 30 || imgGuid.length() > 36)
-                    {
+                for (final String imgGuid : docToImgMap.get(doc)) {
+                    if (imgGuid == null || imgGuid.length() < 30 || imgGuid.length() > 36) {
                         final String message = "Invalid image GUID encountered in the Document to Image GUID map: "
                             + imgGuid
                             + " for the docuemnt guid "
@@ -221,9 +193,7 @@ public class XMLImageParserServiceImpl implements XMLImageParserService
                 }
                 writer.newLine();
             }
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String message =
                 "Could not write to the Document to Image GUID map file: " + docToImgMapFile.getAbsolutePath();
             LOG.error(message, e);

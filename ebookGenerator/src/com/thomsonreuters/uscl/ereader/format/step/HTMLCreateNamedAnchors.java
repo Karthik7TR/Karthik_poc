@@ -25,22 +25,20 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:Kirsten.Gunn@thomsonreuters.com">Kirsten Gunn</a> u0076257
  */
-public class HTMLCreateNamedAnchors extends AbstractSbTasklet
-{
+public class HTMLCreateNamedAnchors extends AbstractSbTasklet {
     //TODO: Use logger API to get Logger instance to job-specific appender.
     private static final Logger LOG = LogManager.getLogger(HTMLCreateNamedAnchors.class);
     private HTMLCreateNamedAnchorsService transformerCreateAnchorService;
 
     private PublishingStatsService publishingStatsService;
 
-    public void setTransformerCreateAnchorService(final HTMLCreateNamedAnchorsService transformerCreateAnchorService)
-    {
+    public void setTransformerCreateAnchorService(final HTMLCreateNamedAnchorsService transformerCreateAnchorService) {
         this.transformerCreateAnchorService = transformerCreateAnchorService;
     }
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
         final JobInstance jobInstance = getJobInstance(chunkContext);
 
@@ -66,16 +64,14 @@ public class HTMLCreateNamedAnchors extends AbstractSbTasklet
         final PublishingStats jobstats = new PublishingStats();
         jobstats.setJobInstanceId(jobId);
         String stepStatus = "Completed";
-        try
-        {
+        try {
             final long startTime = System.currentTimeMillis();
             final int numDocsTransformed = transformerCreateAnchorService
                 .transformHTML(transformDir, postTransformDir, titleId, jobId, docToTocFile);
             final long endTime = System.currentTimeMillis();
             final long elapsedTime = endTime - startTime;
 
-            if (numDocsTransformed != numDocsInTOC)
-            {
+            if (numDocsTransformed != numDocsInTOC) {
                 final String message = "The number of post transformed documents did not match the number "
                     + "of documents retrieved from the eBook TOC. Transformed "
                     + numDocsTransformed
@@ -87,14 +83,10 @@ public class HTMLCreateNamedAnchors extends AbstractSbTasklet
             }
 
             LOG.debug("Transformed " + numDocsTransformed + " HTML files in " + elapsedTime + " milliseconds");
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             stepStatus = "Failed";
             throw e;
-        }
-        finally
-        {
+        } finally {
             jobstats.setPublishStatus("formatHTMLCreateNamedAnchors : " + stepStatus);
             publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
         }
@@ -103,8 +95,7 @@ public class HTMLCreateNamedAnchors extends AbstractSbTasklet
     }
 
     @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
 }

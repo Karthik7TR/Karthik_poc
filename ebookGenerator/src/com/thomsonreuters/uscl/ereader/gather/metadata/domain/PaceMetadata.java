@@ -21,8 +21,7 @@ import javax.xml.bind.annotation.XmlType;
 @Table(name = "PACE_METADATA")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/gather/metadata/domain", name = "PaceMetadata")
-public class PaceMetadata implements Serializable
-{
+public class PaceMetadata implements Serializable {
     private static final long serialVersionUID = 1L;
     private Long publicationId;
     private Long publicationCode;
@@ -45,8 +44,7 @@ public class PaceMetadata implements Serializable
     @Column(name = "ACTIVE", length = 64)
     @Basic(fetch = FetchType.EAGER)
     @XmlElement
-    public String getActive()
-    {
+    public String getActive() {
         return active;
     }
 
@@ -57,8 +55,7 @@ public class PaceMetadata implements Serializable
     @Column(name = "AUDIT_ID")
     @Basic(fetch = FetchType.EAGER)
     @XmlElement
-    public Long getAuditId()
-    {
+    public Long getAuditId() {
         return auditId;
     }
 
@@ -69,8 +66,7 @@ public class PaceMetadata implements Serializable
     @Column(name = "AUTHORITY_NAME", length = 100)
     @Basic(fetch = FetchType.EAGER)
     @XmlElement
-    public String getAuthorityName()
-    {
+    public String getAuthorityName() {
         return authorityName;
     }
 
@@ -81,8 +77,7 @@ public class PaceMetadata implements Serializable
     @Column(name = "LONG_PUB_NAME", length = 500)
     @Basic(fetch = FetchType.EAGER)
     @XmlElement
-    public String getLongPubName()
-    {
+    public String getLongPubName() {
         return longPubName;
     }
 
@@ -93,8 +88,7 @@ public class PaceMetadata implements Serializable
     @Column(name = "PRIMARY_CATEGORY", length = 10)
     @Basic(fetch = FetchType.EAGER)
     @XmlElement
-    public String getPrimaryCategory()
-    {
+    public String getPrimaryCategory() {
         return primaryCategory;
     }
 
@@ -105,8 +99,7 @@ public class PaceMetadata implements Serializable
     @Column(name = "PUBLICATION_CODE", nullable = false)
     @Basic(fetch = FetchType.EAGER)
     @XmlElement
-    public Long getPublicationCode()
-    {
+    public Long getPublicationCode() {
         return publicationCode;
     }
 
@@ -118,8 +111,7 @@ public class PaceMetadata implements Serializable
     @Basic(fetch = FetchType.EAGER)
     @Id
     @XmlElement
-    public Long getPublicationId()
-    {
+    public Long getPublicationId() {
         return publicationId;
     }
 
@@ -130,8 +122,7 @@ public class PaceMetadata implements Serializable
     @Column(name = "PUBLICATION_NAME", length = 255, nullable = false)
     @Basic(fetch = FetchType.EAGER)
     @XmlElement
-    public String getPublicationName()
-    {
+    public String getPublicationName() {
         return publicationName;
     }
 
@@ -142,8 +133,7 @@ public class PaceMetadata implements Serializable
     @Column(name = "SECONDARY_CATEGORY", length = 64)
     @Basic(fetch = FetchType.EAGER)
     @XmlElement
-    public String getSecondaryCategory()
-    {
+    public String getSecondaryCategory() {
         return secondaryCategory;
     }
 
@@ -154,8 +144,7 @@ public class PaceMetadata implements Serializable
     @Column(name = "SPECIFIC_CATEGORY", length = 64)
     @Basic(fetch = FetchType.EAGER)
     @XmlElement
-    public String getSpecificCategory()
-    {
+    public String getSpecificCategory() {
         return specificCategory;
     }
 
@@ -166,8 +155,7 @@ public class PaceMetadata implements Serializable
     @Column(name = "STD_PUB_NAME", length = 255)
     @Basic(fetch = FetchType.EAGER)
     @XmlElement
-    public String getStdPubName()
-    {
+    public String getStdPubName() {
         return stdPubName;
     }
 
@@ -178,8 +166,7 @@ public class PaceMetadata implements Serializable
     @Column(name = "TYPE", length = 64)
     @Basic(fetch = FetchType.EAGER)
     @XmlElement
-    public String getType()
-    {
+    public String getType() {
         return type;
     }
 
@@ -190,8 +177,7 @@ public class PaceMetadata implements Serializable
     @Column(name = "WESTPUB_FLAG", length = 64)
     @Basic(fetch = FetchType.EAGER)
     @XmlElement
-    public String getWestPubFlag()
-    {
+    public String getWestPubFlag() {
         return westPubFlag;
     }
 
@@ -199,8 +185,7 @@ public class PaceMetadata implements Serializable
      *
      * @param active the active to set
      */
-    public void setActive(final String active)
-    {
+    public void setActive(final String active) {
         this.active = active;
     }
 
@@ -208,8 +193,7 @@ public class PaceMetadata implements Serializable
      *
      * @param auditId the auditId to set
      */
-    public void setAuditId(final Long auditId)
-    {
+    public void setAuditId(final Long auditId) {
         this.auditId = auditId;
     }
 
@@ -217,8 +201,7 @@ public class PaceMetadata implements Serializable
      *
      * @param authorityName the authorityName to set
      */
-    public void setAuthorityName(final String authorityName)
-    {
+    public void setAuthorityName(final String authorityName) {
         this.authorityName = authorityName;
     }
 
@@ -226,8 +209,7 @@ public class PaceMetadata implements Serializable
      *
      * @param longPubName the longPubName to set
      */
-    public void setLongPubName(final String longPubName)
-    {
+    public void setLongPubName(final String longPubName) {
         this.longPubName = longPubName;
     }
 
@@ -235,8 +217,7 @@ public class PaceMetadata implements Serializable
      *
      * @param primaryCategory the primaryCategory to set
      */
-    public void setPrimaryCategory(final String primaryCategory)
-    {
+    public void setPrimaryCategory(final String primaryCategory) {
         this.primaryCategory = primaryCategory;
     }
 
@@ -244,8 +225,7 @@ public class PaceMetadata implements Serializable
      *
      * @param publicationCode the publicationCode to set
      */
-    public void setPublicationCode(final Long publicationCode)
-    {
+    public void setPublicationCode(final Long publicationCode) {
         this.publicationCode = publicationCode;
     }
 
@@ -253,8 +233,7 @@ public class PaceMetadata implements Serializable
      *
      * @param publicationId the publicationId to set
      */
-    public void setPublicationId(final Long publicationId)
-    {
+    public void setPublicationId(final Long publicationId) {
         this.publicationId = publicationId;
     }
 
@@ -262,8 +241,7 @@ public class PaceMetadata implements Serializable
      *
      * @param publicationName the publicationName to set
      */
-    public void setPublicationName(final String publicationName)
-    {
+    public void setPublicationName(final String publicationName) {
         this.publicationName = publicationName;
     }
 
@@ -271,8 +249,7 @@ public class PaceMetadata implements Serializable
      *
      * @param secondaryCategory the secondaryCategory to set
      */
-    public void setSecondaryCategory(final String secondaryCategory)
-    {
+    public void setSecondaryCategory(final String secondaryCategory) {
         this.secondaryCategory = secondaryCategory;
     }
 
@@ -280,8 +257,7 @@ public class PaceMetadata implements Serializable
      *
      * @param specificCategory the specificCategory to set
      */
-    public void setSpecificCategory(final String specificCategory)
-    {
+    public void setSpecificCategory(final String specificCategory) {
         this.specificCategory = specificCategory;
     }
 
@@ -289,8 +265,7 @@ public class PaceMetadata implements Serializable
      *
      * @param stdPubName the stdPubName to set
      */
-    public void setStdPubName(final String stdPubName)
-    {
+    public void setStdPubName(final String stdPubName) {
         this.stdPubName = stdPubName;
     }
 
@@ -298,8 +273,7 @@ public class PaceMetadata implements Serializable
      *
      * @param type the type to set
      */
-    public void setType(final String type)
-    {
+    public void setType(final String type) {
         this.type = type;
     }
 
@@ -307,8 +281,7 @@ public class PaceMetadata implements Serializable
      *
      * @param westPubFlag the westPubFlag to set
      */
-    public void setWestPubFlag(final String westPubFlag)
-    {
+    public void setWestPubFlag(final String westPubFlag) {
         this.westPubFlag = westPubFlag;
     }
 
@@ -316,8 +289,7 @@ public class PaceMetadata implements Serializable
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((publicationId == null) ? 0 : publicationId.hashCode());
@@ -328,8 +300,7 @@ public class PaceMetadata implements Serializable
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -338,13 +309,10 @@ public class PaceMetadata implements Serializable
             return false;
         final PaceMetadata other = (PaceMetadata) obj;
 
-        if (publicationId == null)
-        {
+        if (publicationId == null) {
             if (other.publicationId != null)
                 return false;
-        }
-        else if (!publicationId.equals(other.publicationId))
-        {
+        } else if (!publicationId.equals(other.publicationId)) {
             return false;
         }
 

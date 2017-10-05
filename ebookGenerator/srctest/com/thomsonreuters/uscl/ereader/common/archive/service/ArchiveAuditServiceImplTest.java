@@ -34,8 +34,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class ArchiveAuditServiceImplTest
-{
+public final class ArchiveAuditServiceImplTest {
     @InjectMocks
     private ArchiveAuditServiceImpl service;
     @Mock
@@ -58,8 +57,7 @@ public final class ArchiveAuditServiceImplTest
     private ArgumentCaptor<ProviewAudit> captor;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         given(step.getBookDefinition()).willReturn(book);
         given(step.getBookVersion()).willReturn(version("v1.1"));
         given(step.getBookVersionString()).willReturn("1.1");
@@ -68,8 +66,7 @@ public final class ArchiveAuditServiceImplTest
     }
 
     @Test
-    public void shouldSaveAuditForSingleVolumeBook()
-    {
+    public void shouldSaveAuditForSingleVolumeBook() {
         //given
         given(book.isSplitBook()).willReturn(false);
         //when
@@ -81,8 +78,7 @@ public final class ArchiveAuditServiceImplTest
     }
 
     @Test
-    public void shouldSaveAuditForSplitTitles()
-    {
+    public void shouldSaveAuditForSplitTitles() {
         //given
         given(book.isSplitBook()).willReturn(true);
         final Set<SplitNodeInfo> submittedSplitNodes = splitNodes(splitNode(book, "titleId_pt2", "1.1"));
@@ -97,8 +93,7 @@ public final class ArchiveAuditServiceImplTest
     }
 
     @Test
-    public void shouldUpdateSplitNodesIfChanged()
-    {
+    public void shouldUpdateSplitNodesIfChanged() {
         //given
         given(book.isSplitBook()).willReturn(true);
         final Set<SplitNodeInfo> submittedSplitNodes = splitNodes(splitNode(book, "titleId_pt2", "1.1"));
@@ -113,8 +108,7 @@ public final class ArchiveAuditServiceImplTest
 
     private void givenSplitNodes(
         final Set<SplitNodeInfo> submittedSplitNodes,
-        final Set<SplitNodeInfo> persistedSplitNodes)
-    {
+        final Set<SplitNodeInfo> persistedSplitNodes) {
         given(fileSystem.getSplitBookInfoFile(step)).willReturn(splitBookInfoFile);
         given(
             splitNodesInfoService

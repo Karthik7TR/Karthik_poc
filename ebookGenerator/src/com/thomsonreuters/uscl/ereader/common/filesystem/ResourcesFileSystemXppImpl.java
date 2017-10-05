@@ -15,8 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component("resourcesFileSystemXpp")
-public class ResourcesFileSystemXppImpl implements ResourcesFileSystem
-{
+public class ResourcesFileSystemXppImpl implements ResourcesFileSystem {
     @Resource(name = "xppFormatFileSystem")
     private XppFormatFileSystem xppFormatFileSystem;
     @Resource(name = "imageFileSystem")
@@ -30,43 +29,37 @@ public class ResourcesFileSystemXppImpl implements ResourcesFileSystem
 
     @NotNull
     @Override
-    public File getDocumentsDirectory(@NotNull final BookStep step)
-    {
+    public File getDocumentsDirectory(@NotNull final BookStep step) {
         return xppFormatFileSystem.getExternalLinksDirectory(step);
     }
 
     @NotNull
     @Override
-    public File getAssetsDirectory(@NotNull final BookStep step)
-    {
+    public File getAssetsDirectory(@NotNull final BookStep step) {
         return imageFileSystem.getImageDynamicDirectory(step);
     }
 
     @NotNull
     @Override
-    public File getArtwork(@NotNull final BookStep step)
-    {
+    public File getArtwork(@NotNull final BookStep step) {
         return coverArtUtil.getCoverArt(step.getBookDefinition());
     }
 
     @NotNull
     @Override
-    public File getDocumentCss()
-    {
+    public File getDocumentCss() {
         return documentCssFile;
     }
 
     @NotNull
     @Override
-    public File getTlrKeyImage()
-    {
+    public File getTlrKeyImage() {
         return tlrKeyImage;
     }
 
     @NotNull
     @Override
-    public Collection<File> getFontsCssFiles(@NotNull final BookStep step)
-    {
+    public Collection<File> getFontsCssFiles(@NotNull final BookStep step) {
         final File cssDir = xppFormatFileSystem.getFontsCssDirectory(step);
         return FileUtils.listFiles(cssDir, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
     }

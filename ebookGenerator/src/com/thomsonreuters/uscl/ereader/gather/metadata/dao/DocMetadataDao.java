@@ -12,8 +12,7 @@ import org.springframework.dao.DataAccessException;
  * DAO to manage DocMetadata entities.
  *
  */
-public interface DocMetadataDao
-{
+public interface DocMetadataDao {
     /**
      * Query - findDocMetadataByPrimaryKey
      *

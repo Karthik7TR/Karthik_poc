@@ -21,8 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TableOfCasesPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTransformStrategy
-{
+public class TableOfCasesPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTransformStrategy {
     private final File xslTransformationFile;
     private final XppFormatFileSystem xppFormatFileSystem;
 
@@ -31,9 +30,10 @@ public class TableOfCasesPlaceXppMetadataStrategy extends AbstractPlaceXppMetada
         final XslTransformationService xslTransformationService,
         final TransformerBuilderFactory transformerBuilderFactory,
         @Value("${xpp.add.metadata.to.table.of.cases.xsl}") final File xslTransformationFile,
-        final XppFormatFileSystem xppFormatFileSystem)
-    {
-        super(xslTransformationService, transformerBuilderFactory,
+        final XppFormatFileSystem xppFormatFileSystem) {
+        super(
+            xslTransformationService,
+            transformerBuilderFactory,
             new HashSet<>(Arrays.asList(BundleFileType.TABLE_OF_CASES, BundleFileType.TABLE_OF_ADDED_CASES)));
         this.xslTransformationFile = xslTransformationFile;
         this.xppFormatFileSystem = xppFormatFileSystem;
@@ -43,8 +43,7 @@ public class TableOfCasesPlaceXppMetadataStrategy extends AbstractPlaceXppMetada
     protected List<TransformationCommand> getTransformationCommands(
         final File inputFile,
         final String materialNumber,
-        final XppBookStep bookStep)
-    {
+        final XppBookStep bookStep) {
         final Transformer transformer = transformerBuilderFactory.create().withXsl(xslTransformationFile).build();
         transformer.setParameter("TOCPartName", BundleFileType.getByFileName(inputFile.getName()));
         final File outputFile =

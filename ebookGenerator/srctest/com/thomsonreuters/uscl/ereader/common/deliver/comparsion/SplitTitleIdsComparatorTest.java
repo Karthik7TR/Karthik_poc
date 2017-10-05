@@ -10,8 +10,7 @@ import java.util.Comparator;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class SplitTitleIdsComparatorTest
-{
+public final class SplitTitleIdsComparatorTest {
     private static final String ROOT_TITLE_ID = "uscl/an/some_title";
     private static final String PART_TWO = ROOT_TITLE_ID + "_pt2";
     private static final String PART_THREE = ROOT_TITLE_ID + "_pt3";
@@ -19,14 +18,12 @@ public final class SplitTitleIdsComparatorTest
     private Comparator<String> comparator;
 
     @Before
-    public void onTestSetUp()
-    {
+    public void onTestSetUp() {
         comparator = new SplitTitleIdsComparator(ROOT_TITLE_ID);
     }
 
     @Test
-    public void shouldReturnLessThenZeroValue()
-    {
+    public void shouldReturnLessThenZeroValue() {
         //given
         //when
         final int result = comparator.compare(PART_THREE, PART_TWO);
@@ -35,8 +32,7 @@ public final class SplitTitleIdsComparatorTest
     }
 
     @Test
-    public void shouldReturnGreaterThenZeroValue()
-    {
+    public void shouldReturnGreaterThenZeroValue() {
         //given
         //when
         final int result = comparator.compare(ROOT_TITLE_ID, PART_TWO);
@@ -45,8 +41,7 @@ public final class SplitTitleIdsComparatorTest
     }
 
     @Test
-    public void shouldReturnZeroValue()
-    {
+    public void shouldReturnZeroValue() {
         //given
         //when
         final int result = comparator.compare(PART_TWO, PART_TWO);

@@ -6,8 +6,7 @@ import com.thomsonreuters.uscl.ereader.gather.domain.GatherNortRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherTocRequest;
 
-public interface GatherService
-{
+public interface GatherService {
     /**
      * Rest client request to gather url.
      * @param gatherTocRequest

@@ -19,8 +19,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Features list builder for split book.
  */
-public class SplitBookFeatureListBuilder extends AbstractFeaturesListBuilder
-{
+public class SplitBookFeatureListBuilder extends AbstractFeaturesListBuilder {
     private final ProviewTitleService proviewTitleService;
     private final Map<BookTitleId, Feature> splitBookVolumesFeatures = new HashMap<>();
 
@@ -30,66 +29,56 @@ public class SplitBookFeatureListBuilder extends AbstractFeaturesListBuilder
     SplitBookFeatureListBuilder(
         @NotNull final ProviewTitleService proviewTitleService,
         @NotNull final BookDefinition bookDefinition,
-        @NotNull final VersionUtil versionUtil)
-    {
+        @NotNull final VersionUtil versionUtil) {
         super(proviewTitleService, bookDefinition, versionUtil);
         this.proviewTitleService = proviewTitleService;
     }
 
     @NotNull
     @Override
-    public FeaturesListBuilder withTitleDocs(@NotNull final Map<BookTitleId, List<Doc>> titleDocs)
-    {
+    public FeaturesListBuilder withTitleDocs(@NotNull final Map<BookTitleId, List<Doc>> titleDocs) {
         this.titleDocs = titleDocs;
         return this;
     }
 
     @NotNull
     @Override
-    public FeaturesListBuilder forTitleId(@NotNull final BookTitleId titleId)
-    {
+    public FeaturesListBuilder forTitleId(@NotNull final BookTitleId titleId) {
         this.titleId = titleId;
         return this;
     }
 
     @Override
-    protected void addNotesMigrationFeature(@NotNull final List<Feature> features, @NotNull final List<BookTitleId> titleIds)
-    {
-        if (splitBookVolumesFeatures.isEmpty())
-        {
+    protected void addNotesMigrationFeature(
+        @NotNull final List<Feature> features,
+        @NotNull final List<BookTitleId> titleIds) {
+        if (splitBookVolumesFeatures.isEmpty()) {
             fillVolumesFeatures(titleIds);
         }
         final Feature notesMigrationFeature = splitBookVolumesFeatures.get(titleId);
-        if (notesMigrationFeature != null)
-        {
+        if (notesMigrationFeature != null) {
             features.add(notesMigrationFeature);
         }
     }
 
-    private void fillVolumesFeatures(@NotNull final List<BookTitleId> previousBookTitles)
-    {
+    private void fillVolumesFeatures(@NotNull final List<BookTitleId> previousBookTitles) {
         final Map<BookTitleId, List<Doc>> docsByTitlesPrev = getDocsByVolumes(previousBookTitles);
-        for (final Entry<BookTitleId, List<Doc>> e : titleDocs.entrySet())
-        {
+        for (final Entry<BookTitleId, List<Doc>> e : titleDocs.entrySet()) {
             final Feature notesMigrationFeature = getTitleNotesMigrationFeature(e.getValue(), docsByTitlesPrev);
-            if (notesMigrationFeature != null)
-            {
+            if (notesMigrationFeature != null) {
                 splitBookVolumesFeatures.put(e.getKey(), notesMigrationFeature);
             }
         }
     }
 
     @Nullable
-    private Feature getTitleNotesMigrationFeature(@NotNull final List<Doc> currentTitleDocs,
-                                                  @NotNull final Map<BookTitleId, List<Doc>> docsInPreviousVersion)
-    {
+    private Feature getTitleNotesMigrationFeature(
+        @NotNull final List<Doc> currentTitleDocs,
+        @NotNull final Map<BookTitleId, List<Doc>> docsInPreviousVersion) {
         final Set<BookTitleId> sourceTitles = new TreeSet<>();
-        for (final Doc doc : currentTitleDocs)
-        {
-            for (final Entry<BookTitleId, List<Doc>> e : docsInPreviousVersion.entrySet())
-            {
-                if (e.getValue().contains(doc))
-                {
+        for (final Doc doc : currentTitleDocs) {
+            for (final Entry<BookTitleId, List<Doc>> e : docsInPreviousVersion.entrySet()) {
+                if (e.getValue().contains(doc)) {
                     sourceTitles.add(e.getKey());
                 }
             }
@@ -98,11 +87,9 @@ public class SplitBookFeatureListBuilder extends AbstractFeaturesListBuilder
     }
 
     @NotNull
-    private Map<BookTitleId, List<Doc>> getDocsByVolumes(@NotNull final List<BookTitleId> titleIds)
-    {
+    private Map<BookTitleId, List<Doc>> getDocsByVolumes(@NotNull final List<BookTitleId> titleIds) {
         final Map<BookTitleId, List<Doc>> volumesDocs = new HashMap<>();
-        for (final BookTitleId bookTitleId : titleIds)
-        {
+        for (final BookTitleId bookTitleId : titleIds) {
             volumesDocs.put(bookTitleId, proviewTitleService.getProviewTitleDocs(bookTitleId));
         }
         return volumesDocs;

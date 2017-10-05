@@ -31,8 +31,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-public final class GenerateSplitTocXMLTest
-{
+public final class GenerateSplitTocXMLTest {
     private static Logger LOG = LogManager.getLogger(GenerateSplitTocXMLTest.class);
     private static final String FINE_NAME = "split_toc_InputFile.xml";
 
@@ -51,8 +50,7 @@ public final class GenerateSplitTocXMLTest
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         generateSplitTocTask = new GenerateSplitTocTask();
 
         splitTocGuidList = new ArrayList<>();
@@ -90,8 +88,7 @@ public final class GenerateSplitTocXMLTest
     }
 
     @Test
-    public void testParseAndUpdateSplitToc() throws Exception
-    {
+    public void testParseAndUpdateSplitToc() throws Exception {
         Map<String, DocumentInfo> documentInfoMap = new HashMap<>();
 
         mockDocMetadataService.updateSplitBookFields(jobInstanceId, documentInfoMap);
@@ -149,8 +146,7 @@ public final class GenerateSplitTocXMLTest
     }
 
     @Test
-    public void testWithMissingDoc() throws Exception
-    {
+    public void testWithMissingDoc() throws Exception {
         Map<String, DocumentInfo> documentInfoMap = new HashMap<>();
 
         mockDocMetadataService.updateSplitBookFields(jobInstanceId, documentInfoMap);
@@ -218,8 +214,7 @@ public final class GenerateSplitTocXMLTest
     }
 
     @Test
-    public void testIncorrectSplitToc() throws Exception
-    {
+    public void testIncorrectSplitToc() throws Exception {
         boolean thrown = false;
         splitTocGuidList = new ArrayList<>();
         final String guid1 = "NF81E0E40C40911DA87C3A6A101BC03A2";
@@ -233,8 +228,7 @@ public final class GenerateSplitTocXMLTest
         final URL url = GenerateSplitTocTask.class.getResource("toc.xml");
         tocXml = new FileInputStream(url.getPath());
 
-        try
-        {
+        try {
             generateSplitTocTask.generateAndUpdateSplitToc(
                 tocXml,
                 splitTocXml,
@@ -242,9 +236,7 @@ public final class GenerateSplitTocXMLTest
                 tranformedDirectory,
                 jobInstanceId,
                 "splitTitle");
-        }
-        catch (final RuntimeException e)
-        {
+        } catch (final RuntimeException e) {
             thrown = true;
             Assert.assertEquals(
                 true,
@@ -254,25 +246,20 @@ public final class GenerateSplitTocXMLTest
         assertTrue(thrown);
     }
 
-    protected void writeDocumentLinkFile(final File tFile, final boolean addNewLine)
-    {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(tFile)))
-        {
+    protected void writeDocumentLinkFile(final File tFile, final boolean addNewLine) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(tFile))) {
             writer.write("NF8C65500AFF711D8803AE0632FEDDFBF,N129FCFD29AA24CD5ABBAA83B0A8A2D7B275|");
             writer.newLine();
             writer.write("NDF4CB9C0AFF711D8803AE0632FEDDFBF,N8E37708B96244CD1B394155616B3C66F190|");
 
             writer.newLine();
-            if (addNewLine)
-            {
+            if (addNewLine) {
                 writer.write("NF8C65500AFF711D8803AE0632FEDDFBF,N129FCFD29AA24CD5ABBAA83B0A8A2D7B275|");
                 writer.newLine();
             }
 
             writer.flush();
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String errMessage = "Encountered an IO Exception while processing: " + tFile.getAbsolutePath();
             LOG.error(errMessage, e);
         }

@@ -5,14 +5,12 @@ package com.thomsonreuters.uscl.ereader.format.parsinghandler;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class Characters extends ParserEvent
-{
+public class Characters extends ParserEvent {
     private char[] buf;
     private int offset;
     private int len;
 
-    public Characters(final char[] buf, final int offset, final int len)
-    {
+    public Characters(final char[] buf, final int offset, final int len) {
         super(ParserEvent.CHAR_EVENT);
 
         this.buf = buf;
@@ -20,18 +18,15 @@ public class Characters extends ParserEvent
         this.len = len;
     }
 
-    public char[] getBuffer()
-    {
+    public char[] getBuffer() {
         return buf;
     }
 
-    public int getOffset()
-    {
+    public int getOffset() {
         return offset;
     }
 
-    public int getLength()
-    {
+    public int getLength() {
         return len;
     }
 }

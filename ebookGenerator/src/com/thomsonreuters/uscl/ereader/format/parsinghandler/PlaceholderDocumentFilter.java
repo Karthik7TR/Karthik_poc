@@ -21,8 +21,7 @@ import org.xml.sax.helpers.XMLFilterImpl;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public class PlaceholderDocumentFilter extends XMLFilterImpl
-{
+public class PlaceholderDocumentFilter extends XMLFilterImpl {
     private static final String DISPLAY_TEXT = "displaytext";
     private static final String ANCHOR_CASCADE_TAG = "anchorsToCascade";
     private static final String ANCHOR_TAG = "a";
@@ -35,8 +34,7 @@ public class PlaceholderDocumentFilter extends XMLFilterImpl
      *
      * @param displayText the text to be displayed within the body of the document.
      */
-    public PlaceholderDocumentFilter(final String displayText, final String tocGuid, final List<String> anchors)
-    {
+    public PlaceholderDocumentFilter(final String displayText, final String tocGuid, final List<String> anchors) {
         this.displayText = displayText;
         this.tocGuid = tocGuid;
         this.anchors = anchors;
@@ -44,18 +42,12 @@ public class PlaceholderDocumentFilter extends XMLFilterImpl
 
     @Override
     public void startElement(final String uri, final String localname, final String qName, final Attributes attributes)
-        throws SAXException
-    {
-        if (DISPLAY_TEXT.equals(qName))
-        {
+        throws SAXException {
+        if (DISPLAY_TEXT.equals(qName)) {
             super.characters(displayText.toCharArray(), 0, displayText.length());
-        }
-        else if (ANCHOR_CASCADE_TAG.equals(qName))
-        {
-            if (anchors != null && anchors.size() > 0)
-            {
-                for (int i = anchors.size() - 1; i >= 0; i--)
-                {
+        } else if (ANCHOR_CASCADE_TAG.equals(qName)) {
+            if (anchors != null && anchors.size() > 0) {
+                for (int i = anchors.size() - 1; i >= 0; i--) {
                     final String anchor = anchors.get(i);
                     final AttributesImpl newAtts = new AttributesImpl();
                     newAtts.addAttribute("", "", "name", "CDATA", anchor);
@@ -63,38 +55,27 @@ public class PlaceholderDocumentFilter extends XMLFilterImpl
                     super.endElement("", ANCHOR_TAG, ANCHOR_TAG);
                 }
             }
-        }
-        else if (ANCHOR_TAG.equals(qName))
-        {
+        } else if (ANCHOR_TAG.equals(qName)) {
             final String anchorName = attributes.getValue("name");
-            if (anchorName != null && anchorName.equalsIgnoreCase("placeholder_anchor"))
-            {
+            if (anchorName != null && anchorName.equalsIgnoreCase("placeholder_anchor")) {
                 final AttributesImpl newAtts = new AttributesImpl(attributes);
                 newAtts.removeAttribute(newAtts.getIndex("name"));
                 newAtts.addAttribute("", "", "name", "CDATA", tocGuid);
 
                 super.startElement(uri, localname, qName, newAtts);
-            }
-            else
-            {
+            } else {
                 super.startElement(uri, localname, qName, attributes);
             }
-        }
-        else
-        {
+        } else {
             super.startElement(uri, localname, qName, attributes);
         }
     }
 
     @Override
-    public void endElement(final String uri, final String localname, final String qName) throws SAXException
-    {
-        if (DISPLAY_TEXT.equals(qName) || ANCHOR_CASCADE_TAG.equals(qName))
-        {
+    public void endElement(final String uri, final String localname, final String qName) throws SAXException {
+        if (DISPLAY_TEXT.equals(qName) || ANCHOR_CASCADE_TAG.equals(qName)) {
             //eat this event.
-        }
-        else
-        {
+        } else {
             super.endElement(uri, localname, qName);
         }
     }

@@ -18,8 +18,7 @@ import com.trgr.cobalt.util.urlbuilder.UrlBuilderInput;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public class CiteQueryAdapter
-{
+public class CiteQueryAdapter {
     private static final Logger LOG = LogManager.getLogger(CiteQueryAdapter.class);
     private static String HOSTNAME;
     private static String MUD_PARAMETERS_RS;
@@ -28,8 +27,7 @@ public class CiteQueryAdapter
     private UrlBuilder urlBuilder;
 
     public CiteQueryAdapter()
-        throws Exception
-    {
+        throws Exception {
         citeQuery = new CiteQuery(Container.COBALT.name());
         urlBuilder = new ContainerAwareUrlBuilderFactoryBean().getObject();
     }
@@ -38,8 +36,7 @@ public class CiteQueryAdapter
         final String linkElement,
         final String originatingDoc,
         final String keyText,
-        final String sourceCite)
-    {
+        final String sourceCite) {
         return this.getCiteQueryLinkIntermediary(linkElement, originatingDoc, keyText, sourceCite);
     }
 
@@ -48,8 +45,7 @@ public class CiteQueryAdapter
         final String originatingDoc,
         final String keyText,
         final String sourceCite,
-        final String param1)
-    {
+        final String param1) {
         return this.getCiteQueryLinkIntermediary(linkElement, originatingDoc, keyText, sourceCite, param1);
     }
 
@@ -59,8 +55,7 @@ public class CiteQueryAdapter
         final String keyText,
         final String sourceCite,
         final String param1,
-        final String param2)
-    {
+        final String param2) {
         return this.getCiteQueryLinkIntermediary(linkElement, originatingDoc, keyText, sourceCite, param1, param2);
     }
 
@@ -71,8 +66,7 @@ public class CiteQueryAdapter
         final String sourceCite,
         final String param1,
         final String param2,
-        final String param3)
-    {
+        final String param3) {
         return this
             .getCiteQueryLinkIntermediary(linkElement, originatingDoc, keyText, sourceCite, param1, param2, param3);
     }
@@ -85,8 +79,7 @@ public class CiteQueryAdapter
         final String param1,
         final String param2,
         final String param3,
-        final String param4)
-    {
+        final String param4) {
         return this.getCiteQueryLinkIntermediary(
             linkElement,
             originatingDoc,
@@ -106,8 +99,7 @@ public class CiteQueryAdapter
         final String param1,
         final String param2,
         final String param3,
-        final String param4)
-    {
+        final String param4) {
         return this.getCiteQueryLinkIntermediary(
             linkElement,
             originatingDoc,
@@ -128,8 +120,7 @@ public class CiteQueryAdapter
         final String param2,
         final String param3,
         final String param4,
-        final String param5)
-    {
+        final String param5) {
         return this.getCiteQueryLinkIntermediary(
             linkElement,
             originatingDoc,
@@ -151,8 +142,7 @@ public class CiteQueryAdapter
         final String param2,
         final String param3,
         final String param4,
-        final String param5)
-    {
+        final String param5) {
         return this.getCiteQueryLinkIntermediary(
             linkElement,
             originatingDoc,
@@ -165,18 +155,15 @@ public class CiteQueryAdapter
             param5);
     }
 
-    public void setHostname(final String hostname)
-    {
+    public void setHostname(final String hostname) {
         CiteQueryAdapter.HOSTNAME = hostname;
     }
 
-    public void setRs(final String rs)
-    {
+    public void setRs(final String rs) {
         CiteQueryAdapter.MUD_PARAMETERS_RS = rs;
     }
 
-    public void setVr(final String vr)
-    {
+    public void setVr(final String vr) {
         CiteQueryAdapter.MUD_PARAMETERS_VR = vr;
     }
 
@@ -186,41 +173,32 @@ public class CiteQueryAdapter
      *
      * @return Updated Url (with extra parameters)
      */
-    private String addExtraParameters(final String url)
-    {
+    private String addExtraParameters(final String url) {
         final StringBuilder strBuilder = new StringBuilder();
         final String extraParameters = "&RS=" + MUD_PARAMETERS_RS + "&vr=" + MUD_PARAMETERS_VR;
 
-        if (url.contains("#"))
-        {
+        if (url.contains("#")) {
             final String[] strSpliter = url.split("#");
 
             strBuilder.append(strSpliter[0]);
             strBuilder.append(extraParameters);
 
-            if (strSpliter.length > 1)
-            {
-                if (strSpliter[1].contains("&"))
-                {
+            if (strSpliter.length > 1) {
+                if (strSpliter[1].contains("&")) {
                     final String[] newStrSpliter = strSpliter[1].split("&");
                     int i = 1;
 
-                    for (; i < newStrSpliter.length; i++)
-                    {
+                    for (; i < newStrSpliter.length; i++) {
                         strBuilder.append('&');
                         strBuilder.append(newStrSpliter[i]);
                     }
 
                     strBuilder.append("#" + newStrSpliter[0]);
-                }
-                else
-                {
+                } else {
                     strBuilder.append("#" + strSpliter[1]);
                 }
             }
-        }
-        else
-        {
+        } else {
             return url + extraParameters;
         }
 
@@ -232,37 +210,29 @@ public class CiteQueryAdapter
         final String originatingDoc,
         final String keyText,
         final String sourceCite,
-        final String... parameters)
-    {
-        try
-        {
+        final String... parameters) {
+        try {
             final UrlBuilderInput input =
                 citeQuery.getCiteQueryLink(linkElement, originatingDoc, keyText, sourceCite, "ebook");
 
-            if (input == null)
-            {
+            if (input == null) {
                 return "";
             }
 
             String response = null;
 
-            try
-            {
+            try {
                 response = HOSTNAME
                     + urlBuilder.createUrl(Container.COBALT.name(), input.getUrlTemplateName(), input.getParameters());
                 response = addExtraParameters(response);
-            }
-            catch (final UrlBuilderException e)
-            {
+            } catch (final UrlBuilderException e) {
                 response = "";
 
                 LOG.debug("UrlBuilderException is " + e.getMessage());
             }
 
             return response;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             return "";
         }
     }
@@ -280,36 +250,28 @@ public class CiteQueryAdapter
         final String originatingDoc,
         final String keyText,
         final String sourceCite,
-        final String... parameters)
-    {
-        try
-        {
+        final String... parameters) {
+        try {
             final UrlBuilderInput input = citeQuery.getCiteQueryLink(linkElement, originatingDoc, keyText, sourceCite);
 
-            if (input == null)
-            {
+            if (input == null) {
                 return "";
             }
 
             String response = null;
 
-            try
-            {
+            try {
                 response = HOSTNAME
                     + urlBuilder.createUrl(Container.COBALT.name(), input.getUrlTemplateName(), input.getParameters());
                 response = addExtraParameters(response);
-            }
-            catch (final UrlBuilderException e)
-            {
+            } catch (final UrlBuilderException e) {
                 response = "";
 
                 LOG.debug("UrlBuilderException is " + e.getMessage());
             }
 
             return response;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             return "";
         }
     }

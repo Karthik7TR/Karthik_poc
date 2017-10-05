@@ -13,8 +13,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocumentMetadataAu
  * Spring service that handles CRUD requests for DocMetadata entities
  *
  */
-public interface DocMetadataService
-{
+public interface DocMetadataService {
     /**
      * Save an existing DocMetadata entity
      *

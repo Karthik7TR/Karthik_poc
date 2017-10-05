@@ -20,8 +20,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class GeneralPublishingStatusUpdateServiceTest
-{
+public final class GeneralPublishingStatusUpdateServiceTest {
     @InjectMocks
     private GeneralPublishingStatusUpdateService service;
     @Mock
@@ -32,8 +31,7 @@ public final class GeneralPublishingStatusUpdateServiceTest
     private ArgumentCaptor<PublishingStats> captor;
 
     @Test
-    public void shouldSavePublishingStats()
-    {
+    public void shouldSavePublishingStats() {
         //given
         given(step.getJobInstanceId()).willReturn(1L);
         given(step.getStepName()).willReturn("stepName");

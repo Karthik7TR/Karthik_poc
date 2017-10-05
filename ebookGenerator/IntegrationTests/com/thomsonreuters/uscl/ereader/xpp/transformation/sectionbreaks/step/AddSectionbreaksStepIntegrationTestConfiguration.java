@@ -9,11 +9,9 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @Profile("IntegrationTests")
 @Import(CommonTestContextConfiguration.class)
-public class AddSectionbreaksStepIntegrationTestConfiguration
-{
+public class AddSectionbreaksStepIntegrationTestConfiguration {
     @Bean(name = "addSectionbreaksTask")
-    public AddSectionbreaksStep addSectionbreaksTask()
-    {
+    public AddSectionbreaksStep addSectionbreaksTask() {
         return new AddSectionbreaksStep();
     }
 }

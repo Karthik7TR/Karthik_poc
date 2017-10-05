@@ -32,8 +32,7 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public final class TitleXMLTOCFilterTest
-{
+public final class TitleXMLTOCFilterTest {
     private TitleXMLTOCFilter tocFilter;
     private Serializer serializer;
     private File badMapFile;
@@ -42,8 +41,7 @@ public final class TitleXMLTOCFilterTest
     public TemporaryFolder testFiles = new TemporaryFolder();
 
     @Before
-    public void setUp() throws EBookFormatException, IOException, SAXException, ParserConfigurationException
-    {
+    public void setUp() throws EBookFormatException, IOException, SAXException, ParserConfigurationException {
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
         final SAXParser saxParser = factory.newSAXParser();
@@ -76,8 +74,7 @@ public final class TitleXMLTOCFilterTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         serializer = null;
         tocFilter = null;
     }
@@ -89,12 +86,10 @@ public final class TitleXMLTOCFilterTest
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final String expectedResult) throws SAXException
-    {
+    public void testHelper(final String inputXML, final String expectedResult) throws SAXException {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
-        try
-        {
+        try {
             input = new ByteArrayInputStream(inputXML.getBytes());
             output = new ByteArrayOutputStream();
 
@@ -106,61 +101,42 @@ public final class TitleXMLTOCFilterTest
             final String result = output.toString();
 
             assertEquals(expectedResult, result);
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             throw e;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             fail("Encountered exception during test: " + e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if (input != null)
-                {
+        } finally {
+            try {
+                if (input != null) {
                     input.close();
                 }
-                if (output != null)
-                {
+                if (output != null) {
                     output.close();
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 fail("Could clean up resources: " + e.getMessage());
             }
         }
     }
 
     @Test
-    public void testFileNotExistConstructor() throws EBookFormatException
-    {
+    public void testFileNotExistConstructor() throws EBookFormatException {
         final File testFile = new File("testFileNotExistConstructor");
-        try
-        {
+        try {
             final TitleXMLTOCFilter aFilter = new TitleXMLTOCFilter(testFile);
             aFilter.getTocToDocMapping();
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             assertEquals("File passed into TitleXMLTOCFilter constructor must be a valid file.", e.getMessage());
         }
     }
 
     @Test
-    public void testEmptyFileConstructor() throws IOException
-    {
+    public void testEmptyFileConstructor() throws IOException {
         final File testFile = testFiles.newFile("testFileNotExistConstructor");
-        try
-        {
+        try {
             final TitleXMLTOCFilter aFilter = new TitleXMLTOCFilter(testFile);
             aFilter.getTocToDocMapping();
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             assertEquals(
                 "No TOC to DOC mapping were loaded, please double check that the following"
                     + " file is not empty: "
@@ -170,15 +146,11 @@ public final class TitleXMLTOCFilterTest
     }
 
     @Test
-    public void testBadMapFileConstructor()
-    {
-        try
-        {
+    public void testBadMapFileConstructor() {
+        try {
             final TitleXMLTOCFilter aFilter = new TitleXMLTOCFilter(badMapFile);
             aFilter.getTocToDocMapping();
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             assertEquals(
                 "Please verify that each document GUID in the following file has "
                     + "at least one TOC guid associated with it: "
@@ -188,8 +160,7 @@ public final class TitleXMLTOCFilterTest
     }
 
     @Test
-    public void testSimpleEntryTransformation() throws SAXException
-    {
+    public void testSimpleEntryTransformation() throws SAXException {
         final String xmlTestStr = "<test><entry s=\"I0901b550675c11da90ebf04471783734\"/></test>";
         final String expectedResult =
             "<test><entry s=\"Iff5a5a987c8f11da9de6e47d6d5aa7a5/" + "I0901b550675c11da90ebf04471783734\"/></test>";
@@ -198,17 +169,13 @@ public final class TitleXMLTOCFilterTest
     }
 
     @Test
-    public void testTOCGuidNotFoundInMap()
-    {
-        try
-        {
+    public void testTOCGuidNotFoundInMap() {
+        try {
             final String xmlTestStr = "<test><entry s=\"Iff5a81a47c8f11da9de6e47d6d5aa7a5\"/></test>";
             final String expectedResult = "<test><entry s=\"Iff5a81a47c8f11da9de6e47d6d5aa7a5\"/></test>";
 
             testHelper(xmlTestStr, expectedResult);
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             assertEquals(
                 "Could not find DOC Guid in mapping file for TOC: Iff5a81a47c8f11da9de6e47d6d5aa7a5",
                 e.getMessage());
@@ -216,8 +183,7 @@ public final class TitleXMLTOCFilterTest
     }
 
     @Test
-    public void testEntryNoSAttributeTransformation() throws SAXException
-    {
+    public void testEntryNoSAttributeTransformation() throws SAXException {
         final String xmlTestStr = "<test><entry t=\"I0901b550675c11da90ebf04471783734\"/></test>";
         final String expectedResult = "<test><entry t=\"I0901b550675c11da90ebf04471783734\"/></test>";
 

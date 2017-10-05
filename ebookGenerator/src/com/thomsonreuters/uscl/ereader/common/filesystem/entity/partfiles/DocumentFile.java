@@ -8,26 +8,22 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Keeps DocumentName with link to file.
  */
-public class DocumentFile
-{
+public class DocumentFile {
     private DocumentName documentName;
     private File file;
 
-    public DocumentFile(final File file)
-    {
+    public DocumentFile(final File file) {
         this.file = file;
         documentName = new DocumentName(file.getName());
     }
 
     @NotNull
-    public DocumentName getDocumentName()
-    {
+    public DocumentName getDocumentName() {
         return documentName;
     }
 
     @NotNull
-    public File getFile()
-    {
+    public File getFile() {
         return file;
     }
 }

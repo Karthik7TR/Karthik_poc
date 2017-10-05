@@ -12,16 +12,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component("bookFileSystem")
-public class BookFileSystemImpl implements BookFileSystem
-{
+public class BookFileSystemImpl implements BookFileSystem {
     @Value("${root.work.directory}")
     private File rootWorkDirectory;
     @Resource(name = "environmentName")
     private String environmentName;
 
     @Override
-    public File getWorkDirectory(@NotNull final BookStep step)
-    {
+    public File getWorkDirectory(@NotNull final BookStep step) {
         final String date = new SimpleDateFormat(CoreConstants.DIR_DATE_FORMAT).format(step.getSubmitTimestamp());
         final String titleId = step.getBookDefinition().getTitleId();
         final long jobInstanceId = step.getJobInstanceId();

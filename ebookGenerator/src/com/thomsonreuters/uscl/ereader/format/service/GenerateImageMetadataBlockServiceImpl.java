@@ -27,14 +27,12 @@ import org.springframework.http.MediaType;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class GenerateImageMetadataBlockServiceImpl implements GenerateImageMetadataBlockService
-{
+public class GenerateImageMetadataBlockServiceImpl implements GenerateImageMetadataBlockService {
     private static final Logger LOG = LogManager.getLogger(GenerateImageMetadataBlockServiceImpl.class);
 
     private ImageService imgService;
 
-    public void setimgService(final ImageService imgService)
-    {
+    public void setimgService(final ImageService imgService) {
         this.imgService = imgService;
     }
 
@@ -51,24 +49,21 @@ public class GenerateImageMetadataBlockServiceImpl implements GenerateImageMetad
      */
     @Override
     public int generateImageMetadata(final File docToImgManifest, final File targetDirectory, final long jobInstanceId)
-        throws EBookFormatException
-    {
+        throws EBookFormatException {
         LOG.info("Generating ImageMetadata block files for each document...");
 
         final Map<String, List<String>> docImgMap = new HashMap<>();
         readDocToImgMap(docToImgManifest, docImgMap);
         int numDocsGenerated = 0;
 
-        for (final String docGuid : docImgMap.keySet())
-        {
+        for (final String docGuid : docImgMap.keySet()) {
             numDocsGenerated++;
             final File imgMetadataFile = new File(targetDirectory, docGuid + ".imgMeta");
 
             final StringBuffer imageMetadataBlocks = new StringBuffer();
 
             imageMetadataBlocks.append("<ImageMetadata>");
-            for (final String imgId : docImgMap.get(docGuid))
-            {
+            for (final String imgId : docImgMap.get(docGuid)) {
                 appendImageBlock(imageMetadataBlocks, jobInstanceId, imgId, docGuid);
             }
             imageMetadataBlocks.append("</ImageMetadata>");
@@ -89,14 +84,10 @@ public class GenerateImageMetadataBlockServiceImpl implements GenerateImageMetad
      *
      * @throws EBookFormatException if unable to write to specified file
      */
-    protected void createImageMetadataFile(final File output, final StringBuffer xmlText) throws EBookFormatException
-    {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriterWithEncoding(output, "UTF-8")))
-        {
+    protected void createImageMetadataFile(final File output, final StringBuffer xmlText) throws EBookFormatException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriterWithEncoding(output, "UTF-8"))) {
             writer.append(xmlText.toString());
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String message = "Could not write out ImageMetadata to following file: " + output.getAbsolutePath();
             LOG.error(message);
             throw new EBookFormatException(message, e);
@@ -116,12 +107,10 @@ public class GenerateImageMetadataBlockServiceImpl implements GenerateImageMetad
         final StringBuffer imgBlocks,
         final long jobId,
         final String imgGuid,
-        final String docGuid) throws EBookFormatException
-    {
+        final String docGuid) throws EBookFormatException {
         final ImageMetadataEntityKey key = new ImageMetadataEntityKey(jobId, imgGuid, docGuid);
         final ImageMetadataEntity imgMetadata = imgService.findImageMetadata(key);
-        if (imgMetadata == null)
-        {
+        if (imgMetadata == null) {
             final String message = "Could not find the image metadata for the following image guid: " + imgGuid;
             LOG.error(message);
             throw new EBookFormatException(message);
@@ -153,18 +142,13 @@ public class GenerateImageMetadataBlockServiceImpl implements GenerateImageMetad
         imgBlocks.append("</md.image.block>");
         imgBlocks.append("</md.block>");
         imgBlocks.append("<md.image.renderType>");
-        if (imgMetadata.getMediaType().equals(new MediaType("application", "pdf")))
-        {
+        if (imgMetadata.getMediaType().equals(new MediaType("application", "pdf"))) {
             imgBlocks.append("PDFLink");
-        }
-        else if (imgMetadata.getMediaType().equals(MediaType.IMAGE_GIF)
+        } else if (imgMetadata.getMediaType().equals(MediaType.IMAGE_GIF)
             || imgMetadata.getMediaType().equals(MediaType.IMAGE_JPEG)
-            || imgMetadata.getMediaType().equals(MediaType.IMAGE_PNG))
-        {
+            || imgMetadata.getMediaType().equals(MediaType.IMAGE_PNG)) {
             imgBlocks.append("Image");
-        }
-        else
-        {
+        } else {
             final String message = "Encountered unexpected "
                 + imgMetadata.getMediaType().toString()
                 + " media type associated with "
@@ -187,35 +171,27 @@ public class GenerateImageMetadataBlockServiceImpl implements GenerateImageMetad
      * @throws EBookFormatException
      */
     protected void readDocToImgMap(final File docToImg, final Map<String, List<String>> docToImgMap)
-        throws EBookFormatException
-    {
-        try (BufferedReader reader = new BufferedReader(new FileReader(docToImg));)
-        {
+        throws EBookFormatException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(docToImg));) {
             LOG.info("Reading in Doc to Image map file...");
             int numDocs = 0;
             int numImgs = 0;
             String input = reader.readLine();
-            while (input != null)
-            {
+            while (input != null) {
                 numDocs++;
                 final String[] line = input.split("\\|", -1);
-                if (!line[1].equals(""))
-                {
+                if (!line[1].equals("")) {
                     final String[] images = line[1].split(",");
                     final List<String> imgSet = new ArrayList<>(Arrays.asList(images));
                     numImgs = numImgs + imgSet.size();
                     docToImgMap.put(line[0], imgSet);
-                }
-                else
-                {
+                } else {
                     docToImgMap.put(line[0], new ArrayList<String>());
                 }
                 input = reader.readLine();
             }
             LOG.info("Generated a map for " + numDocs + " DOCs with " + numImgs + " image references.");
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String message = "Could not read the DOC to Image map file: " + docToImg.getAbsolutePath();
             LOG.error(message);
             throw new EBookFormatException(message, e);

@@ -20,8 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
  */
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
-public class ExtractTocStep extends XppTransformationStep
-{
+public class ExtractTocStep extends XppTransformationStep {
     @Value("${xpp.unite.tocs.xsl}")
     private File uniteTocsXsl;
     @Value("${xpp.extract.toc.xsl}")
@@ -30,31 +29,26 @@ public class ExtractTocStep extends XppTransformationStep
     private File mergeVolumeTocsXsl;
 
     @Override
-    public void executeTransformation() throws Exception
-    {
+    public void executeTransformation() throws Exception {
         final List<File> tocFiles = new ArrayList<>();
-        for (final XppBundle bundle : getXppBundles())
-        {
+        for (final XppBundle bundle : getXppBundles()) {
             generateBundleTocs(bundle, tocFiles);
         }
         uniteTocs(tocFiles);
     }
 
-    private void generateBundleTocs(final XppBundle bundle, final List<File> tocFiles)
-    {
+    private void generateBundleTocs(final XppBundle bundle, final List<File> tocFiles) {
         final Transformer transformer = transformerBuilderFactory.create().withXsl(extractTocXsl).build();
         final List<File> transformedFiles = new ArrayList<>();
-        for (final String fileName : bundle.getOrderedFileList())
-        {
+        for (final String fileName : bundle.getOrderedFileList()) {
             transformedFiles.add(generatePartToc(bundle, transformer, fileName));
         }
         tocFiles.add(mergeVolumeToc(transformedFiles, bundle));
     }
 
-    private File generatePartToc(final XppBundle bundle, final Transformer transformer, final String fileName)
-    {
-        final File sourceFile = fileSystem
-            .getSectionbreaksFile(this, bundle.getMaterialNumber(), fileName.replaceAll(".xml", ".main"));
+    private File generatePartToc(final XppBundle bundle, final Transformer transformer, final String fileName) {
+        final File sourceFile =
+            fileSystem.getSectionbreaksFile(this, bundle.getMaterialNumber(), fileName.replaceAll(".xml", ".main"));
         final File outputFile = fileSystem.getBundlePartTocFile(fileName, bundle.getMaterialNumber(), this);
         final TransformationCommand command =
             new TransformationCommandBuilder(transformer, outputFile).withInput(sourceFile).build();
@@ -62,8 +56,7 @@ public class ExtractTocStep extends XppTransformationStep
         return outputFile;
     }
 
-    private File mergeVolumeToc(final List<File> transformedFiles, final XppBundle bundle)
-    {
+    private File mergeVolumeToc(final List<File> transformedFiles, final XppBundle bundle) {
         final File mergedVolumeTOC = fileSystem.getMergedBundleTocFile(bundle.getMaterialNumber(), this);
         final Transformer merger = transformerBuilderFactory.create().withXsl(mergeVolumeTocsXsl).build();
         final TransformationCommand command =
@@ -72,8 +65,7 @@ public class ExtractTocStep extends XppTransformationStep
         return mergedVolumeTOC;
     }
 
-    private void uniteTocs(final List<File> tocFiles)
-    {
+    private void uniteTocs(final List<File> tocFiles) {
         final Transformer transformer = transformerBuilderFactory.create().withXsl(uniteTocsXsl).build();
         final TransformationCommand command =
             new TransformationCommandBuilder(transformer, fileSystem.getTocFile(this)).withInput(tocFiles).build();

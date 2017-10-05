@@ -17,8 +17,7 @@ import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppGatherFileS
  */
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.GATHERIMAGE)
-public class GatherXppDynamicImagesTask extends GatherDynamicImagesTask
-{
+public class GatherXppDynamicImagesTask extends GatherDynamicImagesTask {
     @Resource(name = "xppGatherFileSystem")
     private XppGatherFileSystem xppGatherFileSystem;
 
@@ -26,9 +25,9 @@ public class GatherXppDynamicImagesTask extends GatherDynamicImagesTask
     protected GatherImgRequest constructGatherImageRequest(
         final File dynamicImageDestinationDirectory,
         final File imageGuidFile,
-        final long jobInstanceId)
-    {
-        final GatherImgRequest imgRequest = super.constructGatherImageRequest(dynamicImageDestinationDirectory, imageGuidFile, jobInstanceId);
+        final long jobInstanceId) {
+        final GatherImgRequest imgRequest =
+            super.constructGatherImageRequest(dynamicImageDestinationDirectory, imageGuidFile, jobInstanceId);
         imgRequest.setXppSourceImageDirectory(xppGatherFileSystem.getXppAssetsDirectories(this));
         imgRequest.setXpp(true);
         return imgRequest;

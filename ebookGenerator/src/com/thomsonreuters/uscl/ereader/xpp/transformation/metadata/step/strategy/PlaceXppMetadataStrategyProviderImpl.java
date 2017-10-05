@@ -13,16 +13,14 @@ import org.springframework.stereotype.Component;
  * If there is no instance for provided BundleFileType, UnsupportedOperationException will be thrown.
  */
 @Component("placeXppMetadataStrategyProvider")
-public class PlaceXppMetadataStrategyProviderImpl extends AbstractBundleFileHandlingStrategyProvider<PlaceXppMetadataStrategy>
-{
-    public PlaceXppMetadataStrategyProviderImpl()
-    {
+public class PlaceXppMetadataStrategyProviderImpl
+    extends AbstractBundleFileHandlingStrategyProvider<PlaceXppMetadataStrategy> {
+    public PlaceXppMetadataStrategyProviderImpl() {
         this(Collections.<PlaceXppMetadataStrategy>emptyList());
     }
 
     @Autowired(required = false)
-    public PlaceXppMetadataStrategyProviderImpl(final List<PlaceXppMetadataStrategy> strategies)
-    {
+    public PlaceXppMetadataStrategyProviderImpl(final List<PlaceXppMetadataStrategy> strategies) {
         super(strategies);
     }
 }

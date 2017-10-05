@@ -13,8 +13,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class ImageDaoTest
-{
+public final class ImageDaoTest {
     private static long JOB_INSTANCE_ID = 1965;
 
     private SessionFactory mockSessionFactory;
@@ -23,8 +22,7 @@ public final class ImageDaoTest
     private ImageDaoImpl dao;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockSessionFactory = EasyMock.createMock(SessionFactory.class);
         mockSession = EasyMock.createMock(org.hibernate.Session.class);
         mockCriteria = EasyMock.createMock(Criteria.class);
@@ -32,8 +30,7 @@ public final class ImageDaoTest
     }
 
     @Test
-    public void testFindImageMetadata()
-    {
+    public void testFindImageMetadata() {
         EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
         EasyMock.expect(mockSession.createCriteria(ImageMetadataEntity.class)).andReturn(mockCriteria);
         EasyMock.expect(mockCriteria.add((Criterion) EasyMock.anyObject())).andReturn(mockCriteria);
@@ -51,8 +48,7 @@ public final class ImageDaoTest
     }
 
     @Test
-    public void testSaveImageMetadata()
-    {
+    public void testSaveImageMetadata() {
         final String bogusGuid = "someBogusGuid";
         final String docGuid = "dummyDocGuid";
         final ImageMetadataEntityKey expectedPk = new ImageMetadataEntityKey(JOB_INSTANCE_ID, bogusGuid, docGuid);

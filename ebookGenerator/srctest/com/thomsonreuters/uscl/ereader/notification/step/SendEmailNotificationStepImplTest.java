@@ -28,8 +28,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.batch.core.scope.context.ChunkContext;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class SendEmailNotificationStepImplTest
-{
+public final class SendEmailNotificationStepImplTest {
     @InjectMocks
     private SendEmailNotificationStepImpl step;
     @Mock
@@ -49,8 +48,7 @@ public final class SendEmailNotificationStepImplTest
     private EmailBuilder emailBuilder;
 
     @Test
-    public void recipientsShouldBeCorrect() throws Exception
-    {
+    public void recipientsShouldBeCorrect() throws Exception {
         //given
         givenAll();
         final InternetAddress[] expectedRecipients = new InternetAddress[] {new InternetAddress("address")};
@@ -62,8 +60,7 @@ public final class SendEmailNotificationStepImplTest
     }
 
     @Test
-    public void bodyAndSubjectShouldBeCorrect() throws Exception
-    {
+    public void bodyAndSubjectShouldBeCorrect() throws Exception {
         //given
         givenAll();
         given(emailBuilder.getSubject()).willReturn("subject");
@@ -74,8 +71,7 @@ public final class SendEmailNotificationStepImplTest
         then(emailService).should().send(any(Collection.class), eq("subject"), eq("body"));
     }
 
-    private void givenAll()
-    {
+    private void givenAll() {
         givenUserName(chunkContext, "user");
         givenJobInstanceId(chunkContext, 1L);
         given(publishingStatsService.findPublishingStatsByJobId(1L)).willReturn(stats);

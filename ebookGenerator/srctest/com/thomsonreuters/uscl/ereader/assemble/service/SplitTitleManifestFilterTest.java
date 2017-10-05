@@ -39,8 +39,7 @@ import org.junit.rules.TemporaryFolder;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
-public final class SplitTitleManifestFilterTest extends TitleMetadataTestBase
-{
+public final class SplitTitleManifestFilterTest extends TitleMetadataTestBase {
     private UuidGenerator uuidGenerator;
     private SAXParserFactory saxParserFactory;
     private SplitTitleManifestFilter splitTitleManifestFilter;
@@ -98,8 +97,7 @@ public final class SplitTitleManifestFilterTest extends TitleMetadataTestBase
 
     @Override
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         // Add 2 years to the current date for online expiration
         final Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
@@ -142,14 +140,12 @@ public final class SplitTitleManifestFilterTest extends TitleMetadataTestBase
 
     @Override
     @After
-    public void tearDown() throws Exception
-    {
+    public void tearDown() throws Exception {
         FileUtils.delete(temporaryDirectory);
     }
 
     @Test
-    public void testWriteAssets() throws Exception
-    {
+    public void testWriteAssets() throws Exception {
         splitTitleManifestFilter.writeAssets();
         splitTitleManifestFilter.endDocument();
         Assert
@@ -157,8 +153,7 @@ public final class SplitTitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testWriteAuthors() throws Exception
-    {
+    public void testWriteAuthors() throws Exception {
         splitTitleManifestFilter.writeAuthors();
         splitTitleManifestFilter.endDocument();
         Assert
@@ -166,8 +161,7 @@ public final class SplitTitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testWriteKeywords() throws Exception
-    {
+    public void testWriteKeywords() throws Exception {
         splitTitleManifestFilter.writeKeywords();
         splitTitleManifestFilter.endDocument();
         Assert.assertEquals(
@@ -176,8 +170,7 @@ public final class SplitTitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testWriteCopyright() throws Exception
-    {
+    public void testWriteCopyright() throws Exception {
         splitTitleManifestFilter.writeCopyright();
         splitTitleManifestFilter.endDocument();
         Assert.assertEquals(
@@ -186,8 +179,7 @@ public final class SplitTitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testStartManifest() throws Exception
-    {
+    public void testStartManifest() throws Exception {
         splitTitleManifestFilter.startManifest();
         splitTitleManifestFilter.endDocument();
         Assert
@@ -203,8 +195,7 @@ public final class SplitTitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testWriteDisplayName() throws Exception
-    {
+    public void testWriteDisplayName() throws Exception {
         splitTitleManifestFilter.writeDisplayName();
         splitTitleManifestFilter.endDocument();
         Assert.assertEquals(
@@ -213,8 +204,7 @@ public final class SplitTitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testWriteFeatures() throws Exception
-    {
+    public void testWriteFeatures() throws Exception {
         splitTitleManifestFilter.writeFeatures();
         splitTitleManifestFilter.endDocument();
         Assert.assertEquals(
@@ -223,8 +213,7 @@ public final class SplitTitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testWriteMaterialId() throws Exception
-    {
+    public void testWriteMaterialId() throws Exception {
         splitTitleManifestFilter.writeMaterialId();
         splitTitleManifestFilter.endDocument();
         Assert.assertEquals(
@@ -233,8 +222,7 @@ public final class SplitTitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testWriteCoverArt() throws Exception
-    {
+    public void testWriteCoverArt() throws Exception {
         splitTitleManifestFilter.writeCoverArt();
         splitTitleManifestFilter.endDocument();
         Assert
@@ -242,8 +230,7 @@ public final class SplitTitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testStartDocument() throws Exception
-    {
+    public void testStartDocument() throws Exception {
         splitTitleManifestFilter.startDocument();
         splitTitleManifestFilter.endDocument();
         Assert.assertEquals(
@@ -266,15 +253,13 @@ public final class SplitTitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testEndDocumentWithoutParsingToc() throws Exception
-    {
+    public void testEndDocumentWithoutParsingToc() throws Exception {
         splitTitleManifestFilter.endDocument();
         Assert.assertEquals(EXPECTED_ISBN + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
     }
 
     @Test
-    public void testEndDocumentWithParsingToc() throws Exception
-    {
+    public void testEndDocumentWithParsingToc() throws Exception {
         splitTitleManifestFilter.parse(new InputSource(splitTocTitleXml));
         //System.out.println(resultStreamToString(resultStream));
         Assert.assertEquals(
@@ -299,14 +284,12 @@ public final class SplitTitleManifestFilterTest extends TitleMetadataTestBase
             resultStreamToString(resultStream));
     }
 
-    private String resultStreamToString(final ByteArrayOutputStream resultStream) throws Exception
-    {
+    private String resultStreamToString(final ByteArrayOutputStream resultStream) throws Exception {
         return IOUtils.toString(resultStream.toByteArray(), "UTF-8");
     }
 
     @Test
-    public void testAlternativeId() throws Exception
-    {
+    public void testAlternativeId() throws Exception {
         titleMetadata = getTitleMetadataWithPilotBook();
         final URL pathToClass = this.getClass().getResource("yarr_pirates.csv");
         altIdFile = new File(pathToClass.toURI());

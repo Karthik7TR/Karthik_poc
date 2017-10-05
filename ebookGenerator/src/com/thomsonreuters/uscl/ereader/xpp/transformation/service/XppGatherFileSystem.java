@@ -11,8 +11,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Provides access to files and directories specific for XPP gather steps
  */
-public interface XppGatherFileSystem extends GatherFileSystem
-{
+public interface XppGatherFileSystem extends GatherFileSystem {
     /**
      * Returns XPP gather root directory:
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}

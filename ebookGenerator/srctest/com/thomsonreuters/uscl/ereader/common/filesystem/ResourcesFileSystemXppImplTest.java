@@ -21,8 +21,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class ResourcesFileSystemXppImplTest
-{
+public final class ResourcesFileSystemXppImplTest {
     @InjectMocks
     private ResourcesFileSystemXppImpl sut;
     @Mock
@@ -42,8 +41,7 @@ public final class ResourcesFileSystemXppImplTest
      * Test method for {@link com.thomsonreuters.uscl.ereader.common.filesystem.ResourcesFileSystemXppImpl#getExternalLinksDirectory(com.thomsonreuters.uscl.ereader.common.step.BookStep)}.
      */
     @Test
-    public void shouldReturnDocumentsDirectory()
-    {
+    public void shouldReturnDocumentsDirectory() {
         //given
         given(xppFormatFileSystemImpl.getExternalLinksDirectory(step))
             .willReturn(new File(temporaryFolder.getRoot(), "workDirectory/Format/10_ExternalLinks"));
@@ -54,8 +52,7 @@ public final class ResourcesFileSystemXppImplTest
     }
 
     @Test
-    public void shouldReturnAssetsDirectory()
-    {
+    public void shouldReturnAssetsDirectory() {
         //given
         given(imageFileSystemImpl.getImageDynamicDirectory(step))
             .willReturn(new File(temporaryFolder.getRoot(), "workDirectory/Gather/Images/Dynamic"));
@@ -66,11 +63,9 @@ public final class ResourcesFileSystemXppImplTest
     }
 
     @Test
-    public void shouldReturnArtwork()
-    {
+    public void shouldReturnArtwork() {
         //given
-        given(coverArtUtil.getCoverArt(any(BookDefinition.class)))
-            .willReturn(new File("coverArt.PNG"));
+        given(coverArtUtil.getCoverArt(any(BookDefinition.class))).willReturn(new File("coverArt.PNG"));
         //when
         final File file = sut.getArtwork(step);
         //then
@@ -78,8 +73,7 @@ public final class ResourcesFileSystemXppImplTest
     }
 
     @Test
-    public void shouldReturnFontsCssFiles()
-    {
+    public void shouldReturnFontsCssFiles() {
         //given
         given(fakeDir.isDirectory()).willReturn(true);
         given(xppFormatFileSystemImpl.getFontsCssDirectory(step)).willReturn(fakeDir);

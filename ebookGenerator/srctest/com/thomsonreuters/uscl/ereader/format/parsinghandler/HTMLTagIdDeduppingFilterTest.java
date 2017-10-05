@@ -24,14 +24,12 @@ import org.xml.sax.InputSource;
  *
  * @author <a href="mailto:Ravi.Nandikolla@thomsonreuters.com">Ravi Nandikolla</a> c139353
  */
-public final class HTMLTagIdDeduppingFilterTest
-{
+public final class HTMLTagIdDeduppingFilterTest {
     private HTMLTagIdDedupingFilter tagIdDeduppingFilter;
     private Serializer serializer;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
         final SAXParser saxParser = factory.newSAXParser();
@@ -45,8 +43,7 @@ public final class HTMLTagIdDeduppingFilterTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         serializer = null;
         tagIdDeduppingFilter = null;
     }
@@ -58,12 +55,10 @@ public final class HTMLTagIdDeduppingFilterTest
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final String expectedResult)
-    {
+    public void testHelper(final String inputXML, final String expectedResult) {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
-        try
-        {
+        try {
             input = new ByteArrayInputStream(inputXML.getBytes());
             output = new ByteArrayOutputStream();
 
@@ -77,34 +72,24 @@ public final class HTMLTagIdDeduppingFilterTest
             final String result = output.toString();
 
             assertEquals(expectedResult, result);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             fail("Encountered exception during test: " + e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if (input != null)
-                {
+        } finally {
+            try {
+                if (input != null) {
                     input.close();
                 }
-                if (output != null)
-                {
+                if (output != null) {
                     output.close();
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 fail("Couldn't clean up resources: " + e.getMessage());
             }
         }
     }
 
     @Test
-    public void testTagIdDeduppingAnchorWithMultiplearuguments()
-    {
+    public void testTagIdDeduppingAnchorWithMultiplearuguments() {
         final String xmlTestStr =
             "<test><hello id=\"ravi_1234\"/><div id=\"ravi_1234\"/><section id=\"ravi_1234\"/><section id=\"krishna_1234\"/><section id=\"krishna_1234\"/></test>";
         final String expectedResult =
@@ -114,8 +99,7 @@ public final class HTMLTagIdDeduppingFilterTest
     }
 
     @Test
-    public void testTagIdDeduppingAnchor()
-    {
+    public void testTagIdDeduppingAnchor() {
         final String xmlTestStr = "<test><Div id=\"ravi_1234\"/><div id=\"ravi_1234\"/></test>";
         final String expectedResult = "<test><Div id=\"ravi_1234\"/><div id=\"ravi_1234_eBG_0\"/></test>";
 

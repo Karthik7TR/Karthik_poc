@@ -20,8 +20,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
-public abstract class AbstractTocManifestFilter extends XMLFilterImpl
-{
+public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
     private static final Logger LOG = LogManager.getLogger(AbstractTocManifestFilter.class);
 
     public static final String URI = "";
@@ -55,26 +54,21 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl
         "Additional Information or Research Assistance";
     private static final String WESTLAW = "Westlaw";
 
-    public void buildFrontMatterTOCEntries(final boolean isSplitBook) throws SAXException
-    {
+    public void buildFrontMatterTOCEntries(final boolean isSplitBook) throws SAXException {
         currentDepth++;
         createFrontMatterNode(FrontMatterFileName.FRONT_MATTER_TITLE, TITLE_PAGE, isSplitBook);
 
         currentNode = new TocEntry(currentDepth);
 
         // FrontMatterTOCEntries should get First title Id
-        if (isSplitBook)
-        {
+        if (isSplitBook) {
             currentNode.setSplitTitle(titleMetadata.getTitleId());
         }
 
         // Use ebook_definition.front_matter_toc_label
-        if (titleMetadata.getFrontMatterTocLabel() != null)
-        {
+        if (titleMetadata.getFrontMatterTocLabel() != null) {
             currentNode.setText(titleMetadata.getFrontMatterTocLabel());
-        }
-        else
-        {
+        } else {
             currentNode.setText(DEFAULT_PUBLISHING_INFORMATION);
         }
         currentNode.setTocNodeUuid(FrontMatterFileName.PUBLISHING_INFORMATION + FrontMatterFileName.ANCHOR);
@@ -90,12 +84,10 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl
 
         final List<FrontMatterPage> frontMatterPagesList = titleMetadata.getFrontMatterPages();
 
-        if (frontMatterPagesList != null)
-        {
+        if (frontMatterPagesList != null) {
             // loop through additional frontMatter. PDFs will be taken care of
             // in the assets.
-            for (final FrontMatterPage front_matter_page : frontMatterPagesList)
-            {
+            for (final FrontMatterPage front_matter_page : frontMatterPagesList) {
                 createFrontMatterNode(
                     FrontMatterFileName.ADDITIONAL_FRONT_MATTER + front_matter_page.getId(),
                     front_matter_page.getPageTocLabel(),
@@ -115,14 +107,12 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl
     }
 
     public void createFrontMatterNode(final String guidBase, final String nodeText, final boolean isSplitBook)
-        throws SAXException
-    {
+        throws SAXException {
         currentNode = new TocEntry(currentDepth);
         currentNode.setDocumentUuid(guidBase);
         currentNode.setText(nodeText);
         // FrontMatterTOCEntries should get First title Id
-        if (isSplitBook)
-        {
+        if (isSplitBook) {
             currentNode.setSplitTitle(titleMetadata.getTitleId());
         }
         currentNode.setTocNodeUuid(guidBase + FrontMatterFileName.ANCHOR);
@@ -143,12 +133,9 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl
      * @param toc
      *            the table of contents to operate on.
      */
-    protected void cascadeAnchors()
-    {
-        for (final TocNode document : nodesContainingDocuments)
-        {
-            if (StringUtils.isBlank(document.getParent().getDocumentGuid()))
-            {
+    protected void cascadeAnchors() {
+        for (final TocNode document : nodesContainingDocuments) {
+            if (StringUtils.isBlank(document.getParent().getDocumentGuid())) {
                 cascadeAnchorUpwards(document.getParent(), document.getDocumentGuid());
             }
         }
@@ -163,8 +150,7 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl
      *            the toc entry containing a toc node guid.
      * @return Attributes the anchor reference in doc_guid/toc_guid format.
      */
-    protected Attributes getAttributes(final TocNode tocNode)
-    {
+    protected Attributes getAttributes(final TocNode tocNode) {
         final AttributesImpl attributes = new AttributesImpl();
         attributes.addAttribute(URI, ANCHOR_REFERENCE, ANCHOR_REFERENCE, CDATA, tocNode.getAnchorReference());
         return attributes;
@@ -183,13 +169,10 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl
      *            the document uuid to assign to the node if, and only if, it
      *            doesn't have one already.
      */
-    protected void cascadeAnchorUpwards(final TocNode node, final String documentUuid)
-    {
-        if (StringUtils.isBlank(node.getDocumentGuid()))
-        {
+    protected void cascadeAnchorUpwards(final TocNode node, final String documentUuid) {
+        if (StringUtils.isBlank(node.getDocumentGuid())) {
             node.setDocumentUuid(documentUuid);
-            if (node.getParent() != null)
-            {
+            if (node.getParent() != null) {
                 cascadeAnchorUpwards(node.getParent(), documentUuid);
             }
         }
@@ -207,28 +190,20 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl
      * @throws SAXException
      *             if an error occurs.
      */
-    protected TocNode determineParent() throws SAXException
-    {
-        if (currentDepth > previousDepth)
-        { // the node we are adding is a
-              // child, so add it to the current
-          // node.
-          // LOG.debug("Determined parent of " + currentNode + " to be " +
-          // previousNode);
+    protected TocNode determineParent() throws SAXException {
+        if (currentDepth > previousDepth) { // the node we are adding is a
+                                                // child, so add it to the current
+                                            // node.
+                                            // LOG.debug("Determined parent of " + currentNode + " to be " +
+                                            // previousNode);
             return previousNode;
-        }
-        else if (currentDepth == previousDepth)
-        {
+        } else if (currentDepth == previousDepth) {
             // LOG.debug("Determined parent of " + currentNode + " to be " +
             // previousNode.getParent());
             return previousNode.getParent();
-        }
-        else if (currentDepth < previousDepth)
-        {
+        } else if (currentDepth < previousDepth) {
             return searchForParentInAncestryOfNode(previousNode, currentDepth - 1);
-        }
-        else
-        {
+        } else {
             final String message = "Could not determine parent when adding node: " + currentNode;
             LOG.error(message);
             throw new SAXException(message);
@@ -245,15 +220,11 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl
      *            changed, if needed, to be a node ID if all nodes know who
      *            their immediate parent is (by identifier).
      */
-    protected TocNode searchForParentInAncestryOfNode(final TocNode node, final int desiredDepth) throws SAXException
-    {
-        if (node.getDepth() == desiredDepth)
-        {
+    protected TocNode searchForParentInAncestryOfNode(final TocNode node, final int desiredDepth) throws SAXException {
+        if (node.getDepth() == desiredDepth) {
             // LOG.debug("Found parent in the ancestry: " + node);
             return node;
-        }
-        else if (node.getDepth() < desiredDepth)
-        {
+        } else if (node.getDepth() < desiredDepth) {
             final String message = "Failed to identify a parent for node: "
                 + node
                 + " because of possibly bad depth assignment.  This is very likely a programming error in the SplitSplitTitleManifestFilter.";
@@ -265,9 +236,7 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl
                                              // assigning depth to nodes is
                                              // probably not implemented
                                              // correctly.
-        }
-        else
-        {
+        } else {
             return searchForParentInAncestryOfNode(node.getParent(), desiredDepth);
         }
     }
@@ -281,17 +250,13 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl
      * @param destDocId
      *            the "new" copy of the file.
      */
-    public void copyHtmlDocument(final String sourceDocId, final String destDocId) throws SAXException
-    {
+    public void copyHtmlDocument(final String sourceDocId, final String destDocId) throws SAXException {
         LOG.debug("Copying " + sourceDocId + " to " + destDocId);
         final File sourceFile = new File(documentsDirectory, sourceDocId + HTML_EXTENSION);
         final File destFile = new File(documentsDirectory, destDocId + HTML_EXTENSION);
-        try
-        {
+        try {
             fileUtilsFacade.copyFile(sourceFile, destFile);
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new SAXException(
                 "Could not make copy of duplicate HTML document referenced in the TOC: " + sourceDocId,
                 e);
@@ -306,19 +271,14 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl
      *            document level node for which anchors need to be generated
      * @return list of TOC GUIDs for which Anchors need to be generated
      */
-    protected List<String> getAnchorsToBeGenerated(TocNode node)
-    {
+    protected List<String> getAnchorsToBeGenerated(TocNode node) {
         final String docGuid = node.getDocumentGuid();
         final List<String> anchors = new ArrayList<>();
         node = node.getParent();
-        while (node != null)
-        {
-            if (StringUtils.isBlank(node.getDocumentGuid()) || docGuid.equals(node.getDocumentGuid()))
-            {
+        while (node != null) {
+            if (StringUtils.isBlank(node.getDocumentGuid()) || docGuid.equals(node.getDocumentGuid())) {
                 anchors.add(node.getTocGuid());
-            }
-            else
-            {
+            } else {
                 break;
             }
             node = node.getParent();

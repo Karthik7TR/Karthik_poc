@@ -6,7 +6,6 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({SingleBookFeaturesListBuilderTest.class, SplitBookFeatureListBuilderTest.class})
-public class FeatureListBuilderTestSuite
-{
-  //Intentionally left blank
+public class FeatureListBuilderTestSuite {
+    //Intentionally left blank
 }

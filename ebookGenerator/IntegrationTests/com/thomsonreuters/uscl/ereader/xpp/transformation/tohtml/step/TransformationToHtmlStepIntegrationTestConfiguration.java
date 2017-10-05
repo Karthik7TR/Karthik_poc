@@ -9,11 +9,9 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @Profile("IntegrationTests")
 @Import(CommonTestContextConfiguration.class)
-public class TransformationToHtmlStepIntegrationTestConfiguration
-{
+public class TransformationToHtmlStepIntegrationTestConfiguration {
     @Bean(name = "transformToHtmlTask")
-    public TransformationToHtmlStep transformToHtmlTask()
-    {
+    public TransformationToHtmlStep transformToHtmlTask() {
         return new TransformationToHtmlStep();
     }
 }

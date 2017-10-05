@@ -15,16 +15,15 @@ import org.springframework.core.annotation.AnnotationUtils;
 /**
  * Factory class to create {@link com.thomsonreuters.uscl.ereader.common.publishingstatus.service.PublishingStatusUpdateService} depending on context
  */
-public class PublishingStatusUpdateServiceFactory
-{
+public class PublishingStatusUpdateServiceFactory {
     @Autowired
     private ApplicationContext applicationContext;
 
     /**
      * Returns publishing status service specific for step
      */
-    public List<PublishingStatusUpdateService<PublishingStatusUpdateStep>> create(final PublishingStatusUpdateStep step)
-    {
+    public List<PublishingStatusUpdateService<PublishingStatusUpdateStep>> create(
+        final PublishingStatusUpdateStep step) {
         final StatsUpdateTypeEnum[] stepUpdateTypes =
             AnnotationUtils.findAnnotation(step.getClass(), SavePublishingStatusPolicy.class).value();
         final Collection<Object> beans =
@@ -34,11 +33,9 @@ public class PublishingStatusUpdateServiceFactory
 
     private List<PublishingStatusUpdateService<PublishingStatusUpdateStep>> getServiceBeans(
         final Collection<Object> beans,
-        final StatsUpdateTypeEnum[] stepUpdateTypes)
-    {
+        final StatsUpdateTypeEnum[] stepUpdateTypes) {
         final List<PublishingStatusUpdateService<PublishingStatusUpdateStep>> services = new ArrayList<>();
-        for (final StatsUpdateTypeEnum updateType : stepUpdateTypes)
-        {
+        for (final StatsUpdateTypeEnum updateType : stepUpdateTypes) {
             services.add(getServiceBean(updateType, beans));
         }
         return services;
@@ -46,16 +43,13 @@ public class PublishingStatusUpdateServiceFactory
 
     private PublishingStatusUpdateService<PublishingStatusUpdateStep> getServiceBean(
         final StatsUpdateTypeEnum stepUpdateType,
-        final Collection<Object> beans)
-    {
-        for (final Object bean : beans)
-        {
+        final Collection<Object> beans) {
+        for (final Object bean : beans) {
             final PublishingStatusUpdateService<PublishingStatusUpdateStep> service =
                 (PublishingStatusUpdateService<PublishingStatusUpdateStep>) bean;
             final StatsUpdateTypeEnum serviceUpdateType =
                 AnnotationUtils.findAnnotation(service.getClass(), SavePublishingStatusStrategy.class).value();
-            if (stepUpdateType.equals(serviceUpdateType))
-            {
+            if (stepUpdateType.equals(serviceUpdateType)) {
                 return service;
             }
         }

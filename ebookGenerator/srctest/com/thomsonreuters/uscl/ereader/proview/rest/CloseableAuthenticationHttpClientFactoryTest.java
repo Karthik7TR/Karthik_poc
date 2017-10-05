@@ -7,22 +7,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class CloseableAuthenticationHttpClientFactoryTest
-{
+public final class CloseableAuthenticationHttpClientFactoryTest {
     private CloseableAuthenticationHttpClientFactory httpClientFactory;
     private InetAddress mockHost;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         mockHost = InetAddress.getLocalHost();
         httpClientFactory =
             new CloseableAuthenticationHttpClientFactory(mockHost.getHostName(), "captain", "j4ck_sp4rr0w");
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         //Intentionally left blank
     }
 
@@ -34,32 +31,27 @@ public final class CloseableAuthenticationHttpClientFactoryTest
 //	}
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCannotCreateFactoryWhenHostIsNull() throws Exception
-    {
+    public void testCannotCreateFactoryWhenHostIsNull() throws Exception {
         httpClientFactory = new CloseableAuthenticationHttpClientFactory(null, "captain", "j4ck_sp4rr0w");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCannotCreateFactoryWhenUsernameIsNull() throws Exception
-    {
+    public void testCannotCreateFactoryWhenUsernameIsNull() throws Exception {
         httpClientFactory = new CloseableAuthenticationHttpClientFactory(mockHost.getHostName(), null, "j4ck_sp4rr0w");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCannotCreateFactoryWhenUsernameIsBlank() throws Exception
-    {
+    public void testCannotCreateFactoryWhenUsernameIsBlank() throws Exception {
         httpClientFactory = new CloseableAuthenticationHttpClientFactory(mockHost.getHostName(), "", "j4ck_sp4rr0w");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCannotCreateFactoryWhenPasswordIsNull() throws Exception
-    {
+    public void testCannotCreateFactoryWhenPasswordIsNull() throws Exception {
         httpClientFactory = new CloseableAuthenticationHttpClientFactory(mockHost.getHostName(), "captain", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCannotCreateFactoryWhenPasswordIsBlank() throws Exception
-    {
+    public void testCannotCreateFactoryWhenPasswordIsBlank() throws Exception {
         httpClientFactory = new CloseableAuthenticationHttpClientFactory(mockHost.getHostName(), "captain", "");
     }
 }

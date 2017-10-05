@@ -12,14 +12,12 @@ import com.thomsonreuters.uscl.ereader.stats.PublishingStatus;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 
 @SavePublishingStatusStrategy(StatsUpdateTypeEnum.INITIALIZE)
-public class InitializePublishingStatusUpdateService extends BasePublishingStatusUpdateService<BookStep>
-{
+public class InitializePublishingStatusUpdateService extends BasePublishingStatusUpdateService<BookStep> {
     @Resource(name = "eBookAuditService")
     private EBookAuditService eBookAuditService;
 
     @Override
-    public void savePublishingStats(final BookStep step, final PublishingStatus publishStatus)
-    {
+    public void savePublishingStats(final BookStep step, final PublishingStatus publishStatus) {
         final Date rightNow = publishingStatsService.getSysDate();
         final Long ebookDefId = step.getBookDefinitionId();
 

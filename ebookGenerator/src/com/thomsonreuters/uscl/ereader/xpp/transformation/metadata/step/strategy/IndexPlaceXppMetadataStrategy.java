@@ -22,8 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class IndexPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTransformStrategy
-{
+public class IndexPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTransformStrategy {
     private final File xslTransformationFile;
     private final XppFormatFileSystem xppFormatFileSystem;
 
@@ -32,8 +31,7 @@ public class IndexPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTrans
         final XslTransformationService xslTransformationService,
         final TransformerBuilderFactory transformerBuilderFactory,
         final XppFormatFileSystem xppFormatFileSystem,
-        @Value("${xpp.add.metadata.to.index.xsl}") final File xslTransformationFile)
-    {
+        @Value("${xpp.add.metadata.to.index.xsl}") final File xslTransformationFile) {
         super(xslTransformationService, transformerBuilderFactory, new HashSet<>(Arrays.asList(BundleFileType.INDEX)));
         this.xslTransformationFile = xslTransformationFile;
         this.xppFormatFileSystem = xppFormatFileSystem;
@@ -44,8 +42,7 @@ public class IndexPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTrans
     protected List<TransformationCommand> getTransformationCommands(
         @NotNull final File inputFile,
         @NotNull final String materialNumber,
-        @NotNull final XppBookStep step)
-    {
+        @NotNull final XppBookStep step) {
         final Transformer transformer = transformerBuilderFactory.create().withXsl(xslTransformationFile).build();
         final File outputFile =
             xppFormatFileSystem.getStructureWithMetadataFile(step, materialNumber, inputFile.getName());

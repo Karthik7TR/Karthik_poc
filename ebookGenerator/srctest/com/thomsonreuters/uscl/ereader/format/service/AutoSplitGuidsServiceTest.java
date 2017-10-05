@@ -20,8 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class AutoSplitGuidsServiceTest
-{
+public final class AutoSplitGuidsServiceTest {
     private AutoSplitGuidsServiceImpl autoSplitGuidsService;
     private BookDefinition bookDefinition;
     private Long jobInstanceId;
@@ -29,8 +28,7 @@ public final class AutoSplitGuidsServiceTest
     private Long bookId = Long.valueOf(1);
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         autoSplitGuidsService = new AutoSplitGuidsServiceImpl();
         bookDefinition = new BookDefinition();
         bookDefinition.setEbookDefinitionId(bookId);
@@ -40,21 +38,18 @@ public final class AutoSplitGuidsServiceTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         //Intentional left blank
     }
 
     @Test
-    public void testSplitPartSize()
-    {
+    public void testSplitPartSize() {
         final int size = autoSplitGuidsService.getSizeforEachPart(5000, 5409);
         Assert.assertEquals(2704, size);
     }
 
     @Test
-    public void testSplitPartPersistedDocs()
-    {
+    public void testSplitPartPersistedDocs() {
         final String xmlTestStr = "<EBook>"
             + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
             + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid>"
@@ -87,8 +82,7 @@ public final class AutoSplitGuidsServiceTest
     }
 
     @Test
-    public void testSplitPartNoList()
-    {
+    public void testSplitPartNoList() {
         final String xmlTestStr = "<EBook>"
             + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
             + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid>"
@@ -115,8 +109,7 @@ public final class AutoSplitGuidsServiceTest
     }
 
     @Test
-    public void testSplitPartList()
-    {
+    public void testSplitPartList() {
         final String xmlTestStr = "<EBook>"
             + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
             + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid>"
@@ -148,8 +141,7 @@ public final class AutoSplitGuidsServiceTest
     }
 
     @Test
-    public void testSplitPartListwithFile() throws Exception
-    {
+    public void testSplitPartListwithFile() throws Exception {
         final InputStream tocXml;
         final File tocFile;
         final URL url = AutoSplitGuidsServiceTest.class.getResource("toc.xml");
@@ -164,8 +156,8 @@ public final class AutoSplitGuidsServiceTest
         dc.setThresholdPercent(10);
         bookDefinition.setDocumentTypeCodes(dc);
 
-        final List<String> splitGuidList =
-            autoSplitGuidsService.getAutoSplitNodes(tocXml, bookDefinition, Integer.valueOf(18262), jobInstanceId, true);
+        final List<String> splitGuidList = autoSplitGuidsService
+            .getAutoSplitNodes(tocXml, bookDefinition, Integer.valueOf(18262), jobInstanceId, true);
         EasyMock.verify(service);
 
         final List<String> expectTedGuidList = new ArrayList<>();
@@ -174,8 +166,7 @@ public final class AutoSplitGuidsServiceTest
         Map<String, String> splitGuidTextMap = new HashMap<>();
         splitGuidTextMap = autoSplitGuidsService.getSplitGuidTextMap();
         System.out.println(splitGuidTextMap.size());
-        for (final Map.Entry<String, String> entry : splitGuidTextMap.entrySet())
-        {
+        for (final Map.Entry<String, String> entry : splitGuidTextMap.entrySet()) {
             final String uuid = entry.getKey();
             final String name = entry.getValue();
             System.out.println(uuid + "  :  " + name + "\n");

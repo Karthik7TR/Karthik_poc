@@ -35,8 +35,7 @@ import org.springframework.beans.factory.annotation.Required;
  * @author U0105927
  *
  */
-public class GetTocTask extends AbstractSbTasklet
-{
+public class GetTocTask extends AbstractSbTasklet {
     //TODO: Use logger API to get Logger instance to job-specific appender.
     private static final Logger LOG = LogManager.getLogger(PersistMetadataXMLTask.class);
     private GatherService gatherService;
@@ -44,8 +43,8 @@ public class GetTocTask extends AbstractSbTasklet
     private BookDefinitionService bookDefinitionService;
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         GatherResponse gatherResponse = null;
         String publishStatus = "Completed";
 
@@ -68,12 +67,10 @@ public class GetTocTask extends AbstractSbTasklet
 
         final List<String> splitTocGuidList = new ArrayList<>();
         List<SplitDocument> splitDocuments = null;
-        if (bookDefinition.isSplitBook())
-        {
+        if (bookDefinition.isSplitBook()) {
             splitDocuments = bookDefinition.getSplitDocumentsAsList();
 
-            for (final SplitDocument splitDocument : splitDocuments)
-            {
+            for (final SplitDocument splitDocument : splitDocuments) {
                 splitTocGuidList.add(splitDocument.getTocGuid());
             }
         }
@@ -81,14 +78,12 @@ public class GetTocTask extends AbstractSbTasklet
 
         Date nortCutoffDate = null;
 
-        if (bookDefinition.getPublishCutoffDate() != null)
-        {
+        if (bookDefinition.getPublishCutoffDate() != null) {
             nortCutoffDate = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(
                 DateFormatUtils.ISO_DATETIME_FORMAT.format(bookDefinition.getPublishCutoffDate()).replace("T", " ")));
         }
         final PublishingStats jobstats = new PublishingStats();
-        try
-        {
+        try {
             if (tocCollectionName != null) // TOC
             {
                 final GatherTocRequest gatherTocRequest = new GatherTocRequest(
@@ -103,8 +98,7 @@ public class GetTocTask extends AbstractSbTasklet
                 LOG.debug(gatherTocRequest);
 
                 gatherResponse = gatherService.getToc(gatherTocRequest);
-            }
-            else if (nortDomainName != null) // NORT
+            } else if (nortDomainName != null) // NORT
             {
                 //			GatherNortRequest gatherNortRequest = new GatherNortRequest(nortDomainName, nortExpressionFilter, tocFile, nortCutoffDate, jobInstance);
                 final GatherNortRequest gatherNortRequest = new GatherNortRequest(
@@ -121,9 +115,7 @@ public class GetTocTask extends AbstractSbTasklet
                 LOG.debug(gatherNortRequest);
 
                 gatherResponse = gatherService.getNort(gatherNortRequest);
-            }
-            else
-            {
+            } else {
                 final String errorMessage = "Neither tocCollectionName nor nortDomainName were defined for eBook";
                 LOG.error(errorMessage);
                 gatherResponse = new GatherResponse(
@@ -142,8 +134,7 @@ public class GetTocTask extends AbstractSbTasklet
             // TODO: update doc count used in Job Execution Context
 
             LOG.debug(gatherResponse);
-            if (gatherResponse.getErrorCode() != 0)
-            {
+            if (gatherResponse.getErrorCode() != 0) {
                 final GatherException gatherException =
                     new GatherException(gatherResponse.getErrorMessage(), gatherResponse.getErrorCode());
                 throw gatherException;
@@ -151,37 +142,26 @@ public class GetTocTask extends AbstractSbTasklet
 
             boolean deletePreviousSplits = false;
             //Error out if the splitGuid does not exist
-            if (bookDefinition.isSplitBook())
-            {
+            if (bookDefinition.isSplitBook()) {
                 //Check for duplicate tocGuids for manual splits
-                if (splitDocuments != null)
-                {
+                if (splitDocuments != null) {
                     final List<String> splitTocGuids = new ArrayList<>();
-                    for (final SplitDocument splitDocument : splitDocuments)
-                    {
+                    for (final SplitDocument splitDocument : splitDocuments) {
                         splitTocGuids.add(splitDocument.getTocGuid());
                     }
                     duplicateTocCheck(splitTocGuids, gatherResponse.getDuplicateTocGuids());
                 }
-                if (gatherResponse.getSplitTocGuidList() != null && gatherResponse.getSplitTocGuidList().size() > 0)
-                {
-                    if (bookDefinition.isSplitTypeAuto())
-                    {
+                if (gatherResponse.getSplitTocGuidList() != null && gatherResponse.getSplitTocGuidList().size() > 0) {
+                    if (bookDefinition.isSplitTypeAuto()) {
                         deletePreviousSplits = true;
-                    }
-                    else
-                    {
+                    } else {
                         final StringBuffer errorMessageBuffer =
                             new StringBuffer("TOC/NORT guid provided for the split does not exist.");
                         int i = 1;
-                        for (final String tocGuid : gatherResponse.getSplitTocGuidList())
-                        {
-                            if (i == gatherResponse.getSplitTocGuidList().size())
-                            {
+                        for (final String tocGuid : gatherResponse.getSplitTocGuidList()) {
+                            if (i == gatherResponse.getSplitTocGuidList().size()) {
                                 errorMessageBuffer.append(tocGuid);
-                            }
-                            else
-                            {
+                            } else {
                                 errorMessageBuffer.append(tocGuid + ", ");
                             }
                             i++;
@@ -195,33 +175,25 @@ public class GetTocTask extends AbstractSbTasklet
                 }
             }
 
-            if (bookDefinition.isSplitBook() && bookDefinition.isSplitTypeAuto())
-            {
+            if (bookDefinition.isSplitBook() && bookDefinition.isSplitTypeAuto()) {
                 final Integer tocNodeCount = gatherResponse.getNodeCount();
-                if (tocNodeCount < thresholdValue)
-                {
+                if (tocNodeCount < thresholdValue) {
                     final StringBuffer eMessage = new StringBuffer(
                         "Cannot split the book into parts as node count "
                             + tocNodeCount
                             + " is less than threshold value "
                             + thresholdValue);
                     throw new RuntimeException(eMessage.toString());
-                }
-                else if (gatherResponse.isFindSplitsAgain() || deletePreviousSplits)
-                {
+                } else if (gatherResponse.isFindSplitsAgain() || deletePreviousSplits) {
                     bookDefinitionService.deleteSplitDocuments(bookDefinition.getEbookDefinitionId());
                 }
                 //Check for duplicate tocGuids for Auto splits
                 duplicateTocCheck(null, gatherResponse.getDuplicateTocGuids());
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             publishStatus = "Failed";
             throw (e);
-        }
-        finally
-        {
+        } finally {
             jobstats.setJobInstanceId(jobInstance);
             jobstats.setPublishStatus("getToc : " + publishStatus);
             publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GATHERTOC);
@@ -236,33 +208,24 @@ public class GetTocTask extends AbstractSbTasklet
      * @param dupGuidList
      * @throws Exception
      */
-    public void duplicateTocCheck(final List<String> splitGuidList, final List<String> dupGuidList) throws Exception
-    {
-        if (dupGuidList != null && dupGuidList.size() > 0)
-        {
+    public void duplicateTocCheck(final List<String> splitGuidList, final List<String> dupGuidList) throws Exception {
+        if (dupGuidList != null && dupGuidList.size() > 0) {
             final StringBuffer eMessage = new StringBuffer("Duplicate TOC guids Found. Cannot split the book. ");
 
-            if (splitGuidList == null)
-            {
-                for (final String dupTocGuid : dupGuidList)
-                {
+            if (splitGuidList == null) {
+                for (final String dupTocGuid : dupGuidList) {
                     eMessage.append(dupTocGuid + " ");
                 }
                 throw new RuntimeException(eMessage.toString());
-            }
-            else
-            {
+            } else {
                 boolean dupFound = false;
-                for (final String dupTocGuid : dupGuidList)
-                {
-                    if (splitGuidList.contains(dupTocGuid))
-                    {
+                for (final String dupTocGuid : dupGuidList) {
+                    if (splitGuidList.contains(dupTocGuid)) {
                         eMessage.append(dupTocGuid + " ");
                         dupFound = true;
                     }
                 }
-                if (dupFound)
-                {
+                if (dupFound) {
                     throw new RuntimeException(eMessage.toString());
                 }
             }
@@ -270,20 +233,17 @@ public class GetTocTask extends AbstractSbTasklet
     }
 
     @Required
-    public void setGatherService(final GatherService gatherService)
-    {
+    public void setGatherService(final GatherService gatherService) {
         this.gatherService = gatherService;
     }
 
     @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
 
     @Required
-    public void setBookDefinitionService(final BookDefinitionService bookDefinitionService)
-    {
+    public void setBookDefinitionService(final BookDefinitionService bookDefinitionService) {
         this.bookDefinitionService = bookDefinitionService;
     }
 }

@@ -13,8 +13,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class ArchiveXppStepTest
-{
+public final class ArchiveXppStepTest {
     @InjectMocks
     private ArchiveXppStep step;
     @Mock
@@ -25,8 +24,7 @@ public final class ArchiveXppStepTest
     private EnvironmentUtil environmentUtil;
 
     @Test
-    public void shouldSaveAudit() throws Exception
-    {
+    public void shouldSaveAudit() throws Exception {
         //given
         //when
         step.executeStep();
@@ -35,8 +33,7 @@ public final class ArchiveXppStepTest
     }
 
     @Test
-    public void shouldStoreArchiveForProd() throws Exception
-    {
+    public void shouldStoreArchiveForProd() throws Exception {
         //given
         given(environmentUtil.isProd()).willReturn(true);
         //when

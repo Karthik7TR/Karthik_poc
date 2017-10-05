@@ -19,8 +19,7 @@ import org.springframework.batch.core.ExitStatus;
 
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
-public class SendEmailNotification extends BookStepImpl
-{
+public class SendEmailNotification extends BookStepImpl {
     private static final Logger LOG = LogManager.getLogger(SendEmailNotification.class);
 
     @Resource(name = "emailService")
@@ -29,8 +28,7 @@ public class SendEmailNotification extends BookStepImpl
     private CoreService coreService;
 
     @Override
-    public ExitStatus executeStep() throws Exception
-    {
+    public ExitStatus executeStep() throws Exception {
         final Collection<InternetAddress> recipients = getRecipients();
         LOG.debug("recipients: " + recipients);
 
@@ -39,22 +37,19 @@ public class SendEmailNotification extends BookStepImpl
     }
 
     @NotNull
-    private Collection<InternetAddress> getRecipients()
-    {
+    private Collection<InternetAddress> getRecipients() {
         final String userName = getUserName();
         return coreService.getEmailRecipientsByUsername(userName);
     }
 
     @NotNull
-    private String getEmailSubject()
-    {
+    private String getEmailSubject() {
         final BookDefinition bookDefinition = getBookDefinition();
         return String.format("eBook Shell XPP job - %s", bookDefinition.getFullyQualifiedTitleId());
     }
 
     @NotNull
-    private String getEmailBody()
-    {
+    private String getEmailBody() {
         final BookDefinition bookDefinition = getBookDefinition();
         final String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
         final String proviewDisplayName = bookDefinition.getProviewDisplayName();

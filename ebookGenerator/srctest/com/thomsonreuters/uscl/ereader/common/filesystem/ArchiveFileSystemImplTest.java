@@ -18,8 +18,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class ArchiveFileSystemImplTest
-{
+public final class ArchiveFileSystemImplTest {
     @InjectMocks
     private ArchiveFileSystemImpl fileSystem;
     @Mock
@@ -30,14 +29,12 @@ public final class ArchiveFileSystemImplTest
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         given(bookFileSystem.getWorkDirectory(step)).willReturn(new File(temporaryFolder.getRoot(), "workDirectory"));
     }
 
     @Test
-    public void shouldReturnArchiveDirectory()
-    {
+    public void shouldReturnArchiveDirectory() {
         //given
         //when
         final File directory = fileSystem.getArchiveDirectory(step);
@@ -46,8 +43,7 @@ public final class ArchiveFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnArchiveVersionDirectoryForMajorVerion()
-    {
+    public void shouldReturnArchiveVersionDirectoryForMajorVerion() {
         //given
         given(step.getBookVersion()).willReturn(version("v2.0"));
         //when
@@ -57,8 +53,7 @@ public final class ArchiveFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnArchiveVersionDirectoryForMinorVerion()
-    {
+    public void shouldReturnArchiveVersionDirectoryForMinorVerion() {
         //given
         given(step.getBookVersion()).willReturn(version("v2.1"));
         //when

@@ -31,8 +31,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.batch.core.scope.context.ChunkContext;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class TransformationToHtmlStepTest
-{
+public final class TransformationToHtmlStepTest {
     private static final String TEMP_DIVXML_XML = "1-sample_1.DIVXML_0_test.xml";
     private static final String MATERIAL_NUMBER = "11111111";
 
@@ -56,8 +55,7 @@ public final class TransformationToHtmlStepTest
     private File tocUnitsMapFile;
 
     @Before
-    public void setUp() throws IOException
-    {
+    public void setUp() throws IOException {
         final File root = temporaryFolder.getRoot();
 
         final File originalPagesDir = mkdir(root, "OriginalPages", MATERIAL_NUMBER);
@@ -82,8 +80,7 @@ public final class TransformationToHtmlStepTest
         given(fileSystem.getAnchorToDocumentIdMapFile(step)).willReturn(tocUnitsMapFile);
     }
 
-    private List<XppBundle> getXppBundles()
-    {
+    private List<XppBundle> getXppBundles() {
         final XppBundle firstBundle = new XppBundle();
         firstBundle.setMaterialNumber(MATERIAL_NUMBER);
         firstBundle.setOrderedFileList(Arrays.asList("1-TEST_7.DIVXML.xml"));
@@ -91,8 +88,7 @@ public final class TransformationToHtmlStepTest
     }
 
     @Test
-    public void shouldTransform() throws Exception
-    {
+    public void shouldTransform() throws Exception {
         //given
         //when
         step.executeStep();

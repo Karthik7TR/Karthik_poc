@@ -10,8 +10,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Supported DIVXML components, with file names patterns as parameter.
  */
-public enum BundleFileType
-{
+public enum BundleFileType {
     MAIN_CONTENT(".*\\.DIVXML.*", ""),
     SUMMARY_TABLE_OF_CONTENTS(".*_Summary_Table_of_Contents\\.DIVXML.*", ""),
     CORRELATION_TABLE(".*_Correlation_Table\\.DIVXML.*", "Corr. tbl"),
@@ -35,21 +34,18 @@ public enum BundleFileType
     private final FilenameFilter fileNameFilter;
     private final String pagePrefix;
 
-    BundleFileType(final String pattern, final String pagePrefix)
-    {
+    BundleFileType(final String pattern, final String pagePrefix) {
         originalFileNamePattern = Pattern.compile(pattern);
         htmlDocumentFileNamePattern = Pattern.compile(pattern + "_\\d+_[a-zA-Z0-9.]*\\.[a-z]*");
         fileNameFilter = new HtmlDocumentFileNameFilter(this);
         this.pagePrefix = pagePrefix;
     }
 
-    public String getPagePrefix()
-    {
+    public String getPagePrefix() {
         return pagePrefix;
     }
 
-    public FilenameFilter getHtmlDocFileNameFilter()
-    {
+    public FilenameFilter getHtmlDocFileNameFilter() {
         return fileNameFilter;
     }
 
@@ -57,8 +53,7 @@ public enum BundleFileType
      * Get instance by file name.
      */
     @NotNull
-    public static BundleFileType getByFileName(@NotNull final String fileName)
-    {
+    public static BundleFileType getByFileName(@NotNull final String fileName) {
         return getByName(StringUtils.substringBeforeLast(fileName, "."), true);
     }
 
@@ -66,28 +61,23 @@ public enum BundleFileType
      * Get instance by html document file name
      */
     @NotNull
-    public static BundleFileType getByDocumentFileName(@NotNull final String fileName)
-    {
+    public static BundleFileType getByDocumentFileName(@NotNull final String fileName) {
         return getByName(fileName, false);
     }
 
-    private static BundleFileType getByName(final String name, final boolean usingOriginalNamePattern)
-    {
-        final Pattern mainContentPattern = usingOriginalNamePattern
-            ? MAIN_CONTENT.originalFileNamePattern
-                : MAIN_CONTENT.htmlDocumentFileNamePattern;
-        if (!mainContentPattern.matcher(name).matches())
-        {
-            throw new UnsupportedOperationException("File not supported, file: " + name + " have unsupported name pattern");
+    private static BundleFileType getByName(final String name, final boolean usingOriginalNamePattern) {
+        final Pattern mainContentPattern =
+            usingOriginalNamePattern ? MAIN_CONTENT.originalFileNamePattern : MAIN_CONTENT.htmlDocumentFileNamePattern;
+        if (!mainContentPattern.matcher(name).matches()) {
+            throw new UnsupportedOperationException(
+                "File not supported, file: " + name + " have unsupported name pattern");
         }
 
         BundleFileType result = BundleFileType.MAIN_CONTENT;
-        for (final BundleFileType fileType : values())
-        {
-            final Pattern pattern = usingOriginalNamePattern
-                ? fileType.originalFileNamePattern : fileType.htmlDocumentFileNamePattern;
-            if (fileType != result && pattern.matcher(name).matches())
-            {
+        for (final BundleFileType fileType : values()) {
+            final Pattern pattern =
+                usingOriginalNamePattern ? fileType.originalFileNamePattern : fileType.htmlDocumentFileNamePattern;
+            if (fileType != result && pattern.matcher(name).matches()) {
                 result = fileType;
                 break;
             }
@@ -95,18 +85,15 @@ public enum BundleFileType
         return result;
     }
 
-    private static final class HtmlDocumentFileNameFilter implements FilenameFilter
-    {
+    private static final class HtmlDocumentFileNameFilter implements FilenameFilter {
         private final BundleFileType bundleFileType;
 
-        private HtmlDocumentFileNameFilter(final BundleFileType bundleFileType)
-        {
+        private HtmlDocumentFileNameFilter(final BundleFileType bundleFileType) {
             this.bundleFileType = bundleFileType;
         }
 
         @Override
-        public boolean accept(final File dir, final String name)
-        {
+        public boolean accept(final File dir, final String name) {
             return bundleFileType == getByDocumentFileName(name);
         }
     }

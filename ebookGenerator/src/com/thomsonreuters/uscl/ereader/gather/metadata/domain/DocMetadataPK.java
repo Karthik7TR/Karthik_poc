@@ -7,14 +7,12 @@ import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
-public class DocMetadataPK implements Serializable
-{
+public class DocMetadataPK implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
      */
-    public DocMetadataPK()
-    {
+    public DocMetadataPK() {
     }
 
     /**
@@ -41,51 +39,44 @@ public class DocMetadataPK implements Serializable
 
     /**
      */
-    public void setTitleId(final String titleId)
-    {
+    public void setTitleId(final String titleId) {
         this.titleId = titleId;
     }
 
     /**
      */
-    public String getTitleId()
-    {
+    public String getTitleId() {
         return titleId;
     }
 
     /**
      */
-    public void setJobInstanceId(final Long jobInstanceId)
-    {
+    public void setJobInstanceId(final Long jobInstanceId) {
         this.jobInstanceId = jobInstanceId;
     }
 
     /**
      */
-    public Long getJobInstanceId()
-    {
+    public Long getJobInstanceId() {
         return jobInstanceId;
     }
 
     /**
      */
-    public void setDocUuid(final String docUuid)
-    {
+    public void setDocUuid(final String docUuid) {
         this.docUuid = docUuid;
     }
 
     /**
      */
-    public String getDocUuid()
-    {
+    public String getDocUuid() {
         return docUuid;
     }
 
     /**
      */
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((titleId == null) ? 0 : titleId.hashCode());
@@ -97,8 +88,7 @@ public class DocMetadataPK implements Serializable
     /**
      */
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (!(obj instanceof DocMetadataPK))
@@ -121,8 +111,7 @@ public class DocMetadataPK implements Serializable
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         final StringBuilder sb = new StringBuilder("DocMetadataPK");
         sb.append(" titleId: ").append(getTitleId());
         sb.append(" jobInstanceId: ").append(getJobInstanceId());

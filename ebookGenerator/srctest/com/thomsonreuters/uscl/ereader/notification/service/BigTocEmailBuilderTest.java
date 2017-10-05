@@ -31,8 +31,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class BigTocEmailBuilderTest
-{
+public final class BigTocEmailBuilderTest {
     @InjectMocks
     private BigTocEmailBuilder bigTocEmailBuilder;
     @Mock
@@ -47,14 +46,12 @@ public final class BigTocEmailBuilderTest
     private File root;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         root = temporaryFolder.getRoot();
     }
 
     @Test
-    public void additionalSubjectPartIsCorrect()
-    {
+    public void additionalSubjectPartIsCorrect() {
         //given
         //when
         final String subjectPart = bigTocEmailBuilder.getAdditionalSubjectPart();
@@ -63,8 +60,7 @@ public final class BigTocEmailBuilderTest
     }
 
     @Test
-    public void additionalBodyPartIsCorrect() throws IOException
-    {
+    public void additionalBodyPartIsCorrect() throws IOException {
         //given
         givenAll();
         //when
@@ -78,8 +74,7 @@ public final class BigTocEmailBuilderTest
     }
 
     @Test
-    public void shouldThrowExceptionIfCannotReadFile() throws IOException
-    {
+    public void shouldThrowExceptionIfCannotReadFile() throws IOException {
         //given
         givenAll();
         given(step.getJobExecutionPropertyString(JobExecutionKey.GATHER_TOC_FILE)).willReturn(root.getAbsolutePath());
@@ -89,8 +84,7 @@ public final class BigTocEmailBuilderTest
         //then
     }
 
-    private void givenAll() throws IOException
-    {
+    private void givenAll() throws IOException {
         final Map<String, String> guids2Text = new HashMap<>();
         guids2Text.put("id1", "text1");
         guids2Text.put("id2", "text2");

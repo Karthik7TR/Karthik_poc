@@ -13,16 +13,14 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class ProviewHandlerWithRetryImplTest
-{
+public final class ProviewHandlerWithRetryImplTest {
     @InjectMocks
     private ProviewHandlerWithRetryImpl service;
     @Mock
     private ProviewHandler proviewHandler;
 
     @Test
-    public void shouldDeleteTitleIf200() throws Exception
-    {
+    public void shouldDeleteTitleIf200() throws Exception {
         //given
         given(proviewHandler.removeTitle("an/splitTitle", version("v1.1"))).willReturn("200");
         //when
@@ -32,8 +30,7 @@ public final class ProviewHandlerWithRetryImplTest
     }
 
     @Test
-    public void shouldNotDeleteTitleOtherwise() throws Exception
-    {
+    public void shouldNotDeleteTitleOtherwise() throws Exception {
         //given
         given(proviewHandler.removeTitle("an/splitTitle", version("v1.1"))).willReturn("400");
         //when

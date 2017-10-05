@@ -9,8 +9,7 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.PaceMetadata;
  * Spring service that handles CRUD requests for PaceMetadata entities
  * @author <a href="mailto:ravi.nandikolla@thomsonreuters.com">Ravi Nandikolla</a> c139353
  */
-public interface PaceMetadataService
-{
+public interface PaceMetadataService {
     /**
      * Save an existing PaceMetadata entity
      *

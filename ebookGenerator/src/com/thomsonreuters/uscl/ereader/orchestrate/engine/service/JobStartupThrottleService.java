@@ -6,8 +6,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
  * @author Mahendra Survase (u0105927)
  *
  */
-public interface JobStartupThrottleService
-{
+public interface JobStartupThrottleService {
     boolean checkIfnewJobCanbeLaunched();
 
     /**

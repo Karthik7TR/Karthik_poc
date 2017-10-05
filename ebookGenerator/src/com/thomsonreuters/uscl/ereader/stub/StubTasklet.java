@@ -11,13 +11,12 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.item.ExecutionContext;
 
-public class StubTasklet extends AbstractSbTasklet
-{
+public class StubTasklet extends AbstractSbTasklet {
 //	private static final Logger log = LogManager.getLogger(StubTasklet.class);
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         final StepContext stepContext = chunkContext.getStepContext();
 //		Map<String, Object> jobParams = stepContext.getJobParameters();
         final StepExecution stepExecution = stepContext.getStepExecution();

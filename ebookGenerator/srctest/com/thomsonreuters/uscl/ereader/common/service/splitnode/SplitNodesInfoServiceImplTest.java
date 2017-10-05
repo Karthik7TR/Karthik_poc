@@ -23,8 +23,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class SplitNodesInfoServiceImplTest
-{
+public final class SplitNodesInfoServiceImplTest {
     @InjectMocks
     private SplitNodesInfoServiceImpl service;
     @Mock
@@ -36,15 +35,13 @@ public final class SplitNodesInfoServiceImplTest
     private File incorrectFile;
 
     @Before
-    public void setUp() throws URISyntaxException
-    {
+    public void setUp() throws URISyntaxException {
         splitNodeInfoFile = new File(SplitNodesInfoServiceImplTest.class.getResource("splitNodeInfo.txt").toURI());
         incorrectFile = new File("splitNodeInfoIncorrect.txt");
     }
 
     @Test
-    public void shouldReturnListOfTitles()
-    {
+    public void shouldReturnListOfTitles() {
         //given
         final String fullyQualifiedTitleId = "uscl/an/split_splitpro";
         //when
@@ -54,8 +51,7 @@ public final class SplitNodesInfoServiceImplTest
     }
 
     @Test
-    public void shouldThrowExceptionIfFileNotFound()
-    {
+    public void shouldThrowExceptionIfFileNotFound() {
         //given
         thrown.expect(RuntimeException.class);
         final String fullyQualifiedTitleId = "uscl/an/split_splitpro";
@@ -65,8 +61,7 @@ public final class SplitNodesInfoServiceImplTest
     }
 
     @Test
-    public void shouldReturnSubmittedSplitNodes()
-    {
+    public void shouldReturnSubmittedSplitNodes() {
         final Version submittedVersion = version("v1.1");
         //given
         //when

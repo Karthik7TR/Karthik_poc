@@ -21,15 +21,14 @@ import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Required;
 
-public class StageBundleTask extends AbstractSbTasklet
-{
+public class StageBundleTask extends AbstractSbTasklet {
     private static final Logger log = LogManager.getLogger(StageBundleTask.class);
     private GZIPService gzipService;
     private XppBundleValidator bundleValidator;
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         log.debug("Staging Bundle...");
 
         // extract job parameters
@@ -52,28 +51,22 @@ public class StageBundleTask extends AbstractSbTasklet
         return ExitStatus.COMPLETED;
     }
 
-    private @NotNull XppBundle retrieveBundleXml(@NotNull final File request) throws XppMessageException
-    {
+    private @NotNull XppBundle retrieveBundleXml(@NotNull final File request) throws XppMessageException {
         final File bundleFile = new File(request, XPPConstants.FILE_BUNDLE_XML);
-        try (FileInputStream inStream = new FileInputStream(bundleFile))
-        {
+        try (FileInputStream inStream = new FileInputStream(bundleFile)) {
             return JAXBParser.parse(inStream, XppBundle.class);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             throw new XppMessageException("error parsing bundle", e);
         }
     }
 
     @Required
-    public void setGZIPService(final GZIPService gzipService)
-    {
+    public void setGZIPService(final GZIPService gzipService) {
         this.gzipService = gzipService;
     }
 
     @Required
-    public void setBundleValidator(final XppBundleValidator bundleValidator)
-    {
+    public void setBundleValidator(final XppBundleValidator bundleValidator) {
         this.bundleValidator = bundleValidator;
     }
 }

@@ -32,8 +32,7 @@ import org.junit.Test;
  *
  * @author <a href="mailto:zack.farrell@thomsonreuters.com">Zack Farrell</a> uc209819
  */
-public final class HTMLTransformerServiceTest
-{
+public final class HTMLTransformerServiceTest {
     private HTMLTransformerServiceImpl transformerService;
     private File tempRootDir; // root directory for all test files
 
@@ -65,26 +64,21 @@ public final class HTMLTransformerServiceTest
      * @param content Content to be written into the new file
      * @return returns a File object directing to the new file returns null if any errors occur
      */
-    private File makeFile(final File directory, final String name, final String content)
-    {
+    private File makeFile(final File directory, final String name, final String content) {
         final File file = new File(directory, name);
-        try (FileOutputStream out = new FileOutputStream(file))
-        {
+        try (FileOutputStream out = new FileOutputStream(file)) {
             file.createNewFile();
             out.write(content.getBytes());
             out.flush();
             out.close();
             return file;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             return null;
         }
     }
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         transformerService = new HTMLTransformerServiceImpl();
 
         /* initialize arguments */
@@ -122,8 +116,7 @@ public final class HTMLTransformerServiceTest
     }
 
     @After
-    public void tearDown() throws Exception
-    {
+    public void tearDown() throws Exception {
         /* recursively deletes the root directory, and all its subdirectories and files */
         FileUtils.deleteDirectory(tempRootDir);
     }
@@ -134,13 +127,11 @@ public final class HTMLTransformerServiceTest
      * created in the target directory
      */
     @Test
-    public void testTransformerServiceHappyPath()
-    {
+    public void testTransformerServiceHappyPath() {
         int numDocs = -1;
         boolean thrown = false;
 
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta);
             EasyMock.replay(metadataMoc);
@@ -159,9 +150,7 @@ public final class HTMLTransformerServiceTest
                 isStrikethrough,
                 delEditorNodeHeading,
                 version);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             // e.printStackTrace();
             thrown = true;
         }
@@ -176,8 +165,7 @@ public final class HTMLTransformerServiceTest
      * Test TransformHTML and various logical branches not taken by the happy path test above
      */
     @Test
-    public void testAltConditions()
-    {
+    public void testAltConditions() {
         int numDocs = -1;
         boolean thrown = false;
 
@@ -200,8 +188,7 @@ public final class HTMLTransformerServiceTest
         transformerService.setimgService(imgServiceMoc);
         /* ---------------------------- */
 
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta);
             EasyMock.replay(metadataMoc);
@@ -220,9 +207,7 @@ public final class HTMLTransformerServiceTest
                 isStrikethrough,
                 delEditorNodeHeading,
                 version);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             // e.printStackTrace();
             thrown = true;
         }
@@ -238,8 +223,7 @@ public final class HTMLTransformerServiceTest
      * EBookFormatException.
      */
     @Test
-    public void testWithExtraTableViewers()
-    {
+    public void testWithExtraTableViewers() {
         boolean thrown = false;
         boolean expect = false;
 
@@ -249,8 +233,7 @@ public final class HTMLTransformerServiceTest
         tableViewers.add(table);
         tableViewers.add(table);
 
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta);
             EasyMock.replay(metadataMoc);
@@ -269,13 +252,9 @@ public final class HTMLTransformerServiceTest
                 isStrikethrough,
                 delEditorNodeHeading,
                 version);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             expect = true;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             // e.printStackTrace();
             thrown = true;
         }
@@ -287,12 +266,10 @@ public final class HTMLTransformerServiceTest
      * test miscellaneous exceptions that may be thrown due to bad arguments
      */
     @Test
-    public void testExceptions()
-    {
+    public void testExceptions() {
         boolean thrown = false;
         boolean expect = false;
-        try
-        {
+        try {
             transformerService.transformHTML(
                 null,
                 targetDir,
@@ -307,14 +284,10 @@ public final class HTMLTransformerServiceTest
                 isStrikethrough,
                 delEditorNodeHeading,
                 version);
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             // e.printStackTrace();
             expect = true;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             // e.printStackTrace();
             thrown = true;
         }
@@ -324,8 +297,7 @@ public final class HTMLTransformerServiceTest
         thrown = false;
         expect = false;
 
-        try
-        {
+        try {
             transformerService.transformHTML(
                 targetDir,
                 targetDir,
@@ -340,14 +312,10 @@ public final class HTMLTransformerServiceTest
                 isStrikethrough,
                 delEditorNodeHeading,
                 version);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             // e.printStackTrace();
             expect = true;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             // e.printStackTrace();
             thrown = true;
         }
@@ -359,14 +327,12 @@ public final class HTMLTransformerServiceTest
      * test handling of exceptions thrown by the xml parser
      */
     @Test
-    public void testSaxParserException()
-    {
+    public void testSaxParserException() {
         boolean thrown = false;
         boolean expect = false;
         makeFile(targetDir, title + ".transformed", "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta);
             EasyMock.replay(metadataMoc);
@@ -385,14 +351,10 @@ public final class HTMLTransformerServiceTest
                 isStrikethrough,
                 delEditorNodeHeading,
                 version);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             // e.printStackTrace();
             expect = true;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             // e.printStackTrace();
             thrown = true;
         }
@@ -405,16 +367,14 @@ public final class HTMLTransformerServiceTest
      * extend coverage to the function includeDeduppingAnchorRecords( .. )
      */
     @Test
-    public void testDeduppingAnchorRecords()
-    {
+    public void testDeduppingAnchorRecords() {
         int numDocs = -1;
         boolean thrown = false;
 
         final File srcFile =
             makeFile(targetDir, title + ".transformed", "<title><src id=\"1234\"/><src id=\"1234\"/></title>");
 
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta);
             EasyMock.replay(metadataMoc);
@@ -433,14 +393,10 @@ public final class HTMLTransformerServiceTest
                 isStrikethrough,
                 delEditorNodeHeading,
                 version);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             // e.printStackTrace();
             thrown = true;
-        }
-        finally
-        {
+        } finally {
             FileUtils.deleteQuietly(srcFile);
         }
         assertTrue(!thrown);

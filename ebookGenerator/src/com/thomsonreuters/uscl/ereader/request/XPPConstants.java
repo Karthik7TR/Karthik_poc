@@ -1,7 +1,6 @@
 package com.thomsonreuters.uscl.ereader.request;
 
-public final class XPPConstants
-{
+public final class XPPConstants {
     public static final String PATTERN_BUDNLE_ARCHIVE_DATE_DIRECTORY = "YYYY/MM";
     public static final String PATTERN_BUNDLE_ARCHIVE_FILE = "/apps/eBookBuilder/%s/xpp/archive/%s";
     public static final String PATTERN_BUDNLE_STAGED_DIRECTORY = "/apps/eBookBuilder/%s/xpp/jobs/%s";
@@ -20,8 +19,7 @@ public final class XPPConstants
     public static final String ERROR_BAD_HASH = "Verification hash does not match for:  ";
     public static final String ERROR_DUPLICATE_REQUEST = "Request already received: ";
 
-    private XPPConstants()
-    {
+    private XPPConstants() {
         // static content class
     }
 }

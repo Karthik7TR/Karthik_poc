@@ -29,16 +29,15 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:Kirsten.Gunn@thomsonreuters.com">Kirsten Gunn</a> u0076257
  */
-public class HTMLRemoveBrokenInternalLinks extends AbstractSbTasklet
-{
+public class HTMLRemoveBrokenInternalLinks extends AbstractSbTasklet {
     //TODO: Use logger API to get Logger instance to job-specific appender.
     private static final Logger LOG = LogManager.getLogger(HTMLRemoveBrokenInternalLinks.class);
     private HTMLRemoveBrokenInternalLinksService transformerUnlinkService;
     private PublishingStatsService publishingStatsService;
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
         final JobInstance jobInstance = getJobInstance(chunkContext);
         final JobParameters jobParams = getJobParameters(chunkContext);
@@ -65,16 +64,14 @@ public class HTMLRemoveBrokenInternalLinks extends AbstractSbTasklet
         final PublishingStats jobstats = new PublishingStats();
         jobstats.setJobInstanceId(jobId);
         String stepStatus = "Completed";
-        try
-        {
+        try {
             final long startTime = System.currentTimeMillis();
             final int numDocsTransformed = transformerUnlinkService
                 .transformHTML(transformDir, postTransformDir, titleId, jobId, envName, emailRecipients);
             final long endTime = System.currentTimeMillis();
             final long elapsedTime = endTime - startTime;
 
-            if (numDocsTransformed != numDocsInTOC)
-            {
+            if (numDocsTransformed != numDocsInTOC) {
                 final String message = "The number of post transformed documents did not match the number "
                     + "of documents retrieved from the eBook TOC. Transformed "
                     + numDocsTransformed
@@ -86,14 +83,10 @@ public class HTMLRemoveBrokenInternalLinks extends AbstractSbTasklet
             }
 
             LOG.debug("Transformed " + numDocsTransformed + " HTML files in " + elapsedTime + " milliseconds");
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             stepStatus = "Failed";
             throw e;
-        }
-        finally
-        {
+        } finally {
             jobstats.setPublishStatus("formatHTMLRemoveBrokenInternalLinks : " + stepStatus);
             publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
         }
@@ -102,14 +95,12 @@ public class HTMLRemoveBrokenInternalLinks extends AbstractSbTasklet
     }
 
     @Required
-    public void setTransformerUnlinkService(final HTMLRemoveBrokenInternalLinksService transformerUnlinkService)
-    {
+    public void setTransformerUnlinkService(final HTMLRemoveBrokenInternalLinksService transformerUnlinkService) {
         this.transformerUnlinkService = transformerUnlinkService;
     }
 
     @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
 }

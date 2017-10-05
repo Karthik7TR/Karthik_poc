@@ -24,8 +24,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.sonar.runner.commonsio.FileUtils;
 
-public final class NovusNortFileServiceTest
-{
+public final class NovusNortFileServiceTest {
     private static Logger LOG = LogManager.getLogger(NovusNortFileServiceTest.class);
 
     private static final String LT_ROOT_AMP_QUOT_NODE_APOS_S_GT = " &lt; Root &amp;  �  &quot; Node&apos;s &gt; ";
@@ -37,8 +36,7 @@ public final class NovusNortFileServiceTest
     private NovusNortFileServiceImpl novusNortFileService;
 
     @Before
-    public void setUp() throws IOException
-    {
+    public void setUp() throws IOException {
         nortDir = temporaryFolder.newFolder("junit_nortFile");
 
         // The object under test
@@ -46,8 +44,7 @@ public final class NovusNortFileServiceTest
     }
 
     @Test
-    public void testCreateNortTreeFile() throws Exception
-    {
+    public void testCreateNortTreeFile() throws Exception {
         final File nortFile = new File(nortDir, "NORT" + EBConstants.XML_FILE_EXTENSION);
 
         final Date date = new Date();
@@ -116,8 +113,7 @@ public final class NovusNortFileServiceTest
     }
 
     @Test
-    public void testCreateNort2NodeTreeFile() throws Exception
-    {
+    public void testCreateNort2NodeTreeFile() throws Exception {
         final File nortFile = new File(nortDir, "DblRootNode" + EBConstants.XML_FILE_EXTENSION);
         final Date date = new Date();
         final String YYYYM1DDHHmmss = createOneDayAheadString(date);
@@ -199,8 +195,7 @@ public final class NovusNortFileServiceTest
     }
 
     @Test
-    public void testMissingDocument() throws Exception
-    {
+    public void testMissingDocument() throws Exception {
         final File nortFile = new File(nortDir, "missingDocument" + EBConstants.XML_FILE_EXTENSION);
 
         final Date date = new Date();
@@ -273,8 +268,7 @@ public final class NovusNortFileServiceTest
     }
 
     @Test
-    public void testMissingDoc2Level() throws Exception
-    {
+    public void testMissingDoc2Level() throws Exception {
         final File nortFile = new File(nortDir, "DblRootNode" + EBConstants.XML_FILE_EXTENSION);
 
         final Date date = new Date();
@@ -352,8 +346,7 @@ public final class NovusNortFileServiceTest
     }
 
     @Test
-    public void testSplitNodeExists() throws Exception
-    {
+    public void testSplitNodeExists() throws Exception {
         final File nortFile = new File(nortDir, "DblRootNode" + EBConstants.XML_FILE_EXTENSION);
 
         final Date date = new Date();
@@ -389,8 +382,7 @@ public final class NovusNortFileServiceTest
     }
 
     @Test
-    public void testNoSplitNode() throws Exception
-    {
+    public void testNoSplitNode() throws Exception {
         final File nortFile = new File(nortDir, "DblRootNode" + EBConstants.XML_FILE_EXTENSION);
 
         final Date date = new Date();
@@ -426,8 +418,7 @@ public final class NovusNortFileServiceTest
     }
 
     @Test
-    public void testMissingDocSections() throws Exception
-    {
+    public void testMissingDocSections() throws Exception {
         final File nortFile = new File(nortDir, "MissingSection" + EBConstants.XML_FILE_EXTENSION);
 
         final Date date = new Date();
@@ -481,8 +472,7 @@ public final class NovusNortFileServiceTest
     }
 
     @Test
-    public void testGetNortDataWithMissingLabel()
-    {
+    public void testGetNortDataWithMissingLabel() {
         final File nortFile = new File(nortDir, "NORT" + EBConstants.XML_FILE_EXTENSION);
         final Date date = new Date();
         final String YYYYM1DDHHmmss = createOneDayAheadString(date);
@@ -495,12 +485,9 @@ public final class NovusNortFileServiceTest
         // Invoke the object under test
         nortDir.mkdirs();
 
-        try
-        {
+        try {
             novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null, 0);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             LOG.debug(e.getMessage());
             Assert.assertEquals("Failed with empty node Label for guid nortGuid", e.getMessage());
@@ -508,8 +495,7 @@ public final class NovusNortFileServiceTest
     }
 
     @Test(expected = GatherException.class)
-    public void testGatherException() throws Exception
-    {
+    public void testGatherException() throws Exception {
         final File nortFile = new File(nortDir, "FAIL" + EBConstants.XML_FILE_EXTENSION);
 
         final Date date = new Date();
@@ -521,8 +507,7 @@ public final class NovusNortFileServiceTest
         final String label,
         final String dateStr,
         final String nortGuid,
-        final int rank)
-    {
+        final int rank) {
         final RelationshipNode node = createNode(label, dateStr, null, nortGuid, null, rank);
         node.setRootNode(true);
         node.setParentNode(null);
@@ -536,8 +521,7 @@ public final class NovusNortFileServiceTest
         final RelationshipNode parentNode,
         final String nortGuid,
         final String docGuid,
-        final int rank)
-    {
+        final int rank) {
         final RelationshipNode node = new RelationshipNode();
         node.setDocumentGuid(docGuid);
         node.setEndDateStr(dateStr);
@@ -548,8 +532,7 @@ public final class NovusNortFileServiceTest
         node.setRank(rank);
         node.setStartDateStr(dateStr);
 
-        if (parentNode != null)
-        {
+        if (parentNode != null) {
             node.setParentNode(parentNode);
             node.setParentNortGuid(parentNode.getNortGuid());
             parentNode.getChildNodes().add(node);
@@ -558,8 +541,7 @@ public final class NovusNortFileServiceTest
         return node;
     }
 
-    private String createOneDayAheadString(final Date date)
-    {
+    private String createOneDayAheadString(final Date date) {
         final SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         final String YYYYMMDDHHmmss = formatter.format(date);
         return "" + Long.valueOf(YYYYMMDDHHmmss) + 1;

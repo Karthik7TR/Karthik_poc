@@ -11,17 +11,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("IntegrationTests")
 @ContextConfiguration(classes = PlaceXppMetadataStepIntegrationTestConfig.class)
-public final class LrreMetadataIntegrationTest extends PlaceXppMetadataStepFixture
-{
+public final class LrreMetadataIntegrationTest extends PlaceXppMetadataStepFixture {
     public LrreMetadataIntegrationTest()
-        throws URISyntaxException
-    {
+        throws URISyntaxException {
         super("lrre/30007-volume_3_Table_of_LRRE.DIVXML.main", "lrre/expected.main");
     }
 
     @Test
-    public void shouldInsertCorrectMetadataAndHierToLrreFile() throws Exception
-    {
+    public void shouldInsertCorrectMetadataAndHierToLrreFile() throws Exception {
         testPlacedMetadata();
     }
 }

@@ -28,8 +28,7 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.item.ExecutionContext;
 
-public final class RetrieveBundleTaskTest
-{
+public final class RetrieveBundleTaskTest {
     private RetrieveBundleTask tasklet;
     private XppMessageValidator mockValidator;
     private XppBundleArchiveDao mockArchiveDao;
@@ -48,8 +47,7 @@ public final class RetrieveBundleTaskTest
     private Capture<XppBundleArchive> capturedRequest;
 
     @Before
-    public void setUp() throws IOException
-    {
+    public void setUp() throws IOException {
         mockValidator = EasyMock.createMock(XppMessageValidator.class);
         mockCoreService = EasyMock.createMock(CoreService.class);
         mockNotificationService = EasyMock.createMock(NotificationService.class);
@@ -74,15 +72,13 @@ public final class RetrieveBundleTaskTest
     }
 
     @After
-    public void TearDown() throws IOException
-    {
+    public void TearDown() throws IOException {
         FileUtils.deleteDirectory(ebookBundle.getParentFile());
         FileUtils.deleteDirectory(targetDir);
     }
 
     @Test
-    public void testHappyPath() throws Exception
-    {
+    public void testHappyPath() throws Exception {
         ExitStatus exitCode = null;
         final XppBundleArchive expected = createRequest(
             "1.0",
@@ -103,12 +99,9 @@ public final class RetrieveBundleTaskTest
 
         EasyMock.expect(mockArchiveDao.saveRequest(expected)).andReturn(1L);
         replayAll();
-        try
-        {
+        try {
             exitCode = tasklet.executeStep(mockContribution, mockChunkContext);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -121,8 +114,7 @@ public final class RetrieveBundleTaskTest
     }
 
     @Test
-    public void testDuplicateRequest()
-    {
+    public void testDuplicateRequest() {
         Exception e = null;
         final XppBundleArchive bundle = createRequest(
             "1.0",
@@ -140,21 +132,17 @@ public final class RetrieveBundleTaskTest
         EasyMock.expect(mockArchiveDao.findByRequestId("ThisIsAnId")).andReturn(bundle);
 
         replayAll();
-        try
-        {
+        try {
             tasklet.executeStep(mockContribution, mockChunkContext);
             Assert.fail("should throw XppMessageException");
-        }
-        catch (final Exception exc)
-        {
+        } catch (final Exception exc) {
             e = exc;
         }
         Assert.assertNotNull(e);
         Assert.assertEquals(XPPConstants.ERROR_DUPLICATE_REQUEST + bundle, e.getMessage());
     }
 
-    private static File initBundleFile() throws IOException
-    {
+    private static File initBundleFile() throws IOException {
         final File ebookBundle = new File(System.getProperty("java.io.tmpdir") + "/EvenMoreTemp/filename.gz");
         ebookBundle.getParentFile().mkdirs();
         ebookBundle.createNewFile();
@@ -166,8 +154,7 @@ public final class RetrieveBundleTaskTest
         final String messageId,
         final String bundleHash,
         final Date dateTime,
-        final String ebookSrcFile)
-    {
+        final String ebookSrcFile) {
         final XppBundleArchive request = new XppBundleArchive();
         request.setVersion(version);
         request.setMessageId(messageId);
@@ -177,8 +164,7 @@ public final class RetrieveBundleTaskTest
         return request;
     }
 
-    private void mockGetJobParameters(final ChunkContext mockChunk, final JobParameters mockParameters)
-    {
+    private void mockGetJobParameters(final ChunkContext mockChunk, final JobParameters mockParameters) {
         final StepContext step = EasyMock.createMock(StepContext.class);
         final StepExecution stepExecution = EasyMock.createMock(StepExecution.class);
 
@@ -190,8 +176,7 @@ public final class RetrieveBundleTaskTest
         EasyMock.replay(stepExecution);
     }
 
-    private void mockGetJobExecutionContext(final ChunkContext mockChunk, final ExecutionContext mockExecution)
-    {
+    private void mockGetJobExecutionContext(final ChunkContext mockChunk, final ExecutionContext mockExecution) {
         final StepContext step = EasyMock.createMock(StepContext.class);
         final StepExecution stepExecution = EasyMock.createMock(StepExecution.class);
         final JobExecution jobExecution = EasyMock.createMock(JobExecution.class);
@@ -206,8 +191,7 @@ public final class RetrieveBundleTaskTest
         EasyMock.replay(jobExecution);
     }
 
-    private void replayAll()
-    {
+    private void replayAll() {
         EasyMock.replay(mockValidator);
         EasyMock.replay(mockArchiveDao);
         EasyMock.replay(mockCoreService);

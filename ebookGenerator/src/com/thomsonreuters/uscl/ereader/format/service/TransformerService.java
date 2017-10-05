@@ -12,8 +12,7 @@ import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
  *
  * @author u0095869
  */
-public interface TransformerService
-{
+public interface TransformerService {
     /**
      * Transforms all XML files found in the passed in XML directory and writes the
      * transformed HTML files to the specified target directory. If the directory does not exist

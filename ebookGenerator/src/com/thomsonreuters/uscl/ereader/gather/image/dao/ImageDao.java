@@ -5,8 +5,7 @@ import java.util.List;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntity;
 import com.thomsonreuters.uscl.ereader.gather.image.domain.ImageMetadataEntityKey;
 
-public interface ImageDao
-{
+public interface ImageDao {
     /**
      * Find from the IMAGE_METADATA table all the image meta-data for a specific book generation job run.
      * @param jobInstanceId unique job run identifier

@@ -7,8 +7,7 @@ import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.format.step.DocumentInfo;
 
-public interface SplitBookTocParseService
-{
+public interface SplitBookTocParseService {
     Map<String, DocumentInfo> generateSplitBookToc(
         InputStream tocXml,
         OutputStream splitTocXml,

@@ -18,8 +18,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-public final class SplitBookTocParseServiceTest
-{
+public final class SplitBookTocParseServiceTest {
     private SplitBookTocParseServiceImpl splitBookTocParseService;
 
     private InputStream tocXml;
@@ -32,8 +31,7 @@ public final class SplitBookTocParseServiceTest
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         splitBookTocParseService = new SplitBookTocParseServiceImpl();
 
         splitTocGuidList = new ArrayList<>();
@@ -47,8 +45,7 @@ public final class SplitBookTocParseServiceTest
     }
 
     @Test
-    public void testSplitBookToc()
-    {
+    public void testSplitBookToc() {
         Map<String, DocumentInfo> documentInfoMap = new HashMap<>();
 
         documentInfoMap =
@@ -72,8 +69,7 @@ public final class SplitBookTocParseServiceTest
     }
 
     @Test
-    public void testSplitTocDuplicateDoc()
-    {
+    public void testSplitTocDuplicateDoc() {
         Map<String, DocumentInfo> documentInfoMap = new HashMap<>();
 
         final String xmlTestStr = "<EBook>"
@@ -106,8 +102,7 @@ public final class SplitBookTocParseServiceTest
     }
 
     @Test
-    public void testSplitTocDuplicateDoc40Charac()
-    {
+    public void testSplitTocDuplicateDoc40Charac() {
         Map<String, DocumentInfo> documentInfoMap = new HashMap<>();
 
         final String guid = "I381A9010867911D99564CBDD35F58A0E";
@@ -138,8 +133,7 @@ public final class SplitBookTocParseServiceTest
     }
 
     @Test
-    public void testSplitBookTocNoUUID()
-    {
+    public void testSplitBookTocNoUUID() {
         boolean thrown = false;
 
         Map<String, DocumentInfo> documentInfoMap = new HashMap<>();
@@ -148,13 +142,10 @@ public final class SplitBookTocParseServiceTest
             "<EBook><EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid></EBookToc><EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid></EBookToc></EBook>"
                 .getBytes());
 
-        try
-        {
+        try {
             documentInfoMap =
                 splitBookTocParseService.generateSplitBookToc(tocXml, splitTocXml, splitTocGuidList, splitTitleId);
-        }
-        catch (final RuntimeException e)
-        {
+        } catch (final RuntimeException e) {
             thrown = true;
             Assert.assertEquals(
                 true,

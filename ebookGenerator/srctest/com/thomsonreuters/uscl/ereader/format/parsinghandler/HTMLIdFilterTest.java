@@ -29,8 +29,7 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:Kirsten.Gunn@thomsonreuters.com">Kirsten Gunn</a> u0076257
  */
-public final class HTMLIdFilterTest
-{
+public final class HTMLIdFilterTest {
     private HTMLIdFilter anchorFilter;
     private Serializer serializer;
     private final String currentGuid = "ABC1234";
@@ -38,8 +37,7 @@ public final class HTMLIdFilterTest
     private final String foundAnchorId = "foundAnchor";
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
         final SAXParser saxParser = factory.newSAXParser();
@@ -60,8 +58,7 @@ public final class HTMLIdFilterTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         serializer = null;
         anchorFilter = null;
     }
@@ -73,12 +70,10 @@ public final class HTMLIdFilterTest
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final String expectedResult) throws SAXException
-    {
+    public void testHelper(final String inputXML, final String expectedResult) throws SAXException {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
-        try
-        {
+        try {
             input = new ByteArrayInputStream(inputXML.getBytes());
             output = new ByteArrayOutputStream();
 
@@ -90,38 +85,26 @@ public final class HTMLIdFilterTest
             final String result = output.toString();
 
             assertEquals(expectedResult, result);
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             throw e;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             fail("Encountered exception during test: " + e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if (input != null)
-                {
+        } finally {
+            try {
+                if (input != null) {
                     input.close();
                 }
-                if (output != null)
-                {
+                if (output != null) {
                     output.close();
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 fail("Could clean up resources: " + e.getMessage());
             }
         }
     }
 
     @Test
-    public void testCreateAnchorTagFromId() throws SAXException
-    {
+    public void testCreateAnchorTagFromId() throws SAXException {
         final String xmlTestStr = "<test><sup id=\"" + foundAnchorId + "\">1</sup></test>";
         final String expectedResult =
             "<test><sup id=\"" + foundAnchorId + "\"><a name=\"" + foundAnchorId + "\">1</a></sup></test>";
@@ -130,8 +113,7 @@ public final class HTMLIdFilterTest
     }
 
     @Test
-    public void testCreateAnchorTagFromIdTwice() throws SAXException
-    {
+    public void testCreateAnchorTagFromIdTwice() throws SAXException {
         final String xmlTestStr =
             "<test><sup id=\"" + foundAnchorId + "\">1</sup><sup id=\"" + foundAnchorId + "new\">2</sup></test>";
         final String expectedResult = "<test><sup id=\""
@@ -148,8 +130,7 @@ public final class HTMLIdFilterTest
     }
 
     @Test
-    public void testCreateAnchorTagFromIdWithEmbededTags() throws SAXException
-    {
+    public void testCreateAnchorTagFromIdWithEmbededTags() throws SAXException {
         final String xmlTestStr = "<test><sup id=\"" + foundAnchorId + "\"><strong>1</strong></sup></test>";
         final String expectedResult = "<test><sup id=\""
             + foundAnchorId
@@ -161,8 +142,7 @@ public final class HTMLIdFilterTest
     }
 
     @Test
-    public void testCreateAnchorTagFromIdWithExtraTags() throws SAXException
-    {
+    public void testCreateAnchorTagFromIdWithExtraTags() throws SAXException {
         final String xmlTestStr =
             "<test><div>divVal</div><sup id=\"" + foundAnchorId + "\"><strong>1</strong></sup></test>";
         final String expectedResult = "<test><div>divVal</div><sup id=\""
@@ -175,8 +155,7 @@ public final class HTMLIdFilterTest
     }
 
     @Test
-    public void testCreateAnchorTagFromIdWithExtraEmbeddedTags() throws SAXException
-    {
+    public void testCreateAnchorTagFromIdWithExtraEmbeddedTags() throws SAXException {
         final String xmlTestStr =
             "<test><div><div>divVal</div><sup id=\"" + foundAnchorId + "\"><strong>1</strong></sup></div></test>";
         final String expectedResult = "<test><div><div>divVal</div><sup id=\""
@@ -189,8 +168,7 @@ public final class HTMLIdFilterTest
     }
 
     @Test
-    public void testCreateAnchorTagFromTwoIdWithExtraEmbeddedTags() throws SAXException
-    {
+    public void testCreateAnchorTagFromTwoIdWithExtraEmbeddedTags() throws SAXException {
         final String xmlTestStr = "<test><div><div>divVal</div><sup id=\""
             + foundAnchorId
             + "\"><span id=\""
@@ -208,8 +186,7 @@ public final class HTMLIdFilterTest
     }
 
     @Test
-    public void testCreateAnchorTagFromTwoIdDifferentNamesNested() throws SAXException
-    {
+    public void testCreateAnchorTagFromTwoIdDifferentNamesNested() throws SAXException {
         final String xmlTestStr = "<test><div><div>divVal</div><sup id=\""
             + foundAnchorId
             + "\"><span id=\""
@@ -229,8 +206,7 @@ public final class HTMLIdFilterTest
     }
 
     @Test
-    public void testCreateAnchorTagFromTwoIdDifferentNames() throws SAXException
-    {
+    public void testCreateAnchorTagFromTwoIdDifferentNames() throws SAXException {
         final String xmlTestStr = "<test><div><div>divVal</div><sup id=\""
             + foundAnchorId
             + "\">SupText</sup><span id=\""
@@ -250,8 +226,7 @@ public final class HTMLIdFilterTest
     }
 
     @Test
-    public void testDoNotCreateAnchorTagFromSpanNotInTargetList() throws SAXException
-    {
+    public void testDoNotCreateAnchorTagFromSpanNotInTargetList() throws SAXException {
         final String xmlTestStr = "<test><div><div>divVal</div><sup id=\""
             + foundAnchorId
             + "\"><span id=\""
@@ -269,8 +244,7 @@ public final class HTMLIdFilterTest
     }
 
     @Test
-    public void testCreateAnchorTagWithNestingTags() throws SAXException
-    {
+    public void testCreateAnchorTagWithNestingTags() throws SAXException {
         final String xmlTestStr = "<test><div><div>divVal</div><strong><sup id=\""
             + foundAnchorId
             + "\"><strong><span id=\""
@@ -288,8 +262,7 @@ public final class HTMLIdFilterTest
     }
 
     @Test
-    public void testNoIdField() throws SAXException
-    {
+    public void testNoIdField() throws SAXException {
         final String xmlTestStr = "<test><div>divVal</div><strong>1</strong></test>";
         final String expectedResult = "<test><div>divVal</div><strong>1</strong></test>";
 
@@ -297,8 +270,7 @@ public final class HTMLIdFilterTest
     }
 
     @Test
-    public void testCreateAnchorTagFromIdDupGuid() throws SAXException
-    {
+    public void testCreateAnchorTagFromIdDupGuid() throws SAXException {
         final Map<String, String> dupGuids = new HashMap<>();
         dupGuids.put("ABC1234_1", "FamGuid");
         dupGuids.put("ABC1234", "FamGuid");
@@ -314,8 +286,7 @@ public final class HTMLIdFilterTest
     }
 
     @Test
-    public void testCreateAnchorTagFromIdMultiDupGuid() throws SAXException
-    {
+    public void testCreateAnchorTagFromIdMultiDupGuid() throws SAXException {
         final Map<String, String> dupGuids = new HashMap<>();
         dupGuids.put("ABC1234_1", "FamGuid");
         dupGuids.put("ABC1234", "FamGuid");
@@ -340,8 +311,7 @@ public final class HTMLIdFilterTest
     }
 
     @Test
-    public void testDoNoTCreateAnchorTagFromIdDupGuid() throws SAXException
-    {
+    public void testDoNoTCreateAnchorTagFromIdDupGuid() throws SAXException {
         final Map<String, String> dupGuids = new HashMap<>();
         dupGuids.put("ABC1234_1", "FamGuid");
         dupGuids.put("ABC1234", "FamGuid");
@@ -356,8 +326,7 @@ public final class HTMLIdFilterTest
     }
 
     @Test
-    public void testDoNotCreateAnchorTagFromIdRandomGuid() throws SAXException
-    {
+    public void testDoNotCreateAnchorTagFromIdRandomGuid() throws SAXException {
         final Map<String, String> dupGuids = new HashMap<>();
         dupGuids.put("ABC1234_1", "FamGuid");
         dupGuids.put("ABC1234", "FamGuid");

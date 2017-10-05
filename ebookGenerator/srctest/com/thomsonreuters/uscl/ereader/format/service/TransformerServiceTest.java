@@ -29,8 +29,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
  *
  * @author <a href="mailto:zack.farrell@thomsonreuters.com">Zack Farrell</a> uc209819
  */
-public final class TransformerServiceTest
-{
+public final class TransformerServiceTest {
     private static final String STATIC_CONTENT_DIR = "com/thomsonreuters/uscl/ereader/format/service/staticContent";
     private TransformerServiceImpl transformerService;
     private File tempRootDir; // root directory for all test files
@@ -60,26 +59,21 @@ public final class TransformerServiceTest
      * @param content Content to be written into the new file
      * @return returns a File object directing to the new file returns null if any errors occur
      */
-    private File makeFile(final File directory, final String name, final String content)
-    {
+    private File makeFile(final File directory, final String name, final String content) {
         final File file = new File(directory, name);
-        try (FileOutputStream out = new FileOutputStream(file))
-        {
+        try (FileOutputStream out = new FileOutputStream(file)) {
             file.createNewFile();
             out.write(content.getBytes());
             out.flush();
             out.close();
             return file;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             return null;
         }
     }
 
     @Before
-    public void setUp() throws IOException
-    {
+    public void setUp() throws IOException {
         transformerService = new TransformerServiceImpl();
 
         tempRootDir = new File(System.getProperty("java.io.tmpdir") + "/EvenMoreTemp");
@@ -143,8 +137,7 @@ public final class TransformerServiceTest
     }
 
     @After
-    public void tearDown() throws Exception
-    {
+    public void tearDown() throws Exception {
         /* recursively deletes the root directory, and all its subdirectories and files */
         FileUtils.deleteDirectory(tempRootDir);
     }
@@ -156,27 +149,23 @@ public final class TransformerServiceTest
      * @throws IOException
      */
     @Test
-    public void TestTransformerServiceHappyPathWithNotesOfDecisions() throws IOException
-    {
+    public void TestTransformerServiceHappyPathWithNotesOfDecisions() throws IOException {
         bookDefinition.setIncludeNotesOfDecisions(true);
         final File preprocess = testTransformerServiceHappyPath();
         assertTrue(notesOfDecisionsExist(preprocess));
     }
 
     @Test
-    public void TestTransformerServiceHappyPathNoNotesOfDecisions() throws IOException
-    {
+    public void TestTransformerServiceHappyPathNoNotesOfDecisions() throws IOException {
         bookDefinition.setIncludeNotesOfDecisions(false);
         final File preprocess = testTransformerServiceHappyPath();
         assertFalse(notesOfDecisionsExist(preprocess));
     }
 
-    private File testTransformerServiceHappyPath()
-    {
+    private File testTransformerServiceHappyPath() {
         int numDocs = -1;
 
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(titleID, jobID, guid)).andReturn(docMeta);
             EasyMock.replay(metadataMoc);
 
@@ -185,9 +174,7 @@ public final class TransformerServiceTest
 
             numDocs = transformerService
                 .transformXMLDocuments(srcDir, metaDir, imgMetaDir, targetDir, jobID, bookDefinition, staticContentDir);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             fail();
         }
         assertEquals(1, numDocs);
@@ -197,19 +184,16 @@ public final class TransformerServiceTest
         return preprocess;
     }
 
-    private boolean notesOfDecisionsExist(final File file) throws IOException
-    {
+    private boolean notesOfDecisionsExist(final File file) throws IOException {
         final String content = FileUtils.readFileToString(file);
         return content.contains("NotesOfDecisionsOutput");
     }
 
     @Test
-    public void TestBadStaticDir()
-    {
+    public void TestBadStaticDir() {
         boolean thrown = false;
         staticContentDir = targetDir; // does not contain ContentTypeMapData.xml
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(titleID, jobID, guid)).andReturn(docMeta);
             EasyMock.replay(metadataMoc);
 
@@ -218,9 +202,7 @@ public final class TransformerServiceTest
 
             transformerService
                 .transformXMLDocuments(srcDir, metaDir, imgMetaDir, targetDir, jobID, bookDefinition, staticContentDir);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             // e.printStackTrace();
             thrown = true;
         }
@@ -228,12 +210,10 @@ public final class TransformerServiceTest
     }
 
     @Test
-    public void TestNullsrcDir() throws EBookFormatException
-    {
+    public void TestNullsrcDir() throws EBookFormatException {
         boolean thrown = false;
         srcDir = null;
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(titleID, jobID, guid)).andReturn(docMeta);
             EasyMock.replay(metadataMoc);
 
@@ -242,9 +222,7 @@ public final class TransformerServiceTest
 
             transformerService
                 .transformXMLDocuments(srcDir, metaDir, imgMetaDir, targetDir, jobID, bookDefinition, staticContentDir);
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             //e.printStackTrace();
             thrown = true;
         }
@@ -252,14 +230,12 @@ public final class TransformerServiceTest
     }
 
     @Test
-    public void TestNonexistentTargetDir()
-    {
+    public void TestNonexistentTargetDir() {
         int numDocs = -1;
         boolean thrown = false;
         FileUtils.deleteQuietly(targetDir);
 
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(titleID, jobID, guid)).andReturn(docMeta);
             EasyMock.replay(metadataMoc);
 
@@ -268,9 +244,7 @@ public final class TransformerServiceTest
 
             numDocs = transformerService
                 .transformXMLDocuments(srcDir, metaDir, imgMetaDir, targetDir, jobID, bookDefinition, staticContentDir);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             // e.printStackTrace();
             thrown = true;
         }
@@ -282,12 +256,10 @@ public final class TransformerServiceTest
     }
 
     @Test
-    public void TestBadsrcDir()
-    {
+    public void TestBadsrcDir() {
         boolean thrown = false;
         srcDir = targetDir; // contains no preprocessed files
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(titleID, jobID, guid)).andReturn(docMeta);
             EasyMock.replay(metadataMoc);
 
@@ -296,9 +268,7 @@ public final class TransformerServiceTest
 
             transformerService
                 .transformXMLDocuments(srcDir, metaDir, imgMetaDir, targetDir, jobID, bookDefinition, staticContentDir);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             // e.printStackTrace();
             thrown = true;
         }
@@ -306,12 +276,10 @@ public final class TransformerServiceTest
     }
 
     @Test
-    public void TestNullDocMetadata()
-    {
+    public void TestNullDocMetadata() {
         boolean thrown = false;
 
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(titleID, jobID, guid)).andReturn(null);
             EasyMock.replay(metadataMoc);
 
@@ -320,9 +288,7 @@ public final class TransformerServiceTest
 
             transformerService
                 .transformXMLDocuments(srcDir, metaDir, imgMetaDir, targetDir, jobID, bookDefinition, staticContentDir);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             // e.printStackTrace();
             thrown = true;
         }
@@ -330,12 +296,10 @@ public final class TransformerServiceTest
     }
 
     @Test
-    public void TestBadDocMetadata()
-    {
+    public void TestBadDocMetadata() {
         boolean thrown = false;
 
-        try
-        {
+        try {
             docMeta.setDocType("not_Real");
             docMeta.setCollectionName("not_Real");
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(titleID, jobID, guid)).andReturn(docMeta);
@@ -346,9 +310,7 @@ public final class TransformerServiceTest
 
             transformerService
                 .transformXMLDocuments(srcDir, metaDir, imgMetaDir, targetDir, jobID, bookDefinition, staticContentDir);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             // e.printStackTrace();
             thrown = true;
         }
@@ -356,12 +318,10 @@ public final class TransformerServiceTest
     }
 
     @Test
-    public void TestNullMetadataFile()
-    {
+    public void TestNullMetadataFile() {
         boolean thrown = false;
 
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(titleID, jobID, guid)).andReturn(docMeta);
             EasyMock.replay(metadataMoc);
 
@@ -376,9 +336,7 @@ public final class TransformerServiceTest
                 jobID,
                 bookDefinition,
                 staticContentDir);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             // e.printStackTrace();
             thrown = true;
         }

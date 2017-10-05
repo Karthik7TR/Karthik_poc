@@ -10,8 +10,7 @@ import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ExecutionContext;
 
-public interface BaseStep extends Tasklet
-{
+public interface BaseStep extends Tasklet {
     /**
      * Implement this method in the concrete subclass.
      *

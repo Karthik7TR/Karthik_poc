@@ -4,8 +4,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RelationshipNode implements Comparable<RelationshipNode>
-{
+public class RelationshipNode implements Comparable<RelationshipNode> {
     private String nortGuid;
     private String parentNortGuid;
     private RelationshipNode parentNode;
@@ -22,176 +21,141 @@ public class RelationshipNode implements Comparable<RelationshipNode>
     private boolean isRootNode;
     private boolean pubTaggedHeadingExists;
 
-    public String getNortGuid()
-    {
+    public String getNortGuid() {
         return nortGuid;
     }
 
-    public void setNortGuid(final String nortGuid)
-    {
+    public void setNortGuid(final String nortGuid) {
         this.nortGuid = nortGuid;
     }
 
-    public String getParentNortGuid()
-    {
+    public String getParentNortGuid() {
         return parentNortGuid;
     }
 
-    public void setParentNortGuid(final String parentNortGuid)
-    {
+    public void setParentNortGuid(final String parentNortGuid) {
         this.parentNortGuid = parentNortGuid;
     }
 
-    public RelationshipNode getParentNode()
-    {
+    public RelationshipNode getParentNode() {
         return parentNode;
     }
 
-    public void setParentNode(final RelationshipNode parentNode)
-    {
+    public void setParentNode(final RelationshipNode parentNode) {
         this.parentNode = parentNode;
     }
 
-    public List<RelationshipNode> getChildNodes()
-    {
+    public List<RelationshipNode> getChildNodes() {
         return childNodes;
     }
 
-    public void setChildNodes(final List<RelationshipNode> children)
-    {
+    public void setChildNodes(final List<RelationshipNode> children) {
         childNodes = children;
     }
 
-    public Integer getNortRank()
-    {
+    public Integer getNortRank() {
         return nortRank;
     }
 
-    public void setNortRank(final Integer nortRank)
-    {
+    public void setNortRank(final Integer nortRank) {
         this.nortRank = nortRank;
     }
 
-    public double getRank()
-    {
+    public double getRank() {
         return rank;
     }
 
-    public void setRank(final double rank)
-    {
+    public void setRank(final double rank) {
         this.rank = rank;
     }
 
-    public String getLabel()
-    {
+    public String getLabel() {
         return label;
     }
 
-    public void setLabel(final String label)
-    {
+    public void setLabel(final String label) {
         this.label = label;
     }
 
-    public String getStartDateStr()
-    {
+    public String getStartDateStr() {
         return startDateStr;
     }
 
-    public void setStartDateStr(final String startDateStr)
-    {
+    public void setStartDateStr(final String startDateStr) {
         this.startDateStr = startDateStr;
     }
 
-    public String getEndDateStr()
-    {
+    public String getEndDateStr() {
         return endDateStr;
     }
 
-    public void setEndDateStr(final String endDateStr)
-    {
+    public void setEndDateStr(final String endDateStr) {
         this.endDateStr = endDateStr;
     }
 
-    public boolean isRootNode()
-    {
+    public boolean isRootNode() {
         return isRootNode;
     }
 
-    public void setRootNode(final boolean rootNode)
-    {
+    public void setRootNode(final boolean rootNode) {
         isRootNode = rootNode;
     }
 
-    public String getDocumentGuid()
-    {
+    public String getDocumentGuid() {
         return documentGuid;
     }
 
-    public void setDocumentGuid(final String documentGuid)
-    {
+    public void setDocumentGuid(final String documentGuid) {
         this.documentGuid = documentGuid;
     }
 
-    public String getNodeType()
-    {
+    public String getNodeType() {
         return nodeType;
     }
 
-    public void setNodeType(final String nodeType)
-    {
+    public void setNodeType(final String nodeType) {
         this.nodeType = nodeType;
     }
 
-    public boolean getPubTaggedHeadingExists()
-    {
+    public boolean getPubTaggedHeadingExists() {
         return pubTaggedHeadingExists;
     }
 
-    public void setPubTaggedHeadingExists(final boolean pubTaggedHeadingExists)
-    {
+    public void setPubTaggedHeadingExists(final boolean pubTaggedHeadingExists) {
         this.pubTaggedHeadingExists = pubTaggedHeadingExists;
     }
 
-    public List<String> getViews()
-    {
+    public List<String> getViews() {
         return views;
     }
 
-    public void setViews(final List<String> views)
-    {
+    public void setViews(final List<String> views) {
         this.views = views;
     }
 
-    public String getTocHierarchy()
-    {
+    public String getTocHierarchy() {
         final ArrayDeque<String> stack = new ArrayDeque<>();
         getParentLabels(parentNode, stack);
 
         final StringBuffer buffer = new StringBuffer();
-        while (!stack.isEmpty())
-        {
+        while (!stack.isEmpty()) {
             buffer.append(stack.pop());
             buffer.append("|");
         }
         return buffer.toString();
     }
 
-    private void getParentLabels(final RelationshipNode parent, final ArrayDeque<String> stack)
-    {
-        if (parent != null)
-        {
+    private void getParentLabels(final RelationshipNode parent, final ArrayDeque<String> stack) {
+        if (parent != null) {
             stack.push(parent.getLabel());
             getParentLabels(parent.getParentNode(), stack);
         }
     }
 
-    public boolean isDeletedNode()
-    {
+    public boolean isDeletedNode() {
         int deletedViewCount = 0;
-        for (final String view : views)
-        {
-            if (view.matches("(^DELER_[a-zA-z0-9_\\-]+)|([a-zA-z0-9_\\-]+DEL$)"))
-            {
+        for (final String view : views) {
+            if (view.matches("(^DELER_[a-zA-z0-9_\\-]+)|([a-zA-z0-9_\\-]+DEL$)")) {
                 deletedViewCount++;
             }
         }
@@ -201,8 +165,7 @@ public class RelationshipNode implements Comparable<RelationshipNode>
     }
 
     @Override
-    public int compareTo(final RelationshipNode o)
-    {
+    public int compareTo(final RelationshipNode o) {
         // Order by NORT rank first
         final Integer nodeOneNortRank = getNortRank();
         final Integer nodeTwoNortRank = o.getNortRank();
@@ -211,34 +174,23 @@ public class RelationshipNode implements Comparable<RelationshipNode>
         final Double nodeOneRank = getRank();
         final Double nodeTwoRank = o.getRank();
 
-        if (nodeOneNortRank > nodeTwoNortRank)
-        {
+        if (nodeOneNortRank > nodeTwoNortRank) {
             return 1;
-        }
-        else if (nodeOneNortRank < nodeTwoNortRank)
-        {
+        } else if (nodeOneNortRank < nodeTwoNortRank) {
             return -1;
-        }
-        else
-        {
-            if (nodeOneRank > nodeTwoRank)
-            {
+        } else {
+            if (nodeOneRank > nodeTwoRank) {
                 return 1;
-            }
-            else if (nodeOneRank < nodeTwoRank)
-            {
+            } else if (nodeOneRank < nodeTwoRank) {
                 return -1;
-            }
-            else
-            {
+            } else {
                 return 0;
             }
         }
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((childNodes == null) ? 0 : childNodes.hashCode());
@@ -259,8 +211,7 @@ public class RelationshipNode implements Comparable<RelationshipNode>
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -268,79 +219,59 @@ public class RelationshipNode implements Comparable<RelationshipNode>
         if (getClass() != obj.getClass())
             return false;
         final RelationshipNode other = (RelationshipNode) obj;
-        if (childNodes == null)
-        {
+        if (childNodes == null) {
             if (other.childNodes != null)
                 return false;
-        }
-        else if (!childNodes.equals(other.childNodes))
+        } else if (!childNodes.equals(other.childNodes))
             return false;
-        if (documentGuid == null)
-        {
+        if (documentGuid == null) {
             if (other.documentGuid != null)
                 return false;
-        }
-        else if (!documentGuid.equals(other.documentGuid))
+        } else if (!documentGuid.equals(other.documentGuid))
             return false;
-        if (endDateStr == null)
-        {
+        if (endDateStr == null) {
             if (other.endDateStr != null)
                 return false;
-        }
-        else if (!endDateStr.equals(other.endDateStr))
+        } else if (!endDateStr.equals(other.endDateStr))
             return false;
         if (isRootNode != other.isRootNode)
             return false;
-        if (label == null)
-        {
+        if (label == null) {
             if (other.label != null)
                 return false;
-        }
-        else if (!label.equals(other.label))
+        } else if (!label.equals(other.label))
             return false;
-        if (nodeType == null)
-        {
+        if (nodeType == null) {
             if (other.nodeType != null)
                 return false;
-        }
-        else if (!nodeType.equals(other.nodeType))
+        } else if (!nodeType.equals(other.nodeType))
             return false;
-        if (nortGuid == null)
-        {
+        if (nortGuid == null) {
             if (other.nortGuid != null)
                 return false;
-        }
-        else if (!nortGuid.equals(other.nortGuid))
+        } else if (!nortGuid.equals(other.nortGuid))
             return false;
-        if (parentNode == null)
-        {
+        if (parentNode == null) {
             if (other.parentNode != null)
                 return false;
-        }
-        else if (!parentNode.equals(other.parentNode))
+        } else if (!parentNode.equals(other.parentNode))
             return false;
-        if (parentNortGuid == null)
-        {
+        if (parentNortGuid == null) {
             if (other.parentNortGuid != null)
                 return false;
-        }
-        else if (!parentNortGuid.equals(other.parentNortGuid))
+        } else if (!parentNortGuid.equals(other.parentNortGuid))
             return false;
         if (Double.doubleToLongBits(rank) != Double.doubleToLongBits(other.rank))
             return false;
-        if (startDateStr == null)
-        {
+        if (startDateStr == null) {
             if (other.startDateStr != null)
                 return false;
-        }
-        else if (!startDateStr.equals(other.startDateStr))
+        } else if (!startDateStr.equals(other.startDateStr))
             return false;
-        if (views == null)
-        {
+        if (views == null) {
             if (other.views != null)
                 return false;
-        }
-        else if (!views.equals(other.views))
+        } else if (!views.equals(other.views))
             return false;
         return true;
     }

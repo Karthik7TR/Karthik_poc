@@ -24,16 +24,15 @@ import org.springframework.beans.factory.annotation.Required;
  * @author <a href="mailto:Nirupam.Chatterjee@thomsonreuters.com">Nirupam
  *         Chatterjee</a> u0072938
  */
-public class PersistMetadataXMLTask extends AbstractSbTasklet
-{
+public class PersistMetadataXMLTask extends AbstractSbTasklet {
     // TODO: Use logger API to get Logger instance to job-specific appender.
     private static final Logger LOG = LogManager.getLogger(PersistMetadataXMLTask.class);
     private DocMetadataService docMetadataService;
     private PublishingStatsService publishingStatsService;
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
         final JobInstance jobInstance = getJobInstance(chunkContext);
 
@@ -53,17 +52,13 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet
         int numDocsMetaDataRun = 0;
 
         String publishStatus = "Completed";
-        try
-        {
+        try {
             // recursively read the directory for parsing the document metadata
-            if (metaDataDirectory.isDirectory())
-            {
+            if (metaDataDirectory.isDirectory()) {
                 final File[] allFiles = metaDataDirectory.listFiles();
-                for (final File metadataFile : allFiles)
-                {
+                for (final File metadataFile : allFiles) {
                     final String fileName = metadataFile.getName();
-                    if (fileName.lastIndexOf("-") > -1)
-                    {
+                    if (fileName.lastIndexOf("-") > -1) {
                         final int startIndex = fileName.indexOf("-") + 1;
                         docCollectionName = fileName.substring(startIndex, fileName.indexOf("-", startIndex));
                     }
@@ -72,14 +67,10 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet
                     numDocsMetaDataRun++;
                 }
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             publishStatus = "Failed " + e.getMessage();
             throw (e);
-        }
-        finally
-        {
+        } finally {
             final int dupDocCount = docMetadataService.updateProviewFamilyUUIDDedupFields(jobInstanceId);
             updateTitleDocCountStats(jobInstanceId, dupDocCount, publishStatus);
         }
@@ -89,8 +80,7 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet
         return ExitStatus.COMPLETED;
     }
 
-    private void updateTitleDocCountStats(final Long jobId, final int titleDupDocCount, final String status)
-    {
+    private void updateTitleDocCountStats(final Long jobId, final int titleDupDocCount, final String status) {
         final PublishingStats jobstatsFormat = new PublishingStats();
         jobstatsFormat.setJobInstanceId(jobId);
         jobstatsFormat.setTitleDupDocCount(titleDupDocCount);
@@ -102,14 +92,12 @@ public class PersistMetadataXMLTask extends AbstractSbTasklet
     }
 
     @Required
-    public void setDocMetadataService(final DocMetadataService docMetadataSvc)
-    {
+    public void setDocMetadataService(final DocMetadataService docMetadataSvc) {
         docMetadataService = docMetadataSvc;
     }
 
     @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
 }

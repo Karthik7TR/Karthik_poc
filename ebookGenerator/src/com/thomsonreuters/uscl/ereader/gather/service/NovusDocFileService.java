@@ -8,8 +8,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 
-public interface NovusDocFileService
-{
+public interface NovusDocFileService {
     /**
      * Fetch documents from novus and create separate content and metadata files in separate directories.
      * @param docGuidsMap the primary key of the document

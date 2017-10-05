@@ -22,8 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
  * body of the HTTP request.
  */
 @Controller
-public class GeneratorSyncRestController
-{
+public class GeneratorSyncRestController {
     private static final Logger log = LogManager.getLogger(GeneratorSyncRestController.class);
     /** May be null if this is not the generator web app application */
     private JobThrottleConfigSyncService jobThrottleConfigSyncService;
@@ -36,18 +35,14 @@ public class GeneratorSyncRestController
     @RequestMapping(value = CoreConstants.URI_SYNC_JOB_THROTTLE_CONFIG, method = RequestMethod.POST)
     public ModelAndView synchronizeJobThrottleConfiguration(
         @RequestBody final JobThrottleConfig config,
-        final Model model)
-    {
+        final Model model) {
         log.debug(">>> " + config);
         SimpleRestServiceResponse opResponse = null;
-        try
-        {
+        try {
             final String message = "Successfully synchronized application job throttle configuration";
             jobThrottleConfigSyncService.syncJobThrottleConfig(config);
             opResponse = new SimpleRestServiceResponse(null, true, message);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             final String message = "Exception performing app config data sync - " + e.getMessage();
             opResponse = new SimpleRestServiceResponse(null, false, message);
             log.error(message, e);
@@ -62,13 +57,11 @@ public class GeneratorSyncRestController
      */
     @RequestMapping(value = CoreConstants.URI_SYNC_PLANNED_OUTAGE, method = RequestMethod.POST)
     public ModelAndView synchronizePlannedOutage(@RequestBody final PlannedOutage outage, final Model model)
-        throws Exception
-    {
+        throws Exception {
         log.debug(">>> " + outage);
         SimpleRestServiceResponse opResponse = null;
         String message = null;
-        switch (outage.getOperation())
-        {
+        switch (outage.getOperation()) {
         case SAVE:
             outageProcessor.addPlannedOutageToContainer(outage);
             message = String.format("Successfully added planned outage with ID %d", outage.getId());
@@ -96,14 +89,12 @@ public class GeneratorSyncRestController
      * @param syncService
      */
     @Required
-    public void setJobThrottleConfigSyncService(final JobThrottleConfigSyncService syncService)
-    {
+    public void setJobThrottleConfigSyncService(final JobThrottleConfigSyncService syncService) {
         jobThrottleConfigSyncService = syncService;
     }
 
     @Required
-    public void setOutageProcessor(final OutageProcessor service)
-    {
+    public void setOutageProcessor(final OutageProcessor service) {
         outageProcessor = service;
     }
 }

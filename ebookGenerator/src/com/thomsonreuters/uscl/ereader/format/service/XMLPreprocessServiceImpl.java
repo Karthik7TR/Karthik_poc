@@ -35,14 +35,12 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
-public class XMLPreprocessServiceImpl implements XMLPreprocessService
-{
+public class XMLPreprocessServiceImpl implements XMLPreprocessService {
     private static final Logger LOG = LogManager.getLogger(XMLPreprocessServiceImpl.class);
 
     private FileHandlingHelper fileHandlingHelper;
 
-    public void setfileHandlingHelper(final FileHandlingHelper fileHandlingHelper)
-    {
+    public void setfileHandlingHelper(final FileHandlingHelper fileHandlingHelper) {
         this.fileHandlingHelper = fileHandlingHelper;
     }
 
@@ -66,10 +64,8 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService
         final File targetDir,
         final boolean isFinalStage,
         final List<DocumentCopyright> copyrights,
-        final List<DocumentCurrency> currencies) throws EBookFormatException
-    {
-        if (srcDir == null || !srcDir.isDirectory())
-        {
+        final List<DocumentCurrency> currencies) throws EBookFormatException {
+        if (srcDir == null || !srcDir.isDirectory()) {
             throw new IllegalArgumentException("srcDir must be a directory, not null or a regular file.");
         }
 
@@ -77,14 +73,12 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService
         List<DocumentCurrency> copyCurrencies = null;
 
         // Make a copy of the original to check that all have been accounted for
-        if (copyrights != null)
-        {
+        if (copyrights != null) {
             copyCopyrights = new ArrayList<>(Arrays.asList(new DocumentCopyright[copyrights.size()]));
             Collections.copy(copyCopyrights, copyrights);
         }
 
-        if (currencies != null)
-        {
+        if (currencies != null) {
             copyCurrencies = new ArrayList<>(Arrays.asList(new DocumentCurrency[currencies.size()]));
             Collections.copy(copyCurrencies, currencies);
         }
@@ -92,28 +86,23 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService
         //retrieve list of all xml files that need preprocessing
         final List<File> xmlFiles = new ArrayList<>();
 
-        try
-        {
+        try {
             fileHandlingHelper.getFileList(srcDir, xmlFiles);
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             final String errMessage = "No xml files were found in specified directory. "
                 + "Please verify that the correct path was specified.";
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
 
-        if (!targetDir.exists())
-        {
+        if (!targetDir.exists()) {
             targetDir.mkdirs();
         }
 
         LOG.info("Applying preprocess on xml files...");
 
         int numDocs = 0;
-        for (final File xmlFile : xmlFiles)
-        {
+        for (final File xmlFile : xmlFiles) {
             transformXMLFile(xmlFile, targetDir, isFinalStage, copyrights, copyCopyrights, currencies, copyCurrencies);
             numDocs++;
         }
@@ -121,22 +110,18 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService
         // Check all the guids has been accounted for
         final StringBuffer errMessage = new StringBuffer();
 
-        if ((copyCopyrights != null) && (copyCopyrights.size() > 0))
-        {
+        if ((copyCopyrights != null) && (copyCopyrights.size() > 0)) {
             final StringBuffer unaccountedCopyrights = new StringBuffer();
-            for (final DocumentCopyright copyright : copyCopyrights)
-            {
+            for (final DocumentCopyright copyright : copyCopyrights) {
                 unaccountedCopyrights.append(copyright.getCopyrightGuid() + ",");
             }
             errMessage.append("Not all copyright guids are accounted for and those are ");
             errMessage.append(unaccountedCopyrights);
             errMessage.append(". ");
         }
-        if ((copyCurrencies != null) && (copyCurrencies.size() > 0))
-        {
+        if ((copyCurrencies != null) && (copyCurrencies.size() > 0)) {
             final StringBuffer unaccountedCurrencies = new StringBuffer();
-            for (final DocumentCurrency currency : copyCurrencies)
-            {
+            for (final DocumentCurrency currency : copyCurrencies) {
                 unaccountedCurrencies.append(currency.getCurrencyGuid() + ",");
             }
             errMessage.append("Not all currency guids are accounted for and those are ");
@@ -144,8 +129,7 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService
             errMessage.append(". ");
         }
 
-        if (errMessage.length() > 0)
-        {
+        if (errMessage.length() > 0) {
             LOG.error(errMessage.toString());
             throw new EBookFormatException(errMessage.toString());
         }
@@ -175,14 +159,11 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService
         final List<DocumentCopyright> copyrights,
         final List<DocumentCopyright> copyCopyrights,
         final List<DocumentCurrency> currencies,
-        final List<DocumentCurrency> copyCurrencies) throws EBookFormatException
-    {
+        final List<DocumentCurrency> copyCurrencies) throws EBookFormatException {
         final String fileName = sourceFile.getName();
-        try (FileInputStream inStream = new FileInputStream(sourceFile))
-        {
-            try (FileOutputStream outStream =
-                new FileOutputStream(new File(targetDir, fileName.substring(0, fileName.indexOf(".")) + ".preprocess")))
-            {
+        try (FileInputStream inStream = new FileInputStream(sourceFile)) {
+            try (FileOutputStream outStream = new FileOutputStream(
+                new File(targetDir, fileName.substring(0, fileName.indexOf(".")) + ".preprocess"))) {
                 final SAXParserFactory factory = SAXParserFactory.newInstance();
                 factory.setNamespaceAware(true);
                 final SAXParser saxParser = factory.newSAXParser();
@@ -202,21 +183,15 @@ public class XMLPreprocessServiceImpl implements XMLPreprocessService
 
                 LOG.debug("Successfully preprocessed:" + sourceFile.getAbsolutePath());
             }
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String errMessage = "Unable to perform IO operations related to following source file: " + fileName;
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             final String errMessage = "Encountered a SAX Exception while processing: " + fileName;
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
-        }
-        catch (final ParserConfigurationException e)
-        {
+        } catch (final ParserConfigurationException e) {
             final String errMessage = "Encountered a SAX Parser Configuration Exception while processing: " + fileName;
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);

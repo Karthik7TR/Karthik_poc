@@ -46,25 +46,21 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:Kirsten.Gunn@thomsonreuters.com">Kirsten Gunn</a> u0076257
  */
-public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBrokenInternalLinksService
-{
+public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBrokenInternalLinksService {
     private static final Logger LOG = LogManager.getLogger(HTMLRemoveBrokenInternalLinksServiceImpl.class);
 
     private FileHandlingHelper fileHandlingHelper;
     private DocMetadataService docMetadataService;
 
-    public void setfileHandlingHelper(final FileHandlingHelper fileHandlingHelper)
-    {
+    public void setfileHandlingHelper(final FileHandlingHelper fileHandlingHelper) {
         this.fileHandlingHelper = fileHandlingHelper;
     }
 
-    public void setdocMetadataService(final DocMetadataService docMetadataService)
-    {
+    public void setdocMetadataService(final DocMetadataService docMetadataService) {
         this.docMetadataService = docMetadataService;
     }
 
-    public void setEmailNotification(final EmailNotification emailNotification)
-    {
+    public void setEmailNotification(final EmailNotification emailNotification) {
         //Intentionally left blank
     }
 
@@ -89,34 +85,28 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
         final String title,
         final Long jobInstanceId,
         final String envName,
-        final Collection<InternetAddress> emailRecipients) throws EBookFormatException
-    {
-        if (srcDir == null || !srcDir.isDirectory())
-        {
+        final Collection<InternetAddress> emailRecipients) throws EBookFormatException {
+        if (srcDir == null || !srcDir.isDirectory()) {
             throw new IllegalArgumentException("srcDir must be a directory, not null or a regular file.");
         }
 
         //retrieve list of all transformed files that need HTML wrappers
         final List<File> htmlFiles = new ArrayList<File>();
 
-        try
-        {
+        try {
             final FileExtensionFilter fileExtFilter = new FileExtensionFilter();
             fileExtFilter.setAcceptedFileExtensions(new String[] {"postanchor"}); // lowercase compare
             fileHandlingHelper.setFilter(fileExtFilter);
 
             fileHandlingHelper.getFileList(srcDir, htmlFiles);
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             final String errMessage = "No html files were found in specified directory. "
                 + "Please verify that the correct path was specified.";
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
 
-        if (!targetDir.exists())
-        {
+        if (!targetDir.exists()) {
             targetDir.mkdirs();
         }
 
@@ -135,8 +125,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
             docMetadataService.findAllDocMetadataForTitleByJobId(jobInstanceId);
 
         int numDocs = 0;
-        for (final File htmlFile : htmlFiles)
-        {
+        for (final File htmlFile : htmlFiles) {
             transformHTMLFile(
                 htmlFile,
                 targetDir,
@@ -149,8 +138,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
             numDocs++;
         }
 
-        if (unlinkDocMetadataList.size() > 0)
-        {
+        if (unlinkDocMetadataList.size() > 0) {
             // Send notification for existing anchors.
             final File anchorUnlinkTargetListFile =
                 new File(targetDir.getAbsolutePath(), title + "_" + jobInstanceId + "_anchorTargetUnlinkFile.csv");
@@ -189,16 +177,13 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
         final DocumentMetadataAuthority documentMetadataAuthority,
         final Map<String, Set<String>> targetAnchors,
         final List<String> unlinkDocMetadataList,
-        final Map<String, String> anchorDupTargets) throws EBookFormatException
-    {
+        final Map<String, String> anchorDupTargets) throws EBookFormatException {
         final String fileName = sourceFile.getName();
         final String guid = fileName.substring(0, fileName.indexOf("."));
 
-        try (FileInputStream inStream = new FileInputStream(sourceFile))
-        {
-            try (FileOutputStream outStream =
-                new FileOutputStream(new File(targetDir, fileName.substring(0, fileName.indexOf(".")) + ".postUnlink")))
-            {
+        try (FileInputStream inStream = new FileInputStream(sourceFile)) {
+            try (FileOutputStream outStream = new FileOutputStream(
+                new File(targetDir, fileName.substring(0, fileName.indexOf(".")) + ".postUnlink"))) {
                 final DocMetadata docMetadata =
                     docMetadataService.findDocMetadataByPrimaryKey(titleID, jobIdentifier, guid);
 
@@ -208,13 +193,10 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 
                 final HTMLUnlinkInternalLinksFilter unlinkFilter = new HTMLUnlinkInternalLinksFilter();
                 unlinkFilter.setParent(saxParser.getXMLReader());
-                if (docMetadata != null)
-                {
+                if (docMetadata != null) {
                     unlinkFilter.setCurrentGuid(docMetadata.getProViewId());
                     unlinkFilter.setUnlinkDocMetadata(docMetadata);
-                }
-                else
-                {
+                } else {
                     unlinkFilter.setCurrentGuid(guid);
                 }
                 unlinkFilter.setTargetAnchors(targetAnchors);
@@ -233,67 +215,48 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 
                 unlinkFilter.parse(new InputSource(inStream));
             }
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String errMessage = "Unable to perform IO operations related to following source file: " + fileName;
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             final String errMessage = "Encountered a SAX Exception while processing: " + fileName;
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
-        }
-        catch (final ParserConfigurationException e)
-        {
+        } catch (final ParserConfigurationException e) {
             final String errMessage = "Encountered a SAX Parser Configuration Exception while processing: " + fileName;
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
     }
 
-    protected Map<String, Set<String>> readTargetAnchorFile(final File anchorTargetListFile) throws EBookFormatException
-    {
+    protected Map<String, Set<String>> readTargetAnchorFile(final File anchorTargetListFile)
+        throws EBookFormatException {
         final Map<String, Set<String>> anchors = new HashMap<>();
-        if (anchorTargetListFile.length() == 0)
-        {
+        if (anchorTargetListFile.length() == 0) {
             return null;
-        }
-        else
-        {
+        } else {
             try (BufferedReader reader =
-                new BufferedReader(new InputStreamReader(new FileInputStream(anchorTargetListFile), "UTF-8")))
-            {
+                new BufferedReader(new InputStreamReader(new FileInputStream(anchorTargetListFile), "UTF-8"))) {
                 String input = reader.readLine();
-                while (input != null)
-                {
+                while (input != null) {
                     final String[] line = input.split("\\|", -1);
-                    if (!line[1].equals(""))
-                    {
+                    if (!line[1].equals("")) {
                         final Set<String> anchorSet = new HashSet<>();
                         final String[] anchorList = line[1].split(",");
-                        if (line[1].contains("REPLACEWITH"))
-                        {
-                            for (final String anchorVal : anchorList)
-                            {
+                        if (line[1].contains("REPLACEWITH")) {
+                            for (final String anchorVal : anchorList) {
                                 final String[] anchorReplaceList = anchorVal.split("REPLACEWITH");
                                 anchorSet.add(anchorReplaceList[0]);
                                 anchorSet.add(anchorVal);
                             }
-                        }
-                        else
-                        {
-                            for (final String anchorVal : anchorList)
-                            {
+                        } else {
+                            for (final String anchorVal : anchorList) {
                                 anchorSet.add(anchorVal);
                             }
                         }
                         anchors.put(line[0], anchorSet);
-                    }
-                    else
-                    {
+                    } else {
                         final String message = "Please verify that each document GUID in the following file has "
                             + "at least one anchor associated with it: "
                             + anchorTargetListFile.getAbsolutePath();
@@ -303,9 +266,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
                     input = reader.readLine();
                 }
                 LOG.info("Generated a map for " + anchors.size() + " guids that have anchors.");
-            }
-            catch (final IOException e)
-            {
+            } catch (final IOException e) {
                 final String message =
                     "Could not read the DOC guid to anchors file: " + anchorTargetListFile.getAbsolutePath();
                 LOG.error(message);
@@ -316,38 +277,27 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
     }
 
     protected Map<String, String> readReplaceTargetAnchorFile(final File anchorTargetListFile)
-        throws EBookFormatException
-    {
+        throws EBookFormatException {
         final Map<String, String> anchors = new HashMap<>();
-        if (anchorTargetListFile.length() == 0)
-        {
+        if (anchorTargetListFile.length() == 0) {
             return null;
-        }
-        else
-        {
+        } else {
             try (BufferedReader reader =
-                new BufferedReader(new InputStreamReader(new FileInputStream(anchorTargetListFile), "UTF-8")))
-            {
+                new BufferedReader(new InputStreamReader(new FileInputStream(anchorTargetListFile), "UTF-8"))) {
                 String input = reader.readLine();
-                while (input != null)
-                {
+                while (input != null) {
                     final String[] line = input.split("\\|", -1);
-                    if (!line[1].equals(""))
-                    {
+                    if (!line[1].equals("")) {
                         final Set<String> anchorSet = new HashSet<>();
                         final String[] anchorList = line[1].split(",");
-                        if (line[1].contains("REPLACEWITH"))
-                        {
-                            for (final String anchorVal : anchorList)
-                            {
+                        if (line[1].contains("REPLACEWITH")) {
+                            for (final String anchorVal : anchorList) {
                                 final String[] anchorReplaceList = anchorVal.split("REPLACEWITH");
                                 anchorSet.add(anchorReplaceList[0]);
                                 anchors.put(anchorReplaceList[0], anchorReplaceList[1]);
                             }
                         }
-                    }
-                    else
-                    {
+                    } else {
                         final String message = "Please verify that each document GUID in the following file has "
                             + "at least one anchor associated with it: "
                             + anchorTargetListFile.getAbsolutePath();
@@ -357,9 +307,7 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
                     input = reader.readLine();
                 }
                 LOG.info("Generated a map for " + anchors.size() + " guids that have anchors.");
-            }
-            catch (final IOException e)
-            {
+            } catch (final IOException e) {
                 final String message =
                     "Could not read the DOC guid to anchors file: " + anchorTargetListFile.getAbsolutePath();
                 LOG.error(message);
@@ -375,11 +323,9 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
         final String envName,
         final List<String> unlinkDocMetadataList,
         final File anchorUnlinkTargetListFile,
-        final Collection<InternetAddress> emailRecipients) throws EBookFormatException
-    {
+        final Collection<InternetAddress> emailRecipients) throws EBookFormatException {
         try (BufferedWriter writer =
-            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(anchorUnlinkTargetListFile), "UTF-8")))
-        {
+            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(anchorUnlinkTargetListFile), "UTF-8"))) {
             writer.write(
                 "Document Guid, Family Guid, Normalized Firstline Cite, Serial Number, Collection Name, "
                     + "Removed Link, Target Document Guid, Target Doc Family Guid, Target "
@@ -387,15 +333,12 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
 
             writer.newLine();
 
-            for (final String udml : unlinkDocMetadataList)
-            {
+            for (final String udml : unlinkDocMetadataList) {
                 writer.write(udml.toString());
                 writer.newLine();
             }
             writer.flush();
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String errMessage =
                 "Encountered an IO Exception while processing: " + anchorUnlinkTargetListFile.getAbsolutePath();
             LOG.error(errMessage);

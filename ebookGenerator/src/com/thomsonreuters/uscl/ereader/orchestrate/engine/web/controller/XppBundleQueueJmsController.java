@@ -25,8 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Sends JMS message to queue to launch XppBundleQueuePoller for development purposes.
  */
 @RestController
-public class XppBundleQueueJmsController
-{
+public class XppBundleQueueJmsController {
     @Resource
     private JMSClient jmsClient;
     @Resource
@@ -35,15 +34,15 @@ public class XppBundleQueueJmsController
     private UuidGenerator uuidGenerator;
 
     @RequestMapping(value = "/xppbundle", method = {RequestMethod.POST, RequestMethod.GET})
-    public XppBundleArchive sendJmsMessage(@RequestParam final String materialNumber, @RequestParam final String srcFile) throws IOException, JAXBException
-    {
+    public XppBundleArchive sendJmsMessage(
+        @RequestParam final String materialNumber,
+        @RequestParam final String srcFile) throws IOException, JAXBException {
         final XppBundleArchive xppBundleRequest = buildRequest(materialNumber, srcFile);
         jmsClient.sendMessageToQueue(jmsTemplate, marshall(xppBundleRequest), null);
         return xppBundleRequest;
     }
 
-    private XppBundleArchive buildRequest(final String materialNumber, final String srcFile) throws IOException
-    {
+    private XppBundleArchive buildRequest(final String materialNumber, final String srcFile) throws IOException {
         final XppBundleArchive xppBundleRequest = new XppBundleArchive();
         xppBundleRequest.setMessageId(uuidGenerator.generateUuid());
         xppBundleRequest.setBundleHash(calculateHash(srcFile));
@@ -54,8 +53,7 @@ public class XppBundleQueueJmsController
         return xppBundleRequest;
     }
 
-    private String marshall(final XppBundleArchive xppBundleRequest) throws JAXBException
-    {
+    private String marshall(final XppBundleArchive xppBundleRequest) throws JAXBException {
         final JAXBContext jaxbContext = JAXBContext.newInstance(XppBundleArchive.class);
         final Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         final StringWriter sw = new StringWriter();
@@ -63,10 +61,8 @@ public class XppBundleQueueJmsController
         return sw.toString();
     }
 
-    private String calculateHash(final String srcFile) throws IOException
-    {
-        try (InputStream bookStream = new FileInputStream(srcFile))
-        {
+    private String calculateHash(final String srcFile) throws IOException {
+        try (InputStream bookStream = new FileInputStream(srcFile)) {
             return DigestUtils.md5Hex(bookStream);
         }
     }

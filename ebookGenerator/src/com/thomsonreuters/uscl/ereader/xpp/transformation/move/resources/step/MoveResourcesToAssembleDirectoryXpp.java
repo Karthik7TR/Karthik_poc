@@ -19,8 +19,7 @@ import org.springframework.batch.core.ExitStatus;
 
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
-public class MoveResourcesToAssembleDirectoryXpp extends BookStepImpl
-{
+public class MoveResourcesToAssembleDirectoryXpp extends BookStepImpl {
     @Resource(name = "assembleFileSystem")
     private AssembleFileSystem assembleFileSystem;
 
@@ -28,8 +27,7 @@ public class MoveResourcesToAssembleDirectoryXpp extends BookStepImpl
     private ResourcesFileSystem resourcesFileSystem;
 
     @Override
-    public ExitStatus executeStep() throws Exception
-    {
+    public ExitStatus executeStep() throws Exception {
         final File titleDirectory = assembleFileSystem.getTitleDirectory(this);
         final File artworkDir = assembleFileSystem.getArtworkDirectory(this);
         final File assetsDir = assembleFileSystem.getAssetsDirectory(this);
@@ -48,8 +46,7 @@ public class MoveResourcesToAssembleDirectoryXpp extends BookStepImpl
         copyFileToDirectory(destinationArtworkFile, assetsDir);
         copyDirectory(resourcesFileSystem.getAssetsDirectory(this), assetsDir);
         copyDirectory(resourcesFileSystem.getDocumentsDirectory(this), documentsDir);
-        for (final File cssFile : resourcesFileSystem.getFontsCssFiles(this))
-        {
+        for (final File cssFile : resourcesFileSystem.getFontsCssFiles(this)) {
             copyFileToDirectory(cssFile, assetsDir);
         }
 

@@ -9,11 +9,9 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @Profile("IntegrationTests")
 @Import(CommonTestContextConfiguration.class)
-public class DocToImageMappingStepIntegrationTestConfiguration
-{
+public class DocToImageMappingStepIntegrationTestConfiguration {
     @Bean(name = "createDocToImageMappingTask")
-    public DocToImageMappingStep createDocToImageMappingTask()
-    {
+    public DocToImageMappingStep createDocToImageMappingTask() {
         return new DocToImageMappingStep();
     }
 }

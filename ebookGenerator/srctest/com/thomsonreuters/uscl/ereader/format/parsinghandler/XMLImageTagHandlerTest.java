@@ -22,8 +22,7 @@ import org.junit.rules.TemporaryFolder;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public final class XMLImageTagHandlerTest
-{
+public final class XMLImageTagHandlerTest {
     @Rule
     public TemporaryFolder testFiles = new TemporaryFolder();
 
@@ -55,8 +54,7 @@ public final class XMLImageTagHandlerTest
     private File xmlWithTagsNoTargetAtt;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         imgTagHandler = new XMLImageTagHandler();
         emptyGuidList = new ArrayList<>();
         guidList = new ArrayList<>();
@@ -86,15 +84,13 @@ public final class XMLImageTagHandlerTest
     }
 
     @Test
-    public void testSetterGetter()
-    {
+    public void testSetterGetter() {
         imgTagHandler.setGuidList(guidList);
         assertEquals(2, (imgTagHandler.getGuidList()).size());
     }
 
     @Test
-    public void testStartElementNotTriggered() throws Exception
-    {
+    public void testStartElementNotTriggered() throws Exception {
         imgTagHandler.setGuidList(emptyGuidList);
 
         saxParser.parse(xmlWithoutTags, imgTagHandler);
@@ -102,8 +98,7 @@ public final class XMLImageTagHandlerTest
     }
 
     @Test
-    public void testStartElementTriggered() throws Exception
-    {
+    public void testStartElementTriggered() throws Exception {
         imgTagHandler.setGuidList(emptyGuidList);
 
         saxParser.parse(xmlWithTags, imgTagHandler);
@@ -111,8 +106,7 @@ public final class XMLImageTagHandlerTest
     }
 
     @Test
-    public void testStartElementTriggeredWithExistingList() throws Exception
-    {
+    public void testStartElementTriggeredWithExistingList() throws Exception {
         imgTagHandler.setGuidList(guidList);
 
         // Duplicate guid is filtered out
@@ -121,16 +115,13 @@ public final class XMLImageTagHandlerTest
     }
 
     @Test
-    public void testStartElementTriggeredWithoutTargetAttribute() throws Exception
-    {
+    public void testStartElementTriggeredWithoutTargetAttribute() throws Exception {
         imgTagHandler.setGuidList(emptyGuidList);
         saxParser.parse(xmlWithTagsNoTargetAtt, imgTagHandler);
         assertEquals(2, emptyGuidList.size());
         boolean isNullInList = false;
-        for (final String guid : emptyGuidList)
-        {
-            if (guid == null)
-            {
+        for (final String guid : emptyGuidList) {
+            if (guid == null) {
                 isNullInList = true;
             }
         }

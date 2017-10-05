@@ -19,8 +19,7 @@ import org.springframework.beans.factory.annotation.Required;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  *
  */
-public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet
-{
+public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet {
     /**
      * To update publishingStatsService table.
      */
@@ -36,16 +35,15 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet
      * org.springframework.batch.core.scope.context.ChunkContext)
      */
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
         final Long jobId = getJobInstance(chunkContext).getId();
         final PublishingStats jobstats = new PublishingStats();
         jobstats.setJobInstanceId(jobId);
         String publishStatus = "Completed";
 
-        try
-        {
+        try {
             final File ebookDirectory =
                 new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.EBOOK_DIRECTORY));
             final File assetsDirectory = createAssetsDirectory(ebookDirectory);
@@ -71,14 +69,10 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet
             moveResourcesUtil.moveCoverArt(jobExecutionContext, artworkDirectory);
             moveResourcesUtil.moveFrontMatterImages(jobExecutionContext, assetsDirectory, true);
             moveResourcesUtil.moveStylesheet(assetsDirectory);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             publishStatus = "Failed";
             throw e;
-        }
-        finally
-        {
+        } finally {
             jobstats.setPublishStatus("moveResourcesToAssemblyDirectory: " + publishStatus);
             publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
         }
@@ -86,38 +80,32 @@ public class MoveResourcesToAssemblyDirectory extends AbstractSbTasklet
         return ExitStatus.COMPLETED;
     }
 
-    private File createDocumentsDirectory(final File ebookDirectory)
-    {
+    private File createDocumentsDirectory(final File ebookDirectory) {
         return new File(ebookDirectory, "documents");
     }
 
-    private File createArtworkDirectory(final File ebookDirectory)
-    {
+    private File createArtworkDirectory(final File ebookDirectory) {
         final File artworkDirectory = new File(ebookDirectory, "artwork");
         artworkDirectory.mkdirs();
         return artworkDirectory;
     }
 
-    private File createAssetsDirectory(final File parentDirectory)
-    {
+    private File createAssetsDirectory(final File parentDirectory) {
         final File assetsDirectory = new File(parentDirectory, "assets");
         return assetsDirectory;
     }
 
     @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
 
-    public MoveResourcesUtil getMoveResourcesUtil()
-    {
+    public MoveResourcesUtil getMoveResourcesUtil() {
         return moveResourcesUtil;
     }
 
     @Required
-    public void setMoveResourcesUtil(final MoveResourcesUtil moveResourcesUtil)
-    {
+    public void setMoveResourcesUtil(final MoveResourcesUtil moveResourcesUtil) {
         this.moveResourcesUtil = moveResourcesUtil;
     }
 }

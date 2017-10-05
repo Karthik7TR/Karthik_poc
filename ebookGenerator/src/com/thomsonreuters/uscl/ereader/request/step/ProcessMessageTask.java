@@ -20,42 +20,34 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 
-public class ProcessMessageTask extends AbstractSbTasklet
-{
+public class ProcessMessageTask extends AbstractSbTasklet {
     private static final Logger log = LogManager.getLogger(ProcessMessageTask.class);
     private XppMessageValidator xppMessageValidator;
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         log.debug("Retrieving request...");
         final JobParameters jobParameters = getJobParameters(chunkContext);
 
         XppBundleArchive bundle = null;
         final String request = jobParameters.getString(JobParameterKey.KEY_REQUEST_XML);
 
-        try
-        {
+        try {
             //log.debug(request); // log raw request
             // resolve request object
             bundle = unmarshalRequest(request);
             // validate message content
             xppMessageValidator.validate(bundle);
-        }
-        catch (final JAXBException e)
-        {
+        } catch (final JAXBException e) {
             // TODO: handle unmarshalling exception
             log.error("XPP Message cannot be parsed: " + request, e);
             return ExitStatus.FAILED;
-        }
-        catch (final XppMessageException e)
-        {
+        } catch (final XppMessageException e) {
             log.error("XPP message is invalid: ", e);
             // cannot process
             return ExitStatus.FAILED;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error("Exception encountered: ", e);
             throw e;
         }
@@ -69,8 +61,7 @@ public class ProcessMessageTask extends AbstractSbTasklet
     /**
      * package-private for testing purposes
      */
-    XppBundleArchive unmarshalRequest(@NotNull final String request) throws JAXBException
-    {
+    XppBundleArchive unmarshalRequest(@NotNull final String request) throws JAXBException {
         final XppBundleArchive xppBundleArchive =
             JAXBParser.parse(new ByteArrayInputStream(request.getBytes()), XppBundleArchive.class);
         xppBundleArchive.setMessageRequest(request);
@@ -78,8 +69,7 @@ public class ProcessMessageTask extends AbstractSbTasklet
     }
 
     @Required
-    public void setXppMessageValidator(final XppMessageValidator xppMessageValidator)
-    {
+    public void setXppMessageValidator(final XppMessageValidator xppMessageValidator) {
         this.xppMessageValidator = xppMessageValidator;
     }
 }

@@ -22,51 +22,44 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class AutoSplitGuiIdsHandlerTest
-{
+public final class AutoSplitGuiIdsHandlerTest {
     private AutoSplitNodesHandler splitBookFilter;
     private static final String FINE_NAME = "toc.xml";
     private InputStream tocXml;
     private File tocFile;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         final URL url = AutoSplitGuidsServiceTest.class.getResource(FINE_NAME);
         tocFile = new File(url.toURI());
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         splitBookFilter = null;
     }
 
     @Test
-    public void testMargin()
-    {
+    public void testMargin() {
         splitBookFilter = new AutoSplitNodesHandler(7500, 10);
         Assert.assertEquals(Integer.valueOf(750), splitBookFilter.getMargin(7500));
     }
 
     @Test
-    public void testMarginWithuneven()
-    {
+    public void testMarginWithuneven() {
         splitBookFilter = new AutoSplitNodesHandler(7523, 10);
         Assert.assertEquals(Integer.valueOf(752), splitBookFilter.getMargin(7523));
     }
 
     @Test
-    public void testWithFile() throws Exception
-    {
+    public void testWithFile() throws Exception {
         tocXml = new FileInputStream(tocFile);
         final Map<String, String> splitTocGuidList = testHelper(tocXml, 25, 10);
         Assert.assertEquals(splitTocGuidList.size(), 4);
     }
 
     @Test
-    public void test()
-    {
+    public void test() {
         final BookDefinition book = new BookDefinition();
         final List<SplitDocument> expectTedGuidList = new ArrayList<>();
 
@@ -81,8 +74,7 @@ public final class AutoSplitGuiIdsHandlerTest
     }
 
     @Test
-    public void testWithString()
-    {
+    public void testWithString() {
         final String xmlTestStr = "<EBook>"
             + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
             + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid>"
@@ -98,19 +90,16 @@ public final class AutoSplitGuiIdsHandlerTest
         final Map<String, String> splitTocGuidList = testHelper(input, 2, 10);
 
         Assert.assertEquals(splitTocGuidList.size(), expectTedGuidList.size());
-        for (final Map.Entry<String, String> entry : splitTocGuidList.entrySet())
-        {
+        for (final Map.Entry<String, String> entry : splitTocGuidList.entrySet()) {
             final String uuid = entry.getKey();
             Assert.assertEquals(expectTedGuidList.get(0).toString(), uuid);
         }
     }
 
-    public Map<String, String> testHelper(final InputStream inputXML, final int splitSize, final int percent)
-    {
+    public Map<String, String> testHelper(final InputStream inputXML, final int splitSize, final int percent) {
         Map<String, String> splitTocGuidList = new HashMap<>();
         ByteArrayOutputStream output = null;
-        try
-        {
+        try {
             output = new ByteArrayOutputStream();
 
             splitBookFilter = new AutoSplitNodesHandler(splitSize, percent);
@@ -120,31 +109,21 @@ public final class AutoSplitGuiIdsHandlerTest
 
             splitTocGuidList = splitBookFilter.getSplitTocTextMap();
 
-            for (final Map.Entry<String, String> entry : splitTocGuidList.entrySet())
-            {
+            for (final Map.Entry<String, String> entry : splitTocGuidList.entrySet()) {
                 final String uuid = entry.getKey();
                 System.out.println(entry.getValue() + "----------------Toc UUID-----" + uuid);
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             fail("Encountered exception during test: " + e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if (inputXML != null)
-                {
+        } finally {
+            try {
+                if (inputXML != null) {
                     inputXML.close();
                 }
-                if (output != null)
-                {
+                if (output != null) {
                     output.close();
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 fail("Couldn't clean up resources: " + e.getMessage());
             }
         }

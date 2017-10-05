@@ -37,8 +37,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.xml.sax.SAXException;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class ExternalLinksXppStepTest
-{
+public final class ExternalLinksXppStepTest {
     private static final String HTML_FILE_NAME = "test.html";
     private static final String MATERIAL_NUMBER = "88005553535";
 
@@ -76,8 +75,7 @@ public final class ExternalLinksXppStepTest
     private File externalLinksFile;
 
     @Before
-    public void setUp() throws IOException, ParserConfigurationException, SAXException
-    {
+    public void setUp() throws IOException, ParserConfigurationException, SAXException {
         xppDirectory = temporaryFolder.getRoot();
         final File bundleDir = mkdir(xppDirectory, MATERIAL_NUMBER);
         final File xppDir = mkdir(bundleDir, "/08_HtmlPages");
@@ -95,8 +93,7 @@ public final class ExternalLinksXppStepTest
     }
 
     @Test
-    public void shouldTransform() throws Exception
-    {
+    public void shouldTransform() throws Exception {
         //given
         //when
         sut.executeTransformation();

@@ -20,8 +20,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-public final class NovusDocFileServiceTest
-{
+public final class NovusDocFileServiceTest {
     private static final String COLLECTION_NAME = "w_an_rcc_cajur_toc";
     private static final String GUID_1 = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB";
     private static final String GUID_2 = "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC";
@@ -31,14 +30,12 @@ public final class NovusDocFileServiceTest
     private NovusDocFileServiceImpl novusDocFileService;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         novusDocFileService = new NovusDocFileServiceImpl();
     }
 
     @Test
-    public void testNullDocumentError()
-    {
+    public void testNullDocumentError() {
         final String bookTitle = "book_title";
         final File workDir = temporaryFolder.getRoot();
         final File contentDir = new File(workDir, "junit_content");
@@ -56,8 +53,7 @@ public final class NovusDocFileServiceTest
         final File contentTypeDir = new File(bookTitleDir, location.getLocationName());
         final File novusDoc = new File(contentTypeDir, "collectionName-12345_doc.xml");
 
-        try
-        {
+        try {
             // Invoke the object under test
             contentDir.mkdirs();
             metadataDir.mkdirs();
@@ -76,21 +72,16 @@ public final class NovusDocFileServiceTest
             novusDocFileService.fetchDocuments(guids, cwbDir, "book_title", fileLocations, contentDir, metadataDir);
 
             fail("Should throw null documents error");
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.assertEquals("Null documents are found for the current ebook ", e.getMessage());
-        }
-        finally
-        {
+        } finally {
             temporaryFolder.delete();
         }
     }
 
     @Test
-    public void testOneDocument()
-    {
+    public void testOneDocument() {
         final String bookTitle = "book_title";
         final File workDir = temporaryFolder.getRoot();
         final File contentDir = new File(workDir, "junit_content");
@@ -112,8 +103,7 @@ public final class NovusDocFileServiceTest
         final File metadataFile =
             new File(metadataDir, "1-" + COLLECTION_NAME + "-" + GUID_1 + EBConstants.XML_FILE_EXTENSION);
 
-        try
-        {
+        try {
             // Invoke the object under test
             contentDir.mkdirs();
             metadataDir.mkdirs();
@@ -140,21 +130,16 @@ public final class NovusDocFileServiceTest
             assertTrue(bookTitleDir.exists());
             assertTrue(contentTypeDir.exists());
             assertTrue(novusDoc.exists());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
-        }
-        finally
-        {
+        } finally {
             temporaryFolder.delete();
         }
     }
 
     @Test
-    public void testTwoDocuments()
-    {
+    public void testTwoDocuments() {
         final String bookTitle = "book_title";
         final File workDir = temporaryFolder.getRoot();
         final File contentDir = new File(workDir, "junit_content");
@@ -179,8 +164,7 @@ public final class NovusDocFileServiceTest
         final File metadataFile2 =
             new File(metadataDir, "2-" + COLLECTION_NAME + "-" + GUID_2 + EBConstants.XML_FILE_EXTENSION);
 
-        try
-        {
+        try {
             // Invoke the object under test
             contentDir.mkdirs();
             metadataDir.mkdirs();
@@ -214,21 +198,16 @@ public final class NovusDocFileServiceTest
             assertTrue(bookTitleDir.exists());
             assertTrue(contentTypeDir.exists());
             assertTrue(novusDoc.exists());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
-        }
-        finally
-        {
+        } finally {
             temporaryFolder.delete();
         }
     }
 
     @Test
-    public void testTwoContentTypes()
-    {
+    public void testTwoContentTypes() {
         final String bookTitle = "book_title";
         final File workDir = temporaryFolder.getRoot();
         final File contentDir = new File(workDir, "junit_content");
@@ -259,8 +238,7 @@ public final class NovusDocFileServiceTest
         final File metadataFile2 =
             new File(metadataDir, "2-" + COLLECTION_NAME + "-" + GUID_2 + EBConstants.XML_FILE_EXTENSION);
 
-        try
-        {
+        try {
             // Invoke the object under test
             contentDir.mkdirs();
             metadataDir.mkdirs();
@@ -300,31 +278,21 @@ public final class NovusDocFileServiceTest
             assertTrue(metadataFile.exists());
             assertTrue(contentFile2.exists());
             assertTrue(metadataFile2.exists());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
-        }
-        finally
-        {
+        } finally {
             temporaryFolder.delete();
         }
     }
 
-    private void addContentToFile(final File file, final String text)
-    {
-        try (FileWriter fileOut = new FileWriter(file))
-        {
+    private void addContentToFile(final File file, final String text) {
+        try (FileWriter fileOut = new FileWriter(file)) {
             fileOut.write(text);
             fileOut.close();
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             e.printStackTrace();
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }

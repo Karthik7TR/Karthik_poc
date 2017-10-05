@@ -19,8 +19,7 @@ import org.mockito.runners.MockitoJUnitRunner;
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-public final class CoverArtUtilTest
-{
+public final class CoverArtUtilTest {
     private static final String BOOK_DEFINITION_COVER = "bdCoverArt.PNG";
     private static final String COVER_FILE_NAME = "coverArt.PNG";
     private static final String DEFAULT_COVER_PATH = "srctest/com/thomsonreuters/uscl/ereader/assemble/step/";
@@ -33,16 +32,14 @@ public final class CoverArtUtilTest
     private BookDefinition bookDefinition;
 
     @Before
-    public void onTestSetup() throws IllegalAccessException
-    {
+    public void onTestSetup() throws IllegalAccessException {
         FieldUtils.writeField(coverArtUtil, "defaultCoverPath", DEFAULT_COVER_PATH, true);
         FieldUtils.writeField(coverArtUtil, "coverFileName", COVER_FILE_NAME, true);
         FieldUtils.writeField(coverArtUtil, "staticContentDirectory", new File(STATIC_CONTENT_PATH), true);
     }
 
     @Test
-    public void shouldReturnCoverFileWithNameFromBookDefinition()
-    {
+    public void shouldReturnCoverFileWithNameFromBookDefinition() {
         // given
         given(bookDefinition.getCoverImage()).willReturn(BOOK_DEFINITION_COVER);
         // when
@@ -52,8 +49,7 @@ public final class CoverArtUtilTest
     }
 
     @Test
-    public void shouldReturnDefaultCoverFile()
-    {
+    public void shouldReturnDefaultCoverFile() {
         //given
         given(bookDefinition.getCoverImage()).willReturn("some/nonexistent/file.PNG");
         // when

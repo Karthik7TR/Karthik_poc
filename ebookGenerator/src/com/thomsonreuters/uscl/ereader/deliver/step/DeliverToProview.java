@@ -11,7 +11,6 @@ import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishi
  */
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.FINALPUBLISH)
-public class DeliverToProview extends BaseDeliverStep
-{
+public class DeliverToProview extends BaseDeliverStep {
     //implementation is nested from @see com.thomsonreuters.uscl.ereader.common.deliver.step.BaseDeliverStep
 }

@@ -8,8 +8,7 @@ import com.thomsonreuters.uscl.ereader.common.service.environment.EnvironmentUti
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import org.springframework.batch.core.ExitStatus;
 
-public abstract class BaseArchiveStep extends BookStepImpl
-{
+public abstract class BaseArchiveStep extends BookStepImpl {
     @Resource(name = "environmentUtil")
     private EnvironmentUtil environmentUtil;
     @Resource(name = "archiveAuditService")
@@ -18,11 +17,9 @@ public abstract class BaseArchiveStep extends BookStepImpl
     private ArchiveService archiveService;
 
     @Override
-    public ExitStatus executeStep() throws Exception
-    {
+    public ExitStatus executeStep() throws Exception {
         archiveAuditService.saveAudit(this);
-        if (environmentUtil.isProd())
-        {
+        if (environmentUtil.isProd()) {
             archiveService.archiveBook(this);
         }
         return ExitStatus.COMPLETED;

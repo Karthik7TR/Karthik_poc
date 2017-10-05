@@ -21,8 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = DocToImageMappingStepIntegrationTestConfiguration.class)
 @ActiveProfiles("IntegrationTests")
-public final class DocToImageMappingStepIntegrationTest
-{
+public final class DocToImageMappingStepIntegrationTest {
     @Resource(name = "createDocToImageMappingTask")
     private DocToImageMappingStep step;
     @Autowired
@@ -33,16 +32,15 @@ public final class DocToImageMappingStepIntegrationTest
     private File expected;
 
     @Before
-    public void setUp() throws URISyntaxException
-    {
+    public void setUp() throws URISyntaxException {
         sourceHtml1 = new File(DocToImageMappingStepIntegrationTest.class.getResource("sampleXpp_1.html").toURI());
         sourceHtml2 = new File(DocToImageMappingStepIntegrationTest.class.getResource("sampleXpp_2.html").toURI());
-        expected = new File(DocToImageMappingStepIntegrationTest.class.getResource("expectedDocToImageIdMapFile.txt").toURI());
+        expected =
+            new File(DocToImageMappingStepIntegrationTest.class.getResource("expectedDocToImageIdMapFile.txt").toURI());
     }
 
     @Test
-    public void shouldCreateMappingFile() throws Exception
-    {
+    public void shouldCreateMappingFile() throws Exception {
         //given
         final File externalLinksDirectory = fileSystem.getExternalLinksDirectory(step, "11111111");
         FileUtils.forceMkdir(externalLinksDirectory);

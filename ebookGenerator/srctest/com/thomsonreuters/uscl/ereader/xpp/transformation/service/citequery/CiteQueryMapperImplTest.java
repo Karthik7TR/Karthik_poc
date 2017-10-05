@@ -24,8 +24,7 @@ import org.sonar.runner.commonsio.FileUtils;
 import org.xml.sax.SAXException;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class CiteQueryMapperImplTest
-{
+public final class CiteQueryMapperImplTest {
     @InjectMocks
     private CiteQueryMapperImpl sut;
 
@@ -38,8 +37,7 @@ public final class CiteQueryMapperImplTest
     private File outputFile;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         htmlFile = new File(this.getClass().getResource("sample.html").toURI());
         materialNumber = "4815162342";
         outputFile = new File(htmlFile.getParent() + "/output.html");
@@ -47,8 +45,7 @@ public final class CiteQueryMapperImplTest
     }
 
     @After
-    public void tearDown() throws Exception
-    {
+    public void tearDown() throws Exception {
         FileUtils.forceDelete(outputFile);
     }
 
@@ -59,8 +56,7 @@ public final class CiteQueryMapperImplTest
      * @throws ParserConfigurationException
      */
     @Test
-    public void shouldCreateMappingFile() throws ParserConfigurationException, SAXException, IOException
-    {
+    public void shouldCreateMappingFile() throws ParserConfigurationException, SAXException, IOException {
         //given
         given(fileSystem.getExternalLinksMappingFile(step, materialNumber, htmlFile.getName())).willReturn(outputFile);
         //when

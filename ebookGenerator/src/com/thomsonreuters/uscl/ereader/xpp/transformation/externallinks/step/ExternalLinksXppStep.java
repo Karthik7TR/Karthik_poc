@@ -19,8 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
-public class ExternalLinksXppStep extends XppTransformationStep
-{
+public class ExternalLinksXppStep extends XppTransformationStep {
     @Value("${xpp.external.links.xsl}")
     private File externalLinksXsl;
 
@@ -31,15 +30,13 @@ public class ExternalLinksXppStep extends XppTransformationStep
     private CiteQueryMapper citeQueryMapper;
 
     @Override
-    public void executeTransformation() throws Exception
-    {
+    public void executeTransformation() throws Exception {
         final Transformer citeQueryTransformer = transformerBuilderFactory.create().withXsl(externalLinksXsl).build();
         final Map<String, Collection<File>> htmlFilesMap = fileSystem.getHtmlPageFiles(this);
-        for (final Map.Entry<String, Collection<File>> entry : htmlFilesMap.entrySet())
-        {
-            for (final File file : entry.getValue())
-            {
-                citeQueryTransformer.setParameter("mappingFile", citeQueryMapper.createMappingFile(file, entry.getKey(), this));
+        for (final Map.Entry<String, Collection<File>> entry : htmlFilesMap.entrySet()) {
+            for (final File file : entry.getValue()) {
+                citeQueryTransformer
+                    .setParameter("mappingFile", citeQueryMapper.createMappingFile(file, entry.getKey(), this));
                 final File externalLinksFile = fileSystem.getExternalLinksFile(this, entry.getKey(), file.getName());
                 final TransformationCommand command =
                     new TransformationCommandBuilder(citeQueryTransformer, externalLinksFile).withInput(file).build();

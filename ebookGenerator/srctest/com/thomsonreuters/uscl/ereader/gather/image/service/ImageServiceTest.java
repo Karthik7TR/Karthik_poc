@@ -15,8 +15,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.springframework.http.MediaType;
 
-public final class ImageServiceTest
-{
+public final class ImageServiceTest {
     //private static final Logger log = LogManager.getLogger(ImageServiceTest.class);
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -29,16 +28,14 @@ public final class ImageServiceTest
     private ImageServiceImpl imageService;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockImageDao = EasyMock.createMock(ImageDao.class);
 
         imageService = new ImageServiceImpl();
         imageService.setImageDao(mockImageDao);
     }
 
-    protected ImgMetadataInfo getImgMetadata()
-    {
+    protected ImgMetadataInfo getImgMetadata() {
         final ImgMetadataInfo imgMetadataInfo = new ImgMetadataInfo();
         final Long longValue = Long.valueOf(10);
         final String stringValue = "10";
@@ -55,8 +52,7 @@ public final class ImageServiceTest
     }
 
     @Test
-    public void testSaveImageMetadataEntity()
-    {
+    public void testSaveImageMetadataEntity() {
         final ImageMetadataEntity entity =
             new ImageMetadataEntity(METADATA_PK, "titleId", 100L, 200L, 41234L, 1111L, "px", MediaType.IMAGE_PNG);
         EasyMock.expect(mockImageDao.saveImageMetadata(entity)).andReturn(METADATA_PK);
@@ -70,8 +66,7 @@ public final class ImageServiceTest
     }
 
     @Test
-    public void testFindImageMetadata()
-    {
+    public void testFindImageMetadata() {
         final long jobInstanceId = System.currentTimeMillis();
         EasyMock.expect(mockImageDao.findImageMetadata(jobInstanceId)).andReturn(Collections.EMPTY_LIST);
         EasyMock.replay(mockImageDao);

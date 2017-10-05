@@ -26,8 +26,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class InternalAnchorsStepTest
-{
+public final class InternalAnchorsStepTest {
     private static final String MATERIAL_NUMBER = "11111111";
 
     @InjectMocks
@@ -42,15 +41,14 @@ public final class InternalAnchorsStepTest
     private File mapFile;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         final File htmlPagesDir = mock(File.class);
         final Map<String, Collection<File>> files = new HashMap<>();
         files.put(MATERIAL_NUMBER, Arrays.asList(htmlPagesDir));
 
         given(htmlPagesDir.listFiles(any(FileFilter.class))).willReturn(new File[] {});
         given(fileSystem.getSectionBreaksFiles(step)).willReturn(files);
-        given(htmlPagesDir.listFiles()).willReturn(new File[]{});
+        given(htmlPagesDir.listFiles()).willReturn(new File[] {});
 
         final TransformerBuilder builder = mock(TransformerBuilder.class);
         given(transformerBuilderFactory.create()).willReturn(builder);
@@ -61,8 +59,7 @@ public final class InternalAnchorsStepTest
     }
 
     @Test
-    public void shouldTransform() throws Exception
-    {
+    public void shouldTransform() throws Exception {
         //given
         //when
         step.executeStep();

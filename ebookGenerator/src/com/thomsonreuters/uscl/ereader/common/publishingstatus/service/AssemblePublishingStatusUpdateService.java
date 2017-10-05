@@ -11,8 +11,7 @@ import com.thomsonreuters.uscl.ereader.stats.PublishingStatus;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 
 @SavePublishingStatusStrategy(StatsUpdateTypeEnum.ASSEMBLEDOC)
-public class AssemblePublishingStatusUpdateService extends BasePublishingStatusUpdateService<BookStep>
-{
+public class AssemblePublishingStatusUpdateService extends BasePublishingStatusUpdateService<BookStep> {
     @Resource(name = "eBookAssemblyService")
     private EBookAssemblyService assemblyService;
     @Resource(name = "generalPublishingStatusUpdateService")
@@ -21,10 +20,8 @@ public class AssemblePublishingStatusUpdateService extends BasePublishingStatusU
     private AssembleFileSystem fileSystem;
 
     @Override
-    public void savePublishingStats(final BookStep step, final PublishingStatus publishStatus)
-    {
-        if (publishStatus.equals(PublishingStatus.COMPLETED))
-        {
+    public void savePublishingStats(final BookStep step, final PublishingStatus publishStatus) {
+        if (publishStatus.equals(PublishingStatus.COMPLETED)) {
             final String documentsPath = fileSystem.getDocumentsDirectory(step).getAbsolutePath();
             final String assetsPath = fileSystem.getAssetsDirectory(step).getAbsolutePath();
 
@@ -41,9 +38,7 @@ public class AssemblePublishingStatusUpdateService extends BasePublishingStatusU
             jobstatsFormat.setBookSize(bookSizeInBytes);
             jobstatsFormat.setPublishStatus(getPublishStatusString(step, publishStatus));
             publishingStatsService.updatePublishingStats(jobstatsFormat, StatsUpdateTypeEnum.ASSEMBLEDOC);
-        }
-        else
-        {
+        } else {
             generalService.savePublishingStats(step, publishStatus);
         }
     }

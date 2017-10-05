@@ -47,8 +47,7 @@ import org.xml.sax.XMLReader;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public class TitleMetadataServiceImpl implements TitleMetadataService
-{
+public class TitleMetadataServiceImpl implements TitleMetadataService {
     private static final Logger LOG = LogManager.getLogger(TitleMetadataServiceImpl.class);
     private DocMetadataService docMetadataService;
     private PlaceholderDocumentService placeholderDocumentService;
@@ -63,12 +62,10 @@ public class TitleMetadataServiceImpl implements TitleMetadataService
         final TitleMetadata titleMetadata,
         final Long jobInstanceId,
         final File documentsDirectory,
-        final String altIdDirPath)
-    {
+        final String altIdDirPath) {
         final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 
-        try
-        {
+        try {
             saxParserFactory.setNamespaceAware(Boolean.TRUE);
             final SAXParser saxParser = saxParserFactory.newSAXParser();
             final XMLReader xmlReader = saxParser.getXMLReader();
@@ -77,8 +74,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService
                 docMetadataService.findDistinctProViewFamGuidsByJobId(jobInstanceId);
 
             Map<String, String> altIdMap = new HashMap<>();
-            if (titleMetadata.getIsPilotBook())
-            {
+            if (titleMetadata.getIsPilotBook()) {
                 altIdMap = getAltIdMap(titleMetadata.getTitleId(), altIdDirPath);
             }
 
@@ -100,17 +96,11 @@ public class TitleMetadataServiceImpl implements TitleMetadataService
 
             titleManifestFilter.setContentHandler(serializer.asContentHandler());
             titleManifestFilter.parse(new InputSource(new EntityEncodedInputStream(tocXml)));
-        }
-        catch (final ParserConfigurationException e)
-        {
+        } catch (final ParserConfigurationException e) {
             throw new RuntimeException("Failed to configure SAX Parser when generating title manifest.", e);
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             throw new RuntimeException("A SAXException occurred while generating the title manifest.", e);
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new RuntimeException("An IOException occurred while generating the title manifest.", e);
         }
     }
@@ -127,12 +117,10 @@ public class TitleMetadataServiceImpl implements TitleMetadataService
         final Long jobInstanceId,
         final File transformedDocsDir,
         final String docToSplitBookFile,
-        final String splitNodeInfoFile)
-    {
+        final String splitNodeInfoFile) {
         final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 
-        try
-        {
+        try {
             saxParserFactory.setNamespaceAware(Boolean.TRUE);
             final SAXParser saxParser = saxParserFactory.newSAXParser();
             final XMLReader xmlReader = saxParser.getXMLReader();
@@ -162,27 +150,19 @@ public class TitleMetadataServiceImpl implements TitleMetadataService
             splitTocManifestFilter.parse(new InputSource(new EntityEncodedInputStream(tocXml)));
 
             final List<Doc> orderedDocuments = splitTocManifestFilter.getOrderedDocuments();
-            if (orderedDocuments != null && orderedDocuments.size() > 0)
-            {
+            if (orderedDocuments != null && orderedDocuments.size() > 0) {
                 writeDocumentsToFile(orderedDocuments, docToSplitBookFile);
             }
 
             final List<SplitNodeInfo> splitNodeInfoList = splitTocManifestFilter.getSplitNodeInfoList();
-            if (splitNodeInfoList != null && splitNodeInfoList.size() > 0)
-            {
+            if (splitNodeInfoList != null && splitNodeInfoList.size() > 0) {
                 writeSplitNodeInfoToFile(splitNodeInfoList, splitNodeInfoFile, titleMetadata);
             }
-        }
-        catch (final ParserConfigurationException e)
-        {
+        } catch (final ParserConfigurationException e) {
             throw new RuntimeException("Failed to configure SAX Parser when generating title manifest.", e);
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             throw new RuntimeException("A SAXException occurred while generating the title manifest.", e);
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new RuntimeException("An IOException occurred while generating the split title manifest.", e);
         }
     }
@@ -196,13 +176,10 @@ public class TitleMetadataServiceImpl implements TitleMetadataService
         final List<Doc> docList,
         final InputStream splitTitleXMLStream,
         final OutputStream titleManifest,
-        final String altIdDirPath)
-    {
-        try
-        {
+        final String altIdDirPath) {
+        try {
             Map<String, String> altIdMap = new HashMap<>();
-            if (titleMetadata.getIsPilotBook())
-            {
+            if (titleMetadata.getIsPilotBook()) {
                 altIdMap = getAltIdMap(titleMetadata.getTitleId(), altIdDirPath);
             }
 
@@ -223,17 +200,11 @@ public class TitleMetadataServiceImpl implements TitleMetadataService
 
             splitTitleManifestFilter.setContentHandler(serializer.asContentHandler());
             splitTitleManifestFilter.parse(new InputSource(new EntityEncodedInputStream(splitTitleXMLStream)));
-        }
-        catch (final ParserConfigurationException e)
-        {
+        } catch (final ParserConfigurationException e) {
             throw new RuntimeException("Failed to configure SAX Parser when generating title manifest.", e);
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             throw new RuntimeException("A SAXException occurred while generating the title manifest.", e);
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new RuntimeException("An IOException occurred while generating the title manifest.", e);
         }
     }
@@ -248,25 +219,19 @@ public class TitleMetadataServiceImpl implements TitleMetadataService
     protected void writeSplitNodeInfoToFile(
         final List<SplitNodeInfo> splitNodeInfoList,
         final String splitNodeInfoFile,
-        final TitleMetadata titleMetadata) throws SAXException, IOException
-    {
+        final TitleMetadata titleMetadata) throws SAXException, IOException {
         final File docToSplitBookFile = new File(splitNodeInfoFile);
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriterWithEncoding(docToSplitBookFile, "UTF-8")))
-        {
-            if (splitNodeInfoList.size() > 0)
-            {
-                for (final SplitNodeInfo splitNodeInfo : splitNodeInfoList)
-                {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriterWithEncoding(docToSplitBookFile, "UTF-8"))) {
+            if (splitNodeInfoList.size() > 0) {
+                for (final SplitNodeInfo splitNodeInfo : splitNodeInfoList) {
                     writer.append(splitNodeInfo.getSplitNodeGuid());
                     writer.append("|");
                     writer.append(splitNodeInfo.getSplitBookTitle());
                     writer.append("\n");
                 }
             }
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String message =
                 "Could not write out Split Node information to following file: " + docToSplitBookFile.getAbsolutePath();
             LOG.error(message, e);
@@ -275,35 +240,27 @@ public class TitleMetadataServiceImpl implements TitleMetadataService
     }
 
     protected void writeDocumentsToFile(final List<Doc> orderedDocuments, final String docToSplitBookFileName)
-        throws IOException
-    {
+        throws IOException {
         final File docToSplitBookFile = new File(docToSplitBookFileName);
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriterWithEncoding(docToSplitBookFile, "UTF-8")))
-        {
-            if (orderedDocuments.size() > 0)
-            {
-                for (final Doc document : orderedDocuments)
-                {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriterWithEncoding(docToSplitBookFile, "UTF-8"))) {
+            if (orderedDocuments.size() > 0) {
+                for (final Doc document : orderedDocuments) {
                     writer.append(document.getId());
                     writer.append("|");
                     writer.append(document.getSrc());
                     writer.append("|");
-                    if (document.getSplitTitlePart() == 0)
-                    {
+                    if (document.getSplitTitlePart() == 0) {
                         document.setSplitTitlePart(1);
                     }
                     writer.append(String.valueOf(document.getSplitTitlePart()));
-                    if (document.getImageIdList() != null && document.getImageIdList().size() > 0)
-                    {
+                    if (document.getImageIdList() != null && document.getImageIdList().size() > 0) {
                         writer.append("|");
                         int i = 0;
-                        for (final String img : document.getImageIdList())
-                        {
+                        for (final String img : document.getImageIdList()) {
                             i = i++;
                             writer.append(img);
-                            if (i != document.getImageIdList().size())
-                            {
+                            if (i != document.getImageIdList().size()) {
                                 writer.append(",");
                             }
                         }
@@ -311,9 +268,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService
                     writer.append("\n");
                 }
             }
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String message =
                 "Could not write out ImageMetadata to following file: " + docToSplitBookFile.getAbsolutePath();
             LOG.error(message, e);
@@ -325,8 +280,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService
      * @param fileName contains altId for corresponding Guid
      * @return a map  (Guid as a Key and altId as a Value)
      */
-    protected Map<String, String> getAltIdMap(final String titleId, final String altIdFileDir)
-    {
+    protected Map<String, String> getAltIdMap(final String titleId, final String altIdFileDir) {
         final String altIdFileName = titleId.replace("/", "_") + ".csv";
 
         final File altIdFile = new File(altIdFileDir, altIdFileName);
@@ -334,56 +288,44 @@ public class TitleMetadataServiceImpl implements TitleMetadataService
         final Map<String, String> altIdMap = new HashMap<>();
         String line = null;
 
-        try (BufferedReader stream = new BufferedReader(new FileReader(altIdFile));)
-        {
-            while ((line = stream.readLine()) != null)
-            {
+        try (BufferedReader stream = new BufferedReader(new FileReader(altIdFile));) {
+            while ((line = stream.readLine()) != null) {
                 final String[] splitted = line.split(",");
-                if (splitted.length >= 2)
-                {
-                    if (splitted[1].contains("/"))
-                    {
+                if (splitted.length >= 2) {
+                    if (splitted[1].contains("/")) {
                         splitted[1] = splitted[1].split("/")[0];
                     }
                     altIdMap.put(splitted[1], splitted[0]);
                 }
             }
-        }
-        catch (final IOException iox)
-        {
+        } catch (final IOException iox) {
             throw new RuntimeException("Unable to find File : " + altIdFile.getAbsolutePath() + " " + iox);
         }
 
         return altIdMap;
     }
 
-    public void setUuidGenerator(final UuidGenerator uuidGenerator)
-    {
+    public void setUuidGenerator(final UuidGenerator uuidGenerator) {
         this.uuidGenerator = uuidGenerator;
     }
 
-    public void setDocMetadataService(final DocMetadataService docMetadataService)
-    {
+    public void setDocMetadataService(final DocMetadataService docMetadataService) {
         this.docMetadataService = docMetadataService;
     }
 
-    public void setFileUtilsFacade(final FileUtilsFacade fileUtilsFacade)
-    {
+    public void setFileUtilsFacade(final FileUtilsFacade fileUtilsFacade) {
         this.fileUtilsFacade = fileUtilsFacade;
     }
 
-    public void setPlaceholderDocumentService(final PlaceholderDocumentService placeholderDocumentService)
-    {
+    public void setPlaceholderDocumentService(final PlaceholderDocumentService placeholderDocumentService) {
         this.placeholderDocumentService = placeholderDocumentService;
     }
 
-    public ImageService getImageService()
-    {
+    public ImageService getImageService() {
         return imageService;
     }
 
-    public void setImageService(final ImageService imageService)
-    {
+    public void setImageService(final ImageService imageService) {
         this.imageService = imageService;
     }
 }

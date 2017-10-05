@@ -24,8 +24,7 @@ import org.springframework.batch.core.launch.JobOperator;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncService
-{
+public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncService {
     private static Logger log = LogManager.getLogger(EngineServiceImpl.class);
     private String environmentName; // like "ci" or "test"
     private JobRegistry jobRegistry;
@@ -38,8 +37,7 @@ public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncSe
     private MiscConfigSyncService miscConfigSyncService;
 
     @Override
-    public void syncJobThrottleConfig(final JobThrottleConfig config) throws Exception
-    {
+    public void syncJobThrottleConfig(final JobThrottleConfig config) throws Exception {
         // Reset the Spring Batch task executor with the core thread pool size read from the database as part of the job throttle config.
         setTaskExecutorCoreThreadPoolSize(config.getCoreThreadPoolSize());
         jobStartupThrottleService.setJobThrottleConfig(config);
@@ -57,12 +55,10 @@ public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncSe
      * @throws Exception on unable to find job name, or in launching the job
      */
     @Override
-    public JobExecution runJob(final String jobName, final JobParameters jobParameters) throws Exception
-    {
+    public JobExecution runJob(final String jobName, final JobParameters jobParameters) throws Exception {
         // Lookup job object from set of defined collection of jobs
         final Job job = jobRegistry.getJob(jobName);
-        if (job == null)
-        {
+        if (job == null) {
             throw new IllegalArgumentException("Job definition: " + jobName + " was not found!");
         }
 
@@ -80,20 +76,17 @@ public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncSe
      * @throws Exception on restart errors
      */
     @Override
-    public Long restartJob(final long jobExecutionId) throws Exception
-    {
+    public Long restartJob(final long jobExecutionId) throws Exception {
         final Long restartedJobExecutionId = jobOperator.restart(jobExecutionId);
         return restartedJobExecutionId;
     }
 
     @Override
-    public void stopJob(final long jobExecutionId) throws Exception
-    {
+    public void stopJob(final long jobExecutionId) throws Exception {
         jobOperator.stop(jobExecutionId);
     }
 
-    public static String getStackTrace(final Throwable aThrowable)
-    {
+    public static String getStackTrace(final Throwable aThrowable) {
         final Writer writer = new StringWriter();
         final PrintWriter printWriter = new PrintWriter(writer);
         aThrowable.printStackTrace(printWriter);
@@ -101,17 +94,13 @@ public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncSe
     }
 
     @Override
-    public JobParametersBuilder createDynamicJobParameters(final JobRequest jobRequest)
-    {
+    public JobParametersBuilder createDynamicJobParameters(final JobRequest jobRequest) {
         final JobParametersBuilder builder = new JobParametersBuilder();
         String hostName = null; // The host this job running on
-        try
-        {
+        try {
             final InetAddress host = InetAddress.getLocalHost();
             hostName = host.getHostName();
-        }
-        catch (final UnknownHostException uhe)
-        {
+        } catch (final UnknownHostException uhe) {
             //Intentionally left blank
         }
 
@@ -136,62 +125,52 @@ public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncSe
     }
 
     @Override
-    public void setTaskExecutorCoreThreadPoolSize(final int coreThreadPoolSize)
-    {
+    public void setTaskExecutorCoreThreadPoolSize(final int coreThreadPoolSize) {
         springBatchTaskExecutor.setCorePoolSize(coreThreadPoolSize);
     }
 
     @Required
-    public void setEnvironmentName(final String envName)
-    {
+    public void setEnvironmentName(final String envName) {
         environmentName = envName;
     }
 
     @Required
-    public void setJobRegistry(final JobRegistry jobRegistry)
-    {
+    public void setJobRegistry(final JobRegistry jobRegistry) {
         this.jobRegistry = jobRegistry;
     }
 
     @Required
-    public void setJobOperator(final JobOperator jobOperator)
-    {
+    public void setJobOperator(final JobOperator jobOperator) {
         this.jobOperator = jobOperator;
     }
 
     @Required
-    public void setJobLauncher(final JobLauncher jobLauncher)
-    {
+    public void setJobLauncher(final JobLauncher jobLauncher) {
         this.jobLauncher = jobLauncher;
     }
 
     @Required
-    public void setImageService(final String imageService)
-    {
+    public void setImageService(final String imageService) {
         this.imageService = imageService;
     }
 
     @Required
-    public void setDbServiceName(final String dbServiceName)
-    {
+    public void setDbServiceName(final String dbServiceName) {
         this.dbServiceName = dbServiceName;
     }
 
     @Required
-    public void setTaskExecutor(final ThreadPoolTaskExecutor taskExecutor)
-    {
+    public void setTaskExecutor(final ThreadPoolTaskExecutor taskExecutor) {
         springBatchTaskExecutor = taskExecutor;
     }
 
     @Required
-    public void setJobStartupThrottleService(final JobStartupThrottleService service)
-    {
+    public void setJobStartupThrottleService(final JobStartupThrottleService service) {
         jobStartupThrottleService = service;
     }
 
     @Required
-    public void setMiscConfigSyncService(final MiscConfigSyncService service)
-    {
+    public void setMiscConfigSyncService(final MiscConfigSyncService service) {
         miscConfigSyncService = service;
     }
 }

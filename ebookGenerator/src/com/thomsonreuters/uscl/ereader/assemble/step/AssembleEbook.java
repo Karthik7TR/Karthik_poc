@@ -11,7 +11,6 @@ import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishi
  */
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
 @SavePublishingStatusPolicy({StatsUpdateTypeEnum.ASSEMBLEDOC, StatsUpdateTypeEnum.TITLEDOC})
-public class AssembleEbook extends BaseAssembleStep
-{
+public class AssembleEbook extends BaseAssembleStep {
     //implementation is nested from @see com.thomsonreuters.uscl.ereader.common.assemble.step.BaseAssembleStep
 }

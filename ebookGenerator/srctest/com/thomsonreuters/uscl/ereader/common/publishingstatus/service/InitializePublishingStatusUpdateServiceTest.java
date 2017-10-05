@@ -19,8 +19,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class InitializePublishingStatusUpdateServiceTest
-{
+public final class InitializePublishingStatusUpdateServiceTest {
     @InjectMocks
     private InitializePublishingStatusUpdateService service;
     @Mock
@@ -33,8 +32,7 @@ public final class InitializePublishingStatusUpdateServiceTest
     private ArgumentCaptor<PublishingStats> captor;
 
     @Test
-    public void shouldInitializePublishingStats()
-    {
+    public void shouldInitializePublishingStats() {
         //given
         given(step.getBookDefinitionId()).willReturn(1L);
         given(step.getStepName()).willReturn("stepName");

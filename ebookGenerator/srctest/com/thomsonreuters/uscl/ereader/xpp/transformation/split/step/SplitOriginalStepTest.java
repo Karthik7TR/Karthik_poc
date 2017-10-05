@@ -33,8 +33,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class SplitOriginalStepTest
-{
+public final class SplitOriginalStepTest {
     private static final String MATERIAL_NUMBER = "11111111";
     @InjectMocks
     private SplitOriginalStep step;
@@ -63,8 +62,7 @@ public final class SplitOriginalStepTest
     private File moveUpFootnotes;
 
     @Before
-    public void setUp() throws IOException
-    {
+    public void setUp() throws IOException {
         final File root = temporaryFolder.getRoot();
         originalDirectory = mkdir(root, "originalDirectory");
         original = mkfile(originalDirectory, "original");
@@ -82,12 +80,14 @@ public final class SplitOriginalStepTest
 
         given(fileSystem.getSectionBreaksFiles(step)).willReturn(getFilesFromBundleStructure(original, footnotes));
 
-        given(fileSystem.getMultiColumnsUpFiles(step)).willReturn(getFilesFromBundleStructure(columnsUpOriginal, columnsUpFootnotes));
+        given(fileSystem.getMultiColumnsUpFiles(step))
+            .willReturn(getFilesFromBundleStructure(columnsUpOriginal, columnsUpFootnotes));
         given(fileSystem.getMultiColumnsUpFile(step, MATERIAL_NUMBER, "original")).willReturn(columnsUpOriginal);
         given(fileSystem.getMultiColumnsUpFile(step, MATERIAL_NUMBER, "footnotes")).willReturn(columnsUpFootnotes);
         given(fileSystem.getMultiColumnsUpDirectory(step, MATERIAL_NUMBER)).willReturn(columnsUpDir);
 
-        given(fileSystem.getSectionbreaksUpFiles(step)).willReturn(getFilesFromBundleStructure(moveUpOriginal, moveUpFootnotes));
+        given(fileSystem.getSectionbreaksUpFiles(step))
+            .willReturn(getFilesFromBundleStructure(moveUpOriginal, moveUpFootnotes));
         given(fileSystem.getSectionbreaksUpFile(step, MATERIAL_NUMBER, "original")).willReturn(moveUpOriginal);
         given(fileSystem.getSectionbreaksUpFile(step, MATERIAL_NUMBER, "footnotes")).willReturn(moveUpFootnotes);
         given(fileSystem.getSectionbreaksUpDirectory(step, MATERIAL_NUMBER)).willReturn(moveUpDir);
@@ -96,8 +96,7 @@ public final class SplitOriginalStepTest
     }
 
     @Test
-    public void shouldTransform() throws Exception
-    {
+    public void shouldTransform() throws Exception {
         //given
         //when
         step.executeStep();
@@ -112,8 +111,7 @@ public final class SplitOriginalStepTest
         assertThat(iterator.next().getOutputFile(), is(originalPartsDirectory));
     }
 
-    private Map<String, Collection<File>> getFilesFromBundleStructure(final File...files)
-    {
+    private Map<String, Collection<File>> getFilesFromBundleStructure(final File... files) {
         return Collections.singletonMap(MATERIAL_NUMBER, (Collection<File>) Arrays.asList(files));
     }
 }

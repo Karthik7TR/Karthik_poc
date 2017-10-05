@@ -27,8 +27,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class XppStepFailureNotificationServiceImplTest
-{
+public final class XppStepFailureNotificationServiceImplTest {
     @InjectMocks
     private XppStepFailureNotificationServiceImpl service;
     @Mock
@@ -45,8 +44,7 @@ public final class XppStepFailureNotificationServiceImplTest
     private ArgumentCaptor<Collection<InternetAddress>> captorRecipients;
 
     @Test
-    public void recipientsAreCorrect() throws Exception
-    {
+    public void recipientsAreCorrect() throws Exception {
         // given
         final Exception e = new Exception();
         givenAll();
@@ -62,8 +60,7 @@ public final class XppStepFailureNotificationServiceImplTest
     }
 
     @Test
-    public void subjectIsCorrect()
-    {
+    public void subjectIsCorrect() {
         // given
         final Exception e = new Exception();
         givenAll();
@@ -75,8 +72,7 @@ public final class XppStepFailureNotificationServiceImplTest
     }
 
     @Test
-    public void bodyIsCorrect()
-    {
+    public void bodyIsCorrect() {
         // given
         final Exception e = new Exception("msg");
         givenAll();
@@ -88,8 +84,7 @@ public final class XppStepFailureNotificationServiceImplTest
         assertThat(captor.getValue(), containsString("Error Message : msg"));
     }
 
-    private void givenAll()
-    {
+    private void givenAll() {
         given(step.getUserName()).willReturn("user");
         given(step.getEnvironment()).willReturn("env");
         given(step.getBookDefinition()).willReturn(book);

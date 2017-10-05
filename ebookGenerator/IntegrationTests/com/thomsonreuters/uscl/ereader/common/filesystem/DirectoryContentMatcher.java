@@ -13,8 +13,7 @@ import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.jetbrains.annotations.NotNull;
 
-public final class DirectoryContentMatcher extends BaseMatcher<Object>
-{
+public final class DirectoryContentMatcher extends BaseMatcher<Object> {
 
     private static final Logger LOG = LogManager.getLogger(DirectoryContentMatcher.class);
     @NotNull
@@ -24,20 +23,17 @@ public final class DirectoryContentMatcher extends BaseMatcher<Object>
     /**
      * @param actual
      */
-    private DirectoryContentMatcher(final File actual, final boolean recursive)
-    {
+    private DirectoryContentMatcher(final File actual, final boolean recursive) {
         this.actual = actual;
         this.recursive = recursive;
     }
 
-    public static DirectoryContentMatcher hasSameContentAs(@NotNull final File actual, final boolean recursive)
-    {
+    public static DirectoryContentMatcher hasSameContentAs(@NotNull final File actual, final boolean recursive) {
         return new DirectoryContentMatcher(actual, recursive);
     }
 
     @Override
-    public boolean matches(final Object item)
-    {
+    public boolean matches(final Object item) {
         final List<File> items = recursive
             ? (List<File>) FileUtils.listFiles((File) item, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE)
             : (List<File>) FileUtils.listFiles((File) item, TrueFileFilter.INSTANCE, null);
@@ -46,18 +42,13 @@ public final class DirectoryContentMatcher extends BaseMatcher<Object>
             : (List<File>) FileUtils.listFiles(actual, TrueFileFilter.INSTANCE, null);
         if (!(items.size() == actualItems.size()))
             return false;
-        for (final File file : items)
-        {
+        for (final File file : items) {
             final File actualFile = actualItems.get(items.indexOf(file));
-            try
-            {
-                if (!FileUtils.contentEquals(file, actualFile))
-                {
+            try {
+                if (!FileUtils.contentEquals(file, actualFile)) {
                     return false;
                 }
-            }
-            catch (final IOException e)
-            {
+            } catch (final IOException e) {
                 LOG.error("Exception while comparing contents", e);
                 return false;
             }
@@ -66,8 +57,7 @@ public final class DirectoryContentMatcher extends BaseMatcher<Object>
     }
 
     @Override
-    public void describeMismatch(final Object item, final Description description)
-    {
+    public void describeMismatch(final Object item, final Description description) {
         final File file = (File) item;
         description.appendText("contents of \n")
             .appendValue(Paths.get(file.toURI()).toString())
@@ -76,8 +66,7 @@ public final class DirectoryContentMatcher extends BaseMatcher<Object>
     }
 
     @Override
-    public void describeTo(final Description description)
-    {
+    public void describeTo(final Description description) {
         description.appendText("content should be equal");
     }
 

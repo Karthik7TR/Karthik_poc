@@ -18,8 +18,7 @@ import org.springframework.stereotype.Controller;
  * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
 @Controller
-public class JobCleanupController
-{
+public class JobCleanupController {
     //private static final Logger log = LogManager.getLogger(JobCleanupController.class);
 
     private JobCleanupService jobCleanupService;
@@ -27,16 +26,12 @@ public class JobCleanupController
     private String emailGroup;
 
     @PostConstruct
-    public void init() throws EBookServerException
-    {
+    public void init() throws EBookServerException {
         String hostName = null; // The host this job running on
-        try
-        {
+        try {
             final InetAddress host = InetAddress.getLocalHost();
             hostName = host.getHostName();
-        }
-        catch (final UnknownHostException uhe)
-        {
+        } catch (final UnknownHostException uhe) {
             //Intentionally left blank
         }
         serverAccessService.notifyJobOwnerOnServerStartup(hostName, emailGroup);
@@ -44,20 +39,17 @@ public class JobCleanupController
     }
 
     @Required
-    public void setJobCleanupService(final JobCleanupService jobCleanupService)
-    {
+    public void setJobCleanupService(final JobCleanupService jobCleanupService) {
         this.jobCleanupService = jobCleanupService;
     }
 
     @Required
-    public void setServerAccessService(final ServerAccessService serverAccessService)
-    {
+    public void setServerAccessService(final ServerAccessService serverAccessService) {
         this.serverAccessService = serverAccessService;
     }
 
     @Required
-    public void setEmailGroup(final String emailGroup)
-    {
+    public void setEmailGroup(final String emailGroup) {
         this.emailGroup = emailGroup;
     }
 }

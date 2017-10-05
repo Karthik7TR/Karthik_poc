@@ -10,57 +10,45 @@ import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.jetbrains.annotations.NotNull;
 
-public class FileContentMatcher extends BaseMatcher<Object>
-{
+public class FileContentMatcher extends BaseMatcher<Object> {
     private static final Logger LOG = LogManager.getLogger(FileContentMatcher.class);
 
     @NotNull
     private File expected;
 
-    public FileContentMatcher(@NotNull final File expected)
-    {
+    public FileContentMatcher(@NotNull final File expected) {
         this.expected = expected;
     }
 
-    public static FileContentMatcher hasSameContentAs(@NotNull final File expected)
-    {
+    public static FileContentMatcher hasSameContentAs(@NotNull final File expected) {
         return new FileContentMatcher(expected);
     }
 
     @Override
-    public boolean matches(final Object item)
-    {
+    public boolean matches(final Object item) {
         final File file = (File) item;
-        try
-        {
+        try {
             return FileUtils.contentEquals(expected, file);
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             LOG.error("", e);
             return false;
         }
     }
 
     @Override
-    public void describeTo(final Description description)
-    {
+    public void describeTo(final Description description) {
         description.appendText("content should be equal");
     }
 
     @Override
-    public void describeMismatch(final Object item, final Description description)
-    {
+    public void describeMismatch(final Object item, final Description description) {
         final File file = (File) item;
-        try
-        {
+        try {
             description.appendText("file content was \n")
                 .appendValue(FileUtils.readFileToString(file))
                 .appendText("\n but expected \n")
                 .appendValue(FileUtils.readFileToString(expected));
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             LOG.error("", e);
         }
     }

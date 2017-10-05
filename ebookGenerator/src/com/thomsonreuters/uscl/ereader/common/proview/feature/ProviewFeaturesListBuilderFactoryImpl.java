@@ -11,15 +11,14 @@ import org.springframework.stereotype.Component;
  * Creates proview features list builder according to split flag
  */
 @Component("proviewFeaturesListBuilderFactory")
-public class ProviewFeaturesListBuilderFactoryImpl implements ProviewFeaturesListBuilderFactory
-{
+public class ProviewFeaturesListBuilderFactoryImpl implements ProviewFeaturesListBuilderFactory {
     private final VersionUtil versionUtil;
     private final ProviewTitleService proviewTitleService;
 
     @Autowired
-    public ProviewFeaturesListBuilderFactoryImpl(final VersionUtil versionUtil,
-                                                 final ProviewTitleService proviewTitleService)
-    {
+    public ProviewFeaturesListBuilderFactoryImpl(
+        final VersionUtil versionUtil,
+        final ProviewTitleService proviewTitleService) {
         this.versionUtil = versionUtil;
         this.proviewTitleService = proviewTitleService;
     }
@@ -29,15 +28,11 @@ public class ProviewFeaturesListBuilderFactoryImpl implements ProviewFeaturesLis
      */
     @NotNull
     @Override
-    public FeaturesListBuilder create(@NotNull final BookDefinition bookDefinition)
-    {
+    public FeaturesListBuilder create(@NotNull final BookDefinition bookDefinition) {
         final FeaturesListBuilder featuresListBuilder;
-        if (bookDefinition.isSplitBook())
-        {
+        if (bookDefinition.isSplitBook()) {
             featuresListBuilder = new SplitBookFeatureListBuilder(proviewTitleService, bookDefinition, versionUtil);
-        }
-        else
-        {
+        } else {
             featuresListBuilder = new SingleBookFeaturesListBuilder(proviewTitleService, bookDefinition, versionUtil);
         }
         return featuresListBuilder;

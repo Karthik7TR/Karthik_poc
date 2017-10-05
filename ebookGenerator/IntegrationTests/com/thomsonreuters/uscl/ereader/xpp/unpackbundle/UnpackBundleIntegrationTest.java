@@ -45,8 +45,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @ActiveProfiles("IntegrationTests")
-public final class UnpackBundleIntegrationTest
-{
+public final class UnpackBundleIntegrationTest {
     private static final String MATERIAL_NUMBER = "41963403";
 
     @InjectMocks
@@ -68,8 +67,7 @@ public final class UnpackBundleIntegrationTest
     private File outputDirectory;
 
     @Before
-    public void setUp() throws URISyntaxException
-    {
+    public void setUp() throws URISyntaxException {
         org.mockito.MockitoAnnotations.initMocks(this);
         expectedUnpackedArchive = new File(UnpackBundleIntegrationTest.class.getResource("standard").toURI());
         outputDirectory = fileSystem.getXppBundleMaterialNumberDirectory(step, MATERIAL_NUMBER);
@@ -85,11 +83,10 @@ public final class UnpackBundleIntegrationTest
     }
 
     @Test
-    public void shouldUnpackZipBundle() throws Exception
-    {
+    public void shouldUnpackZipBundle() throws Exception {
         //given
-        targetArchive =
-            new File(UnpackBundleIntegrationTest.class.getResource("AJ2D_41963403_2017-04-17_04.07.22.610.-0400.zip").toURI());
+        targetArchive = new File(
+            UnpackBundleIntegrationTest.class.getResource("AJ2D_41963403_2017-04-17_04.07.22.610.-0400.zip").toURI());
         given(xppBundleArchive.getEBookSrcFile()).willReturn(targetArchive);
         //when
         step.executeStep();
@@ -98,11 +95,11 @@ public final class UnpackBundleIntegrationTest
     }
 
     @Test
-    public void shouldUnpackTarGzBundle() throws Exception
-    {
+    public void shouldUnpackTarGzBundle() throws Exception {
         //given
-        targetArchive =
-            new File(UnpackBundleIntegrationTest.class.getResource("AJ2D_41963403_2017-04-17_04.07.22.610.-0400.tar.gz").toURI());
+        targetArchive = new File(
+            UnpackBundleIntegrationTest.class.getResource("AJ2D_41963403_2017-04-17_04.07.22.610.-0400.tar.gz")
+                .toURI());
         given(xppBundleArchive.getEBookSrcFile()).willReturn(targetArchive);
         //when
         step.executeStep();
@@ -111,13 +108,11 @@ public final class UnpackBundleIntegrationTest
     }
 
     @After
-    public void onTestComplete() throws IOException
-    {
+    public void onTestComplete() throws IOException {
         FileUtils.cleanDirectory(outputDirectory);
     }
 
-    private Set<PrintComponent> printComponents()
-    {
+    private Set<PrintComponent> printComponents() {
         final Set<PrintComponent> printComponents = new HashSet<>();
         final PrintComponent printComponent = new PrintComponent();
         printComponent.setMaterialNumber(MATERIAL_NUMBER);
@@ -129,29 +124,24 @@ public final class UnpackBundleIntegrationTest
     @Configuration
     @Profile("IntegrationTests")
     @Import(CommonTestContextConfiguration.class)
-    public static class UnpackBundleIntegrationTestConfiguration
-    {
+    public static class UnpackBundleIntegrationTestConfiguration {
         @Bean
-        public UnpackBundleTask unpackBundleTask()
-        {
+        public UnpackBundleTask unpackBundleTask() {
             return new UnpackBundleTask();
         }
 
         @Bean
-        public GatherFileSystem xppGatherFileSystem()
-        {
+        public GatherFileSystem xppGatherFileSystem() {
             return new XppGatherFileSystemImpl();
         }
 
         @Bean
-        public XppBundleArchiveService xppBundleArchiveService()
-        {
+        public XppBundleArchiveService xppBundleArchiveService() {
             return new XppBundleArchiveService();
         }
 
         @Bean
-        public XppBundleArchiveDao xppBundleArchiveDao()
-        {
+        public XppBundleArchiveDao xppBundleArchiveDao() {
             return new XppBundleArchiveDaoImpl(null);
         }
     }

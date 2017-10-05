@@ -11,64 +11,53 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * The primary key for image meta-data entity read from database.
  */
 @Embeddable
-public class ImageMetadataEntityKey implements Serializable
-{
+public class ImageMetadataEntityKey implements Serializable {
     private static final long serialVersionUID = 964134678526913067L;
     private Long jobInstanceId;
     private String imageGuid;
     private String docUuid;
 
-    public ImageMetadataEntityKey()
-    {
+    public ImageMetadataEntityKey() {
         super();
     }
 
-    public ImageMetadataEntityKey(final Long jobInstanceId, final String guid, final String docUuid)
-    {
+    public ImageMetadataEntityKey(final Long jobInstanceId, final String guid, final String docUuid) {
         this.jobInstanceId = jobInstanceId;
         imageGuid = guid;
         this.docUuid = docUuid;
     }
 
-    public Long getJobInstanceId()
-    {
+    public Long getJobInstanceId() {
         return jobInstanceId;
     }
 
-    public String getImageGuid()
-    {
+    public String getImageGuid() {
         return imageGuid;
     }
 
-    public void setJobInstanceId(final Long jobInstanceId)
-    {
+    public void setJobInstanceId(final Long jobInstanceId) {
         this.jobInstanceId = jobInstanceId;
     }
 
-    public void setImageGuid(final String imageGuid)
-    {
+    public void setImageGuid(final String imageGuid) {
         this.imageGuid = imageGuid;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
-    public String getDocUuid()
-    {
+    public String getDocUuid() {
         return docUuid;
     }
 
-    public void setDocUuid(final String docUuid)
-    {
+    public void setDocUuid(final String docUuid) {
         this.docUuid = docUuid;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((jobInstanceId == null) ? 0 : jobInstanceId.hashCode());
@@ -78,12 +67,10 @@ public class ImageMetadataEntityKey implements Serializable
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
-        if (!(obj instanceof ImageMetadataEntityKey))
-        {
+        if (!(obj instanceof ImageMetadataEntityKey)) {
             return false;
         }
 

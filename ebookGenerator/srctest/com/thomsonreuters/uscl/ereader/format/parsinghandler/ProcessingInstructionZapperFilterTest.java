@@ -23,8 +23,7 @@ import org.xml.sax.InputSource;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public final class ProcessingInstructionZapperFilterTest
-{
+public final class ProcessingInstructionZapperFilterTest {
     private InputSource inputSource;
     private ProcessingInstructionZapperFilter processingInstructionZapperfilter;
     private SAXParser saxParser;
@@ -32,8 +31,7 @@ public final class ProcessingInstructionZapperFilterTest
     private ByteArrayOutputStream transformedXmlOutputStream;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         processingInstructionZapperfilter = new ProcessingInstructionZapperFilter();
         saxParser = SAXParserFactory.newInstance().newSAXParser();
 
@@ -47,8 +45,7 @@ public final class ProcessingInstructionZapperFilterTest
     }
 
     @Test
-    public void testProcessingInstructionsAreZapped() throws Exception
-    {
+    public void testProcessingInstructionsAreZapped() throws Exception {
         final String inputXml = "<yarr><?pirate?></yarr>";
         final String expectedXml = "<yarr/>";
         inputSource = new InputSource(new ByteArrayInputStream(inputXml.getBytes()));
@@ -60,8 +57,7 @@ public final class ProcessingInstructionZapperFilterTest
     }
 
     @Test
-    public void testXmlContentIsPreserved() throws Exception
-    {
+    public void testXmlContentIsPreserved() throws Exception {
         final String inputXml = "<yarr><?pirate?><ship>Black Pearl</ship></yarr>";
         final String expectedXml = "<yarr><ship>Black Pearl</ship></yarr>";
         inputSource = new InputSource(new ByteArrayInputStream(inputXml.getBytes()));
@@ -73,8 +69,7 @@ public final class ProcessingInstructionZapperFilterTest
     }
 
     @Test
-    public void testUnicodeDecimalEntityReferences() throws Exception
-    {
+    public void testUnicodeDecimalEntityReferences() throws Exception {
         final String inputXml = "<foo><?pirate?>bar&#167;<?pirate?></foo>";
         final String sectionSymbol = new String(new byte[] {(byte) 0xC2, (byte) 0xA7}, "UTF8");
         final String expectedXml = "<foo>bar" + sectionSymbol + "</foo>";

@@ -10,14 +10,12 @@ import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class EnvironmentUtilImplTest
-{
+public final class EnvironmentUtilImplTest {
     @InjectMocks
     private EnvironmentUtilImpl util;
 
     @Test
-    public void shouldReturnTrueIfProd() throws IllegalAccessException
-    {
+    public void shouldReturnTrueIfProd() throws IllegalAccessException {
         //given
         FieldUtils.writeField(util, "environmentName", "prodcontent", true);
         //when
@@ -27,8 +25,7 @@ public final class EnvironmentUtilImplTest
     }
 
     @Test
-    public void shouldReturnFalseIfNotProd() throws IllegalAccessException
-    {
+    public void shouldReturnFalseIfNotProd() throws IllegalAccessException {
         //given
         FieldUtils.writeField(util, "environmentName", "notprod", true);
         //when

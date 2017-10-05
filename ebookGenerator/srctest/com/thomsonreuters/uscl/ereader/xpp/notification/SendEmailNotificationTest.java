@@ -38,8 +38,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.batch.core.scope.context.ChunkContext;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class SendEmailNotificationTest
-{
+public final class SendEmailNotificationTest {
     @InjectMocks
     private SendEmailNotification step;
     @Mock
@@ -57,8 +56,7 @@ public final class SendEmailNotificationTest
     private ArgumentCaptor<Collection<InternetAddress>> captorRecipients;
 
     @Test
-    public void recipientsAreCorrect() throws Exception
-    {
+    public void recipientsAreCorrect() throws Exception {
         // given
         givenAll();
         final InternetAddress[] expectedRecipients = new InternetAddress[] {new InternetAddress("address")};
@@ -72,8 +70,7 @@ public final class SendEmailNotificationTest
     }
 
     @Test
-    public void subjectIsCorrect() throws Exception
-    {
+    public void subjectIsCorrect() throws Exception {
         // given
         givenAll();
         // when
@@ -84,8 +81,7 @@ public final class SendEmailNotificationTest
     }
 
     @Test
-    public void bodyIsCorrect() throws Exception
-    {
+    public void bodyIsCorrect() throws Exception {
         // given
         givenAll();
         // when
@@ -100,8 +96,7 @@ public final class SendEmailNotificationTest
         assertThat(captor.getValue(), containsString("Job Execution ID: 2"));
     }
 
-    private void givenAll()
-    {
+    private void givenAll() {
         givenBook(chunkContext, book);
         given(book.getFullyQualifiedTitleId()).willReturn("titleId");
         given(book.getProviewDisplayName()).willReturn("proviewDisplayName");

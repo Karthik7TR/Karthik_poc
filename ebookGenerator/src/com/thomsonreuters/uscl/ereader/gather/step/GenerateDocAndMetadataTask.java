@@ -33,8 +33,7 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
-public class GenerateDocAndMetadataTask extends AbstractSbTasklet
-{
+public class GenerateDocAndMetadataTask extends AbstractSbTasklet {
     //TODO: Use logger API to get Logger instance to job-specific appender.
     private static final Logger LOG = LogManager.getLogger(GenerateDocAndMetadataTask.class);
     private DocMetaDataGuidParserService docMetaDataParserService;
@@ -42,8 +41,8 @@ public class GenerateDocAndMetadataTask extends AbstractSbTasklet
     private NovusDocFileService novusDocFileService;
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
         String publishStatus = "Completed";
 
@@ -65,8 +64,7 @@ public class GenerateDocAndMetadataTask extends AbstractSbTasklet
         final PublishingStats jobstatsDoc = new PublishingStats();
         jobstatsDoc.setJobInstanceId(jobInstance);
 
-        try
-        {
+        try {
             docMetaDataParserService.generateDocGuidList(tocFile, docsGuidsFile);
 
             final Map<String, Integer> docGuidsMap = readDocGuidsFromTextFile(docsGuidsFile);
@@ -86,20 +84,15 @@ public class GenerateDocAndMetadataTask extends AbstractSbTasklet
             jobstatsDoc.setGatherMetaExpectedCount(gatherResponse.getNodeCount());
             jobExecutionContext.putInt(JobExecutionKey.EBOOK_STATS_DOC_COUNT, gatherResponse.getDocCount());
 
-            if (gatherResponse.getErrorCode() != 0)
-            {
+            if (gatherResponse.getErrorCode() != 0) {
                 final GatherException gatherException =
                     new GatherException(gatherResponse.getErrorMessage(), gatherResponse.getErrorCode());
                 throw gatherException;
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             publishStatus = "Failed";
             throw (e);
-        }
-        finally
-        {
+        } finally {
             jobstatsDoc.setPublishStatus("generateDocAndMetadata : " + publishStatus);
             publishingStatsService.updatePublishingStats(jobstatsDoc, StatsUpdateTypeEnum.GENERATEDOC);
         }
@@ -114,28 +107,20 @@ public class GenerateDocAndMetadataTask extends AbstractSbTasklet
      * @file textFile the text file to process
      * @return a HashMap of text strings, representing each file of the specified file and count
      */
-    private Map<String, Integer> readDocGuidsFromTextFile(final File textFile) throws IOException
-    {
+    private Map<String, Integer> readDocGuidsFromTextFile(final File textFile) throws IOException {
         final Map<String, Integer> lineMap = new HashMap<>();
 
-        try (FileReader fileReader = new FileReader(textFile); BufferedReader reader = new BufferedReader(fileReader))
-        {
+        try (FileReader fileReader = new FileReader(textFile); BufferedReader reader = new BufferedReader(fileReader)) {
             String textLine;
-            while ((textLine = reader.readLine()) != null)
-            {
-                if (StringUtils.isNotBlank(textLine))
-                {
+            while ((textLine = reader.readLine()) != null) {
+                if (StringUtils.isNotBlank(textLine)) {
                     final int i = textLine.indexOf(",");
-                    if (i != -1)
-                    {
+                    if (i != -1) {
                         textLine = textLine.substring(0, textLine.indexOf(",")).trim();
                         Integer count = lineMap.get(textLine);
-                        if (count != null && count > 0)
-                        {
+                        if (count != null && count > 0) {
                             count++;
-                        }
-                        else
-                        {
+                        } else {
                             count = 1;
                         }
                         lineMap.put(textLine, count);
@@ -148,20 +133,17 @@ public class GenerateDocAndMetadataTask extends AbstractSbTasklet
     }
 
     @Required
-    public void setDocMetadataGuidParserService(final DocMetaDataGuidParserService docMetadataSvc)
-    {
+    public void setDocMetadataGuidParserService(final DocMetaDataGuidParserService docMetadataSvc) {
         docMetaDataParserService = docMetadataSvc;
     }
 
     @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
 
     @Required
-    public void setNovusDocFileService(final NovusDocFileService novusDocFileService)
-    {
+    public void setNovusDocFileService(final NovusDocFileService novusDocFileService) {
         this.novusDocFileService = novusDocFileService;
     }
 }

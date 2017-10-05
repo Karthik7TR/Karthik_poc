@@ -6,12 +6,10 @@ import org.apache.log4j.Logger;
 /// <summary>
 /// The citation link extension class will extend the xslt process to support generating a url or flag color text for a given citation/entity.
 /// </summary>
-public class CitationLinkExtensionAdapter
-{
+public class CitationLinkExtensionAdapter {
     private static final Logger LOG = LogManager.getLogger(CitationLinkExtensionAdapter.class);
 
-    public CitationLinkExtensionAdapter()
-    {
+    public CitationLinkExtensionAdapter() {
     }
 
     /// <summary>
@@ -19,8 +17,7 @@ public class CitationLinkExtensionAdapter
     /// </summary>
     /// <param name="citation">A citation within the document</param>
     /// <returns>true if flag urls exist, false otherwise</returns>
-    public boolean HasFlagUrls(final String citation, final String host, final Boolean createPersistentUrls)
-    {
+    public boolean HasFlagUrls(final String citation, final String host, final Boolean createPersistentUrls) {
         LOG.error("Inside HasFlagUrls");
         return false;
     }
@@ -39,8 +36,7 @@ public class CitationLinkExtensionAdapter
         final String citation,
         final String host,
         final Boolean createPersistentUrls,
-        final Boolean allowSsl)
-    {
+        final Boolean allowSsl) {
         return "";
     }
 }

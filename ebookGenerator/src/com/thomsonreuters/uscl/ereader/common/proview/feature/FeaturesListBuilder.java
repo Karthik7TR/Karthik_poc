@@ -11,8 +11,7 @@ import com.thomsonreuters.uscl.ereader.proview.Feature;
 /**
  * Behavior of proview features list builde
  */
-public interface FeaturesListBuilder
-{
+public interface FeaturesListBuilder {
     /**
      * Set up title docs from previous publication
      */

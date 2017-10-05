@@ -24,16 +24,15 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
-public class PreprocessXML extends AbstractSbTasklet
-{
+public class PreprocessXML extends AbstractSbTasklet {
     //TODO: Use logger API to get Logger instance to job-specific appender.
     private static final Logger LOG = LogManager.getLogger(PreprocessXML.class);
     private XMLPreprocessService preprocessService;
     private PublishingStatsService publishingStatsService;
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
         final JobInstance jobInstance = getJobInstance(chunkContext);
 
@@ -55,8 +54,7 @@ public class PreprocessXML extends AbstractSbTasklet
         jobstats.setJobInstanceId(jobId);
         String stepStatus = "Completed";
 
-        try
-        {
+        try {
             final long startTime = System.currentTimeMillis();
             final int numDocsTransformed = preprocessService.transformXML(
                 xmlDir,
@@ -67,8 +65,7 @@ public class PreprocessXML extends AbstractSbTasklet
             final long endTime = System.currentTimeMillis();
             final long elapsedTime = endTime - startTime;
 
-            if (numDocsTransformed != numDocsInTOC)
-            {
+            if (numDocsTransformed != numDocsInTOC) {
                 final String message = "The number of documents preprocessed did not match the number "
                     + "of documents retrieved from the eBook TOC. Preprocessed "
                     + numDocsTransformed
@@ -80,14 +77,10 @@ public class PreprocessXML extends AbstractSbTasklet
             }
 
             LOG.debug("Preprocessed " + numDocsTransformed + " XML files in " + elapsedTime + " milliseconds");
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             stepStatus = "Failed";
             throw e;
-        }
-        finally
-        {
+        } finally {
             jobstats.setPublishStatus("formatPreprocessXML : " + stepStatus);
             publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
         }
@@ -96,14 +89,12 @@ public class PreprocessXML extends AbstractSbTasklet
     }
 
     @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
 
     @Required
-    public void setPreprocessService(final XMLPreprocessService preprocessService)
-    {
+    public void setPreprocessService(final XMLPreprocessService preprocessService) {
         this.preprocessService = preprocessService;
     }
 }

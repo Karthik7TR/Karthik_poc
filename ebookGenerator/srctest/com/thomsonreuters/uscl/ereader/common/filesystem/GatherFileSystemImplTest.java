@@ -17,8 +17,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class GatherFileSystemImplTest
-{
+public final class GatherFileSystemImplTest {
     @InjectMocks
     private GatherFileSystemImpl fileSystem;
     @Mock
@@ -29,14 +28,12 @@ public final class GatherFileSystemImplTest
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         given(bookFileSystem.getWorkDirectory(step)).willReturn(new File(temporaryFolder.getRoot(), "workDirectory"));
     }
 
     @Test
-    public void shouldReturnGatherRootDirectory()
-    {
+    public void shouldReturnGatherRootDirectory() {
         //given
         //when
         final File file = fileSystem.getGatherRootDirectory(step);

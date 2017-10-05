@@ -36,8 +36,7 @@ import org.xml.sax.helpers.DefaultHandler;
  *
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
-public class NovusNortFileParser extends DefaultHandler
-{
+public class NovusNortFileParser extends DefaultHandler {
     private static final Logger LOG = LogManager.getLogger(NovusNortFileParser.class);
 
     private static final String N_LOAD = "/n-load";
@@ -70,8 +69,7 @@ public class NovusNortFileParser extends DefaultHandler
     public NovusNortFileParser(
         final Date cutoffDate,
         final int nortFileLevel,
-        final Map<String, Map<Integer, String>> documentMap)
-    {
+        final Map<String, Map<Integer, String>> documentMap) {
         super();
         this.cutoffDate = cutoffDate;
         this.nortFileLevel = nortFileLevel;
@@ -80,14 +78,12 @@ public class NovusNortFileParser extends DefaultHandler
     }
 
     public List<RelationshipNode> parseDocument(final File nortFile)
-        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException
-    {
+        throws UnsupportedEncodingException, IOException, ParserConfigurationException, SAXException {
         // get a factory
         final SAXParserFactory spf = SAXParserFactory.newInstance();
 
         try (InputStream inputStream = new FileInputStream(nortFile);
-            Reader reader = new InputStreamReader(inputStream, "UTF-8"))
-        {
+            Reader reader = new InputStreamReader(inputStream, "UTF-8")) {
             // get a new instance of parser
             final SAXParser sp = spf.newSAXParser();
 
@@ -97,11 +93,9 @@ public class NovusNortFileParser extends DefaultHandler
         }
 
         // Throw error if duplicate nodes which were not marked as deleted are found.
-        if (duplicateNodes.size() > 0)
-        {
+        if (duplicateNodes.size() > 0) {
             final StringBuffer buffer = new StringBuffer();
-            for (final RelationshipNode duplicateNode : duplicateNodes)
-            {
+            for (final RelationshipNode duplicateNode : duplicateNodes) {
                 buffer.append(duplicateNode.getNortGuid());
                 buffer.append(", ");
             }
@@ -110,12 +104,9 @@ public class NovusNortFileParser extends DefaultHandler
                 "Duplicate NORT node(s) found: " + buffer.toString() + " in file " + nortFile.getAbsolutePath());
         }
 
-        if (roots.size() > 0)
-        {
+        if (roots.size() > 0) {
             createParentChildRelationships();
-        }
-        else
-        {
+        } else {
             LOG.error("No root node(s) found in file " + nortFile.getAbsolutePath());
             throw new SAXException("No root node(s) found in file " + nortFile.getAbsolutePath());
         }
@@ -126,13 +117,10 @@ public class NovusNortFileParser extends DefaultHandler
         return rootList;
     }
 
-    private void createParentChildRelationships()
-    {
-        for (final RelationshipNode node : nortNodeMap.values())
-        {
+    private void createParentChildRelationships() {
+        for (final RelationshipNode node : nortNodeMap.values()) {
             final RelationshipNode parentNode = nortNodeMap.get(node.getParentNortGuid());
-            if (parentNode != null)
-            {
+            if (parentNode != null) {
                 parentNode.getChildNodes().add(node);
                 node.setParentNode(parentNode);
             }
@@ -141,37 +129,29 @@ public class NovusNortFileParser extends DefaultHandler
 
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
-        throws SAXException
-    {
+        throws SAXException {
         xpathStack.push(qName);
         final String currentXpath = xpathStack.toXPathString();
-        if (currentXpath.equalsIgnoreCase(RELATIONSHIP))
-        {
+        if (currentXpath.equalsIgnoreCase(RELATIONSHIP)) {
             currentNode = new RelationshipNode();
         }
-        if (inExtractXpath(currentXpath))
-        {
+        if (inExtractXpath(currentXpath)) {
             tempVal = new StringBuffer();
         }
     }
 
     @Override
-    public void characters(final char[] buf, final int offset, final int len) throws SAXException
-    {
-        if (tempVal != null)
-        {
-            for (int i = offset; i < offset + len; i++)
-            {
+    public void characters(final char[] buf, final int offset, final int len) throws SAXException {
+        if (tempVal != null) {
+            for (int i = offset; i < offset + len; i++) {
                 tempVal.append(buf[i]);
             }
         }
     }
 
-    private boolean inExtractXpath(final String xpath)
-    {
+    private boolean inExtractXpath(final String xpath) {
         boolean extractPath = false;
-        switch (xpath)
-        {
+        switch (xpath) {
         case RELBASE:
         case RELTARGET:
         case START_DATE:
@@ -192,107 +172,72 @@ public class NovusNortFileParser extends DefaultHandler
     }
 
     @Override
-    public void endElement(final String uri, final String localName, final String qName) throws SAXException
-    {
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException {
         final String currentXpath = xpathStack.toXPathString();
-        if (currentXpath.equalsIgnoreCase(RELATIONSHIP))
-        {
+        if (currentXpath.equalsIgnoreCase(RELATIONSHIP)) {
             addCurrentNodeToMap();
         }
 
-        if (inExtractXpath(currentXpath))
-        {
+        if (inExtractXpath(currentXpath)) {
             final String value = tempVal.toString();
-            if (currentXpath.equalsIgnoreCase(RELBASE))
-            {
+            if (currentXpath.equalsIgnoreCase(RELBASE)) {
                 LOG.debug("Parsing Novus NORT GUID " + value);
                 currentNode.setNortGuid(value);
-            }
-            else if (currentXpath.equalsIgnoreCase(RELTARGET))
-            {
+            } else if (currentXpath.equalsIgnoreCase(RELTARGET)) {
                 currentNode.setParentNortGuid(value);
-            }
-            else if (currentXpath.equalsIgnoreCase(START_DATE))
-            {
+            } else if (currentXpath.equalsIgnoreCase(START_DATE)) {
                 currentNode.setStartDateStr(value);
-            }
-            else if (currentXpath.equalsIgnoreCase(END_DATE))
-            {
+            } else if (currentXpath.equalsIgnoreCase(END_DATE)) {
                 currentNode.setEndDateStr(value);
-            }
-            else if (currentXpath.equalsIgnoreCase(PUB_TAGGED_HEADING))
-            {
-                if (StringUtils.isNotBlank(value))
-                {
+            } else if (currentXpath.equalsIgnoreCase(PUB_TAGGED_HEADING)) {
+                if (StringUtils.isNotBlank(value)) {
                     final boolean pubTaggedHeadingExists = (value.equalsIgnoreCase("Y") ? true : false);
                     currentNode.setPubTaggedHeadingExists(pubTaggedHeadingExists);
                 }
-            }
-            else if (currentXpath.equalsIgnoreCase(DOC_GUID))
-            {
+            } else if (currentXpath.equalsIgnoreCase(DOC_GUID)) {
                 String docGuid = value;
-                if (documentLevelMap.containsKey(docGuid))
-                {
+                if (documentLevelMap.containsKey(docGuid)) {
                     final Map<Integer, String> nortLevelMap = documentLevelMap.get(docGuid);
 
-                    if (nortLevelMap.containsKey(nortFileLevel))
-                    {
+                    if (nortLevelMap.containsKey(nortFileLevel)) {
                         // duplicate docGuid found and also exists in NORT Level map
                         // use DOC GUID from NORT Level map
                         docGuid = nortLevelMap.get(nortFileLevel);
-                    }
-                    else
-                    {
+                    } else {
                         // duplicate docGuid found but DOC GUID does not exist in this NORT Level
                         // generate new docGuid to fix bug: CA Dwyer duplicate doc conflict.  Multiple extracts from
                         // same content set produces same documents with different prelims.  This is a special case.
                         // Duplicate documents within same content set can reuse the same document.
-                        if (docGuid.contains("-"))
-                        {
+                        if (docGuid.contains("-")) {
                             docGuid = docGuid + nortFileLevel;
-                        }
-                        else
-                        {
+                        } else {
                             docGuid = docGuid + "-" + nortFileLevel;
                         }
 
                         nortLevelMap.put(nortFileLevel, docGuid);
                         documentLevelMap.put(docGuid, nortLevelMap);
                     }
-                }
-                else
-                {
+                } else {
                     // First time seeing the document
                     final Map<Integer, String> nortLevelMap = new HashMap<>();
                     nortLevelMap.put(nortFileLevel, docGuid);
                     documentLevelMap.put(docGuid, nortLevelMap);
                 }
                 currentNode.setDocumentGuid(docGuid);
-            }
-            else if (currentXpath.equalsIgnoreCase(RANK))
-            {
+            } else if (currentXpath.equalsIgnoreCase(RANK)) {
                 final double rank = Double.valueOf(value);
                 currentNode.setRank(rank);
-            }
-            else if (currentXpath.equalsIgnoreCase(LABEL))
-            {
+            } else if (currentXpath.equalsIgnoreCase(LABEL)) {
                 currentNode.setLabel(value);
-            }
-            else if (currentXpath.equalsIgnoreCase(NODE_TYPE))
-            {
+            } else if (currentXpath.equalsIgnoreCase(NODE_TYPE)) {
                 currentNode.setNodeType(value);
-            }
-            else if (currentXpath.equalsIgnoreCase(GRAFT_POINT_FLAG))
-            {
+            } else if (currentXpath.equalsIgnoreCase(GRAFT_POINT_FLAG)) {
                 boolean isRootNode = false;
-                if ("Y".equalsIgnoreCase(value))
-                {
+                if ("Y".equalsIgnoreCase(value)) {
                     isRootNode = true;
                 }
                 currentNode.setRootNode(isRootNode);
-            }
-            else if (currentXpath.equalsIgnoreCase(N_VIEW))
-            {
+            } else if (currentXpath.equalsIgnoreCase(N_VIEW)) {
                 currentNode.getViews().add(value);
             }
             tempVal = null;
@@ -301,49 +246,35 @@ public class NovusNortFileParser extends DefaultHandler
         xpathStack.pop();
     }
 
-    private void addCurrentNodeToMap() throws SAXException
-    {
+    private void addCurrentNodeToMap() throws SAXException {
         currentNode.setNortRank(nortFileLevel);
         final String endDateStr = currentNode.getEndDateStr();
         final DateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         Date endDate = null;
-        try
-        {
+        try {
             endDate = formatter.parse(endDateStr);
-        }
-        catch (final ParseException e)
-        {
+        } catch (final ParseException e) {
             LOG.debug("End date format error: " + endDateStr + " Expect end date format in yyyyMMddHHmmss.");
             throw new SAXException(
                 "End date format error: " + endDateStr + " Expect end date format in yyyyMMddHHmmss.");
-        }
-        catch (final NullPointerException e)
-        {
+        } catch (final NullPointerException e) {
             LOG.debug("No end date was found for NORT GUID " + currentNode.getNortGuid());
             throw new SAXException("No end date was found for NORT GUID " + currentNode.getNortGuid());
         }
 
         // Only add nodes if they have not expired yet.
-        if (endDate != null && endDate.after(cutoffDate))
-        {
-            if (!currentNode.isDeletedNode())
-            {
-                if (nortNodeMap.containsKey(currentNode.getNortGuid()))
-                {
+        if (endDate != null && endDate.after(cutoffDate)) {
+            if (!currentNode.isDeletedNode()) {
+                if (nortNodeMap.containsKey(currentNode.getNortGuid())) {
                     duplicateNodes.add(currentNode);
-                }
-                else
-                {
+                } else {
                     nortNodeMap.put(currentNode.getNortGuid(), currentNode);
                     // Save root nodes to return after parsing
-                    if (currentNode.isRootNode())
-                    {
+                    if (currentNode.isRootNode()) {
                         roots.add(currentNode);
                     }
                 }
-            }
-            else
-            {
+            } else {
                 LOG.debug(
                     "Novus NORT GUID " + currentNode.getNortGuid() + " not included because it has been deleted.");
             }

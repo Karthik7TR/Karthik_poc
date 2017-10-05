@@ -7,8 +7,7 @@ import javax.annotation.Resource;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 
-public class SplitBookEmailBuilder extends AbstractEmailBuilder
-{
+public class SplitBookEmailBuilder extends AbstractEmailBuilder {
     private static final String SUBJECT_PART = " (Split Book)";
 
     @Resource(name = "docMetadataService")
@@ -18,8 +17,7 @@ public class SplitBookEmailBuilder extends AbstractEmailBuilder
      * @see com.thomsonreuters.uscl.ereader.notification.AbstractGeneratorEmailBuilder#getAdditionalSubjectPart()
      */
     @Override
-    protected String getAdditionalSubjectPart()
-    {
+    protected String getAdditionalSubjectPart() {
         return SUBJECT_PART;
     }
 
@@ -27,8 +25,7 @@ public class SplitBookEmailBuilder extends AbstractEmailBuilder
      * @see com.thomsonreuters.uscl.ereader.notification.AbstractGeneratorEmailBuilder#getAdditionalBodyPart()
      */
     @Override
-    protected String getAdditionalBodyPart()
-    {
+    protected String getAdditionalBodyPart() {
         final BookDefinition bookDefinition = step.getBookDefinition();
         final String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
         final String proviewDisplayName = bookDefinition.getProviewDisplayName();
@@ -40,8 +37,7 @@ public class SplitBookEmailBuilder extends AbstractEmailBuilder
         sb.append("\t\nFully Qualified Title : " + fullyQualifiedTitleId);
         sb.append("\t\nTotal parts : " + splitTitles.size());
         sb.append("\t\nSplit Title Id's :");
-        for (final String splitTitleId : splitTitles)
-        {
+        for (final String splitTitleId : splitTitles) {
             sb.append("\t\n" + splitTitleId);
         }
         return sb.toString();

@@ -5,14 +5,12 @@ package com.thomsonreuters.uscl.ereader.format.parsinghandler;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class EndElement extends ParserEvent
-{
+public class EndElement extends ParserEvent {
     private String uri;
     private String localName;
     private String qName;
 
-    public EndElement(final String uri, final String localName, final String qName)
-    {
+    public EndElement(final String uri, final String localName, final String qName) {
         super(ParserEvent.END_EVENT);
 
         this.uri = uri;
@@ -20,18 +18,15 @@ public class EndElement extends ParserEvent
         this.qName = qName;
     }
 
-    public String getUri()
-    {
+    public String getUri() {
         return uri;
     }
 
-    public String getLocalName()
-    {
+    public String getLocalName() {
         return localName;
     }
 
-    public String getQName()
-    {
+    public String getQName() {
         return qName;
     }
 }

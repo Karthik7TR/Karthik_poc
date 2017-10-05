@@ -35,8 +35,7 @@ import org.springframework.util.Assert;
  */
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.GATHERIMAGE)
-public class GatherDynamicImagesTask extends BookStepImpl
-{
+public class GatherDynamicImagesTask extends BookStepImpl {
     @Resource(name = "imageService")
     private ImageService imageService;
 
@@ -56,18 +55,14 @@ public class GatherDynamicImagesTask extends BookStepImpl
     private int retrievedCount;
 
     @Override
-    public ExitStatus executeStep() throws Exception
-    {
+    public ExitStatus executeStep() throws Exception {
         // Assert the state of the filesystem image directory and expected input files
         final File dynamicImageDestinationDirectory = imageFileSystem.getImageDynamicDirectory(this);
         final File imageGuidFile = formatFileSystem.getImageToDocumentManifestFile(this);
 
-        if (!dynamicImageDestinationDirectory.exists())
-        {
+        if (!dynamicImageDestinationDirectory.exists()) {
             FileUtils.forceMkdir(dynamicImageDestinationDirectory);
-        }
-        else
-        {
+        } else {
             Assert.isTrue(
                 dynamicImageDestinationDirectory.canWrite(),
                 String.format(
@@ -89,14 +84,13 @@ public class GatherDynamicImagesTask extends BookStepImpl
 
         imageGuidNum = imgGuidSet.size();
 
-        if (imageGuidNum > 0)
-        {
-            final GatherImgRequest imgRequest = constructGatherImageRequest(dynamicImageDestinationDirectory, imageGuidFile, jobInstanceId);
+        if (imageGuidNum > 0) {
+            final GatherImgRequest imgRequest =
+                constructGatherImageRequest(dynamicImageDestinationDirectory, imageGuidFile, jobInstanceId);
 
             final GatherResponse gatherResponse = gatherService.getImg(imgRequest);
 
-            if (gatherResponse.getMissingImgCount() > 0)
-            {
+            if (gatherResponse.getMissingImgCount() > 0) {
                 retrievedCount = imageGuidNum - gatherResponse.getMissingImgCount();
                 throw new ImageException(
                     String.format(
@@ -105,11 +99,10 @@ public class GatherDynamicImagesTask extends BookStepImpl
             }
             retrievedCount = imageGuidNum;
 
-            if (gatherResponse.getImageMetadataList() != null)
-            {
-                for (final ImgMetadataInfo metadata : gatherResponse.getImageMetadataList())
-                {
-                    imageService.saveImageMetadata(metadata, jobInstanceId, getBookDefinition().getFullyQualifiedTitleId());
+            if (gatherResponse.getImageMetadataList() != null) {
+                for (final ImgMetadataInfo metadata : gatherResponse.getImageMetadataList()) {
+                    imageService
+                        .saveImageMetadata(metadata, jobInstanceId, getBookDefinition().getFullyQualifiedTitleId());
                 }
             }
         }
@@ -120,8 +113,7 @@ public class GatherDynamicImagesTask extends BookStepImpl
     protected GatherImgRequest constructGatherImageRequest(
         final File dynamicImageDestinationDirectory,
         final File imageGuidFile,
-        final long jobInstanceId)
-    {
+        final long jobInstanceId) {
         return new GatherImgRequest(
             imageGuidFile,
             dynamicImageDestinationDirectory,
@@ -135,23 +127,16 @@ public class GatherDynamicImagesTask extends BookStepImpl
      * @file textFile the text file to process
      * @return a set of text strings, representing each file of the specified file
      */
-    private static Set<String> readImageGuidsFromTextFile(final File textFile) throws IOException
-    {
+    private static Set<String> readImageGuidsFromTextFile(final File textFile) throws IOException {
         final Set<String> imgGuidSet = new HashSet<>();
-        try (FileReader fileReader = new FileReader(textFile);
-             BufferedReader reader = new BufferedReader(fileReader))
-        {
+        try (FileReader fileReader = new FileReader(textFile); BufferedReader reader = new BufferedReader(fileReader)) {
             String textLine;
-            while ((textLine = reader.readLine()) != null)
-            {
-                if (StringUtils.isNotBlank(textLine))
-                {
+            while ((textLine = reader.readLine()) != null) {
+                if (StringUtils.isNotBlank(textLine)) {
                     final String[] imgGuids = textLine.split("\\|");
-                    if (imgGuids.length > 1)
-                    {
+                    if (imgGuids.length > 1) {
                         final String[] imgGuidsList = imgGuids[1].split(",");
-                        for (final String imgGuid : imgGuidsList)
-                        {
+                        for (final String imgGuid : imgGuidsList) {
                             imgGuidSet.add(imgGuid);
                         }
                     }
@@ -161,13 +146,11 @@ public class GatherDynamicImagesTask extends BookStepImpl
         return imgGuidSet;
     }
 
-    public int getImageGuidNum()
-    {
+    public int getImageGuidNum() {
         return imageGuidNum;
     }
 
-    public int getRetrievedCount()
-    {
+    public int getRetrievedCount() {
         return retrievedCount;
     }
 }

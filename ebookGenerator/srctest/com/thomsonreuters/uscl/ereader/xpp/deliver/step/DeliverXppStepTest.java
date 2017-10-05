@@ -33,8 +33,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.batch.core.scope.context.ChunkContext;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class DeliverXppStepTest
-{
+public final class DeliverXppStepTest {
     @InjectMocks
     private DeliverXppStep step;
     @Mock
@@ -56,8 +55,7 @@ public final class DeliverXppStepTest
     public ExpectedException thrown = ExpectedException.none();
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         givenBookVersion(chunkContext, "1.1");
         givenJobInstanceId(chunkContext, 1L);
 
@@ -67,8 +65,7 @@ public final class DeliverXppStepTest
     }
 
     @Test
-    public void shouldPublishSingleVolumeBook() throws Exception
-    {
+    public void shouldPublishSingleVolumeBook() throws Exception {
         //given
         given(book.isSplitBook()).willReturn(false);
         given(fileSystem.getAssembledBookFile(step)).willReturn(assembledBookFile);
@@ -79,8 +76,7 @@ public final class DeliverXppStepTest
     }
 
     @Test
-    public void shouldPublishSplitBook() throws Exception
-    {
+    public void shouldPublishSplitBook() throws Exception {
         //given
         given(book.isSplitBook()).willReturn(true);
         given(book.getFullyQualifiedTitleId()).willReturn("an/splitTitle");
@@ -96,8 +92,7 @@ public final class DeliverXppStepTest
     }
 
     @Test
-    public void shouldCallCleanupServiceAnThrowExceptionIfProviewFailed() throws Exception
-    {
+    public void shouldCallCleanupServiceAnThrowExceptionIfProviewFailed() throws Exception {
         //given
         thrown.expect(ProviewException.class);
 

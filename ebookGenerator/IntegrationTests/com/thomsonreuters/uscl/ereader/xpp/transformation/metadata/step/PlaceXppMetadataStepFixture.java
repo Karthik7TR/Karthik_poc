@@ -25,8 +25,7 @@ import org.mockito.Mock;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class PlaceXppMetadataStepFixture
-{
+public abstract class PlaceXppMetadataStepFixture {
     protected static final String VOL_MATERIAL_NUMBER = "1111111";
 
     @Resource(name = "placeXppMetadataTask")
@@ -41,38 +40,32 @@ public abstract class PlaceXppMetadataStepFixture
     protected File source;
 
     PlaceXppMetadataStepFixture(@NotNull final String sourcePath, @NotNull final String expectedPath)
-        throws URISyntaxException
-    {
+        throws URISyntaxException {
         source = new File(PlaceXppMetadataStepFixture.class.getResource(sourcePath).toURI());
         expected = new File(PlaceXppMetadataStepFixture.class.getResource(expectedPath).toURI());
     }
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         initMocks();
         prepareDirectories();
     }
 
     @After
-    public void clean() throws IOException
-    {
+    public void clean() throws IOException {
         FileUtils.cleanDirectory(fileSystem.getFormatDirectory(step));
     }
 
-    protected void testPlacedMetadata() throws Exception
-    {
+    protected void testPlacedMetadata() throws Exception {
         //given
         //when
         step.executeStep();
         //then
-        final File actual = fileSystem
-            .getStructureWithMetadataFile(step, VOL_MATERIAL_NUMBER, source.getName());
+        final File actual = fileSystem.getStructureWithMetadataFile(step, VOL_MATERIAL_NUMBER, source.getName());
         assertThat(expected, hasSameContentAs(actual));
     }
 
-    private void initMocks()
-    {
+    private void initMocks() {
         org.mockito.MockitoAnnotations.initMocks(this);
         when(
             chunkContext.getStepContext()
@@ -82,16 +75,14 @@ public abstract class PlaceXppMetadataStepFixture
                 .get(JobParameterKey.XPP_BUNDLES)).thenReturn(getBundlesList());
     }
 
-    protected List<XppBundle> getBundlesList()
-    {
+    protected List<XppBundle> getBundlesList() {
         final XppBundle volumeOneBundle = new XppBundle();
         volumeOneBundle.setMaterialNumber(VOL_MATERIAL_NUMBER);
         volumeOneBundle.setOrderedFileList(Arrays.asList("0-CHALSource_Front_vol_1.DIVXML.main"));
         return Arrays.asList(volumeOneBundle);
     }
 
-    private void prepareDirectories() throws IOException
-    {
+    private void prepareDirectories() throws IOException {
         final File originalDir = fileSystem.getOriginalDirectory(step, VOL_MATERIAL_NUMBER);
         FileUtils.forceMkdir(originalDir);
         FileUtils.copyFileToDirectory(source, originalDir);

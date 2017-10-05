@@ -5,20 +5,17 @@ import javax.validation.constraints.NotNull;
 /**
  * Types of streams of DIVXML
  */
-public enum StreamType
-{
+public enum StreamType {
     MAIN("main"),
     FOOTNOTES("footnote");
 
     private @NotNull String name;
 
-    StreamType(@NotNull final String name)
-    {
+    StreamType(@NotNull final String name) {
         this.name = name;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 }

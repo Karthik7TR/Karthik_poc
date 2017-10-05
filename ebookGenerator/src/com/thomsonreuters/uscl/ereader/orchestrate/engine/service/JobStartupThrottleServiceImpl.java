@@ -21,8 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  * equal to throttle Limit. Each running job is verified if they have crossed throttle step, total number of such jobs
  * which have not crossed throttle limit is considered to decide if new job should be allowed to launch.
  */
-public class JobStartupThrottleServiceImpl implements JobStartupThrottleService
-{
+public class JobStartupThrottleServiceImpl implements JobStartupThrottleService {
     private static final Logger log = LogManager.getLogger(JobStartupThrottleServiceImpl.class);
 
     private JobExplorer jobExplorer;
@@ -32,8 +31,7 @@ public class JobStartupThrottleServiceImpl implements JobStartupThrottleService
     /** Note that is is mutable and can be changed on the fly */
     private JobThrottleConfig jobThrottleConfig;
 
-    public JobStartupThrottleServiceImpl(final JobExplorer jobExplorer, final JobRepository jobRepository)
-    {
+    public JobStartupThrottleServiceImpl(final JobExplorer jobExplorer, final JobRepository jobRepository) {
         this.jobExplorer = jobExplorer;
         this.jobRepository = jobRepository;
     }
@@ -44,11 +42,9 @@ public class JobStartupThrottleServiceImpl implements JobStartupThrottleService
      */
     @Override
     @Transactional
-    public boolean checkIfnewJobCanbeLaunched()
-    {
+    public boolean checkIfnewJobCanbeLaunched() {
         // Return true immediately if this step check is not enabled
-        if (!jobThrottleConfig.isStepThrottleEnabled())
-        {
+        if (!jobThrottleConfig.isStepThrottleEnabled()) {
             return true;
         }
 
@@ -58,56 +54,43 @@ public class JobStartupThrottleServiceImpl implements JobStartupThrottleService
 
         final List<String> jobNames = jobExplorer.getJobNames();
 
-        if (jobNames != null && jobNames.size() > 0)
-        {
+        if (jobNames != null && jobNames.size() > 0) {
             // spring batch is capable of running multiple jobs but in current implementation we have one job with multiple instances.
             runningJobExecutions = jobExplorer.findRunningJobExecutions(jobNames.get(0));
         }
         if ((runningJobExecutions != null)
-            && (runningJobExecutions.size() >= jobThrottleConfig.getThrottleStepMaxJobs()))
-        {
+            && (runningJobExecutions.size() >= jobThrottleConfig.getThrottleStepMaxJobs())) {
             /**
              * we found that for some reason jobExplorer.findRunningJobExecutions
              * can return even failed jobs . so to get actual number of jobs running we are iterating
              * over return jobs are verifying if they are not failed.
              */
-            for (final JobExecution jobExecution : runningJobExecutions)
-            {
-                if (jobExecution.isRunning())
-                {
+            for (final JobExecution jobExecution : runningJobExecutions) {
+                if (jobExecution.isRunning()) {
                     final String currentExitCode = jobExecution.getExitStatus().getExitCode();
-                    if (currentExitCode.equalsIgnoreCase(ExitStatus.FAILED.toString()))
-                    {
+                    if (currentExitCode.equalsIgnoreCase(ExitStatus.FAILED.toString())) {
                         log.debug(
                             "jobExplorer.findRunningJobExecutions () returned filed job with jobId="
                                 + jobExecution.getJobId());
-                    }
-                    else
-                    {
+                    } else {
                         final JobInstance jobInstance = jobExecution.getJobInstance();
                         // retrieve last step of execution
                         final StepExecution stepExecution =
                             jobRepository.getLastStepExecution(jobInstance, jobThrottleConfig.getThrottleStepName());
 
-                        if (stepExecution == null)
-                        {
+                        if (stepExecution == null) {
                             // job is not done with key step
                             jobNotDoneWithKeyStep++;
                         }
                     }
                 }
             }
-            if (jobNotDoneWithKeyStep < jobThrottleConfig.getThrottleStepMaxJobs())
-            {
+            if (jobNotDoneWithKeyStep < jobThrottleConfig.getThrottleStepMaxJobs()) {
                 jobPullFlag = true;
-            }
-            else
-            {
+            } else {
                 jobPullFlag = false;
             }
-        }
-        else
-        {
+        } else {
             jobPullFlag = true;
         }
 
@@ -119,8 +102,7 @@ public class JobStartupThrottleServiceImpl implements JobStartupThrottleService
      * The SyncJobThrottleConfigSerice will invoke this method.
      */
     @Override
-    public void setJobThrottleConfig(final JobThrottleConfig jobThrottleConfig)
-    {
+    public void setJobThrottleConfig(final JobThrottleConfig jobThrottleConfig) {
         this.jobThrottleConfig = jobThrottleConfig;
     }
 }

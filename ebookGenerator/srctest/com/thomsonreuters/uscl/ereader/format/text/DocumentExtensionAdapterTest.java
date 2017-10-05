@@ -4,19 +4,16 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class DocumentExtensionAdapterTest
-{
+public final class DocumentExtensionAdapterTest {
     private DocumentExtensionAdapter adapter;
 
     @Before
-    public void setup()
-    {
+    public void setup() {
         adapter = new DocumentExtensionAdapter();
     }
 
     @Test
-    public void RetrieveContextValueTest()
-    {
+    public void RetrieveContextValueTest() {
         final String context = "StaticText";
         final String key = "key";
 
@@ -26,15 +23,13 @@ public final class DocumentExtensionAdapterTest
     }
 
     @Test
-    public void GenerateSponsorHashTest()
-    {
+    public void GenerateSponsorHashTest() {
         final String actual = adapter.GenerateSponsorHash("sponsorId", "documentGuid");
         Assert.assertEquals("99F96D3F6C62C0017509B67B0C1111DCC5181956BCA4C15B64A1A9D0C703D194", actual);
     }
 
     @Test
-    public void IsMatchTest()
-    {
+    public void IsMatchTest() {
         // Null input returns false
         boolean actual = adapter.IsMatch(null, "\\d+");
         Assert.assertEquals(false, actual);
@@ -53,8 +48,7 @@ public final class DocumentExtensionAdapterTest
     }
 
     @Test
-    public void ToXmlEncodedStringTest()
-    {
+    public void ToXmlEncodedStringTest() {
         // Null input
         String actual = adapter.ToXmlEncodedString(null);
         Assert.assertEquals(null, actual);
@@ -85,8 +79,7 @@ public final class DocumentExtensionAdapterTest
     }
 
     @Test
-    public void titleCaseTest()
-    {
+    public void titleCaseTest() {
         // Null input
         String actual = adapter.TocToTitleCase(null);
         Assert.assertEquals(null, actual);

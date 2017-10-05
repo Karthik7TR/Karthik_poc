@@ -20,8 +20,7 @@ import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.beans.factory.annotation.Required;
 
-public class RetrieveBundleTask extends AbstractSbTasklet
-{
+public class RetrieveBundleTask extends AbstractSbTasklet {
     private static final Logger log = LogManager.getLogger(RetrieveBundleTask.class);
 
     public static final SimpleDateFormat DATE_DIRECTORY_FORMATER =
@@ -31,8 +30,8 @@ public class RetrieveBundleTask extends AbstractSbTasklet
     private XppBundleArchiveDao xppArchiveDao;
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         log.debug("Archiving Bundle...");
 
         final String jobEnvironment = getJobParameters(chunkContext).getString(JobParameterKey.ENVIRONMENT_NAME);
@@ -49,35 +48,25 @@ public class RetrieveBundleTask extends AbstractSbTasklet
                 jobEnvironment,
                 DATE_DIRECTORY_FORMATER.format(request.getDateTime())));
 
-        if (!destDir.exists() && !destDir.mkdirs())
-        {
+        if (!destDir.exists() && !destDir.mkdirs()) {
             throw new IOException("Cannot create directory: " + destDir.getAbsolutePath());
         }
-        try
-        {
+        try {
             FileUtils.moveFileToDirectory(ebookFile, destDir, false);
-        }
-        catch (final IOException e)
-        {
-            if (e.getMessage().contains("Failed to delete original file"))
-            {
+        } catch (final IOException e) {
+            if (e.getMessage().contains("Failed to delete original file")) {
                 // bundle copied, but not deleted (likely permissions issue)
                 // TODO handle this type of error
                 log.error(e.getMessage(), e);
-            }
-            else
-            {
+            } else {
                 throw e;
             }
         }
         // set request file location to the archived location and revalidate the bundle integrity
         request.setEBookSrcFile(new File(destDir, ebookFile.getName()));
-        try
-        {
+        try {
             xppMessageValidator.validate(request);
-        }
-        catch (final XppMessageException e)
-        {
+        } catch (final XppMessageException e) {
             log.error("Bundle invalidated during move to archive location " + request.getEBookSrcPath(), e);
             throw e;
         }
@@ -88,18 +77,13 @@ public class RetrieveBundleTask extends AbstractSbTasklet
         return ExitStatus.COMPLETED;
     }
 
-    private void invalidateDuplicateRequest(@NotNull final XppBundleArchive request) throws XppMessageException
-    {
+    private void invalidateDuplicateRequest(@NotNull final XppBundleArchive request) throws XppMessageException {
         final XppBundleArchive dup = xppArchiveDao.findByRequestId(request.getMessageId());
-        if (dup != null)
-        {
-            if (dup.isSimilar(request))
-            {
+        if (dup != null) {
+            if (dup.isSimilar(request)) {
                 final String msg = XPPConstants.ERROR_DUPLICATE_REQUEST + request;
                 throw new XppMessageException(msg);
-            }
-            else
-            {
+            } else {
                 // two non-identical requests have been received with the same ID
                 // TODO identify steps for processing this scenario
                 throw new XppMessageException("non-identical duplicate request received");
@@ -107,21 +91,18 @@ public class RetrieveBundleTask extends AbstractSbTasklet
         }
     }
 
-    private void archiveRequest(@NotNull final XppBundleArchive request)
-    {
+    private void archiveRequest(@NotNull final XppBundleArchive request) {
         final long pk = xppArchiveDao.saveRequest(request);
         request.setXppBundleArchiveId(pk);
     }
 
     @Required
-    public void setXppMessageValidator(final XppMessageValidator validator)
-    {
+    public void setXppMessageValidator(final XppMessageValidator validator) {
         xppMessageValidator = validator;
     }
 
     @Required
-    public void setXppBundleArchiveDao(final XppBundleArchiveDao xppArchiveDao)
-    {
+    public void setXppBundleArchiveDao(final XppBundleArchiveDao xppArchiveDao) {
         this.xppArchiveDao = xppArchiveDao;
     }
 }

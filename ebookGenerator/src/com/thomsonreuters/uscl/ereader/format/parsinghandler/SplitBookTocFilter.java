@@ -15,8 +15,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
-public class SplitBookTocFilter extends XMLFilterImpl
-{
+public class SplitBookTocFilter extends XMLFilterImpl {
     private List<String> splitTocGuidList;
     private static final Logger LOG = LogManager.getLogger(SplitBookTocFilter.class);
 
@@ -44,69 +43,55 @@ public class SplitBookTocFilter extends XMLFilterImpl
     private List<String> wrongSplitTocNodes = new ArrayList<>();
     private String splitNode = "";
 
-    public List<String> getWrongSplitTocNode()
-    {
+    public List<String> getWrongSplitTocNode() {
         return wrongSplitTocNodes;
     }
 
-    public void setWrongSplitTocNode(final List<String> wrongSplitTocNode)
-    {
+    public void setWrongSplitTocNode(final List<String> wrongSplitTocNode) {
         wrongSplitTocNodes = wrongSplitTocNode;
     }
 
-    public String getSplitTilteId()
-    {
+    public String getSplitTilteId() {
         return splitTilteId;
     }
 
-    public void setSplitTilteId(final String splitTilteId)
-    {
+    public void setSplitTilteId(final String splitTilteId) {
         this.splitTilteId = splitTilteId;
     }
 
-    public Map<String, DocumentInfo> getDocumentInfoMap()
-    {
+    public Map<String, DocumentInfo> getDocumentInfoMap() {
         return documentInfoMap;
     }
 
-    public void setDocumentInfoMap(final Map<String, DocumentInfo> documentInfoMap)
-    {
+    public void setDocumentInfoMap(final Map<String, DocumentInfo> documentInfoMap) {
         this.documentInfoMap = documentInfoMap;
     }
 
-    public int getNumber()
-    {
+    public int getNumber() {
         return number;
     }
 
-    public void setNumber(final int number)
-    {
+    public void setNumber(final int number) {
         this.number = number;
     }
 
-    public List<String> getSplitTocGuidList()
-    {
+    public List<String> getSplitTocGuidList() {
         return splitTocGuidList;
     }
 
-    public void setSplitTocGuidList(final List<String> splitDocumentList)
-    {
+    public void setSplitTocGuidList(final List<String> splitDocumentList) {
         splitTocGuidList = splitDocumentList;
     }
 
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
-        throws SAXException
-    {
-        if (EBOOK.equals(qName))
-        {
+        throws SAXException {
+        if (EBOOK.equals(qName)) {
             isEbook = Boolean.TRUE;
         }
-        if (EBOOK_TOC.equals(qName))
-        {
+        if (EBOOK_TOC.equals(qName)) {
             //This title break is to write at the top after the <EBook>
-            if (isEbook)
-            {
+            if (isEbook) {
                 super.startElement(URI, EBOOK, EBOOK, EMPTY_ATTRIBUTES);
                 final StringBuffer titleBreakBuffer = new StringBuffer();
                 titleBreakBuffer.append("eBook 1 of ");
@@ -116,52 +101,38 @@ public class SplitBookTocFilter extends XMLFilterImpl
                 super.characters(text.toCharArray(), 0, text.length());
                 super.endElement(URI, TITLE_BREAK, TITLE_BREAK);
                 isEbook = false;
-            }
-            else
-            {
-                if (elementValueMap.size() > 0)
-                {
+            } else {
+                if (elementValueMap.size() > 0) {
                     decideToWrite();
                 }
             }
-        }
-        else if (TOC_GUID.equals(qName))
-        {
+        } else if (TOC_GUID.equals(qName)) {
             bufferingTocGuid = Boolean.TRUE;
         }
     }
 
     @Override
-    public void characters(final char[] ch, final int start, final int length) throws SAXException
-    {
-        if (tmpValue.length() > 0)
-        {
-            for (int i = start; i < start + length; i++)
-            {
+    public void characters(final char[] ch, final int start, final int length) throws SAXException {
+        if (tmpValue.length() > 0) {
+            for (int i = start; i < start + length; i++) {
                 tmpValue.append(ch[i]);
             }
-        }
-        else
-        {
+        } else {
             tmpValue.append(new String(ch, start, length));
         }
 
-        if (bufferingTocGuid)
-        {
+        if (bufferingTocGuid) {
             splitNode = StringUtils.substring(tmpValue.toString(), 0, 33);
-            if (splitTocGuidList.contains(splitNode))
-            {
+            if (splitTocGuidList.contains(splitNode)) {
                 foundMatch = true;
             }
             bufferingTocGuid = Boolean.FALSE;
         }
     }
 
-    private void writeSplitToc(final boolean isSplit) throws SAXException
-    {
+    private void writeSplitToc(final boolean isSplit) throws SAXException {
         total++;
-        if (isSplit)
-        {
+        if (isSplit) {
             super.startElement(URI, TITLE_BREAK, TITLE_BREAK, EMPTY_ATTRIBUTES);
 
             LOG.debug("TitleBreak has been added at " + splitNode + ", count " + total + " and title " + splitTilteId);
@@ -174,8 +145,7 @@ public class SplitBookTocFilter extends XMLFilterImpl
             final String text = proviewDisplayName.toString();
             super.characters(text.toCharArray(), 0, text.length());
             super.endElement(URI, TITLE_BREAK, TITLE_BREAK);
-            if (!leafNode)
-            {
+            if (!leafNode) {
                 LOG.error("Split at TOC node GUID " + splitNode + " is at an incorrect level");
                 wrongSplitTocNodes.add(splitNode);
             }
@@ -185,25 +155,18 @@ public class SplitBookTocFilter extends XMLFilterImpl
 
         super.startElement(URI, EBOOK_TOC, EBOOK_TOC, EMPTY_ATTRIBUTES);
 
-        for (final Map.Entry<String, String> entry : elementValueMap.entrySet())
-        {
+        for (final Map.Entry<String, String> entry : elementValueMap.entrySet()) {
             //Adding Document Info
-            if (entry.getKey().equals(DOCUMENT_GUID))
-            {
+            if (entry.getKey().equals(DOCUMENT_GUID)) {
                 leafNode = Boolean.TRUE;
                 final DocumentInfo documentInfo = new DocumentInfo();
-                if (number > 1)
-                {
+                if (number > 1) {
                     documentInfo.setSplitTitleId(splitTilteId + "_pt" + number);
-                }
-                else
-                {
+                } else {
                     documentInfo.setSplitTitleId(splitTilteId);
                 }
                 documentInfoMap.put(entry.getValue(), documentInfo);
-            }
-            else if (entry.getKey().equals(MISSING_DOCUMENT))
-            {
+            } else if (entry.getKey().equals(MISSING_DOCUMENT)) {
                 leafNode = Boolean.TRUE;
             }
             super.startElement(URI, entry.getKey(), entry.getKey(), EMPTY_ATTRIBUTES);
@@ -214,36 +177,25 @@ public class SplitBookTocFilter extends XMLFilterImpl
         elementValueMap.clear();
     }
 
-    private void decideToWrite() throws SAXException
-    {
-        if (!foundMatch)
-        {
+    private void decideToWrite() throws SAXException {
+        if (!foundMatch) {
             writeSplitToc(false);
-        }
-        else
-        {
+        } else {
             writeSplitToc(true);
             foundMatch = Boolean.FALSE;
         }
     }
 
     @Override
-    public void endElement(final String uri, final String localName, final String qName) throws SAXException
-    {
-        if (EBOOK_TOC.equals(qName))
-        {
-            if (elementValueMap.size() > 0)
-            {
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException {
+        if (EBOOK_TOC.equals(qName)) {
+            if (elementValueMap.size() > 0) {
                 decideToWrite();
             }
             super.endElement(uri, localName, qName);
-        }
-        else if (EBOOK.equals(qName))
-        {
+        } else if (EBOOK.equals(qName)) {
             super.endElement(uri, localName, qName);
-        }
-        else
-        {
+        } else {
             elementValueMap.put(qName, tmpValue.toString());
             tmpValue = new StringBuffer();
         }

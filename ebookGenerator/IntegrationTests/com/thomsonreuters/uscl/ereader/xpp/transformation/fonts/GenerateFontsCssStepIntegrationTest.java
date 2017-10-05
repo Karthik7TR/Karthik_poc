@@ -29,8 +29,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @ActiveProfiles("IntegrationTests")
-public final class GenerateFontsCssStepIntegrationTest
-{
+public final class GenerateFontsCssStepIntegrationTest {
     private static final String MATERIAL_NUMBER = "11111111";
 
     @Autowired
@@ -45,22 +44,19 @@ public final class GenerateFontsCssStepIntegrationTest
     private File workingDir;
 
     @Before
-    public void setUp() throws URISyntaxException, Exception
-    {
+    public void setUp() throws URISyntaxException, Exception {
         xpp = new File(GenerateFontsCssStepIntegrationTest.class.getResource("sampleXpp.xml").toURI());
         expectedCss = new File(GenerateFontsCssStepIntegrationTest.class.getResource("fonts.css").toURI());
         workingDir = xppGatherFileSystem.getXppBundleMaterialNumberDirectory(sut, MATERIAL_NUMBER);
     }
 
     @After
-    public void cleanUp() throws IOException
-    {
+    public void cleanUp() throws IOException {
         FileUtils.deleteDirectory(workingDir);
     }
 
     @Test
-    public void shouldReturnFontsCssFile() throws IOException, Exception
-    {
+    public void shouldReturnFontsCssFile() throws IOException, Exception {
         //given
         final File xppDir = workingDir.toPath().resolve("bundleName").resolve("XPP").toFile();
         FileUtils.forceMkdir(xppDir);
@@ -75,11 +71,9 @@ public final class GenerateFontsCssStepIntegrationTest
     @Configuration
     @Profile("IntegrationTests")
     @Import(CommonTestContextConfiguration.class)
-    public static class GenerateFontsCssStepIntegrationTestConfiguration
-    {
+    public static class GenerateFontsCssStepIntegrationTestConfiguration {
         @Bean(name = "generateFontsStepBean")
-        public GenerateFontsCssStep generateFontsStepBean()
-        {
+        public GenerateFontsCssStep generateFontsStepBean() {
             return new GenerateFontsCssStep();
         }
     }

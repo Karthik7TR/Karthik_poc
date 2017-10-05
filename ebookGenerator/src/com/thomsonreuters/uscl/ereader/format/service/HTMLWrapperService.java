@@ -10,8 +10,7 @@ import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public interface HTMLWrapperService
-{
+public interface HTMLWrapperService {
     /**
      * Wraps all transformed files found in the passed in transformation directory and writes the
      * properly marked up HTML files to the specified target directory. If the directory does not exist

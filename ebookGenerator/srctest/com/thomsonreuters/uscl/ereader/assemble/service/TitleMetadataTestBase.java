@@ -19,13 +19,11 @@ import org.custommonkey.xmlunit.XMLTestCase;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a>u0081674
  *
  */
-public abstract class TitleMetadataTestBase extends XMLTestCase
-{
+public abstract class TitleMetadataTestBase extends XMLTestCase {
     protected static final String EXPECTED_ISBN_VALUE = "987654321";
     protected static final String EXPECTED_ISBN = "<isbn>" + EXPECTED_ISBN_VALUE + "</isbn>";
 
-    protected TitleMetadata getTitleMetadata()
-    {
+    protected TitleMetadata getTitleMetadata() {
         final TitleMetadata titleMetadata = new TitleMetadata("yarr/pirates", "v1");
         titleMetadata.setCopyright("The High Seas Trading Company.");
         titleMetadata.setArtwork(new Artwork("swashbuckling.gif"));
@@ -65,8 +63,7 @@ public abstract class TitleMetadataTestBase extends XMLTestCase
         scallywaggingChildren.add(new TocEntry("3.5", "heading", "Patroling", 2));
         scallywaggingChildren.add(new TocEntry("3.6", "heading", "Plundering", 2));
         scallywaggingChildren.add(new TocEntry("3.7", "heading", "Wenching", 2));
-        for (final TocNode child : scallywaggingChildren)
-        {
+        for (final TocNode child : scallywaggingChildren) {
             scallywagging.addChild(child);
         }
         tocEntries.add(scallywagging);
@@ -78,8 +75,7 @@ public abstract class TitleMetadataTestBase extends XMLTestCase
         return titleMetadata;
     }
 
-    protected TitleMetadata getTitleMetadataWithPilotBook()
-    {
+    protected TitleMetadata getTitleMetadataWithPilotBook() {
         final TitleMetadata titleMetadata = new TitleMetadata("yarr/pirates", "v1");
         titleMetadata.setCopyright("The High Seas Trading Company.");
         titleMetadata.setArtwork(new Artwork("swashbuckling.gif"));
@@ -120,8 +116,7 @@ public abstract class TitleMetadataTestBase extends XMLTestCase
         scallywaggingChildren.add(new TocEntry("3.5", "heading", "Patroling", 2));
         scallywaggingChildren.add(new TocEntry("3.6", "heading", "Plundering", 2));
         scallywaggingChildren.add(new TocEntry("3.7", "heading", "Wenching", 2));
-        for (final TocNode child : scallywaggingChildren)
-        {
+        for (final TocNode child : scallywaggingChildren) {
             scallywagging.addChild(child);
         }
         tocEntries.add(scallywagging);

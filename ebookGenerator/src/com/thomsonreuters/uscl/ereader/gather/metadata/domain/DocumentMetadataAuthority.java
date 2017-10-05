@@ -17,8 +17,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a>u0081674
  */
-public class DocumentMetadataAuthority
-{
+public class DocumentMetadataAuthority {
     //this represents the document metadata record for a run of an ebook.
     private Set<DocMetadata> docMetadataSet = new HashSet<>();
 
@@ -29,57 +28,44 @@ public class DocumentMetadataAuthority
     private Map<String, DocMetadata> docMetadataKeyedByPubIdAndPubPage = new HashMap<>();
     private Map<String, DocMetadata> docMetadataKeyedByProViewId = new HashMap<>();
 
-    public DocumentMetadataAuthority(final Set<DocMetadata> docMetadataSet)
-    {
-        if (docMetadataSet == null)
-        {
+    public DocumentMetadataAuthority(final Set<DocMetadata> docMetadataSet) {
+        if (docMetadataSet == null) {
             throw new IllegalArgumentException(
                 "Cannot instantiate DocumentMetadataAuthority without a set of document metadata");
         }
         this.docMetadataSet = docMetadataSet;
-        for (final DocMetadata docMetadata : docMetadataSet)
-        {
-            if (docMetadata.getNormalizedFirstlineCite() == null && docMetadata.getFindOrig() != null)
-            {
+        for (final DocMetadata docMetadata : docMetadataSet) {
+            if (docMetadata.getNormalizedFirstlineCite() == null && docMetadata.getFindOrig() != null) {
                 // Prevent overwriting of value with duplicate find orig
-                if (!docMetadataKeyedByCite.containsKey(docMetadata.getFindOrig()))
-                {
+                if (!docMetadataKeyedByCite.containsKey(docMetadata.getFindOrig())) {
                     //handle content that does not have normalized cite in metadata, for example: Sampson and Tindall
                     docMetadataKeyedByCite.put(docMetadata.getFindOrig(), docMetadata);
                 }
-            }
-            else
-            {
+            } else {
                 // Prevent overwriting of value with duplicate normalized firstline cite.
-                if (!docMetadataKeyedByCite.containsKey(docMetadata.getNormalizedFirstlineCite()))
-                {
+                if (!docMetadataKeyedByCite.containsKey(docMetadata.getNormalizedFirstlineCite())) {
                     docMetadataKeyedByCite.put(docMetadata.getNormalizedFirstlineCite(), docMetadata);
                 }
             }
 
             // Prevent overwriting of value with duplicate serial number
-            if (!docMetadataKeyedBySerialNumber.containsKey(docMetadata.getSerialNumber()))
-            {
+            if (!docMetadataKeyedBySerialNumber.containsKey(docMetadata.getSerialNumber())) {
                 docMetadataKeyedBySerialNumber.put(docMetadata.getSerialNumber(), docMetadata);
             }
 
             docMetadataKeyedByDocumentUuid.put(docMetadata.getDocUuid(), docMetadata);
             docMetadataKeyedByProViewId.put(docMetadata.getProViewId(), docMetadata);
 
-            if (StringUtils.isNotBlank(docMetadata.getFirstlineCitePubpage()))
-            {
-                if (docMetadata.getFirstlineCitePubId() != null)
-                {
+            if (StringUtils.isNotBlank(docMetadata.getFirstlineCitePubpage())) {
+                if (docMetadata.getFirstlineCitePubId() != null) {
                     docMetadataKeyedByPubIdAndPubPage
                         .put(docMetadata.getFirstlineCitePubId() + docMetadata.getFirstlineCitePubpage(), docMetadata);
                 }
-                if (docMetadata.getSecondlineCitePubId() != null)
-                {
+                if (docMetadata.getSecondlineCitePubId() != null) {
                     docMetadataKeyedByPubIdAndPubPage
                         .put(docMetadata.getSecondlineCitePubId() + docMetadata.getFirstlineCitePubpage(), docMetadata);
                 }
-                if (docMetadata.getThirdlineCitePubId() != null)
-                {
+                if (docMetadata.getThirdlineCitePubId() != null) {
                     docMetadataKeyedByPubIdAndPubPage
                         .put(docMetadata.getThirdlineCitePubId() + docMetadata.getFirstlineCitePubpage(), docMetadata);
                 }
@@ -93,8 +79,7 @@ public class DocumentMetadataAuthority
      * <p>Note: the underlying {@link DocMetadata} instances are mutable, so use caution if they need to be modified.</p>
      * @return the {@link DocMetadata} for all documents contained within the book.
      */
-    public Set<DocMetadata> getAllDocumentMetadata()
-    {
+    public Set<DocMetadata> getAllDocumentMetadata() {
         return Collections.unmodifiableSet(docMetadataSet);
     }
 
@@ -104,8 +89,7 @@ public class DocumentMetadataAuthority
      * <p>Note: the underlying {@link DocMetadata} instances are mutable, so use caution if they need to be modified.</p>
      * @return the association between normalized citations and the corresponding {@link DocMetadata}
      */
-    public Map<String, DocMetadata> getDocMetadataKeyedByCite()
-    {
+    public Map<String, DocMetadata> getDocMetadataKeyedByCite() {
         return Collections.unmodifiableMap(docMetadataKeyedByCite);
     }
 
@@ -115,8 +99,7 @@ public class DocumentMetadataAuthority
      * <p>Note: the underlying {@link DocMetadata} instances are mutable, so use caution if they need to be modified.</p>
      * @return the association between serial numbers and the corresponding {@link DocMetadata}
      */
-    public Map<Long, DocMetadata> getDocMetadataKeyedBySerialNumber()
-    {
+    public Map<Long, DocMetadata> getDocMetadataKeyedBySerialNumber() {
         return Collections.unmodifiableMap(docMetadataKeyedBySerialNumber);
     }
 
@@ -126,24 +109,20 @@ public class DocumentMetadataAuthority
      * <p>Note: the underlying {@link DocMetadata} instances are mutable, so use caution if they need to be modified.</p>
      * @return the association between document uuids and the corresponding {@link DocMetadata}
      */
-    public Map<String, DocMetadata> getDocMetadataKeyedByDocumentUuid()
-    {
+    public Map<String, DocMetadata> getDocMetadataKeyedByDocumentUuid() {
         return Collections.unmodifiableMap(docMetadataKeyedByDocumentUuid);
     }
 
-    public Map<String, DocMetadata> getDocMetadataKeyedByPubIdAndPubPage()
-    {
+    public Map<String, DocMetadata> getDocMetadataKeyedByPubIdAndPubPage() {
         return Collections.unmodifiableMap(docMetadataKeyedByPubIdAndPubPage);
     }
 
-    public Map<String, DocMetadata> getDocMetadataKeyedByProViewId()
-    {
+    public Map<String, DocMetadata> getDocMetadataKeyedByProViewId() {
         return Collections.unmodifiableMap(docMetadataKeyedByProViewId);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

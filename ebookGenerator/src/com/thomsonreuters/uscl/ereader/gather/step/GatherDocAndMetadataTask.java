@@ -32,8 +32,7 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:Nirupam.Chatterjee@thomsonreuters.com">Nirupam Chatterjee</a> u0072938
  */
-public class GatherDocAndMetadataTask extends AbstractSbTasklet
-{
+public class GatherDocAndMetadataTask extends AbstractSbTasklet {
     //TODO: Use logger API to get Logger instance to job-specific appender.
     private static final Logger LOG = LogManager.getLogger(GatherDocAndMetadataTask.class);
     private DocMetaDataGuidParserService docMetaDataParserService;
@@ -41,8 +40,8 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
     private PublishingStatsService publishingStatsService;
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
         String publishStatus = "Completed";
 
@@ -61,8 +60,7 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
         final PublishingStats jobstatsDoc = new PublishingStats();
         jobstatsDoc.setJobInstanceId(jobInstance);
 
-        try
-        {
+        try {
             docMetaDataParserService.generateDocGuidList(tocFile, docsGuidsFile);
 
             final List<String> docGuids = readDocGuidsFromTextFile(docsGuidsFile);
@@ -85,20 +83,15 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
             jobstatsDoc.setGatherMetaExpectedCount(gatherResponse.getNodeCount());
             jobExecutionContext.putInt(JobExecutionKey.EBOOK_STATS_DOC_COUNT, gatherResponse.getDocCount());
 
-            if (gatherResponse.getErrorCode() != 0)
-            {
+            if (gatherResponse.getErrorCode() != 0) {
                 final GatherException gatherException =
                     new GatherException(gatherResponse.getErrorMessage(), gatherResponse.getErrorCode());
                 throw gatherException;
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             publishStatus = "Failed";
             throw (e);
-        }
-        finally
-        {
+        } finally {
             jobstatsDoc.setPublishStatus("getDocAndMetadata : " + publishStatus);
             publishingStatsService.updatePublishingStats(jobstatsDoc, StatsUpdateTypeEnum.GATHERDOC);
         }
@@ -113,19 +106,14 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
      * @file textFile the text file to process
      * @return a list of text strings, representing each file of the specified file
      */
-    public static List<String> readDocGuidsFromTextFile(final File textFile) throws IOException
-    {
+    public static List<String> readDocGuidsFromTextFile(final File textFile) throws IOException {
         final List<String> lineList = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(textFile)))
-        {
+        try (BufferedReader reader = new BufferedReader(new FileReader(textFile))) {
             String textLine;
-            while ((textLine = reader.readLine()) != null)
-            {
-                if (StringUtils.isNotBlank(textLine))
-                {
+            while ((textLine = reader.readLine()) != null) {
+                if (StringUtils.isNotBlank(textLine)) {
                     final int i = textLine.indexOf(",");
-                    if (i != -1)
-                    {
+                    if (i != -1) {
                         textLine = textLine.substring(0, textLine.indexOf(","));
                         lineList.add(textLine.trim());
                     }
@@ -136,20 +124,17 @@ public class GatherDocAndMetadataTask extends AbstractSbTasklet
     }
 
     @Required
-    public void setDocMetadataGuidParserService(final DocMetaDataGuidParserService docMetadataSvc)
-    {
+    public void setDocMetadataGuidParserService(final DocMetaDataGuidParserService docMetadataSvc) {
         docMetaDataParserService = docMetadataSvc;
     }
 
     @Required
-    public void setGatherService(final GatherService service)
-    {
+    public void setGatherService(final GatherService service) {
         gatherService = service;
     }
 
     @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
 }

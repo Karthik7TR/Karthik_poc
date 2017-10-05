@@ -17,8 +17,7 @@ import org.springframework.batch.core.ExitStatus;
 /**
  * Basic XPP transformation step
  */
-public abstract class XppTransformationStep extends BookStepImpl implements XppBookStep
-{
+public abstract class XppTransformationStep extends BookStepImpl implements XppBookStep {
     @Resource(name = "transformerBuilderFactory")
     protected TransformerBuilderFactory transformerBuilderFactory;
     @Resource(name = "xslTransformationService")
@@ -27,16 +26,14 @@ public abstract class XppTransformationStep extends BookStepImpl implements XppB
     protected XppFormatFileSystem fileSystem;
 
     @Override
-    public ExitStatus executeStep() throws Exception
-    {
+    public ExitStatus executeStep() throws Exception {
         executeTransformation();
         return ExitStatus.COMPLETED;
     }
 
     @NotNull
     @Override
-    public List<XppBundle> getXppBundles()
-    {
+    public List<XppBundle> getXppBundles() {
         final Object bundles = getJobExecutionContext().get(JobParameterKey.XPP_BUNDLES);
         return bundles == null ? Collections.<XppBundle>emptyList() : (List<XppBundle>) bundles;
     }

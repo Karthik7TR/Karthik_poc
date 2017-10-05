@@ -11,8 +11,7 @@ import com.thomsonreuters.uscl.ereader.assemble.exception.PlaceholderDocumentSer
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  *
  */
-public interface PlaceholderDocumentService
-{
+public interface PlaceholderDocumentService {
     /**
      * Writes a "placeholder" XHTML document containing the specified display text to the provided {@link OutputStream}.
      *

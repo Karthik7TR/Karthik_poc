@@ -8,7 +8,6 @@ import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishi
 
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.GROUPEBOOK)
-public class GroupEbooks extends BaseGroupStep
-{
+public class GroupEbooks extends BaseGroupStep {
     //implementation is nested from @see com.thomsonreuters.uscl.ereader.common.group.step.BaseGroupStep
 }

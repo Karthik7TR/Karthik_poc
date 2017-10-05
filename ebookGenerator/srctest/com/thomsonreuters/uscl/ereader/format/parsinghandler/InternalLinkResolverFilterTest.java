@@ -46,8 +46,7 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public final class InternalLinkResolverFilterTest
-{
+public final class InternalLinkResolverFilterTest {
     private static Logger LOG = LogManager.getLogger(InternalLinkResolverFilterTest.class);
     private InternalLinkResolverFilter internalLinksFilter;
     private Serializer serializer;
@@ -61,8 +60,7 @@ public final class InternalLinkResolverFilterTest
     private String docGuid = "dummyDocGuid";
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         mockPaceMetadataService = EasyMock.createMock(PaceMetadataServiceImpl.class);
         mockPaceMetadata = EasyMock.createMock(PaceMetadata.class);
         mockPaceMetadata.setPublicationName("CCPEMPLOYMENT");
@@ -110,15 +108,13 @@ public final class InternalLinkResolverFilterTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         serializer = null;
         internalLinksFilter = null;
     }
 
     @Test
-    public void testGetDocumentUuidFromResourceUrl() throws Exception
-    {
+    public void testGetDocumentUuidFromResourceUrl() throws Exception {
         String resourceUrl =
             "https://a.next.westlaw.com/Document/FullText?Iff5a5aaa7c8f11da9de6e47d6d5aa7a5/View/FullText.html?transitionType=Default&contextData=(sc.Default)";
         Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
@@ -134,8 +130,7 @@ public final class InternalLinkResolverFilterTest
     }
 
     @Test
-    public void testGetLinkParameter() throws Exception
-    {
+    public void testGetLinkParameter() throws Exception {
         final String resourceUrl =
             "http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546&cite=42USCAS1395W-133&originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a";
         final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
@@ -169,8 +164,7 @@ public final class InternalLinkResolverFilterTest
     }
 
     @Test
-    public void testSplitDocLink() throws Exception
-    {
+    public void testSplitDocLink() throws Exception {
         final String resourceUrl =
             "http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546&cite=42USCAS1395W-133&originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a";
         final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
@@ -206,8 +200,7 @@ public final class InternalLinkResolverFilterTest
     }
 
     @Test
-    public void testLinkwithinDoc() throws Exception
-    {
+    public void testLinkwithinDoc() throws Exception {
         final String resourceUrl =
             "http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546&cite=42USCAS1395W-133&originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a";
         final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
@@ -243,8 +236,7 @@ public final class InternalLinkResolverFilterTest
     }
 
     @Test
-    public void testGetLinkParameterwithSpace() throws Exception
-    {
+    public void testGetLinkParameterwithSpace() throws Exception {
         final String resourceUrl =
             "http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546 &cite=42USCAS1395W-133&originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a";
         final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
@@ -279,8 +271,7 @@ public final class InternalLinkResolverFilterTest
     }
 
     @Test
-    public void testGetLinkParameterwithOnlySpace() throws Exception
-    {
+    public void testGetLinkParameterwithOnlySpace() throws Exception {
         final String resourceUrl =
             "http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546 &cite=42USCAS1395W-133&originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a";
         final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
@@ -315,8 +306,7 @@ public final class InternalLinkResolverFilterTest
     }
 
     @Test
-    public void testRutterLink() throws Exception
-    {
+    public void testRutterLink() throws Exception {
         final String resourceUrl =
             "http://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=1000546 &cite=42USCAS1395W-133&originationContext=ebook&amp;RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a";
         final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
@@ -352,8 +342,7 @@ public final class InternalLinkResolverFilterTest
 
     @Test
     @Ignore
-    public void testGetNormalizedCiteWithPaceMetadata() throws Exception
-    {
+    public void testGetNormalizedCiteWithPaceMetadata() throws Exception {
         final String resourceUrl =
             "https://www.westlaw.com/Link/Document/FullText?findType=L&amp;pubNum=126977&cite=CCPEMPs2%3A89&originationContext=ebook&RS=ebbp3.0&vr=3.0";
         final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
@@ -385,8 +374,7 @@ public final class InternalLinkResolverFilterTest
     }
 
     @Test
-    public void testGetNormalizedCiteDocumentUuidFromResourceUrl() throws Exception
-    {
+    public void testGetNormalizedCiteDocumentUuidFromResourceUrl() throws Exception {
         final String resourceUrl =
             "https://1.next.westlaw.com/Link/Document/FullText?findType=l&pubNum=1077005&cite=UUID%28ID4D58042D3-43461C8C9EE-73AA2A319F3%29&originationContext=ebook";
         final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
@@ -397,8 +385,7 @@ public final class InternalLinkResolverFilterTest
     }
 
     @Test
-    public void testGetNormalizedCiteFromResourceUrl() throws Exception
-    {
+    public void testGetNormalizedCiteFromResourceUrl() throws Exception {
         String resourceUrl =
             "https://1.next.westlaw.com/Link/Document/FullText?findType=Y&pubNum=119616&cite=SECOPINION\u00A739%3A7&originationContext=ebook";
         Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
@@ -427,8 +414,7 @@ public final class InternalLinkResolverFilterTest
     }
 
     @Test
-    public void testGetSerialNumberFromResourceUrl() throws Exception
-    {
+    public void testGetSerialNumberFromResourceUrl() throws Exception {
         final String resourceUrl =
             "https://a.next.westlaw.com/Document/FullText?findType=Y&serNum=123456&transitionType=Default&contextData=(sc.Default)";
         final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
@@ -438,8 +424,7 @@ public final class InternalLinkResolverFilterTest
     }
 
     @Test
-    public void testGetTOCGuid() throws Exception
-    {
+    public void testGetTOCGuid() throws Exception {
         final String resourceUrl =
             "http://www.westlaw.com/Link/Document/FullText?findType=L&pubNum=1000546&cite=42USCAS1395W-133&originationContext=ebook&RS=ebbp3.0&amp;vr=3.0#co_pp_8b3b0000958a";
         final Map<String, String> urlValues = UrlParsingUtil.parseUrlContents(resourceUrl);
@@ -482,13 +467,11 @@ public final class InternalLinkResolverFilterTest
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final String expectedResult) throws SAXException
-    {
+    public void testHelper(final String inputXML, final String expectedResult) throws SAXException {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
 
-        try
-        {
+        try {
             input = new ByteArrayInputStream(inputXML.getBytes());
             output = new ByteArrayOutputStream();
 
@@ -500,40 +483,27 @@ public final class InternalLinkResolverFilterTest
             final String result = output.toString();
 
             assertEquals(expectedResult, result);
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             throw e;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             fail("Encountered exception during test: " + e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if (input != null)
-                {
+        } finally {
+            try {
+                if (input != null) {
                     input.close();
                 }
 
-                if (output != null)
-                {
+                if (output != null) {
                     output.close();
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 fail("Could clean up resources: " + e.getMessage());
             }
         }
     }
 
-    protected void writeDocumentLinkFile(final File internalLinkResolverTestFile)
-    {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(internalLinkResolverTestFile)))
-        {
+    protected void writeDocumentLinkFile(final File internalLinkResolverTestFile) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(internalLinkResolverTestFile))) {
             writer.write("NF8C65500AFF711D8803AE0632FEDDFBF,N129FCFD29AA24CD5ABBAA83B0A8A2D7B275|");
             writer.newLine();
             writer.write("NDF4CB9C0AFF711D8803AE0632FEDDFBF,N8E37708B96244CD1B394155616B3C66F190|");
@@ -541,9 +511,7 @@ public final class InternalLinkResolverFilterTest
             writer.newLine();
 
             writer.flush();
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String errMessage =
                 "Encountered an IO Exception while processing: " + internalLinkResolverTestFile.getAbsolutePath();
             LOG.error(errMessage, e);

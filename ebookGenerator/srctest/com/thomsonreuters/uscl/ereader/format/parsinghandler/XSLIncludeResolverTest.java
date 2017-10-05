@@ -23,8 +23,7 @@ import org.junit.rules.TemporaryFolder;
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869.
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568.
  */
-public final class XSLIncludeResolverTest
-{
+public final class XSLIncludeResolverTest {
     private XSLIncludeResolver resolver;
     private File sourceDir;
 
@@ -32,8 +31,7 @@ public final class XSLIncludeResolverTest
     public TemporaryFolder testFiles = new TemporaryFolder();
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         sourceDir = testFiles.newFolder("XSLIncludeResolverTest");
 
         final File emptyXSL = new File(sourceDir, "_Empty.xsl");
@@ -46,24 +44,19 @@ public final class XSLIncludeResolverTest
     }
 
     @Test
-    public void testNoneExistingXSL() throws Exception
-    {
+    public void testNoneExistingXSL() throws Exception {
         final File xsl = new File(sourceDir, "testNoneExistingXSL");
 
-        try
-        {
+        try {
             resolver.resolve(xsl.getName(), sourceDir.getCanonicalPath());
             fail("Test should throw a TransformerException since the XSL does not exist.");
-        }
-        catch (final TransformerException e)
-        {
+        } catch (final TransformerException e) {
             //expected exception thrown
         }
     }
 
     @Test
-    public void testDefaultPassthroughCase() throws Exception
-    {
+    public void testDefaultPassthroughCase() throws Exception {
         final File xsl = new File(sourceDir, "testDefaultPassthroughCase.xsl");
         assertTrue(xsl.createNewFile());
         AddContentToXsl(xsl);
@@ -75,8 +68,7 @@ public final class XSLIncludeResolverTest
     }
 
     @Test
-    public void testSameXSLMultipleIncludes() throws Exception
-    {
+    public void testSameXSLMultipleIncludes() throws Exception {
         final File xsl = new File(sourceDir, "testSameXSLMultipleIncludes.xsl");
         assertTrue(xsl.createNewFile());
         AddContentToXsl(xsl);
@@ -96,8 +88,7 @@ public final class XSLIncludeResolverTest
     }
 
     @Test
-    public void testContextAnalysisInclude() throws Exception
-    {
+    public void testContextAnalysisInclude() throws Exception {
         final File xsl = new File(sourceDir, "ContextAndAnalysis.xsl");
         assertTrue(xsl.createNewFile());
         AddContentToXsl(xsl);
@@ -113,8 +104,7 @@ public final class XSLIncludeResolverTest
     }
 
     @Test
-    public void testNotesOfDecisionsInclude() throws Exception
-    {
+    public void testNotesOfDecisionsInclude() throws Exception {
         final File xsl = new File(sourceDir, "NotesOfDecisions.xsl");
         assertTrue(xsl.createNewFile());
         AddContentToXsl(xsl);
@@ -129,19 +119,13 @@ public final class XSLIncludeResolverTest
         assertTrue(src.getSystemId().endsWith("eBookNotesOfDecisions.xsl"));
     }
 
-    private void AddContentToXsl(final File file)
-    {
-        try (FileWriter fileOut = new FileWriter(file))
-        {
+    private void AddContentToXsl(final File file) {
+        try (FileWriter fileOut = new FileWriter(file)) {
             fileOut.write("<nothing></nothing>");
             fileOut.close();
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             e.printStackTrace();
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }

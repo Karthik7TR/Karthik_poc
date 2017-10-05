@@ -18,8 +18,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class OutageStepAspectTest
-{
+public final class OutageStepAspectTest {
     @InjectMocks
     private OutageStepAspect aspect;
     @Mock
@@ -30,8 +29,7 @@ public final class OutageStepAspectTest
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void shouldExecuteStepIfNoOutage() throws Throwable
-    {
+    public void shouldExecuteStepIfNoOutage() throws Throwable {
         //given
         given(outageProcessor.processPlannedOutages()).willReturn(null);
         //when
@@ -41,8 +39,7 @@ public final class OutageStepAspectTest
     }
 
     @Test
-    public void shouldThrowExceptionIfOutage() throws Throwable
-    {
+    public void shouldThrowExceptionIfOutage() throws Throwable {
         //given
         thrown.expect(PlannedOutageException.class);
         given(outageProcessor.processPlannedOutages()).willReturn(outage());
@@ -51,8 +48,7 @@ public final class OutageStepAspectTest
         //then
     }
 
-    private PlannedOutage outage()
-    {
+    private PlannedOutage outage() {
         final PlannedOutage outage = new PlannedOutage();
         outage.setStartTime(new Date());
         outage.setEndTime(new Date());

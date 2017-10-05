@@ -19,8 +19,7 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.item.ExecutionContext;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class GeneratorStepFailureNotificationServiceImplTest
-{
+public final class GeneratorStepFailureNotificationServiceImplTest {
     @InjectMocks
     private GeneratorStepFailureNotificationServiceImpl service;
     @Mock
@@ -31,8 +30,7 @@ public final class GeneratorStepFailureNotificationServiceImplTest
     private ArgumentCaptor<String> captor;
 
     @Test
-    public void shouldSendEmailWithCorrectMessage()
-    {
+    public void shouldSendEmailWithCorrectMessage() {
         //given
         //when
         service.sendFailureNotification(step, new Exception("msg"));

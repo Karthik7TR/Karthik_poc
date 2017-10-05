@@ -40,8 +40,7 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public class GenerateTitleMetadata extends AbstractSbTasklet
-{
+public class GenerateTitleMetadata extends AbstractSbTasklet {
     private static final Logger LOG = LogManager.getLogger(GenerateTitleMetadata.class);
     private TitleMetadataService titleMetadataService;
 
@@ -52,8 +51,8 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
     private ProviewFeaturesListBuilderFactory featuresListBuilderFactory;
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         final JobParameters jobParameters = getJobParameters(chunkContext);
         final Long jobId = getJobInstance(chunkContext).getId();
         final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
@@ -62,8 +61,8 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
             (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
         final String versionNumber = jobParameters.getString(JobParameterKey.BOOK_VERSION_SUBMITTED);
 
-        final TitleMetadataBuilder titleMetadataBuilder = TitleMetadata.builder(bookDefinition)
-            .versionNumber(versionNumber);
+        final TitleMetadataBuilder titleMetadataBuilder =
+            TitleMetadata.builder(bookDefinition).versionNumber(versionNumber);
 
         //TODO: Remove the calls to these methods when the book definition object is introduced to this step.
 //		addAuthors(bookDefinition, titleMetadata);
@@ -79,23 +78,21 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
         String status = "Completed";
 
         try (OutputStream titleManifest = new FileOutputStream(titleXml);
-            InputStream tocXml = new FileInputStream(tocXmlFile);)
-        {
+            InputStream tocXml = new FileInputStream(tocXmlFile);) {
             final File documentsDirectory =
                 new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_DOCUMENTS_DIR));
             //TODO: refactor the titleMetadataService to use the method that takes a book definition instead of a titleManifest object.
 
-            final FeaturesListBuilder featureListBuilder = featuresListBuilderFactory.create(bookDefinition)
-                .withBookVersion(new Version("v" + versionNumber));
-            if (bookDefinition.isSplitBook())
-            {
+            final FeaturesListBuilder featureListBuilder =
+                featuresListBuilderFactory.create(bookDefinition).withBookVersion(new Version("v" + versionNumber));
+            if (bookDefinition.isSplitBook()) {
                 splitBookTitle(titleMetadataBuilder.build(), jobInstanceId, jobExecutionContext);
-            }
-            else
-            {
+            } else {
                 titleMetadataBuilder
-                    .artworkFile(new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.COVER_ART_PATH)))
-                    .assetFilesFromDirectory(new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_ASSETS_DIR)))
+                    .artworkFile(
+                        new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.COVER_ART_PATH)))
+                    .assetFilesFromDirectory(
+                        new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.ASSEMBLE_ASSETS_DIR)))
                     .proviewFeatures(featureListBuilder.getFeatures())
                     .build();
                 titleMetadataService.generateTitleManifest(
@@ -106,14 +103,10 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
                     documentsDirectory,
                     JobExecutionKey.ALT_ID_DIR_PATH);
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             status = "Failed";
             throw (e);
-        }
-        finally
-        {
+        } finally {
             final PublishingStats jobstats = new PublishingStats();
             jobstats.setJobInstanceId(jobId);
             jobstats.setPublishStatus("generateTitleManifest : " + status);
@@ -126,8 +119,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
     protected void splitBookTitle(
         final TitleMetadata titleMetadata,
         final Long jobInstanceId,
-        final ExecutionContext jobExecutionContext) throws Exception
-    {
+        final ExecutionContext jobExecutionContext) throws Exception {
         final File splitTitleXml =
             new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.SPLIT_TITLE_XML_FILE));
 
@@ -135,8 +127,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
             getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_SPLITTOC_FILE);
 
         try (OutputStream splitTitleManifest = new FileOutputStream(splitTitleXml);
-            InputStream splitTocXml = new FileInputStream(splitTocXmlFile);)
-        {
+            InputStream splitTocXml = new FileInputStream(splitTocXmlFile);) {
             final File transformedDocsDir = new File(
                 getRequiredStringProperty(jobExecutionContext, JobExecutionKey.FORMAT_DOCUMENTS_READY_DIRECTORY_PATH));
             final String docToSplitBookFile =
@@ -151,9 +142,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
                 transformedDocsDir,
                 docToSplitBookFile,
                 splitNodeInfoFile);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             throw (e);
         }
     }
@@ -165,18 +154,15 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
      * @param docGuidsFile file containing the DOC to TOC guid relationships
      * @return documentlist ordered by file
      */
-    protected List<Doc> readTOCGuidList(final File docGuidsFile) throws EBookFormatException
-    {
+    protected List<Doc> readTOCGuidList(final File docGuidsFile) throws EBookFormatException {
         final List<Doc> docToTocGuidList = new ArrayList<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(docGuidsFile));)
-        {
+        try (BufferedReader reader = new BufferedReader(new FileReader(docGuidsFile));) {
             LOG.info("Reading in TOC anchor map file...");
             int numDocs = 0;
 
             String input = reader.readLine();
-            while (input != null)
-            {
+            while (input != null) {
                 numDocs++;
                 final String[] line = input.split(",", -1);
                 final Doc doc = new Doc(line[0], line[0] + ".html", 0, null);
@@ -185,9 +171,7 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
                 input = reader.readLine();
             }
             LOG.info("Generated Doc List " + numDocs);
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String message = "Could not read the DOC guid list file: " + docGuidsFile.getAbsolutePath();
             LOG.error(message);
             throw new EBookFormatException(message, e);
@@ -195,20 +179,17 @@ public class GenerateTitleMetadata extends AbstractSbTasklet
         return (docToTocGuidList);
     }
 
-    public void setTitleMetadataService(final TitleMetadataService titleMetadataService)
-    {
+    public void setTitleMetadataService(final TitleMetadataService titleMetadataService) {
         this.titleMetadataService = titleMetadataService;
     }
 
     @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
 
     @Required
-    public void setFeaturesListBuilderFactory(final ProviewFeaturesListBuilderFactory featuresListBuilderFactory)
-    {
+    public void setFeaturesListBuilderFactory(final ProviewFeaturesListBuilderFactory featuresListBuilderFactory) {
         this.featuresListBuilderFactory = featuresListBuilderFactory;
     }
 }

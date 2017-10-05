@@ -18,8 +18,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.context.ApplicationContext;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class SendNotificationEmailBuilderFactoryTest
-{
+public final class SendNotificationEmailBuilderFactoryTest {
     @InjectMocks
     private SendNotificationEmailBuilderFactory factory;
     @Mock
@@ -37,16 +36,14 @@ public final class SendNotificationEmailBuilderFactoryTest
     private EmailBuilder bigTocBuilder;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         given(applicationContext.getBean("defaultGeneratorNotificationEmailBuilder")).willReturn(defaultBuilder);
         given(applicationContext.getBean("splitBookGeneratorNotificationEmailBuilder")).willReturn(splitBookBuilder);
         given(applicationContext.getBean("bigTocGeneratorNotificationEmailBuilder")).willReturn(bigTocBuilder);
     }
 
     @Test
-    public void shouldCreateDefaultBuilderByDefault()
-    {
+    public void shouldCreateDefaultBuilderByDefault() {
         //given
         given(step.getTocNodeCount()).willReturn(5);
         given(step.getThresholdValue()).willReturn(10);
@@ -57,8 +54,7 @@ public final class SendNotificationEmailBuilderFactoryTest
     }
 
     @Test
-    public void shouldCreateSplitBookBuilderByDefault()
-    {
+    public void shouldCreateSplitBookBuilderByDefault() {
         //given
         given(step.getTocNodeCount()).willReturn(5);
         given(step.getThresholdValue()).willReturn(10);
@@ -70,8 +66,7 @@ public final class SendNotificationEmailBuilderFactoryTest
     }
 
     @Test
-    public void shouldCreateBigTocBuilderByDefault()
-    {
+    public void shouldCreateBigTocBuilderByDefault() {
         //given
         given(step.getTocNodeCount()).willReturn(15);
         given(step.getThresholdValue()).willReturn(10);
@@ -82,8 +77,7 @@ public final class SendNotificationEmailBuilderFactoryTest
     }
 
     @Test
-    public void shouldThrowExceptionIfTocDataIsNotSet()
-    {
+    public void shouldThrowExceptionIfTocDataIsNotSet() {
         //given
         thrown.expect(RuntimeException.class);
         given(step.getTocNodeCount()).willReturn(null);

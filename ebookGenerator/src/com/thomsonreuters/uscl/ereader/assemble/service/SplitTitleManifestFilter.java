@@ -20,8 +20,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
-public class SplitTitleManifestFilter extends XMLFilterImpl
-{
+public class SplitTitleManifestFilter extends XMLFilterImpl {
     // private static final Logger LOG =
     // LogManager.getLogger(SplitTitleManifestFilter.class);
     private TitleMetadata titleMetadata;
@@ -70,10 +69,8 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
     public SplitTitleManifestFilter(
         final TitleMetadata titleMetadata,
         final List<Doc> docList,
-        final Map<String, String> altIdMap)
-    {
-        if (titleMetadata == null)
-        {
+        final Map<String, String> altIdMap) {
+        if (titleMetadata == null) {
             throw new IllegalArgumentException(
                 "Cannot instantiate SplitTitleManifestFilter without initialized TitleMetadata");
         }
@@ -82,8 +79,7 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
         this.titleMetadata = titleMetadata;
         documentsList = docList;
 
-        if (titleMetadata.getIsPilotBook())
-        {
+        if (titleMetadata.getIsPilotBook()) {
             this.altIdMap = altIdMap;
         }
     }
@@ -95,15 +91,13 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      * @param metadata
      *            the title metadata.
      */
-    private void validateTitleMetadata(final TitleMetadata metadata)
-    {
+    private void validateTitleMetadata(final TitleMetadata metadata) {
         // TODO: assert additional invariants based on required fields in the
         // manifest.
     }
 
     @Override
-    public void startDocument() throws SAXException
-    {
+    public void startDocument() throws SAXException {
         super.startDocument();
         // write everything in the manifest up to the TOC and DOCs sections.
         startManifest();
@@ -126,8 +120,7 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      *            the toc entry containing a toc node guid.
      * @return Attributes the anchor reference in doc_guid/toc_guid format.
      */
-    protected Attributes getAttributes(final TocNode tocNode)
-    {
+    protected Attributes getAttributes(final TocNode tocNode) {
         final AttributesImpl attributes = new AttributesImpl();
         attributes.addAttribute(URI, ANCHOR_REFERENCE, ANCHOR_REFERENCE, CDATA, tocNode.getAnchorReference());
         return attributes;
@@ -135,19 +128,15 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
 
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
-        throws SAXException
-    {
-        if (!TITLE_ELEMENT.equals(qName))
-        {
+        throws SAXException {
+        if (!TITLE_ELEMENT.equals(qName)) {
             super.startElement(uri, localName, qName, atts);
         }
     }
 
     @Override
-    public void endElement(final String uri, final String localName, final String qName) throws SAXException
-    {
-        if (!TITLE_ELEMENT.equals(qName))
-        {
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException {
+        if (!TITLE_ELEMENT.equals(qName)) {
             super.endElement(uri, localName, qName);
         }
     }
@@ -158,13 +147,10 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      * @throws SAXException
      *             the data could not be written.
      */
-    protected void writeTableOfContents() throws SAXException
-    {
-        if (tableOfContents.getChildren().size() > 0)
-        {
+    protected void writeTableOfContents() throws SAXException {
+        if (tableOfContents.getChildren().size() > 0) {
             super.startElement(URI, TOC_ELEMENT, TOC_ELEMENT, EMPTY_ATTRIBUTES);
-            for (final TocNode child : tableOfContents.getChildren())
-            {
+            for (final TocNode child : tableOfContents.getChildren()) {
                 writeTocNode(child);
             }
             super.endElement(URI, TOC_ELEMENT, TOC_ELEMENT);
@@ -176,15 +162,13 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      *
      * @throws SAXException
      */
-    private void writeTocNode(final TocNode node) throws SAXException
-    {
+    private void writeTocNode(final TocNode node) throws SAXException {
         super.startElement(URI, ENTRY, ENTRY, getAttributes(node));
         super.startElement(URI, TEXT, TEXT, EMPTY_ATTRIBUTES);
         final String text = node.getText();
         super.characters(text.toCharArray(), 0, text.length());
         super.endElement(URI, TEXT, TEXT);
-        for (final TocNode child : node.getChildren())
-        {
+        for (final TocNode child : node.getChildren()) {
             writeTocNode(child);
         }
         super.endElement(URI, ENTRY, ENTRY);
@@ -198,11 +182,9 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      *             if the data could not be written.
      */
     @Override
-    public void endDocument() throws SAXException
-    {
+    public void endDocument() throws SAXException {
         writeTableOfContents();
-        if (!documentsList.isEmpty() && documentsList.size() > 0)
-        {
+        if (!documentsList.isEmpty() && documentsList.size() > 0) {
             writeDocuments();
         }
         writeISBN();
@@ -217,11 +199,9 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      * @throws SAXException
      *             if the data could not be written.
      */
-    protected void writeDocuments() throws SAXException
-    {
+    protected void writeDocuments() throws SAXException {
         super.startElement(URI, DOCS_ELEMENT, DOCS_ELEMENT, EMPTY_ATTRIBUTES);
-        for (final Doc document : documentsList)
-        {
+        for (final Doc document : documentsList) {
             super.startElement(URI, DOC_ELEMENT, DOC_ELEMENT, getAttributes(document));
             super.endElement(URI, DOC_ELEMENT, DOC_ELEMENT);
         }
@@ -233,8 +213,7 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      *
      * @throws SAXException if the data could not be written.
      */
-    protected void writeISBN() throws SAXException
-    {
+    protected void writeISBN() throws SAXException {
         super.startElement(URI, ISBN_ELEMENT, ISBN_ELEMENT, EMPTY_ATTRIBUTES);
         super.characters(titleMetadata.getIsbn().toCharArray(), 0, titleMetadata.getIsbn().length());
         super.endElement(URI, ISBN_ELEMENT, ISBN_ELEMENT);
@@ -246,11 +225,9 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      * @throws SAXException
      *             if data could not be written.
      */
-    protected void writeAuthors() throws SAXException
-    {
+    protected void writeAuthors() throws SAXException {
         super.startElement(URI, AUTHORS_ELEMENT, AUTHORS_ELEMENT, EMPTY_ATTRIBUTES);
-        for (final String authorName : titleMetadata.getAuthorNames())
-        {
+        for (final String authorName : titleMetadata.getAuthorNames()) {
             super.startElement(URI, AUTHOR_ELEMENT, AUTHOR_ELEMENT, EMPTY_ATTRIBUTES);
             super.characters(authorName.toCharArray(), 0, authorName.length());
             super.endElement(URI, AUTHOR_ELEMENT, AUTHOR_ELEMENT);
@@ -265,11 +242,9 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      * @throws SAXException
      *             if data could not be written.
      */
-    protected void writeAssets() throws SAXException
-    {
+    protected void writeAssets() throws SAXException {
         super.startElement(URI, ASSETS_ELEMENT, ASSETS_ELEMENT, EMPTY_ATTRIBUTES);
-        for (final Asset asset : titleMetadata.getAssets())
-        {
+        for (final Asset asset : titleMetadata.getAssets()) {
             super.startElement(URI, ASSET_ELEMENT, ASSET_ELEMENT, getAttributes(asset));
             super.endElement(URI, ASSET_ELEMENT, ASSET_ELEMENT);
         }
@@ -282,11 +257,9 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      * @throws SAXException
      *             if data could not be written.
      */
-    protected void writeKeywords() throws SAXException
-    {
+    protected void writeKeywords() throws SAXException {
         super.startElement(URI, KEYWORDS_ELEMENT, KEYWORDS_ELEMENT, EMPTY_ATTRIBUTES);
-        for (final Keyword keyword : titleMetadata.getKeywords())
-        {
+        for (final Keyword keyword : titleMetadata.getKeywords()) {
             super.startElement(URI, KEYWORD_ELEMENT, KEYWORD_ELEMENT, getAttributes(keyword));
             final String text = keyword.getText();
             super.characters(text.toCharArray(), 0, text.length());
@@ -303,8 +276,7 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      *            the asset to create attributes from.
      * @return the attributes for the asset.
      */
-    protected Attributes getAttributes(final Asset asset)
-    {
+    protected Attributes getAttributes(final Asset asset) {
         final AttributesImpl attributes = new AttributesImpl();
         attributes.addAttribute(URI, ID_ATTRIBUTE, ID_ATTRIBUTE, CDATA, asset.getId());
         attributes.addAttribute(URI, SRC_ATTRIBUTE, SRC_ATTRIBUTE, CDATA, asset.getSrc());
@@ -319,8 +291,7 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      *            the asset to create attributes from.
      * @return the attributes for the asset.
      */
-    protected Attributes getAttributes(final Keyword keyword)
-    {
+    protected Attributes getAttributes(final Keyword keyword) {
         final AttributesImpl attributes = new AttributesImpl();
         attributes.addAttribute(URI, TYPE_ATTRIBUTE, TYPE_ATTRIBUTE, CDATA, keyword.getType());
         return attributes;
@@ -335,17 +306,14 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      * @return the attributes for the doc.
      * @throws IOException
      */
-    protected Attributes getAttributes(final Doc doc)
-    {
+    protected Attributes getAttributes(final Doc doc) {
         final AttributesImpl attributes = new AttributesImpl();
         final String docGuid = doc.getId();
         attributes.addAttribute(URI, ID_ATTRIBUTE, ID_ATTRIBUTE, CDATA, docGuid);
 
-        if (titleMetadata.getIsPilotBook())
-        {
+        if (titleMetadata.getIsPilotBook()) {
             final String altId = altIdMap.get(docGuid);
-            if (altId != null)
-            {
+            if (altId != null) {
                 attributes.addAttribute(URI, ALT_ID_ATTRIBUTE, ALT_ID_ATTRIBUTE, CDATA, altId);
             }
         }
@@ -360,12 +328,10 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      * @throws SAXException
      *             if data could not be written.
      */
-    protected void writeCopyright() throws SAXException
-    {
+    protected void writeCopyright() throws SAXException {
         super.startElement(URI, COPYRIGHT_ELEMENT, COPYRIGHT_ELEMENT, EMPTY_ATTRIBUTES);
         String copyright = titleMetadata.getCopyright();
-        if (copyright != null)
-        {
+        if (copyright != null) {
             copyright = copyright.replace("\r\n", " ");
         }
         super.characters(copyright.toCharArray(), 0, copyright.length());
@@ -379,8 +345,7 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      * @throws SAXException
      *             if data could not be written.
      */
-    protected void startManifest() throws SAXException
-    {
+    protected void startManifest() throws SAXException {
         super.startElement(URI, TITLE_ELEMENT, TITLE_ELEMENT, getTitleAttributes());
     }
 
@@ -389,8 +354,7 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      *
      * @return an {@link Attributes} instance.
      */
-    protected Attributes getTitleAttributes()
-    {
+    protected Attributes getTitleAttributes() {
         final AttributesImpl attributes = new AttributesImpl();
         attributes.addAttribute(URI, APIVERSION_ATTRIBUTE, APIVERSION_ATTRIBUTE, CDATA, titleMetadata.getApiVersion());
         attributes
@@ -415,8 +379,7 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      * @throws SAXException
      *             if data could not be written.
      */
-    protected void writeDisplayName() throws SAXException
-    {
+    protected void writeDisplayName() throws SAXException {
         super.startElement(URI, NAME_ELEMENT, NAME_ELEMENT, EMPTY_ATTRIBUTES);
         final String displayName = titleMetadata.getDisplayName();
         super.characters(displayName.toCharArray(), 0, displayName.length());
@@ -429,11 +392,9 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      * @throws SAXException
      *             if data could not be written.
      */
-    protected void writeFeatures() throws SAXException
-    {
+    protected void writeFeatures() throws SAXException {
         super.startElement(URI, FEATURES_ELEMENT, FEATURES_ELEMENT, EMPTY_ATTRIBUTES);
-        for (final Feature feature : titleMetadata.getProviewFeatures())
-        {
+        for (final Feature feature : titleMetadata.getProviewFeatures()) {
             super.startElement(URI, FEATURE_ELEMENT, FEATURE_ELEMENT, getAttributes(feature));
             super.endElement(URI, FEATURE_ELEMENT, FEATURE_ELEMENT);
         }
@@ -447,12 +408,10 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      *            the feature whose attributes to get.
      * @return the attributes of the feature.
      */
-    protected Attributes getAttributes(final Feature feature)
-    {
+    protected Attributes getAttributes(final Feature feature) {
         final AttributesImpl attributes = new AttributesImpl();
         attributes.addAttribute(URI, NAME_ELEMENT, NAME_ELEMENT, CDATA, feature.getName());
-        if (StringUtils.isNotBlank(feature.getValue()))
-        {
+        if (StringUtils.isNotBlank(feature.getValue())) {
             attributes.addAttribute(URI, VALUE_ATTRIBUTE, VALUE_ATTRIBUTE, CDATA, feature.getValue());
         }
         return attributes;
@@ -464,12 +423,10 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      * @throws SAXException
      *             if data could not be written.
      */
-    protected void writeMaterialId() throws SAXException
-    {
+    protected void writeMaterialId() throws SAXException {
         super.startElement(URI, MATERIAL_ELEMENT, MATERIAL_ELEMENT, EMPTY_ATTRIBUTES);
         final String materialId = titleMetadata.getMaterialId();
-        if (StringUtils.isNotBlank(materialId))
-        {
+        if (StringUtils.isNotBlank(materialId)) {
             super.characters(materialId.toCharArray(), 0, materialId.length());
         }
         super.endElement(URI, MATERIAL_ELEMENT, MATERIAL_ELEMENT);
@@ -481,8 +438,7 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      * @throws SAXException
      *             if the data could not be written.
      */
-    protected void writeCoverArt() throws SAXException
-    {
+    protected void writeCoverArt() throws SAXException {
         super.startElement(URI, ARTWORK_ELEMENT, ARTWORK_ELEMENT, getAttributes(titleMetadata.getArtwork()));
         super.endElement(URI, ARTWORK_ELEMENT, ARTWORK_ELEMENT);
     }
@@ -494,16 +450,14 @@ public class SplitTitleManifestFilter extends XMLFilterImpl
      *            the artwork to create attributes for.
      * @return the {@link Attributes} for the artwork.
      */
-    protected Attributes getAttributes(final Artwork artwork)
-    {
+    protected Attributes getAttributes(final Artwork artwork) {
         final AttributesImpl attributes = new AttributesImpl();
         attributes.addAttribute(URI, SRC_ATTRIBUTE, SRC_ATTRIBUTE, CDATA, artwork.getSrc());
         attributes.addAttribute(URI, TYPE_ATTRIBUTE, TYPE_ATTRIBUTE, CDATA, artwork.getType());
         return attributes;
     }
 
-    protected void setTableOfContents(final TableOfContents tableOfContents)
-    {
+    protected void setTableOfContents(final TableOfContents tableOfContents) {
         this.tableOfContents = tableOfContents;
     }
 }

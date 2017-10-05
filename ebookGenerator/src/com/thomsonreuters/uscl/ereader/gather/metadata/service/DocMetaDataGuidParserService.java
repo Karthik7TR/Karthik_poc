@@ -9,8 +9,7 @@ import com.thomsonreuters.uscl.ereader.gather.exception.EBookGatherException;
  *
  * @author <a href="mailto:Nirupam.Chatterjee@thomsonreuters.com">Nirupam Chatterjee</a> u0072938
  */
-public interface DocMetaDataGuidParserService
-{
+public interface DocMetaDataGuidParserService {
     /**
      * Reads through all the XML files found in the provided directory and parses out
      * a list of GUIDs for the referenced docs.

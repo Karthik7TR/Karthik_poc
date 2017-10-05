@@ -11,8 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Spring service that handles CRUD requests for DocMetadata entities
  * @author <a href="mailto:ravi.nandikolla@thomsonreuters.com">Ravi Nandikolla</a> c139353
  */
-public class PaceMetadataServiceImpl implements PaceMetadataService
-{
+public class PaceMetadataServiceImpl implements PaceMetadataService {
     /** DAO injected by Spring that manages PaceMetadataDao entities */
     private PaceMetadataDao paceMetadataDao;
 
@@ -21,15 +20,13 @@ public class PaceMetadataServiceImpl implements PaceMetadataService
      */
     @Override
     @Transactional
-    public void deletePaceMetadata(final PaceMetadata paceMetadata)
-    {
+    public void deletePaceMetadata(final PaceMetadata paceMetadata) {
         paceMetadataDao.remove(paceMetadata);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<PaceMetadata> findAllPaceMetadataForPubCode(final Long pubCode)
-    {
+    public List<PaceMetadata> findAllPaceMetadataForPubCode(final Long pubCode) {
         return paceMetadataDao.findPaceMetadataByPubCode(pubCode);
     }
 
@@ -38,8 +35,7 @@ public class PaceMetadataServiceImpl implements PaceMetadataService
      */
     @Override
     @Transactional(readOnly = true)
-    public PaceMetadata findPaceMetadataByPrimaryKey(final Long pubId)
-    {
+    public PaceMetadata findPaceMetadataByPrimaryKey(final Long pubId) {
         return paceMetadataDao.findPaceMetadataByPrimaryKey(pubId);
     }
 
@@ -48,15 +44,13 @@ public class PaceMetadataServiceImpl implements PaceMetadataService
      */
     @Override
     @Transactional
-    public void savePaceMetadata(final PaceMetadata paceMetadata)
-    {
+    public void savePaceMetadata(final PaceMetadata paceMetadata) {
         //TODO: Add full set of character encodings here.
         paceMetadataDao.saveMetadata(paceMetadata);
     }
 
     @Required
-    public void setpaceMetadataDAO(final PaceMetadataDao dao)
-    {
+    public void setpaceMetadataDAO(final PaceMetadataDao dao) {
         paceMetadataDao = dao;
     }
 
@@ -64,8 +58,7 @@ public class PaceMetadataServiceImpl implements PaceMetadataService
      * Update an existing PaceMetadata entity
      */
     @Override
-    public void updatePaceMetadata(final PaceMetadata paceMetadata)
-    {
+    public void updatePaceMetadata(final PaceMetadata paceMetadata) {
         paceMetadataDao.updateMetadata(paceMetadata);
     }
 }

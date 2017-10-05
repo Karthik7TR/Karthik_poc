@@ -38,8 +38,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @TestPropertySource("/WEB-INF/spring/properties/default-spring.properties")
 @ContextConfiguration
 @ActiveProfiles("IntegrationTests")
-public final class MoveResourcesToAssembleDirectoryXppTest
-{
+public final class MoveResourcesToAssembleDirectoryXppTest {
     @Resource(name = "moveResourcesToAssembleDirectoryXppTask")
     @InjectMocks
     private MoveResourcesToAssembleDirectoryXpp sut;
@@ -57,8 +56,7 @@ public final class MoveResourcesToAssembleDirectoryXppTest
     private File expectedDir;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         org.mockito.MockitoAnnotations.initMocks(this);
         mockBook();
         expectedDir = new File(this.getClass().getResource("expected").toURI());
@@ -69,15 +67,13 @@ public final class MoveResourcesToAssembleDirectoryXppTest
     }
 
     @After
-    public void tearDown() throws Exception
-    {
+    public void tearDown() throws Exception {
         final File workingDir = bookFileSystem.getWorkDirectory(sut);
         FileUtils.deleteDirectory(workingDir);
     }
 
     @Test
-    public void test() throws Exception
-    {
+    public void test() throws Exception {
         //given
         final File assembleDirectory = assembleFileSystem.getAssembleDirectory(sut);
         final File titleDirectory = new File(assembleDirectory, "titleId");
@@ -87,8 +83,7 @@ public final class MoveResourcesToAssembleDirectoryXppTest
         assertThat(expectedDir, hasSameContentAs(titleDirectory, true));
     }
 
-    private void mockBook()
-    {
+    private void mockBook() {
         given(chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext().get("bookDefn"))
             .willReturn(book);
         given(book.getTitleId()).willReturn("titleId");
@@ -99,17 +94,14 @@ public final class MoveResourcesToAssembleDirectoryXppTest
     @Configuration
     @Profile("IntegrationTests")
     @Import(CommonTestContextConfiguration.class)
-    public static class MoveResourcesToAssembleDirectoryXppTestConfiguration
-    {
+    public static class MoveResourcesToAssembleDirectoryXppTestConfiguration {
         @Bean(name = "moveResourcesToAssembleDirectoryXppTask")
-        public MoveResourcesToAssembleDirectoryXpp moveResourcesToAssembleDirectoryXppTask()
-        {
+        public MoveResourcesToAssembleDirectoryXpp moveResourcesToAssembleDirectoryXppTask() {
             return new MoveResourcesToAssembleDirectoryXpp();
         }
 
         @Bean
-        public ResourcesFileSystem resourcesFileSystemXpp()
-        {
+        public ResourcesFileSystem resourcesFileSystemXpp() {
             return new ResourcesFileSystemXppImpl();
         }
     }

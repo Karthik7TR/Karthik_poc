@@ -31,8 +31,7 @@ import javax.xml.bind.annotation.XmlType;
 @Table(name = "DOCUMENT_METADATA")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/gather/metadata/domain", name = "DocMetadata")
-public class DocMetadata implements Serializable
-{
+public class DocMetadata implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(name = "TITLE_ID", length = 64, nullable = false)
@@ -136,203 +135,163 @@ public class DocMetadata implements Serializable
     @Basic(fetch = FetchType.EAGER)
     private String splitBookTitleId;
 
-    public void setTitleId(final String titleId)
-    {
+    public void setTitleId(final String titleId) {
         this.titleId = titleId;
     }
 
-    public String getTitleId()
-    {
+    public String getTitleId() {
         return titleId;
     }
 
-    public void setJobInstanceId(final Long jobInstanceId)
-    {
+    public void setJobInstanceId(final Long jobInstanceId) {
         this.jobInstanceId = jobInstanceId;
     }
 
-    public Long getJobInstanceId()
-    {
+    public Long getJobInstanceId() {
         return jobInstanceId;
     }
 
-    public void setDocUuid(final String docUuid)
-    {
+    public void setDocUuid(final String docUuid) {
         this.docUuid = docUuid;
     }
 
-    public String getDocUuid()
-    {
+    public String getDocUuid() {
         return docUuid;
     }
 
-    public void setDocFamilyUuid(final String docFamilyUuid)
-    {
+    public void setDocFamilyUuid(final String docFamilyUuid) {
         this.docFamilyUuid = docFamilyUuid;
     }
 
-    public String getDocFamilyUuid()
-    {
+    public String getDocFamilyUuid() {
         return docFamilyUuid;
     }
 
-    public void setDocType(final String docType)
-    {
+    public void setDocType(final String docType) {
         this.docType = docType;
     }
 
-    public String getDocType()
-    {
+    public String getDocType() {
         return docType;
     }
 
-    public void setNormalizedFirstlineCite(final String normalizedFirstlineCite)
-    {
+    public void setNormalizedFirstlineCite(final String normalizedFirstlineCite) {
         this.normalizedFirstlineCite = normalizedFirstlineCite;
     }
 
-    public String getNormalizedFirstlineCite()
-    {
+    public String getNormalizedFirstlineCite() {
         return normalizedFirstlineCite;
     }
 
-    public String getFirstlineCite()
-    {
+    public String getFirstlineCite() {
         return firstlineCite;
     }
 
-    public void setFirstlineCite(final String firstlineCite)
-    {
+    public void setFirstlineCite(final String firstlineCite) {
         this.firstlineCite = firstlineCite;
     }
 
-    public String getSecondlineCite()
-    {
+    public String getSecondlineCite() {
         return secondlineCite;
     }
 
-    public void setSecondlineCite(final String secondlineCite)
-    {
+    public void setSecondlineCite(final String secondlineCite) {
         this.secondlineCite = secondlineCite;
     }
 
-    public String getThirdlineCite()
-    {
+    public String getThirdlineCite() {
         return thirdlineCite;
     }
 
-    public void setThirdlineCite(final String thirdlineCite)
-    {
+    public void setThirdlineCite(final String thirdlineCite) {
         this.thirdlineCite = thirdlineCite;
     }
 
-    public String getFirstlineCitePubpage()
-    {
+    public String getFirstlineCitePubpage() {
         return firstlineCitePubpage;
     }
 
-    public void setFirstlineCitePubpage(final String firstlineCitePubpage)
-    {
+    public void setFirstlineCitePubpage(final String firstlineCitePubpage) {
         this.firstlineCitePubpage = firstlineCitePubpage;
     }
 
-    public Long getFirstlineCitePubId()
-    {
+    public Long getFirstlineCitePubId() {
         return firstlineCitePubId;
     }
 
-    public void setFirstlineCitePubId(final Long firstlineCitePubId)
-    {
+    public void setFirstlineCitePubId(final Long firstlineCitePubId) {
         this.firstlineCitePubId = firstlineCitePubId;
     }
 
-    public Long getSecondlineCitePubId()
-    {
+    public Long getSecondlineCitePubId() {
         return secondlineCitePubId;
     }
 
-    public void setSecondlineCitePubId(final Long secondlineCitePubId)
-    {
+    public void setSecondlineCitePubId(final Long secondlineCitePubId) {
         this.secondlineCitePubId = secondlineCitePubId;
     }
 
-    public Long getThirdlineCitePubId()
-    {
+    public Long getThirdlineCitePubId() {
         return thirdlineCitePubId;
     }
 
-    public void setThirdlineCitePubId(final Long thirdlineCitePubId)
-    {
+    public void setThirdlineCitePubId(final Long thirdlineCitePubId) {
         this.thirdlineCitePubId = thirdlineCitePubId;
     }
 
-    public void setFindOrig(final String findOrig)
-    {
+    public void setFindOrig(final String findOrig) {
         this.findOrig = findOrig;
     }
 
-    public String getFindOrig()
-    {
+    public String getFindOrig() {
         return findOrig;
     }
 
-    public void setSerialNumber(final Long serialNumber)
-    {
+    public void setSerialNumber(final Long serialNumber) {
         this.serialNumber = serialNumber;
     }
 
-    public Long getSerialNumber()
-    {
+    public Long getSerialNumber() {
         return serialNumber;
     }
 
-    public void setCollectionName(final String collectionName)
-    {
+    public void setCollectionName(final String collectionName) {
         this.collectionName = collectionName;
     }
 
-    public String getCollectionName()
-    {
+    public String getCollectionName() {
         return collectionName;
     }
 
-    public void setLastUpdated(final Date lastUpdated)
-    {
+    public void setLastUpdated(final Date lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 
-    public Date getLastUpdated()
-    {
+    public Date getLastUpdated() {
         return lastUpdated;
     }
 
-    public Integer getProviewFamilyUUIDDedup()
-    {
+    public Integer getProviewFamilyUUIDDedup() {
         return proviewFamilyUUIDDedup;
     }
 
-    public void setProviewFamilyUUIDDedup(final Integer proviewFamilyUUIDDedup)
-    {
+    public void setProviewFamilyUUIDDedup(final Integer proviewFamilyUUIDDedup) {
         this.proviewFamilyUUIDDedup = proviewFamilyUUIDDedup;
     }
 
-    public Long getDocSize()
-    {
+    public Long getDocSize() {
         return docSize;
     }
 
-    public void setDocSize(final Long docSize)
-    {
+    public void setDocSize(final Long docSize) {
         this.docSize = docSize;
     }
 
-    public String getSplitBookTitle()
-    {
+    public String getSplitBookTitle() {
         return splitBookTitleId;
     }
 
-    public void setSpitBookTitle(final String splitBookTitle)
-    {
+    public void setSpitBookTitle(final String splitBookTitle) {
         splitBookTitleId = splitBookTitle;
     }
 
@@ -343,10 +302,8 @@ public class DocMetadata implements Serializable
      *
      * @return unique identifier that will be used by ProView for this document
      */
-    public String getProViewId()
-    {
-        if (docFamilyUuid != null && proviewFamilyUUIDDedup != null)
-        {
+    public String getProViewId() {
+        if (docFamilyUuid != null && proviewFamilyUUIDDedup != null) {
             return docFamilyUuid + "_" + proviewFamilyUUIDDedup;
         }
 
@@ -355,8 +312,7 @@ public class DocMetadata implements Serializable
 
     /**
      */
-    public DocMetadata()
-    {
+    public DocMetadata() {
     }
 
     /**
@@ -364,8 +320,7 @@ public class DocMetadata implements Serializable
      *
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         final StringBuilder buffer = new StringBuilder();
 
         buffer.append("titleId=[").append(titleId).append("] ");
@@ -388,8 +343,7 @@ public class DocMetadata implements Serializable
     /**
      */
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((titleId == null) ? 0 : titleId.hashCode());
@@ -401,8 +355,7 @@ public class DocMetadata implements Serializable
     /**
      */
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (!(obj instanceof DocMetadata))

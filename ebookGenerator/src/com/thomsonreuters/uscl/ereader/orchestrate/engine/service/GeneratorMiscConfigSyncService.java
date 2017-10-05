@@ -12,46 +12,39 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.client.RestTemplate;
 
-public class GeneratorMiscConfigSyncService extends AbstractMiscConfigSyncService implements MiscConfigSyncService
-{
+public class GeneratorMiscConfigSyncService extends AbstractMiscConfigSyncService implements MiscConfigSyncService {
     private static Logger log = LogManager.getLogger(GeneratorMiscConfigSyncService.class);
 
     private CloseableAuthenticationHttpClientFactory httpClientFactory;
     private ProviewClient proviewClient;
     private RestTemplate proviewRestTemplate;
 
-    public GeneratorMiscConfigSyncService()
-    {
+    public GeneratorMiscConfigSyncService() {
         super();
     }
 
     @Override
-    public void syncSpecific(final MiscConfig config) throws Exception
-    {
+    public void syncSpecific(final MiscConfig config) throws Exception {
         log.info(config);
         syncProviewHost(config);
     }
 
-    private void syncProviewHost(final MiscConfig config) throws UnknownHostException
-    {
+    private void syncProviewHost(final MiscConfig config) throws UnknownHostException {
         super.syncProviewHost(config, httpClientFactory, proviewClient, proviewRestTemplate);
     }
 
     @Required
-    public void setHttpClientFactory(final CloseableAuthenticationHttpClientFactory httpClientFactory)
-    {
+    public void setHttpClientFactory(final CloseableAuthenticationHttpClientFactory httpClientFactory) {
         this.httpClientFactory = httpClientFactory;
     }
 
     @Required
-    public void setProviewClient(final ProviewClient proviewClient)
-    {
+    public void setProviewClient(final ProviewClient proviewClient) {
         this.proviewClient = proviewClient;
     }
 
     @Required
-    public void setProviewRestTemplate(final RestTemplate proviewRestTemplate)
-    {
+    public void setProviewRestTemplate(final RestTemplate proviewRestTemplate) {
         this.proviewRestTemplate = proviewRestTemplate;
     }
 }

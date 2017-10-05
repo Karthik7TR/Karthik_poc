@@ -24,15 +24,13 @@ import org.xml.sax.InputSource;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  *
  */
-public final class PlaceholderDocumentFilterTest
-{
+public final class PlaceholderDocumentFilterTest {
     private PlaceholderDocumentFilter placeholderDocumentFilter;
     private InputSource placeholderDocumentTemplate;
     private ByteArrayOutputStream resultStream;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         final List<String> anchors = new ArrayList<>();
         anchors.add("TestAnchor1");
         anchors.add("TestAnchor2");
@@ -50,8 +48,7 @@ public final class PlaceholderDocumentFilterTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         //Intentionally left blank
     }
 
@@ -61,8 +58,7 @@ public final class PlaceholderDocumentFilterTest
      * @throws Exception if an error occurs.
      */
     @Test
-    public void testPlaceholderDocumentFilterHappyPath() throws Exception
-    {
+    public void testPlaceholderDocumentFilterHappyPath() throws Exception {
         final String expectedXml = "<html><head/><body><div>YARR!</div></body></html>";
         placeholderDocumentFilter.setParent(SAXParserFactory.newInstance().newSAXParser().getXMLReader());
         placeholderDocumentFilter.parse(placeholderDocumentTemplate);
@@ -75,8 +71,7 @@ public final class PlaceholderDocumentFilterTest
      * @throws Exception if an error occurs.
      */
     @Test
-    public void testIdentityTransform() throws Exception
-    {
+    public void testIdentityTransform() throws Exception {
         final String expectedXml = "<html><head/><body><div>YARR!</div></body></html>";
         placeholderDocumentFilter.setParent(SAXParserFactory.newInstance().newSAXParser().getXMLReader());
         placeholderDocumentFilter.parse(new InputSource(new ByteArrayInputStream(expectedXml.getBytes())));

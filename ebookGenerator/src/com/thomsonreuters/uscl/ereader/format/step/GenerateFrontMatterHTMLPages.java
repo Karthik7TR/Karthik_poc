@@ -22,22 +22,20 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet
-{
+public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet {
     //TODO: Use logger API to get Logger instance to job-specific appender.
     private static final Logger LOG = LogManager.getLogger(GenerateFrontMatterHTMLPages.class);
     private CreateFrontMatterService frontMatterService;
 
     private PublishingStatsService publishingStatsService;
 
-    public void setfrontMatterService(final CreateFrontMatterService frontMatterService)
-    {
+    public void setfrontMatterService(final CreateFrontMatterService frontMatterService) {
         this.frontMatterService = frontMatterService;
     }
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 
         final String frontMatterTargetDirectory =
@@ -54,17 +52,12 @@ public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet
         final long startTime = System.currentTimeMillis();
         String publishStatus = "generateFrontMatterHTML : Completed";
 
-        try
-        {
+        try {
             frontMatterService.generateAllFrontMatterPages(frontMatterTargetDir, bookDefinition);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             publishStatus = "generateFrontMatterHTML : Failed";
             throw (e);
-        }
-        finally
-        {
+        } finally {
             final PublishingStats jobstats = new PublishingStats();
             jobstats.setJobInstanceId(jobInstance);
             jobstats.setPublishStatus(publishStatus);
@@ -81,8 +74,7 @@ public class GenerateFrontMatterHTMLPages extends AbstractSbTasklet
     }
 
     @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
 }

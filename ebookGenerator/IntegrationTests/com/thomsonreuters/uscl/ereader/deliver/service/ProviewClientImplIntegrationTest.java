@@ -28,8 +28,7 @@ import org.springframework.web.client.RestTemplate;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public final class ProviewClientImplIntegrationTest
-{
+public final class ProviewClientImplIntegrationTest {
     private static final Logger LOG = LogManager.getLogger(ProviewClientImplIntegrationTest.class);
 
     private static final String PROVIEW_DOMAIN_PREFIX = "trp0002-14:9008";
@@ -44,8 +43,7 @@ public final class ProviewClientImplIntegrationTest
     private ProviewResponseExtractorFactory proviewResponseExtractorFactory;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         proviewClient = new ProviewClientImpl();
         final HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
 
@@ -63,15 +61,13 @@ public final class ProviewClientImplIntegrationTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         //Intentionally left blank
     }
 
     @Ignore
     @Test
-    public void testGetAllTitlesHappyPath() throws Exception
-    {
+    public void testGetAllTitlesHappyPath() throws Exception {
         proviewClient.setProviewHost(InetAddress.getLocalHost());
         proviewClient.setGetTitlesUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
         final String publisherInformation = proviewClient.getAllPublishedTitles();
@@ -81,8 +77,7 @@ public final class ProviewClientImplIntegrationTest
 
     @Ignore
     @Test
-    public void testPublishBookFailsBecauseItAlreadyExistsOnProview() throws Exception
-    {
+    public void testPublishBookFailsBecauseItAlreadyExistsOnProview() throws Exception {
         proviewClient.setProviewHost(InetAddress.getLocalHost());
         proviewClient.setPublishTitleUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + publishTitleUriTemplate);
         final String integrationTestTitleId = "uscl/cr/generator_integration_test";
@@ -90,39 +85,31 @@ public final class ProviewClientImplIntegrationTest
 
         final File eBookDirectory = new File("/apps/ebookbuilder/staticContent");
         final File eBook = new File(eBookDirectory, "UrlsAndPaths.dtd");
-        try
-        {
+        try {
             proviewClient.publishTitle(integrationTestTitleId, eBookVersionNumber, eBook);
             fail("Expected an exception related to the title already existing on ProView!");
-        }
-        catch (final ProviewRuntimeException e)
-        {
+        } catch (final ProviewRuntimeException e) {
             //expected
         }
     }
 
     @Ignore
     @Test
-    public void getSingleTitleInfoByVersion()
-    {
-        try
-        {
+    public void getSingleTitleInfoByVersion() {
+        try {
             final String singleTitleByVersionUriTemplate = "/v1/titles/{titleId}/{eBookVersionNumber}";
             proviewClient.setProviewHost(InetAddress.getLocalHost());
             proviewClient.setSingleTitleByVersionUriTemplate(
                 "http://" + PROVIEW_DOMAIN_PREFIX + singleTitleByVersionUriTemplate);
             final String publisherInformation = proviewClient.getSingleTitleInfoByVersion("uscl/an/coi", "v1.0");
             System.out.println("publisherInformation : " + publisherInformation);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             assertTrue(e.toString().contains("uscl/an/coi/v1.0 does not exist"));
         }
     }
 
     @Test
-    public void testGetAllTitlesFailsDueToInvalidCredetials()
-    {
+    public void testGetAllTitlesFailsDueToInvalidCredetials() {
         final HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
 
         defaultHttpClient = new DefaultHttpClient();
@@ -136,12 +123,9 @@ public final class ProviewClientImplIntegrationTest
 
         proviewClient.setGetTitlesUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
 
-        try
-        {
+        try {
             proviewClient.getAllPublishedTitles();
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             System.out.println(e.getMessage());
             //expected
         }

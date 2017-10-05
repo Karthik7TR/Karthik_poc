@@ -10,22 +10,19 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 @Component("archiveFileSystem")
-public class ArchiveFileSystemImpl implements ArchiveFileSystem
-{
+public class ArchiveFileSystemImpl implements ArchiveFileSystem {
     @Resource(name = "bookFileSystem")
     private BookFileSystem bookFileSystem;
 
     @NotNull
     @Override
-    public File getArchiveDirectory(@NotNull final BookStep step)
-    {
+    public File getArchiveDirectory(@NotNull final BookStep step) {
         return new File(bookFileSystem.getWorkDirectory(step), "archive");
     }
 
     @NotNull
     @Override
-    public File getArchiveVersionDirectory(@NotNull final BookStep step)
-    {
+    public File getArchiveVersionDirectory(@NotNull final BookStep step) {
         final Version version = step.getBookVersion();
         final String dirName = version.isNewMajorVersion() ? "major" : "minor";
         return new File(getArchiveDirectory(step), dirName);

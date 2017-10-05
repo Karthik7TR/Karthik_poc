@@ -32,8 +32,7 @@ import org.springframework.batch.core.ExitStatus;
  */
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.INITIALIZE)
-public class InitializeTask extends BookStepImpl
-{
+public class InitializeTask extends BookStepImpl {
     private static final Logger LOG = LogManager.getLogger(InitializeTask.class);
 
     @Resource(name = "bookDefinitionService")
@@ -42,8 +41,7 @@ public class InitializeTask extends BookStepImpl
     private BookFileSystem fileSystem;
 
     @Override
-    public ExitStatus executeStep() throws Exception
-    {
+    public ExitStatus executeStep() throws Exception {
         setBookDefinition();
         createWorkDir();
 
@@ -52,8 +50,7 @@ public class InitializeTask extends BookStepImpl
         return ExitStatus.COMPLETED;
     }
 
-    private void setBookDefinition()
-    {
+    private void setBookDefinition() {
         final BookDefinition bookDefinition = bookService.findBookDefinitionByEbookDefId(getBookDefinitionId());
         setJobExecutionProperty(JobExecutionKey.EBOOK_DEFINITION, bookDefinition);
         //TODO: remove this later - for dummy book only. Ignore Split books
@@ -66,8 +63,7 @@ public class InitializeTask extends BookStepImpl
      * Create the work directory for the ebook and create the physical directory in the filesystem
      * "yyyyMMdd/titleId/jobInstanceId". Sample: "/apps/eBookBuilder/prod/data/20120131/FRCP/356"
      */
-    private void createWorkDir() throws IOException
-    {
+    private void createWorkDir() throws IOException {
         final File workDirectory = fileSystem.getWorkDirectory(this);
         FileUtils.forceMkdir(workDirectory);
         setJobExecutionPropertyString(JobExecutionKey.WORK_DIRECTORY, workDirectory.getAbsolutePath());

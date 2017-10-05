@@ -22,8 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LrreMetadataStrategy extends AbstractPlaceXppMetadataTransformStrategy
-{
+public class LrreMetadataStrategy extends AbstractPlaceXppMetadataTransformStrategy {
     private final File xslTransformationFile;
     private final XppFormatFileSystem xppFormatFileSystem;
 
@@ -32,8 +31,7 @@ public class LrreMetadataStrategy extends AbstractPlaceXppMetadataTransformStrat
         final XslTransformationService xslTransformationService,
         final TransformerBuilderFactory transformerBuilderFactory,
         final XppFormatFileSystem xppFormatFileSystem,
-        @Value("${xpp.add.metadata.to.lrre.xsl}") final File xslTransformationFile)
-    {
+        @Value("${xpp.add.metadata.to.lrre.xsl}") final File xslTransformationFile) {
         super(
             xslTransformationService,
             transformerBuilderFactory,
@@ -47,8 +45,7 @@ public class LrreMetadataStrategy extends AbstractPlaceXppMetadataTransformStrat
     protected List<TransformationCommand> getTransformationCommands(
         @NotNull final File inputFile,
         @NotNull final String materialNumber,
-        @NotNull final XppBookStep step)
-    {
+        @NotNull final XppBookStep step) {
         final Transformer transformer = transformerBuilderFactory.create().withXsl(xslTransformationFile).build();
         final File outputFile =
             xppFormatFileSystem.getStructureWithMetadataFile(step, materialNumber, inputFile.getName());

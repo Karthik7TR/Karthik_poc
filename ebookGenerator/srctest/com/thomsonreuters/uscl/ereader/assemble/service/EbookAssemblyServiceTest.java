@@ -24,8 +24,7 @@ import org.junit.Test;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public final class EbookAssemblyServiceTest
-{
+public final class EbookAssemblyServiceTest {
     private File eBookDirectory;
     private File titleXml;
     private File eBook;
@@ -33,8 +32,7 @@ public final class EbookAssemblyServiceTest
     private EBookAssemblyService assemblyService;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         assemblyService = new EBookAssemblyServiceImpl();
 
         eBook = File.createTempFile("pirate", "ship");
@@ -49,8 +47,7 @@ public final class EbookAssemblyServiceTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         FileUtils.deleteQuietly(eBookDirectory);
         FileUtils.deleteQuietly(eBook);
     }
@@ -59,40 +56,31 @@ public final class EbookAssemblyServiceTest
      * Returns a new file given a [File] directory, [String] name, and [String] content
      * 	If there is an issue creating the file in the given directory, it will return a null File.
      */
-    private File makeFile(final File directory, final String name, final String content)
-    {
+    private File makeFile(final File directory, final String name, final String content) {
         final File file = new File(directory, name);
-        try (FileOutputStream out = new FileOutputStream(file))
-        {
+        try (FileOutputStream out = new FileOutputStream(file)) {
             out.write(content.getBytes());
             out.close();
             return file;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             return null;
         }
     }
 
     @Test
-    public void testAssembleEBookProtectedFile()
-    {
+    public void testAssembleEBookProtectedFile() {
         eBook.setReadOnly();
-        try
-        {
+        try {
             assemblyService.assembleEBook(eBookDirectory, eBook);
             fail("Should throw EBookAssemblyException");
-        }
-        catch (final EBookAssemblyException e)
-        {
+        } catch (final EBookAssemblyException e) {
             //expected exception
             e.printStackTrace();
         }
     }
 
     @Test
-    public void testGetLargestContent()
-    {
+    public void testGetLargestContent() {
         // text to give files length
         final String loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed"
             + " do eiusmod tempor incididunt ut labore et dolore magna aliqua."
@@ -123,83 +111,63 @@ public final class EbookAssemblyServiceTest
     }
 
     @Test
-    public void testAssembleHappyPath() throws Exception
-    {
+    public void testAssembleHappyPath() throws Exception {
         assemblyService.assembleEBook(eBookDirectory, eBook);
 
-        try (TarInputStream tarInputStream = new TarInputStream(new GZIPInputStream(new FileInputStream(eBook))))
-        {
+        try (TarInputStream tarInputStream = new TarInputStream(new GZIPInputStream(new FileInputStream(eBook)))) {
             TarEntry entry = tarInputStream.getNextEntry();
             assertTrue("eBookDirectory".equals(entry.getName()));
             entry = tarInputStream.getNextEntry();
             assertTrue("eBookDirectory/title.xml".equals(entry.getName()));
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void testAssembleFailsDueToNullDirectory() throws Exception
-    {
-        try
-        {
+    public void testAssembleFailsDueToNullDirectory() throws Exception {
+        try {
             assemblyService.assembleEBook(null, eBook);
             fail("An IllegalArgumentException should have been thrown!");
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             //expected result
         }
     }
 
     @Test
-    public void testAssembleFailsDueToFilePassedAsInputDirectory() throws Exception
-    {
+    public void testAssembleFailsDueToFilePassedAsInputDirectory() throws Exception {
         final File mockFile = EasyMock.createMock(File.class);
         EasyMock.expect(mockFile.isDirectory()).andReturn(Boolean.FALSE);
         EasyMock.replay(mockFile);
-        try
-        {
+        try {
             assemblyService.assembleEBook(mockFile, eBook);
             fail("An IllegalArgumentException should have been thrown!");
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             //expected result
         }
         EasyMock.verify(mockFile);
     }
 
     @Test
-    public void testAssembleFailsDueToNullOutputFile() throws Exception
-    {
-        try
-        {
+    public void testAssembleFailsDueToNullOutputFile() throws Exception {
+        try {
             assemblyService.assembleEBook(eBookDirectory, null);
             fail("An IllegalArgumentException should have been thrown!");
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             //expected result
         }
     }
 
     @Test
-    public void testAssembleFailsDueToDirectoryPassedAsOutputFile() throws Exception
-    {
+    public void testAssembleFailsDueToDirectoryPassedAsOutputFile() throws Exception {
         final File mockFile = EasyMock.createMock(File.class);
         EasyMock.expect(mockFile.isDirectory()).andReturn(Boolean.TRUE);
         EasyMock.replay(mockFile);
-        try
-        {
+        try {
             assemblyService.assembleEBook(eBookDirectory, mockFile);
             fail("An IllegalArgumentException should have been thrown!");
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             //expected result
         }
         EasyMock.verify(mockFile);

@@ -9,16 +9,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jms.core.JmsTemplate;
 
-public final class MessageQueuePollerTest
-{
+public final class MessageQueuePollerTest {
     private JMSClient mockJmsClient;
     private JmsTemplate mockJmsTemplate;
 
     private XppBundleQueuePoller poller;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         poller = new XppBundleQueuePoller();
 
         mockJmsClient = EasyMock.createMock(JmsClientImpl.class);
@@ -35,16 +33,14 @@ public final class MessageQueuePollerTest
     private String srcFile = "/apps/eBookBuilder/prodcontent/xpp/tileName.gz";
 
     @Test
-    public void testHappyPath()
-    {
+    public void testHappyPath() {
         EasyMock.expect(mockJmsClient.receiveSingleMessage(mockJmsTemplate, "")).andReturn(createRequest());
         EasyMock.replay(mockJmsClient);
 
         poller.pollMessageQueue();
     }
 
-    private String createRequest()
-    {
+    private String createRequest() {
         return "<eBookRequest version=\""
             + version
             + "\">"

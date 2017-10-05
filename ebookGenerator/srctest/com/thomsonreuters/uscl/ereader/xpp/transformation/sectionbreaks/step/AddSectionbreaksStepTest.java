@@ -28,8 +28,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class AddSectionbreaksStepTest
-{
+public final class AddSectionbreaksStepTest {
     private static final String MAIN_DOCUMENT_WITH_SECTIONBREAKS_PARAM = "mainFile";
     private static final String BASE_FILENAME = "1-CHAL_7.DIVXML";
     private static final String MAIN_CONTENT_FILE_PATH = "path";
@@ -59,15 +58,16 @@ public final class AddSectionbreaksStepTest
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         given(inputFile.getName()).willReturn("1-CHAL_7.DIVXML.main");
         given(footnotesFile.getAbsolutePath()).willReturn(FOOTNOTES_CONTENT_FILE_PATH);
 
         given(fileSystem.getStructureWithMetadataFilesIndex(step)).willReturn(getFilesIndex());
 
-        given(fileSystem.getSectionbreaksDirectory(step, MATERIAL_NUMBER)).willReturn(new File(temporaryFolder.getRoot(), "02_Sectionbreaks"));
-        given(fileSystem.getSectionbreaksFile(any(AddSectionbreaksStep.class), any(String.class), any(String.class))).willReturn(outputFile);
+        given(fileSystem.getSectionbreaksDirectory(step, MATERIAL_NUMBER))
+            .willReturn(new File(temporaryFolder.getRoot(), "02_Sectionbreaks"));
+        given(fileSystem.getSectionbreaksFile(any(AddSectionbreaksStep.class), any(String.class), any(String.class)))
+            .willReturn(outputFile);
         given(outputFile.getAbsolutePath()).willReturn(MAIN_CONTENT_FILE_PATH);
 
         final TransformerBuilder builder = mock(TransformerBuilder.class);
@@ -77,8 +77,7 @@ public final class AddSectionbreaksStepTest
     }
 
     @Test
-    public void shouldTransform() throws Exception
-    {
+    public void shouldTransform() throws Exception {
         //given
         //when
         step.executeStep();
@@ -89,8 +88,7 @@ public final class AddSectionbreaksStepTest
         then(transformer).should().setParameter(eq(MAIN_DOCUMENT_WITH_SECTIONBREAKS_PARAM), eq(MAIN_CONTENT_FILE_PATH));
     }
 
-    private BaseFilesIndex getFilesIndex()
-    {
+    private BaseFilesIndex getFilesIndex() {
         final BaseFilesIndex baseFilesIndex = new BaseFilesIndex();
         baseFilesIndex.put(MATERIAL_NUMBER, BASE_FILENAME, PartType.MAIN, inputFile);
         baseFilesIndex.put(MATERIAL_NUMBER, BASE_FILENAME, PartType.FOOTNOTE, footnotesFile);

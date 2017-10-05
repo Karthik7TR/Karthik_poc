@@ -24,28 +24,25 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class AddHTMLWrapper extends AbstractSbTasklet
-{
+public class AddHTMLWrapper extends AbstractSbTasklet {
     //TODO: Use logger API to get Logger instance to job-specific appender.
     private static final Logger LOG = LogManager.getLogger(AddHTMLWrapper.class);
     private HTMLWrapperService htmlWrapperService;
 
     private PublishingStatsService publishingStatsService;
 
-    public void sethtmlWrapperService(final HTMLWrapperService htmlWrapperService)
-    {
+    public void sethtmlWrapperService(final HTMLWrapperService htmlWrapperService) {
         this.htmlWrapperService = htmlWrapperService;
     }
 
     @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
 
         final String postTransformDirectory =
@@ -73,13 +70,11 @@ public class AddHTMLWrapper extends AbstractSbTasklet
 
         String stepStatus = "Completed";
         int numDocsWrapped = -1;
-        try
-        {
+        try {
             numDocsWrapped = htmlWrapperService
                 .addHTMLWrappers(postTransformDir, htmlDir, docToTocFile, titleId, jobId, keyciteToplineFlag);
 
-            if (numDocsWrapped != numDocsInTOC)
-            {
+            if (numDocsWrapped != numDocsInTOC) {
                 final String message = "The number of documents wrapped by the HTMLWrapper Service did "
                     + "not match the number of documents retrieved from the eBook TOC. Wrapped "
                     + numDocsWrapped
@@ -89,14 +84,10 @@ public class AddHTMLWrapper extends AbstractSbTasklet
                 LOG.error(message);
                 throw new EBookFormatException(message);
             }
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             stepStatus = "Failed";
             throw e;
-        }
-        finally
-        {
+        } finally {
             final PublishingStats jobstats = new PublishingStats();
             jobstats.setJobInstanceId(jobId);
             jobstats.setFormatDocCount(numDocsWrapped);

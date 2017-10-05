@@ -30,14 +30,12 @@ import org.xml.sax.InputSource;
  *
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
-public final class XMLContentChangerFilterTest
-{
+public final class XMLContentChangerFilterTest {
     private XMLContentChangerFilter contentChangeFilter;
     private Serializer serializer;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
         final SAXParser saxParser = factory.newSAXParser();
@@ -70,8 +68,7 @@ public final class XMLContentChangerFilterTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         serializer = null;
         contentChangeFilter = null;
     }
@@ -83,12 +80,10 @@ public final class XMLContentChangerFilterTest
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final String expectedResult)
-    {
+    public void testHelper(final String inputXML, final String expectedResult) {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
-        try
-        {
+        try {
             input = new ByteArrayInputStream(inputXML.getBytes());
             output = new ByteArrayOutputStream();
 
@@ -100,34 +95,24 @@ public final class XMLContentChangerFilterTest
             final String result = output.toString();
 
             assertEquals(expectedResult, result);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             fail("Encountered exception during test: " + e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if (input != null)
-                {
+        } finally {
+            try {
+                if (input != null) {
                     input.close();
                 }
-                if (output != null)
-                {
+                if (output != null) {
                     output.close();
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 fail("Couldn't clean up resources: " + e.getMessage());
             }
         }
     }
 
     @Test
-    public void testCurrencyValueChange()
-    {
+    public void testCurrencyValueChange() {
         final String xmlTestStr =
             "<test><include.currency n-include_guid=\"123456789\">This is a currency</include.currency></test>";
         final String expectedResult =
@@ -137,8 +122,7 @@ public final class XMLContentChangerFilterTest
     }
 
     @Test
-    public void testCopyrightValueChange()
-    {
+    public void testCopyrightValueChange() {
         final String xmlTestStr =
             "<test><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright></test>";
         final String expectedResult =
@@ -148,8 +132,7 @@ public final class XMLContentChangerFilterTest
     }
 
     @Test
-    public void testCopyrightAndCurrencyChange()
-    {
+    public void testCopyrightAndCurrencyChange() {
         final String xmlTestStr =
             "<body><test><include.copyright n-include_guid=\"987654321\">This is a copyright</include.copyright></test>"
                 + "<test><include.currency n-include_guid=\"123456789\">This is a currency</include.currency></test></body>";
@@ -161,8 +144,7 @@ public final class XMLContentChangerFilterTest
     }
 
     @Test
-    public void testNoChange()
-    {
+    public void testNoChange() {
         final String xmlTestStr =
             "<body><test><include.something n-include_guid=\"987654321\">This is a copyright</include.something></test>"
                 + "<test><include.else n-include_guid=\"123456789\">This is a currency</include.else></test></body>";

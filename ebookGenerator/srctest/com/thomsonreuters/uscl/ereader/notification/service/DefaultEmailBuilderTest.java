@@ -16,8 +16,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class DefaultEmailBuilderTest
-{
+public final class DefaultEmailBuilderTest {
     @InjectMocks
     private DefaultEmailBuilder defaultEmailBuilder;
     @Mock
@@ -26,8 +25,7 @@ public final class DefaultEmailBuilderTest
     private BookDefinition book;
 
     @Test
-    public void subjectShouldBeCorrect()
-    {
+    public void subjectShouldBeCorrect() {
         //given
         givenAll();
         //when
@@ -37,8 +35,7 @@ public final class DefaultEmailBuilderTest
     }
 
     @Test
-    public void bodyShouldBeCorrect()
-    {
+    public void bodyShouldBeCorrect() {
         //given
         givenAll();
         //when
@@ -54,8 +51,7 @@ public final class DefaultEmailBuilderTest
     }
 
     @Test
-    public void currentVersionInfoIsCorrect()
-    {
+    public void currentVersionInfoIsCorrect() {
         // given
         givenAll();
         final PublishingStats stats = mock(PublishingStats.class);
@@ -73,8 +69,7 @@ public final class DefaultEmailBuilderTest
     }
 
     @Test
-    public void previousVersionInfoIsCorrect()
-    {
+    public void previousVersionInfoIsCorrect() {
         // given
         givenAll();
         final PublishingStats stats = mock(PublishingStats.class);
@@ -89,8 +84,7 @@ public final class DefaultEmailBuilderTest
         assertThat(body, containsString("Book Size: 10"));
     }
 
-    private void givenAll()
-    {
+    private void givenAll() {
         given(step.getBookDefinition()).willReturn(book);
         given(book.getFullyQualifiedTitleId()).willReturn("id");
         given(book.getProviewDisplayName()).willReturn("name");

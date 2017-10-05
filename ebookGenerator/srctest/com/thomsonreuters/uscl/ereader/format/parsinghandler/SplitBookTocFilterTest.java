@@ -23,15 +23,13 @@ import org.junit.Test;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-public final class SplitBookTocFilterTest
-{
+public final class SplitBookTocFilterTest {
     private SplitBookTocFilter splitBookFilter;
     private Serializer serializer;
     private List<String> splitTocGuidList;
 
     @Before
-    public void setUp() throws ParserConfigurationException, SAXException
-    {
+    public void setUp() throws ParserConfigurationException, SAXException {
         splitTocGuidList = new ArrayList<>();
         final String guid1 = "TABLEOFCONTENTS33CHARACTERSLONG_2";
         splitTocGuidList.add(guid1);
@@ -51,15 +49,13 @@ public final class SplitBookTocFilterTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         serializer = null;
         splitBookFilter = null;
     }
 
     @Test
-    public void test2()
-    {
+    public void test2() {
         final String xmlTestStr = "<EBook>"
             + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
             + "<EBookToc><Name>BLARGH</Name><dummyTag>dummyValue</dummyTag><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
@@ -77,8 +73,7 @@ public final class SplitBookTocFilterTest
     }
 
     @Test
-    public void testMissingDoc()
-    {
+    public void testMissingDoc() {
         final String xmlTestStr = "<EBook>"
             + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
             + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><MissingDocument/></EBookToc>"
@@ -102,8 +97,7 @@ public final class SplitBookTocFilterTest
     }
 
     @Test
-    public void test3()
-    {
+    public void test3() {
         final String guid1 = "TABLEOFCONTENTS33CHARACTERSLONG_3";
         splitTocGuidList.add(guid1);
 
@@ -127,8 +121,7 @@ public final class SplitBookTocFilterTest
     }
 
     @Test
-    public void testMissingDoc2()
-    {
+    public void testMissingDoc2() {
         final String guid1 = "TABLEOFCONTENTS33CHARACTERSLONG_3";
         splitTocGuidList.add(guid1);
 
@@ -156,8 +149,7 @@ public final class SplitBookTocFilterTest
     }
 
     @Test
-    public void test4()
-    {
+    public void test4() {
         final String xmlTestStr = "<EBook>"
             + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
             + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><dummyTag>dummyValue</dummyTag><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
@@ -175,8 +167,7 @@ public final class SplitBookTocFilterTest
     }
 
     @Test
-    public void test5()
-    {
+    public void test5() {
         final String guid1 = "TABLEOFCONTENTS33CHARACTERSLONG_3";
         splitTocGuidList.add(guid1);
 
@@ -202,8 +193,7 @@ public final class SplitBookTocFilterTest
     }
 
     @Test
-    public void test6()
-    {
+    public void test6() {
         final String guid1 = "TABLEOFCONTENTS33CHARACTERSLONG_4";
         splitTocGuidList.add(guid1);
 
@@ -228,15 +218,13 @@ public final class SplitBookTocFilterTest
 
         final List<String> wrongSplitTocNodes = testHelper(xmlTestStr, expectedResult);
         assertEquals(1, wrongSplitTocNodes.size());
-        for (final String tocNode : wrongSplitTocNodes)
-        {
+        for (final String tocNode : wrongSplitTocNodes) {
             assertEquals(guid1, tocNode);
         }
     }
 
     @Test
-    public void test7()
-    {
+    public void test7() {
         final String guid1 = "TABLEOFCONTENTS33CHARACTERSLONG_1";
         splitTocGuidList.add(guid1);
 
@@ -263,15 +251,13 @@ public final class SplitBookTocFilterTest
 
         final List<String> wrongSplitTocNodes = testHelper(xmlTestStr, expectedResult);
         assertEquals(1, wrongSplitTocNodes.size());
-        for (final String tocNode : wrongSplitTocNodes)
-        {
+        for (final String tocNode : wrongSplitTocNodes) {
             assertEquals(guid1, tocNode);
         }
     }
 
     @Test
-    public void test8()
-    {
+    public void test8() {
         final String guid1 = "TABLEOFCONTENTS33CHARACTERSLONG_3";
         splitTocGuidList.add(guid1);
 
@@ -301,8 +287,7 @@ public final class SplitBookTocFilterTest
     }
 
     @Test
-    public void test9()
-    {
+    public void test9() {
         final String guid1 = "TABLEOFCONTENTS33CHARACTERSLONG_4";
         splitTocGuidList.add(guid1);
 
@@ -334,8 +319,7 @@ public final class SplitBookTocFilterTest
     }
 
     @Test
-    public void testSplitTocXML()
-    {
+    public void testSplitTocXML() {
         final String xmlTestStr = "<EBook>"
             + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
             + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
@@ -353,8 +337,7 @@ public final class SplitBookTocFilterTest
     }
 
     @Test
-    public void testSplitBookTocDuplicateDoc()
-    {
+    public void testSplitBookTocDuplicateDoc() {
         final String xmlTestStr = "<EBook>"
             + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
             + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid><DocumentGuid>DOC_GUID2</DocumentGuid></EBookToc>"
@@ -374,8 +357,7 @@ public final class SplitBookTocFilterTest
     }
 
     @Test
-    public void testSplitTocXMLSingleUUID()
-    {
+    public void testSplitTocXMLSingleUUID() {
         final String xmlTestStr = "<EBook>"
             + "<EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid><DocumentGuid>DOC_GUID1</DocumentGuid></EBookToc>"
             + "</EBook>";
@@ -389,13 +371,11 @@ public final class SplitBookTocFilterTest
         assertEquals(0, wrongSplitTocNodes.size());
     }
 
-    public List<String> testHelper(final String inputXML, final String expectedResult)
-    {
+    public List<String> testHelper(final String inputXML, final String expectedResult) {
         List<String> wrongSplitTocNode = new ArrayList<>();
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
-        try
-        {
+        try {
             input = new ByteArrayInputStream(inputXML.getBytes());
             output = new ByteArrayOutputStream();
 
@@ -409,26 +389,17 @@ public final class SplitBookTocFilterTest
             final String result = output.toString();
 
             assertEquals(expectedResult, result);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             fail("Encountered exception during test: " + e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if (input != null)
-                {
+        } finally {
+            try {
+                if (input != null) {
                     input.close();
                 }
-                if (output != null)
-                {
+                if (output != null) {
                     output.close();
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 fail("Couldn't clean up resources: " + e.getMessage());
             }
         }

@@ -26,8 +26,7 @@ import org.junit.Test;
  *
  * @author <a href="mailto:zack.farrell@thomsonreuters.com">Zack Farrell</a> uc209819
  */
-public final class HTMLRemoveBrokenInternalLinksServiceTest
-{
+public final class HTMLRemoveBrokenInternalLinksServiceTest {
     private HTMLRemoveBrokenInternalLinksServiceImpl linksService;
     private File tempRootDir; // root directory for all test files
 
@@ -52,26 +51,21 @@ public final class HTMLRemoveBrokenInternalLinksServiceTest
      * @param content Content to be written into the new file
      * @return returns a File object directing to the new file returns null if any errors occur
      */
-    private File makeFile(final File directory, final String name, final String content)
-    {
+    private File makeFile(final File directory, final String name, final String content) {
         final File file = new File(directory, name);
-        try (FileOutputStream out = new FileOutputStream(file))
-        {
+        try (FileOutputStream out = new FileOutputStream(file)) {
             file.createNewFile();
             out.write(content.getBytes());
             out.flush();
             out.close();
             return file;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             return null;
         }
     }
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         linksService = new HTMLRemoveBrokenInternalLinksServiceImpl();
 
         tempRootDir = new File(System.getProperty("java.io.tmpdir") + "/EvenMoreTemp");
@@ -104,8 +98,7 @@ public final class HTMLRemoveBrokenInternalLinksServiceTest
     }
 
     @After
-    public void tearDown() throws Exception
-    {
+    public void tearDown() throws Exception {
         /* recursively deletes the root directory, and all its subdirectories and files */
         FileUtils.deleteDirectory(tempRootDir);
     }
@@ -116,21 +109,17 @@ public final class HTMLRemoveBrokenInternalLinksServiceTest
      * in the target directory
      */
     @Test
-    public void testHTMLRemoveBrokenInternalLinksServiceHappyPath()
-    {
+    public void testHTMLRemoveBrokenInternalLinksServiceHappyPath() {
         int numDocs = -1;
         boolean thrown = false;
         FileUtils.deleteQuietly(targetDir);
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta);
             EasyMock.replay(metadataMoc);
 
             numDocs = linksService.transformHTML(srcDir, targetDir, title, jobId, envName, emailRecipients);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             thrown = true;
         }
 
@@ -145,8 +134,7 @@ public final class HTMLRemoveBrokenInternalLinksServiceTest
      * test methods which use additional options saved in files in the transformation process
      */
     @Test
-    public void testInfoFiles()
-    {
+    public void testInfoFiles() {
         int numDocs = -1;
         boolean thrown = false;
 
@@ -157,20 +145,15 @@ public final class HTMLRemoveBrokenInternalLinksServiceTest
             "anchorDupFile",
             "stuff|AnchorREPLACEWITHTest,stuffREPLACEWITHtest\n" + "stuff|Anchor,stuff");
 
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(null);
             EasyMock.replay(metadataMoc);
 
             numDocs = linksService.transformHTML(srcDir, targetDir, title, jobId, envName, emailRecipients);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             thrown = true;
-        }
-        finally
-        {
+        } finally {
             FileUtils.deleteQuietly(targetAnchor);
             FileUtils.deleteQuietly(anchorDup);
         }
@@ -186,31 +169,23 @@ public final class HTMLRemoveBrokenInternalLinksServiceTest
      * tests the capability of parser to react to incorrectly formated options in options files
      */
     @Test
-    public void testIncorrectInfoFileFormat()
-    {
+    public void testIncorrectInfoFileFormat() {
         boolean expect = false;
         boolean thrown = false;
 
         final File targetAnchor = makeFile(srcDir, "anchorTargetUnlinkFile", "|");
 
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(null);
             EasyMock.replay(metadataMoc);
 
             linksService.transformHTML(srcDir, targetDir, title, jobId, envName, emailRecipients);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             expect = true;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             thrown = true;
-        }
-        finally
-        {
+        } finally {
             FileUtils.deleteQuietly(targetAnchor);
         }
 
@@ -222,20 +197,13 @@ public final class HTMLRemoveBrokenInternalLinksServiceTest
 
         final File anchorDup = makeFile(srcDir, "anchorDupFile", "|");
 
-        try
-        {
+        try {
             linksService.transformHTML(srcDir, targetDir, title, jobId, envName, emailRecipients);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             expect = true;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             thrown = true;
-        }
-        finally
-        {
+        } finally {
             FileUtils.deleteQuietly(anchorDup);
         }
 
@@ -247,21 +215,15 @@ public final class HTMLRemoveBrokenInternalLinksServiceTest
      * Test the transformer's ability to respond to improper input
      */
     @Test
-    public void testInputExceptions()
-    {
+    public void testInputExceptions() {
         boolean expect = false;
         boolean thrown = false;
 
-        try
-        {
+        try {
             linksService.transformHTML(null, targetDir, title, jobId, envName, emailRecipients);
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             expect = true;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             thrown = true;
         }
 
@@ -270,16 +232,11 @@ public final class HTMLRemoveBrokenInternalLinksServiceTest
         thrown = false;
         expect = false;
 
-        try
-        {
+        try {
             linksService.transformHTML(targetDir, targetDir, title, jobId, envName, emailRecipients);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             expect = true;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             thrown = true;
         }
 
@@ -291,31 +248,23 @@ public final class HTMLRemoveBrokenInternalLinksServiceTest
      * Test the transformer's ability to respond to improper input
      */
     @Test
-    public void testParsingExceptions()
-    {
+    public void testParsingExceptions() {
         boolean expect = false;
         boolean thrown = false;
 
         final File brokenFile = makeFile(targetDir, title + ".postanchor", "<?xml version\"1.0\">");
 
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta);
             EasyMock.replay(metadataMoc);
 
             linksService.transformHTML(targetDir, targetDir, title, jobId, envName, emailRecipients);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             expect = true;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             thrown = true;
-        }
-        finally
-        {
+        } finally {
             FileUtils.deleteQuietly(brokenFile);
         }
 
@@ -327,8 +276,7 @@ public final class HTMLRemoveBrokenInternalLinksServiceTest
      * Test the UnlinkAnchorReportmethod
      */
     @Test
-    public void testUnlinkAnchorReport()
-    {
+    public void testUnlinkAnchorReport() {
         int numDocs = -1;
         boolean thrown = false;
 
@@ -340,20 +288,15 @@ public final class HTMLRemoveBrokenInternalLinksServiceTest
                 + "href=\"er:http://badurl\"/><a id=\"yolo\" "
                 + "href=\"er:http://badurl\"/></div>");
 
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta);
             EasyMock.replay(metadataMoc);
 
             numDocs = linksService.transformHTML(targetDir, targetDir, title, jobId, envName, emailRecipients);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             thrown = true;
-        }
-        finally
-        {
+        } finally {
             FileUtils.deleteQuietly(unlinkFile);
             FileUtils.deleteQuietly(targetFile);
         }

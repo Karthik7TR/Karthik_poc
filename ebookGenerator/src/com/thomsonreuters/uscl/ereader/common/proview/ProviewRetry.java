@@ -10,7 +10,6 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface ProviewRetry
-{
+public @interface ProviewRetry {
     //annotation without parameters
 }

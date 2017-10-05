@@ -17,8 +17,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author <a href="mailto:Nirupam.Chatterjee@thomsonreuters.com">Nirupam
  *         Chatterjee</a> u0072938
  */
-public class TOCXmlHandler extends DefaultHandler
-{
+public class TOCXmlHandler extends DefaultHandler {
     private Map<String, List<String>> docGuidList = new HashMap<>();
     private List<String> tocGuidList = new ArrayList<>();
     private StringBuffer tempVal;
@@ -28,50 +27,36 @@ public class TOCXmlHandler extends DefaultHandler
 
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
-        throws SAXParseException
-    {
-        if (qName.equalsIgnoreCase(DOCUMENT_GUID_ELEMENT) || qName.equalsIgnoreCase(TOC_GUID_ELEMENT))
-        {
+        throws SAXParseException {
+        if (qName.equalsIgnoreCase(DOCUMENT_GUID_ELEMENT) || qName.equalsIgnoreCase(TOC_GUID_ELEMENT)) {
             tempVal = new StringBuffer();
-        }
-        else
-        {
+        } else {
             tempVal = null;
         }
     }
 
     @Override
-    public void characters(final char[] ch, final int start, final int length) throws SAXException
-    {
-        if (tempVal != null)
-        {
-            for (int i = start; i < start + length; i++)
-            {
+    public void characters(final char[] ch, final int start, final int length) throws SAXException {
+        if (tempVal != null) {
+            for (int i = start; i < start + length; i++) {
                 tempVal.append(ch[i]);
             }
         }
     }
 
     @Override
-    public void endElement(final String uri, final String localName, final String qName) throws SAXException
-    {
-        if (qName.equalsIgnoreCase(DOCUMENT_GUID_ELEMENT))
-        {
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException {
+        if (qName.equalsIgnoreCase(DOCUMENT_GUID_ELEMENT)) {
             // add only if there is a guid available
-            if (tempVal.length() != 0)
-            {
+            if (tempVal.length() != 0) {
                 // check to see if there is already a toc guid list list for
                 // this doc uuid
                 final String docGuid = tempVal.toString();
-                if (!docGuidList.containsKey(docGuid))
-                {
+                if (!docGuidList.containsKey(docGuid)) {
                     docGuidList.put(docGuid, tocGuidList);
-                }
-                else
-                { // append to the list of exisitng toc guids
+                } else { // append to the list of exisitng toc guids
                     final List<String> existingTocGuidList = docGuidList.get(docGuid);
-                    for (int i = 0; i < existingTocGuidList.size(); i++)
-                    {
+                    for (int i = 0; i < existingTocGuidList.size(); i++) {
                         tocGuidList.add(existingTocGuidList.get(i));
                     }
                     docGuidList.remove(docGuid);
@@ -81,33 +66,27 @@ public class TOCXmlHandler extends DefaultHandler
             }
         }
 
-        if (qName.equalsIgnoreCase(TOC_GUID_ELEMENT))
-        {
-            if (tempVal.length() != 0)
-            {
+        if (qName.equalsIgnoreCase(TOC_GUID_ELEMENT)) {
+            if (tempVal.length() != 0) {
                 // add only if there is a guid available
                 tocGuidList.add(tempVal.toString());
             }
         }
     }
 
-    public List<String> getTocGuidList()
-    {
+    public List<String> getTocGuidList() {
         return tocGuidList;
     }
 
-    public void setTocGuidList(final List<String> tocGuidList)
-    {
+    public void setTocGuidList(final List<String> tocGuidList) {
         this.tocGuidList = tocGuidList;
     }
 
-    public Map<String, List<String>> getDocGuidList()
-    {
+    public Map<String, List<String>> getDocGuidList() {
         return docGuidList;
     }
 
-    public void setDocGuidList(final Map<String, List<String>> docGuidList)
-    {
+    public void setDocGuidList(final Map<String, List<String>> docGuidList) {
         this.docGuidList = docGuidList;
     }
 }

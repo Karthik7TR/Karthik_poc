@@ -9,15 +9,13 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 @Component("gatherFileSystem")
-public class GatherFileSystemImpl implements GatherFileSystem
-{
+public class GatherFileSystemImpl implements GatherFileSystem {
     @Resource(name = "bookFileSystem")
     private BookFileSystem bookFileSystem;
 
     @NotNull
     @Override
-    public File getGatherRootDirectory(@NotNull final BookStep step)
-    {
+    public File getGatherRootDirectory(@NotNull final BookStep step) {
         return new File(bookFileSystem.getWorkDirectory(step), "Gather");
     }
 }

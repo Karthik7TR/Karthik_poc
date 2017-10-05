@@ -28,21 +28,19 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class HTMLPostTransform extends AbstractSbTasklet
-{
+public class HTMLPostTransform extends AbstractSbTasklet {
     //TODO: Use logger API to get Logger instance to job-specific appender.
     private static final Logger LOG = LogManager.getLogger(HTMLPostTransform.class);
     private HTMLTransformerService transformerService;
     private PublishingStatsService publishingStatsService;
 
-    public void settransformerService(final HTMLTransformerService transformerService)
-    {
+    public void settransformerService(final HTMLTransformerService transformerService) {
         this.transformerService = transformerService;
     }
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
         final JobInstance jobInstance = getJobInstance(chunkContext);
 
@@ -78,8 +76,7 @@ public class HTMLPostTransform extends AbstractSbTasklet
         jobstats.setJobInstanceId(jobId);
         String stepStatus = "Completed";
 
-        try
-        {
+        try {
             final long startTime = System.currentTimeMillis();
             final int numDocsTransformed = transformerService.transformHTML(
                 transformDir,
@@ -98,8 +95,7 @@ public class HTMLPostTransform extends AbstractSbTasklet
             final long endTime = System.currentTimeMillis();
             final long elapsedTime = endTime - startTime;
 
-            if (numDocsTransformed != numDocsInTOC)
-            {
+            if (numDocsTransformed != numDocsInTOC) {
                 final String message = "The number of post transformed documents did not match the number "
                     + "of documents retrieved from the eBook TOC. Transformed "
                     + numDocsTransformed
@@ -111,14 +107,10 @@ public class HTMLPostTransform extends AbstractSbTasklet
             }
 
             LOG.debug("Transformed " + numDocsTransformed + " HTML files in " + elapsedTime + " milliseconds");
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             stepStatus = "Failed";
             throw e;
-        }
-        finally
-        {
+        } finally {
             jobstats.setPublishStatus("formatHTMLTransformer : " + stepStatus);
             publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
         }
@@ -127,8 +119,7 @@ public class HTMLPostTransform extends AbstractSbTasklet
     }
 
     @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
 }

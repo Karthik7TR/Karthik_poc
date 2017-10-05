@@ -26,8 +26,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class XppGatherFileSystemImplTest
-{
+public final class XppGatherFileSystemImplTest {
     private static final String bundlesDir = "/Gather/Bundles";
     private static final String materialNumber1 = "11111111";
     private static final String materialNumber2 = "22222222";
@@ -53,8 +52,7 @@ public final class XppGatherFileSystemImplTest
     private File txtFile;
 
     @Before
-    public void setUp() throws IOException
-    {
+    public void setUp() throws IOException {
         final File workingDirectory = new File(temporaryFolder.getRoot(), "workDirectory");
         given(bookFileSystem.getWorkDirectory(step)).willReturn(workingDirectory);
 
@@ -73,8 +71,7 @@ public final class XppGatherFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnXppBundlesDirectory()
-    {
+    public void shouldReturnXppBundlesDirectory() {
         //given
         //when
         final File file = fileSystem.getXppBundlesDirectory(step);
@@ -83,8 +80,7 @@ public final class XppGatherFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnXppBundleContentDirectories()
-    {
+    public void shouldReturnXppBundleContentDirectories() {
         //given
         //when
         final Collection<File> dirs = fileSystem.getXppBundleContentDirectories(step);
@@ -93,15 +89,13 @@ public final class XppGatherFileSystemImplTest
         final FileSystemMatcher bundleMatcher1 = new FileSystemMatcher(bundleRoot1);
         final FileSystemMatcher bundleMatcher2 = new FileSystemMatcher(bundleRoot2);
 
-        for (final File dir : dirs)
-        {
+        for (final File dir : dirs) {
             assertTrue(bundleMatcher1.matches(dir) || bundleMatcher2.matches(dir));
         }
     }
 
     @Test
-    public void shouldReturnXppAssetsDirectories()
-    {
+    public void shouldReturnXppAssetsDirectories() {
         //given
         //when
         final Collection<String> dirs = fileSystem.getXppAssetsDirectories(step);
@@ -110,15 +104,13 @@ public final class XppGatherFileSystemImplTest
         final FileSystemMatcher bundleMatcher1 = new FileSystemMatcher(bundleRoot1 + assets);
         final FileSystemMatcher bundleMatcher2 = new FileSystemMatcher(bundleRoot2 + assets);
 
-        for (final String dir : dirs)
-        {
+        for (final String dir : dirs) {
             assertTrue(bundleMatcher1.matches(new File(dir)) || bundleMatcher2.matches(new File(dir)));
         }
     }
 
     @Test
-    public void shouldReturnXppSourceXmlDirectories()
-    {
+    public void shouldReturnXppSourceXmlDirectories() {
         //given
         //when
         final Collection<File> dirs = fileSystem.getXppSourceXmlDirectories(step);
@@ -127,15 +119,13 @@ public final class XppGatherFileSystemImplTest
         final FileSystemMatcher bundleMatcher1 = new FileSystemMatcher(bundleRoot1 + xpp);
         final FileSystemMatcher bundleMatcher2 = new FileSystemMatcher(bundleRoot2 + xpp);
 
-        for (final File dir : dirs)
-        {
+        for (final File dir : dirs) {
             assertTrue(bundleMatcher1.matches(dir) || bundleMatcher2.matches(dir));
         }
     }
 
     @Test
-    public void shouldReturnXppSourceXmls()
-    {
+    public void shouldReturnXppSourceXmls() {
         //given
         //when
         final Map<String, Collection<File>> sourceXmls = fileSystem.getXppSourceXmls(step);
@@ -146,8 +136,7 @@ public final class XppGatherFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnBundleMaterialNumberDirectory()
-    {
+    public void shouldReturnBundleMaterialNumberDirectory() {
         //given
         //when
         final File materialNumberDirectory = fileSystem.getXppBundleMaterialNumberDirectory(step, materialNumber1);
@@ -156,15 +145,13 @@ public final class XppGatherFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnAllBundleXmls()
-    {
+    public void shouldReturnAllBundleXmls() {
         //given
         //when
         final Map<String, File> bundleXmlFiles = fileSystem.getAllBundleXmls(step);
 
         //then
-        for (final File element : bundleXmlFiles.values())
-        {
+        for (final File element : bundleXmlFiles.values()) {
             assertTrue(element.getName().equals("bundle.xml"));
             assertFalse(element.getName().equals("xpp.xml"));
         }

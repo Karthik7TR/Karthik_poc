@@ -50,8 +50,7 @@ import org.w3c.dom.NodeList;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "PersistentUrlTransformIntegrationTest-context.xml")
-public final class PersistentUrlTransformIntegrationTests
-{
+public final class PersistentUrlTransformIntegrationTests {
     private static final String MOCK_DOCTYPE = null;
     private static InputStream MOCK_INPUT_STREAM;
     private static final String MOCK_COLLECTION = "w_codesstaminrdp";
@@ -84,8 +83,7 @@ public final class PersistentUrlTransformIntegrationTests
     public TemporaryFolder tempDirectory = new TemporaryFolder();
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         mockDocMetadata = EasyMock.createMock(DocMetadata.class);
         mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
         mocGenerateDocumentDataBlockService = EasyMock.createMock(GenerateDocumentDataBlockServiceImpl.class);
@@ -120,8 +118,7 @@ public final class PersistentUrlTransformIntegrationTests
 
     @Test
     @Ignore //ignored due to 30+ second runtime (and broken)
-    public void testCiteQueryAdapterLinksUsingCodesStatutesStylesheet() throws Exception
-    {
+    public void testCiteQueryAdapterLinksUsingCodesStatutesStylesheet() throws Exception {
         final String renderedOutput = getWestLawNextRenderedOutput("Iff49dfd67c8f11da9de6e47d6d5aa7a5");
 
         int result = buildUrlsFromString(renderedOutput, DOCUMENT_HEAD_XPATH_EXPR);
@@ -142,8 +139,7 @@ public final class PersistentUrlTransformIntegrationTests
 
     @Test
     @Ignore //ignored due to 30+ second runtime (and broken)
-    public void testN1E6B9EE08D7111D8A8ACD145B11214D7ContentBlock() throws Exception
-    {
+    public void testN1E6B9EE08D7111D8A8ACD145B11214D7ContentBlock() throws Exception {
         final String renderedOutput = getWestLawNextRenderedOutput("N1E6B9EE08D7111D8A8ACD145B11214D7");
 
         int result = buildUrlsFromString(renderedOutput, CONTENT_BLOCK_XPATH_EXPR);
@@ -164,8 +160,7 @@ public final class PersistentUrlTransformIntegrationTests
 
     @Test
     @Ignore //ignored due to 30+ second runtime (and broken)
-    public void testN1E6B9EE08D7111D8A8ACD145B11214D7ParagraphText() throws Exception
-    {
+    public void testN1E6B9EE08D7111D8A8ACD145B11214D7ParagraphText() throws Exception {
         final String renderedOutput = getWestLawNextRenderedOutput("N1E6B9EE08D7111D8A8ACD145B11214D7");
 
         int result = buildUrlsFromString(renderedOutput, PARAGRAPH_TEXT_XPATH_EXPR);
@@ -186,8 +181,7 @@ public final class PersistentUrlTransformIntegrationTests
 
     @Test
     @Ignore //ignored due to 30+ second runtime (and broken)
-    public void testN1E6B9EE08D7111D8A8ACD145B11214D7PrelimGoldenLeaf() throws Exception
-    {
+    public void testN1E6B9EE08D7111D8A8ACD145B11214D7PrelimGoldenLeaf() throws Exception {
         final String renderedOutput = getWestLawNextRenderedOutput("N1E6B9EE08D7111D8A8ACD145B11214D7");
 
         System.out.println("Output is " + renderedOutput);
@@ -213,8 +207,7 @@ public final class PersistentUrlTransformIntegrationTests
 
     @Test
     @Ignore //ignored due to 30+ second runtime (and broken)
-    public void testN2129FB908D7111D8A8ACD145B11214D71ParagraphText() throws Exception
-    {
+    public void testN2129FB908D7111D8A8ACD145B11214D71ParagraphText() throws Exception {
         final String renderedOutput = getWestLawNextRenderedOutput("N2129FB908D7111D8A8ACD145B11214D7");
 
         int result = buildUrlsFromString(renderedOutput, PARAGRAPH_TEXT_XPATH_EXPR);
@@ -235,8 +228,7 @@ public final class PersistentUrlTransformIntegrationTests
 
     @Test
     @Ignore //ignored due to 30+ second runtime (and broken)
-    public void testN2129FB908D7111D8A8ACD145B11214D7ContentBlock() throws Exception
-    {
+    public void testN2129FB908D7111D8A8ACD145B11214D7ContentBlock() throws Exception {
         final String renderedOutput = getWestLawNextRenderedOutput("N2129FB908D7111D8A8ACD145B11214D7");
 
         int result = buildUrlsFromString(renderedOutput, CONTENT_BLOCK_XPATH_EXPR);
@@ -257,8 +249,7 @@ public final class PersistentUrlTransformIntegrationTests
 
     @Test
     @Ignore //ignored due to 30+ second runtime (and broken)
-    public void testN2129FB908D7111D8A8ACD145B11214D7PrelimGoldenLeaf() throws Exception
-    {
+    public void testN2129FB908D7111D8A8ACD145B11214D7PrelimGoldenLeaf() throws Exception {
         final String renderedOutput = getWestLawNextRenderedOutput("N2129FB908D7111D8A8ACD145B11214D7");
 
         int result = buildUrlsFromString(renderedOutput, PRELIMGOLDENLEAF_XPATH_EXPR_3);
@@ -283,8 +274,7 @@ public final class PersistentUrlTransformIntegrationTests
 
     @Test
     @Ignore //ignored due to 30+ second runtime (and broken)
-    public void testN5AE4A3C0D2A311DFA872E294CFCC8A91ContentBlock() throws Exception
-    {
+    public void testN5AE4A3C0D2A311DFA872E294CFCC8A91ContentBlock() throws Exception {
         final String renderedOutput = getWestLawNextRenderedOutput("N5AE4A3C0D2A311DFA872E294CFCC8A91");
 
         int result = buildUrlsFromString(renderedOutput, CONTENT_BLOCK_XPATH_EXPR);
@@ -305,8 +295,7 @@ public final class PersistentUrlTransformIntegrationTests
 
     @Test
     @Ignore //ignored due to 30+ second runtime (and broken)
-    public void testN5AE4A3C0D2A311DFA872E294CFCC8A91ParagraphText() throws Exception
-    {
+    public void testN5AE4A3C0D2A311DFA872E294CFCC8A91ParagraphText() throws Exception {
         final String renderedOutput = getWestLawNextRenderedOutput("N5AE4A3C0D2A311DFA872E294CFCC8A91");
 
         int result = buildUrlsFromString(renderedOutput, PARAGRAPH_TEXT_XPATH_EXPR);
@@ -327,8 +316,7 @@ public final class PersistentUrlTransformIntegrationTests
 
     @Test
     @Ignore //ignored due to 30+ second runtime (and broken)
-    public void testN5AE4A3C0D2A311DFA872E294CFCC8A91PrelimGoldenLeaf() throws Exception
-    {
+    public void testN5AE4A3C0D2A311DFA872E294CFCC8A91PrelimGoldenLeaf() throws Exception {
         final String renderedOutput = getWestLawNextRenderedOutput("N5AE4A3C0D2A311DFA872E294CFCC8A91");
 
         int result = buildUrlsFromString(renderedOutput, PRELIMGOLDENLEAF_XPATH_EXPR_3);
@@ -353,8 +341,7 @@ public final class PersistentUrlTransformIntegrationTests
 
     @Test
     @Ignore //ignored due to 30+ second runtime (and broken)
-    public void testN98740E607CC011DC8B69829BAAB1B5B5ParagraphText() throws Exception
-    {
+    public void testN98740E607CC011DC8B69829BAAB1B5B5ParagraphText() throws Exception {
         final String renderedOutput = getWestLawNextRenderedOutput("N2129FB908D7111D8A8ACD145B11214D7");
 
         int result = buildUrlsFromString(renderedOutput, PARAGRAPH_TEXT_XPATH_EXPR);
@@ -375,8 +362,7 @@ public final class PersistentUrlTransformIntegrationTests
 
     @Test
     @Ignore //ignored due to 30+ second runtime (and broken)
-    public void testNB915D0707CBD11DC8EE4814D1B0549C2ContentBlock() throws Exception
-    {
+    public void testNB915D0707CBD11DC8EE4814D1B0549C2ContentBlock() throws Exception {
         final String renderedOutput = getWestLawNextRenderedOutput("NB915D0707CBD11DC8EE4814D1B0549C2");
 
         int result = buildUrlsFromString(renderedOutput, CONTENT_BLOCK_XPATH_EXPR);
@@ -397,8 +383,7 @@ public final class PersistentUrlTransformIntegrationTests
 
     @Test
     @Ignore //ignored due to 30+ second runtime (and broken)
-    public void testNB915D0707CBD11DC8EE4814D1B0549C2ParagraphText() throws Exception
-    {
+    public void testNB915D0707CBD11DC8EE4814D1B0549C2ParagraphText() throws Exception {
         final String renderedOutput = getWestLawNextRenderedOutput("NB915D0707CBD11DC8EE4814D1B0549C2");
 
         int result = buildUrlsFromString(renderedOutput, PARAGRAPH_TEXT_XPATH_EXPR);
@@ -419,8 +404,7 @@ public final class PersistentUrlTransformIntegrationTests
 
     @Test
     @Ignore //ignored due to 30+ second runtime (and broken)
-    public void testNB915D0707CBD11DC8EE4814D1B0549C2PrelimGoldenLeaf() throws Exception
-    {
+    public void testNB915D0707CBD11DC8EE4814D1B0549C2PrelimGoldenLeaf() throws Exception {
         final String renderedOutput = getWestLawNextRenderedOutput("NB915D0707CBD11DC8EE4814D1B0549C2");
 
         int result = buildUrlsFromString(renderedOutput, PRELIMGOLDENLEAF_XPATH_EXPR_3);
@@ -445,8 +429,7 @@ public final class PersistentUrlTransformIntegrationTests
 
     @Test
     @Ignore
-    public void testUrlBuilderAdapterForKeyciteFlagUrl() throws Exception
-    {
+    public void testUrlBuilderAdapterForKeyciteFlagUrl() throws Exception {
         final String inputXmlFragment = "<keyCiteFlagLink.Url docGuid=\"DOC_GUID\"/>";
         final StreamSource inputSource = new StreamSource(new ByteArrayInputStream(inputXmlFragment.getBytes("UTF-8")));
 
@@ -467,8 +450,7 @@ public final class PersistentUrlTransformIntegrationTests
 
     @Test
     @Ignore //ignored due to 30+ second runtime (and broken)
-    public void testUrlBuilderAdapterLinksUsingPdfImageHref() throws Exception
-    {
+    public void testUrlBuilderAdapterLinksUsingPdfImageHref() throws Exception {
         final String renderedOutput = getWestLawNextRenderedOutput(PRE_RENDERED_GUID);
         System.out.println("Chinana" + renderedOutput);
 
@@ -490,8 +472,7 @@ public final class PersistentUrlTransformIntegrationTests
 
     @Test
     @Ignore //ignored due to 30+ second runtime (and broken)
-    public void testUrlBuilderAdapterLinksUsingPdfImageMetadata() throws Exception
-    {
+    public void testUrlBuilderAdapterLinksUsingPdfImageMetadata() throws Exception {
         final String renderedOutput = getWestLawNextRenderedOutput(PRE_RENDERED_GUID);
 
         int result = buildUrlsFromString(renderedOutput, IMAGEBLOCK_XPATH_EXPR);
@@ -510,9 +491,9 @@ public final class PersistentUrlTransformIntegrationTests
                 + WEST_LAW_RENDERED_XML);
     }
 
-    private int buildUrlsFromFile(final String xmlFile, final String xpathString)
-    {
-        final File expectedWlnOutput = new File(PersistentUrlTransformIntegrationTests.class.getResource(xmlFile).getFile());
+    private int buildUrlsFromFile(final String xmlFile, final String xpathString) {
+        final File expectedWlnOutput =
+            new File(PersistentUrlTransformIntegrationTests.class.getResource(xmlFile).getFile());
 
         final DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
         domFactory.setNamespaceAware(true);
@@ -520,8 +501,7 @@ public final class PersistentUrlTransformIntegrationTests
         final DocumentBuilder builder;
         NodeList nodes = null;
 
-        try
-        {
+        try {
             builder = domFactory.newDocumentBuilder();
 
             final Document doc = builder.parse(expectedWlnOutput);
@@ -531,25 +511,21 @@ public final class PersistentUrlTransformIntegrationTests
             final XPathExpression expr = xpath.compile(xpathString);
             final Object result = expr.evaluate(doc, XPathConstants.NODESET);
             nodes = (NodeList) result;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
         }
 
         return nodes.getLength();
     }
 
-    private int buildUrlsFromString(final String str, final String xpathExpression)
-    {
+    private int buildUrlsFromString(final String str, final String xpathExpression) {
         final DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
         domFactory.setNamespaceAware(true);
 
         final DocumentBuilder builder;
         NodeList nodes = null;
 
-        try
-        {
+        try {
             builder = domFactory.newDocumentBuilder();
 
             final Document doc = builder.parse(new ByteArrayInputStream(str.getBytes("UTF-8")));
@@ -559,9 +535,7 @@ public final class PersistentUrlTransformIntegrationTests
             final XPathExpression expr = xpath.compile(xpathExpression);
             final Object result = expr.evaluate(doc, XPathConstants.NODESET);
             nodes = (NodeList) result;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
         }
 
@@ -569,13 +543,13 @@ public final class PersistentUrlTransformIntegrationTests
     }
 
     private String getWestLawNextRenderedOutput(final String preRenderedInput)
-        throws EBookFormatException, FileNotFoundException, IOException
-    {
+        throws EBookFormatException, FileNotFoundException, IOException {
         novusXmlFilename = preRenderedInput + ".xml";
 
         mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
 
-        EasyMock.expect(mockDocMetadataService.findDocMetadataByPrimaryKey(titleId, Long.valueOf(12345), preRenderedInput))
+        EasyMock
+            .expect(mockDocMetadataService.findDocMetadataByPrimaryKey(titleId, Long.valueOf(12345), preRenderedInput))
             .andReturn(mockDocMetadata);
 
         EasyMock.replay(mockDocMetadataService);
@@ -590,7 +564,8 @@ public final class PersistentUrlTransformIntegrationTests
         transformerService.setGenerateDocumentDataBlockService(mocGenerateDocumentDataBlockService);
         EasyMock.replay(mocGenerateDocumentDataBlockService);
 
-        final File novusXml = new File(PersistentUrlTransformIntegrationTests.class.getResource(novusXmlFilename).getFile());
+        final File novusXml =
+            new File(PersistentUrlTransformIntegrationTests.class.getResource(novusXmlFilename).getFile());
         final File transformedDirectory = tempDirectory.newFolder("transformed");
 
         transformerService.setfileHandlingHelper(getFileHandlingHelper(novusXmlFilename.toLowerCase()));
@@ -611,8 +586,7 @@ public final class PersistentUrlTransformIntegrationTests
         return renderedOutput;
     }
 
-    private FileHandlingHelper getFileHandlingHelper(final String novusXmlFilename)
-    {
+    private FileHandlingHelper getFileHandlingHelper(final String novusXmlFilename) {
         final FileHandlingHelper fileHandlingHelper = new FileHandlingHelper();
         final FileExtensionFilter fileExtensionFilter = new FileExtensionFilter();
         fileExtensionFilter.setAcceptedFileExtensions(new String[] {novusXmlFilename});
@@ -620,8 +594,7 @@ public final class PersistentUrlTransformIntegrationTests
         return fileHandlingHelper;
     }
 
-    private void verifyAll()
-    {
+    private void verifyAll() {
         EasyMock.verify(mockDocMetadataService);
         EasyMock.verify(mockDocMetadata);
     }

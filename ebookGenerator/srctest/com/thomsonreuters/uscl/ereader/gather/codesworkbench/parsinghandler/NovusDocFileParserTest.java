@@ -22,8 +22,7 @@ import org.junit.rules.TemporaryFolder;
  *
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568.
  */
-public final class NovusDocFileParserTest
-{
+public final class NovusDocFileParserTest {
     @Rule
     public TemporaryFolder testFiles = new TemporaryFolder();
     private File cwbDir;
@@ -36,8 +35,7 @@ public final class NovusDocFileParserTest
     private Integer numberOfDocuments = 0;
 
     @Before
-    public void setUp() throws IOException
-    {
+    public void setUp() throws IOException {
         cwbDir = testFiles.newFolder("cwb");
         docGuidsMap = new HashMap<>();
         docGuidsMap.put("1", 1);
@@ -57,42 +55,33 @@ public final class NovusDocFileParserTest
     }
 
     @Test
-    public void testNoneExistingFile()
-    {
+    public void testNoneExistingFile() {
         final File nort = new File(cwbDir, "none.xml");
 
-        try
-        {
+        try {
             parser.parseXML(nort);
             fail("Test should throw GatherException: File Not Found error");
-        }
-        catch (final GatherException e)
-        {
+        } catch (final GatherException e) {
             //expected exception thrown
             e.printStackTrace();
         }
     }
 
     @Test
-    public void testInvalidXML()
-    {
+    public void testInvalidXML() {
         final File nort = new File(cwbDir, "none.xml");
         addContentToFile(nort, "asdasd");
-        try
-        {
+        try {
             parser.parseXML(nort);
             fail("Test should throw GatherException");
-        }
-        catch (final GatherException e)
-        {
+        } catch (final GatherException e) {
             //expected exception thrown
             e.printStackTrace();
         }
     }
 
     @Test
-    public void testDocFound() throws GatherException
-    {
+    public void testDocFound() throws GatherException {
         final File nort = new File(cwbDir, "none.xml");
         addContentToFile(
             nort,
@@ -107,8 +96,7 @@ public final class NovusDocFileParserTest
     }
 
     @Test
-    public void testDocFoundWithDuplicates() throws GatherException
-    {
+    public void testDocFoundWithDuplicates() throws GatherException {
         final File nort = new File(cwbDir, "none.xml");
         addContentToFile(
             nort,
@@ -125,8 +113,7 @@ public final class NovusDocFileParserTest
     }
 
     @Test
-    public void testDocFoundWithExtra() throws GatherException
-    {
+    public void testDocFoundWithExtra() throws GatherException {
         final File nort = new File(cwbDir, "none.xml");
         addContentToFile(
             nort,
@@ -143,8 +130,7 @@ public final class NovusDocFileParserTest
     }
 
     @Test
-    public void testDuplicateDocInAnotherContentSet() throws GatherException
-    {
+    public void testDuplicateDocInAnotherContentSet() throws GatherException {
         final String docGuid = "1";
         docGuidsMap.clear();
         docGuidsMap.put(docGuid + "-" + documentLevel, 1);
@@ -170,19 +156,13 @@ public final class NovusDocFileParserTest
         Assert.assertEquals(numberOfDocuments.intValue(), gatherResponse.getDocCount());
     }
 
-    private void addContentToFile(final File file, final String text)
-    {
-        try (FileWriter fileOut = new FileWriter(file))
-        {
+    private void addContentToFile(final File file, final String text) {
+        try (FileWriter fileOut = new FileWriter(file)) {
             fileOut.write(text);
             fileOut.close();
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             e.printStackTrace();
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }

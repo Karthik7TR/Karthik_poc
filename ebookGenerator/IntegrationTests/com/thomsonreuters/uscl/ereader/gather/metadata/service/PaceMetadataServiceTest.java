@@ -27,8 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
 @Transactional
-public class PaceMetadataServiceTest
-{
+public class PaceMetadataServiceTest {
     /**
      * The service being tested, injected by Spring.
      *
@@ -49,8 +48,7 @@ public class PaceMetadataServiceTest
      * @throws Exception
      */
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         // mock up the document metadata
         paceMetadata = new com.thomsonreuters.uscl.ereader.gather.metadata.domain.PaceMetadata();
         paceMetadata.setActive("H");
@@ -66,8 +64,7 @@ public class PaceMetadataServiceTest
      * Operation Unit Test
      */
     @Test
-    public void findPaceMetadataByPrimaryKey()
-    {
+    public void findPaceMetadataByPrimaryKey() {
         final Long titleId = paceMetadata.getPublicationId();
         PaceMetadata response = null;
         response = paceMetadataService.findPaceMetadataByPrimaryKey(titleId);
@@ -78,8 +75,7 @@ public class PaceMetadataServiceTest
      * Operation Unit Test
      */
     @Test
-    public void findPaceMetadataByPublicationCode()
-    {
+    public void findPaceMetadataByPublicationCode() {
         final Long titleId = paceMetadata.getPublicationCode();
         List<PaceMetadata> response = new ArrayList<>();
         response = paceMetadataService.findAllPaceMetadataForPubCode(titleId);
@@ -92,8 +88,7 @@ public class PaceMetadataServiceTest
      *
      */
     @After
-    public void deleteDocMetadata()
-    {
+    public void deleteDocMetadata() {
         paceMetadataService.deletePaceMetadata(paceMetadata);
     }
 }

@@ -9,8 +9,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  *  Provides access to folders, which contain files for final archive
  */
-public interface ResourcesFileSystem
-{
+public interface ResourcesFileSystem {
     /**
      * {@link com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem#getHtmlPagesDirectory}
      */

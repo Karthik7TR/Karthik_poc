@@ -16,8 +16,7 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 
-public class MoveResourcesUtil
-{
+public class MoveResourcesUtil {
     /**
      * The file path of the user generated files for front matter pdfs.
      */
@@ -40,40 +39,34 @@ public class MoveResourcesUtil
     private CoverArtUtil coverArtUtil;
 
     @Required
-    public void setStaticContentDirectory(final File staticContentDirectory)
-    {
+    public void setStaticContentDirectory(final File staticContentDirectory) {
         this.staticContentDirectory = staticContentDirectory;
     }
 
     @Required
-    public void setCoverArtUtil(final CoverArtUtil coverArtUtil)
-    {
+    public void setCoverArtUtil(final CoverArtUtil coverArtUtil) {
         this.coverArtUtil = coverArtUtil;
     }
 
-    public void moveCoverArt(final ExecutionContext jobExecutionContext, final File artworkDirectory) throws IOException
-    {
+    public void moveCoverArt(final ExecutionContext jobExecutionContext, final File artworkDirectory)
+        throws IOException {
         final File coverArt = createCoverArt(jobExecutionContext);
         FileUtils.copyFileToDirectory(coverArt, artworkDirectory);
     }
 
-    public File createCoverArt(final ExecutionContext jobExecutionContext)
-    {
-        final File coverArt = coverArtUtil.getCoverArt(
-            (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION));
+    public File createCoverArt(final ExecutionContext jobExecutionContext) {
+        final File coverArt =
+            coverArtUtil.getCoverArt((BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION));
         jobExecutionContext.putString(JobExecutionKey.COVER_ART_PATH, coverArt.getAbsolutePath());
         return coverArt;
     }
 
-    public void copySourceToDestination(final File sourceDir, final File destinationDirectory) throws IOException
-    {
+    public void copySourceToDestination(final File sourceDir, final File destinationDirectory) throws IOException {
         FileUtils.copyDirectory(sourceDir, destinationDirectory);
     }
 
-    public void copyFilesToDestination(final List<File> fileList, final File destinationDirectory) throws IOException
-    {
-        for (final File file : fileList)
-        {
+    public void copyFilesToDestination(final List<File> fileList, final File destinationDirectory) throws IOException {
+        for (final File file : fileList) {
             FileUtils.copyFileToDirectory(file, destinationDirectory);
         }
     }
@@ -81,36 +74,29 @@ public class MoveResourcesUtil
     public void moveFrontMatterImages(
         final ExecutionContext jobExecutionContext,
         final File assetsDirectory,
-        final boolean move) throws IOException
-    {
+        final boolean move) throws IOException {
         final BookDefinition bookDefinition =
             (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);
         final File frontMatterImagesDir = new File(EBOOK_GENERATOR_IMAGES_DIR);
 
         final List<File> filter = filterFiles(frontMatterImagesDir, bookDefinition);
 
-        for (final File file : frontMatterImagesDir.listFiles())
-        {
-            if (!filter.contains(file))
-            {
+        for (final File file : frontMatterImagesDir.listFiles()) {
+            if (!filter.contains(file)) {
                 FileUtils.copyFileToDirectory(file, assetsDirectory);
             }
         }
 
-        if (move)
-        {
+        if (move) {
             final List<FrontMatterPdf> pdfList = new ArrayList<>();
             final List<FrontMatterPage> fmps = bookDefinition.getFrontMatterPages();
-            for (final FrontMatterPage fmp : fmps)
-            {
-                for (final FrontMatterSection fms : fmp.getFrontMatterSections())
-                {
+            for (final FrontMatterPage fmp : fmps) {
+                for (final FrontMatterSection fms : fmp.getFrontMatterSections()) {
                     pdfList.addAll(fms.getPdfs());
                 }
             }
 
-            for (final FrontMatterPdf pdf : pdfList)
-            {
+            for (final FrontMatterPdf pdf : pdfList) {
                 final File pdfFile = new File(EBOOK_FRONT_MATTER_PDF_IMAGES_FILEPATH + pdf.getPdfFilename());
                 FileUtils.copyFileToDirectory(pdfFile, assetsDirectory);
             }
@@ -126,22 +112,17 @@ public class MoveResourcesUtil
      * @throws FileNotFoundException
      */
     public List<File> filterFiles(final File frontMatterImagesDir, final BookDefinition bookDefinition)
-        throws FileNotFoundException
-    {
+        throws FileNotFoundException {
         final List<File> filter = new ArrayList<>();
-        if (!frontMatterImagesDir.exists())
-        {
+        if (!frontMatterImagesDir.exists()) {
             throw new FileNotFoundException("Directory not found:  " + frontMatterImagesDir.getPath());
         }
-        for (final File file : frontMatterImagesDir.listFiles())
-        {
+        for (final File file : frontMatterImagesDir.listFiles()) {
             if (!bookDefinition.getFrontMatterTheme().equalsIgnoreCase(FrontMatterTitlePageFilter.AAJ_PRESS_THEME)
-                && file.getName().startsWith("AAJ"))
-            {
+                && file.getName().startsWith("AAJ")) {
                 filter.add(file);
             }
-            if (!bookDefinition.getKeyciteToplineFlag() && file.getName().startsWith("keycite"))
-            {
+            if (!bookDefinition.getKeyciteToplineFlag() && file.getName().startsWith("keycite")) {
                 filter.add(file);
             }
         }
@@ -149,8 +130,7 @@ public class MoveResourcesUtil
         return filter;
     }
 
-    protected void moveStylesheet(final File assetsDirectory) throws IOException
-    {
+    protected void moveStylesheet(final File assetsDirectory) throws IOException {
         File stylesheet = new File(staticContentDirectory, DOCUMENT_CSS_FILE);
         FileUtils.copyFileToDirectory(stylesheet, assetsDirectory);
         stylesheet = new File(EBOOK_GENERATOR_CSS_FILE);

@@ -38,8 +38,7 @@ import org.springframework.web.client.RestTemplate;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
 @Ignore
-public final class AssembleAndDeliverIntegrationTest
-{
+public final class AssembleAndDeliverIntegrationTest {
     private ProviewClientImpl proviewClient;
     private DefaultHttpClient defaultHttpClient;
     private TitleMetadata titleMetadata;
@@ -70,8 +69,7 @@ public final class AssembleAndDeliverIntegrationTest
     private Artwork artwork = new Artwork("yarrCoverArt.gif");
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         timestamp = System.currentTimeMillis();
         titleId = "regression_test";
         titleIdFullyQualified = TITLE_ID_PREFIX + titleId;
@@ -81,15 +79,13 @@ public final class AssembleAndDeliverIntegrationTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         FileUtils.delete(eBookDirectory);
         FileUtils.delete(tempFile);
         //FileUtils.delete(eBook);
     }
 
-    private void bootstrapEbookDirectory() throws IOException
-    {
+    private void bootstrapEbookDirectory() throws IOException {
         tempFile = File.createTempFile("pirate", "ship");
         eBookDirectory = new File(tempFile.getParentFile(), "eBook");
         eBookDirectory.mkdirs();
@@ -129,8 +125,7 @@ public final class AssembleAndDeliverIntegrationTest
         IOUtils.closeQuietly(styleSheetOutputStream);
     }
 
-    private void setUpProviewClient()
-    {
+    private void setUpProviewClient() {
         proviewClient = new ProviewClientImpl();
         proviewClient.setPublishTitleUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + publishTitleUriTemplate);
         final HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
@@ -146,8 +141,7 @@ public final class AssembleAndDeliverIntegrationTest
         proviewClient.setRestTemplate(restTemplate);
     }
 
-    private void setUpTitleMetadata()
-    {
+    private void setUpTitleMetadata() {
         titleMetadata = new TitleMetadata(titleIdFullyQualified, "v" + timestamp);
         titleMetadata.setCopyright("The High Seas Trading Company");
         titleMetadata.setArtwork(artwork);
@@ -174,8 +168,7 @@ public final class AssembleAndDeliverIntegrationTest
         tocEntries.add(new TocEntry(DOCUMENT_TWO_ID, "plundering", "Plundering", 1));
         tocEntries.add(new TocEntry(DOCUMENT_THREE_ID, "landlubbers", "Landlubbers", 1));
         final TableOfContents tableOfContents = new TableOfContents();
-        for (final TocNode child : tocEntries)
-        {
+        for (final TocNode child : tocEntries) {
             tableOfContents.addChild(child);
         }
         titleMetadata.setTableOfContents(tableOfContents);
@@ -183,8 +176,7 @@ public final class AssembleAndDeliverIntegrationTest
     }
 
     @Ignore
-    public void testPublishGoldDataToProView() throws Exception
-    {
+    public void testPublishGoldDataToProView() throws Exception {
         final EBookAssemblyServiceImpl eBookAssemblyServiceImpl = new EBookAssemblyServiceImpl();
         eBookDirectory = new File("C:\\Ebook\\Stories\\demoBook\\test_analyticaltbooksplitimages_pt2");
         final File splitEbookFile = new File(

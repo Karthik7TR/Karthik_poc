@@ -16,8 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
  * Aspect to retry Proview API call if one failed
  */
 @Aspect
-public class ProviewRetryAspect
-{
+public class ProviewRetryAspect {
     private static final Logger LOG = LogManager.getLogger(ProviewRetryAspect.class);
 
     @Value("2")
@@ -28,29 +27,21 @@ public class ProviewRetryAspect
     private Integer baseSleepTimeInMinutes;
 
     @Around("@annotation(com.thomsonreuters.uscl.ereader.common.proview.ProviewRetry)")
-    public void around(final ProceedingJoinPoint jp) throws Throwable
-    {
+    public void around(final ProceedingJoinPoint jp) throws Throwable {
         waitProview(baseSleepTimeInMinutes);
-        for (int i = 0; i <= maxNumberOfRetries; i++)
-        {
-            try
-            {
+        for (int i = 0; i <= maxNumberOfRetries; i++) {
+            try {
                 jp.proceed();
                 return;
-            }
-            catch (final ProviewException e)
-            {
-                if (e.getMessage().equalsIgnoreCase(CoreConstants.TTILE_IN_QUEUE))
-                {
+            } catch (final ProviewException e) {
+                if (e.getMessage().equalsIgnoreCase(CoreConstants.TTILE_IN_QUEUE)) {
                     LOG.warn(
                         String.format(
                             "Retriable status received: waiting %d minutes (retryCount: %d)",
                             sleepTimeInMinutes,
                             i + 1));
                     waitProview(sleepTimeInMinutes);
-                }
-                else
-                {
+                } else {
                     throw new ProviewRuntimeException(e.getMessage());
                 }
             }
@@ -63,22 +54,17 @@ public class ProviewRetryAspect
                     maxNumberOfRetries + 1));
     }
 
-    void waitProview(final Integer timeInMinutes)
-    {
+    void waitProview(final Integer timeInMinutes) {
         // Most of the books should finish in two minutes
-        try
-        {
+        try {
             TimeUnit.MINUTES.sleep(timeInMinutes);
-        }
-        catch (final InterruptedException e)
-        {
+        } catch (final InterruptedException e) {
             LOG.error("InterruptedException during HTTP retry", e);
             Thread.currentThread().interrupt();
         }
     }
 
-    void setMaxNumberOfRetries(final Integer maxNumberOfRetries)
-    {
+    void setMaxNumberOfRetries(final Integer maxNumberOfRetries) {
         this.maxNumberOfRetries = maxNumberOfRetries;
     }
 }

@@ -24,8 +24,7 @@ import org.springframework.beans.factory.annotation.Value;
  */
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
-public class AddSectionbreaksStep extends XppTransformationStep
-{
+public class AddSectionbreaksStep extends XppTransformationStep {
     private static final String MAIN_DOCUMENT_WITH_SECTIONBREAKS_PARAM = "mainFile";
     private static final String FOOTNOTES_DOCUMENT_ORIGINAL_PARAM = "footnotesFile";
 
@@ -43,20 +42,18 @@ public class AddSectionbreaksStep extends XppTransformationStep
     private Transformer transformerFootnotes;
 
     @Override
-    public void executeTransformation() throws IOException
-    {
+    public void executeTransformation() throws IOException {
         transformerMainType = transformerBuilderFactory.create().withXsl(addSectionbreaksToOriginalXsl).build();
         transformerOtherTypes = transformerBuilderFactory.create().withXsl(addLinksFromMainToFootnotes).build();
-        transformerFootnotes = transformerBuilderFactory.create().withXsl(addSectionbreaksToOriginalFootnotesXsl).build();
+        transformerFootnotes =
+            transformerBuilderFactory.create().withXsl(addSectionbreaksToOriginalFootnotesXsl).build();
 
         for (final Map.Entry<String, BaseFilesByBaseNameIndex> filesByMaterialNumber : fileSystem
-            .getStructureWithMetadataFilesIndex(this).getFilesByMaterialNumber())
-        {
+            .getStructureWithMetadataFilesIndex(this).getFilesByMaterialNumber()) {
             final String materialNumber = filesByMaterialNumber.getKey();
             FileUtils.forceMkdir(fileSystem.getSectionbreaksDirectory(this, materialNumber));
             for (final Map.Entry<String, BaseFilesByTypeIndex> filesByBaseName : filesByMaterialNumber.getValue()
-                .filesByBaseName())
-            {
+                .filesByBaseName()) {
                 transformSingleFile(materialNumber, filesByBaseName);
             }
         }
@@ -64,8 +61,7 @@ public class AddSectionbreaksStep extends XppTransformationStep
 
     private void transformSingleFile(
         final String materialNumber,
-        final Map.Entry<String, BaseFilesByTypeIndex> filesByBaseName)
-    {
+        final Map.Entry<String, BaseFilesByTypeIndex> filesByBaseName) {
         final File mainFile = filesByBaseName.getValue().get(PartType.MAIN);
         final File footnotesFile = filesByBaseName.getValue().get(PartType.FOOTNOTE);
 
@@ -75,36 +71,49 @@ public class AddSectionbreaksStep extends XppTransformationStep
             fileSystem.getSectionbreaksFile(this, materialNumber, footnotesFile.getName());
 
         final BundleFileType bundleFileType = BundleFileType.getByFileName(mainFile.getName());
-        if (bundleFileType == BundleFileType.MAIN_CONTENT)
-        {
+        if (bundleFileType == BundleFileType.MAIN_CONTENT) {
             transformMainFile(transformerMainType, mainFile, footnotesFile, mainFileWithSectionbreaks);
-        }
-        else
-        {
+        } else {
             transformMainFile(transformerOtherTypes, mainFile, footnotesFile, mainFileWithSectionbreaks);
         }
 
         transformFootnoteFile(footnotesFile, mainFileWithSectionbreaks, footnotesFileWithSectionbreaks);
     }
 
-    private void transformMainFile(final Transformer transformer, final File inputMainFile, final File parameterFootnoteFile, final File outputMainFile)
-    {
-        transformFile(transformer, inputMainFile, FOOTNOTES_DOCUMENT_ORIGINAL_PARAM, parameterFootnoteFile, outputMainFile);
+    private void transformMainFile(
+        final Transformer transformer,
+        final File inputMainFile,
+        final File parameterFootnoteFile,
+        final File outputMainFile) {
+        transformFile(
+            transformer,
+            inputMainFile,
+            FOOTNOTES_DOCUMENT_ORIGINAL_PARAM,
+            parameterFootnoteFile,
+            outputMainFile);
     }
 
-    private void transformFootnoteFile(final File inputFootnoteFile, final File parameterMainFile, final File outputFootnotesFile)
-    {
-        transformFile(transformerFootnotes, inputFootnoteFile, MAIN_DOCUMENT_WITH_SECTIONBREAKS_PARAM, parameterMainFile, outputFootnotesFile);
+    private void transformFootnoteFile(
+        final File inputFootnoteFile,
+        final File parameterMainFile,
+        final File outputFootnotesFile) {
+        transformFile(
+            transformerFootnotes,
+            inputFootnoteFile,
+            MAIN_DOCUMENT_WITH_SECTIONBREAKS_PARAM,
+            parameterMainFile,
+            outputFootnotesFile);
     }
 
-    private void transformFile(final Transformer transformer, final File inputFile, final String paramName, final File parameterFile, final File outputFile)
-    {
-        transformer.setParameter(
-            paramName,
-            parameterFile.getAbsolutePath().replace("\\", "/"));
+    private void transformFile(
+        final Transformer transformer,
+        final File inputFile,
+        final String paramName,
+        final File parameterFile,
+        final File outputFile) {
+        transformer.setParameter(paramName, parameterFile.getAbsolutePath().replace("\\", "/"));
 
-        transformationService.transform(
-            new TransformationCommandBuilder(transformer, outputFile).withInput(inputFile)
-            .build());
+        transformationService
+            .transform(new TransformationCommandBuilder(transformer, outputFile).withInput(inputFile).build());
     }
 }

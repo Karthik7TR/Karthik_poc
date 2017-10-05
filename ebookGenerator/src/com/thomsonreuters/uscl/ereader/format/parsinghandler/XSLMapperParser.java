@@ -25,8 +25,7 @@ import org.xml.sax.helpers.DefaultHandler;
  *
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
-public class XSLMapperParser extends DefaultHandler
-{
+public class XSLMapperParser extends DefaultHandler {
     private static final Logger LOG = LogManager.getLogger(XSLMapperParser.class);
 
     private static final String CONTENT_TYPE = "ContentType";
@@ -44,17 +43,14 @@ public class XSLMapperParser extends DefaultHandler
     //keyed map used to search for the corresponding XSLTMapperEntity.
     private Map<String, String> xsltFileNameByCollectionName = new HashMap<>();
 
-    public XSLMapperParser()
-    {
+    public XSLMapperParser() {
         super();
     }
 
-    public Map<String, String> parseDocument(final File mapperFile) throws Exception
-    {
+    public Map<String, String> parseDocument(final File mapperFile) throws Exception {
         // get a factory
         final SAXParserFactory spf = SAXParserFactory.newInstance();
-        try (InputStream inputStream = new FileInputStream(mapperFile))
-        {
+        try (InputStream inputStream = new FileInputStream(mapperFile)) {
             // get a new instance of parser
             final SAXParser sp = spf.newSAXParser();
 
@@ -67,25 +63,20 @@ public class XSLMapperParser extends DefaultHandler
         return xsltFileNameByCollectionName;
     }
 
-    public Map<String, String> getXSLTMapperEntityByCollectionName()
-    {
+    public Map<String, String> getXSLTMapperEntityByCollectionName() {
         return xsltFileNameByCollectionName;
     }
 
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
-        throws SAXException
-    {
-        if (qName.equalsIgnoreCase(CONTENT_TYPE))
-        {
+        throws SAXException {
+        if (qName.equalsIgnoreCase(CONTENT_TYPE)) {
             final String contentTypeName = atts.getValue(CONTENT_TYPE_NAME);
             final String styleSheet = atts.getValue(STYLE_SHEET);
 
             // Key is ContentTypeName in ContentType element from XML file
             contentTypes.put(contentTypeName, styleSheet);
-        }
-        else if (qName.equalsIgnoreCase(COLLECTION_GROUP))
-        {
+        } else if (qName.equalsIgnoreCase(COLLECTION_GROUP)) {
             final String collectionName = atts.getValue(COLLECTION_NAME);
             final String contentTypeName = atts.getValue(CONTENT_TYPE_NAME);
 
@@ -93,11 +84,8 @@ public class XSLMapperParser extends DefaultHandler
             xsltMapperEntity.setCollection(collectionName);
             xsltMapperEntity.setCONTENT_TYPE(contentTypeName);
             xsltMapperEntity.setXSLT(contentTypes.get(contentTypeName));
-        }
-        else if (qName.equalsIgnoreCase(ATTRIBUTE))
-        {
-            if (xsltMapperEntity != null)
-            {
+        } else if (qName.equalsIgnoreCase(ATTRIBUTE)) {
+            if (xsltMapperEntity != null) {
                 xsltMapperEntity.setDOC_TYPE(atts.getValue(X_PATH_VALUE));
             }
         }
@@ -106,20 +94,15 @@ public class XSLMapperParser extends DefaultHandler
     }
 
     @Override
-    public void endElement(final String uri, final String localName, final String qName) throws SAXException
-    {
-        if (qName.equalsIgnoreCase(COLLECTION_GROUP))
-        {
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException {
+        if (qName.equalsIgnoreCase(COLLECTION_GROUP)) {
             final String collectionName = xsltMapperEntity.getCollection();
             final String docType = xsltMapperEntity.getDOC_TYPE();
             final String xslFileName = xsltMapperEntity.getXSLT();
 
-            if (StringUtils.isNotBlank(docType))
-            {
+            if (StringUtils.isNotBlank(docType)) {
                 xsltFileNameByCollectionName.put(collectionName + " " + docType, xslFileName);
-            }
-            else
-            {
+            } else {
                 xsltFileNameByCollectionName.put(collectionName, xslFileName);
             }
 

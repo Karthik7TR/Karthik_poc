@@ -19,8 +19,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class BookFileSystemImplTest
-{
+public final class BookFileSystemImplTest {
     @InjectMocks
     private BookFileSystemImpl fileSystem;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -29,8 +28,7 @@ public final class BookFileSystemImplTest
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Test
-    public void shouldReturnWorkDirectory() throws IllegalAccessException
-    {
+    public void shouldReturnWorkDirectory() throws IllegalAccessException {
         //given
         FieldUtils
             .writeField(fileSystem, "rootWorkDirectory", new File(temporaryFolder.getRoot(), "rootDirectory"), true);

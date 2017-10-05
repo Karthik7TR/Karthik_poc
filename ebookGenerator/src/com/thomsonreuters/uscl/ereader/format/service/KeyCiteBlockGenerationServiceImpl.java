@@ -18,8 +18,7 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:ravi.nandikolla@thomsonreuters.com">Ravi Nandikolla</a> c139353
  */
-public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGenerationService
-{
+public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGenerationService {
     private static final Logger LOG = LogManager.getLogger(KeyCiteBlockGenerationServiceImpl.class);
     private DocMetadataService docMetadataService;
     private String hostname;
@@ -31,13 +30,11 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
 
     @Override
     public InputStream getKeyCiteInfo(final String titleId, final long jobId, final String docGuid)
-        throws EBookFormatException
-    {
+        throws EBookFormatException {
         String url = null;
         final DocMetadata docMetadata = docMetadataService.findDocMetadataByPrimaryKey(titleId, jobId, docGuid);
 
-        if (docMetadata == null)
-        {
+        if (docMetadata == null) {
             final String message = "Document metadata could not be found for given guid ="
                 + docGuid
                 + " and title Id ="
@@ -53,29 +50,22 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
         final String firstlineCite = docMetadata.getFirstlineCite();
         final String secondlineCite = docMetadata.getSecondlineCite();
 
-        if (normalizedCite != null || firstlineCite != null || secondlineCite != null)
-        {
+        if (normalizedCite != null || firstlineCite != null || secondlineCite != null) {
             final StringBuilder buffer = new StringBuilder();
-            try
-            {
-                if (firstlineCite != null)
-                {
+            try {
+                if (firstlineCite != null) {
                     final String normalizedString = normalizeCitation(firstlineCite);
                     buffer.append(URLEncoder.encode(normalizedString + ";", "UTF-8"));
                 }
-                if (secondlineCite != null)
-                {
+                if (secondlineCite != null) {
                     final String normalizedString = normalizeCitation(secondlineCite);
                     buffer.append(URLEncoder.encode(normalizedString + ";", "UTF-8"));
                 }
-                if (normalizedCite != null)
-                {
+                if (normalizedCite != null) {
                     final String normalizedString = normalizeCitation(normalizedCite);
                     buffer.append(URLEncoder.encode(normalizedString + ";", "UTF-8"));
                 }
-            }
-            catch (final UnsupportedEncodingException e)
-            {
+            } catch (final UnsupportedEncodingException e) {
                 final String message =
                     "Encountered an Encoding issues while trying to encode the normalized cite for the KC URL.";
                 LOG.error(message, e);
@@ -90,9 +80,7 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
                 + mudParamRS
                 + "&amp;vr="
                 + mudParamVR;
-        }
-        else
-        {
+        } else {
             url = hostname
                 + KEYCITE_DOC_PARAM
                 + "docGuid="
@@ -108,11 +96,9 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
         return buildImageBlock(url);
     }
 
-    private String normalizeCitation(String cite)
-    {
+    private String normalizeCitation(String cite) {
         String normalizedCite = "";
-        if (StringUtils.isNotBlank(cite))
-        {
+        if (StringUtils.isNotBlank(cite)) {
             cite = cite.replaceAll("\\p{javaSpaceChar}", " ");
             normalizedCite = NormalizationRulesUtil.applyCitationNormalizationRules(cite);
         }
@@ -120,23 +106,19 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
     }
 
     @Required
-    public void setDocMetadataService(final DocMetadataService docMetadataService)
-    {
+    public void setDocMetadataService(final DocMetadataService docMetadataService) {
         this.docMetadataService = docMetadataService;
     }
 
-    public void setHostname(final String hostname)
-    {
+    public void setHostname(final String hostname) {
         this.hostname = hostname;
     }
 
-    public void setMudparamrs(final String mudParamaRS)
-    {
+    public void setMudparamrs(final String mudParamaRS) {
         mudParamRS = mudParamaRS;
     }
 
-    public void setMudparamvr(final String mudParamVR)
-    {
+    public void setMudparamvr(final String mudParamVR) {
         this.mudParamVR = mudParamVR;
     }
 
@@ -148,8 +130,7 @@ public class KeyCiteBlockGenerationServiceImpl implements KeyCiteBlockGeneration
      *
      * @return
      */
-    private InputStream buildImageBlock(final String URL)
-    {
+    private InputStream buildImageBlock(final String URL) {
         final StringBuffer keyCiteElement = new StringBuffer();
         keyCiteElement.append("<div id=\"ebookGeneratorKeyciteInfo\" class=\"co_flush x_introPara\">");
         keyCiteElement.append("<a href=\"");

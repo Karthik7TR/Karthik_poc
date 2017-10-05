@@ -32,8 +32,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.batch.core.scope.context.ChunkContext;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class GroupXppStepTest
-{
+public final class GroupXppStepTest {
     @InjectMocks
     private GroupXppStep step;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -62,8 +61,7 @@ public final class GroupXppStepTest
     public ExpectedException thrown = ExpectedException.none();
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         givenBook(chunkContext, book);
         given(book.getEbookDefinitionId()).willReturn(1L);
         givenBookVersion(chunkContext, "1.1");
@@ -72,8 +70,7 @@ public final class GroupXppStepTest
     }
 
     @Test
-    public void shouldDoNothingIfNotGrouped() throws Exception
-    {
+    public void shouldDoNothingIfNotGrouped() throws Exception {
         //given
         given(publishingStatsService.hasBeenGrouped(1L)).willReturn(false);
         given(book.getGroupName()).willReturn("");
@@ -84,8 +81,7 @@ public final class GroupXppStepTest
     }
 
     @Test
-    public void shouldRemovePreviousGroupsIfWasGrouped() throws Exception
-    {
+    public void shouldRemovePreviousGroupsIfWasGrouped() throws Exception {
         //given
         given(publishingStatsService.hasBeenGrouped(1L)).willReturn(true);
         given(book.getGroupName()).willReturn("");
@@ -96,8 +92,7 @@ public final class GroupXppStepTest
     }
 
     @Test
-    public void shouldNotCreateGroupIfTheSameIsLast() throws Exception
-    {
+    public void shouldNotCreateGroupIfTheSameIsLast() throws Exception {
         //given
         given(book.getGroupName()).willReturn("groupName");
         given(book.isSplitBook()).willReturn(false);
@@ -111,8 +106,7 @@ public final class GroupXppStepTest
     }
 
     @Test
-    public void shouldCreateGroupIfDifferentIsLast() throws Exception
-    {
+    public void shouldCreateGroupIfDifferentIsLast() throws Exception {
         //given
         given(book.getGroupName()).willReturn("groupName");
         given(book.isSplitBook()).willReturn(true);

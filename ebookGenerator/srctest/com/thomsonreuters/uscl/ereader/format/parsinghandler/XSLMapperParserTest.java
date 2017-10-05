@@ -18,19 +18,16 @@ import org.junit.Test;
  *
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
-public final class XSLMapperParserTest
-{
+public final class XSLMapperParserTest {
     private XSLMapperParser xslMapperParser;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         xslMapperParser = new XSLMapperParser();
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         xslMapperParser = null;
     }
 
@@ -39,11 +36,9 @@ public final class XSLMapperParserTest
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final Map<String, String> expectedResult)
-    {
+    public void testHelper(final String inputXML, final Map<String, String> expectedResult) {
         ByteArrayInputStream input = null;
-        try
-        {
+        try {
             final SAXParserFactory factory = SAXParserFactory.newInstance();
             factory.setNamespaceAware(true);
             final SAXParser saxParser = factory.newSAXParser();
@@ -55,30 +50,21 @@ public final class XSLMapperParserTest
             final Map<String, String> result = xslMapperParser.getXSLTMapperEntityByCollectionName();
 
             assertEquals(expectedResult, result);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             fail("Encountered exception during test: " + e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if (input != null)
-                {
+        } finally {
+            try {
+                if (input != null) {
                     input.close();
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 fail("Could clean up resources: " + e.getMessage());
             }
         }
     }
 
     @Test
-    public void testMapperWithoutDocType()
-    {
+    public void testMapperWithoutDocType() {
         final StringBuilder xmlTestStr = new StringBuilder();
         xmlTestStr.append("<CollectionMappingData>");
         xmlTestStr.append("<ContentTypes>");
@@ -96,8 +82,7 @@ public final class XSLMapperParserTest
     }
 
     @Test
-    public void testMapperWithDocType()
-    {
+    public void testMapperWithDocType() {
         final StringBuilder xmlTestStr = new StringBuilder();
         xmlTestStr.append("<CollectionMappingData>");
         xmlTestStr.append("<ContentTypes>");

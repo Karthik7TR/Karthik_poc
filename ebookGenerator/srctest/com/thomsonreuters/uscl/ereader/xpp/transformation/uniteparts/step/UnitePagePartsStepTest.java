@@ -32,8 +32,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class UnitePagePartsStepTest
-{
+public final class UnitePagePartsStepTest {
     private static final String MATERIAL_NUMBER = "11111111";
 
     @InjectMocks
@@ -53,8 +52,7 @@ public final class UnitePagePartsStepTest
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Before
-    public void setUp() throws IOException
-    {
+    public void setUp() throws IOException {
         final File root = temporaryFolder.getRoot();
 
         final File originalPagesDir = mkdir(root, "OriginalPages", MATERIAL_NUMBER);
@@ -82,8 +80,7 @@ public final class UnitePagePartsStepTest
         given(fileSystem.getOriginalPartsFiles(step)).willReturn(partFilesIndex);
     }
 
-    private DocumentFile mockDocumentFile(final File file, final String uuid)
-    {
+    private DocumentFile mockDocumentFile(final File file, final String uuid) {
         final DocumentName documentName = mock(DocumentName.class);
         given(documentName.getDocFamilyUuid()).willReturn(uuid);
 
@@ -94,10 +91,15 @@ public final class UnitePagePartsStepTest
     }
 
     @Test
-    public void shouldTransform() throws Exception
-    {
+    public void shouldTransform() throws Exception {
         //given
-        given(fileSystem.getOriginalPageFile(any(BookStep.class), eq(MATERIAL_NUMBER), any(String.class), any(Integer.class), any(String.class))).willReturn(page);
+        given(
+            fileSystem.getOriginalPageFile(
+                any(BookStep.class),
+                eq(MATERIAL_NUMBER),
+                any(String.class),
+                any(Integer.class),
+                any(String.class))).willReturn(page);
         //when
         step.executeTransformation();
         //then

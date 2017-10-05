@@ -11,25 +11,20 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Abstract provider contains common logic.
  */
-public abstract class AbstractBundleFileHandlingStrategyProvider<S extends BundleFileHandlingStrategy> implements BundleFileHandlingStrategyProvider<S>
-{
+public abstract class AbstractBundleFileHandlingStrategyProvider<S extends BundleFileHandlingStrategy>
+    implements BundleFileHandlingStrategyProvider<S> {
     private final Map<BundleFileType, S> availableStrategies;
 
-    protected AbstractBundleFileHandlingStrategyProvider(final List<S> strategies)
-    {
+    protected AbstractBundleFileHandlingStrategyProvider(final List<S> strategies) {
         availableStrategies = new HashMap<>();
-        for (final S strategy : strategies)
-        {
+        for (final S strategy : strategies) {
             assignStrategyToTypes(strategy);
         }
     }
 
-    private void assignStrategyToTypes(final S strategy)
-    {
-        for (final BundleFileType type : strategy.getBundleFileTypes())
-        {
-            if (availableStrategies.put(type, strategy) != null)
-            {
+    private void assignStrategyToTypes(final S strategy) {
+        for (final BundleFileType type : strategy.getBundleFileTypes()) {
+            if (availableStrategies.put(type, strategy) != null) {
                 throw new UnsupportedOperationException("Several strategies with the same bundle types found ()");
             }
         }
@@ -37,11 +32,9 @@ public abstract class AbstractBundleFileHandlingStrategyProvider<S extends Bundl
 
     @NotNull
     @Override
-    public S getStrategy(@NotNull final BundleFileType bundleFileType)
-    {
+    public S getStrategy(@NotNull final BundleFileType bundleFileType) {
         final S resultStrategy = availableStrategies.get(bundleFileType);
-        if (resultStrategy == null)
-        {
+        if (resultStrategy == null) {
             throw new UnsupportedOperationException("Generation strategy for provided file type, does not exist");
         }
         return resultStrategy;

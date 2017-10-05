@@ -24,32 +24,26 @@ import org.junit.Test;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.util.ReflectionUtils;
 
-public final class MoveResourcesUtilTest
-{
+public final class MoveResourcesUtilTest {
     private MoveResourcesUtil moveResourcesUtil;
     private File tempRootDir;
     private File docToSplitBookFile;
     private static final String FILE_NAME = "doc-To-SplitBook.txt";
     private ExecutionContext jobExecutionContext;
 
-    private File makeFile(final File directory, final String name, final String content)
-    {
+    private File makeFile(final File directory, final String name, final String content) {
         final File file = new File(directory, name);
-        try (FileOutputStream out = new FileOutputStream(file))
-        {
+        try (FileOutputStream out = new FileOutputStream(file)) {
             out.write(content.getBytes());
             out.close();
             return file;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             return null;
         }
     }
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         final CoverArtUtil coverArtUtil = new CoverArtUtil();
         setFieldValue(coverArtUtil, "defaultCoverPath", "/apps/eBookBuilder/generator/images/cover/");
         setFieldValue(coverArtUtil, "coverFileName", "coverArt.PNG");
@@ -66,8 +60,7 @@ public final class MoveResourcesUtilTest
 
     private void setFieldValue(final Object target, final String fieldName, final Object fieldValue) {
         final Field field = ReflectionUtils.findField(target.getClass(), fieldName);
-        if(field == null)
-        {
+        if (field == null) {
             throw new UnsupportedOperationException("Cannot inject field value, field does not exist");
         }
         ReflectionUtils.makeAccessible(field);
@@ -75,24 +68,19 @@ public final class MoveResourcesUtilTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         FileUtils.deleteQuietly(tempRootDir);
     }
 
     @Test
-    public void testcopyFilesToDir() throws Exception
-    {
+    public void testcopyFilesToDir() throws Exception {
         boolean thrown = false;
         final List<File> tempFileList = new ArrayList<>();
         tempFileList.add(docToSplitBookFile);
 
-        try
-        {
+        try {
             moveResourcesUtil.copyFilesToDestination(tempFileList, tempRootDir);
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             thrown = true;
         }
         Assert.assertTrue(tempRootDir.exists());
@@ -100,16 +88,12 @@ public final class MoveResourcesUtilTest
     }
 
     @Test
-    public void testSourceToDestination() throws Exception
-    {
+    public void testSourceToDestination() throws Exception {
         boolean thrown = false;
 
-        try
-        {
+        try {
             moveResourcesUtil.copySourceToDestination(docToSplitBookFile.getParentFile(), tempRootDir);
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             thrown = true;
         }
         Assert.assertTrue(tempRootDir.exists());
@@ -117,8 +101,7 @@ public final class MoveResourcesUtilTest
     }
 
     @Test
-    public void testcreateCoverArt()
-    {
+    public void testcreateCoverArt() {
         final BookDefinition bookDefinition = new BookDefinition();
         jobExecutionContext.put(JobExecutionKey.EBOOK_DEFINITION, bookDefinition);
         moveResourcesUtil.createCoverArt(jobExecutionContext);
@@ -128,8 +111,7 @@ public final class MoveResourcesUtilTest
     }
 
     @Test
-    public void testFilterFiles() throws Exception
-    {
+    public void testFilterFiles() throws Exception {
         boolean thrown = false;
         final BookDefinition bookDefinition = new BookDefinition();
         bookDefinition.setFrontMatterTheme("AAJ");
@@ -137,12 +119,9 @@ public final class MoveResourcesUtilTest
         List<File> fileList = moveResourcesUtil.filterFiles(docToSplitBookFile.getParentFile(), bookDefinition);
         Assert.assertEquals(fileList.size(), 0);
 
-        try
-        {
+        try {
             fileList = moveResourcesUtil.filterFiles(new File("DoesNotExist"), bookDefinition);
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             //expected
             e.printStackTrace();
             thrown = true;
@@ -151,8 +130,7 @@ public final class MoveResourcesUtilTest
     }
 
     @Test
-    public void testFilterFilesMockDir() throws Exception
-    {
+    public void testFilterFilesMockDir() throws Exception {
         final File testDir = new File(tempRootDir.getAbsolutePath() + "\\EvenMoreTemp");
         testDir.mkdir();
         final File temp1 = makeFile(testDir, "AAJ.png", "totally a png"); // passes starts with "AAJ"
@@ -182,8 +160,7 @@ public final class MoveResourcesUtilTest
 
     @Ignore
     @Test
-    public void testmoveFrontMatterImages() throws Exception
-    {
+    public void testmoveFrontMatterImages() throws Exception {
         boolean thrown = false;
         final BookDefinition bookDefinition = new BookDefinition();
         bookDefinition.setFrontMatterTheme("AAJ");
@@ -193,13 +170,11 @@ public final class MoveResourcesUtilTest
         File[] check = canI.listFiles();
         canI.mkdir();
         check = canI.listFiles();
-        try
-        {
+        try {
             moveResourcesUtil.moveFrontMatterImages(jobExecutionContext, tempRootDir, false);
         }
 
-        catch (final NullPointerException e)
-        {
+        catch (final NullPointerException e) {
             thrown = true;
         }
         Assert.assertTrue(tempRootDir.exists());
@@ -208,17 +183,13 @@ public final class MoveResourcesUtilTest
 
     @Ignore
     @Test
-    public void testmoveCoverArt() throws Exception
-    {
+    public void testmoveCoverArt() throws Exception {
         boolean thrown = false;
         final BookDefinition bookDefinition = new BookDefinition();
         jobExecutionContext.put(JobExecutionKey.EBOOK_DEFINITION, bookDefinition);
-        try
-        {
+        try {
             moveResourcesUtil.moveCoverArt(jobExecutionContext, tempRootDir);
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             thrown = true;
         }
         assertTrue(!thrown);

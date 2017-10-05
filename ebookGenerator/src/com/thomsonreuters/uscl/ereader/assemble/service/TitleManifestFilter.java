@@ -73,8 +73,7 @@ import org.xml.sax.helpers.AttributesImpl;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-class TitleManifestFilter extends AbstractTocManifestFilter
-{
+class TitleManifestFilter extends AbstractTocManifestFilter {
     private static final Logger LOG = LogManager.getLogger(TitleManifestFilter.class);
     private PlaceholderDocumentService placeholderDocumentService;
     private UuidGenerator uuidGenerator;
@@ -142,31 +141,24 @@ class TitleManifestFilter extends AbstractTocManifestFilter
         final File documentsDirectory,
         final FileUtilsFacade fileUtilsFacade,
         final PlaceholderDocumentService placeholderDocumentService,
-        final Map<String, String> altIdMap)
-    {
-        if (titleMetadata == null)
-        {
+        final Map<String, String> altIdMap) {
+        if (titleMetadata == null) {
             throw new IllegalArgumentException(
                 "Cannot instantiate TitleManifestFilter without initialized TitleMetadata");
         }
-        if (familyGuidMap == null)
-        {
+        if (familyGuidMap == null) {
             throw new IllegalArgumentException("Cannot instantiate TitleManifestFilter without a valid familyGuidMap");
         }
-        if (uuidGenerator == null)
-        {
+        if (uuidGenerator == null) {
             throw new IllegalArgumentException("Cannot instantiate TitleManifestFilter without a UuidGenerator.");
         }
-        if (documentsDirectory == null || !documentsDirectory.isDirectory())
-        {
+        if (documentsDirectory == null || !documentsDirectory.isDirectory()) {
             throw new IllegalArgumentException("Documents directory must not be null and must be a directory.");
         }
-        if (fileUtilsFacade == null)
-        {
+        if (fileUtilsFacade == null) {
             throw new IllegalArgumentException("fileUtilsFacade must not be null.");
         }
-        if (placeholderDocumentService == null)
-        {
+        if (placeholderDocumentService == null) {
             throw new IllegalArgumentException("placeholderDocumentService must not be null.");
         }
 
@@ -179,8 +171,7 @@ class TitleManifestFilter extends AbstractTocManifestFilter
         this.placeholderDocumentService = placeholderDocumentService;
         previousNode = tableOfContents;
 
-        if (titleMetadata.getIsPilotBook())
-        {
+        if (titleMetadata.getIsPilotBook()) {
             this.altIdMap = altIdMap;
         }
     }
@@ -190,14 +181,12 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      *
      * @param metadata the title metadata.
      */
-    private void validateTitleMetadata(final TitleMetadata metadata)
-    {
+    private void validateTitleMetadata(final TitleMetadata metadata) {
         // TODO: assert additional invariants based on required fields in the manifest.
     }
 
     @Override
-    public void startDocument() throws SAXException
-    {
+    public void startDocument() throws SAXException {
         super.startDocument();
         // write everything in the manifest up to the TOC and DOCs sections.
         startManifest();
@@ -213,17 +202,13 @@ class TitleManifestFilter extends AbstractTocManifestFilter
 
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes attributes)
-        throws SAXException
-    {
-        if (EBOOK.equals(qName))
-        {
+        throws SAXException {
+        if (EBOOK.equals(qName)) {
             currentDepth = 0;
             previousDepth = 0;
             // Add TOC NODES for Front Matter
             buildFrontMatterTOCEntries(false);
-        }
-        else if (EBOOK_TOC.equals(qName))
-        { // we've reached the next element, add a new node to the tree.
+        } else if (EBOOK_TOC.equals(qName)) { // we've reached the next element, add a new node to the tree.
             currentDepth++;
             currentNode = new TocEntry(currentDepth);
             final TocNode parentNode = determineParent();
@@ -231,28 +216,19 @@ class TitleManifestFilter extends AbstractTocManifestFilter
             parentNode.addChild(currentNode);
             previousDepth = currentDepth;
             previousNode = currentNode;
-        }
-        else if (TOC_GUID.equals(qName))
-        {
+        } else if (TOC_GUID.equals(qName)) {
             bufferingTocGuid = Boolean.TRUE;
-        }
-        else if (DOCUMENT_GUID.equals(qName))
-        {
+        } else if (DOCUMENT_GUID.equals(qName)) {
             bufferingDocGuid = Boolean.TRUE;
-        }
-        else if (NAME.equals(qName))
-        {
+        } else if (NAME.equals(qName)) {
             bufferingText = Boolean.TRUE;
-        }
-        else if (MISSING_DOCUMENT.equals(qName))
-        {
+        } else if (MISSING_DOCUMENT.equals(qName)) {
             // this node is missing text, generate a new doc guid and xhtml5
             // content for the heading.
             final String missingDocumentGuid = uuidGenerator.generateUuid();
             final String missingDocumentFilename = missingDocumentGuid + HTML_EXTENSION;
             final File missingDocument = new File(documentsDirectory, missingDocumentFilename);
-            try
-            {
+            try {
                 final FileOutputStream missingDocumentOutputStream = new FileOutputStream(missingDocument);
                 currentNode.setDocumentUuid(missingDocumentGuid);
                 cascadeAnchors();
@@ -264,16 +240,12 @@ class TitleManifestFilter extends AbstractTocManifestFilter
                     anchors);
                 orderedDocuments.add(new Doc(missingDocumentGuid, missingDocumentFilename, 0, null));
                 nodesContainingDocuments.add(currentNode); // need to cascade anchors into placeholder document text.
-            }
-            catch (final FileNotFoundException e)
-            {
+            } catch (final FileNotFoundException e) {
                 throw new SAXException(
                     "A FileNotFoundException occurred when attempting to create an output stream to file: "
                         + missingDocument.getAbsolutePath(),
                     e);
-            }
-            catch (final PlaceholderDocumentServiceException e)
-            {
+            } catch (final PlaceholderDocumentServiceException e) {
                 throw new SAXException(
                     "An unexpected error occurred while generating a placeholder document for Toc Node: ["
                         + tocGuid.toString()
@@ -287,51 +259,35 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      * Buffers toc and doc guids and the corresponding text for each node encountered during the parse.
      */
     @Override
-    public void characters(final char[] ch, final int start, final int length) throws SAXException
-    {
-        if (bufferingTocGuid)
-        {
+    public void characters(final char[] ch, final int start, final int length) throws SAXException {
+        if (bufferingTocGuid) {
             tocGuid.append(ch, start, length);
-        }
-        else if (bufferingDocGuid)
-        {
+        } else if (bufferingDocGuid) {
             docGuid.append(ch, start, length);
-        }
-        else if (bufferingText)
-        {
+        } else if (bufferingText) {
             textBuffer.append(ch, start, length);
         }
     }
 
     @Override
-    public void endElement(final String uri, final String localName, final String qName) throws SAXException
-    {
-        if (TOC_GUID.equals(qName))
-        {
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException {
+        if (TOC_GUID.equals(qName)) {
             bufferingTocGuid = Boolean.FALSE;
             currentNode.setTocNodeUuid(tocGuid.toString());
             tocGuid = new StringBuilder();
-        }
-        else if (DOCUMENT_GUID.equals(qName))
-        {
+        } else if (DOCUMENT_GUID.equals(qName)) {
             bufferingDocGuid = Boolean.FALSE;
             handleDuplicates();
             currentNode.setDocumentUuid(docGuid.toString());
             nodesContainingDocuments.add(currentNode);
             docGuid = new StringBuilder(); // clear the doc guid buffer independently of the other buffers.
-        }
-        else if (NAME.equals(qName))
-        {
+        } else if (NAME.equals(qName)) {
             bufferingText = Boolean.FALSE;
             currentNode.setText(textBuffer.toString());
             textBuffer = new StringBuilder();
-        }
-        else if (EBOOK_TOC.equals(qName))
-        {
+        } else if (EBOOK_TOC.equals(qName)) {
             currentDepth--;
-        }
-        else if (MISSING_DOCUMENT.equals(qName))
-        {
+        } else if (MISSING_DOCUMENT.equals(qName)) {
             // The missing document end element event is eaten, because it isn't used.
         }
         // other elements are also eaten (there shouldn't be any).
@@ -344,11 +300,9 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      * Delegates to another service to copy html documents.
      * </p>
      */
-    private void handleDuplicates() throws SAXException
-    {
+    private void handleDuplicates() throws SAXException {
         final String documentGuid = docGuid.toString();
-        if (uniqueDocumentIds.contains(documentGuid))
-        {
+        if (uniqueDocumentIds.contains(documentGuid)) {
             // We've already seen this document, it's a duplicate. Generate a new guid for it and add that to the list.
             final String uniqueGuid = uuidGenerator.generateUuid();
             LOG.debug(
@@ -362,31 +316,23 @@ class TitleManifestFilter extends AbstractTocManifestFilter
                                                         // in the gathered toc.
             orderedDocuments.add(new Doc(uniqueGuid, uniqueGuid + HTML_EXTENSION, 0, null));
             currentNode.setDocumentUuid(uniqueGuid);
-        }
-        else
-        {
+        } else {
             // Replace docGuid with the corresponding family Guid.
-            if (familyGuidMap.containsKey(documentGuid))
-            {
+            if (familyGuidMap.containsKey(documentGuid)) {
                 docGuid = new StringBuilder();
                 String familyGuid = familyGuidMap.get(documentGuid);
-                if (uniqueFamilyGuids.contains(familyGuid))
-                { // Have we already come across this family GUID?
+                if (uniqueFamilyGuids.contains(familyGuid)) { // Have we already come across this family GUID?
                     LOG.debug("Duplicate family GUID " + familyGuid + ", generating new uuid.");
                     familyGuid = uuidGenerator.generateUuid();
                     orderedDocuments.add(new Doc(familyGuid, familyGuid + HTML_EXTENSION, 0, null));
                     copyHtmlDocument(documentGuid, familyGuid);
-                }
-                else
-                {
+                } else {
                     orderedDocuments.add(new Doc(familyGuid, documentGuid + HTML_EXTENSION, 0, null));
                 }
                 currentNode.setDocumentUuid(familyGuid);
                 docGuid.append(familyGuid); // perform the replacement
                 uniqueFamilyGuids.add(familyGuid);
-            }
-            else
-            {
+            } else {
                 uniqueDocumentIds.add(docGuid.toString());
                 orderedDocuments.add(new Doc(documentGuid, documentGuid + HTML_EXTENSION, 0, null));
             }
@@ -399,13 +345,10 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      * @throws SAXException the data could not be written.
      */
     @Override
-    protected void writeTableOfContents() throws SAXException
-    {
-        if (tableOfContents.getChildren().size() > 0)
-        {
+    protected void writeTableOfContents() throws SAXException {
+        if (tableOfContents.getChildren().size() > 0) {
             super.startElement(URI, TOC_ELEMENT, TOC_ELEMENT, EMPTY_ATTRIBUTES);
-            for (final TocNode child : tableOfContents.getChildren())
-            {
+            for (final TocNode child : tableOfContents.getChildren()) {
                 writeTocNode(child);
             }
             super.endElement(URI, TOC_ELEMENT, TOC_ELEMENT);
@@ -417,15 +360,13 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      *
      * @throws SAXException
      */
-    private void writeTocNode(final TocNode node) throws SAXException
-    {
+    private void writeTocNode(final TocNode node) throws SAXException {
         super.startElement(URI, ENTRY, ENTRY, getAttributes(node));
         super.startElement(URI, TEXT, TEXT, EMPTY_ATTRIBUTES);
         final String text = node.getText();
         super.characters(text.toCharArray(), 0, text.length());
         super.endElement(URI, TEXT, TEXT);
-        for (final TocNode child : node.getChildren())
-        {
+        for (final TocNode child : node.getChildren()) {
             writeTocNode(child);
         }
         super.endElement(URI, ENTRY, ENTRY);
@@ -437,8 +378,7 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      * @throws SAXException if the data could not be written.
      */
     @Override
-    public void endDocument() throws SAXException
-    {
+    public void endDocument() throws SAXException {
         cascadeAnchors();
         writeTableOfContents();
         writeDocuments();
@@ -452,13 +392,10 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      *
      * @throws SAXException if the data could not be written.
      */
-    protected void writeDocuments() throws SAXException
-    {
-        if (orderedDocuments.size() > 0)
-        {
+    protected void writeDocuments() throws SAXException {
+        if (orderedDocuments.size() > 0) {
             super.startElement(URI, DOCS_ELEMENT, DOCS_ELEMENT, EMPTY_ATTRIBUTES);
-            for (final Doc document : orderedDocuments)
-            {
+            for (final Doc document : orderedDocuments) {
                 super.startElement(URI, DOC_ELEMENT, DOC_ELEMENT, getAttributes(document));
                 super.endElement(URI, DOC_ELEMENT, DOC_ELEMENT);
             }
@@ -471,8 +408,7 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      *
      * @throws SAXException if the data could not be written.
      */
-    protected void writeISBN() throws SAXException
-    {
+    protected void writeISBN() throws SAXException {
         super.startElement(URI, ISBN_ELEMENT, ISBN_ELEMENT, EMPTY_ATTRIBUTES);
         super.characters(titleMetadata.getIsbn().toCharArray(), 0, titleMetadata.getIsbn().length());
         super.endElement(URI, ISBN_ELEMENT, ISBN_ELEMENT);
@@ -483,11 +419,9 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      *
      * @throws SAXException if data could not be written.
      */
-    protected void writeAuthors() throws SAXException
-    {
+    protected void writeAuthors() throws SAXException {
         super.startElement(URI, AUTHORS_ELEMENT, AUTHORS_ELEMENT, EMPTY_ATTRIBUTES);
-        for (final String authorName : titleMetadata.getAuthorNames())
-        {
+        for (final String authorName : titleMetadata.getAuthorNames()) {
             super.startElement(URI, AUTHOR_ELEMENT, AUTHOR_ELEMENT, EMPTY_ATTRIBUTES);
             super.characters(authorName.toCharArray(), 0, authorName.length());
             super.endElement(URI, AUTHOR_ELEMENT, AUTHOR_ELEMENT);
@@ -501,11 +435,9 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      *
      * @throws SAXException if data could not be written.
      */
-    protected void writeAssets() throws SAXException
-    {
+    protected void writeAssets() throws SAXException {
         super.startElement(URI, ASSETS_ELEMENT, ASSETS_ELEMENT, EMPTY_ATTRIBUTES);
-        for (final Asset asset : titleMetadata.getAssets())
-        {
+        for (final Asset asset : titleMetadata.getAssets()) {
             super.startElement(URI, ASSET_ELEMENT, ASSET_ELEMENT, getAttributes(asset));
             super.endElement(URI, ASSET_ELEMENT, ASSET_ELEMENT);
         }
@@ -517,11 +449,9 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      *
      * @throws SAXException if data could not be written.
      */
-    protected void writeKeywords() throws SAXException
-    {
+    protected void writeKeywords() throws SAXException {
         super.startElement(URI, KEYWORDS_ELEMENT, KEYWORDS_ELEMENT, EMPTY_ATTRIBUTES);
-        for (final Keyword keyword : titleMetadata.getKeywords())
-        {
+        for (final Keyword keyword : titleMetadata.getKeywords()) {
             super.startElement(URI, KEYWORD_ELEMENT, KEYWORD_ELEMENT, getAttributes(keyword));
             final String text = keyword.getText();
             super.characters(text.toCharArray(), 0, text.length());
@@ -536,8 +466,7 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      * @param asset the asset to create attributes from.
      * @return the attributes for the asset.
      */
-    protected Attributes getAttributes(final Asset asset)
-    {
+    protected Attributes getAttributes(final Asset asset) {
         final AttributesImpl attributes = new AttributesImpl();
         attributes.addAttribute(URI, ID_ATTRIBUTE, ID_ATTRIBUTE, CDATA, asset.getId());
         attributes.addAttribute(URI, SRC_ATTRIBUTE, SRC_ATTRIBUTE, CDATA, asset.getSrc());
@@ -550,8 +479,7 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      * @param asset the asset to create attributes from.
      * @return the attributes for the asset.
      */
-    protected Attributes getAttributes(final Keyword keyword)
-    {
+    protected Attributes getAttributes(final Keyword keyword) {
         final AttributesImpl attributes = new AttributesImpl();
         attributes.addAttribute(URI, TYPE_ATTRIBUTE, TYPE_ATTRIBUTE, CDATA, keyword.getType());
         return attributes;
@@ -564,17 +492,14 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      * @return the attributes for the doc.
      * @throws IOException
      */
-    protected Attributes getAttributes(final Doc doc)
-    {
+    protected Attributes getAttributes(final Doc doc) {
         final AttributesImpl attributes = new AttributesImpl();
         final String guid = doc.getId();
         attributes.addAttribute(URI, ID_ATTRIBUTE, ID_ATTRIBUTE, CDATA, guid);
 
-        if (titleMetadata.getIsPilotBook())
-        {
+        if (titleMetadata.getIsPilotBook()) {
             final String altId = altIdMap.get(guid);
-            if (altId != null)
-            {
+            if (altId != null) {
                 attributes.addAttribute(URI, ALT_ID_ATTRIBUTE, ALT_ID_ATTRIBUTE, CDATA, altId);
             }
         }
@@ -588,12 +513,10 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      *
      * @throws SAXException if data could not be written.
      */
-    protected void writeCopyright() throws SAXException
-    {
+    protected void writeCopyright() throws SAXException {
         super.startElement(URI, COPYRIGHT_ELEMENT, COPYRIGHT_ELEMENT, EMPTY_ATTRIBUTES);
         String copyright = titleMetadata.getCopyright();
-        if (copyright != null)
-        {
+        if (copyright != null) {
             copyright = copyright.replace("\r\n", " ");
         }
         super.characters(copyright.toCharArray(), 0, copyright.length());
@@ -606,8 +529,7 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      * @throws SAXException if data could not be written.
      */
     @Override
-    protected void startManifest() throws SAXException
-    {
+    protected void startManifest() throws SAXException {
         super.startElement(URI, TITLE_ELEMENT, TITLE_ELEMENT, getTitleAttributes());
     }
 
@@ -616,8 +538,7 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      *
      * @return an {@link Attributes} instance.
      */
-    protected Attributes getTitleAttributes()
-    {
+    protected Attributes getTitleAttributes() {
         final AttributesImpl attributes = new AttributesImpl();
         attributes.addAttribute(URI, APIVERSION_ATTRIBUTE, APIVERSION_ATTRIBUTE, CDATA, titleMetadata.getApiVersion());
         attributes
@@ -641,8 +562,7 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      *
      * @throws SAXException if data could not be written.
      */
-    protected void writeDisplayName() throws SAXException
-    {
+    protected void writeDisplayName() throws SAXException {
         super.startElement(URI, NAME_ELEMENT, NAME_ELEMENT, EMPTY_ATTRIBUTES);
         final String displayName = titleMetadata.getDisplayName();
         super.characters(displayName.toCharArray(), 0, displayName.length());
@@ -654,11 +574,9 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      *
      * @throws SAXException if data could not be written.
      */
-    protected void writeFeatures() throws SAXException
-    {
+    protected void writeFeatures() throws SAXException {
         super.startElement(URI, FEATURES_ELEMENT, FEATURES_ELEMENT, EMPTY_ATTRIBUTES);
-        for (final Feature feature : titleMetadata.getProviewFeatures())
-        {
+        for (final Feature feature : titleMetadata.getProviewFeatures()) {
             super.startElement(URI, FEATURE_ELEMENT, FEATURE_ELEMENT, getAttributes(feature));
             super.endElement(URI, FEATURE_ELEMENT, FEATURE_ELEMENT);
         }
@@ -671,12 +589,10 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      * @param feature the feature whose attributes to get.
      * @return the attributes of the feature.
      */
-    protected Attributes getAttributes(final Feature feature)
-    {
+    protected Attributes getAttributes(final Feature feature) {
         final AttributesImpl attributes = new AttributesImpl();
         attributes.addAttribute(URI, NAME_ELEMENT, NAME_ELEMENT, CDATA, feature.getName());
-        if (StringUtils.isNotBlank(feature.getValue()))
-        {
+        if (StringUtils.isNotBlank(feature.getValue())) {
             attributes.addAttribute(URI, VALUE_ATTRIBUTE, VALUE_ATTRIBUTE, CDATA, feature.getValue());
         }
         return attributes;
@@ -687,12 +603,10 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      *
      * @throws SAXException if data could not be written.
      */
-    protected void writeMaterialId() throws SAXException
-    {
+    protected void writeMaterialId() throws SAXException {
         super.startElement(URI, MATERIAL_ELEMENT, MATERIAL_ELEMENT, EMPTY_ATTRIBUTES);
         final String materialId = titleMetadata.getMaterialId();
-        if (StringUtils.isNotBlank(materialId))
-        {
+        if (StringUtils.isNotBlank(materialId)) {
             super.characters(materialId.toCharArray(), 0, materialId.length());
         }
         super.endElement(URI, MATERIAL_ELEMENT, MATERIAL_ELEMENT);
@@ -703,8 +617,7 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      *
      * @throws SAXException if the data could not be written.
      */
-    protected void writeCoverArt() throws SAXException
-    {
+    protected void writeCoverArt() throws SAXException {
         super.startElement(URI, ARTWORK_ELEMENT, ARTWORK_ELEMENT, getAttributes(titleMetadata.getArtwork()));
         super.endElement(URI, ARTWORK_ELEMENT, ARTWORK_ELEMENT);
     }
@@ -715,16 +628,14 @@ class TitleManifestFilter extends AbstractTocManifestFilter
      * @param artwork the artwork to create attributes for.
      * @return the {@link Attributes} for the artwork.
      */
-    protected Attributes getAttributes(final Artwork artwork)
-    {
+    protected Attributes getAttributes(final Artwork artwork) {
         final AttributesImpl attributes = new AttributesImpl();
         attributes.addAttribute(URI, SRC_ATTRIBUTE, SRC_ATTRIBUTE, CDATA, artwork.getSrc());
         attributes.addAttribute(URI, TYPE_ATTRIBUTE, TYPE_ATTRIBUTE, CDATA, artwork.getType());
         return attributes;
     }
 
-    protected void setTableOfContents(final TableOfContents tableOfContents)
-    {
+    protected void setTableOfContents(final TableOfContents tableOfContents) {
         this.tableOfContents = tableOfContents;
     }
 }

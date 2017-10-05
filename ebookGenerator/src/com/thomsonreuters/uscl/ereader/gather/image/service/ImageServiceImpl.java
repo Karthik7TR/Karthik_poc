@@ -22,8 +22,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 
-public class ImageServiceImpl implements ImageService
-{
+public class ImageServiceImpl implements ImageService {
     private static final Logger log = LogManager.getLogger(ImageServiceImpl.class);
 
     /** The DAO for persisting image meta-data */
@@ -32,8 +31,7 @@ public class ImageServiceImpl implements ImageService
     private File staticContentDirectory;
 
     @Required
-    public void setStaticContentDirectory(final File staticContentDirectory)
-    {
+    public void setStaticContentDirectory(final File staticContentDirectory) {
         this.staticContentDirectory = staticContentDirectory;
     }
 
@@ -44,10 +42,8 @@ public class ImageServiceImpl implements ImageService
      * @param metadataMediaType indicated content type from an image metadata request.
      * @return
      */
-    public static MediaType fetchDesiredMediaType(final MediaType metadataMediaType)
-    {
-        if (metadataMediaType == null)
-        {
+    public static MediaType fetchDesiredMediaType(final MediaType metadataMediaType) {
+        if (metadataMediaType == null) {
             return null;
         }
 
@@ -56,28 +52,21 @@ public class ImageServiceImpl implements ImageService
 
     @Override
     public void fetchStaticImages(final List<String> basenames, final File imageDestinationDirectory)
-        throws ImageException
-    {
+        throws ImageException {
         // Iterate the list of image base names
-        for (final String basename : basenames)
-        {
+        for (final String basename : basenames) {
             final File sourceFile = searchFileTree(basename);
-            if (sourceFile == null)
-            {
+            if (sourceFile == null) {
                 throw new ImageException("Static image not found: " + basename);
             }
             String destFileName = basename;
-            if (destFileName.contains("/"))
-            {
+            if (destFileName.contains("/")) {
                 destFileName = destFileName.substring(destFileName.lastIndexOf("/") + 1);
             }
             final File destFile = new File(imageDestinationDirectory, destFileName);
-            try
-            {
+            try {
                 copyFile(sourceFile, destFile);
-            }
-            catch (final IOException e)
-            {
+            } catch (final IOException e) {
                 // Remove all existing destination dir files on failure
                 removeAllFilesInDirectory(imageDestinationDirectory);
                 throw new ImageException("Failed to copy static image file: " + sourceFile, e);
@@ -87,15 +76,13 @@ public class ImageServiceImpl implements ImageService
 
     @Override
     @Transactional
-    public List<ImageMetadataEntity> findImageMetadata(final long jobInstanceId)
-    {
+    public List<ImageMetadataEntity> findImageMetadata(final long jobInstanceId) {
         return imageDao.findImageMetadata(jobInstanceId);
     }
 
     @Override
     @Transactional
-    public ImageMetadataEntity findImageMetadata(final ImageMetadataEntityKey key)
-    {
+    public ImageMetadataEntity findImageMetadata(final ImageMetadataEntityKey key) {
         return imageDao.findImageMetadataByPrimaryKey(key);
     }
 
@@ -107,8 +94,7 @@ public class ImageServiceImpl implements ImageService
     public static ImageMetadataEntity createImageMetadataEntity(
         final ImgMetadataInfo imgMetadataInfo,
         final long jobInstanceId,
-        final String titleId)
-    {
+        final String titleId) {
         final ImageMetadataEntityKey pk =
             new ImageMetadataEntityKey(jobInstanceId, imgMetadataInfo.getImgGuid(), imgMetadataInfo.getDocGuid());
         final MediaType mediaType = MediaType.valueOf(imgMetadataInfo.getMimeType());
@@ -128,8 +114,7 @@ public class ImageServiceImpl implements ImageService
 
     @Override
     @Transactional
-    public ImageMetadataEntityKey saveImageMetadata(final ImageMetadataEntity metadata)
-    {
+    public ImageMetadataEntityKey saveImageMetadata(final ImageMetadataEntity metadata) {
         final ImageMetadataEntityKey primaryKey = imageDao.saveImageMetadata(metadata);
         return primaryKey;
     }
@@ -139,8 +124,7 @@ public class ImageServiceImpl implements ImageService
     public ImageMetadataEntityKey saveImageMetadata(
         final ImgMetadataInfo imgMetadataInfo,
         final long jobInstanceId,
-        final String titleId)
-    {
+        final String titleId) {
         final ImageMetadataEntity entity = createImageMetadataEntity(imgMetadataInfo, jobInstanceId, titleId);
         // Persist the image meta-data entity
         return this.saveImageMetadata(entity);
@@ -155,15 +139,11 @@ public class ImageServiceImpl implements ImageService
      * @return the absolute path the the image file, or null if it was not found
      *         in the tree
      */
-    private File searchFileTree(final String basename)
-    {
+    private File searchFileTree(final String basename) {
         final File staticImageFile = new File(staticContentDirectory.getAbsolutePath() + "/images", basename);
-        if (staticImageFile.exists())
-        {
+        if (staticImageFile.exists()) {
             return staticImageFile;
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -172,26 +152,20 @@ public class ImageServiceImpl implements ImageService
      * Delete all files in the specified directory.
      * @param directory directory whose files will be removed
      */
-    public static void removeAllFilesInDirectory(final File directory)
-    {
+    public static void removeAllFilesInDirectory(final File directory) {
         final File[] files = directory.listFiles();
-        for (final File file : files)
-        {
+        for (final File file : files) {
             file.delete();
         }
     }
 
-    public static void copyFile(final File sourceFile, final File destFile) throws IOException
-    {
-        if (!destFile.exists())
-        {
+    public static void copyFile(final File sourceFile, final File destFile) throws IOException {
+        if (!destFile.exists()) {
             destFile.createNewFile();
         }
-        try (FileInputStream sourceStream = new FileInputStream(sourceFile))
-        {
+        try (FileInputStream sourceStream = new FileInputStream(sourceFile)) {
             final FileChannel source = sourceStream.getChannel();
-            try (FileOutputStream destStream = new FileOutputStream(destFile))
-            {
+            try (FileOutputStream destStream = new FileOutputStream(destFile)) {
                 final FileChannel destination = destStream.getChannel();
                 destination.transferFrom(source, 0, source.size());
             }
@@ -204,12 +178,10 @@ public class ImageServiceImpl implements ImageService
      * @return mapping all the Images corresponding to a document
      */
     @Override
-    public Map<String, List<String>> getDocImageListMap(final Long jobInstanceId)
-    {
+    public Map<String, List<String>> getDocImageListMap(final Long jobInstanceId) {
         final List<ImageMetadataEntity> imageMetadataEntityList = findImageMetadata(jobInstanceId);
         final Map<String, List<String>> mapping = new HashMap<>();
-        for (final ImageMetadataEntity imageMetadataEntity : imageMetadataEntityList)
-        {
+        for (final ImageMetadataEntity imageMetadataEntity : imageMetadataEntityList) {
             final ImageMetadataEntityKey primaryKey = imageMetadataEntity.getPrimaryKey();
             final String key = primaryKey.getDocUuid();
             //img holds file name. IMG guid + mediatype (application/pdf)
@@ -218,8 +190,7 @@ public class ImageServiceImpl implements ImageService
                 + StringUtils.substringAfterLast(imageMetadataEntity.getContentType(), "/");
             List<String> value = new ArrayList<>();
 
-            if (mapping.containsKey(key))
-            {
+            if (mapping.containsKey(key)) {
                 value = mapping.get(key);
                 mapping.put(key, value);
             }
@@ -231,8 +202,7 @@ public class ImageServiceImpl implements ImageService
     }
 
     @Required
-    public void setImageDao(final ImageDao dao)
-    {
+    public void setImageDao(final ImageDao dao) {
         imageDao = dao;
     }
 }

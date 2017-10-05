@@ -37,8 +37,7 @@ import org.springframework.batch.core.ExitStatus;
 
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
-public class UnpackBundleTask extends BookStepImpl
-{
+public class UnpackBundleTask extends BookStepImpl {
     @Resource(name = "xppGatherFileSystem")
     private XppGatherFileSystem xppGatherFileSystem;
     @Resource(name = "zipService")
@@ -49,19 +48,16 @@ public class UnpackBundleTask extends BookStepImpl
     private CompressService gzipService;
 
     @Override
-    public ExitStatus executeStep() throws Exception
-    {
+    public ExitStatus executeStep() throws Exception {
         xppGatherFileSystem.getXppBundlesDirectory(this).mkdirs();
         unpackBundles();
         unmarshalBundleXmlFiles();
         return ExitStatus.COMPLETED;
     }
 
-    private void unpackBundles() throws Exception
-    {
+    private void unpackBundles() throws Exception {
         final BookDefinition bookDefinition = getBookDefinition();
-        for (final PrintComponent printComponent : bookDefinition.getPrintComponents())
-        {
+        for (final PrintComponent printComponent : bookDefinition.getPrintComponents()) {
             final String currentMaterialNumber = printComponent.getMaterialNumber();
 
             final XppBundleArchive xppBundleArchive =
@@ -76,10 +72,8 @@ public class UnpackBundleTask extends BookStepImpl
         }
     }
 
-    private void unpackBundle(final File targetArchive, final File currentBundleDirectory) throws Exception
-    {
-        switch (ArchiveType.getTypeByName(targetArchive.getName()))
-        {
+    private void unpackBundle(final File targetArchive, final File currentBundleDirectory) throws Exception {
+        switch (ArchiveType.getTypeByName(targetArchive.getName())) {
         case ZIP:
             zipService.decompress(targetArchive, currentBundleDirectory);
             break;
@@ -92,24 +86,20 @@ public class UnpackBundleTask extends BookStepImpl
         }
     }
 
-    private void unmarshalBundleXmlFiles() throws JAXBException
-    {
+    private void unmarshalBundleXmlFiles() throws JAXBException {
         final Unmarshaller unmarshaller = JAXBContext.newInstance(XppBundle.class).createUnmarshaller();
         final List<PrintComponent> printComponents = new ArrayList<>(getBookDefinition().getPrintComponents());
         final Map<String, File> bundleXmls = xppGatherFileSystem.getAllBundleXmls(this);
         final List<XppBundle> bundles = new ArrayList<>();
 
-        Collections.sort(printComponents, new Comparator<PrintComponent>()
-        {
+        Collections.sort(printComponents, new Comparator<PrintComponent>() {
             @Override
-            public int compare(final PrintComponent a, final PrintComponent b)
-            {
+            public int compare(final PrintComponent a, final PrintComponent b) {
                 return Integer.compare(a.getComponentOrder(), b.getComponentOrder());
             }
         });
 
-        for (final PrintComponent pc : printComponents)
-        {
+        for (final PrintComponent pc : printComponents) {
             final File xmlFile = bundleXmls.get(pc.getMaterialNumber());
             final XppBundle bundle = (XppBundle) unmarshaller.unmarshal(xmlFile);
             bundles.add(bundle);
@@ -118,24 +108,19 @@ public class UnpackBundleTask extends BookStepImpl
         setJobExecutionProperty(JobParameterKey.XPP_BUNDLES, bundles);
     }
 
-    private enum ArchiveType
-    {
+    private enum ArchiveType {
         ZIP(".zip"),
         TAR_GZ(".tar.gz");
 
         private final String extension;
 
-        ArchiveType(final String extension)
-        {
+        ArchiveType(final String extension) {
             this.extension = extension;
         }
 
-        private static ArchiveType getTypeByName(final String archiveName)
-        {
-            for (final ArchiveType type : values())
-            {
-                if (archiveName.endsWith(type.extension))
-                {
+        private static ArchiveType getTypeByName(final String archiveName) {
+            for (final ArchiveType type : values()) {
+                if (archiveName.endsWith(type.extension)) {
                     return type;
                 }
             }

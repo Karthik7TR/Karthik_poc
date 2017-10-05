@@ -21,40 +21,31 @@ import org.xml.sax.helpers.XMLFilterImpl;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class TitleXMLTOCFilter extends XMLFilterImpl
-{
+public class TitleXMLTOCFilter extends XMLFilterImpl {
     private static final Logger LOG = LogManager.getLogger(TitleXMLTOCFilter.class);
     private Map<String, String> anchors;
 
     public TitleXMLTOCFilter(final File anchorMap)
-        throws EBookFormatException
-    {
-        if (anchorMap == null || !anchorMap.exists())
-        {
+        throws EBookFormatException {
+        if (anchorMap == null || !anchorMap.exists()) {
             throw new IllegalArgumentException("File passed into TitleXMLTOCFilter constructor must be a valid file.");
         }
 
         anchors = new HashMap<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(anchorMap));)
-        {
+        try (BufferedReader reader = new BufferedReader(new FileReader(anchorMap));) {
             LOG.info("Reading in TOC anchor map file...");
             int numTocs = 0;
             String input = reader.readLine();
-            while (input != null)
-            {
+            while (input != null) {
                 final String[] line = input.split(",", -1);
-                if (!line[1].equals(""))
-                {
+                if (!line[1].equals("")) {
                     final String[] tocGuids = line[1].split("\\|");
-                    for (final String toc : tocGuids)
-                    {
+                    for (final String toc : tocGuids) {
                         numTocs++;
                         anchors.put(toc, line[0]);
                     }
-                }
-                else
-                {
+                } else {
                     final String message = "Please verify that each document GUID in the following file has "
                         + "at least one TOC guid associated with it: "
                         + anchorMap.getAbsolutePath();
@@ -64,16 +55,13 @@ public class TitleXMLTOCFilter extends XMLFilterImpl
                 input = reader.readLine();
             }
             LOG.info("Generated a map for " + numTocs + " TOCs.");
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String message = "Could not read the DOC guid to TOC guid map file: " + anchorMap.getAbsolutePath();
             LOG.error(message);
             throw new EBookFormatException(message, e);
         }
 
-        if (anchors.size() == 0)
-        {
+        if (anchors.size() == 0) {
             final String message = "No TOC to DOC mapping were loaded, please double check that the following"
                 + " file is not empty: "
                 + anchorMap.getAbsolutePath();
@@ -88,30 +76,23 @@ public class TitleXMLTOCFilter extends XMLFilterImpl
      *
      * @return map of TOC Guids to Doc Guids
      */
-    public Map<String, String> getTocToDocMapping()
-    {
+    public Map<String, String> getTocToDocMapping() {
         return anchors;
     }
 
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
-        throws SAXException
-    {
-        if (qName.equalsIgnoreCase("entry"))
-        {
-            if (atts != null)
-            {
+        throws SAXException {
+        if (qName.equalsIgnoreCase("entry")) {
+            if (atts != null) {
                 final String tocGuid = atts.getValue("s");
-                if (tocGuid != null)
-                {
-                    if (tocGuid.length() > 0)
-                    {
+                if (tocGuid != null) {
+                    if (tocGuid.length() > 0) {
                         final AttributesImpl newAtts = new AttributesImpl(atts);
 
                         newAtts.removeAttribute(newAtts.getIndex("s"));
                         final String docGuid = anchors.get(tocGuid);
-                        if (docGuid == null || docGuid.length() < 1)
-                        {
+                        if (docGuid == null || docGuid.length() < 1) {
                             final String message = "Could not find DOC Guid in mapping file for TOC: " + tocGuid;
                             LOG.error(message);
                             throw new SAXException(message);
@@ -120,23 +101,17 @@ public class TitleXMLTOCFilter extends XMLFilterImpl
                         newAtts.addAttribute("", "", "s", "CDATA", newAnchorRef);
 
                         super.startElement(uri, localName, qName, newAtts);
-                    }
-                    else
-                    {
+                    } else {
                         final String message =
                             "Encountered TOC Guid that was empty please take a look at Title.xml file.";
                         LOG.error(message);
                         throw new SAXException(message);
                     }
-                }
-                else
-                {
+                } else {
                     super.startElement(uri, localName, qName, atts);
                 }
             }
-        }
-        else
-        {
+        } else {
             super.startElement(uri, localName, qName, atts);
         }
     }

@@ -14,8 +14,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class XppMessageValidatorTest
-{
+public final class XppMessageValidatorTest {
     private XppMessageValidator validator;
 
     private static final String FILE_CONTENTS = "file contents";
@@ -26,8 +25,7 @@ public final class XppMessageValidatorTest
     private File mockEbookSrcFile;
 
     @Before
-    public void setUp() throws IOException
-    {
+    public void setUp() throws IOException {
         validator = new XppMessageValidator();
         mockEbookSrcFile = initMockEbookSrcFile();
 
@@ -35,29 +33,23 @@ public final class XppMessageValidatorTest
         System.out.println(bundleHash);
     }
 
-    private File initMockEbookSrcFile() throws IOException
-    {
+    private File initMockEbookSrcFile() throws IOException {
         final File tempFile = File.createTempFile("mockEbookSrcFile", "tmp");
         FileUtils.writeStringToFile(tempFile, FILE_CONTENTS);
         return tempFile;
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         mockEbookSrcFile.delete();
     }
 
     @Test
-    public void testHappyPath()
-    {
+    public void testHappyPath() {
         boolean thrown = false;
-        try
-        {
+        try {
             validator.validate(createRequest());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             thrown = true;
         }
@@ -65,16 +57,12 @@ public final class XppMessageValidatorTest
     }
 
     @Test
-    public void testIncompleteRequest()
-    {
+    public void testIncompleteRequest() {
         boolean thrown = false;
         String errorMessage = "";
-        try
-        {
+        try {
             validator.validate(new XppBundleArchive());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             thrown = true;
             errorMessage = e.getMessage();
         }
@@ -83,18 +71,14 @@ public final class XppMessageValidatorTest
     }
 
     @Test
-    public void testFileNotFound()
-    {
+    public void testFileNotFound() {
         mockEbookSrcFile = new File("definitely_not_valid.bad");
 
         boolean thrown = false;
         String errorMessage = "";
-        try
-        {
+        try {
             validator.validate(createRequest());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             thrown = true;
             errorMessage = e.getMessage();
         }
@@ -103,18 +87,14 @@ public final class XppMessageValidatorTest
     }
 
     @Test
-    public void testBadHash()
-    {
+    public void testBadHash() {
         bundleHash = "12345";
 
         boolean thrown = false;
         String errorMessage = "";
-        try
-        {
+        try {
             validator.validate(createRequest());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             thrown = true;
             errorMessage = e.getMessage();
         }
@@ -122,8 +102,7 @@ public final class XppMessageValidatorTest
         Assert.assertTrue(errorMessage.contains(XPPConstants.ERROR_BAD_HASH));
     }
 
-    private XppBundleArchive createRequest()
-    {
+    private XppBundleArchive createRequest() {
         final XppBundleArchive request = new XppBundleArchive();
         request.setVersion("1.0");
         request.setMessageId(requestId);

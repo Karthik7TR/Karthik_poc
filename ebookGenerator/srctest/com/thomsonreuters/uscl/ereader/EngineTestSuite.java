@@ -64,7 +64,6 @@ import org.junit.runners.Suite.SuiteClasses;
     ProviewClientImplTest.class,
     ProviewExceptionTest.class})
 
-public class EngineTestSuite
-{
+public class EngineTestSuite {
     //Intentionally left blank
 }

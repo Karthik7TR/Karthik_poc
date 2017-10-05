@@ -16,22 +16,18 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @Profile("IntegrationTests")
 @Import(CommonTestContextConfiguration.class)
-public class GenerateTitleMetadataStepIntegrationTestConfiguration
-{
+public class GenerateTitleMetadataStepIntegrationTestConfiguration {
     private static final String TITLE_ID = "uscl/gen/title_metadata_integration_test";
 
     @Bean(name = "generateTitleMetadataTask")
-    public GenerateTitleMetadataStep generateTitleMetadataTask()
-    {
+    public GenerateTitleMetadataStep generateTitleMetadataTask() {
         return new GenerateTitleMetadataStep();
     }
 
     @Bean
-    public ProviewFeaturesListBuilderFactory proviewFeaturesListBuilderFactory()
-    {
+    public ProviewFeaturesListBuilderFactory proviewFeaturesListBuilderFactory() {
         final ProviewTitleService proviewTitleService = mock(ProviewTitleService.class);
-        when(proviewTitleService.getLatestProviewTitleVersion(TITLE_ID))
-            .thenReturn(new Version("v1.0"));
+        when(proviewTitleService.getLatestProviewTitleVersion(TITLE_ID)).thenReturn(new Version("v1.0"));
         return new ProviewFeaturesListBuilderFactoryImpl(null, proviewTitleService);
     }
 }

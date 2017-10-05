@@ -9,8 +9,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Description of XPP pathway step behavior
  */
-public interface XppBookStep extends BookStep
-{
+public interface XppBookStep extends BookStep {
     /**
      * Get ordered list of publication's bundles
      */

@@ -19,14 +19,12 @@ import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.JobOperator;
 
-public final class EngineServiceTest
-{
+public final class EngineServiceTest {
     private static final String TITLE_ID = "titleId";
     private static final String FULLY_QUALIFIED_TITLE_ID = "a/b/c/d/e/f/" + TITLE_ID;
     private static Long BOOK_DEFINITION_ID = 101L;
     private static BookDefinition BOOK_DEFINITION;
-    static
-    {
+    static {
         BOOK_DEFINITION = new BookDefinition();
         BOOK_DEFINITION.setEbookDefinitionId(BOOK_DEFINITION_ID);
     }
@@ -45,8 +43,7 @@ public final class EngineServiceTest
     private BookDefinition expectedBookDefinition;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockJobLauncher = EasyMock.createMock(JobLauncher.class);
         mockJobOperator = EasyMock.createMock(JobOperator.class);
         mockJobRegistry = EasyMock.createMock(JobRegistry.class);
@@ -62,8 +59,7 @@ public final class EngineServiceTest
     }
 
     @Test
-    public void testCreateDynamicJobParameters() throws Exception
-    {
+    public void testCreateDynamicJobParameters() throws Exception {
         EasyMock.expect(mockMiscConfigSyncService.getProviewHost()).andReturn(InetAddress.getLocalHost());
         EasyMock.expect(mockMiscConfigSyncService.getNovusEnvironment()).andReturn(NovusEnvironment.Client);
         EasyMock.replay(mockMiscConfigSyncService);
@@ -77,10 +73,8 @@ public final class EngineServiceTest
     }
 
     @Test
-    public void testRestartJob()
-    {
-        try
-        {
+    public void testRestartJob() {
+        try {
             final Long jobExecutionId = Long.valueOf(1234);
             EasyMock.expect(mockJobOperator.restart(jobExecutionId)).andReturn(jobExecutionId);
             EasyMock.replay(mockJobOperator);
@@ -88,9 +82,7 @@ public final class EngineServiceTest
             final Long restartedId = service.restartJob(jobExecutionId);
             Assert.assertEquals(jobExecutionId, restartedId);
             Assert.assertTrue(true); // expected
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail("Restarting job should not have thrown an exception");
         }
@@ -98,18 +90,14 @@ public final class EngineServiceTest
     }
 
     @Test
-    public void testStopJob()
-    {
-        try
-        {
+    public void testStopJob() {
+        try {
             final Long jobExecutionId = Long.valueOf(1234);
             EasyMock.expect(mockJobOperator.stop(jobExecutionId)).andReturn(true);
             EasyMock.replay(mockJobOperator);
 
             service.stopJob(jobExecutionId);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail("Stopping job should not have thrown an exception");
         }

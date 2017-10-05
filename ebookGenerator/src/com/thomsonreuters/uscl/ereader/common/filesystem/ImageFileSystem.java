@@ -8,8 +8,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Provides access to files and directories specific for image gather steps of book generation process
  */
-public interface ImageFileSystem
-{
+public interface ImageFileSystem {
     /**
      * Returns images root directory:
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}

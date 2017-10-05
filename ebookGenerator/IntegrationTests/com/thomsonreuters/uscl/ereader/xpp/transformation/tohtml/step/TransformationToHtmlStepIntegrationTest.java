@@ -34,8 +34,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TransformationToHtmlStepIntegrationTestConfiguration.class)
 @ActiveProfiles("IntegrationTests")
-public final class TransformationToHtmlStepIntegrationTest
-{
+public final class TransformationToHtmlStepIntegrationTest {
     private static final String SAMPLE_DIVXML_PAGE = "1-sample_1.DIVXML_0_test.page";
     private static final String MATERIAL_NUMBER = "11111111";
     private static final String ADDITIONAL_MATERIAL_NUMBER = "11111112";
@@ -55,15 +54,13 @@ public final class TransformationToHtmlStepIntegrationTest
     private File original;
 
     @Before
-    public void setUp() throws URISyntaxException
-    {
+    public void setUp() throws URISyntaxException {
         org.mockito.MockitoAnnotations.initMocks(this);
         original = new File(TransformationToHtmlStepIntegrationTest.class.getResource(SAMPLE_DIVXML_PAGE).toURI());
     }
 
     @Test
-    public void shouldTransformPartsToHtml() throws Exception
-    {
+    public void shouldTransformPartsToHtml() throws Exception {
         //given
         initGiven(false);
         final File expected =
@@ -76,8 +73,7 @@ public final class TransformationToHtmlStepIntegrationTest
     }
 
     @Test
-    public void shouldTransformMultiVolumePartsToHtml() throws Exception
-    {
+    public void shouldTransformMultiVolumePartsToHtml() throws Exception {
         //given
         initGiven(true);
         final File expectedVol1 = new File(
@@ -93,8 +89,7 @@ public final class TransformationToHtmlStepIntegrationTest
         assertThat(FileUtils.readFileToString(html), equalTo(getExpectedString(expectedVol2)));
     }
 
-    private void initGiven(final boolean multiVolume) throws Exception
-    {
+    private void initGiven(final boolean multiVolume) throws Exception {
         given(
             chunkContext.getStepContext()
                 .getStepExecution()
@@ -103,16 +98,14 @@ public final class TransformationToHtmlStepIntegrationTest
                 .get(JobParameterKey.XPP_BUNDLES)).willReturn(getXppBundles(multiVolume));
 
         FileUtils.copyFileToDirectory(original, mkdir(fileSystem.getOriginalPagesDirectory(step, MATERIAL_NUMBER)));
-        if (multiVolume)
-        {
+        if (multiVolume) {
             FileUtils.copyFileToDirectory(
                 original,
                 mkdir(fileSystem.getOriginalPagesDirectory(step, ADDITIONAL_MATERIAL_NUMBER)));
         }
     }
 
-    private List<XppBundle> getXppBundles(final boolean multivolume)
-    {
+    private List<XppBundle> getXppBundles(final boolean multivolume) {
         final List<XppBundle> bundles = new ArrayList<>();
 
         XppBundle bundle = new XppBundle();
@@ -120,8 +113,7 @@ public final class TransformationToHtmlStepIntegrationTest
         bundle.setOrderedFileList(Arrays.asList("Useless_test_file.DIVXML.xml"));
         bundles.add(bundle);
 
-        if (multivolume)
-        {
+        if (multivolume) {
             bundle = new XppBundle();
             bundle.setMaterialNumber(ADDITIONAL_MATERIAL_NUMBER);
             bundle.setOrderedFileList(Arrays.asList("Useless_test_file.DIVXML.xml"));
@@ -131,8 +123,7 @@ public final class TransformationToHtmlStepIntegrationTest
         return bundles;
     }
 
-    private String getExpectedString(final File expected) throws IOException
-    {
+    private String getExpectedString(final File expected) throws IOException {
         return FileUtils.readFileToString(expected)
             .replace(REF_PLACE_HOLDER, entitiesDtdFile.getAbsolutePath().replace("\\", "/"));
     }

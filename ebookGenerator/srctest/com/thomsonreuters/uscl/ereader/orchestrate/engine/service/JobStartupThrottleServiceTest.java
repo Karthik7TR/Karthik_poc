@@ -25,8 +25,7 @@ import org.springframework.batch.core.repository.JobRepository;
  *
  *  @author Mahendra Survase (u0105927)
  */
-public final class JobStartupThrottleServiceTest
-{
+public final class JobStartupThrottleServiceTest {
     private static final String JOB_NAME = "TestJob";
     private static final String THROTTLE_STEP = "formatAddHTMLWrapper";
     private JobRepository mockJobRepository;
@@ -39,8 +38,7 @@ public final class JobStartupThrottleServiceTest
      * @throws Exception
      */
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         mockJobRepository = EasyMock.createMock(JobRepository.class);
         mockJobExplorer = EasyMock.createMock(JobExplorer.class);
         jobNames.add(JOB_NAME);
@@ -52,10 +50,10 @@ public final class JobStartupThrottleServiceTest
      *
      */
     @Test
-    public void checkIfnewJobCanbeLaunched_positive_1()
-    {
+    public void checkIfnewJobCanbeLaunched_positive_1() {
         final JobThrottleConfig config = new JobThrottleConfig(8, true, THROTTLE_STEP, 6);
-        final JobStartupThrottleServiceImpl service = new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository);
+        final JobStartupThrottleServiceImpl service =
+            new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository);
         service.setJobThrottleConfig(config);
 
         // test specific setup.
@@ -82,10 +80,10 @@ public final class JobStartupThrottleServiceTest
      *
      */
     @Test
-    public void checkIfnewJobCanbeLaunched_positive_2()
-    {
+    public void checkIfnewJobCanbeLaunched_positive_2() {
         final JobThrottleConfig config = new JobThrottleConfig(8, true, THROTTLE_STEP, 6);
-        final JobStartupThrottleServiceImpl service = new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository);
+        final JobStartupThrottleServiceImpl service =
+            new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository);
         service.setJobThrottleConfig(config);
         // test specific setup.
         final Set<JobExecution> runningJobExecutions = new HashSet<>(2);
@@ -101,8 +99,7 @@ public final class JobStartupThrottleServiceTest
         runningJobExecutions.add(jobExecutionTest_3);
         JobExecution jobExecutionOuter = null;
         final long longJobId = 3343L;
-        for (final JobExecution jobExecution : runningJobExecutions)
-        {
+        for (final JobExecution jobExecution : runningJobExecutions) {
             jobExecutionOuter = jobExecution;
         }
         final JobInstance jobInstance = jobExecutionOuter.getJobInstance();
@@ -132,10 +129,10 @@ public final class JobStartupThrottleServiceTest
      *
      */
     @Test
-    public void checkIfnewJobCanbeLaunched_negative_1()
-    {
+    public void checkIfnewJobCanbeLaunched_negative_1() {
         final JobThrottleConfig config = new JobThrottleConfig(8, true, THROTTLE_STEP, 3);
-        final JobStartupThrottleServiceImpl service = new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository);
+        final JobStartupThrottleServiceImpl service =
+            new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository);
         service.setJobThrottleConfig(config);
         // test specific setup.
         final Set<JobExecution> runningJobExecutions = new HashSet<>(3);
@@ -152,8 +149,7 @@ public final class JobStartupThrottleServiceTest
 
         JobExecution jobExecutionOuter = null;
 
-        for (final JobExecution jobExecution : runningJobExecutions)
-        {
+        for (final JobExecution jobExecution : runningJobExecutions) {
             jobExecutionOuter = jobExecution;
         }
         final JobInstance jobInstance = jobExecutionOuter.getJobInstance();

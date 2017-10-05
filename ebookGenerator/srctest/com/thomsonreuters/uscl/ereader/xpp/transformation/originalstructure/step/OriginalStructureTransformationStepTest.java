@@ -33,8 +33,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class OriginalStructureTransformationStepTest
-{
+public final class OriginalStructureTransformationStepTest {
     private static final String XPP_DIVXML_XML = "xpp.DIVXML.xml";
     private static final String MATERIAL_NUMBER = "11111111";
     private static final String DTD_FILE_PATH = "some/path";
@@ -70,8 +69,7 @@ public final class OriginalStructureTransformationStepTest
     private File xppFile;
 
     @Before
-    public void setUp() throws IOException
-    {
+    public void setUp() throws IOException {
         xppDirectory = temporaryFolder.getRoot();
         final File bundleDir = mkdir(xppDirectory, MATERIAL_NUMBER);
         final File xppDir = mkdir(bundleDir, "/bundleName/XPP");
@@ -81,13 +79,13 @@ public final class OriginalStructureTransformationStepTest
         given(fileSystem.getOriginalDirectory(step, MATERIAL_NUMBER)).willReturn(bundleDir);
         given(fileSystem.getOriginalFile(step, MATERIAL_NUMBER, XPP_DIVXML_XML)).willReturn(originalFile);
         given(fileSystem.getFootnotesFile(step, MATERIAL_NUMBER, XPP_DIVXML_XML)).willReturn(footnotesFile);
-        given(fileSystem.getCiteQueryProcessedFile(step, MATERIAL_NUMBER, XPP_DIVXML_XML)).willReturn(citeQueryProcessedFile);
+        given(fileSystem.getCiteQueryProcessedFile(step, MATERIAL_NUMBER, XPP_DIVXML_XML))
+            .willReturn(citeQueryProcessedFile);
         given(citeQueryProcessedFile.getName()).willReturn(XPP_DIVXML_XML);
     }
 
     @Test
-    public void shouldTransform() throws Exception
-    {
+    public void shouldTransform() throws Exception {
         //given
         //when
         step.executeStep();
@@ -99,8 +97,7 @@ public final class OriginalStructureTransformationStepTest
         assertThat(iterator.next().getOutputFile(), is(footnotesFile));
     }
 
-    private Map<String, Collection<File>> getSourceXmlsFromGatherDir()
-    {
+    private Map<String, Collection<File>> getSourceXmlsFromGatherDir() {
         return Collections.singletonMap(MATERIAL_NUMBER, (Collection<File>) Collections.singletonList(xppFile));
     }
 }

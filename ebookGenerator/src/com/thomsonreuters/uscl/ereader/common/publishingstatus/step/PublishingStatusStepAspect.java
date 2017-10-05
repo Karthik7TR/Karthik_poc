@@ -14,31 +14,23 @@ import org.springframework.core.annotation.Order;
 
 @Aspect
 @Order(3)
-public class PublishingStatusStepAspect
-{
+public class PublishingStatusStepAspect {
     @Resource(name = "publishingStatusUpdateServiceFactory")
     private PublishingStatusUpdateServiceFactory publishingStatusUpdateServiceFactory;
 
     @Around("execution(* com.thomsonreuters.uscl.ereader.common.publishingstatus.step.PublishingStatusUpdateStep.execute(..))")
-    public void around(final ProceedingJoinPoint jp) throws Throwable
-    {
+    public void around(final ProceedingJoinPoint jp) throws Throwable {
         PublishingStatus publishStatus = PublishingStatus.COMPLETED;
-        try
-        {
+        try {
             jp.proceed();
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             publishStatus = PublishingStatus.FAILED;
             throw e;
-        }
-        finally
-        {
+        } finally {
             final PublishingStatusUpdateStep step = (PublishingStatusUpdateStep) jp.getTarget();
             final List<PublishingStatusUpdateService<PublishingStatusUpdateStep>> services =
                 publishingStatusUpdateServiceFactory.create(step);
-            for (final PublishingStatusUpdateService<PublishingStatusUpdateStep> service : services)
-            {
+            for (final PublishingStatusUpdateService<PublishingStatusUpdateStep> service : services) {
                 service.savePublishingStats(step, publishStatus);
             }
         }

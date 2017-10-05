@@ -15,29 +15,24 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("IntegrationTests")
 @ContextConfiguration(classes = PlaceXppMetadataStepIntegrationTestConfig.class)
-public final class PlaceXppMetadataStepIndexIntegrationTest extends PlaceXppMetadataStepFixture
-{
+public final class PlaceXppMetadataStepIndexIntegrationTest extends PlaceXppMetadataStepFixture {
     public PlaceXppMetadataStepIndexIntegrationTest()
-        throws URISyntaxException
-    {
+        throws URISyntaxException {
         super("index/1001-CHAL_Volume_3_Index.DIVXML.main", "index/1001-CHALExpected_Volume_3_Index.DIVXML.main");
     }
 
     @Test
-    public void shouldInsertCorrectMetadataAndHierToIndexFile() throws Exception
-    {
+    public void shouldInsertCorrectMetadataAndHierToIndexFile() throws Exception {
         testPlacedMetadata();
     }
 
     @Override
-    protected void testPlacedMetadata() throws Exception
-    {
+    protected void testPlacedMetadata() throws Exception {
         //given
         //when
         step.executeStep();
         //then
-        final File actual = fileSystem
-            .getStructureWithMetadataFile(step, VOL_MATERIAL_NUMBER, source.getName());
+        final File actual = fileSystem.getStructureWithMetadataFile(step, VOL_MATERIAL_NUMBER, source.getName());
         assertThat(expected, hasSameContentAs(actual));
     }
 }

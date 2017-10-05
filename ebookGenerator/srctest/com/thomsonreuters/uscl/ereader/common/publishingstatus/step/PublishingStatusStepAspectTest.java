@@ -21,8 +21,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class PublishingStatusStepAspectTest
-{
+public final class PublishingStatusStepAspectTest {
     @InjectMocks
     private PublishingStatusStepAspect aspect;
     @Mock
@@ -39,14 +38,12 @@ public final class PublishingStatusStepAspectTest
     public ExpectedException thrown = ExpectedException.none();
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         given(factory.create(step)).willReturn(asList(service, anotherService));
     }
 
     @Test
-    public void shouldSavePublishStatus() throws Throwable
-    {
+    public void shouldSavePublishStatus() throws Throwable {
         //given
         given(jp.getTarget()).willReturn(step);
         //when
@@ -57,8 +54,7 @@ public final class PublishingStatusStepAspectTest
     }
 
     @Test
-    public void shouldSavePublishStatusAndThrowExceptionIfFailed() throws Throwable
-    {
+    public void shouldSavePublishStatusAndThrowExceptionIfFailed() throws Throwable {
         //given
         thrown.expect(RuntimeException.class);
         given(jp.getTarget()).willReturn(step);

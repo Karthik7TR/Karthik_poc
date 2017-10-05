@@ -25,8 +25,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = OriginalStructureTransformationStepIntegrationTestConfiguration.class)
 @ActiveProfiles("IntegrationTests")
-public final class OriginalStructureTransformationStepIntegrationTest
-{
+public final class OriginalStructureTransformationStepIntegrationTest {
     private static final String MATERIAL_NUMBER = "11111111";
     private static final String REF_PLACE_HOLDER = "${refPlaceHolder}";
 
@@ -40,8 +39,7 @@ public final class OriginalStructureTransformationStepIntegrationTest
     private File entitiesDtdFile;
 
     @Test
-    public void shouldReturnOriginalXml() throws Exception
-    {
+    public void shouldReturnOriginalXml() throws Exception {
         testOriginalStructureTransformationStep(
             "sampleXpp.DIVXML.xml",
             "expected.main",
@@ -50,8 +48,7 @@ public final class OriginalStructureTransformationStepIntegrationTest
     }
 
     @Test
-    public void shouldReturnOriginalXmlWithRomanPageNumbers() throws Exception
-    {
+    public void shouldReturnOriginalXmlWithRomanPageNumbers() throws Exception {
         testOriginalStructureTransformationStep(
             "sampleXpp_Front_vol_1.DIVXML.xml",
             "expected-roman.main",
@@ -60,8 +57,7 @@ public final class OriginalStructureTransformationStepIntegrationTest
     }
 
     @After
-    public void cleanUpProcessedDir() throws IOException
-    {
+    public void cleanUpProcessedDir() throws IOException {
         final File xppDir =
             xppGatherFileSystem.getXppBundleMaterialNumberDirectory(step, MATERIAL_NUMBER).toPath().toFile();
         final File processedCiteQueriesDir = fileSystem.getCiteQueryProcessedDirectory(step, MATERIAL_NUMBER);
@@ -73,8 +69,7 @@ public final class OriginalStructureTransformationStepIntegrationTest
         final String sampleFileName,
         final String expectedMainFileName,
         final String expectedFootnoteFileName,
-        final String processedCiteQueriesDirName) throws Exception
-    {
+        final String processedCiteQueriesDirName) throws Exception {
         //given
         final String expectedMain = getFileContent(expectedMainFileName);
         final String expectedFootnotes = getFileContent(expectedFootnoteFileName);
@@ -102,8 +97,7 @@ public final class OriginalStructureTransformationStepIntegrationTest
             DirectoryContentMatcher.hasSameContentAs(expectedProcessedCiteQueriesDir, true));
     }
 
-    private String getFileContent(final String fileName) throws URISyntaxException, IOException
-    {
+    private String getFileContent(final String fileName) throws URISyntaxException, IOException {
         final File file =
             new File(OriginalStructureTransformationStepIntegrationTest.class.getResource(fileName).toURI());
         return FileUtils.readFileToString(file)

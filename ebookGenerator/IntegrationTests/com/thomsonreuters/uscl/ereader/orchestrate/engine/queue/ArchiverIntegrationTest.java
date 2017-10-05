@@ -34,8 +34,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
     "file:**/WebContent/WEB-INF/spring/spring-batch.xml",
     "file:**/WebContent/WEB-INF/spring/application.xml",
     "file:**/WebContent/WEB-INF/spring/rest.xml"})
-public final class ArchiverIntegrationTest
-{
+public final class ArchiverIntegrationTest {
     private static String message =
         "<eBookRequest version='1.0'><messageId>%s</messageId><bundleHash>9fef91b329e827f0af4bdf0f604c909d</bundleHash><dateTime>2016-02-10T19:42:03.522Z</dateTime><srcFile>C:/apps/titleName.gz</srcFile></eBookRequest>";
 
@@ -52,8 +51,7 @@ public final class ArchiverIntegrationTest
     private XppBundleArchiveDao bundleArchiveDao;
 
     @Test
-    public void testRun() throws InterruptedException
-    {
+    public void testRun() throws InterruptedException {
         final JMSClient jmsClient = new JmsClientImpl();
 
         final String messageUuid = uuidWithoutDashes();
@@ -75,34 +73,27 @@ public final class ArchiverIntegrationTest
 //		validate(messageUuid);
 //	}
 
-    private void validate(final String mesageUuid)
-    {
+    private void validate(final String mesageUuid) {
         validateRetrieveBundleTask(mesageUuid);
     }
 
-    private void validateRetrieveBundleTask(final String mesageUuid)
-    {
-        try
-        {
+    private void validateRetrieveBundleTask(final String mesageUuid) {
+        try {
             final XppBundleArchive dup = bundleArchiveDao.findByRequestId(mesageUuid);
             assertNotNull(dup);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             fail();
         }
     }
 
-    private void waitTillJobDone() throws InterruptedException
-    {
+    private void waitTillJobDone() throws InterruptedException {
         final ThreadPoolExecutor executor = springBatchBundleTaskExecutor.getThreadPoolExecutor();
         executor.shutdown();
         executor.awaitTermination(10, TimeUnit.SECONDS);
     }
 
-    private String uuidWithoutDashes()
-    {
+    private String uuidWithoutDashes() {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
 }

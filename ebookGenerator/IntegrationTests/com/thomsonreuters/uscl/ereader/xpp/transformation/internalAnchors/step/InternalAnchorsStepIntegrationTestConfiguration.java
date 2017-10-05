@@ -9,11 +9,9 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @Profile("IntegrationTests")
 @Import(CommonTestContextConfiguration.class)
-public class InternalAnchorsStepIntegrationTestConfiguration
-{
+public class InternalAnchorsStepIntegrationTestConfiguration {
     @Bean(name = "internalAnchorsTask")
-    public InternalAnchorsStep internalAnchorsTask()
-    {
+    public InternalAnchorsStep internalAnchorsTask() {
         return new InternalAnchorsStep();
     }
 }

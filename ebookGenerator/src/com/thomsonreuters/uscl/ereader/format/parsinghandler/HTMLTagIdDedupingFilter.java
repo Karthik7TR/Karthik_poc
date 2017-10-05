@@ -17,38 +17,31 @@ import org.xml.sax.helpers.XMLFilterImpl;
  *
  * @author <a href="mailto:Ravi.Nandikolla@thomsonreuters.com">Ravi Nandikolla</a> c139353
  */
-public class HTMLTagIdDedupingFilter extends XMLFilterImpl
-{
+public class HTMLTagIdDedupingFilter extends XMLFilterImpl {
     private Set<String> anchorIdSet = new HashSet<>();
     private List<String> duplicateIdList = new ArrayList<>();
     private Map<String, Integer> duplicateIdCount = new HashMap<>();
     private String docGuid;
 
-    public HTMLTagIdDedupingFilter(final String docGuid)
-    {
+    public HTMLTagIdDedupingFilter(final String docGuid) {
         this.docGuid = docGuid;
     }
 
     /**
      * @return duplicateIdList contains all the duplicate anchor id's.
      */
-    public List<String> getDuplicateIdList()
-    {
+    public List<String> getDuplicateIdList() {
         return duplicateIdList;
     }
 
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
-        throws SAXException
-    {
-        if (atts != null && atts.getValue("id") != null)
-        {
+        throws SAXException {
+        if (atts != null && atts.getValue("id") != null) {
             final String idVal = atts.getValue("id");
             int count = 0;
-            if (anchorIdSet.contains(idVal))
-            {
-                if (duplicateIdCount.containsKey(idVal))
-                {
+            if (anchorIdSet.contains(idVal)) {
+                if (duplicateIdCount.containsKey(idVal)) {
                     count = duplicateIdCount.get(idVal) + 1;
                 }
                 duplicateIdCount.put(idVal, count);
@@ -58,28 +51,22 @@ public class HTMLTagIdDedupingFilter extends XMLFilterImpl
                 newAtts.setValue(i, newIdVal);
                 duplicateIdList.add(docGuid + ":" + qName + ", " + idVal + ", " + newIdVal);
                 super.startElement(uri, localName, qName, newAtts);
-            }
-            else
-            {
+            } else {
                 anchorIdSet.add(idVal);
                 super.startElement(uri, localName, qName, atts);
             }
-        }
-        else
-        {
+        } else {
             super.startElement(uri, localName, qName, atts);
         }
     }
 
     @Override
-    public void characters(final char[] buf, final int offset, final int len) throws SAXException
-    {
+    public void characters(final char[] buf, final int offset, final int len) throws SAXException {
         super.characters(buf, offset, len);
     }
 
     @Override
-    public void endElement(final String uri, final String localName, final String qName) throws SAXException
-    {
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException {
         super.endElement(uri, localName, qName);
     }
 }

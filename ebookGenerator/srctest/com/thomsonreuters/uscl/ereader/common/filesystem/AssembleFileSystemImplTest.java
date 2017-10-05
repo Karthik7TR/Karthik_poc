@@ -18,8 +18,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class AssembleFileSystemImplTest
-{
+public final class AssembleFileSystemImplTest {
     @InjectMocks
     private AssembleFileSystemImpl fileSystem;
     @Mock
@@ -30,14 +29,12 @@ public final class AssembleFileSystemImplTest
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         given(bookFileSystem.getWorkDirectory(step)).willReturn(new File(temporaryFolder.getRoot(), "workDirectory"));
     }
 
     @Test
-    public void shouldReturnAssembleDirectory()
-    {
+    public void shouldReturnAssembleDirectory() {
         //given
         //when
         final File directory = fileSystem.getAssembleDirectory(step);
@@ -46,8 +43,7 @@ public final class AssembleFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnTitleDirectory()
-    {
+    public void shouldReturnTitleDirectory() {
         //given
         given(step.getBookDefinition().getTitleId()).willReturn("titleId");
         //when
@@ -57,8 +53,7 @@ public final class AssembleFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnTitleXml()
-    {
+    public void shouldReturnTitleXml() {
         //given
         given(step.getBookDefinition().getTitleId()).willReturn("titleId");
         //when
@@ -68,8 +63,7 @@ public final class AssembleFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnSplitTitleDirectory()
-    {
+    public void shouldReturnSplitTitleDirectory() {
         //given
         //when
         final File directory = fileSystem.getSplitTitleDirectory(step, "an/splitTitleId");
@@ -78,8 +72,7 @@ public final class AssembleFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnAssetsDirectory()
-    {
+    public void shouldReturnAssetsDirectory() {
         //given
         given(step.getBookDefinition().getTitleId()).willReturn("titleId");
         //when
@@ -89,8 +82,7 @@ public final class AssembleFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnDocumentsDirectory()
-    {
+    public void shouldReturnDocumentsDirectory() {
         //given
         given(step.getBookDefinition().getTitleId()).willReturn("titleId");
         //when
@@ -100,8 +92,7 @@ public final class AssembleFileSystemImplTest
     }
 
     @Test
-    public void shouldReturnAssembledBookFile()
-    {
+    public void shouldReturnAssembledBookFile() {
         //given
         given(step.getBookDefinition().getTitleId()).willReturn("titleId");
         given(step.getBookVersion().getVersionForFilePattern()).willReturn("_1_1");
@@ -112,8 +103,7 @@ public final class AssembleFileSystemImplTest
     }
 
     @Test
-    public void testGetAssembledSplitTitleFile()
-    {
+    public void testGetAssembledSplitTitleFile() {
         //given
         given(step.getBookDefinition().getTitleId()).willReturn("titleId");
         given(step.getBookVersion().getVersionForFilePattern()).willReturn("_1_1");
@@ -124,8 +114,7 @@ public final class AssembleFileSystemImplTest
     }
 
     @Test
-    public void testGetArtworkFile()
-    {
+    public void testGetArtworkFile() {
         //given
         given(step.getBookDefinition().getTitleId()).willReturn("titleId");
         //when

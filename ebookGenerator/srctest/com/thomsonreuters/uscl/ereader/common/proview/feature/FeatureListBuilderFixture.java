@@ -21,8 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-public abstract class FeatureListBuilderFixture
-{
+public abstract class FeatureListBuilderFixture {
     protected FeaturesListBuilder featuresListBuilder;
     @Mock
     protected BookDefinition bookDefinition;
@@ -32,16 +31,14 @@ public abstract class FeatureListBuilderFixture
     protected ProviewTitleService proviewTitleService;
 
     @Before
-    public void onTestSetUp()
-    {
+    public void onTestSetUp() {
         featuresListBuilder = createFeatureListBuilder(proviewTitleService, bookDefinition);
 
         final Version version = new Version("v1.0");
         given(proviewTitleService.getLatestProviewTitleVersion(anyString())).willReturn(version);
         given(proviewTitleService.getPreviousTitles(version, "FullyQualifiedTitleId"))
             .willReturn(Collections.singletonList(new BookTitleId("FullyQualifiedTitleId", version)));
-        given(proviewTitleService.isMajorVersionPromotedToFinal(anyString(), eq(new Version("v1.1"))))
-            .willReturn(true);
+        given(proviewTitleService.isMajorVersionPromotedToFinal(anyString(), eq(new Version("v1.1")))).willReturn(true);
 
         given(splitNodeInfo.getBookVersionSubmitted()).willReturn("1.0");
         given(splitNodeInfo.getSplitBookTitle()).willReturn("SplitBookTitle");
@@ -57,11 +54,11 @@ public abstract class FeatureListBuilderFixture
     }
 
     protected abstract FeaturesListBuilder createFeatureListBuilder(
-        ProviewTitleService proviewTitleService, BookDefinition bookDefinition);
+        ProviewTitleService proviewTitleService,
+        BookDefinition bookDefinition);
 
     @Test
-    public void shouldReturnFeaturesWithoutNoteMigration()
-    {
+    public void shouldReturnFeaturesWithoutNoteMigration() {
         //given
         //when
         final List<Feature> features = featuresListBuilder.getFeatures();
@@ -70,8 +67,7 @@ public abstract class FeatureListBuilderFixture
     }
 
     @Test
-    public void shouldReturnFeaturesWithoutXppPagesFeatures()
-    {
+    public void shouldReturnFeaturesWithoutXppPagesFeatures() {
         //given
         given(bookDefinition.getSourceType()).willReturn(SourceType.FILE);
         //when
@@ -81,8 +77,7 @@ public abstract class FeatureListBuilderFixture
     }
 
     @Test
-    public void shouldReturnFeaturesWithoutSplitBookFeatures()
-    {
+    public void shouldReturnFeaturesWithoutSplitBookFeatures() {
         //given
         given(bookDefinition.isSplitBook()).willReturn(false);
         //when
@@ -92,8 +87,7 @@ public abstract class FeatureListBuilderFixture
     }
 
     @Test
-    public void shouldReturnFeaturesWithoutOnePassFeatures()
-    {
+    public void shouldReturnFeaturesWithoutOnePassFeatures() {
         //given
         given(bookDefinition.getOnePassSsoLinkFlag()).willReturn(false);
         //when
@@ -103,8 +97,7 @@ public abstract class FeatureListBuilderFixture
     }
 
     @Test
-    public void shouldReturnFeaturesWithoutCopyFeature()
-    {
+    public void shouldReturnFeaturesWithoutCopyFeature() {
         //given
         given(bookDefinition.getEnableCopyFeatureFlag()).willReturn(false);
         //when
@@ -114,8 +107,7 @@ public abstract class FeatureListBuilderFixture
     }
 
     @Test
-    public void shouldReturnFeaturesWithoutSearchIndexFeature()
-    {
+    public void shouldReturnFeaturesWithoutSearchIndexFeature() {
         //given
         given(bookDefinition.getSearchIndexFlag()).willReturn(false);
         //when
@@ -125,8 +117,7 @@ public abstract class FeatureListBuilderFixture
     }
 
     @Test
-    public void shouldReturnFeaturesWithoutAutoUpdateFeature()
-    {
+    public void shouldReturnFeaturesWithoutAutoUpdateFeature() {
         //given
         given(bookDefinition.getAutoUpdateSupportFlag()).willReturn(false);
         //when
@@ -136,63 +127,50 @@ public abstract class FeatureListBuilderFixture
     }
 
     @Test
-    public void shouldReturnFeaturesWithoutNotesMigrationFeatureWithSameVersion()
-    {
+    public void shouldReturnFeaturesWithoutNotesMigrationFeatureWithSameVersion() {
         //given
         //when
-        final List<Feature> features = featuresListBuilder
-            .withBookVersion(new Version("v1.0"))
-            .getFeatures();
+        final List<Feature> features = featuresListBuilder.withBookVersion(new Version("v1.0")).getFeatures();
         //then
         assertTrue(CollectionUtils.isEqualCollection(features, getExpectedFeatures(bookDefinition)));
     }
 
     @Test
-    public void shouldReturnFeaturesWithoutNotesMigrationFeatureWithMajorUpdate()
-    {
+    public void shouldReturnFeaturesWithoutNotesMigrationFeatureWithMajorUpdate() {
         //given
         //when
-        final List<Feature> features = featuresListBuilder
-            .withBookVersion(new Version("v2.0"))
-            .getFeatures();
+        final List<Feature> features = featuresListBuilder.withBookVersion(new Version("v2.0")).getFeatures();
         //then
         assertTrue(CollectionUtils.isEqualCollection(features, getExpectedFeatures(bookDefinition)));
     }
 
-    protected List<Feature> getExpectedFeatures(final BookDefinition bookDefinition)
-    {
+    protected List<Feature> getExpectedFeatures(final BookDefinition bookDefinition) {
         final List<Feature> features = new ArrayList<>();
         features.add(new Feature("Print"));
 
-        if (bookDefinition.getAutoUpdateSupportFlag())
-        {
+        if (bookDefinition.getAutoUpdateSupportFlag()) {
             features.add(new Feature("AutoUpdate"));
         }
 
-        if (bookDefinition.getSearchIndexFlag())
-        {
+        if (bookDefinition.getSearchIndexFlag()) {
             features.add(new Feature("SearchIndex"));
         }
 
-        if (bookDefinition.getEnableCopyFeatureFlag())
-        {
+        if (bookDefinition.getEnableCopyFeatureFlag()) {
             features.add(new Feature("Copy"));
         }
 
-        if (bookDefinition.getOnePassSsoLinkFlag())
-        {
+        if (bookDefinition.getOnePassSsoLinkFlag()) {
             features.add(new Feature("OnePassSSO", "www.westlaw.com"));
             features.add(new Feature("OnePassSSO", "next.westlaw.com"));
         }
 
-        if (bookDefinition.isSplitBook())
-        {
+        if (bookDefinition.isSplitBook()) {
             features.add(new Feature("FullAnchorMap"));
             features.add(new Feature("CombinedTOC"));
         }
 
-        if (SourceType.XPP == bookDefinition.getSourceType())
-        {
+        if (SourceType.XPP == bookDefinition.getSourceType()) {
             features.add(new Feature("PageNos"));
             features.add(new Feature("SpanPages"));
         }

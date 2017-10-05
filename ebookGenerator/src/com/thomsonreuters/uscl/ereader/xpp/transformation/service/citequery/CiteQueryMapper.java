@@ -9,8 +9,7 @@ import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformation
 import org.jetbrains.annotations.NotNull;
 import org.xml.sax.SAXException;
 
-public interface CiteQueryMapper
-{
+public interface CiteQueryMapper {
 
     /**
      * @param htmlFile input HTML file with <cite.query> tags
@@ -22,6 +21,8 @@ public interface CiteQueryMapper
      * @throws IOException
      */
     @NotNull
-    String createMappingFile(@NotNull File htmlFile, @NotNull String materialNumber, @NotNull XppTransformationStep step)
-        throws ParserConfigurationException, SAXException, IOException;
+    String createMappingFile(
+        @NotNull File htmlFile,
+        @NotNull String materialNumber,
+        @NotNull XppTransformationStep step) throws ParserConfigurationException, SAXException, IOException;
 }

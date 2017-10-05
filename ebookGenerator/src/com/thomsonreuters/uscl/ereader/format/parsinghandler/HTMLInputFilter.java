@@ -11,70 +11,51 @@ import org.xml.sax.helpers.XMLFilterImpl;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class HTMLInputFilter extends XMLFilterImpl
-{
+public class HTMLInputFilter extends XMLFilterImpl {
     private boolean keyCitePlaceholder;
     private boolean isInputTag;
 
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
-        throws SAXException
-    {
-        if (qName.equalsIgnoreCase("input"))
-        {
+        throws SAXException {
+        if (qName.equalsIgnoreCase("input")) {
             isInputTag = true;
-            if (atts != null)
-            {
+            if (atts != null) {
                 final String id = atts.getValue("id");
                 final String type = atts.getValue("type");
                 if (id != null
                     && id.equalsIgnoreCase("co_keyCiteFlagPlaceHolder")
                     && type != null
-                    && type.equalsIgnoreCase("hidden"))
-                {
+                    && type.equalsIgnoreCase("hidden")) {
                     //TODO: Add KeyCite link or display generation based on NPD rules.
                     keyCitePlaceholder = true;
                 }
             }
-        }
-        else
-        {
+        } else {
             super.startElement(uri, localName, qName, atts);
         }
     }
 
     @Override
-    public void characters(final char[] buf, final int offset, final int len) throws SAXException
-    {
-        if (keyCitePlaceholder)
-        {
+    public void characters(final char[] buf, final int offset, final int len) throws SAXException {
+        if (keyCitePlaceholder) {
             //TODO: Add KeyCite link or display generation based on NPD rules.
-        }
-        else if (isInputTag)
-        {
+        } else if (isInputTag) {
             //Remove anything from within the input tags.
-        }
-        else
-        {
+        } else {
             super.characters(buf, offset, len);
         }
     }
 
     @Override
-    public void endElement(final String uri, final String localName, final String qName) throws SAXException
-    {
-        if (keyCitePlaceholder)
-        {
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException {
+        if (keyCitePlaceholder) {
             keyCitePlaceholder = false;
             isInputTag = false;
             //TODO: Add KeyCite link or display generation based on NPD rules.
-        }
-        else if (isInputTag)
-        {
+        } else if (isInputTag) {
             isInputTag = false;
-        }
-        else
-        {
+        } else {
             super.endElement(uri, localName, qName);
         }
     }

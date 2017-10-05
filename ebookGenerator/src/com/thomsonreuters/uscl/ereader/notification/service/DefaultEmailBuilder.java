@@ -2,14 +2,12 @@ package com.thomsonreuters.uscl.ereader.notification.service;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class DefaultEmailBuilder extends AbstractEmailBuilder
-{
+public class DefaultEmailBuilder extends AbstractEmailBuilder {
     /* (non-Javadoc)
      * @see com.thomsonreuters.uscl.ereader.notification.AbstractGeneratorEmailBuilder#getAdditionalSubjectPart()
      */
     @Override
-    protected String getAdditionalSubjectPart()
-    {
+    protected String getAdditionalSubjectPart() {
         return StringUtils.EMPTY;
     }
 
@@ -17,8 +15,7 @@ public class DefaultEmailBuilder extends AbstractEmailBuilder
      * @see com.thomsonreuters.uscl.ereader.notification.AbstractGeneratorEmailBuilder#getAdditionalBodyPart()
      */
     @Override
-    protected String getAdditionalBodyPart()
-    {
+    protected String getAdditionalBodyPart() {
         return StringUtils.EMPTY;
     }
 }

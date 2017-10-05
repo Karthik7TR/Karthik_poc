@@ -54,8 +54,7 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
-public class GenerateTocTask extends AbstractSbTasklet
-{
+public class GenerateTocTask extends AbstractSbTasklet {
     //TODO: Use logger API to get Logger instance to job-specific appender.
     private static final Logger LOG = LogManager.getLogger(GenerateTocTask.class);
     private PublishingStatsService publishingStatsService;
@@ -65,8 +64,8 @@ public class GenerateTocTask extends AbstractSbTasklet
     private BookDefinitionService bookDefinitionService;
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         GatherResponse gatherResponse = null;
         String publishStatus = "Completed";
 
@@ -94,48 +93,38 @@ public class GenerateTocTask extends AbstractSbTasklet
 
         Date cutoffDate = null;
 
-        if (bookDefinition.getPublishCutoffDate() != null)
-        {
+        if (bookDefinition.getPublishCutoffDate() != null) {
             cutoffDate = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(
                 DateFormatUtils.ISO_DATETIME_FORMAT.format(bookDefinition.getPublishCutoffDate()).replace("T", " ")));
-        }
-        else
-        {
+        } else {
             cutoffDate = new Date();
         }
 
         final PublishingStats jobstats = new PublishingStats();
-        try
-        {
+        try {
             final List<RelationshipNode> rootNodes = new ArrayList<>();
             // Get root nodes from NORT files
             final Map<String, Map<Integer, String>> documentMap = new HashMap<>();
             int nortFileLevel = 1;
-            for (final NortFileLocation location : nortFileLocations)
-            {
+            for (final NortFileLocation location : nortFileLocations) {
                 final String contentPath = String.format("%s/%s", cwbBookName, location.getLocationName());
                 final File contentDirectory = new File(rootCodesWorkbenchLandingStrip, contentPath);
-                if (!contentDirectory.exists())
-                {
+                if (!contentDirectory.exists()) {
                     throw new IllegalStateException(
                         "Expected Codes Workbench content directory does not exist: "
                             + contentDirectory.getAbsolutePath());
                 }
 
                 final File[] nortFiles = contentDirectory.listFiles(new NortFilenameFilter());
-                if (nortFiles == null || nortFiles.length == 0)
-                {
+                if (nortFiles == null || nortFiles.length == 0) {
                     throw new IllegalStateException(
                         "Expected Codes Workbench nort file but none exists: " + contentDirectory.getAbsolutePath());
-                }
-                else if (nortFiles.length > 1)
-                {
+                } else if (nortFiles.length > 1) {
                     throw new IllegalStateException(
                         "Too many Codes Workbench nort files exists: " + contentDirectory.getAbsolutePath());
                 }
 
-                for (final File nortFile : nortFiles)
-                {
+                for (final File nortFile : nortFiles) {
                     final NovusNortFileParser parser = new NovusNortFileParser(cutoffDate, nortFileLevel, documentMap);
                     rootNodes.addAll(parser.parseDocument(nortFile));
                     nortFileLevel++;
@@ -148,12 +137,10 @@ public class GenerateTocTask extends AbstractSbTasklet
 
             final List<RelationshipNode> wlNotificationNodeList = nodeFilter.getWLNotificationNodes();
 
-            if ((removedNodes != null && removedNodes.size() > 0) || wlNotificationNodeList.size() > 0)
-            {
+            if ((removedNodes != null && removedNodes.size() > 0) || wlNotificationNodeList.size() > 0) {
                 final int wlNotificationNodeSize = wlNotificationNodeList.size();
                 final int removedNodeSize = removedNodes.size();
-                if (removedNodeSize > 0)
-                {
+                if (removedNodeSize > 0) {
                     wlNotificationNodeList.addAll(removedNodes);
                 }
                 // Send notification for empty nodes.
@@ -173,17 +160,14 @@ public class GenerateTocTask extends AbstractSbTasklet
 
             boolean deletePreviousSplits = false;
 
-            if (bookDefinition.getSourceType().equals(SourceType.FILE) && rootNodes.size() > 0)
-            {
+            if (bookDefinition.getSourceType().equals(SourceType.FILE) && rootNodes.size() > 0) {
                 final List<String> splitTocGuidList = new ArrayList<>();
                 List<SplitDocument> splitDocuments = null;
 
-                if (bookDefinition.isSplitBook())
-                {
+                if (bookDefinition.isSplitBook()) {
                     splitDocuments = bookDefinition.getSplitDocumentsAsList();
 
-                    for (final SplitDocument splitDocument : splitDocuments)
-                    {
+                    for (final SplitDocument splitDocument : splitDocuments) {
                         splitTocGuidList.add(splitDocument.getTocGuid());
                     }
                 }
@@ -197,25 +181,17 @@ public class GenerateTocTask extends AbstractSbTasklet
                     renameTocEntries,
                     splitTocGuidList,
                     thresholdValue.intValue());
-                if (gatherResponse.getSplitTocGuidList() != null && gatherResponse.getSplitTocGuidList().size() > 0)
-                {
-                    if (bookDefinition.isSplitTypeAuto())
-                    {
+                if (gatherResponse.getSplitTocGuidList() != null && gatherResponse.getSplitTocGuidList().size() > 0) {
+                    if (bookDefinition.isSplitTypeAuto()) {
                         deletePreviousSplits = true;
-                    }
-                    else
-                    {
+                    } else {
                         final StringBuffer errorMessageBuffer =
                             new StringBuffer("TOC/NORT guid provided for the split does not exist. ");
                         int i = 1;
-                        for (final String tocGuid : gatherResponse.getSplitTocGuidList())
-                        {
-                            if (i == gatherResponse.getSplitTocGuidList().size())
-                            {
+                        for (final String tocGuid : gatherResponse.getSplitTocGuidList()) {
+                            if (i == gatherResponse.getSplitTocGuidList().size()) {
                                 errorMessageBuffer.append(tocGuid);
-                            }
-                            else
-                            {
+                            } else {
                                 errorMessageBuffer.append(tocGuid + ", ");
                             }
                             i++;
@@ -232,18 +208,14 @@ public class GenerateTocTask extends AbstractSbTasklet
                 }
 
                 //Check for duplicate tocGuids for manual splits
-                if (splitDocuments != null)
-                {
+                if (splitDocuments != null) {
                     final List<String> splitTocGuids = new ArrayList<>();
-                    for (final SplitDocument splitDocument : splitDocuments)
-                    {
+                    for (final SplitDocument splitDocument : splitDocuments) {
                         splitTocGuids.add(splitDocument.getTocGuid());
                     }
                     duplicateTocCheck(splitTocGuids, gatherResponse.getDuplicateTocGuids());
                 }
-            }
-            else
-            {
+            } else {
                 final String errorMessage = "Codes Workbench was not the source type.";
                 LOG.error(errorMessage);
                 gatherResponse = new GatherResponse(
@@ -262,43 +234,33 @@ public class GenerateTocTask extends AbstractSbTasklet
             // TODO: update doc count used in Job Execution Context
 
             LOG.debug(gatherResponse);
-            if (gatherResponse.getErrorCode() != 0)
-            {
+            if (gatherResponse.getErrorCode() != 0) {
                 final GatherException gatherException =
                     new GatherException(gatherResponse.getErrorMessage(), gatherResponse.getErrorCode());
                 throw gatherException;
             }
-            if (bookDefinition.isSplitBook() && bookDefinition.isSplitTypeAuto())
-            {
+            if (bookDefinition.isSplitBook() && bookDefinition.isSplitTypeAuto()) {
                 final Integer tocNodeCount = gatherResponse.getNodeCount();
                 final Integer thresholdValue = bookDefinition.getDocumentTypeCodes().getThresholdValue();
-                if (tocNodeCount < thresholdValue)
-                {
+                if (tocNodeCount < thresholdValue) {
                     final StringBuffer eMessage = new StringBuffer(
                         "Cannot split the book into parts as node count "
                             + tocNodeCount
                             + " is less than threshold value "
                             + thresholdValue);
                     throw new RuntimeException(eMessage.toString());
-                }
-                else
-                {
-                    if (novusNortFileService.isFindSplitsAgain() || deletePreviousSplits)
-                    {
+                } else {
+                    if (novusNortFileService.isFindSplitsAgain() || deletePreviousSplits) {
                         bookDefinitionService.deleteSplitDocuments(bookDefinition.getEbookDefinitionId());
                     }
                 }
                 //Check for duplicate tocGuids for Auto splits
                 duplicateTocCheck(null, gatherResponse.getDuplicateTocGuids());
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             publishStatus = "Failed";
             throw (e);
-        }
-        finally
-        {
+        } finally {
             jobstats.setJobInstanceId(jobInstanceId);
             jobstats.setPublishStatus("generateTocFromNortFile : " + publishStatus);
             publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERATETOC);
@@ -313,33 +275,24 @@ public class GenerateTocTask extends AbstractSbTasklet
      * @param dupGuidList
      * @throws Exception
      */
-    public void duplicateTocCheck(final List<String> splitGuidList, final List<String> dupGuidList) throws Exception
-    {
-        if (dupGuidList != null && dupGuidList.size() > 0)
-        {
+    public void duplicateTocCheck(final List<String> splitGuidList, final List<String> dupGuidList) throws Exception {
+        if (dupGuidList != null && dupGuidList.size() > 0) {
             final StringBuffer eMessage = new StringBuffer("Duplicate TOC guids Found. Cannot split the book. ");
 
-            if (splitGuidList == null)
-            {
-                for (final String dupTocGuid : dupGuidList)
-                {
+            if (splitGuidList == null) {
+                for (final String dupTocGuid : dupGuidList) {
                     eMessage.append(dupTocGuid + " ");
                 }
                 throw new RuntimeException(eMessage.toString());
-            }
-            else
-            {
+            } else {
                 boolean dupFound = false;
-                for (final String dupTocGuid : dupGuidList)
-                {
-                    if (splitGuidList.contains(dupTocGuid))
-                    {
+                for (final String dupTocGuid : dupGuidList) {
+                    if (splitGuidList.contains(dupTocGuid)) {
                         eMessage.append(dupTocGuid + " ");
                         dupFound = true;
                     }
                 }
-                if (dupFound)
-                {
+                if (dupFound) {
                     throw new RuntimeException(eMessage.toString());
                 }
             }
@@ -354,26 +307,21 @@ public class GenerateTocTask extends AbstractSbTasklet
         final File removedNodesListFile,
         final Collection<InternetAddress> emailRecipients,
         final int wlNotificationNodeSize,
-        final int removedNodeSize) throws EBookFormatException
-    {
+        final int removedNodeSize) throws EBookFormatException {
         try (BufferedWriter writer =
-            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(removedNodesListFile), "UTF-8")))
-        {
+            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(removedNodesListFile), "UTF-8"))) {
             writer.write(
                 "NORT GUID (NOTE: First character \"N\" needs to change to \"I\" to find node in CWB), Label, TOC Hierarchy");
             writer.newLine();
 
             int i = 0;
-            if (wlNotificationNodeSize > 0)
-            {
+            if (wlNotificationNodeSize > 0) {
                 writer.write("Bad  \"no WL pubtag\" list ");
                 writer.newLine();
             }
 
-            for (final RelationshipNode node : notificationNodes)
-            {
-                if (i == wlNotificationNodeSize && removedNodeSize > 0)
-                {
+            for (final RelationshipNode node : notificationNodes) {
+                if (i == wlNotificationNodeSize && removedNodeSize > 0) {
                     writer.write("Empty nodes removed list ");
                     writer.newLine();
                 }
@@ -386,9 +334,7 @@ public class GenerateTocTask extends AbstractSbTasklet
                 i++;
             }
             writer.flush();
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String errMessage =
                 "Encountered an IO Exception while processing: " + removedNodesListFile.getAbsolutePath();
             LOG.error(errMessage);
@@ -411,25 +357,21 @@ public class GenerateTocTask extends AbstractSbTasklet
     }
 
     @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
 
     @Required
-    public void setNovusNortFileService(final NovusNortFileService novusNortFileService)
-    {
+    public void setNovusNortFileService(final NovusNortFileService novusNortFileService) {
         this.novusNortFileService = novusNortFileService;
     }
 
-    public BookDefinitionService getBookDefinitionService()
-    {
+    public BookDefinitionService getBookDefinitionService() {
         return bookDefinitionService;
     }
 
     @Required
-    public void setBookDefinitionService(final BookDefinitionService bookDefinitionService)
-    {
+    public void setBookDefinitionService(final BookDefinitionService bookDefinitionService) {
         this.bookDefinitionService = bookDefinitionService;
     }
 }

@@ -11,8 +11,7 @@ import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.format.service.AutoSplitGuidsService;
 
-public class BigTocEmailBuilder extends AbstractEmailBuilder
-{
+public class BigTocEmailBuilder extends AbstractEmailBuilder {
     private static final String SUBJECT_PART = " THRESHOLD WARNING";
 
     @Resource(name = "autoSplitGuidsService")
@@ -22,8 +21,7 @@ public class BigTocEmailBuilder extends AbstractEmailBuilder
      * @see com.thomsonreuters.uscl.ereader.notification.AbstractGeneratorEmailBuilder#getAdditionalSubjectPart()
      */
     @Override
-    protected String getAdditionalSubjectPart()
-    {
+    protected String getAdditionalSubjectPart() {
         return SUBJECT_PART;
     }
 
@@ -31,8 +29,7 @@ public class BigTocEmailBuilder extends AbstractEmailBuilder
      * @see com.thomsonreuters.uscl.ereader.notification.AbstractGeneratorEmailBuilder#getAdditionalBodyPart()
      */
     @Override
-    protected String getAdditionalBodyPart()
-    {
+    protected String getAdditionalBodyPart() {
         final int totalSplitParts = getTotalSplitParts();
         final Map<String, String> splitGuidTextMap = autoSplitGuidsService.getSplitGuidTextMap();
 
@@ -42,8 +39,7 @@ public class BigTocEmailBuilder extends AbstractEmailBuilder
         sb.append("\t\nPlease find the below system suggested information");
         sb.append("\t\nTotal split parts : " + totalSplitParts);
         sb.append("\t\nTOC/NORT guids :");
-        for (final Map.Entry<String, String> entry : splitGuidTextMap.entrySet())
-        {
+        for (final Map.Entry<String, String> entry : splitGuidTextMap.entrySet()) {
             final String uuid = entry.getKey();
             final String name = entry.getValue();
             sb.append("\t\n" + uuid + "  :  " + name);
@@ -51,20 +47,16 @@ public class BigTocEmailBuilder extends AbstractEmailBuilder
         return sb.toString();
     }
 
-    int getTotalSplitParts()
-    {
+    int getTotalSplitParts() {
         final BookDefinition bookDefinition = step.getBookDefinition();
         final String tocXmlFile = step.getJobExecutionPropertyString(JobExecutionKey.GATHER_TOC_FILE);
         final Integer tocNodeCount = step.getTocNodeCount();
         final Long jobInstanceId = step.getJobInstanceId();
 
-        try (InputStream tocInputSteam = new FileInputStream(tocXmlFile))
-        {
+        try (InputStream tocInputSteam = new FileInputStream(tocXmlFile)) {
             return autoSplitGuidsService
                 .getAutoSplitNodes(tocInputSteam, bookDefinition, tocNodeCount, jobInstanceId, true).size() + 1;
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new RuntimeException("Cannot read file " + tocXmlFile, e);
         }
     }

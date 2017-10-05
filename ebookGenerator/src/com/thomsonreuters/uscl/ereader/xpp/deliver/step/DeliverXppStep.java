@@ -8,7 +8,6 @@ import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishi
 
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.FINALPUBLISH)
-public class DeliverXppStep extends BaseDeliverStep
-{
+public class DeliverXppStep extends BaseDeliverStep {
     //implementation is nested from @see com.thomsonreuters.uscl.ereader.common.deliver.step.BaseDeliverStep
 }

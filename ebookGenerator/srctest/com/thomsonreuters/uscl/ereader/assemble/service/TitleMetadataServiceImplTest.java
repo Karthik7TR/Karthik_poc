@@ -38,8 +38,7 @@ import org.xml.sax.InputSource;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris
  *         Schwartz</a> u0081674
  */
-public final class TitleMetadataServiceImplTest extends TitleMetadataTestBase
-{
+public final class TitleMetadataServiceImplTest extends TitleMetadataTestBase {
     private TitleMetadataServiceImpl titleMetadataService;
 
     private File assetsDirectory;
@@ -59,15 +58,13 @@ public final class TitleMetadataServiceImplTest extends TitleMetadataTestBase
 
     @Override
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         titleMetadataService = new TitleMetadataServiceImpl();
         final File tempFile = File.createTempFile("boot", "strap");
         tempDir = tempFile.getParentFile();
     }
 
-    private void createAssets() throws Exception
-    {
+    private void createAssets() throws Exception {
         assetsDirectory = new File(tempDir, "assets");
         assetsDirectory.mkdirs();
         asset1 = new File(assetsDirectory, "I1111111111111111.png");
@@ -78,10 +75,8 @@ public final class TitleMetadataServiceImplTest extends TitleMetadataTestBase
         createAsset(asset3);
     }
 
-    private void createAsset(final File asset) throws Exception
-    {
-        try (FileOutputStream fileOutputStream = new FileOutputStream(asset))
-        {
+    private void createAsset(final File asset) throws Exception {
+        try (FileOutputStream fileOutputStream = new FileOutputStream(asset)) {
             fileOutputStream.write("YARR!".getBytes());
             fileOutputStream.flush();
             IOUtils.closeQuietly(fileOutputStream);
@@ -90,21 +85,16 @@ public final class TitleMetadataServiceImplTest extends TitleMetadataTestBase
 
     @Override
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         FileUtils.deleteQuietly(assetsDirectory);
         FileUtils.deleteQuietly(documentsDiretory);
         FileUtils.deleteQuietly(tocXml);
     }
 
     @Test
-    public void testCreateArtworkHappyPath() throws Exception
-    {
+    public void testCreateArtworkHappyPath() throws Exception {
         final File coverArt = File.createTempFile("cover", ".png");
-        final Artwork artwork = TitleMetadata.builder()
-            .artworkFile(coverArt)
-            .build()
-            .getArtwork();
+        final Artwork artwork = TitleMetadata.builder().artworkFile(coverArt).build().getArtwork();
         final String coverSrc = coverArt.getName();
         FileUtils.deleteQuietly(coverArt);
         assertTrue(
@@ -113,36 +103,26 @@ public final class TitleMetadataServiceImplTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testAddArtworkFailsDueToNullFile()
-    {
+    public void testAddArtworkFailsDueToNullFile() {
         boolean thrown = false;
-        try
-        {
-            TitleMetadata.builder()
-                .artworkFile(null)
-                .build();
-        }
-        catch (final IllegalArgumentException e)
-        {
+        try {
+            TitleMetadata.builder().artworkFile(null).build();
+        } catch (final IllegalArgumentException e) {
             thrown = true;
         }
         assertTrue(thrown);
     }
 
     @Test
-    public void testAddAssetsHappyPath() throws Exception
-    {
+    public void testAddAssetsHappyPath() throws Exception {
         createAssets();
-        final List<Asset> actualAssets = TitleMetadata.builder()
-            .assetFilesFromDirectory(assetsDirectory)
-            .build()
-            .getAssets();
+        final List<Asset> actualAssets =
+            TitleMetadata.builder().assetFilesFromDirectory(assetsDirectory).build().getAssets();
         assertTrue("Expected 3 assets, but was: " + actualAssets.size(), actualAssets.size() == 3);
     }
 
     @Test
-    public void testGenerateTitleXML() throws Exception
-    {
+    public void testGenerateTitleXML() throws Exception {
         resultStream = new ByteArrayOutputStream(1024);
 
         final URL pathToClass = this.getClass().getResource("yarr_pirates.csv");
@@ -174,8 +154,7 @@ public final class TitleMetadataServiceImplTest extends TitleMetadataTestBase
     public TemporaryFolder tempDirectory = new TemporaryFolder();
 
     @Test
-    public void testGenerateSplitTitleManifest() throws Exception
-    {
+    public void testGenerateSplitTitleManifest() throws Exception {
         resultStream = new ByteArrayOutputStream(1024);
 
         titleMetadata = getTitleMetadata();
@@ -249,8 +228,7 @@ public final class TitleMetadataServiceImplTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testWriteDocumentsToFile() throws Exception
-    {
+    public void testWriteDocumentsToFile() throws Exception {
         tempDir = new File(System.getProperty("java.io.tmpdir"));
         final File transformedDirectory = new File(tempDir, "transformed");
         transformedDirectory.mkdirs();

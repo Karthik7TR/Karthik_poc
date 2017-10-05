@@ -5,17 +5,14 @@ package com.thomsonreuters.uscl.ereader.format.exception;
  *
  * @author u0095869
  */
-public class EBookFormatException extends Exception
-{
+public class EBookFormatException extends Exception {
     private static final long serialVersionUID = 1L;
 
-    public EBookFormatException(final String message)
-    {
+    public EBookFormatException(final String message) {
         super(message);
     }
 
-    public EBookFormatException(final String message, final Throwable cause)
-    {
+    public EBookFormatException(final String message, final Throwable cause) {
         super(message, cause);
     }
 }

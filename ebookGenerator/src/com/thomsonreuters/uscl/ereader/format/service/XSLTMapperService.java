@@ -4,8 +4,7 @@ package com.thomsonreuters.uscl.ereader.format.service;
  * Spring service that handles requests to retrieve XSLTMapperEntity
  * @author Ripu Jain U0115290
  */
-public interface XSLTMapperService
-{
+public interface XSLTMapperService {
     /**
      * Return XSLT style sheet name for a given document collection and doc-type.
      * @param collection The collection name of the document. Ex: w_codesstaflnvdp

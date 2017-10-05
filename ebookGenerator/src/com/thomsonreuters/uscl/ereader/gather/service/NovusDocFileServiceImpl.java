@@ -26,8 +26,7 @@ import org.springframework.util.Assert;
  * Codes Workbench Novus document and metadata split.
  * @author Dong Kim
  */
-public class NovusDocFileServiceImpl implements NovusDocFileService
-{
+public class NovusDocFileServiceImpl implements NovusDocFileService {
     private static String CHARSET = "UTF-8"; // explicitly set the character set
 
     private static final Logger Log = LogManager.getLogger(NovusDocFileServiceImpl.class);
@@ -39,8 +38,7 @@ public class NovusDocFileServiceImpl implements NovusDocFileService
         final String cwbBookName,
         final List<NortFileLocation> fileLocations,
         final File contentDestinationDirectory,
-        final File metadataDestinationDirectory) throws GatherException
-    {
+        final File metadataDestinationDirectory) throws GatherException {
         Assert.isTrue(
             contentDestinationDirectory.exists(),
             "The content destination directory for the documents does not exist: " + contentDestinationDirectory);
@@ -58,43 +56,33 @@ public class NovusDocFileServiceImpl implements NovusDocFileService
             StringUtils.substringBeforeLast(
                 contentDestinationDirectory.getAbsolutePath(),
                 System.getProperty("file.separator")) + "_doc_missing_guids.txt");
-            Writer writer = new OutputStreamWriter(stream, CHARSET))
-        {
+            Writer writer = new OutputStreamWriter(stream, CHARSET)) {
             Integer tocSequence = 0;
             final Map<String, Map<Integer, String>> documentLevelMap = new HashMap<>();
             int nortFileLevel = 1;
-            for (final NortFileLocation fileLocation : fileLocations)
-            {
+            for (final NortFileLocation fileLocation : fileLocations) {
                 final String contentPath = String.format("%s/%s", cwbBookName, fileLocation.getLocationName());
                 final File contentDirectory = new File(rootCodesWorkbenchLandingStrip, contentPath);
-                if (!contentDirectory.exists())
-                {
+                if (!contentDirectory.exists()) {
                     throw new IllegalStateException(
                         "Expected Codes Workbench content directory does not exist: "
                             + contentDirectory.getAbsolutePath());
                 }
 
                 final File[] docFiles = contentDirectory.listFiles(new DocFilenameFilter());
-                if (docFiles.length == 0)
-                {
+                if (docFiles.length == 0) {
                     throw new IllegalStateException(
                         "Expected Codes Workbench doc file but none exists: " + contentDirectory.getAbsolutePath());
-                }
-                else if (docFiles.length > 1)
-                {
+                } else if (docFiles.length > 1) {
                     throw new IllegalStateException(
                         "Too many Codes Workbench doc files exists: " + contentDirectory.getAbsolutePath());
                 }
                 String docCollectionName = null;
-                for (final File docFile : docFiles)
-                {
+                for (final File docFile : docFiles) {
                     final String fileName = docFile.getName();
-                    if (fileName.lastIndexOf("-") > -1)
-                    {
+                    if (fileName.lastIndexOf("-") > -1) {
                         docCollectionName = fileName.substring(0, fileName.lastIndexOf("-"));
-                    }
-                    else
-                    {
+                    } else {
                         throw new IllegalStateException("Codes Workbench doc file does not have DOC collection name.");
                     }
 
@@ -114,45 +102,34 @@ public class NovusDocFileServiceImpl implements NovusDocFileService
             }
 
             // Process missing documents
-            for (final Entry<String, Integer> entry : docGuidsMap.entrySet())
-            {
+            for (final Entry<String, Integer> entry : docGuidsMap.entrySet()) {
                 final String docGuid = entry.getKey();
                 final int count = entry.getValue();
-                if (count > 0)
-                {
+                if (count > 0) {
                     Log.debug("Document is not found for the guid " + docGuid);
                     writer.write(docGuid);
                     writer.write("\n");
                     missingGuidsCount++;
                 }
             }
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final GatherException ge =
                 new GatherException("File I/O error writing missing guid document ", e, GatherResponse.CODE_FILE_ERROR);
             publishStatus = "DOC Step Failed File I/O error writing document";
 
             throw ge;
-        }
-        catch (final IllegalStateException e)
-        {
+        } catch (final IllegalStateException e) {
             final GatherException ge = new GatherException(e.getMessage(), e, GatherResponse.CODE_FILE_ERROR);
             publishStatus = "DOC Step Failed Codes Workbench doc file";
 
             throw ge;
-        }
-        catch (final GatherException e)
-        {
+        } catch (final GatherException e) {
             publishStatus = "DOC Step Failed";
             throw e;
-        }
-        finally
-        {
+        } finally {
             gatherResponse.setPublishStatus(publishStatus);
 
-            if (missingGuidsCount > 0)
-            {
+            if (missingGuidsCount > 0) {
                 final GatherException ge = new GatherException(
                     "Null documents are found for the current ebook ",
                     GatherResponse.CODE_FILE_ERROR);

@@ -23,8 +23,7 @@ import org.apache.tools.tar.TarOutputStream;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public class EBookAssemblyServiceImpl implements EBookAssemblyService
-{
+public class EBookAssemblyServiceImpl implements EBookAssemblyService {
     private static final Logger LOG = LogManager.getLogger(EBookAssemblyServiceImpl.class);
 
     /**
@@ -35,37 +34,29 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService
      * @throws EBookAssemblyException if something unexpected happens during the process.
      */
     @Override
-    public final void assembleEBook(final File eBookDirectory, final File eBook) throws EBookAssemblyException
-    {
-        if (eBookDirectory == null || !eBookDirectory.isDirectory())
-        {
+    public final void assembleEBook(final File eBookDirectory, final File eBook) throws EBookAssemblyException {
+        if (eBookDirectory == null || !eBookDirectory.isDirectory()) {
             throw new IllegalArgumentException("eBookDirectory must be a directory, not null or a regular file.");
         }
-        if (eBook == null || eBook.isDirectory())
-        {
+        if (eBook == null || eBook.isDirectory()) {
             throw new IllegalArgumentException("eBook must be a regular file, not null or a directory.");
         }
 
         LOG.debug("Assembling eBook using the input directory: " + eBookDirectory.getAbsolutePath());
 
         try (TarOutputStream tarOutputStream =
-            new TarOutputStream(new GZIPOutputStream(new BufferedOutputStream(new FileOutputStream(eBook))));)
-        {
+            new TarOutputStream(new GZIPOutputStream(new BufferedOutputStream(new FileOutputStream(eBook))));) {
             tarOutputStream.setLongFileMode(TarOutputStream.LONGFILE_GNU);
 
             recursivelyTarDirectory(tarOutputStream, eBookDirectory.getAbsolutePath(), "");
             tarOutputStream.flush();
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             final String message = "Destination file is inaccesable or does not exist. Is write permission set on "
                 + eBook.getName()
                 + "?";
             LOG.error(message, e);
             throw new EBookAssemblyException(message, e);
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String message = "Failed to flush the TarOutputStream to disk.  Is the disk full?";
             LOG.error(message, e);
             throw new EBookAssemblyException(message, e);
@@ -78,8 +69,7 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService
      * @return
      */
     @Override
-    public long getDocumentCount(final String contentFolderPath)
-    {
+    public long getDocumentCount(final String contentFolderPath) {
         long docCount = 0;
         final File contentDir = new File(contentFolderPath);
         final File[] fileList = contentDir.listFiles();
@@ -91,22 +81,17 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService
      * gets back largest content file size for passed in file path and content type (file Extension, may contain multiple csv extensions)
      */
     @Override
-    public long getLargestContent(final String contentFolderPath, final String fileExtension)
-    {
+    public long getLargestContent(final String contentFolderPath, final String fileExtension) {
         final String[] extensions;
         extensions = fileExtension.split(",");
 
         long largestFileSize = 0;
         final File contentDri = new File(contentFolderPath);
         final File[] fileList = contentDri.listFiles();
-        for (final File file : fileList)
-        { //every file in directory
-            for (final String extend : extensions)
-            { //every extension input
-                if (file.getAbsolutePath().endsWith(extend))
-                {
-                    if (largestFileSize < file.length())
-                    {
+        for (final File file : fileList) { //every file in directory
+            for (final String extend : extensions) { //every extension input
+                if (file.getAbsolutePath().endsWith(extend)) {
+                    if (largestFileSize < file.length()) {
                         largestFileSize = file.length();
                     }
                     break; //file extension identified, no need to check more
@@ -128,25 +113,18 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService
      * @throws EBookAssemblyException
      */
     final void recursivelyTarDirectory(final TarOutputStream tarOutputStream, final String path, final String base)
-        throws EBookAssemblyException
-    {
+        throws EBookAssemblyException {
         final File targetFile = new File(path);
         final String entryName = base + targetFile.getName();
 
         addTarEntry(tarOutputStream, targetFile, entryName);
 
-        if (targetFile.isFile())
-        {
+        if (targetFile.isFile()) {
             writeTarFileToArchive(tarOutputStream, targetFile);
-        }
-        else
-        {
-            try
-            {
+        } else {
+            try {
                 tarOutputStream.closeEntry();
-            }
-            catch (final IOException e)
-            {
+            } catch (final IOException e) {
                 final String message = "error while attempting to flush TarOutputStream";
                 LOG.error(message, e);
 
@@ -155,10 +133,8 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService
 
             final File[] children = targetFile.listFiles();
 
-            if (children != null)
-            {
-                for (final File file : children)
-                {
+            if (children != null) {
+                for (final File file : children) {
                     recursivelyTarDirectory(tarOutputStream, file.getAbsolutePath(), entryName + "/");
                 }
             }
@@ -174,15 +150,11 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService
      * @throws EBookAssemblyException if an underlying FileNotFoundException or IOException occurs.
      */
     final void writeTarFileToArchive(final TarOutputStream tarOutputStream, final File targetFile)
-        throws EBookAssemblyException
-    {
-        try
-        {
+        throws EBookAssemblyException {
+        try {
             IOUtils.copy(new FileInputStream(targetFile), tarOutputStream);
             tarOutputStream.closeEntry();
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             final String message =
                 "Could not write contents of file to TarOutputStream. Does the input file exist at the specified location? "
                     + "Are read permissions enabled on the file: "
@@ -190,9 +162,7 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService
                     + "?";
             LOG.error(message, e);
             throw new EBookAssemblyException(message, e);
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String message = "Could not close entry in tar file.";
             LOG.error(message, e);
             throw new EBookAssemblyException(message, e);
@@ -209,18 +179,14 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService
      * @throws EBookAssemblyException if an IOException occurs during this process.
      */
     final void addTarEntry(final TarOutputStream tarOutputStream, final File targetFile, final String entryName)
-        throws EBookAssemblyException
-    {
+        throws EBookAssemblyException {
         final TarEntry tarEntry = new TarEntry(targetFile);
         tarEntry.setName(entryName);
 
-        try
-        {
+        try {
             LOG.debug("Adding TAREntry: " + tarEntry.getName());
             tarOutputStream.putNextEntry(tarEntry);
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String message = "An exception occurred while preparing file header to write.";
             LOG.error(message, e);
             throw new EBookAssemblyException(message, e);

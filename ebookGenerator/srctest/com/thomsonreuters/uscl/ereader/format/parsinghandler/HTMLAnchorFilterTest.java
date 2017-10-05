@@ -32,8 +32,7 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public final class HTMLAnchorFilterTest
-{
+public final class HTMLAnchorFilterTest {
     private HTMLAnchorFilter anchorFilter;
     private Serializer serializer;
     private final long testJobId = 123L;
@@ -49,8 +48,7 @@ public final class HTMLAnchorFilterTest
     private ImageMetadataEntity largeWidthImgMetadata;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
         final SAXParser saxParser = factory.newSAXParser();
@@ -86,8 +84,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         serializer = null;
         anchorFilter = null;
     }
@@ -101,12 +98,10 @@ public final class HTMLAnchorFilterTest
      * @param expectedResult the expected output for the specified input string.
      */
     public void testHelper(final ImageService imgService, final String inputXML, final String expectedResult)
-        throws SAXException
-    {
+        throws SAXException {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
-        try
-        {
+        try {
             input = new ByteArrayInputStream(inputXML.getBytes());
             output = new ByteArrayOutputStream();
 
@@ -119,38 +114,26 @@ public final class HTMLAnchorFilterTest
             final String result = output.toString();
 
             assertEquals(expectedResult, result);
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             throw e;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             fail("Encountered exception during test: " + e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if (input != null)
-                {
+        } finally {
+            try {
+                if (input != null) {
                     input.close();
                 }
-                if (output != null)
-                {
+                if (output != null) {
                     output.close();
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 fail("Could clean up resources: " + e.getMessage());
             }
         }
     }
 
     @Test
-    public void testSimpleImageAnchorTag() throws SAXException
-    {
+    public void testSimpleImageAnchorTag() throws SAXException {
         final ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid, docGuid);
 
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
@@ -165,8 +148,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testSimpleImageAnchorTagWithV1URI() throws SAXException
-    {
+    public void testSimpleImageAnchorTagWithV1URI() throws SAXException {
         final ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid, docGuid);
 
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
@@ -181,8 +163,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test(expected = SAXException.class)
-    public void testSimpleImageAnchorTagWithInvalidGuidV1URI() throws SAXException
-    {
+    public void testSimpleImageAnchorTagWithInvalidGuidV1URI() throws SAXException {
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
 
         final String xmlTestStr =
@@ -193,8 +174,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testSimpleLargeHeightImageAnchorTag() throws SAXException
-    {
+    public void testSimpleLargeHeightImageAnchorTag() throws SAXException {
         final ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid, docGuid);
 
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
@@ -209,8 +189,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testSimpleLargeWidthImageAnchorTag() throws SAXException
-    {
+    public void testSimpleLargeWidthImageAnchorTag() throws SAXException {
         final ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid, docGuid);
 
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
@@ -225,8 +204,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testSimpleLargeImageAnchorTag() throws SAXException
-    {
+    public void testSimpleLargeImageAnchorTag() throws SAXException {
         final ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid, docGuid);
 
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
@@ -241,8 +219,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test(expected = SAXException.class)
-    public void testImageAnchorTagWithInvalidGuid() throws SAXException
-    {
+    public void testImageAnchorTagWithInvalidGuid() throws SAXException {
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
 
         final String xmlTestStr =
@@ -253,8 +230,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testSimpleEmptyAnchorTag() throws SAXException
-    {
+    public void testSimpleEmptyAnchorTag() throws SAXException {
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
 
         final String xmlTestStr = "<test><a href=\"#\"/></test>";
@@ -264,8 +240,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testSimpleEmptyAnchorWithContentTag() throws SAXException
-    {
+    public void testSimpleEmptyAnchorWithContentTag() throws SAXException {
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
 
         final String xmlTestStr = "<test><a href=\"#\">Test123</a></test>";
@@ -275,8 +250,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testSimpleEmptyAnchorWithOtherAttributes() throws SAXException
-    {
+    public void testSimpleEmptyAnchorWithOtherAttributes() throws SAXException {
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
 
         final String xmlTestStr = "<test><a href=\"#\" class=\"test\">Test123</a></test>";
@@ -286,8 +260,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testSimpleNonEmptyAnchorWithOtherAttributes() throws SAXException
-    {
+    public void testSimpleNonEmptyAnchorWithOtherAttributes() throws SAXException {
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
 
         final String xmlTestStr = "<test><a href=\"#co_test\" class=\"test\">Test123</a></test>";
@@ -297,8 +270,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testSimpleNonEmptyAnchorWithSP() throws SAXException
-    {
+    public void testSimpleNonEmptyAnchorWithSP() throws SAXException {
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
 
         final String xmlTestStr = "<test><a href=\"#co_pp_sp_1000600_50660000823d1\" class=\"test\">Test123</a></test>";
@@ -309,11 +281,11 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testRutterAnchorWithSP() throws SAXException
-    {
+    public void testRutterAnchorWithSP() throws SAXException {
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
 
-        final String xmlTestStr = "<test><a refType=\"TS\" href=\"er:#co_pp_sp_1000600_50660000823d1\" class=\"test\">Test123</a></test>";
+        final String xmlTestStr =
+            "<test><a refType=\"TS\" href=\"er:#co_pp_sp_1000600_50660000823d1\" class=\"test\">Test123</a></test>";
         final String expectedResult =
             "<test><a refType=\"TS\" href=\"er:#ABC1234/co_pp_sp_1000600_50660000823d1\" class=\"test\">Test123</a></test>";
 
@@ -321,34 +293,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testNonRutterAnchorWithSP() throws SAXException
-    {
-        final ImageService mockImgService = EasyMock.createMock(ImageService.class);
-
-        final String xmlTestStr = "<test><a href=\"er:#co_pp_sp_1000600_50660000823d1\" class=\"test\">Test123</a></test>";
-        final String expectedResult =
-            "<test><a href=\"er:#ABC1234/co_pp_50660000823d1\" class=\"test\">Test123</a></test>";
-
-        testHelper(mockImgService, xmlTestStr, expectedResult);
-    }
-
-
-    @Test
-    public void testSimpleNonEmptyAnchorWithERSP() throws SAXException
-    {
-        final ImageService mockImgService = EasyMock.createMock(ImageService.class);
-
-        final String xmlTestStr =
-            "<test><a href=\"er:#ABC1234/co_pp_sp_1000600_50660000823d1\" class=\"test\">Test123</a></test>";
-        final String expectedResult =
-            "<test><a href=\"er:#ABC1234/co_pp_50660000823d1\" class=\"test\">Test123</a></test>";
-
-        testHelper(mockImgService, xmlTestStr, expectedResult);
-    }
-
-    @Test
-    public void testSimpleNonEmptyAnchorWithERmissingSP() throws SAXException
-    {
+    public void testNonRutterAnchorWithSP() throws SAXException {
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
 
         final String xmlTestStr =
@@ -360,8 +305,31 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testSimpleNonEmptyAnchorWithBadSP() throws SAXException
-    {
+    public void testSimpleNonEmptyAnchorWithERSP() throws SAXException {
+        final ImageService mockImgService = EasyMock.createMock(ImageService.class);
+
+        final String xmlTestStr =
+            "<test><a href=\"er:#ABC1234/co_pp_sp_1000600_50660000823d1\" class=\"test\">Test123</a></test>";
+        final String expectedResult =
+            "<test><a href=\"er:#ABC1234/co_pp_50660000823d1\" class=\"test\">Test123</a></test>";
+
+        testHelper(mockImgService, xmlTestStr, expectedResult);
+    }
+
+    @Test
+    public void testSimpleNonEmptyAnchorWithERmissingSP() throws SAXException {
+        final ImageService mockImgService = EasyMock.createMock(ImageService.class);
+
+        final String xmlTestStr =
+            "<test><a href=\"er:#co_pp_sp_1000600_50660000823d1\" class=\"test\">Test123</a></test>";
+        final String expectedResult =
+            "<test><a href=\"er:#ABC1234/co_pp_50660000823d1\" class=\"test\">Test123</a></test>";
+
+        testHelper(mockImgService, xmlTestStr, expectedResult);
+    }
+
+    @Test
+    public void testSimpleNonEmptyAnchorWithBadSP() throws SAXException {
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
 
 //		String xmlTestStr = "<test><a href=\"er:#_sp_\" class=\"test\">Test123</a></test>";
@@ -372,8 +340,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testSimpleAnchorNotStripped() throws SAXException
-    {
+    public void testSimpleAnchorNotStripped() throws SAXException {
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
 
         final String xmlTestStr = "<test><a id=\"co_Test\">Test123</a></test>";
@@ -383,8 +350,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testSimpleAnchorNotStrippedDup() throws SAXException
-    {
+    public void testSimpleAnchorNotStrippedDup() throws SAXException {
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
 
         final String xmlTestStr = "<test><a id=\"co_Test\">Test123</a><a id=\"co_Test\">Test123</a></test>";
@@ -394,8 +360,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testSimpleAnchorNoIdDup() throws SAXException
-    {
+    public void testSimpleAnchorNoIdDup() throws SAXException {
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
 
         final String xmlTestStr = "<test><a href=\"co_href\">Test123</a><a id=\"co_Test\">Test123</a></test>";
@@ -405,8 +370,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testAnchorNotStrippedDup() throws SAXException
-    {
+    public void testAnchorNotStrippedDup() throws SAXException {
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
 
         final String xmlTestStr =
@@ -418,8 +382,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testAnchorNotStrippedDup2() throws SAXException
-    {
+    public void testAnchorNotStrippedDup2() throws SAXException {
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
 
         final String xmlTestStr =
@@ -431,8 +394,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testNoAnchorInput() throws SAXException
-    {
+    public void testNoAnchorInput() throws SAXException {
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
 
         final String xmlTestStr = "<test><testing/><testing123>123</testing123></test>";
@@ -442,24 +404,21 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testSetMaxHeight()
-    {
+    public void testSetMaxHeight() {
         final long newMaxHeight = 23L;
         anchorFilter.setImgMaxHeight(newMaxHeight);
         assertEquals(newMaxHeight, anchorFilter.getImgMaxHeight());
     }
 
     @Test
-    public void testSetMaxWidth()
-    {
+    public void testSetMaxWidth() {
         final long newMaxWidth = 27L;
         anchorFilter.setImgMaxWidth(newMaxWidth);
         assertEquals(newMaxWidth, anchorFilter.getImgMaxWidth());
     }
 
     @Test
-    public void testWithModifiedHeight() throws SAXException
-    {
+    public void testWithModifiedHeight() throws SAXException {
         final long newMaxHeight = 27L;
         anchorFilter.setImgMaxWidth(newMaxHeight);
 
@@ -477,8 +436,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testWithModifiedWidth() throws SAXException
-    {
+    public void testWithModifiedWidth() throws SAXException {
         final long newMaxWidth = 27L;
         anchorFilter.setImgMaxWidth(newMaxWidth);
 
@@ -496,8 +454,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testMultipleAnchors() throws SAXException
-    {
+    public void testMultipleAnchors() throws SAXException {
         final ImageMetadataEntityKey key = new ImageMetadataEntityKey(testJobId, testGuid, docGuid);
         final ImageMetadataEntityKey key2 =
             new ImageMetadataEntityKey(testJobId, "AFA730F80D58A11DCBFA7F697EE59258B", docGuid);
@@ -520,8 +477,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testPDFAnchor() throws SAXException
-    {
+    public void testPDFAnchor() throws SAXException {
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
 
         final String xmlTestStr = "<test><a href=\"http://www.test/Link/Document/Blob/AFA730F80D58A11DCBFA7F697EE59258B"
@@ -532,8 +488,7 @@ public final class HTMLAnchorFilterTest
     }
 
     @Test
-    public void testPDFAnchorWithCssClass() throws SAXException
-    {
+    public void testPDFAnchorWithCssClass() throws SAXException {
         final ImageService mockImgService = EasyMock.createMock(ImageService.class);
 
         final String xmlTestStr = "<test><a href=\"http://www.test/Link/Document/Blob/AFA730F80D58A11DCBFA7F697EE59258B"

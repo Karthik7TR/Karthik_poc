@@ -5,30 +5,24 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Types of different parts of original XML
  */
-public enum PartType
-{
+public enum PartType {
     MAIN("main"),
     FOOTNOTE("footnotes");
 
     private final String name;
 
-    PartType(final String name)
-    {
+    PartType(final String name) {
         this.name = name;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
     @NotNull
-    public static PartType valueOfByName(@NotNull final String typeName)
-    {
-        for (final PartType type : PartType.values())
-        {
-            if (type.getName().equals(typeName))
-            {
+    public static PartType valueOfByName(@NotNull final String typeName) {
+        for (final PartType type : PartType.values()) {
+            if (type.getName().equals(typeName)) {
                 return type;
             }
         }

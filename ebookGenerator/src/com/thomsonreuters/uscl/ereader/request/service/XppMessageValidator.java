@@ -10,39 +10,31 @@ import com.thomsonreuters.uscl.ereader.request.XppMessageException;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 import org.apache.commons.codec.digest.DigestUtils;
 
-public class XppMessageValidator
-{
-    public void validate(final XppBundleArchive request) throws XppMessageException
-    {
+public class XppMessageValidator {
+    public void validate(final XppBundleArchive request) throws XppMessageException {
         if (request == null
             || request.getEBookSrcFile() == null
             || request.getBundleHash() == null
             || request.getDateTime() == null
             || request.getMessageId() == null
             || request.getMaterialNumber() == null
-            || request.getVersion() == null)
-        {
+            || request.getVersion() == null) {
             throw new XppMessageException(XPPConstants.ERROR_INCOMPLETE_REQUEST);
         }
 
         final File ebook = request.getEBookSrcFile();
-        if (!ebook.exists())
-        {
+        if (!ebook.exists()) {
             throw new XppMessageException(XPPConstants.ERROR_BUNDLE_NOT_FOUND + ebook.getAbsolutePath());
         }
 
         final String hash;
-        try (InputStream bookStream = new FileInputStream(ebook))
-        {
+        try (InputStream bookStream = new FileInputStream(ebook)) {
             hash = DigestUtils.md5Hex(bookStream);
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new XppMessageException(XPPConstants.ERROR_CREATE_HASH, e);
         }
 
-        if (!request.getBundleHash().equals(hash))
-        {
+        if (!request.getBundleHash().equals(hash)) {
             throw new XppMessageException(XPPConstants.ERROR_BAD_HASH + ebook.getAbsolutePath());
         }
     }

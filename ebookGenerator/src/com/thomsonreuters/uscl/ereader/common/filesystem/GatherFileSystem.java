@@ -8,8 +8,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Provides access to files and directories specific for gather steps of book generation process
  */
-public interface GatherFileSystem
-{
+public interface GatherFileSystem {
     /**
      * Returns gather root directory:
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}

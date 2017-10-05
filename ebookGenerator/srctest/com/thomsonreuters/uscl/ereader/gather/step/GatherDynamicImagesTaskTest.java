@@ -34,8 +34,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class GatherDynamicImagesTaskTest
-{
+public class GatherDynamicImagesTaskTest {
     @InjectMocks
     private GatherDynamicImagesTask gatherDynamicImagesTask;
 
@@ -55,16 +54,15 @@ public class GatherDynamicImagesTaskTest
     public TemporaryFolder tempFolder = new TemporaryFolder();
 
     @Before
-    public void setUp() throws IOException
-    {
+    public void setUp() throws IOException {
         when(gatherService.getImg((GatherImgRequest) any())).thenReturn(getGatherResponse());
-        when(formatFileSystem.getImageToDocumentManifestFile((BookStep)any())).thenReturn(getManifestFile(tempFolder));
-        when(imageFileSystem.getImageDynamicDirectory((BookStep)any())).thenReturn(tempFolder.newFolder(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
+        when(formatFileSystem.getImageToDocumentManifestFile((BookStep) any())).thenReturn(getManifestFile(tempFolder));
+        when(imageFileSystem.getImageDynamicDirectory((BookStep) any()))
+            .thenReturn(tempFolder.newFolder(JobExecutionKey.IMAGE_DYNAMIC_DEST_DIR));
     }
 
     @Test
-    public void shouldSendRequestToGatherService() throws Exception
-    {
+    public void shouldSendRequestToGatherService() throws Exception {
         gatherDynamicImagesTask.execute(null, getChunkContext());
 
         final GatherImgRequest request = captureImageRequest(gatherService);
@@ -78,8 +76,7 @@ public class GatherDynamicImagesTaskTest
     }
 
     @Test(expected = ImageException.class)
-    public void testHasMissingImages() throws Exception
-    {
+    public void testHasMissingImages() throws Exception {
         final GatherResponse response = getGatherResponse();
         response.setMissingImgCount(1);
         when(gatherService.getImg((GatherImgRequest) any())).thenReturn(response);

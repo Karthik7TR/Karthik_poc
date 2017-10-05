@@ -25,8 +25,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-public class SplitBookTocParseServiceImpl implements SplitBookTocParseService
-{
+public class SplitBookTocParseServiceImpl implements SplitBookTocParseService {
     private static final Logger LOG = LogManager.getLogger(SplitBookTocParseServiceImpl.class);
 
     @Override
@@ -34,10 +33,8 @@ public class SplitBookTocParseServiceImpl implements SplitBookTocParseService
         final InputStream tocXml,
         final OutputStream splitTocXml,
         final List<String> splitTocGuidList,
-        final String splitTitleId)
-    {
-        try
-        {
+        final String splitTitleId) {
+        try {
             // Obtain a new instance of a SAXParserFactory.
             final SAXParserFactory factory = SAXParserFactory.newInstance();
             factory.setNamespaceAware(true);
@@ -54,18 +51,13 @@ public class SplitBookTocParseServiceImpl implements SplitBookTocParseService
             splitBookTocFilter.setSplitTilteId(splitTitleId);
             splitBookTocFilter.parse(new InputSource(new EntityEncodedInputStream(tocXml)));
 
-            if (splitBookTocFilter.getWrongSplitTocNode().size() > 0)
-            {
+            if (splitBookTocFilter.getWrongSplitTocNode().size() > 0) {
                 final StringBuffer eMessage = new StringBuffer("Split occured at an incorrect level. ");
                 int i = 1;
-                for (final String tocGuid : splitBookTocFilter.getWrongSplitTocNode())
-                {
-                    if (i == splitBookTocFilter.getWrongSplitTocNode().size())
-                    {
+                for (final String tocGuid : splitBookTocFilter.getWrongSplitTocNode()) {
+                    if (i == splitBookTocFilter.getWrongSplitTocNode().size()) {
                         eMessage.append(tocGuid);
-                    }
-                    else
-                    {
+                    } else {
                         eMessage.append(tocGuid + ", ");
                     }
                     i++;
@@ -76,16 +68,11 @@ public class SplitBookTocParseServiceImpl implements SplitBookTocParseService
             return splitBookTocFilter.getDocumentInfoMap();
         }
 
-        catch (final SAXException e)
-        {
+        catch (final SAXException e) {
             throw new RuntimeException("SAXException occurred while generating splitEbook toc file.", e);
-        }
-        catch (final ParserConfigurationException e)
-        {
+        } catch (final ParserConfigurationException e) {
             throw new RuntimeException("Failed to configure SAX Parser when generating splitEbook toc file.", e);
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new RuntimeException("An IOException occurred while generating the splitEbook toc file.", e);
         }
     }

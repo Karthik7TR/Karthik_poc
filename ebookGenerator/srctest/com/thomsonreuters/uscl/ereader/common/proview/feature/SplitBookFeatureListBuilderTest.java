@@ -24,20 +24,17 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class SplitBookFeatureListBuilderTest extends FeatureListBuilderFixture
-{
+public final class SplitBookFeatureListBuilderTest extends FeatureListBuilderFixture {
     @Override
     protected FeaturesListBuilder createFeatureListBuilder(
-        final ProviewTitleService proviewTitleService, final BookDefinition bookDefinition)
-    {
-        return new SplitBookFeatureListBuilder(
-            proviewTitleService, bookDefinition, new VersionUtilImpl());
+        final ProviewTitleService proviewTitleService,
+        final BookDefinition bookDefinition) {
+        return new SplitBookFeatureListBuilder(proviewTitleService, bookDefinition, new VersionUtilImpl());
     }
 
     @Before
     @Override
-    public void onTestSetUp()
-    {
+    public void onTestSetUp() {
         super.onTestSetUp();
         given(proviewTitleService.getProviewTitleDocs(any(BookTitleId.class)))
             .willReturn(Collections.singletonList(new Doc("doc1", "doc1.html", 0, null)))
@@ -50,15 +47,14 @@ public final class SplitBookFeatureListBuilderTest extends FeatureListBuilderFix
     }
 
     @Test
-    public void shouldReturnFeaturesWithNotesMigrationFeature()
-    {
+    public void shouldReturnFeaturesWithNotesMigrationFeature() {
         //given
         final Map<BookTitleId, List<Doc>> titleDocs = new HashMap<>();
-        titleDocs.put(new BookTitleId("FullyQualifiedTitleId", new Version("v1.0")),
+        titleDocs.put(
+            new BookTitleId("FullyQualifiedTitleId", new Version("v1.0")),
             Collections.singletonList(new Doc("doc1", "doc1.html", 0, null)));
         //when
-        final List<Feature> features = featuresListBuilder
-            .withBookVersion(new Version("v1.1"))
+        final List<Feature> features = featuresListBuilder.withBookVersion(new Version("v1.1"))
             .withTitleDocs(titleDocs)
             .forTitleId(new BookTitleId("FullyQualifiedTitleId", new Version("v1.0")))
             .getFeatures();

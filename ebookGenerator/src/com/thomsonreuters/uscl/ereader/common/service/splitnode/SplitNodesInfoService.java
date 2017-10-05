@@ -12,8 +12,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Service to work with splitNodesInfo file
  */
-public interface SplitNodesInfoService
-{
+public interface SplitNodesInfoService {
     @NotNull
     List<String> getTitleIds(@NotNull File splitNodeInfoFile, @NotNull String fullyQualifiedTitleId);
 

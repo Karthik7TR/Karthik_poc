@@ -13,8 +13,7 @@ import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
  *
  * @author <a href="mailto:Dong.Kim@thomsonreuters.com">Dong Kim</a> u0155568
  */
-public interface XMLPreprocessService
-{
+public interface XMLPreprocessService {
     /**
      * This method applies XMLFilters to the source XML to apply various
      * preprocess rules to the XML.

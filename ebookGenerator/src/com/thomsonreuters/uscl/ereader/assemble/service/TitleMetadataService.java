@@ -13,8 +13,7 @@ import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public interface TitleMetadataService
-{
+public interface TitleMetadataService {
     /**
      * Creates a title manifest to be included within the assembled ebook.
      *

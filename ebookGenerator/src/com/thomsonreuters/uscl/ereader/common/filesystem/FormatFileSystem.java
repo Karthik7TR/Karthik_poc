@@ -8,8 +8,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Provides access to files and directories specific for transformation steps of book generation process
  */
-public interface FormatFileSystem
-{
+public interface FormatFileSystem {
     /**
      * Returns format directory:
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}

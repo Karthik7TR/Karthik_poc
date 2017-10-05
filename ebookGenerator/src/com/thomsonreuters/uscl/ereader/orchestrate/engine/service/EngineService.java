@@ -8,8 +8,7 @@ import org.springframework.batch.core.JobParametersBuilder;
 /**
  * Utilities for interacting with the Spring Batch engine used in starting, restarting, and stopping jobs.
  */
-public interface EngineService
-{
+public interface EngineService {
     /**
      * Start a new e-book generating job as specified by properties of the JobRunRequest.
      * @param jobName the id of the job to run

@@ -37,8 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
 @Transactional
 @Ignore
-public class AltIDFileCreationUtil
-{
+public class AltIDFileCreationUtil {
     private static final Logger LOG = LogManager.getLogger(AltIDFileCreationUtil.class);
 
     @Autowired
@@ -59,14 +58,12 @@ public class AltIDFileCreationUtil
     private static final Long BOOK_DEF_ID = Long.valueOf(824);
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         //Intentionally left blank
     }
 
     @After
-    public void doNothing()
-    {
+    public void doNothing() {
         // Do nothing
     }
 
@@ -74,8 +71,7 @@ public class AltIDFileCreationUtil
      * Operation Unit Test
      */
     @Test
-    public void generateCVSFile()
-    {
+    public void generateCVSFile() {
         book = bookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEF_ID);
 
         final String altIdFileName = book.getFullyQualifiedTitleId().replace("/", "_") + ".csv";
@@ -91,13 +87,11 @@ public class AltIDFileCreationUtil
         // Long preJobInstanceId = null;
         Boolean skip = false;
 
-        if (pubStatsList.size() >= 1)
-        {
+        if (pubStatsList.size() >= 1) {
             final Calendar cal = Calendar.getInstance();
             cal.setTime(pubStatsList.get(0).getJobSubmitTimestamp());
             final int year = cal.get(Calendar.YEAR);
-            if (year != 2015)
-            {
+            if (year != 2015) {
                 System.out.println("Book has not been generated this year " + year);
                 skip = true;
             }
@@ -105,8 +99,7 @@ public class AltIDFileCreationUtil
             newVersion = pubStatsList.get(0).getBookVersionSubmitted();
         }
 
-        if (!skip)
-        {
+        if (!skip) {
             runCVSFile(newJobInstanceId, newVersion, pubStatsList, altIdFileName);
         }
     }
@@ -115,15 +108,13 @@ public class AltIDFileCreationUtil
         final Long newJobInstanceId,
         final String newVersion,
         final List<PublishingStats> pubStatsList,
-        final String altIdFileName)
-    {
+        final String altIdFileName) {
         final List<Long> preJobInstanceIdList = new ArrayList<>();
 
         String preMajorMinorVersion = newVersion.substring(0, newVersion.indexOf("."));
 
         System.out.println(" ALL VERSIONS ");
-        for (final PublishingStats pubstats : pubStatsList)
-        {
+        for (final PublishingStats pubstats : pubStatsList) {
             System.out.println(
                 pubstats.getJobInstanceId()
                     + " : "
@@ -132,16 +123,14 @@ public class AltIDFileCreationUtil
                     + pubstats.getJobSubmitTimestamp());
         }
 
-        for (final PublishingStats pubstats : pubStatsList)
-        {
+        for (final PublishingStats pubstats : pubStatsList) {
             final Calendar cal = Calendar.getInstance();
             cal.setTime(pubstats.getJobSubmitTimestamp());
             final int year = cal.get(Calendar.YEAR);
 
             String oldVersion = pubstats.getBookVersionSubmitted();
             oldVersion = oldVersion.substring(0, oldVersion.indexOf("."));
-            if (!preMajorMinorVersion.equalsIgnoreCase(oldVersion) && year != 2015)
-            {
+            if (!preMajorMinorVersion.equalsIgnoreCase(oldVersion) && year != 2015) {
                 preJobInstanceIdList.add(pubstats.getJobInstanceId());
                 preMajorMinorVersion = oldVersion;
                 System.out
@@ -158,20 +147,16 @@ public class AltIDFileCreationUtil
 
         // This check is to make sure the documentfamilies did not change
         // between older versions
-        for (final Long preJob : preJobInstanceIdList)
-        {
+        for (final Long preJob : preJobInstanceIdList) {
             final List<String> removeKey = new ArrayList<>();
             System.out.println("PreJob " + preJob);
             final Set<DocMetadata> docSet = getDocAuthorityforJobInstance(preJob);
-            if (olDDocInfo.size() > 0)
-            {
-                for (final DocMetadata doc : docSet)
-                {
+            if (olDDocInfo.size() > 0) {
+                for (final DocMetadata doc : docSet) {
                     final String firslineCite = normalizeFirsLineSite(doc.getFirstlineCite());
 
                     if (olDDocInfo.containsKey(firslineCite)
-                        && !olDDocInfo.get(firslineCite).equalsIgnoreCase(doc.getDocFamilyUuid()))
-                    {
+                        && !olDDocInfo.get(firslineCite).equalsIgnoreCase(doc.getDocFamilyUuid())) {
                         LOG.debug(
                             "Document family uuid changed between old versions for firstLineCite " + firslineCite);
                         LOG.debug("JobInstanceId " + job + " : " + doc.getJobInstanceId());
@@ -184,47 +169,38 @@ public class AltIDFileCreationUtil
             olDDocInfo.putAll(getDocInfo(docSet, removeKey));
         }
 
-        try
-        {
+        try {
             createCVSFile(newDocSet, olDDocInfo, altIdFileName);
         }
 
-        catch (final Exception ex)
-        {
+        catch (final Exception ex) {
             ex.printStackTrace();
             Assert.fail(ex.getMessage());
         }
     }
 
-    protected Set<DocMetadata> getDocAuthorityforJobInstance(final Long jobInstanceId)
-    {
+    protected Set<DocMetadata> getDocAuthorityforJobInstance(final Long jobInstanceId) {
         DocumentMetadataAuthority response = null;
         response = documentMetadataService.findAllDocMetadataForTitleByJobId(jobInstanceId);
         final Set<DocMetadata> docSet = response.getAllDocumentMetadata();
         return docSet;
     }
 
-    protected Map<String, String> getDocInfo(final Set<DocMetadata> docSet, final List<String> removeKey)
-    {
+    protected Map<String, String> getDocInfo(final Set<DocMetadata> docSet, final List<String> removeKey) {
         final Map<String, String> docInfo = new HashMap<>();
-        for (final DocMetadata doc : docSet)
-        {
+        for (final DocMetadata doc : docSet) {
             final String firslineCite = normalizeFirsLineSite(doc.getFirstlineCite());
 
-            if (!removeKey.contains(firslineCite))
-            {
+            if (!removeKey.contains(firslineCite)) {
                 docInfo.put(firslineCite, doc.getDocFamilyUuid());
-            }
-            else
-            {
+            } else {
                 LOG.debug("did not add to the list " + firslineCite);
             }
         }
         return docInfo;
     }
 
-    protected String normalizeFirsLineSite(final String cite)
-    {
+    protected String normalizeFirsLineSite(final String cite) {
         //Removes any '.' after character
         return cite.replaceAll("(\\D)\\.", "$1");
     }
@@ -232,33 +208,25 @@ public class AltIDFileCreationUtil
     protected void createCVSFile(
         final Set<DocMetadata> newDocSet,
         final Map<String, String> oldDocInfo,
-        final String altIdFileName)
-    {
+        final String altIdFileName) {
         final File file = new File(altIdFileName);
         LOG.debug(file.getAbsolutePath());
 
         final File notFoundfile = new File(altIdFileName + "_NotFound");
         LOG.debug(notFoundfile.getAbsolutePath());
 
-        try (BufferedWriter out = new BufferedWriter(new FileWriter(file)))
-        {
-            try (BufferedWriter out1 = new BufferedWriter(new FileWriter(file)))
-            {
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(file))) {
+            try (BufferedWriter out1 = new BufferedWriter(new FileWriter(file))) {
                 int i = 0;
-                for (final DocMetadata newDoc : newDocSet)
-                {
+                for (final DocMetadata newDoc : newDocSet) {
                     final String cite = normalizeFirsLineSite(newDoc.getFirstlineCite());
-                    if (oldDocInfo.containsKey(cite))
-                    {
-                        if (oldDocInfo.get(cite).equalsIgnoreCase(newDoc.getDocFamilyUuid()))
-                        {
+                    if (oldDocInfo.containsKey(cite)) {
+                        if (oldDocInfo.get(cite).equalsIgnoreCase(newDoc.getDocFamilyUuid())) {
                             LOG.info(
                                 newDoc.getDocFamilyUuid()
                                     + " DocFamilys are same for Cite "
                                     + newDoc.getFirstlineCite());
-                        }
-                        else
-                        {
+                        } else {
                             final StringBuffer buffer = new StringBuffer();
                             buffer.append(oldDocInfo.get(cite));
                             buffer.append(",");
@@ -268,9 +236,7 @@ public class AltIDFileCreationUtil
                             buffer.append("\n");
                             out.write(buffer.toString());
                         }
-                    }
-                    else
-                    {
+                    } else {
                         i++;
                         LOG.error(
                             "could not find matching family "
@@ -282,9 +248,7 @@ public class AltIDFileCreationUtil
                 }
                 LOG.debug(i + " documents Could not find match");
             }
-        }
-        catch (final Exception ex)
-        {
+        } catch (final Exception ex) {
             ex.printStackTrace();
         }
     }

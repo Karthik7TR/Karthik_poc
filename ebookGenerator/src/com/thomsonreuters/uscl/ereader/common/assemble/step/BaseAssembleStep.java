@@ -13,8 +13,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import org.springframework.batch.core.ExitStatus;
 
-public abstract class BaseAssembleStep extends BookStepImpl
-{
+public abstract class BaseAssembleStep extends BookStepImpl {
     @Resource(name = "eBookAssemblyService")
     private EBookAssemblyService assemblyService;
     @Resource(name = "docMetadataService")
@@ -23,15 +22,11 @@ public abstract class BaseAssembleStep extends BookStepImpl
     private AssembleFileSystem fileSystem;
 
     @Override
-    public ExitStatus executeStep() throws Exception
-    {
+    public ExitStatus executeStep() throws Exception {
         final BookDefinition bookDefinition = getBookDefinition();
-        if (bookDefinition.isSplitBook())
-        {
+        if (bookDefinition.isSplitBook()) {
             assembleSplitBook();
-        }
-        else
-        {
+        } else {
             final File titleDirectory = fileSystem.getTitleDirectory(this);
             final File assembledBookFile = fileSystem.getAssembledBookFile(this);
             assemblyService.assembleEBook(titleDirectory, assembledBookFile);
@@ -39,11 +34,9 @@ public abstract class BaseAssembleStep extends BookStepImpl
         return ExitStatus.COMPLETED;
     }
 
-    private void assembleSplitBook() throws EBookAssemblyException
-    {
+    private void assembleSplitBook() throws EBookAssemblyException {
         final List<String> splitTitles = docMetadataService.findDistinctSplitTitlesByJobId(getJobInstanceId());
-        for (final String splitTitleId : splitTitles)
-        {
+        for (final String splitTitleId : splitTitles) {
             final File assembledSplitTitleFile = fileSystem.getAssembledSplitTitleFile(this, splitTitleId);
             final File assembleDirectory = fileSystem.getSplitTitleDirectory(this, splitTitleId);
             assemblyService.assembleEBook(assembleDirectory, assembledSplitTitleFile);

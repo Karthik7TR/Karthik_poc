@@ -8,11 +8,9 @@ import org.xml.sax.helpers.XMLFilterImpl;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public class ProcessingInstructionZapperFilter extends XMLFilterImpl
-{
+public class ProcessingInstructionZapperFilter extends XMLFilterImpl {
     @Override
-    public void processingInstruction(final String target, final String data) throws SAXException
-    {
+    public void processingInstruction(final String target, final String data) throws SAXException {
         //Do not process PIs.
     }
 }

@@ -9,8 +9,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import org.jetbrains.annotations.NotNull;
 
-public interface BookStep extends BaseStep, OutageAwareStep, SendNotificationStep, PublishingStatusUpdateStep
-{
+public interface BookStep extends BaseStep, OutageAwareStep, SendNotificationStep, PublishingStatusUpdateStep {
     @NotNull
     BookDefinition getBookDefinition();
 

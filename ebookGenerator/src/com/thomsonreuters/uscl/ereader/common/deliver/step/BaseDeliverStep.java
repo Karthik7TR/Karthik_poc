@@ -18,8 +18,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import org.springframework.batch.core.ExitStatus;
 
-public abstract class BaseDeliverStep extends BookStepImpl
-{
+public abstract class BaseDeliverStep extends BookStepImpl {
     @Resource(name = "proviewHandler")
     private ProviewHandler proviewHandler;
     @Resource(name = "proviewHandlerWithRetry")
@@ -33,51 +32,39 @@ public abstract class BaseDeliverStep extends BookStepImpl
     private List<String> publishedSplitTiltes = new ArrayList<>();
 
     @Override
-    public ExitStatus executeStep() throws Exception
-    {
-        try
-        {
+    public ExitStatus executeStep() throws Exception {
+        try {
             publishBook();
             return ExitStatus.COMPLETED;
-        }
-        catch (final ProviewException e)
-        {
+        } catch (final ProviewException e) {
             removePublishedSplitTitles();
             throw e;
         }
     }
 
-    private void publishBook() throws ProviewException
-    {
+    private void publishBook() throws ProviewException {
         final BookDefinition bookDefinition = getBookDefinition();
-        if (bookDefinition.isSplitBook())
-        {
+        if (bookDefinition.isSplitBook()) {
             publishSplitBook();
-        }
-        else
-        {
+        } else {
             final File assembledBookFile = fileSystem.getAssembledBookFile(this);
             proviewHandler.publishTitle(bookDefinition.getFullyQualifiedTitleId(), getBookVersion(), assembledBookFile);
         }
     }
 
-    private void publishSplitBook() throws ProviewException
-    {
+    private void publishSplitBook() throws ProviewException {
         final Set<String> splitTitleIds =
             new TreeSet<>(new SplitTitleIdsComparator(getBookDefinition().getFullyQualifiedTitleId()));
         splitTitleIds.addAll(docMetadataService.findDistinctSplitTitlesByJobId(getJobInstanceId()));
-        for (final String splitTitleId : splitTitleIds)
-        {
+        for (final String splitTitleId : splitTitleIds) {
             final File assembledSplitTitleFile = fileSystem.getAssembledSplitTitleFile(this, splitTitleId);
             proviewHandler.publishTitle(splitTitleId, getBookVersion(), assembledSplitTitleFile);
             publishedSplitTiltes.add(splitTitleId);
         }
     }
 
-    private void removePublishedSplitTitles() throws ProviewException
-    {
-        for (final String splitTitle : publishedSplitTiltes)
-        {
+    private void removePublishedSplitTitles() throws ProviewException {
+        for (final String splitTitle : publishedSplitTiltes) {
             proviewHandlerWithRetry.removeTitle(splitTitle, getBookVersion());
         }
     }

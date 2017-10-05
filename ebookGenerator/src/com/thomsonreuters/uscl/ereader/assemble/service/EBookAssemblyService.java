@@ -12,8 +12,7 @@ import com.thomsonreuters.uscl.ereader.assemble.exception.EBookAssemblyException
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public interface EBookAssemblyService
-{
+public interface EBookAssemblyService {
     /**
      * Archives and compresses an eBook to create an artifact that can be delivered to ProView.
      *

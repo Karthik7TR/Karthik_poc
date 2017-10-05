@@ -24,21 +24,19 @@ import org.springframework.beans.factory.annotation.Required;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class TransformXML extends AbstractSbTasklet
-{
+public class TransformXML extends AbstractSbTasklet {
     //TODO: Use logger API to get Logger instance to job-specific appender.
     private static final Logger LOG = LogManager.getLogger(TransformXML.class);
     private TransformerService transformerService;
     private PublishingStatsService publishingStatsService;
 
-    public void settransformerService(final TransformerService transformerService)
-    {
+    public void settransformerService(final TransformerService transformerService) {
         this.transformerService = transformerService;
     }
 
     @Override
-    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext) throws Exception
-    {
+    public ExitStatus executeStep(final StepContribution contribution, final ChunkContext chunkContext)
+        throws Exception {
         final ExecutionContext jobExecutionContext = getJobExecutionContext(chunkContext);
         final JobInstance jobInstance = getJobInstance(chunkContext);
 
@@ -71,8 +69,7 @@ public class TransformXML extends AbstractSbTasklet
         final File staticContentDir =
             new File(getRequiredStringProperty(jobExecutionContext, JobExecutionKey.STATIC_CONTENT_DIR));
 
-        try
-        {
+        try {
             final long startTime = System.currentTimeMillis();
             final int numDocsTransformed = transformerService.transformXMLDocuments(
                 preprocessDir,
@@ -85,8 +82,7 @@ public class TransformXML extends AbstractSbTasklet
             final long endTime = System.currentTimeMillis();
             final long elapsedTime = endTime - startTime;
 
-            if (numDocsTransformed != numDocsInTOC)
-            {
+            if (numDocsTransformed != numDocsInTOC) {
                 final String message = "The number of documents transformed did not match the number "
                     + "of documents retrieved from the eBook TOC. Transformed "
                     + numDocsTransformed
@@ -98,14 +94,10 @@ public class TransformXML extends AbstractSbTasklet
             }
 
             LOG.debug("Transformed " + numDocsTransformed + " XML files in " + elapsedTime + " milliseconds");
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             stepStatus = "Failed";
             throw e;
-        }
-        finally
-        {
+        } finally {
             jobstats.setPublishStatus("formatTransformXML : " + stepStatus);
             publishingStatsService.updatePublishingStats(jobstats, StatsUpdateTypeEnum.GENERAL);
         }
@@ -114,8 +106,7 @@ public class TransformXML extends AbstractSbTasklet
     }
 
     @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
+    public void setPublishingStatsService(final PublishingStatsService publishingStatsService) {
         this.publishingStatsService = publishingStatsService;
     }
 }

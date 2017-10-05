@@ -24,8 +24,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
-public final class GatherRestServiceIntegrationTest
-{
+public final class GatherRestServiceIntegrationTest {
     private static Logger log = LogManager.getLogger(GatherRestServiceIntegrationTest.class);
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -37,8 +36,7 @@ public final class GatherRestServiceIntegrationTest
      * Fetch a TOC by invoking the Gather REST service.
      */
     @Test
-    public void testGetToc()
-    {
+    public void testGetToc() {
         final String TOC_COLLECTION_NAME = "w_an_rcc_cajur_toc"; // Client
         final String ROOT_TOC_GUID_IMPH = "I0900caf0675c11da90ebf04471783734";
 //		String ROOT_TOC_GUID_FSLP = "I4fa9eea0b36011dab270c8080cf3148a";
@@ -69,8 +67,7 @@ public final class GatherRestServiceIntegrationTest
      * Fetch a TOC by invoking the Gather REST service.
      */
     @Test
-    public void testGetTocNort()
-    {
+    public void testGetTocNort() {
         final String NORT_DOMAIN_NAME = "w_uscl_eBook"; // Client
         final String NORT_FILTER_EXPRESSION = "Test1";
         final File tempDir = temporaryFolder.getRoot();
@@ -106,8 +103,7 @@ public final class GatherRestServiceIntegrationTest
      *	NE7EFCB407E2611DA8F1DA64F3D0F013D - w_codesstaflnvdp  (Client)
      */
     @Test
-    public void testGetDoc()
-    {
+    public void testGetDoc() {
         final String DOC_COLLECTION_NAME_CLIENT1 = "w_an_rcc_cajur"; // w_an_rcc_texts in prod
         final String DOC_GUID_CLIENT1 = "Iff5a5a987c8f11da9de6e47d6d5aa7a5";
 //		String DOC_COLLECTION_NAME_CLIENT1 = "w_codesstaflnvdu";
@@ -127,7 +123,8 @@ public final class GatherRestServiceIntegrationTest
         final File metadataFile = new File(metadataDir, "1-" + DOC_COLLECTION_NAME_CLIENT1 + "-" + docGuid + ".xml");
         final Collection<String> guids = new ArrayList<>();
         guids.add(docGuid);
-        final GatherDocRequest docRequest = new GatherDocRequest(guids, collectionName, contentDir, metadataDir, true, true);
+        final GatherDocRequest docRequest =
+            new GatherDocRequest(guids, collectionName, contentDir, metadataDir, true, true);
 
         final GatherResponse gatherResponse = gatherService.getDoc(docRequest);
 

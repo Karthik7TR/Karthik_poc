@@ -35,8 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
  * URL based Spring Batch job control operations for RESTART and STOP.
  */
 @Controller
-public class OperationsController
-{
+public class OperationsController {
     private static final Logger log = LogManager.getLogger(OperationsController.class);
     private EngineService engineService;
     private MessageSourceAccessor messageSourceAccessor;
@@ -44,8 +43,7 @@ public class OperationsController
     private OutageProcessor outageProcessor;
     private FlowJob job;
 
-    public OperationsController(final FlowJob job)
-    {
+    public OperationsController(final FlowJob job) {
         this.job = job;
     }
 
@@ -58,38 +56,29 @@ public class OperationsController
      * @return the view name which will marshal and return the SimpleRestServiceResponse object.
      */
     @RequestMapping(value = WebConstants.URI_JOB_RESTART, method = RequestMethod.GET)
-    public ModelAndView restartJob(@PathVariable final Long jobExecutionId, final Model model) throws Exception
-    {
+    public ModelAndView restartJob(@PathVariable final Long jobExecutionId, final Model model) throws Exception {
         final Long jobExecutionIdToRestart = jobExecutionId;
         log.debug("jobExecutionIdToRestart=" + jobExecutionIdToRestart);
 
         SimpleRestServiceResponse opResponse = null;
-        try
-        {
+        try {
             final PlannedOutage outage = outageProcessor.findPlannedOutageInContainer(new Date());
-            if (outage != null)
-            {
+            if (outage != null) {
                 final SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
                 final String message = String.format(
                     "Cannot restart job because we are in a planned service outage until %s",
                     sdf.format(outage.getEndTime()));
                 opResponse = new SimpleRestServiceResponse(jobExecutionIdToRestart, false, message);
-            }
-            else
-            {
+            } else {
                 final Long restartedJobExecutionId = engineService.restartJob(jobExecutionIdToRestart);
                 opResponse = new SimpleRestServiceResponse(restartedJobExecutionId);
             }
-        }
-        catch (final JobInstanceAlreadyCompleteException e)
-        { // Cannot restart a job that is already finished
+        } catch (final JobInstanceAlreadyCompleteException e) { // Cannot restart a job that is already finished
             final Object[] args = {jobExecutionIdToRestart.toString()};
             final String message = messageSourceAccessor.getMessage("err.job.instance.already.complete", args);
             opResponse = new SimpleRestServiceResponse(jobExecutionIdToRestart, false, message);
             log.debug(message, e);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             opResponse = new SimpleRestServiceResponse(jobExecutionIdToRestart, false, e.getMessage());
             log.error("Job RESTART exception", e);
         }
@@ -104,26 +93,20 @@ public class OperationsController
      * @return the view name which will marshal and return the SimpleRestServiceResponse object.
      */
     @RequestMapping(value = WebConstants.URI_JOB_STOP, method = RequestMethod.GET)
-    public ModelAndView stopJob(@PathVariable final Long jobExecutionId, final Model model)
-    {
+    public ModelAndView stopJob(@PathVariable final Long jobExecutionId, final Model model) {
         final Long jobExecutionIdToStop = jobExecutionId;
         log.debug("jobExecutionIdToStop=" + jobExecutionIdToStop);
 
         SimpleRestServiceResponse opResponse = null;
-        try
-        {
+        try {
             engineService.stopJob(jobExecutionIdToStop);
             opResponse = new SimpleRestServiceResponse(jobExecutionIdToStop);
-        }
-        catch (final JobExecutionNotRunningException e)
-        { // Cannot stop a job that is not running
+        } catch (final JobExecutionNotRunningException e) { // Cannot stop a job that is not running
             final Object[] args = {jobExecutionIdToStop.toString()};
             final String message = messageSourceAccessor.getMessage("err.job.execution.not.running", args);
             opResponse = new SimpleRestServiceResponse(jobExecutionIdToStop, false, message);
             log.debug(message, e);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             opResponse = new SimpleRestServiceResponse(jobExecutionIdToStop, false, e.getMessage());
             log.debug("Job STOP exception: " + e);
         }
@@ -132,8 +115,7 @@ public class OperationsController
     }
 
     @RequestMapping(value = CoreConstants.URI_GET_JOB_THROTTLE_CONFIG, method = RequestMethod.GET)
-    public ModelAndView getJobThrottleConfig(final HttpServletResponse response, final Model model) throws Exception
-    {
+    public ModelAndView getJobThrottleConfig(final HttpServletResponse response, final Model model) throws Exception {
         log.debug(">>>");
         final JobThrottleConfig config = appConfigService.loadJobThrottleConfig();
         model.addAttribute(WebConstants.KEY_JOB_THROTTLE_CONFIG, config);
@@ -141,8 +123,7 @@ public class OperationsController
     }
 
     @RequestMapping(value = CoreConstants.URI_GET_MISC_CONFIG, method = RequestMethod.GET)
-    public ModelAndView getMiscConfig(final HttpServletResponse response, final Model model) throws Exception
-    {
+    public ModelAndView getMiscConfig(final HttpServletResponse response, final Model model) throws Exception {
         log.debug(">>>");
         final MiscConfig config = appConfigService.loadMiscConfig();
         model.addAttribute(WebConstants.KEY_MISC_CONFIG, config);
@@ -150,19 +131,15 @@ public class OperationsController
     }
 
     @RequestMapping(value = WebConstants.URI_GET_STEP_NAMES, method = RequestMethod.GET)
-    public void getStepNames(final HttpServletResponse response, final Model model) throws Exception
-    {
+    public void getStepNames(final HttpServletResponse response, final Model model) throws Exception {
         log.debug(">>>");
         ServletOutputStream out = null;
-        try
-        {
+        try {
             final Collection<String> stepNames = job.getStepNames();
             final StringBuffer csv = new StringBuffer();
             boolean first = true;
-            for (final String stepName : stepNames)
-            {
-                if (!first)
-                {
+            for (final String stepName : stepNames) {
+                if (!first) {
                     csv.append(",");
                 }
                 first = false;
@@ -170,35 +147,29 @@ public class OperationsController
             }
             out = response.getOutputStream();
             out.print(csv.toString());
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             log.error(e);
             out.print("Error getting step names");
         }
     }
 
     @Required
-    public void setAppConfigService(final AppConfigService service)
-    {
+    public void setAppConfigService(final AppConfigService service) {
         appConfigService = service;
     }
 
     @Required
-    public void setEngineService(final EngineService service)
-    {
+    public void setEngineService(final EngineService service) {
         engineService = service;
     }
 
     @Required
-    public void setMessageSourceAccessor(final MessageSourceAccessor accessor)
-    {
+    public void setMessageSourceAccessor(final MessageSourceAccessor accessor) {
         messageSourceAccessor = accessor;
     }
 
     @Required
-    public void setOutageProcessor(final OutageProcessor service)
-    {
+    public void setOutageProcessor(final OutageProcessor service) {
         outageProcessor = service;
     }
 }

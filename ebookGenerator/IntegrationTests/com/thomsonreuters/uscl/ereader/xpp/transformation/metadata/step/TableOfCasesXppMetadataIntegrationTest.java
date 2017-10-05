@@ -11,17 +11,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("IntegrationTests")
 @ContextConfiguration(classes = PlaceXppMetadataStepIntegrationTestConfig.class)
-public final class TableOfCasesXppMetadataIntegrationTest extends PlaceXppMetadataStepFixture
-{
+public final class TableOfCasesXppMetadataIntegrationTest extends PlaceXppMetadataStepFixture {
     public TableOfCasesXppMetadataIntegrationTest()
-        throws URISyntaxException
-    {
-        super("tableofcases/30008-volume_3_Table_of_Cases.DIVXML.main", "tableofcases/Expected30008-volume_3_Table_of_Cases.DIVXML.main");
+        throws URISyntaxException {
+        super(
+            "tableofcases/30008-volume_3_Table_of_Cases.DIVXML.main",
+            "tableofcases/Expected30008-volume_3_Table_of_Cases.DIVXML.main");
     }
 
     @Test
-    public void shouldInsertCorrectMetadataAndHierToTableOfCasesFile() throws Exception
-    {
+    public void shouldInsertCorrectMetadataAndHierToTableOfCasesFile() throws Exception {
         testPlacedMetadata();
     }
 }

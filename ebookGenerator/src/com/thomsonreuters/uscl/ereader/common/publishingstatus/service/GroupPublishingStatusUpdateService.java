@@ -6,11 +6,9 @@ import com.thomsonreuters.uscl.ereader.stats.PublishingStatus;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 
 @SavePublishingStatusStrategy(StatsUpdateTypeEnum.GROUPEBOOK)
-public class GroupPublishingStatusUpdateService extends BasePublishingStatusUpdateService<GroupStep>
-{
+public class GroupPublishingStatusUpdateService extends BasePublishingStatusUpdateService<GroupStep> {
     @Override
-    public void savePublishingStats(final GroupStep step, final PublishingStatus publishStatus)
-    {
+    public void savePublishingStats(final GroupStep step, final PublishingStatus publishStatus) {
         final PublishingStats jobstats = new PublishingStats();
         jobstats.setJobInstanceId(step.getJobInstanceId());
         jobstats.setPublishStatus(getPublishStatusString(step, publishStatus));

@@ -16,8 +16,7 @@ import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import org.jetbrains.annotations.NotNull;
 
-public class ArchiveAuditServiceImpl implements ArchiveAuditService
-{
+public class ArchiveAuditServiceImpl implements ArchiveAuditService {
     @Resource(name = "bookDefinitionService")
     private BookDefinitionService bookService;
     @Resource(name = "proviewAuditService")
@@ -30,20 +29,17 @@ public class ArchiveAuditServiceImpl implements ArchiveAuditService
     private FormatFileSystem fileSystem;
 
     @Override
-    public void saveAudit(@NotNull final BaseArchiveStep step)
-    {
+    public void saveAudit(@NotNull final BaseArchiveStep step) {
         final BookDefinition bookDefinition = step.getBookDefinition();
         final ProviewAudit audit = createAudit(step, bookDefinition.getFullyQualifiedTitleId());
         proviewAuditService.save(audit);
 
-        if (bookDefinition.isSplitBook())
-        {
+        if (bookDefinition.isSplitBook()) {
             saveSplitTitlesAudit(step, bookDefinition);
         }
     }
 
-    private void saveSplitTitlesAudit(final BaseArchiveStep step, final BookDefinition bookDefinition)
-    {
+    private void saveSplitTitlesAudit(final BaseArchiveStep step, final BookDefinition bookDefinition) {
         final Set<SplitNodeInfo> submittedSplitNodes = splitNodesInfoService
             .getSubmittedSplitNodes(fileSystem.getSplitBookInfoFile(step), bookDefinition, step.getBookVersion());
         saveSubmittedSplitInfo(step, submittedSplitNodes);
@@ -52,8 +48,7 @@ public class ArchiveAuditServiceImpl implements ArchiveAuditService
             bookTitlesUtil.getSplitNodeInfosByVersion(bookDefinition, step.getBookVersion());
         final boolean hasPersisted = !persistedSplitNodes.isEmpty();
         final boolean splitNodesInfoChanged = !persistedSplitNodes.equals(submittedSplitNodes);
-        if (hasPersisted && splitNodesInfoChanged)
-        {
+        if (hasPersisted && splitNodesInfoChanged) {
             bookService.updateSplitNodeInfoSet(
                 bookDefinition.getEbookDefinitionId(),
                 submittedSplitNodes,
@@ -61,17 +56,14 @@ public class ArchiveAuditServiceImpl implements ArchiveAuditService
         }
     }
 
-    private void saveSubmittedSplitInfo(final BaseArchiveStep step, final Set<SplitNodeInfo> submittedSplitNodes)
-    {
-        for (final SplitNodeInfo splitNodeInfo : submittedSplitNodes)
-        {
+    private void saveSubmittedSplitInfo(final BaseArchiveStep step, final Set<SplitNodeInfo> submittedSplitNodes) {
+        for (final SplitNodeInfo splitNodeInfo : submittedSplitNodes) {
             final ProviewAudit audit = createAudit(step, splitNodeInfo.getSplitBookTitle());
             proviewAuditService.save(audit);
         }
     }
 
-    private ProviewAudit createAudit(final BaseArchiveStep step, final String titleId)
-    {
+    private ProviewAudit createAudit(final BaseArchiveStep step, final String titleId) {
         final ProviewAudit audit = new ProviewAudit();
         audit.setAuditNote("Book Generated");
         audit.setTitleId(titleId);

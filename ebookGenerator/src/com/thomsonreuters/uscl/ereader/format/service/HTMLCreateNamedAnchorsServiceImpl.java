@@ -45,20 +45,17 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:Kirsten.Gunn@thomsonreuters.com">Kirsten Gunn</a> u0076257
  */
-public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchorsService
-{
+public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchorsService {
     private static final Logger LOG = LogManager.getLogger(HTMLCreateNamedAnchorsServiceImpl.class);
 
     private FileHandlingHelper fileHandlingHelper;
     private DocMetadataService docMetadataService;
 
-    public void setfileHandlingHelper(final FileHandlingHelper fileHandlingHelper)
-    {
+    public void setfileHandlingHelper(final FileHandlingHelper fileHandlingHelper) {
         this.fileHandlingHelper = fileHandlingHelper;
     }
 
-    public void setdocMetadataService(final DocMetadataService docMetadataService)
-    {
+    public void setdocMetadataService(final DocMetadataService docMetadataService) {
         this.docMetadataService = docMetadataService;
     }
 
@@ -81,34 +78,28 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
         final File targetDir,
         final String title,
         final Long jobId,
-        final File docToTocMap) throws EBookFormatException
-    {
-        if (srcDir == null || !srcDir.isDirectory())
-        {
+        final File docToTocMap) throws EBookFormatException {
+        if (srcDir == null || !srcDir.isDirectory()) {
             throw new IllegalArgumentException("srcDir must be a directory, not null or a regular file.");
         }
 
         //retrieve list of all transformed files that need HTML wrappers
         final List<File> htmlFiles = new ArrayList<>();
 
-        try
-        {
+        try {
             final FileExtensionFilter fileExtFilter = new FileExtensionFilter();
             fileExtFilter.setAcceptedFileExtensions(new String[] {"posttransform"}); // lowercase compare
             fileHandlingHelper.setFilter(fileExtFilter);
 
             fileHandlingHelper.getFileList(srcDir, htmlFiles);
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             final String errMessage = "No html files were found in specified directory. "
                 + "Please verify that the correct path was specified.";
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
 
-        if (!targetDir.exists())
-        {
+        if (!targetDir.exists()) {
             targetDir.mkdirs();
         }
 
@@ -119,20 +110,16 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
         final Map<String, String> dupGuids = new HashMap<>();
 
         // Create list of duplicates
-        for (final DocMetadata docMeta : documentMetadataAuthority.getAllDocumentMetadata())
-        {
+        for (final DocMetadata docMeta : documentMetadataAuthority.getAllDocumentMetadata()) {
             //TODO: for each record in the Document Metadata Authority, update it to replace section symbols with lowercase s.
             //There may be other characters that we need to take into account.  There is a XSLT template in SpecialCharacters.xsl.
             if (docMeta.getProviewFamilyUUIDDedup() != null
                 && docMeta.getDocFamilyUuid() != null
-                && !dupGuids.containsValue(docMeta.getDocFamilyUuid()))
-            {
+                && !dupGuids.containsValue(docMeta.getDocFamilyUuid())) {
                 dupGuids.put(docMeta.getProViewId(), docMeta.getDocFamilyUuid());
-                for (final DocMetadata docMeta2 : documentMetadataAuthority.getAllDocumentMetadata())
-                {
+                for (final DocMetadata docMeta2 : documentMetadataAuthority.getAllDocumentMetadata()) {
                     if (docMeta2.getDocFamilyUuid() != null
-                        && docMeta2.getDocFamilyUuid().equals(docMeta.getDocFamilyUuid()))
-                    {
+                        && docMeta2.getDocFamilyUuid().equals(docMeta.getDocFamilyUuid())) {
                         dupGuids.put(docMeta2.getProViewId(), docMeta2.getDocFamilyUuid());
                     }
                 }
@@ -143,8 +130,7 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
         final Map<String, Set<String>> targetAnchors = readTargetAnchorFile(anchorTargetListFile);
         final Map<String, Set<String>> dupTargetAnchors = new HashMap<>();
         int numDocs = 0;
-        for (final File htmlFile : htmlFiles)
-        {
+        for (final File htmlFile : htmlFiles) {
             transformHTMLFile(
                 htmlFile,
                 targetDir,
@@ -160,8 +146,7 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
         removeTOCAnchors(docToTocMap, targetAnchors, title, jobId);
 
         final File anchorTargetUnlinkFile = new File(targetDir.getAbsolutePath(), "anchorTargetUnlinkFile");
-        if (targetAnchors != null)
-        {
+        if (targetAnchors != null) {
             createAnchorTargetList(anchorTargetUnlinkFile, targetAnchors);
         }
 
@@ -193,15 +178,12 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
         final DocumentMetadataAuthority documentMetadataAuthority,
         final Map<String, Set<String>> targetAnchors,
         final Map<String, String> dupGuids,
-        final Map<String, Set<String>> dupTargetAnchors) throws EBookFormatException
-    {
+        final Map<String, Set<String>> dupTargetAnchors) throws EBookFormatException {
         final String fileName = sourceFile.getName();
         final String guid = fileName.substring(0, fileName.indexOf("."));
-        try (FileInputStream inStream = new FileInputStream(sourceFile))
-        {
-            try (FileOutputStream outStream =
-                new FileOutputStream(new File(targetDir, fileName.substring(0, fileName.indexOf(".")) + ".postAnchor")))
-            {
+        try (FileInputStream inStream = new FileInputStream(sourceFile)) {
+            try (FileOutputStream outStream = new FileOutputStream(
+                new File(targetDir, fileName.substring(0, fileName.indexOf(".")) + ".postAnchor"))) {
 //			LOG.debug("Transforming following html file: " + sourceFile.getAbsolutePath());
 
                 final DocMetadata docMetadata =
@@ -213,13 +195,10 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
 
                 final HTMLIdFilter anchorIdFilter = new HTMLIdFilter();
                 anchorIdFilter.setParent(saxParser.getXMLReader());
-                if (docMetadata != null && docMetadata.getProViewId() != null)
-                {
+                if (docMetadata != null && docMetadata.getProViewId() != null) {
                     anchorIdFilter.setCurrentGuid(docMetadata.getProViewId());
                     anchorIdFilter.setFamilyGuid(docMetadata.getDocFamilyUuid());
-                }
-                else
-                {
+                } else {
                     anchorIdFilter.setCurrentGuid(guid);
                     anchorIdFilter.setFamilyGuid(guid);
                 }
@@ -240,55 +219,40 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
 
                 LOG.debug(sourceFile.getAbsolutePath() + " successfully transformed.");
             }
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String errMessage = "Unable to perform IO operations related to following source file: " + fileName;
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             final String errMessage = "Encountered a SAX Exception while processing: " + fileName;
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
-        }
-        catch (final ParserConfigurationException e)
-        {
+        } catch (final ParserConfigurationException e) {
             final String errMessage = "Encountered a SAX Parser Configuration Exception while processing: " + fileName;
             LOG.error(errMessage);
             throw new EBookFormatException(errMessage, e);
         }
     }
 
-    protected Map<String, Set<String>> readTargetAnchorFile(final File anchorTargetListFile) throws EBookFormatException
-    {
+    protected Map<String, Set<String>> readTargetAnchorFile(final File anchorTargetListFile)
+        throws EBookFormatException {
         final Map<String, Set<String>> anchors = new HashMap<>();
-        if (anchorTargetListFile.length() == 0)
-        {
+        if (anchorTargetListFile.length() == 0) {
             return null;
-        }
-        else
-        {
+        } else {
             try (BufferedReader reader =
-                new BufferedReader(new InputStreamReader(new FileInputStream(anchorTargetListFile), "UTF-8")))
-            {
+                new BufferedReader(new InputStreamReader(new FileInputStream(anchorTargetListFile), "UTF-8"))) {
                 String input = reader.readLine();
-                while (input != null)
-                {
+                while (input != null) {
                     final String[] line = input.split(",", -1);
-                    if (!line[1].equals(""))
-                    {
+                    if (!line[1].equals("")) {
                         final Set<String> anchorSet = new HashSet<>();
                         final String[] anchorList = line[1].split("\\|");
-                        for (final String anchorVal : anchorList)
-                        {
+                        for (final String anchorVal : anchorList) {
                             anchorSet.add(anchorVal);
                         }
                         anchors.put(line[0], anchorSet);
-                    }
-                    else
-                    {
+                    } else {
                         final String message = "Please verify that each document GUID in the following file has "
                             + "at least one anchor associated with it: "
                             + anchorTargetListFile.getAbsolutePath();
@@ -298,9 +262,7 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
                     input = reader.readLine();
                 }
                 LOG.info("Generated a map for " + anchors.size() + " guids that have anchors.");
-            }
-            catch (final IOException e)
-            {
+            } catch (final IOException e) {
                 final String message =
                     "Could not read the DOC guid to anchors file: " + anchorTargetListFile.getAbsolutePath();
                 LOG.error(message);
@@ -317,19 +279,14 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
      * @param targetAnchors guids and target anchors for that guid.
      */
     protected void createAnchorTargetList(final File anchorTargetListFile, final Map<String, Set<String>> targetAnchors)
-        throws EBookFormatException
-    {
+        throws EBookFormatException {
         try (BufferedWriter writer =
-            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(anchorTargetListFile), "UTF-8")))
-        {
-            for (final Entry<String, Set<String>> guidAnchorEntry : targetAnchors.entrySet())
-            {
-                if (guidAnchorEntry.getValue().size() > 0)
-                {
+            new BufferedWriter(new OutputStreamWriter(new FileOutputStream(anchorTargetListFile), "UTF-8"))) {
+            for (final Entry<String, Set<String>> guidAnchorEntry : targetAnchors.entrySet()) {
+                if (guidAnchorEntry.getValue().size() > 0) {
                     writer.write(guidAnchorEntry.getKey());
                     writer.write("|");
-                    for (final String anchors : guidAnchorEntry.getValue())
-                    {
+                    for (final String anchors : guidAnchorEntry.getValue()) {
                         writer.write(anchors);
                         writer.write(",");
                     }
@@ -340,9 +297,7 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
                 targetAnchors.size()
                     + " doc guid anchor references written successfuly to file: "
                     + anchorTargetListFile.getAbsolutePath());
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String message =
                 "Could not write to the doc guid anchor references file: " + anchorTargetListFile.getAbsolutePath();
             LOG.error(message);
@@ -364,16 +319,12 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
         final File docTOCMap,
         final Map<String, Set<String>> unlinkList,
         final String titleID,
-        final Long jobId) throws EBookFormatException
-    {
-        if (unlinkList != null)
-        {
+        final Long jobId) throws EBookFormatException {
+        if (unlinkList != null) {
             final Set<String> tocAnchorSet = new HashSet<>();
             readTOCAnchorList(docTOCMap, tocAnchorSet, titleID, jobId);
-            for (final String docId : unlinkList.keySet())
-            {
-                for (final String anchorName : tocAnchorSet)
-                {
+            for (final String docId : unlinkList.keySet()) {
+                for (final String anchorName : tocAnchorSet) {
                     unlinkList.get(docId).remove(anchorName);
                 }
             }
@@ -396,16 +347,12 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
         final File docGuidsFile,
         final Set<String> toAnchorSet,
         final String titleID,
-        final Long jobId) throws EBookFormatException
-    {
-        try (BufferedReader reader = new BufferedReader(new FileReader(docGuidsFile)))
-        {
+        final Long jobId) throws EBookFormatException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(docGuidsFile))) {
             String input = reader.readLine();
-            while (input != null)
-            {
+            while (input != null) {
                 final String[] line = input.split(",", -1);
-                if (!line[1].equals(""))
-                {
+                if (!line[1].equals("")) {
                     final String[] tocGuids = line[1].split("\\|");
                     final String guid = line[0];
 
@@ -413,23 +360,17 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
                         docMetadataService.findDocMetadataByPrimaryKey(titleID, jobId, guid);
 
                     final String docId;
-                    if (docMetadata != null)
-                    {
+                    if (docMetadata != null) {
                         docId = docMetadata.getProViewId();
-                    }
-                    else
-                    {
+                    } else {
                         docId = guid;
                     }
 
-                    for (final String toc : tocGuids)
-                    {
+                    for (final String toc : tocGuids) {
                         final String anchorName = "er:#" + docId + "/" + toc;
                         toAnchorSet.add(anchorName);
                     }
-                }
-                else
-                {
+                } else {
                     final String message = "No TOC guid was found for a document. "
                         + "Please verify that each document GUID in the following file has "
                         + "at least one TOC guid associated with it: "
@@ -439,9 +380,7 @@ public class HTMLCreateNamedAnchorsServiceImpl implements HTMLCreateNamedAnchors
                 }
                 input = reader.readLine();
             }
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String message =
                 "Could not read the DOC guid to TOC guid map file: " + docGuidsFile.getAbsolutePath();
             LOG.error(message);

@@ -3,8 +3,7 @@ package com.thomsonreuters.uscl.ereader.orchestrate.engine.web;
 /**
  * Miscellaneous keys and constants used throughout the application.
  */
-public class WebConstants
-{
+public class WebConstants {
     public static final String KEY_JOB_THROTTLE_CONFIG = "jobThrottleConfig";
     public static final String KEY_MISC_CONFIG = "miscConfig";
 

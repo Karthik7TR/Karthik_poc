@@ -6,8 +6,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Creates builder of proview features list, according to bookDefinition
  */
-public interface ProviewFeaturesListBuilderFactory
-{
+public interface ProviewFeaturesListBuilderFactory {
     /**
      * Create builder of proview features list, according to bookDefinition
      * @return

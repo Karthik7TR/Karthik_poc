@@ -26,8 +26,7 @@ import org.junit.rules.TemporaryFolder;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public final class XMLImageParserServiceTest
-{
+public final class XMLImageParserServiceTest {
     @Rule
     public TemporaryFolder testFiles = new TemporaryFolder();
 
@@ -70,8 +69,7 @@ public final class XMLImageParserServiceTest
         + "used to determine the guideline range follows:</paratext>";
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         final FileExtensionFilter filter = new FileExtensionFilter();
         filter.setAcceptedFileExtensions(new String[] {".xml"});
         final FileHandlingHelper ioHelper = new FileHandlingHelper();
@@ -119,56 +117,42 @@ public final class XMLImageParserServiceTest
     }
 
     @Ignore
-    public void testGuidListGenerationFromDirectoryXMLParsing()
-    {
-        try
-        {
+    public void testGuidListGenerationFromDirectoryXMLParsing() {
+        try {
             final long initMapFileSize = docToImgMapFile.length();
             imgParserService.generateImageList(xmlDir, imgListFile, docToImgMapFile);
             assertTrue(initMapFileSize < docToImgMapFile.length());
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             fail("Encountered EBookFormatException when not expected.");
         }
     }
 
     @Test
-    public void testFileParsing()
-    {
-        try
-        {
+    public void testFileParsing() {
+        try {
             imgParserService.parseXMLFile(xmlFile, guidList, docToImgMap);
             assertEquals(4, guidList.size());
             final String fileGuid = xmlFile.getName().substring(0, xmlFile.getName().indexOf("."));
             assertTrue(docToImgMap.containsKey(fileGuid));
             assertEquals(2, docToImgMap.get(fileGuid).size());
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             fail("Encountered EBookFormatException when not expected.");
         }
     }
 
     @Test
-    public void testFileParsingEmptyXMLFile()
-    {
-        try
-        {
+    public void testFileParsingEmptyXMLFile() {
+        try {
             imgParserService.parseXMLFile(emptyXmlFile, guidList, docToImgMap);
             fail("EBookFormatException was not thrown for empty XML file and it was expected.");
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             //Intentionally left blank
         }
     }
 
     @Test
-    public void testSortedImgFileParsingXMLFile()
-    {
-        try
-        {
+    public void testSortedImgFileParsingXMLFile() {
+        try {
             imgParserService.parseXMLFile(xmlFile3Sorted, guidList, docToImgMap);
             //Test all the images were parsed
             assertEquals(6, guidList.size());
@@ -180,84 +164,62 @@ public final class XMLImageParserServiceTest
             assertEquals("I1d163990094d11e085f5891ac64a9906", guids.get(1));
             assertEquals("I1d163990094d11e085f5891ac64a9907", guids.get(2));
             assertEquals("I1d163990094d11e085f5891ac64a9908", guids.get(3));
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             fail("Encountered EBookFormatException when not expected.");
         }
     }
 
     @Test
-    public void testFileParsingInvalidXMLFile()
-    {
-        try
-        {
+    public void testFileParsingInvalidXMLFile() {
+        try {
             imgParserService.parseXMLFile(invalidXmlFile, guidList, docToImgMap);
             fail("EBookFormatException was not thrown for invalid XML file and it was expected.");
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             //Intentionally left blank
         }
     }
 
     @Test
-    public void testListCreation()
-    {
+    public void testListCreation() {
         final long initialSize = imgListFile.length();
-        try
-        {
+        try {
             imgParserService.createImageList(imgListFile, guidList);
             final long newSize = imgListFile.length();
             assertTrue(initialSize < newSize);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             fail("Encountered EBookFormatException when not expected.");
         }
     }
 
     @Test
-    public void testListCreationNullGuid()
-    {
-        try
-        {
+    public void testListCreationNullGuid() {
+        try {
             guidList.add(null);
             imgParserService.createImageList(imgListFile, guidList);
             fail("EBookFormatException was not thrown for null GUID.");
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             //Intentionally left blank
         }
     }
 
     @Test
-    public void testListCreationShortGuid()
-    {
-        try
-        {
+    public void testListCreationShortGuid() {
+        try {
             guidList.add("I5d463990094d11e085f5891ac64a"); //check 29 char GUID
             imgParserService.createImageList(imgListFile, guidList);
             fail("EBookFormatException was not thrown for short GUID.");
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             //Intentionally left blank
         }
     }
 
     @Test
-    public void testListCreationLongGuid()
-    {
-        try
-        {
+    public void testListCreationLongGuid() {
+        try {
             guidList.add("I5d463990094d11e085f5891ac64a995555567"); //check 37 char GUID
             imgParserService.createImageList(imgListFile, guidList);
             fail("EBookFormatException was not thrown for long GUID.");
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             //Intentionally left blank
         }
     }

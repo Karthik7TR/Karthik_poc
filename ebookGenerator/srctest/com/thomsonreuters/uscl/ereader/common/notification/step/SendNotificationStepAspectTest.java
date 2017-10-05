@@ -20,8 +20,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class SendNotificationStepAspectTest
-{
+public final class SendNotificationStepAspectTest {
     @InjectMocks
     private SendNotificationStepAspect aspect;
     @Mock
@@ -36,8 +35,7 @@ public final class SendNotificationStepAspectTest
     private StepFailureNotificationService<SendNotificationStep> service;
 
     @Test
-    public void shouldDoNothingIfNoException() throws Throwable
-    {
+    public void shouldDoNothingIfNoException() throws Throwable {
         //give
         given(jp.getTarget()).willReturn(step);
         //when
@@ -47,8 +45,7 @@ public final class SendNotificationStepAspectTest
     }
 
     @Test
-    public void shouldSendNotificationIfException() throws Throwable
-    {
+    public void shouldSendNotificationIfException() throws Throwable {
         //give
         thrown.expect(RuntimeException.class);
         given(jp.getTarget()).willReturn(step);

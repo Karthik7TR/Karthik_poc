@@ -14,8 +14,7 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Required;
 
-public class RequestNotificationServiceImpl implements NotificationService
-{
+public class RequestNotificationServiceImpl implements NotificationService {
     private CoreService coreService;
 
     @Override
@@ -24,15 +23,14 @@ public class RequestNotificationServiceImpl implements NotificationService
         final JobParameters jobParams,
         String bodyMessage,
         final long jobInstanceId,
-        final long jobExecutionId)
-    {
+        final long jobExecutionId) {
         final String subject;
         final String failedJobInfo;
-        final XppBundleArchive xppBundleArchive = (XppBundleArchive) jobExecutionContext.get(JobParameterKey.KEY_XPP_BUNDLE);
+        final XppBundleArchive xppBundleArchive =
+            (XppBundleArchive) jobExecutionContext.get(JobParameterKey.KEY_XPP_BUNDLE);
         final String jobEnvironment = jobParams.getString(JobParameterKey.ENVIRONMENT_NAME);
 
-        if (xppBundleArchive != null)
-        {
+        if (xppBundleArchive != null) {
             failedJobInfo = "eBook Request Failure:  "
                 + jobEnvironment
                 + "\nMessage ID: "
@@ -43,9 +41,7 @@ public class RequestNotificationServiceImpl implements NotificationService
                 + jobInstanceId
                 + "\nJob Execution ID: "
                 + jobExecutionId;
-        }
-        else
-        {
+        } else {
             failedJobInfo = "eBook Request Failure:  " + jobParams.getString(JobParameterKey.KEY_REQUEST_XML);
         }
         bodyMessage = failedJobInfo + "  \n" + bodyMessage;
@@ -57,8 +53,7 @@ public class RequestNotificationServiceImpl implements NotificationService
     }
 
     @Required
-    public void setCoreService(final CoreService service)
-    {
+    public void setCoreService(final CoreService service) {
         coreService = service;
     }
 }

@@ -25,8 +25,7 @@ import org.springframework.beans.factory.annotation.Value;
  */
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
-public class OriginalStructureTransformationStep extends XppTransformationStep
-{
+public class OriginalStructureTransformationStep extends XppTransformationStep {
     @Value("${xpp.entities.dtd}")
     private File entitiesDtdFile;
     @Value("${xpp.transform.to.phoenix.xsl}")
@@ -37,11 +36,9 @@ public class OriginalStructureTransformationStep extends XppTransformationStep
     private XppGatherFileSystem xppGatherFileSystem;
 
     @Override
-    public void executeTransformation() throws Exception
-    {
+    public void executeTransformation() throws Exception {
         Map<String, Collection<File>> xppXmls = xppGatherFileSystem.getXppSourceXmls(this);
-        for (final Map.Entry<String, Collection<File>> xppDir : xppXmls.entrySet())
-        {
+        for (final Map.Entry<String, Collection<File>> xppDir : xppXmls.entrySet()) {
             final File bundleOriginalDir = fileSystem.getOriginalDirectory(this, xppDir.getKey());
             bundleOriginalDir.mkdirs();
         }
@@ -50,18 +47,15 @@ public class OriginalStructureTransformationStep extends XppTransformationStep
         generateXmls(xppXmls, StreamType.FOOTNOTES);
     }
 
-    private void generateXmls(final Map<String, Collection<File>> xppXmls, final StreamType type)
-    {
+    private void generateXmls(final Map<String, Collection<File>> xppXmls, final StreamType type) {
         final Transformer transformerToOriginal = transformerBuilderFactory.create()
             .withXsl(transformToPhoenixXsl)
             .withParameter("entitiesDocType", entitiesDtdFile.getAbsolutePath().replace("\\", "/"))
             .withParameter("type", type.getName())
             .build();
 
-        for (final Map.Entry<String, Collection<File>> xppDir : xppXmls.entrySet())
-        {
-            for (final File xppFile : xppDir.getValue())
-            {
+        for (final Map.Entry<String, Collection<File>> xppDir : xppXmls.entrySet()) {
+            for (final File xppFile : xppDir.getValue()) {
                 transformerToOriginal
                     .setParameter("bundlePartType", BundleFileType.getByFileName(xppFile.getName()).name());
                 final File originalFile = getOutputFile(xppDir.getKey(), xppFile.getName(), type);
@@ -73,31 +67,24 @@ public class OriginalStructureTransformationStep extends XppTransformationStep
         }
     }
 
-    private File getOutputFile(final String materialNumber, final String fileName, final StreamType type)
-    {
-        if (type == StreamType.MAIN)
-        {
+    private File getOutputFile(final String materialNumber, final String fileName, final StreamType type) {
+        if (type == StreamType.MAIN) {
             return fileSystem.getOriginalFile(this, materialNumber, fileName);
-        }
-        else if (type == StreamType.FOOTNOTES)
-        {
+        } else if (type == StreamType.FOOTNOTES) {
             return fileSystem.getFootnotesFile(this, materialNumber, fileName);
         }
         throw new IllegalArgumentException("Unsupported stream type: " + type.getName());
     }
 
-    private Map<String, Collection<File>> processCiteQueries(final Map<String, Collection<File>> originalBundles)
-    {
+    private Map<String, Collection<File>> processCiteQueries(final Map<String, Collection<File>> originalBundles) {
         final Transformer citeQueryProcessor =
             transformerBuilderFactory.create().withXsl(citeQueryProcessorXsl).build();
 
         final Map<String, Collection<File>> processedMap = new HashMap<>();
 
-        for (final Map.Entry<String, Collection<File>> xppDir : originalBundles.entrySet())
-        {
+        for (final Map.Entry<String, Collection<File>> xppDir : originalBundles.entrySet()) {
             final Collection<File> files = new HashSet<>();
-            for (final File xppFile : xppDir.getValue())
-            {
+            for (final File xppFile : xppDir.getValue()) {
                 final File citeQueryProcessedFile =
                     fileSystem.getCiteQueryProcessedFile(this, xppDir.getKey(), xppFile.getName());
                 final TransformationCommand command =

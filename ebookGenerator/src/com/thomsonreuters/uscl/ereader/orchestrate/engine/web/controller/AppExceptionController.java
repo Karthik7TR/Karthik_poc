@@ -7,13 +7,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class AppExceptionController
-{
+public class AppExceptionController {
     //private static final Logger log = LogManager.getLogger(AppExceptionController.class);
 
     @RequestMapping(value = WebConstants.URI_APP_EXCEPTION, method = RequestMethod.GET)
-    public ModelAndView handleAppException()
-    {
+    public ModelAndView handleAppException() {
         return new ModelAndView(WebConstants.VIEW_APP_EXCEPTION);
     }
 }

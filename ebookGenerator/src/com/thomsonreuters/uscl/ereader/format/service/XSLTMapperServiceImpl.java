@@ -10,8 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Ripu Jain U0115290
  */
 @Service
-public class XSLTMapperServiceImpl implements XSLTMapperService
-{
+public class XSLTMapperServiceImpl implements XSLTMapperService {
     private XSLTMapperDao xsltMapperDao;
 
     /**
@@ -22,10 +21,8 @@ public class XSLTMapperServiceImpl implements XSLTMapperService
      */
     @Override
     @Transactional(readOnly = true)
-    public String getXSLT(final String collection, final String docType)
-    {
-        if (xsltMapperDao == null)
-        {
+    public String getXSLT(final String collection, final String docType) {
+        if (xsltMapperDao == null) {
             throw new IllegalArgumentException(
                 "xsltMapperDao was not injected "
                     + "into XSLTMapperService! This is a programming error. "
@@ -37,8 +34,7 @@ public class XSLTMapperServiceImpl implements XSLTMapperService
         return xslt.getXSLT();
     }
 
-    public void setXsltMapperDao(final XSLTMapperDao xsltMapperDao)
-    {
+    public void setXsltMapperDao(final XSLTMapperDao xsltMapperDao) {
         this.xsltMapperDao = xsltMapperDao;
     }
 }

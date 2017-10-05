@@ -50,8 +50,7 @@ import org.xml.sax.XMLReader;
  *         Schwartz</a>u0081674
  *
  */
-public final class TitleManifestFilterTest extends TitleMetadataTestBase
-{
+public final class TitleManifestFilterTest extends TitleMetadataTestBase {
     private UuidGenerator uuidGenerator;
     private SAXParserFactory saxParserFactory;
     private TitleManifestFilter titleManifestFilter;
@@ -107,8 +106,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
 
     @Override
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         // Add 2 years to the current date for online expiration
         final Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
@@ -154,14 +152,12 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
 
     @Override
     @After
-    public void tearDown() throws Exception
-    {
+    public void tearDown() throws Exception {
         //Intentionally left blank
     }
 
     @Test
-    public void testWriteAssets() throws Exception
-    {
+    public void testWriteAssets() throws Exception {
         titleManifestFilter.writeAssets();
         titleManifestFilter.endDocument();
         Assert
@@ -169,8 +165,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testWriteAuthors() throws Exception
-    {
+    public void testWriteAuthors() throws Exception {
         titleManifestFilter.writeAuthors();
         titleManifestFilter.endDocument();
         Assert
@@ -178,8 +173,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testWriteKeywords() throws Exception
-    {
+    public void testWriteKeywords() throws Exception {
         titleManifestFilter.writeKeywords();
         titleManifestFilter.endDocument();
         Assert.assertEquals(
@@ -188,8 +182,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testWriteCopyright() throws Exception
-    {
+    public void testWriteCopyright() throws Exception {
         titleManifestFilter.writeCopyright();
         titleManifestFilter.endDocument();
         Assert.assertEquals(
@@ -198,8 +191,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testStartManifest() throws Exception
-    {
+    public void testStartManifest() throws Exception {
         titleManifestFilter.startManifest();
         titleManifestFilter.endDocument();
         Assert
@@ -215,8 +207,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testWriteDisplayName() throws Exception
-    {
+    public void testWriteDisplayName() throws Exception {
         titleManifestFilter.writeDisplayName();
         titleManifestFilter.endDocument();
         Assert.assertEquals(
@@ -225,8 +216,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testWriteFeatures() throws Exception
-    {
+    public void testWriteFeatures() throws Exception {
         titleManifestFilter.writeFeatures();
         titleManifestFilter.endDocument();
         Assert.assertEquals(
@@ -235,8 +225,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testWriteMaterialId() throws Exception
-    {
+    public void testWriteMaterialId() throws Exception {
         titleManifestFilter.writeMaterialId();
         titleManifestFilter.endDocument();
         Assert.assertEquals(
@@ -245,8 +234,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testWriteCoverArt() throws Exception
-    {
+    public void testWriteCoverArt() throws Exception {
         titleManifestFilter.writeCoverArt();
         titleManifestFilter.endDocument();
         Assert
@@ -254,8 +242,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testStartDocument() throws Exception
-    {
+    public void testStartDocument() throws Exception {
         titleManifestFilter.startDocument();
         titleManifestFilter.endDocument();
         Assert.assertEquals(
@@ -278,15 +265,13 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testEndDocumentWithoutParsingToc() throws Exception
-    {
+    public void testEndDocumentWithoutParsingToc() throws Exception {
         titleManifestFilter.endDocument();
         Assert.assertEquals(EXPECTED_ISBN + EXPECTED_END_MANIFEST, resultStreamToString(resultStream));
     }
 
     @Test
-    public void testEndDocumentWithParsingToc() throws Exception
-    {
+    public void testEndDocumentWithParsingToc() throws Exception {
         titleManifestFilter.parse(new InputSource(tocXml));
         Assert.assertEquals(
             EXPECTED_START_MANIFEST_PREFIX
@@ -311,8 +296,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testTitleManifestFilterHappyPath() throws Exception
-    {
+    public void testTitleManifestFilterHappyPath() throws Exception {
         final InputStream immigrationProceduresHandbook =
             TitleManifestFilterTest.class.getResourceAsStream("IMPH_L1_EXTENSIONS.xml");
         titleManifestFilter.parse(new InputSource(immigrationProceduresHandbook));
@@ -338,8 +322,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testFamilyGuidReplacementHappyPath() throws Exception
-    {
+    public void testFamilyGuidReplacementHappyPath() throws Exception {
         final Map<String, String> familyGuidMap = new HashMap<>();
         familyGuidMap.put("DOC_GUID1", "FAM_GUID1");
         familyGuidMap.put("DOC_GUID2", "FAM_GUID2");
@@ -401,8 +384,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testDuplicateDocGuidHappyPath() throws Exception
-    {
+    public void testDuplicateDocGuidHappyPath() throws Exception {
         final Map<String, String> familyGuidMap = new HashMap<>();
         familyGuidMap.put("DOC_GUID1", "FAM_GUID1");
         familyGuidMap.put("DOC_GUID3", "FAM_GUID3");
@@ -466,8 +448,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testDuplicateFamilyGuidHappyPath() throws Exception
-    {
+    public void testDuplicateFamilyGuidHappyPath() throws Exception {
         final Map<String, String> familyGuidMap = new HashMap<>();
         familyGuidMap.put("DOC_GUID1", "FAM_GUID1");
         familyGuidMap.put("DOC_GUID2", "FAM_GUID2");
@@ -531,8 +512,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testDuplicateDocGuidAndFamilyGuidHappyPath() throws Exception
-    {
+    public void testDuplicateDocGuidAndFamilyGuidHappyPath() throws Exception {
         final Map<String, String> familyGuidMap = new HashMap<>();
         familyGuidMap.put("DOC_GUID1", "FAM_GUID1");
         familyGuidMap.put("DOC_GUID2", "FAM_GUID2");
@@ -605,8 +585,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
      * filter; possibly related to the way we cascade identifiers.
      */
     @Test
-    public void testCascadeAcrossSiblingsWorksProperlyCaFedRules2012() throws Exception
-    {
+    public void testCascadeAcrossSiblingsWorksProperlyCaFedRules2012() throws Exception {
         final Map<String, String> familyGuidMap = new HashMap<>();
         familyGuidMap.put("DOC_GUID1", "FAM_GUID1");
         familyGuidMap.put("DOC_GUID2", "FAM_GUID2");
@@ -651,8 +630,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testCaFedRules2012WithoutDeletedNodes() throws Exception
-    {
+    public void testCaFedRules2012WithoutDeletedNodes() throws Exception {
         final InputStream caFedRules2012 =
             TitleManifestFilterTest.class.getResourceAsStream("CA_FED_RULES_2012_WITHOUT_DELETED_NODES.xml");
         titleManifestFilter.parse(new InputSource(caFedRules2012));
@@ -676,8 +654,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
     }
 
     @Test
-    public void testWriteTocNodeHappyPath() throws Exception
-    {
+    public void testWriteTocNodeHappyPath() throws Exception {
         final TableOfContents tableOfContents = new TableOfContents();
         tableOfContents.addChild(new TocEntry("TOC1", "DOC1", "FOO", 1));
         tableOfContents.addChild(new TocEntry("TOC2", "DOC2", "BAR", 1));
@@ -697,14 +674,12 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase
         Assert.assertEquals(expected, resultStreamToString(resultStream));
     }
 
-    private String resultStreamToString(final ByteArrayOutputStream resultStream) throws Exception
-    {
+    private String resultStreamToString(final ByteArrayOutputStream resultStream) throws Exception {
         return IOUtils.toString(resultStream.toByteArray(), "UTF-8");
     }
 
     @Test
-    public void testAlternativeId() throws Exception
-    {
+    public void testAlternativeId() throws Exception {
         titleMetadata = getTitleMetadataWithPilotBook();
         final URL pathToClass = this.getClass().getResource("yarr_pirates.csv");
         altIdFile = new File(pathToClass.toURI());

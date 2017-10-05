@@ -25,8 +25,7 @@ import org.junit.Test;
  * @author <a href="mailto:zack.farrell@thomsonreuters.com">Zack Farrell</a> uc209819
  */
 @Ignore
-public final class HTMLCreateNamedAnchorsServiceTest
-{
+public final class HTMLCreateNamedAnchorsServiceTest {
     private HTMLCreateNamedAnchorsServiceImpl AnchorsService;
     private File tempRootDir; // root directory for all test files
 
@@ -50,26 +49,21 @@ public final class HTMLCreateNamedAnchorsServiceTest
      * @param content Content to be written into the new file
      * @return returns a File object directing to the new file returns null if any errors occur
      */
-    private File makeFile(final File directory, final String name, final String content)
-    {
+    private File makeFile(final File directory, final String name, final String content) {
         final File file = new File(directory, name);
-        try (FileOutputStream out = new FileOutputStream(file))
-        {
+        try (FileOutputStream out = new FileOutputStream(file)) {
             file.createNewFile();
             out.write(content.getBytes());
             out.flush();
             out.close();
             return file;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             return null;
         }
     }
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         AnchorsService = new HTMLCreateNamedAnchorsServiceImpl();
 
         tempRootDir = new File(System.getProperty("java.io.tmpdir") + "/EvenMoreTemp");
@@ -101,8 +95,7 @@ public final class HTMLCreateNamedAnchorsServiceTest
     }
 
     @After
-    public void tearDown() throws Exception
-    {
+    public void tearDown() throws Exception {
         /* recursively deletes the root directory, and all its subdirectories and files */
         FileUtils.deleteDirectory(tempRootDir);
     }
@@ -113,29 +106,23 @@ public final class HTMLCreateNamedAnchorsServiceTest
      * created in the target directory
      */
     @Test
-    public void testTransformerServiceHappyPath()
-    {
+    public void testTransformerServiceHappyPath() {
         int numDocs = -1;
         boolean thrown = false;
 
         final File anchorTargetFile = makeFile(srcDir, "anchorTargetFile", "guids1,guids2,guids3\n");
         docToTocMap = makeFile(srcDir, "TOCmap.xml", "ebook_source_test,doc\n");
 
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta).times(2);
             EasyMock.replay(metadataMoc);
 
             numDocs = AnchorsService.transformHTML(srcDir, targetDir, title, jobId, docToTocMap);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             // e.printStackTrace();
             thrown = true;
-        }
-        finally
-        {
+        } finally {
             FileUtils.deleteQuietly(docToTocMap);
             FileUtils.deleteQuietly(anchorTargetFile);
         }
@@ -151,8 +138,7 @@ public final class HTMLCreateNamedAnchorsServiceTest
      * map file.
      */
     @Test
-    public void testDocToTocMapping()
-    {
+    public void testDocToTocMapping() {
         int numDocs = -1;
         boolean thrown = false;
 
@@ -162,21 +148,16 @@ public final class HTMLCreateNamedAnchorsServiceTest
 
         final File anchorTargetFile = makeFile(srcDir, "anchorTargetFile", "guids1,guids2,guids3\n");
 
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta).times(2);
             EasyMock.replay(metadataMoc);
 
             numDocs = AnchorsService.transformHTML(srcDir, targetDir, title, jobId, docToTocMap);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             // e.printStackTrace();
             thrown = true;
-        }
-        finally
-        {
+        } finally {
             FileUtils.deleteQuietly(anchorTargetFile);
             FileUtils.deleteQuietly(docToTocMap);
         }
@@ -191,8 +172,7 @@ public final class HTMLCreateNamedAnchorsServiceTest
      * test the processing of document metadata associated with documentMetadataAuthority
      */
     @Test
-    public void testDocumentMetadata()
-    {
+    public void testDocumentMetadata() {
         int numDocs = -1;
         boolean thrown = false;
 
@@ -200,16 +180,13 @@ public final class HTMLCreateNamedAnchorsServiceTest
         docMetadataSet.add(docMeta);
         docMetaAuthority = new DocumentMetadataAuthority(docMetadataSet);
 
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta).times(2);
             EasyMock.replay(metadataMoc);
 
             numDocs = AnchorsService.transformHTML(srcDir, targetDir, title, jobId, docToTocMap);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             // e.printStackTrace();
             thrown = true;
         }
@@ -225,22 +202,16 @@ public final class HTMLCreateNamedAnchorsServiceTest
      * contains no .posttransform files
      */
     @Test
-    public void testExceptions()
-    {
+    public void testExceptions() {
         boolean expect = false;
         boolean thrown = false;
 
-        try
-        {
+        try {
             AnchorsService.transformHTML(null, targetDir, title, jobId, docToTocMap);
-        }
-        catch (final IllegalArgumentException e)
-        {
+        } catch (final IllegalArgumentException e) {
             // e.printStackTrace();
             expect = true;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             // e.printStackTrace();
             thrown = true;
         }
@@ -250,17 +221,12 @@ public final class HTMLCreateNamedAnchorsServiceTest
         expect = false;
         thrown = false;
 
-        try
-        {
+        try {
             AnchorsService.transformHTML(targetDir, targetDir, title, jobId, docToTocMap);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             // e.printStackTrace();
             expect = true;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             // e.printStackTrace();
             thrown = true;
         }
@@ -273,34 +239,26 @@ public final class HTMLCreateNamedAnchorsServiceTest
      * contains no .posttransform files
      */
     @Test
-    public void testreadTocAnchorListException()
-    {
+    public void testreadTocAnchorListException() {
         boolean expect = false;
         boolean thrown = false;
 
         final File anchorTargetFile = makeFile(srcDir, "anchorTargetFile", "guids1,guids2,guids3\n");
         docToTocMap = makeFile(srcDir, "TOCmap.xml", ",");
 
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta).times(2);
             EasyMock.replay(metadataMoc);
 
             AnchorsService.transformHTML(srcDir, targetDir, title, jobId, docToTocMap);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             // e.printStackTrace();
             expect = true;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             // e.printStackTrace();
             thrown = true;
-        }
-        finally
-        {
+        } finally {
             FileUtils.deleteQuietly(anchorTargetFile);
             FileUtils.deleteQuietly(docToTocMap);
         }
@@ -312,33 +270,25 @@ public final class HTMLCreateNamedAnchorsServiceTest
      * Test the exception throwing in the processing of the anchor target file
      */
     @Test
-    public void testreadAnchorTargetFileException()
-    {
+    public void testreadAnchorTargetFileException() {
         boolean expect = false;
         boolean thrown = false;
 
         final File anchorTargetFile = makeFile(srcDir, "anchorTargetFile", ",");
 
-        try
-        {
+        try {
             EasyMock.expect(metadataMoc.findAllDocMetadataForTitleByJobId(jobId)).andReturn(docMetaAuthority);
             EasyMock.expect(metadataMoc.findDocMetadataByPrimaryKey(title, jobId, title)).andReturn(docMeta).times(2);
             EasyMock.replay(metadataMoc);
 
             AnchorsService.transformHTML(srcDir, targetDir, title, jobId, docToTocMap);
-        }
-        catch (final EBookFormatException e)
-        {
+        } catch (final EBookFormatException e) {
             // e.printStackTrace();
             expect = true;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             // e.printStackTrace();
             thrown = true;
-        }
-        finally
-        {
+        } finally {
             FileUtils.deleteQuietly(anchorTargetFile);
         }
         assertTrue(expect);

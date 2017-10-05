@@ -32,8 +32,7 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class InitializeTaskTest
-{
+public final class InitializeTaskTest {
     @InjectMocks
     private InitializeTask step;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -54,8 +53,7 @@ public final class InitializeTaskTest
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void shouldSetBookDefinition() throws Exception
-    {
+    public void shouldSetBookDefinition() throws Exception {
         // given
         givenAll();
         // when
@@ -65,8 +63,7 @@ public final class InitializeTaskTest
     }
 
     @Test
-    public void shouldCreateAndSetWorkDir() throws Exception
-    {
+    public void shouldCreateAndSetWorkDir() throws Exception {
         // given
         givenAll();
         final File workDir = temporaryFolder.getRoot();
@@ -77,8 +74,7 @@ public final class InitializeTaskTest
         then(jobExecutionContext).should().putString(JobExecutionKey.WORK_DIRECTORY, workDir.getAbsolutePath());
     }
 
-    private void givenAll()
-    {
+    private void givenAll() {
         givenJobParameter(chunkContext, JobParameterKey.BOOK_DEFINITION_ID, 1L);
         given(bookService.findBookDefinitionByEbookDefId(1L)).willReturn(book);
         givenJobExecutionContext(chunkContext, jobExecutionContext);

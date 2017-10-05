@@ -12,7 +12,6 @@ import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishi
  */
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
 @SavePublishingStatusPolicy
-public class ArchiveBook extends BaseArchiveStep
-{
+public class ArchiveBook extends BaseArchiveStep {
     //implementation is nested from @see com.thomsonreuters.uscl.ereader.common.archive.step.BaseArchiveStep
 }

@@ -36,8 +36,7 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class UnpackBundleTaskTest
-{
+public final class UnpackBundleTaskTest {
     private static final String MATERIAL_NUMBER = "41963403";
     private File bundleXmlFile;
 
@@ -69,8 +68,7 @@ public final class UnpackBundleTaskTest
     private ArgumentCaptor<List<XppBundle>> captor;
 
     @Before
-    public void setUp() throws URISyntaxException
-    {
+    public void setUp() throws URISyntaxException {
         given(chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext())
             .willReturn(executionContext);
         given(executionContext.get(JobParameterKey.EBOOK_DEFINITON)).willReturn(book);
@@ -81,12 +79,12 @@ public final class UnpackBundleTaskTest
             .willReturn(destinationDirectoryFile);
         given(xppGatherFileSystem.getXppBundlesDirectory(step)).willReturn(bundleDir);
         bundleXmlFile = new File(UnpackBundleTaskTest.class.getResource("bundle.xml").toURI());
-        given(xppGatherFileSystem.getAllBundleXmls(step)).willReturn(Collections.singletonMap(MATERIAL_NUMBER, bundleXmlFile));
+        given(xppGatherFileSystem.getAllBundleXmls(step))
+            .willReturn(Collections.singletonMap(MATERIAL_NUMBER, bundleXmlFile));
     }
 
     @Test
-    public void shouldUnpackZipBundles() throws Exception
-    {
+    public void shouldUnpackZipBundles() throws Exception {
         //given
         given(archiveFile.getName()).willReturn("archive.zip");
         given(xppBundleArchive.getEBookSrcFile()).willReturn(archiveFile);
@@ -97,8 +95,7 @@ public final class UnpackBundleTaskTest
     }
 
     @Test
-    public void shouldUnpackTarGzBundles() throws Exception
-    {
+    public void shouldUnpackTarGzBundles() throws Exception {
         //given
         given(archiveFile.getName()).willReturn("archive.tar.gz");
         given(xppBundleArchive.getEBookSrcFile()).willReturn(archiveFile);
@@ -109,8 +106,7 @@ public final class UnpackBundleTaskTest
     }
 
     @Test
-    public void shouldUnmarshalBundleXmlFiles() throws Exception
-    {
+    public void shouldUnmarshalBundleXmlFiles() throws Exception {
         //given
         given(archiveFile.getName()).willReturn("archive.zip");
         given(xppBundleArchive.getEBookSrcFile()).willReturn(archiveFile);
@@ -130,11 +126,9 @@ public final class UnpackBundleTaskTest
         assertThat(captor.getValue(), contains(xppBundle));
     }
 
-    private Set<PrintComponent> printComponents(final int size)
-    {
+    private Set<PrintComponent> printComponents(final int size) {
         final Set<PrintComponent> printComponents = new HashSet<>();
-        for (int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
             final PrintComponent printComponent = new PrintComponent();
             printComponent.setMaterialNumber(MATERIAL_NUMBER);
             printComponent.setComponentOrder(i + 1);

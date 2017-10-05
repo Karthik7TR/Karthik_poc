@@ -20,34 +20,30 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class SingleBookFeaturesListBuilderTest extends FeatureListBuilderFixture
-{
+public final class SingleBookFeaturesListBuilderTest extends FeatureListBuilderFixture {
     @Override
     protected FeaturesListBuilder createFeatureListBuilder(
-        final ProviewTitleService proviewTitleService, final BookDefinition bookDefinition)
-    {
+        final ProviewTitleService proviewTitleService,
+        final BookDefinition bookDefinition) {
         return new SingleBookFeaturesListBuilder(proviewTitleService, bookDefinition, new VersionUtilImpl());
     }
 
     @Before
     @Override
-    public void onTestSetUp()
-    {
+    public void onTestSetUp() {
         super.onTestSetUp();
         final Version version = new Version("v1.0");
         given(proviewTitleService.getLatestProviewTitleVersion(anyString())).willReturn(version);
-        given(proviewTitleService.getPreviousTitles(version, "FullyQualifiedTitleId"))
-            .willReturn(Arrays.asList(new BookTitleId("FullyQualifiedTitleId", version), new BookTitleId("SplitBookTitle", version)));
+        given(proviewTitleService.getPreviousTitles(version, "FullyQualifiedTitleId")).willReturn(
+            Arrays
+                .asList(new BookTitleId("FullyQualifiedTitleId", version), new BookTitleId("SplitBookTitle", version)));
     }
 
     @Test
-    public void shouldReturnFeaturesWithNotesMigrationFeature()
-    {
+    public void shouldReturnFeaturesWithNotesMigrationFeature() {
         //given
         //when
-        final List<Feature> features = featuresListBuilder
-            .withBookVersion(new Version("v1.1"))
-            .getFeatures();
+        final List<Feature> features = featuresListBuilder.withBookVersion(new Version("v1.1")).getFeatures();
         //then
         final List<Feature> expectedFeatures = getExpectedFeatures(bookDefinition);
         expectedFeatures.add(new Feature("AnnosSource", "FullyQualifiedTitleId/v1;SplitBookTitle/v1"));

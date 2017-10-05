@@ -10,13 +10,10 @@ import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
-public class XppBundleValidator
-{
-    public void validateBundleDirectory(final File bundleDir) throws XppMessageException
-    {
+public class XppBundleValidator {
+    public void validateBundleDirectory(final File bundleDir) throws XppMessageException {
         Assert.notNull(bundleDir);
-        if (!bundleDir.exists())
-        {
+        if (!bundleDir.exists()) {
             throw new XppMessageException(XPPConstants.ERROR_BUNDLE_NOT_FOUND + bundleDir.getAbsolutePath());
         }
         final List<File> contents = Arrays.asList(bundleDir.listFiles());
@@ -28,24 +25,19 @@ public class XppBundleValidator
         validateFile(contents, new File(bundleDir, XPPConstants.FILE_BUNDLE_XML));
     }
 
-    private void validateDir(final List<File> bundleFiles, final File target) throws XppMessageException
-    {
-        if (!bundleFiles.contains(target) || !target.isDirectory())
-        {
+    private void validateDir(final List<File> bundleFiles, final File target) throws XppMessageException {
+        if (!bundleFiles.contains(target) || !target.isDirectory()) {
             throw new XppMessageException(target.getName() + " directory must exist");
         }
     }
 
-    private void validateFile(final List<File> bundleFiles, final File target) throws XppMessageException
-    {
-        if (!bundleFiles.contains(target) || !target.isFile())
-        {
+    private void validateFile(final List<File> bundleFiles, final File target) throws XppMessageException {
+        if (!bundleFiles.contains(target) || !target.isFile()) {
             throw new XppMessageException(target.getName() + " must exist");
         }
     }
 
-    public void validateBundleXml(final XppBundle bundle) throws XppMessageException
-    {
+    public void validateBundleXml(final XppBundle bundle) throws XppMessageException {
         if (bundle == null)
             throw new XppMessageException("bundle must not be null");
 

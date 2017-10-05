@@ -29,8 +29,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class GatherXppDynamicImagesTaskTest
-{
+public final class GatherXppDynamicImagesTaskTest {
     @InjectMocks
     private GatherXppDynamicImagesTask gatherDynamicImagesTask;
     @Mock
@@ -48,8 +47,7 @@ public final class GatherXppDynamicImagesTaskTest
     public TemporaryFolder tempFolder = new TemporaryFolder();
 
     @Before
-    public void setUp() throws IOException
-    {
+    public void setUp() throws IOException {
         when(gatherService.getImg((GatherImgRequest) any())).thenReturn(getGatherResponse());
         when(formatFileSystem.getImageToDocumentManifestFile((BookStep) any())).thenReturn(getManifestFile(tempFolder));
         when(imageFileSystem.getImageDynamicDirectory((BookStep) any()))
@@ -60,8 +58,7 @@ public final class GatherXppDynamicImagesTaskTest
     }
 
     @Test
-    public void shouldSendRequestToGatherServiceXppPathway() throws Exception
-    {
+    public void shouldSendRequestToGatherServiceXppPathway() throws Exception {
         gatherDynamicImagesTask.execute(null, getChunkContext());
         final GatherImgRequest request = captureImageRequest(gatherService);
         assertNotNull(request.getXppSourceImageDirectory());

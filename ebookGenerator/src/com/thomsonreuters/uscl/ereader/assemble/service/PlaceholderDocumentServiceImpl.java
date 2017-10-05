@@ -26,8 +26,7 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public class PlaceholderDocumentServiceImpl implements PlaceholderDocumentService, ResourceLoaderAware
-{
+public class PlaceholderDocumentServiceImpl implements PlaceholderDocumentService, ResourceLoaderAware {
     private String placeholderDocumentTemplateLocation;
     private ResourceLoader resourceLoader;
 
@@ -36,23 +35,18 @@ public class PlaceholderDocumentServiceImpl implements PlaceholderDocumentServic
         final OutputStream documentStream,
         final String displayText,
         final String tocGuid,
-        final List<String> anchors) throws PlaceholderDocumentServiceException
-    {
-        if (StringUtils.isBlank(displayText))
-        {
+        final List<String> anchors) throws PlaceholderDocumentServiceException {
+        if (StringUtils.isBlank(displayText)) {
             throw new IllegalArgumentException("displayText must not be null or empty. Was: [" + displayText + "]");
         }
-        if (StringUtils.isBlank(tocGuid))
-        {
+        if (StringUtils.isBlank(tocGuid)) {
             throw new IllegalArgumentException("tocGuid must not be null or empty. Was: [" + tocGuid + "]");
         }
-        if (documentStream == null)
-        {
+        if (documentStream == null) {
             throw new IllegalArgumentException(
                 "The OutputStream to write the placeholder document to must not be null. Confirm that the caller of this method has supplied a valid OutputStream.");
         }
-        if (StringUtils.isBlank(placeholderDocumentTemplateLocation))
-        {
+        if (StringUtils.isBlank(placeholderDocumentTemplateLocation)) {
             throw new IllegalArgumentException(
                 "The placeholderDocumentTemplateLocation was not configured properly (missing or null). This is likely a Spring configuration error that needs to be resolved by a developer.");
         }
@@ -66,24 +60,17 @@ public class PlaceholderDocumentServiceImpl implements PlaceholderDocumentServic
         serializer.setOutputStream(documentStream);
         final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 
-        try
-        {
+        try {
             placeholderDocumentFilter.setParent(saxParserFactory.newSAXParser().getXMLReader());
             placeholderDocumentFilter.setContentHandler(serializer.asContentHandler());
             placeholderDocumentFilter.parse(new InputSource(getPlaceholderDocumentTemplate().getInputStream()));
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new PlaceholderDocumentServiceException(
                 "An IOException occurred while generating the placeholder document.",
                 e);
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             throw new PlaceholderDocumentServiceException("Could not generate placeholder document", e);
-        }
-        catch (final ParserConfigurationException e)
-        {
+        } catch (final ParserConfigurationException e) {
             throw new PlaceholderDocumentServiceException(
                 "An exception occurred when configuring the parser to generate the placeholder document.",
                 e);
@@ -91,18 +78,15 @@ public class PlaceholderDocumentServiceImpl implements PlaceholderDocumentServic
     }
 
     @Override
-    public void setResourceLoader(final ResourceLoader resourceLoader)
-    {
+    public void setResourceLoader(final ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
     }
 
-    public void setPlaceholderDocumentTemplateLocation(final String placeholderDocumentTemplateLocation)
-    {
+    public void setPlaceholderDocumentTemplateLocation(final String placeholderDocumentTemplateLocation) {
         this.placeholderDocumentTemplateLocation = placeholderDocumentTemplateLocation;
     }
 
-    private Resource getPlaceholderDocumentTemplate()
-    {
+    private Resource getPlaceholderDocumentTemplate() {
         return resourceLoader.getResource(placeholderDocumentTemplateLocation);
     }
 }
