@@ -8,8 +8,7 @@ import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
 
-public interface PublishingStatsDao
-{
+public interface PublishingStatsDao {
     Date getSysDate();
 
     /**

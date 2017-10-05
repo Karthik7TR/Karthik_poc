@@ -32,8 +32,7 @@ import org.xml.sax.SAXException;
  *
  * Note that the entity resolver is disabled during parsing
  */
-public class XMLXpathEvaluator
-{
+public class XMLXpathEvaluator {
     private static final Logger logger = LogManager.getLogger(XMLXpathEvaluator.class);
     private XPath xpath;
     private Document domDocument;
@@ -43,8 +42,7 @@ public class XMLXpathEvaluator
      *
      * @param doc
      */
-    public XMLXpathEvaluator(final Document doc)
-    {
+    public XMLXpathEvaluator(final Document doc) {
         domDocument = doc;
 
         final XPathFactory xpf = XPathFactory.newInstance();
@@ -58,16 +56,14 @@ public class XMLXpathEvaluator
      * @throws IOException
      */
     public XMLXpathEvaluator(final InputStream xml)
-        throws ParserConfigurationException, SAXException, IOException
-    {
+        throws ParserConfigurationException, SAXException, IOException {
         final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setValidating(false);
         final DocumentBuilder db = dbf.newDocumentBuilder();
-        db.setEntityResolver(new EntityResolver()
-        {
+        db.setEntityResolver(new EntityResolver() {
             @Override
-            public InputSource resolveEntity(final String publicId, final String systemId) throws SAXException, IOException
-            {
+            public InputSource resolveEntity(final String publicId, final String systemId)
+                throws SAXException, IOException {
                 return new InputSource(new StringReader(""));
             }
         });
@@ -80,8 +76,7 @@ public class XMLXpathEvaluator
     }
 
     public XMLXpathEvaluator(final String xml)
-        throws ParserConfigurationException, SAXException, IOException
-    {
+        throws ParserConfigurationException, SAXException, IOException {
         // literally every single client of this class was parsing a String, so I moved the
         // InputStream conversion here.
         this(IOUtils.toInputStream(xml, "UTF-8"));
@@ -92,19 +87,14 @@ public class XMLXpathEvaluator
      *   one is always returned
      * @return
      */
-    public String evaluate(final String xpathExpression)
-    {
+    public String evaluate(final String xpathExpression) {
         String data = null;
-        try
-        {
+        try {
             data = (String) xpath.evaluate(xpathExpression, domDocument, XPathConstants.STRING);
-            if ("".equals(data))
-            {
+            if ("".equals(data)) {
                 data = null;
             }
-        }
-        catch (final XPathExpressionException e)
-        {
+        } catch (final XPathExpressionException e) {
             logger.warn(xpathExpression + " not processed properly, returning null.", e);
         }
         return data;
@@ -116,27 +106,20 @@ public class XMLXpathEvaluator
      * @param xpathExpression an expression that usually can contain multiple entries
      * @return list of Strings, or empty list if none found.
      */
-    public List<String> evaluateList(final String xpathExpression)
-    {
+    public List<String> evaluateList(final String xpathExpression) {
         final List<String> data = new ArrayList<>();
-        try
-        {
+        try {
             final NodeList nodelist = (NodeList) xpath.evaluate(xpathExpression, domDocument, XPathConstants.NODESET);
-            if (nodelist.getLength() > 0)
-            {
-                for (int i = 0; i < nodelist.getLength(); i++)
-                {
+            if (nodelist.getLength() > 0) {
+                for (int i = 0; i < nodelist.getLength(); i++) {
                     final Node node = nodelist.item(i);
                     final String eval = xpath.evaluate(".", node);
-                    if (!"".equals(eval))
-                    {
+                    if (!"".equals(eval)) {
                         data.add(eval);
                     }
                 }
             }
-        }
-        catch (final XPathExpressionException e)
-        {
+        } catch (final XPathExpressionException e) {
             logger.warn(xpathExpression + " not processed properly, returning nothing.", e);
         }
         return data;
@@ -148,15 +131,11 @@ public class XMLXpathEvaluator
      * @param xpathExpression an expression that usually can contain single entry
      * @return
      */
-    public Node evaluateNode(final String xpathExpression)
-    {
+    public Node evaluateNode(final String xpathExpression) {
         Node node = null;
-        try
-        {
+        try {
             node = (Node) xpath.evaluate(xpathExpression, domDocument, XPathConstants.NODE);
-        }
-        catch (final XPathExpressionException e)
-        {
+        } catch (final XPathExpressionException e) {
             logger.warn(xpathExpression + " not processed properly, returning null.", e);
         }
         return node;
@@ -168,42 +147,32 @@ public class XMLXpathEvaluator
      * @param xpathExpression an expression that usually can contain multiple entries
      * @return
      */
-    public NodeList evaluateNodeList(final String xpathExpression)
-    {
+    public NodeList evaluateNodeList(final String xpathExpression) {
         NodeList nodeList = null;
-        try
-        {
+        try {
             nodeList = (NodeList) xpath.evaluate(xpathExpression, domDocument, XPathConstants.NODESET);
-        }
-        catch (final XPathExpressionException e)
-        {
+        } catch (final XPathExpressionException e) {
             logger.warn(xpathExpression + " not processed properly, returning null.", e);
         }
         return nodeList;
     }
 
-    public String toXml() throws Exception
-    {
-        try
-        {
+    public String toXml() throws Exception {
+        try {
             final DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();
             final DOMImplementationLS impl = (DOMImplementationLS) registry.getDOMImplementation("LS");
             final LSSerializer writer = impl.createLSSerializer();
             return writer.writeToString(domDocument);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             throw new Exception("Error XML from DOM.", e);
         }
     }
 
-    public Document getDomDocument()
-    {
+    public Document getDomDocument() {
         return domDocument;
     }
 
-    public void setDomDocument(final Document domDocument)
-    {
+    public void setDomDocument(final Document domDocument) {
         this.domDocument = domDocument;
     }
 }

@@ -15,8 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Updates dead jobs exit status to "failed" status.
  * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
-public class JobCleanupServiceImpl implements JobCleanupService
-{
+public class JobCleanupServiceImpl implements JobCleanupService {
     private static final Logger LOG = LogManager.getLogger(JobCleanupServiceImpl.class);
 
     private JobCleanupDao jobCleanupDao;
@@ -28,8 +27,7 @@ public class JobCleanupServiceImpl implements JobCleanupService
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-    public void cleanUpDeadJobs() throws EBookServerException
-    {
+    public void cleanUpDeadJobs() throws EBookServerException {
         final int stepCleanup = jobCleanupDao.updateBatchStepExecution();
         final int jobCleanup = jobCleanupDao.updateBatchJobExecution();
         LOG.debug(String.format("Updated %d steps and %d jobs.", stepCleanup, jobCleanup));
@@ -40,14 +38,12 @@ public class JobCleanupServiceImpl implements JobCleanupService
      * @throws EBookServerException
      */
     @Override
-    public List<JobUserInfo> findListOfDeadJobs() throws EBookServerException
-    {
+    public List<JobUserInfo> findListOfDeadJobs() throws EBookServerException {
         return jobCleanupDao.findListOfDeadJobs();
     }
 
     @Required
-    public void setJobCleanupDao(final JobCleanupDao jobCleanupDao)
-    {
+    public void setJobCleanupDao(final JobCleanupDao jobCleanupDao) {
         this.jobCleanupDao = jobCleanupDao;
     }
 
@@ -59,16 +55,14 @@ public class JobCleanupServiceImpl implements JobCleanupService
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-    public void cleanUpDeadJobsForGivenServer(final String serverName) throws EBookServerException
-    {
+    public void cleanUpDeadJobsForGivenServer(final String serverName) throws EBookServerException {
         final int stepCleanup = jobCleanupDao.updateBatchStepExecutionForGivenServer(serverName);
         final int jobCleanup = jobCleanupDao.updateBatchJobExecutionForGivenServer(serverName);
         LOG.debug(String.format("Updated %d steps and %d jobs for host %s.", stepCleanup, jobCleanup, serverName));
     }
 
     @Override
-    public List<JobUserInfo> findListOfDeadJobsByServerName(final String serverName) throws EBookServerException
-    {
+    public List<JobUserInfo> findListOfDeadJobsByServerName(final String serverName) throws EBookServerException {
         return jobCleanupDao.findListOfDeadJobsByServerName(serverName);
     }
 }

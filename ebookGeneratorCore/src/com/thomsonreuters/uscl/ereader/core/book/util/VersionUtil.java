@@ -8,13 +8,12 @@ package com.thomsonreuters.uscl.ereader.core.book.util;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import org.jetbrains.annotations.NotNull;
 
-public interface VersionUtil
-{
-	/**
-	 * Check if this is a new major version or not
-	 * @param current current version
-	 * @param next new version
-	 * @return {@code true} if new version is major, {@code false} otherwise
-	 */
-	boolean isMajorUpdate(@NotNull Version current, @NotNull Version next);
+public interface VersionUtil {
+    /**
+     * Check if this is a new major version or not
+     * @param current current version
+     * @param next new version
+     * @return {@code true} if new version is major, {@code false} otherwise
+     */
+    boolean isMajorUpdate(@NotNull Version current, @NotNull Version next);
 }

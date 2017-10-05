@@ -3,8 +3,7 @@ package com.thomsonreuters.uscl.ereader.core.job.service;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 
-public interface AppConfigService
-{
+public interface AppConfigService {
     /**
      * Read throttle configuration from the database.
      */

@@ -7,8 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * SAP service provides methods to get materials
  */
-public interface SapService
-{
+public interface SapService {
     /**
      * Get materials by material number
      */

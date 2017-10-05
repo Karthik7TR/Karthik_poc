@@ -11,28 +11,22 @@ import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponent;
 import org.apache.commons.lang3.StringUtils;
 
-public class MaterialComponentComparatorProviderImpl implements MaterialComponentComparatorProvider
-{
+public class MaterialComponentComparatorProviderImpl implements MaterialComponentComparatorProvider {
     private final BookDefinitionService bookDefinitionService;
 
-    public MaterialComponentComparatorProviderImpl(final BookDefinitionService bookDefinitionService)
-    {
+    public MaterialComponentComparatorProviderImpl(final BookDefinitionService bookDefinitionService) {
         this.bookDefinitionService = bookDefinitionService;
     }
 
     @Override
-    public Comparator<MaterialComponent> getComparator(final String bookTitleId)
-    {
+    public Comparator<MaterialComponent> getComparator(final String bookTitleId) {
         final Collection<PrintComponent> printComponents;
-        if (StringUtils.isNotBlank(bookTitleId))
-        {
+        if (StringUtils.isNotBlank(bookTitleId)) {
             final BookDefinition definition = bookDefinitionService.findBookDefinitionByTitle(bookTitleId);
-            final Set<PrintComponent> components = definition == null
-                ? Collections.<PrintComponent>emptySet() : definition.getPrintComponents();
+            final Set<PrintComponent> components =
+                definition == null ? Collections.<PrintComponent>emptySet() : definition.getPrintComponents();
             printComponents = components == null ? Collections.<PrintComponent>emptySet() : components;
-        }
-        else
-        {
+        } else {
             printComponents = Collections.emptySet();
         }
         return new MaterialComponentComporator(printComponents);

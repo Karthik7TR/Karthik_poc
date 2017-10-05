@@ -12,41 +12,35 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 
-public class SupportPageLinkServiceImpl implements SupportPageLinkService
-{
+public class SupportPageLinkServiceImpl implements SupportPageLinkService {
     private SupportPageLinkDao dao;
 
     @Override
     @Transactional
-    public void save(final SupportPageLink spl)
-    {
+    public void save(final SupportPageLink spl) {
         dao.save(spl);
     }
 
     @Override
     @Transactional
-    public void delete(final SupportPageLink spl)
-    {
+    public void delete(final SupportPageLink spl) {
         dao.delete(spl);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public SupportPageLink findByPrimaryKey(final Long id)
-    {
+    public SupportPageLink findByPrimaryKey(final Long id) {
         return dao.findByPrimaryKey(id);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<SupportPageLink> findAllSupportPageLink()
-    {
+    public List<SupportPageLink> findAllSupportPageLink() {
         return dao.findAllSupportPageLink();
     }
 
     @Required
-    public void setSupportPageLinkDao(final SupportPageLinkDao dao)
-    {
+    public void setSupportPageLinkDao(final SupportPageLinkDao dao) {
         this.dao = dao;
     }
 }

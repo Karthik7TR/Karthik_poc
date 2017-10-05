@@ -2,8 +2,7 @@ package com.thomsonreuters.uscl.ereader.ioutil;
 
 import java.io.IOException;
 
-public class StreamException extends IOException
-{
+public class StreamException extends IOException {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -11,8 +10,7 @@ public class StreamException extends IOException
      *
      * @param e a Throwable object.
      */
-    public StreamException(final Throwable e)
-    {
+    public StreamException(final Throwable e) {
         super(e);
     }
 }

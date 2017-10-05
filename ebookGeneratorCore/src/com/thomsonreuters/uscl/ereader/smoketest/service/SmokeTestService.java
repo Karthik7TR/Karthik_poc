@@ -8,8 +8,7 @@ import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTest;
  * Service that returns Server statuses
  *
  */
-public interface SmokeTestService
-{
+public interface SmokeTestService {
     List<SmokeTest> getCIServerStatuses();
 
     List<SmokeTest> getCIApplicationStatuses();

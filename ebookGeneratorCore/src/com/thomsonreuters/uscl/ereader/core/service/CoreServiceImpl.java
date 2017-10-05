@@ -13,19 +13,16 @@ import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceServ
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Required;
 
-public class CoreServiceImpl implements CoreService
-{
+public class CoreServiceImpl implements CoreService {
     private UserPreferenceService userPreferenceService;
     private InternetAddress groupEmailAddress;
 
     @NotNull
     @Override
-    public Collection<InternetAddress> getEmailRecipientsByUsername(final String username)
-    {
+    public Collection<InternetAddress> getEmailRecipientsByUsername(final String username) {
         List<InternetAddress> userRecipientInternetAddressList = Collections.EMPTY_LIST;
         final UserPreference userPreference = userPreferenceService.findByUsername(username);
-        if (userPreference != null)
-        {
+        if (userPreference != null) {
             final String userRecipientCsv = userPreference.getEmails();
             final List<String> userRecipientStringList = UserPreference.toStringEmailAddressList(userRecipientCsv);
             userRecipientInternetAddressList = UserPreference.toInternetAddressList(userRecipientStringList);
@@ -36,8 +33,7 @@ public class CoreServiceImpl implements CoreService
     @NotNull
     @Override
     public Collection<InternetAddress> createEmailRecipients(
-        final Collection<InternetAddress> userRecipientInternetAddressList)
-    {
+        final Collection<InternetAddress> userRecipientInternetAddressList) {
         final Set<InternetAddress> uniqueRecipients = new HashSet<>();
         uniqueRecipients.addAll(userRecipientInternetAddressList);
         uniqueRecipients.add(groupEmailAddress);
@@ -45,14 +41,12 @@ public class CoreServiceImpl implements CoreService
     }
 
     @Required
-    public void setGroupEmailAddress(final InternetAddress addr)
-    {
+    public void setGroupEmailAddress(final InternetAddress addr) {
         groupEmailAddress = addr;
     }
 
     @Required
-    public void setUserPreferenceService(final UserPreferenceService userPreferenceService)
-    {
+    public void setUserPreferenceService(final UserPreferenceService userPreferenceService) {
         this.userPreferenceService = userPreferenceService;
     }
 }

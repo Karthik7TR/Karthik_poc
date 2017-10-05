@@ -8,8 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.thomsonreuters.uscl.ereader.sap.deserialize.DateNullHandleConverter;
 import com.thomsonreuters.uscl.ereader.sap.deserialize.StringNullHandleConverter;
 
-public class MaterialComponent
-{
+public class MaterialComponent {
     @JsonProperty("bom_component")
     private String bomComponent;
     @JsonProperty("eff_date")
@@ -46,113 +45,91 @@ public class MaterialComponent
     @JsonDeserialize(converter = DateNullHandleConverter.class)
     private Date shipDate;
 
-    public String getBomComponent()
-    {
+    public String getBomComponent() {
         return bomComponent;
     }
 
-    public void setBomComponent(final String bomComponent)
-    {
+    public void setBomComponent(final String bomComponent) {
         this.bomComponent = bomComponent;
     }
 
-    public Date getEffectiveDate()
-    {
+    public Date getEffectiveDate() {
         return effectiveDate;
     }
 
-    public void setEffectiveDate(final Date effectiveDate)
-    {
+    public void setEffectiveDate(final Date effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
 
-    public Date getPlanOrderDate()
-    {
+    public Date getPlanOrderDate() {
         return planOrderDate;
     }
 
-    public void setPlanOrderDate(final Date planOrderDate)
-    {
+    public void setPlanOrderDate(final Date planOrderDate) {
         this.planOrderDate = planOrderDate;
     }
 
-    public String getMaterialDesc()
-    {
+    public String getMaterialDesc() {
         return materialDesc;
     }
 
-    public void setMaterialDesc(final String materialDesc)
-    {
+    public void setMaterialDesc(final String materialDesc) {
         this.materialDesc = materialDesc;
     }
 
-    public String getMaterialType()
-    {
+    public String getMaterialType() {
         return materialType;
     }
 
-    public void setMaterialType(final String materialType)
-    {
+    public void setMaterialType(final String materialType) {
         this.materialType = materialType;
     }
 
-    public String getMediahlRule()
-    {
+    public String getMediahlRule() {
         return mediahlRule;
     }
 
-    public void setMediahlRule(final String mediahlRule)
-    {
+    public void setMediahlRule(final String mediahlRule) {
         this.mediahlRule = mediahlRule;
     }
 
-    public String getMediallRule()
-    {
+    public String getMediallRule() {
         return mediallRule;
     }
 
-    public void setMediallRule(final String mediallRule)
-    {
+    public void setMediallRule(final String mediallRule) {
         this.mediallRule = mediallRule;
     }
 
-    public String getDchainStatus()
-    {
+    public String getDchainStatus() {
         return dchainStatus;
     }
 
-    public void setDchainStatus(final String dchainStatus)
-    {
+    public void setDchainStatus(final String dchainStatus) {
         this.dchainStatus = dchainStatus;
     }
 
-    public Date getDchainEffectiveDate()
-    {
+    public Date getDchainEffectiveDate() {
         return dchainEffectiveDate;
     }
 
-    public void setDchainEffectiveDate(final Date dchainEffectiveDate)
-    {
+    public void setDchainEffectiveDate(final Date dchainEffectiveDate) {
         this.dchainEffectiveDate = dchainEffectiveDate;
     }
 
-    public Date getProdDate()
-    {
+    public Date getProdDate() {
         return prodDate;
     }
 
-    public void setProdDate(final Date prodDate)
-    {
+    public void setProdDate(final Date prodDate) {
         this.prodDate = prodDate;
     }
 
-    public Date getShipDate()
-    {
+    public Date getShipDate() {
         return shipDate;
     }
 
-    public void setShipDate(final Date shipDate)
-    {
+    public void setShipDate(final Date shipDate) {
         this.shipDate = shipDate;
     }
 }

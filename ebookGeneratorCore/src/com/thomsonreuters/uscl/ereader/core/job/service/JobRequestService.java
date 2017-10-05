@@ -5,8 +5,7 @@ import java.util.List;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 
-public interface JobRequestService
-{
+public interface JobRequestService {
     /**
      * Fetch all the current job requests order by run order.
      * @return a list of job request sorted into the order in which they will run.

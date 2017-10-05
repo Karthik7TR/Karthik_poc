@@ -11,8 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * @author Ilia Bochkarev UC220946
  *
  */
-public class JobNameProviderImpl implements JobNameProvider
-{
+public class JobNameProviderImpl implements JobNameProvider {
     @NotNull
     private static final String GENERATOR_JOB_NAME = "ebookGeneratorJob";
     @NotNull
@@ -20,11 +19,9 @@ public class JobNameProviderImpl implements JobNameProvider
 
     @Override
     @NotNull
-    public String getJobName(@NotNull final JobRequest jobRequest)
-    {
+    public String getJobName(@NotNull final JobRequest jobRequest) {
         final BookDefinition book = jobRequest.getBookDefinition();
-        if (book == null)
-        {
+        if (book == null) {
             throw new IllegalStateException(
                 "No Book Definition found for Job Request ID=" + jobRequest.getJobRequestId());
         }
@@ -33,8 +30,7 @@ public class JobNameProviderImpl implements JobNameProvider
 
     @Override
     @NotNull
-    public String getJobName(@NotNull final BookDefinition book)
-    {
+    public String getJobName(@NotNull final BookDefinition book) {
         return book.getSourceType() == SourceType.XPP ? XPP_GENERATOR_JOB_NAME : GENERATOR_JOB_NAME;
     }
 }

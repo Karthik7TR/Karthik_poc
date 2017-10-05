@@ -12,21 +12,17 @@ import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.util.Assert;
 
-public class BookTitlesUtilImpl implements BookTitlesUtil
-{
+public class BookTitlesUtilImpl implements BookTitlesUtil {
     @Override
-    public boolean isSplitBook(@NotNull final BookDefinition book, @NotNull final Version version)
-    {
+    public boolean isSplitBook(@NotNull final BookDefinition book, @NotNull final Version version) {
         Assert.notNull(book);
         Assert.notNull(version);
 
         //TODO replace with lambda when Java 8 will be available
         final String versionToCompare = version.getVersionWithoutPrefix();
-        for (final SplitNodeInfo splitPart : book.getSplitNodes())
-        {
+        for (final SplitNodeInfo splitPart : book.getSplitNodes()) {
             final String partVersion = splitPart.getBookVersionSubmitted();
-            if (versionToCompare.equals(partVersion))
-            {
+            if (versionToCompare.equals(partVersion)) {
                 return true;
             }
         }
@@ -37,17 +33,14 @@ public class BookTitlesUtilImpl implements BookTitlesUtil
     @Override
     public Set<SplitNodeInfo> getSplitNodeInfosByVersion(
         @NotNull final BookDefinition book,
-        @NotNull final Version version)
-    {
+        @NotNull final Version version) {
         final String versionToCompare = version.getVersionWithoutPrefix();
         final Set<SplitNodeInfo> set = new HashSet<>();
 
         //TODO replace with lambda when Java 8 will be available
-        for (final SplitNodeInfo splitPart : book.getSplitNodes())
-        {
+        for (final SplitNodeInfo splitPart : book.getSplitNodes()) {
             final String partVersion = splitPart.getBookVersionSubmitted();
-            if (versionToCompare.equals(partVersion))
-            {
+            if (versionToCompare.equals(partVersion)) {
                 set.add(splitPart);
             }
         }
@@ -56,17 +49,14 @@ public class BookTitlesUtilImpl implements BookTitlesUtil
 
     @Override
     @NotNull
-    public List<BookTitleId> getTitleIds(@NotNull final BookDefinition book, @NotNull final Version version)
-    {
+    public List<BookTitleId> getTitleIds(@NotNull final BookDefinition book, @NotNull final Version version) {
         final String versionToCompare = version.getVersionWithoutPrefix();
 
         final List<BookTitleId> titleIds = new ArrayList<>();
         titleIds.add(new BookTitleId(book.getFullyQualifiedTitleId(), version));
-        for (final SplitNodeInfo splitPart : book.getSplitNodes())
-        {
+        for (final SplitNodeInfo splitPart : book.getSplitNodes()) {
             final String partVersion = splitPart.getBookVersionSubmitted();
-            if (versionToCompare.equals(partVersion))
-            {
+            if (versionToCompare.equals(partVersion)) {
                 titleIds.add(new BookTitleId(splitPart.getSplitBookTitle(), version));
             }
         }

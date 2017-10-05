@@ -21,15 +21,13 @@ import org.springframework.util.Assert;
  * @author <a href="mailto:dong.kim@thomsonreuters.com">Dong Kim</a> u0155568
  *
  */
-public class CloseableAuthenticationHttpClientFactory
-{
+public class CloseableAuthenticationHttpClientFactory {
     private InetAddress host;
     private String username;
     private String password;
 
     public CloseableAuthenticationHttpClientFactory(final String hostname, final String username, final String password)
-        throws Exception
-    {
+        throws Exception {
         Assert.isTrue((hostname != null), "hostname must not be null");
         Assert.isTrue(StringUtils.isNotBlank(username), "username must not be null");
         Assert.isTrue(StringUtils.isNotBlank(password), "password must not be null");
@@ -38,8 +36,7 @@ public class CloseableAuthenticationHttpClientFactory
         this.password = password;
     }
 
-    public HttpClient getCloseableAuthenticationHttpClient()
-    {
+    public HttpClient getCloseableAuthenticationHttpClient() {
         // Get the changeable host name from the configuration
         final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
         credentialsProvider.setCredentials(
@@ -56,8 +53,7 @@ public class CloseableAuthenticationHttpClientFactory
      * The allows for the dynamic change of the
      * @param host
      */
-    public void setHost(final InetAddress host)
-    {
+    public void setHost(final InetAddress host) {
         this.host = host;
     }
 }

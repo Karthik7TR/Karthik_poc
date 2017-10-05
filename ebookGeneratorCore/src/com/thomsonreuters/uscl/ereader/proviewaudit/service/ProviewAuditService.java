@@ -10,8 +10,7 @@ import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditSort;
  * Spring service that handles CRUD requests for ProviewAudit entities
  *
  */
-public interface ProviewAuditService
-{
+public interface ProviewAuditService {
     /**
      * Save an existing ProviewAudit entity
      *

@@ -11,120 +11,100 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public class TableOfContents implements TocNode
-{
+public class TableOfContents implements TocNode {
     private static final String EMPTY_STRING = "";
     private List<TocNode> children = new ArrayList<>();
 
-    public TableOfContents()
-    {
+    public TableOfContents() {
     }
 
     @Override
-    public void addChild(final TocNode child)
-    {
+    public void addChild(final TocNode child) {
         children.add(child);
     }
 
-    public void setChildren(final List<TocNode> children)
-    {
+    public void setChildren(final List<TocNode> children) {
         this.children = children;
     }
 
     @Override
-    public List<TocNode> getChildren()
-    {
+    public List<TocNode> getChildren() {
         return children;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
     @Override
-    public void setSplitTitle(final String splitTitle)
-    {
+    public void setSplitTitle(final String splitTitle) {
         //Intentionally left blank
     }
 
     @Override
-    public String getSplitTitle()
-    {
+    public String getSplitTitle() {
         return EMPTY_STRING;
     }
 
     @Override
-    public String getTitleBreakString()
-    {
+    public String getTitleBreakString() {
         return EMPTY_STRING;
     }
 
     @Override
-    public void setTitleBreakString(final String titleBreakString)
-    {
+    public void setTitleBreakString(final String titleBreakString) {
         //Intentionally left blank
     }
 
     @Override
-    public TocNode getParent()
-    {
+    public TocNode getParent() {
         return null;
     }
 
     @Override
-    public String getAnchorReference()
-    {
+    public String getAnchorReference() {
         return EMPTY_STRING;
     }
 
     @Override
-    public String getText()
-    {
+    public String getText() {
         return EMPTY_STRING;
     }
 
     @Override
-    public void setParent(final TocNode parent)
-    {
+    public void setParent(final TocNode parent) {
         //no op, TableOfContents has no parent.
     }
 
     @Override
-    public void setTocNodeUuid(final String tocNodeUuid)
-    {
+    public void setTocNodeUuid(final String tocNodeUuid) {
         //no op, TableOfContents has no uuid.
     }
 
     @Override
-    public void setDocumentUuid(final String documentUuid)
-    {
+    public void setDocumentUuid(final String documentUuid) {
         //no op, TableOfContents has no uuid.
     }
 
     @Override
-    public void setText(final String text)
-    {
+    public void setText(final String text) {
         //no op, TableOfContents has no text.
     }
 
     @Override
-    public int getDepth()
-    {
+    public int getDepth() {
         //depth of the table of contents is zero.
         return 0;
     }
 
     @Override
-    public String getDocumentGuid()
-    {
+    public String getDocumentGuid() {
         return EMPTY_STRING;
     }
 
     @Override
-    public String getTocGuid()
-    {
+    public String getTocGuid() {
         return EMPTY_STRING;
     }
 }

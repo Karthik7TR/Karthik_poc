@@ -6,8 +6,7 @@ import java.util.List;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 
-public interface OutageDao
-{
+public interface OutageDao {
     /**
      * Returns all Outage entities that are scheduled for current and future.
      */

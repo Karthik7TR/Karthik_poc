@@ -13,8 +13,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-public class JobRequestServiceImpl implements JobRequestService
-{
+public class JobRequestServiceImpl implements JobRequestService {
     //private static final Logger log = LogManager.getLogger(JobRequestServiceImpl.class);
     private static final Comparator<JobRequest> RUN_ORDER_COMPARATOR = new JobRequestRunOrderComparator();
 
@@ -22,8 +21,7 @@ public class JobRequestServiceImpl implements JobRequestService
 
     @Override
     @Transactional(readOnly = true)
-    public List<JobRequest> findAllJobRequests()
-    {
+    public List<JobRequest> findAllJobRequests() {
         final List<JobRequest> jobRequestList = jobRequestDao.findAllJobRequests();
         Collections.sort(jobRequestList, RUN_ORDER_COMPARATOR);
         return jobRequestList;
@@ -31,16 +29,14 @@ public class JobRequestServiceImpl implements JobRequestService
 
     @Override
     @Transactional(readOnly = true)
-    public JobRequest findByPrimaryKey(final long id)
-    {
+    public JobRequest findByPrimaryKey(final long id) {
         final JobRequest jobRequest = jobRequestDao.findByPrimaryKey(id);
         return jobRequest;
     }
 
     @Override
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public JobRequest getNextJobToExecute()
-    {
+    public JobRequest getNextJobToExecute() {
         final List<JobRequest> jobs = jobRequestDao.findAllJobRequestsOrderByPriorityAndSubmitedtime();
         // findAllJobRequests();
         // It is assumed that the findAllJobRequests() returns the job requests in the order in which they will run.
@@ -48,8 +44,7 @@ public class JobRequestServiceImpl implements JobRequestService
         final JobRequest jobRequest = (jobs.size() > 0) ? jobs.get(0) : null;
         // Delete the job just picked up otherwise we can have two different pollers pick up the same job from the table
         // causing the same job to be launched twice.
-        if (jobRequest != null)
-        {
+        if (jobRequest != null) {
             jobRequestDao.deleteJobRequest(jobRequest.getJobRequestId());
         }
         return jobRequest;
@@ -57,37 +52,36 @@ public class JobRequestServiceImpl implements JobRequestService
 
     @Override
     @Transactional
-    public void updateJobPriority(final long jobRequestId, final int jobPriority)
-    {
+    public void updateJobPriority(final long jobRequestId, final int jobPriority) {
         jobRequestDao.updateJobPriority(jobRequestId, jobPriority);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public boolean isBookInJobRequest(final long bookDefinitionId)
-    {
+    public boolean isBookInJobRequest(final long bookDefinitionId) {
         return (findJobRequestByBookDefinitionId(bookDefinitionId) != null);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public JobRequest findJobRequestByBookDefinitionId(final long bookDefinitionId)
-    {
+    public JobRequest findJobRequestByBookDefinitionId(final long bookDefinitionId) {
         return jobRequestDao.findJobRequestByBookDefinitionId(bookDefinitionId);
     }
 
     @Override
     @Transactional
-    public Long saveQueuedJobRequest(final BookDefinition bookDefinition, final String version, final int priority, final String submittedBy)
-    {
+    public Long saveQueuedJobRequest(
+        final BookDefinition bookDefinition,
+        final String version,
+        final int priority,
+        final String submittedBy) {
         final JobRequest jobRequest = JobRequest.createQueuedJobRequest(bookDefinition, version, priority, submittedBy);
         jobRequest.setSubmittedAt(new Date());
         return jobRequestDao.saveJobRequest(jobRequest);
     }
 
     @Required
-    public void setJobRequestDao(final JobRequestDao jobRequestDao)
-    {
+    public void setJobRequestDao(final JobRequestDao jobRequestDao) {
         this.jobRequestDao = jobRequestDao;
     }
 }

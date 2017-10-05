@@ -21,8 +21,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 @Entity
 @Table(name = "DOCUMENT_TYPE_CODES")
-public class DocumentTypeCode implements Serializable
-{
+public class DocumentTypeCode implements Serializable {
     //private static final Logger log = LogManager.getLogger(DocumentTypeCode.class);
     private static final long serialVersionUID = -401472676661960713L;
     public static final Long ANALYTICAL = Long.valueOf(1);
@@ -52,90 +51,73 @@ public class DocumentTypeCode implements Serializable
     @Column(name = "LAST_UPDATED", nullable = false)
     private Date lastUpdatedTimeStampForDocType;
 
-    public DocumentTypeCode()
-    {
+    public DocumentTypeCode() {
         super();
     }
 
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final Long id)
-    {
+    public void setId(final Long id) {
         this.id = id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(final String name)
-    {
+    public void setName(final String name) {
         this.name = name;
     }
 
-    public String getAbbreviation()
-    {
+    public String getAbbreviation() {
         return abbreviation;
     }
 
-    public void setAbbreviation(final String abbreviation)
-    {
+    public void setAbbreviation(final String abbreviation) {
         this.abbreviation = abbreviation;
     }
 
-    public boolean getUsePublishCutoffDateFlag()
-    {
+    public boolean getUsePublishCutoffDateFlag() {
         return (usePublishCutoffDateFlag.equalsIgnoreCase("Y") ? true : false);
     }
 
-    public void setUsePublishCutoffDateFlag(final boolean usePublishCutoffDateFlag)
-    {
+    public void setUsePublishCutoffDateFlag(final boolean usePublishCutoffDateFlag) {
         this.usePublishCutoffDateFlag = ((usePublishCutoffDateFlag) ? "Y" : "N");
     }
 
-    public Date getLastUpdated()
-    {
+    public Date getLastUpdated() {
         return lastUpdatedTimeStampForDocType;
     }
 
-    public void setLastUpdated(final Date lastUpdated)
-    {
+    public void setLastUpdated(final Date lastUpdated) {
         lastUpdatedTimeStampForDocType = lastUpdated;
     }
 
-    public Integer getThresholdValue()
-    {
+    public Integer getThresholdValue() {
         return thresholdValue;
     }
 
-    public void setThresholdValue(final Integer thresholdValue)
-    {
+    public void setThresholdValue(final Integer thresholdValue) {
         this.thresholdValue = thresholdValue;
     }
 
-    public Integer getThresholdPercent()
-    {
+    public Integer getThresholdPercent() {
         return thresholdPercent;
     }
 
-    public void setThresholdPercent(final Integer thresholdPercent)
-    {
+    public void setThresholdPercent(final Integer thresholdPercent) {
         this.thresholdPercent = thresholdPercent;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((abbreviation == null) ? 0 : abbreviation.hashCode());
@@ -147,8 +129,7 @@ public class DocumentTypeCode implements Serializable
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -156,40 +137,30 @@ public class DocumentTypeCode implements Serializable
         if (getClass() != obj.getClass())
             return false;
         final DocumentTypeCode other = (DocumentTypeCode) obj;
-        if (abbreviation == null)
-        {
+        if (abbreviation == null) {
             if (other.abbreviation != null)
                 return false;
-        }
-        else if (!abbreviation.equals(other.abbreviation))
+        } else if (!abbreviation.equals(other.abbreviation))
             return false;
-        if (usePublishCutoffDateFlag == null)
-        {
+        if (usePublishCutoffDateFlag == null) {
             if (other.usePublishCutoffDateFlag != null)
                 return false;
-        }
-        else if (!usePublishCutoffDateFlag.equals(other.usePublishCutoffDateFlag))
+        } else if (!usePublishCutoffDateFlag.equals(other.usePublishCutoffDateFlag))
             return false;
-        if (id == null)
-        {
+        if (id == null) {
             if (other.id != null)
                 return false;
-        }
-        else if (!id.equals(other.id))
+        } else if (!id.equals(other.id))
             return false;
-        if (lastUpdatedTimeStampForDocType == null)
-        {
+        if (lastUpdatedTimeStampForDocType == null) {
             if (other.lastUpdatedTimeStampForDocType != null)
                 return false;
-        }
-        else if (!lastUpdatedTimeStampForDocType.equals(other.lastUpdatedTimeStampForDocType))
+        } else if (!lastUpdatedTimeStampForDocType.equals(other.lastUpdatedTimeStampForDocType))
             return false;
-        if (name == null)
-        {
+        if (name == null) {
             if (other.name != null)
                 return false;
-        }
-        else if (!name.equals(other.name))
+        } else if (!name.equals(other.name))
             return false;
         return true;
     }

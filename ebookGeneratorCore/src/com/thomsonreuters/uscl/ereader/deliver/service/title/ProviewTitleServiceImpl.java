@@ -22,41 +22,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProviewTitleServiceImpl implements ProviewTitleService
-{
+public class ProviewTitleServiceImpl implements ProviewTitleService {
     private static final Logger LOG = LoggerFactory.getLogger(ProviewTitleServiceImpl.class);
 
     private final ProviewClient proviewClient;
 
     @Autowired
-    public ProviewTitleServiceImpl(final ProviewClient proviewClient)
-    {
+    public ProviewTitleServiceImpl(final ProviewClient proviewClient) {
         this.proviewClient = proviewClient;
     }
 
     @Override
     @Nullable
-    public Version getLatestProviewTitleVersion(@NotNull final String fullyQualifiedTitleId)
-    {
+    public Version getLatestProviewTitleVersion(@NotNull final String fullyQualifiedTitleId) {
         final ProviewTitleInfo titleInfo = getLatestProviewTitleInfo(fullyQualifiedTitleId);
         final String version = titleInfo == null ? null : titleInfo.getVersion();
         return version == null ? null : new Version(version);
     }
 
     @Nullable
-    private ProviewTitleInfo getLatestProviewTitleInfo(@NotNull final String fullyQualifiedTitleId)
-    {
+    private ProviewTitleInfo getLatestProviewTitleInfo(@NotNull final String fullyQualifiedTitleId) {
         ProviewTitleInfo titleInfo = null;
-        try
-        {
+        try {
             final String singlePublishTitleResponse = proviewClient.getSinglePublishedTitle(fullyQualifiedTitleId);
-            final ProviewTitleContainer titleContainer = new PublishedTitleParser()
-                                                               .process(singlePublishTitleResponse)
-                                                               .get(fullyQualifiedTitleId);
+            final ProviewTitleContainer titleContainer =
+                new PublishedTitleParser().process(singlePublishTitleResponse).get(fullyQualifiedTitleId);
             titleInfo = titleContainer == null ? null : titleContainer.getLatestVersion();
-        }
-        catch (final ProviewException e)
-        {
+        } catch (final ProviewException e) {
             LOG.info("Cannot get title info from ProView", e);
         }
         return titleInfo;
@@ -64,71 +56,55 @@ public class ProviewTitleServiceImpl implements ProviewTitleService
 
     @Override
     @NotNull
-    public List<Doc> getProviewTitleDocs(@NotNull final BookTitleId titleId)
-    {
-        try
-        {
-            final String titleInfoResponse = proviewClient.getTitleInfo(
-                titleId.getTitleId(), titleId.getVersion().getFullVersion());
+    public List<Doc> getProviewTitleDocs(@NotNull final BookTitleId titleId) {
+        try {
+            final String titleInfoResponse =
+                proviewClient.getTitleInfo(titleId.getTitleId(), titleId.getVersion().getFullVersion());
             return new TitleInfoParser().getDocuments(titleInfoResponse);
-        }
-        catch (final ProviewException e)
-        {
+        } catch (final ProviewException e) {
             throw new RuntimeException("Cannot get title info from ProView", e);
         }
     }
 
     @Override
     @NotNull
-    public List<BookTitleId> getPreviousTitles(@NotNull final Version previousVersion, @NotNull final String titleId)
-    {
+    public List<BookTitleId> getPreviousTitles(@NotNull final Version previousVersion, @NotNull final String titleId) {
         final List<BookTitleId> titleIds = new ArrayList<>();
         String currentTitleId = titleId;
         Integer part = 2;
         boolean hasParts;
-        do
-        {
+        do {
             titleIds.add(new BookTitleId(currentTitleId, previousVersion));
-            try
-            {
+            try {
                 currentTitleId = titleId + "_pt" + part++;
-                hasParts = StringUtils.isNotBlank(proviewClient.getTitleInfo(currentTitleId, previousVersion.getFullVersion()));
-            }
-            catch (final ProviewException e)
-            {
-                if (e.getMessage().contains("FileNotFoundException"))
-                {
+                hasParts = StringUtils
+                    .isNotBlank(proviewClient.getTitleInfo(currentTitleId, previousVersion.getFullVersion()));
+            } catch (final ProviewException e) {
+                if (e.getMessage().contains("FileNotFoundException")) {
                     hasParts = false;
-                }
-                else
-                {
+                } else {
                     LOG.error(e.getMessage(), e);
                     throw new RuntimeException(e);
                 }
             }
-        }
-        while (hasParts);
+        } while (hasParts);
         return titleIds;
     }
 
     @Override
-    public boolean isMajorVersionPromotedToFinal(@NotNull final String fullyQualifiedTitleId, @NotNull final Version newVersion)
-    {
+    public boolean isMajorVersionPromotedToFinal(
+        @NotNull final String fullyQualifiedTitleId,
+        @NotNull final Version newVersion) {
         boolean result;
-        try
-        {
+        try {
             final String response = proviewClient.getTitleInfosByStatus(fullyQualifiedTitleId, "Final");
-            final Pattern pattern = Pattern.compile(String.format("version=\"v%d\\.\\d+\"", newVersion.getMajorNumber()));
+            final Pattern pattern =
+                Pattern.compile(String.format("version=\"v%d\\.\\d+\"", newVersion.getMajorNumber()));
             result = pattern.matcher(response).find();
-        }
-        catch (final ProviewException e)
-        {
-            if (e.getMessage().contains(fullyQualifiedTitleId + " does not exist"))
-            {
+        } catch (final ProviewException e) {
+            if (e.getMessage().contains(fullyQualifiedTitleId + " does not exist")) {
                 result = false;
-            }
-            else
-            {
+            } else {
                 LOG.error(e.getMessage(), e);
                 throw new RuntimeException(e);
             }

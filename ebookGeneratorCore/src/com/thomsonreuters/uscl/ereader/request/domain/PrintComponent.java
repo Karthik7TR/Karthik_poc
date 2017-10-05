@@ -17,8 +17,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 
 @Entity
 @Table(name = "PRINT_COMPONENT")
-public class PrintComponent implements Serializable
-{
+public class PrintComponent implements Serializable {
     private static final long serialVersionUID = -1981084033866475471L;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -47,63 +46,51 @@ public class PrintComponent implements Serializable
     private boolean componentInArchive;
 
     @JsonIgnore
-    public BookDefinition getBookDefinition()
-    {
+    public BookDefinition getBookDefinition() {
         return ebookDefinition;
     }
 
-    public void setBookDefinition(final BookDefinition bookDefinition)
-    {
+    public void setBookDefinition(final BookDefinition bookDefinition) {
         ebookDefinition = bookDefinition;
     }
 
-    public String getPrintComponentId()
-    {
+    public String getPrintComponentId() {
         return printComponentId;
     }
 
-    public void setPrintComponentId(final String printComponentId)
-    {
+    public void setPrintComponentId(final String printComponentId) {
         this.printComponentId = printComponentId;
     }
 
-    public int getComponentOrder()
-    {
+    public int getComponentOrder() {
         return componentOrder;
     }
 
-    public void setComponentOrder(final int componentOrder)
-    {
+    public void setComponentOrder(final int componentOrder) {
         this.componentOrder = componentOrder;
     }
 
-    public String getMaterialNumber()
-    {
+    public String getMaterialNumber() {
         return materialNumber;
     }
 
-    public void setMaterialNumber(final String materialNumber)
-    {
+    public void setMaterialNumber(final String materialNumber) {
         this.materialNumber = materialNumber;
     }
 
-    public String getComponentName()
-    {
+    public String getComponentName() {
         return componentName;
     }
 
-    public void setComponentName(final String componentName)
-    {
+    public void setComponentName(final String componentName) {
         this.componentName = componentName;
     }
 
-    public void setComponentInArchive(final boolean componentInArchive)
-    {
+    public void setComponentInArchive(final boolean componentInArchive) {
         this.componentInArchive = componentInArchive;
     }
 
-    public boolean getComponentInArchive()
-    {
+    public boolean getComponentInArchive() {
         return componentInArchive;
     }
 }

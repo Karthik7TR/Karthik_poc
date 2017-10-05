@@ -13,8 +13,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
-public class CodeServiceImpl implements CodeService
-{
+public class CodeServiceImpl implements CodeService {
     private CodeDao dao;
 
     /**
@@ -23,8 +22,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional(readOnly = true)
-    public List<PubTypeCode> getAllPubTypeCodes()
-    {
+    public List<PubTypeCode> getAllPubTypeCodes() {
         return dao.getAllPubTypeCodes();
     }
 
@@ -35,8 +33,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional(readOnly = true)
-    public PubTypeCode getPubTypeCodeById(final Long pubTypeCodeId)
-    {
+    public PubTypeCode getPubTypeCodeById(final Long pubTypeCodeId) {
         return dao.getPubTypeCodeById(pubTypeCodeId);
     }
 
@@ -47,8 +44,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional(readOnly = true)
-    public PubTypeCode getPubTypeCodeByName(final String pubTypeCodeName)
-    {
+    public PubTypeCode getPubTypeCodeByName(final String pubTypeCodeName) {
         return dao.getPubTypeCodeByName(pubTypeCodeName);
     }
 
@@ -59,8 +55,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional
-    public void savePubTypeCode(final PubTypeCode pubTypeCode)
-    {
+    public void savePubTypeCode(final PubTypeCode pubTypeCode) {
         pubTypeCode.setLastUpdated(new Date());
         dao.savePubTypeCode(pubTypeCode);
     }
@@ -72,8 +67,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional
-    public void deletePubTypeCode(final PubTypeCode pubTypeCode)
-    {
+    public void deletePubTypeCode(final PubTypeCode pubTypeCode) {
         dao.deletePubTypeCode(pubTypeCode);
     }
 
@@ -83,8 +77,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional(readOnly = true)
-    public List<JurisTypeCode> getAllJurisTypeCodes()
-    {
+    public List<JurisTypeCode> getAllJurisTypeCodes() {
         return dao.getAllJurisTypeCodes();
     }
 
@@ -95,8 +88,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional(readOnly = true)
-    public JurisTypeCode getJurisTypeCodeById(final Long jurisTypeCodeId)
-    {
+    public JurisTypeCode getJurisTypeCodeById(final Long jurisTypeCodeId) {
         return dao.getJurisTypeCodeById(jurisTypeCodeId);
     }
 
@@ -107,8 +99,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional(readOnly = true)
-    public JurisTypeCode getJurisTypeCodeByName(final String jurisTypeCodeName)
-    {
+    public JurisTypeCode getJurisTypeCodeByName(final String jurisTypeCodeName) {
         return dao.getJurisTypeCodeByName(jurisTypeCodeName);
     }
 
@@ -119,8 +110,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional
-    public void saveJurisTypeCode(final JurisTypeCode jurisTypeCode)
-    {
+    public void saveJurisTypeCode(final JurisTypeCode jurisTypeCode) {
         jurisTypeCode.setLastUpdated(new Date());
         dao.saveJurisTypeCode(jurisTypeCode);
     }
@@ -132,8 +122,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional
-    public void deleteJurisTypeCode(final JurisTypeCode jurisTypeCode)
-    {
+    public void deleteJurisTypeCode(final JurisTypeCode jurisTypeCode) {
         dao.deleteJurisTypeCode(jurisTypeCode);
     }
 
@@ -143,8 +132,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional(readOnly = true)
-    public List<DocumentTypeCode> getAllDocumentTypeCodes()
-    {
+    public List<DocumentTypeCode> getAllDocumentTypeCodes() {
         return dao.getAllDocumentTypeCodes();
     }
 
@@ -155,8 +143,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional(readOnly = true)
-    public DocumentTypeCode getDocumentTypeCodeById(final Long documentTypeCodeId)
-    {
+    public DocumentTypeCode getDocumentTypeCodeById(final Long documentTypeCodeId) {
         return dao.getDocumentTypeCodeById(documentTypeCodeId);
     }
 
@@ -167,8 +154,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional
-    public void saveDocumentTypeCode(final DocumentTypeCode documentTypeCode)
-    {
+    public void saveDocumentTypeCode(final DocumentTypeCode documentTypeCode) {
         documentTypeCode.setLastUpdated(new Date());
         dao.saveDocumentTypeCode(documentTypeCode);
     }
@@ -180,15 +166,13 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional
-    public void deleteDocumentTypeCode(final DocumentTypeCode documentTypeCode)
-    {
+    public void deleteDocumentTypeCode(final DocumentTypeCode documentTypeCode) {
         dao.deleteDocumentTypeCode(documentTypeCode);
     }
 
     @Override
     @Transactional
-    public void saveDocumentTypeMetric(final DocumentTypeCode documentTypeCode)
-    {
+    public void saveDocumentTypeMetric(final DocumentTypeCode documentTypeCode) {
         dao.saveDocumentTypeCode(documentTypeCode);
     }
 
@@ -198,8 +182,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional(readOnly = true)
-    public List<PublisherCode> getAllPublisherCodes()
-    {
+    public List<PublisherCode> getAllPublisherCodes() {
         return dao.getAllPublisherCodes();
     }
 
@@ -210,8 +193,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional(readOnly = true)
-    public PublisherCode getPublisherCodeById(final Long publisherCodeId)
-    {
+    public PublisherCode getPublisherCodeById(final Long publisherCodeId) {
         return dao.getPublisherCodeById(publisherCodeId);
     }
 
@@ -222,8 +204,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional
-    public void savePublisherCode(final PublisherCode publisherCode)
-    {
+    public void savePublisherCode(final PublisherCode publisherCode) {
         publisherCode.setLastUpdated(new Date());
         dao.savePublisherCode(publisherCode);
     }
@@ -235,8 +216,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional
-    public void deletePublisherCode(final PublisherCode publisherCode)
-    {
+    public void deletePublisherCode(final PublisherCode publisherCode) {
         dao.deletePublisherCode(publisherCode);
     }
 
@@ -246,8 +226,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional(readOnly = true)
-    public List<KeywordTypeCode> getAllKeywordTypeCodes()
-    {
+    public List<KeywordTypeCode> getAllKeywordTypeCodes() {
         return dao.getAllKeywordTypeCodes();
     }
 
@@ -258,8 +237,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional(readOnly = true)
-    public KeywordTypeCode getKeywordTypeCodeById(final Long keywordTypeCodeId)
-    {
+    public KeywordTypeCode getKeywordTypeCodeById(final Long keywordTypeCodeId) {
         return dao.getKeywordTypeCodeById(keywordTypeCodeId);
     }
 
@@ -270,8 +248,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional(readOnly = true)
-    public KeywordTypeCode getKeywordTypeCodeByName(final String keywordTypeCodeName)
-    {
+    public KeywordTypeCode getKeywordTypeCodeByName(final String keywordTypeCodeName) {
         return dao.getKeywordTypeCodeByName(keywordTypeCodeName);
     }
 
@@ -282,8 +259,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional
-    public void saveKeywordTypeCode(final KeywordTypeCode keywordTypeCode)
-    {
+    public void saveKeywordTypeCode(final KeywordTypeCode keywordTypeCode) {
         keywordTypeCode.setLastUpdated(new Date());
         dao.saveKeywordTypeCode(keywordTypeCode);
     }
@@ -295,8 +271,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional
-    public void deleteKeywordTypeCode(final KeywordTypeCode keywordTypeCode)
-    {
+    public void deleteKeywordTypeCode(final KeywordTypeCode keywordTypeCode) {
         dao.deleteKeywordTypeCode(keywordTypeCode);
     }
 
@@ -306,8 +281,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional(readOnly = true)
-    public List<KeywordTypeValue> getAllKeywordTypeValues()
-    {
+    public List<KeywordTypeValue> getAllKeywordTypeValues() {
         return dao.getAllKeywordTypeValues();
     }
 
@@ -318,8 +292,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional(readOnly = true)
-    public List<KeywordTypeValue> getAllKeywordTypeValues(final Long keywordTypeCodeId)
-    {
+    public List<KeywordTypeValue> getAllKeywordTypeValues(final Long keywordTypeCodeId) {
         return dao.getAllKeywordTypeValues(keywordTypeCodeId);
     }
 
@@ -330,8 +303,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional(readOnly = true)
-    public KeywordTypeValue getKeywordTypeValueById(final Long keywordTypeValueId)
-    {
+    public KeywordTypeValue getKeywordTypeValueById(final Long keywordTypeValueId) {
         return dao.getKeywordTypeValueById(keywordTypeValueId);
     }
 
@@ -342,8 +314,7 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional
-    public void saveKeywordTypeValue(final KeywordTypeValue keywordTypeValue)
-    {
+    public void saveKeywordTypeValue(final KeywordTypeValue keywordTypeValue) {
         keywordTypeValue.setLastUpdated(new Date());
         dao.saveKeywordTypeValue(keywordTypeValue);
     }
@@ -355,14 +326,12 @@ public class CodeServiceImpl implements CodeService
      */
     @Override
     @Transactional
-    public void deleteKeywordTypeValue(final KeywordTypeValue keywordTypeValue)
-    {
+    public void deleteKeywordTypeValue(final KeywordTypeValue keywordTypeValue) {
         dao.deleteKeywordTypeValue(keywordTypeValue);
     }
 
     @Required
-    public void setCodeDao(final CodeDao dao)
-    {
+    public void setCodeDao(final CodeDao dao) {
         this.dao = dao;
     }
 }

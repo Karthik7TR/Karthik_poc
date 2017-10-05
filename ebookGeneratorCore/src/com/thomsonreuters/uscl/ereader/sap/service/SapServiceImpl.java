@@ -21,8 +21,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Implementation of SAP service with REST API
  */
-public class SapServiceImpl implements SapService
-{
+public class SapServiceImpl implements SapService {
     private static final Logger LOG = LogManager.getLogger(SapServiceImpl.class);
     private static final String CHECK_STATUS_SUB_NUMBER = "13517355";
     private static final String PLANT_PLACEHOLDER = "\\{plant\\}";
@@ -34,32 +33,35 @@ public class SapServiceImpl implements SapService
     private final HttpEntity<String> requestEntity;
     private final String getComponentsByMaterialNumberUrl;
 
-    public SapServiceImpl(final String sapLogin, final String sapPassword,
-                      final String getComponentsByMaterialNumberUrl, final String plant, final String sapClient)
-    {
-        final String authorization = new Base64Encoder().encode(
-            StringUtils.join(sapLogin, ":", sapPassword).getBytes(StandardCharsets.UTF_8));
+    public SapServiceImpl(
+        final String sapLogin,
+        final String sapPassword,
+        final String getComponentsByMaterialNumberUrl,
+        final String plant,
+        final String sapClient) {
+        final String authorization =
+            new Base64Encoder().encode(StringUtils.join(sapLogin, ":", sapPassword).getBytes(StandardCharsets.UTF_8));
         final HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, StringUtils.join(BASIC_AUTH, StringUtils.SPACE, authorization));
 
         requestEntity = new HttpEntity<>(headers);
-        this.getComponentsByMaterialNumberUrl = getComponentsByMaterialNumberUrl
-            .replaceAll(PLANT_PLACEHOLDER, plant)
+        this.getComponentsByMaterialNumberUrl = getComponentsByMaterialNumberUrl.replaceAll(PLANT_PLACEHOLDER, plant)
             .replaceAll(SAP_CLIENT_PLACEHOLDER, sapClient);
         restTemplate = new RestTemplate();
     }
 
     @NotNull
     @Override
-    public Material getMaterialByNumber(@NotNull final String materialNumber)
-    {
-        final ResponseEntity<Material> response = restTemplate.exchange(getComponentsByMaterialNumberUrl, HttpMethod.GET,
-                              requestEntity, Material.class,
-                              Collections.singletonMap(MATERIAL, materialNumber));
+    public Material getMaterialByNumber(@NotNull final String materialNumber) {
+        final ResponseEntity<Material> response = restTemplate.exchange(
+            getComponentsByMaterialNumberUrl,
+            HttpMethod.GET,
+            requestEntity,
+            Material.class,
+            Collections.singletonMap(MATERIAL, materialNumber));
 
         final HttpStatus responseStatus = response.getStatusCode();
-        if (HttpStatus.OK != responseStatus)
-        {
+        if (HttpStatus.OK != responseStatus) {
             throw new SapRequestException(responseStatus, materialNumber);
         }
         return response.getBody();
@@ -67,19 +69,17 @@ public class SapServiceImpl implements SapService
 
     @NotNull
     @Override
-    public SmokeTest checkSapStatus()
-    {
+    public SmokeTest checkSapStatus() {
         final SmokeTest status = new SmokeTest();
         status.setName("SAP Service");
-        status.setAddress(getComponentsByMaterialNumberUrl.replaceAll(StringUtils.join("\\{", MATERIAL, "\\}"), CHECK_STATUS_SUB_NUMBER));
+        status.setAddress(
+            getComponentsByMaterialNumberUrl
+                .replaceAll(StringUtils.join("\\{", MATERIAL, "\\}"), CHECK_STATUS_SUB_NUMBER));
         boolean isRunning;
-        try
-        {
+        try {
             getMaterialByNumber(CHECK_STATUS_SUB_NUMBER);
             isRunning = true;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             LOG.error(e.getMessage(), e);
             isRunning = false;
         }

@@ -6,17 +6,14 @@ package com.thomsonreuters.uscl.ereader.deliver.exception;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public class ProviewException extends Exception
-{
+public class ProviewException extends Exception {
     private static final long serialVersionUID = 1L;
 
-    public ProviewException(final String message, final Throwable cause)
-    {
+    public ProviewException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public ProviewException(final String message)
-    {
+    public ProviewException(final String message) {
         super(message);
     }
 }

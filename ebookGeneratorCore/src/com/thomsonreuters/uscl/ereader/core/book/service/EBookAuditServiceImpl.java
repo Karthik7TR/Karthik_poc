@@ -16,8 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @Transactional
-public class EBookAuditServiceImpl implements EBookAuditService
-{
+public class EBookAuditServiceImpl implements EBookAuditService {
     /**
      * DAO injected by Spring that manages EBookAudit entities
      *
@@ -31,8 +30,7 @@ public class EBookAuditServiceImpl implements EBookAuditService
      */
     @Override
     @Transactional
-    public void saveEBookAudit(final EbookAudit eBookAudit)
-    {
+    public void saveEBookAudit(final EbookAudit eBookAudit) {
         // Update the date time
         eBookAudit.setLastUpdated(new Date());
 
@@ -45,20 +43,17 @@ public class EBookAuditServiceImpl implements EBookAuditService
      */
     @Override
     @Transactional
-    public void deleteEBookAudit(final EbookAudit eBookAudit)
-    {
+    public void deleteEBookAudit(final EbookAudit eBookAudit) {
         eBookAuditDAO.remove(eBookAudit);
     }
 
     @Override
-    public EbookAudit findEBookAuditByPrimaryKey(final Long auditId)
-    {
+    public EbookAudit findEBookAuditByPrimaryKey(final Long auditId) {
         return eBookAuditDAO.findEbookAuditByPrimaryKey(auditId);
     }
 
     @Override
-    public Long findEbookAuditByEbookDefId(final Long ebookDefId)
-    {
+    public Long findEbookAuditByEbookDefId(final Long ebookDefId) {
         return eBookAuditDAO.findEbookAuditIdByEbookDefId(ebookDefId);
     }
 
@@ -67,55 +62,47 @@ public class EBookAuditServiceImpl implements EBookAuditService
      * @return
      */
     @Override
-    public List<EbookAudit> findEbookAudits(final EbookAuditFilter filter, final EbookAuditSort sort)
-    {
+    public List<EbookAudit> findEbookAudits(final EbookAuditFilter filter, final EbookAuditSort sort) {
         return eBookAuditDAO.findEbookAudits(filter, sort);
     }
 
     @Override
-    public int numberEbookAudits(final EbookAuditFilter filter)
-    {
+    public int numberEbookAudits(final EbookAuditFilter filter) {
         return eBookAuditDAO.numberEbookAudits(filter);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Long findMaxAuditId()
-    {
+    public Long findMaxAuditId() {
         return eBookAuditDAO.findMaxAuditId();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public EbookAudit findEbookAuditIdByTtileId(final String titleId)
-    {
+    public EbookAudit findEbookAuditIdByTtileId(final String titleId) {
         return eBookAuditDAO.findEbookAuditIdByTtileId(titleId);
     }
 
     @Override
     @Transactional
-    public void updateSplitDocumentsAudit(final EbookAudit audit, final String splitDocumentsConcat, final int parts)
-    {
+    public void updateSplitDocumentsAudit(final EbookAudit audit, final String splitDocumentsConcat, final int parts) {
         eBookAuditDAO.updateSpliDocumentsAudit(audit, splitDocumentsConcat, parts);
     }
 
     @Override
     @Transactional
-    public EbookAudit editIsbn(final String titleId, final String isbn)
-    {
+    public EbookAudit editIsbn(final String titleId, final String isbn) {
         final List<EbookAudit> audits = eBookAuditDAO.findEbookAuditByTitleIdAndIsbn(titleId, isbn);
         EbookAudit latestAudit = null;
 
-        for (final EbookAudit audit : audits)
-        {
+        for (final EbookAudit audit : audits) {
             final StringBuilder buffer = new StringBuilder();
             buffer.append(EbookAuditDao.MOD_TEXT);
             buffer.append(audit.getIsbn());
             audit.setIsbn(buffer.toString());
             eBookAuditDAO.saveAudit(audit);
 
-            if (latestAudit == null || latestAudit.getAuditId() < audit.getAuditId())
-            {
+            if (latestAudit == null || latestAudit.getAuditId() < audit.getAuditId()) {
                 latestAudit = audit;
             }
         }
@@ -127,16 +114,14 @@ public class EBookAuditServiceImpl implements EBookAuditService
     /**
      * @param eBookAuditDAO the eBookAuditDAO to set
      */
-    public void seteBookAuditDAO(final EbookAuditDao eBookAuditDAO)
-    {
+    public void seteBookAuditDAO(final EbookAuditDao eBookAuditDAO) {
         this.eBookAuditDAO = eBookAuditDAO;
     }
 
     /**
      * @return the eBookAuditDAO
      */
-    public EbookAuditDao geteBookAuditDAO()
-    {
+    public EbookAuditDao geteBookAuditDAO() {
         return eBookAuditDAO;
     }
 }

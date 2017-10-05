@@ -20,9 +20,8 @@ import org.hibernate.annotations.FetchMode;
 import org.jetbrains.annotations.NotNull;
 
 @Entity
-@Table(name = "JOB_REQUEST")
-public class JobRequest implements Serializable
-{
+@Table
+public class JobRequest implements Serializable {
     private static final long serialVersionUID = 5207493496108658705L;
 
     @Id
@@ -52,8 +51,7 @@ public class JobRequest implements Serializable
         @NotNull final BookDefinition bookDefinition,
         @NotNull final String version,
         final int priority,
-        @NotNull final String submittedBy)
-    {
+        @NotNull final String submittedBy) {
         final JobRequest jobRequest = new JobRequest();
         jobRequest.setBookDefinition(bookDefinition);
         jobRequest.setBookVersion(version);
@@ -62,69 +60,56 @@ public class JobRequest implements Serializable
         return jobRequest;
     }
 
-    public Long getJobRequestId()
-    {
+    public Long getJobRequestId() {
         return jobRequestId;
     }
 
-    public void setJobRequestId(final Long jobRequestId)
-    {
+    public void setJobRequestId(final Long jobRequestId) {
         this.jobRequestId = jobRequestId;
     }
 
-    public BookDefinition getBookDefinition()
-    {
+    public BookDefinition getBookDefinition() {
         return bookDefinition;
     }
 
-    public void setBookDefinition(final BookDefinition definition)
-    {
+    public void setBookDefinition(final BookDefinition definition) {
         bookDefinition = definition;
     }
 
-    public String getBookVersion()
-    {
+    public String getBookVersion() {
         return bookVersion;
     }
 
-    public void setBookVersion(final String bookVersionSubmited)
-    {
+    public void setBookVersion(final String bookVersionSubmited) {
         bookVersion = bookVersionSubmited;
     }
 
-    public int getPriority()
-    {
+    public int getPriority() {
         return priority;
     }
 
-    public void setPriority(final int jobPriority)
-    {
+    public void setPriority(final int jobPriority) {
         priority = jobPriority;
     }
 
-    public String getSubmittedBy()
-    {
+    public String getSubmittedBy() {
         return submittedBy;
     }
 
-    public void setSubmittedBy(final String jobSubmittersName)
-    {
+    public void setSubmittedBy(final String jobSubmittersName) {
         submittedBy = jobSubmittersName;
     }
 
-    public Date getSubmittedAt()
-    {
+    public Date getSubmittedAt() {
         return submittedAt;
     }
 
-    public void setSubmittedAt(final Date submitTime)
-    {
+    public void setSubmittedAt(final Date submitTime) {
         submittedAt = submitTime;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

@@ -11,8 +11,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse
  * REST service operations offered by the generator web application.
  *
  */
-public interface GeneratorRestClient
-{
+public interface GeneratorRestClient {
     SimpleRestServiceResponse restartJob(long jobExecutionId);
 
     SimpleRestServiceResponse stopJob(long jobExecutionId);

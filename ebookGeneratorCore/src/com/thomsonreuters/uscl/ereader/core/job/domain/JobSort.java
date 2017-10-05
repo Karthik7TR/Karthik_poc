@@ -7,13 +7,11 @@ import org.springframework.util.Assert;
 /**
  * Holds sorting data used in Spring Batch job queries.
  */
-public class JobSort
-{
+public class JobSort {
     /**
      * The property names in the entities job execution and book audit tables that are sorted on for presentation.
      */
-    public enum SortProperty
-    {
+    public enum SortProperty {
         JOB_INSTANCE_ID,
         JOB_EXECUTION_ID,
         START_TIME,
@@ -32,8 +30,7 @@ public class JobSort
     /**
      * Default Job sort is by job start time, descending order.
      */
-    public JobSort()
-    {
+    public JobSort() {
         this(SortProperty.START_TIME, false);
     }
 
@@ -42,8 +39,7 @@ public class JobSort
      * @param sortProperty which job/book property to sort on, not null.
      * @param ascending true for an ascending direction sort
      */
-    public JobSort(final SortProperty sortProperty, final boolean ascending)
-    {
+    public JobSort(final SortProperty sortProperty, final boolean ascending) {
         Assert.notNull(sortProperty);
         this.sortProperty = sortProperty;
         this.ascending = ascending;
@@ -53,37 +49,31 @@ public class JobSort
      * Returns true if we are sorting the job data by either the titleId or the bookName properties.
      * Returning false implies that we are sorting on some column in the Spring Batch job execution table.
      */
-    public boolean isSortingOnBookProperty()
-    {
+    public boolean isSortingOnBookProperty() {
         return (SortProperty.TITLE_ID.equals(sortProperty)
             || SortProperty.BOOK_NAME.equals(sortProperty)
             || SortProperty.SUBMITTED_BY.equals(sortProperty)
             || SortProperty.SOURCE_TYPE.equals(sortProperty));
     }
 
-    public SortProperty getSortProperty()
-    {
+    public SortProperty getSortProperty() {
         return sortProperty;
     }
 
-    public boolean isAscending()
-    {
+    public boolean isAscending() {
         return ascending;
     }
 
-    public String getSortDirection()
-    {
+    public String getSortDirection() {
         return getSortDirection(ascending);
     }
 
-    public static String getSortDirection(final boolean anAscendingSort)
-    {
+    public static String getSortDirection(final boolean anAscendingSort) {
         return (anAscendingSort) ? "asc" : "desc";
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

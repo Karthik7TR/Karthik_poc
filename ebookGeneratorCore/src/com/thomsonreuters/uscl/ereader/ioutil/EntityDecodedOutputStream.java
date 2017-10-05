@@ -13,8 +13,7 @@ import java.io.OutputStream;
  * @author bmartell
  * @version 1.0, Nov 7, 2003.
  */
-public class EntityDecodedOutputStream extends FilterOutputStream
-{
+public class EntityDecodedOutputStream extends FilterOutputStream {
     private byte leftoverByte;
     private byte[] oneByteArray;
     private boolean allowExistingEntities;
@@ -26,8 +25,7 @@ public class EntityDecodedOutputStream extends FilterOutputStream
      *
      * @param out the underlying OutputStream ( of xml )
      */
-    public EntityDecodedOutputStream(final OutputStream out)
-    {
+    public EntityDecodedOutputStream(final OutputStream out) {
         super(out);
         oneByteArray = new byte[1];
         leftoverByte = -1;
@@ -42,8 +40,7 @@ public class EntityDecodedOutputStream extends FilterOutputStream
      *        should only set this if you are processing a stream with XSLTs that output entities
      *        already
      */
-    public EntityDecodedOutputStream(final OutputStream out, final boolean allowExistingEntities)
-    {
+    public EntityDecodedOutputStream(final OutputStream out, final boolean allowExistingEntities) {
         this(out);
         this.allowExistingEntities = allowExistingEntities;
     }
@@ -54,15 +51,11 @@ public class EntityDecodedOutputStream extends FilterOutputStream
      * @throws java.io.IOException on failure.
      */
     @Override
-    public void close() throws IOException
-    {
-        if ('$' == leftoverByte && !allowExistingEntities)
-        {
+    public void close() throws IOException {
+        if ('$' == leftoverByte && !allowExistingEntities) {
             throw new IllegalArgumentException(
                 "at close an extra $ was left in the buffer! " + "input does not appear to be entity encoded");
-        }
-        else if ('$' == leftoverByte && allowExistingEntities)
-        {
+        } else if ('$' == leftoverByte && allowExistingEntities) {
             out.write('$');
         }
 
@@ -77,8 +70,7 @@ public class EntityDecodedOutputStream extends FilterOutputStream
      * @throws java.io.IOException on failure.
      */
     @Override
-    public void write(final byte[] b) throws IOException
-    {
+    public void write(final byte[] b) throws IOException {
         this.write(b, 0, b.length);
     }
 
@@ -92,27 +84,21 @@ public class EntityDecodedOutputStream extends FilterOutputStream
      * @throws java.io.IOException on failure.
      */
     @Override
-    public void write(final byte[] buffer, final int offset, final int length) throws IOException
-    {
+    public void write(final byte[] buffer, final int offset, final int length) throws IOException {
         final int endIndex = length + offset;
 
-        for (int index = offset; index < endIndex; index++)
-        {
-            switch (buffer[index])
-            {
+        for (int index = offset; index < endIndex; index++) {
+            switch (buffer[index]) {
             case '&':
 
-                if (!inProcessingInstruction && !allowExistingEntities)
-                {
+                if (!inProcessingInstruction && !allowExistingEntities) {
                     final String subString = errorRelevantSubstring(buffer, offset, endIndex, index);
                     final String message = "Detected entity in the input "
                         + "when no unencoded entitites are allowed. Here is the input ..."
                         + subString
                         + "...";
                     throw new IllegalArgumentException(message);
-                }
-                else
-                {
+                } else {
                     out.write(buffer[index]);
                 }
 
@@ -120,50 +106,34 @@ public class EntityDecodedOutputStream extends FilterOutputStream
 
             case '#':
 
-                if (!inProcessingInstruction && '$' == leftoverByte)
-                {
+                if (!inProcessingInstruction && '$' == leftoverByte) {
                     out.write('&');
                     leftoverByte = -1;
-                }
-                else
-                {
+                } else {
                     out.write(buffer[index]);
                 }
 
                 break;
 
             case '$':
-                if (inProcessingInstruction)
-                {
+                if (inProcessingInstruction) {
                     out.write('$');
-                }
-                else
-                {
-                    if ('$' == leftoverByte)
-                    {
+                } else {
+                    if ('$' == leftoverByte) {
                         out.write('$');
                         leftoverByte = -1;
-                    }
-                    else if ((index + 1) != (offset + length))
-                    {
+                    } else if ((index + 1) != (offset + length)) {
                         final byte peekAhead = buffer[index + 1];
 
-                        if (peekAhead == '$')
-                        {
+                        if (peekAhead == '$') {
                             out.write('$');
                             index++;
-                        }
-                        else if (peekAhead == '#')
-                        {
+                        } else if (peekAhead == '#') {
                             out.write('&');
                             index++;
-                        }
-                        else if (allowExistingEntities)
-                        {
+                        } else if (allowExistingEntities) {
                             out.write('$');
-                        }
-                        else
-                        {
+                        } else {
                             final String subString = errorRelevantSubstring(buffer, offset, endIndex, index);
                             final String message =
                                 "Input does not appear to be entity encoded. Expected either a $ or # to follow.  Buffer =..."
@@ -171,9 +141,7 @@ public class EntityDecodedOutputStream extends FilterOutputStream
                                     + "...";
                             throw new IllegalArgumentException(message);
                         }
-                    }
-                    else
-                    {
+                    } else {
                         leftoverByte = (byte) '$';
                     }
                 }
@@ -182,8 +150,7 @@ public class EntityDecodedOutputStream extends FilterOutputStream
 
             case '?':
 
-                if (!inProcessingInstruction && previousCharacter == '<')
-                {
+                if (!inProcessingInstruction && previousCharacter == '<') {
                     inProcessingInstruction = true; //hit the sequence "<?"
                 }
 
@@ -193,8 +160,7 @@ public class EntityDecodedOutputStream extends FilterOutputStream
 
             case '>':
 
-                if (inProcessingInstruction && previousCharacter == '?')
-                {
+                if (inProcessingInstruction && previousCharacter == '?') {
                     inProcessingInstruction = false; //hit the sequence "?>"
                 }
 
@@ -222,16 +188,13 @@ public class EntityDecodedOutputStream extends FilterOutputStream
      * @param index current position in buffer.
      * @return 40 chars on either side of the current index.
      */
-    private String errorRelevantSubstring(final byte[] buffer, final int offset, final int endIndex, final int index)
-    {
+    private String errorRelevantSubstring(final byte[] buffer, final int offset, final int endIndex, final int index) {
         int leftIndex = index - 40;
-        if (leftIndex < 0)
-        {
+        if (leftIndex < 0) {
             leftIndex = 0;
         }
         int rightIndex = index + 40;
-        if (rightIndex > endIndex)
-        {
+        if (rightIndex > endIndex) {
             rightIndex = endIndex;
         }
         return new String(buffer, offset + leftIndex, rightIndex - leftIndex);
@@ -245,8 +208,7 @@ public class EntityDecodedOutputStream extends FilterOutputStream
      * @throws java.io.IOException on failure.
      */
     @Override
-    public void write(final int b) throws IOException
-    {
+    public void write(final int b) throws IOException {
         oneByteArray[0] = (byte) b;
         this.write(oneByteArray, 0, 1);
     }

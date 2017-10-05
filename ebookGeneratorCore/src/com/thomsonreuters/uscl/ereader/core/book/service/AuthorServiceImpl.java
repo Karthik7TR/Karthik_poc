@@ -12,8 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 
-public class AuthorServiceImpl implements AuthorService
-{
+public class AuthorServiceImpl implements AuthorService {
     /**
      * DAO injected by Spring that manages Author entities
      *
@@ -27,14 +26,11 @@ public class AuthorServiceImpl implements AuthorService
      */
     @Override
     @Transactional
-    public void saveAuthor(final Author author)
-    {
+    public void saveAuthor(final Author author) {
         final Author existingAuthor = authorDAO.findAuthorById(author.getAuthorId());
 
-        if (existingAuthor != null)
-        {
-            if (existingAuthor != author)
-            {
+        if (existingAuthor != null) {
+            if (existingAuthor != author) {
                 existingAuthor.setAuthorId(author.getAuthorId());
                 existingAuthor.setAuthorFirstName(author.getAuthorFirstName());
                 existingAuthor.setAuthorAddlText(author.getAuthorAddlText());
@@ -45,9 +41,7 @@ public class AuthorServiceImpl implements AuthorService
                 existingAuthor.setEbookDefinition(author.getEbookDefinition());
             }
             authorDAO.saveAuthor(existingAuthor);
-        }
-        else
-        {
+        } else {
             authorDAO.saveAuthor(author);
         }
     }
@@ -58,28 +52,24 @@ public class AuthorServiceImpl implements AuthorService
      */
     @Override
     @Transactional
-    public void deleteAuthor(final Author author)
-    {
+    public void deleteAuthor(final Author author) {
         authorDAO.remove(author);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Author findAuthorById(final Long authorId)
-    {
+    public Author findAuthorById(final Long authorId) {
         return authorDAO.findAuthorById(authorId);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Author> findAuthorsByEBookDefnId(final Long eBookDefnId)
-    {
+    public List<Author> findAuthorsByEBookDefnId(final Long eBookDefnId) {
         return authorDAO.findAuthorsByEBookDefnId(eBookDefnId);
     }
 
     @Required
-    public void setAuthorDAO(final AuthorDao authorDAO)
-    {
+    public void setAuthorDAO(final AuthorDao authorDAO) {
         this.authorDAO = authorDAO;
     }
 }

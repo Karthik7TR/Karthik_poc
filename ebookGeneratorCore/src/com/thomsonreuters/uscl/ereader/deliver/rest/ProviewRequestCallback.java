@@ -17,8 +17,7 @@ import org.springframework.web.client.RequestCallback;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a>u0081674
  *
  */
-public class ProviewRequestCallback implements RequestCallback
-{
+public class ProviewRequestCallback implements RequestCallback {
     private static final Logger LOG = LogManager.getLogger(ProviewRequestCallback.class);
     private static final String ACCEPT_HEADER = "Accept";
     private static final String APPLICATION_XML_MIMETYPE = "application/xml";
@@ -26,14 +25,12 @@ public class ProviewRequestCallback implements RequestCallback
     private static final String HTTP_BASIC_CREDENTIALS = "Basic cHVibGlzaGVyOmY5Ul96QnEzN2E=";
     private InputStream ebookInputStream;
 
-    public void setEbookInputStream(final InputStream ebookInputStream)
-    {
+    public void setEbookInputStream(final InputStream ebookInputStream) {
         this.ebookInputStream = ebookInputStream;
     }
 
     @Override
-    public void doWithRequest(final ClientHttpRequest clientHttpRequest) throws IOException
-    {
+    public void doWithRequest(final ClientHttpRequest clientHttpRequest) throws IOException {
         //clientHttpRequest.getHeaders().add(ACCEPT_HEADER, APPLICATION_XML_MIMETYPE);
         clientHttpRequest.getHeaders().add("Content-type", MediaType.APPLICATION_OCTET_STREAM_VALUE);
 
@@ -43,16 +40,13 @@ public class ProviewRequestCallback implements RequestCallback
          * with the RestTemplate prevents the underlying, concrete HttpClient headers (if any are present) to be ignored.
          */
         clientHttpRequest.getHeaders().add(AUTHORIZATION_HEADER, HTTP_BASIC_CREDENTIALS);
-        if (ebookInputStream != null)
-        {
+        if (ebookInputStream != null) {
             final long startTime = System.currentTimeMillis();
             //IOUtils.copy(ebookInputStream, clientHttpRequest.getBody());
 
-            ((StreamingHttpOutputMessage) clientHttpRequest).setBody(new StreamingHttpOutputMessage.Body()
-            {
+            ((StreamingHttpOutputMessage) clientHttpRequest).setBody(new StreamingHttpOutputMessage.Body() {
                 @Override
-                public void writeTo(final OutputStream outputStream) throws IOException
-                {
+                public void writeTo(final OutputStream outputStream) throws IOException {
                     IOUtils.copy(ebookInputStream, outputStream);
                 }
             });

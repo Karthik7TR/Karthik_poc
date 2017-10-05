@@ -8,8 +8,7 @@ import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 
-public interface GroupService
-{
+public interface GroupService {
     String getGroupId(BookDefinition bookDefinition);
 
     List<GroupDefinition> getGroups(String groupId) throws Exception;
@@ -18,8 +17,7 @@ public interface GroupService
 
     GroupDefinition getGroupInfoByVersion(String groupId, Long groupVersion) throws ProviewException;
 
-    GroupDefinition getGroupInfoByVersionAutoDecrement(String groupId, Long groupVersion)
-        throws ProviewException;
+    GroupDefinition getGroupInfoByVersionAutoDecrement(String groupId, Long groupVersion) throws ProviewException;
 
     GroupDefinition getLastGroup(BookDefinition book) throws Exception;
 
@@ -29,10 +27,8 @@ public interface GroupService
 
     boolean isTitleWithVersion(String fullyQualifiedTitle);
 
-    GroupDefinition createGroupDefinition(
-        BookDefinition bookDefinition,
-        String bookVersion,
-        List<String> splitTitles) throws Exception;
+    GroupDefinition createGroupDefinition(BookDefinition bookDefinition, String bookVersion, List<String> splitTitles)
+        throws Exception;
 
     void removeAllPreviousGroups(BookDefinition bookDefinition) throws Exception;
 

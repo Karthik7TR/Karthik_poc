@@ -9,14 +9,12 @@ import java.util.Date;
  * This container is initially loaded for current or future outages as each generator instance starts.
  * It is updated via a push from the manager application when the operator adds/updates/deletes on the fly.
  */
-public class PlannedOutageContainer
-{
+public class PlannedOutageContainer {
     //private static final Logger log = LogManager.getLogger(PlannedOutageContainer.class);
 
     private Collection<PlannedOutage> outages = new ArrayList<>();
 
-    public PlannedOutageContainer()
-    {
+    public PlannedOutageContainer() {
         super();
     }
 
@@ -25,16 +23,13 @@ public class PlannedOutageContainer
      * object that already has the same key.
      * @param outageToSave the new outage.
      */
-    public synchronized void add(final PlannedOutage outageToSave)
-    {
+    public synchronized void add(final PlannedOutage outageToSave) {
         remove(outageToSave);
         outages.add(outageToSave);
     }
 
-    public synchronized void addAll(final Collection<PlannedOutage> allOutages)
-    {
-        for (final PlannedOutage outage : allOutages)
-        {
+    public synchronized void addAll(final Collection<PlannedOutage> allOutages) {
+        for (final PlannedOutage outage : allOutages) {
             add(outage);
         }
     }
@@ -45,24 +40,18 @@ public class PlannedOutageContainer
      * @param timeInstant the time instant to check.
      * @return the outage at the specified time, or null if none found
      */
-    public PlannedOutage findOutage(final Date timeInstant)
-    {
-        for (final PlannedOutage outage : outages)
-        {
-            if (outage.isActive(timeInstant))
-            {
+    public PlannedOutage findOutage(final Date timeInstant) {
+        for (final PlannedOutage outage : outages) {
+            if (outage.isActive(timeInstant)) {
                 return outage;
             }
         }
         return null;
     }
 
-    public synchronized PlannedOutage findExpiredOutage(final Date checkTime)
-    {
-        for (final PlannedOutage outage : outages)
-        {
-            if (checkTime.after(outage.getEndTime()))
-            {
+    public synchronized PlannedOutage findExpiredOutage(final Date checkTime) {
+        for (final PlannedOutage outage : outages) {
+            if (checkTime.after(outage.getEndTime())) {
                 return outage;
             }
         }
@@ -74,8 +63,7 @@ public class PlannedOutageContainer
      * @param outageToRemove id property is used for comparison with existing outages in the collection.
      * @return true if an object was actually removed
      */
-    public synchronized boolean remove(final PlannedOutage outageToRemove)
-    {
+    public synchronized boolean remove(final PlannedOutage outageToRemove) {
         return outages.remove(outageToRemove);
     }
 }

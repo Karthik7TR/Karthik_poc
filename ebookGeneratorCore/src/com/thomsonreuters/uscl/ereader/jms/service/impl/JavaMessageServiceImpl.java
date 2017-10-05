@@ -15,8 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.util.StringUtils;
 
-public class JavaMessageServiceImpl implements JavaMessageService
-{
+public class JavaMessageServiceImpl implements JavaMessageService {
     private static final Logger log = Logger.getLogger(JavaMessageServiceImpl.class);
     private static final int MAX_QUEUES_PER_TYPE = 5;
 
@@ -31,43 +30,32 @@ public class JavaMessageServiceImpl implements JavaMessageService
     private ConnectionFactory factory;
 
     @PreDestroy
-    public void destroy()
-    {
+    public void destroy() {
         log.debug("@PreDestroy: cleaning up");
     }
 
     @PostConstruct
-    public void init()
-    {
+    public void init() {
         log.info("@PostConstruct: initializing");
-        for (final QueueType queueType : QueueType.values())
-        {
+        for (final QueueType queueType : QueueType.values()) {
             final QueueManager manager = new QueueManager(queueType, factory, jmsClient);
             final String connections = System.getProperty(queueType.connections());
-            if (StringUtils.hasLength(connections))
-            {
+            if (StringUtils.hasLength(connections)) {
                 final String[] connectionsSplit = connections.split("\\|");
                 for (int eventNumber = 0; eventNumber < MAX_QUEUES_PER_TYPE
-                    && eventNumber < connectionsSplit.length; eventNumber++)
-                {
+                    && eventNumber < connectionsSplit.length; eventNumber++) {
                     initializeAndAddQueueDescriptor(queueType, connectionsSplit[eventNumber], manager);
                 }
             }
 
-            if (manager.size() > 0)
-            {
-                if (manager.enableQueue())
-                {
+            if (manager.size() > 0) {
+                if (manager.enableQueue()) {
                     queueDescriptorMap.put(queueType, manager);
                     log.info("@PostConstruct: " + queueMessage(queueType, "queue has been initialized"));
-                }
-                else
-                {
+                } else {
                     log.warn("@PostConstruct: " + queueMessage(queueType, "could not enable queue - skipping"));
                 }
-            }
-            else
-            {
+            } else {
                 log.warn("@PostConstruct: " + queueMessage(queueType, "queue not initialized!"));
             }
         }
@@ -78,22 +66,18 @@ public class JavaMessageServiceImpl implements JavaMessageService
     private void initializeAndAddQueueDescriptor(
         final QueueType queueType,
         final String queueName,
-        final QueueManager manager)
-    {
+        final QueueManager manager) {
         final QueueDescriptor queueDescriptor = new QueueDescriptor(queueType, queueName);
-        if (queueDescriptor.isValid())
-        {
+        if (queueDescriptor.isValid()) {
             manager.add(queueDescriptor);
         }
     }
 
     @Override
-    public boolean enableQueue(final QueueType queueType)
-    {
+    public boolean enableQueue(final QueueType queueType) {
         final QueueManager manager = queueDescriptorMap.get(queueType);
 
-        if (manager == null)
-        {
+        if (manager == null) {
             log.warn(queueMessage(queueType, "queue not found"));
             return false;
         }
@@ -102,12 +86,10 @@ public class JavaMessageServiceImpl implements JavaMessageService
     }
 
     @Override
-    public boolean disableQueue(final QueueType queueType)
-    {
+    public boolean disableQueue(final QueueType queueType) {
         final QueueManager manager = queueDescriptorMap.get(queueType);
 
-        if (manager == null)
-        {
+        if (manager == null) {
             log.warn(queueMessage(queueType, "queue not found"));
             return false;
         }
@@ -119,41 +101,32 @@ public class JavaMessageServiceImpl implements JavaMessageService
     public void sendMessageToQueue(
         final QueueType queueType,
         final String messageText,
-        final Map<String, String> properties)
-    {
+        final Map<String, String> properties) {
         final QueueManager manager = queueDescriptorMap.get(queueType);
 
-        if (manager == null)
-        {
+        if (manager == null) {
             log.warn(queueMessage(queueType, "queue not found"));
-        }
-        else
-        {
+        } else {
             manager.sendMessageToQueue(messageText, properties);
         }
     }
 
     @Override
-    public List<String> receiveMessages(final QueueType queueType, final String searchText)
-    {
+    public List<String> receiveMessages(final QueueType queueType, final String searchText) {
         List<String> messages = null;
 
         final QueueManager manager = queueDescriptorMap.get(queueType);
 
-        if (manager == null)
-        {
+        if (manager == null) {
             log.warn(queueMessage(queueType, "queue not found"));
-        }
-        else
-        {
+        } else {
             messages = manager.receiveMessages(searchText);
         }
 
         return messages;
     }
 
-    private String queueMessage(final QueueType queueType, final String message)
-    {
+    private String queueMessage(final QueueType queueType, final String message) {
         return queueType.toString() + ": " + message;
     }
 }

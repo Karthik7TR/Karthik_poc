@@ -20,16 +20,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.transaction.annotation.Transactional;
 
-public class JobDaoImpl implements JobDao
-{
+public class JobDaoImpl implements JobDao {
     private static final Logger log = LogManager.getLogger(JobDaoImpl.class);
     private static final JobSummaryRowMapper JOB_SUMMARY_ROW_MAPPER = new JobSummaryRowMapper();
     private static final JobExecutionIdRowMapper JOB_EXECUTION_ID_ROW_MAPPER = new JobExecutionIdRowMapper();
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public int getStartedJobCount()
-    {
+    public int getStartedJobCount() {
         final String sql = String.format(
             "select count(*) from BATCH_JOB_EXECUTION where (status = '%s') or (status = '%s')",
             BatchStatus.STARTING.toString(),
@@ -39,11 +37,9 @@ public class JobDaoImpl implements JobDao
     }
 
     @Override
-    public List<JobSummary> findJobSummary(final List<Long> jobExecutionIds)
-    {
+    public List<JobSummary> findJobSummary(final List<Long> jobExecutionIds) {
         final List<JobSummary> list = new ArrayList<>(jobExecutionIds.size());
-        for (final long jobExecutionId : jobExecutionIds)
-        {
+        for (final long jobExecutionId : jobExecutionIds) {
             final StringBuilder sql = new StringBuilder(
                 "select auditTable.EBOOK_DEFINITION_ID, auditTable.PROVIEW_DISPLAY_NAME, auditTable.SOURCE_TYPE, auditTable.TITLE_ID, execution.JOB_INSTANCE_ID, ");
             sql.append(
@@ -55,17 +51,12 @@ public class JobDaoImpl implements JobDao
             sql.append("(stats.AUDIT_ID = auditTable.AUDIT_ID(+))");
             // sql.append("(auditTable.PROVIEW_DISPLAY_NAME is not null)");  // Do not fetch rows that appear to be garbage
             final List<JobSummary> rows = jdbcTemplate.query(sql.toString(), JOB_SUMMARY_ROW_MAPPER);
-            if (rows.isEmpty())
-            {
+            if (rows.isEmpty()) {
                 log.debug(String.format("Job Execution ID %d was not found", jobExecutionId));
-            }
-            else if (rows.size() == 1)
-            {
+            } else if (rows.size() == 1) {
                 final JobSummary summary = rows.get(0);
                 list.add(summary);
-            }
-            else
-            {
+            } else {
                 log.error(String.format("%d rows were unexpectedly returned!", rows.size()));
             }
         }
@@ -74,14 +65,12 @@ public class JobDaoImpl implements JobDao
 
     @Override
     @Transactional(readOnly = true)
-    public List<Long> findJobExecutions(final JobFilter filter, final JobSort sort)
-    {
+    public List<Long> findJobExecutions(final JobFilter filter, final JobSort sort) {
         List<Long> jobExecutionIds = null;
         final StringBuffer sql = new StringBuffer("select execution.JOB_EXECUTION_ID from ");
         sql.append("BATCH_JOB_EXECUTION execution ");
         sql.append(", BATCH_JOB_INSTANCE instance ");
-        if (filter.hasAnyBookProperties() || sort.isSortingOnBookProperty())
-        {
+        if (filter.hasAnyBookProperties() || sort.isSortingOnBookProperty()) {
             sql.append(", PUBLISHING_STATS stats, EBOOK_AUDIT auditTable ");
         }
         sql.append("where ");
@@ -105,12 +94,10 @@ public class JobDaoImpl implements JobDao
      * @param filter
      * @return
      */
-    private String addFiltersToQuery(final JobFilter filter, final JobSort sort)
-    {
+    private String addFiltersToQuery(final JobFilter filter, final JobSort sort) {
         final StringBuffer sql = new StringBuffer();
 
-        if (filter.getFrom() != null)
-        {
+        if (filter.getFrom() != null) {
             /* 	We want to show jobs that are in the STARTING status even if they have no start time because
             	these are restarted jobs that are waiting for a thread (from the pool) to run and have not yet
             	began to actually execute.  They will remain in the STARTING status until another job completes
@@ -121,18 +108,14 @@ public class JobDaoImpl implements JobDao
                     "((execution.STATUS = '%s') or (execution.START_TIME >= ?)) and ",
                     BatchStatus.STARTING.toString()));
         }
-        if (filter.getTo() != null)
-        {
+        if (filter.getTo() != null) {
             sql.append("(execution.START_TIME < ?) and ");
         }
-        if (filter.getBatchStatus() != null && filter.getBatchStatus().length > 0)
-        {
+        if (filter.getBatchStatus() != null && filter.getBatchStatus().length > 0) {
             final StringBuffer csvStatus = new StringBuffer();
             boolean firstTime = true;
-            for (final BatchStatus status : filter.getBatchStatus())
-            {
-                if (!firstTime)
-                {
+            for (final BatchStatus status : filter.getBatchStatus()) {
+                if (!firstTime) {
                     csvStatus.append(",");
                 }
                 firstTime = false;
@@ -140,21 +123,17 @@ public class JobDaoImpl implements JobDao
             }
             sql.append(String.format("(execution.STATUS in (%s)) and ", csvStatus));
         }
-        if (filter.hasAnyBookProperties() || sort.isSortingOnBookProperty())
-        {
+        if (filter.hasAnyBookProperties() || sort.isSortingOnBookProperty()) {
             sql.append("(execution.JOB_INSTANCE_ID = stats.JOB_INSTANCE_ID(+)) and ");
             sql.append("(stats.AUDIT_ID = auditTable.AUDIT_ID(+)) and ");
 
-            if (StringUtils.isNotBlank(filter.getBookName()))
-            {
+            if (StringUtils.isNotBlank(filter.getBookName())) {
                 sql.append("(UPPER(auditTable.PROVIEW_DISPLAY_NAME) like UPPER(?)) and ");
             }
-            if (StringUtils.isNotBlank(filter.getTitleId()))
-            {
+            if (StringUtils.isNotBlank(filter.getTitleId())) {
                 sql.append("(UPPER(auditTable.TITLE_ID) like UPPER(?)) and ");
             }
-            if (StringUtils.isNotBlank(filter.getSubmittedBy()))
-            {
+            if (StringUtils.isNotBlank(filter.getSubmittedBy())) {
                 sql.append("(UPPER(stats.JOB_SUBMITTER_NAME) like UPPER(?)) and ");
             }
         }
@@ -169,30 +148,23 @@ public class JobDaoImpl implements JobDao
      * @param filter
      * @return
      */
-    private Object[] argumentsAddToFilter(final JobFilter filter, final JobSort sort)
-    {
+    private Object[] argumentsAddToFilter(final JobFilter filter, final JobSort sort) {
         final List<Object> args = new ArrayList<>();
 
-        if (filter.getFrom() != null)
-        {
+        if (filter.getFrom() != null) {
             args.add(filter.getFrom());
         }
-        if (filter.getTo() != null)
-        {
+        if (filter.getTo() != null) {
             args.add(filter.getTo());
         }
-        if (filter.hasAnyBookProperties() || sort.isSortingOnBookProperty())
-        {
-            if (StringUtils.isNotBlank(filter.getBookName()))
-            {
+        if (filter.hasAnyBookProperties() || sort.isSortingOnBookProperty()) {
+            if (StringUtils.isNotBlank(filter.getBookName())) {
                 args.add(filter.getBookName());
             }
-            if (StringUtils.isNotBlank(filter.getTitleId()))
-            {
+            if (StringUtils.isNotBlank(filter.getTitleId())) {
                 args.add(filter.getTitleId());
             }
-            if (StringUtils.isNotBlank(filter.getSubmittedBy()))
-            {
+            if (StringUtils.isNotBlank(filter.getSubmittedBy())) {
                 args.add(filter.getSubmittedBy());
             }
         }
@@ -203,10 +175,8 @@ public class JobDaoImpl implements JobDao
      * Map the sort column enumeration into the actual column identifier used in the HQL query.
      * @param sortProperty enumerated value that reflects the database table sort column to sort on.
      */
-    private String getOrderByColumnName(final SortProperty sortProperty)
-    {
-        switch (sortProperty)
-        {
+    private String getOrderByColumnName(final SortProperty sortProperty) {
+        switch (sortProperty) {
         case JOB_EXECUTION_ID:
             return "execution.JOB_EXECUTION_ID";
         case JOB_INSTANCE_ID:
@@ -229,17 +199,14 @@ public class JobDaoImpl implements JobDao
     }
 
     @Required
-    public void setJdbcTemplate(final JdbcTemplate template)
-    {
+    public void setJdbcTemplate(final JdbcTemplate template) {
         jdbcTemplate = template;
     }
 }
 
-class JobSummaryRowMapper implements RowMapper<JobSummary>
-{
+class JobSummaryRowMapper implements RowMapper<JobSummary> {
     @Override
-    public JobSummary mapRow(final ResultSet resultSet, final int rowNum) throws SQLException
-    {
+    public JobSummary mapRow(final ResultSet resultSet, final int rowNum) throws SQLException {
         final Long bookDefinitionId = resultSet.getLong("EBOOK_DEFINITION_ID");
         final String bookName = resultSet.getString("PROVIEW_DISPLAY_NAME");
         final String titleId = resultSet.getString("TITLE_ID");
@@ -265,11 +232,9 @@ class JobSummaryRowMapper implements RowMapper<JobSummary>
     }
 }
 
-class JobExecutionIdRowMapper implements RowMapper<Long>
-{
+class JobExecutionIdRowMapper implements RowMapper<Long> {
     @Override
-    public Long mapRow(final ResultSet resultSet, final int rowNum) throws SQLException
-    {
+    public Long mapRow(final ResultSet resultSet, final int rowNum) throws SQLException {
         final Long id = resultSet.getLong("JOB_EXECUTION_ID");
         return id;
     }

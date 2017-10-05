@@ -30,8 +30,7 @@ import org.apache.commons.lang3.StringUtils;
 @Table(name = "AUTHOR")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "Author")
-public class Author implements Serializable, Comparable<Author>
-{
+public class Author implements Serializable, Comparable<Author> {
     private static final long serialVersionUID = 7962657038385328632L;
 
     @Column(name = "AUTHOR_ID", nullable = false)
@@ -79,123 +78,98 @@ public class Author implements Serializable, Comparable<Author>
         @JoinColumn(name = "EBOOK_DEFINITION_ID", referencedColumnName = "EBOOK_DEFINITION_ID", nullable = false)})
     private BookDefinition ebookDefinition;
 
-    public void setAuthorId(final Long authorId)
-    {
+    public void setAuthorId(final Long authorId) {
         this.authorId = authorId;
     }
 
-    public Long getAuthorId()
-    {
+    public Long getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorNamePrefix(final String authorNamePrefix)
-    {
+    public void setAuthorNamePrefix(final String authorNamePrefix) {
         this.authorNamePrefix = authorNamePrefix;
     }
 
-    public String getAuthorNamePrefix()
-    {
+    public String getAuthorNamePrefix() {
         return authorNamePrefix;
     }
 
-    public void setAuthorNameSuffix(final String authorNameSuffix)
-    {
+    public void setAuthorNameSuffix(final String authorNameSuffix) {
         this.authorNameSuffix = authorNameSuffix;
     }
 
-    public String getAuthorNameSuffix()
-    {
+    public String getAuthorNameSuffix() {
         return authorNameSuffix;
     }
 
-    public void setAuthorFirstName(final String authorFirstName)
-    {
+    public void setAuthorFirstName(final String authorFirstName) {
         this.authorFirstName = authorFirstName;
     }
 
-    public String getAuthorFirstName()
-    {
+    public String getAuthorFirstName() {
         return authorFirstName;
     }
 
-    public void setAuthorMiddleName(final String authorMiddleName)
-    {
+    public void setAuthorMiddleName(final String authorMiddleName) {
         this.authorMiddleName = authorMiddleName;
     }
 
-    public String getAuthorMiddleName()
-    {
+    public String getAuthorMiddleName() {
         return authorMiddleName;
     }
 
-    public void setAuthorLastName(final String authorLastName)
-    {
+    public void setAuthorLastName(final String authorLastName) {
         this.authorLastName = authorLastName;
     }
 
-    public String getAuthorLastName()
-    {
+    public String getAuthorLastName() {
         return authorLastName;
     }
 
-    public void setAuthorAddlText(final String authorAddlText)
-    {
+    public void setAuthorAddlText(final String authorAddlText) {
         this.authorAddlText = authorAddlText;
     }
 
-    public String getAuthorAddlText()
-    {
+    public String getAuthorAddlText() {
         return authorAddlText;
     }
 
-    public Integer getSequenceNum()
-    {
+    public Integer getSequenceNum() {
         return sequenceNum;
     }
 
-    public void setSequenceNum(final Integer sequenceNum)
-    {
+    public void setSequenceNum(final Integer sequenceNum) {
         this.sequenceNum = sequenceNum;
     }
 
-    public boolean getUseCommaBeforeSuffix()
-    {
-        if (StringUtils.isBlank(useCommaBeforeSuffix))
-        {
+    public boolean getUseCommaBeforeSuffix() {
+        if (StringUtils.isBlank(useCommaBeforeSuffix)) {
             return false;
-        }
-        else
-        {
+        } else {
             return ((useCommaBeforeSuffix.equalsIgnoreCase("Y") ? true : false));
         }
     }
 
-    public void setUseCommaBeforeSuffix(final boolean useCommaBeforeSuffix)
-    {
+    public void setUseCommaBeforeSuffix(final boolean useCommaBeforeSuffix) {
         this.useCommaBeforeSuffix = ((useCommaBeforeSuffix) ? "Y" : "N");
     }
 
-    public void setEbookDefinition(final BookDefinition ebookDefinition)
-    {
+    public void setEbookDefinition(final BookDefinition ebookDefinition) {
         this.ebookDefinition = ebookDefinition;
     }
 
-    public BookDefinition getEbookDefinition()
-    {
+    public BookDefinition getEbookDefinition() {
         return ebookDefinition;
     }
 
-    public Author()
-    {
+    public Author() {
     }
 
     /**
      * Copies the contents of the specified bean into this bean.
      *
      */
-    public void copy(final Author that)
-    {
+    public void copy(final Author that) {
         setAuthorId(that.getAuthorId());
         setAuthorNamePrefix(that.getAuthorNamePrefix());
         setAuthorNameSuffix(that.getAuthorNameSuffix());
@@ -214,8 +188,7 @@ public class Author implements Serializable, Comparable<Author>
      * @return
      */
     @Transient
-    public boolean isNameEmpty()
-    {
+    public boolean isNameEmpty() {
         return StringUtils.isBlank(authorFirstName)
             && StringUtils.isBlank(authorMiddleName)
             && StringUtils.isBlank(authorLastName)
@@ -229,8 +202,7 @@ public class Author implements Serializable, Comparable<Author>
      * @return the concat of prefix, first Name, middle Name, Last Name and suffix
      */
     @Transient
-    public String getFullName()
-    {
+    public String getFullName() {
         final StringBuilder buffer = new StringBuilder();
 
         if (StringUtils.isNotBlank(authorNamePrefix))
@@ -241,14 +213,10 @@ public class Author implements Serializable, Comparable<Author>
             buffer.append(authorMiddleName).append(" ");
         if (StringUtils.isNotBlank(authorLastName))
             buffer.append(authorLastName);
-        if (StringUtils.isNotBlank(authorNameSuffix))
-        {
-            if (getUseCommaBeforeSuffix())
-            {
+        if (StringUtils.isNotBlank(authorNameSuffix)) {
+            if (getUseCommaBeforeSuffix()) {
                 buffer.append(", ");
-            }
-            else
-            {
+            } else {
                 buffer.append(" ");
             }
             buffer.append(authorNameSuffix);
@@ -258,8 +226,7 @@ public class Author implements Serializable, Comparable<Author>
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         final StringBuilder buffer = new StringBuilder();
         buffer.append("authorId=[").append(authorId).append("] ");
         buffer.append("authorNamePrefix=[").append(authorNamePrefix).append("] ");
@@ -275,8 +242,7 @@ public class Author implements Serializable, Comparable<Author>
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((authorAddlText == null) ? 0 : authorAddlText.hashCode());
@@ -291,8 +257,7 @@ public class Author implements Serializable, Comparable<Author>
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -300,61 +265,45 @@ public class Author implements Serializable, Comparable<Author>
         if (getClass() != obj.getClass())
             return false;
         final Author other = (Author) obj;
-        if (authorAddlText == null)
-        {
+        if (authorAddlText == null) {
             if (other.authorAddlText != null)
                 return false;
-        }
-        else if (!authorAddlText.equals(other.authorAddlText))
+        } else if (!authorAddlText.equals(other.authorAddlText))
             return false;
-        if (authorFirstName == null)
-        {
+        if (authorFirstName == null) {
             if (other.authorFirstName != null)
                 return false;
-        }
-        else if (!authorFirstName.equals(other.authorFirstName))
+        } else if (!authorFirstName.equals(other.authorFirstName))
             return false;
-        if (authorId == null)
-        {
+        if (authorId == null) {
             if (other.authorId != null)
                 return false;
-        }
-        else if (!authorId.equals(other.authorId))
+        } else if (!authorId.equals(other.authorId))
             return false;
-        if (authorLastName == null)
-        {
+        if (authorLastName == null) {
             if (other.authorLastName != null)
                 return false;
-        }
-        else if (!authorLastName.equals(other.authorLastName))
+        } else if (!authorLastName.equals(other.authorLastName))
             return false;
-        if (authorMiddleName == null)
-        {
+        if (authorMiddleName == null) {
             if (other.authorMiddleName != null)
                 return false;
-        }
-        else if (!authorMiddleName.equals(other.authorMiddleName))
+        } else if (!authorMiddleName.equals(other.authorMiddleName))
             return false;
-        if (authorNamePrefix == null)
-        {
+        if (authorNamePrefix == null) {
             if (other.authorNamePrefix != null)
                 return false;
-        }
-        else if (!authorNamePrefix.equals(other.authorNamePrefix))
+        } else if (!authorNamePrefix.equals(other.authorNamePrefix))
             return false;
-        if (authorNameSuffix == null)
-        {
+        if (authorNameSuffix == null) {
             if (other.authorNameSuffix != null)
                 return false;
-        }
-        else if (!authorNameSuffix.equals(other.authorNameSuffix))
+        } else if (!authorNameSuffix.equals(other.authorNameSuffix))
             return false;
-        if (ebookDefinition == null)
-        {
+        if (ebookDefinition == null) {
             if (other.ebookDefinition != null)
                 return false;
-        }
-        else if (!ebookDefinition.equals(other.ebookDefinition))
+        } else if (!ebookDefinition.equals(other.ebookDefinition))
             return false;
         return true;
     }
@@ -363,23 +312,16 @@ public class Author implements Serializable, Comparable<Author>
      * For sorting the name components into sequence order (1...n).
      */
     @Override
-    public int compareTo(final Author o)
-    {
+    public int compareTo(final Author o) {
         int result = 0;
-        if (sequenceNum != null)
-        {
-            if (o != null)
-            {
+        if (sequenceNum != null) {
+            if (o != null) {
                 final Integer i = o.getSequenceNum();
                 result = (i != null) ? sequenceNum.compareTo(i) : 1;
-            }
-            else
-            {
+            } else {
                 result = 1;
             }
-        }
-        else
-        { // int1 is null
+        } else { // int1 is null
             result = (o != null) ? -1 : 0;
         }
         return result;

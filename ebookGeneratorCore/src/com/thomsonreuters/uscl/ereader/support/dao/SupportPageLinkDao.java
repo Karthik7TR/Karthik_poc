@@ -8,8 +8,7 @@ import com.thomsonreuters.uscl.ereader.support.domain.SupportPageLink;
  * DAO to manage SupportPageLink entities.
  *
  */
-public interface SupportPageLinkDao
-{
+public interface SupportPageLinkDao {
     void save(SupportPageLink spl);
 
     void delete(SupportPageLink spl);

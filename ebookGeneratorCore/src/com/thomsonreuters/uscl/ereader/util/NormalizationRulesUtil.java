@@ -7,8 +7,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author Ravi Nandikolla c139353
  */
-public class NormalizationRulesUtil
-{
+public class NormalizationRulesUtil {
     private static String UNICODE_SECTION_SYMBOL = "\u00A7";
     private static String UNICODE_PARAGRAPH_SYMBOL = "\u00B6";
     private static String UNICODE_LEFT_BRACKET_SYMBOL = "\u005B";
@@ -51,10 +50,8 @@ public class NormalizationRulesUtil
      *
      * @return normalized cite.
      */
-    public static String applyCitationNormalizationRules(String normalizedCite)
-    {
-        if (normalizedCite != null)
-        {
+    public static String applyCitationNormalizationRules(String normalizedCite) {
+        if (normalizedCite != null) {
             normalizedCite = normalizedCite.toUpperCase();
 
             normalizedCite = normalizedCite.replace(String.valueOf(UNICODE_SECTION_SYMBOL), "S");
@@ -67,17 +64,14 @@ public class NormalizationRulesUtil
         return normalizedCite;
     }
 
-    public static String applyTableOfContentNormalizationRules(String tocLabel)
-    {
+    public static String applyTableOfContentNormalizationRules(String tocLabel) {
         tocLabel = hyphenNormalizationRules(tocLabel);
         tocLabel = whiteSpaceNormalizationRules(tocLabel);
         return tocLabel;
     }
 
-    public static String hyphenNormalizationRules(String text)
-    {
-        if (StringUtils.isNotBlank(text))
-        {
+    public static String hyphenNormalizationRules(String text) {
+        if (StringUtils.isNotBlank(text)) {
             // Replace different unicode hypens into HYPHEN-MINUS which is used on the keyboard
             text = StringUtils.replace(text, UNICODE_FIGURE_DASH, "-");
             text = StringUtils.replace(text, UNICODE_EN_DASH, "-");
@@ -94,11 +88,9 @@ public class NormalizationRulesUtil
         return text;
     }
 
-    public static String whiteSpaceNormalizationRules(String text)
-    {
+    public static String whiteSpaceNormalizationRules(String text) {
         // replace special white space with \u0020
-        if (StringUtils.isNotBlank(text))
-        {
+        if (StringUtils.isNotBlank(text)) {
             text = StringUtils.replace(text, UNICODE_NO_BREAK_SPACE, " ");
             text = StringUtils.replace(text, UNICODE_EN_QUAD, " ");
             text = StringUtils.replace(text, UNICODE_EM_QUAD, " ");
@@ -119,10 +111,8 @@ public class NormalizationRulesUtil
         return text;
     }
 
-    public static String pubPageNormalizationRules(String cite)
-    {
-        if (StringUtils.isNotBlank(cite))
-        {
+    public static String pubPageNormalizationRules(String cite) {
+        if (StringUtils.isNotBlank(cite)) {
             cite = StringEscapeUtils.unescapeXml(cite);
             cite = StringEscapeUtils.unescapeHtml4(cite);
             cite = applyCitationNormalizationRules(cite);

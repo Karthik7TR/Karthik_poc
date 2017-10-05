@@ -9,8 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * The filter criteria used when searching for publishing stats to display in the PUBLISHING_STATS table.
  * A null or blank property value indicates that it is to be ignored and not included as part of the search criteria.
  */
-public class PublishingStatsFilter
-{
+public class PublishingStatsFilter {
     // Publishing Stats properties
     private Date from; // job submit date on and after this calendar date (inclusive)
     private Date to; // job submit date on and before this calendar date (inclusive)
@@ -21,30 +20,36 @@ public class PublishingStatsFilter
     private Long bookDefinitionId;
     private String isbn;
 
-    public PublishingStatsFilter()
-    {
+    public PublishingStatsFilter() {
         super();
     }
 
-    public PublishingStatsFilter(final String titleId, final String bookName, final String isbn)
-    {
+    public PublishingStatsFilter(final String titleId, final String bookName, final String isbn) {
         populate(null, null, titleId, bookName, null, isbn);
     }
 
-    public PublishingStatsFilter(final Long bookDefinitionId)
-    {
+    public PublishingStatsFilter(final Long bookDefinitionId) {
         super();
         populate(null, null, null, null, bookDefinitionId, null);
     }
 
-    public PublishingStatsFilter(final Date from, final Date to, final String titleId, final String bookName, final Long bookDefinitionId)
-    {
+    public PublishingStatsFilter(
+        final Date from,
+        final Date to,
+        final String titleId,
+        final String bookName,
+        final Long bookDefinitionId) {
         super();
         populate(from, to, titleId, bookName, bookDefinitionId, null);
     }
 
-    private void populate(final Date from, final Date to, final String titleId, final String bookName, final Long bookDefinitionId, final String isbn)
-    {
+    private void populate(
+        final Date from,
+        final Date to,
+        final String titleId,
+        final String bookName,
+        final Long bookDefinitionId,
+        final String isbn) {
         this.from = from;
         this.to = to;
         this.titleId = (titleId != null) ? titleId.trim() : null;
@@ -54,14 +59,12 @@ public class PublishingStatsFilter
     }
 
     /** Include executions with a start time from the start of (00:00:00) of this calendar date and after. */
-    public Date getFrom()
-    {
+    public Date getFrom() {
         return from;
     }
 
     /** Filter to date entered by user, normalized to (00:00:00) of the entered day. */
-    public Date getTo()
-    {
+    public Date getTo() {
         return to;
     }
 
@@ -70,29 +73,24 @@ public class PublishingStatsFilter
      * the actual definition title ID as a 'like' comparison '%titleID%'.
      * @return
      */
-    public String getTitleId()
-    {
+    public String getTitleId() {
         return titleId;
     }
 
-    public String getBookName()
-    {
+    public String getBookName() {
         return bookName;
     }
 
-    public Long getBookDefinitionId()
-    {
+    public Long getBookDefinitionId() {
         return bookDefinitionId;
     }
 
-    public String getIsbn()
-    {
+    public String getIsbn() {
         return isbn;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

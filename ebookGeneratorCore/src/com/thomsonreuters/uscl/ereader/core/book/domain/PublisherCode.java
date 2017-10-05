@@ -26,8 +26,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @Table(name = "PUBLISHER_CODES")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "PublisherCode")
-public class PublisherCode implements Serializable
-{
+public class PublisherCode implements Serializable {
     //private static final Logger log = LogManager.getLogger(PublisherCode.class);
     private static final long serialVersionUID = -2270804278406061488L;
 
@@ -44,50 +43,41 @@ public class PublisherCode implements Serializable
     @Column(name = "LAST_UPDATED", nullable = false)
     private Date lastUpdatedTimeStampForPubCode;
 
-    public PublisherCode()
-    {
+    public PublisherCode() {
         super();
     }
 
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final Long id)
-    {
+    public void setId(final Long id) {
         this.id = id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(final String name)
-    {
+    public void setName(final String name) {
         this.name = name;
     }
 
-    public Date getLastUpdated()
-    {
+    public Date getLastUpdated() {
         return lastUpdatedTimeStampForPubCode;
     }
 
-    public void setLastUpdated(final Date lastUpdated)
-    {
+    public void setLastUpdated(final Date lastUpdated) {
         lastUpdatedTimeStampForPubCode = lastUpdated;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -98,8 +88,7 @@ public class PublisherCode implements Serializable
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -107,26 +96,20 @@ public class PublisherCode implements Serializable
         if (getClass() != obj.getClass())
             return false;
         final PublisherCode other = (PublisherCode) obj;
-        if (id == null)
-        {
+        if (id == null) {
             if (other.id != null)
                 return false;
-        }
-        else if (!id.equals(other.id))
+        } else if (!id.equals(other.id))
             return false;
-        if (lastUpdatedTimeStampForPubCode == null)
-        {
+        if (lastUpdatedTimeStampForPubCode == null) {
             if (other.lastUpdatedTimeStampForPubCode != null)
                 return false;
-        }
-        else if (!lastUpdatedTimeStampForPubCode.equals(other.lastUpdatedTimeStampForPubCode))
+        } else if (!lastUpdatedTimeStampForPubCode.equals(other.lastUpdatedTimeStampForPubCode))
             return false;
-        if (name == null)
-        {
+        if (name == null) {
             if (other.name != null)
                 return false;
-        }
-        else if (!name.equals(other.name))
+        } else if (!name.equals(other.name))
             return false;
         return true;
     }

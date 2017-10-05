@@ -1,15 +1,13 @@
 package com.thomsonreuters.uscl.ereader.core.book.domain;
 
-public class EbookGroup
-{
+public class EbookGroup {
     private Long bookDefinitionId;
     private String titleId;
     private String proviewDisplayName;
     private String groupName;
     private String bookVersion;
 
-    public EbookGroup()
-    {
+    public EbookGroup() {
         super();
     }
 
@@ -18,8 +16,7 @@ public class EbookGroup
         final String proviewDisplayName,
         final String groupName,
         final Long bookDefinitionId,
-        final String bookVersion)
-    {
+        final String bookVersion) {
         this.titleId = (titleId != null) ? titleId.trim() : null;
         this.proviewDisplayName = (proviewDisplayName != null) ? proviewDisplayName.trim() : null;
         this.groupName = (groupName != null) ? groupName.trim() : null;
@@ -27,53 +24,43 @@ public class EbookGroup
         this.bookVersion = (bookVersion != null) ? bookVersion.trim() : null;
     }
 
-    public Long getBookDefinitionId()
-    {
+    public Long getBookDefinitionId() {
         return bookDefinitionId;
     }
 
-    public void setBookDefinitionId(final Long bookDefinitionId)
-    {
+    public void setBookDefinitionId(final Long bookDefinitionId) {
         this.bookDefinitionId = bookDefinitionId;
     }
 
-    public String getTitleId()
-    {
+    public String getTitleId() {
         return titleId;
     }
 
-    public void setTitleId(final String titleId)
-    {
+    public void setTitleId(final String titleId) {
         this.titleId = titleId;
     }
 
-    public String getProviewDisplayName()
-    {
+    public String getProviewDisplayName() {
         return proviewDisplayName;
     }
 
-    public void setProviewDisplayName(final String bookName)
-    {
+    public void setProviewDisplayName(final String bookName) {
         proviewDisplayName = bookName;
     }
 
-    public String getGroupName()
-    {
+    public String getGroupName() {
         return groupName;
     }
 
-    public void setGroupName(final String groupName)
-    {
+    public void setGroupName(final String groupName) {
         this.groupName = groupName;
     }
 
-    public String getBookVersion()
-    {
+    public String getBookVersion() {
         return bookVersion;
     }
 
-    public void setBookVersion(final String bookVersionSubmitted)
-    {
+    public void setBookVersion(final String bookVersionSubmitted) {
         bookVersion = bookVersionSubmitted;
     }
 }

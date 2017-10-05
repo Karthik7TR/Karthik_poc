@@ -23,8 +23,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @XmlRootElement(name = "bundle")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class XppBundle
-{
+public class XppBundle {
     @XmlElement(name = "product_title")
     private String productTitle;
     @XmlElement(name = "product_type")
@@ -43,101 +42,82 @@ public class XppBundle
     @XmlElement(name = "file")
     private List<String> orderedFileList;
 
-    public String getProductTitle()
-    {
+    public String getProductTitle() {
         return productTitle;
     }
 
-    public void setProductTitle(final String productTitle)
-    {
+    public void setProductTitle(final String productTitle) {
         this.productTitle = productTitle;
     }
 
-    public String getProductType()
-    {
+    public String getProductType() {
         return productType;
     }
 
-    public void setProductType(final String productType)
-    {
+    public void setProductType(final String productType) {
         this.productType = productType;
     }
 
-    public String getMaterialNumber()
-    {
+    public String getMaterialNumber() {
         return materialNumber;
     }
 
-    public void setMaterialNumber(final String materialNumber)
-    {
+    public void setMaterialNumber(final String materialNumber) {
         this.materialNumber = materialNumber;
     }
 
-    public Date getReleaseDate()
-    {
+    public Date getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(final Date releaseDate)
-    {
+    public void setReleaseDate(final Date releaseDate) {
         this.releaseDate = releaseDate;
     }
 
-    public int getReleaseNumber()
-    {
+    public int getReleaseNumber() {
         return releaseNumber;
     }
 
-    public void setReleaseNumber(final int releaseNumber)
-    {
+    public void setReleaseNumber(final int releaseNumber) {
         this.releaseNumber = releaseNumber;
     }
 
-    public int getVolumes()
-    {
+    public int getVolumes() {
         return volumes;
     }
 
-    public void setVolumes(final int volumes)
-    {
+    public void setVolumes(final int volumes) {
         this.volumes = volumes;
     }
 
-    public String getBundleRoot()
-    {
+    public String getBundleRoot() {
         return bundleRoot;
     }
 
-    public void setBundleRoot(final String bundleRoot)
-    {
+    public void setBundleRoot(final String bundleRoot) {
         this.bundleRoot = bundleRoot;
     }
 
-    public List<String> getOrderedFileList()
-    {
+    public List<String> getOrderedFileList() {
         return orderedFileList;
     }
 
-    public void setOrderedFileList(final List<String> orderedFileList)
-    {
+    public void setOrderedFileList(final List<String> orderedFileList) {
         this.orderedFileList = orderedFileList;
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
 }

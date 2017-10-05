@@ -13,8 +13,7 @@ import org.apache.commons.collections4.CollectionUtils;
 
 @XmlRootElement(name = "gatherImgRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GatherImgRequest
-{
+public class GatherImgRequest {
     @XmlElement(name = "dynamicImageDirectory")
     private File dynamicImageDirectory;
 
@@ -30,74 +29,61 @@ public class GatherImgRequest
     @XmlElement(name = "xppSourceImageDirectory")
     private Collection<String> xppSourceImageDirectory;
 
-    public GatherImgRequest()
-    {
+    public GatherImgRequest() {
     }
 
     public GatherImgRequest(
         final File imgToDocManifestFile,
         final File dynamicImageDirectory,
         final long jobInstanceId,
-        final boolean isFinalStage)
-    {
+        final boolean isFinalStage) {
         this.imgToDocManifestFile = imgToDocManifestFile;
         this.dynamicImageDirectory = dynamicImageDirectory;
         this.isFinalStage = isFinalStage;
     }
 
-    public boolean isFinalStage()
-    {
+    public boolean isFinalStage() {
         return isFinalStage;
     }
 
-    public void setFinalStage(final boolean isFinalStage)
-    {
+    public void setFinalStage(final boolean isFinalStage) {
         this.isFinalStage = isFinalStage;
     }
 
-    public File getImgToDocManifestFile()
-    {
+    public File getImgToDocManifestFile() {
         return imgToDocManifestFile;
     }
 
-    public void setImgToDocManifestFile(final File imgToDocManifestFile)
-    {
+    public void setImgToDocManifestFile(final File imgToDocManifestFile) {
         this.imgToDocManifestFile = imgToDocManifestFile;
     }
 
-    public File getDynamicImageDirectory()
-    {
+    public File getDynamicImageDirectory() {
         return dynamicImageDirectory;
     }
 
-    public void setDynamicImageDirectory(final File dynamicImageDirectory)
-    {
+    public void setDynamicImageDirectory(final File dynamicImageDirectory) {
         this.dynamicImageDirectory = dynamicImageDirectory;
     }
 
-    public boolean isXpp()
-    {
+    public boolean isXpp() {
         return isXpp;
     }
 
-    public void setXpp(final boolean isXpp)
-    {
+    public void setXpp(final boolean isXpp) {
         this.isXpp = isXpp;
     }
 
-    public Collection<String> getXppSourceImageDirectory()
-    {
+    public Collection<String> getXppSourceImageDirectory() {
         return xppSourceImageDirectory;
     }
 
-    public void setXppSourceImageDirectory(final Collection<String> xppSourceImageDirectory)
-    {
+    public void setXppSourceImageDirectory(final Collection<String> xppSourceImageDirectory) {
         this.xppSourceImageDirectory = xppSourceImageDirectory;
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -105,29 +91,23 @@ public class GatherImgRequest
         if (getClass() != obj.getClass())
             return false;
         final GatherImgRequest that = (GatherImgRequest) obj;
-        if (dynamicImageDirectory == null)
-        {
+        if (dynamicImageDirectory == null) {
             if (that.dynamicImageDirectory != null)
                 return false;
-        }
-        else if (!dynamicImageDirectory.equals(that.dynamicImageDirectory))
+        } else if (!dynamicImageDirectory.equals(that.dynamicImageDirectory))
             return false;
         if (isFinalStage != that.isFinalStage)
             return false;
-        if (imgToDocManifestFile == null)
-        {
+        if (imgToDocManifestFile == null) {
             if (that.imgToDocManifestFile != null)
                 return false;
-        }
-        else if (!imgToDocManifestFile.equals(that.imgToDocManifestFile))
+        } else if (!imgToDocManifestFile.equals(that.imgToDocManifestFile))
             return false;
 
-        return Objects.equals(isXpp, that.isXpp)
-            && equals(xppSourceImageDirectory, that.xppSourceImageDirectory);
+        return Objects.equals(isXpp, that.isXpp) && equals(xppSourceImageDirectory, that.xppSourceImageDirectory);
     }
 
-    private static boolean equals(final Collection<String> lhs, final Collection<String> rhs)
-    {
+    private static boolean equals(final Collection<String> lhs, final Collection<String> rhs) {
         return lhs == null && rhs == null || lhs != null && rhs != null && CollectionUtils.isEqualCollection(lhs, rhs);
     }
 }

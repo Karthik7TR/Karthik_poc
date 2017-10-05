@@ -16,8 +16,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "KEYWORD_TYPE_VALUES")
-public class KeywordTypeValue implements Serializable, Comparable<KeywordTypeValue>
-{
+public class KeywordTypeValue implements Serializable, Comparable<KeywordTypeValue> {
     // private static final Logger log =
     // LogManager.getLogger(KeywordTypeValue.class);
     private static final long serialVersionUID = 8698248929292091625L;
@@ -27,8 +26,7 @@ public class KeywordTypeValue implements Serializable, Comparable<KeywordTypeVal
     private String name;
     private Date lastUpdated;
 
-    public KeywordTypeValue()
-    {
+    public KeywordTypeValue() {
         super();
     }
 
@@ -36,62 +34,50 @@ public class KeywordTypeValue implements Serializable, Comparable<KeywordTypeVal
     @Column(name = "KEYWORD_TYPE_VALUES_ID", unique = true, nullable = false)
     @SequenceGenerator(name = "keywordTypeValuesIdSequence", sequenceName = "KEYWORD_TYPE_VALUES_ID_SEQ")
     @GeneratedValue(generator = "keywordTypeValuesIdSequence")
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
     @ManyToOne
     @JoinColumn(name = "KEYWORD_TYPE_CODES_ID")
-    public KeywordTypeCode getKeywordTypeCode()
-    {
+    public KeywordTypeCode getKeywordTypeCode() {
         return keywordTypeCode;
     }
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "LAST_UPDATED", nullable = false)
-    public Date getLastUpdated()
-    {
+    public Date getLastUpdated() {
         return lastUpdated;
     }
 
     @Column(name = "KEYWORD_TYPE_VALUES_NAME", nullable = false, length = 1024)
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setId(final Long id)
-    {
+    public void setId(final Long id) {
         this.id = id;
     }
 
-    public void setKeywordTypeCode(final KeywordTypeCode keywordTypeCode)
-    {
+    public void setKeywordTypeCode(final KeywordTypeCode keywordTypeCode) {
         this.keywordTypeCode = keywordTypeCode;
     }
 
-    public void setLastUpdated(final Date lastUpdated)
-    {
+    public void setLastUpdated(final Date lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 
-    public void setName(final String name)
-    {
+    public void setName(final String name) {
         this.name = name;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         final StringBuilder buffer = new StringBuilder();
 
-        if (keywordTypeCode != null)
-        {
+        if (keywordTypeCode != null) {
             buffer.append("keywordTypeCode=[").append(keywordTypeCode.getName()).append("] ");
-        }
-        else
-        {
+        } else {
             buffer.append("keywordTypeCode=[").append(keywordTypeCode).append("] ");
         }
         buffer.append("KeywordTypeValue=[").append(name).append("] ");
@@ -100,8 +86,7 @@ public class KeywordTypeValue implements Serializable, Comparable<KeywordTypeVal
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -109,26 +94,21 @@ public class KeywordTypeValue implements Serializable, Comparable<KeywordTypeVal
         if (getClass() != obj.getClass())
             return false;
         final KeywordTypeValue other = (KeywordTypeValue) obj;
-        if (id == null)
-        {
+        if (id == null) {
             if (other.id != null)
                 return false;
-        }
-        else if (!id.equals(other.id))
+        } else if (!id.equals(other.id))
             return false;
-        if (name == null)
-        {
+        if (name == null) {
             if (other.name != null)
                 return false;
-        }
-        else if (!name.equals(other.name))
+        } else if (!name.equals(other.name))
             return false;
         return true;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -137,15 +117,11 @@ public class KeywordTypeValue implements Serializable, Comparable<KeywordTypeVal
     }
 
     @Override
-    public int compareTo(final KeywordTypeValue arg0)
-    {
+    public int compareTo(final KeywordTypeValue arg0) {
         int result = 0;
-        if (name != null)
-        {
+        if (name != null) {
             result = (arg0 != null) ? name.compareTo(arg0.getName()) : 1;
-        }
-        else
-        { // str1 is null
+        } else { // str1 is null
             result = (arg0 != null) ? -1 : 0;
         }
         return result;

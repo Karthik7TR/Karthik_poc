@@ -15,8 +15,7 @@ import org.xml.sax.helpers.XMLFilterImpl;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class FrontMatterTitlePageFilter extends XMLFilterImpl
-{
+public class FrontMatterTitlePageFilter extends XMLFilterImpl {
     /** Names of all the placeholder tags this filter handles */
     private static final String TITLE_PAGE_ANCHOR_TAG = "frontMatterPlaceholder_TitlePageAnchor";
     private static final String BOOK_NAME_TAG = "frontMatterPlaceholder_bookname";
@@ -45,16 +44,14 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl
 
     private BookDefinition bookDefinition;
 
-    public FrontMatterTitlePageFilter(final BookDefinition bookDefinition)
-    {
+    public FrontMatterTitlePageFilter(final BookDefinition bookDefinition) {
         this.bookDefinition = bookDefinition;
     }
 
     @Override
-    public void startElement(final String uri, final String localName, final String qName, final Attributes atts) throws SAXException
-    {
-        if (qName.equalsIgnoreCase(TITLE_PAGE_ANCHOR_TAG))
-        {
+    public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
+        throws SAXException {
+        if (qName.equalsIgnoreCase(TITLE_PAGE_ANCHOR_TAG)) {
             final AttributesImpl newAtts = new AttributesImpl();
             newAtts.addAttribute(
                 uri,
@@ -63,107 +60,70 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl
                 CDATA,
                 FrontMatterFileName.FRONT_MATTER_TITLE + FrontMatterFileName.ANCHOR);
             super.startElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG, newAtts);
-        }
-        else if (qName.equalsIgnoreCase(BOOK_NAME_TAG))
-        {
-            for (final EbookName name : bookDefinition.getEbookNames())
-            {
-                if (name.getSequenceNum() == 1)
-                {
+        } else if (qName.equalsIgnoreCase(BOOK_NAME_TAG)) {
+            for (final EbookName name : bookDefinition.getEbookNames()) {
+                if (name.getSequenceNum() == 1) {
                     printText(name.getBookNameText(), MULTI_LINE_FIELD);
                     break;
                 }
             }
-        }
-        else if (qName.equalsIgnoreCase(BOOK_NAME2_TAG))
-        {
-            for (final EbookName name : bookDefinition.getEbookNames())
-            {
-                if (name.getSequenceNum() == 2)
-                {
+        } else if (qName.equalsIgnoreCase(BOOK_NAME2_TAG)) {
+            for (final EbookName name : bookDefinition.getEbookNames()) {
+                if (name.getSequenceNum() == 2) {
                     printText(name.getBookNameText(), MULTI_LINE_FIELD);
                     break;
                 }
             }
-        }
-        else if (qName.equalsIgnoreCase(BOOK_NAME3_TAG))
-        {
-            for (final EbookName name : bookDefinition.getEbookNames())
-            {
-                if (name.getSequenceNum() == 3)
-                {
+        } else if (qName.equalsIgnoreCase(BOOK_NAME3_TAG)) {
+            for (final EbookName name : bookDefinition.getEbookNames()) {
+                if (name.getSequenceNum() == 3) {
                     printText(name.getBookNameText(), MULTI_LINE_FIELD);
                     break;
                 }
             }
-        }
-        else if (qName.equalsIgnoreCase(CURRENCY_TAG))
-        {
+        } else if (qName.equalsIgnoreCase(CURRENCY_TAG)) {
             printText(bookDefinition.getCurrency(), MULTI_LINE_FIELD);
-        }
-        else if (qName.equalsIgnoreCase(AUTHORS_TAG))
-        {
+        } else if (qName.equalsIgnoreCase(AUTHORS_TAG)) {
             createAuthorSection();
-        }
-        else if (qName.equalsIgnoreCase(THEME_TAG))
-        {
+        } else if (qName.equalsIgnoreCase(THEME_TAG)) {
             createFrontMatterThemeSection();
-        }
-        else
-        {
+        } else {
             super.startElement(uri, localName, qName, atts);
         }
     }
 
     @Override
-    public void characters(final char[] buf, final int offset, final int len) throws SAXException
-    {
+    public void characters(final char[] buf, final int offset, final int len) throws SAXException {
         super.characters(buf, offset, len);
     }
 
     @Override
-    public void endElement(final String uri, final String localName, final String qName) throws SAXException
-    {
-        if (qName.equalsIgnoreCase(TITLE_PAGE_ANCHOR_TAG))
-        {
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException {
+        if (qName.equalsIgnoreCase(TITLE_PAGE_ANCHOR_TAG)) {
             super.endElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG);
-        }
-        else if (qName.equalsIgnoreCase(BOOK_NAME_TAG)
+        } else if (qName.equalsIgnoreCase(BOOK_NAME_TAG)
             || qName.equalsIgnoreCase(BOOK_NAME2_TAG)
             || qName.equalsIgnoreCase(BOOK_NAME3_TAG)
             || qName.equalsIgnoreCase(CURRENCY_TAG)
             || qName.equalsIgnoreCase(AUTHORS_TAG)
-            || qName.equalsIgnoreCase(THEME_TAG))
-        {
+            || qName.equalsIgnoreCase(THEME_TAG)) {
             //Remove the placeholder tag
-        }
-        else
-        {
+        } else {
             super.endElement(uri, localName, qName);
         }
     }
 
-    private void printText(final String text, final boolean isMultiLineField) throws SAXException
-    {
-        if (text != null)
-        {
-            if (isMultiLineField)
-            {
+    private void printText(final String text, final boolean isMultiLineField) throws SAXException {
+        if (text != null) {
+            if (isMultiLineField) {
                 final String[] lines = text.split("\\\r\\\n", -1);
-                for (int i = 0; i < lines.length; i++)
-                {
-                    if (i == lines.length - 1)
-                    {
+                for (int i = 0; i < lines.length; i++) {
+                    if (i == lines.length - 1) {
                         super.characters(lines[i].toCharArray(), 0, lines[i].length());
-                    }
-                    else
-                    {
-                        if (lines[i].trim().length() == 0)
-                        {
+                    } else {
+                        if (lines[i].trim().length() == 0) {
                             super.characters("&nbsp;".toCharArray(), 0, lines[i].length());
-                        }
-                        else
-                        {
+                        } else {
                             super.characters(lines[i].toCharArray(), 0, lines[i].length());
                         }
                         final AttributesImpl atts = new AttributesImpl();
@@ -171,20 +131,16 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl
                         super.startElement("", HTML_PARAGRAPH_TAG, HTML_PARAGRAPH_TAG, atts);
                     }
                 }
-            }
-            else
-            {
+            } else {
                 super.characters(text.toCharArray(), 0, text.length());
             }
         }
     }
 
-    private void createFrontMatterThemeSection() throws SAXException
-    {
+    private void createFrontMatterThemeSection() throws SAXException {
         final String template = bookDefinition.getFrontMatterTheme();
 
-        if (template.equalsIgnoreCase(AAJ_PRESS_THEME))
-        {
+        if (template.equalsIgnoreCase(AAJ_PRESS_THEME)) {
             AttributesImpl newAtts = new AttributesImpl();
             newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, "logo");
 
@@ -198,23 +154,17 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl
         }
     }
 
-    private void createAuthorSection() throws SAXException
-    {
+    private void createAuthorSection() throws SAXException {
         boolean firstAuthor = true;
         final boolean isAuthorDisplayVertical = bookDefinition.isAuthorDisplayVertical();
 
-        if (isAuthorDisplayVertical)
-        {
-            for (final Author author : bookDefinition.getAuthors())
-            {
+        if (isAuthorDisplayVertical) {
+            for (final Author author : bookDefinition.getAuthors()) {
                 AttributesImpl newAtts = new AttributesImpl();
-                if (firstAuthor)
-                {
+                if (firstAuthor) {
                     newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, "author1");
                     firstAuthor = false;
-                }
-                else
-                {
+                } else {
                     newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, "authorNext");
                 }
                 super.startElement("", HTML_DIV_TAG, HTML_DIV_TAG, newAtts);
@@ -230,23 +180,17 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl
                 super.endElement("", HTML_PARAGRAPH_TAG, HTML_PARAGRAPH_TAG);
                 super.endElement("", HTML_DIV_TAG, HTML_DIV_TAG);
             }
-        }
-        else
-        {
+        } else {
             final AttributesImpl newAtts = new AttributesImpl();
             newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, "author1");
             super.startElement("", HTML_DIV_TAG, HTML_DIV_TAG, newAtts);
             int authorNum = 0;
-            for (final Author author : bookDefinition.getAuthors())
-            {
+            for (final Author author : bookDefinition.getAuthors()) {
                 authorNum++;
                 printText(author.getFullName(), SINGLE_LINE_FIELD);
-                if (authorNum == bookDefinition.getAuthors().size() - 1)
-                {
+                if (authorNum == bookDefinition.getAuthors().size() - 1) {
                     printText(" and ", SINGLE_LINE_FIELD);
-                }
-                else if (authorNum != bookDefinition.getAuthors().size())
-                {
+                } else if (authorNum != bookDefinition.getAuthors().size()) {
                     printText(", ", SINGLE_LINE_FIELD);
                 }
             }

@@ -4,13 +4,11 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.util.Assert;
 
-public class ProviewAuditSort
-{
+public class ProviewAuditSort {
     /**
      * The property names in the entities proview audit table that are sorted on for presentation.
      */
-    public enum SortProperty
-    {
+    public enum SortProperty {
         TITLE_ID,
         BOOK_VERSION,
         BOOK_LAST_UPDATED,
@@ -30,8 +28,7 @@ public class ProviewAuditSort
     /**
      * Default sort is by audit creation time, descending order.
      */
-    public ProviewAuditSort()
-    {
+    public ProviewAuditSort() {
         this(SortProperty.REQUEST_DATE, false, 1, 20);
     }
 
@@ -40,8 +37,11 @@ public class ProviewAuditSort
      * @param sortProperty which property to sort on, not null.
      * @param ascending true for an ascending direction sort
      */
-    public ProviewAuditSort(final SortProperty sortProperty, final boolean ascending, final int pageNumber, final int itemsPerPage)
-    {
+    public ProviewAuditSort(
+        final SortProperty sortProperty,
+        final boolean ascending,
+        final int pageNumber,
+        final int itemsPerPage) {
         Assert.notNull(sortProperty);
         this.sortProperty = sortProperty;
         this.ascending = ascending;
@@ -49,39 +49,32 @@ public class ProviewAuditSort
         this.itemsPerPage = itemsPerPage;
     }
 
-    public SortProperty getSortProperty()
-    {
+    public SortProperty getSortProperty() {
         return sortProperty;
     }
 
-    public boolean isAscending()
-    {
+    public boolean isAscending() {
         return ascending;
     }
 
-    public String getSortDirection()
-    {
+    public String getSortDirection() {
         return getSortDirection(ascending);
     }
 
-    public static String getSortDirection(final boolean anAscendingSort)
-    {
+    public static String getSortDirection(final boolean anAscendingSort) {
         return (anAscendingSort) ? "asc" : "desc";
     }
 
-    public int getPageNumber()
-    {
+    public int getPageNumber() {
         return pageNumber;
     }
 
-    public int getItemsPerPage()
-    {
+    public int getItemsPerPage() {
         return itemsPerPage;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

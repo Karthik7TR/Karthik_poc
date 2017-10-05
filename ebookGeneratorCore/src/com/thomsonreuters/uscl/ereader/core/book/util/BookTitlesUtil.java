@@ -15,8 +15,7 @@ import org.jetbrains.annotations.NotNull;
  * @author Ilia Bochkarev UC220946
  *
  */
-public interface BookTitlesUtil
-{
+public interface BookTitlesUtil {
     /**
      * Is specified version of book is split
      * @param book book definition

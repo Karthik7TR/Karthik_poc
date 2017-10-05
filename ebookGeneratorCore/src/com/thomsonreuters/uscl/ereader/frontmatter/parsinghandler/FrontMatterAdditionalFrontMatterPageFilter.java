@@ -19,8 +19,7 @@ import org.xml.sax.helpers.XMLFilterImpl;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl
-{
+public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl {
     private static final Logger LOG = LogManager.getLogger(FrontMatterAdditionalFrontMatterPageFilter.class);
 
     /** Names of all the placeholder tags this filter handles */
@@ -46,21 +45,19 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl
     private FrontMatterPage frontMatterPage;
     private Long FRONT_MATTER_PAGE_ID;
 
-    public FrontMatterAdditionalFrontMatterPageFilter(final BookDefinition bookDefinition, final Long FRONT_MATTER_PAGE_ID)
-        throws EBookFrontMatterGenerationException
-    {
+    public FrontMatterAdditionalFrontMatterPageFilter(
+        final BookDefinition bookDefinition,
+        final Long FRONT_MATTER_PAGE_ID)
+        throws EBookFrontMatterGenerationException {
         this.FRONT_MATTER_PAGE_ID = FRONT_MATTER_PAGE_ID;
-        for (final FrontMatterPage fmp : bookDefinition.getFrontMatterPages())
-        {
-            if (fmp.getId().equals(FRONT_MATTER_PAGE_ID))
-            {
+        for (final FrontMatterPage fmp : bookDefinition.getFrontMatterPages()) {
+            if (fmp.getId().equals(FRONT_MATTER_PAGE_ID)) {
                 frontMatterPage = fmp;
                 break;
             }
         }
 
-        if (frontMatterPage == null)
-        {
+        if (frontMatterPage == null) {
             final String message = "Could not retrieve additional front matter page with id: " + FRONT_MATTER_PAGE_ID;
             LOG.error(message);
             throw new EBookFrontMatterGenerationException(message);
@@ -68,10 +65,9 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl
     }
 
     @Override
-    public void startElement(final String uri, final String localName, final String qName, final Attributes atts) throws SAXException
-    {
-        if (qName.equalsIgnoreCase(ADDITIONAL_HEADING_ANCHOR_TAG))
-        {
+    public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
+        throws SAXException {
+        if (qName.equalsIgnoreCase(ADDITIONAL_HEADING_ANCHOR_TAG)) {
             final AttributesImpl newAtts = new AttributesImpl();
             newAtts.addAttribute(
                 uri,
@@ -81,73 +77,48 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl
                 FrontMatterFileName.ADDITIONAL_FRONT_MATTER + FRONT_MATTER_PAGE_ID + FrontMatterFileName.ANCHOR);
             super.startElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG, newAtts);
             printText(" ", SINGLE_LINE_FIELD);
-        }
-        else if (qName.equalsIgnoreCase(ADDITIONAL_TITLE_PAGE_TAG))
-        {
-            if (frontMatterPage.getPageHeadingLabel() == null)
-            {
+        } else if (qName.equalsIgnoreCase(ADDITIONAL_TITLE_PAGE_TAG)) {
+            if (frontMatterPage.getPageHeadingLabel() == null) {
                 printText(frontMatterPage.getPageTocLabel(), SINGLE_LINE_FIELD);
-            }
-            else
-            {
+            } else {
                 printText(frontMatterPage.getPageHeadingLabel(), SINGLE_LINE_FIELD);
             }
         }
 
-        else if (qName.equalsIgnoreCase(SECTIONS_TAG))
-        {
+        else if (qName.equalsIgnoreCase(SECTIONS_TAG)) {
             createSections();
-        }
-        else
-        {
+        } else {
             super.startElement(uri, localName, qName, atts);
         }
     }
 
     @Override
-    public void characters(final char[] buf, final int offset, final int len) throws SAXException
-    {
+    public void characters(final char[] buf, final int offset, final int len) throws SAXException {
         super.characters(buf, offset, len);
     }
 
     @Override
-    public void endElement(final String uri, final String localName, final String qName) throws SAXException
-    {
-        if (qName.equalsIgnoreCase(ADDITIONAL_HEADING_ANCHOR_TAG))
-        {
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException {
+        if (qName.equalsIgnoreCase(ADDITIONAL_HEADING_ANCHOR_TAG)) {
             super.endElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG);
-        }
-        else if (qName.equalsIgnoreCase(ADDITIONAL_TITLE_PAGE_TAG) || qName.equalsIgnoreCase(SECTIONS_TAG))
-        {
+        } else if (qName.equalsIgnoreCase(ADDITIONAL_TITLE_PAGE_TAG) || qName.equalsIgnoreCase(SECTIONS_TAG)) {
             //Remove the placeholder tag
-        }
-        else
-        {
+        } else {
             super.endElement(uri, localName, qName);
         }
     }
 
-    private void printText(final String text, final boolean isMultiLineField) throws SAXException
-    {
-        if (text != null)
-        {
-            if (isMultiLineField)
-            {
+    private void printText(final String text, final boolean isMultiLineField) throws SAXException {
+        if (text != null) {
+            if (isMultiLineField) {
                 final String[] lines = text.split("\\\r\\\n", -1);
-                for (int i = 0; i < lines.length; i++)
-                {
-                    if (i == lines.length - 1)
-                    {
+                for (int i = 0; i < lines.length; i++) {
+                    if (i == lines.length - 1) {
                         super.characters(lines[i].toCharArray(), 0, lines[i].length());
-                    }
-                    else
-                    {
-                        if (lines[i].trim().length() == 0)
-                        {
+                    } else {
+                        if (lines[i].trim().length() == 0) {
                             super.characters("&nbsp;".toCharArray(), 0, lines[i].length());
-                        }
-                        else
-                        {
+                        } else {
                             super.characters(lines[i].toCharArray(), 0, lines[i].length());
                         }
 
@@ -156,22 +127,17 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl
                         super.startElement("", HTML_PARAGRAPH_TAG, HTML_PARAGRAPH_TAG, atts);
                     }
                 }
-            }
-            else
-            {
+            } else {
                 super.characters(text.toCharArray(), 0, text.length());
             }
         }
     }
 
-    private void createSections() throws SAXException
-    {
-        for (final FrontMatterSection fms : frontMatterPage.getFrontMatterSections())
-        {
+    private void createSections() throws SAXException {
+        for (final FrontMatterSection fms : frontMatterPage.getFrontMatterSections()) {
             AttributesImpl newAtts = new AttributesImpl();
             // Add Optional Section Heading
-            if (fms.getSectionHeading() != null)
-            {
+            if (fms.getSectionHeading() != null) {
                 newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, "section_heading");
                 super.startElement("", HTML_DIV_TAG, HTML_DIV_TAG, newAtts);
                 printText(fms.getSectionHeading(), SINGLE_LINE_FIELD);
@@ -179,8 +145,7 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl
             }
 
             // Add Optional Section Text
-            if (fms.getSectionText() != null)
-            {
+            if (fms.getSectionText() != null) {
                 newAtts = new AttributesImpl();
                 newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, "section_text");
                 super.startElement("", HTML_DIV_TAG, HTML_DIV_TAG, newAtts);
@@ -192,13 +157,11 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl
             }
 
             //Add optional PDF Section
-            if (fms.getPdfs() != null && fms.getPdfs().size() != 0)
-            {
+            if (fms.getPdfs() != null && fms.getPdfs().size() != 0) {
                 newAtts.addAttribute("", HTML_TAG_CLASS_ATTRIBUTE, HTML_TAG_CLASS_ATTRIBUTE, CDATA, "section_pdf");
                 super.startElement("", HTML_DIV_TAG, HTML_DIV_TAG, newAtts);
 
-                for (final FrontMatterPdf fmp : fms.getPdfs())
-                {
+                for (final FrontMatterPdf fmp : fms.getPdfs()) {
                     newAtts = new AttributesImpl();
                     super.startElement("", HTML_TAG_BREAK_ATTRIBUTE, HTML_TAG_BREAK_ATTRIBUTE, newAtts);
                     super.endElement("", HTML_TAG_BREAK_ATTRIBUTE, HTML_TAG_BREAK_ATTRIBUTE);
@@ -212,8 +175,7 @@ public class FrontMatterAdditionalFrontMatterPageFilter extends XMLFilterImpl
                         "section_pdf_hyperlink");
                     // Add er:# and strip .pdf
                     int startOfPDFExtension = fmp.getPdfFilename().lastIndexOf(".");
-                    if (startOfPDFExtension == -1)
-                    {
+                    if (startOfPDFExtension == -1) {
                         startOfPDFExtension = fmp.getPdfFilename().length();
                     }
                     final String pdfHREF = "er:#" + fmp.getPdfFilename().substring(0, startOfPDFExtension);

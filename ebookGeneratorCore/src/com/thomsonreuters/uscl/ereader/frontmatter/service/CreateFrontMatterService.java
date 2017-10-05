@@ -10,8 +10,7 @@ import com.thomsonreuters.uscl.ereader.frontmatter.exception.EBookFrontMatterGen
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public interface CreateFrontMatterService
-{
+public interface CreateFrontMatterService {
     /**
      * Creates all the Front Matter pages for this eBook and writes them to the specified NAS directory.
      *
@@ -54,8 +53,7 @@ public interface CreateFrontMatterService
      * @param bookDefinition defines the book for which front matter is being previewed
      * @return HTML that will be rendered for the Research Assistance page
      */
-    String getResearchAssistancePage(BookDefinition bookDefinition)
-        throws EBookFrontMatterGenerationException;
+    String getResearchAssistancePage(BookDefinition bookDefinition) throws EBookFrontMatterGenerationException;
 
     /**
      * Helper method that generates the preview HTML for the WestlawNext page that

@@ -44,8 +44,7 @@ import org.xml.sax.helpers.XMLFilterImpl;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, ResourceLoaderAware
-{
+public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, ResourceLoaderAware {
     private static final Logger LOG = LogManager.getLogger(CreateFrontMatterServiceImpl.class);
     private static final String HTML_EXTENSION = ".html";
     private static final String CSS_PLACEHOLDER = "er:#ebook_generator";
@@ -65,8 +64,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      */
     @Override
     public void generateAllFrontMatterPages(final File outputDir, final BookDefinition bookDefinition)
-        throws EBookFrontMatterGenerationException
-    {
+        throws EBookFrontMatterGenerationException {
         final File titlePage = new File(outputDir, FrontMatterFileName.FRONT_MATTER_TITLE + HTML_EXTENSION);
         writeHTMLFile(titlePage, generateTitlePage(bookDefinition));
 
@@ -77,8 +75,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
 
         LOG.debug("Front Matter Copyright HTML page generated.");
 
-        for (final FrontMatterPage page : bookDefinition.getFrontMatterPages())
-        {
+        for (final FrontMatterPage page : bookDefinition.getFrontMatterPages()) {
             final File additionalPage =
                 new File(outputDir, FrontMatterFileName.ADDITIONAL_FRONT_MATTER + page.getId() + HTML_EXTENSION);
             writeHTMLFile(additionalPage, generateAdditionalFrontMatterPage(bookDefinition, page.getId()));
@@ -102,24 +99,20 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      * @see com.thomsonreuters.uscl.ereader.format.service.CreateFrontMatterService#getTitlePage(com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition)
      */
     @Override
-    public String getTitlePage(final BookDefinition bookDefinition) throws EBookFrontMatterGenerationException
-    {
+    public String getTitlePage(final BookDefinition bookDefinition) throws EBookFrontMatterGenerationException {
         String output = generateTitlePage(bookDefinition)
             .replace(CSS_PLACEHOLDER, "frontMatterCss.mvc?cssName=ebook_generator.css");
-        for (final Map.Entry<String, String> entry : frontMatterLogoPlaceHolder.entrySet())
-        {
+        for (final Map.Entry<String, String> entry : frontMatterLogoPlaceHolder.entrySet()) {
             output = output.replace(entry.getKey(), "frontMatterImage.mvc?imageName=" + entry.getValue());
         }
         return output;
     }
 
-    public Map<String, String> getFrontMatterLogoPlaceHolder()
-    {
+    public Map<String, String> getFrontMatterLogoPlaceHolder() {
         return frontMatterLogoPlaceHolder;
     }
 
-    public void setFrontMatterLogoPlaceHolder(final Map<String, String> frontMatterLogoPlaceHolder)
-    {
+    public void setFrontMatterLogoPlaceHolder(final Map<String, String> frontMatterLogoPlaceHolder) {
         this.frontMatterLogoPlaceHolder = frontMatterLogoPlaceHolder;
     }
 
@@ -127,8 +120,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      * @see com.thomsonreuters.uscl.ereader.format.service.CreateFrontMatterService#getCopyrightPage(com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition)
      */
     @Override
-    public String getCopyrightPage(final BookDefinition bookDefinition) throws EBookFrontMatterGenerationException
-    {
+    public String getCopyrightPage(final BookDefinition bookDefinition) throws EBookFrontMatterGenerationException {
         final String output = generateCopyrightPage(bookDefinition)
             .replace(CSS_PLACEHOLDER, "frontMatterCss.mvc?cssName=ebook_generator.css");
         return output;
@@ -139,8 +131,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      */
     @Override
     public String getAdditionalFrontPage(final BookDefinition bookDefinition, final Long front_matter_page_id)
-        throws EBookFrontMatterGenerationException
-    {
+        throws EBookFrontMatterGenerationException {
         final String output = generateAdditionalFrontMatterPage(bookDefinition, front_matter_page_id)
             .replace(CSS_PLACEHOLDER, "frontMatterCss.mvc?cssName=ebook_generator.css");
         return output;
@@ -151,8 +142,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      */
     @Override
     public String getResearchAssistancePage(final BookDefinition bookDefinition)
-        throws EBookFrontMatterGenerationException
-    {
+        throws EBookFrontMatterGenerationException {
         final String output = generateResearchAssistancePage(bookDefinition)
             .replace(CSS_PLACEHOLDER, "frontMatterCss.mvc?cssName=ebook_generator.css");
         return output;
@@ -162,8 +152,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      * @see com.thomsonreuters.uscl.ereader.format.service.CreateFrontMatterService#getWestlawNextPage(com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition)
      */
     @Override
-    public String getWestlawNextPage(final BookDefinition bookDefinition) throws EBookFrontMatterGenerationException
-    {
+    public String getWestlawNextPage(final BookDefinition bookDefinition) throws EBookFrontMatterGenerationException {
         final String output =
             generateWestlawNextPage().replace(CSS_PLACEHOLDER, "frontMatterCss.mvc?cssName=ebook_generator.css")
                 .replace(WLN_LOGO_PLACEHOLDER, "frontMatterImage.mvc?imageName=EBook_Generator_WestlawNextLogo.png");
@@ -171,34 +160,28 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
     }
 
     @Override
-    public void setResourceLoader(final ResourceLoader resourceLoader)
-    {
+    public void setResourceLoader(final ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
     }
 
-    public void setFrontMatterTitlePageTemplateLocation(final String frontMatterTitlePageTemplateLocation)
-    {
+    public void setFrontMatterTitlePageTemplateLocation(final String frontMatterTitlePageTemplateLocation) {
         this.frontMatterTitlePageTemplateLocation = frontMatterTitlePageTemplateLocation;
     }
 
-    public void setFrontMatterCopyrightPageTemplateLocation(final String frontMatterCopyrightPageTemplateLocation)
-    {
+    public void setFrontMatterCopyrightPageTemplateLocation(final String frontMatterCopyrightPageTemplateLocation) {
         this.frontMatterCopyrightPageTemplateLocation = frontMatterCopyrightPageTemplateLocation;
     }
 
-    public void setFrontMatterAdditionalPagesTemplateLocation(final String frontMatterAdditionalPagesTemplateLocation)
-    {
+    public void setFrontMatterAdditionalPagesTemplateLocation(final String frontMatterAdditionalPagesTemplateLocation) {
         this.frontMatterAdditionalPagesTemplateLocation = frontMatterAdditionalPagesTemplateLocation;
     }
 
     public void setFrontMatterResearchAssistancePageTemplateLocation(
-        final String frontMatterResearchAssistancePageTemplateLocation)
-    {
+        final String frontMatterResearchAssistancePageTemplateLocation) {
         this.frontMatterResearchAssistancePageTemplateLocation = frontMatterResearchAssistancePageTemplateLocation;
     }
 
-    public void setFrontMatterWestlawNextPageTemplateLocation(final String frontMatterWestlawNextPageTemplateLocation)
-    {
+    public void setFrontMatterWestlawNextPageTemplateLocation(final String frontMatterWestlawNextPageTemplateLocation) {
         this.frontMatterWestlawNextPageTemplateLocation = frontMatterWestlawNextPageTemplateLocation;
     }
 
@@ -210,15 +193,11 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      * @throws EBookFrontMatterGenerationException encountered issues while attempting to write
      * to the specified file
      */
-    protected void writeHTMLFile(final File aFile, final String text) throws EBookFrontMatterGenerationException
-    {
-        try (Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(aFile), "UTF8")))
-        {
+    protected void writeHTMLFile(final File aFile, final String text) throws EBookFrontMatterGenerationException {
+        try (Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(aFile), "UTF8"))) {
             out.write(text);
             out.close();
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String errMessage = "Failed to write the following file to NAS: " + aFile.getAbsolutePath();
             LOG.error(errMessage);
             throw new EBookFrontMatterGenerationException(errMessage, e);
@@ -232,8 +211,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      * @return HTML that represents the Title page
      * @throws EBookFrontMatterGenerationException encountered a failure while transforming the template
      */
-    protected String generateTitlePage(final BookDefinition bookDefinition) throws EBookFrontMatterGenerationException
-    {
+    protected String generateTitlePage(final BookDefinition bookDefinition) throws EBookFrontMatterGenerationException {
         return transformTemplate(
             new FrontMatterTitlePageFilter(bookDefinition),
             getFrontMatterTitlePageTemplateLocation());
@@ -247,8 +225,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      * @throws EBookFrontMatterGenerationException encountered a failure while transforming the template
      */
     protected String generateCopyrightPage(final BookDefinition bookDefinition)
-        throws EBookFrontMatterGenerationException
-    {
+        throws EBookFrontMatterGenerationException {
         return transformTemplate(
             new FrontMatterCopyrightPageFilter(bookDefinition),
             getFrontMatterCopyrightTemplateLocation());
@@ -263,8 +240,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      * @throws EBookFrontMatterGenerationException encountered a failure while transforming the template
      */
     protected String generateAdditionalFrontMatterPage(final BookDefinition bookDefinition, final Long pageId)
-        throws EBookFrontMatterGenerationException
-    {
+        throws EBookFrontMatterGenerationException {
         return transformTemplate(
             new FrontMatterAdditionalFrontMatterPageFilter(bookDefinition, pageId),
             getFrontMatterAdditionalPagesTemplateLocation());
@@ -279,8 +255,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      * @throws EBookFrontMatterGenerationException encountered a failure while transforming the template
      */
     protected String generateResearchAssistancePage(final BookDefinition bookDefinition)
-        throws EBookFrontMatterGenerationException
-    {
+        throws EBookFrontMatterGenerationException {
         return transformTemplate(
             new FrontMatterResearchAssistancePageFilter(bookDefinition),
             getFrontMatterResearchAssistanceTemplateLocation());
@@ -292,8 +267,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      * @return HTML that represents the Title page
      * @throws EBookFrontMatterGenerationException encountered a failure while transforming the template
      */
-    protected String generateWestlawNextPage() throws EBookFrontMatterGenerationException
-    {
+    protected String generateWestlawNextPage() throws EBookFrontMatterGenerationException {
         return transformTemplate(new FrontMatterWestlawNextPageFilter(), getFrontMatterWestlawNextTemplateLocation());
     }
 
@@ -306,8 +280,7 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
      * @throws EBookFrontMatterGenerationException encountered a failure while transforming the template
      */
     private String transformTemplate(final XMLFilterImpl filter, final Resource template)
-        throws EBookFrontMatterGenerationException
-    {
+        throws EBookFrontMatterGenerationException {
         final ByteArrayOutputStream outStream = new ByteArrayOutputStream(2048);
 
         final Properties props = OutputPropertiesFactory.getDefaultMethodProperties(Method.XHTML);
@@ -317,26 +290,19 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
         serializer.setOutputStream(new EntityDecodedOutputStream(outStream, true));
         final SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 
-        try
-        {
+        try {
             filter.setParent(saxParserFactory.newSAXParser().getXMLReader());
             filter.setContentHandler(serializer.asContentHandler());
             filter.parse(new InputSource(new EntityEncodedInputStream(template.getInputStream())));
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             final String message = "An IOException occurred while generating the Front Matter Title Page.";
             LOG.error(message);
             throw new EBookFrontMatterGenerationException(message, e);
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             final String message = "Could not generate Front Matter Title Page.";
             LOG.error(message);
             throw new EBookFrontMatterGenerationException(message, e);
-        }
-        catch (final ParserConfigurationException e)
-        {
+        } catch (final ParserConfigurationException e) {
             final String message =
                 "An exception occurred when configuring " + "the parser to generate the Front Matter Title Page.";
             LOG.error(message);
@@ -344,12 +310,9 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
         }
 
         String output = null;
-        try
-        {
+        try {
             output = outStream.toString("UTF-8");
-        }
-        catch (final UnsupportedEncodingException e)
-        {
+        } catch (final UnsupportedEncodingException e) {
             final String message = "Could not encode front matter HTML into UTF-8.";
             LOG.error(message);
             throw new EBookFrontMatterGenerationException(message, e);
@@ -358,28 +321,23 @@ public class CreateFrontMatterServiceImpl implements CreateFrontMatterService, R
         return output;
     }
 
-    private Resource getFrontMatterTitlePageTemplateLocation()
-    {
+    private Resource getFrontMatterTitlePageTemplateLocation() {
         return resourceLoader.getResource(frontMatterTitlePageTemplateLocation);
     }
 
-    private Resource getFrontMatterCopyrightTemplateLocation()
-    {
+    private Resource getFrontMatterCopyrightTemplateLocation() {
         return resourceLoader.getResource(frontMatterCopyrightPageTemplateLocation);
     }
 
-    private Resource getFrontMatterAdditionalPagesTemplateLocation()
-    {
+    private Resource getFrontMatterAdditionalPagesTemplateLocation() {
         return resourceLoader.getResource(frontMatterAdditionalPagesTemplateLocation);
     }
 
-    private Resource getFrontMatterResearchAssistanceTemplateLocation()
-    {
+    private Resource getFrontMatterResearchAssistanceTemplateLocation() {
         return resourceLoader.getResource(frontMatterResearchAssistancePageTemplateLocation);
     }
 
-    private Resource getFrontMatterWestlawNextTemplateLocation()
-    {
+    private Resource getFrontMatterWestlawNextTemplateLocation() {
         return resourceLoader.getResource(frontMatterWestlawNextPageTemplateLocation);
     }
 }

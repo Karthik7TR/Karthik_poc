@@ -17,34 +17,28 @@ import org.springframework.batch.core.JobParameter;
  * Thus this persisted object is at: JobExplorer.getJobExecution(someId).getExecutionContext().get(JobMetrics.class.getName());
  *
  */
-public class JobMetrics implements Serializable
-{
+public class JobMetrics implements Serializable {
     private static final long serialVersionUID = -7337752980500875000L;
 
     private Map<String, JobParameter> metrics;
 
-    public JobMetrics()
-    {
+    public JobMetrics() {
         metrics = new HashMap<>();
     }
 
-    public Date getDate(final String key)
-    {
+    public Date getDate(final String key) {
         return (Date) getValue(key);
     }
 
-    public Double getDouble(final String key)
-    {
+    public Double getDouble(final String key) {
         return (Double) getValue(key);
     }
 
-    public Long getLong(final String key)
-    {
+    public Long getLong(final String key) {
         return (Long) getValue(key);
     }
 
-    public String getString(final String key)
-    {
+    public String getString(final String key) {
         return (String) getValue(key);
     }
 
@@ -53,47 +47,40 @@ public class JobMetrics implements Serializable
      * @param longKey the name of the metric (assumed to be a long)
      * @param amount add this much to the existing value or create a new key/value pair under the key if the keys does not already exist.
      */
-    public void addLong(final String longKey, final long amount)
-    {
+    public void addLong(final String longKey, final long amount) {
         final Long existingvalue = getLong(longKey);
-        final Long newValue = (existingvalue != null) ? Long.valueOf(existingvalue.longValue() + amount) : Long.valueOf(amount);
+        final Long newValue =
+            (existingvalue != null) ? Long.valueOf(existingvalue.longValue() + amount) : Long.valueOf(amount);
         setLong(longKey, newValue);
     }
 
-    public void setDate(final String key, final Date date)
-    {
+    public void setDate(final String key, final Date date) {
         metrics.put(key, new JobParameter(date));
     }
 
-    public void setDouble(final String key, final Double doub)
-    {
+    public void setDouble(final String key, final Double doub) {
         metrics.put(key, new JobParameter(doub));
     }
 
-    public void setLong(final String key, final Long lng)
-    {
+    public void setLong(final String key, final Long lng) {
         metrics.put(key, new JobParameter(lng));
     }
 
-    public void setString(final String key, final String str)
-    {
+    public void setString(final String key, final String str) {
         metrics.put(key, new JobParameter(str));
     }
 
-    private Object getValue(final String key)
-    {
+    private Object getValue(final String key) {
         Object value = null;
         final JobParameter param = metrics.get(key);
-        if (param != null)
-        {
+        if (param != null) {
             value = param.getValue();
         }
         return value;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

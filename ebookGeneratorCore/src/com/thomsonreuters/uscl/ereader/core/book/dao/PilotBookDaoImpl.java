@@ -10,12 +10,10 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
-public class PilotBookDaoImpl implements PilotBookDao
-{
+public class PilotBookDaoImpl implements PilotBookDao {
     private SessionFactory sessionFactory;
 
-    public PilotBookDaoImpl(final SessionFactory hibernateSessionFactory)
-    {
+    public PilotBookDaoImpl(final SessionFactory hibernateSessionFactory) {
         sessionFactory = hibernateSessionFactory;
     }
 
@@ -25,8 +23,7 @@ public class PilotBookDaoImpl implements PilotBookDao
      */
     @Override
     @Transactional
-    public PilotBook findPilotBookByTitleId(final String pilotBookTitleId) throws DataAccessException
-    {
+    public PilotBook findPilotBookByTitleId(final String pilotBookTitleId) throws DataAccessException {
         final Session session = sessionFactory.getCurrentSession();
         return (PilotBook) session.get(PilotBook.class, pilotBookTitleId);
     }
@@ -36,8 +33,7 @@ public class PilotBookDaoImpl implements PilotBookDao
      *
      */
     @Override
-    public List<PilotBook> findPilotBooksByEBookDefnId(final Long eBookDefnId) throws DataAccessException
-    {
+    public List<PilotBook> findPilotBooksByEBookDefnId(final Long eBookDefnId) throws DataAccessException {
         final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PilotBook.class);
         criteria.add(Restrictions.eq("ebookDefinition.ebookDefinitionId", eBookDefnId));
         return criteria.list();
@@ -45,8 +41,7 @@ public class PilotBookDaoImpl implements PilotBookDao
 
     @Override
     @Transactional
-    public void remove(PilotBook toRemove) throws DataAccessException
-    {
+    public void remove(PilotBook toRemove) throws DataAccessException {
         toRemove = (PilotBook) sessionFactory.getCurrentSession().merge(toRemove);
         sessionFactory.getCurrentSession().delete(toRemove);
         flush();
@@ -56,15 +51,13 @@ public class PilotBookDaoImpl implements PilotBookDao
      * (non-Javadoc)
      */
     @Transactional
-    public void flush()
-    {
+    public void flush() {
         sessionFactory.getCurrentSession().flush();
     }
 
     @Override
     @Transactional
-    public void savePilotBook(final PilotBook pilotBook)
-    {
+    public void savePilotBook(final PilotBook pilotBook) {
         final Session session = sessionFactory.getCurrentSession();
         session.save(pilotBook);
         session.flush();

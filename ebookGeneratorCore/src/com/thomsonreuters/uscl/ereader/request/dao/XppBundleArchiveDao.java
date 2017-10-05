@@ -4,8 +4,7 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 
-public interface XppBundleArchiveDao
-{
+public interface XppBundleArchiveDao {
     /**
      * Add a bundle to the archive
      * @param ebookRequestId

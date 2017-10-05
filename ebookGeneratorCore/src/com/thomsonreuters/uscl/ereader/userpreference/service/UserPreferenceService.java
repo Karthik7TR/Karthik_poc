@@ -10,8 +10,7 @@ import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference;
  * Service to manage UserPreference entities.
  *
  */
-public interface UserPreferenceService
-{
+public interface UserPreferenceService {
     void save(UserPreference preference);
 
     UserPreference findByUsername(String username);

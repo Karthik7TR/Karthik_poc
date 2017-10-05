@@ -10,8 +10,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 /**
  * Service methods that are common to both the Spring Batch generator engine and manager web applications.
  */
-public interface BookDefinitionService
-{
+public interface BookDefinitionService {
     /**
      * Returns all the current book definitions.
      * @return a list of BookDefinition

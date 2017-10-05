@@ -24,8 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 @IdClass(SplitDocument.SplitDocumentPk.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "SplitDocument")
-public class SplitDocument implements Serializable
-{
+public class SplitDocument implements Serializable {
     private static final long serialVersionUID = 8698522630203083821L;
 
     @Id
@@ -37,49 +36,40 @@ public class SplitDocument implements Serializable
     @Column(name = "NOTE", length = 512, nullable = false)
     private String note;
 
-    public BookDefinition getBookDefinition()
-    {
+    public BookDefinition getBookDefinition() {
         return ebookDefinition;
     }
 
-    public void setBookDefinition(final BookDefinition bookDefinition)
-    {
+    public void setBookDefinition(final BookDefinition bookDefinition) {
         ebookDefinition = bookDefinition;
     }
 
-    public String getTocGuid()
-    {
+    public String getTocGuid() {
         return tocGuid;
     }
 
-    public void setTocGuid(final String tocGuid)
-    {
+    public void setTocGuid(final String tocGuid) {
         this.tocGuid = tocGuid;
     }
 
-    public String getNote()
-    {
+    public String getNote() {
         return note;
     }
 
-    public void setNote(final String note)
-    {
+    public void setNote(final String note) {
         this.note = note;
     }
 
     @Transient
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return StringUtils.isBlank(note) && StringUtils.isBlank(tocGuid);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         final StringBuilder buffer = new StringBuilder();
         buffer.append("SplitDocument [");
-        if (ebookDefinition != null)
-        {
+        if (ebookDefinition != null) {
             buffer.append("bookDefinitionId=").append(ebookDefinition.getEbookDefinitionId()).append(", ");
         }
         buffer.append("tocGuid=").append(tocGuid).append(", ");
@@ -89,8 +79,7 @@ public class SplitDocument implements Serializable
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((tocGuid == null) ? 0 : tocGuid.hashCode());
@@ -102,8 +91,7 @@ public class SplitDocument implements Serializable
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -111,33 +99,26 @@ public class SplitDocument implements Serializable
         if (getClass() != obj.getClass())
             return false;
         final SplitDocument other = (SplitDocument) obj;
-        if (tocGuid == null)
-        {
+        if (tocGuid == null) {
             if (other.tocGuid != null)
                 return false;
-        }
-        else if (!tocGuid.equals(other.tocGuid))
+        } else if (!tocGuid.equals(other.tocGuid))
             return false;
-        if (ebookDefinition == null)
-        {
+        if (ebookDefinition == null) {
             if (other.ebookDefinition != null)
                 return false;
-        }
-        else if (!ebookDefinition.getEbookDefinitionId().equals(other.ebookDefinition.getEbookDefinitionId()))
+        } else if (!ebookDefinition.getEbookDefinitionId().equals(other.ebookDefinition.getEbookDefinitionId()))
             return false;
-        if (note == null)
-        {
+        if (note == null) {
             if (other.note != null)
                 return false;
-        }
-        else if (!note.equals(other.note))
+        } else if (!note.equals(other.note))
             return false;
         return true;
     }
 
     @Embeddable
-    public static class SplitDocumentPk implements Serializable
-    {
+    public static class SplitDocumentPk implements Serializable {
         private static final long serialVersionUID = 3552710801579579685L;
 
         @ManyToOne(fetch = FetchType.LAZY)
@@ -148,33 +129,27 @@ public class SplitDocument implements Serializable
         @Column(name = "TOC_GUID", length = 33, nullable = false)
         private String tocGuid;
 
-        public SplitDocumentPk()
-        {
+        public SplitDocumentPk() {
         }
 
-        public BookDefinition getBookDefinition()
-        {
+        public BookDefinition getBookDefinition() {
             return ebookDefinition;
         }
 
-        public void setBookDefinition(final BookDefinition bookDefinition)
-        {
+        public void setBookDefinition(final BookDefinition bookDefinition) {
             ebookDefinition = bookDefinition;
         }
 
-        public String getTocGuid()
-        {
+        public String getTocGuid() {
             return tocGuid;
         }
 
-        public void setTocGuid(final String tocGuid)
-        {
+        public void setTocGuid(final String tocGuid) {
             this.tocGuid = tocGuid;
         }
 
         @Override
-        public int hashCode()
-        {
+        public int hashCode() {
             final int prime = 31;
             int result = 1;
             result = prime * result + ((tocGuid == null) ? 0 : tocGuid.hashCode());
@@ -182,8 +157,7 @@ public class SplitDocument implements Serializable
         }
 
         @Override
-        public boolean equals(final Object obj)
-        {
+        public boolean equals(final Object obj) {
             if (this == obj)
                 return true;
             if (obj == null)
@@ -191,12 +165,10 @@ public class SplitDocument implements Serializable
             if (getClass() != obj.getClass())
                 return false;
             final SplitDocumentPk other = (SplitDocumentPk) obj;
-            if (tocGuid == null)
-            {
+            if (tocGuid == null) {
                 if (other.tocGuid != null)
                     return false;
-            }
-            else if (!tocGuid.equals(other.tocGuid))
+            } else if (!tocGuid.equals(other.tocGuid))
                 return false;
             return true;
         }

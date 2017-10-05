@@ -13,8 +13,7 @@ import com.thomsonreuters.uscl.ereader.util.EBookServerException;
  *
  * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
-public interface JobCleanupDao
-{
+public interface JobCleanupDao {
     /**
      * Update dead job exit status to "failed".
      * @return

@@ -14,13 +14,11 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "PROVIEW_AUDIT")
-public class ProviewAudit implements Serializable
-{
+public class ProviewAudit implements Serializable {
     //private static final Logger log = LogManager.getLogger(ProviewAudit.class);
     private static final long serialVersionUID = 1L;
 
-    public enum ProviewRequest
-    {
+    public enum ProviewRequest {
         DELETE,
         REMOVE,
         PROMOTE
@@ -69,83 +67,67 @@ public class ProviewAudit implements Serializable
     @Column(name = "AUDIT_NOTE", length = 1024, nullable = false)
     private String auditNote;
 
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final Long id)
-    {
+    public void setId(final Long id) {
         this.id = id;
     }
 
-    public String getTitleId()
-    {
+    public String getTitleId() {
         return titleId;
     }
 
-    public void setTitleId(final String titleId)
-    {
+    public void setTitleId(final String titleId) {
         this.titleId = titleId;
     }
 
-    public String getBookVersion()
-    {
+    public String getBookVersion() {
         return bookVersion;
     }
 
-    public void setBookVersion(final String bookVersion)
-    {
+    public void setBookVersion(final String bookVersion) {
         this.bookVersion = bookVersion;
     }
 
-    public Date getBookLastUpdated()
-    {
+    public Date getBookLastUpdated() {
         return bookLastUpdated;
     }
 
-    public void setBookLastUpdated(final Date bookLastUpdated)
-    {
+    public void setBookLastUpdated(final Date bookLastUpdated) {
         this.bookLastUpdated = bookLastUpdated;
     }
 
-    public String getUsername()
-    {
+    public String getUsername() {
         return username;
     }
 
-    public void setUsername(final String username)
-    {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
-    public String getProviewRequest()
-    {
+    public String getProviewRequest() {
         return proviewRequest;
     }
 
-    public void setProviewRequest(final String proviewRequest)
-    {
+    public void setProviewRequest(final String proviewRequest) {
         this.proviewRequest = proviewRequest;
     }
 
-    public Date getRequestDate()
-    {
+    public Date getRequestDate() {
         return requestDate;
     }
 
-    public void setRequestDate(final Date requestDate)
-    {
+    public void setRequestDate(final Date requestDate) {
         this.requestDate = requestDate;
     }
 
-    public String getAuditNote()
-    {
+    public String getAuditNote() {
         return auditNote;
     }
 
-    public void setAuditNote(final String auditNote)
-    {
+    public void setAuditNote(final String auditNote) {
         this.auditNote = auditNote;
     }
 }

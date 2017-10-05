@@ -6,17 +6,14 @@ package com.thomsonreuters.uscl.ereader.frontmatter.exception;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class EBookFrontMatterGenerationException extends Exception
-{
+public class EBookFrontMatterGenerationException extends Exception {
     private static final long serialVersionUID = 1L;
 
-    public EBookFrontMatterGenerationException(final String message)
-    {
+    public EBookFrontMatterGenerationException(final String message) {
         super(message);
     }
 
-    public EBookFrontMatterGenerationException(final String message, final Throwable cause)
-    {
+    public EBookFrontMatterGenerationException(final String message, final Throwable cause) {
         super(message, cause);
     }
 }

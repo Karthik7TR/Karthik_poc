@@ -24,8 +24,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 
-public class PublishingStatsDaoImpl implements PublishingStatsDao
-{
+public class PublishingStatsDaoImpl implements PublishingStatsDao {
     private static final String EBOOK_DEF_ID = "ebookDefId";
     private static final String PUBLISH_STATUS = "publishStatus";
     private static final String AUDIT = "audit";
@@ -33,27 +32,23 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao
 
     private SessionFactory sessionFactory;
 
-    public PublishingStatsDaoImpl(final SessionFactory hibernateSessionFactory)
-    {
+    public PublishingStatsDaoImpl(final SessionFactory hibernateSessionFactory) {
         sessionFactory = hibernateSessionFactory;
     }
 
     @Override
-    public Date getSysDate()
-    {
+    public Date getSysDate() {
         final Query query = sessionFactory.getCurrentSession().getNamedQuery("getSysdate");
         return (Date) query.uniqueResult();
     }
 
     @Override
-    public List<PublishingStats> findAllPublishingStats()
-    {
+    public List<PublishingStats> findAllPublishingStats() {
         return sessionFactory.getCurrentSession().createCriteria(PublishingStats.class).list();
     }
 
     @Override
-    public PublishingStats findJobStatsByJobId(final Long jobId)
-    {
+    public PublishingStats findJobStatsByJobId(final Long jobId) {
         return (PublishingStats) sessionFactory.getCurrentSession()
             .createCriteria(PublishingStats.class)
             .setFetchMode(AUDIT, FetchMode.JOIN)
@@ -62,16 +57,14 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao
     }
 
     @Override
-    public void saveJobStats(final PublishingStats jobstats)
-    {
+    public void saveJobStats(final PublishingStats jobstats) {
         final Session session = sessionFactory.getCurrentSession();
         session.save(jobstats);
         session.flush();
     }
 
     @Override
-    public void deleteJobStats(final PublishingStats toRemove)
-    {
+    public void deleteJobStats(final PublishingStats toRemove) {
         final Session session = sessionFactory.getCurrentSession();
         final PublishingStats merged = (PublishingStats) session.merge(toRemove);
         session.delete(merged);
@@ -79,16 +72,14 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao
     }
 
     @Override
-    public EbookAudit findAuditInfoByJobId(final Long jobId)
-    {
+    public EbookAudit findAuditInfoByJobId(final Long jobId) {
         final PublishingStats stats = (PublishingStats) sessionFactory.getCurrentSession()
             .createCriteria(PublishingStats.class)
             .add(Restrictions.eq(JOB_INSTANCE_ID, jobId))
             .uniqueResult();
 
         EbookAudit ebookAudit = null;
-        if (stats != null)
-        {
+        if (stats != null) {
             ebookAudit = stats.getAudit();
             Hibernate.initialize(ebookAudit);
         }
@@ -102,8 +93,7 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao
      * @return
      */
     @Override
-    public List<PublishingStats> findPublishingStatsByEbookDef(final Long eBookDefId)
-    {
+    public List<PublishingStats> findPublishingStatsByEbookDef(final Long eBookDefId) {
         final Criteria criteria = sessionFactory.getCurrentSession()
             .createCriteria(PublishingStats.class)
             .createAlias(AUDIT, "book")
@@ -114,8 +104,7 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao
     }
 
     @Override
-    public List<String> findSuccessfullyPublishedIsbnByTitleId(final String titleId)
-    {
+    public List<String> findSuccessfullyPublishedIsbnByTitleId(final String titleId) {
         final Criteria criteria = sessionFactory.getCurrentSession()
             .createCriteria(PublishingStats.class)
             .createAlias(AUDIT, "book")
@@ -127,8 +116,7 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao
     }
 
     @Override
-    public Long findSuccessfullyPublishedGroupBook(final Long ebookDefId)
-    {
+    public Long findSuccessfullyPublishedGroupBook(final Long ebookDefId) {
         final Criteria criteria = sessionFactory.getCurrentSession()
             .createCriteria(PublishingStats.class)
             .createAlias(AUDIT, "book")
@@ -141,17 +129,15 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao
     }
 
     @Override
-    public List<PublishingStats> findPublishingStats(final PublishingStatsFilter filter, final PublishingStatsSort sort)
-    {
+    public List<PublishingStats> findPublishingStats(
+        final PublishingStatsFilter filter,
+        final PublishingStatsSort sort) {
         final Criteria criteria = addFilters(filter);
 
         final String orderByColumn = sort.getOrderByColumnName();
-        if (sort.isAscending())
-        {
+        if (sort.isAscending()) {
             criteria.addOrder(Order.asc(orderByColumn));
-        }
-        else
-        {
+        } else {
             criteria.addOrder(Order.desc(orderByColumn));
         }
 
@@ -163,16 +149,14 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao
     }
 
     @Override
-    public List<PublishingStats> findPublishingStats(final PublishingStatsFilter filter)
-    {
+    public List<PublishingStats> findPublishingStats(final PublishingStatsFilter filter) {
         final Criteria criteria = addFilters(filter);
 
         return criteria.list();
     }
 
     @Override
-    public int numberOfPublishingStats(final PublishingStatsFilter filter)
-    {
+    public int numberOfPublishingStats(final PublishingStatsFilter filter) {
         final Criteria criteria = addFilters(filter);
 
         final Number rows = (Number) criteria.setProjection(Projections.rowCount()).uniqueResult();
@@ -181,8 +165,7 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao
     }
 
     @Override
-    public PublishingStats getPreviousPublishingStatsForSameBook(final long jobId)
-    {
+    public PublishingStats getPreviousPublishingStatsForSameBook(final long jobId) {
         final Session session = sessionFactory.getCurrentSession();
         final DetachedCriteria subQuery = DetachedCriteria.forClass(PublishingStats.class)
             .add(eq(JOB_INSTANCE_ID, jobId))
@@ -197,43 +180,35 @@ public class PublishingStatsDaoImpl implements PublishingStatsDao
         return (PublishingStats) criteria.uniqueResult();
     }
 
-    private Criteria addFilters(final PublishingStatsFilter filter)
-    {
+    private Criteria addFilters(final PublishingStatsFilter filter) {
         final Session session = sessionFactory.getCurrentSession();
 
         final Criteria criteria = session.createCriteria(PublishingStats.class)
             .createAlias(AUDIT, "book")
             .setFetchMode(AUDIT, FetchMode.JOIN);
 
-        if (filter.getFrom() != null)
-        {
+        if (filter.getFrom() != null) {
             criteria.add(Restrictions.ge("jobSubmitTimestamp", filter.getFrom()));
         }
-        if (filter.getTo() != null)
-        {
+        if (filter.getTo() != null) {
             criteria.add(Restrictions.le("jobSubmitTimestamp", filter.getTo()));
         }
-        if (StringUtils.isNotBlank(filter.getBookName()))
-        {
+        if (StringUtils.isNotBlank(filter.getBookName())) {
             criteria.add(Restrictions.like("book.proviewDisplayName", filter.getBookName()).ignoreCase());
         }
-        if (StringUtils.isNotBlank(filter.getTitleId()))
-        {
+        if (StringUtils.isNotBlank(filter.getTitleId())) {
             criteria.add(Restrictions.like("book.titleId", filter.getTitleId()).ignoreCase());
         }
-        if (filter.getBookDefinitionId() != null)
-        {
+        if (filter.getBookDefinitionId() != null) {
             criteria.add(Restrictions.eq(EBOOK_DEF_ID, filter.getBookDefinitionId()));
         }
-        if (StringUtils.isNotBlank(filter.getIsbn()))
-        {
+        if (StringUtils.isNotBlank(filter.getIsbn())) {
             criteria.add(Restrictions.like("book.isbn", filter.getIsbn()).ignoreCase());
         }
         return criteria;
     }
 
-    private Disjunction getSuccessfulPublishStatusRestriction()
-    {
+    private Disjunction getSuccessfulPublishStatusRestriction() {
         return Restrictions.or(
             Restrictions.eq(PUBLISH_STATUS, PublishingStats.SEND_EMAIL_COMPLETE).ignoreCase(),
             Restrictions.eq(PUBLISH_STATUS, PublishingStats.SEND_EMAIL_COMPLETE_XPP).ignoreCase(),

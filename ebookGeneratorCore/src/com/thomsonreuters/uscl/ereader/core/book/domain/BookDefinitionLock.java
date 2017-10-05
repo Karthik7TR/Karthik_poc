@@ -18,8 +18,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "EBOOK_DEFINITION_LOCK")
-public class BookDefinitionLock implements Serializable
-{
+public class BookDefinitionLock implements Serializable {
     private static final long serialVersionUID = 6382455351376387289L;
 
     // LOCK_TIMEOUT is set to equal the session timeout on the eBook Manager
@@ -45,59 +44,48 @@ public class BookDefinitionLock implements Serializable
     @Column(name = "FULL_NAME", nullable = false, length = 1024)
     private String fullName;
 
-    public Long getEbookDefinitionLockId()
-    {
+    public Long getEbookDefinitionLockId() {
         return ebookDefinitionLockId;
     }
 
-    public void setEbookDefinitionLockId(final Long ebookDefinitionLockId)
-    {
+    public void setEbookDefinitionLockId(final Long ebookDefinitionLockId) {
         this.ebookDefinitionLockId = ebookDefinitionLockId;
     }
 
-    public BookDefinition getEbookDefinition()
-    {
+    public BookDefinition getEbookDefinition() {
         return ebookDefinition;
     }
 
-    public void setEbookDefinition(final BookDefinition ebookDefinition)
-    {
+    public void setEbookDefinition(final BookDefinition ebookDefinition) {
         this.ebookDefinition = ebookDefinition;
     }
 
-    public Date getCheckoutTimestamp()
-    {
+    public Date getCheckoutTimestamp() {
         return checkoutTimestamp;
     }
 
-    public void setCheckoutTimestamp(final Date checkoutTimestamp)
-    {
+    public void setCheckoutTimestamp(final Date checkoutTimestamp) {
         this.checkoutTimestamp = checkoutTimestamp;
     }
 
-    public String getUsername()
-    {
+    public String getUsername() {
         return username;
     }
 
-    public void setUsername(final String username)
-    {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
-    public String getFullName()
-    {
+    public String getFullName() {
         return fullName;
     }
 
-    public void setFullName(final String fullName)
-    {
+    public void setFullName(final String fullName) {
         this.fullName = fullName;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((checkoutTimestamp == null) ? 0 : checkoutTimestamp.hashCode());
@@ -108,8 +96,7 @@ public class BookDefinitionLock implements Serializable
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -117,33 +104,25 @@ public class BookDefinitionLock implements Serializable
         if (getClass() != obj.getClass())
             return false;
         final BookDefinitionLock other = (BookDefinitionLock) obj;
-        if (checkoutTimestamp == null)
-        {
+        if (checkoutTimestamp == null) {
             if (other.checkoutTimestamp != null)
                 return false;
-        }
-        else if (!checkoutTimestamp.equals(other.checkoutTimestamp))
+        } else if (!checkoutTimestamp.equals(other.checkoutTimestamp))
             return false;
-        if (ebookDefinitionLockId == null)
-        {
+        if (ebookDefinitionLockId == null) {
             if (other.ebookDefinitionLockId != null)
                 return false;
-        }
-        else if (!ebookDefinitionLockId.equals(other.ebookDefinitionLockId))
+        } else if (!ebookDefinitionLockId.equals(other.ebookDefinitionLockId))
             return false;
-        if (fullName == null)
-        {
+        if (fullName == null) {
             if (other.fullName != null)
                 return false;
-        }
-        else if (!fullName.equals(other.fullName))
+        } else if (!fullName.equals(other.fullName))
             return false;
-        if (username == null)
-        {
+        if (username == null) {
             if (other.username != null)
                 return false;
-        }
-        else if (!username.equals(other.username))
+        } else if (!username.equals(other.username))
             return false;
         return true;
     }

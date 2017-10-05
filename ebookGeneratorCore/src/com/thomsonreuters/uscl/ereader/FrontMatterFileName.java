@@ -1,7 +1,6 @@
 package com.thomsonreuters.uscl.ereader;
 
-public class FrontMatterFileName
-{
+public class FrontMatterFileName {
     // ===== Standard names for FRONT MATTER Files =====
     /** This is the header for the entire front matter pages (Used only with the +"Anchor") */
     public static final String PUBLISHING_INFORMATION = "PublishingInformation";

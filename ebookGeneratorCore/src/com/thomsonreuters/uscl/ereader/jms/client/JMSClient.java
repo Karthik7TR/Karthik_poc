@@ -5,8 +5,7 @@ import java.util.Map;
 
 import org.springframework.jms.core.JmsTemplate;
 
-public interface JMSClient
-{
+public interface JMSClient {
     /**
      * Send a message via the passed <code>JmsTemplate</code>
      *

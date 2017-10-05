@@ -18,8 +18,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
-public class OutageProcessorImpl implements OutageProcessor
-{
+public class OutageProcessorImpl implements OutageProcessor {
     private static Logger log = LogManager.getLogger(OutageProcessorImpl.class);
 
     private OutageService outageService;
@@ -33,17 +32,14 @@ public class OutageProcessorImpl implements OutageProcessor
      */
     @Override
     @Transactional
-    public synchronized PlannedOutage processPlannedOutages()
-    {
+    public synchronized PlannedOutage processPlannedOutages() {
         final Date timeNow = new Date();
         final PlannedOutage outage = plannedOutageContainer.findOutage(timeNow);
         Collection<InternetAddress> recipients = null;
-        if (outage != null)
-        {
+        if (outage != null) {
             recipients = getOutageEmailRecipients();
             // If not already sent, send email indicating an outage has started
-            if (!outage.isNotificationEmailSent())
-            {
+            if (!outage.isNotificationEmailSent()) {
                 outage.setNotificationEmailSent(true);
                 outageService.savePlannedOutage(outage);
                 final String subject = String.format("Start of eBook generator outage on host %s", getHostName());
@@ -53,13 +49,11 @@ public class OutageProcessorImpl implements OutageProcessor
 
         // Check for any outages that have now passed, and remove them from the collection
         final PlannedOutage expiredOutage = plannedOutageContainer.findExpiredOutage(timeNow);
-        if (expiredOutage != null)
-        {
+        if (expiredOutage != null) {
             // Find the recipients we have not already
             recipients = (recipients == null) ? getOutageEmailRecipients() : recipients;
             // If not already sent, send email indicating that the outage is over
-            if (!expiredOutage.isAllClearEmailSent())
-            {
+            if (!expiredOutage.isAllClearEmailSent()) {
                 expiredOutage.setAllClearEmailSent(true);
                 outageService.savePlannedOutage(expiredOutage);
                 final String subject = String.format("End of eBook generator outage on host %s", getHostName());
@@ -72,30 +66,25 @@ public class OutageProcessorImpl implements OutageProcessor
     }
 
     @Override
-    public PlannedOutage findPlannedOutageInContainer(final Date timeInstant)
-    {
+    public PlannedOutage findPlannedOutageInContainer(final Date timeInstant) {
         return plannedOutageContainer.findOutage(timeInstant);
     }
 
     @Override
-    public PlannedOutage findExpiredOutageInContainer(final Date timeInstant)
-    {
+    public PlannedOutage findExpiredOutageInContainer(final Date timeInstant) {
         return plannedOutageContainer.findExpiredOutage(timeInstant);
     }
 
     @Override
-    public void addPlannedOutageToContainer(final PlannedOutage outage)
-    {
+    public void addPlannedOutageToContainer(final PlannedOutage outage) {
         plannedOutageContainer.add(outage);
     }
 
     @Override
-    public boolean deletePlannedOutageFromContainer(final PlannedOutage outage)
-    {
+    public boolean deletePlannedOutageFromContainer(final PlannedOutage outage) {
         // If the outage is active at the time the user deletes it, then send an email message stating that
         // the outage is now over because it was deleted.
-        if (outage.isActive(new Date()))
-        {
+        if (outage.isActive(new Date())) {
             final String subject = String.format("Deleted (end of) eBook generator outage on host %s", getHostName());
             sendOutageEmail(getOutageEmailRecipients(), subject, outage);
         }
@@ -107,16 +96,16 @@ public class OutageProcessorImpl implements OutageProcessor
      * This is comprised of a static list as specified by a spring property, and a dynamic list which
      * comes from the unique set of email addresses from the user preference table.
      */
-    public Collection<InternetAddress> getOutageEmailRecipients()
-    {
+    public Collection<InternetAddress> getOutageEmailRecipients() {
         final Set<InternetAddress> uniqueRecipients = userPreferenceService.findAllUniqueEmailAddresses();
         return coreService.createEmailRecipients(uniqueRecipients);
     }
 
-    private void sendOutageEmail(final Collection<InternetAddress> recipients, final String subject, final PlannedOutage outage)
-    {
-        if (recipients.size() > 0)
-        {
+    private void sendOutageEmail(
+        final Collection<InternetAddress> recipients,
+        final String subject,
+        final PlannedOutage outage) {
+        if (recipients.size() > 0) {
             // Make the subject line also be the first line of the body, because it is easier to read in Outlook preview pane
             String body = subject + "\n\n";
             body += outage.toEmailBody();
@@ -125,34 +114,27 @@ public class OutageProcessorImpl implements OutageProcessor
         }
     }
 
-    public static String getHostName()
-    {
-        try
-        {
+    public static String getHostName() {
+        try {
             final InetAddress localHost = InetAddress.getLocalHost();
             return localHost.getHostName();
-        }
-        catch (final UnknownHostException e)
-        {
+        } catch (final UnknownHostException e) {
             return "<unknown>";
         }
     }
 
     @Required
-    public void setOutageService(final OutageService service)
-    {
+    public void setOutageService(final OutageService service) {
         outageService = service;
     }
 
     @Required
-    public void setUserPreferenceService(final UserPreferenceService service)
-    {
+    public void setUserPreferenceService(final UserPreferenceService service) {
         userPreferenceService = service;
     }
 
     @Required
-    public void setCoreService(final CoreService service)
-    {
+    public void setCoreService(final CoreService service) {
         coreService = service;
     }
 }

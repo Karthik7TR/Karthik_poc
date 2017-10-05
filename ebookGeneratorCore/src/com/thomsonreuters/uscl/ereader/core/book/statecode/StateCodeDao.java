@@ -4,8 +4,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface StateCodeDao
-{
+public interface StateCodeDao {
     /**
      * Create State Code
      */

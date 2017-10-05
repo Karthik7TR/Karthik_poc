@@ -15,8 +15,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 @XmlRootElement(name = "gatherResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GatherResponse
-{
+public class GatherResponse {
     public static final int CODE_SUCCESS = 0;
     public static final int CODE_NOVUS_ERROR = 1;
     public static final int CODE_FILE_ERROR = 2;
@@ -55,8 +54,7 @@ public class GatherResponse
     @XmlElement(name = "imgMetadataInfo")
     private List<ImgMetadataInfo> imageMetadataList;
 
-    public GatherResponse()
-    {
+    public GatherResponse() {
         this(0, null, 0, 0, 0, 0, 0, 0, null);
     }
 
@@ -69,8 +67,7 @@ public class GatherResponse
         final int skipCount,
         final int retryCount,
         final int retryCount2,
-        final String publishStatus)
-    {
+        final String publishStatus) {
         setErrorCode(errorCode);
         setErrorMessage(errorMessage);
         setDocCount(docCount);
@@ -88,8 +85,7 @@ public class GatherResponse
         final int docCount,
         final int retryCount,
         final int expectedCount,
-        final String publishStatus)
-    {
+        final String publishStatus) {
         setErrorCode(errorCode);
         setErrorMessage(errorMessage);
         setDocCount(docCount);
@@ -98,177 +94,142 @@ public class GatherResponse
         setPublishStatus(publishStatus);
     }
 
-    public GatherResponse(final int errorCode, final String errorMessage)
-    {
+    public GatherResponse(final int errorCode, final String errorMessage) {
         setErrorCode(errorCode);
         setErrorMessage(errorMessage);
     }
 
-    public void setErrorMessage(final String errorMessage)
-    {
+    public void setErrorMessage(final String errorMessage) {
         this.errorMessage = errorMessage;
     }
 
-    public String getErrorMessage()
-    {
+    public String getErrorMessage() {
         return errorMessage;
     }
 
-    public void setErrorCode(final int errorCode)
-    {
+    public void setErrorCode(final int errorCode) {
         this.errorCode = errorCode;
     }
 
-    public int getErrorCode()
-    {
+    public int getErrorCode() {
         return errorCode;
     }
 
-    public void setDocCount(final int docCount)
-    {
+    public void setDocCount(final int docCount) {
         this.docCount = docCount;
     }
 
-    public int getDocCount()
-    {
+    public int getDocCount() {
         return docCount;
     }
 
-    public void setDocCount2(final int docCount2)
-    {
+    public void setDocCount2(final int docCount2) {
         this.docCount2 = docCount2;
     }
 
-    public int getDocCount2()
-    {
+    public int getDocCount2() {
         return docCount2;
     }
 
-    public void setNodeCount(final int nodeCount)
-    {
+    public void setNodeCount(final int nodeCount) {
         this.nodeCount = nodeCount;
     }
 
-    public int getNodeCount()
-    {
+    public int getNodeCount() {
         return nodeCount;
     }
 
-    public void setSkipCount(final int skipCount)
-    {
+    public void setSkipCount(final int skipCount) {
         this.skipCount = skipCount;
     }
 
-    public int getSkipCount()
-    {
+    public int getSkipCount() {
         return skipCount;
     }
 
-    public void setRetryCount(final int retryCount)
-    {
+    public void setRetryCount(final int retryCount) {
         this.retryCount = retryCount;
     }
 
-    public int getRetryCount()
-    {
+    public int getRetryCount() {
         return retryCount;
     }
 
-    public void setRetryCount2(final int retryCount2)
-    {
+    public void setRetryCount2(final int retryCount2) {
         this.retryCount2 = retryCount2;
     }
 
-    public int getRetryCount2()
-    {
+    public int getRetryCount2() {
         return retryCount2;
     }
 
-    public void setExpectedCount(final int expectedCount)
-    {
+    public void setExpectedCount(final int expectedCount) {
         this.expectedCount = expectedCount;
     }
 
-    public int getExpectedCount()
-    {
+    public int getExpectedCount() {
         return expectedCount;
     }
 
-    public void setPublishStatus(final String publishStatus)
-    {
+    public void setPublishStatus(final String publishStatus) {
         this.publishStatus = publishStatus;
     }
 
-    public String getPublishStatus()
-    {
+    public String getPublishStatus() {
         return publishStatus;
     }
 
-    public void setMissingImgCount(final int missingImgCount)
-    {
+    public void setMissingImgCount(final int missingImgCount) {
         this.missingImgCount = missingImgCount;
     }
 
-    public int getMissingImgCount()
-    {
+    public int getMissingImgCount() {
         return missingImgCount;
     }
 
-    public void setSplitTocGuidList(final Collection<String> splitTocGuidList)
-    {
-        if (splitTocGuidList != null)
-        {
+    public void setSplitTocGuidList(final Collection<String> splitTocGuidList) {
+        if (splitTocGuidList != null) {
             this.splitTocGuidList = new ArrayList<>(splitTocGuidList);
         }
     }
 
-    public List<String> getSplitTocGuidList()
-    {
+    public List<String> getSplitTocGuidList() {
         return splitTocGuidList;
     }
 
-    public void setFindSplitsAgain(final boolean findSplitsAgain)
-    {
+    public void setFindSplitsAgain(final boolean findSplitsAgain) {
         this.findSplitsAgain = findSplitsAgain;
     }
 
-    public boolean isFindSplitsAgain()
-    {
+    public boolean isFindSplitsAgain() {
         return findSplitsAgain;
     }
 
-    public void setDuplicateTocGuids(final Collection<String> duplicateTocGuids)
-    {
-        if (duplicateTocGuids != null)
-        {
+    public void setDuplicateTocGuids(final Collection<String> duplicateTocGuids) {
+        if (duplicateTocGuids != null) {
             this.duplicateTocGuids = new ArrayList<>(duplicateTocGuids);
         }
     }
 
-    public List<String> getDuplicateTocGuids()
-    {
+    public List<String> getDuplicateTocGuids() {
         return duplicateTocGuids;
     }
 
-    public List<ImgMetadataInfo> getImageMetadataList()
-    {
+    public List<ImgMetadataInfo> getImageMetadataList() {
         return imageMetadataList;
     }
 
-    public void setImageMetadataList(final List<ImgMetadataInfo> imageMetadataList)
-    {
+    public void setImageMetadataList(final List<ImgMetadataInfo> imageMetadataList) {
         this.imageMetadataList = imageMetadataList;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + errorCode;
@@ -277,8 +238,7 @@ public class GatherResponse
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -288,12 +248,10 @@ public class GatherResponse
         final GatherResponse other = (GatherResponse) obj;
         if (errorCode != other.errorCode)
             return false;
-        if (errorMessage == null)
-        {
+        if (errorMessage == null) {
             if (other.errorMessage != null)
                 return false;
-        }
-        else if (!errorMessage.equals(other.errorMessage))
+        } else if (!errorMessage.equals(other.errorMessage))
             return false;
         if (docCount != other.docCount)
             return false;
@@ -309,12 +267,10 @@ public class GatherResponse
             return false;
         if (expectedCount != other.expectedCount)
             return false;
-        if (publishStatus == null)
-        {
+        if (publishStatus == null) {
             if (other.publishStatus != null)
                 return false;
-        }
-        else if (!publishStatus.equals(other.publishStatus))
+        } else if (!publishStatus.equals(other.publishStatus))
             return false;
         return true;
     }

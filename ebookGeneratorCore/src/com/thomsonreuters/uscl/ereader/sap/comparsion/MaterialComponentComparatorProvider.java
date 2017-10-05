@@ -4,7 +4,6 @@ import java.util.Comparator;
 
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponent;
 
-public interface MaterialComponentComparatorProvider
-{
+public interface MaterialComponentComparatorProvider {
     Comparator<MaterialComponent> getComparator(String bookTitleId);
 }

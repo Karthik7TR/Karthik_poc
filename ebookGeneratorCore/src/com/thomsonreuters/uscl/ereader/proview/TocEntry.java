@@ -12,8 +12,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public class TocEntry implements TocNode
-{
+public class TocEntry implements TocNode {
     private static final String SOLIDUS = "/";
     protected String tocGuid;
     protected String docGuid;
@@ -24,13 +23,11 @@ public class TocEntry implements TocNode
     protected String splitTitle;
     protected String titleBreakString;
 
-    public TocEntry(final int depth)
-    {
+    public TocEntry(final int depth) {
         this.depth = depth;
     }
 
-    public TocEntry(final String tocGuid, final String docGuid, final String text, final int depth)
-    {
+    public TocEntry(final String tocGuid, final String docGuid, final String text, final int depth) {
         this.tocGuid = tocGuid;
         this.docGuid = docGuid;
         this.text = text;
@@ -38,113 +35,94 @@ public class TocEntry implements TocNode
     }
 
     @Override
-    public String getAnchorReference()
-    {
-        if (!StringUtils.isBlank(splitTitle))
-        {
+    public String getAnchorReference() {
+        if (!StringUtils.isBlank(splitTitle)) {
             return (docGuid != null) ? splitTitle + "#" + docGuid + SOLIDUS + tocGuid : splitTitle + "#" + tocGuid;
         }
         return (docGuid != null) ? docGuid + SOLIDUS + tocGuid : tocGuid;
     }
 
     @Override
-    public String getSplitTitle()
-    {
+    public String getSplitTitle() {
         return splitTitle;
     }
 
     @Override
-    public void setSplitTitle(final String splitTitle)
-    {
+    public void setSplitTitle(final String splitTitle) {
         this.splitTitle = splitTitle;
     }
 
     @Override
-    public String getTitleBreakString()
-    {
+    public String getTitleBreakString() {
         return titleBreakString;
     }
 
     @Override
-    public void setTitleBreakString(final String titleBreakString)
-    {
+    public void setTitleBreakString(final String titleBreakString) {
         this.titleBreakString = titleBreakString;
     }
 
     @Override
-    public String getText()
-    {
+    public String getText() {
         return text;
     }
 
-    public void setChildren(final List<TocNode> children)
-    {
+    public void setChildren(final List<TocNode> children) {
         this.children = children;
     }
 
     @Override
-    public List<TocNode> getChildren()
-    {
+    public List<TocNode> getChildren() {
         return children;
     }
 
     @Override
-    public void setParent(final TocNode parent)
-    {
+    public void setParent(final TocNode parent) {
         this.parent = parent;
     }
 
     @Override
-    public TocNode getParent()
-    {
+    public TocNode getParent() {
         return parent;
     }
 
     @Override
-    public void addChild(final TocNode child)
-    {
+    public void addChild(final TocNode child) {
         children.add(child);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
     @Override
-    public void setTocNodeUuid(final String tocNodeUuid)
-    {
+    public void setTocNodeUuid(final String tocNodeUuid) {
         tocGuid = tocNodeUuid;
     }
 
     @Override
-    public void setDocumentUuid(final String documentUuid)
-    {
+    public void setDocumentUuid(final String documentUuid) {
         docGuid = documentUuid;
     }
 
     @Override
-    public void setText(final String text)
-    {
+    public void setText(final String text) {
         this.text = text;
     }
 
     @Override
-    public int getDepth()
-    {
+    public int getDepth() {
         return depth;
     }
 
     @Override
-    public String getDocumentGuid()
-    {
+    public String getDocumentGuid() {
         return docGuid;
     }
 
     @Override
-    public String getTocGuid()
-    {
+    public String getTocGuid() {
         return tocGuid;
     }
 }

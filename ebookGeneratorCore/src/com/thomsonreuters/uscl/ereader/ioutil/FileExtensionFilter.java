@@ -8,8 +8,7 @@ import java.io.FileFilter;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class FileExtensionFilter implements FileFilter
-{
+public class FileExtensionFilter implements FileFilter {
     private String[] acceptedFileExtensions;
 
     /**
@@ -17,8 +16,7 @@ public class FileExtensionFilter implements FileFilter
      *
      * @return list of acceptable file extensions.
      */
-    public String[] getAcceptedFileExtensions()
-    {
+    public String[] getAcceptedFileExtensions() {
         return acceptedFileExtensions;
     }
 
@@ -27,23 +25,18 @@ public class FileExtensionFilter implements FileFilter
      *
      * @param extensions list of acceptable extensions
      */
-    public void setAcceptedFileExtensions(final String[] extensions)
-    {
+    public void setAcceptedFileExtensions(final String[] extensions) {
         acceptedFileExtensions = extensions;
     }
 
     @Override
-    public boolean accept(final File file)
-    {
-        if (acceptedFileExtensions == null || acceptedFileExtensions.length == 0)
-        {
+    public boolean accept(final File file) {
+        if (acceptedFileExtensions == null || acceptedFileExtensions.length == 0) {
             throw new RuntimeException("Extension list not specified in the generic FileFilter");
         }
 
-        for (final String extension : acceptedFileExtensions)
-        {
-            if (file.isFile() && file.getName().toLowerCase().endsWith(extension))
-            {
+        for (final String extension : acceptedFileExtensions) {
+            if (file.isFile() && file.getName().toLowerCase().endsWith(extension)) {
                 return true;
             }
         }

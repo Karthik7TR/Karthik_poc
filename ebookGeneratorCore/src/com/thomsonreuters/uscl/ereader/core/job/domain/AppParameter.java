@@ -16,19 +16,16 @@ import org.springframework.util.Assert;
  */
 @Entity
 @Table(name = "APP_PARAMETER")
-public class AppParameter
-{
+public class AppParameter {
     private String key;
     private String value;
     private Date lastUpdated;
 
-    public AppParameter()
-    {
+    public AppParameter() {
         super();
     }
 
-    public AppParameter(final String key, final Object value)
-    {
+    public AppParameter(final String key, final Object value) {
         Assert.notNull(key);
         setKey(key);
         setValue(value.toString());
@@ -36,43 +33,36 @@ public class AppParameter
 
     @Id
     @Column(name = "PARAMETER_KEY")
-    public String getKey()
-    {
+    public String getKey() {
         return key;
     }
 
     @Column(name = "PARAMETER_VALUE")
-    public String getValue()
-    {
+    public String getValue() {
         return value;
     }
 
     @Column(name = "LAST_UPDATED", nullable = false)
-    public Date getLastUpdated()
-    {
+    public Date getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setKey(final String key)
-    {
+    public void setKey(final String key) {
         Assert.notNull(key);
         this.key = key;
     }
 
-    public void setValue(final String value)
-    {
+    public void setValue(final String value) {
         this.value = value;
     }
 
-    public void setLastUpdated(final Date lastUpdated)
-    {
+    public void setLastUpdated(final Date lastUpdated) {
         Assert.notNull(lastUpdated);
         this.lastUpdated = lastUpdated;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

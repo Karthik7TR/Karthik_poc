@@ -9,8 +9,7 @@ import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
  * This is the in-memory set of outages that are kept in sync with the database state
  * and are loaded at started and subsequently updated and then pushed via the manager admin page.
  */
-public interface OutageProcessor
-{
+public interface OutageProcessor {
     /**
      * Determine if we are in the middle of a planned outage and
      * send notification email if we are just starting or ending an outage.

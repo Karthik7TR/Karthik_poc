@@ -7,11 +7,9 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 @XmlRootElement(name = "jobThrottleConfig")
-public class JobThrottleConfig
-{
+public class JobThrottleConfig {
     /** Typesafe representation of the keys used to represent the throttling configuration */
-    public enum Key
-    {
+    public enum Key {
         coreThreadPoolSize,
         stepThrottleEnabled,
         throttleStepName,
@@ -27,8 +25,7 @@ public class JobThrottleConfig
     /** The limit of jobs up to the specified throttle step name */
     private int throttleStepMaxJobs = 2;
 
-    public JobThrottleConfig()
-    {
+    public JobThrottleConfig() {
         super();
     }
 
@@ -39,8 +36,7 @@ public class JobThrottleConfig
         final int coreThreadPoolSize,
         final boolean stepThrottleEnabled,
         final String throttleStepName,
-        final int throtttleStepMaxJobs)
-    {
+        final int throtttleStepMaxJobs) {
         setAllProperties(coreThreadPoolSize, stepThrottleEnabled, throttleStepName, throtttleStepMaxJobs);
     }
 
@@ -48,8 +44,7 @@ public class JobThrottleConfig
      * Copy the property values from one object to this one.
      * @param config the source object to copy property values from.
      */
-    public void copy(final JobThrottleConfig config)
-    {
+    public void copy(final JobThrottleConfig config) {
         setAllProperties(
             config.getCoreThreadPoolSize(),
             config.isStepThrottleEnabled(),
@@ -61,67 +56,56 @@ public class JobThrottleConfig
         final int coreThreadPoolSize,
         final boolean stepThrottleEnabled,
         final String throttleStepName,
-        final int throtttleStepMaxJobs)
-    {
+        final int throtttleStepMaxJobs) {
         setCoreThreadPoolSize(coreThreadPoolSize);
         setStepThrottleEnabled(stepThrottleEnabled);
         setThrottleStepName(throttleStepName);
         setThrottleStepMaxJobs(throtttleStepMaxJobs);
     }
 
-    public int getCoreThreadPoolSize()
-    {
+    public int getCoreThreadPoolSize() {
         return coreThreadPoolSize;
     }
 
-    public boolean isStepThrottleEnabled()
-    {
+    public boolean isStepThrottleEnabled() {
         return stepThrottleEnabled;
     }
 
-    public String getThrottleStepName()
-    {
+    public String getThrottleStepName() {
         return throttleStepName;
     }
 
-    public int getThrottleStepMaxJobs()
-    {
+    public int getThrottleStepMaxJobs() {
         return throttleStepMaxJobs;
     }
 
     @XmlElement(name = "coreThreadPoolSize", required = true)
-    public void setCoreThreadPoolSize(final int coreThreadPoolSize)
-    {
+    public void setCoreThreadPoolSize(final int coreThreadPoolSize) {
         this.coreThreadPoolSize = coreThreadPoolSize;
     }
 
     @XmlElement(name = "stepThrottleEnabled", required = true)
-    public void setStepThrottleEnabled(final boolean stepThrottleEnabled)
-    {
+    public void setStepThrottleEnabled(final boolean stepThrottleEnabled) {
         this.stepThrottleEnabled = stepThrottleEnabled;
     }
 
     @XmlElement(name = "throttleStepName", required = true)
-    public void setThrottleStepName(final String throttleStepName)
-    {
+    public void setThrottleStepName(final String throttleStepName) {
         this.throttleStepName = throttleStepName;
     }
 
     @XmlElement(name = "throttleStepMaxJobs", required = true)
-    public void setThrottleStepMaxJobs(final int throttleStepMaxJobs)
-    {
+    public void setThrottleStepMaxJobs(final int throttleStepMaxJobs) {
         this.throttleStepMaxJobs = throttleStepMaxJobs;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + coreThreadPoolSize;
@@ -132,8 +116,7 @@ public class JobThrottleConfig
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -145,12 +128,10 @@ public class JobThrottleConfig
             return false;
         if (stepThrottleEnabled != other.stepThrottleEnabled)
             return false;
-        if (throttleStepName == null)
-        {
+        if (throttleStepName == null) {
             if (other.throttleStepName != null)
                 return false;
-        }
-        else if (!throttleStepName.equals(other.throttleStepName))
+        } else if (!throttleStepName.equals(other.throttleStepName))
             return false;
         if (throttleStepMaxJobs != other.throttleStepMaxJobs)
             return false;

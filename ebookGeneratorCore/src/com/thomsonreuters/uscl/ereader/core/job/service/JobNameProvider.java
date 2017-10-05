@@ -4,8 +4,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import org.jetbrains.annotations.NotNull;
 
-public interface JobNameProvider
-{
+public interface JobNameProvider {
     /**
      * Returns job name for given job request
      * @param jobRequest job request

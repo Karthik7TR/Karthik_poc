@@ -5,17 +5,14 @@ package com.thomsonreuters.uscl.ereader.util;
  *
  *  @author Mahendra Survase (u0105927)
  */
-public class EBookServerException extends Exception
-{
+public class EBookServerException extends Exception {
     private static final long serialVersionUID = 1L;
 
-    public EBookServerException(final String message)
-    {
+    public EBookServerException(final String message) {
         super(message);
     }
 
-    public EBookServerException(final String message, final Throwable cause)
-    {
+    public EBookServerException(final String message, final Throwable cause) {
         super(message, cause);
     }
 }

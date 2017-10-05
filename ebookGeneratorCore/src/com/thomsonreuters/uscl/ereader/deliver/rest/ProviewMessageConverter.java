@@ -19,33 +19,26 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
  *
  * <p><i>Used only during PUT (publish) operations.</i></p>
  */
-public class ProviewMessageConverter<T> extends AbstractHttpMessageConverter<File>
-{
+public class ProviewMessageConverter<T> extends AbstractHttpMessageConverter<File> {
     private static final Logger LOG = LogManager.getLogger(ProviewMessageConverter.class);
 
     @Override
     protected File readInternal(final Class<? extends File> arg0, final HttpInputMessage arg1)
-        throws IOException, HttpMessageNotReadableException
-    {
+        throws IOException, HttpMessageNotReadableException {
         return null;
     }
 
     @Override
-    protected boolean supports(final Class<?> clazz)
-    {
+    protected boolean supports(final Class<?> clazz) {
         return Boolean.TRUE;
     }
 
     @Override
     protected void writeInternal(final File fileToSend, final HttpOutputMessage httpOutputMessage)
-        throws IOException, HttpMessageNotWritableException
-    {
-        try
-        {
+        throws IOException, HttpMessageNotWritableException {
+        try {
             IOUtils.copy(new FileInputStream(fileToSend), httpOutputMessage.getBody());
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new HttpMessageNotWritableException("Could not write HTTP message.", e);
         }
     }

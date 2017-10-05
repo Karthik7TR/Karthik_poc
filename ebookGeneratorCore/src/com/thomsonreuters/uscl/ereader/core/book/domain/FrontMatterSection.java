@@ -27,8 +27,7 @@ import org.springframework.util.AutoPopulatingList;
  */
 @Entity
 @Table(name = "FRONT_MATTER_SECTION")
-public class FrontMatterSection implements Serializable, Comparable<FrontMatterSection>
-{
+public class FrontMatterSection implements Serializable, Comparable<FrontMatterSection> {
     private static final long serialVersionUID = -7248785950042234491L;
     /**
      */
@@ -72,80 +71,65 @@ public class FrontMatterSection implements Serializable, Comparable<FrontMatterS
     /**
      */
 
-    public FrontMatterSection()
-    {
+    public FrontMatterSection() {
         super();
         pdfs = new AutoPopulatingList<>(FrontMatterPdf.class);
     }
 
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final Long id)
-    {
+    public void setId(final Long id) {
         this.id = id;
     }
 
-    public FrontMatterPage getFrontMatterPage()
-    {
+    public FrontMatterPage getFrontMatterPage() {
         return frontMatterPage;
     }
 
-    public void setFrontMatterPage(final FrontMatterPage frontMatterPage)
-    {
+    public void setFrontMatterPage(final FrontMatterPage frontMatterPage) {
         this.frontMatterPage = frontMatterPage;
     }
 
-    public String getSectionHeading()
-    {
+    public String getSectionHeading() {
         return sectionHeading;
     }
 
-    public void setSectionHeading(final String sectionHeading)
-    {
+    public void setSectionHeading(final String sectionHeading) {
         this.sectionHeading = sectionHeading;
     }
 
-    public String getSectionText()
-    {
+    public String getSectionText() {
         return sectionText;
     }
 
-    public void setSectionText(final String sectionText)
-    {
+    public void setSectionText(final String sectionText) {
         this.sectionText = sectionText;
     }
 
-    public Integer getSequenceNum()
-    {
+    public Integer getSequenceNum() {
         return sequenceNum;
     }
 
-    public void setSequenceNum(final Integer sequenceNum)
-    {
+    public void setSequenceNum(final Integer sequenceNum) {
         this.sequenceNum = sequenceNum;
     }
 
-    public List<FrontMatterPdf> getPdfs()
-    {
-        if (pdfs == null)
-        {
+    public List<FrontMatterPdf> getPdfs() {
+        if (pdfs == null) {
             pdfs = new ArrayList<>();
         }
 
         return pdfs;
     }
 
-    public void setPdfs(final List<FrontMatterPdf> pdf)
-    {
+    public void setPdfs(final List<FrontMatterPdf> pdf) {
         pdfs = pdf;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -156,8 +140,7 @@ public class FrontMatterSection implements Serializable, Comparable<FrontMatterS
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -165,47 +148,37 @@ public class FrontMatterSection implements Serializable, Comparable<FrontMatterS
         if (getClass() != obj.getClass())
             return false;
         final FrontMatterSection other = (FrontMatterSection) obj;
-        if (id == null)
-        {
+        if (id == null) {
             if (other.id != null)
                 return false;
-        }
-        else if (!id.equals(other.id))
+        } else if (!id.equals(other.id))
             return false;
-        if (sectionHeading == null)
-        {
+        if (sectionHeading == null) {
             if (other.sectionHeading != null)
                 return false;
-        }
-        else if (!sectionHeading.equals(other.sectionHeading))
+        } else if (!sectionHeading.equals(other.sectionHeading))
             return false;
-        if (sectionText == null)
-        {
+        if (sectionText == null) {
             if (other.sectionText != null)
                 return false;
-        }
-        else if (!sectionText.equals(other.sectionText))
+        } else if (!sectionText.equals(other.sectionText))
             return false;
-        if (sequenceNum == null)
-        {
+        if (sequenceNum == null) {
             if (other.sequenceNum != null)
                 return false;
-        }
-        else if (!sequenceNum.equals(other.sequenceNum))
+        } else if (!sequenceNum.equals(other.sequenceNum))
             return false;
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         final StringBuilder buffer = new StringBuilder();
         buffer.append("FrontMatterSection [sectionHeading=").append(sectionHeading).append(", ");
         buffer.append("sectionText=").append(sectionText).append(", ");
         buffer.append("sequenceNum=").append(sequenceNum).append(", ");
         buffer.append("frontMatterPdfs=");
-        for (final FrontMatterPdf pdf : pdfs)
-        {
+        for (final FrontMatterPdf pdf : pdfs) {
             buffer.append(pdf.toString());
         }
         buffer.append("]");
@@ -217,23 +190,16 @@ public class FrontMatterSection implements Serializable, Comparable<FrontMatterS
      * For sorting the name components into sequence order (1...n).
      */
     @Override
-    public int compareTo(final FrontMatterSection o)
-    {
+    public int compareTo(final FrontMatterSection o) {
         int result = 0;
-        if (sequenceNum != null)
-        {
-            if (o != null)
-            {
+        if (sequenceNum != null) {
+            if (o != null) {
                 final Integer i = o.getSequenceNum();
                 result = (i != null) ? sequenceNum.compareTo(i) : 1;
-            }
-            else
-            {
+            } else {
                 result = 1;
             }
-        }
-        else
-        { // int1 is null
+        } else { // int1 is null
             result = (o != null) ? -1 : 0;
         }
         return result;

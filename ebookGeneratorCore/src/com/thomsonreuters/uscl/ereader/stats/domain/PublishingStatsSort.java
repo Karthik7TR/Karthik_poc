@@ -7,13 +7,11 @@ import org.springframework.util.Assert;
 /**
  * Holds sorting data used in Spring Batch job queries.
  */
-public class PublishingStatsSort
-{
+public class PublishingStatsSort {
     /**
      * The property names in the entities job execution and book audit tables that are sorted on for presentation.
      */
-    public enum SortProperty
-    {
+    public enum SortProperty {
         JOB_INSTANCE_ID,
         AUDIT_ID,
         EBOOK_DEFINITION_ID,
@@ -40,8 +38,7 @@ public class PublishingStatsSort
     /**
      * Default publish stat sort is by start time, descending order.
      */
-    public PublishingStatsSort()
-    {
+    public PublishingStatsSort() {
         this(SortProperty.JOB_SUBMIT_TIMESTAMP, false, 1, 20);
     }
 
@@ -50,8 +47,11 @@ public class PublishingStatsSort
      * @param sortProperty which job/book property to sort on, not null.
      * @param ascending true for an ascending direction sort
      */
-    public PublishingStatsSort(final SortProperty sortProperty, final boolean ascending, final int pageNumber, final int itemsPerPage)
-    {
+    public PublishingStatsSort(
+        final SortProperty sortProperty,
+        final boolean ascending,
+        final int pageNumber,
+        final int itemsPerPage) {
         Assert.notNull(sortProperty);
         this.sortProperty = sortProperty;
         this.ascending = ascending;
@@ -59,15 +59,12 @@ public class PublishingStatsSort
         this.itemsPerPage = itemsPerPage;
     }
 
-    public SortProperty getSortProperty()
-    {
+    public SortProperty getSortProperty() {
         return sortProperty;
     }
 
-    public String getOrderByColumnName()
-    {
-        switch (sortProperty)
-        {
+    public String getOrderByColumnName() {
+        switch (sortProperty) {
         case AUDIT_ID:
             return "book.auditId";
         case BOOK_SIZE:
@@ -99,34 +96,28 @@ public class PublishingStatsSort
         }
     }
 
-    public boolean isAscending()
-    {
+    public boolean isAscending() {
         return ascending;
     }
 
-    public String getSortDirection()
-    {
+    public String getSortDirection() {
         return getSortDirection(ascending);
     }
 
-    public static String getSortDirection(final boolean anAscendingSort)
-    {
+    public static String getSortDirection(final boolean anAscendingSort) {
         return (anAscendingSort) ? "asc" : "desc";
     }
 
-    public int getPageNumber()
-    {
+    public int getPageNumber() {
         return pageNumber;
     }
 
-    public int getItemsPerPage()
-    {
+    public int getItemsPerPage() {
         return itemsPerPage;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

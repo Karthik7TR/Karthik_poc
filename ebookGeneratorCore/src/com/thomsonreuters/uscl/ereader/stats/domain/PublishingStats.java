@@ -32,8 +32,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @Table(name = "PUBLISHING_STATS")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/job/domain", name = "PublishingStats")
-public class PublishingStats implements Serializable, Comparable<PublishingStats>
-{
+public class PublishingStats implements Serializable, Comparable<PublishingStats> {
     private static final long serialVersionUID = 1L;
 
     public static final String SUCCESFULL_PUBLISH_STATUS = "Publish Step Completed";
@@ -210,400 +209,323 @@ public class PublishingStats implements Serializable, Comparable<PublishingStats
     @XmlElement
     private Long groupVersion;
 
-    public Date getPublishStartTimestamp()
-    {
+    public Date getPublishStartTimestamp() {
         return publishStartTimestamp;
     }
 
-    public void setPublishStartTimestamp(final Date publishStartTimestamp)
-    {
+    public void setPublishStartTimestamp(final Date publishStartTimestamp) {
         this.publishStartTimestamp = publishStartTimestamp;
     }
 
-    public Integer getGatherTocNodeCount()
-    {
+    public Integer getGatherTocNodeCount() {
         return gatherTocNodeCount;
     }
 
-    public void setGatherTocNodeCount(final Integer gatherTocNodeCount)
-    {
+    public void setGatherTocNodeCount(final Integer gatherTocNodeCount) {
         this.gatherTocNodeCount = gatherTocNodeCount;
     }
 
-    public Integer getGatherTocSkippedCount()
-    {
+    public Integer getGatherTocSkippedCount() {
         return gatherTocSkippedCount;
     }
 
-    public void setGatherTocSkippedCount(final Integer gatherTocSkippedCount)
-    {
+    public void setGatherTocSkippedCount(final Integer gatherTocSkippedCount) {
         this.gatherTocSkippedCount = gatherTocSkippedCount;
     }
 
-    public Integer getGatherTocDocCount()
-    {
+    public Integer getGatherTocDocCount() {
         return gatherTocDocCount;
     }
 
-    public void setGatherTocDocCount(final Integer gatherTocDocCount)
-    {
+    public void setGatherTocDocCount(final Integer gatherTocDocCount) {
         this.gatherTocDocCount = gatherTocDocCount;
     }
 
-    public Integer getGatherTocRetryCount()
-    {
+    public Integer getGatherTocRetryCount() {
         return gatherTocRetryCount;
     }
 
-    public void setGatherTocRetryCount(final Integer gatherTocRetryCount)
-    {
+    public void setGatherTocRetryCount(final Integer gatherTocRetryCount) {
         this.gatherTocRetryCount = gatherTocRetryCount;
     }
 
-    public Integer getGatherDocExpectedCount()
-    {
+    public Integer getGatherDocExpectedCount() {
         return gatherDocExpectedCount;
     }
 
-    public void setGatherDocExpectedCount(final Integer gatherDocExpectedCount)
-    {
+    public void setGatherDocExpectedCount(final Integer gatherDocExpectedCount) {
         this.gatherDocExpectedCount = gatherDocExpectedCount;
     }
 
-    public Integer getGatherDocRetryCount()
-    {
+    public Integer getGatherDocRetryCount() {
         return gatherDocRetryCount;
     }
 
-    public void setGatherDocRetryCount(final Integer gatherDocRetryCount)
-    {
+    public void setGatherDocRetryCount(final Integer gatherDocRetryCount) {
         this.gatherDocRetryCount = gatherDocRetryCount;
     }
 
-    public Integer getGatherDocRetrievedCount()
-    {
+    public Integer getGatherDocRetrievedCount() {
         return gatherDocRetrievedCount;
     }
 
-    public void setGatherDocRetrievedCount(final Integer gatherDocRetrievedCount)
-    {
+    public void setGatherDocRetrievedCount(final Integer gatherDocRetrievedCount) {
         this.gatherDocRetrievedCount = gatherDocRetrievedCount;
     }
 
-    public Integer getGatherMetaExpectedCount()
-    {
+    public Integer getGatherMetaExpectedCount() {
         return gatherMetaExpectedCount;
     }
 
-    public void setGatherMetaExpectedCount(final Integer gatherMetaExpectedCount)
-    {
+    public void setGatherMetaExpectedCount(final Integer gatherMetaExpectedCount) {
         this.gatherMetaExpectedCount = gatherMetaExpectedCount;
     }
 
-    public Integer getGatherMetaRetryCount()
-    {
+    public Integer getGatherMetaRetryCount() {
         return gatherMetaRetryCount;
     }
 
-    public void setGatherMetaRetryCount(final Integer gatherMetaRetryCount)
-    {
+    public void setGatherMetaRetryCount(final Integer gatherMetaRetryCount) {
         this.gatherMetaRetryCount = gatherMetaRetryCount;
     }
 
-    public Integer getGatherMetaRetrievedCount()
-    {
+    public Integer getGatherMetaRetrievedCount() {
         return gatherMetaRetrievedCount;
     }
 
-    public void setGatherMetaRetrievedCount(final Integer gatherMetaRetrievedCount)
-    {
+    public void setGatherMetaRetrievedCount(final Integer gatherMetaRetrievedCount) {
         this.gatherMetaRetrievedCount = gatherMetaRetrievedCount;
     }
 
-    public Integer getGatherImageExpectedCount()
-    {
+    public Integer getGatherImageExpectedCount() {
         return gatherImageExpectedCount;
     }
 
-    public void setGatherImageExpectedCount(final Integer gatherImageExpectedCount)
-    {
+    public void setGatherImageExpectedCount(final Integer gatherImageExpectedCount) {
         this.gatherImageExpectedCount = gatherImageExpectedCount;
     }
 
-    public Integer getGatherImageRetryCount()
-    {
+    public Integer getGatherImageRetryCount() {
         return gatherImageRetryCount;
     }
 
-    public void setGatherImageRetryCount(final Integer gatherImageRetryCount)
-    {
+    public void setGatherImageRetryCount(final Integer gatherImageRetryCount) {
         this.gatherImageRetryCount = gatherImageRetryCount;
     }
 
-    public Integer getGatherImageRetrievedCount()
-    {
+    public Integer getGatherImageRetrievedCount() {
         return gatherImageRetrievedCount;
     }
 
-    public void setGatherImageRetrievedCount(final Integer gatherImageRetrievedCount)
-    {
+    public void setGatherImageRetrievedCount(final Integer gatherImageRetrievedCount) {
         this.gatherImageRetrievedCount = gatherImageRetrievedCount;
     }
 
-    public Integer getFormatDocCount()
-    {
+    public Integer getFormatDocCount() {
         return formatDocCount;
     }
 
-    public void setFormatDocCount(final Integer formatDocCount)
-    {
+    public void setFormatDocCount(final Integer formatDocCount) {
         this.formatDocCount = formatDocCount;
     }
 
-    public Integer getAssembleDocCount()
-    {
+    public Integer getAssembleDocCount() {
         return assembleDocCount;
     }
 
-    public void setAssembleDocCount(final Integer assembleDocCount)
-    {
+    public void setAssembleDocCount(final Integer assembleDocCount) {
         this.assembleDocCount = assembleDocCount;
     }
 
-    public Integer getTitleDocCount()
-    {
+    public Integer getTitleDocCount() {
         return titleDocCount;
     }
 
-    public void setTitleDocCount(final Integer titleDocCount)
-    {
+    public void setTitleDocCount(final Integer titleDocCount) {
         this.titleDocCount = titleDocCount;
     }
 
-    public Integer getTitleDupDocCount()
-    {
+    public Integer getTitleDupDocCount() {
         return titleDupDocCount;
     }
 
-    public void setTitleDupDocCount(final Integer titleDupDocCount)
-    {
+    public void setTitleDupDocCount(final Integer titleDupDocCount) {
         this.titleDupDocCount = titleDupDocCount;
     }
 
-    public String getPublishStatus()
-    {
+    public String getPublishStatus() {
         return publishStatus;
     }
 
     /** Automatically set to sysdate
      *
      * */
-    public void setPublishStatus(final String publishStatus)
-    {
+    public void setPublishStatus(final String publishStatus) {
         this.publishStatus = publishStatus;
     }
 
-    public Date getPublishEndTimestamp()
-    {
+    public Date getPublishEndTimestamp() {
         return publishEndTimestamp;
     }
 
-    public void setPublishEndTimestamp(final Date publishEndTimestamp)
-    {
+    public void setPublishEndTimestamp(final Date publishEndTimestamp) {
         this.publishEndTimestamp = publishEndTimestamp;
     }
 
-    public void setEbookDefId(final Long ebookDefId)
-    {
+    public void setEbookDefId(final Long ebookDefId) {
         this.ebookDefId = ebookDefId;
     }
 
-    public Long getEbookDefId()
-    {
+    public Long getEbookDefId() {
         return ebookDefId;
     }
 
-    public void setJobInstanceId(final Long jobInstanceId)
-    {
+    public void setJobInstanceId(final Long jobInstanceId) {
         this.jobInstanceId = jobInstanceId;
     }
 
-    public Long getJobInstanceId()
-    {
+    public Long getJobInstanceId() {
         return jobInstanceId;
     }
 
-    public void setAudit(final EbookAudit audit)
-    {
+    public void setAudit(final EbookAudit audit) {
         this.audit = audit;
     }
 
-    public EbookAudit getAudit()
-    {
+    public EbookAudit getAudit() {
         return audit;
     }
 
-    public void setJobSubmitterName(final String jobSubmitterName)
-    {
+    public void setJobSubmitterName(final String jobSubmitterName) {
         this.jobSubmitterName = jobSubmitterName;
     }
 
-    public String getJobSubmitterName()
-    {
+    public String getJobSubmitterName() {
         return jobSubmitterName;
     }
 
-    public void setBookVersionSubmitted(final String bookVersionSubmitted)
-    {
+    public void setBookVersionSubmitted(final String bookVersionSubmitted) {
         this.bookVersionSubmitted = bookVersionSubmitted;
     }
 
-    public String getBookVersionSubmitted()
-    {
+    public String getBookVersionSubmitted() {
         return bookVersionSubmitted;
     }
 
-    public void setJobHostName(final String jobHostName)
-    {
+    public void setJobHostName(final String jobHostName) {
         this.jobHostName = jobHostName;
     }
 
-    public String getJobHostName()
-    {
+    public String getJobHostName() {
         return jobHostName;
     }
 
-    public void setJobSubmitTimestamp(final Date jobSubmitTimestamp)
-    {
+    public void setJobSubmitTimestamp(final Date jobSubmitTimestamp) {
         this.jobSubmitTimestamp = jobSubmitTimestamp;
     }
 
-    public Date getJobSubmitTimestamp()
-    {
+    public Date getJobSubmitTimestamp() {
         return jobSubmitTimestamp;
     }
 
     /**  Automatically set to sysdate
      *
      */
-    public void setLastUpdated(final Date lastUpdated)
-    {
+    public void setLastUpdated(final Date lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 
-    public Date getLastUpdated()
-    {
+    public Date getLastUpdated() {
         return lastUpdated;
     }
 
-    public PublishingStats()
-    {
+    public PublishingStats() {
     }
 
     /**
      * Returns a textual representation of a bean.
      *
      */
-    public String toStringNew()
-    {
+    public String toStringNew() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 
-    public void setBookSize(final Long bookSize)
-    {
+    public void setBookSize(final Long bookSize) {
         this.bookSize = bookSize;
     }
 
-    public void setLargestDocSize(final Long largestDocSize)
-    {
+    public void setLargestDocSize(final Long largestDocSize) {
         this.largestDocSize = largestDocSize;
     }
 
-    public void setLargestImageSize(final Long largestImageSize)
-    {
+    public void setLargestImageSize(final Long largestImageSize) {
         this.largestImageSize = largestImageSize;
     }
 
-    public void setLargestPdfSize(final Long largestPdfSize)
-    {
+    public void setLargestPdfSize(final Long largestPdfSize) {
         this.largestPdfSize = largestPdfSize;
     }
 
-    public Long getBookSize()
-    {
+    public Long getBookSize() {
         return bookSize;
     }
 
     @Transient
-    public String getBookSizeHumanReadable()
-    {
+    public String getBookSizeHumanReadable() {
         return humanReadableByteCount(bookSize);
     }
 
-    public Long getLargestDocSize()
-    {
+    public Long getLargestDocSize() {
         return largestDocSize;
     }
 
     @Transient
-    public String getLargestDocSizeHumanReadable()
-    {
+    public String getLargestDocSizeHumanReadable() {
         return humanReadableByteCount(largestDocSize);
     }
 
-    public Long getLargestImageSize()
-    {
+    public Long getLargestImageSize() {
         return largestImageSize;
     }
 
     @Transient
-    public String getLargestImageSizeHumanReadable()
-    {
+    public String getLargestImageSizeHumanReadable() {
         return humanReadableByteCount(largestImageSize);
     }
 
-    public Long getLargestPdfSize()
-    {
+    public Long getLargestPdfSize() {
         return largestPdfSize;
     }
 
     @Transient
-    public String getLargestPdfSizeHumanReadable()
-    {
+    public String getLargestPdfSizeHumanReadable() {
         return humanReadableByteCount(largestPdfSize);
     }
 
     @Transient
-    private String humanReadableByteCount(final Long bytes)
-    {
-        if (bytes != null)
-        {
+    private String humanReadableByteCount(final Long bytes) {
+        if (bytes != null) {
             final int unit = 1024;
             if (bytes < unit)
                 return bytes + " B";
             final int exp = (int) (Math.log(bytes) / Math.log(unit));
             final String pre = ("KMGTPE").charAt(exp - 1) + "i";
             return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
 
-    public Long getGroupVersion()
-    {
+    public Long getGroupVersion() {
         return groupVersion;
     }
 
-    public void setGroupVersion(final Long groupVersion)
-    {
+    public void setGroupVersion(final Long groupVersion) {
         this.groupVersion = groupVersion;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((assembleDocCount == null) ? 0 : assembleDocCount.hashCode());
@@ -643,8 +565,7 @@ public class PublishingStats implements Serializable, Comparable<PublishingStats
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -652,243 +573,176 @@ public class PublishingStats implements Serializable, Comparable<PublishingStats
         if (getClass() != obj.getClass())
             return false;
         final PublishingStats other = (PublishingStats) obj;
-        if (assembleDocCount == null)
-        {
+        if (assembleDocCount == null) {
             if (other.assembleDocCount != null)
                 return false;
-        }
-        else if (!assembleDocCount.equals(other.assembleDocCount))
+        } else if (!assembleDocCount.equals(other.assembleDocCount))
             return false;
-        if (audit == null)
-        {
+        if (audit == null) {
             if (other.audit != null)
                 return false;
-        }
-        else if (!audit.equals(other.audit))
+        } else if (!audit.equals(other.audit))
             return false;
-        if (bookSize == null)
-        {
+        if (bookSize == null) {
             if (other.bookSize != null)
                 return false;
-        }
-        else if (!bookSize.equals(other.bookSize))
+        } else if (!bookSize.equals(other.bookSize))
             return false;
-        if (bookVersionSubmitted == null)
-        {
+        if (bookVersionSubmitted == null) {
             if (other.bookVersionSubmitted != null)
                 return false;
-        }
-        else if (!bookVersionSubmitted.equals(other.bookVersionSubmitted))
+        } else if (!bookVersionSubmitted.equals(other.bookVersionSubmitted))
             return false;
-        if (ebookDefId == null)
-        {
+        if (ebookDefId == null) {
             if (other.ebookDefId != null)
                 return false;
-        }
-        else if (!ebookDefId.equals(other.ebookDefId))
+        } else if (!ebookDefId.equals(other.ebookDefId))
             return false;
-        if (formatDocCount == null)
-        {
+        if (formatDocCount == null) {
             if (other.formatDocCount != null)
                 return false;
-        }
-        else if (!formatDocCount.equals(other.formatDocCount))
+        } else if (!formatDocCount.equals(other.formatDocCount))
             return false;
-        if (gatherDocExpectedCount == null)
-        {
+        if (gatherDocExpectedCount == null) {
             if (other.gatherDocExpectedCount != null)
                 return false;
-        }
-        else if (!gatherDocExpectedCount.equals(other.gatherDocExpectedCount))
+        } else if (!gatherDocExpectedCount.equals(other.gatherDocExpectedCount))
             return false;
-        if (gatherDocRetrievedCount == null)
-        {
+        if (gatherDocRetrievedCount == null) {
             if (other.gatherDocRetrievedCount != null)
                 return false;
-        }
-        else if (!gatherDocRetrievedCount.equals(other.gatherDocRetrievedCount))
+        } else if (!gatherDocRetrievedCount.equals(other.gatherDocRetrievedCount))
             return false;
-        if (gatherDocRetryCount == null)
-        {
+        if (gatherDocRetryCount == null) {
             if (other.gatherDocRetryCount != null)
                 return false;
-        }
-        else if (!gatherDocRetryCount.equals(other.gatherDocRetryCount))
+        } else if (!gatherDocRetryCount.equals(other.gatherDocRetryCount))
             return false;
-        if (gatherImageExpectedCount == null)
-        {
+        if (gatherImageExpectedCount == null) {
             if (other.gatherImageExpectedCount != null)
                 return false;
-        }
-        else if (!gatherImageExpectedCount.equals(other.gatherImageExpectedCount))
+        } else if (!gatherImageExpectedCount.equals(other.gatherImageExpectedCount))
             return false;
-        if (gatherImageRetrievedCount == null)
-        {
+        if (gatherImageRetrievedCount == null) {
             if (other.gatherImageRetrievedCount != null)
                 return false;
-        }
-        else if (!gatherImageRetrievedCount.equals(other.gatherImageRetrievedCount))
+        } else if (!gatherImageRetrievedCount.equals(other.gatherImageRetrievedCount))
             return false;
-        if (gatherImageRetryCount == null)
-        {
+        if (gatherImageRetryCount == null) {
             if (other.gatherImageRetryCount != null)
                 return false;
-        }
-        else if (!gatherImageRetryCount.equals(other.gatherImageRetryCount))
+        } else if (!gatherImageRetryCount.equals(other.gatherImageRetryCount))
             return false;
-        if (gatherMetaExpectedCount == null)
-        {
+        if (gatherMetaExpectedCount == null) {
             if (other.gatherMetaExpectedCount != null)
                 return false;
-        }
-        else if (!gatherMetaExpectedCount.equals(other.gatherMetaExpectedCount))
+        } else if (!gatherMetaExpectedCount.equals(other.gatherMetaExpectedCount))
             return false;
-        if (gatherMetaRetrievedCount == null)
-        {
+        if (gatherMetaRetrievedCount == null) {
             if (other.gatherMetaRetrievedCount != null)
                 return false;
-        }
-        else if (!gatherMetaRetrievedCount.equals(other.gatherMetaRetrievedCount))
+        } else if (!gatherMetaRetrievedCount.equals(other.gatherMetaRetrievedCount))
             return false;
-        if (gatherMetaRetryCount == null)
-        {
+        if (gatherMetaRetryCount == null) {
             if (other.gatherMetaRetryCount != null)
                 return false;
-        }
-        else if (!gatherMetaRetryCount.equals(other.gatherMetaRetryCount))
+        } else if (!gatherMetaRetryCount.equals(other.gatherMetaRetryCount))
             return false;
-        if (gatherTocDocCount == null)
-        {
+        if (gatherTocDocCount == null) {
             if (other.gatherTocDocCount != null)
                 return false;
-        }
-        else if (!gatherTocDocCount.equals(other.gatherTocDocCount))
+        } else if (!gatherTocDocCount.equals(other.gatherTocDocCount))
             return false;
-        if (gatherTocNodeCount == null)
-        {
+        if (gatherTocNodeCount == null) {
             if (other.gatherTocNodeCount != null)
                 return false;
-        }
-        else if (!gatherTocNodeCount.equals(other.gatherTocNodeCount))
+        } else if (!gatherTocNodeCount.equals(other.gatherTocNodeCount))
             return false;
-        if (gatherTocRetryCount == null)
-        {
+        if (gatherTocRetryCount == null) {
             if (other.gatherTocRetryCount != null)
                 return false;
-        }
-        else if (!gatherTocRetryCount.equals(other.gatherTocRetryCount))
+        } else if (!gatherTocRetryCount.equals(other.gatherTocRetryCount))
             return false;
-        if (gatherTocSkippedCount == null)
-        {
+        if (gatherTocSkippedCount == null) {
             if (other.gatherTocSkippedCount != null)
                 return false;
-        }
-        else if (!gatherTocSkippedCount.equals(other.gatherTocSkippedCount))
+        } else if (!gatherTocSkippedCount.equals(other.gatherTocSkippedCount))
             return false;
-        if (jobHostName == null)
-        {
+        if (jobHostName == null) {
             if (other.jobHostName != null)
                 return false;
-        }
-        else if (!jobHostName.equals(other.jobHostName))
+        } else if (!jobHostName.equals(other.jobHostName))
             return false;
-        if (jobInstanceId == null)
-        {
+        if (jobInstanceId == null) {
             if (other.jobInstanceId != null)
                 return false;
-        }
-        else if (!jobInstanceId.equals(other.jobInstanceId))
+        } else if (!jobInstanceId.equals(other.jobInstanceId))
             return false;
-        if (jobSubmitTimestamp == null)
-        {
+        if (jobSubmitTimestamp == null) {
             if (other.jobSubmitTimestamp != null)
                 return false;
-        }
-        else if (!jobSubmitTimestamp.equals(other.jobSubmitTimestamp))
+        } else if (!jobSubmitTimestamp.equals(other.jobSubmitTimestamp))
             return false;
-        if (jobSubmitterName == null)
-        {
+        if (jobSubmitterName == null) {
             if (other.jobSubmitterName != null)
                 return false;
-        }
-        else if (!jobSubmitterName.equals(other.jobSubmitterName))
+        } else if (!jobSubmitterName.equals(other.jobSubmitterName))
             return false;
-        if (largestDocSize == null)
-        {
+        if (largestDocSize == null) {
             if (other.largestDocSize != null)
                 return false;
-        }
-        else if (!largestDocSize.equals(other.largestDocSize))
+        } else if (!largestDocSize.equals(other.largestDocSize))
             return false;
-        if (largestImageSize == null)
-        {
+        if (largestImageSize == null) {
             if (other.largestImageSize != null)
                 return false;
-        }
-        else if (!largestImageSize.equals(other.largestImageSize))
+        } else if (!largestImageSize.equals(other.largestImageSize))
             return false;
-        if (largestPdfSize == null)
-        {
+        if (largestPdfSize == null) {
             if (other.largestPdfSize != null)
                 return false;
-        }
-        else if (!largestPdfSize.equals(other.largestPdfSize))
+        } else if (!largestPdfSize.equals(other.largestPdfSize))
             return false;
-        if (lastUpdated == null)
-        {
+        if (lastUpdated == null) {
             if (other.lastUpdated != null)
                 return false;
-        }
-        else if (!lastUpdated.equals(other.lastUpdated))
+        } else if (!lastUpdated.equals(other.lastUpdated))
             return false;
-        if (publishEndTimestamp == null)
-        {
+        if (publishEndTimestamp == null) {
             if (other.publishEndTimestamp != null)
                 return false;
-        }
-        else if (!publishEndTimestamp.equals(other.publishEndTimestamp))
+        } else if (!publishEndTimestamp.equals(other.publishEndTimestamp))
             return false;
-        if (publishStartTimestamp == null)
-        {
+        if (publishStartTimestamp == null) {
             if (other.publishStartTimestamp != null)
                 return false;
-        }
-        else if (!publishStartTimestamp.equals(other.publishStartTimestamp))
+        } else if (!publishStartTimestamp.equals(other.publishStartTimestamp))
             return false;
-        if (publishStatus == null)
-        {
+        if (publishStatus == null) {
             if (other.publishStatus != null)
                 return false;
-        }
-        else if (!publishStatus.equals(other.publishStatus))
+        } else if (!publishStatus.equals(other.publishStatus))
             return false;
-        if (titleDocCount == null)
-        {
+        if (titleDocCount == null) {
             if (other.titleDocCount != null)
                 return false;
-        }
-        else if (!titleDocCount.equals(other.titleDocCount))
+        } else if (!titleDocCount.equals(other.titleDocCount))
             return false;
-        if (titleDupDocCount == null)
-        {
+        if (titleDupDocCount == null) {
             if (other.titleDupDocCount != null)
                 return false;
-        }
-        else if (!titleDupDocCount.equals(other.titleDupDocCount))
+        } else if (!titleDupDocCount.equals(other.titleDupDocCount))
             return false;
-        if (groupVersion == null)
-        {
+        if (groupVersion == null) {
             if (other.groupVersion != null)
                 return false;
-        }
-        else if (!groupVersion.equals(other.groupVersion))
+        } else if (!groupVersion.equals(other.groupVersion))
             return false;
         return true;
     }
 
     @Override
-    public int compareTo(final PublishingStats o)
-    {
+    public int compareTo(final PublishingStats o) {
         return jobInstanceId.compareTo(o.jobInstanceId);
     }
 }

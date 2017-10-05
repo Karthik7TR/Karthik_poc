@@ -17,8 +17,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Entity
 @Table(name = "SUPPORT_PAGE_LINK")
-public class SupportPageLink implements Serializable
-{
+public class SupportPageLink implements Serializable {
     //private static Logger log = LogManager.getLogger(SupportPageLink.class);
     private static final long serialVersionUID = 1L;
 
@@ -38,49 +37,40 @@ public class SupportPageLink implements Serializable
     @Column(name = "LAST_UPDATED", nullable = false)
     private Date lastUpdated;
 
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final Long id)
-    {
+    public void setId(final Long id) {
         this.id = id;
     }
 
-    public String getLinkDescription()
-    {
+    public String getLinkDescription() {
         return linkDescription;
     }
 
-    public void setLinkDescription(final String linkDescription)
-    {
+    public void setLinkDescription(final String linkDescription) {
         this.linkDescription = linkDescription;
     }
 
-    public String getLinkAddress()
-    {
+    public String getLinkAddress() {
         return linkAddress;
     }
 
-    public void setLinkAddress(final String linkAddress)
-    {
+    public void setLinkAddress(final String linkAddress) {
         this.linkAddress = linkAddress;
     }
 
-    public Date getLastUpdated()
-    {
+    public Date getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setLastUpdated(final Date lastUpdated)
-    {
+    public void setLastUpdated(final Date lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -91,8 +81,7 @@ public class SupportPageLink implements Serializable
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -100,40 +89,31 @@ public class SupportPageLink implements Serializable
         if (getClass() != obj.getClass())
             return false;
         final SupportPageLink other = (SupportPageLink) obj;
-        if (id == null)
-        {
+        if (id == null) {
             if (other.id != null)
                 return false;
-        }
-        else if (!id.equals(other.id))
+        } else if (!id.equals(other.id))
             return false;
-        if (lastUpdated == null)
-        {
+        if (lastUpdated == null) {
             if (other.lastUpdated != null)
                 return false;
-        }
-        else if (!lastUpdated.equals(other.lastUpdated))
+        } else if (!lastUpdated.equals(other.lastUpdated))
             return false;
-        if (linkAddress == null)
-        {
+        if (linkAddress == null) {
             if (other.linkAddress != null)
                 return false;
-        }
-        else if (!linkAddress.equals(other.linkAddress))
+        } else if (!linkAddress.equals(other.linkAddress))
             return false;
-        if (linkDescription == null)
-        {
+        if (linkDescription == null) {
             if (other.linkDescription != null)
                 return false;
-        }
-        else if (!linkDescription.equals(other.linkDescription))
+        } else if (!linkDescription.equals(other.linkDescription))
             return false;
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE);
     }
 }

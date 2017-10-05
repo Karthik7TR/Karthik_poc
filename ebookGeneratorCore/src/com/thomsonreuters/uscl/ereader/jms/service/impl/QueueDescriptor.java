@@ -13,8 +13,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 /**
  * Hold onto information describing a queue
  */
-public class QueueDescriptor
-{
+public class QueueDescriptor {
     private QueueType queueType;
     private String host;
     private Integer port;
@@ -25,21 +24,17 @@ public class QueueDescriptor
     private boolean enabled = true;
     private boolean valid;
 
-    public QueueDescriptor()
-    {
+    public QueueDescriptor() {
     }
 
-    public QueueDescriptor(final QueueType queueType, final String queueManager)
-    {
+    public QueueDescriptor(final QueueType queueType, final String queueManager) {
         this.queueType = queueType;
         manager = queueManager;
         initialize();
     }
 
-    private void initialize()
-    {
-        try
-        {
+    private void initialize() {
+        try {
             final Properties props = System.getProperties();
             host = StringUtils.trimToNull(props.getProperty(queueType.host(manager)));
             name = StringUtils.trimToNull(props.getProperty(queueType.queueName()));
@@ -59,84 +54,68 @@ public class QueueDescriptor
 
             // Override for manual disabling of the queue at startup
             final String disableProperty = StringUtils.trimToNull(props.getProperty(queueType.toString() + ".disable"));
-            if (disableProperty != null)
-            {
+            if (disableProperty != null) {
                 enabled = !BooleanUtils.toBoolean(disableProperty);
                 valid = valid && enabled;
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             // IndexOutOfBoundsException, NullPointerException,
             // NumberFormatException
             valid = false;
         }
     }
 
-    public QueueType getQueueType()
-    {
+    public QueueType getQueueType() {
         return queueType;
     }
 
-    public void setQueueType(final QueueType queueType)
-    {
-        if (this.queueType != queueType)
-        {
+    public void setQueueType(final QueueType queueType) {
+        if (this.queueType != queueType) {
             this.queueType = queueType;
             initialize();
         }
     }
 
-    public boolean isValid()
-    {
+    public boolean isValid() {
         return valid;
     }
 
-    public String getHost()
-    {
+    public String getHost() {
         return host;
     }
 
-    public Integer getPort()
-    {
+    public Integer getPort() {
         return port;
     }
 
-    public String getManager()
-    {
+    public String getManager() {
         return manager;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public String getChannel()
-    {
+    public String getChannel() {
         return channel;
     }
 
-    public Integer getTransportType()
-    {
+    public Integer getTransportType() {
         return transportType;
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
 }

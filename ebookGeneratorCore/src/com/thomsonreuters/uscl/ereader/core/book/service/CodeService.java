@@ -9,8 +9,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 
-public interface CodeService
-{
+public interface CodeService {
     /**
      * Get all the PubType codes from the PUB_TYPE_CODES table
      * @return a list of pubTypeCode objects

@@ -20,18 +20,15 @@ import org.hibernate.criterion.Restrictions;
  *
  */
 
-public class ProviewAuditDaoImpl implements ProviewAuditDao
-{
+public class ProviewAuditDaoImpl implements ProviewAuditDao {
     private SessionFactory sessionFactory;
 
-    public ProviewAuditDaoImpl(final SessionFactory hibernateSessionFactory)
-    {
+    public ProviewAuditDaoImpl(final SessionFactory hibernateSessionFactory) {
         sessionFactory = hibernateSessionFactory;
     }
 
     @Override
-    public String getBookStatus(final String titleId, final String version)
-    {
+    public String getBookStatus(final String titleId, final String version) {
         final StringBuffer hql =
             new StringBuffer("select pa from ProviewAudit pa where (pa.titleId,pa.bookVersion,pa.requestDate) in ");
         hql.append("(select pa2.titleId,pa2.bookVersion,max(pa2.requestDate) from ProviewAudit pa2 where");
@@ -45,16 +42,14 @@ public class ProviewAuditDaoImpl implements ProviewAuditDao
         query.setParameter("version", version);
 
         final ProviewAudit audit = (ProviewAudit) query.uniqueResult();
-        if (audit == null)
-        {
+        if (audit == null) {
             return null;
         }
         return audit.getProviewRequest();
     }
 
     @Override
-    public List<ProviewAudit> findRemovedAndDeletedVersions(final String titleId)
-    {
+    public List<ProviewAudit> findRemovedAndDeletedVersions(final String titleId) {
         final StringBuffer hql =
             new StringBuffer("select pa from ProviewAudit pa where (pa.titleId,pa.bookVersion,pa.requestDate) in ");
         hql.append("(select pa2.titleId,pa2.bookVersion,max(pa2.requestDate) from ProviewAudit pa2 where");
@@ -70,16 +65,12 @@ public class ProviewAuditDaoImpl implements ProviewAuditDao
     }
 
     @Override
-    public void save(ProviewAudit audit)
-    {
+    public void save(ProviewAudit audit) {
         final Session session = sessionFactory.getCurrentSession();
 
-        if (audit.getId() != null)
-        {
+        if (audit.getId() != null) {
             audit = (ProviewAudit) session.merge(audit);
-        }
-        else
-        {
+        } else {
             session.save(audit);
         }
 
@@ -87,17 +78,13 @@ public class ProviewAuditDaoImpl implements ProviewAuditDao
     }
 
     @Override
-    public List<ProviewAudit> findProviewAudits(final ProviewAuditFilter filter, final ProviewAuditSort sort)
-    {
+    public List<ProviewAudit> findProviewAudits(final ProviewAuditFilter filter, final ProviewAuditSort sort) {
         final Criteria criteria = addFilters(filter);
 
         final String orderByColumn = getOrderByColumnName(sort.getSortProperty());
-        if (sort.isAscending())
-        {
+        if (sort.isAscending()) {
             criteria.addOrder(Order.asc(orderByColumn));
-        }
-        else
-        {
+        } else {
             criteria.addOrder(Order.desc(orderByColumn));
         }
 
@@ -109,8 +96,7 @@ public class ProviewAuditDaoImpl implements ProviewAuditDao
     }
 
     @Override
-    public int numberProviewAudits(final ProviewAuditFilter filter)
-    {
+    public int numberProviewAudits(final ProviewAuditFilter filter) {
         final Criteria criteria = addFilters(filter);
 
         criteria.setProjection(Projections.projectionList().add(Projections.property("id"), "id"));
@@ -118,30 +104,24 @@ public class ProviewAuditDaoImpl implements ProviewAuditDao
         return criteria.list().size();
     }
 
-    private Criteria addFilters(final ProviewAuditFilter filter)
-    {
+    private Criteria addFilters(final ProviewAuditFilter filter) {
         final Session session = sessionFactory.getCurrentSession();
 
         final Criteria criteria = session.createCriteria(ProviewAudit.class);
 
-        if (filter.getFrom() != null)
-        {
+        if (filter.getFrom() != null) {
             criteria.add(Restrictions.ge("requestDate", filter.getFrom()));
         }
-        if (filter.getTo() != null)
-        {
+        if (filter.getTo() != null) {
             criteria.add(Restrictions.le("requestDate", filter.getTo()));
         }
-        if (StringUtils.isNotBlank(filter.getAction()))
-        {
+        if (StringUtils.isNotBlank(filter.getAction())) {
             criteria.add(Restrictions.eq("proviewRequest", filter.getAction()));
         }
-        if (StringUtils.isNotBlank(filter.getTitleId()))
-        {
+        if (StringUtils.isNotBlank(filter.getTitleId())) {
             criteria.add(Restrictions.like("titleId", filter.getTitleId()).ignoreCase());
         }
-        if (StringUtils.isNotBlank(filter.getSubmittedBy()))
-        {
+        if (StringUtils.isNotBlank(filter.getSubmittedBy())) {
             criteria.add(Restrictions.like("username", filter.getSubmittedBy()).ignoreCase());
         }
 
@@ -152,10 +132,8 @@ public class ProviewAuditDaoImpl implements ProviewAuditDao
      * Map the sort column enumeration into the actual column identifier used in the criteria.
      * @param sortProperty enumerated value that reflects the database table sort column to sort on.
      */
-    private String getOrderByColumnName(final SortProperty sortProperty)
-    {
-        switch (sortProperty)
-        {
+    private String getOrderByColumnName(final SortProperty sortProperty) {
+        switch (sortProperty) {
         case PROVIEW_REQUEST:
             return "proviewRequest";
         case REQUEST_DATE:

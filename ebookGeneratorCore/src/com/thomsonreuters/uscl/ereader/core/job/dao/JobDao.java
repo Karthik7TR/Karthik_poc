@@ -9,8 +9,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
 /**
  * Queries for fetching Spring Batch job information.
  */
-public interface JobDao
-{
+public interface JobDao {
     /**
      * Returns the total number of currently executing jobs, i.e. jobs that have a batch status of BatchStatus.STARTED|STARTING.
      * @return the number of currently executing jobs as known by the job repository.

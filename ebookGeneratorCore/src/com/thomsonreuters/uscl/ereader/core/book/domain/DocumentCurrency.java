@@ -29,8 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 @IdClass(DocumentCurrency.DocumentCurrencyPk.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "DocumentCurrency")
-public class DocumentCurrency implements Serializable
-{
+public class DocumentCurrency implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -49,71 +48,56 @@ public class DocumentCurrency implements Serializable
     @Column(name = "LAST_UPDATED", nullable = false)
     private Date lastUpdated;
 
-    public BookDefinition getBookDefinition()
-    {
+    public BookDefinition getBookDefinition() {
         return ebookDefinition;
     }
 
-    public void setBookDefinition(final BookDefinition bookDefinition)
-    {
+    public void setBookDefinition(final BookDefinition bookDefinition) {
         ebookDefinition = bookDefinition;
     }
 
-    public String getCurrencyGuid()
-    {
+    public String getCurrencyGuid() {
         return currencyGuid;
     }
 
-    public void setCurrencyGuid(final String currencyGuid)
-    {
+    public void setCurrencyGuid(final String currencyGuid) {
         this.currencyGuid = currencyGuid;
     }
 
-    public String getNewText()
-    {
+    public String getNewText() {
         return newText;
     }
 
-    public void setNewText(final String newText)
-    {
+    public void setNewText(final String newText) {
         this.newText = newText;
     }
 
-    public String getNote()
-    {
+    public String getNote() {
         return note;
     }
 
-    public void setNote(final String note)
-    {
+    public void setNote(final String note) {
         this.note = note;
     }
 
-    public Date getLastUpdated()
-    {
+    public Date getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setLastUpdated(final Date lastUpdated)
-    {
+    public void setLastUpdated(final Date lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 
     @Transient
-    public boolean isEmpty()
-    {
-        return StringUtils.isBlank(note)
-            && StringUtils.isBlank(newText)
-            && StringUtils.isBlank(currencyGuid);
+    public boolean isEmpty() {
+        return StringUtils.isBlank(note) && StringUtils.isBlank(newText) && StringUtils.isBlank(currencyGuid);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         final StringBuilder buffer = new StringBuilder();
         buffer.append("DocumentCurrency [");
-        if (ebookDefinition != null)
-        {
+        if (ebookDefinition != null) {
             buffer.append("bookDefinitionId=").append(ebookDefinition.getEbookDefinitionId()).append(", ");
         }
         buffer.append("currencyGuid=").append(currencyGuid).append(", ");
@@ -125,8 +109,7 @@ public class DocumentCurrency implements Serializable
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((currencyGuid == null) ? 0 : currencyGuid.hashCode());
@@ -137,8 +120,7 @@ public class DocumentCurrency implements Serializable
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -146,40 +128,31 @@ public class DocumentCurrency implements Serializable
         if (getClass() != obj.getClass())
             return false;
         final DocumentCurrency other = (DocumentCurrency) obj;
-        if (currencyGuid == null)
-        {
+        if (currencyGuid == null) {
             if (other.currencyGuid != null)
                 return false;
-        }
-        else if (!currencyGuid.equals(other.currencyGuid))
+        } else if (!currencyGuid.equals(other.currencyGuid))
             return false;
-        if (newText == null)
-        {
+        if (newText == null) {
             if (other.newText != null)
                 return false;
-        }
-        else if (!newText.equals(other.newText))
+        } else if (!newText.equals(other.newText))
             return false;
-        if (lastUpdated == null)
-        {
+        if (lastUpdated == null) {
             if (other.lastUpdated != null)
                 return false;
-        }
-        else if (!lastUpdated.equals(other.lastUpdated))
+        } else if (!lastUpdated.equals(other.lastUpdated))
             return false;
-        if (note == null)
-        {
+        if (note == null) {
             if (other.note != null)
                 return false;
-        }
-        else if (!note.equals(other.note))
+        } else if (!note.equals(other.note))
             return false;
         return true;
     }
 
     @Embeddable
-    public static class DocumentCurrencyPk implements Serializable
-    {
+    public static class DocumentCurrencyPk implements Serializable {
         private static final long serialVersionUID = 1L;
 
         @ManyToOne(fetch = FetchType.LAZY)
@@ -190,33 +163,27 @@ public class DocumentCurrency implements Serializable
         @Column(name = "CURRENCY_GUID", nullable = false)
         private String currencyGuid;
 
-        public DocumentCurrencyPk()
-        {
+        public DocumentCurrencyPk() {
         }
 
-        public BookDefinition getBookDefinition()
-        {
+        public BookDefinition getBookDefinition() {
             return ebookDefinition;
         }
 
-        public void setBookDefinition(final BookDefinition bookDefinition)
-        {
+        public void setBookDefinition(final BookDefinition bookDefinition) {
             ebookDefinition = bookDefinition;
         }
 
-        public String getCurrencyGuid()
-        {
+        public String getCurrencyGuid() {
             return currencyGuid;
         }
 
-        public void setCurrencyGuid(final String currencyGuid)
-        {
+        public void setCurrencyGuid(final String currencyGuid) {
             this.currencyGuid = currencyGuid;
         }
 
         @Override
-        public int hashCode()
-        {
+        public int hashCode() {
             final int prime = 31;
             int result = 1;
             result = prime * result + ((currencyGuid == null) ? 0 : currencyGuid.hashCode());
@@ -224,8 +191,7 @@ public class DocumentCurrency implements Serializable
         }
 
         @Override
-        public boolean equals(final Object obj)
-        {
+        public boolean equals(final Object obj) {
             if (this == obj)
                 return true;
             if (obj == null)
@@ -233,12 +199,10 @@ public class DocumentCurrency implements Serializable
             if (getClass() != obj.getClass())
                 return false;
             final DocumentCurrencyPk other = (DocumentCurrencyPk) obj;
-            if (currencyGuid == null)
-            {
+            if (currencyGuid == null) {
                 if (other.currencyGuid != null)
                     return false;
-            }
-            else if (!currencyGuid.equals(other.currencyGuid))
+            } else if (!currencyGuid.equals(other.currencyGuid))
                 return false;
             return true;
         }

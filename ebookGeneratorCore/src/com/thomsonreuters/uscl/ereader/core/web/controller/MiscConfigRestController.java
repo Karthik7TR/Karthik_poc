@@ -22,8 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
  * The configurations are POST'ed as the body of the HTTP request.
  */
 @Controller
-public class MiscConfigRestController
-{
+public class MiscConfigRestController {
     private static final Logger log = LogManager.getLogger(MiscConfigRestController.class);
     private MiscConfigSyncService miscConfigSyncService;
 
@@ -37,20 +36,16 @@ public class MiscConfigRestController
     public ModelAndView synchronizeMiscConfiguration(
         final HttpSession httpSession,
         @RequestBody final MiscConfig config,
-        final Model model)
-    {
+        final Model model) {
         //log.debug(">>> " + config);
         SimpleRestServiceResponse opResponse = null;
-        try
-        {
+        try {
             final String message = "Successfully synchronized misc configuration";
             miscConfigSyncService.sync(config);
             httpSession.setAttribute(CoreConstants.KEY_PROVIEW_HOST, config.getProviewHost().getHostName());
             log.debug(String.format("%s: %s", message, config.toString()));
             opResponse = new SimpleRestServiceResponse(null, true, message);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             final String message = "Failed to sync misc config data - " + e.getMessage();
             opResponse = new SimpleRestServiceResponse(null, false, message);
             log.error(message, e);
@@ -63,8 +58,7 @@ public class MiscConfigRestController
      * Debugging echo service that makes sure the service is up
      */
     @RequestMapping(value = "service/{message}/echo.mvc", method = RequestMethod.GET)
-    public ModelAndView echo(@PathVariable final String message, final Model model)
-    {
+    public ModelAndView echo(@PathVariable final String message, final Model model) {
         log.debug(">>> " + message);
         final SimpleRestServiceResponse opResponse = new SimpleRestServiceResponse(null, true, message);
         model.addAttribute(CoreConstants.KEY_SIMPLE_REST_RESPONSE, opResponse);
@@ -72,8 +66,7 @@ public class MiscConfigRestController
     }
 
     @Required
-    public void setMiscConfigSyncService(final MiscConfigSyncService syncService)
-    {
+    public void setMiscConfigSyncService(final MiscConfigSyncService syncService) {
         miscConfigSyncService = syncService;
     }
 }

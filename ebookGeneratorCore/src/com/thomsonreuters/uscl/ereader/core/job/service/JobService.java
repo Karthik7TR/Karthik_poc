@@ -12,8 +12,7 @@ import org.springframework.batch.core.StepExecution;
 /**
  * Service methods for accessing Spring Batch job instance and execution data from the Spring Batch table schema.
  */
-public interface JobService
-{
+public interface JobService {
     /**
      * Find a job execution by its primary key.
      * @param jobExecutionId primary key

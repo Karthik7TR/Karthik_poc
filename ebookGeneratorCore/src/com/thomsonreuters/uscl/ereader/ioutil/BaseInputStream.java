@@ -11,15 +11,13 @@ import java.io.InputStream;
  * @author Ben Martell
  * @version 1.0. Aug 27, 2004
  */
-abstract class BaseInputStream extends FilterInputStream
-{
+abstract class BaseInputStream extends FilterInputStream {
     private final byte[] oneByteArray = new byte[1];
 
     /**
      * @param in an InputStream.
      */
-    protected BaseInputStream(final InputStream in)
-    {
+    protected BaseInputStream(final InputStream in) {
         super(in);
     }
 
@@ -47,21 +45,16 @@ abstract class BaseInputStream extends FilterInputStream
      * @throws java.io.IOException on failure.
      */
     @Override
-    public int read() throws IOException
-    {
+    public int read() throws IOException {
         int bytesRead = this.read(oneByteArray, 0, 1);
 
-        while (bytesRead == 0)
-        {
+        while (bytesRead == 0) {
             bytesRead = this.read(oneByteArray, 0, 1);
         }
 
-        if (-1 == bytesRead)
-        {
+        if (-1 == bytesRead) {
             return -1;
-        }
-        else
-        {
+        } else {
             return oneByteArray[0] & 0xFF;
         }
     }
@@ -76,8 +69,7 @@ abstract class BaseInputStream extends FilterInputStream
      * @throws java.io.IOException on failure.
      */
     @Override
-    public int read(final byte[] b) throws IOException
-    {
+    public int read(final byte[] b) throws IOException {
         return this.read(b, 0, b.length);
     }
 }

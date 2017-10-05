@@ -10,8 +10,7 @@ import org.springframework.dao.DataAccessException;
  * Service to manage BookDefinitionLock entities.
  *
  */
-public interface BookDefinitionLockService
-{
+public interface BookDefinitionLockService {
     /**
      * Checks if book definition is locked.  If the book definition is locked, returns
      * BookDefinitionLock entity. Otherwise, null is returned.

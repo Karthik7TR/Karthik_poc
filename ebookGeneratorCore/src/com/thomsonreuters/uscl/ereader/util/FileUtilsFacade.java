@@ -8,7 +8,6 @@ import java.io.IOException;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public interface FileUtilsFacade
-{
+public interface FileUtilsFacade {
     void copyFile(File sourceFile, File destinationFile) throws IOException;
 }

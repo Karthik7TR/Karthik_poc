@@ -19,8 +19,7 @@ import org.jetbrains.annotations.NotNull;
  *         Schwartz</a> u0081674
  *
  */
-public interface ProviewClient
-{
+public interface ProviewClient {
     void setProviewHostname(String hostname) throws UnknownHostException;
 
     void setProviewHost(InetAddress host);
@@ -60,17 +59,13 @@ public interface ProviewClient
      */
     String getTitleInfosByStatus(@NotNull String fullyQualifiedTitleId, @NotNull String status) throws ProviewException;
 
-    String publishTitle(String fullyQualifiedTitleId, String versionNumber, File eBook)
-        throws ProviewException;
+    String publishTitle(String fullyQualifiedTitleId, String versionNumber, File eBook) throws ProviewException;
 
-    String promoteTitle(String fullyQualifiedTitleId, String eBookVersionNumber)
-        throws ProviewException;
+    String promoteTitle(String fullyQualifiedTitleId, String eBookVersionNumber) throws ProviewException;
 
-    String removeTitle(String fullyQualifiedTitleId, String eBookVersionNumber)
-        throws ProviewException;
+    String removeTitle(String fullyQualifiedTitleId, String eBookVersionNumber) throws ProviewException;
 
-    String deleteTitle(String fullyQualifiedTitleId, String eBookVersionNumber)
-        throws ProviewException;
+    String deleteTitle(String fullyQualifiedTitleId, String eBookVersionNumber) throws ProviewException;
 
     // String getStatusByVersion(String fullyQualifiedTitleId, String version) throws Exception;
 

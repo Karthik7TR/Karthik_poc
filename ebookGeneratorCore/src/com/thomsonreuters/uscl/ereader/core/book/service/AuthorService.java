@@ -8,8 +8,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
  * Spring service that handles CRUD requests for Author entities
  *
  */
-public interface AuthorService
-{
+public interface AuthorService {
     /**
      * Save an existing Author entity
      *

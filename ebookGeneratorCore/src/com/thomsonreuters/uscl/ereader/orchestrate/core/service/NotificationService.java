@@ -3,8 +3,7 @@ package com.thomsonreuters.uscl.ereader.orchestrate.core.service;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.item.ExecutionContext;
 
-public interface NotificationService
-{
+public interface NotificationService {
     void sendNotification(
         ExecutionContext jobExecutionContext,
         JobParameters jobParams,

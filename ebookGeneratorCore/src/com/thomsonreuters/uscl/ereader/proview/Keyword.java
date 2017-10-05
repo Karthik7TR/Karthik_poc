@@ -15,44 +15,36 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Keyword
-{
+public class Keyword {
     @XmlAttribute(name = "type")
     private String type;
     @XmlValue
     private String text;
 
-    public Keyword()
-    {
+    public Keyword() {
     }
 
-    public Keyword(final String type, final String text)
-    {
-        if (StringUtils.isBlank(type))
-        {
+    public Keyword(final String type, final String text) {
+        if (StringUtils.isBlank(type)) {
             throw new IllegalArgumentException("'type' attribute required for keyword.");
         }
-        if (StringUtils.isBlank(text))
-        {
+        if (StringUtils.isBlank(text)) {
             throw new IllegalArgumentException("must provide keyword text.");
         }
         this.type = type;
         this.text = text;
     }
 
-    public String getType()
-    {
+    public String getType() {
         return type;
     }
 
-    public String getText()
-    {
+    public String getText() {
         return text;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

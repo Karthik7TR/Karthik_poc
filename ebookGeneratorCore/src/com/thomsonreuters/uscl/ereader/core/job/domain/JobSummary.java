@@ -10,8 +10,7 @@ import org.springframework.batch.core.BatchStatus;
 /**
  * A subset of book and job execution data used to present the Job Summary view.
  */
-public class JobSummary
-{
+public class JobSummary {
     private Long bookDefinitionId;
     private String bookName;
     private String titleId;
@@ -33,8 +32,7 @@ public class JobSummary
         final BatchStatus batchStatus,
         final String submittedBy,
         final Date startTime,
-        final Date endTime)
-    {
+        final Date endTime) {
         this.bookDefinitionId = bookDefinitionId;
         this.bookName = bookName;
         this.titleId = titleId;
@@ -47,73 +45,58 @@ public class JobSummary
         this.endTime = endTime;
     }
 
-    public Long getBookDefinitionId()
-    {
+    public Long getBookDefinitionId() {
         return bookDefinitionId;
     }
 
-    public String getBookName()
-    {
+    public String getBookName() {
         return bookName;
     }
 
-    public String getTitleId()
-    {
+    public String getTitleId() {
         return titleId;
     }
 
-    public Long getJobInstanceId()
-    {
+    public Long getJobInstanceId() {
         return jobInstanceId;
     }
 
-    public Long getJobExecutionId()
-    {
+    public Long getJobExecutionId() {
         return jobExecutionId;
     }
 
-    public BatchStatus getBatchStatus()
-    {
+    public BatchStatus getBatchStatus() {
         return batchStatus;
     }
 
-    public Date getStartTime()
-    {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public Date getEndTime()
-    {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public String getSourceType()
-    {
+    public String getSourceType() {
         return sourceType;
     }
 
-    public void setSourceType(final String sourceType)
-    {
+    public void setSourceType(final String sourceType) {
         this.sourceType = sourceType;
     }
 
-    public String getDuration()
-    {
+    public String getDuration() {
         return JobSummary.getExecutionDuration(getExecutionDuration());
     }
 
-    private Long getExecutionDuration()
-    {
+    private Long getExecutionDuration() {
         return getExecutionDuration(startTime, endTime);
     }
 
-    public static long getExecutionDuration(final Date start, Date end)
-    {
+    public static long getExecutionDuration(final Date start, Date end) {
         long duration = 0;
-        if (start != null)
-        {
-            if (end == null)
-            {
+        if (start != null) {
+            if (end == null) {
                 end = new Date();
             }
             duration = end.getTime() - start.getTime();
@@ -121,16 +104,13 @@ public class JobSummary
         return duration;
     }
 
-    public static String getExecutionDuration(final Long durationMilliseconds)
-    {
-        if (durationMilliseconds == null)
-        {
+    public static String getExecutionDuration(final Long durationMilliseconds) {
+        if (durationMilliseconds == null) {
             return null;
         }
         final long durationMs = durationMilliseconds.longValue();
         final StringBuffer periodString = new StringBuffer();
-        if (durationMs > -1)
-        {
+        if (durationMs > -1) {
             final Period period = new Period(durationMs);
             periodString.append((period.getHours() < 10) ? "0" : "");
             periodString.append(period.getHours());
@@ -148,14 +128,12 @@ public class JobSummary
         return periodString.toString();
     }
 
-    public String getSubmittedBy()
-    {
+    public String getSubmittedBy() {
         return submittedBy;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

@@ -10,34 +10,29 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 
-public class JobRequestDaoImpl implements JobRequestDao
-{
+public class JobRequestDaoImpl implements JobRequestDao {
     //private static final Logger log = LogManager.getLogger(JobRequestDaoImpl.class);
     private SessionFactory sessionFactory;
 
-    public JobRequestDaoImpl(final SessionFactory sessionFactory)
-    {
+    public JobRequestDaoImpl(final SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     @Override
-    public void deleteJobRequest(final long jobRequestId)
-    {
+    public void deleteJobRequest(final long jobRequestId) {
         final Session session = sessionFactory.getCurrentSession();
         session.delete(findByPrimaryKey(jobRequestId));
         session.flush();
     }
 
     @Override
-    public List<JobRequest> findAllJobRequests()
-    {
+    public List<JobRequest> findAllJobRequests() {
         final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(JobRequest.class);
         return criteria.list();
     }
 
     @Override
-    public JobRequest findByPrimaryKey(final long jobRequestId) throws DataAccessException
-    {
+    public JobRequest findByPrimaryKey(final long jobRequestId) throws DataAccessException {
         final Session session = sessionFactory.getCurrentSession();
         final JobRequest jobRequest = (JobRequest) session.get(JobRequest.class, jobRequestId);
 
@@ -45,31 +40,26 @@ public class JobRequestDaoImpl implements JobRequestDao
     }
 
     @Override
-    public JobRequest findJobRequestByBookDefinitionId(final long ebookDefinitionId)
-    {
-        final
-        List<JobRequest> jobRequestList = sessionFactory.getCurrentSession()
+    public JobRequest findJobRequestByBookDefinitionId(final long ebookDefinitionId) {
+        final List<JobRequest> jobRequestList = sessionFactory.getCurrentSession()
             .createCriteria(JobRequest.class)
             .add(Restrictions.eq("bookDefinition.ebookDefinitionId", ebookDefinitionId))
             .list();
 
-        if (jobRequestList.size() > 0)
-        {
+        if (jobRequestList.size() > 0) {
             return jobRequestList.get(0);
         }
         return null;
     }
 
     @Override
-    public Long saveJobRequest(final JobRequest jobRequest)
-    {
+    public Long saveJobRequest(final JobRequest jobRequest) {
         final Session session = sessionFactory.getCurrentSession();
         return (Long) session.save(jobRequest);
     }
 
     @Override
-    public void updateJobPriority(final long jobRequestId, final int jobPriority)
-    {
+    public void updateJobPriority(final long jobRequestId, final int jobPriority) {
         final JobRequest jobRequest = findByPrimaryKey(jobRequestId);
         jobRequest.setPriority(jobPriority);
         final Session session = sessionFactory.getCurrentSession();
@@ -77,8 +67,7 @@ public class JobRequestDaoImpl implements JobRequestDao
     }
 
     @Override
-    public List<JobRequest> findAllJobRequestsOrderByPriorityAndSubmitedtime()
-    {
+    public List<JobRequest> findAllJobRequestsOrderByPriorityAndSubmitedtime() {
         final StringBuffer hql =
             new StringBuffer("select jr from JobRequest jr order by job_priority desc,job_submit_timestamp asc");
 

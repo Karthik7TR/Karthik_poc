@@ -16,16 +16,14 @@ import org.springframework.web.client.ResponseErrorHandler;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  *
  */
-public class ProviewHttpResponseErrorHandler implements ResponseErrorHandler
-{
+public class ProviewHttpResponseErrorHandler implements ResponseErrorHandler {
     private static final Logger LOG = LogManager.getLogger(ProviewHttpResponseErrorHandler.class);
 
     /* (non-Javadoc)
      * @see org.springframework.web.client.ResponseErrorHandler#handleError(org.springframework.http.client.ClientHttpResponse)
      */
     @Override
-    public void handleError(final ClientHttpResponse clientHttpResponse) throws IOException
-    {
+    public void handleError(final ClientHttpResponse clientHttpResponse) throws IOException {
         final String statusCode = clientHttpResponse.getStatusCode().toString();
         final String statusPhrase = clientHttpResponse.getStatusCode().getReasonPhrase();
         final String responseBody = IOUtils.toString(clientHttpResponse.getBody());
@@ -44,14 +42,10 @@ public class ProviewHttpResponseErrorHandler implements ResponseErrorHandler
      * @see org.springframework.web.client.ResponseErrorHandler#hasError(org.springframework.http.client.ClientHttpResponse)
      */
     @Override
-    public boolean hasError(final ClientHttpResponse clientHttpResponse) throws IOException
-    {
-        if (clientHttpResponse.getStatusCode() == HttpStatus.OK)
-        {
+    public boolean hasError(final ClientHttpResponse clientHttpResponse) throws IOException {
+        if (clientHttpResponse.getStatusCode() == HttpStatus.OK) {
             return false;
-        }
-        else if (clientHttpResponse.getStatusCode() == HttpStatus.CREATED)
-        {
+        } else if (clientHttpResponse.getStatusCode() == HttpStatus.CREATED) {
             return false;
         }
         return true;

@@ -9,8 +9,7 @@ import com.thomsonreuters.uscl.ereader.util.EBookServerException;
  *
  * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
-public interface ServerAccessService
-{
+public interface ServerAccessService {
     /**
      * Stops all the generator and gather instances from server,
      * notifies user group about server shutdown.

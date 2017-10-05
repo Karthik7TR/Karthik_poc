@@ -4,8 +4,7 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 
-public interface JobRequestDao
-{
+public interface JobRequestDao {
     void deleteJobRequest(long jobRequestId);
 
     /**

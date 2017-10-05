@@ -26,8 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 @Table(name = "NORT_FILE_LOCATION")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "NortFileLocation")
-public class NortFileLocation implements Serializable, Comparable<NortFileLocation>
-{
+public class NortFileLocation implements Serializable, Comparable<NortFileLocation> {
     private static final long serialVersionUID = 249868448548819700L;
 
     @Column(name = "NORT_FILE_LOCATION_ID", nullable = false)
@@ -56,62 +55,52 @@ public class NortFileLocation implements Serializable, Comparable<NortFileLocati
         @JoinColumn(name = "EBOOK_DEFINITION_ID", referencedColumnName = "EBOOK_DEFINITION_ID", nullable = false)})
     private BookDefinition ebookDefinition;
 
-    public Long getNortFileLocationId()
-    {
+    public Long getNortFileLocationId() {
         return nortFileLocationId;
     }
 
-    public void setNortFileLocationId(final Long nortFileLocationId)
-    {
+    public void setNortFileLocationId(final Long nortFileLocationId) {
         this.nortFileLocationId = nortFileLocationId;
     }
 
-    public String getLocationName()
-    {
+    public String getLocationName() {
         return locationName;
     }
 
-    public void setLocationName(final String locationName)
-    {
+    public void setLocationName(final String locationName) {
         this.locationName = locationName;
     }
 
-    public Integer getSequenceNum()
-    {
+    public Integer getSequenceNum() {
         return sequenceNum;
     }
 
-    public void setSequenceNum(final Integer sequenceNum)
-    {
+    public void setSequenceNum(final Integer sequenceNum) {
         this.sequenceNum = sequenceNum;
     }
 
     /**
      */
-    public void setEbookDefinition(final BookDefinition ebookDefinition)
-    {
+    public void setEbookDefinition(final BookDefinition ebookDefinition) {
         this.ebookDefinition = ebookDefinition;
     }
 
     /**
      */
-    public BookDefinition getEbookDefinition()
-    {
+    public BookDefinition getEbookDefinition() {
         return ebookDefinition;
     }
 
     /**
      */
-    public NortFileLocation()
-    {
+    public NortFileLocation() {
     }
 
     /**
      * Copies the contents of the specified bean into this bean.
      *
      */
-    public void copy(final NortFileLocation that)
-    {
+    public void copy(final NortFileLocation that) {
         setNortFileLocationId(that.getNortFileLocationId());
         setLocationName(that.getLocationName());
         setSequenceNum(that.getSequenceNum());
@@ -119,14 +108,12 @@ public class NortFileLocation implements Serializable, Comparable<NortFileLocati
     }
 
     @Transient
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return StringUtils.isBlank(locationName);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         final StringBuilder buffer = new StringBuilder();
         buffer.append("nortFileLocationId=[").append(nortFileLocationId).append("] ");
         buffer.append("locationName=[").append(locationName).append("] ");
@@ -139,23 +126,16 @@ public class NortFileLocation implements Serializable, Comparable<NortFileLocati
      * For sorting the name components into sequence order (1...n).
      */
     @Override
-    public int compareTo(final NortFileLocation o)
-    {
+    public int compareTo(final NortFileLocation o) {
         int result = 0;
-        if (sequenceNum != null)
-        {
-            if (o != null)
-            {
+        if (sequenceNum != null) {
+            if (o != null) {
                 final Integer i = o.getSequenceNum();
                 result = (i != null) ? sequenceNum.compareTo(i) : 1;
-            }
-            else
-            {
+            } else {
                 result = 1;
             }
-        }
-        else
-        { // int1 is null
+        } else { // int1 is null
             result = (o != null) ? -1 : 0;
         }
         return result;

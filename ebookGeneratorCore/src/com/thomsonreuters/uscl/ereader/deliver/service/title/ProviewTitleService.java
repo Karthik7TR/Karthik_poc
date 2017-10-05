@@ -11,8 +11,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Service to perform requests to proview api, to get title data
  */
-public interface ProviewTitleService
-{
+public interface ProviewTitleService {
     @Nullable
     Version getLatestProviewTitleVersion(@NotNull String fullyQualifiedTitleId);
 

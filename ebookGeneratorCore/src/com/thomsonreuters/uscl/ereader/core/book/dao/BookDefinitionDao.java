@@ -9,8 +9,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
 import org.springframework.dao.DataAccessException;
 
-public interface BookDefinitionDao
-{
+public interface BookDefinitionDao {
     /**
      * Returns all the current book definitions.
      * @return a list of BookDefinition
@@ -76,10 +75,7 @@ public interface BookDefinitionDao
 
     BookDefinition saveBookDefinition(BookDefinition eBook);
 
-    BookDefinition saveSplitDocuments(
-        Long ebookDefinitionId,
-        Collection<SplitDocument> splitDocuments,
-        int parts);
+    BookDefinition saveSplitDocuments(Long ebookDefinitionId, Collection<SplitDocument> splitDocuments, int parts);
 
     List<BookDefinition> findBookDefinitions(
         String sortProperty,

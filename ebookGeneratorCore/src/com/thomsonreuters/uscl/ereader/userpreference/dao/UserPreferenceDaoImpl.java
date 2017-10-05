@@ -17,19 +17,16 @@ import org.hibernate.SessionFactory;
  *
  */
 
-public class UserPreferenceDaoImpl implements UserPreferenceDao
-{
+public class UserPreferenceDaoImpl implements UserPreferenceDao {
     //private static Logger log = LogManager.getLogger(UserPreferenceDaoImpl.class);
     private SessionFactory sessionFactory;
 
-    public UserPreferenceDaoImpl(final SessionFactory hibernateSessionFactory)
-    {
+    public UserPreferenceDaoImpl(final SessionFactory hibernateSessionFactory) {
         sessionFactory = hibernateSessionFactory;
     }
 
     @Override
-    public void save(final UserPreference preference)
-    {
+    public void save(final UserPreference preference) {
         final Session session = sessionFactory.getCurrentSession();
 
         preference.setLastUpdated(new Date());
@@ -38,15 +35,13 @@ public class UserPreferenceDaoImpl implements UserPreferenceDao
     }
 
     @Override
-    public UserPreference findByUsername(final String username)
-    {
+    public UserPreference findByUsername(final String username) {
         final Session session = sessionFactory.getCurrentSession();
         return (UserPreference) session.get(UserPreference.class, username);
     }
 
     @Override
-    public Set<InternetAddress> findAllUniqueEmailAddresses()
-    {
+    public Set<InternetAddress> findAllUniqueEmailAddresses() {
         final Set<InternetAddress> uniqueAddresses = new HashSet<>();
         final Session session = sessionFactory.getCurrentSession();
         final String hql = "select emails from UserPreference";
@@ -55,8 +50,7 @@ public class UserPreferenceDaoImpl implements UserPreferenceDao
         final List<String> csvEmailAddrs = query.list(); // a list of CSV email addresses
 
         // Parse all the csv strings into a unique list of address objects
-        for (final String csvAddr : csvEmailAddrs)
-        {
+        for (final String csvAddr : csvEmailAddrs) {
             final List<String> addrStrings = UserPreference.toStringEmailAddressList(csvAddr);
             final List<InternetAddress> addrs = UserPreference.toInternetAddressList(addrStrings);
             uniqueAddresses.addAll(addrs);

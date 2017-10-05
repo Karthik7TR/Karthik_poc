@@ -8,8 +8,7 @@ import java.util.List;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  *
  */
-public interface TocNode
-{
+public interface TocNode {
     /**
      * Retrieve the parent of this node.
      * @return the parent.

@@ -10,8 +10,7 @@ import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
 import org.jetbrains.annotations.Nullable;
 
-public interface PublishingStatsService
-{
+public interface PublishingStatsService {
     Date getSysDate();
 
     /**

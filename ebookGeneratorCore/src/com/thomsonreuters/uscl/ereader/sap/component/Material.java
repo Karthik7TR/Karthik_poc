@@ -4,28 +4,25 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Material
-{
+public class Material {
     @JsonProperty("material_no")
     private String materialNumber;
     @JsonProperty("component")
     private List<MaterialComponent> components;
 
-    public String getMaterialNumber()
-    {
+    public String getMaterialNumber() {
         return materialNumber;
     }
-    public void setMaterialNumber(final String materialNumber)
-    {
+
+    public void setMaterialNumber(final String materialNumber) {
         this.materialNumber = materialNumber;
     }
 
-    public List<MaterialComponent> getComponents()
-    {
+    public List<MaterialComponent> getComponents() {
         return components;
     }
-    public void setComponents(final List<MaterialComponent> components)
-    {
+
+    public void setComponents(final List<MaterialComponent> components) {
         this.components = components;
     }
 }

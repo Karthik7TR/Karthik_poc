@@ -4,8 +4,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface StateCodeService
-{
+public interface StateCodeService {
     /**
      * Get all the State codes
      * @return a list of StateCode objects

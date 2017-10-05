@@ -28,8 +28,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 
-public class GroupServiceImpl implements GroupService
-{
+public class GroupServiceImpl implements GroupService {
     private static final Logger LOG = LogManager.getLogger(GroupServiceImpl.class);
     private ProviewHandler proviewHandler;
     private List<String> pilotBooksNotFound;
@@ -42,18 +41,15 @@ public class GroupServiceImpl implements GroupService
      * @return
      */
     @Override
-    public String getGroupId(final BookDefinition bookDefinition)
-    {
+    public String getGroupId(final BookDefinition bookDefinition) {
         final StringBuffer buffer = new StringBuffer();
         buffer.append(bookDefinition.getPublisherCodes().getName());
         buffer.append("/");
         String contentType = null;
-        if (bookDefinition.getDocumentTypeCodes() != null)
-        {
+        if (bookDefinition.getDocumentTypeCodes() != null) {
             contentType = bookDefinition.getDocumentTypeCodes().getAbbreviation();
         }
-        if (!StringUtils.isBlank(contentType))
-        {
+        if (!StringUtils.isBlank(contentType)) {
             buffer.append(contentType + "_");
         }
         buffer.append(StringUtils.substringAfterLast(bookDefinition.getFullyQualifiedTitleId(), "/"));
@@ -61,32 +57,24 @@ public class GroupServiceImpl implements GroupService
     }
 
     @Override
-    public List<GroupDefinition> getGroups(final BookDefinition bookDefinition) throws Exception
-    {
+    public List<GroupDefinition> getGroups(final BookDefinition bookDefinition) throws Exception {
         final String groupId = getGroupId(bookDefinition);
         return getGroups(groupId);
     }
 
     @Override
-    public List<GroupDefinition> getGroups(final String groupId) throws Exception
-    {
-        try
-        {
+    public List<GroupDefinition> getGroups(final String groupId) throws Exception {
+        try {
             final List<GroupDefinition> groups = proviewHandler.getGroupDefinitionsById(groupId);
             // sort by group versions
             Collections.sort(groups);
             return groups;
-        }
-        catch (final ProviewRuntimeException ex)
-        {
+        } catch (final ProviewRuntimeException ex) {
             final String errorMsg = ex.getMessage();
             LOG.debug(errorMsg);
-            if (ex.getStatusCode().equals("404") && errorMsg.contains("No such groups exist"))
-            {
+            if (ex.getStatusCode().equals("404") && errorMsg.contains("No such groups exist")) {
                 LOG.debug("Group does not exist. Exception can be ignored");
-            }
-            else
-            {
+            } else {
                 throw new Exception(ex);
             }
         }
@@ -94,58 +82,44 @@ public class GroupServiceImpl implements GroupService
     }
 
     @Override
-    public GroupDefinition getGroupInfoByVersion(final String groupId, final Long groupVersion) throws ProviewException
-    {
-        try
-        {
+    public GroupDefinition getGroupInfoByVersion(final String groupId, final Long groupVersion)
+        throws ProviewException {
+        try {
             return proviewHandler.getGroupDefinitionByVersion(groupId, groupVersion);
-        }
-        catch (final ProviewRuntimeException ex)
-        {
-            if (ex.getStatusCode().equals("400") && ex.toString().contains("No such group id and version exist"))
-            {
+        } catch (final ProviewRuntimeException ex) {
+            if (ex.getStatusCode().equals("400") && ex.toString().contains("No such group id and version exist")) {
                 return null;
-            }
-            else
-            {
+            } else {
                 throw new ProviewException(ex.getMessage());
             }
         }
     }
 
     @Override
-    public GroupDefinition getGroupInfoByVersionAutoDecrement(final String groupId, Long groupVersion) throws ProviewException
-    {
+    public GroupDefinition getGroupInfoByVersionAutoDecrement(final String groupId, Long groupVersion)
+        throws ProviewException {
         GroupDefinition group = null;
-        do
-        {
+        do {
             group = getGroupInfoByVersion(groupId, groupVersion);
-            if (group == null)
-            {
+            if (group == null) {
                 groupVersion = groupVersion - 1;
-            }
-            else
-            {
+            } else {
                 break;
             }
-        }
-        while (groupVersion > 0);
+        } while (groupVersion > 0);
         return group;
     }
 
     @Override
-    public GroupDefinition getLastGroup(final BookDefinition book) throws Exception
-    {
+    public GroupDefinition getLastGroup(final BookDefinition book) throws Exception {
         final String groupId = getGroupId(book);
         return getLastGroup(groupId);
     }
 
     @Override
-    public GroupDefinition getLastGroup(final String groupId) throws Exception
-    {
+    public GroupDefinition getLastGroup(final String groupId) throws Exception {
         final List<GroupDefinition> groups = getGroups(groupId);
-        if (groups != null && groups.size() > 0)
-        {
+        if (groups != null && groups.size() > 0) {
             return groups.get(0);
         }
         return null;
@@ -155,52 +129,35 @@ public class GroupServiceImpl implements GroupService
      * Send Group definition to Proview to create a group
      */
     @Override
-    public void createGroup(final GroupDefinition groupDefinition) throws ProviewException
-    {
-        try
-        {
+    public void createGroup(final GroupDefinition groupDefinition) throws ProviewException {
+        try {
             proviewHandler.createGroup(groupDefinition);
-        }
-        catch (final ProviewRuntimeException ex)
-        {
+        } catch (final ProviewRuntimeException ex) {
             final String errorMsg = ex.getMessage();
-            if (ex.getStatusCode().equalsIgnoreCase("400"))
-            {
-                if (errorMsg.contains("This Title does not exist"))
-                {
+            if (ex.getStatusCode().equalsIgnoreCase("400")) {
+                if (errorMsg.contains("This Title does not exist")) {
                     throw new ProviewException(CoreConstants.NO_TITLE_IN_PROVIEW);
-                }
-                else if (errorMsg.contains("GroupId already exists with same version")
-                    || errorMsg.contains("Version Should be greater"))
-                {
+                } else if (errorMsg.contains("GroupId already exists with same version")
+                    || errorMsg.contains("Version Should be greater")) {
                     throw new ProviewException(CoreConstants.GROUP_AND_VERSION_EXISTS);
-                }
-                else
-                {
+                } else {
                     throw new ProviewException(errorMsg);
                 }
-            }
-            else
-            {
+            } else {
                 throw new ProviewException(errorMsg);
             }
-        }
-        catch (final UnsupportedEncodingException e)
-        {
+        } catch (final UnsupportedEncodingException e) {
             throw new ProviewException(e.getMessage());
         }
     }
 
     @Override
-    public boolean isTitleWithVersion(final String fullyQualifiedTitle)
-    {
+    public boolean isTitleWithVersion(final String fullyQualifiedTitle) {
         // Sample title with version uscl/an/abcd/v1 as opposed to uscl/an/abcd
-        if (StringUtils.isNotBlank(fullyQualifiedTitle))
-        {
+        if (StringUtils.isNotBlank(fullyQualifiedTitle)) {
             final Pattern trimmer = Pattern.compile("/v\\d+(\\.\\d+)?$");
             final Matcher m = trimmer.matcher(fullyQualifiedTitle);
-            if (m.find())
-            {
+            if (m.find()) {
                 return true;
             }
         }
@@ -214,8 +171,7 @@ public class GroupServiceImpl implements GroupService
     public GroupDefinition createGroupDefinition(
         final BookDefinition bookDefinition,
         final String bookVersion,
-        List<String> splitTitles) throws Exception
-    {
+        List<String> splitTitles) throws Exception {
         final String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
         final String groupName = bookDefinition.getGroupName();
         final String subGroupHeading = bookDefinition.getSubGroupHeading();
@@ -228,29 +184,22 @@ public class GroupServiceImpl implements GroupService
         boolean majorVersionChange = false;
         final boolean firstGroup = (lastGroupDef == null);
 
-        List<SubGroupInfo> allSubGroupInfo = new ArrayList<>();;
-
-        if(!firstGroup && lastGroupDef != null){
-            allSubGroupInfo = lastGroupDef.getSubGroupInfoList();
-        }
-
-        if (allSubGroupInfo.size() > 0 && allSubGroupInfo.get(0) != null && lastGroupDef != null)
-        {
+        List<SubGroupInfo> allSubGroupInfo =
+            firstGroup ? new ArrayList<SubGroupInfo>() : lastGroupDef.getSubGroupInfoList();
+        if (allSubGroupInfo.size() > 0 && allSubGroupInfo.get(0) != null) {
             oldHasSubgroups = (lastGroupDef.getSubGroupInfoList().get(0).getHeading() != null);
         }
 
         // check if major version changed
         final String previousHeadTitle = lastGroupDef != null ? lastGroupDef.getHeadTitle() : null;
         if (isTitleWithVersion(previousHeadTitle)
-            && !majorVersionStr.equals(StringUtils.substringAfterLast(previousHeadTitle, "/")))
-        {
+            && !majorVersionStr.equals(StringUtils.substringAfterLast(previousHeadTitle, "/"))) {
             // head titles without version do not have subgroups, making a major version change irrelevant
             majorVersionChange = true;
         }
 
         // so splitTitles can be used generally
-        if (splitTitles == null)
-        {
+        if (splitTitles == null) {
             splitTitles = new ArrayList<>();
             splitTitles.add(fullyQualifiedTitleId);
         }
@@ -258,8 +207,7 @@ public class GroupServiceImpl implements GroupService
         // Get list of titles in ProView so invalid versions are not added to the group from previous
         final List<ProviewTitleInfo> proviewTitleInfoList = getMajorVersionProviewTitles(fullyQualifiedTitleId);
         final Set<Integer> majorVersionList = new HashSet<>();
-        for (final ProviewTitleInfo ProviewTitleInfo : proviewTitleInfoList)
-        {
+        for (final ProviewTitleInfo ProviewTitleInfo : proviewTitleInfoList) {
             majorVersionList.add(ProviewTitleInfo.getMajorVersion());
         }
 
@@ -275,85 +223,65 @@ public class GroupServiceImpl implements GroupService
             majorVersionStr,
             newHasSubgroups);
 
-        if (firstGroup)
-        {
+        if (firstGroup) {
             // set group version
             groupDefinition.setGroupVersion(1L);
 
             // add titles
             allSubGroupInfo.add(new SubGroupInfo());
             allSubGroupInfo.get(0).setHeading(subGroupHeading);
-            if (subGroupHeading == null)
-            {
+            if (subGroupHeading == null) {
                 majorVersionStr = null;
             }
             addTitlesToSubGroup(allSubGroupInfo.get(0), splitTitles, majorVersionStr);
-            if (bookDefinition.getPilotBooks().size() > 0)
-            {
+            if (bookDefinition.getPilotBooks().size() > 0) {
                 addTitlesToSubGroup(allSubGroupInfo.get(0), pilotBooks, null);
             }
-        }
-        else
-        {
+        } else {
             // set group version
-            if (lastGroupDef.getStatus().equalsIgnoreCase(GroupDefinition.REVIEW_STATUS))
-            {
+            if (lastGroupDef.getStatus().equalsIgnoreCase(GroupDefinition.REVIEW_STATUS)) {
                 // don't update group version, overwrite
                 groupDefinition.setGroupVersion(lastGroupDef.getGroupVersion());
-            }
-            else
-            {
+            } else {
                 groupDefinition.setGroupVersion(lastGroupDef.getGroupVersion() + 1);
             }
 
             // update subgroups
             cleanAllSubgroups(fullyQualifiedTitleId, allSubGroupInfo, pilotBooks, majorVersionList);
-            if (oldHasSubgroups && newHasSubgroups)
-            {
+            if (oldHasSubgroups && newHasSubgroups) {
                 // add new title to the appropriate subgroup
                 SubGroupInfo selectedSubgroup = null;
                 SubGroupInfo previousSubgroup = null;
-                for (final SubGroupInfo subgroup : allSubGroupInfo)
-                {
-                    if (subgroup.getHeading().equals(subGroupHeading))
-                    {
+                for (final SubGroupInfo subgroup : allSubGroupInfo) {
+                    if (subgroup.getHeading().equals(subGroupHeading)) {
                         selectedSubgroup = subgroup;
                     }
-                    if (subgroup.getTitles().contains(titleIdMajorVersion))
-                    {
+                    if (subgroup.getTitles().contains(titleIdMajorVersion)) {
                         previousSubgroup = subgroup;
                         break;
                     }
                 }
 
-                if (selectedSubgroup == null)
-                {
+                if (selectedSubgroup == null) {
                     // make new subgroup
                     selectedSubgroup = new SubGroupInfo();
                     selectedSubgroup.setHeading(subGroupHeading);
                     allSubGroupInfo.add(0, selectedSubgroup);
-                }
-                else if (bookDefinition.isSplitBook() && majorVersionChange)
-                {
+                } else if (bookDefinition.isSplitBook() && majorVersionChange) {
                     // new major split titles must be in their own new subgroup
                     throw new ProviewException(CoreConstants.SUBGROUP_SPLIT_ERROR_MESSAGE);
                 }
 
-                if (majorVersionChange)
-                {
+                if (majorVersionChange) {
                     final List<String> titles = selectedSubgroup.getTitles();
                     selectedSubgroup.setTitles(new ArrayList<String>());
                     addTitlesToSubGroup(selectedSubgroup, splitTitles, majorVersionStr);
                     selectedSubgroup.getTitles().addAll(titles);
-                }
-                else
-                {
+                } else {
                     // check which subgroup the title used to be in and remove it if it does not match the specified one
-                    if (previousSubgroup != null)
-                    {
+                    if (previousSubgroup != null) {
                         cleanPreviousSubGroup(previousSubgroup, fullyQualifiedTitleId, majorVersionStr);
-                        if (previousSubgroup != selectedSubgroup && previousSubgroup.getTitles().isEmpty())
-                        {
+                        if (previousSubgroup != selectedSubgroup && previousSubgroup.getTitles().isEmpty()) {
                             // Minor updates are bundled into the same subgroup, remove instances in other subgroups
                             allSubGroupInfo.remove(previousSubgroup);
                         }
@@ -361,23 +289,18 @@ public class GroupServiceImpl implements GroupService
                     // add the newly generated book
                     addTitlesToSubGroup(selectedSubgroup, splitTitles, majorVersionStr);
                 }
-            }
-            else if (newHasSubgroups)
-            {
+            } else if (newHasSubgroups) {
                 // must be an overwrite of group version 1 (others throw exception in validate() )
                 allSubGroupInfo = new ArrayList<>();
                 allSubGroupInfo.add(new SubGroupInfo());
                 allSubGroupInfo.get(0).setHeading(subGroupHeading);
                 addTitlesToSubGroup(allSubGroupInfo.get(0), splitTitles, majorVersionStr);
-            }
-            else
-            {
+            } else {
                 // add new title to the first (only) subgroup (no header)
                 allSubGroupInfo = new ArrayList<>();
                 allSubGroupInfo.add(new SubGroupInfo());
                 addTitlesToSubGroup(allSubGroupInfo.get(0), splitTitles, null);
-                if (bookDefinition.getPilotBooks().size() > 0)
-                {
+                if (bookDefinition.getPilotBooks().size() > 0) {
                     addTitlesToSubGroup(allSubGroupInfo.get(0), pilotBooks, null);
                 }
             }
@@ -397,16 +320,13 @@ public class GroupServiceImpl implements GroupService
     private void cleanPreviousSubGroup(
         final SubGroupInfo previousSubgroup,
         final String fullyQualifiedTitleId,
-        final String majorVersionStr)
-    {
+        final String majorVersionStr) {
         final List<String> iterableTitles = new ArrayList<>();
         iterableTitles.addAll(previousSubgroup.getTitles());
-        for (final String title : iterableTitles)
-        {
+        for (final String title : iterableTitles) {
             final String titleId = StringUtils.substringBeforeLast(title, "/");
             if (StringUtils.substringAfterLast(title, "/").equals(majorVersionStr)
-                && StringUtils.substringBeforeLast(titleId, "_pt").equals(fullyQualifiedTitleId))
-            {
+                && StringUtils.substringBeforeLast(titleId, "_pt").equals(fullyQualifiedTitleId)) {
                 previousSubgroup.getTitles().remove(title);
             }
         }
@@ -425,23 +345,18 @@ public class GroupServiceImpl implements GroupService
         final String titleId,
         final List<SubGroupInfo> subGroupInfoList,
         final List<String> pilotBooks,
-        final Set<Integer> majorVersions) throws ProviewException
-    {
+        final Set<Integer> majorVersions) throws ProviewException {
         List<String> removedTitles;
         final List<SubGroupInfo> emptySubGroups = new ArrayList<>();
-        for (final SubGroupInfo subgroup : subGroupInfoList)
-        {
+        for (final SubGroupInfo subgroup : subGroupInfoList) {
             removedTitles = new ArrayList<>();
-            for (final String title : subgroup.getTitles())
-            {
-                if (!isTitleInProview(title, majorVersions, titleId))
-                {
+            for (final String title : subgroup.getTitles()) {
+                if (!isTitleInProview(title, majorVersions, titleId)) {
                     removedTitles.add(title);
                 }
             }
             subgroup.getTitles().removeAll(removedTitles);
-            if (subgroup.getTitles().isEmpty())
-            {
+            if (subgroup.getTitles().isEmpty()) {
                 emptySubGroups.add(subgroup);
             }
         }
@@ -456,22 +371,16 @@ public class GroupServiceImpl implements GroupService
      * @throws ProviewException
      */
     private void addTitlesToSubGroup(final SubGroupInfo subgroup, final List<String> titles, String majorVersionStr)
-        throws ProviewException
-    {
+        throws ProviewException {
         final List<String> oldTitles = subgroup.getTitles();
         subgroup.setTitles(new ArrayList<String>());
-        if (StringUtils.isNotBlank(majorVersionStr))
-        {
+        if (StringUtils.isNotBlank(majorVersionStr)) {
             majorVersionStr = "/" + majorVersionStr;
-        }
-        else
-        {
+        } else {
             majorVersionStr = "";
         }
-        for (final String title : titles)
-        {
-            if (oldTitles.contains(title + majorVersionStr))
-            {
+        for (final String title : titles) {
+            if (oldTitles.contains(title + majorVersionStr)) {
                 oldTitles.remove(title + majorVersionStr);
             }
             subgroup.addTitle(title + majorVersionStr);
@@ -480,35 +389,28 @@ public class GroupServiceImpl implements GroupService
     }
 
     private void validate(final BookDefinition book, final GroupDefinition previousGroup, final String majorVersionStr)
-        throws ProviewException
-    {
+        throws ProviewException {
         final String currentSubgroupName = book.getSubGroupHeading();
         Integer majorVersion = null;
-        if (StringUtils.contains(majorVersionStr, 'v'))
-        {
+        if (StringUtils.contains(majorVersionStr, 'v')) {
             majorVersion = Integer.valueOf(StringUtils.substringAfter(majorVersionStr, "v"));
-        }
-        else
-        {
+        } else {
             // will cause null pointer exception in the imminent comparison (majorVersion > 1)
             throw new ProviewException("Version information for " + book.getTitleId() + " incorrectly processed");
         }
 
-        if (StringUtils.isBlank(book.getGroupName()))
-        {
+        if (StringUtils.isBlank(book.getGroupName())) {
             throw new ProviewException(CoreConstants.EMPTY_GROUP_ERROR_MESSAGE);
         }
 
-        if (book.isSplitBook() && StringUtils.isBlank(currentSubgroupName))
-        {
+        if (book.isSplitBook() && StringUtils.isBlank(currentSubgroupName)) {
             throw new ProviewException("Subgroup name cannot be empty for split books");
         }
 
         if (majorVersion > 1
             && StringUtils.isNotBlank(currentSubgroupName)
             && (previousGroup == null
-                || StringUtils.isBlank(previousGroup.getFirstSubgroupHeading())))
-        {
+                || (previousGroup != null && StringUtils.isBlank(previousGroup.getFirstSubgroupHeading())))) {
             throw new ProviewException(CoreConstants.SUBGROUP_ERROR_MESSAGE);
         }
     }
@@ -518,8 +420,7 @@ public class GroupServiceImpl implements GroupService
         final String groupId,
         final String fullyQualifiedTitleId,
         final String majorVersion,
-        final boolean hasSubgroups)
-    {
+        final boolean hasSubgroups) {
         final GroupDefinition groupDefinition = new GroupDefinition();
         groupDefinition.setName(groupName);
         groupDefinition.setGroupId(groupId);
@@ -527,22 +428,17 @@ public class GroupServiceImpl implements GroupService
         final List<SubGroupInfo> subGroupInfoList = new ArrayList<>();
         groupDefinition.setSubGroupInfoList(subGroupInfoList);
 
-        if (hasSubgroups)
-        {
+        if (hasSubgroups) {
             groupDefinition.setHeadTitle(fullyQualifiedTitleId + "/" + majorVersion);
-        }
-        else
-        {
+        } else {
             groupDefinition.setHeadTitle(fullyQualifiedTitleId);
         }
         return groupDefinition;
     }
 
-    private List<String> getPilotBooks(final BookDefinition book)
-    {
+    private List<String> getPilotBooks(final BookDefinition book) {
         final List<String> pilotBooks = new ArrayList<>();
-        for (final PilotBook pilotBook : book.getPilotBooks())
-        {
+        for (final PilotBook pilotBook : book.getPilotBooks()) {
             pilotBooks.add(pilotBook.getPilotBookTitleId());
         }
         return pilotBooks;
@@ -555,24 +451,21 @@ public class GroupServiceImpl implements GroupService
      * @param title
      * @return
      */
-    private boolean isTitleInProview(String title, final Set<Integer> majorVersionList, final String fullyQualifiedTitleId)
-        throws ProviewException
-    {
-        if (StringUtils.startsWithIgnoreCase(title, fullyQualifiedTitleId))
-        {
-            if (isTitleWithVersion(title))
-            {
+    private boolean isTitleInProview(
+        String title,
+        final Set<Integer> majorVersionList,
+        final String fullyQualifiedTitleId) throws ProviewException {
+        if (StringUtils.startsWithIgnoreCase(title, fullyQualifiedTitleId)) {
+            if (isTitleWithVersion(title)) {
                 final String version = StringUtils.substringAfterLast(title, "/v");
                 final Integer majorVersion = Integer.valueOf(StringUtils.substringBefore(version, "."));
-                if (majorVersionList.contains(majorVersion))
-                {
+                if (majorVersionList.contains(majorVersion)) {
                     return true;
                 }
             }
         }
         // It must be a pilot book
-        else
-        {
+        else {
             title = isTitleWithVersion(title) ? StringUtils.substringBeforeLast(title, "/v") : title;
             return proviewHandler.isTitleInProview(title);
         }
@@ -580,14 +473,11 @@ public class GroupServiceImpl implements GroupService
     }
 
     @Override
-    public void removeAllPreviousGroups(final BookDefinition bookDefinition) throws Exception
-    {
+    public void removeAllPreviousGroups(final BookDefinition bookDefinition) throws Exception {
         final List<GroupDefinition> GroupDefinition = getGroups(bookDefinition);
 
-        if (GroupDefinition != null)
-        {
-            for (final GroupDefinition group : GroupDefinition)
-            {
+        if (GroupDefinition != null) {
+            for (final GroupDefinition group : GroupDefinition) {
                 proviewHandler.removeGroup(group.getGroupId(), group.getProviewGroupVersionString());
                 TimeUnit.SECONDS.sleep(2);
                 proviewHandler.deleteGroup(group.getGroupId(), group.getProviewGroupVersionString());
@@ -602,24 +492,20 @@ public class GroupServiceImpl implements GroupService
      */
     @Override
     @Deprecated // Deprecated in favor of ProviewHandler.getTitleContainer()
-    public Map<String, ProviewTitleInfo> getProViewTitlesForGroup(final BookDefinition bookDef) throws Exception
-    {
+    public Map<String, ProviewTitleInfo> getProViewTitlesForGroup(final BookDefinition bookDef) throws Exception {
         final Set<SplitNodeInfo> splitNodeInfos = bookDef.getSplitNodes();
 
         // Get fully qualified title IDs of all split titles
         final Set<String> splitTitles = new HashSet<>();
-        if (splitNodeInfos != null && splitNodeInfos.size() > 0)
-        {
-            for (final SplitNodeInfo splitNodeInfo : splitNodeInfos)
-            {
+        if (splitNodeInfos != null && splitNodeInfos.size() > 0) {
+            for (final SplitNodeInfo splitNodeInfo : splitNodeInfos) {
                 splitTitles.add(splitNodeInfo.getSplitBookTitle());
             }
         }
         // Add current fully qualified title Id
         splitTitles.add(bookDef.getFullyQualifiedTitleId());
         final List<ProviewTitleInfo> proviewTitleInfos = new ArrayList<>();
-        for (final String title : splitTitles)
-        {
+        for (final String title : splitTitles) {
             final List<ProviewTitleInfo> proviewTitleInfo = getMajorVersionProviewTitles(title);
             proviewTitleInfos.addAll(proviewTitleInfo);
         }
@@ -627,8 +513,7 @@ public class GroupServiceImpl implements GroupService
         Collections.sort(proviewTitleInfos);
 
         final Map<String, ProviewTitleInfo> proviewTitleMap = new LinkedHashMap<>();
-        for (final ProviewTitleInfo info : proviewTitleInfos)
-        {
+        for (final ProviewTitleInfo info : proviewTitleInfos) {
             final String key = info.getTitleId() + "/v" + info.getMajorVersion();
             proviewTitleMap.put(key, info);
         }
@@ -636,59 +521,45 @@ public class GroupServiceImpl implements GroupService
     }
 
     @Override
-    public List<String> getPilotBooksNotFound()
-    {
+    public List<String> getPilotBooksNotFound() {
         return pilotBooksNotFound;
     }
 
-    public void setPilotBooksNotFound(final List<String> pilotBooksNotFound)
-    {
+    public void setPilotBooksNotFound(final List<String> pilotBooksNotFound) {
         this.pilotBooksNotFound = pilotBooksNotFound;
     }
 
     @Override
-    public Map<String, ProviewTitleInfo> getPilotBooksForGroup(final BookDefinition book) throws Exception
-    {
+    public Map<String, ProviewTitleInfo> getPilotBooksForGroup(final BookDefinition book) throws Exception {
         final Map<String, ProviewTitleInfo> pilotBooks = new LinkedHashMap<>();
         pilotBooksNotFound = new ArrayList<>();
         final List<PilotBook> bookList = book.getPilotBooks();
         final List<String> notFoundList = new ArrayList<>();
-        for (final PilotBook pilotBook : bookList)
-        {
-            try
-            {
+        for (final PilotBook pilotBook : bookList) {
+            try {
                 ProviewTitleInfo latest = new ProviewTitleInfo();
                 latest.setVersion("v0");
                 Integer totalNumberOfVersions = 0;
                 final ProviewTitleContainer singleBook =
                     proviewHandler.getProviewTitleContainer(pilotBook.getPilotBookTitleId());
-                if (singleBook == null)
-                {
+                if (singleBook == null) {
                     notFoundList.add(pilotBook.getPilotBookTitleId());
-                }
-                else
-                {
-                    for (final ProviewTitleInfo titleInfo : singleBook.getAllMajorVersions())
-                    {
+                } else {
+                    for (final ProviewTitleInfo titleInfo : singleBook.getAllMajorVersions()) {
                         totalNumberOfVersions++;
                         titleInfo.setTotalNumberOfVersions(totalNumberOfVersions);
-                        if (latest.getMajorVersion() < titleInfo.getMajorVersion())
-                        {
+                        if (latest.getMajorVersion() < titleInfo.getMajorVersion()) {
                             latest = titleInfo;
                         }
                     }
                     pilotBooks.put(latest.getTitleId() + "/v" + latest.getMajorVersion(), latest);
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 notFoundList.add(pilotBook.getPilotBookTitleId());
             }
         }
-        if (notFoundList.size() > 0)
-        {
-            for (final String pilotBookNotFound : notFoundList)
-            {
+        if (notFoundList.size() > 0) {
+            for (final String pilotBookNotFound : notFoundList) {
                 pilotBooksNotFound.add(pilotBookNotFound);
             }
             String msg = notFoundList.toString();
@@ -699,22 +570,16 @@ public class GroupServiceImpl implements GroupService
     }
 
     @Override
-    public List<ProviewTitleInfo> getMajorVersionProviewTitles(final String titleId) throws ProviewException
-    {
-        try
-        {
+    public List<ProviewTitleInfo> getMajorVersionProviewTitles(final String titleId) throws ProviewException {
+        try {
             final ProviewTitleContainer container = proviewHandler.getProviewTitleContainer(titleId);
-            if (container != null)
-            {
+            if (container != null) {
                 return container.getAllMajorVersions();
             }
-        }
-        catch (final ProviewException ex)
-        {
+        } catch (final ProviewException ex) {
             final String errorMessage = ex.getMessage();
 
-            if (!errorMessage.contains("does not exist"))
-            {
+            if (!errorMessage.contains("does not exist")) {
                 throw ex;
             }
         }
@@ -722,8 +587,7 @@ public class GroupServiceImpl implements GroupService
     }
 
     @Required
-    public void setProviewHandler(final ProviewHandler proviewHandler)
-    {
+    public void setProviewHandler(final ProviewHandler proviewHandler) {
         this.proviewHandler = proviewHandler;
     }
 }

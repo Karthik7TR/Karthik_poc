@@ -26,8 +26,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @Table(name = "PUB_TYPE_CODES")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "PubTypeCode")
-public class PubTypeCode implements Serializable
-{
+public class PubTypeCode implements Serializable {
     //private static final Logger log = LogManager.getLogger(PubTypeCode.class);
     private static final long serialVersionUID = -4932734236359244870L;
 
@@ -44,50 +43,41 @@ public class PubTypeCode implements Serializable
     @Column(name = "LAST_UPDATED", nullable = false)
     private Date lastUpdatedTimeStampForPubTypeCode;
 
-    public PubTypeCode()
-    {
+    public PubTypeCode() {
         super();
     }
 
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final Long id)
-    {
+    public void setId(final Long id) {
         this.id = id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(final String name)
-    {
+    public void setName(final String name) {
         this.name = name;
     }
 
-    public Date getLastUpdated()
-    {
+    public Date getLastUpdated() {
         return lastUpdatedTimeStampForPubTypeCode;
     }
 
-    public void setLastUpdated(final Date lastUpdated)
-    {
+    public void setLastUpdated(final Date lastUpdated) {
         lastUpdatedTimeStampForPubTypeCode = lastUpdated;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -98,8 +88,7 @@ public class PubTypeCode implements Serializable
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -107,26 +96,20 @@ public class PubTypeCode implements Serializable
         if (getClass() != obj.getClass())
             return false;
         final PubTypeCode other = (PubTypeCode) obj;
-        if (id == null)
-        {
+        if (id == null) {
             if (other.id != null)
                 return false;
-        }
-        else if (!id.equals(other.id))
+        } else if (!id.equals(other.id))
             return false;
-        if (lastUpdatedTimeStampForPubTypeCode == null)
-        {
+        if (lastUpdatedTimeStampForPubTypeCode == null) {
             if (other.lastUpdatedTimeStampForPubTypeCode != null)
                 return false;
-        }
-        else if (!lastUpdatedTimeStampForPubTypeCode.equals(other.lastUpdatedTimeStampForPubTypeCode))
+        } else if (!lastUpdatedTimeStampForPubTypeCode.equals(other.lastUpdatedTimeStampForPubTypeCode))
             return false;
-        if (name == null)
-        {
+        if (name == null) {
             if (other.name != null)
                 return false;
-        }
-        else if (!name.equals(other.name))
+        } else if (!name.equals(other.name))
             return false;
         return true;
     }

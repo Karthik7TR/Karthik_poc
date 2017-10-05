@@ -24,8 +24,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author uc209819
  *
  */
-public class ProviewSingleTitleParser
-{
+public class ProviewSingleTitleParser {
     private List<GroupDetails> GroupDetailsList = new ArrayList<>();
 
     /**
@@ -33,17 +32,14 @@ public class ProviewSingleTitleParser
      * @param xml single title info from ProView
      * @return Generate a list of the GroupDetails objects containing all subgroups for the title in ProView.
      */
-    public List<GroupDetails> process(final String xml)
-    {
+    public List<GroupDetails> process(final String xml) {
         final Logger LOG = LogManager.getLogger(ProviewSingleTitleParser.class);
 
-        try
-        {
+        try {
             final SAXParserFactory parserFactory = SAXParserFactory.newInstance();
             parserFactory.setNamespaceAware(true);
             final XMLReader reader = parserFactory.newSAXParser().getXMLReader();
-            reader.setContentHandler(new DefaultHandler()
-            {
+            reader.setContentHandler(new DefaultHandler() {
                 private static final String STATUS_TAG = "status";
                 private static final String NAME_TAG = "name";
                 private static final String VERSION = "version";
@@ -64,12 +60,10 @@ public class ProviewSingleTitleParser
                  * @see org.xml.sax.helpers.DefaultHandler#endElement(java.lang.String , java.lang.String, java.lang.String)
                  */
                 @Override
-                public void endElement(final String uri, final String localName, final String qName) throws SAXException
-                {
-                    try
-                    {
-                        if (TITLE.equals(qName))
-                        {
+                public void endElement(final String uri, final String localName, final String qName)
+                    throws SAXException {
+                    try {
+                        if (TITLE.equals(qName)) {
                             final GroupDetails groupDetails = new GroupDetails();
                             groupDetails.setBookStatus(status);
                             groupDetails.setBookVersion(version);
@@ -81,9 +75,7 @@ public class ProviewSingleTitleParser
                             groupDetails.setTitleIdtWithVersionArray(setTitleIdWithVersion);
                             GroupDetailsList.add(groupDetails);
                         }
-                    }
-                    catch (final Exception e)
-                    {
+                    } catch (final Exception e) {
                         final String message =
                             "ProviewSingleTitleParser: Exception occured during parsing endElement. The error message is: "
                                 + e.getMessage();
@@ -99,22 +91,20 @@ public class ProviewSingleTitleParser
                  * org.xml.sax.Attributes)
                  */
                 @Override
-                public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
-                    throws SAXException
-                {
-                    try
-                    {
-                        if (TITLE.equals(qName))
-                        {
+                public void startElement(
+                    final String uri,
+                    final String localName,
+                    final String qName,
+                    final Attributes atts) throws SAXException {
+                    try {
+                        if (TITLE.equals(qName)) {
                             titleId = atts.getValue(ID);
                             status = atts.getValue(STATUS_TAG);
                             version = atts.getValue(VERSION);
                             name = atts.getValue(NAME_TAG);
                             lastUpdate = atts.getValue(LAST_UPDATE);
                         }
-                    }
-                    catch (final Exception e)
-                    {
+                    } catch (final Exception e) {
                         final String message =
                             "PublishedTitleParser: Exception  PublishedTitleParser parsing startElement. The error message is: "
                                 + e.getMessage();
@@ -125,17 +115,11 @@ public class ProviewSingleTitleParser
             });
             reader.parse(new InputSource(new StringReader(xml)));
             return GroupDetailsList;
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             throw new RuntimeException(e);
-        }
-        catch (final ParserConfigurationException e)
-        {
+        } catch (final ParserConfigurationException e) {
             throw new RuntimeException(e);
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }

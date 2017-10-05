@@ -12,34 +12,28 @@ import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.web.client.RequestCallback;
 
-public class ProviewXMLRequestCallback implements RequestCallback
-{
+public class ProviewXMLRequestCallback implements RequestCallback {
     private static final Logger LOG = LogManager.getLogger(ProviewXMLRequestCallback.class);
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String HTTP_BASIC_CREDENTIALS = "Basic cHVibGlzaGVyOmY5Ul96QnEzN2E=";
     private InputStream requestInputStream;
 
-    public void setRequestInputStream(final InputStream requestInputStream)
-    {
+    public void setRequestInputStream(final InputStream requestInputStream) {
         this.requestInputStream = requestInputStream;
     }
 
     @Override
-    public void doWithRequest(final ClientHttpRequest clientHttpRequest) throws IOException
-    {
+    public void doWithRequest(final ClientHttpRequest clientHttpRequest) throws IOException {
         clientHttpRequest.getHeaders().add("Content-type", MediaType.APPLICATION_XML_VALUE + "; charset=UTF-8");
 
         clientHttpRequest.getHeaders().add(AUTHORIZATION_HEADER, HTTP_BASIC_CREDENTIALS);
-        if (requestInputStream != null)
-        {
+        if (requestInputStream != null) {
             final long startTime = System.currentTimeMillis();
             //IOUtils.copy(requestInputStream, clientHttpRequest.getBody());
-            ((StreamingHttpOutputMessage) clientHttpRequest).setBody(new StreamingHttpOutputMessage.Body()
-            {
+            ((StreamingHttpOutputMessage) clientHttpRequest).setBody(new StreamingHttpOutputMessage.Body() {
                 @Override
-                public void writeTo(final OutputStream outputStream) throws IOException
-                {
+                public void writeTo(final OutputStream outputStream) throws IOException {
                     IOUtils.copy(requestInputStream, outputStream);
                 }
             });

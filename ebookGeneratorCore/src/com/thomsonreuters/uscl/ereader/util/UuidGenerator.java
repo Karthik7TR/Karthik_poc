@@ -12,28 +12,24 @@ import com.westgroup.publishingservices.uuidgenerator.UUIDFactory;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a>u0081674
  */
-public class UuidGenerator
-{
+public class UuidGenerator {
     private static final Logger LOG = LogManager.getLogger(UuidGenerator.class);
     private UUIDFactory uuidFactory;
 
-    public String generateUuid()
-    {
-        if (uuidFactory != null)
-        {
+    public String generateUuid() {
+        if (uuidFactory != null) {
             final UUID rawUuid = uuidFactory.getUUID();
-            return (rawUuid != null && StringUtils.isNotBlank(rawUuid.toString())) ? rawUuid.toString() : uuidWithoutDashes();
+            return (rawUuid != null && StringUtils.isNotBlank(rawUuid.toString()))
+                ? rawUuid.toString() : uuidWithoutDashes();
         }
         return uuidWithoutDashes();
     }
 
-    public void setUuidFactory(final UUIDFactory uuidFactory)
-    {
+    public void setUuidFactory(final UUIDFactory uuidFactory) {
         this.uuidFactory = uuidFactory;
     }
 
-    private String uuidWithoutDashes()
-    {
+    private String uuidWithoutDashes() {
         return java.util.UUID.randomUUID().toString().replaceAll("-", "");
     }
 }

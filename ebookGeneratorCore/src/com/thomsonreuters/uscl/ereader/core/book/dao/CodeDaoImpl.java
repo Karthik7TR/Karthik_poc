@@ -21,12 +21,10 @@ import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-public class CodeDaoImpl implements CodeDao
-{
+public class CodeDaoImpl implements CodeDao {
     private SessionFactory sessionFactory;
 
-    public CodeDaoImpl(final SessionFactory sessFactory)
-    {
+    public CodeDaoImpl(final SessionFactory sessFactory) {
         sessionFactory = sessFactory;
     }
 
@@ -36,8 +34,7 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public void deleteDocumentTypeCode(DocumentTypeCode documentTypeCode)
-    {
+    public void deleteDocumentTypeCode(DocumentTypeCode documentTypeCode) {
         documentTypeCode = (DocumentTypeCode) sessionFactory.getCurrentSession().merge(documentTypeCode);
         final Session session = sessionFactory.getCurrentSession();
         session.delete(documentTypeCode);
@@ -50,8 +47,7 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public void deleteJurisTypeCode(JurisTypeCode jurisTypeCode)
-    {
+    public void deleteJurisTypeCode(JurisTypeCode jurisTypeCode) {
         jurisTypeCode = (JurisTypeCode) sessionFactory.getCurrentSession().merge(jurisTypeCode);
         final Session session = sessionFactory.getCurrentSession();
         session.delete(jurisTypeCode);
@@ -64,8 +60,7 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public void deleteKeywordTypeCode(KeywordTypeCode keywordTypeCode)
-    {
+    public void deleteKeywordTypeCode(KeywordTypeCode keywordTypeCode) {
         final Session session = sessionFactory.getCurrentSession();
 
         // Retrieve all the book definitions that use this keyword value
@@ -81,13 +76,11 @@ public class CodeDaoImpl implements CodeDao
 
         // Remove all KeywordTypeValue references
         final Iterator<KeywordTypeValue> iter = keywordTypeCode.getValues().iterator();
-        while (iter.hasNext())
-        {
+        while (iter.hasNext()) {
             final KeywordTypeValue value = iter.next();
 
             //Remove Keyword Value from Book
-            for (final BookDefinition book : books)
-            {
+            for (final BookDefinition book : books) {
                 book.getKeywordTypeValues().remove(value);
             }
             session.delete(value);
@@ -104,8 +97,7 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public void deleteKeywordTypeValue(KeywordTypeValue keywordTypeValue)
-    {
+    public void deleteKeywordTypeValue(KeywordTypeValue keywordTypeValue) {
         final Session session = sessionFactory.getCurrentSession();
 
         // Retrieve all the book definitions that use this keyword value
@@ -120,8 +112,7 @@ public class CodeDaoImpl implements CodeDao
         final KeywordTypeCode code = keywordTypeValue.getKeywordTypeCode();
 
         //Remove Keyword Value from Book
-        for (final BookDefinition book : books)
-        {
+        for (final BookDefinition book : books) {
             book.getKeywordTypeValues().remove(keywordTypeValue);
         }
 
@@ -137,8 +128,7 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public void deletePublisherCode(PublisherCode publisherCode)
-    {
+    public void deletePublisherCode(PublisherCode publisherCode) {
         publisherCode = (PublisherCode) sessionFactory.getCurrentSession().merge(publisherCode);
         final Session session = sessionFactory.getCurrentSession();
         session.delete(publisherCode);
@@ -151,8 +141,7 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public void deletePubTypeCode(PubTypeCode pubTypeCode)
-    {
+    public void deletePubTypeCode(PubTypeCode pubTypeCode) {
         pubTypeCode = (PubTypeCode) sessionFactory.getCurrentSession().merge(pubTypeCode);
         final Session session = sessionFactory.getCurrentSession();
         session.delete(pubTypeCode);
@@ -164,8 +153,7 @@ public class CodeDaoImpl implements CodeDao
      * @return a list of DocumentTypeCode objects
      */
     @Override
-    public List<DocumentTypeCode> getAllDocumentTypeCodes()
-    {
+    public List<DocumentTypeCode> getAllDocumentTypeCodes() {
         final Criteria criteria =
             sessionFactory.getCurrentSession().createCriteria(DocumentTypeCode.class).addOrder(Order.asc("name"));
         return criteria.list();
@@ -176,8 +164,7 @@ public class CodeDaoImpl implements CodeDao
      * @return a list of JurisTypeCode objects
      */
     @Override
-    public List<JurisTypeCode> getAllJurisTypeCodes()
-    {
+    public List<JurisTypeCode> getAllJurisTypeCodes() {
         final Criteria criteria =
             sessionFactory.getCurrentSession().createCriteria(JurisTypeCode.class).addOrder(Order.asc("name"));
         return criteria.list();
@@ -188,8 +175,7 @@ public class CodeDaoImpl implements CodeDao
      * @return a list of KeywordTypeCode objects
      */
     @Override
-    public List<KeywordTypeCode> getAllKeywordTypeCodes()
-    {
+    public List<KeywordTypeCode> getAllKeywordTypeCodes() {
         final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(KeywordTypeCode.class);
         final List<KeywordTypeCode> codes = criteria.list();
 
@@ -197,8 +183,7 @@ public class CodeDaoImpl implements CodeDao
         Collections.sort(codes);
 
         // Sort values in each KeywordTypeCode
-        for (final KeywordTypeCode code : codes)
-        {
+        for (final KeywordTypeCode code : codes) {
             final List<KeywordTypeValue> values = new ArrayList<>();
             values.addAll(code.getValues());
             Collections.sort(values);
@@ -213,8 +198,7 @@ public class CodeDaoImpl implements CodeDao
      * @return a list of KeywordTypeValue objects
      */
     @Override
-    public List<KeywordTypeValue> getAllKeywordTypeValues()
-    {
+    public List<KeywordTypeValue> getAllKeywordTypeValues() {
         final Criteria criteria =
             sessionFactory.getCurrentSession().createCriteria(KeywordTypeValue.class).addOrder(Order.asc("name"));
         return criteria.list();
@@ -226,8 +210,7 @@ public class CodeDaoImpl implements CodeDao
      * @return a list of KeywordTypeValue objects
      */
     @Override
-    public List<KeywordTypeValue> getAllKeywordTypeValues(final Long keywordTypeCodeId)
-    {
+    public List<KeywordTypeValue> getAllKeywordTypeValues(final Long keywordTypeCodeId) {
         final Criteria criteria = sessionFactory.getCurrentSession()
             .createCriteria(KeywordTypeValue.class)
             .add(Restrictions.eq("keywordTypeCode.id", keywordTypeCodeId))
@@ -240,8 +223,7 @@ public class CodeDaoImpl implements CodeDao
      * @return a list of PublisherCode objects
      */
     @Override
-    public List<PublisherCode> getAllPublisherCodes()
-    {
+    public List<PublisherCode> getAllPublisherCodes() {
         final Criteria criteria =
             sessionFactory.getCurrentSession().createCriteria(PublisherCode.class).addOrder(Order.asc("name"));
         return criteria.list();
@@ -252,8 +234,7 @@ public class CodeDaoImpl implements CodeDao
      * @return a list of PubTypeCode objects
      */
     @Override
-    public List<PubTypeCode> getAllPubTypeCodes()
-    {
+    public List<PubTypeCode> getAllPubTypeCodes() {
         final Criteria criteria =
             sessionFactory.getCurrentSession().createCriteria(PubTypeCode.class).addOrder(Order.asc("name"));
         return criteria.list();
@@ -265,8 +246,7 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public DocumentTypeCode getDocumentTypeCodeById(final Long documentTypeCodeId)
-    {
+    public DocumentTypeCode getDocumentTypeCodeById(final Long documentTypeCodeId) {
         return (DocumentTypeCode) sessionFactory.getCurrentSession().get(DocumentTypeCode.class, documentTypeCodeId);
     }
 
@@ -276,8 +256,7 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public JurisTypeCode getJurisTypeCodeById(final Long jurisTypeCodeId)
-    {
+    public JurisTypeCode getJurisTypeCodeById(final Long jurisTypeCodeId) {
         return (JurisTypeCode) sessionFactory.getCurrentSession().get(JurisTypeCode.class, jurisTypeCodeId);
     }
 
@@ -288,8 +267,7 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public JurisTypeCode getJurisTypeCodeByName(final String jurisTypeCodeName)
-    {
+    public JurisTypeCode getJurisTypeCodeByName(final String jurisTypeCodeName) {
         return (JurisTypeCode) sessionFactory.getCurrentSession()
             .createCriteria(JurisTypeCode.class)
             .add(Restrictions.eq("name", jurisTypeCodeName).ignoreCase())
@@ -302,8 +280,7 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public KeywordTypeCode getKeywordTypeCodeById(final Long keywordTypeCodeId)
-    {
+    public KeywordTypeCode getKeywordTypeCodeById(final Long keywordTypeCodeId) {
         return (KeywordTypeCode) sessionFactory.getCurrentSession().get(KeywordTypeCode.class, keywordTypeCodeId);
     }
 
@@ -313,8 +290,7 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public KeywordTypeCode getKeywordTypeCodeByName(final String keywordTypeCodeName)
-    {
+    public KeywordTypeCode getKeywordTypeCodeByName(final String keywordTypeCodeName) {
         return (KeywordTypeCode) sessionFactory.getCurrentSession()
             .createCriteria(KeywordTypeCode.class)
             .add(Restrictions.eq("name", keywordTypeCodeName).ignoreCase())
@@ -327,8 +303,7 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public KeywordTypeValue getKeywordTypeValueById(final Long keywordTypeValueId)
-    {
+    public KeywordTypeValue getKeywordTypeValueById(final Long keywordTypeValueId) {
         return (KeywordTypeValue) sessionFactory.getCurrentSession().get(KeywordTypeValue.class, keywordTypeValueId);
     }
 
@@ -338,8 +313,7 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public PublisherCode getPublisherCodeById(final Long publisherCodeId)
-    {
+    public PublisherCode getPublisherCodeById(final Long publisherCodeId) {
         return (PublisherCode) sessionFactory.getCurrentSession().get(PublisherCode.class, publisherCodeId);
     }
 
@@ -349,8 +323,7 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public PubTypeCode getPubTypeCodeById(final Long pubTypeCodeId)
-    {
+    public PubTypeCode getPubTypeCodeById(final Long pubTypeCodeId) {
         return (PubTypeCode) sessionFactory.getCurrentSession().get(PubTypeCode.class, pubTypeCodeId);
     }
 
@@ -361,8 +334,7 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public PubTypeCode getPubTypeCodeByName(final String pubTypeCodeName)
-    {
+    public PubTypeCode getPubTypeCodeByName(final String pubTypeCodeName) {
         return (PubTypeCode) sessionFactory.getCurrentSession()
             .createCriteria(PubTypeCode.class)
             .add(Restrictions.eq("name", pubTypeCodeName).ignoreCase())
@@ -375,19 +347,15 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public void saveDocumentTypeCode(final DocumentTypeCode documentTypeCode)
-    {
+    public void saveDocumentTypeCode(final DocumentTypeCode documentTypeCode) {
         documentTypeCode.setLastUpdated(new Date());
 
         final Session session = sessionFactory.getCurrentSession();
 
         // Determine if it a new object
-        if (documentTypeCode.getId() != null)
-        {
+        if (documentTypeCode.getId() != null) {
             session.merge(documentTypeCode);
-        }
-        else
-        {
+        } else {
             session.save(documentTypeCode);
         }
 
@@ -400,19 +368,15 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public void saveJurisTypeCode(final JurisTypeCode jurisTypeCode)
-    {
+    public void saveJurisTypeCode(final JurisTypeCode jurisTypeCode) {
         jurisTypeCode.setLastUpdated(new Date());
 
         final Session session = sessionFactory.getCurrentSession();
 
         // Determine if it a new object
-        if (jurisTypeCode.getId() != null)
-        {
+        if (jurisTypeCode.getId() != null) {
             session.merge(jurisTypeCode);
-        }
-        else
-        {
+        } else {
             session.save(jurisTypeCode);
         }
 
@@ -425,19 +389,15 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public void saveKeywordTypeCode(final KeywordTypeCode keywordTypeCode)
-    {
+    public void saveKeywordTypeCode(final KeywordTypeCode keywordTypeCode) {
         keywordTypeCode.setLastUpdated(new Date());
 
         final Session session = sessionFactory.getCurrentSession();
 
         // Determine if it a new object
-        if (keywordTypeCode.getId() != null)
-        {
+        if (keywordTypeCode.getId() != null) {
             session.merge(keywordTypeCode);
-        }
-        else
-        {
+        } else {
             session.save(keywordTypeCode);
         }
         session.flush();
@@ -449,19 +409,15 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public void saveKeywordTypeValue(final KeywordTypeValue keywordTypeValue)
-    {
+    public void saveKeywordTypeValue(final KeywordTypeValue keywordTypeValue) {
         keywordTypeValue.setLastUpdated(new Date());
 
         final Session session = sessionFactory.getCurrentSession();
 
         // Determine if it a new object
-        if (keywordTypeValue.getId() != null)
-        {
+        if (keywordTypeValue.getId() != null) {
             session.merge(keywordTypeValue);
-        }
-        else
-        {
+        } else {
             session.save(keywordTypeValue);
         }
         session.flush();
@@ -473,19 +429,15 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public void savePublisherCode(final PublisherCode publisherCode)
-    {
+    public void savePublisherCode(final PublisherCode publisherCode) {
         publisherCode.setLastUpdated(new Date());
 
         final Session session = sessionFactory.getCurrentSession();
 
         // Determine if it a new object
-        if (publisherCode.getId() != null)
-        {
+        if (publisherCode.getId() != null) {
             session.merge(publisherCode);
-        }
-        else
-        {
+        } else {
             session.save(publisherCode);
         }
         session.flush();
@@ -497,19 +449,15 @@ public class CodeDaoImpl implements CodeDao
      * @return
      */
     @Override
-    public void savePubTypeCode(final PubTypeCode pubTypeCode)
-    {
+    public void savePubTypeCode(final PubTypeCode pubTypeCode) {
         pubTypeCode.setLastUpdated(new Date());
 
         final Session session = sessionFactory.getCurrentSession();
 
         // Determine if it a new object
-        if (pubTypeCode.getId() != null)
-        {
+        if (pubTypeCode.getId() != null) {
             session.merge(pubTypeCode);
-        }
-        else
-        {
+        } else {
             session.save(pubTypeCode);
         }
         session.flush();

@@ -14,16 +14,14 @@ import org.springframework.web.client.ResponseExtractor;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a>u0081674
  *
  */
-public class ProviewResponseExtractor implements ResponseExtractor<String>
-{
+public class ProviewResponseExtractor implements ResponseExtractor<String> {
     private static final Logger LOG = LogManager.getLogger(ProviewResponseExtractor.class);
 
     /**
      * Logs the ProView HTTP response for publishing operations and returns the response body as a unicode string.
      */
     @Override
-    public String extractData(final ClientHttpResponse clientHttpResponse) throws IOException
-    {
+    public String extractData(final ClientHttpResponse clientHttpResponse) throws IOException {
         final String statusCode = clientHttpResponse.getStatusCode().toString();
         final String statusPhrase = clientHttpResponse.getStatusCode().getReasonPhrase();
         final String responseBody = IOUtils.toString(clientHttpResponse.getBody(), "UTF-8");

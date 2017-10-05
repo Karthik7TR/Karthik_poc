@@ -5,16 +5,14 @@ import java.util.regex.Pattern;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.util.Assert;
 
-public class Version
-{
+public class Version {
     public static final String VERSION_PREFIX = "v";
     private static final Pattern VERSION_PATTREN = Pattern.compile("v\\d+\\.\\d+");
 
     private int majorVersion;
     private int minorVersion;
 
-    public Version(@NotNull final String version)
-    {
+    public Version(@NotNull final String version) {
         Assert.notNull(version);
         Assert.isTrue(
             VERSION_PATTREN.matcher(version).matches(),
@@ -25,55 +23,45 @@ public class Version
         minorVersion = Integer.valueOf(version.substring(indexOfDot + 1));
     }
 
-    public Version(final int majorVersion, final int minorVersion)
-    {
+    public Version(final int majorVersion, final int minorVersion) {
         this.majorVersion = majorVersion;
         this.minorVersion = minorVersion;
     }
 
-    public int getMajorNumber()
-    {
+    public int getMajorNumber() {
         return majorVersion;
     }
 
-    public int getMinorNumber()
-    {
+    public int getMinorNumber() {
         return minorVersion;
     }
 
     @NotNull
-    public String getMajorVersion()
-    {
+    public String getMajorVersion() {
         return VERSION_PREFIX + majorVersion;
     }
 
     @NotNull
-    public String getFullVersion()
-    {
+    public String getFullVersion() {
         return new StringBuilder(VERSION_PREFIX).append(majorVersion).append(".").append(minorVersion).toString();
     }
 
     @NotNull
-    public String getVersionWithoutPrefix()
-    {
+    public String getVersionWithoutPrefix() {
         return new StringBuilder().append(majorVersion).append(".").append(minorVersion).toString();
     }
 
     @NotNull
-    public String getVersionForFilePattern()
-    {
+    public String getVersionForFilePattern() {
         return new StringBuilder().append("_").append(majorVersion).append("_").append(minorVersion).toString();
     }
 
-
-    public boolean isNewMajorVersion()
-    {
+    public boolean isNewMajorVersion() {
         return minorVersion == 0;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + majorVersion;
@@ -82,8 +70,7 @@ public class Version
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -99,8 +86,7 @@ public class Version
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return getFullVersion();
     }
 }

@@ -16,12 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 
-public class AuthorDaoImpl implements AuthorDao
-{
+public class AuthorDaoImpl implements AuthorDao {
     private SessionFactory sessionFactory;
 
-    public AuthorDaoImpl(final SessionFactory hibernateSessionFactory)
-    {
+    public AuthorDaoImpl(final SessionFactory hibernateSessionFactory) {
         sessionFactory = hibernateSessionFactory;
     }
 
@@ -33,8 +31,7 @@ public class AuthorDaoImpl implements AuthorDao
      *
      *
      */
-    public boolean canBeMerged(final Author entity)
-    {
+    public boolean canBeMerged(final Author entity) {
         return true;
     }
 
@@ -42,8 +39,7 @@ public class AuthorDaoImpl implements AuthorDao
      * (non-Javadoc)
      */
     @Transactional
-    public Query createNamedQuery(final String queryName)
-    {
+    public Query createNamedQuery(final String queryName) {
         final Query query = sessionFactory.getCurrentSession().getNamedQuery(queryName);
         return query;
     }
@@ -52,8 +48,7 @@ public class AuthorDaoImpl implements AuthorDao
      * (non-Javadoc)
      */
     @Transactional
-    public Author persist(final Author toPersist)
-    {
+    public Author persist(final Author toPersist) {
         sessionFactory.getCurrentSession().save(toPersist);
         flush();
         return toPersist;
@@ -64,8 +59,7 @@ public class AuthorDaoImpl implements AuthorDao
      */
     @Override
     @Transactional
-    public void remove(Author toRemove)
-    {
+    public void remove(Author toRemove) {
         toRemove = (Author) sessionFactory.getCurrentSession().merge(toRemove);
         sessionFactory.getCurrentSession().delete(toRemove);
         flush();
@@ -75,14 +69,12 @@ public class AuthorDaoImpl implements AuthorDao
      * (non-Javadoc)
      */
     @Transactional
-    public void flush()
-    {
+    public void flush() {
         sessionFactory.getCurrentSession().flush();
     }
 
     @Override
-    public List<Author> findAuthorsByEBookDefnId(final Long eBookDefnId)
-    {
+    public List<Author> findAuthorsByEBookDefnId(final Long eBookDefnId) {
 //		Query query = createNamedQuery("findAuthorByEbookDefinitionId");
 //		query.setLong("eBookDefId", eBookDefnId);
 //		return query.list();
@@ -94,16 +86,14 @@ public class AuthorDaoImpl implements AuthorDao
 
     @Override
     @Transactional
-    public void saveAuthor(final Author author)
-    {
+    public void saveAuthor(final Author author) {
         final Session session = sessionFactory.getCurrentSession();
         session.save(author);
         session.flush();
     }
 
     @Override
-    public Author findAuthorById(final Long authorId) throws DataAccessException
-    {
+    public Author findAuthorById(final Long authorId) throws DataAccessException {
         final Session session = sessionFactory.getCurrentSession();
         return (Author) session.get(Author.class, authorId);
     }

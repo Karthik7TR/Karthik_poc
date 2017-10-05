@@ -21,8 +21,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 @Entity
 @Table(name = "FRONT_MATTER_PDF")
-public class FrontMatterPdf implements Serializable, Comparable<FrontMatterPdf>
-{
+public class FrontMatterPdf implements Serializable, Comparable<FrontMatterPdf> {
     private static final long serialVersionUID = -8713934748505263533L;
     /**
      */
@@ -59,65 +58,53 @@ public class FrontMatterPdf implements Serializable, Comparable<FrontMatterPdf>
     @Basic(fetch = FetchType.EAGER)
     private Integer sequenceNum;
 
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final Long id)
-    {
+    public void setId(final Long id) {
         this.id = id;
     }
 
-    public FrontMatterSection getSection()
-    {
+    public FrontMatterSection getSection() {
         return section;
     }
 
-    public void setSection(final FrontMatterSection section)
-    {
+    public void setSection(final FrontMatterSection section) {
         this.section = section;
     }
 
-    public String getPdfLinkText()
-    {
+    public String getPdfLinkText() {
         return pdfLinkText;
     }
 
-    public void setPdfLinkText(final String pdfLinkText)
-    {
+    public void setPdfLinkText(final String pdfLinkText) {
         this.pdfLinkText = pdfLinkText;
     }
 
-    public String getPdfFilename()
-    {
+    public String getPdfFilename() {
         return pdfFilename;
     }
 
-    public void setPdfFilename(final String pdfFilename)
-    {
+    public void setPdfFilename(final String pdfFilename) {
         this.pdfFilename = pdfFilename;
     }
 
-    public Integer getSequenceNum()
-    {
+    public Integer getSequenceNum() {
         return sequenceNum;
     }
 
-    public void setSequenceNum(final Integer sequenceNum)
-    {
+    public void setSequenceNum(final Integer sequenceNum) {
         this.sequenceNum = sequenceNum;
     }
 
     @Transient
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return (StringUtils.isBlank(pdfFilename) && StringUtils.isBlank(pdfLinkText) && (sequenceNum == null));
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         final StringBuilder buffer = new StringBuilder();
         buffer.append("FrontMatterPdf [pdfLinkText=").append(pdfLinkText).append(", ");
         buffer.append("pdfFilename=").append(pdfFilename).append(", ");
@@ -130,23 +117,16 @@ public class FrontMatterPdf implements Serializable, Comparable<FrontMatterPdf>
      * For sorting the name components into sequence order (1...n).
      */
     @Override
-    public int compareTo(final FrontMatterPdf o)
-    {
+    public int compareTo(final FrontMatterPdf o) {
         int result = 0;
-        if (sequenceNum != null)
-        {
-            if (o != null)
-            {
+        if (sequenceNum != null) {
+            if (o != null) {
                 final Integer i = o.getSequenceNum();
                 result = (i != null) ? sequenceNum.compareTo(i) : 1;
-            }
-            else
-            {
+            } else {
                 result = 1;
             }
-        }
-        else
-        { // int1 is null
+        } else { // int1 is null
             result = (o != null) ? -1 : 0;
         }
         return result;

@@ -21,16 +21,14 @@ import org.springframework.util.Assert;
  * Application and root log4j loggers log level configuration.
  */
 @XmlRootElement(name = "miscConfig", namespace = "com.thomsonreuters.uscl.ereader.core.job.domain")
-public class MiscConfig
-{
+public class MiscConfig {
     private static Logger log = LogManager.getLogger(MiscConfig.class);
 
     /**
      * Typesafe representation of the keys used to represent the throttling
      * configuration
      */
-    public enum Key
-    {
+    public enum Key {
         appLogLevel,
         rootLogLevel,
         novusEnvironment,
@@ -57,19 +55,15 @@ public class MiscConfig
     private String proviewHostname;
     private int maxSplitParts;
 
-    public MiscConfig()
-    {
+    public MiscConfig() {
         super();
         setAppLogLevel(DEFAULT_APP_LOG_LEVEL);
         setRootLogLevel(DEFAULT_ROOT_LOG_LEVEL);
         setNovusEnvironment(NovusEnvironment.Client); // Initial default
         setMaxSplitParts(MAX_EBOOK_SPLIT_SIZE);
-        try
-        {
+        try {
             setProviewHost(InetAddress.getLocalHost());
-        }
-        catch (final UnknownHostException e)
-        {
+        } catch (final UnknownHostException e) {
             log.error("Failed to set proview host", e);
         }
     }
@@ -82,14 +76,8 @@ public class MiscConfig
         final Level rootLogLevel,
         final NovusEnvironment novusEnv,
         final String proviewHostname,
-        final int maxSplitParts)
-    {
-        setAllProperties(
-            appLogLevel,
-            rootLogLevel,
-            novusEnv,
-            proviewHostname,
-            maxSplitParts);
+        final int maxSplitParts) {
+        setAllProperties(appLogLevel, rootLogLevel, novusEnv, proviewHostname, maxSplitParts);
     }
 
     /**
@@ -98,8 +86,7 @@ public class MiscConfig
      * @param config
      *            the source object to copy property values from.
      */
-    public void copy(final MiscConfig config)
-    {
+    public void copy(final MiscConfig config) {
         setAllProperties(
             config.getAppLogLevel(),
             config.getRootLogLevel(),
@@ -113,8 +100,7 @@ public class MiscConfig
         final Level rootLogLevel,
         final NovusEnvironment novusEnv,
         final String proviewHostname,
-        final int maxSplitParts)
-    {
+        final int maxSplitParts) {
         setAppLogLevel(appLogLevel);
         setRootLogLevel(rootLogLevel);
         setNovusEnvironment(novusEnv);
@@ -122,91 +108,74 @@ public class MiscConfig
         setMaxSplitParts(maxSplitParts);
     }
 
-    public int getMaxSplitParts()
-    {
+    public int getMaxSplitParts() {
         return maxSplitParts;
     }
 
     @XmlElement(name = "maxSplitParts", required = true)
-    public void setMaxSplitParts(final int maxSplitParts)
-    {
+    public void setMaxSplitParts(final int maxSplitParts) {
         this.maxSplitParts = maxSplitParts;
     }
 
-    public Level getAppLogLevel()
-    {
+    public Level getAppLogLevel() {
         return Level.toLevel(appLogLevel);
     }
 
-    public Level getRootLogLevel()
-    {
+    public Level getRootLogLevel() {
         return Level.toLevel(rootLogLevel);
     }
 
-    public NovusEnvironment getNovusEnvironment()
-    {
+    public NovusEnvironment getNovusEnvironment() {
         return novusEnvironment;
     }
 
-    public InetAddress getProviewHost()
-    {
-        try
-        {
+    public InetAddress getProviewHost() {
+        try {
             return InetAddress.getByName(proviewHostname);
-        }
-        catch (final UnknownHostException e)
-        {
+        } catch (final UnknownHostException e) {
             return null;
         }
     }
 
-    public String getProviewHostname()
-    {
+    public String getProviewHostname() {
         return proviewHostname;
     }
 
     @XmlJavaTypeAdapter(LevelAdapter.class)
     @XmlElement(name = "appLogLevel", required = true)
-    public void setAppLogLevel(final Level logLevel)
-    {
+    public void setAppLogLevel(final Level logLevel) {
         appLogLevel = (logLevel != null) ? logLevel.toString() : DEFAULT_APP_LOG_LEVEL.toString();
     }
 
     @XmlJavaTypeAdapter(LevelAdapter.class)
     @XmlElement(name = "rootLogLevel", required = true)
-    public void setRootLogLevel(final Level logLevel)
-    {
+    public void setRootLogLevel(final Level logLevel) {
         rootLogLevel = (logLevel != null) ? logLevel.toString() : DEFAULT_ROOT_LOG_LEVEL.toString();
     }
 
     @XmlElement(name = "novusEnvironment", required = true)
-    public void setNovusEnvironment(final NovusEnvironment novusEnvironment)
-    {
+    public void setNovusEnvironment(final NovusEnvironment novusEnvironment) {
         this.novusEnvironment = novusEnvironment;
     }
 
     @XmlTransient
-    public void setProviewHost(final InetAddress host)
-    {
+    public void setProviewHost(final InetAddress host) {
         Assert.notNull(host);
         proviewHostname = host.getHostName();
     }
 
     @XmlElement(name = "proviewHostname", required = true)
-    public void setProviewHostname(final String hostname)
-    {
+    public void setProviewHostname(final String hostname) {
         proviewHostname = hostname;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((appLogLevel == null) ? 0 : appLogLevel.hashCode());
@@ -215,8 +184,7 @@ public class MiscConfig
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -224,19 +192,15 @@ public class MiscConfig
         if (getClass() != obj.getClass())
             return false;
         final MiscConfig other = (MiscConfig) obj;
-        if (appLogLevel == null)
-        {
+        if (appLogLevel == null) {
             if (other.appLogLevel != null)
                 return false;
-        }
-        else if (!appLogLevel.equals(other.appLogLevel))
+        } else if (!appLogLevel.equals(other.appLogLevel))
             return false;
-        if (rootLogLevel == null)
-        {
+        if (rootLogLevel == null) {
             if (other.rootLogLevel != null)
                 return false;
-        }
-        else if (!rootLogLevel.equals(other.rootLogLevel))
+        } else if (!rootLogLevel.equals(other.rootLogLevel))
             return false;
         return true;
     }

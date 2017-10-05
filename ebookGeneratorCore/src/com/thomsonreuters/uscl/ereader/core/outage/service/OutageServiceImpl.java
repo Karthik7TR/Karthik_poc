@@ -11,8 +11,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
-public class OutageServiceImpl implements OutageService
-{
+public class OutageServiceImpl implements OutageService {
     //private static Logger log = LogManager.getLogger(OutageServiceImpl.class);
     private OutageDao dao;
 
@@ -21,8 +20,7 @@ public class OutageServiceImpl implements OutageService
      */
     @Override
     @Transactional(readOnly = true)
-    public List<PlannedOutage> getAllActiveAndScheduledPlannedOutages()
-    {
+    public List<PlannedOutage> getAllActiveAndScheduledPlannedOutages() {
         return dao.getAllActiveAndScheduledPlannedOutages();
     }
 
@@ -31,15 +29,13 @@ public class OutageServiceImpl implements OutageService
      */
     @Override
     @Transactional(readOnly = true)
-    public List<PlannedOutage> getAllPlannedOutages()
-    {
+    public List<PlannedOutage> getAllPlannedOutages() {
         return dao.getAllPlannedOutages();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<PlannedOutage> getAllPlannedOutagesForType(final Long outageTypeId)
-    {
+    public List<PlannedOutage> getAllPlannedOutagesForType(final Long outageTypeId) {
         return dao.getAllPlannedOutagesForType(outageTypeId);
     }
 
@@ -48,8 +44,7 @@ public class OutageServiceImpl implements OutageService
      */
     @Override
     @Transactional(readOnly = true)
-    public List<PlannedOutage> getAllPlannedOutagesToDisplay()
-    {
+    public List<PlannedOutage> getAllPlannedOutagesToDisplay() {
         final Date midnight = DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH);
         final Date endDate = DateUtils.addDays(midnight, PlannedOutage.NUMBER_DAYS_DISPLAY);
 
@@ -61,8 +56,7 @@ public class OutageServiceImpl implements OutageService
      */
     @Override
     @Transactional(readOnly = true)
-    public PlannedOutage findPlannedOutageByPrimaryKey(final Long id)
-    {
+    public PlannedOutage findPlannedOutageByPrimaryKey(final Long id) {
         return dao.findPlannedOutageByPrimaryKey(id);
     }
 
@@ -72,8 +66,7 @@ public class OutageServiceImpl implements OutageService
      */
     @Override
     @Transactional
-    public void savePlannedOutage(final PlannedOutage outage)
-    {
+    public void savePlannedOutage(final PlannedOutage outage) {
         dao.savePlannedOutage(outage);
     }
 
@@ -82,52 +75,43 @@ public class OutageServiceImpl implements OutageService
      */
     @Override
     @Transactional
-    public void deletePlannedOutage(final Long id)
-    {
+    public void deletePlannedOutage(final Long id) {
         dao.deletePlannedOutage(findPlannedOutageByPrimaryKey(id));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<OutageType> getAllOutageType()
-    {
+    public List<OutageType> getAllOutageType() {
         return dao.getAllOutageType();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public OutageType findOutageTypeByPrimaryKey(final Long id)
-    {
+    public OutageType findOutageTypeByPrimaryKey(final Long id) {
         return dao.findOutageTypeByPrimaryKey(id);
     }
 
     @Override
     @Transactional
-    public void saveOutageType(final OutageType outageType)
-    {
-        if (outageType.getId() != null)
-        {
+    public void saveOutageType(final OutageType outageType) {
+        if (outageType.getId() != null) {
             final OutageType persistantType = findOutageTypeByPrimaryKey(outageType.getId());
             persistantType.setSubSystem(outageType.getSubSystem());
             persistantType.setSystem(outageType.getSystem());
             dao.saveOutageType(persistantType);
-        }
-        else
-        {
+        } else {
             dao.saveOutageType(outageType);
         }
     }
 
     @Override
     @Transactional
-    public void deleteOutageType(final Long id)
-    {
+    public void deleteOutageType(final Long id) {
         dao.deleteOutageType(findOutageTypeByPrimaryKey(id));
     }
 
     @Required
-    public void setOutageDao(final OutageDao dao)
-    {
+    public void setOutageDao(final OutageDao dao) {
         this.dao = dao;
     }
 }

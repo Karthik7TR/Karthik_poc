@@ -25,12 +25,10 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
-public class ServerAccessServiceImpl implements ServerAccessService
-{
+public class ServerAccessServiceImpl implements ServerAccessService {
     private static final Logger log = LogManager.getLogger(ServerAccessServiceImpl.class);
 
-    private enum Operation
-    {
+    private enum Operation {
         START,
         STOP
     };
@@ -56,8 +54,7 @@ public class ServerAccessServiceImpl implements ServerAccessService
         final String userName,
         final String password,
         final String appNames,
-        final String emailGroup) throws EBookServerException
-    {
+        final String emailGroup) throws EBookServerException {
         final String status =
             checkParametersAndOperate(serverNames, userName, password, appNames, emailGroup, Operation.STOP);
         notifyJobOwnerOnServerShutdown(emailGroup);
@@ -84,8 +81,7 @@ public class ServerAccessServiceImpl implements ServerAccessService
         final String userName,
         final String password,
         final String appNames,
-        final String emailGroup) throws EBookServerException
-    {
+        final String emailGroup) throws EBookServerException {
         return checkParametersAndOperate(serverNames, userName, password, appNames, emailGroup, Operation.START);
     }
 
@@ -106,8 +102,7 @@ public class ServerAccessServiceImpl implements ServerAccessService
         final String password,
         final String appNames,
         final String emailGroup,
-        final Operation operate) throws EBookServerException
-    {
+        final Operation operate) throws EBookServerException {
         log.debug(
             "In ServerAccessServiceImpl serverNames = "
                 + serverNames
@@ -119,20 +114,17 @@ public class ServerAccessServiceImpl implements ServerAccessService
                 + appNames
                 + " emailGroup = "
                 + emailGroup);
-        if (serverNames == null || serverNames.isEmpty())
-        {
+        if (serverNames == null || serverNames.isEmpty()) {
             throw new EBookServerException(
                 "Failed to " + operate.toString().toLowerCase() + " server(s) as server name is empty.");
         }
 
-        if (appNames == null || appNames.isEmpty())
-        {
+        if (appNames == null || appNames.isEmpty()) {
             throw new EBookServerException(
                 "Failed to " + operate.toString().toLowerCase() + " server(s) as application name is empty.");
         }
 
-        if (emailGroup == null || emailGroup.isEmpty())
-        {
+        if (emailGroup == null || emailGroup.isEmpty()) {
             throw new EBookServerException(
                 "Failed to " + operate.toString().toLowerCase() + " end users as emailGroup is empty.");
         }
@@ -155,17 +147,14 @@ public class ServerAccessServiceImpl implements ServerAccessService
         final String userName,
         final String password,
         final String appNames,
-        final Operation operation) throws EBookServerException
-    {
+        final Operation operation) throws EBookServerException {
         final String[] targetServerArray = StringUtils.split(serverNames, ",");
         final String[] appNamesArray = StringUtils.split(appNames, ",");
         String cmd = null;
 
         final StringBuffer buffer = new StringBuffer();
-        for (final String serverName : targetServerArray)
-        {
-            for (final String applicationName : appNamesArray)
-            {
+        for (final String serverName : targetServerArray) {
+            for (final String applicationName : appNamesArray) {
                 cmd = "for i in `ls /appserver/tomcat/"
                     + applicationName
                     + "_*[^X]/bin/"
@@ -189,8 +178,7 @@ public class ServerAccessServiceImpl implements ServerAccessService
      * @throws EBookServerException
      *
      */
-    private void updateJobsInProgress() throws EBookServerException
-    {
+    private void updateJobsInProgress() throws EBookServerException {
         jobCleanupService.cleanUpDeadJobs();
     }
 
@@ -203,17 +191,13 @@ public class ServerAccessServiceImpl implements ServerAccessService
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public void notifyJobOwnerOnServerStartup(final String serverName, final String emailGroup)
-        throws EBookServerException
-    {
+        throws EBookServerException {
         final List<JobUserInfo> jobListInfo;
         jobListInfo = jobCleanupService.findListOfDeadJobsByServerName(serverName);
 
-        if (jobListInfo != null && jobListInfo.size() > 0)
-        {
+        if (jobListInfo != null && jobListInfo.size() > 0) {
             sendEmailsToUsers(emailGroup, jobListInfo);
-        }
-        else
-        {
+        } else {
             // Send email only to email group
             final StringBuffer emailBodySB = new StringBuffer();
             emailBodySB.append("Server: ");
@@ -236,17 +220,13 @@ public class ServerAccessServiceImpl implements ServerAccessService
      * @param emailGroup
      * @throws EBookServerException
      */
-    private void notifyJobOwnerOnServerShutdown(final String emailGroup) throws EBookServerException
-    {
+    private void notifyJobOwnerOnServerShutdown(final String emailGroup) throws EBookServerException {
         final List<JobUserInfo> jobListInfo = jobCleanupService.findListOfDeadJobs();
 
-        if (jobListInfo != null && jobListInfo.size() > 0)
-        {
+        if (jobListInfo != null && jobListInfo.size() > 0) {
             sendEmailsToUsers(emailGroup, jobListInfo);
             // Send email only to email group
-        }
-        else
-        {
+        } else {
             final StringBuffer emailBodySB = new StringBuffer();
             emailBodySB.append("Server is down");
             final String subject = "Server is down <EOM>";
@@ -261,10 +241,8 @@ public class ServerAccessServiceImpl implements ServerAccessService
     }
 
     private void sendEmailsToUsers(final String emailGroup, final List<JobUserInfo> jobListInfo)
-        throws EBookServerException
-    {
-        if (emailGroup == null || emailGroup.isEmpty())
-        {
+        throws EBookServerException {
+        if (emailGroup == null || emailGroup.isEmpty()) {
             throw new EBookServerException("Failed to notify end users as emailGroup is empty.");
         }
 
@@ -273,20 +251,16 @@ public class ServerAccessServiceImpl implements ServerAccessService
         final StringBuffer jobInfoListSB = new StringBuffer();
 
         // Populate userMap to send users emails
-        for (final JobUserInfo jobUserInfo : jobListInfo)
-        {
+        for (final JobUserInfo jobUserInfo : jobListInfo) {
             final String username = jobUserInfo.getUsername();
 
             // Create a list of JobUserInfo for each username
-            if (!userMap.containsKey(username))
-            {
+            if (!userMap.containsKey(username)) {
                 // username does not exist in the map, create new list
                 final List<JobUserInfo> info = new ArrayList<>();
                 info.add(jobUserInfo);
                 userMap.put(username, info);
-            }
-            else
-            {
+            } else {
                 // username already exists in the map, add to the existing list.
                 final List<JobUserInfo> info = userMap.get(username);
                 info.add(jobUserInfo);
@@ -313,23 +287,19 @@ public class ServerAccessServiceImpl implements ServerAccessService
         EmailNotification.send(emailGroup, subject, emailBodySB.toString());
 
         // Send individual emails to users
-        for (final Map.Entry<String, List<JobUserInfo>> entry : userMap.entrySet())
-        {
+        for (final Map.Entry<String, List<JobUserInfo>> entry : userMap.entrySet()) {
             final String username = entry.getKey();
             final UserPreference userPreference = userPreferenceService.findByUsername(username);
 
-            if (userPreference != null)
-            {
+            if (userPreference != null) {
                 final String emails = userPreference.getEmails();
 
                 // check emails were added in UserPreference
-                if (StringUtils.isNotBlank(emails))
-                {
+                if (StringUtils.isNotBlank(emails)) {
                     final StringBuffer userJobInfoListSB = new StringBuffer();
 
                     // Create string for job info related to this username
-                    for (final JobUserInfo jobUserInfo : entry.getValue())
-                    {
+                    for (final JobUserInfo jobUserInfo : entry.getValue()) {
                         userJobInfoListSB.append(jobUserInfo.getInfoAsCsv());
                         userJobInfoListSB.append("\n");
                     }
@@ -344,8 +314,7 @@ public class ServerAccessServiceImpl implements ServerAccessService
     }
 
     private String execute(final String server, final String user, final String password, final String cmd)
-        throws EBookServerException
-    {
+        throws EBookServerException {
         log.debug("Starting " + cmd + "...");
 
         log.debug("Server: " + server);
@@ -360,14 +329,12 @@ public class ServerAccessServiceImpl implements ServerAccessService
     }
 
     @Required
-    public void setJobCleanupService(final JobCleanupService jobCleanupService)
-    {
+    public void setJobCleanupService(final JobCleanupService jobCleanupService) {
         this.jobCleanupService = jobCleanupService;
     }
 
     @Required
-    public void setUserPreferenceService(final UserPreferenceService service)
-    {
+    public void setUserPreferenceService(final UserPreferenceService service) {
         userPreferenceService = service;
     }
 }

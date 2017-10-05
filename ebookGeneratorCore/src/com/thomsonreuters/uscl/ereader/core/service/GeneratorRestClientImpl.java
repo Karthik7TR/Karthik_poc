@@ -13,8 +13,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.client.RestTemplate;
 
-public class GeneratorRestClientImpl implements GeneratorRestClient
-{
+public class GeneratorRestClientImpl implements GeneratorRestClient {
     //private static final Logger log = LogManager.getLogger(GeneratorRestServiceClientImpl.class);
 
     private static final String GENERATOR_REST_STOP_JOB_URL_PATTERN = "{context}/service/stop/job/{jobExecutionId}";
@@ -32,8 +31,7 @@ public class GeneratorRestClientImpl implements GeneratorRestClient
     private URL generatorContextUrl;
 
     @Override
-    public SimpleRestServiceResponse restartJob(final long jobExecutionId)
-    {
+    public SimpleRestServiceResponse restartJob(final long jobExecutionId) {
         final SimpleRestServiceResponse response = restTemplate.getForObject(
             GENERATOR_REST_RESTART_JOB_URL_PATTERN,
             SimpleRestServiceResponse.class,
@@ -43,8 +41,7 @@ public class GeneratorRestClientImpl implements GeneratorRestClient
     }
 
     @Override
-    public SimpleRestServiceResponse stopJob(final long jobExecutionId)
-    {
+    public SimpleRestServiceResponse stopJob(final long jobExecutionId) {
         final SimpleRestServiceResponse response = restTemplate.getForObject(
             GENERATOR_REST_STOP_JOB_URL_PATTERN,
             SimpleRestServiceResponse.class,
@@ -54,32 +51,27 @@ public class GeneratorRestClientImpl implements GeneratorRestClient
     }
 
     @Override
-    public JobThrottleConfig getJobThrottleConfig()
-    {
+    public JobThrottleConfig getJobThrottleConfig() {
         final JobThrottleConfig config = restTemplate
             .getForObject(GENERATOR_GET_JOB_THROTTLE_CONFIG, JobThrottleConfig.class, generatorContextUrl.toString());
         return config;
     }
 
     @Override
-    public MiscConfig getMiscConfig()
-    {
-        final MiscConfig config = restTemplate
-            .getForObject(GENERATOR_GET_MISC_CONFIG, MiscConfig.class, generatorContextUrl.toString());
+    public MiscConfig getMiscConfig() {
+        final MiscConfig config =
+            restTemplate.getForObject(GENERATOR_GET_MISC_CONFIG, MiscConfig.class, generatorContextUrl.toString());
         return config;
     }
 
     @Override
-    public List<String> getStepNames()
-    {
+    public List<String> getStepNames() {
         final String csvStepNames = restTemplate
             .getForObject(GENERATOR_REST_GET_STEP_NAMES_PATTERN, String.class, generatorContextUrl.toString());
         final List<String> stepNames = new ArrayList<>();
-        if (csvStepNames != null)
-        {
+        if (csvStepNames != null) {
             final StringTokenizer tokenizer = new StringTokenizer(csvStepNames, ",");
-            while (tokenizer.hasMoreTokens())
-            {
+            while (tokenizer.hasMoreTokens()) {
                 final String stepName = tokenizer.nextToken();
                 stepNames.add(stepName);
             }
@@ -89,20 +81,17 @@ public class GeneratorRestClientImpl implements GeneratorRestClient
     }
 
     @Override
-    public URL getGeneratorContextUrl()
-    {
+    public URL getGeneratorContextUrl() {
         return generatorContextUrl;
     }
 
     @Required
-    public void setRestTemplate(final RestTemplate template)
-    {
+    public void setRestTemplate(final RestTemplate template) {
         restTemplate = template;
     }
 
     @Required
-    public void setGeneratorContextUrl(final URL url)
-    {
+    public void setGeneratorContextUrl(final URL url) {
         generatorContextUrl = url;
     }
 }

@@ -17,8 +17,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Doc
-{
+public class Doc {
     @XmlAttribute
     private String id;
     @XmlAttribute
@@ -27,93 +26,74 @@ public class Doc
     private int splitTitlePart;
     private List<String> imageIdList;
 
-    public Doc()
-    {
+    public Doc() {
     }
 
-    public Doc(final String id, final String src, final int splitTitlePart, final List<String> imageIdList)
-    {
-        if (StringUtils.isBlank(id))
-        {
+    public Doc(final String id, final String src, final int splitTitlePart, final List<String> imageIdList) {
+        if (StringUtils.isBlank(id)) {
             throw new IllegalArgumentException("'id' is a required field on <doc>.");
         }
-        if (StringUtils.isBlank(src))
-        {
+        if (StringUtils.isBlank(src)) {
             throw new IllegalArgumentException("'src' is a required field on <doc>.");
         }
-        if (splitTitlePart > 0)
-        {
+        if (splitTitlePart > 0) {
             this.splitTitlePart = splitTitlePart;
         }
-        if (imageIdList != null && imageIdList.size() > 0)
-        {
+        if (imageIdList != null && imageIdList.size() > 0) {
             this.imageIdList = imageIdList;
         }
         this.id = id;
         this.src = src;
     }
 
-    public String getSrc()
-    {
+    public String getSrc() {
         return src;
     }
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public int getSplitTitlePart()
-    {
+    public int getSplitTitlePart() {
         return splitTitlePart;
     }
 
-    public void setSplitTitlePart(final int splitTitlePart)
-    {
+    public void setSplitTitlePart(final int splitTitlePart) {
         this.splitTitlePart = splitTitlePart;
     }
 
-    public List<String> getImageIdList()
-    {
+    public List<String> getImageIdList() {
         return imageIdList;
     }
 
-    public void setImageIdList(List<String> imageIdList)
-    {
-        if (imageIdList == null)
-        {
+    public void setImageIdList(List<String> imageIdList) {
+        if (imageIdList == null) {
             imageIdList = new ArrayList<>();
         }
         this.imageIdList = imageIdList;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(id, src);
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
         }
 
         boolean isEqual = false;
-        if (obj instanceof Doc)
-        {
+        if (obj instanceof Doc) {
             final Doc doc = (Doc) obj;
-            isEqual = Objects.equals(id, doc.id)
-                && Objects.equals(src, doc.src);
+            isEqual = Objects.equals(id, doc.id) && Objects.equals(src, doc.src);
         }
         return isEqual;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         final StringBuilder buffer = new StringBuilder();
         buffer.append("Doc [id=").append(id).append(", ");
         buffer.append("src=").append(src).append(", ");

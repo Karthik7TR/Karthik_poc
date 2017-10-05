@@ -10,8 +10,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
  * Spring service that handles CRUD requests for EbookAudit entities
  *
  */
-public interface EBookAuditService
-{
+public interface EBookAuditService {
     /**
      * Save an existing EBookAudit entity
      *
@@ -22,7 +21,7 @@ public interface EBookAuditService
      * Delete an existing EBookAudit entity
      *
      */
-     void deleteEBookAudit(EbookAudit eBookAudit);
+    void deleteEBookAudit(EbookAudit eBookAudit);
 
     /**
      */

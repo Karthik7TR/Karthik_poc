@@ -24,8 +24,7 @@ import javax.xml.bind.annotation.XmlType;
 @IdClass(SplitNodeInfo.SplitNodeInfoPk.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "SplitNodeInfo")
-public class SplitNodeInfo implements Serializable
-{
+public class SplitNodeInfo implements Serializable {
     private static final long serialVersionUID = 8698522630203083821L;
 
     @Id
@@ -40,57 +39,47 @@ public class SplitNodeInfo implements Serializable
     @Column(name = "SPLIT_NODE_GUID", length = 33, nullable = false)
     private String splitNodeGuid;
 
-    public BookDefinition getBookDefinition()
-    {
+    public BookDefinition getBookDefinition() {
         return ebookDefinition;
     }
 
-    public void setBookDefinition(final BookDefinition bookDefinition)
-    {
+    public void setBookDefinition(final BookDefinition bookDefinition) {
         ebookDefinition = bookDefinition;
     }
 
     /**
      */
-    public void setBookVersionSubmitted(final String bookVersionSubmitted)
-    {
+    public void setBookVersionSubmitted(final String bookVersionSubmitted) {
         this.bookVersionSubmitted = bookVersionSubmitted;
     }
 
     /**
      */
-    public String getBookVersionSubmitted()
-    {
+    public String getBookVersionSubmitted() {
         return bookVersionSubmitted;
     }
 
-    public String getSplitBookTitle()
-    {
+    public String getSplitBookTitle() {
         return splitBookTitleId;
     }
 
-    public void setSpitBookTitle(final String splitBookTitle)
-    {
+    public void setSpitBookTitle(final String splitBookTitle) {
         splitBookTitleId = splitBookTitle;
     }
 
-    public String getSplitNodeGuid()
-    {
+    public String getSplitNodeGuid() {
         return splitNodeGuid;
     }
 
-    public void setSplitNodeGuid(final String splitNodeGuid)
-    {
+    public void setSplitNodeGuid(final String splitNodeGuid) {
         this.splitNodeGuid = splitNodeGuid;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         final StringBuilder buffer = new StringBuilder();
         buffer.append("SplitNodeInfo [");
-        if (ebookDefinition != null)
-        {
+        if (ebookDefinition != null) {
             buffer.append("bookDefinitionId=").append(ebookDefinition.getEbookDefinitionId()).append(", ");
         }
         buffer.append("splitBookTitleId=").append(splitBookTitleId).append(", ");
@@ -101,8 +90,7 @@ public class SplitNodeInfo implements Serializable
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((bookVersionSubmitted == null) ? 0 : bookVersionSubmitted.hashCode());
@@ -115,41 +103,33 @@ public class SplitNodeInfo implements Serializable
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (!(obj instanceof SplitNodeInfo))
-        {
+        if (!(obj instanceof SplitNodeInfo)) {
             return false;
         }
         final SplitNodeInfo other = (SplitNodeInfo) obj;
-        if (!Objects.equals(bookVersionSubmitted, other.bookVersionSubmitted))
-        {
+        if (!Objects.equals(bookVersionSubmitted, other.bookVersionSubmitted)) {
             return false;
         }
         final Long thisBookDefId = ebookDefinition == null ? null : ebookDefinition.getEbookDefinitionId();
         final Long otherBookDefId = other.ebookDefinition == null ? null : other.ebookDefinition.getEbookDefinitionId();
-        if (!Objects.equals(thisBookDefId, otherBookDefId))
-        {
+        if (!Objects.equals(thisBookDefId, otherBookDefId)) {
             return false;
         }
-        if (!Objects.equals(splitBookTitleId, other.splitBookTitleId))
-        {
+        if (!Objects.equals(splitBookTitleId, other.splitBookTitleId)) {
             return false;
         }
-        if (!Objects.equals(splitNodeGuid, other.splitNodeGuid))
-        {
+        if (!Objects.equals(splitNodeGuid, other.splitNodeGuid)) {
             return false;
         }
         return true;
     }
 
     @Embeddable
-    public static class SplitNodeInfoPk implements Serializable
-    {
+    public static class SplitNodeInfoPk implements Serializable {
         private static final long serialVersionUID = 3552710801579579685L;
 
         @ManyToOne(fetch = FetchType.LAZY)
@@ -166,47 +146,39 @@ public class SplitNodeInfo implements Serializable
         @XmlElement
         private String bookVersionSubmitted;
 
-        public SplitNodeInfoPk()
-        {
+        public SplitNodeInfoPk() {
         }
 
-        public BookDefinition getBookDefinition()
-        {
+        public BookDefinition getBookDefinition() {
             return ebookDefinition;
         }
 
-        public void setBookDefinition(final BookDefinition bookDefinition)
-        {
+        public void setBookDefinition(final BookDefinition bookDefinition) {
             ebookDefinition = bookDefinition;
         }
 
         /**
          */
-        public void setBookVersionSubmitted(final String bookVersionSubmitted)
-        {
+        public void setBookVersionSubmitted(final String bookVersionSubmitted) {
             this.bookVersionSubmitted = bookVersionSubmitted;
         }
 
         /**
          */
-        public String getBookVersionSubmitted()
-        {
+        public String getBookVersionSubmitted() {
             return bookVersionSubmitted;
         }
 
-        public String getSplitBookTitle()
-        {
+        public String getSplitBookTitle() {
             return splitBookTitleId;
         }
 
-        public void setSpitBookTitle(final String splitBookTitle)
-        {
+        public void setSpitBookTitle(final String splitBookTitle) {
             splitBookTitleId = splitBookTitle;
         }
 
         @Override
-        public int hashCode()
-        {
+        public int hashCode() {
             final int prime = 31;
             int result = 1;
             result = prime * result + ((bookVersionSubmitted == null) ? 0 : bookVersionSubmitted.hashCode());
@@ -215,8 +187,7 @@ public class SplitNodeInfo implements Serializable
         }
 
         @Override
-        public boolean equals(final Object obj)
-        {
+        public boolean equals(final Object obj) {
             if (this == obj)
                 return true;
             if (obj == null)
@@ -224,19 +195,15 @@ public class SplitNodeInfo implements Serializable
             if (getClass() != obj.getClass())
                 return false;
             final SplitNodeInfoPk other = (SplitNodeInfoPk) obj;
-            if (splitBookTitleId == null)
-            {
+            if (splitBookTitleId == null) {
                 if (other.splitBookTitleId != null)
                     return false;
-            }
-            else if (!splitBookTitleId.equals(other.splitBookTitleId))
+            } else if (!splitBookTitleId.equals(other.splitBookTitleId))
                 return false;
-            if (bookVersionSubmitted == null)
-            {
+            if (bookVersionSubmitted == null) {
                 if (other.bookVersionSubmitted != null)
                     return false;
-            }
-            else if (!bookVersionSubmitted.equals(other.bookVersionSubmitted))
+            } else if (!bookVersionSubmitted.equals(other.bookVersionSubmitted))
                 return false;
             return true;
         }

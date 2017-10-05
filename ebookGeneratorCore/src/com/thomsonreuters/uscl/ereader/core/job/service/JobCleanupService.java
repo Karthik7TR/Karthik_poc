@@ -5,8 +5,7 @@ import java.util.List;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobUserInfo;
 import com.thomsonreuters.uscl.ereader.util.EBookServerException;
 
-public interface JobCleanupService
-{
+public interface JobCleanupService {
     /**
      * Clean up dead jobs from both BatchStepExecution and BatchJobExecution tables
      * dead jobs are those jobs which were in "UNKNOWN" exit status due to server shutdown.

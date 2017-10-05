@@ -10,8 +10,7 @@ import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference;
  * DAO to manage UserPreference entities.
  *
  */
-public interface UserPreferenceDao
-{
+public interface UserPreferenceDao {
     void save(UserPreference preference);
 
     UserPreference findByUsername(String username);

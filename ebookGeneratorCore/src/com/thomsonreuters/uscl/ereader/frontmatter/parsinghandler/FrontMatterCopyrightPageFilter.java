@@ -13,8 +13,7 @@ import org.xml.sax.helpers.XMLFilterImpl;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class FrontMatterCopyrightPageFilter extends XMLFilterImpl
-{
+public class FrontMatterCopyrightPageFilter extends XMLFilterImpl {
     /** Names of all the placeholder tags this filter handles */
     private static final String TOC_HEADING_ANCHOR_TAG = "frontMatterPlaceholder_TOCHeadingAnchor";
     private static final String COPYRIGHT_PAGE_ANCHOR_TAG = "frontMatterPlaceholder_CopyrightPageAnchor";
@@ -36,16 +35,14 @@ public class FrontMatterCopyrightPageFilter extends XMLFilterImpl
 
     private BookDefinition bookDefinition;
 
-    public FrontMatterCopyrightPageFilter(final BookDefinition bookDefinition)
-    {
+    public FrontMatterCopyrightPageFilter(final BookDefinition bookDefinition) {
         this.bookDefinition = bookDefinition;
     }
 
     @Override
-    public void startElement(final String uri, final String localName, final String qName, final Attributes atts) throws SAXException
-    {
-        if (qName.equalsIgnoreCase(TOC_HEADING_ANCHOR_TAG))
-        {
+    public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
+        throws SAXException {
+        if (qName.equalsIgnoreCase(TOC_HEADING_ANCHOR_TAG)) {
             final AttributesImpl newAtts = new AttributesImpl();
             newAtts.addAttribute(
                 uri,
@@ -54,9 +51,7 @@ public class FrontMatterCopyrightPageFilter extends XMLFilterImpl
                 CDATA,
                 FrontMatterFileName.PUBLISHING_INFORMATION + FrontMatterFileName.ANCHOR);
             super.startElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG, newAtts);
-        }
-        else if (qName.equalsIgnoreCase(COPYRIGHT_PAGE_ANCHOR_TAG))
-        {
+        } else if (qName.equalsIgnoreCase(COPYRIGHT_PAGE_ANCHOR_TAG)) {
             final AttributesImpl newAtts = new AttributesImpl();
             newAtts.addAttribute(
                 uri,
@@ -65,83 +60,55 @@ public class FrontMatterCopyrightPageFilter extends XMLFilterImpl
                 CDATA,
                 FrontMatterFileName.COPYRIGHT + FrontMatterFileName.ANCHOR);
             super.startElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG, newAtts);
-        }
-        else if (qName.equalsIgnoreCase(COPYRIGHT_TAG))
-        {
+        } else if (qName.equalsIgnoreCase(COPYRIGHT_TAG)) {
             printText(bookDefinition.getCopyright(), MULTI_LINE_FIELD);
-        }
-        else if (qName.equalsIgnoreCase(COPYRIGHT_PAGE_TEXT_TAG))
-        {
+        } else if (qName.equalsIgnoreCase(COPYRIGHT_PAGE_TEXT_TAG)) {
             printText(bookDefinition.getCopyrightPageText(), MULTI_LINE_FIELD);
-        }
-        else if (qName.equalsIgnoreCase(ISBN_TAG))
-        {
+        } else if (qName.equalsIgnoreCase(ISBN_TAG)) {
             printText(bookDefinition.getIsbn(), SINGLE_LINE_FIELD);
-        }
-        else if (qName.equalsIgnoreCase(COPYRIGHT_TRADEMARK_TAG))
-        {
+        } else if (qName.equalsIgnoreCase(COPYRIGHT_TRADEMARK_TAG)) {
             printText(bookDefinition.getAdditionalTrademarkInfo(), MULTI_LINE_FIELD);
-        }
-        else
-        {
+        } else {
             super.startElement(uri, localName, qName, atts);
         }
     }
 
     @Override
-    public void characters(final char[] buf, final int offset, final int len) throws SAXException
-    {
+    public void characters(final char[] buf, final int offset, final int len) throws SAXException {
         super.characters(buf, offset, len);
     }
 
     @Override
-    public void endElement(final String uri, final String localName, final String qName) throws SAXException
-    {
-        if (qName.equalsIgnoreCase(TOC_HEADING_ANCHOR_TAG))
-        {
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException {
+        if (qName.equalsIgnoreCase(TOC_HEADING_ANCHOR_TAG)) {
             super.endElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG);
-        }
-        else if (qName.equalsIgnoreCase(COPYRIGHT_PAGE_ANCHOR_TAG))
-        {
+        } else if (qName.equalsIgnoreCase(COPYRIGHT_PAGE_ANCHOR_TAG)) {
             super.endElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG);
-        }
-        else if (qName.equalsIgnoreCase(COPYRIGHT_TAG)
+        } else if (qName.equalsIgnoreCase(COPYRIGHT_TAG)
             || qName.equalsIgnoreCase(COPYRIGHT_PAGE_TEXT_TAG)
             || qName.equalsIgnoreCase(ISBN_TAG)
-            || qName.equalsIgnoreCase(COPYRIGHT_TRADEMARK_TAG))
-        {
+            || qName.equalsIgnoreCase(COPYRIGHT_TRADEMARK_TAG)) {
             //Remove the placeholder tag
-        }
-        else
-        {
+        } else {
             super.endElement(uri, localName, qName);
         }
     }
 
-    private void printText(final String text, final boolean isMultiLineField) throws SAXException
-    {
-        if (text != null)
-        {
-            if (isMultiLineField)
-            {
+    private void printText(final String text, final boolean isMultiLineField) throws SAXException {
+        if (text != null) {
+            if (isMultiLineField) {
                 final String[] lines = text.split("\\\r\\\n");
-                for (int i = 0; i < lines.length; i++)
-                {
-                    if (i == lines.length - 1)
-                    {
+                for (int i = 0; i < lines.length; i++) {
+                    if (i == lines.length - 1) {
                         super.characters(lines[i].toCharArray(), 0, lines[i].length());
-                    }
-                    else
-                    {
+                    } else {
                         super.characters(lines[i].toCharArray(), 0, lines[i].length());
                         final AttributesImpl atts = new AttributesImpl();
                         super.endElement("", HTML_PARAGRAPH_TAG, HTML_PARAGRAPH_TAG);
                         super.startElement("", HTML_PARAGRAPH_TAG, HTML_PARAGRAPH_TAG, atts);
                     }
                 }
-            }
-            else
-            {
+            } else {
                 super.characters(text.toCharArray(), 0, text.length());
             }
         }

@@ -10,8 +10,7 @@ import org.springframework.dao.DataAccessException;
  * DAO to manage BookDefinitionLock entities.
  *
  */
-public interface BookDefinitionLockDao
-{
+public interface BookDefinitionLockDao {
     /**
      * Returns a list of book definition locks that are currently active
      * @return

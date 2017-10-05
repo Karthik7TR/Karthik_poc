@@ -27,8 +27,7 @@ import org.apache.log4j.Logger;
  * @author <a href="mailto:ravi.nandikolla@thomsonreuters.com">Ravi Nandikolla</a>c139353
  */
 @Deprecated
-public class EmailNotification
-{
+public class EmailNotification {
     private static Logger log = LogManager.getLogger(EmailNotification.class);
     private static final String from = "no-reply-eReader@thomsonreuters.com";
     private static final String host = "relay.int.westgroup.com";
@@ -40,16 +39,14 @@ public class EmailNotification
      * @throws MessagingException
      */
     public static void addAttachments(final Message msg, final List<String> fileNames, final String toText)
-        throws MessagingException
-    {
+        throws MessagingException {
         final MimeBodyPart p1 = new MimeBodyPart();
         p1.setText(toText);
 
         final Multipart mp = new MimeMultipart();
         mp.addBodyPart(p1);
 
-        for (final String str : fileNames)
-        {
+        for (final String str : fileNames) {
             final MimeBodyPart p2 = new MimeBodyPart();
             final FileDataSource fds = new FileDataSource(str);
             p2.setDataHandler(new DataHandler(fds));
@@ -60,8 +57,7 @@ public class EmailNotification
         msg.setContent(mp);
     }
 
-    public static void send(final Collection<InternetAddress> recipients, final String subject, final String body)
-    {
+    public static void send(final Collection<InternetAddress> recipients, final String subject, final String body) {
         final String csvRecipients = convertToCsv(recipients);
         send(csvRecipients, subject, body);
     }
@@ -72,19 +68,14 @@ public class EmailNotification
      * @param subject
      * @param body
      */
-    public static void send(final String csvRecipients, final String subject, final String body)
-    {
+    public static void send(final String csvRecipients, final String subject, final String body) {
         log.debug("Recipients: " + csvRecipients);
-        if ((csvRecipients != null) && !csvRecipients.isEmpty())
-        {
-            try
-            {
-                if ((subject != null) && subject.isEmpty())
-                {
+        if ((csvRecipients != null) && !csvRecipients.isEmpty()) {
+            try {
+                if ((subject != null) && subject.isEmpty()) {
                     throw new MessagingException("No subject provided");
                 }
-                if (StringUtils.isBlank(csvRecipients))
-                {
+                if (StringUtils.isBlank(csvRecipients)) {
                     throw new MessagingException("No recipients provided");
                 }
 
@@ -96,18 +87,15 @@ public class EmailNotification
 
                 final String[] emails = csvRecipients.split(",");
 
-                for (final String emailAddress : emails)
-                {
+                for (final String emailAddress : emails) {
                     final Message msg = prepareMessage(emailAddress.trim(), subject, from, session);
 
                     msg.setText(body);
 
                     Transport.send(msg);
                 }
-            }
-            catch (final MessagingException mex)
-            {
-                log.error(mex.getMessage(), mex);
+            } catch (final MessagingException mex) {
+                mex.printStackTrace();
             }
         }
     }
@@ -116,8 +104,7 @@ public class EmailNotification
         final Collection<InternetAddress> recipients,
         final String subject,
         final String body,
-        final List<String> fileNames)
-    {
+        final List<String> fileNames) {
         final String csvRecipients = convertToCsv(recipients);
         sendWithAttachment(csvRecipients, subject, body, fileNames);
     }
@@ -132,19 +119,14 @@ public class EmailNotification
         final String toEmail,
         final String toSubject,
         final String toText,
-        final List<String> fileNames)
-    {
-        if ((toEmail != null) && !toEmail.isEmpty())
-        {
-            try
-            {
-                if ((toSubject != null) && toSubject.isEmpty())
-                {
+        final List<String> fileNames) {
+        if ((toEmail != null) && !toEmail.isEmpty()) {
+            try {
+                if ((toSubject != null) && toSubject.isEmpty()) {
                     throw new MessagingException("No Subject provided");
                 }
 
-                if (toEmail.isEmpty())
-                {
+                if (toEmail.isEmpty()) {
                     throw new MessagingException("No text provided.");
                 }
 
@@ -154,22 +136,17 @@ public class EmailNotification
                 final Message msg = prepareMessage(toEmail, toSubject, from, Session.getInstance(props));
                 addAttachments(msg, fileNames, toText);
                 Transport.send(msg);
-            }
-            catch (final MessagingException mex)
-            {
-                log.error(mex.getMessage(), mex);
+            } catch (final MessagingException mex) {
+                mex.printStackTrace();
             }
         }
     }
 
-    private static String convertToCsv(final Collection<InternetAddress> recipients)
-    {
+    private static String convertToCsv(final Collection<InternetAddress> recipients) {
         final StringBuffer csvRecipients = new StringBuffer();
         boolean firstTime = true;
-        for (final InternetAddress recipient : recipients)
-        {
-            if (!firstTime)
-            {
+        for (final InternetAddress recipient : recipients) {
+            if (!firstTime) {
                 csvRecipients.append(",");
             }
             firstTime = false;
@@ -194,8 +171,7 @@ public class EmailNotification
         final String toEmail,
         final String toSubject,
         final String from,
-        final Session session) throws MessagingException, AddressException
-    {
+        final Session session) throws MessagingException, AddressException {
         final Message msg = new MimeMessage(session);
         msg.setFrom(new InternetAddress(from));
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));

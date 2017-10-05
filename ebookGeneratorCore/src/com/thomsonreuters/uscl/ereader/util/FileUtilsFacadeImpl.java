@@ -11,11 +11,9 @@ import org.apache.commons.io.FileUtils;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  *
  */
-public class FileUtilsFacadeImpl implements FileUtilsFacade
-{
+public class FileUtilsFacadeImpl implements FileUtilsFacade {
     @Override
-    public void copyFile(final File sourceFile, final File destinationFile) throws IOException
-    {
+    public void copyFile(final File sourceFile, final File destinationFile) throws IOException {
         FileUtils.copyFile(sourceFile, destinationFile);
     }
 }

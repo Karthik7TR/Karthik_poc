@@ -15,8 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @Transactional
-public class ProviewAuditServiceImpl implements ProviewAuditService
-{
+public class ProviewAuditServiceImpl implements ProviewAuditService {
     /**
      * DAO injected by Spring that manages ProviewAudit entities
      *
@@ -29,15 +28,13 @@ public class ProviewAuditServiceImpl implements ProviewAuditService
      */
     @Override
     @Transactional
-    public void save(final ProviewAudit audit)
-    {
+    public void save(final ProviewAudit audit) {
         dao.save(audit);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<ProviewAudit> getRemovedAndDeletedVersions(final String fullyQualifiedTitleId)
-    {
+    public List<ProviewAudit> getRemovedAndDeletedVersions(final String fullyQualifiedTitleId) {
         return dao.findRemovedAndDeletedVersions(fullyQualifiedTitleId);
     }
 
@@ -47,28 +44,24 @@ public class ProviewAuditServiceImpl implements ProviewAuditService
      */
     @Override
     @Transactional(readOnly = true)
-    public List<ProviewAudit> findProviewAudits(final ProviewAuditFilter filter, final ProviewAuditSort sort)
-    {
+    public List<ProviewAudit> findProviewAudits(final ProviewAuditFilter filter, final ProviewAuditSort sort) {
         return dao.findProviewAudits(filter, sort);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public int numberProviewAudits(final ProviewAuditFilter filter)
-    {
+    public int numberProviewAudits(final ProviewAuditFilter filter) {
         return dao.numberProviewAudits(filter);
     }
 
     @Required
-    public void setProviewAuditDao(final ProviewAuditDao dao)
-    {
+    public void setProviewAuditDao(final ProviewAuditDao dao) {
         this.dao = dao;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public String getBookStatus(final String titleId, final String version)
-    {
+    public String getBookStatus(final String titleId, final String version) {
         return dao.getBookStatus(titleId, version);
     }
 }

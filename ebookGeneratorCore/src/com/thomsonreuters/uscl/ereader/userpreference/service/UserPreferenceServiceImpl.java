@@ -14,34 +14,29 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 
-public class UserPreferenceServiceImpl implements UserPreferenceService
-{
+public class UserPreferenceServiceImpl implements UserPreferenceService {
     private UserPreferenceDao userPreferenceDao;
 
     @Override
     @Transactional
-    public void save(final UserPreference preference)
-    {
+    public void save(final UserPreference preference) {
         userPreferenceDao.save(preference);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public UserPreference findByUsername(final String username)
-    {
+    public UserPreference findByUsername(final String username) {
         return userPreferenceDao.findByUsername(username);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Set<InternetAddress> findAllUniqueEmailAddresses()
-    {
+    public Set<InternetAddress> findAllUniqueEmailAddresses() {
         return userPreferenceDao.findAllUniqueEmailAddresses();
     }
 
     @Required
-    public void setUserPreferenceDao(final UserPreferenceDao dao)
-    {
+    public void setUserPreferenceDao(final UserPreferenceDao dao) {
         userPreferenceDao = dao;
     }
 }

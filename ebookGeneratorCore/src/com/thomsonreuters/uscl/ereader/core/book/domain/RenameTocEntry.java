@@ -32,8 +32,7 @@ import org.apache.commons.lang3.StringUtils;
 @IdClass(RenameTocEntry.RenameTocEntryPk.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "RenameTocEntry")
-public class RenameTocEntry implements Serializable
-{
+public class RenameTocEntry implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -61,69 +60,56 @@ public class RenameTocEntry implements Serializable
     @XmlElement(name = "lastUpdated", required = true)
     private Date lastUpdated;
 
-    public BookDefinition getBookDefinition()
-    {
+    public BookDefinition getBookDefinition() {
         return ebookDefinition;
     }
 
-    public void setBookDefinition(final BookDefinition bookDefinition)
-    {
+    public void setBookDefinition(final BookDefinition bookDefinition) {
         ebookDefinition = bookDefinition;
     }
 
-    public void setTocGuid(final String tocGuid)
-    {
+    public void setTocGuid(final String tocGuid) {
         this.tocGuid = tocGuid;
     }
 
-    public String getTocGuid()
-    {
+    public String getTocGuid() {
         return tocGuid;
     }
 
-    public void setOldLabel(final String oldLabel)
-    {
+    public void setOldLabel(final String oldLabel) {
         this.oldLabel = oldLabel;
     }
 
-    public String getOldLabel()
-    {
+    public String getOldLabel() {
         return oldLabel;
     }
 
-    public void setNewLabel(final String newLabel)
-    {
+    public void setNewLabel(final String newLabel) {
         this.newLabel = newLabel;
     }
 
-    public String getNewLabel()
-    {
+    public String getNewLabel() {
         return newLabel;
     }
 
-    public void setNote(final String note)
-    {
+    public void setNote(final String note) {
         this.note = note;
     }
 
-    public String getNote()
-    {
+    public String getNote() {
         return note;
     }
 
-    public void setLastUpdated(final Date lastUpdated)
-    {
+    public void setLastUpdated(final Date lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 
-    public Date getLastUpdated()
-    {
+    public Date getLastUpdated() {
         return lastUpdated;
     }
 
     @Transient
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return StringUtils.isBlank(oldLabel)
             && StringUtils.isBlank(newLabel)
             && StringUtils.isBlank(tocGuid)
@@ -131,12 +117,10 @@ public class RenameTocEntry implements Serializable
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         final StringBuilder buffer = new StringBuilder();
         buffer.append("ExcludeToc [");
-        if (ebookDefinition != null)
-        {
+        if (ebookDefinition != null) {
             buffer.append("bookDefinitionId=").append(ebookDefinition.getEbookDefinitionId()).append(", ");
         }
         buffer.append("tocGuid=").append(tocGuid).append(", ");
@@ -149,8 +133,7 @@ public class RenameTocEntry implements Serializable
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((tocGuid == null) ? 0 : tocGuid.hashCode());
@@ -162,8 +145,7 @@ public class RenameTocEntry implements Serializable
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -171,47 +153,36 @@ public class RenameTocEntry implements Serializable
         if (getClass() != obj.getClass())
             return false;
         final RenameTocEntry other = (RenameTocEntry) obj;
-        if (tocGuid == null)
-        {
+        if (tocGuid == null) {
             if (other.tocGuid != null)
                 return false;
-        }
-        else if (!tocGuid.equals(other.tocGuid))
+        } else if (!tocGuid.equals(other.tocGuid))
             return false;
-        if (lastUpdated == null)
-        {
+        if (lastUpdated == null) {
             if (other.lastUpdated != null)
                 return false;
-        }
-        else if (!lastUpdated.equals(other.lastUpdated))
+        } else if (!lastUpdated.equals(other.lastUpdated))
             return false;
-        if (newLabel == null)
-        {
+        if (newLabel == null) {
             if (other.newLabel != null)
                 return false;
-        }
-        else if (!newLabel.equals(other.newLabel))
+        } else if (!newLabel.equals(other.newLabel))
             return false;
-        if (oldLabel == null)
-        {
+        if (oldLabel == null) {
             if (other.oldLabel != null)
                 return false;
-        }
-        else if (!oldLabel.equals(other.oldLabel))
+        } else if (!oldLabel.equals(other.oldLabel))
             return false;
-        if (note == null)
-        {
+        if (note == null) {
             if (other.note != null)
                 return false;
-        }
-        else if (!note.equals(other.note))
+        } else if (!note.equals(other.note))
             return false;
         return true;
     }
 
     @Embeddable
-    public static class RenameTocEntryPk implements Serializable
-    {
+    public static class RenameTocEntryPk implements Serializable {
         private static final long serialVersionUID = 1L;
 
         @ManyToOne(fetch = FetchType.LAZY)
@@ -222,33 +193,27 @@ public class RenameTocEntry implements Serializable
         @Column(name = "TOC_GUID", length = 33, nullable = false)
         private String tocGuid;
 
-        public RenameTocEntryPk()
-        {
+        public RenameTocEntryPk() {
         }
 
-        public BookDefinition getBookDefinition()
-        {
+        public BookDefinition getBookDefinition() {
             return ebookDefinition;
         }
 
-        public void setBookDefinition(final BookDefinition bookDefinition)
-        {
+        public void setBookDefinition(final BookDefinition bookDefinition) {
             ebookDefinition = bookDefinition;
         }
 
-        public String getTocGuid()
-        {
+        public String getTocGuid() {
             return tocGuid;
         }
 
-        public void setTocGuid(final String tocGuid)
-        {
+        public void setTocGuid(final String tocGuid) {
             this.tocGuid = tocGuid;
         }
 
         @Override
-        public int hashCode()
-        {
+        public int hashCode() {
             final int prime = 31;
             int result = 1;
             result = prime * result + ((tocGuid == null) ? 0 : tocGuid.hashCode());
@@ -256,8 +221,7 @@ public class RenameTocEntry implements Serializable
         }
 
         @Override
-        public boolean equals(final Object obj)
-        {
+        public boolean equals(final Object obj) {
             if (this == obj)
                 return true;
             if (obj == null)
@@ -265,12 +229,10 @@ public class RenameTocEntry implements Serializable
             if (getClass() != obj.getClass())
                 return false;
             final RenameTocEntryPk other = (RenameTocEntryPk) obj;
-            if (tocGuid == null)
-            {
+            if (tocGuid == null) {
                 if (other.tocGuid != null)
                     return false;
-            }
-            else if (!tocGuid.equals(other.tocGuid))
+            } else if (!tocGuid.equals(other.tocGuid))
                 return false;
             return true;
         }

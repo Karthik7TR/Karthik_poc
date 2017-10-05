@@ -15,8 +15,7 @@ import org.xml.sax.SAXException;
  * @author <a href="mailto:ravi.nandikolla@thomsonreuters.com">Ravi Nandikolla</a> c139353
  *
  */
-public class UrlParsingUtil
-{
+public class UrlParsingUtil {
     private static final String UTF8_ENCODING = "utf-8";
     private static final Pattern DOCUMENT_UUID_PATTERN = Pattern.compile(
         ".*/Document/FullText\\?([a-zA-Z]{1}[a-fA-F0-9]{10}[-]?[a-fA-F0-9]{11}[-]?[a-fA-F0-9]{11})/View/FullText.html?.*");
@@ -27,15 +26,13 @@ public class UrlParsingUtil
      * @return urlContents is a Map , which contains all the Url query values and/or references.
      * @throws SAXException
      */
-    public static Map<String, String> parseUrlContents(final String resourceUrl) throws SAXException
-    {
+    public static Map<String, String> parseUrlContents(final String resourceUrl) throws SAXException {
         final Map<String, String> urlContents = new HashMap<>();
 
         final String documentUuid = getDocumentUuid(resourceUrl);
         urlContents.put("documentUuid", documentUuid);
 
-        try
-        {
+        try {
             final URL aURL = new URL(resourceUrl);
             urlContents.put("reference", aURL.getRef());
 
@@ -43,36 +40,28 @@ public class UrlParsingUtil
 
             final StringTokenizer pairs = new StringTokenizer(queryString, "&");
 
-            while (pairs.hasMoreTokens())
-            {
+            while (pairs.hasMoreTokens()) {
                 final String pair = pairs.nextToken();
                 final StringTokenizer parts = new StringTokenizer(pair, "=");
                 String name = parts.nextToken();
                 String value = null;
 
-                if (parts.hasMoreTokens())
-                {
+                if (parts.hasMoreTokens()) {
                     value = parts.nextToken();
                 }
 
-                if ("cite".equalsIgnoreCase(name) && value != null)
-                {
-                    if (value.startsWith("UUID"))
-                    {
+                if ("cite".equalsIgnoreCase(name)) {
+                    if (value.startsWith("UUID")) {
                         value = getCiteDocumentUuid(value);
                         name = "documentUuid";
-                    }
-                    else
-                    {
+                    } else {
                         value = applyCiteNormalization(value);
                     }
                 }
 
                 urlContents.put(name, value);
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             throw new SAXException(
                 UTF8_ENCODING
                     + " encoding not supported when attempting to parse normalized cite from URL: "
@@ -89,8 +78,7 @@ public class UrlParsingUtil
      *
      * @return
      */
-    private static String applyCiteNormalization(final String cite)
-    {
+    private static String applyCiteNormalization(final String cite) {
         return NormalizationRulesUtil.applyCitationNormalizationRules(cite);
     }
 
@@ -101,12 +89,10 @@ public class UrlParsingUtil
      *
      * @return document UUID if the url is a document UUID, null otherwise.
      */
-    private static String getDocumentUuid(final String resourceUrl)
-    {
+    private static String getDocumentUuid(final String resourceUrl) {
         final Matcher matcher = DOCUMENT_UUID_PATTERN.matcher(resourceUrl);
 
-        if (!matcher.find())
-        {
+        if (!matcher.find()) {
             return null;
         }
 
@@ -117,8 +103,7 @@ public class UrlParsingUtil
      * @param cite
      * @return
      */
-    private static String getCiteDocumentUuid(final String cite)
-    {
+    private static String getCiteDocumentUuid(final String cite) {
         return cite.split("\\(")[1].split("\\)")[0].trim();
     }
 }

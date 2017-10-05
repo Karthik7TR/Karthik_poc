@@ -5,8 +5,7 @@ import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.jms.service.impl.QueueType;
 
-public interface JavaMessageService
-{
+public interface JavaMessageService {
     boolean enableQueue(QueueType queueType);
 
     boolean disableQueue(QueueType queueType);

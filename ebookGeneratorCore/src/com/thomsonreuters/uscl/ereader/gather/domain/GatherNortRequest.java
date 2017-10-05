@@ -19,8 +19,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 @XmlRootElement(name = "gatherNortRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GatherNortRequest
-{
+public class GatherNortRequest {
     @XmlElement(name = "cutoffDate")
     private Date cutoffDate;
     @XmlElement(name = "domainName")
@@ -42,8 +41,7 @@ public class GatherNortRequest
     @XmlElement(name = "thresholdValue")
     private int thresholdValue;
 
-    public GatherNortRequest()
-    {
+    public GatherNortRequest() {
         super();
     }
 
@@ -57,8 +55,7 @@ public class GatherNortRequest
         final boolean isFinalStage,
         final boolean useReloadContent,
         final Collection<String> splitTocGuidList,
-        final int thresholdValue)
-    {
+        final int thresholdValue) {
         super();
         this.domainName = domainName;
         this.expressionFilter = expressionFilter;
@@ -68,122 +65,99 @@ public class GatherNortRequest
         this.renameTocEntries = renameTocEntries;
         this.isFinalStage = isFinalStage;
         this.useReloadContent = useReloadContent;
-        if (splitTocGuidList != null)
-        {
+        if (splitTocGuidList != null) {
             setSplitTocGuidList(splitTocGuidList);
         }
         this.thresholdValue = thresholdValue;
     }
 
-    public void setCutoffDate(final Date cutoffDate)
-    {
+    public void setCutoffDate(final Date cutoffDate) {
         this.cutoffDate = cutoffDate;
     }
 
-    public Date getCutoffDate()
-    {
+    public Date getCutoffDate() {
         return cutoffDate;
     }
 
-    public void setDomainName(final String domainName)
-    {
+    public void setDomainName(final String domainName) {
         this.domainName = domainName;
     }
 
-    public String getDomainName()
-    {
+    public String getDomainName() {
         return domainName;
     }
 
-    public void setExpressionFilter(final String expressionFilter)
-    {
+    public void setExpressionFilter(final String expressionFilter) {
         this.expressionFilter = expressionFilter;
     }
 
-    public String getExpressionFilter()
-    {
+    public String getExpressionFilter() {
         return expressionFilter;
     }
 
-    public void setNortFile(final File nortFile)
-    {
+    public void setNortFile(final File nortFile) {
         this.nortFile = nortFile;
     }
 
-    public File getNortFile()
-    {
+    public File getNortFile() {
         return nortFile;
     }
 
-    public void setExcludeDocuments(final List<ExcludeDocument> excludeDocuments)
-    {
+    public void setExcludeDocuments(final List<ExcludeDocument> excludeDocuments) {
         this.excludeDocuments = excludeDocuments;
     }
 
-    public List<ExcludeDocument> getExcludeDocuments()
-    {
+    public List<ExcludeDocument> getExcludeDocuments() {
         return excludeDocuments;
     }
 
-    public void setRenameTocEntries(final List<RenameTocEntry> renameTocEntries)
-    {
+    public void setRenameTocEntries(final List<RenameTocEntry> renameTocEntries) {
         this.renameTocEntries = renameTocEntries;
     }
 
-    public List<RenameTocEntry> getRenameTocEntries()
-    {
+    public List<RenameTocEntry> getRenameTocEntries() {
         return renameTocEntries;
     }
 
-    public void setFinalStage(final boolean isFinalStage)
-    {
+    public void setFinalStage(final boolean isFinalStage) {
         this.isFinalStage = isFinalStage;
     }
 
-    public boolean isFinalStage()
-    {
+    public boolean isFinalStage() {
         return isFinalStage;
     }
 
-    public void setUseReloadContent(final boolean useReloadContent)
-    {
+    public void setUseReloadContent(final boolean useReloadContent) {
         this.useReloadContent = useReloadContent;
     }
 
-    public boolean getUseReloadContent()
-    {
+    public boolean getUseReloadContent() {
         return useReloadContent;
     }
 
-    public void setSplitTocGuidList(final Collection<String> splitTocGuidList)
-    {
+    public void setSplitTocGuidList(final Collection<String> splitTocGuidList) {
         this.splitTocGuidList = new ArrayList<>(splitTocGuidList);
     }
 
-    public List<String> getSplitTocGuidList()
-    {
+    public List<String> getSplitTocGuidList() {
         return splitTocGuidList;
     }
 
-    public void setThresholdValue(final int thresholdValue)
-    {
+    public void setThresholdValue(final int thresholdValue) {
         this.thresholdValue = thresholdValue;
     }
 
-    public int getThresholdValue()
-    {
+    public int getThresholdValue() {
         return thresholdValue;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((cutoffDate == null) ? 0 : cutoffDate.hashCode());
@@ -198,8 +172,7 @@ public class GatherNortRequest
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -207,49 +180,37 @@ public class GatherNortRequest
         if (getClass() != obj.getClass())
             return false;
         final GatherNortRequest other = (GatherNortRequest) obj;
-        if (cutoffDate == null)
-        {
+        if (cutoffDate == null) {
             if (other.cutoffDate != null)
                 return false;
-        }
-        else if (!cutoffDate.equals(other.cutoffDate))
+        } else if (!cutoffDate.equals(other.cutoffDate))
             return false;
-        if (domainName == null)
-        {
+        if (domainName == null) {
             if (other.domainName != null)
                 return false;
-        }
-        else if (!domainName.equals(other.domainName))
+        } else if (!domainName.equals(other.domainName))
             return false;
-        if (excludeDocuments == null)
-        {
+        if (excludeDocuments == null) {
             if (other.excludeDocuments != null)
                 return false;
-        }
-        else if (!excludeDocuments.equals(other.excludeDocuments))
+        } else if (!excludeDocuments.equals(other.excludeDocuments))
             return false;
-        if (expressionFilter == null)
-        {
+        if (expressionFilter == null) {
             if (other.expressionFilter != null)
                 return false;
-        }
-        else if (!expressionFilter.equals(other.expressionFilter))
+        } else if (!expressionFilter.equals(other.expressionFilter))
             return false;
         if (isFinalStage != other.isFinalStage)
             return false;
-        if (nortFile == null)
-        {
+        if (nortFile == null) {
             if (other.nortFile != null)
                 return false;
-        }
-        else if (!nortFile.equals(other.nortFile))
+        } else if (!nortFile.equals(other.nortFile))
             return false;
-        if (renameTocEntries == null)
-        {
+        if (renameTocEntries == null) {
             if (other.renameTocEntries != null)
                 return false;
-        }
-        else if (!renameTocEntries.equals(other.renameTocEntries))
+        } else if (!renameTocEntries.equals(other.renameTocEntries))
             return false;
         if (useReloadContent != other.useReloadContent)
             return false;

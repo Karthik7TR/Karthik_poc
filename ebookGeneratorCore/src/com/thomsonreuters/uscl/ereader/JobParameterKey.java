@@ -5,10 +5,8 @@ package com.thomsonreuters.uscl.ereader;
  * These key/value pairs have been loaded prior to the launch of the job
  *
  */
-public final class JobParameterKey
-{
-    private JobParameterKey()
-    {
+public final class JobParameterKey {
+    private JobParameterKey() {
     }
 
     // ===== Standard values from job request and misc =====

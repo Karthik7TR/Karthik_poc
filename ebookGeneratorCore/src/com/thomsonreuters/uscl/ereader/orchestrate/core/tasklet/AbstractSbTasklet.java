@@ -1,5 +1,8 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.text.SimpleDateFormat;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
@@ -8,7 +11,6 @@ import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageException
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.NotificationService;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.ExitStatus;
@@ -28,8 +30,7 @@ import org.springframework.beans.factory.annotation.Required;
  * Wrapper designed to handle exceptions thrown from step execution business as a STOPPED exit status for the step and job.
  * This is a specific requirement for eReader.
  */
-public abstract class AbstractSbTasklet implements Tasklet
-{
+public abstract class AbstractSbTasklet implements Tasklet {
     private static final Logger LOG = LogManager.getLogger(AbstractSbTasklet.class);
 
     protected CoreService coreService;
@@ -49,8 +50,7 @@ public abstract class AbstractSbTasklet implements Tasklet
      */
     @Override
     public final RepeatStatus execute(final StepContribution contribution, final ChunkContext chunkContext)
-        throws Exception
-    {
+        throws Exception {
         final StepContext stepContext = chunkContext.getStepContext();
         LOG.debug("Step: " + stepContext.getJobName() + "." + stepContext.getStepName());
         final StepExecution stepExecution = stepContext.getStepExecution();
@@ -58,13 +58,11 @@ public abstract class AbstractSbTasklet implements Tasklet
         final long jobInstanceId = jobExecution.getJobInstance().getId();
         final long jobExecutionId = stepExecution.getJobExecutionId();
         ExitStatus stepExitStatus = null;
-        try
-        {
+        try {
             // Check if a planned outage has come into effect, if so, fail this step right at the start
             // with an exit message indicating the interval of the outage.
             final PlannedOutage plannedOutage = outageProcessor.processPlannedOutages();
-            if (plannedOutage != null)
-            {
+            if (plannedOutage != null) {
                 LOG.debug("Failing job step at start due to planned outage: " + plannedOutage);
                 final SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
                 final Exception e = new PlannedOutageException(
@@ -75,23 +73,19 @@ public abstract class AbstractSbTasklet implements Tasklet
                 final StackTraceElement[] stackTraceElementArray = {};
                 e.setStackTrace(stackTraceElementArray);
                 throw e;
-            }
-            else
-            {
+            } else {
                 // Execute user defined step logic
                 stepExitStatus = executeStep(contribution, chunkContext);
             }
             // Set the step execution exit status (transition) name to what was returned from executeStep() in the subclass
             stepExecution.setExitStatus(stepExitStatus);
-        }
-        catch (final PlannedOutageException e)
-        {
+        } catch (final PlannedOutageException e) {
             // Just catch and rethrow as not to send an email message
             throw e;
-        }
-        catch (final Exception e)
-        {
-            final String stackTrace = String.format("Error Message : %s \nStack Trace is %s", e.getMessage(), ExceptionUtils.getStackTrace(e));
+        } catch (final Exception e) {
+            String stackTrace = getStackTrace(e);
+
+            stackTrace = "Error Message : " + e.getMessage() + "\nStack Trace is " + stackTrace;
             notificationService.sendNotification(
                 getJobExecutionContext(chunkContext),
                 getJobParameters(chunkContext),
@@ -111,8 +105,7 @@ public abstract class AbstractSbTasklet implements Tasklet
      * @param chunkContext the Spring Batch context exposed to the step implementor (to retrieve Job Parameters from)
      * @return the Job Parameters
      */
-    protected static JobParameters getJobParameters(final ChunkContext chunkContext)
-    {
+    protected static JobParameters getJobParameters(final ChunkContext chunkContext) {
         return chunkContext.getStepContext().getStepExecution().getJobParameters();
     }
 
@@ -123,13 +116,11 @@ public abstract class AbstractSbTasklet implements Tasklet
      * @param chunkContext the Spring Batch context exposed to the step implementor (to retrieve Job Execution Context from)
      * @return the Job Execution context
      */
-    protected static ExecutionContext getJobExecutionContext(final ChunkContext chunkContext)
-    {
+    protected static ExecutionContext getJobExecutionContext(final ChunkContext chunkContext) {
         return chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext();
     }
 
-    protected static JobInstance getJobInstance(final ChunkContext chunkContext)
-    {
+    protected static JobInstance getJobInstance(final ChunkContext chunkContext) {
         return chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance();
     }
 
@@ -141,8 +132,9 @@ public abstract class AbstractSbTasklet implements Tasklet
      *
      * @return the String value corresponding to the provided key.
      */
-    protected static String getRequiredStringProperty(final ExecutionContext executionContext, final String propertyKey)
-    {
+    protected static String getRequiredStringProperty(
+        final ExecutionContext executionContext,
+        final String propertyKey) {
         assertPropertyExists(executionContext, propertyKey);
         return executionContext.getString(propertyKey);
     }
@@ -155,8 +147,7 @@ public abstract class AbstractSbTasklet implements Tasklet
      *
      * @return the int value corresponding to the provided key.
      */
-    protected static int getRequiredIntProperty(final ExecutionContext executionContext, final String propertyKey)
-    {
+    protected static int getRequiredIntProperty(final ExecutionContext executionContext, final String propertyKey) {
         assertPropertyExists(executionContext, propertyKey);
         return executionContext.getInt(propertyKey);
     }
@@ -169,8 +160,7 @@ public abstract class AbstractSbTasklet implements Tasklet
      *
      * @return the long value corresponding to the provided key.
      */
-    protected static long getRequiredLongProperty(final ExecutionContext executionContext, final String propertyKey)
-    {
+    protected static long getRequiredLongProperty(final ExecutionContext executionContext, final String propertyKey) {
         assertPropertyExists(executionContext, propertyKey);
         return executionContext.getLong(propertyKey);
     }
@@ -183,16 +173,15 @@ public abstract class AbstractSbTasklet implements Tasklet
      *
      * @return the double value corresponding to the provided key.
      */
-    protected static double getRequiredDoubleProperty(final ExecutionContext executionContext, final String propertyKey)
-    {
+    protected static double getRequiredDoubleProperty(
+        final ExecutionContext executionContext,
+        final String propertyKey) {
         assertPropertyExists(executionContext, propertyKey);
         return executionContext.getDouble(propertyKey);
     }
 
-    private static void assertPropertyExists(final ExecutionContext executionContext, final String propertyKey)
-    {
-        if (!executionContext.containsKey(propertyKey))
-        {
+    private static void assertPropertyExists(final ExecutionContext executionContext, final String propertyKey) {
+        if (!executionContext.containsKey(propertyKey)) {
             throw new IllegalArgumentException(
                 "The required property '"
                     + propertyKey
@@ -203,21 +192,29 @@ public abstract class AbstractSbTasklet implements Tasklet
         }
     }
 
+    /**
+     * @param aThrowable
+     * @return string corresponding to the provided exception's stack trace.
+     */
+    private String getStackTrace(final Throwable aThrowable) {
+        final Writer result = new StringWriter();
+        final PrintWriter printWriter = new PrintWriter(result);
+        aThrowable.printStackTrace(printWriter);
+        return result.toString();
+    }
+
     @Required
-    public void setOutageProcessor(final OutageProcessor service)
-    {
+    public void setOutageProcessor(final OutageProcessor service) {
         outageProcessor = service;
     }
 
     @Required
-    public void setCoreService(final CoreService service)
-    {
+    public void setCoreService(final CoreService service) {
         coreService = service;
     }
 
     @Required
-    public void setNotificationService(final NotificationService service)
-    {
+    public void setNotificationService(final NotificationService service) {
         notificationService = service;
     }
 }

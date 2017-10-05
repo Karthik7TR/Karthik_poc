@@ -34,8 +34,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @Table(name = "XPP_BUNDLE_ARCHIVE")
-public class XppBundleArchive implements Serializable
-{
+public class XppBundleArchive implements Serializable {
     private static final long serialVersionUID = -5662203902532139594L;
 
     @XmlTransient
@@ -82,118 +81,95 @@ public class XppBundleArchive implements Serializable
     @Column(name = "DELETED", nullable = false)
     private String isDeleted = "N";
 
-    public Long getXppBundleArchiveId()
-    {
+    public Long getXppBundleArchiveId() {
         return xppBundleArchiveId;
     }
 
-    public void setXppBundleArchiveId(final Long eBookArchiveId)
-    {
+    public void setXppBundleArchiveId(final Long eBookArchiveId) {
         xppBundleArchiveId = eBookArchiveId;
     }
 
-    public String getVersion()
-    {
+    public String getVersion() {
         return version;
     }
 
-    public void setVersion(final String version)
-    {
+    public void setVersion(final String version) {
         this.version = version;
     }
 
-    public String getMessageId()
-    {
+    public String getMessageId() {
         return messageId;
     }
 
-    public void setMessageId(final String messageId)
-    {
+    public void setMessageId(final String messageId) {
         this.messageId = messageId;
     }
 
-    public String getBundleHash()
-    {
+    public String getBundleHash() {
         return bundleHash;
     }
 
-    public void setBundleHash(final String bundleHash)
-    {
+    public void setBundleHash(final String bundleHash) {
         this.bundleHash = bundleHash;
     }
 
-    public Date getDateTime()
-    {
+    public Date getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(final Date dateTime)
-    {
+    public void setDateTime(final Date dateTime) {
         this.dateTime = dateTime;
     }
 
-    public String getEBookSrcPath()
-    {
+    public String getEBookSrcPath() {
         return archiveLocation;
     }
 
-    public void setEBookSrcPath(final String path)
-    {
+    public void setEBookSrcPath(final String path) {
         archiveLocation = path;
     }
 
-    public File getEBookSrcFile()
-    {
+    public File getEBookSrcFile() {
         return archiveLocation == null ? null : new File(archiveLocation);
     }
 
-    public void setEBookSrcFile(final File eBookSrcFile)
-    {
+    public void setEBookSrcFile(final File eBookSrcFile) {
         archiveLocation = eBookSrcFile.getAbsolutePath();
     }
 
-    public String getMessageRequest()
-    {
+    public String getMessageRequest() {
         return messageRequest;
     }
 
-    public void setMessageRequest(final String messageRequest)
-    {
+    public void setMessageRequest(final String messageRequest) {
         this.messageRequest = messageRequest;
     }
 
-    public String getMaterialNumber()
-    {
+    public String getMaterialNumber() {
         return materialNumber;
     }
 
-    public void setMaterialNumber(final String materialNumber)
-    {
+    public void setMaterialNumber(final String materialNumber) {
         this.materialNumber = materialNumber;
     }
 
-    public int getResurrectionCount()
-    {
+    public int getResurrectionCount() {
         return resurrectCount;
     }
 
-    public void setResurrectCount(final int resurrectCount)
-    {
+    public void setResurrectCount(final int resurrectCount) {
         this.resurrectCount = resurrectCount;
     }
 
-    public boolean isDeleted()
-    {
+    public boolean isDeleted() {
         return ((isDeleted.equalsIgnoreCase("Y") ? true : false));
     }
 
-    public void setIsDeleted(final boolean isDeleted)
-    {
+    public void setIsDeleted(final boolean isDeleted) {
         this.isDeleted = ((isDeleted) ? "Y" : "N");
     }
 
-    public boolean isSimilar(final Object obj)
-    {
+    public boolean isSimilar(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -203,64 +179,51 @@ public class XppBundleArchive implements Serializable
             return false;
         final XppBundleArchive that = (XppBundleArchive) obj;
 
-        if (version != null)
-        {
+        if (version != null) {
             if (!version.equals(that.version))
                 return false;
-        }
-        else if (that.version != null)
+        } else if (that.version != null)
             return false;
 
-        if (messageId != null)
-        {
+        if (messageId != null) {
             if (!messageId.equals(that.messageId))
                 return false;
-        }
-        else if (that.messageId != null)
+        } else if (that.messageId != null)
             return false;
 
-        if (bundleHash != null)
-        {
+        if (bundleHash != null) {
             if (!bundleHash.equals(that.bundleHash))
                 return false;
-        }
-        else if (that.bundleHash != null)
+        } else if (that.bundleHash != null)
             return false;
 
-        if (dateTime != null)
-        {
+        if (dateTime != null) {
             if (!dateTime.equals(that.dateTime))
                 return false;
-        }
-        else if (that.dateTime != null)
+        } else if (that.dateTime != null)
             return false;
 
-        if (archiveLocation != null)
-        {
+        if (archiveLocation != null) {
             if (!archiveLocation.equals(that.archiveLocation))
                 return false;
-        }
-        else if (that.archiveLocation != null)
+        } else if (that.archiveLocation != null)
             return false;
 
         return true;
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return messageId;
     }
 }

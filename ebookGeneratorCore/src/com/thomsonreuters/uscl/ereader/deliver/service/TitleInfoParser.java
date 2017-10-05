@@ -26,50 +26,44 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class TitleInfoParser
-{
-	private static final Logger LOG = LogManager.getLogger(TitleInfoParser.class);
+public class TitleInfoParser {
+    private static final Logger LOG = LogManager.getLogger(TitleInfoParser.class);
 
-	@NotNull
-	private List<Doc> docs = new LinkedList<>();
+    @NotNull
+    private List<Doc> docs = new LinkedList<>();
 
-	@NotNull
-	public List<Doc> getDocuments(@NotNull final String xml) throws ProviewException
-	{
-		notNull(xml, "xml should not be null");
-		try
-		{
-			final SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
-			parser.parse(new InputSource(new StringReader(xml)), new TitleInfoHandler());
-			return docs;
-		}
-		catch (ParserConfigurationException | SAXException | IOException e)
-		{
-			LOG.error("TitleInfoParser failed to parse response", e);
-			throw new ProviewException("TitleInfoParser failed to parse response", e);
-		}
-	}
+    @NotNull
+    public List<Doc> getDocuments(@NotNull final String xml) throws ProviewException {
+        notNull(xml, "xml should not be null");
+        try {
+            final SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+            parser.parse(new InputSource(new StringReader(xml)), new TitleInfoHandler());
+            return docs;
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            LOG.error("TitleInfoParser failed to parse response", e);
+            throw new ProviewException("TitleInfoParser failed to parse response", e);
+        }
+    }
 
-	private class TitleInfoHandler extends DefaultHandler
-	{
-		private static final String DOC_TAG = "doc";
-		private static final String ID = "id";
-		private static final String SRC = "src";
+    private class TitleInfoHandler extends DefaultHandler {
+        private static final String DOC_TAG = "doc";
+        private static final String ID = "id";
+        private static final String SRC = "src";
 
-		@Override
-		public void startElement(final String uri, final String localName, final String qName, final Attributes attributes)
-				throws SAXException
-		{
-			if (DOC_TAG.equals(qName))
-			{
-				final String id = attributes.getValue(ID);
-				final String src = attributes.getValue(SRC);
-				if (id == null || src == null)
-				{
-					throw new SAXException("doc tag must have id and src attributes");
-				}
-				docs.add(new Doc(id, src, 0, null));
-			}
-		}
-	}
+        @Override
+        public void startElement(
+            final String uri,
+            final String localName,
+            final String qName,
+            final Attributes attributes) throws SAXException {
+            if (DOC_TAG.equals(qName)) {
+                final String id = attributes.getValue(ID);
+                final String src = attributes.getValue(SRC);
+                if (id == null || src == null) {
+                    throw new SAXException("doc tag must have id and src attributes");
+                }
+                docs.add(new Doc(id, src, 0, null));
+            }
+        }
+    }
 }

@@ -13,25 +13,21 @@ import java.util.Map;
  * @author uc209819
  *
  */
-public class ProviewGroupContainer implements Serializable
-{
+public class ProviewGroupContainer implements Serializable {
     private static final long serialVersionUID = -1985883914988566602L;
     private static final String PROVIEW_STATUS_FINAL = "final";
 
     private List<ProviewGroup> proviewGroups = new ArrayList<>();
 
-    public List<ProviewGroup> getProviewGroups()
-    {
+    public List<ProviewGroup> getProviewGroups() {
         return proviewGroups;
     }
 
-    public void setProviewGroups(final List<ProviewGroup> proviewGroups)
-    {
+    public void setProviewGroups(final List<ProviewGroup> proviewGroups) {
         this.proviewGroups = proviewGroups;
     }
 
-    public String getGroupId()
-    {
+    public String getGroupId() {
         return proviewGroups.get(0).getGroupId();
     }
 
@@ -39,20 +35,17 @@ public class ProviewGroupContainer implements Serializable
      *
      * @return the latest version of the group
      */
-    public ProviewGroup getLatestVersion()
-    {
+    public ProviewGroup getLatestVersion() {
         Integer latestVersion = 0;
         ProviewGroup latestProviewGroup = null;
 
-        for (final ProviewGroup proviewGroup : proviewGroups)
-        {
+        for (final ProviewGroup proviewGroup : proviewGroups) {
             final String currentVersion = proviewGroup.getGroupVersion().substring(1);
             Integer intVersion = 0;
 
             intVersion = Integer.parseInt(currentVersion);
 
-            if (intVersion > latestVersion)
-            {
+            if (intVersion > latestVersion) {
                 latestProviewGroup = proviewGroup;
                 latestVersion = intVersion;
             }
@@ -60,22 +53,16 @@ public class ProviewGroupContainer implements Serializable
         return latestProviewGroup;
     }
 
-    public List<ProviewGroup> getAllMajorVersions()
-    {
+    public List<ProviewGroup> getAllMajorVersions() {
         final Map<Integer, ProviewGroup> map = new HashMap<>();
 
-        for (final ProviewGroup proviewGroup : proviewGroups)
-        {
+        for (final ProviewGroup proviewGroup : proviewGroups) {
             final Integer key = 0;
-            if (!map.containsKey(key))
-            {
+            if (!map.containsKey(key)) {
                 map.put(key, proviewGroup);
-            }
-            else
-            {
+            } else {
                 final ProviewGroup previousTitleInfo = map.get(key);
-                if (proviewGroup.getVersion() > previousTitleInfo.getVersion())
-                {
+                if (proviewGroup.getVersion() > previousTitleInfo.getVersion()) {
                     map.put(key, proviewGroup);
                 }
             }
@@ -92,14 +79,11 @@ public class ProviewGroupContainer implements Serializable
      *
      * @return boolean
      */
-    public boolean hasBeenPublished()
-    {
+    public boolean hasBeenPublished() {
         boolean isPublished = false;
 
-        for (final ProviewGroup proviewGroup : proviewGroups)
-        {
-            if (proviewGroup.getGroupStatus().equalsIgnoreCase(PROVIEW_STATUS_FINAL))
-            {
+        for (final ProviewGroup proviewGroup : proviewGroups) {
+            if (proviewGroup.getGroupStatus().equalsIgnoreCase(PROVIEW_STATUS_FINAL)) {
                 isPublished = true;
                 break;
             }
@@ -107,12 +91,9 @@ public class ProviewGroupContainer implements Serializable
         return isPublished;
     }
 
-    public ProviewGroup getGroupByVersion(final String version)
-    {
-        for (final ProviewGroup group : proviewGroups)
-        {
-            if (version.equals(group.getVersion().toString()))
-            {
+    public ProviewGroup getGroupByVersion(final String version) {
+        for (final ProviewGroup group : proviewGroups) {
+            if (version.equals(group.getVersion().toString())) {
                 return group;
             }
         }

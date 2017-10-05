@@ -7,16 +7,13 @@ import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 
-public class PublishingStatsPK implements Serializable
-{
+public class PublishingStatsPK implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public PublishingStatsPK()
-    {
+    public PublishingStatsPK() {
     }
 
-    public PublishingStatsPK(final long jobInstanceId)
-    {
+    public PublishingStatsPK(final long jobInstanceId) {
         this.jobInstanceId = jobInstanceId;
     }
 
@@ -25,19 +22,16 @@ public class PublishingStatsPK implements Serializable
     @Id
     private Long jobInstanceId;
 
-    public void setJobInstanceId(final Long jobInstanceId)
-    {
+    public void setJobInstanceId(final Long jobInstanceId) {
         this.jobInstanceId = jobInstanceId;
     }
 
-    public Long getJobInstanceId()
-    {
+    public Long getJobInstanceId() {
         return jobInstanceId;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((jobInstanceId == null) ? 0 : jobInstanceId.hashCode());
@@ -47,8 +41,7 @@ public class PublishingStatsPK implements Serializable
     /**
      */
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (obj == this)
             return true;
         if (!(obj instanceof PublishingStatsPK))
@@ -63,8 +56,7 @@ public class PublishingStatsPK implements Serializable
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         final StringBuilder sb = new StringBuilder("PublishingStatsPK");
         sb.append(" jobInstanceId: ").append(getJobInstanceId());
         return sb.toString();

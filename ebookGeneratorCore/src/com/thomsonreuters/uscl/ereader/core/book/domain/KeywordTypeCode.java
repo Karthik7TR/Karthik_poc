@@ -30,8 +30,7 @@ import org.hibernate.annotations.FetchMode;
 @Table(name = "KEYWORD_TYPE_CODES")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "KeywordTypeCode")
-public class KeywordTypeCode implements Serializable, Comparable<KeywordTypeCode>
-{
+public class KeywordTypeCode implements Serializable, Comparable<KeywordTypeCode> {
     //private static final Logger log = LogManager.getLogger(KeywordTypeCode.class);
     private static final long serialVersionUID = -6883749966331206015L;
 
@@ -56,65 +55,53 @@ public class KeywordTypeCode implements Serializable, Comparable<KeywordTypeCode
     @Cascade(CascadeType.ALL)
     private Collection<KeywordTypeValue> values;
 
-    public KeywordTypeCode()
-    {
+    public KeywordTypeCode() {
         super();
         values = new ArrayList<>();
     }
 
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
-    public Date getLastUpdated()
-    {
+    public Date getLastUpdated() {
         return lastUpdatedTimeStampForKeyWordCode;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public boolean getIsRequired()
-    {
+    public boolean getIsRequired() {
         return ((isRequired.equalsIgnoreCase("Y") ? true : false));
     }
 
-    public Collection<KeywordTypeValue> getValues()
-    {
+    public Collection<KeywordTypeValue> getValues() {
         return values;
     }
 
-    public void setId(final Long id)
-    {
+    public void setId(final Long id) {
         this.id = id;
     }
 
-    public void setLastUpdated(final Date lastUpdated)
-    {
+    public void setLastUpdated(final Date lastUpdated) {
         lastUpdatedTimeStampForKeyWordCode = lastUpdated;
     }
 
-    public void setName(final String name)
-    {
+    public void setName(final String name) {
         this.name = name;
     }
 
-    public void setIsRequired(final boolean isRequired)
-    {
+    public void setIsRequired(final boolean isRequired) {
         this.isRequired = ((isRequired) ? "Y" : "N");
     }
 
-    public void setValues(final Collection<KeywordTypeValue> values)
-    {
+    public void setValues(final Collection<KeywordTypeValue> values) {
         this.values = values;
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -122,33 +109,26 @@ public class KeywordTypeCode implements Serializable, Comparable<KeywordTypeCode
         if (getClass() != obj.getClass())
             return false;
         final KeywordTypeCode other = (KeywordTypeCode) obj;
-        if (id == null)
-        {
+        if (id == null) {
             if (other.id != null)
                 return false;
-        }
-        else if (!id.equals(other.id))
+        } else if (!id.equals(other.id))
             return false;
-        if (lastUpdatedTimeStampForKeyWordCode == null)
-        {
+        if (lastUpdatedTimeStampForKeyWordCode == null) {
             if (other.lastUpdatedTimeStampForKeyWordCode != null)
                 return false;
-        }
-        else if (!lastUpdatedTimeStampForKeyWordCode.equals(other.lastUpdatedTimeStampForKeyWordCode))
+        } else if (!lastUpdatedTimeStampForKeyWordCode.equals(other.lastUpdatedTimeStampForKeyWordCode))
             return false;
-        if (name == null)
-        {
+        if (name == null) {
             if (other.name != null)
                 return false;
-        }
-        else if (!name.equals(other.name))
+        } else if (!name.equals(other.name))
             return false;
         return true;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -159,21 +139,16 @@ public class KeywordTypeCode implements Serializable, Comparable<KeywordTypeCode
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
     @Override
-    public int compareTo(final KeywordTypeCode arg0)
-    {
+    public int compareTo(final KeywordTypeCode arg0) {
         int result = 0;
-        if (name != null)
-        {
+        if (name != null) {
             result = (arg0 != null) ? name.compareTo(arg0.getName()) : 1;
-        }
-        else
-        { // str1 is null
+        } else { // str1 is null
             result = (arg0 != null) ? -1 : 0;
         }
         return result;

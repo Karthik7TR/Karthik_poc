@@ -8,8 +8,7 @@ import com.thomsonreuters.uscl.ereader.support.domain.SupportPageLink;
  * Service to manage SupportPageLink entities.
  *
  */
-public interface SupportPageLinkService
-{
+public interface SupportPageLinkService {
     void save(SupportPageLink spl);
 
     void delete(SupportPageLink spl);

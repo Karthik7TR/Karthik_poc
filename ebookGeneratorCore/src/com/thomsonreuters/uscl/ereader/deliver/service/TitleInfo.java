@@ -1,7 +1,6 @@
 package com.thomsonreuters.uscl.ereader.deliver.service;
 
-public interface TitleInfo
-{
+public interface TitleInfo {
     String getTitle();
 
     String getTitleId();

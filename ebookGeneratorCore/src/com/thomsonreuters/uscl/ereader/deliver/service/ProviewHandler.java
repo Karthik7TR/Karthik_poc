@@ -16,8 +16,7 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails
  * @author <a href="mailto:zack.farrell@thomsonreuters.com">Zack Farrell</a> uc209819
  *
  */
-public interface ProviewHandler
-{
+public interface ProviewHandler {
     /* ProView group */
     Map<String, ProviewGroupContainer> getAllProviewGroupInfo() throws ProviewException;
 
@@ -25,16 +24,14 @@ public interface ProviewHandler
 
     List<GroupDefinition> getGroupDefinitionsById(String groupId) throws ProviewException;
 
-    GroupDefinition getGroupDefinitionByVersion(String groupId, long groupVersion)
-        throws ProviewException;
+    GroupDefinition getGroupDefinitionByVersion(String groupId, long groupVersion) throws ProviewException;
 
     List<ProviewGroup> getAllLatestProviewGroupInfo() throws ProviewException;
 
     List<ProviewGroup> getAllLatestProviewGroupInfo(Map<String, ProviewGroupContainer> groupMap)
         throws ProviewException;
 
-    String createGroup(GroupDefinition groupDefinition)
-        throws ProviewException, UnsupportedEncodingException;
+    String createGroup(GroupDefinition groupDefinition) throws ProviewException, UnsupportedEncodingException;
 
     String promoteGroup(String groupId, String groupVersion) throws ProviewException;
 
@@ -62,15 +59,11 @@ public interface ProviewHandler
 
     boolean hasTitleIdBeenPublished(String fullyQualifiedTitleId) throws ProviewException;
 
-    String publishTitle(String fullyQualifiedTitleId, Version version, File eBook)
-        throws ProviewException;
+    String publishTitle(String fullyQualifiedTitleId, Version version, File eBook) throws ProviewException;
 
-    String promoteTitle(String fullyQualifiedTitleId, String eBookVersionNumber)
-        throws ProviewException;
+    String promoteTitle(String fullyQualifiedTitleId, String eBookVersionNumber) throws ProviewException;
 
-    String removeTitle(String fullyQualifiedTitleId, Version version)
-        throws ProviewException;
+    String removeTitle(String fullyQualifiedTitleId, Version version) throws ProviewException;
 
-    boolean deleteTitle(String fullyQualifiedTitleId, Version version)
-        throws ProviewException;
+    boolean deleteTitle(String fullyQualifiedTitleId, Version version) throws ProviewException;
 }

@@ -11,8 +11,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.transaction.annotation.Transactional;
 
-public abstract class BaseExcelExportService
-{
+public abstract class BaseExcelExportService {
     public static final int MAX_EXCEL_SHEET_ROW_NUM = 65535;
 
     protected String[] EXCEL_HEADER;
@@ -21,8 +20,7 @@ public abstract class BaseExcelExportService
     protected abstract void fillRows(Sheet sheet, CellStyle cellStyle, HttpSession session);
 
     @Transactional(readOnly = true)
-    public Workbook createExcelDocument(final HttpSession httpSession)
-    {
+    public Workbook createExcelDocument(final HttpSession httpSession) {
         final Workbook wb = new HSSFWorkbook();
         final CreationHelper createHelper = wb.getCreationHelper();
         final Sheet sheet = wb.createSheet(SHEET_NAME);
@@ -32,8 +30,7 @@ public abstract class BaseExcelExportService
         final Row headRow = sheet.createRow(0);
 
         int columnIndex = 0;
-        for (final String header : EXCEL_HEADER)
-        {
+        for (final String header : EXCEL_HEADER) {
             headRow.createCell(columnIndex).setCellValue(header);
             sheet.autoSizeColumn(columnIndex);
             columnIndex++;

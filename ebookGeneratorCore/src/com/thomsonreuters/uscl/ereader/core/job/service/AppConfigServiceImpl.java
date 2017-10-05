@@ -13,22 +13,19 @@ import org.apache.log4j.Level;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
-public class AppConfigServiceImpl implements AppConfigService
-{
+public class AppConfigServiceImpl implements AppConfigService {
     private static final int DEFAULT_SIZE = 2;
     private AppParameterDao dao;
     private String defaultProviewHostname;
     private NovusEnvironment defaultNovusEnvironment;
 
-    public AppConfigServiceImpl()
-    {
+    public AppConfigServiceImpl() {
         super();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public JobThrottleConfig loadJobThrottleConfig()
-    {
+    public JobThrottleConfig loadJobThrottleConfig() {
         final String coreThreadPoolSizeString = getConfigValue(JobThrottleConfig.Key.coreThreadPoolSize.toString());
         final int coreThreadPoolSize = (StringUtils.isNotBlank(coreThreadPoolSizeString))
             ? Integer.valueOf(coreThreadPoolSizeString) : DEFAULT_SIZE;
@@ -51,57 +48,47 @@ public class AppConfigServiceImpl implements AppConfigService
 
     @Override
     @Transactional(readOnly = true)
-    public MiscConfig loadMiscConfig()
-    {
+    public MiscConfig loadMiscConfig() {
         final Level appLogLevel = fetchLogLevel(MiscConfig.Key.appLogLevel.toString(), Level.INFO);
         final Level rootLogLevel = fetchLogLevel(MiscConfig.Key.rootLogLevel.toString(), Level.ERROR);
         String proviewHostname = getConfigValue(MiscConfig.Key.proviewHostname.toString());
-        if (StringUtils.isBlank(proviewHostname))
-        {
+        if (StringUtils.isBlank(proviewHostname)) {
             proviewHostname = defaultProviewHostname;
         }
 
         final int maxSplitParts = Integer.parseInt(getConfigValue(MiscConfig.Key.maxSplitParts.toString()));
 
-        final MiscConfig config = new MiscConfig(
-            appLogLevel,
-            rootLogLevel,
-            defaultNovusEnvironment,
-            proviewHostname,
-            maxSplitParts);
+        final MiscConfig config =
+            new MiscConfig(appLogLevel, rootLogLevel, defaultNovusEnvironment, proviewHostname, maxSplitParts);
         return config;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public String getConfigValue(final String key)
-    {
+    public String getConfigValue(final String key) {
         final AppParameter param = (AppParameter) dao.findByPrimaryKey(key);
         return (param != null) ? param.getValue() : null;
     }
 
-    private Level fetchLogLevel(final String key, final Level defaultLogLevel)
-    {
+    private Level fetchLogLevel(final String key, final Level defaultLogLevel) {
         final String logLevelString = getConfigValue(key);
-        final Level logLevel = (StringUtils.isNotBlank(logLevelString)) ? Level.toLevel(logLevelString) : defaultLogLevel;
+        final Level logLevel =
+            (StringUtils.isNotBlank(logLevelString)) ? Level.toLevel(logLevelString) : defaultLogLevel;
         return logLevel;
     }
 
     @Override
     @Transactional
-    public void saveJobThrottleConfig(final JobThrottleConfig config)
-    {
+    public void saveJobThrottleConfig(final JobThrottleConfig config) {
         final List<AppParameter> params = createJobThrottleConfigAppParameterList(config);
-        for (final AppParameter param : params)
-        {
+        for (final AppParameter param : params) {
             dao.save(param);
         }
     }
 
     @Override
     @Transactional
-    public void saveMiscConfig(final MiscConfig config)
-    {
+    public void saveMiscConfig(final MiscConfig config) {
         AppParameter param = new AppParameter(MiscConfig.Key.appLogLevel.toString(), config.getAppLogLevel());
         dao.save(param);
         param = new AppParameter(MiscConfig.Key.rootLogLevel.toString(), config.getRootLogLevel());
@@ -110,8 +97,7 @@ public class AppConfigServiceImpl implements AppConfigService
         dao.save(param);
     }
 
-    private List<AppParameter> createJobThrottleConfigAppParameterList(final JobThrottleConfig config)
-    {
+    private List<AppParameter> createJobThrottleConfigAppParameterList(final JobThrottleConfig config) {
         final List<AppParameter> parameters = new ArrayList<>();
         parameters
             .add(new AppParameter(JobThrottleConfig.Key.coreThreadPoolSize.toString(), config.getCoreThreadPoolSize()));
@@ -125,18 +111,15 @@ public class AppConfigServiceImpl implements AppConfigService
     }
 
     @Required
-    public void setAppParameterDao(final AppParameterDao dao)
-    {
+    public void setAppParameterDao(final AppParameterDao dao) {
         this.dao = dao;
     }
 
-    public void setDefaultProviewHostname(final String hostname)
-    {
+    public void setDefaultProviewHostname(final String hostname) {
         defaultProviewHostname = hostname;
     }
 
-    public void setDefaultNovusEnvironment(final NovusEnvironment env)
-    {
+    public void setDefaultNovusEnvironment(final NovusEnvironment env) {
         defaultNovusEnvironment = env;
     }
 }

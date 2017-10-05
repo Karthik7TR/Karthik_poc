@@ -1,7 +1,6 @@
 package com.thomsonreuters.uscl.ereader.stats;
 
-public enum PublishingStatus
-{
+public enum PublishingStatus {
     COMPLETED,
     FAILED
 }

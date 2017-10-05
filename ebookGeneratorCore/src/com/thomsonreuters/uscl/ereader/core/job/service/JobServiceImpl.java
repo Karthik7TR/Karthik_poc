@@ -14,35 +14,29 @@ import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
-public class JobServiceImpl implements JobService
-{
+public class JobServiceImpl implements JobService {
     //private static final Logger log = LogManager.getLogger(JobServiceImpl.class);
     private JobDao dao;
     private JobExplorer jobExplorer;
 
     @Override
-    public List<JobSummary> findJobSummary(final List<Long> jobExecutionIds)
-    {
+    public List<JobSummary> findJobSummary(final List<Long> jobExecutionIds) {
         return dao.findJobSummary(jobExecutionIds);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public JobExecution findJobExecution(final long jobExecutionId)
-    {
+    public JobExecution findJobExecution(final long jobExecutionId) {
         return jobExplorer.getJobExecution(jobExecutionId);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<JobExecution> findJobExecutions(final List<Long> jobExecutionIds)
-    {
+    public List<JobExecution> findJobExecutions(final List<Long> jobExecutionIds) {
         final List<JobExecution> jobExecutions = new ArrayList<>();
-        for (final Long jobExecutionId : jobExecutionIds)
-        {
+        for (final Long jobExecutionId : jobExecutionIds) {
             final JobExecution jobExecution = jobExplorer.getJobExecution(jobExecutionId);
-            if (jobExecution != null)
-            {
+            if (jobExecution != null) {
                 jobExecutions.add(jobExecution);
             }
         }
@@ -50,48 +44,41 @@ public class JobServiceImpl implements JobService
     }
 
     @Override
-    public List<JobExecution> findJobExecutions(final JobInstance jobInstance)
-    {
+    public List<JobExecution> findJobExecutions(final JobInstance jobInstance) {
         final List<JobExecution> jobExecutions = jobExplorer.getJobExecutions(jobInstance);
         return jobExecutions;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Long> findJobExecutions(final JobFilter filter, final JobSort sort)
-    {
+    public List<Long> findJobExecutions(final JobFilter filter, final JobSort sort) {
         return dao.findJobExecutions(filter, sort);
     }
 
     @Override
-    public JobInstance findJobInstance(final long jobInstanceId)
-    {
+    public JobInstance findJobInstance(final long jobInstanceId) {
         return jobExplorer.getJobInstance(jobInstanceId);
     }
 
     @Override
-    public StepExecution findStepExecution(final long jobExecutionId, final long stepExecutionId)
-    {
+    public StepExecution findStepExecution(final long jobExecutionId, final long stepExecutionId) {
         final StepExecution stepExecution = jobExplorer.getStepExecution(jobExecutionId, stepExecutionId);
         return stepExecution;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public int getStartedJobCount()
-    {
+    public int getStartedJobCount() {
         return dao.getStartedJobCount();
     }
 
     @Required
-    public void setJobDao(final JobDao dao)
-    {
+    public void setJobDao(final JobDao dao) {
         this.dao = dao;
     }
 
     @Required
-    public void setJobExplorer(final JobExplorer explorer)
-    {
+    public void setJobExplorer(final JobExplorer explorer) {
         jobExplorer = explorer;
     }
 }

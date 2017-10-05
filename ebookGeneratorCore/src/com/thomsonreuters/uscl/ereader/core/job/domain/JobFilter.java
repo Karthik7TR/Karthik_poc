@@ -11,8 +11,7 @@ import org.springframework.batch.core.BatchStatus;
  * The filter criteria used when searching for jobs to display in the Job Summary table.
  * A null or blank property value indicates that it is to be ignored and not included as part of the search criteria.
  */
-public class JobFilter
-{
+public class JobFilter {
     // Job Execution properties
     private Date from; // start date on and after this calendar date (inclusive)
     private Date to; // start date on and before this calendar date (inclusive)
@@ -23,13 +22,17 @@ public class JobFilter
     private String bookName;
     private String submittedBy;
 
-    public JobFilter()
-    {
+    public JobFilter() {
         super();
     }
 
-    public JobFilter(final Date from, final Date to, final BatchStatus[] batchStatus, final String titleId, final String bookName, final String submittedBy)
-    {
+    public JobFilter(
+        final Date from,
+        final Date to,
+        final BatchStatus[] batchStatus,
+        final String titleId,
+        final String bookName,
+        final String submittedBy) {
         this.from = from;
         this.to = to;
         this.batchStatus = batchStatus;
@@ -43,26 +46,22 @@ public class JobFilter
      * Needed because we need to join on the JOB_PARAMS table if there is any job parameter
      * being filtered on and the DAO needs to know if it should add the join clause to the query.
      */
-    public boolean hasAnyBookProperties()
-    {
+    public boolean hasAnyBookProperties() {
         return (StringUtils.isNotBlank(titleId))
             || (StringUtils.isNotBlank(bookName) || StringUtils.isNotBlank(submittedBy));
     }
 
     /** Include executions with a start time from the start of (00:00:00) of this calendar date and after. */
-    public Date getFrom()
-    {
+    public Date getFrom() {
         return from;
     }
 
     /** Filter to date entered by user, normalized to midnight (00:00:00) of the entered day. */
-    public Date getTo()
-    {
+    public Date getTo() {
         return to;
     }
 
-    public BatchStatus[] getBatchStatus()
-    {
+    public BatchStatus[] getBatchStatus() {
         return batchStatus;
     }
 
@@ -71,24 +70,20 @@ public class JobFilter
      * the actual definition title ID as a 'like' comparison '%titleID%'.
      * @return
      */
-    public String getTitleId()
-    {
+    public String getTitleId() {
         return titleId;
     }
 
-    public String getBookName()
-    {
+    public String getBookName() {
         return bookName;
     }
 
-    public String getSubmittedBy()
-    {
+    public String getSubmittedBy() {
         return submittedBy;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

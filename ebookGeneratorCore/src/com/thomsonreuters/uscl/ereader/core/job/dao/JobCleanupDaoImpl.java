@@ -19,8 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
-public class JobCleanupDaoImpl implements JobCleanupDao
-{
+public class JobCleanupDaoImpl implements JobCleanupDao {
     private static final String DEAD_JOB_MESSAGE = "Dead Job detected - updated status and exit codes";
     private static final String BATCH_STATUS_FAILED = BatchStatus.FAILED.toString();
     private static final String BATCH_STATUS_ABANDONED = BatchStatus.ABANDONED.toString();
@@ -31,8 +30,7 @@ public class JobCleanupDaoImpl implements JobCleanupDao
     private static final Logger log = LogManager.getLogger(JobCleanupDaoImpl.class);
     private SessionFactory sessionFactory;
 
-    public JobCleanupDaoImpl(final SessionFactory sessionFactory)
-    {
+    public JobCleanupDaoImpl(final SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
@@ -43,34 +41,29 @@ public class JobCleanupDaoImpl implements JobCleanupDao
      */
     @Override
     @Transactional
-    public List<JobUserInfo> findListOfDeadJobs() throws EBookServerException
-    {
+    public List<JobUserInfo> findListOfDeadJobs() throws EBookServerException {
         final StringBuffer hql = new StringBuffer("Select ps.job_submitter_name,ed.title_id ,ed.proview_display_name");
         hql.append(" from batch_job_execution  bje");
         hql.append(" inner join publishing_stats ps on ps.job_instance_id =  bje.job_instance_id");
         hql.append(" inner join ebook_definition ed on ed.ebook_definition_id = ps.ebook_definition_id");
         hql.append(String.format(" where bje.exit_code = '%s'", EXIT_STATUS_UNKNOWN));
 
-        try
-        {
+        try {
             final Session session = sessionFactory.getCurrentSession();
 
             final Query query = session.createSQLQuery(hql.toString());
             final List<Object[]> objectList = query.list();
 
             final List<JobUserInfo> arrayList = new ArrayList<>();
-            for (final Object[] arr : objectList)
-            {
-                if (arr[1] != null)
-                {
-                    final JobUserInfo jobUserInfo = new JobUserInfo(arr[0].toString(), arr[1].toString(), arr[2].toString());
+            for (final Object[] arr : objectList) {
+                if (arr[1] != null) {
+                    final JobUserInfo jobUserInfo =
+                        new JobUserInfo(arr[0].toString(), arr[1].toString(), arr[2].toString());
                     arrayList.add(jobUserInfo);
                 }
             }
             return arrayList;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error(e);
             throw new EBookServerException("Failed to get list of dead job(s).");
         }
@@ -82,8 +75,7 @@ public class JobCleanupDaoImpl implements JobCleanupDao
      * @throws EBookServerException
      */
     @Override
-    public int updateBatchJobExecution() throws EBookServerException
-    {
+    public int updateBatchJobExecution() throws EBookServerException {
         final StringBuffer hql = new StringBuffer("update batch_job_execution set ");
         hql.append(String.format(" exit_code = '%s',", EXIT_STATUS_FAILED));
         hql.append(String.format(" STATUS = '%s',", BATCH_STATUS_ABANDONED));
@@ -94,13 +86,10 @@ public class JobCleanupDaoImpl implements JobCleanupDao
         final Session session = sessionFactory.getCurrentSession();
         final Query query = session.createSQLQuery(hql.toString());
         int result = 0;
-        try
-        {
+        try {
             result = query.executeUpdate();
             session.flush();
-        }
-        catch (final HibernateException e)
-        {
+        } catch (final HibernateException e) {
             log.error(e);
             throw new EBookServerException("Failed to update dead batch job(s).");
         }
@@ -113,8 +102,7 @@ public class JobCleanupDaoImpl implements JobCleanupDao
      * @throws EBookServerException
      */
     @Override
-    public int updateBatchStepExecution() throws EBookServerException
-    {
+    public int updateBatchStepExecution() throws EBookServerException {
         final StringBuffer hql = new StringBuffer("update batch_step_execution bse set");
         hql.append(String.format(" bse.EXIT_CODE = '%s',", EXIT_STATUS_FAILED));
         hql.append(String.format(" bse.STATUS = '%s',", BATCH_STATUS_FAILED));
@@ -130,13 +118,10 @@ public class JobCleanupDaoImpl implements JobCleanupDao
         final Session session = sessionFactory.getCurrentSession();
         final Query query = session.createSQLQuery(hql.toString());
         int result = 0;
-        try
-        {
+        try {
             result = query.executeUpdate();
             session.flush();
-        }
-        catch (final HibernateException e)
-        {
+        } catch (final HibernateException e) {
             log.error(e);
             throw new EBookServerException("Failed to update job steps in batch_step_execution table.");
         }
@@ -151,8 +136,7 @@ public class JobCleanupDaoImpl implements JobCleanupDao
      * @throws EBookServerException
      */
     @Override
-    public int updateBatchJobExecutionForGivenServer(final String serverName) throws EBookServerException
-    {
+    public int updateBatchJobExecutionForGivenServer(final String serverName) throws EBookServerException {
         final StringBuffer hql = new StringBuffer();
         hql.append("update batch_job_execution set ");
         hql.append(String.format("exit_code = '%s', ", EXIT_STATUS_FAILED));
@@ -168,13 +152,10 @@ public class JobCleanupDaoImpl implements JobCleanupDao
         final Session session = sessionFactory.getCurrentSession();
         final Query query = session.createSQLQuery(hql.toString());
         int result = 0;
-        try
-        {
+        try {
             result = query.executeUpdate();
             session.flush();
-        }
-        catch (final HibernateException e)
-        {
+        } catch (final HibernateException e) {
             log.error(e);
             throw new EBookServerException(
                 "Failed to update job(s) in batch_job_execution table. For given serverName =" + serverName);
@@ -189,8 +170,7 @@ public class JobCleanupDaoImpl implements JobCleanupDao
      * @throws EBookServerException
      */
     @Override
-    public int updateBatchStepExecutionForGivenServer(final String serverName) throws EBookServerException
-    {
+    public int updateBatchStepExecutionForGivenServer(final String serverName) throws EBookServerException {
         final StringBuffer hql = new StringBuffer();
         hql.append("update batch_step_execution set ");
         hql.append(String.format("EXIT_CODE = '%s', STATUS = '%s', ", EXIT_STATUS_FAILED, BATCH_STATUS_FAILED));
@@ -205,13 +185,10 @@ public class JobCleanupDaoImpl implements JobCleanupDao
         final Session session = sessionFactory.getCurrentSession();
         final Query query = session.createSQLQuery(hql.toString());
         int result = 0;
-        try
-        {
+        try {
             result = query.executeUpdate();
             session.flush();
-        }
-        catch (final HibernateException e)
-        {
+        } catch (final HibernateException e) {
             log.error(e);
             throw new EBookServerException(
                 "Failed to update job step(s) in batch_step_execution table. For given serverName =" + serverName);
@@ -225,8 +202,7 @@ public class JobCleanupDaoImpl implements JobCleanupDao
      * @throws EBookServerException
      */
     @Override
-    public List<JobUserInfo> findListOfDeadJobsByServerName(final String serverName) throws EBookServerException
-    {
+    public List<JobUserInfo> findListOfDeadJobsByServerName(final String serverName) throws EBookServerException {
         final StringBuffer hql = new StringBuffer("Select ps.job_submitter_name,ed.title_id ,ed.proview_display_name");
         hql.append(" from batch_job_execution  bje");
         hql.append(" inner join publishing_stats ps on ps.job_instance_id =  bje.job_instance_id");
@@ -234,26 +210,22 @@ public class JobCleanupDaoImpl implements JobCleanupDao
         hql.append(String.format(" where bje.exit_code = '%s'", EXIT_STATUS_UNKNOWN));
         hql.append(String.format(" and ps.job_host_name = '%s'", serverName));
 
-        try
-        {
+        try {
             final Session session = sessionFactory.getCurrentSession();
 
             final Query query = session.createSQLQuery(hql.toString());
             final List<Object[]> objectList = query.list();
 
             final List<JobUserInfo> arrayList = new ArrayList<>();
-            for (final Object[] arr : objectList)
-            {
-                if (arr[1] != null)
-                {
-                    final JobUserInfo jobUserInfo = new JobUserInfo(arr[0].toString(), arr[1].toString(), arr[2].toString());
+            for (final Object[] arr : objectList) {
+                if (arr[1] != null) {
+                    final JobUserInfo jobUserInfo =
+                        new JobUserInfo(arr[0].toString(), arr[1].toString(), arr[2].toString());
                     arrayList.add(jobUserInfo);
                 }
             }
             return arrayList;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error(e);
             throw new EBookServerException("Failed to get list of dead job(s) for given serverName =" + serverName);
         }

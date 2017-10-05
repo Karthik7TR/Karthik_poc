@@ -13,8 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Component("mqConnectionFactory")
 @Lazy
-public class MQConnectionFactory implements ConnectionFactory
-{
+public class MQConnectionFactory implements ConnectionFactory {
     private static final Logger log = Logger.getLogger(JmsClientImpl.class);
 
     @Override
@@ -24,8 +23,7 @@ public class MQConnectionFactory implements ConnectionFactory
         final String queueManager,
         final String queue,
         final String channel,
-        final int transportType) throws JMSException
-    {
+        final int transportType) throws JMSException {
         final MQQueueConnectionFactory factory = new MQQueueConnectionFactory();
         factory.setHostName(host);
         factory.setPort(port);
@@ -46,8 +44,7 @@ public class MQConnectionFactory implements ConnectionFactory
         final String queueManager,
         final String queue,
         final String channel,
-        final int transportType)
-    {
+        final int transportType) {
         final JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory);
         jmsTemplate.setDefaultDestinationName(queue);
 

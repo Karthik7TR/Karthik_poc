@@ -22,20 +22,17 @@ import org.springframework.dao.DataAccessException;
  *
  */
 
-public class BookDefinitionLockDaoImpl implements BookDefinitionLockDao
-{
+public class BookDefinitionLockDaoImpl implements BookDefinitionLockDao {
     //private static final Logger log = LogManager.getLogger(BookDefinitionLockDaoImpl.class);
 
     private SessionFactory sessionFactory;
 
-    public BookDefinitionLockDaoImpl(final SessionFactory hibernateSessionFactory)
-    {
+    public BookDefinitionLockDaoImpl(final SessionFactory hibernateSessionFactory) {
         sessionFactory = hibernateSessionFactory;
     }
 
     @Override
-    public List<BookDefinitionLock> findAllActiveLocks()
-    {
+    public List<BookDefinitionLock> findAllActiveLocks() {
         // Set session timeout
         final Calendar cal = Calendar.getInstance();
         cal.add(Calendar.SECOND, -(BookDefinitionLock.LOCK_TIMEOUT_SEC));
@@ -49,18 +46,14 @@ public class BookDefinitionLockDaoImpl implements BookDefinitionLockDao
 
         // Create HashMap to find the newest timestamp for each book definition id
         final Map<Long, BookDefinitionLock> bookDefinitionMap = new HashMap<>();
-        for (final BookDefinitionLock lock : (List<BookDefinitionLock>) criteria.list())
-        {
-            final BookDefinitionLock previousLock = bookDefinitionMap.get(lock.getEbookDefinition().getEbookDefinitionId());
-            if (previousLock != null)
-            {
-                if (lock.getCheckoutTimestamp().after(previousLock.getCheckoutTimestamp()))
-                {
+        for (final BookDefinitionLock lock : (List<BookDefinitionLock>) criteria.list()) {
+            final BookDefinitionLock previousLock =
+                bookDefinitionMap.get(lock.getEbookDefinition().getEbookDefinitionId());
+            if (previousLock != null) {
+                if (lock.getCheckoutTimestamp().after(previousLock.getCheckoutTimestamp())) {
                     bookDefinitionMap.put(lock.getEbookDefinition().getEbookDefinitionId(), lock);
                 }
-            }
-            else
-            {
+            } else {
                 bookDefinitionMap.put(lock.getEbookDefinition().getEbookDefinitionId(), lock);
             }
         }
@@ -69,8 +62,7 @@ public class BookDefinitionLockDaoImpl implements BookDefinitionLockDao
     }
 
     @Override
-    public List<BookDefinitionLock> findLocksByBookDefinition(final BookDefinition book) throws DataAccessException
-    {
+    public List<BookDefinitionLock> findLocksByBookDefinition(final BookDefinition book) throws DataAccessException {
         final Criteria criteria = sessionFactory.getCurrentSession()
             .createCriteria(BookDefinitionLock.class)
             .add(Restrictions.eq("ebookDefinition", book))
@@ -79,8 +71,7 @@ public class BookDefinitionLockDaoImpl implements BookDefinitionLockDao
     }
 
     @Override
-    public BookDefinitionLock findBookDefinitionLockByPrimaryKey(final Long primaryKey)
-    {
+    public BookDefinitionLock findBookDefinitionLockByPrimaryKey(final Long primaryKey) {
         return (BookDefinitionLock) sessionFactory.getCurrentSession()
             .createCriteria(BookDefinitionLock.class)
             .add(Restrictions.eq("ebookDefinitionLockId", primaryKey))
@@ -89,8 +80,7 @@ public class BookDefinitionLockDaoImpl implements BookDefinitionLockDao
     }
 
     @Override
-    public void removeLock(BookDefinitionLock bookDefinitionLock) throws DataAccessException
-    {
+    public void removeLock(BookDefinitionLock bookDefinitionLock) throws DataAccessException {
         final Session session = sessionFactory.getCurrentSession();
         bookDefinitionLock = (BookDefinitionLock) session.merge(bookDefinitionLock);
         session.delete(bookDefinitionLock);
@@ -101,8 +91,7 @@ public class BookDefinitionLockDaoImpl implements BookDefinitionLockDao
      * Removes all locks that has expired
      */
     @Override
-    public void cleanExpiredLocks()
-    {
+    public void cleanExpiredLocks() {
         final Session session = sessionFactory.getCurrentSession();
         // Set session timeout
         final Calendar cal = Calendar.getInstance();
@@ -113,8 +102,7 @@ public class BookDefinitionLockDaoImpl implements BookDefinitionLockDao
 
         final List<BookDefinitionLock> expiredLocks = criteria.list();
 
-        for (final BookDefinitionLock lock : expiredLocks)
-        {
+        for (final BookDefinitionLock lock : expiredLocks) {
             session.delete(lock);
         }
 
@@ -122,8 +110,7 @@ public class BookDefinitionLockDaoImpl implements BookDefinitionLockDao
     }
 
     @Override
-    public void saveLock(final BookDefinitionLock bookDefinitionLock)
-    {
+    public void saveLock(final BookDefinitionLock bookDefinitionLock) {
         final Session session = sessionFactory.getCurrentSession();
         session.save(bookDefinitionLock);
         session.flush();

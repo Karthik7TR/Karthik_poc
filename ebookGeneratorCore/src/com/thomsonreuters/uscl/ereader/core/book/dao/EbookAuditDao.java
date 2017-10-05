@@ -11,8 +11,7 @@ import org.springframework.dao.DataAccessException;
  * DAO to manage EbookAudit entities.
  *
  */
-public interface EbookAuditDao
-{
+public interface EbookAuditDao {
     String MOD_TEXT = "modified-";
 
     /**

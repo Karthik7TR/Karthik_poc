@@ -19,14 +19,12 @@ import org.springframework.web.client.RestTemplate;
  * Currently this means changing the log4j logger levels and storing the Novus Environment (Client|Prod).
  *
  */
-public abstract class AbstractMiscConfigSyncService implements MiscConfigSyncService
-{
+public abstract class AbstractMiscConfigSyncService implements MiscConfigSyncService {
     //private static Logger log = LogManager.getLogger(AbstractMiscConfigSyncService.class);
 
     private MiscConfig miscConfig;
 
-    public AbstractMiscConfigSyncService()
-    {
+    public AbstractMiscConfigSyncService() {
         super();
         miscConfig = new MiscConfig();
     }
@@ -34,46 +32,39 @@ public abstract class AbstractMiscConfigSyncService implements MiscConfigSyncSer
     public abstract void syncSpecific(MiscConfig config) throws Exception;
 
     @Override
-    public void sync(final MiscConfig config) throws Exception
-    {
+    public void sync(final MiscConfig config) throws Exception {
         miscConfig.copy(config); // Make a copy of the values maintained within this service
         syncLogLevels(config); // Common operation for all web apps
         syncSpecific(config); // Do app specific operations
     }
 
     @Override
-    public MiscConfig getMiscConfig()
-    {
+    public MiscConfig getMiscConfig() {
         return miscConfig;
     }
 
     @Override
-    public InetAddress getProviewHost()
-    {
+    public InetAddress getProviewHost() {
         return miscConfig.getProviewHost();
     }
 
     @Override
-    public NovusEnvironment getNovusEnvironment()
-    {
+    public NovusEnvironment getNovusEnvironment() {
         return miscConfig.getNovusEnvironment();
     }
 
-    private void syncLogLevels(final MiscConfig config)
-    {
+    private void syncLogLevels(final MiscConfig config) {
         // Set the configured logging levels
         setAppLogLevel(config.getAppLogLevel());
         setRootLogLevel(config.getRootLogLevel());
     }
 
-    private void setAppLogLevel(final Level level)
-    {
+    private void setAppLogLevel(final Level level) {
         final Logger logger = LogManager.getLogger("com.thomsonreuters.uscl.ereader");
         logger.setLevel(level);
     }
 
-    private void setRootLogLevel(final Level level)
-    {
+    private void setRootLogLevel(final Level level) {
         final Logger logger = LogManager.getRootLogger();
         logger.setLevel(level);
     }
@@ -87,14 +78,14 @@ public abstract class AbstractMiscConfigSyncService implements MiscConfigSyncSer
         final MiscConfig config,
         final CloseableAuthenticationHttpClientFactory httpClientFactory,
         final ProviewClient proviewClient,
-        final RestTemplate proviewRestTemplate) throws UnknownHostException
-    {
+        final RestTemplate proviewRestTemplate) throws UnknownHostException {
         // Set a new proview host for authentication and
         final InetAddress host = config.getProviewHost();
         proviewClient.setProviewHostname(config.getProviewHostname());
         httpClientFactory.setHost(host);
         final HttpClient httpClient = httpClientFactory.getCloseableAuthenticationHttpClient();
-        final HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+        final HttpComponentsClientHttpRequestFactory requestFactory =
+            new HttpComponentsClientHttpRequestFactory(httpClient);
         requestFactory.setBufferRequestBody(false);
         proviewRestTemplate.setRequestFactory(requestFactory);
     }

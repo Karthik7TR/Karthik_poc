@@ -6,8 +6,7 @@ import javax.mail.internet.InternetAddress;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface CoreService
-{
+public interface CoreService {
     /**
      * Lookup all the email addresses (recipients) for the various email notification events.
      * These are the union of the user preference email address for the specified user (the dynamic set) and by the

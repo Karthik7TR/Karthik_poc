@@ -22,12 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 
-public class EBookAuditDaoImpl implements EbookAuditDao
-{
+public class EBookAuditDaoImpl implements EbookAuditDao {
     private SessionFactory sessionFactory;
 
-    public EBookAuditDaoImpl(final SessionFactory hibernateSessionFactory)
-    {
+    public EBookAuditDaoImpl(final SessionFactory hibernateSessionFactory) {
         sessionFactory = hibernateSessionFactory;
     }
 
@@ -39,15 +37,13 @@ public class EBookAuditDaoImpl implements EbookAuditDao
      *
      *
      */
-    public boolean canBeMerged(final EbookAudit entity)
-    {
+    public boolean canBeMerged(final EbookAudit entity) {
         return true;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Long findMaxAuditId()
-    {
+    public Long findMaxAuditId() {
         final Session session = sessionFactory.getCurrentSession();
 
         final Long ebookAuditMax = (Long) session.createCriteria(EbookAudit.class)
@@ -60,8 +56,7 @@ public class EBookAuditDaoImpl implements EbookAuditDao
      * (non-Javadoc)
      */
     @Transactional
-    public Query createNamedQuery(final String queryName)
-    {
+    public Query createNamedQuery(final String queryName) {
         final Query query = sessionFactory.getCurrentSession().getNamedQuery(queryName);
         return query;
     }
@@ -70,8 +65,7 @@ public class EBookAuditDaoImpl implements EbookAuditDao
      * (non-Javadoc)
      */
     @Transactional
-    public EbookAudit persist(final EbookAudit toPersist)
-    {
+    public EbookAudit persist(final EbookAudit toPersist) {
         sessionFactory.getCurrentSession().save(toPersist);
         flush();
         return toPersist;
@@ -82,8 +76,7 @@ public class EBookAuditDaoImpl implements EbookAuditDao
      */
     @Override
     @Transactional
-    public void remove(EbookAudit toRemove)
-    {
+    public void remove(EbookAudit toRemove) {
         toRemove = (EbookAudit) sessionFactory.getCurrentSession().merge(toRemove);
         sessionFactory.getCurrentSession().delete(toRemove);
         flush();
@@ -93,22 +86,17 @@ public class EBookAuditDaoImpl implements EbookAuditDao
      * (non-Javadoc)
      */
     @Transactional
-    public void flush()
-    {
+    public void flush() {
         sessionFactory.getCurrentSession().flush();
     }
 
     @Override
-    public void saveAudit(EbookAudit audit)
-    {
+    public void saveAudit(EbookAudit audit) {
         final Session session = sessionFactory.getCurrentSession();
 
-        if (audit.getAuditId() != null)
-        {
+        if (audit.getAuditId() != null) {
             audit = (EbookAudit) session.merge(audit);
-        }
-        else
-        {
+        } else {
             session.save(audit);
         }
 
@@ -116,12 +104,10 @@ public class EBookAuditDaoImpl implements EbookAuditDao
     }
 
     @Override
-    public void updateSpliDocumentsAudit(EbookAudit audit, final String splitDocumentsConcat, final int parts)
-    {
+    public void updateSpliDocumentsAudit(EbookAudit audit, final String splitDocumentsConcat, final int parts) {
         final Session session = sessionFactory.getCurrentSession();
 
-        if (audit.getAuditId() != null)
-        {
+        if (audit.getAuditId() != null) {
             audit.setSplitDocumentsConcat(splitDocumentsConcat);
             audit.setSplitEBookParts(Integer.valueOf(parts));
             audit = (EbookAudit) session.merge(audit);
@@ -132,8 +118,7 @@ public class EBookAuditDaoImpl implements EbookAuditDao
 
     @Override
     @Transactional(readOnly = true)
-    public EbookAudit findEbookAuditByPrimaryKey(final Long auditId) throws DataAccessException
-    {
+    public EbookAudit findEbookAuditByPrimaryKey(final Long auditId) throws DataAccessException {
         final Query query = createNamedQuery("findEbookAuditByPrimaryKey");
         query.setLong("auditId", auditId);
         return (EbookAudit) query.uniqueResult();
@@ -141,8 +126,7 @@ public class EBookAuditDaoImpl implements EbookAuditDao
 
     @Override
     @Transactional(readOnly = true)
-    public List<EbookAudit> findEbookAuditByTitleIdAndIsbn(final String titleId, final String isbn)
-    {
+    public List<EbookAudit> findEbookAuditByTitleIdAndIsbn(final String titleId, final String isbn) {
         final EbookAuditFilter filter = new EbookAuditFilter(titleId, null, isbn);
         final Criteria criteria = addFilters(filter);
 
@@ -151,8 +135,7 @@ public class EBookAuditDaoImpl implements EbookAuditDao
 
     @Override
     @Transactional(readOnly = true)
-    public Long findEbookAuditIdByEbookDefId(final Long ebookDefId) throws DataAccessException
-    {
+    public Long findEbookAuditIdByEbookDefId(final Long ebookDefId) throws DataAccessException {
         final Session session = sessionFactory.getCurrentSession();
 
         final Long ebookAuditMax = (Long) session.createCriteria(EbookAudit.class)
@@ -164,8 +147,7 @@ public class EBookAuditDaoImpl implements EbookAuditDao
 
     @Override
     @Transactional(readOnly = true)
-    public EbookAudit findEbookAuditIdByTtileId(final String titleId) throws DataAccessException
-    {
+    public EbookAudit findEbookAuditIdByTtileId(final String titleId) throws DataAccessException {
         final StringBuffer hql = new StringBuffer("select pa from EbookAudit pa where (pa.auditId) in ");
         hql.append("(select max(pa2.auditId) from EbookAudit pa2 where");
         hql.append(" pa2.titleId = :titleId)");
@@ -176,8 +158,7 @@ public class EBookAuditDaoImpl implements EbookAuditDao
         query.setParameter("titleId", titleId);
 
         final EbookAudit audit = (EbookAudit) query.uniqueResult();
-        if (audit == null)
-        {
+        if (audit == null) {
             return null;
         }
         return audit;
@@ -185,22 +166,17 @@ public class EBookAuditDaoImpl implements EbookAuditDao
 
     @Override
     @Transactional(readOnly = true)
-    public List<EbookAudit> findEbookAudits(final EbookAuditFilter filter, final EbookAuditSort sort)
-    {
+    public List<EbookAudit> findEbookAudits(final EbookAuditFilter filter, final EbookAuditSort sort) {
         final Criteria criteria = addFilters(filter);
 
         final String orderByColumn = getOrderByColumnName(sort.getSortProperty());
-        if (sort.isAscending())
-        {
+        if (sort.isAscending()) {
             criteria.addOrder(Order.asc(orderByColumn));
-        }
-        else
-        {
+        } else {
             criteria.addOrder(Order.desc(orderByColumn));
         }
 
-        if (sort.getSortProperty() != EbookAuditSort.SortProperty.SUBMITTED_DATE)
-        {
+        if (sort.getSortProperty() != EbookAuditSort.SortProperty.SUBMITTED_DATE) {
             criteria.addOrder(Order.desc(getOrderByColumnName(EbookAuditSort.SortProperty.SUBMITTED_DATE)));
         }
 
@@ -213,8 +189,7 @@ public class EBookAuditDaoImpl implements EbookAuditDao
 
     @Override
     @Transactional(readOnly = true)
-    public int numberEbookAudits(final EbookAuditFilter filter)
-    {
+    public int numberEbookAudits(final EbookAuditFilter filter) {
         final Criteria criteria = addFilters(filter);
 
         criteria.setProjection(Projections.projectionList().add(Projections.property("auditId"), "auditId"));
@@ -222,46 +197,36 @@ public class EBookAuditDaoImpl implements EbookAuditDao
         return criteria.list().size();
     }
 
-    private Criteria addFilters(final EbookAuditFilter filter)
-    {
+    private Criteria addFilters(final EbookAuditFilter filter) {
         final Session session = sessionFactory.getCurrentSession();
 
         final Criteria criteria = session.createCriteria(EbookAudit.class);
 
-        if (filter.getFrom() != null)
-        {
+        if (filter.getFrom() != null) {
             criteria.add(Restrictions.ge("lastUpdated", filter.getFrom()));
         }
-        if (filter.getTo() != null)
-        {
+        if (filter.getTo() != null) {
             criteria.add(Restrictions.le("lastUpdated", filter.getTo()));
         }
-        if (StringUtils.isNotBlank(filter.getAction()))
-        {
+        if (StringUtils.isNotBlank(filter.getAction())) {
             criteria.add(Restrictions.eq("auditType", filter.getAction()));
         }
-        if (StringUtils.isNotBlank(filter.getBookName()))
-        {
+        if (StringUtils.isNotBlank(filter.getBookName())) {
             criteria.add(Restrictions.like("proviewDisplayName", filter.getBookName()).ignoreCase());
         }
-        if (StringUtils.isNotBlank(filter.getTitleId()))
-        {
+        if (StringUtils.isNotBlank(filter.getTitleId())) {
             criteria.add(Restrictions.like("titleId", filter.getTitleId()).ignoreCase());
         }
-        if (StringUtils.isNotBlank(filter.getSubmittedBy()))
-        {
+        if (StringUtils.isNotBlank(filter.getSubmittedBy())) {
             criteria.add(Restrictions.like("updatedBy", filter.getSubmittedBy()).ignoreCase());
         }
-        if (filter.getBookDefinitionId() != null)
-        {
+        if (filter.getBookDefinitionId() != null) {
             criteria.add(Restrictions.eq("ebookDefinitionId", filter.getBookDefinitionId()));
         }
-        if (StringUtils.isNotBlank(filter.getIsbn()))
-        {
+        if (StringUtils.isNotBlank(filter.getIsbn())) {
             criteria.add(Restrictions.like("isbn", filter.getIsbn()).ignoreCase());
         }
-        if (filter.getFilterEditedIsbn())
-        {
+        if (filter.getFilterEditedIsbn()) {
             criteria.add(Restrictions.not(Restrictions.like("isbn", EbookAuditDao.MOD_TEXT + "%")));
         }
 
@@ -272,10 +237,8 @@ public class EBookAuditDaoImpl implements EbookAuditDao
      * Map the sort column enumeration into the actual column identifier used in the HQL query.
      * @param sortProperty enumerated value that reflects the database table sort column to sort on.
      */
-    private String getOrderByColumnName(final SortProperty sortProperty)
-    {
-        switch (sortProperty)
-        {
+    private String getOrderByColumnName(final SortProperty sortProperty) {
+        switch (sortProperty) {
         case ACTION:
             return "auditType";
         case SUBMITTED_DATE:

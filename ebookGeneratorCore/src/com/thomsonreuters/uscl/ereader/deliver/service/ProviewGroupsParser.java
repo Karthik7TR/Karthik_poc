@@ -24,8 +24,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author uc209819
  *
  */
-public class ProviewGroupsParser
-{
+public class ProviewGroupsParser {
     private Map<String, ProviewGroupContainer> groupMap = new HashMap<String, ProviewGroupContainer>();
 
     /**
@@ -35,18 +34,15 @@ public class ProviewGroupsParser
      * @return Generate a map of the ProviewGroupContainer objects where the key
      *         is the group id.
      */
-    public Map<String, ProviewGroupContainer> process(final String xml)
-    {
+    public Map<String, ProviewGroupContainer> process(final String xml) {
         final Logger LOG = LogManager.getLogger(ProviewGroupsParser.class);
 
-        try
-        {
+        try {
             final SAXParserFactory parserFactory = SAXParserFactory.newInstance();
             parserFactory.setNamespaceAware(true);
 
             final XMLReader reader = parserFactory.newSAXParser().getXMLReader();
-            reader.setContentHandler(new DefaultHandler()
-            {
+            reader.setContentHandler(new DefaultHandler() {
                 private static final String GROUP = "group";
                 private static final String SUBGROUP = "subgroup";
                 private static final String HEADTITLE = "headtitle";
@@ -67,10 +63,8 @@ public class ProviewGroupsParser
                  * int, int)
                  */
                 @Override
-                public void characters(final char[] ch, final int start, final int length) throws SAXException
-                {
-                    if (charBuffer != null)
-                    {
+                public void characters(final char[] ch, final int start, final int length) throws SAXException {
+                    if (charBuffer != null) {
                         charBuffer.append(new String(ch, start, length));
                     }
                 }
@@ -83,41 +77,29 @@ public class ProviewGroupsParser
                  * , java.lang.String, java.lang.String)
                  */
                 @Override
-                public void endElement(final String uri, final String localName, final String qName) throws SAXException
-                {
-                    try
-                    {
+                public void endElement(final String uri, final String localName, final String qName)
+                    throws SAXException {
+                    try {
                         String value = null;
 
-                        if (charBuffer != null)
-                        {
+                        if (charBuffer != null) {
                             value = StringUtils.trim(charBuffer.toString());
                         }
-                        if (NAME.equals(qName))
-                        {
+                        if (NAME.equals(qName)) {
                             proviewGroup.setGroupName(value);
-                        }
-                        else if (HEADTITLE.equals(qName))
-                        {
+                        } else if (HEADTITLE.equals(qName)) {
                             proviewGroup.setHeadTitle(StringUtils.substringBeforeLast(value, "/v"));
-                        }
-                        else if (GROUP.equals(qName))
-                        {
-                            if (groupMap.get(proviewGroup.getGroupId()) == null)
-                            {
+                        } else if (GROUP.equals(qName)) {
+                            if (groupMap.get(proviewGroup.getGroupId()) == null) {
                                 groupMap.put(proviewGroup.getGroupId(), new ProviewGroupContainer());
                             }
                             groupMap.get(proviewGroup.getGroupId()).getProviewGroups().add(proviewGroup);
-                        }
-                        else if (TITLE.equals(qName))
-                        {
+                        } else if (TITLE.equals(qName)) {
                             subgroup.getTitleIdList().add(value);
                         }
 
                         charBuffer = null;
-                    }
-                    catch (final Exception e)
-                    {
+                    } catch (final Exception e) {
                         final String message =
                             "PublishedTitleParser: Exception occured during PublishedTitleParser parsing endElement. The error message is: "
                                 + e.getMessage();
@@ -135,35 +117,29 @@ public class ProviewGroupsParser
                  * org.xml.sax.Attributes)
                  */
                 @Override
-                public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
-                    throws SAXException
-                {
-                    try
-                    {
+                public void startElement(
+                    final String uri,
+                    final String localName,
+                    final String qName,
+                    final Attributes atts) throws SAXException {
+                    try {
                         charBuffer = new StringBuffer();
-                        if (GROUP.equals(qName))
-                        {
+                        if (GROUP.equals(qName)) {
                             proviewGroup = new ProviewGroup();
                             proviewGroup.setSubgroupInfoList(new ArrayList<SubgroupInfo>());
                             proviewGroup.setGroupId(atts.getValue(ID));
                             proviewGroup.setGroupStatus(atts.getValue(STATUS));
                             proviewGroup.setGroupVersion(atts.getValue(VERSION));
                             proviewGroup.setGroupIdByVersion(atts.getValue(ID) + "/" + atts.getValue(VERSION));
-                        }
-                        else if (SUBGROUP.equals(qName))
-                        {
+                        } else if (SUBGROUP.equals(qName)) {
                             subgroup = new SubgroupInfo();
                             subgroup.setSubGroupName(atts.getValue("heading"));
                             subgroup.setTitleIdList(new ArrayList<String>());
                             proviewGroup.getSubgroupInfoList().add(subgroup);
-                        }
-                        else if (NAME.equals(qName))
-                        {
+                        } else if (NAME.equals(qName)) {
                             charBuffer = new StringBuffer();
                         }
-                    }
-                    catch (final Exception e)
-                    {
+                    } catch (final Exception e) {
                         final String message =
                             "PublishedTitleParser: Exception  PublishedTitleParser parsing startElement. The error message is: "
                                 + e.getMessage();
@@ -174,17 +150,11 @@ public class ProviewGroupsParser
             });
             reader.parse(new InputSource(new StringReader(xml)));
             return groupMap;
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             throw new RuntimeException(e);
-        }
-        catch (final ParserConfigurationException e)
-        {
+        } catch (final ParserConfigurationException e) {
             throw new RuntimeException(e);
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }

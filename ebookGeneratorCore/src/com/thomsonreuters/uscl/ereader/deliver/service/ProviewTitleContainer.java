@@ -7,8 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ProviewTitleContainer implements Serializable
-{
+public class ProviewTitleContainer implements Serializable {
     /**
      *
      */
@@ -16,13 +15,11 @@ public class ProviewTitleContainer implements Serializable
     private static final String PROVIEW_STATUS_FINAL = "final";
     private List<ProviewTitleInfo> proviewTitleInfos = new ArrayList<>();
 
-    public List<ProviewTitleInfo> getProviewTitleInfos()
-    {
+    public List<ProviewTitleInfo> getProviewTitleInfos() {
         return proviewTitleInfos;
     }
 
-    public void setProviewTitleInfos(final List<ProviewTitleInfo> proviewTitleInfos)
-    {
+    public void setProviewTitleInfos(final List<ProviewTitleInfo> proviewTitleInfos) {
         this.proviewTitleInfos = proviewTitleInfos;
     }
 
@@ -30,44 +27,35 @@ public class ProviewTitleContainer implements Serializable
      *
      * @return the latest version of the title
      */
-    public ProviewTitleInfo getLatestVersion()
-    {
+    public ProviewTitleInfo getLatestVersion() {
         Integer latestIntMajorPart = 0;
         Integer latestIntMinorPart = 0;
         ProviewTitleInfo latestProviewTitleInfo = null;
 
-        for (final ProviewTitleInfo proviewTitleInfo : proviewTitleInfos)
-        {
+        for (final ProviewTitleInfo proviewTitleInfo : proviewTitleInfos) {
             final String currentVersion = proviewTitleInfo.getVersion().substring(1);
             final String majorPart;
             final String minorPart;
             Integer intMajorPart = 0;
             Integer intMinorPart = 0;
 
-            if (currentVersion.contains("."))
-            {
+            if (currentVersion.contains(".")) {
                 majorPart = currentVersion.substring(0, currentVersion.indexOf("."));
                 minorPart = currentVersion.substring(currentVersion.indexOf(".") + 1);
 
                 intMajorPart = Integer.parseInt(majorPart);
                 intMinorPart = Integer.parseInt(minorPart);
-            }
-            else
-            {
+            } else {
                 majorPart = currentVersion;
                 intMajorPart = Integer.parseInt(majorPart);
             }
 
-            if (intMajorPart > latestIntMajorPart)
-            {
+            if (intMajorPart > latestIntMajorPart) {
                 latestProviewTitleInfo = proviewTitleInfo;
                 latestIntMajorPart = intMajorPart;
                 latestIntMinorPart = intMinorPart;
-            }
-            else if (intMajorPart == latestIntMajorPart)
-            {
-                if (intMinorPart >= latestIntMinorPart)
-                {
+            } else if (intMajorPart == latestIntMajorPart) {
+                if (intMinorPart >= latestIntMinorPart) {
                     latestProviewTitleInfo = proviewTitleInfo;
                     latestIntMajorPart = intMajorPart;
                     latestIntMinorPart = intMinorPart;
@@ -77,44 +65,31 @@ public class ProviewTitleContainer implements Serializable
         return latestProviewTitleInfo;
     }
 
-    public List<ProviewTitleInfo> getAllMajorVersions()
-    {
+    public List<ProviewTitleInfo> getAllMajorVersions() {
         final Map<Integer, ProviewTitleInfo> map = new HashMap<>();
 
-        for (final ProviewTitleInfo proviewTitleInfo : proviewTitleInfos)
-        {
+        for (final ProviewTitleInfo proviewTitleInfo : proviewTitleInfos) {
             final Integer majorVersion = proviewTitleInfo.getMajorVersion();
             final Integer minorVersion = proviewTitleInfo.getMinorVersion();
-            if (minorVersion != null)
-            {
+            if (minorVersion != null) {
                 // Using Proview new versioning system with major/minor
-                if (!map.containsKey(majorVersion))
-                {
+                if (!map.containsKey(majorVersion)) {
                     map.put(majorVersion, proviewTitleInfo);
-                }
-                else
-                {
+                } else {
                     final ProviewTitleInfo currentInfo = map.get(majorVersion);
                     final Integer currentMinorVersion = currentInfo.getMinorVersion();
-                    if (minorVersion > currentMinorVersion)
-                    {
+                    if (minorVersion > currentMinorVersion) {
                         map.put(majorVersion, proviewTitleInfo);
                     }
                 }
-            }
-            else
-            {
+            } else {
                 // Using Proview old versioning system.  Only has major version.
                 final Integer key = 0;
-                if (!map.containsKey(key))
-                {
+                if (!map.containsKey(key)) {
                     map.put(key, proviewTitleInfo);
-                }
-                else
-                {
+                } else {
                     final ProviewTitleInfo previousTitleInfo = map.get(key);
-                    if (proviewTitleInfo.getMajorVersion() > previousTitleInfo.getMajorVersion())
-                    {
+                    if (proviewTitleInfo.getMajorVersion() > previousTitleInfo.getMajorVersion()) {
                         map.put(key, proviewTitleInfo);
                     }
                 }
@@ -131,14 +106,11 @@ public class ProviewTitleContainer implements Serializable
      *
      * @return boolean
      */
-    public boolean hasBeenPublished()
-    {
+    public boolean hasBeenPublished() {
         boolean isPublished = false;
 
-        for (final ProviewTitleInfo proviewTitleInfo : proviewTitleInfos)
-        {
-            if (proviewTitleInfo.getStatus().equalsIgnoreCase(PROVIEW_STATUS_FINAL))
-            {
+        for (final ProviewTitleInfo proviewTitleInfo : proviewTitleInfos) {
+            if (proviewTitleInfo.getStatus().equalsIgnoreCase(PROVIEW_STATUS_FINAL)) {
                 isPublished = true;
                 break;
             }

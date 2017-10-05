@@ -9,8 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * The filter criteria used when searching for jobs to display in the Job Summary table.
  * A null or blank property value indicates that it is to be ignored and not included as part of the search criteria.
  */
-public class EbookAuditFilter
-{
+public class EbookAuditFilter {
     // Job Execution properties
     private Date from; // start date on and after this calendar date (inclusive)
     private Date to; // start date on and before this calendar date (inclusive)
@@ -24,13 +23,11 @@ public class EbookAuditFilter
     private Long bookDefinitionId;
     private Boolean filterEditedIsbn = false;
 
-    public EbookAuditFilter()
-    {
+    public EbookAuditFilter() {
         super();
     }
 
-    public EbookAuditFilter(final String titleId, final String bookName, final String isbn)
-    {
+    public EbookAuditFilter(final String titleId, final String bookName, final String isbn) {
         this.titleId = (titleId != null) ? titleId.trim() : null;
         this.bookName = (bookName != null) ? bookName.trim() : null;
         this.isbn = (isbn != null) ? isbn.trim() : null;
@@ -44,8 +41,7 @@ public class EbookAuditFilter
         final String titleId,
         final String bookName,
         final String submittedBy,
-        final Long bookDefinitionId)
-    {
+        final Long bookDefinitionId) {
         this.from = from;
         this.to = to;
         this.action = action;
@@ -56,19 +52,16 @@ public class EbookAuditFilter
     }
 
     /** Include executions with a start time from the start of (00:00:00) of this calendar date and after. */
-    public Date getFrom()
-    {
+    public Date getFrom() {
         return from;
     }
 
     /** Filter to date entered by user, normalized to (00:00:00) of the entered day. */
-    public Date getTo()
-    {
+    public Date getTo() {
         return to;
     }
 
-    public String getAction()
-    {
+    public String getAction() {
         return action;
     }
 
@@ -77,39 +70,32 @@ public class EbookAuditFilter
      * the actual definition title ID as a 'like' comparison '%titleID%'.
      * @return
      */
-    public String getTitleId()
-    {
+    public String getTitleId() {
         return titleId;
     }
 
-    public String getBookName()
-    {
+    public String getBookName() {
         return bookName;
     }
 
-    public String getIsbn()
-    {
+    public String getIsbn() {
         return isbn;
     }
 
-    public String getSubmittedBy()
-    {
+    public String getSubmittedBy() {
         return submittedBy;
     }
 
-    public Long getBookDefinitionId()
-    {
+    public Long getBookDefinitionId() {
         return bookDefinitionId;
     }
 
-    public Boolean getFilterEditedIsbn()
-    {
+    public Boolean getFilterEditedIsbn() {
         return filterEditedIsbn;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

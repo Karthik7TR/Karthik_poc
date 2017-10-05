@@ -16,8 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 
-public class BookDefinitionLockServiceImpl implements BookDefinitionLockService
-{
+public class BookDefinitionLockServiceImpl implements BookDefinitionLockService {
     private BookDefinitionLockDao dao;
 
     /**
@@ -26,23 +25,17 @@ public class BookDefinitionLockServiceImpl implements BookDefinitionLockService
      */
     @Override
     @Transactional(readOnly = true)
-    public BookDefinitionLock findBookLockByBookDefinition(final BookDefinition book) throws DataAccessException
-    {
+    public BookDefinitionLock findBookLockByBookDefinition(final BookDefinition book) throws DataAccessException {
         // DAO returns BookDefinitionLocks in checkout_timestamp sorted by descending order
         final List<BookDefinitionLock> locks = dao.findLocksByBookDefinition(book);
-        if (locks.size() > 0)
-        {
+        if (locks.size() > 0) {
             final BookDefinitionLock newestLock = locks.get(0);
-            if (islockTimeoutSurpassed(newestLock.getCheckoutTimestamp()))
-            {
+            if (islockTimeoutSurpassed(newestLock.getCheckoutTimestamp())) {
                 // Delete all locks for current Book Definition
-                for (final BookDefinitionLock lock : locks)
-                {
+                for (final BookDefinitionLock lock : locks) {
                     dao.removeLock(lock);
                 }
-            }
-            else
-            {
+            } else {
                 // Book Definition is locked
                 return newestLock;
             }
@@ -51,8 +44,7 @@ public class BookDefinitionLockServiceImpl implements BookDefinitionLockService
         return null;
     }
 
-    private boolean islockTimeoutSurpassed(final Date lockDate)
-    {
+    private boolean islockTimeoutSurpassed(final Date lockDate) {
         final long currentTime = Calendar.getInstance().getTimeInMillis();
         final Calendar lockCal = Calendar.getInstance();
         lockCal.setTime(lockDate);
@@ -66,15 +58,13 @@ public class BookDefinitionLockServiceImpl implements BookDefinitionLockService
 
     @Override
     @Transactional(readOnly = true)
-    public List<BookDefinitionLock> findAllActiveLocks()
-    {
+    public List<BookDefinitionLock> findAllActiveLocks() {
         return dao.findAllActiveLocks();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public BookDefinitionLock findBookDefinitionLockByPrimaryKey(final Long primaryKey)
-    {
+    public BookDefinitionLock findBookDefinitionLockByPrimaryKey(final Long primaryKey) {
         return dao.findBookDefinitionLockByPrimaryKey(primaryKey);
     }
 
@@ -83,27 +73,23 @@ public class BookDefinitionLockServiceImpl implements BookDefinitionLockService
      */
     @Override
     @Transactional
-    public void cleanExpiredLocks()
-    {
+    public void cleanExpiredLocks() {
         dao.cleanExpiredLocks();
     }
 
     @Override
     @Transactional
-    public void removeLock(final BookDefinition book) throws DataAccessException
-    {
+    public void removeLock(final BookDefinition book) throws DataAccessException {
         final List<BookDefinitionLock> locks = dao.findLocksByBookDefinition(book);
 
-        for (final BookDefinitionLock lock : locks)
-        {
+        for (final BookDefinitionLock lock : locks) {
             dao.removeLock(lock);
         }
     }
 
     @Override
     @Transactional
-    public void lockBookDefinition(final BookDefinition bookDefinition, final String username, final String fullName)
-    {
+    public void lockBookDefinition(final BookDefinition bookDefinition, final String username, final String fullName) {
         final BookDefinitionLock lock = new BookDefinitionLock();
         lock.setEbookDefinition(bookDefinition);
         lock.setUsername(username);
@@ -114,8 +100,7 @@ public class BookDefinitionLockServiceImpl implements BookDefinitionLockService
     }
 
     @Required
-    public void setBookDefinitionLockDao(final BookDefinitionLockDao dao)
-    {
+    public void setBookDefinitionLockDao(final BookDefinitionLockDao dao) {
         this.dao = dao;
     }
 }

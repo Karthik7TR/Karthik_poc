@@ -7,13 +7,11 @@ import org.springframework.util.Assert;
 /**
  * Holds sorting data used in Spring Batch job queries.
  */
-public class EbookAuditSort
-{
+public class EbookAuditSort {
     /**
      * The property names in the entities job execution and book audit tables that are sorted on for presentation.
      */
-    public enum SortProperty
-    {
+    public enum SortProperty {
         TITLE_ID,
         BOOK_NAME,
         BOOK_DEFINITION_ID,
@@ -33,8 +31,7 @@ public class EbookAuditSort
     /**
      * Default Job sort is by job start time, descending order.
      */
-    public EbookAuditSort()
-    {
+    public EbookAuditSort() {
         this(SortProperty.SUBMITTED_DATE, false, 1, 20);
     }
 
@@ -43,8 +40,11 @@ public class EbookAuditSort
      * @param sortProperty which job/book property to sort on, not null.
      * @param ascending true for an ascending direction sort
      */
-    public EbookAuditSort(final SortProperty sortProperty, final boolean ascending, final int pageNumber, final int itemsPerPage)
-    {
+    public EbookAuditSort(
+        final SortProperty sortProperty,
+        final boolean ascending,
+        final int pageNumber,
+        final int itemsPerPage) {
         Assert.notNull(sortProperty);
         this.sortProperty = sortProperty;
         this.ascending = ascending;
@@ -52,39 +52,32 @@ public class EbookAuditSort
         this.itemsPerPage = itemsPerPage;
     }
 
-    public SortProperty getSortProperty()
-    {
+    public SortProperty getSortProperty() {
         return sortProperty;
     }
 
-    public boolean isAscending()
-    {
+    public boolean isAscending() {
         return ascending;
     }
 
-    public String getSortDirection()
-    {
+    public String getSortDirection() {
         return getSortDirection(ascending);
     }
 
-    public static String getSortDirection(final boolean anAscendingSort)
-    {
+    public static String getSortDirection(final boolean anAscendingSort) {
         return (anAscendingSort) ? "asc" : "desc";
     }
 
-    public int getPageNumber()
-    {
+    public int getPageNumber() {
         return pageNumber;
     }
 
-    public int getItemsPerPage()
-    {
+    public int getItemsPerPage() {
         return itemsPerPage;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

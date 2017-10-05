@@ -7,8 +7,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 @XmlRootElement(name = "imgMetadataInfo")
-public class ImgMetadataInfo
-{
+public class ImgMetadataInfo {
     private String mimeType; // image mime-type
     private Long size; // image size in bytes
     private String dimUnit; // dimension units, like "px"
@@ -18,12 +17,10 @@ public class ImgMetadataInfo
     private String imgGuid; // image GUID to retrieve
     private String docGuid;
 
-    public ImgMetadataInfo()
-    {
+    public ImgMetadataInfo() {
     }
 
-    public ImgMetadataInfo(final ImgMetadataInfo metadata)
-    {
+    public ImgMetadataInfo(final ImgMetadataInfo metadata) {
         mimeType = metadata.mimeType;
         size = metadata.size;
         dimUnit = metadata.dimUnit;
@@ -35,96 +32,79 @@ public class ImgMetadataInfo
     }
 
     @XmlElement(name = "mimeType", required = false)
-    public void setMimeType(final String mimeType)
-    {
+    public void setMimeType(final String mimeType) {
         this.mimeType = mimeType;
     }
 
-    public String getMimeType()
-    {
+    public String getMimeType() {
         return mimeType;
     }
 
     @XmlElement(name = "size", required = false)
-    public void setSize(final Long size)
-    {
+    public void setSize(final Long size) {
         this.size = size;
     }
 
-    public Long getSize()
-    {
+    public Long getSize() {
         return size;
     }
 
     @XmlElement(name = "dimUnit", required = false)
-    public void setDimUnit(final String dimUnit)
-    {
+    public void setDimUnit(final String dimUnit) {
         this.dimUnit = dimUnit;
     }
 
-    public String getDimUnit()
-    {
+    public String getDimUnit() {
         return dimUnit;
     }
 
     @XmlElement(name = "height", required = false)
-    public void setHeight(final Long height)
-    {
+    public void setHeight(final Long height) {
         this.height = height;
     }
 
-    public Long getHeight()
-    {
+    public Long getHeight() {
         return height;
     }
 
     @XmlElement(name = "width", required = false)
-    public void setWidth(final Long width)
-    {
+    public void setWidth(final Long width) {
         this.width = width;
     }
 
-    public Long getWidth()
-    {
+    public Long getWidth() {
         return width;
     }
 
     @XmlElement(name = "dpi", required = false)
-    public Long getDpi()
-    {
+    public Long getDpi() {
         return dpi;
     }
 
-    public void setDpi(final Long dpi)
-    {
+    public void setDpi(final Long dpi) {
         this.dpi = dpi;
     }
 
     @XmlElement(name = "imgGuid", required = false)
-    public void setImgGuid(final String imgGuid)
-    {
+    public void setImgGuid(final String imgGuid) {
         this.imgGuid = imgGuid;
     }
 
-    public String getImgGuid()
-    {
+    public String getImgGuid() {
         return imgGuid;
     }
 
     @XmlElement(name = "docGuid", required = false)
-    public void setDocGuid(final String docGuid)
-    {
+    public void setDocGuid(final String docGuid) {
         this.docGuid = docGuid;
     }
 
-    public String getDocGuid()
-    {
+    public String getDocGuid() {
         return docGuid;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

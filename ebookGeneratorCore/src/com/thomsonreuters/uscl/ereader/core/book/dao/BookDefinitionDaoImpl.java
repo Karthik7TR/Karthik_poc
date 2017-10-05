@@ -17,20 +17,17 @@ import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-public class BookDefinitionDaoImpl implements BookDefinitionDao
-{
+public class BookDefinitionDaoImpl implements BookDefinitionDao {
     // private static final Logger log =
     // LogManager.getLogger(BookDefinitionDaoImpl.class);
     private SessionFactory sessionFactory;
 
-    public BookDefinitionDaoImpl(final SessionFactory sessFactory)
-    {
+    public BookDefinitionDaoImpl(final SessionFactory sessFactory) {
         sessionFactory = sessFactory;
     }
 
     @Override
-    public BookDefinition findBookDefinitionByTitle(final String titleId)
-    {
+    public BookDefinition findBookDefinitionByTitle(final String titleId) {
         final BookDefinition bookDef = (BookDefinition) sessionFactory.getCurrentSession()
             .createCriteria(BookDefinition.class)
             .add(Restrictions.eq("fullyQualifiedTitleId", titleId))
@@ -40,15 +37,13 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao
     }
 
     @Override
-    public BookDefinition findBookDefinitionByEbookDefId(final Long ebookDefId)
-    {
+    public BookDefinition findBookDefinitionByEbookDefId(final Long ebookDefId) {
         return (BookDefinition) sessionFactory.getCurrentSession().get(BookDefinition.class, ebookDefId);
     }
 
     @Override
     @Deprecated
-    public List<BookDefinition> findAllBookDefinitions()
-    {
+    public List<BookDefinition> findAllBookDefinitions() {
         final String namedQuery = "findBookDefnBySearchCriterion";
         final String bookDefnQuery = sessionFactory.getCurrentSession().getNamedQuery(namedQuery).getQueryString();
         final Query query = sessionFactory.getCurrentSession().createQuery(bookDefnQuery);
@@ -60,8 +55,7 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao
         final String sortProperty,
         final boolean isAscending,
         final int pageNumber,
-        final int itemsPerPage)
-    {
+        final int itemsPerPage) {
         final String namedQuery = "findBookDefnBySearchCriterion";
         final String bookDefnQuery =
             sessionFactory.getCurrentSession().getNamedQuery(namedQuery).getQueryString() + "order by ?";
@@ -85,49 +79,40 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao
         final String materialId,
         final Date to,
         final Date from,
-        final String status)
-    {
+        final String status) {
         final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BookDefinition.class);
 
         // Publish end time stamp comes from different domain. We don't sort it
         // in book definition.
-        if (sortProperty != null && !sortProperty.equals("publishEndTimestamp"))
-        {
+        if (sortProperty != null && !sortProperty.equals("publishEndTimestamp")) {
             criteria.addOrder(isAscending ? Order.asc(sortProperty) : Order.desc(sortProperty));
         }
 
-        if (proviewDisplayName != null && !proviewDisplayName.equals(""))
-        {
+        if (proviewDisplayName != null && !proviewDisplayName.equals("")) {
             criteria.add(Restrictions.like("proviewDisplayName", proviewDisplayName));
         }
 
-        if (fullyQualifiedTitleId != null && !fullyQualifiedTitleId.equals(""))
-        {
+        if (fullyQualifiedTitleId != null && !fullyQualifiedTitleId.equals("")) {
             criteria.add(Restrictions.like("fullyQualifiedTitleId", fullyQualifiedTitleId));
         }
 
-        if (isbn != null && !isbn.equals(""))
-        {
+        if (isbn != null && !isbn.equals("")) {
             criteria.add(Restrictions.like("isbn", isbn));
         }
 
-        if (materialId != null && !materialId.equals(""))
-        {
+        if (materialId != null && !materialId.equals("")) {
             criteria.add(Restrictions.like("materialId", materialId));
         }
 
-        if (to != null)
-        {
+        if (to != null) {
             criteria.add(Restrictions.le("lastUpdated", to));
         }
 
-        if (from != null)
-        {
+        if (from != null) {
             criteria.add(Restrictions.ge("lastUpdated", from));
         }
 
-        if (status != null && !status.equals(""))
-        {
+        if (status != null && !status.equals("")) {
             criteria.add(Restrictions.eq("ebookDefinitionCompleteFlag", status));
         }
 
@@ -141,8 +126,7 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao
      * @return a list of BookDefinition
      */
     @Override
-    public List<BookDefinition> findAllBookDefinitionsByKeywordCodeId(final Long keywordTypeCodeId)
-    {
+    public List<BookDefinition> findAllBookDefinitionsByKeywordCodeId(final Long keywordTypeCodeId) {
         final Criteria c = sessionFactory.getCurrentSession()
             .createCriteria(BookDefinition.class, "book")
             .createAlias("book.keywordTypeValues", "keywordValues")
@@ -158,8 +142,7 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao
      * @return a list of BookDefinition
      */
     @Override
-    public List<BookDefinition> findAllBookDefinitionsByKeywordValueId(final Long keywordTypeValueId)
-    {
+    public List<BookDefinition> findAllBookDefinitionsByKeywordValueId(final Long keywordTypeValueId) {
         final Criteria c = sessionFactory.getCurrentSession()
             .createCriteria(BookDefinition.class, "book")
             .createAlias("book.keywordTypeValues", "keywordValues")
@@ -169,23 +152,20 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao
     }
 
     @Override
-    public long countNumberOfBookDefinitions()
-    {
+    public long countNumberOfBookDefinitions() {
         final Query query = sessionFactory.getCurrentSession().getNamedQuery("countBookDefinitions");
         return (Long) query.uniqueResult();
     }
 
     @Override
-    public void removeBookDefinition(final Long bookDefId)
-    {
+    public void removeBookDefinition(final Long bookDefId) {
         final Session session = sessionFactory.getCurrentSession();
         session.delete(findBookDefinitionByEbookDefId(bookDefId));
         session.flush();
     }
 
     @Override
-    public BookDefinition saveBookDefinition(BookDefinition eBook)
-    {
+    public BookDefinition saveBookDefinition(BookDefinition eBook) {
         final Session session = sessionFactory.getCurrentSession();
 
         eBook.setLastUpdated(new Date());
@@ -197,8 +177,7 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao
                 .uniqueResult());
 
         // Save if book is new
-        if (eBook.getEbookDefinitionId() == null)
-        {
+        if (eBook.getEbookDefinitionId() == null) {
             session.save(eBook);
         }
 
@@ -210,8 +189,10 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao
     }
 
     @Override
-    public BookDefinition saveSplitDocuments(final Long bookId, final Collection<SplitDocument> splitDocuments, final int parts)
-    {
+    public BookDefinition saveSplitDocuments(
+        final Long bookId,
+        final Collection<SplitDocument> splitDocuments,
+        final int parts) {
         final Session session = sessionFactory.getCurrentSession();
 
         BookDefinition eBook = (BookDefinition) session.createCriteria(BookDefinition.class)
@@ -227,8 +208,7 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao
     }
 
     @Override
-    public void removeSplitDocuments(final Long bookId)
-    {
+    public void removeSplitDocuments(final Long bookId) {
         final Session session = sessionFactory.getCurrentSession();
 
         BookDefinition eBook = (BookDefinition) session.createCriteria(BookDefinition.class)
@@ -241,8 +221,7 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao
     }
 
     @Override
-    public List<SplitDocument> getSplitDocumentsforBook(final Long ebookDefinitionId)
-    {
+    public List<SplitDocument> getSplitDocumentsforBook(final Long ebookDefinitionId) {
         final BookDefinition bookDef = (BookDefinition) sessionFactory.getCurrentSession()
             .createCriteria(BookDefinition.class)
             .add(Restrictions.eq("ebookDefinitionId", ebookDefinitionId))
@@ -252,8 +231,7 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao
     }
 
     @Override
-    public Integer getSplitPartsForEbook(final Long ebookDefinitionId)
-    {
+    public Integer getSplitPartsForEbook(final Long ebookDefinitionId) {
         final BookDefinition bookDef = (BookDefinition) sessionFactory.getCurrentSession()
             .createCriteria(BookDefinition.class)
             .add(Restrictions.eq("ebookDefinitionId", ebookDefinitionId))
@@ -266,8 +244,7 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao
     public BookDefinition saveBookDefinition(
         final Long bookId,
         final Collection<SplitNodeInfo> newSplitNodeInfoList,
-        final String newVersion)
-    {
+        final String newVersion) {
         final Session session = sessionFactory.getCurrentSession();
 
         BookDefinition eBook = (BookDefinition) session.createCriteria(BookDefinition.class)
@@ -278,20 +255,15 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao
 
         //Remove persisted rows if the version is same
         final List<SplitNodeInfo> listTobeRemoved = new ArrayList<>();
-        for (final SplitNodeInfo splitNodeInfo : eBook.getSplitNodes())
-        {
-            if (splitNodeInfo.getBookVersionSubmitted().equalsIgnoreCase(newVersion))
-            {
+        for (final SplitNodeInfo splitNodeInfo : eBook.getSplitNodes()) {
+            if (splitNodeInfo.getBookVersionSubmitted().equalsIgnoreCase(newVersion)) {
                 listTobeRemoved.add(splitNodeInfo);
             }
         }
 
-        if (listTobeRemoved.size() > 0)
-        {
-            for (final SplitNodeInfo splitNodeInfo : listTobeRemoved)
-            {
-                if (eBook.getSplitNodes().contains(splitNodeInfo))
-                {
+        if (listTobeRemoved.size() > 0) {
+            for (final SplitNodeInfo splitNodeInfo : listTobeRemoved) {
+                if (eBook.getSplitNodes().contains(splitNodeInfo)) {
                     eBook.getSplitNodes().remove(splitNodeInfo);
                 }
             }

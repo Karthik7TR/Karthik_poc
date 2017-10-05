@@ -28,8 +28,7 @@ import org.springframework.util.AutoPopulatingList;
  */
 @Entity
 @Table(name = "FRONT_MATTER_PAGE")
-public class FrontMatterPage implements Serializable, Comparable<FrontMatterPage>
-{
+public class FrontMatterPage implements Serializable, Comparable<FrontMatterPage> {
     private static final long serialVersionUID = 6894572296330551335L;
     /**
      */
@@ -73,74 +72,60 @@ public class FrontMatterPage implements Serializable, Comparable<FrontMatterPage
     @Fetch(FetchMode.SELECT)
     private List<FrontMatterSection> frontMatterSections;
 
-    public FrontMatterPage()
-    {
+    public FrontMatterPage() {
         super();
         frontMatterSections = new AutoPopulatingList<>(FrontMatterSection.class);
     }
 
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final Long id)
-    {
+    public void setId(final Long id) {
         this.id = id;
     }
 
-    public BookDefinition getEbookDefinition()
-    {
+    public BookDefinition getEbookDefinition() {
         return ebookDefinition;
     }
 
-    public void setEbookDefinition(final BookDefinition ebookDefinition)
-    {
+    public void setEbookDefinition(final BookDefinition ebookDefinition) {
         this.ebookDefinition = ebookDefinition;
     }
 
-    public String getPageTocLabel()
-    {
+    public String getPageTocLabel() {
         return pageTocLabel;
     }
 
-    public void setPageTocLabel(final String pageTocLabel)
-    {
+    public void setPageTocLabel(final String pageTocLabel) {
         this.pageTocLabel = pageTocLabel;
     }
 
-    public String getPageHeadingLabel()
-    {
+    public String getPageHeadingLabel() {
         return pageHeadingLabel;
     }
 
-    public void setPageHeadingLabel(final String pageHeadingLabel)
-    {
+    public void setPageHeadingLabel(final String pageHeadingLabel) {
         this.pageHeadingLabel = pageHeadingLabel;
     }
 
-    public Integer getSequenceNum()
-    {
+    public Integer getSequenceNum() {
         return sequenceNum;
     }
 
-    public void setSequenceNum(final Integer sequenceNum)
-    {
+    public void setSequenceNum(final Integer sequenceNum) {
         this.sequenceNum = sequenceNum;
     }
 
-    public List<FrontMatterSection> getFrontMatterSections()
-    {
-        if (frontMatterSections == null)
-        {
+    public List<FrontMatterSection> getFrontMatterSections() {
+        if (frontMatterSections == null) {
             frontMatterSections = new ArrayList<>();
         }
 
         return frontMatterSections;
     }
 
-    public void setFrontMatterSections(final List<FrontMatterSection> frontMatterSections)
-    {
+    public void setFrontMatterSections(final List<FrontMatterSection> frontMatterSections) {
         this.frontMatterSections = frontMatterSections;
     }
 
@@ -149,8 +134,7 @@ public class FrontMatterPage implements Serializable, Comparable<FrontMatterPage
      *
      */
     @Transient
-    public void copy(final FrontMatterPage that)
-    {
+    public void copy(final FrontMatterPage that) {
         setId(that.getId());
         setEbookDefinition(that.getEbookDefinition());
         setPageTocLabel(that.getPageTocLabel());
@@ -160,8 +144,7 @@ public class FrontMatterPage implements Serializable, Comparable<FrontMatterPage
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((ebookDefinition == null) ? 0 : ebookDefinition.hashCode());
@@ -173,8 +156,7 @@ public class FrontMatterPage implements Serializable, Comparable<FrontMatterPage
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -182,54 +164,42 @@ public class FrontMatterPage implements Serializable, Comparable<FrontMatterPage
         if (getClass() != obj.getClass())
             return false;
         final FrontMatterPage other = (FrontMatterPage) obj;
-        if (ebookDefinition == null)
-        {
+        if (ebookDefinition == null) {
             if (other.ebookDefinition != null)
                 return false;
-        }
-        else if (!ebookDefinition.equals(other.ebookDefinition))
+        } else if (!ebookDefinition.equals(other.ebookDefinition))
             return false;
-        if (id == null)
-        {
+        if (id == null) {
             if (other.id != null)
                 return false;
-        }
-        else if (!id.equals(other.id))
+        } else if (!id.equals(other.id))
             return false;
-        if (pageHeadingLabel == null)
-        {
+        if (pageHeadingLabel == null) {
             if (other.pageHeadingLabel != null)
                 return false;
-        }
-        else if (!pageHeadingLabel.equals(other.pageHeadingLabel))
+        } else if (!pageHeadingLabel.equals(other.pageHeadingLabel))
             return false;
-        if (pageTocLabel == null)
-        {
+        if (pageTocLabel == null) {
             if (other.pageTocLabel != null)
                 return false;
-        }
-        else if (!pageTocLabel.equals(other.pageTocLabel))
+        } else if (!pageTocLabel.equals(other.pageTocLabel))
             return false;
-        if (sequenceNum == null)
-        {
+        if (sequenceNum == null) {
             if (other.sequenceNum != null)
                 return false;
-        }
-        else if (!sequenceNum.equals(other.sequenceNum))
+        } else if (!sequenceNum.equals(other.sequenceNum))
             return false;
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         final StringBuilder buffer = new StringBuilder();
         buffer.append("FrontMatterPage [pageTocLabel=").append(pageTocLabel).append(", ");
         buffer.append("pageHeadingLabel=").append(pageHeadingLabel).append(", ");
         buffer.append("sequenceNum=").append(sequenceNum).append(", ");
         buffer.append("frontMatterSections=");
-        for (final FrontMatterSection section : frontMatterSections)
-        {
+        for (final FrontMatterSection section : frontMatterSections) {
             buffer.append(section.toString());
         }
         buffer.append("]");
@@ -241,23 +211,16 @@ public class FrontMatterPage implements Serializable, Comparable<FrontMatterPage
      * For sorting the name components into sequence order (1...n).
      */
     @Override
-    public int compareTo(final FrontMatterPage o)
-    {
+    public int compareTo(final FrontMatterPage o) {
         int result = 0;
-        if (sequenceNum != null)
-        {
-            if (o != null)
-            {
+        if (sequenceNum != null) {
+            if (o != null) {
                 final Integer i = o.getSequenceNum();
                 result = (i != null) ? sequenceNum.compareTo(i) : 1;
-            }
-            else
-            {
+            } else {
                 result = 1;
             }
-        }
-        else
-        { // int1 is null
+        } else { // int1 is null
             result = (o != null) ? -1 : 0;
         }
         return result;

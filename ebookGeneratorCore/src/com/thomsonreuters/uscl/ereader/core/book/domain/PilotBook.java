@@ -22,8 +22,7 @@ import javax.xml.bind.annotation.XmlType;
 @IdClass(PilotBook.PilotBookPk.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "PilotBook")
-public class PilotBook implements Serializable, Comparable<PilotBook>
-{
+public class PilotBook implements Serializable, Comparable<PilotBook> {
     private static final long serialVersionUID = 7962657038385328632L;
 
     @Id
@@ -39,76 +38,64 @@ public class PilotBook implements Serializable, Comparable<PilotBook>
     @Column(name = "NOTE", length = 512)
     private String note;
 
-    public String getNote()
-    {
+    public String getNote() {
         return note;
     }
 
-    public void setNote(final String note)
-    {
+    public void setNote(final String note) {
         this.note = note;
     }
 
-    public Integer getSequenceNum()
-    {
+    public Integer getSequenceNum() {
         return sequenceNum;
     }
 
-    public void setSequenceNum(final Integer sequenceNum)
-    {
+    public void setSequenceNum(final Integer sequenceNum) {
         this.sequenceNum = sequenceNum;
     }
 
     /**
      */
-    public void setEbookDefinition(final BookDefinition ebookDefinition)
-    {
+    public void setEbookDefinition(final BookDefinition ebookDefinition) {
         this.ebookDefinition = ebookDefinition;
     }
 
     /**
      */
-    public BookDefinition getEbookDefinition()
-    {
+    public BookDefinition getEbookDefinition() {
         return ebookDefinition;
     }
 
-    public String getPilotBookTitleId()
-    {
+    public String getPilotBookTitleId() {
         return pilotBookTitleId;
     }
 
-    public void setPilotBookTitleId(final String pilotBookTitleId)
-    {
+    public void setPilotBookTitleId(final String pilotBookTitleId) {
         this.pilotBookTitleId = pilotBookTitleId;
     }
 
     /**
      */
-    public PilotBook()
-    {
+    public PilotBook() {
     }
 
     /**
      * Copies the contents of the specified bean into this bean.
      *
      */
-    public void copy(final PilotBook that)
-    {
+    public void copy(final PilotBook that) {
         setPilotBookTitleId(that.getPilotBookTitleId());
         setSequenceNum(that.getSequenceNum());
         setNote(that.getNote());
         setEbookDefinition(that.getEbookDefinition());
     }
 
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return pilotBookTitleId == null || pilotBookTitleId.equals("");
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         final StringBuilder buffer = new StringBuilder();
         buffer.append("pilotBookTitleId=[").append(pilotBookTitleId).append("] ");
         buffer.append("sequenceNum=[").append(sequenceNum).append("] ");
@@ -117,8 +104,7 @@ public class PilotBook implements Serializable, Comparable<PilotBook>
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
 
@@ -128,8 +114,7 @@ public class PilotBook implements Serializable, Comparable<PilotBook>
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -137,20 +122,16 @@ public class PilotBook implements Serializable, Comparable<PilotBook>
         if (getClass() != obj.getClass())
             return false;
         final PilotBook other = (PilotBook) obj;
-        if (pilotBookTitleId == null)
-        {
+        if (pilotBookTitleId == null) {
             if (other.pilotBookTitleId != null)
                 return false;
-        }
-        else if (!pilotBookTitleId.equals(other.pilotBookTitleId))
+        } else if (!pilotBookTitleId.equals(other.pilotBookTitleId))
             return false;
 
-        if (ebookDefinition == null)
-        {
+        if (ebookDefinition == null) {
             if (other.ebookDefinition != null)
                 return false;
-        }
-        else if (!ebookDefinition.equals(other.ebookDefinition))
+        } else if (!ebookDefinition.equals(other.ebookDefinition))
             return false;
         return true;
     }
@@ -159,31 +140,23 @@ public class PilotBook implements Serializable, Comparable<PilotBook>
      * For sorting the name components into sequence order (1...n).
      */
     @Override
-    public int compareTo(final PilotBook o)
-    {
+    public int compareTo(final PilotBook o) {
         int result = 0;
-        if (sequenceNum != null)
-        {
-            if (o != null)
-            {
+        if (sequenceNum != null) {
+            if (o != null) {
                 final Integer i = o.getSequenceNum();
                 result = (i != null) ? sequenceNum.compareTo(i) : 1;
-            }
-            else
-            {
+            } else {
                 result = 1;
             }
-        }
-        else
-        { // int1 is null
+        } else { // int1 is null
             result = (o != null) ? -1 : 0;
         }
         return result;
     }
 
     @Embeddable
-    public static class PilotBookPk implements Serializable
-    {
+    public static class PilotBookPk implements Serializable {
         private static final long serialVersionUID = 3552710801579579685L;
 
         @ManyToOne(fetch = FetchType.LAZY)
@@ -194,23 +167,19 @@ public class PilotBook implements Serializable, Comparable<PilotBook>
         @Column(name = "PILOT_BOOK_TITLE_ID", nullable = false)
         private String pilotBookTitleId;
 
-        public PilotBookPk()
-        {
+        public PilotBookPk() {
         }
 
-        public BookDefinition getBookDefinition()
-        {
+        public BookDefinition getBookDefinition() {
             return ebookDefinition;
         }
 
-        public void setBookDefinition(final BookDefinition bookDefinition)
-        {
+        public void setBookDefinition(final BookDefinition bookDefinition) {
             ebookDefinition = bookDefinition;
         }
 
         @Override
-        public int hashCode()
-        {
+        public int hashCode() {
             final int prime = 31;
             int result = 1;
             result = prime * result + ((pilotBookTitleId == null) ? 0 : pilotBookTitleId.hashCode());
@@ -218,8 +187,7 @@ public class PilotBook implements Serializable, Comparable<PilotBook>
         }
 
         @Override
-        public boolean equals(final Object obj)
-        {
+        public boolean equals(final Object obj) {
             if (this == obj)
                 return true;
             if (obj == null)
@@ -227,12 +195,10 @@ public class PilotBook implements Serializable, Comparable<PilotBook>
             if (getClass() != obj.getClass())
                 return false;
             final PilotBookPk other = (PilotBookPk) obj;
-            if (pilotBookTitleId == null)
-            {
+            if (pilotBookTitleId == null) {
                 if (other.pilotBookTitleId != null)
                     return false;
-            }
-            else if (!pilotBookTitleId.equals(other.pilotBookTitleId))
+            } else if (!pilotBookTitleId.equals(other.pilotBookTitleId))
                 return false;
             return true;
         }

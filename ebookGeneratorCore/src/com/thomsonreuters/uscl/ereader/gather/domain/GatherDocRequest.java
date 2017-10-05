@@ -20,8 +20,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 @XmlRootElement(name = "gatherDocRequest", namespace = "com.thomsonreuters.uscl.ereader.gather.domain")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GatherDocRequest implements Serializable
-{
+public class GatherDocRequest implements Serializable {
     private static final long serialVersionUID = -3445724162855653304L;
 
     /**
@@ -50,8 +49,7 @@ public class GatherDocRequest implements Serializable
     @XmlElement(name = "useReloadContent")
     private boolean useReloadContent;
 
-    public GatherDocRequest()
-    {
+    public GatherDocRequest() {
         super();
     }
 
@@ -68,8 +66,7 @@ public class GatherDocRequest implements Serializable
         final File contentDestinationDirectory,
         final File metadataDestinationDirectory,
         final boolean isFinalStage,
-        final boolean useReloadContent)
-    {
+        final boolean useReloadContent) {
         setGuids(guids);
         setCollectionName(collectionName);
         setContentDestinationDirectory(contentDestinationDirectory);
@@ -78,75 +75,61 @@ public class GatherDocRequest implements Serializable
         setUseReloadContent(useReloadContent);
     }
 
-    public boolean getUseReloadContent()
-    {
+    public boolean getUseReloadContent() {
         return useReloadContent;
     }
 
-    public void setUseReloadContent(final boolean useReloadContent)
-    {
+    public void setUseReloadContent(final boolean useReloadContent) {
         this.useReloadContent = useReloadContent;
     }
 
-    public Collection<String> getGuids()
-    {
+    public Collection<String> getGuids() {
         return guids;
     }
 
-    public void setGuids(final Collection<String> guidCollection)
-    {
+    public void setGuids(final Collection<String> guidCollection) {
         guids = new ArrayList<>(guidCollection);
     }
 
-    public String getCollectionName()
-    {
+    public String getCollectionName() {
         return collectionName;
     }
 
-    public void setCollectionName(final String collectionName)
-    {
+    public void setCollectionName(final String collectionName) {
         this.collectionName = collectionName;
     }
 
-    public File getContentDestinationDirectory()
-    {
+    public File getContentDestinationDirectory() {
         return contentDestinationDirectory;
     }
 
-    public void setContentDestinationDirectory(final File destinationDirectory)
-    {
+    public void setContentDestinationDirectory(final File destinationDirectory) {
         contentDestinationDirectory = destinationDirectory;
     }
 
-    public File getMetadataDestinationDirectory()
-    {
+    public File getMetadataDestinationDirectory() {
         return metadataDestinationDirectory;
     }
 
-    public void setMetadataDestinationDirectory(final File destinationDirectory)
-    {
+    public void setMetadataDestinationDirectory(final File destinationDirectory) {
         metadataDestinationDirectory = destinationDirectory;
     }
 
-    public boolean getIsFinalStage()
-    {
+    public boolean getIsFinalStage() {
         return isFinalStage;
     }
 
-    public void setIsFinalStage(final boolean isFinalStage)
-    {
+    public void setIsFinalStage(final boolean isFinalStage) {
         this.isFinalStage = isFinalStage;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((collectionName == null) ? 0 : collectionName.hashCode());
@@ -160,8 +143,7 @@ public class GatherDocRequest implements Serializable
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -169,35 +151,27 @@ public class GatherDocRequest implements Serializable
         if (getClass() != obj.getClass())
             return false;
         final GatherDocRequest other = (GatherDocRequest) obj;
-        if (collectionName == null)
-        {
+        if (collectionName == null) {
             if (other.collectionName != null)
                 return false;
-        }
-        else if (!collectionName.equals(other.collectionName))
+        } else if (!collectionName.equals(other.collectionName))
             return false;
-        if (contentDestinationDirectory == null)
-        {
+        if (contentDestinationDirectory == null) {
             if (other.contentDestinationDirectory != null)
                 return false;
-        }
-        else if (!contentDestinationDirectory.equals(other.contentDestinationDirectory))
+        } else if (!contentDestinationDirectory.equals(other.contentDestinationDirectory))
             return false;
-        if (guids == null)
-        {
+        if (guids == null) {
             if (other.guids != null)
                 return false;
-        }
-        else if (!guids.equals(other.guids))
+        } else if (!guids.equals(other.guids))
             return false;
         if (isFinalStage != other.isFinalStage)
             return false;
-        if (metadataDestinationDirectory == null)
-        {
+        if (metadataDestinationDirectory == null) {
             if (other.metadataDestinationDirectory != null)
                 return false;
-        }
-        else if (!metadataDestinationDirectory.equals(other.metadataDestinationDirectory))
+        } else if (!metadataDestinationDirectory.equals(other.metadataDestinationDirectory))
             return false;
         if (useReloadContent != other.useReloadContent)
             return false;

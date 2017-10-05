@@ -12,8 +12,7 @@ import org.xml.sax.helpers.XMLFilterImpl;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public class FrontMatterWestlawNextPageFilter extends XMLFilterImpl
-{
+public class FrontMatterWestlawNextPageFilter extends XMLFilterImpl {
     /** Names of all the placeholder tags this filter handles */
     private static final String WESTLAW_NEXT_PAGE_ANCHOR_TAG = "frontMatterPlaceholder_WestlawNextPageAnchor";
 
@@ -25,10 +24,9 @@ public class FrontMatterWestlawNextPageFilter extends XMLFilterImpl
     private static final String CDATA = "CDATA";
 
     @Override
-    public void startElement(final String uri, final String localName, final String qName, final Attributes atts) throws SAXException
-    {
-        if (qName.equalsIgnoreCase(WESTLAW_NEXT_PAGE_ANCHOR_TAG))
-        {
+    public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
+        throws SAXException {
+        if (qName.equalsIgnoreCase(WESTLAW_NEXT_PAGE_ANCHOR_TAG)) {
             final AttributesImpl newAtts = new AttributesImpl();
             newAtts.addAttribute(
                 uri,
@@ -38,28 +36,21 @@ public class FrontMatterWestlawNextPageFilter extends XMLFilterImpl
                 FrontMatterFileName.WESTLAW + FrontMatterFileName.ANCHOR);
             super.startElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG, newAtts);
             super.characters(" ".toCharArray(), 0, 1);
-        }
-        else
-        {
+        } else {
             super.startElement(uri, localName, qName, atts);
         }
     }
 
     @Override
-    public void characters(final char[] buf, final int offset, final int len) throws SAXException
-    {
+    public void characters(final char[] buf, final int offset, final int len) throws SAXException {
         super.characters(buf, offset, len);
     }
 
     @Override
-    public void endElement(final String uri, final String localName, final String qName) throws SAXException
-    {
-        if (qName.equalsIgnoreCase(WESTLAW_NEXT_PAGE_ANCHOR_TAG))
-        {
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException {
+        if (qName.equalsIgnoreCase(WESTLAW_NEXT_PAGE_ANCHOR_TAG)) {
             super.endElement(uri, HTML_ANCHOR_TAG, HTML_ANCHOR_TAG);
-        }
-        else
-        {
+        } else {
             super.endElement(uri, localName, qName);
         }
     }

@@ -9,16 +9,14 @@ import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.util.Assert;
 
-public class VersionUtilImpl implements VersionUtil
-{
-	@Override
-	public boolean isMajorUpdate(@NotNull final Version current, @NotNull final Version next)
-	{
-		Assert.notNull(current);
-		Assert.notNull(next);
+public class VersionUtilImpl implements VersionUtil {
+    @Override
+    public boolean isMajorUpdate(@NotNull final Version current, @NotNull final Version next) {
+        Assert.notNull(current);
+        Assert.notNull(next);
 
-		final boolean newMajorNumberIsGraterByOne = next.getMajorNumber() == current.getMajorNumber() + 1;
-		final boolean newMinorNumberIsZero = next.getMinorNumber() == 0;
-		return newMajorNumberIsGraterByOne && newMinorNumberIsZero;
-	}
+        final boolean newMajorNumberIsGraterByOne = next.getMajorNumber() == current.getMajorNumber() + 1;
+        final boolean newMinorNumberIsZero = next.getMinorNumber() == 0;
+        return newMajorNumberIsGraterByOne && newMinorNumberIsZero;
+    }
 }

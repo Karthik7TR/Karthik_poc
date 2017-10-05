@@ -9,8 +9,7 @@ import org.springframework.dao.DataAccessException;
  * DAO to manage Author entities.
  *
  */
-public interface AuthorDao
-{
+public interface AuthorDao {
     /**
      * Query - findAuthorByPrimaryKey
      *

@@ -18,8 +18,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 @XmlRootElement(name = "gatherTocRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GatherTocRequest
-{
+public class GatherTocRequest {
     @XmlElement(name = "guid")
     private String guid;
     @XmlElement(name = "collectionName")
@@ -35,8 +34,7 @@ public class GatherTocRequest
     private List<String> splitTocGuidList;
     private int thresholdValue;
 
-    public GatherTocRequest()
-    {
+    public GatherTocRequest() {
         super();
     }
 
@@ -48,8 +46,7 @@ public class GatherTocRequest
         final List<RenameTocEntry> renameTocEntries,
         final boolean isFinalStage,
         final Collection<String> splitTocGuidList,
-        final int thresholdValue)
-    {
+        final int thresholdValue) {
         super();
         this.guid = guid;
         this.collectionName = collectionName;
@@ -57,72 +54,59 @@ public class GatherTocRequest
         this.excludeDocuments = excludeDocuments;
         this.renameTocEntries = renameTocEntries;
         this.isFinalStage = isFinalStage;
-        if (splitTocGuidList != null)
-        {
+        if (splitTocGuidList != null) {
             setSplitTocGuidList(splitTocGuidList);
         }
         this.thresholdValue = thresholdValue;
     }
 
-    public int getThresholdValue()
-    {
+    public int getThresholdValue() {
         return thresholdValue;
     }
 
-    public void setThresholdValue(final int thresholdValue)
-    {
+    public void setThresholdValue(final int thresholdValue) {
         this.thresholdValue = thresholdValue;
     }
 
-    public List<String> getSplitTocGuidList()
-    {
+    public List<String> getSplitTocGuidList() {
         return splitTocGuidList;
     }
 
-    public void setSplitTocGuidList(final Collection<String> splitTocGuidList)
-    {
+    public void setSplitTocGuidList(final Collection<String> splitTocGuidList) {
         this.splitTocGuidList = new ArrayList<>(splitTocGuidList);
     }
 
-    public String getCollectionName()
-    {
+    public String getCollectionName() {
         return collectionName;
     }
 
-    public String getGuid()
-    {
+    public String getGuid() {
         return guid;
     }
 
-    public File getTocFile()
-    {
+    public File getTocFile() {
         return tocFile;
     }
 
-    public void setCollectionName(final String collectionName)
-    {
+    public void setCollectionName(final String collectionName) {
         this.collectionName = collectionName;
     }
 
-    public void setGuid(final String guid)
-    {
+    public void setGuid(final String guid) {
         this.guid = guid;
     }
 
-    public void setTocFile(final File tocFile)
-    {
+    public void setTocFile(final File tocFile) {
         this.tocFile = tocFile;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((collectionName == null) ? 0 : collectionName.hashCode());
@@ -133,8 +117,7 @@ public class GatherTocRequest
     }
 
     @Override
-    public boolean equals(final Object obj)
-    {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -142,59 +125,47 @@ public class GatherTocRequest
         if (getClass() != obj.getClass())
             return false;
         final GatherTocRequest other = (GatherTocRequest) obj;
-        if (collectionName == null)
-        {
+        if (collectionName == null) {
             if (other.collectionName != null)
                 return false;
-        }
-        else if (!collectionName.equals(other.collectionName))
+        } else if (!collectionName.equals(other.collectionName))
             return false;
-        if (guid == null)
-        {
+        if (guid == null) {
             if (other.guid != null)
                 return false;
-        }
-        else if (!guid.equals(other.guid))
+        } else if (!guid.equals(other.guid))
             return false;
         if (isFinalStage != other.isFinalStage)
             return false;
-        if (tocFile == null)
-        {
+        if (tocFile == null) {
             if (other.tocFile != null)
                 return false;
-        }
-        else if (!tocFile.equals(other.tocFile))
+        } else if (!tocFile.equals(other.tocFile))
             return false;
         return true;
     }
 
-    public List<ExcludeDocument> getExcludeDocuments()
-    {
+    public List<ExcludeDocument> getExcludeDocuments() {
         return excludeDocuments;
     }
 
-    public void setExcludeDocuments(final List<ExcludeDocument> excludeDocuments)
-    {
+    public void setExcludeDocuments(final List<ExcludeDocument> excludeDocuments) {
         this.excludeDocuments = excludeDocuments;
     }
 
-    public List<RenameTocEntry> getRenameTocEntries()
-    {
+    public List<RenameTocEntry> getRenameTocEntries() {
         return renameTocEntries;
     }
 
-    public void setRenameTocEntries(final List<RenameTocEntry> renameTocEntries)
-    {
+    public void setRenameTocEntries(final List<RenameTocEntry> renameTocEntries) {
         this.renameTocEntries = renameTocEntries;
     }
 
-    public boolean isFinalStage()
-    {
+    public boolean isFinalStage() {
         return isFinalStage;
     }
 
-    public void setFinalStage(final boolean isFinalStage)
-    {
+    public void setFinalStage(final boolean isFinalStage) {
         this.isFinalStage = isFinalStage;
     }
 }

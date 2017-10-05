@@ -1,10 +1,8 @@
 package com.thomsonreuters.uscl.ereader.core;
 
-public class CoreConstants
-{
+public class CoreConstants {
     /** The name of the current Novus environment */
-    public enum NovusEnvironment
-    {
+    public enum NovusEnvironment {
         Client,
         Prod
     };

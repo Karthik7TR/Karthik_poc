@@ -9,8 +9,7 @@ import org.springframework.jms.core.JmsTemplate;
  * @author C089278
  *
  */
-public interface ConnectionFactory
-{
+public interface ConnectionFactory {
     /**
      * Return a queue connection factory instance
      *

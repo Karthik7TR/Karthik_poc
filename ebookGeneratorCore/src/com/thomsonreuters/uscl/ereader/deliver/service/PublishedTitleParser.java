@@ -23,8 +23,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author U0057241
  *
  */
-public class PublishedTitleParser
-{
+public class PublishedTitleParser {
     private Map<String, ProviewTitleContainer> titleMap = new HashMap<>();
 
     /**
@@ -34,18 +33,15 @@ public class PublishedTitleParser
      * @return Generate a map of the ProviewTitleContainer objects where the key
      *         is the title id.
      */
-    public Map<String, ProviewTitleContainer> process(final String xml)
-    {
+    public Map<String, ProviewTitleContainer> process(final String xml) {
         final Logger LOG = LogManager.getLogger(PublishedTitleParser.class);
 
-        try
-        {
+        try {
             final SAXParserFactory parserFactory = SAXParserFactory.newInstance();
             parserFactory.setNamespaceAware(true);
 
             final XMLReader reader = parserFactory.newSAXParser().getXMLReader();
-            reader.setContentHandler(new DefaultHandler()
-            {
+            reader.setContentHandler(new DefaultHandler() {
                 private static final String TITLE_TAG = "title";
                 private static final String ID = "id";
                 private static final String NAME = "name";
@@ -64,10 +60,8 @@ public class PublishedTitleParser
                  * int, int)
                  */
                 @Override
-                public void characters(final char[] ch, final int start, final int length) throws SAXException
-                {
-                    if (charBuffer != null)
-                    {
+                public void characters(final char[] ch, final int start, final int length) throws SAXException {
+                    if (charBuffer != null) {
                         charBuffer.append(new String(ch, start, length));
                     }
                 }
@@ -80,26 +74,21 @@ public class PublishedTitleParser
                  * , java.lang.String, java.lang.String)
                  */
                 @Override
-                public void endElement(final String uri, final String localName, final String qName) throws SAXException
-                {
-                    try
-                    {
+                public void endElement(final String uri, final String localName, final String qName)
+                    throws SAXException {
+                    try {
                         String value = null;
 
-                        if (charBuffer != null)
-                        {
+                        if (charBuffer != null) {
                             value = StringUtils.trim(charBuffer.toString());
                         }
 
-                        if (TITLE_TAG.equals(qName))
-                        {
-                            if (StringUtils.isNotBlank(value))
-                            {
+                        if (TITLE_TAG.equals(qName)) {
+                            if (StringUtils.isNotBlank(value)) {
                                 proviewTitleInfo.setTitle(value);
                             }
 
-                            if (titleMap.get(proviewTitleInfo.getTitleId()) == null)
-                            {
+                            if (titleMap.get(proviewTitleInfo.getTitleId()) == null) {
                                 titleMap.put(proviewTitleInfo.getTitleId(), new ProviewTitleContainer());
                             }
 
@@ -107,9 +96,7 @@ public class PublishedTitleParser
                         }
 
                         charBuffer = null;
-                    }
-                    catch (final Exception e)
-                    {
+                    } catch (final Exception e) {
                         final String message =
                             "PublishedTitleParser: Exception occured during PublishedTitleParser parsing endElement. The error message is: "
                                 + e.getMessage();
@@ -127,11 +114,12 @@ public class PublishedTitleParser
                  * org.xml.sax.Attributes)
                  */
                 @Override
-                public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
-                    throws SAXException
-                {
-                    try
-                    {
+                public void startElement(
+                    final String uri,
+                    final String localName,
+                    final String qName,
+                    final Attributes atts) throws SAXException {
+                    try {
                         if (TITLE_TAG.equals(qName))
 
                         {
@@ -145,9 +133,7 @@ public class PublishedTitleParser
                             proviewTitleInfo.setLastupdate(atts.getValue(LAST_UPDATE));
                             proviewTitleInfo.setStatus(atts.getValue(STATUS));
                         }
-                    }
-                    catch (final Exception e)
-                    {
+                    } catch (final Exception e) {
                         final String message =
                             "PublishedTitleParser: Exception  PublishedTitleParser parsing startElement. The error message is: "
                                 + e.getMessage();
@@ -158,17 +144,11 @@ public class PublishedTitleParser
             });
             reader.parse(new InputSource(new StringReader(xml)));
             return titleMap;
-        }
-        catch (final SAXException e)
-        {
+        } catch (final SAXException e) {
             throw new RuntimeException(e);
-        }
-        catch (final ParserConfigurationException e)
-        {
+        } catch (final ParserConfigurationException e) {
             throw new RuntimeException(e);
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }

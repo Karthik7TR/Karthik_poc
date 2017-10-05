@@ -18,8 +18,7 @@ import java.io.InputStream;
  * @author bmartell
 
  */
-public class EntityEncodedInputStream extends BaseInputStream
-{
+public class EntityEncodedInputStream extends BaseInputStream {
     private boolean hasOverflow;
     private char overflowChar;
     private boolean inProcessingInstruction;
@@ -30,8 +29,7 @@ public class EntityEncodedInputStream extends BaseInputStream
      *
      * @param in the underlying InputStream ( of xml )
      */
-    public EntityEncodedInputStream(final InputStream in)
-    {
+    public EntityEncodedInputStream(final InputStream in) {
         super(in);
     }
 
@@ -47,50 +45,39 @@ public class EntityEncodedInputStream extends BaseInputStream
      * @throws java.io.IOException on failure.
      */
     @Override
-    public int read(final byte[] buffer, final int offset, final int length) throws IOException
-    {
+    public int read(final byte[] buffer, final int offset, final int length) throws IOException {
         int bytesRead = 0;
         boolean endOfStream = false;
 
-        while ((bytesRead < length) && !endOfStream)
-        {
-            if (hasOverflow)
-            {
+        while ((bytesRead < length) && !endOfStream) {
+            if (hasOverflow) {
                 buffer[offset + bytesRead] = (byte) overflowChar;
                 bytesRead++;
                 hasOverflow = false;
 
-                if (!(bytesRead < length))
-                {
+                if (!(bytesRead < length)) {
                     break;
                 }
             }
 
             final byte character = (byte) in.read();
 
-            switch (character)
-            {
+            switch (character) {
             case '&':
-                if (inProcessingInstruction)
-                {
+                if (inProcessingInstruction) {
                     //no encoding in processing instructions
                     buffer[offset + bytesRead] = (byte) '&';
                     bytesRead++;
-                }
-                else
-                {
+                } else {
                     buffer[offset + bytesRead] = (byte) '$';
                     bytesRead++;
 
                     //NOTE: potential snag in that 'previousCharacter' will register '&' instead of '$' -- but neither is important at this time
 
-                    if (!(bytesRead < length))
-                    {
+                    if (!(bytesRead < length)) {
                         hasOverflow = true;
                         overflowChar = '#';
-                    }
-                    else
-                    {
+                    } else {
                         buffer[offset + bytesRead] = (byte) '#';
                         bytesRead++;
                     }
@@ -99,24 +86,18 @@ public class EntityEncodedInputStream extends BaseInputStream
                 break;
 
             case '$':
-                if (inProcessingInstruction)
-                {
+                if (inProcessingInstruction) {
                     //no encoding in processing instructions
                     buffer[offset + bytesRead] = (byte) '$';
                     bytesRead++;
-                }
-                else
-                {
+                } else {
                     buffer[offset + bytesRead] = (byte) '$';
                     bytesRead++;
 
-                    if (!(bytesRead < length))
-                    {
+                    if (!(bytesRead < length)) {
                         hasOverflow = true;
                         overflowChar = '$';
-                    }
-                    else
-                    {
+                    } else {
                         buffer[offset + bytesRead] = (byte) '$';
                         bytesRead++;
                     }
@@ -125,8 +106,7 @@ public class EntityEncodedInputStream extends BaseInputStream
                 break;
 
             case '?':
-                if (!inProcessingInstruction && previousCharacter == '<')
-                {
+                if (!inProcessingInstruction && previousCharacter == '<') {
                     inProcessingInstruction = true; //hit the sequence "<?"
                 }
 
@@ -138,8 +118,7 @@ public class EntityEncodedInputStream extends BaseInputStream
 
             case '>':
 
-                if (inProcessingInstruction && previousCharacter == '?')
-                {
+                if (inProcessingInstruction && previousCharacter == '?') {
                     inProcessingInstruction = false; //hit the sequence "?>"
                 }
 
@@ -156,12 +135,9 @@ public class EntityEncodedInputStream extends BaseInputStream
 
             default:
 
-                try
-                {
+                try {
                     buffer[offset + bytesRead] = character;
-                }
-                catch (final Exception t)
-                {
+                } catch (final Exception t) {
                     throw new StreamException(t);
                 }
 
@@ -171,8 +147,7 @@ public class EntityEncodedInputStream extends BaseInputStream
             previousCharacter = (char) character; //needed to detect processing instruction start/end tags
         }
 
-        if (endOfStream && (0 == bytesRead))
-        {
+        if (endOfStream && (0 == bytesRead)) {
             bytesRead = -1;
         }
 
