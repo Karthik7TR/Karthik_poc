@@ -45,14 +45,10 @@ public final class KeywordCodeControllerTest
 
         // Mock up the Code service
         mockCodeService = EasyMock.createMock(CodeService.class);
+        validator = new KeywordCodeFormValidator(mockCodeService);
 
         // Set up the controller
-        controller = new KeywordCodeController();
-        controller.setCodeService(mockCodeService);
-
-        validator = new KeywordCodeFormValidator();
-        validator.setCodeService(mockCodeService);
-        controller.setValidator(validator);
+        controller = new KeywordCodeController(mockCodeService, null, validator);
 
         KEYWORD_CODE.setId(KEYWORD_CODE_ID);
         KEYWORD_CODE.setName("test");

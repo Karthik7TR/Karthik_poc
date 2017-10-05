@@ -2,7 +2,6 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.generatorswitch
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import javax.validation.Valid;
 
@@ -10,7 +9,9 @@ import com.thomsonreuters.uscl.ereader.core.job.service.ServerAccessService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,11 +26,31 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class GeneratorSwitchController
 {
-    //private static final Logger log = LogManager.getLogger(StopGeneratorController.class);
+    private final ServerAccessService serverAccessService;
+    private final Validator validator;
+    private final String serverNames;
+    private final String userName;
+    private final String password;
+    private final String appNames;
+    private final String emailGroup;
 
-    private ServerAccessService serverAccessService;
-    private Properties generatorProperties;
-    protected Validator validator;
+    @Autowired
+    public GeneratorSwitchController(final ServerAccessService serverAccessService,
+                                     @Qualifier("killSwitchFormValidator") final Validator validator,
+                                     @Value("${generator.hosts}") final String serverNames,
+                                     @Value("${server.username}") final String userName,
+                                     @Value("${server.password}") final String password,
+                                     @Value("${kill.app.names}") final String appNames,
+                                     @Value("${kill.email.group}") final String emailGroup)
+    {
+        this.serverAccessService = serverAccessService;
+        this.validator = validator;
+        this.serverNames = serverNames;
+        this.userName = userName;
+        this.password = password;
+        this.appNames = appNames;
+        this.emailGroup = emailGroup;
+    }
 
     @InitBinder(StopGeneratorForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder)
@@ -66,12 +87,7 @@ public class GeneratorSwitchController
 
             try
             {
-                String status = serverAccessService.stopServer(
-                    generatorProperties.getProperty("serverNames"),
-                    generatorProperties.getProperty("username"),
-                    generatorProperties.getProperty("password"),
-                    generatorProperties.getProperty("appNames"),
-                    generatorProperties.getProperty("emailGroup"));
+                String status = serverAccessService.stopServer(serverNames, userName, password, appNames, emailGroup);
                 status = StringUtils.replace(status, "\n", "<br />");
                 infoMessages.add(new InfoMessage(InfoMessage.Type.INFO, status));
             }
@@ -104,12 +120,7 @@ public class GeneratorSwitchController
 
         try
         {
-            String status = serverAccessService.startServer(
-                generatorProperties.getProperty("serverNames"),
-                generatorProperties.getProperty("username"),
-                generatorProperties.getProperty("password"),
-                generatorProperties.getProperty("appNames"),
-                generatorProperties.getProperty("emailGroup"));
+            String status = serverAccessService.startServer(serverNames, userName, password, appNames, emailGroup);
             status = StringUtils.replace(status, "\n", "<br />");
             infoMessages.add(new InfoMessage(InfoMessage.Type.INFO, status));
         }
@@ -122,23 +133,5 @@ public class GeneratorSwitchController
         model.addAttribute(WebConstants.KEY_INFO_MESSAGES, infoMessages);
 
         return new ModelAndView(WebConstants.VIEW_ADMIN_START_GENERATOR);
-    }
-
-    @Required
-    public void setServerAccessService(final ServerAccessService serverAccessService)
-    {
-        this.serverAccessService = serverAccessService;
-    }
-
-    @Required
-    public void setGeneratorProperties(final Properties properties)
-    {
-        generatorProperties = properties;
-    }
-
-    @Required
-    public void setValidator(final Validator validator)
-    {
-        this.validator = validator;
     }
 }

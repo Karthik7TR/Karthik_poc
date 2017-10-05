@@ -43,8 +43,7 @@ public final class BookAuditControllerTest
 
         handlerAdapter = new AnnotationMethodHandlerAdapter();
 
-        controller = new BookAuditController();
-        controller.setAuditService(mockAuditService);
+        controller = new BookAuditController(mockAuditService);
     }
 
     @Test

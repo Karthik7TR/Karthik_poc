@@ -21,7 +21,8 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.UserPr
 import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,13 +46,28 @@ public class LoginController
 {
     private static final Logger log = LogManager.getLogger(LoginController.class);
 
-    private UserPreferenceService preferenceService;
-    private OutageService outageService;
-    private MiscConfigSyncService miscConfigSyncService;
+    private final UserPreferenceService preferenceService;
+    private final OutageService outageService;
+    private final MiscConfigSyncService miscConfigSyncService;
 
     /** Validator for the login form - username and password */
-    private Validator validator;
-    private String environmentName;
+    private final Validator validator;
+    private final String environmentName;
+
+    @Autowired
+    public LoginController(final UserPreferenceService preferenceService,
+                           final OutageService outageService,
+                           final MiscConfigSyncService miscConfigSyncService,
+                           @Qualifier("loginFormValidator") final Validator validator,
+                           @Qualifier("environmentName") final String environmentName)
+    {
+        this.preferenceService = preferenceService;
+        this.outageService = outageService;
+        this.miscConfigSyncService = miscConfigSyncService;
+        this.validator = validator;
+        this.environmentName = environmentName;
+    }
+
 
     @InitBinder(LoginForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder)
@@ -180,35 +196,5 @@ public class LoginController
         log.debug(">>>");
         // Redirect user back to the Login page
         return new ModelAndView(new RedirectView(WebConstants.MVC_SEC_LOGIN));
-    }
-
-    @Required
-    public void setValidator(final Validator validator)
-    {
-        this.validator = validator;
-    }
-
-    @Required
-    public void setEnvironmentName(final String name)
-    {
-        environmentName = name;
-    }
-
-    @Required
-    public void setUserPreferenceService(final UserPreferenceService service)
-    {
-        preferenceService = service;
-    }
-
-    @Required
-    public void setOutageService(final OutageService service)
-    {
-        outageService = service;
-    }
-
-    @Required
-    public void setMiscConfigSyncService(final MiscConfigSyncService service)
-    {
-        miscConfigSyncService = service;
     }
 }

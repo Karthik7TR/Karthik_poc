@@ -7,16 +7,25 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+@Component("deleteBookDefinitionFormValidator")
 public class DeleteBookDefinitionFormValidator implements Validator
 {
-    //private static final Logger log = LogManager.getLogger(DeleteBookDefinitionFormValidator.class);
-    private JobRequestService jobRequestService;
-    private BookDefinitionLockService bookLockService;
+    private final JobRequestService jobRequestService;
+    private final BookDefinitionLockService bookLockService;
+
+    @Autowired
+    public DeleteBookDefinitionFormValidator(final JobRequestService jobRequestService,
+                                             final BookDefinitionLockService bookLockService)
+    {
+        this.jobRequestService = jobRequestService;
+        this.bookLockService = bookLockService;
+    }
 
     @Override
     public boolean supports(final Class<?> clazz)
@@ -71,17 +80,5 @@ public class DeleteBookDefinitionFormValidator implements Validator
         {
             errors.rejectValue("id", "error.invalid", new Object[] {"eBook Definition"}, "Invalid eBook Definition");
         }
-    }
-
-    @Required
-    public void setJobRequestService(final JobRequestService service)
-    {
-        jobRequestService = service;
-    }
-
-    @Required
-    public void setBookDefinitionLockService(final BookDefinitionLockService service)
-    {
-        bookLockService = service;
     }
 }

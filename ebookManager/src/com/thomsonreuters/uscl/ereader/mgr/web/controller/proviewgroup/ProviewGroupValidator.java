@@ -1,9 +1,11 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupListFilterForm.GroupCmd;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+@Component("proviewGroupValidator")
 public class ProviewGroupValidator implements Validator
 {
     @Override

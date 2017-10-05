@@ -66,13 +66,11 @@ public final class JobSummaryControllerTest
         mockOutageService = EasyMock.createMock(OutageService.class);
         handlerAdapter = new AnnotationMethodHandlerAdapter();
 
-        controller = new JobSummaryController();
-        controller.setJobService(mockJobService);
-        controller.setValidator(new JobSummaryValidator());
-        controller.setGeneratorRestClient(mockManagerService);
-        controller.setMessageSourceAccessor(mockMessageSourceAccessor);
-        controller.setJobExecutionController(mockJobExecutionController);
-        controller.setOutageService(mockOutageService);
+        controller = new JobSummaryController(mockJobService, mockOutageService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "validator", new JobSummaryValidator());
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "generatorRestClient", mockManagerService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "messageSourceAccessor", mockMessageSourceAccessor);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "jobExecutionController", mockJobExecutionController);
 
         // Set up the Job execution ID list stored in the session
         jobExecutionIds = new ArrayList<>();

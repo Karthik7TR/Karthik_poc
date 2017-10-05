@@ -5,7 +5,8 @@ import javax.validation.Valid;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,8 +24,16 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class StateCodeController
 {
-    private StateCodeService stateCodeService;
-    protected Validator validator;
+    private final StateCodeService stateCodeService;
+    private final Validator validator;
+
+    @Autowired
+    public StateCodeController(final StateCodeService stateCodeService,
+                               @Qualifier("stateCodeFormValidator") final Validator validator)
+    {
+        this.stateCodeService = stateCodeService;
+        this.validator = validator;
+    }
 
     @InitBinder(StateCodeForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder)
@@ -138,17 +147,5 @@ public class StateCodeController
 
         // Redirect user
         return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_STATE_CODE_VIEW));
-    }
-
-    @Required
-    public void setStateCodeService(final StateCodeService service)
-    {
-        stateCodeService = service;
-    }
-
-    @Required
-    public void setValidator(final Validator validator)
-    {
-        this.validator = validator;
     }
 }

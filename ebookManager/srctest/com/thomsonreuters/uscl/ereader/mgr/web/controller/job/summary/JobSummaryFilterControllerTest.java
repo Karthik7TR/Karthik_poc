@@ -44,10 +44,7 @@ public final class JobSummaryFilterControllerTest
         mockOutageService = EasyMock.createMock(OutageService.class);
         handlerAdapter = new AnnotationMethodHandlerAdapter();
 
-        controller = new FilterController();
-        controller.setJobService(mockJobService);
-        controller.setValidator(new FilterFormValidator());
-        controller.setOutageService(mockOutageService);
+        controller = new FilterController(mockJobService, mockOutageService, new FilterFormValidator());
     }
 
     @Test

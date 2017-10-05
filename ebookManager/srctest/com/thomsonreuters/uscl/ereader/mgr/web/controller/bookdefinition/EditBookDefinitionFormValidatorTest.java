@@ -53,10 +53,7 @@ public final class EditBookDefinitionFormValidatorTest
         mockCodeService = EasyMock.createMock(CodeService.class);
 
         // Setup Validator
-        validator = new EditBookDefinitionFormValidator();
-        validator.setBookDefinitionService(mockBookDefinitionService);
-        validator.setCodeService(mockCodeService);
-        validator.setEnvironmentName(CoreConstants.PROD_ENVIRONMENT_NAME);
+        validator = new EditBookDefinitionFormValidator(mockBookDefinitionService, mockCodeService, CoreConstants.PROD_ENVIRONMENT_NAME, null);
 
         form = new EditBookDefinitionForm();
 
@@ -183,7 +180,7 @@ public final class EditBookDefinitionFormValidatorTest
         EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
         EasyMock.replay(mockCodeService);
         form.setCodesWorkbenchBookName("/");
-        validator.setRootCodesWorkbenchLandingStrip(dir);
+        validator = new EditBookDefinitionFormValidator(mockBookDefinitionService, mockCodeService, CoreConstants.PROD_ENVIRONMENT_NAME, dir);
         validator.validate(form, errors);
 
         Assert.assertEquals("error.not.exist", errors.getFieldError("codesWorkbenchBookName").getCode());

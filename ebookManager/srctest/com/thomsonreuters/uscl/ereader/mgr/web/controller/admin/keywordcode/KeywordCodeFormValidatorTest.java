@@ -24,8 +24,7 @@ public final class KeywordCodeFormValidatorTest
         mockCodeService = EasyMock.createMock(CodeService.class);
 
         // Setup Validator
-        validator = new KeywordCodeFormValidator();
-        validator.setCodeService(mockCodeService);
+        validator = new KeywordCodeFormValidator(mockCodeService);
 
         form = new KeywordCodeForm();
         form.setCodeId(1L);

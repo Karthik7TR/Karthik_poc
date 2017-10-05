@@ -4,9 +4,11 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
+import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditForm.DisplayTagSortProperty;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,6 +20,12 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class BookAuditController extends BaseBookAuditController
 {
+    @Autowired
+    public BookAuditController(final EBookAuditService auditService)
+    {
+        super(auditService);
+    }
+
     /**
      * Handle initial in-bound HTTP get request to the page.
      * No query string parameters are expected.

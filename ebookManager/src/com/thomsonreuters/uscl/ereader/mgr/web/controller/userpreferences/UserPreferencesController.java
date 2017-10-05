@@ -6,7 +6,8 @@ import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference;
 import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceService;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,8 +24,16 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class UserPreferencesController
 {
-    private UserPreferenceService service;
-    private Validator validator;
+    private final UserPreferenceService service;
+    private final Validator validator;
+
+    @Autowired
+    public UserPreferencesController(final UserPreferenceService service,
+                                     @Qualifier("userPreferencesFormValidator") final Validator validator)
+    {
+        this.service = service;
+        this.validator = validator;
+    }
 
     @InitBinder(UserPreferencesForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder)
@@ -64,17 +73,5 @@ public class UserPreferencesController
 
         model.addAttribute("numberOfEmails", form.getEmails().size());
         return new ModelAndView(WebConstants.VIEW_USER_PREFERENCES);
-    }
-
-    @Required
-    public void setUserPreferenceService(final UserPreferenceService service)
-    {
-        this.service = service;
-    }
-
-    @Required
-    public void setValidator(final Validator validator)
-    {
-        this.validator = validator;
     }
 }

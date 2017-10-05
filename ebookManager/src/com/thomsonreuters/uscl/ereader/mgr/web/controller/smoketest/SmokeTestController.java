@@ -16,7 +16,9 @@ import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTest;
 import com.thomsonreuters.uscl.ereader.smoketest.service.SmokeTestService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,11 +30,26 @@ public class SmokeTestController
 {
     private static final Logger log = LogManager.getLogger(SmokeTestController.class);
 
-    private MiscConfigSyncService miscConfigSyncService;
-    private SmokeTestService smokeTestService;
-    private SapService sapService;
-    private String environmentName;
-    private String imageVertical;
+    private final MiscConfigSyncService miscConfigSyncService;
+    private final SmokeTestService smokeTestService;
+    private final SapService sapService;
+    private final String environmentName;
+    private final String imageVertical;
+
+    @Autowired
+    public SmokeTestController(final MiscConfigSyncService miscConfigSyncService,
+                               final SmokeTestService smokeTestService,
+                               final SapService sapService,
+                               @Qualifier("environmentName") final String environmentName,
+                               @Value("${image.vertical.context.url}") final String imageVertical)
+    {
+        this.miscConfigSyncService = miscConfigSyncService;
+        this.smokeTestService = smokeTestService;
+        this.sapService = sapService;
+        this.environmentName = environmentName;
+        this.imageVertical = imageVertical;
+    }
+
 
     /**
      * Handle the inbound GET to the smoke test page.
@@ -82,35 +99,5 @@ public class SmokeTestController
         model.addAttribute("prodDatabase", smokeTestService.getProdDatabaseServerStatuses());
 
         return new ModelAndView(WebConstants.VIEW_SMOKE_TEST);
-    }
-
-    @Required
-    public void setEnvironmentName(final String name)
-    {
-        environmentName = name;
-    }
-
-    @Required
-    public void setImageVertical(final String imageVertical)
-    {
-        this.imageVertical = imageVertical;
-    }
-
-    @Required
-    public void setSmokeTestService(final SmokeTestService service)
-    {
-        smokeTestService = service;
-    }
-
-    @Required
-    public void setMiscConfigSyncService(final MiscConfigSyncService service)
-    {
-        miscConfigSyncService = service;
-    }
-
-    @Required
-    public void setSapService(final SapService sapService)
-    {
-        this.sapService = sapService;
     }
 }

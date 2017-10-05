@@ -39,8 +39,7 @@ public final class ProviewAuditFilterControllerTest
 
         handlerAdapter = new AnnotationMethodHandlerAdapter();
 
-        controller = new ProviewAuditFilterController();
-        controller.setAuditService(mockAuditService);
+        controller = new ProviewAuditFilterController(mockAuditService, null);
     }
 
     @Test

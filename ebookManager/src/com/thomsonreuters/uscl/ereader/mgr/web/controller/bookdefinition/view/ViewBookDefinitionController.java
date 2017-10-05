@@ -15,7 +15,7 @@ import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.request.service.PrintComponentUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,9 +30,19 @@ public class ViewBookDefinitionController
 {
     private static final Logger log = LogManager.getLogger(ViewBookDefinitionController.class);
 
-    private BookDefinitionService bookDefinitionService;
-    private JobRequestService jobRequestService;
-    private PrintComponentUtil printComponentUtil;
+    private final BookDefinitionService bookDefinitionService;
+    private final JobRequestService jobRequestService;
+    private final PrintComponentUtil printComponentUtil;
+
+    @Autowired
+    public ViewBookDefinitionController(final BookDefinitionService bookDefinitionService,
+                                        final JobRequestService jobRequestService,
+                                        final PrintComponentUtil printComponentUtil)
+    {
+        this.bookDefinitionService = bookDefinitionService;
+        this.jobRequestService = jobRequestService;
+        this.printComponentUtil = printComponentUtil;
+    }
 
     /**
      * Handle the in-bound GET to the Book Definition read-only view page.
@@ -134,23 +144,5 @@ public class ViewBookDefinitionController
             throw new RuntimeException("Unexpected form command: " + command);
         }
         return mav;
-    }
-
-    @Required
-    public void setBookDefinitionService(final BookDefinitionService service)
-    {
-        bookDefinitionService = service;
-    }
-
-    @Required
-    public void setJobRequestService(final JobRequestService service)
-    {
-        jobRequestService = service;
-    }
-
-    @Required
-    public void setPrintComponentUtil(final PrintComponentUtil util)
-    {
-        printComponentUtil = util;
     }
 }

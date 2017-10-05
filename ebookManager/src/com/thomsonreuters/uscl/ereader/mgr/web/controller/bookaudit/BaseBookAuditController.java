@@ -13,7 +13,6 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditForm.DisplayTagSortProperty;
 import org.displaytag.pagination.PaginatedList;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.ui.Model;
 
 /**
@@ -21,9 +20,13 @@ import org.springframework.ui.Model;
  */
 public abstract class BaseBookAuditController
 {
-    //private static final Logger log = LogManager.getLogger(BaseBookAuditController.class);
     protected static final String PAGE_AND_SORT_NAME = "auditPageAndSort";
-    protected EBookAuditService auditService;
+    protected final EBookAuditService auditService;
+
+    protected BaseBookAuditController(final EBookAuditService auditService)
+    {
+        this.auditService = auditService;
+    }
 
     /**
      * Fetch object containing the current page number, sort column, and sort direction as saved on the session.
@@ -125,11 +128,5 @@ public abstract class BaseBookAuditController
             pageAndSort.getSortProperty(),
             pageAndSort.isAscendingSort());
         return paginatedList;
-    }
-
-    @Required
-    public void setAuditService(final EBookAuditService service)
-    {
-        auditService = service;
     }
 }

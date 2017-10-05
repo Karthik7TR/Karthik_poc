@@ -48,12 +48,8 @@ public final class JobThrottleConfigControllerTest
         mockGeneratorRestClient = EasyMock.createMock(GeneratorRestClient.class);
 
         // Set up the controller
-        controller = new JobThrottleConfigController(PORT_NUM);
-        controller.setAppConfigService(appConfigService);
-        controller.setManagerService(mockManagerService);
-        controller.setGeneratorRestClient(mockGeneratorRestClient);
-        controller.setValidator(new JobThrottleConfigFormValidator());
-        controller.setGeneratorHosts(HOST_NAME + "," + HOST_NAME);
+        controller = new JobThrottleConfigController(appConfigService, mockManagerService,
+            mockGeneratorRestClient, new JobThrottleConfigFormValidator(), HOST_NAME + "," + HOST_NAME, PORT_NUM);
     }
 
     @Test

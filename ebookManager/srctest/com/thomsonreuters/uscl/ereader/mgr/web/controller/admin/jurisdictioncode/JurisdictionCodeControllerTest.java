@@ -46,14 +46,10 @@ public final class JurisdictionCodeControllerTest
 
         // Mock up the Code service
         mockCodeService = EasyMock.createMock(CodeService.class);
+        validator = new JurisdictionCodeFormValidator(mockCodeService);
 
         // Set up the controller
-        controller = new JurisdictionCodeController();
-        controller.setCodeService(mockCodeService);
-
-        validator = new JurisdictionCodeFormValidator();
-        validator.setCodeService(mockCodeService);
-        controller.setValidator(validator);
+        controller = new JurisdictionCodeController(mockCodeService, validator);
 
         JURIS_CODE.setId(JURIS_ID);
         JURIS_CODE.setName("test");

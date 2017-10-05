@@ -34,7 +34,7 @@ import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.batch.core.JobExecution;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,15 +48,33 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ProviewTitleListController
 {
-    private ProviewHandler proviewHandler;
-    private BookDefinitionService bookDefinitionService;
-    private ProviewAuditService proviewAuditService;
-    private ManagerService managerService;
-    private MessageSourceAccessor messageSourceAccessor;
-    private JobRequestService jobRequestService;
-    private ProviewTitleListService proviewTitleListService;
-
     private static final Logger log = LogManager.getLogger(ProviewTitleListController.class);
+
+    private final ProviewHandler proviewHandler;
+    private final BookDefinitionService bookDefinitionService;
+    private final ProviewAuditService proviewAuditService;
+    private final ManagerService managerService;
+    private final MessageSourceAccessor messageSourceAccessor;
+    private final JobRequestService jobRequestService;
+    private final ProviewTitleListService proviewTitleListService;
+
+    @Autowired
+    public ProviewTitleListController(final ProviewHandler proviewHandler,
+                                      final BookDefinitionService bookDefinitionService,
+                                      final ProviewAuditService proviewAuditService,
+                                      final ManagerService managerService,
+                                      final MessageSourceAccessor messageSourceAccessor,
+                                      final JobRequestService jobRequestService,
+                                      final ProviewTitleListService proviewTitleListService)
+    {
+        this.proviewHandler = proviewHandler;
+        this.bookDefinitionService = bookDefinitionService;
+        this.proviewAuditService = proviewAuditService;
+        this.managerService = managerService;
+        this.messageSourceAccessor = messageSourceAccessor;
+        this.jobRequestService = jobRequestService;
+        this.proviewTitleListService = proviewTitleListService;
+    }
 
     /**
      * @param httpSession
@@ -637,66 +655,5 @@ public class ProviewTitleListController
         }
 
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLE_DELETE);
-    }
-
-    /**
-     *
-     * @param proviewHandler
-     */
-    @Required
-    public void setProviewHandler(final ProviewHandler proviewHandler)
-    {
-        this.proviewHandler = proviewHandler;
-    }
-
-    @Required
-    public void setBookDefinitionService(final BookDefinitionService service)
-    {
-        bookDefinitionService = service;
-    }
-
-    @Required
-    public void setProviewAuditService(final ProviewAuditService service)
-    {
-        proviewAuditService = service;
-    }
-
-    public ManagerService getManagerService()
-    {
-        return managerService;
-    }
-
-    @Required
-    public void setManagerService(final ManagerService managerService)
-    {
-        this.managerService = managerService;
-    }
-
-    public MessageSourceAccessor getMessageSourceAccessor()
-    {
-        return messageSourceAccessor;
-    }
-
-    @Required
-    public void setMessageSourceAccessor(final MessageSourceAccessor messageSourceAccessor)
-    {
-        this.messageSourceAccessor = messageSourceAccessor;
-    }
-
-    public JobRequestService getJobRequestService()
-    {
-        return jobRequestService;
-    }
-
-    @Required
-    public void setJobRequestService(final JobRequestService jobRequestService)
-    {
-        this.jobRequestService = jobRequestService;
-    }
-
-    @Required
-    public void setProviewTitleListService(final ProviewTitleListService proviewTitleListService)
-    {
-        this.proviewTitleListService = proviewTitleListService;
     }
 }

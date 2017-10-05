@@ -3,11 +3,13 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterForm.FilterCommand;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditForm.DisplayTagSortProperty;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +25,15 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class BookAuditFilterController extends BaseBookAuditController
 {
-    private Validator validator;
+    private final Validator validator;
+
+    @Autowired
+    public BookAuditFilterController(final EBookAuditService auditService,
+                                     @Qualifier("bookAuditFilterFormValidator") final Validator validator)
+    {
+        super(auditService);
+        this.validator = validator;
+    }
 
     @InitBinder(BookAuditFilterForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder)
@@ -58,11 +68,5 @@ public class BookAuditFilterController extends BaseBookAuditController
         model.addAttribute(BookAuditForm.FORM_NAME, jobSummaryForm);
 
         return new ModelAndView(WebConstants.VIEW_BOOK_AUDIT_LIST);
-    }
-
-    @Required
-    public void setValidator(final BookAuditFilterFormValidator validator)
-    {
-        this.validator = validator;
     }
 }

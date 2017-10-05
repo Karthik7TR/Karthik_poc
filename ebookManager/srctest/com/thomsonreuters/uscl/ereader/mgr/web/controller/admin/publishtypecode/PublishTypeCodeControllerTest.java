@@ -46,14 +46,10 @@ public final class PublishTypeCodeControllerTest
 
         // Mock up the Code service
         mockCodeService = EasyMock.createMock(CodeService.class);
+        validator = new PublishTypeCodeFormValidator(mockCodeService);
 
         // Set up the controller
-        controller = new PublishTypeCodeController();
-        controller.setCodeService(mockCodeService);
-
-        validator = new PublishTypeCodeFormValidator();
-        validator.setCodeService(mockCodeService);
-        controller.setValidator(validator);
+        controller = new PublishTypeCodeController(mockCodeService, validator);
 
         PUBLISH_TYPE_CODE.setId(PUBLISH_TYPE_ID);
         PUBLISH_TYPE_CODE.setName("test");

@@ -4,7 +4,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionLockService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,9 +18,13 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class BookDefinitionLockController
 {
-    //private static final Logger log = LogManager.getLogger(BookDefinitionLockController.class);
+    private final BookDefinitionLockService bookLockService;
 
-    private BookDefinitionLockService bookLockService;
+    @Autowired
+    public BookDefinitionLockController(final BookDefinitionLockService bookLockService)
+    {
+        this.bookLockService = bookLockService;
+    }
 
     /**
      * Handle initial in-bound HTTP get request to the page.
@@ -69,11 +73,5 @@ public class BookDefinitionLockController
 
         // Redirect user
         return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_BOOK_LOCK_LIST));
-    }
-
-    @Required
-    public void setBookLockService(final BookDefinitionLockService service)
-    {
-        bookLockService = service;
     }
 }

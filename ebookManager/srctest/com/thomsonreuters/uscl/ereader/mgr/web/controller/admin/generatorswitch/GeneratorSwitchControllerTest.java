@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import com.thomsonreuters.uscl.ereader.core.job.service.ServerAccessService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -34,7 +33,6 @@ public final class GeneratorSwitchControllerTest
     private GeneratorSwitchController controller;
     private StopGeneratorFormValidator validator;
     private ServerAccessService mockServerAccessService;
-    private Properties mockGeneratorProperties;
 
     @Before
     public void setUp()
@@ -44,15 +42,10 @@ public final class GeneratorSwitchControllerTest
         handlerAdapter = new AnnotationMethodHandlerAdapter();
 
         mockServerAccessService = EasyMock.createMock(ServerAccessService.class);
-        mockGeneratorProperties = EasyMock.createMock(Properties.class);
+        validator = new StopGeneratorFormValidator();
 
         // Set up the controller
-        controller = new GeneratorSwitchController();
-
-        validator = new StopGeneratorFormValidator();
-        controller.setValidator(validator);
-        controller.setGeneratorProperties(mockGeneratorProperties);
-        controller.setServerAccessService(mockServerAccessService);
+        controller = new GeneratorSwitchController(mockServerAccessService, validator, "test", "test", "test", "test", "test");
     }
 
     /**
@@ -92,9 +85,6 @@ public final class GeneratorSwitchControllerTest
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("code", code);
 
-        EasyMock.expect(mockGeneratorProperties.getProperty(EasyMock.anyObject(String.class)))
-            .andReturn(property)
-            .times(5);
         try
         {
             EasyMock.expect(mockServerAccessService.stopServer(property, property, property, property, property))
@@ -104,7 +94,6 @@ public final class GeneratorSwitchControllerTest
         {
             e1.printStackTrace();
         }
-        EasyMock.replay(mockGeneratorProperties);
         EasyMock.replay(mockServerAccessService);
 
         final ModelAndView mav;
@@ -136,7 +125,6 @@ public final class GeneratorSwitchControllerTest
             Assert.fail(e.getMessage());
         }
 
-        EasyMock.verify(mockGeneratorProperties);
         EasyMock.verify(mockServerAccessService);
     }
 
@@ -210,9 +198,6 @@ public final class GeneratorSwitchControllerTest
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_START_GENERATOR);
         request.setMethod(HttpMethod.POST.name());
 
-        EasyMock.expect(mockGeneratorProperties.getProperty(EasyMock.anyObject(String.class)))
-            .andReturn(property)
-            .times(5);
         try
         {
             EasyMock.expect(mockServerAccessService.startServer(property, property, property, property, property))
@@ -222,7 +207,6 @@ public final class GeneratorSwitchControllerTest
         {
             e1.printStackTrace();
         }
-        EasyMock.replay(mockGeneratorProperties);
         EasyMock.replay(mockServerAccessService);
 
         final ModelAndView mav;
@@ -249,7 +233,6 @@ public final class GeneratorSwitchControllerTest
             Assert.fail(e.getMessage());
         }
 
-        EasyMock.verify(mockGeneratorProperties);
         EasyMock.verify(mockServerAccessService);
     }
 }

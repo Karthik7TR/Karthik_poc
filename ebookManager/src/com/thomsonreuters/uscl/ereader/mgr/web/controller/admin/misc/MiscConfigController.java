@@ -17,7 +17,9 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,26 +35,39 @@ import org.springframework.web.servlet.ModelAndView;
 public class MiscConfigController
 {
     private static final Logger log = LogManager.getLogger(MiscConfigController.class);
+
     /** Hosts to push new configuration to, assume a listening REST service to receive the new configuration. */
-    private List<InetSocketAddress> gathererSocketAddrs;
-    private List<InetSocketAddress> generatorSocketAddrs;
-    private List<InetSocketAddress> managerSocketAddrs;
+    private final List<InetSocketAddress> gathererSocketAddrs;
+    private final List<InetSocketAddress> generatorSocketAddrs;
+    private final List<InetSocketAddress> managerSocketAddrs;
+
+    @Value("${gatherer.context.name}")
     private String gathererContextName;
+    @Value("${generator.context.name}")
     private String generatorContextName;
+    @Value("${manager.context.name}")
     private String managerContextName;
-    private int gathererPort;
-    private int generatorPort;
-    private int managerPort;
+
+    @Autowired
     private ManagerService managerService;
+    @Autowired
     private AppConfigService appConfigService;
+    @Autowired
     private MiscConfigSyncService miscConfigSyncService;
+    @Autowired
+    @Qualifier("miscConfigFormValidator")
     private Validator validator;
 
-    public MiscConfigController(final int gathererPort, final int generatorPort, final int managerPort)
+    @Autowired
+    public MiscConfigController(@Value("${generator.hosts}") final String commaSeparatedGeneratorHostNames,
+                                @Value("${gatherer.port}") final int gathererPort,
+                                @Value("${generator.port}") final int generatorPort,
+                                @Value("${manager.hosts}") final String commaSeparatedManagerHostNames,
+                                @Value("${manager.port}") final int managerPort) throws UnknownHostException
     {
-        this.gathererPort = gathererPort;
-        this.generatorPort = generatorPort;
-        this.managerPort = managerPort;
+        generatorSocketAddrs = createSocketAddressList(commaSeparatedGeneratorHostNames, generatorPort);
+        gathererSocketAddrs = createSocketAddressList(commaSeparatedGeneratorHostNames, gathererPort);
+        managerSocketAddrs = createSocketAddressList(commaSeparatedManagerHostNames, managerPort);
     }
 
     @InitBinder(MiscConfigForm.FORM_NAME)
@@ -205,70 +220,5 @@ public class MiscConfigController
             socketAddrs.add(socketAddr);
         }
         return socketAddrs;
-    }
-
-    /**
-     * Generator and Gatherer hosts that receive the REST service push notification when a configuration has changed.
-     * It is assumed that the generator and gatherer apps are running on the same host.
-     * @param commaSeparatedHostNames a CSV list of valid host names
-     */
-    @Required
-    public void setGeneratorHosts(final String commaSeparatedHostNames) throws UnknownHostException
-    {
-        generatorSocketAddrs = createSocketAddressList(commaSeparatedHostNames, generatorPort);
-        gathererSocketAddrs = createSocketAddressList(commaSeparatedHostNames, gathererPort);
-    }
-
-    /**
-     * Manager hosts that receive the REST service push notification when a configuration has changed.
-     * It is assumed that this is NOT the same host as the generator and gatherer apps.
-     * @param commaSeparatedHostNames a CSV list of valid host names
-     */
-    @Required
-    public void setManagerHosts(final String commaSeparatedHostNames) throws UnknownHostException
-    {
-        managerSocketAddrs = createSocketAddressList(commaSeparatedHostNames, managerPort);
-    }
-
-    @Required
-    public void setAppConfigService(final AppConfigService service)
-    {
-        appConfigService = service;
-    }
-
-    @Required
-    public void setMiscConfigSyncService(final MiscConfigSyncService service)
-    {
-        miscConfigSyncService = service;
-    }
-
-    @Required
-    public void setManagerService(final ManagerService service)
-    {
-        managerService = service;
-    }
-
-    @Required
-    public void setGeneratorContextName(final String name)
-    {
-        generatorContextName = name;
-    }
-
-    @Required
-    public void setGathererContextName(final String name)
-    {
-        gathererContextName = name;
-    }
-
-    @Required
-    public void setManagerContextName(final String name)
-    {
-        managerContextName = name;
-    }
-
-    @Required
-    public void setValidator(final Validator validator)
-    {
-        this.validator = validator;
     }
 }

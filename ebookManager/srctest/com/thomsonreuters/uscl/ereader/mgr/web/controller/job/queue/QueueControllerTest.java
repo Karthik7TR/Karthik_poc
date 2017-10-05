@@ -67,11 +67,7 @@ public final class QueueControllerTest
 
         handlerAdapter = new AnnotationMethodHandlerAdapter();
 
-        controller = new QueueController();
-        controller.setJobRequestService(mockJobRequestService);
-        //controller.setBookDefinitionService(mockBookDefinitionService);
-        controller.setValidator(new QueueFormValidator());
-        controller.setOutageService(mockOutageService);
+        controller = new QueueController(mockJobRequestService, mockOutageService, new QueueFormValidator());
     }
 
     /**

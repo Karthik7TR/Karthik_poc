@@ -9,6 +9,8 @@ import javax.validation.Valid;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
+import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.core.service.GeneratorRestClient;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
@@ -19,7 +21,8 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummary
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.JobCommand;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,10 +39,23 @@ import org.springframework.web.servlet.ModelAndView;
 public class JobSummaryController extends BaseJobSummaryController
 {
     private static final Logger log = LogManager.getLogger(JobSummaryController.class);
+
+    @Autowired
     private GeneratorRestClient generatorRestClient;
+    @Autowired
+    @Qualifier("jobSummaryValidator")
     private Validator validator;
+    @Autowired
     private MessageSourceAccessor messageSourceAccessor;
+    @Autowired
     private JobExecutionController jobExecutionController;
+
+    @Autowired
+    public JobSummaryController(final JobService jobService,
+                                final OutageService outageService)
+    {
+        super(jobService, outageService);
+    }
 
     @InitBinder(JobSummaryForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder)
@@ -238,29 +254,5 @@ public class JobSummaryController extends BaseJobSummaryController
         final String[] args = {id.toString(), cause.getMessage()};
         final String messageText = messageSourceAccessor.getMessage(mesgCode, args);
         return new InfoMessage(Type.ERROR, messageText);
-    }
-
-    @Required
-    public void setJobExecutionController(final JobExecutionController controller)
-    {
-        jobExecutionController = controller;
-    }
-
-    @Required
-    public void setGeneratorRestClient(final GeneratorRestClient client)
-    {
-        generatorRestClient = client;
-    }
-
-    @Required
-    public void setValidator(final JobSummaryValidator validator)
-    {
-        this.validator = validator;
-    }
-
-    @Required
-    public void setMessageSourceAccessor(final MessageSourceAccessor accessor)
-    {
-        messageSourceAccessor = accessor;
     }
 }

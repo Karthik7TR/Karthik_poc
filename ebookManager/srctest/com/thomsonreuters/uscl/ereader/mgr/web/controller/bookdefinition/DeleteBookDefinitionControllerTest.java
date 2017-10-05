@@ -65,18 +65,11 @@ public final class DeleteBookDefinitionControllerTest
         mockJobRequestService = EasyMock.createMock(JobRequestService.class);
         mockAuditService = EasyMock.createMock(EBookAuditService.class);
         mockLockService = EasyMock.createMock(BookDefinitionLockService.class);
+        validator = new DeleteBookDefinitionFormValidator(mockJobRequestService, mockLockService);
 
         // Set up the controller
-        controller = new DeleteBookDefinitionController();
-        controller.setBookDefinitionService(mockBookDefinitionService);
-        controller.setJobRequestService(mockJobRequestService);
-        controller.setAuditService(mockAuditService);
-        controller.setBookDefinitionLockService(mockLockService);
-
-        validator = new DeleteBookDefinitionFormValidator();
-        validator.setBookDefinitionLockService(mockLockService);
-        validator.setJobRequestService(mockJobRequestService);
-        controller.setValidator(validator);
+        controller = new DeleteBookDefinitionController(
+            mockBookDefinitionService, mockAuditService, mockJobRequestService, mockLockService, validator);
 
         bookDefinitionLock = new BookDefinitionLock();
         bookDefinitionLock.setCheckoutTimestamp(new Date());

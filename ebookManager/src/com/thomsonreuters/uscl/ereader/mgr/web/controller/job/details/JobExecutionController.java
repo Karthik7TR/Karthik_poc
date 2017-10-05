@@ -21,7 +21,8 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.JobExecution;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,13 +53,21 @@ public class JobExecutionController
     public static final String LABEL_RESTART = "restart";
     public static final String LABEL_STOP = "stop";
 
+    @Autowired
     private JobService jobService;
+    @Autowired
     private GeneratorRestClient generatorRestClient;
+    @Autowired
     private PublishingStatsService publishingStatsService;
+    @Autowired
+    @Qualifier("jobExecutionFormValidator")
     private Validator validator;
+    @Autowired
     private MessageSourceAccessor messageSourceAccessor;
-    private JobSummaryController jobSummaryController;
+    @Autowired
     private OutageService outageService;
+    @Autowired
+    private JobSummaryController jobSummaryController;
 
     @InitBinder(JobExecutionForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder)
@@ -281,47 +290,5 @@ public class JobExecutionController
     {
         model.addAttribute(WebConstants.KEY_JOB, vdo);
         model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
-    }
-
-    @Required
-    public void setJobService(final JobService jobService)
-    {
-        this.jobService = jobService;
-    }
-
-    @Required
-    public void setGeneratorRestClient(final GeneratorRestClient client)
-    {
-        generatorRestClient = client;
-    }
-
-    @Required
-    public void setValidator(final Validator validator)
-    {
-        this.validator = validator;
-    }
-
-    @Required
-    public void setMessageSourceAccessor(final MessageSourceAccessor accessor)
-    {
-        messageSourceAccessor = accessor;
-    }
-
-    @Required
-    public void setJobSummaryController(final JobSummaryController controller)
-    {
-        jobSummaryController = controller;
-    }
-
-    @Required
-    public void setPublishingStatsService(final PublishingStatsService service)
-    {
-        publishingStatsService = service;
-    }
-
-    @Required
-    public void setOutageService(final OutageService service)
-    {
-        outageService = service;
     }
 }

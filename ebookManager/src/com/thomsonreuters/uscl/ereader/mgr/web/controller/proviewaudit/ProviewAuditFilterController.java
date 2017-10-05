@@ -7,7 +7,9 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewaudit.ProviewAuditFilterForm.FilterCommand;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewaudit.ProviewAuditForm.DisplayTagSortProperty;
-import org.springframework.beans.factory.annotation.Required;
+import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +25,15 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ProviewAuditFilterController extends BaseProviewAuditController
 {
-    private Validator validator;
+    private final Validator validator;
+
+    @Autowired
+    public ProviewAuditFilterController(final ProviewAuditService auditService,
+                                        @Qualifier("proviewAuditFilterFormValidator") final Validator validator)
+    {
+        super(auditService);
+        this.validator = validator;
+    }
 
     @InitBinder(ProviewAuditFilterForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder)
@@ -58,11 +68,5 @@ public class ProviewAuditFilterController extends BaseProviewAuditController
         model.addAttribute(ProviewAuditForm.FORM_NAME, auditForm);
 
         return new ModelAndView(WebConstants.VIEW_PROVIEW_AUDIT_LIST);
-    }
-
-    @Required
-    public void setValidator(final ProviewAuditFilterFormValidator validator)
-    {
-        this.validator = validator;
     }
 }

@@ -91,16 +91,15 @@ public final class GenerateEbookControllerTest
 
         // Set up the controller
         controller = new GenerateEbookController();
-        controller.setEnvironmentName("");
-        controller.setBookDefinitionService(mockBookDefinitionService);
-        controller.setMessageSourceAccessor(mockMessageSourceAccessor);
-        controller.setProviewHandler(mockProviewHandler);
-        controller.setGroupService(mockGroupService);
-        controller.setJobRequestService(mockJobRequestService);
-        controller.setPublishingStatsService(mockPublishingStatsService);
-        controller.setManagerService(mockManagerService);
-        controller.setOutageService(mockOutageService);
-        controller.setXppBundleArchiveService(mockXppBundleArchiveService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "messageSourceAccessor", mockMessageSourceAccessor);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "proviewHandler", mockProviewHandler);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "groupService", mockGroupService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "jobRequestService", mockJobRequestService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "publishingStatsService", mockPublishingStatsService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "managerService", mockManagerService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "outageService", mockOutageService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "xppBundleArchiveService", mockXppBundleArchiveService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "bookDefinitionService", mockBookDefinitionService);
     }
 
     /**

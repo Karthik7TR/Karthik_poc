@@ -12,7 +12,6 @@ import org.springframework.validation.Validator;
 @Component("outageFormValidator")
 public class OutageFormValidator extends BaseFormValidator implements Validator
 {
-    //private static final Logger log = LogManager.getLogger(OutageFormValidator.class);
     private static final int MAXIMUM_CHARACTER_2048 = 2048;
 
     @Override

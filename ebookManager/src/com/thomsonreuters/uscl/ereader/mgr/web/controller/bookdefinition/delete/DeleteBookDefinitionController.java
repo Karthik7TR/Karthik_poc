@@ -10,7 +10,8 @@ import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,13 +28,25 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class DeleteBookDefinitionController
 {
-    //private static final Logger log = LogManager.getLogger(DeleteBookDefinitionController.class);
+    private final BookDefinitionService bookDefinitionService;
+    private final EBookAuditService auditService;
+    private final JobRequestService jobRequestService;
+    private final BookDefinitionLockService bookLockService;
+    private final Validator validator;
 
-    private BookDefinitionService bookDefinitionService;
-    private EBookAuditService auditService;
-    private JobRequestService jobRequestService;
-    private BookDefinitionLockService bookLockService;
-    protected Validator validator;
+    @Autowired
+    public DeleteBookDefinitionController(final BookDefinitionService bookDefinitionService,
+                                          final EBookAuditService auditService,
+                                          final JobRequestService jobRequestService,
+                                          final BookDefinitionLockService bookLockService,
+                                          @Qualifier("deleteBookDefinitionFormValidator") final Validator validator)
+    {
+        this.bookDefinitionService = bookDefinitionService;
+        this.auditService = auditService;
+        this.jobRequestService = jobRequestService;
+        this.bookLockService = bookLockService;
+        this.validator = validator;
+    }
 
     @InitBinder(DeleteBookDefinitionForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder)
@@ -170,35 +183,5 @@ public class DeleteBookDefinitionController
                 bookLockService.findBookLockByBookDefinition(bookDef));
         }
         model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
-    }
-
-    @Required
-    public void setBookDefinitionService(final BookDefinitionService service)
-    {
-        bookDefinitionService = service;
-    }
-
-    @Required
-    public void setValidator(final Validator validator)
-    {
-        this.validator = validator;
-    }
-
-    @Required
-    public void setAuditService(final EBookAuditService service)
-    {
-        auditService = service;
-    }
-
-    @Required
-    public void setJobRequestService(final JobRequestService service)
-    {
-        jobRequestService = service;
-    }
-
-    @Required
-    public void setBookDefinitionLockService(final BookDefinitionLockService service)
-    {
-        bookLockService = service;
     }
 }

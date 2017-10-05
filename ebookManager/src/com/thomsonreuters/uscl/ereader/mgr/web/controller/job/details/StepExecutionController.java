@@ -16,7 +16,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.item.ExecutionContext;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,11 +30,19 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class StepExecutionController
 {
-//	private static final Logger log = LogManager.getLogger(StepExecutionController.class);
+    private final JobService jobService;
+    private final PublishingStatsService publishingStatsService;
+    private final OutageService outageService;
 
-    private JobService jobService;
-    private PublishingStatsService publishingStatsService;
-    private OutageService outageService;
+    @Autowired
+    public StepExecutionController(final JobService jobService,
+                                   final PublishingStatsService publishingStatsService,
+                                   final OutageService outageService)
+    {
+        this.jobService = jobService;
+        this.publishingStatsService = publishingStatsService;
+        this.outageService = outageService;
+    }
 
     /**
      * Set up model for viewing a specific job step.
@@ -92,23 +100,5 @@ public class StepExecutionController
             }
         }
         return list;
-    }
-
-    @Required
-    public void setJobService(final JobService jobService)
-    {
-        this.jobService = jobService;
-    }
-
-    @Required
-    public void setPublishingStatsService(final PublishingStatsService service)
-    {
-        publishingStatsService = service;
-    }
-
-    @Required
-    public void setOutageService(final OutageService service)
-    {
-        outageService = service;
     }
 }

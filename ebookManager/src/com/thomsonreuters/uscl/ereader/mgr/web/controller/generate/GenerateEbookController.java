@@ -31,7 +31,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.batch.core.JobExecution;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,20 +46,27 @@ import org.springframework.web.servlet.view.RedirectView;
 public class GenerateEbookController
 {
     private static final Logger log = LogManager.getLogger(GenerateEbookController.class);
-
     private static final String REMOVE_GROUP_WARNING_MESSAGE = "Groups will be removed from ProView for %s";
-
-    private BookDefinitionService bookDefinitionService;
-    private String environmentName;
-    private MessageSourceAccessor messageSourceAccessor;
-    private ProviewHandler proviewHandler;
-    private GroupService groupService;
-    private JobRequestService jobRequestService;
-    private PublishingStatsService publishingStatsService;
-    private ManagerService managerService;
-    private OutageService outageService;
-    private XppBundleArchiveService xppBundleArchiveService;
     private static final String REVIEW_STATUS = "Review";
+
+    @Autowired
+    private BookDefinitionService bookDefinitionService;
+    @Autowired(required = false)
+    private MessageSourceAccessor messageSourceAccessor;
+    @Autowired(required = false)
+    private ProviewHandler proviewHandler;
+    @Autowired
+    private GroupService groupService;
+    @Autowired(required = false)
+    private JobRequestService jobRequestService;
+    @Autowired(required = false)
+    private PublishingStatsService publishingStatsService;
+    @Autowired
+    private ManagerService managerService;
+    @Autowired
+    private OutageService outageService;
+    @Autowired
+    private XppBundleArchiveService xppBundleArchiveService;
 
     @RequestMapping(value = WebConstants.MVC_BOOK_BULK_GENERATE_PREVIEW, method = RequestMethod.GET)
     public ModelAndView generateBulkEbookPreview(@RequestParam("id") final List<Long> id, final Model model)
@@ -590,90 +597,5 @@ public class GenerateEbookController
         }
 
         return cutOffDateGreaterOrEqualToday;
-    }
-
-    public String getEnvironmentName()
-    {
-        return environmentName;
-    }
-
-    @Required
-    public void setEnvironmentName(final String environmentName)
-    {
-        this.environmentName = environmentName;
-    }
-
-    public MessageSourceAccessor getMessageSourceAccessor()
-    {
-        return messageSourceAccessor;
-    }
-
-    @Required
-    public void setMessageSourceAccessor(final MessageSourceAccessor messageSourceAccessor)
-    {
-        this.messageSourceAccessor = messageSourceAccessor;
-    }
-
-    @Required
-    public void setBookDefinitionService(final BookDefinitionService service)
-    {
-        bookDefinitionService = service;
-    }
-
-    public ProviewHandler getProviewHandler()
-    {
-        return proviewHandler;
-    }
-
-    @Required
-    public void setProviewHandler(final ProviewHandler proviewHandler)
-    {
-        this.proviewHandler = proviewHandler;
-    }
-
-    @Required
-    public void setGroupService(final GroupService groupService)
-    {
-        this.groupService = groupService;
-    }
-
-    public JobRequestService getJobRequestService()
-    {
-        return jobRequestService;
-    }
-
-    @Required
-    public void setJobRequestService(final JobRequestService jobRequestService)
-    {
-        this.jobRequestService = jobRequestService;
-    }
-
-    public PublishingStatsService getPublishingStatsService()
-    {
-        return publishingStatsService;
-    }
-
-    @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
-        this.publishingStatsService = publishingStatsService;
-    }
-
-    @Required
-    public void setManagerService(final ManagerService service)
-    {
-        managerService = service;
-    }
-
-    @Required
-    public void setOutageService(final OutageService service)
-    {
-        outageService = service;
-    }
-
-    @Required
-    public void setXppBundleArchiveService(final XppBundleArchiveService xppBundleArchiveService)
-    {
-        this.xppBundleArchiveService = xppBundleArchiveService;
     }
 }

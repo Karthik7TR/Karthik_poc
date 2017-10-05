@@ -4,13 +4,13 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+@Component("miscConfigFormValidator")
 public class MiscConfigFormValidator extends BaseFormValidator implements Validator
 {
-    //private static final Logger log = LogManager.getLogger(JobThrottleConfigFormValidator.class);
-
     @Override
     public boolean supports(final Class<?> clazz)
     {
@@ -20,7 +20,6 @@ public class MiscConfigFormValidator extends BaseFormValidator implements Valida
     @Override
     public void validate(final Object obj, final Errors errors)
     {
-        //log.debug(">>>");
         final MiscConfigForm form = (MiscConfigForm) obj;
         try
         {

@@ -5,7 +5,8 @@ import javax.validation.Valid;
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,10 +24,16 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class JurisdictionCodeController
 {
-    //private static final Logger log = LogManager.getLogger(JurisdictionCodeController.class);
+    private final CodeService codeService;
+    private final Validator validator;
 
-    private CodeService codeService;
-    protected Validator validator;
+    @Autowired
+    public JurisdictionCodeController(final CodeService codeService,
+                                      @Qualifier("jurisdictionCodeFormValidator") final Validator validator)
+    {
+        this.codeService = codeService;
+        this.validator = validator;
+    }
 
     @InitBinder(JurisdictionCodeForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder)
@@ -141,17 +148,5 @@ public class JurisdictionCodeController
 
         // Redirect user
         return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_JURIS_CODE_VIEW));
-    }
-
-    @Required
-    public void setCodeService(final CodeService service)
-    {
-        codeService = service;
-    }
-
-    @Required
-    public void setValidator(final Validator validator)
-    {
-        this.validator = validator;
     }
 }

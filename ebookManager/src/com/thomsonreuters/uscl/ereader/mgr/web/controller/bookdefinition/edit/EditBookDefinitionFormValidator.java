@@ -30,7 +30,9 @@ import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -46,10 +48,23 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     private static final int MAXIMUM_CHARACTER_2048 = 2048;
     private static final int ISBN_TOTAL_CHARACTER_LENGTH = 17;
     private static final int ISBN_NUMBER_LENGTH = 13;
-    private BookDefinitionService bookDefinitionService;
-    private CodeService codeService;
-    private String environmentName;
-    private File rootCodesWorkbenchLandingStrip;
+
+    private final BookDefinitionService bookDefinitionService;
+    private final CodeService codeService;
+    private final String environmentName;
+    private final File rootCodesWorkbenchLandingStrip;
+
+    @Autowired
+    public EditBookDefinitionFormValidator(final BookDefinitionService bookDefinitionService,
+                                           final CodeService codeService,
+                                           @Qualifier("environmentName") final String environmentName,
+                                           @Value("${codes.workbench.root.dir}") final File rootCodesWorkbenchLandingStrip)
+    {
+        this.bookDefinitionService = bookDefinitionService;
+        this.codeService = codeService;
+        this.environmentName = environmentName;
+        this.rootCodesWorkbenchLandingStrip = rootCodesWorkbenchLandingStrip;
+    }
 
     @Override
     public boolean supports(final Class clazz)
@@ -1186,29 +1201,5 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                 errors.rejectValue(fieldName, "error.isbn.format");
             }
         }
-    }
-
-    @Required
-    public void setBookDefinitionService(final BookDefinitionService service)
-    {
-        bookDefinitionService = service;
-    }
-
-    @Required
-    public void setCodeService(final CodeService service)
-    {
-        codeService = service;
-    }
-
-    @Required
-    public void setEnvironmentName(final String environmentName)
-    {
-        this.environmentName = environmentName;
-    }
-
-    @Required
-    public void setRootCodesWorkbenchLandingStrip(final File rootDir)
-    {
-        rootCodesWorkbenchLandingStrip = rootDir;
     }
 }

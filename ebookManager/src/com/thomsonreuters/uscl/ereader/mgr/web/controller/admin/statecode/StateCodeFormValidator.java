@@ -4,7 +4,7 @@ import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -14,7 +14,13 @@ import org.springframework.validation.Validator;
 public class StateCodeFormValidator extends BaseFormValidator implements Validator
 {
     private static final int MAXIMUM_CHARACTER_1024 = 1024;
-    private StateCodeService stateCodeService;
+    private final StateCodeService stateCodeService;
+
+    @Autowired
+    public StateCodeFormValidator(final StateCodeService stateCodeService)
+    {
+        this.stateCodeService = stateCodeService;
+    }
 
     @Override
     public boolean supports(final Class clazz)
@@ -42,11 +48,5 @@ public class StateCodeFormValidator extends BaseFormValidator implements Validat
                 errors.rejectValue("name", "error.exist", new Object[] {"Name"}, "Already exists");
             }
         }
-    }
-
-    @Required
-    public void setStateCodeService(final StateCodeService service)
-    {
-      stateCodeService = service;
     }
 }

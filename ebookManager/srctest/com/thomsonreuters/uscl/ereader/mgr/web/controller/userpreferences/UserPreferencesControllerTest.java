@@ -43,13 +43,9 @@ public final class UserPreferencesControllerTest
 
         // Mock up the Code service
         mockService = EasyMock.createMock(UserPreferenceService.class);
-
-        // Set up the controller
-        controller = new UserPreferencesController();
-        controller.setUserPreferenceService(mockService);
-
         validator = new UserPreferencesFormValidator();
-        controller.setValidator(validator);
+        // Set up the controller
+        controller = new UserPreferencesController(mockService, validator);
     }
 
     /**

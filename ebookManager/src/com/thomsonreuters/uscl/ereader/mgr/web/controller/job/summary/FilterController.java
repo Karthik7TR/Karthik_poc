@@ -8,13 +8,15 @@ import javax.validation.Valid;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobFilter;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.FilterForm.FilterCommand;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.DisplayTagSortProperty;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +33,16 @@ import org.springframework.web.servlet.ModelAndView;
 public class FilterController extends BaseJobSummaryController
 {
     private static final Logger log = LogManager.getLogger(FilterController.class);
-    private Validator validator;
+    private final Validator validator;
+
+    @Autowired
+    public FilterController(final JobService jobService,
+                            final OutageService outageService,
+                            @Qualifier("filterFormValidator") final Validator validator)
+    {
+        super(jobService, outageService);
+        this.validator = validator;
+    }
 
     @InitBinder(FilterForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder)
@@ -81,18 +92,5 @@ public class FilterController extends BaseJobSummaryController
         model.addAttribute(JobSummaryForm.FORM_NAME, jobSummaryForm);
 
         return new ModelAndView(WebConstants.VIEW_JOB_SUMMARY);
-    }
-
-    @Override
-    @Required
-    public void setJobService(final JobService service)
-    {
-        jobService = service;
-    }
-
-    @Required
-    public void setValidator(final FilterFormValidator validator)
-    {
-        this.validator = validator;
     }
 }

@@ -1,12 +1,13 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.bookaudit;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+@Component("adminAuditFilterFormValidator")
 public class AdminAuditFilterFormValidator extends BaseFormValidator implements Validator
 {
-    //private static final Logger log = LogManager.getLogger(FilterFormValidator.class);
     @Override
     public boolean supports(final Class<?> clazz)
     {

@@ -17,7 +17,9 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc.MiscConfigC
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,17 +36,27 @@ public class JobThrottleConfigController
 {
     private static final Logger log = LogManager.getLogger(JobThrottleConfigController.class);
     public static final String KEY_STEP_NAMES = "stepNames";
-    /** Hosts to push new configuration to, assume a listening REST service to receive the new configuration. */
-    private List<InetSocketAddress> socketAddrs;
-    private int generatorPort;
-    private AppConfigService appConfigService;
-    private ManagerService managerService;
-    private GeneratorRestClient generatorRestClient;
-    private Validator validator;
 
-    public JobThrottleConfigController(final int generatorPort)
+    /** Hosts to push new configuration to, assume a listening REST service to receive the new configuration. */
+    private final AppConfigService appConfigService;
+    private final ManagerService managerService;
+    private final GeneratorRestClient generatorRestClient;
+    private final List<InetSocketAddress> socketAddrs;
+    private final Validator validator;
+
+    @Autowired
+    public JobThrottleConfigController(final AppConfigService appConfigService,
+                                       final ManagerService managerService,
+                                       final GeneratorRestClient generatorRestClient,
+                                       @Qualifier("jobThrottleConfigFormValidator") final Validator validator,
+                                       @Value("${generator.hosts}") final String commaSeparatedHostNames,
+                                       @Value("${generator.port}") final int generatorPort) throws UnknownHostException
     {
-        this.generatorPort = generatorPort;
+        this.appConfigService = appConfigService;
+        this.managerService = managerService;
+        this.generatorRestClient = generatorRestClient;
+        this.validator = validator;
+        socketAddrs = MiscConfigController.createSocketAddressList(commaSeparatedHostNames, generatorPort);
     }
 
     @InitBinder(JobThrottleConfigForm.FORM_NAME)
@@ -144,39 +156,5 @@ public class JobThrottleConfigController
     {
         final List<String> stepNames = generatorRestClient.getStepNames();
         model.addAttribute(KEY_STEP_NAMES, stepNames);
-    }
-
-    /**
-     * Hosts that receive the REST service push notification that the job throttle configuration has changed.
-     * @param commaSeparatedHostNames a CSV list of valid host names
-     */
-    @Required
-    public void setGeneratorHosts(final String commaSeparatedHostNames) throws UnknownHostException
-    {
-        socketAddrs = MiscConfigController.createSocketAddressList(commaSeparatedHostNames, generatorPort);
-    }
-
-    @Required
-    public void setAppConfigService(final AppConfigService service)
-    {
-        appConfigService = service;
-    }
-
-    @Required
-    public void setManagerService(final ManagerService service)
-    {
-        managerService = service;
-    }
-
-    @Required
-    public void setGeneratorRestClient(final GeneratorRestClient client)
-    {
-        generatorRestClient = client;
-    }
-
-    @Required
-    public void setValidator(final Validator validator)
-    {
-        this.validator = validator;
     }
 }

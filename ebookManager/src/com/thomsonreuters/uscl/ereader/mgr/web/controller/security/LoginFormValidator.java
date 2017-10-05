@@ -3,17 +3,18 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.security;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 /**
  * Validates the data entered on the login form page.
  */
+@Component("loginFormValidator")
 public class LoginFormValidator implements Validator
 {
     private static final Logger log = LogManager.getLogger(LoginFormValidator.class);
     private static final String CODE_REQUIRED_FIELD = "error.required.field";
-    //private MessageSourceAccessor messageSourceAccessor;
 
     @Override
     public boolean supports(final Class<?> clazz)
@@ -38,9 +39,4 @@ public class LoginFormValidator implements Validator
             errors.reject(CODE_REQUIRED_FIELD, args, "Password is required");
         }
     }
-
-//    @Required
-//    public void setMessageSourceAccessor(MessageSourceAccessor accessor) {
-//    	this.messageSourceAccessor = accessor;
-//    }
 }

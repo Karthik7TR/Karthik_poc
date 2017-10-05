@@ -12,9 +12,11 @@ import javax.validation.Valid;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsForm.DisplayTagSortProperty;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,6 +29,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class PublishingStatsController extends BasePublishingStatsController
 {
     private static final Logger log = LogManager.getLogger(PublishingStatsController.class);
+
+    @Autowired
+    public PublishingStatsController(final PublishingStatsService publishingStatsService)
+    {
+        super(publishingStatsService);
+    }
 
     /**
      * Handle initial in-bound HTTP get request to the page.

@@ -18,7 +18,9 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc.MiscConfigC
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,17 +40,22 @@ public class OutageController
 {
     private static final Logger log = LogManager.getLogger(OutageController.class);
 
-    /** Hosts to push new configuration to, assume a listening REST service that receives outages. */
-    private List<InetSocketAddress> generatorSocketAddrs;
-    private int generatorPort;
+    private final ManagerService managerService;
+    private final OutageService outageService;
+    private final Validator validator;
+    private final List<InetSocketAddress> generatorSocketAddrs;
 
-    private ManagerService managerService;
-    private OutageService outageService;
-    protected Validator validator;
-
-    public OutageController(final int generatorPort)
+    @Autowired
+    public OutageController(final ManagerService managerService,
+                            final OutageService outageService,
+                            @Qualifier("outageFormValidator") final Validator validator,
+                            @Value("${generator.hosts}") final String commaSeparatedHostNames,
+                            @Value("${generator.port}") final int generatorPort) throws UnknownHostException
     {
-        this.generatorPort = generatorPort;
+        this.managerService = managerService;
+        this.outageService = outageService;
+        this.validator = validator;
+        generatorSocketAddrs = MiscConfigController.createSocketAddressList(commaSeparatedHostNames, generatorPort);
     }
 
     @InitBinder(OutageForm.FORM_NAME)
@@ -286,37 +293,10 @@ public class OutageController
      * @return boolean
      */
     @RequestMapping(value = WebConstants.MVC_DISMISS_OUTAGE, method = RequestMethod.POST)
-    @ResponseBody public void dismissOutage(final HttpSession session)
+    @ResponseBody
+    public void dismissOutage(final HttpSession session)
     {
         log.debug("<<< Ajax call for outage");
         session.setAttribute(WebConstants.KEY_DISMISS_OUTAGE, true);
-    }
-
-    /**
-     * Generator hosts that receive the REST service push notification when outage schedule has changed.
-     * @param commaSeparatedHostNames a CSV list of valid host names
-     */
-    @Required
-    public void setGeneratorHosts(final String commaSeparatedHostNames) throws UnknownHostException
-    {
-        generatorSocketAddrs = MiscConfigController.createSocketAddressList(commaSeparatedHostNames, generatorPort);
-    }
-
-    @Required
-    public void setOutageService(final OutageService service)
-    {
-        outageService = service;
-    }
-
-    @Required
-    public void setManagerService(final ManagerService service)
-    {
-        managerService = service;
-    }
-
-    @Required
-    public void setValidator(final Validator validator)
-    {
-        this.validator = validator;
     }
 }

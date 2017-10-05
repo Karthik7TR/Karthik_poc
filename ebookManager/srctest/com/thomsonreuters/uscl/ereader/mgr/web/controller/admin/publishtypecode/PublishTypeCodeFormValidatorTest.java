@@ -24,8 +24,7 @@ public final class PublishTypeCodeFormValidatorTest
         mockCodeService = EasyMock.createMock(CodeService.class);
 
         // Setup Validator
-        validator = new PublishTypeCodeFormValidator();
-        validator.setCodeService(mockCodeService);
+        validator = new PublishTypeCodeFormValidator(mockCodeService);
 
         form = new PublishTypeCodeForm();
         form.setPubTypeId(1L);

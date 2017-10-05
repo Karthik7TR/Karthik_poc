@@ -40,9 +40,7 @@ public final class FmPreviewControllerTest
         mockFrontMatterService = EasyMock.createMock(CreateFrontMatterService.class);
         mockBookDef = EasyMock.createMock(BookDefinition.class);
         handlerAdapter = new AnnotationMethodHandlerAdapter();
-        controller = new FmPreviewController();
-        controller.setBookDefinitionService(mockBookDefinitionService);
-        controller.setFrontMatterService(mockFrontMatterService);
+        controller = new FmPreviewController(mockBookDefinitionService, mockFrontMatterService);
     }
 
     @Test

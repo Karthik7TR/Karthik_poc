@@ -52,11 +52,7 @@ public final class OutageControllerTest
         mockManagerService = EasyMock.createMock(ManagerService.class);
 
         // Set up the controller
-        controller = new OutageController(PORT_NUM);
-        controller.setOutageService(outageService);
-        controller.setManagerService(mockManagerService);
-        controller.setValidator(new OutageFormValidator());
-        controller.setGeneratorHosts(HOST_NAME + "," + HOST_NAME);
+        controller = new OutageController(mockManagerService, outageService, new OutageFormValidator(), HOST_NAME + "," + HOST_NAME, PORT_NUM);
     }
 
     @Test

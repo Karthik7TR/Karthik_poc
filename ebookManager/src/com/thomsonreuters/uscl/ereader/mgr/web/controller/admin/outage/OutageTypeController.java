@@ -10,7 +10,8 @@ import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,8 +30,16 @@ public class OutageTypeController
 {
     private static final Logger log = LogManager.getLogger(OutageTypeController.class);
 
-    private OutageService outageService;
-    protected Validator validator;
+    private final OutageService outageService;
+    private final Validator validator;
+
+    @Autowired
+    public OutageTypeController(final OutageService outageService,
+                                @Qualifier("outageTypeFormValidator") final Validator validator)
+    {
+        this.outageService = outageService;
+        this.validator = validator;
+    }
 
     @InitBinder(OutageTypeForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder)
@@ -148,17 +157,5 @@ public class OutageTypeController
 
         model.addAttribute(WebConstants.KEY_OUTAGE, outageType);
         return new ModelAndView(WebConstants.VIEW_ADMIN_OUTAGE_TYPE_DELETE);
-    }
-
-    @Required
-    public void setOutageService(final OutageService service)
-    {
-        outageService = service;
-    }
-
-    @Required
-    public void setValidator(final Validator validator)
-    {
-        this.validator = validator;
     }
 }

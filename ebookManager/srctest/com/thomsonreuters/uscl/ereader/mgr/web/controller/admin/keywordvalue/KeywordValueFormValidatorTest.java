@@ -34,8 +34,7 @@ public final class KeywordValueFormValidatorTest
         mockCodeService = EasyMock.createMock(CodeService.class);
 
         // Setup Validator
-        validator = new KeywordValueFormValidator();
-        validator.setCodeService(mockCodeService);
+        validator = new KeywordValueFormValidator(mockCodeService);
 
         KEYWORD_CODE.setId(KEYWORD_CODE_ID);
         KEYWORD_CODE.setName(KEYWORD_CODE_NAME);

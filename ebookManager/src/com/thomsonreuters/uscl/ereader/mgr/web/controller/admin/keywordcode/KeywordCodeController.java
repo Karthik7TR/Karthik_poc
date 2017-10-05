@@ -9,7 +9,8 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,9 +30,19 @@ public class KeywordCodeController
 {
     //private static final Logger log = LogManager.getLogger(PubdictionCodeController.class);
 
-    private CodeService codeService;
-    private BookDefinitionService bookService;
-    protected Validator validator;
+    private final CodeService codeService;
+    private final BookDefinitionService bookService;
+    private final Validator validator;
+
+    @Autowired
+    public KeywordCodeController(final CodeService codeService,
+                                 final BookDefinitionService bookService,
+                                 @Qualifier("keywordCodeFormValidator") final Validator validator)
+    {
+        this.codeService = codeService;
+        this.bookService = bookService;
+        this.validator = validator;
+    }
 
     @InitBinder(KeywordCodeForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder)
@@ -149,23 +160,5 @@ public class KeywordCodeController
 
         // Redirect user
         return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_KEYWORD_CODE_VIEW));
-    }
-
-    @Required
-    public void setCodeService(final CodeService service)
-    {
-        codeService = service;
-    }
-
-    @Required
-    public void setBookDefinitionService(final BookDefinitionService service)
-    {
-        bookService = service;
-    }
-
-    @Required
-    public void setValidator(final Validator validator)
-    {
-        this.validator = validator;
     }
 }

@@ -5,7 +5,8 @@ import javax.validation.Valid;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,8 +24,16 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class DocTypeMetricController
 {
-    private CodeService codeService;
-    protected Validator validator;
+    private final CodeService codeService;
+    private final Validator validator;
+
+    @Autowired
+    public DocTypeMetricController(final CodeService codeService,
+                                   @Qualifier("docTypeMetricFormValidator") final Validator validator)
+    {
+        this.codeService = codeService;
+        this.validator = validator;
+    }
 
     @InitBinder(DocTypeMetricForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder)
@@ -85,17 +94,5 @@ public class DocTypeMetricController
         final DocumentTypeCode code = codeService.getDocumentTypeCodeById(form.getId());
         model.addAttribute(WebConstants.KEY_DOC_TYPE_CODE, code);
         return new ModelAndView(WebConstants.VIEW_ADMIN_DOCTYPE_METRIC_EDIT);
-    }
-
-    @Required
-    public void setCodeService(final CodeService service)
-    {
-        codeService = service;
-    }
-
-    @Required
-    public void setValidator(final Validator validator)
-    {
-        this.validator = validator;
     }
 }

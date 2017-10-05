@@ -5,6 +5,8 @@ import javax.servlet.http.HttpSession;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewaudit.ProviewAuditForm.DisplayTagSortProperty;
+import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +17,12 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ProviewAuditController extends BaseProviewAuditController
 {
+    @Autowired
+    public ProviewAuditController(final ProviewAuditService auditService)
+    {
+        super(auditService);
+    }
+
     /**
      * Handle initial in-bound HTTP get request to the page.
      * No query string parameters are expected.

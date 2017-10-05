@@ -37,11 +37,9 @@ public final class PublishingStatsControllerTest
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
-
-        controller = new PublishingStatsController();
-
         mockService = EasyMock.createMock(PublishingStatsService.class);
-        controller.setPublishingStatsService(mockService);
+
+        controller = new PublishingStatsController(mockService);
     }
 
     @Test

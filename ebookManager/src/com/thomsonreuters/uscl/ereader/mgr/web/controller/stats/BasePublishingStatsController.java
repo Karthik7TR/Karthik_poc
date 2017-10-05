@@ -13,7 +13,6 @@ import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort.SortProperty;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.displaytag.pagination.PaginatedList;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.ui.Model;
 
 /**
@@ -21,9 +20,14 @@ import org.springframework.ui.Model;
  */
 public abstract class BasePublishingStatsController
 {
-    //private static final Logger log = LogManager.getLogger(BasePublishingStatsController.class);
     protected static final String PAGE_AND_SORT_NAME = "publishingStatsPageAndSort";
-    protected PublishingStatsService publishingStatsService;
+    protected final PublishingStatsService publishingStatsService;
+
+    protected BasePublishingStatsController(final PublishingStatsService publishingStatsService)
+    {
+        this.publishingStatsService = publishingStatsService;
+    }
+
 
     /**
      * Fetch object containing the current page number, sort column, and sort direction as saved on the session.
@@ -130,11 +134,5 @@ public abstract class BasePublishingStatsController
             pageAndSort.getSortProperty(),
             pageAndSort.isAscendingSort());
         return paginatedList;
-    }
-
-    @Required
-    public void setPublishingStatsService(final PublishingStatsService service)
-    {
-        publishingStatsService = service;
     }
 }

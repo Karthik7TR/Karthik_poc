@@ -14,7 +14,6 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.DisplayTagSortProperty;
 import org.displaytag.pagination.PaginatedList;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.ui.Model;
 
 /**
@@ -22,9 +21,14 @@ import org.springframework.ui.Model;
  */
 public abstract class BaseJobSummaryController
 {
-    //private static final Logger log = LogManager.getLogger(BaseJobSummaryController.class);
-    protected JobService jobService;
-    protected OutageService outageService;
+    protected final JobService jobService;
+    protected final OutageService outageService;
+
+    protected BaseJobSummaryController(final JobService jobService, final OutageService outageService)
+    {
+        this.jobService = jobService;
+        this.outageService = outageService;
+    }
 
     /**
      * Get the current list of job execution ID's saved on the session, if not present then fail-safe to fetching
@@ -148,17 +152,5 @@ public abstract class BaseJobSummaryController
             pageAndSort.getSortProperty(),
             pageAndSort.isAscendingSort());
         return paginatedList;
-    }
-
-    @Required
-    public void setJobService(final JobService service)
-    {
-        jobService = service;
-    }
-
-    @Required
-    public void setOutageService(final OutageService service)
-    {
-        outageService = service;
     }
 }

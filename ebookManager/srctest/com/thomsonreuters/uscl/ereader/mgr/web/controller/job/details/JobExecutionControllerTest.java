@@ -64,11 +64,11 @@ public final class JobExecutionControllerTest
         handlerAdapter = new AnnotationMethodHandlerAdapter();
 
         controller = new JobExecutionController();
-        controller.setJobService(mockJobService);
-        controller.setPublishingStatsService(mockPublishingStatsService);
-        controller.setValidator(new JobExecutionFormValidator());
-        controller.setMessageSourceAccessor(mockMessageSourceAccessor);
-        controller.setOutageService(mockOutageService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "jobService", mockJobService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "publishingStatsService", mockPublishingStatsService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "validator", new JobExecutionFormValidator());
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "messageSourceAccessor", mockMessageSourceAccessor);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "outageService", mockOutageService);
     }
 
     /**

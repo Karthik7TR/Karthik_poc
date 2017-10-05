@@ -60,15 +60,10 @@ public final class EditGroupControllerTest
         mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
         mockAuditService = EasyMock.createMock(EBookAuditService.class);
         mockGroupService = EasyMock.createMock(GroupService.class);
+        validator = new EditGroupDefinitionFormValidator();
 
         // Set up the controller
-        controller = new EditGroupController();
-        controller.setAuditService(mockAuditService);
-        controller.setBookDefinitionService(mockBookDefinitionService);
-        controller.setGroupService(mockGroupService);
-
-        validator = new EditGroupDefinitionFormValidator();
-        controller.setValidator(validator);
+        controller = new EditGroupController(mockBookDefinitionService, mockGroupService, mockAuditService, validator);
 
         documentTypeCode = new DocumentTypeCode();
         documentTypeCode.setId(Long.parseLong("1"));

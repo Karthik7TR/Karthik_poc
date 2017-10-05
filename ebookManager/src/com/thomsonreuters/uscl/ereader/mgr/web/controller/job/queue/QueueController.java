@@ -18,7 +18,8 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue.QueueForm.Di
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.displaytag.pagination.PaginatedList;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Validator;
@@ -37,9 +38,11 @@ import org.springframework.web.servlet.ModelAndView;
 public class QueueController
 {
     private static final Logger log = LogManager.getLogger(QueueController.class);
-    private JobRequestService jobRequestService;
-    private OutageService outageService;
-    private Validator validator;
+
+    private final JobRequestService jobRequestService;
+    private final OutageService outageService;
+    private final Validator validator;
+
     private static Map<DisplayTagSortProperty, Comparator<JobRequest>> comparators =
         new HashMap<>();
     static
@@ -51,6 +54,16 @@ public class QueueController
         comparators.put(DisplayTagSortProperty.SUBMITTED_BY, new JobRequestComparators.SubmittedByComparator());
         comparators.put(DisplayTagSortProperty.TITLE_ID, new JobRequestComparators.TitleIdComparator());
         comparators.put(DisplayTagSortProperty.SOURCE_TYPE, new JobRequestComparators.SourceTypeComparator());
+    }
+
+    @Autowired
+    public QueueController(final JobRequestService jobRequestService,
+                           final OutageService outageService,
+                           @Qualifier("queueFormValidator") final Validator validator)
+    {
+        this.jobRequestService = jobRequestService;
+        this.outageService = outageService;
+        this.validator = validator;
     }
 
     @InitBinder(QueueForm.FORM_NAME)
@@ -178,23 +191,5 @@ public class QueueController
         final List<JobRequest> onePageOfRows = allQueuedJobs.subList(fromIndex, toIndex);
 
         return onePageOfRows;
-    }
-
-    @Required
-    public void setJobRequestService(final JobRequestService service)
-    {
-        jobRequestService = service;
-    }
-
-    @Required
-    public void setValidator(final QueueFormValidator validator)
-    {
-        this.validator = validator;
-    }
-
-    @Required
-    public void setOutageService(final OutageService service)
-    {
-        outageService = service;
     }
 }

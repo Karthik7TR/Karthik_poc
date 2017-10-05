@@ -11,11 +11,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-@Component("editBookDefinitionFormValidator")
+@Component("userPreferencesFormValidator")
 public class UserPreferencesFormValidator extends BaseFormValidator implements Validator
 {
-    //private static final Logger log = LogManager.getLogger(UserPreferencesFormValidator.class);
-
     private static final int MAXIMUM_CHARACTER_64 = 64;
     private static final int MAXIMUM_CHARACTER_256 = 256;
     private static final int MAXIMUM_CHARACTER_1024 = 1024;

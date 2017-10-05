@@ -46,12 +46,9 @@ public final class DocTypeMetricControllerTest
         // Mock up the Code service
         mockCodeService = EasyMock.createMock(CodeService.class);
 
-        // Set up the controller
-        controller = new DocTypeMetricController();
-        controller.setCodeService(mockCodeService);
-
         validator = new DocTypeMetricFormValidator();
-        controller.setValidator(validator);
+        // Set up the controller
+        controller = new DocTypeMetricController(mockCodeService, validator);
 
         DOCTYPE_CODE.setId(DOCTYPE_CODE_ID);
         DOCTYPE_CODE.setName("test");

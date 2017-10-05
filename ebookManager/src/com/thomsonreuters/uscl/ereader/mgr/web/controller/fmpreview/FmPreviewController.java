@@ -12,7 +12,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,8 +29,18 @@ public class FmPreviewController
 {
     private static final Logger log = LogManager.getLogger(FmPreviewController.class);
     private static final String BOOK_FIND_FAIL_MESG = "Could not find book definition with ID %d";
-    private BookDefinitionService bookDefinitionService;
-    private CreateFrontMatterService frontMatterService;
+
+    private final BookDefinitionService bookDefinitionService;
+    private final CreateFrontMatterService frontMatterService;
+
+    @Autowired
+    public FmPreviewController(final BookDefinitionService bookDefinitionService,
+                               final CreateFrontMatterService frontMatterService)
+    {
+        this.bookDefinitionService = bookDefinitionService;
+        this.frontMatterService = frontMatterService;
+    }
+
 
     /**
      * The main selection page where the user can select the static or dynamic
@@ -204,17 +214,5 @@ public class FmPreviewController
             return previewContentSelection(id, model);
         }
         return new ModelAndView(WebConstants.VIEW_FRONT_MATTER_PREVIEW_CONTENT);
-    }
-
-    @Required
-    public void setBookDefinitionService(final BookDefinitionService bookDefinitionService)
-    {
-        this.bookDefinitionService = bookDefinitionService;
-    }
-
-    @Required
-    public void setFrontMatterService(final CreateFrontMatterService frontMatterService)
-    {
-        this.frontMatterService = frontMatterService;
     }
 }

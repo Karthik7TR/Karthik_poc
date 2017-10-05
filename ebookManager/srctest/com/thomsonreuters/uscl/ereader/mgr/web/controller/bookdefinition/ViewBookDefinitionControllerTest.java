@@ -46,9 +46,7 @@ public final class ViewBookDefinitionControllerTest
         handlerAdapter = new AnnotationMethodHandlerAdapter();
         mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
         mockJobRequestService = EasyMock.createMock(JobRequestService.class);
-        controller = new ViewBookDefinitionController();
-        controller.setBookDefinitionService(mockBookDefinitionService);
-        controller.setJobRequestService(mockJobRequestService);
+        controller = new ViewBookDefinitionController(mockBookDefinitionService, mockJobRequestService, null);
     }
 
     @Test

@@ -14,7 +14,8 @@ import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort.SortProperty;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,13 +32,21 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class BookAuditController
+public class AdminBookAuditController
 {
-    //private static final Logger log = LogManager.getLogger(BookAuditController.class);
-    private EBookAuditService auditService;
-    private PublishingStatsService publishingStatsService;
+    private final EBookAuditService auditService;
+    private final PublishingStatsService publishingStatsService;
+    private final Validator validator;
 
-    private Validator validator;
+    @Autowired
+    public AdminBookAuditController(final EBookAuditService auditService,
+                               final PublishingStatsService publishingStatsService,
+                               @Qualifier("adminAuditFilterFormValidator") final Validator validator)
+    {
+        this.auditService = auditService;
+        this.publishingStatsService = publishingStatsService;
+        this.validator = validator;
+    }
 
     @InitBinder(AdminAuditFilterForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder)
@@ -157,23 +166,5 @@ public class BookAuditController
             return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_AUDIT_BOOK_LIST));
         }
         return new ModelAndView(WebConstants.VIEW_ADMIN_AUDIT_BOOK_MODIFY_ISBN);
-    }
-
-    @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
-        this.publishingStatsService = publishingStatsService;
-    }
-
-    @Required
-    public void setAuditService(final EBookAuditService service)
-    {
-        auditService = service;
-    }
-
-    @Required
-    public void setValidator(final AdminAuditFilterFormValidator validator)
-    {
-        this.validator = validator;
     }
 }

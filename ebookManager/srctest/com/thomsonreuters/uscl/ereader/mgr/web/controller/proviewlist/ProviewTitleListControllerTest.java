@@ -69,13 +69,9 @@ public final class ProviewTitleListControllerTest
         mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
         mockJobRequestService = EasyMock.createMock(JobRequestService.class);
 
-        controller = new ProviewTitleListController();
-        controller.setBookDefinitionService(mockBookDefinitionService);
-        controller.setJobRequestService(mockJobRequestService);
-        controller.setManagerService(mockManagerService);
-        controller.setMessageSourceAccessor(mockMessageSourceAccessor);
-        controller.setProviewAuditService(mockProviewAuditService);
-        controller.setProviewHandler(mockProviewHandler);
+        controller = new ProviewTitleListController(mockProviewHandler, mockBookDefinitionService,
+            mockProviewAuditService, mockManagerService,
+            mockMessageSourceAccessor, mockJobRequestService, null);
     }
 
     @After

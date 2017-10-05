@@ -16,7 +16,6 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.DisplayTagSortProperty;
 import org.displaytag.pagination.PaginatedList;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.ui.Model;
 
 /**
@@ -24,11 +23,20 @@ import org.springframework.ui.Model;
  */
 public abstract class BaseBookLibraryController
 {
-    //private static final Logger log = LogManager.getLogger(BaseBookLibraryController.class);
     public static final String PAGE_AND_SORT_NAME = "bookLibraryPageAndSort";
-    protected LibraryListService libraryService;
-    protected CodeService codeService;
-    protected OutageService outageService;
+
+    protected final LibraryListService libraryService;
+    protected final CodeService codeService;
+    protected final OutageService outageService;
+
+    protected BaseBookLibraryController(final LibraryListService libraryService,
+                                        final CodeService codeService,
+                                        final OutageService outageService)
+    {
+        this.libraryService = libraryService;
+        this.codeService = codeService;
+        this.outageService = outageService;
+    }
 
     /**
      * Fetch object containing the current page number, sort column, and sort direction as saved on the session.
@@ -129,23 +137,5 @@ public abstract class BaseBookLibraryController
             pageAndSort.isAscendingSort());
 
         return paginatedList;
-    }
-
-    @Required
-    public void setLibraryListService(final LibraryListService service)
-    {
-        libraryService = service;
-    }
-
-    @Required
-    public void setCodeService(final CodeService service)
-    {
-        codeService = service;
-    }
-
-    @Required
-    public void setOutageService(final OutageService service)
-    {
-        outageService = service;
     }
 }

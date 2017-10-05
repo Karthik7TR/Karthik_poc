@@ -7,7 +7,9 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsFilterForm.FilterCommand;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsForm.DisplayTagSortProperty;
-import org.springframework.beans.factory.annotation.Required;
+import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +25,15 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class PublishingStatsFilterController extends BasePublishingStatsController
 {
-    private Validator validator;
+    private final Validator validator;
+
+    @Autowired
+    public PublishingStatsFilterController(final PublishingStatsService publishingStatsService,
+                                           @Qualifier("publishingStatsFormValidator") final Validator validator)
+    {
+        super(publishingStatsService);
+        this.validator = validator;
+    }
 
     @InitBinder(PublishingStatsFilterForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder)
@@ -58,11 +68,5 @@ public class PublishingStatsFilterController extends BasePublishingStatsControll
         model.addAttribute(PublishingStatsForm.FORM_NAME, jobSummaryForm);
 
         return new ModelAndView(WebConstants.VIEW_STATS);
-    }
-
-    @Required
-    public void setValidator(final PublishingStatsFormValidator validator)
-    {
-        this.validator = validator;
     }
 }

@@ -115,7 +115,8 @@
 
 	<bean id="serverAccessService"
 		class="com.thomsonreuters.uscl.ereader.core.job.service.ServerAccessServiceImpl"
-		p:jobCleanupService-ref="jobCleanupService" />
+		p:jobCleanupService-ref="jobCleanupService" 
+		p:userPreferenceService-ref="userPreferenceService" />
 
 	<bean id="outageService"
 		class="com.thomsonreuters.uscl.ereader.core.outage.service.OutageServiceImpl"

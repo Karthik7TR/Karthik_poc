@@ -13,7 +13,6 @@ import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditSort;
 import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAuditSort.SortProperty;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
 import org.displaytag.pagination.PaginatedList;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.ui.Model;
 
 /**
@@ -21,9 +20,13 @@ import org.springframework.ui.Model;
  */
 public abstract class BaseProviewAuditController
 {
-    //private static final Logger log = LogManager.getLogger(BaseProviewAuditController.class);
     protected static final String PAGE_AND_SORT_NAME = "proviewAuditPageAndSort";
-    protected ProviewAuditService auditService;
+    protected final ProviewAuditService auditService;
+
+    protected BaseProviewAuditController(final ProviewAuditService auditService)
+    {
+        this.auditService = auditService;
+    }
 
     /**
      * Fetch object containing the current page number, sort column, and sort direction as saved on the session.
@@ -123,11 +126,5 @@ public abstract class BaseProviewAuditController
             pageAndSort.getSortProperty(),
             pageAndSort.isAscendingSort());
         return paginatedList;
-    }
-
-    @Required
-    public void setAuditService(final ProviewAuditService service)
-    {
-        auditService = service;
     }
 }

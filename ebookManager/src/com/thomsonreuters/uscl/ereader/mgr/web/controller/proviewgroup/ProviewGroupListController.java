@@ -44,7 +44,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,19 +62,28 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ProviewGroupListController extends BaseProviewGroupListController
 {
-    private ProviewHandler proviewHandler;
-    private BookDefinitionService bookDefinitionService;
-    private ProviewAuditService proviewAuditService;
-    private ManagerService managerService;
-    private MessageSourceAccessor messageSourceAccessor;
-    private JobRequestService jobRequestService;
-    private PublishingStatsService publishingStatsService;
-
     private static final Logger log = LogManager.getLogger(ProviewGroupListController.class);
-    // retry parameters
-    private int maxNumberOfRetries = 3;
+
+    @Autowired
+    private ProviewHandler proviewHandler;
+    @Autowired
+    private BookDefinitionService bookDefinitionService;
+    @Autowired
+    private ProviewAuditService proviewAuditService;
+    @Autowired
+    private ManagerService managerService;
+    @Autowired
+    private MessageSourceAccessor messageSourceAccessor;
+    @Autowired
+    private JobRequestService jobRequestService;
+    @Autowired
+    private PublishingStatsService publishingStatsService;
+    @Autowired
+    @Qualifier("proviewGroupValidator")
     private Validator validator;
+
     private String booksNotFoundMsg;
+    private int maxNumberOfRetries = 3;
 
     @InitBinder(ProviewGroupListFilterForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder)
@@ -969,71 +979,6 @@ public class ProviewGroupListController extends BaseProviewGroupListController
         }
     }
 
-    /**
-     * @param proviewHandler
-     */
-    @Required
-    public void setProviewHandler(final ProviewHandler proviewHandler)
-    {
-        this.proviewHandler = proviewHandler;
-    }
-
-    @Required
-    public void setBookDefinitionService(final BookDefinitionService service)
-    {
-        bookDefinitionService = service;
-    }
-
-    @Required
-    public void setProviewAuditService(final ProviewAuditService service)
-    {
-        proviewAuditService = service;
-    }
-
-    public ManagerService getManagerService()
-    {
-        return managerService;
-    }
-
-    @Required
-    public void setManagerService(final ManagerService managerService)
-    {
-        this.managerService = managerService;
-    }
-
-    public MessageSourceAccessor getMessageSourceAccessor()
-    {
-        return messageSourceAccessor;
-    }
-
-    @Required
-    public void setMessageSourceAccessor(final MessageSourceAccessor messageSourceAccessor)
-    {
-        this.messageSourceAccessor = messageSourceAccessor;
-    }
-
-    public JobRequestService getJobRequestService()
-    {
-        return jobRequestService;
-    }
-
-    @Required
-    public void setJobRequestService(final JobRequestService jobRequestService)
-    {
-        this.jobRequestService = jobRequestService;
-    }
-
-    public PublishingStatsService getPublishingStatsService()
-    {
-        return publishingStatsService;
-    }
-
-    @Required
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
-        this.publishingStatsService = publishingStatsService;
-    }
-
     public String getBooksNotFoundMsg()
     {
         return booksNotFoundMsg;
@@ -1042,17 +987,6 @@ public class ProviewGroupListController extends BaseProviewGroupListController
     public void setBooksNotFoundMsg(final String booksNotFoundMsg)
     {
         this.booksNotFoundMsg = booksNotFoundMsg;
-    }
-
-    public Validator getValidator()
-    {
-        return validator;
-    }
-
-    @Required
-    public void setValidator(final Validator validator)
-    {
-        this.validator = validator;
     }
 
     public int getMaxNumberOfRetries()

@@ -4,12 +4,13 @@ import java.util.Date;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+@Component("bookLibraryFilterFormValidator")
 public class BookLibraryFilterFormValidator extends BaseFormValidator implements Validator
 {
-    //private static final Logger log = LogManager.getLogger(BookLibraryFilterFormValidator.class);
     @Override
     public boolean supports(final Class<?> clazz)
     {

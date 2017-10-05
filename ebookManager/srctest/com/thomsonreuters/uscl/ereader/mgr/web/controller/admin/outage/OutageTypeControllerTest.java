@@ -41,9 +41,7 @@ public final class OutageTypeControllerTest
         outageService = EasyMock.createMock(OutageService.class);
 
         // Set up the controller
-        controller = new OutageTypeController();
-        controller.setOutageService(outageService);
-        controller.setValidator(new OutageTypeFormValidator());
+        controller = new OutageTypeController(outageService, new OutageTypeFormValidator());
     }
 
     @Test

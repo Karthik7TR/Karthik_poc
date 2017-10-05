@@ -24,8 +24,7 @@ public final class StateCodeFormValidatorTest
         mockStateCodeService = EasyMock.createMock(StateCodeService.class);
 
         // Setup Validator
-        validator = new StateCodeFormValidator();
-        validator.setStateCodeService(mockStateCodeService);
+        validator = new StateCodeFormValidator(mockStateCodeService);
 
         form = new StateCodeForm();
         form.setStateId(1L);

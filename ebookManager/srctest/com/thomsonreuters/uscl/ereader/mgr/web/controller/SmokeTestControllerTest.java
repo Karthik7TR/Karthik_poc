@@ -51,12 +51,7 @@ public final class SmokeTestControllerTest
         mockMiscConfigSyncService = EasyMock.createMock(MiscConfigSyncService.class);
         sapService = EasyMock.createMock(SapService.class);
 
-        controller = new SmokeTestController();
-        controller.setEnvironmentName("workstation");
-        controller.setImageVertical("image");
-        controller.setSmokeTestService(mockService);
-        controller.setMiscConfigSyncService(mockMiscConfigSyncService);
-        controller.setSapService(sapService);
+        controller = new SmokeTestController(mockMiscConfigSyncService, mockService, sapService, "workstation", "image");
 
         SMOKE_TEST = new SmokeTest();
         SMOKE_TEST.setName("name");

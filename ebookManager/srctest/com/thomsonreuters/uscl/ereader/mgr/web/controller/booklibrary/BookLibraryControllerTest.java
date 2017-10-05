@@ -63,11 +63,8 @@ public final class BookLibraryControllerTest
         mockOutageService = EasyMock.createMock(OutageService.class);
 
         // Set up the controller
-        controller = new BookLibraryController();
-        controller.setLibraryListService(mockLibraryListService);
-        controller.setValidator(new BookLibrarySelectionFormValidator());
-        controller.setCodeService(mockCodeService);
-        controller.setOutageService(mockOutageService);
+        controller = new BookLibraryController(mockLibraryListService, mockCodeService,
+            mockOutageService, new BookLibrarySelectionFormValidator());
     }
 
     /**

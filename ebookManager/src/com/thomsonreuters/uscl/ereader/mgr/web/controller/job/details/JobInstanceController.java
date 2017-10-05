@@ -17,7 +17,7 @@ import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepExecution;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,12 +31,21 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class JobInstanceController
 {
-//	private static final Logger log = LogManager.getLogger(JobInstanceController.class);
-    private static final StepStartTimeComparator stepStartTimeComparator = new StepStartTimeComparator();
+    private static final StepStartTimeComparator STEPS_START_TIME_COMPARATOR = new StepStartTimeComparator();
 
-    private JobService jobService;
-    private PublishingStatsService publishingStatsService;
-    private OutageService outageService;
+    private final JobService jobService;
+    private final PublishingStatsService publishingStatsService;
+    private final OutageService outageService;
+
+    @Autowired
+    public JobInstanceController(final JobService jobService,
+                                 final PublishingStatsService publishingStatsService,
+                                 final OutageService outageService)
+    {
+        this.jobService = jobService;
+        this.publishingStatsService = publishingStatsService;
+        this.outageService = outageService;
+    }
 
     /**
      * Create a aggregated list of StepExecution's from all JobInstance's specified by id.
@@ -67,7 +76,7 @@ public class JobInstanceController
             // Get the job execution for the last step run, used to determine if we can restart the job here
             if (allJobInstanceSteps.size() > 0)
             {
-                Collections.sort(allJobInstanceSteps, stepStartTimeComparator); // Descending sort
+                Collections.sort(allJobInstanceSteps, STEPS_START_TIME_COMPARATOR); // Descending sort
                 final StepExecution lastStepExecution = allJobInstanceSteps.get(0);
                 final JobExecution lastJobExecution = lastStepExecution.getJobExecution();
                 final JobExecutionVdo vdo = new JobExecutionVdo(lastJobExecution, bookInfo, publishingStats);
@@ -92,23 +101,5 @@ public class JobInstanceController
         model.addAttribute(WebConstants.KEY_JOB_BOOK_INFO, bookInfo);
         model.addAttribute(WebConstants.KEY_JOB_STEP_EXECUTIONS, allJobInstanceSteps);
         model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
-    }
-
-    @Required
-    public void setJobService(final JobService jobService)
-    {
-        this.jobService = jobService;
-    }
-
-    @Required
-    public void setPublishingStatsService(final PublishingStatsService service)
-    {
-        publishingStatsService = service;
-    }
-
-    @Required
-    public void setOutageService(final OutageService service)
-    {
-        outageService = service;
     }
 }

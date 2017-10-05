@@ -78,13 +78,13 @@ public final class ProviewGroupListControllerTest
         mockPublishingStatsService = EasyMock.createMock(PublishingStatsService.class);
 
         controller = new ProviewGroupListController();
-        controller.setJobRequestService(mockJobRequestService);
-        controller.setBookDefinitionService(mockBookDefinitionService);
-        controller.setManagerService(mockManagerService);
-        controller.setMessageSourceAccessor(mockMessageSourceAccessor);
-        controller.setProviewAuditService(mockProviewAuditService);
-        controller.setProviewHandler(mockProviewHandler);
-        controller.setPublishingStatsService(mockPublishingStatsService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "jobRequestService", mockJobRequestService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "bookDefinitionService", mockBookDefinitionService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "managerService", mockManagerService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "messageSourceAccessor", mockMessageSourceAccessor);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "proviewAuditService", mockProviewAuditService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "proviewHandler", mockProviewHandler);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "publishingStatsService", mockPublishingStatsService);
     }
 
     @After

@@ -16,7 +16,8 @@ import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.group.service.GroupService;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,12 +35,22 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class EditGroupController
 {
-    //private static final Logger log = LogManager.getLogger(EditGroupController.class);
-    private BookDefinitionService bookDefinitionService;
-    private GroupService groupService;
-    private EBookAuditService auditService;
+    private final BookDefinitionService bookDefinitionService;
+    private final GroupService groupService;
+    private final EBookAuditService auditService;
+    private final Validator validator;
 
-    private Validator validator;
+    @Autowired
+    public EditGroupController(final BookDefinitionService bookDefinitionService,
+                               final GroupService groupService,
+                               final EBookAuditService auditService,
+                               @Qualifier("editGroupDefinitionFormValidator") final Validator validator)
+    {
+        this.bookDefinitionService = bookDefinitionService;
+        this.groupService = groupService;
+        this.auditService = auditService;
+        this.validator = validator;
+    }
 
     @InitBinder(EditGroupDefinitionForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder)
@@ -244,29 +255,5 @@ public class EditGroupController
     {
         model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
         model.addAttribute(WebConstants.KEY_ALL_PROVIEW_TITLES, numOfProviewTitles);
-    }
-
-    @Required
-    public void setBookDefinitionService(final BookDefinitionService service)
-    {
-        bookDefinitionService = service;
-    }
-
-    @Required
-    public void setGroupService(final GroupService service)
-    {
-        groupService = service;
-    }
-
-    @Required
-    public void setAuditService(final EBookAuditService auditService)
-    {
-        this.auditService = auditService;
-    }
-
-    @Required
-    public void setValidator(final Validator validator)
-    {
-        this.validator = validator;
     }
 }

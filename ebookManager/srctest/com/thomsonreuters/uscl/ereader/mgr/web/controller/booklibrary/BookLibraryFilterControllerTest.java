@@ -49,10 +49,7 @@ public final class BookLibraryFilterControllerTest
 
         handlerAdapter = new AnnotationMethodHandlerAdapter();
 
-        controller = new BookLibraryFilterController();
-        controller.setLibraryListService(mockLibraryListService);
-        controller.setCodeService(mockCodeService);
-        controller.setOutageService(mockOutageService);
+        controller = new BookLibraryFilterController(mockLibraryListService, mockCodeService, mockOutageService, null);
     }
 
     @Test

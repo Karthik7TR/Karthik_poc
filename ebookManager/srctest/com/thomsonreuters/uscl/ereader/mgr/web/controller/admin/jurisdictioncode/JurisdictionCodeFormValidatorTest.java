@@ -24,8 +24,7 @@ public final class JurisdictionCodeFormValidatorTest
         mockCodeService = EasyMock.createMock(CodeService.class);
 
         // Setup Validator
-        validator = new JurisdictionCodeFormValidator();
-        validator.setCodeService(mockCodeService);
+        validator = new JurisdictionCodeFormValidator(mockCodeService);
 
         form = new JurisdictionCodeForm();
         form.setJurisId(1L);

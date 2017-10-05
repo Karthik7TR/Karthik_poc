@@ -4,13 +4,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
+import com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary.BookLibrarySelectionForm.DisplayTagSortProperty;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,7 +32,17 @@ public class BookLibraryController extends BaseBookLibraryController
 {
     private static final Logger log = LogManager.getLogger(BookLibraryController.class);
 
-    private Validator validator;
+    private final Validator validator;
+
+    @Autowired
+    public BookLibraryController(final LibraryListService libraryService,
+                                 final CodeService codeService,
+                                 final OutageService outageService,
+                                 @Qualifier("bookLibrarySelectionFormValidator") final Validator validator)
+    {
+        super(libraryService, codeService, outageService);
+        this.validator = validator;
+    }
 
     @InitBinder(BookLibrarySelectionForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder)
@@ -166,11 +180,5 @@ public class BookLibraryController extends BaseBookLibraryController
         final BookLibraryFilterForm filterForm = fetchSavedFilterForm(httpSession);
         setUpModel(filterForm, pageAndSort, httpSession, model);
         return new ModelAndView(WebConstants.VIEW_BOOK_LIBRARY_LIST);
-    }
-
-    @Required
-    public void setValidator(final Validator validator)
-    {
-        this.validator = validator;
     }
 }

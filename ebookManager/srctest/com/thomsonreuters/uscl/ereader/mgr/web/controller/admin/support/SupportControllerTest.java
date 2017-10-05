@@ -45,13 +45,10 @@ public final class SupportControllerTest
 
         // Mock up the Code service
         mockService = EasyMock.createMock(SupportPageLinkService.class);
+        validator = new SupportFormValidator();
 
         // Set up the controller
-        controller = new SupportController();
-        controller.setSupportPageLinkService(mockService);
-
-        validator = new SupportFormValidator();
-        controller.setValidator(validator);
+        controller = new SupportController(mockService, validator);
 
         SUPPORT_PAGE_LINK.setId(SUPPORT_PAGE_LINK_ID);
     }

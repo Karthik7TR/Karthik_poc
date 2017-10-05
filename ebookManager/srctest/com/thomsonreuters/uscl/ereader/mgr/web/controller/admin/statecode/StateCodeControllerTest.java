@@ -45,14 +45,10 @@ public final class StateCodeControllerTest
 
         // Mock up the Code service
         mockStateCodeService = EasyMock.createMock(StateCodeService.class);
+        validator = new StateCodeFormValidator(mockStateCodeService);
 
         // Set up the controller
-        controller = new StateCodeController();
-        controller.setStateCodeService(mockStateCodeService);
-
-        validator = new StateCodeFormValidator();
-        validator.setStateCodeService(mockStateCodeService);
-        controller.setValidator(validator);
+        controller = new StateCodeController(mockStateCodeService, validator);
 
         STATE_CODE.setId(STATE_ID);
         STATE_CODE.setName("test");

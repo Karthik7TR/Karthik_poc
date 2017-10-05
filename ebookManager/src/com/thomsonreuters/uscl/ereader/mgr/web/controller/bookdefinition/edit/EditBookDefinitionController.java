@@ -23,7 +23,8 @@ import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponentsResponse;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -43,15 +44,23 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class EditBookDefinitionController
 {
-    //private static final Logger log = LogManager.getLogger(EditBookDefinitionController.class);
-    protected BookDefinitionService bookDefinitionService;
-    protected JobRequestService jobRequestService;
-    protected EditBookDefinitionService editBookDefinitionService;
+    @Autowired
+    private BookDefinitionService bookDefinitionService;
+    @Autowired
+    private JobRequestService jobRequestService;
+    @Autowired
+    private EditBookDefinitionService editBookDefinitionService;
+    @Autowired
     private EBookAuditService auditService;
+    @Autowired
     private BookDefinitionLockService bookLockService;
+    @Autowired
     private CreateFrontMatterService frontMatterService;
+    @Autowired
     private MiscConfigSyncService miscConfigService;
-    protected Validator validator;
+    @Autowired
+    @Qualifier("editBookDefinitionFormValidator")
+    private Validator validator;
 
     @InitBinder(EditBookDefinitionForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder)
@@ -451,53 +460,5 @@ public class EditBookDefinitionController
             page.setId(pk);
         }
         return book;
-    }
-
-    @Required
-    public void setBookDefinitionService(final BookDefinitionService service)
-    {
-        bookDefinitionService = service;
-    }
-
-    @Required
-    public void setEditBookDefinitionService(final EditBookDefinitionService service)
-    {
-        editBookDefinitionService = service;
-    }
-
-    @Required
-    public void setJobRequestService(final JobRequestService service)
-    {
-        jobRequestService = service;
-    }
-
-    @Required
-    public void setValidator(final Validator validator)
-    {
-        this.validator = validator;
-    }
-
-    @Required
-    public void setAuditService(final EBookAuditService service)
-    {
-        auditService = service;
-    }
-
-    @Required
-    public void setBookLockService(final BookDefinitionLockService service)
-    {
-        bookLockService = service;
-    }
-
-    @Required
-    public void setFrontMatterService(final CreateFrontMatterService service)
-    {
-        frontMatterService = service;
-    }
-
-    @Required
-    public void setMiscConfigSyncService(final MiscConfigSyncService miscConfigService)
-    {
-        this.miscConfigService = miscConfigService;
     }
 }

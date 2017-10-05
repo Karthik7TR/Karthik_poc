@@ -1,11 +1,12 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.queue;
 
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+@Component("queueFormValidator")
 public class QueueFormValidator implements Validator
 {
-    //private static final Logger log = LogManager.getLogger(FilterFormValidator.class);
     @Override
     public boolean supports(final Class<?> clazz)
     {

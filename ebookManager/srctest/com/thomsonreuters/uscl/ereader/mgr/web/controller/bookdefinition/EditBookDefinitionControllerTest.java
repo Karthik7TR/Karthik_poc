@@ -88,21 +88,17 @@ public final class EditBookDefinitionControllerTest
         frontMatterThemes.add("WestLaw Next");
 
         EasyMock.expect(mockEditBookDefinitionService.getFrontMatterThemes()).andReturn(frontMatterThemes);
+        validator = new EditBookDefinitionFormValidator(mockBookDefinitionService, mockCodeService, "workstation", null);
 
         // Set up the controller
         controller = new EditBookDefinitionController();
-        controller.setEditBookDefinitionService(mockEditBookDefinitionService);
-        controller.setBookDefinitionService(mockBookDefinitionService);
-        controller.setJobRequestService(mockJobRequestService);
-        controller.setAuditService(mockAuditService);
-        controller.setBookLockService(mockLockService);
-        controller.setMiscConfigSyncService(mockMiscConfigService);
-
-        validator = new EditBookDefinitionFormValidator();
-        validator.setBookDefinitionService(mockBookDefinitionService);
-        validator.setCodeService(mockCodeService);
-        validator.setEnvironmentName("workstation");
-        controller.setValidator(validator);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "editBookDefinitionService", mockEditBookDefinitionService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "bookDefinitionService", mockBookDefinitionService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "jobRequestService", mockJobRequestService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "auditService", mockAuditService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "bookLockService", mockLockService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "miscConfigService", mockMiscConfigService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "validator", validator);
 
         bookName = new EbookName();
         bookName.setBookNameText("Book Name");

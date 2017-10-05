@@ -51,11 +51,7 @@ public final class LoginControllerTest
         mockOutageService = EasyMock.createMock(OutageService.class);
         mockMiscConfigSyncService = EasyMock.createMock(MiscConfigSyncService.class);
 
-        controller = new LoginController();
-        controller.setEnvironmentName("workstation");
-        controller.setUserPreferenceService(mockPreferenceService);
-        controller.setOutageService(mockOutageService);
-        controller.setMiscConfigSyncService(mockMiscConfigSyncService);
+        controller = new LoginController(mockPreferenceService, mockOutageService, mockMiscConfigSyncService, null, "workstation");
     }
 
     @Test

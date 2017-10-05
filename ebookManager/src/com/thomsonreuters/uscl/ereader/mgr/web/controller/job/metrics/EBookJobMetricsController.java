@@ -5,7 +5,7 @@ import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +15,16 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class EBookJobMetricsController
 {
-    private PublishingStatsService publishingStatsService;
-    private BookDefinitionService bookDefinitionService;
+    private final PublishingStatsService publishingStatsService;
+    private final BookDefinitionService bookDefinitionService;
+
+    @Autowired
+    public EBookJobMetricsController(final PublishingStatsService publishingStatsService,
+                                     final BookDefinitionService bookDefinitionService)
+    {
+        this.publishingStatsService = publishingStatsService;
+        this.bookDefinitionService = bookDefinitionService;
+    }
 
     /**
      *
@@ -38,27 +46,5 @@ public class EBookJobMetricsController
         }
 
         return new ModelAndView(WebConstants.VIEW_BOOK_JOB_METRICS);
-    }
-
-    @Required
-    public PublishingStatsService getPublishingStatsService()
-    {
-        return publishingStatsService;
-    }
-
-    public void setPublishingStatsService(final PublishingStatsService publishingStatsService)
-    {
-        this.publishingStatsService = publishingStatsService;
-    }
-
-    @Required
-    public BookDefinitionService getBookDefinitionService()
-    {
-        return bookDefinitionService;
-    }
-
-    public void setBookDefinitionService(final BookDefinitionService bookDefinitionService)
-    {
-        this.bookDefinitionService = bookDefinitionService;
     }
 }
