@@ -30,8 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
 @Transactional
-public class FrontMatterIntegrationTest
-{
+public class FrontMatterIntegrationTest {
     //private static Logger log = LogManager.getLogger(FrontMatterIntegrationTest.class);
     private static String BOOK_TITLE = "uscl/an/frontmatter_test_123";
     private static Date UPDATE_DATE = new Date();
@@ -47,8 +46,7 @@ public class FrontMatterIntegrationTest
      * Operation Unit Test Save an existing Audit entity
      *
      */
-    public void saveBook()
-    {
+    public void saveBook() {
         eBook = new com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition();
 
         eBook.setFullyQualifiedTitleId(BOOK_TITLE);
@@ -112,14 +110,12 @@ public class FrontMatterIntegrationTest
      */
     @Ignore
     @Test
-    public void AddFrontMatterSection()
-    {
+    public void AddFrontMatterSection() {
         saveBook();
         eBook = bookDefinitionService.findBookDefinitionByTitle(BOOK_TITLE);
 
         Collection<FrontMatterPage> frontMatterPages = eBook.getFrontMatterPages();
-        for (final FrontMatterPage page : frontMatterPages)
-        {
+        for (final FrontMatterPage page : frontMatterPages) {
             final FrontMatterSection fms = new FrontMatterSection();
             fms.setSectionHeading("Section Heading 2");
             fms.setSectionText("some text 2");
@@ -138,15 +134,13 @@ public class FrontMatterIntegrationTest
 
         eBook = bookDefinitionService.saveBookDefinition(eBook);
         frontMatterPages = eBook.getFrontMatterPages();
-        for (final FrontMatterPage page : frontMatterPages)
-        {
+        for (final FrontMatterPage page : frontMatterPages) {
             Assert.assertEquals(2, page.getFrontMatterSections().size());
         }
     }
 
     @Test
-    public void DeleteFrontMatterPage()
-    {
+    public void DeleteFrontMatterPage() {
         final BookDefinition book = bookDefinitionService.findBookDefinitionByTitle(BOOK_TITLE);
         book.getFrontMatterPages().clear();
         eBook = bookDefinitionService.saveBookDefinition(book);

@@ -17,8 +17,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class EbookAuditDaoTest
-{
+public final class EbookAuditDaoTest {
     private static final long AUDIT_KEY = 1L;
     private static final EbookAudit BOOK_AUDIT = new EbookAudit();
     private static final List<EbookAudit> BOOK_AUDIT_LIST = new ArrayList<>();
@@ -30,8 +29,7 @@ public final class EbookAuditDaoTest
     private EBookAuditDaoImpl dao;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockSessionFactory = EasyMock.createMock(SessionFactory.class);
         mockSession = EasyMock.createMock(org.hibernate.Session.class);
         mockQuery = EasyMock.createMock(Query.class);
@@ -40,8 +38,7 @@ public final class EbookAuditDaoTest
     }
 
     @Test
-    public void testFindAuditById()
-    {
+    public void testFindAuditById() {
         EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
         EasyMock.expect(mockSession.getNamedQuery("findEbookAuditByPrimaryKey")).andReturn(mockQuery);
         EasyMock.expect(mockQuery.setLong("auditId", AUDIT_KEY)).andReturn(mockQuery);
@@ -56,8 +53,7 @@ public final class EbookAuditDaoTest
     }
 
     @Test
-    public void testFindEbookAudits()
-    {
+    public void testFindEbookAudits() {
         final EbookAuditSort sort = new EbookAuditSort(SortProperty.SUBMITTED_DATE, false, 1, 20);
         final EbookAuditFilter filter = new EbookAuditFilter();
 
@@ -82,8 +78,7 @@ public final class EbookAuditDaoTest
     }
 
     @Test
-    public void testNumberEbookAudits()
-    {
+    public void testNumberEbookAudits() {
         final EbookAuditFilter filter = new EbookAuditFilter();
 
         EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);

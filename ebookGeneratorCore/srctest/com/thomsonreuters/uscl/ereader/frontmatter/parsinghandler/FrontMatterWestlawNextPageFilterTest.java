@@ -25,14 +25,12 @@ import org.xml.sax.InputSource;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public final class FrontMatterWestlawNextPageFilterTest
-{
+public final class FrontMatterWestlawNextPageFilterTest {
     private FrontMatterWestlawNextPageFilter westlawNextPageFilter;
     private Serializer serializer;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
         final SAXParser saxParser = factory.newSAXParser();
@@ -46,8 +44,7 @@ public final class FrontMatterWestlawNextPageFilterTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         serializer = null;
         westlawNextPageFilter = null;
     }
@@ -59,12 +56,10 @@ public final class FrontMatterWestlawNextPageFilterTest
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final String expectedResult)
-    {
+    public void testHelper(final String inputXML, final String expectedResult) {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
-        try
-        {
+        try {
             input = new ByteArrayInputStream(inputXML.getBytes());
             output = new ByteArrayOutputStream();
 
@@ -76,34 +71,24 @@ public final class FrontMatterWestlawNextPageFilterTest
             final String result = output.toString();
 
             assertEquals(expectedResult, result);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             fail("Encountered exception during test: " + e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if (input != null)
-                {
+        } finally {
+            try {
+                if (input != null) {
                     input.close();
                 }
-                if (output != null)
-                {
+                if (output != null) {
                     output.close();
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 fail("Couldn't clean up resources: " + e.getMessage());
             }
         }
     }
 
     @Test
-    public void testFrontMatterPlaceholder_WestlawNextPageAnchor()
-    {
+    public void testFrontMatterPlaceholder_WestlawNextPageAnchor() {
         final String xmlTestStr = "<test><frontMatterPlaceholder_WestlawNextPageAnchor/></test>";
         final String expectedResult =
             "<test><a name=\"" + FrontMatterFileName.WESTLAW + FrontMatterFileName.ANCHOR + "\"> </a></test>";

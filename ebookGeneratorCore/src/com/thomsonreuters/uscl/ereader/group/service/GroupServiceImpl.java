@@ -184,9 +184,14 @@ public class GroupServiceImpl implements GroupService {
         boolean majorVersionChange = false;
         final boolean firstGroup = (lastGroupDef == null);
 
-        List<SubGroupInfo> allSubGroupInfo =
-            firstGroup ? new ArrayList<SubGroupInfo>() : lastGroupDef.getSubGroupInfoList();
-        if (allSubGroupInfo.size() > 0 && allSubGroupInfo.get(0) != null) {
+        List<SubGroupInfo> allSubGroupInfo = new ArrayList<>();
+        ;
+
+        if (!firstGroup && lastGroupDef != null) {
+            allSubGroupInfo = lastGroupDef.getSubGroupInfoList();
+        }
+
+        if (allSubGroupInfo.size() > 0 && allSubGroupInfo.get(0) != null && lastGroupDef != null) {
             oldHasSubgroups = (lastGroupDef.getSubGroupInfoList().get(0).getHeading() != null);
         }
 
@@ -409,8 +414,7 @@ public class GroupServiceImpl implements GroupService {
 
         if (majorVersion > 1
             && StringUtils.isNotBlank(currentSubgroupName)
-            && (previousGroup == null
-                || (previousGroup != null && StringUtils.isBlank(previousGroup.getFirstSubgroupHeading())))) {
+            && (previousGroup == null || StringUtils.isBlank(previousGroup.getFirstSubgroupHeading()))) {
             throw new ProviewException(CoreConstants.SUBGROUP_ERROR_MESSAGE);
         }
     }

@@ -25,14 +25,12 @@ import org.springframework.core.io.DefaultResourceLoader;
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a>
  *         u0095869
  */
-public final class CreateFrontMatterServiceImplTest
-{
+public final class CreateFrontMatterServiceImplTest {
     private CreateFrontMatterServiceImpl frontMatterService;
     private BookDefinition bookDefinition;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         frontMatterService = new CreateFrontMatterServiceImpl();
         frontMatterService.setResourceLoader(new DefaultResourceLoader());
 
@@ -138,8 +136,7 @@ public final class CreateFrontMatterServiceImplTest
 
     @Ignore
     @Test
-    public void testTitlePage() throws Exception
-    {
+    public void testTitlePage() throws Exception {
         final String expected = IOUtils.toString(getClass().getResourceAsStream("TitlePage.html"));
         final String actual = frontMatterService.getTitlePage(bookDefinition).replaceAll("(?m)^[ \t]*\r?\n", "");
         assertEquals(expected, actual);
@@ -147,8 +144,7 @@ public final class CreateFrontMatterServiceImplTest
 
     @Ignore
     @Test
-    public void testCopyrightPage() throws Exception
-    {
+    public void testCopyrightPage() throws Exception {
         final String expected = IOUtils.toString(getClass().getResourceAsStream("CopyrightPage.html"))
             .replace("/apps/eBookBuilder/coreStatic/css/", "C:\\apps\\eBookBuilder\\coreStatic\\css\\");
         assertEquals(expected, frontMatterService.getCopyrightPage(bookDefinition));
@@ -156,8 +152,7 @@ public final class CreateFrontMatterServiceImplTest
 
     @Ignore
     @Test
-    public void testAdditionaFrontMatterPage1() throws Exception
-    {
+    public void testAdditionaFrontMatterPage1() throws Exception {
         final String expected = IOUtils.toString(getClass().getResourceAsStream("AdditionalFrontMatterPage1.html"))
             .replace("/apps/eBookBuilder/coreStatic/css/", "C:\\apps\\eBookBuilder\\coreStatic\\css\\");
         assertEquals(expected, frontMatterService.getAdditionalFrontPage(bookDefinition, 1L));
@@ -165,8 +160,7 @@ public final class CreateFrontMatterServiceImplTest
 
     @Ignore
     @Test
-    public void testResearchAssistancePage() throws Exception
-    {
+    public void testResearchAssistancePage() throws Exception {
         final String expected = IOUtils.toString(getClass().getResourceAsStream("ResearchAssistancePage.html"))
             .replace("/apps/eBookBuilder/coreStatic/css/", "C:\\apps\\eBookBuilder\\coreStatic\\css\\");
         assertEquals(expected, frontMatterService.getResearchAssistancePage(bookDefinition));
@@ -174,8 +168,7 @@ public final class CreateFrontMatterServiceImplTest
 
     @Ignore
     @Test
-    public void testWestlawNextPage() throws Exception
-    {
+    public void testWestlawNextPage() throws Exception {
         final String expected = IOUtils.toString(getClass().getResourceAsStream("WestlawNextPage.html"))
             .replace("/apps/eBookBuilder/coreStatic/images/", "C:\\apps\\eBookBuilder\\coreStatic\\images\\")
             .replace("/apps/eBookBuilder/coreStatic/css/", "C:\\apps\\eBookBuilder\\coreStatic\\images\\");

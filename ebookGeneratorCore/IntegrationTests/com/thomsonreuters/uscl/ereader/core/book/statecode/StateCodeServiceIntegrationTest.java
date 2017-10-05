@@ -29,16 +29,14 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @Transactional
-public class StateCodeServiceIntegrationTest
-{
+public class StateCodeServiceIntegrationTest {
     @Autowired
     private StateCodeService service;
     @Autowired
     private DataSource dataSource;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         final DbSetup dbSetup = new DbSetup(
             new DataSourceDestination(dataSource),
             sequenceOf(
@@ -52,8 +50,7 @@ public class StateCodeServiceIntegrationTest
     }
 
     @Test
-    public void shouldReturnAllStateCodesInAcsOrder()
-    {
+    public void shouldReturnAllStateCodesInAcsOrder() {
         // given
         final StateCode[] expectedStateCodes = new StateCode[] {
             stateCode(1L, "a", new DateTime(2017, 2, 14, 16, 2, 0)),
@@ -66,8 +63,7 @@ public class StateCodeServiceIntegrationTest
     }
 
     @Test
-    public void shouldReturnStateCodeById()
-    {
+    public void shouldReturnStateCodeById() {
         // given
         final StateCode stateCode = stateCode(1L, "a", new DateTime(2017, 2, 14, 16, 2, 0));
         // when
@@ -77,8 +73,7 @@ public class StateCodeServiceIntegrationTest
     }
 
     @Test
-    public void shouldReturnStateCodeByName()
-    {
+    public void shouldReturnStateCodeByName() {
         // given
         final StateCode stateCode = stateCode(3L, "z", new DateTime(2017, 2, 14, 17, 3, 0));
         // when
@@ -88,8 +83,7 @@ public class StateCodeServiceIntegrationTest
     }
 
     @Test
-    public void shouldCreateStateCodeIfIdNotFound()
-    {
+    public void shouldCreateStateCodeIfIdNotFound() {
         // given
         final DateTime lastUpdate = new DateTime(2015, 6, 12, 10, 31, 10);
         final StateCode stateCode = stateCode(4L, "myState", lastUpdate);
@@ -102,8 +96,7 @@ public class StateCodeServiceIntegrationTest
     }
 
     @Test
-    public void shouldCreateStateCodeIfIdIsNull()
-    {
+    public void shouldCreateStateCodeIfIdIsNull() {
         // given
         final DateTime lastUpdate = new DateTime(2015, 6, 12, 10, 31, 10);
         final StateCode stateCode = stateCode(null, "myState", lastUpdate);
@@ -115,8 +108,7 @@ public class StateCodeServiceIntegrationTest
     }
 
     @Test
-    public void shouldUpdateStateCode()
-    {
+    public void shouldUpdateStateCode() {
         // given
         final DateTime lastUpdate = new DateTime(2015, 6, 12, 10, 31, 10);
         final StateCode stateCode = stateCode(3L, "myState", lastUpdate);
@@ -129,8 +121,7 @@ public class StateCodeServiceIntegrationTest
     }
 
     @Test
-    public void shouldDeleteStateCode()
-    {
+    public void shouldDeleteStateCode() {
         // given
         final StateCode stateCode = stateCode(3L, "z", new DateTime(2017, 2, 14, 17, 3, 0));
         // when
@@ -141,8 +132,7 @@ public class StateCodeServiceIntegrationTest
     }
 
     @Test
-    public void shouldDoNothingIfWillTryToDeleteNotExistedStateCode()
-    {
+    public void shouldDoNothingIfWillTryToDeleteNotExistedStateCode() {
         // given
         final StateCode stateCode = stateCode(42L, "notExist", new DateTime(2042, 11, 7, 10, 10, 10));
         // when
@@ -153,8 +143,7 @@ public class StateCodeServiceIntegrationTest
     }
 
     @NotNull
-    public static StateCode stateCode(final Long id, final String name, final DateTime timestamp)
-    {
+    public static StateCode stateCode(final Long id, final String name, final DateTime timestamp) {
         final StateCode stateCode = new StateCode();
         stateCode.setId(id);
         stateCode.setName(name);

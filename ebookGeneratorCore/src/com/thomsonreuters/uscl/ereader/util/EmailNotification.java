@@ -95,7 +95,7 @@ public class EmailNotification {
                     Transport.send(msg);
                 }
             } catch (final MessagingException mex) {
-                mex.printStackTrace();
+                log.error(mex.getMessage(), mex);
             }
         }
     }
@@ -137,7 +137,7 @@ public class EmailNotification {
                 addAttachments(msg, fileNames, toText);
                 Transport.send(msg);
             } catch (final MessagingException mex) {
-                mex.printStackTrace();
+                log.error(mex.getMessage(), mex);
             }
         }
     }

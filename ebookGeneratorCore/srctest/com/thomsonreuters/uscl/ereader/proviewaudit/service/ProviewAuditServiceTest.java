@@ -13,8 +13,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class ProviewAuditServiceTest
-{
+public final class ProviewAuditServiceTest {
     private static final List<ProviewAudit> PROVIEW_AUDIT_LIST = new ArrayList<>();
 
     private ProviewAuditServiceImpl service;
@@ -23,8 +22,7 @@ public final class ProviewAuditServiceTest
     private ProviewAudit expectedAudit = new ProviewAudit();
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockDao = EasyMock.createMock(ProviewAuditDao.class);
 
         service = new ProviewAuditServiceImpl();
@@ -32,8 +30,7 @@ public final class ProviewAuditServiceTest
     }
 
     @Test
-    public void testSave()
-    {
+    public void testSave() {
         mockDao.save(expectedAudit);
         EasyMock.replay(mockDao);
 
@@ -42,8 +39,7 @@ public final class ProviewAuditServiceTest
     }
 
     @Test
-    public void testFindProviewAudits()
-    {
+    public void testFindProviewAudits() {
         final ProviewAuditSort sort = new ProviewAuditSort(SortProperty.REQUEST_DATE, false, 1, 20);
         final ProviewAuditFilter filter = new ProviewAuditFilter();
 
@@ -56,8 +52,7 @@ public final class ProviewAuditServiceTest
     }
 
     @Test
-    public void findNumberProviewAudits()
-    {
+    public void findNumberProviewAudits() {
         final int number = 0;
         final ProviewAuditFilter filter = new ProviewAuditFilter();
 

@@ -12,8 +12,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class BookDefinitionLockServiceTest
-{
+public final class BookDefinitionLockServiceTest {
     private static final BookDefinitionLock BOOK_LOCK = new BookDefinitionLock();
     private List<BookDefinitionLock> BOOK_LOCK_LIST;
 
@@ -21,8 +20,7 @@ public final class BookDefinitionLockServiceTest
     private BookDefinitionLockServiceImpl service;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockDao = EasyMock.createMock(BookDefinitionLockDao.class);
 
         service = new BookDefinitionLockServiceImpl();
@@ -32,8 +30,7 @@ public final class BookDefinitionLockServiceTest
     }
 
     @Test
-    public void testFindBookLockByBookDefinitionNoLocksFound()
-    {
+    public void testFindBookLockByBookDefinitionNoLocksFound() {
         final BookDefinition book = new BookDefinition();
 
         EasyMock.expect(mockDao.findLocksByBookDefinition(book)).andReturn(BOOK_LOCK_LIST);
@@ -46,8 +43,7 @@ public final class BookDefinitionLockServiceTest
     }
 
     @Test
-    public void testFindBookLockByBookDefinitionLocksFound()
-    {
+    public void testFindBookLockByBookDefinitionLocksFound() {
         final BookDefinition book = new BookDefinition();
 
         final BookDefinitionLock expectedLock = new BookDefinitionLock();
@@ -64,8 +60,7 @@ public final class BookDefinitionLockServiceTest
     }
 
     @Test
-    public void testFindAllActiveLocks()
-    {
+    public void testFindAllActiveLocks() {
         EasyMock.expect(mockDao.findAllActiveLocks()).andReturn(BOOK_LOCK_LIST);
         EasyMock.replay(mockDao);
 
@@ -76,8 +71,7 @@ public final class BookDefinitionLockServiceTest
     }
 
     @Test
-    public void testFindBookDefinitionLockByPrimaryKey()
-    {
+    public void testFindBookDefinitionLockByPrimaryKey() {
         EasyMock.expect(mockDao.findBookDefinitionLockByPrimaryKey(EasyMock.anyLong())).andReturn(BOOK_LOCK);
         EasyMock.replay(mockDao);
 

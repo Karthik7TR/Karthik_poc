@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.core.job.domain;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -94,5 +95,10 @@ public class SimpleRestServiceResponse {
         } else if (!message.equals(other.message))
             return false;
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(id).append(success).append(message).toHashCode();
     }
 }

@@ -46,9 +46,7 @@ import org.junit.runners.Suite.SuiteClasses;
     SmokeTestDaoTest.class,
     UserPreferenceDaoTest.class,
     UserPreferenceServiceTest.class,
-    UserPreferenceTest.class
-})
-public class CoreTestSuite
-{
+    UserPreferenceTest.class})
+public class CoreTestSuite {
     //Intentionally left blank
 }

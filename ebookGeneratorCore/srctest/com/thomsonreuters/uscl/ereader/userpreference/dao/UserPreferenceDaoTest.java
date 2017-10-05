@@ -7,23 +7,20 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class UserPreferenceDaoTest
-{
+public final class UserPreferenceDaoTest {
     private SessionFactory mockSessionFactory;
     private org.hibernate.Session mockSession;
     private UserPreferenceDaoImpl dao;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockSessionFactory = EasyMock.createMock(SessionFactory.class);
         mockSession = EasyMock.createMock(org.hibernate.Session.class);
         dao = new UserPreferenceDaoImpl(mockSessionFactory);
     }
 
     @Test
-    public void testFindByUsername()
-    {
+    public void testFindByUsername() {
         final String username = "name";
 
         final UserPreference expected = new UserPreference();

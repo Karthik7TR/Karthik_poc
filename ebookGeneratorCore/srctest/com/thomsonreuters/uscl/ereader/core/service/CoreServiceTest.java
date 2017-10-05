@@ -11,15 +11,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class CoreServiceTest
-{
+public final class CoreServiceTest {
     private static InternetAddress GROUP_ADDR;
     private CoreServiceImpl service;
     private UserPreferenceService mockUserPreferenceService;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         GROUP_ADDR = new InternetAddress("someGroupAddr@bogustr.com");
 
         mockUserPreferenceService = EasyMock.createMock(UserPreferenceService.class);
@@ -30,8 +28,7 @@ public final class CoreServiceTest
     }
 
     @Test
-    public void testGetEmailRecipientsByUsername()
-    {
+    public void testGetEmailRecipientsByUsername() {
         final String username = "C1234567";
         final String recipients = "foo@tr.com,bar@tr.com";
         final UserPreference bogusUserPreference = new UserPreference();

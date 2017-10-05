@@ -14,8 +14,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class StateCodeServiceImplTest
-{
+public final class StateCodeServiceImplTest {
     @InjectMocks
     private StateCodeServiceImpl service;
     @Mock
@@ -24,8 +23,7 @@ public final class StateCodeServiceImplTest
     private ArgumentCaptor<StateCode> captor;
 
     @Test
-    public void shouldCreateStateCodeIfIdIsNull()
-    {
+    public void shouldCreateStateCodeIfIdIsNull() {
         // given
         final StateCode stateCode = stateCode(null);
         // when
@@ -36,8 +34,7 @@ public final class StateCodeServiceImplTest
     }
 
     @Test
-    public void shouldUpdateStateCodeIfIdIsNotNull()
-    {
+    public void shouldUpdateStateCodeIfIdIsNotNull() {
         // given
         final StateCode stateCode = stateCode(1L);
         // when

@@ -10,8 +10,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class SupportPageLinkServiceTest
-{
+public final class SupportPageLinkServiceTest {
     private final SupportPageLink SUPPORT_PAGE_LINK = new SupportPageLink();
     private final List<SupportPageLink> ALL_SUPPORT_PAGE_LINK = new ArrayList<>();
     private final Long SUPPORT_PAGE_LINK_ID = Long.valueOf(1);
@@ -20,8 +19,7 @@ public final class SupportPageLinkServiceTest
     private SupportPageLinkDao mockDao;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockDao = EasyMock.createMock(SupportPageLinkDao.class);
 
         service = new SupportPageLinkServiceImpl();
@@ -31,8 +29,7 @@ public final class SupportPageLinkServiceTest
     }
 
     @Test
-    public void testFindByPrimaryKey()
-    {
+    public void testFindByPrimaryKey() {
         EasyMock.expect(mockDao.findByPrimaryKey(SUPPORT_PAGE_LINK_ID)).andReturn(SUPPORT_PAGE_LINK);
         EasyMock.replay(mockDao);
         final SupportPageLink actual = service.findByPrimaryKey(SUPPORT_PAGE_LINK_ID);
@@ -41,8 +38,7 @@ public final class SupportPageLinkServiceTest
     }
 
     @Test
-    public void testFindAllSupportPageLinks()
-    {
+    public void testFindAllSupportPageLinks() {
         ALL_SUPPORT_PAGE_LINK.add(SUPPORT_PAGE_LINK);
         EasyMock.expect(mockDao.findAllSupportPageLink()).andReturn(ALL_SUPPORT_PAGE_LINK);
         EasyMock.replay(mockDao);

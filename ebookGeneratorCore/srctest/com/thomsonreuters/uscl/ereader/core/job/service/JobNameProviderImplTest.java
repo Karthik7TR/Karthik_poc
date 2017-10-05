@@ -16,16 +16,14 @@ import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class JobNameProviderImplTest
-{
+public final class JobNameProviderImplTest {
     @InjectMocks
     private JobNameProviderImpl provider;
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void shouldReturnCorrentJobNameForNortSourceType()
-    {
+    public void shouldReturnCorrentJobNameForNortSourceType() {
         //given
         final BookDefinition book = book(SourceType.NORT);
         //when
@@ -35,8 +33,7 @@ public final class JobNameProviderImplTest
     }
 
     @Test
-    public void shouldReturnCorrentJobNameForXppSourceType()
-    {
+    public void shouldReturnCorrentJobNameForXppSourceType() {
         //given
         final BookDefinition book = book(SourceType.XPP);
         //when
@@ -46,8 +43,7 @@ public final class JobNameProviderImplTest
     }
 
     @Test
-    public void shouldReturnCorrentJobNameForXppJobRequest()
-    {
+    public void shouldReturnCorrentJobNameForXppJobRequest() {
         //given
         final JobRequest jobRequest = jobRequest(SourceType.XPP);
         //when
@@ -57,8 +53,7 @@ public final class JobNameProviderImplTest
     }
 
     @Test
-    public void shouldThrowExceptionIfIncorrectJobRequest()
-    {
+    public void shouldThrowExceptionIfIncorrectJobRequest() {
         //given
         thrown.expect(IllegalStateException.class);
         final JobRequest jobRequest = new JobRequest();

@@ -7,11 +7,9 @@ import org.junit.Test;
  * @author Ravi Nandikolla c139353
  *
  */
-public final class NormalizationRulesUtilTest
-{
+public final class NormalizationRulesUtilTest {
     @Test
-    public void testGetNormalizedCiteForParagraphSymbol()
-    {
+    public void testGetNormalizedCiteForParagraphSymbol() {
         String normalizedCite = "test\u00B6_888";
         normalizedCite = NormalizationRulesUtil.applyCitationNormalizationRules(normalizedCite);
         final String expectedNormalizedCite = "TESTP_888";
@@ -19,8 +17,7 @@ public final class NormalizationRulesUtilTest
     }
 
     @Test
-    public void testGetNormalizedCiteForSectionSymbol()
-    {
+    public void testGetNormalizedCiteForSectionSymbol() {
         String normalizedCite = "test\u00A76666";
         normalizedCite = NormalizationRulesUtil.applyCitationNormalizationRules(normalizedCite);
         final String expectedNormalizedCite = "TESTS6666";
@@ -28,8 +25,7 @@ public final class NormalizationRulesUtilTest
     }
 
     @Test
-    public void testGetNormalizedCiteForCaretSymbol()
-    {
+    public void testGetNormalizedCiteForCaretSymbol() {
         String normalizedCite = "test^999";
         normalizedCite = NormalizationRulesUtil.applyCitationNormalizationRules(normalizedCite);
         final String expectedNormalizedCite = "TEST-999";
@@ -37,8 +33,7 @@ public final class NormalizationRulesUtilTest
     }
 
     @Test
-    public void testGetNormalizedCiteForBracketSymbol()
-    {
+    public void testGetNormalizedCiteForBracketSymbol() {
         String normalizedCite = "teST[39]";
         normalizedCite = NormalizationRulesUtil.applyCitationNormalizationRules(normalizedCite);
         final String expectedNormalizedCite = "TEST(39)";
@@ -46,8 +41,7 @@ public final class NormalizationRulesUtilTest
     }
 
     @Test
-    public void testNoSpacesNormalizationRules()
-    {
+    public void testNoSpacesNormalizationRules() {
         String normalizedCite = "te ST [39 ]";
         normalizedCite = NormalizationRulesUtil.pubPageNormalizationRules(normalizedCite);
         final String expectedNormalizedCite = "TEST(39)";
@@ -55,8 +49,7 @@ public final class NormalizationRulesUtilTest
     }
 
     @Test
-    public void testTrimNormalizationRules()
-    {
+    public void testTrimNormalizationRules() {
         String normalizedCite = " teST[39] ";
         normalizedCite = NormalizationRulesUtil.pubPageNormalizationRules(normalizedCite);
         final String expectedNormalizedCite = "TEST(39)";
@@ -64,8 +57,7 @@ public final class NormalizationRulesUtilTest
     }
 
     @Test
-    public void testSpecialWhiteSpaceNormalizationRules()
-    {
+    public void testSpecialWhiteSpaceNormalizationRules() {
         String label = "This\u2003Space\u2002Label";
         label = NormalizationRulesUtil.whiteSpaceNormalizationRules(label);
         final String expectedLabel = "This Space Label";
@@ -73,8 +65,7 @@ public final class NormalizationRulesUtilTest
     }
 
     @Test
-    public void testSpecialHyphenNormalizationRules()
-    {
+    public void testSpecialHyphenNormalizationRules() {
         String label = "This\u2013Space\u2014Label";
         label = NormalizationRulesUtil.hyphenNormalizationRules(label);
         final String expectedLabel = "This-Space-Label";
@@ -82,8 +73,7 @@ public final class NormalizationRulesUtilTest
     }
 
     @Test
-    public void testTOCNormalizationRules()
-    {
+    public void testTOCNormalizationRules() {
         String label = "This\u2003Space\u2014Label";
         label = NormalizationRulesUtil.applyTableOfContentNormalizationRules(label);
         final String expectedLabel = "This Space-Label";

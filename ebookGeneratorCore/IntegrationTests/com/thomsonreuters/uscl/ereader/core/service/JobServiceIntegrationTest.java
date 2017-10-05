@@ -25,15 +25,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @Transactional
-public class JobServiceIntegrationTest
-{
+public class JobServiceIntegrationTest {
     private static final Logger log = LogManager.getLogger(JobServiceIntegrationTest.class);
     @Autowired
     private JobService service;
 
     @Test
-    public void testFindJobSummary()
-    {
+    public void testFindJobSummary() {
         final Long[] idArray = {46L, 9999L, 47L, 48L, 49L};
         final List<Long> ids = Arrays.asList(idArray);
         final List<JobSummary> js = service.findJobSummary(ids);
@@ -43,8 +41,7 @@ public class JobServiceIntegrationTest
     }
 
     //@Test
-    public void testFindJobExecutions()
-    {
+    public void testFindJobExecutions() {
         final JobFilter filter =
             new JobFilter(new Date(System.currentTimeMillis() - 5 * 24 * 60 * 60 * 1000), null, null, null, null, null);
         //filter.setTitleId("FRCP");
@@ -54,8 +51,7 @@ public class JobServiceIntegrationTest
 //		Assert.assertTrue(executions.size() > 0);
         log.debug("size=" + executions.size());
 
-        for (final Long jobExecutionId : executions)
-        {
+        for (final Long jobExecutionId : executions) {
             Assert.assertNotNull(jobExecutionId);
             final JobExecution exec = service.findJobExecution(jobExecutionId);
             System.out.print(exec.getId() + ",");

@@ -17,8 +17,7 @@ import org.hibernate.criterion.Criterion;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class BookDefinitionDaoTest
-{
+public final class BookDefinitionDaoTest {
     private static final long BOOK_KEY = 1L;
     private static final BookDefinition BOOK_DEFINITION = new BookDefinition();
 
@@ -28,8 +27,7 @@ public final class BookDefinitionDaoTest
     private Criteria mockCriteria;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockSessionFactory = EasyMock.createMock(SessionFactory.class);
         mockSession = EasyMock.createMock(org.hibernate.Session.class);
         mockCriteria = EasyMock.createMock(org.hibernate.Criteria.class);
@@ -37,8 +35,7 @@ public final class BookDefinitionDaoTest
     }
 
     @Test
-    public void testFindBookDefinition()
-    {
+    public void testFindBookDefinition() {
         EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
         EasyMock.expect(mockSession.get(BookDefinition.class, BOOK_KEY)).andReturn(BOOK_DEFINITION);
         EasyMock.replay(mockSessionFactory);
@@ -50,8 +47,7 @@ public final class BookDefinitionDaoTest
     }
 
     @Test
-    public void testSaveSplitNodeInfo()
-    {
+    public void testSaveSplitNodeInfo() {
         BookDefinition bookDefinition = new BookDefinition();
 
         final List<SplitNodeInfo> splitNodes = new ArrayList<>();
@@ -99,8 +95,7 @@ public final class BookDefinitionDaoTest
     }
 
     @Test
-    public void testSaveSplitNodeInfo2()
-    {
+    public void testSaveSplitNodeInfo2() {
         BookDefinition bookDefinition = new BookDefinition();
 
         final List<SplitNodeInfo> splitNodes = new ArrayList<>();
@@ -145,8 +140,7 @@ public final class BookDefinitionDaoTest
     }
 
     @Test
-    public void testSaveSplitNodeInfo3()
-    {
+    public void testSaveSplitNodeInfo3() {
         BookDefinition bookDefinition = new BookDefinition();
 
         final List<SplitNodeInfo> splitNodes = new ArrayList<>();

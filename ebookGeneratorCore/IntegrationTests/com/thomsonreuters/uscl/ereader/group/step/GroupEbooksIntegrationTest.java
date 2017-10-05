@@ -27,8 +27,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 @Ignore
-public final class GroupEbooksIntegrationTest
-{
+public final class GroupEbooksIntegrationTest {
     private static final String PROVIEW_DOMAIN_PREFIX = "proviewpublishing.int.demo.thomsonreuters.com";
     private static final String PROVIEW_USERNAME = "publisher";
     private static final String PROVIEW_PASSWORD = "f9R_zBq37a";
@@ -40,8 +39,7 @@ public final class GroupEbooksIntegrationTest
     private ProviewHandler proviewHandler;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         proviewClient = new ProviewClientImpl();
         final HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
         requestFactory.setBufferRequestBody(false);
@@ -72,14 +70,12 @@ public final class GroupEbooksIntegrationTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         //Intentionally left blank
     }
 
     @Test
-    public void testGetGroupInfoByVersion() throws Exception
-    {
+    public void testGetGroupInfoByVersion() throws Exception {
         final GroupDefinition group = groupEbooks.getGroupInfoByVersion("uscl/groupTest", Long.valueOf(10));
 //		String expectedResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><group id=\"uscl/grouptest\" status=\"Review\">"
 //				+ "<name>CR MN FED</name><type>standard</type><headtitle>uscl/cr/mn_fed</headtitle><members><subgroup heading=\"2014\">"
@@ -88,24 +84,19 @@ public final class GroupEbooksIntegrationTest
     }
 
     @Test
-    public void testCreateGroup() throws ProviewException
-    {
+    public void testCreateGroup() throws ProviewException {
         proviewClient.setCreateGroupUriTemplate(
             "http://" + "proviewpublishing.int.demo.thomsonreuters.com" + "/v1/group/{groupId}/{groupVersionNumber}");
         boolean thrown = false;
-        try
-        {
+        try {
             groupEbooks.createGroup(mockGroup());
-        }
-        catch (final ProviewRuntimeException ex)
-        {
+        } catch (final ProviewRuntimeException ex) {
             thrown = true;
         }
         assertTrue(thrown);
     }
 
-    protected GroupDefinition mockGroup()
-    {
+    protected GroupDefinition mockGroup() {
         final GroupDefinition groupDefinition = new GroupDefinition();
         groupDefinition.setGroupId("uscl/groupTest");
         groupDefinition.setProviewGroupVersionString("v1");

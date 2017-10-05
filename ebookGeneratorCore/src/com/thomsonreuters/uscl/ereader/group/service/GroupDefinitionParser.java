@@ -8,7 +8,6 @@ import java.util.List;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.EndElement;
@@ -18,6 +17,8 @@ import javax.xml.stream.events.XMLEvent;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.service.GroupDefinition.SubGroupInfo;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 public class GroupDefinitionParser {
     private static final String GROUP = "group";
@@ -33,6 +34,8 @@ public class GroupDefinitionParser {
     private static final String SUBGROUP_HEADING = "heading";
 
     private XMLInputFactory factory;
+
+    private static Logger LOG = LogManager.getLogger(GroupDefinitionParser.class);
 
     public GroupDefinitionParser() {
         factory = XMLInputFactory.newInstance();
@@ -90,7 +93,7 @@ public class GroupDefinitionParser {
                     buffer.append(character.getData());
                 }
 
-                if (event.isEndElement()) {
+                if (event.isEndElement() && groupDefinition != null) {
                     final EndElement element = event.asEndElement();
                     if (element.getName().getLocalPart().equalsIgnoreCase(GROUP)) {
                         groupDefinitions.add(groupDefinition);
@@ -100,7 +103,8 @@ public class GroupDefinitionParser {
                         groupDefinition.setHeadTitle(buffer.toString());
                     } else if (element.getName().getLocalPart().equalsIgnoreCase(GROUP_TYPE)) {
                         groupDefinition.setType(buffer.toString());
-                    } else if (element.getName().getLocalPart().equalsIgnoreCase(SUBGROUP_TITLE)) {
+                    } else if (element.getName().getLocalPart().equalsIgnoreCase(SUBGROUP_TITLE)
+                        && subGroupInfo != null) {
                         subGroupInfo.addTitle(buffer.toString());
                     } else if (element.getName().getLocalPart().equalsIgnoreCase(SUBGROUP)) {
                         groupDefinition.addSubGroupInfo(subGroupInfo);
@@ -108,13 +112,7 @@ public class GroupDefinitionParser {
                 }
             }
         } catch (final Exception e) {
-            throw new Exception("Error while processing label: " + text, e);
-        } finally {
-            try {
-                r.close();
-            } catch (final XMLStreamException e) {
-                throw new XMLStreamException("Failed to close XMLEventReader.", e);
-            }
+            LOG.error(e.getMessage(), e);
         }
 
         return groupDefinitions;

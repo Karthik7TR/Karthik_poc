@@ -37,8 +37,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MessageConversionException;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class QueueManagerImplTest
-{
+public final class QueueManagerImplTest {
     private QueueManager service;
     private List<QueueDescriptor> descriptors;
     private QueueDescriptor descriptor;
@@ -65,8 +64,7 @@ public final class QueueManagerImplTest
     private JmsTemplate mockJmsTemplate;
 
     @Before
-    public void letThereBeLight()
-    {
+    public void letThereBeLight() {
         service = new QueueManager(QueueType.UserExperience, mockConnectionFactoryHelper, mockJmsClient);
         descriptors = Whitebox.getInternalState(service, "descriptors");
         setProperties(0);
@@ -75,14 +73,12 @@ public final class QueueManagerImplTest
     }
 
     @After
-    public void andAllWasDarkness()
-    {
+    public void andAllWasDarkness() {
         clearProperties(0);
     }
 
     @Test
-    public void add_and_size_and_enabled()
-    {
+    public void add_and_size_and_enabled() {
         descriptors.clear();
         service.add(descriptor);
         assertEquals(1, descriptors.size());
@@ -91,8 +87,7 @@ public final class QueueManagerImplTest
     }
 
     @Test
-    public void initialize() throws Exception
-    {
+    public void initialize() throws Exception {
         initializeAValidQueue();
 
         Whitebox.invokeMethod(service, "initialize", descriptor);
@@ -102,8 +97,7 @@ public final class QueueManagerImplTest
     }
 
     @Test
-    public void failover() throws Exception
-    {
+    public void failover() throws Exception {
         initializeAValidQueue();
 
         final boolean actual =
@@ -117,8 +111,7 @@ public final class QueueManagerImplTest
     }
 
     @Test
-    public void failover_withMessage() throws Exception
-    {
+    public void failover_withMessage() throws Exception {
         initializeAValidQueue();
 
         final boolean actual = Whitebox.<Boolean>invokeMethod(service, "failover", messageText, properties);
@@ -129,8 +122,7 @@ public final class QueueManagerImplTest
     }
 
     @Test
-    public void failover_withMessage_failed() throws Exception
-    {
+    public void failover_withMessage_failed() throws Exception {
         doThrow(new JMSException("throw me")).when(mockConnectionFactoryHelper)
             .getNewQueueConnectionFactory(host, port, queue, queueManager, channel, transportType);
 
@@ -142,8 +134,7 @@ public final class QueueManagerImplTest
     }
 
     @Test
-    public void enableQueue() throws Exception
-    {
+    public void enableQueue() throws Exception {
         initializeAValidQueue();
         Whitebox.setInternalState(service, "enabled", false);
 
@@ -155,8 +146,7 @@ public final class QueueManagerImplTest
     }
 
     @Test
-    public void enableQueue_alreadyEnabled()
-    {
+    public void enableQueue_alreadyEnabled() {
         Whitebox.setInternalState(service, "enabled", true);
 
         final boolean actual = service.enableQueue();
@@ -168,8 +158,7 @@ public final class QueueManagerImplTest
     }
 
     @Test
-    public void enableQueue_failed() throws Exception
-    {
+    public void enableQueue_failed() throws Exception {
         Whitebox.setInternalState(service, "enabled", false);
         doThrow(new JMSException("throw me")).when(mockConnectionFactoryHelper)
             .getNewQueueConnectionFactory(host, port, queue, queueManager, channel, transportType);
@@ -180,16 +169,14 @@ public final class QueueManagerImplTest
     }
 
     @Test
-    public void disableQueue()
-    {
+    public void disableQueue() {
         final boolean actual = service.disableQueue();
 
         assertEquals(true, actual);
     }
 
     @Test
-    public void sendMessageToQueue()
-    {
+    public void sendMessageToQueue() {
         Whitebox.setInternalState(service, "enabled", true);
         Whitebox.setInternalState(service, "jmsTemplate", mockJmsTemplate);
 
@@ -200,18 +187,14 @@ public final class QueueManagerImplTest
     }
 
     @Test
-    public void sendMessageToQueue_withFailover() throws Exception
-    {
+    public void sendMessageToQueue_withFailover() throws Exception {
         initializeAValidQueue();
         Whitebox.setInternalState(service, "jmsTemplate", (JmsTemplate) null);
         Whitebox.setInternalState(service, "enabled", true);
-        doAnswer(new Answer<Boolean>()
-        {
+        doAnswer(new Answer<Boolean>() {
             @Override
-            public Boolean answer(final InvocationOnMock invocation) throws Throwable
-            {
-                if (invocation.getArguments()[0] == null)
-                {
+            public Boolean answer(final InvocationOnMock invocation) throws Throwable {
+                if (invocation.getArguments()[0] == null) {
                     throw new MessageConversionException("throw me");
                 }
                 return true;
@@ -225,8 +208,7 @@ public final class QueueManagerImplTest
     }
 
     @Test
-    public void sendMessageToQueue_withFailover_fails() throws Exception
-    {
+    public void sendMessageToQueue_withFailover_fails() throws Exception {
         initializeAValidQueue();
         Whitebox.setInternalState(service, "jmsTemplate", mockJmsTemplate);
         Whitebox.setInternalState(service, "enabled", true);
@@ -239,8 +221,7 @@ public final class QueueManagerImplTest
         verify(mockJmsClient, times(2)).sendMessageToQueue(mockJmsTemplate, messageText, properties);
     }
 
-    private void initializeAValidQueue() throws Exception
-    {
+    private void initializeAValidQueue() throws Exception {
         when(
             mockConnectionFactoryHelper
                 .getNewQueueConnectionFactory(host, port, queue, queueManager, channel, transportType))
@@ -251,8 +232,7 @@ public final class QueueManagerImplTest
                     .thenReturn(mockJmsTemplate);
     }
 
-    private void setProperties(final int queueNumber)
-    {
+    private void setProperties(final int queueNumber) {
         final Properties props = System.getProperties();
         props.put(QueueType.UserExperience.host(connection), host);
         props.put(QueueType.UserExperience.port(connection), port.toString());
@@ -263,8 +243,7 @@ public final class QueueManagerImplTest
         props.put(QueueType.UserExperience.transportType(connection), Integer.toString(transportType));
     }
 
-    private void clearProperties(final int queueNumber)
-    {
+    private void clearProperties(final int queueNumber) {
         final Properties props = System.getProperties();
         props.remove(QueueType.UserExperience.host(connection));
         props.remove(QueueType.UserExperience.port(connection));

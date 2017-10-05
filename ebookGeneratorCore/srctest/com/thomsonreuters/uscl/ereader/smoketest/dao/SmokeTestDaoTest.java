@@ -7,23 +7,20 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class SmokeTestDaoTest
-{
+public final class SmokeTestDaoTest {
     private SessionFactory mockSessionFactory;
     private org.hibernate.Session mockSession;
     private SmokeTestDaoImpl dao;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockSessionFactory = EasyMock.createMock(SessionFactory.class);
         mockSession = EasyMock.createMock(org.hibernate.Session.class);
         dao = new SmokeTestDaoImpl(mockSessionFactory);
     }
 
     @Test
-    public void testConnectionStatus()
-    {
+    public void testConnectionStatus() {
         final boolean expectedStatus = true;
 
         EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);

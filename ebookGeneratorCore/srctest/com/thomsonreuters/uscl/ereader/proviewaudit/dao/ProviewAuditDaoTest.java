@@ -16,8 +16,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class ProviewAuditDaoTest
-{
+public final class ProviewAuditDaoTest {
     private static final List<ProviewAudit> PROVIEW_AUDIT_LIST = new ArrayList<>();
 
     private SessionFactory mockSessionFactory;
@@ -26,8 +25,7 @@ public final class ProviewAuditDaoTest
     private ProviewAuditDaoImpl dao;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockSessionFactory = EasyMock.createMock(SessionFactory.class);
         mockSession = EasyMock.createMock(org.hibernate.Session.class);
         mockCriteria = EasyMock.createMock(Criteria.class);
@@ -35,8 +33,7 @@ public final class ProviewAuditDaoTest
     }
 
     @Test
-    public void testFindProviewAudits()
-    {
+    public void testFindProviewAudits() {
         final ProviewAuditSort sort = new ProviewAuditSort(SortProperty.REQUEST_DATE, false, 1, 20);
         final ProviewAuditFilter filter = new ProviewAuditFilter();
 
@@ -61,8 +58,7 @@ public final class ProviewAuditDaoTest
     }
 
     @Test
-    public void testNumberProviewAudits()
-    {
+    public void testNumberProviewAudits() {
         final ProviewAuditFilter filter = new ProviewAuditFilter();
 
         EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);

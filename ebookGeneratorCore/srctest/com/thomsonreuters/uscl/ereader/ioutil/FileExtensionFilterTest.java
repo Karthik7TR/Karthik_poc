@@ -15,8 +15,7 @@ import org.junit.rules.TemporaryFolder;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public final class FileExtensionFilterTest
-{
+public final class FileExtensionFilterTest {
     @Rule
     public TemporaryFolder testFiles = new TemporaryFolder();
 
@@ -31,8 +30,7 @@ public final class FileExtensionFilterTest
     protected File xmlFile2;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         fileExtFilter = new FileExtensionFilter();
 
         //set up Transformed directories
@@ -54,44 +52,36 @@ public final class FileExtensionFilterTest
     }
 
     @Test(expected = RuntimeException.class)
-    public void testNullAcceptableExtension()
-    {
+    public void testNullAcceptableExtension() {
         fileExtFilter.accept(xmlFile);
     }
 
     @Test(expected = RuntimeException.class)
-    public void testEmptyListAcceptableExtension()
-    {
+    public void testEmptyListAcceptableExtension() {
         fileExtFilter.setAcceptedFileExtensions(new String[] {});
         fileExtFilter.accept(xmlFile);
     }
 
     @Test
-    public void testGetterAndSetter()
-    {
+    public void testGetterAndSetter() {
         fileExtFilter.setAcceptedFileExtensions(new String[] {testExtension});
         final String[] acceptableExt = fileExtFilter.getAcceptedFileExtensions();
-        if (acceptableExt != null && acceptableExt.length == 1)
-        {
+        if (acceptableExt != null && acceptableExt.length == 1) {
             assertEquals(testExtension, acceptableExt[0]);
-        }
-        else
-        {
+        } else {
             fail("Acceptable extension that was set did not get returned.");
         }
     }
 
     @Test
-    public void testNoFileRetrieval()
-    {
+    public void testNoFileRetrieval() {
         fileExtFilter.setAcceptedFileExtensions(new String[] {testExtension});
         final File[] fileList = emptyDir.listFiles(fileExtFilter);
         assertEquals(0, fileList.length);
     }
 
     @Test
-    public void testXMLFileRetrieval()
-    {
+    public void testXMLFileRetrieval() {
         fileExtFilter.setAcceptedFileExtensions(new String[] {testExtension});
         final File[] noFilterList = testDir.listFiles();
         assertEquals(4, noFilterList.length);
@@ -100,8 +90,7 @@ public final class FileExtensionFilterTest
     }
 
     @Test
-    public void testMultipleExtFileRetrieval()
-    {
+    public void testMultipleExtFileRetrieval() {
         fileExtFilter.setAcceptedFileExtensions(new String[] {testExtension, testExtension2});
         final File[] noFilterList = testDir.listFiles();
         assertEquals(4, noFilterList.length);

@@ -14,8 +14,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class PrintComponentDaoTest
-{
+public final class PrintComponentDaoTest {
     private PrintComponentDao componentDao;
 
     private SessionFactory mockSessionFactory;
@@ -25,8 +24,7 @@ public final class PrintComponentDaoTest
     private Capture<PrintComponent> capturedComponent;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockSessionFactory = EasyMock.createMock(SessionFactory.class);
         mockSession = EasyMock.createMock(Session.class);
         mockCriteria = EasyMock.createMock(Criteria.class);
@@ -37,8 +35,7 @@ public final class PrintComponentDaoTest
     }
 
     @Test
-    public void testFindByPrimaryKey()
-    {
+    public void testFindByPrimaryKey() {
         final long pkey = 1L;
         final PrintComponent expected = createPrintComponent(pkey);
         EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
@@ -50,8 +47,7 @@ public final class PrintComponentDaoTest
     }
 
     @Test
-    public void testDeleteByPrimaryKey()
-    {
+    public void testDeleteByPrimaryKey() {
         final long pkey = 1L;
         final PrintComponent expected = createPrintComponent(pkey);
         EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession).times(2);
@@ -67,8 +63,7 @@ public final class PrintComponentDaoTest
     }
 
     @Test
-    public void testFindByMaterialNumber()
-    {
+    public void testFindByMaterialNumber() {
         final String materialNumber = "ThisIsAMaterialNumber";
         final Capture<Criterion> captured = new Capture<>();
         final PrintComponent expected = createPrintComponent(0);
@@ -87,8 +82,7 @@ public final class PrintComponentDaoTest
     }
 
     @Test
-    public void testFindByComponentName()
-    {
+    public void testFindByComponentName() {
         final String componentName = "ThisIsAComponentName";
         final Capture<Criterion> captured = new Capture<>();
         final PrintComponent expected = createPrintComponent(0);
@@ -106,8 +100,7 @@ public final class PrintComponentDaoTest
         Assert.assertEquals(expected, actual);
     }
 
-    private PrintComponent createPrintComponent(final long pkey)
-    {
+    private PrintComponent createPrintComponent(final long pkey) {
         final PrintComponent component = new PrintComponent();
         component.setPrintComponentId(String.valueOf(pkey));
         component.setMaterialNumber("ThisIsAMaterialNumber");
@@ -116,8 +109,7 @@ public final class PrintComponentDaoTest
         return component;
     }
 
-    private void replayAll()
-    {
+    private void replayAll() {
         EasyMock.replay(mockSessionFactory);
         EasyMock.replay(mockSession);
         EasyMock.replay(mockCriteria);

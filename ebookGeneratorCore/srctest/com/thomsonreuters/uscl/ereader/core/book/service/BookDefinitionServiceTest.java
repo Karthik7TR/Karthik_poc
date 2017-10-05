@@ -7,8 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class BookDefinitionServiceTest
-{
+public final class BookDefinitionServiceTest {
     private static final String BOOK_KEY = "titleId";
 
     private BookDefinitionServiceImpl service;
@@ -17,8 +16,7 @@ public final class BookDefinitionServiceTest
     private BookDefinition expectedBookDefinition = new BookDefinition();
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         bookDefinitionDao = EasyMock.createMock(BookDefinitionDao.class);
 
         service = new BookDefinitionServiceImpl();
@@ -28,8 +26,7 @@ public final class BookDefinitionServiceTest
     }
 
     @Test
-    public void testFindBookDefinition()
-    {
+    public void testFindBookDefinition() {
         EasyMock.expect(bookDefinitionDao.findBookDefinitionByTitle(BOOK_KEY)).andReturn(expectedBookDefinition);
         EasyMock.replay(bookDefinitionDao);
         final BookDefinition actualBookDefinition = service.findBookDefinitionByTitle(BOOK_KEY);
@@ -38,8 +35,7 @@ public final class BookDefinitionServiceTest
     }
 
     @Test
-    public void testSaveBookDefinition()
-    {
+    public void testSaveBookDefinition() {
         EasyMock.expect(bookDefinitionDao.saveBookDefinition(expectedBookDefinition)).andReturn(expectedBookDefinition);
         EasyMock.replay(bookDefinitionDao);
 

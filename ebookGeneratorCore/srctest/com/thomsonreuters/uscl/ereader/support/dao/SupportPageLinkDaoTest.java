@@ -13,8 +13,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class SupportPageLinkDaoTest
-{
+public final class SupportPageLinkDaoTest {
     private final SupportPageLink SUPPORT_PAGE_LINK = new SupportPageLink();
     private final Long SUPPORT_PAGE_LINK_ID = Long.valueOf(1);
     private final List<SupportPageLink> ALL_SUPPORT_PAGE_LINK = new ArrayList<>();
@@ -25,8 +24,7 @@ public final class SupportPageLinkDaoTest
     private SupportPageLinkDaoImpl dao;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockSessionFactory = EasyMock.createMock(SessionFactory.class);
         mockSession = EasyMock.createMock(Session.class);
         mockCriteria = EasyMock.createMock(Criteria.class);
@@ -36,8 +34,7 @@ public final class SupportPageLinkDaoTest
     }
 
     @Test
-    public void testFindByPrimaryKey()
-    {
+    public void testFindByPrimaryKey() {
         EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
         EasyMock.expect(mockSession.get(SupportPageLink.class, SUPPORT_PAGE_LINK_ID)).andReturn(SUPPORT_PAGE_LINK);
         EasyMock.replay(mockSessionFactory);
@@ -54,8 +51,7 @@ public final class SupportPageLinkDaoTest
     }
 
     @Test
-    public void testGetAllSupportPageLinks()
-    {
+    public void testGetAllSupportPageLinks() {
         ALL_SUPPORT_PAGE_LINK.add(SUPPORT_PAGE_LINK);
         EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
         EasyMock.expect(mockSession.createCriteria(SupportPageLink.class)).andReturn(mockCriteria);

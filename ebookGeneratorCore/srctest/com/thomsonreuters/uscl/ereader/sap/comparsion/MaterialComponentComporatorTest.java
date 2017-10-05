@@ -13,19 +13,16 @@ import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponent;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class MaterialComponentComporatorTest
-{
+public final class MaterialComponentComporatorTest {
     private MaterialComponentComporator materialComponentComporator;
 
     @Before
-    public void onTestSetUp()
-    {
+    public void onTestSetUp() {
         //given
         materialComponentComporator = new MaterialComponentComporator(getPrintComponents());
     }
 
-    private List<PrintComponent> getPrintComponents()
-    {
+    private List<PrintComponent> getPrintComponents() {
         final List<PrintComponent> printComponents = new ArrayList<>();
 
         PrintComponent printComponent = new PrintComponent();
@@ -42,8 +39,7 @@ public final class MaterialComponentComporatorTest
     }
 
     @Test
-    public void shouldReturnZeroValue()
-    {
+    public void shouldReturnZeroValue() {
         //when
         final int value = materialComponentComporator.compare(getMaterialComponent("3"), getMaterialComponent("4"));
         //then
@@ -51,8 +47,7 @@ public final class MaterialComponentComporatorTest
     }
 
     @Test
-    public void shouldReturnNegativeValue()
-    {
+    public void shouldReturnNegativeValue() {
         //when
         int value = materialComponentComporator.compare(getMaterialComponent("1"), getMaterialComponent("3"));
         //then
@@ -65,16 +60,14 @@ public final class MaterialComponentComporatorTest
     }
 
     @Test
-    public void shouldReturnPositiveValue()
-    {
+    public void shouldReturnPositiveValue() {
         //when
         final int value = materialComponentComporator.compare(getMaterialComponent("4"), getMaterialComponent("2"));
         //then
         assertThat(value, greaterThan(0));
     }
 
-    private MaterialComponent getMaterialComponent(final String materialNumber)
-    {
+    private MaterialComponent getMaterialComponent(final String materialNumber) {
         final MaterialComponent materialComponent = new MaterialComponent();
         materialComponent.setBomComponent(materialNumber);
         return materialComponent;

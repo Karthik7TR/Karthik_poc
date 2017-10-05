@@ -14,8 +14,7 @@ import org.junit.Test;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.explore.JobExplorer;
 
-public final class JobServiceTest
-{
+public final class JobServiceTest {
     private static final Long JOB_EXECUTION_ID = 100L;
     private static final JobExecution EXPECTED_JOB_EXECUTION = new JobExecution(JOB_EXECUTION_ID);
     private JobExplorer mockJobExplorer;
@@ -23,8 +22,7 @@ public final class JobServiceTest
     private JobServiceImpl jobService;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockJobExplorer = EasyMock.createMock(JobExplorer.class);
         mockJobDao = EasyMock.createMock(JobDao.class);
         jobService = new JobServiceImpl();
@@ -33,8 +31,7 @@ public final class JobServiceTest
     }
 
     @Test
-    public void testFindJobExecutionByPrimaryKey()
-    {
+    public void testFindJobExecutionByPrimaryKey() {
         EasyMock.expect(mockJobExplorer.getJobExecution(JOB_EXECUTION_ID)).andReturn(EXPECTED_JOB_EXECUTION);
         EasyMock.replay(mockJobExplorer);
 
@@ -46,14 +43,12 @@ public final class JobServiceTest
     }
 
     @Test
-    public void testFindJobExecutionsFiltered()
-    {
+    public void testFindJobExecutionsFiltered() {
         final int SIZE = 5;
         final JobFilter filter = new JobFilter();
         final JobSort sort = new JobSort();
         final List<Long> listOfLong = new ArrayList<>();
-        for (int i = 0; i < SIZE; i++)
-        {
+        for (int i = 0; i < SIZE; i++) {
             listOfLong.add(Long.valueOf(i));
         }
         EasyMock.expect(mockJobDao.findJobExecutions(filter, sort)).andReturn(listOfLong);
@@ -67,13 +62,11 @@ public final class JobServiceTest
     }
 
     @Test
-    public void testFindJobExecutionByPrimaryKeys()
-    {
+    public void testFindJobExecutionByPrimaryKeys() {
         final int SIZE = 3;
         final Long[] ids = new Long[SIZE];
         final List<JobExecution> expectedJobExecutions = new ArrayList<>();
-        for (int i = 0; i < SIZE; i++)
-        {
+        for (int i = 0; i < SIZE; i++) {
             ids[i] = Long.valueOf(i + 101L);
             expectedJobExecutions.add(new JobExecution(ids[i]));
             EasyMock.expect(mockJobExplorer.getJobExecution(ids[i])).andReturn(expectedJobExecutions.get(i));
@@ -83,8 +76,7 @@ public final class JobServiceTest
         final List<JobExecution> actualJobExecutions = jobService.findJobExecutions(Arrays.asList(ids));
         Assert.assertNotNull(actualJobExecutions);
         Assert.assertEquals(SIZE, actualJobExecutions.size());
-        for (int i = 0; i < SIZE; i++)
-        {
+        for (int i = 0; i < SIZE; i++) {
             Assert.assertEquals(expectedJobExecutions.get(i).getId(), actualJobExecutions.get(i).getId());
         }
         EasyMock.verify(mockJobExplorer);

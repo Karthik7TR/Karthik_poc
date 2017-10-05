@@ -8,19 +8,16 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class GroupDefinitionParserTest
-{
+public final class GroupDefinitionParserTest {
     private GroupDefinitionParser parser;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         parser = new GroupDefinitionParser();
     }
 
     @Test
-    public void parseOneGroupTest()
-    {
+    public void parseOneGroupTest() {
         final String groupId = "uscl/b_subgroup";
         final String groupStatus = "Review";
         final Long groupVersion = 1L;
@@ -49,8 +46,7 @@ public final class GroupDefinitionParserTest
             + "</title></subgroup>"
             + "</members></group></groups>";
 
-        try
-        {
+        try {
             final List<GroupDefinition> groupDefinitions = parser.parse(xml);
 
             Assert.assertEquals(1, groupDefinitions.size());
@@ -68,17 +64,14 @@ public final class GroupDefinitionParserTest
             Assert.assertEquals(subgroupHeading, subgroup.getHeading());
             Assert.assertEquals(1, subgroup.getTitles().size());
             Assert.assertEquals(headtitle, subgroup.getTitles().get(0));
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void parseTwoGroupTest()
-    {
+    public void parseTwoGroupTest() {
         final String groupId = "uscl/b_subgroup";
         final String groupStatus = "Review";
         final Long groupVersion = 1L;
@@ -126,8 +119,7 @@ public final class GroupDefinitionParserTest
             + "</title></subgroup>"
             + "</members></group></groups>";
 
-        try
-        {
+        try {
             final List<GroupDefinition> groupDefinitions = parser.parse(xml);
 
             Assert.assertEquals(2, groupDefinitions.size());
@@ -159,17 +151,14 @@ public final class GroupDefinitionParserTest
             Assert.assertEquals(subgroupHeading, subgroup.getHeading());
             Assert.assertEquals(1, subgroup.getTitles().size());
             Assert.assertEquals(headtitle, subgroup.getTitles().get(0));
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void noSubgroupHeadingTest()
-    {
+    public void noSubgroupHeadingTest() {
         final String groupId = "uscl/b_subgroup";
         final String groupStatus = "Review";
         final Long groupVersion = 1L;
@@ -195,8 +184,7 @@ public final class GroupDefinitionParserTest
             + "</title></subgroup>"
             + "</members></group></groups>";
 
-        try
-        {
+        try {
             final List<GroupDefinition> groupDefinitions = parser.parse(xml);
 
             Assert.assertEquals(1, groupDefinitions.size());
@@ -214,17 +202,14 @@ public final class GroupDefinitionParserTest
             Assert.assertNull(subgroup.getHeading());
             Assert.assertEquals(1, subgroup.getTitles().size());
             Assert.assertEquals(headtitle, subgroup.getTitles().get(0));
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void parseNoStatusErrorTest()
-    {
+    public void parseNoStatusErrorTest() {
         final String groupId = "uscl/b_subgroup";
         final Long groupVersion = 1L;
         final String groupName = "group name";
@@ -250,12 +235,9 @@ public final class GroupDefinitionParserTest
             + "</title></subgroup>"
             + "</members></group></groups>";
 
-        try
-        {
+        try {
             parser.parse(xml);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.assertNotNull(e.getMessage());
         }

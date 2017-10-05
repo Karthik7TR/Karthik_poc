@@ -30,15 +30,13 @@ import org.xml.sax.InputSource;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public final class FrontMatterTitlePageFilterTest
-{
+public final class FrontMatterTitlePageFilterTest {
     private FrontMatterTitlePageFilter titlePageFilter;
     private BookDefinition bookDefinition;
     private Serializer serializer;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
         final SAXParser saxParser = factory.newSAXParser();
@@ -99,8 +97,7 @@ public final class FrontMatterTitlePageFilterTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         serializer = null;
         titlePageFilter = null;
     }
@@ -112,12 +109,10 @@ public final class FrontMatterTitlePageFilterTest
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final String expectedResult)
-    {
+    public void testHelper(final String inputXML, final String expectedResult) {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
-        try
-        {
+        try {
             input = new ByteArrayInputStream(inputXML.getBytes());
             output = new ByteArrayOutputStream();
 
@@ -129,34 +124,24 @@ public final class FrontMatterTitlePageFilterTest
             final String result = output.toString();
 
             assertEquals(expectedResult, result);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             fail("Encountered exception during test: " + e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if (input != null)
-                {
+        } finally {
+            try {
+                if (input != null) {
                     input.close();
                 }
-                if (output != null)
-                {
+                if (output != null) {
                     output.close();
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 fail("Couldn't clean up resources: " + e.getMessage());
             }
         }
     }
 
     @Test
-    public void testFrontMatterPlaceholder_theme()
-    {
+    public void testFrontMatterPlaceholder_theme() {
         final String xmlTestStr = "<test><frontMatterPlaceholder_theme/></test>";
         final String expectedResult =
             "<test><div class=\"logo\"><img src=\"er:#AAJ_PRESS\" alt=\"AAJ Press logo\"/></div></test>";
@@ -165,8 +150,7 @@ public final class FrontMatterTitlePageFilterTest
     }
 
     @Test
-    public void testFrontMatterPlaceholder_themeNone()
-    {
+    public void testFrontMatterPlaceholder_themeNone() {
         bookDefinition.setFrontMatterTheme("west");
 
         final String xmlTestStr = "<test><frontMatterPlaceholder_theme/></test>";
@@ -176,8 +160,7 @@ public final class FrontMatterTitlePageFilterTest
     }
 
     @Test
-    public void testFrontMatterPlaceholder_TitlePageAnchor()
-    {
+    public void testFrontMatterPlaceholder_TitlePageAnchor() {
         final String xmlTestStr = "<test><frontMatterPlaceholder_TitlePageAnchor/></test>";
         final String expectedResult =
             "<test><a name=\"" + FrontMatterFileName.FRONT_MATTER_TITLE + FrontMatterFileName.ANCHOR + "\"/></test>";
@@ -186,8 +169,7 @@ public final class FrontMatterTitlePageFilterTest
     }
 
     @Test
-    public void testFrontMatterPlaceholder_bookname()
-    {
+    public void testFrontMatterPlaceholder_bookname() {
         final String xmlTestStr = "<test><frontMatterPlaceholder_bookname/></test>";
         final String expectedResult = "<test>TEST Title</test>";
 
@@ -195,8 +177,7 @@ public final class FrontMatterTitlePageFilterTest
     }
 
     @Test
-    public void testFrontMatterPlaceholder_bookname2()
-    {
+    public void testFrontMatterPlaceholder_bookname2() {
         final String xmlTestStr = "<test><frontMatterPlaceholder_bookname2/></test>";
         final String expectedResult = "<test>TEST Edition</test>";
 
@@ -204,8 +185,7 @@ public final class FrontMatterTitlePageFilterTest
     }
 
     @Test
-    public void testFrontMatterPalceholder_bookname3()
-    {
+    public void testFrontMatterPalceholder_bookname3() {
         final String xmlTestStr = "<test><frontMatterPlaceholder_bookname3/></test>";
         final String expectedResult = "<test>TEST Series</test>";
 
@@ -213,8 +193,7 @@ public final class FrontMatterTitlePageFilterTest
     }
 
     @Test
-    public void testFrontMatterPlaceholder_currency()
-    {
+    public void testFrontMatterPlaceholder_currency() {
         final String xmlTestStr = "<test><frontMatterPlaceholder_currency/></test>";
         final String expectedResult = "<test>Currency Test</test>";
 
@@ -222,8 +201,7 @@ public final class FrontMatterTitlePageFilterTest
     }
 
     @Test
-    public void testFrontMatterPlaceholder_authorsVertical()
-    {
+    public void testFrontMatterPlaceholder_authorsVertical() {
         final String xmlTestStr = "<test><frontMatterPlaceholder_authors/></test>";
         final String expectedResult = "<test><div class=\"author1\">John Tester1</div><div class=\"authorInfo\">"
             + "<p>Pirate, Arrrrrrrrrrr</p></div><div class=\"authorNext\">Joel Tester2</div>"
@@ -234,8 +212,7 @@ public final class FrontMatterTitlePageFilterTest
     }
 
     @Test
-    public void testFrontMatterPlaceholder_authorsHorizontal() throws Exception
-    {
+    public void testFrontMatterPlaceholder_authorsHorizontal() throws Exception {
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
         final SAXParser saxParser = factory.newSAXParser();
@@ -253,8 +230,7 @@ public final class FrontMatterTitlePageFilterTest
     }
 
     @Test
-    public void testOptionalSecondTitleLine() throws Exception
-    {
+    public void testOptionalSecondTitleLine() throws Exception {
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
         final SAXParser saxParser = factory.newSAXParser();

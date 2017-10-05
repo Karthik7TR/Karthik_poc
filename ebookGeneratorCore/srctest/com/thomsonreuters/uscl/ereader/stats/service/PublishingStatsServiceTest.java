@@ -12,8 +12,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class PublishingStatsServiceTest
-{
+public final class PublishingStatsServiceTest {
     private static final Long BOOK_DEFINITION_ID = 1L;
     private static final String TITLE_ID = "uscl/an/book";
     private List<PublishingStats> STATS = new ArrayList<>();
@@ -24,8 +23,7 @@ public final class PublishingStatsServiceTest
     private PublishingStatsUtil mockUtil;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockDao = EasyMock.createMock(PublishingStatsDao.class);
         mockUtil = EasyMock.createMock(PublishingStatsUtil.class);
 
@@ -33,8 +31,7 @@ public final class PublishingStatsServiceTest
         service.setPublishingStatsDAO(mockDao);
         service.setPublishingStatsUtil(mockUtil);
 
-        for (int i = 0; i < 10; i++)
-        {
+        for (int i = 0; i < 10; i++) {
             final PublishingStats stat = new PublishingStats();
             stat.setJobInstanceId((long) i);
             stat.setPublishStatus(publishStatusMessage(i));
@@ -45,10 +42,8 @@ public final class PublishingStatsServiceTest
         }
     }
 
-    private String publishStatusMessage(final int i)
-    {
-        switch (i)
-        {
+    private String publishStatusMessage(final int i) {
+        switch (i) {
         case 3:
             return PublishingStats.SEND_EMAIL_COMPLETE;
         case 5:
@@ -59,8 +54,7 @@ public final class PublishingStatsServiceTest
     }
 
     @Test
-    public void testFindLastSuccessfulJobStatsAuditByEbookDef()
-    {
+    public void testFindLastSuccessfulJobStatsAuditByEbookDef() {
         EasyMock.expect(mockDao.findPublishingStatsByEbookDef(BOOK_DEFINITION_ID)).andReturn(STATS);
         EasyMock.expect(mockUtil.isPublishedSuccessfully("not this one")).andReturn(false).times(8);
         EasyMock.expect(mockUtil.isPublishedSuccessfully(PublishingStats.SEND_EMAIL_COMPLETE)).andReturn(true);
@@ -77,8 +71,7 @@ public final class PublishingStatsServiceTest
     }
 
     @Test
-    public void testHasIsbnBeenPublished()
-    {
+    public void testHasIsbnBeenPublished() {
         final List<String> isbns = new ArrayList<>();
         isbns.add("1-2-3");
         isbns.add("1-1");
@@ -94,8 +87,7 @@ public final class PublishingStatsServiceTest
     }
 
     @Test
-    public void testHasIsbnBeenPublished2()
-    {
+    public void testHasIsbnBeenPublished2() {
         final List<String> isbns = new ArrayList<>();
         isbns.add("1-2-3");
         isbns.add("1-1");

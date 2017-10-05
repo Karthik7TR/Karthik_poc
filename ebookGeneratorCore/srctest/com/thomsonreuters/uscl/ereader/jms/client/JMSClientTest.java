@@ -26,8 +26,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class JMSClientTest
-{
+public final class JMSClientTest {
     @Mock
     private JmsTemplate jmsTemplate;
 
@@ -40,24 +39,20 @@ public final class JMSClientTest
     private JmsClientImpl client;
 
     @Before
-    public void setup() throws JMSException
-    {
+    public void setup() throws JMSException {
         client = new JmsClientImpl();
 
         when(session.createTextMessage()).thenReturn(message);
     }
 
     @Test
-    public void createMessage() throws JMSException
-    {
+    public void createMessage() throws JMSException {
         final Map<String, String> properties = new HashMap<>();
         properties.put("prop key", "prop val");
 
-        doAnswer(new Answer<Void>()
-        {
+        doAnswer(new Answer<Void>() {
             @Override
-            public Void answer(final InvocationOnMock invocation) throws JMSException
-            {
+            public Void answer(final InvocationOnMock invocation) throws JMSException {
                 final MessageCreator param = (MessageCreator) invocation.getArguments()[0];
 
                 param.createMessage(session);
@@ -76,15 +71,12 @@ public final class JMSClientTest
     }
 
     @Test(expected = JMSException.class)
-    public void createMessageProblem() throws JMSException
-    {
+    public void createMessageProblem() throws JMSException {
         when(session.createTextMessage()).thenThrow(new JMSException("problem"));
 
-        doAnswer(new Answer<Void>()
-        {
+        doAnswer(new Answer<Void>() {
             @Override
-            public Void answer(final InvocationOnMock invocation) throws JMSException
-            {
+            public Void answer(final InvocationOnMock invocation) throws JMSException {
                 final MessageCreator param = (MessageCreator) invocation.getArguments()[0];
 
                 param.createMessage(session);
@@ -97,13 +89,10 @@ public final class JMSClientTest
     }
 
     @Test
-    public void createMessageEmptyProperties() throws JMSException
-    {
-        doAnswer(new Answer<Void>()
-        {
+    public void createMessageEmptyProperties() throws JMSException {
+        doAnswer(new Answer<Void>() {
             @Override
-            public Void answer(final InvocationOnMock invocation) throws JMSException
-            {
+            public Void answer(final InvocationOnMock invocation) throws JMSException {
                 final MessageCreator param = (MessageCreator) invocation.getArguments()[0];
 
                 param.createMessage(session);
@@ -121,13 +110,10 @@ public final class JMSClientTest
     }
 
     @Test
-    public void createMessageNoProperties() throws JMSException
-    {
-        doAnswer(new Answer<Void>()
-        {
+    public void createMessageNoProperties() throws JMSException {
+        doAnswer(new Answer<Void>() {
             @Override
-            public Void answer(final InvocationOnMock invocation) throws JMSException
-            {
+            public Void answer(final InvocationOnMock invocation) throws JMSException {
                 final MessageCreator param = (MessageCreator) invocation.getArguments()[0];
 
                 param.createMessage(session);
@@ -145,8 +131,7 @@ public final class JMSClientTest
     }
 
     @Test
-    public void sendMessageToQueue()
-    {
+    public void sendMessageToQueue() {
         client.sendMessageToQueue(jmsTemplate, "message text", Collections.<String, String>emptyMap());
 
         verify(jmsTemplate).send(any(MessageCreator.class));
@@ -154,15 +139,13 @@ public final class JMSClientTest
     }
 
     @Test
-    public void sendMessageToQueueNoTemplate()
-    {
+    public void sendMessageToQueueNoTemplate() {
         client.sendMessageToQueue(null, "message text", Collections.<String, String>emptyMap());
 
         verifyNotAnymoreInteractions();
     }
 
-    private void verifyNotAnymoreInteractions()
-    {
+    private void verifyNotAnymoreInteractions() {
         verifyNoMoreInteractions(jmsTemplate);
         verifyNoMoreInteractions(session);
         verifyNoMoreInteractions(message);

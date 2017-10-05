@@ -18,8 +18,7 @@ import org.junit.rules.TemporaryFolder;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public final class FileHandlingHelperTest
-{
+public final class FileHandlingHelperTest {
     @Rule
     public TemporaryFolder testFiles = new TemporaryFolder();
 
@@ -35,8 +34,7 @@ public final class FileHandlingHelperTest
     protected File xmlFile2;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         fileExtFilter = new FileExtensionFilter();
         fileHandler = new FileHandlingHelper();
 
@@ -59,43 +57,32 @@ public final class FileHandlingHelperTest
     }
 
     @Test(expected = IllegalStateException.class)
-    public void testFilterSetEnforcement()
-    {
+    public void testFilterSetEnforcement() {
         final List<File> fileList = new ArrayList<>();
-        try
-        {
+        try {
             fileHandler.getFileList(testDir, fileList);
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             fail("Test threw FileNotFoundException when IllegalStateException was expected.");
         }
     }
 
     @Test
-    public void testFileNotFoundFromEmptyDirectory()
-    {
+    public void testFileNotFoundFromEmptyDirectory() {
         final List<File> fileList = new ArrayList<>();
-        try
-        {
+        try {
             fileExtFilter.setAcceptedFileExtensions(new String[] {testExtension});
             fileHandler.setFilter(fileExtFilter);
             fileHandler.getFileList(emptyDir, fileList);
             fail("Test did not throw a FileNotFoundException when expected.");
-        }
-        catch (final IllegalStateException e)
-        {
+        } catch (final IllegalStateException e) {
             fail("Test threw IllegalStateException when FileNotFoundException was expected.");
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             //Intentionally left blank
         }
     }
 
     @Test
-    public void testXMLFileRetrieval() throws Exception
-    {
+    public void testXMLFileRetrieval() throws Exception {
         final List<File> fileList = new ArrayList<>();
 
         fileExtFilter.setAcceptedFileExtensions(new String[] {testExtension});
@@ -106,8 +93,7 @@ public final class FileHandlingHelperTest
     }
 
     @Test
-    public void testMultipleExtFileRetrieval() throws Exception
-    {
+    public void testMultipleExtFileRetrieval() throws Exception {
         final List<File> fileList = new ArrayList<>();
 
         fileExtFilter.setAcceptedFileExtensions(new String[] {testExtension, testExtension2});

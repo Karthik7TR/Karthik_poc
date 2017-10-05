@@ -7,15 +7,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class UserPreferenceServiceTest
-{
+public final class UserPreferenceServiceTest {
     private UserPreferenceServiceImpl service;
 
     private UserPreferenceDao mockDao;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockDao = EasyMock.createMock(UserPreferenceDao.class);
 
         service = new UserPreferenceServiceImpl();
@@ -23,8 +21,7 @@ public final class UserPreferenceServiceTest
     }
 
     @Test
-    public void testFindBookDefinition()
-    {
+    public void testFindBookDefinition() {
         final String username = "name";
 
         final UserPreference expected = new UserPreference();
@@ -38,8 +35,7 @@ public final class UserPreferenceServiceTest
     }
 
     @Test
-    public void testSaveBookDefinition()
-    {
+    public void testSaveBookDefinition() {
         final UserPreference expected = new UserPreference();
 
         mockDao.save(expected);

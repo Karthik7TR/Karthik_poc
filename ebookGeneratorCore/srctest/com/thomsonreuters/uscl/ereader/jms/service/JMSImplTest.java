@@ -28,8 +28,7 @@ import org.powermock.reflect.Whitebox;
 import org.springframework.jms.core.JmsTemplate;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class JMSImplTest
-{
+public final class JMSImplTest {
     @InjectMocks
     private JavaMessageServiceImpl service = new JavaMessageServiceImpl();
 
@@ -54,21 +53,18 @@ public final class JMSImplTest
     private int transportType = 1;
 
     @Before
-    public void inTheBeginning()
-    {
+    public void inTheBeginning() {
         setProperties();
     }
 
     @After
-    public void allWasDarkness()
-    {
+    public void allWasDarkness() {
         clearProperties();
         System.getProperties().remove(QueueType.UserExperience.toString(0) + ".disable");
     }
 
     @Test
-    public void initialize() throws Exception
-    {
+    public void initialize() throws Exception {
         when(
             mockConnectionFactoryHelper.getNewQueueConnectionFactory(host, port, name, manager, channel, transportType))
                 .thenReturn(mockConnectionFactory);
@@ -89,8 +85,7 @@ public final class JMSImplTest
     }
 
     @Test
-    public void initialize_not() throws Exception
-    {
+    public void initialize_not() throws Exception {
         port = 0;
         setProperties();
 
@@ -100,8 +95,7 @@ public final class JMSImplTest
     }
 
     @Test
-    public void initialize_explicitlyEnabled() throws Exception
-    {
+    public void initialize_explicitlyEnabled() throws Exception {
         when(
             mockConnectionFactoryHelper.getNewQueueConnectionFactory(host, port, name, manager, channel, transportType))
                 .thenReturn(mockConnectionFactory);
@@ -117,16 +111,14 @@ public final class JMSImplTest
     }
 
     @Test
-    public void initialize_explicitlyDisabled() throws Exception
-    {
+    public void initialize_explicitlyDisabled() throws Exception {
         System.setProperty(QueueType.UserExperience.toString() + ".disable", "true");
         service.init();
 
         verifyInitialization(false);
     }
 
-    private void setProperties()
-    {
+    private void setProperties() {
         final Properties props = System.getProperties();
         props.put(QueueType.UserExperience.host(connection), host);
         props.put(QueueType.UserExperience.port(connection), port.toString());
@@ -137,8 +129,7 @@ public final class JMSImplTest
         props.put(QueueType.UserExperience.transportType(connection), Integer.toString(transportType));
     }
 
-    private void clearProperties()
-    {
+    private void clearProperties() {
         final Properties props = System.getProperties();
         props.remove(QueueType.UserExperience.host(connection));
         props.remove(QueueType.UserExperience.port(connection));
@@ -149,17 +140,13 @@ public final class JMSImplTest
         props.remove(QueueType.UserExperience.transportType(connection));
     }
 
-    private void verifyInitialization(final boolean enabled) throws Exception
-    {
-        if (enabled)
-        {
+    private void verifyInitialization(final boolean enabled) throws Exception {
+        if (enabled) {
             verify(mockConnectionFactoryHelper)
                 .getNewQueueConnectionFactory(host, port, name, manager, channel, transportType);
             verify(mockConnectionFactoryHelper)
                 .getNewJmsTemplate(mockConnectionFactory, host, port, name, manager, channel, transportType);
-        }
-        else
-        {
+        } else {
             verify(mockConnectionFactoryHelper, never())
                 .getNewQueueConnectionFactory(host, port, name, manager, channel, transportType);
             verify(mockConnectionFactoryHelper, never())
@@ -168,8 +155,7 @@ public final class JMSImplTest
     }
 
     @Test
-    public void enableQueue()
-    {
+    public void enableQueue() {
         final QueueManager mockQueueManager = mock(QueueManager.class);
         final Map<QueueType, QueueManager> queueDescriptorMap =
             Whitebox.getInternalState(service, "queueDescriptorMap");
@@ -184,8 +170,7 @@ public final class JMSImplTest
     }
 
     @Test
-    public void enableQueue_fail()
-    {
+    public void enableQueue_fail() {
         final QueueManager mockQueueManager = mock(QueueManager.class);
         final Map<QueueType, QueueManager> queueDescriptorMap =
             Whitebox.getInternalState(service, "queueDescriptorMap");
@@ -200,16 +185,14 @@ public final class JMSImplTest
     }
 
     @Test
-    public void enableQueue_noQueues()
-    {
+    public void enableQueue_noQueues() {
         final boolean actual = service.enableQueue(QueueType.UserExperience);
 
         assertEquals(false, actual);
     }
 
     @Test
-    public void disableQueue()
-    {
+    public void disableQueue() {
         final QueueManager mockQueueManager = mock(QueueManager.class);
         final Map<QueueType, QueueManager> queueDescriptorMap =
             Whitebox.getInternalState(service, "queueDescriptorMap");
@@ -224,8 +207,7 @@ public final class JMSImplTest
     }
 
     @Test
-    public void sendMessageToQueue()
-    {
+    public void sendMessageToQueue() {
         final String messageText = "messageText";
         final Map<String, String> properties = Collections.emptyMap();
 
@@ -241,8 +223,7 @@ public final class JMSImplTest
 
     @Test
     // matches enabled for now as test occurs a level deeper.
-    public void sendMessageToQueue_disabled()
-    {
+    public void sendMessageToQueue_disabled() {
         final String messageText = "messageText";
         final Map<String, String> properties = Collections.emptyMap();
 

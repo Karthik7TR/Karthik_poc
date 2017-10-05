@@ -32,8 +32,7 @@ import org.springframework.web.client.RestTemplate;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris
  *         Schwartz</a> u0081674
  */
-public final class ProviewClientImplIntegrationTest
-{
+public final class ProviewClientImplIntegrationTest {
     private static final Logger LOG = LogManager.getLogger(ProviewClientImplIntegrationTest.class);
 
     private static final String PROVIEW_DOMAIN_PREFIX = "proviewpublishing.int.qed.thomsonreuters.com";
@@ -58,8 +57,7 @@ public final class ProviewClientImplIntegrationTest
     private ProviewResponseExtractorFactory proviewResponseExtractorFactory;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         proviewClient = new ProviewClientImpl();
         final HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
         requestFactory.setBufferRequestBody(false);
@@ -80,15 +78,13 @@ public final class ProviewClientImplIntegrationTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         //Intentionally left blank
     }
 
     @Ignore
     @Test
-    public void testGetAllTitlesHappyPath() throws Exception
-    {
+    public void testGetAllTitlesHappyPath() throws Exception {
         proviewClient.setGetTitlesUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
         final String publisherInformation = proviewClient.getAllPublishedTitles();
         System.out.println(publisherInformation);
@@ -97,18 +93,13 @@ public final class ProviewClientImplIntegrationTest
 
     @Ignore
     @Test
-    public void testRemoveTitle()
-    {
+    public void testRemoveTitle() {
         proviewClient.setRemoveTitleUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + removeTitleUriTemplate);
         String publisherInformation = null;
-        try
-        {
+        try {
             publisherInformation = proviewClient.removeTitle("uscl/an/blm", "v1.1");
-        }
-        catch (final Exception e)
-        {
-            if (e.getMessage().contains("Collection doesn't exist"))
-            {
+        } catch (final Exception e) {
+            if (e.getMessage().contains("Collection doesn't exist")) {
                 fail("Expected an exception as title doesn't exist on ProView!");
             }
         }
@@ -118,18 +109,13 @@ public final class ProviewClientImplIntegrationTest
 
     @Ignore
     @Test
-    public void testPromoteTitle()
-    {
+    public void testPromoteTitle() {
         proviewClient.setPromoteTitleUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + promoteTitleUriTemplate);
         String publisherInformation = null;
-        try
-        {
+        try {
             publisherInformation = proviewClient.promoteTitle("uscl/an/an_frcpbkeenantest2", "v2");
-        }
-        catch (final Exception e)
-        {
-            if (e.getMessage().contains("Collection doesn't exist"))
-            {
+        } catch (final Exception e) {
+            if (e.getMessage().contains("Collection doesn't exist")) {
                 fail("Expected an exception as title doesn't exist on ProView!");
             }
         }
@@ -139,18 +125,13 @@ public final class ProviewClientImplIntegrationTest
 
     @Ignore
     @Test
-    public void testDeleteTitle()
-    {
+    public void testDeleteTitle() {
         String publisherInformation = null;
         proviewClient.setDeleteTitleUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + deleteTitleUriTemplate);
-        try
-        {
+        try {
             publisherInformation = proviewClient.deleteTitle("uscl/an/blm", "v1.0");
-        }
-        catch (final Exception e)
-        {
-            if (e.getMessage().contains("Collection doesn't exist"))
-            {
+        } catch (final Exception e) {
+            if (e.getMessage().contains("Collection doesn't exist")) {
                 fail("Expected an exception as title doesn't exist on ProView!");
             }
         }
@@ -160,39 +141,31 @@ public final class ProviewClientImplIntegrationTest
 
     @Ignore
     @Test
-    public void testPublishBookFailsBecauseItAlreadyExistsOnProview() throws Exception
-    {
+    public void testPublishBookFailsBecauseItAlreadyExistsOnProview() throws Exception {
         proviewClient.setPublishTitleUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + publishTitleUriTemplate);
         final String integrationTestTitleId = "uscl/cr/generator_integration_test";
         final String eBookVersionNumber = "v2";
 
         final File eBookDirectory = new File("/nas/ebookbuilder/data/");
         final File eBook = new File(eBookDirectory, "proview_client_integration_test.gz");
-        try
-        {
+        try {
             proviewClient.publishTitle(integrationTestTitleId, eBookVersionNumber, eBook);
             fail("Expected an exception related to the title already existing on ProView!");
-        }
-        catch (final ProviewRuntimeException e)
-        {
+        } catch (final ProviewRuntimeException e) {
             // expected
         }
     }
 
     @Ignore
     @Test
-    public void testGetAllGroupsHappyPath() throws Exception
-    {
+    public void testGetAllGroupsHappyPath() throws Exception {
         proviewClient.setProviewHost(InetAddress.getLocalHost());
         proviewClient
             .setAllGroupsUriTemplate("http://" + "proviewpublishing.int.qed.thomsonreuters.com" + "/v1/group/uscl");
         boolean thrown = false;
-        try
-        {
+        try {
             proviewClient.getAllProviewGroups();
-        }
-        catch (final ProviewRuntimeException e)
-        {
+        } catch (final ProviewRuntimeException e) {
             thrown = true;
         }
 
@@ -201,18 +174,13 @@ public final class ProviewClientImplIntegrationTest
 
     @Ignore
     @Test
-    public void testGetSinglePublishedTitle() throws Exception
-    {
+    public void testGetSinglePublishedTitle() throws Exception {
         proviewClient.setProviewHost(InetAddress.getLocalHost());
         proviewClient.setSingleTitleTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getSingleTitleTemplate);
-        try
-        {
+        try {
             proviewClient.getSinglePublishedTitle("uscl/an/book_lohisplitnodeinfo");
-        }
-        catch (final Exception e)
-        {
-            if (!e.getMessage().contains("uscl/an/book_lohisplitnodeinfo does not exist"))
-            {
+        } catch (final Exception e) {
+            if (!e.getMessage().contains("uscl/an/book_lohisplitnodeinfo does not exist")) {
                 fail("Expected an exception as title doesn't exist on ProView!");
             }
         }
@@ -220,8 +188,7 @@ public final class ProviewClientImplIntegrationTest
 
     @Ignore
     @Test
-    public void testCreateGroup() throws Exception
-    {
+    public void testCreateGroup() throws Exception {
         proviewClient.setCreateGroupUriTemplate(
             "http://" + "proviewpublishing.int.qed.thomsonreuters.com" + "/v1/group/{groupId}/{groupVersionNumber}");
         proviewClient.setProviewHostname("proviewpublishing.int.qed.thomsonreuters.com");
@@ -243,8 +210,7 @@ public final class ProviewClientImplIntegrationTest
         subGroupInfoList.add(subGroupInfo);
         groupDefinition.setSubGroupInfoList(subGroupInfoList);
 
-        try
-        {
+        try {
             String response = proviewClient.createGroup(
                 groupDefinition.getGroupId(),
                 groupDefinition.getProviewGroupVersionString(),
@@ -255,15 +221,12 @@ public final class ProviewClientImplIntegrationTest
             response = proviewClient.getProviewGroupInfo("uscl/groupTest", "v1");
             Assert.assertEquals(response.length(), 325);
             updateStatusAndDelete(groupDefinition);
-        }
-        catch (final ProviewRuntimeException e)
-        {
+        } catch (final ProviewRuntimeException e) {
             e.printStackTrace();
         }
     }
 
-    private void updateStatusAndDelete(final GroupDefinition groupDefinition) throws Exception
-    {
+    private void updateStatusAndDelete(final GroupDefinition groupDefinition) throws Exception {
         proviewClient.setRemoveGroupStatusUriTemplate(
             "http://"
                 + "proviewpublishing.int.qed.thomsonreuters.com"
@@ -274,17 +237,14 @@ public final class ProviewClientImplIntegrationTest
         proviewClient.setDeleteGroupUriTemplate(
             "http://" + "proviewpublishing.int.demo.thomsonreuters.com" + "/v1/group/{groupId}/{groupVersionNumber}");
 
-        try
-        {
+        try {
             String response =
                 proviewClient.removeGroup(groupDefinition.getGroupId(), groupDefinition.getProviewGroupVersionString());
             Assert.assertEquals(response.contains("Group status changed to Removed"), true);
             response =
                 proviewClient.deleteGroup(groupDefinition.getGroupId(), groupDefinition.getProviewGroupVersionString());
             Assert.assertEquals(response.length(), 0);
-        }
-        catch (final ProviewRuntimeException e)
-        {
+        } catch (final ProviewRuntimeException e) {
             e.printStackTrace();
             // expected
         }
@@ -293,10 +253,11 @@ public final class ProviewClientImplIntegrationTest
     @Ignore
     @Test
     // Not sure if we should test invalid credentials
-    public void testGetAllTitlesFailsDueToInvalidCredetials() throws Exception
-    {
-        defaultHttpClient =
-            new CloseableAuthenticationHttpClientFactory(PROVIEW_DOMAIN_PREFIX, PROVIEW_INVALID_USERNAME, PROVIEW_INVALID_PASSWORD);
+    public void testGetAllTitlesFailsDueToInvalidCredetials() throws Exception {
+        defaultHttpClient = new CloseableAuthenticationHttpClientFactory(
+            PROVIEW_DOMAIN_PREFIX,
+            PROVIEW_INVALID_USERNAME,
+            PROVIEW_INVALID_PASSWORD);
 
         final HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
 
@@ -307,13 +268,10 @@ public final class ProviewClientImplIntegrationTest
 
         proviewClient.setGetTitlesUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
 
-        try
-        {
+        try {
             proviewClient.getAllPublishedTitles();
 
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             fail("Expected an exception as invalid username/password for ProView!");
             System.out.println(e.getMessage()); // expected
         }

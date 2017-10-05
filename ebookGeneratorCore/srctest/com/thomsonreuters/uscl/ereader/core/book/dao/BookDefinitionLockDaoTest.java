@@ -17,8 +17,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class BookDefinitionLockDaoTest
-{
+public final class BookDefinitionLockDaoTest {
     private static final List<BookDefinitionLock> BOOK_LOCK_LIST = new ArrayList<>();
     private static final BookDefinitionLock BOOK_LOCK = new BookDefinitionLock();
 
@@ -28,8 +27,7 @@ public final class BookDefinitionLockDaoTest
     private BookDefinitionLockDaoImpl dao;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockSessionFactory = EasyMock.createMock(SessionFactory.class);
         mockSession = EasyMock.createMock(org.hibernate.Session.class);
         mockCriteria = EasyMock.createMock(Criteria.class);
@@ -37,15 +35,15 @@ public final class BookDefinitionLockDaoTest
     }
 
     @Test
-    public void testFindAllActiveLocks()
-    {
+    public void testFindAllActiveLocks() {
         EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
         EasyMock.expect(mockSession.createCriteria(BookDefinitionLock.class)).andReturn(mockCriteria);
         EasyMock.expect(mockCriteria.createAlias("ebookDefinition", "book")).andReturn(mockCriteria);
         EasyMock.expect(mockCriteria.addOrder(EasyMock.anyObject(Order.class))).andReturn(mockCriteria);
         EasyMock.expect(mockCriteria.add(Restrictions.ge("checkoutTimestamp", EasyMock.anyObject(Date.class))))
             .andReturn(mockCriteria);
-        EasyMock.expect(mockCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY)).andReturn(mockCriteria);
+        EasyMock.expect(mockCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY))
+            .andReturn(mockCriteria);
         EasyMock.expect(mockCriteria.list()).andReturn(BOOK_LOCK_LIST);
         EasyMock.replay(mockSessionFactory);
         EasyMock.replay(mockSession);
@@ -60,8 +58,7 @@ public final class BookDefinitionLockDaoTest
     }
 
     @Test
-    public void testFindLocksByBookDefinition()
-    {
+    public void testFindLocksByBookDefinition() {
         final BookDefinition book = new BookDefinition();
 
         EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
@@ -83,8 +80,7 @@ public final class BookDefinitionLockDaoTest
     }
 
     @Test
-    public void testFindBookDefinitionLockByPrimaryKey()
-    {
+    public void testFindBookDefinitionLockByPrimaryKey() {
         EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
         EasyMock.expect(mockSession.createCriteria(BookDefinitionLock.class)).andReturn(mockCriteria);
         EasyMock.expect(mockCriteria.add(Restrictions.eq("ebookDefinitionLockId", EasyMock.anyObject(Long.class))))

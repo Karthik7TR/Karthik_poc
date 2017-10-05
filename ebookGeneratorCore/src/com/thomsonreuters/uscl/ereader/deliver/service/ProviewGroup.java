@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
     /**
@@ -23,6 +26,8 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
     //For third screen
     private List<GroupDetails> groupDetailList;
     private String groupStatus;
+
+    private static Logger LOG = LogManager.getLogger(ProviewGroup.class);
 
     public Integer getTotalNumberOfVersions() {
         return totalNumberOfVersions;
@@ -126,7 +131,7 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
                 majorVersion = Integer.valueOf(number);
             }
         } catch (final Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return majorVersion;
     }
@@ -162,14 +167,12 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((groupName == null) ? 0 : groupName.hashCode());
-        result = prime * result + ((proviewName == null) ? 0 : proviewName.hashCode());
-        result = prime * result + ((groupVersion == null) ? 0 : groupVersion.hashCode());
-        result = prime * result + ((groupId == null) ? 0 : groupId.hashCode());
-        result = prime * result + ((groupStatus == null) ? 0 : groupStatus.hashCode());
-        return result;
+        return new HashCodeBuilder(17, 37).append(groupName)
+            .append(proviewName)
+            .append(groupVersion)
+            .append(groupId)
+            .append(groupStatus)
+            .toHashCode();
     }
 
     @Override
@@ -189,7 +192,7 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
         if (proviewName == null) {
             if (other.proviewName != null)
                 return false;
-        } else if (!proviewName.equals(proviewName))
+        } else if (!proviewName.equals(other.proviewName))
             return false;
         if (groupStatus == null) {
             if (other.groupStatus != null)
@@ -355,7 +358,7 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
                     majorVersion = Integer.valueOf(number);
                 }
             } catch (final Exception e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage(), e);
             }
             return majorVersion;
         }

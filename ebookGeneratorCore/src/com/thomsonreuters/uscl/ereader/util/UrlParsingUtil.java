@@ -50,7 +50,7 @@ public class UrlParsingUtil {
                     value = parts.nextToken();
                 }
 
-                if ("cite".equalsIgnoreCase(name)) {
+                if ("cite".equalsIgnoreCase(name) && value != null) {
                     if (value.startsWith("UUID")) {
                         value = getCiteDocumentUuid(value);
                         name = "documentUuid";

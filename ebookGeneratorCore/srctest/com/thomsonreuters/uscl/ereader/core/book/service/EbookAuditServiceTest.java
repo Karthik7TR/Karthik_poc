@@ -13,8 +13,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class EbookAuditServiceTest
-{
+public final class EbookAuditServiceTest {
     private static final long BOOK_KEY = 1L;
     private static final String TITLE_ID = "book/title";
     private static final String ISBN = "123456789";
@@ -26,8 +25,7 @@ public final class EbookAuditServiceTest
     private EbookAuditDao mockDao;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockDao = EasyMock.createMock(EbookAuditDao.class);
 
         service = new EBookAuditServiceImpl();
@@ -41,8 +39,7 @@ public final class EbookAuditServiceTest
     }
 
     @Test
-    public void testFindBookDefinition()
-    {
+    public void testFindBookDefinition() {
         EasyMock.expect(mockDao.findEbookAuditByPrimaryKey(BOOK_KEY)).andReturn(expectedAudit);
         EasyMock.replay(mockDao);
         final EbookAudit actualAudit = service.findEBookAuditByPrimaryKey(BOOK_KEY);
@@ -51,8 +48,7 @@ public final class EbookAuditServiceTest
     }
 
     @Test
-    public void testSaveBookDefinition()
-    {
+    public void testSaveBookDefinition() {
         mockDao.saveAudit(expectedAudit);
         EasyMock.replay(mockDao);
 
@@ -61,8 +57,7 @@ public final class EbookAuditServiceTest
     }
 
     @Test
-    public void testFindEbookAudits()
-    {
+    public void testFindEbookAudits() {
         final EbookAuditSort sort = new EbookAuditSort(SortProperty.SUBMITTED_DATE, false, 1, 20);
         final EbookAuditFilter filter = new EbookAuditFilter();
 
@@ -75,8 +70,7 @@ public final class EbookAuditServiceTest
     }
 
     @Test
-    public void findNumberEbookAudits()
-    {
+    public void findNumberEbookAudits() {
         final int number = 0;
         final EbookAuditFilter filter = new EbookAuditFilter();
 
@@ -89,8 +83,7 @@ public final class EbookAuditServiceTest
     }
 
     @Test
-    public void testEditIsbn()
-    {
+    public void testEditIsbn() {
         BOOK_AUDIT_LIST.add(expectedAudit);
         EasyMock.expect(mockDao.findEbookAuditByTitleIdAndIsbn(TITLE_ID, ISBN)).andReturn(BOOK_AUDIT_LIST);
         mockDao.saveAudit(expectedAudit);

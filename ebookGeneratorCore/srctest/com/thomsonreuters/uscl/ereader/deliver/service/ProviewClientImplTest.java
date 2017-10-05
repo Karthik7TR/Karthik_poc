@@ -28,8 +28,7 @@ import org.springframework.web.client.RestTemplate;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  * @author <a href="mailto:zack.farrell@thomsonreuters.com">Zack Farrell</a> uc209819
  */
-public final class ProviewClientImplTest
-{
+public final class ProviewClientImplTest {
     // private static final Logger LOG = LogManager.getLogger(ProviewClientImplTest.class);
 
     private static final String PROVIEW_DOMAIN_PREFIX = "proviewpublishing.int.qed.thomsonreuters.com";
@@ -48,8 +47,7 @@ public final class ProviewClientImplTest
     private ProviewResponseExtractor mockResponseExtractor;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         proviewClient = new ProviewClientImpl();
         PROVIEW_HOST = InetAddress.getLocalHost();
 
@@ -69,14 +67,12 @@ public final class ProviewClientImplTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         //Intentionally left blank
     }
 
     @Test
-    public void testGetAllProviewGroups() throws Exception
-    {
+    public void testGetAllProviewGroups() throws Exception {
         final String response = "<groups><group id=\"uscl/abook_testgroup\" status=\"Review\" version=\"v2\">"
             + "<name>Group1</name><type>standard</type><headtitle>uscl/an/abook_testgroup/v1</headtitle>"
             + "<members><subgroup heading=\"2010\"><title>uscl/an/abook_testgroup/v1</title>"
@@ -107,8 +103,7 @@ public final class ProviewClientImplTest
     }
 
     @Test
-    public void testGetProviewGroupContainerById() throws Exception
-    {
+    public void testGetProviewGroupContainerById() throws Exception {
         final String groupId = "testGroupId";
         final String response = "<groups><group id=\""
             + groupId
@@ -143,8 +138,7 @@ public final class ProviewClientImplTest
     }
 
     @Test
-    public void testGetProviewGroupInfo() throws Exception
-    {
+    public void testGetProviewGroupInfo() throws Exception {
         getTitlesUriTemplate = "/v1/group/groupId/groupVersionNumber/info";
 
         proviewClient.setGetGroupUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
@@ -169,8 +163,7 @@ public final class ProviewClientImplTest
     }
 
     @Test
-    public void testCreateGroup() throws Exception
-    {
+    public void testCreateGroup() throws Exception {
         getTitlesUriTemplate = "/v1/group/groupId/groupVersionNumber";
 
         proviewClient.setCreateGroupUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
@@ -196,8 +189,7 @@ public final class ProviewClientImplTest
     }
 
     @Test
-    public void testPromoteGroup() throws Exception
-    {
+    public void testPromoteGroup() throws Exception {
         getTitlesUriTemplate = "/v1/group/groupId/groupVersionNumber";
 
         proviewClient.setCreateGroupUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
@@ -224,8 +216,7 @@ public final class ProviewClientImplTest
     }
 
     @Test
-    public void testRemoveGroup() throws Exception
-    {
+    public void testRemoveGroup() throws Exception {
         getTitlesUriTemplate = "/v1/group/groupId/groupVersionNumber/status/removed";
 
         proviewClient.setRemoveGroupStatusUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
@@ -251,8 +242,7 @@ public final class ProviewClientImplTest
     }
 
     @Test
-    public void testDeleteGroup() throws Exception
-    {
+    public void testDeleteGroup() throws Exception {
         getTitlesUriTemplate = "/v1/group/groupId/groupVersionNumber";
 
         proviewClient.setCreateGroupUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
@@ -279,8 +269,7 @@ public final class ProviewClientImplTest
     }
 
     @Test
-    public void testGetLatestProviewTitleInfo() throws Exception
-    {
+    public void testGetLatestProviewTitleInfo() throws Exception {
         final String singleTitleTemplate = "/v1/titles/titleId";
 
         proviewClient.setSingleTitleTemplate("http://" + PROVIEW_DOMAIN_PREFIX + singleTitleTemplate);
@@ -309,8 +298,7 @@ public final class ProviewClientImplTest
     }
 
     @Test
-    public void testGetSingleTitleGroupDetails() throws Exception
-    {
+    public void testGetSingleTitleGroupDetails() throws Exception {
         final String singleTitleTemplate = "/v1/titles/titleId";
 
         proviewClient.setSingleTitleTemplate("http://" + PROVIEW_DOMAIN_PREFIX + singleTitleTemplate);
@@ -339,8 +327,7 @@ public final class ProviewClientImplTest
     }
 
     @Test
-    public void testGetAllLatestProviewTitleInfo() throws Exception
-    {
+    public void testGetAllLatestProviewTitleInfo() throws Exception {
         proviewClient.setGetTitlesUriTemplate("http://" + PROVIEW_DOMAIN_PREFIX + getTitlesUriTemplate);
 
         final String response =
@@ -365,8 +352,7 @@ public final class ProviewClientImplTest
     }
 
     @Test
-    public void getSingleTitleInfoByVersion() throws Exception
-    {
+    public void getSingleTitleInfoByVersion() throws Exception {
         final String singleTitleByVersionUriTemplate = "/v1/titles/titleId/eBookVersionNumber";
 
         proviewClient
@@ -397,15 +383,13 @@ public final class ProviewClientImplTest
     }
 
     @Test
-    public void testPublishTitle() throws Exception
-    {
+    public void testPublishTitle() throws Exception {
         final String titleId = "testTileId";
         final String bookVersion = "v1.2";
         final String fileContents = "Have some content";
         final File tempRootDir = new File(System.getProperty("java.io.tmpdir"));
         tempRootDir.mkdir();
-        try
-        {
+        try {
             final File eBook = makeFile(tempRootDir, "tempBookFile", fileContents);
 
             final String publishTitleUriTemplate = "SomeURI";
@@ -434,27 +418,19 @@ public final class ProviewClientImplTest
             final String response = proviewClient.publishTitle(titleId, bookVersion, eBook);
 
             Assert.assertEquals("=)", response);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             throw e;
-        }
-        finally
-        {
-            try
-            { // may fail due to the input stream opened in publishTitle(..)
+        } finally {
+            try { // may fail due to the input stream opened in publishTitle(..)
                 FileUtils.deleteDirectory(tempRootDir);
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 // The file is in the temporary files directory, not a big deal
             }
         }
     }
 
     @Test
-    public void testPromoteTitle() throws Exception
-    {
+    public void testPromoteTitle() throws Exception {
         final String titleId = "testTileId";
         final String bookVersion = "v1.2";
         final String promoteTitleUriTemplate = "SomeURI";
@@ -486,8 +462,7 @@ public final class ProviewClientImplTest
     }
 
     @Test
-    public void testRemoveTitle() throws Exception
-    {
+    public void testRemoveTitle() throws Exception {
         final String titleId = "testTileId";
         final String bookVersion = "v1.2";
         final String removeTitleUriTemplate = "SomeURI";
@@ -519,8 +494,7 @@ public final class ProviewClientImplTest
     }
 
     @Test
-    public void testDeleteTitle() throws Exception
-    {
+    public void testDeleteTitle() throws Exception {
         final String titleId = "testTileId";
         final String bookVersion = "v1.2";
         final String deleteTitleUriTemplate = "SomeURI";
@@ -558,25 +532,20 @@ public final class ProviewClientImplTest
      * @param content Content to be written into the new file
      * @return returns a File object directing to the new file returns null if any errors occur
      */
-    private File makeFile(final File directory, final String name, final String content)
-    {
+    private File makeFile(final File directory, final String name, final String content) {
         final File file = new File(directory, name);
-        try (FileOutputStream out = new FileOutputStream(file))
-        {
+        try (FileOutputStream out = new FileOutputStream(file)) {
             file.createNewFile();
             out.write(content.getBytes());
             out.flush();
             out.close();
             return file;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             return null;
         }
     }
 
-    private Map<String, String> createURLParameters()
-    {
+    private Map<String, String> createURLParameters() {
         final Map<String, String> urlParams = new HashMap<>();
         urlParams.put(ProviewClientImpl.PROVIEW_HOST_PARAM, PROVIEW_HOST.getHostName());
         urlParams.put("groupId", "uscl/groupTest");
@@ -584,8 +553,7 @@ public final class ProviewClientImplTest
         return urlParams;
     }
 
-    private void verifyAll()
-    {
+    private void verifyAll() {
         EasyMock.verify(mockRestTemplate);
         EasyMock.verify(mockResponseEntity);
         EasyMock.verify(mockHeaders);
@@ -593,8 +561,7 @@ public final class ProviewClientImplTest
         EasyMock.verify(mockResponseExtractorFactory);
     }
 
-    private void replayAll()
-    {
+    private void replayAll() {
         EasyMock.replay(mockHeaders);
         EasyMock.replay(mockResponseEntity);
         EasyMock.replay(mockRestTemplate);

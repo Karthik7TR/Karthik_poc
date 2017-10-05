@@ -15,8 +15,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class OutageDaoTest
-{
+public final class OutageDaoTest {
     private List<PlannedOutage> PLANNED_OUTAGE_LIST;
 
     private SessionFactory mockSessionFactory;
@@ -26,8 +25,7 @@ public final class OutageDaoTest
     private Query mockQuery;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockSessionFactory = EasyMock.createMock(SessionFactory.class);
         mockSession = EasyMock.createMock(org.hibernate.Session.class);
         mockCriteria = EasyMock.createMock(Criteria.class);
@@ -40,8 +38,7 @@ public final class OutageDaoTest
     }
 
     @Test
-    public void testGetAllActiveAndScheduledPlannedOutages()
-    {
+    public void testGetAllActiveAndScheduledPlannedOutages() {
         EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
         EasyMock.expect(mockSession.createCriteria(PlannedOutage.class)).andReturn(mockCriteria);
         EasyMock.expect(mockCriteria.add(Restrictions.ge("endTime", EasyMock.anyObject(Date.class))))
@@ -61,8 +58,7 @@ public final class OutageDaoTest
     }
 
     @Test
-    public void testgetAllPlannedOutagesForType()
-    {
+    public void testgetAllPlannedOutagesForType() {
         EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
         EasyMock.expect(mockSession.createQuery("select p from PlannedOutage p where p.outageType=1"))
             .andReturn(mockQuery);
@@ -80,8 +76,7 @@ public final class OutageDaoTest
     }
 
     @Test
-    public void testGetAllPlannedOutages()
-    {
+    public void testGetAllPlannedOutages() {
         EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
         EasyMock.expect(mockSession.createCriteria(PlannedOutage.class)).andReturn(mockCriteria);
         EasyMock.expect(mockCriteria.addOrder(EasyMock.anyObject(Order.class))).andReturn(mockCriteria);
@@ -99,8 +94,7 @@ public final class OutageDaoTest
     }
 
     @Test
-    public void TestFindPlannedOutageByPrimaryKey()
-    {
+    public void TestFindPlannedOutageByPrimaryKey() {
         final Long id = 99L;
         final PlannedOutage outage = new PlannedOutage();
         outage.setId(id);

@@ -9,19 +9,16 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class UserPreferenceTest
-{
+public final class UserPreferenceTest {
     private static final String CSV_RECIPIENTS = "a@a.com,b@b.com,c@c.com";
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         //Intentionally left blank
     }
 
     @Test
-    public void testGetEmailList() throws Exception
-    {
+    public void testGetEmailList() throws Exception {
         final List<String> emails = Arrays.asList(new String[] {"a@a.com", "b@b.com", "c@c.com"});
 
         final UserPreference preference = new UserPreference();
@@ -41,8 +38,7 @@ public final class UserPreferenceTest
     }
 
     @Test
-    public void testToStringEmailAddressList()
-    {
+    public void testToStringEmailAddressList() {
         // Test a null csv address list
         final String addressCsv = null;
         List<String> list = UserPreference.toStringEmailAddressList(addressCsv);

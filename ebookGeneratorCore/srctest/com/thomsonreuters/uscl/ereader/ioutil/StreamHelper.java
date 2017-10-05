@@ -13,10 +13,8 @@ import org.apache.commons.io.IOUtils;
  * @author bmartell
  * @version 1.0, Nov 10, 2003.
  */
-public final class StreamHelper
-{
-    private StreamHelper()
-    {
+public final class StreamHelper {
+    private StreamHelper() {
     }
 
     /**
@@ -31,8 +29,7 @@ public final class StreamHelper
      * @throws java.io.IOException if anything fails.
      */
     public static synchronized boolean compare(final InputStream one, final InputStream two, final StringBuilder detail)
-        throws IOException
-    {
+        throws IOException {
         boolean equal = false;
 
         final StringBuilder bufferOne = new StringBuilder(50);
@@ -51,30 +48,24 @@ public final class StreamHelper
 
         int byteCount = 0;
 
-        while ((byteOne != -1) && (byteOne == byteTwo))
-        {
+        while ((byteOne != -1) && (byteOne == byteTwo)) {
             byteOne = streamOne.read();
             byteTwo = streamTwo.read();
             bufferOne.append((char) byteOne);
             bufferTwo.append((char) byteTwo);
             byteCount++;
 
-            if (byteCount > bufferSize)
-            {
+            if (byteCount > bufferSize) {
                 byteCount--;
                 bufferOne.delete(0, 1);
                 bufferTwo.delete(0, 1);
             }
         }
 
-        if (byteOne == -1)
-        {
+        if (byteOne == -1) {
             equal = true;
-        }
-        else
-        {
-            if (byteCount < bufferSize)
-            {
+        } else {
+            if (byteCount < bufferSize) {
                 final byte[] buffer = new byte[bufferSize - byteCount];
                 int bytesRead;
                 bytesRead = streamOne.read(buffer);
@@ -84,8 +75,7 @@ public final class StreamHelper
             }
         }
 
-        if (!equal)
-        {
+        if (!equal) {
             detail.append("expected: ");
             detail.append(" \n").append(bufferOne).append("\n");
             detail.append("but was: ").append("\n").append(bufferTwo);
@@ -106,14 +96,12 @@ public final class StreamHelper
      *
      * @throws java.io.IOException on failure.
      */
-    public static String inputStreamToString(final InputStream input) throws IOException
-    {
+    public static String inputStreamToString(final InputStream input) throws IOException {
         final StringBuilder value = new StringBuilder();
         int bytesRead;
         final byte[] buffer = new byte[1024];
 
-        while ((bytesRead = input.read(buffer, 0, buffer.length)) >= 0)
-        {
+        while ((bytesRead = input.read(buffer, 0, buffer.length)) >= 0) {
             value.append(new String(buffer, 0, bytesRead));
         }
 
@@ -132,14 +120,12 @@ public final class StreamHelper
      *
      * @throws java.io.IOException on failure.
      */
-    public static String readerToString(final Reader input) throws IOException
-    {
+    public static String readerToString(final Reader input) throws IOException {
         final StringBuilder value = new StringBuilder();
         int bytesRead;
         final char[] buffer = new char[1024];
 
-        while ((bytesRead = input.read(buffer, 0, buffer.length)) >= 0)
-        {
+        while ((bytesRead = input.read(buffer, 0, buffer.length)) >= 0) {
             value.append(buffer, 0, bytesRead);
         }
 

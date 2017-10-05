@@ -4,17 +4,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class SmokeTestTest
-{
+public final class SmokeTestTest {
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         //Intentionally left blank
     }
 
     @Test
-    public void smokeTestTest()
-    {
+    public void smokeTestTest() {
         final String name = "name";
         final String address = "home";
         final boolean isRunning = false;

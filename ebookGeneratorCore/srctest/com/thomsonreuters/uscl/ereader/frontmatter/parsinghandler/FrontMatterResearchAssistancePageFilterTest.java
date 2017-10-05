@@ -30,15 +30,13 @@ import org.xml.sax.InputSource;
  *
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
-public final class FrontMatterResearchAssistancePageFilterTest
-{
+public final class FrontMatterResearchAssistancePageFilterTest {
     private FrontMatterResearchAssistancePageFilter researchAssistancePageFilter;
     private BookDefinition bookDefinition;
     private Serializer serializer;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
         final SAXParser saxParser = factory.newSAXParser();
@@ -91,8 +89,7 @@ public final class FrontMatterResearchAssistancePageFilterTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         serializer = null;
         researchAssistancePageFilter = null;
     }
@@ -104,12 +101,10 @@ public final class FrontMatterResearchAssistancePageFilterTest
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final String expectedResult)
-    {
+    public void testHelper(final String inputXML, final String expectedResult) {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
-        try
-        {
+        try {
             input = new ByteArrayInputStream(inputXML.getBytes());
             output = new ByteArrayOutputStream();
 
@@ -121,34 +116,24 @@ public final class FrontMatterResearchAssistancePageFilterTest
             final String result = output.toString();
 
             assertEquals(expectedResult, result);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             fail("Encountered exception during test: " + e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if (input != null)
-                {
+        } finally {
+            try {
+                if (input != null) {
                     input.close();
                 }
-                if (output != null)
-                {
+                if (output != null) {
                     output.close();
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 fail("Couldn't clean up resources: " + e.getMessage());
             }
         }
     }
 
     @Test
-    public void testFrontMatterPlaceholder_researchAssistancePageAnchor()
-    {
+    public void testFrontMatterPlaceholder_researchAssistancePageAnchor() {
         final String xmlTestStr = "<test><frontMatterPlaceholder_researchAssistancePageAnchor/></test>";
         final String expectedResult = "<test><a name=\""
             + FrontMatterFileName.RESEARCH_ASSISTANCE
@@ -159,8 +144,7 @@ public final class FrontMatterResearchAssistancePageFilterTest
     }
 
     @Test
-    public void testFrontMatterPlaceholder_researchAssistanceEmail()
-    {
+    public void testFrontMatterPlaceholder_researchAssistanceEmail() {
         final String xmlTestStr = "<test><frontMatterPlaceholder_researchAssistanceEmail/></test>";
         final String expectedResult = "<test><a class=\"additional_info_email\" "
             + "href=\"mailto:west.ebooksuggestions@thomsonreuters.com?subject="

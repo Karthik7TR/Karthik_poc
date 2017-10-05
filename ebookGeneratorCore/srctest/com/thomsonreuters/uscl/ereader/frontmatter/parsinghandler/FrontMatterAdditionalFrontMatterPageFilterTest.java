@@ -32,15 +32,13 @@ import org.xml.sax.InputSource;
  *
  * @author <a href="mailto:Kirsten.Gunn@thomsonreuters.com">Kirsten Gunn</a> u0076257
  */
-public final class FrontMatterAdditionalFrontMatterPageFilterTest
-{
+public final class FrontMatterAdditionalFrontMatterPageFilterTest {
     private FrontMatterAdditionalFrontMatterPageFilter frontMatterPageFilter;
     private BookDefinition bookDefinition;
     private Serializer serializer;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         final SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setNamespaceAware(true);
         final SAXParser saxParser = factory.newSAXParser();
@@ -102,8 +100,7 @@ public final class FrontMatterAdditionalFrontMatterPageFilterTest
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         serializer = null;
         frontMatterPageFilter = null;
     }
@@ -115,12 +112,10 @@ public final class FrontMatterAdditionalFrontMatterPageFilterTest
      * @param inputXML input string for the test.
      * @param expectedResult the expected output for the specified input string.
      */
-    public void testHelper(final String inputXML, final String expectedResult)
-    {
+    public void testHelper(final String inputXML, final String expectedResult) {
         ByteArrayInputStream input = null;
         ByteArrayOutputStream output = null;
-        try
-        {
+        try {
             input = new ByteArrayInputStream(inputXML.getBytes());
             output = new ByteArrayOutputStream();
 
@@ -132,34 +127,24 @@ public final class FrontMatterAdditionalFrontMatterPageFilterTest
             final String result = output.toString();
 
             assertEquals(expectedResult, result);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             fail("Encountered exception during test: " + e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if (input != null)
-                {
+        } finally {
+            try {
+                if (input != null) {
                     input.close();
                 }
-                if (output != null)
-                {
+                if (output != null) {
                     output.close();
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 fail("Couldn't clean up resources: " + e.getMessage());
             }
         }
     }
 
     @Test
-    public void testFrontMatterAdditionalFrontMatterAnchor()
-    {
+    public void testFrontMatterAdditionalFrontMatterAnchor() {
         final String xmlTestStr = "<test><frontMatterPlaceholder_AdditionalPageAnchor/></test>";
         final String expectedResult = "<test><a name=\""
             + FrontMatterFileName.ADDITIONAL_FRONT_MATTER
@@ -171,8 +156,7 @@ public final class FrontMatterAdditionalFrontMatterPageFilterTest
     }
 
     @Test
-    public void testFrontMatterPlaceholder_pageTitleLabel()
-    {
+    public void testFrontMatterPlaceholder_pageTitleLabel() {
         final String xmlTestStr = "<test><frontMatterPlaceholder_additionFrontMatterTitle/></test>";
         final List<FrontMatterPage> fmps = bookDefinition.getFrontMatterPages();
 
@@ -182,8 +166,7 @@ public final class FrontMatterAdditionalFrontMatterPageFilterTest
     }
 
     @Test
-    public void testFrontMatterPlaceholder_pageTitleHeader()
-    {
+    public void testFrontMatterPlaceholder_pageTitleHeader() {
         final String xmlTestStr = "<test><frontMatterPlaceholder_additionFrontMatterTitle/></test>";
         final List<FrontMatterPage> fmps = bookDefinition.getFrontMatterPages();
         final FrontMatterPage frontMatterPage4 = fmps.get(0);
@@ -195,8 +178,7 @@ public final class FrontMatterAdditionalFrontMatterPageFilterTest
     }
 
     @Test
-    public void testFrontMatterPlaceholder_SectionsWithPDF()
-    {
+    public void testFrontMatterPlaceholder_SectionsWithPDF() {
         final String xmlTestStr = "<frontMatterPlaceholder_sections/>";
 
         final String expectedResult = "<div class=\"section_heading\">Pirate graffiti</div>"
@@ -208,8 +190,7 @@ public final class FrontMatterAdditionalFrontMatterPageFilterTest
     }
 
     @Test
-    public void testFrontMatterPlaceholder_SectionsNoPdf()
-    {
+    public void testFrontMatterPlaceholder_SectionsNoPdf() {
         final String xmlTestStr = "<frontMatterPlaceholder_sections/>";
 
         final String expectedResult = "<div class=\"section_heading\">Pirate graffiti</div>"
@@ -218,16 +199,14 @@ public final class FrontMatterAdditionalFrontMatterPageFilterTest
 
         final List<FrontMatterPage> fmps = bookDefinition.getFrontMatterPages();
         final FrontMatterPage frontMatterPage4 = fmps.get(0);
-        for (final FrontMatterSection fms : frontMatterPage4.getFrontMatterSections())
-        {
+        for (final FrontMatterSection fms : frontMatterPage4.getFrontMatterSections()) {
             fms.setPdfs(null);
         }
         testHelper(xmlTestStr, expectedResult);
     }
 
     @Test
-    public void testFrontMatterPlaceholder_SectionsTwoPdfs()
-    {
+    public void testFrontMatterPlaceholder_SectionsTwoPdfs() {
         final String xmlTestStr = "<frontMatterPlaceholder_sections/>";
 
         final String expectedResult = "<div class=\"section_heading\">Pirate graffiti</div>"
@@ -238,8 +217,7 @@ public final class FrontMatterAdditionalFrontMatterPageFilterTest
 
         final List<FrontMatterPage> fmps = bookDefinition.getFrontMatterPages();
         final FrontMatterPage frontMatterPage4 = fmps.get(0);
-        for (final FrontMatterSection fms : frontMatterPage4.getFrontMatterSections())
-        {
+        for (final FrontMatterSection fms : frontMatterPage4.getFrontMatterSections()) {
             final List<FrontMatterPdf> frontMatterPdfList4 = new ArrayList<>();
             FrontMatterPdf frontMatterPdfs4 = new FrontMatterPdf();
             frontMatterPdfs4.setId((long) 1);
@@ -262,8 +240,7 @@ public final class FrontMatterAdditionalFrontMatterPageFilterTest
     }
 
     @Test
-    public void testFrontMatterPlaceholder_NoSectionsOnlyPdf()
-    {
+    public void testFrontMatterPlaceholder_NoSectionsOnlyPdf() {
         final String xmlTestStr = "<frontMatterPlaceholder_sections/>";
 
         final String expectedResult =
@@ -271,8 +248,7 @@ public final class FrontMatterAdditionalFrontMatterPageFilterTest
 
         final List<FrontMatterPage> fmps = bookDefinition.getFrontMatterPages();
         final FrontMatterPage frontMatterPage4 = fmps.get(0);
-        for (final FrontMatterSection fms : frontMatterPage4.getFrontMatterSections())
-        {
+        for (final FrontMatterSection fms : frontMatterPage4.getFrontMatterSections()) {
             fms.setSectionText(null);
             fms.setSectionHeading(null);
         }
@@ -281,8 +257,7 @@ public final class FrontMatterAdditionalFrontMatterPageFilterTest
     }
 
     @Test
-    public void testFrontMatterPlaceholder_MultipleSectionsMultiReturn()
-    {
+    public void testFrontMatterPlaceholder_MultipleSectionsMultiReturn() {
         final String xmlTestStr = "<frontMatterPlaceholder_sections/>";
 
         final String expectedResult = "<div class=\"section_heading\">Pirate graffiti</div>"

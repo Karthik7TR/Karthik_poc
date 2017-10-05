@@ -7,19 +7,16 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class ProviewSingleTitleParserTest
-{
+public final class ProviewSingleTitleParserTest {
     private ProviewSingleTitleParser parser;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         parser = new ProviewSingleTitleParser();
     }
 
     @Test
-    public void testParser()
-    {
+    public void testParser() {
         final String response = "<titles><title id=\"uscl/an/book_lohinosubtosub\" "
             + "version=\"v1.0\" lastupdate=\"20160425\" status=\"Final\" "
             + "name=\"Single To Split\"/><title id=\"uscl/an/book_lohinosubtosub\" "

@@ -6,8 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class ProviewGroupsParserTest
-{
+public final class ProviewGroupsParserTest {
     private static final String GROUP_ID = "groupID";
     private static final String GROUP_NAME = "groupName";
     private static final String GROUP_INFO_PILOT_BOOK_XML =
@@ -42,14 +41,12 @@ public final class ProviewGroupsParserTest
     private ProviewGroupsParser parser;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         parser = new ProviewGroupsParser();
     }
 
     @Test
-    public void testParser()
-    {
+    public void testParser() {
         final String allGroupsResponse =
             "<groups><group id=\"testGroupID1\" status=\"Test\" version=\"v1\"><name>Test Group Name</name>"
                 + "<type>standard</type><headtitle>testHeadTitle</headtitle><members><subgroup heading=\"Subgroup Heading 1\">"

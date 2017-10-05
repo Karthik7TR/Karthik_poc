@@ -14,14 +14,12 @@ import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class BookTitlesUtil_isSplitBookTest
-{
+public final class BookTitlesUtil_isSplitBookTest {
     @InjectMocks
     private BookTitlesUtilImpl util;
 
     @Test
-    public void shouldReturnTrueForSplitBook()
-    {
+    public void shouldReturnTrueForSplitBook() {
         // given
         final BookDefinition book = book("title");
         book.setSplitNodes(splitNodes(splitNode(book, "title_pt2", "1.0"), splitNode(book, "title_pt2", "1.1")));
@@ -32,8 +30,7 @@ public final class BookTitlesUtil_isSplitBookTest
     }
 
     @Test
-    public void shouldReturnFalseForSingleBook()
-    {
+    public void shouldReturnFalseForSingleBook() {
         // given
         final BookDefinition book = book("title");
         book.setSplitNodes(splitNodes(splitNode(book, "title_pt2", "1.0"), splitNode(book, "title_pt2", "1.1")));

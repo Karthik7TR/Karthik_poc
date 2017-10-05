@@ -103,7 +103,7 @@
             <property name="tokens" value="LITERAL_ELSE,LITERAL_FOR,LITERAL_DO,LITERAL_WHILE" />
         </module>
         <module name="LeftCurly">
-            <message key="line.new" value="Opening ''{0}'' should be at the end of previous line" />
+            <message key="line.new" value="Opening ''{0}'' should be on the end of previous line" />
             <property name="option" value="eol" />
             <property name="severity" value="info" />
             <property name="tokens" value="INTERFACE_DEF, CLASS_DEF, ANNOTATION_DEF, ENUM_DEF, CTOR_DEF, METHOD_DEF, ENUM_CONSTANT_DEF, LITERAL_WHILE, LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_SYNCHRONIZED, LITERAL_SWITCH, LITERAL_DO, LITERAL_IF, LITERAL_ELSE, LITERAL_FOR, STATIC_INIT" />

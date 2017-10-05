@@ -3,17 +3,14 @@ package com.thomsonreuters.uscl.ereader.core.book.domain;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class BookDefinitionTest
-{
+public final class BookDefinitionTest {
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         //Intentionally left blank
     }
 
     @Test
-    public void dummyTest()
-    {
+    public void dummyTest() {
         return;
     }
 
@@ -39,21 +36,21 @@ public final class BookDefinitionTest
     	Assert.assertEquals(fullyQualifiedTitleId, key.getTitleId());
     	Assert.assertEquals(fullyQualifiedTitleId, key.toKeyString());  // string representation "<titleId>,<majorVersion>"
     }
-
+    
     @Test
     public void testParseAuthorNames() {
     	String obama = "Spends Toomuch";
     	String bush = "George Bush";
     	String clinton = "Bill Clinton";
-
+    
     	// Check null
     	List<String> authors = BookDefinition.parseAuthorNames(null);
     	Assert.assertEquals(0, authors.size());
-
+    
     	// Check empty list
     	authors = BookDefinition.parseAuthorNames("");
     	Assert.assertEquals(0, authors.size());
-
+    
     	// Check populated list
     	String pipedNameString = String.format(" %s | %s | %s ", obama, bush, clinton);
     	authors = BookDefinition.parseAuthorNames(pipedNameString);

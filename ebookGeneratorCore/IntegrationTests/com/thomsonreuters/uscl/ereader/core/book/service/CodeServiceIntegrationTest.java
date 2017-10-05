@@ -29,8 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @Transactional
-public class CodeServiceIntegrationTest
-{
+public class CodeServiceIntegrationTest {
     private static final Logger log = LogManager.getLogger(CodeServiceIntegrationTest.class);
 
     @Autowired
@@ -40,16 +39,14 @@ public class CodeServiceIntegrationTest
     private BookDefinitionService bookDefinitionService;
 
     @Test
-    public void testGetAllJuris()
-    {
+    public void testGetAllJuris() {
         final List<JurisTypeCode> codes = service.getAllJurisTypeCodes();
         log.debug(codes);
         Assert.assertEquals(54, codes.size());
     }
 
     @Test
-    public void testJurisTypeCodeCRUD()
-    {
+    public void testJurisTypeCodeCRUD() {
         // Create StateCode
         final JurisTypeCode createCode = new JurisTypeCode();
         createCode.setName("Test");
@@ -75,16 +72,14 @@ public class CodeServiceIntegrationTest
     }
 
     @Test
-    public void testGetAllPubType()
-    {
+    public void testGetAllPubType() {
         final List<PubTypeCode> codes = service.getAllPubTypeCodes();
         log.debug(codes);
         Assert.assertEquals(6, codes.size());
     }
 
     @Test
-    public void testPubTypeCodeCRUD()
-    {
+    public void testPubTypeCodeCRUD() {
         // Create StateCode
         final PubTypeCode createCode = new PubTypeCode();
         createCode.setName("Test");
@@ -111,8 +106,7 @@ public class CodeServiceIntegrationTest
 
     @Test
     @Ignore
-    public void testGetAllDocumentType()
-    {
+    public void testGetAllDocumentType() {
         final List<DocumentTypeCode> codes = service.getAllDocumentTypeCodes();
         log.debug(codes);
         Assert.assertEquals(3, codes.size());
@@ -120,8 +114,7 @@ public class CodeServiceIntegrationTest
 
     @Test
     @Ignore
-    public void testDocumentTypeCodeCRUD()
-    {
+    public void testDocumentTypeCodeCRUD() {
         // Create StateCode
         final DocumentTypeCode createCode = new DocumentTypeCode();
         createCode.setName("Test");
@@ -153,16 +146,14 @@ public class CodeServiceIntegrationTest
 
     @Test
     @Ignore
-    public void testGetAllPublisher()
-    {
+    public void testGetAllPublisher() {
         final List<PublisherCode> codes = service.getAllPublisherCodes();
         log.debug(codes);
         Assert.assertEquals(1, codes.size());
     }
 
     @Test
-    public void testPublisherCodeCRUD()
-    {
+    public void testPublisherCodeCRUD() {
         // Create StateCode
         final PublisherCode createCode = new PublisherCode();
         createCode.setName("Test");
@@ -188,8 +179,7 @@ public class CodeServiceIntegrationTest
     }
 
     @Test
-    public void testGetAllKeywordCodes()
-    {
+    public void testGetAllKeywordCodes() {
         final List<KeywordTypeCode> codes = service.getAllKeywordTypeCodes();
         log.debug(codes);
         Assert.assertEquals(4, codes.size());
@@ -197,16 +187,14 @@ public class CodeServiceIntegrationTest
 
     @Test
     @Ignore
-    public void testGetKeywordCodeCRUD()
-    {
+    public void testGetKeywordCodeCRUD() {
         // Create StateCode
         final KeywordTypeCode createCode = new KeywordTypeCode();
         createCode.setName("Test");
         service.saveKeywordTypeCode(createCode);
 
         final Collection<KeywordTypeValue> values = new ArrayList<>();
-        for (int i = 0; i < 5; i++)
-        {
+        for (int i = 0; i < 5; i++) {
             final KeywordTypeValue value = new KeywordTypeValue();
             value.setName(String.valueOf(i));
             value.setKeywordTypeCode(createCode);
@@ -240,8 +228,7 @@ public class CodeServiceIntegrationTest
 
     @Test
     @Ignore
-    public void testGetAllKeywordValues()
-    {
+    public void testGetAllKeywordValues() {
         final List<KeywordTypeValue> codes = service.getAllKeywordTypeValues();
         log.debug(codes);
         Assert.assertEquals(9, codes.size());
@@ -249,8 +236,7 @@ public class CodeServiceIntegrationTest
 
     @Test
     @Ignore
-    public void testGetAllKeywordValuesByCodeId()
-    {
+    public void testGetAllKeywordValuesByCodeId() {
         final List<KeywordTypeValue> codes = service.getAllKeywordTypeValues(Long.parseLong("1"));
         log.debug(codes);
         Assert.assertEquals(2, codes.size());
@@ -258,16 +244,14 @@ public class CodeServiceIntegrationTest
 
     @Test
     @Ignore
-    public void testGetKeywordValueCRUD()
-    {
+    public void testGetKeywordValueCRUD() {
         // Create StateCode
         final KeywordTypeCode createCode = new KeywordTypeCode();
         createCode.setName("Test");
         service.saveKeywordTypeCode(createCode);
 
         final Collection<KeywordTypeValue> createValues = new ArrayList<>();
-        for (int i = 0; i < 5; i++)
-        {
+        for (int i = 0; i < 5; i++) {
             final KeywordTypeValue value = new KeywordTypeValue();
             value.setName(String.valueOf(i));
             value.setKeywordTypeCode(createCode);
@@ -279,8 +263,7 @@ public class CodeServiceIntegrationTest
         Assert.assertEquals(createValues, values);
 
         int size = values.size();
-        for (final KeywordTypeValue value : values)
-        {
+        for (final KeywordTypeValue value : values) {
             service.deleteKeywordTypeValue(value);
             size--;
             final List<KeywordTypeValue> newValues = service.getAllKeywordTypeValues(createCode.getId());
@@ -295,8 +278,7 @@ public class CodeServiceIntegrationTest
 
     @Test
     @Ignore
-    public void testKeywordTypeValues()
-    {
+    public void testKeywordTypeValues() {
         final List<KeywordTypeValue> allValues = service.getAllKeywordTypeValues();
         final int keywordValueSize = allValues.size();
         final String titleId = "uscl/an/abcd1234_test";
@@ -318,8 +300,7 @@ public class CodeServiceIntegrationTest
         Assert.assertEquals(keywordValueSize, service.getAllKeywordTypeValues().size());
     }
 
-    private void setupBookDef(final String titleId)
-    {
+    private void setupBookDef(final String titleId) {
         final BookDefinition book = new BookDefinition();
         book.setFullyQualifiedTitleId(titleId);
         final DocumentTypeCode dtc = new DocumentTypeCode();
@@ -349,8 +330,7 @@ public class CodeServiceIntegrationTest
         book.setEnableCopyFeatureFlag(false);
 
         final Set<KeywordTypeValue> values = new HashSet<>();
-        for (int i = 1; i < 4; i++)
-        {
+        for (int i = 1; i < 4; i++) {
             final KeywordTypeValue value = new KeywordTypeValue();
             value.setId(Long.parseLong(Integer.toString(i)));
             values.add(value);

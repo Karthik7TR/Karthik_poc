@@ -12,8 +12,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "DUAL")
-public class SQLDual
-{
+public class SQLDual {
     @Id
     @Column(name = "PID", nullable = false)
     private int id;

@@ -17,14 +17,12 @@ import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class BookTitlesUtil_getSplitNodeInfosByVersionTest
-{
+public final class BookTitlesUtil_getSplitNodeInfosByVersionTest {
     @InjectMocks
     private BookTitlesUtilImpl util;
 
     @Test
-    public void shouldFilterSplitNodeInfosByVersion()
-    {
+    public void shouldFilterSplitNodeInfosByVersion() {
         // given
         final BookDefinition book = book("title");
         book.setSplitNodes(splitNodes(splitNode(book, "title_pt2", "1.0"), splitNode(book, "title_pt2", "1.1")));

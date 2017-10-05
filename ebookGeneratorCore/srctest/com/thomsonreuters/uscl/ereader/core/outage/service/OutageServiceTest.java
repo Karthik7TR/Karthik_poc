@@ -11,15 +11,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class OutageServiceTest
-{
+public final class OutageServiceTest {
     private List<PlannedOutage> PLANNED_OUTAGE_LIST;
     private OutageDao mockDao;
     private OutageServiceImpl service;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockDao = EasyMock.createMock(OutageDao.class);
 
         service = new OutageServiceImpl();
@@ -31,8 +29,7 @@ public final class OutageServiceTest
     }
 
     @Test
-    public void testGetAllActiveAndScheduledPlannedOutages()
-    {
+    public void testGetAllActiveAndScheduledPlannedOutages() {
         EasyMock.expect(mockDao.getAllActiveAndScheduledPlannedOutages()).andReturn(PLANNED_OUTAGE_LIST);
         EasyMock.replay(mockDao);
 
@@ -43,8 +40,7 @@ public final class OutageServiceTest
     }
 
     @Test
-    public void testGetAllPlannedOutages()
-    {
+    public void testGetAllPlannedOutages() {
         EasyMock.expect(mockDao.getAllPlannedOutages()).andReturn(PLANNED_OUTAGE_LIST);
         EasyMock.replay(mockDao);
 
@@ -55,8 +51,7 @@ public final class OutageServiceTest
     }
 
     @Test
-    public void testFindPlannedOutageByPrimaryKey()
-    {
+    public void testFindPlannedOutageByPrimaryKey() {
         final Long id = 99L;
         final PlannedOutage outage = new PlannedOutage();
         outage.setId(id);
@@ -71,8 +66,7 @@ public final class OutageServiceTest
     }
 
     @Test
-    public void testSaveOutageType()
-    {
+    public void testSaveOutageType() {
         final Long id = 99L;
         final OutageType outage = new OutageType();
         outage.setId(id);

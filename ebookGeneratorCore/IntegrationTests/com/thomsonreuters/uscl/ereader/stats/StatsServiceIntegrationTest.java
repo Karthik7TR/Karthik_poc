@@ -33,16 +33,14 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @Transactional
-public class StatsServiceIntegrationTest
-{
+public class StatsServiceIntegrationTest {
     @Autowired
     private PublishingStatsService service;
     @Autowired
     private DataSource dataSource;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         final DbSetup dbSetup = new DbSetup(
             new DataSourceDestination(dataSource),
             Operations.sequenceOf(
@@ -60,8 +58,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testfindLastPublishDateForBook()
-    {
+    public void testfindLastPublishDateForBook() {
         Assert.assertNull(service.findLastPublishDateForBook(1L));
 
         Date expected = new DateTime(2017, 1, 1, 3, 3, 3).toDate();
@@ -84,8 +81,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testgetPreviousPublishingStatsForSameBook()
-    {
+    public void testgetPreviousPublishingStatsForSameBook() {
         final PublishingStats expected = initStats(4);
         expected.setEbookDefId(1L);
         expected.setPublishStatus(PublishingStats.SUCCESFULL_PUBLISH_STATUS);
@@ -101,8 +97,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testFindAllPublishingStats()
-    {
+    public void testFindAllPublishingStats() {
         final List<PublishingStats> stats = service.findAllPublishingStats();
         Assert.assertEquals(3, stats.size());
 
@@ -123,8 +118,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testFindPublishingStatsByJobId()
-    {
+    public void testFindPublishingStatsByJobId() {
         // test object is found
         PublishingStats expected = initStats(1);
         PublishingStats actual = service.findPublishingStatsByJobId(1L);
@@ -149,8 +143,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testFindPublishingStatsByEbookDef()
-    {
+    public void testFindPublishingStatsByEbookDef() {
         final List<PublishingStats> stats = service.findPublishingStatsByEbookDef(1L);
         Assert.assertEquals(1, stats.size());
 
@@ -167,8 +160,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testfindPublishingStats()
-    {
+    public void testfindPublishingStats() {
         PublishingStatsFilter filter = new PublishingStatsFilter();
         List<PublishingStats> stats = service.findPublishingStats(filter);
         Assert.assertEquals(3, stats.size());
@@ -209,8 +201,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testnumberOfPublishingStats()
-    {
+    public void testnumberOfPublishingStats() {
         PublishingStatsFilter filter = new PublishingStatsFilter();
         int actual = service.numberOfPublishingStats(filter);
         Assert.assertEquals(3, actual);
@@ -222,8 +213,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testfindPublishingStatsSort()
-    {
+    public void testfindPublishingStatsSort() {
         final PublishingStatsFilter filter = new PublishingStatsFilter();
         PublishingStatsSort sort = new PublishingStatsSort(SortProperty.AUDIT_ID, false, 1, 20);
         List<PublishingStats> stats = service.findPublishingStats(filter, sort);
@@ -241,8 +231,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testfindAuditInfoByJobId()
-    {
+    public void testfindAuditInfoByJobId() {
         // test object is found
         final EbookAudit expected = initAudit(1);
         EbookAudit actual = service.findAuditInfoByJobId(1L);
@@ -256,8 +245,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testsavePublishingStats()
-    {
+    public void testsavePublishingStats() {
         // verify object doesnt exist
         Assert.assertNull(service.findPublishingStatsByJobId(4L));
 
@@ -272,8 +260,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testupdatePublishingStatsNEW()
-    {
+    public void testupdatePublishingStatsNEW() {
         final PublishingStats expected = initStats(4);
         service.updatePublishingStats(expected, StatsUpdateTypeEnum.GENERAL);
         final PublishingStats actual = service.findPublishingStatsByJobId(4L);
@@ -283,8 +270,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testupdatePublishingStatsGATHERTOC()
-    {
+    public void testupdatePublishingStatsGATHERTOC() {
         final PublishingStats expected = initStats(1);
         expected.setPublishStatus("testing4");
         expected.setGatherTocNodeCount(4);
@@ -304,8 +290,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testupdatePublishingStatsGENERATETOC()
-    {
+    public void testupdatePublishingStatsGENERATETOC() {
         final PublishingStats expected = initStats(1);
         expected.setPublishStatus("testing4");
         expected.setGatherTocNodeCount(4);
@@ -325,8 +310,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testupdatePublishingStatsGATHERDOC()
-    {
+    public void testupdatePublishingStatsGATHERDOC() {
         final PublishingStats expected = initStats(1);
         expected.setPublishStatus("testing4");
         expected.setGatherDocExpectedCount(4);
@@ -348,8 +332,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testupdatePublishingStatsGENERATEDOC()
-    {
+    public void testupdatePublishingStatsGENERATEDOC() {
         final PublishingStats expected = initStats(1);
         expected.setPublishStatus("testing4");
         expected.setGatherDocExpectedCount(4);
@@ -371,8 +354,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testupdatePublishingStatsGATHERIMAGE()
-    {
+    public void testupdatePublishingStatsGATHERIMAGE() {
         final PublishingStats expected = initStats(1);
         expected.setPublishStatus("testing4");
         expected.setGatherImageExpectedCount(4);
@@ -391,8 +373,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testupdatePublishingStatsTITLEDOC()
-    {
+    public void testupdatePublishingStatsTITLEDOC() {
         final PublishingStats expected = initStats(1);
         expected.setPublishStatus("testing4");
         expected.setTitleDocCount(4);
@@ -409,8 +390,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testupdatePublishingStatsTITLEDUPDOCCOUNT()
-    {
+    public void testupdatePublishingStatsTITLEDUPDOCCOUNT() {
         final PublishingStats expected = initStats(1);
         expected.setPublishStatus("testing4");
         expected.setTitleDupDocCount(4);
@@ -427,8 +407,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testupdatePublishingStatsFORMATDOC()
-    {
+    public void testupdatePublishingStatsFORMATDOC() {
         final PublishingStats expected = initStats(1);
         expected.setPublishStatus("testing4");
         expected.setFormatDocCount(4);
@@ -445,8 +424,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testupdatePublishingStatsASSEMBLEDOC()
-    {
+    public void testupdatePublishingStatsASSEMBLEDOC() {
         final PublishingStats expected = initStats(1);
         expected.setPublishStatus("testing4");
         expected.setBookSize(4L);
@@ -466,8 +444,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testupdatePublishingStatsFINALPUBLISH()
-    {
+    public void testupdatePublishingStatsFINALPUBLISH() {
         final PublishingStats expected = initStats(1);
         expected.setPublishStatus("testing4");
 
@@ -485,8 +462,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testupdatePublishingStatsGENERAL()
-    {
+    public void testupdatePublishingStatsGENERAL() {
         final PublishingStats expected = initStats(1);
         expected.setPublishStatus("testing4");
 
@@ -502,8 +478,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testupdatePublishingStatsGROUPEBOOK()
-    {
+    public void testupdatePublishingStatsGROUPEBOOK() {
         final PublishingStats expected = initStats(1);
         expected.setPublishStatus("testing4");
         expected.setGroupVersion(4L);
@@ -520,8 +495,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testdeleteJobStats()
-    {
+    public void testdeleteJobStats() {
         PublishingStats stats = service.findPublishingStatsByJobId(1L);
         Assert.assertNotNull(stats);
         service.deleteJobStats(stats);
@@ -530,8 +504,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testhasIsbnBeenPublished()
-    {
+    public void testhasIsbnBeenPublished() {
         Assert.assertFalse(service.hasIsbnBeenPublished("1", "titleid1"));
         final PublishingStats jobstats = initStats(1);
         jobstats.setPublishStatus(PublishingStats.SUCCESFULL_PUBLISH_STATUS);
@@ -540,8 +513,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testhasBeenGrouped()
-    {
+    public void testhasBeenGrouped() {
         Assert.assertFalse(service.hasBeenGrouped(4L));
         final PublishingStats jobstats = initStats(4);
         jobstats.setPublishStatus(PublishingStats.SUCCESFULL_PUBLISH_STATUS);
@@ -550,8 +522,7 @@ public class StatsServiceIntegrationTest
     }
 
     @Test
-    public void testfindLastSuccessfulJobStatsAuditByEbookDef()
-    {
+    public void testfindLastSuccessfulJobStatsAuditByEbookDef() {
         Assert.assertNull(service.findLastSuccessfulJobStatsAuditByEbookDef(4L));
 
         final PublishingStats stats = initStats(4);
@@ -564,31 +535,24 @@ public class StatsServiceIntegrationTest
         Assert.assertEquals(expected, actual);
     }
 
-    private void resolveLazyProxies(final PublishingStats stats)
-    {
+    private void resolveLazyProxies(final PublishingStats stats) {
         stats.setAudit(resolveLazyProxy(stats.getAudit()));
     }
 
-    private <T> T resolveLazyProxy(@NotNull final T entity)
-    {
-        if (entity == null)
-        {
+    private <T> T resolveLazyProxy(@NotNull final T entity) {
+        if (entity == null) {
             throw new NullPointerException("Entity passed for initialization is null");
         }
 
         Hibernate.initialize(entity);
-        if (entity instanceof HibernateProxy)
-        {
+        if (entity instanceof HibernateProxy) {
             return (T) ((HibernateProxy) entity).getHibernateLazyInitializer().getImplementation();
-        }
-        else
-        {
+        } else {
             return entity;
         }
     }
 
-    private Insert buildAuditEntry(final int id)
-    {
+    private Insert buildAuditEntry(final int id) {
         return Operations.insertInto("EBOOK_AUDIT")
             .row()
             .column("AUDIT_ID", id)
@@ -609,8 +573,7 @@ public class StatsServiceIntegrationTest
             .build();
     }
 
-    private EbookAudit initAudit(final int id)
-    {
+    private EbookAudit initAudit(final int id) {
         final long l_id = Long.valueOf(id);
         final EbookAudit audit = new EbookAudit();
         audit.setAuditId(l_id);
@@ -630,8 +593,7 @@ public class StatsServiceIntegrationTest
         return audit;
     }
 
-    private Insert buildStatsEntry(final int id)
-    {
+    private Insert buildStatsEntry(final int id) {
         return Operations.insertInto("PUBLISHING_STATS")
             .row()
             .column("JOB_INSTANCE_ID", id)
@@ -671,8 +633,7 @@ public class StatsServiceIntegrationTest
             .build();
     }
 
-    private PublishingStats initStats(final int id)
-    {
+    private PublishingStats initStats(final int id) {
         final long l_id = Long.valueOf(id);
         final PublishingStats expected = new PublishingStats();
         expected.setJobInstanceId(l_id);

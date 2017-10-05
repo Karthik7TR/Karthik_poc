@@ -13,8 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jms.core.JmsTemplate;
 
-public final class JMSClientIntegrationTest
-{
+public final class JMSClientIntegrationTest {
     /* configuration for test queue in CI Queue Manager */
     private static final String HOST = "CTCO002-04";
     private static final int PORT = 1414;
@@ -27,13 +26,11 @@ public final class JMSClientIntegrationTest
     private JMSClient client;
 
     @Before
-    public void init()
-    {
+    public void init() {
         client = new JmsClientImpl();
 
         final MQConnectionFactory factory = new MQConnectionFactory();
-        try
-        {
+        try {
             final QueueConnectionFactory connectionFactory =
                 factory.getNewQueueConnectionFactory(HOST, PORT, QUEUE_MANAGER, QUEUE, CHANNEL, TRANSPORT_TYPE);
             jmsTemplate =
@@ -41,23 +38,19 @@ public final class JMSClientIntegrationTest
 
             // clear queue
             client.receiveMessages(jmsTemplate, "");
-        }
-        catch (final JMSException e)
-        {
+        } catch (final JMSException e) {
             e.printStackTrace();
         }
     }
 
     @After
-    public void cleanUp()
-    {
+    public void cleanUp() {
         // clear queue
         client.receiveMessages(jmsTemplate, "");
     }
 
     @Test
-    public void testSendReceive()
-    {
+    public void testSendReceive() {
         initQueue();
         final List<String> contents = client.receiveMessages(jmsTemplate, "");
 
@@ -70,8 +63,7 @@ public final class JMSClientIntegrationTest
     }
 
     @Test
-    public void testReceiveNext()
-    {
+    public void testReceiveNext() {
         initQueue();
 
         String content = client.receiveSingleMessage(jmsTemplate, "");
@@ -89,8 +81,7 @@ public final class JMSClientIntegrationTest
     }
 
     @Test
-    public void testReceiveByKeyword()
-    {
+    public void testReceiveByKeyword() {
         initQueue();
         client.sendMessageToQueue(jmsTemplate, "abc", null);
 
@@ -110,8 +101,7 @@ public final class JMSClientIntegrationTest
     }
 
     @Test
-    public void testReceiveNextByKeyword()
-    {
+    public void testReceiveNextByKeyword() {
         initQueue();
         client.sendMessageToQueue(jmsTemplate, "abc", null);
 
@@ -130,8 +120,7 @@ public final class JMSClientIntegrationTest
     }
 
     @Test
-    public void testClearQueue()
-    {
+    public void testClearQueue() {
         initQueue();
 
         client.receiveMessages(jmsTemplate, "");
@@ -140,8 +129,7 @@ public final class JMSClientIntegrationTest
         Assert.assertEquals(null, content);
     }
 
-    private void initQueue()
-    {
+    private void initQueue() {
         client.sendMessageToQueue(jmsTemplate, "aaa", null);
         client.sendMessageToQueue(jmsTemplate, "bbb", null);
         client.sendMessageToQueue(jmsTemplate, "ccc", null);
@@ -149,4 +137,3 @@ public final class JMSClientIntegrationTest
         client.sendMessageToQueue(jmsTemplate, "eee", null);
     }
 }
-

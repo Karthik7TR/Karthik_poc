@@ -13,8 +13,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class BundleArchiveDaoImplTest
-{
+public final class BundleArchiveDaoImplTest {
     private XppBundleArchiveDaoImpl archiveDao;
 
     private SessionFactory mockSessionFactory;
@@ -22,8 +21,7 @@ public final class BundleArchiveDaoImplTest
     private Criteria mockCriteria;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockSessionFactory = EasyMock.createMock(SessionFactory.class);
         mockSession = EasyMock.createMock(Session.class);
         mockCriteria = EasyMock.createMock(Criteria.class);
@@ -32,8 +30,7 @@ public final class BundleArchiveDaoImplTest
     }
 
     @Test
-    public void happyPath()
-    {
+    public void happyPath() {
         final long pkey = 1L;
         final XppBundleArchive expected = createEBookArchive();
         EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
@@ -44,8 +41,7 @@ public final class BundleArchiveDaoImplTest
         Assert.assertEquals(expected, actual);
     }
 
-    private XppBundleArchive createEBookArchive()
-    {
+    private XppBundleArchive createEBookArchive() {
         final XppBundleArchive request = new XppBundleArchive();
         request.setBundleHash("asdfasda");
         request.setDateTime(new Date());
@@ -54,8 +50,7 @@ public final class BundleArchiveDaoImplTest
         return request;
     }
 
-    private void replayAll()
-    {
+    private void replayAll() {
         EasyMock.replay(mockSessionFactory);
         EasyMock.replay(mockSession);
         EasyMock.replay(mockCriteria);

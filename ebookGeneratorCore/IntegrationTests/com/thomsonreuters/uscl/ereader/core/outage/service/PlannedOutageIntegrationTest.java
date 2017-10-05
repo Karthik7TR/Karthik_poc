@@ -20,8 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @Transactional
-public final class PlannedOutageIntegrationTest
-{
+public final class PlannedOutageIntegrationTest {
     //private static Logger log = LogManager.getLogger(PlannedOutageIntegrationTest.class);
     private static final Long OUTAGE_TYPE_ID = 99999L;
     private static final Date DATE = new Date();
@@ -31,8 +30,7 @@ public final class PlannedOutageIntegrationTest
     protected OutageService outageService;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         OUTAGE_TYPE = new OutageType();
         OUTAGE_TYPE.setId(OUTAGE_TYPE_ID);
         OUTAGE_TYPE.setLastUpdated(DATE);
@@ -42,8 +40,7 @@ public final class PlannedOutageIntegrationTest
     }
 
     @Test
-    public void createPlannedOutage()
-    {
+    public void createPlannedOutage() {
         final OutageType type = outageService.findOutageTypeByPrimaryKey(OUTAGE_TYPE_ID);
 
         final PlannedOutage outage = new PlannedOutage();
@@ -63,12 +60,10 @@ public final class PlannedOutageIntegrationTest
     }
 
     @Test
-    public void testList()
-    {
+    public void testList() {
         final OutageType type = outageService.findOutageTypeByPrimaryKey(OUTAGE_TYPE_ID);
 
-        for (int i = -2; i < 4; i++)
-        {
+        for (int i = -2; i < 4; i++) {
             final Calendar cal = Calendar.getInstance();
             cal.setTime(DATE);
             cal.add(Calendar.HOUR, i);

@@ -3,6 +3,8 @@ package com.thomsonreuters.uscl.ereader.deliver.service;
 import java.io.Serializable;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 /**
  * Placeholder for proview title info
@@ -23,6 +25,8 @@ public class ProviewTitleInfo implements TitleInfo, Serializable, Comparable<Pro
     private String status;
     private String title;
     private Integer totalNumberOfVersions;
+
+    private static Logger LOG = LogManager.getLogger(ProviewTitleInfo.class);
 
     @Override
     public Integer getTotalNumberOfVersions() {
@@ -52,7 +56,7 @@ public class ProviewTitleInfo implements TitleInfo, Serializable, Comparable<Pro
                 majorVersion = Integer.valueOf(majorVersionStr);
             }
         } catch (final Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return majorVersion;
     }
@@ -66,7 +70,7 @@ public class ProviewTitleInfo implements TitleInfo, Serializable, Comparable<Pro
                 minorVersion = Integer.valueOf(number);
             }
         } catch (final Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return minorVersion;
     }

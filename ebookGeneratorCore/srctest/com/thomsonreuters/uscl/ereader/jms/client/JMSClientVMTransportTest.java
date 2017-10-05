@@ -10,8 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jms.core.JmsTemplate;
 
-public final class JMSClientVMTransportTest
-{
+public final class JMSClientVMTransportTest {
     /* configuration for test queue */
     private static final String BROKER_URL = "vm://localhost?broker.persistent=false";
     private static final String QUEUE = "TEST.QUEUE";
@@ -20,15 +19,13 @@ public final class JMSClientVMTransportTest
     private JMSClient client;
 
     @Before
-    public void init()
-    {
+    public void init() {
         client = new JmsClientImpl();
         jmsTemplate = getJmsTemplateWithVMConnection();
         initQueue();
     }
 
-    private static JmsTemplate getJmsTemplateWithVMConnection()
-    {
+    private static JmsTemplate getJmsTemplateWithVMConnection() {
         final ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(BROKER_URL);
         final PooledConnectionFactory jmsFactory = new PooledConnectionFactory(connectionFactory);
 
@@ -38,8 +35,7 @@ public final class JMSClientVMTransportTest
     }
 
     @Test
-    public void testSendReceive()
-    {
+    public void testSendReceive() {
         final List<String> contents = client.receiveMessages(jmsTemplate, "");
 
         Assert.assertEquals(5, contents.size());
@@ -51,8 +47,7 @@ public final class JMSClientVMTransportTest
     }
 
     @Test
-    public void testReceiveNext()
-    {
+    public void testReceiveNext() {
         String content = client.receiveSingleMessage(jmsTemplate, "");
         Assert.assertEquals("aaa", content);
         content = client.receiveSingleMessage(jmsTemplate, "");
@@ -68,8 +63,7 @@ public final class JMSClientVMTransportTest
     }
 
     @Test
-    public void testReceiveByKeyword()
-    {
+    public void testReceiveByKeyword() {
         client.sendMessageToQueue(jmsTemplate, "abc", null);
 
         List<String> contents = client.receiveMessages(jmsTemplate, "b");
@@ -88,8 +82,7 @@ public final class JMSClientVMTransportTest
     }
 
     @Test
-    public void testReceiveNextByKeyword()
-    {
+    public void testReceiveNextByKeyword() {
         client.sendMessageToQueue(jmsTemplate, "abc", null);
 
         String content = client.receiveSingleMessage(jmsTemplate, "b");
@@ -107,16 +100,14 @@ public final class JMSClientVMTransportTest
     }
 
     @Test
-    public void testClearQueue()
-    {
+    public void testClearQueue() {
         client.receiveMessages(jmsTemplate, "");
 
         final String content = client.receiveSingleMessage(jmsTemplate, "");
         Assert.assertEquals(null, content);
     }
 
-    private void initQueue()
-    {
+    private void initQueue() {
         client.sendMessageToQueue(jmsTemplate, "aaa", null);
         client.sendMessageToQueue(jmsTemplate, "bbb", null);
         client.sendMessageToQueue(jmsTemplate, "ccc", null);

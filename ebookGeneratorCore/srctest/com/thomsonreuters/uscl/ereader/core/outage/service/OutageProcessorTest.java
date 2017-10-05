@@ -12,8 +12,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class OutageProcessorTest
-{
+public final class OutageProcessorTest {
     private List<PlannedOutage> PLANNED_OUTAGE_LIST;
     private UserPreferenceService mockUserPreferenceService;
     private CoreService mockCoreService;
@@ -22,8 +21,7 @@ public final class OutageProcessorTest
     private static PlannedOutage OUTAGE_2;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockUserPreferenceService = EasyMock.createMock(UserPreferenceService.class);
         mockCoreService = EasyMock.createMock(CoreService.class);
 
@@ -49,8 +47,7 @@ public final class OutageProcessorTest
     }
 
     @Test
-    public void testPlannedOutageContainer()
-    {
+    public void testPlannedOutageContainer() {
         // Check the finding of an outage
         final Date midOutage1 = new Date(500);
         PlannedOutage foundOutage = service.findPlannedOutageInContainer(midOutage1);

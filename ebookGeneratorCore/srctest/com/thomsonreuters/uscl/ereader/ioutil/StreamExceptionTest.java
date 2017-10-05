@@ -4,11 +4,9 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-public final class StreamExceptionTest
-{
+public final class StreamExceptionTest {
     @Test
-    public void testCreate()
-    {
+    public void testCreate() {
         assertNotNull(new StreamException(new RuntimeException()));
     }
 }

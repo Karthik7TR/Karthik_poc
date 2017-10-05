@@ -15,8 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @Transactional
-public class JobRequestServiceIntegrationTest
-{
+public class JobRequestServiceIntegrationTest {
     //private static final Logger log = LogManager.getLogger(JobRequestServiceIntegrationTest.class);
 
     @Autowired
@@ -27,25 +26,21 @@ public class JobRequestServiceIntegrationTest
     private static final String SUBMITTED_BY = "Hans Bethe";
     private static BookDefinition BOOK_DEFINITION;
 
-    static
-    {
+    static {
         BOOK_DEFINITION = new BookDefinition();
         BOOK_DEFINITION.setEbookDefinitionId(BOOK_DEFINITION_PK);
     }
 
-    public void setJobRequestservice(final JobRequestService jobRequestservice)
-    {
+    public void setJobRequestservice(final JobRequestService jobRequestservice) {
         jobRequestService = jobRequestservice;
     }
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         //Intentionally left blank
     }
 
-    private Long saveStandardJobRequest()
-    {
+    private Long saveStandardJobRequest() {
         final String version = "3.2";
         final int priority = 5;
         final String submittedBy = "Hans Bethe";
@@ -54,8 +49,7 @@ public class JobRequestServiceIntegrationTest
     }
 
     @Test
-    public void testSaveJobRequest()
-    {
+    public void testSaveJobRequest() {
         final Long pk = saveStandardJobRequest();
 
         Assert.assertNotNull(pk);
@@ -68,8 +62,7 @@ public class JobRequestServiceIntegrationTest
     }
 
     @Test
-    public void testUpdateJobPriority()
-    {
+    public void testUpdateJobPriority() {
         final Long pk = saveStandardJobRequest();
         final int newJobPriority = 95;
         jobRequestService.updateJobPriority(pk, newJobPriority);

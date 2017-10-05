@@ -17,23 +17,19 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public final class XMLXpathEvaluatorTest
-{
+public final class XMLXpathEvaluatorTest {
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         //Intentionally left blank
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         //Intentionally left blank
     }
 
     @Test
-    public void testExtractWithDom() throws ParserConfigurationException, SAXException, IOException
-    {
+    public void testExtractWithDom() throws ParserConfigurationException, SAXException, IOException {
         final String xmlstring = "<parent><child attr='attr1'><prop>propvalue</prop></child></parent>";
         final ByteArrayInputStream xml = new ByteArrayInputStream(xmlstring.getBytes());
         final DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -45,8 +41,7 @@ public final class XMLXpathEvaluatorTest
     }
 
     @Test
-    public void testExtract() throws ParserConfigurationException, SAXException, IOException
-    {
+    public void testExtract() throws ParserConfigurationException, SAXException, IOException {
         final String xmlstring = "<parent><child attr='attr1'><prop>propvalue</prop></child></parent>";
         final XMLXpathEvaluator extractor = new XMLXpathEvaluator(xmlstring);
         Assert.assertEquals("propvalue", extractor.evaluate("/parent/child/prop"));
@@ -54,8 +49,7 @@ public final class XMLXpathEvaluatorTest
     }
 
     @Test
-    public void testExtractMoreCases() throws Exception
-    {
+    public void testExtractMoreCases() throws Exception {
         final String xmlstring = "<parent><child attr='attr1'><prop>propvalue</prop></child></parent>";
 
         final XMLXpathEvaluator extractor = new XMLXpathEvaluator(xmlstring);
@@ -70,8 +64,7 @@ public final class XMLXpathEvaluatorTest
     }
 
     @Test
-    public void testExtractBadXpath() throws Exception
-    {
+    public void testExtractBadXpath() throws Exception {
         final String xmlstring = "<parent><child attr='attr1'><prop>propvalue</prop></child></parent>";
 
         final XMLXpathEvaluator extractor = new XMLXpathEvaluator(xmlstring);
@@ -85,8 +78,7 @@ public final class XMLXpathEvaluatorTest
     }
 
     @Test
-    public void testExtractToString() throws Exception
-    {
+    public void testExtractToString() throws Exception {
         final String xmlstring = "<parent><child attr='attr1'><prop>propvalue</prop></child></parent>";
 
         final XMLXpathEvaluator extractor = new XMLXpathEvaluator(xmlstring);
@@ -97,8 +89,7 @@ public final class XMLXpathEvaluatorTest
     }
 
     @Test
-    public void testExtractNodeList() throws ParserConfigurationException, SAXException, IOException
-    {
+    public void testExtractNodeList() throws ParserConfigurationException, SAXException, IOException {
         final String xmlstring = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
             + "<group id=\"uscl/grouptest\" status=\"Review\"><name>Group Test</name><type>standard</type><headtitle>uscl/an/book_lohisplitnodeinfo/v1</headtitle>"
             + "<members><subgroup heading=\"2014\"><title>uscl/an/book_lohisplitnodeinfo/v1</title><title>uscl/an/book_lohisplitnodeinfo_pt2/v1</title></subgroup>"

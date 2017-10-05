@@ -18,11 +18,9 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * @author bmartell
  * @version 1.0, Nov 10, 2003.
  */
-public final class EntityEncodedInputStreamTest
-{
+public final class EntityEncodedInputStreamTest {
     @Test
-    public void testPi1() throws Exception
-    {
+    public void testPi1() throws Exception {
         final String input = "abcd&<?PI a&b ?>&";
 
         final ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
@@ -34,8 +32,7 @@ public final class EntityEncodedInputStreamTest
     }
 
     @Test
-    public void testPi2() throws Exception
-    {
+    public void testPi2() throws Exception {
         final String input = "abcd&<?PI a$b ?>$";
 
         final ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
@@ -47,8 +44,7 @@ public final class EntityEncodedInputStreamTest
     }
 
     @Test
-    public void testAmpersandDollarSign() throws Exception
-    {
+    public void testAmpersandDollarSign() throws Exception {
         final String input = "<element>apples &$amp; oranges cost $12.00.</element>";
 
         final ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
@@ -60,8 +56,7 @@ public final class EntityEncodedInputStreamTest
     }
 
     @Test
-    public void testDollarSignAmpersand() throws Exception
-    {
+    public void testDollarSignAmpersand() throws Exception {
         final String input = "<element>$#apples $&amp; oranges cost $12.00.</element>";
 
         final ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
@@ -73,8 +68,7 @@ public final class EntityEncodedInputStreamTest
     }
 
     @Test
-    public void testEncodeEntities() throws Exception
-    {
+    public void testEncodeEntities() throws Exception {
         final String input = "<element>apples &amp; oranges cost $12.00.</element>";
 
         final ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
@@ -86,8 +80,7 @@ public final class EntityEncodedInputStreamTest
     }
 
     @Test
-    public void testEncodeEntitiesAtBufferEnd() throws Exception
-    {
+    public void testEncodeEntitiesAtBufferEnd() throws Exception {
         final String input = "apples oranges cost $";
 
         final byte[] buffer = new byte[21];
@@ -99,8 +92,7 @@ public final class EntityEncodedInputStreamTest
     }
 
     @Test
-    public void testOverflowDollarSignReadingOneByteAtATime() throws Exception
-    {
+    public void testOverflowDollarSignReadingOneByteAtATime() throws Exception {
         final String input = "$12";
 
         final ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
@@ -108,8 +100,7 @@ public final class EntityEncodedInputStreamTest
 
         final StringBuilder actual = new StringBuilder();
         int character;
-        while ((character = translateIn.read()) > -1)
-        {
+        while ((character = translateIn.read()) > -1) {
             actual.append(String.valueOf((char) character));
         }
 
@@ -117,8 +108,7 @@ public final class EntityEncodedInputStreamTest
     }
 
     @Test
-    public void testWithParser() throws Exception
-    {
+    public void testWithParser() throws Exception {
         final String input = "<element>apples &amp; oranges cost $12.00.</element>";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         in = new EntityEncodedInputStream(in);

@@ -24,8 +24,7 @@ import org.junit.Test;
  *
  * @author <a href="mailto:zack.farrell@thomsonreuters.com">Zack Farrell</a> uc209819
  */
-public final class ProviewHandlerImplTest
-{
+public final class ProviewHandlerImplTest {
     // private static final Logger LOG = LogManager.getLogger(ProviewHandlerImplTest.class);
 
     private ProviewHandlerImpl proviewHandler;
@@ -36,21 +35,18 @@ public final class ProviewHandlerImplTest
     private GroupDefinition groupDefinition;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         proviewHandler = new ProviewHandlerImpl();
         mockProviewClient = EasyMock.createMock(ProviewClient.class);
         proviewHandler.setProviewClient(mockProviewClient);
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         //Intentionally left blank
     }
 
-    private String getGroupsRequestXml(final GroupDefinition groupDefinition)
-    {
+    private String getGroupsRequestXml(final GroupDefinition groupDefinition) {
         String buffer = "<group id=\""
             + groupDefinition.getGroupId()
             + "\"><name>"
@@ -60,18 +56,13 @@ public final class ProviewHandlerImplTest
             + "</type><headtitle>"
             + groupDefinition.getHeadTitle()
             + "</headtitle><members>";
-        for (final SubGroupInfo subgroup : groupDefinition.getSubGroupInfoList())
-        {
-            if (subgroup.getHeading() == null)
-            {
+        for (final SubGroupInfo subgroup : groupDefinition.getSubGroupInfoList()) {
+            if (subgroup.getHeading() == null) {
                 buffer += "<subgroup>";
-            }
-            else
-            {
+            } else {
                 buffer += "<subgroup heading=\"" + subgroup.getHeading() + "\">";
             }
-            for (final String title : subgroup.getTitles())
-            {
+            for (final String title : subgroup.getTitles()) {
                 buffer += "<title>" + title + "</title>";
             }
             buffer += "</subgroup>";
@@ -80,8 +71,7 @@ public final class ProviewHandlerImplTest
         return buffer;
     }
 
-    private String getGroupsResponseXml(final GroupDefinition groupDefinition)
-    {
+    private String getGroupsResponseXml(final GroupDefinition groupDefinition) {
         String buffer = "<group id=\""
             + groupDefinition.getGroupId()
             + "\" status=\""
@@ -97,18 +87,13 @@ public final class ProviewHandlerImplTest
             + "</type><headtitle>"
             + groupDefinition.getHeadTitle()
             + "</headtitle><members>";
-        for (final SubGroupInfo subgroup : groupDefinition.getSubGroupInfoList())
-        {
-            if (subgroup.getHeading() == null)
-            {
+        for (final SubGroupInfo subgroup : groupDefinition.getSubGroupInfoList()) {
+            if (subgroup.getHeading() == null) {
                 buffer += "<subgroup>";
-            }
-            else
-            {
+            } else {
                 buffer += "<subgroup heading=\"" + subgroup.getHeading() + "\">";
             }
-            for (final String title : subgroup.getTitles())
-            {
+            for (final String title : subgroup.getTitles()) {
                 buffer += "<title>" + title + "</title>";
             }
             buffer += "</subgroup>";
@@ -117,8 +102,7 @@ public final class ProviewHandlerImplTest
         return buffer;
     }
 
-    private void initGroupDef()
-    {
+    private void initGroupDef() {
         groupDefinition = new GroupDefinition();
         groupDefinition.setGroupId(GROUP_ID);
         groupDefinition.setGroupVersion(1L);
@@ -129,8 +113,7 @@ public final class ProviewHandlerImplTest
         groupDefinition.setSubGroupInfoList(new ArrayList<SubGroupInfo>());
     }
 
-    private void initSubgroupHeading()
-    {
+    private void initSubgroupHeading() {
         final SubGroupInfo subgroup = new SubGroupInfo();
         subgroup.setHeading("2017");
         subgroup.addTitle("test1");
@@ -139,8 +122,7 @@ public final class ProviewHandlerImplTest
     }
 
     @Test
-    public void testGetAllLatestProviewGroupInfo() throws Exception
-    {
+    public void testGetAllLatestProviewGroupInfo() throws Exception {
         final String response = "<groups><group id=\"uscl/abook_testgroup\" status=\"Review\" version=\"v2\">"
             + "<name>Group1</name><type>standard</type><headtitle>uscl/an/abook_testgroup/v1</headtitle>"
             + "<members><subgroup heading=\"2010\"><title>uscl/an/abook_testgroup/v1</title>"
@@ -157,8 +139,7 @@ public final class ProviewHandlerImplTest
     }
 
     @Test
-    public void testGetProviewGroupContainerById() throws Exception
-    {
+    public void testGetProviewGroupContainerById() throws Exception {
         initGroupDef();
         initSubgroupHeading();
         final String response = getGroupsResponseXml(groupDefinition);
@@ -173,8 +154,7 @@ public final class ProviewHandlerImplTest
     }
 
     @Test
-    public void testGetGroupDefinitionByVersion() throws Exception
-    {
+    public void testGetGroupDefinitionByVersion() throws Exception {
         initGroupDef();
         initSubgroupHeading();
         final String response = getGroupsResponseXml(groupDefinition);
@@ -189,8 +169,7 @@ public final class ProviewHandlerImplTest
     }
 
     @Test
-    public void testBuildRequestBodyNoSubgroup() throws Exception
-    {
+    public void testBuildRequestBodyNoSubgroup() throws Exception {
         initGroupDef();
         final String expected = getGroupsRequestXml(groupDefinition);
         final String actual = proviewHandler.buildRequestBody(groupDefinition);
@@ -199,8 +178,7 @@ public final class ProviewHandlerImplTest
     }
 
     @Test
-    public void testCreateGroup() throws Exception
-    {
+    public void testCreateGroup() throws Exception {
         initGroupDef();
 
         EasyMock
@@ -218,8 +196,7 @@ public final class ProviewHandlerImplTest
     }
 
     @Test
-    public void testPromoteGroup() throws Exception
-    {
+    public void testPromoteGroup() throws Exception {
         initGroupDef();
 
         EasyMock
@@ -236,8 +213,7 @@ public final class ProviewHandlerImplTest
     }
 
     @Test
-    public void testRemoveGroup() throws Exception
-    {
+    public void testRemoveGroup() throws Exception {
         initGroupDef();
 
         EasyMock.expect(
@@ -252,8 +228,7 @@ public final class ProviewHandlerImplTest
     }
 
     @Test
-    public void testDeleteGroup() throws Exception
-    {
+    public void testDeleteGroup() throws Exception {
         initGroupDef();
 
         EasyMock.expect(
@@ -268,8 +243,7 @@ public final class ProviewHandlerImplTest
     }
 
     @Test
-    public void testGetLatestProviewTitleInfo() throws Exception
-    {
+    public void testGetLatestProviewTitleInfo() throws Exception {
         final String titleId = "testTileId";
         final String latest = "20200101";
         final String response = "<titles><title id=\""
@@ -300,8 +274,7 @@ public final class ProviewHandlerImplTest
     }
 
     @Test
-    public void testGetSingleTitleGroupDetails() throws Exception
-    {
+    public void testGetSingleTitleGroupDetails() throws Exception {
         final String titleId = "testTileId";
         final String response = "<titles><title id=\""
             + titleId
@@ -329,8 +302,7 @@ public final class ProviewHandlerImplTest
     }
 
     @Test
-    public void testGetAllLatestProviewTitleInfo() throws Exception
-    {
+    public void testGetAllLatestProviewTitleInfo() throws Exception {
         final String response = "<titles apiversion=\"v1\" publisher=\"uscl\" status=\"all\">"
             + "<title id=\"uscl/abadocs/art\" version=\"v1.0\" publisher=\"uscl\" "
             + "lastupdate=\"20150508\" status=\"Cleanup\"> Handbook of Practical "
@@ -347,8 +319,7 @@ public final class ProviewHandlerImplTest
     }
 
     @Test
-    public void testGetAllLatestProviewTitleInfoByMap() throws Exception
-    {
+    public void testGetAllLatestProviewTitleInfoByMap() throws Exception {
         final Map<String, ProviewTitleContainer> map = new HashMap<>();
         final ProviewTitleContainer groupContainer = new ProviewTitleContainer();
         final ProviewTitleInfo title = new ProviewTitleInfo();
@@ -363,15 +334,13 @@ public final class ProviewHandlerImplTest
     }
 
     @Test
-    public void testPublishTitle() throws Exception
-    {
+    public void testPublishTitle() throws Exception {
         final String titleId = "testTileId";
         final Version bookVersion = version("v1.2");
         final String fileContents = "Have some content";
         final File tempRootDir = new File(System.getProperty("java.io.tmpdir"));
         tempRootDir.mkdir();
-        try
-        {
+        try {
             final File eBook = makeFile(tempRootDir, "tempBookFile", fileContents);
 
             EasyMock.expect(mockProviewClient.publishTitle(titleId, "v1.2", eBook)).andReturn("=)");
@@ -380,27 +349,19 @@ public final class ProviewHandlerImplTest
             final String response = proviewHandler.publishTitle(titleId, bookVersion, eBook);
 
             Assert.assertEquals("=)", response);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             throw e;
-        }
-        finally
-        {
-            try
-            { // may fail due to the input stream opened in publishTitle(..)
+        } finally {
+            try { // may fail due to the input stream opened in publishTitle(..)
                 FileUtils.deleteDirectory(tempRootDir);
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 //The file is in the temporary files directory, not a big deal
             }
         }
     }
 
     @Test
-    public void testPromoteTitle() throws Exception
-    {
+    public void testPromoteTitle() throws Exception {
         final String titleId = "testTileId";
         final String bookVersion = "v1.2";
 
@@ -413,8 +374,7 @@ public final class ProviewHandlerImplTest
     }
 
     @Test
-    public void testRemoveTitle() throws Exception
-    {
+    public void testRemoveTitle() throws Exception {
         final String titleId = "testTileId";
         final Version bookVersion = version("v1.2");
 
@@ -427,8 +387,7 @@ public final class ProviewHandlerImplTest
     }
 
     @Test
-    public void testDeleteTitle() throws Exception
-    {
+    public void testDeleteTitle() throws Exception {
         final String titleId = "testTileId";
         final Version bookVersion = version("v1.2");
 
@@ -438,8 +397,7 @@ public final class ProviewHandlerImplTest
     }
 
     @Test
-    public void testHasTitleIdBeenPublishedNoBook() throws Exception
-    {
+    public void testHasTitleIdBeenPublishedNoBook() throws Exception {
         final String titleId = "testTileId";
         EasyMock.expect(mockProviewClient.getSinglePublishedTitle(titleId)).andReturn("<title></title>");
         EasyMock.replay(mockProviewClient);
@@ -449,8 +407,7 @@ public final class ProviewHandlerImplTest
     }
 
     @Test
-    public void testHasTitleIdBeenPublishedFalse() throws Exception
-    {
+    public void testHasTitleIdBeenPublishedFalse() throws Exception {
         final String titleId = "testTileId";
         EasyMock.expect(mockProviewClient.getSinglePublishedTitle(titleId)).andReturn(
             "<title id=\""
@@ -463,8 +420,7 @@ public final class ProviewHandlerImplTest
     }
 
     @Test
-    public void testHasTitleIdBeenPublishedTrue() throws Exception
-    {
+    public void testHasTitleIdBeenPublishedTrue() throws Exception {
         final String titleId = "testTileId";
         EasyMock.expect(mockProviewClient.getSinglePublishedTitle(titleId)).andReturn(
             "<title id=\""
@@ -477,8 +433,7 @@ public final class ProviewHandlerImplTest
     }
 
     @Test
-    public void testGetAllLatestProviewGroupInfoByMap() throws Exception
-    {
+    public void testGetAllLatestProviewGroupInfoByMap() throws Exception {
         final Map<String, ProviewGroupContainer> map = new HashMap<>();
         final ProviewGroupContainer groupContainer = new ProviewGroupContainer();
         final ProviewGroup group = new ProviewGroup();
@@ -500,19 +455,15 @@ public final class ProviewHandlerImplTest
      * @param content Content to be written into the new file
      * @return returns a File object directing to the new file returns null if any errors occur
      */
-    private File makeFile(final File directory, final String name, final String content)
-    {
+    private File makeFile(final File directory, final String name, final String content) {
         final File file = new File(directory, name);
-        try (FileOutputStream out = new FileOutputStream(file))
-        {
+        try (FileOutputStream out = new FileOutputStream(file)) {
             file.createNewFile();
             out.write(content.getBytes());
             out.flush();
             out.close();
             return file;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             return null;
         }
     }

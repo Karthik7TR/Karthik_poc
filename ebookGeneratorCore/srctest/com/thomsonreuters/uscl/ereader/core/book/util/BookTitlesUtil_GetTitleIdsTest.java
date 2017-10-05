@@ -18,14 +18,12 @@ import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class BookTitlesUtil_GetTitleIdsTest
-{
+public final class BookTitlesUtil_GetTitleIdsTest {
     @InjectMocks
     private BookTitlesUtilImpl util;
 
     @Test
-    public void shouldReturnCorrectListOfBookTitles()
-    {
+    public void shouldReturnCorrectListOfBookTitles() {
         // given
         final BookDefinition book = book("title");
         book.setSplitNodes(splitNodes(splitNode(book, "title_pt2", "1.0"), splitNode(book, "title_pt2", "1.1")));
@@ -36,8 +34,7 @@ public final class BookTitlesUtil_GetTitleIdsTest
     }
 
     @Test
-    public void shouldReturnTitleIdForSingleBook()
-    {
+    public void shouldReturnTitleIdForSingleBook() {
         // given
         final BookDefinition book = book("title");
         // when

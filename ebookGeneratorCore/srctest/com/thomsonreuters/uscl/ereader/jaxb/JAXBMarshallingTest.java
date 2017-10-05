@@ -37,30 +37,25 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class JAXBMarshallingTest
-{
+public final class JAXBMarshallingTest {
     private String filePath = "/tmp/usr/ebook_test";
     private ByteArrayInputStream inStream;
     private ByteArrayOutputStream outStream;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         //Intentionally left blank
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
         inStream = null;
         outStream = null;
     }
 
     @Test
-    public void testMarshalEBookBundle()
-    {
-        try
-        {
+    public void testMarshalEBookBundle() {
+        try {
             final JAXBContext context = JAXBContext.newInstance(XppBundle.class);
             final Marshaller marshaller = context.createMarshaller();
             final Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -80,19 +75,15 @@ public final class JAXBMarshallingTest
             final XppBundle actual = (XppBundle) unmarshaller.unmarshal(inStream);
 
             Assert.assertEquals(expected, actual);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void testMarshalEBookRequest()
-    {
-        try
-        {
+    public void testMarshalEBookRequest() {
+        try {
             final JAXBContext context = JAXBContext.newInstance(XppBundleArchive.class);
             final Marshaller marshaller = context.createMarshaller();
             final Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -110,19 +101,15 @@ public final class JAXBMarshallingTest
             final XppBundleArchive actual = (XppBundleArchive) unmarshaller.unmarshal(inStream);
 
             Assert.assertEquals(expected, actual);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void testNullFieldsEBookRequest()
-    {
-        try
-        {
+    public void testNullFieldsEBookRequest() {
+        try {
             final JAXBContext context = JAXBContext.newInstance(XppBundleArchive.class);
             final Marshaller marshaller = context.createMarshaller();
             final Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -140,19 +127,15 @@ public final class JAXBMarshallingTest
             final XppBundleArchive actual = (XppBundleArchive) unmarshaller.unmarshal(inStream);
 
             Assert.assertEquals(expected, actual);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void testGatherDocRequestMarshalling()
-    {
-        try
-        {
+    public void testGatherDocRequestMarshalling() {
+        try {
             final JAXBContext context = JAXBContext.newInstance(GatherDocRequest.class);
             final Marshaller marshaller = context.createMarshaller();
             final Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -170,19 +153,15 @@ public final class JAXBMarshallingTest
             inStream = new ByteArrayInputStream(outStream.toByteArray());
             final GatherDocRequest actual = (GatherDocRequest) unmarshaller.unmarshal(inStream);
             Assert.assertEquals(expected, actual);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void testGatherImgRequestMarshalling()
-    {
-        try
-        {
+    public void testGatherImgRequestMarshalling() {
+        try {
             final JAXBContext context = JAXBContext.newInstance(GatherImgRequest.class);
             final Marshaller marshaller = context.createMarshaller();
             final Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -200,18 +179,14 @@ public final class JAXBMarshallingTest
             inStream = new ByteArrayInputStream(outStream.toByteArray());
             final GatherImgRequest actual = (GatherImgRequest) unmarshaller.unmarshal(inStream);
             Assert.assertTrue(expected.equals(actual));
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void testGatherNortRequestMarshalling()
-    {
-        try
-        {
+    public void testGatherNortRequestMarshalling() {
+        try {
             final JAXBContext context = JAXBContext.newInstance(GatherNortRequest.class);
             final Marshaller marshaller = context.createMarshaller();
             final Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -245,19 +220,15 @@ public final class JAXBMarshallingTest
             inStream = new ByteArrayInputStream(outStream.toByteArray());
             final GatherNortRequest actual = (GatherNortRequest) unmarshaller.unmarshal(inStream);
             Assert.assertEquals(expected, actual);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void testGatherResponseMarshalling()
-    {
-        try
-        {
+    public void testGatherResponseMarshalling() {
+        try {
             final JAXBContext context = JAXBContext.newInstance(GatherResponse.class);
             final Marshaller marshaller = context.createMarshaller();
             final Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -269,18 +240,14 @@ public final class JAXBMarshallingTest
             inStream = new ByteArrayInputStream(outStream.toByteArray());
             final GatherResponse actual = (GatherResponse) unmarshaller.unmarshal(inStream);
             Assert.assertEquals(expected, actual);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void testGatherTocRequestMarshalling()
-    {
-        try
-        {
+    public void testGatherTocRequestMarshalling() {
+        try {
             final JAXBContext context = JAXBContext.newInstance(GatherTocRequest.class);
             final Marshaller marshaller = context.createMarshaller();
             final Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -309,18 +276,14 @@ public final class JAXBMarshallingTest
             inStream = new ByteArrayInputStream(outStream.toByteArray());
             final GatherTocRequest actual = (GatherTocRequest) unmarshaller.unmarshal(inStream);
             Assert.assertEquals(expected, actual);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void testJobThrottleConfigMarshalling()
-    {
-        try
-        {
+    public void testJobThrottleConfigMarshalling() {
+        try {
             final JAXBContext context = JAXBContext.newInstance(JobThrottleConfig.class);
             final Marshaller marshaller = context.createMarshaller();
             final Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -337,43 +300,34 @@ public final class JAXBMarshallingTest
             inStream = new ByteArrayInputStream(outStream.toByteArray());
             final JobThrottleConfig actual = (JobThrottleConfig) unmarshaller.unmarshal(inStream);
             Assert.assertTrue(expected.equals(actual));
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void testMiscConfigMarshalling()
-    {
-        try
-        {
+    public void testMiscConfigMarshalling() {
+        try {
             final JAXBContext context = JAXBContext.newInstance(MiscConfig.class);
             final Marshaller marshaller = context.createMarshaller();
             final Unmarshaller unmarshaller = context.createUnmarshaller();
 
-            final MiscConfig expected =
-                new MiscConfig(Level.ALL, Level.TRACE, NovusEnvironment.Prod, "hostname", 10);
+            final MiscConfig expected = new MiscConfig(Level.ALL, Level.TRACE, NovusEnvironment.Prod, "hostname", 10);
 
             outStream = new ByteArrayOutputStream();
             marshaller.marshal(expected, outStream);
             inStream = new ByteArrayInputStream(outStream.toByteArray());
             final MiscConfig actual = (MiscConfig) unmarshaller.unmarshal(inStream);
             Assert.assertTrue(expected.equals(actual));
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void testSimpleRestServiceResponseMarshalling()
-    {
-        try
-        {
+    public void testSimpleRestServiceResponseMarshalling() {
+        try {
             final JAXBContext context = JAXBContext.newInstance(SimpleRestServiceResponse.class);
             final Marshaller marshaller = context.createMarshaller();
             final Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -386,18 +340,14 @@ public final class JAXBMarshallingTest
             inStream = new ByteArrayInputStream(outStream.toByteArray());
             final SimpleRestServiceResponse actual = (SimpleRestServiceResponse) unmarshaller.unmarshal(inStream);
             Assert.assertTrue(expected.equals(actual));
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             Assert.fail(e.getMessage());
         }
     }
 
     @Test
-    public void testPlannedOutageMarshalling()
-    {
-        try
-        {
+    public void testPlannedOutageMarshalling() {
+        try {
             final JAXBContext context = JAXBContext.newInstance(PlannedOutage.class);
             final Marshaller marshaller = context.createMarshaller();
             final Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -412,23 +362,19 @@ public final class JAXBMarshallingTest
             inStream = new ByteArrayInputStream(outStream.toByteArray());
             final PlannedOutage actual = (PlannedOutage) unmarshaller.unmarshal(inStream);
             Assert.assertTrue(outageEquals(expected, actual));
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             Assert.fail(e.getMessage());
         }
     }
 
-    private BookDefinition createBookDefinition()
-    {
+    private BookDefinition createBookDefinition() {
         final BookDefinition bookDef = new BookDefinition();
         bookDef.setEbookDefinitionId(127L);
 
         return bookDef;
     }
 
-    private List<ExcludeDocument> createExcludeDocuments(final BookDefinition bookDef)
-    {
+    private List<ExcludeDocument> createExcludeDocuments(final BookDefinition bookDef) {
         final List<ExcludeDocument> excludeDocs = new ArrayList<>();
         final ExcludeDocument excludeDoc = new ExcludeDocument();
         excludeDocs.add(excludeDoc);
@@ -440,8 +386,7 @@ public final class JAXBMarshallingTest
         return excludeDocs;
     }
 
-    private List<RenameTocEntry> createRenameTocEntries(final BookDefinition bookDef)
-    {
+    private List<RenameTocEntry> createRenameTocEntries(final BookDefinition bookDef) {
         final List<RenameTocEntry> renameEntries = new ArrayList<>();
         final RenameTocEntry renameEntry = new RenameTocEntry();
         renameEntries.add(renameEntry);
@@ -455,8 +400,7 @@ public final class JAXBMarshallingTest
         return renameEntries;
     }
 
-    private PlannedOutage createPlannedOutage()
-    {
+    private PlannedOutage createPlannedOutage() {
         final OutageType outageType = new OutageType();
         outageType.setId(127L);
         outageType.setSystem("test");
@@ -479,8 +423,7 @@ public final class JAXBMarshallingTest
         return outage;
     }
 
-    private boolean outageEquals(final PlannedOutage first, final PlannedOutage second)
-    {
+    private boolean outageEquals(final PlannedOutage first, final PlannedOutage second) {
         if (first == second)
             return true;
         if (first == null || second == null)
@@ -489,85 +432,64 @@ public final class JAXBMarshallingTest
         if (first.getId() != second.getId())
             return false;
 
-        if (first.getOutageType() == null)
-        {
+        if (first.getOutageType() == null) {
             if (second.getOutageType() != null)
                 return false;
-        }
-        else
-        {
+        } else {
             if (!first.getOutageType().equals(second.getOutageType()))
                 return false;
             final OutageType firstOut = first.getOutageType();
             final OutageType secondOut = second.getOutageType();
-            if (firstOut.getId() == null)
-            {
+            if (firstOut.getId() == null) {
                 if (secondOut.getId() != null)
                     return false;
-            }
-            else if (!firstOut.getId().equals(secondOut.getId()))
+            } else if (!firstOut.getId().equals(secondOut.getId()))
                 return false;
-            if (firstOut.getSystem() == null)
-            {
+            if (firstOut.getSystem() == null) {
                 if (secondOut.getSystem() != null)
                     return false;
-            }
-            else if (!firstOut.getSystem().equals(secondOut.getSystem()))
+            } else if (!firstOut.getSystem().equals(secondOut.getSystem()))
                 return false;
-            if (firstOut.getSubSystem() == null)
-            {
+            if (firstOut.getSubSystem() == null) {
                 if (secondOut.getSubSystem() != null)
                     return false;
-            }
-            else if (!firstOut.getSubSystem().equals(secondOut.getSubSystem()))
+            } else if (!firstOut.getSubSystem().equals(secondOut.getSubSystem()))
                 return false;
-            if (firstOut.getLastUpdated() == null)
-            {
+            if (firstOut.getLastUpdated() == null) {
                 if (secondOut.getLastUpdated() != null)
                     return false;
-            }
-            else if (!firstOut.getLastUpdated().equals(secondOut.getLastUpdated()))
+            } else if (!firstOut.getLastUpdated().equals(secondOut.getLastUpdated()))
                 return false;
         }
 
-        if (first.getStartTime() == null)
-        {
+        if (first.getStartTime() == null) {
             if (second.getStartTime() != null)
                 return false;
-        }
-        else if (!first.getStartTime().equals(second.getStartTime()))
+        } else if (!first.getStartTime().equals(second.getStartTime()))
             return false;
 
-        if (first.getEndTime() == null)
-        {
+        if (first.getEndTime() == null) {
             if (second.getEndTime() != null)
                 return false;
-        }
-        else if (!first.getEndTime().equals(second.getEndTime()))
+        } else if (!first.getEndTime().equals(second.getEndTime()))
             return false;
 
-        if (first.getReason() == null)
-        {
+        if (first.getReason() == null) {
             if (second.getReason() != null)
                 return false;
-        }
-        else if (!first.getReason().equals(second.getReason()))
+        } else if (!first.getReason().equals(second.getReason()))
             return false;
 
-        if (first.getSystemImpactDescription() == null)
-        {
+        if (first.getSystemImpactDescription() == null) {
             if (second.getSystemImpactDescription() != null)
                 return false;
-        }
-        else if (!first.getSystemImpactDescription().equals(second.getSystemImpactDescription()))
+        } else if (!first.getSystemImpactDescription().equals(second.getSystemImpactDescription()))
             return false;
 
-        if (first.getServersImpacted() == null)
-        {
+        if (first.getServersImpacted() == null) {
             if (second.getServersImpacted() != null)
                 return false;
-        }
-        else if (!first.getServersImpacted().equals(second.getServersImpacted()))
+        } else if (!first.getServersImpacted().equals(second.getServersImpacted()))
             return false;
 
         if (!first.isNotificationEmailSent() == second.isNotificationEmailSent())
@@ -576,28 +498,22 @@ public final class JAXBMarshallingTest
         if (!first.isAllClearEmailSent() == second.isAllClearEmailSent())
             return false;
 
-        if (first.getUpdatedBy() == null)
-        {
+        if (first.getUpdatedBy() == null) {
             if (second.getUpdatedBy() != null)
                 return false;
-        }
-        else if (!first.getUpdatedBy().equals(second.getUpdatedBy()))
+        } else if (!first.getUpdatedBy().equals(second.getUpdatedBy()))
             return false;
 
-        if (first.getLastUpdated() == null)
-        {
+        if (first.getLastUpdated() == null) {
             if (second.getLastUpdated() != null)
                 return false;
-        }
-        else if (!first.getLastUpdated().equals(second.getLastUpdated()))
+        } else if (!first.getLastUpdated().equals(second.getLastUpdated()))
             return false;
 
-        if (first.getOperation() == null)
-        {
+        if (first.getOperation() == null) {
             if (second.getOperation() != null)
                 return false;
-        }
-        else if (!first.getOperation().equals(second.getOperation()))
+        } else if (!first.getOperation().equals(second.getOperation()))
             return false;
 
         return true;

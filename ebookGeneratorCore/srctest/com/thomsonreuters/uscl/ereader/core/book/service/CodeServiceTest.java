@@ -15,8 +15,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class CodeServiceTest
-{
+public final class CodeServiceTest {
     private final JurisTypeCode JURIS_TYPE_CODE = new JurisTypeCode();
     private final Long JURIS_TYPE_CODES_ID = Long.valueOf("2");
     private final List<JurisTypeCode> ALL_JURIS_TYPE_CODES = new ArrayList<>();
@@ -45,8 +44,7 @@ public final class CodeServiceTest
     private CodeDao mockCodeDao;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         mockCodeDao = EasyMock.createMock(CodeDao.class);
 
         service = new CodeServiceImpl();
@@ -61,8 +59,7 @@ public final class CodeServiceTest
     }
 
     @Test
-    public void testGetPubTypeCode()
-    {
+    public void testGetPubTypeCode() {
         EasyMock.expect(mockCodeDao.getPubTypeCodeById(PUB_TYPE_CODES_ID)).andReturn(PUB_TYPE_CODE);
         EasyMock.replay(mockCodeDao);
         final PubTypeCode actual = service.getPubTypeCodeById(PUB_TYPE_CODES_ID);
@@ -71,8 +68,7 @@ public final class CodeServiceTest
     }
 
     @Test
-    public void testGetAllPubTypeCodes()
-    {
+    public void testGetAllPubTypeCodes() {
         ALL_PUB_TYPE_CODES.add(PUB_TYPE_CODE);
         EasyMock.expect(mockCodeDao.getAllPubTypeCodes()).andReturn(ALL_PUB_TYPE_CODES);
         EasyMock.replay(mockCodeDao);
@@ -85,8 +81,7 @@ public final class CodeServiceTest
     }
 
     @Test
-    public void testGetJurisTypeCode()
-    {
+    public void testGetJurisTypeCode() {
         EasyMock.expect(mockCodeDao.getJurisTypeCodeById(JURIS_TYPE_CODES_ID)).andReturn(JURIS_TYPE_CODE);
         EasyMock.replay(mockCodeDao);
         final JurisTypeCode actual = service.getJurisTypeCodeById(JURIS_TYPE_CODES_ID);
@@ -95,8 +90,7 @@ public final class CodeServiceTest
     }
 
     @Test
-    public void testGetAllJurisTypeCodes()
-    {
+    public void testGetAllJurisTypeCodes() {
         ALL_JURIS_TYPE_CODES.add(JURIS_TYPE_CODE);
         EasyMock.expect(mockCodeDao.getAllJurisTypeCodes()).andReturn(ALL_JURIS_TYPE_CODES);
         EasyMock.replay(mockCodeDao);
@@ -109,8 +103,7 @@ public final class CodeServiceTest
     }
 
     @Test
-    public void testGetDocumentTypeCode()
-    {
+    public void testGetDocumentTypeCode() {
         EasyMock.expect(mockCodeDao.getDocumentTypeCodeById(DOCUMENT_TYPE_CODES_ID)).andReturn(DOCUMENT_TYPE_CODE);
         EasyMock.replay(mockCodeDao);
         final DocumentTypeCode actual = service.getDocumentTypeCodeById(DOCUMENT_TYPE_CODES_ID);
@@ -119,8 +112,7 @@ public final class CodeServiceTest
     }
 
     @Test
-    public void testGetAllDocumentTypeCodes()
-    {
+    public void testGetAllDocumentTypeCodes() {
         ALL_DOCUMENT_TYPE_CODES.add(DOCUMENT_TYPE_CODE);
         EasyMock.expect(mockCodeDao.getAllDocumentTypeCodes()).andReturn(ALL_DOCUMENT_TYPE_CODES);
         EasyMock.replay(mockCodeDao);
@@ -133,8 +125,7 @@ public final class CodeServiceTest
     }
 
     @Test
-    public void testGetPublisherCode()
-    {
+    public void testGetPublisherCode() {
         EasyMock.expect(mockCodeDao.getPublisherCodeById(PUBLISHER_CODES_ID)).andReturn(PUBLISHER_CODE);
         EasyMock.replay(mockCodeDao);
         final PublisherCode actual = service.getPublisherCodeById(PUBLISHER_CODES_ID);
@@ -143,8 +134,7 @@ public final class CodeServiceTest
     }
 
     @Test
-    public void testGetAllPublisherCodes()
-    {
+    public void testGetAllPublisherCodes() {
         ALL_PUBLISHER_CODES.add(PUBLISHER_CODE);
         EasyMock.expect(mockCodeDao.getAllPublisherCodes()).andReturn(ALL_PUBLISHER_CODES);
         EasyMock.replay(mockCodeDao);
@@ -157,8 +147,7 @@ public final class CodeServiceTest
     }
 
     @Test
-    public void testGetKeywordTypeCode()
-    {
+    public void testGetKeywordTypeCode() {
         EasyMock.expect(mockCodeDao.getKeywordTypeCodeById(KEYWORD_TYPE_CODES_ID)).andReturn(KEYWORD_TYPE_CODE);
         EasyMock.replay(mockCodeDao);
         final KeywordTypeCode actual = service.getKeywordTypeCodeById(KEYWORD_TYPE_CODES_ID);
@@ -167,8 +156,7 @@ public final class CodeServiceTest
     }
 
     @Test
-    public void testGetAllKeywordTypeCodes()
-    {
+    public void testGetAllKeywordTypeCodes() {
         ALL_KEYWORD_TYPE_CODES.add(KEYWORD_TYPE_CODE);
         EasyMock.expect(mockCodeDao.getAllKeywordTypeCodes()).andReturn(ALL_KEYWORD_TYPE_CODES);
         EasyMock.replay(mockCodeDao);
@@ -181,8 +169,7 @@ public final class CodeServiceTest
     }
 
     @Test
-    public void testGetKeywordTypeValue()
-    {
+    public void testGetKeywordTypeValue() {
         EasyMock.expect(mockCodeDao.getKeywordTypeValueById(KEYWORD_TYPE_VALUES_ID)).andReturn(KEYWORD_TYPE_VALUE);
         EasyMock.replay(mockCodeDao);
         final KeywordTypeValue actual = service.getKeywordTypeValueById(KEYWORD_TYPE_VALUES_ID);
@@ -191,8 +178,7 @@ public final class CodeServiceTest
     }
 
     @Test
-    public void testGetAllKeywordTypeValues()
-    {
+    public void testGetAllKeywordTypeValues() {
         ALL_KEYWORD_TYPE_VALUES.add(KEYWORD_TYPE_VALUE);
         EasyMock.expect(mockCodeDao.getAllKeywordTypeValues()).andReturn(ALL_KEYWORD_TYPE_VALUES);
         EasyMock.replay(mockCodeDao);

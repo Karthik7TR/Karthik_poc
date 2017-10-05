@@ -4,8 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public final class ProviewTitleInfoTest
-{
+public final class ProviewTitleInfoTest {
     private ProviewTitleInfo titleInfo;
     private String date = "date";
     private String publisher = "uscl";
@@ -16,14 +15,12 @@ public final class ProviewTitleInfoTest
     private String proviewVersion = "v1.0";
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         titleInfo = new ProviewTitleInfo();
     }
 
     @Test
-    public void objectTest()
-    {
+    public void objectTest() {
         titleInfo.setLastupdate(date);
         titleInfo.setPublisher(publisher);
         titleInfo.setStatus(status);
@@ -69,8 +66,7 @@ public final class ProviewTitleInfoTest
     }
 
     @Test
-    public void versionTest()
-    {
+    public void versionTest() {
         titleInfo.setVersion("v1.1");
         // Assert.assertEquals(1, titleInfo.getMajorVersion());
     }

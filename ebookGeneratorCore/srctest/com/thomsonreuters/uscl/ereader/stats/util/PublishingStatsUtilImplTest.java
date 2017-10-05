@@ -9,14 +9,12 @@ import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public final class PublishingStatsUtilImplTest
-{
+public final class PublishingStatsUtilImplTest {
     @InjectMocks
     private PublishingStatsUtilImpl sut;
 
     @Test
-    public void shouldReturnSuccessfullyPublishedFlagForNovusPathway()
-    {
+    public void shouldReturnSuccessfullyPublishedFlagForNovusPathway() {
         //give
         final String publishStatus = "sendEmailNotification : COMPLETED";
         //when
@@ -26,8 +24,7 @@ public final class PublishingStatsUtilImplTest
     }
 
     @Test
-    public void shouldReturnSuccessfullyPublishedFlagForXppPathway()
-    {
+    public void shouldReturnSuccessfullyPublishedFlagForXppPathway() {
         //give
         final String publishStatus = "sendEmailNotificationXppStep : COMPLETED";
         //when
@@ -37,8 +34,7 @@ public final class PublishingStatsUtilImplTest
     }
 
     @Test
-    public void shouldReturnSuccessfullyPublishedFlagForOldStatus()
-    {
+    public void shouldReturnSuccessfullyPublishedFlagForOldStatus() {
         //give
         final String publishStatus = "Publish Step Completed";
         //when
@@ -48,8 +44,7 @@ public final class PublishingStatsUtilImplTest
     }
 
     @Test
-    public void shouldReturnFalseIfNotSuccess()
-    {
+    public void shouldReturnFalseIfNotSuccess() {
         //give
         final String publishStatus = "sendEmailNotificationXppStep : FAILED";
         //when
