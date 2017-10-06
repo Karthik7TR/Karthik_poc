@@ -4,6 +4,7 @@ sup {
         display: block;
         height: 0;
         text-indent: calc(#{$indent} * 2.3);
+        width: 100%;
     }
 }
 
@@ -92,7 +93,14 @@ sup {
 }
 
 .er_rp_search_volume_content_data {
-    .footnote>& {
+    .footnote>sup~& {
         width: 100%;
     }
+    .footnote>& {
+        display: inline;
+    }
+}
+
+.footnote>.er_rp_search_volume_content_data {
+    display: inline;
 }

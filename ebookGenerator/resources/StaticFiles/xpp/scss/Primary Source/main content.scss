@@ -21,5 +21,11 @@
 }
 
 .cite {
-  display: inline;
+    display: inline;
+}
+
+.stat_subsect {
+    .primary_section_body>.primary_official_content>& {
+        margin: 0;
+    }
 }

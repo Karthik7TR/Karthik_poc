@@ -1,7 +1,8 @@
 .cgt {
     .fm_title_page .text_line &,
     .primary_outline_name_block>&,
-    .fm_related_products_boilerplate>& {
+    .fm_related_products_boilerplate>&,
+    .footnote>.er_rp_search_volume_content_data>& {
         display: inline;
     }
     .xref+& {

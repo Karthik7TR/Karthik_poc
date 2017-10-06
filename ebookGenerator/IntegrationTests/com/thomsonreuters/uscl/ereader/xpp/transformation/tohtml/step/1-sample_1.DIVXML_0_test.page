@@ -248,7 +248,7 @@
             </footnote.reference>
             <footnote.body class="show_in_footnotes" date.updated="0">
                 <para date.updated="0" first.para="no">
-                    footnote on page 16
+                    footnote on <foots/><para.text><t style="footnote.reference super cgt">page 16</t></para.text>
                 </para>
             </footnote.body>
         </footnote>
@@ -257,7 +257,7 @@
             <hidden.footnote.reference refId="31-17"/>
             <footnote.body date.updated="0">
                 <para date.updated="0" first.para="no">
-                    footnote on <foots/>page 17
+                    footnote on <foots/><t style="footnote.reference super cgt">page 17</t>
                 </para>
             </footnote.body>
         </footnote>

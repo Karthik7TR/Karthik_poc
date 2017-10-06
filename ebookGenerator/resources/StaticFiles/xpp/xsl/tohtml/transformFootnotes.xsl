@@ -48,9 +48,11 @@
             <xsl:copy-of select="./@id" />
             <xsl:apply-templates />
         </xsl:copy>
-        <xsl:element name="div">
-        	<xsl:attribute name="class" select="'no-indent'" />
-        </xsl:element>
+        <xsl:if test="not(following-sibling::*[1][self::x:para.text])">
+	        <xsl:element name="div">
+	        	<xsl:attribute name="class" select="'no-indent'" />
+	        </xsl:element>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template match="x:footnote.reference[@class='show_in_main']">

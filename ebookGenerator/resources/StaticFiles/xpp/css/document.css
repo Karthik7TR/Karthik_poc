@@ -4,7 +4,7 @@
 
 .no-indent:first-child,
 a + .no-indent:nth-child(2),
-.footnote_body .no-indent {
+.footnote_body foots + .no-indent:nth-child(2) {
   display: block !important;
 }
 
