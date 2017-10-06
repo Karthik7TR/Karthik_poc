@@ -1,11 +1,12 @@
 @import "constants.scss";
-.no-indent:first-child {
-    margin-left: calc(-1.1 * 1em);
-}
-
 .no-indent {
-    a+& {
-        margin-left: calc(-1.1 * 1em);
+    & {
+        display: none !important;
+    }
+    &:first-child,
+    a+&:nth-child(2),
+    .footnote_body & {
+        display: block !important;
     }
 }
 

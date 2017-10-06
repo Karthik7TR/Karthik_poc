@@ -257,7 +257,7 @@
             <hidden.footnote.reference refId="31-17"/>
             <footnote.body date.updated="0">
                 <para date.updated="0" first.para="no">
-                    footnote on page 17
+                    footnote on <foots/>page 17
                 </para>
             </footnote.body>
         </footnote>

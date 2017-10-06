@@ -1,9 +1,11 @@
-.no-indent:first-child {
-  margin-left: calc(-1.1 * 1em);
+.no-indent {
+  display: none !important;
 }
 
-a + .no-indent {
-  margin-left: calc(-1.1 * 1em);
+.no-indent:first-child,
+a + .no-indent:nth-child(2),
+.footnote_body .no-indent {
+  display: block !important;
 }
 
 .publication {
@@ -637,6 +639,7 @@ tbody .cgt,
   display: block;
   height: 0;
   text-indent: calc(1em * 2.3);
+  width: 100%;
 }
 
 .footnote_body .para_text {
@@ -720,8 +723,16 @@ a + .footnote_body {
   display: block;
 }
 
-.footnote > .er_rp_search_volume_content_data {
+.footnote > sup ~ .er_rp_search_volume_content_data {
   width: 100%;
+}
+
+.footnote > .er_rp_search_volume_content_data {
+  display: inline;
+}
+
+.footnote > .er_rp_search_volume_content_data {
+  display: inline;
 }
 
 .columns {
@@ -738,7 +749,8 @@ a + .footnote_body {
 
 .fm_title_page .text_line .cgt,
 .primary_outline_name_block > .cgt,
-.fm_related_products_boilerplate > .cgt {
+.fm_related_products_boilerplate > .cgt,
+.footnote > .er_rp_search_volume_content_data > .cgt {
   display: inline;
 }
 
@@ -779,6 +791,10 @@ a + .footnote_body {
 
 .cite {
   display: inline;
+}
+
+.primary_section_body > .primary_official_content > .stat_subsect {
+  margin: 0;
 }
 
 .toc_primary_hierarchy > .primary_outline_name_block > .label + .t,
@@ -873,10 +889,6 @@ a + .footnote_body {
 
 .toc_primary_source .primary_outline_name_block > .label {
   margin-right: 0.5em;
-}
-
-.fm_related_products_boilerplate > .no-indent {
-  margin: 0;
 }
 
 .font_fm_related_products_1,

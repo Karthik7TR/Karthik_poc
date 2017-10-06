@@ -48,6 +48,9 @@
             <xsl:copy-of select="./@id" />
             <xsl:apply-templates />
         </xsl:copy>
+        <xsl:element name="div">
+        	<xsl:attribute name="class" select="'no-indent'" />
+        </xsl:element>
     </xsl:template>
 
     <xsl:template match="x:footnote.reference[@class='show_in_main']">
