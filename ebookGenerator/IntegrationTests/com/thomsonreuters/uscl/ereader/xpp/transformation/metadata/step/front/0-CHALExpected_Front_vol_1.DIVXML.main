@@ -333,7 +333,7 @@
 		</fm.highlights>
 		<pagebreak num="VI" num-string=""/>
 		<pagebreak num="VII" num-string="vii"/>
-		<fm.dedication>
+		<sectionbreak sectionuuid="1111111.fm.dedication"/><XPPHier uuid="1111111.fm.dedication" name="Dedication" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.dedication">Dedication</XPPHier><fm.dedication>
 			<head align="l" emph="bold" font.size="18q" pre.leading="5p">
 				<name.block>
 					<name>
@@ -355,7 +355,44 @@
 		<pagebreak num="VIII" num-string=""/>
 		<pagebreak num="IX" num-string="ix"/>
 		<sectionbreak sectionuuid="1111111."/>
-		<sectionbreak sectionuuid="1111111.fm.about.the.author.36"/><XPPHier uuid="1111111.fm.about.the.author.36" name="About the Author" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.about.the.author.36">About the Author</XPPHier><fm.about.the.author>
+				<fm.other.structure>
+			<metadata.block metadata.store="yes">
+				<metadata field="left.running.head">
+					<value/>
+				</metadata>
+				<metadata field="right.running.head">
+					<value/>
+				</metadata>
+			</metadata.block>
+			<text.line align="c" pre.leading="4q">
+				<textrule length="6p" weight=".5q"/>
+			</text.line>
+			<para pre.leading="12q" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">The impetus for the revisions came from several sources including </t><t style="para.text">CACI users who detected changes in the law or who simply sought to </t><t style="para.text">do a better job of explaining the law in plain English. Responding to </t><t style="para.text">feedback from users is consistent with the Advisory Committee</t><t style="para.text cgt">’</t><t style="para.text">s goal to </t><t style="para.text">act as a vehicle for maintaining CACI as the work product of the legal </t><t style="para.text">community. We hope that our hundreds of contributors view our role in </t><t style="para.text">the same way and that they will continue to support us.</t>
+				</para.text>
+			</para>
+			<text.line align="l" font.size="11q" pre.leading="6q">
+				<t style="text.line.5">May 2017</t>
+			</text.line>
+			<text.line align="l" font.size="11q" left.indent="4.6p" pre.leading="10q">
+				<t style="text.line.5">Hon. Martin J. Tangeman</t>
+				<endline/>
+				<t style="text.line.6">Second District Court of Appeal</t>
+				<endline/>
+				<t style="text.line.6">Chair, Advisory Committee on Civil Jury Instructions</t>
+			</text.line>
+			<text.line align="l" emph="bold" font.size="11q" pre.leading="2p">
+				<t style="text.line.11">The Advisory Committee on Civil Jury Instructions welcomes </t><t style="text.line.11">comments. Send print comments to:</t>
+			</text.line>
+			<text.line align="l" font.size="11q" pre.leading="1p">
+				<t style="text.line.5">Or you may send comments by e-mail to </t><t style="text.line.5">civiljuryinstructions@jud.ca.gov.</t>
+			</text.line>
+			<pagebreak num="X" num-string="" prev_page="ix"/>
+			<pagebreak num="XI" num-string="xi" prev_page=""/>
+			<page.number.ref page-number="xi"/>
+		</fm.other.structure>
+		<sectionbreak sectionuuid="1111111.fm.about.the.author.38"/><XPPHier uuid="1111111.fm.about.the.author.38" name="About the Author" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.about.the.author.38">About the Author</XPPHier><fm.about.the.author>
 			<metadata.block metadata.store="yes">
 				<metadata field="left.running.head">
 					<value/>
@@ -454,8 +491,8 @@
 		</fm.about.the.author>
 		<pagebreak num="X" num-string=""/>
 		<pagebreak num="XI" num-string="xi"/>
-		<sectionbreak sectionuuid="1111111."/>
-		<sectionbreak sectionuuid="1111111.fm.about.the.author.44"/><XPPHier uuid="1111111.fm.about.the.author.44" name="About the Contributors" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.about.the.author.44">About the Contributors</XPPHier><fm.about.the.author>
+		<sectionbreak sectionuuid="1111111.fm.about.the.author"/>
+		<sectionbreak sectionuuid="1111111.fm.about.the.author.46"/><XPPHier uuid="1111111.fm.about.the.author.46" name="About the Contributors" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.about.the.author.46">About the Contributors</XPPHier><fm.about.the.author>
 			<metadata.block metadata.store="yes">
 				<metadata field="left.running.head">
 					<value/>

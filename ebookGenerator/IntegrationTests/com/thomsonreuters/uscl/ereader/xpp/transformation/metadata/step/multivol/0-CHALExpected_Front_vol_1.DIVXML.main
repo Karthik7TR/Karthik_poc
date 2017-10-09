@@ -333,7 +333,7 @@
 		</fm.highlights>
 		<pagebreak num="VI" num-string=""/>
 		<pagebreak num="VII" num-string="vii"/>
-		<fm.dedication>
+		<sectionbreak sectionuuid="1111111.fm.dedication"/><XPPHier uuid="1111111.fm.dedication" name="Dedication" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.dedication">Dedication</XPPHier><fm.dedication>
 			<head align="l" emph="bold" font.size="18q" pre.leading="5p">
 				<name.block>
 					<name>

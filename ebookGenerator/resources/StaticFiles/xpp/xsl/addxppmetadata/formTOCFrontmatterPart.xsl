@@ -71,7 +71,7 @@
 	</xsl:template>
 
 	<xsl:template
-		match="x:fm.highlights|x:fm.dedicate|x:fm.acknowledgment|x:fm.foreword|x:fm.online.research.guide|x:fm.proview|x:fm.related.products">
+		match="x:fm.highlights|x:fm.dedication|x:fm.acknowledgment|x:fm.foreword|x:fm.online.research.guide|x:fm.proview|x:fm.related.products|x:fm.preface">
 		<xsl:variable name="common_tags_uuid" select="concat($volumeName,'.', name())" />
 		<xsl:call-template name="createMetadataAndHier">
 			<xsl:with-param name="uuid" select="$common_tags_uuid" />
@@ -93,12 +93,13 @@
 			select="x:head[1]/x:name.block[1]/x:name[1]/x:t[1]/text()" />
 		<xsl:variable name="other_uuid"
 			select="concat($volumeName,'.',name(),'.',position())" />
-
+		<xsl:if test= "$other_label">
 		<xsl:call-template name="createMetadataAndHier">
 			<xsl:with-param name="uuid" select="$other_uuid" />
 			<xsl:with-param name="parent_uuid" select="$front_matter_uuid" />
 			<xsl:with-param name="hierName" select="$other_label" />
 		</xsl:call-template>
+		</xsl:if>
 
 		<xsl:copy>
 			<xsl:apply-templates select="node()|@*" />
@@ -127,7 +128,7 @@
 			<xsl:when test="$tag_name = 'fm.highlights'">
 				<xsl:value-of select="'Introduction to Edition'" />
 			</xsl:when>
-			<xsl:when test="$tag_name = 'fm.dedicate'">
+			<xsl:when test="$tag_name = 'fm.dedication'">
 				<xsl:value-of select="'Dedication'" />
 			</xsl:when>
 			<xsl:when test="$tag_name = 'fm.acknowledgment'">
@@ -144,6 +145,9 @@
 			</xsl:when>
 			<xsl:when test="$tag_name = 'fm.related.products'">
 				<xsl:value-of select="'Related products'" />
+			</xsl:when>
+			<xsl:when test="$tag_name = 'fm.preface'">
+				<xsl:value-of select="'Preface'" />
 			</xsl:when>
 		</xsl:choose>
 	</xsl:template>
