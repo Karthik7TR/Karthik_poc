@@ -36,6 +36,7 @@ public class XslTransformationServiceImpl implements XslTransformationService {
     private static final String START_WRAPPER_TAG = "<Document>";
     private static final String END_WRAPPER_TAG = "</Document>";
     private static final String DOCTYPE = "<!DOCTYPE root SYSTEM \"%s\">%n";
+    private static final int BUFFER_SIZE = 1024;
 
     @Override
     public void transform(@NotNull final TransformationCommand command) {
@@ -114,15 +115,30 @@ public class XslTransformationServiceImpl implements XslTransformationService {
         try (final BufferedReader reader = new BufferedReader(new InputStreamReader(openInputStream, "UTF-8"));
             final BufferedWriter writer = new BufferedWriter(
                 new OutputStreamWriter(new FileOutputStream(tempInputFile), StandardCharsets.UTF_8))) {
-            final String firstLine = reader.readLine();
-            if (firstLine != null && !firstLine.contains("<?xml ")) {
-                writer.write(firstLine + System.getProperty("line.separator"));
-            }
-            String currentLine;
-            while ((currentLine = reader.readLine()) != null) {
-                writer.write(currentLine + System.getProperty("line.separator"));
+            char[] buffer = new char[BUFFER_SIZE];
+
+            reader.read(buffer);
+            final String first = new String(buffer);
+            final String xmlRemoved = first.replace("<?xml version='1.0' encoding='UTF-8'?>", "")
+                .replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "");
+            writer.write(xmlRemoved);
+            buffer = new char[BUFFER_SIZE];
+
+            int charsRead;
+            while ((charsRead = reader.read(buffer)) != -1) {
+                writer.write(trimBuffer(buffer, charsRead));
+                buffer = new char[BUFFER_SIZE];
             }
         }
         return openInputStream(tempInputFile);
+    }
+
+    private char[] trimBuffer(final char[] buffer, final int size) {
+        if (size < BUFFER_SIZE && size != 0) {
+            final char[] result = new char[size];
+            System.arraycopy(buffer, 0, result, 0, size);
+            return result;
+        }
+        return buffer;
     }
 }
