@@ -688,6 +688,7 @@ sup + .footnote_body > .para:first-child {
 .page_number {
   display: block !important;
   text-align: center;
+  margin: auto;
 }
 
 .footnote_body {
@@ -747,6 +748,94 @@ a + .footnote_body {
   flex-basis: 0;
 }
 
+.main_head {
+  text-align: center;
+}
+
+.generated_case_tbl .tbl_row {
+  margin-left: calc(1em * 2);
+  text-indent: calc(1em * -2);
+}
+
+.generated_case_tbl .tbl_row_ref {
+  display: inline;
+}
+
+.generated_case_tbl .int_ref_list,
+.generated_case_tbl .int_ref,
+.generated_case_tbl .repeat_party {
+  display: inline;
+}
+
+.generated_lrre_tbl .main_head {
+  text-align: center;
+  margin-bottom: 1em;
+  margin-top: calc(1em * 1.5);
+}
+
+.generated_lrre_tbl > .metadata_block {
+  display: block;
+  text-align: center;
+  margin-bottom: calc(1em * 2);
+}
+
+.generated_lrre_tbl .tbl_row {
+  display: flex;
+}
+
+.generated_lrre_tbl .tbl_row * {
+  display: inline;
+}
+
+.generated_lrre_tbl > .tbl_unit:first-child > .tbl_row:first-child {
+  flex-wrap: wrap;
+}
+
+section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tbl_row {
+  margin-bottom: calc(1em * 1.5);
+  display: block;
+  text-align: center;
+}
+
+.generated_lrre_tbl .tbl_row:first-of-type {
+  flex-wrap: wrap;
+}
+
+.generated_lrre_tbl .tbl_row_ref {
+  display: block;
+  flex-shrink: 0;
+}
+
+.generated_lrre_tbl .int_ref_list {
+  display: inline;
+  flex-grow: 1;
+  text-align: right;
+}
+
+.generated_lrre_tbl .mte3,
+.generated_lrre_tbl .mte3 * {
+  display: flex !important;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.generated_lrre_tbl .col_head {
+  display: flex;
+  justify-content: space-between;
+}
+
+.generated_lrre_tbl .tbl_row + .col_head {
+  margin-top: 1em;
+}
+
+.generated_lrre_tbl .int_ref + .t {
+  white-space: pre-wrap;
+}
+
+.generated_lrre_tbl .mte3 > .t:nth-of-type(2) {
+  justify-content: flex-end;
+}
+
 .fm_title_page .text_line .cgt,
 .primary_outline_name_block > .cgt,
 .fm_related_products_boilerplate > .cgt,
@@ -779,9 +868,16 @@ a + .footnote_body {
   display: inline !important;
 }
 
-.primary_section_front .primary_name,
+.primary_section_front .primary_name {
+  display: inline;
+}
+
 .primary_name .name {
   display: inline;
+}
+
+.primary_section .primary_name > .name {
+  white-space: pre-line;
 }
 
 .primary_source_body .primary_hierarchy_body > .primary_section > .primary_section_front > .primary_outline_name_block > .designator {
@@ -898,90 +994,169 @@ a + .footnote_body {
   text-align: center;
 }
 
-.main_head {
-  text-align: center;
+.toc_pji_instruction_section .cgt,
+.toc_pji_info_section .cgt,
+.toc_pji_verdict_section .cgt {
+  display: inline-block;
 }
 
-.generated_case_tbl .tbl_row {
-  margin-left: calc(1em * 2);
-  text-indent: calc(1em * -2);
-}
-
-.generated_case_tbl .tbl_row_ref {
+.pji_name {
   display: inline;
 }
 
-.generated_case_tbl .int_ref_list,
-.generated_case_tbl .int_ref,
-.generated_case_tbl .repeat_party {
-  display: inline;
-}
-
-.generated_lrre_tbl .main_head {
-  text-align: center;
-  margin-bottom: 1em;
-  margin-top: calc(1em * 1.5);
-}
-
-.generated_lrre_tbl > .metadata_block {
+.pji_note_group .pji_name {
   display: block;
   text-align: center;
-  margin-bottom: calc(1em * 2);
 }
 
-.generated_lrre_tbl .tbl_row {
+.pji_section_front .pji_outline_name_block > .pji_name {
+  display: inline;
+}
+
+.pji_instruction_body .pji_reference_block > .pji_name {
+  text-align: initial;
+  margin-left: 0;
+}
+
+.pji_instruction_body .pji_name {
+  text-align: center;
+  margin: calc(1em * 0.5);
+}
+
+.pattern_jury_instruction_body .pji_verdict_section_body .pji_references > .pji_name {
+  display: block;
+  text-align: center;
+  margin: calc(1em * 0.5);
+}
+
+.pji_outline_name_block > .designator {
+  margin-right: 1em;
+}
+
+.toc_pji_instruction_section .designator {
+  margin-right: 1em;
+}
+
+.toc_pji_info_section .designator {
+  margin-right: 1em;
+}
+
+.toc_pji_verdict_section .designator {
+  margin-right: 1em;
+}
+
+.pji_section_front .pji_outline_name_block > .designator {
+  margin-right: 1em;
+}
+
+.pji_name > .name {
+  display: inline;
+}
+
+.pji_section_front .pji_outline_name_block > .pji_name > .name {
+  display: inline;
+}
+
+.pji_instruction_body .charge_para {
+  margin-bottom: 1em;
+}
+
+.toc_pji_hierarchy > a > .pji_outline_name_block {
+  margin: 1em auto;
+  text-align: center;
+}
+
+.toc_pji_instruction_section .pji_outline_name_block {
   display: flex;
 }
 
-.generated_lrre_tbl .tbl_row * {
-  display: inline;
+.toc_pji_info_section .pji_outline_name_block {
+  display: flex;
 }
 
-.generated_lrre_tbl > .tbl_unit:first-child > .tbl_row:first-child {
-  flex-wrap: wrap;
+.toc_pji_verdict_section .pji_outline_name_block {
+  display: flex;
 }
 
-section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tbl_row {
-  margin-bottom: calc(1em * 1.5);
+.pji_section_front .pji_outline_name_block {
   display: block;
+  margin-bottom: 1em;
+}
+
+.pattern_jury_instruction_body .pji_info_section .pji_section_front > .pji_outline_name_block {
   text-align: center;
+  margin: calc(1em * 0.5);
 }
 
-.generated_lrre_tbl .tbl_row:first-of-type {
-  flex-wrap: wrap;
-}
-
-.generated_lrre_tbl .tbl_row_ref {
-  display: block;
-  flex-shrink: 0;
-}
-
-.generated_lrre_tbl .int_ref_list {
-  display: inline;
-  flex-grow: 1;
-  text-align: right;
-}
-
-.generated_lrre_tbl .mte3,
-.generated_lrre_tbl .mte3 * {
-  display: flex !important;
-  width: 100%;
-  white-space: nowrap;
-}
-
-.generated_lrre_tbl .col_head {
+.toc_pji_instruction_section,
+.toc_pji_info_section,
+.toc_pji_verdict_section {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
 }
 
-.generated_lrre_tbl .tbl_row + .col_head {
+.pji_instruction_body .pji_reference_block > .pji_para {
+  margin-left: 1em;
+}
+
+.pji_instruction_body .pji_note_group > .pji_para {
+  margin-bottom: calc(0.5*1em);
+}
+
+.pattern_jury_instruction_body .pji_verdict_section_body .pji_reference_block > .pji_para {
+  margin-left: 1em;
+}
+
+.pji_instruction_body .pji_note_group .list_item {
+  margin-bottom: calc(0.5*1em);
+}
+
+.pji_instruction_body .pji_note_group > .head > .name_block {
+  margin-left: 0;
+  margin-bottom: calc(0.5*1em);
+  margin-top: 0;
+}
+
+.pji_note_group {
   margin-top: 1em;
 }
 
-.generated_lrre_tbl .int_ref + .t {
+.pji_para .point {
+  display: inline;
+}
+
+.fm_other_structure > table {
+  margin: auto;
+}
+
+.fm_other_structure tr {
+  vertical-align: baseline;
+}
+
+.underscore {
+  text-decoration: underline;
+}
+
+.fm_related_products .textrule {
+  border-bottom: 0.05em solid;
+  margin: 1em auto;
+  width: 15%;
+}
+
+.column .fm_other_structure td > .leader,
+.column .fm_other_structure td > .leader > .fillchar {
+  display: inline;
+}
+
+.column .fm_other_structure td:nth-child(2) {
   white-space: pre-wrap;
 }
 
-.generated_lrre_tbl .mte3 > .t:nth-of-type(2) {
-  justify-content: flex-end;
+.column .fm_other_structure td {
+  white-space: nowrap;
+}
+
+.endline {
+  display: block !important;
 }

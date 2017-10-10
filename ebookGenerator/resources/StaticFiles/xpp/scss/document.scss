@@ -8,9 +8,14 @@
 @import "index.scss";
 @import "footnotes.scss";
 @import "columns.scss";
+@import "table_of_cases.scss";
+@import "table of lrre.scss";
+
 @import "Primary Source/cgt.scss";
 @import "Primary Source/main content.scss";
 @import "Primary Source/summary and detailed.scss";
 @import "Primary Source/frontmatter.scss";
-@import "table_of_cases.scss";
-@import "table of lrre.scss";
+
+@import "Jury Instructions/cgt.scss";
+@import "Jury Instructions/main content.scss";
+@import "Jury Instructions/frontmatter.scss";
