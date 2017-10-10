@@ -1,7 +1,5 @@
 package com.thomsonreuters.uscl.ereader.gather.img.service;
 
-import static java.util.Arrays.asList;
-
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
@@ -15,8 +13,9 @@ import static org.mockito.Mockito.never;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
@@ -45,10 +44,7 @@ public final class NovusImageServiceImplTest {
     @Test
     public void shouldProcessEveryImageOnce() throws Exception {
         // given
-        final Map<String, List<String>> docsMap = new HashMap<>();
-        docsMap.put("docId", asList("image1", "image2"));
-
-        given(docUtil.getDocsWithImages(any(File.class))).willReturn(docsMap);
+        given(docUtil.getDocsWithImages(any(File.class))).willReturn(getDocToImageIdsMap());
         given(processor.isProcessed("image2", "docId")).willReturn(true);
         // when
         final GatherResponse imagesFromNovus = service.getImages(new ImageRequestParameters());
@@ -65,14 +61,20 @@ public final class NovusImageServiceImplTest {
         thrown.expect(GatherException.class);
         thrown.expectMessage("Cannot process images from Novus");
 
-        final Map<String, List<String>> docsMap = new HashMap<>();
-        docsMap.put("docId", asList("image1", "image2"));
-
-        given(docUtil.getDocsWithImages(any(File.class))).willReturn(docsMap);
+        given(docUtil.getDocsWithImages(any(File.class))).willReturn(getDocToImageIdsMap());
         doThrow(new RuntimeException()).when(processor).isProcessed(anyString(), anyString());
         // when
         service.getImages(new ImageRequestParameters());
         // then
         then(processor).should().close();
+    }
+
+    private Map<String, Set<String>> getDocToImageIdsMap() {
+        final Map<String, Set<String>> docsMap = new HashMap<>();
+        final Set<String> set = new HashSet<>();
+        set.add("image1");
+        set.add("image2");
+        docsMap.put("docId", set);
+        return docsMap;
     }
 }

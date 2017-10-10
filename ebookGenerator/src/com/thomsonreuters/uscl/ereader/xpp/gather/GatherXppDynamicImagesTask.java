@@ -15,7 +15,7 @@ import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppGatherFileS
 /**
  * Gather dynamic images task for XPP pathway.
  */
-@SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
+@SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy(StatsUpdateTypeEnum.GATHERIMAGE)
 public class GatherXppDynamicImagesTask extends GatherDynamicImagesTask {
     @Resource(name = "xppGatherFileSystem")

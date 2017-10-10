@@ -14,8 +14,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
@@ -86,8 +87,12 @@ public final class XppImageServiceTest {
         assertEquals(TIF_IMAGE_ID, response.getImageMetadataList().get(0).getImgGuid());
     }
 
-    private Map<String, List<String>> getDocsWithImages() {
-        return Collections.singletonMap(DOC_ID, Arrays.asList(TIF_IMAGE_ID, TIFF_IMAGE_ID, PNG_IMAGE_ID));
+    private Map<String, Set<String>> getDocsWithImages() {
+        final Set<String> set = new HashSet<>();
+        set.add(TIF_IMAGE_ID);
+        set.add(TIFF_IMAGE_ID);
+        set.add(PNG_IMAGE_ID);
+        return Collections.singletonMap(DOC_ID, set);
     }
 
     private ImageRequestParameters getImageRequestParameters() throws IOException {

@@ -1,9 +1,9 @@
 package com.thomsonreuters.uscl.ereader.gather.img.service;
 
 import java.io.File;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
@@ -21,11 +21,11 @@ public class NovusImageServiceImpl implements ImageService {
     public GatherResponse getImages(@NotNull final ImageRequestParameters imageRequestParameters)
         throws GatherException {
         final File docToImageManifestFile = imageRequestParameters.getDocToImageManifestFile();
-        final Map<String, List<String>> docsWithImages =
+        final Map<String, Set<String>> docsWithImages =
             docToImageManifestUtil.getDocsWithImages(docToImageManifestFile);
 
         try (NovusImageProcessor processor = imageProcessor) {
-            for (final Entry<String, List<String>> e : docsWithImages.entrySet()) {
+            for (final Entry<String, Set<String>> e : docsWithImages.entrySet()) {
                 final String docId = e.getKey();
                 for (final String imageId : e.getValue()) {
                     if (!processor.isProcessed(imageId, docId)) {

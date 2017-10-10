@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.activation.MimetypesFileTypeMap;
 import javax.imageio.ImageIO;
@@ -48,7 +49,7 @@ public class XppImageService implements ImageService {
             imageRequestParameters.getXppSourceImageDirectory(),
             imageRequestParameters.getDynamicImageDirectory());
 
-        final Map<String, List<String>> docsWithImages =
+        final Map<String, Set<String>> docsWithImages =
             docToImageManifestUtil.getDocsWithImages(imageRequestParameters.getDocToImageManifestFile());
 
         final List<ImgMetadataInfo> imagesMetadata = new ArrayList<>();
@@ -67,9 +68,9 @@ public class XppImageService implements ImageService {
     private int fillMetadataWithDocIds(
         final List<ImgMetadataInfo> imagesMetadata,
         final Map<String, ImgMetadataInfo> imageFiles,
-        final Map<String, List<String>> docsWithImages) {
+        final Map<String, Set<String>> docsWithImages) {
         int missingImagesCount = 0;
-        for (final Entry<String, List<String>> e : docsWithImages.entrySet()) {
+        for (final Entry<String, Set<String>> e : docsWithImages.entrySet()) {
             final String docId = e.getKey();
             for (final String imageId : e.getValue()) {
                 try {

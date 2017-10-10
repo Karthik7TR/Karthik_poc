@@ -7,8 +7,8 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,11 +26,12 @@ public final class DocToImageManifestUtilImplTest {
         final File manifestFile =
             new File(DocToImageManifestUtilImplTest.class.getResource("docToImageManifest_correct.txt").toURI());
         // when
-        final Map<String, List<String>> docsWithImages = util.getDocsWithImages(manifestFile);
+        final Map<String, Set<String>> docsWithImages = util.getDocsWithImages(manifestFile);
         // then
         assertThat(
             docsWithImages,
             hasEntry(is("N50612690E73511DD9B10B565B0929296"), contains("Id14b3db0f58911e28bd8c4c6dcfa6cd5")));
+        assertThat(docsWithImages, hasEntry(is("docId"), contains("imgId")));
     }
 
     @Test
@@ -39,7 +40,7 @@ public final class DocToImageManifestUtilImplTest {
         final File manifestFile =
             new File(DocToImageManifestUtilImplTest.class.getResource("docToImageManifest_empty.txt").toURI());
         // when
-        final Map<String, List<String>> docsWithImages = util.getDocsWithImages(manifestFile);
+        final Map<String, Set<String>> docsWithImages = util.getDocsWithImages(manifestFile);
         // then
         assertThat(docsWithImages.keySet(), empty());
     }
