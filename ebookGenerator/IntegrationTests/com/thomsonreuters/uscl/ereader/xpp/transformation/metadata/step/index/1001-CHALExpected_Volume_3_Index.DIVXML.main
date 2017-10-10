@@ -1,5 +1,5 @@
 <root xmlns="http://www.sdl.com/xpp"><sectionbreak sectionuuid="1111111.indexABANDONMENTINDIAN"/><XPPHier uuid="1111111.index" name="Index" parent_uuid="1111111.index" md.doc_family_uuid="1111111.indexABANDONMENTINDIAN">Index</XPPHier>
-	<pagebreak num="1" num-string="Index-1"/><XPPHier uuid="1111111.indexABANDONMENTINDIAN" name="ABANDONMENT-INDIAN" parent_uuid="1111111.index" md.doc_family_uuid="1111111.indexABANDONMENTINDIAN">ABANDONMENT-INDIAN</XPPHier>
+	<pagebreak num="1" num-string="Index-1"/><XPPHier uuid="1111111.indexABANDONMENTINDIAN" name="ABANDONMENT - INDIAN" parent_uuid="1111111.index" md.doc_family_uuid="1111111.indexABANDONMENTINDIAN">ABANDONMENT - INDIAN</XPPHier>
 	<t style="unknown">Index</t>
 	<t style="c"> </t>
 	<t style="unknown"> </t>
@@ -6740,7 +6740,7 @@
 				<CITE>
 					<t style="CITE">5:12</t>
 				</CITE>
-				<pagebreak num="21" num-string="Index-21"/><sectionbreak sectionuuid="1111111.indexINDIGENTWRONGFUL"/><XPPHier uuid="1111111.indexINDIGENTWRONGFUL" name="INDIGENT-WRONGFUL" parent_uuid="1111111.index" md.doc_family_uuid="1111111.indexINDIGENTWRONGFUL">INDIGENT-WRONGFUL</XPPHier>
+				<pagebreak num="21" num-string="Index-21"/><sectionbreak sectionuuid="1111111.indexINDIGENTWRONGFUL"/><XPPHier uuid="1111111.indexINDIGENTWRONGFUL" name="INDIGENT - WRONGFUL" parent_uuid="1111111.index" md.doc_family_uuid="1111111.indexINDIGENTWRONGFUL">INDIGENT - WRONGFUL</XPPHier>
 				<mtf2>
 					<mte2/>
 				</mtf2>

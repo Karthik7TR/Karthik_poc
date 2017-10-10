@@ -66,7 +66,7 @@
 			<xsl:call-template name="placeXppHier">
 				<xsl:with-param name="uuid" select="$currentIndexUuid" />
 				<xsl:with-param name="name"
-					select="concat($firstIndexWord, '-', $lastIndexWord)" />
+					select="concat($firstIndexWord, ' - ', $lastIndexWord)" />
 				<xsl:with-param name="parent_uuid" select="$root_uuid" />
 				<xsl:with-param name="doc_family_uuid" select="$currentIndexUuid" />
 			</xsl:call-template>
