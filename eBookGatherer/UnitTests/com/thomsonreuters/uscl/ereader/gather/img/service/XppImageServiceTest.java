@@ -1,7 +1,7 @@
 package com.thomsonreuters.uscl.ereader.gather.img.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.hasItem;
+import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -18,7 +18,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.img.model.ImageRequestParameters;
 import com.thomsonreuters.uscl.ereader.gather.img.util.DocToImageManifestUtil;
@@ -72,19 +71,17 @@ public final class XppImageServiceTest {
 
     @Test
     public void shouldCopyImagesAndReturnMetadata() throws GatherException, IOException {
-        final GatherResponse response = service.getImages(getImageRequestParameters());
+        service.getImages(getImageRequestParameters());
 
         final ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
         verify(imageConverter, times(4)).convertByteImg((byte[]) any(), argument.capture(), (String) any());
-        assertTrue(
-            new File(tempFolder.getRoot(), TIF_IMAGE_ID + ".png").getAbsolutePath()
-                .equalsIgnoreCase(argument.getAllValues().get(0)));
-        assertTrue(
-            new File(tempFolder.getRoot(), TIFF_IMAGE_ID + ".png").getAbsolutePath()
-                .equalsIgnoreCase(argument.getAllValues().get(1)));
 
-        assertEquals(DOC_ID, response.getImageMetadataList().get(0).getDocGuid());
-        assertEquals(TIF_IMAGE_ID, response.getImageMetadataList().get(0).getImgGuid());
+        assertThat(
+            argument.getAllValues(),
+            hasItem(new File(tempFolder.getRoot(), TIF_IMAGE_ID + ".PNG").getAbsolutePath()));
+        assertThat(
+            argument.getAllValues(),
+            hasItem(new File(tempFolder.getRoot(), TIFF_IMAGE_ID + ".PNG").getAbsolutePath()));
     }
 
     private Map<String, Set<String>> getDocsWithImages() {
