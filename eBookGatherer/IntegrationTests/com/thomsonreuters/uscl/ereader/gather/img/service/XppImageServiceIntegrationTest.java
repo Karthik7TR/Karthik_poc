@@ -10,6 +10,7 @@ import java.util.Arrays;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.img.model.ImageRequestParameters;
+import com.thomsonreuters.uscl.ereader.gather.util.ImgMetadataInfo;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -59,10 +60,15 @@ public final class XppImageServiceIntegrationTest {
         assertTrue(noExstensionPngFile.exists());
         assertTrue(noExstensionPngFile2.exists());
 
-        assertEquals(TIF_IMAGE_ID, response.getImageMetadataList().get(0).getImgGuid());
-        assertEquals(1733, response.getImageMetadataList().get(0).getWidth().longValue());
-        assertEquals(765, response.getImageMetadataList().get(0).getHeight().longValue());
-        assertEquals("image/png", response.getImageMetadataList().get(0).getMimeType());
+        for (final ImgMetadataInfo info : response.getImageMetadataList()) {
+            if (TIF_IMAGE_ID.equals(info.getImgGuid())) {
+                assertEquals(1733, info.getWidth().longValue());
+                assertEquals(765, info.getHeight().longValue());
+                assertEquals("image/png", info.getMimeType());
+                return;
+            }
+        }
+        assertTrue(false);
     }
 
     private ImageRequestParameters getImageRequestParameters() throws IOException {
