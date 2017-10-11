@@ -93,6 +93,7 @@ public class EditBookDefinitionForm {
     private Long contentTypeId;
     private String fmThemeText;
     private String printSetNumber;
+    private String printSubNumber;
     private String isbn;
     private boolean isPublicationCutoffDateUsed;
     private String publicationCutoffDate;
@@ -259,6 +260,7 @@ public class EditBookDefinitionForm {
             nortDomain = book.getNortDomain();
             nortFilterView = book.getNortFilterView();
             printSetNumber = book.getPrintSetNumber();
+            printSubNumber = book.getPrintSubNumber();
             isbn = book.getIsbn();
             authorInfo = book.getAuthors();
             pilotBookInfo = book.getPilotBooks();
@@ -566,6 +568,7 @@ public class EditBookDefinitionForm {
         book.setNortDomain(nortDomain);
         book.setNortFilterView(nortFilterView);
         book.setPrintSetNumber(printSetNumber);
+        book.setPrintSubNumber(printSubNumber);
         book.setProviewDisplayName(proviewDisplayName);
 
         // Parse Date
@@ -938,8 +941,16 @@ public class EditBookDefinitionForm {
         return printSetNumber;
     }
 
+    public String getPrintSubNumber(){
+        return printSubNumber;
+    }
+
     public void setPrintSetNumber(final String printSetNumber) {
         this.printSetNumber = printSetNumber;
+    }
+
+    public void setPrintSubNumber(final String printSubNumber){
+        this.printSubNumber = printSubNumber;
     }
 
     public Long getContentTypeId() {

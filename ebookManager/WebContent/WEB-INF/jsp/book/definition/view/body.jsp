@@ -142,8 +142,12 @@ function submitForm(cmd)
 								</div>
 							</div>
 							<div class="row">
-								<label class="labelCol">Print Set/Sub Number</label>
+								<label class="labelCol">Print Set Number</label>
 								<span class="field">${ book.printSetNumber }</span>
+							</div>
+							<div class="row">
+								<label class="labelCol">Print Sub Number</label>
+								<span class="field">${ book.printSubNumber }</span>
 							</div>
 						</div>
 				</c:when>

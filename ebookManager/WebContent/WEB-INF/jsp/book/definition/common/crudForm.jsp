@@ -252,6 +252,7 @@
 				<form:hidden path="rootTocGuid"/>
 				<form:hidden path="nortDomain"/>
 				<form:hidden path="printSetNumber"/>
+				<form:hidden path="printSubNumber"/>
 				<form:hidden path="nortFilterView"/>
 				<form:hidden path="sourceType"/>
 				<form:hidden path="removeEditorNoteHeading"/>
@@ -382,10 +383,17 @@
 					</div>
 				</div>
 				<div class="row">
-					<form:label disabled="${disableUnderPubPlusRole}" path="printSetNumber" class="labelCol">Print Set/Sub Number</form:label>
+					<form:label disabled="${disableUnderPubPlusRole}" path="printSetNumber" class="labelCol">Print Set Number</form:label>
 					<form:input disabled="${disableUnderPubPlusRole}" path="printSetNumber" />
 					<div class="errorDiv">
 						<form:errors path="printSetNumber" cssClass="errorMessage" />
+					</div>
+				</div>
+				<div class="row">
+					<form:label disabled="${disableUnderPubPlusRole}" path="printSubNumber" class="labelCol">Print Sub Number</form:label>
+					<form:input disabled="${disableUnderPubPlusRole}" path="printSubNumber" />
+					<div class="errorDiv">
+						<form:errors path="printSubNumber" cssClass="errorMessage" />
 					</div>
 				</div>
 				<div class="row">

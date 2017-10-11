@@ -320,6 +320,10 @@ public class BookDefinition implements Serializable {
     @Basic(fetch = FetchType.EAGER)
     private String printSetNumber;
 
+    @Column(name = "PRINT_SUB_NUMBER")
+    @Basic(fetch = FetchType.EAGER)
+    private String printSubNumber;
+
     public void setEbookDefinitionId(final Long ebookDefinitionId) {
         this.ebookDefinitionId = ebookDefinitionId;
     }
@@ -1001,8 +1005,16 @@ public class BookDefinition implements Serializable {
         return printSetNumber;
     }
 
+    public String getPrintSubNumber() {
+        return printSubNumber;
+    }
+
     public void setPrintSetNumber(final String printSetNumber) {
         this.printSetNumber = printSetNumber;
+    }
+
+    public void setPrintSubNumber(final String printSubNumber) {
+        this.printSubNumber = printSubNumber;
     }
 
     public BookDefinition() {
@@ -1085,6 +1097,7 @@ public class BookDefinition implements Serializable {
         setSubGroupHeading(that.getSubGroupHeading());
         setGroupName(that.getGroupName());
         setPrintSetNumber(that.getPrintSetNumber());
+        setPrintSubNumber(that.getPrintSubNumber());
     }
 
     /**

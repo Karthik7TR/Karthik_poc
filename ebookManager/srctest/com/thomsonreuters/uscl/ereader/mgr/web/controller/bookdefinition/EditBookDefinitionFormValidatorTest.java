@@ -141,14 +141,14 @@ public final class EditBookDefinitionFormValidatorTest {
     }
 
     @Test
-    public void testNullPrintSetNumber() {
+    public void testNullPrintSubNumber() {
         form.setIsComplete(true);
         form.setSourceType(SourceType.XPP);
 
         EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
         EasyMock.replay(mockCodeService);
         validator.validate(form, errors);
-        Assert.assertEquals("error.required", errors.getFieldError("printSetNumber").getCode());
+        Assert.assertEquals("error.required", errors.getFieldError("printSubNumber").getCode());
     }
 
     @Test
@@ -156,6 +156,18 @@ public final class EditBookDefinitionFormValidatorTest {
         form.setIsComplete(true);
         form.setSourceType(SourceType.XPP);
         form.setPrintSetNumber("abcd");
+
+        EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
+        EasyMock.replay(mockCodeService);
+        validator.validate(form, errors);
+        Assert.assertEquals("mesg.errors.form", errors.getFieldError("validateForm").getCode());
+    }
+
+    @Test
+    public void testPrintSubNumber() {
+        form.setIsComplete(true);
+        form.setSourceType(SourceType.XPP);
+        form.setPrintSubNumber("abcd");
 
         EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
         EasyMock.replay(mockCodeService);

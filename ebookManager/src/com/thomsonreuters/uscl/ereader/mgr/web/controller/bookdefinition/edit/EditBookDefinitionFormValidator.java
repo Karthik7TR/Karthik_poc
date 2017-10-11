@@ -226,6 +226,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                 break;
             case XPP:
                 checkPrintSetNumber(errors, form.getPrintSetNumber(), "printSetNumber");
+                checkPrintSubNumber(errors, form.getPrintSubNumber(), "printSubNumber");
                 break;
             }
 
@@ -1027,6 +1028,16 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     }
 
     private void checkPrintSetNumber(final Errors errors, final String text, final String fieldName) {
+        if (StringUtils.isNotEmpty(text)) {
+            final Pattern pattern = Pattern.compile("\\d");
+            final Matcher matcher = pattern.matcher(text);
+            if (!matcher.find()) {
+                errors.rejectValue(fieldName, "typeMismatch.java.lang.Long");
+            }
+        }
+    }
+
+    private void checkPrintSubNumber(final Errors errors, final String text, final String fieldName) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, fieldName, "error.required");
         if (StringUtils.isNotEmpty(text)) {
             final Pattern pattern = Pattern.compile("\\d");
