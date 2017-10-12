@@ -10,11 +10,24 @@
     </xsl:template>
     
     <xsl:template match="x:footnote">
-        <div class="tr_footnote">
+        <xsl:variable name="cssClasses">
+            <xsl:choose>
+                <xsl:when test="@hidden">
+                    <xsl:value-of select="'tr_footnote footnoteHidden'" />
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="'tr_footnote'" />
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        
+        <xsl:element name="div">
+            <xsl:attribute name="class" select="$cssClasses"/>
             <div class="footnote">
                 <xsl:apply-templates />
             </div>
-        </div>
+        </xsl:element>
+        
         <xsl:if test="./x:footnote.body//x:page.number[1]">
 			<xsl:apply-templates select="./x:footnote.body//x:page.number[1]" mode="place-page-number" />	
 		</xsl:if>
@@ -56,38 +69,61 @@
     </xsl:template>
 
     <xsl:template match="x:footnote.reference[@class='show_in_main']">
-        <div class="er_rp_search_volume_content_data">
-            <sup class="show_in_main">
-                <span class="tr_footnote_name">
+         <div class="er_rp_search_volume_content_data">
+             <sup class="show_in_main">
+                 <span class="tr_footnote_name">
                     <xsl:value-of select="x:t/text()" />
-                </span>
-            </sup>
-        </div>
+                 </span>
+             </sup>
+         </div>
     </xsl:template>
     
     <xsl:template match="x:footnote.reference[@class='show_in_footnotes']">
-        <xsl:variable name="refId" select="ancestor::x:footnote[1]/@id" />
-        
+        <xsl:variable name="footnote" select="ancestor::x:footnote[1]" />
+
         <xsl:element name="sup">
-            <xsl:call-template name="addAnchorTag">
-                <xsl:with-param name="refId" select="$refId" />
-                <xsl:with-param name="excludeText" select="true()" />
-            </xsl:call-template>
-            
-            <div class="er_rp_search_volume_content_data">
+        
+            <xsl:if test="not($footnote/@referenceOnDifferentPageId)">
                 <xsl:call-template name="addAnchorTag">
-                    <xsl:with-param name="refId" select="$refId" />
-                    <xsl:with-param name="excludeName" select="true()" />
+                    <xsl:with-param name="refId" select="$footnote/@id" />
+                    <xsl:with-param name="excludeText" select="true()" />
                 </xsl:call-template>
+            </xsl:if>
+                    
+            <div class="er_rp_search_volume_content_data">
+                <xsl:choose>
+                    <xsl:when test="$footnote/@referenceOnDifferentPageId">
+                        <xsl:call-template name="addReferenceToAnotherPage">
+                            <xsl:with-param name="footnote" select="$footnote"/>
+                        </xsl:call-template>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:call-template name="addAnchorTag">
+                            <xsl:with-param name="refId" select="$footnote/@id" />
+                            <xsl:with-param name="excludeName" select="true()" />
+                        </xsl:call-template>
+                    </xsl:otherwise>
+                </xsl:choose>
             </div>
         </xsl:element>
     </xsl:template>
     
     <xsl:template match="x:footnote.reference[@class='show_in_main_and_footnotes']">
+        <xsl:variable name="footnote" select="ancestor::x:footnote[1]" />
+        
         <xsl:element name="sup">
-            <xsl:call-template name="addAnchorTag">
-                <xsl:with-param name="refId" select="ancestor::x:footnote[1]/@id" />
-            </xsl:call-template>
+            <xsl:choose>
+                <xsl:when test="$footnote/@referenceOnDifferentPageId">
+                    <xsl:call-template name="addReferenceToAnotherPage">
+                        <xsl:with-param name="footnote" select="$footnote"/>
+                    </xsl:call-template>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:call-template name="addAnchorTag">
+                        <xsl:with-param name="refId" select="$footnote/@id" />
+                    </xsl:call-template>
+                </xsl:otherwise>
+            </xsl:choose>
         </xsl:element>
     </xsl:template>
     
@@ -98,7 +134,7 @@
     </xsl:template>
     
     <xsl:template match="x:xref[@type='footnote']">
-        <xsl:if test="@split">
+        <xsl:if test="@hidden">
             <xsl:call-template name="addReferenceTag">
                 <xsl:with-param name="refId" select="@id" />
             </xsl:call-template>
@@ -164,6 +200,19 @@
             <xsl:if test="not($excludeText)">
                 <xsl:apply-templates />
             </xsl:if>
+        </xsl:element>
+    </xsl:template>
+    
+    <xsl:template name="addReferenceToAnotherPage">
+        <xsl:param name="footnote" />
+        
+        <xsl:element name="a">
+            <xsl:attribute name="class" select="'tr_ftn'" />
+            <xsl:attribute name="name" select="concat('ftn.', $footnote/@id)" />
+        </xsl:element>
+        <xsl:element name="a">
+            <xsl:attribute name="href" select="concat('er:#', $footnote/@xrefDoc, '/f', $footnote/@xrefId)" />
+            <xsl:apply-templates />
         </xsl:element>
     </xsl:template>
     

@@ -72,7 +72,7 @@
 
 	<xsl:template
 		match="x:fm.highlights|x:fm.dedication|x:fm.acknowledgment|x:fm.foreword|x:fm.online.research.guide|x:fm.proview|x:fm.related.products|x:fm.preface">
-		<xsl:variable name="common_tags_uuid" select="concat($volumeName,'.', name())" />
+		<xsl:variable name="common_tags_uuid" select="concat($volumeName,'.', name(), x:getIdSuffix(current()))" />
 		<xsl:call-template name="createMetadataAndHier">
 			<xsl:with-param name="uuid" select="$common_tags_uuid" />
 			<xsl:with-param name="parent_uuid" select="$front_matter_uuid" />
@@ -92,7 +92,7 @@
 		<xsl:variable name="other_label"
 			select="x:head[1]/x:name.block[1]/x:name[1]/x:t[1]/text()" />
 		<xsl:variable name="other_uuid"
-			select="concat($volumeName,'.',name(),'.',position())" />
+			select="concat($volumeName,'.',name(), x:getIdSuffix(current()))" />
 		<xsl:if test= "$other_label">
 		<xsl:call-template name="createMetadataAndHier">
 			<xsl:with-param name="uuid" select="$other_uuid" />
@@ -151,4 +151,17 @@
 			</xsl:when>
 		</xsl:choose>
 	</xsl:template>
+
+    <xsl:function name="x:getIdSuffix">
+        <xsl:param name="currentNode" as="node()"/>
+        <xsl:variable name="tagPosition" select="count($currentNode/preceding-sibling::*[name() = $currentNode/name()])" />
+        <xsl:choose>
+            <xsl:when test="$tagPosition=0">
+                <xsl:value-of select="''" />
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="concat('.', $tagPosition)" />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:function>
 </xsl:stylesheet>

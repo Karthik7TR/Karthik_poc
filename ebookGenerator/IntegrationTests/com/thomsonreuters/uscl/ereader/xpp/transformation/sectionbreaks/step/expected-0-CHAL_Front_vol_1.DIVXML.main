@@ -39,7 +39,7 @@
             </para>
             <para pre.leading="12q" first.para="no">
                 <para.text first.para.text="yes">
-                    <ital>Children and the Law</ital> is updated<xref id="1" type="footnote"/> annually so that juvenile and family law practitioners can be knowledgeable about relevant statutes, recent decisions from appellate courts, and developing legal concepts. Congress and state legislatures strive to address our changing times while the judicial system continues to afford all litigants equal justice <pagebreak num="V" num-string="v"/>under the law.</para.text>
+                    <ital>Children and the Law</ital> is updated<xref id="1-IV" origId="1" type="footnote" orig="true"/> annually so that juvenile and family law practitioners can be knowledgeable about relevant statutes, recent decisions from appellate courts, and developing legal concepts. Congress and state legislatures strive to address our changing times while the judicial system continues to afford all litigants equal justice <pagebreak num="V" num-string="v"/>under the law.</para.text>
             </para>
         </fm.highlights>
         <pagebreak num="VI" num-string=""/>
@@ -58,8 +58,8 @@
         </fm.about.the.author>
         <pagebreak num="X" num-string=""/>
         <pagebreak num="XI" num-string="xi"/>
-        <xref id="2" type="footnote"/>
-        <pagebreak num="XII" num-string="xii"/><xref id="2-XII" type="footnote" split="true"/>
+        <xref id="2-XI" origId="2" type="footnote" orig="true"/>
+        <pagebreak num="XII" num-string="xii"/><xref id="2-XII" origId="2" type="footnote" hidden="true"/>
         <sectionbreak sectionuuid="vol1.fm.proview"/>
         <XPPHier uuid="vol1.fm.proview" name="ProView page" parent_uuid="vol1.FrontMatter" md.doc_family_uuid="vol1.fm.proview">ProView page</XPPHier>
         <fm.proview/>

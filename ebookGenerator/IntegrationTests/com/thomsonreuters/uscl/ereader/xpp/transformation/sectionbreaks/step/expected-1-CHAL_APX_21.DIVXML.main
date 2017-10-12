@@ -13,7 +13,7 @@
                 <metadata.block metadata.store="yes"/>
                 <front date.updated="0">
                     <outline.name.block toc.include="y" date.updated="0">
-                        <name date.updated="0">Business<xref id="1" type="footnote"/> Enterprises</name><xref id="2" type="footnote"/>
+                        <name date.updated="0">Business<xref id="1-1" origId="1" type="footnote" orig="true"/> Enterprises</name><xref id="2-1" origId="2" type="footnote" orig="true"/>
                     </outline.name.block>
                 </front>
                 <topic.body date.updated="0">
@@ -36,7 +36,7 @@
                                     <toc.analytical.level tocuuid="I334a31a028b911e69ed7fcedf0a72427">
                                         <outline.name.block>
                                             <designator date.updated="0">I</designator>
-                                            <name>General<pagebreak num="2"/><xref id="2-2" type="footnote" split="true"/> Partnerships</name>
+                                            <name>General<pagebreak num="2"/><xref id="2-2" origId="2" type="footnote" hidden="true"/> Partnerships</name>
                                         </outline.name.block>
                                         <sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2576"/><XPPMetaData guid="I445a1ac6c61c11d9962fb5f8354828dc" md.doc_family_uuid="Ie0b81373f8fb11d99f28ffa0ae8c2576" parent_uuid="I333dd59028b911e69ed7fcedf0a72427"/>
                                         <toc.analytical.level tocuuid="I334a7fc028b911e69ed7fcedf0a72427">
@@ -65,7 +65,7 @@
                             </generated.toc>
                             <scope.statement.block date.updated="0">
                                 <para date.updated="0" first.para="yes">
-                                    <para.text date.updated="0" first.para.text="yes">This chapter contains forms for use in drafting documents relat-ing to the formation, management, and termination of partner-ships, together with a discussion of the legal requirements and tax aspects<xref id="3" type="footnote"/> that should be considered<pagebreak num="3"/><xref id="3-3" type="footnote" split="true"/> in drafting those documents.</para.text>
+                                    <para.text date.updated="0" first.para.text="yes">This chapter contains forms for use in drafting documents relat-ing to the formation, management, and termination of partner-ships, together with a discussion of the legal requirements and tax aspects<xref id="3-2" origId="3" type="footnote" orig="true"/> that should be considered<pagebreak num="3"/><xref id="3-3" origId="3" type="footnote" hidden="true"/> in drafting those documents.</para.text>
                                 </para>
                             </scope.statement.block>
                         </front>

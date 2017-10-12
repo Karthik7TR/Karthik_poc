@@ -1,5 +1,20 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.service;
 
+import static com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir.ANCHORS_DIR;
+import static com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir.EXTERNAL_LINKS_DIR;
+import static com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir.EXTERNAL_LINKS_MAPPING;
+import static com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir.FONTS_CSS_DIR;
+import static com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir.HTML_PAGES_DIR;
+import static com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir.MULTICOLUMNS_UP_DIR;
+import static com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir.ORIGINAL_DIR;
+import static com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir.ORIGINAL_PAGES_DIR;
+import static com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir.ORIGINAL_PARTS_DIR;
+import static com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir.SECTIONBREAKS_DIR;
+import static com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir.SECTIONBREAKS_UP_DIR;
+import static com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir.SOURCE_DIR;
+import static com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir.TITLE_METADATA_DIR;
+import static com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir.TOC_DIR;
+
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -21,21 +36,7 @@ import org.springframework.stereotype.Component;
 
 @Component("xppFormatFileSystem")
 public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements XppFormatFileSystem {
-    static final String FONTS_CSS_DIR = "01_Css";
-    static final String ORIGINAL_DIR = "02_Original";
     static final String CITE_QUERY_PROCESSED_DIR = "Processed Cite Queries";
-    static final String SOURCE_DIR = "03_StructureWithMetadata";
-    static final String SECTIONBREAKS_DIR = "04_Sectionbreaks";
-    static final String ANCHORS_DIR = "05_Anchors";
-    static final String MULTICOLUMNS_UP_DIR = "06_MultiColumnsUp";
-    static final String SECTIONBREAKS_UP_DIR = "07_SectionbreaksUp";
-    static final String ORIGINAL_PARTS_DIR = "08_OriginalParts";
-    static final String ORIGINAL_PAGES_DIR = "09_OriginalPages";
-    static final String HTML_PAGES_DIR = "10_HtmlPages";
-    static final String EXTERNAL_LINKS_DIR = "11_ExternalLinks";
-    static final String EXTERNAL_LINKS_MAPPING = "11_ExternalLinks_Mapping";
-    static final String TOC_DIR = "12_Toc";
-    static final String TITLE_METADATA_DIR = "13_title_metadata";
 
     private static final String TITLE_METADATA_FILE = "titleMetadata.xml";
     private static final String TOC_FILE = "toc.xml";
@@ -50,7 +51,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     File getStructureWithMetadataDirectory(@NotNull final BookStep step) {
-        return new File(getFormatDirectory(step), SOURCE_DIR);
+        return getDirectory(step, SOURCE_DIR);
     }
 
     @NotNull
@@ -85,7 +86,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     @Override
     @NotNull
     public File getFontsCssDirectory(@NotNull final BookStep step) {
-        return new File(getFormatDirectory(step), FONTS_CSS_DIR);
+        return getDirectory(step, FONTS_CSS_DIR);
     }
 
     @NotNull
@@ -103,7 +104,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     File getOriginalDirectory(@NotNull final BookStep step) {
-        return new File(getFormatDirectory(step), ORIGINAL_DIR);
+        return getDirectory(step, ORIGINAL_DIR);
     }
 
     @NotNull
@@ -161,7 +162,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     File getSectionbreaksDirectory(@NotNull final BookStep step) {
-        return new File(getFormatDirectory(step), SECTIONBREAKS_DIR);
+        return newFile(getFormatDirectory(step), SECTIONBREAKS_DIR);
     }
 
     @NotNull
@@ -187,7 +188,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     File getMultiColumnsUpDirectory(@NotNull final BookStep step) {
-        return new File(getFormatDirectory(step), MULTICOLUMNS_UP_DIR);
+        return newFile(getFormatDirectory(step), MULTICOLUMNS_UP_DIR);
     }
 
     @NotNull
@@ -213,7 +214,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     File getSectionbreaksUpDirectory(@NotNull final BookStep step) {
-        return new File(getFormatDirectory(step), SECTIONBREAKS_UP_DIR);
+        return newFile(getFormatDirectory(step), SECTIONBREAKS_UP_DIR);
     }
 
     @NotNull
@@ -239,7 +240,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     File getOriginalPartsDirectory(@NotNull final BookStep step) {
-        return new File(getFormatDirectory(step), ORIGINAL_PARTS_DIR);
+        return newFile(getFormatDirectory(step), ORIGINAL_PARTS_DIR);
     }
 
     @NotNull
@@ -251,24 +252,12 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     @NotNull
     @Override
     public PartFilesIndex getOriginalPartsFiles(@NotNull final BookStep step) {
-        final PartFilesIndex result = new PartFilesIndex();
-        for (final Map.Entry<String, Collection<File>> dir : getMaterialNumberToFilesMap(
-            getOriginalPartsDirectory(step)).entrySet()) {
-            for (final File file : dir.getValue()) {
-                final DocumentFile documentFile = new DocumentFile(file);
-                final DocumentName documentName = documentFile.getDocumentName();
-                final String baseName = documentName.getBaseName();
-                final PartType type = documentName.getPartType();
-
-                result.put(dir.getKey(), baseName, type, documentFile);
-            }
-        }
-        return result;
+        return getPartFilesIndex(step, ORIGINAL_PARTS_DIR);
     }
 
     @NotNull
     File getOriginalPagesDirectory(@NotNull final BookStep step) {
-        return new File(getFormatDirectory(step), ORIGINAL_PAGES_DIR);
+        return newFile(getFormatDirectory(step), ORIGINAL_PAGES_DIR);
     }
 
     @NotNull
@@ -299,7 +288,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     @NotNull
     @Override
     public File getHtmlPagesDirectory(@NotNull final BookStep step) {
-        return new File(getFormatDirectory(step), HTML_PAGES_DIR);
+        return newFile(getFormatDirectory(step), HTML_PAGES_DIR);
     }
 
     @NotNull
@@ -327,7 +316,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     @NotNull
     @Override
     public File getExternalLinksDirectory(@NotNull final BookStep step) {
-        return new File(getFormatDirectory(step), EXTERNAL_LINKS_DIR);
+        return newFile(getFormatDirectory(step), EXTERNAL_LINKS_DIR);
     }
 
     @NotNull
@@ -339,7 +328,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     @NotNull
     @Override
     public File getExternalLinksMappingDirectory(@NotNull final BookStep step) {
-        return new File(getFormatDirectory(step), EXTERNAL_LINKS_MAPPING);
+        return newFile(getFormatDirectory(step), EXTERNAL_LINKS_MAPPING);
     }
 
     @NotNull
@@ -371,7 +360,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     File getAnchorToDocumentIdMapDirectory(@NotNull final BookStep step) {
-        return new File(getFormatDirectory(step), ANCHORS_DIR);
+        return newFile(getFormatDirectory(step), ANCHORS_DIR);
     }
 
     @NotNull
@@ -402,7 +391,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     @NotNull
     @Override
     public File getTocDirectory(@NotNull final BookStep step) {
-        return new File(getFormatDirectory(step), TOC_DIR);
+        return newFile(getFormatDirectory(step), TOC_DIR);
     }
 
     @NotNull
@@ -429,7 +418,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     @NotNull
     @Override
     public File getTitleMetadataDirectory(@NotNull final BookStep step) {
-        return new File(getFormatDirectory(step), TITLE_METADATA_DIR);
+        return newFile(getFormatDirectory(step), TITLE_METADATA_DIR);
     }
 
     @NotNull
@@ -457,13 +446,29 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
         return String.format("%s_%04d_%s.page", baseFilename, pageNumber, docFamilyGuid);
     }
 
-    private Map<String, Collection<File>> getMaterialNumberToFilesMap(@NotNull final File root) {
-        final Map<String, Collection<File>> files = new HashMap<>();
-        for (final File sourceDir : root.listFiles()) {
-            final String materialNumber = sourceDir.getName();
-            files.put(materialNumber, Arrays.asList(sourceDir.listFiles()));
-        }
-        return files;
+    @NotNull
+    File getDirectory(@NotNull final BookStep step, final XppFormatFileSystemDir dir) {
+        return newFile(getFormatDirectory(step), dir);
+    }
+
+    @Override
+    public File getDirectory(final BookStep step, final XppFormatFileSystemDir dir, final String materialNumber) {
+        return new File(getDirectory(step, dir), materialNumber);
+    }
+
+    @Override
+    public File getFile(final BookStep step, final XppFormatFileSystemDir dir, final String materialNumber, final String fileName) {
+        return Paths.get(getDirectory(step, dir, materialNumber).toString(), fileName).toFile();
+    }
+
+    @Override
+    public Map<String, Collection<File>> getFiles(final BookStep step, final XppFormatFileSystemDir dir) {
+        return getMaterialNumberToFilesMap(getDirectory(step, dir));
+    }
+
+    @Override
+    public BaseFilesIndex getBaseFilesIndex(final BookStep step, final XppFormatFileSystemDir dir) {
+        return getBaseFilesIndex(getDirectory(step, dir));
     }
 
     /**
@@ -480,5 +485,35 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
             }
         }
         return result;
+    }
+
+    @Override
+    public PartFilesIndex getPartFilesIndex(final BookStep step, final XppFormatFileSystemDir dir) {
+        final PartFilesIndex result = new PartFilesIndex();
+        for (final Map.Entry<String, Collection<File>> materialNumberDir : getMaterialNumberToFilesMap(
+            getDirectory(step, dir)).entrySet()) {
+            for (final File file : materialNumberDir.getValue()) {
+                final DocumentFile documentFile = new DocumentFile(file);
+                final DocumentName documentName = documentFile.getDocumentName();
+                final String baseName = documentName.getBaseName();
+                final PartType type = documentName.getPartType();
+
+                result.put(materialNumberDir.getKey(), baseName, type, documentFile);
+            }
+        }
+        return result;
+    }
+
+    private Map<String, Collection<File>> getMaterialNumberToFilesMap(@NotNull final File root) {
+        final Map<String, Collection<File>> files = new HashMap<>();
+        for (final File sourceDir : root.listFiles()) {
+            final String materialNumber = sourceDir.getName();
+            files.put(materialNumber, Arrays.asList(sourceDir.listFiles()));
+        }
+        return files;
+    }
+
+    private File newFile(final File baseDir, final XppFormatFileSystemDir dir) {
+        return new File(baseDir, dir.getDirName());
     }
 }

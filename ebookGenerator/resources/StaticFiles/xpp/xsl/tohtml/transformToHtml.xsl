@@ -103,7 +103,7 @@
         <xsl:variable name="footnoteRefId" select="x:footnote-reference-id(.)" />
 
         <xsl:choose>
-            <xsl:when test="number($footnoteRefId)">
+            <xsl:when test="$footnoteRefId != ''">
                 <xsl:call-template name="addFootnoteReference">
                     <xsl:with-param name="refId" select="$footnoteRefId" />
                 </xsl:call-template>

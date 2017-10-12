@@ -78,21 +78,20 @@ public final class SplitOriginalStepTest {
 
         originalPartsDirectory = new File(root, "originalPartsDirectory");
 
-        given(fileSystem.getSectionBreaksFiles(step)).willReturn(getFilesFromBundleStructure(original, footnotes));
+        given(fileSystem.getFiles(step, SplitOriginalStep.INPUT_DIR_1)).willReturn(getFilesFromBundleStructure(original, footnotes));
 
-        given(fileSystem.getMultiColumnsUpFiles(step))
-            .willReturn(getFilesFromBundleStructure(columnsUpOriginal, columnsUpFootnotes));
-        given(fileSystem.getMultiColumnsUpFile(step, MATERIAL_NUMBER, "original")).willReturn(columnsUpOriginal);
-        given(fileSystem.getMultiColumnsUpFile(step, MATERIAL_NUMBER, "footnotes")).willReturn(columnsUpFootnotes);
-        given(fileSystem.getMultiColumnsUpDirectory(step, MATERIAL_NUMBER)).willReturn(columnsUpDir);
+        given(fileSystem.getFiles(step, SplitOriginalStep.INPUT_DIR_2)).willReturn(getFilesFromBundleStructure(columnsUpOriginal, columnsUpFootnotes));
 
-        given(fileSystem.getSectionbreaksUpFiles(step))
-            .willReturn(getFilesFromBundleStructure(moveUpOriginal, moveUpFootnotes));
-        given(fileSystem.getSectionbreaksUpFile(step, MATERIAL_NUMBER, "original")).willReturn(moveUpOriginal);
-        given(fileSystem.getSectionbreaksUpFile(step, MATERIAL_NUMBER, "footnotes")).willReturn(moveUpFootnotes);
-        given(fileSystem.getSectionbreaksUpDirectory(step, MATERIAL_NUMBER)).willReturn(moveUpDir);
+        given(fileSystem.getFile(step, SplitOriginalStep.INPUT_DIR_2, MATERIAL_NUMBER, "original")).willReturn(columnsUpOriginal);
+        given(fileSystem.getFile(step, SplitOriginalStep.INPUT_DIR_2, MATERIAL_NUMBER, "footnotes")).willReturn(columnsUpFootnotes);
+        given(fileSystem.getDirectory(step, SplitOriginalStep.INPUT_DIR_2, MATERIAL_NUMBER)).willReturn(columnsUpDir);
 
-        given(fileSystem.getOriginalPartsDirectory(step, MATERIAL_NUMBER)).willReturn(originalPartsDirectory);
+        given(fileSystem.getFiles(step, SplitOriginalStep.INPUT_DIR_3)).willReturn(getFilesFromBundleStructure(moveUpOriginal, moveUpFootnotes));
+        given(fileSystem.getFile(step, SplitOriginalStep.INPUT_DIR_3, MATERIAL_NUMBER, "original")).willReturn(moveUpOriginal);
+        given(fileSystem.getFile(step, SplitOriginalStep.INPUT_DIR_3, MATERIAL_NUMBER, "footnotes")).willReturn(moveUpFootnotes);
+        given(fileSystem.getDirectory(step, SplitOriginalStep.INPUT_DIR_3, MATERIAL_NUMBER)).willReturn(moveUpDir);
+
+        given(fileSystem.getDirectory(step, SplitOriginalStep.OUTPUT_DIR_3, MATERIAL_NUMBER)).willReturn(originalPartsDirectory);
     }
 
     @Test
@@ -111,7 +110,7 @@ public final class SplitOriginalStepTest {
         assertThat(iterator.next().getOutputFile(), is(originalPartsDirectory));
     }
 
-    private Map<String, Collection<File>> getFilesFromBundleStructure(final File... files) {
+    private Map<String, Collection<File>> getFilesFromBundleStructure(final File...files) {
         return Collections.singletonMap(MATERIAL_NUMBER, (Collection<File>) Arrays.asList(files));
     }
 }

@@ -13,6 +13,7 @@ import com.thomsonreuters.uscl.ereader.common.filesystem.entity.partfiles.PartFi
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.PartType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
@@ -86,7 +87,7 @@ public final class SplitOriginalStepIntegrationTest {
     @Test
     public void shouldSplitOriginalXml() throws Exception {
         //given
-        final File originalDirectory = mkdir(fileSystem.getSectionbreaksDirectory(step, MATERIAL_NUMBER));
+        final File originalDirectory = mkdir(fileSystem.getDirectory(step, XppFormatFileSystemDir.CROSS_PAGE_FOOTNOTES, MATERIAL_NUMBER));
         FileUtils.copyFileToDirectory(main, originalDirectory);
         FileUtils.copyFileToDirectory(footnotes, originalDirectory);
         //when

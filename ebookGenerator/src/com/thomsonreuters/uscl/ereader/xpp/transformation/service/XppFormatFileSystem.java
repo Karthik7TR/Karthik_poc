@@ -424,4 +424,42 @@ public interface XppFormatFileSystem extends FormatFileSystem {
      */
     @NotNull
     String getPageFileName(@NotNull String baseFilename, @NotNull int pageNumber, @NotNull String docFamilyGuid);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /#_dirName}{@code /[material number]}
+     */
+    @NotNull
+    File getDirectory(@NotNull BookStep step, @NotNull XppFormatFileSystemDir dir, @NotNull String materialNumber);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
+     * {@code /}{@link getSectionbreaksUpDirectory #_dirName}{@code /[material number]}{@code /fileName.type}
+     */
+    @NotNull
+    File getFile(@NotNull BookStep step, @NotNull XppFormatFileSystemDir dir, @NotNull String materialNumber, @NotNull String name);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /#_dirName}{@code /[material number]}{@code /*.*}
+     */
+    @NotNull
+    Map<String, Collection<File>> getFiles(@NotNull BookStep step, @NotNull XppFormatFileSystemDir dir);
+
+    /**
+     * Returns index file based on maps: by material number then by base filename then by content type (main or footnotes).
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /#_dirName}{@code /[material number]/[Map<MaterialNumber, Map<BaseFilename, Map<PartType, File>>>]}
+     */
+    @NotNull
+    BaseFilesIndex getBaseFilesIndex(@NotNull BookStep step, @NotNull XppFormatFileSystemDir dir);
+
+    /**
+     * Returns index file based on maps: by material number then by base filename then by content type (main or footnotes).
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /#_dirName}{@code /[material number]/[Map<MaterialNumber, Map<BaseFilename, Map<PartType, File>>>]}
+     */
+    @NotNull
+    PartFilesIndex getPartFilesIndex(@NotNull BookStep step, @NotNull XppFormatFileSystemDir dir);
 }

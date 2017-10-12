@@ -33,23 +33,23 @@ public final class XppFormatFileSystemImplTest {
 
     private static final String SECTION_UUID = "Ie0b9c12bf8fb11d99f28ffa0ae8c2575";
     private static final String SECTION_UUID_2 = "Ie0b9c12bf8fb11d99f28ffa0ae8c2576";
-    private static final String CSS_DIR = FORMAT_DIR + XppFormatFileSystemImpl.FONTS_CSS_DIR;
-    private static final String ORIGINAL_DIR = FORMAT_DIR + XppFormatFileSystemImpl.ORIGINAL_DIR;
+    private static final String CSS_DIR = FORMAT_DIR + XppFormatFileSystemDir.FONTS_CSS_DIR.getDirName();
+    private static final String ORIGINAL_DIR = FORMAT_DIR + XppFormatFileSystemDir.ORIGINAL_DIR.getDirName();
     private static final String PROCESSED_CITE_QUERIES_DIR =
         ORIGINAL_DIR + "/" + MATERIAL_NUMBER + "/Processed Cite Queries";
-    private static final String SOURCE_DIR = FORMAT_DIR + XppFormatFileSystemImpl.SOURCE_DIR;
-    private static final String SECTIONBREAKS_DIR = FORMAT_DIR + XppFormatFileSystemImpl.SECTIONBREAKS_DIR;
-    private static final String MULTICOLUMNS_UP_DIR = FORMAT_DIR + XppFormatFileSystemImpl.MULTICOLUMNS_UP_DIR;
-    private static final String SECTIONBREAKS_UP_DIR = FORMAT_DIR + XppFormatFileSystemImpl.SECTIONBREAKS_UP_DIR;
-    private static final String ORIGINAL_PARTS_DIR = FORMAT_DIR + XppFormatFileSystemImpl.ORIGINAL_PARTS_DIR;
-    private static final String ORIGINAL_PAGES_DIR = FORMAT_DIR + XppFormatFileSystemImpl.ORIGINAL_PAGES_DIR;
-    private static final String HTML_PAGES_DIR = FORMAT_DIR + XppFormatFileSystemImpl.HTML_PAGES_DIR;
-    private static final String EXTERNAL_LINKS_DIR = FORMAT_DIR + XppFormatFileSystemImpl.EXTERNAL_LINKS_DIR;
+    private static final String SOURCE_DIR = FORMAT_DIR + XppFormatFileSystemDir.SOURCE_DIR.getDirName();
+    private static final String SECTIONBREAKS_DIR = FORMAT_DIR + XppFormatFileSystemDir.SECTIONBREAKS_DIR.getDirName();
+    private static final String MULTICOLUMNS_UP_DIR = FORMAT_DIR + XppFormatFileSystemDir.MULTICOLUMNS_UP_DIR.getDirName();
+    private static final String SECTIONBREAKS_UP_DIR = FORMAT_DIR + XppFormatFileSystemDir.SECTIONBREAKS_UP_DIR.getDirName();
+    private static final String ORIGINAL_PARTS_DIR = FORMAT_DIR + XppFormatFileSystemDir.ORIGINAL_PARTS_DIR.getDirName();
+    private static final String ORIGINAL_PAGES_DIR = FORMAT_DIR + XppFormatFileSystemDir.ORIGINAL_PAGES_DIR.getDirName();
+    private static final String HTML_PAGES_DIR = FORMAT_DIR + XppFormatFileSystemDir.HTML_PAGES_DIR.getDirName();
+    private static final String EXTERNAL_LINKS_DIR = FORMAT_DIR + XppFormatFileSystemDir.EXTERNAL_LINKS_DIR.getDirName();
     private static final String EXTERNAL_LINKS_MAPPING_DIR =
-        FORMAT_DIR + XppFormatFileSystemImpl.EXTERNAL_LINKS_MAPPING;
-    private static final String ANCHORS_DIR = FORMAT_DIR + XppFormatFileSystemImpl.ANCHORS_DIR;
-    private static final String TOC_DIR = FORMAT_DIR + XppFormatFileSystemImpl.TOC_DIR;
-    private static final String TITLE_METADATA_DIR = FORMAT_DIR + XppFormatFileSystemImpl.TITLE_METADATA_DIR;
+        FORMAT_DIR + XppFormatFileSystemDir.EXTERNAL_LINKS_MAPPING.getDirName();
+    private static final String ANCHORS_DIR = FORMAT_DIR + XppFormatFileSystemDir.ANCHORS_DIR.getDirName();
+    private static final String TOC_DIR = FORMAT_DIR + XppFormatFileSystemDir.TOC_DIR.getDirName();
+    private static final String TITLE_METADATA_DIR = FORMAT_DIR + XppFormatFileSystemDir.TITLE_METADATA_DIR.getDirName();
 
     private static final String FILE_NAME_XML = "fileName.xml";
     private static final String FILE_NAME_MAIN = "fileName.main";
@@ -607,5 +607,62 @@ public final class XppFormatFileSystemImplTest {
         final File file = fileSystem.getTitleMetadataFile(step);
         //then
         assertThat(file, hasPath(TITLE_METADATA_DIR + "/" + TITLE_METADATA_XML));
+    }
+
+    @Test
+    public void shouldReturnAnyXppFormatDirectory() {
+        for (final XppFormatFileSystemDir dir : XppFormatFileSystemDir.values())
+        {
+            //when
+            final File file = fileSystem.getDirectory(step, dir);
+            //then
+            assertThat(file, hasPath(dir.getDirName()));
+        }
+    }
+
+    @Test
+    public void shouldReturnFileFromAnyXppFormatDirectory() {
+        for (final XppFormatFileSystemDir dir : XppFormatFileSystemDir.values())
+        {
+            //when
+            final File file = fileSystem.getFile(step, dir, MATERIAL_NUMBER, FILE_NAME_HTML);
+            //then
+            assertThat(file, hasPath(dir.getDirName() + "/" + MATERIAL_NUMBER + "/" + FILE_NAME_HTML));
+        }
+    }
+
+    @Test
+    public void shouldReturnFilesMapFromGivenDirectory() throws IOException {
+        shouldReturnFilesMapFromGivenDirectory(XppFormatFileSystemDir.SECTIONBREAKS_DIR);
+    }
+
+    private void shouldReturnFilesMapFromGivenDirectory(final XppFormatFileSystemDir dir) throws IOException {
+        //given
+        final File sourcelDir = mkdir(temporaryFolder.getRoot(), FORMAT_DIR + dir.getDirName());
+        final File originalFile1 = mkfile(mkdir(sourcelDir, MATERIAL_NUMBER), FILE_NAME_XML);
+        final File originalFile2 = mkfile(mkdir(sourcelDir, MATERIAL_NUMBER_2), FILE_NAME_XML);
+        //when
+        final Map<String, Collection<File>> map = fileSystem.getFiles(step, dir);
+
+        //then
+        assertTrue(map.get(MATERIAL_NUMBER).contains(originalFile1));
+        assertTrue(map.get(MATERIAL_NUMBER_2).contains(originalFile2));
+    }
+
+    @Test
+    public void shouldReturnBaseFilesIndex() throws IOException {
+        shouldReturnBaseFilesIndex(XppFormatFileSystemDir.MULTICOLUMNS_UP_DIR);
+    }
+
+    private void shouldReturnBaseFilesIndex(final XppFormatFileSystemDir dir) throws IOException {
+        //given
+        final File sourcelDir = mkdir(temporaryFolder.getRoot(), FORMAT_DIR + dir.getDirName());
+        final File originalFileMain = mkfile(mkdir(sourcelDir, MATERIAL_NUMBER), FILE_NAME_MAIN);
+        final File originalFileFootnotes = mkfile(mkdir(sourcelDir, MATERIAL_NUMBER), FILE_NAME_FOOTNOTES);
+        //when
+        final BaseFilesIndex baseFilesIndex = fileSystem.getBaseFilesIndex(step, dir);
+        //then
+        assertTrue(baseFilesIndex.get(MATERIAL_NUMBER, FILE_NAME, PartType.MAIN).equals(originalFileMain));
+        assertTrue(baseFilesIndex.get(MATERIAL_NUMBER, FILE_NAME, PartType.FOOTNOTE).equals(originalFileFootnotes));
     }
 }

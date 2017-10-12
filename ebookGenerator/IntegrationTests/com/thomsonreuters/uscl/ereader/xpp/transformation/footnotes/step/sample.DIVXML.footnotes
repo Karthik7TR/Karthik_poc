@@ -1,0 +1,97 @@
+<root xmlns="http://www.sdl.com/xpp">
+    <testCase>
+        <sectionbreak sectionuuid="I91dc7b90572311dca3950000837bc6dd"/>
+        <pagebreak num="87" num-string="87" prev_page="86"/>
+
+        <sectionbreak sectionuuid="I91dd17d0572311dca3950000837bc6dd"/>
+        
+        <pagebreak num="88" num-string="88" prev_page="87"/>
+        <footnote id="360-88" origId="360" orig="true">
+            <footnote.reference class="show_in_main_and_footnotes">
+                <t style="footnote.reference super cgt">19</t>
+            </footnote.reference>
+            <footnote.body class="show_in_main_and_footnotes" date.updated="0">
+                footnote 360 content
+            </footnote.body>
+        </footnote>
+    </testCase>
+    
+    <sectionbreak sectionuuid="I91dd17d1572311dca3950000837bc6dd"/>
+    
+    <testCase>
+        <sectionbreak sectionuuid="I91dd17d2572311dca3950000837bc6dd"/>
+        <pagebreak num="100" num-string="100" prev_page="99"/>
+
+        <sectionbreak sectionuuid="I91dd17d3572311dca3950000837bc6dd"/>
+        
+        <pagebreak num="101" num-string="101" prev_page="100"/>
+        <footnote id="512-101" origId="512" orig="true">
+            <footnote.reference class="show_in_main_and_footnotes">
+                <t style="footnote.reference super cgt">20</t>
+            </footnote.reference>
+            <footnote.body class="show_in_main_and_footnotes" date.updated="0">
+                footnote 512 content
+            </footnote.body>
+        </footnote>
+    </testCase>
+    
+    <sectionbreak sectionuuid="I91dd17d4572311dca3950000837bc6dd"/>
+
+    <testCase>
+        <sectionbreak sectionuuid="I91dd17d5572311dca3950000837bc6dd"/>
+        <pagebreak num="200" num-string="200" prev_page="199"/>
+
+        <sectionbreak sectionuuid="I91dd17d6572311dca3950000837bc6dd"/>
+        
+        <sectionbreak sectionuuid="I91dd17d7572311dca3950000837bc6dd"/>
+        
+        <pagebreak num="201" num-string="201" prev_page="200"/>
+        <footnote id="1024-201" origId="1024" orig="true">
+            <footnote.reference class="show_in_main_and_footnotes">
+                <t style="footnote.reference super cgt">21</t>
+            </footnote.reference>
+            <footnote.body class="show_in_main_and_footnotes" date.updated="0">
+                footnote 1024 content
+            </footnote.body>
+        </footnote>
+    </testCase>
+    
+    <sectionbreak sectionuuid="I91dd17d7572311dca3950000837bc6dd"/>
+    
+    <testCase>
+        <sectionbreak sectionuuid="I91dd17d8572311dca3950000837bc6dd"/>
+        <pagebreak num="661" num-string="661" prev_page="660"/>
+        
+        <pagebreak num="662" num-string="662" prev_page="661"/>
+        <footnote id="1853-662" origId="1853" orig="true">
+                <footnote.reference class="show_in_main">
+                    <t style="footnote.reference super cgt">5</t>
+                </footnote.reference>
+                <footnote.body class="show_in_main" date.updated="0">
+                    footnote 1853 content on page 662
+                    footnote 1853 content on page 663
+                    footnote 1853 content on page 664
+                </footnote.body>
+                <footnote.reference class="show_in_footnotes">
+                    <t style="footnote.reference super cgt">5</t>
+                </footnote.reference>
+                <footnote.body class="show_in_footnotes" date.updated="0">
+                    footnote 1853 content on page 662
+                </footnote.body>
+        </footnote>
+        <pagebreak num="663" num-string="663" prev_page="662"/>
+        <footnote id="1853-663">
+            <hidden.footnote.reference refId="1853-663"/>
+            <footnote.body date.updated="0">
+                footnote 1853 content on page 663
+            </footnote.body>
+        </footnote>
+        <pagebreak num="664" num-string="664" prev_page="663"/>
+        <footnote id="1853-664">
+            <hidden.footnote.reference refId="1853-664"/>
+            <footnote.body date.updated="0">
+                footnote 1853 content on page 664
+            </footnote.body>
+        </footnote>
+    </testCase>
+</root>

@@ -3,11 +3,11 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.sdl.com/xpp"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
 	<xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
-    <xsl:include href="footnotesUtil.xsl"/>
+    <xsl:include href="footnotesToMain.xsl"/>
 
 	<xsl:variable name="firstDocFamilyUuid"
 		select="(x:root//x:XPPMetaData)[1]/@md.doc_family_uuid" />
-	<xsl:param name="footnotesFile" />
+    <xsl:param name="footnotesFile" />
 	<xsl:variable name="footnotesDocument" select="document($footnotesFile)" />
 
 	<xsl:template match="node()|@*">

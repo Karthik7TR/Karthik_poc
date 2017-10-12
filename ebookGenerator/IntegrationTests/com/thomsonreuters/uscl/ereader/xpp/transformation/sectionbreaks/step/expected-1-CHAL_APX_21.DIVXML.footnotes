@@ -1,6 +1,6 @@
 <root xmlns="http://www.sdl.com/xpp">
     <sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2575"/><pagebreak num="1" num-string="1"/>
-    <footnote uuid="I42a3e14013c911e7b9e3acd823573d3d" date.updated="0" id="1">
+    <footnote id="1-1" origId="1" orig="true" uuid="I42a3e14013c911e7b9e3acd823573d3d" date.updated="0">
         <cgt>[Section 1:1]</cgt>
         
         <footnote.reference class="show_in_main_and_footnotes">
@@ -12,7 +12,7 @@
             </para>
         </footnote.body>
     </footnote>
-    <footnote uuid="I42e15f7013c911e7b9e3acd823573d3d" date.updated="0" id="2">
+    <footnote id="2-1" origId="2" orig="true" uuid="I42e15f7013c911e7b9e3acd823573d3d" date.updated="0">
         
         <footnote.reference class="show_in_main">
             <cgt>2</cgt>
@@ -27,12 +27,12 @@
         </footnote.reference><footnote.body class="show_in_footnotes" date.updated="0">
             <para date.updated="0" first.para="no">
                 content on page 1
-                </para></footnote.body></footnote><pagebreak num="2" num-string="2"/><footnote><hidden.footnote.reference refId="2-2"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
+                </para></footnote.body></footnote><pagebreak num="2" num-string="2"/><footnote id="2-2"><hidden.footnote.reference refId="2-2"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
                 content on page 2
             </para>
         </footnote.body>
     </footnote>
-    <sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2577"/><footnote uuid="I42e15f7013c911e7b9e3acd823573d4e" date.updated="0" id="3">
+    <sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2577"/><footnote id="3-2" origId="3" orig="true" uuid="I42e15f7013c911e7b9e3acd823573d4e" date.updated="0">
         
         <footnote.reference class="show_in_main">
             <cgt>3</cgt>
@@ -47,7 +47,7 @@
         </footnote.reference><footnote.body class="show_in_footnotes" date.updated="0">
             <para date.updated="0" first.para="no">
                 content on page 2
-                </para></footnote.body></footnote><pagebreak num="3" num-string="3"/><footnote><hidden.footnote.reference refId="3-3"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
+                </para></footnote.body></footnote><pagebreak num="3" num-string="3"/><footnote id="3-3"><hidden.footnote.reference refId="3-3"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
                 content on page 3
             </para>
         </footnote.body>

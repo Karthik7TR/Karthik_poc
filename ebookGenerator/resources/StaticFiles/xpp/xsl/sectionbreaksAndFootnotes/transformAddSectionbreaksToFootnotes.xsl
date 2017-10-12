@@ -2,6 +2,7 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.sdl.com/xpp"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
+    <xsl:import href="footnotesUtil.xsl"/>
     <xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
 
     <xsl:param name="mainFile" />
@@ -14,13 +15,20 @@
     </xsl:template>
     
     <xsl:template match="x:footnote">
+        <xsl:variable name="pageNum" select="preceding::x:pagebreak[1]/@num" />
+        <xsl:variable name="newId" select="concat(@id, '-', $pageNum)"/>
+        <xsl:variable name="xref" select="$main//x:xref[@id=$newId and @type='footnote']" />
+        
         <xsl:call-template name="addSectionbreak">
-            <xsl:with-param name="mainNode" select="$main//x:xref[@id=current()/@id and @type='footnote']" />
+            <xsl:with-param name="mainNode" select="$xref" />
         </xsl:call-template>
         
-        <xsl:copy>
-            <xsl:apply-templates select="node()|@*" />
-        </xsl:copy>
+        <xsl:element name="footnote">
+            <xsl:attribute name="id" select="$newId" />
+            <xsl:attribute name="origId" select="@id" />
+            <xsl:attribute name="orig" select="true()" />
+            <xsl:apply-templates select="node()|@*[not(name()='id')]" />
+        </xsl:element>
     </xsl:template>
     
     <xsl:template match="x:footnote.body">
@@ -65,6 +73,8 @@
     </xsl:template>
     
     <xsl:template match="x:footnote.reference" />
+    
+    <xsl:template match="x:footnote.reference" mode="hidden" />
     
     <xsl:template match="x:footnote.reference" mode="content">
         <xsl:apply-templates select="node()|@*" />
@@ -145,6 +155,11 @@
                         <xsl:text disable-output-escaping="yes"><![CDATA["]]></xsl:text>
                     </xsl:for-each>
                 </xsl:if>
+                <xsl:if test="$isFootnote">
+                    <xsl:text disable-output-escaping="yes"><![CDATA[ id="]]></xsl:text>
+                    <xsl:value-of select="$refId" />
+                    <xsl:text disable-output-escaping="yes"><![CDATA["]]></xsl:text>
+                </xsl:if>
                 <xsl:text disable-output-escaping="yes"><![CDATA[>]]></xsl:text>
                 
                 <xsl:if test="$isFootnote">
@@ -159,6 +174,23 @@
     <xsl:function name="x:hasInnerPagebreaksOrColumnbreaks">
         <xsl:param name="node" as="node()"/>
         <xsl:value-of select="count($node//x:pagebreak | $node//x:column | $node//x:endcolumn) > 0" />
+    </xsl:function>
+    
+    <xsl:function name="x:getReferenceFromCorrespondingPageInMainContent">
+        <xsl:param name="footnote" as="node()"/>
+        <xsl:param name="main" />
+        
+        <xsl:variable name="pageNum" select="$footnote/preceding::x:pagebreak[1]/@num" />
+        <xsl:variable name="xrefs" select="x:getXrefsOnGivenPageOfMainFile($main//x:pagebreak[@num=$pageNum])" />
+        
+        <xsl:copy-of select="$xrefs[@origId=$footnote/@id and @hidden!=true()]" />
+    </xsl:function>
+    
+    <xsl:function name="x:findOriginalReferenceInMainContent">
+        <xsl:param name="footnote" as="node()"/>
+        <xsl:param name="main" />
+        
+        <xsl:copy-of select="$main//x:xref[@origId=$footnote/@id and not(@hidden)][1]/preceding::x:pagebreak[1]/@num" />
     </xsl:function>
     
 </xsl:stylesheet>

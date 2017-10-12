@@ -355,7 +355,7 @@
 		<pagebreak num="VIII" num-string=""/>
 		<pagebreak num="IX" num-string="ix"/>
 		<sectionbreak sectionuuid="1111111."/>
-		<sectionbreak sectionuuid="1111111.fm.about.the.author.36"/><XPPHier uuid="1111111.fm.about.the.author.36" name="About the Author" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.about.the.author.36">About the Author</XPPHier><fm.about.the.author>
+		<sectionbreak sectionuuid="1111111.fm.about.the.author"/><XPPHier uuid="1111111.fm.about.the.author" name="About the Author" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.about.the.author">About the Author</XPPHier><fm.about.the.author>
 			<metadata.block metadata.store="yes">
 				<metadata field="left.running.head">
 					<value/>
@@ -455,7 +455,7 @@
 		<pagebreak num="X" num-string=""/>
 		<pagebreak num="XI" num-string="xi"/>
 		<sectionbreak sectionuuid="1111111."/>
-		<sectionbreak sectionuuid="1111111.fm.about.the.author.44"/><XPPHier uuid="1111111.fm.about.the.author.44" name="About the Contributors" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.about.the.author.44">About the Contributors</XPPHier><fm.about.the.author>
+		<sectionbreak sectionuuid="1111111.fm.about.the.author.1"/><XPPHier uuid="1111111.fm.about.the.author.1" name="About the Contributors" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.about.the.author.1">About the Contributors</XPPHier><fm.about.the.author>
 			<metadata.block metadata.store="yes">
 				<metadata field="left.running.head">
 					<value/>

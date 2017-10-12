@@ -3,7 +3,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.sdl.com/xpp"
     xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
     <xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
-    <xsl:include href="footnotesUtil.xsl"/>
+    <xsl:include href="footnotesToMain.xsl"/>
 
     <xsl:param name="footnotesFile" />
     <xsl:variable name="footnotesDocument" select="document($footnotesFile)" />

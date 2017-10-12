@@ -1,0 +1,53 @@
+<root xmlns="http://www.sdl.com/xpp">
+    <testCase>
+        <sectionbreak sectionuuid="I91dc7b90572311dca3950000837bc6dd"/>
+        <pagebreak num="87" num-string="87" prev_page="86"/>
+
+        <xref id="360-87" origId="360" type="footnote" orig="true"/>
+        <sectionbreak sectionuuid="I91dd17d0572311dca3950000837bc6dd"/>
+
+        <pagebreak num="88" num-string="88" prev_page="87"/>
+        <xref id="360-88" origId="360" type="footnote" hidden="true"/>
+    </testCase>
+
+    <sectionbreak sectionuuid="I91dd17d1572311dca3950000837bc6dd"/>
+    
+    <testCase>
+        <sectionbreak sectionuuid="I91dd17d2572311dca3950000837bc6dd"/>
+        <pagebreak num="100" num-string="100" prev_page="99"/>
+
+        <sectionbreak sectionuuid="I91dd17d3572311dca3950000837bc6dd"/>
+        <xref id="512-100" origId="512" type="footnote" orig="true"/>
+
+        <pagebreak num="101" num-string="101" prev_page="100"/>
+        <xref id="512-101" origId="512" type="footnote" hidden="true"/>
+    </testCase>
+
+    <sectionbreak sectionuuid="I91dd17d4572311dca3950000837bc6dd"/>
+
+    <testCase>
+        <sectionbreak sectionuuid="I91dd17d5572311dca3950000837bc6dd"/>
+        <pagebreak num="200" num-string="200" prev_page="199"/>
+
+        <sectionbreak sectionuuid="I91dd17d6572311dca3950000837bc6dd"/>
+        <xref id="1024-200" origId="1024" type="footnote" orig="true"/>
+        <sectionbreak sectionuuid="I91dd17d7572311dca3950000837bc6dd"/>
+        
+        <pagebreak num="201" num-string="201" prev_page="200"/>
+        <xref id="1024-101" origId="1024" type="footnote" hidden="true"/>
+    </testCase>
+    
+    <sectionbreak sectionuuid="I91dd17d7572311dca3950000837bc6dd"/>
+    
+    <testCase>
+        <sectionbreak sectionuuid="I91dd17d8572311dca3950000837bc6dd"/>
+        <pagebreak num="661" num-string="661" prev_page="660"/>
+        <xref id="1853-661" origId="1853" type="footnote" orig="true"/>
+        <pagebreak num="662" num-string="662" prev_page="661"/>
+        <xref id="1853-662" origId="1853" type="footnote" hidden="true"/>
+        <pagebreak num="663" num-string="663" prev_page="662"/>
+        <xref id="1853-663" origId="1853" type="footnote" hidden="true"/>
+        <pagebreak num="664" num-string="664" prev_page="663"/>
+        <xref id="1853-664" origId="1853" type="footnote" hidden="true"/>
+    </testCase>
+</root>

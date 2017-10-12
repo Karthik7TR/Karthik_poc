@@ -3,7 +3,7 @@
     <pagebreak num="2" num-string="2"/>
     <sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2576"/><pagebreak num="3" num-string="3"/>
     <foots/>
-    <footnote uuid="I42a3e14013c911e7b9e3acd823573d3d" date.updated="0" id="2">
+    <footnote id="2-3" origId="2" orig="true" uuid="I42a3e14013c911e7b9e3acd823573d3d" date.updated="0">
         <cgt>[Section 1:1]</cgt>
         
         <footnote.reference class="show_in_main_and_footnotes">
@@ -16,8 +16,16 @@
         </footnote.body>
     </footnote>
     <sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2577"/><pagebreak num="4" num-string="4"/>
+    <footnote id="3-4" origId="3" orig="true" uuid="I42a3e14013c911e7b9e3acd823573d2c" date.updated="0">
+        
+        <footnote.reference class="show_in_main_and_footnotes">
+            
+        </footnote.reference><footnote.body class="show_in_main_and_footnotes" date.updated="0">
+            footnote which defined on page 4 but referenced on page 3
+        </footnote.body>
+    </footnote>
     <foots/>
-    <footnote uuid="I42a8ea5013c911e7b9e3acd823573d3e" date.updated="0" id="5">
+    <footnote id="5-4" origId="5" orig="true" uuid="I42a8ea5013c911e7b9e3acd823573d3e" date.updated="0">
         
         <footnote.reference class="show_in_main">
             <cgt>5</cgt>
@@ -47,7 +55,7 @@
             </para>
         </footnote.body>
     </footnote>
-    <footnote uuid="I42a8ea5013c911e7b9e3acd823573d3d" date.updated="0" id="6">
+    <footnote id="6-4" origId="6" orig="true" uuid="I42a8ea5013c911e7b9e3acd823573d3d" date.updated="0">
         
         <footnote.reference class="show_in_main_and_footnotes">
             <cgt>5</cgt>
@@ -58,7 +66,7 @@
             </para>
         </footnote.body>
     </footnote>
-    <sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2588"/><footnote uuid="I42e15f7013c911e7b9e3acd823573d3d" date.updated="0" id="20">
+    <sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2588"/><footnote id="20-4" origId="20" orig="true" uuid="I42e15f7013c911e7b9e3acd823573d3d" date.updated="0">
         
         <footnote.reference class="show_in_main">
             <cgt>8</cgt>
@@ -86,13 +94,13 @@
             <para date.updated="0" first.para="no">
                 footnote on page 4
                 <page.number page-num="4"/>
-                </para></footnote.body></footnote><sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2599"/><pagebreak num="5" num-string="5"/><footnote><hidden.footnote.reference refId="20-5"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
+                </para></footnote.body></footnote><sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2599"/><pagebreak num="5" num-string="5"/><footnote id="20-5"><hidden.footnote.reference refId="20-5"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
                 <foots/>
                 <para.text date.updated="0" first.para.text="yes">A good discussion of the rehabilitative and punishment models is found in <ref normalpub="lr" ref.id="Id9508b8097b711e297060000833f9e5b" reftext="Gardner, Punishment and Juvenile Justice: A Conceptual Framework for Assessing Constitutional Rights of Youthful Offenders">Gardner, Punishment and Juvenile Justice: A Conceptual Framework for Assessing Constitutional Rights of Youthful Offenders, 35 Vand. L. Rev. 791 (1982)</ref>.</para.text>
             </para>
         </footnote.body>
     </footnote>
-    <footnote uuid="I42e15f7013c911e7b9e3acd823573d3d" date.updated="0" id="27">
+    <footnote id="27-5" origId="27" orig="true" uuid="I42e15f7013c911e7b9e3acd823573d3d" date.updated="0">
         
         <footnote.reference class="show_in_main">
             <cgt>27</cgt>
@@ -113,13 +121,13 @@
         </footnote.reference><footnote.body class="show_in_footnotes" date.updated="0">
             <para date.updated="0" first.para="no">
                 footnote on page 5
-                </para></footnote.body></footnote><pagebreak num="6" num-string="6"/><footnote><hidden.footnote.reference refId="27-6"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
+                </para></footnote.body></footnote><pagebreak num="6" num-string="6"/><footnote id="27-6"><hidden.footnote.reference refId="27-6"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
                 footnote on page 6
-                </para></footnote.body></footnote><pagebreak num="7" num-string="7"/><footnote><hidden.footnote.reference refId="27-7"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
+                </para></footnote.body></footnote><pagebreak num="7" num-string="7"/><footnote id="27-7"><hidden.footnote.reference refId="27-7"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
                 footnote on page 7
-                </para></footnote.body></footnote><sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2581"/><pagebreak num="8" num-string="8"/><footnote><hidden.footnote.reference refId="27-8"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
+                </para></footnote.body></footnote><sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2581"/><pagebreak num="8" num-string="8"/><footnote id="27-8"><hidden.footnote.reference refId="27-8"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
                 footnote on page 8
-                </para></footnote.body></footnote><pagebreak num="9" num-string="9"/><footnote><hidden.footnote.reference refId="27-9"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
+                </para></footnote.body></footnote><pagebreak num="9" num-string="9"/><footnote id="27-9"><hidden.footnote.reference refId="27-9"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
                 footnote on page 9
             </para>
         </footnote.body>

@@ -4,7 +4,7 @@
     <sectionbreak sectionuuid="vol1.fm.copyright.page"/><pagebreak num="III" num-string="iii"/>
     <sectionbreak sectionuuid="vol1.fm.highlights"/><pagebreak num="IV" num-string="iv"/>
     <foots/>
-    <footnote id="1">
+    <footnote id="1-IV" origId="1" orig="true">
         
         <footnote.reference class="show_in_main_and_footnotes">
             <cgt> </cgt>
@@ -23,7 +23,7 @@
     <pagebreak num="IX" num-string="ix"/>
     <sectionbreak sectionuuid="vol1.About.the.Author"/><pagebreak num="X" num-string=""/>
     <pagebreak num="XI" num-string="xi"/>
-    <footnote id="2">
+    <footnote id="2-XI" origId="2" orig="true">
         
         <footnote.reference class="show_in_main">
             <cgt>2</cgt>
@@ -35,7 +35,7 @@
             <cgt>2</cgt>
         </footnote.reference><footnote.body class="show_in_footnotes">
             content on page XI
-            </footnote.body></footnote><pagebreak num="XII" num-string="xii"/><footnote><hidden.footnote.reference refId="2-XII"/><footnote.body>
+            </footnote.body></footnote><pagebreak num="XII" num-string="xii"/><footnote id="2-XII"><hidden.footnote.reference refId="2-XII"/><footnote.body>
             content on page XII
         </footnote.body>
     </footnote>

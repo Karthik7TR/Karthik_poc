@@ -3,32 +3,42 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.sdl.com/xpp"
     xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
     <xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
-
-    <xsl:template match="x:pagebreak">
-        <xsl:copy>
-            <xsl:apply-templates select="node()|@*" />
-        </xsl:copy>
-        <xsl:call-template name="addReferenceToSplitByPageFootnotePart">
-            <xsl:with-param name="pageNum" select="@num" />
-        </xsl:call-template>
-    </xsl:template>
     
-    <xsl:template name="addReferenceToSplitByPageFootnotePart">
-        <xsl:param name="pageNum" />
-
-        <xsl:variable name="splitFootnoteId">
-            <xsl:variable name="footnotePagebreak"
-                select="$footnotesDocument//x:pagebreak[@num=$pageNum]" />
-            <xsl:value-of select="$footnotePagebreak/ancestor::x:footnote[1]/@id" />
-        </xsl:variable>
-
-        <xsl:if test="$splitFootnoteId != ''">
-            <xsl:element name="xref">
-                <xsl:attribute name="id"
-                    select="concat($splitFootnoteId, '-', $pageNum)" />
-                <xsl:attribute name="type" select="'footnote'" />
-                <xsl:attribute name="split" select="true()" />
-            </xsl:element>
-        </xsl:if>
-    </xsl:template>
+    <xsl:function name="x:getXrefsOnGivenPageOfMainFile">
+        <xsl:param name="currentPagebreakInMainFile" as="node()"/> 
+        
+        <xsl:variable name="nextPagebreakInMainFile" select="$currentPagebreakInMainFile/following::x:pagebreak[1]"/>
+        
+        <xsl:variable name="xrefs" select="$currentPagebreakInMainFile/following::x:xref[@type='footnote'] intersect $nextPagebreakInMainFile/preceding::x:xref[@type='footnote']" />
+        
+        <xsl:sequence select="$xrefs"/>
+    </xsl:function>
+    
+    <xsl:function name="x:getFootnotesOnGivenPageOfFootnoteFile">
+        <xsl:param name="currentPagebreakInFootnoteFile" as="node()"/> 
+        
+        <xsl:variable name="nextPagebreakInFootnotesFile" select="$currentPagebreakInFootnoteFile/following::x:pagebreak[1]" />
+        <xsl:variable name="footnotesOnGivenPage" select="$currentPagebreakInFootnoteFile/following::x:footnote intersect (
+        $nextPagebreakInFootnotesFile/preceding::x:footnote | 
+        $nextPagebreakInFootnotesFile/ancestor::x:footnote)" />
+        
+        <xsl:sequence select="$footnotesOnGivenPage"/>
+    </xsl:function>
+    
+    <xsl:function name="x:findFootnoteById" as="node()">
+        <xsl:param name="footnoteId"/>
+        <xsl:param name="currentNode" as="node()"/>
+        
+        <xsl:variable name="followingFootnote" select="$currentNode/following::x:footnote[@origId=$footnoteId]"/>
+        
+        <xsl:choose>
+            <xsl:when test="not($followingFootnote)">
+                <xsl:value-of select="$currentNode/preceding::x:footnote[@origId=$footnoteId]"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$followingFootnote"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:function>
+    
 </xsl:stylesheet>

@@ -732,6 +732,10 @@ a + .footnote_body {
   display: inline;
 }
 
+.footnoteHidden {
+  display: none;
+}
+
 .footnote > .er_rp_search_volume_content_data {
   display: inline;
 }
@@ -868,16 +872,9 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   display: inline !important;
 }
 
-.primary_section_front .primary_name {
-  display: inline;
-}
-
+.primary_section_front .primary_name,
 .primary_name .name {
   display: inline;
-}
-
-.primary_section .primary_name > .name {
-  white-space: pre-line;
 }
 
 .primary_source_body .primary_hierarchy_body > .primary_section > .primary_section_front > .primary_outline_name_block > .designator {

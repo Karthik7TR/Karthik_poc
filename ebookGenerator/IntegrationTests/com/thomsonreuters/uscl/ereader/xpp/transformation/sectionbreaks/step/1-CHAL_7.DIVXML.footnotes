@@ -17,6 +17,16 @@
         </footnote.body>
     </footnote>
     <pagebreak num="4" num-string="4"/>
+    <footnote uuid="I42a3e14013c911e7b9e3acd823573d2c" date.updated="0" id="3">
+        <footnote.reference>
+            <footnote.reference>
+                <t style="footnote.reference super cgt">1.5</t>
+            </footnote.reference>
+        </footnote.reference>
+        <footnote.body date.updated="0">
+            footnote which defined on page 4 but referenced on page 3
+        </footnote.body>
+    </footnote>
     <foots/>
     <footnote uuid="I42a8ea5013c911e7b9e3acd823573d3e" date.updated="0" id="5">
         <footnote.reference>
