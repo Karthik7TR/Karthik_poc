@@ -406,6 +406,73 @@
 						</line>
 					</group>
 				</block>
+				<block type="footnote" id="separator" bx="0" by="0" bsx="4.66i" bsy="0.74i" bisy="0.74i" biy="0" rotate="0" svjmode="top" btextlen="0.24i" bslack="0" vjerr="0" pgtbl="2" ipcnum="0" ipcgnum="1" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="false" rtl="false">
+					<group class="unknown" pclass="" dh="/unknown" style="unknown">
+						<line xfinal="0" yfinal="0.24i" lnwidth="1i" lnmeas="4.66i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.24i" maxdesc="0.12i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="foots"/>
+							<rule x="0" y="-0.06i" w="1i" d="0.01i" color="#000000" color-cmyk="0 0 0 1"/>
+							<endtag name="foots"/>
+						</line>
+					</group>
+				</block>
+				<block type="footnote" id="1" bx="0" by="0.33i" bsx="2.25i" bsy="0.42i" bisy="0.42i" biy="0" rotate="0" svjmode="justify" btextlen="0.42i" bslack="0" vjerr="0" pgtbl="2" ipcnum="9" ipcgnum="2" justified="true" trymode="expand" fipcblk="true" lipcblk="false" original="false" bottom="true" rtl="false">
+					<group class="footnote" pclass="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text" dh="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text/footnote" style="footnote">
+						<line xfinal="0" yfinal="0.08i" lnwidth="0.8i" lnmeas="2.25i" lindent="0" rindent="0" prelead="0.06i" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.14i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="true" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote">
+								<attr name="uuid">Iaecce410408911e78240b6b96d3631b6</attr>
+								<attr name="date.updated">0</attr>
+							</tag>
+							<t x="0" y="0" style="footnote" cgt="true">[Section 1:1]</t>
+						</line>
+					</group>
+					<group class="footnote.reference" pclass="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text/footnote" dh="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text/footnote/footnote.reference" style="footnote.reference">
+						<line xfinal="0.33i" yfinal="0.26i" lnwidth="0.05i" lnmeas="0.37i" lindent="0" rindent="0" prelead="-0.08i" postlead="0" qdtype="right" bandwidth="0.03i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="true" kpsa="true" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote.reference"/>
+							<t x="0" y="-0.05i" style="footnote.reference" cgt="true">1</t>
+							<endtag name="footnote.reference"/>
+						</line>
+					</group>
+					<group class="ref" pclass="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text" dh="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text/ref" style="ref">
+						<line xfinal="0.37i" yfinal="0.28i" lnwidth="1.87i" lnmeas="2.25i" lindent="0.37i" rindent="0" prelead="-0.11i" postlead="0" qdtype="justify" bandwidth="0.03i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="true" kpse="true" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="footnote.body">
+								<attr name="date.updated">0</attr>
+							</tag>
+							<tag name="para">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para">yes</attr>
+							</tag>
+							<tag name="para.text">
+								<attr name="date.updated">0</attr>
+								<attr name="first.para.text">yes</attr>
+							</tag>
+							<tag name="cite" type="periodical" finder="legacy"/>
+							<tag name="ref">
+								<attr name="ref.id">I9dacbc50408911e7a47bf1ccd7bf1bab</attr>
+							</tag>
+							<t x="0" y="0" style="ref">Hart, Land Use Law in the Early </t>
+						</line>
+						<line xfinal="0" yfinal="0.42i" lnwidth="2.25i" lnmeas="2.25i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="justify" bandwidth="0.05i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="ref">Republic and the Original Meaning of </t>
+						</line>
+					</group>
+				</block>
+				<block type="footnote" id="1" bx="2.41i" by="0.33i" bsx="2.25i" bsy="0.42i" bisy="0.42i" biy="0" rotate="0" svjmode="justify" btextlen="0.23i" bslack="0.01i" vjerr="0.19i" pgtbl="2" ipcnum="9" ipcgnum="2" justified="false" trymode="expand" fipcblk="false" lipcblk="true" original="false" bottom="true" rtl="false">
+					<group class="ref" pclass="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text" dh="/publication/publication.body/chapter/chapter.body/section.block/section/section.body/para/para.text/footnote/footnote.body/para/para.text/ref" style="ref">
+						<line xfinal="0" yfinal="0.08i" lnwidth="2.25i" lnmeas="2.25i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="justify" bandwidth="0.05i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="ref">the Takings Clause, 94 Northwestern </t>
+						</line>
+						<line xfinal="0" yfinal="0.23i" lnwidth="1.5i" lnmeas="2.25i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.08i" maxdesc="0.04i" ldextra="0.01i" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="ref">Univ. L. Rev. 1099 (2000)</t>
+							<endtag name="ref"/>
+							<endtag name="cite"/>
+							<t x="0" y="0" style="para.text.2">.</t>
+							<endtag name="para.text"/>
+							<endtag name="para"/>
+							<endtag name="footnote.body"/>
+							<endtag name="footnote"/>
+						</line>
+					</group>
+				</block>
 			</stream>
 			<stream type="frills" sx="0" sy="0" ssx="0" ssy="0" groupnum="2" svjmode="bottom" epfilltype="none" class="0" rotate="0" strmrot="0" vj_space="0" cerrors="true" cntedit="false" predit="false" recomp="false" frzcomp="false" ipcbal="false" touched="false" tplaced="false" bplaced="false" firstack="false" lastack="false" direction="false" pgscope="false" hfull="false" vfull="false" here="false" before="false" justified="false" balup="false" baldown="false" balrunaway="false">
 				<block type="frill" id="0" bx="0" by="0" bsx="4.32i" bsy="0.14i" bisy="0.14i" biy="0" rotate="0" svjmode="top" btextlen="0.23i" bslack="0" vjerr="-0.09i" pgtbl="0" ipcnum="0" ipcgnum="1" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="false" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="false" rtl="false">
