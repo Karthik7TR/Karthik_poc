@@ -785,6 +785,7 @@ $(function() {
 			grid.jsGrid("option", "confirmDeleting", false);
 			while(gridData.length > 0) {
 				grid.jsGrid("deleteItem", gridData[0]);
+				gridData = grid.jsGrid("option", "data");
 			}
 			grid.jsGrid("option", "confirmDeleting", true);
 		};
