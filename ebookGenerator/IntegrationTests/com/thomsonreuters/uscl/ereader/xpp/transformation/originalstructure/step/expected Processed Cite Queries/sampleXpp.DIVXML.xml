@@ -348,6 +348,26 @@
 				</block>
 			</stream>
 			<stream type="footnote" sx="0" sy="6.75i" ssx="4.32i" ssy="0.6i" groupnum="2" svjmode="top" epfilltype="none" class="0" rotate="0" strmrot="0" vj_space="0" cerrors="false" cntedit="false" predit="false" recomp="false" frzcomp="false" ipcbal="false" touched="false" tplaced="false" bplaced="false" firstack="false" lastack="false" direction="false" pgscope="false" hfull="false" vfull="false" here="false" before="false" justified="false" balup="false" baldown="false" balrunaway="false">
+				<block type="footnote" id="3078" bx="0" by="0.33i" bsx="2.25i" bsy="3.2i" bisy="3.75i" biy="0" rotate="0" svjmode="justify" btextlen="1.68i" bslack="-0.11i" vjerr="0" pgtbl="2" ipcnum="9" ipcgnum="10" justified="true" trymode="squeeze" fipcblk="true" lipcblk="false" original="false" bottom="true" rtl="false">
+					<t x="0" y="0" style="para.text.2">subject to the heightened constitu<dt>-</dt>
+					</t>
+				</block>
+				<block type="footnote" id="3079" bx="0" by="0.33i" bsx="2.25i" bsy="3.2i" bisy="3.2i" biy="0.33i" rotate="0" svjmode="justify" btextlen="3.2i" bslack="0" vjerr="0" pgtbl="2" ipcnum="9" ipcgnum="0" justified="false" trymode="expand" fipcblk="false" lipcblk="false" original="true" bottom="false" rtl="false">
+					<t x="0" y="0" style="para.text.2">“No takings analysis of dual </t>
+				</block>
+				<block type="footnote" id="3079" bx="2.41i" by="0.33i" bsx="2.25i" bsy="3.2i" bisy="3.75i" biy="0" rotate="0" svjmode="justify" btextlen="0.23i" bslack="0.08i" vjerr="0" pgtbl="2" ipcnum="9" ipcgnum="10" justified="true" trymode="expand" fipcblk="false" lipcblk="true" original="false" bottom="true" rtl="false">
+					<t x="0" y="0" style="ref">and Private Perspectives, Ch. 15 </t>
+				</block>
+				<block type="footnote" id="3080" bx="2.41i" by="0.33i" bsx="2.25i" bsy="3.2i" bisy="3.2i" biy="0.33i" rotate="0" svjmode="justify" btextlen="2.26i" bslack="0" vjerr="0" pgtbl="2" ipcnum="9" ipcgnum="0" justified="false" trymode="expand" fipcblk="false" lipcblk="false" original="true" bottom="false" rtl="false">
+					<t x="0" y="0" style="ref">Koontz v. St. Johns River Water </t>
+				</block>
+				<block type="footnote" id="3081" bx="2.41i" by="0.33i" bsx="2.25i" bsy="3.2i" bisy="3.2i" biy="0.33i" rotate="0" svjmode="justify" btextlen="2.87i" bslack="0" vjerr="0" pgtbl="2" ipcnum="9" ipcgnum="0" justified="false" trymode="expand" fipcblk="false" lipcblk="false" original="true" bottom="false" rtl="false">
+					<t x="0" y="0" style="ref">186 L. Ed. 2d 697, 76 Env't. Rep. Cas. </t>
+				</block>
+				<block type="footnote" id="3082" bx="2.41i" by="0.33i" bsx="2.25i" bsy="3.2i" bisy="3.2i" biy="0.33i" rotate="0" svjmode="justify" btextlen="3.2i" bslack="0" vjerr="0" pgtbl="2" ipcnum="9" ipcgnum="0" justified="false" trymode="expand" fipcblk="false" lipcblk="false" original="true" bottom="false" rtl="false">
+					<t x="0" y="0" style="para.text.2"> regarding the ap<dt>-</dt>
+					</t>
+				</block>
 				<block type="footnote" id="separator" bx="0" by="0" bsx="4.32i" bsy="0.6i" bisy="0.6i" biy="0" rotate="0" svjmode="top" btextlen="0.24i" bslack="0" vjerr="0" pgtbl="2" ipcnum="0" ipcgnum="1" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="false" rtl="false">
 					<group class="unknown" pclass="" dh="/unknown" style="unknown.3">
 						<line xfinal="0" yfinal="0.24i" lnwidth="1i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.24i" maxdesc="0.12i" ldextra="0.01i" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
