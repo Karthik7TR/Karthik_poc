@@ -90,7 +90,7 @@
 
 	<xsl:template match="x:fm.about.the.author|x:fm.other.structure">
 		<xsl:variable name="other_label"
-			select="x:head[1]/x:name.block[1]/x:name[1]/x:t[1]/text()" />
+			select="string-join(./x:head[1]/x:name.block[1]/x:name[1]/x:t, ' ')" />
 		<xsl:variable name="other_uuid"
 			select="concat($volumeName,'.',name(), x:getIdSuffix(current()))" />
 		<xsl:if test= "$other_label">
