@@ -2,6 +2,14 @@
     <sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2575"/><pagebreak num="1" num-string="1"/>
     <pagebreak num="2" num-string="2"/>
     <sectionbreak sectionuuid="Ie0b81373f8fb11d99f28ffa0ae8c2576"/><pagebreak num="3" num-string="3"/>
+    <footnote id="1-3" origId="1" orig="true" uuid="I42a3e14013c911e7b9e3acd712462c1b" date.updated="0">
+        
+        <footnote.reference class="show_in_main_and_footnotes">
+            
+        </footnote.reference><footnote.body class="show_in_main_and_footnotes" date.updated="0">
+            footnote which defined on page 3 but referenced on page 2
+        </footnote.body>
+    </footnote>
     <foots/>
     <footnote id="2-3" origId="2" orig="true" uuid="I42a3e14013c911e7b9e3acd823573d3d" date.updated="0">
         <cgt>[Section 1:1]</cgt>

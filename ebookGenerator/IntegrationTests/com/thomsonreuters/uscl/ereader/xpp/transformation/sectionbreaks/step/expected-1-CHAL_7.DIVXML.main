@@ -29,6 +29,7 @@
                                 <label date.updated="0">Chapter</label>
                                 <designator date.updated="0">30</designator>
                                 <name date.updated="0">Partnerships</name>
+                                <xref id="1-2" origId="1" type="footnote" orig="true"/>
                             </outline.name.block>
                             <XPPMetaData guid="I445a1ac6c61c11d9962fb5f8354828dc" md.uuid="I445a1ac6c61c11d9962fb5f8354828dc" md.dmsserial="303448441" md.first_line_cite="CALRO S 7:1" md.second_line_cite="2 Children &amp; the Law: Rights and Obligations s 7:1" md.pubpage="s 7:1" md.pubid="177882" md.doc_family_uuid="Ie0b81373f8fb11d99f28ffa0ae8c2576" md.normalizedcite="CALROS7:1" md.third_line_cite="" name="7:1. Scope of chapter" parent_uuid="I333dd59028b911e69ed7fcedf0a72426" comment="no sectionbreak because this XPPMetadata is first after it's parent XPPHier"/>
                             <generated.toc>
@@ -89,7 +90,7 @@
                             </generated.toc>
                             <scope.statement.block date.updated="0">
                                 <para date.updated="0" first.para="yes">
-                                    <para.text date.updated="0" first.para.text="yes">This chapter contains forms for use in drafting documents relat-ing to the formation, management, and termination of partner-<pagebreak num="3" num-string="3"/>ships, together with a discussion of the legal requirements and tax aspects that should be<xref id="2-3" origId="2" type="footnote" orig="true"/> considered in drafting those documents.</para.text>
+                                    <para.text date.updated="0" first.para.text="yes">This chapter contains forms for use in drafting documents relat-ing to the formation, management, and termination of partner-<pagebreak num="3" num-string="3"/><xref id="1-3" origId="1" type="footnote" hidden="true"/>ships, together with a discussion of the legal requirements and tax aspects that should be<xref id="2-3" origId="2" type="footnote" orig="true"/> considered in drafting those documents.</para.text>
                                     <xref id="3-3" origId="3" type="footnote" orig="true"/>
                                 </para>
                             </scope.statement.block>

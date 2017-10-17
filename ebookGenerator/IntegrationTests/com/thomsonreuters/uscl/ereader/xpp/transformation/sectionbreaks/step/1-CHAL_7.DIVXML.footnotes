@@ -3,6 +3,16 @@
     <pagebreak num="1" num-string="1"/>
     <pagebreak num="2" num-string="2"/>
     <pagebreak num="3" num-string="3"/>
+    <footnote uuid="I42a3e14013c911e7b9e3acd712462c1b" date.updated="0" id="1">
+        <footnote.reference>
+            <footnote.reference>
+                <t style="footnote.reference super cgt">0.5</t>
+            </footnote.reference>
+        </footnote.reference>
+        <footnote.body date.updated="0">
+            footnote which defined on page 3 but referenced on page 2
+        </footnote.body>
+    </footnote>
     <foots/>
     <footnote uuid="I42a3e14013c911e7b9e3acd823573d3d" date.updated="0" id="2">
         <cgt>[Section 1:1]</cgt>

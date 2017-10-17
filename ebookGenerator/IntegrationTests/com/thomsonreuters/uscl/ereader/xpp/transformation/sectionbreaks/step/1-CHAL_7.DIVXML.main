@@ -29,6 +29,7 @@
                                 <label date.updated="0">Chapter</label>
                                 <designator date.updated="0">30</designator>
                                 <name date.updated="0">Partnerships</name>
+                                <xref id="1" type="footnote"/>
                             </outline.name.block>
                             <XPPMetaData guid="I445a1ac6c61c11d9962fb5f8354828dc" md.uuid="I445a1ac6c61c11d9962fb5f8354828dc" md.dmsserial="303448441" md.first_line_cite="CALRO S 7:1" md.second_line_cite="2 Children &amp; the Law: Rights and Obligations s 7:1" md.pubpage="s 7:1" md.pubid="177882" md.doc_family_uuid="Ie0b81373f8fb11d99f28ffa0ae8c2576" md.normalizedcite="CALROS7:1" md.third_line_cite="" name="7:1. Scope of chapter" parent_uuid="I333dd59028b911e69ed7fcedf0a72426" comment="no sectionbreak because this XPPMetadata is first after it's parent XPPHier"/>
                             <generated.toc>

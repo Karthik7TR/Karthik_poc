@@ -19,9 +19,11 @@
         <xsl:variable name="newId" select="concat(@id, '-', $pageNum)"/>
         <xsl:variable name="xref" select="$main//x:xref[@id=$newId and @type='footnote']" />
         
-        <xsl:call-template name="addSectionbreak">
-            <xsl:with-param name="mainNode" select="$xref" />
-        </xsl:call-template>
+        <xsl:if test="$xref">
+            <xsl:call-template name="addSectionbreak">
+                <xsl:with-param name="correspondingNodeInMain" select="$xref" />
+            </xsl:call-template>
+        </xsl:if>
         
         <xsl:element name="footnote">
             <xsl:attribute name="id" select="$newId" />
@@ -103,7 +105,7 @@
     
     <xsl:template name="processPagebreak">
         <xsl:call-template name="addSectionbreak">
-            <xsl:with-param name="mainNode" select="$main//x:pagebreak[@num=current()/@num]" />
+            <xsl:with-param name="correspondingNodeInMain" select="$main//x:pagebreak[@num=current()/@num]" />
         </xsl:call-template>
         
         <xsl:copy>
@@ -112,17 +114,32 @@
     </xsl:template>
     
     <xsl:template name="addSectionbreak">
-        <xsl:param name="mainNode" />
+        <xsl:param name="correspondingNodeInMain" />
         
-        <xsl:variable name="sectionbreak" select="$mainNode/preceding::x:sectionbreak[1]" />
-
-        <xsl:variable name="noPreceidingXrefs" select="count($sectionbreak/following::x:xref[@type='footnote'] intersect $mainNode/preceding::x:xref[@type='footnote'])=0" />
-        <xsl:variable name="noPreceidingPagebreaks" select="count($sectionbreak/following::x:pagebreak intersect $mainNode/preceding::x:pagebreak)=0" />
+        <xsl:variable name="sectionbreakInMain" select="$correspondingNodeInMain/preceding::x:sectionbreak[1]" />
+        <xsl:variable name="noPreceidingXrefs" select="not(x:hasPrecedingXrefsWithFootnotesOnThisPage($sectionbreakInMain, $correspondingNodeInMain, current()))" />
+        <xsl:variable name="noPreceidingPagebreaks" select="count($sectionbreakInMain/following::x:pagebreak intersect $correspondingNodeInMain/preceding::x:pagebreak)=0" />
 
         <xsl:if test="$noPreceidingXrefs and $noPreceidingPagebreaks">
-            <xsl:copy-of select="$sectionbreak" />
+            <xsl:copy-of select="$sectionbreakInMain" />
         </xsl:if>
     </xsl:template>
+    
+    <xsl:function name="x:hasPrecedingXrefsWithFootnotesOnThisPage">
+        <xsl:param name="sectionbreakInMain" as="node()" />
+        <xsl:param name="correspondingNodeInMain" as="node()" />
+        <xsl:param name="currentNode" as="node()" />
+        
+        <xsl:variable name="xrefs" select="$sectionbreakInMain/following::x:xref[@type='footnote'] intersect $correspondingNodeInMain/preceding::x:xref[@type='footnote']" />
+        <xsl:variable name="footnotes" select="$currentNode/preceding::x:pagebreak[1]/following::x:footnote intersect 
+            ($currentNode/preceding::x:footnote | $currentNode/ancestor::x:footnote)" />
+        
+        <xsl:for-each select="$xrefs">
+            <xsl:if test="$footnotes[@id = current()/@origId]">
+                <xsl:value-of select="true()" />
+            </xsl:if>
+        </xsl:for-each>
+    </xsl:function>
 
     <xsl:template name="insertCloseTags">
         <xsl:param name="footnote" />
@@ -175,22 +192,5 @@
         <xsl:param name="node" as="node()"/>
         <xsl:value-of select="count($node//x:pagebreak | $node//x:column | $node//x:endcolumn) > 0" />
     </xsl:function>
-    
-    <xsl:function name="x:getReferenceFromCorrespondingPageInMainContent">
-        <xsl:param name="footnote" as="node()"/>
-        <xsl:param name="main" />
-        
-        <xsl:variable name="pageNum" select="$footnote/preceding::x:pagebreak[1]/@num" />
-        <xsl:variable name="xrefs" select="x:getXrefsOnGivenPageOfMainFile($main//x:pagebreak[@num=$pageNum])" />
-        
-        <xsl:copy-of select="$xrefs[@origId=$footnote/@id and @hidden!=true()]" />
-    </xsl:function>
-    
-    <xsl:function name="x:findOriginalReferenceInMainContent">
-        <xsl:param name="footnote" as="node()"/>
-        <xsl:param name="main" />
-        
-        <xsl:copy-of select="$main//x:xref[@origId=$footnote/@id and not(@hidden)][1]/preceding::x:pagebreak[1]/@num" />
-    </xsl:function>
-    
+
 </xsl:stylesheet>
