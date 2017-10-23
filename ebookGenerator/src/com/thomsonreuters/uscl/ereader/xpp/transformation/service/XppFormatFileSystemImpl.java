@@ -36,13 +36,14 @@ import org.springframework.stereotype.Component;
 
 @Component("xppFormatFileSystem")
 public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements XppFormatFileSystem {
+    public static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "anchorToDocumentIdMapFile.xml";
+
     static final String CITE_QUERY_PROCESSED_DIR = "Processed Cite Queries";
 
     private static final String TITLE_METADATA_FILE = "titleMetadata.xml";
     private static final String TOC_FILE = "toc.xml";
     private static final String MERGED_BUNDLE_TOC_FILE = "toc_merged.xml";
     private static final String DOC_TO_IMAGE_MANIFEST_FILE = "doc-to-image-manifest.txt";
-    private static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "anchorToDocumentIdMapFile.xml";
 
     private static final String HTML = "html";
     private static final String MAIN = "main";
@@ -354,7 +355,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     @Override
-    public File getExternalLinksMappingFile(final BookStep step, final String materialNumber, final String name) {
+    public File getExternalLinksMappingFile(@NotNull final BookStep step, @NotNull final String materialNumber, @NotNull final String name) {
         return new File(getExternalLinksMappingDirectory(step, materialNumber), name);
     }
 
@@ -367,6 +368,12 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     @Override
     public File getAnchorToDocumentIdMapFile(@NotNull final BookStep step) {
         return new File(getAnchorToDocumentIdMapDirectory(step), ANCHOR_TO_DOCUMENT_ID_MAP_FILE);
+    }
+
+    @NotNull
+    @Override
+    public File getAnchorToDocumentIdMapFile(@NotNull final BookStep step, @NotNull final String materialNumber) {
+        return new File(getAnchorToDocumentIdMapDirectory(step) + "/" + materialNumber, ANCHOR_TO_DOCUMENT_ID_MAP_FILE);
     }
 
     @NotNull

@@ -15,9 +15,11 @@
                 <topic uuid="I18b49f1028b911e69ed7fcedf0a72426" stage="stable" date.revised="0" date.updated="0">
                     <metadata.block metadata.store="yes"/>
                     <front date.updated="0">
-                        <outline.name.block toc.include="y" date.updated="0">
-                            <name date.updated="0">Business Enterprises</name>
-                        </outline.name.block>
+                        <XPPSummaryTOCLink uuid="I18b49f1028b911e69ed7fcedf0a72426">
+                            <outline.name.block toc.include="y" date.updated="0">
+                                <name date.updated="0">Business Enterprises</name>
+                            </outline.name.block>
+                        </XPPSummaryTOCLink>
                     </front>
                     <topic.body date.updated="0">
                         <chapter uuid="I333dd59028b911e69ed7fcedf0a72426" date.revised="0" date.updated="0">
@@ -34,6 +36,7 @@
 							</image.block>	
 									<front date.updated="0">
                                 <outline.name.block toc.include="y" date.updated="0">
+                                    <XPPSummaryTOCAnchor uuid="I18b49f1028b911e69ed7fcedf0a72426"/>
                                     <label date.updated="0">Chapter</label>
                                     <designator date.updated="0" style="some.font.style" align="l">30</designator>
                                     <name date.updated="0">Partnerships</name>

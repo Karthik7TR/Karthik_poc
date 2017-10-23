@@ -350,6 +350,14 @@ public interface XppFormatFileSystem extends FormatFileSystem {
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
+     * {@code /#_Anchors/[material number]/anchorToDocumentIdMapFile.xml}
+     */
+    @NotNull
+    File getAnchorToDocumentIdMapFile(@NotNull BookStep step, @NotNull String materialNumber);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
      * {@code /}{@link getToHtmlDirectory}{@code /doc-to-image-manifest.txt}
      */
     @NotNull

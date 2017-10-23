@@ -10,6 +10,7 @@ import java.net.URISyntaxException;
 import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -34,10 +35,11 @@ public final class InternalAnchorsStepIntegrationTest {
     private File source1;
     private File source2;
     private File expected;
+    private File expectedSummaryToc;
 
     @Before
     public void setUp() throws URISyntaxException, Exception {
-        final File sectionBreaksDirectory = fileSystem.getSectionbreaksDirectory(step, MATERIAL_NUMBER);
+        final File sectionBreaksDirectory = fileSystem.getDirectory(step, XppFormatFileSystemDir.SECTIONBREAKS_DIR, MATERIAL_NUMBER);
         FileUtils.forceMkdir(sectionBreaksDirectory);
 
         source1 = new File(InternalAnchorsStepIntegrationTest.class.getResource("source-1-CHAL_7.DIVXML.main").toURI());
@@ -48,6 +50,9 @@ public final class InternalAnchorsStepIntegrationTest {
 
         expected = new File(
             InternalAnchorsStepIntegrationTest.class.getResource("expectedAnchorToDocumentIdMapFile.xml").toURI());
+
+        expectedSummaryToc = new File(
+            InternalAnchorsStepIntegrationTest.class.getResource("expectedSummaryTocMapFile.xml").toURI());
     }
 
     @After
@@ -63,5 +68,8 @@ public final class InternalAnchorsStepIntegrationTest {
         //then
         final File anchors = fileSystem.getAnchorToDocumentIdMapFile(step);
         assertThat(anchors, hasSameContentAs(expected));
+
+        final File summaryTocAnchors = fileSystem.getAnchorToDocumentIdMapFile(step, MATERIAL_NUMBER);
+        assertThat(summaryTocAnchors, hasSameContentAs(expectedSummaryToc));
     }
 }

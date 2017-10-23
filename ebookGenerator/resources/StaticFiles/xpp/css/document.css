@@ -533,6 +533,7 @@ td:last-of-type {
 .outline_name_block > .label .cgt,
 .outline_name_block > a > .label .cgt,
 .toc_chapter > .outline_name_block > .cgt,
+.toc_chapter > a > .outline_name_block > .cgt,
 .footnote_reference > .cgt,
 .mte2 > .cgt,
 sup .cgt,

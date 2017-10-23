@@ -5,6 +5,7 @@ import static com.thomsonreuters.uscl.ereader.core.book.util.BookTestUtil.mkfile
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,8 +14,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import javax.xml.transform.Transformer;
+
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilder;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
@@ -54,6 +58,11 @@ public final class TransformationToHtmlStepTest {
     @Mock
     private File tocUnitsMapFile;
 
+    @Mock
+    private TransformerBuilder transformerBuilder;
+    @Mock
+    private Transformer transformer;
+
     @Before
     public void setUp() throws IOException {
         final File root = temporaryFolder.getRoot();
@@ -78,6 +87,12 @@ public final class TransformationToHtmlStepTest {
 
         given(tocUnitsMapFile.getAbsolutePath()).willReturn("toc\\Units\\Map\\File\\path");
         given(fileSystem.getAnchorToDocumentIdMapFile(step)).willReturn(tocUnitsMapFile);
+        given(fileSystem.getAnchorToDocumentIdMapFile(step, MATERIAL_NUMBER)).willReturn(tocUnitsMapFile);
+
+        given(transformerBuilderFactory.create()).willReturn(transformerBuilder);
+        given(transformerBuilder.withXsl(any(File.class))).willReturn(transformerBuilder);
+        given(transformerBuilder.withParameter(any(String.class), any())).willReturn(transformerBuilder);
+        given(transformerBuilder.build()).willReturn(transformer);
     }
 
     private List<XppBundle> getXppBundles() {
@@ -94,5 +109,7 @@ public final class TransformationToHtmlStepTest {
         step.executeStep();
         //then
         then(transformationService).should().transform(any(TransformationCommand.class));
+        then(transformer).should().setParameter(eq("documentUidMapDoc"), any());
+        then(transformer).should().setParameter(eq("summaryTocDocumentUidMapDoc"), any());
     }
 }

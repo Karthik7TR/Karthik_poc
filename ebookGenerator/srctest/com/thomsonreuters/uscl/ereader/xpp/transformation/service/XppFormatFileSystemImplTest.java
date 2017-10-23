@@ -545,6 +545,15 @@ public final class XppFormatFileSystemImplTest {
     }
 
     @Test
+    public void shouldReturnVolumeWideAnchorsWithMapFile() {
+        //given
+        //when
+        final File file = fileSystem.getAnchorToDocumentIdMapFile(step, MATERIAL_NUMBER);
+        //then
+        assertThat(file, hasPath(ANCHORS_DIR + "/" + MATERIAL_NUMBER + "/" + ANCHOR_TO_DOCUMENT_ID_MAP_FILE));
+    }
+
+    @Test
     public void shouldReturnDocToImagesMapFile() {
         //given
         //when

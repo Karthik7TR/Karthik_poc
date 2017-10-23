@@ -13,9 +13,11 @@
 	<xsl:param name="pagePrefix" />
 	<xsl:param name="divXmlName" />
 	<xsl:param name="documentUidMapDoc" />
+	<xsl:param name="summaryTocDocumentUidMapDoc" />
 	<xsl:param name="entitiesDocType" />
 	
 	<xsl:variable name="documentUidMap" select="document($documentUidMapDoc)" />
+	<xsl:variable name="summaryTocDocumentUidMap" select="document($summaryTocDocumentUidMapDoc)" />
 
 	<xsl:template match="x:parts">
 		<xsl:text disable-output-escaping="yes">&lt;!DOCTYPE root SYSTEM &#34;</xsl:text>
@@ -137,6 +139,29 @@
 				<xsl:apply-templates />
 			</xsl:otherwise>
 		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template match="x:XPPSummaryTOCLink">
+		<xsl:variable name="docId" select="$summaryTocDocumentUidMap/x:uuidmap/x:item[@key = current()/@uuid]" />
+		
+		<xsl:choose>
+			<xsl:when test="$docId">
+				<xsl:element name="a">
+					<xsl:attribute name="href" select="concat('er:#', $docId, '/sumtoc-', @uuid)" />
+					<xsl:apply-templates />
+				</xsl:element>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:apply-templates />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template match="x:XPPSummaryTOCAnchor">
+		<xsl:element name="a">
+			<xsl:attribute name="name" select="concat('sumtoc-', @uuid)" />
+			<xsl:apply-templates />
+		</xsl:element>
 	</xsl:template>
 
 	<xsl:template match="x:cite.query">

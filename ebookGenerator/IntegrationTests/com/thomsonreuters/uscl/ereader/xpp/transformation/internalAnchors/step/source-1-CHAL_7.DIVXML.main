@@ -12,6 +12,7 @@
                 <XPPMetaData guid="I445a1ac6c61c11d9962fb5f8354828db" md.uuid="I445a1ac6c61c11d9962fb5f8354828db" md.dmsserial="303448441" md.first_line_cite="CALRO S 7:1" md.second_line_cite="2 Children &amp; the Law: Rights and Obligations s 7:1" md.pubpage="s 7:1" md.pubid="177882" md.doc_family_uuid="Ie0b81373f8fb11d99f28ffa0ae8c2575" md.normalizedcite="CALROS7:1" md.third_line_cite="" name="7:1. Scope of chapter" parent_uuid="I7f66dd0028b811e69ed7fcedf0a72426" comment="no sectionbreak because between this XPPMetadata and parent XPPHier no other XPPHier or XPPMetadata tags"/>
                 <XPPHier uuid="I18b49f1028b911e69ed7fcedf0a72426" name="" parent_uuid="I7f66dd0028b811e69ed7fcedf0a72426" comment="no sectionbreak because this XPPHier doesn't have closest child XPPMetadata"/>
                 <front date.updated="0">
+                    <XPPSummaryTOCAnchor uuid="Ief5eecc097b511d88481efea7efa410e"/>
                     <outline.name.block toc.include="y" date.updated="0">
                         <name date.updated="0">Business <pagebreak num="2" num-string="2"/>Enterprises</name>
                     </outline.name.block>
@@ -25,6 +26,7 @@
                             </metadata>
                         </metadata.block>
                         <front date.updated="0">
+                            <XPPSummaryTOCAnchor uuid="Iedc2c8f097b511d88481efea7efa410e"/>
                             <outline.name.block toc.include="y" date.updated="0">
                                 <label date.updated="0">Chapter</label>
                                 <designator date.updated="0">30</designator>
@@ -34,6 +36,7 @@
                             <generated.toc>
                                 <full.toc>
                                     <toc.analytical.level tocuuid="I334a31a028b911e69ed7fcedf0a72426">
+                                        <XPPSummaryTOCAnchor uuid="Ieddf038097b511d88481efea7efa410e"/>
                                         <outline.name.block>
                                             <designator date.updated="0">I</designator>
                                             <name>General Partnerships</name>

@@ -122,6 +122,9 @@
 							</tag><?xpp secno;&#167; 7:1?>
 							<t x="0" y="0" style="front.2" cgt="true" suppress="true">§ 7:1
 							</t>
+							<?XPPSummaryTOCLink uuid='I0352cdf097b611d88481efea7efa410e' ?>
+							<t x="0" y="0" style="label">Chapter</t>
+							<?XPPSummaryTOCEndLink?>
 							<tag name="outline.name.block">
 								<attr name="toc.include">y</attr>
 								<attr name="date.updated">0</attr>
@@ -180,6 +183,7 @@
 							</tag>
 							<t x="0" y="0" style="name.5" cgt="true"> 
 							</t>
+							<?XPPSummaryTOCAnchor uuid='Iedc2c8f097b511d88481efea7efa410e' ?>
 							<t x="0" y="0" style="name.5">Scope of chapter</t>
 							<endtag name="name"/>
 							<endtag name="outline.name.block"/>

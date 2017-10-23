@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -18,6 +19,7 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilder;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,7 +49,7 @@ public final class InternalAnchorsStepTest {
         files.put(MATERIAL_NUMBER, Arrays.asList(htmlPagesDir));
 
         given(htmlPagesDir.listFiles(any(FileFilter.class))).willReturn(new File[] {});
-        given(fileSystem.getSectionBreaksFiles(step)).willReturn(files);
+        given(fileSystem.getFiles(step, XppFormatFileSystemDir.SECTIONBREAKS_DIR)).willReturn(files);
         given(htmlPagesDir.listFiles()).willReturn(new File[] {});
 
         final TransformerBuilder builder = mock(TransformerBuilder.class);
@@ -56,6 +58,7 @@ public final class InternalAnchorsStepTest {
 
         mapFile = new File("mapFile");
         given(fileSystem.getAnchorToDocumentIdMapFile(step)).willReturn(mapFile);
+        given(fileSystem.getAnchorToDocumentIdMapFile(step, MATERIAL_NUMBER)).willReturn(mapFile);
     }
 
     @Test
@@ -64,7 +67,9 @@ public final class InternalAnchorsStepTest {
         //when
         step.executeStep();
         //then
-        then(transformationService).should().transform((TransformationCommand) any());
-        then(fileSystem).should().getSectionBreaksFiles(eq(step));
+        then(transformationService).should(times(2)).transform((TransformationCommand) any());
+        then(fileSystem).should().getFiles(eq(step), eq(XppFormatFileSystemDir.SECTIONBREAKS_DIR));
+        then(fileSystem).should().getAnchorToDocumentIdMapFile(eq(step));
+        then(fileSystem).should().getAnchorToDocumentIdMapFile(eq(step), eq(MATERIAL_NUMBER));
     }
 }

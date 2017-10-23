@@ -17,6 +17,8 @@ import javax.annotation.Resource;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemImpl;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,11 +54,13 @@ public final class TransformationToHtmlStepIntegrationTest {
     private ChunkContext chunkContext;
 
     private File original;
+    private File anchorsFile;
 
     @Before
     public void setUp() throws URISyntaxException {
         org.mockito.MockitoAnnotations.initMocks(this);
         original = new File(TransformationToHtmlStepIntegrationTest.class.getResource(SAMPLE_DIVXML_PAGE).toURI());
+        anchorsFile = new File(TransformationToHtmlStepIntegrationTest.class.getResource(XppFormatFileSystemImpl.ANCHOR_TO_DOCUMENT_ID_MAP_FILE).toURI());
     }
 
     @Test
@@ -103,6 +107,8 @@ public final class TransformationToHtmlStepIntegrationTest {
                 original,
                 mkdir(fileSystem.getOriginalPagesDirectory(step, ADDITIONAL_MATERIAL_NUMBER)));
         }
+        FileUtils.copyFileToDirectory(anchorsFile, mkdir(fileSystem.getDirectory(step, XppFormatFileSystemDir.ANCHORS_DIR, MATERIAL_NUMBER)));
+        FileUtils.copyFileToDirectory(anchorsFile, mkdir(fileSystem.getDirectory(step, XppFormatFileSystemDir.ANCHORS_DIR, ADDITIONAL_MATERIAL_NUMBER)));
     }
 
     private List<XppBundle> getXppBundles(final boolean multivolume) {
