@@ -40,11 +40,7 @@ public final class OriginalStructureTransformationStepIntegrationTest {
 
     @Test
     public void shouldReturnOriginalXml() throws Exception {
-        testOriginalStructureTransformationStep(
-            "sampleXpp.DIVXML.xml",
-            "expected.main",
-            "expected.footnotes",
-            "expected Processed Cite Queries");
+        testOriginalStructureTransformationStep("sampleXpp.DIVXML.xml", "expected.main", "expected.footnotes");
     }
 
     @Test
@@ -52,8 +48,39 @@ public final class OriginalStructureTransformationStepIntegrationTest {
         testOriginalStructureTransformationStep(
             "sampleXpp_Front_vol_1.DIVXML.xml",
             "expected-roman.main",
-            "expected-roman.footnotes",
-            "expected Processed Cite Queries roman");
+            "expected-roman.footnotes");
+    }
+
+    @Test
+    public void shouldTransformColumns() throws Exception {
+        testOriginalStructureTransformationStep(
+            "sampleColumns.DIVXML.xml",
+            "expectedColumns.main",
+            "expectedColumns.footnotes");
+    }
+
+    @Test
+    public void shouldProcessCiteQueries() throws Exception {
+        //given
+        final File expectedProcessedCiteQueriesDir = new File(
+            OriginalStructureTransformationStepIntegrationTest.class.getResource("expected Processed Cite Queries")
+                .toURI());
+        final File xpp = new File(
+            OriginalStructureTransformationStepIntegrationTest.class.getResource("sampleXpp.DIVXML.xml").toURI());
+        final File xppDir = xppGatherFileSystem.getXppBundleMaterialNumberDirectory(step, MATERIAL_NUMBER)
+            .toPath()
+            .resolve("bundleName")
+            .resolve("XPP")
+            .toFile();
+        FileUtils.forceMkdir(xppDir);
+        FileUtils.copyFileToDirectory(xpp, xppDir);
+        //when
+        step.executeStep();
+        final File processedCiteQueriesDir = fileSystem.getCiteQueryProcessedDirectory(step, MATERIAL_NUMBER);
+        //then
+        assertThat(
+            processedCiteQueriesDir,
+            DirectoryContentMatcher.hasSameContentAs(expectedProcessedCiteQueriesDir, true));
     }
 
     @After
@@ -68,13 +95,10 @@ public final class OriginalStructureTransformationStepIntegrationTest {
     private void testOriginalStructureTransformationStep(
         final String sampleFileName,
         final String expectedMainFileName,
-        final String expectedFootnoteFileName,
-        final String processedCiteQueriesDirName) throws Exception {
+        final String expectedFootnoteFileName) throws Exception {
         //given
         final String expectedMain = getFileContent(expectedMainFileName);
         final String expectedFootnotes = getFileContent(expectedFootnoteFileName);
-        final File expectedProcessedCiteQueriesDir = new File(
-            OriginalStructureTransformationStepIntegrationTest.class.getResource(processedCiteQueriesDirName).toURI());
         final File xpp =
             new File(OriginalStructureTransformationStepIntegrationTest.class.getResource(sampleFileName).toURI());
         final File xppDir = xppGatherFileSystem.getXppBundleMaterialNumberDirectory(step, MATERIAL_NUMBER)
@@ -89,12 +113,8 @@ public final class OriginalStructureTransformationStepIntegrationTest {
         //then
         final File main = fileSystem.getOriginalFile(step, MATERIAL_NUMBER, sampleFileName);
         final File footnotes = fileSystem.getFootnotesFile(step, MATERIAL_NUMBER, sampleFileName);
-        final File processedCiteQueriesDir = fileSystem.getCiteQueryProcessedDirectory(step, MATERIAL_NUMBER);
         assertThat(FileUtils.readFileToString(main), equalTo(expectedMain));
         assertThat(FileUtils.readFileToString(footnotes), equalTo(expectedFootnotes));
-        assertThat(
-            processedCiteQueriesDir,
-            DirectoryContentMatcher.hasSameContentAs(expectedProcessedCiteQueriesDir, true));
     }
 
     private String getFileContent(final String fileName) throws URISyntaxException, IOException {

@@ -13,9 +13,20 @@
 					</xsl:if>
 				</xsl:for-each>
 			</xsl:variable>
+			<xsl:variable name="safeIndexOfLastColumn">
+				<xsl:choose>
+					<xsl:when test="$indexOfLastColumn=''">
+						<xsl:number value="0" />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$indexOfLastColumn" />
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
 			<xsl:variable name="numberOfColumns" select="count(current-group())" />
 			<xsl:choose>
-				<xsl:when test="number($numberOfColumns) = 1 or $indexOfLastColumn = 1">
+				<xsl:when
+					test="number($numberOfColumns) = 1 or $safeIndexOfLastColumn = 1">
 					<xsl:for-each select="current-group()">
 						<xsl:apply-templates select="." />
 					</xsl:for-each>
@@ -35,9 +46,17 @@
 						<xsl:if test="position()=last() or $endOfColumn=true()">
 							<endcolumn />
 						</xsl:if>
-						<xsl:if test="position()=last()">
-							<endcolumns />
-						</xsl:if>
+						<xsl:choose>
+							<xsl:when test="position()=last() and $safeIndexOfLastColumn > 0">
+								<endcolumns />
+							</xsl:when>
+							<xsl:when test="position()=last() and $safeIndexOfLastColumn = 0">
+								<column />
+								<endcolumn />
+								<endcolumns />
+							</xsl:when>
+							<xsl:otherwise/>
+						</xsl:choose>
 					</xsl:for-each>
 				</xsl:otherwise>
 			</xsl:choose>
