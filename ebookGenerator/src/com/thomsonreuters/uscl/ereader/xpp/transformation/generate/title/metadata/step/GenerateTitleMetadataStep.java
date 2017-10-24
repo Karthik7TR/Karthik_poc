@@ -75,7 +75,7 @@ public class GenerateTitleMetadataStep extends XppTransformationStep {
         @NotNull final XppBundle bundle,
         @NotNull final DocumentsCollector documentsCollector) {
         for (final String fileName : bundle.getOrderedFileList()) {
-            final FilenameFilter filter = BundleFileType.getByFileName(fileName).getHtmlDocFileNameFilter();
+            final FilenameFilter filter = BundleFileType.getHtmlDocFileNameFilter(fileName);
             final String[] documentsNames =
                 fileSystem.getExternalLinksDirectory(this, bundle.getMaterialNumber()).list(filter);
             documentsCollector.addDocuments(documentsNames);

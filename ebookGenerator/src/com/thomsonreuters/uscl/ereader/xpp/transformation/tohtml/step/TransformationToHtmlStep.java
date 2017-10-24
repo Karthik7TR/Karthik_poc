@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.tohtml.step;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -80,24 +81,40 @@ public class TransformationToHtmlStep extends XppTransformationStep {
 
     private static final class PagePrefix {
         private final Map<String, Integer> volumesNumberMap = new HashMap<>();
+        private final Map<String, List<String>> mainContentFilesByMaterialNumber = new HashMap<>();
         private Integer currentVolume;
-        private String currentPrefix;
         private String materialNumber;
+        private BundleFileType currentFileType;
+        private List<String> currentMainContentFiles;
+        private String currentFileName;
 
         private PagePrefix(@NotNull final List<XppBundle> bundles) {
             Integer volume = 1;
             for (final XppBundle bundle : bundles) {
                 volumesNumberMap.put(bundle.getMaterialNumber(), volume++);
+                mainContentFilesByMaterialNumber.put(bundle.getMaterialNumber(), getMainContentFiles(bundle));
             }
         }
 
+        private List<String> getMainContentFiles(final XppBundle bundle) {
+            final List<String> files = new ArrayList<>();
+            for (final String fileName : bundle.getOrderedFileList()) {
+                if (BundleFileType.getByFileName(fileName) == BundleFileType.MAIN_CONTENT) {
+                    files.add(fileName);
+                }
+            }
+            return files;
+        }
+
         private void switchFileType(@NotNull final String fileName) {
-            currentPrefix = BundleFileType.getByFileName(fileName).getPagePrefix();
+            currentFileName = fileName;
+            currentFileType = BundleFileType.getByFileName(currentFileName);
         }
 
         private void switchVolume(@NotNull final String materialNumber) {
             this.materialNumber = materialNumber;
             currentVolume = volumesNumberMap.get(materialNumber);
+            currentMainContentFiles = mainContentFilesByMaterialNumber.get(materialNumber);
         }
 
         private String getPagePrefix() {
@@ -105,10 +122,33 @@ public class TransformationToHtmlStep extends XppTransformationStep {
             if (volumesNumberMap.size() > 1) {
                 builder.append("Vol").append(currentVolume).append("-");
             }
+            final String currentPrefix = getCurrentPrefix();
             if (StringUtils.isNotBlank(currentPrefix)) {
                 builder.append(currentPrefix).append("-");
             }
             return builder.toString();
+        }
+
+        private String getCurrentPrefix() {
+            if (currentFileType == BundleFileType.MAIN_CONTENT) {
+                if (currentMainContentFiles.size() > 1) {
+                    return getIndexOfCurrentMainContent();
+                } else {
+                    return currentFileType.getPagePrefix();
+                }
+            } else {
+                return currentFileType.getPagePrefix();
+            }
+        }
+
+        private String getIndexOfCurrentMainContent() {
+            for (int i = 0; i < currentMainContentFiles.size(); i++) {
+                final String fileBaseName = FilenameUtils.removeExtension(currentMainContentFiles.get(i));
+                if (currentFileName.startsWith(fileBaseName)) {
+                    return String.valueOf(i + 1);
+                }
+            }
+            return currentFileType.getPagePrefix();
         }
 
         private String getMaterialNumber() {

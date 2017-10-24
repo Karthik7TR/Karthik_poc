@@ -1,0 +1,16 @@
+<root xmlns="http://www.sdl.com/xpp">
+    <pagebreak num="1"/>
+    <sectionbreak sectionuuid="Ic06f56e5607311dcb2b50000837214a0"/>
+    <XPPHier uuid="I7f66dd0028b811e69ed7fcedf0a72426" parent_uuid="I7f66dd0028b811e69ed7fcedf0a72426" name="Chapter 1_1">Chapter 1_1</XPPHier>
+    <publication online.royalty.id="FLLF" uuid="I7f66dd0028b811e69ed7fcedf0a72426">
+        <metadata.block>
+            <metadata field="left.running.head">
+                <value/>
+            </metadata>
+        </metadata.block>
+        <publication.body>
+        	<XPPMetaData uuid="I18b49f1028b911e69ed7fcedf0a72426" guid="I445a1ac3c61c11d9962fb5f8354828db" md.uuid="I445a1ac3c61c11d9962fb5f8354828db" md.dmsserial="331482376" md.first_line_cite="CALRO CH 7 REF" md.second_line_cite="2 Children &amp;amp; the Law: Rights and Obligations Ch. 7 Refs." md.pubpage="CH 7 REF" md.pubid="177882" md.doc_family_uuid="Ic06f56e5607311dcb2b50000837214a9" md.normalizedcite="CALROCH7REF" md.third_line_cite="" name="Chapter 7. Guardianship" parent_uuid="I7f66dd0028b811e69ed7fcedf0a72426"/>
+        	<XPPHier uuid="I18b49f1028b911e69ed7fcedf0a72426" parent_uuid="I7f66dd0028b811e69ed7fcedf0a72426" name="Section 10">Section 10</XPPHier>
+        </publication.body>
+    </publication>
+</root>

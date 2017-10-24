@@ -20,6 +20,7 @@ import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileS
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemImpl;
 import org.apache.commons.io.FileUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -61,6 +62,11 @@ public final class TransformationToHtmlStepIntegrationTest {
         org.mockito.MockitoAnnotations.initMocks(this);
         original = new File(TransformationToHtmlStepIntegrationTest.class.getResource(SAMPLE_DIVXML_PAGE).toURI());
         anchorsFile = new File(TransformationToHtmlStepIntegrationTest.class.getResource(XppFormatFileSystemImpl.ANCHOR_TO_DOCUMENT_ID_MAP_FILE).toURI());
+    }
+
+    @After
+    public void clean() throws IOException {
+        FileUtils.cleanDirectory(fileSystem.getFormatDirectory(step));
     }
 
     @Test
@@ -116,7 +122,7 @@ public final class TransformationToHtmlStepIntegrationTest {
 
         XppBundle bundle = new XppBundle();
         bundle.setMaterialNumber(MATERIAL_NUMBER);
-        bundle.setOrderedFileList(Arrays.asList("Useless_test_file.DIVXML.xml"));
+        bundle.setOrderedFileList(Arrays.asList("0_Front_vol_1.DIVXML.xml", "Useless_test_file.DIVXML.xml", "1-sample_1.DIVXML_0_test.xml"));
         bundles.add(bundle);
 
         if (multivolume) {

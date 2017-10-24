@@ -4,6 +4,7 @@
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
 	<xsl:import href="../transform-utils.xsl" />
 	<xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
+	<xsl:param name="depthThreshold" />
 
 	<xsl:template match="Document">
 		<EBook>
@@ -37,6 +38,27 @@
 		<xsl:apply-templates select="node()|@*" />
 	</xsl:template>
 
+	<xsl:template match="x:EBookToc">
+		<xsl:variable name="depth" select="count(ancestor::x:EBookToc)" />
+		<xsl:variable name="deepestVisibleDocUUID">
+			<xsl:choose>
+				<xsl:when test="$depth lt $depthThreshold">
+					<xsl:value-of select="''" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="ancestor::x:EBookToc[$depth - $depthThreshold + 1]/x:DocumentGuid/text()" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		
+		<xsl:if test=".[not(./x:Name[contains(., $volNamePlaceholder)])] and 
+			$deepestVisibleDocUUID != ./x:DocumentGuid/text()">
+			<xsl:copy>
+				<xsl:apply-templates select="node()|@*" />
+			</xsl:copy>
+		</xsl:if>
+	</xsl:template>
+
 	<xsl:template match="node()|@*">
 		<xsl:if test=".[not(./x:Name[contains(., $volNamePlaceholder)])]">
 			<xsl:copy>
@@ -44,5 +66,5 @@
 			</xsl:copy>
 		</xsl:if>
 	</xsl:template>
-	
+
 </xsl:stylesheet>

@@ -46,9 +46,10 @@ public final class ExtractTocStepIntegrationTest {
     @Autowired
     private XppFormatFileSystem fileSystem;
 
-    private File bundleMainContentOriginalFile;
-    private File bundleMainContentOriginalAdditionalFile;
-    private File bundleMainContentOriginalXppHierWithoutChildXppMetadataFile;
+    private File vol1File;
+    private File vol1RutterWitkinFile;
+    private File vol2File;
+    private File vol2XppHierWithoutChildXppMetadataFile;
     private File expectedMainContentTocFile;
     private File expectedMainContentAdditionalTocFile;
     private File expectedMainContentXppHierWithoutChildXppMetadataFile;
@@ -75,11 +76,13 @@ public final class ExtractTocStepIntegrationTest {
     }
 
     private void initFiles() throws Exception {
-        bundleMainContentOriginalFile =
+        vol1File =
             new File(ExtractTocStepIntegrationTest.class.getResource("mainContent1.DIVXML.main").toURI());
-        bundleMainContentOriginalAdditionalFile =
+        vol1RutterWitkinFile =
+            new File(ExtractTocStepIntegrationTest.class.getResource("mainContent1_1.DIVXML.main").toURI());
+        vol2File =
             new File(ExtractTocStepIntegrationTest.class.getResource("mainContent2.DIVXML.main").toURI());
-        bundleMainContentOriginalXppHierWithoutChildXppMetadataFile =
+        vol2XppHierWithoutChildXppMetadataFile =
             new File(ExtractTocStepIntegrationTest.class.getResource("mainContent3.DIVXML.main").toURI());
         expectedMainContentTocFile =
             new File(ExtractTocStepIntegrationTest.class.getResource("expectedMainContent_1_TocFile.xml").toURI());
@@ -93,20 +96,21 @@ public final class ExtractTocStepIntegrationTest {
     private void prepareDirectories() throws Exception {
         final File bundleVolOneOriginalFilesDir = fileSystem.getSectionbreaksDirectory(step, VOL_ONE_MATERIAL_NUMBER);
         FileUtils.forceMkdir(bundleVolOneOriginalFilesDir);
-        FileUtils.copyFileToDirectory(bundleMainContentOriginalFile, bundleVolOneOriginalFilesDir);
+        FileUtils.copyFileToDirectory(vol1File, bundleVolOneOriginalFilesDir);
+        FileUtils.copyFileToDirectory(vol1RutterWitkinFile, bundleVolOneOriginalFilesDir);
 
         final File bundleVolTwoOriginalFilesDir = fileSystem.getSectionbreaksDirectory(step, VOL_TWO_MATERIAL_NUMBER);
         FileUtils.forceMkdir(bundleVolTwoOriginalFilesDir);
-        FileUtils.copyFileToDirectory(bundleMainContentOriginalAdditionalFile, bundleVolTwoOriginalFilesDir);
+        FileUtils.copyFileToDirectory(vol2File, bundleVolTwoOriginalFilesDir);
         FileUtils.copyFileToDirectory(
-            bundleMainContentOriginalXppHierWithoutChildXppMetadataFile,
+            vol2XppHierWithoutChildXppMetadataFile,
             bundleVolTwoOriginalFilesDir);
     }
 
     private List<XppBundle> getBundlesList() {
         final XppBundle volumeOneBundle = new XppBundle();
         volumeOneBundle.setMaterialNumber(VOL_ONE_MATERIAL_NUMBER);
-        volumeOneBundle.setOrderedFileList(Arrays.asList("mainContent1.DIVXML.xml"));
+        volumeOneBundle.setOrderedFileList(Arrays.asList("mainContent1.DIVXML.xml", "mainContent1_1.DIVXML.xml"));
 
         final XppBundle volumeTwoBundle = new XppBundle();
         volumeTwoBundle.setMaterialNumber(VOL_TWO_MATERIAL_NUMBER);

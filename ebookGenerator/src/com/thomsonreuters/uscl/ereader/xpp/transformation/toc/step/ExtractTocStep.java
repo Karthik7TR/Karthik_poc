@@ -27,6 +27,8 @@ public class ExtractTocStep extends XppTransformationStep {
     private File extractTocXsl;
     @Value("${xpp.merge.volume.tocs.xsl}")
     private File mergeVolumeTocsXsl;
+    @Value("${xpp.tox.depth.threshold}")
+    private int depthThreshold;
 
     @Override
     public void executeTransformation() throws Exception {
@@ -66,7 +68,10 @@ public class ExtractTocStep extends XppTransformationStep {
     }
 
     private void uniteTocs(final List<File> tocFiles) {
-        final Transformer transformer = transformerBuilderFactory.create().withXsl(uniteTocsXsl).build();
+        final Transformer transformer = transformerBuilderFactory.create()
+            .withXsl(uniteTocsXsl)
+            .withParameter("depthThreshold", depthThreshold)
+            .build();
         final TransformationCommand command =
             new TransformationCommandBuilder(transformer, fileSystem.getTocFile(this)).withInput(tocFiles).build();
         transformationService.transform(command);

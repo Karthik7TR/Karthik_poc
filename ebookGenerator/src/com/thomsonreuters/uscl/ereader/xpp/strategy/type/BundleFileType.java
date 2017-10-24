@@ -1,6 +1,5 @@
 package com.thomsonreuters.uscl.ereader.xpp.strategy.type;
 
-import java.io.File;
 import java.io.FilenameFilter;
 import java.util.regex.Pattern;
 
@@ -31,13 +30,11 @@ public enum BundleFileType {
 
     private final Pattern originalFileNamePattern;
     private final Pattern htmlDocumentFileNamePattern;
-    private final FilenameFilter fileNameFilter;
     private final String pagePrefix;
 
     BundleFileType(final String pattern, final String pagePrefix) {
         originalFileNamePattern = Pattern.compile(pattern);
         htmlDocumentFileNamePattern = Pattern.compile(pattern + "_\\d+_[a-zA-Z0-9.]*\\.[a-z]*");
-        fileNameFilter = new HtmlDocumentFileNameFilter(this);
         this.pagePrefix = pagePrefix;
     }
 
@@ -45,8 +42,10 @@ public enum BundleFileType {
         return pagePrefix;
     }
 
-    public FilenameFilter getHtmlDocFileNameFilter() {
-        return fileNameFilter;
+    @NotNull
+    public static FilenameFilter getHtmlDocFileNameFilter(@NotNull final String fileName) {
+        final BundleFileType bundleFileType = getByFileName(fileName);
+        return new HtmlDocumentFileNameFilter(bundleFileType, StringUtils.substringBeforeLast(fileName, "."));
     }
 
     /**
@@ -83,18 +82,5 @@ public enum BundleFileType {
             }
         }
         return result;
-    }
-
-    private static final class HtmlDocumentFileNameFilter implements FilenameFilter {
-        private final BundleFileType bundleFileType;
-
-        private HtmlDocumentFileNameFilter(final BundleFileType bundleFileType) {
-            this.bundleFileType = bundleFileType;
-        }
-
-        @Override
-        public boolean accept(final File dir, final String name) {
-            return bundleFileType == getByDocumentFileName(name);
-        }
     }
 }
