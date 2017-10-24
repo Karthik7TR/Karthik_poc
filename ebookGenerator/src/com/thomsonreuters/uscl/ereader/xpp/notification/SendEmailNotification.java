@@ -1,6 +1,10 @@
 package com.thomsonreuters.uscl.ereader.xpp.notification;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -69,9 +73,18 @@ public class SendEmailNotification extends BookStepImpl {
     private String getPrintComponentsTable(final BookDefinition bookDefinition) {
         final StringBuilder tempBuilder = new StringBuilder();
         final Set<PrintComponent> printComponents = bookDefinition.getPrintComponents();
+        final List<PrintComponent> sortedPrintComponentList = new ArrayList<>(printComponents);
+
+        final Comparator<PrintComponent> comparator = new Comparator<PrintComponent>() {
+            @Override
+            public int compare(final PrintComponent left, final PrintComponent right) {
+                return left.getComponentOrder() - right.getComponentOrder();
+            }
+        };
+        Collections.sort(sortedPrintComponentList, comparator);
         tempBuilder.append("<br><table border = '1'><th colspan = '2'>Print Components</th>");
         tempBuilder.append("<tr><td>Material Number</td><td>SAP Description</td></tr>");
-        for (final PrintComponent element : printComponents) {
+        for (final PrintComponent element : sortedPrintComponentList) {
             tempBuilder.append("<tr><td>" + element.getMaterialNumber() + "</td>");
             tempBuilder.append("<td>" + element.getComponentName() + "</td></tr>");
         }
@@ -79,11 +92,17 @@ public class SendEmailNotification extends BookStepImpl {
         return tempBuilder.toString();
     }
 
-    private String getVersionDifferencesTable(final PublishingStats currentVersionPublishingStats, final PublishingStats previousVersionsPublishingStats){
+    private String getVersionDifferencesTable(final PublishingStats currentVersionPublishingStats, final PublishingStats previousVersionsPublishingStats) {
         final StringBuilder tempBuilder = new StringBuilder();
+        final String tempPreviousVersionDocCount;
+            if (previousVersionsPublishingStats.getAssembleDocCount() == null) {
+                tempPreviousVersionDocCount = "—";
+            } else {
+                tempPreviousVersionDocCount = previousVersionsPublishingStats.getAssembleDocCount().toString();
+            }
         tempBuilder.append("<br><br><table border = '1'><tr><td></td><td>Current version</td><td>Previous version</td>");
         tempBuilder.append("<tr><td>Job Instance ID</td><td>" + getJobInstanceId() + "</td><td>" + previousVersionsPublishingStats.getJobInstanceId() + "</td></tr>");
-        tempBuilder.append("<tr><td>Doc Count</td><td>" + currentVersionPublishingStats.getAssembleDocCount() + "</td><td>" + previousVersionsPublishingStats.getAssembleDocCount() + "</td></tr>");
+        tempBuilder.append("<tr><td>Doc Count</td><td>" + currentVersionPublishingStats.getAssembleDocCount() + "</td><td>" + tempPreviousVersionDocCount + "</td></tr>");
         tempBuilder.append("<tr><td>Book Size</td><td>" + currentVersionPublishingStats.getBookSizeHumanReadable() + "</td><td>" + previousVersionsPublishingStats.getBookSizeHumanReadable() + "</td></tr>");
         tempBuilder.append("</table>");
         return tempBuilder.toString();
