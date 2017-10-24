@@ -57,18 +57,21 @@ public class EmailNotification {
         msg.setContent(mp);
     }
 
-    public static void send(final Collection<InternetAddress> recipients, final String subject, final String body) {
+    public static void send(final Collection<InternetAddress> recipients, final String subject, final String body, final boolean isHtml) {
         final String csvRecipients = convertToCsv(recipients);
-        send(csvRecipients, subject, body);
+        send(csvRecipients, subject, body, isHtml);
     }
 
-    /**
-     *
-     * @param csvRecipients
-     * @param subject
-     * @param body
-     */
+    public static void send(final Collection<InternetAddress> recipients, final String subject, final String body) {
+        final String csvRecipients = convertToCsv(recipients);
+        send(csvRecipients, subject, body, false);
+    }
+
     public static void send(final String csvRecipients, final String subject, final String body) {
+        send(csvRecipients, subject, body, false);
+    }
+
+    public static void send(final String csvRecipients, final String subject, final String body, final boolean isHtml) {
         log.debug("Recipients: " + csvRecipients);
         if ((csvRecipients != null) && !csvRecipients.isEmpty()) {
             try {
@@ -91,7 +94,9 @@ public class EmailNotification {
                     final Message msg = prepareMessage(emailAddress.trim(), subject, from, session);
 
                     msg.setText(body);
-
+                    if(isHtml){
+                        msg.setContent(body, "text/html; charset=utf-8");
+                    }
                     Transport.send(msg);
                 }
             } catch (final MessagingException mex) {

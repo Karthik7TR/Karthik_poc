@@ -116,6 +116,7 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
                 stats.setLargestDocSize(newstats.getLargestDocSize());
                 stats.setLargestImageSize(newstats.getLargestImageSize());
                 stats.setLargestPdfSize(newstats.getLargestPdfSize());
+                stats.setAssembleDocCount(newstats.getAssembleDocCount());
                 break;
             case FINALPUBLISH:
                 stats.setPublishEndTimestamp(rightNow);

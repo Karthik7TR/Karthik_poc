@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.mail.internet.InternetAddress;
 
+import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEmail;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -18,9 +19,10 @@ import org.jetbrains.annotations.NotNull;
 public interface EmailService {
     /**
      * Send email
-     * @param recipients
-     * @param subject
-     * @param body
+     * @param email
      */
-    void send(@NotNull Collection<InternetAddress> recipients, @NotNull String subject, @NotNull String body);
+    void send(@NotNull NotificationEmail email);
+
+    void send(@NotNull final Collection<InternetAddress> recipients,
+        @NotNull final String subject, @NotNull final String body);
 }

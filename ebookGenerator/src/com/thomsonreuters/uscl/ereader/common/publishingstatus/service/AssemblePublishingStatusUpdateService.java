@@ -29,13 +29,14 @@ public class AssemblePublishingStatusUpdateService extends BasePublishingStatusU
             final long largestPdf = assemblyService.getLargestContent(assetsPath, ".pdf");
             final long largestImage = assemblyService.getLargestContent(assetsPath, ".png,.jpeg,.gif");
             final long bookSizeInBytes = fileSystem.getAssembledBookFile(step).length();
-
+            final int assembleDocCount = fileSystem.countAssembleDocs(step);
             final PublishingStats jobstatsFormat = new PublishingStats();
             jobstatsFormat.setJobInstanceId(step.getJobInstanceId());
             jobstatsFormat.setLargestDocSize(largestDocument);
             jobstatsFormat.setLargestImageSize(largestImage);
             jobstatsFormat.setLargestPdfSize(largestPdf);
             jobstatsFormat.setBookSize(bookSizeInBytes);
+            jobstatsFormat.setAssembleDocCount(assembleDocCount);
             jobstatsFormat.setPublishStatus(getPublishStatusString(step, publishStatus));
             publishingStatsService.updatePublishingStats(jobstatsFormat, StatsUpdateTypeEnum.ASSEMBLEDOC);
         } else {

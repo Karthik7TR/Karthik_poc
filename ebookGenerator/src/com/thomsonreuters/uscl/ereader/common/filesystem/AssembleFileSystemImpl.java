@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -74,5 +75,11 @@ public class AssembleFileSystemImpl implements AssembleFileSystem {
     @Override
     public File getArtworkFile(final BookStep step) {
         return new File(getArtworkDirectory(step), "coverArt.PNG");
+    }
+
+    @Override
+    @NotNull
+    public Integer countAssembleDocs(@NotNull final BookStep step) {
+        return FileUtils.listFiles(getDocumentsDirectory(step), null, true).size();
     }
 }

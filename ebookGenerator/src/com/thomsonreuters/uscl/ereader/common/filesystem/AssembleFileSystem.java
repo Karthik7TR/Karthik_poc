@@ -87,4 +87,12 @@ public interface AssembleFileSystem {
      */
     @NotNull
     File getArtworkFile(@NotNull BookStep step);
+
+    /**
+     * Returns number of generates html files in assemble directory:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /titleId/Assemble/}
+     */
+    @NotNull
+    Integer countAssembleDocs(@NotNull BookStep step);
 }
