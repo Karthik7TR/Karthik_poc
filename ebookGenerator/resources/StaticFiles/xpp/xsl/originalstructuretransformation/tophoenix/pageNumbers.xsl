@@ -3,19 +3,19 @@
 	xmlns="http://www.sdl.com/xpp" exclude-result-prefixes="x">
 
 	<xsl:variable name="romanNumbersMap">
-		<entry key="1">I</entry>
-		<entry key="4">IV</entry>
-		<entry key="5">V</entry>
-		<entry key="9">IX</entry>
-		<entry key="10">X</entry>
-		<entry key="40">XL</entry>
-		<entry key="50">L</entry>
-		<entry key="90">XC</entry>
-		<entry key="100">C</entry>
-		<entry key="400">CD</entry>
-		<entry key="500">D</entry>
-		<entry key="900">CM</entry>
-		<entry key="1000">M</entry>
+		<entry key="1">i</entry>
+		<entry key="4">iv</entry>
+		<entry key="5">v</entry>
+		<entry key="9">ix</entry>
+		<entry key="10">x</entry>
+		<entry key="40">xl</entry>
+		<entry key="50">l</entry>
+		<entry key="90">xc</entry>
+		<entry key="100">c</entry>
+		<entry key="400">cd</entry>
+		<entry key="500">d</entry>
+		<entry key="900">cm</entry>
+		<entry key="1000">m</entry>
 	</xsl:variable>
 
 	<xsl:template match="x:page" mode="prev_page">
@@ -24,7 +24,7 @@
 
 	<xsl:template name="page-numbers">
 		<xsl:param name="bundlePartType" />
-		<xsl:variable name="pn" select="@p4"/>
+		<xsl:variable name="pn" select="@p4" />
 		<xsl:variable name="pageNumber">
 			<xsl:choose>
 				<xsl:when
