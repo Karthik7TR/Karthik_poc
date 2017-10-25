@@ -29,5 +29,6 @@ public interface EditBookDefinitionService {
     List<String> getCodesWorkbenchDirectory(String folder);
 
     @NotNull
-    MaterialComponentsResponse getMaterialBySubNumber(@NotNull String subNumber, @Nullable String titleId);
+    MaterialComponentsResponse getMaterialBySubNumber(
+        @NotNull String subNumber, @Nullable String setNumber, @Nullable String titleId);
 }

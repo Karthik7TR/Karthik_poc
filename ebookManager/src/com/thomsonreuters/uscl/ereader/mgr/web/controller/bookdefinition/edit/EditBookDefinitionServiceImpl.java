@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
@@ -20,6 +22,7 @@ import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
 import com.thomsonreuters.uscl.ereader.sap.comparsion.MaterialComponentComparatorProvider;
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponent;
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponentsResponse;
+import com.thomsonreuters.uscl.ereader.sap.component.MediaLowLevelRule;
 import com.thomsonreuters.uscl.ereader.sap.service.SapService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
@@ -139,18 +142,13 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
     @NotNull
     @Override
     public MaterialComponentsResponse getMaterialBySubNumber(
-        @NotNull final String subNumber,
-        @Nullable final String titleId) {
+        @NotNull final String subNumber, @Nullable final String setNumber, @Nullable final String titleId) {
         final List<MaterialComponent> filteredComponents = new ArrayList<>();
         String responseMessage;
 
         try {
-            final List<MaterialComponent> components = sapService.getMaterialByNumber(subNumber).getComponents();
-            for (final MaterialComponent component : components) {
-                if ("print".equalsIgnoreCase(component.getMediahlRule())
-                    && StringUtils.isBlank(component.getDchainStatus())
-                    && new Date(DateTime.now().withZone(DateTimeZone.forID("US/Central")).getMillis())
-                        .compareTo(component.getEffectiveDate()) > 0) {
+            for (final MaterialComponent component : getMaterialComponents(subNumber, setNumber)) {
+                if (isValidComponent(component)) {
                     filteredComponents.add(component);
                 }
             }
@@ -162,6 +160,24 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
 
         Collections.sort(filteredComponents, materialComponentComparatorProvider.getComparator(titleId));
         return new MaterialComponentsResponse(String.format(responseMessage, subNumber), filteredComponents);
+    }
+
+    private Set<MaterialComponent> getMaterialComponents(@NotNull final String subNumber, @Nullable final String setNumber) {
+        final Set<MaterialComponent> components = new HashSet<>(sapService.getMaterialByNumber(subNumber).getComponents());
+        if (StringUtils.isNotBlank(setNumber)) {
+            components.addAll(sapService.getMaterialByNumber(setNumber).getComponents());
+        }
+        return components;
+    }
+
+    private boolean isValidComponent(final MaterialComponent component) {
+        final boolean isNotFuture = new Date(DateTime.now().withZone(DateTimeZone.forID("US/Central")).getMillis())
+            .compareTo(component.getEffectiveDate()) > 0;
+
+        return "print".equalsIgnoreCase(component.getMediahlRule())
+            && MediaLowLevelRule.getByRuleValue(component.getMediallRule()) != MediaLowLevelRule.UNSUPPORTED
+            && StringUtils.isBlank(component.getDchainStatus())
+            && isNotFuture;
     }
 
     private String getMessageByError(final String errorText) {

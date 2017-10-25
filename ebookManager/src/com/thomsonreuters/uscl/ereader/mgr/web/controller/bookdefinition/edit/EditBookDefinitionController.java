@@ -23,6 +23,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponentsResponse;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -375,8 +376,9 @@ public class EditBookDefinitionController {
     @NotNull
     public MaterialComponentsResponse getDataFromSap(
         @NotNull @RequestParam("subNumber") final String subNumber,
+        @Nullable @RequestParam("setNumber") final String setNumber,
         @NotNull @RequestParam(value = "titleId", required = false) final String titleId) {
-        return editBookDefinitionService.getMaterialBySubNumber(subNumber, titleId);
+        return editBookDefinitionService.getMaterialBySubNumber(subNumber, setNumber, titleId);
     }
 
     /**

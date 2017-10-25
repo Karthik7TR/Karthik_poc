@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.thomsonreuters.uscl.ereader.sap.deserialize.DateNullHandleConverter;
 import com.thomsonreuters.uscl.ereader.sap.deserialize.StringNullHandleConverter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class MaterialComponent {
     @JsonProperty("bom_component")
@@ -131,5 +133,46 @@ public class MaterialComponent {
 
     public void setShipDate(final Date shipDate) {
         this.shipDate = shipDate;
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(bomComponent)
+            .append(materialDesc)
+            .append(materialType)
+            .append(mediahlRule)
+            .append(mediallRule)
+            .append(dchainStatus)
+            .append(effectiveDate)
+            .append(planOrderDate)
+            .append(dchainEffectiveDate)
+            .append(prodDate)
+            .append(shipDate)
+            .toHashCode();
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+        if (this == other) {
+            return true;
+        }
+
+        if (!(other instanceof MaterialComponent)) {
+            return false;
+        }
+
+        final MaterialComponent materialComponent = (MaterialComponent) other;
+        return new EqualsBuilder().append(bomComponent, materialComponent.bomComponent)
+                            .append(materialDesc, materialComponent.materialDesc)
+                            .append(materialType, materialComponent.materialType)
+                            .append(mediahlRule, materialComponent.mediahlRule)
+                            .append(mediallRule, materialComponent.mediallRule)
+                            .append(dchainStatus, materialComponent.dchainStatus)
+                            .append(effectiveDate, materialComponent.effectiveDate)
+                            .append(planOrderDate, materialComponent.planOrderDate)
+                            .append(dchainEffectiveDate, materialComponent.dchainEffectiveDate)
+                            .append(prodDate, materialComponent.prodDate)
+                            .append(shipDate, materialComponent.shipDate)
+                            .isEquals();
     }
 }

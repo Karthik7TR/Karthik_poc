@@ -99,25 +99,37 @@ public final class EditBookDefinitionServiceImplTest {
         MaterialComponent component = new MaterialComponent();
         component.setDchainStatus("Z7");
         component.setMediahlRule("Print");
+        component.setMediallRule("30-blah");
         component.setEffectiveDate(new Date(100));
         component.setBomComponent("1");
         materialComponents.add(component);
 
         component = new MaterialComponent();
         component.setMediahlRule("CDROM");
+        component.setMediallRule("30-blah");
         component.setEffectiveDate(new Date(100));
         component.setBomComponent("2");
         materialComponents.add(component);
 
         component = new MaterialComponent();
         component.setMediahlRule("Print");
+        component.setMediallRule("30-blah");
         component.setEffectiveDate(new Date(Long.MAX_VALUE));
         component.setBomComponent("3");
+        materialComponents.add(component);
+
+        component = new MaterialComponent();
+        component.setDchainStatus("Z7");
+        component.setMediahlRule("Print");
+        component.setMediallRule("66-blah");
+        component.setEffectiveDate(new Date(100));
+        component.setBomComponent("5");
         materialComponents.add(component);
 
         if (VALID_SUB_NUMBER.equals(subNumber)) {
             component = new MaterialComponent();
             component.setMediahlRule("Print");
+            component.setMediallRule("30-blah");
             component.setEffectiveDate(new Date(100));
             component.setBomComponent("4");
             materialComponents.add(component);
@@ -212,7 +224,7 @@ public final class EditBookDefinitionServiceImplTest {
     public void shouldReturnListWithOneElement() {
         //given
         //when
-        final MaterialComponentsResponse response = bookService.getMaterialBySubNumber(VALID_SUB_NUMBER, TITLE_ID);
+        final MaterialComponentsResponse response = bookService.getMaterialBySubNumber(VALID_SUB_NUMBER, VALID_SUB_NUMBER, TITLE_ID);
         //then
         assertThat(response.getMessage(), equalTo("OK"));
         assertThat(response.getMaterialComponents(), hasSize(1));
@@ -223,7 +235,7 @@ public final class EditBookDefinitionServiceImplTest {
     public void shouldReturnEmptyResponse() {
         //given
         //when
-        final MaterialComponentsResponse response = bookService.getMaterialBySubNumber(EMPTY_SUB_NUMBER, TITLE_ID);
+        final MaterialComponentsResponse response = bookService.getMaterialBySubNumber(EMPTY_SUB_NUMBER, EMPTY_SUB_NUMBER, TITLE_ID);
         //then
         assertThat(response.getMessage(), equalTo("Material components not found, for Print Set/Sub Number: 12345679"));
         assertThat(response.getMaterialComponents(), hasSize(0));
@@ -233,7 +245,7 @@ public final class EditBookDefinitionServiceImplTest {
     public void shouldReturnInvalidResponse() {
         //given
         //when
-        final MaterialComponentsResponse response = bookService.getMaterialBySubNumber(INVALID_SUB_NUMBER, TITLE_ID);
+        final MaterialComponentsResponse response = bookService.getMaterialBySubNumber(INVALID_SUB_NUMBER, INVALID_SUB_NUMBER, TITLE_ID);
         //then
         assertThat(response.getMessage(), equalTo("Print Set/Sub Number: 12345670 is invalid"));
         assertThat(response.getMaterialComponents(), hasSize(0));
@@ -244,9 +256,33 @@ public final class EditBookDefinitionServiceImplTest {
         //given
         //when
         final MaterialComponentsResponse response =
-            bookService.getMaterialBySubNumber(UNAVAILABLE_SUB_NUMBER, TITLE_ID);
+            bookService.getMaterialBySubNumber(UNAVAILABLE_SUB_NUMBER, UNAVAILABLE_SUB_NUMBER, TITLE_ID);
         //then
         assertThat(response.getMessage(), equalTo("Material components not found, for Print Set/Sub Number: 1234567"));
         assertThat(response.getMaterialComponents(), hasSize(0));
+    }
+
+    @Test
+    public void shouldReturnValuesBySetNumberResponse() {
+        //given
+        //when
+        final MaterialComponentsResponse response =
+            bookService.getMaterialBySubNumber(EMPTY_SUB_NUMBER, VALID_SUB_NUMBER, TITLE_ID);
+        //then
+        assertThat(response.getMessage(), equalTo("OK"));
+        assertThat(response.getMaterialComponents(), hasSize(1));
+        assertThat(response.getMaterialComponents().get(0).getBomComponent(), equalTo("4"));
+    }
+
+    @Test
+    public void shouldReturnValuesBySubNumberResponse() {
+        //given
+        //when
+        final MaterialComponentsResponse response =
+            bookService.getMaterialBySubNumber(VALID_SUB_NUMBER, EMPTY_SUB_NUMBER, TITLE_ID);
+        //then
+        assertThat(response.getMessage(), equalTo("OK"));
+        assertThat(response.getMaterialComponents(), hasSize(1));
+        assertThat(response.getMaterialComponents().get(0).getBomComponent(), equalTo("4"));
     }
 }

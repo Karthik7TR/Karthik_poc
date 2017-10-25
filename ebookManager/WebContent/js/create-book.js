@@ -807,9 +807,10 @@ $(function() {
 		};
 		
 		$('#performSapRequest').click(function() {
-			var subNumber = $('#printSetNumber').val();
+			var subNumber = $('#printSubNumber').val();
+			
 			if(subNumber == "") {
-				alert("Please enter Print Set/Sub Number first");
+				alert("Please fill \"Print Sub Number\" field");
 				return;
 			}
 			
@@ -817,7 +818,7 @@ $(function() {
 				$.ajax({
 					url: "/ebookManager/getDataFromSap.mvc",
 					type: "Post",
-					data: {"subNumber":subNumber, "titleId":$('#titleIdBox').val()},
+					data: {"subNumber":subNumber, "setNumber":$('#printSetNumber').val(), "titleId":$('#titleIdBox').val()},
 					dataType: "json",
 					success: function(response) {
 						var data = response.materialComponents;
