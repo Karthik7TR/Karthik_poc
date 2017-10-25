@@ -1,9 +1,9 @@
 package com.thomsonreuters.uscl.ereader.core.book.util;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
@@ -18,15 +18,8 @@ public class BookTitlesUtilImpl implements BookTitlesUtil {
         Assert.notNull(book);
         Assert.notNull(version);
 
-        //TODO replace with lambda when Java 8 will be available
         final String versionToCompare = version.getVersionWithoutPrefix();
-        for (final SplitNodeInfo splitPart : book.getSplitNodes()) {
-            final String partVersion = splitPart.getBookVersionSubmitted();
-            if (versionToCompare.equals(partVersion)) {
-                return true;
-            }
-        }
-        return false;
+        return book.getSplitNodes().stream().anyMatch(s -> versionToCompare.equals(s.getBookVersionSubmitted()));
     }
 
     @NotNull
@@ -35,16 +28,11 @@ public class BookTitlesUtilImpl implements BookTitlesUtil {
         @NotNull final BookDefinition book,
         @NotNull final Version version) {
         final String versionToCompare = version.getVersionWithoutPrefix();
-        final Set<SplitNodeInfo> set = new HashSet<>();
 
-        //TODO replace with lambda when Java 8 will be available
-        for (final SplitNodeInfo splitPart : book.getSplitNodes()) {
-            final String partVersion = splitPart.getBookVersionSubmitted();
-            if (versionToCompare.equals(partVersion)) {
-                set.add(splitPart);
-            }
-        }
-        return set;
+        return book.getSplitNodes()
+            .stream()
+            .filter(s -> versionToCompare.equals(s.getBookVersionSubmitted()))
+            .collect(Collectors.toSet());
     }
 
     @Override
