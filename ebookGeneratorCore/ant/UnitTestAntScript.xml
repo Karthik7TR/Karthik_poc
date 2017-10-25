@@ -58,7 +58,6 @@
     <!-- The value of "haltonfailure" should be set to false or else no reports would be generated -->
     <junit fork="on" forkmode="once" haltonfailure="false" showoutput="on"
            printsummary="on" failureproperty="tests.failed">
-      <jvmarg line="-XX:-UseSplitVerifier"/>
       <sysproperty key="jacoco-agent.destfile" file="${jacoco.data.file.unit}" />
       
       <classpath>
