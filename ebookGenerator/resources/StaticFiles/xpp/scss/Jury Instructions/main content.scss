@@ -14,30 +14,30 @@
     }
     .pji_instruction_body & {
         text-align: center;
-        margin: calc(#{$indent} * 0.5);
+        margin: #{$indent * 0.5}em;
     }
     .pattern_jury_instruction_body .pji_verdict_section_body .pji_references>& {
         display: block;
         text-align: center;
-        margin: calc(#{$indent} * 0.5);
+        margin: #{$indent * 0.5}em;
     }
 }
 
 .designator {
     .pji_outline_name_block>& {
-        margin-right: $indent;
+        margin-right: #{$indent}em;
     }
     .toc_pji_instruction_section & {
-        margin-right: $indent;
+        margin-right: #{$indent}em;
     }
     .toc_pji_info_section & {
-        margin-right: $indent;
+        margin-right: #{$indent}em;
     }
     .toc_pji_verdict_section & {
-        margin-right: $indent;
+        margin-right: #{$indent}em;
     }
     .pji_section_front .pji_outline_name_block>& {
-        margin-right: $indent;
+        margin-right: #{$indent}em;
     }
 }
 
@@ -52,13 +52,13 @@
 
 .charge_para {
     .pji_instruction_body & {
-        margin-bottom: $indent;
+        margin-bottom: #{$indent}em;
     }
 }
 
 .pji_outline_name_block {
     .toc_pji_hierarchy>a>& {
-        margin: $indent auto;
+        margin: #{$indent}em auto;
         text-align: center;
     }
     .toc_pji_instruction_section & {
@@ -72,11 +72,11 @@
     }
     .pji_section_front & {
         display: block;
-        margin-bottom: $indent;
+        margin-bottom: #{$indent}em;
     }
     .pattern_jury_instruction_body .pji_info_section .pji_section_front>& {
         text-align: center;
-        margin: calc(#{$indent} * 0.5);
+        margin: #{$indent * 0.5}em;
     }
 }
 
@@ -90,32 +90,32 @@
 
 .pji_para {
     .pji_instruction_body .pji_reference_block>& {
-        margin-left: $indent;
+        margin-left: #{$indent}em;
     }
     .pji_instruction_body .pji_note_group>& {
-        margin-bottom: calc(0.5*#{$indent});
+        margin-bottom: #{$indent * 0.5}em;
     }
     .pattern_jury_instruction_body .pji_verdict_section_body .pji_reference_block>& {
-        margin-left: $indent;
+        margin-left: #{$indent}em;
     }
 }
 
 .list_item {
     .pji_instruction_body .pji_note_group & {
-        margin-bottom: calc(0.5*#{$indent});
+        margin-bottom: #{$indent * 0.5}em;
     }
 }
 
 .name_block {
     .pji_instruction_body .pji_note_group>.head>& {
         margin-left: 0;
-        margin-bottom: calc(0.5*#{$indent});
+        margin-bottom: #{$indent * 0.5}em;
         margin-top: 0;
     }
 }
 
 .pji_note_group {
-    margin-top: $indent;
+    margin-top: #{$indent}em;
 }
 
 .point {

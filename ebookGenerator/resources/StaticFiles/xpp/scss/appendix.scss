@@ -1,15 +1,15 @@
 @import "constants.scss";
 .outline_name_block {
     .appendix_front>& {
-        margin: $indent 0;
+        margin: #{$indent}em 0;
         display: block;
     }
     .appendix_front>&,
     .toc_appendix_block>& {
-        margin: $indent 0;
+        margin: #{$indent}em 0;
     }
     .appendix_section_front>& {
-        margin: $indent $indent 0 0;
+        margin: #{$indent}em #{$indent}em 0 0;
     }
 }
 
@@ -19,7 +19,7 @@
     }
     .stat_name_block>.name_block>& {
         display: inline;
-        margin-left: $indent;
+        margin-left: #{$indent}em;
         .bold {
             display: inline;
         }
@@ -36,12 +36,13 @@
 
 .designator {
     .toc_appendix & {
-        min-width: calc(#{$indent}*2);
-        max-width: calc(#{$indent}*2);
+        min-width: #{$indent*2}em;
+        max-width: #{$indent*2}em;
     }
     .appendix_section_front &,
     .form_item & {
-        margin-right: $indent;
+        margin-right: #{$indent}em;
+        ;
     }
 }
 
@@ -50,15 +51,16 @@
         display: inline-block;
     }
     .appendix_front & {
-        margin-right: $indent;
+        margin-right: #{$indent}em;
     }
     .appendix_front>.outline_name_block>& {
-        margin-bottom: calc(#{$indent} / 2);
+        margin-bottom: #{$indent/2}em;
     }
 }
 
 .form_item {
-    margin-left: $indent;
+    margin-left: #{$indent}em;
+    ;
 }
 
 .form_para,
@@ -68,14 +70,14 @@
 
 .name_block {
     display: inline-block;
-    min-width: calc(#{$indent} / 1.5);
-    .form_item > & {
-        text-indent: $indent;
+    min-width: #{$indent/1.5}em;
+    .form_item>& {
+        text-indent: #{$indent}em;
     }
 }
 
 .form_name_block {
-    margin: calc(#{$indent} /2) auto;
+    margin: #{$indent/2}em auto;
 }
 
 .form_para+.form_para {
@@ -93,7 +95,7 @@
         margin: 0 auto;
     }
     .stat_subsect>.form>& {
-        margin: $indent 0;
+        margin: #{$indent}em 0;
     }
     .leaveout+.t {
         display: inline;
@@ -156,6 +158,6 @@
 .stat_subcl {
     display: list-item;
     list-style: none;
-    text-indent: $indent;
-    padding-left: $indent;
+    text-indent: #{$indent}em;
+    padding-left: #{$indent}em;
 }

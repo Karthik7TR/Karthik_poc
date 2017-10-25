@@ -22,7 +22,7 @@
 .page_block {
     flex-grow: 1;
     flex-basis: 0;
-    margin: 0 $indent 0 $indent;
+    margin: 0 #{$indent}em 0 #{$indent}em;
 }
 
 .inline_instr {
@@ -75,7 +75,7 @@
 }
 
 .front {
-    margin: $indent 0;
+    margin: #{$indent}em 0;
 }
 
 .ital {

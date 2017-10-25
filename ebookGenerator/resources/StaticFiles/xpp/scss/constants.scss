@@ -1,5 +1,5 @@
-$header-size: 1.3em;
-$indent: 1em;
+$indent: 1;
+$header-size: #{$indent*1.3}em;
 $margin-left-primary: 20%;
 $margin-right-primary: $margin-left-primary;
 $margin-top-primary: 10%;

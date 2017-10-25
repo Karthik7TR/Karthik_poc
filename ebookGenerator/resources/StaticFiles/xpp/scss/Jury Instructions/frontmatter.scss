@@ -17,8 +17,8 @@ tr {
 
 .textrule {
     .fm_related_products & {
-        border-bottom: 0.05em solid;
-        margin: 1em auto;
+        border-bottom: #{$indent*0.05}em solid;
+        margin: #{$indent}em auto;
         width: 15%;
     }
 }

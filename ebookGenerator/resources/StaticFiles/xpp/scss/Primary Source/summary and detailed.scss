@@ -5,13 +5,13 @@
         width: auto;
     }
     .toc_primary_source .xref+& {
-        margin-left: 1em;
+        margin-left: #{$indent}em;
     }
 }
 
 .primary_outline_name_block {
     .toc_primary_source & {
-        margin-top: calc(#{$indent}*0.5);
+        margin-top: #{$indent*0.5}em;
         display: flex;
         align-items: baseline;
     }
@@ -21,7 +21,7 @@
         width: 100%;
     }
     .toc_primary_hierarchy>& {
-        margin-top: $indent;
+        margin-top: #{$indent}em;
     }
 }
 
@@ -53,12 +53,12 @@
 
 .designator {
     .primary_outline_name_block>& {
-        margin-right: calc(#{$indent}*0.5);
-        min-width: calc(#{$indent}*3);
+        margin-right: #{$indent*0.5}em;
+        min-width: #{$indent*3}em;
     }
     .toc_primary_hierarchy>.primary_outline_name_block>& {
-        margin-right: calc(#{$indent}*0.5);
-        min-width: 0em;
+        margin-right: #{$indent*0.5}em;
+        min-width: 0;
     }
     .summary_toc .toc_appendix_block>.toc_appendix>.outline_name_block>& {
         min-width: 0;
@@ -95,6 +95,6 @@ a {
 
 .label {
     .toc_primary_source .primary_outline_name_block>& {
-        margin-right: 0.5em;
+        margin-right: #{$indent*0.5}em;
     }
 }

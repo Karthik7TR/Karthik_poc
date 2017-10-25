@@ -1,7 +1,7 @@
 @import "constants.scss";
 
 .toc_analytical_hierarchy {
-    margin-bottom: $indent;
+    margin-bottom: #{$indent}em;
 }
 
 .name {
@@ -13,26 +13,26 @@
         text-transform: none;
     }
     .name_block>& {
-        text-indent: $indent;
+        text-indent: #{$indent}em;
     }
     .toc_appendix & {
         display: inline;
     }
     .chapter>.front>.outline_name_block>& {
         display: block;
-        margin: $indent 0;
+        margin: #{$indent}em 0;
     }
 }
 
 .designator {
     .toc_analytical_hierarchy & {
-        margin-right: calc(#{$indent}/2);
+        margin-right: #{$indent/2}em;
     }
     .toc_section & {
-        min-width: calc(#{$indent}*3);
+        min-width: #{$indent*3}em;
     }
     .toc_appendix & {
-        margin-right: $indent;
+        margin-right: #{$indent}em;
     }
     .form_item & {
         display: inline;
@@ -44,11 +44,11 @@
         width: fit-content;
     }
     .toc_appendix & {
-        margin-right: calc(#{$indent}/2);
+        margin-right: #{$indent/2}em;
     }
     .front>.outline_name_block>& {
         display: inline;
-        margin-right: calc(#{$indent}/2);
+        margin-right: #{$indent/2}em;
     }
 }
 

@@ -2,8 +2,8 @@
 .main_head {
     .generated_lrre_tbl & {
         text-align: center;
-        margin-bottom: $indent;
-        margin-top: calc(#{$indent} * 1.5);
+        margin-bottom: #{$indent}em;
+        margin-top: #{$indent * 1.5}em;
     }
 }
 
@@ -11,7 +11,7 @@
     .generated_lrre_tbl>& {
         display: block;
         text-align: center;
-        margin-bottom: calc(#{$indent} * 2);
+        margin-bottom: #{$indent * 2}em;
     }
 }
 
@@ -26,7 +26,7 @@
         flex-wrap: wrap;
     }
     section>.generated_finding_aids_tables>.generated_lrre_tbl>.tbl_unit>& {
-        margin-bottom: calc(#{$indent} * 1.5);
+        margin-bottom: #{$indent * 1.5}em;
         display: block;
         text-align: center;
     }
@@ -68,7 +68,7 @@
         justify-content: space-between;
     }
     .generated_lrre_tbl .tbl_row+& {
-        margin-top: $indent;
+        margin-top: #{$indent}em;
     }
 }
 

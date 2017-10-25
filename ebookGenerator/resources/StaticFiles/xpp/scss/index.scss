@@ -1,9 +1,9 @@
 @import "constants.scss";
 .INDEX {
-    margin-top: #{$indent};
+    margin-top: #{$indent}em;
 
     .l2, .l3, .l4 {
-        margin-left: #{$indent};
+        margin-left: #{$indent}em;
     }
 
     .CITE {
@@ -12,25 +12,25 @@
 
     .mte2 {
         .linebreak + span {
-            margin-left: #{$indent};
+            margin-left: #{$indent}em;
         }
     }
 
     .l2 {
         .mte2 {
-            margin-left: calc(#{$indent} * -1);
+            margin-left: #{$indent * -1}em;
         }
     }
 
     .l3 {
         .mte2 {
-            margin-left: calc(#{$indent} * -2);
+            margin-left: #{$indent * -2}em;
         }
     }
 
     .l4 {
         .mte2 {
-            margin-left: calc(#{$indent} * -3);
+            margin-left: #{$indent * -3}em;
         }
     }
 }

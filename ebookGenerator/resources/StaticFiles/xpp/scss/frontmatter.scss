@@ -15,29 +15,29 @@
 }
 
 .fm_copyright_clearance {
-    margin-top: calc(#{$indent} * 2);
+    margin-top: #{$indent * 2}em;
 }
 
 .pre_leading_1p {
-    margin-top: $indent;
+    margin-top: #{$indent}em;
 }
 
 .pre_leading_2p {
-    margin-top: calc(#{$indent}*2);
+    margin-top: #{$indent*2}em;
 }
 
 .pre_leading_7p {
-    margin-top: calc(#{$indent}*7);
+    margin-top: #{$indent*7}em;
 }
 
 .pre_leading_8q {
-    margin-top: calc(#{$indent}*0.8);
+    margin-top: #{$indent*0.8}em;
 }
 
 .pre_leading_2_6p {
-    margin-top: calc(#{$indent}*2.6);
+    margin-top: #{$indent*2.6}em;
 }
 
 .pre_leading_12p {
-    margin-top: calc(#{$indent}*12);
+    margin-top: #{$indent*12}em;
 }

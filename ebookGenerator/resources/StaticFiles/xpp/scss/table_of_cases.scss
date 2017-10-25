@@ -5,8 +5,8 @@
 
 .tbl_row {
     .generated_case_tbl & {
-        margin-left: calc(#{$indent} * 2);
-        text-indent: calc(#{$indent} * -2);
+        margin-left: #{$indent * 2}em;
+        text-indent: #{$indent * -2}em;
     }
 }
 

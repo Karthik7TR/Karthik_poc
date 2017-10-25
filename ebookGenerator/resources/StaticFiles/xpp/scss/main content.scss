@@ -1,6 +1,6 @@
 @import "constants.scss";
 .para_text {
-    text-indent: $indent;
+    text-indent: #{$indent}em;
     * {
         display: inline;
     }
@@ -18,16 +18,16 @@
 
 .designator {
     .analytical_hierarchy .front & {
-        margin-right: $indent;
+        margin-right: #{$indent}em;
     }
     .section_front & {
-        margin-right: calc(#{$indent}/2);
+        margin-right: #{$indent/2}em;
     }
 }
 
 .section_front {
     display: flex;
-    margin: $indent 0;
+    margin: #{$indent}em 0;
 }
 
 .xref {
@@ -37,7 +37,7 @@
 }
 
 .tbl_name {
-    margin: $indent auto;
+    margin: #{$indent}em auto;
     width: auto;
     text-align: center;
 }
@@ -63,7 +63,7 @@ tr {
 
 td {
     text-align: left;
-    padding: 0 $indent 0 $indent;
+    padding: 0 #{$indent}em 0 #{$indent}em;
     .signature_block &,
     .form_para>.tbl & {
         width: 100%;
@@ -72,7 +72,7 @@ td {
         align-items: baseline;
     }
     .section_body thead & {
-        border-bottom: calc(#{$indent} / 10) solid black;
+        border-bottom: #{$indent / 10}em solid black;
     }
 }
 
@@ -91,7 +91,7 @@ td:empty {
 }
 
 .name_block {
-    margin-right: calc(#{$indent} / 2);
+    margin-right: #{$indent / 2}em;
     .form_item>& {
         margin: 0;
     }
@@ -99,8 +99,8 @@ td:empty {
         display: inline;
     }
     .head>& {
-        margin-left: $indent;
-        margin-top: $indent;
+        margin-left: #{$indent}em;
+        margin-top: #{$indent}em;
     }
 }
 
@@ -118,13 +118,13 @@ td:empty {
 }
 
 .list_item {
-    margin-left: $indent;
+    margin-left: #{$indent}em;
     display: list-item;
     list-style: none;
 }
 
 .quote_para {
-    margin: $indent;
+    margin: #{$indent}em;
     text-indent: 0;
     .section_body>.quote_block>& *{
         text-indent: 0;

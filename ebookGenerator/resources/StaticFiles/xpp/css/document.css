@@ -148,11 +148,11 @@ a + .no-indent:nth-child(2),
 }
 
 .toc_analytical_hierarchy .designator {
-  margin-right: calc(1em/2);
+  margin-right: 0.5em;
 }
 
 .toc_section .designator {
-  min-width: calc(1em*3);
+  min-width: 3em;
 }
 
 .toc_appendix .designator {
@@ -168,12 +168,12 @@ a + .no-indent:nth-child(2),
 }
 
 .toc_appendix .label {
-  margin-right: calc(1em/2);
+  margin-right: 0.5em;
 }
 
 .front > .outline_name_block > .label {
   display: inline;
-  margin-right: calc(1em/2);
+  margin-right: 0.5em;
 }
 
 .front > .outline_name_block {
@@ -202,7 +202,7 @@ a + .no-indent:nth-child(2),
 }
 
 .section_front .designator {
-  margin-right: calc(1em/2);
+  margin-right: 0.5em;
 }
 
 .section_front {
@@ -215,7 +215,7 @@ a + .no-indent:nth-child(2),
 }
 
 .tbl_name {
-  margin: 1em auto;
+  margin: 1emauto;
   width: auto;
   text-align: center;
 }
@@ -252,7 +252,7 @@ td {
 }
 
 .section_body thead td {
-  border-bottom: calc(1em / 10) solid black;
+  border-bottom: 0.1em solid black;
 }
 
 td:first-of-type {
@@ -268,7 +268,7 @@ td:last-of-type {
 }
 
 .name_block {
-  margin-right: calc(1em / 2);
+  margin-right: 0.5em;
 }
 
 .form_item > .name_block {
@@ -346,8 +346,8 @@ td:last-of-type {
 }
 
 .toc_appendix .designator {
-  min-width: calc(1em*2);
-  max-width: calc(1em*2);
+  min-width: 2em;
+  max-width: 2em;
 }
 
 .appendix_section_front .designator,
@@ -364,7 +364,7 @@ td:last-of-type {
 }
 
 .appendix_front > .outline_name_block > .label {
-  margin-bottom: calc(1em / 2);
+  margin-bottom: 0.5em;
 }
 
 .form_item {
@@ -378,7 +378,7 @@ td:last-of-type {
 
 .name_block {
   display: inline-block;
-  min-width: calc(1em / 1.5);
+  min-width: 0.66667em;
 }
 
 .form_item > .name_block {
@@ -386,7 +386,7 @@ td:last-of-type {
 }
 
 .form_name_block {
-  margin: calc(1em /2) auto;
+  margin: 0.5em auto;
 }
 
 .form_para + .form_para {
@@ -489,7 +489,7 @@ td:last-of-type {
 }
 
 .fm_copyright_clearance {
-  margin-top: calc(1em * 2);
+  margin-top: 2em;
 }
 
 .pre_leading_1p {
@@ -497,23 +497,23 @@ td:last-of-type {
 }
 
 .pre_leading_2p {
-  margin-top: calc(1em*2);
+  margin-top: 2em;
 }
 
 .pre_leading_7p {
-  margin-top: calc(1em*7);
+  margin-top: 7em;
 }
 
 .pre_leading_8q {
-  margin-top: calc(1em*0.8);
+  margin-top: 0.8em;
 }
 
 .pre_leading_2_6p {
-  margin-top: calc(1em*2.6);
+  margin-top: 2.6em;
 }
 
 .pre_leading_12p {
-  margin-top: calc(1em*12);
+  margin-top: 12em;
 }
 
 .leaveout .cgt,
@@ -587,13 +587,13 @@ tbody .cgt,
 }
 
 .toc_chapter .designator {
-  min-width: calc(1em * 2);
+  min-width: 2em;
 }
 
 .generated_toc .toc_appendix .designator,
 .full_toc .toc_section .designator {
   max-width: none;
-  min-width: calc(1em * 3.15);
+  min-width: 3.15em;
 }
 
 .toc_analytical_level .designator {
@@ -605,7 +605,7 @@ tbody .cgt,
 }
 
 .toc_chapter > .toc_appendix_block {
-  margin-left: calc(1em * 1.5);
+  margin-left: 1.5em;
 }
 
 .INDEX {
@@ -625,22 +625,23 @@ tbody .cgt,
 }
 
 .INDEX .l2 .mte2 {
-  margin-left: calc(1em * -1);
+  margin-left: -1em;
 }
 
 .INDEX .l3 .mte2 {
-  margin-left: calc(1em * -2);
+  margin-left: -2em;
 }
 
 .INDEX .l4 .mte2 {
-  margin-left: calc(1em * -3);
+  margin-left: -3em;
 }
 
 .footnote > sup {
   display: block;
   height: 0;
-  text-indent: calc(1em * 2.3);
+  text-indent: 2.3em;
   width: 100%;
+  z-index: 2;
 }
 
 .footnote_body .para_text {
@@ -655,7 +656,7 @@ tbody .cgt,
 
 .footnote_body .para {
   display: block;
-  text-indent: calc(1em*2.3);
+  text-indent: 2.3em;
 }
 
 sup + .footnote_body > .para:first-child {
@@ -668,7 +669,7 @@ sup + .footnote_body > .para:first-child {
 }
 
 .reference_entry_group > .name_block {
-  margin-left: calc(1em*2.3);
+  margin-left: 2.3em;
   margin-right: 0;
   display: inline-block;
 }
@@ -758,8 +759,8 @@ a + .footnote_body {
 }
 
 .generated_case_tbl .tbl_row {
-  margin-left: calc(1em * 2);
-  text-indent: calc(1em * -2);
+  margin-left: 2em;
+  text-indent: -2em;
 }
 
 .generated_case_tbl .tbl_row_ref {
@@ -775,13 +776,13 @@ a + .footnote_body {
 .generated_lrre_tbl .main_head {
   text-align: center;
   margin-bottom: 1em;
-  margin-top: calc(1em * 1.5);
+  margin-top: 1.5em;
 }
 
 .generated_lrre_tbl > .metadata_block {
   display: block;
   text-align: center;
-  margin-bottom: calc(1em * 2);
+  margin-bottom: 2em;
 }
 
 .generated_lrre_tbl .tbl_row {
@@ -797,7 +798,7 @@ a + .footnote_body {
 }
 
 section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tbl_row {
-  margin-bottom: calc(1em * 1.5);
+  margin-bottom: 1.5em;
   display: block;
   text-align: center;
 }
@@ -873,9 +874,16 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   display: inline !important;
 }
 
-.primary_section_front .primary_name,
+.primary_section_front .primary_name {
+  display: inline;
+}
+
 .primary_name .name {
   display: inline;
+}
+
+.primary_section .primary_name > .name {
+  white-space: pre-line;
 }
 
 .primary_source_body .primary_hierarchy_body > .primary_section > .primary_section_front > .primary_outline_name_block > .designator {
@@ -901,7 +909,7 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 }
 
 .toc_primary_source .primary_outline_name_block {
-  margin-top: calc(1em*0.5);
+  margin-top: 0.5em;
   display: flex;
   align-items: baseline;
 }
@@ -943,13 +951,13 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 }
 
 .primary_outline_name_block > .designator {
-  margin-right: calc(1em*0.5);
-  min-width: calc(1em*3);
+  margin-right: 0.5em;
+  min-width: 3em;
 }
 
 .toc_primary_hierarchy > .primary_outline_name_block > .designator {
-  margin-right: calc(1em*0.5);
-  min-width: 0em;
+  margin-right: 0.5em;
+  min-width: 0;
 }
 
 .summary_toc .toc_appendix_block > .toc_appendix > .outline_name_block > .designator {
@@ -1018,13 +1026,13 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 
 .pji_instruction_body .pji_name {
   text-align: center;
-  margin: calc(1em * 0.5);
+  margin: 0.5em;
 }
 
 .pattern_jury_instruction_body .pji_verdict_section_body .pji_references > .pji_name {
   display: block;
   text-align: center;
-  margin: calc(1em * 0.5);
+  margin: 0.5em;
 }
 
 .pji_outline_name_block > .designator {
@@ -1060,7 +1068,7 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 }
 
 .toc_pji_hierarchy > a > .pji_outline_name_block {
-  margin: 1em auto;
+  margin: 1emauto;
   text-align: center;
 }
 
@@ -1083,7 +1091,7 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 
 .pattern_jury_instruction_body .pji_info_section .pji_section_front > .pji_outline_name_block {
   text-align: center;
-  margin: calc(1em * 0.5);
+  margin: 0.5em;
 }
 
 .toc_pji_instruction_section,
@@ -1099,7 +1107,7 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 }
 
 .pji_instruction_body .pji_note_group > .pji_para {
-  margin-bottom: calc(0.5*1em);
+  margin-bottom: 0.5*1em;
 }
 
 .pattern_jury_instruction_body .pji_verdict_section_body .pji_reference_block > .pji_para {
@@ -1107,12 +1115,12 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 }
 
 .pji_instruction_body .pji_note_group .list_item {
-  margin-bottom: calc(0.5*1em);
+  margin-bottom: 0.5*1em;
 }
 
 .pji_instruction_body .pji_note_group > .head > .name_block {
   margin-left: 0;
-  margin-bottom: calc(0.5*1em);
+  margin-bottom: 0.5*1em;
   margin-top: 0;
 }
 

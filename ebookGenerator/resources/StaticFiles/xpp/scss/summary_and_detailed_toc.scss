@@ -10,7 +10,7 @@
     & * {
         text-align: center;
     }
-    margin-top: $indent;
+    margin-top: #{$indent}em;
 }
 
 .toc_volbreak:first-of-type {
@@ -23,18 +23,18 @@
         display: inline-flex;
     }
     .toc_analytical_level>.toc_analytical_level>& {
-        margin-left: $indent;
+        margin-left: #{$indent}em;
     }
 }
 
 .designator {
     .toc_chapter & {
-        min-width: calc(#{$indent} * 2);
+        min-width: #{$indent * 2}em;
     }
     .generated_toc .toc_appendix &,
     .full_toc .toc_section & {
         max-width: none;
-        min-width: calc(#{$indent} * 3.15);
+        min-width: #{$indent * 3.15}em;
     }
     .toc_analytical_level & {
         min-width: 0;
@@ -43,12 +43,12 @@
 
 .toc_section {
     &:last-of-type {
-        margin-bottom: $indent;
+        margin-bottom: #{$indent}em;
     }
 }
 
 .toc_appendix_block {
     .toc_chapter>& {
-        margin-left: calc(#{$indent} * 1.5);
+        margin-left: #{$indent * 1.5}em;
     }
 }

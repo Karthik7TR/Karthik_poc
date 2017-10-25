@@ -3,8 +3,9 @@ sup {
     .footnote>& {
         display: block;
         height: 0;
-        text-indent: calc(#{$indent} * 2.3);
+        text-indent: #{$indent*2.3}em;
         width: 100%;
+        z-index: 2;
     }
 }
 
@@ -23,7 +24,7 @@ sup {
 .para {
     .footnote_body & {
         display: block;
-        text-indent: calc(#{$indent}*2.3);
+        text-indent: #{$indent*2.3}em;
     }
 }
 
@@ -39,7 +40,7 @@ sup {
         display: inline;
     }
     .reference_entry_group>& {
-        margin-left: calc(#{$indent}*2.3);
+        margin-left: #{$indent*2.3}em;
         margin-right: 0;
         display: inline-block;
     }
