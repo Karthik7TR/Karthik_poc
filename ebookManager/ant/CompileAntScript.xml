@@ -82,11 +82,11 @@
   <!-- - - - - - - - - - - - - - - - - - 
            target: -compile                      
            description: Compile the source code and place the compiled libraries in the respective 
-                        folder. The code will be compiled using version 1.8 of the SDK.
+                        folder. The code will be compiled using version 1.7 of the SDK.
          - - - - - - - - - - - - - - - - - -->
   <target name="-compile" depends="-compile-core">
     <echo level="verbose">Compiling the source code...</echo>
-    <javac destdir="${dir.tmpDirBinaries}" source="1.8" target="1.8" debug="true" includeantruntime="false" encoding="UTF-8">
+    <javac destdir="${dir.tmpDirBinaries}" source="1.7" target="1.7" debug="true" includeantruntime="false" encoding="UTF-8">
       <src path="${dir.source}"/>    	
       <classpath refid="classpath.compile"/>
     </javac>
@@ -111,11 +111,11 @@
   <!-- - - - - - - - - - - - - - - - - - 
           target: -compile_unitTests                      
           description: Compile the unit test source code and place the compiled libraries in the 
-                       respective binary folder. The code will be compiled using version 1.8 of the SDK.
+                       respective binary folder. The code will be compiled using version 1.7 of the SDK.
          - - - - - - - - - - - - - - - - - -->
   <target name="-compile_unitTests">
     <echo level="verbose">Compiling the unit test source code...</echo>
-    <javac destdir="${dir.testBinaries}" source="1.8" target="1.8" includeantruntime="false" encoding="UTF-8">
+    <javac destdir="${dir.testBinaries}" source="1.7" target="1.7" includeantruntime="false" encoding="UTF-8">
       <src path="${dir.unitTestSource}"/>
       <classpath>
         <pathelement path="${dir.binaries}"/>
