@@ -431,6 +431,7 @@ public class StatsServiceIntegrationTest {
         expected.setLargestDocSize(4L);
         expected.setLargestImageSize(4L);
         expected.setLargestPdfSize(4L);
+        expected.setAssembleDocCount(4);
 
         final PublishingStats newStats = initStats(4);
         newStats.setJobInstanceId(1L);
@@ -658,7 +659,6 @@ public class StatsServiceIntegrationTest {
         expected.setGatherImageRetrievedCount(id);
         expected.setGatherImageRetryCount(id);
         expected.setFormatDocCount(id);
-        expected.setAssembleDocCount(id);
         expected.setAssembleDocCount(id);
         expected.setTitleDocCount(id);
         expected.setTitleDupDocCount(id);

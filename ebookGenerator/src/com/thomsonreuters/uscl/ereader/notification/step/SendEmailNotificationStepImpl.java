@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.annotation.Resource;
 import javax.mail.internet.InternetAddress;
 
+import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEmail;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailBuilder;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
@@ -46,7 +47,7 @@ public class SendEmailNotificationStepImpl extends BookStepImpl implements SendE
         initializePublishingStats();
         final EmailBuilder emailBuilder = emailBuilderFactory.create();
 
-        emailService.send(recipients, emailBuilder.getSubject(), emailBuilder.getBody());
+        emailService.send(new NotificationEmail(recipients, emailBuilder.getSubject(), emailBuilder.getBody()));
         return ExitStatus.COMPLETED;
     }
 

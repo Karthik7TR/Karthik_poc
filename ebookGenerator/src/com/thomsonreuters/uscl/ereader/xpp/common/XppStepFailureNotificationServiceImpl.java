@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.annotation.Resource;
 import javax.mail.internet.InternetAddress;
 
+import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEmail;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.common.notification.service.SendFailureNotificationStrategy;
 import com.thomsonreuters.uscl.ereader.common.notification.service.StepFailureNotificationService;
@@ -26,7 +27,7 @@ public class XppStepFailureNotificationServiceImpl implements StepFailureNotific
     public void sendFailureNotification(final BookStep step, final Exception e) {
         final String username = step.getUserName();
         final Collection<InternetAddress> emailRecipients = coreService.getEmailRecipientsByUsername(username);
-        emailService.send(emailRecipients, getSubject(step), getBody(step, e));
+        emailService.send(new NotificationEmail(emailRecipients, getSubject(step), getBody(step, e)));
     }
 
     @NotNull

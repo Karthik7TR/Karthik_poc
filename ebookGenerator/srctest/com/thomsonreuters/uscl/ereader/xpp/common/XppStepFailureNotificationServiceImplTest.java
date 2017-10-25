@@ -8,12 +8,12 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Matchers.any;
 
 import java.util.Collection;
 
 import javax.mail.internet.InternetAddress;
 
+import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEmail;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -39,9 +39,7 @@ public final class XppStepFailureNotificationServiceImplTest {
     @Mock
     private BookDefinition book;
     @Captor
-    private ArgumentCaptor<String> captor;
-    @Captor
-    private ArgumentCaptor<Collection<InternetAddress>> captorRecipients;
+    private ArgumentCaptor<NotificationEmail> captor;
 
     @Test
     public void recipientsAreCorrect() throws Exception {
@@ -54,8 +52,8 @@ public final class XppStepFailureNotificationServiceImplTest {
         // when
         service.sendFailureNotification(step, e);
         // then
-        then(emailService).should().send(captorRecipients.capture(), any(String.class), any(String.class));
-        final Collection<InternetAddress> recipients = captorRecipients.getValue();
+        then(emailService).should().send(captor.capture());
+        final Collection<InternetAddress> recipients = captor.getValue().getRecipients();
         assertThat(recipients, contains(expectedRecipients));
     }
 
@@ -67,8 +65,8 @@ public final class XppStepFailureNotificationServiceImplTest {
         // when
         service.sendFailureNotification(step, e);
         // then
-        then(emailService).should().send(any(Collection.class), captor.capture(), any(String.class));
-        assertThat(captor.getValue(), is("eBook Publishing Failure: env  id  name  1  2"));
+        then(emailService).should().send(captor.capture());
+        assertThat(captor.getValue().getSubject(), is("eBook Publishing Failure: env  id  name  1  2"));
     }
 
     @Test
@@ -79,9 +77,10 @@ public final class XppStepFailureNotificationServiceImplTest {
         // when
         service.sendFailureNotification(step, e);
         // then
-        then(emailService).should().send(any(Collection.class), any(String.class), captor.capture());
-        assertThat(captor.getValue(), containsString("eBook Publishing Failure: env  id  name  1  2"));
-        assertThat(captor.getValue(), containsString("Error Message : msg"));
+        then(emailService).should().send(captor.capture());
+        final String body = captor.getValue().getBody();
+        assertThat(body, containsString("eBook Publishing Failure: env  id  name  1  2"));
+        assertThat(body, containsString("Error Message : msg"));
     }
 
     private void givenAll() {

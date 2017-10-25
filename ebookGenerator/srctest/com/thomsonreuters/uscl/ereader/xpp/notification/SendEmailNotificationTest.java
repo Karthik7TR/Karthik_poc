@@ -71,7 +71,7 @@ public final class SendEmailNotificationTest {
         step.executeStep();
         // then
         then(emailService).should().send(captorNotificationEmail.capture());
-        final Collection<InternetAddress> recipients = captorNotificationEmail.getValue().getReceipents();
+        final Collection<InternetAddress> recipients = captorNotificationEmail.getValue().getRecipients();
         assertThat(recipients, contains(expectedRecipients));
     }
 
