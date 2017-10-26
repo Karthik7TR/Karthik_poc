@@ -12,7 +12,9 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,8 +49,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.util.AutoPopulatingList;
 
 public class EditBookDefinitionForm {
-    // private static final Logger log =
-    // LogManager.getLogger(EditBookDefinitionForm.class);
+    private static final String NULL_VAL = "null";
     public static final String FORM_NAME = "editBookDefinitionForm";
 
     private static final int PUBLISHER_INDEX = 0;
@@ -259,8 +260,13 @@ public class EditBookDefinitionForm {
             docCollectionName = book.getDocCollectionName();
             nortDomain = book.getNortDomain();
             nortFilterView = book.getNortFilterView();
-            printSetNumber = book.getPrintSetNumber();
-            printSubNumber = book.getPrintSubNumber();
+
+            final Predicate<String> nullValuePredicate = NULL_VAL::equalsIgnoreCase;
+            printSetNumber = Optional.ofNullable(book.getPrintSetNumber())
+                .filter(nullValuePredicate.negate()).orElse(null);
+            printSubNumber = Optional.ofNullable(book.getPrintSubNumber())
+                .filter(nullValuePredicate.negate()).orElse(null);
+
             isbn = book.getIsbn();
             authorInfo = book.getAuthors();
             pilotBookInfo = book.getPilotBooks();
