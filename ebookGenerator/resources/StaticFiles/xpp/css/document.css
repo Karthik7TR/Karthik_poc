@@ -215,7 +215,7 @@ a + .no-indent:nth-child(2),
 }
 
 .tbl_name {
-  margin: 1emauto;
+  margin: 1em auto;
   width: auto;
   text-align: center;
 }
@@ -899,6 +899,10 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   margin: 0;
 }
 
+.primary_section_body > .primary_official_content > .stat_subsect > .stat_para > .stat_name_block ~ .stat_subpara {
+  clear: left;
+}
+
 .toc_primary_hierarchy > .primary_outline_name_block > .label + .t,
 .toc_primary_hierarchy > .primary_outline_name_block > .designator + .t {
   width: auto;
@@ -1006,6 +1010,11 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   display: inline-block;
 }
 
+.pji_verdict_section_body > .verdict_form > .charge_para > .designator > .cgt {
+  display: inline;
+  margin-right: 1em;
+}
+
 .pji_name {
   display: inline;
 }
@@ -1055,6 +1064,10 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   margin-right: 1em;
 }
 
+.designator .pji_verdict_section_body > .verdict_form > .charge_para > .designator {
+  width: 2em;
+}
+
 .pji_name > .name {
   display: inline;
 }
@@ -1067,8 +1080,12 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   margin-bottom: 1em;
 }
 
+.pji_verdict_section_body > .verdict_form > .charge_para {
+  display: flex;
+}
+
 .toc_pji_hierarchy > a > .pji_outline_name_block {
-  margin: 1emauto;
+  margin: 1em auto;
   text-align: center;
 }
 
@@ -1107,7 +1124,7 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 }
 
 .pji_instruction_body .pji_note_group > .pji_para {
-  margin-bottom: 0.5*1em;
+  margin-bottom: 0.5em;
 }
 
 .pattern_jury_instruction_body .pji_verdict_section_body .pji_reference_block > .pji_para {
@@ -1115,12 +1132,12 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 }
 
 .pji_instruction_body .pji_note_group .list_item {
-  margin-bottom: 0.5*1em;
+  margin-bottom: 0.5em;
 }
 
 .pji_instruction_body .pji_note_group > .head > .name_block {
   margin-left: 0;
-  margin-bottom: 0.5*1em;
+  margin-bottom: 0.5em;
   margin-top: 0;
 }
 
@@ -1130,6 +1147,22 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 
 .pji_para .point {
   display: inline;
+}
+
+.pji_verdict_section_body > .verdict_form > .charge_para > .charge_text {
+  margin-bottom: 1em;
+}
+
+.pji_verdict_section_body > .verdict_form > .charge_para > .charge_text:first-child {
+  margin-left: 2em;
+}
+
+.pji_verdict_section_body > .verdict_form > .charge_para:first-child > .charge_text:first-child {
+  margin-left: 0;
+}
+
+.pji_verdict_section_body > .verdict_form > .tbl {
+  margin-bottom: 2em;
 }
 
 .fm_other_structure > table {
@@ -1165,4 +1198,8 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 
 .endline {
   display: block !important;
+}
+
+.fm_other_structure > .l > .name_block {
+  margin-left: 0;
 }

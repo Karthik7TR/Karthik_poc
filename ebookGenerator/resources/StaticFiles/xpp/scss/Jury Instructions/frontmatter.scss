@@ -40,3 +40,9 @@ td {
 .endline {
     display: block !important;
 }
+
+.name_block {
+    .fm_other_structure>.l>& {
+        margin-left: 0;
+    }
+}

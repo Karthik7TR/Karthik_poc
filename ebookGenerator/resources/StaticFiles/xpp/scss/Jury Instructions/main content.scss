@@ -39,6 +39,9 @@
     .pji_section_front .pji_outline_name_block>& {
         margin-right: #{$indent}em;
     }
+    .pji_verdict_section_body>.verdict_form>.charge_para>.designator {
+        width: #{$indent*2}em;
+    }
 }
 
 .name {
@@ -53,6 +56,9 @@
 .charge_para {
     .pji_instruction_body & {
         margin-bottom: #{$indent}em;
+    }
+    .pji_verdict_section_body>.verdict_form>& {
+        display: flex;
     }
 }
 
@@ -121,5 +127,23 @@
 .point {
     .pji_para & {
         display: inline;
+    }
+}
+
+.charge_text {
+    .pji_verdict_section_body>.verdict_form>.charge_para>& {
+        margin-bottom: #{$indent}em;
+    }
+    .pji_verdict_section_body>.verdict_form>.charge_para>&:first-child {
+        margin-left: #{$indent*2}em;
+    }
+    .pji_verdict_section_body>.verdict_form>.charge_para:first-child>&:first-child {
+        margin-left: 0;
+    }
+}
+
+.tbl {
+    .pji_verdict_section_body>.verdict_form>& {
+        margin-bottom: #{$indent*2}em;
     }
 }

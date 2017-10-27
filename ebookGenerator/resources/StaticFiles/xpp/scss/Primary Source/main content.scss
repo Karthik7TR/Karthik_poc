@@ -37,3 +37,9 @@
         margin: 0;
     }
 }
+
+.stat_subpara {
+    .primary_section_body>.primary_official_content>.stat_subsect>.stat_para>.stat_name_block~& {
+        clear: left;
+    }
+}
