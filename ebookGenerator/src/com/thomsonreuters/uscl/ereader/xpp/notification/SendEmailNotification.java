@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -30,7 +31,8 @@ import org.springframework.batch.core.ExitStatus;
 @SavePublishingStatusPolicy
 public class SendEmailNotification extends BookStepImpl {
     private static final Logger LOG = LogManager.getLogger(SendEmailNotification.class);
-    private final boolean IS_HTML_BODY_CONTENT = true;
+    private static final String LONG_DASH = "—";
+    private static final boolean IS_HTML_BODY_CONTENT = true;
 
     @Resource(name = "emailService")
     private EmailService emailService;
@@ -61,14 +63,6 @@ public class SendEmailNotification extends BookStepImpl {
         return String.format("eBook XPP Publishing Successful - %s", bookDefinition.getFullyQualifiedTitleId());
     }
 
-    private PublishingStats getCurrentVersionPublishingStats() {
-        return publishingStatsService.findPublishingStatsByJobId(getJobInstanceId());
-    }
-
-    private PublishingStats getPreviousVersionPublishingStats() {
-        return publishingStatsService.getPreviousPublishingStatsForSameBook(getJobInstanceId());
-    }
-
     @NotNull
     private String getPrintComponentsTable(final BookDefinition bookDefinition) {
         final StringBuilder tempBuilder = new StringBuilder();
@@ -85,26 +79,49 @@ public class SendEmailNotification extends BookStepImpl {
         tempBuilder.append("<br><table border = '1'><th colspan = '2'>Print Components</th>");
         tempBuilder.append("<tr><td>Material Number</td><td>SAP Description</td></tr>");
         for (final PrintComponent element : sortedPrintComponentList) {
-            tempBuilder.append("<tr><td>" + element.getMaterialNumber() + "</td>");
-            tempBuilder.append("<td>" + element.getComponentName() + "</td></tr>");
+            tempBuilder.append("<tr><td>");
+            tempBuilder.append(element.getMaterialNumber());
+            tempBuilder.append("</td><td>");
+            tempBuilder.append(element.getComponentName());
+            tempBuilder.append("</td></tr>");
         }
         tempBuilder.append("</table>");
         return tempBuilder.toString();
     }
 
-    private String getVersionDifferencesTable(final PublishingStats currentVersionPublishingStats, final PublishingStats previousVersionsPublishingStats) {
+    private String getVersionDifferencesTable() {
         final StringBuilder tempBuilder = new StringBuilder();
-        final String tempPreviousVersionDocCount;
-            if (previousVersionsPublishingStats.getAssembleDocCount() == null) {
-                tempPreviousVersionDocCount = "—";
-            } else {
-                tempPreviousVersionDocCount = previousVersionsPublishingStats.getAssembleDocCount().toString();
-            }
-        tempBuilder.append("<br><br><table border = '1'><tr><td></td><td>Current version</td><td>Previous version</td>");
-        tempBuilder.append("<tr><td>Job Instance ID</td><td>" + getJobInstanceId() + "</td><td>" + previousVersionsPublishingStats.getJobInstanceId() + "</td></tr>");
-        tempBuilder.append("<tr><td>Doc Count</td><td>" + currentVersionPublishingStats.getAssembleDocCount() + "</td><td>" + tempPreviousVersionDocCount + "</td></tr>");
-        tempBuilder.append("<tr><td>Book Size</td><td>" + currentVersionPublishingStats.getBookSizeHumanReadable() + "</td><td>" + previousVersionsPublishingStats.getBookSizeHumanReadable() + "</td></tr>");
-        tempBuilder.append("</table>");
+        final PublishingStats currentVersionPublishingStats =
+            publishingStatsService.findPublishingStatsByJobId(getJobInstanceId());
+        final Optional<PublishingStats> previousVersionsPublishingStats =
+            Optional.ofNullable(publishingStatsService.getPreviousPublishingStatsForSameBook(getJobInstanceId()));
+
+        final String previousJobInstanceId = previousVersionsPublishingStats.map(PublishingStats::getJobInstanceId)
+            .map(Object::toString)
+            .orElse(LONG_DASH);
+        final String previousDocCount = previousVersionsPublishingStats.map(PublishingStats::getAssembleDocCount)
+            .map(Object::toString)
+            .orElse(LONG_DASH);
+        final String previousHumanReadableSize = previousVersionsPublishingStats
+            .map(PublishingStats::getBookSizeHumanReadable).map(Object::toString).orElse(LONG_DASH);
+        tempBuilder
+            .append("<br><br><table border = '1'><tr><td></td><td>Current version</td><td>Previous version</td>");
+        tempBuilder.append(
+            "<tr><td>Job Instance ID</td><td>");
+        tempBuilder.append(getJobInstanceId());
+        tempBuilder.append("</td><td>");
+        tempBuilder.append(previousJobInstanceId);
+        tempBuilder.append("</td></tr>");
+        tempBuilder.append("<tr><td>Doc Count</td><td>");
+        tempBuilder.append(currentVersionPublishingStats.getAssembleDocCount());
+        tempBuilder.append("</td><td>");
+        tempBuilder.append(previousDocCount);
+        tempBuilder.append("</td></tr>");
+        tempBuilder.append("<tr><td>Book Size</td><td>");
+        tempBuilder.append(currentVersionPublishingStats.getBookSizeHumanReadable());
+        tempBuilder.append("</td><td>");
+        tempBuilder.append(previousHumanReadableSize);
+        tempBuilder.append("</td></tr></table>");
         return tempBuilder.toString();
     }
 
@@ -113,16 +130,19 @@ public class SendEmailNotification extends BookStepImpl {
         final BookDefinition bookDefinition = getBookDefinition();
         final String fullyQualifiedTitleId = bookDefinition.getFullyQualifiedTitleId();
         final String proviewDisplayName = bookDefinition.getProviewDisplayName();
-        final PublishingStats currentVersionPublishingStats = getCurrentVersionPublishingStats();
-        final PublishingStats previousVersionsPublishingStats = getPreviousVersionPublishingStats();
 
         final StringBuilder sb = new StringBuilder();
-        sb.append("eBook Publishing Successful - " + fullyQualifiedTitleId);
-        sb.append("<br>Proview Display Name: " + proviewDisplayName);
-        sb.append("<br>Title ID: " + fullyQualifiedTitleId);
-        sb.append("<br>Environment: " + getEnvironment());
-        sb.append("<br>Job Execution ID: " + getJobExecutionId());
-        sb.append(getVersionDifferencesTable(currentVersionPublishingStats, previousVersionsPublishingStats));
+        sb.append("eBook Publishing Successful - ");
+        sb.append(fullyQualifiedTitleId);
+        sb.append("<br>Proview Display Name: ");
+        sb.append(proviewDisplayName);
+        sb.append("<br>Title ID: ");
+        sb.append(fullyQualifiedTitleId);
+        sb.append("<br>Environment: ");
+        sb.append(getEnvironment());
+        sb.append("<br>Job Execution ID: ");
+        sb.append(getJobExecutionId());
+        sb.append(getVersionDifferencesTable());
         sb.append(getPrintComponentsTable(bookDefinition));
 
         return sb.toString();

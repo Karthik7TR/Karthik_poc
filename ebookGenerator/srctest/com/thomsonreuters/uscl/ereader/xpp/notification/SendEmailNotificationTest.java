@@ -111,6 +111,33 @@ public final class SendEmailNotificationTest {
         assertThat(tempBodyTemplate, containsString("</table>"));
     }
 
+    @Test
+    public void bodyIsCorrectWithNullPreviousStats() throws Exception {
+        // given
+        givenAll();
+        given(publishingStatsService.getPreviousPublishingStatsForSameBook(1L)).willReturn(null);
+        // when
+        step.executeStep();
+        // then
+        then(emailService).should().send(captorNotificationEmail.capture());
+
+        final String tempBodyTemplate = captorNotificationEmail.getValue().getBody();
+
+        assertThat(tempBodyTemplate, containsString("eBook Publishing Successful - titleId"));
+        assertThat(tempBodyTemplate, containsString("<br>Proview Display Name: proviewDisplayName"));
+        assertThat(tempBodyTemplate, containsString("<br>Title ID: titleId"));
+        assertThat(tempBodyTemplate, containsString("<br>Environment: env"));
+        assertThat(tempBodyTemplate, containsString("<br>Job Execution ID: 2"));
+        assertThat(tempBodyTemplate, containsString("<br><br><table border = '1'><tr><td></td><td>Current version</td><td>Previous version</td>"));
+        assertThat(tempBodyTemplate, containsString("<tr><td>Job Instance ID</td><td>1</td><td>—</td></tr>"));
+        assertThat(tempBodyTemplate, containsString("<tr><td>Doc Count</td><td>100</td><td>—</td></tr>"));
+        assertThat(tempBodyTemplate, containsString("<tr><td>Book Size</td><td>1.0 MiB</td><td>—</td></tr>"));
+        assertThat(tempBodyTemplate, containsString("</table>"));
+        assertThat(tempBodyTemplate, containsString("<br><table border = '1'><th colspan = '2'>Print Components</th>"));
+        assertThat(tempBodyTemplate, containsString("<tr><td>Material Number</td><td>SAP Description</td></tr>"));
+        assertThat(tempBodyTemplate, containsString("</table>"));
+    }
+
     private void givenAll() {
         givenBook(chunkContext, book);
         given(book.getFullyQualifiedTitleId()).willReturn("titleId");
