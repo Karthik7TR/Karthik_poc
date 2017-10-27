@@ -52,7 +52,8 @@
 		</xsl:variable>
 		
 		<xsl:if test=".[not(./x:Name[contains(., $volNamePlaceholder)])] and 
-			$deepestVisibleDocUUID != ./x:DocumentGuid/text()">
+			($deepestVisibleDocUUID != ./x:DocumentGuid/text() or
+			descendant::x:EBookToc[./x:DocumentGuid != $deepestVisibleDocUUID])">
 			<xsl:copy>
 				<xsl:apply-templates select="node()|@*" />
 			</xsl:copy>

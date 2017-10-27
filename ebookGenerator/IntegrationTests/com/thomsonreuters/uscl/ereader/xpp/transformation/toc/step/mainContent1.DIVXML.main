@@ -103,11 +103,14 @@
                                     </toc.analytical.level>
                                 </full.toc>
                             </generated.toc>
+                            <XPPHier uuid="I34145f7028b911e69ed7fcedf1646868" parent_uuid="I34145f7028b911e69ed7fcedf0a72426" name="Content 2_1_2">Content 2_1_2</XPPHier>
                             <scope.statement.block date.updated="0">
                                 <para date.updated="0" first.para="yes">
                                     <para.text date.updated="0" first.para.text="yes">This chapter contains forms for use in drafting documents relat-ing to the formation, management, and termination of partner-<pagebreak num="12"/>ships, together with a discussion of the legal requirements and tax aspects that should be considered in drafting those documents.</para.text>
                                 </para>
                             </scope.statement.block>
+                            <sectionbreak sectionuuid="Igk54oofh6p2u911e69ed7azaza0a72fg5"/>
+                            <XPPHier uuid="I34145f7028b911e69ed7fcedf1747878" parent_uuid="I34145f7028b911e69ed7fcedf1646868" name="Content 2_1_2_1">Content 2_1_2_1</XPPHier>
                             <pagebreak num="15"/>
                         </front>
                         <chapter.body date.updated="0">
