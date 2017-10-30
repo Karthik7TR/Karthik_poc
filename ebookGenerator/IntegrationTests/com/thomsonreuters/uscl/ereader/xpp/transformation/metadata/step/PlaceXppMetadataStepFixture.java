@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.metadata.step;
 
 import static com.thomsonreuters.uscl.ereader.common.filesystem.FileContentMatcher.hasSameContentAs;
 import static org.junit.Assert.assertThat;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
@@ -13,6 +14,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.apache.commons.io.FileUtils;
@@ -35,6 +37,8 @@ public abstract class PlaceXppMetadataStepFixture {
     protected XppFormatFileSystem fileSystem;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     protected ChunkContext chunkContext;
+    @Mock
+    private BookDefinition book;
 
     protected File expected;
     protected File source;
@@ -73,6 +77,9 @@ public abstract class PlaceXppMetadataStepFixture {
                 .getJobExecution()
                 .getExecutionContext()
                 .get(JobParameterKey.XPP_BUNDLES)).thenReturn(getBundlesList());
+        given(chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext().get("bookDefn"))
+            .willReturn(book);
+        given(book.getIsbn()).willReturn("978-0-314-88449-7");
     }
 
     protected List<XppBundle> getBundlesList() {

@@ -51,7 +51,7 @@
 		</fm.title.page>
 		<pagebreak num="II" num-string="0"/>
 		<sectionbreak sectionuuid="1111111.fm.copyright.page"/>
-		<sectionbreak sectionuuid="1111111.fm.copyright.page"/><XPPHier uuid="1111111.fm.copyright.page" name="Copyright Page" parent_uuid="1111111.fm.copyright.page" md.doc_family_uuid="1111111.fm.copyright.page">Copyright Page</XPPHier><fm.copyright.page>
+		<sectionbreak sectionuuid="1111111.fm.copyright.page"/><XPPHier uuid="1111111.fm.copyright.page" name="Copyright Page" parent_uuid="1111111.fm.copyright.page" md.doc_family_uuid="1111111.fm.copyright.page">Copyright Page</XPPHier><ebook-isbn>978-0-314-88449-7</ebook-isbn><fm.copyright.page>
 			<fm.current.copyright>
 				<text.line align="c" pre.leading="12p">
 					<t style="text.line.2">© </t>

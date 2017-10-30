@@ -49,6 +49,7 @@ public class FrontMatterPlaceXppMetadataStrategy extends AbstractPlaceXppMetadat
         final Transformer transformer = transformerBuilderFactory.create()
             .withXsl(xslTransformationFile)
             .withParameter("isMultiVolume", step.getXppBundles().size() > 1)
+            .withParameter("isbn", step.getBookDefinition().getIsbn())
             .build();
         final File outputFile =
             xppFormatFileSystem.getStructureWithMetadataFile(step, materialNumber, inputFile.getName());

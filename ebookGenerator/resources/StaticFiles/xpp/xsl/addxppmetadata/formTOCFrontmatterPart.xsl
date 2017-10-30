@@ -4,12 +4,14 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.sdl.com/xpp"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
 	<xsl:import href="placeXppMarks.xsl" />
+	<xsl:import href="insertISBN.xsl" />
 	<xsl:import href="../transform-utils.xsl" />
 	
 	<xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
 	
 	<xsl:param name="volumeName" select="volumeName" />
 	<xsl:param name="isMultiVolume" select="isMultiVolume" />
+	<xsl:param name="isbn" select="isbn" />
 	<xsl:variable name="front_matter_uuid" select="concat($volumeName,'.','FrontMatter')" />
 
 	<xsl:template match="x:root">
@@ -44,7 +46,7 @@
 			<xsl:with-param name="parent_uuid" select="$uuid" />
 			<xsl:with-param name="doc_family_uuid" select="$uuid" />
 		</xsl:call-template>
-
+		
 		<xsl:copy>
 			<xsl:apply-templates select="node()|@*" />
 		</xsl:copy>
@@ -56,6 +58,10 @@
 			<xsl:with-param name="uuid" select="$uuid" />
 			<xsl:with-param name="parent_uuid" select="$uuid" />
 			<xsl:with-param name="hierName" select="'Copyright Page'" />
+		</xsl:call-template>	
+		
+		<xsl:call-template name="insertISBNTemplate">
+			<xsl:with-param name="isbnNumber" select="$isbn" />
 		</xsl:call-template>
 
 		<xsl:copy>
@@ -68,6 +74,7 @@
 			<xsl:with-param name="parent_uuid" select="$front_matter_uuid" />
 			<xsl:with-param name="doc_family_uuid" select="$uuid" />
 		</xsl:call-template>
+		
 	</xsl:template>
 
 	<xsl:template
