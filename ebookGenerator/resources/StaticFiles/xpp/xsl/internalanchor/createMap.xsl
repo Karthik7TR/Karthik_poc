@@ -12,8 +12,11 @@
 
     <xsl:template name="create-item">
         <xsl:param name="uid" />
+        <xsl:param name="type" select="'book'"/>
+        
         <xsl:element name="item">
             <xsl:attribute name="key" select="$uid" />
+            <xsl:attribute name="type" select="$type" />
             <xsl:value-of select="preceding::x:sectionbreak[1]/@sectionuuid" />
         </xsl:element>
     </xsl:template>

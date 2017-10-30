@@ -56,12 +56,14 @@ public final class TransformationToHtmlStepIntegrationTest {
 
     private File original;
     private File anchorsFile;
+    private File sumTocAnchorsFile;
 
     @Before
     public void setUp() throws URISyntaxException {
         org.mockito.MockitoAnnotations.initMocks(this);
         original = new File(TransformationToHtmlStepIntegrationTest.class.getResource(SAMPLE_DIVXML_PAGE).toURI());
         anchorsFile = new File(TransformationToHtmlStepIntegrationTest.class.getResource(XppFormatFileSystemImpl.ANCHOR_TO_DOCUMENT_ID_MAP_FILE).toURI());
+        sumTocAnchorsFile = new File(TransformationToHtmlStepIntegrationTest.class.getResource(MATERIAL_NUMBER + "/" + XppFormatFileSystemImpl.ANCHOR_TO_DOCUMENT_ID_MAP_FILE).toURI());
     }
 
     @After
@@ -113,8 +115,11 @@ public final class TransformationToHtmlStepIntegrationTest {
                 original,
                 mkdir(fileSystem.getOriginalPagesDirectory(step, ADDITIONAL_MATERIAL_NUMBER)));
         }
-        FileUtils.copyFileToDirectory(anchorsFile, mkdir(fileSystem.getDirectory(step, XppFormatFileSystemDir.ANCHORS_DIR, MATERIAL_NUMBER)));
-        FileUtils.copyFileToDirectory(anchorsFile, mkdir(fileSystem.getDirectory(step, XppFormatFileSystemDir.ANCHORS_DIR, ADDITIONAL_MATERIAL_NUMBER)));
+        final File sumTocAchorsDir = mkdir(fileSystem.getDirectory(step, XppFormatFileSystemDir.ANCHORS_DIR, MATERIAL_NUMBER));
+        final File sumTocAchorsDir2 = mkdir(fileSystem.getDirectory(step, XppFormatFileSystemDir.ANCHORS_DIR, ADDITIONAL_MATERIAL_NUMBER));
+        FileUtils.copyFileToDirectory(anchorsFile, sumTocAchorsDir.getParentFile());
+        FileUtils.copyFileToDirectory(sumTocAnchorsFile, sumTocAchorsDir);
+        FileUtils.copyFileToDirectory(sumTocAnchorsFile, sumTocAchorsDir2);
     }
 
     private List<XppBundle> getXppBundles(final boolean multivolume) {

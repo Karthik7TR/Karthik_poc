@@ -127,7 +127,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:variable name="docId" select="$documentUidMap/x:uuidmap/x:item[@key = $uid]" />
+		<xsl:variable name="docId" select="$documentUidMap/x:uuidmap/x:item[@key = $uid and @type = 'book']" />
 		<xsl:choose>
 			<xsl:when test="$docId">
 				<xsl:element name="a">
@@ -142,10 +142,10 @@
 	</xsl:template>
 
 	<xsl:template match="x:XPPSummaryTOCLink">
-		<xsl:variable name="docId" select="$summaryTocDocumentUidMap/x:uuidmap/x:item[@key = current()/@uuid]" />
+		<xsl:variable name="docId" select="x:getDocumentId(current()/@uuid)" />
 		
 		<xsl:choose>
-			<xsl:when test="$docId">
+			<xsl:when test="$docId and $docId != ''">
 				<xsl:element name="a">
 					<xsl:attribute name="href" select="concat('er:#', $docId, '/sumtoc-', @uuid)" />
 					<xsl:apply-templates />
@@ -156,6 +156,19 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
+    
+    <xsl:function name="x:getDocumentId">
+        <xsl:param name="uuid"/>
+        <xsl:variable name="docIdFromSummaryTocMap" select="$summaryTocDocumentUidMap/x:uuidmap/x:item[@key = $uuid]" />
+        <xsl:choose>
+            <xsl:when test="$docIdFromSummaryTocMap">
+                <xsl:value-of select="$docIdFromSummaryTocMap" />
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$documentUidMap/x:uuidmap/x:item[@key = $uuid and @type = 'sumtoc'][1]" />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:function>
 
 	<xsl:template match="x:XPPSummaryTOCAnchor">
 		<xsl:element name="a">

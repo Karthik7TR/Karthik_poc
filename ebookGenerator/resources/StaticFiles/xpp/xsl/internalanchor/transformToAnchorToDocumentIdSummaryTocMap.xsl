@@ -7,6 +7,7 @@
     <xsl:template match="x:XPPSummaryTOCAnchor">
         <xsl:call-template name="create-item">
             <xsl:with-param name="uid" select="@uuid" />
+            <xsl:with-param name="type" select="'sumtoc'" />
         </xsl:call-template>
     </xsl:template>
 

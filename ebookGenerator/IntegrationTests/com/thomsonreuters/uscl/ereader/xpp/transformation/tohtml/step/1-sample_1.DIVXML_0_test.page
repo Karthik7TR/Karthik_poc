@@ -124,9 +124,11 @@
                                                     </outline.name.block>
                                                     <toc.section>
                                                         <outline.name.block>
-                                                            <label date.updated="0"/>
-                                                            <designator date.updated="0">30:8</designator>
-                                                            <name>Principles of partnership taxation</name>
+                                                            <XPPLink uuid="I18b49f1028b911e69ed7fcedf0a72427">
+                                                                <label date.updated="0"/>
+                                                                <designator date.updated="0">30:8</designator>
+                                                                <name>Principles of partnership taxation</name>
+                                                            </XPPLink>
                                                         </outline.name.block>
                                                     </toc.section>
                                                     <toc.section>
@@ -179,9 +181,11 @@
                                                 </toc.section>
                                                 <toc.section>
                                                     <outline.name.block>
-                                                        <label date.updated="0"/>
-                                                        <designator date.updated="0">30:14</designator>
-                                                        <name>Short form</name>
+                                                        <XPPSummaryTOCLink uuid="I18b49f1028b911e69ed7fcedf0a72427">
+                                                            <label date.updated="0"/>
+                                                            <designator date.updated="0">30:14</designator>
+                                                            <name>Short form</name>
+                                                        </XPPSummaryTOCLink>
                                                     </outline.name.block>
                                                 </toc.section>
                                                 <toc.section>
