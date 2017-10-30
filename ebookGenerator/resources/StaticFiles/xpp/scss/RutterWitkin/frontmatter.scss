@@ -1,0 +1,7 @@
+.textrule {
+    .fm_prior_copyrights & {
+        border-bottom: #{$indent*0.05}em solid;
+        margin: #{$indent}em auto;
+        width: #{$indent*10}em;
+    }
+}
