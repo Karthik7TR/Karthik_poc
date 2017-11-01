@@ -7,7 +7,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionTest;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceTest;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceTest;
 import com.thomsonreuters.uscl.ereader.core.book.service.EbookAuditServiceTest;
-import com.thomsonreuters.uscl.ereader.core.job.service.JobServiceTest;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageTest;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessorTest;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageServiceTest;
@@ -32,7 +31,6 @@ import org.junit.runners.Suite.SuiteClasses;
     FileExtensionFilterTest.class,
     FileHandlingHelperTest.class,
     com.thomsonreuters.uscl.ereader.jaxb.JAXBMarshallingTest.class,
-    JobServiceTest.class,
     CodeDaoTest.class,
     CodeServiceTest.class,
     CoreServiceTest.class,

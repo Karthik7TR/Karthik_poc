@@ -13,14 +13,23 @@ import com.thomsonreuters.uscl.ereader.stats.util.PublishingStatsUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service("publishingStatsService")
 public class PublishingStatsServiceImpl implements PublishingStatsService {
     private static final Logger LOG = LogManager.getLogger(PublishingStatsServiceImpl.class);
-    private PublishingStatsDao publishingStatsDAO;
-    private PublishingStatsUtil publishingStatsUtil;
+
+    private final PublishingStatsDao publishingStatsDAO;
+    private final PublishingStatsUtil publishingStatsUtil;
+
+    @Autowired
+    public PublishingStatsServiceImpl(final PublishingStatsDao publishingStatsDAO, final PublishingStatsUtil publishingStatsUtil) {
+        this.publishingStatsDAO = publishingStatsDAO;
+        this.publishingStatsUtil = publishingStatsUtil;
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -224,16 +233,6 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
     @Transactional(readOnly = true)
     public List<PublishingStats> findAllPublishingStats() {
         return publishingStatsDAO.findAllPublishingStats();
-    }
-
-    @Required
-    public void setPublishingStatsDAO(final PublishingStatsDao dao) {
-        publishingStatsDAO = dao;
-    }
-
-    @Required
-    public void setPublishingStatsUtil(final PublishingStatsUtil publishingStatsUtil) {
-        this.publishingStatsUtil = publishingStatsUtil;
     }
 
     @Transactional(readOnly = true)

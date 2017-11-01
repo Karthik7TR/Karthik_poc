@@ -4,12 +4,19 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.request.dao.XppBundleArchiveDao;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service("xppBundleArchiveService")
 @Transactional(readOnly = true)
 public class XppBundleArchiveService {
-    private XppBundleArchiveDao xppBundleArchiveDao;
+    private final XppBundleArchiveDao xppBundleArchiveDao;
+
+    @Autowired
+    public XppBundleArchiveService(final XppBundleArchiveDao xppBundleArchiveDao) {
+        this.xppBundleArchiveDao = xppBundleArchiveDao;
+    }
 
     @Transactional
     public Long saveRequest(final XppBundleArchive ebookRequest) {
@@ -39,10 +46,5 @@ public class XppBundleArchiveService {
 
     public List<XppBundleArchive> findByMaterialNumberList(final List<String> sourceMaterialNumberList) {
         return xppBundleArchiveDao.findByMaterialNumberList(sourceMaterialNumberList);
-    }
-
-    @Required
-    public void setXppBundleArchiveDao(final XppBundleArchiveDao dao) {
-        xppBundleArchiveDao = dao;
     }
 }

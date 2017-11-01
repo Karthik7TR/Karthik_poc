@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public final class LibraryListServiceTest {
-    private static final List<LibraryList> EXPECTED_LIBRARY_LIST = new ArrayList<LibraryList>();
+    private static final List<LibraryList> EXPECTED_LIBRARY_LIST = new ArrayList<>();
     private static final Integer EXPECTED_NUMBER_BOOKS = 1;
     private LibraryListDao mockDao;
     private LibraryListServiceImpl LibraryListService;
@@ -22,8 +22,7 @@ public final class LibraryListServiceTest {
     @Before
     public void setUp() {
         mockDao = EasyMock.createMock(LibraryListDao.class);
-        LibraryListService = new LibraryListServiceImpl();
-        LibraryListService.setLibraryListDao(mockDao);
+        LibraryListService = new LibraryListServiceImpl(mockDao);
     }
 
     @Test

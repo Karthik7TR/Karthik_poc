@@ -12,11 +12,20 @@ import com.thomsonreuters.uscl.ereader.core.book.util.BookTitlesUtil;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service("proviewTitleListService")
 public class ProviewTitleListServiceImpl implements ProviewTitleListService {
-    private BookDefinitionService bookDefinitionService;
-    private BookTitlesUtil bookTitlesUtil;
+    private final BookDefinitionService bookDefinitionService;
+    private final BookTitlesUtil bookTitlesUtil;
+
+    @Autowired
+    public ProviewTitleListServiceImpl(final BookDefinitionService bookDefinitionService,
+                                       final BookTitlesUtil bookTitlesUtil) {
+        this.bookDefinitionService = bookDefinitionService;
+        this.bookTitlesUtil = bookTitlesUtil;
+    }
 
     @Override
     @NotNull
@@ -42,15 +51,5 @@ public class ProviewTitleListServiceImpl implements ProviewTitleListService {
             bookDef = bookDefinitionService.findBookDefinitionByTitle(titleId.getHeadTitleId());
         }
         return bookDef;
-    }
-
-    @Required
-    public void setBookDefinitionService(final BookDefinitionService bookDefinitionService) {
-        this.bookDefinitionService = bookDefinitionService;
-    }
-
-    @Required
-    public void setBookTitlesUtil(final BookTitlesUtil bookTitlesUtil) {
-        this.bookTitlesUtil = bookTitlesUtil;
     }
 }

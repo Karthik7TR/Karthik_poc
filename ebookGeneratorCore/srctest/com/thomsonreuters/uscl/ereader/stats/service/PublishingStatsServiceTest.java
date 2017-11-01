@@ -27,9 +27,7 @@ public final class PublishingStatsServiceTest {
         mockDao = EasyMock.createMock(PublishingStatsDao.class);
         mockUtil = EasyMock.createMock(PublishingStatsUtil.class);
 
-        service = new PublishingStatsServiceImpl();
-        service.setPublishingStatsDAO(mockDao);
-        service.setPublishingStatsUtil(mockUtil);
+        service = new PublishingStatsServiceImpl(mockDao, mockUtil);
 
         for (int i = 0; i < 10; i++) {
             final PublishingStats stat = new PublishingStats();

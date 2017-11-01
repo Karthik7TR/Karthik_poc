@@ -15,18 +15,22 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
-import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.mgr.dao.ManagerDao;
+import com.thomsonreuters.uscl.ereader.mgr.web.service.job.JobService;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.JobExecution;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+@Service("managerService")
 public class ManagerServiceImpl implements ManagerService {
     private static final Logger log = LogManager.getLogger(ManagerServiceImpl.class);
 
@@ -37,15 +41,23 @@ public class ManagerServiceImpl implements ManagerService {
     private static final String GENERATOR_REST_SYNC_PLANNED_OUTAGE =
         "http://%s:%d/%s/" + CoreConstants.URI_SYNC_PLANNED_OUTAGE;
 
+    @Autowired
+    @Qualifier("environmentName")
     private String environmentName;
+    @Value("${generator.context.name}")
     private String generatorContextName;
+    @Value("${root.work.directory}")
     private File rootWorkDirectory;
+    @Value("${codes.workbench.root.dir}")
     private File rootCodesWorkbenchLandingStrip;
-    /** Used to invoke the REST  job stop and restart operations on the ebookGenerator. */
+    @Autowired
+    @Qualifier("generatorRestTemplate")
     private RestTemplate restTemplate;
-    /** The root web application context URL for the ebook generator. */
+    @Autowired
     private ManagerDao managerDao;
+    @Autowired
     private JobService jobService;
+    @Autowired
     private JobRequestService jobRequestService;
 
     @Override
@@ -242,45 +254,5 @@ public class ManagerServiceImpl implements ManagerService {
                 }
             }
         }
-    }
-
-    @Required
-    public void setGeneratorContextName(final String contextName) {
-        generatorContextName = contextName;
-    }
-
-    @Required
-    public void setRootWorkDirectory(final File dir) {
-        rootWorkDirectory = dir;
-    }
-
-    @Required
-    public void setRootCodesWorkbenchLandingStrip(final File dir) {
-        rootCodesWorkbenchLandingStrip = dir;
-    }
-
-    @Required
-    public void setEnvironmentName(final String envName) {
-        environmentName = envName;
-    }
-
-    @Required
-    public void setRestTemplate(final RestTemplate template) {
-        restTemplate = template;
-    }
-
-    @Required
-    public void setManagerDao(final ManagerDao dao) {
-        managerDao = dao;
-    }
-
-    @Required
-    public void setJobService(final JobService service) {
-        jobService = service;
-    }
-
-    @Required
-    public void setJobRequestService(final JobRequestService jobRequestService) {
-        this.jobRequestService = jobRequestService;
     }
 }

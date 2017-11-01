@@ -6,16 +6,21 @@ import com.thomsonreuters.uscl.ereader.mgr.library.dao.LibraryListDao;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListFilter;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListSort;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Library list service
  */
+@Service("libraryListService")
 public class LibraryListServiceImpl implements LibraryListService {
-    //private static final Logger log = LogManager.getLogger(LibraryListServiceImpl.class);
+    private final LibraryListDao libraryListDao;
 
-    private LibraryListDao libraryListDao;
+    @Autowired
+    public LibraryListServiceImpl(final LibraryListDao libraryListDao) {
+        this.libraryListDao = libraryListDao;
+    }
 
     /**
      * Returns all the current book definitions based on the search criterion
@@ -36,10 +41,5 @@ public class LibraryListServiceImpl implements LibraryListService {
     @Transactional(readOnly = true)
     public Integer numberOfBookDefinitions(final LibraryListFilter filter) {
         return libraryListDao.numberOfBookDefinitions(filter);
-    }
-
-    @Required
-    public void setLibraryListDao(final LibraryListDao dao) {
-        libraryListDao = dao;
     }
 }

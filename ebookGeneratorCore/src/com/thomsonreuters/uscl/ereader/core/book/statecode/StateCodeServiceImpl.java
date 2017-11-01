@@ -4,11 +4,18 @@ import java.util.Date;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service("stateCodeService")
 public class StateCodeServiceImpl implements StateCodeService {
-    private StateCodeDao dao;
+    private final StateCodeDao dao;
+
+    @Autowired
+    public StateCodeServiceImpl(final StateCodeDao dao) {
+        this.dao = dao;
+    }
 
     @Transactional(readOnly = true)
     @Override
@@ -43,10 +50,5 @@ public class StateCodeServiceImpl implements StateCodeService {
     @Override
     public void deleteStateCode(@NotNull final StateCode stateCode) {
         dao.deleteStateCode(stateCode);
-    }
-
-    @Required
-    public void setStateCodeDao(final StateCodeDao dao) {
-        this.dao = dao;
     }
 }

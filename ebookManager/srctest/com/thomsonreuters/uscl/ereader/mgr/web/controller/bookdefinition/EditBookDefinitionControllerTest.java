@@ -17,7 +17,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
-import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionLockService;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
@@ -29,6 +28,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.Ed
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionService;
+import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;

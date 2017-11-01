@@ -1,11 +1,20 @@
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
+import static com.ninja_squad.dbsetup.Operations.insertInto;
+import static com.ninja_squad.dbsetup.Operations.sequenceOf;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.sql.DataSource;
+
+import com.ninja_squad.dbsetup.DbSetup;
+import com.ninja_squad.dbsetup.Operations;
+import com.ninja_squad.dbsetup.destination.DataSourceDestination;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
@@ -22,27 +31,40 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
-@Transactional
+@ContextConfiguration(classes = CodeServiceIntegrationTestConf.class)
+@ActiveProfiles("IntegrationTests")
 public class CodeServiceIntegrationTest {
     private static final Logger log = LogManager.getLogger(CodeServiceIntegrationTest.class);
-
+    @Autowired
+    private DataSource dataSource;
     @Autowired
     private CodeService service;
-
     @Autowired
     private BookDefinitionService bookDefinitionService;
 
     @Test
     public void testGetAllJuris() {
+        final DbSetup dbSetup = new DbSetup(
+            new DataSourceDestination(dataSource),
+            sequenceOf(
+                Operations.deleteAllFrom("JURIS_TYPE_CODES"),
+                insertInto("JURIS_TYPE_CODES")
+                    .columns("JURIS_TYPE_CODES_ID", "JURIS_TYPE_CODES_NAME", "LAST_UPDATED")
+                    .values(1, "AL", new Date())
+                    .values(2, "AK", new Date())
+                    .values(3, "AZ", new Date())
+                    .values(4, "AR", new Date())
+                    .build()));
+        dbSetup.launch();
+
         final List<JurisTypeCode> codes = service.getAllJurisTypeCodes();
         log.debug(codes);
-        Assert.assertEquals(54, codes.size());
+        Assert.assertEquals(4, codes.size());
     }
 
     @Test
@@ -73,6 +95,21 @@ public class CodeServiceIntegrationTest {
 
     @Test
     public void testGetAllPubType() {
+        final DbSetup dbSetup = new DbSetup(
+            new DataSourceDestination(dataSource),
+            sequenceOf(
+                Operations.deleteAllFrom("PUB_TYPE_CODES"),
+                insertInto("PUB_TYPE_CODES")
+                    .columns("PUB_TYPE_CODES_ID", "PUB_TYPE_CODES_NAME", "LAST_UPDATED")
+                    .values(1, "Local", new Date())
+                    .values(2, "State", new Date())
+                    .values(3, "Fed", new Date())
+                    .values(4, "FedRule", new Date())
+                    .values(5, "FedDist", new Date())
+                    .values(6, "Bankr", new Date())
+                    .build()));
+        dbSetup.launch();
+
         final List<PubTypeCode> codes = service.getAllPubTypeCodes();
         log.debug(codes);
         Assert.assertEquals(6, codes.size());
@@ -180,6 +217,19 @@ public class CodeServiceIntegrationTest {
 
     @Test
     public void testGetAllKeywordCodes() {
+        final DbSetup dbSetup = new DbSetup(
+            new DataSourceDestination(dataSource),
+            sequenceOf(
+                Operations.deleteAllFrom("KEYWORD_TYPE_CODES"),
+                insertInto("KEYWORD_TYPE_CODES")
+                    .columns("KEYWORD_TYPE_CODES_ID", "KEYWORD_TYPE_CODES_NAME", "LAST_UPDATED", "IS_REQUIRED")
+                    .values(1, "jurisdiction", new Date(), "Y")
+                    .values(2, "type", new Date(), "N")
+                    .values(3, "publisher", new Date(), "Y")
+                    .values(4, "subject", new Date(), "N")
+                    .build()));
+        dbSetup.launch();
+
         final List<KeywordTypeCode> codes = service.getAllKeywordTypeCodes();
         log.debug(codes);
         Assert.assertEquals(4, codes.size());

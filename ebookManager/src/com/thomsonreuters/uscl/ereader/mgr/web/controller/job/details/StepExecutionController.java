@@ -9,9 +9,9 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
-import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.service.job.JobService;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.StepExecution;

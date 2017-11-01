@@ -8,38 +8,37 @@ import com.thomsonreuters.uscl.ereader.core.service.AppConfigLoader;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * MANAGER: Perform the system startup boot load of the general application configuration.
  * Its properties are then subsequently modifiable via the Manager administration page.
  *
  */
+@Component("managerAppConfigLoader")
 public class ManagerAppConfigLoader implements AppConfigLoader {
-    private static Logger log = LogManager.getLogger(ManagerAppConfigLoader.class);
+    private static Logger LOG = LogManager.getLogger(ManagerAppConfigLoader.class);
 
-    private AppConfigService appConfigService;
-    private MiscConfigSyncService miscConfigSyncService;
+    private final AppConfigService appConfigService;
+    private final MiscConfigSyncService miscConfigSyncService;
+
+    @Autowired
+    public ManagerAppConfigLoader(final AppConfigService appConfigService,
+                                  final MiscConfigSyncService miscConfigSyncService) {
+        this.appConfigService = appConfigService;
+        this.miscConfigSyncService = miscConfigSyncService;
+    }
 
     @PostConstruct
     @Override
     public void loadApplicationConfiguration() throws Exception {
-        log.debug(">>>");
+        LOG.debug(">>>");
         try {
             final MiscConfig miscConfig = appConfigService.loadMiscConfig();
             miscConfigSyncService.sync(miscConfig);
         } catch (final Exception e) {
-            log.error(e);
+            LOG.error(e);
         }
-    }
-
-    @Required
-    public void setAppConfigService(final AppConfigService service) {
-        appConfigService = service;
-    }
-
-    @Required
-    public void setMiscConfigSyncService(final MiscConfigSyncService service) {
-        miscConfigSyncService = service;
     }
 }

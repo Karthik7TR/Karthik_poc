@@ -6,13 +6,13 @@ import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
-import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage.Type;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobExecutionVdo;
+import com.thomsonreuters.uscl.ereader.mgr.web.service.job.JobService;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.easymock.EasyMock;

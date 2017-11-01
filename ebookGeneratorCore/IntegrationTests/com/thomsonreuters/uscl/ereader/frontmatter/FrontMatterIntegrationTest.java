@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 
+import javax.sql.DataSource;
+
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
@@ -21,20 +23,18 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
-@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = false)
-@Transactional
+@ContextConfiguration(classes = FrontMatterIntegrationTestConf.class)
+@ActiveProfiles("IntegrationTests")
 public class FrontMatterIntegrationTest {
-    //private static Logger log = LogManager.getLogger(FrontMatterIntegrationTest.class);
     private static String BOOK_TITLE = "uscl/an/frontmatter_test_123";
     private static Date UPDATE_DATE = new Date();
-
+    @Autowired
+    DataSource dataSource;
     @Autowired
     protected BookDefinitionService bookDefinitionService;
     protected BookDefinition eBook;
@@ -74,6 +74,8 @@ public class FrontMatterIntegrationTest {
         final DocumentTypeCode dc = codeService.getDocumentTypeCodeById((long) 1);
         eBook.setDocumentTypeCodes(dc);
         eBook.setFrontMatterTheme("West");
+        eBook.setIsSplitBook(false);
+        eBook.setIsSplitTypeAuto(true);
 
         final PublisherCode publisherCode = codeService.getPublisherCodeById((long) 1);
         eBook.setPublisherCodes(publisherCode);
@@ -141,6 +143,7 @@ public class FrontMatterIntegrationTest {
 
     @Test
     public void DeleteFrontMatterPage() {
+        saveBook();
         final BookDefinition book = bookDefinitionService.findBookDefinitionByTitle(BOOK_TITLE);
         book.getFrontMatterPages().clear();
         eBook = bookDefinitionService.saveBookDefinition(book);

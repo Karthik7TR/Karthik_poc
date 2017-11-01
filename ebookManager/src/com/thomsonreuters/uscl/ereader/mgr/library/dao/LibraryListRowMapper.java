@@ -7,8 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
-import com.thomsonreuters.uscl.ereader.core.book.service.AuthorService;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
+import com.thomsonreuters.uscl.ereader.mgr.web.service.author.AuthorService;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.RowMapper;
 

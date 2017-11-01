@@ -20,8 +20,7 @@ public final class OutageServiceTest {
     public void setUp() {
         mockDao = EasyMock.createMock(OutageDao.class);
 
-        service = new OutageServiceImpl();
-        service.setOutageDao(mockDao);
+        service = new OutageServiceImpl(mockDao);
 
         final PlannedOutage outage = new PlannedOutage();
         PLANNED_OUTAGE_LIST = new ArrayList<>();

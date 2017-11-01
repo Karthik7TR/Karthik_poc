@@ -7,11 +7,11 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
-import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobExecutionVdo;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.StepStartTimeComparator;
+import com.thomsonreuters.uscl.ereader.mgr.web.service.job.JobService;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.springframework.batch.core.JobExecution;

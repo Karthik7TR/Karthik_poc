@@ -7,34 +7,31 @@ import com.thomsonreuters.uscl.ereader.deliver.rest.CloseableAuthenticationHttpC
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClient;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+@Service("miscConfigSyncService")
 public class ManagerMiscConfigSyncService extends AbstractMiscConfigSyncService implements MiscConfigSyncService {
-    private static Logger log = LogManager.getLogger(ManagerMiscConfigSyncService.class);
+    private static Logger LOG = LogManager.getLogger(ManagerMiscConfigSyncService.class);
 
-    private CloseableAuthenticationHttpClientFactory httpClientFactory;
-    private ProviewClient proviewClient;
-    private RestTemplate proviewRestTemplate;
+    private final CloseableAuthenticationHttpClientFactory httpClientFactory;
+    private final ProviewClient proviewClient;
+    private final RestTemplate proviewRestTemplate;
+
+    @Autowired
+    public ManagerMiscConfigSyncService(final CloseableAuthenticationHttpClientFactory httpClientFactory,
+                                        final ProviewClient proviewClient,
+                                        @Qualifier("proviewRestTemplate")final RestTemplate proviewRestTemplate) {
+        this.httpClientFactory = httpClientFactory;
+        this.proviewClient = proviewClient;
+        this.proviewRestTemplate = proviewRestTemplate;
+    }
 
     @Override
     public void syncSpecific(final MiscConfig config) throws Exception {
-        log.info(config);
+        LOG.info(config);
         super.syncProviewHost(config, httpClientFactory, proviewClient, proviewRestTemplate);
-    }
-
-    @Required
-    public void setHttpClientFactory(final CloseableAuthenticationHttpClientFactory httpClientFactory) {
-        this.httpClientFactory = httpClientFactory;
-    }
-
-    @Required
-    public void setProviewClient(final ProviewClient proviewClient) {
-        this.proviewClient = proviewClient;
-    }
-
-    @Required
-    public void setProviewRestTemplate(final RestTemplate proviewRestTemplate) {
-        this.proviewRestTemplate = proviewRestTemplate;
     }
 }

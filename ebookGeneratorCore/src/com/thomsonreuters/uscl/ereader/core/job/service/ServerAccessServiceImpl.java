@@ -14,7 +14,8 @@ import com.thomsonreuters.uscl.ereader.util.Ssh;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
+@Service("serverAccessService")
 public class ServerAccessServiceImpl implements ServerAccessService {
     private static final Logger log = LogManager.getLogger(ServerAccessServiceImpl.class);
 
@@ -33,8 +35,14 @@ public class ServerAccessServiceImpl implements ServerAccessService {
         STOP
     };
 
-    private JobCleanupService jobCleanupService;
-    private UserPreferenceService userPreferenceService;
+    private final JobCleanupService jobCleanupService;
+    private final UserPreferenceService userPreferenceService;
+
+    @Autowired
+    public ServerAccessServiceImpl(final JobCleanupService jobCleanupService, final UserPreferenceService userPreferenceService) {
+        this.jobCleanupService = jobCleanupService;
+        this.userPreferenceService = userPreferenceService;
+    }
 
     /**
      * Stops all the generator and gather instances from server,
@@ -326,15 +334,5 @@ public class ServerAccessServiceImpl implements ServerAccessService {
         log.debug("Execute Command " + retValue + " value ");
 
         return retValue;
-    }
-
-    @Required
-    public void setJobCleanupService(final JobCleanupService jobCleanupService) {
-        this.jobCleanupService = jobCleanupService;
-    }
-
-    @Required
-    public void setUserPreferenceService(final UserPreferenceService service) {
-        userPreferenceService = service;
     }
 }

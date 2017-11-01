@@ -8,11 +8,11 @@ import javax.servlet.http.HttpSession;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSort.SortProperty;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobSummary;
-import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.DisplayTagSortProperty;
+import com.thomsonreuters.uscl.ereader.mgr.web.service.job.JobService;
 import org.displaytag.pagination.PaginatedList;
 import org.springframework.ui.Model;
 

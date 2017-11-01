@@ -12,7 +12,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceTyp
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
-import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionLockService;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
@@ -20,6 +19,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.delete.DeleteBookDefinitionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.delete.DeleteBookDefinitionForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.delete.DeleteBookDefinitionFormValidator;
+import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;

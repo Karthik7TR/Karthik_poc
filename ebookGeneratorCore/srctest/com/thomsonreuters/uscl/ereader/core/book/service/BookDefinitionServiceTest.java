@@ -19,8 +19,7 @@ public final class BookDefinitionServiceTest {
     public void setUp() {
         bookDefinitionDao = EasyMock.createMock(BookDefinitionDao.class);
 
-        service = new BookDefinitionServiceImpl();
-        service.setBookDefinitionDao(bookDefinitionDao);
+        service = new BookDefinitionServiceImpl(bookDefinitionDao);
 
         expectedBookDefinition.setFullyQualifiedTitleId(BOOK_KEY);
     }

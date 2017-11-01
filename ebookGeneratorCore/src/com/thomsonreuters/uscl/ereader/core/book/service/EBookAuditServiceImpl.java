@@ -7,22 +7,23 @@ import com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Spring service that handles CRUD requests for EBookAudit entities
  *
  */
-
+@Service("eBookAuditService")
 @Transactional
 public class EBookAuditServiceImpl implements EBookAuditService {
-    /**
-     * DAO injected by Spring that manages EBookAudit entities
-     *
-     */
+    private final EbookAuditDao eBookAuditDAO;
 
-    private EbookAuditDao eBookAuditDAO;
+    @Autowired
+    public EBookAuditServiceImpl(final EbookAuditDao eBookAuditDAO) {
+        this.eBookAuditDAO = eBookAuditDAO;
+    }
 
     /**
      * Save an existing eBookAudit entity
@@ -108,14 +109,6 @@ public class EBookAuditServiceImpl implements EBookAuditService {
         }
 
         return latestAudit;
-    }
-
-    @Required
-    /**
-     * @param eBookAuditDAO the eBookAuditDAO to set
-     */
-    public void seteBookAuditDAO(final EbookAuditDao eBookAuditDAO) {
-        this.eBookAuditDAO = eBookAuditDAO;
     }
 
     /**

@@ -8,12 +8,18 @@ import com.thomsonreuters.uscl.ereader.core.outage.dao.OutageDao;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import org.apache.commons.lang3.time.DateUtils;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service("outageService")
 public class OutageServiceImpl implements OutageService {
-    //private static Logger log = LogManager.getLogger(OutageServiceImpl.class);
-    private OutageDao dao;
+    private final OutageDao dao;
+
+    @Autowired
+    public OutageServiceImpl(final OutageDao dao) {
+        this.dao = dao;
+    }
 
     /**
      * Returns all Outage entities that are scheduled for current and future.
@@ -108,10 +114,5 @@ public class OutageServiceImpl implements OutageService {
     @Transactional
     public void deleteOutageType(final Long id) {
         dao.deleteOutageType(findOutageTypeByPrimaryKey(id));
-    }
-
-    @Required
-    public void setOutageDao(final OutageDao dao) {
-        this.dao = dao;
     }
 }

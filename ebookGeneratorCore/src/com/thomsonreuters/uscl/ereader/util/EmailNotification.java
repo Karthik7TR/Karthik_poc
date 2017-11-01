@@ -21,12 +21,14 @@ import javax.mail.internet.MimeMultipart;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 /**
  * @deprecated use {@link com.thomsonreuters.uscl.ereader.common.notification.service.EmailService}
  * @author <a href="mailto:ravi.nandikolla@thomsonreuters.com">Ravi Nandikolla</a>c139353
  */
 @Deprecated
+@Component("emailNotification")
 public class EmailNotification {
     private static Logger log = LogManager.getLogger(EmailNotification.class);
     private static final String from = "no-reply-eReader@thomsonreuters.com";

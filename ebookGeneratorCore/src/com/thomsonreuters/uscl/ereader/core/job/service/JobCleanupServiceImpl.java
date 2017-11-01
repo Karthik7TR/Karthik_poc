@@ -7,7 +7,8 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.JobUserInfo;
 import com.thomsonreuters.uscl.ereader.util.EBookServerException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +16,16 @@ import org.springframework.transaction.annotation.Transactional;
  * Updates dead jobs exit status to "failed" status.
  * @author <a href="mailto:Mahendra.Survase@thomsonreuters.com">Mahendra Survase</a> u0105927
  */
+@Service("jobCleanupService")
 public class JobCleanupServiceImpl implements JobCleanupService {
     private static final Logger LOG = LogManager.getLogger(JobCleanupServiceImpl.class);
 
-    private JobCleanupDao jobCleanupDao;
+    private final JobCleanupDao jobCleanupDao;
+
+    @Autowired
+    public JobCleanupServiceImpl(final JobCleanupDao jobCleanupDao) {
+        this.jobCleanupDao = jobCleanupDao;
+    }
 
     /**
      * Clean up dead jobs from both BatchStepExecution and BatchJobExecution tables
@@ -40,11 +47,6 @@ public class JobCleanupServiceImpl implements JobCleanupService {
     @Override
     public List<JobUserInfo> findListOfDeadJobs() throws EBookServerException {
         return jobCleanupDao.findListOfDeadJobs();
-    }
-
-    @Required
-    public void setJobCleanupDao(final JobCleanupDao jobCleanupDao) {
-        this.jobCleanupDao = jobCleanupDao;
     }
 
     /**

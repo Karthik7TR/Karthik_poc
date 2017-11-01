@@ -21,7 +21,7 @@ import com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceImpl;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionServiceImpl;
-import com.thomsonreuters.uscl.ereader.sap.comparsion.MaterialComponentComparatorProvider;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.sap.comparsion.MaterialComponentComparatorProvider;
 import com.thomsonreuters.uscl.ereader.sap.component.Material;
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponent;
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponentsResponse;
@@ -64,18 +64,13 @@ public final class EditBookDefinitionServiceImplTest {
     @Before
     public void setUp() {
         initMocks();
-        bookService = new EditBookDefinitionServiceImpl();
 
         mockCodeService = EasyMock.createMock(CodeServiceImpl.class);
         mockStateCodeService = EasyMock.createMock(StateCodeService.class);
         tempRootDir = new File(System.getProperty("java.io.tmpdir") + "\\EvenMoreTemp");
         tempRootDir.mkdir();
 
-        bookService.setCodeService(mockCodeService);
-        bookService.setStateCodeService(mockStateCodeService);
-        bookService.setRootCodesWorkbenchLandingStrip(tempRootDir);
-        bookService.setSapService(sapService);
-        bookService.setMaterialComponentComparatorProvider(materialComponentComparatorProvider);
+        bookService = new EditBookDefinitionServiceImpl(mockCodeService, mockStateCodeService, tempRootDir, sapService, materialComponentComparatorProvider);
     }
 
     private void initMocks() {

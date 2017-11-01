@@ -8,13 +8,6 @@
            http://www.springframework.org/schema/beans 	 http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">      
-	
-
-	<bean id="proviewAuditService" class="com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditServiceImpl"
-  		  p:proviewAuditDao-ref="proviewAuditDao" />
-
-  	<bean id="bookDefinitionService" class="com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceImpl"
-  		  p:bookDefinitionDao-ref="bookDefinitionDao"/>
 
   	<bean id="miscConfigSyncService" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.service.GeneratorMiscConfigSyncService"
   		  p:proviewClient-ref="proviewClient"
@@ -179,10 +172,6 @@
 	
 	<bean id="paceMetadataService" class="com.thomsonreuters.uscl.ereader.gather.metadata.service.PaceMetadataServiceImpl"
 			p:paceMetadataDAO-ref="paceMetaDataDao"/>	
-	
-	<bean id="publishingStatsService" class="com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsServiceImpl"
-			p:publishingStatsDAO-ref="publishingStatsDao"
-			p:publishingStatsUtil-ref="publishingStatsUtil"/>	
 		
 	<bean id="autoSplitGuidsService" class="com.thomsonreuters.uscl.ereader.format.service.AutoSplitGuidsServiceImpl"
 		  p:bookDefinitionService-ref="bookDefinitionService"
@@ -203,14 +192,7 @@
 		<constructor-arg ref="jobExplorer"/>
 		<constructor-arg ref="jobRepository"/>
 	</bean>		
-			
-  	<bean id="eBookAuditService" class="com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditServiceImpl"
-  		  p:eBookAuditDAO-ref="eBookAuditDAO"/>	
   		  
-  	<bean id="stateCodeService" class="com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeServiceImpl"
-  		  p:stateCodeDao-ref="stateCodeDao"/>
-  	<bean id="codeService" class="com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceImpl"
-  		  p:codeDao-ref="codeDao"/>
     <bean class="com.thomsonreuters.uscl.ereader.format.links.UrlBuilderAdapter" 
   	      p:hostname="${mud.domain}" 
   	      p:rs="${mud.parameter.rs}"
@@ -225,12 +207,6 @@
 		  p:hostname="${mud.domain}" 
   	      p:mudparamrs="${mud.parameter.rs}"
   	      p:mudparamvr="${mud.parameter.vr}"/>
-
-	<bean id="userPreferenceService" class="com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceServiceImpl"
-		  p:userPreferenceDao-ref="userPreferenceDao"/>
-		 
-	<bean id="outageService" class="com.thomsonreuters.uscl.ereader.core.outage.service.OutageServiceImpl"
-		  p:outageDao-ref="outageDao"/>
 	
 	<bean id="coreService" class="com.thomsonreuters.uscl.ereader.core.service.CoreServiceImpl"
 		  p:userPreferenceService-ref="userPreferenceService"
@@ -242,9 +218,5 @@
 		  p:coreService-ref="coreService"/>
 		  
 	<bean id="novusNortFileService" class="com.thomsonreuters.uscl.ereader.gather.service.NovusNortFileServiceImpl" />
-	<bean id="novusDocFileService" class="com.thomsonreuters.uscl.ereader.gather.service.NovusDocFileServiceImpl" />
-	
-	<bean id="xppBundleArchiveService" class="com.thomsonreuters.uscl.ereader.request.service.XppBundleArchiveService"
-		p:xppBundleArchiveDao-ref="xppBundleArchiveDao"/>
-		  
+	<bean id="novusDocFileService" class="com.thomsonreuters.uscl.ereader.gather.service.NovusDocFileServiceImpl" />  
 </beans>

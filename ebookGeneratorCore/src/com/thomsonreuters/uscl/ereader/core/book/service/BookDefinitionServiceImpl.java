@@ -7,15 +7,21 @@ import com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionDao;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Shared service methods used in both the Spring Batch engine and the dashboard web apps.
  */
+@Service("bookDefinitionService")
 public class BookDefinitionServiceImpl implements BookDefinitionService {
-    //private static final Logger log = LogManager.getLogger(BookDefinitionServiceImpl.class);
-    private BookDefinitionDao bookDefinitionDao;
+    private final BookDefinitionDao bookDefinitionDao;
+
+    @Autowired
+    public BookDefinitionServiceImpl(final BookDefinitionDao bookDefinitionDao) {
+        this.bookDefinitionDao = bookDefinitionDao;
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -64,11 +70,6 @@ public class BookDefinitionServiceImpl implements BookDefinitionService {
         final int pageNumber,
         final int itemsPerPage) {
         return bookDefinitionDao.findBookDefinitions(sortProperty, isAscending, pageNumber, itemsPerPage);
-    }
-
-    @Required
-    public void setBookDefinitionDao(final BookDefinitionDao dao) {
-        bookDefinitionDao = dao;
     }
 
     @Override

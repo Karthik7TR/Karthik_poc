@@ -16,8 +16,7 @@ public final class UserPreferenceServiceTest {
     public void setUp() {
         mockDao = EasyMock.createMock(UserPreferenceDao.class);
 
-        service = new UserPreferenceServiceImpl();
-        service.setUserPreferenceDao(mockDao);
+        service = new UserPreferenceServiceImpl(mockDao);
     }
 
     @Test

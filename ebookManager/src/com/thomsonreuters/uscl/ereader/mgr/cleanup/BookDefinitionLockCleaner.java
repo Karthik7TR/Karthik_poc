@@ -1,6 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.cleanup;
 
-import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionLockService;
+import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;

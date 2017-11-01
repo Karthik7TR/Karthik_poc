@@ -6,16 +6,22 @@ import javax.mail.internet.InternetAddress;
 
 import com.thomsonreuters.uscl.ereader.userpreference.dao.UserPreferenceDao;
 import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service to manage UserPreference entities.
  *
  */
-
+@Service("userPreferenceService")
 public class UserPreferenceServiceImpl implements UserPreferenceService {
-    private UserPreferenceDao userPreferenceDao;
+    private final UserPreferenceDao userPreferenceDao;
+
+    @Autowired
+    public UserPreferenceServiceImpl(final UserPreferenceDao userPreferenceDao) {
+        this.userPreferenceDao = userPreferenceDao;
+    }
 
     @Override
     @Transactional
@@ -33,10 +39,5 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
     @Transactional(readOnly = true)
     public Set<InternetAddress> findAllUniqueEmailAddresses() {
         return userPreferenceDao.findAllUniqueEmailAddresses();
-    }
-
-    @Required
-    public void setUserPreferenceDao(final UserPreferenceDao dao) {
-        userPreferenceDao = dao;
     }
 }

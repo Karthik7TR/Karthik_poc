@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
@@ -171,10 +172,12 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
         eBook.setLastUpdated(new Date());
 
         // Attach Publisher Code
-        eBook.setPublisherCodes(
-            (PublisherCode) session.createCriteria(PublisherCode.class)
-                .add(Restrictions.eq("name", eBook.getPublisherCodes().getName()))
-                .uniqueResult());
+        Optional.ofNullable(eBook.getPublisherCodes())
+            .map(PublisherCode::getName)
+            .map(name -> session.createCriteria(PublisherCode.class)
+                .add(Restrictions.eq("name", name)).uniqueResult())
+            .map(PublisherCode.class::cast)
+            .ifPresent(eBook::setPublisherCodes);
 
         // Save if book is new
         if (eBook.getEbookDefinitionId() == null) {

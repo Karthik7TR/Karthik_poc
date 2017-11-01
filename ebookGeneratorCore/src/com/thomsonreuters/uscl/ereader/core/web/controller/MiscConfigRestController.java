@@ -8,6 +8,7 @@ import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -66,6 +67,7 @@ public class MiscConfigRestController {
     }
 
     @Required
+    @Autowired
     public void setMiscConfigSyncService(final MiscConfigSyncService syncService) {
         miscConfigSyncService = syncService;
     }

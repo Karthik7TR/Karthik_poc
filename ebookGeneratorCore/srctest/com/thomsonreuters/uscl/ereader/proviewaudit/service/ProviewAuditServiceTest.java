@@ -25,8 +25,7 @@ public final class ProviewAuditServiceTest {
     public void setUp() {
         mockDao = EasyMock.createMock(ProviewAuditDao.class);
 
-        service = new ProviewAuditServiceImpl();
-        service.setProviewAuditDao(mockDao);
+        service = new ProviewAuditServiceImpl(mockDao);
     }
 
     @Test

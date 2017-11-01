@@ -3,8 +3,8 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.support;
 import javax.validation.Valid;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.service.support.SupportPageLinkService;
 import com.thomsonreuters.uscl.ereader.support.domain.SupportPageLink;
-import com.thomsonreuters.uscl.ereader.support.service.SupportPageLinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;

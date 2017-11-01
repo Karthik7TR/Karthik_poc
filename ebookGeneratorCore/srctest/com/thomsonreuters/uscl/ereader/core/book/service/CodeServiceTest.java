@@ -47,8 +47,7 @@ public final class CodeServiceTest {
     public void setUp() {
         mockCodeDao = EasyMock.createMock(CodeDao.class);
 
-        service = new CodeServiceImpl();
-        service.setCodeDao(mockCodeDao);
+        service = new CodeServiceImpl(mockCodeDao);
 
         JURIS_TYPE_CODE.setId(JURIS_TYPE_CODES_ID);
         PUB_TYPE_CODE.setId(PUB_TYPE_CODES_ID);

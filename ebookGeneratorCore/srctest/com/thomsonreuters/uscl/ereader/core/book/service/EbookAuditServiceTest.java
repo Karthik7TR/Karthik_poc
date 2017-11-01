@@ -28,8 +28,7 @@ public final class EbookAuditServiceTest {
     public void setUp() {
         mockDao = EasyMock.createMock(EbookAuditDao.class);
 
-        service = new EBookAuditServiceImpl();
-        service.seteBookAuditDAO(mockDao);
+        service = new EBookAuditServiceImpl(mockDao);
 
         BOOK_AUDIT_LIST = new ArrayList<>();
         expectedAudit = new EbookAudit();

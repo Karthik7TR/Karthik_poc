@@ -137,7 +137,7 @@ public final class UnpackBundleIntegrationTest {
 
         @Bean
         public XppBundleArchiveService xppBundleArchiveService() {
-            return new XppBundleArchiveService();
+            return new XppBundleArchiveService(null);
         }
 
         @Bean

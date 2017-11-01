@@ -19,7 +19,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
-import com.thomsonreuters.uscl.ereader.sap.comparsion.MaterialComponentComparatorProvider;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.sap.comparsion.MaterialComponentComparatorProvider;
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponent;
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponentsResponse;
 import com.thomsonreuters.uscl.ereader.sap.component.MediaLowLevelRule;
@@ -31,10 +31,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 
+@Service("editBookDefinitionService")
 public class EditBookDefinitionServiceImpl implements EditBookDefinitionService {
     private static final Logger LOG = LogManager.getLogger(EditBookDefinitionServiceImpl.class);
     private static final String SUB_NUMBER_MESSAGE = "Print Set/Sub Number: %s";
@@ -42,12 +45,26 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
         "Material components not found, for " + SUB_NUMBER_MESSAGE;
     private static final String INVALID_SUB_NUMBER_MESSAGE = SUB_NUMBER_MESSAGE + " is invalid";
 
-    private CodeService codeService;
-    private StateCodeService stateCodeService;
-    private File rootCodesWorkbenchLandingStrip;
-    private List<String> frontMatterThemes;
-    private SapService sapService;
-    private MaterialComponentComparatorProvider materialComponentComparatorProvider;
+    private final CodeService codeService;
+    private final StateCodeService stateCodeService;
+    private final File rootCodesWorkbenchLandingStrip;
+    private final List<String> frontMatterThemes;
+    private final SapService sapService;
+    private final MaterialComponentComparatorProvider materialComponentComparatorProvider;
+
+    @Autowired
+    public EditBookDefinitionServiceImpl(final CodeService codeService,
+                                         final StateCodeService stateCodeService,
+                                         @Value("${codes.workbench.root.dir}") final File rootCodesWorkbenchLandingStrip,
+                                         final SapService sapService,
+                                         final MaterialComponentComparatorProvider materialComponentComparatorProvider) {
+        this.codeService = codeService;
+        this.stateCodeService = stateCodeService;
+        this.rootCodesWorkbenchLandingStrip = rootCodesWorkbenchLandingStrip;
+        frontMatterThemes = Arrays.asList("WestLaw Next", "AAJ Press");
+        this.sapService = sapService;
+        this.materialComponentComparatorProvider = materialComponentComparatorProvider;
+    }
 
     @Override
     public List<DocumentTypeCode> getDocumentTypes() {
@@ -81,10 +98,6 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
     @Override
     public List<String> getFrontMatterThemes() {
         return frontMatterThemes;
-    }
-
-    public void setFrontMatterThemes(final List<String> frontMatterThemes) {
-        this.frontMatterThemes = frontMatterThemes;
     }
 
     @Override
@@ -190,30 +203,5 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
             message = errorText + StringUtils.SPACE + SUB_NUMBER_MESSAGE;
         }
         return message;
-    }
-
-    @Required
-    public void setCodeService(final CodeService service) {
-        codeService = service;
-    }
-
-    @Required
-    public void setStateCodeService(final StateCodeService service) {
-        stateCodeService = service;
-    }
-
-    @Required
-    public void setRootCodesWorkbenchLandingStrip(final File rootDir) {
-        rootCodesWorkbenchLandingStrip = rootDir;
-    }
-
-    @Required
-    public void setSapService(final SapService sapService) {
-        this.sapService = sapService;
-    }
-
-    public void setMaterialComponentComparatorProvider(
-        final MaterialComponentComparatorProvider materialComponentComparatorProvider) {
-        this.materialComponentComparatorProvider = materialComponentComparatorProvider;
     }
 }

@@ -11,9 +11,9 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
-import com.thomsonreuters.uscl.ereader.core.job.service.JobService;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.mgr.dao.ManagerDao;
+import com.thomsonreuters.uscl.ereader.mgr.web.service.job.JobService;
 import org.apache.commons.io.FileUtils;
 import org.easymock.EasyMock;
 import org.junit.After;
@@ -51,14 +51,14 @@ public final class ManagerServiceImplTest {
         mockJobService = EasyMock.createMock(JobService.class);
         mockJobRequestService = EasyMock.createMock(JobRequestService.class);
 
-        service.setGeneratorContextName(contextName);
-        service.setRootWorkDirectory(tempRootDir);
-        service.setRootCodesWorkbenchLandingStrip(rootCodesDir);
-        service.setEnvironmentName(envName);
-        service.setRestTemplate(mockRestTemplate);
-        service.setManagerDao(mockDao);
-        service.setJobService(mockJobService);
-        service.setJobRequestService(mockJobRequestService);
+        org.springframework.test.util.ReflectionTestUtils.setField(service, "generatorContextName", contextName);
+        org.springframework.test.util.ReflectionTestUtils.setField(service, "rootWorkDirectory", tempRootDir);
+        org.springframework.test.util.ReflectionTestUtils.setField(service, "rootCodesWorkbenchLandingStrip", rootCodesDir);
+        org.springframework.test.util.ReflectionTestUtils.setField(service, "environmentName", envName);
+        org.springframework.test.util.ReflectionTestUtils.setField(service, "restTemplate", mockRestTemplate);
+        org.springframework.test.util.ReflectionTestUtils.setField(service, "managerDao", mockDao);
+        org.springframework.test.util.ReflectionTestUtils.setField(service, "jobService", mockJobService);
+        org.springframework.test.util.ReflectionTestUtils.setField(service, "jobRequestService", mockJobRequestService);
     }
 
     @After

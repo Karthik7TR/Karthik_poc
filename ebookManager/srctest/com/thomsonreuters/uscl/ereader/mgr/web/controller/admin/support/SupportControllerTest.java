@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.service.support.SupportPageLinkService;
 import com.thomsonreuters.uscl.ereader.support.domain.SupportPageLink;
-import com.thomsonreuters.uscl.ereader.support.service.SupportPageLinkService;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;

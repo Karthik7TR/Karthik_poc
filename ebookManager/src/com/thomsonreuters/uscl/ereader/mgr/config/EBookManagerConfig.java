@@ -26,7 +26,7 @@ import org.springframework.web.servlet.view.tiles2.TilesView;
 @EnableWebMvc
 @Import(EBookManagerLdapConfig.class)
 @ImportResource({"classpath:spring/*.xml", "/WEB-INF/spring/*.xml"})
-@ComponentScan("com.thomsonreuters.uscl.ereader.mgr")
+@ComponentScan("com.thomsonreuters.uscl.ereader")
 public class EBookManagerConfig extends WebMvcConfigurerAdapter {
     @Autowired
     @Qualifier("miscConfigMessageConverter")

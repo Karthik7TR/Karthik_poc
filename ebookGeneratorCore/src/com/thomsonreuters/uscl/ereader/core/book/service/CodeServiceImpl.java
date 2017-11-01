@@ -10,11 +10,18 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service("codeService")
 public class CodeServiceImpl implements CodeService {
-    private CodeDao dao;
+    private final CodeDao dao;
+
+    @Autowired
+    public CodeServiceImpl(final CodeDao dao) {
+        this.dao = dao;
+    }
 
     /**
      * Get all the PubType codes from the PUB_TYPE_CODES table
@@ -328,10 +335,5 @@ public class CodeServiceImpl implements CodeService {
     @Transactional
     public void deleteKeywordTypeValue(final KeywordTypeValue keywordTypeValue) {
         dao.deleteKeywordTypeValue(keywordTypeValue);
-    }
-
-    @Required
-    public void setCodeDao(final CodeDao dao) {
-        this.dao = dao;
     }
 }
