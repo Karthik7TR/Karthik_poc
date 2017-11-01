@@ -9,11 +9,13 @@
  	
  	<xsl:template name="insertISBNTemplate">
  		<xsl:param name="isbnNumber" />
- 		<xsl:element name="ebook-isbn">
+ 		
+		<xsl:element name="ebook-isbn">
+			<xsl:element name="ebook-isbn-label">
+				<xsl:value-of select="'ISBN: '" />
+			</xsl:element>
 			<xsl:value-of select="$isbnNumber" />
 		</xsl:element>
  	</xsl:template>
  	
- 	<xsl:template name="isbnRemover" match="x:fm.copyright.page"/>
-
 </xsl:stylesheet>

@@ -41,3 +41,14 @@
 .pre_leading_12p {
     margin-top: #{$indent*12}em;
 }
+
+.ebook-isbn {
+    text-align: center;
+    font-size: #{$indent*0.7}em;
+    margin-top: 1em;
+}
+
+.ebook-isbn-label {
+    font-weight: bold;
+    display: inline-block;
+}

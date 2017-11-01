@@ -52,6 +52,8 @@
 		</xsl:copy>
 	</xsl:template>
 
+	<xsl:template match="x:fm.isbn.issn.number"/>
+	
 	<xsl:template match="x:fm.copyright.page">
 		<xsl:variable name="uuid" select="concat($volumeName,'.',name())" />
 		<xsl:call-template name="createMetadataAndHier">
@@ -59,13 +61,13 @@
 			<xsl:with-param name="parent_uuid" select="$uuid" />
 			<xsl:with-param name="hierName" select="'Copyright Page'" />
 		</xsl:call-template>	
-		
-		<xsl:call-template name="insertISBNTemplate">
-			<xsl:with-param name="isbnNumber" select="$isbn" />
-		</xsl:call-template>
 
 		<xsl:copy>
 			<xsl:apply-templates select="node()|@*" />
+			
+			<xsl:call-template name="insertISBNTemplate">
+				<xsl:with-param name="isbnNumber" select="$isbn" />
+			</xsl:call-template>
 		</xsl:copy>
 
 		<xsl:call-template name="placeXppHier">
