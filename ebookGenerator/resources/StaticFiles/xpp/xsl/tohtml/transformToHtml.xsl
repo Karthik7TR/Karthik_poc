@@ -92,7 +92,7 @@
 	
 	<xsl:template match="x:ref">
 		<xsl:element name="{name()}">
-			<xsl:copy-of select="@*" />
+			<xsl:copy-of select="@*[not(name()='reftext')]" />
 			<xsl:apply-templates />
 		</xsl:element>
 	</xsl:template>
