@@ -23,7 +23,7 @@ public enum BundleFileType {
     TABLE_OF_ADDED_CASES(".*_Table_of_Added_Cases\\.DIVXML.*", "Tbl of cases"),
     SUMMARY_AND_DETAILED_TABLE_OF_CONTENTS(".*_Summary_and_Detailed_Table_of_Contents\\.DIVXML.*", ""),
     DETAILED_TABLE_OF_CONTENTS(".*_Detailed_Table_of_Contents\\.DIVXML.*", ""),
-    FRONT(".*_Front_vol_\\d*\\.DIVXML.*", ""),
+    FRONT(".*_Front_vol_.*\\.DIVXML.*", ""),
     FILLING_INSTRUCTIONS(".*-Filing_Instructions\\.DIVXML.*", "Fill inst"),
     TABLE_OF_ADDED_KEY_NUMBERS(".*_Table_of_Added_Key_Numbers\\.DIVXML.*", "Tbl of added ket nums"),
     IMPOSITION_LIST(".*_Imposition_List\\.DIVXML.*", "Imposition list");

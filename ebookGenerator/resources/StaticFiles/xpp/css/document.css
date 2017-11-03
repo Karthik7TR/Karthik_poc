@@ -1214,3 +1214,166 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 .fm_other_structure > .l > .name_block {
   margin-left: 0;
 }
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc_body .para .para_text .cgt {
+  display: none;
+}
+
+.fm_prior_copyrights .textrule {
+  border-bottom: 0.05em solid;
+  margin: 1em auto;
+  width: 10em;
+}
+
+.toc_rutter_chapter .cgt,
+.toc_rutter_chapter_block .cgt {
+  display: inline-block;
+}
+
+.toc_rutter_chapter .label,
+.toc_rutter_chapter_block .label {
+  margin-right: 0.5em;
+}
+
+.toc_rutter_chapter .name,
+.toc_rutter_chapter_block .name {
+  margin-left: 1em;
+}
+
+.summary_toc .font_summary_toc,
+.summary_toc .font_summary_toc_2 {
+  text-align: center;
+}
+
+.rutter_chapter_front .rw_outline_name_block {
+  text-align: center;
+}
+
+.rutter_chapter_front .rw_outline_name_block .label,
+.rutter_chapter_front .rw_outline_name_block .font_rw_outline_name_block {
+  display: inline;
+}
+
+.rutter_chapter_front .rw_outline_name_block .designator .font_designator {
+  padding-left: 0.5em;
+}
+
+.rutter_chapter_front .rw_outline_name_block .name {
+  text-align: center;
+  padding: 1em 0em;
+}
+
+.rutter_chapter_front .full_toc {
+  white-space: nowrap;
+}
+
+.rutter_chapter_front .full_toc .font_full_toc {
+  display: block;
+  text-align: center;
+}
+
+.rutter_chapter_front .full_toc .font_full_toc_1 {
+  display: block;
+  text-align: right;
+}
+
+.rutter_chapter_front .full_toc .toc_rw_doc,
+.rutter_chapter_front .full_toc .toc_rw_hierarchy {
+  margin-left: 1em;
+}
+
+.rutter_chapter_front .full_toc .toc_rw_doc .outline_name_block,
+.rutter_chapter_front .full_toc .toc_rw_hierarchy .outline_name_block {
+  width: 100%;
+}
+
+.rutter_chapter_front .full_toc .toc_rw_doc .outline_name_block .font_outline_name_block,
+.rutter_chapter_front .full_toc .toc_rw_hierarchy .outline_name_block .font_outline_name_block {
+  display: block;
+}
+
+.rutter_chapter_front .outline_name_block > .designator {
+  margin-right: 0.5em;
+}
+
+.toc_rw_hierarchy .outline_name_block > span:nth-last-of-type(2),
+.toc_rutter_form_doc .outline_name_block > span:nth-last-of-type(2) {
+  display: block;
+  width: 100%;
+  text-align: right;
+}
+
+.toc_rutter_form_doc .outline_name_block > .font_outline_name_block,
+.toc_rw_hierarchy .outline_name_block > .font_outline_name_block {
+  display: block;
+}
+
+.toc_rutter_form_doc .rw_designator {
+  padding-right: 0.5em;
+}
+
+.toc_rutter_form_block {
+  width: 100%;
+}
+
+.toc_rutter_form_doc .outline_name_block {
+  width: 100%;
+}
+
+.rutter_chapter .rutter_chapter_body .font_designator_1,
+.rutter_chapter .rutter_chapter_body .font_designator_2 {
+  display: inline;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_front .font_rutter_chapter_body {
+  display: block;
+  text-align: center;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_front .rw_outline_name_block .font_rw_outline_name_block_1 {
+  display: inline-block;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_front .rw_outline_name_block .name {
+  display: inline-block;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body {
+  padding-left: 1em;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc_front .rw_doc_outline_name_block .font_rw_doc_outline_name_block {
+  display: inline-block;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc_front .rw_doc_outline_name_block .rw_designator {
+  display: inline-block;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc_front .rw_doc_outline_name_block .font_rw_designator {
+  display: inline-block;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc_front .rw_doc_outline_name_block .font_rw_doc_outline_name_block_1 {
+  display: inline-block;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc_front .rw_doc_outline_name_block .name {
+  display: inline-block;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc_body {
+  padding-left: 1em;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc_body .para {
+  margin-bottom: 0.5em;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc_body .para .para_text {
+  text-indent: unset;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_hierarchy_body {
+  padding-left: 1em;
+}
