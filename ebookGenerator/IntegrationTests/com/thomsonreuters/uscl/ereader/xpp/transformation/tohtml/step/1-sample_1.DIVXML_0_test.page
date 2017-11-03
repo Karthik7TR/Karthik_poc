@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <parts xmlns="http://www.sdl.com/xpp">
     <part.main>
-        <pagebreak num="15"/>
+        <pagebreak num="15" serial-num="15"/>
         <xref id="29-15" origId="29" type="footnote" hidden="true"/>
         <XPPHier uuid="I445a1ac6c61c11d9962fb5f8354828db"/>
         <XPPMetaData uuid="I445a1ac6c61c11d9962fb5f835fg54db"/>
@@ -53,7 +53,7 @@
                                             <toc.analytical.level tocuuid="I334a7fc028b911e69ed7fcedf0a72426">
                                                 <outline.name.block>
                                                     <designator date.updated="0">A</designator>
-                                                    <name>General Considerations <ref ref.id="If4cca1c0046e11e0b42f0000837bc6dd" secref="30A:1 et seq.">30A:1 et<pagebreak num="16"/><xref id="30-16" origId="30" type="footnote" hidden="true"/> seq.</ref>
+                                                    <name>General Considerations <ref ref.id="If4cca1c0046e11e0b42f0000837bc6dd" secref="30A:1 et seq.">30A:1 et<pagebreak num="16" serial-num="16"/><xref id="30-16" origId="30" type="footnote" hidden="true"/> seq.</ref>
                                                     </name>
                                                 </outline.name.block>
                                                 <toc.analytical.level tocuuid="I334acde028b911e69ed7fcedf0a72426">
@@ -213,7 +213,7 @@
                                     <t style="para.text">to specific disputed issues among parties in one state, nor </t></cite.query>
                                     <t style="para.text">can it cover every possible issue that might be litigated. This </t>
                                     <t style="para.text">discussion provides </t>
-                                    <pagebreak num="17" num-string="Tbl of L&amp;R-17"/><xref id="Tbl of L&amp;R-17" origId="Tbl of L&amp;R" type="footnote" hidden="true"/>
+                                    <pagebreak num="Tbl of L&amp;R-17" serial-num="17"/><xref id="Tbl of L&amp;R-17" origId="Tbl of L&amp;R" type="footnote" hidden="true"/>
                                     <t style="para.text">the juvenile and family law practitioner </t>
                                     <t style="para.text.1 super cgt">12</t>
                                     <t style="para.text">with a basic understanding in order that the statutes of his </t>
@@ -223,11 +223,8 @@
                                     <t style="para.text">or her state can be read more meaningfully and with an </t>
                                     <t style="para.text">awareness of common issu</t>
                                     <t style="dt">-</t>
-        							<pagebreak num="18"/>
+        							<pagebreak num="18" serial-num="18"/>
                                     <t style="para.text">es.</t>
-                                    <ref normalpub="lr" ref.id="I85d2b2b0241511e68318caf4a5a8bf68" reftext="Note, &amp;#8220;The Use of a Witness's Privilege for the Benefit of a Defendant&amp;#8221;">
-                                        <pagebreak num="19"/>
-                                    </ref>
                                 </para.text>
                             </para>
                         </chapter>
@@ -245,7 +242,7 @@
         </columns>
     </part.main>
     <part.footnotes fileName="sampleXpp_15">
-        <pagebreak num="15" num-string="15"/>
+        <pagebreak num="15" serial-num="15"/>
         <footnote id="29-15" origId="29" orig="true" uuid="123456789" referenceOnDifferentPageId="true" xrefDoc="I96f5ce855df211d8a524d4816c3e3768" xrefId="29-14">
             <footnote.reference class="show_in_footnotes">
                 <t style="footnote.reference super cgt">10</t>
@@ -266,7 +263,7 @@
                 </para>
             </footnote.body>
         </footnote>
-        <pagebreak num="16" num-string="16"/>
+        <pagebreak num="16" serial-num="16"/>
         
         <footnote id="30-16" origId="30" orig="true" uuid="123456789" referenceOnDifferentPageId="true" xrefDoc="I91dd8d0f572311dca3950000837bc6dd" xrefId="30-15">
             <footnote.reference class="show_in_main_and_footnotes">
@@ -298,7 +295,7 @@
                 </para>
             </footnote.body>
         </footnote>
-        <pagebreak num="17" num-string="17"/>
+        <pagebreak num="17" serial-num="17"/>
         <footnote>
             <hidden.footnote.reference refId="31-17"/>
             <footnote.body date.updated="0">

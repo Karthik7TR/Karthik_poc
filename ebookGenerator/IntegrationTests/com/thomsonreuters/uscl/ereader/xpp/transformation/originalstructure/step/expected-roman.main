@@ -1,4 +1,4 @@
-<!DOCTYPE root SYSTEM "${refPlaceHolder}"><root xmlns="http://www.sdl.com/xpp"><pagebreak num="iii" num-string="3" prev_page=""/><publication online.royalty.id="CALA" uuid="I0f72523026a511d99b08a92d7e97623c"><publication.body><chapter uuid="I49dd324026a611d99b08a92d7e97623c" date.revised="0" date.updated="0"><front date.updated="0"><generated.toc><full.toc><toc.appendix><outline.name.block></outline.name.block></toc.appendix></full.toc></generated.toc><research.reference.block date.updated="0"><t style="research.reference.block cgt">
+<!DOCTYPE root SYSTEM "${refPlaceHolder}"><root xmlns="http://www.sdl.com/xpp"><pagebreak num="iii" serial-num="3"/><publication online.royalty.id="CALA" uuid="I0f72523026a511d99b08a92d7e97623c"><publication.body><chapter uuid="I49dd324026a611d99b08a92d7e97623c" date.revised="0" date.updated="0"><front date.updated="0"><generated.toc><full.toc><toc.appendix><outline.name.block></outline.name.block></toc.appendix></full.toc></generated.toc><research.reference.block date.updated="0"><t style="research.reference.block cgt">
 								Research References</t><t style="research.reference.block cgt">
 							</t><reference.entry.group><name.block><name><t style="name.3">
 								West</t><t style="name.3">
@@ -42,7 +42,7 @@
 							</t><t style="para.text">pellate review is confined to issues of
 								appointment, removal </t><t style="para.text">
 								of guardian and settlements on account.</t><t style="para.text">
-							</t><t style="para.text.1 super cgt">1</t><xref id="2" type="footnote"/><page.number.ref page-number="3"/><t style="para.text"> Although juries </t><t style="para.text">
+							</t><t style="para.text.1 super cgt">1</t><xref id="2" type="footnote"/><page.number.ref page-number="iii"/><t style="para.text"> Although juries </t><t style="para.text">
 								may be used to hear and determine whether the appoint
 								</t><t style="para.text">
 							</t><t style="para.text">ment of a guardian is necessary, it is the
@@ -50,7 +50,7 @@
 								who will be appointed as guardian. </t><t style="para.text">
 							</t><t style="para.text cgt">‘‘</t><t style="para.text">
 								Notice</t><t style="para.text">
-							</t><t style="para.text cgt">’’</t><t style="para.text"> is discussed in </t><pagebreak num="iv" num-string="4" prev_page="3"/><t style="para.text">
+							</t><t style="para.text cgt">’’</t><t style="para.text"> is discussed in </t><pagebreak num="iv" serial-num="4"/><t style="para.text">
 								relation to the petition process,</t><t style="para.text">
 							</t><t style="para.text.1 super cgt">2</t><xref id="3" type="footnote"/><t style="para.text"> although notice regarding </t><t style="para.text">other aspects of guardianship (i.e.,
 								notice to creditors), has </t><t style="para.text">
@@ -85,7 +85,7 @@
 								prior </t><t style="para.text">to age of majority by marriage, court
 								decree or military </t><t style="para.text">
 								enlistment.</t><t style="para.text">
-							</t><t style="para.text.1 super cgt">2</t><xref id="8" type="footnote"/><page.number.ref page-number="4"/></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital><t style="ital">Foreign Guardian.</t></ital><t style="para.text"> Guardian whose appointment was </t><t style="para.text">granted in another state. Outside the
+							</t><t style="para.text.1 super cgt">2</t><xref id="8" type="footnote"/><page.number.ref page-number="iv"/></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital><t style="ital">Foreign Guardian.</t></ital><t style="para.text"> Guardian whose appointment was </t><t style="para.text">granted in another state. Outside the
 								original appointment </t><t style="para.text">jurisdiction the guardian is considered a
 								foreign guardian. </t><t style="para.text">The foreign guardian must be assisted by a
-								local guardian. </t></para.text></para></section.body></section></section.block></analytical.hierarchy.body></analytical.hierarchy></chapter.body></chapter></publication.body></publication><pagebreak num="-iv" num-string="" prev_page="4"/></root>
+								local guardian. </t></para.text></para></section.body></section></section.block></analytical.hierarchy.body></analytical.hierarchy></chapter.body></chapter></publication.body></publication></root>

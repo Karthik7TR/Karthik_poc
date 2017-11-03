@@ -24,7 +24,7 @@
 		<root>
 			<xsl:variable name="firstCase" select=".//x:tbl.row[1]/tbl.row.ref//x:t/text()" />
 			<xsl:variable name="lastCase">
-				<xsl:apply-templates select="following::pagebreak[@num = 20]" mode="firstPreviousCase" />
+				<xsl:apply-templates select="following::pagebreak[@serial-num = 20]" mode="firstPreviousCase" />
 			</xsl:variable>
 			<xsl:variable name="first_item" select="concat($root_uuid, '1')" />
 				
@@ -43,13 +43,13 @@
 		</root>
 	</xsl:template>
 	
-	<xsl:template match="x:pagebreak[@num = 1 or @num mod 20 = 0]">
-		<xsl:variable name="uuid" select="concat($root_uuid, @num)" />
+	<xsl:template match="x:pagebreak[@serial-num = 1 or @serial-num mod 20 = 0]">
+		<xsl:variable name="uuid" select="concat($root_uuid, @serial-num)" />
 		<xsl:variable name="firstCase" select="string-join(following::x:tbl.row[1]/x:tbl.row.ref//x:t/text(), '')" />
 		<xsl:variable name="lastCase">
 			<xsl:choose>
-				<xsl:when test="following::x:pagebreak[@num mod 20 = 0][1]">
-					<xsl:apply-templates select="following::x:pagebreak[@num mod 20 = 0][1]" mode="firstPreviousCase" />
+				<xsl:when test="following::x:pagebreak[@serial-num mod 20 = 0][1]">
+					<xsl:apply-templates select="following::x:pagebreak[@serial-num mod 20 = 0][1]" mode="firstPreviousCase" />
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:value-of select="following::x:tbl.unit[last()]/x:tbl.row[1]/x:tbl.row.ref//x:t/text()" />
@@ -57,7 +57,7 @@
 			</xsl:choose>
 		</xsl:variable>
 	
-		<xsl:if test="@num != 1">
+		<xsl:if test="@serial-num != 1">
 			<xsl:call-template name="placeSectionbreak">
 				<xsl:with-param name="sectionuuid" select="$uuid" />
 			</xsl:call-template>

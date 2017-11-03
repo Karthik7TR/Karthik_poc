@@ -1,5 +1,5 @@
 <root xmlns="http://www.sdl.com/xpp"><sectionbreak sectionuuid="1111111.indexABANDONMENTINDIAN"/><XPPHier uuid="1111111.index" name="Index" parent_uuid="1111111.index" md.doc_family_uuid="1111111.indexABANDONMENTINDIAN">Index</XPPHier>
-	<pagebreak num="1" num-string="Index-1"/><XPPHier uuid="1111111.indexABANDONMENTINDIAN" name="ABANDONMENT - INDIAN" parent_uuid="1111111.index" md.doc_family_uuid="1111111.indexABANDONMENTINDIAN">ABANDONMENT - INDIAN</XPPHier>
+	<pagebreak serial-num="1" num="Index-1"/><XPPHier uuid="1111111.indexABANDONMENTINDIAN" name="ABANDONMENT - INDIAN" parent_uuid="1111111.index" md.doc_family_uuid="1111111.indexABANDONMENTINDIAN">ABANDONMENT - INDIAN</XPPHier>
 	<t style="unknown">Index</t>
 	<t style="c"> </t>
 	<t style="unknown"> </t>
@@ -298,7 +298,7 @@
 					<CITE>
 						<t style="CITE">4:74</t>
 					</CITE>
-					<pagebreak num="2" num-string="Index-2"/>
+					<pagebreak serial-num="2" num="Index-2"/>
 					<mtf2>
 						<mte2>
 							<t style="mte2 cgt">ADOPTION—Cont’d</t>
@@ -692,7 +692,7 @@
 				<CITE>
 					<t style="CITE">4:59-4:61</t>
 				</CITE>
-				<pagebreak num="3" num-string="Index-3"/>
+				<pagebreak serial-num="3" num="Index-3"/>
 				<mtf2>
 					<mte2>
 						<t style="mte2 cgt">ADOPTION—Cont’d</t>
@@ -1064,7 +1064,7 @@
 					<CITE>
 						<t style="CITE">App. 4B</t>
 					</CITE>
-					<pagebreak num="4" num-string="Index-4"/>
+					<pagebreak serial-num="4" num="Index-4"/>
 					<mtf2>
 						<mte2>
 							<t style="mte2 cgt">ADOPTION—Cont’d</t>
@@ -1413,7 +1413,7 @@
 			<l2>
 				<t style="unknown.2">See index heading </t>
 				<t style="cm;1.1">consent</t>
-				<pagebreak num="5" num-string="Index-5"/>
+				<pagebreak serial-num="5" num="Index-5"/>
 				<mtf2>
 					<mte2/>
 				</mtf2>
@@ -1705,7 +1705,7 @@
 				<CITE>
 					<t style="CITE">11:18</t>
 				</CITE>
-				<pagebreak num="6" num-string="Index-6"/>
+				<pagebreak serial-num="6" num="Index-6"/>
 				<mtf2>
 					<mte2/>
 				</mtf2>
@@ -1940,7 +1940,7 @@
 				<CITE>
 					<t style="CITE">11:12</t>
 				</CITE>
-				<pagebreak num="7" num-string="Index-7"/>
+				<pagebreak serial-num="7" num="Index-7"/>
 				<mtf2>
 					<mte2>
 						<t style="mte2 cgt">CONTRACTS AND </t>
@@ -2247,7 +2247,7 @@
 				<CITE>
 					<t style="CITE">8:40</t>
 				</CITE>
-				<pagebreak num="8" num-string="Index-8"/>
+				<pagebreak serial-num="8" num="Index-8"/>
 				<mtf2>
 					<mte2>
 						<t style="mte2 cgt">DELINQUENCY—Cont’d</t>
@@ -2667,7 +2667,7 @@
 				<CITE>
 					<t style="CITE">8:31</t>
 				</CITE>
-				<pagebreak num="9" num-string="Index-9"/>
+				<pagebreak serial-num="9" num="Index-9"/>
 				<mtf2>
 					<mte2>
 						<t style="mte2 cgt">DELINQUENCY—Cont’d</t>
@@ -3058,7 +3058,7 @@
 					<CITE>
 						<t style="CITE">2:9-2:11</t>
 					</CITE>
-					<pagebreak num="10" num-string="Index-10"/>
+					<pagebreak serial-num="10" num="Index-10"/>
 					<mtf2>
 						<mte2>
 							<t style="mte2 cgt">DEPENDENCY—Cont’d</t>
@@ -3416,7 +3416,7 @@
 					<CITE>
 						<t style="CITE">2:50</t>
 					</CITE>
-					<pagebreak num="11" num-string="Index-11"/>
+					<pagebreak serial-num="11" num="Index-11"/>
 					<mtf2>
 						<mte2>
 							<t style="mte2 cgt">DEPENDENCY—Cont’d</t>
@@ -3781,7 +3781,7 @@
 					<CITE>
 						<t style="CITE">App. 2E</t>
 					</CITE>
-					<pagebreak num="12" num-string="Index-12"/>
+					<pagebreak serial-num="12" num="Index-12"/>
 					<mtf2>
 						<mte2>
 							<t style="mte2 cgt">DEPENDENCY—Cont’d</t>
@@ -4135,7 +4135,7 @@
 					<CITE>
 						<t style="CITE">2:89</t>
 					</CITE>
-					<pagebreak num="13" num-string="Index-13"/>
+					<pagebreak serial-num="13" num="Index-13"/>
 					<mtf2>
 						<mte2>
 							<t style="mte2 cgt">DEPENDENCY—Cont’d</t>
@@ -4430,7 +4430,7 @@
 				<CITE>
 					<t style="CITE">App. 6D</t>
 				</CITE>
-				<pagebreak num="14" num-string="Index-14"/>
+				<pagebreak serial-num="14" num="Index-14"/>
 				<mtf2>
 					<mte2>
 						<t style="mte2 cgt">DOMESTIC RELATIONS</t>
@@ -4735,7 +4735,7 @@
 					<CITE>
 						<t style="CITE">9:18</t>
 					</CITE>
-					<pagebreak num="15" num-string="Index-15"/>
+					<pagebreak serial-num="15" num="Index-15"/>
 					<mtf2>
 						<mte2>
 							<t style="mte2 cgt">EDUCATION—Cont’d</t>
@@ -5035,7 +5035,7 @@
 				<CITE>
 					<t style="CITE">9:4</t>
 				</CITE>
-				<pagebreak num="16" num-string="Index-16"/>
+				<pagebreak serial-num="16" num="Index-16"/>
 				<mtf2>
 					<mte2>
 						<t style="mte2 cgt">EDUCATION—Cont’d</t>
@@ -5347,7 +5347,7 @@
 					<t style="CITE">11:16, </t>
 					<t style="unknown.1">11:17</t>
 				</CITE>
-				<pagebreak num="17" num-string="Index-17"/>
+				<pagebreak serial-num="17" num="Index-17"/>
 				<mtf2>
 					<mte2/>
 				</mtf2>
@@ -5637,7 +5637,7 @@
 			<l2>
 				<t style="unknown.2">See index heading </t>
 				<t style="cm;1.1">homosexuals</t>
-				<pagebreak num="18" num-string="Index-18"/>
+				<pagebreak serial-num="18" num="Index-18"/>
 				<mtf2>
 					<mte2/>
 				</mtf2>
@@ -6022,7 +6022,7 @@
 					<CITE>
 						<t style="CITE">7:37</t>
 					</CITE>
-					<pagebreak num="19" num-string="Index-19"/>
+					<pagebreak serial-num="19" num="Index-19"/>
 					<mtf2>
 						<mte2>
 							<t style="mte2 cgt">GUARDIANSHIP—Cont’d</t>
@@ -6367,7 +6367,7 @@
 				<CITE>
 					<t style="CITE">2:92-2:94</t>
 				</CITE>
-				<pagebreak num="20" num-string="Index-20"/>
+				<pagebreak serial-num="20" num="Index-20"/>
 				<mtf2>
 					<mte2/>
 				</mtf2>
@@ -6740,7 +6740,7 @@
 				<CITE>
 					<t style="CITE">5:12</t>
 				</CITE>
-				<pagebreak num="21" num-string="Index-21"/><sectionbreak sectionuuid="1111111.indexINDIGENTWRONGFUL"/><XPPHier uuid="1111111.indexINDIGENTWRONGFUL" name="INDIGENT - WRONGFUL" parent_uuid="1111111.index" md.doc_family_uuid="1111111.indexINDIGENTWRONGFUL">INDIGENT - WRONGFUL</XPPHier>
+				<pagebreak serial-num="21" num="Index-21"/><sectionbreak sectionuuid="1111111.indexINDIGENTWRONGFUL"/><XPPHier uuid="1111111.indexINDIGENTWRONGFUL" name="INDIGENT - WRONGFUL" parent_uuid="1111111.index" md.doc_family_uuid="1111111.indexINDIGENTWRONGFUL">INDIGENT - WRONGFUL</XPPHier>
 				<mtf2>
 					<mte2/>
 				</mtf2>
@@ -7015,7 +7015,7 @@
 			<l2>
 				<t style="unknown.2">See index heading </t>
 				<t style="cm;1.1">attorneys</t>
-				<pagebreak num="22" num-string="Index-22"/>
+				<pagebreak serial-num="22" num="Index-22"/>
 				<mtf2>
 					<mte2/>
 				</mtf2>
@@ -7310,7 +7310,7 @@
 					<CITE>
 						<t style="CITE">10:37</t>
 					</CITE>
-					<pagebreak num="23" num-string="Index-23"/>
+					<pagebreak serial-num="23" num="Index-23"/>
 					<mtf2>
 						<mte2>
 							<t style="mte2 cgt">MENTAL HEALTH CARE</t>
@@ -7612,7 +7612,7 @@
 				<t style="unknown.2">See index heading </t>
 				<t style="cm;1.1">indian child </t>
 				<t style="unknown.3">welfare act</t>
-				<pagebreak num="24" num-string="Index-24"/>
+				<pagebreak serial-num="24" num="Index-24"/>
 				<mtf2>
 					<mte2/>
 				</mtf2>
@@ -7888,7 +7888,7 @@
 				<t style="unknown.2">Support. See index heading </t>
 				<t style="cm;1.1">sup</t>
 				<t style="unknown.3">port of children</t>
-				<pagebreak num="25" num-string="Index-25"/>
+				<pagebreak serial-num="25" num="Index-25"/>
 				<mtf2>
 					<mte2>
 						<t style="mte2.1 cgt">PARENT-CHILD ISSUES</t>
@@ -8149,7 +8149,7 @@
 				<CITE>
 					<t style="CITE">4:70</t>
 				</CITE>
-				<pagebreak num="26" num-string="Index-26"/>
+				<pagebreak serial-num="26" num="Index-26"/>
 				<mtf2>
 					<mte2/>
 				</mtf2>
@@ -8412,7 +8412,7 @@
 				<CITE>
 					<t style="CITE">2:16</t>
 				</CITE>
-				<pagebreak num="27" num-string="Index-27"/>
+				<pagebreak serial-num="27" num="Index-27"/>
 				<mtf2>
 					<mte2/>
 				</mtf2>
@@ -8715,7 +8715,7 @@
 				<CITE>
 					<t style="CITE">9:17-9:19, 9:30</t>
 				</CITE>
-				<pagebreak num="28" num-string="Index-28"/>
+				<pagebreak serial-num="28" num="Index-28"/>
 				<mtf2>
 					<mte2/>
 				</mtf2>
@@ -9103,7 +9103,7 @@
 				<CITE>
 					<t style="CITE">7:7</t>
 				</CITE>
-				<pagebreak num="29" num-string="Index-29"/>
+				<pagebreak serial-num="29" num="Index-29"/>
 				<mtf2>
 					<mte2/>
 				</mtf2>
@@ -9382,7 +9382,7 @@
 					<t style="CITE">11:16, </t>
 					<t style="unknown.1">11:17</t>
 				</CITE>
-				<pagebreak num="30" num-string="Index-30"/>
+				<pagebreak serial-num="30" num="Index-30"/>
 				<mtf2>
 					<mte2/>
 				</mtf2>

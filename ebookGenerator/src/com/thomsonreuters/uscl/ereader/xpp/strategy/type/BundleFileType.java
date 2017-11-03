@@ -10,36 +10,30 @@ import org.jetbrains.annotations.NotNull;
  * Supported DIVXML components, with file names patterns as parameter.
  */
 public enum BundleFileType {
-    MAIN_CONTENT(".*\\.DIVXML.*", ""),
-    SUMMARY_TABLE_OF_CONTENTS(".*_Summary_Table_of_Contents\\.DIVXML.*", ""),
-    CORRELATION_TABLE(".*_Correlation_Table\\.DIVXML.*", "Corr. tbl"),
-    INDEX(".*_Index\\.DIVXML.*", "Index"),
-    ADDED_REVISED_JUDGES_CARDS(".*_AddedRevised_Judges_Cards\\.DIVXML.*", "Added rev. JC"),
-    FULL_SET_JUDGES_CARDS(".*_Full_Set_Judges_Cards\\.DIVXML.*", "Full set JC"),
-    TABLE_OF_ADDED_LRRE(".*_Table_of_Added_LRRE\\.DIVXML.*", "Tbl of added LRRE"),
-    TABLE_OF_LRRE(".*_Table_of_LRRE\\.DIVXML.*", "Tbl of LRRE"),
-    TABLE_OF_CASES(".*_Table_of_Cases\\.DIVXML.*", "Tbl of cases"),
-    KEY_NUMBER_TABLE(".*_Key_Number_Table\\.DIVXML.*", "Key num tbl"),
-    TABLE_OF_ADDED_CASES(".*_Table_of_Added_Cases\\.DIVXML.*", "Tbl of cases"),
-    SUMMARY_AND_DETAILED_TABLE_OF_CONTENTS(".*_Summary_and_Detailed_Table_of_Contents\\.DIVXML.*", ""),
-    DETAILED_TABLE_OF_CONTENTS(".*_Detailed_Table_of_Contents\\.DIVXML.*", ""),
-    FRONT(".*_Front_vol_.*\\.DIVXML.*", ""),
-    FILLING_INSTRUCTIONS(".*-Filing_Instructions\\.DIVXML.*", "Fill inst"),
-    TABLE_OF_ADDED_KEY_NUMBERS(".*_Table_of_Added_Key_Numbers\\.DIVXML.*", "Tbl of added ket nums"),
-    IMPOSITION_LIST(".*_Imposition_List\\.DIVXML.*", "Imposition list");
+    MAIN_CONTENT(".*\\.DIVXML.*"),
+    SUMMARY_TABLE_OF_CONTENTS(".*_Summary_Table_of_Contents\\.DIVXML.*"),
+    CORRELATION_TABLE(".*_Correlation_Table\\.DIVXML.*"),
+    INDEX(".*_Index\\.DIVXML.*"),
+    ADDED_REVISED_JUDGES_CARDS(".*_AddedRevised_Judges_Cards\\.DIVXML.*"),
+    FULL_SET_JUDGES_CARDS(".*_Full_Set_Judges_Cards\\.DIVXML.*"),
+    TABLE_OF_ADDED_LRRE(".*_Table_of_Added_LRRE\\.DIVXML.*"),
+    TABLE_OF_LRRE(".*_Table_of_LRRE\\.DIVXML.*"),
+    TABLE_OF_CASES(".*_Table_of_Cases\\.DIVXML.*"),
+    KEY_NUMBER_TABLE(".*_Key_Number_Table\\.DIVXML.*"),
+    TABLE_OF_ADDED_CASES(".*_Table_of_Added_Cases\\.DIVXML.*"),
+    SUMMARY_AND_DETAILED_TABLE_OF_CONTENTS(".*_Summary_and_Detailed_Table_of_Contents\\.DIVXML.*"),
+    DETAILED_TABLE_OF_CONTENTS(".*_Detailed_Table_of_Contents\\.DIVXML.*"),
+    FRONT(".*_Front_vol_.*\\.DIVXML.*"),
+    FILLING_INSTRUCTIONS(".*-Filing_Instructions\\.DIVXML.*"),
+    TABLE_OF_ADDED_KEY_NUMBERS(".*_Table_of_Added_Key_Numbers\\.DIVXML.*"),
+    IMPOSITION_LIST(".*_Imposition_List\\.DIVXML.*");
 
     private final Pattern originalFileNamePattern;
     private final Pattern htmlDocumentFileNamePattern;
-    private final String pagePrefix;
 
-    BundleFileType(final String pattern, final String pagePrefix) {
+    BundleFileType(final String pattern) {
         originalFileNamePattern = Pattern.compile(pattern);
         htmlDocumentFileNamePattern = Pattern.compile(pattern + "_\\d+_[a-zA-Z0-9.]*\\.[a-z]*");
-        this.pagePrefix = pagePrefix;
-    }
-
-    public String getPagePrefix() {
-        return pagePrefix;
     }
 
     @NotNull

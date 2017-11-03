@@ -1,5 +1,5 @@
 <root xmlns="http://www.sdl.com/xpp">
-	<pagebreak num="1" num-string="Tbl of Cases-1" prev_page=""/>
+	<pagebreak serial-num="1" num="Tbl of Cases-1" prev_page=""/>
 	<page.number.ref page-number="Tbl of Cases-1"/>
 	<generated.finding.aids.tables>
 		<generated.case.tbl scope="pub">
@@ -356,7 +356,7 @@
 						<t style="tbl.row.ref">A.C., In re, 155 Cal. App. 4th </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="2" num-string="Tbl of Cases-2" prev_page="Tbl of Cases-1"/>
+						<pagebreak serial-num="2" num="Tbl of Cases-2" prev_page="Tbl of Cases-1"/>
 						<page.number.ref page-number="Tbl of Cases-2"/>
 						<columns/>
 						<column/>
@@ -749,7 +749,7 @@
 						<t style="tbl.row.ref">Adoption/Guardianship Nos. </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="3" num-string="Tbl of Cases-3" prev_page="Tbl of Cases-2"/>
+						<pagebreak serial-num="3" num="Tbl of Cases-3" prev_page="Tbl of Cases-2"/>
 						<page.number.ref page-number="Tbl of Cases-3"/>
 						<columns/>
 						<column/>
@@ -1132,7 +1132,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="4" num-string="Tbl of Cases-4" prev_page="Tbl of Cases-3"/>
+				<pagebreak serial-num="4" num="Tbl of Cases-4" prev_page="Tbl of Cases-3"/>
 				<page.number.ref page-number="Tbl of Cases-4"/>
 				<columns/>
 				<column/>
@@ -1528,7 +1528,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="5" num-string="Tbl of Cases-5" prev_page="Tbl of Cases-4"/>
+				<pagebreak serial-num="5" num="Tbl of Cases-5" prev_page="Tbl of Cases-4"/>
 				<page.number.ref page-number="Tbl of Cases-5"/>
 				<columns/>
 				<column/>
@@ -1934,7 +1934,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="6" num-string="Tbl of Cases-6" prev_page="Tbl of Cases-5"/>
+				<pagebreak serial-num="6" num="Tbl of Cases-6" prev_page="Tbl of Cases-5"/>
 				<page.number.ref page-number="Tbl of Cases-6"/>
 				<columns/>
 				<column/>
@@ -2385,7 +2385,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="7" num-string="Tbl of Cases-7" prev_page="Tbl of Cases-6"/>
+				<pagebreak serial-num="7" num="Tbl of Cases-7" prev_page="Tbl of Cases-6"/>
 				<page.number.ref page-number="Tbl of Cases-7"/>
 				<columns/>
 				<column/>
@@ -2772,7 +2772,7 @@
 						<t style="tbl.row.ref">Alexander S. By and Through </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="8" num-string="Tbl of Cases-8" prev_page="Tbl of Cases-7"/>
+						<pagebreak serial-num="8" num="Tbl of Cases-8" prev_page="Tbl of Cases-7"/>
 						<page.number.ref page-number="Tbl of Cases-8"/>
 						<columns/>
 						<column/>
@@ -3184,7 +3184,7 @@
 						<t style="tbl.row.ref">A.L.R., In re Custody of, 830 </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="9" num-string="Tbl of Cases-9" prev_page="Tbl of Cases-8"/>
+						<pagebreak serial-num="9" num="Tbl of Cases-9" prev_page="Tbl of Cases-8"/>
 						<page.number.ref page-number="Tbl of Cases-9"/>
 						<columns/>
 						<column/>
@@ -3599,7 +3599,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="10" num-string="Tbl of Cases-10" prev_page="Tbl of Cases-9"/>
+				<pagebreak serial-num="10" num="Tbl of Cases-10" prev_page="Tbl of Cases-9"/>
 				<page.number.ref page-number="Tbl of Cases-10"/>
 				<columns/>
 				<column/>
@@ -4028,7 +4028,7 @@
 						<t style="tbl.row.ref">Anonymous, Matter of, 40 </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="11" num-string="Tbl of Cases-11" prev_page="Tbl of Cases-10"/>
+						<pagebreak serial-num="11" num="Tbl of Cases-11" prev_page="Tbl of Cases-10"/>
 						<page.number.ref page-number="Tbl of Cases-11"/>
 						<columns/>
 						<column/>
@@ -4417,7 +4417,7 @@
 						<t style="tbl.row.ref">Appeal in Gila County Juvenile </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="12" num-string="Tbl of Cases-12" prev_page="Tbl of Cases-11"/>
+						<pagebreak serial-num="12" num="Tbl of Cases-12" prev_page="Tbl of Cases-11"/>
 						<page.number.ref page-number="Tbl of Cases-12"/>
 						<columns/>
 						<column/>
@@ -4737,7 +4737,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="13" num-string="Tbl of Cases-13" prev_page="Tbl of Cases-12"/>
+				<pagebreak serial-num="13" num="Tbl of Cases-13" prev_page="Tbl of Cases-12"/>
 				<page.number.ref page-number="Tbl of Cases-13"/>
 				<columns/>
 				<column/>
@@ -5044,7 +5044,7 @@
 						<t style="dt">-</t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="14" num-string="Tbl of Cases-14" prev_page="Tbl of Cases-13"/>
+						<pagebreak serial-num="14" num="Tbl of Cases-14" prev_page="Tbl of Cases-13"/>
 						<page.number.ref page-number="Tbl of Cases-14"/>
 						<columns/>
 						<column/>
@@ -5427,7 +5427,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="15" num-string="Tbl of Cases-15" prev_page="Tbl of Cases-14"/>
+				<pagebreak serial-num="15" num="Tbl of Cases-15" prev_page="Tbl of Cases-14"/>
 				<page.number.ref page-number="Tbl of Cases-15"/>
 				<columns/>
 				<column/>
@@ -5832,7 +5832,7 @@
 						<t style="tbl.row.ref">Aswell v. Aswell, 88 Ark. App. </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="16" num-string="Tbl of Cases-16" prev_page="Tbl of Cases-15"/>
+						<pagebreak serial-num="16" num="Tbl of Cases-16" prev_page="Tbl of Cases-15"/>
 						<page.number.ref page-number="Tbl of Cases-16"/>
 						<columns/>
 						<column/>
@@ -6256,7 +6256,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="17" num-string="Tbl of Cases-17" prev_page="Tbl of Cases-16"/>
+				<pagebreak serial-num="17" num="Tbl of Cases-17" prev_page="Tbl of Cases-16"/>
 				<page.number.ref page-number="Tbl of Cases-17"/>
 				<columns/>
 				<column/>
@@ -6676,7 +6676,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="18" num-string="Tbl of Cases-18" prev_page="Tbl of Cases-17"/>
+				<pagebreak serial-num="18" num="Tbl of Cases-18" prev_page="Tbl of Cases-17"/>
 				<page.number.ref page-number="Tbl of Cases-18"/>
 				<columns/>
 				<column/>
@@ -7084,7 +7084,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="19" num-string="Tbl of Cases-19" prev_page="Tbl of Cases-18"/>
+				<pagebreak serial-num="19" num="Tbl of Cases-19" prev_page="Tbl of Cases-18"/>
 				<page.number.ref page-number="Tbl of Cases-19"/>
 				<columns/>
 				<column/>
@@ -7479,7 +7479,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="20" num-string="Tbl of Cases-20" prev_page="Tbl of Cases-19"/>
+				<pagebreak serial-num="20" num="Tbl of Cases-20" prev_page="Tbl of Cases-19"/>
 				<page.number.ref page-number="Tbl of Cases-20"/>
 				<columns/>
 				<column/>
@@ -7905,7 +7905,7 @@
 						<t style="tbl.row.ref">Beltran v. Santa Clara County, </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="21" num-string="Tbl of Cases-21" prev_page="Tbl of Cases-20"/>
+						<pagebreak serial-num="21" num="Tbl of Cases-21" prev_page="Tbl of Cases-20"/>
 						<page.number.ref page-number="Tbl of Cases-21"/>
 						<columns/>
 						<column/>
@@ -8313,7 +8313,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="22" num-string="Tbl of Cases-22" prev_page="Tbl of Cases-21"/>
+				<pagebreak serial-num="22" num="Tbl of Cases-22" prev_page="Tbl of Cases-21"/>
 				<page.number.ref page-number="Tbl of Cases-22"/>
 				<columns/>
 				<column/>
@@ -8754,7 +8754,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="23" num-string="Tbl of Cases-23" prev_page="Tbl of Cases-22"/>
+				<pagebreak serial-num="23" num="Tbl of Cases-23" prev_page="Tbl of Cases-22"/>
 				<page.number.ref page-number="Tbl of Cases-23"/>
 				<columns/>
 				<column/>
@@ -9133,7 +9133,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="24" num-string="Tbl of Cases-24" prev_page="Tbl of Cases-23"/>
+				<pagebreak serial-num="24" num="Tbl of Cases-24" prev_page="Tbl of Cases-23"/>
 				<page.number.ref page-number="Tbl of Cases-24"/>
 				<columns/>
 				<column/>
@@ -9505,7 +9505,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="25" num-string="Tbl of Cases-25" prev_page="Tbl of Cases-24"/>
+				<pagebreak serial-num="25" num="Tbl of Cases-25" prev_page="Tbl of Cases-24"/>
 				<page.number.ref page-number="Tbl of Cases-25"/>
 				<columns/>
 				<column/>
@@ -9906,7 +9906,7 @@
 						<t style="tbl.row.ref">Bram v. U.S., 168 U.S. 532, 18 </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="26" num-string="Tbl of Cases-26" prev_page="Tbl of Cases-25"/>
+						<pagebreak serial-num="26" num="Tbl of Cases-26" prev_page="Tbl of Cases-25"/>
 						<page.number.ref page-number="Tbl of Cases-26"/>
 						<columns/>
 						<column/>
@@ -10325,7 +10325,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="27" num-string="Tbl of Cases-27" prev_page="Tbl of Cases-26"/>
+				<pagebreak serial-num="27" num="Tbl of Cases-27" prev_page="Tbl of Cases-26"/>
 				<page.number.ref page-number="Tbl of Cases-27"/>
 				<columns/>
 				<column/>
@@ -10762,7 +10762,7 @@
 						<t style="tbl.row.ref">v. McLennan County </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="28" num-string="Tbl of Cases-28" prev_page="Tbl of Cases-27"/>
+						<pagebreak serial-num="28" num="Tbl of Cases-28" prev_page="Tbl of Cases-27"/>
 						<page.number.ref page-number="Tbl of Cases-28"/>
 						<columns/>
 						<column/>
@@ -11147,7 +11147,7 @@
 						<t style="dt">-</t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="29" num-string="Tbl of Cases-29" prev_page="Tbl of Cases-28"/>
+						<pagebreak serial-num="29" num="Tbl of Cases-29" prev_page="Tbl of Cases-28"/>
 						<page.number.ref page-number="Tbl of Cases-29"/>
 						<columns/>
 						<column/>
@@ -11580,7 +11580,7 @@
 						<t style="tbl.row.ref">Byard, In re, 74 Ohio St. 3d 294, </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="30" num-string="Tbl of Cases-30" prev_page="Tbl of Cases-29"/>
+						<pagebreak serial-num="30" num="Tbl of Cases-30" prev_page="Tbl of Cases-29"/>
 						<page.number.ref page-number="Tbl of Cases-30"/>
 						<columns/>
 						<column/>
@@ -11972,7 +11972,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="31" num-string="Tbl of Cases-31" prev_page="Tbl of Cases-30"/>
+				<pagebreak serial-num="31" num="Tbl of Cases-31" prev_page="Tbl of Cases-30"/>
 				<page.number.ref page-number="Tbl of Cases-31"/>
 				<columns/>
 				<column/>
@@ -12408,7 +12408,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="32" num-string="Tbl of Cases-32" prev_page="Tbl of Cases-31"/>
+				<pagebreak serial-num="32" num="Tbl of Cases-32" prev_page="Tbl of Cases-31"/>
 				<page.number.ref page-number="Tbl of Cases-32"/>
 				<columns/>
 				<column/>
@@ -12772,7 +12772,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="33" num-string="Tbl of Cases-33" prev_page="Tbl of Cases-32"/>
+				<pagebreak serial-num="33" num="Tbl of Cases-33" prev_page="Tbl of Cases-32"/>
 				<page.number.ref page-number="Tbl of Cases-33"/>
 				<columns/>
 				<column/>
@@ -13157,7 +13157,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="34" num-string="Tbl of Cases-34" prev_page="Tbl of Cases-33"/>
+				<pagebreak serial-num="34" num="Tbl of Cases-34" prev_page="Tbl of Cases-33"/>
 				<page.number.ref page-number="Tbl of Cases-34"/>
 				<columns/>
 				<column/>
@@ -13567,7 +13567,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="35" num-string="Tbl of Cases-35" prev_page="Tbl of Cases-34"/>
+				<pagebreak serial-num="35" num="Tbl of Cases-35" prev_page="Tbl of Cases-34"/>
 				<page.number.ref page-number="Tbl of Cases-35"/>
 				<columns/>
 				<column/>
@@ -13961,7 +13961,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="36" num-string="Tbl of Cases-36" prev_page="Tbl of Cases-35"/>
+				<pagebreak serial-num="36" num="Tbl of Cases-36" prev_page="Tbl of Cases-35"/>
 				<page.number.ref page-number="Tbl of Cases-36"/>
 				<columns/>
 				<column/>
@@ -14410,7 +14410,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="37" num-string="Tbl of Cases-37" prev_page="Tbl of Cases-36"/>
+				<pagebreak serial-num="37" num="Tbl of Cases-37" prev_page="Tbl of Cases-36"/>
 				<page.number.ref page-number="Tbl of Cases-37"/>
 				<columns/>
 				<column/>
@@ -14831,7 +14831,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="38" num-string="Tbl of Cases-38" prev_page="Tbl of Cases-37"/>
+				<pagebreak serial-num="38" num="Tbl of Cases-38" prev_page="Tbl of Cases-37"/>
 				<page.number.ref page-number="Tbl of Cases-38"/>
 				<columns/>
 				<column/>
@@ -15336,7 +15336,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="39" num-string="Tbl of Cases-39" prev_page="Tbl of Cases-38"/>
+				<pagebreak serial-num="39" num="Tbl of Cases-39" prev_page="Tbl of Cases-38"/>
 				<page.number.ref page-number="Tbl of Cases-39"/>
 				<columns/>
 				<column/>
@@ -15713,7 +15713,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="40" num-string="Tbl of Cases-40" prev_page="Tbl of Cases-39"/>
+				<pagebreak serial-num="40" num="Tbl of Cases-40" prev_page="Tbl of Cases-39"/>
 				<page.number.ref page-number="Tbl of Cases-40"/>
 				<columns/>
 				<column/>
@@ -16134,7 +16134,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="41" num-string="Tbl of Cases-41" prev_page="Tbl of Cases-40"/>
+				<pagebreak serial-num="41" num="Tbl of Cases-41" prev_page="Tbl of Cases-40"/>
 				<page.number.ref page-number="Tbl of Cases-41"/>
 				<columns/>
 				<column/>
@@ -16541,7 +16541,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="42" num-string="Tbl of Cases-42" prev_page="Tbl of Cases-41"/>
+				<pagebreak serial-num="42" num="Tbl of Cases-42" prev_page="Tbl of Cases-41"/>
 				<page.number.ref page-number="Tbl of Cases-42"/>
 				<columns/>
 				<column/>
@@ -16943,7 +16943,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="43" num-string="Tbl of Cases-43" prev_page="Tbl of Cases-42"/>
+				<pagebreak serial-num="43" num="Tbl of Cases-43" prev_page="Tbl of Cases-42"/>
 				<page.number.ref page-number="Tbl of Cases-43"/>
 				<columns/>
 				<column/>
@@ -17331,7 +17331,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="44" num-string="Tbl of Cases-44" prev_page="Tbl of Cases-43"/>
+				<pagebreak serial-num="44" num="Tbl of Cases-44" prev_page="Tbl of Cases-43"/>
 				<page.number.ref page-number="Tbl of Cases-44"/>
 				<columns/>
 				<column/>
@@ -17780,7 +17780,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="45" num-string="Tbl of Cases-45" prev_page="Tbl of Cases-44"/>
+				<pagebreak serial-num="45" num="Tbl of Cases-45" prev_page="Tbl of Cases-44"/>
 				<page.number.ref page-number="Tbl of Cases-45"/>
 				<columns/>
 				<column/>
@@ -18185,7 +18185,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="46" num-string="Tbl of Cases-46" prev_page="Tbl of Cases-45"/>
+				<pagebreak serial-num="46" num="Tbl of Cases-46" prev_page="Tbl of Cases-45"/>
 				<page.number.ref page-number="Tbl of Cases-46"/>
 				<columns/>
 				<column/>
@@ -18557,7 +18557,7 @@
 						<t style="dt">-</t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="47" num-string="Tbl of Cases-47" prev_page="Tbl of Cases-46"/>
+						<pagebreak serial-num="47" num="Tbl of Cases-47" prev_page="Tbl of Cases-46"/>
 						<page.number.ref page-number="Tbl of Cases-47"/>
 						<columns/>
 						<column/>
@@ -18921,7 +18921,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="48" num-string="Tbl of Cases-48" prev_page="Tbl of Cases-47"/>
+				<pagebreak serial-num="48" num="Tbl of Cases-48" prev_page="Tbl of Cases-47"/>
 				<page.number.ref page-number="Tbl of Cases-48"/>
 				<columns/>
 				<column/>
@@ -19350,7 +19350,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="49" num-string="Tbl of Cases-49" prev_page="Tbl of Cases-48"/>
+				<pagebreak serial-num="49" num="Tbl of Cases-49" prev_page="Tbl of Cases-48"/>
 				<page.number.ref page-number="Tbl of Cases-49"/>
 				<columns/>
 				<column/>
@@ -19815,7 +19815,7 @@
 						<t style="tbl.row.ref">302 Ed. Law Rep. 708, 96 </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="50" num-string="Tbl of Cases-50" prev_page="Tbl of Cases-49"/>
+						<pagebreak serial-num="50" num="Tbl of Cases-50" prev_page="Tbl of Cases-49"/>
 						<page.number.ref page-number="Tbl of Cases-50"/>
 						<columns/>
 						<column/>
@@ -20269,7 +20269,7 @@
 						<t style="tbl.row.ref">Doe ex rel. Magee v. Covington </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="51" num-string="Tbl of Cases-51" prev_page="Tbl of Cases-50"/>
+						<pagebreak serial-num="51" num="Tbl of Cases-51" prev_page="Tbl of Cases-50"/>
 						<page.number.ref page-number="Tbl of Cases-51"/>
 						<columns/>
 						<column/>
@@ -20679,7 +20679,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="52" num-string="Tbl of Cases-52" prev_page="Tbl of Cases-51"/>
+				<pagebreak serial-num="52" num="Tbl of Cases-52" prev_page="Tbl of Cases-51"/>
 				<page.number.ref page-number="Tbl of Cases-52"/>
 				<columns/>
 				<column/>
@@ -21101,7 +21101,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="53" num-string="Tbl of Cases-53" prev_page="Tbl of Cases-52"/>
+				<pagebreak serial-num="53" num="Tbl of Cases-53" prev_page="Tbl of Cases-52"/>
 				<page.number.ref page-number="Tbl of Cases-53"/>
 				<columns/>
 				<column/>
@@ -21507,7 +21507,7 @@
 						<t style="tbl.row.ref">Edgar Q, Matter of, 185 A.D.2d </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="54" num-string="Tbl of Cases-54" prev_page="Tbl of Cases-53"/>
+						<pagebreak serial-num="54" num="Tbl of Cases-54" prev_page="Tbl of Cases-53"/>
 						<page.number.ref page-number="Tbl of Cases-54"/>
 						<columns/>
 						<column/>
@@ -21916,7 +21916,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="55" num-string="Tbl of Cases-55" prev_page="Tbl of Cases-54"/>
+				<pagebreak serial-num="55" num="Tbl of Cases-55" prev_page="Tbl of Cases-54"/>
 				<page.number.ref page-number="Tbl of Cases-55"/>
 				<columns/>
 				<column/>
@@ -22329,7 +22329,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="56" num-string="Tbl of Cases-56" prev_page="Tbl of Cases-55"/>
+				<pagebreak serial-num="56" num="Tbl of Cases-56" prev_page="Tbl of Cases-55"/>
 				<page.number.ref page-number="Tbl of Cases-56"/>
 				<columns/>
 				<column/>
@@ -22757,7 +22757,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="57" num-string="Tbl of Cases-57" prev_page="Tbl of Cases-56"/>
+				<pagebreak serial-num="57" num="Tbl of Cases-57" prev_page="Tbl of Cases-56"/>
 				<page.number.ref page-number="Tbl of Cases-57"/>
 				<columns/>
 				<column/>
@@ -23164,7 +23164,7 @@
 						<t style="tbl.row.ref">3d 140, 151 Ill. Dec. 196, </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="58" num-string="Tbl of Cases-58" prev_page="Tbl of Cases-57"/>
+						<pagebreak serial-num="58" num="Tbl of Cases-58" prev_page="Tbl of Cases-57"/>
 						<page.number.ref page-number="Tbl of Cases-58"/>
 						<columns/>
 						<column/>
@@ -23586,7 +23586,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="59" num-string="Tbl of Cases-59" prev_page="Tbl of Cases-58"/>
+				<pagebreak serial-num="59" num="Tbl of Cases-59" prev_page="Tbl of Cases-58"/>
 				<page.number.ref page-number="Tbl of Cases-59"/>
 				<columns/>
 				<column/>
@@ -23976,7 +23976,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="60" num-string="Tbl of Cases-60" prev_page="Tbl of Cases-59"/>
+				<pagebreak serial-num="60" num="Tbl of Cases-60" prev_page="Tbl of Cases-59"/>
 				<page.number.ref page-number="Tbl of Cases-60"/>
 				<columns/>
 				<column/>
@@ -24403,7 +24403,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="61" num-string="Tbl of Cases-61" prev_page="Tbl of Cases-60"/>
+				<pagebreak serial-num="61" num="Tbl of Cases-61" prev_page="Tbl of Cases-60"/>
 				<page.number.ref page-number="Tbl of Cases-61"/>
 				<columns/>
 				<column/>
@@ -24802,7 +24802,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="62" num-string="Tbl of Cases-62" prev_page="Tbl of Cases-61"/>
+				<pagebreak serial-num="62" num="Tbl of Cases-62" prev_page="Tbl of Cases-61"/>
 				<page.number.ref page-number="Tbl of Cases-62"/>
 				<columns/>
 				<column/>
@@ -25217,7 +25217,7 @@
 						<t style="tbl.row.ref">Gardner by Gardner v. Parson, </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="63" num-string="Tbl of Cases-63" prev_page="Tbl of Cases-62"/>
+						<pagebreak serial-num="63" num="Tbl of Cases-63" prev_page="Tbl of Cases-62"/>
 						<page.number.ref page-number="Tbl of Cases-63"/>
 						<columns/>
 						<column/>
@@ -25686,7 +25686,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="64" num-string="Tbl of Cases-64" prev_page="Tbl of Cases-63"/>
+				<pagebreak serial-num="64" num="Tbl of Cases-64" prev_page="Tbl of Cases-63"/>
 				<page.number.ref page-number="Tbl of Cases-64"/>
 				<columns/>
 				<column/>
@@ -26112,7 +26112,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="65" num-string="Tbl of Cases-65" prev_page="Tbl of Cases-64"/>
+				<pagebreak serial-num="65" num="Tbl of Cases-65" prev_page="Tbl of Cases-64"/>
 				<page.number.ref page-number="Tbl of Cases-65"/>
 				<columns/>
 				<column/>
@@ -26519,7 +26519,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="66" num-string="Tbl of Cases-66" prev_page="Tbl of Cases-65"/>
+				<pagebreak serial-num="66" num="Tbl of Cases-66" prev_page="Tbl of Cases-65"/>
 				<page.number.ref page-number="Tbl of Cases-66"/>
 				<columns/>
 				<column/>
@@ -26928,7 +26928,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="67" num-string="Tbl of Cases-67" prev_page="Tbl of Cases-66"/>
+				<pagebreak serial-num="67" num="Tbl of Cases-67" prev_page="Tbl of Cases-66"/>
 				<page.number.ref page-number="Tbl of Cases-67"/>
 				<columns/>
 				<column/>
@@ -27356,7 +27356,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="68" num-string="Tbl of Cases-68" prev_page="Tbl of Cases-67"/>
+				<pagebreak serial-num="68" num="Tbl of Cases-68" prev_page="Tbl of Cases-67"/>
 				<page.number.ref page-number="Tbl of Cases-68"/>
 				<columns/>
 				<column/>
@@ -27763,7 +27763,7 @@
 						<t style="tbl.row.ref">Guardianship of Hayes, Matter </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="69" num-string="Tbl of Cases-69" prev_page="Tbl of Cases-68"/>
+						<pagebreak serial-num="69" num="Tbl of Cases-69" prev_page="Tbl of Cases-68"/>
 						<page.number.ref page-number="Tbl of Cases-69"/>
 						<columns/>
 						<column/>
@@ -28169,7 +28169,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="70" num-string="Tbl of Cases-70" prev_page="Tbl of Cases-69"/>
+				<pagebreak serial-num="70" num="Tbl of Cases-70" prev_page="Tbl of Cases-69"/>
 				<page.number.ref page-number="Tbl of Cases-70"/>
 				<columns/>
 				<column/>
@@ -28599,7 +28599,7 @@
 						<t style="tbl.row.ref">v. South Carolina </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="71" num-string="Tbl of Cases-71" prev_page="Tbl of Cases-70"/>
+						<pagebreak serial-num="71" num="Tbl of Cases-71" prev_page="Tbl of Cases-70"/>
 						<page.number.ref page-number="Tbl of Cases-71"/>
 						<columns/>
 						<column/>
@@ -28986,7 +28986,7 @@
 						<t style="tbl.row.ref">Unified School Dist., 345 F. </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="72" num-string="Tbl of Cases-72" prev_page="Tbl of Cases-71"/>
+						<pagebreak serial-num="72" num="Tbl of Cases-72" prev_page="Tbl of Cases-71"/>
 						<page.number.ref page-number="Tbl of Cases-72"/>
 						<columns/>
 						<column/>
@@ -29407,7 +29407,7 @@
 						<t style="tbl.row.ref">Kuhlmeier, 484 U.S. 260, </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="73" num-string="Tbl of Cases-73" prev_page="Tbl of Cases-72"/>
+						<pagebreak serial-num="73" num="Tbl of Cases-73" prev_page="Tbl of Cases-72"/>
 						<page.number.ref page-number="Tbl of Cases-73"/>
 						<columns/>
 						<column/>
@@ -29818,7 +29818,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="74" num-string="Tbl of Cases-74" prev_page="Tbl of Cases-73"/>
+				<pagebreak serial-num="74" num="Tbl of Cases-74" prev_page="Tbl of Cases-73"/>
 				<page.number.ref page-number="Tbl of Cases-74"/>
 				<columns/>
 				<column/>
@@ -30247,7 +30247,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="75" num-string="Tbl of Cases-75" prev_page="Tbl of Cases-74"/>
+				<pagebreak serial-num="75" num="Tbl of Cases-75" prev_page="Tbl of Cases-74"/>
 				<page.number.ref page-number="Tbl of Cases-75"/>
 				<columns/>
 				<column/>
@@ -30679,7 +30679,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="76" num-string="Tbl of Cases-76" prev_page="Tbl of Cases-75"/>
+				<pagebreak serial-num="76" num="Tbl of Cases-76" prev_page="Tbl of Cases-75"/>
 				<page.number.ref page-number="Tbl of Cases-76"/>
 				<columns/>
 				<column/>
@@ -31068,7 +31068,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="77" num-string="Tbl of Cases-77" prev_page="Tbl of Cases-76"/>
+				<pagebreak serial-num="77" num="Tbl of Cases-77" prev_page="Tbl of Cases-76"/>
 				<page.number.ref page-number="Tbl of Cases-77"/>
 				<columns/>
 				<column/>
@@ -31463,7 +31463,7 @@
 						<t style="tbl.row.ref">Illinois v. Vitale, 447 U.S. 410, </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="78" num-string="Tbl of Cases-78" prev_page="Tbl of Cases-77"/>
+						<pagebreak serial-num="78" num="Tbl of Cases-78" prev_page="Tbl of Cases-77"/>
 						<page.number.ref page-number="Tbl of Cases-78"/>
 						<columns/>
 						<column/>
@@ -31838,7 +31838,7 @@
 						<t style="tbl.row.ref">Isaac J.R., In Interest of, 220 </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="79" num-string="Tbl of Cases-79" prev_page="Tbl of Cases-78"/>
+						<pagebreak serial-num="79" num="Tbl of Cases-79" prev_page="Tbl of Cases-78"/>
 						<page.number.ref page-number="Tbl of Cases-79"/>
 						<columns/>
 						<column/>
@@ -32248,7 +32248,7 @@
 						<t style="tbl.row.ref">Children's Services, 2008 </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="80" num-string="Tbl of Cases-80" prev_page="Tbl of Cases-79"/>
+						<pagebreak serial-num="80" num="Tbl of Cases-80" prev_page="Tbl of Cases-79"/>
 						<page.number.ref page-number="Tbl of Cases-80"/>
 						<columns/>
 						<column/>
@@ -32646,7 +32646,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="81" num-string="Tbl of Cases-81" prev_page="Tbl of Cases-80"/>
+				<pagebreak serial-num="81" num="Tbl of Cases-81" prev_page="Tbl of Cases-80"/>
 				<page.number.ref page-number="Tbl of Cases-81"/>
 				<columns/>
 				<column/>
@@ -33071,7 +33071,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="82" num-string="Tbl of Cases-82" prev_page="Tbl of Cases-81"/>
+				<pagebreak serial-num="82" num="Tbl of Cases-82" prev_page="Tbl of Cases-81"/>
 				<page.number.ref page-number="Tbl of Cases-82"/>
 				<columns/>
 				<column/>
@@ -33486,7 +33486,7 @@
 						<t style="tbl.row.ref">Jennifer M., In re, 9 Cal. Rptr. </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="83" num-string="Tbl of Cases-83" prev_page="Tbl of Cases-82"/>
+						<pagebreak serial-num="83" num="Tbl of Cases-83" prev_page="Tbl of Cases-82"/>
 						<page.number.ref page-number="Tbl of Cases-83"/>
 						<columns/>
 						<column/>
@@ -33930,7 +33930,7 @@
 						<t style="tbl.row.ref">J.G., In re Interest of, 231 Neb. </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="84" num-string="Tbl of Cases-84" prev_page="Tbl of Cases-83"/>
+						<pagebreak serial-num="84" num="Tbl of Cases-84" prev_page="Tbl of Cases-83"/>
 						<page.number.ref page-number="Tbl of Cases-84"/>
 						<columns/>
 						<column/>
@@ -34377,7 +34377,7 @@
 						<t style="tbl.row.ref">J.M., In Interest of, 601 So. 2d </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="85" num-string="Tbl of Cases-85" prev_page="Tbl of Cases-84"/>
+						<pagebreak serial-num="85" num="Tbl of Cases-85" prev_page="Tbl of Cases-84"/>
 						<page.number.ref page-number="Tbl of Cases-85"/>
 						<columns/>
 						<column/>
@@ -34820,7 +34820,7 @@
 						<t style="tbl.row.ref">Free School Dist. No. 6, </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="86" num-string="Tbl of Cases-86" prev_page="Tbl of Cases-85"/>
+						<pagebreak serial-num="86" num="Tbl of Cases-86" prev_page="Tbl of Cases-85"/>
 						<page.number.ref page-number="Tbl of Cases-86"/>
 						<columns/>
 						<column/>
@@ -35238,7 +35238,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="87" num-string="Tbl of Cases-87" prev_page="Tbl of Cases-86"/>
+				<pagebreak serial-num="87" num="Tbl of Cases-87" prev_page="Tbl of Cases-86"/>
 				<page.number.ref page-number="Tbl of Cases-87"/>
 				<columns/>
 				<column/>
@@ -35643,7 +35643,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="88" num-string="Tbl of Cases-88" prev_page="Tbl of Cases-87"/>
+				<pagebreak serial-num="88" num="Tbl of Cases-88" prev_page="Tbl of Cases-87"/>
 				<page.number.ref page-number="Tbl of Cases-88"/>
 				<columns/>
 				<column/>
@@ -36076,7 +36076,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="89" num-string="Tbl of Cases-89" prev_page="Tbl of Cases-88"/>
+				<pagebreak serial-num="89" num="Tbl of Cases-89" prev_page="Tbl of Cases-88"/>
 				<page.number.ref page-number="Tbl of Cases-89"/>
 				<columns/>
 				<column/>
@@ -36433,7 +36433,7 @@
 						<t style="tbl.row.ref">dall, 96 Or. App. 673, 773 </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="90" num-string="Tbl of Cases-90" prev_page="Tbl of Cases-89"/>
+						<pagebreak serial-num="90" num="Tbl of Cases-90" prev_page="Tbl of Cases-89"/>
 						<page.number.ref page-number="Tbl of Cases-90"/>
 						<columns/>
 						<column/>
@@ -36829,7 +36829,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="91" num-string="Tbl of Cases-91" prev_page="Tbl of Cases-90"/>
+				<pagebreak serial-num="91" num="Tbl of Cases-91" prev_page="Tbl of Cases-90"/>
 				<page.number.ref page-number="Tbl of Cases-91"/>
 				<columns/>
 				<column/>
@@ -37234,7 +37234,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="92" num-string="Tbl of Cases-92" prev_page="Tbl of Cases-91"/>
+				<pagebreak serial-num="92" num="Tbl of Cases-92" prev_page="Tbl of Cases-91"/>
 				<page.number.ref page-number="Tbl of Cases-92"/>
 				<columns/>
 				<column/>
@@ -37670,7 +37670,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="93" num-string="Tbl of Cases-93" prev_page="Tbl of Cases-92"/>
+				<pagebreak serial-num="93" num="Tbl of Cases-93" prev_page="Tbl of Cases-92"/>
 				<page.number.ref page-number="Tbl of Cases-93"/>
 				<columns/>
 				<column/>
@@ -38095,7 +38095,7 @@
 						<t style="tbl.row.ref">K. E. S. v. State, 134 Ga. App. </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="94" num-string="Tbl of Cases-94" prev_page="Tbl of Cases-93"/>
+						<pagebreak serial-num="94" num="Tbl of Cases-94" prev_page="Tbl of Cases-93"/>
 						<page.number.ref page-number="Tbl of Cases-94"/>
 						<columns/>
 						<column/>
@@ -38507,7 +38507,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="95" num-string="Tbl of Cases-95" prev_page="Tbl of Cases-94"/>
+				<pagebreak serial-num="95" num="Tbl of Cases-95" prev_page="Tbl of Cases-94"/>
 				<page.number.ref page-number="Tbl of Cases-95"/>
 				<columns/>
 				<column/>
@@ -38975,7 +38975,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="96" num-string="Tbl of Cases-96" prev_page="Tbl of Cases-95"/>
+				<pagebreak serial-num="96" num="Tbl of Cases-96" prev_page="Tbl of Cases-95"/>
 				<page.number.ref page-number="Tbl of Cases-96"/>
 				<columns/>
 				<column/>
@@ -39381,7 +39381,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="97" num-string="Tbl of Cases-97" prev_page="Tbl of Cases-96"/>
+				<pagebreak serial-num="97" num="Tbl of Cases-97" prev_page="Tbl of Cases-96"/>
 				<page.number.ref page-number="Tbl of Cases-97"/>
 				<columns/>
 				<column/>
@@ -39771,7 +39771,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="98" num-string="Tbl of Cases-98" prev_page="Tbl of Cases-97"/>
+				<pagebreak serial-num="98" num="Tbl of Cases-98" prev_page="Tbl of Cases-97"/>
 				<page.number.ref page-number="Tbl of Cases-98"/>
 				<columns/>
 				<column/>
@@ -40194,7 +40194,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="99" num-string="Tbl of Cases-99" prev_page="Tbl of Cases-98"/>
+				<pagebreak serial-num="99" num="Tbl of Cases-99" prev_page="Tbl of Cases-98"/>
 				<page.number.ref page-number="Tbl of Cases-99"/>
 				<columns/>
 				<column/>
@@ -40604,7 +40604,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="100" num-string="Tbl of Cases-100" prev_page="Tbl of Cases-99"/>
+				<pagebreak serial-num="100" num="Tbl of Cases-100" prev_page="Tbl of Cases-99"/>
 				<page.number.ref page-number="Tbl of Cases-100"/>
 				<columns/>
 				<column/>
@@ -41040,7 +41040,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="101" num-string="Tbl of Cases-101" prev_page="Tbl of Cases-100"/>
+				<pagebreak serial-num="101" num="Tbl of Cases-101" prev_page="Tbl of Cases-100"/>
 				<page.number.ref page-number="Tbl of Cases-101"/>
 				<columns/>
 				<column/>
@@ -41485,7 +41485,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="102" num-string="Tbl of Cases-102" prev_page="Tbl of Cases-101"/>
+				<pagebreak serial-num="102" num="Tbl of Cases-102" prev_page="Tbl of Cases-101"/>
 				<page.number.ref page-number="Tbl of Cases-102"/>
 				<columns/>
 				<column/>
@@ -41929,7 +41929,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="103" num-string="Tbl of Cases-103" prev_page="Tbl of Cases-102"/>
+				<pagebreak serial-num="103" num="Tbl of Cases-103" prev_page="Tbl of Cases-102"/>
 				<page.number.ref page-number="Tbl of Cases-103"/>
 				<columns/>
 				<column/>
@@ -42308,7 +42308,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="104" num-string="Tbl of Cases-104" prev_page="Tbl of Cases-103"/>
+				<pagebreak serial-num="104" num="Tbl of Cases-104" prev_page="Tbl of Cases-103"/>
 				<page.number.ref page-number="Tbl of Cases-104"/>
 				<columns/>
 				<column/>
@@ -42724,7 +42724,7 @@
 			<tbl.unit>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="105" num-string="Tbl of Cases-105" prev_page="Tbl of Cases-104"/>
+				<pagebreak serial-num="105" num="Tbl of Cases-105" prev_page="Tbl of Cases-104"/>
 				<page.number.ref page-number="Tbl of Cases-105"/>
 				<columns/>
 				<column/>
@@ -43121,7 +43121,7 @@
 						<t style="tbl.row.ref">Malloy v. Hogan, 378 U.S. 1, 84 </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="106" num-string="Tbl of Cases-106" prev_page="Tbl of Cases-105"/>
+						<pagebreak serial-num="106" num="Tbl of Cases-106" prev_page="Tbl of Cases-105"/>
 						<page.number.ref page-number="Tbl of Cases-106"/>
 						<columns/>
 						<column/>
@@ -43512,7 +43512,7 @@
 						<t style="dt">-</t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="107" num-string="Tbl of Cases-107" prev_page="Tbl of Cases-106"/>
+						<pagebreak serial-num="107" num="Tbl of Cases-107" prev_page="Tbl of Cases-106"/>
 						<page.number.ref page-number="Tbl of Cases-107"/>
 						<columns/>
 						<column/>
@@ -43889,7 +43889,7 @@
 						<t style="tbl.row.ref">Marriage Cases, In re, 43 Cal. </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="108" num-string="Tbl of Cases-108" prev_page="Tbl of Cases-107"/>
+						<pagebreak serial-num="108" num="Tbl of Cases-108" prev_page="Tbl of Cases-107"/>
 						<page.number.ref page-number="Tbl of Cases-108"/>
 						<columns/>
 						<column/>
@@ -44291,7 +44291,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="109" num-string="Tbl of Cases-109" prev_page="Tbl of Cases-108"/>
+				<pagebreak serial-num="109" num="Tbl of Cases-109" prev_page="Tbl of Cases-108"/>
 				<page.number.ref page-number="Tbl of Cases-109"/>
 				<columns/>
 				<column/>
@@ -44689,7 +44689,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="110" num-string="Tbl of Cases-110" prev_page="Tbl of Cases-109"/>
+				<pagebreak serial-num="110" num="Tbl of Cases-110" prev_page="Tbl of Cases-109"/>
 				<page.number.ref page-number="Tbl of Cases-110"/>
 				<columns/>
 				<column/>
@@ -45104,7 +45104,7 @@
 						<t style="tbl.row.ref">M.C.H., In re, 2001 ND 205, 637 </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="111" num-string="Tbl of Cases-111" prev_page="Tbl of Cases-110"/>
+						<pagebreak serial-num="111" num="Tbl of Cases-111" prev_page="Tbl of Cases-110"/>
 						<page.number.ref page-number="Tbl of Cases-111"/>
 						<columns/>
 						<column/>
@@ -45522,7 +45522,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="112" num-string="Tbl of Cases-112" prev_page="Tbl of Cases-111"/>
+				<pagebreak serial-num="112" num="Tbl of Cases-112" prev_page="Tbl of Cases-111"/>
 				<page.number.ref page-number="Tbl of Cases-112"/>
 				<columns/>
 				<column/>
@@ -45953,7 +45953,7 @@
 						<t style="tbl.row.ref">M.G.F., In Interest of, 222 Ga. </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="113" num-string="Tbl of Cases-113" prev_page="Tbl of Cases-112"/>
+						<pagebreak serial-num="113" num="Tbl of Cases-113" prev_page="Tbl of Cases-112"/>
 						<page.number.ref page-number="Tbl of Cases-113"/>
 						<columns/>
 						<column/>
@@ -46385,7 +46385,7 @@
 						<t style="tbl.row.ref">218 A.D.2d 175, 637 </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="114" num-string="Tbl of Cases-114" prev_page="Tbl of Cases-113"/>
+						<pagebreak serial-num="114" num="Tbl of Cases-114" prev_page="Tbl of Cases-113"/>
 						<page.number.ref page-number="Tbl of Cases-114"/>
 						<columns/>
 						<column/>
@@ -46806,7 +46806,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="115" num-string="Tbl of Cases-115" prev_page="Tbl of Cases-114"/>
+				<pagebreak serial-num="115" num="Tbl of Cases-115" prev_page="Tbl of Cases-114"/>
 				<page.number.ref page-number="Tbl of Cases-115"/>
 				<columns/>
 				<column/>
@@ -47247,7 +47247,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="116" num-string="Tbl of Cases-116" prev_page="Tbl of Cases-115"/>
+				<pagebreak serial-num="116" num="Tbl of Cases-116" prev_page="Tbl of Cases-115"/>
 				<page.number.ref page-number="Tbl of Cases-116"/>
 				<columns/>
 				<column/>
@@ -47677,7 +47677,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="117" num-string="Tbl of Cases-117" prev_page="Tbl of Cases-116"/>
+				<pagebreak serial-num="117" num="Tbl of Cases-117" prev_page="Tbl of Cases-116"/>
 				<page.number.ref page-number="Tbl of Cases-117"/>
 				<columns/>
 				<column/>
@@ -48158,7 +48158,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="118" num-string="Tbl of Cases-118" prev_page="Tbl of Cases-117"/>
+				<pagebreak serial-num="118" num="Tbl of Cases-118" prev_page="Tbl of Cases-117"/>
 				<page.number.ref page-number="Tbl of Cases-118"/>
 				<columns/>
 				<column/>
@@ -48585,7 +48585,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="119" num-string="Tbl of Cases-119" prev_page="Tbl of Cases-118"/>
+				<pagebreak serial-num="119" num="Tbl of Cases-119" prev_page="Tbl of Cases-118"/>
 				<page.number.ref page-number="Tbl of Cases-119"/>
 				<columns/>
 				<column/>
@@ -48992,7 +48992,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="120" num-string="Tbl of Cases-120" prev_page="Tbl of Cases-119"/>
+				<pagebreak serial-num="120" num="Tbl of Cases-120" prev_page="Tbl of Cases-119"/>
 				<page.number.ref page-number="Tbl of Cases-120"/>
 				<columns/>
 				<column/>
@@ -49352,7 +49352,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="121" num-string="Tbl of Cases-121" prev_page="Tbl of Cases-120"/>
+				<pagebreak serial-num="121" num="Tbl of Cases-121" prev_page="Tbl of Cases-120"/>
 				<page.number.ref page-number="Tbl of Cases-121"/>
 				<columns/>
 				<column/>
@@ -49736,7 +49736,7 @@
 							<t style="repeat.party">New Jersey Div. of Youth and </t>
 							<endcolumn/>
 							<endcolumns/>
-							<pagebreak num="122" num-string="Tbl of Cases-122" prev_page="Tbl of Cases-121"/>
+							<pagebreak serial-num="122" num="Tbl of Cases-122" prev_page="Tbl of Cases-121"/>
 							<page.number.ref page-number="Tbl of Cases-122"/>
 							<columns/>
 							<column/>
@@ -50132,7 +50132,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="123" num-string="Tbl of Cases-123" prev_page="Tbl of Cases-122"/>
+				<pagebreak serial-num="123" num="Tbl of Cases-123" prev_page="Tbl of Cases-122"/>
 				<page.number.ref page-number="Tbl of Cases-123"/>
 				<columns/>
 				<column/>
@@ -50537,7 +50537,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="124" num-string="Tbl of Cases-124" prev_page="Tbl of Cases-123"/>
+				<pagebreak serial-num="124" num="Tbl of Cases-124" prev_page="Tbl of Cases-123"/>
 				<page.number.ref page-number="Tbl of Cases-124"/>
 				<columns/>
 				<column/>
@@ -50923,7 +50923,7 @@
 						<t style="tbl.row.ref">ductive Health, 497 U.S. </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="125" num-string="Tbl of Cases-125" prev_page="Tbl of Cases-124"/>
+						<pagebreak serial-num="125" num="Tbl of Cases-125" prev_page="Tbl of Cases-124"/>
 						<page.number.ref page-number="Tbl of Cases-125"/>
 						<columns/>
 						<column/>
@@ -51311,7 +51311,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="126" num-string="Tbl of Cases-126" prev_page="Tbl of Cases-125"/>
+				<pagebreak serial-num="126" num="Tbl of Cases-126" prev_page="Tbl of Cases-125"/>
 				<page.number.ref page-number="Tbl of Cases-126"/>
 				<columns/>
 				<column/>
@@ -51701,7 +51701,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="127" num-string="Tbl of Cases-127" prev_page="Tbl of Cases-126"/>
+				<pagebreak serial-num="127" num="Tbl of Cases-127" prev_page="Tbl of Cases-126"/>
 				<page.number.ref page-number="Tbl of Cases-127"/>
 				<columns/>
 				<column/>
@@ -52071,7 +52071,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="128" num-string="Tbl of Cases-128" prev_page="Tbl of Cases-127"/>
+				<pagebreak serial-num="128" num="Tbl of Cases-128" prev_page="Tbl of Cases-127"/>
 				<page.number.ref page-number="Tbl of Cases-128"/>
 				<columns/>
 				<column/>
@@ -52472,7 +52472,7 @@
 						<t style="tbl.row.ref">Law Rep. 729, 1998 FED </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="129" num-string="Tbl of Cases-129" prev_page="Tbl of Cases-128"/>
+						<pagebreak serial-num="129" num="Tbl of Cases-129" prev_page="Tbl of Cases-128"/>
 						<page.number.ref page-number="Tbl of Cases-129"/>
 						<columns/>
 						<column/>
@@ -52921,7 +52921,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="130" num-string="Tbl of Cases-130" prev_page="Tbl of Cases-129"/>
+				<pagebreak serial-num="130" num="Tbl of Cases-130" prev_page="Tbl of Cases-129"/>
 				<page.number.ref page-number="Tbl of Cases-130"/>
 				<columns/>
 				<column/>
@@ -53459,7 +53459,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="131" num-string="Tbl of Cases-131" prev_page="Tbl of Cases-130"/>
+				<pagebreak serial-num="131" num="Tbl of Cases-131" prev_page="Tbl of Cases-130"/>
 				<page.number.ref page-number="Tbl of Cases-131"/>
 				<columns/>
 				<column/>
@@ -53926,7 +53926,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="132" num-string="Tbl of Cases-132" prev_page="Tbl of Cases-131"/>
+				<pagebreak serial-num="132" num="Tbl of Cases-132" prev_page="Tbl of Cases-131"/>
 				<page.number.ref page-number="Tbl of Cases-132"/>
 				<columns/>
 				<column/>
@@ -54371,7 +54371,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="133" num-string="Tbl of Cases-133" prev_page="Tbl of Cases-132"/>
+				<pagebreak serial-num="133" num="Tbl of Cases-133" prev_page="Tbl of Cases-132"/>
 				<page.number.ref page-number="Tbl of Cases-133"/>
 				<columns/>
 				<column/>
@@ -54783,7 +54783,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="134" num-string="Tbl of Cases-134" prev_page="Tbl of Cases-133"/>
+				<pagebreak serial-num="134" num="Tbl of Cases-134" prev_page="Tbl of Cases-133"/>
 				<page.number.ref page-number="Tbl of Cases-134"/>
 				<columns/>
 				<column/>
@@ -55165,7 +55165,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="135" num-string="Tbl of Cases-135" prev_page="Tbl of Cases-134"/>
+				<pagebreak serial-num="135" num="Tbl of Cases-135" prev_page="Tbl of Cases-134"/>
 				<page.number.ref page-number="Tbl of Cases-135"/>
 				<columns/>
 				<column/>
@@ -55532,7 +55532,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="136" num-string="Tbl of Cases-136" prev_page="Tbl of Cases-135"/>
+				<pagebreak serial-num="136" num="Tbl of Cases-136" prev_page="Tbl of Cases-135"/>
 				<page.number.ref page-number="Tbl of Cases-136"/>
 				<columns/>
 				<column/>
@@ -55969,7 +55969,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="137" num-string="Tbl of Cases-137" prev_page="Tbl of Cases-136"/>
+				<pagebreak serial-num="137" num="Tbl of Cases-137" prev_page="Tbl of Cases-136"/>
 				<page.number.ref page-number="Tbl of Cases-137"/>
 				<columns/>
 				<column/>
@@ -56357,7 +56357,7 @@
 						<t style="tbl.row.ref">Ramon N., In re Interest of, 18 </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="138" num-string="Tbl of Cases-138" prev_page="Tbl of Cases-137"/>
+						<pagebreak serial-num="138" num="Tbl of Cases-138" prev_page="Tbl of Cases-137"/>
 						<page.number.ref page-number="Tbl of Cases-138"/>
 						<columns/>
 						<column/>
@@ -56788,7 +56788,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="139" num-string="Tbl of Cases-139" prev_page="Tbl of Cases-138"/>
+				<pagebreak serial-num="139" num="Tbl of Cases-139" prev_page="Tbl of Cases-138"/>
 				<page.number.ref page-number="Tbl of Cases-139"/>
 				<columns/>
 				<column/>
@@ -57198,7 +57198,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="140" num-string="Tbl of Cases-140" prev_page="Tbl of Cases-139"/>
+				<pagebreak serial-num="140" num="Tbl of Cases-140" prev_page="Tbl of Cases-139"/>
 				<page.number.ref page-number="Tbl of Cases-140"/>
 				<columns/>
 				<column/>
@@ -57615,7 +57615,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="141" num-string="Tbl of Cases-141" prev_page="Tbl of Cases-140"/>
+				<pagebreak serial-num="141" num="Tbl of Cases-141" prev_page="Tbl of Cases-140"/>
 				<page.number.ref page-number="Tbl of Cases-141"/>
 				<columns/>
 				<column/>
@@ -58030,7 +58030,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="142" num-string="Tbl of Cases-142" prev_page="Tbl of Cases-141"/>
+				<pagebreak serial-num="142" num="Tbl of Cases-142" prev_page="Tbl of Cases-141"/>
 				<page.number.ref page-number="Tbl of Cases-142"/>
 				<columns/>
 				<column/>
@@ -58445,7 +58445,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="143" num-string="Tbl of Cases-143" prev_page="Tbl of Cases-142"/>
+				<pagebreak serial-num="143" num="Tbl of Cases-143" prev_page="Tbl of Cases-142"/>
 				<page.number.ref page-number="Tbl of Cases-143"/>
 				<columns/>
 				<column/>
@@ -58898,7 +58898,7 @@
 						<t style="tbl.row.ref">Rohde-Giovanni, In re Marriage </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="144" num-string="Tbl of Cases-144" prev_page="Tbl of Cases-143"/>
+						<pagebreak serial-num="144" num="Tbl of Cases-144" prev_page="Tbl of Cases-143"/>
 						<page.number.ref page-number="Tbl of Cases-144"/>
 						<columns/>
 						<column/>
@@ -59285,7 +59285,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="145" num-string="Tbl of Cases-145" prev_page="Tbl of Cases-144"/>
+				<pagebreak serial-num="145" num="Tbl of Cases-145" prev_page="Tbl of Cases-144"/>
 				<page.number.ref page-number="Tbl of Cases-145"/>
 				<columns/>
 				<column/>
@@ -59696,7 +59696,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="146" num-string="Tbl of Cases-146" prev_page="Tbl of Cases-145"/>
+				<pagebreak serial-num="146" num="Tbl of Cases-146" prev_page="Tbl of Cases-145"/>
 				<page.number.ref page-number="Tbl of Cases-146"/>
 				<columns/>
 				<column/>
@@ -60120,7 +60120,7 @@
 						<t style="tbl.row.ref">Sampson, In re, 65 Misc. 2d 658, </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="147" num-string="Tbl of Cases-147" prev_page="Tbl of Cases-146"/>
+						<pagebreak serial-num="147" num="Tbl of Cases-147" prev_page="Tbl of Cases-146"/>
 						<page.number.ref page-number="Tbl of Cases-147"/>
 						<columns/>
 						<column/>
@@ -60554,7 +60554,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="148" num-string="Tbl of Cases-148" prev_page="Tbl of Cases-147"/>
+				<pagebreak serial-num="148" num="Tbl of Cases-148" prev_page="Tbl of Cases-147"/>
 				<page.number.ref page-number="Tbl of Cases-148"/>
 				<columns/>
 				<column/>
@@ -60991,7 +60991,7 @@
 						<t style="tbl.row.ref">Schill v. Wisconsin Rapids </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="149" num-string="Tbl of Cases-149" prev_page="Tbl of Cases-148"/>
+						<pagebreak serial-num="149" num="Tbl of Cases-149" prev_page="Tbl of Cases-148"/>
 						<page.number.ref page-number="Tbl of Cases-149"/>
 						<columns/>
 						<column/>
@@ -61364,7 +61364,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="150" num-string="Tbl of Cases-150" prev_page="Tbl of Cases-149"/>
+				<pagebreak serial-num="150" num="Tbl of Cases-150" prev_page="Tbl of Cases-149"/>
 				<page.number.ref page-number="Tbl of Cases-150"/>
 				<columns/>
 				<column/>
@@ -61795,7 +61795,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="151" num-string="Tbl of Cases-151" prev_page="Tbl of Cases-150"/>
+				<pagebreak serial-num="151" num="Tbl of Cases-151" prev_page="Tbl of Cases-150"/>
 				<page.number.ref page-number="Tbl of Cases-151"/>
 				<columns/>
 				<column/>
@@ -62233,7 +62233,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="152" num-string="Tbl of Cases-152" prev_page="Tbl of Cases-151"/>
+				<pagebreak serial-num="152" num="Tbl of Cases-152" prev_page="Tbl of Cases-151"/>
 				<page.number.ref page-number="Tbl of Cases-152"/>
 				<columns/>
 				<column/>
@@ -62629,7 +62629,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="153" num-string="Tbl of Cases-153" prev_page="Tbl of Cases-152"/>
+				<pagebreak serial-num="153" num="Tbl of Cases-153" prev_page="Tbl of Cases-152"/>
 				<page.number.ref page-number="Tbl of Cases-153"/>
 				<columns/>
 				<column/>
@@ -63035,7 +63035,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="154" num-string="Tbl of Cases-154" prev_page="Tbl of Cases-153"/>
+				<pagebreak serial-num="154" num="Tbl of Cases-154" prev_page="Tbl of Cases-153"/>
 				<page.number.ref page-number="Tbl of Cases-154"/>
 				<columns/>
 				<column/>
@@ -63503,7 +63503,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="155" num-string="Tbl of Cases-155" prev_page="Tbl of Cases-154"/>
+				<pagebreak serial-num="155" num="Tbl of Cases-155" prev_page="Tbl of Cases-154"/>
 				<page.number.ref page-number="Tbl of Cases-155"/>
 				<columns/>
 				<column/>
@@ -63916,7 +63916,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="156" num-string="Tbl of Cases-156" prev_page="Tbl of Cases-155"/>
+				<pagebreak serial-num="156" num="Tbl of Cases-156" prev_page="Tbl of Cases-155"/>
 				<page.number.ref page-number="Tbl of Cases-156"/>
 				<columns/>
 				<column/>
@@ -64367,7 +64367,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="157" num-string="Tbl of Cases-157" prev_page="Tbl of Cases-156"/>
+				<pagebreak serial-num="157" num="Tbl of Cases-157" prev_page="Tbl of Cases-156"/>
 				<page.number.ref page-number="Tbl of Cases-157"/>
 				<columns/>
 				<column/>
@@ -64894,7 +64894,7 @@
 						<t style="tbl.row.ref">549, 13 P.3d 244, 149 Ed. </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="158" num-string="Tbl of Cases-158" prev_page="Tbl of Cases-157"/>
+						<pagebreak serial-num="158" num="Tbl of Cases-158" prev_page="Tbl of Cases-157"/>
 						<page.number.ref page-number="Tbl of Cases-158"/>
 						<columns/>
 						<column/>
@@ -65441,7 +65441,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="159" num-string="Tbl of Cases-159" prev_page="Tbl of Cases-158"/>
+				<pagebreak serial-num="159" num="Tbl of Cases-159" prev_page="Tbl of Cases-158"/>
 				<page.number.ref page-number="Tbl of Cases-159"/>
 				<columns/>
 				<column/>
@@ -66026,7 +66026,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="160" num-string="Tbl of Cases-160" prev_page="Tbl of Cases-159"/>
+				<pagebreak serial-num="160" num="Tbl of Cases-160" prev_page="Tbl of Cases-159"/>
 				<page.number.ref page-number="Tbl of Cases-160"/>
 				<columns/>
 				<column/>
@@ -66561,7 +66561,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="161" num-string="Tbl of Cases-161" prev_page="Tbl of Cases-160"/>
+				<pagebreak serial-num="161" num="Tbl of Cases-161" prev_page="Tbl of Cases-160"/>
 				<page.number.ref page-number="Tbl of Cases-161"/>
 				<columns/>
 				<column/>
@@ -67108,7 +67108,7 @@
 						<t style="tbl.row.ref">v. Mortimer, 142 N.C. App. </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="162" num-string="Tbl of Cases-162" prev_page="Tbl of Cases-161"/>
+						<pagebreak serial-num="162" num="Tbl of Cases-162" prev_page="Tbl of Cases-161"/>
 						<page.number.ref page-number="Tbl of Cases-162"/>
 						<columns/>
 						<column/>
@@ -67638,7 +67638,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="163" num-string="Tbl of Cases-163" prev_page="Tbl of Cases-162"/>
+				<pagebreak serial-num="163" num="Tbl of Cases-163" prev_page="Tbl of Cases-162"/>
 				<page.number.ref page-number="Tbl of Cases-163"/>
 				<columns/>
 				<column/>
@@ -68174,7 +68174,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="164" num-string="Tbl of Cases-164" prev_page="Tbl of Cases-163"/>
+				<pagebreak serial-num="164" num="Tbl of Cases-164" prev_page="Tbl of Cases-163"/>
 				<page.number.ref page-number="Tbl of Cases-164"/>
 				<columns/>
 				<column/>
@@ -68657,7 +68657,7 @@
 						<t style="tbl.row.ref">salee P., 2013-NMCA-062, </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="165" num-string="Tbl of Cases-165" prev_page="Tbl of Cases-164"/>
+						<pagebreak serial-num="165" num="Tbl of Cases-165" prev_page="Tbl of Cases-164"/>
 						<page.number.ref page-number="Tbl of Cases-165"/>
 						<columns/>
 						<column/>
@@ -69061,7 +69061,7 @@
 						<t style="tbl.row.ref">State in Interest of L.M., 229 </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="166" num-string="Tbl of Cases-166" prev_page="Tbl of Cases-165"/>
+						<pagebreak serial-num="166" num="Tbl of Cases-166" prev_page="Tbl of Cases-165"/>
 						<page.number.ref page-number="Tbl of Cases-166"/>
 						<columns/>
 						<column/>
@@ -69466,7 +69466,7 @@
 						<t style="tbl.row.ref">Stevens, Appeal of, 157 Conn. </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="167" num-string="Tbl of Cases-167" prev_page="Tbl of Cases-166"/>
+						<pagebreak serial-num="167" num="Tbl of Cases-167" prev_page="Tbl of Cases-166"/>
 						<page.number.ref page-number="Tbl of Cases-167"/>
 						<columns/>
 						<column/>
@@ -69869,7 +69869,7 @@
 						<t style="tbl.row.ref">Strickland v. 212 Corp of N.J., </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="168" num-string="Tbl of Cases-168" prev_page="Tbl of Cases-167"/>
+						<pagebreak serial-num="168" num="Tbl of Cases-168" prev_page="Tbl of Cases-167"/>
 						<page.number.ref page-number="Tbl of Cases-168"/>
 						<columns/>
 						<column/>
@@ -70271,7 +70271,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="169" num-string="Tbl of Cases-169" prev_page="Tbl of Cases-168"/>
+				<pagebreak serial-num="169" num="Tbl of Cases-169" prev_page="Tbl of Cases-168"/>
 				<page.number.ref page-number="Tbl of Cases-169"/>
 				<columns/>
 				<column/>
@@ -70659,7 +70659,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="170" num-string="Tbl of Cases-170" prev_page="Tbl of Cases-169"/>
+				<pagebreak serial-num="170" num="Tbl of Cases-170" prev_page="Tbl of Cases-169"/>
 				<page.number.ref page-number="Tbl of Cases-170"/>
 				<columns/>
 				<column/>
@@ -71120,7 +71120,7 @@
 						<t style="tbl.row.ref">Ted W. v. State, Dept. of Health </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="171" num-string="Tbl of Cases-171" prev_page="Tbl of Cases-170"/>
+						<pagebreak serial-num="171" num="Tbl of Cases-171" prev_page="Tbl of Cases-170"/>
 						<page.number.ref page-number="Tbl of Cases-171"/>
 						<columns/>
 						<column/>
@@ -71495,7 +71495,7 @@
 						<t style="tbl.row.ref">tective Services, In re, 255 </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="172" num-string="Tbl of Cases-172" prev_page="Tbl of Cases-171"/>
+						<pagebreak serial-num="172" num="Tbl of Cases-172" prev_page="Tbl of Cases-171"/>
 						<page.number.ref page-number="Tbl of Cases-172"/>
 						<columns/>
 						<column/>
@@ -71911,7 +71911,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="173" num-string="Tbl of Cases-173" prev_page="Tbl of Cases-172"/>
+				<pagebreak serial-num="173" num="Tbl of Cases-173" prev_page="Tbl of Cases-172"/>
 				<page.number.ref page-number="Tbl of Cases-173"/>
 				<columns/>
 				<column/>
@@ -72352,7 +72352,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="174" num-string="Tbl of Cases-174" prev_page="Tbl of Cases-173"/>
+				<pagebreak serial-num="174" num="Tbl of Cases-174" prev_page="Tbl of Cases-173"/>
 				<page.number.ref page-number="Tbl of Cases-174"/>
 				<columns/>
 				<column/>
@@ -72788,7 +72788,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="175" num-string="Tbl of Cases-175" prev_page="Tbl of Cases-174"/>
+				<pagebreak serial-num="175" num="Tbl of Cases-175" prev_page="Tbl of Cases-174"/>
 				<page.number.ref page-number="Tbl of Cases-175"/>
 				<columns/>
 				<column/>
@@ -73219,7 +73219,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="176" num-string="Tbl of Cases-176" prev_page="Tbl of Cases-175"/>
+				<pagebreak serial-num="176" num="Tbl of Cases-176" prev_page="Tbl of Cases-175"/>
 				<page.number.ref page-number="Tbl of Cases-176"/>
 				<columns/>
 				<column/>
@@ -73748,7 +73748,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="177" num-string="Tbl of Cases-177" prev_page="Tbl of Cases-176"/>
+				<pagebreak serial-num="177" num="Tbl of Cases-177" prev_page="Tbl of Cases-176"/>
 				<page.number.ref page-number="Tbl of Cases-177"/>
 				<columns/>
 				<column/>
@@ -74365,7 +74365,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="178" num-string="Tbl of Cases-178" prev_page="Tbl of Cases-177"/>
+				<pagebreak serial-num="178" num="Tbl of Cases-178" prev_page="Tbl of Cases-177"/>
 				<page.number.ref page-number="Tbl of Cases-178"/>
 				<columns/>
 				<column/>
@@ -74787,7 +74787,7 @@
 						<t style="dt">-</t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="179" num-string="Tbl of Cases-179" prev_page="Tbl of Cases-178"/>
+						<pagebreak serial-num="179" num="Tbl of Cases-179" prev_page="Tbl of Cases-178"/>
 						<page.number.ref page-number="Tbl of Cases-179"/>
 						<columns/>
 						<column/>
@@ -75222,7 +75222,7 @@
 						<t style="tbl.row.ref">Vito, In re Adoption of, 431 </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="180" num-string="Tbl of Cases-180" prev_page="Tbl of Cases-179"/>
+						<pagebreak serial-num="180" num="Tbl of Cases-180" prev_page="Tbl of Cases-179"/>
 						<page.number.ref page-number="Tbl of Cases-180"/>
 						<columns/>
 						<column/>
@@ -75646,7 +75646,7 @@
 						<t style="tbl.row.ref">105 S. Ct. 2479, 86 L. Ed. </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="181" num-string="Tbl of Cases-181" prev_page="Tbl of Cases-180"/>
+						<pagebreak serial-num="181" num="Tbl of Cases-181" prev_page="Tbl of Cases-180"/>
 						<page.number.ref page-number="Tbl of Cases-181"/>
 						<columns/>
 						<column/>
@@ -76070,7 +76070,7 @@
 						<t style="tbl.row.ref">Educ. v. Sypniewski, 538 </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="182" num-string="Tbl of Cases-182" prev_page="Tbl of Cases-181"/>
+						<pagebreak serial-num="182" num="Tbl of Cases-182" prev_page="Tbl of Cases-181"/>
 						<page.number.ref page-number="Tbl of Cases-182"/>
 						<columns/>
 						<column/>
@@ -76471,7 +76471,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="183" num-string="Tbl of Cases-183" prev_page="Tbl of Cases-182"/>
+				<pagebreak serial-num="183" num="Tbl of Cases-183" prev_page="Tbl of Cases-182"/>
 				<page.number.ref page-number="Tbl of Cases-183"/>
 				<columns/>
 				<column/>
@@ -76896,7 +76896,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="184" num-string="Tbl of Cases-184" prev_page="Tbl of Cases-183"/>
+				<pagebreak serial-num="184" num="Tbl of Cases-184" prev_page="Tbl of Cases-183"/>
 				<page.number.ref page-number="Tbl of Cases-184"/>
 				<columns/>
 				<column/>
@@ -77344,7 +77344,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="185" num-string="Tbl of Cases-185" prev_page="Tbl of Cases-184"/>
+				<pagebreak serial-num="185" num="Tbl of Cases-185" prev_page="Tbl of Cases-184"/>
 				<page.number.ref page-number="Tbl of Cases-185"/>
 				<columns/>
 				<column/>
@@ -77779,7 +77779,7 @@
 						<t style="tbl.row.ref">v. Missouri, 487 U.S. </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="186" num-string="Tbl of Cases-186" prev_page="Tbl of Cases-185"/>
+						<pagebreak serial-num="186" num="Tbl of Cases-186" prev_page="Tbl of Cases-185"/>
 						<page.number.ref page-number="Tbl of Cases-186"/>
 						<columns/>
 						<column/>
@@ -78266,7 +78266,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="187" num-string="Tbl of Cases-187" prev_page="Tbl of Cases-186"/>
+				<pagebreak serial-num="187" num="Tbl of Cases-187" prev_page="Tbl of Cases-186"/>
 				<page.number.ref page-number="Tbl of Cases-187"/>
 				<columns/>
 				<column/>
@@ -78686,7 +78686,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="188" num-string="Tbl of Cases-188" prev_page="Tbl of Cases-187"/>
+				<pagebreak serial-num="188" num="Tbl of Cases-188" prev_page="Tbl of Cases-187"/>
 				<page.number.ref page-number="Tbl of Cases-188"/>
 				<columns/>
 				<column/>
@@ -79101,7 +79101,7 @@
 						<t style="tbl.row.ref">F.3d 241, 122 Ed. Law Rep. </t>
 						<endcolumn/>
 						<endcolumns/>
-						<pagebreak num="189" num-string="Tbl of Cases-189" prev_page="Tbl of Cases-188"/>
+						<pagebreak serial-num="189" num="Tbl of Cases-189" prev_page="Tbl of Cases-188"/>
 						<page.number.ref page-number="Tbl of Cases-189"/>
 						<columns/>
 						<column/>
@@ -79521,7 +79521,7 @@
 				</tbl.row>
 				<endcolumn/>
 				<endcolumns/>
-				<pagebreak num="190" num-string="Tbl of Cases-190" prev_page="Tbl of Cases-189"/>
+				<pagebreak serial-num="190" num="Tbl of Cases-190" prev_page="Tbl of Cases-189"/>
 				<page.number.ref page-number="Tbl of Cases-190"/>
 				<columns/>
 				<column/>

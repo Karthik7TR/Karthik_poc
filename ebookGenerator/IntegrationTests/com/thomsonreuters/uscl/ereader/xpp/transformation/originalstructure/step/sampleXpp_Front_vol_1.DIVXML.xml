@@ -845,7 +845,7 @@
 							tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="rf3"></tag>
 							<t x="0" y="0" style="unknown" cgt="true" suppress="true">@FSTART@</t>
-							<t x="0" y="0" style="unknown.1" cgt="true">3</t>
+							<t x="0" y="0" style="unknown.1" cgt="true">iii</t>
 							<t x="0" y="0" style="unknown.1" cgt="true" suppress="true">@FEND@</t>
 							<endtag name="rf3"></endtag>
 						</line>
@@ -2021,7 +2021,7 @@
 							tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="rf3"></tag>
 							<t x="0" y="0" style="unknown" cgt="true" suppress="true">@FSTART@</t>
-							<t x="0" y="0" style="unknown.1" cgt="true">4</t>
+							<t x="0" y="0" style="unknown.1" cgt="true">iv</t>
 							<t x="0" y="0" style="unknown.1" cgt="true" suppress="true">@FEND@</t>
 							<endtag name="rf3"></endtag>
 						</line>
@@ -2029,10 +2029,5 @@
 				</block>
 			</stream>
 		</page>
-		<page relpgnum="4" p1="0" p2="0" p3="0" p4="4" p5="0" p6="0"
-			psrnum="4" plname="standard" px="0" py="0" psx="4.32i" psy="7.65i"
-			fsx="6.49i" fsy="10.12i" rotate="0" forcepend="false" lastpage="false"
-			notextinpg="false" filler="false" pfexcept="false" rlfiller="false"
-			pagetype="left"/>
 	</pages>
 </document>

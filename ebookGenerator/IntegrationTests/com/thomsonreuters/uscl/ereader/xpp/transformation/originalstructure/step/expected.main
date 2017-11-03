@@ -1,4 +1,4 @@
-<!DOCTYPE root SYSTEM "${refPlaceHolder}"><root xmlns="http://www.sdl.com/xpp"><pagebreak num="3" num-string="3" prev_page=""/><publication online.royalty.id="CALA" uuid="I0f72523026a511d99b08a92d7e97623c"><publication.body><chapter uuid="I49dd324026a611d99b08a92d7e97623c" date.revised="0" date.updated="0"><front date.updated="0"><generated.toc><full.toc><toc.appendix><outline.name.block></outline.name.block></toc.appendix></full.toc></generated.toc><research.reference.block date.updated="0"><t style="research.reference.block cgt">
+<!DOCTYPE root SYSTEM "${refPlaceHolder}"><root xmlns="http://www.sdl.com/xpp"><pagebreak num="3" serial-num="3"/><publication online.royalty.id="CALA" uuid="I0f72523026a511d99b08a92d7e97623c"><publication.body><chapter uuid="I49dd324026a611d99b08a92d7e97623c" date.revised="0" date.updated="0"><front date.updated="0"><generated.toc><full.toc><toc.appendix><outline.name.block></outline.name.block></toc.appendix></full.toc></generated.toc><research.reference.block date.updated="0"><t style="research.reference.block cgt">
 								Research References</t><t style="research.reference.block cgt">
 							</t><reference.entry.group><name.block><name><cite.query w-seq-number="00004" w-ref-type="LQ" w-normalized-cite="MIST712A.18S" w-pub-number="1000043" ID="If47b0960627111e78600cc06009ba385"><t style="name.3">
 									West</t><t style="name.3">
@@ -54,7 +54,7 @@
 								column 1
 							</t><endcolumn/><column/><t style="para.text">
 								column 2
-							</t><endcolumn/><endcolumns/><pagebreak num="4" num-string="4" prev_page="3"/><t style="para.text">
+							</t><endcolumn/><endcolumns/><pagebreak num="4" serial-num="4"/><t style="para.text">
 								relation to the petition process,</t><t style="para.text">
 							</t><t style="para.text.1 super cgt">2</t><xref id="3" type="footnote"/><t style="para.text"> although notice regarding </t><t style="para.text">other aspects of guardianship (i.e.,
 								notice to creditors), has </t><t style="para.text">
@@ -92,4 +92,4 @@
 							</t><t style="para.text.1 super cgt">2</t><xref id="8" type="footnote"/><page.number.ref page-number="4"/></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital><t style="ital">Foreign Guardian.</t></ital><t style="para.text"> Guardian whose appointment was </t><t style="para.text">granted in another state. Outside the
 								original appointment </t><t style="para.text">jurisdiction the guardian is considered a
 								foreign guardian. </t><t style="para.text">The foreign guardian must be assisted by a
-								local guardian. </t></para.text></para></section.body></section></section.block></analytical.hierarchy.body></analytical.hierarchy></chapter.body></chapter></publication.body></publication><pagebreak num="-4" num-string="" prev_page="4"/></root>
+								local guardian. </t></para.text></para></section.body></section></section.block></analytical.hierarchy.body></analytical.hierarchy></chapter.body></chapter></publication.body></publication></root>

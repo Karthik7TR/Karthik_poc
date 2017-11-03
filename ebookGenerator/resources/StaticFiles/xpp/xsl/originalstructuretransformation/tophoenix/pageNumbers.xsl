@@ -18,36 +18,41 @@
 		<entry key="1000">m</entry>
 	</xsl:variable>
 
-	<xsl:template match="x:page" mode="prev_page">
-		<xsl:call-template name="print-page-numbers" />
-	</xsl:template>
-
-	<xsl:template name="page-numbers">
+	<xsl:template name="define-page-number">
 		<xsl:param name="bundlePartType" />
-		<xsl:variable name="pn" select="@p4" />
-		<xsl:variable name="pageNumber">
-			<xsl:choose>
-				<xsl:when
-					test="$bundlePartType = 'FRONT' or $bundlePartType = 'SUMMARY_AND_DETAILED_TABLE_OF_CONTENTS' or $bundlePartType = 'SUMMARY_TABLE_OF_CONTENTS' or $bundlePartType = 'DETAILED_TABLE_OF_CONTENTS'">
-					<xsl:value-of select="x:transform-arabic-to-roman($pn)" />
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="$pn" />
-				</xsl:otherwise>
-			</xsl:choose>
+		<xsl:variable name="serialNumber" select="@p4" />
+		<xsl:variable name="closestNumber">
+			<xsl:call-template name="closest-page-number" />
 		</xsl:variable>
-		<xsl:for-each select="1 to count(preceding::x:page[@p4=$pn])">
-			<xsl:value-of select="'-'" />
-		</xsl:for-each>
-		<xsl:value-of select="$pageNumber" />
+					
+		<xsl:value-of>
+			<xsl:choose>
+				<xsl:when test="$bundlePartType = 'FRONT' or $bundlePartType = 'SUMMARY_AND_DETAILED_TABLE_OF_CONTENTS' or $bundlePartType = 'SUMMARY_TABLE_OF_CONTENTS' or $bundlePartType = 'DETAILED_TABLE_OF_CONTENTS' or matches($closestNumber, '^[ivxlcdm]+$')">
+					<xsl:value-of select="x:transform-arabic-to-roman($serialNumber)" />
+				</xsl:when>
+				<xsl:when test="matches($closestNumber, '^[0-9]+\-[0-9]+$')">
+					<xsl:value-of select="concat(substring-before($closestNumber, '-'), '-', $serialNumber)" />
+				</xsl:when>
+				<xsl:when test="matches($closestNumber, '^[0-9]+\-[ivxlcdm]+$')">
+					<xsl:value-of select="concat(substring-before($closestNumber, '-'), '-', x:transform-arabic-to-roman($serialNumber))" />
+				</xsl:when>				
+				<xsl:otherwise>
+					<xsl:value-of select="$serialNumber" />
+				</xsl:otherwise>					
+			</xsl:choose>
+		</xsl:value-of>
 	</xsl:template>
 
-	<xsl:template name="print-page-numbers">
-		<xsl:for-each select=".//x:line[x:t='@FSTART@']/x:t">
-			<xsl:if test=". != '@FSTART@' and . != '@FEND@'">
-				<xsl:value-of select="." />
-			</xsl:if>
-		</xsl:for-each>
+	<xsl:template name="closest-page-number">
+		<xsl:variable name="previousClosestNumber" select="(preceding::x:page//x:line[x:t='@FSTART@']/x:t[. != '@FSTART@' and . != '@FEND@' and . != '0'])[1]" />
+		<xsl:choose>
+			<xsl:when test="$previousClosestNumber != ''">
+				<xsl:value-of select="$previousClosestNumber" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="(following::x:page//x:line[x:t='@FSTART@']/x:t[. != '@FSTART@' and . != '@FEND@' and . != '0'])[1]" />
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<xsl:function name="x:transform-arabic-to-roman">

@@ -1,25 +1,25 @@
 <root xmlns="http://www.sdl.com/xpp">
-	<pagebreak num="1" num-string="Tbl of L&amp;R-1" prev_page=""/>
-	<page.number.ref page-number="Tbl of L&amp;R-1"/>
-	<pagebreak num="2" num-string="Tbl of L&amp;R-2" prev_page="Tbl of L&amp;R-1"/>
-	<pagebreak num="3" num-string="Tbl of L&amp;R-3" prev_page="Tbl of L&amp;R-2"/>
-	<pagebreak num="4" num-string="Tbl of L&amp;R-4" prev_page="Tbl of L&amp;R-3"/>
-	<pagebreak num="5" num-string="Tbl of L&amp;R-5" prev_page="Tbl of L&amp;R-4"/>
-	<pagebreak num="6" num-string="Tbl of L&amp;R-6" prev_page="Tbl of L&amp;R-5"/>
-	<pagebreak num="7" num-string="Tbl of L&amp;R-7" prev_page="Tbl of L&amp;R-6"/>
-	<pagebreak num="8" num-string="Tbl of L&amp;R-8" prev_page="Tbl of L&amp;R-7"/>
-	<pagebreak num="9" num-string="Tbl of L&amp;R-9" prev_page="Tbl of L&amp;R-8"/>
-	<pagebreak num="10" num-string="Tbl of L&amp;R-10" prev_page="Tbl of L&amp;R-9"/>
-	<pagebreak num="11" num-string="Tbl of L&amp;R-11" prev_page="Tbl of L&amp;R-10"/>
-	<pagebreak num="12" num-string="Tbl of L&amp;R-12" prev_page="Tbl of L&amp;R-11"/>
-	<pagebreak num="13" num-string="Tbl of L&amp;R-13" prev_page="Tbl of L&amp;R-12"/>
-	<pagebreak num="14" num-string="Tbl of L&amp;R-14" prev_page="Tbl of L&amp;R-13"/>
-	<pagebreak num="15" num-string="Tbl of L&amp;R-15" prev_page="Tbl of L&amp;R-14"/>
-	<pagebreak num="16" num-string="Tbl of L&amp;R-16" prev_page="Tbl of L&amp;R-15"/>
-	<pagebreak num="17" num-string="Tbl of L&amp;R-17" prev_page="Tbl of L&amp;R-16"/>
-	<pagebreak num="18" num-string="Tbl of L&amp;R-18" prev_page="Tbl of L&amp;R-17"/>
-	<pagebreak num="19" num-string="Tbl of L&amp;R-19" prev_page="Tbl of L&amp;R-18"/>
-	<pagebreak num="20" num-string="Tbl of L&amp;R-20" prev_page="Tbl of L&amp;R-19"/>
+	<pagebreak num="Tbl of L&amp;ampR-1" serial-num="1"/>
+	<page.number.ref page-number="Tbl of L&amp;ampR-1"/>
+	<pagebreak num="Tbl of L&amp;ampR-2" serial-num="2"/>
+	<pagebreak num="Tbl of L&amp;ampR-3" serial-num="3"/>
+	<pagebreak num="Tbl of L&amp;ampR-4" serial-num="4"/>
+	<pagebreak num="Tbl of L&amp;ampR-5" serial-num="5"/>
+	<pagebreak num="Tbl of L&amp;ampR-6" serial-num="6"/>
+	<pagebreak num="Tbl of L&amp;ampR-7" serial-num="7"/>
+	<pagebreak num="Tbl of L&amp;ampR-8" serial-num="8"/>
+	<pagebreak num="Tbl of L&amp;ampR-9" serial-num="9"/>
+	<pagebreak num="Tbl of L&amp;ampR-10" serial-num="10"/>
+	<pagebreak num="Tbl of L&amp;ampR-11" serial-num="11"/>
+	<pagebreak num="Tbl of L&amp;ampR-12" serial-num="12"/>
+	<pagebreak num="Tbl of L&amp;ampR-13" serial-num="13"/>
+	<pagebreak num="Tbl of L&amp;ampR-14" serial-num="14"/>
+	<pagebreak num="Tbl of L&amp;ampR-15" serial-num="15"/>
+	<pagebreak num="Tbl of L&amp;ampR-16" serial-num="16"/>
+	<pagebreak num="Tbl of L&amp;ampR-17" serial-num="17"/>
+	<pagebreak num="Tbl of L&amp;ampR-18" serial-num="18"/>
+	<pagebreak num="Tbl of L&amp;ampR-19" serial-num="19"/>
+	<pagebreak num="Tbl of L&amp;ampR-20" serial-num="20"/>
 	<generated.finding.aids.tables>
 		<generated.lrre.tbl scope="pub">
 			<metadata.block>
@@ -94,7 +94,7 @@
 				<endcolumn/>
 				<endcolumns/>
 				<main.head>
-					<pagebreak num="21" num-string="Tbl of L&amp;R-21" prev_page="Tbl of L&amp;R-20"/>
+					<pagebreak num="Tbl of L&amp;ampR-21" serial-num="21"/>
 					<t style="main.head">statute-us-ny-law-judctacts not in Format </t>
 					<t style="main.head">Table</t>
 				</main.head>

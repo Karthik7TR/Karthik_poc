@@ -32,12 +32,12 @@
 
 	<xsl:template match="x:pagebreak">
 		<xsl:copy-of select="." />
-		<xsl:if test="$pagesAmount > 20 and (./@num=1 or (./@num  - 1) mod 20 = 0)">
-			<xsl:variable name="endPage" select="x:get-last-page(@num, $pagesAmount)" />
+		<xsl:if test="$pagesAmount > 20 and (./@serial-num=1 or (./@serial-num  - 1) mod 20 = 0)">
+			<xsl:variable name="endPage" select="x:get-last-page(@serial-num, $pagesAmount)" />
 			<xsl:variable name="currentLrreUuid"
-				select="concat($volumeName, '.', 'lrre', @num, 'to', $endPage)" />
+				select="concat($volumeName, '.', 'lrre', @serial-num, 'to', $endPage)" />
 			
-			<xsl:if test="@num != 1">
+			<xsl:if test="@serial-num != 1">
 				<xsl:call-template name="placeSectionbreak">
 					<xsl:with-param name="sectionuuid" select="$currentLrreUuid" />
 				</xsl:call-template>
@@ -45,7 +45,7 @@
 
 			<xsl:call-template name="placeXppHier">
 				<xsl:with-param name="uuid" select="$currentLrreUuid" />
-				<xsl:with-param name="name" select="concat('p. ', ./@num, '-', $endPage)" />
+				<xsl:with-param name="name" select="concat('p. ', ./@serial-num, '-', $endPage)" />
 				<xsl:with-param name="parent_uuid" select="$root_uuid" />
 				<xsl:with-param name="doc_family_uuid" select="$currentLrreUuid" />
 			</xsl:call-template>

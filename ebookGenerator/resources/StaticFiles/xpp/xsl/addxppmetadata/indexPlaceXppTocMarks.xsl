@@ -43,7 +43,7 @@
 
 	<xsl:template match="x:pagebreak">
 		<xsl:copy-of select="." />
-		<xsl:if test="$pagesAmount > 20 and (@num=1 or (@num  - 1) mod 20 = 0)">
+		<xsl:if test="$pagesAmount > 20 and (@serial-num=1 or (@serial-num  - 1) mod 20 = 0)">
 			<xsl:variable name="firstIndexWord">
 				<xsl:apply-templates
 					select="(following::x:l1[./x:t] | following::x:mte2[./x:t])[1]"
@@ -57,7 +57,7 @@
 					select="concat($volumeName, '.', 'index', x:get-first-word($firstIndexWord), x:get-first-word($lastIndexWord))" />
 			</xsl:variable>
 
-			<xsl:if test="@num != 1">
+			<xsl:if test="@serial-num != 1">
 				<xsl:call-template name="placeSectionbreak">
 					<xsl:with-param name="sectionuuid" select="$currentIndexUuid" />
 				</xsl:call-template>
@@ -89,7 +89,7 @@
 		<xsl:variable name="lastIndexWord">
 			<xsl:variable name="nullableLastIndexWord">
 				<xsl:apply-templates
-					select="$currentPagebreak/following::x:pagebreak[(@num - 1) mod 20 = 0][1]"
+					select="$currentPagebreak/following::x:pagebreak[(@serial-num - 1) mod 20 = 0][1]"
 					mode="get-last-word" />
 			</xsl:variable>
 			<xsl:choose>

@@ -26,20 +26,25 @@
 	</xsl:template>
 
 	<xsl:template match="x:page">
-		<xsl:variable name="printNumber">
-			<xsl:call-template name="print-page-numbers" />
+		<xsl:variable name="printNumber" select=".//x:line[x:t='@FSTART@']/x:t[. != '@FSTART@' and . != '@FEND@']" />
+		
+		<xsl:variable name="pageNumber">
+			<xsl:choose>
+				<xsl:when test="not($printNumber) or $printNumber = '0'">
+					<xsl:call-template name="define-page-number">
+						<xsl:with-param name="bundlePartType" select="$bundlePartType" />
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$printNumber" />
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
+		
+		
 		<xsl:element name="pagebreak">
-			<xsl:attribute name="num">
-				<xsl:call-template name="page-numbers">
-					<xsl:with-param name="bundlePartType" select="$bundlePartType" />
-				</xsl:call-template>
-			</xsl:attribute>
-			<xsl:attribute name="num-string" select="$printNumber" />
-			<xsl:attribute name="prev_page">
-				<xsl:apply-templates select="preceding::x:page[1]"
-				mode="prev_page" />
-			</xsl:attribute>
+			<xsl:attribute name="num" select="x:fix-lrre-page($pageNumber)" />
+			<xsl:attribute name="serial-num" select="@p4" />
 		</xsl:element>
 
 		<!-- place page.number.ref if there is no references to footnotes in maiin stream -->
@@ -117,19 +122,13 @@
 			<xsl:variable name="lastPageId" select="(ancestor::x:stream//x:xref[@type = 'footnote']/@id)[last()]" />
 			
 			<!-- place page.number.ref after last footnote reference at current page -->
-			<xsl:variable name="pageNumber">
-				<xsl:apply-templates select="ancestor::x:page[1]" mode="pageRef" />
-			</xsl:variable>
+			<xsl:variable name="pageNumber" select="(ancestor::x:page//x:line[x:t='@FSTART@']/x:t[. != '@FSTART@' and . != '@FEND@'])[1]" />
 			<xsl:if test="./@id = $lastPageId and $pageNumber != '' and $pageNumber != '0'">
 				<xsl:element name="page.number.ref">
 					<xsl:attribute name="page-number" select="$pageNumber" />
 				</xsl:element>
 			</xsl:if>
 		</xsl:if>
-	</xsl:template>
-	
-	<xsl:template match="x:page" mode="pageRef">
-		<xsl:call-template name="print-page-numbers" />
 	</xsl:template>
 
 	<xsl:template match="text()" />
