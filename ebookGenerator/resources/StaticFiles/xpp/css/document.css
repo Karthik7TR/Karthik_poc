@@ -1215,10 +1215,6 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   margin-left: 0;
 }
 
-.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc_body .para .para_text .cgt {
-  display: none;
-}
-
 .fm_prior_copyrights .textrule {
   border-bottom: 0.05em solid;
   margin: 1em auto;
@@ -1325,6 +1321,14 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   display: inline;
 }
 
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_front .rutter_xref {
+  padding-left: 1em;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_front .rutter_xref .para_text {
+  text-indent: unset;
+}
+
 .rutter_chapter .rutter_chapter_body .rw_hierarchy_front .font_rutter_chapter_body {
   display: block;
   text-align: center;
@@ -1342,38 +1346,86 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   padding-left: 1em;
 }
 
-.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc_front .rw_doc_outline_name_block .font_rw_doc_outline_name_block {
-  display: inline-block;
-}
-
-.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc_front .rw_doc_outline_name_block .rw_designator {
-  display: inline-block;
-}
-
-.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc_front .rw_doc_outline_name_block .font_rw_designator {
-  display: inline-block;
-}
-
-.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc_front .rw_doc_outline_name_block .font_rw_doc_outline_name_block_1 {
-  display: inline-block;
-}
-
-.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc_front .rw_doc_outline_name_block .name {
-  display: inline-block;
-}
-
-.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc_body {
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc {
   padding-left: 1em;
 }
 
-.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc_body .para {
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc .rw_doc_front {
+  margin-left: -1em;
+  display: inline;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc .rw_doc_front .rw_doc_outline_name_block {
+  display: inline;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc .rw_doc_front .rw_doc_outline_name_block .designator {
+  display: inline;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc .rw_doc_front .rw_doc_outline_name_block .designator .trImageContainer {
+  display: inline;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc .rw_doc_front .rw_doc_outline_name_block .font_rw_doc_outline_name_block {
+  display: inline-block;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc .rw_doc_front .rw_doc_outline_name_block .rw_designator {
+  display: inline-block;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc .rw_doc_front .rw_doc_outline_name_block .font_rw_designator {
+  display: inline-block;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc .rw_doc_front .rw_doc_outline_name_block .font_rw_doc_outline_name_block_1 {
+  display: inline-block;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc .rw_doc_front .rw_doc_outline_name_block .name {
+  display: inline-block;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc .rw_doc_body {
+  display: inline;
+  padding-left: 1em;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc .rw_doc_body .para {
+  display: inline;
   margin-bottom: 0.5em;
 }
 
-.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc_body .para .para_text {
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc .rw_doc_body .para .para_text {
+  display: inline;
   text-indent: unset;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc .rw_doc_body .para .para_text > .cgt {
+  display: none;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc .rw_doc_body .rw_doc_outline_name_block .name .font_name_3 {
+  display: inline;
 }
 
 .rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_hierarchy_body {
   padding-left: 1em;
+}
+
+.rutter_chapter .rutter_chapter_back .rutter_form_block .rutter_form_doc .form_para .quote_para {
+  display: block;
+}
+
+.rutter_chapter .rutter_chapter_back .rutter_form_block .rutter_form_doc .form_para .form_text span:first-of-type {
+  padding-left: 1em;
+}
+
+.rutter_chapter .rutter_chapter_back .rutter_form_block .rutter_form_doc .form_para .form_text .leaveout span:first-of-type {
+  padding-left: 0;
+}
+
+.rutter_chapter .rutter_chapter_back .rutter_form_block .rutter_form_doc table .leaveout {
+  overflow: hidden;
 }

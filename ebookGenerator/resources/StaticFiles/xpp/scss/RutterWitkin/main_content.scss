@@ -1,36 +1,22 @@
-.rutter_chapter .rutter_chapter_body {
-    .font_designator_1,
-    .font_designator_2 {
-        display: inline;
-    }
-    .rw_hierarchy_front {
-        .font_rutter_chapter_body {
-            display: block;
-            text-align: center;
+.rutter_chapter {
+    .rutter_chapter_body {
+        .font_designator_1,
+        .font_designator_2 {
+            display: inline;
         }
-        .rw_outline_name_block {
-            .font_rw_outline_name_block_1 {
-                display: inline-block;
+        .rw_hierarchy_front {
+            .rutter_xref {
+                padding-left:#{$indent}em;
+                .para_text {
+                    text-indent: unset;
+                }
             }
-            .name {
-                display: inline-block;
+            .font_rutter_chapter_body {
+                display: block;
+                text-align: center;
             }
-        }
-    }
-    .rw_hierarchy_body {
-        padding-left: #{$indent}em;
-        .rw_doc_front {
-            .rw_doc_outline_name_block {
-                .font_rw_doc_outline_name_block {
-                    display: inline-block;
-                }
-                .rw_designator {
-                    display: inline-block;
-                }
-                .font_rw_designator {
-                    display: inline-block;
-                }
-                .font_rw_doc_outline_name_block_1 {
+            .rw_outline_name_block {
+                .font_rw_outline_name_block_1 {
                     display: inline-block;
                 }
                 .name {
@@ -38,17 +24,81 @@
                 }
             }
         }
-        .rw_doc_body {
-            padding-left:#{$indent}em;
-            .para {
-                margin-bottom:#{$indent/2}em;
-                .para_text {
-                    text-indent: unset;
+        .rw_hierarchy_body {
+            padding-left: #{$indent}em;
+            .rw_doc {
+                padding-left:#{$indent}em;
+                .rw_doc_front {
+                    margin-left:-#{$indent}em;
+                    display:inline;
+                    .rw_doc_outline_name_block {
+                        display:inline;
+                        .designator {
+                            display:inline;
+                            .trImageContainer {
+                                display:inline;
+                            }
+                        }
+                        .font_rw_doc_outline_name_block {
+                            display: inline-block;
+                        }
+                        .rw_designator {
+                            display: inline-block;
+                        }
+                        .font_rw_designator {
+                            display: inline-block;
+                        }
+                        .font_rw_doc_outline_name_block_1 {
+                            display: inline-block;
+                        }
+                        .name {
+                            display: inline-block;
+                        }
+                    }
+                }
+                .rw_doc_body {
+                    display:inline;
+                    padding-left:#{$indent}em;
+                    .para {
+                        display:inline;
+                        margin-bottom:#{$indent/2}em;
+                        .para_text {
+                            display:inline;
+                            text-indent: unset;
+                            > .cgt {
+                                display: none;
+                            }
+                        }
+                    }
+                    .rw_doc_outline_name_block {
+                        .name .font_name_3 {
+                            display: inline;
+                        }
+                    }
+                }
+            }
+            .rw_hierarchy_body {
+                padding-left:#{$indent}em;
+            }
+        }
+    }
+    .rutter_chapter_back .rutter_form_block .rutter_form_doc {
+        .form_para {
+            .quote_para {
+                display: block;
+            }
+            .form_text {
+                span:first-of-type {
+                    padding-left:#{$indent}em;
+                }
+                .leaveout span:first-of-type {
+                    padding-left: 0;
                 }
             }
         }
-        .rw_hierarchy_body {
-            padding-left:#{$indent}em;
+        table .leaveout {
+            overflow: hidden;
         }
     }
+    
 }
