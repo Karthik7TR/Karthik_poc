@@ -36,6 +36,9 @@
 				<xsl:when test="matches($closestNumber, '^[0-9]+\-[ivxlcdm]+$')">
 					<xsl:value-of select="concat(substring-before($closestNumber, '-'), '-', x:transform-arabic-to-roman($serialNumber))" />
 				</xsl:when>				
+				<xsl:when test="matches($closestNumber, '^[A-Za-z&amp;\- ]+\-[0-9]+$')">
+					<xsl:value-of select="concat(substring-before($closestNumber, '-'), '-', $serialNumber)" />
+				</xsl:when>
 				<xsl:otherwise>
 					<xsl:value-of select="$serialNumber" />
 				</xsl:otherwise>					
