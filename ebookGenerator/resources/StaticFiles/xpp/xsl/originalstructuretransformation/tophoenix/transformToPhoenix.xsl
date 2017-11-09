@@ -26,7 +26,7 @@
 	</xsl:template>
 
 	<xsl:template match="x:page">
-		<xsl:variable name="printNumber" select=".//x:line[x:t='@FSTART@']/x:t[. != '@FSTART@' and . != '@FEND@']" />
+		<xsl:variable name="printNumber" select=".//x:line[x:t='@FSTART@']/x:t[. != '@FSTART@' and . != '@FEND@' and matches(., '^[ivxlcdm]+|[ivxlcdm0-9\-]+|[0-9\-]+|[A-Za-z&amp;\- 0-9]+$')]" />
 		
 		<xsl:variable name="pageNumber">
 			<xsl:choose>

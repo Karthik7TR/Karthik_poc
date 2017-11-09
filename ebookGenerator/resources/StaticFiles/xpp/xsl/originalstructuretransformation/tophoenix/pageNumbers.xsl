@@ -47,13 +47,13 @@
 	</xsl:template>
 
 	<xsl:template name="closest-page-number">
-		<xsl:variable name="previousClosestNumber" select="(preceding::x:page//x:line[x:t='@FSTART@']/x:t[. != '@FSTART@' and . != '@FEND@' and . != '0'])[1]" />
+		<xsl:variable name="previousClosestNumber" select="(preceding::x:page//x:line[x:t='@FSTART@']/x:t[. != '@FSTART@' and . != '@FEND@' and . != '0' and matches(., '^[ivxlcdm]+|[ivxlcdm0-9\-]+|[0-9\-]+|[A-Za-z&amp;\- 0-9]+$')])[1]" />
 		<xsl:choose>
 			<xsl:when test="$previousClosestNumber != ''">
 				<xsl:value-of select="$previousClosestNumber" />
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="(following::x:page//x:line[x:t='@FSTART@']/x:t[. != '@FSTART@' and . != '@FEND@' and . != '0'])[1]" />
+				<xsl:value-of select="(following::x:page//x:line[x:t='@FSTART@']/x:t[. != '@FSTART@' and . != '@FEND@' and . != '0' and matches(., '^[ivxlcdm]+|[ivxlcdm0-9\-]+|[0-9\-]+|[A-Za-z&amp;\- 0-9]+$')])[1]" />
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
