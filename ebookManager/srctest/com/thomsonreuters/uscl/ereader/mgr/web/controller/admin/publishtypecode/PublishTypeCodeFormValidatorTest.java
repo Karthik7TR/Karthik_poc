@@ -45,7 +45,9 @@ public final class PublishTypeCodeFormValidatorTest {
 
     @Test
     public void testNameExists() {
-        EasyMock.expect(mockCodeService.getPubTypeCodeByName(STATE_NAME)).andReturn(new PubTypeCode());
+        final PubTypeCode pubTypeCode = new PubTypeCode();
+        pubTypeCode.setId(2L);
+        EasyMock.expect(mockCodeService.getPubTypeCodeByName(STATE_NAME)).andReturn(pubTypeCode);
         EasyMock.replay(mockCodeService);
 
         // Verify name requirement

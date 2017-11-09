@@ -38,7 +38,7 @@ public class PublishTypeCodeFormValidator extends BaseFormValidator implements V
 
         if (!StringUtils.isBlank(name)) {
             final PubTypeCode code = codeService.getPubTypeCodeByName(name);
-            if (code != null && code.getId() != form.getPubTypeId()) {
+            if (code != null && !code.getId().equals(form.getPubTypeId())) {
                 errors.rejectValue("name", "error.exist", new Object[] {"Name"}, "Already exists");
             }
         }

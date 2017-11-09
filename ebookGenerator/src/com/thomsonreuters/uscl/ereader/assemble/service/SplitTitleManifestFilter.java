@@ -329,13 +329,13 @@ public class SplitTitleManifestFilter extends XMLFilterImpl {
      *             if data could not be written.
      */
     protected void writeCopyright() throws SAXException {
-        super.startElement(URI, COPYRIGHT_ELEMENT, COPYRIGHT_ELEMENT, EMPTY_ATTRIBUTES);
         String copyright = titleMetadata.getCopyright();
         if (copyright != null) {
             copyright = copyright.replace("\r\n", " ");
+            super.startElement(URI, COPYRIGHT_ELEMENT, COPYRIGHT_ELEMENT, EMPTY_ATTRIBUTES);
+            super.characters(copyright.toCharArray(), 0, copyright.length());
+            super.endElement(URI, COPYRIGHT_ELEMENT, COPYRIGHT_ELEMENT);
         }
-        super.characters(copyright.toCharArray(), 0, copyright.length());
-        super.endElement(URI, COPYRIGHT_ELEMENT, COPYRIGHT_ELEMENT);
     }
 
     /**

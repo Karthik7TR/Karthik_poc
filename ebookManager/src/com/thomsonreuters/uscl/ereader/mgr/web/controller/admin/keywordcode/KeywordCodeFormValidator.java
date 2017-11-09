@@ -36,7 +36,7 @@ public class KeywordCodeFormValidator extends BaseFormValidator implements Valid
 
         if (!StringUtils.isBlank(name)) {
             final KeywordTypeCode code = codeService.getKeywordTypeCodeByName(name);
-            if (code != null && code.getId() != form.getCodeId()) {
+            if (code != null && !code.getId().equals(form.getCodeId())) {
                 errors.rejectValue("name", "error.exist", new Object[] {"Name"}, "Already exists");
             }
         }

@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ProviewTitleContainer implements Serializable {
-    /**
-     *
-     */
     private static final long serialVersionUID = -1985883914988566602L;
     private static final String PROVIEW_STATUS_FINAL = "final";
     private List<ProviewTitleInfo> proviewTitleInfos = new ArrayList<>();
@@ -23,25 +20,21 @@ public class ProviewTitleContainer implements Serializable {
         this.proviewTitleInfos = proviewTitleInfos;
     }
 
-    /**
-     *
-     * @return the latest version of the title
-     */
     public ProviewTitleInfo getLatestVersion() {
-        Integer latestIntMajorPart = 0;
-        Integer latestIntMinorPart = 0;
+        int latestIntMajorPart = 0;
+        int latestIntMinorPart = 0;
         ProviewTitleInfo latestProviewTitleInfo = null;
 
         for (final ProviewTitleInfo proviewTitleInfo : proviewTitleInfos) {
             final String currentVersion = proviewTitleInfo.getVersion().substring(1);
             final String majorPart;
             final String minorPart;
-            Integer intMajorPart = 0;
-            Integer intMinorPart = 0;
+            int intMajorPart = 0;
+            int intMinorPart = 0;
 
             if (currentVersion.contains(".")) {
-                majorPart = currentVersion.substring(0, currentVersion.indexOf("."));
-                minorPart = currentVersion.substring(currentVersion.indexOf(".") + 1);
+                majorPart = currentVersion.substring(0, currentVersion.indexOf('.'));
+                minorPart = currentVersion.substring(currentVersion.indexOf('.') + 1);
 
                 intMajorPart = Integer.parseInt(majorPart);
                 intMinorPart = Integer.parseInt(minorPart);
@@ -50,16 +43,12 @@ public class ProviewTitleContainer implements Serializable {
                 intMajorPart = Integer.parseInt(majorPart);
             }
 
-            if (intMajorPart > latestIntMajorPart) {
+            final boolean nextMajorVersion = intMajorPart > latestIntMajorPart;
+            final boolean nextMinorVersion = intMajorPart == latestIntMajorPart && intMinorPart >= latestIntMinorPart;
+            if (nextMajorVersion || nextMinorVersion) {
                 latestProviewTitleInfo = proviewTitleInfo;
                 latestIntMajorPart = intMajorPart;
                 latestIntMinorPart = intMinorPart;
-            } else if (intMajorPart == latestIntMajorPart) {
-                if (intMinorPart >= latestIntMinorPart) {
-                    latestProviewTitleInfo = proviewTitleInfo;
-                    latestIntMajorPart = intMajorPart;
-                    latestIntMinorPart = intMinorPart;
-                }
             }
         }
         return latestProviewTitleInfo;

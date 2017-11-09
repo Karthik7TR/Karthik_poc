@@ -45,7 +45,9 @@ public final class KeywordCodeFormValidatorTest {
 
     @Test
     public void testNameExists() {
-        EasyMock.expect(mockCodeService.getKeywordTypeCodeByName(KEYWORD_CODE_NAME)).andReturn(new KeywordTypeCode());
+        final KeywordTypeCode keywordTypeCode = new KeywordTypeCode();
+        keywordTypeCode.setId(2L);
+        EasyMock.expect(mockCodeService.getKeywordTypeCodeByName(KEYWORD_CODE_NAME)).andReturn(keywordTypeCode);
         EasyMock.replay(mockCodeService);
 
         // Verify name requirement

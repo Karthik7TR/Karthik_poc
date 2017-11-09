@@ -28,7 +28,7 @@ import org.xml.sax.helpers.DefaultHandler;
 public class AutoSplitNodesHandler extends DefaultHandler {
     private int percentage;
     private int level;
-    private Map<String, String> splitTocTextMap = new HashMap<String, String>();
+    private Map<String, String> splitTocTextMap = new HashMap<>();
     private int determinedPartSize;
     private int margin;
 
@@ -170,7 +170,7 @@ public class AutoSplitNodesHandler extends DefaultHandler {
     protected void getTableOfContentsforSplits() throws SAXException {
         splitSize = determinedPartSize;
         margin = getMargin(splitSize);
-        if (tableOfContents.getChildren().size() > 0) {
+        if (!tableOfContents.getChildren().isEmpty()) {
             for (final TocNode child : tableOfContents.getChildren()) {
                 getSplitTocNode(child);
             }
@@ -221,31 +221,18 @@ public class AutoSplitNodesHandler extends DefaultHandler {
     }
 
     public Integer getMargin(final int size) {
-        Integer marginBasedOnSize = 0;
-        try {
-            marginBasedOnSize = (int) (size * percentage / 100);
-        } catch (final Exception ex) {
-            ex.printStackTrace();
-        }
+        final Integer marginBasedOnSize = size * percentage / 100;
         LOG.debug("Split size " + size + " and margin " + marginBasedOnSize);
         return marginBasedOnSize;
     }
 
     protected TocNode determineParent() throws SAXException {
         if (currentDepth > previousDepth) {
-            // LOG.debug("Determined parent of " + currentNode + " to be " +
-            // previousNode);
             return previousNode;
         } else if (currentDepth == previousDepth) {
-            // LOG.debug("Determined parent of " + currentNode + " to be " +
-            // previousNode.getParent());
             return previousNode.getParent();
-        } else if (currentDepth < previousDepth) {
-            return searchForParentInAncestryOfNode(previousNode, currentDepth - 1);
         } else {
-            final String message = "Could not determine parent when adding node: " + currentNode;
-            LOG.error(message);
-            throw new SAXException(message);
+            return searchForParentInAncestryOfNode(previousNode, currentDepth - 1);
         }
     }
 
@@ -261,7 +248,6 @@ public class AutoSplitNodesHandler extends DefaultHandler {
      */
     protected TocNode searchForParentInAncestryOfNode(final TocNode node, final int desiredDepth) throws SAXException {
         if (node.getDepth() == desiredDepth) {
-            // LOG.debug("Found parent in the ancestry: " + node);
             return node;
         } else if (node.getDepth() < desiredDepth) {
             final String message = "Failed to identify a parent for node: "

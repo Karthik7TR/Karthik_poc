@@ -27,7 +27,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "JurisTypeCode")
 public class JurisTypeCode implements Serializable {
-    //private static final Logger log = LogManager.getLogger(JurisTypeCode.class);
     private static final long serialVersionUID = -3118292918077264082L;
 
     @Id

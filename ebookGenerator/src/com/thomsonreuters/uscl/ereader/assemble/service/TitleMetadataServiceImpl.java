@@ -223,7 +223,7 @@ public class TitleMetadataServiceImpl implements TitleMetadataService {
         final File docToSplitBookFile = new File(splitNodeInfoFile);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriterWithEncoding(docToSplitBookFile, "UTF-8"))) {
-            if (splitNodeInfoList.size() > 0) {
+            if (!splitNodeInfoList.isEmpty()) {
                 for (final SplitNodeInfo splitNodeInfo : splitNodeInfoList) {
                     writer.append(splitNodeInfo.getSplitNodeGuid());
                     writer.append("|");

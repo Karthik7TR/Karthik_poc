@@ -45,7 +45,9 @@ public final class JurisdictionCodeFormValidatorTest {
 
     @Test
     public void testNameExists() {
-        EasyMock.expect(mockCodeService.getJurisTypeCodeByName(JURIS_NAME)).andReturn(new JurisTypeCode());
+        final JurisTypeCode jurisTypeCode = new JurisTypeCode();
+        jurisTypeCode.setId(2L);
+        EasyMock.expect(mockCodeService.getJurisTypeCodeByName(JURIS_NAME)).andReturn(jurisTypeCode);
         EasyMock.replay(mockCodeService);
 
         // Verify name requirement
