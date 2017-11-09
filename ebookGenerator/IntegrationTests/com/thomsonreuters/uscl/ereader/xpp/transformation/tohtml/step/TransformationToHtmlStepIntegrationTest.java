@@ -4,12 +4,14 @@ import static com.thomsonreuters.uscl.ereader.core.book.util.BookTestUtil.mkdir;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -54,6 +56,9 @@ public final class TransformationToHtmlStepIntegrationTest {
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private ChunkContext chunkContext;
 
+    @Mock
+    private XppBundle xppBundle;
+
     private File original;
     private File anchorsFile;
     private File sumTocAnchorsFile;
@@ -61,6 +66,14 @@ public final class TransformationToHtmlStepIntegrationTest {
     @Before
     public void setUp() throws URISyntaxException {
         org.mockito.MockitoAnnotations.initMocks(this);
+        when(
+            chunkContext.getStepContext()
+                .getStepExecution()
+                .getJobExecution()
+                .getExecutionContext()
+                .get(JobParameterKey.XPP_BUNDLES)).thenReturn(Collections.singletonList(xppBundle));
+        when(xppBundle.getProductType()).thenReturn("supp");
+        when(xppBundle.getMaterialNumber()).thenReturn(MATERIAL_NUMBER);
         original = new File(TransformationToHtmlStepIntegrationTest.class.getResource(SAMPLE_DIVXML_PAGE).toURI());
         anchorsFile = new File(TransformationToHtmlStepIntegrationTest.class.getResource(XppFormatFileSystemImpl.ANCHOR_TO_DOCUMENT_ID_MAP_FILE).toURI());
         sumTocAnchorsFile = new File(TransformationToHtmlStepIntegrationTest.class.getResource(MATERIAL_NUMBER + "/" + XppFormatFileSystemImpl.ANCHOR_TO_DOCUMENT_ID_MAP_FILE).toURI());
@@ -127,6 +140,7 @@ public final class TransformationToHtmlStepIntegrationTest {
 
         XppBundle bundle = new XppBundle();
         bundle.setMaterialNumber(MATERIAL_NUMBER);
+        bundle.setProductType("bound");
         bundle.setOrderedFileList(Arrays.asList("0_Front_vol_1.DIVXML.xml", "Useless_test_file.DIVXML.xml", "1-sample_1.DIVXML_0_test.xml"));
         bundles.add(bundle);
 
@@ -134,6 +148,7 @@ public final class TransformationToHtmlStepIntegrationTest {
             bundle = new XppBundle();
             bundle.setMaterialNumber(ADDITIONAL_MATERIAL_NUMBER);
             bundle.setOrderedFileList(Arrays.asList("Useless_test_file.DIVXML.xml"));
+            bundle.setProductType("supp");
             bundles.add(bundle);
         }
 

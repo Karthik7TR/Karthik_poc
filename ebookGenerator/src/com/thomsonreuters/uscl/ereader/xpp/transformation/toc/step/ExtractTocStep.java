@@ -13,6 +13,7 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
+import com.thomsonreuters.uscl.ereader.xpp.utils.bundle.BundleUtils;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -40,7 +41,11 @@ public class ExtractTocStep extends XppTransformationStep {
     }
 
     private void generateBundleTocs(final XppBundle bundle, final List<File> tocFiles) {
-        final Transformer transformer = transformerBuilderFactory.create().withXsl(extractTocXsl).build();
+        final boolean isPocketPart = BundleUtils.isPocketPart(bundle);
+        final Transformer transformer = transformerBuilderFactory.create()
+            .withXsl(extractTocXsl)
+            .withParameter("isPocketPart", isPocketPart)
+            .build();
         final List<File> transformedFiles = new ArrayList<>();
         for (final String fileName : bundle.getOrderedFileList()) {
             transformedFiles.add(generatePartToc(bundle, transformer, fileName));

@@ -111,5 +111,6 @@ public final class TransformationToHtmlStepTest {
         then(transformationService).should().transform(any(TransformationCommand.class));
         then(transformer).should().setParameter(eq("documentUidMapDoc"), any());
         then(transformer).should().setParameter(eq("summaryTocDocumentUidMapDoc"), any());
+        then(transformer).should().setParameter(eq("isPocketPart"), any());
     }
 }

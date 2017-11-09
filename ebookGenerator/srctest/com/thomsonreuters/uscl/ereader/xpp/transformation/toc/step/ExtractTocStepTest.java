@@ -2,6 +2,8 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.toc.step;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -20,6 +22,7 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
+import org.hamcrest.core.IsNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -104,17 +107,21 @@ public final class ExtractTocStepTest {
         TransformationCommand command = iterator.next();
         assertThat(command.getInputFile(), is(sourceFirstBundleFile));
         assertThat(command.getOutputFile(), is(firstTocBundleFile));
+        assertThat(command.getTransformer().getParameter("isPocketPart"), not(nullValue()));
 
         command = iterator.next();
         assertThat(command.getInputFile(), is(sourceSecondBundleFile));
         assertThat(command.getOutputFile(), is(secondTocBundleFile));
+        assertThat(command.getTransformer().getParameter("isPocketPart"), not(nullValue()));
 
         command = iterator.next();
         assertThat(command.getInputFiles(), contains(firstTocBundleFile, secondTocBundleFile));
         assertThat(command.getOutputFile(), is(mergedTocFile));
+        assertThat(command.getTransformer().getParameter("isPocketPart"), is(IsNull.notNullValue()));
 
         command = iterator.next();
         assertThat(command.getInputFiles(), contains(mergedTocFile));
         assertThat(command.getOutputFile(), is(tocFile));
+        assertThat(command.getTransformer().getParameter("isPocketPart"), is(IsNull.notNullValue()));
     }
 }

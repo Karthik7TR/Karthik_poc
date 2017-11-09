@@ -14,6 +14,7 @@
 	<xsl:param name="divXmlName" />
 	<xsl:param name="documentUidMapDoc" />
 	<xsl:param name="summaryTocDocumentUidMapDoc" />
+	<xsl:param name="isPocketPart" />
 	<xsl:param name="entitiesDocType" />
 	
 	<xsl:variable name="documentUidMap" select="document($documentUidMapDoc)" />
@@ -100,7 +101,7 @@
 	<xsl:template match="x:ital|x:bold">
 		<xsl:apply-templates />
 	</xsl:template>
-    
+
 	<xsl:template match="x:t">
         <xsl:variable name="footnoteRefId" select="x:footnote-reference-id(.)" />
 
@@ -115,7 +116,7 @@
             </xsl:otherwise>
         </xsl:choose>
 	</xsl:template>
-	
+
 	<xsl:template match="x:XPPLink|x:XPPTOCLink">
 		<xsl:variable name="uid">
 			<xsl:choose>
@@ -143,9 +144,9 @@
 
 	<xsl:template match="x:XPPSummaryTOCLink">
 		<xsl:variable name="docId" select="x:getDocumentId(current()/@uuid)" />
-		
+
 		<xsl:choose>
-			<xsl:when test="$docId and $docId != ''">
+			<xsl:when test="$docId and not($docId = '') and not($docId = '_pp')">
 				<xsl:element name="a">
 					<xsl:attribute name="href" select="concat('er:#', $docId, '/sumtoc-', @uuid)" />
 					<xsl:apply-templates />
@@ -156,19 +157,24 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-    
-    <xsl:function name="x:getDocumentId">
-        <xsl:param name="uuid"/>
-        <xsl:variable name="docIdFromSummaryTocMap" select="$summaryTocDocumentUidMap/x:uuidmap/x:item[@key = $uuid]" />
-        <xsl:choose>
-            <xsl:when test="$docIdFromSummaryTocMap">
-                <xsl:value-of select="$docIdFromSummaryTocMap" />
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select="$documentUidMap/x:uuidmap/x:item[@key = $uuid and @type = 'sumtoc'][1]" />
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:function>
+
+	<xsl:function name="x:getDocumentId">
+		<xsl:param name="uuid" />
+		<xsl:variable name="processedUuid">
+			<xsl:value-of select="x:process-id($uuid, $isPocketPart)" />
+		</xsl:variable>
+		<xsl:variable name="docIdFromSummaryTocMap"
+			select="$summaryTocDocumentUidMap/x:uuidmap/x:item[@key = $processedUuid]" />
+		<xsl:choose>
+			<xsl:when test="$docIdFromSummaryTocMap">
+				<xsl:value-of select="$docIdFromSummaryTocMap" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of
+					select="$documentUidMap/x:uuidmap/x:item[@key = $processedUuid and @type = 'sumtoc'][1]" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
 
 	<xsl:template match="x:XPPSummaryTOCAnchor">
 		<xsl:element name="a">
@@ -179,7 +185,7 @@
 
 	<xsl:template match="x:cite.query">
 		<xsl:copy>
-			<xsl:copy-of select="@*"/>
+			<xsl:copy-of select="@*" />
 			<xsl:apply-templates />
 		</xsl:copy>
 	</xsl:template>
@@ -210,9 +216,9 @@
 		<xsl:element name="thead">
 			<xsl:apply-templates />
 		</xsl:element>
-    </xsl:template>
-    
-    <xsl:template match="x:tbody">
+	</xsl:template>
+
+	<xsl:template match="x:tbody">
 		<xsl:element name="tbody">
 			<xsl:apply-templates />
 		</xsl:element>
@@ -228,7 +234,7 @@
 		<xsl:element name="td">
 			<xsl:apply-templates />
 		</xsl:element>
-    </xsl:template>
+	</xsl:template>
 
 	<xsl:template match="x:page.number.ref">
 		<xsl:variable name="pgNum" select="./@page-number" />

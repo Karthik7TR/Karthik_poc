@@ -77,4 +77,18 @@
 		</xsl:variable>
 		<xsl:value-of select="$noLongDash" />
 	</xsl:function>
+	
+	<!--  updates id in case bundle is a pocket part-->
+	<xsl:function name="x:process-id">
+		<xsl:param name="id" />
+		<xsl:param name="isPocketPart" />
+		<xsl:choose>
+			<xsl:when test="$isPocketPart=true()">
+				<xsl:value-of select="concat($id, '_pp')" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$id" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
 </xsl:stylesheet>

@@ -69,6 +69,8 @@ public final class XppFormatFileSystemImplTest {
     private static final String TITLE_METADATA_XML = "titleMetadata.xml";
     private static final String DOC_TO_IMAGE_MANIFEST = "workDirectory/Format/doc-to-image-manifest.txt";
     private static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "anchorToDocumentIdMapFile.xml";
+    private static final String ANCHOR_TO_DOCUMENT_ID_MAP_BOUND_FILE = "anchorToDocumentIdMapBoundFile.xml";
+    private static final String ANCHOR_TO_DOCUMENT_ID_MAP_SUPPLEMENT_FILE = "anchorToDocumentIdMapSupplementFile.xml";
 
     private static final String DOC_FAMILY_GUID = SECTION_UUID;
 
@@ -533,6 +535,24 @@ public final class XppFormatFileSystemImplTest {
         final File file = fileSystem.getExternalLinksMappingFile(step, MATERIAL_NUMBER, FILE_NAME_HTML);
         //then
         assertThat(file, hasPath(EXTERNAL_LINKS_MAPPING_DIR + "/" + MATERIAL_NUMBER + "/" + FILE_NAME_HTML));
+    }
+
+    @Test
+    public void shouldReturnAnchorsMapBoundFile() {
+        //given
+        //when
+        final File file = fileSystem.getAnchorToDocumentIdMapBoundFile(step);
+        //then
+        assertThat(file, hasPath(ANCHORS_DIR + "/" + ANCHOR_TO_DOCUMENT_ID_MAP_BOUND_FILE));
+    }
+
+    @Test
+    public void shouldReturnAnchorsMapSupplementFile() {
+        //given
+        //when
+        final File file = fileSystem.getAnchorToDocumentIdMapSupplementFile(step);
+        //then
+        assertThat(file, hasPath(ANCHORS_DIR + "/" + ANCHOR_TO_DOCUMENT_ID_MAP_SUPPLEMENT_FILE));
     }
 
     @Test

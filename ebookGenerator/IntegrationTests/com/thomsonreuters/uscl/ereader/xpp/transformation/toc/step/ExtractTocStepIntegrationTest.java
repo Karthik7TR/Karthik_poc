@@ -111,10 +111,12 @@ public final class ExtractTocStepIntegrationTest {
         final XppBundle volumeOneBundle = new XppBundle();
         volumeOneBundle.setMaterialNumber(VOL_ONE_MATERIAL_NUMBER);
         volumeOneBundle.setOrderedFileList(Arrays.asList("mainContent1.DIVXML.xml", "mainContent1_1.DIVXML.xml"));
+        volumeOneBundle.setProductType("supp");
 
         final XppBundle volumeTwoBundle = new XppBundle();
         volumeTwoBundle.setMaterialNumber(VOL_TWO_MATERIAL_NUMBER);
         volumeTwoBundle.setOrderedFileList(Arrays.asList("mainContent2.DIVXML.xml", "mainContent3.DIVXML.xml"));
+        volumeTwoBundle.setProductType("bound");
 
         return Arrays.asList(volumeOneBundle, volumeTwoBundle);
     }

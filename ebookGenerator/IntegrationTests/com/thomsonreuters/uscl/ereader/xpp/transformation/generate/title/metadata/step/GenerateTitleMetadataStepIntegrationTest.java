@@ -104,6 +104,7 @@ public final class GenerateTitleMetadataStepIntegrationTest {
         final XppBundle secondBundle = new XppBundle();
         secondBundle.setMaterialNumber(ADDITIONAL_MATERIAL_NUMBER);
         secondBundle.setOrderedFileList(Arrays.asList("Useless_test_file.DIVXML.xml"));
+        secondBundle.setProductType("supp");
 
         return Arrays.asList(firstBundle, secondBundle);
     }

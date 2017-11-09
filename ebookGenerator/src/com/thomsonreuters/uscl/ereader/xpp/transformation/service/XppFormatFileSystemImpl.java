@@ -37,6 +37,8 @@ import org.springframework.stereotype.Component;
 @Component("xppFormatFileSystem")
 public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements XppFormatFileSystem {
     public static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "anchorToDocumentIdMapFile.xml";
+    public static final String ANCHOR_TO_DOCUMENT_ID_MAP_BOUND_FILE = "anchorToDocumentIdMapBoundFile.xml";
+    public static final String ANCHOR_TO_DOCUMENT_ID_MAP_SUPPLEMENT_FILE = "anchorToDocumentIdMapSupplementFile.xml";
 
     static final String CITE_QUERY_PROCESSED_DIR = "Processed Cite Queries";
 
@@ -362,6 +364,18 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     @NotNull
     File getAnchorToDocumentIdMapDirectory(@NotNull final BookStep step) {
         return newFile(getFormatDirectory(step), ANCHORS_DIR);
+    }
+
+    @NotNull
+    @Override
+    public File getAnchorToDocumentIdMapBoundFile(@NotNull final BookStep step) {
+        return new File(getAnchorToDocumentIdMapDirectory(step), ANCHOR_TO_DOCUMENT_ID_MAP_BOUND_FILE);
+    }
+
+    @NotNull
+    @Override
+    public File getAnchorToDocumentIdMapSupplementFile(@NotNull final BookStep step) {
+        return new File(getAnchorToDocumentIdMapDirectory(step), ANCHOR_TO_DOCUMENT_ID_MAP_SUPPLEMENT_FILE);
     }
 
     @NotNull

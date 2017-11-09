@@ -17,6 +17,7 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.generate.title.metadata.step.DocumentName;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
+import com.thomsonreuters.uscl.ereader.xpp.utils.bundle.BundleUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +36,7 @@ public class TransformationToHtmlStep extends XppTransformationStep {
 
     @Override
     public void executeTransformation() throws Exception {
+        final Collection<XppBundle> bundles = getXppBundles();
         final Transformer transformer = transformerBuilderFactory.create()
             .withXsl(transformToHtmlXsl)
             .withParameter("entitiesDocType", entitiesDtdFile.getAbsolutePath().replace("\\", "/"))
@@ -42,10 +44,15 @@ public class TransformationToHtmlStep extends XppTransformationStep {
         final PagePrefix pagePrefix = new PagePrefix(getXppBundles());
         for (final Entry<String, Collection<File>> dir : fileSystem.getOriginalPageFiles(this).entrySet()) {
             final String materialNumber = dir.getKey();
+            final boolean isPocketPart = bundles.stream()
+                .filter(bundle -> bundle.getMaterialNumber().equals(materialNumber))
+                .findFirst()
+                .map(BundleUtils::isPocketPart)
+                .orElse(false);
             pagePrefix.switchVolume(materialNumber);
             FileUtils.forceMkdir(fileSystem.getHtmlPagesDirectory(this, materialNumber));
             for (final File part : dir.getValue()) {
-                final TransformationCommand command = createCommand(transformer, materialNumber, part, pagePrefix);
+                final TransformationCommand command = createCommand(transformer, materialNumber, part, pagePrefix, isPocketPart);
                 transformationService.transform(command);
             }
         }
@@ -55,17 +62,17 @@ public class TransformationToHtmlStep extends XppTransformationStep {
         final Transformer transformer,
         final String materialNumber,
         final File part,
-        final PagePrefix pagePrefix) {
+        final PagePrefix pagePrefix,
+        final boolean isPocketPart) {
         final String partName = part.getName();
         transformer.setParameter("fileBaseName", FilenameUtils.removeExtension(partName));
         transformer.setParameter("pagePrefix", pagePrefix.getPagePrefix());
         transformer.setParameter("divXmlName", new DocumentName(partName).getBaseName());
-        transformer.setParameter(
-            "documentUidMapDoc",
-            getPath(fileSystem.getAnchorToDocumentIdMapFile(this)));
+        transformer.setParameter("documentUidMapDoc", getPath(fileSystem.getAnchorToDocumentIdMapFile(this)));
         transformer.setParameter(
             "summaryTocDocumentUidMapDoc",
             getPath(fileSystem.getAnchorToDocumentIdMapFile(this, materialNumber)));
+        transformer.setParameter("isPocketPart", isPocketPart);
 
         final File htmlPageFile = fileSystem.getHtmlPageFile(this, pagePrefix.getMaterialNumber(), partName);
         return new TransformationCommandBuilder(transformer, htmlPageFile).withInput(part).build();

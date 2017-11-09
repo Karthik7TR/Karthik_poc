@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.sdl.com/xpp"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
 	<xsl:import href="../transform-utils.xsl" />
 	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+	
+	<xsl:param name="isPocketPart" />
 
 	<xsl:template match="/">
 		<EBook>
@@ -48,14 +49,17 @@
 				<xsl:value-of select="$uuid" />
 			</Guid>
 			<DocumentGuid>
-				<xsl:choose>
-					<xsl:when test="@md.doc_family_uuid">
-						<xsl:value-of select="@md.doc_family_uuid" />
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="preceding::x:sectionbreak[1]/@sectionuuid" />
-					</xsl:otherwise>
-				</xsl:choose>
+				<xsl:variable name="uid">
+					<xsl:choose>
+						<xsl:when test="@md.doc_family_uuid">
+							<xsl:value-of select="@md.doc_family_uuid" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="preceding::x:sectionbreak[1]/@sectionuuid" />
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:value-of select="x:process-id($uid, $isPocketPart)" />
 			</DocumentGuid>
 
 			<xsl:if test="following::x:XPPHier[@parent_uuid = $uuid]">
