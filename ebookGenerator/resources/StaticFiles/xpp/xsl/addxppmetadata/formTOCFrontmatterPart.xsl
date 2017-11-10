@@ -62,12 +62,11 @@
 			<xsl:with-param name="hierName" select="'Copyright Page'" />
 		</xsl:call-template>	
 
+		<xsl:call-template name="insertISBNTemplate">
+			<xsl:with-param name="isbnNumber" select="$isbn" />
+		</xsl:call-template>
 		<xsl:copy>
 			<xsl:apply-templates select="node()|@*" />
-			
-			<xsl:call-template name="insertISBNTemplate">
-				<xsl:with-param name="isbnNumber" select="$isbn" />
-			</xsl:call-template>
 		</xsl:copy>
 
 		<xsl:call-template name="placeXppHier">

@@ -51,7 +51,7 @@
 		</fm.title.page>
 		<pagebreak num="II" num-string="0"/>
 		<sectionbreak sectionuuid="1111111.fm.copyright.page"/>
-		<sectionbreak sectionuuid="1111111.fm.copyright.page"/><XPPHier uuid="1111111.fm.copyright.page" name="Copyright Page" parent_uuid="1111111.fm.copyright.page" md.doc_family_uuid="1111111.fm.copyright.page">Copyright Page</XPPHier><fm.copyright.page>
+		<sectionbreak sectionuuid="1111111.fm.copyright.page"/><XPPHier uuid="1111111.fm.copyright.page" name="Copyright Page" parent_uuid="1111111.fm.copyright.page" md.doc_family_uuid="1111111.fm.copyright.page">Copyright Page</XPPHier><ebook-isbn><ebook-isbn-label>ISBN: </ebook-isbn-label>978-0-314-88449-7</ebook-isbn><fm.copyright.page>
 			<fm.current.copyright>
 				<text.line align="c" pre.leading="12p">
 					<t style="text.line.2">© </t>
@@ -84,7 +84,7 @@
 				<t style="fm.copyright.page cgt">purpose or format of the use.</t>
 			</fm.copyright.clearance>
 			<pagebreak num="III" num-string="iii"/>
-		<ebook-isbn><ebook-isbn-label>ISBN: </ebook-isbn-label>978-0-314-88449-7</ebook-isbn></fm.copyright.page><XPPHier uuid="1111111.FrontMatter" name="Front matter" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.copyright.page">Front matter</XPPHier>
+		</fm.copyright.page><XPPHier uuid="1111111.FrontMatter" name="Front matter" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.copyright.page">Front matter</XPPHier>
 		<sectionbreak sectionuuid="1111111.fm.highlights"/>
 		<XPPHier uuid="1111111.fm.highlights" name="Introduction to Edition" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.highlights">Introduction to Edition</XPPHier>
 		<sectionbreak sectionuuid="1111111.fm.highlights"/><XPPHier uuid="1111111.fm.highlights" name="Introduction to Edition" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.highlights">Introduction to Edition</XPPHier><fm.highlights>
