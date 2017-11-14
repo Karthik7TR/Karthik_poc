@@ -26,7 +26,9 @@
 			<xsl:attribute name="uuid" select="$uuid" />
 			<xsl:attribute name="name" select="$name" />
 			<xsl:attribute name="parent_uuid" select="$parent_uuid" />
-			<xsl:attribute name="md.doc_family_uuid" select="$doc_family_uuid" />
+			<xsl:if test= "$doc_family_uuid">
+				<xsl:attribute name="md.doc_family_uuid" select="$doc_family_uuid" />
+			</xsl:if>
 			<xsl:value-of select="$name" />
 		</xsl:element>
     </xsl:template>

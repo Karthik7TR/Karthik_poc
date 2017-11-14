@@ -1,91 +1,527 @@
-<!DOCTYPE root SYSTEM "${refPlaceHolder}"><root xmlns="http://www.sdl.com/xpp"><pagebreak num="3" num-string="3"/><publication online.royalty.id="CALA" uuid="I0f72523026a511d99b08a92d7e97623c"><publication.body><chapter uuid="I49dd324026a611d99b08a92d7e97623c" date.revised="0" date.updated="0"><front date.updated="0"><generated.toc><full.toc><toc.appendix><outline.name.block></outline.name.block></toc.appendix></full.toc></generated.toc><research.reference.block date.updated="0"><t style="research.reference.block cgt">
-								Research References
-							</t><reference.entry.group><name.block><name><t style="name.3">
-								West
-							</t><t style="name.3 cgt">’</t><t style="name.3">s Key Number Digest</t></name></name.block><reference.entry><ref.text><ref><t style="ref">Guardian and Ward 󰔓1 to 74;
-								Infants 󰔓76 to 87</t></ref></ref.text></reference.entry></reference.entry.group></research.reference.block><t style="front cgt"> 
-							</t><t style="front.1 cgt">
-								Ke
-								yCite󰄥:
-							</t><t style="front.2 cgt"> Cases and other legal
-								materials listed in KeyCite Scope can be
-							</t><t style="front.2 cgt">researched through the
-								KeyCite service on Westlaw󰄥. Use KeyCite to </t><t style="front.2 cgt">check citations for form,
-								parallel references, prior and later history, and
-							</t><t style="front.2 cgt">comprehensive citator
-								information, including citations to other decisions
-							</t><t style="front.2 cgt">
-								and secondary materials.
-							</t></front><chapter.body date.updated="0"><analytical.hierarchy uuid="I49df7c3026a611d99b08a92d7e97623c" date.revised="0" date.updated="0"><XPPHier guid='I49df7c3026a611d99b08a92d7e97623c' name='I. Introduction' parent_guid='I49dd324026a611d99b08a92d7e97623c' >I. Introduction</XPPHier><front date.updated="0"><outline.name.block toc.include="y" date.updated="0"><designator date.updated="0"><t style="designator.3">
-								I
-							</t><t style="designator.3 cgt">.</t></designator><name date.updated="0"><t style="name.4">Introduction</t></name></outline.name.block></front><analytical.hierarchy.body date.updated="0"><section.block><section uuid="I49e03f8026a611d99b08a92d7e97623c" date.revised="0" date.updated="0"><XPPMetaData guid='I445a1ac6c61c11d9962fb5f8354828db' md.uuid='I445a1ac6c61c11d9962fb5f8354828db' md.dmsserial='303448441' md.first_line_cite='CALRO S 7:1' md.second_line_cite='2 Children &amp;amp; the Law: Rights and Obligations s 7:1' md.pubpage='s 7:1' md.pubid='177882' md.doc_family_uuid='Ie0b81373f8fb11d99f28ffa0ae8c2575' md.normalizedcite='CALROS7:1' md.third_line_cite=''  name='&amp;sect; 7:1. Scope of chapter' parent_uuid='I49df7c3026a611d99b08a92d7e97623c' >&sect; 7:1. Scope of chapter</XPPMetaData><section.front date.updated="0"><outline.name.block toc.include="y" date.updated="0"><label date.updated="0"><t style="label.2 cgt">§ </t></label><designator date.updated="0"><t style="designator.4">7:1</t></designator><name date.updated="0"><t style="name.5 cgt"> 
-							</t><t style="name.5">Scope of chapter</t></name></outline.name.block></section.front><section.body date.updated="0"><para date.updated="0" first.para="yes"><para.text date.updated="0" first.para.text="yes"><t style="para.text">The purpose of this chapter is to
-								familiarize the reader </t><t style="para.text">with guardianship through a summary of
-								guardianship law. </t><t style="para.text">Since guardianship is statutory, there is
-								no substitute for a </t><t style="para.text">review of applicable state law. However,
-								statutes are not </t><t style="para.text">
-								always grouped together in one section or volume and por
-								
-							</t><t style="para.text">tions of the law may be left to local
-								rules or customs. An </t><t style="para.text">overview of the general law will assist in
-								understanding </t><t style="para.text">guardianship procedures and requirements.
-							</t></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><t style="para.text">A national review of guardianship cannot
-								provide answers </t><t style="para.text">to specific disputed issues among parties
-								in one state, nor </t><t style="para.text">can it cover every possible issue that
-								might be litigated. This </t><t style="para.text">discussion provides the juvenile and
-								family law practitioner </t><t style="para.text">with a basic understanding in order that
-								the statutes of his </t><t style="para.text">or her state can be read more meaningfully
-								and with an </t><t style="para.text">awareness of common issues.</t></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><t style="para.text">Cases presented involve minors, even
-								though adult </t><t style="para.text">
-								incompetency guardianship cases might be applicable. Ap
-								
-							</t><t style="para.text">pellate review is confined to issues of
-								appointment, removal </t><t style="para.text">
-								of guardian and settlements on account.
-							</t><t style="para.text.1 super cgt">1</t><xref id="2" type="footnote"/><t style="para.text"> Although juries </t><t style="para.text">
-								may be used to hear and determine whether the appoint
-								
-							</t><t style="para.text">ment of a guardian is necessary, it is the
-								court that decides </t><t style="para.text">
-								who will be appointed as guardian. 
-							</t><t style="para.text cgt">‘‘</t><t style="para.text">
-								Notice
-							</t><t style="para.text cgt">’’</t><t style="para.text"> is discussed in </t><pagebreak num="4" num-string="4"/><t style="para.text">
-								relation to the petition process,
-							</t><t style="para.text.1 super cgt">2</t><xref id="3" type="footnote"/><t style="para.text"> although notice regarding </t><t style="para.text">other aspects of guardianship (i.e.,
-								notice to creditors), has </t><t style="para.text">
-								been one of the most violated rules in guardianship.
-							</t><t style="para.text.1 super cgt">3</t><xref id="4" type="footnote"/></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><t style="para.text">
-								Some alternatives to guardianship are discussed,
-							</t><t style="para.text.1 super cgt">4</t><xref id="5" type="footnote"/><t style="para.text"> as </t><t style="para.text">
-								counsel may recommend such a course of action in a particu
-								
-							</t><t style="para.text">lar case. Related issues are addressed in
-								other chapters on </t><t style="para.text">
-								adoption, divorce and mental health.
-							</t><t style="para.text.1 super cgt">5</t><xref id="6" type="footnote"/><t style="para.text"> Forms at the end of </t><t style="para.text">the chapter were collected from various
-								state statutes as a </t><t style="para.text">guide, and may need to be altered for
-								individual use.</t></para.text></para></section.body></section><section uuid="I4a6f120026a611d99b08a92d7e97623c" date.revised="0" date.updated="0"><XPPMetaData guid='I445a1ac9c61c11d9962fb5f8354828db' md.uuid='I445a1ac9c61c11d9962fb5f8354828db' md.dmsserial='303448442' md.first_line_cite='CALRO S 7:2' md.second_line_cite='2 Children &amp;amp; the Law: Rights and Obligations s 7:2' md.pubpage='s 7:2' md.pubid='177882' md.doc_family_uuid='Ie0b81374f8fb11d99f28ffa0ae8c2575' md.normalizedcite='CALROS7:2' md.third_line_cite=''  name='&amp;sect; 7:2. Definitions' parent_uuid='I49df7c3026a611d99b08a92d7e97623c' >&sect; 7:2. Definitions</XPPMetaData><section.front date.updated="0"><outline.name.block toc.include="y" date.updated="0"><label date.updated="0"><t style="label.2 cgt">§ </t></label><designator date.updated="0"><t style="designator.4">7:2</t></designator><name date.updated="0"><t style="name.5 cgt"> 
-							</t><t style="name.5">Definitions</t></name></outline.name.block></section.front><section.body date.updated="0"><para date.updated="0" first.para="yes"><para.text date.updated="0" first.para.text="yes"><ital><t style="ital">Ancillary Guardian.</t></ital><t style="para.text"> Guardian appointed in a state other </t><t style="para.text">
-								than the state of original appointment and who is subservi
-								
-							</t><t style="para.text">ent and assistive to the original
-								guardian.</t></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital><t style="ital">Conservator.</t></ital><t style="para.text"> Interchangeable with guardian in some </t><t style="para.text">
-								courts; other courts reserve the term to relate only to guard
-								
-							</t><t style="para.text">
-								ian of the property. A state may use the term guardian refer
-								
-							</t><t style="para.text">
-								ring to minors and conservator applying to adults.
-							</t><t style="para.text.1 super cgt">1</t><xref id="7" type="footnote"/></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital><t style="ital">Curator.</t></ital><t style="para.text"> French civil law term for guardian
-								appointed to </t><t style="para.text">control minor's property. Has other
-								meanings in other </t><t style="para.text">contexts.</t></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital><t style="ital">Domicile.</t></ital><t style="para.text"> Intended legal residence.</t></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital><t style="ital">Domiciliary Guardian.</t></ital><t style="para.text"> Guardian appointed by the state of </t><t style="para.text">the guardian's and ward's
-								domicile.</t></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital><t style="ital">Emancipation.</t></ital><t style="para.text"> Adult status obtained in some states
-								prior </t><t style="para.text">to age of majority by marriage, court
-								decree or military </t><t style="para.text">
-								enlistment.
-							</t><t style="para.text.1 super cgt">2</t><xref id="8" type="footnote"/></para.text></para><para date.updated="0" first.para="no"><para.text date.updated="0" first.para.text="yes"><ital><t style="ital">Foreign Guardian.</t></ital><t style="para.text"> Guardian whose appointment was </t><t style="para.text">granted in another state. Outside the
-								original appointment </t><t style="para.text">jurisdiction the guardian is considered a
-								foreign guardian. </t><t style="para.text">The foreign guardian must be assisted by a
-								local guardian. </t></para.text></para></section.body></section></section.block></analytical.hierarchy.body></analytical.hierarchy></chapter.body></chapter></publication.body></publication></root>
+<root xmlns="http://www.sdl.com/xpp">
+	<pagebreak num="1-i" serial-num="1"/>
+	<publication online.royalty.id="EJD" uuid="I2ca42b80b3d511e4b34590c5eb12a254">
+		<XPPHier uuid='I2ca42b80b3d511e4b34590c5eb12a254' name='California Practice Guide--Enforcing Judgments and Debts' parent_uuid='I2ca42b80b3d511e4b34590c5eb12a254' >California Practice Guide--Enforcing Judgments and Debts</XPPHier>
+		<publication.body>
+			<rutter.chapter uuid="I2ca515e0b3d511e4b34590c5eb12a254" date.updated="0">
+				<XPPHier uuid='I2ca515e0b3d511e4b34590c5eb12a254' name='Chapter 1. Preliminary Considerations' parent_uuid='I2ca42b80b3d511e4b34590c5eb12a254' >Chapter 1. Preliminary Considerations</XPPHier>
+				<metadata.block metadata.store="yes">
+					<metadata field="copyright.year">
+						<value/>
+					</metadata>
+				</metadata.block>
+				<rutter.chapter.front date.updated="0">
+					<rw.outline.name.block xpp.level="0" date.updated="0">
+						<label date.updated="0">
+							<t style="label">Chapter</t>
+						</label><t style="rw.outline.name.block cgt"> </t>
+						<designator date.updated="0" xpp.is.numeric="y">
+							<t style="designator">1</t>
+						</designator>
+						<name date.updated="0">
+							<t style="name">Preliminary Considerations</t>
+						</name>
+					</rw.outline.name.block>
+					<generated.toc>
+						<full.toc>
+							<t style="full.toc cgt">Contents</t><t style="full.toc.1 cgt">Page</t>
+							<toc.rw.hierarchy xpp.level="1" tocuuid="I2ca6c390b3d511e4b34590c5eb12a254" xpp.lvl="1">
+								<XPPTOCLink uuid='I2ca6c390b3d511e4b34590c5eb12a2541' >
+									<outline.name.block>
+										<designator date.updated="0">
+											<t style="designator.1">A</t><t style="designator.1 cgt">.</t>
+										</designator>
+										<name xpp.style="upper">
+											<t style="name.1">Lawyer's Role in Debt Collection Process</t>
+										</name><t style="outline.name.block cgt"> </t><t style="outline.name.block cgt">.</t>
+										<xref id="I2ca6c390b3d511e4b34590c5eb12a254" type="main"/>
+										<t style="outline.name.block cgt">1-</t>
+										<xref id="I2ca6c390b3d511e4b34590c5eb12a254" type="main"/>
+										<t style="outline.name.block cgt">1</t>
+									</outline.name.block>
+								</XPPTOCLink>
+								<toc.rw.doc xpp.level="2" tocuuid="I2ca982b0b3d511e4b34590c5eb12a254" xpp.lvl="2">
+									<XPPTOCLink uuid='I2ca982b0b3d511e4b34590c5eb12a2542' >
+										<outline.name.block>
+											<designator date.updated="0" xpp.is.numeric="y">
+												<t style="designator.2">1</t><t style="designator.2 cgt">.</t>
+											</designator>
+											<rw.designator date.updated="0"/>
+											<name>
+												<t style="name.2">Why Lawyers Should Take Collection Cases</t>
+											</name><t style="outline.name.block cgt"> </t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t>
+											<xref id="I2ca982b0b3d511e4b34590c5eb12a254" type="main"/>
+											<t style="outline.name.block cgt">1-</t>
+											<xref id="I2ca982b0b3d511e4b34590c5eb12a254" type="main"/>
+											<t style="outline.name.block cgt">1</t>
+										</outline.name.block>
+									</XPPTOCLink>
+								</toc.rw.doc>
+								<toc.rw.hierarchy xpp.level="2" tocuuid="I2cd7e5b0b3d511e4b34590c5eb12a254" xpp.lvl="2">
+									<XPPTOCLink uuid='I2cd7e5b0b3d511e4b34590c5eb12a2542' >
+										<outline.name.block>
+											<designator date.updated="0" xpp.is.numeric="y">
+												<t style="designator.2">2</t><t style="designator.2 cgt">.</t>
+											</designator>
+											<name>
+												<t style="name.2">Types of Claims</t>
+											</name><t style="outline.name.block cgt"> </t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t>
+											<xref id="I2cd7e5b0b3d511e4b34590c5eb12a254" type="main"/>
+											<t style="outline.name.block cgt">1-</t>
+											<xref id="I2cd7e5b0b3d511e4b34590c5eb12a254" type="main"/>
+											<t style="outline.name.block cgt">1</t>
+										</outline.name.block>
+									</XPPTOCLink>
+									<toc.rw.doc xpp.level="3" tocuuid="I2cd94540b3d511e4b34590c5eb12a254" xpp.lvl="3">
+										<XPPTOCLink uuid='I2cd94540b3d511e4b34590c5eb12a2543' >
+											<outline.name.block>
+												<designator date.updated="0">
+													<t style="designator.2">a</t><t style="designator.2 cgt">.</t>
+												</designator>
+												<rw.designator date.updated="0"/>
+												<name>
+													<t style="name.2">Secured vs. unsecured debts</t>
+												</name><t style="outline.name.block cgt"> </t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t>
+												<xref id="I2cd94540b3d511e4b34590c5eb12a254" type="main"/>
+												<t style="outline.name.block cgt">1-</t>
+												<xref id="I2cd94540b3d511e4b34590c5eb12a254" type="main"/>
+												<t style="outline.name.block cgt">1</t>
+											</outline.name.block>
+										</XPPTOCLink>
+									</toc.rw.doc>
+									<toc.rw.doc xpp.level="3" tocuuid="I2ce998f0b3d511e4b34590c5eb12a254" xpp.lvl="3">
+										<XPPTOCLink uuid='I2ce998f0b3d511e4b34590c5eb12a2543' >
+											<outline.name.block>
+												<designator date.updated="0">
+													<t style="designator.2">b</t><t style="designator.2 cgt">.</t>
+												</designator>
+												<rw.designator date.updated="0"/>
+												<name>
+													<t style="name.2">Consumer vs. commercial claims</t>
+												</name><t style="outline.name.block cgt"> </t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t>
+												<xref id="I2ce998f0b3d511e4b34590c5eb12a254" type="main"/>
+												<t style="outline.name.block cgt">1-</t>
+												<xref id="I2ce998f0b3d511e4b34590c5eb12a254" type="main"/>
+												<t style="outline.name.block cgt">1</t>
+											</outline.name.block>
+										</XPPTOCLink>
+										<toc.rw.doc xpp.level="4" tocuuid="I2cee7af0b3d511e4b34590c5eb12a254" xpp.lvl="4">
+											<XPPTOCLink uuid='I2cee7af0b3d511e4b34590c5eb12a2544' >
+												<outline.name.block>
+													<designator date.updated="0">
+														<t style="designator.2">(1)</t>
+													</designator>
+													<rw.designator date.updated="0"/>
+													<name>
+														<t style="name.2">Commercial (business) claims</t>
+													</name><t style="outline.name.block cgt"> </t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t>
+													<xref id="I2cee7af0b3d511e4b34590c5eb12a254" type="main"/>
+													<t style="outline.name.block cgt">1-</t>
+													<xref id="I2cee7af0b3d511e4b34590c5eb12a254" type="main"/>
+													<t style="outline.name.block cgt">2</t>
+												</outline.name.block>
+											</XPPTOCLink>
+										</toc.rw.doc>
+										<toc.rw.doc xpp.level="4" tocuuid="I2cf8db30b3d511e4b34590c5eb12a254" xpp.lvl="4">
+											<XPPTOCLink uuid='I2cf8db30b3d511e4b34590c5eb12a2544' >
+												<outline.name.block>
+													<designator date.updated="0">
+														<t style="designator.2">(2)</t>
+													</designator>
+													<rw.designator date.updated="0"/>
+													<name>
+														<t style="name.2">Consumer (individual) claims</t>
+													</name><t style="outline.name.block cgt"> </t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t>
+													<xref id="I2cf8db30b3d511e4b34590c5eb12a254" type="main"/>
+													<t style="outline.name.block cgt">1-</t>
+													<xref id="I2cf8db30b3d511e4b34590c5eb12a254" type="main"/>
+													<t style="outline.name.block cgt">2</t>
+												</outline.name.block>
+											</XPPTOCLink>
+											<toc.rw.doc xpp.level="5" tocuuid="I2cfcd2d0b3d511e4b34590c5eb12a254" xpp.lvl="5">
+												<XPPTOCLink uuid='I2cfcd2d0b3d511e4b34590c5eb12a2545' >
+													<outline.name.block>
+														<designator date.updated="0">
+															<t style="designator.2">(a)</t>
+														</designator>
+														<rw.designator date.updated="0"/>
+														<name>
+															<t style="name.2">Liberal exemptions</t>
+														</name><t style="outline.name.block cgt"> </t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t>
+														<xref id="I2cfcd2d0b3d511e4b34590c5eb12a254" type="main"/>
+														<t style="outline.name.block cgt">1-</t>
+														<xref id="I2cfcd2d0b3d511e4b34590c5eb12a254" type="main"/>
+														<t style="outline.name.block cgt">2</t>
+													</outline.name.block>
+												</XPPTOCLink>
+											</toc.rw.doc>
+											<toc.rw.doc xpp.level="5" tocuuid="I2d036280b3d511e4b34590c5eb12a254" xpp.lvl="5">
+												<XPPTOCLink uuid='I2d036280b3d511e4b34590c5eb12a2545' >
+													<outline.name.block>
+														<designator date.updated="0">
+															<t style="designator.2">(b)</t>
+														</designator>
+														<rw.designator date.updated="0"/>
+														<name>
+															<t style="name.2">Difficulty in locating debtor</t>
+														</name><t style="outline.name.block cgt"> </t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t>
+														<xref id="I2d036280b3d511e4b34590c5eb12a254" type="main"/>
+														<t style="outline.name.block cgt">1-</t>
+														<xref id="I2d036280b3d511e4b34590c5eb12a254" type="main"/>
+														<t style="outline.name.block cgt">2</t>
+													</outline.name.block>
+												</XPPTOCLink>
+											</toc.rw.doc>
+											<toc.rw.doc xpp.level="5" tocuuid="I2d0955f0b3d511e4b34590c5eb12a254" xpp.lvl="5">
+												<XPPTOCLink uuid='I2d0955f0b3d511e4b34590c5eb12a2545' >
+													<outline.name.block>
+														<designator date.updated="0">
+															<t style="designator.2">(c)</t>
+														</designator>
+														<rw.designator date.updated="0"/>
+														<name>
+															<t style="name.2">Insufficient assets and income</t>
+														</name><t style="outline.name.block cgt"> </t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t>
+														<xref id="I2d0955f0b3d511e4b34590c5eb12a254" type="main"/>
+														<t style="outline.name.block cgt">1-</t>
+														<xref id="I2d0955f0b3d511e4b34590c5eb12a254" type="main"/>
+														<t style="outline.name.block cgt">3</t>
+													</outline.name.block>
+												</XPPTOCLink>
+											</toc.rw.doc>
+											<toc.rw.doc xpp.level="5" tocuuid="I2d0d74a0b3d511e4b34590c5eb12a254" xpp.lvl="5">
+												<XPPTOCLink uuid='I2d0d74a0b3d511e4b34590c5eb12a2545' >
+													<outline.name.block>
+														<designator date.updated="0">
+															<t style="designator.2">(d)</t>
+														</designator>
+														<rw.designator date.updated="0"/>
+														<name>
+															<t style="name.2">Consumer bankruptcies</t>
+														</name><t style="outline.name.block cgt"> </t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t>
+														<xref id="I2d0d74a0b3d511e4b34590c5eb12a254" type="main"/>
+														<t style="outline.name.block cgt">1-</t>
+														<xref id="I2d0d74a0b3d511e4b34590c5eb12a254" type="main"/>
+														<t style="outline.name.block cgt">3</t>
+													</outline.name.block>
+												</XPPTOCLink>
+											</toc.rw.doc>
+										</toc.rw.doc>
+									</toc.rw.doc>
+								</toc.rw.hierarchy>
+								<toc.rw.hierarchy xpp.level="2" tocuuid="I2d193470b3d511e4b34590c5eb12a254" xpp.lvl="2">
+									<XPPTOCLink uuid='I2d193470b3d511e4b34590c5eb12a2542' >
+										<outline.name.block>
+											<designator date.updated="0" xpp.is.numeric="y">
+												<t style="designator.2">3</t><t style="designator.2 cgt">.</t>
+											</designator>
+											<name>
+												<t style="name.2">Attorney's Functions</t>
+											</name><t style="outline.name.block cgt"> </t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t>
+											<xref id="I2d193470b3d511e4b34590c5eb12a254" type="main"/>
+											<t style="outline.name.block cgt">1-</t>
+											<xref id="I2d193470b3d511e4b34590c5eb12a254" type="main"/>
+											<t style="outline.name.block cgt">3</t>
+										</outline.name.block>
+									</XPPTOCLink>
+									<toc.rw.doc xpp.level="3" tocuuid="I2d1a1ed0b3d511e4b34590c5eb12a254" xpp.lvl="3">
+										<XPPTOCLink uuid='I2d1a1ed0b3d511e4b34590c5eb12a2543' >
+											<outline.name.block>
+												<designator date.updated="0">
+													<t style="designator.2">a</t><t style="designator.2 cgt">.</t>
+												</designator>
+												<rw.designator date.updated="0"/>
+												<name>
+													<t style="name.2">Creditor's counsel</t>
+												</name><t style="outline.name.block cgt"> </t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t>
+												<xref id="I2d1a1ed0b3d511e4b34590c5eb12a254" type="main"/>
+												<t style="outline.name.block cgt">1-</t>
+												<xref id="I2d1a1ed0b3d511e4b34590c5eb12a254" type="main"/>
+												<t style="outline.name.block cgt">3</t>
+											</outline.name.block>
+										</XPPTOCLink>
+									</toc.rw.doc>
+									<toc.rw.doc xpp.level="3" tocuuid="I2d254260b3d511e4b34590c5eb12a254" xpp.lvl="3">
+										<XPPTOCLink uuid='I2d254260b3d511e4b34590c5eb12a2543' >
+											<outline.name.block>
+												<designator date.updated="0">
+													<t style="designator.2">b</t><t style="designator.2 cgt">.</t>
+												</designator>
+												<rw.designator date.updated="0"/>
+												<name>
+													<t style="name.2">Debtor's counsel</t>
+												</name><t style="outline.name.block cgt"> </t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t>
+												<xref id="I2d254260b3d511e4b34590c5eb12a254" type="main"/>
+												<t style="outline.name.block cgt">1-</t>
+												<xref id="I2d254260b3d511e4b34590c5eb12a254" type="main"/>
+												<t style="outline.name.block cgt">3</t>
+											</outline.name.block>
+										</XPPTOCLink>
+									</toc.rw.doc>
+								</toc.rw.hierarchy>
+								<toc.rw.doc xpp.level="2" tocuuid="I2d2fa2a0b3d511e4b34590c5eb12a254" xpp.lvl="2">
+									<XPPTOCLink uuid='I2d2fa2a0b3d511e4b34590c5eb12a2542' >
+										<outline.name.block>
+											<designator date.updated="0" xpp.is.numeric="y">
+												<t style="designator.2">4</t><t style="designator.2 cgt">.</t>
+											</designator>
+											<rw.designator date.updated="0"/>
+											<name>
+												<t style="name.2">Compare—Role of Collection Agencies</t>
+											</name><t style="outline.name.block cgt"> </t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t>
+											<xref id="I2d2fa2a0b3d511e4b34590c5eb12a254" type="main"/>
+											<t style="outline.name.block cgt">1-</t>
+											<xref id="I2d2fa2a0b3d511e4b34590c5eb12a254" type="main"/>
+											<t style="outline.name.block cgt">4</t>
+										</outline.name.block>
+									</XPPTOCLink>
+									<toc.rw.doc xpp.level="3" tocuuid="I2d3c25c0b3d511e4b34590c5eb12a254" xpp.lvl="3">
+										<XPPTOCLink uuid='I2d3c25c0b3d511e4b34590c5eb12a2543' >
+											<outline.name.block>
+												<designator date.updated="0">
+													<t style="designator.2">a</t><t style="designator.2 cgt">.</t>
+												</designator>
+												<rw.designator date.updated="0"/>
+												<name>
+													<t style="name.2">“Private child support collectors” distinguished</t>
+												</name><t style="outline.name.block cgt"> </t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t>
+												<xref id="I2d3c25c0b3d511e4b34590c5eb12a254" type="main"/>
+												<t style="outline.name.block cgt">1-</t>
+												<xref id="I2d3c25c0b3d511e4b34590c5eb12a254" type="main"/>
+												<t style="outline.name.block cgt">4</t>
+											</outline.name.block>
+										</XPPTOCLink>
+									</toc.rw.doc>
+								</toc.rw.doc>
+							</toc.rw.hierarchy>
+							<toc.rutter.form.block tocuuid="I320630f0b3d511e4b34590c5eb12a254">
+								<XPPTOCLink uuid='I320630f0b3d511e4b34590c5eb12a254' >
+									<outline.name.block>
+										<name>
+											<t style="name.1">Forms</t>
+										</name>
+									</outline.name.block>
+								</XPPTOCLink>
+								<toc.rutter.form.doc tocuuid="I32067f10b3d511e4b34590c5eb12a254">
+									<XPPTOCLink uuid='I32067f10b3d511e4b34590c5eb12a254' >
+										<outline.name.block>
+											<rw.designator date.updated="0">
+												<t style="rw.designator.1">FORM 1:A</t>
+											</rw.designator><t style="outline.name.block cgt"> </t>
+											<name>
+												<t style="name.2">Contingency Fee Agreement</t>
+											</name><t style="outline.name.block cgt"> </t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">1-</t>
+											<xref id="I32067f10b3d511e4b34590c5eb12a254" type="main"/>
+											<t style="outline.name.block cgt">45</t>
+										</outline.name.block>
+									</XPPTOCLink>
+								</toc.rutter.form.doc>
+								<toc.rutter.form.doc tocuuid="I32477fb0b3d511e4b34590c5eb12a254">
+									<XPPTOCLink uuid='I32477fb0b3d511e4b34590c5eb12a254' >
+										<outline.name.block>
+											<rw.designator date.updated="0">
+												<t style="rw.designator.1">FORM 1:B</t>
+											</rw.designator><t style="outline.name.block cgt"> </t>
+											<name>
+												<t style="name.2">Letter Agreement for Hourly Rate Fee</t>
+											</name><t style="outline.name.block cgt"> </t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">1-</t>
+											<xref id="I32477fb0b3d511e4b34590c5eb12a254" type="main"/>
+											<t style="outline.name.block cgt">48</t>
+										</outline.name.block>
+									</XPPTOCLink>
+								</toc.rutter.form.doc>
+								<toc.rutter.form.doc tocuuid="I8dde0ac0db1a11e5acc5ecc23481a9f2">
+									<XPPTOCLink uuid='I8dde0ac0db1a11e5acc5ecc23481a9f2' >
+										<outline.name.block>
+											<rw.designator date.updated="0">
+												<t style="rw.designator.1">FORM 1:C</t>
+											</rw.designator><t style="outline.name.block cgt"> </t>
+											<name>
+												<t style="name.2">Blended Contingency and Hourly Fee </t><t style="name.2">Agreement</t>
+											</name><t style="outline.name.block cgt"> </t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">.</t><t style="outline.name.block cgt">1-</t>
+											<xref id="I8dde0ac0db1a11e5acc5ecc23481a9f2" type="main"/>
+											<t style="outline.name.block cgt">51</t>
+										</outline.name.block>
+									</XPPTOCLink>
+								</toc.rutter.form.doc>
+							</toc.rutter.form.block>
+						</full.toc>
+					</generated.toc>
+				</rutter.chapter.front>
+				<pagebreak num="1-1" serial-num="1"/>
+				<page.number.ref page-number="1-1"/>
+				<rutter.chapter.body date.updated="0">
+					<t style="rutter.chapter.body cgt">Preliminary Considerations</t>
+					<rw.hierarchy online.1st.cite="CH 1-A" online.2nd.cite="Ch. 1-A" uuid="I2ca6c390b3d511e4b34590c5eb12a254" date.updated="0" xpp.lvl="1" xpp.level="1">
+						<XPPMetaData uuid='I2ca6c390b3d511e4b34590c5eb12a254' guid='I0e4bf205046e11e5a074da751e8a4851' md.uuid='I0e4bf205046e11e5a074da751e8a4851' md.dmsserial='430352107' md.first_line_cite='CADEBT CH 1&amp;NDASH;A' md.pubpage='CH 1&amp;ndash;A' md.second_line_cite='Cal. Prac. Guide Enf. J. &amp;amp; Debt Ch. 1&amp;ndash;A' md.normalizedcite='CADEBTCH1&amp;NDASH;A' md.doc_family_uuid='I74760471047e11e5855fd9e9fcfec8b8' md.third_line_cite='' md.pubid='105979'  name='A. Lawyer&amp;apos;s Role in Debt Collection Process' parent_uuid='I2ca515e0b3d511e4b34590c5eb12a254' >A. Lawyer&apos;s Role in Debt Collection Process</XPPMetaData>
+						<XPPHier uuid='I2ca6c390b3d511e4b34590c5eb12a254' name='A. Lawyer&amp;apos;s Role in Debt Collection Process' parent_uuid='I2ca515e0b3d511e4b34590c5eb12a254' >A. Lawyer&apos;s Role in Debt Collection Process</XPPHier>
+						<rw.hierarchy.front date.updated="0">
+							<rw.outline.name.block xpp.level="1" date.updated="0">
+								<designator date.updated="0">
+									<t style="designator.1">A</t><t style="designator.1 cgt">.</t>
+								</designator><t style="rw.outline.name.block.1 cgt"> </t>
+								<name xpp.style="upper" date.updated="0">
+									<t style="name.1">Lawyer's Role in Debt Collection Process</t>
+								</name>
+							</rw.outline.name.block>
+						</rw.hierarchy.front>
+						<rw.hierarchy.body date.updated="0">
+							<rw.doc uuid="I2ca982b0b3d511e4b34590c5eb12a254" date.updated="0" xpp.lvl="2" xpp.level="2">
+								<XPPHier uuid='I2ca982b0b3d511e4b34590c5eb12a254' name='1. Why Lawyers Should Take Collection Cases' parent_uuid='I2ca6c390b3d511e4b34590c5eb12a254' >1. Why Lawyers Should Take Collection Cases</XPPHier>
+								<rw.doc.front date.updated="0">
+									<rw.doc.outline.name.block xpp.level="2" date.updated="0">
+										<designator date.updated="0" xpp.is.numeric="y">
+											<t style="designator.2">1</t><t style="designator.2 cgt">.</t>
+										</designator><t style="rw.doc.outline.name.block cgt"> </t>
+										<rw.designator date.updated="0">
+											<t style="rw.designator cgt">[</t>
+										</rw.designator><t style="rw.doc.outline.name.block.1 cgt">1:1] </t>
+										<name date.updated="0">
+											<t style="name.3">Why Lawyers Should Take Collection Cases:</t>
+										</name>
+									</rw.doc.outline.name.block>
+								</rw.doc.front>
+								<rw.doc.body date.updated="0">
+									<para xpp.level="2" date.updated="0" first.para="yes">
+										<para.text date.updated="0" first.para.text="yes">
+											<t style="para.text cgt"> </t><t style="para.text">Debt </t><t style="para.text">collection problems can arise from commercial or consumer transac</t><t style="para.text">tions, or any type of civil litigation where monetary relief is sought—</t><t style="para.text">obtaining a judgment is only half the battle . . . collecting it, </t><t style="para.text">the other and often the more difficult half!</t>
+										</para.text>
+									</para>
+									<para xpp.level="2" date.updated="0" first.para="no">
+										<para.text date.updated="0" first.para.text="yes">
+											<t style="para.text">In the past, some courts and practitioners have regarded debt </t><t style="para.text">collection with disfavor. However, attorneys who refuse to take </t><t style="para.text">collection cases do a disservice to their clients and to themselves. </t><t style="para.text">Handling debt collection matters efficiently may not only provide </t><t style="para.text">a steady income, it can lead to referral of other types of legal </t><t style="para.text">business from satisfied clients while performing the invaluable </t><t style="para.text">service of collecting the money owed their clients without needing </t><t style="para.text">to retain new counsel.</t>
+										</para.text>
+									</para>
+									<para xpp.level="2" date.updated="0" first.para="no">
+										<para.text date.updated="0" first.para.text="yes">
+											<t style="para.text">Moreover, attorneys can perform a real service to </t><t style="ital">debtor</t><t style="para.text"> clients </t><t style="para.text">by negotiating and, if necessary, defending creditors' claims (e.g., </t><t style="para.text">by instituting repayment plans that assist debtors in maintaining </t><t style="para.text">acceptable credit ratings and paying valid debts). From a practical </t><t style="para.text">perspective, successful debt collection assists debtors by resolving </t><t style="para.text">debts that negatively impact them and their families.</t>
+										</para.text>
+									</para>
+								</rw.doc.body>
+							</rw.doc>
+							<rw.doc uuid="I2d2fa2a0b3d511e4b34590c5eb12a254" date.updated="0" xpp.lvl="2" xpp.level="2">
+								<XPPHier uuid='I2d2fa2a0b3d511e4b34590c5eb12a254' name='4. Compare-Role of Collection Agencies' parent_uuid='I2ca6c390b3d511e4b34590c5eb12a254' >4. Compare-Role of Collection Agencies</XPPHier>
+								<rw.doc.front date.updated="0">
+									<rw.doc.outline.name.block xpp.level="2" date.updated="0">
+										<designator date.updated="0" xpp.is.numeric="y">
+											<t style="designator.2">4</t><t style="designator.2 cgt">.</t>
+										</designator><t style="rw.doc.outline.name.block cgt"> </t>
+										<rw.designator date.updated="0">
+											<t style="rw.designator cgt">[</t>
+										</rw.designator><t style="rw.doc.outline.name.block.1 cgt">1:12] </t>
+										<name date.updated="0">
+											<t style="name.3">Compare—Role of Collection Agencies:</t>
+										</name>
+									</rw.doc.outline.name.block>
+								</rw.doc.front>
+								<rw.doc.body date.updated="0">
+									<para xpp.level="2" date.updated="0" first.para="yes">
+										<para.text date.updated="0" first.para.text="yes">
+											<t style="para.text cgt"> </t><t style="para.text">There are </t><t style="para.text">hundreds of collection agencies in California. Some specialize </t><t style="para.text">in collecting consumer or commercial debts or both. Most work </t><t style="para.text">on a contingency fee basis, usually charging between 25% and </t><t style="para.text">50% of any sums recovered for the creditor.</t>
+										</para.text>
+									</para>
+									<para xpp.level="2" date.updated="0" first.para="no">
+										<para.text date.updated="0" first.para.text="yes">
+											<t style="para.text">Many collection agencies have </t><t style="ital">formal</t><t style="para.text"> relationships with at</t><t style="para.text">torneys in the geographic areas where counsel regularly need </t><t style="para.text">to file suit. They also get business through assignments of judgments </t><t style="para.text">and, in the role of assignee, owe a </t><t style="ital">fiduciary duty</t><t style="para.text"> to the judgment </t><t style="para.text">creditor/assignors. [See </t>
+											<cite>
+												<ref case.id="1996182136" date="1996" fjur="Cal" jur="Cal" norm.rptr="calapp4th" p1="Cross" p2="Bonded Adjustment Bureau" pin.point="276" post.rptr="266" pre.rptr="48" ref.id="I1d45d630c2b611e48fc0e3fd38f5b3c8" title="Cross v. Bonded Adjustment Bureau">
+													<t style="ital">Cross v. Bonded Adjustment Bureau</t><t style="ref"> (1996) </t><t style="ref">48 CA4th 266, </t>
+													<point>
+														<t style="point">276</t>
+													</point><t style="ref">, 55 CR2d 801, </t>
+													<point>
+														<t style="point">806</t>
+													</point>
+												</ref>
+											</cite><t style="para.text">]</t>
+										</para.text>
+									</para>
+									<para xpp.level="2" date.updated="0" first.para="no">
+										<para.text date.updated="0" first.para.text="yes">
+											<t style="para.text">But collection agencies </t><t style="ital">cannot practice law</t><t style="para.text"> (i.e., only </t><t style="ital">active members </t><t style="ital">of the State Bar</t><t style="para.text"> are authorized to practice law in California; </t><t style="ital">see</t><t style="para.text"> </t>
+											<cite>
+												<ref type="secondaryxref" parmkref="1:118" ref.id="I1d45fd40c2b611e48fc0e3fd38f5b3c8">
+													<t style="ref cgt">¶</t><t style="ref.1">1:118</t>
+												</ref>
+											</cite><t style="para.text">). Thus, collection agency practice is confined to activities </t><t style="para.text">such as sending “collection letters” and making telephone calls, </t><t style="para.text">rather than filing suit and obtaining judgments on debts. In ad</t><t style="para.text">dition, many agencies are proficient at “skip tracing”—i.e., locating </t><t style="para.text">debtors and learning about their personal and business affairs.</t>
+										</para.text>
+									</para>
+									<rw.doc uppercase.name="yes" uuid="I2d380710b3d511e4b34590c5eb12a254" date.updated="0" xpp.type="pp" xpp.lvl="3" xpp.level="3">
+										<XPPHier uuid='I2d380710b3d511e4b34590c5eb12a254' name=' Practice pointer for creditors' parent_uuid='I2d2fa2a0b3d511e4b34590c5eb12a254' > Practice pointer for creditors</XPPHier>
+										<rw.doc.front date.updated="0">
+											<rw.doc.outline.name.block uppercase.name="yes" date.updated="0" xpp.level="3" xpp.type="pp">
+												<designator date.updated="0">
+													<proview_image id="TRGrarr.tif" type="tif" path="/apps/xpp/shared/images/lib01/TRGrarr.tif" x="0" y="-0.07i" w="0.23i" h="0.18i" rotation="0" priority="0" scale="1.000000" cropx="0" cropy="0" cropw="0.23i" croph="0.18i"/>
+												</designator><t style="rw.doc.outline.name.block cgt"> </t>
+												<rw.designator date.updated="0">
+													<t style="rw.designator cgt">[</t>
+												</rw.designator><t style="rw.doc.outline.name.block.1 cgt">1:13] </t>
+												<name date.updated="0">
+													<t style="ital.2">Practice pointer for creditors</t><t style="ital.2">:</t>
+												</name>
+											</rw.doc.outline.name.block>
+										</rw.doc.front>
+										<rw.doc.body date.updated="0">
+											<para xpp.level="3" rindent="y" date.updated="0" first.para="yes">
+												<para.text date.updated="0" first.para.text="yes">
+													<t style="para.text cgt"> </t><t style="para.text">Col</t><t style="para.text">lection agencies are an efficient and economical resource </t><t style="para.text">for obtaining satisfaction of some consumer debts. However, </t><t style="para.text">many creditors only send smaller claims (e.g., under $5,000) </t><t style="para.text">to collection agencies and refer larger, more complex or </t><t style="para.text">more collectable, matters directly to attorneys. Collection </t><t style="para.text">agencies are often reluctant to hire attorneys to sue on </t><t style="para.text">debts, as the cost of such litigation is borne by the agency, </t><t style="para.text">which may not be recovered. For this reason, employing </t><t style="para.text">a collection agency, while less costly to the creditor, is often </t><t style="para.text">tantamount to a decision to recover debts without liti</t><t style="para.text">gation.</t>
+												</para.text>
+											</para>
+										</rw.doc.body>
+									</rw.doc>
+									<rw.doc uuid="I2d3c25c0b3d511e4b34590c5eb12a254" date.updated="0" xpp.lvl="3" xpp.level="3">
+										<XPPHier uuid='I2d3c25c0b3d511e4b34590c5eb12a254' name='a. Private child support collectors distinguished' parent_uuid='I2d2fa2a0b3d511e4b34590c5eb12a254' >a. Private child support collectors distinguished</XPPHier>
+										<rw.doc.front date.updated="0">
+											<rw.doc.outline.name.block xpp.level="3" date.updated="0">
+												<designator date.updated="0">
+													<t style="designator.2">a</t><t style="designator.2 cgt">.</t>
+												</designator><t style="rw.doc.outline.name.block cgt"> </t>
+												<rw.designator date.updated="0">
+													<t style="rw.designator cgt">[</t>
+												</rw.designator><t style="rw.doc.outline.name.block.1 cgt">1:14] </t>
+												<name date.updated="0">
+													<t style="name.3">“Private child support collectors” distinguished:</t>
+												</name>
+											</rw.doc.outline.name.block>
+										</rw.doc.front>
+										<rw.doc.body date.updated="0">
+											<para xpp.level="3" date.updated="0" first.para="yes">
+												<para.text date.updated="0" first.para.text="yes">
+													<t style="para.text">The Family Code extensively regulates “private child support </t><t style="para.text">collectors” (see </t>
+													<cite>
+														<ref type="lrre" normalpub="statute-us-ca-code-fam" rangeend="et seq." rangetype="secref" ref.id="I1d462450c2b611e48fc0e3fd38f5b3c8" secrange="y" secref="5610">
+															<t style="ref">Fam.C. </t><t style="ref cgt">§</t><t style="ref">5610 et seq.</t>
+														</ref>
+													</cite><t style="para.text">). “Private child support </t><t style="para.text">collectors” are distinct from “collection agencies” per se.</t>
+												</para.text>
+											</para>
+											<para xpp.level="3" date.updated="0" first.para="no">
+												<para.text date.updated="0" first.para.text="yes">
+													<t style="para.text">A “private child support collector” is defined as an indi</t><t style="para.text">vidual, corporation, attorney, nonprofit organization or other </t><t style="ital">nongovernmental</t><t style="para.text"> entity engaged by a child support obligee </t><t style="para.text">to collect court-ordered child support for a fee or other </t><t style="para.text">consideration. Private </t><t style="ital">attorneys</t><t style="para.text"> are included in the defi</t><t style="para.text">nition if child support collection or enforcement comprises </t><t style="para.text">at least 50% of their business (in terms of remuneration or </t>
+													<pagebreak num="1-5" serial-num="5"/>
+													<page.number.ref page-number="1-5"/>
+													<t style="para.text">time spent) . . . </t><t style="ital">except that</t><t style="para.text"> attorneys addressing child support </t><t style="para.text">issues in actions to establish parentage or child support, </t><t style="para.text">marriage dissolution and certain other Family Code proceedings </t><t style="para.text">are </t><t style="ital">not</t><t style="para.text"> “private child support collectors” under this law. [See </t>
+													<cite>
+														<ref type="lrre" normalpub="statute-us-ca-code-fam" ref.id="I1d464b60c2b611e48fc0e3fd38f5b3c8" secref="5610">
+															<t style="ref">Fam.C. </t><t style="ref cgt">§</t><t style="ref">5610</t>
+														</ref>
+													</cite><t style="para.text">]</t>
+												</para.text>
+											</para>
+										</rw.doc.body>
+									</rw.doc>
+								</rw.doc.body>
+							</rw.doc>
+						</rw.hierarchy.body>
+					</rw.hierarchy>
+				</rutter.chapter.body>
+				<pagebreak num="1-44" serial-num="44"/>
+				<page.number.ref page-number="1-44"/>
+				<pagebreak num="1-45" serial-num="45"/>
+				<page.number.ref page-number="1-45"/>
+			</rutter.chapter>
+		</publication.body>
+	</publication>
+	<pagebreak num="1-56" serial-num="56"/>
+	<page.number.ref page-number="1-56"/>
+</root>

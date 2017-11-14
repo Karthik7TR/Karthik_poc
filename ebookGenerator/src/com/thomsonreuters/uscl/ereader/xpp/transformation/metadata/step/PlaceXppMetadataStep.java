@@ -18,9 +18,6 @@ import com.thomsonreuters.uscl.ereader.xpp.transformation.service.PartType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
 import org.sonar.runner.commonsio.FileUtils;
 
-/**
- *
- */
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
 public class PlaceXppMetadataStep extends XppTransformationStep {
@@ -40,7 +37,7 @@ public class PlaceXppMetadataStep extends XppTransformationStep {
         for (final File file : files) {
             final String fileName = file.getName();
             final BundleFileType bundleFileType = BundleFileType.getByFileName(fileName);
-            if (bundleFileType == BundleFileType.MAIN_CONTENT || fileName.endsWith(PartType.FOOTNOTE.getName())) {
+            if (fileName.endsWith(PartType.FOOTNOTE.getName())) {
                 FileUtils.copyFile(file, fileSystem.getStructureWithMetadataFile(this, materialNumber, fileName));
             } else {
                 strategyProvider.getStrategy(bundleFileType).performHandling(file, materialNumber, this);
