@@ -152,7 +152,7 @@
         
         <xsl:variable name="cgtSuper" select="contains($node/@style, 'cgt') and contains($node/@style, 'super')"/>
         <xsl:if test="$cgtSuper" >
-            <xsl:value-of select="$node/following-sibling::*[1]/self::x:xref/@id"/>
+            <xsl:value-of select="$node/following::*[1]/self::x:xref/@id"/>
         </xsl:if>
     </xsl:function>
     

@@ -60,7 +60,7 @@ public final class CiteQueryMapperImplTest {
         //given
         given(fileSystem.getExternalLinksMappingFile(step, materialNumber, htmlFile.getName())).willReturn(outputFile);
         //when
-        final String output = sut.createMappingFile(htmlFile, materialNumber, step);
+        final String output = sut.createMappingFile(htmlFile, materialNumber, step).getMapFilePath();
         //then
         then(fileSystem).should(times(2)).getExternalLinksMappingFile(step, materialNumber, htmlFile.getName());
         assertThat(output, equalTo("file:///" + outputFile.getPath().replace("\\", "/")));

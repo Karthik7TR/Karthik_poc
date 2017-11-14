@@ -7,13 +7,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
 import com.thomsonreuters.uscl.ereader.xpp.utils.links.CiteQueryProcessor;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,20 +27,22 @@ public class CiteQueryMapperImpl implements CiteQueryMapper {
     private XppFormatFileSystem fileSystem;
 
     @Override
-    public @NotNull String createMappingFile(
+    public @NotNull CiteQueryMapperResponse createMappingFile(
         @NotNull final File htmlFile,
         @NotNull final String materialNumber,
-        @NotNull final XppTransformationStep step) throws ParserConfigurationException, SAXException, IOException {
-        final SAXParserFactory factory = SAXParserFactory.newInstance();
-        final SAXParser saxParser = factory.newSAXParser();
-        final Handler handler = new Handler(materialNumber, htmlFile, step);
-        saxParser.parse(htmlFile, handler);
-        final String path =
-            "file:///" + handler.getOutputFile().getAbsolutePath().replace("\\", "/").replace("//", "/");
-        return path;
+        @NotNull final XppTransformationStep step) {
+        try {
+            final SAXParserFactory factory = SAXParserFactory.newInstance();
+            final SAXParser saxParser = factory.newSAXParser();
+            final Handler handler = new Handler(materialNumber, htmlFile, step);
+            saxParser.parse(htmlFile, handler);
+            return handler.getResponse();
+        } catch(final Exception e) {
+            throw new RuntimeException("Cannot parse file", e);
+        }
     }
 
-    private class Handler extends DefaultHandler {
+    private final class Handler extends DefaultHandler {
         private Map<String, String> idToHrefMap;
         private StringBuilder tagBuilder;
         private boolean isInsideCiteQuery;
@@ -48,18 +50,24 @@ public class CiteQueryMapperImpl implements CiteQueryMapper {
         private String currentId;
         private File inputFile;
         private XppTransformationStep step;
+        private final CiteQueryMapperResponse response;
 
-        Handler(final String materialNumber, final File inputFile, final XppTransformationStep step) {
-            super();
+        private Handler(final String materialNumber, final File inputFile, final XppTransformationStep step) {
             idToHrefMap = new HashMap<>();
             tagBuilder = new StringBuilder();
             this.materialNumber = materialNumber;
             this.inputFile = inputFile;
             this.step = step;
+            response = new CiteQueryMapperResponse(
+                "file:///" + getOutputFile().getAbsolutePath().replace("\\", "/").replace("//", "/"));
         }
 
-        public File getOutputFile() {
+        private File getOutputFile() {
             return fileSystem.getExternalLinksMappingFile(step, materialNumber, inputFile.getName());
+        }
+
+        public CiteQueryMapperResponse getResponse() {
+            return response;
         }
 
         @Override
@@ -86,7 +94,13 @@ public class CiteQueryMapperImpl implements CiteQueryMapper {
                 isInsideCiteQuery = false;
                 tagBuilder.append("</cite.query>");
                 try {
-                    idToHrefMap.put(currentId, CiteQueryProcessor.getLink(tagBuilder.toString()));
+                    final String citeQueryTag = tagBuilder.toString();
+                    final String reference = CiteQueryProcessor.getLink(citeQueryTag);
+                    if (StringUtils.isNotBlank(reference)) {
+                        idToHrefMap.put(currentId, reference);
+                    } else {
+                        response.addFailedTag(citeQueryTag);
+                    }
                 } catch (final Exception e) {
                     throw new SAXException(e);
                 }
@@ -122,5 +136,4 @@ public class CiteQueryMapperImpl implements CiteQueryMapper {
             }
         }
     }
-
 }

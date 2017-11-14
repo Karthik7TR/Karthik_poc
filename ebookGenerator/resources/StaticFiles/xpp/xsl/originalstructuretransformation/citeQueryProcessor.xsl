@@ -23,7 +23,7 @@
 	
 	<xsl:template match="x:t" mode="process">
 		<xsl:choose>
-			<xsl:when test="ancestor::x:cite.query">
+			<xsl:when test="ancestor::x:cite.query and not(./x:tag)">
 				<xsl:element name="cite.query">
 					<xsl:copy-of select="ancestor::x:cite.query/@*" />
 					<xsl:copy-of select="." />

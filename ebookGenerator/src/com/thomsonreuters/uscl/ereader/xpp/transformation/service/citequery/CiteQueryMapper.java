@@ -10,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 import org.xml.sax.SAXException;
 
 public interface CiteQueryMapper {
-
     /**
      * @param htmlFile input HTML file with <cite.query> tags
      * @param materialNumber material number of current volume
@@ -21,8 +20,8 @@ public interface CiteQueryMapper {
      * @throws IOException
      */
     @NotNull
-    String createMappingFile(
+    CiteQueryMapperResponse createMappingFile(
         @NotNull File htmlFile,
         @NotNull String materialNumber,
-        @NotNull XppTransformationStep step) throws ParserConfigurationException, SAXException, IOException;
+        @NotNull XppTransformationStep step);
 }

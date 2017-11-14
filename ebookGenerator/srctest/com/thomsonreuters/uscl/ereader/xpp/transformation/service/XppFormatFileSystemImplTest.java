@@ -694,4 +694,12 @@ public final class XppFormatFileSystemImplTest {
         assertTrue(baseFilesIndex.get(MATERIAL_NUMBER, FILE_NAME, PartType.MAIN).equals(originalFileMain));
         assertTrue(baseFilesIndex.get(MATERIAL_NUMBER, FILE_NAME, PartType.FOOTNOTE).equals(originalFileFootnotes));
     }
+
+    public void shouldReturnFailedCiteQueryTagsFile() {
+        //given
+        //when
+        final File file = fileSystem.getFailedCiteQueryTagsFile(step, MATERIAL_NUMBER, "anyName");
+        //then
+        assertThat(file, hasPath(String.join("/", FORMAT_DIR, MATERIAL_NUMBER, "anyname.txt")));
+    }
 }

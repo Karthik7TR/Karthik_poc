@@ -23,12 +23,13 @@ public final class CiteQueryProcessor {
 
     public static String getLink(final String citeQueryTag) throws Exception {
         final CiteQuery citeQueryObj = new CiteQuery(Container.COBALT.name());
+        final String tagWithScreeningContent = citeQueryTag.replace("&", "&amp;");
         final UrlBuilderInput urlInput =
-            citeQueryObj.getCiteQueryLink(citeQueryTag, getDocumentGuid(citeQueryTag), ORIGINATION_CONTEXT);
+            citeQueryObj.getCiteQueryLink(tagWithScreeningContent, getDocumentGuid(tagWithScreeningContent), ORIGINATION_CONTEXT);
         final UrlBuilder urlBuilder = new ContainerAwareUrlBuilderFactoryBean().getObject();
 
         if (urlInput == null) {
-            throw new Exception("Unable to process cite query");
+            return null;
         }
 
         final List<Parameter> params = urlInput.getParameters();

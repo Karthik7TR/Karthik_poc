@@ -1,8 +1,8 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.externallinks.step;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
-import java.util.Map;
 
 import javax.xml.transform.Transformer;
 
@@ -12,8 +12,11 @@ import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishi
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.citequery.CiteQueryMapper;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.citequery.CiteQueryMapperResponse;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -32,16 +35,29 @@ public class ExternalLinksXppStep extends XppTransformationStep {
     @Override
     public void executeTransformation() throws Exception {
         final Transformer citeQueryTransformer = transformerBuilderFactory.create().withXsl(externalLinksXsl).build();
-        final Map<String, Collection<File>> htmlFilesMap = fileSystem.getHtmlPageFiles(this);
-        for (final Map.Entry<String, Collection<File>> entry : htmlFilesMap.entrySet()) {
-            for (final File file : entry.getValue()) {
-                citeQueryTransformer
-                    .setParameter("mappingFile", citeQueryMapper.createMappingFile(file, entry.getKey(), this));
-                final File externalLinksFile = fileSystem.getExternalLinksFile(this, entry.getKey(), file.getName());
+        fileSystem.getHtmlPageFiles(this).forEach((materialNumber, files) -> {
+            for (final File file : files) {
+                final CiteQueryMapperResponse response = citeQueryMapper.createMappingFile(file, materialNumber, this);
+                final String fileName = file.getName();
+                handleFailedCiteQueryTags(response.getFailedTags(), materialNumber, fileName);
+                citeQueryTransformer.setParameter("mappingFile", response.getMapFilePath());
+                final File externalLinksFile = fileSystem.getExternalLinksFile(this, materialNumber, fileName);
                 final TransformationCommand command =
                     new TransformationCommandBuilder(citeQueryTransformer, externalLinksFile).withInput(file).build();
                 transformationService.transform(command);
             }
+        });
+    }
+
+    private void handleFailedCiteQueryTags(final Collection<String> failedTags, final String materialNumber, final String name) {
+        try {
+            if (!failedTags.isEmpty()) {
+                final File outputFile = fileSystem.getFile(
+                    this, XppFormatFileSystemDir.FAILED_CITE_QUERY_TAGS, materialNumber, String.join(".", name, "txt"));
+                FileUtils.writeLines(outputFile, failedTags);
+            }
+        } catch (final IOException e) {
+            throw new RuntimeException("Cannot create file with failed tags", e);
         }
     }
 }

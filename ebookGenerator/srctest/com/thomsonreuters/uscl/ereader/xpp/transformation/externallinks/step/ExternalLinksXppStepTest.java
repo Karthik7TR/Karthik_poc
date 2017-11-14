@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -22,6 +23,7 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.citequery.CiteQueryMapper;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.citequery.CiteQueryMapperResponse;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Rule;
@@ -50,7 +52,6 @@ public final class ExternalLinksXppStepTest {
     private TransformerBuilderFactory transformerBuilderFactory;
     @Mock
     private XslTransformationService transformationService;
-    @Mock
     private Map<String, Collection<File>> htmlPageFiles;
     @Mock
     private Set<Map.Entry<String, Collection<File>>> entrySet;
@@ -80,16 +81,12 @@ public final class ExternalLinksXppStepTest {
         final File bundleDir = mkdir(xppDirectory, MATERIAL_NUMBER);
         final File xppDir = mkdir(bundleDir, "/08_HtmlPages");
         htmlFile = mkfile(xppDir, HTML_FILE_NAME);
+        htmlPageFiles = new HashMap<>();
+        htmlPageFiles.put(MATERIAL_NUMBER, Collections.singletonList(htmlFile));
 
         given(fileSystem.getHtmlPageFiles(sut)).willReturn(htmlPageFiles);
         given(fileSystem.getExternalLinksFile(sut, MATERIAL_NUMBER, HTML_FILE_NAME)).willReturn(externalLinksFile);
-        given(htmlPageFiles.entrySet()).willReturn(entrySet);
-        given(entrySet.iterator()).willReturn(iterator);
-        given(iterator.next()).willReturn(entry);
-        given(iterator.hasNext()).willReturn(true, false);
-        given(entry.getValue()).willReturn(Collections.singletonList(htmlFile));
-        given(entry.getKey()).willReturn(MATERIAL_NUMBER);
-        given(citeQueryMapper.createMappingFile(htmlFile, MATERIAL_NUMBER, sut)).willReturn(mappingFilePath);
+        given(citeQueryMapper.createMappingFile(htmlFile, MATERIAL_NUMBER, sut)).willReturn(new CiteQueryMapperResponse(mappingFilePath));
     }
 
     @Test
