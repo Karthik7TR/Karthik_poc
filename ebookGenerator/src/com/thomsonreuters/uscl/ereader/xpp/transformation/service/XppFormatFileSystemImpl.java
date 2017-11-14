@@ -467,28 +467,33 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
         return String.format("%s_%04d_%s.page", baseFilename, pageNumber, docFamilyGuid);
     }
 
+    @Override
     @NotNull
-    File getDirectory(@NotNull final BookStep step, final XppFormatFileSystemDir dir) {
+    public File getDirectory(@NotNull final BookStep step, @NotNull final XppFormatFileSystemDir dir) {
         return newFile(getFormatDirectory(step), dir);
     }
 
     @Override
-    public File getDirectory(final BookStep step, final XppFormatFileSystemDir dir, final String materialNumber) {
+    @NotNull
+    public File getDirectory(@NotNull final BookStep step, @NotNull final XppFormatFileSystemDir dir, @NotNull final String materialNumber) {
         return new File(getDirectory(step, dir), materialNumber);
     }
 
     @Override
-    public File getFile(final BookStep step, final XppFormatFileSystemDir dir, final String materialNumber, final String fileName) {
+    @NotNull
+    public File getFile(@NotNull final BookStep step, @NotNull final XppFormatFileSystemDir dir, @NotNull final String materialNumber, @NotNull final String fileName) {
         return Paths.get(getDirectory(step, dir, materialNumber).toString(), fileName).toFile();
     }
 
     @Override
-    public Map<String, Collection<File>> getFiles(final BookStep step, final XppFormatFileSystemDir dir) {
+    @NotNull
+    public Map<String, Collection<File>> getFiles(@NotNull final BookStep step, @NotNull final XppFormatFileSystemDir dir) {
         return getMaterialNumberToFilesMap(getDirectory(step, dir));
     }
 
     @Override
-    public BaseFilesIndex getBaseFilesIndex(final BookStep step, final XppFormatFileSystemDir dir) {
+    @NotNull
+    public BaseFilesIndex getBaseFilesIndex(@NotNull final BookStep step, @NotNull final XppFormatFileSystemDir dir) {
         return getBaseFilesIndex(getDirectory(step, dir));
     }
 
@@ -496,6 +501,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
      * Builds index for base files with name [base file name].[part type like 'main' and 'footnotes'].
      * @param baseFilesDir - location of bundles with indexing files.
      */
+    @NotNull
     private BaseFilesIndex getBaseFilesIndex(@NotNull final File baseFilesDir) {
         final BaseFilesIndex result = new BaseFilesIndex();
         for (final Map.Entry<String, Collection<File>> dir : getMaterialNumberToFilesMap(baseFilesDir).entrySet()) {
@@ -509,6 +515,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     }
 
     @Override
+    @NotNull
     public PartFilesIndex getPartFilesIndex(final BookStep step, final XppFormatFileSystemDir dir) {
         final PartFilesIndex result = new PartFilesIndex();
         for (final Map.Entry<String, Collection<File>> materialNumberDir : getMaterialNumberToFilesMap(
@@ -525,6 +532,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
         return result;
     }
 
+    @NotNull
     private Map<String, Collection<File>> getMaterialNumberToFilesMap(@NotNull final File root) {
         final Map<String, Collection<File>> files = new HashMap<>();
         for (final File sourceDir : root.listFiles()) {
@@ -534,6 +542,7 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
         return files;
     }
 
+    @NotNull
     private File newFile(final File baseDir, final XppFormatFileSystemDir dir) {
         return new File(baseDir, dir.getDirName());
     }

@@ -19,7 +19,8 @@ public enum XppFormatFileSystemDir {
     EXTERNAL_LINKS_MAPPING("12_ExternalLinks_Mapping"),
     TOC_DIR("13_Toc"),
     TITLE_METADATA_DIR("14_title_metadata"),
-    FAILED_CITE_QUERY_TAGS("15_failed_cite_query_tags");
+    FAILED_CITE_QUERY_TAGS("15_failed_cite_query_tags"),
+    UNESCAPE_DIR("16_Unescape");
 
     private final String dirName;
 

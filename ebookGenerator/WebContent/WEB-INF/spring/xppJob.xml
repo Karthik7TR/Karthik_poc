@@ -83,6 +83,12 @@
         </step>
         <step id="getXppDynamicImagesStep">
             <tasklet ref="getXppDynamicImagesTask" />
+            <next on="COMPLETED" to="unescapeStep" />
+            <fail on="FAILED" />
+        </step>
+        <!--  must always be the last transformation step, otherwise XML parser will throw exception on HTML entities-->
+        <step id="unescapeStep">
+            <tasklet ref="unescapeTask" />
             <next on="COMPLETED" to="extractTocStep" />
             <fail on="FAILED" />
         </step>
@@ -155,6 +161,8 @@
         class="com.thomsonreuters.uscl.ereader.xpp.transformation.tohtml.step.TransformationToHtmlStep" />
     <beans:bean id="externalLinksXppTask" scope="step" parent="bookStep"
         class="com.thomsonreuters.uscl.ereader.xpp.transformation.externallinks.step.ExternalLinksXppStep" />
+    <beans:bean id="unescapeTask" scope="step" parent="bookStep"
+        class="com.thomsonreuters.uscl.ereader.xpp.transformation.unescape.step.UnescapeStep" />
     <beans:bean id="internalAnchorsTask" scope="step" parent="bookStep"
         class="com.thomsonreuters.uscl.ereader.xpp.transformation.internalAnchors.step.InternalAnchorsStep" />
     <beans:bean id="createDocToImageMappingTask" scope="step" parent="bookStep"

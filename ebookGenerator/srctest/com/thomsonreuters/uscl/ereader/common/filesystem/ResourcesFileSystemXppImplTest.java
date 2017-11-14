@@ -11,6 +11,7 @@ import java.io.File;
 import com.thomsonreuters.uscl.ereader.assemble.step.CoverArtUtil;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemImpl;
 import org.junit.Rule;
 import org.junit.Test;
@@ -36,19 +37,17 @@ public final class ResourcesFileSystemXppImplTest {
     private File fakeDir;
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    private static final String DIR_NAME = XppFormatFileSystemDir.UNESCAPE_DIR.getDirName();
 
-    /**
-     * Test method for {@link com.thomsonreuters.uscl.ereader.common.filesystem.ResourcesFileSystemXppImpl#getExternalLinksDirectory(com.thomsonreuters.uscl.ereader.common.step.BookStep)}.
-     */
     @Test
     public void shouldReturnDocumentsDirectory() {
         //given
-        given(xppFormatFileSystemImpl.getExternalLinksDirectory(step))
-            .willReturn(new File(temporaryFolder.getRoot(), "workDirectory/Format/10_ExternalLinks"));
+        given(xppFormatFileSystemImpl.getDirectory(step, XppFormatFileSystemDir.UNESCAPE_DIR)).willReturn(fakeDir);
+        given(fakeDir.getAbsolutePath()).willReturn("workDirectory/Format/" + DIR_NAME);
         //when
         final File file = sut.getDocumentsDirectory(step);
         //then
-        assertThat(file, hasPath("workDirectory/Format/10_ExternalLinks"));
+        assertThat(file, hasPath("workDirectory/Format/" + DIR_NAME));
     }
 
     @Test

@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import com.thomsonreuters.uscl.ereader.assemble.step.CoverArtUtil;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +31,7 @@ public class ResourcesFileSystemXppImpl implements ResourcesFileSystem {
     @NotNull
     @Override
     public File getDocumentsDirectory(@NotNull final BookStep step) {
-        return xppFormatFileSystem.getExternalLinksDirectory(step);
+        return xppFormatFileSystem.getDirectory(step, XppFormatFileSystemDir.UNESCAPE_DIR);
     }
 
     @NotNull

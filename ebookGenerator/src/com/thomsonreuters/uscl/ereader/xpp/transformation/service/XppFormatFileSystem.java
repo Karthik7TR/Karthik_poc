@@ -451,6 +451,13 @@ public interface XppFormatFileSystem extends FormatFileSystem {
 
     /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /#_dirName}
+     */
+    @NotNull
+    File getDirectory(@NotNull BookStep step, @NotNull XppFormatFileSystemDir dir);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}{@code /#_dirName}{@code /[material number]}
      */
     @NotNull
