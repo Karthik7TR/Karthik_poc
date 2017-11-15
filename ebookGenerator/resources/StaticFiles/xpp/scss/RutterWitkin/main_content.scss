@@ -89,15 +89,40 @@
             }
             .form_text {
                 span:first-of-type {
-                    padding-left:#{$indent}em;
+                    padding-left: #{$indent}em;
                 }
                 .leaveout span:first-of-type {
                     padding-left: 0;
                 }
             }
         }
-        table .leaveout {
-            overflow: hidden;
+        table {
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            margin-top: #{$indent}em;
+            tbody {
+                display: table-row-group;
+                tr {
+                    display: table-row;
+                    td {
+                        display: table-cell;
+                        width: 100%;
+                        overflow: hidden;
+                        text-align: center;
+                        > * {
+                            float: left;
+                            line-height: #{$indent}em;
+                        }
+                        > .inline_instr {
+                            float: unset;
+                        }
+                    }
+                }
+            }
+        }
+        .leaveout {
+            padding-left: #{$indent/4}em;
         }
     }
     

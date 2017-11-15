@@ -1426,6 +1426,37 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   padding-left: 0;
 }
 
-.rutter_chapter .rutter_chapter_back .rutter_form_block .rutter_form_doc table .leaveout {
+.rutter_chapter .rutter_chapter_back .rutter_form_block .rutter_form_doc table {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  margin-top: 1em;
+}
+
+.rutter_chapter .rutter_chapter_back .rutter_form_block .rutter_form_doc table tbody {
+  display: table-row-group;
+}
+
+.rutter_chapter .rutter_chapter_back .rutter_form_block .rutter_form_doc table tbody tr {
+  display: table-row;
+}
+
+.rutter_chapter .rutter_chapter_back .rutter_form_block .rutter_form_doc table tbody tr td {
+  display: table-cell;
+  width: 100%;
   overflow: hidden;
+  text-align: center;
+}
+
+.rutter_chapter .rutter_chapter_back .rutter_form_block .rutter_form_doc table tbody tr td > * {
+  float: left;
+  line-height: 1em;
+}
+
+.rutter_chapter .rutter_chapter_back .rutter_form_block .rutter_form_doc table tbody tr td > .inline_instr {
+  float: unset;
+}
+
+.rutter_chapter .rutter_chapter_back .rutter_form_block .rutter_form_doc .leaveout {
+  padding-left: 0.25em;
 }
