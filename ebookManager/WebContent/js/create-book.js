@@ -808,11 +808,12 @@ $(function() {
 		
 		$('#performSapRequest').click(function() {
 			var subNumber = $('#printSubNumber').val();
-			
+			let button = $('#performSapRequest');
 			if(subNumber == "") {
 				alert("Please fill \"Print Sub Number\" field");
 				return;
 			}
+			button.attr('disabled','disabled');
 			
 			if(confirm("All data in print components table will be overwritten, continue?")) {
 				$.ajax({
@@ -823,6 +824,7 @@ $(function() {
 					success: function(response) {
 						var data = response.materialComponents;
 						var grid = $('#jsGrid');
+						button.removeAttr('disabled');
 						
 						if(data.length == 0) {
 							alert(response.message);
@@ -845,7 +847,8 @@ $(function() {
 						}
 					},
 					error: function(jqXHR, textStatus, errorThrown) {
-						alert("Unknown error")
+						button.removeAttr('disabled');
+						alert("Unknown error");
 					}
 				});
 			}		
