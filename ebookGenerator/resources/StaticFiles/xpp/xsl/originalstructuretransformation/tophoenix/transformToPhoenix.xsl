@@ -90,21 +90,6 @@
 		<xsl:apply-templates />
 	</xsl:template>
 
-	<xsl:template match="x:t[not(@suppress='true')]/text()">
-		<xsl:element name="t">
-			<xsl:attribute name="style">
-				<xsl:value-of select="../@style" />
-				<xsl:if test="../@y!='0'">
-					<xsl:value-of select="concat(' ', x:get-vertical-align(../@y))" />
-				</xsl:if>
-				<xsl:if test="../@cgt='true'">
-					<xsl:value-of select="concat(' ', 'cgt')" />
-				</xsl:if>
-			</xsl:attribute>
-			<xsl:value-of select="x:get-fixed-text(.)" />
-		</xsl:element>
-	</xsl:template>
-
 	<xsl:template match="x:dt">
 		<xsl:if test="../parent::x:line[not(following-sibling::x:line)]">
 			<xsl:element name="t" inherit-namespaces="yes">
@@ -131,5 +116,20 @@
 		</xsl:if>
 	</xsl:template>
 
+	<xsl:template match="x:t[not(@suppress='true')]/text() | x:t/x:cite.query/text()">
+		<xsl:element name="t">
+			<xsl:attribute name="style">
+				<xsl:value-of select="ancestor::x:t[1]/@style" />
+				<xsl:if test="ancestor::x:t[1]/@y!='0'">
+					<xsl:value-of select="concat(' ', x:get-vertical-align(ancestor::x:t[1]/@y))" />
+				</xsl:if>
+				<xsl:if test="ancestor::x:t[1]/@cgt='true'">
+					<xsl:value-of select="concat(' ', 'cgt')" />
+				</xsl:if>
+			</xsl:attribute>
+			<xsl:value-of select="x:get-fixed-text(.)" />
+		</xsl:element>
+	</xsl:template>
+	
 	<xsl:template match="text()" />
 </xsl:stylesheet>

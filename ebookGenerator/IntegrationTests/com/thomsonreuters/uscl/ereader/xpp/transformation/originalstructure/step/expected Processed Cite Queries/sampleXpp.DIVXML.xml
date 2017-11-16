@@ -801,6 +801,9 @@
 							</tag><?xpp sect?>
 							<t x="0" y="0" style="ref.1" cgt="true">§ </t>
 							<t x="0" y="0" style="ref.1">7:18</t>
+							<t style="ref.1">
+								<cite.query w-seq-number="00005" w-ref-type="LQ" w-normalized-cite="MIST712A.18H" w-pub-number="1000044" ID="If47b0960627111e78600cc99009ba385">Some cite text</cite.query>
+							</t>
 							<endtag name="ref"/><?xpp /cite?>
 							<t x="0" y="0" style="para.text.2">.</t>
 							<endtag name="para.text"/>
