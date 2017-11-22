@@ -23,6 +23,7 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -38,6 +39,9 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 public final class TransformationToHtmlStepTest {
     private static final String TEMP_DIVXML_XML = "1-sample_1.DIVXML_0_test.xml";
     private static final String MATERIAL_NUMBER = "11111111";
+
+    private static final XppFormatFileSystemDir SOURCE_DIR = XppFormatFileSystemDir.POCKET_PART_LINKS_DIR;
+    private static final XppFormatFileSystemDir DESTINATION_DIR = XppFormatFileSystemDir.HTML_PAGES_DIR;
 
     @InjectMocks
     private TransformationToHtmlStep step;
@@ -77,12 +81,12 @@ public final class TransformationToHtmlStepTest {
                 .getExecutionContext()
                 .get(JobParameterKey.XPP_BUNDLES)).willReturn(getXppBundles());
 
-        given(fileSystem.getOriginalPageFiles(step))
+        given(fileSystem.getFiles(step, SOURCE_DIR))
             .willReturn(Collections.singletonMap(MATERIAL_NUMBER, (Collection<File>) Arrays.asList(originalFile)));
 
         final File toHtmlDirectory = mkdir(root, "toHtmlDirectory", MATERIAL_NUMBER);
         toHtmlFile = new File(toHtmlDirectory, "temp");
-        given(fileSystem.getHtmlPagesDirectory(step, MATERIAL_NUMBER)).willReturn(toHtmlDirectory);
+        given(fileSystem.getDirectory(step, DESTINATION_DIR, MATERIAL_NUMBER)).willReturn(toHtmlDirectory);
         given(fileSystem.getHtmlPageFile(step, MATERIAL_NUMBER, TEMP_DIVXML_XML)).willReturn(toHtmlFile);
 
         given(tocUnitsMapFile.getAbsolutePath()).willReturn("toc\\Units\\Map\\File\\path");

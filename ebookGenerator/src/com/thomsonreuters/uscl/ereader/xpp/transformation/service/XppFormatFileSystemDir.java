@@ -14,13 +14,14 @@ public enum XppFormatFileSystemDir {
     SECTIONBREAKS_UP_DIR("08_SectionbreaksUp"),
     ORIGINAL_PARTS_DIR("09_OriginalParts"),
     ORIGINAL_PAGES_DIR("10_OriginalPages"),
-    HTML_PAGES_DIR("11_HtmlPages"),
-    EXTERNAL_LINKS_DIR("12_ExternalLinks"),
-    EXTERNAL_LINKS_MAPPING("12_ExternalLinks_Mapping"),
-    TOC_DIR("13_Toc"),
-    TITLE_METADATA_DIR("14_title_metadata"),
-    FAILED_CITE_QUERY_TAGS("15_failed_cite_query_tags"),
-    UNESCAPE_DIR("16_Unescape");
+    POCKET_PART_LINKS_DIR("11_PocketPartLinks"),
+    HTML_PAGES_DIR("12_HtmlPages"),
+    EXTERNAL_LINKS_DIR("13_ExternalLinks"),
+    EXTERNAL_LINKS_MAPPING("14_ExternalLinks_Mapping"),
+    TOC_DIR("15_Toc"),
+    TITLE_METADATA_DIR("16_title_metadata"),
+    FAILED_CITE_QUERY_TAGS("17_failed_cite_query_tags"),
+    UNESCAPE_DIR("18_Unescape");
 
     private final String dirName;
 

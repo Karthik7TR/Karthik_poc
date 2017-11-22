@@ -44,6 +44,7 @@ public final class TransformationToHtmlStepIntegrationTest {
     private static final String MATERIAL_NUMBER = "11111111";
     private static final String ADDITIONAL_MATERIAL_NUMBER = "11111112";
     private static final String REF_PLACE_HOLDER = "${refPlaceHolder}";
+    private static final XppFormatFileSystemDir SOURCE_DIR = XppFormatFileSystemDir.POCKET_PART_LINKS_DIR;
 
     @Resource(name = "transformToHtmlTask")
     @InjectMocks
@@ -122,11 +123,11 @@ public final class TransformationToHtmlStepIntegrationTest {
                 .getExecutionContext()
                 .get(JobParameterKey.XPP_BUNDLES)).willReturn(getXppBundles(multiVolume));
 
-        FileUtils.copyFileToDirectory(original, mkdir(fileSystem.getOriginalPagesDirectory(step, MATERIAL_NUMBER)));
+        FileUtils.copyFileToDirectory(original, mkdir(fileSystem.getDirectory(step, SOURCE_DIR, MATERIAL_NUMBER)));
         if (multiVolume) {
             FileUtils.copyFileToDirectory(
                 original,
-                mkdir(fileSystem.getOriginalPagesDirectory(step, ADDITIONAL_MATERIAL_NUMBER)));
+                mkdir(fileSystem.getDirectory(step, SOURCE_DIR, ADDITIONAL_MATERIAL_NUMBER)));
         }
         final File sumTocAchorsDir = mkdir(fileSystem.getDirectory(step, XppFormatFileSystemDir.ANCHORS_DIR, MATERIAL_NUMBER));
         final File sumTocAchorsDir2 = mkdir(fileSystem.getDirectory(step, XppFormatFileSystemDir.ANCHORS_DIR, ADDITIONAL_MATERIAL_NUMBER));

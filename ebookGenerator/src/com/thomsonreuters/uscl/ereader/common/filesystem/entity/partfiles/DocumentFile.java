@@ -12,7 +12,7 @@ public class DocumentFile {
     private DocumentName documentName;
     private File file;
 
-    public DocumentFile(final File file) {
+    public DocumentFile(@NotNull final File file) {
         this.file = file;
         documentName = new DocumentName(file.getName());
     }

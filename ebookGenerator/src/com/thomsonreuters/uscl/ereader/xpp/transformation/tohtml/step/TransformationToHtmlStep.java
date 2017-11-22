@@ -16,6 +16,7 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.generate.title.metadata.step.DocumentName;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
 import com.thomsonreuters.uscl.ereader.xpp.utils.bundle.BundleUtils;
 import org.apache.commons.io.FileUtils;
@@ -29,6 +30,9 @@ import org.springframework.beans.factory.annotation.Value;
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
 public class TransformationToHtmlStep extends XppTransformationStep {
+    private static final XppFormatFileSystemDir SOURCE_DIR = XppFormatFileSystemDir.POCKET_PART_LINKS_DIR;
+    private static final XppFormatFileSystemDir DESTINATION_DIR = XppFormatFileSystemDir.HTML_PAGES_DIR;
+
     @Value("${xpp.transform.to.html.xsl}")
     private File transformToHtmlXsl;
     @Value("${xpp.entities.dtd}")
@@ -42,7 +46,7 @@ public class TransformationToHtmlStep extends XppTransformationStep {
             .withParameter("entitiesDocType", entitiesDtdFile.getAbsolutePath().replace("\\", "/"))
             .build();
         final PagePrefix pagePrefix = new PagePrefix(getXppBundles());
-        for (final Entry<String, Collection<File>> dir : fileSystem.getOriginalPageFiles(this).entrySet()) {
+        for (final Entry<String, Collection<File>> dir : fileSystem.getFiles(this, SOURCE_DIR).entrySet()) {
             final String materialNumber = dir.getKey();
             final boolean isPocketPart = bundles.stream()
                 .filter(bundle -> bundle.getMaterialNumber().equals(materialNumber))
@@ -50,7 +54,7 @@ public class TransformationToHtmlStep extends XppTransformationStep {
                 .map(BundleUtils::isPocketPart)
                 .orElse(false);
             pagePrefix.switchVolume(materialNumber);
-            FileUtils.forceMkdir(fileSystem.getHtmlPagesDirectory(this, materialNumber));
+            FileUtils.forceMkdir(fileSystem.getDirectory(this, DESTINATION_DIR, materialNumber));
             for (final File part : dir.getValue()) {
                 final TransformationCommand command = createCommand(transformer, materialNumber, part, pagePrefix, isPocketPart);
                 transformationService.transform(command);

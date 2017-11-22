@@ -61,6 +61,11 @@
 		</step>
 		<step id="generateInternalAnchorsMapStep">
             <tasklet ref="internalAnchorsTask" />
+            <next on="COMPLETED" to="pocketPartLinksStep" />
+            <fail on="FAILED" />
+        </step>
+        <step id="pocketPartLinksStep">
+            <tasklet ref="pocketPartLinksTask" />
             <next on="COMPLETED" to="transformToHtmlStep" />
             <fail on="FAILED" />
         </step>
@@ -157,6 +162,8 @@
 		class="com.thomsonreuters.uscl.ereader.xpp.transformation.split.step.SplitOriginalStep" />
     <beans:bean id="unitePagesPartsTask" scope="step" parent="bookStep"
         class="com.thomsonreuters.uscl.ereader.xpp.transformation.uniteparts.step.UnitePagePartsStep" />
+    <beans:bean id="pocketPartLinksTask" scope="step" parent="bookStep"
+        class="com.thomsonreuters.uscl.ereader.xpp.transformation.pplinks.step.PocketPartLinksStep" />
     <beans:bean id="transformToHtmlTask" scope="step" parent="bookStep"
         class="com.thomsonreuters.uscl.ereader.xpp.transformation.tohtml.step.TransformationToHtmlStep" />
     <beans:bean id="externalLinksXppTask" scope="step" parent="bookStep"

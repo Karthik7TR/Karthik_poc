@@ -7,6 +7,7 @@
     <xsl:include href="transformFootnotes.xsl" />
     <xsl:include href="transformTlrKey.xsl" />
     <xsl:include href="transformImagesTags.xsl" />
+    <xsl:include href="pocketPartLinksHtml.xsl" />
     
     <xsl:output method="html" indent="no" omit-xml-declaration="yes"/>
 	<xsl:param name="fileBaseName" />

@@ -130,3 +130,14 @@ td:empty {
         text-indent: 0;
     }
 }
+
+.pocketPartLinkWrapper {
+    height: #{$indent}em;
+    .pocketPartLink {
+        display: block;
+        line-height: #{$indent}em;
+        font-weight: bold;
+        font-size: #{$indent*0.9}em;
+        float: right;
+    }
+}

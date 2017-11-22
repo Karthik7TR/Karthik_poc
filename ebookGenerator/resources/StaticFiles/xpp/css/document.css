@@ -308,6 +308,18 @@ td:last-of-type {
   text-indent: 0;
 }
 
+.pocketPartLinkWrapper {
+  height: 1em;
+}
+
+.pocketPartLinkWrapper .pocketPartLink {
+  display: block;
+  line-height: 1em;
+  font-weight: bold;
+  font-size: 0.9em;
+  float: right;
+}
+
 .appendix_front > .outline_name_block {
   margin: 1em 0;
   display: block;
