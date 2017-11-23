@@ -17,7 +17,6 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
-import com.thomsonreuters.uscl.ereader.xpp.utils.bundle.BundleUtils;
 import org.sonar.runner.commonsio.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -88,7 +87,7 @@ public class PocketPartLinksStep extends XppTransformationStep {
         return bundles.stream()
             .filter(bundle -> bundle.getMaterialNumber().equals(materialNumber))
             .findFirst()
-            .map(BundleUtils::isPocketPart)
+            .map(XppBundle::isPocketPartPublication)
             .orElse(false);
     }
 

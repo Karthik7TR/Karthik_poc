@@ -66,7 +66,7 @@ public final class JAXBMarshallingTest {
             expected.setMaterialNumber("0x8d8d44aef6464c9aL");
             expected.setReleaseDate(new Date());
             expected.setReleaseNumber(5);
-            expected.setVolumes(8);
+            expected.setVolumes("8");
             expected.setBundleRoot("/apps/eBookBuilder/prodcontent/xpp/tileName.gz");
 
             outStream = new ByteArrayOutputStream();

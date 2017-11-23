@@ -5,8 +5,13 @@
 	<xsl:import href="../transform-utils.xsl" />
 	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
 
+	<xsl:param name="volumeNum" />
+	<xsl:param name="isPocketPart" />
+
 	<xsl:template match="Document">
 		<xsl:element name="Volume">
+			<xsl:attribute name="volumeNum" select="$volumeNum" />
+			<xsl:attribute name="isPP" select="$isPocketPart" />
 			<xsl:apply-templates />
 		</xsl:element>
 	</xsl:template>
@@ -24,7 +29,16 @@
 				<xsl:if
 					test="count(preceding::x:EBook/x:EBookToc/x:Guid[text() = $guid]) = 0">
 					<xsl:copy>
-						<xsl:copy-of select="./x:Name" />
+						<xsl:element name="Name">
+							<xsl:choose>
+								<xsl:when test="$isPocketPart and ./x:Name/text() != 'Copyright Page'">
+									<xsl:value-of select="concat('Pocket Part', ' ', ./x:Name/text())" />
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="./x:Name/text()" />
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:element>
 						<xsl:copy-of select="./x:Guid" />
 						<xsl:copy-of select="./x:DocumentGuid" />
 						<xsl:for-each select="../../x:EBook/x:EBookToc">

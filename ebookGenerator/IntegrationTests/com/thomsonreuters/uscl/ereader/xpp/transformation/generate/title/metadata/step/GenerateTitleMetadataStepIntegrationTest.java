@@ -21,6 +21,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.proview.Keyword;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundleWebBuildProductType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -105,6 +106,7 @@ public final class GenerateTitleMetadataStepIntegrationTest {
         secondBundle.setMaterialNumber(ADDITIONAL_MATERIAL_NUMBER);
         secondBundle.setOrderedFileList(Arrays.asList("Useless_test_file.DIVXML.xml"));
         secondBundle.setProductType("supp");
+        secondBundle.setWebBuildProductType(XppBundleWebBuildProductType.SUPPLEMENTARY_PAMPHLET);
 
         return Arrays.asList(firstBundle, secondBundle);
     }

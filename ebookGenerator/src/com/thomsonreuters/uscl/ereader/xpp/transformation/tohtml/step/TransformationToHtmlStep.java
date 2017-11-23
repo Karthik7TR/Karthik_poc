@@ -18,7 +18,6 @@ import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.generate.title.metadata.step.DocumentName;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
-import com.thomsonreuters.uscl.ereader.xpp.utils.bundle.BundleUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.jetbrains.annotations.NotNull;
@@ -51,7 +50,7 @@ public class TransformationToHtmlStep extends XppTransformationStep {
             final boolean isPocketPart = bundles.stream()
                 .filter(bundle -> bundle.getMaterialNumber().equals(materialNumber))
                 .findFirst()
-                .map(BundleUtils::isPocketPart)
+                .map(XppBundle::isPocketPartPublication)
                 .orElse(false);
             pagePrefix.switchVolume(materialNumber);
             FileUtils.forceMkdir(fileSystem.getDirectory(this, DESTINATION_DIR, materialNumber));

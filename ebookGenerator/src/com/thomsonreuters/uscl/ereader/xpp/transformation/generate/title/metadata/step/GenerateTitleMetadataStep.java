@@ -26,7 +26,6 @@ import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
-import com.thomsonreuters.uscl.ereader.xpp.utils.bundle.BundleUtils;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,7 +110,7 @@ public class GenerateTitleMetadataStep extends XppTransformationStep {
                 .distinct()
                 .map(docName -> new Doc(docName.getDocFamilyUuid(), docName.getOriginalFileName(), 0, null))
                 .map(doc -> {
-                    if (BundleUtils.isPocketPart(bundle)) {
+                    if (bundle.isPocketPartPublication()) {
                         return new Doc(doc.getId() + "_pp", doc.getSrc(), doc.getSplitTitlePart(), doc.getImageIdList());
                     } else {
                         return doc;

@@ -62,6 +62,7 @@ public class PocketPartLinksStepIntegrationTest {
                 .get(JobParameterKey.XPP_BUNDLES)).thenReturn(Collections.singletonList(xppBundle));
         when(xppBundle.getProductType()).thenReturn("supp");
         when(xppBundle.getMaterialNumber()).thenReturn(MATERIAL_NUMBER_POCKET_PART);
+        when(xppBundle.isPocketPartPublication()).thenReturn(true);
 
         final File mainContentFolder = new File(PocketPartLinksStepIntegrationTest.class.getResource(MATERIAL_NUMBER_MAIN_CONTENT).toURI());
         final File pocketPartFolder = new File(PocketPartLinksStepIntegrationTest.class.getResource(MATERIAL_NUMBER_POCKET_PART).toURI());

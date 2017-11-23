@@ -76,6 +76,7 @@ public final class InternalAnchorsStepTest {
         given(boundBundle.getProductType()).willReturn("bound");
         given(boundBundle.getMaterialNumber()).willReturn(MATERIAL_NUMBER);
         given(suppBundle.getProductType()).willReturn("supp");
+        given(suppBundle.isPocketPartPublication()).willReturn(true);
         given(suppBundle.getMaterialNumber()).willReturn(MATERIAL_NUMBER_2);
         final File htmlPagesDir = mock(File.class);
         final File htmlPagesDir2 = mock(File.class);

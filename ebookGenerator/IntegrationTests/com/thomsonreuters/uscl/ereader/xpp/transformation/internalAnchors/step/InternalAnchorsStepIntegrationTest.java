@@ -66,6 +66,7 @@ public final class InternalAnchorsStepIntegrationTest {
                 .getExecutionContext()
                 .get(JobParameterKey.XPP_BUNDLES)).thenReturn(Arrays.asList(xppBundleSupplement, xppBundleBound));
         when(xppBundleSupplement.getProductType()).thenReturn("supp");
+        when(xppBundleSupplement.isPocketPartPublication()).thenReturn(true);
         when(xppBundleSupplement.getMaterialNumber()).thenReturn(MATERIAL_NUMBER);
         when(xppBundleBound.getProductType()).thenReturn("bound");
         when(xppBundleBound.getMaterialNumber()).thenReturn(MATERIAL_NUMBER_2);

@@ -27,6 +27,7 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilder;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundleWebBuildProductType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
 import org.junit.Before;
@@ -112,6 +113,7 @@ public class PocketPartLinksStepTest {
         suppBundle.setMaterialNumber(MATERIAL_NUMBER_SUPP);
         suppBundle.setOrderedFileList(Arrays.asList(DIVXML_XML_SUPP));
         suppBundle.setProductType("supp");
+        suppBundle.setWebBuildProductType(XppBundleWebBuildProductType.SUPPLEMENTARY_PAMPHLET);
         return Arrays.asList(suppBundle);
     }
 

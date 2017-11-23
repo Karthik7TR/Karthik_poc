@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundleWebBuildProductType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -109,14 +110,15 @@ public final class ExtractTocStepIntegrationTest {
 
     private List<XppBundle> getBundlesList() {
         final XppBundle volumeOneBundle = new XppBundle();
-        volumeOneBundle.setMaterialNumber(VOL_ONE_MATERIAL_NUMBER);
-        volumeOneBundle.setOrderedFileList(Arrays.asList("mainContent1.DIVXML.xml", "mainContent1_1.DIVXML.xml"));
-        volumeOneBundle.setProductType("supp");
+        volumeOneBundle.setMaterialNumber(VOL_TWO_MATERIAL_NUMBER);
+        volumeOneBundle.setOrderedFileList(Arrays.asList("mainContent2.DIVXML.xml", "mainContent3.DIVXML.xml"));
+        volumeOneBundle.setProductType("bound");
 
         final XppBundle volumeTwoBundle = new XppBundle();
-        volumeTwoBundle.setMaterialNumber(VOL_TWO_MATERIAL_NUMBER);
-        volumeTwoBundle.setOrderedFileList(Arrays.asList("mainContent2.DIVXML.xml", "mainContent3.DIVXML.xml"));
-        volumeTwoBundle.setProductType("bound");
+        volumeTwoBundle.setMaterialNumber(VOL_ONE_MATERIAL_NUMBER);
+        volumeTwoBundle.setOrderedFileList(Arrays.asList("mainContent1.DIVXML.xml", "mainContent1_1.DIVXML.xml"));
+        volumeTwoBundle.setProductType("supp");
+        volumeTwoBundle.setWebBuildProductType(XppBundleWebBuildProductType.SUPPLEMENTARY_PAMPHLET);
 
         return Arrays.asList(volumeOneBundle, volumeTwoBundle);
     }

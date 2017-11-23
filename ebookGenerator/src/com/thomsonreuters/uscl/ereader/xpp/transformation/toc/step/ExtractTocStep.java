@@ -3,6 +3,8 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.toc.step;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.xml.transform.Transformer;
 
@@ -13,7 +15,6 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
-import com.thomsonreuters.uscl.ereader.xpp.utils.bundle.BundleUtils;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -41,10 +42,9 @@ public class ExtractTocStep extends XppTransformationStep {
     }
 
     private void generateBundleTocs(final XppBundle bundle, final List<File> tocFiles) {
-        final boolean isPocketPart = BundleUtils.isPocketPart(bundle);
         final Transformer transformer = transformerBuilderFactory.create()
             .withXsl(extractTocXsl)
-            .withParameter("isPocketPart", isPocketPart)
+            .withParameter("isPocketPart", bundle.isPocketPartPublication())
             .build();
         final List<File> transformedFiles = new ArrayList<>();
         for (final String fileName : bundle.getOrderedFileList()) {
@@ -65,7 +65,11 @@ public class ExtractTocStep extends XppTransformationStep {
 
     private File mergeVolumeToc(final List<File> transformedFiles, final XppBundle bundle) {
         final File mergedVolumeTOC = fileSystem.getMergedBundleTocFile(bundle.getMaterialNumber(), this);
-        final Transformer merger = transformerBuilderFactory.create().withXsl(mergeVolumeTocsXsl).build();
+        final Transformer merger = transformerBuilderFactory.create()
+            .withXsl(mergeVolumeTocsXsl)
+            .withParameter("volumeNum", getVolumeNumber(bundle))
+            .withParameter("isPocketPart", bundle.isPocketPartPublication())
+            .build();
         final TransformationCommand command =
             new TransformationCommandBuilder(merger, mergedVolumeTOC).withInput(transformedFiles).build();
         transformationService.transform(command);
@@ -80,5 +84,28 @@ public class ExtractTocStep extends XppTransformationStep {
         final TransformationCommand command =
             new TransformationCommandBuilder(transformer, fileSystem.getTocFile(this)).withInput(tocFiles).build();
         transformationService.transform(command);
+    }
+
+    private Integer getVolumeNumber(final XppBundle bundle) {
+        final List<XppBundle> bundles = getXppBundles();
+        final List<XppBundle> volumes = bundles.stream()
+            .filter(currentBundle -> !currentBundle.isPocketPartPublication())
+            .collect(Collectors.toList());
+
+        final Integer currentBundleIndex;
+        if (bundle.isPocketPartPublication()) {
+            final Integer index = IntStream.range(0, bundles.size())
+                .filter(i -> bundle.equals(bundles.get(i)))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
+            currentBundleIndex = getVolumeNumber(bundles.get(index - 1));
+        } else {
+            currentBundleIndex = IntStream.range(0, volumes.size())
+            .filter(i -> bundle.equals(volumes.get(i)))
+            .map(i -> ++i)
+            .findFirst()
+            .orElseThrow(IllegalArgumentException::new);
+        }
+        return currentBundleIndex;
     }
 }

@@ -1,74 +1,4 @@
-<EBook xmlns="http://www.sdl.com/xpp"><EBookToc><Name>Volume 1</Name><Guid>vol1</Guid><DocumentGuid>Ic06f56e5607311dcb2b50000837214a9_pp</DocumentGuid>
-      
-      <EBookToc>
-         <Name>Chapter 1</Name>
-         <Guid>I7f66dd0028b811e69ed7fcedf0a72426</Guid>
-         <DocumentGuid>Ic06f56e5607311dcb2b50000837214a9_pp</DocumentGuid>
-         <EBookToc>
-            <Name>Section 1</Name>
-            <Guid>I18b49f1028b911e69ed7fcedf0a72426</Guid>
-            <DocumentGuid>Ic06f56e5607311dcb2b50000837214a9_pp</DocumentGuid>
-            <EBookToc>
-               <Name>Content 1</Name>
-               <Guid>I333dd59028b911e69ed7fcedf0a72426</Guid>
-               <DocumentGuid>I333ddfh6p2u911e69ed7fcedf0a72426_pp</DocumentGuid>
-            </EBookToc>
-            <EBookToc>
-               <Name>Content 2</Name>
-               <Guid>I334a31a028b911e69ed7fcedf0a72426</Guid>
-               <DocumentGuid>I333ddfh6p2u911e69ed7fcedf0a72fg5_pp</DocumentGuid>
-            </EBookToc>
-         </EBookToc>
-         <EBookToc>
-            <Name>Section 2</Name>
-            <Guid>I334a7fc028b911e69ed7fcedf0a72426</Guid>
-            <DocumentGuid>Igk54oofh6p2u9f5e69ed7fcedf0a72fg5_pp</DocumentGuid>
-            <EBookToc>
-               <Name>Section 2_1</Name>
-               <Guid>I334acde028b911e69ed7fcedf0a72426</Guid>
-               <DocumentGuid>I333ddfh6p2u911e69ed7fcedf0a72fg5_pp</DocumentGuid>
-               <EBookToc>
-                  <Name>Content 2_1</Name>
-                  <Guid>I34145f7028b911e69ed7fcedf0a72426</Guid>
-                  <DocumentGuid>Igk54oofh6p2u911e69ed7fcedf0a72fg5_pp</DocumentGuid>
-                  
-                  <EBookToc>
-                     <Name>Content 2_1_2</Name>
-                     <Guid>I34145f7028b911e69ed7fcedf1646868</Guid>
-                     <DocumentGuid>Igk54oofh6p2u911e69ed7fcedf0a72fg5_pp</DocumentGuid>
-                     <EBookToc>
-                        <Name>Content 2_1_2_1</Name>
-                        <Guid>I34145f7028b911e69ed7fcedf1747878</Guid>
-                        <DocumentGuid>Igk54oofh6p2u911e69ed7azaza0a72fg5_pp</DocumentGuid>
-                     </EBookToc>
-                  </EBookToc>
-               </EBookToc>
-            </EBookToc>
-         </EBookToc>
-         <EBookToc>
-            <Name>Section 10</Name>
-            <Guid>I18b49f1028b911e69ed7fcedf0a72426</Guid>
-            <DocumentGuid>Ic06f56e5607311dcb2b50000837214a0_pp</DocumentGuid>
-         </EBookToc>
-      </EBookToc>
-      <EBookToc>
-         <Name>Chapter 2</Name>
-         <Guid>I334a31a028b911e69ed7fcedf0a72427</Guid>
-         <DocumentGuid>Igk54oofh6p2u911e69ed7fcedf0a72fg5_pp</DocumentGuid>
-         <EBookToc>
-            <Name>Chapter 2 content</Name>
-            <Guid>I334a7fc028b911e69ed7fcedf0a72426</Guid>
-            <DocumentGuid>Igk54oofh6p2u9f5e69ed7fcedf0a72fg5_pp</DocumentGuid>
-         </EBookToc>
-      </EBookToc>
-      <EBookToc>
-         <Name>Chapter 3 content</Name>
-         <Guid>I334acde028b911e69ed7fcedf0a72426</Guid>
-         <DocumentGuid>Igk54oofh6p2u9f5e69ed7fcedf0a72fg5_pp</DocumentGuid>
-      </EBookToc>
-   
-   
-</EBookToc><EBookToc><Name>Volume 2</Name><Guid>vol2</Guid><DocumentGuid>Igka4oasd4p2u9r4e69ed7sdfdf0a72fg5</DocumentGuid>
+<EBook xmlns="http://www.sdl.com/xpp"><EBookToc><Name>Volume 1</Name><Guid>vol2</Guid><DocumentGuid>Igka4oasd4p2u9r4e69ed7sdfdf0a72fg5</DocumentGuid>
       
       <EBookToc>
          <Name>Chapter 1 vol.2</Name>
@@ -176,4 +106,74 @@
          <Guid>I334acde028b911e69ed7fcedf0a72426</Guid>
          <DocumentGuid>Igk54oofh6p2u9r4e69esdfcedf0a72fg5</DocumentGuid>
       </EBookToc>
-   </EBookToc></EBook>
+   </EBookToc><EBookToc><Name>Volume 1 - Pocket Part</Name><Guid>vol1</Guid><DocumentGuid>Ic06f56e5607311dcb2b50000837214a9_pp</DocumentGuid>
+      
+      <EBookToc>
+         <Name>Pocket Part Chapter 1</Name>
+         <Guid>I7f66dd0028b811e69ed7fcedf0a72426</Guid>
+         <DocumentGuid>Ic06f56e5607311dcb2b50000837214a9_pp</DocumentGuid>
+         <EBookToc>
+            <Name>Section 1</Name>
+            <Guid>I18b49f1028b911e69ed7fcedf0a72426</Guid>
+            <DocumentGuid>Ic06f56e5607311dcb2b50000837214a9_pp</DocumentGuid>
+            <EBookToc>
+               <Name>Content 1</Name>
+               <Guid>I333dd59028b911e69ed7fcedf0a72426</Guid>
+               <DocumentGuid>I333ddfh6p2u911e69ed7fcedf0a72426_pp</DocumentGuid>
+            </EBookToc>
+            <EBookToc>
+               <Name>Content 2</Name>
+               <Guid>I334a31a028b911e69ed7fcedf0a72426</Guid>
+               <DocumentGuid>I333ddfh6p2u911e69ed7fcedf0a72fg5_pp</DocumentGuid>
+            </EBookToc>
+         </EBookToc>
+         <EBookToc>
+            <Name>Section 2</Name>
+            <Guid>I334a7fc028b911e69ed7fcedf0a72426</Guid>
+            <DocumentGuid>Igk54oofh6p2u9f5e69ed7fcedf0a72fg5_pp</DocumentGuid>
+            <EBookToc>
+               <Name>Section 2_1</Name>
+               <Guid>I334acde028b911e69ed7fcedf0a72426</Guid>
+               <DocumentGuid>I333ddfh6p2u911e69ed7fcedf0a72fg5_pp</DocumentGuid>
+               <EBookToc>
+                  <Name>Content 2_1</Name>
+                  <Guid>I34145f7028b911e69ed7fcedf0a72426</Guid>
+                  <DocumentGuid>Igk54oofh6p2u911e69ed7fcedf0a72fg5_pp</DocumentGuid>
+                  
+                  <EBookToc>
+                     <Name>Content 2_1_2</Name>
+                     <Guid>I34145f7028b911e69ed7fcedf1646868</Guid>
+                     <DocumentGuid>Igk54oofh6p2u911e69ed7fcedf0a72fg5_pp</DocumentGuid>
+                     <EBookToc>
+                        <Name>Content 2_1_2_1</Name>
+                        <Guid>I34145f7028b911e69ed7fcedf1747878</Guid>
+                        <DocumentGuid>Igk54oofh6p2u911e69ed7azaza0a72fg5_pp</DocumentGuid>
+                     </EBookToc>
+                  </EBookToc>
+               </EBookToc>
+            </EBookToc>
+         </EBookToc>
+         <EBookToc>
+            <Name>Section 10</Name>
+            <Guid>I18b49f1028b911e69ed7fcedf0a72426</Guid>
+            <DocumentGuid>Ic06f56e5607311dcb2b50000837214a0_pp</DocumentGuid>
+         </EBookToc>
+      </EBookToc>
+      <EBookToc>
+         <Name>Pocket Part Chapter 2</Name>
+         <Guid>I334a31a028b911e69ed7fcedf0a72427</Guid>
+         <DocumentGuid>Igk54oofh6p2u911e69ed7fcedf0a72fg5_pp</DocumentGuid>
+         <EBookToc>
+            <Name>Chapter 2 content</Name>
+            <Guid>I334a7fc028b911e69ed7fcedf0a72426</Guid>
+            <DocumentGuid>Igk54oofh6p2u9f5e69ed7fcedf0a72fg5_pp</DocumentGuid>
+         </EBookToc>
+      </EBookToc>
+      <EBookToc>
+         <Name>Pocket Part Chapter 3 content</Name>
+         <Guid>I334acde028b911e69ed7fcedf0a72426</Guid>
+         <DocumentGuid>Igk54oofh6p2u9f5e69ed7fcedf0a72fg5_pp</DocumentGuid>
+      </EBookToc>
+   
+   
+</EBookToc></EBook>

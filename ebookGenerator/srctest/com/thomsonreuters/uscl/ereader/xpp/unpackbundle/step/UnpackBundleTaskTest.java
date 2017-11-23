@@ -122,7 +122,7 @@ public final class UnpackBundleTaskTest {
         xppBundle.setProductTitle("AM JUR 2D V6 REV 2017 PP IT-9");
         xppBundle.setProductType("supp");
         xppBundle.setReleaseDate(null);
-        xppBundle.setVolumes(6);
+        xppBundle.setVolumes("6");
         assertThat(captor.getValue(), contains(xppBundle));
     }
 

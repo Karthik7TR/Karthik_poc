@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.request.domain;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -28,6 +29,8 @@ public class XppBundle {
     private String productTitle;
     @XmlElement(name = "product_type")
     private String productType;
+    @XmlElement(name = "web_build_product_type")
+    private XppBundleWebBuildProductType webBuildProductType;
     @XmlElement(name = "material_no")
     private String materialNumber;
     @XmlElement(name = "release_date")
@@ -35,7 +38,7 @@ public class XppBundle {
     @XmlElement(name = "release_number")
     private int releaseNumber;
     @XmlElement(name = "volumes")
-    private int volumes;
+    private String volumes;
     @XmlElement(name = "bundle_root")
     private String bundleRoot;
     @XmlElementWrapper(name = "file_order")
@@ -56,6 +59,14 @@ public class XppBundle {
 
     public void setProductType(final String productType) {
         this.productType = productType;
+    }
+
+    public XppBundleWebBuildProductType getWebBuildProductType() {
+        return webBuildProductType;
+    }
+
+    public void setWebBuildProductType(final XppBundleWebBuildProductType webBuildProductType) {
+        this.webBuildProductType = webBuildProductType;
     }
 
     public String getMaterialNumber() {
@@ -82,11 +93,11 @@ public class XppBundle {
         this.releaseNumber = releaseNumber;
     }
 
-    public int getVolumes() {
+    public String getVolumes() {
         return volumes;
     }
 
-    public void setVolumes(final int volumes) {
+    public void setVolumes(final String volumes) {
         this.volumes = volumes;
     }
 
@@ -104,6 +115,12 @@ public class XppBundle {
 
     public void setOrderedFileList(final List<String> orderedFileList) {
         this.orderedFileList = orderedFileList;
+    }
+
+    public boolean isPocketPartPublication() {
+        return Optional.ofNullable(webBuildProductType)
+            .map(XppBundleWebBuildProductType::isPocketPart)
+            .orElse(false);
     }
 
     @Override

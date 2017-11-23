@@ -13,7 +13,14 @@
 					<xsl:for-each select="x:Volume">
 						<xsl:element name="EBookToc">
 							<xsl:element name="Name">
-								<xsl:value-of select="concat('Volume ', position())" />
+								<xsl:choose>
+									<xsl:when test="./@isPP = true()">
+										<xsl:value-of select="concat('Volume ', ./@volumeNum, ' - ', 'Pocket Part')" />
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="concat('Volume ', ./@volumeNum)" />
+									</xsl:otherwise>
+								</xsl:choose>
 							</xsl:element>
 							<xsl:element name="Guid">
 								<xsl:value-of

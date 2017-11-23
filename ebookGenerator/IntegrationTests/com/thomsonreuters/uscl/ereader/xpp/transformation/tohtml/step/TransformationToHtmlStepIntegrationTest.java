@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundleWebBuildProductType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemImpl;
@@ -74,6 +75,7 @@ public final class TransformationToHtmlStepIntegrationTest {
                 .getExecutionContext()
                 .get(JobParameterKey.XPP_BUNDLES)).thenReturn(Collections.singletonList(xppBundle));
         when(xppBundle.getProductType()).thenReturn("supp");
+        when(xppBundle.isPocketPartPublication()).thenReturn(true);
         when(xppBundle.getMaterialNumber()).thenReturn(MATERIAL_NUMBER);
         original = new File(TransformationToHtmlStepIntegrationTest.class.getResource(SAMPLE_DIVXML_PAGE).toURI());
         anchorsFile = new File(TransformationToHtmlStepIntegrationTest.class.getResource(XppFormatFileSystemImpl.ANCHOR_TO_DOCUMENT_ID_MAP_FILE).toURI());
@@ -150,6 +152,7 @@ public final class TransformationToHtmlStepIntegrationTest {
             bundle.setMaterialNumber(ADDITIONAL_MATERIAL_NUMBER);
             bundle.setOrderedFileList(Arrays.asList("Useless_test_file.DIVXML.xml"));
             bundle.setProductType("supp");
+            bundle.setWebBuildProductType(XppBundleWebBuildProductType.SUPPLEMENTARY_PAMPHLET);
             bundles.add(bundle);
         }
 
