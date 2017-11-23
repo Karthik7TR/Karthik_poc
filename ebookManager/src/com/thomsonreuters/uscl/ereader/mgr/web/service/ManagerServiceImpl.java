@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -32,14 +33,17 @@ import org.springframework.web.client.RestTemplate;
 
 @Service("managerService")
 public class ManagerServiceImpl implements ManagerService {
-    private static final Logger log = LogManager.getLogger(ManagerServiceImpl.class);
+    private static final Logger LOG = LogManager.getLogger(ManagerServiceImpl.class);
+
+    private static final String HTTP_TEMPLATE = "http://%s:%d/%s/";
+    private static final String TO_URL = "to URL: ";
 
     private static final String GENERATOR_REST_SYNC_MISC_CONFIG_TEMPLATE =
-        "http://%s:%d/%s/" + CoreConstants.URI_SYNC_MISC_CONFIG;
+        HTTP_TEMPLATE + CoreConstants.URI_SYNC_MISC_CONFIG;
     private static final String GENERATOR_REST_SYNC_JOB_THROTTLE_CONFIG_TEMPLATE =
-        "http://%s:%d/%s/" + CoreConstants.URI_SYNC_JOB_THROTTLE_CONFIG;
+        HTTP_TEMPLATE + CoreConstants.URI_SYNC_JOB_THROTTLE_CONFIG;
     private static final String GENERATOR_REST_SYNC_PLANNED_OUTAGE =
-        "http://%s:%d/%s/" + CoreConstants.URI_SYNC_PLANNED_OUTAGE;
+        HTTP_TEMPLATE + CoreConstants.URI_SYNC_PLANNED_OUTAGE;
 
     @Autowired
     @Qualifier("environmentName")
@@ -66,13 +70,13 @@ public class ManagerServiceImpl implements ManagerService {
         // Check for running jobs (in the generator web app)
         final int startedJobs = jobService.getStartedJobCount();
         if (startedJobs > 0) {
-            log.debug(String.format("There are %d started job executions", startedJobs));
+            LOG.debug(String.format("There are %d started job executions", startedJobs));
             return true;
         }
         // Check for queued jobs
         final List<JobRequest> jobRequests = jobRequestService.findAllJobRequests();
-        if (jobRequests.size() > 0) {
-            log.debug(String.format("There are %d queued jobs", jobRequests.size()));
+        if (!jobRequests.isEmpty()) {
+            LOG.debug(String.format("There are %d queued jobs", jobRequests.size()));
             return true;
         }
         return false;
@@ -94,10 +98,8 @@ public class ManagerServiceImpl implements ManagerService {
             socketAddr.getHostName(),
             socketAddr.getPort(),
             contextName);
-        log.debug("to URL: " + url);
-        final SimpleRestServiceResponse response =
-            restTemplate.postForObject(url, config, SimpleRestServiceResponse.class);
-        return response;
+        LOG.debug(TO_URL + url);
+        return restTemplate.postForObject(url, config, SimpleRestServiceResponse.class);
     }
 
     @Override
@@ -109,10 +111,8 @@ public class ManagerServiceImpl implements ManagerService {
             socketAddr.getHostName(),
             socketAddr.getPort(),
             generatorContextName);
-        log.debug("to URL: " + url);
-        final SimpleRestServiceResponse response =
-            restTemplate.postForObject(url, config, SimpleRestServiceResponse.class);
-        return response;
+        LOG.debug(TO_URL + url);
+        return restTemplate.postForObject(url, config, SimpleRestServiceResponse.class);
     }
 
     @Override
@@ -122,10 +122,8 @@ public class ManagerServiceImpl implements ManagerService {
             socketAddr.getHostName(),
             socketAddr.getPort(),
             generatorContextName);
-        log.debug("to URL: " + url);
-        final SimpleRestServiceResponse response =
-            restTemplate.postForObject(url, outage, SimpleRestServiceResponse.class);
-        return response;
+        LOG.debug(TO_URL + url);
+        return restTemplate.postForObject(url, outage, SimpleRestServiceResponse.class);
     }
 
     @Override
@@ -135,14 +133,14 @@ public class ManagerServiceImpl implements ManagerService {
         final Date deleteJobsBefore = calculateDaysBackDate(daysBack);
 
         // Archive and then delete old BATCH_* database table records
-        log.info(
+        LOG.info(
             String.format(
                 "Starting to archive/delete Spring Batch job records older than %d days old.  These are jobs run before: %s",
                 daysBack,
                 deleteJobsBefore.toString()));
         final int oldJobStepExecutionsRemoved =
             managerDao.archiveAndDeleteSpringBatchJobRecordsBefore(deleteJobsBefore);
-        log.info(
+        LOG.info(
             String.format(
                 "Finished archiving/deleting %d old step executions that were older than %d days old.",
                 oldJobStepExecutionsRemoved,
@@ -154,30 +152,30 @@ public class ManagerServiceImpl implements ManagerService {
         // Calculate the prior point in time before which data is to be removed
         final Date deleteFilesBefore = calculateDaysBackDate(daysBack);
         // Remove old filesystem files that were used to create the book in the first place
-        log.info(
+        LOG.info(
             String.format(
                 "Starting to remove job filesystem files older than %d days old.  These are files created before: %s",
                 daysBack,
                 deleteFilesBefore.toString()));
         removeOldJobFiles(deleteFilesBefore);
-        log.info(String.format("Finished removing job files older than %d days old.", daysBack));
+        LOG.info(String.format("Finished removing job files older than %d days old.", daysBack));
 
         // Remove old codes workbench files
         final Date cwbDeleteFilesBefore = calculateDaysBackDate(cwbFilesDaysBack);
-        log.info(
+        LOG.info(
             String.format(
                 "Starting to remove codes workbench files older than %d days old.  These are files created before: %s",
                 cwbFilesDaysBack,
                 deleteFilesBefore.toString()));
         removeOldCwbFiles(cwbDeleteFilesBefore);
-        log.info(String.format("Finished removing codes workbench files older than %d days old.", cwbFilesDaysBack));
+        LOG.info(String.format("Finished removing codes workbench files older than %d days old.", cwbFilesDaysBack));
     }
 
     @Override
     @Transactional
     public void cleanupOldPlannedOutages(final int daysBack) {
         final Date deleteOutagesBefore = calculateDaysBackDate(daysBack);
-        log.debug(
+        LOG.debug(
             String.format(
                 "Deleting expired planned outages older than %d days old.  These are outages that ended before: %s",
                 daysBack,
@@ -196,12 +194,11 @@ public class ManagerServiceImpl implements ManagerService {
     public void cleanupOldTransientMetadata(
         final int numberLastMajorVersionKept,
         final int daysBeforeDocMetadataDelete) {
-        log.debug(
+        LOG.debug(
             String.format(
                 "Deleting Metadata and keeping only %d good major version prior to %d days ago",
                 numberLastMajorVersionKept,
                 daysBeforeDocMetadataDelete));
-
         managerDao.deleteTransientMetadata(numberLastMajorVersionKept, daysBeforeDocMetadataDelete);
     }
 
@@ -214,20 +211,10 @@ public class ManagerServiceImpl implements ManagerService {
         final File dataDir = new File(environmentDir, CoreConstants.DATA_DIR); // like "/apps/eBookBuilder/prod/data"
         final String deleteBeforeDateString =
             new SimpleDateFormat(CoreConstants.DIR_DATE_FORMAT).format(deleteJobsBefore); // like "20120513"
-        final String[] dateFileArray = dataDir.list();
-        for (final String dateDirString : dateFileArray) {
+        for (final String dateDirString : Optional.ofNullable(dataDir.list()).orElseGet(() -> new String[0])) {
             if (dateDirString.compareTo(deleteBeforeDateString) < 0) {
                 final File dateDir = new File(dataDir, dateDirString);
-                try {
-                    FileUtils.deleteDirectory(dateDir);
-                    log.debug("Deleted job directory: " + dateDir.getAbsolutePath());
-                } catch (final IOException e) {
-                    log.error(
-                        String.format(
-                            "Failed to recursively delete directory %s - %s",
-                            dateDir.getAbsolutePath(),
-                            e.getMessage()));
-                }
+                deleteDir(dateDir, "Deleted job directory: ");
             }
         }
     }
@@ -237,21 +224,25 @@ public class ManagerServiceImpl implements ManagerService {
      * @param deleteBefore work files created before this date will be deleted.
      */
     private void removeOldCwbFiles(final Date deleteBefore) {
-        final File codeWorkbenchDir = rootCodesWorkbenchLandingStrip;
-        for (final File file : codeWorkbenchDir.listFiles()) {
+        for (final File file : Optional.ofNullable(rootCodesWorkbenchLandingStrip.listFiles())
+            .orElseGet(() -> new File[0])) {
             final Long lastModified = file.lastModified();
             final Long deleteBeforeTime = deleteBefore.getTime();
             if (lastModified.compareTo(deleteBeforeTime) < 0) {
-                try {
-                    FileUtils.deleteDirectory(file);
-                    log.debug("Deleted codes workbench directory: " + file.getAbsolutePath());
-                } catch (final IOException e) {
-                    log.error(
-                        String.format(
-                            "Failed to recursively delete directory %s - %s",
-                            file.getAbsolutePath(),
-                            e.getMessage()));
-                }
+                deleteDir(file, "Deleted codes workbench directory: ");
+            }
+        }
+    }
+
+    private void deleteDir(final File dir, final String message) {
+        if (dir.isDirectory()) {
+            try {
+                FileUtils.deleteDirectory(dir);
+                LOG.debug(message + dir.getAbsolutePath());
+            } catch (final IOException e) {
+                final String msg = String
+                    .format("Failed to recursively delete directory %s - %s", dir.getAbsolutePath(), e.getMessage());
+                LOG.error(msg, e);
             }
         }
     }
