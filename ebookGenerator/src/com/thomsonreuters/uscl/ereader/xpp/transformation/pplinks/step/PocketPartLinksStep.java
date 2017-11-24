@@ -1,13 +1,17 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.pplinks.step;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.xml.transform.Transformer;
 
+import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
 import com.thomsonreuters.uscl.ereader.common.filesystem.entity.partfiles.DocumentFile;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
@@ -17,6 +21,7 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
+import org.jetbrains.annotations.NotNull;
 import org.sonar.runner.commonsio.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -32,75 +37,82 @@ public class PocketPartLinksStep extends XppTransformationStep {
     @Value("${xpp.pplinks.xsl}")
     private File transformToAnchorToDocumentIdMapXsl;
 
+    private Map<String, XppBundle> bundles;
+    private Map<Boolean, Map<String, DocumentFile>> isPocketPartToUuidToDocumentMap;
+
     @Override
     public void executeTransformation() throws Exception {
-        final Collection<XppBundle> bundles = getXppBundles();
+        initMaps();
 
-        final Map<Boolean, Map<String, DocumentFile>> isPocketPartToUuidToFileNameMap =
-            getIsPocketPartToUuidToFileNameMap(bundles);
-
-        for (final Map.Entry<Boolean, Map<String, DocumentFile>> ppEntry : isPocketPartToUuidToFileNameMap.entrySet()) {
-            final boolean isPP = ppEntry.getKey();
-
-            for (final Map.Entry<String, DocumentFile> document : ppEntry.getValue().entrySet()) {
-                final String uuid = document.getKey();
-                final boolean anchorFilePresent = Optional.ofNullable(isPocketPartToUuidToFileNameMap.get(!isPP).get(uuid)).isPresent();
-
-                final File file = document.getValue().getFile();
-                final String materialNumber = file.getParentFile().getName();
-
-                final File directory = fileSystem.getDirectory(this, DESTINATION_DIR, materialNumber);
-                FileUtils.forceMkdir(directory);
-
-                if (anchorFilePresent) {
-                    transform(file, new File(directory, file.getName()), isPP, uuid);
-                } else {
-                    FileUtils.copyFileToDirectory(file, directory);
+        isPocketPartToUuidToDocumentMap.forEach((isPP, uuidToDocumentMap) ->
+            uuidToDocumentMap.forEach((uuid, document) -> {
+                try {
+                    transformIfNeedLink(isPP, uuid, document);
+                } catch (final IOException e) {
+                    throw new EBookException(e);
                 }
-            }
+            })
+        );
+    }
+
+    private void transformIfNeedLink(final boolean isPP, final String uuid, final DocumentFile document) throws IOException {
+        final DocumentFile anchorDoc = isPocketPartToUuidToDocumentMap.getOrDefault(!isPP, Collections.emptyMap()).get(uuid);
+
+        final File file = document.getFile();
+        final String materialNumber = file.getParentFile().getName();
+
+        final File directory = fileSystem.getDirectory(this, DESTINATION_DIR, materialNumber);
+        FileUtils.forceMkdir(directory);
+
+        if (anchorDoc != null) {
+            final String anchorFileMaterialNumber = anchorDoc.getFile().getParentFile().getName();
+            final String webBuildProductType = bundles.get(anchorFileMaterialNumber).getWebBuildProductType().getHumanReadableName();
+            transform(file, new File(directory, file.getName()), isPP, webBuildProductType, uuid);
+        } else {
+            FileUtils.copyFileToDirectory(file, directory);
         }
+    }
+
+    private void initMaps() {
+        bundles = getXppBundlesMap();
+        isPocketPartToUuidToDocumentMap = getIsPocketPartToUuidToFileNameMap(bundles);
+    }
+
+    @NotNull
+    private Map<String, XppBundle> getXppBundlesMap() {
+        return getXppBundles().stream().collect(Collectors.toMap(XppBundle::getMaterialNumber, Function.identity()));
     }
 
     /*
-     * package visibility is for testing.
+     * package visibility is for testing
      */
-    Map<Boolean, Map<String, DocumentFile>> getIsPocketPartToUuidToFileNameMap(final Collection<XppBundle> bundles) {
+    Map<Boolean, Map<String, DocumentFile>> getIsPocketPartToUuidToFileNameMap(final Map<String, XppBundle> bundles) {
         final Map<Boolean, Map<String, DocumentFile>> isPocketPartToUuidToFileNameMap = new HashMap<>();
         final Map<String, Collection<File>> partFilesIndex = fileSystem.getFiles(this, SOURCE_DIR);
 
-        for (final Map.Entry<String, Collection<File>> partFilesByMaterialNumber : partFilesIndex.entrySet()) {
-            final String materialNumber = partFilesByMaterialNumber.getKey();
-            final boolean isPocketPart = isMaterialNumberPocketPart(bundles, materialNumber);
-            isPocketPartToUuidToFileNameMap.putIfAbsent(isPocketPart, new HashMap<>());
-
-            for (final File files : partFilesByMaterialNumber.getValue()) {
-                final DocumentFile document = new DocumentFile(files);
-                isPocketPartToUuidToFileNameMap.get(isPocketPart).putIfAbsent(document.getDocumentName().getDocFamilyUuid(), document);
-            }
-        }
+        partFilesIndex.forEach((materialNumber, files) -> {
+            final boolean isPocketPart = bundles.get(materialNumber).isPocketPartPublication();
+            final Map<String, DocumentFile> map = files.stream().map(DocumentFile::new)
+                .collect(Collectors.toMap(
+                    document -> document.getDocumentName().getDocFamilyUuid(),
+                    Function.identity()));
+            isPocketPartToUuidToFileNameMap.putIfAbsent(isPocketPart, map);
+        });
         return isPocketPartToUuidToFileNameMap;
-    }
-
-    private boolean isMaterialNumberPocketPart(
-        final Collection<XppBundle> bundles,
-        final String materialNumber) {
-        return bundles.stream()
-            .filter(bundle -> bundle.getMaterialNumber().equals(materialNumber))
-            .findFirst()
-            .map(XppBundle::isPocketPartPublication)
-            .orElse(false);
     }
 
     private void transform(
         final File input,
         final File output,
         final boolean isPocketPart,
+        final String webBuildProductType,
         final String anchorFileName
         ) {
         final Transformer transformer =
             transformerBuilderFactory.create()
                 .withXsl(transformToAnchorToDocumentIdMapXsl)
                 .withParameter("isPocketPart", isPocketPart)
+                .withParameter("webBuildProductType", webBuildProductType)
                 .withParameter("docId", anchorFileName).build();
         final TransformationCommand command =
             new TransformationCommandBuilder(transformer, output).withInput(input).build();

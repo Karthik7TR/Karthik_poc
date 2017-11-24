@@ -8,30 +8,36 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum
 public enum XppBundleWebBuildProductType {
     @XmlEnumValue("Bound Volume")
-    BOUND_VOLUME(false),
+    BOUND_VOLUME("Bound Volume", false),
     @XmlEnumValue("Looseleaf Supplement")
-    LOOSELEAF_SUPPLEMENT(true),
+    LOOSELEAF_SUPPLEMENT("Looseleaf Supplement", true),
     @XmlEnumValue("Looseleaf Update")
-    LOOSELEAF_UPDATE(false),
+    LOOSELEAF_UPDATE("Looseleaf Update", false),
     @XmlEnumValue("Looseleaf Content")
-    LOOSELEAF_CONTENT(false),
+    LOOSELEAF_CONTENT("Looseleaf Content", false),
     @XmlEnumValue("Binder Pamphlet Supplement")
-    BINDER_PAMPHLET_SUPPLEMENT(true),
+    BINDER_PAMPHLET_SUPPLEMENT("Binder Pamphlet Supplement", true),
     @XmlEnumValue("Binder Pamphlet")
-    BINDER_PAMPHLET(false),
+    BINDER_PAMPHLET("Binder Pamphlet", false),
     @XmlEnumValue("Newsletter")
-    NEWSLETTER(false),
+    NEWSLETTER("Newsletter", false),
     @XmlEnumValue("Pocket Part")
-    POCKET_PART(true),
+    POCKET_PART("Pocket Part", true),
     @XmlEnumValue("Supplementary Pamphlet")
-    SUPPLEMENTARY_PAMPHLET(true),
+    SUPPLEMENTARY_PAMPHLET("Supplementary Pamphlet", true),
     @XmlEnumValue("Pamphlet")
-    PAMPHLET(false);
+    PAMPHLET("Pamphlet", false);
 
+    private final String humanReadableName;
     private final boolean isPocketPartType;
 
-    XppBundleWebBuildProductType(final boolean isPocketPartType) {
+    XppBundleWebBuildProductType(final String humanReadableName, final boolean isPocketPartType) {
+        this.humanReadableName = humanReadableName;
         this.isPocketPartType = isPocketPartType;
+    }
+
+    public String getHumanReadableName() {
+        return humanReadableName;
     }
 
     public boolean isPocketPart() {

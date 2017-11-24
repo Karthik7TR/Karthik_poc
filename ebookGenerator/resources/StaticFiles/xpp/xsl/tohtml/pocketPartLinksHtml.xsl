@@ -19,7 +19,7 @@
             <xsl:with-param name="prefix" select="@docId" />
             <xsl:with-param name="linkSuffix" select="'_anchorOnPP'" />
             <xsl:with-param name="anchorSuffix" select="'_anchorOnMain'" />
-            <xsl:with-param name="text">Link to Pocket Part</xsl:with-param>
+            <xsl:with-param name="text" select="concat('Link to ', @webBuildProductType)" />
         </xsl:call-template>
     </xsl:template>
     

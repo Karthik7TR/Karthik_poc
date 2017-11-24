@@ -7,12 +7,17 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundleWebBuildProductType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.tohtml.step.TransformationToHtmlStepIntegrationTestConfiguration;
@@ -36,6 +41,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class PocketPartLinksStepIntegrationTest {
     private static final String MATERIAL_NUMBER_MAIN_CONTENT = "11111111";
     private static final String MATERIAL_NUMBER_POCKET_PART = "11111112";
+    private static final String DIVXML_XML_MAIN = "1-LUPDRL.DIVXML_0002_I91dd17d0572311dca3950000837bc6dd.page";
+    private static final String DIVXML_XML_SUPP = "1-LUPDRL.DIVXML_0001_I91dd17d0572311dca3950000837bc6dd.page";
     private static final XppFormatFileSystemDir SOURCE_DIR = XppFormatFileSystemDir.ORIGINAL_PAGES_DIR;
     private static final XppFormatFileSystemDir DESTINATION_DIR = XppFormatFileSystemDir.POCKET_PART_LINKS_DIR;
 
@@ -48,9 +55,6 @@ public class PocketPartLinksStepIntegrationTest {
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private ChunkContext chunkContext;
 
-    @Mock
-    private XppBundle xppBundle;
-
     @Before
     public void setUp() throws Exception {
         org.mockito.MockitoAnnotations.initMocks(this);
@@ -59,16 +63,36 @@ public class PocketPartLinksStepIntegrationTest {
                 .getStepExecution()
                 .getJobExecution()
                 .getExecutionContext()
-                .get(JobParameterKey.XPP_BUNDLES)).thenReturn(Collections.singletonList(xppBundle));
-        when(xppBundle.getProductType()).thenReturn("supp");
-        when(xppBundle.getMaterialNumber()).thenReturn(MATERIAL_NUMBER_POCKET_PART);
-        when(xppBundle.isPocketPartPublication()).thenReturn(true);
+                .get(JobParameterKey.XPP_BUNDLES)).thenReturn(getXppBundlesList());
 
         final File mainContentFolder = new File(PocketPartLinksStepIntegrationTest.class.getResource(MATERIAL_NUMBER_MAIN_CONTENT).toURI());
         final File pocketPartFolder = new File(PocketPartLinksStepIntegrationTest.class.getResource(MATERIAL_NUMBER_POCKET_PART).toURI());
 
         FileUtils.copyDirectory(mainContentFolder, mkdir(fileSystem.getDirectory(step, SOURCE_DIR, MATERIAL_NUMBER_MAIN_CONTENT)));
         FileUtils.copyDirectory(pocketPartFolder, mkdir(fileSystem.getDirectory(step, SOURCE_DIR, MATERIAL_NUMBER_POCKET_PART)));
+    }
+
+    private List<XppBundle> getXppBundlesList() {
+        return getXppBundlesMap().entrySet().stream().map(e -> e.getValue()).collect(Collectors.toList());
+    }
+
+    private Map<String, XppBundle> getXppBundlesMap() {
+        final XppBundle mainBundle = new XppBundle();
+        mainBundle.setMaterialNumber(MATERIAL_NUMBER_MAIN_CONTENT);
+        mainBundle.setOrderedFileList(Arrays.asList(DIVXML_XML_MAIN));
+        mainBundle.setProductType("bound");
+        mainBundle.setWebBuildProductType(XppBundleWebBuildProductType.BOUND_VOLUME);
+
+        final XppBundle suppBundle = new XppBundle();
+        suppBundle.setMaterialNumber(MATERIAL_NUMBER_POCKET_PART);
+        suppBundle.setOrderedFileList(Arrays.asList(DIVXML_XML_SUPP));
+        suppBundle.setProductType("supp");
+        suppBundle.setWebBuildProductType(XppBundleWebBuildProductType.POCKET_PART);
+
+        final Map<String, XppBundle> map = new HashMap<>();
+        map.put(MATERIAL_NUMBER_MAIN_CONTENT, mainBundle);
+        map.put(MATERIAL_NUMBER_POCKET_PART, suppBundle);
+        return map;
     }
 
     @After

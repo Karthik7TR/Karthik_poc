@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.xml.transform.Transformer;
 
@@ -85,7 +86,7 @@ public class PocketPartLinksStepTest {
                 .getStepExecution()
                 .getJobExecution()
                 .getExecutionContext()
-                .get(JobParameterKey.XPP_BUNDLES)).willReturn(getXppBundles());
+                .get(JobParameterKey.XPP_BUNDLES)).willReturn(getXppBundlesList());
 
         final File destDirectory = mkdir(root, DESTINATION_DIR.getDirName(), MATERIAL_NUMBER_MAIN);
         given(fileSystem.getDirectory(any(), any(), any())).willReturn(destDirectory);
@@ -104,17 +105,33 @@ public class PocketPartLinksStepTest {
         return map;
     }
 
-    private List<XppBundle> getXppBundles() {
+    private List<XppBundle> getXppBundlesList() {
+        return getXppBundlesMap().entrySet().stream().map(e -> e.getValue()).collect(Collectors.toList());
+    }
+
+    private Map<String, XppBundle> getXppBundlesMap() {
         final XppBundle mainBundle = new XppBundle();
         mainBundle.setMaterialNumber(MATERIAL_NUMBER_MAIN);
         mainBundle.setOrderedFileList(Arrays.asList(DIVXML_XML_MAIN));
+        mainBundle.setProductType("bound");
+        mainBundle.setWebBuildProductType(XppBundleWebBuildProductType.BOUND_VOLUME);
 
         final XppBundle suppBundle = new XppBundle();
         suppBundle.setMaterialNumber(MATERIAL_NUMBER_SUPP);
         suppBundle.setOrderedFileList(Arrays.asList(DIVXML_XML_SUPP));
         suppBundle.setProductType("supp");
-        suppBundle.setWebBuildProductType(XppBundleWebBuildProductType.SUPPLEMENTARY_PAMPHLET);
-        return Arrays.asList(suppBundle);
+        suppBundle.setWebBuildProductType(XppBundleWebBuildProductType.POCKET_PART);
+
+        final Map<String, XppBundle> map = new HashMap<>();
+        map.put(MATERIAL_NUMBER_MAIN, mainBundle);
+        map.put(MATERIAL_NUMBER_SUPP, suppBundle);
+        return map;
+    }
+
+    @Test
+    public void test() {
+        final XppBundleWebBuildProductType value = XppBundleWebBuildProductType.BINDER_PAMPHLET;
+        System.out.println(value.toString());
     }
 
     @Test
@@ -131,7 +148,7 @@ public class PocketPartLinksStepTest {
 
     @Test
     public void shouldCreateIsPocketPartToUuidToFileNameMap() {
-        final Map<Boolean, Map<String, DocumentFile>> map = step.getIsPocketPartToUuidToFileNameMap(getXppBundles());
+        final Map<Boolean, Map<String, DocumentFile>> map = step.getIsPocketPartToUuidToFileNameMap(getXppBundlesMap());
         assertEquals(map.get(true).size(), 1);
         assertEquals(map.get(false).size(), 1);
         assertEquals(map.get(true).get(UUID).getFile().getName(), DIVXML_XML_SUPP);

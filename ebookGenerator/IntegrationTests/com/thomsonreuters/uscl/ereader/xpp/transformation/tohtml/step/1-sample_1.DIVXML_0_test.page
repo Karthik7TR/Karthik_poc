@@ -11,7 +11,7 @@
                     <value/>
                 </metadata>
             </metadata.block>
-            <referenceFromMainToPocketPart docId="I91dd17d0572311dca3950000837bc6dd"/>
+            <referenceFromMainToPocketPart docId="I91dd17d0572311dca3950000837bc6dd" webBuildProductType="Pocket Part"/>
             <referenceFromPocketPartToMain docId="I91dd17d0572311dca3950000837bc6dd"/>
             <publication.body>
                 <topic uuid="I18b49f1028b911e69ed7fcedf0a72426" stage="stable" date.revised="0" date.updated="0">

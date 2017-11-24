@@ -4,6 +4,7 @@
     xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
     <xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
     <xsl:param name="isPocketPart" />
+    <xsl:param name="webBuildProductType" />
     <xsl:param name="docId" />
 
     <xsl:template match="x:section.front[1]">
@@ -19,6 +20,7 @@
             <xsl:otherwise>
                 <xsl:element name="referenceFromMainToPocketPart">
                     <xsl:attribute name="docId" select="$docId" />
+                    <xsl:attribute name="webBuildProductType" select="$webBuildProductType" />
                 </xsl:element>
             </xsl:otherwise>
         </xsl:choose>
