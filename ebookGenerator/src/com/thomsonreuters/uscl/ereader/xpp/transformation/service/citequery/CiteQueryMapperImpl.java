@@ -25,6 +25,8 @@ import org.xml.sax.helpers.DefaultHandler;
 public class CiteQueryMapperImpl implements CiteQueryMapper {
     @Autowired
     private XppFormatFileSystem fileSystem;
+    @Autowired
+    private CiteQueryProcessor citeQueryProcessor;
 
     @Override
     public @NotNull CiteQueryMapperResponse createMappingFile(
@@ -37,7 +39,7 @@ public class CiteQueryMapperImpl implements CiteQueryMapper {
             final Handler handler = new Handler(materialNumber, htmlFile, step);
             saxParser.parse(htmlFile, handler);
             return handler.getResponse();
-        } catch(final Exception e) {
+        } catch (final Exception e) {
             throw new RuntimeException("Cannot parse file", e);
         }
     }
@@ -95,7 +97,7 @@ public class CiteQueryMapperImpl implements CiteQueryMapper {
                 tagBuilder.append("</cite.query>");
                 try {
                     final String citeQueryTag = tagBuilder.toString();
-                    final String reference = CiteQueryProcessor.getLink(citeQueryTag);
+                    final String reference = citeQueryProcessor.getLink(citeQueryTag);
                     if (StringUtils.isNotBlank(reference)) {
                         idToHrefMap.put(currentId, reference);
                     } else {
