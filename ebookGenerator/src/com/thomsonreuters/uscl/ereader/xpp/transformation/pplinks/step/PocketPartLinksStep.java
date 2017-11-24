@@ -96,7 +96,8 @@ public class PocketPartLinksStep extends XppTransformationStep {
                 .collect(Collectors.toMap(
                     document -> document.getDocumentName().getDocFamilyUuid(),
                     Function.identity()));
-            isPocketPartToUuidToFileNameMap.putIfAbsent(isPocketPart, map);
+            isPocketPartToUuidToFileNameMap.putIfAbsent(isPocketPart, new HashMap<>());
+            isPocketPartToUuidToFileNameMap.get(isPocketPart).putAll(map);
         });
         return isPocketPartToUuidToFileNameMap;
     }

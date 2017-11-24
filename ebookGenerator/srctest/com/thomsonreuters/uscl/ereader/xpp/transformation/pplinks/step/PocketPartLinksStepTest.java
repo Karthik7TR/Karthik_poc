@@ -46,10 +46,13 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 public class PocketPartLinksStepTest {
     private static final String DIVXML_XML_MAIN = "1-LUPDRL.DIVXML_0002_I91dd17d0572311dca3950000837bc6dd.page";
     private static final String DIVXML_XML_SUPP = "1-LUPDRL.DIVXML_0001_I91dd17d0572311dca3950000837bc6dd.page";
+    private static final String DIVXML_XML_MAIN_2 = "1-CHAL_7.DIVXML_0001_Ic06f56e5607311dcb2b50000837214a9.page";
     private static final String UUID = "I91dd17d0572311dca3950000837bc6dd";
+    private static final String UUID_2 = "Ic06f56e5607311dcb2b50000837214a9";
 
     private static final String MATERIAL_NUMBER_MAIN = "11111111";
     private static final String MATERIAL_NUMBER_SUPP = "11111112";
+    private static final String MATERIAL_NUMBER_MAIN_2 = "22222222";
 
     private static final XppFormatFileSystemDir SOURCE_DIR = XppFormatFileSystemDir.ORIGINAL_PAGES_DIR;
     private static final XppFormatFileSystemDir DESTINATION_DIR = XppFormatFileSystemDir.POCKET_PART_LINKS_DIR;
@@ -76,10 +79,13 @@ public class PocketPartLinksStepTest {
 
         final File originalPagesDirMain = mkdir(root, SOURCE_DIR.getDirName(), MATERIAL_NUMBER_MAIN);
         final File originalPagesDirSupp = mkdir(root, SOURCE_DIR.getDirName(), MATERIAL_NUMBER_SUPP);
+        final File originalPagesDirMain2 = mkdir(root, SOURCE_DIR.getDirName(), MATERIAL_NUMBER_MAIN_2);
+
         final File originalFileMain = mkfile(originalPagesDirMain, DIVXML_XML_MAIN);
         final File originalFileSupp = mkfile(originalPagesDirSupp, DIVXML_XML_SUPP);
+        final File originalFileMain2 = mkfile(originalPagesDirMain2, DIVXML_XML_MAIN_2);
 
-        given(fileSystem.getFiles(step, SOURCE_DIR)).willReturn(getFiles(originalFileMain, originalFileSupp));
+        given(fileSystem.getFiles(step, SOURCE_DIR)).willReturn(getFiles(originalFileMain, originalFileSupp, originalFileMain2));
 
         given(
             chunkContext.getStepContext()
@@ -98,10 +104,11 @@ public class PocketPartLinksStepTest {
         given(transformerBuilder.build()).willReturn(mock(Transformer.class));
     }
 
-    private Map<String, Collection<File>> getFiles(final File main, final File supp) {
+    private Map<String, Collection<File>> getFiles(final File main, final File supp, final File main2) {
         final Map<String, Collection<File>> map = new HashMap<>();
         map.put(MATERIAL_NUMBER_MAIN, Arrays.asList(main));
         map.put(MATERIAL_NUMBER_SUPP, Arrays.asList(supp));
+        map.put(MATERIAL_NUMBER_MAIN_2, Arrays.asList(main2));
         return map;
     }
 
@@ -122,16 +129,17 @@ public class PocketPartLinksStepTest {
         suppBundle.setProductType("supp");
         suppBundle.setWebBuildProductType(XppBundleWebBuildProductType.POCKET_PART);
 
+        final XppBundle mainBundle2 = new XppBundle();
+        mainBundle2.setMaterialNumber(MATERIAL_NUMBER_MAIN_2);
+        mainBundle2.setOrderedFileList(Arrays.asList(DIVXML_XML_MAIN_2));
+        mainBundle2.setProductType("bound");
+        mainBundle2.setWebBuildProductType(XppBundleWebBuildProductType.BOUND_VOLUME);
+
         final Map<String, XppBundle> map = new HashMap<>();
         map.put(MATERIAL_NUMBER_MAIN, mainBundle);
         map.put(MATERIAL_NUMBER_SUPP, suppBundle);
+        map.put(MATERIAL_NUMBER_MAIN_2, mainBundle2);
         return map;
-    }
-
-    @Test
-    public void test() {
-        final XppBundleWebBuildProductType value = XppBundleWebBuildProductType.BINDER_PAMPHLET;
-        System.out.println(value.toString());
     }
 
     @Test
@@ -150,8 +158,9 @@ public class PocketPartLinksStepTest {
     public void shouldCreateIsPocketPartToUuidToFileNameMap() {
         final Map<Boolean, Map<String, DocumentFile>> map = step.getIsPocketPartToUuidToFileNameMap(getXppBundlesMap());
         assertEquals(map.get(true).size(), 1);
-        assertEquals(map.get(false).size(), 1);
+        assertEquals(map.get(false).size(), 2);
         assertEquals(map.get(true).get(UUID).getFile().getName(), DIVXML_XML_SUPP);
         assertEquals(map.get(false).get(UUID).getFile().getName(), DIVXML_XML_MAIN);
+        assertEquals(map.get(false).get(UUID_2).getFile().getName(), DIVXML_XML_MAIN_2);
     }
 }
