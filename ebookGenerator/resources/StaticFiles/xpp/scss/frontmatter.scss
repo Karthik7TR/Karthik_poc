@@ -52,3 +52,10 @@
     font-weight: bold;
     display: inline-block;
 }
+
+.fm_related_products_boilerplate {
+    text-align: center;
+    .text_line+& {
+        margin-top: #{$indent}em;
+    }
+}

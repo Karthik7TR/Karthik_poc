@@ -57,13 +57,6 @@ a + .no-indent:nth-child(2),
   display: none;
 }
 
-.ref:link,
-.ref:active,
-.ref:visited,
-.ref:hover {
-  text-decoration: none;
-}
-
 .outline_name_block {
   display: inline-flex;
   align-items: baseline;
@@ -539,6 +532,14 @@ td:last-of-type {
   display: inline-block;
 }
 
+.fm_related_products_boilerplate {
+  text-align: center;
+}
+
+.text_line + .fm_related_products_boilerplate {
+  margin-top: 1em;
+}
+
 .leaveout .cgt,
 .fixed_footnote_reference .cgt,
 .form_line .cgt,
@@ -920,6 +921,7 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 
 .primary_section_body > .primary_official_content > .stat_subsect {
   margin: 0;
+  padding: 0;
 }
 
 .primary_section_body > .primary_official_content > .stat_subsect > .stat_para > .stat_name_block ~ .stat_subpara {
@@ -1471,4 +1473,191 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 
 .rutter_chapter .rutter_chapter_back .rutter_form_block .rutter_form_doc .leaveout {
   padding-left: 0.25em;
+}
+
+.mixed_pub_types .generated_toc > .full_toc > .toc_mixed_hierarchy > .toc_primary_source > .toc_primary_hierarchy > .toc_primary_hierarchy > .toc_primary_section .primary_outline_name_block > .label > .cgt,
+.mixed_pub_types .primary_outline_name_block > .label > .cgt,
+.mixed_pub_types .primary_section_body > .primary_features > .primary_references > .research_reference_block > .cgt,
+.mixed_pub_types .keycite_box .cgt,
+.mixed_pub_types .research_reference_block .cgt {
+  display: inline;
+}
+
+.mixed_pub_types .section_front > .outline_name_block > .name > .cgt {
+  display: none;
+}
+
+.column > .tr_footnote > .footnote > .cgt {
+  width: initial;
+}
+
+.mixed_pub_types .mixed_hierarchy > .front > .outline_name_block > .name {
+  display: block;
+}
+
+.mixed_pub_types .primary_hierarchy_body > .primary_section > .primary_section_body > .primary_features > .editorial_commentary > .editorial_name_block > .name {
+  text-align: center;
+}
+
+.mixed_pub_types .mixed_hierarchy_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_front .primary_outline_name_block {
+  text-align: initial;
+}
+
+.mixed_pub_types .mixed_hierarchy_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_front .full_toc > .toc_primary_hierarchy .primary_outline_name_block {
+  display: flex;
+}
+
+.mixed_pub_types .mixed_hierarchy_body > .primary .full_toc .toc_primary_hierarchy > a > .primary_outline_name_block {
+  display: block !important;
+}
+
+.mixed_pub_types .primary_hierarchy_front > .generated_toc > .full_toc > .toc_primary_section > a > .primary_outline_name_block {
+  display: flex;
+}
+
+.mixed_pub_types .primary_features > .decisions > .blueline > .primary_outline_name_block {
+  text-align: center;
+}
+
+.mixed_pub_types .mixed_hierarchy_body .primary_hierarchy_body .primary_section > .primary_section_front > .primary_outline_name_block {
+  display: flex;
+}
+
+.mixed_pub_types .primary_hierarchy_body > .primary_section > a > .primary_section_front > .primary_outline_name_block {
+  text-align: center;
+}
+
+.mixed_pub_types .primary_features > .decisions > .blueline > .primary_outline_name_block * {
+  display: inline;
+}
+
+.mixed_pub_types .mixed_hierarchy_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_front > .generated_toc .primary_outline_name_block .primary_name {
+  display: inline;
+}
+
+.mixed_pub_types .mixed_hierarchy_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_front .primary_outline_name_block .primary_name {
+  display: inline;
+}
+
+.mixed_pub_types .primary_features > .official_commentary > .primary_name_block > .primary_name {
+  display: inline;
+  white-space: initial;
+}
+
+.mixed_pub_types > .mixed_hierarchy > .mixed_hierarchy_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_front > .primary_outline_name_block > .primary_name {
+  display: block;
+}
+
+.mixed_pub_types .mixed_hierarchy_body .primary_hierarchy_body .primary_section > .primary_section_front > .primary_outline_name_block > .primary_name {
+  margin-left: 1em;
+}
+
+.mixed_pub_types .toc_blueline > .primary_outline_name_block > .primary_name {
+  width: initial;
+  margin-right: 0.5em;
+}
+
+.mixed_pub_types .mixed_hierarchy_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_front .primary_outline_name_block .primary_name .t {
+  display: inline;
+  white-space: initial;
+}
+
+.mixed_pub_types .mixed_hierarchy_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_front > .generated_toc .toc_primary_hierarchy {
+  margin-top: 1em;
+}
+
+.mixed_pub_types .mixed_hierarchy_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_front > .generated_toc .toc_primary_hierarchy > .primary_outline_name_block > .designator,
+.mixed_pub_types .mixed_hierarchy_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_front > .generated_toc .toc_primary_hierarchy > a > .primary_outline_name_block > .designator {
+  min-width: 0;
+}
+
+.mixed_pub_types .primary_section_body > .primary_official_content > .stat_subsect {
+  padding: 0;
+}
+
+.mixed_pub_types .primary_features > .primary_notes > .primary_para > .para_text {
+  text-indent: 0;
+}
+
+.mixed_pub_types .editorial_commentary > .para > .quote_block > .quote_para > .para_text {
+  text-indent: 0;
+}
+
+.mixed_pub_types .primary_features > .official_commentary > .primary_name_block {
+  text-align: center;
+}
+
+.mixed_pub_types .primary_section_body > .primary_features > .primary_references > .research_reference_block > .reference_entry_group > .reference_entry {
+  display: block;
+}
+
+.mixed_pub_types .chapter_body .section_front > .research_reference_block > .reference_entry {
+  display: block;
+}
+
+.mixed_pub_types .primary_official_content {
+  margin-top: 1em;
+}
+
+.keycite_box {
+  border: 0.1em solid;
+  padding: 0.05em 0.5em;
+  margin: 0.5em;
+  padding-left: 2.3em;
+  text-indent: -2em;
+}
+
+.mixed_pub_types .l > .name_block {
+  margin-left: 0 !important;
+}
+
+.mixed_pub_types .chapter_body .section_front {
+  display: block;
+}
+
+.mixed_pub_types > .mixed_hierarchy > .mixed_hierarchy_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_body > .stat_structure > .stat_article > .stat_section > .stat_name_block {
+  float: none;
+}
+
+.mixed_pub_types .generated_toc > .full_toc > .toc_mixed_hierarchy .outline_name_block {
+  display: block;
+  text-align: center;
+}
+
+.mixed_pub_types .generated_toc > .full_toc > .toc_mixed_hierarchy .toc_chapter > .toc_section > a > .outline_name_block,
+.mixed_pub_types .generated_toc > .full_toc > .toc_mixed_hierarchy .toc_primary_hierarchy > .toc_section > a > .outline_name_block {
+  text-align: initial;
+}
+
+.mixed_pub_types .generated_toc > .full_toc > .toc_mixed_hierarchy .toc_primary_hierarchy > a > .primary_outline_name_block,
+.mixed_pub_types .generated_toc > .full_toc > .toc_mixed_hierarchy .toc_primary_hierarchy > .primary_outline_name_block {
+  display: block;
+}
+
+.mixed_pub_types .toc_mixed_hierarchy .outline_name_block > .label {
+  display: inline;
+}
+
+.mixed_pub_types .toc_mixed_hierarchy .label {
+  margin-right: 0.5em;
+}
+
+.mixed_pub_types .generated_toc > .full_toc > .toc_mixed_hierarchy .toc_chapter > .toc_section > a > .outline_name_block > .label,
+.mixed_pub_types .generated_toc > .full_toc > .toc_mixed_hierarchy .toc_primary_hierarchy > .toc_section > a > .outline_name_block > .label {
+  margin-right: 0;
+}
+
+.mixed_pub_types .toc_mixed_hierarchy .designator {
+  margin-right: 0.5em;
+}
+
+.mixed_pub_types .generated_toc > .full_toc > .toc_mixed_hierarchy .toc_primary_hierarchy > a > .primary_outline_name_block > .primary_name,
+.mixed_pub_types .generated_toc > .full_toc > .toc_mixed_hierarchy .toc_primary_hierarchy > .primary_outline_name_block > .primary_name {
+  width: initial;
+  display: inline;
+}
+
+.mixed_pub_types .generated_finding_aids_tables > .generated_case_tbl > .metadata_block {
+  display: block;
+  text-align: center;
 }
