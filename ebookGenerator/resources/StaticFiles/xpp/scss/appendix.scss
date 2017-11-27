@@ -60,12 +60,17 @@
 
 .form_item {
     margin-left: #{$indent}em;
-    ;
 }
 
 .form_para,
 .form_para * {
     display: inline;
+}
+
+.form_unit {
+    .publication>.publication_back>.appendix_block>.appendix>.appendix_body>.appendix_section>.appendix_section_body>.form>.form_para>& {
+        display: block !important;
+    }
 }
 
 .name_block {

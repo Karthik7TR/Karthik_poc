@@ -381,6 +381,10 @@ td:last-of-type {
   display: inline;
 }
 
+.publication > .publication_back > .appendix_block > .appendix > .appendix_body > .appendix_section > .appendix_section_body > .form > .form_para > .form_unit {
+  display: block !important;
+}
+
 .name_block {
   display: inline-block;
   min-width: 0.66667em;
