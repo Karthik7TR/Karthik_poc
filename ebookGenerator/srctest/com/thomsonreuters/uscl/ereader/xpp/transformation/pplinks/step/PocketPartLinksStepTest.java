@@ -12,12 +12,12 @@ import static org.mockito.Mockito.times;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.xml.transform.Transformer;
 
@@ -113,7 +113,7 @@ public class PocketPartLinksStepTest {
     }
 
     private List<XppBundle> getXppBundlesList() {
-        return getXppBundlesMap().entrySet().stream().map(e -> e.getValue()).collect(Collectors.toList());
+        return new ArrayList<>(getXppBundlesMap().values());
     }
 
     private Map<String, XppBundle> getXppBundlesMap() {

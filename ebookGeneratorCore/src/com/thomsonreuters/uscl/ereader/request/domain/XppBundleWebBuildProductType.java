@@ -10,13 +10,13 @@ public enum XppBundleWebBuildProductType {
     @XmlEnumValue("Bound Volume")
     BOUND_VOLUME("Bound Volume", false),
     @XmlEnumValue("Looseleaf Supplement")
-    LOOSELEAF_SUPPLEMENT("Looseleaf Supplement", true),
+    LOOSELEAF_SUPPLEMENT("Supplement", true),
     @XmlEnumValue("Looseleaf Update")
     LOOSELEAF_UPDATE("Looseleaf Update", false),
     @XmlEnumValue("Looseleaf Content")
     LOOSELEAF_CONTENT("Looseleaf Content", false),
     @XmlEnumValue("Binder Pamphlet Supplement")
-    BINDER_PAMPHLET_SUPPLEMENT("Binder Pamphlet Supplement", true),
+    BINDER_PAMPHLET_SUPPLEMENT("Supplement", true),
     @XmlEnumValue("Binder Pamphlet")
     BINDER_PAMPHLET("Binder Pamphlet", false),
     @XmlEnumValue("Newsletter")
@@ -24,7 +24,7 @@ public enum XppBundleWebBuildProductType {
     @XmlEnumValue("Pocket Part")
     POCKET_PART("Pocket Part", true),
     @XmlEnumValue("Supplementary Pamphlet")
-    SUPPLEMENTARY_PAMPHLET("Supplementary Pamphlet", true),
+    SUPPLEMENTARY_PAMPHLET("Supplement", true),
     @XmlEnumValue("Pamphlet")
     PAMPHLET("Pamphlet", false);
 

@@ -1,0 +1,11 @@
+<parts xmlns="http://www.sdl.com/xpp">
+    <part.main fileName="1-LUPDRL.DIVXML_0002">
+        <publication online.royalty.id="LUPDRL" uuid="Ia031b2c00e0111dcbbc4de9f70996827">
+            <publication.body>
+                <section.front date.updated="0">Header</section.front><referenceFromMainToPocketPart docId="I91dd17d0572311dca3950000837bc6dd" webBuildProductType="Supplement"/>
+            </publication.body>
+        </publication>
+    </part.main>
+    <part.footnotes fileName="1-LUPDRL.DIVXML_0002">
+    </part.footnotes>
+</parts>
