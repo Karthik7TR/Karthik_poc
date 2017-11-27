@@ -3,8 +3,6 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.toc.step;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import javax.xml.transform.Transformer;
 
@@ -14,7 +12,7 @@ import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishi
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
-import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.step.VolumeNumberAwareXppTransformationStep;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -22,7 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
  */
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
-public class ExtractTocStep extends XppTransformationStep {
+public class ExtractTocStep extends VolumeNumberAwareXppTransformationStep {
     @Value("${xpp.unite.tocs.xsl}")
     private File uniteTocsXsl;
     @Value("${xpp.extract.toc.xsl}")
@@ -84,28 +82,5 @@ public class ExtractTocStep extends XppTransformationStep {
         final TransformationCommand command =
             new TransformationCommandBuilder(transformer, fileSystem.getTocFile(this)).withInput(tocFiles).build();
         transformationService.transform(command);
-    }
-
-    private Integer getVolumeNumber(final XppBundle bundle) {
-        final List<XppBundle> bundles = getXppBundles();
-        final List<XppBundle> volumes = bundles.stream()
-            .filter(currentBundle -> !currentBundle.isPocketPartPublication())
-            .collect(Collectors.toList());
-
-        final Integer currentBundleIndex;
-        if (bundle.isPocketPartPublication()) {
-            final Integer index = IntStream.range(0, bundles.size())
-                .filter(i -> bundle.equals(bundles.get(i)))
-                .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
-            currentBundleIndex = getVolumeNumber(bundles.get(index - 1));
-        } else {
-            currentBundleIndex = IntStream.range(0, volumes.size())
-            .filter(i -> bundle.equals(volumes.get(i)))
-            .map(i -> ++i)
-            .findFirst()
-            .orElseThrow(IllegalArgumentException::new);
-        }
-        return currentBundleIndex;
     }
 }

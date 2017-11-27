@@ -17,7 +17,7 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.generate.title.metadata.step.DocumentName;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
-import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.step.VolumeNumberAwareXppTransformationStep;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +28,7 @@ import org.springframework.beans.factory.annotation.Value;
  */
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
-public class TransformationToHtmlStep extends XppTransformationStep {
+public class TransformationToHtmlStep extends VolumeNumberAwareXppTransformationStep {
     private static final XppFormatFileSystemDir SOURCE_DIR = XppFormatFileSystemDir.POCKET_PART_LINKS_DIR;
     private static final XppFormatFileSystemDir DESTINATION_DIR = XppFormatFileSystemDir.HTML_PAGES_DIR;
 
@@ -85,16 +85,20 @@ public class TransformationToHtmlStep extends XppTransformationStep {
         return anchorMap.getAbsolutePath().replace("\\", "/");
     }
 
-    private static final class PagePrefix {
-        private final Map<String, Integer> volumesNumberMap = new HashMap<>();
-        private Integer currentVolume;
+    private final class PagePrefix {
+        private final Map<String, String> volumesNumberMap = new HashMap<>();
+        private String currentVolume;
         private String materialNumber;
 
         private PagePrefix(@NotNull final List<XppBundle> bundles) {
-            Integer volume = 1;
-            for (final XppBundle bundle : bundles) {
-                volumesNumberMap.put(bundle.getMaterialNumber(), volume++);
-            }
+            bundles.forEach(bundle -> {
+                final String volumeNumber = getVolumeNumber(bundle).toString();
+                if (bundle.isPocketPartPublication()) {
+                    volumesNumberMap.put(bundle.getMaterialNumber(), String.join("-", volumeNumber, "PP"));
+                } else {
+                    volumesNumberMap.put(bundle.getMaterialNumber(), volumeNumber);
+                }
+            });
         }
 
         private void switchVolume(@NotNull final String materialNumber) {
