@@ -873,7 +873,12 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 .fm_title_page .text_line .cgt,
 .primary_outline_name_block > .cgt,
 .fm_related_products_boilerplate > .cgt,
-.footnote > .er_rp_search_volume_content_data > .cgt {
+.footnote > .er_rp_search_volume_content_data > .cgt,
+.toc_primary_section > a > .primary_outline_name_block > .label > .cgt,
+.toc_primary_section > .toc_editorial_commentary_section > a > .editorial_outline_name_block > .label > .cgt,
+.primary_section_body > .primary_features > .editorial_commentary_block > .editorial_commentary_block_front > .generated_toc > .full_toc > .toc_editorial_commentary_section > a > .editorial_outline_name_block > .label > .cgt,
+.editorial_commentary_section_front > .editorial_outline_name_block > .label > .cgt,
+.primary_section_front > .primary_outline_name_block > .label > .cgt {
   display: inline;
 }
 
@@ -956,6 +961,10 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   margin-top: 1em;
 }
 
+.primary_source_body > .primary_hierarchy > .primary_hierarchy_front > .generated_toc > .full_toc > .toc_primary_section > a > .primary_outline_name_block {
+  display: flex;
+}
+
 .toc_primary_hierarchy .toc_appendix > .outline_name_block {
   display: flex;
   width: 100%;
@@ -983,6 +992,10 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   justify-content: initial;
 }
 
+.primary_source_body > .primary_hierarchy > .primary_hierarchy_front > .generated_toc > .full_toc > .toc_primary_section > a > .primary_outline_name_block > .primary_name {
+  width: initial;
+}
+
 .primary_outline_name_block > .designator {
   margin-right: 0.5em;
   min-width: 3em;
@@ -999,6 +1012,18 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 
 .toc_primary_source .toc_primary_hierarchy > a > .primary_outline_name_block > .designator {
   min-width: 0;
+}
+
+.primary_section_body > .primary_features > .editorial_commentary_block > .editorial_commentary_block_front > .generated_toc > .full_toc > .toc_editorial_commentary_section > a > .editorial_outline_name_block > .designator {
+  margin-right: 1em;
+}
+
+.editorial_commentary_section_front > .editorial_outline_name_block > .designator {
+  margin-right: 1em;
+}
+
+.toc_primary_section > .toc_editorial_commentary_section > a > .editorial_outline_name_block > .designator {
+  min-width: 3.2em;
 }
 
 .toc_primary_source > .toc_appendix_block > .toc_appendix {
@@ -1024,6 +1049,22 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 
 .toc_primary_source .primary_outline_name_block > .label {
   margin-right: 0.5em;
+}
+
+.toc_primary_section > .toc_editorial_commentary_section > a > .editorial_outline_name_block {
+  display: flex;
+}
+
+.toc_primary_section > .toc_editorial_commentary_section > a > .editorial_outline_name_block {
+  margin-left: 1.2em;
+}
+
+.editorial_commentary_section_front > .editorial_outline_name_block {
+  display: flex;
+}
+
+.primary_section_body > .primary_features > .editorial_commentary_block > .editorial_commentary_block_front > .generated_toc > .full_toc > .toc_editorial_commentary_section > a > .editorial_outline_name_block {
+  display: flex;
 }
 
 .font_fm_related_products_1,
