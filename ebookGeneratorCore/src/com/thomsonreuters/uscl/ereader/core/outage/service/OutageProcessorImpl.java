@@ -119,6 +119,7 @@ public class OutageProcessorImpl implements OutageProcessor {
             final InetAddress localHost = InetAddress.getLocalHost();
             return localHost.getHostName();
         } catch (final UnknownHostException e) {
+            log.debug("Unknown exception has happened during getting Host Name", e);
             return "<unknown>";
         }
     }

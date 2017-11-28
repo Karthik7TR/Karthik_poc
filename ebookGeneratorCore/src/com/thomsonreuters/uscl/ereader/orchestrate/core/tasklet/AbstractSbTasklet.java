@@ -82,7 +82,7 @@ public abstract class AbstractSbTasklet implements Tasklet {
             throw e;
         } catch (final Exception e) {
             final String stackTrace = String
-                .format("Error Message : %s \nStack Trace is %s", e.getMessage(), ExceptionUtils.getStackTrace(e));
+                .format("Error Message : %s %nStack Trace is %s", e.getMessage(), ExceptionUtils.getStackTrace(e));
             notificationService.sendNotification(
                 getJobExecutionContext(chunkContext),
                 getJobParameters(chunkContext),

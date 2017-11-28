@@ -59,14 +59,12 @@ public class Ssh {
                     s = s + new String(tmp, 0, i);
                 }
                 if (channel.isClosed()) {
-                    if (channel.getExitStatus() != 0) {
-                        //System.out.println("exit-status: "+channel.getExitStatus());
-                    }
                     break;
                 }
                 try {
                     Thread.sleep(1000);
-                } catch (final Exception ee) {
+                } catch (final Exception e) {
+                    LOG.debug(e.getMessage(), e);
                     //Intentionally left blank
                 }
             }

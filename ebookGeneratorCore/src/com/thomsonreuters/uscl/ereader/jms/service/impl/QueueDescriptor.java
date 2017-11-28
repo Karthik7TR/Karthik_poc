@@ -9,6 +9,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 /**
  * Hold onto information describing a queue
@@ -23,6 +25,8 @@ public class QueueDescriptor {
     private Integer transportType;
     private boolean enabled = true;
     private boolean valid;
+
+    private static final Logger LOG = LogManager.getLogger(QueueDescriptor.class);
 
     public QueueDescriptor() {
     }
@@ -61,6 +65,7 @@ public class QueueDescriptor {
         } catch (final Exception e) {
             // IndexOutOfBoundsException, NullPointerException,
             // NumberFormatException
+            LOG.error(e.getMessage(), e);
             valid = false;
         }
     }

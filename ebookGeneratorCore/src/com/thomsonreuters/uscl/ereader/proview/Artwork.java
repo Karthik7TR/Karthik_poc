@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.proview;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,7 +15,8 @@ import org.apache.commons.lang3.StringUtils;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Artwork {
+public class Artwork implements Serializable{
+    private static final long serialVersionUID = 3L;
     @XmlAttribute(name = "src")
     private String src;
     @XmlAttribute(name = "type")

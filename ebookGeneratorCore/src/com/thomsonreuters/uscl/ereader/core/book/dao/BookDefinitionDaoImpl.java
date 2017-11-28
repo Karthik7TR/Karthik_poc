@@ -10,6 +10,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitNodeInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -19,8 +20,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 public class BookDefinitionDaoImpl implements BookDefinitionDao {
-    // private static final Logger log =
-    // LogManager.getLogger(BookDefinitionDaoImpl.class);
     private SessionFactory sessionFactory;
 
     public BookDefinitionDaoImpl(final SessionFactory sessFactory) {
@@ -62,7 +61,7 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
             sessionFactory.getCurrentSession().getNamedQuery(namedQuery).getQueryString() + "order by ?";
 
         final Query query = sessionFactory.getCurrentSession().createQuery(bookDefnQuery);
-        query.setParameter(0, (isAscending) ? " asc" : " desc");
+        query.setParameter(0, isAscending ? " asc" : " desc");
         query.setFirstResult((pageNumber - 1) * (itemsPerPage));
         query.setMaxResults(itemsPerPage);
         return query.list();
@@ -100,8 +99,7 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
         if (isbn != null && !isbn.equals("")) {
             criteria.add(Restrictions.like("isbn", isbn));
         }
-
-        if (materialId != null && !materialId.equals("")) {
+        if (StringUtils.isNotBlank(materialId)) {
             criteria.add(Restrictions.like("materialId", materialId));
         }
 
@@ -113,7 +111,7 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
             criteria.add(Restrictions.ge("lastUpdated", from));
         }
 
-        if (status != null && !status.equals("")) {
+        if (StringUtils.isNotBlank(status)) {
             criteria.add(Restrictions.eq("ebookDefinitionCompleteFlag", status));
         }
 
@@ -166,18 +164,19 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
     }
 
     @Override
-    public BookDefinition saveBookDefinition(BookDefinition eBook) {
+    public BookDefinition saveBookDefinition(final BookDefinition eBook) {
         final Session session = sessionFactory.getCurrentSession();
-
-        eBook.setLastUpdated(new Date());
 
         // Attach Publisher Code
         Optional.ofNullable(eBook.getPublisherCodes())
             .map(PublisherCode::getName)
-            .map(name -> session.createCriteria(PublisherCode.class)
-                .add(Restrictions.eq("name", name)).uniqueResult())
+            .map(name -> Restrictions.eq("name", name))
+            .map(restriction -> session.createCriteria(PublisherCode.class)
+                .add(restriction).uniqueResult())
             .map(PublisherCode.class::cast)
             .ifPresent(eBook::setPublisherCodes);
+
+        eBook.setLastUpdated(new Date());
 
         // Save if book is new
         if (eBook.getEbookDefinitionId() == null) {
@@ -185,10 +184,10 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
         }
 
         // attach child objects to book definition
-        eBook = (BookDefinition) session.merge(eBook);
+        final BookDefinition resultBook = (BookDefinition) session.merge(eBook);
         session.flush();
 
-        return eBook;
+        return resultBook;
     }
 
     @Override
@@ -264,7 +263,7 @@ public class BookDefinitionDaoImpl implements BookDefinitionDao {
             }
         }
 
-        if (listTobeRemoved.size() > 0) {
+        if (!listTobeRemoved.isEmpty()) {
             for (final SplitNodeInfo splitNodeInfo : listTobeRemoved) {
                 if (eBook.getSplitNodes().contains(splitNodeInfo)) {
                     eBook.getSplitNodes().remove(splitNodeInfo);

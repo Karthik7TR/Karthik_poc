@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.core;
 
-public class EBConstants {
+public final class EBConstants {
+    private EBConstants() { }
     /*** Environment, configuration   ***/
     public static final String COLLECTION_TYPE = "Collection";
     public static final String COLLECTION_SET_TYPE = "CollectionSet";

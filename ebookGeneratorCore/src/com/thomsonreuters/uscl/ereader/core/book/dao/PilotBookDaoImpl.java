@@ -41,9 +41,9 @@ public class PilotBookDaoImpl implements PilotBookDao {
 
     @Override
     @Transactional
-    public void remove(PilotBook toRemove) throws DataAccessException {
-        toRemove = (PilotBook) sessionFactory.getCurrentSession().merge(toRemove);
-        sessionFactory.getCurrentSession().delete(toRemove);
+    public void remove(final PilotBook toRemove) throws DataAccessException {
+        final PilotBook localToRemove = (PilotBook) sessionFactory.getCurrentSession().merge(toRemove);
+        sessionFactory.getCurrentSession().delete(localToRemove);
         flush();
     }
 

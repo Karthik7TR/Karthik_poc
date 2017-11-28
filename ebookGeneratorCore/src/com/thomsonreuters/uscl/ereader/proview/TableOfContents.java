@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.proview;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public class TableOfContents implements TocNode {
+public class TableOfContents implements TocNode, Serializable {
+    private static final long serialVersionUID = 5L;
     private static final String EMPTY_STRING = "";
     private List<TocNode> children = new ArrayList<>();
 

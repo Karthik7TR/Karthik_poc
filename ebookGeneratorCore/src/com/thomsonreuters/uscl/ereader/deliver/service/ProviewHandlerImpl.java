@@ -57,7 +57,7 @@ public class ProviewHandlerImpl implements ProviewHandler {
         try {
             return parser.parse(response);
         } catch (final Exception e) {
-            throw new ProviewException(e.getMessage());
+            throw new ProviewException(e.getMessage(), e);
         }
     }
 
@@ -71,7 +71,7 @@ public class ProviewHandlerImpl implements ProviewHandler {
         try {
             groups = parser.parse(response);
         } catch (final Exception e) {
-            throw new ProviewException(e.getMessage());
+            throw new ProviewException(e.getMessage(), e);
         }
         if (groups.size() == 1) {
             return groups.get(0);
@@ -227,10 +227,10 @@ public class ProviewHandlerImpl implements ProviewHandler {
     public ProviewTitleInfo getProviewTitleInfoByVersion(String fullyQualifiedTitleId, String version) throws ProviewException {
     	ProviewTitleContainer proviewTitleContainer = null;
     	String publishedTitleResponse = proviewClient.getSingleTitleInfoByVersion(fullyQualifiedTitleId, version);
-    
+
     	PublishedTitleParser parser = new PublishedTitleParser();
     	Map<String, ProviewTitleContainer> titleMap = parser.process(publishedTitleResponse);
-    
+
     	proviewTitleContainer = titleMap.get(fullyQualifiedTitleId);
     	// TODO: verify ProviewClient.getSingleTitleInfoByVersion() returns xml in the same
     	// format as ProviewClient.getSinglePublishedTitle()
@@ -246,7 +246,7 @@ public class ProviewHandlerImpl implements ProviewHandler {
             final ProviewSingleTitleParser singleTitleParser = new ProviewSingleTitleParser();
             proviewGroupDetails = singleTitleParser.process(response);
         } catch (final Exception e) {
-            throw new ProviewException(e.getMessage());
+            throw new ProviewException(e.getMessage(), e);
         }
         return proviewGroupDetails;
     }
@@ -307,6 +307,7 @@ public class ProviewHandlerImpl implements ProviewHandler {
             proviewClient.deleteTitle(fullyQualifiedTitleId, version.getFullVersion());
         } catch (final ProviewRuntimeException ex) {
             final String errorMsg = ex.getMessage();
+            LOG.debug(ex.getMessage(), ex);
             if (ex.getStatusCode().equals("400") && errorMsg.contains("Title already exists in publishing queue")) {
                 return false;
             }

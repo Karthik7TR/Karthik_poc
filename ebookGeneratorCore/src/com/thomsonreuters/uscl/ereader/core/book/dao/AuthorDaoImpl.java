@@ -59,9 +59,9 @@ public class AuthorDaoImpl implements AuthorDao {
      */
     @Override
     @Transactional
-    public void remove(Author toRemove) {
-        toRemove = (Author) sessionFactory.getCurrentSession().merge(toRemove);
-        sessionFactory.getCurrentSession().delete(toRemove);
+    public void remove(final Author toRemove) {
+        final Author tempToRemoveAuthor = (Author) sessionFactory.getCurrentSession().merge(toRemove);
+        sessionFactory.getCurrentSession().delete(tempToRemoveAuthor);
         flush();
     }
 
@@ -75,10 +75,6 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public List<Author> findAuthorsByEBookDefnId(final Long eBookDefnId) {
-//		Query query = createNamedQuery("findAuthorByEbookDefinitionId");
-//		query.setLong("eBookDefId", eBookDefnId);
-//		return query.list();
-
         final Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Author.class);
         criteria.add(Restrictions.eq("ebookDefinition.ebookDefinitionId", eBookDefnId));
         return criteria.list();

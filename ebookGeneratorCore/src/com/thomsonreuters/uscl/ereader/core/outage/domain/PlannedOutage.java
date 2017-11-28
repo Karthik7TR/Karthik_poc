@@ -229,20 +229,20 @@ public class PlannedOutage implements Serializable {
      */
     public String toEmailBody() {
         final SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
-        final StringBuffer body = new StringBuffer();
-        body.append(String.format("ID:    %d\n", id));
-        body.append(String.format("Start: %s\n", (startTime != null) ? sdf.format(startTime) : ""));
-        body.append(String.format("End:   %s\n", (endTime != null) ? sdf.format(endTime) : ""));
+        final StringBuilder body = new StringBuilder();
+        body.append(String.format("ID:    %d%n", id));
+        body.append(String.format("Start: %s%n", (startTime != null) ? sdf.format(startTime) : ""));
+        body.append(String.format("End:   %s%n", (endTime != null) ? sdf.format(endTime) : ""));
         body.append(
             String.format(
-                "Type:  %s\n\n",
+                "Type:  %s%n%n",
                 (outageType != null)
                     ? String.format("%s / %s", outageType.getSystem(), outageType.getSubSystem()) : "<none>"));
         body.append("Reason:\n");
-        body.append(String.format("%s\n\n", (reason != null) ? reason : ""));
+        body.append(String.format("%s%n%n", (reason != null) ? reason : ""));
         body.append("System Impact Description:\n");
-        body.append(String.format("%s\n\n", (systemImpactDescription != null) ? systemImpactDescription : ""));
-        body.append(String.format("Servers Impacted: %s\n", (serversImpacted != null) ? serversImpacted : ""));
+        body.append(String.format("%s%n%n", (systemImpactDescription != null) ? systemImpactDescription : ""));
+        body.append(String.format("Servers Impacted: %s%n", (serversImpacted != null) ? serversImpacted : ""));
         return body.toString();
     }
 }

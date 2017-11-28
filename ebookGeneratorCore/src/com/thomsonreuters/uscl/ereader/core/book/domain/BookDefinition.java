@@ -48,6 +48,8 @@ import org.hibernate.annotations.CascadeType;
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "BookDefinition")
 public class BookDefinition implements Serializable {
     private static final long serialVersionUID = 1L;
+    private static final String Y = "Y";
+    private static final String N = "N";
 
     public enum PilotBookStatus {
         TRUE,
@@ -373,11 +375,11 @@ public class BookDefinition implements Serializable {
     }
 
     public void setIsTocFlag(final boolean isTocFlag) {
-        this.isTocFlag = ((isTocFlag) ? "Y" : "N");
+        this.isTocFlag = isTocFlag ? Y : N;
     }
 
     public boolean isTocFlag() {
-        return ((isTocFlag.equalsIgnoreCase("Y") ? true : false));
+        return Y.equalsIgnoreCase(isTocFlag) ? true : false;
     }
 
     public void setRootTocGuid(final String rootTocGuid) {
@@ -461,59 +463,59 @@ public class BookDefinition implements Serializable {
     }
 
     public void setIsProviewTableViewFlag(final boolean isProviewTableViewFlag) {
-        this.isProviewTableViewFlag = ((isProviewTableViewFlag) ? "Y" : "N");
+        this.isProviewTableViewFlag = isProviewTableViewFlag ? Y : N;
     }
 
     public boolean isProviewTableViewFlag() {
-        return ((isProviewTableViewFlag.equalsIgnoreCase("Y") ? true : false));
+        return Y.equalsIgnoreCase(isProviewTableViewFlag) ? true : false;
     }
 
     public void setIsFinalStage(final boolean isFinalStage) {
-        this.isFinalStage = ((isFinalStage) ? "Y" : "N");
+        this.isFinalStage = isFinalStage ? Y : N;
     }
 
     public boolean isFinalStage() {
-        return ((isFinalStage.equalsIgnoreCase("Y") ? true : false));
+        return Y.equalsIgnoreCase(isFinalStage) ? true : false;
     }
 
     public void setKeyciteToplineFlag(final boolean keyciteToplineFlag) {
-        this.keyciteToplineFlag = ((keyciteToplineFlag) ? "Y" : "N");
+        this.keyciteToplineFlag = keyciteToplineFlag ? Y : N;
     }
 
     public boolean getKeyciteToplineFlag() {
-        return ((keyciteToplineFlag.equalsIgnoreCase("Y") ? true : false));
+        return Y.equalsIgnoreCase(keyciteToplineFlag) ? true : false;
     }
 
     public void setEnableCopyFeatureFlag(final boolean enableCopyFeatureFlag) {
-        this.enableCopyFeatureFlag = ((enableCopyFeatureFlag) ? "Y" : "N");
+        this.enableCopyFeatureFlag = enableCopyFeatureFlag ? Y : N;
     }
 
     public boolean getEnableCopyFeatureFlag() {
-        return ((enableCopyFeatureFlag.equalsIgnoreCase("Y") ? true : false));
+        return Y.equalsIgnoreCase(enableCopyFeatureFlag) ? true : false;
     }
 
     public void setAutoUpdateSupportFlag(final boolean autoUpdateSupportFlag) {
-        this.autoUpdateSupportFlag = ((autoUpdateSupportFlag) ? "Y" : "N");
+        this.autoUpdateSupportFlag = autoUpdateSupportFlag ? Y : N;
     }
 
     public boolean getAutoUpdateSupportFlag() {
-        return ((autoUpdateSupportFlag.equalsIgnoreCase("Y") ? true : false));
+        return Y.equalsIgnoreCase(autoUpdateSupportFlag) ? true : false;
     }
 
     public void setSearchIndexFlag(final boolean searchIndexFlag) {
-        this.searchIndexFlag = ((searchIndexFlag) ? "Y" : "N");
+        this.searchIndexFlag = searchIndexFlag ? Y : N;
     }
 
     public boolean getSearchIndexFlag() {
-        return ((searchIndexFlag.equalsIgnoreCase("Y") ? true : false));
+        return Y.equalsIgnoreCase(searchIndexFlag) ? true : false;
     }
 
     public void setOnePassSsoLinkFlag(final boolean onePassSsoLinkFlag) {
-        this.onePassSsoLinkFlag = ((onePassSsoLinkFlag) ? "Y" : "N");
+        this.onePassSsoLinkFlag = onePassSsoLinkFlag ? Y : N;
     }
 
     public boolean getOnePassSsoLinkFlag() {
-        return ((onePassSsoLinkFlag.equalsIgnoreCase("Y") ? true : false));
+        return Y.equalsIgnoreCase(onePassSsoLinkFlag) ? true : false;
     }
 
     public void setPublishCutoffDate(final Date publishCutoffDate) {
@@ -525,43 +527,43 @@ public class BookDefinition implements Serializable {
     }
 
     public void setEbookDefinitionCompleteFlag(final boolean ebookDefinitionCompleteFlag) {
-        this.ebookDefinitionCompleteFlag = ((ebookDefinitionCompleteFlag) ? "Y" : "N");
+        this.ebookDefinitionCompleteFlag = ebookDefinitionCompleteFlag ? Y : N;
     }
 
     public boolean getEbookDefinitionCompleteFlag() {
-        return ((ebookDefinitionCompleteFlag.equalsIgnoreCase("Y") ? true : false));
+        return Y.equalsIgnoreCase(ebookDefinitionCompleteFlag) ? true : false;
     }
 
     public void setUseReloadContent(final boolean useReloadContent) {
-        this.useReloadContent = ((useReloadContent) ? "Y" : "N");
+        this.useReloadContent = useReloadContent ? Y : N;
     }
 
     public boolean getUseReloadContent() {
-        return ((useReloadContent.equalsIgnoreCase("Y") ? true : false));
+        return Y.equalsIgnoreCase(useReloadContent) ? true : false;
     }
 
     public void setPublishedOnceFlag(final boolean publishedOnceFlag) {
-        this.publishedOnceFlag = ((publishedOnceFlag) ? "Y" : "N");
+        this.publishedOnceFlag = publishedOnceFlag ? Y : N;
     }
 
     public boolean getPublishedOnceFlag() {
-        return ((publishedOnceFlag.equalsIgnoreCase("Y") ? true : false));
+        return Y.equalsIgnoreCase(publishedOnceFlag) ? true : false;
     }
 
     public void setIsDeletedFlag(final boolean isDeletedFlag) {
-        this.isDeletedFlag = ((isDeletedFlag) ? "Y" : "N");
+        this.isDeletedFlag = isDeletedFlag ? Y : N;
     }
 
     public boolean isDeletedFlag() {
-        return ((isDeletedFlag.equalsIgnoreCase("Y") ? true : false));
+        return Y.equalsIgnoreCase(isDeletedFlag) ? true : false;
     }
 
     public void setIsAuthorDisplayVertical(final boolean isAuthorDisplayVertical) {
-        this.isAuthorDisplayVertical = ((isAuthorDisplayVertical) ? "Y" : "N");
+        this.isAuthorDisplayVertical = isAuthorDisplayVertical ? Y : N;
     }
 
     public boolean isAuthorDisplayVertical() {
-        return ((isAuthorDisplayVertical.equalsIgnoreCase("Y") ? true : false));
+        return ((Y.equalsIgnoreCase(isAuthorDisplayVertical) ? true : false));
     }
 
     public String getAdditionalTrademarkInfo() {
@@ -573,53 +575,45 @@ public class BookDefinition implements Serializable {
     }
 
     public void setIncludeAnnotations(final boolean includeAnnotations) {
-        this.includeAnnotations = ((includeAnnotations) ? "Y" : "N");
+        this.includeAnnotations = includeAnnotations ? Y : N;
     }
 
     public boolean getIncludeAnnotations() {
-        return ((includeAnnotations.equalsIgnoreCase("Y") ? true : false));
+        return Y.equalsIgnoreCase(includeAnnotations) ? true : false;
     }
 
     public void setIncludeNotesOfDecisions(final boolean includeNotesOfDecisions) {
-        this.includeNotesOfDecisions = ((includeNotesOfDecisions) ? "Y" : "N");
+        this.includeNotesOfDecisions = includeNotesOfDecisions ? Y : N;
     }
 
     public boolean getIncludeNotesOfDecisions() {
-        return ((includeNotesOfDecisions.equalsIgnoreCase("Y") ? true : false));
+        return Y.equalsIgnoreCase(includeNotesOfDecisions) ? true : false;
     }
 
     public boolean getIsPilotBook() {
-        if (StringUtils.isBlank(isPilotBook)) {
-            return false;
-        } else {
-            return isPilotBook.equalsIgnoreCase("Y");
-        }
+            return Y.equalsIgnoreCase(isPilotBook);
     }
 
     public PilotBookStatus getPilotBookStatus() {
-        if (StringUtils.isBlank(isPilotBook)) {
-            return PilotBookStatus.FALSE;
-        } else {
-            if (isPilotBook.equalsIgnoreCase("Y")) {
+            if (Y.equalsIgnoreCase(isPilotBook)) {
                 return PilotBookStatus.TRUE;
-            } else if (isPilotBook.equalsIgnoreCase("I")) {
+            } else if ("I".equalsIgnoreCase(isPilotBook)) {
                 return PilotBookStatus.IN_PROGRESS;
             } else {
                 return PilotBookStatus.FALSE;
             }
-        }
-    }
+     }
 
     public void setPilotBookStatus(final PilotBookStatus status) {
         switch (status) {
         case TRUE:
-            isPilotBook = "Y";
+            isPilotBook = Y;
             break;
         case IN_PROGRESS:
             isPilotBook = "I";
             break;
         default:
-            isPilotBook = "N";
+            isPilotBook = N;
             break;
         }
     }
@@ -674,43 +668,43 @@ public class BookDefinition implements Serializable {
     }
 
     public void setIsInsStyleFlag(final boolean isInsStyleFlag) {
-        this.isInsStyleFlag = ((isInsStyleFlag) ? "Y" : "N");
+        this.isInsStyleFlag = isInsStyleFlag ? Y : N;
     }
 
     public boolean isInsStyleFlag() {
-        return ((isInsStyleFlag.equalsIgnoreCase("Y") ? true : false));
+        return Y.equalsIgnoreCase(isInsStyleFlag) ? true : false;
     }
 
     public void setIsDelStyleFlag(final boolean isDelStyleFlag) {
-        this.isDelStyleFlag = ((isDelStyleFlag) ? "Y" : "N");
+        this.isDelStyleFlag = isDelStyleFlag ? Y : N;
     }
 
     public boolean isDelStyleFlag() {
-        return ((isDelStyleFlag.equalsIgnoreCase("Y") ? true : false));
+        return Y.equalsIgnoreCase(isDelStyleFlag) ? true : false;
     }
 
     public void setIsRemoveEditorNoteHeadFlag(final boolean isRemoveEditorNoteHeadFlag) {
-        this.isRemoveEditorNoteHeadFlag = ((isRemoveEditorNoteHeadFlag) ? "Y" : "N");
+        this.isRemoveEditorNoteHeadFlag = isRemoveEditorNoteHeadFlag ? Y : N;
     }
 
     public boolean isRemoveEditorNoteHeadFlag() {
-        return ((isRemoveEditorNoteHeadFlag.equalsIgnoreCase("Y") ? true : false));
+        return Y.equalsIgnoreCase(isRemoveEditorNoteHeadFlag) ? true : false;
     }
 
     public boolean isSplitBook() {
-        return ((isSplitBook.equalsIgnoreCase("Y") ? true : false));
+        return Y.equalsIgnoreCase(isSplitBook) ? true : false;
     }
 
     public void setIsSplitBook(final boolean isSplitBook) {
-        this.isSplitBook = ((isSplitBook) ? "Y" : "N");
+        this.isSplitBook = isSplitBook ? Y : N;
     }
 
     public boolean isSplitTypeAuto() {
-        return ((isSplitTypeAuto.equalsIgnoreCase("Y") ? true : false));
+        return Y.equalsIgnoreCase(isSplitTypeAuto) ? true : false;
     }
 
     public void setIsSplitTypeAuto(final boolean isSplitTypeAuto) {
-        this.isSplitTypeAuto = ((isSplitTypeAuto) ? "Y" : "N");
+        this.isSplitTypeAuto = isSplitTypeAuto ? Y : N;
     }
 
     public Integer getSplitEBookParts() {
@@ -1192,7 +1186,7 @@ public class BookDefinition implements Serializable {
         while (tokenizer.hasMoreTokens()) {
             component = tokenizer.nextToken();
         }
-        return (component);
+        return component;
     }
 
     /**
@@ -1206,7 +1200,7 @@ public class BookDefinition implements Serializable {
         for (final KeywordTypeValue value : keywordValues) {
             keywords.add(new Keyword(value.getKeywordTypeCode().getName(), value.getName()));
         }
-        return (keywords);
+        return keywords;
     }
 
     /**

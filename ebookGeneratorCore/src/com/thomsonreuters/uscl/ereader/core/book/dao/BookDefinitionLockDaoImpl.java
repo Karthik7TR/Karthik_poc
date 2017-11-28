@@ -80,10 +80,11 @@ public class BookDefinitionLockDaoImpl implements BookDefinitionLockDao {
     }
 
     @Override
-    public void removeLock(BookDefinitionLock bookDefinitionLock) throws DataAccessException {
+    public void removeLock(final BookDefinitionLock bookDefinitionLock) throws DataAccessException {
         final Session session = sessionFactory.getCurrentSession();
-        bookDefinitionLock = (BookDefinitionLock) session.merge(bookDefinitionLock);
-        session.delete(bookDefinitionLock);
+        BookDefinitionLock tempBookDefinitionLock = (BookDefinitionLock) session.merge(bookDefinitionLock);
+        tempBookDefinitionLock = (BookDefinitionLock) session.merge(tempBookDefinitionLock);
+        session.delete(tempBookDefinitionLock);
         session.flush();
     }
 

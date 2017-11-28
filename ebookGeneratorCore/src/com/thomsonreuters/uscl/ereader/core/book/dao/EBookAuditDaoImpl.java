@@ -49,7 +49,7 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
         final Long ebookAuditMax = (Long) session.createCriteria(EbookAudit.class)
             .setProjection(Projections.projectionList().add(Projections.max("auditId")))
             .uniqueResult();
-        return (ebookAuditMax);
+        return ebookAuditMax;
     }
 
     /*
@@ -76,9 +76,9 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
      */
     @Override
     @Transactional
-    public void remove(EbookAudit toRemove) {
-        toRemove = (EbookAudit) sessionFactory.getCurrentSession().merge(toRemove);
-        sessionFactory.getCurrentSession().delete(toRemove);
+    public void remove(final EbookAudit toRemove) {
+        final EbookAudit localToRemove = (EbookAudit) sessionFactory.getCurrentSession().merge(toRemove);
+        sessionFactory.getCurrentSession().delete(localToRemove);
         flush();
     }
 
@@ -91,26 +91,26 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
     }
 
     @Override
-    public void saveAudit(EbookAudit audit) {
+    public void saveAudit(final EbookAudit audit) {
+        EbookAudit localAudit = audit;
         final Session session = sessionFactory.getCurrentSession();
 
-        if (audit.getAuditId() != null) {
-            audit = (EbookAudit) session.merge(audit);
+        if (localAudit.getAuditId() != null) {
+            localAudit = (EbookAudit) session.merge(localAudit);
         } else {
-            session.save(audit);
+            session.save(localAudit);
         }
 
         session.flush();
     }
 
     @Override
-    public void updateSpliDocumentsAudit(EbookAudit audit, final String splitDocumentsConcat, final int parts) {
+    public void updateSpliDocumentsAudit(final EbookAudit audit, final String splitDocumentsConcat, final int parts) {
         final Session session = sessionFactory.getCurrentSession();
-
         if (audit.getAuditId() != null) {
             audit.setSplitDocumentsConcat(splitDocumentsConcat);
             audit.setSplitEBookParts(Integer.valueOf(parts));
-            audit = (EbookAudit) session.merge(audit);
+            session.merge(audit);
         }
 
         session.flush();
@@ -142,13 +142,13 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
             .setProjection(Projections.projectionList().add(Projections.max("auditId")))
             .add(Restrictions.eq("ebookDefinitionId", ebookDefId))
             .uniqueResult();
-        return (ebookAuditMax);
+        return ebookAuditMax;
     }
 
     @Override
     @Transactional(readOnly = true)
     public EbookAudit findEbookAuditIdByTtileId(final String titleId) throws DataAccessException {
-        final StringBuffer hql = new StringBuffer("select pa from EbookAudit pa where (pa.auditId) in ");
+        final StringBuilder hql = new StringBuilder("select pa from EbookAudit pa where (pa.auditId) in ");
         hql.append("(select max(pa2.auditId) from EbookAudit pa2 where");
         hql.append(" pa2.titleId = :titleId)");
 

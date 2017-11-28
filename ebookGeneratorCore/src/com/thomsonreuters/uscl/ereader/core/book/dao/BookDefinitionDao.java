@@ -13,6 +13,7 @@ public interface BookDefinitionDao {
     /**
      * Returns all the current book definitions.
      * @return a list of BookDefinition
+     * @deprecated
      */
     @Deprecated
     List<BookDefinition> findAllBookDefinitions();

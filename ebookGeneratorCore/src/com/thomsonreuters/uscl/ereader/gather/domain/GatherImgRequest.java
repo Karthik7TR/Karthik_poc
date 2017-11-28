@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @XmlRootElement(name = "gatherImgRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -91,23 +92,22 @@ public class GatherImgRequest {
         if (getClass() != obj.getClass())
             return false;
         final GatherImgRequest that = (GatherImgRequest) obj;
-        if (dynamicImageDirectory == null) {
-            if (that.dynamicImageDirectory != null)
-                return false;
-        } else if (!dynamicImageDirectory.equals(that.dynamicImageDirectory))
-            return false;
-        if (isFinalStage != that.isFinalStage)
-            return false;
-        if (imgToDocManifestFile == null) {
-            if (that.imgToDocManifestFile != null)
-                return false;
-        } else if (!imgToDocManifestFile.equals(that.imgToDocManifestFile))
-            return false;
-
-        return Objects.equals(isXpp, that.isXpp) && equals(xppSourceImageDirectory, that.xppSourceImageDirectory);
+        return Objects.equals(dynamicImageDirectory, that.dynamicImageDirectory)
+            && Objects.equals(isFinalStage, that.isFinalStage)
+            && Objects.equals(imgToDocManifestFile, that.imgToDocManifestFile)
+            && Objects.equals(isXpp, that.isXpp)
+            && equalsOfStringCollections(xppSourceImageDirectory, that.xppSourceImageDirectory);
     }
 
-    private static boolean equals(final Collection<String> lhs, final Collection<String> rhs) {
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+            .append(dynamicImageDirectory)
+            .append(imgToDocManifestFile)
+            .toHashCode();
+    }
+
+    private static boolean equalsOfStringCollections(final Collection<String> lhs, final Collection<String> rhs) {
         return lhs == null && rhs == null || lhs != null && rhs != null && CollectionUtils.isEqualCollection(lhs, rhs);
     }
 }

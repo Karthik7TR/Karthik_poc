@@ -237,7 +237,8 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
         return version;
     }
 
-    public static class SubgroupInfo {
+    public static class SubgroupInfo implements Serializable{
+        private static final long serialVersionUID = -4229230493652422923L;
         private List<String> titleIdList;
         private String subGroupName;
 
