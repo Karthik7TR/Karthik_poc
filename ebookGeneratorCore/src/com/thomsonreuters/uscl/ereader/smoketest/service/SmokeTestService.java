@@ -34,4 +34,6 @@ public interface SmokeTestService {
     SmokeTest getApplicationStatus(String appName, String url);
 
     SmokeTest testConnection();
+
+    SmokeTest testMQConnection();
 }

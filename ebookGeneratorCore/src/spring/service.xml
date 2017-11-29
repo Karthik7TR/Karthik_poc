@@ -74,6 +74,7 @@
 		  
 	<bean id="jmsClient" class="com.thomsonreuters.uscl.ereader.jms.client.impl.JmsClientImpl"/>
 	
+	<!-- If you change class of this bean, change SmokeTestService also -->
 	<bean id="connectionFactory" class="com.ibm.mq.jms.MQQueueConnectionFactory"
 		  p:connectionNameList="${jms.host.name}, ${jms.host.name.spare}"
 		  p:port="${jms.port}"

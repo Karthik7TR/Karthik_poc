@@ -11,13 +11,16 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.jms.Connection;
 
+import com.ibm.mq.jms.MQQueueConnectionFactory;
 import com.thomsonreuters.uscl.ereader.smoketest.dao.SmokeTestDao;
 import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTest;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -35,6 +38,8 @@ public class SmokeTestServiceImpl implements SmokeTestService {
     private SmokeTestDao dao;
     @Resource(name = "dataSource")
     private BasicDataSource basicDataSource;
+    @Resource
+    private JmsTemplate jmsTemplate;
 
     private static final int TIME_OUT = 3000; // In milliseconds
 
@@ -273,5 +278,20 @@ public class SmokeTestServiceImpl implements SmokeTestService {
     @Required
     public void setSmokeTestDao(final SmokeTestDao dao) {
         this.dao = dao;
+    }
+
+    @Override
+    public SmokeTest testMQConnection() {
+        final MQQueueConnectionFactory factory = (MQQueueConnectionFactory) jmsTemplate.getConnectionFactory();
+        final SmokeTest status = new SmokeTest();
+        status.setName("XPP MQ Connection");
+        status.setAddress(String.join(":", factory.getHostName(), Integer.toString(factory.getPort())));
+        try (Connection connection = factory.createConnection()) {
+            status.setIsRunning(true);
+        } catch (final Exception e) {
+            status.setIsRunning(false);
+            LOG.error(e.getMessage(), e);
+        }
+        return status;
     }
 }

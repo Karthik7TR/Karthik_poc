@@ -73,6 +73,7 @@ public class SmokeTestController {
             smokeTestService
                 .getApplicationStatus("ProView", String.format("http://%s/v1/statuscheck", proviewHost.getHostName())));
         statuses.add(sapService.checkSapStatus());
+        statuses.add(smokeTestService.testMQConnection());
         statuses.add(smokeTestService.testConnection());
         model.addAttribute("currentProperties", statuses);
 

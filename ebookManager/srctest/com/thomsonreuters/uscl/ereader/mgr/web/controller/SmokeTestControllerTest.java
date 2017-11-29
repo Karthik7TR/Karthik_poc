@@ -74,6 +74,7 @@ public final class SmokeTestControllerTest {
             .expect(
                 mockService.getApplicationStatus(EasyMock.anyObject(String.class), EasyMock.anyObject(String.class)))
             .andReturn(SMOKE_TEST);
+        EasyMock.expect(mockService.testMQConnection()).andReturn(SMOKE_TEST);
         EasyMock.expect(mockService.testConnection()).andReturn(SMOKE_TEST);
         EasyMock.expect(mockService.getRunningApplications()).andReturn(APP_NAMES);
         EasyMock.expect(mockService.getCIServerStatuses()).andReturn(SMOKE_TEST_LIST);
