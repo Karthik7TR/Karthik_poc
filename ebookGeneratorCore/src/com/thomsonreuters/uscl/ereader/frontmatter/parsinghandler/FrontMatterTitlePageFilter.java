@@ -42,6 +42,8 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl {
     private static final boolean SINGLE_LINE_FIELD = false;
     public static final String AAJ_PRESS_THEME = "AAJ Press";
 
+    private static final String NBSP = "&nbsp;";
+
     private BookDefinition bookDefinition;
 
     public FrontMatterTitlePageFilter(final BookDefinition bookDefinition) {
@@ -122,7 +124,7 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl {
                         super.characters(lines[i].toCharArray(), 0, lines[i].length());
                     } else {
                         if (lines[i].trim().length() == 0) {
-                            super.characters("&nbsp;".toCharArray(), 0, lines[i].length());
+                            super.characters(NBSP.toCharArray(), 0, NBSP.length());
                         } else {
                             super.characters(lines[i].toCharArray(), 0, lines[i].length());
                         }
