@@ -25,6 +25,9 @@
     .toc_analytical_level>.toc_analytical_level>& {
         margin-left: #{$indent}em;
     }
+    .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>& {
+        display: flex !important;
+    }
 }
 
 .designator {

@@ -37,7 +37,13 @@
     .toc_analytical_hierarchy &,
     .stat_head .name_block &,
     .full_toc .designator+&,
-    .generated_lrre_tbl .int_ref_list>& {
+    .generated_lrre_tbl .int_ref_list>&,
+    .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block>&:last-of-type 
+    {
         display: none;
+    }
+    .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .name~& {
+        flex-grow: 1;
+        flex-shrink: 1;
     }
 }

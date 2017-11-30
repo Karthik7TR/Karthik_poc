@@ -584,8 +584,14 @@ tbody .cgt,
 .toc_analytical_hierarchy .cgt,
 .stat_head .name_block .cgt,
 .full_toc .designator + .cgt,
-.generated_lrre_tbl .int_ref_list > .cgt {
+.generated_lrre_tbl .int_ref_list > .cgt,
+.toc_wrapper > .generated_toc > .summary_toc > .toc_chapter > a > .outline_name_block > .cgt:last-of-type {
   display: none;
+}
+
+.toc_wrapper > .generated_toc > .summary_toc > .toc_chapter > a > .outline_name_block .name ~ .cgt {
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
 .full_toc .name *,
@@ -612,6 +618,10 @@ tbody .cgt,
 
 .toc_analytical_level > .toc_analytical_level > .outline_name_block {
   margin-left: 1em;
+}
+
+.toc_wrapper > .generated_toc > .summary_toc > .toc_chapter > a > .outline_name_block {
+  display: flex !important;
 }
 
 .toc_chapter .designator {
@@ -1053,9 +1063,6 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 
 .toc_primary_section > .toc_editorial_commentary_section > a > .editorial_outline_name_block {
   display: flex;
-}
-
-.toc_primary_section > .toc_editorial_commentary_section > a > .editorial_outline_name_block {
   margin-left: 1.2em;
 }
 
