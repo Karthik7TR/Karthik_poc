@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,6 +41,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public final class ExtractTocStepIntegrationTest {
     private static final String VOL_ONE_MATERIAL_NUMBER = "1111111";
     private static final String VOL_TWO_MATERIAL_NUMBER = "2222222";
+    private static final String VOL_THREE_MATERIAL_NUMBER = "3333333";
+    private static final String VOL_FOUR_MATERIAL_NUMBER = "4444444";
 
     @Resource(name = "extractTocTask")
     @InjectMocks
@@ -60,23 +63,26 @@ public final class ExtractTocStepIntegrationTest {
     private ChunkContext chunkContext;
 
     @Before
-    public void setUp() throws Exception {
-        initMocks();
-        initFiles();
-        prepareDirectories();
+    public void setUp() {
+        org.mockito.MockitoAnnotations.initMocks(this);
     }
 
-    private void initMocks() {
-        org.mockito.MockitoAnnotations.initMocks(this);
+    private void init(final boolean multipleVolumes) throws Exception {
+        initMocks(multipleVolumes);
+        initFiles(multipleVolumes);
+        prepareDirectories(multipleVolumes);
+    }
+
+    private void initMocks(final boolean multipleVolumes) {
         when(
             chunkContext.getStepContext()
                 .getStepExecution()
                 .getJobExecution()
                 .getExecutionContext()
-                .get(JobParameterKey.XPP_BUNDLES)).thenReturn(getBundlesList());
+                .get(JobParameterKey.XPP_BUNDLES)).thenReturn(getBundlesList(multipleVolumes));
     }
 
-    private void initFiles() throws Exception {
+    private void initFiles(final boolean multipleVolumes) throws Exception {
         vol1File =
             new File(ExtractTocStepIntegrationTest.class.getResource("mainContent1.DIVXML.main").toURI());
         vol1RutterWitkinFile =
@@ -91,10 +97,15 @@ public final class ExtractTocStepIntegrationTest {
             new File(ExtractTocStepIntegrationTest.class.getResource("expectedMainContent_2_TocFile.xml").toURI());
         expectedMainContentXppHierWithoutChildXppMetadataFile =
             new File(ExtractTocStepIntegrationTest.class.getResource("expectedMainContent_3_TocFile.xml").toURI());
-        expectedTocFile = new File(ExtractTocStepIntegrationTest.class.getResource("expectedToc.xml").toURI());
+
+        if (multipleVolumes) {
+            expectedTocFile = new File(ExtractTocStepIntegrationTest.class.getResource("expectedTocMulti.xml").toURI());
+        } else {
+            expectedTocFile = new File(ExtractTocStepIntegrationTest.class.getResource("expectedToc.xml").toURI());
+        }
     }
 
-    private void prepareDirectories() throws Exception {
+    private void prepareDirectories(final boolean multipleVolumes) throws Exception {
         final File bundleVolOneOriginalFilesDir = fileSystem.getSectionbreaksDirectory(step, VOL_ONE_MATERIAL_NUMBER);
         FileUtils.forceMkdir(bundleVolOneOriginalFilesDir);
         FileUtils.copyFileToDirectory(vol1File, bundleVolOneOriginalFilesDir);
@@ -106,9 +117,19 @@ public final class ExtractTocStepIntegrationTest {
         FileUtils.copyFileToDirectory(
             vol2XppHierWithoutChildXppMetadataFile,
             bundleVolTwoOriginalFilesDir);
+
+        if (multipleVolumes) {
+            final File bundleVolThreeOriginalFilesDir = fileSystem.getSectionbreaksDirectory(step, VOL_THREE_MATERIAL_NUMBER);
+            FileUtils.forceMkdir(bundleVolThreeOriginalFilesDir);
+            FileUtils.copyFileToDirectory(vol1RutterWitkinFile, bundleVolThreeOriginalFilesDir);
+
+            final File bundleVolFourOriginalFilesDir = fileSystem.getSectionbreaksDirectory(step, VOL_FOUR_MATERIAL_NUMBER);
+            FileUtils.forceMkdir(bundleVolFourOriginalFilesDir);
+            FileUtils.copyFileToDirectory(vol1RutterWitkinFile, bundleVolFourOriginalFilesDir);
+        }
     }
 
-    private List<XppBundle> getBundlesList() {
+    private List<XppBundle> getBundlesList(final boolean multipleVolumes) {
         final XppBundle volumeOneBundle = new XppBundle();
         volumeOneBundle.setMaterialNumber(VOL_TWO_MATERIAL_NUMBER);
         volumeOneBundle.setOrderedFileList(Arrays.asList("mainContent2.DIVXML.xml", "mainContent3.DIVXML.xml"));
@@ -120,7 +141,25 @@ public final class ExtractTocStepIntegrationTest {
         volumeTwoBundle.setProductType("supp");
         volumeTwoBundle.setWebBuildProductType(XppBundleWebBuildProductType.SUPPLEMENTARY_PAMPHLET);
 
-        return Arrays.asList(volumeOneBundle, volumeTwoBundle);
+        final List<XppBundle> bundles = new ArrayList<>(Arrays.asList(volumeOneBundle, volumeTwoBundle));
+
+        if (multipleVolumes) {
+            final XppBundle volumeThreeBundle = new XppBundle();
+            volumeThreeBundle.setMaterialNumber(VOL_THREE_MATERIAL_NUMBER);
+            volumeThreeBundle.setOrderedFileList(Arrays.asList("mainContent1_1.DIVXML.xml"));
+            volumeThreeBundle.setProductType("bound");
+
+            final XppBundle volumeFourBundle = new XppBundle();
+            volumeFourBundle.setMaterialNumber(VOL_FOUR_MATERIAL_NUMBER);
+            volumeFourBundle.setOrderedFileList(Arrays.asList("mainContent1_1.DIVXML.xml"));
+            volumeFourBundle.setProductType("supp");
+            volumeFourBundle.setWebBuildProductType(XppBundleWebBuildProductType.SUPPLEMENTARY_PAMPHLET);
+
+            bundles.add(volumeThreeBundle);
+            bundles.add(volumeFourBundle);
+        }
+
+        return bundles;
     }
 
     @After
@@ -130,7 +169,11 @@ public final class ExtractTocStepIntegrationTest {
 
     @Test
     public void shouldCreateTocFileBasedBundleMainContentOriginalFile() throws Exception {
+        //given
+        init(false);
+        //when
         step.executeStep();
+        //then
         assertThat(
             expectedMainContentTocFile,
             hasSameContentAs(
@@ -144,6 +187,17 @@ public final class ExtractTocStepIntegrationTest {
             hasSameContentAs(
                 fileSystem.getBundlePartTocFile("mainContent3.DIVXML.xml", VOL_TWO_MATERIAL_NUMBER, step)));
         assertThat(expectedTocFile, hasSameContentAs(fileSystem.getTocFile(step)));
+    }
+
+    @Test
+    public void shouldCreateTocFileBasedBundleMainContentOriginalFileForMultipleVolumes() throws Exception {
+        //given
+        init(true);
+        //when
+        step.executeStep();
+        //then
+        final File toc = fileSystem.getTocFile(step);
+        assertThat(expectedTocFile, hasSameContentAs(toc));
     }
 
     @Configuration
