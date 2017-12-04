@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
@@ -75,6 +76,7 @@ public final class SmokeTestControllerTest {
                 mockService.getApplicationStatus(EasyMock.anyObject(String.class), EasyMock.anyObject(String.class)))
             .andReturn(SMOKE_TEST);
         EasyMock.expect(mockService.testMQConnection()).andReturn(SMOKE_TEST);
+        EasyMock.expect(mockService.testNovusAvailability()).andReturn(Arrays.asList(SMOKE_TEST));
         EasyMock.expect(mockService.testConnection()).andReturn(SMOKE_TEST);
         EasyMock.expect(mockService.getRunningApplications()).andReturn(APP_NAMES);
         EasyMock.expect(mockService.getCIServerStatuses()).andReturn(SMOKE_TEST_LIST);

@@ -9,31 +9,39 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.Resource;
 import javax.jms.Connection;
 
 import com.ibm.mq.jms.MQQueueConnectionFactory;
+import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.thomsonreuters.uscl.ereader.smoketest.dao.SmokeTestDao;
 import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTest;
 import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.westgroup.novus.productapi.Novus;
+
 /**
  * Service that returns Server statuses
  *
  */
 public class SmokeTestServiceImpl implements SmokeTestService {
+    private static Logger LOG = LogManager.getLogger(SmokeTestServiceImpl.class);
+
     private static final String GENERATOR = "Generator";
     private static final String MANAGER = "Manager";
     private static final String GATHERER = "Gatherer";
-    public static final File APPSERVER_TOMCAT_DIR = new File("/appserver/tomcat");
+    private static final String NOVUS_CLIENT_TEST_DOC_ID = "I41077696b67411d9947c9ea867b7826a";
 
-    private static Logger LOG = LogManager.getLogger(SmokeTestServiceImpl.class);
+    public static final File APPSERVER_TOMCAT_DIR = new File("/appserver/tomcat");
 
     private SmokeTestDao dao;
     @Resource(name = "dataSource")
@@ -289,9 +297,39 @@ public class SmokeTestServiceImpl implements SmokeTestService {
         try (Connection connection = factory.createConnection()) {
             status.setIsRunning(true);
         } catch (final Exception e) {
-            status.setIsRunning(false);
             LOG.error(e.getMessage(), e);
         }
         return status;
+    }
+
+    @Override
+    public List<SmokeTest> testNovusAvailability() {
+        return Stream.of(NovusEnvironment.values())
+            .map(this::testNovusConnection)
+            .collect(Collectors.toList());
+    }
+
+    private SmokeTest testNovusConnection(final NovusEnvironment environment) {
+        final SmokeTest smokeTest = new SmokeTest();
+        smokeTest.setName("Novus");
+        smokeTest.setAddress(String.join(StringUtils.SPACE, environment.toString(), "environment"));
+        try {
+            createNovus(environment)
+                .getFind()
+                .getDocument(null, NOVUS_CLIENT_TEST_DOC_ID)
+                .getMetaData();
+            smokeTest.setIsRunning(true);
+        } catch (final Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return smokeTest;
+    }
+
+    private Novus createNovus(final NovusEnvironment environment) {
+        final Novus novus = new Novus();
+        novus.setQueueCriteria(null, environment.toString());
+        novus.setResponseTimeout(30000);
+        novus.useLatestPit();
+        return novus;
     }
 }

@@ -75,6 +75,7 @@ public class SmokeTestController {
         statuses.add(sapService.checkSapStatus());
         statuses.add(smokeTestService.testMQConnection());
         statuses.add(smokeTestService.testConnection());
+        statuses.addAll(smokeTestService.testNovusAvailability());
         model.addAttribute("currentProperties", statuses);
 
         model.addAttribute("date", new Date());

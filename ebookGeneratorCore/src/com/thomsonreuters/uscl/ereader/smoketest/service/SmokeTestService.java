@@ -36,4 +36,6 @@ public interface SmokeTestService {
     SmokeTest testConnection();
 
     SmokeTest testMQConnection();
+
+    List<SmokeTest> testNovusAvailability();
 }
