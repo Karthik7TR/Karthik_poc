@@ -89,14 +89,6 @@
 		<constructor-arg ref="sessionFactory" />
 	</bean>
 
-	<bean id="authorDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.AuthorDaoImpl">
-		<constructor-arg ref="sessionFactory" />
-	</bean>
-
-	<bean id="pilotBookDao" class="com.thomsonreuters.uscl.ereader.core.book.dao.PilotBookDaoImpl">
-		<constructor-arg ref="sessionFactory" />
-	</bean>
-
 	<bean id="jobDao" class="com.thomsonreuters.uscl.ereader.core.job.dao.JobDaoImpl"
 		p:jdbcTemplate-ref="jdbcTemplate" />
 

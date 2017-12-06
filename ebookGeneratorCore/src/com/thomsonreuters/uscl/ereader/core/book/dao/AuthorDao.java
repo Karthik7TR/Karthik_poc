@@ -3,26 +3,15 @@ package com.thomsonreuters.uscl.ereader.core.book.dao;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
-import org.springframework.dao.DataAccessException;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  * DAO to manage Author entities.
  *
  */
-public interface AuthorDao {
-    /**
-     * Query - findAuthorByPrimaryKey
-     *
-     */
-    Author findAuthorById(Long authorId) throws DataAccessException;
-
-    /**
-     * Query - findAuthorsByEBookDefnId
-     *
-     */
-    List<Author> findAuthorsByEBookDefnId(Long eBookDefnId) throws DataAccessException;
-
-    void remove(Author toRemove) throws DataAccessException;
-
-    void saveAuthor(Author author);
+public interface AuthorDao extends JpaRepository<Author, Long> {
+    @Query("from Author a where a.ebookDefinition.ebookDefinitionId = :eBookDefnId")
+    List<Author> findAuthorsByEBookDefnId(@Param("eBookDefnId") Long eBookDefnId);
 }

@@ -21,7 +21,7 @@ public class PilotBookServiceImpl implements PilotBookService {
     @Override
     @Transactional(readOnly = true)
     public PilotBook findPilotBookByTitleId(final String pilotBookTitleId) throws DataAccessException {
-        return pilotBookDAO.findPilotBookByTitleId(pilotBookTitleId);
+        return pilotBookDAO.findOneByPilotBookTitleId(pilotBookTitleId);
     }
 
     /**
@@ -36,12 +36,12 @@ public class PilotBookServiceImpl implements PilotBookService {
 
     @Override
     public void deletePilotBook(final PilotBook pilotBook) throws DataAccessException {
-        pilotBookDAO.remove(pilotBook);
+        pilotBookDAO.delete(pilotBook);
     }
 
     @Override
     public void savePilotBook(final PilotBook pilotBook) {
-        final PilotBook existingPilotBook = pilotBookDAO.findPilotBookByTitleId(pilotBook.getPilotBookTitleId());
+        final PilotBook existingPilotBook = pilotBookDAO.findOneByPilotBookTitleId(pilotBook.getPilotBookTitleId());
 
         if (existingPilotBook != null) {
             if (existingPilotBook != pilotBook) {
@@ -49,9 +49,9 @@ public class PilotBookServiceImpl implements PilotBookService {
                 existingPilotBook.setNote(pilotBook.getNote());
                 existingPilotBook.setEbookDefinition(pilotBook.getEbookDefinition());
             }
-            pilotBookDAO.savePilotBook(existingPilotBook);
+            pilotBookDAO.saveAndFlush(existingPilotBook);
         } else {
-            pilotBookDAO.savePilotBook(pilotBook);
+            pilotBookDAO.saveAndFlush(pilotBook);
         }
     }
 }

@@ -28,7 +28,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     @Transactional
     public void saveAuthor(final Author author) {
-        final Author existingAuthor = authorDAO.findAuthorById(author.getAuthorId());
+        final Author existingAuthor = authorDAO.findOne(author.getAuthorId());
 
         if (existingAuthor != null) {
             if (existingAuthor != author) {
@@ -41,9 +41,9 @@ public class AuthorServiceImpl implements AuthorService {
                 existingAuthor.setAuthorNameSuffix(author.getAuthorNameSuffix());
                 existingAuthor.setEbookDefinition(author.getEbookDefinition());
             }
-            authorDAO.saveAuthor(existingAuthor);
+            authorDAO.saveAndFlush(existingAuthor);
         } else {
-            authorDAO.saveAuthor(author);
+            authorDAO.saveAndFlush(author);
         }
     }
 
@@ -54,13 +54,13 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     @Transactional
     public void deleteAuthor(final Author author) {
-        authorDAO.remove(author);
+        authorDAO.delete(author);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Author findAuthorById(final Long authorId) {
-        return authorDAO.findAuthorById(authorId);
+        return authorDAO.findOne(authorId);
     }
 
     @Override
