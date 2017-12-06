@@ -114,6 +114,10 @@ a + .no-indent:nth-child(2),
   width: 16px;
 }
 
+a:empty {
+  display: none;
+}
+
 .toc_analytical_hierarchy {
   margin-bottom: 1em;
 }
