@@ -578,7 +578,8 @@ tbody .cgt,
 .signature_group > .form_line .cgt,
 .summary_toc > .cgt,
 .footnote > .cgt,
-.toc_volbreak > .cgt {
+.toc_volbreak > .cgt,
+.toc_wrapper > .generated_toc > .summary_toc > .toc_chapter > a > .outline_name_block .name ~ .cgt:last-of-type {
   display: block;
 }
 
@@ -589,7 +590,9 @@ tbody .cgt,
 .stat_head .name_block .cgt,
 .full_toc .designator + .cgt,
 .generated_lrre_tbl .int_ref_list > .cgt,
-.toc_wrapper > .generated_toc > .summary_toc > .toc_chapter > a > .outline_name_block > .cgt:last-of-type {
+.toc_wrapper > .generated_toc > .summary_toc > .toc_chapter > a > .outline_name_block > .cgt:last-of-type,
+.toc_wrapper > .generated_toc > .summary_toc > .toc_chapter > a > .outline_name_block .name ~ .cgt,
+.toc_wrapper > .generated_toc > .full_toc > .toc_chapter > a > .outline_name_block > .name ~ .cgt {
   display: none;
 }
 
@@ -628,6 +631,10 @@ tbody .cgt,
   display: flex !important;
 }
 
+.toc_wrapper > .generated_toc > .full_toc > .toc_chapter > a > .outline_name_block {
+  display: flex;
+}
+
 .toc_chapter .designator {
   min-width: 2em;
 }
@@ -648,6 +655,11 @@ tbody .cgt,
 
 .toc_chapter > .toc_appendix_block {
   margin-left: 1.5em;
+}
+
+.toc_pgno {
+  flex-grow: 1;
+  text-align: right;
 }
 
 .INDEX {
@@ -1094,6 +1106,16 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 .pji_verdict_section_body > .verdict_form > .charge_para > .designator > .cgt {
   display: inline;
   margin-right: 1em;
+}
+
+.toc_pji_instruction_section > .cgt,
+.toc_pji_info_section > .cgt {
+  display: none;
+}
+
+.toc_pji_instruction_section > .cgt:last-of-type,
+.toc_pji_info_section > .cgt:last-of-type {
+  display: block;
 }
 
 .pji_name {

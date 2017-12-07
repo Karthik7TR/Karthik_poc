@@ -9,4 +9,12 @@
         display: inline;
         margin-right: #{$indent}em;
     }
+    .toc_pji_instruction_section>&,
+    .toc_pji_info_section>& {
+        display: none;
+    }
+    .toc_pji_instruction_section>&:last-of-type,
+    .toc_pji_info_section>&:last-of-type {
+        display: block;
+    }
 }

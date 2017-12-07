@@ -28,7 +28,8 @@
     .signature_group>.form_line &,
     .summary_toc>&,
     .footnote>&,
-    .toc_volbreak>& {
+    .toc_volbreak>&,
+    .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .name~&:last-of-type {
         display: block;
     }
     .entry .leaveout+&,
@@ -38,8 +39,9 @@
     .stat_head .name_block &,
     .full_toc .designator+&,
     .generated_lrre_tbl .int_ref_list>&,
-    .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block>&:last-of-type 
-    {
+    .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block>&:last-of-type,
+    .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .name~&,
+    .toc_wrapper>.generated_toc>.full_toc>.toc_chapter>a>.outline_name_block>.name~& {
         display: none;
     }
     .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .name~& {

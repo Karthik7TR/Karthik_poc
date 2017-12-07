@@ -28,6 +28,9 @@
     .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>& {
         display: flex !important;
     }
+    .toc_wrapper>.generated_toc>.full_toc>.toc_chapter>a>& {
+        display: flex;
+    }
 }
 
 .designator {
@@ -54,4 +57,9 @@
     .toc_chapter>& {
         margin-left: #{$indent * 1.5}em;
     }
+}
+
+.toc_pgno {
+    flex-grow: 1;
+    text-align: right;
 }
