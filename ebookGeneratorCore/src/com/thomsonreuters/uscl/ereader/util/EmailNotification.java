@@ -21,18 +21,20 @@ import javax.mail.internet.MimeMultipart;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
 
 /**
  * @deprecated use {@link com.thomsonreuters.uscl.ereader.common.notification.service.EmailService}
  * @author <a href="mailto:ravi.nandikolla@thomsonreuters.com">Ravi Nandikolla</a>c139353
  */
 @Deprecated
-@Component("emailNotification")
-public class EmailNotification {
-    private static Logger log = LogManager.getLogger(EmailNotification.class);
-    private static final String from = "no-reply-eReader@thomsonreuters.com";
-    private static final String host = "relay.int.westgroup.com";
+public final class EmailNotification {
+    private static final Logger LOG = LogManager.getLogger(EmailNotification.class);
+    private static final String FROM = "no-reply-eReader@thomsonreuters.com";
+    private static final String HOST = "relay.int.westgroup.com";
+    private static final Integer TIMEOUT = 60000; //ms
+
+    private EmailNotification() {
+    }
 
     /**
      * @param msg
@@ -59,7 +61,11 @@ public class EmailNotification {
         msg.setContent(mp);
     }
 
-    public static void send(final Collection<InternetAddress> recipients, final String subject, final String body, final boolean isHtml) {
+    public static void send(
+        final Collection<InternetAddress> recipients,
+        final String subject,
+        final String body,
+        final boolean isHtml) {
         final String csvRecipients = convertToCsv(recipients);
         send(csvRecipients, subject, body, isHtml);
     }
@@ -74,7 +80,7 @@ public class EmailNotification {
     }
 
     public static void send(final String csvRecipients, final String subject, final String body, final boolean isHtml) {
-        log.debug("Recipients: " + csvRecipients);
+        LOG.debug("Recipients: " + csvRecipients);
         if ((csvRecipients != null) && !csvRecipients.isEmpty()) {
             try {
                 if ((subject != null) && subject.isEmpty()) {
@@ -86,23 +92,24 @@ public class EmailNotification {
 
                 final Properties props = new Properties();
 
-                props.put("mail.smtp.host", host);
+                props.put("mail.smtp.host", HOST);
+                props.put("mail.smtp.timeout", TIMEOUT);
 
                 final Session session = Session.getInstance(props);
 
                 final String[] emails = csvRecipients.split(",");
 
                 for (final String emailAddress : emails) {
-                    final Message msg = prepareMessage(emailAddress.trim(), subject, from, session);
+                    final Message msg = prepareMessage(emailAddress.trim(), subject, FROM, session);
 
                     msg.setText(body);
-                    if(isHtml){
+                    if (isHtml) {
                         msg.setContent(body, "text/html; charset=utf-8");
                     }
                     Transport.send(msg);
                 }
             } catch (final MessagingException mex) {
-                log.error(mex.getMessage(), mex);
+                LOG.error(mex.getMessage(), mex);
             }
         }
     }
@@ -138,13 +145,13 @@ public class EmailNotification {
                 }
 
                 final Properties props = new Properties();
-                props.put("mail.smtp.host", host);
+                props.put("mail.smtp.host", HOST);
 
-                final Message msg = prepareMessage(toEmail, toSubject, from, Session.getInstance(props));
+                final Message msg = prepareMessage(toEmail, toSubject, FROM, Session.getInstance(props));
                 addAttachments(msg, fileNames, toText);
                 Transport.send(msg);
             } catch (final MessagingException mex) {
-                log.error(mex.getMessage(), mex);
+                LOG.error(mex.getMessage(), mex);
             }
         }
     }
