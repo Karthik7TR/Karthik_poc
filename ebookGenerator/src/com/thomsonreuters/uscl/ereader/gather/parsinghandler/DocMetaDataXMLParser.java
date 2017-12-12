@@ -34,6 +34,8 @@ public final class DocMetaDataXMLParser extends DefaultHandler {
     private static final String MD_DOC_TYPE_NAME = "md.doctype.name";
     private static final String MD_PUB_ID = "md.pubid";
     private static final String MD_PUB_PAGE = "md.pubpage";
+    private static final String MD_START_EFFECTIVE = "md.starteffective";
+    private static final String MD_END_EFFECTIVE = "md.endeffective";
 
     private StringBuffer tempValBuffer;
 
@@ -82,25 +84,6 @@ public final class DocMetaDataXMLParser extends DefaultHandler {
         }
         return docMetadata;
     }
-
-    /**
-     * Go through the doc metadata and print the contents
-     */
-//	private void printData() {
-//
-//		System.out.println("Values of DocMetadata are being printed out ");
-//		System.out.println("Title ID  " + docMetadata.getTitleId());
-//		System.out.println("JobInstance Id  " + docMetadata.getJobInstanceId());
-//		System.out.println("doc uuid  " + docMetadata.getDocUuid());
-//		System.out.println("DOC FAMILY ID  " + docMetadata.getDocFamilyUuid());
-//		System.out.println("DOC UUID  " + docMetadata.getDocUuid());
-//		System.out.println("DOC Type  " + docMetadata.getDocType());
-//		System.out.println("NOrmalized first line cite  "
-//				+ docMetadata.getNormalizedFirstlineCite());
-//		System.out.println("Serial number  " + docMetadata.getSerialNumber());
-//		System.out.println("Find Orig  " + docMetadata.getFindOrig());
-//
-//	}
 
     // Event Handlers
     @Override
@@ -173,6 +156,10 @@ public final class DocMetaDataXMLParser extends DefaultHandler {
                 //not a valid serial number
                 LOG.debug("Encountered a publicationCode: " + tempVal + " which is not a valid number.", e);
             }
+        } else if (MD_START_EFFECTIVE.equalsIgnoreCase(qName)) {
+            docMetadata.setStartEffectiveDate(tempVal);
+        } else if (MD_END_EFFECTIVE.equalsIgnoreCase(qName)) {
+            docMetadata.setEndEffectiveDate(tempVal);
         }
     }
 

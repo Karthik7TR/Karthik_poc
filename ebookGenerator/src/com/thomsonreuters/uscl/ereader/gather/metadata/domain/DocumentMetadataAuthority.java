@@ -1,10 +1,14 @@
 package com.thomsonreuters.uscl.ereader.gather.metadata.domain;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -22,55 +26,49 @@ public class DocumentMetadataAuthority {
     private Set<DocMetadata> docMetadataSet = new HashSet<>();
 
     //these are keyed maps used to search for the corresponding metadata without hitting the database.
-    private Map<String, DocMetadata> docMetadataKeyedByCite = new HashMap<>();
+    private Map<String, List<DocMetadata>> docMetadataKeyedByCite = new HashMap<>();
     private Map<Long, DocMetadata> docMetadataKeyedBySerialNumber = new HashMap<>();
     private Map<String, DocMetadata> docMetadataKeyedByDocumentUuid = new HashMap<>();
     private Map<String, DocMetadata> docMetadataKeyedByPubIdAndPubPage = new HashMap<>();
     private Map<String, DocMetadata> docMetadataKeyedByProViewId = new HashMap<>();
 
     public DocumentMetadataAuthority(final Set<DocMetadata> docMetadataSet) {
-        if (docMetadataSet == null) {
-            throw new IllegalArgumentException(
-                "Cannot instantiate DocumentMetadataAuthority without a set of document metadata");
-        }
-        this.docMetadataSet = docMetadataSet;
-        for (final DocMetadata docMetadata : docMetadataSet) {
-            if (docMetadata.getNormalizedFirstlineCite() == null && docMetadata.getFindOrig() != null) {
-                // Prevent overwriting of value with duplicate find orig
-                if (!docMetadataKeyedByCite.containsKey(docMetadata.getFindOrig())) {
-                    //handle content that does not have normalized cite in metadata, for example: Sampson and Tindall
-                    docMetadataKeyedByCite.put(docMetadata.getFindOrig(), docMetadata);
-                }
-            } else {
-                // Prevent overwriting of value with duplicate normalized firstline cite.
-                if (!docMetadataKeyedByCite.containsKey(docMetadata.getNormalizedFirstlineCite())) {
-                    docMetadataKeyedByCite.put(docMetadata.getNormalizedFirstlineCite(), docMetadata);
-                }
-            }
+        this.docMetadataSet = Optional.ofNullable(docMetadataSet)
+            .orElseThrow(() -> new IllegalArgumentException(
+                "Cannot instantiate DocumentMetadataAuthority without a set of document metadata"));
+
+        docMetadataSet.forEach(docMetadata -> {
+            addDocMetadataToCiteMap(docMetadata);
 
             // Prevent overwriting of value with duplicate serial number
-            if (!docMetadataKeyedBySerialNumber.containsKey(docMetadata.getSerialNumber())) {
-                docMetadataKeyedBySerialNumber.put(docMetadata.getSerialNumber(), docMetadata);
-            }
+            docMetadataKeyedBySerialNumber.putIfAbsent(docMetadata.getSerialNumber(), docMetadata);
 
             docMetadataKeyedByDocumentUuid.put(docMetadata.getDocUuid(), docMetadata);
             docMetadataKeyedByProViewId.put(docMetadata.getProViewId(), docMetadata);
 
             if (StringUtils.isNotBlank(docMetadata.getFirstlineCitePubpage())) {
-                if (docMetadata.getFirstlineCitePubId() != null) {
-                    docMetadataKeyedByPubIdAndPubPage
-                        .put(docMetadata.getFirstlineCitePubId() + docMetadata.getFirstlineCitePubpage(), docMetadata);
-                }
-                if (docMetadata.getSecondlineCitePubId() != null) {
-                    docMetadataKeyedByPubIdAndPubPage
-                        .put(docMetadata.getSecondlineCitePubId() + docMetadata.getFirstlineCitePubpage(), docMetadata);
-                }
-                if (docMetadata.getThirdlineCitePubId() != null) {
-                    docMetadataKeyedByPubIdAndPubPage
-                        .put(docMetadata.getThirdlineCitePubId() + docMetadata.getFirstlineCitePubpage(), docMetadata);
-                }
+                final String firstlineCitePubId = docMetadata.getFirstlineCitePubpage();
+                addDocMetadataToPubPageMap(docMetadata, firstlineCitePubId, docMetadata::getFirstlineCitePubId);
+                addDocMetadataToPubPageMap(docMetadata, firstlineCitePubId, docMetadata::getSecondlineCitePubId);
+                addDocMetadataToPubPageMap(docMetadata, firstlineCitePubId, docMetadata::getThirdlineCitePubId);
             }
-        }
+        });
+    }
+
+    private void addDocMetadataToCiteMap(final DocMetadata docMetadata) {
+        final String cite = Optional.ofNullable(docMetadata.getNormalizedFirstlineCite())
+            .orElse(docMetadata.getFindOrig());
+        final List<DocMetadata> list = Optional.ofNullable(docMetadataKeyedByCite.get(cite)).orElseGet(ArrayList::new);
+        list.add(docMetadata);
+        docMetadataKeyedByCite.putIfAbsent(cite, list);
+    }
+
+    private void addDocMetadataToPubPageMap(final DocMetadata docMetadata,
+                                            final String firstlineCitePubId,
+                                            final Supplier<Long> pubIdSupplier) {
+        Optional.ofNullable(pubIdSupplier.get())
+            .map(cite -> cite + firstlineCitePubId)
+            .ifPresent(key -> docMetadataKeyedByPubIdAndPubPage.put(key, docMetadata));
     }
 
     /**
@@ -89,8 +87,20 @@ public class DocumentMetadataAuthority {
      * <p>Note: the underlying {@link DocMetadata} instances are mutable, so use caution if they need to be modified.</p>
      * @return the association between normalized citations and the corresponding {@link DocMetadata}
      */
-    public Map<String, DocMetadata> getDocMetadataKeyedByCite() {
+    public Map<String, List<DocMetadata>> getDocMetadataKeyedByCite() {
         return Collections.unmodifiableMap(docMetadataKeyedByCite);
+    }
+
+    public DocMetadata getDocMetadataByCite(final String cite) {
+        DocMetadata docMetadata = null;
+        if (!docMetadataKeyedByCite.isEmpty() && docMetadataKeyedByCite.containsKey(cite)) {
+            final List<DocMetadata> list = docMetadataKeyedByCite.get(cite);
+            docMetadata = list.stream()
+                .filter(DocMetadata::isDocumentEffective)
+                .findAny()
+                .orElse(list.get(0));
+        }
+        return docMetadata;
     }
 
     /**

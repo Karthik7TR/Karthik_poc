@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.thomsonreuters.uscl.ereader.format.FormatConstants;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
@@ -45,27 +46,18 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
     private String version;
 
     public InternalLinkResolverFilter(final DocumentMetadataAuthority documentMetadataAuthority) {
-        if (documentMetadataAuthority == null) {
-            throw new IllegalArgumentException(
-                "Cannot create instances of InternalLinkResolverFilter without a DocumentMetadataAuthority");
-        }
-
-        this.documentMetadataAuthority = documentMetadataAuthority;
+        this.documentMetadataAuthority = Optional.ofNullable(documentMetadataAuthority)
+            .orElseThrow(() -> new IllegalArgumentException(
+                "Cannot create instances of InternalLinkResolverFilter without a DocumentMetadataAuthority"));
     }
 
-    public InternalLinkResolverFilter(
-        final DocumentMetadataAuthority documentMetadataAuthority,
-        final File docsGuidFile,
-        final PaceMetadataService paceMetadataService,
-        final Long jobId,
-        final String docGuid,
-        final String version) {
-        if (documentMetadataAuthority == null) {
-            throw new IllegalArgumentException(
-                "Cannot create instances of InternalLinkResolverFilter without a DocumentMetadataAuthority");
-        }
-
-        this.documentMetadataAuthority = documentMetadataAuthority;
+    public InternalLinkResolverFilter(final DocumentMetadataAuthority documentMetadataAuthority,
+                                      final File docsGuidFile,
+                                      final PaceMetadataService paceMetadataService,
+                                      final Long jobId,
+                                      final String docGuid,
+                                      final String version) {
+        this(documentMetadataAuthority);
         this.docsGuidFile = docsGuidFile;
         this.paceMetadataService = paceMetadataService;
         this.jobId = jobId;
@@ -136,47 +128,43 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
      *
      * @return docMetadata DocumentMetadata
      */
-    private DocMetadata getNormalizedCiteDocMetadata(String cite, final Long pubId, final Long jobId) {
-        DocMetadata docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(cite);
+    private DocMetadata getNormalizedCiteDocMetadata(final String cite, final Long pubId, final Long jobId) {
+        DocMetadata docMetadata = Optional.ofNullable(documentMetadataAuthority.getDocMetadataByCite(cite))
+            .orElseGet(() -> documentMetadataAuthority.getDocMetadataByCite(cite.replaceAll("\\s", "")));
 
-        // Fix for cite that contains whitespaces which prevents metadata match
         if (docMetadata == null) {
-            final String citeWithoutSpaces = cite.replaceAll("\\s", "");
-            docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(citeWithoutSpaces);
-        }
+            if (!pubId.equals(PUB_NOT_PRESENT)) {
+                final List<PaceMetadata> paceMetadataInfo = paceMetadataService.findAllPaceMetadataForPubCode(pubId);
 
-        if (docMetadata == null && !pubId.equals(PUB_NOT_PRESENT)) {
-            final List<PaceMetadata> paceMetadataInfo = paceMetadataService.findAllPaceMetadataForPubCode(pubId);
+                if (paceMetadataInfo != null && !paceMetadataInfo.isEmpty()) {
+                    final PaceMetadata paceData = paceMetadataInfo.get(0);
+                    final String stdPubName = paceData.getStdPubName();
 
-            if ((paceMetadataInfo != null) && (paceMetadataInfo.size() > 0)) {
-                final String stdPubName = paceMetadataInfo.get(0).getStdPubName();
+                    if (cite.contains(stdPubName)) {
+                        String pubNameCite = cite.replace(stdPubName, paceData.getPublicationName());
+                        pubNameCite = NormalizationRulesUtil.applyCitationNormalizationRules(pubNameCite);
+                        docMetadata = documentMetadataAuthority.getDocMetadataByCite(pubNameCite);
 
-                if (cite.contains(stdPubName)) {
-                    final String pubName = paceMetadataInfo.get(0).getPublicationName();
-                    String pubNameCite = cite.replace(stdPubName, pubName);
-                    pubNameCite = NormalizationRulesUtil.applyCitationNormalizationRules(pubNameCite);
-                    docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(pubNameCite);
+                        if (docMetadata == null) {
+                            // look for pubId and pubpage match (this will fix multiple volumes) Bug #33426
+                            final String[] splitCite = cite.split(stdPubName);
 
-                    if (docMetadata == null) {
-                        // look for pubId and pubpage match (this will fix multiple volumes) Bug #33426
-                        final String[] splitCite = cite.split(stdPubName);
-
-                        if (splitCite.length > 0) {
-                            String pubpage = splitCite[splitCite.length - 1];
-                            pubpage = NormalizationRulesUtil.pubPageNormalizationRules(pubpage);
-                            docMetadata =
-                                documentMetadataAuthority.getDocMetadataKeyedByPubIdAndPubPage().get(pubId + pubpage);
+                            if (splitCite.length > 0) {
+                                String pubpage = splitCite[splitCite.length - 1];
+                                pubpage = NormalizationRulesUtil.pubPageNormalizationRules(pubpage);
+                                docMetadata =
+                                    documentMetadataAuthority.getDocMetadataKeyedByPubIdAndPubPage().get(pubId + pubpage);
+                            }
                         }
                     }
                 }
-            }
-        } else if (docMetadata == null && pubId.equals(PUB_NOT_PRESENT)) {
-            cite = NormalizationRulesUtil.applyCitationNormalizationRules(cite);
-            if (cite.startsWith("LK(")) {
-                docMetadata = getRefsAnnosPage(cite);
+            } else {
+                final String normilizedCite = NormalizationRulesUtil.applyCitationNormalizationRules(cite);
+                if (normilizedCite.startsWith("LK(")) {
+                    docMetadata = getRefsAnnosPage(normilizedCite);
+                }
             }
         }
-
         return docMetadata;
     }
 
@@ -315,7 +303,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
 
             if (citation.endsWith("R")) {
                 //Only look at the citations that end with R, presumably stands for References
-                docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(citation);
+                docMetadata = documentMetadataAuthority.getDocMetadataByCite(citation);
 
                 if (docMetadata != null) {
                     return docMetadata;
@@ -327,7 +315,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
         for (String citation : citations) {
             citation = citation.replace(")", "").replace("+", "").trim();
 
-            docMetadata = documentMetadataAuthority.getDocMetadataKeyedByCite().get(citation);
+            docMetadata = documentMetadataAuthority.getDocMetadataByCite(citation);
 
             if (docMetadata != null) {
                 return docMetadata;

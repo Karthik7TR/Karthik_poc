@@ -1,6 +1,8 @@
 package com.thomsonreuters.uscl.ereader.gather.metadata.domain;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -19,6 +21,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 /**
  */
 @IdClass(com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadataPK.class)
@@ -33,6 +38,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/gather/metadata/domain", name = "DocMetadata")
 public class DocMetadata implements Serializable {
     private static final long serialVersionUID = 1L;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
     @Column(name = "TITLE_ID", length = 64, nullable = false)
     @Basic(fetch = FetchType.EAGER)
@@ -134,6 +140,14 @@ public class DocMetadata implements Serializable {
     @Column(name = "SPLIT_BOOK_TITLE_ID", length = 64)
     @Basic(fetch = FetchType.EAGER)
     private String splitBookTitleId;
+
+    @Column(name = "START_EFFECTIVE_DATE")
+    @XmlElement
+    private String startEffectiveDate;
+
+    @Column(name = "END_EFFECTIVE_DATE")
+    @XmlElement
+    private String endEffectiveDate;
 
     public void setTitleId(final String titleId) {
         this.titleId = titleId;
@@ -295,6 +309,22 @@ public class DocMetadata implements Serializable {
         splitBookTitleId = splitBookTitle;
     }
 
+    public String getStartEffectiveDate() {
+        return startEffectiveDate;
+    }
+
+    public void setStartEffectiveDate(final String startEffectiveDate) {
+        this.startEffectiveDate = startEffectiveDate;
+    }
+
+    public String getEndEffectiveDate() {
+        return endEffectiveDate;
+    }
+
+    public void setEndEffectiveDate(final String endEffectiveDate) {
+        this.endEffectiveDate = endEffectiveDate;
+    }
+
     /**
      * Returns unique id for each document, in most cases this will be the Document Family GUID but
      * in some cases it will be a deduped Document Family GUID with the dedup value appended after the
@@ -304,10 +334,17 @@ public class DocMetadata implements Serializable {
      */
     public String getProViewId() {
         if (docFamilyUuid != null && proviewFamilyUUIDDedup != null) {
-            return docFamilyUuid + "_" + proviewFamilyUUIDDedup;
+            return String.join("_", docFamilyUuid, proviewFamilyUUIDDedup.toString());
         }
-
         return docFamilyUuid;
+    }
+
+    public boolean isDocumentEffective() {
+        final LocalDateTime now = LocalDateTime.now();
+        return startEffectiveDate != null
+            && endEffectiveDate != null
+            && now.isAfter(LocalDateTime.parse(startEffectiveDate, FORMATTER))
+            && now.isBefore(LocalDateTime.parse(endEffectiveDate, FORMATTER));
     }
 
     /**
@@ -340,40 +377,27 @@ public class DocMetadata implements Serializable {
         return buffer.toString();
     }
 
-    /**
-     */
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((titleId == null) ? 0 : titleId.hashCode());
-        result = prime * result + ((jobInstanceId == null) ? 0 : jobInstanceId.hashCode());
-        result = prime * result + ((docUuid == null) ? 0 : docUuid.hashCode());
-        return result;
+        return new HashCodeBuilder()
+        .append(titleId)
+        .append(jobInstanceId)
+        .append(docUuid)
+        .toHashCode();
     }
 
-    /**
-     */
     @Override
     public boolean equals(final Object obj) {
-        if (obj == this)
+        if (obj == this) {
             return true;
-        if (!(obj instanceof DocMetadata))
+        }
+        if (!(obj instanceof DocMetadata)) {
             return false;
+        }
         final DocMetadata equalCheck = (DocMetadata) obj;
-        if ((titleId == null && equalCheck.titleId != null) || (titleId != null && equalCheck.titleId == null))
-            return false;
-        if (titleId != null && !titleId.equals(equalCheck.titleId))
-            return false;
-        if ((jobInstanceId == null && equalCheck.jobInstanceId != null)
-            || (jobInstanceId != null && equalCheck.jobInstanceId == null))
-            return false;
-        if (jobInstanceId != null && !jobInstanceId.equals(equalCheck.jobInstanceId))
-            return false;
-        if ((docUuid == null && equalCheck.docUuid != null) || (docUuid != null && equalCheck.docUuid == null))
-            return false;
-        if (docUuid != null && !docUuid.equals(equalCheck.docUuid))
-            return false;
-        return true;
+        return new EqualsBuilder().append(titleId, equalCheck.titleId)
+        .append(jobInstanceId, equalCheck.jobInstanceId)
+        .append(docUuid, equalCheck.docUuid)
+        .isEquals();
     }
 }
