@@ -134,8 +134,7 @@
   		  p:docMetadataService-ref="docMetadataService"/>  		
   	<bean id="htmlRemoveBrokenInternalLinksService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLRemoveBrokenInternalLinksServiceImpl"
 		  p:fileHandlingHelper-ref="postAnchorFileHandlingHelper"
-  		  p:docMetadataService-ref="docMetadataService"  	
-		  p:emailNotification-ref="emailNotification"/>
+  		  p:docMetadataService-ref="docMetadataService" />
 		  
   		  	  
 	<bean id="htmlWrapperService" class="com.thomsonreuters.uscl.ereader.format.service.HTMLWrapperServiceImpl"

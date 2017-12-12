@@ -60,10 +60,6 @@ public class HTMLRemoveBrokenInternalLinksServiceImpl implements HTMLRemoveBroke
         this.docMetadataService = docMetadataService;
     }
 
-    public void setEmailNotification(final EmailNotification emailNotification) {
-        //Intentionally left blank
-    }
-
     /**
      * This method applies HTMLUnlinkInternalLinksFilter to the source HTML to remove
      * unused anchors from the HTML. Emails notification of anchors removed.
