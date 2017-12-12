@@ -97,6 +97,7 @@ public final class EditBookDefinitionServiceImplTest {
         component.setMediallRule("30-blah");
         component.setEffectiveDate(new Date(100));
         component.setBomComponent("1");
+        component.setProdDate(new Date());
         materialComponents.add(component);
 
         component = new MaterialComponent();
@@ -104,6 +105,7 @@ public final class EditBookDefinitionServiceImplTest {
         component.setMediallRule("30-blah");
         component.setEffectiveDate(new Date(100));
         component.setBomComponent("2");
+        component.setProdDate(new Date());
         materialComponents.add(component);
 
         component = new MaterialComponent();
@@ -111,6 +113,7 @@ public final class EditBookDefinitionServiceImplTest {
         component.setMediallRule("30-blah");
         component.setEffectiveDate(new Date(Long.MAX_VALUE));
         component.setBomComponent("3");
+        component.setProdDate(new Date());
         materialComponents.add(component);
 
         component = new MaterialComponent();
@@ -119,6 +122,7 @@ public final class EditBookDefinitionServiceImplTest {
         component.setMediallRule("66-blah");
         component.setEffectiveDate(new Date(100));
         component.setBomComponent("5");
+        component.setProdDate(new Date());
         materialComponents.add(component);
 
         if (VALID_SUB_NUMBER.equals(subNumber)) {
@@ -127,8 +131,16 @@ public final class EditBookDefinitionServiceImplTest {
             component.setMediallRule("30-blah");
             component.setEffectiveDate(new Date(100));
             component.setBomComponent("4");
+            component.setProdDate(new Date());
             materialComponents.add(component);
         }
+
+        component = new MaterialComponent();
+        component.setMediahlRule("Print");
+        component.setMediallRule("30-blah");
+        component.setEffectiveDate(new Date(100));
+        component.setBomComponent("6");
+        materialComponents.add(component);
 
         final Material material = new Material();
         material.setMaterialNumber(subNumber);
