@@ -9,9 +9,9 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 
 import java.nio.file.Paths;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.thomsonreuters.uscl.ereader.jms.client.JMSClient;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
@@ -80,20 +80,27 @@ public final class LocalXppBundleHandleServiceImplTest {
     @Test
     public void shouldSendMessageAndReturnIt() {
         //given
-        final ZonedDateTime dateTime = ZonedDateTime.now();
         //when
-        final String jmsMessage = localXppBundleHandleService.sendXppBundleJmsMessage(createBundleArchive(dateTime));
+        final String jmsMessage = localXppBundleHandleService.sendXppBundleJmsMessage(createBundleArchive());
         //then
         verify(jmsClient).sendMessageToQueue(jmsTemplate, jmsMessage, null);
-        assertThat(jmsMessage, equalTo(String.format(TEST_JMS_MESSAGE, dateTime.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME))));
+        assertThat(jmsMessage, equalTo(String.format(TEST_JMS_MESSAGE, getDateString(jmsMessage))));
     }
 
-    private XppBundleArchive createBundleArchive(final ZonedDateTime dateTime) {
+    private String getDateString(final String jmsMessage) {
+        final Matcher matcher = Pattern.compile("<dateTime>(?<value>.*)</dateTime>").matcher(jmsMessage);
+        if (matcher.find()) {
+            return matcher.group("value");
+        }
+        throw new RuntimeException("Field \"dateTime\" not found");
+    }
+
+    private XppBundleArchive createBundleArchive() {
         final XppBundleArchive bundleArchive = new XppBundleArchive();
         bundleArchive.setMessageId(TEST_UUID);
         bundleArchive.setBundleHash(TEST_UUID);
         bundleArchive.setMaterialNumber(TEST_MATERIAL);
-        bundleArchive.setDateTime(Date.from(dateTime.toInstant()));
+        bundleArchive.setDateTime(new Date());
         bundleArchive.setEBookSrcPath("/path/to/somewhere");
         bundleArchive.setVersion("1.0");
         return bundleArchive;
