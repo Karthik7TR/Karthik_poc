@@ -1,0 +1,3 @@
+<part.main xmlns="http://www.sdl.com/xpp" fileName="sample.DIVXML_0005"><publication><publication.body>
+            <pagebreak num="8" num-string="8"/><xref id="31-8-column-copy" origId="31" type="footnote" hidden="true" orig="false"/><xref id="33-8-column-copy" origId="33" type="footnote" hidden="true" orig="false"/><xref id="34-8-column-copy" origId="34" type="footnote" hidden="true" orig="false"/>
+            </publication.body></publication></part.main>

@@ -35,7 +35,7 @@
             <cgt>2</cgt>
         </footnote.reference><footnote.body class="show_in_footnotes">
             content on page XI
-            </footnote.body></footnote><pagebreak num="XII" num-string="xii"/><footnote id="2-XII"><hidden.footnote.reference refId="2-XII"/><footnote.body>
+            </footnote.body></footnote><pagebreak num="XII" num-string="xii"/><footnote id="2-XII" origId="2"><hidden.footnote.reference refId="2-XII"/><footnote.body>
             content on page XII
         </footnote.body>
     </footnote>

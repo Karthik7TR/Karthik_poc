@@ -27,7 +27,7 @@
         </footnote.reference><footnote.body class="show_in_footnotes" date.updated="0">
             <para date.updated="0" first.para="no">
                 content on page 1
-                </para></footnote.body></footnote><pagebreak num="2" num-string="2"/><footnote id="2-2"><hidden.footnote.reference refId="2-2"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
+                </para></footnote.body></footnote><pagebreak num="2" num-string="2"/><footnote id="2-2" origId="2"><hidden.footnote.reference refId="2-2"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
                 content on page 2
             </para>
         </footnote.body>
@@ -47,7 +47,7 @@
         </footnote.reference><footnote.body class="show_in_footnotes" date.updated="0">
             <para date.updated="0" first.para="no">
                 content on page 2
-                </para></footnote.body></footnote><pagebreak num="3" num-string="3"/><footnote id="3-3"><hidden.footnote.reference refId="3-3"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
+                </para></footnote.body></footnote><pagebreak num="3" num-string="3"/><footnote id="3-3" origId="3"><hidden.footnote.reference refId="3-3"/><footnote.body date.updated="0"><para date.updated="0" first.para="no">
                 content on page 3
             </para>
         </footnote.body>

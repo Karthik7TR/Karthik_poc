@@ -95,6 +95,7 @@
                 <xsl:call-template name="processPagebreak" />
                 <xsl:call-template name="insertOpenTags">
                     <xsl:with-param name="refId" select="concat($outerFootnote/@id, '-', @num)" />
+                    <xsl:with-param name="origId" select="$outerFootnote/@id" />
                 </xsl:call-template>
             </xsl:when>
             <xsl:otherwise>
@@ -156,6 +157,7 @@
 
     <xsl:template name="insertOpenTags">
         <xsl:param name="refId" />
+        <xsl:param name="origId" />
         
         <xsl:for-each select="ancestor::node()">
             <xsl:variable name="isFootnote" select="local-name(.) = 'footnote'" />
@@ -175,6 +177,8 @@
                 <xsl:if test="$isFootnote">
                     <xsl:text disable-output-escaping="yes"><![CDATA[ id="]]></xsl:text>
                     <xsl:value-of select="$refId" />
+                    <xsl:text disable-output-escaping="yes"><![CDATA[" origId="]]></xsl:text>
+                    <xsl:value-of select="$origId" />
                     <xsl:text disable-output-escaping="yes"><![CDATA["]]></xsl:text>
                 </xsl:if>
                 <xsl:text disable-output-escaping="yes"><![CDATA[>]]></xsl:text>

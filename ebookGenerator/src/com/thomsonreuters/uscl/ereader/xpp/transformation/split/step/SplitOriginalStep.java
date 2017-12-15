@@ -12,6 +12,7 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotif
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.PartType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
 import org.apache.commons.io.FileUtils;
@@ -61,17 +62,29 @@ public class SplitOriginalStep extends XppTransformationStep {
         }
     }
 
-    private void moveSectionbreaksToTopLevel() throws IOException {
+    private void moveSectionbreaksToTopLevel() {
         final Transformer transformer = transformerBuilderFactory.create().withXsl(moveSectionbreaksUpXsl).build();
-        for (final Map.Entry<String, Collection<File>> dir : fileSystem.getFiles(this, INPUT_DIR_2).entrySet()) {
-            FileUtils.forceMkdir(fileSystem.getDirectory(this, OUTPUT_DIR_2, dir.getKey()));
-            for (final File file : dir.getValue()) {
-                final File sectionbreaksUpFile = fileSystem.getFile(this, OUTPUT_DIR_2, dir.getKey(), file.getName());
-                final TransformationCommand command =
-                    new TransformationCommandBuilder(transformer, sectionbreaksUpFile).withInput(file).build();
-                transformationService.transform(command);
-            }
-        }
+
+        fileSystem.getBaseFilesIndex(this, INPUT_DIR_2).getFilesByMaterialNumber().forEach(filesByMaterialNumber -> {
+            final String materialNumber = filesByMaterialNumber.getKey();
+            filesByMaterialNumber.getValue().filesByBaseName().forEach(filesByBaseName ->
+                filesByBaseName.getValue().getFilesByType().forEach((fileType, file) -> {
+                    final File sectionbreaksUpFile = fileSystem.getFile(this, OUTPUT_DIR_2, materialNumber, file.getName());
+                    transformer.setParameter("fileType", fileType.name());
+
+                    if (fileType == PartType.MAIN) {
+                        final File footnotesFile = filesByBaseName.getValue().getFilesByType().get(PartType.FOOTNOTE);
+                        final String footnotesFilePath = footnotesFile.getAbsolutePath().replaceAll("\\\\", "/");
+                        transformer.setParameter("footnotesFile", footnotesFilePath);
+                    }
+
+                    final TransformationCommand command =
+                        new TransformationCommandBuilder(transformer, sectionbreaksUpFile)
+                        .withInput(file).build();
+                    transformationService.transform(command);
+                })
+            );
+        });
     }
 
     private void splitByPages() throws IOException {
