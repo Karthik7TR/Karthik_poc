@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.proview;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -17,7 +18,8 @@ import org.apache.commons.lang3.StringUtils;
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Doc {
+public class Doc implements Serializable {
+    private static final long serialVersionUID = 1L;
     @XmlAttribute
     private String id;
     @XmlAttribute
@@ -66,11 +68,8 @@ public class Doc {
         return imageIdList;
     }
 
-    public void setImageIdList(List<String> imageIdList) {
-        if (imageIdList == null) {
-            imageIdList = new ArrayList<>();
-        }
-        this.imageIdList = imageIdList;
+    public void setImageIdList(final List<String> imageIdList) {
+        this.imageIdList = (imageIdList == null) ? new ArrayList<>() : imageIdList;
     }
 
     @Override

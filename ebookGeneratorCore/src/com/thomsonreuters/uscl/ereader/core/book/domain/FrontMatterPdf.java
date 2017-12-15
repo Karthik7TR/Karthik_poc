@@ -16,23 +16,20 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-/**
- */
 @Entity
 @Table(name = "FRONT_MATTER_PDF")
 public class FrontMatterPdf implements Serializable, Comparable<FrontMatterPdf> {
     private static final long serialVersionUID = -8713934748505263533L;
-    /**
-     */
+
     @Column(name = "FRONT_MATTER_PDF_ID", nullable = false)
     @Basic(fetch = FetchType.EAGER)
     @Id
     @GeneratedValue(generator = "FrontMatterPdfSequence")
     @SequenceGenerator(name = "FrontMatterPdfSequence", sequenceName = "FRONT_MATTER_PDF_ID_SEQ")
     private Long id;
-    /**
-     */
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({
@@ -41,14 +38,10 @@ public class FrontMatterPdf implements Serializable, Comparable<FrontMatterPdf> 
             referencedColumnName = "FRONT_MATTER_SECTION_ID",
             nullable = false)})
     private FrontMatterSection section;
-    /**
-     */
 
     @Column(name = "PDF_LINK_TEXT", length = 1024)
     @Basic(fetch = FetchType.EAGER)
     private String pdfLinkText;
-    /**
-     */
 
     @Column(name = "PDF_FILENAME", length = 1024)
     @Basic(fetch = FetchType.EAGER)
@@ -130,5 +123,24 @@ public class FrontMatterPdf implements Serializable, Comparable<FrontMatterPdf> 
             result = (o != null) ? -1 : 0;
         }
         return result;
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder()
+            .append(sequenceNum)
+            .toHashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj)
+            return true;
+        if (!(obj instanceof FrontMatterPdf))
+            return false;
+        final FrontMatterPdf other = (FrontMatterPdf) obj;
+        return new EqualsBuilder()
+            .append(sequenceNum, other.sequenceNum)
+            .isEquals();
     }
 }

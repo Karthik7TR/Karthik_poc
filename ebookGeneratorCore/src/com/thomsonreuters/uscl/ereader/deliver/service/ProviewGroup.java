@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -136,19 +137,6 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
         return majorVersion;
     }
 
-    /*public Integer getMinorVersion() {
-    	Integer minorVersion = null;
-    	String number = StringUtils.substringAfter(this.groupVersion, ".");
-    	try {
-    		if(StringUtils.isNotBlank(number)) {
-    			minorVersion = Integer.valueOf(number);
-    		}
-    	} catch(Exception e) {
-    		e.printStackTrace();
-    	}
-    	return minorVersion;
-    }
-    */
     public String getGroupName() {
         return groupName;
     }
@@ -237,7 +225,7 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
         return version;
     }
 
-    public static class SubgroupInfo implements Serializable{
+    public static class SubgroupInfo implements Serializable {
         private static final long serialVersionUID = -4229230493652422923L;
         private List<String> titleIdList;
         private String subGroupName;
@@ -430,6 +418,42 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
                 }
             }
             return version;
+        }
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = new HashCodeBuilder()
+                .append(bookVersion)
+                .append(isPilotBook)
+                .append(proviewDisplayName)
+                .toHashCode();
+            int idResult = 0;
+            if (titleId != null)
+                idResult = ((titleId == null) ? 0 : titleId.hashCode());
+            else if (id != null)
+                idResult = ((id == null) ? 0 : id.hashCode());
+            result = prime * result + idResult;
+            return result;
+        }
+
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj)
+                return true;
+            if (!(obj instanceof GroupDetails))
+                return false;
+            final GroupDetails other = (GroupDetails) obj;
+            final boolean result = new EqualsBuilder()
+                .append(bookVersion, other.bookVersion)
+                .append(isPilotBook, other.isPilotBook)
+                .append(proviewDisplayName, other.proviewDisplayName)
+                .isEquals();
+            if (!result)
+                return false;
+            final String thisId = titleId == null ? id : titleId;
+            final String otherId = other.getTitleId() == null ? other.getId() : other.getTitleId();
+            return thisId.equals(otherId);
         }
     }
 }

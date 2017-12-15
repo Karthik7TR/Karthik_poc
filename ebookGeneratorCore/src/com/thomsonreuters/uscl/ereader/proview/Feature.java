@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.proview;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,7 +18,8 @@ import org.apache.commons.lang3.StringUtils;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Feature {
+public class Feature implements Serializable {
+    private static final long serialVersionUID = 1L;
     @XmlAttribute
     private String name;
     @XmlAttribute

@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.proview;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  *
  * @author <a href="mailto:christopher.schwartz@thomsonreuters.com">Chris Schwartz</a> u0081674
  */
-public class TocEntry implements TocNode {
+public class TocEntry implements TocNode, Serializable {
+    private static final long serialVersionUID = 1L;
     private static final String SOLIDUS = "/";
     protected String tocGuid;
     protected String docGuid;

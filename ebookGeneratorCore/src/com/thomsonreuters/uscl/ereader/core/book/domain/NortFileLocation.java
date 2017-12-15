@@ -19,6 +19,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  */
@@ -139,5 +141,24 @@ public class NortFileLocation implements Serializable, Comparable<NortFileLocati
             result = (o != null) ? -1 : 0;
         }
         return result;
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder()
+            .append(sequenceNum)
+            .toHashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj)
+            return true;
+        if (!(obj instanceof NortFileLocation))
+            return false;
+        final NortFileLocation other = (NortFileLocation) obj;
+        return new EqualsBuilder()
+            .append(sequenceNum, other.sequenceNum)
+            .isEquals();
     }
 }

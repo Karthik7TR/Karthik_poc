@@ -10,6 +10,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.thomsonreuters.uscl.ereader.jaxb.adapter.LevelAdapter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.log4j.Level;
@@ -22,7 +24,7 @@ import org.springframework.util.Assert;
  */
 @XmlRootElement(name = "miscConfig", namespace = "com.thomsonreuters.uscl.ereader.core.job.domain")
 public class MiscConfig {
-    private static Logger log = LogManager.getLogger(MiscConfig.class);
+    private static final Logger LOG = LogManager.getLogger(MiscConfig.class);
 
     /**
      * Typesafe representation of the keys used to represent the throttling
@@ -64,7 +66,7 @@ public class MiscConfig {
         try {
             setProviewHost(InetAddress.getLocalHost());
         } catch (final UnknownHostException e) {
-            log.error("Failed to set proview host", e);
+            LOG.error("Failed to set proview host", e);
         }
     }
 
@@ -133,6 +135,7 @@ public class MiscConfig {
         try {
             return InetAddress.getByName(proviewHostname);
         } catch (final UnknownHostException e) {
+            LOG.info("Unable to resolve ProView host name: " + e.getMessage());
             return null;
         }
     }
@@ -176,32 +179,22 @@ public class MiscConfig {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((appLogLevel == null) ? 0 : appLogLevel.hashCode());
-        result = prime * result + ((rootLogLevel == null) ? 0 : rootLogLevel.hashCode());
-        return result;
+        return new HashCodeBuilder()
+            .append(appLogLevel)
+            .append(rootLogLevel)
+            .toHashCode();
     }
 
     @Override
     public boolean equals(final Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof MiscConfig))
             return false;
         final MiscConfig other = (MiscConfig) obj;
-        if (appLogLevel == null) {
-            if (other.appLogLevel != null)
-                return false;
-        } else if (!appLogLevel.equals(other.appLogLevel))
-            return false;
-        if (rootLogLevel == null) {
-            if (other.rootLogLevel != null)
-                return false;
-        } else if (!rootLogLevel.equals(other.rootLogLevel))
-            return false;
-        return true;
+        return new EqualsBuilder()
+            .append(appLogLevel, other.appLogLevel)
+            .append(rootLogLevel, other.rootLogLevel)
+            .isEquals();
     }
 }
