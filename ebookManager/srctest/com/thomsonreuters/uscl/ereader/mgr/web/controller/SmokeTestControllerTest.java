@@ -24,7 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 /**
- * Tests for login/logouot and authentication.
+ * Tests for login/logout and authentication.
  */
 public final class SmokeTestControllerTest {
     private SmokeTest SMOKE_TEST;
@@ -89,6 +89,7 @@ public final class SmokeTestControllerTest {
         EasyMock.expect(mockService.getProdServerStatuses()).andReturn(SMOKE_TEST_LIST);
         EasyMock.expect(mockService.getProdApplicationStatuses()).andReturn(SMOKE_TEST_LIST);
         EasyMock.expect(mockService.getProdDatabaseServerStatuses()).andReturn(SMOKE_TEST_LIST);
+        EasyMock.expect(mockService.getSMTPStatus()).andReturn(SMOKE_TEST);
 
         EasyMock.replay(mockMiscConfigSyncService);
         EasyMock.replay(mockService);

@@ -30,7 +30,7 @@ import org.apache.log4j.Logger;
 public final class EmailNotification {
     private static final Logger LOG = LogManager.getLogger(EmailNotification.class);
     private static final String FROM = "no-reply-eReader@thomsonreuters.com";
-    private static final String HOST = "relay.int.westgroup.com";
+    public static final String HOST = "relay.int.westgroup.com";
     private static final Integer TIMEOUT = 60000; //ms
 
     private EmailNotification() {

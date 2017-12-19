@@ -19,6 +19,7 @@ import com.ibm.mq.jms.MQQueueConnectionFactory;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.thomsonreuters.uscl.ereader.smoketest.dao.SmokeTestDao;
 import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTest;
+import com.thomsonreuters.uscl.ereader.util.EmailNotification;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
@@ -331,5 +332,13 @@ public class SmokeTestServiceImpl implements SmokeTestService {
         novus.setResponseTimeout(30000);
         novus.useLatestPit();
         return novus;
+    }
+
+    @Override
+    public SmokeTest getSMTPStatus() {
+        final SmokeTest smokeTest = getServerStatus(EmailNotification.HOST);
+        smokeTest.setName("SMTP");
+        smokeTest.setAddress(EmailNotification.HOST);
+        return smokeTest;
     }
 }
