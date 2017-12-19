@@ -4,6 +4,7 @@ import com.thomsonreuters.uscl.ereader.FrontMatterFileName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
+import org.apache.commons.lang3.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -41,8 +42,6 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl {
     private static final boolean MULTI_LINE_FIELD = true;
     private static final boolean SINGLE_LINE_FIELD = false;
     public static final String AAJ_PRESS_THEME = "AAJ Press";
-
-    private static final String NBSP = "&nbsp;";
 
     private BookDefinition bookDefinition;
 
@@ -120,14 +119,9 @@ public class FrontMatterTitlePageFilter extends XMLFilterImpl {
             if (isMultiLineField) {
                 final String[] lines = text.split("\\\r\\\n", -1);
                 for (int i = 0; i < lines.length; i++) {
-                    if (i == lines.length - 1) {
-                        super.characters(lines[i].toCharArray(), 0, lines[i].length());
-                    } else {
-                        if (lines[i].trim().length() == 0) {
-                            super.characters(NBSP.toCharArray(), 0, NBSP.length());
-                        } else {
-                            super.characters(lines[i].toCharArray(), 0, lines[i].length());
-                        }
+                    final String line = lines[i].trim().isEmpty() ? StringUtils.EMPTY : lines[i];
+                    super.characters(line.toCharArray(), 0, line.length());
+                    if (i != lines.length - 1) {
                         final AttributesImpl atts = new AttributesImpl();
                         super.endElement("", HTML_PARAGRAPH_TAG, HTML_PARAGRAPH_TAG);
                         super.startElement("", HTML_PARAGRAPH_TAG, HTML_PARAGRAPH_TAG, atts);
