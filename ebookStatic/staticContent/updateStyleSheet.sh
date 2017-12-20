@@ -59,4 +59,20 @@ sed -i "/<xsl:if test =\"\$contents =','\">/i \
 echo "Replace string in HistoryNotes.xsl">> log.txt
 sed -i '/<xsl:template match="annotations\/hist.note.block\/\*\[not(.\/\/N-HIT or .\/\/N-LOCATE or .\/\/N-WITHIN)]" \/>/d' Platform/ContentBlocks/HistoryNotes.xsl
 
+echo "Remove duplicated currency from AnalyticalALRIndex.xsl"
+sed -i 's/<xsl:apply-templates select="\/\/cmd.currency.default" mode="cmdCurrency"\/>//g' WestlawNext/DefaultProductView/ContentTypes/AnalyticalALRIndex.xsl
+
+echo "Add Footnotes.xsl to AnalyticalALRIndex.xsl"
+sed -i '/<xsl:include href="Title.xsl"\/>/i \
+\t<xsl:include href="Footnotes.xsl"\/>' WestlawNext/DefaultProductView/ContentTypes/AnalyticalALRIndex.xsl
+
+echo "Add styles to hide duplicated elements in AnalyticalALRIndex books"
+sed -i '/\.co_analyticalALR \.co_divide {/i \
+\.co_docDisplay>#coid_website_documentWidgetDiv>\.co_analyticalALRIndex>\.co_section>\.co_contentBlock>\.co_headtext { \
+\ttext-align: left; } \
+\
+\.co_analyticalALRIndex>\.co_section>\.x_codesBody \.co_codesPara>\.co_codesPara>h2, \
+\.co_analyticalALRIndex>\.co_section>\.x_codesBody \.co_codesPara>\.co_headtext { \
+\tdisplay: none; }' document.css
+
 echo "**************Done**********" >> log.txt
