@@ -45,6 +45,8 @@ public class GatherResponse {
     @XmlElement(name = "missingImgCount")
     private int missingImgCount;
 
+    @XmlElement(name = "missingImages")
+    private List<String> missingImagesList;
     @XmlElement(name = "splitGuids")
     private List<String> splitTocGuidList;
     @XmlElement(name = "findSplitsAgain")
@@ -203,6 +205,14 @@ public class GatherResponse {
 
     public boolean isFindSplitsAgain() {
         return findSplitsAgain;
+    }
+
+    public List<String> getMissingImagesList() {
+        return missingImagesList;
+    }
+
+    public void setMissingImagesList(final List<String> missingImagesList) {
+        this.missingImagesList = missingImagesList;
     }
 
     public void setDuplicateTocGuids(final Collection<String> duplicateTocGuids) {

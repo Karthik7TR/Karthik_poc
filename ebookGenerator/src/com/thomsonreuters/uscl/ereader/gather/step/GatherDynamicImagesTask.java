@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -53,6 +54,7 @@ public class GatherDynamicImagesTask extends BookStepImpl {
 
     private int imageGuidNum;
     private int retrievedCount;
+    private List<String> missedImagesList;
 
     @Override
     public ExitStatus executeStep() throws Exception {
@@ -92,9 +94,10 @@ public class GatherDynamicImagesTask extends BookStepImpl {
 
             if (gatherResponse.getMissingImgCount() > 0) {
                 retrievedCount = imageGuidNum - gatherResponse.getMissingImgCount();
+                missedImagesList = gatherResponse.getMissingImagesList();
                 throw new ImageException(
                     String.format(
-                        "Download of dynamic images failed because there were %d missing image(s)",
+                        "Download of dynamic images failed because there were %d missing image(s)" + missedImagesList,
                         gatherResponse.getMissingImgCount()));
             }
             retrievedCount = imageGuidNum;

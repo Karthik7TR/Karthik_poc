@@ -16,6 +16,7 @@ public class ImgMetadataInfo {
     private Long dpi; // dots per inch
     private String imgGuid; // image GUID to retrieve
     private String docGuid;
+    private boolean isMissed;
 
     public ImgMetadataInfo() {
     }
@@ -101,6 +102,15 @@ public class ImgMetadataInfo {
 
     public String getDocGuid() {
         return docGuid;
+    }
+
+    @XmlElement(name = "isMissed", required = false)
+    public void setIsMissed(final boolean missed) {
+        isMissed = missed;
+    }
+
+    public boolean getIsMissed() {
+        return isMissed;
     }
 
     @Override

@@ -27,7 +27,6 @@ import org.springframework.batch.item.ExecutionContext;
  * Auxiliary class for generating dummy objects.
  */
 public class GatherDynamicImagesTestUtil {
-
     public static ChunkContext getChunkContext() {
         final JobParameters jobParameters = new JobParameters();
         final ChunkContext chunkContext = new ChunkContext(

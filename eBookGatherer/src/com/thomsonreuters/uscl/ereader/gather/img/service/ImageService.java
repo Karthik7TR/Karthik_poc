@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.gather.img.service;
 
+import java.io.IOException;
+
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.gather.img.model.ImageRequestParameters;
@@ -20,7 +22,8 @@ public interface ImageService {
      *            all parameters to get and process images
      * @return response with meta info about images
      * @throws GatherException if failed to get images from Novus
+     * @throws IOException
      */
     @NotNull
-    GatherResponse getImages(@NotNull ImageRequestParameters imageRequestParameters) throws GatherException;
+    GatherResponse getImages(@NotNull ImageRequestParameters imageRequestParameters) throws GatherException, IOException;
 }

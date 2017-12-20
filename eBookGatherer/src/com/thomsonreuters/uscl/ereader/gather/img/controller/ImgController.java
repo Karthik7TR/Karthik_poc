@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.gather.img.controller;
 
+import java.util.Optional;
+
 import com.thomsonreuters.uscl.ereader.core.EBConstants;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherImgRequest;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
@@ -31,14 +33,13 @@ public class ImgController {
         parameters.setFinalStage(imgRequest.isFinalStage());
         parameters.setXppSourceImageDirectory(imgRequest.getXppSourceImageDirectory());
 
-        GatherResponse gatherResponse;
+        GatherResponse gatherResponse = null;
         try {
             gatherResponse = imageServiceFactory.getImageService(imgRequest.isXpp()).getImages(parameters);
         } catch (final Exception e) {
-            gatherResponse = new GatherResponse();
             LOG.error("Failed to get images", e);
         }
-        model.addAttribute(EBConstants.GATHER_RESPONSE_OBJECT, gatherResponse);
+        model.addAttribute(EBConstants.GATHER_RESPONSE_OBJECT, Optional.ofNullable(gatherResponse).orElseGet(GatherResponse::new));
         return new ModelAndView(EBConstants.VIEW_RESPONSE);
     }
 
