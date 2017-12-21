@@ -14,8 +14,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -58,11 +60,11 @@ public class NovusNortFileParser extends DefaultHandler {
     private XpathStack xpathStack;
     private final int nortFileLevel;
 
-    private Map<String, RelationshipNode> nortNodeMap = new HashMap<>();
+    // in CWB it is called "relationship", not "node"
+    private List<RelationshipNode> nortNodes = new LinkedList<>();
     private Map<String, Map<Integer, String>> documentLevelMap;
 
     private List<RelationshipNode> roots = new ArrayList<>();
-    private List<RelationshipNode> duplicateNodes = new ArrayList<>();
     private RelationshipNode currentNode;
     private StringBuffer tempVal;
 
@@ -92,18 +94,6 @@ public class NovusNortFileParser extends DefaultHandler {
             sp.parse(is, this);
         }
 
-        // Throw error if duplicate nodes which were not marked as deleted are found.
-        if (duplicateNodes.size() > 0) {
-            final StringBuffer buffer = new StringBuffer();
-            for (final RelationshipNode duplicateNode : duplicateNodes) {
-                buffer.append(duplicateNode.getNortGuid());
-                buffer.append(", ");
-            }
-            LOG.error("Duplicate NORT node(s) found: " + buffer.toString() + " in file " + nortFile.getAbsolutePath());
-            throw new SAXException(
-                "Duplicate NORT node(s) found: " + buffer.toString() + " in file " + nortFile.getAbsolutePath());
-        }
-
         if (roots.size() > 0) {
             createParentChildRelationships();
         } else {
@@ -118,13 +108,20 @@ public class NovusNortFileParser extends DefaultHandler {
     }
 
     private void createParentChildRelationships() {
-        for (final RelationshipNode node : nortNodeMap.values()) {
-            final RelationshipNode parentNode = nortNodeMap.get(node.getParentNortGuid());
-            if (parentNode != null) {
-                parentNode.getChildNodes().add(node);
-                node.setParentNode(parentNode);
-            }
+        for (final RelationshipNode curNode : nortNodes) {
+            nortNodes.stream()
+                .filter(isParentNodeOf(curNode))
+                .findFirst()
+                .ifPresent(parent -> {
+                    parent.getChildNodes()
+                        .add(curNode);
+                    curNode.setParentNode(parent);
+                });
         }
+    }
+
+    private Predicate<? super RelationshipNode> isParentNodeOf(final RelationshipNode otherNode) {
+        return node -> node.getNortGuid().equals(otherNode.getParentNortGuid());
     }
 
     @Override
@@ -265,14 +262,10 @@ public class NovusNortFileParser extends DefaultHandler {
         // Only add nodes if they have not expired yet.
         if (endDate != null && endDate.after(cutoffDate)) {
             if (!currentNode.isDeletedNode()) {
-                if (nortNodeMap.containsKey(currentNode.getNortGuid())) {
-                    duplicateNodes.add(currentNode);
-                } else {
-                    nortNodeMap.put(currentNode.getNortGuid(), currentNode);
-                    // Save root nodes to return after parsing
-                    if (currentNode.isRootNode()) {
-                        roots.add(currentNode);
-                    }
+                nortNodes.add(currentNode);
+                // Save root nodes to return after parsing
+                if (currentNode.isRootNode()) {
+                    roots.add(currentNode);
                 }
             } else {
                 LOG.debug(

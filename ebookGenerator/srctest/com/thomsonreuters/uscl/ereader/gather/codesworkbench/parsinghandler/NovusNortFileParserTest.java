@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.gather.codesworkbench.parsinghandler;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -126,7 +127,7 @@ public final class NovusNortFileParserTest {
                 + "<n-reltarget>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-reltarget><n-reltype>TOC</n-reltype>"
                 + "<n-relpayload><n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20050217000000</n-start-date>"
                 + "<n-end-date>20970101235959</n-end-date><n-rank>2031.0</n-rank><n-label>"
-                + "<heading>TITLE 42�PUBLIC HEALTH</heading></n-label><node-type>gradehead</node-type>"
+                + "<heading>TITLE 42ï¿½PUBLIC HEALTH</heading></n-label><node-type>gradehead</node-type>"
                 + "<term>TOCID(NAEBD884087-FE11D98CEAD-D8B3DFE30E4)</term></n-nortpayload></n-relpayload>"
                 + "</n-relationship></n-load>");
 
@@ -165,7 +166,7 @@ public final class NovusNortFileParserTest {
                 + "<n-reltarget>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-reltarget><n-reltype>TOC</n-reltype>"
                 + "<n-relpayload><n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20050217000000</n-start-date>"
                 + "<n-end-date>20970101235959</n-end-date><n-rank>2031.0</n-rank><n-label>"
-                + "<heading>TITLE 42�PUBLIC HEALTH</heading></n-label><node-type>gradehead</node-type>"
+                + "<heading>TITLE 42ï¿½PUBLIC HEALTH</heading></n-label><node-type>gradehead</node-type>"
                 + "<term>TOCID(NAEBD884087-FE11D98CEAD-D8B3DFE30E4)</term></n-nortpayload></n-relpayload>"
                 + "</n-relationship></n-load>");
 
@@ -201,7 +202,7 @@ public final class NovusNortFileParserTest {
                 + "<n-reltarget>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-reltarget><n-reltype>TOC</n-reltype>"
                 + "<n-relpayload><n-nortpayload><n-start-date>20050217000000</n-start-date>"
                 + "<n-end-date>20970101235959</n-end-date><n-rank>2031.0</n-rank><n-label>"
-                + "<heading>TITLE 42�PUBLIC HEALTH</heading></n-label><node-type>gradehead</node-type>"
+                + "<heading>TITLE 42ï¿½PUBLIC HEALTH</heading></n-label><node-type>gradehead</node-type>"
                 + "<term>TOCID(NAEBD884087-FE11D98CEAD-D8B3DFE30E4)</term><n-view>DELER_StaTX_DBAS</n-view></n-nortpayload>"
                 + "</n-relpayload></n-relationship></n-load>");
 
@@ -236,7 +237,7 @@ public final class NovusNortFileParserTest {
                 + "<n-reltarget>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-reltarget><n-reltype>TOC</n-reltype>"
                 + "<n-relpayload><n-nortpayload><n-start-date>20050217000000</n-start-date>"
                 + "<n-end-date>20970101235959</n-end-date><n-rank>2031.0</n-rank><n-label>"
-                + "<heading>TITLE 42�PUBLIC HEALTH</heading></n-label><node-type>gradehead</node-type>"
+                + "<heading>TITLE 42ï¿½PUBLIC HEALTH</heading></n-label><node-type>gradehead</node-type>"
                 + "<term>TOCID(NAEBD884087-FE11D98CEAD-D8B3DFE30E4)</term><n-view>TAXDEL</n-view></n-nortpayload>"
                 + "</n-relpayload></n-relationship></n-load>");
 
@@ -302,34 +303,33 @@ public final class NovusNortFileParserTest {
 
     @Test
     public void testMultipleIdenticalRoots()
-        throws UnsupportedEncodingException, IOException, ParserConfigurationException {
+        throws Exception {
+        //given
         final File nort = new File(cwbDir, "none.xml");
         addContentToFile(
             nort,
             "<n-load><n-relationship guid=\"N932693C2A30011DE8D7A0023AE540669\" control=\"ADD\">"
                 + "<n-relbase>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-relbase><n-reltype>TOC</n-reltype><n-relpayload>"
-                + "<n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20050217000000</n-start-date>"
+                + "<n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20052017000000</n-start-date>"
                 + "<n-end-date>20970101235959</n-end-date><n-rank>1.0</n-rank><n-label>"
                 + "<heading>CODE OF FEDERAL REGULATIONS</heading></n-label><node-type>gradehead</node-type>"
                 + "<graft-point-flag>Y</graft-point-flag><term>TOCID(N156AF7107C-8011D9BF2BB-0A94FBB0D8D)</term>"
                 + "</n-nortpayload></n-relpayload></n-relationship><n-relationship guid=\"N932693C2A30011DE8D7A0023AE540669\" control=\"ADD\">"
                 + "<n-relbase>N156AF7107C8011D9BF2BB0A94FBB0D8D</n-relbase><n-reltype>TOC</n-reltype><n-relpayload>"
-                + "<n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20050217000000</n-start-date>"
+                + "<n-nortpayload><n-view>WlAdcCf</n-view><n-start-date>20052018000000</n-start-date>"
                 + "<n-end-date>20970101235959</n-end-date><n-rank>1.0</n-rank><n-label>"
                 + "<heading>CODE OF FEDERAL REGULATIONS</heading></n-label><node-type>gradehead</node-type>"
                 + "<graft-point-flag>Y</graft-point-flag><term>TOCID(N156AF7107C-8011D9BF2BB-0A94FBB0D8D)</term>"
                 + "</n-nortpayload></n-relpayload></n-relationship></n-load>");
-
-        try {
-            parser.parseDocument(nort);
-            fail("Test should throw SAXException");
-        } catch (final SAXException e) {
-            //expected exception thrown
-            final String expectedError = "Duplicate NORT node(s) found: N156AF7107C8011D9BF2BB0A94FBB0D8D";
-            if (!e.getMessage().contains(expectedError)) {
-                fail("Wrong failure message");
-            }
-        }
+        //when
+        final List<RelationshipNode> nodes = parser.parseDocument(nort);
+        //then
+        assertEquals(nodes.size(), 2);
+        final RelationshipNode currentEffective = nodes.get(0);
+        final RelationshipNode futureEffective = nodes.get(1);
+        assertEquals(currentEffective.getNortGuid(),
+            futureEffective.getNortGuid());
+        assertTrue(!currentEffective.equals(futureEffective));
     }
 
     @Test
