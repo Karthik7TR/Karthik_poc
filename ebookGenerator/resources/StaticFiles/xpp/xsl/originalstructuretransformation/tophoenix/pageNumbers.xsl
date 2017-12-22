@@ -1,7 +1,8 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:x="http://www.sdl.com/xpp"
 	xmlns="http://www.sdl.com/xpp" exclude-result-prefixes="x">
-
+	<xsl:import href="../../transform-utils.xsl" />
+	
 	<xsl:variable name="romanNumbersMap">
 		<entry key="1">i</entry>
 		<entry key="4">iv</entry>
@@ -30,15 +31,13 @@
 				<xsl:when test="$bundlePartType = 'FRONT' or $bundlePartType = 'SUMMARY_AND_DETAILED_TABLE_OF_CONTENTS' or $bundlePartType = 'SUMMARY_TABLE_OF_CONTENTS' or $bundlePartType = 'DETAILED_TABLE_OF_CONTENTS' or matches($closestNumber, '^[ivxlcdm]+$')">
 					<xsl:value-of select="x:transform-arabic-to-roman($serialNumber)" />
 				</xsl:when>
-				<xsl:when test="matches($closestNumber, '^[0-9]+\-[0-9]+$')">
+				<xsl:when test="matches($closestNumber, '^[0-9]+\-[0-9]+$') 
+				or matches($closestNumber, '^[A-Za-z&amp;\-\. ]+\-[0-9]+$')">
 					<xsl:value-of select="concat(substring-before($closestNumber, '-'), '-', $serialNumber)" />
 				</xsl:when>
 				<xsl:when test="matches($closestNumber, '^[0-9]+\-[ivxlcdm]+$')">
 					<xsl:value-of select="concat(substring-before($closestNumber, '-'), '-', x:transform-arabic-to-roman($serialNumber))" />
-				</xsl:when>				
-				<xsl:when test="matches($closestNumber, '^[A-Za-z&amp;\- ]+\-[0-9]+$')">
-					<xsl:value-of select="concat(substring-before($closestNumber, '-'), '-', $serialNumber)" />
-				</xsl:when>
+				</xsl:when>	
 				<xsl:otherwise>
 					<xsl:value-of select="$serialNumber" />
 				</xsl:otherwise>					
@@ -47,13 +46,13 @@
 	</xsl:template>
 
 	<xsl:template name="closest-page-number">
-		<xsl:variable name="previousClosestNumber" select="(preceding::x:page//x:line[x:t='@FSTART@']/x:t[. != '@FSTART@' and . != '@FEND@' and . != '0' and matches(., '^[ivxlcdm]+|[ivxlcdm0-9\-]+|[0-9\-]+|[A-Za-z&amp;\- 0-9]+$')])[1]" />
+		<xsl:variable name="previousClosestNumber" select="(preceding::x:page//x:line[x:t='@FSTART@']/x:t[x:is-page-number(.)=true()])[last()]" />
 		<xsl:choose>
 			<xsl:when test="$previousClosestNumber != ''">
 				<xsl:value-of select="$previousClosestNumber" />
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="(following::x:page//x:line[x:t='@FSTART@']/x:t[. != '@FSTART@' and . != '@FEND@' and . != '0' and matches(., '^[ivxlcdm]+|[ivxlcdm0-9\-]+|[0-9\-]+|[A-Za-z&amp;\- 0-9]+$')])[1]" />
+				<xsl:value-of select="(following::x:page//x:line[x:t='@FSTART@']/x:t[x:is-page-number(.)=true()])[1]" />
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

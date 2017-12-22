@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Paths;
 
 import javax.annotation.Resource;
 
@@ -40,23 +41,34 @@ public final class OriginalStructureTransformationStepIntegrationTest {
 
     @Test
     public void shouldReturnOriginalXml() throws Exception {
-        testOriginalStructureTransformationStep("sampleXpp.DIVXML.xml", "expected.main", "expected.footnotes");
+        testOriginalStructureTransformationStep(
+            "original\\sampleXpp.DIVXML.xml",
+            "original\\expected.main",
+            "original\\expected.footnotes");
     }
 
     @Test
     public void shouldReturnOriginalXmlWithRomanPageNumbers() throws Exception {
         testOriginalStructureTransformationStep(
-            "sampleXpp_Front_vol_1.DIVXML.xml",
-            "expected-roman.main",
-            "expected-roman.footnotes");
+            "roman\\sampleXpp_Front_vol_1.DIVXML.xml",
+            "roman\\expected-roman.main",
+            "roman\\expected-roman.footnotes");
     }
 
     @Test
     public void shouldTransformColumns() throws Exception {
         testOriginalStructureTransformationStep(
-            "sampleColumns.DIVXML.xml",
-            "expectedColumns.main",
-            "expectedColumns.footnotes");
+            "columns\\sampleColumns.DIVXML.xml",
+            "columns\\expectedColumns.main",
+            "columns\\expectedColumns.footnotes");
+    }
+
+    @Test
+    public void shouldProcessBlankPages() throws Exception {
+        testOriginalStructureTransformationStep(
+            "blank\\blank.DIVXML.xml",
+            "blank\\blank.expected.main",
+            "blank\\blank.expected.footnotes");
     }
 
     @Test
@@ -66,7 +78,7 @@ public final class OriginalStructureTransformationStepIntegrationTest {
             OriginalStructureTransformationStepIntegrationTest.class.getResource("expected Processed Cite Queries")
                 .toURI());
         final File xpp = new File(
-            OriginalStructureTransformationStepIntegrationTest.class.getResource("sampleXpp.DIVXML.xml").toURI());
+            OriginalStructureTransformationStepIntegrationTest.class.getResource("original\\sampleXpp.DIVXML.xml").toURI());
         final File xppDir = xppGatherFileSystem.getXppBundleMaterialNumberDirectory(step, MATERIAL_NUMBER)
             .toPath()
             .resolve("bundleName")
@@ -111,8 +123,8 @@ public final class OriginalStructureTransformationStepIntegrationTest {
         //when
         step.executeStep();
         //then
-        final File main = fileSystem.getOriginalFile(step, MATERIAL_NUMBER, sampleFileName);
-        final File footnotes = fileSystem.getFootnotesFile(step, MATERIAL_NUMBER, sampleFileName);
+        final File main = fileSystem.getOriginalFile(step, MATERIAL_NUMBER, getActualFileName(sampleFileName));
+        final File footnotes = fileSystem.getFootnotesFile(step, MATERIAL_NUMBER, getActualFileName(sampleFileName));
         assertThat(FileUtils.readFileToString(main), equalTo(expectedMain));
         assertThat(FileUtils.readFileToString(footnotes), equalTo(expectedFootnotes));
     }
@@ -122,5 +134,11 @@ public final class OriginalStructureTransformationStepIntegrationTest {
             new File(OriginalStructureTransformationStepIntegrationTest.class.getResource(fileName).toURI());
         return FileUtils.readFileToString(file)
             .replace(REF_PLACE_HOLDER, entitiesDtdFile.getAbsolutePath().replace("\\", "/"));
+    }
+
+    private String getActualFileName(final String fileName) {
+        return Paths.get(fileName)
+            .getFileName()
+            .toString();
     }
 }

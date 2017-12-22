@@ -91,4 +91,17 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:function>
+	
+	<!-- check if x:t contains a page number-->
+	<xsl:function name="x:is-page-number">
+		<xsl:param name="t"/>
+		<xsl:choose>
+			<xsl:when test="$t != '@FSTART@' and $t != '@FEND@' and $t != '0' and matches($t, '^[ivxlcdm]+|[ivxlcdm0-9\-]+|[0-9\-]+|[A-Za-z&amp;\- 0-9]+|[A-Za-z]+\.{1}\s{1}[A-Za-z]+\-[0-9]+$')">
+				<xsl:value-of select="true()"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="false()"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
 </xsl:stylesheet>
