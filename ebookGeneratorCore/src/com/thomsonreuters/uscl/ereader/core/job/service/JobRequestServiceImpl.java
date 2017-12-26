@@ -5,10 +5,12 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import com.thomsonreuters.uscl.ereader.common.retry.Retry;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.job.dao.JobRequestDao;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequestRunOrderComparator;
+import org.hibernate.exception.GenericJDBCException;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +37,10 @@ public class JobRequestServiceImpl implements JobRequestService {
     }
 
     @Override
+    @Retry(propertyValue = "transactions.retry.count",
+        exceptions = GenericJDBCException.class,
+        delayProperty = "transactions.retry.delay.ms"
+    )
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public JobRequest getNextJobToExecute() {
         final List<JobRequest> jobs = jobRequestDao.findAllJobRequestsOrderByPriorityAndSubmitedtime();

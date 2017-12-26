@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.common.retry.Retry;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobRequest;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.service.JobThrottleConfigSyncService;
@@ -22,6 +23,7 @@ import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.JobOperator;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.dao.CannotSerializeTransactionException;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncService {
@@ -55,6 +57,10 @@ public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncSe
      * @throws Exception on unable to find job name, or in launching the job
      */
     @Override
+    @Retry(propertyValue = "transactions.retry.count",
+        exceptions = CannotSerializeTransactionException.class,
+        delayProperty = "transactions.retry.delay.ms"
+    )
     public JobExecution runJob(final String jobName, final JobParameters jobParameters) throws Exception {
         // Lookup job object from set of defined collection of jobs
         final Job job = jobRegistry.getJob(jobName);
