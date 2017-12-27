@@ -904,7 +904,8 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 .toc_primary_section > .toc_editorial_commentary_section > a > .editorial_outline_name_block > .label > .cgt,
 .primary_section_body > .primary_features > .editorial_commentary_block > .editorial_commentary_block_front > .generated_toc > .full_toc > .toc_editorial_commentary_section > a > .editorial_outline_name_block > .label > .cgt,
 .editorial_commentary_section_front > .editorial_outline_name_block > .label > .cgt,
-.primary_section_front > .primary_outline_name_block > .label > .cgt {
+.primary_section_front > .primary_outline_name_block > .label > .cgt,
+.publication > .publication_body > .primary > .primary_source > .primary_source_body .primary_hierarchy > .primary_hierarchy_body > .primary_hierarchy > .primary_hierarchy_front > .primary_outline_name_block > .primary_name .cgt {
   display: inline;
 }
 
@@ -937,6 +938,11 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   display: inline;
 }
 
+.publication > .publication_body > .primary > .primary_source > .primary_source_body .primary_hierarchy > .primary_hierarchy_body > .primary_hierarchy > .primary_hierarchy_front > .primary_outline_name_block > .primary_name {
+  display: inline;
+  white-space: normal;
+}
+
 .primary_name .name {
   display: inline;
 }
@@ -945,9 +951,18 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   white-space: pre-line;
 }
 
-.primary_source_body .primary_hierarchy_body > .primary_section > .primary_section_front > .primary_outline_name_block > .designator {
+.publication > .publication_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_front > .primary_outline_name_block > .primary_name > .name {
+  white-space: normal;
+}
+
+.primary_source_body .primary_hierarchy_body > .primary_section > .primary_section_front > .primary_outline_name_block > .designator,
+.publication > .publication_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_body > .primary_hierarchy > .primary_hierarchy_front > .primary_outline_name_block > .designator {
   min-width: 0;
   margin: 0;
+}
+
+.publication > .publication_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_body > .primary_head > .name_block > .designator {
+  margin-right: 0.5em;
 }
 
 .cite {

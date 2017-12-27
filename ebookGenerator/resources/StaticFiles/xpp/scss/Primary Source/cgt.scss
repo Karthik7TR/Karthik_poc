@@ -7,7 +7,8 @@
     .toc_primary_section>.toc_editorial_commentary_section>a>.editorial_outline_name_block>.label>&,
     .primary_section_body>.primary_features>.editorial_commentary_block>.editorial_commentary_block_front>.generated_toc>.full_toc>.toc_editorial_commentary_section>a>.editorial_outline_name_block>.label>&,
     .editorial_commentary_section_front>.editorial_outline_name_block>.label>&,
-    .primary_section_front>.primary_outline_name_block>.label>& {
+    .primary_section_front>.primary_outline_name_block>.label>&,
+    .publication>.publication_body>.primary>.primary_source>.primary_source_body .primary_hierarchy>.primary_hierarchy_body>.primary_hierarchy>.primary_hierarchy_front>.primary_outline_name_block>.primary_name & {
         display: inline;
     }
     .xref+& {
