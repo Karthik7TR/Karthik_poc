@@ -372,6 +372,9 @@
 			</div>
 			<div id="displayXPP" style="display:none">
 				<div id="tableId">
+					<div class="errorDiv">
+							<form:errors path="printComponents" cssClass="errorMessage" />
+					</div>
 					<div id="print_component_expander" class="keywordLabel">
 						<img src="theme/images/wf_minus.gif" /> Order details for XPP
 					</div>

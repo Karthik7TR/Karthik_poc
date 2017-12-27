@@ -40,14 +40,13 @@
 <div id="jsGrid"></div>
 
 <input type='hidden' id='printComponents' name='printComponents'
-	value='${form.printComponents}'>
+	value='${form.printComponents}' >
 
 <script>
         //read recieved data to printComponents variable
         printComponents = $.parseJSON($('#printComponents').val());
         //sort rows in case if data is not sorted-ordered
         reorderIndexes();
-
         //Method to shift idexes of elements.
         //Is usualy used after manual changes in table
         function exchangeIndexes() {
@@ -58,51 +57,50 @@
         }
 
         function colorNoArchivePrintComponents(){
-        					var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
-        					items = $.map($gridData.find("tr"), function(row) {
-        							// return $(row).data("JSGridItem");
-        							return $(row);
-        					});
-        					for(i=0;i<printComponents.length;i++){
-        						var $tempRow = $("#grid").jsGrid("rowByItem", items[i]);
-        						if(printComponents[i].componentInArchive == false){
-											$(".client-" + i + " > td").css("background","#ff7D7D");
-        						}
-        					}
-        				}
+            var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
+        	items = $.map($gridData.find("tr"), function(row) {
+        		// return $(row).data("JSGridItem");
+        	    return $(row);
+        	});
+        	for(i=0;i<printComponents.length;i++){
+        	    var $tempRow = $("#grid").jsGrid("rowByItem", items[i]);
+        		if(printComponents[i].componentInArchive == false && !isSplitter(printComponents[i])) {
+				    $(".client-" + i + " > td").css("background","#ff7D7D");
+        		}
+        	}
+        }
 
-				function refreshingRowActivities(){
-					var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
-					if(${param.edit}){
-						$gridData.sortable({
-							update: function(e, ui) {
-									$gridData.sortable({cancel:'.jsgrid-edit-row'});
-									
-									// array of indexes
-									var clientIndexRegExp = /\s*client-(\d+)\s*/;
-									var indexes = $.map($gridData.sortable("toArray", {
-											attribute: "class"
-									}), function(classes) {
-											return clientIndexRegExp.exec(classes)[1];
-									});
-									// arrays of items
-									var items = $.map($gridData.find("tr"), function(row) {
-											return $(row).data("JSGridItem");
-									});
-									// console && console.log("Reordered items", items);
-									printComponents = items;
-									exchangeIndexes();
-									sortGridByComponentOrder();
-									$('#up_button, #down_button').removeAttr('disabled');
-							}
-					});
-				}
-				$('#up_button, #down_button').removeAttr('disabled');
-				}
+		function refreshingRowActivities(){
+		    var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
+			if(${param.edit}){
+			    $gridData.sortable({
+				    update: function(e, ui) {
+					    $gridData.sortable({cancel:'.jsgrid-edit-row'});
+						// array of indexes
+						var clientIndexRegExp = /\s*client-(\d+)\s*/;
+						var indexes = $.map($gridData.sortable("toArray", {
+						    attribute: "class"
+						}), 
+						function(classes) {
+						    return clientIndexRegExp.exec(classes)[1];
+						});
+						// arrays of items
+						var items = $.map($gridData.find("tr"), function(row) {
+						    return $(row).data("JSGridItem");
+						});
+						// console && console.log("Reordered items", items);
+						printComponents = items;
+						exchangeIndexes();
+						sortGridByComponentOrder();
+						$('#up_button, #down_button').removeAttr('disabled');
+					}
+				});
+			}
+			$('#up_button, #down_button').removeAttr('disabled');
+		}
 
         //Method to shift idexes of elements and sort table.
         //Is usualy used after manual changes in table
-
         function sortGridByComponentOrder(){
           $("#jsGrid").jsGrid("sort", {
               field: "componentOrder",
@@ -116,7 +114,35 @@
             })
             exchangeIndexes();
         }
-
+        
+        function isSplitter(item) {
+        	return item.splitter
+        }
+        
+        function colorLines() {
+        	printComponents.forEach(function(printComponent, index) {
+        		if (isSplitter(printComponent)) {
+        			$(".client-" + index + " > td").css("background","#7dffff");
+        		}
+        	});
+        }
+        
+        function getCurrentComponentsCount() {
+        	var splittersCount = 0;
+        	var componentsCount = 0;
+        	for(var i = 0; i < printComponents.length; i++) {
+        		if(isSplitter(printComponents[i])) {
+        			splittersCount++;
+        		} else {
+        			componentsCount++;
+        		}
+        	}
+        	return {
+        		splitters: splittersCount,
+        		components: componentsCount,
+        		total: printComponents.length
+        	};
+        }
 
         $(function() {
             $("#jsGrid").jsGrid({
@@ -125,24 +151,32 @@
                 deleteConfirm: "Do you really want to delete the client?",
                 editing: ${param.edit && param.superUserParam},
                 inserting: ${param.edit && param.superUserParam},
+                
                 rowClass: function(item, itemIndex) {
                   return "client-" + itemIndex;
-                  },
-					onItemEditing: function(){
-						$gridData.sortable({cancel:'.jsgrid-edit-row, .ui-sortable, .jsgrid-cell, .jsgrid-grid-body tbody, .jsgrid-row, .jsgrid-alt-row'});
-							$('#up_button, #down_button').prop('disabled','disabled');
-					},
-					onItemUpdated: function(){
-						if ( $(".jsgrid-edit-row" ).length == 0 ) {
-							$gridData.sortable({cancel:'.jsgrid-edit-row'});
-							$('#up_button, #down_button').removeAttr('disabled');
-						}
-					},
+                },
+                
+                rowClick: function(args) {
+                    if(this.editing && !isSplitter(args.item)) {
+                        this.editItem($(args.event.target).closest("tr"));
+                    }
+                },
+                
+				onItemEditing: function(args){
+					$gridData.sortable({cancel:'.jsgrid-edit-row, .ui-sortable, .jsgrid-cell, .jsgrid-grid-body tbody, .jsgrid-row, .jsgrid-alt-row'});
+					$('#up_button, #down_button').prop('disabled','disabled');
+				},
+				
+				onItemUpdated: function(){
+				    if ( $(".jsgrid-edit-row" ).length == 0 ) {
+					    $gridData.sortable({cancel:'.jsgrid-edit-row'});
+						$('#up_button, #down_button').removeAttr('disabled');
+					}
+				},
 
                 controller: {
                     //<!--Method to initialize values of data table.-->
                     init: function() {
-
                         if ($("#editBookDefinitionForm").length > 0) {
                             $(document).on('submit', '#editBookDefinitionForm', function() {
                                 <!--before commits printComponent need to be stringify-->
@@ -156,6 +190,7 @@
                         return printComponents;
                     }
                 },
+                
                 fields: [{
                     // <!--Custom field wich does not need no hold data.
                     // We use no type to implement custom element without transfer data-->
@@ -170,76 +205,72 @@
                         dottedBorderDiv.style.cssFloat = "left";
                         customDiv.append(dottedBorderDiv);
                         customDiv.append(function() {
-
                            return $('<button/>', {
-                            text: "\u25B2",
-                            id: 'up_button',
-							disabled: '$(".jsgrid-edit-row" ).length',
-                            click: function() {
-                                var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
-                                items = $.map($gridData.find("tr"), function(row) {
-                                    return $(row).data("JSGridItem");
-                                });
-                                // trying to move up element
-                                // Compare  componentOrder with 1 because this arrow buttons operates
-                                // with all elements except the first one-->
-                                if (item.componentOrder > 1) {
-                                    //exchange indexes
-                                    currentElementIndex = item.componentOrder - 1;
-                                    items[currentElementIndex].componentOrder--;
-                                    items[currentElementIndex - 1].componentOrder++;
-                                    reorderIndexes();
-                                    $("#grid").jsGrid("refresh");
-									$('#up_button, #down_button').removeAttr('disabled');
-                                }
-                            },
-                            onload: function(){
-                              if(item.componentOrder < 2){
-                                this.style.display = 'none';
-                              }
-                            }
-                          });
+                               text: "\u25B2",
+                               id: 'up_button',
+							   disabled: '$(".jsgrid-edit-row" ).length',
+                               click: function() {
+                                   var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
+                                   items = $.map($gridData.find("tr"), function(row) {
+                                       return $(row).data("JSGridItem");
+                                   });
+                                   // trying to move up element
+                                   // Compare  componentOrder with 1 because this arrow buttons operates
+                                   // with all elements except the first one-->
+                                   if (item.componentOrder > 1) {
+                                       //exchange indexes
+                                       currentElementIndex = item.componentOrder - 1;
+                                       items[currentElementIndex].componentOrder--;
+                                       items[currentElementIndex - 1].componentOrder++;
+                                       reorderIndexes();
+                                       $("#grid").jsGrid("refresh");
+									   $('#up_button, #down_button').removeAttr('disabled');
+                                   }
+                               },
+                               onload: function(){
+                                   if(item.componentOrder < 2){
+                                       this.style.display = 'none';
+                              	   }
+                               }
+                           });
                         });
-
                         customDiv.append(function() {
                             // <!--down arrow button-->
                             return $('<button/>', {
-                             text: "\u25BC",
-                             id: 'down_button',
-														 disabled: '$(".jsgrid-edit-row" ).length',
-                             click: function() {
-                                 $gridData = $("#jsGrid .jsgrid-grid-body tbody");
-                                 items = $.map($gridData.find("tr"), function(row) {
-                                     return $(row).data("JSGridItem");
-                                 });
-
-                                 if (item.componentOrder < items.length) {
-                                     //exchange indexes
-                                     currentElementIndex = item.componentOrder - 1;
-                                     items[currentElementIndex].componentOrder++;
-                                     items[currentElementIndex + 1].componentOrder--;
-                                     reorderIndexes();
-                                     $("#grid").jsGrid("refresh");
-									 $('#up_button, #down_button').removeAttr('disabled');
-                                 }
-                             },
-                             onload: function(){
-                               $gridData = $("#jsGrid .jsgrid-grid-body tbody");
-                               items = $.map($gridData.find("tr"), function(row) {
-                                   return $(row).data("JSGridItem");
-                               });
-                               if(item.componentOrder + 1 > printComponents.length){
-                                 this.style.display = 'none';
-                               }
-                             }
-                           });
+                                text: "\u25BC",
+                                id: 'down_button',
+								disabled: '$(".jsgrid-edit-row" ).length',
+                                click: function() {
+                                    $gridData = $("#jsGrid .jsgrid-grid-body tbody");
+                                    items = $.map($gridData.find("tr"), function(row) {
+                                        return $(row).data("JSGridItem");
+                                    });
+                                    if (item.componentOrder < items.length) {
+                                        //exchange indexes
+                                        currentElementIndex = item.componentOrder - 1;
+                                        items[currentElementIndex].componentOrder++;
+                                        items[currentElementIndex + 1].componentOrder--;
+                                        reorderIndexes();
+                                        $("#grid").jsGrid("refresh");
+									    $('#up_button, #down_button').removeAttr('disabled');
+                                    }
+                                },
+                                onload: function(){
+                                   $gridData = $("#jsGrid .jsgrid-grid-body tbody");
+                                   items = $.map($gridData.find("tr"), function(row) {
+                                       return $(row).data("JSGridItem");
+                                   });
+                                   if(item.componentOrder + 1 > printComponents.length){
+                                       this.style.display = 'none';
+                                   }
+                                }
+                            });
                         });
                         return customDiv;
-                    }
-                    ,
+                    },
                     visible: ${param.edit}
-                    }
-                , {
+                }, 
+                {
                     name: "componentOrder",
                     title: "Order",
                     width: 50,
@@ -247,26 +278,27 @@
                     sorting: false,
 					sorter: "numberAsString",
                     align: "center"
-                }, {
+                }, 
+                {
                     name: "materialNumber",
                     title: "Material Number",
                     type: "text",
                     width: 100,
                     validate: [
-                              "required",
-                              {
-                               message: "Only numbers are allowed for Material",
-                               validator: function(value, item) {
-                                  return !isNaN(value) ;
-                               }
-                              }
-                          ],
-                    	insertTemplate: function() {
+                        "required",
+                        {
+                            message: "Only numbers are allowed for Material",
+                            validator: function(value, item) {
+                                return isSplitter(item) || !isNaN(value) ;
+                            }
+                        }],
+                    insertTemplate: function() {
                         var $result = jsGrid.fields.text.prototype.insertTemplate.call(this);
                         $result.attr("id", "materialNumberId");
                         return $result;
                     }
-                }, {
+                }, 
+                {
                     name: "componentName",
                     title: "SAP Description",
                     type: "text",
@@ -284,24 +316,36 @@
                    modeSwitchButton: false,
                    deleteButton: true,
                    visible: ${param.edit && param.superUserParam},
-									 _createCancelEditButton: function() {
-						      var $result = jsGrid.fields.control.prototype._createCancelEditButton.apply(this, arguments);
-								      $result.on("click", function() {
-														var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
-														$(".jsgrid-edit-row" ).remove();
-														$("tr[style='display: none;']").css("display","");
-														$(".jsgrid-filter-row" ).remove();
-														$gridData.sortable({cancel:'.jsgrid-edit-row'});
-														$('#up_button, #down_button').removeAttr('disabled');
-									 });
+				   _createCancelEditButton: function() {
+				       var $result = jsGrid.fields.control.prototype._createCancelEditButton.apply(this, arguments);
+					   $result.on("click", function() {
+					       var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
+						   $(".jsgrid-edit-row" ).remove();
+						   $("tr[style='display: none;']").css("display","");
+						   $(".jsgrid-filter-row" ).remove();
+						   $gridData.sortable({cancel:'.jsgrid-edit-row'});
+						   $('#up_button, #down_button').removeAttr('disabled');
+					   });
 						      return $result;
-               }
-						 }
-              ],
-
+               	   },
+               	   headerTemplate: function() {
+               		   return $("<button>").attr("type", "button")
+               		      .text("Split item")
+               		      .click(function(event) {
+               		         $('#jsGrid').jsGrid("insertItem", {
+							     materialNumber: "-------------",
+								 componentName: "SPLITTER",
+								 splitter: true
+               		         });
+               		      });
+               	   }
+				}],
+				
                 onRefreshed: function() {
-											refreshingRowActivities()
-										},
+				    refreshingRowActivities();
+				    colorLines();
+				},
+				
                 onItemDeleted: function() {
                     var $gridData = $("#jsGrid .jsgrid-grid-body tbody");
                     items = $.map($gridData.find("tr"), function(row) {
@@ -311,19 +355,29 @@
                     exchangeIndexes();
                     sortGridByComponentOrder();
                 },
+                
                 onItemInserting: function(args) {
                     // <!-- cancel insertion of the item with empty 'name' field-->
                     if ((args.item.materialNumber === "") || (args.item.componentName === "")) {
                         args.cancel = true;
                         alert("Specify the materialNumber and componentName of the item!");
-                    } else {
+                    } else {                    	
                     	var gridData = $("#jsGrid").jsGrid("option", "data");
-	                  	for (i = 0; i < gridData.length; i++) {
+                    	if (!isSplitter(args.item)) {
+    	                  	for (i = 0; i < gridData.length; i++) {
 	                            if(args.item.materialNumber == gridData[i].materialNumber){
 	                            	args.cancel = true;
 	                            	alert(args.item.materialNumber+" Material Number is duplicate.");
 	                            }
-	                    }
+    	                  	}
+                    	} else {
+                        	var componentsCounts = getCurrentComponentsCount();
+                        	if (componentsCounts.components <= componentsCounts.splitters + 1) {
+                        		args.cancel = true;
+                        		alert("Number of splitters cannot be equal or greater than number of print components");
+                        	}
+                    	}
+                    	
 	                  	if(!args.cancel){
 	                        item = args.item;
 	                        var $gridData = $("#jsGrid .jsgrid-grid-body tbody");

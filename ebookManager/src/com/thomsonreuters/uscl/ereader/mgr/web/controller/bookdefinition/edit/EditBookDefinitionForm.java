@@ -1291,6 +1291,10 @@ public class EditBookDefinitionForm {
         return StringEscapeUtils.escapeXml10(jsonMapper.writeValueAsString(printComponents));
     }
 
+    public Collection<PrintComponent> getPrintComponentsCollection() {
+        return printComponents;
+    }
+
     public void setPrintComponents(final String printComponents) throws IOException {
         this.printComponents = jsonMapper.readValue(
             printComponents,

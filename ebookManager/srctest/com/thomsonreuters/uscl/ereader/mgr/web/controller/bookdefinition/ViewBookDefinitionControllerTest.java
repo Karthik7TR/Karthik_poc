@@ -28,9 +28,8 @@ import org.springframework.web.servlet.view.RedirectView;
 public final class ViewBookDefinitionControllerTest {
     private static final String TITLE_ID = "a/b/c/d";
     private static final Long BOOK_DEFINITION_ID = Long.valueOf(1);
-//    private static final String printComponentsJson = "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c1&quot;}]";
     private static final String printComponentsJson =
-        "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c1&quot;,&quot;componentInArchive&quot;:false}]";
+        "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c1&quot;,&quot;splitter&quot;:false,&quot;componentInArchive&quot;:false}]";
     private ViewBookDefinitionController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;

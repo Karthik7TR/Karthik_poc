@@ -82,7 +82,7 @@ public class ViewBookDefinitionController {
                 form.getBookDefinition().setPrintComponents(
                     printComponentUtil.getAllInitializedPrintComponents(currentPrintComponentsList));
                 for (final PrintComponent element : form.getBookDefinition().getPrintComponents()) {
-                    if (!element.getComponentInArchive()) {
+                    if (!element.getSplitter() && !element.getComponentInArchive()) {
                         form.setGenerateButtonDisabled(true);
                     }
                 }

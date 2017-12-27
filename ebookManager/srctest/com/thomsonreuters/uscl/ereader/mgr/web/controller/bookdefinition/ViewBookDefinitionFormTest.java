@@ -15,13 +15,13 @@ import org.junit.Test;
 
 public final class ViewBookDefinitionFormTest {
     private static final String printComponentsJson =
-        "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c1&quot;,&quot;componentInArchive&quot;:false}]";
+        "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c1&quot;,&quot;splitter&quot;:false,&quot;componentInArchive&quot;:false}]";
 
     private static final String escaleXMLPrintComp =
-        "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c&apos;1&quot;,&quot;componentInArchive&quot;:false}]";
+        "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c&apos;1&quot;,&quot;splitter&quot;:false,&quot;componentInArchive&quot;:false}]";
 
     private static final String specialCharacterPrintComp =
-        "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c@1&quot;,&quot;componentInArchive&quot;:false}]";
+        "[{&quot;printComponentId&quot;:&quot;1&quot;,&quot;componentOrder&quot;:1,&quot;materialNumber&quot;:&quot;123&quot;,&quot;componentName&quot;:&quot;c@1&quot;,&quot;splitter&quot;:true,&quot;componentInArchive&quot;:false}]";
 
     private ViewBookDefinitionForm form;
 
@@ -55,6 +55,7 @@ public final class ViewBookDefinitionFormTest {
         final BookDefinition bookDef = new BookDefinition();
         final List<PrintComponent> printComponents = getPrintComponents();
         printComponents.get(0).setComponentName("c@1");
+        printComponents.get(0).setSplitter(true);
         bookDef.setPrintComponents(printComponents);
         form.setBookDefinition(bookDef);
 

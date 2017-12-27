@@ -2,10 +2,12 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
@@ -29,6 +31,7 @@ import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
+import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -40,6 +43,7 @@ import org.springframework.validation.Validator;
 
 @Component("editBookDefinitionFormValidator")
 public class EditBookDefinitionFormValidator extends BaseFormValidator implements Validator {
+    private static final String PRINT_COMPONENT = "printComponents";
     private static final int MAXIMUM_CHARACTER_40 = 40;
     private static final int MAXIMUM_CHARACTER_64 = 64;
     private static final int MAXIMUM_CHARACTER_512 = 512;
@@ -227,6 +231,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             case XPP:
                 checkPrintSetNumber(errors, form.getPrintSetNumber(), "printSetNumber");
                 checkPrintSubNumber(errors, form.getPrintSubNumber(), "printSubNumber");
+                validatePrintComponentsSplitters(form.getPrintComponentsCollection(), errors);
                 break;
             }
 
@@ -1074,6 +1079,39 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                 }
             } else {
                 errors.rejectValue(fieldName, "error.isbn.format");
+            }
+        }
+    }
+
+    private void validatePrintComponentsSplitters(final Collection<PrintComponent> printComponents, final Errors errors) {
+        final List<Integer> splitterOrders = printComponents.stream()
+            .filter(PrintComponent::getSplitter)
+            .map(PrintComponent::getComponentOrder)
+            .sorted()
+            .collect(Collectors.toList());
+
+        if (printComponents.size() - splitterOrders.size() <= splitterOrders.size()) {
+            errors.rejectValue(PRINT_COMPONENT, "error.print.component.splitter.count.exceeded");
+        }
+
+        validateSplitterInbound(splitterOrders, 1, errors, "error.print.component.splitter.first");
+        validateSplitterInbound(splitterOrders, printComponents.size(), errors, "error.print.component.splitter.last");
+        validateSplitterPositions(splitterOrders, errors);
+    }
+
+    private void validateSplitterInbound(final List<Integer> splitterOrders, final Integer position,
+                                         final Errors errors, final String messageId) {
+        splitterOrders.stream()
+            .filter(position::equals)
+            .findAny()
+            .ifPresent(order -> errors.rejectValue(PRINT_COMPONENT, messageId));
+    }
+
+    private void validateSplitterPositions(final List<Integer> splitterOrders, final Errors errors) {
+        for (int index = 0; index < splitterOrders.size() - 1;) {
+            final Integer currentOrder = splitterOrders.get(index++) + 1;
+            if (currentOrder.equals(splitterOrders.get(index))) {
+                errors.rejectValue(PRINT_COMPONENT, "error.print.component.splitter.followed");
             }
         }
     }

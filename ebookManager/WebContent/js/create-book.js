@@ -792,7 +792,9 @@ $(function() {
 		
 		var isSameData = function(grid, sapData) {
 			var result = true; 
-			var gridData = grid.jsGrid("option", "data");
+			var gridData = grid.jsGrid("option", "data").filter(function(row) {
+				return !row.splitter;
+			});
 			if(sapData.length == gridData.length) {
 				for(var i=0; i<sapData.length; i++) {
 					if(sapData[i].bom_component != gridData[i].materialNumber || sapData[i].material_desc != gridData[i].componentName) {

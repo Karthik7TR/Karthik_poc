@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.thomsonreuters.uscl.ereader.StringBool;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 
 @Entity
@@ -37,6 +38,9 @@ public class PrintComponent implements Serializable {
 
     @Column(name = "COMPONENT_NAME", nullable = false)
     private String componentName;
+
+    @Column(name = "SPLITTER")
+    private String splitter;
 
     /**
      * records whether the component exists in the XPP_BUNDLE_ARCHIVE table, for later display in the generation
@@ -92,5 +96,13 @@ public class PrintComponent implements Serializable {
 
     public boolean getComponentInArchive() {
         return componentInArchive;
+    }
+
+    public boolean getSplitter() {
+        return StringBool.toBool(splitter);
+    }
+
+    public void setSplitter(final boolean splitter) {
+        this.splitter = StringBool.toString(splitter);
     }
 }

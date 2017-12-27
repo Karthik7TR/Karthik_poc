@@ -2,10 +2,10 @@ package com.thomsonreuters.uscl.ereader.xpp.unpackbundle.step;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.xml.bind.JAXBContext;
@@ -58,17 +58,19 @@ public class UnpackBundleTask extends BookStepImpl {
     private void unpackBundles() throws Exception {
         final BookDefinition bookDefinition = getBookDefinition();
         for (final PrintComponent printComponent : bookDefinition.getPrintComponents()) {
-            final String currentMaterialNumber = printComponent.getMaterialNumber();
+            if (!printComponent.getSplitter()) {
+                final String currentMaterialNumber = printComponent.getMaterialNumber();
 
-            final XppBundleArchive xppBundleArchive =
-                xppBundleArchiveService.findByMaterialNumber(currentMaterialNumber);
-            final File targetArchive = xppBundleArchive.getEBookSrcFile();
+                final XppBundleArchive xppBundleArchive =
+                    xppBundleArchiveService.findByMaterialNumber(currentMaterialNumber);
+                final File targetArchive = xppBundleArchive.getEBookSrcFile();
 
-            final File currentBundleDirectory =
-                xppGatherFileSystem.getXppBundleMaterialNumberDirectory(this, currentMaterialNumber);
-            currentBundleDirectory.mkdirs();
+                final File currentBundleDirectory =
+                    xppGatherFileSystem.getXppBundleMaterialNumberDirectory(this, currentMaterialNumber);
+                currentBundleDirectory.mkdirs();
 
-            unpackBundle(targetArchive, currentBundleDirectory);
+                unpackBundle(targetArchive, currentBundleDirectory);
+            }
         }
     }
 
@@ -88,16 +90,12 @@ public class UnpackBundleTask extends BookStepImpl {
 
     private void unmarshalBundleXmlFiles() throws JAXBException {
         final Unmarshaller unmarshaller = JAXBContext.newInstance(XppBundle.class).createUnmarshaller();
-        final List<PrintComponent> printComponents = new ArrayList<>(getBookDefinition().getPrintComponents());
+        final List<PrintComponent> printComponents = getBookDefinition().getPrintComponents().stream()
+            .filter(printComponent -> !printComponent.getSplitter())
+            .sorted(Comparator.comparing(PrintComponent::getComponentOrder))
+            .collect(Collectors.toList());
         final Map<String, File> bundleXmls = xppGatherFileSystem.getAllBundleXmls(this);
         final List<XppBundle> bundles = new ArrayList<>();
-
-        Collections.sort(printComponents, new Comparator<PrintComponent>() {
-            @Override
-            public int compare(final PrintComponent a, final PrintComponent b) {
-                return Integer.compare(a.getComponentOrder(), b.getComponentOrder());
-            }
-        });
 
         for (final PrintComponent pc : printComponents) {
             final File xmlFile = bundleXmls.get(pc.getMaterialNumber());

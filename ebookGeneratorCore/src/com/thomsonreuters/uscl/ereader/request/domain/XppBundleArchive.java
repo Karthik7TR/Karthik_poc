@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import com.thomsonreuters.uscl.ereader.StringBool;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -162,11 +163,11 @@ public class XppBundleArchive implements Serializable {
     }
 
     public boolean isDeleted() {
-        return ((isDeleted.equalsIgnoreCase("Y") ? true : false));
+        return StringBool.toBool(isDeleted);
     }
 
     public void setIsDeleted(final boolean isDeleted) {
-        this.isDeleted = ((isDeleted) ? "Y" : "N");
+        this.isDeleted = StringBool.toString(isDeleted);
     }
 
     public boolean isSimilar(final Object obj) {

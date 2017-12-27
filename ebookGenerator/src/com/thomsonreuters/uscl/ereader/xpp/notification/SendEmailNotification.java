@@ -1,12 +1,10 @@
 package com.thomsonreuters.uscl.ereader.xpp.notification;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.mail.internet.InternetAddress;
@@ -66,16 +64,10 @@ public class SendEmailNotification extends BookStepImpl {
     @NotNull
     private String getPrintComponentsTable(final BookDefinition bookDefinition) {
         final StringBuilder tempBuilder = new StringBuilder();
-        final Set<PrintComponent> printComponents = bookDefinition.getPrintComponents();
-        final List<PrintComponent> sortedPrintComponentList = new ArrayList<>(printComponents);
+        final List<PrintComponent> sortedPrintComponentList = bookDefinition.getPrintComponents().stream()
+            .sorted(Comparator.comparing(PrintComponent::getComponentOrder))
+            .collect(Collectors.toList());
 
-        final Comparator<PrintComponent> comparator = new Comparator<PrintComponent>() {
-            @Override
-            public int compare(final PrintComponent left, final PrintComponent right) {
-                return left.getComponentOrder() - right.getComponentOrder();
-            }
-        };
-        Collections.sort(sortedPrintComponentList, comparator);
         tempBuilder.append("<br><table border = '1'><th colspan = '2'>Print Components</th>");
         tempBuilder.append("<tr><td>Material Number</td><td>SAP Description</td></tr>");
         for (final PrintComponent element : sortedPrintComponentList) {

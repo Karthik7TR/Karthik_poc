@@ -3,10 +3,15 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.generate;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
+import com.thomsonreuters.uscl.ereader.StringBool;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
@@ -24,6 +29,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.generate.GenerateBookForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 import com.thomsonreuters.uscl.ereader.request.service.XppBundleArchiveService;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.apache.commons.lang3.StringUtils;
@@ -233,10 +239,10 @@ public class GenerateEbookController {
             model.addAttribute(WebConstants.KEY_PUBLISHING_CUT_OFF_DATE, cutOffDate);
             model.addAttribute(
                 WebConstants.KEY_USE_PUBLISHING_CUT_OFF_DATE,
-                book.getDocumentTypeCodes().getUsePublishCutoffDateFlag() ? "Y" : "N");
+                StringBool.toString(book.getDocumentTypeCodes().getUsePublishCutoffDateFlag()));
             model.addAttribute(
                 WebConstants.KEY_PUBLISHING_CUTOFF_DATE_EQUAL_OR_GREATER_THAN_TODAY,
-                isCutOffDateGreaterOrEqualToday(book.getPublishCutoffDate()) ? "Y" : "N");
+                StringBool.toString(isCutOffDateGreaterOrEqualToday(book.getPublishCutoffDate())));
 
             model.addAttribute(WebConstants.KEY_IS_COMPLETE, book.getEbookDefinitionCompleteFlag());
             model.addAttribute(WebConstants.KEY_PILOT_BOOK_STATUS, book.getPilotBookStatus());
@@ -274,13 +280,14 @@ public class GenerateEbookController {
             return false;
         }
 
-        // TODO Refactor to verify all archive entries in one call
-        for (final PrintComponent component : book.getPrintComponents()) {
-            if (xppBundleArchiveService.findByMaterialNumber(component.getMaterialNumber()) == null) {
-                return true;
-            }
-        }
-        return false;
+        final List<String> materialNumbers = book.getPrintComponents().stream()
+            .filter(printComponent -> !printComponent.getSplitter())
+            .map(PrintComponent::getMaterialNumber)
+            .collect(Collectors.toList());
+        final Map<String, XppBundleArchive> bundles = xppBundleArchiveService.findByMaterialNumberList(materialNumbers).stream()
+            .collect(Collectors.toMap(
+                XppBundleArchive::getMaterialNumber, Function.identity(), (bundleOne, bundleTwo) -> bundleOne, HashMap::new));
+        return !materialNumbers.stream().allMatch(bundles::containsKey);
     }
 
     private boolean emptyPrintComponents(final BookDefinition book) {
@@ -487,7 +494,7 @@ public class GenerateEbookController {
             publishingStatsService.hasIsbnBeenPublished(book.getIsbn(), book.getFullyQualifiedTitleId());
 
         // If publised, ISBN is not new
-        model.addAttribute(WebConstants.KEY_IS_NEW_ISBN, isPublished ? "N" : "Y");
+        model.addAttribute(WebConstants.KEY_IS_NEW_ISBN, StringBool.toString(isPublished));
     }
 
     /**
