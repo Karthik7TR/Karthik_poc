@@ -1112,6 +1112,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             final Integer currentOrder = splitterOrders.get(index++) + 1;
             if (currentOrder.equals(splitterOrders.get(index))) {
                 errors.rejectValue(PRINT_COMPONENT, "error.print.component.splitter.followed");
+                break;
             }
         }
     }
