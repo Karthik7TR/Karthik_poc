@@ -16,7 +16,7 @@
 			</Policies>
 			<DefaultRolloverStrategy max="5" />
 		</RollingFile>
-		<kafka name="ECPKafkaLog4j2Appender" topic="event.aggregation.default" alertTopic="event.aggregation.priority"  syncSend="false" 
+		<kafka name="ECPKafkaLog4j2Appender" topic="trlog.event.aggregation.default" alertTopic="trlog.event.aggregation.priority"  syncSend="false" 
 					headerNames="sp-timestamp,sp-eventSourceUUID,sp-eventType,sp-eventSeverity">
              <Property name="bootstrap.servers">${sys:bootstrap.servers.url}</Property>
              <Property name="acks">0</Property>
