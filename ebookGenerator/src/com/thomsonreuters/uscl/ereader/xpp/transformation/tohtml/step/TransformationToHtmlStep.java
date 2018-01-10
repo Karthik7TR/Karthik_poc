@@ -15,6 +15,7 @@ import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishi
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
+import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.generate.title.metadata.step.DocumentName;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.VolumeNumberAwareXppTransformationStep;
@@ -76,6 +77,7 @@ public class TransformationToHtmlStep extends VolumeNumberAwareXppTransformation
             "summaryTocDocumentUidMapDoc",
             getPath(fileSystem.getAnchorToDocumentIdMapFile(this, materialNumber)));
         transformer.setParameter("isPocketPart", isPocketPart);
+        transformer.setParameter("bundleFileType", BundleFileType.getByFileName(partName).name());
 
         final File htmlPageFile = fileSystem.getHtmlPageFile(this, pagePrefix.getMaterialNumber(), partName);
         return new TransformationCommandBuilder(transformer, htmlPageFile).withInput(part).build();
@@ -109,7 +111,7 @@ public class TransformationToHtmlStep extends VolumeNumberAwareXppTransformation
         private String getPagePrefix() {
             final StringBuilder builder = new StringBuilder();
             if (volumesNumberMap.size() > 1) {
-                builder.append("Vol").append(currentVolume).append("-");
+                builder.append("V").append(currentVolume).append("-");
             }
             return builder.toString();
         }

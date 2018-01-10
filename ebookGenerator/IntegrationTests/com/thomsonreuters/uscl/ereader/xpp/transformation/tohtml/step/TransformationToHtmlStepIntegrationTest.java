@@ -42,6 +42,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ActiveProfiles("IntegrationTests")
 public final class TransformationToHtmlStepIntegrationTest {
     private static final String SAMPLE_DIVXML_PAGE = "1-sample_1.DIVXML_0_test.page";
+    private static final String SAMPLE_DIVXML_LRRE_PAGE = "1-sample_1_Table_of_LRRE.DIVXML_0_test.page";
     private static final String MATERIAL_NUMBER = "11111111";
     private static final String ADDITIONAL_MATERIAL_NUMBER = "11111112";
     private static final String REF_PLACE_HOLDER = "${refPlaceHolder}";
@@ -62,6 +63,7 @@ public final class TransformationToHtmlStepIntegrationTest {
     private XppBundle xppBundle;
 
     private File original;
+    private File originalLrre;
     private File anchorsFile;
     private File sumTocAnchorsFile;
 
@@ -78,6 +80,7 @@ public final class TransformationToHtmlStepIntegrationTest {
         when(xppBundle.isPocketPartPublication()).thenReturn(true);
         when(xppBundle.getMaterialNumber()).thenReturn(MATERIAL_NUMBER);
         original = new File(TransformationToHtmlStepIntegrationTest.class.getResource(SAMPLE_DIVXML_PAGE).toURI());
+        originalLrre = new File(TransformationToHtmlStepIntegrationTest.class.getResource(SAMPLE_DIVXML_LRRE_PAGE).toURI());
         anchorsFile = new File(TransformationToHtmlStepIntegrationTest.class.getResource(XppFormatFileSystemImpl.ANCHOR_TO_DOCUMENT_ID_MAP_FILE).toURI());
         sumTocAnchorsFile = new File(TransformationToHtmlStepIntegrationTest.class.getResource(MATERIAL_NUMBER + "/" + XppFormatFileSystemImpl.ANCHOR_TO_DOCUMENT_ID_MAP_FILE).toURI());
     }
@@ -93,11 +96,15 @@ public final class TransformationToHtmlStepIntegrationTest {
         initGiven(false);
         final File expected =
             new File(TransformationToHtmlStepIntegrationTest.class.getResource("expected.html").toURI());
+        final File expectedLrre =
+            new File(TransformationToHtmlStepIntegrationTest.class.getResource("expected-tbl-lrre.html").toURI());
         //when
         step.executeStep();
         //then
         final File html = fileSystem.getHtmlPageFile(step, MATERIAL_NUMBER, SAMPLE_DIVXML_PAGE);
         assertThat(FileUtils.readFileToString(html), equalTo(getExpectedString(expected)));
+        final File htmlLrre = fileSystem.getHtmlPageFile(step, MATERIAL_NUMBER, SAMPLE_DIVXML_LRRE_PAGE);
+        assertThat(FileUtils.readFileToString(htmlLrre), equalTo(getExpectedString(expectedLrre)));
     }
 
     @Test
@@ -126,6 +133,7 @@ public final class TransformationToHtmlStepIntegrationTest {
                 .get(JobParameterKey.XPP_BUNDLES)).willReturn(getXppBundles(multiVolume));
 
         FileUtils.copyFileToDirectory(original, mkdir(fileSystem.getDirectory(step, SOURCE_DIR, MATERIAL_NUMBER)));
+        FileUtils.copyFileToDirectory(originalLrre, mkdir(fileSystem.getDirectory(step, SOURCE_DIR, MATERIAL_NUMBER)));
         if (multiVolume) {
             FileUtils.copyFileToDirectory(
                 original,
@@ -144,7 +152,7 @@ public final class TransformationToHtmlStepIntegrationTest {
         XppBundle bundle = new XppBundle();
         bundle.setMaterialNumber(MATERIAL_NUMBER);
         bundle.setProductType("bound");
-        bundle.setOrderedFileList(Arrays.asList("0_Front_vol_1.DIVXML.xml", "Useless_test_file.DIVXML.xml", "1-sample_1.DIVXML_0_test.xml"));
+        bundle.setOrderedFileList(Arrays.asList("0_Front_vol_1.DIVXML.xml", "Useless_test_file.DIVXML.xml", "1-sample_1.DIVXML_0_test.xml", "1-sample_1_Table_of_LRRE.DIVXML_0_test.xml"));
         bundles.add(bundle);
 
         if (multivolume) {

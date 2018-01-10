@@ -17,6 +17,7 @@
 	<xsl:param name="summaryTocDocumentUidMapDoc" />
 	<xsl:param name="isPocketPart" />
 	<xsl:param name="entitiesDocType" />
+	<xsl:param name="bundleFileType" />
 	
 	<xsl:variable name="documentUidMap" select="document($documentUidMapDoc)" />
 	<xsl:variable name="summaryTocDocumentUidMap" select="document($summaryTocDocumentUidMapDoc)" />
@@ -53,7 +54,17 @@
 
 	<xsl:template match="x:pagebreak">
 		<xsl:variable name="apostrophe">'</xsl:variable>
-		<xsl:processing-instruction name="pb" select="concat('label', '=', $apostrophe, $pagePrefix, ./@num, $apostrophe, '?')" />
+		<xsl:variable name="pageNum">
+			<xsl:choose>
+				<xsl:when test="$bundleFileType = 'TABLE_OF_LRRE' or $bundleFileType = 'TABLE_OF_CASES'">
+					<xsl:value-of select="tokenize(./@num, '\s+')[last()]" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="./@num" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:processing-instruction name="pb" select="concat('label', '=', $apostrophe, $pagePrefix, $pageNum, $apostrophe, '?')" />
 	</xsl:template>
 
 	<xsl:template match="x:XPPHier | x:XPPMetaData">
