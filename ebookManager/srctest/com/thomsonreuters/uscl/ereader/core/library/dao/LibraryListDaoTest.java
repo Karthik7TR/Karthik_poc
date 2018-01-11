@@ -13,18 +13,20 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
 public final class LibraryListDaoTest {
-    private static final List<LibraryList> EXPECTED_LIBRARY_LIST = new ArrayList<LibraryList>();
+    private static final List<LibraryList> EXPECTED_LIBRARY_LIST = new ArrayList<>();
     private static final Integer EXPECTED_NUMBER_BOOKS = 1;
     private LibraryListDaoImpl dao;
     private JdbcTemplate mockJdbcTemplate;
+    private RowMapper<LibraryList> libraryListMapper;
 
     @Before
     public void setUp() {
         mockJdbcTemplate = EasyMock.createMock(JdbcTemplate.class);
-        dao = new LibraryListDaoImpl();
-        dao.setJdbcTemplate(mockJdbcTemplate);
+        libraryListMapper = EasyMock.createMock(RowMapper.class);
+        dao = new LibraryListDaoImpl(libraryListMapper, mockJdbcTemplate);
     }
 
     @Test

@@ -2,21 +2,25 @@ package com.thomsonreuters.uscl.ereader.mgr.library.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListFilter;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListSort;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListSort.SortProperty;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.transaction.annotation.Transactional;
 
 public class LibraryListDaoImpl implements LibraryListDao {
-    // private static final Logger log =
-    // LogManager.getLogger(LibraryListDaoImpl.class);
-    private static final LibraryListRowMapper LIBRARY_LIST_ROW_MAPPER = new LibraryListRowMapper();
-    private JdbcTemplate jdbcTemplate;
+    private final RowMapper<LibraryList> libraryListMapper;
+    private final JdbcTemplate jdbcTemplate;
+
+    public LibraryListDaoImpl(final RowMapper<LibraryList> libraryListMapper, final JdbcTemplate jdbcTemplate) {
+        this.libraryListMapper = libraryListMapper;
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -61,7 +65,7 @@ public class LibraryListDaoImpl implements LibraryListDao {
 
         sql.append(String.format(") row_ ) where rownum_ <= %d and rownum_ > %d ", maxIndex, minIndex));
 
-        return jdbcTemplate.query(sql.toString(), LIBRARY_LIST_ROW_MAPPER, args);
+        return jdbcTemplate.query(sql.toString(), libraryListMapper, args);
     }
 
     @Override
@@ -131,30 +135,21 @@ public class LibraryListDaoImpl implements LibraryListDao {
         final List<Object> args = new ArrayList<>();
         // The order of the arguments being added needs to match the order in
         // addFiltersToQuery method.
-        if (filter.getFrom() != null) {
-            args.add(filter.getFrom());
-        }
-        if (filter.getTo() != null) {
-            args.add(filter.getTo());
-        }
-        if (StringUtils.isNotBlank(filter.getIsbn())) {
-            args.add(filter.getIsbn());
-        }
-        if (StringUtils.isNotBlank(filter.getMaterialId())) {
-            args.add(filter.getMaterialId());
-        }
-        if (StringUtils.isNotBlank(filter.getProviewDisplayName())) {
-            args.add(filter.getProviewDisplayName());
-        }
-        if (StringUtils.isNotBlank(filter.getTitleId())) {
-            args.add(filter.getTitleId());
-        }
+        Optional.ofNullable(filter.getFrom()).ifPresent(args::add);
+        Optional.ofNullable(filter.getTo()).ifPresent(args::add);
+        Optional.ofNullable(filter.getIsbn())
+            .filter(StringUtils::isNotBlank)
+            .ifPresent(args::add);
+        Optional.ofNullable(filter.getMaterialId())
+            .filter(StringUtils::isNotBlank)
+            .ifPresent(args::add);
+        Optional.ofNullable(filter.getProviewDisplayName())
+            .filter(StringUtils::isNotBlank)
+            .ifPresent(args::add);
+        Optional.ofNullable(filter.getTitleId())
+            .filter(StringUtils::isNotBlank)
+            .ifPresent(args::add);
 
         return args.toArray();
-    }
-
-    @Required
-    public void setJdbcTemplate(final JdbcTemplate template) {
-        jdbcTemplate = template;
     }
 }

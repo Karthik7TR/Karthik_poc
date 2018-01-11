@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.context;
 
+import com.thomsonreuters.uscl.ereader.common.config.CommonJPAConfig;
 import com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.TestBookFileSystemImpl;
 import com.thomsonreuters.uscl.ereader.core.book.util.BookTitlesUtil;
@@ -27,7 +28,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
         "com.thomsonreuters.uscl.ereader.deliver"},
     excludeFilters = {
         @ComponentScan.Filter(
-            value = {BookFileSystem.class, ProviewTitleService.class},
+            value = {BookFileSystem.class, ProviewTitleService.class, CommonJPAConfig.class},
             type = FilterType.ASSIGNABLE_TYPE)})
 @PropertySources({
     @PropertySource("file:WebContent/WEB-INF/spring/properties/xpp.properties"),

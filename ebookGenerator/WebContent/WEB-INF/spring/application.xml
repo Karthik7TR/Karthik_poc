@@ -66,4 +66,5 @@
 		<constructor-arg ref="messageSource" />
 	</bean>
 
+	<bean class="com.thomsonreuters.uscl.ereader.config.EBookGeneratorJPAConfig" />
 </beans>

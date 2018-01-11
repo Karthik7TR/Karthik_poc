@@ -15,7 +15,6 @@ import com.thomsonreuters.uscl.ereader.format.parsinghandler.XMLImageTagHandlerT
 import com.thomsonreuters.uscl.ereader.format.service.HTMLWrapperServiceTest;
 import com.thomsonreuters.uscl.ereader.format.service.TransformerServiceTest;
 import com.thomsonreuters.uscl.ereader.format.service.XMLImageParserServiceTest;
-import com.thomsonreuters.uscl.ereader.format.service.XSLTMapperServiceTest;
 import com.thomsonreuters.uscl.ereader.format.text.DocumentExtensionAdapterTest;
 import com.thomsonreuters.uscl.ereader.gather.codesworkbench.filter.NortNodeFilterTest;
 import com.thomsonreuters.uscl.ereader.gather.codesworkbench.parsinghandler.NovusDocFileParserTest;
@@ -45,7 +44,6 @@ import org.junit.runners.Suite.SuiteClasses;
     HTMLWrapperServiceTest.class,
     TransformerServiceTest.class,
     XMLImageParserServiceTest.class,
-    XSLTMapperServiceTest.class,
     HTMLAnchorFilterTest.class,
     HTMLClassAttributeFilterTest.class,
     HTMLEmptyHeading2FilterTest.class,
