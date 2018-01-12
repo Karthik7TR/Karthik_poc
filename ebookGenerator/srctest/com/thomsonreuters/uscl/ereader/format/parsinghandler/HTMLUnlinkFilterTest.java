@@ -334,4 +334,67 @@ public final class HTMLUnlinkFilterTest {
 
         testHelper(xmlTestStr, expectedResult);
     }
+
+    @Test
+    public void testUnlinkDocMetadataNull() throws SAXException {
+        unlinkFilter.setUnlinkDocMetadataList(null);
+        unlinkFilter.setUnlinkDocMetadata(null);
+        final String xmlTestStr = "<test><a href=\"" + foundAnchor + "\"><sup>1</sup></a></test>";
+        final String expectedResult = "<test><sup>1</sup></test>";
+
+        testHelper(xmlTestStr, expectedResult);
+
+        assertEquals(1, unlinkFilter.getUnlinkDocMetadataList().size());
+        assertEquals("ABC1234,,,,,er:#ABC1234/foundAnchor,docUuid,familyUuid,FirstlineCite,127", unlinkFilter.getUnlinkDocMetadataList().get(0));
+    }
+
+    @Test
+    public void testUnlinkDocMetadataNotEmpty() throws SAXException {
+        unlinkFilter.setUnlinkDocMetadata(initDocMetadata());
+        final String xmlTestStr = "<test><a href=\"" + foundAnchor + "\"><sup>1</sup></a></test>";
+        final String expectedResult = "<test><sup>1</sup></test>";
+
+        testHelper(xmlTestStr, expectedResult);
+
+        assertEquals(1, unlinkFilter.getUnlinkDocMetadataList().size());
+        assertEquals("docUuid,docFamilyUuid,normalizedFirstlineCite,1,collectionName,er:#ABC1234/foundAnchor,docUuid,familyUuid,FirstlineCite,127", unlinkFilter.getUnlinkDocMetadataList().get(0));
+    }
+
+    @Test
+    public void testUnlinkDocMetadataBlankLines() throws SAXException {
+        final DocMetadata unlinkDocMetadata = initDocMetadata();
+        unlinkDocMetadata.setDocFamilyUuid("    ");
+
+        unlinkFilter.setUnlinkDocMetadata(unlinkDocMetadata);
+        final String xmlTestStr = "<test><a href=\"" + foundAnchor + "\"><sup>1</sup></a></test>";
+        final String expectedResult = "<test><sup>1</sup></test>";
+
+        testHelper(xmlTestStr, expectedResult);
+
+        assertEquals(1, unlinkFilter.getUnlinkDocMetadataList().size());
+        assertEquals("docUuid,,normalizedFirstlineCite,1,collectionName,er:#ABC1234/foundAnchor,docUuid,familyUuid,FirstlineCite,127", unlinkFilter.getUnlinkDocMetadataList().get(0));
+    }
+
+    @Test
+    public void testEmptyCurrentGuidDocMetadata() throws SAXException {
+        unlinkFilter.getDocMetadataKeyedByProViewId().put(currentGuid, new DocMetadata());
+        unlinkFilter.setUnlinkDocMetadata(null);
+        final String xmlTestStr = "<test><a href=\"" + foundAnchor + "\"><sup>1</sup></a></test>";
+        final String expectedResult = "<test><sup>1</sup></test>";
+
+        testHelper(xmlTestStr, expectedResult);
+
+        assertEquals(1, unlinkFilter.getUnlinkDocMetadataList().size());
+        assertEquals("ABC1234,,,,,er:#ABC1234/foundAnchor,,,,", unlinkFilter.getUnlinkDocMetadataList().get(0));
+    }
+
+    private DocMetadata initDocMetadata() {
+        final DocMetadata docMetadata = new DocMetadata();
+        docMetadata.setDocUuid("docUuid");
+        docMetadata.setDocFamilyUuid("docFamilyUuid");
+        docMetadata.setNormalizedFirstlineCite("normalizedFirstlineCite");
+        docMetadata.setSerialNumber(1L);
+        docMetadata.setCollectionName("collectionName");
+        return docMetadata;
+    }
 }

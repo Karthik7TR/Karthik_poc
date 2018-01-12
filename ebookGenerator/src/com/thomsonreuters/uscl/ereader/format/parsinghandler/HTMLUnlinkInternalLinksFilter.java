@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.thomsonreuters.uscl.ereader.format.FormatConstants;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
@@ -153,28 +157,21 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
                             unlinkDocMetadataList = new ArrayList<>();
                         }
 
-                        final StringBuffer sbDocMetadata = new StringBuffer();
+                        final StringBuilder sbDocMetadata = new StringBuilder();
                         if (unlinkDocMetadata != null) {
                             sbDocMetadata.append(unlinkDocMetadata.getDocUuid());
                         } else {
                             sbDocMetadata.append(currentGuid);
                         }
+
                         sbDocMetadata.append(",");
-                        if (unlinkDocMetadata.getDocFamilyUuid() != null) {
-                            sbDocMetadata.append(unlinkDocMetadata.getDocFamilyUuid());
-                        }
-                        sbDocMetadata.append(",");
-                        if (unlinkDocMetadata.getNormalizedFirstlineCite() != null) {
-                            sbDocMetadata.append(unlinkDocMetadata.getNormalizedFirstlineCite());
-                        }
-                        sbDocMetadata.append(",");
-                        if (unlinkDocMetadata.getSerialNumber() != null) {
-                            sbDocMetadata.append(unlinkDocMetadata.getSerialNumber());
-                        }
-                        sbDocMetadata.append(",");
-                        if (unlinkDocMetadata.getCollectionName() != null) {
-                            sbDocMetadata.append(unlinkDocMetadata.getCollectionName());
-                        }
+
+                        sbDocMetadata.append(toCsvString(unlinkDocMetadata,
+                            unlinkDocMetadata::getDocFamilyUuid,
+                            unlinkDocMetadata::getNormalizedFirstlineCite,
+                            unlinkDocMetadata::getSerialNumber,
+                            unlinkDocMetadata::getCollectionName));
+
                         sbDocMetadata.append(",");
                         final String link = atts.getValue("href");
                         sbDocMetadata.append(link);
@@ -185,21 +182,11 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
                             final DocMetadata targetDocMetadata = docMetadataKeyedByProViewId.get(proViewId);
                             if (targetDocMetadata != null) {
                                 sbDocMetadata.append(",");
-                                if (StringUtils.isNotBlank(targetDocMetadata.getDocUuid())) {
-                                    sbDocMetadata.append(targetDocMetadata.getDocUuid());
-                                }
-                                sbDocMetadata.append(",");
-                                if (StringUtils.isNotBlank(targetDocMetadata.getDocFamilyUuid())) {
-                                    sbDocMetadata.append(targetDocMetadata.getDocFamilyUuid());
-                                }
-                                sbDocMetadata.append(",");
-                                if (StringUtils.isNotBlank(targetDocMetadata.getNormalizedFirstlineCite())) {
-                                    sbDocMetadata.append(targetDocMetadata.getNormalizedFirstlineCite());
-                                }
-                                sbDocMetadata.append(",");
-                                if (targetDocMetadata.getSerialNumber() != null) {
-                                    sbDocMetadata.append(targetDocMetadata.getSerialNumber());
-                                }
+                                sbDocMetadata.append(toCsvString(
+                                    targetDocMetadata.getDocUuid(),
+                                    targetDocMetadata.getDocFamilyUuid(),
+                                    targetDocMetadata.getNormalizedFirstlineCite(),
+                                    targetDocMetadata.getSerialNumber()));
                             }
                         }
 
@@ -216,6 +203,26 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
         } else {
             super.startElement(uri, localName, qName, atts);
         }
+    }
+
+    private String toCsvString(final DocMetadata metadata, final Supplier<Object>... funcs) {
+        final Object[] values;
+        if (metadata != null) {
+            values = Stream.of(funcs)
+                .map(Supplier::get)
+                .toArray(Object[]::new);
+        } else {
+            values = new Object[funcs.length];
+        }
+        return toCsvString(values);
+    }
+
+    private String toCsvString(final Object... values) {
+        return Stream.of(values)
+            .map(Optional::ofNullable)
+            .map(o -> o.map(Object::toString).orElse(""))
+            .map(String::trim)
+            .collect(Collectors.joining(","));
     }
 
     @Override
