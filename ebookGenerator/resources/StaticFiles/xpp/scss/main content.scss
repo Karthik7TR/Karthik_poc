@@ -28,6 +28,9 @@
 .section_front {
     display: flex;
     margin: #{$indent}em 0;
+    .publication>.publication_body>.chapter>.chapter_body>.section_block>.section>& {
+        flex-wrap: wrap;
+    }
 }
 
 .xref {
@@ -139,5 +142,14 @@ td:empty {
         font-weight: bold;
         font-size: #{$indent*0.9}em;
         float: right;
+    }
+}
+
+.reference_entry {
+    .publication>.publication_body>.chapter>.chapter_body>.section_block>.section>.section_front>.research_reference_block>&,
+    .publication>.publication_body>.chapter>.front>.research_reference_block>.reference_entry_group>& {
+        display: block;
+        margin-left: #{$indent}em;
+        text-indent: -#{$indent}em;
     }
 }
