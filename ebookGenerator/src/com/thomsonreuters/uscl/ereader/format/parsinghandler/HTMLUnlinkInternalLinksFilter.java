@@ -167,10 +167,10 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
                         sbDocMetadata.append(",");
 
                         sbDocMetadata.append(toCsvString(unlinkDocMetadata,
-                            unlinkDocMetadata::getDocFamilyUuid,
-                            unlinkDocMetadata::getNormalizedFirstlineCite,
-                            unlinkDocMetadata::getSerialNumber,
-                            unlinkDocMetadata::getCollectionName));
+                            () -> unlinkDocMetadata.getDocFamilyUuid(),
+                            () -> unlinkDocMetadata.getNormalizedFirstlineCite(),
+                            () -> unlinkDocMetadata.getSerialNumber(),
+                            () -> unlinkDocMetadata.getCollectionName()));
 
                         sbDocMetadata.append(",");
                         final String link = atts.getValue("href");
