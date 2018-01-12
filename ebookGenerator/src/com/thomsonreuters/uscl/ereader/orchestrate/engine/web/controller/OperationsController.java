@@ -2,7 +2,6 @@ package com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 
 import javax.servlet.ServletOutputStream;
@@ -133,24 +132,18 @@ public class OperationsController {
     @RequestMapping(value = WebConstants.URI_GET_STEP_NAMES, method = RequestMethod.GET)
     public void getStepNames(final HttpServletResponse response, final Model model) throws Exception {
         log.debug(">>>");
+
         ServletOutputStream out = null;
         try {
-            final Collection<String> stepNames = job.getStepNames();
-            final StringBuffer csv = new StringBuffer();
-            boolean first = true;
-            for (final String stepName : stepNames) {
-                if (!first) {
-                    csv.append(",");
-                }
-                first = false;
-                csv.append(stepName);
-            }
             out = response.getOutputStream();
-            out.print(csv.toString());
+            out.print(getStepNamesCsv());
         } catch (final IOException e) {
             log.error(e);
-            out.print("Error getting step names");
         }
+    }
+
+    private String getStepNamesCsv() {
+        return String.join(",", job.getStepNames());
     }
 
     @Required
