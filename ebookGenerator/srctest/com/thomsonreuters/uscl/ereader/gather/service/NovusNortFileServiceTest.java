@@ -8,10 +8,13 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.EBConstants;
+import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
+import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.gather.codesworkbench.domain.RelationshipNode;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
@@ -71,6 +74,7 @@ public final class NovusNortFileServiceTest {
 
         // Verify created files and directories
         assertTrue(nortFile.exists());
+        validateGatherResponse(gatherResponse, 4, 6);
 
         // compare file contents.
         final String tocFromNORT = FileUtils.readFileToString(nortFile, "UTF-8");
@@ -137,10 +141,11 @@ public final class NovusNortFileServiceTest {
         // Invoke the object under test
         nortDir.mkdirs();
 
-        novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null, 0);
+        final GatherResponse gatherResponse = novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null, 0);
 
         // Verify created files and directories
         assertTrue(nortFile.exists());
+        validateGatherResponse(gatherResponse, 6, 9);
 
         // compare file contents.
         final String tocFromNORT = FileUtils.readFileToString(nortFile, "UTF-8");
@@ -218,10 +223,11 @@ public final class NovusNortFileServiceTest {
         // Invoke the object under test
         nortDir.mkdirs();
 
-        novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null, 0);
+        final GatherResponse gatherResponse = novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null, 0);
 
         // Verify created files and directories
         Assert.assertTrue(nortFile.exists());
+        validateGatherResponse(gatherResponse, 4, 7);
 
         // compare file contents
         final String tocFromNORT = FileUtils.readFileToString(nortFile, "UTF-8");
@@ -292,10 +298,11 @@ public final class NovusNortFileServiceTest {
         // Invoke the object under test
         nortDir.mkdirs();
 
-        novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null, 0);
+        final GatherResponse gatherResponse = novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, null, 0);
 
         // Verify created files and directories
         Assert.assertTrue(nortFile.exists());
+        validateGatherResponse(gatherResponse, 4, 8);
 
         // compare file contents.
         final String tocFromNORT = FileUtils.readFileToString(nortFile, "UTF-8");
@@ -374,11 +381,12 @@ public final class NovusNortFileServiceTest {
         splitTocGuidList.add(guid1);
         splitTocGuidList.add(guid2);
 
-        novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, splitTocGuidList, 0);
+        final GatherResponse gatherResponse = novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, splitTocGuidList, 0);
 
         LOG.debug("expectedTocContent2roots =" + novusNortFileService.getSplitTocGuidList().size());
 
         Assert.assertEquals(1, novusNortFileService.getSplitTocGuidList().size());
+        validateGatherResponse(gatherResponse, 4, 8);
     }
 
     @Test
@@ -410,11 +418,12 @@ public final class NovusNortFileServiceTest {
         splitTocGuidList.add(guid1);
         splitTocGuidList.add(guid2);
 
-        novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, splitTocGuidList, 0);
+        final GatherResponse gatherResponse = novusNortFileService.findTableOfContents(rootNodes, nortFile, date, null, null, splitTocGuidList, 0);
 
         LOG.debug("expectedTocContent2roots =" + novusNortFileService.getSplitTocGuidList().size());
 
         Assert.assertEquals(0, novusNortFileService.getSplitTocGuidList().size());
+        validateGatherResponse(gatherResponse, 4, 8);
     }
 
     @Test
@@ -442,6 +451,7 @@ public final class NovusNortFileServiceTest {
 
         // Verify created files and directories
         Assert.assertTrue(nortFile.exists());
+        validateGatherResponse(gatherResponse, 1, 3);
 
         // compare file contents.
         final String tocFromNORT = FileUtils.readFileToString(nortFile, "UTF-8");
@@ -490,7 +500,7 @@ public final class NovusNortFileServiceTest {
         } catch (final Exception e) {
             e.printStackTrace();
             LOG.debug(e.getMessage());
-            Assert.assertEquals("Failed with empty node Label for guid nortGuid", e.getMessage());
+            Assert.assertEquals("Failed with empty node Label for guid nortGuid", e.getCause().getMessage());
         }
     }
 
@@ -501,6 +511,33 @@ public final class NovusNortFileServiceTest {
         final Date date = new Date();
         final List<RelationshipNode> nodes = new ArrayList<>();
         novusNortFileService.findTableOfContents(nodes, nortFile, date, null, null, null, 0);
+    }
+
+    @Test(expected = GatherException.class)
+    public void testExcludeDocsException() throws Exception {
+        runFindTableOfContents(Collections.singletonList(new ExcludeDocument()), null);
+    }
+
+    @Test(expected = GatherException.class)
+    public void testRenameTocEntryException() throws Exception {
+        runFindTableOfContents(null, Collections.singletonList(new RenameTocEntry()));
+    }
+
+    private void runFindTableOfContents(final List<ExcludeDocument> excludeDocuments, final List<RenameTocEntry> renameTocEntries) throws GatherException {
+        final File nortFile = new File(nortDir, "NORT" + EBConstants.XML_FILE_EXTENSION);
+
+        final Date date = new Date();
+        final String YYYYM1DDHHmmss = createOneDayAheadString(date);
+
+        // Create nodes
+        final List<RelationshipNode> rootNodes = new ArrayList<>();
+        final RelationshipNode root = createRootNode(LT_ROOT_AMP_QUOT_NODE_APOS_S_GT, YYYYM1DDHHmmss, "nortGuid", 1);
+        createNode("Child 0", YYYYM1DDHHmmss, root, "NORT_UUID_0", "UUID_0a", 2);
+        rootNodes.add(root);
+
+        nortDir.mkdirs();
+
+        novusNortFileService.findTableOfContents(rootNodes, nortFile, date, excludeDocuments, renameTocEntries, null, 0);
     }
 
     private RelationshipNode createRootNode(
@@ -545,5 +582,10 @@ public final class NovusNortFileServiceTest {
         final SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         final String YYYYMMDDHHmmss = formatter.format(date);
         return "" + Long.valueOf(YYYYMMDDHHmmss) + 1;
+    }
+
+    private void validateGatherResponse(final GatherResponse gatherResponse, final int docCount, final int nodeCount) {
+        assertEquals(docCount, gatherResponse.getDocCount());
+        assertEquals(nodeCount, gatherResponse.getNodeCount());
     }
 }

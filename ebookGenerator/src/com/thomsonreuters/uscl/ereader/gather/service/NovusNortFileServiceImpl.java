@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.thomsonreuters.uscl.ereader.core.EBConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.ExcludeDocument;
@@ -399,13 +400,7 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
         final List<RenameTocEntry> renameTocEntries,
         final List<String> splitTocGuidList,
         final int thresholdValue) throws GatherException {
-        final int[] counters = {0, 0, 0, 0};
-        final int[] iParent = {0};
-        String publishStatus = "TOC NORT Step Completed";
         final GatherResponse gatherResponse = new GatherResponse();
-
-        final Date date = new Date();
-        final SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
 
         List<ExcludeDocument> copyExcludDocs = null;
 
@@ -430,6 +425,35 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
             copyRenameTocs = new ArrayList<>(Arrays.asList(new RenameTocEntry[renameTocEntries.size()]));
         }
 
+        final int[] counters = writeToOutput(
+            rootNodes,
+            nortXmlFile,
+            cutoffDate,
+            excludeDocuments,
+            renameTocEntries,
+            copyExcludDocs,
+            copyRenameTocs);
+
+        verifyExcludeDocsAndRenameTocWorkedOut(copyExcludDocs, copyRenameTocs);
+
+        fillGatherResponse(counters, gatherResponse);
+
+        return gatherResponse;
+    }
+
+    private int[] writeToOutput(
+        final List<RelationshipNode> rootNodes,
+        final File nortXmlFile,
+        final Date cutoffDate,
+        final List<ExcludeDocument> excludeDocuments,
+        final List<RenameTocEntry> renameTocEntries,
+        final List<ExcludeDocument> copyExcludDocs,
+        final List<RenameTocEntry> copyRenameTocs) throws GatherException {
+        final int[] counters = {0, 0, 0, 0};
+        final int[] iParent = {0};
+        final Date date = new Date();
+        final SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+
         try (Writer out =
             new BufferedWriter(new OutputStreamWriter(new FileOutputStream(nortXmlFile.getPath()), "UTF-8"))) {
             if (excludeDocuments != null) {
@@ -448,7 +472,6 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
                 YYYYMMDDHHmmss = formatter.format(cutoffDate);
             }
 
-            ;
             out.write(EBConstants.TOC_XML_ELEMENT);
             out.write(EBConstants.TOC_START_EBOOK_ELEMENT);
 
@@ -473,66 +496,48 @@ public class NovusNortFileServiceImpl implements NovusNortFileService {
 
             out.write(EBConstants.TOC_END_EBOOK_ELEMENT);
             out.flush();
-            out.close();
             LOG.debug("Done with Nort.");
         } catch (final UnsupportedEncodingException e) {
             LOG.error(e.getMessage());
-            final GatherException ge =
-                new GatherException("NORT UTF-8 encoding error ", e, GatherResponse.CODE_FILE_ERROR);
-            publishStatus = "CWB TOC Step Failed UTF-8 encoding error";
-            throw ge;
+            throw new GatherException("CWB TOC Step Failed. NORT UTF-8 encoding error ", e, GatherResponse.CODE_FILE_ERROR);
         } catch (final FileNotFoundException e) {
             LOG.error(e.getMessage());
-            final GatherException ge = new GatherException("NORT File not found ", e, GatherResponse.CODE_FILE_ERROR);
-            publishStatus = "CWB TOC Step Failed File not found";
-            throw ge;
+            throw new GatherException("CWB TOC Step Failed. NORT File not found ", e, GatherResponse.CODE_FILE_ERROR);
         } catch (final IOException e) {
             LOG.error(e.getMessage());
-            final GatherException ge = new GatherException("NORT IOException ", e, GatherResponse.CODE_FILE_ERROR);
-            publishStatus = "CWB TOC Step Failed IOException";
-            throw ge;
+            throw new GatherException("CWB TOC Step Failed. NORT IOException ", e, GatherResponse.CODE_FILE_ERROR);
         } catch (final GatherException e) {
             LOG.error(e.getMessage());
-            publishStatus = "CWB TOC Step Failed GatherException";
-            throw e;
-        } finally {
-            try {
-                if ((copyExcludDocs != null) && (copyExcludDocs.size() > 0)) {
-                    final StringBuffer unaccountedExcludedDocs = new StringBuffer();
-                    for (final ExcludeDocument excludeDocument : copyExcludDocs) {
-                        unaccountedExcludedDocs.append(excludeDocument.getDocumentGuid() + ",");
-                    }
-                    final GatherException ge = new GatherException(
-                        "Not all Excluded Docs are accounted for and those are " + unaccountedExcludedDocs.toString());
-                    publishStatus = "CWB TOC Step Failed with Not all Excluded Docs accounted for error";
-                    throw ge;
-                }
-                if ((copyRenameTocs != null) && (copyRenameTocs.size() > 0)) {
-                    final StringBuffer unaccountedRenameTocs = new StringBuffer();
-                    for (final RenameTocEntry renameTocEntry : copyRenameTocs) {
-                        unaccountedRenameTocs.append(renameTocEntry.getTocGuid() + ",");
-                    }
-                    final GatherException ge = new GatherException(
-                        "Not all Rename TOCs are accounted for and those are " + unaccountedRenameTocs.toString());
-                    publishStatus = "CWB TOC Step Failed with Not all Rename TOCs accounted for error";
-                    throw ge;
-                }
-            } catch (final Exception e) {
-                LOG.error(e.getMessage());
-                final GatherException ge =
-                    new GatherException("Failure in createToc() ", e, GatherResponse.CODE_DATA_ERROR);
-                throw ge;
-            } finally {
-                gatherResponse.setDocCount(counters[DOCCOUNT]);
-                gatherResponse.setNodeCount(counters[NODECOUNT]);
-                gatherResponse.setSkipCount(counters[SKIPCOUNT]);
-                gatherResponse.setRetryCount(counters[RETRYCOUNT]);
-                gatherResponse.setPublishStatus(publishStatus);
-                gatherResponse.setDuplicateTocGuids(duplicateTocGuids);
-                gatherResponse.setSplitTocGuidList(this.splitTocGuidList);
-            }
+            throw new GatherException("CWB TOC Step Failed. NORT GatherException ", e);
         }
+        return counters;
+    }
 
-        return gatherResponse;
+    private void verifyExcludeDocsAndRenameTocWorkedOut(
+        final List<ExcludeDocument> copyExcludDocs,
+        final List<RenameTocEntry> copyRenameTocs) throws GatherException {
+        try {
+            if ((copyExcludDocs != null) && (copyExcludDocs.size() > 0)) {
+                final String unaccountedExcludedDocs = copyExcludDocs.stream().map(ExcludeDocument::getDocumentGuid).collect(Collectors.joining(","));
+                throw new GatherException("CWB TOC Step Failed. Not all Excluded Docs are accounted for and those are " + unaccountedExcludedDocs);
+            }
+            if ((copyRenameTocs != null) && (copyRenameTocs.size() > 0)) {
+                final String unaccountedRenameTocs = copyRenameTocs.stream().map(RenameTocEntry::getTocGuid).collect(Collectors.joining(","));
+                throw new GatherException("CWB TOC Step Failed. Not all Rename TOCs are accounted for and those are " + unaccountedRenameTocs);
+            }
+        } catch (final Exception e) {
+            LOG.error(e.getMessage());
+            throw new GatherException("Failure in createToc() ", e, GatherResponse.CODE_DATA_ERROR);
+        }
+    }
+
+    private void fillGatherResponse(final int[] counters, final GatherResponse gatherResponse) {
+        gatherResponse.setDocCount(counters[DOCCOUNT]);
+        gatherResponse.setNodeCount(counters[NODECOUNT]);
+        gatherResponse.setSkipCount(counters[SKIPCOUNT]);
+        gatherResponse.setRetryCount(counters[RETRYCOUNT]);
+        gatherResponse.setPublishStatus("TOC NORT Step Completed");
+        gatherResponse.setDuplicateTocGuids(duplicateTocGuids);
+        gatherResponse.setSplitTocGuidList(splitTocGuidList);
     }
 }
