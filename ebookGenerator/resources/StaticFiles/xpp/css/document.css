@@ -1580,6 +1580,10 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   padding-left: 0.25em;
 }
 
+.rutter_chapter .cgt {
+  white-space: pre;
+}
+
 .mixed_pub_types .generated_toc > .full_toc > .toc_mixed_hierarchy > .toc_primary_source > .toc_primary_hierarchy > .toc_primary_hierarchy > .toc_primary_section .primary_outline_name_block > .label > .cgt,
 .mixed_pub_types .primary_outline_name_block > .label > .cgt,
 .mixed_pub_types .primary_section_body > .primary_features > .primary_references > .research_reference_block > .cgt,

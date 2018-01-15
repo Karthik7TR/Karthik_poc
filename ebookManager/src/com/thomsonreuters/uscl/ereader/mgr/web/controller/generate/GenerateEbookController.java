@@ -494,7 +494,7 @@ public class GenerateEbookController {
             publishingStatsService.hasIsbnBeenPublished(book.getIsbn(), book.getFullyQualifiedTitleId());
 
         // If publised, ISBN is not new
-        model.addAttribute(WebConstants.KEY_IS_NEW_ISBN, StringBool.toString(isPublished));
+        model.addAttribute(WebConstants.KEY_IS_NEW_ISBN, StringBool.toString(!isPublished));
     }
 
     /**

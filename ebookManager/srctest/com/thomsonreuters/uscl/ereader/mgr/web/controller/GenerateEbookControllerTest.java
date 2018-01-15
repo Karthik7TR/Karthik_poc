@@ -221,6 +221,7 @@ public final class GenerateEbookControllerTest {
             assertNotNull(mav);
 
             Assert.assertEquals(WebConstants.VIEW_BOOK_GENERATE_PREVIEW, mav.getViewName());
+            Assert.assertEquals("Y", mav.getModel().get(WebConstants.KEY_IS_NEW_ISBN));
 
             EasyMock.verify(mockOutageService);
         } catch (final Exception e) {

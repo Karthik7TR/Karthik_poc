@@ -30,13 +30,13 @@
                 padding-left:#{$indent}em;
                 .rw_doc_front {
                     margin-left:-#{$indent}em;
-                    display:inline;
+                    display: inline;
                     .rw_doc_outline_name_block {
-                        display:inline;
+                        display: inline;
                         .designator {
-                            display:inline;
+                            display: inline;
                             .trImageContainer {
-                                display:inline;
+                                display: inline;
                             }
                         }
                         .font_rw_doc_outline_name_block {
@@ -57,15 +57,15 @@
                     }
                 }
                 .rw_doc_body {
-                    display:inline;
+                    display: inline;
                     padding-left:#{$indent}em;
                     .para {
-                        display:inline;
-                        margin-bottom:#{$indent/2}em;
+                        display: inline;
+                        margin-bottom: #{$indent/2}em;
                         .para_text {
-                            display:inline;
+                            display: inline;
                             text-indent: unset;
-                            > .cgt {
+                            >.cgt {
                                 display: none;
                             }
                         }
@@ -110,11 +110,11 @@
                         width: 100%;
                         overflow: hidden;
                         text-align: center;
-                        > * {
+                        >* {
                             float: left;
                             line-height: #{$indent}em;
                         }
-                        > .inline_instr {
+                        >.inline_instr {
                             float: unset;
                         }
                     }
@@ -125,5 +125,4 @@
             padding-left: #{$indent/4}em;
         }
     }
-    
 }
