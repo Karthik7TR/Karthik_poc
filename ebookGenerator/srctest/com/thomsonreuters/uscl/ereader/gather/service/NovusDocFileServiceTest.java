@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.gather.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -8,12 +9,16 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.core.EBConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation;
+import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
+import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -32,6 +37,11 @@ public final class NovusDocFileServiceTest {
     @Before
     public void setUp() {
         novusDocFileService = new NovusDocFileServiceImpl();
+    }
+
+    @After
+    public void clean() {
+        temporaryFolder.delete();
     }
 
     @Test
@@ -75,13 +85,11 @@ public final class NovusDocFileServiceTest {
         } catch (final Exception e) {
             e.printStackTrace();
             Assert.assertEquals("Null documents are found for the current ebook ", e.getMessage());
-        } finally {
-            temporaryFolder.delete();
         }
     }
 
     @Test
-    public void testOneDocument() {
+    public void testOneDocument() throws IOException, GatherException {
         final String bookTitle = "book_title";
         final File workDir = temporaryFolder.getRoot();
         final File contentDir = new File(workDir, "junit_content");
@@ -103,43 +111,37 @@ public final class NovusDocFileServiceTest {
         final File metadataFile =
             new File(metadataDir, "1-" + COLLECTION_NAME + "-" + GUID_1 + EBConstants.XML_FILE_EXTENSION);
 
-        try {
-            // Invoke the object under test
-            contentDir.mkdirs();
-            metadataDir.mkdirs();
-            cwbDir.mkdir();
-            bookTitleDir.mkdir();
-            contentTypeDir.mkdir();
-            novusDoc.createNewFile();
+        // Invoke the object under test
+        contentDir.mkdirs();
+        metadataDir.mkdirs();
+        cwbDir.mkdir();
+        bookTitleDir.mkdir();
+        contentTypeDir.mkdir();
+        novusDoc.createNewFile();
 
-            addContentToFile(
-                novusDoc,
-                "<n-document guid=\""
-                    + GUID_1
-                    + "\" control=\"ADD\"><n-metadata>"
-                    + "</n-metadata><n-docbody></n-docbody></n-document>");
+        addContentToFile(
+            novusDoc,
+            "<n-document guid=\""
+                + GUID_1
+                + "\" control=\"ADD\"><n-metadata>"
+                + "</n-metadata><n-docbody></n-docbody></n-document>");
 
-            final Map<String, Integer> guids = new HashMap<>();
-            guids.put(GUID_1, 1);
-            novusDocFileService.fetchDocuments(guids, cwbDir, "book_title", fileLocations, contentDir, metadataDir);
+        final Map<String, Integer> guids = new HashMap<>();
+        guids.put(GUID_1, 1);
+        final GatherResponse gatherResponse = novusDocFileService.fetchDocuments(guids, cwbDir, "book_title", fileLocations, contentDir, metadataDir);
 
-            // Verify created files and directories
-            assertTrue(contentFile.exists());
-            assertTrue(metadataFile.exists());
-            assertTrue(cwbDir.exists());
-            assertTrue(bookTitleDir.exists());
-            assertTrue(contentTypeDir.exists());
-            assertTrue(novusDoc.exists());
-        } catch (final Exception e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        } finally {
-            temporaryFolder.delete();
-        }
+        // Verify created files and directories
+        validateGatherResponse(gatherResponse, 1, 1);
+        assertTrue(contentFile.exists());
+        assertTrue(metadataFile.exists());
+        assertTrue(cwbDir.exists());
+        assertTrue(bookTitleDir.exists());
+        assertTrue(contentTypeDir.exists());
+        assertTrue(novusDoc.exists());
     }
 
     @Test
-    public void testTwoDocuments() {
+    public void testTwoDocuments() throws IOException, GatherException {
         final String bookTitle = "book_title";
         final File workDir = temporaryFolder.getRoot();
         final File contentDir = new File(workDir, "junit_content");
@@ -164,50 +166,44 @@ public final class NovusDocFileServiceTest {
         final File metadataFile2 =
             new File(metadataDir, "2-" + COLLECTION_NAME + "-" + GUID_2 + EBConstants.XML_FILE_EXTENSION);
 
-        try {
-            // Invoke the object under test
-            contentDir.mkdirs();
-            metadataDir.mkdirs();
-            cwbDir.mkdir();
-            bookTitleDir.mkdir();
-            contentTypeDir.mkdir();
-            novusDoc.createNewFile();
+        // Invoke the object under test
+        contentDir.mkdirs();
+        metadataDir.mkdirs();
+        cwbDir.mkdir();
+        bookTitleDir.mkdir();
+        contentTypeDir.mkdir();
+        novusDoc.createNewFile();
 
-            addContentToFile(
-                novusDoc,
-                "<n-load loadcontenttype=\"SECTIONAL\"><n-document guid=\""
-                    + GUID_1
-                    + "\" "
-                    + "control=\"ADD\"><n-metadata></n-metadata><n-docbody></n-docbody></n-document><n-document "
-                    + "guid=\""
-                    + GUID_2
-                    + "\" control=\"ADD\"><n-metadata></n-metadata><n-docbody></n-docbody>"
-                    + "</n-document></n-load>");
+        addContentToFile(
+            novusDoc,
+            "<n-load loadcontenttype=\"SECTIONAL\"><n-document guid=\""
+                + GUID_1
+                + "\" "
+                + "control=\"ADD\"><n-metadata></n-metadata><n-docbody></n-docbody></n-document><n-document "
+                + "guid=\""
+                + GUID_2
+                + "\" control=\"ADD\"><n-metadata></n-metadata><n-docbody></n-docbody>"
+                + "</n-document></n-load>");
 
-            final Map<String, Integer> guids = new HashMap<>();
-            guids.put(GUID_1, 1);
-            guids.put(GUID_2, 1);
-            novusDocFileService.fetchDocuments(guids, cwbDir, "book_title", fileLocations, contentDir, metadataDir);
+        final Map<String, Integer> guids = new HashMap<>();
+        guids.put(GUID_1, 1);
+        guids.put(GUID_2, 1);
+        final GatherResponse gatherResponse = novusDocFileService.fetchDocuments(guids, cwbDir, "book_title", fileLocations, contentDir, metadataDir);
 
-            // Verify created files and directories
-            assertTrue(contentFile.exists());
-            assertTrue(metadataFile.exists());
-            assertTrue(contentFile2.exists());
-            assertTrue(metadataFile2.exists());
-            assertTrue(cwbDir.exists());
-            assertTrue(bookTitleDir.exists());
-            assertTrue(contentTypeDir.exists());
-            assertTrue(novusDoc.exists());
-        } catch (final Exception e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        } finally {
-            temporaryFolder.delete();
-        }
+        // Verify created files and directories
+        validateGatherResponse(gatherResponse, 2, 2);
+        assertTrue(contentFile.exists());
+        assertTrue(metadataFile.exists());
+        assertTrue(contentFile2.exists());
+        assertTrue(metadataFile2.exists());
+        assertTrue(cwbDir.exists());
+        assertTrue(bookTitleDir.exists());
+        assertTrue(contentTypeDir.exists());
+        assertTrue(novusDoc.exists());
     }
 
     @Test
-    public void testTwoContentTypes() {
+    public void testTwoContentTypes() throws IOException, GatherException {
         final String bookTitle = "book_title";
         final File workDir = temporaryFolder.getRoot();
         final File contentDir = new File(workDir, "junit_content");
@@ -238,52 +234,56 @@ public final class NovusDocFileServiceTest {
         final File metadataFile2 =
             new File(metadataDir, "2-" + COLLECTION_NAME + "-" + GUID_2 + EBConstants.XML_FILE_EXTENSION);
 
-        try {
-            // Invoke the object under test
-            contentDir.mkdirs();
-            metadataDir.mkdirs();
-            cwbDir.mkdir();
-            bookTitleDir.mkdir();
-            contentTypeDir.mkdir();
-            contentTypeDir2.mkdir();
-            novusDoc.createNewFile();
-            novusDoc2.createNewFile();
+        // Invoke the object under test
+        contentDir.mkdirs();
+        metadataDir.mkdirs();
+        cwbDir.mkdir();
+        bookTitleDir.mkdir();
+        contentTypeDir.mkdir();
+        contentTypeDir2.mkdir();
+        novusDoc.createNewFile();
+        novusDoc2.createNewFile();
 
-            addContentToFile(
-                novusDoc,
-                "<n-load loadcontenttype=\"SECTIONAL\"><n-document guid=\""
-                    + GUID_1
-                    + "\" "
-                    + "control=\"ADD\"><n-metadata></n-metadata><n-docbody></n-docbody></n-document></n-load>");
-            addContentToFile(
-                novusDoc2,
-                "<n-load loadcontenttype=\"SECTIONAL\"><n-document guid=\""
-                    + GUID_2
-                    + "\" "
-                    + "control=\"ADD\"><n-metadata></n-metadata><n-docbody></n-docbody></n-document></n-load>");
+        addContentToFile(
+            novusDoc,
+            "<n-load loadcontenttype=\"SECTIONAL\"><n-document guid=\""
+                + GUID_1
+                + "\" "
+                + "control=\"ADD\"><n-metadata></n-metadata><n-docbody></n-docbody></n-document></n-load>");
+        addContentToFile(
+            novusDoc2,
+            "<n-load loadcontenttype=\"SECTIONAL\"><n-document guid=\""
+                + GUID_2
+                + "\" "
+                + "control=\"ADD\"><n-metadata></n-metadata><n-docbody></n-docbody></n-document></n-load>");
 
-            final Map<String, Integer> guids = new HashMap<>();
-            guids.put(GUID_1, 1);
-            guids.put(GUID_2, 1);
-            novusDocFileService.fetchDocuments(guids, cwbDir, "book_title", fileLocations, contentDir, metadataDir);
+        final Map<String, Integer> guids = new HashMap<>();
+        guids.put(GUID_1, 1);
+        guids.put(GUID_2, 1);
+        final GatherResponse gatherResponse = novusDocFileService.fetchDocuments(guids, cwbDir, "book_title", fileLocations, contentDir, metadataDir);
 
-            // Verify created files and directories
-            assertTrue(cwbDir.exists());
-            assertTrue(bookTitleDir.exists());
-            assertTrue(contentTypeDir.exists());
-            assertTrue(contentTypeDir2.exists());
-            assertTrue(novusDoc.exists());
-            assertTrue(novusDoc2.exists());
-            assertTrue(contentFile.exists());
-            assertTrue(metadataFile.exists());
-            assertTrue(contentFile2.exists());
-            assertTrue(metadataFile2.exists());
-        } catch (final Exception e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        } finally {
-            temporaryFolder.delete();
-        }
+        // Verify created files and directories
+        validateGatherResponse(gatherResponse, 2, 2);
+        assertTrue(cwbDir.exists());
+        assertTrue(bookTitleDir.exists());
+        assertTrue(contentTypeDir.exists());
+        assertTrue(contentTypeDir2.exists());
+        assertTrue(novusDoc.exists());
+        assertTrue(novusDoc2.exists());
+        assertTrue(contentFile.exists());
+        assertTrue(metadataFile.exists());
+        assertTrue(contentFile2.exists());
+        assertTrue(metadataFile2.exists());
+    }
+
+    @Test(expected = GatherException.class)
+    public void testAbsenceOfSourceFiles() throws GatherException {
+        final File contentDir = new File(temporaryFolder.getRoot(), "junit_content");
+        contentDir.mkdirs();
+
+        final List<NortFileLocation> fileLocations = Collections.singletonList(new NortFileLocation());
+
+        novusDocFileService.fetchDocuments(new HashMap<>(), new File(""), "book_title", fileLocations, contentDir, null);
     }
 
     private void addContentToFile(final File file, final String text) {
@@ -295,5 +295,12 @@ public final class NovusDocFileServiceTest {
         } catch (final IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void validateGatherResponse(final GatherResponse gatherResponse, final int docCount, final int nodeCount) {
+        assertEquals(docCount, gatherResponse.getDocCount());
+        assertEquals(docCount, gatherResponse.getDocCount2());
+        assertEquals(nodeCount, gatherResponse.getNodeCount());
+        assertEquals("DOC Generate Step Completed", gatherResponse.getPublishStatus());
     }
 }
