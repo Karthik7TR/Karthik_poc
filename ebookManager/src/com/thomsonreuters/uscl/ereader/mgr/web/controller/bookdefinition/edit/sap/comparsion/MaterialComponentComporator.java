@@ -23,11 +23,11 @@ public class MaterialComponentComporator implements Comparator<MaterialComponent
         Integer result = 0;
         if (firstOrder == null && secondOrder == null) {
             result = 0;
-        } else if (firstOrder == null && secondOrder != null) {
+        } else if (firstOrder == null) {
             result = 1;
-        } else if (firstOrder != null && secondOrder == null) {
+        } else if (secondOrder == null) {
             result = -1;
-        } else if (firstOrder != null) {
+        } else {
             result = firstOrder.compareTo(secondOrder);
         }
         return result;

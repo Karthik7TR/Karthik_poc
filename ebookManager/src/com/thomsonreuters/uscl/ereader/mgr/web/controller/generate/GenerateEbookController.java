@@ -251,7 +251,7 @@ public class GenerateEbookController {
             setModelVersion(model, form, book.getFullyQualifiedTitleId());
 
             if (StringUtils.isNotBlank(form.getNewMajorVersion())) {
-                setModelGroup(id, book, model, form);
+                setModelGroup(book, model, form);
             }
             setModelIsbn(id, book, model);
         }
@@ -393,7 +393,6 @@ public class GenerateEbookController {
     }
 
     private void setModelGroup(
-        final Long bookDefinitionId,
         final BookDefinition book,
         final Model model,
         final GenerateBookForm form) {

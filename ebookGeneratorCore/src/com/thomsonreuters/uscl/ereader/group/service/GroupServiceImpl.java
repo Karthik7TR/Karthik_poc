@@ -185,7 +185,6 @@ public class GroupServiceImpl implements GroupService {
         final boolean firstGroup = (lastGroupDef == null);
 
         List<SubGroupInfo> allSubGroupInfo = new ArrayList<>();
-        ;
 
         if (!firstGroup && lastGroupDef != null) {
             allSubGroupInfo = lastGroupDef.getSubGroupInfoList();

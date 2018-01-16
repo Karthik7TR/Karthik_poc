@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -638,9 +639,8 @@ public class EditBookDefinitionForm {
 
     private void parseTitleId(final BookDefinition book) {
         final DocumentTypeCode documentType = book.getDocumentTypeCodes();
-        if (documentType != null) {
-            contentTypeId = documentType.getId();
-        }
+        Objects.requireNonNull(documentType);
+        contentTypeId = documentType.getId();
 
         // Parse titleId
         final String[] fullyqualifiedtitleArray = titleId.split("/");

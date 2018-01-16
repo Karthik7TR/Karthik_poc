@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -567,12 +568,13 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         int i = 0;
         final List<String> tocGuids = new ArrayList<>();
         for (final SplitDocument document : form.getSplitDocuments()) {
+            Objects.requireNonNull(document);
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "splitDocuments[" + i + "].tocGuid", "error.required");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "splitDocuments[" + i + "].note", "error.required");
 
             String tocGuid = null;
             // Check if there are duplicate guids
-            if (document != null && !document.isEmpty()) {
+            if (!document.isEmpty()) {
                 tocGuid = document.getTocGuid();
             }
             if (StringUtils.isNotBlank(tocGuid)) {
