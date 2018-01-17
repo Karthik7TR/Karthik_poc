@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.gather.codesworkbench.parsinghandler;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -78,7 +79,6 @@ public class NovusDocFileParser {
     }
 
     public void parseXML(final File docFile) throws GatherException {
-        XMLEventReader reader = null;
         FileOutputStream docbodyOutput = null;
         FileOutputStream metadataOutput = null;
         XMLEventWriter docbodyWriter = null;
@@ -86,10 +86,10 @@ public class NovusDocFileParser {
 
         int docFoundCounter = 0;
         int metaDocFoundCounter = 0;
-        try (FileInputStream input = new FileInputStream(docFile)) {
-            reader = xmlInputFactory.createXMLEventReader(input, CHARSET);
+        try (FileInputStream input = new FileInputStream(docFile);
+            XMLEventReaderClosableWrapper reader = new XMLEventReaderClosableWrapper(xmlInputFactory.createXMLEventReader(input, CHARSET));) {
             while (reader.hasNext()) {
-                XMLEvent event = (XMLEvent) reader.next();
+                XMLEvent event = reader.next();
 
                 if (event.isStartElement()) {
                     final StartElement element = event.asStartElement();
@@ -155,13 +155,11 @@ public class NovusDocFileParser {
                     }
                 }
                 // Change Document GUID when not matching docGuid from n-document.
-                if (event.isCharacters()) {
-                    if (isDocGuid) {
-                        final Characters character = event.asCharacters();
-                        final String data = character.getData();
-                        if (!docGuid.equalsIgnoreCase(data)) {
-                            event = xmlEventFactory.createCharacters(docGuid);
-                        }
+                if (event.isCharacters() && isDocGuid) {
+                    final Characters character = event.asCharacters();
+                    final String data = character.getData();
+                    if (!docGuid.equalsIgnoreCase(data)) {
+                        event = xmlEventFactory.createCharacters(docGuid);
                     }
                 }
 
@@ -192,22 +190,16 @@ public class NovusDocFileParser {
                 }
             }
         } catch (final FileNotFoundException e) {
-            final GatherException ge = new GatherException("File Not Found error", e, GatherResponse.CODE_FILE_ERROR);
-            throw ge;
+            throw new GatherException("File Not Found error", e, GatherResponse.CODE_FILE_ERROR);
         } catch (final IOException e) {
-            final GatherException ge = new GatherException(
+            throw new GatherException(
                 "File I/O error on document with GUID " + docGuid,
                 e,
                 GatherResponse.CODE_FILE_ERROR);
-            throw ge;
         } catch (final XMLStreamException e) {
-            final GatherException ge =
-                new GatherException("Streaming doc file error " + docGuid, e, GatherResponse.CODE_FILE_ERROR);
-            throw ge;
+            throw new GatherException("Streaming doc file error " + docGuid, e, GatherResponse.CODE_FILE_ERROR);
         } catch (final Exception e) {
-            final GatherException ge =
-                new GatherException("Error occurred parsing " + docGuid, e, GatherResponse.CODE_FILE_ERROR);
-            throw ge;
+            throw new GatherException("Error occurred parsing " + docGuid, e, GatherResponse.CODE_FILE_ERROR);
         } finally {
             docFoundCounter += gatherResponse.getDocCount();
             gatherResponse.setDocCount(docFoundCounter); // retrieved doc count
@@ -242,15 +234,6 @@ public class NovusDocFileParser {
                     Log.error("Error closing metadata output stream.", e);
                 }
             }
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (final XMLStreamException e) {
-                final GatherException ge =
-                    new GatherException("Closing reader doc file error", e, GatherResponse.CODE_FILE_ERROR);
-                throw ge;
-            }
         }
     }
 
@@ -260,5 +243,33 @@ public class NovusDocFileParser {
 
     public void setTocSequence(final Integer tocSequence) {
         this.tocSequence = tocSequence;
+    }
+
+    private static class XMLEventReaderClosableWrapper implements Closeable {
+        private XMLEventReader reader;
+
+        XMLEventReaderClosableWrapper(final XMLEventReader reader) {
+            this.reader = reader;
+        }
+
+        boolean hasNext() {
+            return reader.hasNext();
+        }
+
+        XMLEvent next() {
+            return (XMLEvent) reader.next();
+        }
+
+        @Override
+        public void close() throws IOException {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (final XMLStreamException e) {
+                    final String message = "Closing reader doc file error";
+                    throw new RuntimeException(message, new GatherException(message, e, GatherResponse.CODE_FILE_ERROR));
+                }
+            }
+        }
     }
 }

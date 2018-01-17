@@ -1,6 +1,6 @@
 package com.thomsonreuters.uscl.ereader.gather.codesworkbench.parsinghandler;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,7 +11,6 @@ import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -54,30 +53,16 @@ public final class NovusDocFileParserTest {
             documentLevelMap);
     }
 
-    @Test
-    public void testNoneExistingFile() {
-        final File nort = new File(cwbDir, "none.xml");
-
-        try {
-            parser.parseXML(nort);
-            fail("Test should throw GatherException: File Not Found error");
-        } catch (final GatherException e) {
-            //expected exception thrown
-            e.printStackTrace();
-        }
+    @Test(expected = GatherException.class)
+    public void testNoneExistingFile() throws GatherException {
+        parser.parseXML(new File(cwbDir, "none.xml"));
     }
 
-    @Test
-    public void testInvalidXML() {
+    @Test(expected = GatherException.class)
+    public void testInvalidXML() throws GatherException {
         final File nort = new File(cwbDir, "none.xml");
         addContentToFile(nort, "asdasd");
-        try {
-            parser.parseXML(nort);
-            fail("Test should throw GatherException");
-        } catch (final GatherException e) {
-            //expected exception thrown
-            e.printStackTrace();
-        }
+        parser.parseXML(nort);
     }
 
     @Test
@@ -92,7 +77,7 @@ public final class NovusDocFileParserTest {
 
         parser.parseXML(nort);
 
-        Assert.assertEquals(numberOfDocuments.intValue(), gatherResponse.getDocCount());
+        assertGatherResponse(2);
     }
 
     @Test
@@ -109,7 +94,7 @@ public final class NovusDocFileParserTest {
 
         parser.parseXML(nort);
 
-        Assert.assertEquals(numberOfDocuments.intValue(), gatherResponse.getDocCount());
+        assertGatherResponse(2);
     }
 
     @Test
@@ -126,7 +111,7 @@ public final class NovusDocFileParserTest {
 
         parser.parseXML(nort);
 
-        Assert.assertEquals(numberOfDocuments.intValue(), gatherResponse.getDocCount());
+        assertGatherResponse(2);
     }
 
     @Test
@@ -153,7 +138,13 @@ public final class NovusDocFileParserTest {
 
         parser.parseXML(nort);
 
-        Assert.assertEquals(numberOfDocuments.intValue(), gatherResponse.getDocCount());
+        assertGatherResponse(1);
+    }
+
+    private void assertGatherResponse(final Integer tocSequence) {
+        assertEquals(numberOfDocuments.intValue(), gatherResponse.getDocCount());
+        assertEquals(numberOfDocuments.intValue(), gatherResponse.getDocCount2());
+        assertEquals(tocSequence, parser.getTocSequence());
     }
 
     private void addContentToFile(final File file, final String text) {
