@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document version="1.0" xmlns="http://www.sdl.com/xpp">
+	<pages>
+		<page relpgnum="1" p1="0" p2="0" p3="0" p4="1" p5="0" p6="0" psrnum="3" plname="standard" px="0" py="0" psx="4.32i" psy="7.65i"			fsx="6.49i" fsy="10.12i" rotate="0" forcepend="false" lastpage="false"			notextinpg="false" filler="false" pfexcept="false" rlfiller="false"			pagetype="right">
+			<stream type="main" sx="0" sy="0" ssx="0" ssy="0" groupnum="1"	svjmode="justify" epfilltype="none" class="0" rotate="0" strmrot="0"				vj_space="0" cerrors="true" cntedit="false" predit="false" recomp="false"				frzcomp="false" ipcbal="false" touched="false" tplaced="false"				bplaced="false" firstack="false" lastack="false" direction="false"				pgscope="false" hfull="false" vfull="false" here="false" before="false"				justified="false" balup="false" baldown="false" balrunaway="false">			</stream>
+			<stream type="frills" sx="0" sy="0" ssx="0" ssy="0" groupnum="6" svjmode="bottom" epfilltype="none" class="0" rotate="0" strmrot="0" vj_space="0" cerrors="true" cntedit="false" predit="false" recomp="false" frzcomp="false" ipcbal="false" touched="false" tplaced="false" bplaced="false" firstack="false" lastack="false" direction="false" pgscope="false" hfull="false" vfull="false" here="false" before="false" justified="false" balup="false" baldown="false" balrunaway="false">
+				<block type="frill" id="0" bx="0" by="6.11i" bsx="4.32i" bsy="1.16i" bisy="1.16i" biy="6.11i" rotate="0" svjmode="bottom" btextlen="1.02i" bslack="0.14i" vjerr="0" pgtbl="0" ipcnum="0" ipcgnum="1" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="false" rtl="false">
+					<group class="unknown" pclass="" dh="/unknown" style="unknown">
+						<line xfinal="0.78i" yfinal="0.28i" lnwidth="2.77i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="center" bandwidth="0.05i" letspace="0" maxasc="0.13i" maxdesc="0.76i" ldextra="0" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="new_westhorz"/>
+							<image id="thwest-k" type="tif" path="/apps/xpp/shared/images/lib01/thwest-k" x="0" y="-0.13i" w="2.77i" h="1.02i" rotation="0" priority="0" scale="1.000000" cropx="0" cropy="0" cropw="2.77i" croph="1.02i"/>
+							<endtag name="new_westhorz"/>
+						</line>
+						<line xfinal="0" yfinal="1.16i" lnwidth="0.05i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.13i" maxdesc="0.07i" ldextra="0" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="true" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="new_westhorz" cgt="true">&#8201;</t>
+						</line>
+					</group>
+				</block>
+			</stream>
+		</page>
+		<page relpgnum="2" p1="0" p2="0" p3="0" p4="2" p5="0" p6="0" psrnum="3" plname="standard" px="0" py="0" psx="4.32i" psy="7.65i"			fsx="6.49i" fsy="10.12i" rotate="0" forcepend="false" lastpage="false"			notextinpg="false" filler="false" pfexcept="false" rlfiller="false"			pagetype="right">
+			<stream type="main" sx="0" sy="0" ssx="0" ssy="0" groupnum="1"	svjmode="justify" epfilltype="none" class="0" rotate="0" strmrot="0"				vj_space="0" cerrors="true" cntedit="false" predit="false" recomp="false"				frzcomp="false" ipcbal="false" touched="false" tplaced="false"				bplaced="false" firstack="false" lastack="false" direction="false"				pgscope="false" hfull="false" vfull="false" here="false" before="false"				justified="false" balup="false" baldown="false" balrunaway="false">			</stream>
+			<stream type="frills" sx="0" sy="0" ssx="0" ssy="0" groupnum="6" svjmode="bottom" epfilltype="none" class="0" rotate="0" strmrot="0" vj_space="0" cerrors="true" cntedit="false" predit="false" recomp="false" frzcomp="false" ipcbal="false" touched="false" tplaced="false" bplaced="false" firstack="false" lastack="false" direction="false" pgscope="false" hfull="false" vfull="false" here="false" before="false" justified="false" balup="false" baldown="false" balrunaway="false">
+				<block type="frill" id="0" bx="0" by="6.11i" bsx="4.32i" bsy="1.16i" bisy="1.16i" biy="6.11i" rotate="0" svjmode="bottom" btextlen="1.02i" bslack="0.14i" vjerr="0" pgtbl="0" ipcnum="0" ipcgnum="1" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="false" rtl="false">
+					<group class="unknown" pclass="" dh="/unknown" style="unknown">
+						<line xfinal="0.78i" yfinal="0.28i" lnwidth="2.77i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="center" bandwidth="0.05i" letspace="0" maxasc="0.13i" maxdesc="0.76i" ldextra="0" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<tag name="new_westhorz"/>
+							<image id="thwest-k" type="tif" path="/apps/xpp/shared/images/lib01/thwest-k" x="0" y="-0.13i" w="2.77i" h="1.02i" rotation="0" priority="0" scale="1.000000" cropx="0" cropy="0" cropw="2.77i" croph="1.02i"/>
+							<endtag name="new_westhorz"/>
+						</line>
+						<line xfinal="0" yfinal="1.16i" lnwidth="0.05i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.13i" maxdesc="0.07i" ldextra="0" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="true" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
+							<t x="0" y="0" style="new_westhorz" cgt="true">&#8201;</t>
+						</line>
+					</group>
+				</block>
+			</stream>
+		</page>
+	</pages>
+</document>

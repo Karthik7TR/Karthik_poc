@@ -40,7 +40,6 @@
 			</xsl:choose>
 		</xsl:variable>
 		
-		
 		<xsl:element name="pagebreak">
 			<xsl:attribute name="num" select="x:fix-lrre-page($pageNumber)" />
 			<xsl:attribute name="serial-num" select="@p4" />
@@ -54,7 +53,11 @@
 		</xsl:if>
 
 		<xsl:apply-templates select="x:stream[@type=$type]" />
-		
+	
+		<xsl:if test="$bundlePartType='FRONT' and count(preceding::x:page)=0 and $type='main'">
+			<xsl:apply-templates select="x:stream[@type='frills']//x:image"/>
+		</xsl:if>
+
 		<!-- if we work with footnotes place page.number at the end of page -->
 		<xsl:if test="$type = 'footnote' and $printNumber != '' and $printNumber != '0'">
 			<xsl:element name="page.number">

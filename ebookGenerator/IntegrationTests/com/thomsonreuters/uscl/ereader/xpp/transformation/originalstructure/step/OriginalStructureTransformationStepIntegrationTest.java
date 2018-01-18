@@ -72,6 +72,14 @@ public final class OriginalStructureTransformationStepIntegrationTest {
     }
 
     @Test
+    public void shouldTransformImageOnFirstFrontmatterPage() throws Exception {
+        testOriginalStructureTransformationStep(
+            "image\\0-IMAGE_Front_vol_1.DIVXML.xml",
+            "image\\image.expected.main",
+            "image\\image.expected.footnotes");
+    }
+
+    @Test
     public void shouldProcessCiteQueries() throws Exception {
         //given
         final File expectedProcessedCiteQueriesDir = new File(

@@ -32,9 +32,32 @@
 	<!-- Images -->
 	<xsl:template match="x:image">
 		<xsl:element name="proview_image">
-			<xsl:copy-of select="@*" />
+			<xsl:for-each select="@*">
+				<xsl:choose>
+					<xsl:when test="name(.)!='id'">
+						<xsl:copy-of select="." />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:attribute name="id">
+							<xsl:value-of select="x:map-id(..)" />
+						</xsl:attribute>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:for-each>
 		</xsl:element>
 	</xsl:template>
+
+	<xsl:function name="x:map-id">
+		<xsl:param name="imageNode" />
+		<xsl:choose>
+			<xsl:when test="contains($imageNode/@id, '.')">
+				<xsl:value-of select="$imageNode/@id" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="concat($imageNode/@id, '.', $imageNode/@type)" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
 
 	<!-- External links -->
 	<xsl:template match="x:cite.query">
