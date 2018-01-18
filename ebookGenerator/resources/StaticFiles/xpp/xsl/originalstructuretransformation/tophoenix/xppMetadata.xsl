@@ -12,6 +12,13 @@
 		<xsl:value-of select="concat('&lt;', name(), ' ')"
 			disable-output-escaping="yes" />
 		<xsl:value-of select="." />
+		
+		<xsl:variable name="pageNum" select="ancestor::x:page/@p4" />
+		<xsl:variable name="streamType" select="ancestor::x:stream/@type" />
+		<xsl:if test="not(following::x:t[ancestor::x:page/@p4 = $pageNum and ancestor::x:stream/@type = $streamType])">
+			<xsl:text disable-output-escaping="yes"><![CDATA[ no-page-content="true"]]></xsl:text>
+		</xsl:if>
+		
 		<xsl:text disable-output-escaping="yes"><![CDATA[>]]></xsl:text>
 		<xsl:value-of select="$name" disable-output-escaping="yes" />
 		<xsl:value-of select="concat('&lt;/', name(), '&gt;')"

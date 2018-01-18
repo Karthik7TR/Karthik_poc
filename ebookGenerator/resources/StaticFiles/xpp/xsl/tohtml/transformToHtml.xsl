@@ -65,9 +65,23 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:processing-instruction name="pb" select="concat('label', '=', $apostrophe, $pagePrefix, $pageNum, $apostrophe, '?')" />
+		
+		<xsl:variable name="num" select="./@num" />
+		<xsl:if test="preceding::x:XPPHier[1]/@no-page-content = 'true' and ancestor::x:part.main and preceding::x:XPPHier[1][following::x:pagebreak[1]/@num = $num]">
+			<xsl:apply-templates select="preceding::x:XPPHier[1]" mode="place-anchor" />
+		</xsl:if>
+		<xsl:if test="preceding::x:XPPMetaData[1]/@no-page-content = 'true' and ancestor::x:part.main and preceding::x:XPPMetaData[1][following::x:pagebreak[1]/@num = $num]">
+			<xsl:apply-templates select="preceding::x:XPPMetaData[1]" mode="place-anchor" />
+		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="x:XPPHier | x:XPPMetaData">
+		<xsl:if test="not(./@no-page-content)">
+			<xsl:apply-templates select="self::node()" mode="place-anchor" />
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template match="x:XPPHier | x:XPPMetaData" mode="place-anchor">
 		<xsl:variable name="uid">
 			<xsl:choose>
 				<xsl:when test="@guid">
