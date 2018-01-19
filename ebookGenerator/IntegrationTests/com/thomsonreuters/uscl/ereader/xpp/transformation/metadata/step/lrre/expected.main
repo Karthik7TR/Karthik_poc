@@ -1,5 +1,5 @@
 <root xmlns="http://www.sdl.com/xpp"><sectionbreak sectionuuid="1111111.lrre1to20"/><XPPHier uuid="1111111.lrre" name="Table of LRRE" parent_uuid="1111111.lrre" md.doc_family_uuid="1111111.lrre1to20">Table of LRRE</XPPHier>
-	<pagebreak num="Tbl of L&amp;ampR-1" serial-num="1"/><XPPHier uuid="1111111.lrre1to20" name="p. 1-20" parent_uuid="1111111.lrre" md.doc_family_uuid="1111111.lrre1to20">p. 1-20</XPPHier>
+	<pagebreak num="Tbl of L&amp;ampR-1" serial-num="1"/><XPPHier uuid="1111111.lrre1to20" name="United States Constitution - Civil Rights Act of 1871" parent_uuid="1111111.lrre" md.doc_family_uuid="1111111.lrre1to20">United States Constitution - Civil Rights Act of 1871</XPPHier>
 	<page.number.ref page-number="Tbl of L&amp;ampR-1"/>
 	<pagebreak num="Tbl of L&amp;ampR-2" serial-num="2"/>
 	<pagebreak num="Tbl of L&amp;ampR-3" serial-num="3"/>
@@ -94,7 +94,7 @@
 				<endcolumn/>
 				<endcolumns/>
 				<main.head>
-					<pagebreak num="Tbl of L&amp;ampR-21" serial-num="21"/><sectionbreak sectionuuid="1111111.lrre21to21"/><XPPHier uuid="1111111.lrre21to21" name="p. 21-21" parent_uuid="1111111.lrre" md.doc_family_uuid="1111111.lrre21to21">p. 21-21</XPPHier>
+					<pagebreak num="Tbl of L&amp;ampR-21" serial-num="21"/><sectionbreak sectionuuid="1111111.lrre21to21"/><XPPHier uuid="1111111.lrre21to21" name="statute-us-ny-law-judctacts not in Format Table - Other text Table" parent_uuid="1111111.lrre" md.doc_family_uuid="1111111.lrre21to21">statute-us-ny-law-judctacts not in Format Table - Other text Table</XPPHier>
 					<t style="main.head">statute-us-ny-law-judctacts not in Format </t>
 					<t style="main.head">Table</t>
 				</main.head>

@@ -21,12 +21,12 @@ import org.springframework.beans.factory.annotation.Value;
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
 public class ExtractTocStep extends VolumeNumberAwareXppTransformationStep {
-    @Value("${xpp.unite.tocs.xsl}")
-    private File uniteTocsXsl;
     @Value("${xpp.extract.toc.xsl}")
     private File extractTocXsl;
     @Value("${xpp.merge.volume.tocs.xsl}")
     private File mergeVolumeTocsXsl;
+    @Value("${xpp.unite.tocs.xsl}")
+    private File uniteTocsXsl;
     @Value("${xpp.tox.depth.threshold}")
     private int depthThreshold;
 
