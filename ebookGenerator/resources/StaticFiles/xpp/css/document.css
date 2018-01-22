@@ -968,7 +968,8 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 }
 
 .primary_source_body .primary_hierarchy_body > .primary_section > .primary_section_front > .primary_outline_name_block > .designator,
-.publication > .publication_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_body > .primary_hierarchy > .primary_hierarchy_front > .primary_outline_name_block > .designator {
+.publication > .publication_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_body > .primary_hierarchy > .primary_hierarchy_front > .primary_outline_name_block > .designator,
+.publication > .publication_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_front > .primary_outline_name_block > .designator {
   min-width: 0;
   margin: 0;
 }
@@ -988,6 +989,23 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 
 .primary_section_body > .primary_official_content > .stat_subsect > .stat_para > .stat_name_block ~ .stat_subpara {
   clear: left;
+}
+
+.publication > .publication_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_front > .primary_outline_name_block,
+.publication > .publication_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_front > .primary_outline_name_block * {
+  text-align: center;
+}
+
+.publication > .publication_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_front > .primary_outline_name_block > .primary_name > .name {
+  flex-grow: 1;
+}
+
+.l1 {
+  text-indent: 1em;
+}
+
+.l1 > .name_block {
+  display: block;
 }
 
 .toc_primary_hierarchy > .primary_outline_name_block > .label + .t,
