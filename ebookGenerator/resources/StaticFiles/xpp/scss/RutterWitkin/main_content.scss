@@ -126,3 +126,17 @@
         }
     }
 }
+
+.toc_rutter_form_doc .name {
+    white-space: pre-wrap;
+    flex-grow: 1;
+    margin-right: #{$indent}em;
+}
+
+.set_as_keyed {
+    display: inline-block;
+}
+
+.toc_rutter_form_doc .rw_designator {
+    min-width: #{$indent * 4.5}em;
+}

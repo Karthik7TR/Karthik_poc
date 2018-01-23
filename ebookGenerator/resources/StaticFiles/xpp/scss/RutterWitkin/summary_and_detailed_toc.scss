@@ -59,21 +59,20 @@
     }
 }
 
-span:nth-last-of-type(2) {
-    .toc_rw_hierarchy .outline_name_block>&,
-    .toc_rutter_form_doc .outline_name_block>& {
-        display: block;
-        width: 100%;
-        text-align: right;
-    }
-}
-
 .font_outline_name_block {
     .outline_name_block>& {
         .toc_rutter_form_doc &,
         .toc_rw_hierarchy & {
             display: block;
         }
+    }
+}
+
+.rutter_chapter .generated_toc>.full_toc {
+    .name {
+        width: 100%;
+        padding-right: 10%;
+        white-space: pre-wrap;
     }
 }
 

@@ -1429,16 +1429,15 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   margin-right: 0.5em;
 }
 
-.toc_rw_hierarchy .outline_name_block > span:nth-last-of-type(2),
-.toc_rutter_form_doc .outline_name_block > span:nth-last-of-type(2) {
-  display: block;
-  width: 100%;
-  text-align: right;
-}
-
 .toc_rutter_form_doc .outline_name_block > .font_outline_name_block,
 .toc_rw_hierarchy .outline_name_block > .font_outline_name_block {
   display: block;
+}
+
+.rutter_chapter .generated_toc > .full_toc .name {
+  width: 100%;
+  padding-right: 10%;
+  white-space: pre-wrap;
 }
 
 .toc_rutter_form_doc .rw_designator {
@@ -1598,8 +1597,35 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   padding-left: 0.25em;
 }
 
+.toc_rutter_form_doc .name {
+  white-space: pre-wrap;
+  flex-grow: 1;
+  margin-right: 1em;
+}
+
+.set_as_keyed {
+  display: inline-block;
+}
+
+.toc_rutter_form_doc .rw_designator {
+  min-width: 4.5em;
+}
+
 .rutter_chapter .cgt {
   white-space: pre;
+}
+
+.toc_rutter_form_doc .name ~ .cgt,
+.rutter_chapter .generated_toc > .full_toc .name ~ .cgt {
+  display: none;
+}
+
+.toc_rutter_form_doc .name ~ .cgt:last-of-type,
+.toc_rw_hierarchy .outline_name_block > .cgt:nth-last-of-type(2),
+.toc_rutter_form_doc .outline_name_block > .cgt:nth-last-of-type(2),
+.rutter_chapter .generated_toc > .full_toc .name ~ .cgt:last-of-type,
+.rutter_chapter .generated_toc > .full_toc .name ~ .cgt:nth-last-of-type(2) {
+  display: block;
 }
 
 .mixed_pub_types .generated_toc > .full_toc > .toc_mixed_hierarchy > .toc_primary_source > .toc_primary_hierarchy > .toc_primary_hierarchy > .toc_primary_section .primary_outline_name_block > .label > .cgt,
