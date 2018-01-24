@@ -209,6 +209,36 @@
                                     </full.toc>
                                 </generated.toc>
                             </front>
+                            <table cols="6" tgroupstyle="text">
+                                <tbody>
+                                    <row>
+                                        <entry/>
+                                        <entry colspan="4">
+                                            <t style="entry">[a. Past economic loss</t>
+                                        </entry>
+                                        <entry/>
+                                    </row>
+                                    <row>
+                                        <entry/>
+                                        <entry align="left"/>
+                                        <entry align="center"/>
+                                        <entry align="right" colspan="3">
+                                            <t style="entry">Total Past Economic Damages: </t>
+                                            <leaveout type="dollar" size="medium">
+                                                <t style="entry cgt">$</t>
+                                            </leaveout><t style="entry sub cgt">&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;</t><t style="entry">]</t>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry/>
+                                        <entry/>
+                                        <entry/>
+                                        <entry align="right"/>
+                                        <entry/>
+                                        <entry/>
+                                    </row>
+                                </tbody>
+                            </table>
                             <para date.updated="0" first.para="no">
                                 <para.text date.updated="0" first.para.text="yes">
                                     <cite.query xmlns="http://www.sdl.com/xpp" w-seq-number="00004" w-ref-type="LQ" w-normalized-cite="MIST712A.18S" w-pub-number="1000043" ID="If47b0960627111e78600cc06009ba385"><t style="para.text">A national review of guardianship cannot provide answers </t><TLRkey/>

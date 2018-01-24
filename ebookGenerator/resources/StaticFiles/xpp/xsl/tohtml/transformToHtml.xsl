@@ -248,19 +248,39 @@
 		<xsl:element name="tbody">
 			<xsl:apply-templates />
 		</xsl:element>
-    </xsl:template>
-    
-    <xsl:template match="x:row">
+	</xsl:template>
+
+	<xsl:template match="x:row">
 		<xsl:element name="tr">
 			<xsl:apply-templates />
 		</xsl:element>
-    </xsl:template>
-    
-    <xsl:template match="x:row/x:entry">
+	</xsl:template>
+
+	<xsl:template match="x:row/x:entry">
 		<xsl:element name="td">
+			<xsl:if test="@align">
+				<xsl:attribute name="class" select="x:getAlignClass(@align)" />
+			</xsl:if>
+			<xsl:if test="@colspan">
+				<xsl:attribute name="colspan" select="@colspan" />
+			</xsl:if>
 			<xsl:apply-templates />
 		</xsl:element>
 	</xsl:template>
+
+	<xsl:function name="x:getAlignClass">
+		<xsl:param name="align"/>
+		
+		<xsl:if test="$align='left'">
+			<xsl:value-of select="'l'"/>
+		</xsl:if>
+		<xsl:if test="$align='center'">
+			<xsl:value-of select="'c'"/>
+		</xsl:if>
+		<xsl:if test="$align='right'">
+			<xsl:value-of select="'r'"/>
+		</xsl:if>
+	</xsl:function>
 
 	<xsl:template match="x:page.number.ref">
 		<xsl:variable name="pgNum" select="./@page-number" />

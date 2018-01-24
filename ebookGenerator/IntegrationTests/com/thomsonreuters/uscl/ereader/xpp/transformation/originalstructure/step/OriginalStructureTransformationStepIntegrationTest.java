@@ -80,6 +80,14 @@ public final class OriginalStructureTransformationStepIntegrationTest {
     }
 
     @Test
+    public void shouldTransformTable() throws Exception {
+        testOriginalStructureTransformationStep(
+            "table\\1-CACI_Front_Matter_MEMBERS.DIVXML.xml",
+            "table\\table.expected.main",
+            "table\\table.expected.footnotes");
+    }
+
+    @Test
     public void shouldProcessCiteQueries() throws Exception {
         //given
         final File expectedProcessedCiteQueriesDir = new File(

@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document version="1.0" xmlns="http://www.sdl.com/xpp">
+    <pages>
+        <page relpgnum="163" p1="0" p2="0" p3="0" p4="401" p5="0" p6="0" psrnum="3" plname="standard" px="0" py="0" psx="5.16i" psy="8.65i" fsx="6.49i" fsy="10.12i" rotate="0" forcepend="false" lastpage="false" notextinpg="false" filler="false" pfexcept="false" rlfiller="false" pagetype="right">
+            <stream type="main" sx="0" sy="0" ssx="0" ssy="0" groupnum="1" svjmode="justify" epfilltype="none" class="0" rotate="0" strmrot="0" vj_space="0" cerrors="true" cntedit="false" predit="false" recomp="false" frzcomp="false" ipcbal="false" touched="false" tplaced="false" bplaced="false" firstack="false" lastack="false" direction="false" pgscope="false" hfull="false" vfull="false" here="false" before="false" justified="false" balup="false" baldown="false" balrunaway="false">
+                <block type="main" bx="0" by="0.3i" bsx="5.16i" bsy="8.05i" bisy="8.05i" biy="0.3i" rotate="0" svjmode="justify" btextlen="8i" bslack="0.06i" vjerr="0" pgtbl="0" ipcnum="0" ipcgnum="1" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="true" rtl="false">
+                    <table tabstyle="text" frame="none" cals="true">
+                        <tag name="table" tabstyle="text" frame="none" cals="true"/>
+                        <tgroup tgroupstyle="text" cols="3" mx_rows="1" tbox_row="0" cals_intertgrule="rowrule" hj_mode="left" lnmeas="0" mx_rtl="0" tbwidth="5.16i" tbdepth="0.32i" tbtotvj="0" tbxposn="0" tbyposn="3.66i" tgroup="1" hdstyle_rows="0" min_colwidth="0" min_rowdepth="0" hdr_rows="0" colstyle="0" tblbrk="row" max_colwidth="2.99i" ctbl_depth="0.22i" yshift="3.61i" pgh_break="any" bkh_break="any" hdr_sup_rows="false" lim_bywid="false" bbxcol="0" ebxcol="0" ob_hdr_rows="0" tnoutput="block" tnrenum="block" tnrefstyle="an" tnoutorder="0" eb_ep_row="0" stubcols="false">
+                            <tag name="tgroup" tgroupstyle="text" cols="3" mx_rows="1" tbox_row="0" cals_intertgrule="rowrule" hj_mode="left" lnmeas="0" mx_rtl="0" tbwidth="5.16i" tbdepth="0.32i" tbtotvj="0" tbxposn="0" tbyposn="3.66i" tgroup="1" hdstyle_rows="0" min_colwidth="0" min_rowdepth="0" hdr_rows="0" colstyle="0" tblbrk="row" max_colwidth="2.99i" ctbl_depth="0.22i" yshift="3.61i" pgh_break="any" bkh_break="any" hdr_sup_rows="false" lim_bywid="false" bbxcol="0" ebxcol="0" ob_hdr_rows="0" tnoutput="block" tnrenum="block" tnrefstyle="an" tnoutorder="0" eb_ep_row="0" stubcols="false"/>
+                            <colspec colnum="1" colname="col1" colwidth="0.58i" tbclwsp="0" tbcrwsp="0.08i" tbclgut="0" tbcrgut="0.17i" tbclrule="0" tbcrrule="0.01i" tbcmeas="0.5i" tbmxalnw="0" tbctpos="0" tbcxpos="0" tbcr_rcolor="#000000" tbcr_rcolor-cmyk="0 0 0 1" tbcl_rcolor="#000000" tbcl_rcolor-cmyk="0 0 0 1"/>
+                            <colspec colnum="2" colname="col2" colwidth="1.29i" tbclwsp="0.08i" tbcrwsp="0.08i" tbclgut="0.17i" tbcrgut="0.17i" tbclrule="0.01i" tbcrrule="0.01i" tbcmeas="1.12i" tbmxalnw="0" tbctpos="0.67i" tbcxpos="0.58i" tbcr_rcolor="#000000" tbcr_rcolor-cmyk="0 0 0 1" tbcl_rcolor="#000000" tbcl_rcolor-cmyk="0 0 0 1"/>
+                            <colspec colnum="3" colname="col3" colwidth="3.28i" tbclwsp="0.08i" tbcrwsp="0" tbclgut="0.17i" tbcrgut="0" tbclrule="0.01i" tbcrrule="0" tbcmeas="3.2i" tbmxalnw="0" tbctpos="1.95i" tbcxpos="1.87i" tbcr_rcolor="#000000" tbcr_rcolor-cmyk="0 0 0 1" tbcl_rcolor="#000000" tbcl_rcolor-cmyk="0 0 0 1"/>
+                            <tbody>
+                                <tag name="tbody"/>
+                                <row row="1" rowrel="1" tbrdepth="0.32i" row_pos="0.14i" row_gutter="0" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+                                    <entry col="1" colsep="0" rowsep="0" namest="col1" nameend="col3" align="center" valign="top">
+                                        <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
+                                            <line xfinal="0" yfinal="3.9i" lnwidth="0" lnmeas="0.5i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="true" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="row">
+                                                    <attr name="date.updated">0</attr>
+                                                </tag>
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                    <attr name="xpp.colname">1</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                </row>
+                                <row row="2" rowrel="2" tbrdepth="0.32i" row_pos="0.14i" row_gutter="0" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+                                    <entry col="1" colsep="0" rowsep="0" align="left" valign="top">
+                                        <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
+                                            <line xfinal="0" yfinal="3.9i" lnwidth="0" lnmeas="0.5i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="true" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="row">
+                                                    <attr name="date.updated">0</attr>
+                                                </tag>
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                    <attr name="xpp.colname">1</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="2" colsep="0" rowsep="0" align="left" valign="top">
+                                        <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
+                                            <line xfinal="0.67i" yfinal="3.9i" lnwidth="0.63i" lnmeas="1.12i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="colname">2</attr>
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag>
+                                                <tag name="leaveout">
+                                                    <attr name="size">small</attr>
+                                                    <attr name="type">line</attr>
+                                                </tag><t x="0" y="0.03i" style="entry" cgt="true">&mdash;&mdash;&mdash;</t>
+                                                <endtag name="leaveout"/>
+                                                <t x="0" y="0" style="entry"> Yes</t>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="3" colsep="0" rowsep="0" align="left" valign="top">
+                                        <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
+                                            <line xfinal="1.95i" yfinal="3.9i" lnwidth="0.56i" lnmeas="3.2i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="true" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag>
+                                                <tag name="leaveout">
+                                                    <attr name="size">small</attr>
+                                                    <attr name="type">line</attr>
+                                                </tag><t x="0" y="0.03i" style="entry" cgt="true">&mdash;&mdash;&mdash;</t>
+                                                <endtag name="leaveout"/>
+                                                <t x="0" y="0" style="entry"> No</t>
+                                                <endtag name="entry"/>
+                                                <endtag name="row"/>
+                                                <endtag name="tbody"/>
+                                                <endtag name="tgroup"/>
+                                                <?xpp __ tgroupend?>
+                                                <endtag name="table"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                    <table tabstyle="text" frame="none" cals="true">
+                        <tag name="table" tabstyle="text" frame="none" cals="true"/>
+                        <tgroup tgroupstyle="text" cols="6" mx_rows="14" tbox_row="0" cals_intertgrule="rowrule" hj_mode="left" lnmeas="0" mx_rtl="0" tbwidth="5.16i" tbdepth="2.71i" tbtotvj="0" tbxposn="0" tbyposn="5.34i" tgroup="1" hdstyle_rows="0" min_colwidth="0" min_rowdepth="0" hdr_rows="0" colstyle="0" tblbrk="row" max_colwidth="2.99i" ctbl_depth="2.61i" yshift="5.29i" pgh_break="any" bkh_break="any" hdr_sup_rows="false" lim_bywid="false" bbxcol="0" ebxcol="0" ob_hdr_rows="0" tnoutput="block" tnrenum="block" tnrefstyle="an" tnoutorder="0" eb_ep_row="0" stubcols="false">
+                            <tag name="tgroup" tgroupstyle="text" cols="6" mx_rows="14" tbox_row="0" cals_intertgrule="rowrule" hj_mode="left" lnmeas="0" mx_rtl="0" tbwidth="5.16i" tbdepth="2.71i" tbtotvj="0" tbxposn="0" tbyposn="5.34i" tgroup="1" hdstyle_rows="0" min_colwidth="0" min_rowdepth="0" hdr_rows="0" colstyle="0" tblbrk="row" max_colwidth="2.99i" ctbl_depth="2.61i" yshift="5.29i" pgh_break="any" bkh_break="any" hdr_sup_rows="false" lim_bywid="false" bbxcol="0" ebxcol="0" ob_hdr_rows="0" tnoutput="block" tnrenum="block" tnrefstyle="an" tnoutorder="0" eb_ep_row="0" stubcols="false"/>
+                            <colspec colnum="1" colname="col1" colwidth="0.38i" tbclwsp="0" tbcrwsp="0.08i" tbclgut="0" tbcrgut="0.17i" tbclrule="0" tbcrrule="0.01i" tbcmeas="0.29i" tbmxalnw="0" tbctpos="0" tbcxpos="0" tbcr_rcolor="#000000" tbcr_rcolor-cmyk="0 0 0 1" tbcl_rcolor="#000000" tbcl_rcolor-cmyk="0 0 0 1"/>
+                            <colspec colnum="2" colname="col2" colwidth="0.33i" tbclwsp="0.08i" tbcrwsp="0.08i" tbclgut="0.17i" tbcrgut="0.17i" tbclrule="0.01i" tbcrrule="0.01i" tbcmeas="0.16i" tbmxalnw="0" tbctpos="0.46i" tbcxpos="0.38i" tbcr_rcolor="#000000" tbcr_rcolor-cmyk="0 0 0 1" tbcl_rcolor="#000000" tbcl_rcolor-cmyk="0 0 0 1"/>
+                            <colspec colnum="3" colname="col3" colwidth="0.99i" tbclwsp="0.08i" tbcrwsp="0.08i" tbclgut="0.17i" tbcrgut="0.17i" tbclrule="0.01i" tbcrrule="0.01i" tbcmeas="0.82i" tbmxalnw="0" tbctpos="0.79i" tbcxpos="0.71i" tbcr_rcolor="#000000" tbcr_rcolor-cmyk="0 0 0 1" tbcl_rcolor="#000000" tbcl_rcolor-cmyk="0 0 0 1"/>
+                            <colspec colnum="4" colname="col4" colwidth="2.1i" tbclwsp="0.08i" tbcrwsp="0.08i" tbclgut="0.17i" tbcrgut="0.17i" tbclrule="0.01i" tbcrrule="0.01i" tbcmeas="1.93i" tbmxalnw="0" tbctpos="1.78i" tbcxpos="1.69i" tbcr_rcolor="#000000" tbcr_rcolor-cmyk="0 0 0 1" tbcl_rcolor="#000000" tbcl_rcolor-cmyk="0 0 0 1"/>
+                            <colspec colnum="5" colname="col5" colwidth="0.72i" tbclwsp="0.08i" tbcrwsp="0.08i" tbclgut="0.17i" tbcrgut="0.17i" tbclrule="0.01i" tbcrrule="0.01i" tbcmeas="0.56i" tbmxalnw="0" tbctpos="3.88i" tbcxpos="3.79i" tbcr_rcolor="#000000" tbcr_rcolor-cmyk="0 0 0 1" tbcl_rcolor="#000000" tbcl_rcolor-cmyk="0 0 0 1"/>
+                            <colspec colnum="6" colname="col6" colwidth="0.64i" tbclwsp="0.08i" tbcrwsp="0" tbclgut="0.17i" tbcrgut="0" tbclrule="0.01i" tbcrrule="0" tbcmeas="0.56i" tbmxalnw="0" tbctpos="4.6i" tbcxpos="4.52i" tbcr_rcolor="#000000" tbcr_rcolor-cmyk="0 0 0 1" tbcl_rcolor="#000000" tbcl_rcolor-cmyk="0 0 0 1"/>
+                            <tbody>
+                                <tag name="tbody"/>
+                                <row row="1" rowrel="1" tbrdepth="0.28i" row_pos="0.14i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+                                    <entry col="1" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
+                                            <line xfinal="0" yfinal="5.58i" lnwidth="0" lnmeas="0.29i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="true" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="row">
+                                                    <attr name="date.updated">0</attr>
+                                                </tag>
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                    <attr name="xpp.colname">1</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="2" colsep="0" rowsep="0" namest="col2" nameend="col5" align="left" valign="bottom">
+                                        <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
+                                            <line xfinal="0.46i" yfinal="5.58i" lnwidth="1.67i" lnmeas="3.97i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="nameend">5</attr>
+                                                    <attr name="namest">2</attr>
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag><t x="0" y="0" style="entry">[a. Past economic loss</t>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="6" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="tbody" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" style="tbody">
+                                            <line xfinal="4.6i" yfinal="5.58i" lnwidth="0" lnmeas="0.56i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                                <endtag name="row"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                </row>
+                                <row row="2" rowrel="2" tbrdepth="0.18i" row_pos="0.32i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+                                    <entry col="1" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
+                                            <line xfinal="0" yfinal="5.77i" lnwidth="0" lnmeas="0.29i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="row">
+                                                    <attr name="date.updated">0</attr>
+                                                </tag>
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                    <attr name="xpp.colname">1</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="2" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
+                                            <line xfinal="0.46i" yfinal="5.77i" lnwidth="0" lnmeas="0.16i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="3" colsep="0" rowsep="0" namest="col3" nameend="col4" align="left" valign="bottom">
+                                        <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
+                                            <line xfinal="0.79i" yfinal="5.77i" lnwidth="1.01i" lnmeas="2.92i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="nameend">4</attr>
+                                                    <attr name="namest">3</attr>
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag><t x="0" y="0" style="entry">[lost earnings</t>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="5" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
+                                            <line xfinal="3.88i" yfinal="5.77i" lnwidth="0.77i" lnmeas="0.56i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="true" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag>
+                                                <tag name="leaveout">
+                                                    <attr name="type">dollar</attr>
+                                                    <attr name="size">medium</attr>
+                                                </tag><t x="0" y="0" style="entry" cgt="true">$</t>
+                                                <endtag name="leaveout"/>
+                                                <t x="0" y="0" style="entry" cgt="true" suppress="true">&#8201;</t><t x="0.02i" y="0.03i" style="entry" cgt="true">&mdash;&mdash;&mdash;&mdash;&mdash;</t><t x="0" y="0" style="entry">]</t>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="6" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="tbody" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" style="tbody">
+                                            <line xfinal="4.6i" yfinal="5.77i" lnwidth="0" lnmeas="0.56i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                                <endtag name="row"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                </row>
+                                <row row="3" rowrel="3" tbrdepth="0.18i" row_pos="0.51i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+                                    <entry col="1" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
+                                            <line xfinal="0" yfinal="5.95i" lnwidth="0" lnmeas="0.29i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="row">
+                                                    <attr name="date.updated">0</attr>
+                                                </tag>
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                    <attr name="xpp.colname">1</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="2" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
+                                            <line xfinal="0.46i" yfinal="5.95i" lnwidth="0" lnmeas="0.16i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="3" colsep="0" rowsep="0" namest="col3" nameend="col4" align="left" valign="bottom">
+                                        <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
+                                            <line xfinal="0.79i" yfinal="5.95i" lnwidth="0.85i" lnmeas="2.92i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="nameend">4</attr>
+                                                    <attr name="namest">3</attr>
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag><t x="0" y="0" style="entry">[lost profits</t>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="5" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
+                                            <line xfinal="3.88i" yfinal="5.95i" lnwidth="0.77i" lnmeas="0.56i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="true" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag>
+                                                <tag name="leaveout">
+                                                    <attr name="type">dollar</attr>
+                                                    <attr name="size">medium</attr>
+                                                </tag><t x="0" y="0" style="entry" cgt="true">$</t>
+                                                <endtag name="leaveout"/>
+                                                <t x="0" y="0" style="entry" cgt="true" suppress="true">&#8201;</t><t x="0.02i" y="0.03i" style="entry" cgt="true">&mdash;&mdash;&mdash;&mdash;&mdash;</t><t x="0" y="0" style="entry">]</t>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="6" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="tbody" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" style="tbody">
+                                            <line xfinal="4.6i" yfinal="5.95i" lnwidth="0" lnmeas="0.56i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                                <endtag name="row"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                </row>
+                                <row row="4" rowrel="4" tbrdepth="0.18i" row_pos="0.69i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+                                    <entry col="1" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
+                                            <line xfinal="0" yfinal="6.13i" lnwidth="0" lnmeas="0.29i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="row">
+                                                    <attr name="date.updated">0</attr>
+                                                </tag>
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                    <attr name="xpp.colname">1</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="2" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
+                                            <line xfinal="0.46i" yfinal="6.13i" lnwidth="0" lnmeas="0.16i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="3" colsep="0" rowsep="0" namest="col3" nameend="col4" align="left" valign="bottom">
+                                        <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
+                                            <line xfinal="0.79i" yfinal="6.13i" lnwidth="1.36i" lnmeas="2.92i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="nameend">4</attr>
+                                                    <attr name="namest">3</attr>
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag><t x="0" y="0" style="entry">[medical expenses</t>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="5" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
+                                            <line xfinal="3.88i" yfinal="6.13i" lnwidth="0.77i" lnmeas="0.56i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="true" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag>
+                                                <tag name="leaveout">
+                                                    <attr name="type">dollar</attr>
+                                                    <attr name="size">medium</attr>
+                                                </tag><t x="0" y="0" style="entry" cgt="true">$</t>
+                                                <endtag name="leaveout"/>
+                                                <t x="0" y="0" style="entry" cgt="true" suppress="true">&#8201;</t><t x="0.02i" y="0.03i" style="entry" cgt="true">&mdash;&mdash;&mdash;&mdash;&mdash;</t><t x="0" y="0" style="entry">]</t>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="6" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="tbody" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" style="tbody">
+                                            <line xfinal="4.6i" yfinal="6.13i" lnwidth="0" lnmeas="0.56i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                                <endtag name="row"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                </row>
+                                <row row="5" rowrel="5" tbrdepth="0.18i" row_pos="0.87i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+                                    <entry col="1" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
+                                            <line xfinal="0" yfinal="6.32i" lnwidth="0" lnmeas="0.29i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="row">
+                                                    <attr name="date.updated">0</attr>
+                                                </tag>
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                    <attr name="xpp.colname">1</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="2" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
+                                            <line xfinal="0.46i" yfinal="6.32i" lnwidth="0" lnmeas="0.16i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="3" colsep="0" rowsep="0" namest="col3" nameend="col4" align="left" valign="bottom">
+                                        <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
+                                            <line xfinal="0.79i" yfinal="6.32i" lnwidth="1.91i" lnmeas="2.92i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="nameend">4</attr>
+                                                    <attr name="namest">3</attr>
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag><t x="0" y="0" style="entry">[other past economic loss</t>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="5" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
+                                            <line xfinal="3.88i" yfinal="6.32i" lnwidth="0.77i" lnmeas="0.56i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="true" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag>
+                                                <tag name="leaveout">
+                                                    <attr name="type">dollar</attr>
+                                                    <attr name="size">medium</attr>
+                                                </tag><t x="0" y="0" style="entry" cgt="true">$</t>
+                                                <endtag name="leaveout"/>
+                                                <t x="0" y="0" style="entry" cgt="true" suppress="true">&#8201;</t><t x="0.02i" y="0.03i" style="entry" cgt="true">&mdash;&mdash;&mdash;&mdash;&mdash;</t><t x="0" y="0" style="entry">]</t>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="6" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="tbody" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" style="tbody">
+                                            <line xfinal="4.6i" yfinal="6.32i" lnwidth="0" lnmeas="0.56i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                                <endtag name="row"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                </row>
+                                <row row="6" rowrel="6" tbrdepth="0.18i" row_pos="1.06i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+                                    <entry col="1" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
+                                            <line xfinal="0" yfinal="6.5i" lnwidth="0" lnmeas="0.29i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="row">
+                                                    <attr name="date.updated">0</attr>
+                                                </tag>
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                    <attr name="xpp.colname">1</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="2" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
+                                            <line xfinal="0.46i" yfinal="6.5i" lnwidth="0" lnmeas="0.16i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="3" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
+                                            <line xfinal="0.79i" yfinal="6.5i" lnwidth="0" lnmeas="0.82i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="4" colsep="0" rowsep="0" namest="col4" nameend="col6" align="right" valign="bottom">
+                                        <group class="entry" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row/entry" style="entry">
+                                            <line xfinal="2.04i" yfinal="6.5i" lnwidth="3.11i" lnmeas="3.38i" lindent="0" rindent="0" prelead="0" qdtype="right" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="nameend">6</attr>
+                                                    <attr name="namest">4</attr>
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                </tag><t x="0" y="0" style="entry">Total Past Economic Damages: </t>
+                                                <tag name="leaveout">
+                                                    <attr name="type">dollar</attr>
+                                                    <attr name="size">medium</attr>
+                                                </tag><t x="0" y="0" style="entry" cgt="true">$</t>
+                                                <endtag name="leaveout"/>
+                                                <t x="0" y="0" style="entry" cgt="true" suppress="true">&#8201;</t><t x="0.02i" y="0.03i" style="entry" cgt="true">&mdash;&mdash;&mdash;&mdash;&mdash;</t><t x="0" y="0" style="entry">]</t>
+                                                <endtag name="entry"/>
+                                                <endtag name="row"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                </row>
+                                <row row="7" rowrel="7" tbrdepth="0.18i" row_pos="1.24i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+                                    <entry col="1" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
+                                            <line xfinal="0" yfinal="6.68i" lnwidth="0" lnmeas="0.29i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="row">
+                                                    <attr name="date.updated">0</attr>
+                                                </tag>
+                                                <tag name="entry">
+                                                    <attr name="style">block</attr>
+                                                    <attr name="resize">same</attr>
+                                                    <attr name="xpp.colname">1</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="2" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
+                                            <line xfinal="0.46i" yfinal="6.68i" lnwidth="0" lnmeas="0.16i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="system.addition">yes</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="3" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
+                                            <line xfinal="0.79i" yfinal="6.68i" lnwidth="0" lnmeas="0.82i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="system.addition">yes</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="4" colsep="0" rowsep="0" align="right" valign="bottom">
+                                        <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
+                                            <line xfinal="3.71i" yfinal="6.68i" lnwidth="0" lnmeas="1.93i" lindent="0" rindent="0" prelead="0" qdtype="right" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="system.addition">yes</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="5" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="row" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody/row" style="row">
+                                            <line xfinal="3.88i" yfinal="6.68i" lnwidth="0" lnmeas="0.56i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="system.addition">yes</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="6" colsep="0" rowsep="0" align="left" valign="bottom">
+                                        <group class="tbody" pclass="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup" dh="/publication/publication.body/pattern.jury.instruction/pattern.jury.instruction.body/pji.hierarchy/pji.hierarchy.body/pji.verdict.section/pji.verdict.section.body/verdict.form/tbl/table/tgroup/tbody" style="tbody">
+                                            <line xfinal="4.6i" yfinal="6.68i" lnwidth="0" lnmeas="0.56i" lindent="0" rindent="0" prelead="0" qdtype="left" bandwidth="0.04i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+                                                <tag name="entry">
+                                                    <attr name="system.addition">yes</attr>
+                                                </tag>
+                                                <endtag name="entry"/>
+                                                <endtag name="row"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </block>
+            </stream>
+        </page>
+    </pages>
+</document>
