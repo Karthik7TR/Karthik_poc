@@ -2,36 +2,22 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:h="http://www.w3.org/1999/xhtml"
 	xmlns="http://www.w3.org/1999/xhtml">
 	<xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
-	<xsl:template match="node() | @*" mode="#all">
+	<xsl:template match="node() | @*" >
 		<xsl:copy>
-			<xsl:apply-templates select="node() | @*" mode="#current" />
+			<xsl:apply-templates select="node() | @*" />
 		</xsl:copy>
 	</xsl:template>
 
-	<xsl:template match="h:span[contains(@class, 't ')]">
-		<xsl:variable name="hasAmps">
-			<xsl:for-each select="self::node()/text()">
-				<xsl:if test="contains(self::node(), '&amp;#')">
-					<xsl:text>+</xsl:text>
-				</xsl:if>
-			</xsl:for-each>
-		</xsl:variable>
-		<xsl:choose>
-			<xsl:when test="contains($hasAmps, '+')">
-				<xsl:copy>
-					<xsl:copy-of select="@*" />
-					<xsl:apply-templates mode="process" />
-				</xsl:copy>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:copy-of select="self::node()" />
-			</xsl:otherwise>
-		</xsl:choose>
+	<xsl:template match="h:span[contains(@class, 't ')]/text()[contains(., '&amp;')]" >
+		<xsl:value-of select="h:unescape(self::node())"
+			disable-output-escaping="yes" />
 	</xsl:template>
-
-	<xsl:template match="text()" mode="process">
+	
+	<xsl:function name="h:unescape">
+		<xsl:param name="textString" />
+		<!-- All extra special cases like &amp;apos; should go BEFORE below section -->
 		<xsl:variable name="htmlAmpsStr"
-			select="replace(self::node(), '&amp;', '&amp;#38;')" />
+			select="replace($textString, '&amp;', '&amp;#38;')" />
 		<xsl:variable name="cleanAmpsStr">
 			<xsl:choose>
 				<xsl:when test="contains($htmlAmpsStr, '&amp;#38;#')">
@@ -42,7 +28,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:value-of select="$cleanAmpsStr"
-			disable-output-escaping="yes" />
-	</xsl:template>
+		<xsl:value-of select="$cleanAmpsStr" />
+	</xsl:function>
 </xsl:stylesheet>
