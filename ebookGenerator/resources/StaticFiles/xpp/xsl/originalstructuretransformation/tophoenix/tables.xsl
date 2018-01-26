@@ -18,6 +18,9 @@
             <xsl:if test="@namest and @nameend">
                 <xsl:attribute name="colspan" select="x:calculateColspan(., @namest, @nameend)" />
             </xsl:if>
+            <xsl:if test="@morerows">
+                <xsl:attribute name="rowspan" select="@morerows+1" />
+            </xsl:if>
             <xsl:apply-templates />
         </xsl:element>
     </xsl:template>

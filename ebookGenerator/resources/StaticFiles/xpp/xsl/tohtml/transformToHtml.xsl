@@ -264,6 +264,9 @@
 			<xsl:if test="@colspan">
 				<xsl:attribute name="colspan" select="@colspan" />
 			</xsl:if>
+			<xsl:if test="@rowspan">
+				<xsl:attribute name="rowspan" select="@rowspan" />
+			</xsl:if>
 			<xsl:apply-templates />
 		</xsl:element>
 	</xsl:template>
