@@ -1646,7 +1646,8 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 .toc_rw_hierarchy .outline_name_block > .cgt:nth-last-of-type(2),
 .toc_rutter_form_doc .outline_name_block > .cgt:nth-last-of-type(2),
 .rutter_chapter .generated_toc > .full_toc .name ~ .cgt:last-of-type,
-.rutter_chapter .generated_toc > .full_toc .name ~ .cgt:nth-last-of-type(2) {
+.rutter_chapter .generated_toc > .full_toc .name ~ .cgt:nth-last-of-type(2),
+.rutter_chapter .generated_toc > .full_toc .name ~ .xref + .cgt {
   display: block;
 }
 
