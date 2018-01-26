@@ -31,6 +31,9 @@
     .publication>.publication_body>.chapter>.chapter_body>.section_block>.section>& {
         flex-wrap: wrap;
     }
+    .analytical_level_body>.section_block>.section>& {
+        display: block;
+    }
 }
 
 .xref {
@@ -129,7 +132,7 @@ td:empty {
 .quote_para {
     margin: #{$indent}em;
     text-indent: 0;
-    .section_body>.quote_block>& *{
+    .section_body>.quote_block>& * {
         text-indent: 0;
     }
 }
@@ -151,5 +154,28 @@ td:empty {
         display: block;
         margin-left: #{$indent}em;
         text-indent: -#{$indent}em;
+    }
+}
+
+a {
+    .publication_body .generated_toc>.full_toc>.toc_section>.outline_name_block>& {
+        display: flex;
+    }
+}
+
+.research_reference_block {
+    .publication .chapter .section>.section_front>.outline_name_block+& {
+        width: 100%;
+    }
+    .analytical_level_body>.section_block>.section>.section_front>& {
+        display: block;
+    }
+}
+
+ref {
+    .reference_entry>.ref_text>.cite>& {
+        display: block;
+        text-indent: -#{$indent}em;
+        margin-left: #{$indent}em;
     }
 }

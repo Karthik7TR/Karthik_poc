@@ -211,6 +211,10 @@ a:empty {
   flex-wrap: wrap;
 }
 
+.analytical_level_body > .section_block > .section > .section_front {
+  display: block;
+}
+
 .xref:empty {
   display: none;
 }
@@ -326,6 +330,24 @@ td:last-of-type {
   display: block;
   margin-left: 1em;
   text-indent: -1em;
+}
+
+.publication_body .generated_toc > .full_toc > .toc_section > .outline_name_block > a {
+  display: flex;
+}
+
+.publication .chapter .section > .section_front > .outline_name_block + .research_reference_block {
+  width: 100%;
+}
+
+.analytical_level_body > .section_block > .section > .section_front > .research_reference_block {
+  display: block;
+}
+
+.reference_entry > .ref_text > .cite > ref {
+  display: block;
+  text-indent: -1em;
+  margin-left: 1em;
 }
 
 .appendix_front > .outline_name_block {
