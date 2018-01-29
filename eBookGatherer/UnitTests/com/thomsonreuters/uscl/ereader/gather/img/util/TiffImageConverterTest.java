@@ -3,15 +3,12 @@ package com.thomsonreuters.uscl.ereader.gather.img.util;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.BDDMockito.given;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
-
-import javax.imageio.ImageIO;
 
 import com.thomsonreuters.uscl.ereader.gather.util.images.ImageConverterException;
 import org.apache.commons.io.FileUtils;
@@ -24,7 +21,6 @@ import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -45,14 +41,14 @@ public final class TiffImageConverterTest {
     private File substituteImagesDir;
 
     private TiffImageConverter converter;
-    @Mock
     private TiffReader tiffReader;
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         workDir = temporaryFolder.getRoot();
         substituteImagesDir = new File(workDir, "substituteImages");
-        substituteImagesDir.mkdirs();
+        FileUtils.forceMkdir(substituteImagesDir);
+        tiffReader = new TiffReaderImpl("it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReader");
         converter = new TiffImageConverter(tiffReader, substituteImagesDir);
     }
 
@@ -78,6 +74,8 @@ public final class TiffImageConverterTest {
 
     @Test
     public void convertNotTiff() throws Exception {
+        thrown.expect(ImageConverterException.class);
+        thrown.expectCause(CoreMatchers.<Throwable>instanceOf(FileNotFoundException.class));
         doTest();
     }
 
@@ -98,6 +96,13 @@ public final class TiffImageConverterTest {
         doTest(true);
     }
 
+    @Test
+    public void convertBadMetadata() throws Exception {
+        thrown.expect(ImageConverterException.class);
+        thrown.expectCause(CoreMatchers.<Throwable>instanceOf(FileNotFoundException.class));
+        doTest();
+    }
+
     private void doTest() throws ImageConverterException, IOException, URISyntaxException {
         doTest(false);
     }
@@ -108,8 +113,6 @@ public final class TiffImageConverterTest {
         final byte[] imgBytes = Files.readAllBytes(tiff.toPath());
         final String outputImagePath =
             withWriteError ? INCORRECT_PATH : new File(workDir, name.getMethodName() + PNG_EXTENSION).getAbsolutePath();
-        final BufferedImage bimage = ImageIO.read(getFile("convertUncompressed"));
-        given(tiffReader.readTiff(imgBytes)).willReturn(bimage);
         //when
         converter.convertByteImg(imgBytes, outputImagePath, PNG);
         //then

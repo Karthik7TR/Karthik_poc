@@ -10,14 +10,17 @@ import javax.imageio.ImageIO;
 
 import com.thomsonreuters.uscl.ereader.gather.util.images.ImageConverterException;
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service("tiffImageConverter")
 public class TiffImageConverter implements ImageConverter {
-    private TiffReader tiffReader;
+    private static Logger LOG = LogManager.getLogger(TiffImageConverter.class);
 
+    private TiffReader tiffReader;
     private File substituteImagesDir;
 
     @Autowired
@@ -56,8 +59,9 @@ public class TiffImageConverter implements ImageConverter {
             final BufferedImage image = tiffReader.readTiff(imgBytes);
             ImageIO.write(image, formatName, os);
             return image;
-        } catch (final IOException e) {
-            throw new ImageConverterException(e);
+        } catch (final Exception e) {
+            LOG.debug("", e);
+            return null;
         }
     }
 

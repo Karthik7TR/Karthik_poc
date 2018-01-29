@@ -78,7 +78,10 @@
 		<xsl:variable name="noComma">
 			<xsl:value-of select="x:substring-before($noLongDash, ',')" />
 		</xsl:variable>
-		<xsl:value-of select="$noComma" />
+		<xsl:variable name="noAmp">
+			<xsl:value-of select="x:substring-before($noComma, '&amp;')" />
+		</xsl:variable>
+		<xsl:value-of select="$noAmp" />
 	</xsl:function>
 	
 	<!--  updates id in case bundle is a pocket part-->
