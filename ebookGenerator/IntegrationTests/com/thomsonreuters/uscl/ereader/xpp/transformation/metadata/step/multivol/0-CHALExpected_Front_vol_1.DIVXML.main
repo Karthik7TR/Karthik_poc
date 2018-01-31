@@ -1,6 +1,5 @@
 <root xmlns="http://www.sdl.com/xpp"><sectionbreak sectionuuid="1111111.fm.title.page"/>
-	<sectionbreak sectionuuid="1111111.fm.title.page"/>
-	<pagebreak num="I" num-string="0"/>
+	<pagebreak num="I" serial-num="1"/>
 	<frontmatter>
 		<fm.pub.variable name="matnum"/>
 		<fm.pub.variable name="pubYear"/>
@@ -49,9 +48,8 @@
 				</fm.variable>
 			</text.line>
 		</fm.title.page>
-		<pagebreak num="II" num-string="0"/>
-		<sectionbreak sectionuuid="1111111.fm.copyright.page"/>
-		<sectionbreak sectionuuid="1111111.fm.copyright.page"/><XPPHier uuid="1111111.fm.copyright.page" name="Copyright Page" parent_uuid="1111111.fm.copyright.page" md.doc_family_uuid="1111111.fm.copyright.page">Copyright Page</XPPHier><ebook-isbn><ebook-isbn-label>ISBN: </ebook-isbn-label>978-0-314-88449-7</ebook-isbn><fm.copyright.page>
+		<sectionbreak sectionuuid="1111111.fm.copyright.page"/><pagebreak num="II" serial-num="2"/>
+		<XPPHier uuid="1111111.fm.copyright.page" name="Copyright Page" parent_uuid="1111111.fm.copyright.page" md.doc_family_uuid="1111111.fm.copyright.page">Copyright Page</XPPHier><ebook-isbn><ebook-isbn-label>ISBN: </ebook-isbn-label>978-0-314-88449-7</ebook-isbn><fm.copyright.page>
 			<fm.current.copyright>
 				<text.line align="c" pre.leading="12p">
 					<t style="text.line.2">© </t>
@@ -83,11 +81,9 @@
 				<t style="fm.copyright.page cgt">material involved, the number of copies you wish to distribute and the </t>
 				<t style="fm.copyright.page cgt">purpose or format of the use.</t>
 			</fm.copyright.clearance>
-			<pagebreak num="III" num-string="iii"/>
-		</fm.copyright.page><XPPHier uuid="1111111.FrontMatter" name="Front matter" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.copyright.page">Front matter</XPPHier>
-		<sectionbreak sectionuuid="1111111.fm.highlights"/>
-		<XPPHier uuid="1111111.fm.highlights" name="Introduction to Edition" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.highlights">Introduction to Edition</XPPHier>
-		<sectionbreak sectionuuid="1111111.fm.highlights"/><XPPHier uuid="1111111.fm.highlights" name="Introduction to Edition" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.highlights">Introduction to Edition</XPPHier><fm.highlights>
+			<sectionbreak sectionuuid="1111111.fm.highlights"/><pagebreak num="III" serial-num="3"/>
+		</fm.copyright.page><XPPHier uuid="1111111.FrontMatter" name="Front matter" parent_uuid="1111111.FrontMatter">Front matter</XPPHier>
+		<XPPHier uuid="1111111.fm.highlights" name="Introduction to Edition" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.highlights">Introduction to Edition</XPPHier><fm.highlights>
 			<head align="c" emph="bold" font.size="16q">
 				<name.block>
 					<name>
@@ -168,7 +164,7 @@
 								</para.text>
 							</para>
 						</list.item>
-						<pagebreak num="IV" num-string="iv"/>
+						<pagebreak num="IV" serial-num="4"/>
 						<list.item>
 							<para first.para="yes">
 								<para.text first.para.text="yes">
@@ -308,7 +304,7 @@
 					<t style="para.text">courts, and developing legal concepts. Congress and state </t>
 					<t style="para.text">legislatures strive to address our changing times while the </t>
 					<t style="para.text">judicial system continues to afford all litigants equal justice </t>
-					<pagebreak num="V" num-string="v"/>
+					<pagebreak num="V" serial-num="5"/>
 					<t style="para.text">under the law.</t>
 				</para.text>
 			</para>
@@ -331,9 +327,9 @@
 				<t style="text.line.8">February 2017</t>
 			</text.line>
 		</fm.highlights>
-		<pagebreak num="VI" num-string=""/>
-		<pagebreak num="VII" num-string="vii"/>
-		<sectionbreak sectionuuid="1111111.fm.dedication"/><XPPHier uuid="1111111.fm.dedication" name="Dedication" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.dedication">Dedication</XPPHier><fm.dedication>
+		<pagebreak num="VI" serial-num="6"/>
+		<sectionbreak sectionuuid="1111111.fm.dedication"/><pagebreak num="VII" serial-num="7"/>
+		<XPPHier uuid="1111111.fm.dedication" name="Dedication" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.dedication">Dedication</XPPHier><fm.dedication>
 			<head align="l" emph="bold" font.size="18q" pre.leading="5p">
 				<name.block>
 					<name>
@@ -352,10 +348,9 @@
 				<t style="text.line.8"> love.</t>
 			</text.line>
 		</fm.dedication>
-		<pagebreak num="VIII" num-string=""/>
-		<pagebreak num="IX" num-string="ix"/>
-		<sectionbreak sectionuuid="1111111."/>
-		<sectionbreak sectionuuid="1111111.fm.about.the.author"/><XPPHier uuid="1111111.fm.about.the.author" name="About the Author" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.about.the.author">About the Author</XPPHier><fm.about.the.author>
+		<pagebreak num="VIII" serial-num="8"/>
+		<sectionbreak sectionuuid="1111111.fm.about.the.author"/><pagebreak num="IX" serial-num="9"/>
+		<XPPHier uuid="1111111.fm.about.the.author" name="About the Author" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.about.the.author">About the Author</XPPHier><fm.about.the.author>
 			<metadata.block metadata.store="yes">
 				<metadata field="left.running.head">
 					<value/>
@@ -452,10 +447,9 @@
 				</para.text>
 			</para>
 		</fm.about.the.author>
-		<pagebreak num="X" num-string=""/>
-		<pagebreak num="XI" num-string="xi"/>
-		<sectionbreak sectionuuid="1111111."/>
-		<sectionbreak sectionuuid="1111111.fm.about.the.author.1"/><XPPHier uuid="1111111.fm.about.the.author.1" name="About the Contributors" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.about.the.author.1">About the Contributors</XPPHier><fm.about.the.author>
+		<pagebreak num="X" serial-num="10"/>
+		<sectionbreak sectionuuid="1111111.fm.about.the.author.1"/><pagebreak num="XI" serial-num="11"/>
+		<XPPHier uuid="1111111.fm.about.the.author.1" name="About the Contributors" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.about.the.author.1">About the Contributors</XPPHier><fm.about.the.author>
 			<metadata.block metadata.store="yes">
 				<metadata field="left.running.head">
 					<value/>
@@ -521,7 +515,7 @@
 					<t style="para.text">Maricopa Lawyer newspaper and has written many articles </t>
 					<t style="para.text">for that publication as well as spending several years on the </t>
 					<t style="para.text">editorial board. She has taught classes relating to women </t>
-					<pagebreak num="XII" num-string="xii"/>
+					<pagebreak num="XII" serial-num="12"/>
 					<t style="para.text">and the law at Arizona State University in the Women’s </t>
 					<t style="para.text">Studies Department. Her current practice consists solely of </t>
 					<t style="para.text">juvenile related matters. She authored a book entitled </t>
@@ -581,7 +575,7 @@
 					<t style="para.text">Maricopa County Juvenile Court. He is a Board Member of </t>
 					<t style="para.text">the Phoenix Fire Department Juvenile Firestarters Program </t>
 					<t style="para.text">and is on the Board of Directors of the Juvenile Law and </t>
-					<pagebreak num="XIII" num-string="xiii"/>
+					<pagebreak num="XIII" serial-num="13"/>
 					<t style="para.text">Public Lawyers Sections for the State Bar of Arizona.</t>
 				</para.text>
 			</para>
@@ -647,7 +641,7 @@
 					<t style="para.text">, coauthor of Chapter 8, </t>
 					<t style="para.text">Delinquency, received her undergraduate degree with </t>
 					<t style="para.text">distinction and honors from the University of Kansas. A </t>
-					<pagebreak num="XIV" num-string="xiv"/>
+					<pagebreak num="XIV" serial-num="14"/>
 					<t style="para.text">member of Phi Beta Kappa, she graduated cum laude from </t>
 					<t style="para.text">the Arizona State University College of Law in 1980. She </t>
 					<t style="para.text">served as law clerk for the Hon. Sandra Day O’Connor at </t>
@@ -714,7 +708,7 @@
 					<t style="para.text">Health Care, is a clinical psychologist, specializing in the </t>
 					<t style="para.text">psychological evaluation of juvenile offenders. She received </t>
 					<t style="para.text">her Ph.D. from The Union Institute in Cincinnati and is </t>
-					<pagebreak num="XV" num-string="xv"/>
+					<pagebreak num="XV" serial-num="15"/>
 					<t style="para.text">involved in ongoing research of the Rorschach Test.</t>
 				</para.text>
 			</para>
@@ -776,15 +770,14 @@
 					<t style="para.text">Circuit Court of Appeals, and the United States Supreme </t>
 					<t style="para.text">Court. She is a member of the Maricopa County Juvenile </t>
 					<t style="para.text">Practice Committee, the State Bar of Arizona Juvenile Law </t>
-					<pagebreak num="XVI" num-string="xvi"/>
+					<pagebreak num="XVI" serial-num="16"/>
 					<t style="para.text">Section, and the National Association of Counsel for </t>
 					<t style="para.text">Children.</t>
 				</para.text>
 			</para>
 		</fm.about.the.author>
-		<pagebreak num="XVII" num-string="xvii"/>
-		<sectionbreak sectionuuid="1111111.fm.acknowledgment"/>
-		<sectionbreak sectionuuid="1111111.fm.acknowledgment"/><XPPHier uuid="1111111.fm.acknowledgment" name="Acknowledgment" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.acknowledgment">Acknowledgment</XPPHier><fm.acknowledgment>
+		<sectionbreak sectionuuid="1111111.fm.acknowledgment"/><pagebreak num="XVII" serial-num="17"/>
+		<XPPHier uuid="1111111.fm.acknowledgment" name="Acknowledgment" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.acknowledgment">Acknowledgment</XPPHier><fm.acknowledgment>
 			<metadata.block metadata.store="yes">
 				<metadata field="left.running.head">
 					<value/>
@@ -853,7 +846,7 @@
 					<t style="para.text">I also wish to thank the reference librarians who saved </t>
 					<t style="para.text">me innumerable hours of research by applying their skills </t>
 					<t style="para.text">so generously and graciously—Julia Best, Frances </t>
-					<pagebreak num="XVIII" num-string="xviii"/>
+					<pagebreak num="XVIII" serial-num="18"/>
 					<t style="para.text">Desmond, Louise Muir, and Pat Wood.</t>
 				</para.text>
 			</para>
@@ -888,9 +881,8 @@
 				<t style="text.line.8">Thomas A. Jacobs</t>
 			</text.line>
 		</fm.acknowledgment>
-		<pagebreak num="XIX" num-string="xix"/>
-		<sectionbreak sectionuuid="1111111.fm.foreword"/>
-		<sectionbreak sectionuuid="1111111.fm.foreword"/><XPPHier uuid="1111111.fm.foreword" name="Foreword" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.foreword">Foreword</XPPHier><fm.foreword>
+		<sectionbreak sectionuuid="1111111.fm.foreword"/><pagebreak num="XIX" serial-num="19"/>
+		<XPPHier uuid="1111111.fm.foreword" name="Foreword" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.foreword">Foreword</XPPHier><fm.foreword>
 			<metadata.block metadata.store="yes">
 				<metadata field="left.running.head">
 					<value/>
@@ -953,7 +945,7 @@
 					<t style="para.text">addresses practical concerns that attorneys will face in their </t>
 					<t style="para.text">representation. The book covers federal and state statutes </t>
 					<t style="para.text">and case law. It explores almost every conceivable area of </t>
-					<pagebreak num="XX" num-string="xx"/>
+					<pagebreak num="XX" serial-num="20"/>
 					<t style="para.text">law affecting children. Topics include termination of </t>
 					<t style="para.text">parental rights, adoption, child custody and support, </t>
 					<t style="para.text">guardianship, juvenile delinquency and dependency, </t>
@@ -973,15 +965,433 @@
 				<t style="text.line.8">1995</t>
 			</text.line>
 		</fm.foreword>
-		<pagebreak num="XXI" num-string="xxi"/>
-		<sectionbreak sectionuuid="1111111.fm.online.research.guide"/>
-		<sectionbreak sectionuuid="1111111.fm.online.research.guide"/><XPPHier uuid="1111111.fm.online.research.guide" name="Westlaw Online Research Guide" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.online.research.guide">Westlaw Online Research Guide</XPPHier><fm.online.research.guide/>
+		<sectionbreak sectionuuid="1111111.fm.online.research.guide"/><pagebreak num="XXI" serial-num="21"/>
+		<XPPHier uuid="1111111.fm.online.research.guide" name="Westlaw Online Research Guide" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.online.research.guide">Westlaw Online Research Guide</XPPHier><fm.online.research.guide/>
 		<t style="frontmatter cgt"> </t>
-		<pagebreak num="XXII" num-string="xxii"/>
-		<sectionbreak sectionuuid="1111111.fm.proview"/>
-		<XPPHier uuid="1111111.fm.proview" name="ProView page" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.proview">ProView page</XPPHier>
-		<sectionbreak sectionuuid="1111111.fm.proview"/><XPPHier uuid="1111111.fm.proview" name="ProView page" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.proview">ProView page</XPPHier><fm.proview/>
+		<sectionbreak sectionuuid="1111111.fm.proview"/><pagebreak num="XXII" serial-num="22"/>
+		<XPPHier uuid="1111111.fm.proview" name="ProView page" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.proview">ProView page</XPPHier><fm.proview/>
 		<t style="frontmatter cgt"> </t>
-		<sectionbreak sectionuuid="1111111.fm.related.products"/><XPPHier uuid="1111111.fm.related.products" name="Related products" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.related.products">Related products</XPPHier><fm.related.products><metadata.block metadata.store="yes"><metadata field="left.running.head"><value/></metadata><metadata field="right.running.head"><value/></metadata></metadata.block><head align="c" emph="bold" font.size="16q"><name.block><name><t style="name">Related Products</t></name></name.block></head><text.line align="c"><textrule length="5p" weight=".5q"/></text.line><head align="c" emph="bold" font.size="14q" pre.leading="12q"><name.block><name><csc><t style="csc">Louisiana Practice Series</t><t style="csc cgt">™</t></csc></name></name.block></head><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Legislative Law</t><endline/><t style="text.line.8">and Procedure Handbook</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">P. Raymond Lamonica and Jerry G. Jones</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Construction Law</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">James S. Holliday, Jr., H. Bruce Shreves, and Dale R. Baringer</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Criminal Trial Practice</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Gail Dalton Schlosser</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Employment Law</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Rick Norman</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Notary Handbook</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Kathy D. Underwood</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Corporations</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">James Holliday, Jr. and Rick J. Norman</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Secured Transactions</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">David S. Willenzik</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Civil Appellate Procedure Handbook</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Roger Stetter</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Divorce</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Robert C. Lowe</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Real Estate Transactions</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Peter Title</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Estate Planning in Louisiana</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Maunsel W. Hickey, Donald H. McDaniel, David L. Sigler,</t><endline/><t style="text.line.9">William C. Kalmbach, Betty A. Raglin, and Sheila L. Moragas</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Civil Practice Forms</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Denise Pilié and Susan Kohn</t></text.line><text.line align="c" emph="bold" font.size="11q" newpage="y" pre.leading="8q"><pagebreak num="XIV" num-string="xiv" prev_page="xiii"/><t style="text.line.7">Louisiana Civil Procedure</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Judge Stephen R. Plotkin</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Personal Injury</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Russ Herman</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Civil Trial Procedure</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Hon. Billie C. Woodard, John W. deGravelles and David R. </t><t style="text.line.6">Frohn</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Environmental Compliance Handbook</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Stanley A. Millan, Anne J. Crochet and Roger A. Stetter</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Trial Handbook for Louisiana Lawyers</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Eldon E. Fallon and Catherine Palo</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Civil Pretrial</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Hon. Max Tobias, John W. Landis and Gerald E. Meunier</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Evidence</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Bobby Marzine Harges and Russell L. Jones</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana DWI</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Bobby Marzine Harges</t></text.line><text.line align="c"><textrule length="5p" weight=".5q"/></text.line><head align="c" emph="bold" font.size="14q" pre.leading="12q"><name.block><name><csc><t style="csc">Louisiana Civil Law Treatise</t></csc></name></name.block></head><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Civil Procedure (2d edition)</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Frank L. Maraist</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Civil Procedure-Special Proceedings</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Frank L. Maraist</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Property</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">A. N. Yiannopoulos</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Personal Servitudes</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">A. N. Yiannopoulos</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Predial Servitudes</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">A. N. Yiannopoulos</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">The Law of Obligations</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Saúl Litvinoff</t></text.line><text.line align="c" emph="bold" font.size="11q" newpage="y" pre.leading="8q"><pagebreak num="XV" num-string="xv" prev_page="xiv"/><t style="text.line.7">Business Organizations</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Glenn G. Morris and Wendell H. Holmes</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Limited Liability Companies and Partnerships</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Susan Kalinka and Jeffrey W. Koonce</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Successions and Donations</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Kathryn Venturatos Lorio</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Trusts</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Edward E. Chase, Jr.</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Tort Law</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">William E. Crawford</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Workers</t><t style="text.line.7 cgt">’</t><t style="text.line.7"> Compensation Law and Practice</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Wex S. Malone and H. Alston Johnson III</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Insurance Law and Practice</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">William Shelby McKenzie and H. Alston Johnson III</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Matrimonial Regimes</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Andrea Carroll and Richard D. Moreno</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Criminal Jury Instructions and Procedures</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Cheney C. Joseph, Jr. and P. Raymond Lamonica</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Civil Jury Instructions</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">H. Alston Johnson III</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Evidence and Proof (2d edition)</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Frank L. Maraist</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Legislative Law and Procedure</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">P. Raymond Lamonica and Jerry G. Jones</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Lawyering</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Frank L. Maraist, N. Gregory Smith,</t><endline/><t style="text.line.9">Judge Thomas F. Daley, Thomas C. Galligan, Jr.,</t><endline/><t style="text.line.9"> and Catherine M. Maraist</t></text.line><text.line align="c"><textrule length="5p" weight=".5q"/></text.line><head align="c" emph="bold" font.size="14q" pre.leading="12q"><name.block><name><csc><t style="csc">LOUISIANA DESKBOOKS</t></csc></name></name.block></head><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Civil Code</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">A. N. Yiannopoulos</t></text.line><text.line align="c" emph="bold" font.size="11q" newpage="y" pre.leading="8q"><pagebreak num="XVI" num-string="xvi" prev_page="xv"/><t style="text.line.7">Louisiana Code of Civil Procedure</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">William E. Crawford</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Handbook of Statutory Criminal</t><endline/><t style="text.line.8">Law and Procedure</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Handbook on Louisiana Evidence Law</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Gerard A. Rault, Jr. and Robert Force</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Handbook on Louisiana Family Law</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Jessica G. Braun</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Sentencing Guidelines Manual</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Cheney C. Joseph, Jr., Bernard E Boudreaux, Jr.,</t><endline/><t style="text.line.9">Charles R. Lindsay, and Mark W. Menezes</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Children</t><t style="text.line.7 cgt">’</t><t style="text.line.7">s Code Handbook</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Jack Harrison</t></text.line><text.line align="c"><textrule length="5p" weight=".5q"/></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Statutes Annotated</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Cases</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Criminal Trial Practice Formulary</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">Gail Dalton Schlosser</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Code of Civil Procedure Pleadings and Judicial </t><t style="text.line.7">Forms</t></text.line><text.line align="c" font.size="11q" pre.leading="2q"><t style="text.line.6">William E. Crawford</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Statutes Compact Edition</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Probate Laws</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Real Estate Laws</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Court Rules—State and Federal</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Digest</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="8q"><t style="text.line.7">Louisiana Digest Law Finder</t></text.line><text.line align="c"><textrule length="5p" weight=".5q"/></text.line><head align="c" emph="bold" font.size="13q" pre.leading="9q"><name.block><name><csc><t style="csc.1">Other West Products</t></csc></name></name.block></head><text.line align="c" emph="bold" font.size="11q" pre.leading="9q"><t style="text.line.7">Westlaw®</t></text.line><text.line align="c" emph="bold" font.size="11q" pre.leading="9q"><t style="text.line.7">WestCheck.com®</t></text.line><fm.related.products.boilerplate number="2"><t style="fm.related.products.1 cgt">Thomson Reuters thanks you for subscribing to this product. Should </t><t style="fm.related.products.1 cgt">you have any questions regarding this product please contact Customer </t><t style="fm.related.products.1 cgt">Service at 1-800-328-4880 or by fax at 1-800-340-9378. If you would </t><pagebreak num="XVII" num-string="xvii" prev_page="xvi"/><t style="fm.related.products.1 cgt">like to inquire about related publications or place an order, please </t><t style="fm.related.products.1 cgt">contact us at 1-800-344-5009.</t><proview_image id="TR_H1.tif" type="tif" path="/apps/xpp/shared/images/lib01/TR_H1.tif" x="0" y="-0.09i" w="1.81i" h="0.66i" rotation="0" priority="0" scale="1.000000" cropx="0" cropy="0" cropw="1.81i" croph="0.66i"/><t style="fm.related.products.1 cgt"> </t><t style="fm.related.products.2 cgt">Thomson Reuters</t><t style="fm.related.products.2 cgt">610 Opperman Drive</t><t style="fm.related.products.2 cgt">Eagan, MN 55123</t><t style="fm.related.products.2 cgt"> </t><t style="fm.related.products.2 cgt"> </t><t style="fm.related.products.3 sub cgt">legalsolutions.thomsonreuters.com</t><t style="fm.related.products.3 cgt"> </t></fm.related.products.boilerplate></fm.related.products>
+		<XPPHier uuid="1111111.fm.related.products" name="Related products" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.related.products">Related products</XPPHier><fm.related.products>
+			<metadata.block metadata.store="yes">
+				<metadata field="left.running.head">
+					<value/>
+				</metadata>
+				<metadata field="right.running.head">
+					<value/>
+				</metadata>
+			</metadata.block>
+			<head align="c" emph="bold" font.size="16q">
+				<name.block>
+					<name>
+						<t style="name">Related Products</t>
+					</name>
+				</name.block>
+			</head>
+			<text.line align="c">
+				<textrule length="5p" weight=".5q"/>
+			</text.line>
+			<head align="c" emph="bold" font.size="14q" pre.leading="12q">
+				<name.block>
+					<name>
+						<csc>
+							<t style="csc">Louisiana Practice Series</t>
+							<t style="csc cgt">™</t>
+						</csc>
+					</name>
+				</name.block>
+			</head>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Legislative Law</t>
+				<endline/>
+				<t style="text.line.8">and Procedure Handbook</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">P. Raymond Lamonica and Jerry G. Jones</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Construction Law</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">James S. Holliday, Jr., H. Bruce Shreves, and Dale R. Baringer</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Criminal Trial Practice</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Gail Dalton Schlosser</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Employment Law</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Rick Norman</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Notary Handbook</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Kathy D. Underwood</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Corporations</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">James Holliday, Jr. and Rick J. Norman</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Secured Transactions</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">David S. Willenzik</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Civil Appellate Procedure Handbook</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Roger Stetter</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Divorce</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Robert C. Lowe</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Real Estate Transactions</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Peter Title</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Estate Planning in Louisiana</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Maunsel W. Hickey, Donald H. McDaniel, David L. Sigler,</t>
+				<endline/>
+				<t style="text.line.9">William C. Kalmbach, Betty A. Raglin, and Sheila L. Moragas</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Civil Practice Forms</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Denise Pilié and Susan Kohn</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" newpage="y" pre.leading="8q">
+				<pagebreak num="XXII" serial-num="23"/>
+				<t style="text.line.7">Louisiana Civil Procedure</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Judge Stephen R. Plotkin</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Personal Injury</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Russ Herman</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Civil Trial Procedure</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Hon. Billie C. Woodard, John W. deGravelles and David R. </t>
+				<t style="text.line.6">Frohn</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Environmental Compliance Handbook</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Stanley A. Millan, Anne J. Crochet and Roger A. Stetter</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Trial Handbook for Louisiana Lawyers</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Eldon E. Fallon and Catherine Palo</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Civil Pretrial</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Hon. Max Tobias, John W. Landis and Gerald E. Meunier</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Evidence</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Bobby Marzine Harges and Russell L. Jones</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana DWI</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Bobby Marzine Harges</t>
+			</text.line>
+			<text.line align="c">
+				<textrule length="5p" weight=".5q"/>
+			</text.line>
+			<head align="c" emph="bold" font.size="14q" pre.leading="12q">
+				<name.block>
+					<name>
+						<csc>
+							<t style="csc">Louisiana Civil Law Treatise</t>
+						</csc>
+					</name>
+				</name.block>
+			</head>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Civil Procedure (2d edition)</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Frank L. Maraist</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Civil Procedure-Special Proceedings</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Frank L. Maraist</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Property</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">A. N. Yiannopoulos</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Personal Servitudes</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">A. N. Yiannopoulos</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Predial Servitudes</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">A. N. Yiannopoulos</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">The Law of Obligations</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Saúl Litvinoff</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" newpage="y" pre.leading="8q">
+				<pagebreak num="XXIV" serial-num="24"/>
+				<t style="text.line.7">Business Organizations</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Glenn G. Morris and Wendell H. Holmes</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Limited Liability Companies and Partnerships</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Susan Kalinka and Jeffrey W. Koonce</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Successions and Donations</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Kathryn Venturatos Lorio</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Trusts</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Edward E. Chase, Jr.</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Tort Law</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">William E. Crawford</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Workers</t>
+				<t style="text.line.7 cgt">’</t>
+				<t style="text.line.7"> Compensation Law and Practice</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Wex S. Malone and H. Alston Johnson III</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Insurance Law and Practice</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">William Shelby McKenzie and H. Alston Johnson III</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Matrimonial Regimes</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Andrea Carroll and Richard D. Moreno</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Criminal Jury Instructions and Procedures</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Cheney C. Joseph, Jr. and P. Raymond Lamonica</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Civil Jury Instructions</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">H. Alston Johnson III</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Evidence and Proof (2d edition)</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Frank L. Maraist</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Legislative Law and Procedure</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">P. Raymond Lamonica and Jerry G. Jones</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Lawyering</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Frank L. Maraist, N. Gregory Smith,</t>
+				<endline/>
+				<t style="text.line.9">Judge Thomas F. Daley, Thomas C. Galligan, Jr.,</t>
+				<endline/>
+				<t style="text.line.9"> and Catherine M. Maraist</t>
+			</text.line>
+			<text.line align="c">
+				<textrule length="5p" weight=".5q"/>
+			</text.line>
+			<head align="c" emph="bold" font.size="14q" pre.leading="12q">
+				<name.block>
+					<name>
+						<csc>
+							<t style="csc">LOUISIANA DESKBOOKS</t>
+						</csc>
+					</name>
+				</name.block>
+			</head>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Civil Code</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">A. N. Yiannopoulos</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" newpage="y" pre.leading="8q">
+				<pagebreak num="XXV" serial-num="25"/>
+				<t style="text.line.7">Louisiana Code of Civil Procedure</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">William E. Crawford</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Handbook of Statutory Criminal</t>
+				<endline/>
+				<t style="text.line.8">Law and Procedure</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Handbook on Louisiana Evidence Law</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Gerard A. Rault, Jr. and Robert Force</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Handbook on Louisiana Family Law</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Jessica G. Braun</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Sentencing Guidelines Manual</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Cheney C. Joseph, Jr., Bernard E Boudreaux, Jr.,</t>
+				<endline/>
+				<t style="text.line.9">Charles R. Lindsay, and Mark W. Menezes</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Children</t>
+				<t style="text.line.7 cgt">’</t>
+				<t style="text.line.7">s Code Handbook</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Jack Harrison</t>
+			</text.line>
+			<text.line align="c">
+				<textrule length="5p" weight=".5q"/>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Statutes Annotated</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Cases</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Criminal Trial Practice Formulary</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">Gail Dalton Schlosser</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Code of Civil Procedure Pleadings and Judicial </t>
+				<t style="text.line.7">Forms</t>
+			</text.line>
+			<text.line align="c" font.size="11q" pre.leading="2q">
+				<t style="text.line.6">William E. Crawford</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Statutes Compact Edition</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Probate Laws</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Real Estate Laws</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Court Rules—State and Federal</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Digest</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="8q">
+				<t style="text.line.7">Louisiana Digest Law Finder</t>
+			</text.line>
+			<text.line align="c">
+				<textrule length="5p" weight=".5q"/>
+			</text.line>
+			<head align="c" emph="bold" font.size="13q" pre.leading="9q">
+				<name.block>
+					<name>
+						<csc>
+							<t style="csc.1">Other West Products</t>
+						</csc>
+					</name>
+				</name.block>
+			</head>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="9q">
+				<t style="text.line.7">Westlaw®</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="11q" pre.leading="9q">
+				<t style="text.line.7">WestCheck.com®</t>
+			</text.line>
+			<fm.related.products.boilerplate number="2">
+				<t style="fm.related.products.1 cgt">Thomson Reuters thanks you for subscribing to this product. Should </t>
+				<t style="fm.related.products.1 cgt">you have any questions regarding this product please contact Customer </t>
+				<t style="fm.related.products.1 cgt">Service at 1-800-328-4880 or by fax at 1-800-340-9378. If you would </t>
+				<pagebreak num="XXVI" serial-num="26"/>
+				<t style="fm.related.products.1 cgt">like to inquire about related publications or place an order, please </t>
+				<t style="fm.related.products.1 cgt">contact us at 1-800-344-5009.</t>
+				<proview_image id="TR_H1.tif" type="tif" path="/apps/xpp/shared/images/lib01/TR_H1.tif" x="0" y="-0.09i" w="1.81i" h="0.66i" rotation="0" priority="0" scale="1.000000" cropx="0" cropy="0" cropw="1.81i" croph="0.66i"/>
+				<t style="fm.related.products.1 cgt"> </t>
+				<t style="fm.related.products.2 cgt">Thomson Reuters</t>
+				<t style="fm.related.products.2 cgt">610 Opperman Drive</t>
+				<t style="fm.related.products.2 cgt">Eagan, MN 55123</t>
+				<t style="fm.related.products.2 cgt"> </t>
+				<t style="fm.related.products.2 cgt"> </t>
+				<t style="fm.related.products.3 sub cgt">legalsolutions.thomsonreuters.com</t>
+				<t style="fm.related.products.3 cgt"> </t>
+			</fm.related.products.boilerplate>
+		</fm.related.products>
 	</frontmatter>
 </root>

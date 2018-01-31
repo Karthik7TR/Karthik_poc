@@ -24,6 +24,52 @@
 		</root>
 	</xsl:template>
 
+	<xsl:template match="x:pagebreak">
+		<xsl:variable name="pageNumber" select="@serial-num" />
+		<xsl:apply-templates select="(following::x:fm.highlights|following::x:fm.dedication|
+									  following::x:fm.acknowledgment|following::x:fm.foreword|
+									  following::x:fm.online.research.guide|following::x:fm.proview|
+									  following::x:fm.related.products|following::x:fm.preface|
+									  following::x:fm.about.the.author|following::x:fm.other.structure|
+									  following::x:fm.copyright.page)[1]" mode="secBreak">
+			<xsl:with-param name="pageNum" select="@serial-num" />
+		</xsl:apply-templates>
+		<xsl:copy-of select="." />
+	</xsl:template>
+	
+	<xsl:template match="x:fm.highlights|x:fm.dedication|x:fm.acknowledgment|x:fm.foreword|x:fm.online.research.guide|x:fm.proview|x:fm.related.products|x:fm.preface" mode="secBreak">
+		<xsl:param name="pageNum" />
+		<xsl:if test="preceding::x:pagebreak[1]/@serial-num = $pageNum and not(preceding::x:t[preceding::x:pagebreak[1]/@serial-num = $pageNum])">
+			<xsl:variable name="common_tags_uuid" select="concat($volumeName,'.', name(), x:getIdSuffix(current()))" />
+			<xsl:call-template name="placeSectionbreak">
+				<xsl:with-param name="sectionuuid" select="$common_tags_uuid" />
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template match="x:fm.about.the.author|x:fm.other.structure" mode="secBreak">
+		<xsl:param name="pageNum" />
+		<xsl:if test="preceding::x:pagebreak[1]/@serial-num = $pageNum and not(preceding::x:t[preceding::x:pagebreak[1]/@serial-num = $pageNum])">
+			<xsl:variable name="other_label" select="string-join(./x:head[1]/x:name.block[1]/x:name[1]/x:t, ' ')" />
+			<xsl:variable name="other_uuid" select="concat($volumeName,'.',name(), x:getIdSuffix(current()))" />
+			<xsl:if test= "$other_label">
+				<xsl:call-template name="placeSectionbreak">
+					<xsl:with-param name="sectionuuid" select="$other_uuid" />
+				</xsl:call-template>
+			</xsl:if>
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template match="x:fm.copyright.page" mode="secBreak">
+		<xsl:param name="pageNum" />
+		<xsl:if test="preceding::x:pagebreak[1]/@serial-num = $pageNum">
+			<xsl:variable name="uuid" select="concat($volumeName,'.',name())" />
+			<xsl:call-template name="placeSectionbreak">
+				<xsl:with-param name="sectionuuid" select="$uuid" />
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
+
 	<xsl:template match="x:fm.title.page">
 		<xsl:variable name="uuid" select="concat($volumeName,'.',name())" />
 		<xsl:variable name="volNumber"
@@ -56,12 +102,13 @@
 	
 	<xsl:template match="x:fm.copyright.page">
 		<xsl:variable name="uuid" select="concat($volumeName,'.',name())" />
-		<xsl:call-template name="createMetadataAndHier">
+		<xsl:call-template name="placeXppHier">
 			<xsl:with-param name="uuid" select="$uuid" />
+			<xsl:with-param name="name" select="'Copyright Page'" />
 			<xsl:with-param name="parent_uuid" select="$uuid" />
-			<xsl:with-param name="hierName" select="'Copyright Page'" />
-		</xsl:call-template>	
-
+			<xsl:with-param name="doc_family_uuid" select="$uuid" />
+		</xsl:call-template>
+		
 		<xsl:call-template name="insertISBNTemplate">
 			<xsl:with-param name="isbnNumber" select="$isbn" />
 		</xsl:call-template>
@@ -73,7 +120,6 @@
 			<xsl:with-param name="uuid" select="$front_matter_uuid" />
 			<xsl:with-param name="name" select="'Front matter'" />
 			<xsl:with-param name="parent_uuid" select="$front_matter_uuid" />
-			<xsl:with-param name="doc_family_uuid" select="$uuid" />
 		</xsl:call-template>
 		
 	</xsl:template>
@@ -81,14 +127,15 @@
 	<xsl:template
 		match="x:fm.highlights|x:fm.dedication|x:fm.acknowledgment|x:fm.foreword|x:fm.online.research.guide|x:fm.proview|x:fm.related.products|x:fm.preface">
 		<xsl:variable name="common_tags_uuid" select="concat($volumeName,'.', name(), x:getIdSuffix(current()))" />
-		<xsl:call-template name="createMetadataAndHier">
+		<xsl:call-template name="placeXppHier">
 			<xsl:with-param name="uuid" select="$common_tags_uuid" />
-			<xsl:with-param name="parent_uuid" select="$front_matter_uuid" />
-			<xsl:with-param name="hierName">
+			<xsl:with-param name="name">
 				<xsl:call-template name="defineTagTitle">
 					<xsl:with-param name="tag_name" select="name()" />
 				</xsl:call-template>
 			</xsl:with-param>
+			<xsl:with-param name="parent_uuid" select="$front_matter_uuid" />
+			<xsl:with-param name="doc_family_uuid" select="$common_tags_uuid" />
 		</xsl:call-template>
 
 		<xsl:copy>
@@ -102,32 +149,17 @@
 		<xsl:variable name="other_uuid"
 			select="concat($volumeName,'.',name(), x:getIdSuffix(current()))" />
 		<xsl:if test= "$other_label">
-		<xsl:call-template name="createMetadataAndHier">
-			<xsl:with-param name="uuid" select="$other_uuid" />
-			<xsl:with-param name="parent_uuid" select="$front_matter_uuid" />
-			<xsl:with-param name="hierName" select="$other_label" />
-		</xsl:call-template>
+			<xsl:call-template name="placeXppHier">
+				<xsl:with-param name="uuid" select="$other_uuid" />
+				<xsl:with-param name="name" select="$other_label" />
+				<xsl:with-param name="parent_uuid" select="$front_matter_uuid" />
+				<xsl:with-param name="doc_family_uuid" select="$other_uuid" />
+			</xsl:call-template>
 		</xsl:if>
 
 		<xsl:copy>
 			<xsl:apply-templates select="node()|@*" />
 		</xsl:copy>
-	</xsl:template>
-
-	<xsl:template name="createMetadataAndHier">
-		<xsl:param name="uuid" />
-		<xsl:param name="parent_uuid" />
-		<xsl:param name="hierName" />
-
-		<xsl:call-template name="placeSectionbreak">
-			<xsl:with-param name="sectionuuid" select="$uuid" />
-		</xsl:call-template>
-		<xsl:call-template name="placeXppHier">
-			<xsl:with-param name="uuid" select="$uuid" />
-			<xsl:with-param name="name" select="$hierName" />
-			<xsl:with-param name="parent_uuid" select="$parent_uuid" />
-			<xsl:with-param name="doc_family_uuid" select="$uuid" />
-		</xsl:call-template>
 	</xsl:template>
 
 	<xsl:template name="defineTagTitle">

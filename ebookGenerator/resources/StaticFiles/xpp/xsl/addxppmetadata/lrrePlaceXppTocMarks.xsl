@@ -31,29 +31,35 @@
     </xsl:template>
 
     <xsl:template match="x:pagebreak">
-        <xsl:copy-of select="." />
-        <xsl:if test="$pagesAmount > 20 and (./@serial-num=1 or (./@serial-num  - 1) mod 20 = 0)">
-            <xsl:variable name="startPageNumber" select="@serial-num" />
-            <xsl:variable name="startPageLrreItemName" select="x:get-start-page-item-name(.)" />
-            <xsl:variable name="endPageNumber" select="x:get-last-page(@serial-num, $pagesAmount)" />
-            <xsl:variable name="endPageLrreItemName" select="x:get-last-page-item-name(., $endPageNumber)" />
+    	<xsl:choose>
+    		<xsl:when test="$pagesAmount > 20 and (./@serial-num=1 or (./@serial-num  - 1) mod 20 = 0)">
+    			<xsl:variable name="startPageNumber" select="@serial-num" />
+            	<xsl:variable name="startPageLrreItemName" select="x:get-start-page-item-name(.)" />
+            	<xsl:variable name="endPageNumber" select="x:get-last-page(@serial-num, $pagesAmount)" />
+            	<xsl:variable name="endPageLrreItemName" select="x:get-last-page-item-name(., $endPageNumber)" />
             
-            <xsl:variable name="currentLrreUuid"
-                select="concat($volumeName, '.', 'lrre', $startPageNumber, 'to', $endPageNumber)" />
+            	<xsl:variable name="currentLrreUuid"
+                	select="concat($volumeName, '.', 'lrre', $startPageNumber, 'to', $endPageNumber)" />
             
-            <xsl:if test="@serial-num != 1">
-                <xsl:call-template name="placeSectionbreak">
-                    <xsl:with-param name="sectionuuid" select="$currentLrreUuid" />
-                </xsl:call-template>
-            </xsl:if>
+            	<xsl:if test="@serial-num != 1">
+                	<xsl:call-template name="placeSectionbreak">
+                   		<xsl:with-param name="sectionuuid" select="$currentLrreUuid" />
+                	</xsl:call-template>
+            	</xsl:if>
+            	
+            	<xsl:copy-of select="." />
 
-            <xsl:call-template name="placeXppHier">
-                <xsl:with-param name="uuid" select="$currentLrreUuid" />
-                <xsl:with-param name="name" select="concat($startPageLrreItemName, ' - ', $endPageLrreItemName)" />
-                <xsl:with-param name="parent_uuid" select="$root_uuid" />
-                <xsl:with-param name="doc_family_uuid" select="$currentLrreUuid" />
-            </xsl:call-template>
-        </xsl:if>
+            	<xsl:call-template name="placeXppHier">
+                	<xsl:with-param name="uuid" select="$currentLrreUuid" />
+                	<xsl:with-param name="name" select="concat($startPageLrreItemName, ' - ', $endPageLrreItemName)" />
+                	<xsl:with-param name="parent_uuid" select="$root_uuid" />
+                	<xsl:with-param name="doc_family_uuid" select="$currentLrreUuid" />
+            	</xsl:call-template>
+    		</xsl:when>
+    		<xsl:otherwise>
+    			<xsl:copy-of select="." />
+    		</xsl:otherwise>
+    	</xsl:choose>        
     </xsl:template>
 
     <xsl:template match="node() | @*">
