@@ -50,7 +50,7 @@
 	<xsl:template match="x:fm.about.the.author|x:fm.other.structure" mode="secBreak">
 		<xsl:param name="pageNum" />
 		<xsl:if test="preceding::x:pagebreak[1]/@serial-num = $pageNum and not(preceding::x:t[preceding::x:pagebreak[1]/@serial-num = $pageNum])">
-			<xsl:variable name="other_label" select="string-join(./x:head[1]/x:name.block[1]/x:name[1]/x:t, ' ')" />
+			<xsl:variable name="other_label" select="string-join(./x:head[1]/x:name.block[1]/x:name[1]//x:t, ' ')" />
 			<xsl:variable name="other_uuid" select="concat($volumeName,'.',name(), x:getIdSuffix(current()))" />
 			<xsl:if test= "$other_label">
 				<xsl:call-template name="placeSectionbreak">
@@ -145,7 +145,7 @@
 
 	<xsl:template match="x:fm.about.the.author|x:fm.other.structure">
 		<xsl:variable name="other_label"
-			select="string-join(./x:head[1]/x:name.block[1]/x:name[1]/x:t, ' ')" />
+			select="string-join(./x:head[1]/x:name.block[1]/x:name[1]//x:t, ' ')" />
 		<xsl:variable name="other_uuid"
 			select="concat($volumeName,'.',name(), x:getIdSuffix(current()))" />
 		<xsl:if test= "$other_label">

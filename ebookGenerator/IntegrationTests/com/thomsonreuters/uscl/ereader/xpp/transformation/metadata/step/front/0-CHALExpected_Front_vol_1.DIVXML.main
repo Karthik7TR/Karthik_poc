@@ -1563,5 +1563,68 @@
 				<t style="text.line.3">January 2001</t>
 			</text.line>
 		</fm.preface>
+		<pagebreak num="XXXII" serial-num="32"/>
+		<sectionbreak sectionuuid="1111111.fm.other.structure.1"/><pagebreak num="XXXIII" serial-num="33"/>
+		<XPPHier uuid="1111111.fm.other.structure.1" name="IN MEMORIAM" parent_uuid="1111111.FrontMatter" md.doc_family_uuid="1111111.fm.other.structure.1">IN MEMORIAM</XPPHier><fm.other.structure>
+			<head align="l" emph="bold" font.size="18q">
+				<name.block>
+					<name>
+						<underscore>
+							<t style="underscore">IN MEMORIAM</t>
+						</underscore>
+					</name>
+				</name.block>
+			</head>
+			<para pre.leading="1p" first.para="yes">
+				<para.text first.para.text="yes">
+					<t style="para.text">Michael Silberberg, the author of Civil Practice in the </t>
+					<t style="para.text">Southern District of New York, died on October 25, 2002. For Mi</t>
+					<t style="para.text">chael, this treatise was a labor of love. Michael saw the Southern </t>
+					<t style="para.text">District of New York as a court of great significance in the </t>
+					<t style="para.text">development of the law of civil procedure; no other district in the </t>
+					<t style="para.text">United States handles as many large and complex civil cases. Mi</t>
+					<t style="para.text">chael correctly perceived the need for a treatise that would assist </t>
+					<t style="para.text">the Court and practitioners in providing easy access to the </t>
+					<t style="para.text">substantial—but until Michael</t>
+					<t style="para.text cgt">’</t>
+					<t style="para.text">s seminal work—uncollected body </t>
+					<t style="para.text">of caselaw.</t>
+				</para.text>
+			</para>
+			<para first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">Michael was the perfect candidate to author this treatise. His </t>
+					<t style="para.text">mastery of civil procedure was already legendary, and he was a </t>
+					<t style="para.text">frequent source of guidance to bench and bar alike. He had </t>
+					<t style="para.text">extraordinary energy which allowed him to devote countless </t>
+					<t style="para.text">hours to this undertaking, while at the same time devoting </t>
+					<t style="para.text">himself with equal passion to his clients</t>
+					<t style="para.text cgt">’</t>
+					<t style="para.text"> causes. Clients were </t>
+					<t style="para.text">uniformly impressed by Michael</t>
+					<t style="para.text cgt">’</t>
+					<t style="para.text">s creativity, his commitment to </t>
+					<t style="para.text">them, and his understanding of the facts and law of their cases. </t>
+					<t style="para.text">Michael also was uniformly respected as a “lawyer</t>
+					<t style="para.text cgt">’</t>
+					<t style="para.text">s lawyer” by </t>
+					<t style="para.text">his colleagues. But as serious a lawyer as he was, he always </t>
+					<t style="para.text">maintained a keen sense of humor and an unusual sensitivity to </t>
+					<t style="para.text">the world around him.</t>
+				</para.text>
+			</para>
+			<para first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">In carrying forward and updating Michael</t>
+					<t style="para.text cgt">’</t>
+					<t style="para.text">s wonderful work </t>
+					<t style="para.text">of scholarship, we do so with much affection and warm memories </t>
+					<t style="para.text">for a masterful lawyer and very special human being.</t>
+				</para.text>
+			</para>
+			<text.line align="r" font.size="11q" pre.leading="1p">
+				<t style="text.line.7">—Edward M. Spiro</t>
+			</text.line>
+		</fm.other.structure>
 	</frontmatter>
 </root>
