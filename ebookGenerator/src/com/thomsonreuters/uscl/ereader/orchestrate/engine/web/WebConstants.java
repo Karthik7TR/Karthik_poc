@@ -3,7 +3,7 @@ package com.thomsonreuters.uscl.ereader.orchestrate.engine.web;
 /**
  * Miscellaneous keys and constants used throughout the application.
  */
-public class WebConstants {
+public final class WebConstants {
     public static final String KEY_JOB_THROTTLE_CONFIG = "jobThrottleConfig";
     public static final String KEY_MISC_CONFIG = "miscConfig";
 
@@ -16,9 +16,15 @@ public class WebConstants {
 
     public static final String URI_GET_STEP_NAMES = "service/get/step/names";
 
+    public static final String URI_GET_BUNDLE_PDFS = "pdfs/{jobInstanceId}/{materialNumber}/{pdfName}.zip";
+
     public static final String VIEW_HOME = "home";
     public static final String VIEW_JOB_THROTTLE_CONFIG_RESPONSE = "jobThrottleConfigResponseView";
     public static final String VIEW_MISC_CONFIG_RESPONSE = "miscConfigResponseView";
 
     public static final String VIEW_APP_EXCEPTION = "appException";
+
+    private WebConstants() {
+
+    }
 }

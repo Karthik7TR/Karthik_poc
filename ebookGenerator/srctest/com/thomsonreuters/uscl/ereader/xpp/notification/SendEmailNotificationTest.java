@@ -9,6 +9,7 @@ import static java.util.Arrays.asList;
 
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenBook;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenEnvironment;
+import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenHostName;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenJobExecutionId;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenJobInstanceId;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenUserName;
@@ -19,7 +20,10 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.mail.internet.InternetAddress;
 
@@ -27,6 +31,7 @@ import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEm
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.service.CoreService;
+import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.junit.Test;
@@ -106,8 +111,8 @@ public final class SendEmailNotificationTest {
         assertThat(tempBodyTemplate, containsString("<tr><td>Doc Count</td><td>100</td><td>100</td></tr>"));
         assertThat(tempBodyTemplate, containsString("<tr><td>Book Size</td><td>1.0 MiB</td><td>1.0 MiB</td></tr>"));
         assertThat(tempBodyTemplate, containsString("</table>"));
-        assertThat(tempBodyTemplate, containsString("<br><table border = '1'><th colspan = '2'>Print Components</th>"));
-        assertThat(tempBodyTemplate, containsString("<tr><td>Material Number</td><td>SAP Description</td></tr>"));
+        assertThat(tempBodyTemplate, containsString("<br><table border = '1'><th colspan = '3'>Print Components</th>"));
+        assertThat(tempBodyTemplate, containsString("<tr><td>Material Number</td><td>SAP Description</td><td></td></tr>"));
         assertThat(tempBodyTemplate, containsString("</table>"));
     }
 
@@ -133,15 +138,33 @@ public final class SendEmailNotificationTest {
         assertThat(tempBodyTemplate, containsString("<tr><td>Doc Count</td><td>100</td><td>—</td></tr>"));
         assertThat(tempBodyTemplate, containsString("<tr><td>Book Size</td><td>1.0 MiB</td><td>—</td></tr>"));
         assertThat(tempBodyTemplate, containsString("</table>"));
-        assertThat(tempBodyTemplate, containsString("<br><table border = '1'><th colspan = '2'>Print Components</th>"));
-        assertThat(tempBodyTemplate, containsString("<tr><td>Material Number</td><td>SAP Description</td></tr>"));
+        assertThat(tempBodyTemplate, containsString("<br><table border = '1'><th colspan = '3'>Print Components</th>"));
+        assertThat(tempBodyTemplate, containsString("<tr><td>Material Number</td><td>SAP Description</td><td></td></tr>"));
         assertThat(tempBodyTemplate, containsString("</table>"));
+    }
+
+    @Test
+    public void printComponentsTableShouldContainLiknks() throws Exception {
+        // given
+        givenAll();
+        given(book.getPrintComponents()).willReturn(getPrintComponents());
+        // when
+        step.executeStep();
+        // then
+        then(emailService).should().send(captorNotificationEmail.capture());
+
+        final String tempBodyTemplate = captorNotificationEmail.getValue().getBody();
+
+        assertThat(tempBodyTemplate, containsString("<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894001/CHAL vol1_bookTitleId_41894001.zip\">download</a>"));
+        assertThat(tempBodyTemplate, containsString("<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894002/CHAL vol2_bookTitleId_41894002.zip\">download</a>"));
     }
 
     private void givenAll() {
         givenBook(chunkContext, book);
         given(book.getFullyQualifiedTitleId()).willReturn("titleId");
         given(book.getProviewDisplayName()).willReturn("proviewDisplayName");
+        given(book.getTitleId()).willReturn("bookTitleId");
+        givenHostName(chunkContext, "ebookGenerator.host.com");
         givenEnvironment(chunkContext, "env");
         givenUserName(chunkContext, "user");
         givenJobInstanceId(chunkContext, 1L);
@@ -164,5 +187,20 @@ public final class SendEmailNotificationTest {
         currentVersionPublishingStats.setBookSize(1048576L);
         currentVersionPublishingStats.setJobInstanceId(1L);
         return currentVersionPublishingStats;
+    }
+
+    private Set<PrintComponent> getPrintComponents() {
+        return new HashSet<>(Arrays.asList(
+            getPrintComponent("CHAL vol1", "41894001"),
+            getPrintComponent("CHAL vol2", "41894002")
+        ));
+    }
+
+    private PrintComponent getPrintComponent(final String name, final String materialNumber) {
+        final PrintComponent printComponent = new PrintComponent();
+        printComponent.setComponentName(name);
+        printComponent.setMaterialNumber(materialNumber);
+        printComponent.setBookDefinition(book);
+        return printComponent;
     }
 }

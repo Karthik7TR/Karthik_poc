@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import javax.mail.internet.InternetAddress;
 
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEmail;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
@@ -18,6 +19,7 @@ import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.service.CoreService;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
+import com.thomsonreuters.uscl.ereader.smoketest.service.SmokeTestServiceImpl;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.apache.log4j.LogManager;
@@ -68,14 +70,17 @@ public class SendEmailNotification extends BookStepImpl {
             .sorted(Comparator.comparing(PrintComponent::getComponentOrder))
             .collect(Collectors.toList());
 
-        tempBuilder.append("<br><table border = '1'><th colspan = '2'>Print Components</th>");
-        tempBuilder.append("<tr><td>Material Number</td><td>SAP Description</td></tr>");
+        tempBuilder.append("<br><table border = '1'><th colspan = '3'>Print Components</th>");
+        tempBuilder.append("<tr><td>Material Number</td><td>SAP Description</td><td></td></tr>");
         for (final PrintComponent element : sortedPrintComponentList) {
             tempBuilder.append("<tr><td>");
             tempBuilder.append(element.getMaterialNumber());
             tempBuilder.append("</td><td>");
             tempBuilder.append(element.getComponentName());
-            tempBuilder.append("</td></tr>");
+            tempBuilder.append("</td><td>");
+            tempBuilder.append("<a href=\"");
+            tempBuilder.append(getDownloadLink(getJobInstanceId(), element));
+            tempBuilder.append("\">download</a></td></tr>");
         }
         tempBuilder.append("</table>");
         return tempBuilder.toString();
@@ -138,5 +143,14 @@ public class SendEmailNotification extends BookStepImpl {
         sb.append(getPrintComponentsTable(bookDefinition));
 
         return sb.toString();
+    }
+
+    @NotNull
+    private String getDownloadLink(final long jobInstanceId, final PrintComponent element) {
+        final String host = getJobParameterString(JobParameterKey.HOST_NAME);
+        final String port = "workstation".equals(getEnvironment()) ? "8080" : SmokeTestServiceImpl.PORT_9002;
+        final String archiveName = element.getComponentName() + "_" + element.getBookDefinition().getTitleId() + "_" + element.getMaterialNumber();
+
+        return String.format("http://%s:%s/ebookGenerator/pdfs/%s/%s/%s.zip", host, port, jobInstanceId, element.getMaterialNumber(), archiveName);
     }
 }

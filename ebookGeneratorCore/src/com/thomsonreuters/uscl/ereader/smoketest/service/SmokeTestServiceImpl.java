@@ -42,6 +42,11 @@ public class SmokeTestServiceImpl implements SmokeTestService {
     private static final String GATHERER = "Gatherer";
     private static final String NOVUS_CLIENT_TEST_DOC_ID = "I41077696b67411d9947c9ea867b7826a";
 
+    public static final String PORT_9001 = "9001";
+    public static final String PORT_9002 = "9002";
+    public static final String PORT_9003 = "9003";
+    public static final String PORT_9007 = "9007";
+
     public static final File APPSERVER_TOMCAT_DIR = new File("/appserver/tomcat");
 
     private SmokeTestDao dao;
@@ -81,11 +86,11 @@ public class SmokeTestServiceImpl implements SmokeTestService {
     public List<SmokeTest> getCIApplicationStatuses() {
         final List<SmokeTest> statuses = new ArrayList<>();
 
-        statuses.add(getApplicationStatus(MANAGER, "http://c708pfmctasdf.int.thomsonreuters.com:9007/ebookManager/"));
+        statuses.add(getApplicationStatus(MANAGER, String.format("http://c708pfmctasdf.int.thomsonreuters.com:%s/ebookManager/", PORT_9007)));
         statuses.add(getApplicationStatus(MANAGER, "http://ebookmanager-ci.int.thomsonreuters.com/ebookManager/"));
         statuses
-            .add(getApplicationStatus(GENERATOR, "http://c708pfmctasdf.int.thomsonreuters.com:9002/ebookGenerator/"));
-        statuses.add(getApplicationStatus(GATHERER, "http://c708pfmctasdf.int.thomsonreuters.com:9001/ebookGatherer/"));
+            .add(getApplicationStatus(GENERATOR, String.format("http://c708pfmctasdf.int.thomsonreuters.com:%s/ebookGenerator/", PORT_9002)));
+        statuses.add(getApplicationStatus(GATHERER, String.format("http://c708pfmctasdf.int.thomsonreuters.com:%s/ebookGatherer/", PORT_9001)));
 
         return statuses;
     }
@@ -104,11 +109,11 @@ public class SmokeTestServiceImpl implements SmokeTestService {
     public List<SmokeTest> getTestApplicationStatuses() {
         final List<SmokeTest> statuses = new ArrayList<>();
 
-        statuses.add(getApplicationStatus(MANAGER, "http://c281ffzctastf.int.thomsonreuters.com:9003/ebookManager/"));
+        statuses.add(getApplicationStatus(MANAGER, String.format("http://c281ffzctastf.int.thomsonreuters.com:%s/ebookManager/", PORT_9003)));
         statuses.add(getApplicationStatus(MANAGER, "http://ebookmanager-demo.int.thomsonreuters.com/ebookManager/"));
         statuses
-            .add(getApplicationStatus(GENERATOR, "http://c273pevctastf.int.thomsonreuters.com:9002/ebookGenerator/"));
-        statuses.add(getApplicationStatus(GATHERER, "http://c273pevctastf.int.thomsonreuters.com:9001/ebookGatherer/"));
+            .add(getApplicationStatus(GENERATOR, String.format("http://c273pevctastf.int.thomsonreuters.com:%s/ebookGenerator/", PORT_9002)));
+        statuses.add(getApplicationStatus(GATHERER, String.format("http://c273pevctastf.int.thomsonreuters.com:%s/ebookGatherer/", PORT_9001)));
 
         return statuses;
     }
@@ -136,13 +141,13 @@ public class SmokeTestServiceImpl implements SmokeTestService {
 
         // List of eBook Manager Servers
         for (final String server : qedManagerServers) {
-            statuses.add(getApplicationStatus(MANAGER, String.format("http://%s:9001/ebookManager/", server)));
+            statuses.add(getApplicationStatus(MANAGER, String.format("http://%s:%s/ebookManager/", server, PORT_9001)));
         }
 
         // List of eBook Generator Servers
         for (final String server : qedGeneratorServers) {
-            statuses.add(getApplicationStatus(GATHERER, String.format("http://%s:9001/ebookGatherer/", server)));
-            statuses.add(getApplicationStatus(GENERATOR, String.format("http://%s:9002/ebookGenerator/", server)));
+            statuses.add(getApplicationStatus(GATHERER, String.format("http://%s:%s/ebookGatherer/", server, PORT_9001)));
+            statuses.add(getApplicationStatus(GENERATOR, String.format("http://%s:%s/ebookGenerator/", server, PORT_9002)));
         }
 
         statuses.add(getApplicationStatus(MANAGER, "http://ebookmanager-qed.int.thomsonreuters.com/ebookManager/"));
@@ -186,13 +191,13 @@ public class SmokeTestServiceImpl implements SmokeTestService {
 
         // List of eBook Manager Servers
         for (final String server : prodManagerServers) {
-            statuses.add(getApplicationStatus(MANAGER, String.format("http://%s:9001/ebookManager/", server)));
+            statuses.add(getApplicationStatus(MANAGER, String.format("http://%s:%s/ebookManager/", server, PORT_9001)));
         }
 
         // List of eBook Generator Servers
         for (final String server : prodGeneratorServers) {
-            statuses.add(getApplicationStatus(GATHERER, String.format("http://%s:9001/ebookGatherer/", server)));
-            statuses.add(getApplicationStatus(GENERATOR, String.format("http://%s:9002/ebookGenerator/", server)));
+            statuses.add(getApplicationStatus(GATHERER, String.format("http://%s:%s/ebookGatherer/", server, PORT_9001)));
+            statuses.add(getApplicationStatus(GENERATOR, String.format("http://%s:%s/ebookGenerator/", server, PORT_9002)));
         }
 
         statuses.add(getApplicationStatus(MANAGER, "http://ebookmanager.int.thomsonreuters.com/ebookManager/"));

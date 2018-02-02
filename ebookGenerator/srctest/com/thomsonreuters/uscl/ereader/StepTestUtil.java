@@ -75,6 +75,10 @@ public final class StepTestUtil {
         givenJobParameter(chunkContext, JobParameterKey.BOOK_VERSION_SUBMITTED, value);
     }
 
+    public static void givenHostName(final ChunkContext chunkContext, final String value) {
+        givenJobParameter(chunkContext, JobParameterKey.HOST_NAME, value);
+    }
+
     public static void givenBookBundles(final ChunkContext chunkContext, final List<XppBundle> bundles) {
         given(
             chunkContext.getStepContext()
