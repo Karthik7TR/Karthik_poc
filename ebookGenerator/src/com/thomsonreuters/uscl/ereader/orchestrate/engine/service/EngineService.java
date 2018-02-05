@@ -16,7 +16,7 @@ public interface EngineService {
      * @return the Spring Batch execution entity
      * @throws Exception if unable to start the job within the Spring Batch engine.
      */
-    JobExecution runJob(String jobName, JobParameters jobParameters) throws Exception;
+    JobExecution runJob(String jobName, JobParameters jobParameters);
 
     /**
      * Resume a stopped batch job. Requires that it already be in a STOPPED or FAILED status,

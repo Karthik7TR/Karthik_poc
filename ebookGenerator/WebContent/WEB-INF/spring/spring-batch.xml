@@ -48,15 +48,6 @@
 	  	  p:jobRequestService-ref="jobRequestService"
 	  	  p:springBatchTaskExecutor-ref="springBatchEBookTaskExecutor"
 	  	  p:jobNameProvider-ref="jobNameProvider"/>
-	  	  
-	<bean class="com.thomsonreuters.uscl.ereader.orchestrate.engine.queue.XppBundleQueuePoller"
-		  p:jobRegistry-ref="jobRegistry"
-		  p:jobLauncher-ref="jobBundleLauncher"
-		  p:jmsClient-ref="jmsClient"
-		  p:jmsTemplate-ref="jmsTemplate"
-		  p:outageProcessor-ref="outageProcessor"
-		  p:threadPoolTaskExecutor-ref="springBatchBundleTaskExecutor"
-		  p:environmentName-ref="environmentName"/>
 
     <bean id="jobBundleLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher"
           p:jobRepository-ref="jobRepository" p:taskExecutor-ref="springBatchBundleTaskExecutor">
