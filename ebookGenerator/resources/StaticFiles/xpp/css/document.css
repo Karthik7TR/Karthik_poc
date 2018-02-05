@@ -354,6 +354,10 @@ td:last-of-type {
   margin: 1em;
 }
 
+.feature_para_block * {
+  display: inline;
+}
+
 .appendix_front > .outline_name_block {
   margin: 1em 0;
   display: block;
@@ -583,6 +587,10 @@ td:last-of-type {
 
 .text_line + .fm_related_products_boilerplate {
   margin-top: 1em;
+}
+
+.font {
+  display: inline;
 }
 
 .leaveout .cgt,

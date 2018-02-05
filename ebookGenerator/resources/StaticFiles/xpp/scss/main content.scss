@@ -182,4 +182,7 @@ ref {
 
 .feature_para_block {
     margin: #{$indent}em;
+    & * {
+        display: inline;
+    }
 }
