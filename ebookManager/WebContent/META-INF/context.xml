@@ -18,7 +18,7 @@
 -->
 
 <!-- The contents of this file will be loaded for each web application -->
-<Context>
+<Context sessionCookiePathUsesTrailingSlash="false" >
 
     <!-- Default set of monitored resources -->
     <WatchedResource>WEB-INF/web.xml</WatchedResource>
