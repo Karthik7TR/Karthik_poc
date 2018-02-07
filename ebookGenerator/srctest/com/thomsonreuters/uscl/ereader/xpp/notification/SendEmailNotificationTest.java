@@ -155,8 +155,37 @@ public final class SendEmailNotificationTest {
 
         final String tempBodyTemplate = captorNotificationEmail.getValue().getBody();
 
-        assertThat(tempBodyTemplate, containsString("<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894001/CHAL vol1_bookTitleId_41894001.zip\">download</a>"));
-        assertThat(tempBodyTemplate, containsString("<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894002/CHAL vol2_bookTitleId_41894002.zip\">download</a>"));
+        assertThat(tempBodyTemplate, containsString("<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894001/CHAL+vol1_bookTitleId_41894001.zip\">download</a>"));
+        assertThat(tempBodyTemplate, containsString("<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894002/CHAL+vol2_bookTitleId_41894002.zip\">download</a>"));
+    }
+
+    @Test
+    public void printComponentsTableShouldContainLiknksBasedOnBundleDescriptionWithSpecialCharacters() throws Exception {
+        // given
+        givenAll();
+        given(book.getPrintComponents()).willReturn(new HashSet<>(Arrays.asList(
+            getPrintComponent("http://server:8080/path", "41894001"),
+            getPrintComponent("\\\\ftp\\folder", "41894002"),
+            getPrintComponent("vol.1 //", "41894003"),
+            getPrintComponent("q#q", "41894004"),
+            getPrintComponent("q1\"+\"3\"+\"4", "41894005"),
+            getPrintComponent("?var=<script>alert('Hello World');</script>", "41894006"),
+            getPrintComponent("<script></script>", "41894007")
+        )));
+        // when
+        step.executeStep();
+        // then
+        then(emailService).should().send(captorNotificationEmail.capture());
+
+        final String tempBodyTemplate = captorNotificationEmail.getValue().getBody();
+
+        assertThat(tempBodyTemplate, containsString("<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894001/httpserver8080path_bookTitleId_41894001.zip\">download</a>"));
+        assertThat(tempBodyTemplate, containsString("<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894002/ftpfolder_bookTitleId_41894002.zip\">download</a>"));
+        assertThat(tempBodyTemplate, containsString("<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894003/vol1+_bookTitleId_41894003.zip\">download</a>"));
+        assertThat(tempBodyTemplate, containsString("<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894004/qq_bookTitleId_41894004.zip\">download</a>"));
+        assertThat(tempBodyTemplate, containsString("<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894005/q134_bookTitleId_41894005.zip\">download</a>"));
+        assertThat(tempBodyTemplate, containsString("<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894006/varscriptalertHello+Worldscript_bookTitleId_41894006.zip\">download</a>"));
+        assertThat(tempBodyTemplate, containsString("<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894007/scriptscript_bookTitleId_41894007.zip\">download</a>"));
     }
 
     private void givenAll() {

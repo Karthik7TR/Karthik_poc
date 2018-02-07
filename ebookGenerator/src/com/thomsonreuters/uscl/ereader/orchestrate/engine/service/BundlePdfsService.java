@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Optional;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -55,7 +56,8 @@ public class BundlePdfsService {
     }
 
     private String getDynamicPath(final String jobInstanceId, final String materialNumber) {
-        final PublishingStats stats = publishingStatsService.findPublishingStatsByJobId(Long.valueOf(jobInstanceId));
+        final PublishingStats stats = Optional.ofNullable(publishingStatsService.findPublishingStatsByJobId(Long.valueOf(jobInstanceId)))
+            .orElseThrow(() -> new EBookException("Can not find jobInstanceId " + jobInstanceId));
 
         final String dateBasedDir = BookFileSystemImpl.getDateBasedDirName(stats.getJobSubmitTimestamp());
         final Long bookDefinitionId = stats.getEbookDefId();

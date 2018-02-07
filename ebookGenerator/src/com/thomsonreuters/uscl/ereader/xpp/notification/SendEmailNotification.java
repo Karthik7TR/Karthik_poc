@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.xpp.notification;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -22,6 +24,7 @@ import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.smoketest.service.SmokeTestServiceImpl;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -149,8 +152,17 @@ public class SendEmailNotification extends BookStepImpl {
     private String getDownloadLink(final long jobInstanceId, final PrintComponent element) {
         final String host = getJobParameterString(JobParameterKey.HOST_NAME);
         final String port = "workstation".equals(getEnvironment()) ? "8080" : SmokeTestServiceImpl.PORT_9002;
-        final String archiveName = element.getComponentName() + "_" + element.getBookDefinition().getTitleId() + "_" + element.getMaterialNumber();
+        final String archiveName = String.join("_", encodeURL(element.getComponentName()), element.getBookDefinition().getTitleId(), element.getMaterialNumber());
 
         return String.format("http://%s:%s/ebookGenerator/pdfs/%s/%s/%s.zip", host, port, jobInstanceId, element.getMaterialNumber(), archiveName);
+    }
+
+    private String encodeURL(final String string) {
+        try {
+            return URLEncoder.encode(string.replaceAll("[^a-zA-Z0-9 ]", StringUtils.EMPTY), "UTF-8");
+        } catch (final UnsupportedEncodingException e) {
+            LOG.error("Unexpected exception.", e);
+            return StringUtils.EMPTY;
+        }
     }
 }

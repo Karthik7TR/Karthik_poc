@@ -33,6 +33,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public final class BundlePdfsServiceTest {
     private static final Long JOB_INSTANCE_ID = 12551L;
+    private static final Long WRONG_JOB_INSTANCE_ID = 15551L;
     private static final Long BOOK_DEFINITION_ID = 12345L;
     private static final String MATERIAL_NUMBER = "41894002";
     private static final String TITLE_ID = "titleId";
@@ -69,6 +70,11 @@ public final class BundlePdfsServiceTest {
     public void shouldGetMaterialNumberDir() {
         final File result = bundlePdfsService.getMaterialNumberDir(JOB_INSTANCE_ID.toString(), MATERIAL_NUMBER);
         assertTrue(result.getPath().contains(String.format("\\data\\20180101\\%s\\%s\\Gather\\Bundles\\%s", TITLE_ID, JOB_INSTANCE_ID, MATERIAL_NUMBER)));
+    }
+
+    @Test(expected = EBookException.class)
+    public void shouldHandleWrongJobInstanceId() {
+        bundlePdfsService.getMaterialNumberDir(WRONG_JOB_INSTANCE_ID.toString(), MATERIAL_NUMBER);
     }
 
     @Test
