@@ -3,6 +3,19 @@
     text-align: justify;
 }
 
+table, tbody, tr, td {
+    .frontmatter .tbl & {
+        display: block;
+    }
+}
+
+.colspec {
+    .frontmatter .tbl table + & {
+        margin-top: #{$indent * 0.5}em;
+        margin-bottom: #{$indent * 0.75}em;
+    }
+}
+
 .text_line,
 .endline {
     display: block;

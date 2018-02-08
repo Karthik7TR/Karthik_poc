@@ -185,6 +185,10 @@ a:empty {
   display: inline;
 }
 
+.section_body > .para > .para_text:last-of-type {
+  text-indent: 0;
+}
+
 .analytical_hierarchy .name,
 .outline_name_block .name {
   display: inline;
@@ -309,7 +313,7 @@ td:last-of-type {
   text-indent: 0;
 }
 
-.section_body > .quote_block > .quote_para * {
+.section_body > .quote_block > .quote_para *, .section_body > .para > .quote_block > .quote_para * {
   text-indent: 0;
 }
 
@@ -348,6 +352,10 @@ td:last-of-type {
   display: block;
   text-indent: -1em;
   margin-left: 1em;
+}
+
+.chapter_body .section_front > .research_reference_block .reference_entry > .ref_text > .cite > ref {
+  margin-left: 0;
 }
 
 .feature_para_block {
@@ -531,6 +539,15 @@ td:last-of-type {
   text-align: justify;
 }
 
+.frontmatter .tbl table, .frontmatter .tbl tbody, .frontmatter .tbl tr, .frontmatter .tbl td {
+  display: block;
+}
+
+.frontmatter .tbl table + .colspec {
+  margin-top: 0.5em;
+  margin-bottom: 0.75em;
+}
+
 .text_line,
 .endline {
   display: block;
@@ -638,7 +655,8 @@ tbody .cgt,
 .generated_lrre_tbl .int_ref_list > .cgt,
 .toc_wrapper > .generated_toc > .summary_toc > .toc_chapter > a > .outline_name_block > .cgt:last-of-type,
 .toc_wrapper > .generated_toc > .summary_toc > .toc_chapter > a > .outline_name_block .name ~ .cgt,
-.toc_wrapper > .generated_toc > .full_toc > .toc_chapter > a > .outline_name_block > .name ~ .cgt {
+.toc_wrapper > .generated_toc > .full_toc > .toc_chapter > a > .outline_name_block > .name ~ .cgt,
+.section_front > .outline_name_block > .name > .cgt:first-child {
   display: none;
 }
 

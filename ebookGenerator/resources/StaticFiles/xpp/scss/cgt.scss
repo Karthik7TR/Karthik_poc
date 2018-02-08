@@ -42,7 +42,8 @@
     .generated_lrre_tbl .int_ref_list>&,
     .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block>&:last-of-type,
     .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .name~&,
-    .toc_wrapper>.generated_toc>.full_toc>.toc_chapter>a>.outline_name_block>.name~& {
+    .toc_wrapper>.generated_toc>.full_toc>.toc_chapter>a>.outline_name_block>.name~&,
+    .section_front>.outline_name_block>.name>&:first-child {
         display: none;
     }
     .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .name~& {

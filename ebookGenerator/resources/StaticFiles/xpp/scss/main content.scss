@@ -4,6 +4,9 @@
     * {
         display: inline;
     }
+    .section_body>.para>&:last-of-type {
+        text-indent: 0;
+    }
 }
 
 .name {
@@ -132,7 +135,7 @@ td:empty {
 .quote_para {
     margin: #{$indent}em;
     text-indent: 0;
-    .section_body>.quote_block>& * {
+    .section_body>.quote_block>& *, .section_body>.para>.quote_block>& * {
         text-indent: 0;
     }
 }
@@ -177,6 +180,10 @@ ref {
         display: block;
         text-indent: -#{$indent}em;
         margin-left: #{$indent}em;
+    }
+
+    .chapter_body .section_front>.research_reference_block .reference_entry>.ref_text>.cite>& {
+        margin-left: 0;
     }
 }
 
