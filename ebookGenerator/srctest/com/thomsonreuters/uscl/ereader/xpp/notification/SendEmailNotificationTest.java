@@ -46,6 +46,9 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 
 @RunWith(MockitoJUnitRunner.class)
 public final class SendEmailNotificationTest {
+    private static final String CHAL_1_DOWNLOAD_LINK = "<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894001/CHAL+vol1_bookTitleId_41894001.zip\">download</a>";
+    private static final String CHAL_2_DOWNLOAD_LINK = "<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894002/CHAL+vol2_bookTitleId_41894002.zip\">download</a>";
+
     @InjectMocks
     private SendEmailNotification step;
     @Mock
@@ -155,8 +158,8 @@ public final class SendEmailNotificationTest {
 
         final String tempBodyTemplate = captorNotificationEmail.getValue().getBody();
 
-        assertThat(tempBodyTemplate, containsString("<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894001/CHAL+vol1_bookTitleId_41894001.zip\">download</a>"));
-        assertThat(tempBodyTemplate, containsString("<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894002/CHAL+vol2_bookTitleId_41894002.zip\">download</a>"));
+        assertThat(tempBodyTemplate, containsString(CHAL_1_DOWNLOAD_LINK));
+        assertThat(tempBodyTemplate, containsString(CHAL_2_DOWNLOAD_LINK));
     }
 
     @Test
@@ -170,7 +173,8 @@ public final class SendEmailNotificationTest {
             getPrintComponent("q#q", "41894004"),
             getPrintComponent("q1\"+\"3\"+\"4", "41894005"),
             getPrintComponent("?var=<script>alert('Hello World');</script>", "41894006"),
-            getPrintComponent("<script></script>", "41894007")
+            getPrintComponent("<script></script>", "41894007"),
+            getPrintComponent("1.&lt;script&gt;&lt;/script&gt; 2.var=&lt;script&gt;alert('xss');&lt;/script&gt; 3.ff &amp;lt;script&amp;gt;&amp;lt;script&amp;gt;", "41894008")
         )));
         // when
         step.executeStep();
@@ -186,6 +190,28 @@ public final class SendEmailNotificationTest {
         assertThat(tempBodyTemplate, containsString("<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894005/q134_bookTitleId_41894005.zip\">download</a>"));
         assertThat(tempBodyTemplate, containsString("<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894006/varscriptalertHello+Worldscript_bookTitleId_41894006.zip\">download</a>"));
         assertThat(tempBodyTemplate, containsString("<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894007/scriptscript_bookTitleId_41894007.zip\">download</a>"));
+        assertThat(tempBodyTemplate, containsString("<a href=\"http://ebookGenerator.host.com:9002/ebookGenerator/pdfs/1/41894008/1scriptscript+2varscriptalertxssscript+3ff+ltscriptgtltscriptgt_bookTitleId_41894008.zip\">download</a>"));
+    }
+
+    @Test
+    public void printComponentsTableSplitRow() throws Exception {
+        // given
+        givenAll();
+        given(book.getPrintComponents()).willReturn(new HashSet<>(Arrays.asList(
+            getPrintComponent("CHAL vol1", "41894001"),
+            getPrintComponent("SPLITTER", "-------------"),
+            getPrintComponent("CHAL vol2", "41894002")
+        )));
+        // when
+        step.executeStep();
+        // then
+        then(emailService).should().send(captorNotificationEmail.capture());
+
+        final String tempBodyTemplate = captorNotificationEmail.getValue().getBody();
+
+        assertThat(tempBodyTemplate, containsString(CHAL_1_DOWNLOAD_LINK));
+        assertThat(tempBodyTemplate, containsString(SendEmailNotification.PRINT_COMPONENTS_SPLITTER));
+        assertThat(tempBodyTemplate, containsString(CHAL_2_DOWNLOAD_LINK));
     }
 
     private void givenAll() {

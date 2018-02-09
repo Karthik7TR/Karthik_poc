@@ -25,6 +25,8 @@ import com.thomsonreuters.uscl.ereader.smoketest.service.SmokeTestServiceImpl;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -36,6 +38,7 @@ public class SendEmailNotification extends BookStepImpl {
     private static final Logger LOG = LogManager.getLogger(SendEmailNotification.class);
     private static final String LONG_DASH = "—";
     private static final boolean IS_HTML_BODY_CONTENT = true;
+    public static final String PRINT_COMPONENTS_SPLITTER = "<tr><td colspan=\"3\" style=\"text-align: center;\">- - - - - - - - - - - - - -</td></tr>";
 
     @Resource(name = "emailService")
     private EmailService emailService;
@@ -76,14 +79,18 @@ public class SendEmailNotification extends BookStepImpl {
         tempBuilder.append("<br><table border = '1'><th colspan = '3'>Print Components</th>");
         tempBuilder.append("<tr><td>Material Number</td><td>SAP Description</td><td></td></tr>");
         for (final PrintComponent element : sortedPrintComponentList) {
-            tempBuilder.append("<tr><td>");
-            tempBuilder.append(element.getMaterialNumber());
-            tempBuilder.append("</td><td>");
-            tempBuilder.append(element.getComponentName());
-            tempBuilder.append("</td><td>");
-            tempBuilder.append("<a href=\"");
-            tempBuilder.append(getDownloadLink(getJobInstanceId(), element));
-            tempBuilder.append("\">download</a></td></tr>");
+            if (NumberUtils.isNumber(element.getMaterialNumber())) {
+                tempBuilder.append("<tr><td>");
+                tempBuilder.append(element.getMaterialNumber());
+                tempBuilder.append("</td><td>");
+                tempBuilder.append(element.getComponentName());
+                tempBuilder.append("</td><td>");
+                tempBuilder.append("<a href=\"");
+                tempBuilder.append(getDownloadLink(getJobInstanceId(), element));
+                tempBuilder.append("\">download</a></td></tr>");
+            } else {
+                tempBuilder.append(PRINT_COMPONENTS_SPLITTER);
+            }
         }
         tempBuilder.append("</table>");
         return tempBuilder.toString();
@@ -152,14 +159,17 @@ public class SendEmailNotification extends BookStepImpl {
     private String getDownloadLink(final long jobInstanceId, final PrintComponent element) {
         final String host = getJobParameterString(JobParameterKey.HOST_NAME);
         final String port = "workstation".equals(getEnvironment()) ? "8080" : SmokeTestServiceImpl.PORT_9002;
-        final String archiveName = String.join("_", encodeURL(element.getComponentName()), element.getBookDefinition().getTitleId(), element.getMaterialNumber());
+        final String componentName = encodeComponentNameForURL(element.getComponentName());
+
+        final String archiveName = String.join("_", componentName, element.getBookDefinition().getTitleId(), element.getMaterialNumber());
 
         return String.format("http://%s:%s/ebookGenerator/pdfs/%s/%s/%s.zip", host, port, jobInstanceId, element.getMaterialNumber(), archiveName);
     }
 
-    private String encodeURL(final String string) {
+    private String encodeComponentNameForURL(final String componentName) {
         try {
-            return URLEncoder.encode(string.replaceAll("[^a-zA-Z0-9 ]", StringUtils.EMPTY), "UTF-8");
+            final String componentNameUnescapedHtml = StringEscapeUtils.unescapeHtml4(componentName);
+            return URLEncoder.encode(componentNameUnescapedHtml.replaceAll("[^a-zA-Z0-9 ]", StringUtils.EMPTY), "UTF-8");
         } catch (final UnsupportedEncodingException e) {
             LOG.error("Unexpected exception.", e);
             return StringUtils.EMPTY;

@@ -10,6 +10,7 @@
 <script src="js/jsgrid/src/fields/jsgrid.field.text.js"></script>
 <script src="js/jsgrid/src/fields/jsgrid.field.control.js"></script>
 <script src="js/jsgrid/src/jsgrid.validation.js"></script>
+<script src="js/htmlEnDeCode.js"></script>
 
 <style>
 .hasDatepicker {
@@ -165,12 +166,21 @@
 				onItemEditing: function(args){
 					$gridData.sortable({cancel:'.jsgrid-edit-row, .ui-sortable, .jsgrid-cell, .jsgrid-grid-body tbody, .jsgrid-row, .jsgrid-alt-row'});
 					$('#up_button, #down_button').prop('disabled','disabled');
+					args.item.componentName = htmlEnDeCode.htmlDecode(args.item.componentName);
 				},
 				
-				onItemUpdated: function(){
-				    if ( $(".jsgrid-edit-row" ).length == 0 ) {
-					    $gridData.sortable({cancel:'.jsgrid-edit-row'});
+				onItemUpdated: function(args) {
+					if ( $(".jsgrid-edit-row" ).length == 0 ) {
+						$gridData.sortable({cancel:'.jsgrid-edit-row'});
 						$('#up_button, #down_button').removeAttr('disabled');
+					}
+
+					var jsGrid = $("#jsGrid").jsGrid("option", "data");
+					for (i = 0; i < jsGrid.length; i++) {
+						if(args.item.materialNumber == jsGrid[i].materialNumber){
+							jsGrid[i].componentName = htmlEnDeCode.htmlEncode(args.item.componentName);
+							reorderIndexes();
+						}
 					}
 				},
 
@@ -370,6 +380,7 @@
 	                            	alert(args.item.materialNumber+" Material Number is duplicate.");
 	                            }
     	                  	}
+    	                  	args.item.componentName = htmlEnDeCode.htmlEncode(args.item.componentName);
                     	} else {
                         	var componentsCounts = getCurrentComponentsCount();
                         	if (componentsCounts.components <= componentsCounts.splitters + 1) {
@@ -397,15 +408,19 @@
                 },
 
                 onItemUpdating: function(args) {
-                	var arg = args;
-                	var gridData = $("#jsGrid").jsGrid("option", "data");
-                	  for (i = 0; i < gridData.length; i++) {
-                          if(args.item.materialNumber == gridData[i].materialNumber && !isNaN(args.item.componentOrder)
-                        		  && args.item.componentOrder != gridData[i].componentOrder){
-                          	args.cancel = true;
-                          	alert("Material Number already exists " + args.item.materialNumber);
+                    var arg = args;
+                    var gridData = $("#jsGrid").jsGrid("option", "data");
+                      for (i = 0; i < gridData.length; i++) {
+                          if (args.item.materialNumber == gridData[i].materialNumber) {
+                              if (!isNaN(args.item.componentOrder) && 
+                                  args.item.componentOrder != gridData[i].componentOrder) {
+                                  args.cancel = true;
+                                  alert("Material Number already exists " + args.item.materialNumber);
+                              }
+                              gridData[i].componentName = htmlEnDeCode.htmlEncode(args.item.componentName);
                           }
                       }
+                      exchangeIndexes();
                 },
 
                 onItemInserted: function(insertedArgs) {

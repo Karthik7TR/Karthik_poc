@@ -1,5 +1,9 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
+import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
+import static org.apache.commons.text.StringEscapeUtils.escapeXml10;
+import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
+
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -43,7 +47,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -633,6 +636,8 @@ public class EditBookDefinitionForm {
             if (printComponent.getPrintComponentId() == null) {
                 printComponent.setPrintComponentId(uuidGenerator.generateUuid());
             }
+            final String escapedName = escapeHtml4(unescapeHtml4(printComponent.getComponentName()));
+            printComponent.setComponentName(escapedName);
         }
         book.setPrintComponents(printComponents);
     }
@@ -1288,7 +1293,7 @@ public class EditBookDefinitionForm {
     }
 
     public String getPrintComponents() throws JsonProcessingException {
-        return StringEscapeUtils.escapeXml10(jsonMapper.writeValueAsString(printComponents));
+        return escapeXml10(jsonMapper.writeValueAsString(printComponents));
     }
 
     public Collection<PrintComponent> getPrintComponentsCollection() {

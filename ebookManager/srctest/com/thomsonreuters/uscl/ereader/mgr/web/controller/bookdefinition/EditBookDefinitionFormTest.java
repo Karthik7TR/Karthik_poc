@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -24,13 +27,18 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.PilotBook;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm;
+import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 public final class EditBookDefinitionFormTest {
+    private static final String COMPONENT_NAME_ESCAPED = "&lt;script&gt;&lt;/script&gt;";
+    private static final String COMPONENT_NAME_CROSS_SITE_INJECTION_ATTEMPT = "<script></script>";
     private static final String printComponentsJson =
-        "[{\"printComponentId\":\"1\",\"componentOrder\":1,\"materialNumber\":\"123\",\"componentName\":\"c1\"},{\"printComponentId\":\"2\",\"componentOrder\":2,\"materialNumber\":\"234\",\"componentName\":\"c2\"}]";
+        "[{\"printComponentId\":\"1\",\"componentOrder\":1,\"materialNumber\":\"123\",\"componentName\":\"c1\"},"
+       + "{\"printComponentId\":\"2\",\"componentOrder\":2,\"materialNumber\":\"234\",\"componentName\":\"" + COMPONENT_NAME_ESCAPED + "\"},"
+       + "{\"printComponentId\":\"3\",\"componentOrder\":3,\"materialNumber\":\"345\",\"componentName\":\"" + COMPONENT_NAME_CROSS_SITE_INJECTION_ATTEMPT + "\"}]";
 
     private EditBookDefinitionForm form;
 
@@ -144,7 +152,17 @@ public final class EditBookDefinitionFormTest {
         Assert.assertEquals(1, book.getDocumentCurrencies().size());
         Assert.assertEquals(1, book.getKeywordTypeValues().size());
         Assert.assertEquals(1, book.getNortFileLocations().size());
-        Assert.assertEquals(2, book.getPrintComponents().size());
+        Assert.assertEquals(3, book.getPrintComponents().size());
+
+        validateEscapingPrintComponentName(book.getPrintComponents());
+    }
+
+    private void validateEscapingPrintComponentName(final Set<PrintComponent> printComponents) {
+        final Map<String, String> componentsMap = printComponents.stream().collect(
+            Collectors.toMap(PrintComponent::getMaterialNumber, PrintComponent::getComponentName));
+
+        Assert.assertEquals(COMPONENT_NAME_ESCAPED, componentsMap.get("234"));
+        Assert.assertEquals(COMPONENT_NAME_ESCAPED, componentsMap.get("345"));
     }
 
     @Test

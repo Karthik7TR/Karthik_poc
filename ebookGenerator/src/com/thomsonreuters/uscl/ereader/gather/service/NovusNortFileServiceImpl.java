@@ -27,10 +27,10 @@ import com.thomsonreuters.uscl.ereader.gather.codesworkbench.domain.Relationship
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
 import com.thomsonreuters.uscl.ereader.util.NormalizationRulesUtil;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.translate.CharSequenceTranslator;
-import org.apache.commons.lang3.text.translate.NumericEntityEscaper;
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.text.translate.CharSequenceTranslator;
+import org.apache.commons.text.translate.NumericEntityEscaper;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
