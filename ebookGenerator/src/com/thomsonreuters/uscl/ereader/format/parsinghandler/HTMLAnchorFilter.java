@@ -22,6 +22,14 @@ import org.xml.sax.helpers.XMLFilterImpl;
  * @author <a href="mailto:Selvedin.Alic@thomsonreuters.com">Selvedin Alic</a> u0095869
  */
 public class HTMLAnchorFilter extends XMLFilterImpl {
+    private static final Logger LOG = LogManager.getLogger(HTMLAnchorFilter.class);
+    private static final String IMAGE_PNG = "image/png";
+    private static final String IMAGE_GIF = "image/gif";
+    private static final String IMAGE_X_PNG = "image/x-png";
+    private static final String IMAGE_JPEG = "image/jpeg";
+    private static final String HASH = "#";
+    private static final String IMG = "img";
+
     private boolean isImageLink;
     private boolean isPDFLink;
     private boolean isEmptyAnchor;
@@ -30,21 +38,13 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 
     private long imgMaxHeight = 668L;
     private long imgMaxWidth = 648L;
-
-    private int imgEncountered;
-
     private long jobInstanceId;
 
     private Set<String> nameAnchors;
     private Map<String, Set<String>> targetAnchors;
-    private static final Logger LOG = LogManager.getLogger(HTMLAnchorFilter.class);
 
     private String currentGuid;
-
     private int dupEncountered;
-
-    private String firstlineCite;
-
     private String docGuid;
 
     public String getDocGuid() {
@@ -69,10 +69,6 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 
     public void setjobInstanceId(final long jobInstanceId) {
         this.jobInstanceId = jobInstanceId;
-    }
-
-    public void setFirstlineCite(final String firstlineCite) {
-        this.firstlineCite = firstlineCite;
     }
 
     public void setImgMaxHeight(final long maxHeight) {
@@ -100,21 +96,20 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
     }
 
     @Override
-    public void startElement(final String uri, final String localName, String qName, final Attributes atts)
+    public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
         throws SAXException {
         if (!isImageLink && !isEmptyAnchor && !isPDFLink) {
-            if (qName.equalsIgnoreCase("a")) {
+            if ("a".equalsIgnoreCase(qName)) {
                 if (atts != null) {
                     final String mime = atts.getValue("type");
+                    String attsHrefValue = atts.getValue("href");
                     //build image tag for image anchors
-                    if (mime != null
-                        && (mime.equalsIgnoreCase("image/jpeg")
-                            || mime.equalsIgnoreCase("image/x-png")
-                            || mime.equalsIgnoreCase("image/gif")
-                            || mime.equalsIgnoreCase("image/png"))) {
+                    final boolean isSupportedMime = IMAGE_JPEG.equalsIgnoreCase(mime)
+                        || IMAGE_X_PNG.equalsIgnoreCase(mime)
+                        || IMAGE_GIF.equalsIgnoreCase(mime)
+                        || IMAGE_PNG.equalsIgnoreCase(mime);
+                    if (mime != null && isSupportedMime) {
                         isImageLink = true;
-                        imgEncountered++;
-                        qName = "img";
                         String imgGuid = "";
                         final String href = atts.getValue("href");
                         if (!StringUtils.isEmpty(href)) {
@@ -129,8 +124,6 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
                         if (imgGuid.length() >= 30 && imgGuid.length() <= 36) {
                             final AttributesImpl newAtts = new AttributesImpl();
 
-/*							newAtts.addAttribute("", "", "alt", "CDATA",
-									"Image " + imgEncountered + " within " + firstlineCite + " document.");*/
                             newAtts.addAttribute(
                                 "",
                                 "",
@@ -145,7 +138,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
                                 newAtts.addAttribute("", "", "class", "CDATA", "tr_image");
                             }
 
-                            super.startElement(uri, localName, qName, newAtts);
+                            super.startElement(uri, localName, IMG, newAtts);
                         } else {
                             throw new SAXException("Could not retrieve valid image guid from an image anchor");
                         }
@@ -168,13 +161,12 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
                         super.startElement(uri, localName, qName, newAtts);
                     }
                     //remove empty anchor tags
-                    else if (atts.getValue("href") != null && atts.getValue("href").equalsIgnoreCase("#")) {
+                    else if (attsHrefValue != null && HASH.equalsIgnoreCase(attsHrefValue)) {
                         isEmptyAnchor = true;
                     } else {
                         final String attsIdValue = atts.getValue("id");
-                        String attsHrefValue = atts.getValue("href");
                         // set href to er:#docFamilyGuid/namedAnchor
-                        if (attsHrefValue != null && attsHrefValue.startsWith("#")) {
+                        if (attsHrefValue != null && attsHrefValue.startsWith(HASH)) {
 //                              Change to this format: href=er:#currentDocFamilyGuid/namedAnchor
                             attsHrefValue = FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX
                                 + currentGuid
@@ -185,7 +177,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
                             if (attsHrefValue.contains("_sp_")) {
                                 final int idxHrefSpstart = attsHrefValue.indexOf("_sp_");
                                 final int idxHrefSpend =
-                                    attsHrefValue.substring(idxHrefSpstart + 4).indexOf("_") + idxHrefSpstart + 4;
+                                    attsHrefValue.substring(idxHrefSpstart + 4).indexOf('_') + idxHrefSpstart + 4;
                                 final String removeSp = attsHrefValue.substring(idxHrefSpstart, idxHrefSpend);
                                 attsHrefValue = attsHrefValue.replace(removeSp, "");
                             }
@@ -193,7 +185,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 //                              And then add to Target list.
                             Set<String> anchorSet = targetAnchors.get(currentGuid);
                             if (anchorSet == null) {
-                                anchorSet = new HashSet<String>();
+                                anchorSet = new HashSet<>();
                             }
                             anchorSet.add(attsHrefValue);
                             targetAnchors.put(currentGuid, anchorSet);
@@ -218,13 +210,13 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
                             final String attsRefTypeValue = atts.getValue("refType");
                             // Temp fix for sp_pubnumber references from URL builder
                             if (attsHrefValue.contains("_sp_")) {
-                                if (attsRefTypeValue != null && attsRefTypeValue.equalsIgnoreCase("TS")) {
+                                if (attsRefTypeValue != null && "TS".equalsIgnoreCase(attsRefTypeValue)) {
                                     //Skip changing href value as this is needed for
                                     //refType "TS" which is specific to Rutter internal links
                                 } else {
                                     final int idxHrefSpStart = attsHrefValue.indexOf("_sp_");
                                     final int idxHrefSpEnd =
-                                        attsHrefValue.substring(idxHrefSpStart + 4).indexOf("_") + idxHrefSpStart + 4;
+                                        attsHrefValue.substring(idxHrefSpStart + 4).indexOf('_') + idxHrefSpStart + 4;
                                     final String removeSp = attsHrefValue.substring(idxHrefSpStart, idxHrefSpEnd);
                                     attsHrefValue = attsHrefValue.replace(removeSp, "");
                                 }
@@ -232,20 +224,21 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
 
                             //                          Add to Target list.
                             final int indexOfSlash =
-                                StringUtils.indexOf(attsHrefValue, "/", attsHrefValue.indexOf("#"));
+                                StringUtils.indexOf(attsHrefValue, "/", attsHrefValue.indexOf('#'));
 
                             final String guidLink =
-                                StringUtils.substring(attsHrefValue, attsHrefValue.indexOf("#") + 1, indexOfSlash);
+                                StringUtils.substring(attsHrefValue, attsHrefValue.indexOf('#') + 1, indexOfSlash);
                             Set<String> anchorSet = targetAnchors.get(guidLink);
                             if (anchorSet == null) {
                                 anchorSet = new HashSet<>();
                             }
-                            String removeSplitTitle = "";
+
+                            final String removeSplitTitle;
                             if (attsHrefValue.startsWith(FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX)) {
                                 removeSplitTitle = attsHrefValue;
                             } else {
                                 removeSplitTitle = FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX
-                                    + StringUtils.substring(attsHrefValue, attsHrefValue.indexOf("#") + 1);
+                                    + StringUtils.substring(attsHrefValue, attsHrefValue.indexOf('#') + 1);
                             }
                             anchorSet.add(removeSplitTitle);
                             targetAnchors.put(guidLink, anchorSet);
@@ -271,7 +264,7 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
                             super.startElement(uri, localName, qName, newAtts);
                         } else {
                             if (nameAnchors == null) {
-                                nameAnchors = new HashSet<String>();
+                                nameAnchors = new HashSet<>();
                             }
                             if (attsIdValue != null) {
                                 nameAnchors.add(attsIdValue);
@@ -304,15 +297,14 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
     }
 
     @Override
-    public void endElement(final String uri, final String localName, String qName) throws SAXException {
+    public void endElement(final String uri, final String localName, final String qName) throws SAXException {
         if (!isImageLink && !isEmptyAnchor && !isPDFLink) {
             super.endElement(uri, localName, qName);
         } else {
-            if (qName.equalsIgnoreCase("a")) {
+            if ("a".equalsIgnoreCase(qName)) {
                 if (isImageLink) {
-                    qName = "img";
                     isImageLink = false;
-                    super.endElement(uri, localName, qName);
+                    super.endElement(uri, localName, IMG);
                 } else if (isPDFLink) {
                     isPDFLink = false;
                     super.endElement(uri, localName, qName);
@@ -324,16 +316,12 @@ public class HTMLAnchorFilter extends XMLFilterImpl {
     }
 
     private String imageSpecialExtension(final String imageMime) {
-        String extension = "";
-
-        if (imageMime.equalsIgnoreCase("image/jpeg")) {
-            extension = ".jpg?";
-        } else if (imageMime.equalsIgnoreCase("image/gif")) {
-            extension = ".gif?";
+        if (IMAGE_JPEG.equalsIgnoreCase(imageMime)) {
+            return ".jpg?";
+        } else if (IMAGE_GIF.equalsIgnoreCase(imageMime)) {
+            return ".gif?";
         } else {
-            extension = ".png?";
+            return ".png?";
         }
-
-        return extension;
     }
 }

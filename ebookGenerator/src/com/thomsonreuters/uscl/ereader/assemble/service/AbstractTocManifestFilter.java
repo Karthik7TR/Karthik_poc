@@ -191,22 +191,13 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
      *             if an error occurs.
      */
     protected TocNode determineParent() throws SAXException {
-        if (currentDepth > previousDepth) { // the node we are adding is a
-                                                // child, so add it to the current
-                                            // node.
-                                            // LOG.debug("Determined parent of " + currentNode + " to be " +
-                                            // previousNode);
+        if (currentDepth > previousDepth) {
+            // the node we are adding is a child, so add it to the current node.
             return previousNode;
         } else if (currentDepth == previousDepth) {
-            // LOG.debug("Determined parent of " + currentNode + " to be " +
-            // previousNode.getParent());
             return previousNode.getParent();
-        } else if (currentDepth < previousDepth) {
-            return searchForParentInAncestryOfNode(previousNode, currentDepth - 1);
         } else {
-            final String message = "Could not determine parent when adding node: " + currentNode;
-            LOG.error(message);
-            throw new SAXException(message);
+            return searchForParentInAncestryOfNode(previousNode, currentDepth - 1);
         }
     }
 
@@ -222,7 +213,6 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
      */
     protected TocNode searchForParentInAncestryOfNode(final TocNode node, final int desiredDepth) throws SAXException {
         if (node.getDepth() == desiredDepth) {
-            // LOG.debug("Found parent in the ancestry: " + node);
             return node;
         } else if (node.getDepth() < desiredDepth) {
             final String message = "Failed to identify a parent for node: "
@@ -271,17 +261,17 @@ public abstract class AbstractTocManifestFilter extends XMLFilterImpl {
      *            document level node for which anchors need to be generated
      * @return list of TOC GUIDs for which Anchors need to be generated
      */
-    protected List<String> getAnchorsToBeGenerated(TocNode node) {
+    protected List<String> getAnchorsToBeGenerated(final TocNode node) {
         final String docGuid = node.getDocumentGuid();
         final List<String> anchors = new ArrayList<>();
-        node = node.getParent();
-        while (node != null) {
-            if (StringUtils.isBlank(node.getDocumentGuid()) || docGuid.equals(node.getDocumentGuid())) {
-                anchors.add(node.getTocGuid());
+        TocNode parent = node.getParent();
+        while (parent != null) {
+            if (StringUtils.isBlank(parent.getDocumentGuid()) || docGuid.equals(parent.getDocumentGuid())) {
+                anchors.add(parent.getTocGuid());
             } else {
                 break;
             }
-            node = node.getParent();
+            parent = parent.getParent();
         }
         return anchors;
     }

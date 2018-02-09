@@ -90,7 +90,7 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
         throws SAXException {
-        if (qName.equalsIgnoreCase("a")) {
+        if ("a".equalsIgnoreCase(qName)) {
             if (atts != null
                 && atts.getValue("href") != null
                 && atts.getValue("href").startsWith(FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT)
@@ -100,7 +100,7 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
                 String attsHrefValue = atts.getValue("href");
                 // hrefLink value without split title
                 attsHrefValue = FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT
-                    + StringUtils.substring(attsHrefValue, attsHrefValue.indexOf("#"));
+                    + StringUtils.substring(attsHrefValue, attsHrefValue.indexOf('#'));
 
                 // Get the string list after # regex '/'
                 final String[] guidList = attsHrefValue.split("/");
@@ -130,9 +130,9 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
                         final String splitTitle = StringUtils.substring(
                             newAttsHrefValue,
                             newAttsHrefValue.indexOf("er:") + 3,
-                            newAttsHrefValue.indexOf("#"));
+                            newAttsHrefValue.indexOf('#'));
                         newAttsHrefValue = FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT
-                            + StringUtils.substring(newAttsHrefValue, newAttsHrefValue.indexOf("#"));
+                            + StringUtils.substring(newAttsHrefValue, newAttsHrefValue.indexOf('#'));
 
                         if (attsHrefValue != null
                             && newAtts.getIndex("href") >= 0
@@ -142,7 +142,7 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
                             if (splitTitle.length() > 0) {
                                 attsHrefValue = FormatConstants.PROVIEW_ASSERT_REFERENCE_PREFIX_SPLIT
                                     + splitTitle
-                                    + StringUtils.substring(attsHrefValue, attsHrefValue.indexOf("#"));
+                                    + StringUtils.substring(attsHrefValue, attsHrefValue.indexOf('#'));
                             }
                             newAtts.setAttribute(indexHrefId, "", "", "href", "CDATA", attsHrefValue);
                         }
@@ -165,13 +165,11 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
                         }
 
                         sbDocMetadata.append(",");
-
                         sbDocMetadata.append(toCsvString(unlinkDocMetadata,
-                            () -> unlinkDocMetadata.getDocFamilyUuid(),
-                            () -> unlinkDocMetadata.getNormalizedFirstlineCite(),
-                            () -> unlinkDocMetadata.getSerialNumber(),
-                            () -> unlinkDocMetadata.getCollectionName()));
-
+                            unlinkDocMetadata::getDocFamilyUuid,
+                            unlinkDocMetadata::getNormalizedFirstlineCite,
+                            unlinkDocMetadata::getSerialNumber,
+                            unlinkDocMetadata::getCollectionName));
                         sbDocMetadata.append(",");
                         final String link = atts.getValue("href");
                         sbDocMetadata.append(link);
@@ -226,13 +224,8 @@ public class HTMLUnlinkInternalLinksFilter extends XMLFilterImpl {
     }
 
     @Override
-    public void characters(final char[] buf, final int offset, final int len) throws SAXException {
-        super.characters(buf, offset, len);
-    }
-
-    @Override
     public void endElement(final String uri, final String localName, final String qName) throws SAXException {
-        if (qName.equalsIgnoreCase("a")) {
+        if ("a".equalsIgnoreCase(qName)) {
             // If the latest anchor was valid (TRUE) add the </a> if it was removed (FALSE) don't.
             if ((boolean) openAnchors.pop()) {
                 super.endElement(uri, localName, qName);

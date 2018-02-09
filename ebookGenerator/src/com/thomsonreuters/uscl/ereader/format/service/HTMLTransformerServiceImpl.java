@@ -240,11 +240,6 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService {
                 final DocMetadata docMetadata =
                     docMetadataService.findDocMetadataByPrimaryKey(titleID, jobIdentifier, guid);
 
-                String firstlineCite = "";
-                if (docMetadata != null) {
-                    firstlineCite = docMetadata.getNormalizedFirstlineCite();
-                }
-
                 final SAXParserFactory factory = SAXParserFactory.newInstance();
                 factory.setNamespaceAware(true);
                 final SAXParser saxParser = factory.newSAXParser();
@@ -306,7 +301,6 @@ public class HTMLTransformerServiceImpl implements HTMLTransformerService {
                 anchorFilter.setimgService(imgService);
                 anchorFilter.setjobInstanceId(jobIdentifier);
                 anchorFilter.setDocGuid(guid);
-                anchorFilter.setFirstlineCite(firstlineCite);
                 anchorFilter.setParent(editNotesFilter);
                 anchorFilter.setTargetAnchors(targetAnchors);
                 if (docMetadata != null && docMetadata.getProViewId() != null) {

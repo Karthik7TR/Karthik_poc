@@ -39,7 +39,6 @@ public final class HTMLAnchorFilterTest {
     private final String testGuid = "NFA730F80D58A11DCBFA7F697EE59258B";
     private final String docGuid = "1FA730F80D58A11DCBFA7F697EE59258B";
     private final String invalidGuid = "badGuid";
-    private final String firstlineCite = "ABC";
     private final String currentGuid = "ABC1234";
 
     private ImageMetadataEntity regularImgMetadata;
@@ -57,7 +56,6 @@ public final class HTMLAnchorFilterTest {
         anchorFilter = new HTMLAnchorFilter();
         anchorFilter.setjobInstanceId(testJobId);
         anchorFilter.setDocGuid(docGuid);
-        anchorFilter.setFirstlineCite(firstlineCite);
         anchorFilter.setParent(saxParser.getXMLReader());
         anchorFilter.setCurrentGuid(currentGuid);
         anchorFilter.setTargetAnchors(targetAnchors);
