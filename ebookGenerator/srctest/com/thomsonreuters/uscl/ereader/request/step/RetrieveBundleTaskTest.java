@@ -12,6 +12,8 @@ import com.thomsonreuters.uscl.ereader.request.XPPConstants;
 import com.thomsonreuters.uscl.ereader.request.dao.XppBundleArchiveDao;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 import com.thomsonreuters.uscl.ereader.request.service.XppMessageValidator;
+import com.thomsonreuters.uscl.ereader.request.step.service.RetrieveBundleService;
+import com.thomsonreuters.uscl.ereader.request.step.service.RetrieveBundleServiceImpl;
 import org.apache.commons.io.FileUtils;
 import org.easymock.Capture;
 import org.easymock.EasyMock;
@@ -35,6 +37,7 @@ public final class RetrieveBundleTaskTest {
     private CoreService mockCoreService;
     private NotificationService mockNotificationService;
     private OutageProcessor mockOutageService;
+    private RetrieveBundleService retrieveBundleService;
 
     private StepContribution mockContribution;
     private ChunkContext mockChunkContext;
@@ -54,9 +57,7 @@ public final class RetrieveBundleTaskTest {
         mockOutageService = EasyMock.createMock(OutageProcessor.class);
         mockArchiveDao = EasyMock.createMock(XppBundleArchiveDao.class);
 
-        tasklet = new RetrieveBundleTask();
-        tasklet.setXppMessageValidator(mockValidator);
-        tasklet.setXppBundleArchiveDao(mockArchiveDao);
+        tasklet = new RetrieveBundleTask(new RetrieveBundleServiceImpl(mockArchiveDao, mockValidator));
         tasklet.setCoreService(mockCoreService);
         tasklet.setNotificationService(mockNotificationService);
         tasklet.setOutageProcessor(mockOutageService);

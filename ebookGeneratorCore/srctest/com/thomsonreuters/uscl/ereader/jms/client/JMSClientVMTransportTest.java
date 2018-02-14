@@ -2,6 +2,9 @@ package com.thomsonreuters.uscl.ereader.jms.client;
 
 import java.util.List;
 
+import javax.jms.Message;
+import javax.jms.TextMessage;
+
 import com.thomsonreuters.uscl.ereader.jms.client.impl.JmsClientImpl;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.pool.PooledConnectionFactory;
@@ -22,6 +25,7 @@ public final class JMSClientVMTransportTest {
     public void init() {
         client = new JmsClientImpl();
         jmsTemplate = getJmsTemplateWithVMConnection();
+        jmsTemplate.setReceiveTimeout(1000);
         initQueue();
     }
 
@@ -47,19 +51,19 @@ public final class JMSClientVMTransportTest {
     }
 
     @Test
-    public void testReceiveNext() {
-        String content = client.receiveSingleMessage(jmsTemplate, "");
+    public void testReceiveNext() throws Exception {
+        String content = ((TextMessage) jmsTemplate.receive()).getText();
         Assert.assertEquals("aaa", content);
-        content = client.receiveSingleMessage(jmsTemplate, "");
+        content = ((TextMessage) jmsTemplate.receive()).getText();
         Assert.assertEquals("bbb", content);
-        content = client.receiveSingleMessage(jmsTemplate, "");
+        content = ((TextMessage) jmsTemplate.receive()).getText();
         Assert.assertEquals("ccc", content);
-        content = client.receiveSingleMessage(jmsTemplate, "");
+        content = ((TextMessage) jmsTemplate.receive()).getText();
         Assert.assertEquals("ddd", content);
-        content = client.receiveSingleMessage(jmsTemplate, "");
+        content = ((TextMessage) jmsTemplate.receive()).getText();
         Assert.assertEquals("eee", content);
-        content = client.receiveSingleMessage(jmsTemplate, "");
-        Assert.assertEquals(null, content);
+        final Message message = jmsTemplate.receive();
+        Assert.assertEquals(null, message);
     }
 
     @Test
@@ -85,25 +89,22 @@ public final class JMSClientVMTransportTest {
     public void testReceiveNextByKeyword() {
         client.sendMessageToQueue(jmsTemplate, "abc", null);
 
-        String content = client.receiveSingleMessage(jmsTemplate, "b");
-        Assert.assertEquals("bbb", content);
-        content = client.receiveSingleMessage(jmsTemplate, "b");
-        Assert.assertEquals("abc", content);
-
         final List<String> contents = client.receiveMessages(jmsTemplate, "");
 
-        Assert.assertEquals(4, contents.size());
+        Assert.assertEquals(6, contents.size());
+        Assert.assertTrue(contents.contains("abc"));
         Assert.assertTrue(contents.contains("aaa"));
+        Assert.assertTrue(contents.contains("bbb"));
         Assert.assertTrue(contents.contains("ccc"));
         Assert.assertTrue(contents.contains("ddd"));
         Assert.assertTrue(contents.contains("eee"));
     }
 
     @Test
-    public void testClearQueue() {
+    public void testClearQueue() throws Exception {
         client.receiveMessages(jmsTemplate, "");
 
-        final String content = client.receiveSingleMessage(jmsTemplate, "");
+        final Message content = jmsTemplate.receive();
         Assert.assertEquals(null, content);
     }
 

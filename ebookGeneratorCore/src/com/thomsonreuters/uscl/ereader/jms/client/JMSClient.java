@@ -25,22 +25,4 @@ public interface JMSClient {
      * @throws javax.jms.JMSException TODO
      */
     List<String> receiveMessages(JmsTemplate jmsTemplate, String searchText);
-
-    /**
-     * Receives the first message via the passed <code>JmsTemplate</code> which contains the search text, if
-     * there is a matching message in the queue. Null otherwise.
-     *
-     * @param jmsTemplate The queue template used to read the next message.
-     * @return The message body of the next message in the queue. Null if the queue is empty.
-     */
-    String receiveSingleMessage(JmsTemplate jmsTemplate, String searchText);
-
-    /**
-     * Checks the queue for the existence of a message with the search text without consuming any message.
-     *
-     * @param jmsTemplate
-     * @param searchText
-     * @return
-     */
-    boolean containsMessage(JmsTemplate jmsTemplate, String searchText);
 }

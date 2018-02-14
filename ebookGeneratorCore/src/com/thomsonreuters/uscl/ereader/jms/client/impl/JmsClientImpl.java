@@ -16,11 +16,9 @@ import com.thomsonreuters.uscl.ereader.jms.client.JMSClient;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.jms.JmsException;
-import org.springframework.jms.core.BrowserCallback;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 @Component("jmsClient")
 @Lazy
@@ -61,7 +59,7 @@ public class JmsClientImpl implements JMSClient {
 
     private void addPropertiesToMessage(final Map<String, String> properties, final Message message)
         throws JMSException {
-        if (properties != null && !properties.isEmpty()) {
+        if (properties != null) {
             for (final Map.Entry<String, String> entry : properties.entrySet()) {
                 message.setStringProperty(entry.getKey(), entry.getValue());
             }
@@ -70,71 +68,26 @@ public class JmsClientImpl implements JMSClient {
 
     @Override
     public List<String> receiveMessages(final JmsTemplate jmsTemplate, final String searchText) {
-        final List<String> messages = jmsTemplate.browse(new BrowserCallback<List<String>>() {
-            @Override
-            public List<String> doInJms(final Session session, final QueueBrowser browser) throws JMSException {
-                final List<String> messages = new ArrayList<>();
-                final Enumeration<Message> enumeration = browser.getEnumeration();
-                while (enumeration.hasMoreElements()) {
-                    final TextMessage msg = (TextMessage) enumeration.nextElement();
-                    final String msgBody = msg.getText();
-                    if (msgBody.contains(searchText)) {
-                        messages.add(msgBody);
-                        try (MessageConsumer consumer = session
-                            .createConsumer(browser.getQueue(), "JMSMessageID='" + msg.getJMSMessageID() + "'")) {
-                            consumer.receive(1000);
-                        }
-                    }
+        final List<String> messages = jmsTemplate.browse((final Session session, final QueueBrowser browser) -> {
+            final List<String> consumedMessages = new ArrayList<>();
+            final Enumeration<Message> enumeration = browser.getEnumeration();
+            while (enumeration.hasMoreElements()) {
+                final TextMessage message = (TextMessage) enumeration.nextElement();
+                final String messageBody = message.getText();
+                if (messageBody.contains(searchText) && consumeMessage(session, browser, message.getJMSMessageID()) != null) {
+                    consumedMessages.add(messageBody);
                 }
-                return messages;
             }
+            return consumedMessages;
         });
 
         return messages;
     }
 
-    @Override
-    public String receiveSingleMessage(final JmsTemplate jmsTemplate, final String searchText) {
-        final String messages = jmsTemplate.browse(new BrowserCallback<String>() {
-            @Override
-            public String doInJms(final Session session, final QueueBrowser browser) throws JMSException {
-                String message = null;
-                final Enumeration<Message> enumeration = browser.getEnumeration();
-                while (enumeration.hasMoreElements()) {
-                    final TextMessage msg = (TextMessage) enumeration.nextElement();
-                    final String msgBody = msg.getText();
-                    if (msgBody.contains(searchText)) {
-                        message = msgBody;
-                        final MessageConsumer consumer =
-                            session.createConsumer(browser.getQueue(), "JMSMessageID='" + msg.getJMSMessageID() + "'");
-                        consumer.receive(1000);
-                        consumer.close();
-                        break;
-                    }
-                }
-                return message;
-            }
-        });
-
-        return messages;
-    }
-
-    @Override
-    public boolean containsMessage(final JmsTemplate jmsTemplate, final String searchText) {
-        return StringUtils.isEmpty(jmsTemplate.browse(new BrowserCallback<String>() {
-            @Override
-            public String doInJms(final Session session, final QueueBrowser browser) throws JMSException {
-                final String message = null;
-                final Enumeration<Message> enumeration = browser.getEnumeration();
-                while (enumeration.hasMoreElements()) {
-                    final TextMessage msg = (TextMessage) enumeration.nextElement();
-                    final String msgBody = msg.getText();
-                    if (msgBody.contains(searchText)) {
-                        break;
-                    }
-                }
-                return message;
-            }
-        }));
+    private Message consumeMessage(final Session session, final QueueBrowser browser, final String messageId) throws JMSException {
+        try (MessageConsumer consumer = session.createConsumer(
+            browser.getQueue(), String.format("JMSMessageID='%s'", messageId))) {
+            return consumer.receive(1000);
+        }
     }
 }

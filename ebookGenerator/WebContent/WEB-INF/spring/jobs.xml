@@ -28,9 +28,9 @@
 				p:notificationService-ref="requestNotificationService"/>
 	<beans:bean id="processMessageTask" scope="step" class="com.thomsonreuters.uscl.ereader.request.step.ProcessMessageTask" parent="requestParentTask"
 		  		p:xppMessageValidator-ref="xppMessageValidator"/>
-	<beans:bean id="retrieveBundleTask" scope="step" class="com.thomsonreuters.uscl.ereader.request.step.RetrieveBundleTask" parent="requestParentTask" 
-				p:xppMessageValidator-ref="xppMessageValidator"
-				p:xppBundleArchiveDao-ref="xppBundleArchiveDao"/>
+	<beans:bean id="retrieveBundleTask" scope="step" class="com.thomsonreuters.uscl.ereader.request.step.RetrieveBundleTask" parent="requestParentTask">
+		<beans:constructor-arg ref="retrieveBundleService" />
+	</beans:bean>
 		  		
 	<beans:bean id="generatorStepFailureNotificationService" 
 		class="com.thomsonreuters.uscl.ereader.generator.common.GeneratorStepFailureNotificationServiceImpl" />

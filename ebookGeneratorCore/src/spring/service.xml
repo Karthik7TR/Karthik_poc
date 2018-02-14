@@ -84,7 +84,8 @@
 	
 	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate"
 		  p:connectionFactory-ref="connectionFactory"
-		  p:defaultDestinationName="${jms.queue}" />
+		  p:defaultDestinationName="${jms.queue}" 
+		  p:receiveTimeout="1000"/>
 		  
 	<bean id="createFrontMatterService" class="com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterServiceImpl">
 	      <property name="frontMatterTitlePageTemplateLocation" value="classpath:templates/frontMatterTitleTemplate.xml"/>

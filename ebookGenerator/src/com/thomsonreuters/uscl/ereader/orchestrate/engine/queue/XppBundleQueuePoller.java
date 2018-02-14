@@ -3,10 +3,12 @@ package com.thomsonreuters.uscl.ereader.orchestrate.engine.queue;
 import java.util.Date;
 import java.util.Optional;
 
+import javax.jms.JMSException;
+import javax.jms.TextMessage;
+
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
-import com.thomsonreuters.uscl.ereader.jms.client.JMSClient;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
@@ -28,7 +30,6 @@ public class XppBundleQueuePoller {
     private static final String THREAD_POOL_MESSAGE = "There are %d active bundle processing threads running, the maximum allowed is %d.  "
         + "No new jobs will be started until the active count is less than the maximum.";
 
-    private final JMSClient jmsClient;
     private final JmsTemplate jmsTemplate;
     private final OutageProcessor outageProcessor;
     private final ThreadPoolTaskExecutor threadPoolTaskExecutor;
@@ -37,10 +38,9 @@ public class XppBundleQueuePoller {
     private String environmentName;
 
     @Autowired
-    public XppBundleQueuePoller(final JMSClient jmsClient, final JmsTemplate jmsTemplate,
-                                final OutageProcessor outageProcessor, @Qualifier("springBatchBundleTaskExecutor") final ThreadPoolTaskExecutor threadPoolTaskExecutor,
+    public XppBundleQueuePoller(final JmsTemplate jmsTemplate, final OutageProcessor outageProcessor,
+                                @Qualifier("springBatchBundleTaskExecutor") final ThreadPoolTaskExecutor threadPoolTaskExecutor,
                                 @Qualifier("environmentName") final String environmentName, final EngineService engineService) {
-        this.jmsClient = jmsClient;
         this.jmsTemplate = jmsTemplate;
         this.outageProcessor = outageProcessor;
         this.threadPoolTaskExecutor = threadPoolTaskExecutor;
@@ -58,8 +58,8 @@ public class XppBundleQueuePoller {
              * 		3) The application step specific rules prevent it from running.
              */
             if (!"workstation".equalsIgnoreCase(environmentName) && isExecutionAvailable()) {
-                Optional.ofNullable(jmsClient.receiveSingleMessage(jmsTemplate, StringUtils.EMPTY))
-                    .filter(StringUtils::isNotEmpty)
+                Optional.ofNullable(getNextMessage())
+                    .filter(StringUtils::isNoneBlank)
                     .ifPresent(this::performJobExecution);
             }
         } catch (final Exception e) {
@@ -81,6 +81,15 @@ public class XppBundleQueuePoller {
             LOG.debug(String.format(THREAD_POOL_MESSAGE, activeThreads, coreThreadPoolSize));
         }
         return result;
+    }
+
+    private String getNextMessage() {
+        try {
+            final TextMessage message = (TextMessage) jmsTemplate.receive();
+            return message == null ? StringUtils.EMPTY : message.getText();
+        } catch (final JMSException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void performJobExecution(final String request) {

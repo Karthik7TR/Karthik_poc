@@ -8,11 +8,12 @@ import java.util.UUID;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import javax.jms.Message;
+
 import com.thomsonreuters.uscl.ereader.jms.client.JMSClient;
 import com.thomsonreuters.uscl.ereader.jms.client.impl.JmsClientImpl;
 import com.thomsonreuters.uscl.ereader.request.dao.XppBundleArchiveDao;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,7 +64,7 @@ public final class ArchiverIntegrationTest {
 
 //		validate(mesageUuid);
 
-        final String request = jmsClient.receiveSingleMessage(jmsTemplate, StringUtils.EMPTY);
+        final Message request = jmsTemplate.receive();
         assertNull(request);
     }
 
