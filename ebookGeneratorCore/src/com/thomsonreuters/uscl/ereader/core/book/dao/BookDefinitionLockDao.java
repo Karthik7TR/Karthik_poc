@@ -21,6 +21,8 @@ public interface BookDefinitionLockDao {
 
     BookDefinitionLock findBookDefinitionLockByPrimaryKey(Long primaryKey);
 
+    void extendLock(BookDefinitionLock lock);
+
     void removeLock(BookDefinitionLock bookDefinitionLock) throws DataAccessException;
 
     /**

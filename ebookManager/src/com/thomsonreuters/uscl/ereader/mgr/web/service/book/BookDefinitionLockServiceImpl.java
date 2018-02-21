@@ -85,6 +85,13 @@ public class BookDefinitionLockServiceImpl implements BookDefinitionLockService 
 
     @Override
     @Transactional
+    public void extendLock(final BookDefinition book) throws DataAccessException {
+        final BookDefinitionLock lock = findBookLockByBookDefinition(book);
+        dao.extendLock(lock);
+    }
+
+    @Override
+    @Transactional
     public void removeLock(final BookDefinition book) throws DataAccessException {
         final List<BookDefinitionLock> locks = dao.findLocksByBookDefinition(book);
 

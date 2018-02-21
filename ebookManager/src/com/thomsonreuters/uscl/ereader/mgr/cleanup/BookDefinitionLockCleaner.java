@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.cleanup;
 
+import static com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock.LOCK_TIMEOUT_SEC;
+
 import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -16,9 +18,9 @@ public class BookDefinitionLockCleaner {
     private BookDefinitionLockService lockService;
 
     /**
-     * Clean up the BOOK_DEFINITION_LOCK table every day at 2 AM.
+     * Clean up the BOOK_DEFINITION_LOCK table every 2 minutes.
      */
-    @Scheduled(cron = "0 0 2 * * *")
+    @Scheduled(fixedRate = LOCK_TIMEOUT_SEC * 1000)
     public void cleanBookDefinitionLockTable() {
         lockService.cleanExpiredLocks();
         log.debug("Clean the table!");

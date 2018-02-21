@@ -2,12 +2,14 @@ package com.thomsonreuters.uscl.ereader.core.book.dao;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock;
+import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
@@ -77,6 +79,14 @@ public class BookDefinitionLockDaoImpl implements BookDefinitionLockDao {
             .add(Restrictions.eq("ebookDefinitionLockId", primaryKey))
             .setFetchMode("ebookDefinition", FetchMode.JOIN)
             .uniqueResult();
+    }
+
+    @Override
+    public void extendLock(final BookDefinitionLock lock) {
+        final Session session = sessionFactory.getCurrentSession();
+        lock.setCheckoutTimestamp(DateUtils.addSeconds(new Date(), BookDefinitionLock.LOCK_TIMEOUT_SEC));
+        session.merge(lock);
+        session.flush();
     }
 
     @Override

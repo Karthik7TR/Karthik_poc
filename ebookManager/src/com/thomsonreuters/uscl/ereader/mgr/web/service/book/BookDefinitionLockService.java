@@ -26,6 +26,8 @@ public interface BookDefinitionLockService {
      */
     void cleanExpiredLocks();
 
+    void extendLock(BookDefinition book);
+
     /**
      * Remove all BookDefinitionLocks for a given bookDefinition
      * @param book

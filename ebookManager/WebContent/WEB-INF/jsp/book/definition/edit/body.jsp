@@ -5,33 +5,47 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %> 
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm"%>
 
 <script type="text/javascript">
 	var warning = true;
-	var unlockBook = function() {
+	var unlockBook = function(async, onSuccess) {
 		var bookdefinitionId = ${editBookDefinitionForm.bookdefinitionId}; 
 		  $.ajax({
 			  type: "POST",
 			  url: "<%= WebConstants.MVC_BOOK_DEFINITION_UNLOCK %>",
 			  data: { id: bookdefinitionId},
-			  success: function(response) {
-				  window.location = "<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${book.ebookDefinitionId}";
-			  }
+			  success: onSuccess,
+			  async: async
 			});
 	};
 
-	window.onbeforeunload = function() { 
-	  if (warning) {
-	    return "Navigating away from this page without using the Save or Cancel button will keep the Book Definition locked.  Please use the Save or Cancel button below to unlock the Book Definition so other users will be able to edit.";
-	  }
-	};
+	$(window).on('beforeunload', e => {
+		if (warning) {
+			let message = 'Are you sure you want to leave the page? Changes will not be saved.'
+			e.returnValue = message;
+			return message;
+		}
+	})
+	
+	$(window).on('unload', () => unlockBook(false));
+	
+	setInterval(() => {
+		let bookDefinitionId = ${editBookDefinitionForm.bookdefinitionId};
+		$.post({
+			url: "<%=WebConstants.MVC_BOOK_DEFINITION_LOCK_EXTEND%>",
+			data: { id: bookDefinitionId}
+		});
+	}, <%= BookDefinitionLock.LOCK_TIMEOUT_SEC / 2 * 1000 %>);
 	
 	// Unlocks the book and redirects user to View Book Definition page.
 	$(document).ready(function() {
 		$('#cancel').click(function () {
 			warning = false;
-			unlockBook();
+			unlockBook(true, function(response) {
+				  window.location = "<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${book.ebookDefinitionId}";
+			  });
 	    });    
 	});
 </script>
