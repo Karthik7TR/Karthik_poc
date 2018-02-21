@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="js/jsgrid/css/jsgrid.css" />
     <link rel="stylesheet" type="text/css" href="js/jsgrid/css/theme.css" />
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="theme/jquery-ui-1.12.1.css" />
     <link rel="stylesheet" href="theme/jquery-ui.custom.css" />
