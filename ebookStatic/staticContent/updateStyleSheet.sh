@@ -59,14 +59,14 @@ sed -i "/<xsl:if test =\"\$contents =','\">/i \
 echo "Replace string in HistoryNotes.xsl">> log.txt
 sed -i '/<xsl:template match="annotations\/hist.note.block\/\*\[not(.\/\/N-HIT or .\/\/N-LOCATE or .\/\/N-WITHIN)]" \/>/d' Platform/ContentBlocks/HistoryNotes.xsl
 
-echo "Remove duplicated currency from AnalyticalALRIndex.xsl"
+echo "Remove duplicated currency from AnalyticalALRIndex.xsl">> log.txt
 sed -i 's/<xsl:apply-templates select="\/\/cmd.currency.default" mode="cmdCurrency"\/>//g' WestlawNext/DefaultProductView/ContentTypes/AnalyticalALRIndex.xsl
 
-echo "Add Footnotes.xsl to AnalyticalALRIndex.xsl"
+echo "Add Footnotes.xsl to AnalyticalALRIndex.xsl">> log.txt
 sed -i '/<xsl:include href="Title.xsl"\/>/i \
 \t<xsl:include href="Footnotes.xsl"\/>' WestlawNext/DefaultProductView/ContentTypes/AnalyticalALRIndex.xsl
 
-echo "Add styles to hide duplicated elements in AnalyticalALRIndex books"
+echo "Add styles to hide duplicated elements in AnalyticalALRIndex books">> log.txt
 sed -i '/\.co_analyticalALR \.co_divide {/i \
 \.co_docDisplay>#coid_website_documentWidgetDiv>\.co_analyticalALRIndex>\.co_section>\.co_contentBlock>\.co_headtext { \
 \ttext-align: left; } \
@@ -74,5 +74,19 @@ sed -i '/\.co_analyticalALR \.co_divide {/i \
 \.co_analyticalALRIndex>\.co_section>\.x_codesBody \.co_codesPara>\.co_codesPara>h2, \
 \.co_analyticalALRIndex>\.co_section>\.x_codesBody \.co_codesPara>\.co_headtext { \
 \tdisplay: none; }' document.css
+
+echo "Replace absolute line-height with relative">> log.txt
+sed -i 's@line-height: 17px; }@line-height: 1em; }@g' document.css
+
+echo "Remove strings from 'xsl:if' in HistoryNotes.xsl" >> log.txt
+sed -i '/<div class="&historyNotesClass; &disableHighlightFeaturesClass;" id="&historyNotesId;">/d' WestlawNext/DefaultProductView/ContentBlocks/HistoryNotes.xsl
+sed -i '/<xsl:apply-templates select="head\/head.info\/headtext"\/>/d' WestlawNext/DefaultProductView/ContentBlocks/HistoryNotes.xsl
+sed -i '/<xsl:apply-templates select="hist.note.body" \/>/d' WestlawNext/DefaultProductView/ContentBlocks/HistoryNotes.xsl
+sed -i '/<\/div>/d' WestlawNext/DefaultProductView/ContentBlocks/HistoryNotes.xsl
+sed -i '/<\/xsl:template>/i \
+\<div class="&historyNotesClass; &disableHighlightFeaturesClass;" id="&historyNotesId;"> \
+\t<xsl:apply-templates select="head/head.info/headtext" \/> \
+\t<xsl:apply-templates select="hist.note.body" \/> \
+\<\/div>' WestlawNext/DefaultProductView/ContentBlocks/HistoryNotes.xsl
 
 echo "**************Done**********" >> log.txt
