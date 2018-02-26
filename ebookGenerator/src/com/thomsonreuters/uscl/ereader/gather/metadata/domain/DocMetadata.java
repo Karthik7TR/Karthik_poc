@@ -68,7 +68,7 @@ public class DocMetadata implements Serializable {
     @XmlElement
     private String docType;
 
-    @Column(name = "NORMALIZED_FIRSTLINE_CITE", length = 100)
+    @Column(name = "NORMALIZED_FIRSTLINE_CITE", length = 256)
     @Basic(fetch = FetchType.EAGER)
     @XmlElement
     private String normalizedFirstlineCite;
@@ -108,7 +108,7 @@ public class DocMetadata implements Serializable {
     @XmlElement
     private Long thirdlineCitePubId;
 
-    @Column(name = "FIND_ORIG", length = 80)
+    @Column(name = "FIND_ORIG", length = 256)
     @Basic(fetch = FetchType.EAGER)
     @XmlElement
     private String findOrig;
