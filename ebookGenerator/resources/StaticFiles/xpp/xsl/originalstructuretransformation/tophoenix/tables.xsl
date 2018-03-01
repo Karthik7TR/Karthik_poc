@@ -6,6 +6,7 @@
         <xsl:element name="table">
             <xsl:attribute name="cols" select="./x:tgroup/@cols" />
             <xsl:attribute name="tgroupstyle" select="./x:tgroup/@tgroupstyle" />
+            <xsl:attribute name="frame" select="@frame" />
             <xsl:apply-templates />
         </xsl:element>
     </xsl:template>

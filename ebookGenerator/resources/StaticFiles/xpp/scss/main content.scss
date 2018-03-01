@@ -57,6 +57,12 @@ table {
     .form_para>.tbl & {
         width: 100%;
     }
+    &.table_frame_all {
+        border-collapse: collapse;
+        td {
+            border: 1px solid black;
+        }
+    }
 }
 
 thead {

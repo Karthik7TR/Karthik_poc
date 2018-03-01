@@ -226,17 +226,28 @@
 <!-- 		</xsl:element> -->
 <!-- 	</xsl:template> -->
 
-	<xsl:template match="x:table">
-		<xsl:if test="not(./@cont)">
-		
-		</xsl:if>
-		<xsl:element name="table">
-			<xsl:if test="number(@cols) > 3 and @tgroupstyle = 'text'">
-				<xsl:attribute name="class" select="'tr_table'" />
-			</xsl:if>
-			<xsl:apply-templates />
-		</xsl:element>
-	</xsl:template>
+    <xsl:template match="x:table">
+        <xsl:variable name="trTableClass">
+            <xsl:if test="number(@cols) > 3 and @tgroupstyle = 'text'">
+                <xsl:value-of select="'tr_table'" />
+            </xsl:if>
+        </xsl:variable>
+        
+        <xsl:variable name="tableFrameClass">
+            <xsl:if test="@frame != ''">
+                <xsl:value-of select="concat('table_frame_', @frame)" />
+            </xsl:if>
+        </xsl:variable>
+        
+        <xsl:variable name="tableClass" select="string-join(($trTableClass, $tableFrameClass)[. != ''],' ')" />
+        
+        <xsl:element name="table">
+            <xsl:if test="$tableClass != ''">
+                <xsl:attribute name="class" select="$tableClass" />
+            </xsl:if>
+            <xsl:apply-templates />
+        </xsl:element>
+    </xsl:template>
 	
 	<xsl:template match="x:thead">
 		<xsl:element name="thead">

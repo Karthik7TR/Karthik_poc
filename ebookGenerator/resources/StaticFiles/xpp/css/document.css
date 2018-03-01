@@ -238,6 +238,14 @@ table {
   width: 100%;
 }
 
+table.table_frame_all {
+  border-collapse: collapse;
+}
+
+table.table_frame_all td {
+  border: 1px solid black;
+}
+
 thead {
   text-align: center;
 }

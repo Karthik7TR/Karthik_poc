@@ -554,6 +554,9 @@
                             </tbody>
                         </tgroup>
                     </table>
+                    <table frame="all">
+                        <tgroup tgroupstyle="text" cols="3"></tgroup>
+                    </table>
                 </block>
             </stream>
         </page>
