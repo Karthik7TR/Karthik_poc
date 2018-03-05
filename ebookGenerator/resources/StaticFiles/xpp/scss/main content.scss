@@ -59,9 +59,8 @@ table {
     }
     &.table_frame_all {
         border-collapse: collapse;
-        td {
-            border: 1px solid black;
-        }
+        width: 100%;
+        margin-bottom: #{$indent * 2}em;
     }
 }
 
@@ -88,6 +87,12 @@ td {
     }
     .section_body thead & {
         border-bottom: #{$indent / 10}em solid black;
+    }
+    table.table_frame_all & {
+        border: #{$indent / 10}em solid black;
+        div.super {
+            display: inline;
+        }
     }
 }
 

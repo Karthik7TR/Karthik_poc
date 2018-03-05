@@ -248,18 +248,19 @@
             <xsl:apply-templates />
         </xsl:element>
     </xsl:template>
-	
-	<xsl:template match="x:thead">
-		<xsl:element name="thead">
-			<xsl:apply-templates />
-		</xsl:element>
-	</xsl:template>
-
-	<xsl:template match="x:tbody">
-		<xsl:element name="tbody">
-			<xsl:apply-templates />
-		</xsl:element>
-	</xsl:template>
+    
+    <xsl:template match="x:col">
+        <xsl:element name="col">
+            <xsl:attribute name="style" select="concat('width:', @width)" />
+        </xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="x:thead | x:tbody | x:colgroup">
+        <xsl:element name="{name()}">
+            <xsl:copy-of select="@*" />
+            <xsl:apply-templates />
+        </xsl:element>
+    </xsl:template>
 
 	<xsl:template match="x:row">
 		<xsl:element name="tr">

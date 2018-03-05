@@ -240,10 +240,8 @@ table {
 
 table.table_frame_all {
   border-collapse: collapse;
-}
-
-table.table_frame_all td {
-  border: 1px solid black;
+  width: 100%;
+  margin-bottom: 2em;
 }
 
 thead {
@@ -270,6 +268,14 @@ td {
 
 .section_body thead td {
   border-bottom: 0.1em solid black;
+}
+
+table.table_frame_all td {
+  border: 0.1em solid black;
+}
+
+table.table_frame_all td div.super {
+  display: inline;
 }
 
 td:first-of-type {

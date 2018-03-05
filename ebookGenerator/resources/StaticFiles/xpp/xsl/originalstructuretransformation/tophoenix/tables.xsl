@@ -11,6 +11,26 @@
         </xsl:element>
     </xsl:template>
 
+    <xsl:function name="x:number">
+        <xsl:param name="colwidth" />
+        <xsl:value-of select="number(substring-before($colwidth, 'i'))" />
+    </xsl:function>
+    
+    <xsl:template match="x:tgroup">
+        <xsl:if test="ancestor::x:table[1]/@frame='all'">
+            <xsl:variable name="summaryColumnsWidth" select="sum(./x:colspec/x:number(@colwidth))" />
+            <xsl:element name="colgroup">
+                <xsl:for-each select="./x:colspec">
+                    <xsl:element name="col">
+                        <xsl:attribute name="width" select="concat(format-number(100 * x:number(@colwidth) div $summaryColumnsWidth, '##'), '%')" />
+                    </xsl:element>
+                </xsl:for-each>
+            </xsl:element>
+        </xsl:if>
+        
+        <xsl:apply-templates />
+    </xsl:template>
+    
     <xsl:template match="x:tgroup//x:row/x:entry">
         <xsl:element name="entry">
             <xsl:if test="@align">

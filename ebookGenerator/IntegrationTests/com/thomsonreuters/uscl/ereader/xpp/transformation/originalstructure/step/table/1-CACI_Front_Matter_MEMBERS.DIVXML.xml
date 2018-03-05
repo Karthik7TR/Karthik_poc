@@ -555,7 +555,11 @@
                         </tgroup>
                     </table>
                     <table frame="all">
-                        <tgroup tgroupstyle="text" cols="3"></tgroup>
+                        <tgroup tgroupstyle="text" cols="3">
+                            <colspec colnum="1" colname="col1" colwidth="3.61i" tbclwsp="0.04i" tbcrwsp="0.08i" tbclgut="0.04i" tbcrgut="0.17i" tbclrule="0.01i" tbcrrule="0.01i" tbcmeas="3.48i" tbmxalnw="0" tbctpos="0.06i" tbcxpos="0.01i" tbcr_rcolor="#000000" tbcr_rcolor-cmyk="0 0 0 1" tbcl_rcolor="#000000" tbcl_rcolor-cmyk="0 0 0 1"/>
+                            <colspec colnum="2" colname="col2" colwidth="1.32i" tbclwsp="0.08i" tbcrwsp="0.08i" tbclgut="0.17i" tbcrgut="0.17i" tbclrule="0.01i" tbcrrule="0.01i" tbcmeas="1.16i" tbmxalnw="0" tbctpos="3.7i" tbcxpos="3.61i" tbcr_rcolor="#000000" tbcr_rcolor-cmyk="0 0 0 1" tbcl_rcolor="#000000" tbcl_rcolor-cmyk="0 0 0 1"/>
+                            <colspec colnum="3" colname="col3" colwidth="1.3i" tbclwsp="0.08i" tbcrwsp="0.04i" tbclgut="0.17i" tbcrgut="0.04i" tbclrule="0.01i" tbcrrule="0.01i" tbcmeas="1.16i" tbmxalnw="0" tbctpos="5.02i" tbcxpos="4.94i" tbcr_rcolor="#000000" tbcr_rcolor-cmyk="0 0 0 1" tbcl_rcolor="#000000" tbcl_rcolor-cmyk="0 0 0 1"/>
+                        </tgroup>
                     </table>
                 </block>
             </stream>
