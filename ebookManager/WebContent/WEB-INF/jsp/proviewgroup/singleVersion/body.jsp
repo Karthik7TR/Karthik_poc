@@ -196,8 +196,8 @@ function submitGroupForm(command) {
 		<c:choose>
 		
 			<c:when test="${showSubgroup}">
-				<display:column title="Subgroup Name" property="subGroupName" />
-				<display:column title="Proview Display Name" property="proviewDisplayName" />
+				<display:column title="Subgroup Name" property="subGroupName" sortable="true"/>
+				<display:column title="Proview Display Name" property="proviewDisplayName" sortable="true" />
 				<c:set var="values" value="${groupDetail.titleInfoList}" />
 				<display:column title="Title ID" style="text-align: left">
 					<table class="displayTagTable">
@@ -220,15 +220,15 @@ function submitGroupForm(command) {
 			</c:when>
 			
 			<c:otherwise>
-				<display:column title="Proview Display Name" property="proviewDisplayName" />
-				<display:column title="Title ID" property= "titleId" />
-				<display:column title="Book Status" property="bookStatus" />
+				<display:column title="Proview Display Name" property="proviewDisplayName" sortable="true"/>
+				<display:column title="Title ID" property= "titleId" sortable="true"/>
+				<display:column title="Book Status" property="bookStatus" sortable="true"/>
 			</c:otherwise>
 			
 		</c:choose>
 		
-		<display:column title="Version" property="bookVersion" />
-		<display:column title="Last Update" property="lastupdate" />
+		<display:column title="Version" property="bookVersion" comparator="com.thomsonreuters.uscl.ereader.deliver.service.VersionComparator" sortable="true"/>
+		<display:column title="Last Update" property="lastupdate" comparator="com.thomsonreuters.uscl.ereader.deliver.service.LastUpdateComporator" sortable="true" />
 	</display:table>
 	
 	<c:set var="disableButtons" value="disabled"/>

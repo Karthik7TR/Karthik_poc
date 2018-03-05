@@ -70,10 +70,10 @@
 		<display:column title="ProView Display Name" property="title" sortable="true"/>
 		<display:column title="Title ID" property="titleId" sortable="true"/>
 		<display:column title="Total Versions" property="totalNumberOfVersions" sortable="true"/>
-		<display:column title="Latest Version" property="version" sortable="true"/>
+		<display:column title="Latest Version" property="version" comparator="com.thomsonreuters.uscl.ereader.deliver.service.VersionComparator" sortable="true"/>
 		<display:column title="Status" property="status" sortable="true"/>
 		<display:column title="Publisher" property="publisher" sortable="true"/>
-		<display:column title="Last Update" property="lastupdate" sortable="true"/>
+		<display:column title="Last Update" property="lastupdate" comparator="com.thomsonreuters.uscl.ereader.deliver.service.LastUpdateComporator" sortable="true"/>
 		<display:column title="Action" sortable="false" media="html">
 				<a href="<%=WebConstants.MVC_PROVIEW_TITLE_ALL_VERSIONS%>?<%=WebConstants.KEY_TITLE_ID%>=${proviewList.titleId}">View all versions</a>
 		</display:column>

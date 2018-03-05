@@ -1,26 +1,25 @@
 package com.thomsonreuters.uscl.ereader.core.book.model;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.util.Assert;
 
-public class Version {
+public class Version implements Comparable<Version> {
     public static final String VERSION_PREFIX = "v";
-    private static final Pattern VERSION_PATTREN = Pattern.compile("v\\d+\\.\\d+");
+    private static final Pattern VERSION_PATTREN = Pattern.compile("v(\\d+)\\.(\\d+)");
 
-    private int majorVersion;
-    private int minorVersion;
+    private Integer majorVersion;
+    private Integer minorVersion;
 
     public Version(@NotNull final String version) {
         Assert.notNull(version);
-        Assert.isTrue(
-            VERSION_PATTREN.matcher(version).matches(),
-            "Version should match pattern: v<major_version>.<minor_version>");
+        final Matcher matcher = VERSION_PATTREN.matcher(version);
+        Assert.isTrue(matcher.matches(), "Version should match pattern: v<major_version>.<minor_version>");
 
-        final int indexOfDot = version.indexOf('.');
-        majorVersion = Integer.valueOf(version.substring(1, indexOfDot));
-        minorVersion = Integer.valueOf(version.substring(indexOfDot + 1));
+        majorVersion = Integer.valueOf(matcher.group(1));
+        minorVersion = Integer.valueOf(matcher.group(2));
     }
 
     public Version(final int majorVersion, final int minorVersion) {
@@ -64,8 +63,8 @@ public class Version {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + majorVersion;
-        result = prime * result + minorVersion;
+        result = prime * result + ((majorVersion == null) ? 0 : majorVersion.hashCode());
+        result = prime * result + ((minorVersion == null) ? 0 : minorVersion.hashCode());
         return result;
     }
 
@@ -78,9 +77,15 @@ public class Version {
         if (getClass() != obj.getClass())
             return false;
         final Version other = (Version) obj;
-        if (majorVersion != other.majorVersion)
+        if (majorVersion == null) {
+            if (other.majorVersion != null)
+                return false;
+        } else if (!majorVersion.equals(other.majorVersion))
             return false;
-        if (minorVersion != other.minorVersion)
+        if (minorVersion == null) {
+            if (other.minorVersion != null)
+                return false;
+        } else if (!minorVersion.equals(other.minorVersion))
             return false;
         return true;
     }
@@ -88,5 +93,11 @@ public class Version {
     @Override
     public String toString() {
         return getFullVersion();
+    }
+
+    @Override
+    public int compareTo(final Version o) {
+        final int majorCompare = majorVersion.compareTo(o.majorVersion);
+        return (majorCompare == 0) ? minorVersion.compareTo(o.minorVersion) : majorCompare;
     }
 }

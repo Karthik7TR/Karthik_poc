@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -11,9 +12,6 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
-    /**
-     *
-     */
     private static final long serialVersionUID = -4229230493652304110L;
     private String proviewName;
     private String groupName;
@@ -402,32 +400,20 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
         }
 
         @Override
-        public int compareTo(final GroupDetails info) {
-            int version = 0;
-            if (info.isPilotBook() ^ isPilotBook()) {
-                version = isPilotBook() ? 1 : -1;
-            } else {
-                version = -info.getProviewDisplayName().compareTo(getProviewDisplayName());
-                if (version == 0) {
-                    version = info.getBookVersion().compareTo(getBookVersion());
-                    if (version == 0) {
-                        final String infoId = info.getTitleId() == null ? info.getId() : info.getTitleId();
-                        final String thisId = getTitleId() == null ? getId() : getTitleId();
-                        version = infoId.compareToIgnoreCase(thisId);
-                    }
-                }
+        public int compareTo(final GroupDetails other) {
+            try {
+                return new Version(other.bookVersion).compareTo(new Version(bookVersion));
+            } catch (final Exception e) {
+                LOG.error("Failed to parse version: ", e);
+                return 0;
             }
-            return version;
         }
 
         @Override
         public int hashCode() {
             final int prime = 31;
             int result = new HashCodeBuilder()
-                .append(bookVersion)
-                .append(isPilotBook)
-                .append(proviewDisplayName)
-                .toHashCode();
+                .append(bookVersion).append(isPilotBook).append(proviewDisplayName).toHashCode();
             int idResult = 0;
             if (titleId != null)
                 idResult = ((titleId == null) ? 0 : titleId.hashCode());
@@ -444,8 +430,7 @@ public class ProviewGroup implements Serializable, Comparable<ProviewGroup> {
             if (!(obj instanceof GroupDetails))
                 return false;
             final GroupDetails other = (GroupDetails) obj;
-            final boolean result = new EqualsBuilder()
-                .append(bookVersion, other.bookVersion)
+            final boolean result = new EqualsBuilder().append(bookVersion, other.bookVersion)
                 .append(isPilotBook, other.isPilotBook)
                 .append(proviewDisplayName, other.proviewDisplayName)
                 .isEquals();

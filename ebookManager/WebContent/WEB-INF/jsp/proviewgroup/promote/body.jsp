@@ -103,8 +103,8 @@
 					</c:otherwise>
 				</c:choose>
 				
-				<display:column title="Proview Display Name" property="proviewDisplayName" />
-				<display:column title="Version" property="bookVersion" />
+				<display:column title="Proview Display Name" property="proviewDisplayName" sortable="true"/>
+				<display:column title="Version" property="bookVersion" comparator="com.thomsonreuters.uscl.ereader.deliver.service.VersionComparator" sortable="true"/>
 			</display:table>
 			<c:if test="${!(empty proviewGroupListFilterForm.groupMembers)}">
 				<tr>
