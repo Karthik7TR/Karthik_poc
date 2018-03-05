@@ -6,13 +6,13 @@
 
     <xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
     
-	<xsl:param name="volumeName" />
+	<xsl:param name="materialNumber" />
 	<xsl:param name="TOCPartName" />
 
 	<xsl:variable name="root_uuid">
 		<xsl:choose>
-			<xsl:when test="$volumeName">
-				<xsl:value-of select="concat($volumeName, '.', replace($TOCPartName, '_', ''))"  />
+			<xsl:when test="$materialNumber">
+				<xsl:value-of select="concat($materialNumber, '.', replace($TOCPartName, '_', ''))"  />
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:value-of select="'table_of_cases'"  />

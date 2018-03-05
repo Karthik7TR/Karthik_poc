@@ -8,11 +8,11 @@
 	
 	<xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
 	
-	<xsl:param name="volumeName" select="volumeName" />
+	<xsl:param name="materialNumber" select="materialNumber" />
 	
 	<xsl:template match="x:generated.toc/x:full.toc[1]/x:toc.rw.hierarchy[1]">
 		
-		<xsl:variable name="uuid" select="concat($volumeName,'.',name())" />
+		<xsl:variable name="uuid" select="concat($materialNumber,'.',name())" />
 		
 		<xsl:call-template name="placeXppHier">
 			<xsl:with-param name="uuid" select="$uuid" />

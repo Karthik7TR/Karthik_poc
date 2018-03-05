@@ -1,8 +1,8 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.toc.step;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.transform.Transformer;
 
@@ -32,31 +32,32 @@ public class ExtractTocStep extends VolumeNumberAwareXppTransformationStep {
 
     @Override
     public void executeTransformation() throws Exception {
-        final List<File> tocFiles = new ArrayList<>();
-        for (final XppBundle bundle : getXppBundles()) {
-            generateBundleTocs(bundle, tocFiles);
-        }
+        final List<File> tocFiles = getXppBundles().stream()
+            .map(this::toBundleToc)
+            .collect(Collectors.toList());
         uniteTocs(tocFiles);
     }
 
-    private void generateBundleTocs(final XppBundle bundle, final List<File> tocFiles) {
+    private File toBundleToc(final XppBundle bundle) {
         final Transformer transformer = transformerBuilderFactory.create()
             .withXsl(extractTocXsl)
             .withParameter("isPocketPart", bundle.isPocketPartPublication())
             .build();
-        final List<File> transformedFiles = new ArrayList<>();
-        for (final String fileName : bundle.getOrderedFileList()) {
-            transformedFiles.add(generatePartToc(bundle, transformer, fileName));
-        }
-        tocFiles.add(mergeVolumeToc(transformedFiles, bundle));
+        final List<File> transformedFiles = bundle.getOrderedFileList()
+            .stream()
+            .map(fileName -> generatePartToc(bundle, transformer, fileName))
+            .collect(Collectors.toList());
+        return mergeVolumeToc(transformedFiles, bundle);
     }
 
     private File generatePartToc(final XppBundle bundle, final Transformer transformer, final String fileName) {
+        final String materialNumber = bundle.getMaterialNumber();
         final File sourceFile =
-            fileSystem.getSectionbreaksFile(this, bundle.getMaterialNumber(), fileName.replaceAll(".xml", ".main"));
-        final File outputFile = fileSystem.getBundlePartTocFile(fileName, bundle.getMaterialNumber(), this);
+            fileSystem.getSectionbreaksFile(this, materialNumber, fileName.replaceAll(".xml", ".main"));
+        final File outputFile = fileSystem.getBundlePartTocFile(fileName, materialNumber, this);
         final TransformationCommand command =
-            new TransformationCommandBuilder(transformer, outputFile).withInput(sourceFile).build();
+            new TransformationCommandBuilder(transformer, outputFile).withInput(sourceFile)
+                .build();
         transformationService.transform(command);
         return outputFile;
     }
@@ -69,7 +70,8 @@ public class ExtractTocStep extends VolumeNumberAwareXppTransformationStep {
             .withParameter("isPocketPart", bundle.isPocketPartPublication())
             .build();
         final TransformationCommand command =
-            new TransformationCommandBuilder(merger, mergedVolumeTOC).withInput(transformedFiles).build();
+            new TransformationCommandBuilder(merger, mergedVolumeTOC).withInput(transformedFiles)
+                .build();
         transformationService.transform(command);
         return mergedVolumeTOC;
     }
@@ -80,7 +82,8 @@ public class ExtractTocStep extends VolumeNumberAwareXppTransformationStep {
             .withParameter("depthThreshold", depthThreshold)
             .build();
         final TransformationCommand command =
-            new TransformationCommandBuilder(transformer, fileSystem.getTocFile(this)).withInput(tocFiles).build();
+            new TransformationCommandBuilder(transformer, fileSystem.getTocFile(this)).withInput(tocFiles)
+                .build();
         transformationService.transform(command);
     }
 }

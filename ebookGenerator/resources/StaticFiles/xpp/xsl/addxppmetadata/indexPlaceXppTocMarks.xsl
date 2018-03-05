@@ -7,10 +7,12 @@
 
 	<xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
 
-	<xsl:param name="volumeName" />
+	<xsl:param name="materialNumber" />
+	<xsl:param name="indexId" />
+	<xsl:param name="indexName" />
 	<xsl:variable name="pagesAmount" select="count(//x:pagebreak)" />
 
-	<xsl:variable name="root_uuid" select="concat($volumeName, '.', 'index')" />
+	<xsl:variable name="root_uuid" select="concat($materialNumber, '.', $indexId)" />
 
 	<xsl:template match="node() | @*">
 		<xsl:copy>
@@ -25,14 +27,14 @@
 				<xsl:value-of select="x:get-last-index-word((//x:pagebreak)[1])" />
 			</xsl:variable>
 			<xsl:variable name="first_index_item"
-				select="concat($volumeName, '.', 'index', x:get-first-word($firstIndexWord), x:get-first-word($lastIndexWord))" />
+				select="concat($materialNumber, '.', $indexId, x:get-first-word($firstIndexWord), x:get-first-word($lastIndexWord))" />
 			<xsl:call-template name="placeSectionbreak">
 				<xsl:with-param name="sectionuuid" select="$first_index_item" />
 			</xsl:call-template>
 
 			<xsl:call-template name="placeXppHier">
 				<xsl:with-param name="uuid" select="$root_uuid" />
-				<xsl:with-param name="name" select="'Index'" />
+				<xsl:with-param name="name" select="$indexName" />
 				<xsl:with-param name="parent_uuid" select="$root_uuid" />
 				<xsl:with-param name="doc_family_uuid" select="$first_index_item" />
 			</xsl:call-template>
@@ -54,7 +56,7 @@
 			</xsl:variable>
 			<xsl:variable name="currentIndexUuid">
 				<xsl:value-of
-					select="concat($volumeName, '.', 'index', x:get-first-word($firstIndexWord), x:get-first-word($lastIndexWord))" />
+					select="concat($materialNumber, '.', $indexId, x:get-first-word($firstIndexWord), x:get-first-word($lastIndexWord))" />
 			</xsl:variable>
 
 			<xsl:if test="@serial-num != 1">

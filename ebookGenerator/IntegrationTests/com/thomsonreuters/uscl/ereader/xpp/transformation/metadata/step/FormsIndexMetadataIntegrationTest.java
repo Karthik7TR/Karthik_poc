@@ -15,11 +15,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("IntegrationTests")
 @ContextConfiguration(classes = PlaceXppMetadataStepIntegrationTestConfig.class)
-public final class PlaceXppMetadataStepIndexIntegrationTest extends PlaceXppMetadataStepFixture {
-    public PlaceXppMetadataStepIndexIntegrationTest()
+public final class FormsIndexMetadataIntegrationTest extends PlaceXppMetadataStepFixture {
+    public FormsIndexMetadataIntegrationTest()
         throws URISyntaxException {
-        super("index/regular/1001-CHAL_Volume_3_Index.DIVXML.main",
-            "index/regular/1001-CHALExpected_Volume_3_Index.DIVXML.main");
+        super("index/forms/1002-ETCD_Volume_1_form_Index.DIVXML.main",
+            "index/forms/1002-ETCDExpected_Volume_1_form_Index.DIVXML.main");
     }
 
     @Test

@@ -14,7 +14,8 @@
     .outline_name_block & {
         display: inline;
     }
-    .appendix_front & {
+    .appendix_front &,
+    .publication>.metadata_block+.publication_body>.part>.front>.outline_name_block>& {
         display: block;
     }
 }

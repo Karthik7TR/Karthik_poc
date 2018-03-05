@@ -6,19 +6,19 @@
     
     <xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
                       
-    <xsl:param name="volumeName" />
+    <xsl:param name="materialNumber" />
                       	
 	<xsl:template match="x:root">
 		<root>			
 			<xsl:call-template name="placeSectionbreak">
-				<xsl:with-param name="sectionuuid" select="concat($volumeName, '.', 'summary.toc')" />
+				<xsl:with-param name="sectionuuid" select="concat($materialNumber, '.', 'summary.toc')" />
 			</xsl:call-template>
 			<xsl:apply-templates />
 		</root>	
 	</xsl:template>
 	
 	<xsl:template match="x:summary.toc">
-		<xsl:variable name="uuid" select="concat($volumeName, '.', 'summary.toc')" />
+		<xsl:variable name="uuid" select="concat($materialNumber, '.', 'summary.toc')" />
 	
 		<xsl:call-template name="placeXppHier">
 			<xsl:with-param name="uuid" select="$uuid" />
@@ -30,7 +30,7 @@
 	</xsl:template>
 	
 	<xsl:template match="x:full.toc">
-		<xsl:variable name="uuid" select="concat($volumeName, '.', 'full.toc')" />
+		<xsl:variable name="uuid" select="concat($materialNumber, '.', 'full.toc')" />
 	
 		<xsl:call-template name="placeSectionbreak">
 			<xsl:with-param name="sectionuuid" select="$uuid" />

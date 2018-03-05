@@ -33,7 +33,7 @@ public class DocumentName {
         final Matcher documentNameMatcher = pattern.matcher(fileName);
         if (!documentNameMatcher.find()) {
             throw new IllegalArgumentException(
-                "Provided file name: " + fileName + ", does not corresponds to name pattern");
+                "Provided file name: " + fileName + ", does not correspond to name pattern");
         }
         matcher = documentNameMatcher;
         originalFileName = fileName;

@@ -11,11 +11,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("IntegrationTests")
 @ContextConfiguration(classes = PlaceXppMetadataStepIntegrationTestConfig.class)
-public final class ShortIndexIntegrationTest extends PlaceXppMetadataStepFixture {
-
-    public ShortIndexIntegrationTest()
+public final class SmallIndexIntegrationTest extends PlaceXppMetadataStepFixture {
+    public SmallIndexIntegrationTest()
         throws URISyntaxException {
-        super("shortIndex/1001-C_V_3_Index.DIVXML.main", "shortIndex/expected.main");
+        super("index/small/1001-C_V_3_Index.DIVXML.main", "index/small/expected.main");
     }
 
     @Test

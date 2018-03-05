@@ -22,12 +22,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class IndexPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTransformStrategy {
+public class IndexXppMetadataStrategy extends AbstractPlaceXppMetadataTransformStrategy {
+    private static final String FORM_INDEX = "form_Index";
+    private static final String INDEX = "Index";
+
+    static final String MATERIAL_NUMBER = "materialNumber";
+    static final String INDEX_ID = "indexId";
+    static final String INDEX_NAME = "indexName";
+    static final String INDEX_ID_FORM_INDEX = "formIndex";
+    static final String INDEX_NAME_FORM_INDEX = "Index to Forms";
+
     private final File xslTransformationFile;
     private final XppFormatFileSystem xppFormatFileSystem;
 
     @Autowired
-    public IndexPlaceXppMetadataStrategy(
+    public IndexXppMetadataStrategy(
         final XslTransformationService xslTransformationService,
         final TransformerBuilderFactory transformerBuilderFactory,
         final XppFormatFileSystem xppFormatFileSystem,
@@ -43,12 +52,37 @@ public class IndexPlaceXppMetadataStrategy extends AbstractPlaceXppMetadataTrans
         @NotNull final File inputFile,
         @NotNull final String materialNumber,
         @NotNull final XppBookStep step) {
-        final Transformer transformer = transformerBuilderFactory.create().withXsl(xslTransformationFile).build();
+        final Transformer transformer = transformerBuilderFactory.create()
+            .withXsl(xslTransformationFile)
+            .build();
         final File outputFile =
             xppFormatFileSystem.getStructureWithMetadataFile(step, materialNumber, inputFile.getName());
 
         final TransformationCommand addMetadataToIndexCommand =
-            new TransformationCommandBuilder(transformer, outputFile).withInput(inputFile).build();
+            new TransformationCommandBuilder(transformer, outputFile).withInput(inputFile)
+                .build();
         return asList(addMetadataToIndexCommand);
+    }
+
+    @Override
+    public void performHandling(
+        @NotNull final File inputFile,
+        @NotNull final String materialNumber,
+        @NotNull final XppBookStep step) {
+        for (final TransformationCommand command : getTransformationCommands(inputFile, materialNumber, step)) {
+            final Transformer transformer = command.getTransformer();
+            transformer.setParameter(MATERIAL_NUMBER, materialNumber);
+            transformer.setParameter(INDEX_ID, getIndexId(inputFile));
+            transformer.setParameter(INDEX_NAME, getIndexName(inputFile));
+            xslTransformationService.transform(command);
+        }
+    }
+
+    private String getIndexId(final File inputFile) {
+        return inputFile.getName().contains(FORM_INDEX) ? INDEX_ID_FORM_INDEX : INDEX;
+    }
+
+    private String getIndexName(final File inputFile) {
+        return inputFile.getName().contains(FORM_INDEX) ? INDEX_NAME_FORM_INDEX : INDEX;
     }
 }

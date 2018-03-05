@@ -6,8 +6,8 @@
 	<xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
 
  	<xsl:param name="TOCPartName" select="TOCPartName" />
- 	<xsl:param name="volumeName" select="volumeName" />
- 	<xsl:variable name="front_matter_uuid" select="concat($volumeName,'.',replace($TOCPartName,'_','.'))" />
+ 	<xsl:param name="materialNumber" select="materialNumber" />
+ 	<xsl:variable name="front_matter_uuid" select="concat($materialNumber,'.',replace($TOCPartName,'_','.'))" />
  	<xsl:variable name="human_readable_name">
  		<xsl:call-template name="defineTOCPartName">
 			<xsl:with-param name="file_name" select="$TOCPartName" />

@@ -194,7 +194,8 @@ a:empty {
   display: inline;
 }
 
-.appendix_front .name {
+.appendix_front .name,
+.publication > .metadata_block + .publication_body > .part > .front > .outline_name_block > .name {
   display: block;
 }
 

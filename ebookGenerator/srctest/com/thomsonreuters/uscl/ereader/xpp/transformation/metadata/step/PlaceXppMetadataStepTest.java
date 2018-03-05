@@ -12,7 +12,6 @@ import java.util.Map;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
-import com.thomsonreuters.uscl.ereader.xpp.transformation.metadata.step.PlaceXppMetadataStep;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.metadata.step.strategy.PlaceXppMetadataStrategyProviderImpl;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.junit.Before;

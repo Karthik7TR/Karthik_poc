@@ -14,7 +14,7 @@ import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppBookStep;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractPlaceXppMetadataTransformStrategy implements PlaceXppMetadataStrategy {
-    private final XslTransformationService xslTransformationService;
+    protected final XslTransformationService xslTransformationService;
     protected final TransformerBuilderFactory transformerBuilderFactory;
     private final Set<BundleFileType> bundleFileTypes;
 
@@ -40,7 +40,7 @@ public abstract class AbstractPlaceXppMetadataTransformStrategy implements Place
         @NotNull final XppBookStep step) {
         for (final TransformationCommand command : getTransformationCommands(inputFile, materialNumber, step)) {
             final Transformer transformer = command.getTransformer();
-            transformer.setParameter("volumeName", materialNumber);
+            transformer.setParameter("materialNumber", materialNumber);
             xslTransformationService.transform(command);
         }
     }

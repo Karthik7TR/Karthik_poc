@@ -7,14 +7,14 @@
 
     <xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
 
-    <xsl:param name="volumeName" />
+    <xsl:param name="materialNumber" />
 
-    <xsl:variable name="root_uuid" select="concat($volumeName, '.', 'lrre')" />
+    <xsl:variable name="root_uuid" select="concat($materialNumber, '.', 'lrre')" />
     <xsl:variable name="pagesAmount" select="count(//x:pagebreak)" />
 
     <xsl:template match="x:root">
         <xsl:element name="root">
-            <xsl:variable name="first_lrre_item" select="concat($volumeName, '.', 'lrre', '1to', x:get-last-page(1, $pagesAmount))" />
+            <xsl:variable name="first_lrre_item" select="concat($materialNumber, '.', 'lrre', '1to', x:get-last-page(1, $pagesAmount))" />
             <xsl:call-template name="placeSectionbreak">
                 <xsl:with-param name="sectionuuid" select="$first_lrre_item" />
             </xsl:call-template>
@@ -39,7 +39,7 @@
             	<xsl:variable name="endPageLrreItemName" select="x:get-last-page-item-name(., $endPageNumber)" />
             
             	<xsl:variable name="currentLrreUuid"
-                	select="concat($volumeName, '.', 'lrre', $startPageNumber, 'to', $endPageNumber)" />
+                	select="concat($materialNumber, '.', 'lrre', $startPageNumber, 'to', $endPageNumber)" />
             
             	<xsl:if test="@serial-num != 1">
                 	<xsl:call-template name="placeSectionbreak">
