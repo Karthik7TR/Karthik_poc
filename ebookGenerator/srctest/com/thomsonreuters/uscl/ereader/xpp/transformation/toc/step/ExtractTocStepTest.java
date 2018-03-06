@@ -22,6 +22,7 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
+import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.core.IsNull;
 import org.junit.Before;
 import org.junit.Test;
@@ -65,6 +66,8 @@ public final class ExtractTocStepTest {
     private File sourceSecondBundleFile;
     @Mock
     private File mergedTocFile;
+    @Mock
+    private File volumesMapFile;
     @Captor
     private ArgumentCaptor<TransformationCommand> commandCaptor;
 
@@ -79,6 +82,8 @@ public final class ExtractTocStepTest {
                 .getExecutionContext()
                 .get(JobParameterKey.XPP_BUNDLES)).willReturn(Arrays.asList(bundle));
 
+        given(volumesMapFile.getAbsolutePath()).willReturn(StringUtils.EMPTY);
+
         given(
             fileSystem.getSectionbreaksFile(step, MATERIAL_NUMBER, FIRST_BUNDLE_FILE_NAME.replaceAll(".xml", ".main")))
                 .willReturn(sourceFirstBundleFile);
@@ -91,6 +96,7 @@ public final class ExtractTocStepTest {
             .willReturn(secondTocBundleFile);
         given(fileSystem.getTocFile(step)).willReturn(tocFile);
         given(fileSystem.getMergedBundleTocFile(MATERIAL_NUMBER, step)).willReturn(mergedTocFile);
+        given(fileSystem.getVolumesMapFile(step)).willReturn(volumesMapFile);
 
         given(mergedTocFile.createNewFile()).willReturn(true);
     }

@@ -42,6 +42,7 @@ public class ExtractTocStep extends VolumeNumberAwareXppTransformationStep {
         final Transformer transformer = transformerBuilderFactory.create()
             .withXsl(extractTocXsl)
             .withParameter("isPocketPart", bundle.isPocketPartPublication())
+            .withParameter("volumesMap", fileSystem.getVolumesMapFile(this).getAbsolutePath().replace("\\", "/"))
             .build();
         final List<File> transformedFiles = bundle.getOrderedFileList()
             .stream()

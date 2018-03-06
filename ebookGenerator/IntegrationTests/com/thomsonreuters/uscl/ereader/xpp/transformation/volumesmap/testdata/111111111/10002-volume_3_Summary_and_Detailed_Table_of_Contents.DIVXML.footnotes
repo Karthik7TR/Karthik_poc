@@ -1,0 +1,30 @@
+<!DOCTYPE root SYSTEM "C:/Workspace/projects/.metadata/.plugins/org.eclipse.wst.server.core/tmp3/wtpwebapps/ebookGenerator/WEB-INF/classes/StaticFiles/xpp/dtd/entities.dtd">
+<root xmlns="http://www.sdl.com/xpp">
+	<pagebreak num="ix" serial-num="9"/>
+	<page.number page-num="ix"/>
+	<pagebreak num="x" serial-num="10"/>
+	<pagebreak num="xi" serial-num="11"/>
+	<page.number page-num="xi"/>
+	<pagebreak num="xii" serial-num="12"/>
+	<page.number page-num="xii"/>
+	<pagebreak num="xiii" serial-num="13"/>
+	<page.number page-num="xiii"/>
+	<pagebreak num="xiv" serial-num="14"/>
+	<page.number page-num="xiv"/>
+	<pagebreak num="xv" serial-num="15"/>
+	<page.number page-num="xv"/>
+	<pagebreak num="xvi" serial-num="16"/>
+	<page.number page-num="xvi"/>
+	<pagebreak num="xvii" serial-num="17"/>
+	<page.number page-num="xvii"/>
+	<pagebreak num="xviii" serial-num="18"/>
+	<page.number page-num="xviii"/>
+	<pagebreak num="xix" serial-num="19"/>
+	<page.number page-num="xix"/>
+	<pagebreak num="xx" serial-num="20"/>
+	<page.number page-num="xx"/>
+	<pagebreak num="xxi" serial-num="21"/>
+	<page.number page-num="xxi"/>
+	<pagebreak num="xxii" serial-num="22"/>
+	<page.number page-num="xxii"/>
+</root>

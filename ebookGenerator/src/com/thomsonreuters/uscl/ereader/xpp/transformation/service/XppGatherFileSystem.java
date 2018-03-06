@@ -7,6 +7,7 @@ import java.util.Map;
 import com.thomsonreuters.uscl.ereader.common.filesystem.GatherFileSystem;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Provides access to files and directories specific for XPP gather steps
@@ -67,4 +68,13 @@ public interface XppGatherFileSystem extends GatherFileSystem {
      */
     @NotNull
     Map<String, File> getAllBundleXmls(@NotNull BookStep step);
+
+    /**
+     * Returns segOutline.xml of the bundle, returns null if not exists
+     * @param step
+     * @param materialNumber
+     * @return
+     */
+    @Nullable
+    File getSegOutlineFile(@NotNull BookStep step, @NotNull String materialNumber);
 }

@@ -43,6 +43,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public final class TransformationToHtmlStepIntegrationTest {
     private static final String SAMPLE_DIVXML_PAGE = "1-sample_1.DIVXML_0_test.page";
     private static final String SAMPLE_DIVXML_LRRE_PAGE = "1-sample_1_Table_of_LRRE.DIVXML_0_test.page";
+    private static final String VOLUMES_MAP = "volumesMap.xml";
     private static final String MATERIAL_NUMBER = "11111111";
     private static final String ADDITIONAL_MATERIAL_NUMBER = "11111112";
     private static final String REF_PLACE_HOLDER = "${refPlaceHolder}";
@@ -66,6 +67,7 @@ public final class TransformationToHtmlStepIntegrationTest {
     private File originalLrre;
     private File anchorsFile;
     private File sumTocAnchorsFile;
+    private File volumesMap;
 
     @Before
     public void setUp() throws URISyntaxException {
@@ -83,6 +85,7 @@ public final class TransformationToHtmlStepIntegrationTest {
         originalLrre = new File(TransformationToHtmlStepIntegrationTest.class.getResource(SAMPLE_DIVXML_LRRE_PAGE).toURI());
         anchorsFile = new File(TransformationToHtmlStepIntegrationTest.class.getResource(XppFormatFileSystemImpl.ANCHOR_TO_DOCUMENT_ID_MAP_FILE).toURI());
         sumTocAnchorsFile = new File(TransformationToHtmlStepIntegrationTest.class.getResource(MATERIAL_NUMBER + "/" + XppFormatFileSystemImpl.ANCHOR_TO_DOCUMENT_ID_MAP_FILE).toURI());
+        volumesMap = new File(TransformationToHtmlStepIntegrationTest.class.getResource(VOLUMES_MAP).toURI());
     }
 
     @After
@@ -135,6 +138,7 @@ public final class TransformationToHtmlStepIntegrationTest {
         FileUtils.copyFileToDirectory(original, mkdir(fileSystem.getDirectory(step, SOURCE_DIR, MATERIAL_NUMBER)));
         FileUtils.copyFileToDirectory(originalLrre, mkdir(fileSystem.getDirectory(step, SOURCE_DIR, MATERIAL_NUMBER)));
         if (multiVolume) {
+            FileUtils.copyFileToDirectory(volumesMap, mkdir(fileSystem.getDirectory(step, XppFormatFileSystemDir.VOLUMES_MAP_DIR)));
             FileUtils.copyFileToDirectory(
                 original,
                 mkdir(fileSystem.getDirectory(step, SOURCE_DIR, ADDITIONAL_MATERIAL_NUMBER)));

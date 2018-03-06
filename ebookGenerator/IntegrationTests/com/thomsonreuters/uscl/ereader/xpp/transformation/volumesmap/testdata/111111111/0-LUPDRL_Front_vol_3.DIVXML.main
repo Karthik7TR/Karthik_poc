@@ -1,0 +1,261 @@
+<root xmlns="http://www.sdl.com/xpp">
+	<sectionbreak sectionuuid="74690241.fm.title.page"/>
+	<pagebreak num="i" serial-num="1"/>
+	<frontmatter>
+		<fm.pub.variable name="matnum"/>
+		<fm.pub.variable name="pubYear"/>
+		<XPPHier uuid="74690241" name="VOLUME_NAME_PLACEHOLDER1" parent_uuid="74690241" md.doc_family_uuid="74690241.fm.title.page">VOLUME_NAME_PLACEHOLDER</XPPHier>
+		<XPPHier uuid="74690241.fm.title.page" name="Title page" parent_uuid="74690241.fm.title.page" md.doc_family_uuid="74690241.fm.title.page">Title page</XPPHier>
+		<fm.title.page>
+			<text.line align="c" emph="bold" font.size="22q" pre.leading="2p">
+				<t style="text.line">LAND USE</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="22q" pre.leading="1p">
+				<t style="text.line">PLANNING AND</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="22q" pre.leading="1p">
+				<t style="text.line">DEVELOPMENT</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="22q" pre.leading="1p">
+				<t style="text.line">REGULATION LAW</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="14q" pre.leading="2p">
+				<t style="text.line.1">Third Edition</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="14q" pre.leading="1p">
+				<t style="text.line.1">2017–2018 Pocket Part</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="10q" pre.leading="1p">
+				<t style="text.line.2">by Julian Conrad Juergensmeyer</t>
+			</text.line>
+			<text.line align="c" emph="ital" font.size="4q" pre.leading="4q">
+				<t style="text.line.3">Professor and Ben F. Johnson Jr. Chair in Law</t>
+			</text.line>
+			<text.line align="c" emph="ital" font.size="4q" pre.leading="4q">
+				<t style="text.line.3">Georgia State University College of Law</t>
+			</text.line>
+			<text.line align="c" emph="ital" font.size="4q" pre.leading="4q">
+				<t style="text.line.3">Adjunct Professor in City and Regional Planning</t>
+			</text.line>
+			<text.line align="c" emph="ital" font.size="4q" pre.leading="4q">
+				<t style="text.line.3">Georgia Institute of Technology</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="8q" pre.leading="4q">
+				<t style="text.line.4">and</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="10q" pre.leading="4q">
+				<t style="text.line.2">Thomas E. Roberts</t>
+			</text.line>
+			<text.line align="c" emph="ital" font.size="8q" pre.leading="4q">
+				<t style="text.line.5">Professor of Law Emeritus</t>
+			</text.line>
+			<text.line align="c" emph="ital" font.size="4q" pre.leading="4q">
+				<t style="text.line.3">Wake Forest University School of Law</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="8q" pre.leading="4q">
+				<t style="text.line.4">and</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="10q" pre.leading="4q">
+				<t style="text.line.2">Patricia E. Salkin</t>
+			</text.line>
+			<text.line align="c" emph="ital" font.size="4q" pre.leading="4q">
+				<t style="text.line.3">Dean and Professor of Law</t>
+			</text.line>
+			<text.line align="c" emph="ital" font.size="4q" pre.leading="4q">
+				<t style="text.line.3">Touro Law Center</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="8q" pre.leading="4q">
+				<t style="text.line.4">and</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="10q" pre.leading="4q">
+				<t style="text.line.2">Ryan Rowberry</t>
+			</text.line>
+			<text.line align="c" emph="ital" font.size="4q" pre.leading="4q">
+				<t style="text.line.3">Associate Professor of Law</t>
+			</text.line>
+			<text.line align="c" emph="ital" font.size="4q" pre.leading="4q">
+				<t style="text.line.3">Georgia State University College of Law</t>
+			</text.line>
+			<text.line align="c" emph="bold" font.size="14q" pre.leading="10q">
+				<t style="text.line.1">PRACTITIONER TREATISE SERIES</t>
+			</text.line>
+		</fm.title.page>
+		<proview_image id="thwest-k.tif" type="tif" path="/apps/xpp/shared/images/lib01/thwest-k" x="0" y="-0.13i" w="2.77i" h="1.02i" rotation="0" priority="0" scale="1.000000" cropx="0" cropy="0" cropw="2.77i" croph="1.02i"/>
+		<sectionbreak sectionuuid="74690241.fm.copyright.page"/>
+		<pagebreak num="ii" serial-num="2"/>
+		<XPPHier uuid="74690241.fm.copyright.page" name="Copyright Page" parent_uuid="74690241.fm.copyright.page" md.doc_family_uuid="74690241.fm.copyright.page">Copyright Page</XPPHier>
+		<ebook-isbn>
+			<ebook-isbn-label>ISBN: </ebook-isbn-label>978-006-0-85404-1</ebook-isbn>
+		<fm.copyright.page>
+			<fm.current.copyright>
+				<text.line align="c" font.size="9q" pre.leading="14p">
+					<t style="text.line.6">© </t>
+					<fm.variable name="copyrightYear">
+						<t style="fm.variable">2012</t>
+					</fm.variable>
+					<t style="text.line.6"> Thomson/West</t>
+				</text.line>
+			</fm.current.copyright>
+			<fm.disclaimer>
+				<t style="fm.copyright.page cgt">This publication was created to provide you with accurate and authoritative </t>
+				<t style="fm.copyright.page cgt">information concerning the subject matter covered; however, this publication </t>
+				<t style="fm.copyright.page cgt">was not necessarily prepared by persons licensed to practice law in a particular </t>
+				<t style="fm.copyright.page cgt">jurisdiction. The publisher is not engaged in rendering legal or other </t>
+				<t style="fm.copyright.page cgt">professional advice and this publication is not a substitute for the advice of an </t>
+				<t style="fm.copyright.page cgt">attorney. If you require legal or other expert advice, you should seek the </t>
+				<t style="fm.copyright.page cgt">services of a competent attorney or other professional.</t>
+				<sectionbreak sectionuuid="74690241.fm.about.the.author"/>
+				<pagebreak num="iii" serial-num="3"/>
+				<page.number.ref page-number="iii"/>
+			</fm.disclaimer>
+		</fm.copyright.page>
+		<XPPHier uuid="74690241.FrontMatter" name="Front matter" parent_uuid="74690241.FrontMatter">Front matter</XPPHier>
+		<XPPHier uuid="74690241.fm.about.the.author" name="Dedications" parent_uuid="74690241.FrontMatter" md.doc_family_uuid="74690241.fm.about.the.author">Dedications</XPPHier>
+		<fm.about.the.author>
+			<metadata.block metadata.store="yes">
+				<metadata field="left.running.head">
+					<value/>
+				</metadata>
+				<metadata field="right.running.head">
+					<value/>
+				</metadata>
+			</metadata.block>
+			<head align="c" emph="bold" font.size="18q">
+				<name.block>
+					<name>
+						<t style="name">Dedications</t>
+					</name>
+				</name.block>
+			</head>
+			<para align="c" emph="ital" font.size="11q" pre.leading="3p" first.para="yes">
+				<para.text first.para.text="yes">
+					<t style="para.text">To the late Donald G. Hagman, whose enormous</t>
+				</para.text>
+			</para>
+			<para align="c" emph="ital" font.size="11q" pre.leading="1p" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">contributions to land use law have guided our work.</t>
+				</para.text>
+			</para>
+			<para align="r" font.size="11q" pre.leading="1p" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text.1">J.C.J. and T.E.R.</t>
+				</para.text>
+			</para>
+			<para align="c" emph="ital" font.size="11q" pre.leading="1p" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">To Ewa</t>
+				</para.text>
+			</para>
+			<para align="c" emph="ital" font.size="11q" pre.leading="1p" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">Conrad, Erik and Krissy</t>
+				</para.text>
+			</para>
+			<para align="c" emph="ital" font.size="11q" pre.leading="1p" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">Josh, Jonah, Jeremiah, Julia, and Jesse</t>
+				</para.text>
+			</para>
+			<para align="r" font.size="11q" pre.leading="1p" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text.1">J.C.J.</t>
+				</para.text>
+			</para>
+			<para align="c" emph="ital" font.size="11q" pre.leading="1p" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">To Mary Ellen</t>
+				</para.text>
+			</para>
+			<para align="c" emph="ital" font.size="11q" pre.leading="1p" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text">Scott, Beth, and Mark</t>
+				</para.text>
+			</para>
+			<para align="r" font.size="11q" pre.leading="1p" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text.1">T.E.R.</t>
+				</para.text>
+			</para>
+		</fm.about.the.author>
+		<pagebreak num="iv" serial-num="4"/>
+		<sectionbreak sectionuuid="74690241.fm.preface"/>
+		<pagebreak num="v" serial-num="5"/>
+		<page.number.ref page-number="v"/>
+		<XPPHier uuid="74690241.fm.preface" name="Preface" parent_uuid="74690241.FrontMatter" md.doc_family_uuid="74690241.fm.preface">Preface</XPPHier>
+		<fm.preface>
+			<metadata.block metadata.store="yes">
+				<metadata field="left.running.head">
+					<value/>
+				</metadata>
+				<metadata field="right.running.head">
+					<value/>
+				</metadata>
+			</metadata.block>
+			<head align="c" emph="bold" font.size="18q">
+				<name.block>
+					<name>
+						<t style="name">Preface</t>
+					</name>
+				</name.block>
+			</head>
+			<para pre.leading="1p" first.para="yes">
+				<para.text first.para.text="yes">
+					<t style="para.text.1">This treatise owes it origins to Hagman, Urban Planning and </t>
+					<t style="para.text.1">Land Development Control Law, originally published in 1971. Its </t>
+					<t style="para.text.1">author, Professor Donald Hagman, was, and no doubt will </t>
+					<t style="para.text.1">continue to be, one of the most important figures in the land use </t>
+					<t style="para.text.1">planning and control field. After Don’s tragic and untimely death </t>
+					<t style="para.text.1">in 1982, Professor Juergensmeyer began the preparation of a </t>
+					<t style="para.text.1">second edition, which was published in 1986. Those interested in </t>
+					<t style="para.text.1">Professor Hagman’s many accomplishments may wish to read </t>
+					<t style="para.text.1">the dedications to him at 29 U.C.L.A. Rev. 772 (1982).</t>
+				</para.text>
+			</para>
+			<para pre.leading="1p" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text.1">In 1998, when we began to prepare a third edition of the </t>
+					<t style="para.text.1">Hagman book, we realized that land use planning and control </t>
+					<t style="para.text.1">law had changed so much in the 27 years since the first </t>
+					<t style="para.text.1">edition—and in fact, so much in the 12 years since the second </t>
+					<t style="para.text.1">edition, that to represent the new book as a third edition with </t>
+					<t style="para.text.1">Don Hagman still listed as an author would be misleading. We </t>
+					<t style="para.text.1">therefore changed the title and published the book as </t>
+					<t style="para.text.1">Juergensmeyer &amp; Roberts, Land Use Planning and Control Law </t>
+					<t style="para.text.1">(1988). In 2003, we brought out a new edition with a title </t>
+					<t style="para.text.1">change intended to reflect evolution of our subject matter, </t>
+					<t style="para.text.1">namely, Juergensmeyer &amp; Roberts, Land Use Planning and </t>
+					<t style="para.text.1">Development Regulation Law (2003). While the world of land </t>
+					<t style="para.text.1">use planning and development regulation law has changed </t>
+					<t style="para.text.1">dramatically over the past 40 years, we nonetheless owe a great </t>
+					<t style="para.text.1">debt to Don Hagman’s thoughts and approaches and have tried </t>
+					<t style="para.text.1">to retain many of his ideas.</t>
+				</para.text>
+			</para>
+			<para pre.leading="1p" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text.1">Professor Juergensmeyer wishes to acknowledge the </t>
+					<t style="para.text.1">professional support of Dean Steve Kaminshine and former </t>
+					<t style="para.text.1">Dean Janice Griffith of Georgia State University College of Law.</t>
+				</para.text>
+			</para>
+			<para pre.leading="1p" first.para="no">
+				<para.text first.para.text="yes">
+					<t style="para.text.1">Professor Roberts acknowledges the support of Wake Forest </t>
+					<t style="para.text.1">University School of Law, in particular, its former Dean, Robert </t>
+					<t style="para.text.1">Welsh and Dean Blake Morant.</t>
+				</para.text>
+			</para>
+		</fm.preface>
+		<pagebreak num="vi" serial-num="6"/>
+		<sectionbreak sectionuuid="74690241.fm.online.research.guide"/>
+		<pagebreak num="vii" serial-num="7"/>
+		<page.number.ref page-number="vii"/>
+		<XPPHier uuid="74690241.fm.online.research.guide" name="Westlaw Online Research Guide" parent_uuid="74690241.FrontMatter" md.doc_family_uuid="74690241.fm.online.research.guide">Westlaw Online Research Guide</XPPHier>
+		<fm.online.research.guide>
+			<proview_image id="worg.tif" type="tif" path="/apps/xpp/shared/images/lib01/worg.tif" x="0" y="-0.08i" w="4.12i" h="5.43i" rotation="0" priority="0" scale="1.000000" cropx="0" cropy="0" cropw="4.12i" croph="5.43i"/>
+		</fm.online.research.guide>
+		<t style="frontmatter cgt"> </t>
+	</frontmatter>
+	<pagebreak num="viii" serial-num="8"/>
+</root>

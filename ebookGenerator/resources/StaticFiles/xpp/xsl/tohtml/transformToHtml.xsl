@@ -11,17 +11,19 @@
     
     <xsl:output method="html" indent="no" omit-xml-declaration="yes"/>
 	<xsl:param name="fileBaseName" />
-	<xsl:param name="pagePrefix" />
 	<xsl:param name="divXmlName" />
 	<xsl:param name="documentUidMapDoc" />
 	<xsl:param name="summaryTocDocumentUidMapDoc" />
 	<xsl:param name="isPocketPart" />
 	<xsl:param name="entitiesDocType" />
 	<xsl:param name="bundleFileType" />
+	<xsl:param name="volumesMap" />
 	
 	<xsl:variable name="documentUidMap" select="document($documentUidMapDoc)" />
 	<xsl:variable name="summaryTocDocumentUidMap" select="document($summaryTocDocumentUidMapDoc)" />
-
+	<xsl:variable name="volumesMapFile" select="document($volumesMap)" />
+	<xsl:variable name="isMultiVolume" select="count(distinct-values(($volumesMapFile/x:VolumesMap/x:entry/text()))) > 1" />
+	
 	<xsl:template match="x:parts">
 		<xsl:text disable-output-escaping="yes">&lt;!DOCTYPE root SYSTEM &#34;</xsl:text>
 		<xsl:value-of select="$entitiesDocType" />
@@ -53,7 +55,35 @@
 	</xsl:template>
 
 	<xsl:template match="x:pagebreak">
+		<xsl:call-template name="createPBPI" />
+		
+		<xsl:variable name="num" select="./@num" />
+		<xsl:if test="preceding::x:XPPHier[1]/@no-page-content = 'true' and ancestor::x:part.main and preceding::x:XPPHier[1][following::x:pagebreak[1]/@num = $num]">
+			<xsl:apply-templates select="preceding::x:XPPHier[1]" mode="place-anchor" />
+		</xsl:if>
+		<xsl:if test="preceding::x:XPPMetaData[1]/@no-page-content = 'true' and ancestor::x:part.main and preceding::x:XPPMetaData[1][following::x:pagebreak[1]/@num = $num]">
+			<xsl:apply-templates select="preceding::x:XPPMetaData[1]" mode="place-anchor" />
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template name="createPBPI">
 		<xsl:variable name="apostrophe">'</xsl:variable>
+		<xsl:variable name="pagePrefix">
+			<xsl:variable name="volumeNumber">
+				<xsl:call-template name="getDocumentVolume" />
+			</xsl:variable>
+			<xsl:choose>
+				<xsl:when test="$isMultiVolume = true() and $isPocketPart = true()">
+					<xsl:value-of select="concat('V', $volumeNumber, '-', 'PP', '-')" />
+				</xsl:when>
+				<xsl:when test="$isMultiVolume = true()">
+					<xsl:value-of select="concat('V', $volumeNumber, '-')" />
+				</xsl:when>
+				<xsl:when test="$isPocketPart = true()">
+					<xsl:value-of select="concat('PP', '-')" />
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
 		<xsl:variable name="pageNum">
 			<xsl:choose>
 				<xsl:when test="$bundleFileType = 'TABLE_OF_LRRE' or $bundleFileType = 'TABLE_OF_CASES'">
@@ -64,15 +94,14 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:processing-instruction name="pb" select="concat('label', '=', $apostrophe, $pagePrefix, $pageNum, $apostrophe, '?')" />
 		
-		<xsl:variable name="num" select="./@num" />
-		<xsl:if test="preceding::x:XPPHier[1]/@no-page-content = 'true' and ancestor::x:part.main and preceding::x:XPPHier[1][following::x:pagebreak[1]/@num = $num]">
-			<xsl:apply-templates select="preceding::x:XPPHier[1]" mode="place-anchor" />
-		</xsl:if>
-		<xsl:if test="preceding::x:XPPMetaData[1]/@no-page-content = 'true' and ancestor::x:part.main and preceding::x:XPPMetaData[1][following::x:pagebreak[1]/@num = $num]">
-			<xsl:apply-templates select="preceding::x:XPPMetaData[1]" mode="place-anchor" />
-		</xsl:if>
+		<xsl:processing-instruction name="pb" select="concat('label', '=', $apostrophe, $pagePrefix, $pageNum, $apostrophe, '?')" />
+	</xsl:template>
+	
+	<xsl:template name="getDocumentVolume">
+		<xsl:variable name="pageNum" select="./@num" />
+		<xsl:variable name="closestUuid" select="(ancestor::x:parts//x:XPPHier)[last()]/@uuid" />
+		<xsl:value-of select="$volumesMapFile/x:VolumesMap/x:entry[@uuid = $closestUuid][1]/text()" />
 	</xsl:template>
 
 	<xsl:template match="x:XPPHier | x:XPPMetaData">

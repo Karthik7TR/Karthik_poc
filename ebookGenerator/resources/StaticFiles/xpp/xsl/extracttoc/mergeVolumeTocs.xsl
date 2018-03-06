@@ -9,12 +9,22 @@
 	<xsl:param name="isPocketPart" />
 
 	<xsl:template match="Document">
-		<xsl:element name="Volume">
-			<xsl:attribute name="volumeNum" select="$volumeNum" />
-			<xsl:attribute name="isPP" select="$isPocketPart" />
-			<xsl:apply-templates />
-		</xsl:element>
+		<xsl:variable name="doc" select="." />
+		<xsl:for-each select="distinct-values((.//x:Volume/text()))">
+			<xsl:variable name="volNum" select="." />
+			<xsl:if test="$doc//x:EBookToc[not(x:EBookToc)][1]/x:Volume/text() = $volNum">
+				<xsl:element name="Volume">
+					<xsl:attribute name="volumeNum" select="$volNum" />
+					<xsl:attribute name="isPP" select="$isPocketPart" />
+					<EBook>
+						<xsl:apply-templates select="$doc/x:EBook/x:EBookToc[x:Volume/text() = $volNum or .//x:EBookToc[not(x:EBookToc)][1]/x:Volume/text() = $volNum]" />
+					</EBook>
+				</xsl:element>
+			</xsl:if>
+		</xsl:for-each>
 	</xsl:template>
+
+	<xsl:template match="x:Volume" />
 
 	<xsl:template match="node()|@*">
 		<xsl:copy>

@@ -33,6 +33,12 @@
         
         <step id="placeXppMetadataStep">
 			<tasklet ref="placeXppMetadataTask" />
+			<next on="COMPLETED" to="createVolumesMapStep" />
+			<fail on="FAILED" />
+		</step>
+		
+		<step id="createVolumesMapStep">
+			<tasklet ref="createVolumesMapTask" />
 			<next on="COMPLETED" to="addSectionbreaksToOriginalStep" />
 			<fail on="FAILED" />
 		</step>
@@ -154,6 +160,11 @@
 	<beans:bean id="placeXppMetadataTask" scope="step"
 		parent="bookStep"
 		class="com.thomsonreuters.uscl.ereader.xpp.transformation.metadata.step.PlaceXppMetadataStep" />	
+		
+	<beans:bean id="createVolumesMapTask" scope="step"
+		parent="bookStep"
+		class="com.thomsonreuters.uscl.ereader.xpp.transformation.volumesmap.step.CreateVolumesMapStep" />	
+		
     <beans:bean id="addSectionbreaksToOriginalTask" scope="step" parent="bookStep"
         class="com.thomsonreuters.uscl.ereader.xpp.transformation.sectionbreaks.step.AddSectionbreaksStep" />
     <beans:bean id="crossPageLinkedFootnotesTask" scope="step" parent="bookStep"

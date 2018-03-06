@@ -1,0 +1,14 @@
+<!DOCTYPE root SYSTEM "C:/Workspace/projects/.metadata/.plugins/org.eclipse.wst.server.core/tmp3/wtpwebapps/ebookGenerator/WEB-INF/classes/StaticFiles/xpp/dtd/entities.dtd">
+<root xmlns="http://www.sdl.com/xpp">
+	<pagebreak num="i" serial-num="1"/>
+	<pagebreak num="ii" serial-num="2"/>
+	<pagebreak num="iii" serial-num="3"/>
+	<page.number page-num="iii"/>
+	<pagebreak num="iv" serial-num="4"/>
+	<pagebreak num="v" serial-num="5"/>
+	<page.number page-num="v"/>
+	<pagebreak num="vi" serial-num="6"/>
+	<pagebreak num="vii" serial-num="7"/>
+	<page.number page-num="vii"/>
+	<pagebreak num="viii" serial-num="8"/>
+</root>

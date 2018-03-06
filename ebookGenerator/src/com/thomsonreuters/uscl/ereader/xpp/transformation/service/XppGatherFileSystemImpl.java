@@ -1,12 +1,12 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.service;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.FileSystemException;
 import com.thomsonreuters.uscl.ereader.common.filesystem.GatherFileSystemImpl;
@@ -16,12 +16,8 @@ import org.springframework.stereotype.Component;
 
 @Component("xppGatherFileSystem")
 public class XppGatherFileSystemImpl extends GatherFileSystemImpl implements XppGatherFileSystem {
-    private static final FilenameFilter XML_FILES_FILENAME_FILTER = new FilenameFilter() {
-        @Override
-        public boolean accept(final File dir, final String name) {
-            return name.toLowerCase().endsWith(".xml");
-        }
-    };
+    private static final String XPP_DIR_NAME = "XPP";
+    private static final String PUB_METADATA_FILE = "SegOutline.xml";
 
     @Override
     public File getXppBundlesDirectory(final BookStep step) {
@@ -55,7 +51,7 @@ public class XppGatherFileSystemImpl extends GatherFileSystemImpl implements Xpp
     public Collection<File> getXppSourceXmlDirectories(final BookStep step) {
         final Collection<File> xppSourceXmlDirectories = new ArrayList<>();
         for (final File contentDir : getXppBundleContentDirectories(step)) {
-            final File xmlDir = new File(contentDir, "XPP");
+            final File xmlDir = new File(contentDir, XPP_DIR_NAME);
             validateExistence(xmlDir);
             xppSourceXmlDirectories.add(xmlDir);
         }
@@ -67,7 +63,8 @@ public class XppGatherFileSystemImpl extends GatherFileSystemImpl implements Xpp
         final Map<String, Collection<File>> xppSourceXmlDirectories = new HashMap<>();
         for (final File sourceDir : getXppSourceXmlDirectories(step)) {
             final String materialNumber = sourceDir.getParentFile().getParentFile().getName();
-            xppSourceXmlDirectories.put(materialNumber, Arrays.asList(sourceDir.listFiles(XML_FILES_FILENAME_FILTER)));
+            xppSourceXmlDirectories.put(materialNumber, Arrays.asList(sourceDir.listFiles((dir, name) ->
+                name.toLowerCase().endsWith(".xml") && !name.toLowerCase().contains(PUB_METADATA_FILE.toLowerCase()))));
         }
         return xppSourceXmlDirectories;
     }
@@ -89,6 +86,14 @@ public class XppGatherFileSystemImpl extends GatherFileSystemImpl implements Xpp
         }
 
         return result;
+    }
+
+    @Override
+    public File getSegOutlineFile(@NotNull final BookStep step, @NotNull final String materialNumber) {
+        final File segOutlineXmlFile = new File(getXppBundleMaterialNumberDirectory(step, materialNumber), PUB_METADATA_FILE);
+        return Optional.of(segOutlineXmlFile)
+            .filter(File::exists)
+            .orElse(null);
     }
 
     private void validateExistence(final File item) {

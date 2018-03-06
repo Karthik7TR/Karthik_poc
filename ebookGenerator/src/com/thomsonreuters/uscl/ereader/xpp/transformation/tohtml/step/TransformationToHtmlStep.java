@@ -70,7 +70,6 @@ public class TransformationToHtmlStep extends VolumeNumberAwareXppTransformation
         final boolean isPocketPart) {
         final String partName = part.getName();
         transformer.setParameter("fileBaseName", FilenameUtils.removeExtension(partName));
-        transformer.setParameter("pagePrefix", pagePrefix.getPagePrefix());
         transformer.setParameter("divXmlName", new DocumentName(partName).getBaseName());
         transformer.setParameter("documentUidMapDoc", getPath(fileSystem.getAnchorToDocumentIdMapFile(this)));
         transformer.setParameter(
@@ -78,6 +77,7 @@ public class TransformationToHtmlStep extends VolumeNumberAwareXppTransformation
             getPath(fileSystem.getAnchorToDocumentIdMapFile(this, materialNumber)));
         transformer.setParameter("isPocketPart", isPocketPart);
         transformer.setParameter("bundleFileType", BundleFileType.getByFileName(partName).name());
+        transformer.setParameter("volumesMap", fileSystem.getVolumesMapFile(this).getAbsolutePath().replace("\\", "/"));
 
         final File htmlPageFile = fileSystem.getHtmlPageFile(this, pagePrefix.getMaterialNumber(), partName);
         return new TransformationCommandBuilder(transformer, htmlPageFile).withInput(part).build();

@@ -24,6 +24,7 @@ import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -61,6 +62,10 @@ public final class TransformationToHtmlStepTest {
     private File toHtmlFile;
     @Mock
     private File tocUnitsMapFile;
+    @Mock
+    private File volumesMapFile;
+    @Mock
+    private File entitiesDtdFile;
 
     @Mock
     private TransformerBuilder transformerBuilder;
@@ -84,6 +89,9 @@ public final class TransformationToHtmlStepTest {
         given(fileSystem.getFiles(step, SOURCE_DIR))
             .willReturn(Collections.singletonMap(MATERIAL_NUMBER, (Collection<File>) Arrays.asList(originalFile)));
 
+        given(volumesMapFile.getAbsolutePath()).willReturn(StringUtils.EMPTY);
+        given(entitiesDtdFile.getAbsolutePath()).willReturn(StringUtils.EMPTY);
+
         final File toHtmlDirectory = mkdir(root, "toHtmlDirectory", MATERIAL_NUMBER);
         toHtmlFile = new File(toHtmlDirectory, "temp");
         given(fileSystem.getDirectory(step, DESTINATION_DIR, MATERIAL_NUMBER)).willReturn(toHtmlDirectory);
@@ -92,6 +100,7 @@ public final class TransformationToHtmlStepTest {
         given(tocUnitsMapFile.getAbsolutePath()).willReturn("toc\\Units\\Map\\File\\path");
         given(fileSystem.getAnchorToDocumentIdMapFile(step)).willReturn(tocUnitsMapFile);
         given(fileSystem.getAnchorToDocumentIdMapFile(step, MATERIAL_NUMBER)).willReturn(tocUnitsMapFile);
+        given(fileSystem.getVolumesMapFile(step)).willReturn(volumesMapFile);
 
         given(transformerBuilderFactory.create()).willReturn(transformerBuilder);
         given(transformerBuilder.withXsl(any(File.class))).willReturn(transformerBuilder);

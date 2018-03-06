@@ -17,6 +17,7 @@ import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleWebBuildProductType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -58,6 +59,7 @@ public final class ExtractTocStepIntegrationTest {
     private File expectedMainContentAdditionalTocFile;
     private File expectedMainContentXppHierWithoutChildXppMetadataFile;
     private File expectedTocFile;
+    private File volumesMap;
 
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private ChunkContext chunkContext;
@@ -99,8 +101,10 @@ public final class ExtractTocStepIntegrationTest {
             new File(ExtractTocStepIntegrationTest.class.getResource("expectedMainContent_3_TocFile.xml").toURI());
 
         if (multipleVolumes) {
+            volumesMap = new File(ExtractTocStepIntegrationTest.class.getResource("multi/volumesMap.xml").toURI());
             expectedTocFile = new File(ExtractTocStepIntegrationTest.class.getResource("expectedTocMulti.xml").toURI());
         } else {
+            volumesMap = new File(ExtractTocStepIntegrationTest.class.getResource("single/volumesMap.xml").toURI());
             expectedTocFile = new File(ExtractTocStepIntegrationTest.class.getResource("expectedToc.xml").toURI());
         }
     }
@@ -110,6 +114,7 @@ public final class ExtractTocStepIntegrationTest {
         FileUtils.forceMkdir(bundleVolOneOriginalFilesDir);
         FileUtils.copyFileToDirectory(vol1File, bundleVolOneOriginalFilesDir);
         FileUtils.copyFileToDirectory(vol1RutterWitkinFile, bundleVolOneOriginalFilesDir);
+        FileUtils.copyFileToDirectory(volumesMap, fileSystem.getDirectory(step, XppFormatFileSystemDir.VOLUMES_MAP_DIR));
 
         final File bundleVolTwoOriginalFilesDir = fileSystem.getSectionbreaksDirectory(step, VOL_TWO_MATERIAL_NUMBER);
         FileUtils.forceMkdir(bundleVolTwoOriginalFilesDir);
@@ -121,11 +126,13 @@ public final class ExtractTocStepIntegrationTest {
         if (multipleVolumes) {
             final File bundleVolThreeOriginalFilesDir = fileSystem.getSectionbreaksDirectory(step, VOL_THREE_MATERIAL_NUMBER);
             FileUtils.forceMkdir(bundleVolThreeOriginalFilesDir);
-            FileUtils.copyFileToDirectory(vol1RutterWitkinFile, bundleVolThreeOriginalFilesDir);
+            FileUtils.copyFileToDirectory(
+                new File(ExtractTocStepIntegrationTest.class.getResource("mainContent1_3.DIVXML.main").toURI()), bundleVolThreeOriginalFilesDir);
 
             final File bundleVolFourOriginalFilesDir = fileSystem.getSectionbreaksDirectory(step, VOL_FOUR_MATERIAL_NUMBER);
             FileUtils.forceMkdir(bundleVolFourOriginalFilesDir);
-            FileUtils.copyFileToDirectory(vol1RutterWitkinFile, bundleVolFourOriginalFilesDir);
+            FileUtils.copyFileToDirectory(
+                new File(ExtractTocStepIntegrationTest.class.getResource("mainContent1_4.DIVXML.main").toURI()), bundleVolFourOriginalFilesDir);
         }
     }
 
@@ -146,12 +153,12 @@ public final class ExtractTocStepIntegrationTest {
         if (multipleVolumes) {
             final XppBundle volumeThreeBundle = new XppBundle();
             volumeThreeBundle.setMaterialNumber(VOL_THREE_MATERIAL_NUMBER);
-            volumeThreeBundle.setOrderedFileList(Arrays.asList("mainContent1_1.DIVXML.xml"));
+            volumeThreeBundle.setOrderedFileList(Arrays.asList("mainContent1_3.DIVXML.xml"));
             volumeThreeBundle.setProductType("bound");
 
             final XppBundle volumeFourBundle = new XppBundle();
             volumeFourBundle.setMaterialNumber(VOL_FOUR_MATERIAL_NUMBER);
-            volumeFourBundle.setOrderedFileList(Arrays.asList("mainContent1_1.DIVXML.xml"));
+            volumeFourBundle.setOrderedFileList(Arrays.asList("mainContent1_4.DIVXML.xml"));
             volumeFourBundle.setProductType("supp");
             volumeFourBundle.setWebBuildProductType(XppBundleWebBuildProductType.SUPPLEMENTARY_PAMPHLET);
 

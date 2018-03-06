@@ -6,6 +6,8 @@
 	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
 	
 	<xsl:param name="isPocketPart" />
+	<xsl:param name="volumesMap" />
+	<xsl:param name="volumesMapFile" select="document($volumesMap)" />
 
 	<xsl:template match="/">
 		<EBook>
@@ -61,6 +63,9 @@
 				</xsl:variable>
 				<xsl:value-of select="x:process-id($uid, $isPocketPart)" />
 			</DocumentGuid>
+			<Volume>
+				<xsl:value-of select="$volumesMapFile/x:VolumesMap/x:entry[@uuid = $uuid][1]/text()" />
+			</Volume>
 
 			<xsl:if test="following::x:XPPHier[@parent_uuid = $uuid]">
 				<xsl:apply-templates select="following::x:XPPHier[@parent_uuid != @uuid]">

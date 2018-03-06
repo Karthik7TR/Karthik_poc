@@ -9,8 +9,8 @@
     <xsl:template match="Document">
         <EBook>
             <xsl:choose>
-                <xsl:when test="count(distinct-values(x:Volume/@volumeNum))=1">
-                    <xsl:for-each select="x:Volume">
+                <xsl:when test="count(distinct-values(.//x:Volume/@volumeNum))=1">
+                    <xsl:for-each select=".//x:Volume">
                         <xsl:call-template name="processVolumeWithPocketPart" />
                     </xsl:for-each>
                 </xsl:when>

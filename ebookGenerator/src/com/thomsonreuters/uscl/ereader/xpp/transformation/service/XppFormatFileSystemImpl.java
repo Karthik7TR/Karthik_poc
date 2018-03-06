@@ -546,4 +546,10 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     private File newFile(final File baseDir, final XppFormatFileSystemDir dir) {
         return new File(baseDir, dir.getDirName());
     }
+
+    @Override
+    @NotNull
+    public File getVolumesMapFile(@NotNull final BookStep step) {
+        return new File(getDirectory(step, XppFormatFileSystemDir.VOLUMES_MAP_DIR), "volumesMap.xml");
+    }
 }

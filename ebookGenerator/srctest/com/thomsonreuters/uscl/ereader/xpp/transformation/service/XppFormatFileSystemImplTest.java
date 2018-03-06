@@ -50,6 +50,7 @@ public final class XppFormatFileSystemImplTest {
     private static final String ANCHORS_DIR = FORMAT_DIR + XppFormatFileSystemDir.ANCHORS_DIR.getDirName();
     private static final String TOC_DIR = FORMAT_DIR + XppFormatFileSystemDir.TOC_DIR.getDirName();
     private static final String TITLE_METADATA_DIR = FORMAT_DIR + XppFormatFileSystemDir.TITLE_METADATA_DIR.getDirName();
+    private static final String VOLUMES_MAP_FILE = FORMAT_DIR + String.join("/", XppFormatFileSystemDir.VOLUMES_MAP_DIR.getDirName(), "volumesMap.xml");
 
     private static final String FILE_NAME_XML = "fileName.xml";
     private static final String FILE_NAME_MAIN = "fileName.main";
@@ -682,6 +683,16 @@ public final class XppFormatFileSystemImplTest {
     public void shouldReturnBaseFilesIndex() throws IOException {
         shouldReturnBaseFilesIndex(XppFormatFileSystemDir.MULTICOLUMNS_UP_DIR);
     }
+
+    @Test
+    public void shouldReturnVolumesMap() throws IOException {
+        //given
+        //when
+        final File file = fileSystem.getVolumesMapFile(step);
+        //then
+        assertThat(file, hasPath(VOLUMES_MAP_FILE));
+    }
+
 
     private void shouldReturnBaseFilesIndex(final XppFormatFileSystemDir dir) throws IOException {
         //given

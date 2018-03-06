@@ -493,4 +493,12 @@ public interface XppFormatFileSystem extends FormatFileSystem {
      */
     @NotNull
     PartFilesIndex getPartFilesIndex(@NotNull BookStep step, @NotNull XppFormatFileSystemDir dir);
+
+    /**
+     * Returns main volumes map file for whole publication
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link getTitleDirectory/#_VolumesMap}{@code /volumesMap.xml}
+     */
+    @NotNull
+    File getVolumesMapFile(@NotNull BookStep step);
 }
