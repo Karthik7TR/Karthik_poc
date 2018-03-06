@@ -1,4 +1,4 @@
-<root xmlns="http://www.sdl.com/xpp"><sectionbreak sectionuuid="1111111.indexABSENCEBURDEN"/><XPPHier uuid="1111111.index" name="Index" parent_uuid="1111111.index" md.doc_family_uuid="1111111.indexABSENCEBURDEN">Index</XPPHier>
+<root xmlns="http://www.sdl.com/xpp"><sectionbreak sectionuuid="1111111.IndexABSENCEBURDEN"/><XPPHier uuid="1111111.Index" name="Index" parent_uuid="1111111.Index" md.doc_family_uuid="1111111.IndexABSENCEBURDEN">Index</XPPHier>
 	<pagebreak num="1" num-string="Index-1" prev_page=""/>
 	<t style="unknown">Index</t>
 	<t style="c"> </t>
