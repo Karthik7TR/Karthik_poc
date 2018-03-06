@@ -69,11 +69,7 @@ sed -i '/<xsl:include href="Title.xsl"\/>/i \
 echo "Add styles to hide duplicated elements in AnalyticalALRIndex books">> log.txt
 sed -i '/\.co_analyticalALR \.co_divide {/i \
 \.co_docDisplay>#coid_website_documentWidgetDiv>\.co_analyticalALRIndex>\.co_section>\.co_contentBlock>\.co_headtext { \
-\ttext-align: left; } \
-\
-\.co_analyticalALRIndex>\.co_section>\.x_codesBody \.co_codesPara>\.co_codesPara>h2, \
-\.co_analyticalALRIndex>\.co_section>\.x_codesBody \.co_codesPara>\.co_headtext { \
-\tdisplay: none; }' document.css
+\ttext-align: left; }' document.css
 
 echo "Replace absolute line-height with relative">> log.txt
 sed -i 's@line-height: 17px; }@line-height: 1em; }@g' document.css
@@ -88,5 +84,14 @@ sed -i '/<\/xsl:template>/i \
 \t<xsl:apply-templates select="head/head.info/headtext" \/> \
 \t<xsl:apply-templates select="hist.note.body" \/> \
 \<\/div>' WestlawNext/DefaultProductView/ContentBlocks/HistoryNotes.xsl
+
+echo "Comment out h2 in Head.xsl" >> log.txt
+sed -i '/<h2>/i \
+\t<!--' Platform/Universal/Head.xsl
+sed -i '/<\/h2>/a \
+\t-->' Platform/Universal/Head.xsl
+
+echo "Add head condition in Head.xsl" >> log.txt
+sed -i "s/<xsl:template match=\"head | prop.head | form.head | fa.head\" name=\"head\">/<xsl:template match=\"head[not(following-sibling::paratext)] | prop.head | form.head | fa.head\" name=\"head\">/g"
 
 echo "**************Done**********" >> log.txt
