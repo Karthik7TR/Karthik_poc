@@ -32,7 +32,7 @@
                             </metadata.block>
 							<image.block date.updated="0">
 								<image ident="I2451885026a611d99b08a92d7e97623c.tif" url="http://phoenix.int.thomsonreuters.com/images-0001/I2451885026a611d99b08a92d7e97623c.tif" file.system.path="/apps/images-prod-0001/I2451885026a611d99b08a92d7e97623c.tif" status="" original.id="00322853.t01" format="tif" suppress.print="no" suppress.cd="no" suppress.premise="no" suppress.focd="no" suppress.folio="no" suppress.online="no" date.updated="0">
-									<proview_image id="I2451885026a611d99b08a92d7e97623c.tif" type="tif" path="/apps/xpp/shared/data/alljobz/CLS_phx-prod/GRP_bound/JOB_CHAL/DIV_I0f7697f026a511d99b08a92d7e97623c_13450040/I2451885026a611d99b08a92d7e97623c.tif" x="0" y="-0.05i" w="4.35i" h="5.75i" color="#000000" color-cmyk="0 0 0 1" rotation="0" priority="0" scale="0.980000" cropx="0" cropy="0" cropw="4.35i" croph="5.75i"/>
+									<proview_image id="I2451885026a611d99b08a92d7e97623c.1.tif" type="tif" path="/apps/xpp/shared/data/alljobz/CLS_phx-prod/GRP_bound/JOB_CHAL/DIV_I0f7697f026a511d99b08a92d7e97623c_13450040/I2451885026a611d99b08a92d7e97623c.tif" x="0" y="-0.05i" w="4.35i" h="5.75i" color="#000000" color-cmyk="0 0 0 1" rotation="0" priority="0" scale="0.980000" cropx="0" cropy="0" cropw="4.35i" croph="5.75i"/>
 									<t style="image.block cgt"> </t>
 								</image>
 							</image.block>	
