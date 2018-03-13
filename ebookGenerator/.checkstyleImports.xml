@@ -12,6 +12,7 @@
 	<allow pkg="org" />
 	<allow pkg="java" />
 	<allow pkg="javax" />
+	<allow pkg="lombok" />
 	<allow pkg="cobalt" />
 	<allow pkg="javassist" />
 	<allow pkg="freemarker" />

@@ -7,18 +7,29 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.util.Assert;
 
 /**
  * A key/value pair table used for misc application configuration.
  */
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "APP_PARAMETER")
 public class AppParameter {
+    @Id
+    @Column(name = "PARAMETER_KEY")
+    @NonNull
     private String key;
+    @Column(name = "PARAMETER_VALUE")
     private String value;
+    @Column(name = "LAST_UPDATED", nullable = false)
+    @NonNull
     private Date lastUpdated;
 
     public AppParameter() {
@@ -29,40 +40,5 @@ public class AppParameter {
         Assert.notNull(key);
         setKey(key);
         setValue(value.toString());
-    }
-
-    @Id
-    @Column(name = "PARAMETER_KEY")
-    public String getKey() {
-        return key;
-    }
-
-    @Column(name = "PARAMETER_VALUE")
-    public String getValue() {
-        return value;
-    }
-
-    @Column(name = "LAST_UPDATED", nullable = false)
-    public Date getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setKey(final String key) {
-        Assert.notNull(key);
-        this.key = key;
-    }
-
-    public void setValue(final String value) {
-        this.value = value;
-    }
-
-    public void setLastUpdated(final Date lastUpdated) {
-        Assert.notNull(lastUpdated);
-        this.lastUpdated = lastUpdated;
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }
