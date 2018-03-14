@@ -1,0 +1,20 @@
+<!-- Copyright 2011: Thomson Reuters Global Resources. All Rights Reserved. Proprietary and Confidential information of TRGR. Disclosure, Use or Reproduction without the written authorization of TRGR is prohibited -->
+<!ENTITY % documentXSLT SYSTEM "../../Platform/DocumentXslt.dtd">
+<!ENTITY % cssClasses.WLN SYSTEM "CssClasses.WLN.dtd">
+<!ENTITY % elementIds.WLN SYSTEM "ElementIds.WLN.dtd">
+<!ENTITY % staticText.WLN SYSTEM "StaticText.WLN.dtd">
+<!ENTITY % crswUrlsAndPaths.WLN SYSTEM "UrlsAndPaths.WLN.dtd">
+<!ENTITY % crswLocalizationKeys.WLN SYSTEM "LocalizationKeys.WLN.dtd">
+
+%cssClasses.WLN;
+%elementIds.WLN;
+%staticText.WLN;
+%crswUrlsAndPaths.WLN;
+%crswLocalizationKeys.WLN;
+
+<!--The core document XSLT should always be included last.
+Reason: When there is a conflict between the entity declaration in Product vs Core, we want the Product
+entity to override the Core. Unlike XSLT template matches, when DTD entity conflicts occur, the first definition
+is picked up. So in order for the Product definition to be picked up, we want to be 'included' before the Core.
+-->
+%documentXSLT;

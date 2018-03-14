@@ -1,0 +1,285 @@
+{
+  "data": [
+  	{
+      "Description": "<blockquote>• A Best Portion navigation option is now available for plain language searching on most Westlaw content <br><blockquote>• Customers will see a new Best Portion navigation drop-down option on documents in search results <br><blockquote>• The Best Portion will be indicated visually by a green bracket as an aid in quickly determining relevancy of documents <br><blockquote>• Best portion is determined by search term frequency, proximity, and occurrence of search terms, and can appear in up to 4 portions of the document ", 
+	  "ImageUrl": "/images/WhatsNewImages/BestPortionTermNav.png",
+      "FeatureName": "Best Portion/Term Navigation", 
+      "ExpirationDate": "12/09/2016", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "<blockquote>• Access Practical Law using the downward facing arrow to the left of the search box <br><blockquote>• Access your Client Id, Folders, History, Favorites, and Alerts through the header <br><blockquote>• Small law customers can also access the Community site through the header", 
+      "ImageUrl": "/images/WhatsNewImages/WestlawHeader.png", 
+      "FeatureName": "Westlaw Header", 
+      "ExpirationDate": "12/09/2016", 
+      "ReleaseTo": "All Segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "<blockquote>• New!  Statutes can be recommended when researching and interacting with Cases and/or Statues content <br><blockquote>• Automatically identifies legal issue patterns in customer’s document interactions during their research session <br><blockquote>• Leverages West’s editorial tools and common usage patterns to recommend additional relevant documents and Key Numbers <br><blockquote>• Results stored in customer’s History", 
+      "ImageUrl": "/images/WhatsNewImages/ResearchRecommendations.png", 
+      "FeatureName": "Research Recommendations", 
+      "ExpirationDate": "12/09/2016", 
+      "ReleaseTo": "All Segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "<blockquote>• Track companies and practice areas <br><blockquote>• Get up-to-date news on companies and practice areas <br><blockquote>• Westlaw alerts sent directly to your device <br><blockquote>• Search Westlaw content wherever you are <br><blockquote>• Access your Westlaw Folders <br><blockquote>• Customizable push notifications", 
+      "ImageUrl": "/images/WhatsNewImages/WestlawiPhoneapp.png", 
+      "FeatureName": "Westlaw iPhone app", 
+      "ExpirationDate": "12/09/2016", 
+      "ReleaseTo": "All Segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "<blockquote>• Contains specific answers to certain common types of legal questions from authoritative court decisions <br><blockquote>• Documents will appear in typeahead and above search results where appropriate", 
+      "ImageUrl": "/images/WhatsNewImages/WestlawAnswers.png", 
+      "FeatureName": "Westlaw Answers", 
+      "ExpirationDate": "12/09/2016", 
+      "ReleaseTo": "All Segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "<blockquote>• Analyzes the cases in your folder to identify the legal issues present and recommends additional cases on those issues <br><blockquote>• Graph view provides visual representation and allows for navigation of documents by issue", 
+      "ImageUrl": "/images/WhatsNewImages/FolderAnalysis.png", 
+      "FeatureName": "Folder Analysis", 
+      "ExpirationDate": "12/09/2016", 
+      "ReleaseTo": "All Segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "<blockquote>• Create a beautiful report summarizing your research through Research Report <br><blockquote>• Table of Contents links allow you to navigate throughout the report <br><blockquote>• Displays all annotations, including shared notes, associated with a document <br><blockquote>• Notes can edited from the summary screen <br><blockquote>• Copy with reference and jump to links available on the summary screen <br><blockquote>• Email, print, download or Dropbox report ", 
+      "ImageUrl": "/images/WhatsNewImages/ResearchReport.png", 
+      "FeatureName": "Research Report", 
+      "ExpirationDate": "12/09/2016", 
+      "ReleaseTo": "All Segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "<blockquote>• Easy collaboration with colleagues through shared notes <br><blockquote>• Share inline or document level notes  <br><blockquote>• One click to share all notes in a document", 
+      "ImageUrl": "/images/WhatsNewImages/SharedNotes.png", 
+      "FeatureName": "Shared Notes", 
+      "ExpirationDate": "12/09/2016", 
+      "ReleaseTo": "All Segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "<blockquote>• Quickly access summary information on: <br> •Legal professionals (attorneys, judges, and experts) <br> • Companies <br> • Select popular statutes <br><blockquote>• Links within the Snapshots will take you to more detailed information in Profiler, Company Investigator, and the statutes themselves", 
+      "ImageUrl": "/images/WhatsNewImages/Snapshots.png", 
+      "FeatureName": "Snapshots", 
+      "ExpirationDate": "12/09/2016", 
+      "ReleaseTo": "All Segments", 
+      "FeatureUrl": ""
+    },
+  {
+      "Description": "New category pages and scope information <br><blockquote>• Scope information added to global search results (<b>Rolling 2-year date restriction</b>).  Provides more transparency about global content being searched.<br><blockquote>• New category pages link on WLN Home page: <b>Proposed & Adopted Regulations – Current (Rolling 2-year date restriction)</b>.  Matches global search results.<br><blockquote>• Re-name existing Category Pages:  <b>Proposed & Adopted Regulations – All (Full Coverage)</b>. More complete scope information added. Links will be available under Tools & Resources.", 
+      "ImageUrl": "/images/WhatsNewImages/changesProposed.png", 
+      "FeatureName": "Changes to Proposed & Adopted Regulations", 
+      "ExpirationDate": "11/11/2015", 
+      "ReleaseTo": "All Segments", 
+      "FeatureUrl": ""
+    },
+  {
+      "Description": "Currently, customers can only expand or collapse drafting notes individually or all at once. The Show Notes Only feature adds the option to display drafting notes without the text of the document. Customers will now have the option to Show All notes, Hide All notes, or Show Notes Only.", 
+      "ImageUrl": "/images/WhatsNewImages/ShowDraftingNotes.png", 
+      "FeatureName": "Practical Law: Show Notes Only", 
+      "ExpirationDate": "08/11/2015", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    }, 
+  {
+      "Description": "The Doc & Form Builder Light Box contains brief highlights of new features as they are released in Production.", 
+      "ImageUrl": "/images/WhatsNewImages/LightBox.png", 
+      "FeatureName": "Doc & Form Builder: Light Box", 
+      "ExpirationDate": "08/11/2015", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    }, 
+  {
+      "Description": "Westlaw Doc & Form Builder now allows users to view a list of selected forms in one convenient place. The View Selected Forms icon was added to the toolbar on the result list, Form Sets, Custom Forms, and Client Matter/Manager pages. <br>View Selected Form(s) makes it easy to:<br><blockquote>• Manage a large list of forms before Building or Printing the document (e.g. working with a large number of jury instructions).<br><blockquote>•	View forms on a single screen that may spread across multiple pages within a volume.", 
+      "ImageUrl": "/images/WhatsNewImages/ViewSelectedForms.png", 
+      "FeatureName": "Doc & Form Builder: View Selected Forms", 
+      "ExpirationDate": "08/11/2015", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    }, 
+    {
+      "Description": "This feature allows a user to view Statues and Court Rules in context of the entire chapter or subchapter.  A user can also deliver an entire chapter or subchapter from Superbrowse.", 
+      "ImageUrl": "/images/WhatsNewImages/Superbrowse.png", 
+      "FeatureName": "Superbrowse", 
+      "ExpirationDate": "07/07/2015", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    }, 
+    {
+      "Description": "While viewing a Table of Contents, users can add documents in the TOC to a folder without leaving the Table of Contents view.", 
+      "ImageUrl": "/images/WhatsNewImages/TOC.png", 
+      "FeatureName": "Folder from Table of Contents", 
+      "ExpirationDate": "07/07/2015", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": "" 
+    }, 
+    {
+      "Description": "This requested enhancement allows users to deliver both an increased number of full text documents and an increased number of result list items.<br>• Full-text documents – increase from  100 today to 500 maximum.<br>&nbsp;&nbsp;o At 500 documents, no additional content can be appended.<br>&nbsp;&nbsp;o Example -  cannot also print the KeyCite Citing Refs for 500 docs.<br>• Lists of Results – increase from 500 items to 1,000 items.", 
+      "ImageUrl": "/images/WhatsNewImages/Delivery.png", 
+      "FeatureName": "Increased Delivery Limits", 
+      "ExpirationDate": "07/07/2015", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "Users can deliver WestlawNext documents to Dropbox, a popular cloud storage service.<br><blockquote>• Users can easily connect their WestlawNext account to their Dropbox during their WestlawNext session. <br><blockquote>• Users can deliver documents to Dropbox from all usual delivery points, i.e., result list, document view, folders, and history. <br><blockquote>• Delivery to Dropbox allows WestlawNext customers to view their saved WestlawNext documents from Dropbox.", 
+      "ImageUrl": "/images/WhatsNewImages/Dropbox.png", 
+      "FeatureName": "Deliver to Dropbox", 
+      "ExpirationDate": "07/07/2015", 
+      "ReleaseTo": "All segments except Government", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "This Feature will present all new features added to WestLawNew", 
+      "ImageUrl": "/images/WhatsNewImages/whatsNew.png", 
+      "FeatureName": "What's New", 
+      "ExpirationDate": "04/18/2015", 
+      "ReleaseTo": "All internal users", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "This feature gives users a summary view of cases, showing only the Synopsis and Headnotes", 
+      "ImageUrl": "/images/WhatsNewImages/BriefIt.png", 
+      "FeatureName": "Brief It", 
+      "ExpirationDate": "03/01/2016", 
+      "ReleaseTo": "Academic", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "Users will be able to limit the delivery of their statute results to statutory text only", 
+      "ImageUrl": "/images/WhatsNewImages/DeliveryofStatutoryTextonly.png", 
+      "FeatureName": "Delivery of Statutory Text Only", 
+      "ExpirationDate": "03/01/2016", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "Previously, historical statute search results were sorted by relevance with no re-sort options. Now, users are able to sort by Table of Contents, which matches the behavior of current statutes", 
+      "ImageUrl": "/images/WhatsNewImages/HistoricalStatutes.png", 
+      "FeatureName": "Table of Contents Sort for Historical Statutes", 
+      "ExpirationDate": "03/01/2016", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "Users can now access Officer & Director Profile Documents through Company Investigator reports.", 
+      "ImageUrl": "/images/WhatsNewImages/CompanyInvestigationEnhancements.png", 
+      "FeatureName": "Company Information Enhancements", 
+      "ExpirationDate": "03/01/2016", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    }
+	,
+	{
+      "Description": "Users can now set up 5 new Company Investigator Alerts types (Securities Filing  Alerts, SEDAR Filings, UK Listings, and International Prospectuses/144As).", 
+      "ImageUrl": "/images/WhatsNewImages/CompanyInvestigationEnhancements1.png", 
+      "FeatureName": "Company Information Enhancements – Alert Types", 
+      "ExpirationDate": "03/01/2016", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "Provides internal navigation of statutes and regulations.", 
+      "ImageUrl": "/images/WhatsNewImages/GoToForStatutes.png", 
+      "FeatureName": "Go To (Section Outline) for Statutes & Regulations", 
+      "ExpirationDate": "03/01/2016", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "Allows users to re-sort historical regulations as with current regulations", 
+      "ImageUrl": "/images/WhatsNewImages/HistoricalRegulations.png", 
+      "FeatureName": "Table of Contents Sort for Historical Regulations", 
+      "ExpirationDate": "03/01/2016", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "Real property records result list now includes date of each transaction", 
+	  "ImageUrl": "/images/WhatsNewImages/noImage.png", 
+      "FeatureName": "People Map – Transaction Date Added to Result List for Real Property Transactions", 
+      "ExpirationDate": "03/01/2016", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "Companies matched to a displayed public record appear in a mini-search to the right of the document. Also added report templates. Tabs added to Company Investigator pages to replace buttons for selecting Family Tree and Reports.", 
+	  "ImageUrl": "/images/WhatsNewImages/CompanyInvestigatorEnhancements.png",
+      "FeatureName": "Company Investigator Enhancements", 
+      "ExpirationDate": "03/01/2016", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "Adds link to West LegalEdcenter to Tools menu.", 
+	  "ImageUrl": "/images/WhatsNewImages/noImage.png", 
+      "FeatureName": "West LegalEdcenter added to Tools", 
+      "ExpirationDate": "03/01/2016", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "Users can view content in Capitol Watch categories from Westlaw Next.", 
+	  "ImageUrl": "/images/WhatsNewImages/CapitolWatch.png",
+      "FeatureName": "Access to Capitol Watch", 
+      "ExpirationDate": "03/01/2016", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "Users can now view SSNs on Experian Credit Header Record. Experian Real Time Record displays the number of times the SSN has been reported. Attorney disciplinary proceedings and NASD decisions have been removed.", 
+      "ImageUrl": "/images/WhatsNewImages/noImage.png", 
+	  "FeatureName": "People Map Updates", 
+      "ExpirationDate": "03/01/2016", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "Company names hyperlinked in Business Public Records documents. D & B Worldbase section added to Company Investigator Report.", 
+      "ImageUrl": "/images/WhatsNewImages/noImage.png", 
+	  "FeatureName": "Company Investigator Updates", 
+      "ExpirationDate": "03/01/2016", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "Adds templates for transactions, tax assessor, and pre-foreclosures. Search links now available in real property records.", 
+      "ImageUrl": "/images/WhatsNewImages/noImage.png", 
+	  "FeatureName": "Public Records updates", 
+      "ExpirationDate": "03/01/2016", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "Provides basic version of Company Investigator Report, which contains 17 sections instead of 87 sections as are available in Premiere", 
+	  "ImageUrl": "/images/WhatsNewImages/noImage.png", 
+      "FeatureName": "Company Investigator Basic Report", 
+      "ExpirationDate": "03/01/2016", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "Users can set up RSS feeds from Antitrust, Bankruptcy, Capital Markets & Securities, Commercial, Corporate & M&A, Employee Benefits & Executive Compensation, Finance, Intellectual Property & Technology, Labor & Employment, and Litigation Legal Updates pages.", 
+	  "ImageUrl": "/images/WhatsNewImages/noImage.png", 
+      "FeatureName": "Practical Law – RSS feeds from Legal Updates pages", 
+      "ExpirationDate": "03/01/2016", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    },
+	{
+      "Description": "Table of Contents, where available, now features an expand/collapse button so that users can view child subcategories under parent Table of Contents levels.", 
+	  "ImageUrl": "/images/WhatsNewImages/TableofContentsExpandCollapse.png",
+      "FeatureName": "Table of Contents Expand/Collapse on Westlaw", 
+      "ExpirationDate": "03/01/2016", 
+      "ReleaseTo": "All segments", 
+      "FeatureUrl": ""
+    }
+  ]
+}

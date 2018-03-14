@@ -1,0 +1,786 @@
+﻿<!-- Copyright 2017: Thomson Reuters. All Rights Reserved. Proprietary and Confidential information of Thomson Reuters. Disclosure, Use or Reproduction without the written authorization of Thomson Reuters is prohibited. -->
+<!-- This file should contain all of the CSS class names used our XSLT -->
+
+<!-- Global START -->
+<!ENTITY documentClass "co_document">
+<!ENTITY alignHorizontalLeftClass "co_hAlign1">
+<!ENTITY alignHorizontalCenterClass "co_hAlign2">
+<!ENTITY alignHorizontalRightClass "co_hAlign3">
+<!ENTITY alignVerticalBottomClass "co_vAlign1">
+<!ENTITY alignVerticalMiddleClass "co_vAlign2">
+<!ENTITY alignVerticalTopClass "co_vAlign3">
+<!ENTITY borderTopClass "co_borderTop">
+<!ENTITY borderBottomClass "co_borderBottom">
+<!ENTITY borderBottomDoubleClass "co_borderBottomDouble">
+<!ENTITY borderLeftClass "co_borderLeft">
+<!ENTITY borderRightClass "co_borderRight">
+<!ENTITY borderedTableClass "co_borderedTable">
+<!ENTITY clearingClass "co_clearfix">
+<!ENTITY clearClass "co_clear">
+<!ENTITY citingRefSearchTerms "co_citingRefSearchTerms">
+<!ENTITY ellipsisClass "co_ellipsis">
+<!ENTITY previewClass "co_preview">
+<!ENTITY hideStateClass "co_hideState">
+<!ENTITY excludeFromAnnotationsClass "co_excludeAnnotations">
+<!ENTITY disableHighlightFeaturesClass "co_disableHighlightFeatures">
+<!ENTITY leaderTableCellClass "co_leaderTableCell">
+<!ENTITY twoColumnClass "co_2Column">
+<!ENTITY coColumnClass "co_column">
+<!ENTITY co36PercentClass "co_36Percent">
+<!ENTITY co64PercentClass "co_64Percent">
+<!ENTITY td2TablesClass "co_td2Tables">
+<!ENTITY td2MainClass "co_td2Main">
+<!ENTITY td2NarrowClass "co_td2Narrow">
+<!ENTITY tableWordWrapClass "co_tableWordWrap">
+<!ENTITY extraPaddingClass "co_extraPadding">
+<!ENTITY ampexHorizRule "co_ampexHorizRule">
+<!ENTITY verticalAlignTopClass "co_verticalAlignTop">
+<!ENTITY dividerClass "co_divider">
+<!ENTITY verticalDividerClass "co_verticalDivider">
+<!ENTITY solidClass "solid">
+<!ENTITY co60PercentClass "co_60Percent">
+<!ENTITY co40PercentClass "co_40Percent">
+
+<!-- Global END -->
+
+<!-- Content Types START -->
+<!ENTITY contentTypeCodesCourtOrdersClass "co_codesCourtOrders">
+<!ENTITY contentTypeCodesSessionLawsClass "co_codesSessionLaws">
+<!ENTITY contentTypeCaselawOfficialClass "co_caselawOfficial">
+<!ENTITY contentTypeCaselawNRSClass "co_caselawNRS">
+<!ENTITY contentTypeCaselawNRSMarkmanClass "co_caselawNRS">
+<!ENTITY contentTypeCaselawAmericanTribalLawClass "co_caselawAmericanTribalLaw">
+<!ENTITY contentTypeCaselawAMCClass "co_caselawAMC">
+<!ENTITY contentTypeCaselawWPADCClass "co_caselawWPADC">
+<!ENTITY contentTypeCaselawPuertoRicoClass "co_caselawPuertoRico">
+<!ENTITY contentTypeBinClass "co_Bin">
+<!ENTITY contentTypeBlackLawDictionaryClass "co_BlackLawDictionary">
+<!ENTITY contentTypeCaselawPucClass "co_caselawPuc">
+<!ENTITY contentTypeJuryInstructionsClass "co_juryInstructions">
+<!ENTITY contentTypeJuryVerdictClass "co_juryVerdict">
+<!ENTITY contentTypeTrialCourtOrdersClass "co_trialCourtOrders">
+<!ENTITY contentTypeCPAExhibitClass "co_cpaExhibit">
+<!ENTITY contentTypeCodesStatutesClass "co_codesStatutes">
+<!ENTITY contentTypeCodesStateAdminCodesClass "co_codesStateAdminCodes">
+<!ENTITY contentTypeCodesStateAdminCodesNYClass "co_codesStateAdminCodesNY">
+<!ENTITY contentTypeStatutesAtLargeClass "co_StatutesAtLarge">
+<!ENTITY contentTypeCodesIndicesClass "co_codesIndices">
+<!ENTITY contentTypeMedLitDeviceDefinitionsClass "co_medLitDeviceDefinitions">
+<!ENTITY contentTypeMedLitMedlineClass "co_medLitMedline">
+<!ENTITY contentTypeMedLitECRIClass "co_medLitECRI">
+<!ENTITY contentTypeMedLitGaleClass "co_medLitGale">
+<!ENTITY contentTypeMedLitMicromedexClass "co_medLitMicromedex">
+<!ENTITY contentTypeMedLitMicromedexNonPrescripDrugsClass "co_medLitMicromedexNonPrescripDrugs">
+<!ENTITY contentTypeMedLitMicromedexPrescripDrugsClass "co_medLitMicromedexPrescripDrugs">
+<!ENTITY contentTypeMedLitMicromedexDrugDexEvalsClass "co_medLitMicromedexDrugDexEvals">
+<!ENTITY contentTypeMedLitMicromedexDrugPointClass "co_medLitMicromedexDrugPoint">
+<!ENTITY contentTypeMedLitSciSearchClass "co_medLitSciSearch">
+<!ENTITY contentTypeComplianceAdvisorOdenSummaryClass "co_complianceAdvisorOdenSummary">
+<!ENTITY contentTypeComplianceAdvisorOdenFormsClass "co_complianceAdvisorOdenForms">
+<!ENTITY contentTypeAdminDecisionClass "co_adminDecision">
+<!ENTITY contentTypeAdminDecisionSecReviewClass "co_adminDecisionSecReview">
+<!ENTITY contentTypeAnalyticalABAClass "co_analyticalABA">
+<!ENTITY contentTypeAnalyticalALRClass "co_analyticalALR">
+<!ENTITY contentTypeAnalyticalALRIndexClass "co_analyticalALRIndex">
+<!ENTITY contentTypeAnalyticalArticleBasedClass "co_analyticalArticleBased">
+<!ENTITY contentTypeAnalyticalEaganProductClass "co_analyticalEaganProducts">
+<!ENTITY contentTypeAnalyticalPIVHClass "co_analyticalPIVH">
+<!ENTITY contentTypeAnalyticalJursClass "co_analyticalJurs">
+<!ENTITY contentTypeAnalyticalJuryInstructionsClass "co_analyticalJuryInstructions">
+<!ENTITY contentTypeAnalyticalNYNewsSummariesClass "co_analyticalNYNewsSummaries">
+<!ENTITY contentTypeAnalyticalShortTopicClass "co_analyticalShortTopic">
+<!ENTITY contentTypeAnalyticalTreatisesAndAnnoCodesClass "co_analyticalTreatisesAndAnnoCodes">
+<!ENTITY contentTypeAnalyticalTreatisePracticeGuidesClass "co_analyticalTreatisePracticeGuides">
+<!ENTITY contentTypeBriefClass "co_brief">
+<!ENTITY contentTypeGaoClass "co_Gao">
+<!ENTITY contentTypeKeyRulesClass "co_KeyRules">
+<!ENTITY contentTypeMedLitLippincottClass "co_medLitLippincott">
+<!ENTITY contentTypemedLitLippincottJournalClass "co_medLitLippincottJournal">
+<!ENTITY contentTypeTreatisesClass "co_treatisesAll">
+<!ENTITY contentTypeAMAAtlasClass "co_AMAAtlas">
+<!ENTITY contentTypeNewslettersClass "co_newsletters">
+<!ENTITY contentTypeUSCAPOPClass "co_USCAPOP">
+
+<!ENTITY contentTypeCodesFederalRegisterClass "co_federalRegister">
+<!ENTITY contentTypeCaselawAmericanTribalLawClass "co_caselawAmericanTribalLaw">
+<!ENTITY contentTypeBigFormLearnAboutClass "co_bigFormLearnAbout">
+<!ENTITY contentTypeExpertQAndAClass "co_expertQAndA">
+<!ENTITY contentTypeUserDocumentClass "co_UserDocument">
+<!-- Content Types END -->
+
+<!-- Content Blocks START -->
+<!ENTITY simpleContentBlockClass "co_contentBlock">
+<!ENTITY subSectionClass "co_subsection">
+<!ENTITY preformattedTextClass "co_preformattedTextBlock">
+<!ENTITY jurisdictionsBlockClass "co_jurisdictions">
+<!ENTITY dateClass "co_date">
+<!ENTITY tocHeading "co_tocHeading">
+<!ENTITY coPrefix "co_">
+<!ENTITY titlePrefixClass "&titleClass;Prefix">
+<!ENTITY headnoteBlockClass "co_headnoteBlock">
+<!ENTITY referenceBlockClass "co_referenceBlock">
+<!ENTITY keywordsBlockClass "co_keywordsBlock">
+<!ENTITY sourceBlockClass "co_sourceBlock">
+<!ENTITY languageBlockClass "co_languageBlock">
+<!ENTITY ihtaTitleClass "co_ihtaTitle">
+<!ENTITY analysisClass "co_analysis">
+<!ENTITY analysisClassDivision "co_analysisDivision">
+<!ENTITY copyrightClass "co_copyright">
+<!ENTITY dialogueClass "co_dialogue">
+<!ENTITY dialogueItemClass "co_dialogueItem">
+<!ENTITY dialogueItemSpeakerClass "co_dialogueItemSpeaker">
+<!ENTITY dialogueItemTextClass "co_dialogueItemText">
+<!ENTITY deliveryFootnoteParagraph "deliveryFootnoteParagraph">
+<!ENTITY footnoteClass "co_footnote">
+<!ENTITY footnoteBodyClass "co_footnoteBody">
+<!ENTITY footnoteBodySmallClass "co_footnoteBodySmall">
+<!ENTITY footnoteNumberClass "co_footnoteNumber">
+<!ENTITY footnoteNumberLargeClass "co_footnoteNumberLarge">
+<!ENTITY footnoteReferenceClass "co_footnoteReference">
+<!ENTITY footnoteSectionClass "co_footnoteSection">
+<!ENTITY footnoteSectionTitleClass "co_footnoteSectionTitle">
+<!ENTITY formClass "co_form">
+<!ENTITY formCaptionClass "co_formCaption">
+<!ENTITY headnotesClass "co_headnotes">
+<!ENTITY expandedHeadnoteClass "co_expandedHeadnote">
+<!ENTITY headnoteClass "co_headnote">
+<!ENTITY headnoteHeaderClass "co_headnoteHeader">
+<!ENTITY headnoteHeaderSpanClass "co_headnoteHeaderSpan">
+<!ENTITY headnoteParagraphClass "co_headnoteParagraph">
+<!ENTITY headnoteRowClass "co_headnoteRow">
+<!ENTITY headnoteNumberCellClass "co_headnoteNumberCell">
+<!ENTITY headnoteNumberClass "co_headnoteNumber">
+<!ENTITY headnoteCellClass "co_headnoteCell">
+<!ENTITY headnoteCellInnerClass "co_headnoteCellInner">
+<!ENTITY primaryHeadnoteNodesClass "co_primaryHeadnoteNodes">
+<!ENTITY secondaryHeadnoteNodesClass "co_secondaryHeadnoteNodes">
+<!ENTITY headnoteTopicsCellClass "co_headnoteTopicsCell">
+<!ENTITY headnoteTopicsClass "co_headnoteTopics">
+<!ENTITY headnoteKeyIconClass "co_headnoteKeyIcon">
+<!ENTITY headnotesContentContainerClass "co_headnotesContentContainer">
+<!ENTITY fancyKeyciteContainerBottomClass "co_fancyKeyciteContainerBottom">
+<!ENTITY fancyKeyciteContainerClass "co_fancyKeyciteContainer">
+<!ENTITY headnoteRefNumberClass "co_headnoteRefNumber">
+<!ENTITY headnoteTopicKeyClass "co_headnoteTopicKey">
+<!ENTITY headnoteCitedCaseRefClass "co_headnoteCitedCaseRef">
+<!ENTITY hideTopicContentsClass "co_hiddenKeyText">
+<!ENTITY fancyHeadnotesShowHideClass "co_fancyHeadnotesShowHide">
+<!ENTITY topicLineClass "co_topicLine">
+<!ENTITY libraryReferenceClass "co_libraryReference">
+<!ENTITY headnoteNodeClass "co_headnoteNode">
+<!ENTITY headnoteTopicKeyClass "co_headnoteTopicKey">
+<!ENTITY headnotePriorClassificationClass "co_headnotePriorClassification">
+<!ENTITY headnoteCourtYearClass "co_headnoteCourtYear">
+<!ENTITY headnoteLinkClass "co_headnoteLink">
+<!ENTITY titleClass "co_title">
+<!ENTITY suitClass "co_suit">
+<!ENTITY partyLineClass "co_partyLine">
+<!ENTITY textLineClass "x_textLine">
+<!ENTITY titleLineClass "co_titleLine">
+<!ENTITY tribalCourtHeadnoteClass "co_tribalCourtHeadnote">
+<!ENTITY westlawDescripClass "co_westlawDescrip">
+<!ENTITY authorSciSearchClass "co_authorSciSearch">
+<!ENTITY headerClass "co_header">
+<!ENTITY citesClass "co_cites">
+<!ENTITY parallelCitesClass "co_parallelCites">
+<!ENTITY allCitationsClass "co_parallelCites">
+<!ENTITY addressClass "co_address">
+<!ENTITY textClass "co_text">
+<!ENTITY hearingHeadClass "co_hearingHead">
+<!ENTITY treatisesHeaderImageClass "co_treatisesHeaderImage">
+<!ENTITY bnaHeaderImageClass "co_bnaHeaderImage">
+<!ENTITY congMatHeadClass "co_congMatHead">
+<!ENTITY presDocInfoClass "co_presDocInfo">
+<!ENTITY glossaryDefinitionClass "_definitionPara">
+<!ENTITY preFrontMatterClass "co_preFrontMatter">
+<!ENTITY fancyHeadnotesClass "co_fancyHeadnotes">
+<!ENTITY containsSearchTermsClass "co_containsSearchTerms">
+<!ENTITY headnoteHeaderClass "co_headnoteHeader">
+<!ENTITY expandedHeadnotesClass "co_expandedHeadnotes">
+<!ENTITY lastKeyTextClass "co_lastKeyText">
+<!ENTITY keyIconClass "co_keyIcon">
+<!ENTITY notesOfDecisionsClass "co_notesOfDecisions">
+<!ENTITY notesOfDecisionsHeadingClass "co_notesOfDecisionsHeading">
+<!ENTITY notesOfDecisionsExplainationClass "co_notesOfDecisionsExplaination">
+<!ENTITY notesOfDecisionsWrapperClass "co_nodWrapper">
+<!ENTITY notesOfDecisionsHeaderClass "co_nodHeader">
+<!ENTITY notesOfDecisionsTocClass "co_nodToc">
+<!ENTITY notesOfDecisionsTocHeaderClass "co_nodTocHeader">
+<!ENTITY contextAndAnalysisClass "co_contextAndAnalysis">
+<!ENTITY historyNotesClass "co_historyNotes">
+<!ENTITY attorneyBlockLabelClass "co_attorneyBlockLabel">
+<!ENTITY construedTermsBlockLabelClass "co_construedTermsBlockLabel">
+<!ENTITY parallelCitesBlockLabelClass "co_parallelCitesBlockLabel">
+<!ENTITY allCitationsBlockLabelClass "co_parallelCitesBlockLabel">
+<!ENTITY docketDateClass "co_docketDate">
+<!ENTITY docketBlockClass "co_docketBlock">
+<!ENTITY prelimBlockClass "co_prelimBlock">
+<!ENTITY prelimHeadClass "co_prelimHead">
+<!ENTITY currentnessClass "co_currentness">
+<!ENTITY documentHeadClass "co_documentHead">
+<!ENTITY caveatBlock "co_caveatBlock">
+<!ENTITY inlineFootnoteClass "co_inlineFootnote">
+<!ENTITY leaderSignatureClass "co_leaderSignature">
+<!ENTITY puertoRicoImageClass "co_puertoRicoImage">
+<!ENTITY effectiveDateClass "co_effectiveDate">
+<!ENTITY questionAnswerClass "co_questionAnswer">
+<!ENTITY versionUpdateClass "co_versionUpdate">
+<!ENTITY citationClass "co_citation">
+<!ENTITY smgHeaderImageClass "co_smgHeaderImage">
+<!ENTITY pubLogoClass "co_pubLogo">
+<!ENTITY authorBylineClass "co_authorByline">
+<!ENTITY ruleBookRedlineClass "co_ruleBookRedline">
+<!ENTITY researchReferenceBlockClass "co_researchReferenceBlock">
+<!ENTITY publicationLineClass "co_publicationLine">
+
+<!-- Toc.xsl -->
+<!ENTITY accessibleLink "co_accLink">
+<!ENTITY analyzerMetaData "co_analyzerMetaData">
+<!ENTITY accessiblityLabel "co_accessibilityLabel">
+<!ENTITY analyzerMetaData "co_analyzerMetaData">
+<!ENTITY clear "co_clear">
+<!ENTITY expandBox "co_expandBox">
+<!ENTITY expandBoxCollapsed "co_expandBox_collapsed">
+<!ENTITY expandBoxCollapseLink "co_expandBox_collapseLink">
+<!ENTITY expandBoxContentContainer "co_expandBox_contentContainer">
+<!ENTITY expandBoxExpanded "co_expandBox_expanded">
+<!ENTITY expandBoxExpandLink "co_expandBox_expandLink">
+<!ENTITY expandBoxHeader "co_expandBox_header">
+<!ENTITY expandBoxHeaderSpan "co_expandBox_headerSpan">
+<!ENTITY headText "co_headtext">
+<!ENTITY hideState "co_hideState">
+<!ENTITY listItem "co_listItem">
+<!ENTITY title "co_title">
+<!ENTITY tocTree "co_toc_tree">
+<!ENTITY tree "co_tree">
+<!ENTITY treeCollapse "co_tree_collapse">
+<!ENTITY treeElement "co_tree_element">
+<!ENTITY treeExpand "co_tree_expand">
+<!ENTITY treeName "co_tree_name">
+<!ENTITY treeToggle "co_tree_toggle">
+<!-- End Toc.xsl -->
+
+<!-- Content Blocks END -->
+
+<!-- Delivery Headnote Start -->
+<!ENTITY deliveryHeadnoteNodesClass "deliveryHeadnoteNodes">
+<!ENTITY deliveryHeadnotesTableLeftClass "deliveryHeadnotesTableLeft">
+<!ENTITY deliveryHeadnotesTableRightClass "deliveryHeadnotesTableRight">
+<!ENTITY deliveryHeadnotesTableClass "deliveryHeadnotesTable">
+<!-- Delivery Headnote End -->
+
+<!-- Universal START -->
+<!ENTITY starPageClass "co_starPage">
+<!ENTITY starPageMetadataItemClass "co_starPageMetadataItem">
+<!ENTITY headtextClass "co_headtext">
+<!ENTITY documentHeader "Document-header">
+<!ENTITY paraMainClass "co_paragraph">
+<!ENTITY indentTopClass "co_indentTop">
+<!ENTITY indentBottomClass "co_indentBottom">
+<!ENTITY paraIndentClass "co_indentParagraph">
+<!ENTITY paratextMainClass "co_paragraphText">
+<!ENTITY paraIndentLeftClass "co_indentLeft">
+<!ENTITY paraIndentRightClass "co_indentRight">
+<!ENTITY paraIndentFirstLineClass "co_indentFirstLine">
+<!ENTITY paraIndentHangingClass "co_indentHanging">
+<!ENTITY paraFlushClass "co_flush">
+<!ENTITY paraBlockClass "co_block">
+<!ENTITY maintextClass "co_mainText">
+<!ENTITY paraNumberTextMetadataItemClass "co_paraNumberTextMetadataItem">
+<!ENTITY endOfDocumentCopyrightClass "co_endOfDocCopyright">
+<!ENTITY additionalContentClass "co_additionalContent">
+<!ENTITY underlineClass "co_underline">
+<!ENTITY crosshatchClass "co_crosshatch">
+<!ENTITY smallCapsClass "co_smallCaps">
+<!ENTITY uppercaseClass "co_uppercase">
+<!ENTITY searchTermClass "co_searchTerm">
+<!ENTITY locateTermClass "co_locateTerm">
+<!ENTITY searchWithinTermClass "co_searchWithinTerm">
+<!ENTITY searchTermNoHighlightClass "co_searchTermNoHighlight">
+<!ENTITY linkToBeValidatedClass "co_linkNotHot">
+<!ENTITY linkInvalidClass "co_invalidLink">
+<!ENTITY linkClass "co_link">
+<!ENTITY linkDraggableClass "co_drag ui-draggable">
+<!ENTITY messageBlockClass "co_message">
+<!ENTITY horizontalRuleClass "co_divide">
+<!ENTITY tocMainClass "co_toc">
+<!ENTITY tocCellWithoutLeadersClass "co_tocHeading">
+<!ENTITY imageBlockClass "co_imageBlock">
+<!ENTITY imageClass "co_image">
+<!ENTITY imageNonDisplayableClass "co_nonDisplayableImage">
+<!ENTITY imageNoWatermarkLinkClass "co_noWatermarkLink">
+<!ENTITY imageCaptionClass "co_imageCaption">
+<!ENTITY pdfIconClass "co_pdfIcon">
+<!ENTITY wordIconClass "co_rtfIcon">
+<!ENTITY blobIconClass "co_pdfIcon">
+<!ENTITY xlsIconClass "co_xlsIcon">
+<!ENTITY imageLinkClass "co_imageLink">
+<!ENTITY imageShrunkClass "co_shrunkImage">
+<!ENTITY blobLinkClass "co_blobLink">
+<!ENTITY baselineTextRuleClass "co_baselineTextRule">
+<!ENTITY leaderDotsClass "co_leaderDots">
+<!ENTITY leaderHiddenClass "co_leaderHidden">
+<!ENTITY leaderUnderlineClass "co_leaderUnderline">
+<!ENTITY leaderDashesClass "co_leaderDashes">
+<!ENTITY leaderWrapperClass "co_leaderWrapper">
+<!ENTITY leaderCommaClass "co_leaderComma">
+<!ENTITY leaderTableFullWidthClass "co_leaderTableFullWidth">
+<!ENTITY leaderFullWidthClass "co_leaderFullWidth">
+<!ENTITY listClass "co_list">
+<!ENTITY listHeadClass "co_listHead">
+<!ENTITY tocNavigationDisabledClass "co_tocNavigationDisabled">
+<!ENTITY referenceKeyClass "co_referenceKey">
+<!ENTITY digestKeyClass "co_digestKey">
+<!ENTITY labelClass "co_label">
+<!ENTITY internalLinkClass "co_internalLink">
+<!ENTITY previousSectionClass "co_previousSection">
+<!ENTITY nextSectionClass "co_nextSection">
+<!ENTITY notesOfDecisionsLink "co_notesOfDecisionsLink">
+<!ENTITY hiddenVisibilityClass "co_visibilityHidden">
+<!ENTITY centerClass "co_center">
+<!ENTITY prelimClass "co_prelim">
+<!ENTITY bullListClass "co_bullList">
+<!ENTITY popupHeadnoteClass "co_popupHeadnote">
+<!ENTITY topicKeyContentTableClass "co_topicKeyContentTable">
+<!ENTITY headnoteKeyPairClass "co_headnoteKeyPair">
+<!ENTITY seeCitingRefsClass "co_seeCitingRefs">
+<!ENTITY selectedTextInvalid "co_selectedTextInvalid">
+<!ENTITY floatRight "co_floatRight">
+<!ENTITY boldClass "co_bold">
+<!ENTITY locateSnippetClass "co_locateSnippet">
+<!ENTITY textLeftClass "co_textLeft">
+<!ENTITY panelBlockClass "co_panelBlock">
+<!ENTITY fireflySungClass "co_fireflySung">
+<!ENTITY decimalListClass "co_decimalList">
+<!ENTITY lowerAlphaListClass "co_lowerAlphaList">
+<!ENTITY upperAlphaListClass "co_upperAlphaList">
+<!ENTITY lowerRomanListClass "co_lowerRomanList">
+<!ENTITY upperRomanListClass "co_upperRomanList">
+<!ENTITY unlabeledListClass "co_unlabeledList">
+<!ENTITY bulletListClass "co_listBullet">
+<!ENTITY letterheadClass "co_letterhead">
+<!ENTITY emphasisClass "co_emphasis">
+<!ENTITY indentLeft2Class  "co_indentLeft2" >
+<!ENTITY paraIndent2Class  "co_indentParagraph2" >
+<!ENTITY paraIndent3Class  "co_indentParagraph3" >
+<!ENTITY paraIndent4Class  "co_indentParagraph4" >
+<!ENTITY paraIndent5Class  "co_indentParagraph5" >
+<!ENTITY bulletClass "co_bullet" >
+<!ENTITY coFloatRight "co_floatRight">
+<!ENTITY coFloatLeft "co_floatLeft">
+<!ENTITY coHeadingClass "co_h">
+<!ENTITY infoBoxClass "co_infoBox">
+<!ENTITY infoBoxMessageClass "co_infoBox_message">
+<!ENTITY betaIcon "beta">
+<!-- Universal END -->
+
+<!-- Dropdown START -->
+<!ENTITY dropdownTabClass "co_dropdownTab">
+<!ENTITY dropdownArrowCollapsedClass "co_dropdownArrowCollapsed">
+<!ENTITY dropdownBoxAnchorLabelClass "co_dropdownBoxanchorLabel">
+<!-- Dropdown END -->
+
+<!-- Xena dtags START -->
+<!ENTITY xenaD2 "co_xena_d2">
+<!ENTITY xenaD3 "co_xena_d3">
+<!ENTITY xenaD4 "co_xena_d4">
+<!ENTITY xenaD5 "co_xena_d5">
+<!ENTITY xenaD7 "co_xena_d7">
+<!ENTITY xenaD8 "co_xena_d8">
+<!ENTITY xenaD9 "co_xena_d9">
+<!-- Xena dtags END -->
+
+<!-- Generic Box START -->
+<!ENTITY genericBoxClass "co_genericBox">
+<!ENTITY genericBoxHeaderClass "co_genericBoxHeader">
+<!ENTITY genericBoxContentClass "co_genericBoxContent">
+<!ENTITY genericBoxContentRightClass "co_genericBoxContentRight">
+<!ENTITY widgetCollapseIconClass "co_widget_collapseIcon">
+<!ENTITY genericBoxFooterClass "co_genericBoxFooter">
+<!ENTITY nrsOutlineTitleClass "co_nrsOutlineTitle">
+<!-- Generic Box END -->
+
+<!-- Bin Start -->
+<!ENTITY binJournalClass "co_journal">
+<!ENTITY pubDateClass "co_pubDate">
+<!ENTITY volumeIssueClass "co_volumeIssue">
+<!ENTITY sectionClass "co_section">
+<!ENTITY binAuthorClass "co_binAuthor">
+<!ENTITY supplierCopyrightClass "co_supplierCopyright">
+<!ENTITY wordCountClass "co_wordcount">
+<!ENTITY indexClass "co_index">
+<!ENTITY indexHeaderClass "co_indexHeader">
+<!ENTITY newsroomClass "co_newsroom">
+<!ENTITY publisherCopyrightClass "co_publisherCopyright">
+<!ENTITY netscanClass "co_netscan">
+<!ENTITY ellisClass "co_ellis">
+<!ENTITY keyRulesLabelName "co_keyRulesLabelName">
+<!ENTITY deliveryDottedLineClass "co_docDelivery_dottedLine">
+<!ENTITY printHeadingClass "co_printHeading">
+<!ENTITY sectionHeaderClass "co_section_header">
+<!-- Bin End -->
+
+<!-- Dockets class START -->
+<!ENTITY docketsClass "co_dockets">
+<!ENTITY predocketsClass "co_predockets">
+<!ENTITY docketsToOrderClass "co_docketsToOrder">
+<!ENTITY docketsCurrentBlockClass "co_docketsCurrentBlock">
+<!ENTITY docketsToUpdateClass "co_docketsToUpdate">
+<!ENTITY docketsToCreditorClass "co_docketsToCreditor">
+<!ENTITY docketsScrapeDateClass "co_docketsScrapeDate">
+<!ENTITY docketsRowClass "co_docketsRow">
+<!ENTITY docketsRowLabelClass "co_docketsRowLabel">
+<!ENTITY docketsRowTextClass "co_docketsRowText">
+<!ENTITY docketsTable "co_docketsTable">
+<!ENTITY docketsHeading "co_docketsHeading">
+<!ENTITY docketsSection "co_docketsSection">
+<!ENTITY docketsSubSection "co_docketsSubSection">
+<!ENTITY docketsNotExpandable "co_docketsNotExpandable">
+<!ENTITY docketNoExpandableSubsections "co_docketNoExpandableSubsections">
+<!ENTITY docketSubHeading "co_docketSubHeading">
+<!ENTITY widgetToggleIcon "co_widget_toggleIcon">
+<!ENTITY widgetToggleText "co_widget_toggleText">
+<!ENTITY docketsToggleSection "co_docketsToggleSection">
+<!ENTITY docketsToggleSubSection "co_docketsToggleSubSection">
+<!ENTITY docketProceedingsButtonClass "co_tbButton">
+<!ENTITY docketProceedingsPDFButtonClass "co_pdfButton">
+<!ENTITY docketSendRunnerLinkClass "co_sendRunnerToCourt">
+<!ENTITY docketEventLinkClass "co_docketEventLink">
+<!ENTITY sectionInitiallyExpandedClass "co_sectionInitiallyExpanded">
+<!ENTITY docketsRowContentWrapperClass "co_docketsRow_contentWrapper">
+<!ENTITY docketsDocumentLinkPreviouslyViewed "co_docketStatus active">
+<!ENTITY docketsRelativeClass "co_relative">
+<!ENTITY docketsReportSection "co_documentReportSection">
+<!ENTITY docketsReportHeading "co_documentReportHeading">
+<!ENTITY docketsReportBody "co_documentReportBody">
+<!ENTITY docketsIphoneIcon "iphone_icon">
+<!ENTITY docketsIconUpArrow "icon_up_arrow">
+<!ENTITY docketsIconDownArrow "icon_down_arrow">
+<!ENTITY docketsHasPadding "hasPadding">
+<!ENTITY docketsMetadata "co_docketsMetadata">
+<!ENTITY docketsSectionCollapsed "co_sectionCollapsed">
+<!ENTITY docketsCourtClass "co_docketsCourt">
+<!ENTITY docketsJudgmentDescriptionTableClass "co_docketJudgmentDescriptionTable">
+<!-- Dockets class END -->
+
+<!-- ALM Start -->
+<!ENTITY almPublishingClass "co_almPublishing">
+<!-- ALM End-->
+
+<!-- NY Scope Notes Start -->
+<!ENTITY nyScopeCopyrightClass "co_nyScopeCopyright">
+<!-- NY Scope Notes End-->
+
+<!-- Compumark Start -->
+<!ENTITY compumarkClass "co_compumark">
+<!-- Compumark End-->
+
+<!-- Miller's Standard Insurance Policies Start -->
+<!ENTITY policyNumberColumnClass "co_policyNumberColumn">
+<!ENTITY policyDefinitionColumnClass "co_policyDefinitionColumn">
+<!-- Miller's Standard Insurance Policies -->
+
+<!ENTITY easyEditLinkClass "co_easyEditLink">
+
+<!ENTITY formAssembleClass "co_automatedLink">
+<!ENTITY formAssembleLinkClass "co_linkOut">
+
+<!-- Delivery Styling Options -->
+<!ENTITY blackLinksClass "co_blackLinks">
+<!ENTITY linkUnderlineClass "co_linkUnderline">
+<!ENTITY largeFontClass "co_largeFont">
+<!ENTITY easyEditClass "co_easyEdit">
+<!ENTITY preformattedDocument "co_preformattedDocument">
+
+<!-- Medlit ECRI Start -->
+<!ENTITY ecriHeaderImageClass "co_ecriHeaderImage">
+<!-- Medlit ECRI End -->
+
+<!-- Result options-->
+<!ENTITY resultCheckboxList "co_resultCheckboxList" >
+<!ENTITY resultContent "co_resultContent" >
+<!ENTITY resultContentItemList "co_resultContent_itemList" >
+<!ENTITY documentIndicators "co_document_indicators" >
+<!ENTITY resultContentSummary "co_resultContent_summary" >
+<!ENTITY outOfPlanLabel "co_outOfPlanLabel">
+<!ENTITY accessibilityLabel "co_accessibilityLabel">
+
+<!-- Profiler -->
+<!ENTITY profilerTitle "co_profilerTitle">
+<!ENTITY profilerContactColumn "co_profilerContactColumn">
+<!ENTITY profilerTable "co_profilerTable">
+<!ENTITY profilerImage "co_profilerImage">
+<!ENTITY profilerColumnOne "co_profilerColumnOne">
+<!ENTITY profilerColumn_wrapper "co_profilerColumn_wrapper">
+<!ENTITY profilerColumnTwo "co_profilerColumnTwo">
+<!-- End Expert Witness Profiles -->
+
+<!-- Precedent Authority -->
+<!ENTITY clause "co_clause">
+<!ENTITY clauseContainer "co_clauseContainer">
+<!ENTITY clauseTopLink "co_clauseTopLink">
+<!ENTITY riskScore "co_riskScore">
+<!ENTITY riskScoreContainer "co_riskScoreContainer">
+<!ENTITY riskScoreValue "co_riskScore_value">
+<!-- End Precedent Authority -->
+
+<!-- Citation Flag Data -->
+<!ENTITY citationFlagImage "co_citationFlagImage">
+<!ENTITY citationFlagLink "co_citationFlagLink">
+<!ENTITY citationFlagDataLoading "co_flagsLoading">
+<!ENTITY citationFlagDataIncomplete "co_flagsIncomplete">
+<!ENTITY citationFlagDataStatusLoadingClass "co_citationFlagsLoading">
+<!ENTITY citationFlagDataStatusSuccessClass "co_citationFlagsSuccess">
+<!ENTITY citationFlagDataStatusFailedClass "co_citationFlagsFailed">
+<!-- End Citation Flag Data -->
+
+<!-- Summary of Citation Data -->
+<!ENTITY summaryOfCitationSectionClass "co_summaryOfCitationSection">
+<!ENTITY summaryOfCitationTitleClass "co_summaryOfCitationTitle">
+<!ENTITY summaryOfCitationListClass "co_summaryOfCitationList">
+<!ENTITY summaryOfCitationListItemClass "co_summaryOfCitationListItem">
+<!-- End Summary of Citation Data -->
+
+<!-- Markman -->
+<!ENTITY markmanLinkClass "markmanLink">
+<!-- End Markman -->
+
+<!-- Trademark Scans -->
+<!ENTITY trademarkScanImageClass "co_trademarkScanImage">
+<!ENTITY trademarkImageScannedClass "co_trademarkImageScanned">
+<!-- End of Trademark Scans -->
+
+<!-- DWPI Images -->
+<!ENTITY dwpiImageClass "co_dwpiImage">
+<!-- End of DWPI Images -->
+
+ <!-- Med Lit Hi Res Image -->
+<!ENTITY medLitHiResImageClass "co_medLitHiResImage">
+<!ENTITY regChangeDocumentClass "co_regChangeDocument">
+<!ENTITY linkToCleanCopyClass "co_linkToCleanCopy">
+
+<!-- Commentary Content -->
+<!ENTITY commentaryDocumentClass "co_commentary">
+<!ENTITY commentaryDocumentEnhancementClass "co_commentaryEnhancement">
+<!ENTITY enhancementClassSuffix "Enhancement">
+<!ENTITY commentaryInlineImage "co_commentaryInlineImage">
+<!ENTITY fullscreenTableClass "co_fullscreenTable">
+<!ENTITY tableFullscreenButtonClass "co_fullscreenButton">
+<!ENTITY indexNavigationClass "co_alphaSelector_filter">
+<!ENTITY indexInlineListClass "co_inlineList">
+<!ENTITY customBulletListClass "co_customBulletList">
+<!-- End Commentary Content -->
+
+<!-- Cobalt Modernization -->
+<!ENTITY pauseSessionOnClickClass "xslPauseSessionOnClick">
+<!ENTITY navToCategoryPageOnClickClass "xslNavToCatPageOnClick">
+<!ENTITY preventImageActionOnClickClass "xslPreventImageActionOnClick">
+<!ENTITY linkoutShowLightboxOnClickClass "xslLinkoutShowLightboxOnClick">
+<!ENTITY alertsWidgetDrawOnClickClass "xslAlertsWidgetDrawOnClick">
+<!ENTITY showMultiPartPdfClickClass "xslShowMultiPartPdfOnClick">
+<!-- End Cobalt Modernization -->
+
+<!--KnowHow TOC START-->
+<!ENTITY coMenuToggle "menu-toggle">
+<!ENTITY menuToggle "menu-toggle">
+<!ENTITY coMenuToggleIcon "icon">
+<!ENTITY coMenuToggleIconMenu "icon-menu">
+<!ENTITY coKhToc "kh_toc">
+<!ENTITY coKhTocInner "kh_toc-inner">
+<!ENTITY coKhTocHeader "kh_toc-header">
+<!ENTITY coKhTocOlList "kh_toc-list">
+<!ENTITY coKhTocGroup "kh_tocGroup">
+<!ENTITY coKhTocItem "kh_tocItem">
+<!ENTITY coKhTocContent "kh_toc-content">
+<!ENTITY coKhTocSubHeader "kh_toc-subheader">
+<!ENTITY coAccessibilityLabel "co_accessibilityLabel">
+<!ENTITY coTocIconCross "kh_icon icon-cross">
+<!ENTITY coTocnumber "co_number">
+<!ENTITY coKhOverlayClass "kh_overlay">
+<!ENTITY khQuickDraftTocClass "kh_quickDraftToc">
+<!ENTITY khQuickDraftTocIdentifierClass "kh_quickDraftTocIdentifier">
+<!ENTITY khQuickDraftTocPageRefClass "kh_quickDraftTocPageRef">
+<!--KnowHow TOC END-->
+
+<!-- KNOW HOW internal.toc START -->
+<!ENTITY coColumn "co_column">
+<!ENTITY co24Percent "co_24Percent">
+<!ENTITY co76Percent "co_76Percent">
+<!ENTITY internalTocRowSpacing "co_internalTocRowSpacing">
+<!ENTITY inlineTOC "co_inlineTOC">
+<!-- KNOW HOW internal.toc END -->
+
+<!-- KnowHow Document Content START-->
+<!ENTITY coProductName "co_productname">
+<!ENTITY coProductnameInfo "co_productname_info">
+<!ENTITY coIconEnvelop "icon-envelope">
+<!ENTITY coDocContentExtras "co_doc_content_extras">
+<!ENTITY coInLineList "co_inline-list">
+<!ENTITY coEndDocHeader "endDocHeader">
+<!ENTITY metadataClass "metadata">
+<!ENTITY quarterClass "quarter">
+<!ENTITY columnClass "column">
+<!ENTITY metadataLinksClass "metadata_links">
+<!ENTITY threeQuartersClass "threequarters">
+<!ENTITY coDocRevHisoryDetail "co_docRevHisoryDetail">
+<!ENTITY coDocRevHisoryDetailMore "co_docRevHisoryDetailMore">
+<!ENTITY coDocRevHisoryDetailLess "co_docRevHisoryDetailLess">
+<!ENTITY coDocRevHisoryDetailDeliveryOnlyPagesWithTems "co_docRevHisoryDetailDeliveryOnlyPagesWithTems">
+<!ENTITY iconNotepadClass "icon-notepad">
+<!ENTITY isActiveClass "is-active">
+<!ENTITY notesClass "notes">
+<!ENTITY coNotesIconClass "co_notesIcon">
+<!ENTITY coBlueTxtClass "co_blueTxt">
+<!ENTITY notescontentClass "notes-content">
+<!ENTITY coNotescontentClass "co_notesContent">
+<!ENTITY closeBtnClass "close-btn">
+<!ENTITY iconCrossClass "icon-cross">
+<!ENTITY coverSheetClass "coverSheet">
+<!ENTITY coverSheetHeadTextClass "coverSheetHeadText">
+<!ENTITY coverSheetStaticBetweenClass "coverSheetStaticBetween">
+<!ENTITY coverSheetPartyNameClass "coverSheetPartyName">
+<!ENTITY coverSheetStaticAndClass "coverSheetStaticAnd">
+<!ENTITY coverSheetPartyNameClass "coverSheetPartyName">
+<!ENTITY coverSheetStaticDatedAsOfClass "coverSheetStaticDatedAsOf">
+<!ENTITY coverSheetStaticDateClass "coverSheetStaticDate">
+<!ENTITY addAnnotationIconClass "icon">
+<!ENTITY addAnnotationIconAddNoteClass "icon-add-note">
+<!ENTITY addBookmarkIconClass "icon">
+<!ENTITY addBookmarkIconAddBookmarkClass "icon-bookmark">
+<!ENTITY coDocumentId "co_documentId">
+<!ENTITY topics "co_topics">
+<!ENTITY iconClockHistory "kh_icon icon-clock-history">
+<!ENTITY coDocHistory "co_docHistory">
+<!ENTITY maintainedStatus "co_greenStatus">
+<!ENTITY jurisdictionDisplayWrapper "co_jurisdictionDisplayWrapper">
+<!ENTITY jurisdictionListWrapper "co_jurisdictionListWrapper">
+<!ENTITY additionalJurisdictions "co_additionalJurisdictions">
+<!ENTITY additionalJurisdictionsIconCircularPlus "icon-circular-plus">
+<!ENTITY additionalJurisdictionsEllipsisContainer "additionalJurisdictionsEllipsisContainer">
+<!ENTITY additionalJurisdictionsCommaContainer "additionalJurisdictionsCommaContainer">
+<!ENTITY documentHeaderBorderClass "border">
+<!ENTITY glossaryTerm "co_glossaryTerm">
+<!ENTITY khContent "knowhow_content">
+<!ENTITY documentFixedHeaderView "co_documentFixedHeaderView">
+<!ENTITY khList "kh_list">
+<!ENTITY khAbstract "kh_abstract">
+<!ENTITY khBox "kh_box">
+<!ENTITY khDefinition "kh_definition">
+<!ENTITY khDescription "kh_description">
+<!ENTITY khDivision "kh_division">
+<!ENTITY khIdentifier "kh_identifier">
+<!ENTITY khOperative "kh_operative">
+<!ENTITY khSignature "kh_signature">
+<!ENTITY khSummary "kh_summary">
+<!ENTITY khQuestionSet "kh_questionSet">
+<!ENTITY khQuestion "kh_question">
+<!ENTITY khAnswer "kh_answer">
+<!ENTITY khSalutation "kh_salutation">
+<!ENTITY khPreformat "kh_preformat">
+<!ENTITY signatureLine "co_signatureLine">
+<!ENTITY khRelatedDocument "kh_RelatedDocument">
+<!ENTITY khJurSelectionBlock "kh_jurSelectionBlock">
+<!ENTITY khJurSelector "kh_jurSelector">
+<!ENTITY speedReadToggle "co_speedReadToggle">
+<!ENTITY iconSpeedRead "icon-speed-read">
+<!ENTITY speedReadContent "co_speedReadContent">
+<!ENTITY khEndOfDocumentWidgets "related-content-widget">
+<!ENTITY khIcon "kh_icon">
+<!ENTITY khIconUpPointer "icon-up-pointer">
+<!ENTITY draftingNotesDelivery "draftingNotesDelivery">
+<!ENTITY coDocumentType "co_documentType">
+<!ENTITY coPracticeAreaNames "co_practiceAreaName">
+<!ENTITY coDocContentDocumentItems "co_docContentDocumentItems">
+<!ENTITY khDocContentTable "kh_docContentTable">
+<!ENTITY khDocBodyMain "kh_docBodyMain">
+<!ENTITY documentPostLoadAppTextClass "co_docPostLoadAppText">
+<!ENTITY coFontSize12 "co_fontSize12">
+<!ENTITY coFontSize14 "co_fontSize14">
+<!ENTITY coFontSize16 "co_fontSize16">
+<!ENTITY coFontSize24 "co_fontSize24">
+<!ENTITY coFontSize72 "co_fontSize72">
+<!ENTITY coDoubleLineHeight "co_doubleLineHeight">
+<!ENTITY coShowNotesOnly "co_shownotesonly">
+<!ENTITY relatedContentLink "co_relatedContentLink">
+<!ENTITY thSimpleIcon "th_simple_icon">
+<!ENTITY iconCircleDownArrow "icon_circle_down_arrow">
+<!ENTITY coDocumentActions "co_documentActions">
+<!ENTITY inlineParagraph "co_inline">
+<!ENTITY relatedContentBlock "co_relatedContentBlock">
+<!ENTITY endOfDocumentTextTable "co_eodTextTable">
+<!ENTITY draftingNotesDeliveryLineBreak "co_draftingNotesDeliveryLineBreak">
+<!ENTITY draftingClause "co_draftingClause">
+<!-- KnowHow Document Content END-->
+
+<!--What's market content START-->
+<!ENTITY whatmktContent "th_whatsMarket_content">
+<!--What's market content END-->
+
+<!-- AU Universal START -->
+<!ENTITY subClause "kh_subclause">
+<!-- AU Universal END -->
+
+<!-- UK Cases START -->
+<!ENTITY indentLeft1Class "co_indentLeft1">
+<!ENTITY indentLeft2Class "co_indentLeft2">
+<!ENTITY indentLeft3Class "co_indentLeft3">
+<!ENTITY indentLeft4Class "co_indentLeft4">
+<!-- UK Cases END -->
+
+<!-- Arbitration START -->
+<!ENTITY formTextSelect "co_formTextSelect">
+<!-- Arbitration END-->
+
+<!-- Redline -->
+<!ENTITY redlineAddClass "co_redlineAdd">
+<!ENTITY redlineDeleteClass "co_redlineDelete">
+<!ENTITY redlineDifferenceClass "co_redlineDifference">
+<!ENTITY redlineUnchangedClass "co_redlineUnchanged">
+<!ENTITY redlineModifyClass "co_redlineModify">
+<!ENTITY redlineDocumentClass "co_redlineView">
+<!-- End Redline -->
+
+<!-- UK Statute Locator START -->
+<!ENTITY ukStatLocClass "co_ukStatLoc">
+
+<!ENTITY ukStatLoc_amendmentsTable "co_ukStatLoc_amendmentsTable">
+<!ENTITY ukStatLoc_prospectiveLawTable "co_ukStatLoc_prospectiveLawTable">
+<!ENTITY ukStatLoc_version "co_ukStatLoc_version">
+<!ENTITY ukStatLoc_provision "co_ukStatLoc_provision">
+<!ENTITY ukStatLoc_amendmentNotes "co_ukStatLoc_amendmentNotes">
+<!ENTITY ukStatLoc_effectiveDate "co_ukStatLoc_effectiveDate">
+<!ENTITY ukStatLocLeftColClass "co_ukStatLoc_leftCol">
+<!ENTITY ukStatLocRightColClass "co_ukStatLoc_rightCol">
+<!-- UK Statute Locator END -->
+
+<!-- UKSecondarySources -->
+<!ENTITY docUnorderedList "co_docContentBodyUnorderedList">
+<!ENTITY docListBullet "co_docContentBodyListBullet">
+
+<!-- Matter Templates (Matter Maps) -->
+<!ENTITY taskBoard "co-TaskBoard">
+<!ENTITY taskBoardColumn "co-TaskBoard-column">
+<!ENTITY taskBoardHeader "co-TaskBoard-header">
+<!ENTITY taskBoardShortTitle "co-TaskBoard-shortTitle">
+<!ENTITY taskBoardTitle "co-TaskBoard-title">
+<!ENTITY taskBoardList "co-TaskBoard-list">
+<!ENTITY taskBoardListItem "co-TaskBoard-listItem">
+<!ENTITY taskBoardListItemFirstTask "co-TaskBoard-listItem--firstTask">
+<!ENTITY taskBoardListItemTitle "co-TaskBoard-listItemTitle">
+<!ENTITY taskBoardListItemResource "co-TaskBoard-listItemResource">
+<!ENTITY staticTemplates "co-staticTemplates">
+<!ENTITY taskBoardTaskTitle "co-TaskBoard-taskTitle">
+<!ENTITY noTocClass "noTOC">
+<!ENTITY taskBoardResources "co-TaskBoard-resources">
+<!ENTITY taskBoardResourcesGroup "co-TaskBoard-resourcesGroup">
+<!ENTITY staticTemplatesAbstract "co-staticTemplates-abstract">
+<!ENTITY staticTemplatesAbstractList "co-staticTemplates-abstractList">
+<!ENTITY matterMapsClass "co_matterMaps">
+<!ENTITY staticTemplatesText "co-staticTemplates-text">
+<!ENTITY staticTemplatesTileViewDelivery "co-staticTemplates-tileDelivery">
+<!ENTITY PracticalLawFeedbackLink "PracticalLawFeedbackLink">
+
+<!ENTITY crossBorderAllContent "kh_crossBorderItgViewAllBlock">
+<!ENTITY crossBorderContributorClass "kh_crossBorderItgContributorsBlock">
+<!ENTITY crossBorderStickySelector "kh_crossBorderStickySelector">
+<!ENTITY crossBorderStickyHeador "kh_crossBorderStickyHeader">

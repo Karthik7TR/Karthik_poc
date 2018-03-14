@@ -1,0 +1,36 @@
+﻿<!-- Copyright 2017: Thomson Reuters Global Resources. All Rights Reserved. Proprietary and Confidential information of TRGR. Disclosure, Use or Reproduction without the written authorization of TRGR is prohibited -->
+
+<!--*** DEPRECATED for shared PL entities *** 
+PL entities that are SHARED between PLC UK, AU, and CA have moved to PLCCore ProductView and should NOT be added here.
+Entities that remain in PLCCommon support UK/AU specific xsl (e.g. UKCases.xsl) or for PL that PLC CA does not require (e.g. Ask).
+The entities will remain until some project takes on the tech debt to move them.
+-->
+
+<!-- This file should contain all Url paths and related info used by our XSLT -->
+
+<!ENTITY ukIconLawInForce "/productViews/PLCCommon/images/Statuses/status1.gif">
+<!ENTITY ukIconProspectiveLaw "/productViews/PLCCommon/images/Statuses/status1.gif">
+<!ENTITY ukIconAmendmentPending "/productViews/PLCCommon/images/Statuses/status1.gif">
+<!ENTITY ukIconNotYetInForce "/productViews/PLCCommon/images/Statuses/status1.gif">
+<!ENTITY ukIconPartiallyInForce "/productViews/PLCCommon/images/Statuses/status1.gif">
+<!ENTITY ukIconRepealed "/productViews/PLCCommon/images/Statuses/status1.gif">
+<!ENTITY ukIconSuperseded "/productViews/PLCCommon/images/Statuses/status1.gif">
+<!ENTITY ukIconAsOriginallyEnacted "/productViews/PLCCommon/images/Statuses/status1.gif">
+<!ENTITY ukIconPartiallyRepealed "/productViews/PLCCommon/images/Statuses/status2.gif">
+<!ENTITY ukIconNoTreatment "/productViews/PLCCommon/images/Statuses/status1.gif">
+<!ENTITY ukIconGood "/productViews/PLCCommon/images/Statuses/status2.gif">
+<!ENTITY ukIconPending "/productViews/PLCCommon/images/Statuses/status1.gif">
+<!ENTITY ukIconBad "/productViews/PLCCommon/images/Statuses/status1.gif">
+<!ENTITY ukIconPdf "/productViews/plcuk/images/icons/icon_file_pdf.png">
+
+<!ENTITY ukWestlawUkLogo "/productViews/PLCCommon/images/WestlawUkLogo.png">
+
+<!ENTITY glossaryTypeParamName "glossaryType">
+<!ENTITY glossaryTypeUkKeyLegalConcepts "ukKeyLegalConcepts">
+
+<!ENTITY transitionTypeCommentaryUKLink "CommentaryUKLink">
+<!ENTITY transitionTypeDefault "Default">
+<!ENTITY ContextDataCsDefault "(sc.Default)">
+<!ENTITY wlukTrialFormLinkHref "http://legalresearch.westlaw.co.uk/contact-us/free-trial/?service=Westlaw UK">
+<!ENTITY ukUpdatedMaterialsIconPath "/productViews/plcuk/images/icons/icon_updatedMaterials.png">
+<!ENTITY ukParagraphOnlineIconPath "/productViews/plcuk/images/icons/icon_onlineOnly.png">

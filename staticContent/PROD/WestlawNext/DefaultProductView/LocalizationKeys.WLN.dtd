@@ -1,0 +1,137 @@
+<!-- Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved. Proprietary and Confidential information of TRGR. Disclosure, Use or Reproduction without the written authorization of TRGR is prohibited -->
+<!-- This file should contain all of the static strings; Key used in the XSLT to access StaticText.Properties file for internationalization-->
+
+<!-- Canada Content Transition START -->
+
+<!-- Static Text Keys-->
+<!ENTITY crswDigestTextKey "CrswDigestText">
+<!ENTITY crswDigestSubtitleTextKey "CrswDigestSubtitleText">
+<!ENTITY crswHeadnotesTextKey "CrswHeadnotesText">
+<!ENTITY crswTableOfAuthoritiesTextKey "CrswTableOfAuthoritiesText">
+<!ENTITY crswCurrencyKey "CrswCurrency">
+<!ENTITY crswEndOfDocumentCopyrightTextKey "CrswEndOfDocumentCopyrightText">
+<!ENTITY crswAmendmentHistoryKey "CrswAmendmentHistory">
+<!ENTITY crswOriginalImageOfKey "CrswOriginalImageOf">
+<!ENTITY crswClickHereKey "CrswClickHere">
+
+<!--Outline: Document Sections (Counsel|Abridgment Classification|Headnote|Annotation|Table of Authorities|Opinion|Disposition -->
+<!ENTITY crswCounselLabelKey "CrswCounselLabel">
+<!ENTITY crswAbridgmentClassificationLabelKey "CrswAbridgmentClassificationLabel">
+<!ENTITY crswHeadnoteLabelKey "CrswHeadnoteLabel">
+<!ENTITY crswAnnotationLabelKey "CrswAnnotationLabel">
+<!ENTITY crswAuthoritiesLabelKey "CrswAuthoritiesLabel">
+<!ENTITY crswOpinionLabelKey "CrswOpinionLabel">
+<!ENTITY crswDispositionLabelKey "CrswDispositionLabel">
+
+<!ENTITY crswMartinsCriminalCodeRelatedDocumentsLabelKey "CrswMartinsCriminalCodeRelatedDocumentsLabel">
+
+<!ENTITY crswCanadianMcGillGuideGoTopLabelKey "CrswCanadianMcGillGuideGoTopLabel">
+
+<!-- KeyCite Alt Text -->
+<!ENTITY crswkeyCiteRedFlagAltTextKey "CrswkeyCiteRedFlagAltText">
+<!ENTITY crswkeyCiteYellowFlagAltTextKey "CrswkeyCiteYellowFlagAltText">
+<!ENTITY crswkeyCiteBlueHistoryAltTextKey "CrswkeyCiteBlueHistoryAltText">
+<!ENTITY crswkeyCiteGreenCitingReferencesAltTextKey "CrswkeyCiteGreenCitingReferencesAltText">
+
+<!-- Case PDF -->
+<!ENTITY crswLawReportPdfKey "CrswLawReportPdf">
+<!ENTITY crswOriginalPdfKey "CrswOriginalPdf">
+<!ENTITY crswOriginalPdfHoverTextKey "CrswOriginalPdfHoverText">
+<!ENTITY crswLawReportPdfHoverTextKey "CrswLawReportPdfHoverText">
+
+<!-- Canada Content Transition END -->
+
+<!-- Company Investigator: Officers and Directors -->
+<!ENTITY officerPositionTypeKey "OfficerPositionType">
+<!ENTITY officerTitleKey "OfficerTitle">
+<!ENTITY officerStartDateKey "OfficerStartDate">
+<!ENTITY officerDirectorSinceKey "OfficerDirectorSince">
+<!ENTITY officerOfficerSinceKey "OfficerOfficerSince">
+<!ENTITY officerCurrentPositionKey "OfficerCurrentPosition">
+<!ENTITY officerPreviousPositionKey "OfficerPreviousPosition">
+<!ENTITY officerBiographyKey "OfficerBiography">
+<!ENTITY officerEducationKey "OfficerEducation">
+<!ENTITY officerCommitteeMembershipsKey "OfficerCommitteeMemberships">
+<!ENTITY officerCurrentAffiliationsKey "OfficerCurrentAffiliations">
+<!ENTITY officerPreviousAffiliationsKey "OfficerPreviousAffiliations">
+<!ENTITY officerCompensationSummaryKey "OfficerCompensationSummary">
+<!ENTITY officerCurrencyKey "OfficerCurrency">
+<!ENTITY officerPeriodEndDateKey "OfficerPeriodEndDate">
+<!ENTITY officerSubmissionTypeKey "OfficerSubmissionType">
+<!ENTITY officerSubmissionDateKey "OfficerSubmissionDate">
+<!ENTITY officerSalaryKey "OfficerSalary">
+<!ENTITY officerBonusKey "OfficerBonus">
+<!ENTITY officerOtherAnnualCompKey "OfficerOtherAnnualComp">
+<!ENTITY officerTotalAnnualCompKey "OfficerTotalAnnualComp">
+<!ENTITY officerRestrictedStockAwardsKey "OfficerRestrictedStockAwards">
+<!ENTITY officerFiscalYearTotalKey "OfficerFiscalYearTotal">
+<!ENTITY officerOptionsKey "OfficerOptions">
+<!ENTITY officerExcercisedNumberKey "OfficerExcercisedNumber">
+<!ENTITY officerExcercisedValueKey "OfficerExcercisedValue">
+<!ENTITY officerExercisableNumberKey "OfficerExercisableNumber">
+<!ENTITY officerExercisableValueKey "OfficerExercisableValue">
+<!ENTITY officerUnexercisableNumberKey "OfficerUnexercisableNumber">
+<!ENTITY officerUnexercisableValueKey "OfficerUnexercisableValue">
+<!ENTITY officerInKey "OfficerIn">
+<!ENTITY officerInactiveKey "OfficerInactive">
+<!ENTITY officerNAKey "OfficerNA">
+
+<!-- Hoovers -->
+<!ENTITY hooversHeaderHCRKey "HooversHeaderHCR">
+<!ENTITY hooversHeaderKey "HooversHeader">
+<!ENTITY hooversSourceInformationKey "HooversSourceInformation">
+<!ENTITY hooversDatabaseLastUpdatedKey "HooversDatabaseLastUpdated">
+<!ENTITY hooversUpdateFrequencyKey "HooversUpdateFrequency">
+<!ENTITY hooversCurrentDateKey "HooversCurrentDate">
+<!ENTITY hooversSourceKey "HooversSource">
+<!ENTITY hooversCopyrightKey "HooversCopyright">
+<!ENTITY hooversCompanyInformationKey "HooversCompanyInformation">
+<!ENTITY hooversCompanyNameKey "HooversCompanyName">
+<!ENTITY hooversAddressKey "HooversAddress">
+<!ENTITY hooversCountryKey "HooversCountry">
+<!ENTITY hooversTelephoneKey "HooversTelephone">
+<!ENTITY hooversFaxKey "HooversFax">
+<!ENTITY hooversTollFreeKey "HooversTollFree">
+<!ENTITY hooversWebsiteKey "HooversWebsite">
+<!ENTITY hooversCompanyTypeKey "HooversCompanyType">
+<!ENTITY hooversUSTickerKey "HooversUSTicker">
+<!ENTITY hooversUSExchangeKey "HooversUSExchange">
+<!ENTITY hooversCompanyRankingsKey "HooversCompanyRankings">
+<!ENTITY hooversAuditorKey "HooversAuditor">
+<!ENTITY hooversForeignTickerKey "HooversForeignTicker">
+<!ENTITY hooversForeignExchangeKey "HooversForeignExchange">
+<!ENTITY hooversKeyNumbersKey "HooversKeyNumbers">
+<!ENTITY hooversFiscalYearEndKey "HooversFiscalYearEnd">
+<!ENTITY hooversSalesKey "HooversSales">
+<!ENTITY hooversOneYearSalesGrowthKey "HooversOneYearSalesGrowth">
+<!ENTITY hooversNetIncomeKey "HooversNetIncome">
+<!ENTITY hooversOneYearIncomeGrowthKey "HooversOneYearIncomeGrowth">
+<!ENTITY hooversEmployeesKey "HooversEmployees">
+<!ENTITY hooversOneYearEmployeeGrowthKey "HooversOneYearEmployeeGrowth">
+<!ENTITY hooversTopOfficersKey "HooversTopOfficers">
+<!ENTITY hooversTitleKey "HooversTitle">
+<!ENTITY hooversNameKey "HooversName">
+<!ENTITY hooversOfficersKey "HooversOfficers">
+<!ENTITY hooversAgeKey "HooversAge">
+<!ENTITY hooversSalaryKey "HooversSalary">
+<!ENTITY hooversBonusKey "HooversBonus">
+<!ENTITY hooversTotalCompensationKey "HooversTotalCompensation">
+<!ENTITY hooversDirectorsKey "HooversDirectors">
+<!ENTITY hooversKeyCompetitorsKey "HooversKeyCompetitors">
+<!ENTITY hooversKeyCompetitorsColonKey "HooversKeyCompetitorsColon">
+<!ENTITY hooversProductionandOperationsKey "HooversProductionandOperations">
+<!ENTITY hooversCompanyDescriptionKey "HooversCompanyDescription">
+<!ENTITY hooversCompanyOverviewKey "HooversCompanyOverview">
+<!ENTITY hooversCompanyHistoryKey "HooversCompanyHistory">
+<!ENTITY hooversIndustryDescriptionsKey "HooversIndustryDescriptions">
+<!ENTITY hooversIndustryDescriptionsAndCodesKey "HooversIndustryDescriptionsAndCodes">
+<!ENTITY hooversIndustryKey "HooversIndustry">
+<!ENTITY hooversSICCodesKey "HooversSICCodes">
+<!ENTITY hooversNAICSCodesKey "HooversNAICSCodes">
+
+<!-- Dockets -->
+<!ENTITY docketsDisclaimerHeader "DocketsDisclaimerHeader">
+<!ENTITY docketsDisclaimer "DocketsDisclaimer">
+<!ENTITY docketsSupplierAdditionalTermsUrl "DocketsSupplierAdditionalTermsUrl">
+<!ENTITY docketsSupplierAdditionalTermsLinkText "DocketsSupplierAdditionalTermsLinkText">
+<!ENTITY docketsSupplierAdditionalTermsLinkTitleText "DocketsSupplierAdditionalTermsLinkTitleText">

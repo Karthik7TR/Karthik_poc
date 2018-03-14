@@ -1,0 +1,255 @@
+﻿<!-- Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved. Proprietary and Confidential information of TRGR. Disclosure, Use or Reproduction without the written authorization of TRGR is prohibited -->
+<!-- This file should contain all of the CSS class names used our XSLT -->
+
+<!--*** DEPRECATED for shared PL entities *** 
+PL entities that are SHARED between PLC UK, AU, and CA have moved to PLCCore ProductView and should NOT be added here.
+Entities that remain in PLCCommon support UK/AU specific xsl (e.g. UKCases.xsl) or for PL that PLC CA does not require (e.g. Ask).
+The entities will remain until some project takes on the tech debt to move them.
+-->
+
+<!--PLCUK START-->
+<!ENTITY icon25 "icon25">
+<!ENTITY icon_grey_down_arrow "icon_grey_down_arrow">
+<!ENTITY icon_grey_right_arrow "icon_grey_right_arrow">
+<!ENTITY floatRight "co_floatRight">
+<!ENTITY askQuestion "co_ask_question">
+<!ENTITY askDisclaimerClass "ask_disclaimer">
+<!ENTITY askResponse "co_ask_response">
+<!ENTITY askCommentResponse "askCommentResponse">
+<!ENTITY askCommentDisplayName "askCommentDisplayName">
+<!ENTITY askCommentDisplayService "askCommentDisplayService">
+<!ENTITY askCommentPostedDate "askCommentPostedDate">
+<!ENTITY askCommentBody "askCommentBody">
+<!ENTITY askReportThisPost "askReportThisPost">
+<!ENTITY askReplyToThisPost "askReplyToThisPost">
+<!ENTITY askReplyToThisPostInTitle "askReplyToThisPostInTitle">
+<!ENTITY askReplyFollowing "askReplyFollowing">
+<!ENTITY askDeleteComment "askDeleteComment">
+<!ENTITY askEditComment "askEditComment">
+<!ENTITY askAddReplyForm "askAddReplyForm">
+<!ENTITY askDateTimeSeparator "askDateTimeSeparator">
+<!ENTITY askDocPublishDate "askDocPublishDate">
+<!ENTITY askRelatedTopicsContainer "co_excludeAnnotations co_disableHighlightFeatures co_relatedContentWidget th_lightGray kh_box relatedContentsTopics">
+<!ENTITY aAskIcon "aAskIcon">
+<!ENTITY qAskIcon "qAskIcon">
+<!ENTITY askDocRule "askDocRule">
+<!ENTITY primaryButtonClass "co_primaryBtn th_flat">
+<!ENTITY defaultButtonClass "co_defaultBtn th_flat">
+<!ENTITY ukResearchToCList "ukResearch_toc-list">
+<!ENTITY docDivision "doc_division">
+<!ENTITY docHeadText "doc_headText">
+<!ENTITY loading "co_loading">
+<!ENTITY keyLegalConceptsDocumentClass "co_keyLegalConceptsDoc">
+<!ENTITY ukReferenceCopyrightWrap "co_ukReference_copyrightWrap">
+<!ENTITY academicUserClass "academic-user">
+<!ENTITY linkToThisDocOnWestlawUk "linkToThisDocOnWestlawUk">
+<!ENTITY smallCapsFontVariant "co_smallCapsFontVariant">
+<!ENTITY wordBreakClass "co_wordBreak">
+<!--PLCUK END-->
+
+<!-- Key Dates START -->
+<!ENTITY eventDateClass "co_eventDate">
+<!ENTITY eventDateIconClass "co_eventDateIcon">
+<!ENTITY eventDateIconTextClass "co_eventDateIconText">
+<!ENTITY eventDateIconMonthClass "co_eventDateIconMonth">
+<!ENTITY eventDateIconDayClass "co_eventDateIconDay">
+<!ENTITY resourceLinksClass "co_resourceLinks">
+<!-- Key Dates END -->
+
+<!-- UKStatutes START -->
+<!ENTITY icon_up_arrow "icon-up-arrow">
+<!ENTITY icon_down_arrow "icon-down-arrow">
+<!ENTITY metaVersion "co_docContentMetaVersion">
+<!ENTITY metaDateProvision "co_docContentMetaDateProvision">
+<!ENTITY metaProvisionVersionsTable "co_provisionVersionsTable">
+<!ENTITY metaCurrentProvisionVersion "co_currentProvisionVersion">
+<!ENTITY metaViewBillAmendedVersion "co_docContentMetaBillAmendedVersion">
+<!ENTITY provisionNavigationClass "co_provisionNavigation">
+<!ENTITY billShadowVersionClass "co_billShadowVersion">
+<!ENTITY billEndClass "co_billEnd">
+<!ENTITY keyLegalConceptsPreHeaderClass "co_keyLegalConceptPreHeader">
+<!ENTITY keyLegalConceptsLinkClass "co_keyLegalConcept_link">
+	<!--provisions tree-->
+<!ENTITY provisionsTreeClass "co_provisionsTree">
+<!ENTITY provisionsTreeGroupClass "co_provisionsTreeGroup">
+<!ENTITY provisionsTreeHeadingClass "co_provisionsTreeHeading">
+<!ENTITY provisionsTreeItemClass "co_provisionsTreeItem">
+
+
+<!--UKStatutes END-->
+
+<!-- UK Asset pages START -->
+<!ENTITY linksToPageLink "co_linksToPageLink">
+<!ENTITY coAssetList "co_assetList">
+
+<!ENTITY bailiiLink "bailiiLink">
+<!ENTITY westlawUKLink "westlawUKLink">
+<!ENTITY celexLink "celexLink">
+<!ENTITY legislationGovLink "legislationGovLink">
+
+<!ENTITY metaResourceType "co_documentType">
+<!-- UK Asset pages END -->
+
+<!--UKCases START-->
+<!ENTITY noCaseDigestExist "co_noCaseDigestExist">
+<!ENTITY metaCasesReportCitation "co_docContentMetaInfoReportCitation">
+<!ENTITY metaCasesWhereReported "co_docContentMetaInfoWhereReported">
+<!ENTITY metaCasesJudge "co_docContentMetaInfoJudge">
+<!ENTITY metaCasesCounsel "co_docContentMetaInfoCounsel">
+<!ENTITY metaCasesSolicitor "co_docContentMetaInfoSolicitor">
+<!ENTITY docContentFinalText "co_docContentBodyFinal">
+<!ENTITY docContentEmphasisClass "co_docContentBodyEmphasis">
+<!ENTITY ukLawReportsLogo "co_docLawReportsLogo">
+<!ENTITY subheadTextClass "co_subheadText">
+<!ENTITY docContentEmphasis "co_docContentEmphasis">
+<!ENTITY docContentList "co_docContentList">
+<!ENTITY alignRightClass "co_alignRight">
+<!--UKCases END-->
+
+<!-- UKCaseAsset START -->
+<!ENTITY metaCourt "co_docContentMetaInfoCourt">
+<!ENTITY metaSpecialistCourt "co_docContentMetaInfoSpecialistCourt">
+<!ENTITY metaTribunal "co_docContentMetaInfoTribunal">
+<!ENTITY metaSpecialistTribunal "co_docContentMetaInfoSpecialistTribunal">
+<!ENTITY metaChamber "co_docContentMetaInfoChamber">
+<!ENTITY metaForum "co_docContentMetaInfoForum">
+<!ENTITY metaDivision "co_docContentMetaInfoDivision">
+<!ENTITY metaDate "co_docContentMetaInfoDate">
+<!ENTITY metaJurisdiction "co_docContentMetaInfoJurisdiction">
+<!ENTITY metaWhereReported "co_docContentMetaInfoWhereReported">
+<!ENTITY whereReportedList "whereReportedList">
+
+<!ENTITY ukCaseAssetContent "case-asset-doc">
+<!--UKCaseAsset END-->
+
+<!--UKPrimarySources START-->
+<!ENTITY ukPrimarySourcesContent "primary-source-doc">
+<!--UKPrimarySources END-->
+
+<!--UK Westlaw content START-->
+<!ENTITY ukWestlawContent "research-source-doc">
+<!ENTITY ukWestlawLogo "co_docWestlawLogo">
+<!ENTITY ukWestlawExtraTitle "co_docExtraTitle">
+<!ENTITY ukMainDocumentContent "uk_MainDocumentContent">
+<!--UK Westlaw content END-->
+
+<!--UKSecondarySources START-->
+<!ENTITY metaArticleType "co_docContentMetaInfoArticleType">
+<!ENTITY metaJournalIndexed "co_docContentMetaInfoJournalIndexed">
+<!ENTITY metaJournalTitle "co_docContentMetaInfoJournalTitle">
+<!ENTITY metaJournalArticle "co_docContentMetaInfoJournalArticle">
+<!ENTITY metaCitation "co_docContentMetaInfoCitation">
+<!ENTITY metaMainSubject "co_docContentMetaMainSubject">
+<!ENTITY metaSubjects "co_docContentMetaSubjects">
+<!ENTITY metaKeywords "co_docContentMetaKeywords">
+<!ENTITY metaBlockBorderBottom "co_docContentMetaBorderBottom">
+<!ENTITY docReviewedByTextForAuthor "co_docReviewedByTextForAuthor">
+<!ENTITY docImageResearch "co_imageResearch">
+<!ENTITY docTableDisplay "co_docTableDisplay">
+<!ENTITY docRowTableDisplay "co_docRowTableDisplay">
+<!ENTITY docCellTableDisplay "co_docCellTableDisplay">
+<!ENTITY docContentTitle "co_docContentTitle">
+<!ENTITY docContentBody "co_docContentbody">
+<!ENTITY docFigureDescription "co_docFigureDescription">
+<!--UKSecondarySources END-->
+
+<!--UKCommentary START-->
+<!ENTITY scrollingHeader "co_scrollingHeader">
+<!ENTITY paraNumber "co_paragraphNumber">
+<!ENTITY paraAttrs "co_paragraphAttributes">
+<!ENTITY greyExcerpt  "co_greyExcerpt">
+<!ENTITY rtfIconClass "co_rtfIcon">
+<!ENTITY indentTopClass "co_indentTop">
+<!ENTITY indentBottomClass "co_indentBottom">
+<!ENTITY indentTopClassHalfLineSpace "co_indentTopHalfLineSpace">
+<!ENTITY indentBottomClassHalfLineSpace "co_indentBottomHalfLineSpace">
+<!ENTITY coFontSize23 "co_fontSize23">
+<!ENTITY italicClass "co_italic">
+<!--UKCommentary END-->
+
+
+<!--Status START-->
+<!ENTITY statusIconClass "co_statusIcon">
+<!ENTITY statusIcon40 "co_statusIcon40"> <!--size 40x40-->
+<!ENTITY statusIcon25 "co_statusIcon25"> <!--size 25x25-->
+<!ENTITY inlineStatus "co_inlineStatus"> <!--Display: inline-block-->
+<!ENTITY blockStatus "co_blockStatus"> <!--Display: block-->
+
+<!--status icon class consists of 3 parts {statusIconPrefix}{status}{statusIcon...Postfix}-->
+<!ENTITY statusIconPrefix "co_statusIcon_">
+<!ENTITY statusIconLargePostfix "_large">
+<!ENTITY statusIconSmallPostfix "_small">
+<!ENTITY positiveStatus "positive"> <!--green-->
+<!ENTITY positiveAppealStatus "positiveAppeal"> <!--green/yellow with letter A-->
+<!ENTITY positiveCautionStatus "positiveCaution"> <!--green/yellow with exclamation mark-->
+<!ENTITY cautionStatus "caution"> <!--yellow-->
+<!ENTITY appealStatus "appeal"> <!--yellow with letter A-->
+<!ENTITY mixedAppealStatus "mixedAppeal"> <!--yellow exclamation mark with letter A-->
+<!ENTITY negativeStatus "negative"> <!--red-->
+<!ENTITY negativeAppealStatus "negativeAppeal"> <!--red/yellow with letter A-->
+<!ENTITY negativeCautionStatus "negativeCaution"> <!--red/yellow with exclamation mark-->
+<!ENTITY partiallyInForceStatus "partiallyInForce"> <!--white/green-->
+<!ENTITY partiallyInForceCautionStatus "partiallyInForceCaution"> <!--white/green with exclamation mark-->
+<!ENTITY prospectiveStatus "prospective"> <!--blue-->
+<!ENTITY prospectiveCautionStatus "prospectiveCaution"> <!--blue/yellow-->
+<!ENTITY billStatus "bill"> <!--purple-->
+<!ENTITY billCautionStatus "billCaution"> <!--purple/yellow-->
+<!ENTITY unknownStatus "unknown"> <!--white empty-->
+<!ENTITY noneStatus "none"> <!--no status icon-->
+
+<!-- Text colors-->
+<!ENTITY greenStatusText "co_greenStatus">
+<!ENTITY orangeStatusText "co_orangeStatus">
+<!ENTITY redStatusText "co_redStatus">
+<!ENTITY greyStatusText "co_greyStatus">
+<!ENTITY blueStatusText "co_blueStatus">
+
+<!--Status text-->
+<!ENTITY statusTextClass "co_docContentMetaInfoStatusText">
+<!--Status END-->
+
+<!-- Provision navigation START -->
+<!ENTITY provisionNavigationRightArrow "th_flat_icon icon_right_arrow">
+<!ENTITY provisionNavigationLeftArrow "th_flat_icon icon_left_arrow">
+<!ENTITY provisionNavigationText "co_provisionNavigationText">
+<!-- Provision navigation END -->
+
+<!-- UK Books START -->
+<!ENTITY ukUpdatedMaterials "co_updatedMaterials">
+<!ENTITY ukUpdatedMaterialsIcon "th_flat_icon icon_updatedMaterials">
+<!ENTITY ukParagraphOnlineIcon "th_flat_icon icon_onlineOnly">
+<!-- Related content section -->
+<!ENTITY ukRelatedContentLinks "uk_RelatedContentLinks">
+<!ENTITY ukRelatedContentSection "uk_RelatedContentSection">
+<!ENTITY ukRelatedContentBackLink "uk_RelatedContentBackLink">
+<!ENTITY ukUpdatedMaterialsContent "co_updatedMaterialsContent co_notes gray">
+<!ENTITY noteHeader "co_noteHeader">
+<!ENTITY noteText "co_noteText">
+<!ENTITY noteParaNumber "co_noteParaNumber">
+<!-- UK Books END -->
+
+<!--UK Topics Overview-->
+<!ENTITY authorImage "overviewAuthorImage">
+<!ENTITY authorInfo "overviewAuthorInfo">
+<!ENTITY authorPlainInfo "overviewAuthorPlainInfo">
+<!ENTITY authorsPlainSection "overviewAuthorsPlainSection">
+<!ENTITY authorsSection "overviewAuthorsSection">
+<!ENTITY authorsSectionHeader "overviewAuthorsSectionHeader">
+<!ENTITY authorNameLink "overviewAuthorNameLink">
+<!ENTITY authorOrganisation "overviewAuthorOrganisation">
+<!ENTITY coLastUpdateSection "lastUpdateSection">
+<!ENTITY coListDecimalClass "co_listDecimal">
+<!ENTITY overviewParagraphClass "overviewParagraph">
+<!ENTITY sectionHeadTextClass "co_sectionHeadtext">
+<!ENTITY topicOverviewDocClass "topicOverviewDocument">
+<!ENTITY topicOverviewImageClass "topicOverviewImage">
+<!ENTITY topicOverviewImageWrapperClass "topicOverviewImageWrapper">
+<!ENTITY ukListClass "uk_list">
+<!ENTITY ukQuotesClass "uk_quotes">
+<!ENTITY tocSectionClass "tocSection">
+<!ENTITY tocSectionContentClass "tocSectionContent">
+<!--UK Topics Overview END-->
+
+<!--UK Current Awareness-->
+<!ENTITY metaField "co_docContentMetaField">
+<!--UK Current Awareness END-->

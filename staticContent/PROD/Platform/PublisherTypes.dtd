@@ -1,0 +1,83 @@
+﻿<!-- Copyright 2013: Thomson Reuters Global Resources. All Rights Reserved. Proprietary and Confidential information of TRGR. Disclosure, Use or Reproduction without the written authorization of TRGR is prohibited -->
+<!-- This file should contain all of the Publisher Types (/Document/n-metadata/metadata.block/md.subjects/md.subject/md.pubtype.name) -->
+
+<!-- Publisher Types -->
+<!ENTITY PublisherALM "ALM2">
+<!ENTITY PublisherALMExperts "ALM3">
+<!ENTITY PublisherALMJuryVerdict "ALM4">
+<!ENTITY PublisherResearchInstituteOfAmericaInc "RIA">
+<!ENTITY PublisherECRI "ECRI">
+<!ENTITY PublisherBIN "DNR">
+<!ENTITY PublisherBIN2 "NYT">
+<!ENTITY PublisherPRAG "PRAG">
+<!ENTITY PublisherNetScan "NETS">
+<!ENTITY PublisherStateNet "STN">
+<!ENTITY PublisherThomson "T&amp;T">
+<!ENTITY PublisherEllis "ELL">
+<!ENTITY PublisherBureauofNationalAffairsInc "BNA">
+<!ENTITY PublisherPractisingLawInstitute "PLI">
+<!ENTITY PublisherAspen "ASPI">
+<!ENTITY PublisherAsp "ASP">
+<!ENTITY PublisherSec "GSI">
+<!ENTITY PublisherSweetMaxwell "SMG">
+<!ENTITY PublisherSweetMaxwellAsia "SMA">
+<!ENTITY PublisherSessionCases "SessionCases">
+<!ENTITY PublisherTheBusinessLawReportsUK "ICLR">
+<!ENTITY PublisherClassLegal "CLG">
+<!ENTITY PublisherCUP "CUP">
+<!ENTITY CommerceClearingHouse "CCH">
+<!ENTITY CongressionalQuarterly "CQ">
+<!ENTITY AlisonFrankel "AF">
+
+<!-- Web2 PublisherTypes (as of 8-12-2010) -->
+<!--
+<PublisherType>
+	<add key="default" value="NotSet" />
+	<add key="ANL" value="PublisherAnimalLaw" />
+	<add key="ALM2" value="PublisherALM" />
+	<add key="ALM3" value="PublisherALMExperts" />
+	<add key="ALM4" value="PublisherALMJuryVerdict" />
+	<add key="ASPI" value="PublisherAspen" />
+	<add key="WGR" value="PublisherWest" />
+	<add key="BNA" value="PublisherBureauofNationalAffairsInc" />
+	<add key="BRK" value="PublisherBrookers" />
+	<add key="CCH" value="PublisherCommerceClearingHouse" />
+	<add key="CLB" value="PublisherCanadianLawBook" />
+	<add key="CLG" value="PublisherClassLegal" />
+	<add key="CR2" value="PublisherCremades" />
+	<add key="DNR" value="PublisherDialog" />
+	DNR & NYT pubs will both display the NewsRoom logo
+	<add key="NYT" value="PublisherDialog" />
+	<add key="DUN" value="PublisherDunBradstreet" />
+	<add key="PLI" value="PublisherPractisingLawInstitute" />
+	<add key="ELL" value="PublisherEllis" />
+	<add key="EXPRN" value="ExperianLogo" />
+	<add key="GRN" value="PublisherScotlandLawReports" />
+	<add key="GSI" value="PublisherGlobalSecuritiesInformation" />
+	<add key="IAM" value="PublisherInformationAmerica" />
+	<add key="AAM" value="PublisherInstituteofArbitrators" />
+	<add key="IC" value="PublisherTheLawReports" />
+	<add key="ICLR" value="PublisherTheBusinessLawReportsUK" />
+	<add key="LBC" value="PublisherLBCInformationServices" />
+	<add key="LLOYDS" value="PublisherLloydsReports" />
+	<add key="RIA" value="PublisherResearchInstituteofAmericaInc" />
+	<add key="RHL" value="PublisherRoundHall" />
+	<add key="S&amp;M" value="PublisherSweetMaxwell" />
+	<add key="SCL" value="PublisherScottishCouncilofLawReporting" />
+	<add key="SMA" value="PublisherSweetMaxwellAsia" />
+	<add key="SMB" value="PublisherSmithBernal" />
+	<add key="STN" value="PublisherStateNet" />
+	<add key="T&amp;T" value="PublisherThomson" />
+	<add key="TNT" value="PublisherTaxAnalysts" />
+	<add key="NETS" value="PublisherNetScan" />
+	<add key="TOTT" value="PublisherTottle" />
+	<add key="ECRI" value="PublisherECRI"/>
+	<add key="EGPL" value="PublisherEmerald" />
+	<add key="PRAG" value="PRAG" />
+	<add key="CUP" value="PublisherCUP" />
+</PublisherType>
+***********************************************************************************
+* Web2 publisher type logos can be viewed at web2.westlaw.com/wladmin/images.aspx
+* Search for "Publisher".
+***********************************************************************************
+-->

@@ -1,0 +1,41 @@
+﻿<!-- Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved. Proprietary and Confidential information of TRGR. Disclosure, Use or Reproduction without the written authorization of TRGR is prohibited -->
+<!-- Localisation Keys Text -->
+
+<!--*** DEPRECATED for shared PL entities *** 
+PL entities that are SHARED between PLC UK, AU, and CA have moved to PLCCore ProductView and should NOT be added here.
+Entities that remain in PLCCommon support UK/AU specific xsl (e.g. UKCases.xsl) or for PL that PLC CA does not require (e.g. Ask).
+The entities will remain until some project takes on the tech debt to move them.
+-->
+
+<!-- Ask Keys and default values -->
+<!ENTITY askLegalDisclaimer "AskLegalDisclaimer">
+<!ENTITY askLegalDisclaimerNoHtml "AskLegalDisclaimerNoHtml">
+<!ENTITY askLegalDisclaimerDefault "The Ask scope and rules apply. &lt;a href=&quot;{0}&quot;&gt;Scope and Rules&lt;/a&gt;">
+<!ENTITY askPostedOn "AskPostedOn">
+<!ENTITY askPostedOnDefault "Posted on">
+<!ENTITY askQueryLinkLabel "AskQueryLinkLabel">
+<!ENTITY askQueryLinkLabelDefault "Ask a question">
+<!ENTITY askQueryLinkHref "AskQueryLinkHref">
+<!ENTITY askQueryLinkHrefDefault "http://www.practicallaw.com">
+<!ENTITY askAbuseEmailAddress "AskAbuseEmailAddress">
+<!ENTITY askAbuseEmailAddressDefault "abuse@practicallaw.com">
+<!ENTITY askAbuseEmailSubject "AskAbuseEmailSubject">
+<!ENTITY askAbuseEmailSubjectDefault "Report this post">
+<!ENTITY askAbuseEmailBody "AskAbuseEmailBody">
+<!ENTITY askAbuseEmailBodyDefault "Comment link:">
+<!ENTITY askReportThisPostLabel "AskReportThisPostLabel">
+<!ENTITY askReportThisPostLabelDefault "Report this post">
+<!ENTITY askAddReply "AskAddReply">
+<!ENTITY askAddReplyDefault "Add reply">
+<!ENTITY askAnonymous "AskAnonymous">
+<!ENTITY askAnonymousDefault "Anonymous">
+<!ENTITY askDelete "AskDelete">
+<!ENTITY askDeleteDefault "Delete">
+<!ENTITY askEdit "AskEdit">
+<!ENTITY askEditDefault "Edit">
+<!ENTITY askDatePublished "AskDatePublished">
+<!ENTITY askDatePublishedDefault "Date published">
+<!ENTITY askTopicUrl "AskTopicUrl">
+<!ENTITY askTopicUrlDefault "\Topic\">
+<!ENTITY askTopicHeader "AskTopicHeader">
+<!ENTITY askTopicHeaderDefault "Topics">

@@ -1,0 +1,359 @@
+<!-- Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved. Proprietary and Confidential information of TRGR. Disclosure, Use or Reproduction without the written authorization of TRGR is prohibited -->
+
+<!--*** DEPRECATED for shared PL entities *** 
+PL entities that are SHARED between PLC UK, AU, and CA have moved to PLCCore ProductView and should NOT be added here.
+Entities that remain in PLCCommon support UK/AU specific xsl (e.g. UKCases.xsl) or for PL that PLC CA does not require (e.g. Ask).
+The entities will remain until some project takes on the tech debt to move them.
+-->
+
+<!-- Static Text -->
+
+<!ENTITY academicUserLabel "For educational use only">
+<!ENTITY closeTOCText "Close TOC">
+<!ENTITY coTocToggleHelpText "Ctrl + Alt + T to open/close">
+<!ENTITY downloadPdfText "Download PDF">
+<!ENTITY externalLinkHoverOverText "External site - this link will open in a new window">
+<!ENTITY ukCourtText "Court">
+<!ENTITY westlawUkLinkTitle "Open this document in Westlaw UK">
+
+<!-- UKStatutes START -->
+<!ENTITY provisionTextType "legis">
+<!ENTITY provisionScottishTextType "legis-scottish">
+<!ENTITY provisionHistorycalTextType "legis-historical">
+
+<!ENTITY legisActLocTextType "ukactloc">
+<!ENTITY legisSiLocTextType "uksiloc">
+<!ENTITY legisScottishActTextType "scotactloc">
+<!ENTITY legisScottishSiTextType "scotactloc">
+
+<!ENTITY legisAOPInfoType "legis-AOP">
+<!ENTITY legisAOAInfoType "legis-AOA">
+<!ENTITY legisScottishAOPInfoType "legis-AOP-scottish">
+<!ENTITY legisScottishAOAInfoType "legis-AOA-scottish">
+
+<!ENTITY provisionPrimaryMenu "Provision">
+<!ENTITY arrangmentOfPrimaryMenu "Arrangement of ">
+<!ENTITY detailsPrimaryMenu " Details">
+
+<!ENTITY legisTypeAct "Act">
+<!ENTITY legisTypeBill "Bill">
+<!ENTITY legisTypeSI "SI">
+<!ENTITY legisTypeDocument "Document">
+<!ENTITY legisTypeProvisions "Provisions">
+
+<!ENTITY billTypeFacet "UK Bills">
+<!ENTITY actTypeFacet "UK Acts">
+<!ENTITY siTypeFacet "UK Statutory Instruments">
+
+<!ENTITY ukStatuteLegiType "UK Statute">
+<!ENTITY ukStatutoryInstrumentLegiType "UK Statutory Instrument">
+<!ENTITY scottishStatuteLegiType "Scottish Statute">
+<!ENTITY scottishStatutoryInstrumentLegiType "Scottish Statutory Instrument">
+<!ENTITY welshStatuteLegiType "Welsh Statute">
+<!ENTITY welshStatutoryInstrumentLegiType "Welsh Statutory Instrument">
+<!ENTITY northernIrelandStatuteLegiType "Northern Ireland Statute">
+<!ENTITY northernIrelandStatutoryInstrumentLegiType "Northern Ireland Statutory Instrument">
+<!ENTITY northernIrelandStatutoryRuleLegiType "Northern Ireland Statutory Rule">
+<!ENTITY localStatuteLegiType "Local Statute">
+<!ENTITY ecclesiasticalMeasureLegiType "Ecclesiastical Measure">
+<!ENTITY historicalScottishStatuteLegiType "Historical Scottish Statute">
+<!ENTITY westminsterBillLegiType "Westminster Bill">
+
+<!ENTITY arrangementLocatorDocumentType "Overview">
+
+<!ENTITY primaryReferencesPrimaryMenu "Primary References">
+<!ENTITY judgmentPrimaryMenu "Judgment">
+<!ENTITY partyNamesPrimaryMenu "Party Names">
+<!ENTITY notesSecondaryMenu "Notes">
+<!ENTITY modificationsSecondaryMenu "Modifications">
+<!ENTITY tableOfAmendmentsSecondaryMenu "Table of Amendments">
+<!ENTITY commencementSecondaryMenu "Commencement">
+<!ENTITY extentSecondaryMenu "Extent">
+<!ENTITY sIsMadeUnderActSecondaryMenu "SIs Made Under Act">
+<!ENTITY keyCasesCitingSecondaryMenu "Key Cases Citing">
+<!ENTITY allCasesCitingSecondaryMenu "All Cases Citing">
+<!ENTITY legislationCitingSecondaryMenu "Legislation Citing">
+<!ENTITY journalsSecondaryMenu "Journals">
+<!ENTITY booksSecondaryMenu "Books">
+<!ENTITY annotationSecondaryMenu "Statutory Annotations">
+<!ENTITY modificationsSectionHeading "Modifications">
+<!ENTITY notesSectionHeading "Notes">
+<!ENTITY annotationSectionHeading "Statutory Annotations">
+<!ENTITY allJurisdictionsSectionHeading "Text">
+<!ENTITY amendmentsAnchorText "co_anchor_amendments">
+<!ENTITY modificationsAnchorText "co_anchor_modifications">
+<!ENTITY byText "by">
+<!ENTITY expandText "Expand">
+<!ENTITY commentaryText "Commentary">
+<!ENTITY collapseText "Collapse">
+<!ENTITY expandText "Expand">
+<!ENTITY linkTargetNewWindow "_blank">
+<!ENTITY ukVersion "Version">
+<!ENTITY ukOf "of">
+<!ENTITY ukTo " - ">
+<!ENTITY ukProvidedBy "Provided by">
+<!ENTITY ukWestlawUk "Westlaw UK">
+<!ENTITY ukSubjects "Subjects">
+<!ENTITY ukPresentText "Present">
+<!ENTITY ukDateToBeAppointedText "Date to be appointed">
+<!ENTITY ukViewBillAmendedVersionText "View Bill amended version">
+<!ENTITY provisionNavigationNextLabel "Next">
+<!ENTITY provisionNavigationPrevLabel "Prev">
+<!ENTITY viewPdfOfEntireActText "View PDF of entire Act">
+<!ENTITY viewPdfOfEntireSIText "View PDF of entire SI">
+<!ENTITY viewPdfOfHistoricalDocText "View PDF of historical document">
+<!ENTITY derivationOfSectionText "Derivation of section">
+<!ENTITY keyLegalConceptsPreHeaderText "Key Legal Concept">
+<!ENTITY figureNotAvailableText "(Figure not available in online format. Please see original printed copy.)">
+<!ENTITY keyConceptsLibraryText "Key Legal Concepts Library">
+<!-- UKStatutes END -->
+
+
+<!--UKSecondarySources-->
+<!ENTITY fullTextText "Full Text">
+<!ENTITY abstractText "Abstract">
+<!ENTITY arrangementOfManualText "Arrangement of Manual">
+<!ENTITY HMRCManualTextHeading "Text">
+<!ENTITY documentText "document">
+<!ENTITY abstractType "journal-abstract">
+<!ENTITY pubIndexType "pubindex">
+<!ENTITY fullTextType "journal">
+<!ENTITY HRMCManualInfoType "artemis">
+<!ENTITY HRMCArrangementType "Arrangement of HMRC Manual">
+<!ENTITY HRMCManualType "HMRC Manual">
+<!ENTITY publishedText "Published">
+<!ENTITY updatedText "Updated">
+<!ENTITY keyCasesCitedText "Key cases cited: ">
+<!ENTITY keyLegislationsCitedText "Key legislation cited: ">
+<!ENTITY organisationsCitedText "Organisations cited: ">
+<!ENTITY usefulLinksText "Useful websites: ">
+<!ENTITY citationText "Citation">
+<!ENTITY IssnIsbnText "ISSN-ISBN: ">
+<!ENTITY IssnText "ISSN">
+<!ENTITY IsbnText "ISBN: ">
+<!ENTITY formatText "Format: ">
+<!ENTITY reviewedByText "Reviewed by: ">
+<!ENTITY reviewedByTextForAuthor "Reviewed by ">
+<!ENTITY editedByText "Edited by: ">
+<!ENTITY noOfPagesText "No. of pages: ">
+<!ENTITY noOfVolumesText "No. of volumes: ">
+<!ENTITY editionText "Edition: ">
+<!ENTITY seriesText "Series: ">
+<!ENTITY requestFullTextButtonText "Request a copy of the Full Text">
+<!ENTITY referenceText "Reference: ">
+<!ENTITY noPunctuationRefText "No-punctuation reference: ">
+<!ENTITY publishersText "Publishers: ">
+<!ENTITY dbIndexedInText "Databases indexed in: ">
+<!ENTITY publishersHouseText "Publishers' House: ">
+<!ENTITY publishersFaxNoText "Publishers' fax no: ">
+<!ENTITY publishersTelephoneNoText "Publishers' telephone no: ">
+<!ENTITY frequencyText "Frequency: ">
+<!ENTITY subscriptionCostText "Subscription cost: ">
+<!ENTITY otherRelatedSubjectsText "Other related subjects: ">
+<!ENTITY journalArticleText "Journal Article">
+<!ENTITY publiacationReviewText "Publication Review">
+<!ENTITY deliveryNoTocText "[there is no table of contents for this document]">
+<!ENTITY viewPdfOfEntireIssue "View PDF of entire Issue">
+<!ENTITY rtfAltText "RTF">
+<!--UKSecondarySources end-->
+
+<!-- UKCases START -->
+<!ENTITY caseAnalysisType "case analysis">
+<!ENTITY lawReportType "law report">
+<!ENTITY judgmentType "judgment">
+<!ENTITY judgmentCaptionDate "Date">
+<!ENTITY judgmentCaptionStatus "Status">
+<!ENTITY judgmentCaptionWhereReported "Where Reported">
+<!ENTITY judgmentCaptionHearingDates "Hearing Dates">
+<!ENTITY judgmentCaptionAppellate "Appellate committee">
+<!ENTITY judgmentCaptionJudgment "Judgment">
+<!ENTITY judgmentCaptionTOCJudgment "Judgment">
+<!ENTITY judgmentCaptionRepresentation "Counsel">
+
+<!ENTITY withText "With">
+<!ENTITY caseDigestSummary "Summary">
+<!ENTITY caseDigestAbstract "Abstract">
+<!ENTITY noCaseDigestExistText "There is no digest available for this case.">
+<!ENTITY ukGraphicalHistoryText "View Graphical History">
+<!ENTITY casesCaptionJudgmentDate "Judgment Date">
+<!ENTITY casesCaptionReportCitation "Report Citation">
+<!ENTITY officialTranscriptText "Official Transcript">
+<!ENTITY casesOtherRelatedSubjectsText "Other related subjects">
+<!ENTITY casesSolicitorText "Solicitor">
+<!ENTITY tocCaseAnalysis "Case Analysis">
+<!ENTITY tocCaseDigest "Case Digest">
+<!ENTITY tocLawReports "Law Reports">
+<!ENTITY tocJudgment "Judgment">
+<!ENTITY tocPrimaryReferences "Primary References">
+<!ENTITY tocCommentaryReferences "Commentary References">
+<!ENTITY tocPracticalLawReferences "Practical Law References">
+
+<!ENTITY riUkAppellateHistoryCategory "riUkAppellateHistory">
+<!ENTITY riUkRelatedCasesCategory "riUkRelatedCases">
+<!ENTITY riUkLawReportsCategory "riUkLawReports">
+<!ENTITY riUkCommentaryReferencesCategory "riUkCommentaryReferences">
+<!ENTITY riUkPrimaryReferencesCategory "riUkPrimaryReferences">
+<!ENTITY riUkPracticalLawReferencesCategory "riUkPracticalLawReferences">
+
+<!ENTITY viewLawtelTranscriptText "View Lawtel Transcript">
+<!ENTITY viewOfficialTranscriptText "View PDF of Judgment">
+<!ENTITY viewPdfOfCaseReport "View PDF of Case Report">
+
+<!ENTITY orderText "Order">
+<!-- UKCases END -->
+
+<!-- UK Asset pages START -->
+<!ENTITY linkJusticeToFind "http://www.justice.gov.uk">
+<!ENTITY linkJusticeToShow "http://www.justice.gov.uk">
+<!ENTITY linkWestlawChinaToFind "http://app.westlawchina.com">
+<!ENTITY linkWestlawChinaToShow "Westlawchina.com">
+<!ENTITY linkHttp "http://">
+<!ENTITY linkHttps "https://">
+<!-- UK Asset pages END -->
+
+<!-- UKCasesAsset START -->
+<!ENTITY casePageSectionHeading "Case page">
+<!ENTITY casePageAnchorText "co_anchor_casePage">
+<!ENTITY casePageSecondaryMenu "Case page">
+
+<!ENTITY legalUpdatesSectionHeading "Legal updates on this case">
+<!ENTITY legalUpdatesAnchorText "co_anchor_legalUpdates">
+<!ENTITY legalUpdatesSecondaryMenu "Legal updates on this case">
+
+<!ENTITY caseLinksSectionHeading "Links to this case">
+<!ENTITY caseLinksAnchorText "co_anchor_caseLinks">
+<!ENTITY caseLinksSecondaryMenu "Links to this case">
+
+<!ENTITY caseContentLinksSectionHeading "Content referring to this case">
+<!ENTITY caseContentLinksAnchorText "co_anchor_caseContentLinks">
+<!ENTITY caseContentLinksSecondaryMenu "Content referring to this case">
+
+<!ENTITY westlawUKText "Westlaw UK">
+<!ENTITY bailiiText "Bailii">
+<!ENTITY divisionText "Division">
+<!ENTITY jurisdictionOfCourtText "Jurisdiction of court">
+<!ENTITY eurLexText "EUR-Lex">
+<!ENTITY legislationGovText "Legislation.gov.uk">
+
+<!ENTITY caseMetaSpecialistCourt "Specialist court">
+<!ENTITY caseMetaTribunal "Tribunal">
+<!ENTITY caseMetaSpecialistTribunal "Specialist tribunal">
+<!ENTITY caseMetaChamber "Chamber">
+<!ENTITY caseMetaForum "Forum">
+<!-- UKCasesAsset END -->
+
+<!-- UKPrimarySources START -->
+<!ENTITY primarySourcesSectionHeading "Primary Source page">
+<!ENTITY primarySourcesAnchorText "co_anchor_primarySource">
+<!ENTITY primarySourcesSecondaryMenu "Primary Source page">
+
+<!ENTITY primarySourcesMaterialsSectionHeading "Links to this primary source">
+<!ENTITY primarySourcesMaterialsAnchorText "co_anchor_Materials">
+<!ENTITY primarySourcesMaterialsSecondaryMenu "Links to this primary source">
+
+<!ENTITY primarySourcesProvisionsSectionHeading "Specific provision coverage">
+<!ENTITY primarySourcesProvisionsAnchorText "co_anchor_Provisions">
+<!ENTITY primarySourcesProvisionsSecondaryMenu "Specific provision coverage">
+
+<!ENTITY primarySourcesReferringSectionHeading "Content referring to this primary source">
+<!ENTITY primarySourcesReferringAnchorText "co_anchor_Referring">
+<!ENTITY primarySourcesReferringSecondaryMenu "Content referring to this primary source">
+<!-- UKPrimarySources END -->
+
+<!-- Date & time START-->
+<!ENTITY JanuaryText "January">
+<!ENTITY FebruaryText "February">
+<!ENTITY MarchText "March">
+<!ENTITY AprilText "April">
+<!ENTITY MayText "May">
+<!ENTITY JuneText "June">
+<!ENTITY JulyText "July">
+<!ENTITY AugustText "August">
+<!ENTITY SeptemberText "September">
+<!ENTITY OctoberText "October">
+<!ENTITY NovemberText "November">
+<!ENTITY DecemberText "December">
+<!-- Date & time END-->
+
+
+<!--Status START-->
+<!--Status text-->
+<!ENTITY lbl_status_no_treatment "No Treatment">
+<!ENTITY lbl_status_good_law "Positive/Neutral Judicial Consideration">
+<!ENTITY lbl_status_caution "Mixed Judicial Consideration">
+<!ENTITY lbl_status_bad_law "Negative Judicial Consideration">
+<!ENTITY lbl_status_appeal_outstanding "Appeal Outstanding">
+<!ENTITY lbl_status_unknown "No Substantial Judicial Treatment">
+
+<!ENTITY ukStatusLawInForce "Law In Force">
+<!ENTITY ukStatusProspectiveLaw "Prospective Law">
+<!ENTITY ukStatusAmendmentPending "Amendments Pending">
+<!ENTITY ukStatusNotYetInForce "Not Yet In Force">
+<!ENTITY ukStatusPartiallyInForce "Partially In Force">
+<!ENTITY ukStatusRepealed "Repealed">
+<!ENTITY ukStatusSuperseded "Superseded">
+<!ENTITY ukStatusPartiallyRepealed "Partially Repealed">
+<!ENTITY ukStatusHistoricLaw "Historic Law">
+<!ENTITY ukStatusAsOriginallyEnacted "As Originally Enacted (Unknown)">
+<!ENTITY ukStatusBillWithAmendmentsPending "Bill With Amendments Pending">
+<!ENTITY ukStatusBillAmendedText "Bill Amended Text">
+<!ENTITY ukStatusProposedBillInsertion "Proposed Bill Insertion">
+
+<!-- Status hover over-->
+<!ENTITY historicStatusHover "Superseded">
+<!ENTITY asOriginallyEnactedStatusHover "As Originally Enacted">
+<!--Status END-->
+
+<!-- Commentary START-->
+<!ENTITY updatedMaterialsHover "Updated content">
+<!ENTITY updatedFootnoteMaterialsHover "This footnote contains updated content">
+<!ENTITY onlineMaterialsHover "Online only content">
+<!ENTITY backToMainWork "Back to main work">
+<!ENTITY whiteBookText "Paragraph numbers marked with a &quot;+&quot; contain White Book material available exclusively online on Westlaw UK and CD">
+<!ENTITY tableStatutesLegislation "Legislation">
+<!ENTITY tableStatutesParagraphs "Paragraph(s)">
+<!-- Commentary END-->
+
+<!-- Insight topic overview START -->
+<!ENTITY navigationHeadingText "Navigation">
+<!ENTITY authorSectionName "Authored by">
+<!ENTITY authorTopicsSectionName "All topics by this author:">
+<!ENTITY furtherReadingHeading "Further Reading">
+<!ENTITY keyActsHeading "Key Acts">
+<!ENTITY keyCasesTitle "Key Cases">
+<!ENTITY keyEuropeanUnionLegislationHeading "Key European Union Legislation">
+<!ENTITY keyQuasiLegislationHeading "Key Quasi-Legislation">
+<!ENTITY keySubordinateLegislationHeading "Key Subordinate Legislation">
+<!ENTITY keyTextsHeading "Key Texts">
+<!ENTITY lastDateOfReview "Last date of review:">
+<!ENTITY lastUpdate "Last update:">
+<!ENTITY legislationTitle "Legislation">
+<!ENTITY overviewOfTopic "Overview of Topic">
+<!ENTITY readingTitle "Reading">
+<!ENTITY relevantImageAltText "Relevant image">
+<!ENTITY topicOverviewDocumentType "topic-overview">
+<!ENTITY topicOverviewImageLinkTitle "This image will open in a new window or tab">
+<!ENTITY topicOverviewExternalLinkTitle "This link will open in a new window or tab">
+
+<!-- Insight topic overview END -->
+
+<!--UK Current Awareness START-->
+<!ENTITY currentAwarenessAbstractType "Current Awareness Abstract">
+<!ENTITY ukAmendedLegislation "Amended legislation">
+<!ENTITY ukCasesReferred "Cases referred">
+<!ENTITY ukCompanies "Companies referred">
+<!ENTITY ukEnablingLegislation "Enabling legislation">
+<!ENTITY ukFullText "Full text">
+<!ENTITY ukJudges "Judge(s)">
+<!ENTITY ukHansard "Hansard">
+<!ENTITY ukISBN "ISBN">
+<!ENTITY ukLegislationReferred "Legislation referred">
+<!ENTITY ukOutcome "Outcome">
+<!ENTITY ukPriceNoColon "Price">
+<!ENTITY ukPublisherNoColon "Publisher">
+<!ENTITY ukRepealedLegislation "Repealed legislation">
+<!ENTITY ukRelatedLinks "Related links">
+<!ENTITY ukSeries "Series">
+<!ENTITY ukNoAbstractIsAvailableText "No abstract is available for this document.">
+<!ENTITY viewPdfAltText "View PDF">
+<!--UK Current Awareness END-->

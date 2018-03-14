@@ -1,0 +1,110 @@
+﻿<!-- Copyright 2016: Thomson Reuters.All Rights Reserved. Proprietary and Confidential information of Thomson Reuters. Disclosure, Use or Reproduction without the written authorization of Thomson Reuters is prohibited.-->
+<!-- This file should contain all of the XHTML element IDs names used our XSLT -->
+
+<!-- Bankruptcy Explorer START -->
+<!ENTITY beCaseOverviewId "be_caseOverview">
+<!ENTITY beCompanyInformationId "be_companyInformation">
+<!ENTITY beFullTextFilingsId "be_fullTextFilings">
+<!ENTITY beAllFilingsId "be_allFilings">
+<!ENTITY beFilingPrefixId "be_filing">
+<!ENTITY beFullTextCourtOrdersId "be_fullTextCourtOrders">
+<!ENTITY beAllOrdersId "be_allOrders">
+<!ENTITY beOrderPrefixId "be_order">
+<!ENTITY beDocketProceedingsId "be_docketProceedings">
+<!ENTITY docketsPatentInformationId "co_docketPatentInformation">
+<!ENTITY beNewsNotesId "be_newsNotes">
+<!ENTITY beParticipantsId "be_participants">
+<!ENTITY beCreditorListId "be_creditorList">
+<!ENTITY beUnsecuredCreditorsCommitteeId "be_unsecuredCreditorsCommittee">
+<!ENTITY beCalendarId "be_calendar">
+<!ENTITY bePlanSummaryId "be_planSummary">
+<!ENTITY beCreditorListInformationId "be_creditorListInformation">
+<!ENTITY beUnsecuredCreditorInformationId "be_unsecuredCreditorInformation">
+<!ENTITY beCompInfoInformationId "be_compInfoInformation">
+<!ENTITY beCompInfoDescriptionId "be_compInfoDescription">
+<!ENTITY beCompInfoFinancialsId "be_compInfoFinancials">
+<!ENTITY beCompInfoOwnershipId "be_compInfoOwnership">
+<!ENTITY beCompInfoSubsidiariesId "be_compInfoSubsidiaries">
+<!ENTITY beSearchUrlId "be_SearchUrlId">
+<!ENTITY beHeaderId "be_header">
+<!ENTITY beHeaderTitleId "be_headerTitle">
+<!ENTITY beUnsecuredCreditor "be_unsecuredCreditor">
+<!ENTITY beUpdateUrlId "be_UpdateUrlId">
+<!ENTITY docketsDisclaimerBlockId "co_disclaimer_block">
+<!-- Bankruptcy Explorer END -->
+
+
+<!-- Filings & Disclosures START -->
+
+<!ENTITY fdPreformattedText "co_preformattedText">
+
+<!-- Filings & Disclosures END -->
+
+<!-- News Alerting START -->
+
+<!ENTITY detailBlockWidgetId "co_detailBlockWidget">
+
+<!-- News Alerting END -->
+
+<!ENTITY searchAlertLogoId "co_search_alertlogo">
+
+<!-- Canada Content Transition START -->
+
+<!-- Document Sections (Counsel|Abridgment Classification|Headnote|Annotation|Table of Authorities|Opinion|Disposition -->
+<!ENTITY crswCounselId "crsw_counsel">
+<!ENTITY crswAbridgmentId "crsw_abridgment">
+<!ENTITY crswAbridgmentHeaderId "crsw_abridgmentHeader">
+<!ENTITY crswAbridgmentBodyId "crsw_abridgmentBody">
+<!ENTITY crswHeadnoteId "crsw_headnote">
+<!ENTITY crswHeadnoteHeaderId "crsw_headnoteHeader">
+<!ENTITY crswHeadnoteBodyId "crsw_headnoteBody">
+<!ENTITY crswAnnotationId "crsw_annotation">
+<!ENTITY crswAnnotationHeaderId "crsw_annotationHeader">
+<!ENTITY crswAnnotationBodyId "crsw_annotationBody">
+<!ENTITY crswTableOfAuthoritiesId "crsw_tableOfAuthorities">
+<!ENTITY crswTableOfAuthoritiesHeaderId "crsw_tableOfAuthoritiesHeader">
+<!ENTITY crswTableOfAuthoritiesBodyId "crsw_tableOfAuthoritiesBody">
+<!ENTITY crswOpinionId "co_opinion">
+<!ENTITY crswDispositionId "crsw_disposition">
+
+<!-- Language Info -->
+<!ENTITY crswLanguageInfo "crsw_languageInfo">
+<!ENTITY crswOtherLanguageDocUrl "crsw_otherLanguageDocUrl">
+
+<!-- PDF Downloads -->
+<!ENTITY crswPdfDownloadInfo "crsw_pdfDownloadInfo">
+<!ENTITY crswOriginalPdfDownloadInfo "crsw_originalPdfDownloadInfo">
+
+<!-- Footnotes -->
+<!ENTITY crswFootnoteIdPrefix "crsw_fn_">
+<!ENTITY crswfootnoteReferenceIdPrefix "crsw_fnRef_">
+
+<!-- Miscellaonus -->
+<!ENTITY crswLegalMemoTopics "crsw_legalMemoTopics">
+<!ENTITY crswLegisCurrencyId "crsw_legislationCurrency">
+<!ENTITY crswParagraphNumberPrefix "crsw_paragraph_num_">
+
+<!-- Related Materials -->
+<!ENTITY crswLegisRMCLH "crsw_legisRM_CLH">
+<!ENTITY crswLegisRMLCR "crsw_legisRM_LCR">
+
+<!-- Canada Content Transition End -->
+
+<!-- RulebookMode Redlining START-->
+<!ENTITY redlineStartdate "redlineStartdate">
+
+<!-- Admin Decisions - PTAB START -->
+<!ENTITY admindecisionsPTABconstruedTermsId "co_AdmindecisionsPTABDisplay">
+<!-- Intellectual Property END -->
+
+<!-- Construed Terms START -->
+<!ENTITY markmanTermsListId "markmanTermsList">
+<!ENTITY construedTermsLabelId "construedTermsLabel">
+<!ENTITY markmanLinkPrefix "co_markmanAnchor_">
+<!-- Construed Terms END -->
+
+<!ENTITY documentGuid "co_document_guid">
+
+<!-- Docket START -->
+<!ENTITY docketsDocketAvailableImagesId "co_docketDocketAvailableImages">
+<!-- Docket END -->

@@ -1,0 +1,558 @@
+<!-- Copyright 2016: Thomson Reuters Global Resources. All Rights Reserved. Proprietary and Confidential information of TRGR. Disclosure, Use or Reproduction without the written authorization of TRGR is prohibited -->
+<!-- This file should contain all of the CSS class names used our XSLT -->
+
+<!-- WLN Universal START -->
+<!ENTITY detailsTable "co_detailsTable">
+<!ENTITY extraPaddingClass "co_extraPadding">
+<!ENTITY sazanamiMinchoClass "co_sazanamiMincho">
+<!ENTITY briefItStateClass "co_briefItState">
+<!ENTITY clearClass "co_clear" >
+<!ENTITY hideStateClass "co_hideState">
+<!-- WLN Universal END -->
+
+<!-- WLN Headnotes -->
+<!ENTITY headnotePublicationBlock "co_headnotePublicationBlock">
+<!ENTITY headnotePublicationBlockContainer "co_headnotePublicationBlockContainer">
+<!ENTITY headnotePublicationBlockTitle "co_headnotePublicationBlockTitle">
+<!ENTITY headnotePublicationBlockClassNumberID "co_headnotePublicationBlock_classNumberID">
+<!ENTITY headnotePublicationBlockNotPriorItem "co_headnotePublicationBlock_notPriorItem">
+<!ENTITY headnotePublicationBlockPriorItem "co_headnotePublicationBlock_priorItem">
+<!ENTITY headnotePublicationBlockJurisState "co_headnotePublicationBlock_jurisState">
+<!ENTITY headnotePublicationBlockWordsAndPhrases "co_headnotePublicationBlock_wordsAndPhrases">
+<!ENTITY headnotePublicationBlockWordsAndPhrasesItem "co_headnotePublicationBlock_wordsAndPhrasesItem">
+
+<!-- Bankruptcy Explorer START -->
+<!ENTITY beSectionClass "be_section" >
+<!ENTITY beLoadMoreClass "be_loadMore" >
+<!ENTITY beInternalToolbarTopClass "be_internalToolbar_top" >
+<!ENTITY beInternalToolbarBottomClass "be_internalToolbar_bottom" >
+<!ENTITY beHeaderCitationListClass "be_headerCitationList" >
+<!ENTITY beHeaderCourtClass "be_header_court" >
+<!ENTITY beHeaderFileDateClass "be_header_fileDate" >
+<!ENTITY beHeaderDocketNumberClass "be_header_docketNumber" >
+<!ENTITY beInternalContentClass "be_internalContent" >
+<!ENTITY bePreviousPageClass "be_previousPage" >
+<!ENTITY beNextPageClass "be_nextPage" >
+<!ENTITY textRightClass "co_textRight">
+<!ENTITY resultContentSummaryClass "co_resultContent_summary">
+<!-- Bankruptcy Explorer END -->
+
+<!-- Napa START -->
+<!ENTITY idNum "co_idNum">
+<!ENTITY inlineList "co_inlineList">
+<!ENTITY updated "co_updated">
+<!ENTITY contact "co_contact">
+<!ENTITY manageAlerts "co_manageAlerts">
+<!ENTITY emailSmall "co_emailSmall">
+<!ENTITY phoneSmall "co_PhoneSmall">
+<!ENTITY author "co_author">
+<!ENTITY authorName "co_authorName">
+<!ENTITY authorThumb "co_authorThumb">
+<!ENTITY authorLogo "co_authorLogo">
+<!ENTITY byLine "co_byLine">
+<!ENTITY genericBox "co_genericBox">
+<!ENTITY genericBoxHeader "co_genericBoxHeader">
+<!ENTITY genericBoxContent "co_genericBoxContent">
+<!ENTITY flyOut "co_flyOut">
+<!ENTITY flyOutContainer "co_flyOutContainer">
+<!ENTITY pointer "co_pointer">
+<!ENTITY flyOutInner "co_flyOutInner">
+<!ENTITY flyOutHeader "co_flyOutHeader">
+<!ENTITY flyOutList "co_flyOutList">
+<!ENTITY napaHeaderAnchor "co_napaHeaderAnchor">
+<!ENTITY tocItem "co_tocItem">
+<!ENTITY alertIcon "alertIcon">
+<!ENTITY summaryBox "co_summaryBox">
+<!ENTITY summaryBox_tr "co_summaryBox_tr">
+<!ENTITY summaryBox_br "co_summaryBox_br">
+<!ENTITY summaryBox_bl "co_summaryBox_bl">
+<!ENTITY changeJurisdiction "co_changeJurisdiction">
+<!ENTITY dropdownMenu "co_dropdownMenu">
+<!ENTITY dropdownMenuFooter "co_dropdownMenuFooter">
+<!ENTITY practitionerInsightsLogo "co_practitionerInsightsLogo">
+<!-- Napa END -->
+
+<!-- Filings & Disclosures START -->
+<!ENTITY layoutBasicMargin "co_layoutBasicMargin">
+<!ENTITY layoutBasicFloat "co_layoutBasicFloat">
+<!ENTITY layoutPreSpacedContent "co_layoutPreSpacedContent">
+<!ENTITY layoutPageBreak "co_layoutPageBreak">
+<!ENTITY layoutRenderNote "co_layoutRenderNote">
+<!ENTITY layoutTextAlignLeft "co_layoutTextAlignLeft">
+<!ENTITY layoutBackToTopLink "co_layoutBackToTopLink">
+<!ENTITY contentTypeFilingsAndDisclosures "co_filingsAndDisclosures">
+<!ENTITY documentLinksContainer "co_documentLinksContainer">
+
+<!-- Filings & Disclosures END -->
+
+<!-- Relevant Additional Resources START-->
+<!ENTITY relevantAdditionalResourcesTitleClass "co_relevantAdditionalResourcesTitle">
+<!-- Relevant Additional Resources END -->
+
+<!-- SEC Administrative Letters START -->
+<!ENTITY contentTypeSECAdminLetters "co_secAdminLetters">
+<!-- Filings & Disclosures END -->
+
+<!-- Bond Transactions START -->
+<!ENTITY contentTypeBondTransactions "co_bondTransactions">
+<!-- Bond Transactions END -->
+
+<!-- SEDI START -->
+<!ENTITY contentTypeSEDI "co_sedi">
+<!-- SEDI END -->
+
+<!-- R & P Transactions START -->
+<!ENTITY contentTypeRandPTransactions "co_randPTransactions">
+<!-- R & P Transactions END -->
+
+<!-- Annual Reports to Shareholders START-->
+<!ENTITY contentTypeAnnualReportsToShareholders "co_annualReportsToShareholders">
+<!-- Annual Reports to Shareholders END-->
+
+<!-- Mergers and Acquisitions  START-->
+<!ENTITY contentTypeMergersAndAcquisitions "co_mergersAndAcquisitions">
+<!ENTITY mw_sectionTransactionHistoryId "mw_sectionTransactionHistory">
+<!ENTITY mw_sectionAcquirerCompanyId "mw_sectionAcquirerCompany">
+<!ENTITY mw_sectionConditionsId "mw_sectionConditions">
+<!ENTITY mw_sectionConsiderationSummaryId "mw_sectionConsiderationSummary">
+<!ENTITY mw_sectionDealDescriptionsId "mw_sectionDealDescriptions">
+<!ENTITY mw_sectionDealStatusId "mw_sectionDealStatus">
+<!ENTITY mw_sectionRelatedPartiesId "mw_sectionRelatedParties">
+<!ENTITY mw_sectionTargetCompanyId "mw_sectionTargetCompany">
+<!ENTITY mw_sectionTargetResponseId "mw_sectionTargetResponse">
+<!ENTITY mw_sectionTargetSecuritiesOwnershipId "mw_sectionTargetSecuritiesOwnership">
+<!ENTITY mw_sectionTransactionHistoryId "mw_sectionTransactionHistory">
+<!ENTITY mw_sectionRemediesId "mw_sectionRemedies">
+
+<!ENTITY greyBackground "mw_greyBackground">
+<!ENTITY layoutHeaderRow "co_layoutHeaderRow">
+<!ENTITY layoutRow "co_layoutRow">
+<!ENTITY layoutSubHeaderRow "co_layoutSubHeaderRow">
+<!ENTITY layoutTransactionAbstractDocument "co_layoutTransactionAbstractDocument">
+<!ENTITY layoutTransactionAbstractDocumentSection "co_layoutTransactionAbstractDocumentSection">
+<!ENTITY layoutTransactionFilingDateValue "co_layoutTransactionFilingDateValue">
+<!ENTITY layoutValue "co_layoutValue">
+<!ENTITY transactionHistoryLabel "co_transactionHistoryLabel">
+<!ENTITY transactionHistoryValue "co_transactionHistoryValue">
+<!ENTITY terminationFeeLabel "co_terminationFeeLabel">
+<!ENTITY terminationFeeValue "co_terminationFeeValue">
+<!ENTITY contentTypeMandATransactions "co_mandATransactions">
+<!ENTITY indentLeft "co_indentLeft">
+<!-- Mergers and Acquisitions  END-->
+
+<!-- Expert Materials-->
+<!ENTITY noWrapClass "co_noWrap">
+<!-- Expert Materials-->
+
+<!--Historical Materials -->
+<!ENTITY courierClass "co_fontCourier">
+<!--Historical Materials -->
+
+<!--Public Records START -->
+<!ENTITY contentTypePublicRecordsAddressHistoricClass "pr_AddressHistoric">
+<!ENTITY contentTypePublicRecordsAircraftClass "pr_Aircraft">
+<!ENTITY contentTypePublicRecordsArrestClass "pr_Arrest">
+<!ENTITY contentTypePublicRecordsBankruptcyClass "pr_Bankruptcy">
+<!ENTITY contentTypePublicRecordsBoatRegistrationClass "pr_BoatRegistration">
+<!ENTITY contentTypePublicRecordsBusinessFindClass "pr_BusinessFind">
+<!ENTITY contentTypePublicRecordsBusinessProfileClass "pr_BusinessProfile">
+<!ENTITY contentTypePublicRecordsCCWClass "pr_CCW">
+<!ENTITY contentTypePublicRecordsCorporateRecordsAndBusinessRegistrationsClass "pr_CorporateRecordsAndBusinessRegistrations">
+<!ENTITY contentTypePublicRecordsCreditHeaderEquifaxClass "pr_CreditHeaderEquifax">
+<!ENTITY contentTypePublicRecordsDeathAndDeceasedClass "pr_DeathAndDeceased">
+<!ENTITY contentTypePublicRecordsDelawareCorporateRecordsClass "pr_CorpDE">
+<!ENTITY contentTypePublicRecordsPolkClass "pr_Polk">
+<!ENTITY contentTypePublicRecordsQsentClass "pr_Qsent">
+<!ENTITY contentTypePublicRecordsDivorceClass "pr_Divorce">
+<!ENTITY contentTypePublicRecordsDMIClass "pr_DMI">
+<!ENTITY contentTypePublicRecordsDriversLicensesClass "pr_DriversLicenses">
+<!ENTITY contentTypePublicRecordsExecutiveAffiliationsClass "pr_ExecutiveAffiliations">
+<!ENTITY contentTypePublicRecordsExecutiveBiographyClass "pr_ExecutiveBiography">
+<!ENTITY contentTypePublicRecordsExecutiveProfileClass "pr_ExecutiveProfile">
+<!ENTITY contentTypePublicRecordsExperianCreditHeaderClass "pr_ExperianCreditHeader">
+<!ENTITY contentTypePublicRecordsExperianRealTimeCreditHeaderClass "pr_ExperianRealTimeCreditHeader">
+<!ENTITY contentTypePublicRecordsFederalEmployeeIdentificationNumberClass "pr_FEIN">
+<!ENTITY contentTypePublicRecordsFederalEmployeeIdentificationNumberRestrictedClass "pr_FEINRestricted">
+<!ENTITY contentTypePublicRecordsFictitiousBusinessNameClass "pr_FBN">
+<!ENTITY contentTypePublicRecordsHealthcareLicenseClass "pr_HealthcareLinceses">
+<!ENTITY contentTypePublicRecordsHealthcareSanctionsClass "pr_HealthcareSanctions">
+<!ENTITY contentTypePublicRecordsHuntFishLicensesClass "pr_HuntFishLinceses">
+<!ENTITY contentTypePublicRecordsInfutorClass "pr_Infutor">
+<!ENTITY contentTypePublicRecordsLawsuitClass "pr_Lawsuit">
+<!ENTITY contentTypePublicRecordsLiensAndJudgementsClass "pr_LiensAndJudgements">
+<!ENTITY contentTypePublicRecordsMarraigeLicensesClass "pr_MarraigeLicenses">
+<!ENTITY contentTypePublicRecordsMotorVehicleClass "pr_MotorVehicle">
+<!ENTITY contentTypePublicRecordsMotorVehicleServiceClass "pr_MotorVehicleService">
+<!ENTITY contentTypePublicRecordsNationalProviderIdentifierClass "pr_Npi">
+<!ENTITY contentTypePublicRecordsNewMoversClass "pr_NewMovers">
+<!ENTITY contentTypePublicRecordsObituaryClass "pr_Obituary">
+<!ENTITY contentTypePublicRecordsPeopleCanadaClass "pr_peopleCanada">
+<!ENTITY contentTypePublicRecordsPeopleEmail "pr_peopleEmail">
+<!ENTITY contentTypePublicRecordsPeopleFindClass "pr_PeopleFind">
+<!ENTITY contentTypePublicRecordsPeopleHistoricClass "pr_PeopleHistoric">
+<!ENTITY contentTypePublicRecordsPhoneAll "pr_PhoneAll">
+<!ENTITY contentTypePublicRecordsPoliticalDonorsClass "pr_PoliticalDonors">
+<!ENTITY contentTypePublicRecordsProfessionalLicensesClass "pr_ProfessionalLicenses">
+<!ENTITY contentTypePublicRecordsRealPropertyForeclosureClass "pr_RealPropertyForeclosure">
+<!ENTITY contentTypePublicRecordsRealPropertyAssessorClass "pr_RealPropertyAssessor">
+<!ENTITY contentTypePublicRecordsRealPropertyDetailClass "pr_RealPropertyDetail">
+<!ENTITY contentTypePublicRecordsRealPropertyTransactionClass "pr_RealPropertyTransaction">
+<!ENTITY contentTypePublicRecordsRealPropertyComparableClass "pr_RealPropertyComparable">
+<!ENTITY contentTypePublicRecordsRealPropertyComprehensiveClass "pr_RealPropertyComprehensive">
+<!ENTITY contentTypePublicRecordsRealPropertyValuePoint4Class "pr_RealPropertyValuePoint4">
+<!ENTITY contentTypePublicRecordsRealPropertyLegalAndVestingClass "pr_RealPropertyLegalAndVesting">
+<!ENTITY contentTypePublicRecordsStockClass "pr_Stock">
+<!ENTITY contentTypePublicRecordsUccClass "pr_Ucc">
+<!ENTITY contentTypePublicRecordsUtilityClass "pr_Utility">
+<!ENTITY contentTypePublicRecordsVoterRegistrationClass "pr_VoterRegistration">
+<!ENTITY contentTypePublicRecordsWatchlistsClass "pr_Watchlists">
+<!ENTITY contentTypePublicRecordsWaterfrontClass "pr_Waterfront">
+<!ENTITY contentTypePublicRecordsWorkAffiliationsClass "pr_WorkAffiliations">
+<!ENTITY contentTypePublicRecordsWorkAffiliationsPlusClass "pr_WorkAffiliationsPlus">
+<!ENTITY contentTypePublicRecordsWorldbaseClass "pr_Worldbase">
+<!ENTITY contentTypePublicRecordsUnclaimedAssetsClass "pr_UnclaimedAssets">
+<!ENTITY pr_comprehensiveHeader "pr_header">
+<!ENTITY pr_dualColumn "pr_DualColumn">
+<!ENTITY pr_header "pr_header">
+<!ENTITY pr_item "pr_item">
+<!ENTITY pr_itemCenter "pr_item_center">
+<!ENTITY pr_itemKey "pr_item_key">
+<!ENTITY pr_itemIndex "pr_item_index">
+<!ENTITY pr_itemValue "pr_item_value">
+<!ENTITY pr_leftSection "pr_LeftSection">
+<!ENTITY pr_link "pr_Link">
+<!ENTITY pr_mapContainer "pr_map_content">
+<!ENTITY pr_marginTop "pr_marginTop">
+<!ENTITY pr_paddingTop "pr_paddingTop">
+<!ENTITY pr_rightSection "pr_RightSection">
+<!ENTITY pr_singleColumn "pr_SingleColumn">
+<!ENTITY pr_subheader "pr_subheader">
+<!ENTITY pr_table "pr_table">
+<!ENTITY pr_tablePaddingLeft "pr_table_padding_left">
+<!ENTITY pr_fraudAlertTable "pr_fraudAlertTable">
+<!ENTITY pr_polkImageStyle "pr_polkImageStyle">
+<!ENTITY pr_fcraDisclaimer "pr_fcraDisclaimer">
+
+<!--Content Types START-->
+<!ENTITY contentTypeRegulatoryGuidanceSummaryClass "co_regulatoryGuidanceSummary">
+<!--Content Types END-->
+
+<!-- News Alert Hill START -->
+<!ENTITY contentTypeNewsAlertHillClass "co_newsAlertHill">
+
+<!-- News Alert START -->
+<!ENTITY contentTypeNewsAlertClass "co_newsAlert">
+<!ENTITY containerRelatedInfoItemClass "co_relatedInfo_topic_item">
+<!ENTITY containerRelatedInfoItemListClass "co_relatedInfo_topic_itemList">
+<!-- News Alert END -->
+
+<!-- Arbitration START -->
+<!ENTITY arbThTitle "co_arb_th-title">
+<!ENTITY arbThGreen "co_arb_th-green">
+<!ENTITY arbThBlue "co_arb_th-blue">
+<!ENTITY arbThOrange "co_arb_th-orange">
+<!ENTITY arbThPurple "co_arb_th-purple">
+<!ENTITY arbThRed "co_arb_th-red">
+<!ENTITY arbThGreenBG "co_arb_th-greenBG">
+<!ENTITY arbThBlueBG "co_arb_th-blueBG">
+<!ENTITY arbThOrangeBG "co_arb_th-orangeBG">
+<!ENTITY arbThPurpleBG "co_arb_th-purpleBG">
+<!ENTITY arbThRedBG "co_arb_th-redBG">
+<!ENTITY arbThTotal "co_arb_th-total">
+<!ENTITY arbTdTitle "co_arb_td-title">
+<!ENTITY arbTdPercentage "co_arb_td-percentage">
+<!ENTITY arbTdTotalPercentage "co_arb_td-totalPercentage">
+<!ENTITY arbTdTotalCount "co_arb_td-totalCount">
+<!ENTITY arbChartSection "co_arbChart-section">
+<!ENTITY arbChartSectionHeading "co_arbChart-sectionHeading">
+<!ENTITY arbTitle "co_arb_title">
+<!-- Arbitration END-->
+
+<!--Transactions-->
+<!ENTITY contentTypeRegulationsAndProspectus "co_RegulationsAndProspectus">
+<!ENTITY layout_TransactionAbstractDocumentSection "co_Layout_TransactionAbstractDocumentSection">
+<!ENTITY layout_TranchesDocumentSection "co_Layout_TranchesDocumentSection">
+<!ENTITY layout_Row_MarginBottom "co_Layout_Row_MarginBottom">
+<!ENTITY layout_TopAlignment "co_vAlign3">
+<!ENTITY layout_RowTitle "co_Layout_RowTitle">
+<!ENTITY layout_SubHeaderRow "co_layoutSubHeaderRow">
+<!ENTITY layout_table "co_layout_table">
+<!ENTITY layout_headerTable "co_layout_headerTable">
+<!ENTITY layout_indentHeadings "co_layout_indentHeadings">
+<!ENTITY layout_2Columns "co_layout_2Columns">
+<!ENTITY layout_3Columns "co_layout_3Columns">
+<!ENTITY layout_4Columns "co_layout_4Columns">
+<!ENTITY layout_6Columns "co_layout_6Columns">
+<!ENTITY layout_8Columns "co_layout_8Columns">
+<!ENTITY layout_col1 "co_layout_col1">
+<!ENTITY layout_col2 "co_layout_col2">
+<!ENTITY layout_col3 "co_layout_col3">
+<!ENTITY layout_col4 "co_layout_col4">
+<!ENTITY layout_col5 "co_layout_col5">
+<!ENTITY layout_col6 "co_layout_col6">
+<!ENTITY layout_col7 "co_layout_col7">
+<!ENTITY layout_col8 "co_layout_col8">
+<!ENTITY morelessStyle "co_document_moreless">
+<!ENTITY morelessItemStyle "co_document_moreless_item">
+<!ENTITY morelessTextStyle "co_document_moreless_text">
+<!--Transactions-->
+
+<!-- WLN Enhancement 446607 - ALJ Name -->
+<!ENTITY adminLawJudgeClass "co_adminLawJudgeName">
+
+<!-- Codes - CRS Summaries START -->
+<!ENTITY codesCRSSummariesClass "co_codesCRSSummaries">
+<!-- Codes - CRS Summaries END -->
+
+<!-- Enhanced Litigation START-->
+<!ENTITY inlineKeyCiteFlagClass "co_inlineKeyCiteFlag">
+<!ENTITY inlineKeyCiteFlagWrapperClass "co_inlineKeyCiteFlagWrapper">
+<!ENTITY inlineKeyCiteFlagLinkClass "co_inlineKeyCiteFlagLink">
+<!ENTITY inlineKeyCiteFlagIllegalLinkRemovedClass "co_inlineKeyCiteFlagIllegalLinkRemoved">
+<!ENTITY inlineKeyCiteFlagIllegalLinkRemovedId "co_KCIllegalLinkRemoved_">
+<!ENTITY inlineKeyCiteFlagIllegalLinkClass "co_inlineKeyCiteFlagIllegalLink">
+<!-- Enhanced Litigation END-->
+
+<!-- Admin Decisions - PTAB START -->
+<!ENTITY contentTypeAdmindecisionsPTABClass "co_AdmindecisionsPTABClass">
+<!ENTITY admindecisionsPTABLinkClass "co_AdmindecisionsPTABLinkClass">
+<!-- Admin Decisions - PTAB END -->
+
+<!-- Patents START-->
+<!ENTITY contentTypePatentsGrantedClass "co_patentsGranted">
+<!ENTITY contentTypePatentsAsiaPacificClass "co_patentsAsiaPacific">
+<!ENTITY contentTypePatentsEuropeClass "co_patentsEurope">
+<!ENTITY contentTypePatentsApplicationsClass "co_patentsApplications">
+<!ENTITY contentTypePatentsPctApplicationsClass "co_patentsPctApplications">
+<!ENTITY contentTypePatentsLitAlertClass "co_patentsLitAlert">
+<!ENTITY contentTypePatentsStatusClass "co_patentsStatus">
+<!ENTITY contentTypePatentsAssignmentsClass "co_patentsAssignments">
+<!ENTITY panelBlockClass "co_panelBlock">
+<!ENTITY patentInfoClass "co_patentInfo">
+<!ENTITY patentLitRefClass "co_indentHanging">
+<!ENTITY patentsSpecificationSection "patentSpecificationCollapsibleSection">
+<!ENTITY patentsClaimsSection "patentClaimsCollapsibleSection">
+<!-- Patents END-->
+
+<!-- Intellectual Property START -->
+<!ENTITY contentTypeIPDocumentClass "co_ipDocument">
+<!-- Intellectual Property END -->
+
+<!-- Construed Terms START-->
+<!ENTITY icon25 "icon25">
+<!ENTITY iconGreyDownArrow "icon_grey_down_arrow">
+<!ENTITY iconGreyRightArrow "icon_grey_right_arrow">
+<!ENTITY widgetToggleLabel "co_widget_toggleLabel">
+<!-- Construed Terms END -->
+
+<!-- Patent Assignments START -->
+<!ENTITY patentAssignmentsBodyTable "co_patentAssign">
+<!ENTITY patentAssignmentsAffectedTable "co_patentAssignAffected">
+<!-- Patent Assignments END -->
+
+<!-- Trademarks START-->
+<!ENTITY viennaCode "co_viennaCode">
+<!ENTITY viennaCodeCode "co_viennaCode_code">
+<!ENTITY viennaCodeText "co_viennaCode_name">
+<!ENTITY contentTypeTrademarkClass "co_ipTrademarks">
+<!ENTITY trademarkImageNotAvailableClass "co_trademarkImageNotAvailable">
+<!-- Trademarks END-->
+
+<!-- Copyright START -->
+<!ENTITY contentTypeCopyrightClass "co_ipCopyright">
+<!-- Copyright END -->
+
+<!-- DWPI START-->
+<!ENTITY contentTypeDWPIClass "co_dwpi">
+<!ENTITY coFamilyMembersClass "co_familyMembers">
+<!-- DWPI END-->
+
+<!-- GoldsheetsBasisPoint START-->
+<!ENTITY propBlockClass "co_propBlock">
+<!ENTITY contentTypeGoldsheetsBasisPoint "co_goldsheetsBasisPoint">
+<!-- GoldsheetsBasisPoint END-->
+
+<!-- Loans -->
+<!ENTITY truncatedVertical "truncated_vertical">
+<!ENTITY coMoreLessLink "co_moreLessLink">
+<!ENTITY coDropdownArrowCollapsed "co_dropdownArrowCollapsed">
+<!ENTITY coLayoutRowTopDashBorder "co_Layout_Row_topDashBorder">
+<!ENTITY contentTypeLoans "co_loans">
+
+<!ENTITY searchAlertLogoClass "co_search_alertlogo">
+
+<!ENTITY alertNoteClass "co_alertNote">
+
+<!-- Hover Text for subsection-->
+<!ENTITY hoverText "co_hovertext">
+<!-- End Hover Text for subsection-->
+
+<!ENTITY cobaltUnderlineClass "co_underline">
+
+<!--CANADA Content Type Names START -->
+<!ENTITY crswAnalyticalLawReviewsClass "crsw_analyticalLawReviews">
+<!ENTITY crswCED "crsw_ced">
+<!ENTITY crswCaselaw "crsw_caselaw">
+<!ENTITY crswCollectiveAgreementSummaries "crsw_colagrsum">
+<!ENTITY crswLawReviewJournalsNewslettersClass "crsw_lawReviewJournalsNewsletters">
+<!ENTITY crswSpectrumNewslettersClass "crsw_spectrumNewsletters">
+<!ENTITY crswWordsAndPhrasesClass "crsw_wordsAndPhrases">
+<!ENTITY crswTextAndAnnotation "crsw_textAndAnnotation">
+<!ENTITY crswLabourDocs "crsw_labourDocs">
+<!ENTITY crswLegalMemo "crsw_legalMemo">
+<!ENTITY crswLegislation "crsw_legislation">
+<!ENTITY crswLegislativeConcordances "crsw_legislativeConcordances">
+<!ENTITY crswPleadingsMotionAndFactaClass "crsw_pleadingsMotionFacta">
+<!ENTITY crswRegulatoryMaterialsClass "crsw_regulatoryMaterials">
+<!ENTITY crswFormsPrecedentsClass "crsw_formsPrecedents">
+<!ENTITY crswMcGillGuide "crsw_mcGillGuide">
+<!ENTITY sectionFrontClass "co_sectionFront">
+<!ENTITY judge "co_judge">
+<!ENTITY headnoteInactive "co_headnoteInactive">
+<!ENTITY crswLabeledParagraph "crsw_labeledParagraph">
+<!ENTITY crswdocument "crsw_document">
+<!-- TODO: DO NOTE USE THESE
+			These need to have CSS defintions, or remapped in the xsl files to different classes-->
+<!ENTITY crswMostNegativeTreatment "crsw_mostNegativeTreatment">
+<!ENTITY crswMostRecentTreatment "crsw_mostRecentTreatment">
+<!ENTITY crswFancyTableSubtitleSpan "crsw_fancyTableSubtitleSpan">
+<!ENTITY crswFancyTableHeaderWithSubtitle "crsw_fancyTableHeaderWithSubtitle">
+
+<!ENTITY crswMostRecentlyConsidered "crsw_mostRecentlyConsidered">
+<!ENTITY crswDeliveryTopMargin "crsw_DeliveryTopMargin">
+<!ENTITY proposedBlock "crsw_proposedBlock">
+<!ENTITY crswSmallText "crsw_SmallText">
+<!ENTITY crswTable "crsw_table">
+<!ENTITY crswCurrencyLine "crsw_currency">
+<!ENTITY crswBottomMargin "crsw_bottomMargin">
+<!ENTITY crswKeyCiteImageLink "crsw_KeyCiteImgLink">
+<!ENTITY crswKeyCiteInlineImage "crsw_keyCiteInlineImage">
+<!ENTITY crswGrayBox "crsw_grayBox">
+
+<!ENTITY crswTopMargin "crsw_topMargin">
+<!ENTITY crswTopMarginDouble "crsw_topMarginDouble">
+<!ENTITY crswBlueTitle "crsw_blueTitle">
+<!ENTITY crswPageBreakDivBorder "crsw_pageBreakDivBorder">
+
+<!--  Two column table of contents -->
+<!ENTITY crswTwoColumnTOCHeader "crsw_twoColumnTOCHeader">
+<!ENTITY crswTwoColumnTOCBody "crsw_twoColumnTOCBody">
+<!ENTITY crswTwoColumnTOCBodyLeft "crsw_twoColumnTOCBodyLeft">
+<!ENTITY crswTwoColumnTOCBodyRight "crsw_twoColumnTOCBodyRight">
+<!ENTITY crswTwoColumnTOCBodySubGroup "crsw_twoColumnTOCBodySubGroup">
+<!ENTITY crswTwoColumnTOCBlock "crsw_twoColumnTOCBlock">
+
+<!ENTITY crswBlueTitle "crsw_blueTitle">
+<!ENTITY crswKimOrrH1 "crsw_kimOrrH1">
+<!ENTITY crswKimOrrH2 "crsw_kimOrrH2">
+<!ENTITY crswKimOrrH3 "crsw_kimOrrH3">
+
+<!ENTITY crswDisableSuperLink "crsw_DisableSuperLink">
+
+<!ENTITY crswWordPhraseClass "crsw_wordPhrase">
+<!ENTITY crswSeeAlsoClass "crsw_seeAlso">
+<!ENTITY crswJurisdictionClass "crsw_jurisdiction">
+<!ENTITY crswSubjectClass "crsw_subject">
+<!ENTITY crswQuoteClass "crsw_quote">
+
+<!--CANADA Content Type Names END -->
+
+<!-- EDGAR -->
+<!ENTITY contentTypeEdgar "co_contentTypeEdgar">
+
+<!--Self Regulatroy Organization-->
+<!ENTITY contentTypeSelfRegulatoryOrganization "co_contentTypeSelfRegulatoryOrganization">
+
+
+<!-- Business Information and News (BIN) START -->
+<!ENTITY xabstractClass "x_abstract" >
+<!ENTITY coNewsClass "co_news" >
+<!-- BIN END -->
+
+<!ENTITY coTocKeepHidden "co_toc-keepHidden">
+
+
+<!-- Company Investigator - Officers and Directors -->
+<!ENTITY ci_BoardOfDirector "co_boardOfDirector">
+<!ENTITY ci_Record "record">
+<!ENTITY ci_Layout_CompensationAndOptionsTableContainer "co_layout_CompensationAndOptionsTableContainer">
+<!ENTITY ci_PositionTable "co_positionTable">
+<!ENTITY ci_BoardOfDirectorSplitSection "co_boardOfDirectorSplitSection">
+<!ENTITY ci_Pr_DualColumn "pr_DualColumn">
+<!ENTITY ci_Pr_LeftSection "pr_LeftSection">
+<!ENTITY ci_Pr_Subheader "pr_subheader">
+<!ENTITY ci_Pr_Table "pr_table">
+<!ENTITY ci_Pr_RightSection "pr_RightSection">
+<!ENTITY ci_CompensationAndOptionsTableContainer "co_compensationAndOptionsTableContainer">
+<!ENTITY ci_Pm_FullTextSectionHeader "pm_fullTextSectionHeader">
+<!ENTITY ci_CompensationAndOptionsTable "co_compensationAndOptionsTable">
+<!ENTITY ci_Layout_MajorRowTitleBox "Layout_MajorRowTitleBox">
+<!ENTITY ci_Layout_MinorSection "Layout_MinorSection">
+
+<!-- Hoovers Report -->
+<!ENTITY hp_HooversProfile "co_hooversProfile">
+<!ENTITY hp_hooversReportDetails "co_hooversReportDetails">
+<!ENTITY hp_reportMainHeader "co_reportMainHeader">
+<!ENTITY hp_reportSubHeader "co_reportSubHeader">
+<!ENTITY hp_reportContentTable "co_reportContentTable">
+<!ENTITY hp_reportLabel "co_reportLabel">
+<!ENTITY hp_reportLabelDetails "co_reportLabelDetails">
+<!ENTITY hp_reportDetails "co_reportDetails">
+<!ENTITY hp_reportDataTable "co_reportDataTable">
+<!ENTITY hp_reportDataHeader "co_reportDataHeader">
+<!ENTITY hp_reportTextIndentSmall "co_reportTextIndentSmall">
+<!ENTITY hp_reportTextIndentMedium "co_reportTextIndentMedium">
+
+<!-- WLN OpenWeb Enterprise START -->
+<!ENTITY wlnEnterprise_resource_abstract "resource_abstract">
+<!ENTITY wlnEnterprise_draftingnote "draftingnote">
+<!ENTITY wlnEnterprise_resource_author "resource-author">
+<!ENTITY wlnEnterprise_tableWrapper "tableWrapper">
+<!ENTITY wlnEnterprise_RelatedTopics "RelatedTopics">
+<!ENTITY wlnEnterprise_resource "resource">
+<!ENTITY wlnEnterprise_resource_content "resource_content">
+<!ENTITY wlnEnterprise_us_sd "us_sd">
+<!-- WLN OpenWeb Enterprise END -->
+
+<!-- Private Equity Funds START -->
+<!ENTITY indentLeft5Class  "co_indentLeft5" >
+<!ENTITY indentLeft8Class  "co_indentLeft8" >
+<!ENTITY peFundsParentClass "co_peFunds">
+<!ENTITY contentTypePrivateEquityFunds "co_contentTypePrivateEquityFunds">
+<!-- Private Equity Funds END -->
+
+<!-- Private Equity Deals -->
+<!ENTITY contentTypePrivateEquityDeals "co_peDeals">
+
+<!--Locate Precedent Agreements START -->
+<!ENTITY contentTypeLocatePrecedentAgreements "co_contentTypeLocatePrecedentAgreements">
+<!--Locate Precedent Agreements END -->
+
+<!-- Expert Profiles START -->
+<!ENTITY areaOfExpertiseClass "co_areaOfExpertiseSection">
+<!-- Expert Profiles END -->
+
+<!-- Testimonial History class START -->
+<!ENTITY testimonialHistoryDocumentClass "co_testimonialHistoryDocument">
+<!ENTITY testimonialHistoryTableClass "co_testimonialHistoryTable">
+<!ENTITY testimonialHistoryTotalClass "co_testimonialsTotal">
+<!ENTITY testimonialHistoryToOrderClass "co_testimonialHistoryToOrder">
+<!-- Testimonial History class END -->
+
+<!-- Publications class START -->
+<!ENTITY publicationsDocumentClass "co_publicationsDocument">
+<!ENTITY publicationsTableClass "co_publicationsTable">
+<!ENTITY publicationsTotalClass "co_publicationsTotal">
+<!ENTITY publicationsToOrderClass "co_publicationsToOrder">
+<!-- Publications class END -->
+
+<!-- Business Law Center START -->
+<!ENTITY blcPortfolioTable "co_blcPortfolioTable">
+<!ENTITY blcWidth25 "co_column co_24Percent">
+<!ENTITY blcWidth75 "co_column co_76Percent">
+<!ENTITY blcSectionHeading "co_sectionHeading">
+<!ENTITY blcSectionSubheading "co_sectionSubHeading">
+<!ENTITY blcBorderTop "co_borderTop">
+<!ENTITY blcNestedTable "co_nestedTable">
+<!ENTITY blcNestedTableCell "co_nestedTableCell">
+<!-- Business Law Center END -->

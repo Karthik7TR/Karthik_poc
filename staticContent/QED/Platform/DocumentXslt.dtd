@@ -1,0 +1,17 @@
+<!-- Copyright 2014: Thomson Reuters Global Resources. All Rights Reserved. Proprietary and Confidential information of TRGR. Disclosure, Use or Reproduction without the written authorization of TRGR is prohibited -->
+<!ENTITY % cssClasses SYSTEM "CssClasses.dtd">
+<!ENTITY % elementIds SYSTEM "ElementIds.dtd">
+<!ENTITY % staticText SYSTEM "StaticText.dtd">
+<!ENTITY % internalStaticText SYSTEM "InternalStaticText.dtd">
+<!ENTITY % urlsAndPaths SYSTEM "UrlsAndPaths.dtd">
+<!ENTITY % htmlEntities SYSTEM "HtmlEntities.dtd">
+<!ENTITY % publisherTypes SYSTEM "PublisherTypes.dtd">
+<!ENTITY % localizationKeys SYSTEM "LocalizationKeys.dtd">
+%cssClasses;
+%elementIds;
+%staticText;
+%internalStaticText;
+%urlsAndPaths;
+%htmlEntities;
+%publisherTypes;
+%localizationKeys;
