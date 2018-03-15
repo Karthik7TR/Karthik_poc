@@ -197,6 +197,7 @@ a:empty {
 .appendix_front .name,
 .publication > .metadata_block + .publication_body > .part > .front > .outline_name_block > .name {
   display: block;
+  margin-top: 0.5em;
 }
 
 .analytical_hierarchy .front .designator {
@@ -216,7 +217,8 @@ a:empty {
   flex-wrap: wrap;
 }
 
-.analytical_level_body > .section_block > .section > .section_front {
+.analytical_level_body > .section_block > .section > .section_front,
+.publication > .publication_body > .part > .part_body > .chapter > .chapter_body > .section_block > .section > .section_front {
   display: block;
 }
 
@@ -359,8 +361,10 @@ td:last-of-type {
   width: 100%;
 }
 
-.analytical_level_body > .section_block > .section > .section_front > .research_reference_block {
+.analytical_level_body > .section_block > .section > .section_front > .research_reference_block,
+.publication > .publication_body > .part > .part_body > .chapter > .chapter_body > .section_block > .section > .section_front > .research_reference_block {
   display: block;
+  margin-top: 1em;
 }
 
 .reference_entry > .ref_text > .cite > ref {
@@ -371,6 +375,10 @@ td:last-of-type {
 
 .chapter_body .section_front > .research_reference_block .reference_entry > .ref_text > .cite > ref {
   margin-left: 0;
+}
+
+.publication > .publication_body > .part > .part_body > .chapter > .chapter_body > .section_block > .section > .section_front > .research_reference_block > .reference_entry > .ref_text > .cite > ref {
+  margin-left: 1em;
 }
 
 .feature_para_block {
