@@ -50,6 +50,11 @@ public final class AddSectionbreaksStepIntegrationTest {
     private File mainXmlThreeFootnotes;
     private File expectedMainXmlThree;
 
+    private File copyColumnsMain;
+    private File copyColumnsFootnotes;
+    private File expectedCopyColumnsMain;
+    private File expectedCopyColumnsFootnotes;
+
     @Before
     public void setUp() throws URISyntaxException {
         frontXml =
@@ -85,6 +90,15 @@ public final class AddSectionbreaksStepIntegrationTest {
             new File(AddSectionbreaksStepIntegrationTest.class.getResource("1-LAPRACEVID.DIVXML.footnotes").toURI());
         expectedMainXmlThree = new File(
             AddSectionbreaksStepIntegrationTest.class.getResource("expected-1-LAPRACEVID.DIVXML.main").toURI());
+
+        copyColumnsMain =
+            new File(AddSectionbreaksStepIntegrationTest.class.getResource("4-COLUMNS_1.DIVXML.main").toURI());
+        copyColumnsFootnotes =
+            new File(AddSectionbreaksStepIntegrationTest.class.getResource("4-COLUMNS_1.DIVXML.footnotes").toURI());
+        expectedCopyColumnsMain = new File(
+            AddSectionbreaksStepIntegrationTest.class.getResource("expected-4-COLUMNS_1.DIVXML.main").toURI());
+        expectedCopyColumnsFootnotes = new File(
+            AddSectionbreaksStepIntegrationTest.class.getResource("expected-4-COLUMNS_1.DIVXML.footnotes").toURI());
     }
 
     @After
@@ -105,6 +119,8 @@ public final class AddSectionbreaksStepIntegrationTest {
         FileUtils.copyFileToDirectory(mainXmlTwoFootnotes, originalMainSourceDir);
         FileUtils.copyFileToDirectory(mainXmlThree, originalMainSourceDir);
         FileUtils.copyFileToDirectory(mainXmlThreeFootnotes, originalMainSourceDir);
+        FileUtils.copyFileToDirectory(copyColumnsMain, originalMainSourceDir);
+        FileUtils.copyFileToDirectory(copyColumnsFootnotes, originalMainSourceDir);
 
         //when
         step.executeStep();
@@ -116,6 +132,8 @@ public final class AddSectionbreaksStepIntegrationTest {
         assertOutputContent(mainXmlTwo, expectedMainXmlTwo);
         assertOutputContent(mainXmlTwoFootnotes, expectedMainXmlTwoFootnotes);
         assertOutputContent(mainXmlThree, expectedMainXmlThree);
+        assertOutputContent(copyColumnsMain, expectedCopyColumnsMain);
+        assertOutputContent(copyColumnsFootnotes, expectedCopyColumnsFootnotes);
     }
 
     private void assertOutputContent(final File original, final File expected) {

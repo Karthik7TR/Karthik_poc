@@ -2,7 +2,7 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.sdl.com/xpp"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
-    <xsl:import href="footnotesUtil.xsl"/>
+    <xsl:import href="../footnotesUtil.xsl"/>
     <xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
 
     <xsl:param name="mainFile" />
@@ -17,7 +17,7 @@
     <xsl:template match="x:footnote">
         <xsl:variable name="pageNum" select="preceding::x:pagebreak[1]/@num" />
         <xsl:variable name="newId" select="concat(@id, '-', $pageNum)"/>
-        <xsl:variable name="xref" select="$main//x:xref[@id=$newId and @type='footnote']" />
+        <xsl:variable name="xref" select="$main//x:xref[@id=$newId and @type='footnote' and not(@hidden)]" />
         
         <xsl:if test="$xref">
             <xsl:call-template name="addSectionbreak">

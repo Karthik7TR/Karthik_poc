@@ -3,7 +3,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.sdl.com/xpp"
     xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
     
-    <xsl:import href="footnotesUtil.xsl"/>
+    <xsl:import href="../footnotesUtil.xsl"/>
     <xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
 
     <xsl:template match="x:pagebreak">
@@ -14,7 +14,7 @@
             <xsl:with-param name="pageNum" select="@num" />
         </xsl:call-template>
         
-        <xsl:call-template name="addReferenceToFootnoteWhichDefinedOnDifferentPage">
+        <xsl:call-template name="addXrefIfRequired">
             <xsl:with-param name="pageNum" select="@num" />
         </xsl:call-template>
     </xsl:template>
@@ -46,17 +46,37 @@
         </xsl:if>
     </xsl:template>
     
-    <xsl:template name="addReferenceToFootnoteWhichDefinedOnDifferentPage">
+    <xsl:template name="addXrefIfRequired">
         <xsl:param name="pageNum" />
 
         <xsl:variable name="xrefs" select="x:getXrefsOnGivenPageOfMainFile(current())" />
         <xsl:variable name="footnotes" select="x:getFootnotesOnGivenPageOfFootnoteFile($footnotesDocument//x:pagebreak[@num=$pageNum])" />
-        
-        <xsl:for-each select="$footnotes">
-            <xsl:if test="count($xrefs[@id=current()/@id])=0">
+       
+       <xsl:for-each select="$footnotes">
+       		<xsl:variable name="hasXrefs" select="(count($xrefs[@id=current()/@id])>0)" />
+       		<xsl:variable name="shouldCopyColumn" select="x:shouldCopyColumn($footnotesDocument//x:pagebreak[@num=$pageNum])" />
+            <xsl:if test="$hasXrefs=false() or $shouldCopyColumn=true()">
                 <xsl:call-template name="addFootnoteXref">
-                    <xsl:with-param name="id" select="@id" />
-                    <xsl:with-param name="suffix" select="$pageNum" />
+                    <xsl:with-param name="id">
+                    	<xsl:choose>
+                    		<xsl:when test="$hasXrefs=true() and $shouldCopyColumn=true()">
+                    			<xsl:value-of select="concat(@id, '-', $pageNum)" />
+                    		</xsl:when>
+                    		<xsl:otherwise>
+                    			<xsl:value-of select="@id" />
+                    		</xsl:otherwise>
+                    	</xsl:choose>
+                    </xsl:with-param>
+                    <xsl:with-param name="suffix">
+                    	<xsl:choose>
+                    		<xsl:when test="$hasXrefs=true() and $shouldCopyColumn=true()">
+                    			<xsl:value-of select="$COLUMN_COPY" />
+                    		</xsl:when>
+                    		<xsl:otherwise>
+                    			<xsl:value-of select="$pageNum" />
+                    		</xsl:otherwise>
+                    	</xsl:choose>
+                    </xsl:with-param>
                     <xsl:with-param name="hidden" select="true()" />
                 </xsl:call-template>
             </xsl:if>
