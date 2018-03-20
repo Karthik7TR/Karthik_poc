@@ -1,11 +1,8 @@
 @import "constants.scss";
 .frontmatter {
     text-align: justify;
-}
-
-table, tbody, tr, td {
-    .frontmatter .tbl & {
-        display: block;
+    table {
+        width: 100%;
     }
 }
 

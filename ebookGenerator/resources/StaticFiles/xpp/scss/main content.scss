@@ -4,9 +4,6 @@
     * {
         display: inline;
     }
-    .section_body>.para>&:last-of-type {
-        text-indent: 0;
-    }
 }
 
 .name {
@@ -100,7 +97,7 @@ td {
 }
 
 td:first-of-type {
-    padding-left: 0;
+    padding-left: #{$indent / 5}em;
 }
 
 td:last-of-type {
@@ -131,11 +128,17 @@ td:empty {
     .list_item & {
         text-indent: 0;
     }
+    .feature_para_block > .name_block + .para > & {
+        display: inline;
+    }
 }
 
 .para {
     .list_item>&,
     .list_item>& * {
+        display: inline;
+    }
+    .feature_para_block > .name_block + & {
         display: inline;
     }
 }
@@ -208,7 +211,4 @@ ref {
 
 .feature_para_block {
     margin: #{$indent}em;
-    & * {
-        display: inline;
-    }
 }

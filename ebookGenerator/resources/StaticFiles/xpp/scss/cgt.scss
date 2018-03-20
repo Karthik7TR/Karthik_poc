@@ -23,7 +23,8 @@
     thead>tr>td>&,
     tbody &,
     .generated_case_tbl .int_ref_list>&,
-    .research_reference_block>& {
+    .research_reference_block>&,
+    .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .label+& {
         display: inline;
     }
     .signature_group>.form_line &,
