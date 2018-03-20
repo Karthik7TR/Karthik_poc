@@ -3,4 +3,39 @@
     <charsPair old="&#984237;" new="&#8226;" />
     <charsPair old="&#984239;" new="&#8226;" />
     <charsPair old="&#983858;" new="♦" />
+    
+    <!-- following symbols are not supported by html4, if symbol have to be shown, put required entity as "new" attribute -->
+    <charsPair old="&#127;" new=" " />
+    <charsPair old="&#128;" new=" " />
+    <charsPair old="&#129;" new=" " />
+    <charsPair old="&#130;" new=" " />
+    <charsPair old="&#131;" new=" " />
+    <charsPair old="&#132;" new=" " />
+    <charsPair old="&#133;" new=" " />
+    <charsPair old="&#134;" new=" " />
+    <charsPair old="&#135;" new=" " />
+    <charsPair old="&#136;" new=" " />
+    <charsPair old="&#137;" new=" " />
+    <charsPair old="&#138;" new=" " />
+    <charsPair old="&#139;" new=" " />
+    <charsPair old="&#140;" new=" " />
+    <charsPair old="&#141;" new=" " />
+    <charsPair old="&#142;" new=" " />
+    <charsPair old="&#143;" new=" " />
+    <charsPair old="&#144;" new=" " />
+    <charsPair old="&#145;" new=" " />
+    <charsPair old="&#146;" new=" " />
+    <charsPair old="&#147;" new=" " />
+    <charsPair old="&#148;" new=" " />
+    <charsPair old="&#149;" new=" " />
+    <charsPair old="&#150;" new=" " />
+    <charsPair old="&#151;" new=" " />
+    <charsPair old="&#152;" new=" " />
+    <charsPair old="&#153;" new=" " />
+    <charsPair old="&#154;" new=" " />
+    <charsPair old="&#155;" new=" " />
+    <charsPair old="&#156;" new=" " />
+    <charsPair old="&#157;" new=" " />
+    <charsPair old="&#158;" new=" " />
+    <charsPair old="&#159;" new=" " />
 </specialChars>
