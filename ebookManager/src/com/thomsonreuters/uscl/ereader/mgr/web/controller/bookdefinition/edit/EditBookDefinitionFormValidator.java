@@ -163,7 +163,6 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             new Object[] {"Copyright", MAXIMUM_CHARACTER_2048});
 
         if (form.getSourceType() != SourceType.XPP) {
-
             checkMaxLength(
                 errors,
                 MAXIMUM_CHARACTER_2048,
@@ -1092,7 +1091,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             .sorted()
             .collect(Collectors.toList());
 
-        if (printComponents.size() - splitterOrders.size() <= splitterOrders.size()) {
+        if (!printComponents.isEmpty() && printComponents.size() - splitterOrders.size() <= splitterOrders.size()) {
             errors.rejectValue(PRINT_COMPONENT, "error.print.component.splitter.count.exceeded");
         }
 

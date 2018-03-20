@@ -9,17 +9,28 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
-import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.StepTestUtil;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.apache.commons.lang3.StringUtils;
@@ -40,6 +51,7 @@ public final class ExtractTocStepTest {
     private static final String FIRST_BUNDLE_FILE_NAME = "one.DIVXML.xml";
     private static final String SECOND_BUNDLE_FILE_NAME = "two.DIVXML.xml";
     private static final String MATERIAL_NUMBER = "123456";
+    private static final String SECOND_MATERIAL_NUMBER = "1234567";
 
     @InjectMocks
     private ExtractTocStep step;
@@ -55,17 +67,29 @@ public final class ExtractTocStepTest {
     @Mock
     private XppBundle bundle;
     @Mock
+    private BookDefinition bookDefinition;
+    @Mock
     private File firstTocBundleFile;
     @Mock
     private File secondTocBundleFile;
     @Mock
     private File tocFile;
     @Mock
+    private File tocFirstPartFile;
+    @Mock
+    private File tocSecondPartFile;
+    @Mock
     private File sourceFirstBundleFile;
     @Mock
     private File sourceSecondBundleFile;
     @Mock
+    private File secondBundleFirstSourceFile;
+    @Mock
+    private File secondBundleSecondSourceFile;
+    @Mock
     private File mergedTocFile;
+    @Mock
+    private File secondMergedTocFile;
     @Mock
     private File volumesMapFile;
     @Captor
@@ -75,12 +99,10 @@ public final class ExtractTocStepTest {
     public void init() throws IOException {
         given(bundle.getOrderedFileList()).willReturn(Arrays.asList(FIRST_BUNDLE_FILE_NAME, SECOND_BUNDLE_FILE_NAME));
         given(bundle.getMaterialNumber()).willReturn(MATERIAL_NUMBER);
-        given(
-            chunkContext.getStepContext()
-                .getStepExecution()
-                .getJobExecution()
-                .getExecutionContext()
-                .get(JobParameterKey.XPP_BUNDLES)).willReturn(Arrays.asList(bundle));
+
+        given(bookDefinition.getPrintComponents()).willReturn(Collections.emptySet());
+        StepTestUtil.givenBook(chunkContext, bookDefinition);
+        StepTestUtil.givenBookBundles(chunkContext, Arrays.asList(bundle));
 
         given(volumesMapFile.getAbsolutePath()).willReturn(StringUtils.EMPTY);
 
@@ -90,12 +112,21 @@ public final class ExtractTocStepTest {
         given(
             fileSystem.getSectionbreaksFile(step, MATERIAL_NUMBER, SECOND_BUNDLE_FILE_NAME.replaceAll(".xml", ".main")))
                 .willReturn(sourceSecondBundleFile);
+        given(
+            fileSystem.getSectionbreaksFile(step, SECOND_MATERIAL_NUMBER, FIRST_BUNDLE_FILE_NAME.replaceAll(".xml", ".main")))
+                .willReturn(secondBundleFirstSourceFile);
+        given(
+            fileSystem.getSectionbreaksFile(step, SECOND_MATERIAL_NUMBER, SECOND_BUNDLE_FILE_NAME.replaceAll(".xml", ".main")))
+                .willReturn(secondBundleSecondSourceFile);
         given(fileSystem.getBundlePartTocFile(eq(FIRST_BUNDLE_FILE_NAME), anyString(), eq(step)))
             .willReturn(firstTocBundleFile);
         given(fileSystem.getBundlePartTocFile(eq(SECOND_BUNDLE_FILE_NAME), anyString(), eq(step)))
             .willReturn(secondTocBundleFile);
         given(fileSystem.getTocFile(step)).willReturn(tocFile);
+        given(fileSystem.getTocPartFile(step, 1)).willReturn(tocFirstPartFile);
+        given(fileSystem.getTocPartFile(step, 2)).willReturn(tocSecondPartFile);
         given(fileSystem.getMergedBundleTocFile(MATERIAL_NUMBER, step)).willReturn(mergedTocFile);
+        given(fileSystem.getMergedBundleTocFile(SECOND_MATERIAL_NUMBER, step)).willReturn(secondMergedTocFile);
         given(fileSystem.getVolumesMapFile(step)).willReturn(volumesMapFile);
 
         given(mergedTocFile.createNewFile()).willReturn(true);
@@ -129,5 +160,101 @@ public final class ExtractTocStepTest {
         assertThat(command.getInputFiles(), contains(mergedTocFile));
         assertThat(command.getOutputFile(), is(tocFile));
         assertThat(command.getTransformer().getParameter("isPocketPart"), is(IsNull.notNullValue()));
+    }
+
+    @Test
+    public void shouldTransformSplitBook() throws Exception {
+        //given
+        initSplitBookMocks();
+        //when
+        step.executeTransformation();
+        //then
+        then(transformationService).should(times(8)).transform(commandCaptor.capture());
+        final Iterator<TransformationCommand> iterator = commandCaptor.getAllValues().iterator();
+
+        TransformationCommand command = iterator.next();
+        assertThat(command.getInputFile(), is(sourceFirstBundleFile));
+        assertThat(command.getOutputFile(), is(firstTocBundleFile));
+        assertThat(command.getTransformer().getParameter("isPocketPart"), not(nullValue()));
+
+        command = iterator.next();
+        assertThat(command.getInputFile(), is(sourceSecondBundleFile));
+        assertThat(command.getOutputFile(), is(secondTocBundleFile));
+        assertThat(command.getTransformer().getParameter("isPocketPart"), not(nullValue()));
+
+        command = iterator.next();
+        assertThat(command.getInputFiles(), contains(firstTocBundleFile, secondTocBundleFile));
+        assertThat(command.getOutputFile(), is(mergedTocFile));
+        assertThat(command.getTransformer().getParameter("isPocketPart"), is(IsNull.notNullValue()));
+
+        command = iterator.next();
+        assertThat(command.getInputFiles(), contains(mergedTocFile));
+        assertThat(command.getOutputFile(), is(tocFirstPartFile));
+        assertThat(command.getTransformer().getParameter("isPocketPart"), is(IsNull.notNullValue()));
+
+        command = iterator.next();
+        assertThat(command.getInputFile(), is(secondBundleFirstSourceFile));
+        assertThat(command.getOutputFile(), is(firstTocBundleFile));
+        assertThat(command.getTransformer().getParameter("isPocketPart"), not(nullValue()));
+
+        command = iterator.next();
+        assertThat(command.getInputFile(), is(secondBundleSecondSourceFile));
+        assertThat(command.getOutputFile(), is(secondTocBundleFile));
+        assertThat(command.getTransformer().getParameter("isPocketPart"), not(nullValue()));
+
+        command = iterator.next();
+        assertThat(command.getInputFiles(), contains(firstTocBundleFile, secondTocBundleFile));
+        assertThat(command.getOutputFile(), is(secondMergedTocFile));
+        assertThat(command.getTransformer().getParameter("isPocketPart"), is(IsNull.notNullValue()));
+
+        command = iterator.next();
+        assertThat(command.getInputFiles(), contains(secondMergedTocFile));
+        assertThat(command.getOutputFile(), is(tocSecondPartFile));
+        assertThat(command.getTransformer().getParameter("isPocketPart"), is(IsNull.notNullValue()));
+    }
+
+    private void initSplitBookMocks() {
+        final Set<PrintComponent> printComponents = getMockedCollection(PrintComponent.class, HashSet::new,
+            printComponent -> {
+                given(printComponent.getSplitter()).willReturn(false);
+                given(printComponent.getComponentOrder()).willReturn(1);
+                given(printComponent.getMaterialNumber()).willReturn(MATERIAL_NUMBER);
+            },
+            printComponent -> {
+                given(printComponent.getSplitter()).willReturn(true);
+                given(printComponent.getComponentOrder()).willReturn(2);
+            },
+            printComponent -> {
+                given(printComponent.getSplitter()).willReturn(false);
+                given(printComponent.getComponentOrder()).willReturn(3);
+                given(printComponent.getMaterialNumber()).willReturn(SECOND_MATERIAL_NUMBER);
+            });
+        given(bookDefinition.getPrintComponents()).willReturn(printComponents);
+
+        final List<XppBundle> xppBundles = getMockedCollection(XppBundle.class, ArrayList::new,
+            xppBundle -> {
+                given(xppBundle.getMaterialNumber()).willReturn(MATERIAL_NUMBER);
+                given(xppBundle.getOrderedFileList()).willReturn(Arrays.asList(FIRST_BUNDLE_FILE_NAME, SECOND_BUNDLE_FILE_NAME));
+            },
+            xppBundle -> {
+                given(xppBundle.getMaterialNumber()).willReturn(SECOND_MATERIAL_NUMBER);
+                given(xppBundle.getOrderedFileList()).willReturn(Arrays.asList(FIRST_BUNDLE_FILE_NAME, SECOND_BUNDLE_FILE_NAME));
+            });
+        StepTestUtil.givenBookBundles(chunkContext, xppBundles);
+    }
+
+    private <M, C extends Collection<M>> C getMockedCollection(final Class<M> elementType,
+                                                               final Supplier<C> collectionSupplier,
+                                                               final Consumer<M> ... mockBehaviourConsumers) {
+        final C collection = collectionSupplier.get();
+        M elementMock;
+
+        for (final Consumer<M> mockBehaviourConsumer : mockBehaviourConsumers) {
+            elementMock = mock(elementType);
+            mockBehaviourConsumer.accept(elementMock);
+            collection.add(elementMock);
+        }
+
+        return collection;
     }
 }

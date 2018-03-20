@@ -1,7 +1,10 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.toc.step;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.xml.transform.Transformer;
@@ -32,10 +35,22 @@ public class ExtractTocStep extends VolumeNumberAwareXppTransformationStep {
 
     @Override
     public void executeTransformation() throws Exception {
-        final List<File> tocFiles = getXppBundles().stream()
+        if (isSplitXppBook()) {
+            getSplitPartsBundlesMap().forEach((splitPartNumber, bundles) -> generatePartsTocs(bundles, splitPartNumber));
+        } else {
+            generateBundlesTocs();
+        }
+    }
+
+    private void generateBundlesTocs() {
+        generatePartsTocs(getXppBundles(), null);
+    }
+
+    private void generatePartsTocs(final Collection<XppBundle> bundles, final Integer splitPartNumber) {
+        final List<File> tocFiles = bundles.stream()
             .map(this::toBundleToc)
             .collect(Collectors.toList());
-        uniteTocs(tocFiles);
+        uniteTocs(tocFiles, splitPartNumber);
     }
 
     private File toBundleToc(final XppBundle bundle) {
@@ -77,13 +92,18 @@ public class ExtractTocStep extends VolumeNumberAwareXppTransformationStep {
         return mergedVolumeTOC;
     }
 
-    private void uniteTocs(final List<File> tocFiles) {
+    private void uniteTocs(final List<File> tocFiles, final Integer splitPartNumber) {
+        final File resultFile = Optional.ofNullable(splitPartNumber)
+            .map(number -> fileSystem.getTocPartFile(this, number))
+            .orElseGet(() -> fileSystem.getTocFile(this));
+
         final Transformer transformer = transformerBuilderFactory.create()
             .withXsl(uniteTocsXsl)
             .withParameter("depthThreshold", depthThreshold)
+            .withParameter("isSplitted", Objects.nonNull(splitPartNumber))
             .build();
         final TransformationCommand command =
-            new TransformationCommandBuilder(transformer, fileSystem.getTocFile(this)).withInput(tocFiles)
+            new TransformationCommandBuilder(transformer, resultFile).withInput(tocFiles)
                 .build();
         transformationService.transform(command);
     }

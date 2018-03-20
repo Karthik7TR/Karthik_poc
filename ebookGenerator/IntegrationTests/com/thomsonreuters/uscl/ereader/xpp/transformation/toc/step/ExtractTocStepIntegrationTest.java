@@ -14,6 +14,8 @@ import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleWebBuildProductType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
@@ -59,6 +61,8 @@ public final class ExtractTocStepIntegrationTest {
     private File expectedMainContentAdditionalTocFile;
     private File expectedMainContentXppHierWithoutChildXppMetadataFile;
     private File expectedTocFile;
+    private File expectedSplitTocPartOne;
+    private File expectedSplitTocPartTwo;
     private File volumesMap;
 
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
@@ -69,19 +73,26 @@ public final class ExtractTocStepIntegrationTest {
         org.mockito.MockitoAnnotations.initMocks(this);
     }
 
-    private void init(final boolean multipleVolumes) throws Exception {
-        initMocks(multipleVolumes);
+    private void init(final boolean multipleVolumes, final boolean splited) throws Exception {
+        initMocks(multipleVolumes, splited);
         initFiles(multipleVolumes);
         prepareDirectories(multipleVolumes);
     }
 
-    private void initMocks(final boolean multipleVolumes) {
+    private void initMocks(final boolean multipleVolumes, final boolean splited) {
         when(
             chunkContext.getStepContext()
                 .getStepExecution()
                 .getJobExecution()
                 .getExecutionContext()
                 .get(JobParameterKey.XPP_BUNDLES)).thenReturn(getBundlesList(multipleVolumes));
+
+        when(
+            chunkContext.getStepContext()
+                .getStepExecution()
+                .getJobExecution()
+                .getExecutionContext()
+                .get(JobParameterKey.EBOOK_DEFINITON)).thenReturn(getBookDefinition(multipleVolumes, splited));
     }
 
     private void initFiles(final boolean multipleVolumes) throws Exception {
@@ -99,6 +110,10 @@ public final class ExtractTocStepIntegrationTest {
             new File(ExtractTocStepIntegrationTest.class.getResource("expectedMainContent_2_TocFile.xml").toURI());
         expectedMainContentXppHierWithoutChildXppMetadataFile =
             new File(ExtractTocStepIntegrationTest.class.getResource("expectedMainContent_3_TocFile.xml").toURI());
+        expectedSplitTocPartOne =
+            new File(ExtractTocStepIntegrationTest.class.getResource("expectedSplitToc_pt1.xml").toURI());
+        expectedSplitTocPartTwo =
+            new File(ExtractTocStepIntegrationTest.class.getResource("expectedSplitToc_pt2.xml").toURI());
 
         if (multipleVolumes) {
             volumesMap = new File(ExtractTocStepIntegrationTest.class.getResource("multi/volumesMap.xml").toURI());
@@ -169,6 +184,38 @@ public final class ExtractTocStepIntegrationTest {
         return bundles;
     }
 
+    private BookDefinition getBookDefinition(final boolean multipleVolumes, final boolean splited) {
+        final List<PrintComponent> printComponents = new ArrayList<>();
+        Integer order = 1;
+        for (final String material : Arrays.asList(VOL_TWO_MATERIAL_NUMBER, VOL_ONE_MATERIAL_NUMBER)) {
+            printComponents.add(getPrintComponent(material, order, false));
+            order++;
+        }
+
+        if (multipleVolumes) {
+            if (splited) {
+                printComponents.add(getPrintComponent("", order, true));
+                order++;
+            }
+            for (final String material : Arrays.asList(VOL_THREE_MATERIAL_NUMBER, VOL_FOUR_MATERIAL_NUMBER)) {
+                printComponents.add(getPrintComponent(material, order, false));
+                order++;
+            }
+        }
+
+        final BookDefinition bookDefinition = new BookDefinition();
+        bookDefinition.setPrintComponents(printComponents);
+        return bookDefinition;
+    }
+
+    private PrintComponent getPrintComponent(final String material, final Integer order, final boolean splitter) {
+        final PrintComponent component = new PrintComponent();
+        component.setSplitter(splitter);
+        component.setMaterialNumber(material);
+        component.setComponentOrder(order);
+        return component;
+    }
+
     @After
     public void clean() throws IOException {
         FileUtils.cleanDirectory(fileSystem.getFormatDirectory(step));
@@ -177,7 +224,7 @@ public final class ExtractTocStepIntegrationTest {
     @Test
     public void shouldCreateTocFileBasedBundleMainContentOriginalFile() throws Exception {
         //given
-        init(false);
+        init(false, false);
         //when
         step.executeStep();
         //then
@@ -199,12 +246,25 @@ public final class ExtractTocStepIntegrationTest {
     @Test
     public void shouldCreateTocFileBasedBundleMainContentOriginalFileForMultipleVolumes() throws Exception {
         //given
-        init(true);
+        init(true, false);
         //when
         step.executeStep();
         //then
         final File toc = fileSystem.getTocFile(step);
         assertThat(expectedTocFile, hasSameContentAs(toc));
+    }
+
+    @Test
+    public void shouldCreateTocFilesForSplitPublication() throws Exception {
+        //given
+        init(true, true);
+        //when
+        step.executeStep();
+        //then
+        final File firstPartToc = fileSystem.getTocPartFile(step, 1);
+        final File secondPartToc = fileSystem.getTocPartFile(step, 2);
+        assertThat(expectedSplitTocPartOne, hasSameContentAs(firstPartToc));
+        assertThat(expectedSplitTocPartTwo, hasSameContentAs(secondPartToc));
     }
 
     @Configuration

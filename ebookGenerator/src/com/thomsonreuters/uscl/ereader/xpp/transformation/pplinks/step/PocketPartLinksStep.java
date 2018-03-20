@@ -37,7 +37,6 @@ public class PocketPartLinksStep extends XppTransformationStep {
     @Value("${xpp.pplinks.xsl}")
     private File transformToAnchorToDocumentIdMapXsl;
 
-    private Map<String, XppBundle> bundles;
     private Map<Boolean, Map<String, DocumentFile>> isPocketPartToUuidToDocumentMap;
 
     @Override
@@ -66,7 +65,7 @@ public class PocketPartLinksStep extends XppTransformationStep {
 
         if (anchorDoc != null) {
             final String anchorFileMaterialNumber = anchorDoc.getFile().getParentFile().getName();
-            final String webBuildProductType = bundles.get(anchorFileMaterialNumber).getWebBuildProductType().getHumanReadableName();
+            final String webBuildProductType = getBundleByMaterial(anchorFileMaterialNumber).getWebBuildProductType().getHumanReadableName();
             transform(file, new File(directory, file.getName()), isPP, webBuildProductType, uuid);
         } else {
             FileUtils.copyFileToDirectory(file, directory);
@@ -74,8 +73,7 @@ public class PocketPartLinksStep extends XppTransformationStep {
     }
 
     private void initMaps() {
-        bundles = getXppBundlesMap();
-        isPocketPartToUuidToDocumentMap = getIsPocketPartToUuidToFileNameMap(bundles);
+        isPocketPartToUuidToDocumentMap = getIsPocketPartToUuidToFileNameMap();
     }
 
     @NotNull
@@ -86,12 +84,12 @@ public class PocketPartLinksStep extends XppTransformationStep {
     /*
      * package visibility is for testing
      */
-    Map<Boolean, Map<String, DocumentFile>> getIsPocketPartToUuidToFileNameMap(final Map<String, XppBundle> bundles) {
+    Map<Boolean, Map<String, DocumentFile>> getIsPocketPartToUuidToFileNameMap() {
         final Map<Boolean, Map<String, DocumentFile>> isPocketPartToUuidToFileNameMap = new HashMap<>();
         final Map<String, Collection<File>> partFilesIndex = fileSystem.getFiles(this, SOURCE_DIR);
 
         partFilesIndex.forEach((materialNumber, files) -> {
-            final boolean isPocketPart = bundles.get(materialNumber).isPocketPartPublication();
+            final boolean isPocketPart = getBundleByMaterial(materialNumber).isPocketPartPublication();
             final Map<String, DocumentFile> map = files.stream().map(DocumentFile::new)
                 .collect(Collectors.toMap(
                     document -> document.getDocumentName().getDocFamilyUuid(),

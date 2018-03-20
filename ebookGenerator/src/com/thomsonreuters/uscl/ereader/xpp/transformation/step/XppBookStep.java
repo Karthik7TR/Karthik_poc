@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.step;
 
 import java.util.List;
+import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
@@ -15,4 +16,25 @@ public interface XppBookStep extends BookStep {
      */
     @NotNull
     List<XppBundle> getXppBundles();
+
+    /**
+     * Check if book has several parts
+     * @return
+     */
+    boolean isSplitXppBook();
+
+    /**
+     * Get bundles mapped to publication parts
+     * @return
+     */
+    @NotNull
+    Map<Integer, List<XppBundle>> getSplitPartsBundlesMap();
+
+    /**
+     * get bundle representation with provided material
+     * @param material
+     * @return
+     */
+    @NotNull
+    XppBundle getBundleByMaterial(@NotNull String material);
 }

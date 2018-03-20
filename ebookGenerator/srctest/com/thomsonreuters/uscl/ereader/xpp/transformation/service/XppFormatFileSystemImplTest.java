@@ -622,6 +622,15 @@ public final class XppFormatFileSystemImplTest {
     }
 
     @Test
+    public void shouldReturngetTocPartFile() {
+        //given
+        //when
+        final File file = fileSystem.getTocPartFile(step, 777);
+        //then
+        assertThat(file, hasPath(TOC_DIR + "/toc_pt777.xml"));
+    }
+
+    @Test
     public void shouldReturnTitleMetadataDirectory() {
         //given
         //when
@@ -641,8 +650,7 @@ public final class XppFormatFileSystemImplTest {
 
     @Test
     public void shouldReturnAnyXppFormatDirectory() {
-        for (final XppFormatFileSystemDir dir : XppFormatFileSystemDir.values())
-        {
+        for (final XppFormatFileSystemDir dir : XppFormatFileSystemDir.values()) {
             //when
             final File file = fileSystem.getDirectory(step, dir);
             //then
@@ -652,8 +660,7 @@ public final class XppFormatFileSystemImplTest {
 
     @Test
     public void shouldReturnFileFromAnyXppFormatDirectory() {
-        for (final XppFormatFileSystemDir dir : XppFormatFileSystemDir.values())
-        {
+        for (final XppFormatFileSystemDir dir : XppFormatFileSystemDir.values()) {
             //when
             final File file = fileSystem.getFile(step, dir, MATERIAL_NUMBER, FILE_NAME_HTML);
             //then
@@ -692,7 +699,6 @@ public final class XppFormatFileSystemImplTest {
         //then
         assertThat(file, hasPath(VOLUMES_MAP_FILE));
     }
-
 
     private void shouldReturnBaseFilesIndex(final XppFormatFileSystemDir dir) throws IOException {
         //given

@@ -43,7 +43,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.batch.core.scope.context.ChunkContext;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PocketPartLinksStepTest {
+public final class PocketPartLinksStepTest {
     private static final String DIVXML_XML_MAIN = "1-LUPDRL.DIVXML_0002_I91dd17d0572311dca3950000837bc6dd.page";
     private static final String DIVXML_XML_SUPP = "1-LUPDRL.DIVXML_0001_I91dd17d0572311dca3950000837bc6dd.page";
     private static final String DIVXML_XML_MAIN_2 = "1-CHAL_7.DIVXML_0001_Ic06f56e5607311dcb2b50000837214a9.page";
@@ -156,7 +156,7 @@ public class PocketPartLinksStepTest {
 
     @Test
     public void shouldCreateIsPocketPartToUuidToFileNameMap() {
-        final Map<Boolean, Map<String, DocumentFile>> map = step.getIsPocketPartToUuidToFileNameMap(getXppBundlesMap());
+        final Map<Boolean, Map<String, DocumentFile>> map = step.getIsPocketPartToUuidToFileNameMap();
         assertEquals(map.get(true).size(), 1);
         assertEquals(map.get(false).size(), 2);
         assertEquals(map.get(true).get(UUID).getFile().getName(), DIVXML_XML_SUPP);

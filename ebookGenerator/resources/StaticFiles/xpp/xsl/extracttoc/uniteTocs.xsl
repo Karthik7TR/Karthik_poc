@@ -5,11 +5,12 @@
     <xsl:import href="../transform-utils.xsl" />
     <xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
     <xsl:param name="depthThreshold" />
+    <xsl:param name="isSplitted" />
 
     <xsl:template match="Document">
         <EBook>
             <xsl:choose>
-                <xsl:when test="count(distinct-values(.//x:Volume/@volumeNum))=1">
+                <xsl:when test="count(distinct-values(.//x:Volume/@volumeNum))=1 and not($isSplitted)">
                     <xsl:for-each select=".//x:Volume">
                         <xsl:call-template name="processVolumeWithPocketPart" />
                     </xsl:for-each>
