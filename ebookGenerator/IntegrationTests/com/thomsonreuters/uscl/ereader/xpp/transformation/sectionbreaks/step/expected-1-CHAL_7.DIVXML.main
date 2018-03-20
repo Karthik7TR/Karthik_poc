@@ -278,7 +278,7 @@
                                                     </section.front>
                                                     <section.body date.updated="0">
                                                         <para date.updated="0" first.para="yes">
-                                                            <para.text date.updated="0" first.para.text="yes">Private franchising is a marketing concept by which products or services are distributed to numerous areas under the banner of a single identity. Under this concept, a franchise company is a business management organization specializing in a particular product or service. The franchi-sor is expected to develop and to deliver expertise in such di-verse fields as product specialization and development, real estate, finance, advertising, public relations, and operational know-how. The franchisee <pagebreak num="8" num-string="8"/><xref id="27-8" origId="27" type="footnote" hidden="true"/>purchases an interest in the franchisor, payment for such interest being known as the “franchise fee,” in return for which the franchisee receives the right to operate a business using the franchise trademark and fulfilling various requirements of the franchise contract, such as furnishing a standardized product associated with the franchise trademark.
+                                                            <para.text date.updated="0" first.para.text="yes">Private franchising is a marketing concept by which products or services are distributed to numerous areas under the banner of a single identity. Under this concept, a franchise company is a business management organization specializing in a particular product or service. The franchi-sor is expected to develop and to deliver expertise in such di-verse fields as product specialization and development, real estate, finance, advertising, public relations, and operational know-how. The franchisee <pagebreak num="8" num-string="8"/><xref id="27-8" origId="27" type="footnote" hidden="true"/>purchases an interest in the franchisor, payment for such interest being known as the “franchise fee,” in return for which the franchisee receives the right to operate a business using the franchise trademark and fulfilling various requirements of the franchise contract, such as furnishing a standardized product associated with the franchise trademark<xref id="28-8" origId="28" type="footnote" orig="true"/>.
                                                             </para.text>
                                                         </para>
                                                     </section.body>
@@ -294,5 +294,5 @@
             </topic>
         </publication.body>
     </publication>
-    <pagebreak num="9" num-string="9"/><xref id="27-9" origId="27" type="footnote" hidden="true"/>
+    <pagebreak num="9" num-string="9"/><xref id="27-9" origId="27" type="footnote" hidden="true"/><xref id="28-9" origId="28" type="footnote" hidden="true"/>
 </root>

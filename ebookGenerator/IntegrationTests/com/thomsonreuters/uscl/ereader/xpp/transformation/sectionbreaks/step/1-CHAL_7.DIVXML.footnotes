@@ -103,4 +103,14 @@
             </para>
         </footnote.body>
     </footnote>
+    <footnote uuid="I42e15f7013c911e7b9e3acd823573d3e" date.updated="0" id="28">
+        <footnote.reference>
+            <cgt>28</cgt>
+        </footnote.reference>
+        <footnote.body date.updated="0">
+            <para date.updated="0" first.para="no">
+                footnote 28 on page 9
+            </para>
+        </footnote.body>
+    </footnote>
 </root>

@@ -140,4 +140,14 @@
             </para>
         </footnote.body>
     </footnote>
+    <footnote id="28-9" origId="28" orig="true" uuid="I42e15f7013c911e7b9e3acd823573d3e" date.updated="0">
+        
+        <footnote.reference class="show_in_main_and_footnotes">
+            <cgt>28</cgt>
+        </footnote.reference><footnote.body class="show_in_main_and_footnotes" date.updated="0">
+            <para date.updated="0" first.para="no">
+                footnote 28 on page 9
+            </para>
+        </footnote.body>
+    </footnote>
 </root>
