@@ -534,6 +534,11 @@ td:last-of-type {
   margin: 0;
 }
 
+.appendix_block > .appendix > .appendix_body > .stat_structure > .stat_title > .stat_chapter > .stat_article > .stat_name_block > .name_block {
+  display: block;
+  text-align: center;
+}
+
 .stat_text,
 .stat_name_block {
   padding-left: 0;
@@ -543,7 +548,9 @@ td:last-of-type {
   float: left;
 }
 
-.footnote .stat_name_block {
+.footnote .stat_name_block,
+.appendix_block > .appendix > .appendix_body > .stat_structure > .stat_title > .stat_chapter > .stat_article > .stat_name_block,
+.appendix_block > .appendix > .appendix_body > .stat_structure > .stat_title > .stat_chapter > .stat_article > .stat_section > .stat_name_block {
   float: none;
 }
 
@@ -658,6 +665,7 @@ thead > tr > td > .cgt,
 tbody .cgt,
 .generated_case_tbl .int_ref_list > .cgt,
 .research_reference_block > .cgt,
+.appendix_block > .appendix > .appendix_body > .stat_structure > .stat_title > .stat_chapter > .stat_article > .stat_section_reserved .cgt,
 .toc_wrapper > .generated_toc > .summary_toc > .toc_chapter > a > .outline_name_block .label + .cgt {
   display: inline;
 }

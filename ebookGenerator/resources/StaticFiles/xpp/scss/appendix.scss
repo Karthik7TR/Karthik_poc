@@ -142,6 +142,10 @@
         display: inline;
         margin: 0;
     }
+    .appendix_block>.appendix>.appendix_body>.stat_structure>.stat_title>.stat_chapter>.stat_article>.stat_name_block>& {
+        display: block;
+        text-align: center;
+    }
 }
 
 .stat_text,
@@ -151,7 +155,9 @@
 
 .stat_name_block {
     float: left;
-    .footnote & {
+    .footnote &,
+    .appendix_block>.appendix>.appendix_body>.stat_structure>.stat_title>.stat_chapter>.stat_article>&,
+    .appendix_block>.appendix>.appendix_body>.stat_structure>.stat_title>.stat_chapter>.stat_article>.stat_section>& {
         float: none;
     }
 }

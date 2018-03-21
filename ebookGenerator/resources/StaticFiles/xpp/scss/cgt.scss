@@ -24,6 +24,7 @@
     tbody &,
     .generated_case_tbl .int_ref_list>&,
     .research_reference_block>&,
+    .appendix_block>.appendix>.appendix_body>.stat_structure>.stat_title>.stat_chapter>.stat_article>.stat_section_reserved &,
     .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .label+& {
         display: inline;
     }
