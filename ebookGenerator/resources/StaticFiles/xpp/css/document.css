@@ -665,8 +665,7 @@ thead > tr > td > .cgt,
 tbody .cgt,
 .generated_case_tbl .int_ref_list > .cgt,
 .research_reference_block > .cgt,
-.appendix_block > .appendix > .appendix_body > .stat_structure > .stat_title > .stat_chapter > .stat_article > .stat_section_reserved .cgt,
-.toc_wrapper > .generated_toc > .summary_toc > .toc_chapter > a > .outline_name_block .label + .cgt {
+.appendix_block > .appendix > .appendix_body > .stat_structure > .stat_title > .stat_chapter > .stat_article > .stat_section_reserved .cgt {
   display: inline;
 }
 
@@ -695,6 +694,10 @@ tbody .cgt,
 .toc_wrapper > .generated_toc > .summary_toc > .toc_chapter > a > .outline_name_block .name ~ .cgt {
   flex-grow: 1;
   flex-shrink: 1;
+}
+
+.toc_wrapper > .generated_toc > .summary_toc > .toc_chapter > a > .outline_name_block .label + .cgt {
+  display: inline !important;
 }
 
 .full_toc .name *,
