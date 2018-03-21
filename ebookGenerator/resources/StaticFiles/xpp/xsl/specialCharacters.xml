@@ -3,6 +3,7 @@
     <charsPair old="&#984237;" new="&#8226;" />
     <charsPair old="&#984239;" new="&#8226;" />
     <charsPair old="&#983858;" new="♦" />
+    <charsPair old="&#983755;" new="&#9900;" />
     
     <!-- following symbols are not supported by html4, if symbol have to be shown, put required entity as "new" attribute -->
     <charsPair old="&#127;" new=" " />

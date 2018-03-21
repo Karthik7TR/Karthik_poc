@@ -73,3 +73,16 @@
 .font {
     display: inline;
 }
+
+.para {
+    .frontmatter .fm_highlights .pre_leading_2>.list>.list_item> & {
+        margin-left: #{$indent*2}em;
+        margin-top: #{$indent*-1}em;
+        display: block;
+    }
+}
+.list {
+    .frontmatter .fm_highlights .pre_leading_2>.list>.list_item> & {
+        padding-left: #{$indent}em;
+    }
+}

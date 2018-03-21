@@ -640,6 +640,16 @@ td:last-of-type {
   display: inline;
 }
 
+.frontmatter .fm_highlights .pre_leading_2 > .list > .list_item > .para {
+  margin-left: 2em;
+  margin-top: -1em;
+  display: block;
+}
+
+.frontmatter .fm_highlights .pre_leading_2 > .list > .list_item > .list {
+  padding-left: 1em;
+}
+
 .leaveout .cgt,
 .fixed_footnote_reference .cgt,
 .form_line .cgt,
