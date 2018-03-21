@@ -949,7 +949,7 @@
 							tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="rflb" />
 							<t x="0" y="0" style="unknown.1" cgt="true" suppress="true">@FSTART@</t>
-							<t x="0" y="0" style="unknown.2" cgt="true">App. C-3</t>
+							<t x="0" y="0" style="unknown.2" cgt="true">App. C1-3</t>
 							<t x="0" y="0" style="unknown.2" cgt="true" suppress="true">@FEND@</t>
 							<endtag name="rflb" />
 						</line>
