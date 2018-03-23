@@ -87,12 +87,22 @@
             </xsl:choose>
         </xsl:variable>
         
-        <xsl:if test=".[not(./x:Name[contains(., $volNamePlaceholder)])] and 
-            ($deepestVisibleDocUUID != ./x:DocumentGuid/text() or
-            descendant::x:EBookToc[./x:DocumentGuid != $deepestVisibleDocUUID])">
-            <xsl:copy>
-                <xsl:apply-templates select="node()|@*" />
-            </xsl:copy>
+        <xsl:if test=".[not(./x:Name[contains(., $volNamePlaceholder)])]">
+            <xsl:choose>
+                <xsl:when test="($deepestVisibleDocUUID != ./x:DocumentGuid/text() or
+                                descendant::x:EBookToc[./x:DocumentGuid != $deepestVisibleDocUUID])">
+                    <xsl:copy>
+                        <xsl:apply-templates select="node()|@*" />
+                    </xsl:copy>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:if test="ancestor::x:EBookToc[1]/descendant::x:EBookToc[./x:DocumentGuid != $deepestVisibleDocUUID]">
+                        <xsl:copy>
+                            <xsl:apply-templates select="node()|@*" />
+                        </xsl:copy>
+                    </xsl:if>
+                </xsl:otherwise>
+            </xsl:choose>
         </xsl:if>
     </xsl:template>
 
