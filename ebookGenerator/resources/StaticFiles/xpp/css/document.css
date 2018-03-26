@@ -319,7 +319,8 @@ td:last-of-type {
   display: inline;
 }
 
-.feature_para_block > .name_block + .para {
+.feature_para_block > .name_block + .para,
+.chapter > .chapter_body > .section_block > .section > .section_body > .para > .tbl > .fixed_footnote_block > .fixed_footnote .footnote_body > .para {
   display: inline;
 }
 
@@ -873,6 +874,10 @@ a + .footnote_body {
   display: block;
 }
 
+.chapter > .chapter_body > .section_block > .section > .section_body > .para > .tbl > .fixed_footnote_block > .fixed_footnote .footnote_body {
+  display: inline;
+}
+
 .show_in_main {
   display: block;
 }
@@ -893,7 +898,8 @@ a + .footnote_body {
   width: 100%;
 }
 
-.footnote > .er_rp_search_volume_content_data {
+.footnote > .er_rp_search_volume_content_data,
+.chapter > .chapter_body > .section_block > .section > .section_body > .para > .tbl > .fixed_footnote_block > .fixed_footnote > .er_rp_search_volume_content_data {
   display: inline;
 }
 
@@ -902,6 +908,10 @@ a + .footnote_body {
 }
 
 .footnote > .er_rp_search_volume_content_data {
+  display: inline;
+}
+
+.chapter > .chapter_body > .section_block > .section > .section_body > .para > .tbl > .fixed_footnote_block > .fixed_footnote .fixed_footnote_reference {
   display: inline;
 }
 

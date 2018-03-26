@@ -78,6 +78,9 @@ sup {
     &.show_in_main_and_footnotes {
         display: block;
     }
+    .chapter>.chapter_body>.section_block>.section>.section_body>.para>.tbl>.fixed_footnote_block>.fixed_footnote & {
+        display: inline;
+    }
 }
 
 .show_in_main {
@@ -98,7 +101,8 @@ sup {
     .footnote>sup~& {
         width: 100%;
     }
-    .footnote>& {
+    .footnote>&,
+    .chapter>.chapter_body>.section_block>.section>.section_body>.para>.tbl>.fixed_footnote_block>.fixed_footnote>& {
         display: inline;
     }
 }
@@ -109,4 +113,10 @@ sup {
 
 .footnote>.er_rp_search_volume_content_data {
     display: inline;
+}
+
+.fixed_footnote_reference {
+    .chapter>.chapter_body>.section_block>.section>.section_body>.para>.tbl>.fixed_footnote_block>.fixed_footnote & {
+        display: inline;
+    }
 }

@@ -138,7 +138,8 @@ td:empty {
     .list_item>& * {
         display: inline;
     }
-    .feature_para_block > .name_block + & {
+    .feature_para_block > .name_block + &,
+    .chapter>.chapter_body>.section_block>.section>.section_body>.para>.tbl>.fixed_footnote_block>.fixed_footnote .footnote_body>& {
         display: inline;
     }
 }
