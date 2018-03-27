@@ -709,6 +709,7 @@ tbody .cgt,
 
 .toc_wrapper > .generated_toc > .summary_toc > .toc_chapter > a > .outline_name_block .label + .cgt {
   display: inline !important;
+  white-space: pre;
 }
 
 .full_toc .name *,

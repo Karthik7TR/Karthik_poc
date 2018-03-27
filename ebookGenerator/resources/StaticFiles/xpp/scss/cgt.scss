@@ -53,5 +53,6 @@
     }
     .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .label+& {
         display: inline !important;
+        white-space: pre;
     }
 }
