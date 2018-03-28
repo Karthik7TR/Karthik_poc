@@ -48,6 +48,21 @@ public final class ViewBookDefinitionControllerTest {
     }
 
     @Test
+    public void textBookDefinitionNull() throws Exception {
+        request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_VIEW_GET);
+        request.setMethod(HttpMethod.GET.name());
+        request.addParameter(WebConstants.KEY_ID, Long.toString(BOOK_DEFINITION_ID));
+
+        EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(null);
+        EasyMock.replay(mockBookDefinitionService);
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+
+        final RedirectView views = (RedirectView) mav.getView();
+        Assert.assertEquals(WebConstants.MVC_ERROR_BOOK_DELETED, views.getUrl());
+    }
+
+    @Test
     public void testBookDefinitionViewGet() throws Exception {
         // Set up the request URL
 

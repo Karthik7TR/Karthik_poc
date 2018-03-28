@@ -58,7 +58,12 @@ public class ViewBookDefinitionController {
         form.setId(id);
         form.setBookDefinition(bookDef);
 
-        if (bookDef != null) {
+        model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
+        model.addAttribute(WebConstants.KEY_FORM, form);
+
+        if (bookDef == null) {
+            return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));
+        } else {
             model.addAttribute(
                 WebConstants.KEY_IS_IN_JOB_REQUEST,
                 jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId()));
@@ -69,26 +74,23 @@ public class ViewBookDefinitionController {
             if (generateCanceled != null) {
                 model.addAttribute(WebConstants.KEY_INFO_MESSAGE, generateCanceled);
             }
-        }
-        model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
-        model.addAttribute(WebConstants.KEY_FORM, form);
-
-        if (form.getBookDefinition().getSourceType().equals(SourceType.XPP)) {
-            final List<PrintComponent> currentPrintComponentsList =
-                new ArrayList<>(form.getBookDefinition().getPrintComponents());
-            if (currentPrintComponentsList.isEmpty()) {
-                form.setGenerateButtonDisabled(true);
-            } else {
-                form.getBookDefinition().setPrintComponents(
-                    printComponentUtil.getAllInitializedPrintComponents(currentPrintComponentsList));
-                for (final PrintComponent element : form.getBookDefinition().getPrintComponents()) {
-                    if (!element.getSplitter() && !element.getComponentInArchive()) {
-                        form.setGenerateButtonDisabled(true);
+            if (bookDef.getSourceType().equals(SourceType.XPP)) {
+                final List<PrintComponent> currentPrintComponentsList =
+                    new ArrayList<>(form.getBookDefinition().getPrintComponents());
+                if (currentPrintComponentsList.isEmpty()) {
+                    form.setGenerateButtonDisabled(true);
+                } else {
+                    form.getBookDefinition().setPrintComponents(
+                        printComponentUtil.getAllInitializedPrintComponents(currentPrintComponentsList));
+                    for (final PrintComponent element : form.getBookDefinition().getPrintComponents()) {
+                        if (!element.getSplitter() && !element.getComponentInArchive()) {
+                            form.setGenerateButtonDisabled(true);
+                        }
                     }
                 }
             }
+            return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_VIEW);
         }
-        return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_VIEW);
     }
 
     /**
