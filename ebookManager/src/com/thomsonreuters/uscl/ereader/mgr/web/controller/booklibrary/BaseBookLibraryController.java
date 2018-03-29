@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 
+import static java.util.Optional.ofNullable;
+
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -102,7 +104,7 @@ public abstract class BaseBookLibraryController {
     private PaginatedList createPaginatedList(
         final PageAndSort<DisplayTagSortProperty> pageAndSort,
         final BookLibraryFilterForm filterForm) {
-        final String action = filterForm.getAction() != null ? filterForm.getAction().toString() : null;
+        final String action = ofNullable(filterForm.getAction()).map(BookLibraryFilterForm.Action::toString).orElse(null);
         final LibraryListFilter libraryListFilter = new LibraryListFilter(
             filterForm.getFrom(),
             filterForm.getTo(),

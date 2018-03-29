@@ -1,7 +1,13 @@
 package com.thomsonreuters.uscl.ereader.mgr.library.vdo;
 
+import static java.util.Optional.ofNullable;
+
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+
 import java.util.Date;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -9,6 +15,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * The filter criteria used when searching for book definitions to display in the Library List table.
  * A null or blank property value indicates that it is to be ignored and not included as part of the search criteria.
  */
+@Getter
+@NoArgsConstructor
 public class LibraryListFilter {
     // Book Definition properties
     private Date from; // start date on and after this calendar date (inclusive)
@@ -19,10 +27,6 @@ public class LibraryListFilter {
     private String isbn;
     private String materialId;
     private Long keywordValue;
-
-    public LibraryListFilter() {
-        super();
-    }
 
     public LibraryListFilter(
         final Date from,
@@ -36,54 +40,20 @@ public class LibraryListFilter {
         this.from = from;
         this.to = to;
         this.action = action;
-        this.titleId = (titleId != null) ? titleId.trim() : null;
-        this.proviewDisplayName = (proviewDisplayName != null) ? proviewDisplayName.trim() : null;
-        this.isbn = (isbn != null) ? isbn.trim() : null;
-        this.materialId = (materialId != null) ? materialId.trim() : null;
+        this.titleId = ofNullable(titleId).map(this::clearWildcard).map(String::trim).orElse(null);
+        this.proviewDisplayName =
+            ofNullable(proviewDisplayName).map(this::clearWildcard).map(String::trim).orElse(null);
+        this.isbn = ofNullable(isbn).map(this::clearWildcard).map(String::trim).orElse(null);
+        this.materialId = ofNullable(materialId).map(this::clearWildcard).map(String::trim).orElse(null);
         this.keywordValue = keywordValue;
-    }
-
-    /** Include executions with a start time from the start of (00:00:00) of this calendar date and after. */
-    public Date getFrom() {
-        return from;
-    }
-
-    /** Filter to date entered by user, normalized to (00:00:00) of the entered day. */
-    public Date getTo() {
-        return to;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    /**
-     * Get the match-anywhere title ID, where this string will be compared against
-     * the actual definition title ID as a 'like' comparison '%titleID%'.
-     * @return
-     */
-    public String getTitleId() {
-        return titleId;
-    }
-
-    public String getProviewDisplayName() {
-        return proviewDisplayName;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public String getMaterialId() {
-        return materialId;
-    }
-
-    public Long getKeywordValue() {
-        return keywordValue;
     }
 
     @Override
     public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
+
+    private String clearWildcard(final String string) {
+        return (EMPTY.equals(string.replaceAll("%", EMPTY))) ? EMPTY : string;
     }
 }

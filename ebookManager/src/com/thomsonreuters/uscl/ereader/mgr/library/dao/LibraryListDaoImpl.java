@@ -1,8 +1,9 @@
 package com.thomsonreuters.uscl.ereader.mgr.library.dao;
 
+import static java.util.Optional.ofNullable;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryListFilter;
@@ -135,18 +136,18 @@ public class LibraryListDaoImpl implements LibraryListDao {
         final List<Object> args = new ArrayList<>();
         // The order of the arguments being added needs to match the order in
         // addFiltersToQuery method.
-        Optional.ofNullable(filter.getFrom()).ifPresent(args::add);
-        Optional.ofNullable(filter.getTo()).ifPresent(args::add);
-        Optional.ofNullable(filter.getIsbn())
+        ofNullable(filter.getFrom()).ifPresent(args::add);
+        ofNullable(filter.getTo()).ifPresent(args::add);
+        ofNullable(filter.getIsbn())
             .filter(StringUtils::isNotBlank)
             .ifPresent(args::add);
-        Optional.ofNullable(filter.getMaterialId())
+        ofNullable(filter.getMaterialId())
             .filter(StringUtils::isNotBlank)
             .ifPresent(args::add);
-        Optional.ofNullable(filter.getProviewDisplayName())
+        ofNullable(filter.getProviewDisplayName())
             .filter(StringUtils::isNotBlank)
             .ifPresent(args::add);
-        Optional.ofNullable(filter.getTitleId())
+        ofNullable(filter.getTitleId())
             .filter(StringUtils::isNotBlank)
             .ifPresent(args::add);
 
