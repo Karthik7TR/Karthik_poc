@@ -651,6 +651,10 @@ td:last-of-type {
   padding-left: 1em;
 }
 
+.frontmatter > .trImageContainer > .imageWrapper {
+  width: 15em;
+}
+
 .leaveout .cgt,
 .fixed_footnote_reference .cgt,
 .form_line .cgt,
