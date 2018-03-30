@@ -128,7 +128,7 @@ td:empty {
     .list_item & {
         text-indent: 0;
     }
-    .feature_para_block > .name_block + .para > & {
+    .feature_para_block>.name_block+.para>& {
         display: inline;
     }
 }
@@ -138,7 +138,7 @@ td:empty {
     .list_item>& * {
         display: inline;
     }
-    .feature_para_block > .name_block + &,
+    .feature_para_block>.name_block+&,
     .chapter>.chapter_body>.section_block>.section>.section_body>.para>.tbl>.fixed_footnote_block>.fixed_footnote .footnote_body>& {
         display: inline;
     }
@@ -153,7 +153,8 @@ td:empty {
 .quote_para {
     margin: #{$indent}em;
     text-indent: 0;
-    .section_body>.quote_block>& *, .section_body>.para>.quote_block>& * {
+    .section_body>.quote_block>& *,
+    .section_body>.para>.quote_block>& * {
         text-indent: 0;
     }
 }
@@ -201,7 +202,6 @@ ref {
         text-indent: -#{$indent}em;
         margin-left: #{$indent}em;
     }
-
     .chapter_body .section_front>.research_reference_block .reference_entry>.ref_text>.cite>& {
         margin-left: 0;
     }
@@ -212,4 +212,15 @@ ref {
 
 .feature_para_block {
     margin: #{$indent}em;
+}
+
+.xentry * {
+    color: transparent;
+}
+
+.xentry {
+    display: flex;
+    flex-direction: column;
+    border-right: #{$indent*0.1}em solid;
+    border-radius: #{$indent}em;
 }

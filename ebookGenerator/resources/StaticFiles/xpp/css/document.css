@@ -335,7 +335,8 @@ td:last-of-type {
   text-indent: 0;
 }
 
-.section_body > .quote_block > .quote_para *, .section_body > .para > .quote_block > .quote_para * {
+.section_body > .quote_block > .quote_para *,
+.section_body > .para > .quote_block > .quote_para * {
   text-indent: 0;
 }
 
@@ -388,6 +389,17 @@ td:last-of-type {
 
 .feature_para_block {
   margin: 1em;
+}
+
+.xentry * {
+  color: transparent;
+}
+
+.xentry {
+  display: flex;
+  flex-direction: column;
+  border-right: 0.1em solid;
+  border-radius: 1em;
 }
 
 .appendix_front > .outline_name_block {
