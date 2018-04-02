@@ -10,7 +10,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -20,8 +19,6 @@ import java.util.Set;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -33,7 +30,6 @@ public final class TitleMetadataTest {
     private static final String TORTUGA_ASSET_NAME = "Tortuga.png";
 
     private String titleId = "yarr/pirates";
-    private String titleVersion = "1";
     private String displayName = "YARR! The Comprehensive Guide to Plundering the Seven Seas.";
     private String materialId = "Plunder2";
     private String copyright = "The High Seas Trading Company.";
@@ -41,8 +37,6 @@ public final class TitleMetadataTest {
     private String frontMatterTocLabel = "tocLabel";
     private Artwork artwork = new Artwork("swashbuckling.gif");
 
-    private TableOfContents tableOfContents = new TableOfContents();
-    private List<Doc> documents = new ArrayList<>();
     private final List<Asset> assets = Arrays.asList(
         new Asset("BlackPearl", BLACK_PEARLS_ASSET_NAME),
         new Asset("PiratesCove", PIRATES_COVE_ASSET_NAME),
@@ -50,105 +44,6 @@ public final class TitleMetadataTest {
     private final List<Keyword> keywords = Arrays.asList(
         new Keyword("publisher", "High Seas Trading Company"),
         new Keyword("jurisdiction", "International Waters"));
-    private final List<Feature> features =
-        Arrays.asList(new Feature("Copy"), new Feature("OnePassSSO", "www.westlaw.com"));
-    private boolean isPilotBook;
-
-    @Before
-    public void setUp() {
-        //Intentionally left blank
-    }
-
-    @Test
-    public void testTitleMetadataDefaultConstructorWithExpectedDefaults() {
-        final TitleMetadata metadata = new TitleMetadata();
-        final List<Keyword> actualkeywords = metadata.getKeywords();
-        final Keyword publisher = actualkeywords.get(0);
-        final Keyword jurisdiction = actualkeywords.get(1);
-        Assert
-            .assertTrue("Metadata should contain two keywords, publisher and jurisdiction", actualkeywords.size() == 2);
-        Assert.assertTrue(
-            "publisher should be Thomson Reuters, but was: " + publisher,
-            "Thomson Reuters".equals(publisher.getText()));
-        Assert.assertTrue(
-            "jurisdiction should be a period character, but was: " + jurisdiction,
-            ".".equals(jurisdiction.getText()));
-    }
-
-    @Test
-    public void testTitleMetadataFullConstructorWithExpectedDefaults() {
-        final TitleMetadata metadata = new TitleMetadata("1337/b00k", "v1337");
-        final List<Keyword> actualKeywords = metadata.getKeywords();
-        final Keyword publisher = actualKeywords.get(0);
-        final Keyword jurisdiction = actualKeywords.get(1);
-        Assert
-            .assertTrue("Metadata should contain two keywords, publisher and jurisdiction", actualKeywords.size() == 2);
-        Assert.assertTrue(
-            "publisher should be Thomson Reuters, but was: " + publisher,
-            "Thomson Reuters".equals(publisher.getText()));
-        Assert.assertTrue(
-            "jurisdiction should be a period character, but was: " + jurisdiction,
-            ".".equals(jurisdiction.getText()));
-    }
-
-    @Test
-    public void testEqualsMethod() {
-        final TitleMetadata one = getTitleMetadata();
-        final TitleMetadata two = TitleMetadata.builder()
-            .fullyQualifiedTitleId(titleId)
-            .versionNumber(titleVersion)
-            .proviewFeatures(features)
-            .keywords(keywords)
-            .authors(new ArrayList<Author>())
-            .isPilotBook(isPilotBook)
-            .isbn(copyright)
-            .authors(createAuthors())
-            .build();
-        Assert.assertTrue(one.equals(two));
-        Assert.assertTrue(!one.equals(new TitleMetadata()));
-    }
-
-    private TitleMetadata getTitleMetadata() {
-        final TitleMetadata titleMetadata = TitleMetadata.builder()
-            .fullyQualifiedTitleId(titleId)
-            .versionNumber(titleVersion)
-            .copyright(copyright)
-            .displayName(displayName)
-            .authors(createAuthors())
-            .keywords(keywords)
-            .materialId(materialId)
-            .build();
-
-        titleMetadata.setArtwork(artwork);
-        final Doc pirates = new Doc("1", "pirates.htm", 0, null);
-        final Doc scallywags = new Doc("2", "scallywags.htm", 0, null);
-        final Doc landlubbers = new Doc("3", "landlubbers.htm", 0, null);
-        documents.add(pirates);
-        documents.add(scallywags);
-        documents.add(landlubbers);
-        titleMetadata.setDocuments(documents);
-        titleMetadata.setAssets(assets);
-        final List<TocNode> tocEntries = new ArrayList<>();
-        tocEntries.add(new TocEntry("1", "heading", "All About Pirates", 1));
-        final TocNode scallywagging = new TocEntry("2", "heading", "Scallywagging for landlubbers", 1);
-        final List<TocNode> scallywaggingChildren = new ArrayList<>();
-        scallywaggingChildren.add(new TocEntry("3", "heading", "Survival", 2));
-        scallywaggingChildren.add(new TocEntry("3.1", "heading", "Begging", 2));
-        scallywaggingChildren.add(new TocEntry("3.2", "heading", "The Plank", 2));
-        scallywaggingChildren.add(new TocEntry("3.3", "heading", "Swabbing", 2));
-        scallywaggingChildren.add(new TocEntry("3.4", "heading", "Brawling", 2));
-        scallywaggingChildren.add(new TocEntry("3.5", "heading", "Patroling", 2));
-        scallywaggingChildren.add(new TocEntry("3.6", "heading", "Plundering", 2));
-        scallywaggingChildren.add(new TocEntry("3.7", "heading", "Wenching", 2));
-        for (final TocNode child : scallywaggingChildren) {
-            scallywagging.addChild(child);
-        }
-        tocEntries.add(scallywagging);
-        tableOfContents.setChildren(tocEntries);
-        titleMetadata.setTableOfContents(tableOfContents);
-        titleMetadata.setMaterialId(materialId);
-        return titleMetadata;
-    }
 
     @Test
     public void testBuilderWithBookDefinition() {

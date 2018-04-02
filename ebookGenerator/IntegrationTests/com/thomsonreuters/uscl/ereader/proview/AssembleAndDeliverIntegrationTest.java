@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.assemble.service.EBookAssemblyServiceImpl;
+import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewHttpResponseErrorHandler;
 import com.thomsonreuters.uscl.ereader.deliver.rest.ProviewMessageConverter;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImpl;
@@ -142,27 +143,26 @@ public final class AssembleAndDeliverIntegrationTest {
     }
 
     private void setUpTitleMetadata() {
-        titleMetadata = new TitleMetadata(titleIdFullyQualified, "v" + timestamp);
-        titleMetadata.setCopyright("The High Seas Trading Company");
-        titleMetadata.setArtwork(artwork);
         final List<Asset> assets = new ArrayList<>();
         assets.add(new Asset("css", CSS_FILENAME));
-        titleMetadata.setAssets(assets);
         final List<Doc> documents = new ArrayList<>();
         documents.add(codeOfConduct);
         documents.add(plundering);
         documents.add(landlubbers);
-        titleMetadata.setDocuments(documents);
-        titleMetadata.setDisplayName("YARR - The Comprehensive Guide to Plundering the Seven Seas");
-        final List<String> authors = new ArrayList<>();
-        authors.add("Christopher Schwartz");
-        titleMetadata.setAuthors(authors);
+        final List<Author> authors = new ArrayList<>();
+        final Author author = new Author();
+        author.setAuthorFirstName("Christopher");
+        author.setAuthorLastName("Schwartz");
+        authors.add(author);
         final Keyword publisher = new Keyword("publisher", "High Seas Trading Company");
         final Keyword jurisdiction = new Keyword("jurisdiction", "International Waters");
         final List<Keyword> keywords = new ArrayList<>();
         keywords.add(publisher);
         keywords.add(jurisdiction);
-        titleMetadata.setKeywords(keywords);
+        final List<Feature> proviewFeatures = new ArrayList<>();
+        proviewFeatures.add(new Feature("AutoUpdate"));
+        proviewFeatures.add(new Feature("SearchIndex"));
+        proviewFeatures.add(new Feature("OnePassSSO", "www.westlaw.com"));
         final List<TocNode> tocEntries = new ArrayList<>();
         tocEntries.add(new TocEntry(DOCUMENT_ONE_ID, "codeOfConduct", "Pirate Code of Conduct", 1));
         tocEntries.add(new TocEntry(DOCUMENT_TWO_ID, "plundering", "Plundering", 1));
@@ -171,8 +171,21 @@ public final class AssembleAndDeliverIntegrationTest {
         for (final TocNode child : tocEntries) {
             tableOfContents.addChild(child);
         }
+
+        titleMetadata = TitleMetadata.builder()
+            .fullyQualifiedTitleId(titleIdFullyQualified)
+            .versionNumber(Long.toString(timestamp))
+            .copyright("The High Seas Trading Company")
+            .documents(documents)
+            .displayName("YARR - The Comprehensive Guide to Plundering the Seven Seas")
+            .authors(authors)
+            .keywords(keywords)
+            .materialId("1234")
+            .proviewFeatures(proviewFeatures)
+            .build();
         titleMetadata.setTableOfContents(tableOfContents);
-        titleMetadata.setMaterialId("1234");
+        titleMetadata.setArtwork(artwork);
+        titleMetadata.setAssets(assets);
     }
 
     @Ignore

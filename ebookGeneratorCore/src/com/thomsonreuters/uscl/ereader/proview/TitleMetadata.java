@@ -5,10 +5,15 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -20,11 +25,12 @@ import javax.xml.bind.annotation.XmlTransient;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -34,7 +40,11 @@ import org.jetbrains.annotations.NotNull;
  */
 @XmlRootElement(name = "ManifestMetadata")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TitleMetadata implements Serializable {
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode(of = {"titleId", "titleVersion", "status", "onlineexpiration"})
+public final class TitleMetadata implements Serializable {
     private static final long serialVersionUID = 1L;
     //TODO: SimpleDateFormat is not thread safe
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
@@ -85,19 +95,10 @@ public class TitleMetadata implements Serializable {
     @XmlElementWrapper(name = "keywords")
     @XmlElement(name = "keyword")
     private List<Keyword> keywords;
-    private boolean isPilotBook;
+    private Boolean isPilotBook;
 
-    //TODO: two constructors below used only in tests, change their access level to private, or remove (keep default for jaxb)
-    public TitleMetadata() {
-        addDefaults();
-    }
-
-    public TitleMetadata(final String titleId, final String titleVersion) {
-        this.titleId = titleId;
-        this.titleVersion = titleVersion;
-        lastUpdated = DATE_FORMAT.format(new Date());
-
-        addDefaults();
+    private TitleMetadata() {
+        //JaxB required default constructor
     }
 
     private TitleMetadata(final TitleMetadataBuilder builder) {
@@ -115,229 +116,12 @@ public class TitleMetadata implements Serializable {
         frontMatterPages = builder.frontMatterPages;
         documents = builder.documents;
 
-        authorNames = new ArrayList<>();
-        if (builder.authors == null || builder.authors.isEmpty()) {
-            authorNames.add(".");
-        } else {
-            for (final Author author : builder.authors) {
-                authorNames.add(author.getFullName());
-            }
-        }
-    }
-
-    private void addDefaults() {
-        proviewFeatures = new ArrayList<>();
-        proviewFeatures.add(new Feature("AutoUpdate"));
-        proviewFeatures.add(new Feature("SearchIndex"));
-        proviewFeatures.add(new Feature("OnePassSSO", "www.westlaw.com"));
-
-        keywords = new ArrayList<>();
-        keywords.add(new Keyword("publisher", "Thomson Reuters"));
-        keywords.add(new Keyword("jurisdiction", ".")); //TODO: Confirm with the business exactly how they want to use jurisdiction.
-    }
-
-    public void addFeature(final String featureName) {
-        proviewFeatures.add(new Feature(featureName));
-    }
-
-    public void addFeature(final String featureName, final String featureValue) {
-        proviewFeatures.add(new Feature(featureName, featureValue));
-    }
-
-    public void setAuthors(final List<String> authorNames) {
-        this.authorNames = authorNames;
-    }
-
-    public void setDisplayName(final String displayName) {
-        this.displayName = displayName;
-    }
-
-    public void setDocuments(final List<Doc> documents) {
-        this.documents = documents;
-    }
-
-    public void setKeywords(final List<Keyword> keywords) {
-        this.keywords = keywords;
-    }
-
-    public void setMaterialId(final String materialId) {
-        this.materialId = materialId;
-    }
-
-    public void setTableOfContents(final TableOfContents tableOfContents) {
-        this.tableOfContents = tableOfContents;
-    }
-
-    public void setCopyright(final String copyright) {
-        this.copyright = copyright;
-    }
-
-    public void setArtwork(final Artwork artwork) {
-        this.artwork = artwork;
-    }
-
-    public void setAssets(final List<Asset> assetsForSplitBook) {
-        assets = assetsForSplitBook;
-    }
-
-    public void setFrontMatterTocLabel(final String frontMatterTocLabel) {
-        this.frontMatterTocLabel = frontMatterTocLabel;
-    }
-
-    public void setTitleId(final String titleId) {
-        this.titleId = titleId;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(final String isbn) {
-        this.isbn = isbn;
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        final boolean retVal;
-        if (this == obj) {
-            retVal = true;
-        } else if (obj instanceof TitleMetadata) {
-            final TitleMetadata rhs = (TitleMetadata) obj;
-            retVal = compareFieldsForEquality(rhs);
-        } else {
-            retVal = false;
-        }
-        return retVal;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getTitleId() {
-        return titleId;
-    }
-
-    public String getTitleVersion() {
-        return titleVersion;
-    }
-
-    public String getFrontMatterTocLabel() {
-        return frontMatterTocLabel;
-    }
-
-    private boolean compareFieldsForEquality(final TitleMetadata rhs) {
-        final EqualsBuilder builder = new EqualsBuilder();
-        builder.append(getTitleId(), rhs.getTitleId());
-        builder.append(getTitleVersion(), rhs.getTitleVersion());
-        builder.append(getStatus(), rhs.getStatus());
-        builder.append(getOnlineexpiration(), rhs.getOnlineexpiration());
-        return builder.isEquals();
-    }
-
-    /**
-     * Returns a hash code value for the object. This method is supported for the benefit of
-     * hashtables such as those provided by <code>java.util.Hashtable</code>.
-     *
-     * @return a hash code value for this object.
-     *
-     * @see Object#equals(Object)
-     * @see java.util.Hashtable
-     */
-    @Override
-    public int hashCode() {
-        final HashCodeBuilder builder = new HashCodeBuilder();
-        builder.append(getTitleId());
-        builder.append(getTitleVersion());
-        builder.append(getStatus());
-        builder.append(getOnlineexpiration());
-
-        return builder.toHashCode();
-    }
-
-    public Artwork getCoverArt() {
-        return artwork;
-    }
-
-    public List<Asset> getAssets() {
-        return assets;
-    }
-
-    public List<Keyword> getKeywords() {
-        return keywords;
-    }
-
-    public TableOfContents getTableOfContents() {
-        return tableOfContents;
-    }
-
-    public String getApiVersion() {
-        return apiVersion;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public String getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public String getMaterialId() {
-        return materialId;
-    }
-
-    public String getCopyright() {
-        return copyright;
-    }
-
-    public Artwork getArtwork() {
-        return artwork;
-    }
-
-    public List<String> getAuthorNames() {
-        return authorNames;
-    }
-
-    public List<Doc> getDocuments() {
-        return documents;
-    }
-
-    public List<Feature> getProviewFeatures() {
-        return proviewFeatures;
-    }
-
-    public void setFrontMatterPages(final List<FrontMatterPage> frontMatterPages) {
-        this.frontMatterPages = frontMatterPages;
-    }
-
-    public List<FrontMatterPage> getFrontMatterPages() {
-        return frontMatterPages;
-    }
-
-    public void setProviewFeatures(final List<Feature> proviewFeatures) {
-        this.proviewFeatures = proviewFeatures;
-    }
-
-    public String getOnlineexpiration() {
-        return onlineexpiration;
-    }
-
-    public void setIsPilotBook(final boolean isPilotBook) {
-        this.isPilotBook = isPilotBook;
-    }
-
-    public boolean getIsPilotBook() {
-        return isPilotBook;
+        authorNames = Optional.ofNullable(builder.authors)
+            .filter(CollectionUtils::isNotEmpty)
+            .map(Collection::stream)
+            .map(stream -> stream.map(Author::getFullName))
+            .orElseGet(() -> Stream.of("."))
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -355,7 +139,7 @@ public class TitleMetadata implements Serializable {
      * @return
      */
     public static TitleMetadataBuilder builder(final BookDefinition bookDefinition) {
-        return new TitleMetadataBuilder().fullyQualifiedTitleId(bookDefinition.getFullyQualifiedTitleId())
+        return builder().fullyQualifiedTitleId(bookDefinition.getFullyQualifiedTitleId())
             .keywords(bookDefinition.getKeyWords())
             .authors(bookDefinition.getAuthors())
             .isPilotBook(bookDefinition.getIsPilotBook())
@@ -467,48 +251,38 @@ public class TitleMetadata implements Serializable {
 
         @NotNull
         public TitleMetadataBuilder artworkFile(@NotNull final File artworkFile) {
-            if (artworkFile == null || !artworkFile.exists()) {
-                throw new IllegalArgumentException(
-                    "coverImage must not be null and must exists [" + artworkFile + "].");
-            }
+            checkFile(artworkFile, File::exists, String.format("coverImage must not be null and must exists [%s].", artworkFile));
             artworkFileName = artworkFile.getName();
             return this;
         }
 
         @NotNull
         public TitleMetadataBuilder artworkFileName(@NotNull final String artworkFileName) {
-            if (StringUtils.isBlank(artworkFileName)) {
-                throw new IllegalArgumentException("coverImage must not be blank");
-            }
-            this.artworkFileName = artworkFileName;
+            this.artworkFileName = Optional.ofNullable(artworkFileName)
+                .filter(StringUtils::isNotEmpty)
+                .orElseThrow(() -> new IllegalArgumentException("coverImage must not be blank"));
             return this;
         }
 
         @NotNull
         public TitleMetadataBuilder assetFilesFromDirectory(@NotNull final File assetDirectory) {
-            if (assetDirectory == null || !assetDirectory.isDirectory()) {
-                throw new IllegalArgumentException("Directory must not be null and must be a directory.");
-            }
-            for (final File assetFile : assetDirectory.listFiles()) {
-                assetFileName(assetFile.getName());
-            }
+            checkFile(assetDirectory, File::isDirectory, "Directory must not be null and must be a directory.");
+            Stream.of(assetDirectory.listFiles())
+                .map(File::getName)
+                .forEach(this::assetFileName);
             return this;
         }
 
         @NotNull
         public TitleMetadataBuilder assetFile(@NotNull final File assetFile) {
-            if (assetFile == null || !assetFile.exists()) {
-                throw new IllegalArgumentException("File must not be null and should exist.");
-            }
+            checkFile(assetFile, File::exists, "File must not be null and should exist.");
             assetFileName(assetFile.getName());
             return this;
         }
 
         @NotNull
         public TitleMetadataBuilder assetFileName(@NotNull final String assetFileName) {
-            if (assetFileNames == null) {
-                assetFileNames = new TreeSet<>();
-            }
+            assetFileNames = Optional.ofNullable(assetFileNames).orElseGet(TreeSet::new);
             assetFileNames.add(assetFileName);
             return this;
         }
@@ -541,12 +315,17 @@ public class TitleMetadata implements Serializable {
 
         private void createAssets(final TitleMetadata titleMetadata) {
             if (assetFileNames != null && !assetFileNames.isEmpty()) {
-                final List<Asset> assets = new ArrayList<>();
-                for (final String assetFileName : assetFileNames) {
-                    assets.add(new Asset(StringUtils.substringBeforeLast(assetFileName, "."), assetFileName));
-                }
+                final List<Asset> assets = assetFileNames.stream()
+                    .map(assetName -> new Asset(StringUtils.substringBeforeLast(assetName, "."), assetName))
+                    .collect(Collectors.toCollection(ArrayList::new));
                 titleMetadata.setAssets(assets);
             }
+        }
+
+        private void checkFile(final File file, final Predicate<File> predicate, final String message) {
+            Optional.ofNullable(file)
+                .filter(predicate)
+                .orElseThrow(() ->new IllegalArgumentException(message));
         }
     }
 }

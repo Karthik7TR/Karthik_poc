@@ -68,7 +68,7 @@ public final class TitleManifestFilterTest extends TitleMetadataTestBase {
 
     private static final String EXPECTED_ARTWORK = "<artwork src=\"swashbuckling.gif\" type=\"cover\"/>";
     private static final String EXPECTED_ASSETS =
-        "<assets><asset id=\"123\" src=\"BlackPearl.png\"/><asset id=\"456\" src=\"PiratesCove.png\"/><asset id=\"789\" src=\"Tortuga.png\"/></assets>";
+        "<assets><asset id=\"BlackPearl\" src=\"BlackPearl.png\"/><asset id=\"PiratesCove\" src=\"PiratesCove.png\"/><asset id=\"Tortuga\" src=\"Tortuga.png\"/></assets>";
     private static final String EXPECTED_AUTHORS =
         "<authors><author>Captain Jack Sparrow</author><author>Davey Jones</author></authors>";
     private static final String EXPECTED_KEYWORDS =
