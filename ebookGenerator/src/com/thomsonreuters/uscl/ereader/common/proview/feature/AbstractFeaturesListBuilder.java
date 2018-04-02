@@ -2,7 +2,9 @@ package com.thomsonreuters.uscl.ereader.common.proview.feature;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
@@ -11,28 +13,20 @@ import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.util.VersionUtil;
 import com.thomsonreuters.uscl.ereader.deliver.service.title.ProviewTitleService;
 import com.thomsonreuters.uscl.ereader.proview.Feature;
-import org.apache.commons.lang3.StringUtils;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * Abstract class contains common builder methods e.g. creating of default features list.
  */
+@RequiredArgsConstructor
 public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder {
     private final ProviewTitleService proviewTitleService;
     private final BookDefinition bookDefinition;
     private final VersionUtil versionUtil;
 
     private Version newBookVersion;
-
-    protected AbstractFeaturesListBuilder(
-        @NotNull final ProviewTitleService proviewTitleService,
-        @NotNull final BookDefinition bookDefinition,
-        @NotNull final VersionUtil versionUtil) {
-        this.proviewTitleService = proviewTitleService;
-        this.bookDefinition = bookDefinition;
-        this.versionUtil = versionUtil;
-    }
 
     @NotNull
     @Override
@@ -74,18 +68,13 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
         }
 
         if (bookDefinition.getOnePassSsoLinkFlag()) {
-            features.add(DefaultProviewFeatures.ONE_PASS_SSO_WWW_WESTLAW.feature);
-            features.add(DefaultProviewFeatures.ONE_PASS_SSO_NEXT_WESTLAW.feature);
-        }
-
-        if (bookDefinition.isSplitBook()) {
-            features.add(DefaultProviewFeatures.FULL_ANCHOR_MAP.feature);
-            features.add(DefaultProviewFeatures.COMBINED_TOC.feature);
+            Collections.addAll(features, DefaultProviewFeatures.ONE_PASS_SSO_WWW_WESTLAW.feature,
+                DefaultProviewFeatures.ONE_PASS_SSO_NEXT_WESTLAW.feature);
         }
 
         if (SourceType.XPP == bookDefinition.getSourceType()) {
-            features.add(DefaultProviewFeatures.PAGE_NUMBERS.feature);
-            features.add(DefaultProviewFeatures.SPAN_PAGES.feature);
+            Collections.addAll(features, DefaultProviewFeatures.PAGE_NUMBERS.feature,
+                DefaultProviewFeatures.SPAN_PAGES.feature);
         }
 
         return features;
@@ -97,25 +86,19 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
     protected Feature createNotesMigrationFeature(@NotNull final Collection<BookTitleId> titleIds) {
         Feature feature = null;
         if (!titleIds.isEmpty() && isTitlesPromotedToFinal(titleIds)) {
-            final List<String> titlesWithMajorVersion = new ArrayList<>();
-            for (final BookTitleId bookTitle : titleIds) {
-                titlesWithMajorVersion.add(bookTitle.getTitleIdWithMajorVersion());
-            }
-            final String featureValue = StringUtils.join(titlesWithMajorVersion, ";");
+            final String featureValue = titleIds.stream()
+                .map(BookTitleId::getTitleIdWithMajorVersion)
+                .collect(Collectors.joining(";"));
             feature = new Feature("AnnosSource", featureValue);
         }
         return feature;
     }
 
     private boolean isTitlesPromotedToFinal(final Collection<BookTitleId> titleIds) {
-        boolean isTitlesFinal = true;
-        for (final BookTitleId bookTitle : titleIds) {
-            if (!proviewTitleService.isMajorVersionPromotedToFinal(bookTitle.getTitleId(), newBookVersion)) {
-                isTitlesFinal = false;
-                break;
-            }
-        }
-        return isTitlesFinal;
+        return titleIds.stream()
+            .map(BookTitleId::getTitleId)
+            .map(titleId -> proviewTitleService.isMajorVersionPromotedToFinal(titleId, newBookVersion))
+            .allMatch(Boolean.TRUE::equals);
     }
 
     private boolean shouldCreateFeature(final Version previousVersion, final Version newVersion) {
@@ -132,8 +115,6 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
         COPY(new Feature("Copy")),
         ONE_PASS_SSO_WWW_WESTLAW(new Feature("OnePassSSO", "www.westlaw.com")),
         ONE_PASS_SSO_NEXT_WESTLAW(new Feature("OnePassSSO", "next.westlaw.com")),
-        FULL_ANCHOR_MAP(new Feature("FullAnchorMap")),
-        COMBINED_TOC(new Feature("CombinedTOC")),
         PAGE_NUMBERS(new Feature("PageNos")),
         SPAN_PAGES(new Feature("SpanPages"));
 

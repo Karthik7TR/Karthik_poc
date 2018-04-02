@@ -33,6 +33,7 @@ public final class SingleBookFeaturesListBuilderTest extends FeatureListBuilderF
     public void onTestSetUp() {
         super.onTestSetUp();
         final Version version = new Version("v1.0");
+        given(bookDefinition.isSplitBook()).willReturn(false);
         given(proviewTitleService.getLatestProviewTitleVersion(anyString())).willReturn(version);
         given(proviewTitleService.getPreviousTitles(version, "FullyQualifiedTitleId")).willReturn(
             Arrays
@@ -48,5 +49,15 @@ public final class SingleBookFeaturesListBuilderTest extends FeatureListBuilderF
         final List<Feature> expectedFeatures = getExpectedFeatures(bookDefinition);
         expectedFeatures.add(new Feature("AnnosSource", "FullyQualifiedTitleId/v1;SplitBookTitle/v1"));
         assertTrue(CollectionUtils.isEqualCollection(features, expectedFeatures));
+    }
+
+    @Test
+    public void shouldReturnFeaturesWithoutSplitBookFeatures() {
+        //given
+        given(bookDefinition.isSplitBook()).willReturn(false);
+        //when
+        final List<Feature> features = featuresListBuilder.getFeatures();
+        //then
+        assertTrue(CollectionUtils.isEqualCollection(features, getExpectedFeatures(bookDefinition)));
     }
 }

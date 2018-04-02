@@ -77,16 +77,6 @@ public abstract class FeatureListBuilderFixture {
     }
 
     @Test
-    public void shouldReturnFeaturesWithoutSplitBookFeatures() {
-        //given
-        given(bookDefinition.isSplitBook()).willReturn(false);
-        //when
-        final List<Feature> features = featuresListBuilder.getFeatures();
-        //then
-        assertTrue(CollectionUtils.isEqualCollection(features, getExpectedFeatures(bookDefinition)));
-    }
-
-    @Test
     public void shouldReturnFeaturesWithoutOnePassFeatures() {
         //given
         given(bookDefinition.getOnePassSsoLinkFlag()).willReturn(false);

@@ -29,12 +29,7 @@ public class ProviewFeaturesListBuilderFactoryImpl implements ProviewFeaturesLis
     @NotNull
     @Override
     public FeaturesListBuilder create(@NotNull final BookDefinition bookDefinition) {
-        final FeaturesListBuilder featuresListBuilder;
-        if (bookDefinition.isSplitBook()) {
-            featuresListBuilder = new SplitBookFeatureListBuilder(proviewTitleService, bookDefinition, versionUtil);
-        } else {
-            featuresListBuilder = new SingleBookFeaturesListBuilder(proviewTitleService, bookDefinition, versionUtil);
-        }
-        return featuresListBuilder;
+        return bookDefinition.isSplitBook() ? new SplitBookFeatureListBuilder(proviewTitleService, bookDefinition, versionUtil)
+            : new SingleBookFeaturesListBuilder(proviewTitleService, bookDefinition, versionUtil);
     }
 }

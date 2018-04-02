@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.common.proview.feature;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
@@ -38,9 +39,7 @@ public class SingleBookFeaturesListBuilder extends AbstractFeaturesListBuilder {
     protected void addNotesMigrationFeature(
         @NotNull final List<Feature> features,
         @NotNull final List<BookTitleId> titleIds) {
-        final Feature notesMigrationFeature = createNotesMigrationFeature(titleIds);
-        if (notesMigrationFeature != null) {
-            features.add(notesMigrationFeature);
-        }
+        Optional.ofNullable(createNotesMigrationFeature(titleIds))
+            .ifPresent(features::add);
     }
 }

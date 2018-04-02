@@ -1,11 +1,15 @@
 package com.thomsonreuters.uscl.ereader.common.proview.feature;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
@@ -20,6 +24,9 @@ import org.jetbrains.annotations.Nullable;
  * Features list builder for split book.
  */
 public class SplitBookFeatureListBuilder extends AbstractFeaturesListBuilder {
+    private static final Feature FULL_ANCHOR_FEATURE = new Feature("FullAnchorMap");
+    private static final Feature COMBINED_TOC_FEATURE = new Feature("CombinedTOC");
+
     private final ProviewTitleService proviewTitleService;
     private final Map<BookTitleId, Feature> splitBookVolumesFeatures = new HashMap<>();
 
@@ -48,6 +55,14 @@ public class SplitBookFeatureListBuilder extends AbstractFeaturesListBuilder {
         return this;
     }
 
+    @NotNull
+    @Override
+    public List<Feature> getFeatures() {
+        final List<Feature> features = super.getFeatures();
+        Collections.addAll(features, FULL_ANCHOR_FEATURE, COMBINED_TOC_FEATURE);
+        return features;
+    }
+
     @Override
     protected void addNotesMigrationFeature(
         @NotNull final List<Feature> features,
@@ -55,43 +70,30 @@ public class SplitBookFeatureListBuilder extends AbstractFeaturesListBuilder {
         if (splitBookVolumesFeatures.isEmpty()) {
             fillVolumesFeatures(titleIds);
         }
-        final Feature notesMigrationFeature = splitBookVolumesFeatures.get(titleId);
-        if (notesMigrationFeature != null) {
-            features.add(notesMigrationFeature);
-        }
+        Optional.ofNullable(splitBookVolumesFeatures.get(titleId))
+            .ifPresent(features::add);
     }
 
     private void fillVolumesFeatures(@NotNull final List<BookTitleId> previousBookTitles) {
         final Map<BookTitleId, List<Doc>> docsByTitlesPrev = getDocsByVolumes(previousBookTitles);
-        for (final Entry<BookTitleId, List<Doc>> e : titleDocs.entrySet()) {
-            final Feature notesMigrationFeature = getTitleNotesMigrationFeature(e.getValue(), docsByTitlesPrev);
-            if (notesMigrationFeature != null) {
-                splitBookVolumesFeatures.put(e.getKey(), notesMigrationFeature);
-            }
-        }
+        titleDocs.forEach((titleId, documents) -> Optional.ofNullable(getTitleNotesMigrationFeature(documents, docsByTitlesPrev))
+            .ifPresent(feature -> splitBookVolumesFeatures.put(titleId, feature)));
     }
 
     @Nullable
     private Feature getTitleNotesMigrationFeature(
         @NotNull final List<Doc> currentTitleDocs,
         @NotNull final Map<BookTitleId, List<Doc>> docsInPreviousVersion) {
-        final Set<BookTitleId> sourceTitles = new TreeSet<>();
-        for (final Doc doc : currentTitleDocs) {
-            for (final Entry<BookTitleId, List<Doc>> e : docsInPreviousVersion.entrySet()) {
-                if (e.getValue().contains(doc)) {
-                    sourceTitles.add(e.getKey());
-                }
-            }
-        }
+        final Set<BookTitleId> sourceTitles = docsInPreviousVersion.entrySet().stream()
+            .filter(entry -> !Collections.disjoint(entry.getValue(), currentTitleDocs))
+            .map(Entry::getKey)
+            .collect(Collectors.toCollection(TreeSet::new));
         return createNotesMigrationFeature(sourceTitles);
     }
 
     @NotNull
     private Map<BookTitleId, List<Doc>> getDocsByVolumes(@NotNull final List<BookTitleId> titleIds) {
-        final Map<BookTitleId, List<Doc>> volumesDocs = new HashMap<>();
-        for (final BookTitleId bookTitleId : titleIds) {
-            volumesDocs.put(bookTitleId, proviewTitleService.getProviewTitleDocs(bookTitleId));
-        }
-        return volumesDocs;
+        return titleIds.stream().collect(
+            Collectors.toMap(Function.identity(), proviewTitleService::getProviewTitleDocs, (oldVal, newVal) -> newVal, HashMap::new));
     }
 }
