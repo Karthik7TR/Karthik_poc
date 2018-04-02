@@ -183,7 +183,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:variable name="docId" select="$documentUidMap/x:uuidmap/x:item[@key = $uid and @type = 'book']" />
+		<xsl:variable name="docId" select="($documentUidMap/x:uuidmap/x:item[@key = $uid and @type = 'book'])[1]" />
 		<xsl:choose>
 			<xsl:when test="$docId">
 				<xsl:element name="a">

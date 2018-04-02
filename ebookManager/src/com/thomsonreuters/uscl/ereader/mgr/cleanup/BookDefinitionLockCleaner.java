@@ -3,8 +3,6 @@ package com.thomsonreuters.uscl.ereader.mgr.cleanup;
 import static com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock.LOCK_TIMEOUT_SEC;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -13,8 +11,6 @@ import org.springframework.scheduling.annotation.Scheduled;
  * Removes locks that has expired
  */
 public class BookDefinitionLockCleaner {
-    private static final Logger log = LogManager.getLogger(BookDefinitionLockCleaner.class);
-
     private BookDefinitionLockService lockService;
 
     /**
@@ -23,7 +19,6 @@ public class BookDefinitionLockCleaner {
     @Scheduled(fixedRate = LOCK_TIMEOUT_SEC * 1000)
     public void cleanBookDefinitionLockTable() {
         lockService.cleanExpiredLocks();
-        log.debug("Clean the table!");
     }
 
     @Required

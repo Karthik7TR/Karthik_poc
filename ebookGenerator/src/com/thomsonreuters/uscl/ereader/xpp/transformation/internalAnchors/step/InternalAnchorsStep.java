@@ -1,11 +1,16 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.internalAnchors.step;
 
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.toList;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import javax.xml.transform.Transformer;
@@ -38,10 +43,16 @@ public class InternalAnchorsStep extends XppTransformationStep {
     @Override
     public void executeTransformation() throws Exception {
         final Collection<XppBundle> bundles = getXppBundles();
-        final Map<File, Boolean> files = new HashMap<>();
+        final Map<String, Collection<File>> sectionBreakFiles =
+            fileSystem.getFiles(this, XppFormatFileSystemDir.SECTIONBREAKS_DIR);
+        final Map<String, Collection<File>> orderedInputFiles = new LinkedHashMap<>();
+        bundles.forEach(
+            bundle -> orderedInputFiles
+                .put(bundle.getMaterialNumber(), sectionBreakFiles.get(bundle.getMaterialNumber())));
 
-        for (final Map.Entry<String, Collection<File>> materialFiles : fileSystem
-            .getFiles(this, XppFormatFileSystemDir.SECTIONBREAKS_DIR).entrySet()) {
+        final Map<File, Boolean> files = new LinkedHashMap<>();
+
+        for (final Entry<String, Collection<File>> materialFiles : orderedInputFiles.entrySet()) {
             final boolean isPocketPart = bundles.stream()
                 .filter(bundle -> bundle.getMaterialNumber().equals(materialFiles.getKey()))
                 .findFirst()
@@ -55,8 +66,8 @@ public class InternalAnchorsStep extends XppTransformationStep {
                 isPocketPart);
         }
 
-        final Map<Boolean, List<File>> typeToFilesMap = files.entrySet().stream().collect(
-            Collectors.groupingBy(Map.Entry::getValue, Collectors.mapping(Map.Entry::getKey, Collectors.toList())));
+        final Map<Boolean, List<File>> typeToFilesMap =
+            files.entrySet().stream().collect(groupingBy(Entry::getValue, mapping(Entry::getKey, toList())));
         typeToFilesMap.entrySet().forEach(entry -> {
             if (!entry.getKey())
                 transform(
