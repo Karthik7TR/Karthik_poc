@@ -9,23 +9,5 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
  *
  */
 public interface AuthorService {
-    /**
-     * Save an existing Author entity
-     *
-     */
-    void saveAuthor(Author author);
-
-    /**
-     * Delete an existing Author entity
-     *
-     */
-    void deleteAuthor(Author author);
-
-    /**
-     */
-    Author findAuthorById(Long authorId);
-
-    /**
-     */
     List<Author> findAuthorsByEBookDefnId(Long eBookDefnId);
 }

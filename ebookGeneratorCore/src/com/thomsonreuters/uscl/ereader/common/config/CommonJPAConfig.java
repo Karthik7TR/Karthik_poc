@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionDao;
@@ -71,6 +72,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 public abstract class CommonJPAConfig {
     @Bean
@@ -90,6 +94,26 @@ public abstract class CommonJPAConfig {
         final HibernateTransactionManager transactionManager = new HibernateTransactionManager();
         transactionManager.setSessionFactory(sessionFactory);
         return transactionManager;
+    }
+
+    @Bean
+    public EntityManagerFactory entityManagerFactory(
+            @Value("${hibernate.dialect}") final String hibernateDialectProperty,
+            @Value("${hibernate.show.sql}") final String showSqlProperty,
+            @Value("${hibernate.cache.provider.class}") final String cacheProviderClassProperty) {
+        final Properties properties = new Properties();
+        properties.setProperty("hibernate.dialect", hibernateDialectProperty);
+        properties.setProperty("hibernate.show_sql", showSqlProperty);
+        properties.setProperty("hibernate.cache.provider_class", cacheProviderClassProperty);
+        final JpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
+
+        final LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+        factory.setJpaVendorAdapter(jpaVendorAdapter);
+        factory.setPackagesToScan("com.thomsonreuters.uscl.ereader");
+        factory.setJpaProperties(properties);
+        factory.setDataSource(dataSource());
+        factory.afterPropertiesSet();
+        return factory.getObject();
     }
 
     @Bean

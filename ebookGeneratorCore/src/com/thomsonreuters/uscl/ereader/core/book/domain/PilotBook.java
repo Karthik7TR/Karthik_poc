@@ -17,6 +17,17 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@EqualsAndHashCode(of = {"pilotBookTitleId", "ebookDefinition"})
+@ToString(of = {"pilotBookTitleId", "ebookDefinition", "note"})
+
 @Entity
 @Table(name = "PILOT_BOOK")
 @IdClass(PilotBook.PilotBookPk.class)
@@ -38,47 +49,6 @@ public class PilotBook implements Serializable, Comparable<PilotBook> {
     @Column(name = "NOTE", length = 512)
     private String note;
 
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(final String note) {
-        this.note = note;
-    }
-
-    public Integer getSequenceNum() {
-        return sequenceNum;
-    }
-
-    public void setSequenceNum(final Integer sequenceNum) {
-        this.sequenceNum = sequenceNum;
-    }
-
-    /**
-     */
-    public void setEbookDefinition(final BookDefinition ebookDefinition) {
-        this.ebookDefinition = ebookDefinition;
-    }
-
-    /**
-     */
-    public BookDefinition getEbookDefinition() {
-        return ebookDefinition;
-    }
-
-    public String getPilotBookTitleId() {
-        return pilotBookTitleId;
-    }
-
-    public void setPilotBookTitleId(final String pilotBookTitleId) {
-        this.pilotBookTitleId = pilotBookTitleId;
-    }
-
-    /**
-     */
-    public PilotBook() {
-    }
-
     /**
      * Copies the contents of the specified bean into this bean.
      *
@@ -92,48 +62,6 @@ public class PilotBook implements Serializable, Comparable<PilotBook> {
 
     public boolean isEmpty() {
         return pilotBookTitleId == null || pilotBookTitleId.equals("");
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder buffer = new StringBuilder();
-        buffer.append("pilotBookTitleId=[").append(pilotBookTitleId).append("] ");
-        buffer.append("sequenceNum=[").append(sequenceNum).append("] ");
-        buffer.append("note=").append(note).append("]");
-        return buffer.toString();
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-
-        result = prime * result + ((pilotBookTitleId == null) ? 0 : pilotBookTitleId.hashCode());
-        result = prime * result + ((ebookDefinition == null) ? 0 : ebookDefinition.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final PilotBook other = (PilotBook) obj;
-        if (pilotBookTitleId == null) {
-            if (other.pilotBookTitleId != null)
-                return false;
-        } else if (!pilotBookTitleId.equals(other.pilotBookTitleId))
-            return false;
-
-        if (ebookDefinition == null) {
-            if (other.ebookDefinition != null)
-                return false;
-        } else if (!ebookDefinition.equals(other.ebookDefinition))
-            return false;
-        return true;
     }
 
     /**
@@ -155,6 +83,7 @@ public class PilotBook implements Serializable, Comparable<PilotBook> {
         return result;
     }
 
+    @Data
     @Embeddable
     public static class PilotBookPk implements Serializable {
         private static final long serialVersionUID = 3552710801579579685L;
@@ -163,44 +92,7 @@ public class PilotBook implements Serializable, Comparable<PilotBook> {
         @JoinColumns({
             @JoinColumn(name = "EBOOK_DEFINITION_ID", referencedColumnName = "EBOOK_DEFINITION_ID", nullable = false)})
         private BookDefinition ebookDefinition;
-
         @Column(name = "PILOT_BOOK_TITLE_ID", nullable = false)
         private String pilotBookTitleId;
-
-        public PilotBookPk() {
-        }
-
-        public BookDefinition getBookDefinition() {
-            return ebookDefinition;
-        }
-
-        public void setBookDefinition(final BookDefinition bookDefinition) {
-            ebookDefinition = bookDefinition;
-        }
-
-        @Override
-        public int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + ((pilotBookTitleId == null) ? 0 : pilotBookTitleId.hashCode());
-            return result;
-        }
-
-        @Override
-        public boolean equals(final Object obj) {
-            if (this == obj)
-                return true;
-            if (obj == null)
-                return false;
-            if (getClass() != obj.getClass())
-                return false;
-            final PilotBookPk other = (PilotBookPk) obj;
-            if (pilotBookTitleId == null) {
-                if (other.pilotBookTitleId != null)
-                    return false;
-            } else if (!pilotBookTitleId.equals(other.pilotBookTitleId))
-                return false;
-            return true;
-        }
     }
 }

@@ -2,9 +2,6 @@ package com.thomsonreuters.uscl.ereader.mgr.config;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
-
-import javax.persistence.EntityManagerFactory;
 
 import com.thomsonreuters.uscl.ereader.common.config.CommonJPAConfig;
 import com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionLockDao;
@@ -29,15 +26,11 @@ import com.thomsonreuters.uscl.ereader.support.dao.SupportPageLinkDaoImpl;
 import com.thomsonreuters.uscl.ereader.support.domain.SupportPageLink;
 import org.hibernate.SessionFactory;
 import org.springframework.batch.core.explore.JobExplorer;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.orm.jpa.JpaVendorAdapter;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
@@ -47,26 +40,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 )
 @EnableTransactionManagement
 public class EBookManagerJPAConfig extends CommonJPAConfig {
-    @Bean
-    public EntityManagerFactory entityManagerFactory(
-            @Value("${hibernate.dialect}") final String hibernateDialectProperty,
-            @Value("${hibernate.show.sql}") final String showSqlProperty,
-            @Value("${hibernate.cache.provider.class}") final String cacheProviderClassProperty) {
-        final Properties properties = new Properties();
-        properties.setProperty("hibernate.dialect", hibernateDialectProperty);
-        properties.setProperty("hibernate.show_sql", showSqlProperty);
-        properties.setProperty("hibernate.cache.provider_class", cacheProviderClassProperty);
-        final JpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
-
-        final LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-        factory.setJpaVendorAdapter(jpaVendorAdapter);
-        factory.setPackagesToScan("com.thomsonreuters.uscl.ereader");
-        factory.setJpaProperties(properties);
-        factory.setDataSource(dataSource());
-        factory.afterPropertiesSet();
-        return factory.getObject();
-    }
-
     @Bean
     public JobDao jobDao(final JdbcTemplate jdbcTemplate) {
         final JobDaoImpl jobDao = new JobDaoImpl();
