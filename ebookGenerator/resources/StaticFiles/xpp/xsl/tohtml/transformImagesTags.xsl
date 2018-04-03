@@ -11,7 +11,10 @@
 			</xsl:call-template>
 		</xsl:variable>
 		<xsl:element name="img">
-			<xsl:attribute name="class" select="'tr_image'" />
+			<xsl:variable name="class" select="x:get-class(.)" />
+			<xsl:if test="$class!=''">
+				<xsl:attribute name="class" select="$class" />
+			</xsl:if>
 			<xsl:attribute name="assetid" select="concat('er:#', $guid)" />
 			<xsl:attribute name="src" select="concat('er:#', $guid)" />
 		</xsl:element>
@@ -34,4 +37,14 @@
 			</xsl:if>
 		</xsl:if>
 	</xsl:template>
+	
+	<xsl:function name="x:get-class">
+		<xsl:param name="node" />
+		<xsl:variable name="tr_image">
+			<xsl:if test="$node/@table-viewer='true'">
+				<xsl:value-of select="'tr_image'" />
+			</xsl:if>
+		</xsl:variable>
+		<xsl:value-of select="string-join(($tr_image, $node/@classes)[.!=''], ' ')" />
+	</xsl:function>
 </xsl:stylesheet>

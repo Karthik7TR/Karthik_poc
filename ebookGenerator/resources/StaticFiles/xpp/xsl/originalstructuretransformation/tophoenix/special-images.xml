@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<images>
+	<image id="TRGrarr.tif">
+		<classes>
+			<class name="trg-arr" />
+		</classes>
+	</image>
+</images>

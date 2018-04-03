@@ -140,3 +140,8 @@
 .toc_rutter_form_doc .rw_designator {
     min-width: #{$indent * 4.5}em;
 }
+
+.trg-arrow {
+    width: initial;
+    height: #{$indent}em;
+}

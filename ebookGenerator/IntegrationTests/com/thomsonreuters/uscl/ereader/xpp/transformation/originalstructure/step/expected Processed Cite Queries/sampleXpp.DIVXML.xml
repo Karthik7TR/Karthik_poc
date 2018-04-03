@@ -56,8 +56,11 @@
 						<line xfinal="0" yfinal="0.52i" lnwidth="3.26i" lnmeas="4.32i" lindent="0" rindent="0" prelead="0.03i" qdtype="left" bandwidth="0.05i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0.01i" ljerrs="false" cerrors="true" sobprelead="true" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="true" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="true" tbstart="false" tbsa="false" tbend="false" tbrhd="false" bmline="false">
 							<tag name="ref.text"/><?xpp COLNUM?><?xpp cite?>
 							<tag name="ref"/>
-							<t x="0" y="0" style="ref">Guardian and Ward <TLRkey/> 󰔓1 to 74;
-								Infants 󰔓76 to 87</t>
+							<t x="0" y="0" style="ref">Guardian
+								and Ward <TLRkey/>
+								󰔓1 to 74;
+								Infants 󰔓76 to 87
+							</t>
 							<endtag name="ref"/><?xpp /cite?>
 							<endtag name="ref.text"/>
 							<endtag name="reference.entry"/>
@@ -360,6 +363,7 @@
 							<tag name="foots"/>
 							<rule x="0" y="-0.06i" w="1i" d="0.01i" color="#000000" color-cmyk="0 0 0 1"/>
 								<image id="thwest-k" type="tif" path="/apps/xpp/shared/images/lib01/thwest-k" x="0" y="-0.13i" w="2.77i" h="1.02i" color="#000000" color-cmyk="0 0 0 1" rotation="0" priority="0" scale="1.000000" cropx="0" cropy="0" cropw="2.77i" croph="1.02i"/>
+								<image id="TRGrarr.tif" type="tif" path="/apps/xpp/shared/images/lib01/TRGrarr.tif" x="0" y="-0.07i" w="0.23i" h="0.18i" rotation="0" priority="0" scale="1.000000" cropx="0" cropy="0" cropw="0.23i" croph="0.18i"/>
 							<endtag name="foots"/>
 						</line>
 					</group>

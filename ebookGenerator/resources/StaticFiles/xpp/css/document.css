@@ -1735,6 +1735,11 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   min-width: 4.5em;
 }
 
+.trg-arrow {
+  width: initial;
+  height: 1em;
+}
+
 .rutter_chapter .cgt {
   white-space: pre;
 }
