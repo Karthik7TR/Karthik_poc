@@ -564,5 +564,44 @@
                 </block>
             </stream>
         </page>
+        <page relpgnum="164" p1="0" p2="0" p3="0" p4="402" p5="0" p6="0" psrnum="3" plname="standard" px="0" py="0" psx="5.16i" psy="8.65i" fsx="6.49i" fsy="10.12i" rotate="0" forcepend="false" lastpage="false" notextinpg="false" filler="false" pfexcept="false" rlfiller="false" pagetype="right">
+            <stream type="main" sx="0" sy="0" ssx="0" ssy="0" groupnum="1" svjmode="justify" epfilltype="none" class="0" rotate="0" strmrot="0" vj_space="0" cerrors="true" cntedit="false" predit="false" recomp="false" frzcomp="false" ipcbal="false" touched="false" tplaced="false" bplaced="false" firstack="false" lastack="false" direction="false" pgscope="false" hfull="false" vfull="false" here="false" before="false" justified="false" balup="false" baldown="false" balrunaway="false">
+                <block type="main" bx="0" by="0.3i" bsx="5.16i" bsy="8.05i" bisy="8.05i" biy="0.3i" rotate="0" svjmode="justify" btextlen="8i" bslack="0.06i" vjerr="0" pgtbl="0" ipcnum="0" ipcgnum="1" background-color="#FFFFFF" background-color-cmyk="0 0 0 0" justified="true" trymode="expand" fipcblk="true" lipcblk="true" original="true" bottom="true" rtl="false">
+                    <table tabstyle="text" frame="none" cals="true">
+                        <tgroup tgroupstyle="text" cols="2" mx_rows="11" tbox_row="0" cals_intertgrule="rowrule" hj_mode="left" lnmeas="0" mx_rtl="0" tbwidth="2.16i" tbdepth="2.22i" tbtotvj="0" tbxposn="0" tbyposn="0" tgroup="1" hdstyle_rows="1" min_colwidth="0" min_rowdepth="0" hdr_rows="1" colstyle="0" tblbrk="row" max_colwidth="2.99i" ctbl_depth="2.22i" yshift="0" pgh_break="any" bkh_break="any" hdr_sup_rows="false" lim_bywid="false" bbxcol="0" ebxcol="0" ob_hdr_rows="0" tnoutput="block" tnrenum="block" tnrefstyle="an" tnoutorder="0" eb_ep_row="0" stubcols="false">
+                            <colspec colnum="1" colname="col1" colwidth="1.08i" tbclwsp="0" tbcrwsp="0.08i" tbclgut="0" tbcrgut="0.17i" tbclrule="0" tbcrrule="0.01i" tbcmeas="1i" tbmxalnw="0" tbctpos="0" tbcxpos="0" tbcr_rcolor="#000000" tbcr_rcolor-cmyk="0 0 0 1" tbcl_rcolor="#000000" tbcl_rcolor-cmyk="0 0 0 1"/>
+                            <colspec colnum="2" colname="col2" colwidth="1.08i" tbclwsp="0.08i" tbcrwsp="0" tbclgut="0.17i" tbcrgut="0" tbclrule="0.01i" tbcrrule="0" tbcmeas="1i" tbmxalnw="0.49i" tbctpos="1.16i" tbcxpos="1.08i" tbcr_rcolor="#000000" tbcr_rcolor-cmyk="0 0 0 1" tbcl_rcolor="#000000" tbcl_rcolor-cmyk="0 0 0 1"/>
+                            <thead>
+                                <row row="1" rowrel="1" tbrdepth="0.41i" row_pos="0.14i" row_gutter="0.08i" rthk="0.01i" roff="0.03i" rcolor="#000000" rcolor-cmyk="0 0 0 1" x_space="0" tbntdepth="0">
+                                    <entry col="1" colsep="0" rowsep="0" align="center" valign="top">
+                                        <group class="entry" pclass="/publication/publication.body/rutter.chapter/rutter.chapter.back/rutter.form.block/rutter.form.block.body/rutter.form.doc/rutter.form.doc.body/form/attachment.block/attachment/form.para/tbl/table/tgroup/thead/row" dh="/publication/publication.body/rutter.chapter/rutter.chapter.back/rutter.form.block/rutter.form.block.body/rutter.form.doc/rutter.form.doc.body/form/attachment.block/attachment/form.para/tbl/table/tgroup/thead/row/entry" style="entry">
+                                            <line xfinal="0.04i" yfinal="0.23i" lnwidth="0.91i" lnmeas="1i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="center" bandwidth="0.03i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="true" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="true" bmline="false">
+                                                <t x="0" y="0" style="entry" cgt="true">Date: Beginning </t>
+                                            </line>
+                                            <line xfinal="0.15i" yfinal="0.37i" lnwidth="0.7i" lnmeas="1i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="center" bandwidth="0.03i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="true" bmline="false">
+                                                <t x="0" y="0" style="entry" cgt="true" ul1="0.01i #000000">October 16,</t><t x="0" y="-0.06i" style="entry.1" cgt="true" ul1="0.01i #000000">1</t>
+                                                <xref id="1" type="footnote"/>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                    <entry col="2" colsep="0" rowsep="0" align="center" valign="top">
+                                        <group class="entry" pclass="/publication/publication.body/rutter.chapter/rutter.chapter.back/rutter.form.block/rutter.form.block.body/rutter.form.doc/rutter.form.doc.body/form/attachment.block/attachment/form.para/tbl/table/tgroup/thead/row" dh="/publication/publication.body/rutter.chapter/rutter.chapter.back/rutter.form.block/rutter.form.block.body/rutter.form.doc/rutter.form.doc.body/form/attachment.block/attachment/form.para/tbl/table/tgroup/thead/row/entry" style="entry">
+                                            <line xfinal="1.42i" yfinal="0.23i" lnwidth="0.48i" lnmeas="1i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="center" bandwidth="0.03i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="false" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="true" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="true" bmline="false">
+                                                <t x="0" y="0" style="entry" cgt="true">Monthly </t>
+                                            </line>
+                                            <line xfinal="1.42i" yfinal="0.37i" lnwidth="0.48i" lnmeas="1i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="center" bandwidth="0.03i" letspace="0" maxasc="0.09i" maxdesc="0.05i" ldextra="0" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="false" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="false" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="true" bmline="false">
+                                                <t x="0" y="0" style="entry" cgt="true" ul1="0.01i #000000">Payment</t>
+                                            </line>
+                                        </group>
+                                    </entry>
+                                </row>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </tgroup>
+                    </table>
+                </block>
+            </stream>
+        </page>
     </pages>
 </document>
