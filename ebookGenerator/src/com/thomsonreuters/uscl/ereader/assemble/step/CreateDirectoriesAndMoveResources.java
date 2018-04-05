@@ -10,10 +10,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
@@ -34,6 +38,7 @@ import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata.TitleMetadataBuilder;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.ExitStatus;
@@ -114,48 +119,32 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
             // splitBooks
             for (int i = 1; i <= parts; i++) {
                 firstSplitBook = false;
-                String splitTitle = bookDefinition.getTitleId() + "_pt" + i;
-                final StringBuffer proviewDisplayName = new StringBuffer();
-                proviewDisplayName.append(bookDefinition.getProviewDisplayName());
-                proviewDisplayName.append(" (eBook " + i);
-                proviewDisplayName.append(" of " + parts);
-                proviewDisplayName.append(")");
-                titleMetadataBuilder.displayName(proviewDisplayName.toString());
-                titleMetadataBuilder.fullyQualifiedTitleId(fullyQualifiedTitleId + "_pt" + i);
+                String splitTitle = String.format("%s_pt%s", bookDefinition.getTitleId(), i);
+                titleMetadataBuilder.displayName(String.format("%s (eBook %s of %s)", bookDefinition.getProviewDisplayName(), i, parts));
+                titleMetadataBuilder.fullyQualifiedTitleId(String.format("%s_pt%s", fullyQualifiedTitleId, i));
 
                 final String key = String.valueOf(i);
 
                 // Add needed images corresponding to the split Book to Assets
                 // imgList contains file names belong to the split book
-                List<String> imgList = new ArrayList<>();
-
-                if (splitBookImgMap.containsKey(key)) {
-                    imgList = splitBookImgMap.get(key);
-                    for (final String imgFileName : imgList) {
-                        titleMetadataBuilder.assetFileName(imgFileName);
-                    }
-                }
+                final List<String> imgList = splitBookImgMap.computeIfAbsent(key, k -> new ArrayList<>());
+                imgList.forEach(titleMetadataBuilder::assetFileName);
 
                 // Get all documents corresponding to the split Book
-                List<Doc> docList = new ArrayList<>();
-                if (docMap.containsKey(key)) {
-                    docList = docMap.get(key);
-                }
+                final List<Doc> docList = docMap.computeIfAbsent(key, k -> new ArrayList<>());
 
                 // Only for first split book
                 if (i == 1) {
                     splitTitle = bookDefinition.getTitleId();
-                    final List<FrontMatterPdf> pdfList = new ArrayList<>();
-                    final List<FrontMatterPage> fmps = bookDefinition.getFrontMatterPages();
-                    for (final FrontMatterPage fmp : fmps) {
-                        for (final FrontMatterSection fms : fmp.getFrontMatterSections()) {
-                            pdfList.addAll(fms.getPdfs());
-                        }
-                    }
 
-                    for (final FrontMatterPdf pdf : pdfList) {
-                        titleMetadataBuilder.assetFileName(pdf.getPdfFilename());
-                    }
+                    bookDefinition.getFrontMatterPages().stream()
+                        .map(FrontMatterPage::getFrontMatterSections)
+                        .flatMap(Collection::stream)
+                        .map(FrontMatterSection::getPdfs)
+                        .flatMap(Collection::stream)
+                        .map(FrontMatterPdf::getPdfFilename)
+                        .forEach(titleMetadataBuilder::assetFileName);
+
                     titleMetadataBuilder.fullyQualifiedTitleId(fullyQualifiedTitleId);
                     firstSplitBook = true;
                 }
@@ -197,11 +186,9 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 
     @NotNull
     private Map<BookTitleId, List<Doc>> getDocsByTitles(@NotNull final Map<String, List<Doc>> docMap) {
-        final Map<BookTitleId, List<Doc>> map = new HashMap<>();
-        for (final Entry<String, List<Doc>> e : docMap.entrySet()) {
-            map.put(new BookTitleId(e.getKey(), new Version(0, 0)), e.getValue());
-        }
-        return map;
+        return docMap.entrySet().stream()
+            .collect(Collectors.toMap(entry -> new BookTitleId(entry.getKey(), new Version(0, 0)),
+                Entry::getValue, (oldVal, newVal) -> newVal, HashMap::new));
     }
 
     /**
@@ -263,13 +250,9 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
         if (directory == null || !directory.isDirectory()) {
             throw new IllegalArgumentException("Directory must not be null and must be a directory.");
         }
-        final List<File> filter = new ArrayList<>();
-        for (final File file : directory.listFiles()) {
-            if (fileNameList.contains(file.getName())) {
-                filter.add(file);
-            }
-        }
-        return filter;
+        return Stream.of(directory.listFiles())
+            .filter(file -> fileNameList.contains(file.getName()))
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -284,44 +267,19 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
         String line = null;
         try (BufferedReader stream = new BufferedReader(new FileReader(docToSplitBook))) {
             while ((line = stream.readLine()) != null) {
-                List<String> imgList = null;
                 final String[] splitted = line.split("\\|");
-
+                List<String> imgList = null;
                 if (splitted.length == 4) {
-                    imgList = new ArrayList<>();
-                    if (splitted[3].contains(",")) {
-                        final String[] imgStringArray = splitted[3].split(",");
-
-                        for (final String imgId : imgStringArray) {
-                            imgList.add(imgId);
-                        }
-                    } else {
-                        imgList.add(splitted[3]);
-                    }
+                    imgList = Stream.of(splitted[3].split(","))
+                        .collect(Collectors.toCollection(ArrayList::new));
                 }
 
                 final String splitTitlePart = splitted[2];
                 final Doc document = new Doc(splitted[0], splitted[1], Integer.parseInt(splitTitlePart), imgList);
-
-                List<Doc> docList = null;
-                if (docMap.containsKey(splitTitlePart)) {
-                    docList = docMap.get(splitTitlePart);
-                } else {
-                    docList = new ArrayList<>();
-                }
-
-                docList.add(document);
-                docMap.put(splitTitlePart, docList);
-
-                if (imgList != null && imgList.size() > 0) {
-                    if (splitBookImgMap.containsKey(splitTitlePart)) {
-                        final List<String> splitImgList = splitBookImgMap.get(splitTitlePart);
-                        splitImgList.addAll(imgList);
-                        splitBookImgMap.put(splitTitlePart, splitImgList);
-                    } else {
-                        splitBookImgMap.put(splitTitlePart, imgList);
-                    }
-                }
+                docMap.computeIfAbsent(splitTitlePart, key -> new ArrayList<>()).add(document);
+                Optional.ofNullable(imgList)
+                    .filter(CollectionUtils::isNotEmpty)
+                    .ifPresent(list -> splitBookImgMap.computeIfAbsent(splitTitlePart, key -> new ArrayList<>()).addAll(list));
             }
         } catch (final IOException iox) {
             throw new RuntimeException("Unable to find File : " + docToSplitBook.getAbsolutePath() + " " + iox);
@@ -349,11 +307,10 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
 
         final File frontMatterImagesDir = new File(MoveResourcesUtil.EBOOK_GENERATOR_IMAGES_DIR);
         final List<File> filter = moveResourcesUtil.filterFiles(frontMatterImagesDir, bookDefinition);
-        for (final File file : frontMatterImagesDir.listFiles()) {
-            if (!filter.contains(file)) {
-                builder.assetFileName(file.getName());
-            }
-        }
+        Stream.of(frontMatterImagesDir.listFiles())
+            .filter(file -> !filter.contains(file))
+            .map(File::getName)
+            .forEach(builder::assetFileName);
     }
 
     private File createDocumentsDirectory(final File ebookDirectory) {
@@ -367,8 +324,7 @@ public class CreateDirectoriesAndMoveResources extends AbstractSbTasklet {
     }
 
     private File createAssetsDirectory(final File parentDirectory) {
-        final File assetsDirectory = new File(parentDirectory, "assets");
-        return assetsDirectory;
+        return new File(parentDirectory, "assets");
     }
 
     @Required

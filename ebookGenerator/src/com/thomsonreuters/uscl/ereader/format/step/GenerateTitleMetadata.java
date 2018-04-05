@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.thomsonreuters.uscl.ereader.JobExecutionKey;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
@@ -155,28 +156,19 @@ public class GenerateTitleMetadata extends AbstractSbTasklet {
      * @return documentlist ordered by file
      */
     protected List<Doc> readTOCGuidList(final File docGuidsFile) throws EBookFormatException {
-        final List<Doc> docToTocGuidList = new ArrayList<>();
-
         try (BufferedReader reader = new BufferedReader(new FileReader(docGuidsFile));) {
             LOG.info("Reading in TOC anchor map file...");
-            int numDocs = 0;
-
-            String input = reader.readLine();
-            while (input != null) {
-                numDocs++;
-                final String[] line = input.split(",", -1);
-                final Doc doc = new Doc(line[0], line[0] + ".html", 0, null);
-                docToTocGuidList.add(doc);
-
-                input = reader.readLine();
-            }
-            LOG.info("Generated Doc List " + numDocs);
+            final List<Doc> docToTocGuidList = reader.lines()
+                .map(line -> line.split(",", -1))
+                .map(line -> new Doc(line[0], line[0] + ".html", 0, null))
+                .collect(Collectors.toCollection(ArrayList::new));
+            LOG.info("Generated Doc List " + docToTocGuidList.size());
+            return docToTocGuidList;
         } catch (final IOException e) {
             final String message = "Could not read the DOC guid list file: " + docGuidsFile.getAbsolutePath();
             LOG.error(message);
             throw new EBookFormatException(message, e);
         }
-        return (docToTocGuidList);
     }
 
     public void setTitleMetadataService(final TitleMetadataService titleMetadataService) {
