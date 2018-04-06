@@ -14,11 +14,16 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
 
 public final class BookDefinitionUtils {
     private BookDefinitionUtils() {
     }
-    public static BookDefinition fillBookDefinition(final CodeService codeService, final String title) {
+
+    public static BookDefinition fillBookDefinition(
+        final CodeService codeService,
+        final DocumentTypeCodeService documentTypeCodeService,
+        final String title) {
         final BookDefinition eBook = new BookDefinition();
         eBook.setFullyQualifiedTitleId(title);
         eBook.setProviewDisplayName("Integration Test Book");
@@ -42,13 +47,13 @@ public final class BookDefinitionUtils {
         eBook.setEbookNames(new HashSet<EbookName>());
         eBook.setFrontMatterPages(new HashSet<FrontMatterPage>());
         eBook.setExcludeDocuments(new HashSet<ExcludeDocument>());
-        final DocumentTypeCode dc = codeService.getDocumentTypeCodeById((long) 1);
+        final DocumentTypeCode dc = documentTypeCodeService.getDocumentTypeCodeById(1L);
         eBook.setDocumentTypeCodes(dc);
         eBook.setFrontMatterTheme("West");
         eBook.setIsSplitBook(false);
         eBook.setIsSplitTypeAuto(true);
 
-        final PublisherCode publisherCode = codeService.getPublisherCodeById((long) 1);
+        final PublisherCode publisherCode = codeService.getPublisherCodeById(1L);
         eBook.setPublisherCodes(publisherCode);
 
         // Setup Front Matter

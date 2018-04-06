@@ -3,7 +3,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.doctypemetric;
 import javax.validation.Valid;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,14 +23,14 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class DocTypeMetricController {
-    private final CodeService codeService;
+    private final DocumentTypeCodeService documentTypeCodeService;
     private final Validator validator;
 
     @Autowired
     public DocTypeMetricController(
-        final CodeService codeService,
+        final DocumentTypeCodeService documentTypeCodeService,
         @Qualifier("docTypeMetricFormValidator") final Validator validator) {
-        this.codeService = codeService;
+        this.documentTypeCodeService = documentTypeCodeService;
         this.validator = validator;
     }
 
@@ -48,9 +48,8 @@ public class DocTypeMetricController {
      * @throws Exception
      */
     @RequestMapping(value = WebConstants.MVC_ADMIN_DOCTYPE_METRIC_VIEW, method = RequestMethod.GET)
-    public ModelAndView viewKeywordsCode(final Model model) throws Exception {
-        model.addAttribute(WebConstants.KEY_DOC_TYPE_CODE, codeService.getAllDocumentTypeCodes());
-
+    public ModelAndView viewKeywordsCode(final Model model) {
+        model.addAttribute(WebConstants.KEY_DOC_TYPE_CODE, documentTypeCodeService.getAllDocumentTypeCodes());
         return new ModelAndView(WebConstants.VIEW_ADMIN_DOCTYPE_METRIC_VIEW);
     }
 
@@ -58,9 +57,8 @@ public class DocTypeMetricController {
     public ModelAndView editDocTypeMetric(
         @RequestParam("id") final Long id,
         @ModelAttribute(DocTypeMetricForm.FORM_NAME) final DocTypeMetricForm form,
-        final BindingResult bindingResult,
         final Model model) {
-        final DocumentTypeCode code = codeService.getDocumentTypeCodeById(id);
+        final DocumentTypeCode code = documentTypeCodeService.getDocumentTypeCodeById(id);
 
         if (code != null) {
             model.addAttribute(WebConstants.KEY_DOC_TYPE_CODE, code);
@@ -76,15 +74,13 @@ public class DocTypeMetricController {
         final BindingResult bindingResult,
         final Model model) {
         if (!bindingResult.hasErrors()) {
-            final DocumentTypeCode code = codeService.getDocumentTypeCodeById(form.getId());
-
-            codeService.saveDocumentTypeMetric(form.makeCode(code));
-
+            final DocumentTypeCode code = documentTypeCodeService.getDocumentTypeCodeById(form.getId());
+            documentTypeCodeService.saveDocumentTypeCode(form.makeCode(code));
             // Redirect user
             return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_DOCTYPE_METRIC_VIEW));
         }
 
-        final DocumentTypeCode code = codeService.getDocumentTypeCodeById(form.getId());
+        final DocumentTypeCode code = documentTypeCodeService.getDocumentTypeCodeById(form.getId());
         model.addAttribute(WebConstants.KEY_DOC_TYPE_CODE, code);
         return new ModelAndView(WebConstants.VIEW_ADMIN_DOCTYPE_METRIC_EDIT);
     }

@@ -30,6 +30,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
@@ -55,6 +56,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 
     private final BookDefinitionService bookDefinitionService;
     private final CodeService codeService;
+    private final DocumentTypeCodeService documentTypeCodeService;
     private final String environmentName;
     private final File rootCodesWorkbenchLandingStrip;
 
@@ -62,10 +64,12 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     public EditBookDefinitionFormValidator(
         final BookDefinitionService bookDefinitionService,
         final CodeService codeService,
+        final DocumentTypeCodeService documentTypeCodeService,
         @Qualifier("environmentName") final String environmentName,
         @Value("${codes.workbench.root.dir}") final File rootCodesWorkbenchLandingStrip) {
         this.bookDefinitionService = bookDefinitionService;
         this.codeService = codeService;
+        this.documentTypeCodeService = documentTypeCodeService;
         this.environmentName = environmentName;
         this.rootCodesWorkbenchLandingStrip = rootCodesWorkbenchLandingStrip;
     }
@@ -296,7 +300,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             final Long contentTypeId = form.getContentTypeId();
             final String publisher = form.getPublisher();
             final DocumentTypeCode contentType =
-                (contentTypeId != null) ? codeService.getDocumentTypeCodeById(contentTypeId) : null;
+                (contentTypeId != null) ? documentTypeCodeService.getDocumentTypeCodeById(contentTypeId) : null;
 
             if ("uscl".equalsIgnoreCase(publisher)) {
                 if (contentType != null

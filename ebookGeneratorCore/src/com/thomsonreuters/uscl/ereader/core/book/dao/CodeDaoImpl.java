@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
@@ -26,19 +25,6 @@ public class CodeDaoImpl implements CodeDao {
 
     public CodeDaoImpl(final SessionFactory sessFactory) {
         sessionFactory = sessFactory;
-    }
-
-    /**
-     * Delete a DocumentType Code in the DOCUMENT_TYPE_CODES table
-     * @param documentTypeCode
-     * @return
-     */
-    @Override
-    public void deleteDocumentTypeCode(DocumentTypeCode documentTypeCode) {
-        documentTypeCode = (DocumentTypeCode) sessionFactory.getCurrentSession().merge(documentTypeCode);
-        final Session session = sessionFactory.getCurrentSession();
-        session.delete(documentTypeCode);
-        session.flush();
     }
 
     /**
@@ -149,17 +135,6 @@ public class CodeDaoImpl implements CodeDao {
     }
 
     /**
-     * Get all the DocumentType codes from the DOCUMENT_TYPE_CODES table
-     * @return a list of DocumentTypeCode objects
-     */
-    @Override
-    public List<DocumentTypeCode> getAllDocumentTypeCodes() {
-        final Criteria criteria =
-            sessionFactory.getCurrentSession().createCriteria(DocumentTypeCode.class).addOrder(Order.asc("name"));
-        return criteria.list();
-    }
-
-    /**
      * Get all the JurisType codes from the Juris_TYPE_CODES table
      * @return a list of JurisTypeCode objects
      */
@@ -238,16 +213,6 @@ public class CodeDaoImpl implements CodeDao {
         final Criteria criteria =
             sessionFactory.getCurrentSession().createCriteria(PubTypeCode.class).addOrder(Order.asc("name"));
         return criteria.list();
-    }
-
-    /**
-     * Get a DocumentType Code from the DOCUMENT_TYPE_CODES table that match DOCUMENT_TYPE_CODES_ID
-     * @param documentTypeCodeId
-     * @return
-     */
-    @Override
-    public DocumentTypeCode getDocumentTypeCodeById(final Long documentTypeCodeId) {
-        return (DocumentTypeCode) sessionFactory.getCurrentSession().get(DocumentTypeCode.class, documentTypeCodeId);
     }
 
     /**
@@ -339,27 +304,6 @@ public class CodeDaoImpl implements CodeDao {
             .createCriteria(PubTypeCode.class)
             .add(Restrictions.eq("name", pubTypeCodeName).ignoreCase())
             .uniqueResult();
-    }
-
-    /**
-     * Create or Update a DocumentType Code to the DOCUMENT_TYPE_CODES table
-     * @param documentTypeCode
-     * @return
-     */
-    @Override
-    public void saveDocumentTypeCode(final DocumentTypeCode documentTypeCode) {
-        documentTypeCode.setLastUpdated(new Date());
-
-        final Session session = sessionFactory.getCurrentSession();
-
-        // Determine if it a new object
-        if (documentTypeCode.getId() != null) {
-            session.merge(documentTypeCode);
-        } else {
-            session.save(documentTypeCode);
-        }
-
-        session.flush();
     }
 
     /**

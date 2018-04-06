@@ -19,6 +19,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
@@ -56,6 +57,7 @@ public final class EditBookDefinitionControllerTest {
     private HandlerAdapter handlerAdapter;
     private BookDefinitionService mockBookDefinitionService;
     private CodeService mockCodeService;
+    private DocumentTypeCodeService mockDocumentTypeCodeService;
     private JobRequestService mockJobRequestService;
     private EditBookDefinitionService mockEditBookDefinitionService;
     private EBookAuditService mockAuditService;
@@ -76,6 +78,7 @@ public final class EditBookDefinitionControllerTest {
         // Mock up the services
         mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
         mockCodeService = EasyMock.createMock(CodeService.class);
+        mockDocumentTypeCodeService = EasyMock.createMock(DocumentTypeCodeService.class);
         mockEditBookDefinitionService = EasyMock.createMock(EditBookDefinitionService.class);
         mockJobRequestService = EasyMock.createMock(JobRequestService.class);
         mockAuditService = EasyMock.createMock(EBookAuditService.class);
@@ -86,8 +89,12 @@ public final class EditBookDefinitionControllerTest {
         frontMatterThemes.add("WestLaw Next");
 
         EasyMock.expect(mockEditBookDefinitionService.getFrontMatterThemes()).andReturn(frontMatterThemes);
-        validator =
-            new EditBookDefinitionFormValidator(mockBookDefinitionService, mockCodeService, "workstation", null);
+        validator = new EditBookDefinitionFormValidator(
+            mockBookDefinitionService,
+            mockCodeService,
+            mockDocumentTypeCodeService,
+            "workstation",
+            null);
 
         // Set up the controller
         controller = new EditBookDefinitionController();
@@ -575,9 +582,10 @@ public final class EditBookDefinitionControllerTest {
         code.setId(Long.parseLong("1"));
         code.setAbbreviation("an");
         code.setName("Analytical");
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(BOOK_DEFINITION_ID)).andReturn(code);
+        EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(BOOK_DEFINITION_ID)).andReturn(code);
         EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
         EasyMock.replay(mockCodeService);
+        EasyMock.replay(mockDocumentTypeCodeService);
 
         setupDropdownMenuAndKeywords(2);
 
@@ -645,9 +653,10 @@ public final class EditBookDefinitionControllerTest {
         code.setId(Long.parseLong("1"));
         code.setAbbreviation("an");
         code.setName("Analytical");
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(BOOK_DEFINITION_ID)).andReturn(code);
+        EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(BOOK_DEFINITION_ID)).andReturn(code);
         EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
         EasyMock.replay(mockCodeService);
+        EasyMock.replay(mockDocumentTypeCodeService);
 
         EasyMock.expect(mockJobRequestService.isBookInJobRequest(BOOK_DEFINITION_ID)).andReturn(false);
         EasyMock.replay(mockJobRequestService);
@@ -728,9 +737,10 @@ public final class EditBookDefinitionControllerTest {
         code.setId(Long.parseLong("1"));
         code.setAbbreviation("an");
         code.setName("Analytical");
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(BOOK_DEFINITION_ID)).andReturn(code);
+        EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(BOOK_DEFINITION_ID)).andReturn(code);
         EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
         EasyMock.replay(mockCodeService);
+        EasyMock.replay(mockDocumentTypeCodeService);
 
         EasyMock.expect(mockLockService.findBookLockByBookDefinition(book)).andReturn(bookDefinitionLock);
         EasyMock.replay(mockLockService);
@@ -1068,11 +1078,13 @@ public final class EditBookDefinitionControllerTest {
         code.setId(Long.parseLong("1"));
         code.setAbbreviation("an");
         code.setName("Analytical");
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class))).andReturn(code);
+        EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
+            .andReturn(code);
         if (isComplete) {
             EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
         }
         EasyMock.replay(mockCodeService);
+        EasyMock.replay(mockDocumentTypeCodeService);
     }
 
     private BookDefinition createBookDef(final String fullyQualifiedTitleId) {

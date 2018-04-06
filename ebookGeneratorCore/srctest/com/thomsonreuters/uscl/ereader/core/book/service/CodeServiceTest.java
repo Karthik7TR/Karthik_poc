@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDao;
-import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
@@ -23,10 +22,6 @@ public final class CodeServiceTest {
     private final PubTypeCode PUB_TYPE_CODE = new PubTypeCode();
     private final Long PUB_TYPE_CODES_ID = Long.valueOf("3");
     private final List<PubTypeCode> ALL_PUB_TYPE_CODES = new ArrayList<>();
-
-    private final DocumentTypeCode DOCUMENT_TYPE_CODE = new DocumentTypeCode();
-    private final Long DOCUMENT_TYPE_CODES_ID = Long.valueOf("4");
-    private final List<DocumentTypeCode> ALL_DOCUMENT_TYPE_CODES = new ArrayList<>();
 
     private final PublisherCode PUBLISHER_CODE = new PublisherCode();
     private final Long PUBLISHER_CODES_ID = Long.valueOf("5");
@@ -51,7 +46,6 @@ public final class CodeServiceTest {
 
         JURIS_TYPE_CODE.setId(JURIS_TYPE_CODES_ID);
         PUB_TYPE_CODE.setId(PUB_TYPE_CODES_ID);
-        DOCUMENT_TYPE_CODE.setId(DOCUMENT_TYPE_CODES_ID);
         PUBLISHER_CODE.setId(PUBLISHER_CODES_ID);
         KEYWORD_TYPE_CODE.setId(KEYWORD_TYPE_CODES_ID);
         KEYWORD_TYPE_VALUE.setId(KEYWORD_TYPE_VALUES_ID);
@@ -96,28 +90,6 @@ public final class CodeServiceTest {
         final List<JurisTypeCode> actual = service.getAllJurisTypeCodes();
         final List<JurisTypeCode> expected = new ArrayList<>();
         expected.add(JURIS_TYPE_CODE);
-
-        Assert.assertEquals(expected, actual);
-        EasyMock.verify(mockCodeDao);
-    }
-
-    @Test
-    public void testGetDocumentTypeCode() {
-        EasyMock.expect(mockCodeDao.getDocumentTypeCodeById(DOCUMENT_TYPE_CODES_ID)).andReturn(DOCUMENT_TYPE_CODE);
-        EasyMock.replay(mockCodeDao);
-        final DocumentTypeCode actual = service.getDocumentTypeCodeById(DOCUMENT_TYPE_CODES_ID);
-        Assert.assertEquals(DOCUMENT_TYPE_CODE, actual);
-        EasyMock.verify(mockCodeDao);
-    }
-
-    @Test
-    public void testGetAllDocumentTypeCodes() {
-        ALL_DOCUMENT_TYPE_CODES.add(DOCUMENT_TYPE_CODE);
-        EasyMock.expect(mockCodeDao.getAllDocumentTypeCodes()).andReturn(ALL_DOCUMENT_TYPE_CODES);
-        EasyMock.replay(mockCodeDao);
-        final List<DocumentTypeCode> actual = service.getAllDocumentTypeCodes();
-        final List<DocumentTypeCode> expected = new ArrayList<>();
-        expected.add(DOCUMENT_TYPE_CODE);
 
         Assert.assertEquals(expected, actual);
         EasyMock.verify(mockCodeDao);

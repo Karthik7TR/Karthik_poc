@@ -143,46 +143,6 @@ public class CodeServiceIntegrationTest {
 
     @Test
     @Ignore
-    public void testGetAllDocumentType() {
-        final List<DocumentTypeCode> codes = service.getAllDocumentTypeCodes();
-        log.debug(codes);
-        Assert.assertEquals(3, codes.size());
-    }
-
-    @Test
-    @Ignore
-    public void testDocumentTypeCodeCRUD() {
-        // Create StateCode
-        final DocumentTypeCode createCode = new DocumentTypeCode();
-        createCode.setName("Test");
-        createCode.setAbbreviation("t");
-        createCode.setUsePublishCutoffDateFlag(false);
-        service.saveDocumentTypeCode(createCode);
-
-        // Get
-        DocumentTypeCode readCode = service.getDocumentTypeCodeById(createCode.getId());
-        Assert.assertEquals(createCode, readCode);
-        Assert.assertEquals("Test", readCode.getName());
-        Assert.assertEquals("t", readCode.getAbbreviation());
-
-        // Update
-        readCode.setName("Test2");
-        readCode.setAbbreviation("t2");
-        service.saveDocumentTypeCode(readCode);
-
-        // Get 2
-        readCode = service.getDocumentTypeCodeById(createCode.getId());
-        Assert.assertEquals("Test2", readCode.getName());
-        Assert.assertEquals("t2", readCode.getAbbreviation());
-
-        // Delete
-        service.deleteDocumentTypeCode(readCode);
-        readCode = service.getDocumentTypeCodeById(createCode.getId());
-        Assert.assertEquals(null, readCode);
-    }
-
-    @Test
-    @Ignore
     public void testGetAllPublisher() {
         final List<PublisherCode> codes = service.getAllPublisherCodes();
         log.debug(codes);

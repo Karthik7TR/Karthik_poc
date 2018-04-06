@@ -21,6 +21,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.sap.comparsion.MaterialComponentComparatorProvider;
@@ -51,6 +52,7 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
     private static final String INVALID_SUB_NUMBER_MESSAGE = SUB_NUMBER_MESSAGE + " is invalid";
 
     private final CodeService codeService;
+    private final DocumentTypeCodeService documentTypeCodeService;
     private final StateCodeService stateCodeService;
     private final File rootCodesWorkbenchLandingStrip;
     private final List<String> frontMatterThemes;
@@ -59,11 +61,13 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
 
     @Autowired
     public EditBookDefinitionServiceImpl(final CodeService codeService,
+                                         final DocumentTypeCodeService documentTypeCodeService,
                                          final StateCodeService stateCodeService,
                                          @Value("${codes.workbench.root.dir}") final File rootCodesWorkbenchLandingStrip,
                                          final SapService sapService,
                                          final MaterialComponentComparatorProvider materialComponentComparatorProvider) {
         this.codeService = codeService;
+        this.documentTypeCodeService = documentTypeCodeService;
         this.stateCodeService = stateCodeService;
         this.rootCodesWorkbenchLandingStrip = rootCodesWorkbenchLandingStrip;
         frontMatterThemes = Arrays.asList("WestLaw Next", "AAJ Press");
@@ -73,7 +77,7 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
 
     @Override
     public List<DocumentTypeCode> getDocumentTypes() {
-        return codeService.getAllDocumentTypeCodes();
+        return documentTypeCodeService.getAllDocumentTypeCodes();
     }
 
     @Override
@@ -116,7 +120,7 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
 
     @Override
     public DocumentTypeCode getContentTypeById(final Long id) {
-        return codeService.getDocumentTypeCodeById(id);
+        return documentTypeCodeService.getDocumentTypeCodeById(id);
     }
 
     @Override

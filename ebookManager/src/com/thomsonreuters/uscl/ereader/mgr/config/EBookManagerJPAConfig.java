@@ -36,7 +36,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableJpaRepositories(
     basePackages = "com.thomsonreuters.uscl.ereader",
-    entityManagerFactoryRef = "entityManagerFactory"
+    entityManagerFactoryRef = "entityManagerFactory",
+    transactionManagerRef = "jpaTransactionManager"
 )
 @EnableTransactionManagement
 public class EBookManagerJPAConfig extends CommonJPAConfig {

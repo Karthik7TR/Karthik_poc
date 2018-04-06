@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
@@ -17,7 +18,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceImpl;
+import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionServiceImpl;
@@ -27,7 +28,6 @@ import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponent;
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponentsResponse;
 import com.thomsonreuters.uscl.ereader.sap.service.SapService;
 import org.apache.commons.io.FileUtils;
-import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -44,14 +44,16 @@ public final class EditBookDefinitionServiceImplTest {
     private static final String EMPTY_SUB_NUMBER = "12345679";
     private static final String INVALID_SUB_NUMBER = "12345670";
     private static final String UNAVAILABLE_SUB_NUMBER = "1234567";
-
     private static final String TITLE_ID = "titleId";
 
     private EditBookDefinitionServiceImpl bookService;
-
-    private CodeService mockCodeService;
-    private StateCodeService mockStateCodeService;
     private File tempRootDir;
+    @Mock
+    private CodeService codeService;
+    @Mock
+    private DocumentTypeCodeService documentTypeCodeService;
+    @Mock
+    private StateCodeService stateCodeService;
     @Mock
     private SapService sapService;
     @Mock
@@ -65,12 +67,16 @@ public final class EditBookDefinitionServiceImplTest {
     public void setUp() {
         initMocks();
 
-        mockCodeService = EasyMock.createMock(CodeServiceImpl.class);
-        mockStateCodeService = EasyMock.createMock(StateCodeService.class);
         tempRootDir = new File(System.getProperty("java.io.tmpdir") + "\\EvenMoreTemp");
         tempRootDir.mkdir();
 
-        bookService = new EditBookDefinitionServiceImpl(mockCodeService, mockStateCodeService, tempRootDir, sapService, materialComponentComparatorProvider);
+        bookService = new EditBookDefinitionServiceImpl(
+            codeService,
+            documentTypeCodeService,
+            stateCodeService,
+            tempRootDir,
+            sapService,
+            materialComponentComparatorProvider);
     }
 
     private void initMocks() {
@@ -159,56 +165,60 @@ public final class EditBookDefinitionServiceImplTest {
 
     @Test
     public void testGetStates() {
+        // given
         final StateCode code = new StateCode();
         code.setName("aAa");
         final List<StateCode> codes = new ArrayList<>();
         codes.add(code);
-        EasyMock.expect(mockStateCodeService.getAllStateCodes()).andReturn(codes);
-        EasyMock.replay(mockStateCodeService);
-
+        given(stateCodeService.getAllStateCodes()).willReturn(codes);
+        // when
         final Map<String, String> states = bookService.getStates();
+        // then
         Assert.assertNotNull(states);
         Assert.assertEquals(1, states.size());
     }
 
     @Test
     public void testGetJurisdictions() {
+        // given
         final JurisTypeCode code = new JurisTypeCode();
         code.setName("aAa");
         final List<JurisTypeCode> codes = new ArrayList<>();
         codes.add(code);
-        EasyMock.expect(mockCodeService.getAllJurisTypeCodes()).andReturn(codes);
-        EasyMock.replay(mockCodeService);
-
+        given(codeService.getAllJurisTypeCodes()).willReturn(codes);
+        // when
         final Map<String, String> juris = bookService.getJurisdictions();
+        // then
         Assert.assertNotNull(juris);
         Assert.assertEquals(1, juris.size());
     }
 
     @Test
     public void testGetPubTypes() {
+        // given
         final PubTypeCode code = new PubTypeCode();
         code.setName("aAa");
         final List<PubTypeCode> codes = new ArrayList<>();
         codes.add(code);
-        EasyMock.expect(mockCodeService.getAllPubTypeCodes()).andReturn(codes);
-        EasyMock.replay(mockCodeService);
-
+        given(codeService.getAllPubTypeCodes()).willReturn(codes);
+        // when
         final Map<String, String> pubType = bookService.getPubTypes();
+        // then
         Assert.assertNotNull(pubType);
         Assert.assertEquals(1, pubType.size());
     }
 
     @Test
     public void testGetPublishers() {
+        // given
         final PublisherCode code = new PublisherCode();
         code.setName("aAa");
         final List<PublisherCode> codes = new ArrayList<>();
         codes.add(code);
-        EasyMock.expect(mockCodeService.getAllPublisherCodes()).andReturn(codes);
-        EasyMock.replay(mockCodeService);
-
+        given(codeService.getAllPublisherCodes()).willReturn(codes);
+        // when
         final Map<String, String> pubs = bookService.getPublishers();
+        // then
         Assert.assertNotNull(pubs);
         Assert.assertEquals(1, pubs.size());
     }
@@ -231,7 +241,8 @@ public final class EditBookDefinitionServiceImplTest {
     public void shouldReturnListWithOneElement() {
         //given
         //when
-        final MaterialComponentsResponse response = bookService.getMaterialBySubNumber(VALID_SUB_NUMBER, VALID_SUB_NUMBER, TITLE_ID);
+        final MaterialComponentsResponse response =
+            bookService.getMaterialBySubNumber(VALID_SUB_NUMBER, VALID_SUB_NUMBER, TITLE_ID);
         //then
         assertThat(response.getMessage(), equalTo("OK"));
         assertThat(response.getMaterialComponents(), hasSize(1));
@@ -242,7 +253,8 @@ public final class EditBookDefinitionServiceImplTest {
     public void shouldReturnEmptyResponse() {
         //given
         //when
-        final MaterialComponentsResponse response = bookService.getMaterialBySubNumber(EMPTY_SUB_NUMBER, EMPTY_SUB_NUMBER, TITLE_ID);
+        final MaterialComponentsResponse response =
+            bookService.getMaterialBySubNumber(EMPTY_SUB_NUMBER, EMPTY_SUB_NUMBER, TITLE_ID);
         //then
         assertThat(response.getMessage(), equalTo("Material components not found, for Print Set/Sub Number: 12345679"));
         assertThat(response.getMaterialComponents(), hasSize(0));
@@ -252,7 +264,8 @@ public final class EditBookDefinitionServiceImplTest {
     public void shouldReturnInvalidResponse() {
         //given
         //when
-        final MaterialComponentsResponse response = bookService.getMaterialBySubNumber(INVALID_SUB_NUMBER, INVALID_SUB_NUMBER, TITLE_ID);
+        final MaterialComponentsResponse response =
+            bookService.getMaterialBySubNumber(INVALID_SUB_NUMBER, INVALID_SUB_NUMBER, TITLE_ID);
         //then
         assertThat(response.getMessage(), equalTo("Print Set/Sub Number: 12345670 is invalid"));
         assertThat(response.getMaterialComponents(), hasSize(0));

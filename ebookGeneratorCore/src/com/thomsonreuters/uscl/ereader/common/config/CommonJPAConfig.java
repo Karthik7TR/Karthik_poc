@@ -66,18 +66,23 @@ import com.thomsonreuters.uscl.ereader.userpreference.dao.UserPreferenceDao;
 import com.thomsonreuters.uscl.ereader.userpreference.dao.UserPreferenceDaoImpl;
 import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 
 public abstract class CommonJPAConfig {
     @Bean
+    @Primary
     public DataSource dataSource() {
         final JndiDataSourceLookup dsLookup = new JndiDataSourceLookup();
         dsLookup.setResourceRef(true);
@@ -85,11 +90,19 @@ public abstract class CommonJPAConfig {
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate() {
-        return new JdbcTemplate(dataSource());
+    public DataSource jpaDataSource() {
+        final JndiDataSourceLookup dsLookup = new JndiDataSourceLookup();
+        dsLookup.setResourceRef(true);
+        return dsLookup.getDataSource("jdbc/DataSourceJPA");
     }
 
     @Bean
+    public JdbcTemplate jdbcTemplate(@Qualifier("dataSource") final DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
+
+    @Bean
+    @Primary
     public HibernateTransactionManager transactionManager(final SessionFactory sessionFactory) {
         final HibernateTransactionManager transactionManager = new HibernateTransactionManager();
         transactionManager.setSessionFactory(sessionFactory);
@@ -97,10 +110,18 @@ public abstract class CommonJPAConfig {
     }
 
     @Bean
+    public PlatformTransactionManager jpaTransactionManager(final EntityManagerFactory factory) {
+        final JpaTransactionManager txManager = new JpaTransactionManager();
+        txManager.setEntityManagerFactory(factory);
+        return txManager;
+    }
+
+    @Bean
     public EntityManagerFactory entityManagerFactory(
-            @Value("${hibernate.dialect}") final String hibernateDialectProperty,
-            @Value("${hibernate.show.sql}") final String showSqlProperty,
-            @Value("${hibernate.cache.provider.class}") final String cacheProviderClassProperty) {
+        @Value("${hibernate.dialect}") final String hibernateDialectProperty,
+        @Value("${hibernate.show.sql}") final String showSqlProperty,
+        @Value("${hibernate.cache.provider.class}") final String cacheProviderClassProperty,
+        @Qualifier("jpaDataSource") final DataSource dataSource) {
         final Properties properties = new Properties();
         properties.setProperty("hibernate.dialect", hibernateDialectProperty);
         properties.setProperty("hibernate.show_sql", showSqlProperty);
@@ -111,17 +132,19 @@ public abstract class CommonJPAConfig {
         factory.setJpaVendorAdapter(jpaVendorAdapter);
         factory.setPackagesToScan("com.thomsonreuters.uscl.ereader");
         factory.setJpaProperties(properties);
-        factory.setDataSource(dataSource());
+        factory.setDataSource(dataSource);
         factory.afterPropertiesSet();
         return factory.getObject();
     }
 
     @Bean
-    public SessionFactory sessionFactory(@Value("${hibernate.dialect}") final String hibernateDialectProperty,
-                                         @Value("${hibernate.show.sql}") final String showSqlProperty,
-                                         @Value("${hibernate.cache.provider.class}") final String cacheProviderClassProperty) throws IOException {
+    public SessionFactory sessionFactory(
+        @Value("${hibernate.dialect}") final String hibernateDialectProperty,
+        @Value("${hibernate.show.sql}") final String showSqlProperty,
+        @Value("${hibernate.cache.provider.class}") final String cacheProviderClassProperty,
+        @Qualifier("dataSource") final DataSource dataSource) throws IOException {
         final LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource());
+        sessionFactory.setDataSource(dataSource);
 
         final Properties properties = new Properties();
         properties.setProperty("hibernate.dialect", hibernateDialectProperty);
@@ -129,17 +152,40 @@ public abstract class CommonJPAConfig {
         properties.setProperty("hibernate.cache.provider_class", cacheProviderClassProperty);
         sessionFactory.setHibernateProperties(properties);
 
-        final List<Class<?>> annotatedClasses = new ArrayList<>(Arrays.asList(AppParameter.class, PlannedOutage.class, OutageType.class,
-                                                    BookDefinition.class, Author.class, DocumentTypeCode.class,
-                                                    EbookAudit.class, EbookName.class, JurisTypeCode.class,
-                                                    KeywordTypeCode.class, KeywordTypeValue.class, PublisherCode.class,
-                                                    PublishingStats.class, PubTypeCode.class, StateCode.class,
-                                                    JobRequest.class, FrontMatterPage.class, FrontMatterSection.class,
-                                                    FrontMatterPdf.class, ExcludeDocument.class, RenameTocEntry.class,
-                                                    TableViewer.class, UserPreference.class, ProviewAudit.class,
-                                                    DocumentCopyright.class, DocumentCurrency.class, NortFileLocation.class,
-                                                    SplitDocument.class, SplitNodeInfo.class, PilotBook.class,
-                                                    PrintComponent.class, XppBundleArchive.class));
+        final List<Class<?>> annotatedClasses = new ArrayList<>(
+            Arrays.asList(
+                AppParameter.class,
+                PlannedOutage.class,
+                OutageType.class,
+                BookDefinition.class,
+                Author.class,
+                DocumentTypeCode.class,
+                EbookAudit.class,
+                EbookName.class,
+                JurisTypeCode.class,
+                KeywordTypeCode.class,
+                KeywordTypeValue.class,
+                PublisherCode.class,
+                PublishingStats.class,
+                PubTypeCode.class,
+                StateCode.class,
+                JobRequest.class,
+                FrontMatterPage.class,
+                FrontMatterSection.class,
+                FrontMatterPdf.class,
+                ExcludeDocument.class,
+                RenameTocEntry.class,
+                TableViewer.class,
+                UserPreference.class,
+                ProviewAudit.class,
+                DocumentCopyright.class,
+                DocumentCurrency.class,
+                NortFileLocation.class,
+                SplitDocument.class,
+                SplitNodeInfo.class,
+                PilotBook.class,
+                PrintComponent.class,
+                XppBundleArchive.class));
         addAdditionalEntities(annotatedClasses);
         sessionFactory.setAnnotatedClasses(annotatedClasses.toArray(new Class<?>[annotatedClasses.size()]));
 

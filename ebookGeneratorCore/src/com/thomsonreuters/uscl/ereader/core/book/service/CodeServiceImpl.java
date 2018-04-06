@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDao;
-import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
@@ -131,56 +130,6 @@ public class CodeServiceImpl implements CodeService {
     @Transactional
     public void deleteJurisTypeCode(final JurisTypeCode jurisTypeCode) {
         dao.deleteJurisTypeCode(jurisTypeCode);
-    }
-
-    /**
-     * Get all the DocumentType codes from the DOCUMENT_TYPE_CODES table
-     * @return a list of DocumentTypeCode objects
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<DocumentTypeCode> getAllDocumentTypeCodes() {
-        return dao.getAllDocumentTypeCodes();
-    }
-
-    /**
-     * Get a DocumentType Code from the DOCUMENT_TYPE_CODES table that match DOCUMENT_TYPE_CODES_ID
-     * @param DocumentTypeCodeId
-     * @return
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public DocumentTypeCode getDocumentTypeCodeById(final Long documentTypeCodeId) {
-        return dao.getDocumentTypeCodeById(documentTypeCodeId);
-    }
-
-    /**
-     * Create or Update a DocumentType Code to the DOCUMENT_TYPE_CODES table
-     * @param DocumentTypeCode
-     * @return
-     */
-    @Override
-    @Transactional
-    public void saveDocumentTypeCode(final DocumentTypeCode documentTypeCode) {
-        documentTypeCode.setLastUpdated(new Date());
-        dao.saveDocumentTypeCode(documentTypeCode);
-    }
-
-    /**
-     * Delete a DocumentType Code in the DOCUMENT_TYPE_CODES table
-     * @param DocumentTypeCode
-     * @return
-     */
-    @Override
-    @Transactional
-    public void deleteDocumentTypeCode(final DocumentTypeCode documentTypeCode) {
-        dao.deleteDocumentTypeCode(documentTypeCode);
-    }
-
-    @Override
-    @Transactional
-    public void saveDocumentTypeMetric(final DocumentTypeCode documentTypeCode) {
-        dao.saveDocumentTypeCode(documentTypeCode);
     }
 
     /**

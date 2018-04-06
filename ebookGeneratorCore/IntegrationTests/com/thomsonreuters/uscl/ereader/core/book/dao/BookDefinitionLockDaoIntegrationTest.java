@@ -11,6 +11,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,12 +36,15 @@ public class BookDefinitionLockDaoIntegrationTest {
     private BookDefinitionService bookDefinitionService;
     @Autowired
     private CodeService codeService;
+    @Autowired
+    private DocumentTypeCodeService documentTypeCodeService;
 
     private BookDefinition def;
 
     @Before
     public void setUp() {
-        def = bookDefinitionService.saveBookDefinition(fillBookDefinition(codeService, "title"));
+        def =
+            bookDefinitionService.saveBookDefinition(fillBookDefinition(codeService, documentTypeCodeService, "title"));
         lockBookDefinition(def, "UC123456", "Mickey Mouse");
     }
 

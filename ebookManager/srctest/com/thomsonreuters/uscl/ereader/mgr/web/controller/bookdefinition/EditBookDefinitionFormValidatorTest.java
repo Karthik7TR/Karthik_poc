@@ -23,6 +23,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionForm;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionFormValidator;
@@ -38,6 +39,7 @@ public final class EditBookDefinitionFormValidatorTest {
 
     private BookDefinitionService mockBookDefinitionService;
     private CodeService mockCodeService;
+    private DocumentTypeCodeService mockDocumentTypeCodeService;
     private EditBookDefinitionForm form;
     private EditBookDefinitionFormValidator validator;
     private Errors errors;
@@ -49,11 +51,13 @@ public final class EditBookDefinitionFormValidatorTest {
         // Mock up the dashboard service
         mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
         mockCodeService = EasyMock.createMock(CodeService.class);
+        mockDocumentTypeCodeService = EasyMock.createMock(DocumentTypeCodeService.class);
 
         // Setup Validator
         validator = new EditBookDefinitionFormValidator(
             mockBookDefinitionService,
             mockCodeService,
+            mockDocumentTypeCodeService,
             CoreConstants.PROD_ENVIRONMENT_NAME,
             null);
 
@@ -181,7 +185,7 @@ public final class EditBookDefinitionFormValidatorTest {
         form.setSourceType(SourceType.FILE);
         final URL url = EditBookDefinitionFormValidatorTest.class.getResource("test.xml");
         final File dir = new File(url.toURI());
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
+        EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
             .andReturn(analyticalCode);
         EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
         EasyMock.replay(mockCodeService);
@@ -189,6 +193,7 @@ public final class EditBookDefinitionFormValidatorTest {
         validator = new EditBookDefinitionFormValidator(
             mockBookDefinitionService,
             mockCodeService,
+            mockDocumentTypeCodeService,
             CoreConstants.PROD_ENVIRONMENT_NAME,
             dir);
         validator.validate(form, errors);
@@ -224,7 +229,7 @@ public final class EditBookDefinitionFormValidatorTest {
         Assert.assertEquals("error.required", errors.getFieldError("publisher").getCode());
 
         EasyMock.verify(mockBookDefinitionService);
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(mockDocumentTypeCodeService);
     }
 
     /**
@@ -347,10 +352,7 @@ public final class EditBookDefinitionFormValidatorTest {
      */
     @Test
     public void testUniquTitleIdWhenCreating() {
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
-
+        expectReplayDocTypeCode();
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByTitle(EasyMock.anyObject(String.class)))
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
@@ -359,7 +361,7 @@ public final class EditBookDefinitionFormValidatorTest {
         validator.validate(form, errors);
         Assert.assertFalse(errors.hasErrors());
 
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(mockDocumentTypeCodeService);
         EasyMock.verify(mockBookDefinitionService);
     }
 
@@ -375,9 +377,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalNort();
         form.setBookdefinitionId(Long.parseLong("1"));
@@ -398,9 +398,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(book);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalNort();
         form.setBookdefinitionId(Long.parseLong("1"));
@@ -419,9 +417,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalNort();
         form.setTitleId("12345678901234567890123456789012345678901");
@@ -441,8 +437,8 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
+        expectReplayDocTypeCode();
+
         EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
         EasyMock.replay(mockCodeService);
 
@@ -481,8 +477,8 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
+        expectReplayDocTypeCode();
+
         EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
         EasyMock.replay(mockCodeService);
 
@@ -522,8 +518,8 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
+        expectReplayDocTypeCode();
+
         EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
         EasyMock.replay(mockCodeService);
 
@@ -571,8 +567,8 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
+        expectReplayDocTypeCode();
+
         EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
         EasyMock.replay(mockCodeService);
 
@@ -595,8 +591,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
+        expectReplayDocTypeCode();
         EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
         EasyMock.replay(mockCodeService);
 
@@ -619,8 +614,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
+        expectReplayDocTypeCode();
         EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
         EasyMock.replay(mockCodeService);
 
@@ -643,9 +637,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalToc();
         final Author author = new Author();
@@ -669,9 +661,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalToc();
         final PilotBook pilot = new PilotBook();
@@ -694,9 +684,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalToc();
         final ExcludeDocument document = new ExcludeDocument();
@@ -719,9 +707,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalToc();
         final SplitDocument document = new SplitDocument();
@@ -747,9 +733,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalToc();
         final ExcludeDocument document = new ExcludeDocument();
@@ -779,9 +763,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalToc();
 
@@ -817,9 +799,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalToc();
         form.setExcludeDocumentsUsed(true);
@@ -840,9 +820,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalToc();
         final RenameTocEntry document = new RenameTocEntry();
@@ -867,9 +845,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalToc();
         final RenameTocEntry document = new RenameTocEntry();
@@ -903,9 +879,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalToc();
         form.setRenameTocEntriesUsed(true);
@@ -926,9 +900,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalToc();
         final TableViewer document = new TableViewer();
@@ -951,9 +923,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalToc();
         final TableViewer document = new TableViewer();
@@ -983,9 +953,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalToc();
         form.setTableViewersUsed(true);
@@ -1006,9 +974,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalToc();
         final Author author = new Author();
@@ -1037,9 +1003,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalToc();
         final PilotBook pilot = new PilotBook();
@@ -1068,9 +1032,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalToc();
         final FrontMatterPage page = new FrontMatterPage();
@@ -1092,9 +1054,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalToc();
         final FrontMatterPage page = new FrontMatterPage();
@@ -1122,9 +1082,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
-        EasyMock.replay(mockCodeService);
+        expectReplayDocTypeCode();
 
         populateFormDataAnalyticalToc();
         final FrontMatterPage page = new FrontMatterPage();
@@ -1158,8 +1116,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
+        expectReplayDocTypeCode();
         EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
         EasyMock.replay(mockCodeService);
 
@@ -1195,8 +1152,7 @@ public final class EditBookDefinitionFormValidatorTest {
             .andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
-            .andReturn(analyticalCode);
+        expectReplayDocTypeCode();
         EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
         EasyMock.replay(mockCodeService);
 
@@ -1228,10 +1184,10 @@ public final class EditBookDefinitionFormValidatorTest {
             .times(mockBookIdReplay);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
+        EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
             .andReturn(contentType)
             .times(mockDocTypeReplay);
-        EasyMock.replay(mockCodeService);
+        EasyMock.replay(mockDocumentTypeCodeService);
     }
 
     private BookDefinition populateFormDataAnalyticalFile() {
@@ -1323,5 +1279,11 @@ public final class EditBookDefinitionFormValidatorTest {
         book.setSubGroupHeading("groupHeading");
         book.setGroupName("groupName");
         return book;
+    }
+
+    private void expectReplayDocTypeCode() {
+        EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
+            .andReturn(analyticalCode);
+        EasyMock.replay(mockDocumentTypeCodeService);
     }
 }

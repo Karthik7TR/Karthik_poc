@@ -17,11 +17,17 @@ import com.thomsonreuters.uscl.ereader.gather.metadata.domain.PaceMetadata;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.support.lob.OracleLobHandler;
 import org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
+@EnableJpaRepositories(
+    basePackages = "com.thomsonreuters.uscl.ereader",
+    entityManagerFactoryRef = "entityManagerFactory",
+    transactionManagerRef = "jpaTransactionManager"
+)
 @EnableTransactionManagement
 public class EBookGeneratorJPAConfig extends CommonJPAConfig {
     @Bean

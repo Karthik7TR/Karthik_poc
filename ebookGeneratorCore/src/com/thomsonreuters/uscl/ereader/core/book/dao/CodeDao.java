@@ -2,7 +2,6 @@ package com.thomsonreuters.uscl.ereader.core.book.dao;
 
 import java.util.List;
 
-import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
@@ -77,33 +76,6 @@ public interface CodeDao {
      * @return
      */
     void deleteJurisTypeCode(JurisTypeCode jurisTypeCode);
-
-    /**
-     * Get all the DocumentType codes from the DOCUMENT_TYPE_CODES table
-     * @return a list of DocumentType objects
-     */
-    List<DocumentTypeCode> getAllDocumentTypeCodes();
-
-    /**
-     * Get a DocumentType Code from the DOCUMENT_TYPE_CODES table that match DOCUMENT_TYPE_CODES_ID
-     * @param documentTypeCodeId
-     * @return
-     */
-    DocumentTypeCode getDocumentTypeCodeById(Long documentTypeCodeId);
-
-    /**
-     * Create or Update a DocumentType Code to the DOCUMENT_TYPE_CODES table
-     * @param documentTypeCode
-     * @return
-     */
-    void saveDocumentTypeCode(DocumentTypeCode documentTypeCode);
-
-    /**
-     * Delete a DocumentType Code in the DOCUMENT_TYPE_CODES table
-     * @param documentTypeCode
-     * @return
-     */
-    void deleteDocumentTypeCode(DocumentTypeCode documentTypeCode);
 
     /**
      * Get all the Publisher codes from the PUBLISHER_CODES table

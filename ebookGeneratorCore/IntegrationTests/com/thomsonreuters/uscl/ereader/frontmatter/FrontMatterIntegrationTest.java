@@ -9,6 +9,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -29,13 +30,16 @@ public final class FrontMatterIntegrationTest {
 
     @Autowired
     private CodeService codeService;
+    @Autowired
+    private DocumentTypeCodeService documentTypeCodeService;
 
     /**
      * Operation Unit Test Save an existing Audit entity
      *
      */
     private void saveBook() {
-        final BookDefinition filledBook = BookDefinitionUtils.fillBookDefinition(codeService, BOOK_TITLE);
+        final BookDefinition filledBook =
+            BookDefinitionUtils.fillBookDefinition(codeService, documentTypeCodeService, BOOK_TITLE);
         eBook = bookDefinitionService.saveBookDefinition(filledBook);
     }
 
@@ -46,7 +50,7 @@ public final class FrontMatterIntegrationTest {
      */
     @Ignore
     @Test
-    public void AddFrontMatterSection() {
+    public void addFrontMatterSection() {
         saveBook();
         eBook = bookDefinitionService.findBookDefinitionByTitle(BOOK_TITLE);
 
@@ -76,7 +80,7 @@ public final class FrontMatterIntegrationTest {
     }
 
     @Test
-    public void DeleteFrontMatterPage() {
+    public void deleteFrontMatterPage() {
         saveBook();
         final BookDefinition book = bookDefinitionService.findBookDefinitionByTitle(BOOK_TITLE);
         book.getFrontMatterPages().clear();

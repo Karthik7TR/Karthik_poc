@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.easymock.EasyMock;
 import org.junit.Assert;
@@ -32,7 +32,7 @@ public final class DocTypeMetricControllerTest {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
-    private CodeService mockCodeService;
+    private DocumentTypeCodeService mockDocumentTypeCodeService;
     private DocTypeMetricFormValidator validator;
 
     @Before
@@ -42,11 +42,11 @@ public final class DocTypeMetricControllerTest {
         handlerAdapter = new AnnotationMethodHandlerAdapter();
 
         // Mock up the Code service
-        mockCodeService = EasyMock.createMock(CodeService.class);
+        mockDocumentTypeCodeService = EasyMock.createMock(DocumentTypeCodeService.class);
 
         validator = new DocTypeMetricFormValidator();
         // Set up the controller
-        controller = new DocTypeMetricController(mockCodeService, validator);
+        controller = new DocTypeMetricController(mockDocumentTypeCodeService, validator);
 
         DOCTYPE_CODE.setId(DOCTYPE_CODE_ID);
         DOCTYPE_CODE.setName("test");
@@ -62,8 +62,8 @@ public final class DocTypeMetricControllerTest {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_DOCTYPE_METRIC_VIEW);
         request.setMethod(HttpMethod.GET.name());
 
-        EasyMock.expect(mockCodeService.getAllDocumentTypeCodes()).andReturn(new ArrayList<DocumentTypeCode>());
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(mockDocumentTypeCodeService.getAllDocumentTypeCodes()).andReturn(new ArrayList<DocumentTypeCode>());
+        EasyMock.replay(mockDocumentTypeCodeService);
 
         final ModelAndView mav;
         try {
@@ -82,7 +82,7 @@ public final class DocTypeMetricControllerTest {
             Assert.fail(e.getMessage());
         }
 
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(mockDocumentTypeCodeService);
     }
 
     /**
@@ -94,8 +94,8 @@ public final class DocTypeMetricControllerTest {
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("id", DOCTYPE_CODE_ID.toString());
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(DOCTYPE_CODE_ID)).andReturn(DOCTYPE_CODE);
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(DOCTYPE_CODE_ID)).andReturn(DOCTYPE_CODE);
+        EasyMock.replay(mockDocumentTypeCodeService);
 
         final ModelAndView mav;
         try {
@@ -129,9 +129,9 @@ public final class DocTypeMetricControllerTest {
         request.setParameter("thresholdValue", "10");
         request.setParameter("thresholdPercent", "10");
 
-        EasyMock.expect(mockCodeService.getDocumentTypeCodeById(DOCTYPE_CODE_ID)).andReturn(DOCTYPE_CODE);
-        mockCodeService.saveDocumentTypeMetric(DOCTYPE_CODE);
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(DOCTYPE_CODE_ID)).andReturn(DOCTYPE_CODE);
+        mockDocumentTypeCodeService.saveDocumentTypeCode(DOCTYPE_CODE);
+        EasyMock.replay(mockDocumentTypeCodeService);
 
         final ModelAndView mav;
         try {
@@ -153,7 +153,7 @@ public final class DocTypeMetricControllerTest {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(mockDocumentTypeCodeService);
     }
 
     /**

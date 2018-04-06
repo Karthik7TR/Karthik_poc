@@ -5,13 +5,21 @@ import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceImpl;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceImpl;
+import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @Profile("IntegrationTests")
+@EnableJpaRepositories(
+    basePackages = "com.thomsonreuters.uscl.ereader",
+    entityManagerFactoryRef = "entityManagerFactory",
+    transactionManagerRef = "jpaTransactionManager"
+)
 @EnableTransactionManagement
 public class LockDaoTestConfig extends AbstractDatabaseIntegrationTestConfig {
     public LockDaoTestConfig() {
@@ -34,5 +42,10 @@ public class LockDaoTestConfig extends AbstractDatabaseIntegrationTestConfig {
     public CodeService getCodeService() {
         final CodeDao dao = new CodeDaoImpl(sessionFactory());
         return new CodeServiceImpl(dao);
+    }
+
+    @Bean
+    public DocumentTypeCodeService getDocumnetTypeCodeService(final DocumentTypeCodeDao dao) {
+        return new DocumentTypeCodeServiceImpl(dao);
     }
 }
