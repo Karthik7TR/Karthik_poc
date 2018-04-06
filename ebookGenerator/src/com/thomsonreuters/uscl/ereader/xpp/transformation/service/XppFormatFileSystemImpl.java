@@ -42,7 +42,9 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     static final String CITE_QUERY_PROCESSED_DIR = "Processed Cite Queries";
 
-    private static final String TITLE_METADATA_FILE = "titleMetadata.xml";
+    private static final String SIMPLE_FILE_NAME_TEMPLATE = "%s.%s";
+    private static final String SPLIT_FILE_NAME_TEMPLATE = "%s_pt%s.%s";
+    private static final String TITLE_METADATA_FILE = "titleMetadata";
     private static final String TOC_FILE = "toc";
     private static final String MERGED_BUNDLE_TOC_FILE = "toc_merged.xml";
     private static final String DOC_TO_IMAGE_MANIFEST_FILE = "doc-to-image-manifest.txt";
@@ -419,13 +421,13 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     @NotNull
     @Override
     public File getTocFile(@NotNull final BookStep step) {
-        return new File(getTocDirectory(step), String.format("%s.%s", TOC_FILE, XML));
+        return new File(getTocDirectory(step), String.format(SIMPLE_FILE_NAME_TEMPLATE, TOC_FILE, XML));
     }
 
     @NotNull
     @Override
     public File getTocPartFile(@NotNull final BookStep step, @NotNull final Integer part) {
-        return new File(getTocDirectory(step), String.format("%s_pt%s.%s", TOC_FILE, part, XML));
+        return new File(getTocDirectory(step), String.format(SPLIT_FILE_NAME_TEMPLATE, TOC_FILE, part, XML));
     }
 
     @NotNull
@@ -452,7 +454,15 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     @NotNull
     @Override
     public File getTitleMetadataFile(@NotNull final BookStep step) {
-        return new File(getTitleMetadataDirectory(step), TITLE_METADATA_FILE);
+        return new File(getTitleMetadataDirectory(step),
+            String.format(SIMPLE_FILE_NAME_TEMPLATE, TITLE_METADATA_FILE, XML));
+    }
+
+    @NotNull
+    @Override
+    public File getSplitPartTitleMetadataFile(@NotNull final BookStep step, @NotNull final Integer splitPartNumber) {
+        return new File(getTitleMetadataDirectory(step),
+            String.format(SPLIT_FILE_NAME_TEMPLATE, TITLE_METADATA_FILE, splitPartNumber, XML));
     }
 
     @NotNull

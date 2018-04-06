@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleWebBuildProductType;
@@ -205,6 +206,7 @@ public final class ExtractTocStepIntegrationTest {
 
         final BookDefinition bookDefinition = new BookDefinition();
         bookDefinition.setPrintComponents(printComponents);
+        bookDefinition.setSourceType(SourceType.XPP);
         return bookDefinition;
     }
 
@@ -261,7 +263,7 @@ public final class ExtractTocStepIntegrationTest {
         //when
         step.executeStep();
         //then
-        final File firstPartToc = fileSystem.getTocPartFile(step, 1);
+        final File firstPartToc = fileSystem.getTocFile(step);
         final File secondPartToc = fileSystem.getTocPartFile(step, 2);
         assertThat(expectedSplitTocPartOne, hasSameContentAs(firstPartToc));
         assertThat(expectedSplitTocPartTwo, hasSameContentAs(secondPartToc));

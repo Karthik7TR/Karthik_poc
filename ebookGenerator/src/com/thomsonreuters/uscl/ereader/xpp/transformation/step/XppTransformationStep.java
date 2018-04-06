@@ -31,6 +31,8 @@ public abstract class XppTransformationStep extends BookStepImpl implements XppB
     @Resource(name = "xppFormatFileSystem")
     protected XppFormatFileSystem fileSystem;
 
+    private SortedMap<Integer, List<XppBundle>> splitParts;
+
     @Override
     public ExitStatus executeStep() throws Exception {
         executeTransformation();
@@ -44,28 +46,25 @@ public abstract class XppTransformationStep extends BookStepImpl implements XppB
         return bundles == null ? Collections.<XppBundle>emptyList() : (List<XppBundle>) bundles;
     }
 
-    @Override
-    public boolean isSplitXppBook() {
-        return getBookDefinition().getPrintComponents().stream().anyMatch(PrintComponent::getSplitter);
-    }
-
     @NotNull
     @Override
     public Map<Integer, List<XppBundle>> getSplitPartsBundlesMap() {
-        final SortedMap<Integer, List<XppBundle>> bundles = new TreeMap<>();
-        bundles.put(1, new ArrayList<>());
+        if (splitParts == null) {
+            splitParts = new TreeMap<>();
+            splitParts.put(1, new ArrayList<>());
 
-        getBookDefinition().getPrintComponents().stream()
+            getBookDefinition().getPrintComponents().stream()
             .sorted(Comparator.comparing(PrintComponent::getComponentOrder))
             .forEach(printComponent -> {
-                Integer currentSplitPartNumber = bundles.lastKey();
+                Integer currentSplitPartNumber = splitParts.lastKey();
                 if (printComponent.getSplitter()) {
-                    bundles.computeIfAbsent(++currentSplitPartNumber, ArrayList::new);
+                    splitParts.computeIfAbsent(++currentSplitPartNumber, ArrayList::new);
                 } else {
-                    bundles.get(currentSplitPartNumber).add(getBundleByMaterial(printComponent.getMaterialNumber()));
+                    splitParts.get(currentSplitPartNumber).add(getBundleByMaterial(printComponent.getMaterialNumber()));
                 }
             });
-        return bundles;
+        }
+        return splitParts;
     }
 
     @NotNull

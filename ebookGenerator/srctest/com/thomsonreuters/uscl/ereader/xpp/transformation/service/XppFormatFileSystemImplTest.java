@@ -68,6 +68,7 @@ public final class XppFormatFileSystemImplTest {
     private static final String FILE_NAME_CSS = "fileName.css";
     private static final String BASE_FILE_NAME = "fileName.DIVXML";
     private static final String TITLE_METADATA_XML = "titleMetadata.xml";
+    private static final String TITLE_PART_METADATA_XML = "titleMetadata_pt2.xml";
     private static final String DOC_TO_IMAGE_MANIFEST = "workDirectory/Format/doc-to-image-manifest.txt";
     private static final String ANCHOR_TO_DOCUMENT_ID_MAP_FILE = "anchorToDocumentIdMapFile.xml";
     private static final String ANCHOR_TO_DOCUMENT_ID_MAP_BOUND_FILE = "anchorToDocumentIdMapBoundFile.xml";
@@ -646,6 +647,15 @@ public final class XppFormatFileSystemImplTest {
         final File file = fileSystem.getTitleMetadataFile(step);
         //then
         assertThat(file, hasPath(TITLE_METADATA_DIR + "/" + TITLE_METADATA_XML));
+    }
+
+    @Test
+    public void shouldReturnSplitPartTitleMetadataFile() {
+        //given
+        //when
+        final File file = fileSystem.getSplitPartTitleMetadataFile(step, 2);
+        //then
+        assertThat(file, hasPath(TITLE_METADATA_DIR + "/" + TITLE_PART_METADATA_XML));
     }
 
     @Test

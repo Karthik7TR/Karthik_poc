@@ -6,9 +6,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -35,6 +38,10 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.thomsonreuters.uscl.ereader.proview.Keyword;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -46,6 +53,16 @@ import org.hibernate.annotations.CascadeType;
 @Table(name = "EBOOK_DEFINITION")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "ebookGenerator/com/thomsonreuters/uscl/ereader/core/book/domain", name = "BookDefinition")
+@EqualsAndHashCode(of = "ebookDefinitionId")
+@ToString(includeFieldNames = true, of = {"ebookDefinitionId", "fullyQualifiedTitleId", "proviewDisplayName", "copyright", "copyrightPageText",
+                                          "materialId", "isTocFlag", "rootTocGuid", "docCollectionName", "tocCollectionName",
+                                          "nortDomain", "nortFilterView", "coverImage", "isbn", "publishDateText",
+                                          "currency", "isProviewTableViewFlag", "keyciteToplineFlag", "autoUpdateSupportFlag", "searchIndexFlag",
+                                          "onePassSsoLinkFlag", "publishCutoffDate", "ebookDefinitionCompleteFlag", "publishedOnceFlag", "isDeletedFlag",
+                                          "lastUpdated", "frontMatterTocLabel", "isAuthorDisplayVertical", "additionalTrademarkInfo", "enableCopyFeatureFlag",
+                                          "isPilotBook", "includeAnnotations", "includeNotesOfDecisions", "isFinalStage", "useReloadContent",
+                                          "sourceType", "cwbBookName", "isInsStyleFlag", "isDelStyleFlag", "isRemoveEditorNoteHeadFlag",
+                                          "frontMatterTheme", "subGroupHeading", "groupName"})
 public class BookDefinition implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final String Y = "Y";
@@ -69,26 +86,32 @@ public class BookDefinition implements Serializable {
     @Id
     @SequenceGenerator(name = "bookDefinitionIdSequence", sequenceName = "EBOOK_DEFINITION_ID_SEQ")
     @GeneratedValue(generator = "bookDefinitionIdSequence")
+    @Getter @Setter
     private Long ebookDefinitionId;
 
     @Column(name = "TITLE_ID", nullable = false)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String fullyQualifiedTitleId;
 
     @Column(name = "PROVIEW_DISPLAY_NAME")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String proviewDisplayName;
 
     @Column(name = "COPYRIGHT", nullable = false)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String copyright;
 
     @Column(name = "COPYRIGHT_PAGE_TEXT")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String copyrightPageText;
 
     @Column(name = "MATERIAL_ID", nullable = false)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String materialId;
 
     @Column(name = "IS_TOC_FLAG", nullable = false)
@@ -97,38 +120,47 @@ public class BookDefinition implements Serializable {
 
     @Column(name = "ROOT_TOC_GUID")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String rootTocGuid;
 
     @Column(name = "DOC_COLLECTION_NAME")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String docCollectionName;
 
     @Column(name = "TOC_COLLECTION_NAME")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String tocCollectionName;
 
     @Column(name = "NORT_DOMAIN")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String nortDomain;
 
     @Column(name = "NORT_FILTER_VIEW")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String nortFilterView;
 
     @Column(name = "COVER_IMAGE")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String coverImage;
 
     @Column(name = "ISBN")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String isbn;
 
     @Column(name = "PUBLISH_DATE_TEXT")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String publishDateText;
 
     @Column(name = "CURRENCY")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String currency;
 
     @Column(name = "KEYCITE_TOPLINE_FLAG")
@@ -149,6 +181,7 @@ public class BookDefinition implements Serializable {
 
     @Column(name = "FRONT_MATTER_THEME")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     protected String frontMatterTheme;
 
     @Column(name = "ONE_PASS_SSO_LINK_FLAG")
@@ -158,6 +191,7 @@ public class BookDefinition implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "PUBLISH_CUTOFF_DATE")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private Date publishCutoffDate;
 
     @Column(name = "EBOOK_DEFINITION_COMPLETE_FLAG", nullable = false)
@@ -183,10 +217,12 @@ public class BookDefinition implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "LAST_UPDATED", nullable = false)
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private Date lastUpdated;
 
     @Column(name = "FRONT_MATTER_TOC_LABEL")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String frontMatterTocLabel;
 
     @Column(name = "AUTHOR_DISPLAY_VERTICAL_FLAG")
@@ -195,6 +231,7 @@ public class BookDefinition implements Serializable {
 
     @Column(name = "ADDITIONAL_TRADEMARK_INFO")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String additionalTrademarkInfo;
 
     @Column(name = "IS_PILOT_BOOK")
@@ -213,10 +250,12 @@ public class BookDefinition implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({@JoinColumn(name = "PUBLISHER_CODES_ID", referencedColumnName = "PUBLISHER_CODES_ID")})
+    @Getter @Setter
     private PublisherCode publisherCodes;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumns({@JoinColumn(name = "DOCUMENT_TYPE_CODES_ID", referencedColumnName = "DOCUMENT_TYPE_CODES_ID")})
+    @Getter @Setter
     private DocumentTypeCode documentTypeCodes;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -284,6 +323,7 @@ public class BookDefinition implements Serializable {
 
     @Column(name = "CWB_BOOK_NAME")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String cwbBookName;
 
     @Column(name = "IS_INS_STYLE_FLAG", nullable = false)
@@ -308,134 +348,35 @@ public class BookDefinition implements Serializable {
 
     @Column(name = "SPLIT_EBOOK_PARTS")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private Integer splitEBookParts;
 
     @Column(name = "SUBGROUP_HEADING")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String subGroupHeading;
 
     @Column(name = "GROUP_NAME")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String groupName;
 
     @Column(name = "PRINT_SET_NUMBER")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String printSetNumber;
 
     @Column(name = "PRINT_SUB_NUMBER")
     @Basic(fetch = FetchType.EAGER)
+    @Getter @Setter
     private String printSubNumber;
-
-    public void setEbookDefinitionId(final Long ebookDefinitionId) {
-        this.ebookDefinitionId = ebookDefinitionId;
-    }
-
-    public Long getEbookDefinitionId() {
-        return ebookDefinitionId;
-    }
-
-    public void setFullyQualifiedTitleId(final String fullyQualifiedTitleId) {
-        this.fullyQualifiedTitleId = fullyQualifiedTitleId;
-    }
-
-    public String getFullyQualifiedTitleId() {
-        return fullyQualifiedTitleId;
-    }
-
-    public void setProviewDisplayName(final String proviewDisplayName) {
-        this.proviewDisplayName = proviewDisplayName;
-    }
-
-    public String getProviewDisplayName() {
-        return proviewDisplayName;
-    }
-
-    public void setCopyright(final String copyright) {
-        this.copyright = copyright;
-    }
-
-    public String getCopyright() {
-        return copyright;
-    }
-
-    public void setCopyrightPageText(final String copyrightPageText) {
-        this.copyrightPageText = copyrightPageText;
-    }
-
-    public String getCopyrightPageText() {
-        return copyrightPageText;
-    }
-
-    public void setMaterialId(final String materialId) {
-        this.materialId = materialId;
-    }
-
-    public String getMaterialId() {
-        return materialId;
-    }
 
     public void setIsTocFlag(final boolean isTocFlag) {
         this.isTocFlag = isTocFlag ? Y : N;
     }
 
     public boolean isTocFlag() {
-        return Y.equalsIgnoreCase(isTocFlag) ? true : false;
-    }
-
-    public void setRootTocGuid(final String rootTocGuid) {
-        this.rootTocGuid = rootTocGuid;
-    }
-
-    public String getRootTocGuid() {
-        return rootTocGuid;
-    }
-
-    public void setDocCollectionName(final String docCollectionName) {
-        this.docCollectionName = docCollectionName;
-    }
-
-    public String getDocCollectionName() {
-        return docCollectionName;
-    }
-
-    public void setTocCollectionName(final String tocCollectionName) {
-        this.tocCollectionName = tocCollectionName;
-    }
-
-    public String getTocCollectionName() {
-        return tocCollectionName;
-    }
-
-    public void setNortDomain(final String nortDomain) {
-        this.nortDomain = nortDomain;
-    }
-
-    public String getNortDomain() {
-        return nortDomain;
-    }
-
-    public void setNortFilterView(final String nortFilterView) {
-        this.nortFilterView = nortFilterView;
-    }
-
-    public String getNortFilterView() {
-        return nortFilterView;
-    }
-
-    public void setCoverImage(final String coverImage) {
-        this.coverImage = coverImage;
-    }
-
-    public String getCoverImage() {
-        return coverImage;
-    }
-
-    public void setIsbn(final String isbn) {
-        this.isbn = isbn;
-    }
-
-    public String getIsbn() {
-        return isbn;
+        return Y.equalsIgnoreCase(isTocFlag);
     }
 
     @Transient
@@ -446,28 +387,12 @@ public class BookDefinition implements Serializable {
         return isbn;
     }
 
-    public void setPublishDateText(final String publishDateText) {
-        this.publishDateText = publishDateText;
-    }
-
-    public String getPublishDateText() {
-        return publishDateText;
-    }
-
-    public void setCurrency(final String currency) {
-        this.currency = currency;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
     public void setIsProviewTableViewFlag(final boolean isProviewTableViewFlag) {
         this.isProviewTableViewFlag = isProviewTableViewFlag ? Y : N;
     }
 
     public boolean isProviewTableViewFlag() {
-        return Y.equalsIgnoreCase(isProviewTableViewFlag) ? true : false;
+        return Y.equalsIgnoreCase(isProviewTableViewFlag);
     }
 
     public void setIsFinalStage(final boolean isFinalStage) {
@@ -475,7 +400,7 @@ public class BookDefinition implements Serializable {
     }
 
     public boolean isFinalStage() {
-        return Y.equalsIgnoreCase(isFinalStage) ? true : false;
+        return Y.equalsIgnoreCase(isFinalStage);
     }
 
     public void setKeyciteToplineFlag(final boolean keyciteToplineFlag) {
@@ -483,7 +408,7 @@ public class BookDefinition implements Serializable {
     }
 
     public boolean getKeyciteToplineFlag() {
-        return Y.equalsIgnoreCase(keyciteToplineFlag) ? true : false;
+        return Y.equalsIgnoreCase(keyciteToplineFlag);
     }
 
     public void setEnableCopyFeatureFlag(final boolean enableCopyFeatureFlag) {
@@ -491,7 +416,7 @@ public class BookDefinition implements Serializable {
     }
 
     public boolean getEnableCopyFeatureFlag() {
-        return Y.equalsIgnoreCase(enableCopyFeatureFlag) ? true : false;
+        return Y.equalsIgnoreCase(enableCopyFeatureFlag);
     }
 
     public void setAutoUpdateSupportFlag(final boolean autoUpdateSupportFlag) {
@@ -499,7 +424,7 @@ public class BookDefinition implements Serializable {
     }
 
     public boolean getAutoUpdateSupportFlag() {
-        return Y.equalsIgnoreCase(autoUpdateSupportFlag) ? true : false;
+        return Y.equalsIgnoreCase(autoUpdateSupportFlag);
     }
 
     public void setSearchIndexFlag(final boolean searchIndexFlag) {
@@ -507,7 +432,7 @@ public class BookDefinition implements Serializable {
     }
 
     public boolean getSearchIndexFlag() {
-        return Y.equalsIgnoreCase(searchIndexFlag) ? true : false;
+        return Y.equalsIgnoreCase(searchIndexFlag);
     }
 
     public void setOnePassSsoLinkFlag(final boolean onePassSsoLinkFlag) {
@@ -515,15 +440,7 @@ public class BookDefinition implements Serializable {
     }
 
     public boolean getOnePassSsoLinkFlag() {
-        return Y.equalsIgnoreCase(onePassSsoLinkFlag) ? true : false;
-    }
-
-    public void setPublishCutoffDate(final Date publishCutoffDate) {
-        this.publishCutoffDate = publishCutoffDate;
-    }
-
-    public Date getPublishCutoffDate() {
-        return publishCutoffDate;
+        return Y.equalsIgnoreCase(onePassSsoLinkFlag);
     }
 
     public void setEbookDefinitionCompleteFlag(final boolean ebookDefinitionCompleteFlag) {
@@ -531,7 +448,7 @@ public class BookDefinition implements Serializable {
     }
 
     public boolean getEbookDefinitionCompleteFlag() {
-        return Y.equalsIgnoreCase(ebookDefinitionCompleteFlag) ? true : false;
+        return Y.equalsIgnoreCase(ebookDefinitionCompleteFlag);
     }
 
     public void setUseReloadContent(final boolean useReloadContent) {
@@ -539,7 +456,7 @@ public class BookDefinition implements Serializable {
     }
 
     public boolean getUseReloadContent() {
-        return Y.equalsIgnoreCase(useReloadContent) ? true : false;
+        return Y.equalsIgnoreCase(useReloadContent);
     }
 
     public void setPublishedOnceFlag(final boolean publishedOnceFlag) {
@@ -547,7 +464,7 @@ public class BookDefinition implements Serializable {
     }
 
     public boolean getPublishedOnceFlag() {
-        return Y.equalsIgnoreCase(publishedOnceFlag) ? true : false;
+        return Y.equalsIgnoreCase(publishedOnceFlag);
     }
 
     public void setIsDeletedFlag(final boolean isDeletedFlag) {
@@ -555,7 +472,7 @@ public class BookDefinition implements Serializable {
     }
 
     public boolean isDeletedFlag() {
-        return Y.equalsIgnoreCase(isDeletedFlag) ? true : false;
+        return Y.equalsIgnoreCase(isDeletedFlag);
     }
 
     public void setIsAuthorDisplayVertical(final boolean isAuthorDisplayVertical) {
@@ -563,15 +480,7 @@ public class BookDefinition implements Serializable {
     }
 
     public boolean isAuthorDisplayVertical() {
-        return ((Y.equalsIgnoreCase(isAuthorDisplayVertical) ? true : false));
-    }
-
-    public String getAdditionalTrademarkInfo() {
-        return additionalTrademarkInfo;
-    }
-
-    public void setAdditionalTrademarkInfo(final String additionalTrademarkInfo) {
-        this.additionalTrademarkInfo = additionalTrademarkInfo;
+        return Y.equalsIgnoreCase(isAuthorDisplayVertical);
     }
 
     public void setIncludeAnnotations(final boolean includeAnnotations) {
@@ -579,7 +488,7 @@ public class BookDefinition implements Serializable {
     }
 
     public boolean getIncludeAnnotations() {
-        return Y.equalsIgnoreCase(includeAnnotations) ? true : false;
+        return Y.equalsIgnoreCase(includeAnnotations);
     }
 
     public void setIncludeNotesOfDecisions(final boolean includeNotesOfDecisions) {
@@ -587,11 +496,11 @@ public class BookDefinition implements Serializable {
     }
 
     public boolean getIncludeNotesOfDecisions() {
-        return Y.equalsIgnoreCase(includeNotesOfDecisions) ? true : false;
+        return Y.equalsIgnoreCase(includeNotesOfDecisions);
     }
 
     public boolean getIsPilotBook() {
-            return Y.equalsIgnoreCase(isPilotBook);
+        return Y.equalsIgnoreCase(isPilotBook);
     }
 
     public PilotBookStatus getPilotBookStatus() {
@@ -651,28 +560,12 @@ public class BookDefinition implements Serializable {
         }
     }
 
-    public String getCwbBookName() {
-        return cwbBookName;
-    }
-
-    public void setCwbBookName(final String cwbBookName) {
-        this.cwbBookName = cwbBookName;
-    }
-
-    public String getFrontMatterTheme() {
-        return frontMatterTheme;
-    }
-
-    public void setFrontMatterTheme(final String frontMatterTheme) {
-        this.frontMatterTheme = frontMatterTheme;
-    }
-
     public void setIsInsStyleFlag(final boolean isInsStyleFlag) {
         this.isInsStyleFlag = isInsStyleFlag ? Y : N;
     }
 
     public boolean isInsStyleFlag() {
-        return Y.equalsIgnoreCase(isInsStyleFlag) ? true : false;
+        return Y.equalsIgnoreCase(isInsStyleFlag);
     }
 
     public void setIsDelStyleFlag(final boolean isDelStyleFlag) {
@@ -680,7 +573,7 @@ public class BookDefinition implements Serializable {
     }
 
     public boolean isDelStyleFlag() {
-        return Y.equalsIgnoreCase(isDelStyleFlag) ? true : false;
+        return Y.equalsIgnoreCase(isDelStyleFlag);
     }
 
     public void setIsRemoveEditorNoteHeadFlag(final boolean isRemoveEditorNoteHeadFlag) {
@@ -688,11 +581,13 @@ public class BookDefinition implements Serializable {
     }
 
     public boolean isRemoveEditorNoteHeadFlag() {
-        return Y.equalsIgnoreCase(isRemoveEditorNoteHeadFlag) ? true : false;
+        return Y.equalsIgnoreCase(isRemoveEditorNoteHeadFlag);
     }
 
     public boolean isSplitBook() {
-        return Y.equalsIgnoreCase(isSplitBook) ? true : false;
+        return SourceType.XPP.equals(getSourceType())
+            ? getPrintComponents().stream().anyMatch(PrintComponent::getSplitter)
+            : Y.equalsIgnoreCase(isSplitBook);
     }
 
     public void setIsSplitBook(final boolean isSplitBook) {
@@ -700,151 +595,61 @@ public class BookDefinition implements Serializable {
     }
 
     public boolean isSplitTypeAuto() {
-        return Y.equalsIgnoreCase(isSplitTypeAuto) ? true : false;
+        return Y.equalsIgnoreCase(isSplitTypeAuto);
     }
 
     public void setIsSplitTypeAuto(final boolean isSplitTypeAuto) {
         this.isSplitTypeAuto = isSplitTypeAuto ? Y : N;
     }
 
-    public Integer getSplitEBookParts() {
-        return splitEBookParts;
-    }
-
-    public void setSplitEBookParts(final Integer splitEBookParts) {
-        this.splitEBookParts = splitEBookParts;
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(final String groupName) {
-        this.groupName = groupName;
-    }
-
-    //Subgroup heading within the group
-    public String getSubGroupHeading() {
-        return subGroupHeading;
-    }
-
-    public void setSubGroupHeading(final String subGroupHeading) {
-        this.subGroupHeading = subGroupHeading;
-    }
-
-    public void setLastUpdated(final Date lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
-
-    public Date getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public String getFrontMatterTocLabel() {
-        return frontMatterTocLabel;
-    }
-
-    public void setFrontMatterTocLabel(final String frontMatterTocLabel) {
-        this.frontMatterTocLabel = frontMatterTocLabel;
-    }
-
-    public void setPublisherCodes(final PublisherCode publisherCodes) {
-        this.publisherCodes = publisherCodes;
-    }
-
-    public PublisherCode getPublisherCodes() {
-        return publisherCodes;
-    }
-
-    public void setDocumentTypeCodes(final DocumentTypeCode documentTypeCodes) {
-        this.documentTypeCodes = documentTypeCodes;
-    }
-
-    public DocumentTypeCode getDocumentTypeCodes() {
-        return documentTypeCodes;
-    }
-
     public void setKeywordTypeValues(final Collection<KeywordTypeValue> keywordTypeValues) {
-        this.keywordTypeValues = new java.util.LinkedHashSet<>(keywordTypeValues);
+        this.keywordTypeValues = new LinkedHashSet<>(keywordTypeValues);
     }
 
     public Set<KeywordTypeValue> getKeywordTypeValues() {
-        if (keywordTypeValues == null) {
-            keywordTypeValues = new java.util.LinkedHashSet<>();
-        }
+        keywordTypeValues = Optional.ofNullable(keywordTypeValues).orElseGet(LinkedHashSet::new);
         return keywordTypeValues;
     }
 
     public void setAuthors(final Collection<Author> authors) {
-        this.authors = new java.util.LinkedHashSet<>(authors);
+        this.authors = new LinkedHashSet<>(authors);
     }
 
     public List<Author> getAuthors() {
-        if (authors == null) {
-            authors = new java.util.LinkedHashSet<>();
-        }
-        // Sort by sequence numbers
-        final List<Author> authorList = new ArrayList<>();
-        authorList.addAll(authors);
-        Collections.sort(authorList);
-        return authorList;
+        authors = Optional.ofNullable(authors).orElseGet(LinkedHashSet::new);
+        return getOrderedListFromCollection(authors);
     }
 
     public void setPilotBooks(final Collection<PilotBook> pilotBooks) {
-        this.pilotBooks = new java.util.LinkedHashSet<>(pilotBooks);
+        this.pilotBooks = new LinkedHashSet<>(pilotBooks);
     }
 
     public List<PilotBook> getPilotBooks() {
-        if (pilotBooks == null) {
-            pilotBooks = new java.util.LinkedHashSet<>();
-        }
-        // Sort by sequence numbers
-        final List<PilotBook> pilotBookList = new ArrayList<>();
-        pilotBookList.addAll(pilotBooks);
-        Collections.sort(pilotBookList);
-        return pilotBookList;
+        pilotBooks = Optional.ofNullable(pilotBooks).orElseGet(LinkedHashSet::new);
+        return getOrderedListFromCollection(pilotBooks);
     }
 
     public void setNortFileLocations(final Collection<NortFileLocation> nortFileLocations) {
-        this.nortFileLocations = new java.util.LinkedHashSet<>(nortFileLocations);
+        this.nortFileLocations = new LinkedHashSet<>(nortFileLocations);
     }
 
     public List<NortFileLocation> getNortFileLocations() {
-        if (nortFileLocations == null) {
-            nortFileLocations = new java.util.LinkedHashSet<>();
-        }
-        // Sort by sequence numbers
-        final List<NortFileLocation> nortFileLocationList = new ArrayList<>();
-        nortFileLocationList.addAll(nortFileLocations);
-        Collections.sort(nortFileLocationList);
-        return nortFileLocationList;
+        nortFileLocations = Optional.ofNullable(nortFileLocations).orElseGet(LinkedHashSet::new);
+        return getOrderedListFromCollection(nortFileLocations);
     }
 
     public void setEbookNames(final Collection<EbookName> ebookNames) {
-        this.ebookNames = new java.util.LinkedHashSet<>(ebookNames);
+        this.ebookNames = new LinkedHashSet<>(ebookNames);
     }
 
     public List<EbookName> getEbookNames() {
-        if (ebookNames == null) {
-            ebookNames = new java.util.LinkedHashSet<>();
-        }
-
-        // Sort by sequence numbers
-        final List<EbookName> nameList = new ArrayList<>();
-        nameList.addAll(ebookNames);
-        Collections.sort(nameList);
-
-        return nameList;
+        ebookNames = Optional.ofNullable(ebookNames).orElseGet(LinkedHashSet::new);
+        return getOrderedListFromCollection(ebookNames);
     }
 
     public List<ExcludeDocument> getExcludeDocuments() {
-        if (excludeDocuments == null) {
-            excludeDocuments = new HashSet<>();
-        }
-        // Change to list
-        final List<ExcludeDocument> documents = new ArrayList<>();
-        documents.addAll(excludeDocuments);
-        return documents;
+        excludeDocuments = Optional.ofNullable(excludeDocuments).orElseGet(HashSet::new);
+        return excludeDocuments.stream().collect(Collectors.toCollection(ArrayList::new));
     }
 
     public void setExcludeDocuments(final Collection<ExcludeDocument> excludeDocuments) {
@@ -852,19 +657,12 @@ public class BookDefinition implements Serializable {
     }
 
     public List<SplitNodeInfo> getSplitNodesAsList() {
-        if (splitNodes == null) {
-            splitNodes = new HashSet<>();
-        }
-        // Change to list
-        final List<SplitNodeInfo> splitNodeInfoList = new ArrayList<>();
-        splitNodeInfoList.addAll(splitNodes);
-        return splitNodeInfoList;
+        splitNodes = Optional.ofNullable(splitNodes).orElseGet(HashSet::new);
+        return splitNodes.stream().collect(Collectors.toCollection(ArrayList::new));
     }
 
     public Set<SplitNodeInfo> getSplitNodes() {
-        if (splitNodes == null) {
-            splitNodes = new HashSet<>();
-        }
+        splitNodes = Optional.ofNullable(splitNodes).orElseGet(HashSet::new);
         return splitNodes;
     }
 
@@ -873,20 +671,13 @@ public class BookDefinition implements Serializable {
     }
 
     public Set<SplitDocument> getSplitDocuments() {
-        if (splitDocuments == null) {
-            splitDocuments = new HashSet<>();
-        }
+        splitDocuments = Optional.ofNullable(splitDocuments).orElseGet(HashSet::new);
         return splitDocuments;
     }
 
     public List<SplitDocument> getSplitDocumentsAsList() {
-        if (splitDocuments == null) {
-            splitDocuments = new HashSet<>();
-        }
-        // Change to list
-        final List<SplitDocument> documents = new ArrayList<>();
-        documents.addAll(splitDocuments);
-        return documents;
+        splitDocuments = Optional.ofNullable(splitDocuments).orElseGet(HashSet::new);
+        return splitDocuments.stream().collect(Collectors.toCollection(ArrayList::new));
     }
 
     public void setSplitDocuments(final Collection<SplitDocument> splitDocuments) {
@@ -894,9 +685,7 @@ public class BookDefinition implements Serializable {
     }
 
     public Set<PrintComponent> getPrintComponents() {
-        if (printComponents == null) {
-            printComponents = new HashSet<>();
-        }
+        printComponents = Optional.ofNullable(printComponents).orElseGet(HashSet::new);
         return printComponents;
     }
 
@@ -905,13 +694,8 @@ public class BookDefinition implements Serializable {
     }
 
     public List<RenameTocEntry> getRenameTocEntries() {
-        if (renameTocEntries == null) {
-            renameTocEntries = new HashSet<>();
-        }
-        // Change to list
-        final List<RenameTocEntry> labels = new ArrayList<>();
-        labels.addAll(renameTocEntries);
-        return labels;
+        renameTocEntries = Optional.ofNullable(renameTocEntries).orElseGet(HashSet::new);
+        return renameTocEntries.stream().collect(Collectors.toCollection(ArrayList::new));
     }
 
     public void setRenameTocEntries(final Collection<RenameTocEntry> renameTocEntries) {
@@ -919,13 +703,8 @@ public class BookDefinition implements Serializable {
     }
 
     public List<TableViewer> getTableViewers() {
-        if (tableViewers == null) {
-            tableViewers = new HashSet<>();
-        }
-        // Change to list
-        final List<TableViewer> documents = new ArrayList<>();
-        documents.addAll(tableViewers);
-        return documents;
+        tableViewers = Optional.ofNullable(tableViewers).orElseGet(HashSet::new);
+        return tableViewers.stream().collect(Collectors.toCollection(ArrayList::new));
     }
 
     public void setTableViewers(final Collection<TableViewer> tableViewers) {
@@ -933,13 +712,8 @@ public class BookDefinition implements Serializable {
     }
 
     public List<DocumentCopyright> getDocumentCopyrights() {
-        if (documentCopyrights == null) {
-            documentCopyrights = new HashSet<>();
-        }
-        // Change to list
-        final List<DocumentCopyright> copyrights = new ArrayList<>();
-        copyrights.addAll(documentCopyrights);
-        return copyrights;
+        documentCopyrights = Optional.ofNullable(documentCopyrights).orElseGet(HashSet::new);
+        return documentCopyrights.stream().collect(Collectors.toCollection(ArrayList::new));
     }
 
     public void setDocumentCopyrights(final Collection<DocumentCopyright> documentCopyrights) {
@@ -947,13 +721,8 @@ public class BookDefinition implements Serializable {
     }
 
     public List<DocumentCurrency> getDocumentCurrencies() {
-        if (documentCurrencies == null) {
-            documentCurrencies = new HashSet<>();
-        }
-        // Change to list
-        final List<DocumentCurrency> documents = new ArrayList<>();
-        documents.addAll(documentCurrencies);
-        return documents;
+        documentCurrencies = Optional.ofNullable(documentCurrencies).orElseGet(HashSet::new);
+        return documentCurrencies.stream().collect(Collectors.toCollection(ArrayList::new));
     }
 
     public void setDocumentCurrencies(final Collection<DocumentCurrency> documentCurrencies) {
@@ -961,9 +730,7 @@ public class BookDefinition implements Serializable {
     }
 
     public List<FrontMatterPage> getFrontMatterPages() {
-        if (frontMatterPages == null) {
-            frontMatterPages = new java.util.LinkedHashSet<>();
-        }
+        frontMatterPages = Optional.ofNullable(frontMatterPages).orElseGet(LinkedHashSet::new);
 
         // Sort by sequence numbers
         final List<FrontMatterPage> pageList = new ArrayList<>();
@@ -991,24 +758,14 @@ public class BookDefinition implements Serializable {
         return pageList;
     }
 
+    private <T extends Comparable<T>> List<T> getOrderedListFromCollection(final Collection<T> collection) {
+        return collection.stream()
+            .sorted()
+            .collect(Collectors.toCollection(ArrayList::new));
+    }
+
     public void setFrontMatterPages(final Collection<FrontMatterPage> frontMatterPage) {
-        frontMatterPages = new java.util.LinkedHashSet<>(frontMatterPage);
-    }
-
-    public String getPrintSetNumber() {
-        return printSetNumber;
-    }
-
-    public String getPrintSubNumber() {
-        return printSubNumber;
-    }
-
-    public void setPrintSetNumber(final String printSetNumber) {
-        this.printSetNumber = printSetNumber;
-    }
-
-    public void setPrintSubNumber(final String printSubNumber) {
-        this.printSubNumber = printSubNumber;
+        frontMatterPages = new LinkedHashSet<>(frontMatterPage);
     }
 
     public BookDefinition() {
@@ -1095,84 +852,6 @@ public class BookDefinition implements Serializable {
     }
 
     /**
-     * Returns a textual representation of a bean.
-     *
-     */
-    @Override
-    public String toString() {
-        final StringBuilder buffer = new StringBuilder();
-
-        buffer.append("ebookDefinitionId=[").append(ebookDefinitionId).append("] ");
-        buffer.append("fullyQualifiedTitleId=[").append(fullyQualifiedTitleId).append("] ");
-        buffer.append("proviewDisplayName=[").append(proviewDisplayName).append("] ");
-        buffer.append("copyright=[").append(copyright).append("] ");
-        buffer.append("copyrightPageText=[").append(copyrightPageText).append("] ");
-        buffer.append("materialId=[").append(materialId).append("] ");
-        buffer.append("isTocFlag=[").append(isTocFlag).append("] ");
-        buffer.append("rootTocGuid=[").append(rootTocGuid).append("] ");
-        buffer.append("docCollectionName=[").append(docCollectionName).append("] ");
-        buffer.append("tocCollectionName=[").append(tocCollectionName).append("] ");
-        buffer.append("nortDomain=[").append(nortDomain).append("] ");
-        buffer.append("nortFilterView=[").append(nortFilterView).append("] ");
-        buffer.append("coverImage=[").append(coverImage).append("] ");
-        buffer.append("isbn=[").append(isbn).append("] ");
-        buffer.append("publishDateText=[").append(publishDateText).append("] ");
-        buffer.append("currency=[").append(currency).append("] ");
-        buffer.append("isProviewTableViewFlag=[").append(isProviewTableViewFlag).append("] ");
-        buffer.append("keyciteToplineFlag=[").append(keyciteToplineFlag).append("] ");
-        buffer.append("autoUpdateSupportFlag=[").append(autoUpdateSupportFlag).append("] ");
-        buffer.append("searchIndexFlag=[").append(searchIndexFlag).append("] ");
-        buffer.append("onePassSsoLinkFlag=[").append(onePassSsoLinkFlag).append("] ");
-        buffer.append("publishCutoffDate=[").append(publishCutoffDate).append("] ");
-        buffer.append("ebookDefinitionCompleteFlag=[").append(ebookDefinitionCompleteFlag).append("] ");
-        buffer.append("publishedOnceFlag=[").append(publishedOnceFlag).append("] ");
-        buffer.append("isDeletedFlag=[").append(isDeletedFlag).append("] ");
-        buffer.append("lastUpdated=[").append(lastUpdated).append("] ");
-        buffer.append("frontMatterTocLabel=[").append(frontMatterTocLabel).append("] ");
-        buffer.append("isAuthorDisplayVertical=[").append(isAuthorDisplayVertical).append("] ");
-        buffer.append("additionalTrademarkInfo=[").append(additionalTrademarkInfo).append("] ");
-        buffer.append("enableCopyFeatureFlag=[").append(enableCopyFeatureFlag).append("] ");
-        buffer.append("pilotBookStatus=[").append(isPilotBook).append("] ");
-        buffer.append("includeAnnotations=[").append(includeAnnotations).append("] ");
-        buffer.append("includeNotesOfDecisions=[").append(includeNotesOfDecisions).append("] ");
-        buffer.append("isFinalStage=[").append(isFinalStage).append("] ");
-        buffer.append("useReloadContent=[").append(useReloadContent).append("] ");
-        buffer.append("sourceType=[").append(sourceType).append("] ");
-        buffer.append("cwbBookName=[").append(cwbBookName).append("] ");
-        buffer.append("isInsStyleFlag=[").append(isInsStyleFlag).append("] ");
-        buffer.append("isDelStyleFlag=[").append(isDelStyleFlag).append("] ");
-        buffer.append("isRemoveEditorNoteHeadFlag=[").append(isRemoveEditorNoteHeadFlag).append("] ");
-        buffer.append("frontMatterTheme=[").append(frontMatterTheme).append("] ");
-        buffer.append("subGroupHeading=[").append(subGroupHeading).append("] ");
-        buffer.append("groupName=[").append(groupName).append("] ");
-
-        return buffer.toString();
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((ebookDefinitionId == null) ? 0 : ebookDefinitionId.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (obj == this)
-            return true;
-        if (!(obj instanceof BookDefinition))
-            return false;
-        final BookDefinition equalCheck = (BookDefinition) obj;
-        if ((ebookDefinitionId == null && equalCheck.ebookDefinitionId != null)
-            || (ebookDefinitionId != null && equalCheck.ebookDefinitionId == null))
-            return false;
-        if (ebookDefinitionId != null && !ebookDefinitionId.equals(equalCheck.ebookDefinitionId))
-            return false;
-        return true;
-    }
-
-    /**
      * The base title ID, without any of the leading slash-separated namespace components.  Example: "ak_2010_federal".
      * This is a transient field because we are making the space-for-time tradeoff and
      * calculating this value once when the fullTitleId is set.  The TITLE_ID column in the database
@@ -1195,12 +874,9 @@ public class BookDefinition implements Serializable {
      */
     @Transient
     public List<Keyword> getKeyWords() {
-        final List<Keyword> keywords = new ArrayList<>();
-        final Collection<KeywordTypeValue> keywordValues = getKeywordTypeValues();
-        for (final KeywordTypeValue value : keywordValues) {
-            keywords.add(new Keyword(value.getKeywordTypeCode().getName(), value.getName()));
-        }
-        return keywords;
+        return getKeywordTypeValues().stream()
+            .map(value -> new Keyword(value.getKeywordTypeCode().getName(), value.getName()))
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -1212,12 +888,10 @@ public class BookDefinition implements Serializable {
         final String status;
         if (isDeletedFlag()) {
             status = "Deleted";
+        } else if (getEbookDefinitionCompleteFlag()) {
+            status = "Ready";
         } else {
-            if (getEbookDefinitionCompleteFlag()) {
-                status = "Ready";
-            } else {
-                status = "Incomplete";
-            }
+            status = "Incomplete";
         }
         return status;
     }

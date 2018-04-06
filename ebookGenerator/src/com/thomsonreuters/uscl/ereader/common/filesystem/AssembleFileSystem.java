@@ -34,6 +34,14 @@ public interface AssembleFileSystem {
     File getTitleXml(@NotNull BookStep step);
 
     /**
+     * Returns title.xml:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}{@code /}
+     * {@link #getAssembleDirectory Assemble}{@code /titleId_ptN/title.xml}
+     */
+    @NotNull
+    File getSplitPartTitleXml(@NotNull BookStep step, @NotNull Integer splitPartNumber);
+
+    /**
      * Returns split title directory:
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}{@code /}
      * {@link #getAssembleDirectory Assemble}{@code /splitTitleId}
@@ -48,6 +56,14 @@ public interface AssembleFileSystem {
      */
     @NotNull
     File getAssetsDirectory(@NotNull BookStep step);
+
+    /**
+     * Returns assemble assets directory:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}{@code /}
+     * {@link #getAssembleDirectory Assemble}{@code /titleId_ptN/assets}
+     */
+    @NotNull
+    File getSplitPartAssetsDirectory(@NotNull BookStep step, @NotNull Integer splitPartNumber);
 
     /**
      * Returns assemble documents directory:
@@ -81,12 +97,28 @@ public interface AssembleFileSystem {
     File getArtworkDirectory(@NotNull BookStep step);
 
     /**
+     * Returns assemble documents directory:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}{@code /}
+     * {@link #getAssembleDirectory Assemble}{@code /titleId_ptN/artwork}
+     */
+    @NotNull
+    File getSplitPartArtworkDirectory(@NotNull BookStep step, @NotNull Integer splitPartNumber);
+
+    /**
      * Returns artwork from assemble directory:
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /titleId/Assemble/artwork/coverArt.png}
      */
     @NotNull
     File getArtworkFile(@NotNull BookStep step);
+
+    /**
+     * Returns artwork from assemble directory:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /titleId_ptN/Assemble/artwork/coverArt.png}
+     */
+    @NotNull
+    File getSplitPartArtworkFile(@NotNull BookStep step, @NotNull Integer splitPartNumber);
 
     /**
      * Returns number of generates html files in assemble directory:

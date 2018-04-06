@@ -189,7 +189,7 @@ public final class ExtractTocStepTest {
 
         command = iterator.next();
         assertThat(command.getInputFiles(), contains(mergedTocFile));
-        assertThat(command.getOutputFile(), is(tocFirstPartFile));
+        assertThat(command.getOutputFile(), is(tocFile));
         assertThat(command.getTransformer().getParameter("isPocketPart"), is(IsNull.notNullValue()));
 
         command = iterator.next();
@@ -230,6 +230,7 @@ public final class ExtractTocStepTest {
                 given(printComponent.getMaterialNumber()).willReturn(SECOND_MATERIAL_NUMBER);
             });
         given(bookDefinition.getPrintComponents()).willReturn(printComponents);
+        given(bookDefinition.isSplitBook()).willReturn(true);
 
         final List<XppBundle> xppBundles = getMockedCollection(XppBundle.class, ArrayList::new,
             xppBundle -> {

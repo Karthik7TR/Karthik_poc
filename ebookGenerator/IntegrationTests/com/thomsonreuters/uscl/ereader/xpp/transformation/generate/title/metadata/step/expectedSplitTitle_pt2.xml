@@ -1,0 +1,82 @@
+<title apiversion="v1"
+       titleversion="v5.0"
+       id="uscl/gen/title_metadata_integration_test_pt2"
+       lastupdated="${currentDate}"
+       language="eng"
+       status="Review"
+       onlineexpiration="29991231">
+   <features>
+      <feature name="Print"/>
+      <feature name="AutoUpdate"/>
+      <feature name="Copy"/>
+      <feature name="OnePassSSO" value="www.westlaw.com"/>
+      <feature name="OnePassSSO" value="next.westlaw.com"/>
+      <feature name="PageNos"/>
+      <feature name="SpanPages"/>
+      <feature name="FullAnchorMap"/>
+      <feature name="CombinedTOC"/>
+   </features>
+   <material>someMaterialId</material>
+   <artwork src="coverArt.PNG" type="cover"/>
+   <assets>
+      <asset id="document" src="document.css"/>
+      <asset id="ebook_generator" src="ebook_generator.css"/>
+   </assets>
+   <name>Integration test book (eBook 2 of 2)</name>
+   <authors>
+      <author>.</author>
+   </authors>
+   <keywords>
+      <keyword type="publisher">Thomson Reuters Westlaw</keyword>
+      <keyword type="jurisdiction">Alabama</keyword>
+   </keywords>
+   <copyright>©</copyright>
+   <toc>
+      <entry s="I334acde028b47ft34ed7fcedf0a72426/I18b49f1028b911e69ed7fcedf0a72426">
+         <text>Chapter_5</text>
+         <entry s="I334acde028b47ft34ed7fcedf0a72426/I333dd59028b911e69ed7fcedf0a72426">
+            <text>Chapter_5:2</text>
+            <entry s="I334acde028b47ft34ed7fcedf0a72426/I334a31a028b911e69ed7fcedf0a72426">
+               <text>Chapter_5:2:3</text>
+               <entry s="I334acde028b47ft34ed7fcedf0a72426/I334a7fc028b911e69ed7fcedf0a72426">
+                  <text>Chapter_5:2:3:4</text>
+                  <entry s="I334acde028b47ft34ed7fcedf0a72426/I334acde028b911e69ed7fcedf0a72426">
+                     <text>Chapter_5:2:3:4:5</text>
+                     <entry s="I334acde028b47ft34ed7fcedf0a72426/I334acde028b47ft34ed7fcedf0a72426">
+                        <text>Chapter_5:2:3:4:5:6</text>
+                     </entry>
+                  </entry>
+               </entry>
+               <entry s="I3416j47028b911e69ed7fcedf0a72426/I34145f7028b911e69ed7fcedf0a72426">
+                  <text>Chapter_5:2:3:5</text>
+                  <entry s="I3416j47028b911e69ed7fcedf0a72426/I3416j47028b911e69ed7fcedf0a72426">
+                     <text>Chapter_5:2:3:5:6</text>
+                  </entry>
+               </entry>
+            </entry>
+         </entry>
+         <entry s="I4700e2c0g6kz11e69ed7fcedf0a72426/I440afb5028b911e69ed7fcedf0a72426">
+            <text>Chapter_5:3</text>
+            <entry s="I4700e2c0g6kz11e69ed7fcedf0a72426/I44534ef028b911e69ed7fcedf0a72426">
+               <text>Chapter_5:3:4</text>
+               <entry s="I4700e2c0g6kz11e69ed7fcedf0a72426/I4700e2c028b911e69ed7fcedf0a72426">
+                  <text>Chapter_5:3:4:5</text>
+                  <entry s="I4700e2c0g6kz11e69ed7fcedf0a72426/I4700e2c0g6kz11e69ed7fcedf0a72426">
+                     <text>Chapter_5:3:4:5:6</text>
+                  </entry>
+                  <entry s="I4700e2c028b911e69ed7fcedfyt4l426/I4700e2c028b911e69ed7fcedfyt4l426">
+                     <text>Chapter_5:3:4:5:7</text>
+                  </entry>
+               </entry>
+            </entry>
+         </entry>
+      </entry>
+   </toc>
+   <docs>
+      <doc id="I4700e2c0g6kz11e69ed7fcedf0a72777"
+           src="Useless_test_file.DIVXML_5_I4700e2c0g6kz11e69ed7fcedf0a72777.html"/>
+      <doc id="I4700e2c0g6kz11e69ed7fcedf0a72888"
+           src="Useless_test_file.DIVXML_6_I4700e2c0g6kz11e69ed7fcedf0a72888.html"/>
+   </docs>
+   <isbn>9780314943910</isbn>
+</title>

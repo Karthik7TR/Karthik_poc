@@ -14,6 +14,10 @@ import org.springframework.stereotype.Component;
 
 @Component("assembleFileSystem")
 public class AssembleFileSystemImpl implements AssembleFileSystem {
+    private static final String COVER_ART_FILE_NAME = "coverArt.PNG";
+    private static final String ARTWORK_DIR_NAME = "artwork";
+    private static final String ASSETS_DIR_NAME = "assets";
+
     @Resource(name = "bookFileSystem")
     private BookFileSystem bookFileSystem;
 
@@ -24,8 +28,7 @@ public class AssembleFileSystemImpl implements AssembleFileSystem {
 
     @Override
     public File getTitleDirectory(@NotNull final BookStep step) {
-        final BookDefinition bookDefinition = step.getBookDefinition();
-        return new File(getAssembleDirectory(step), bookDefinition.getTitleId());
+        return new File(getAssembleDirectory(step), step.getBookDefinition().getTitleId());
     }
 
     @Override
@@ -34,14 +37,26 @@ public class AssembleFileSystemImpl implements AssembleFileSystem {
     }
 
     @Override
+    public File getSplitPartTitleXml(@NotNull final BookStep step, @NotNull final Integer splitPartNumber) {
+        return new File(getSplitTitleDirectory(
+            step, String.format("%s_pt%s", step.getBookDefinition().getTitleId(), splitPartNumber)), "title.xml");
+    }
+
+    @Override
     public File getSplitTitleDirectory(@NotNull final BookStep step, @NotNull final String splitTitleId) {
         final String titleId = StringUtils.substringAfterLast(splitTitleId, "/");
-        return new File(getAssembleDirectory(step), titleId);
+        return new File(getAssembleDirectory(step), titleId.isEmpty() ? splitTitleId : titleId);
     }
 
     @Override
     public File getAssetsDirectory(@NotNull final BookStep step) {
-        return new File(getTitleDirectory(step), "assets");
+        return new File(getTitleDirectory(step), ASSETS_DIR_NAME);
+    }
+
+    @Override
+    public File getSplitPartAssetsDirectory(@NotNull final BookStep step, @NotNull final Integer splitPartNumber) {
+        return new File(getSplitTitleDirectory(step,
+            String.format("%s_pt%s", step.getBookDefinition().getTitleId(), splitPartNumber)), ASSETS_DIR_NAME);
     }
 
     @Override
@@ -69,12 +84,23 @@ public class AssembleFileSystemImpl implements AssembleFileSystem {
 
     @Override
     public File getArtworkDirectory(final BookStep step) {
-        return new File(getTitleDirectory(step), "artwork");
+        return new File(getTitleDirectory(step), ARTWORK_DIR_NAME);
+    }
+
+    @Override
+    public File getSplitPartArtworkDirectory(final BookStep step, final Integer splitPartNumber) {
+        return new File(getSplitTitleDirectory(step,
+            String.format("%s_pt%s", step.getBookDefinition().getTitleId(), splitPartNumber)), ARTWORK_DIR_NAME);
     }
 
     @Override
     public File getArtworkFile(final BookStep step) {
-        return new File(getArtworkDirectory(step), "coverArt.PNG");
+        return new File(getArtworkDirectory(step), COVER_ART_FILE_NAME);
+    }
+
+    @Override
+    public File getSplitPartArtworkFile(final BookStep step, final Integer splitPartNumber) {
+        return new File(getSplitPartArtworkDirectory(step, splitPartNumber), COVER_ART_FILE_NAME);
     }
 
     @Override

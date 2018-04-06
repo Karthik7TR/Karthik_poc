@@ -35,7 +35,7 @@ public class ExtractTocStep extends VolumeNumberAwareXppTransformationStep {
 
     @Override
     public void executeTransformation() throws Exception {
-        if (isSplitXppBook()) {
+        if (getBookDefinition().isSplitBook()) {
             getSplitPartsBundlesMap().forEach((splitPartNumber, bundles) -> generatePartsTocs(bundles, splitPartNumber));
         } else {
             generateBundlesTocs();
@@ -94,6 +94,7 @@ public class ExtractTocStep extends VolumeNumberAwareXppTransformationStep {
 
     private void uniteTocs(final List<File> tocFiles, final Integer splitPartNumber) {
         final File resultFile = Optional.ofNullable(splitPartNumber)
+            .filter(partNumber -> partNumber > 1)
             .map(number -> fileSystem.getTocPartFile(this, number))
             .orElseGet(() -> fileSystem.getTocFile(this));
 

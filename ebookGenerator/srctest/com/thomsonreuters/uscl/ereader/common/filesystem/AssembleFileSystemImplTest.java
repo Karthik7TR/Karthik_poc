@@ -63,6 +63,16 @@ public final class AssembleFileSystemImplTest {
     }
 
     @Test
+    public void shouldReturnSplitPartTitleXml() {
+        //given
+        given(step.getBookDefinition().getTitleId()).willReturn("titleId");
+        //when
+        final File file = fileSystem.getSplitPartTitleXml(step, 2);
+        //then
+        assertThat(file, hasPath("workDirectory/Assemble/titleId_pt2/title.xml"));
+    }
+
+    @Test
     public void shouldReturnSplitTitleDirectory() {
         //given
         //when
@@ -79,6 +89,16 @@ public final class AssembleFileSystemImplTest {
         final File directory = fileSystem.getAssetsDirectory(step);
         //then
         assertThat(directory, hasPath("workDirectory/Assemble/titleId/assets"));
+    }
+
+    @Test
+    public void shouldReturnSplitPartAssetsDirectory() {
+        //given
+        given(step.getBookDefinition().getTitleId()).willReturn("titleId");
+        //when
+        final File directory = fileSystem.getSplitPartAssetsDirectory(step, 2);
+        //then
+        assertThat(directory, hasPath("workDirectory/Assemble/titleId_pt2/assets"));
     }
 
     @Test
@@ -114,12 +134,22 @@ public final class AssembleFileSystemImplTest {
     }
 
     @Test
-    public void testGetArtworkFile() {
+    public void shouldReturnArtworkFile() {
         //given
         given(step.getBookDefinition().getTitleId()).willReturn("titleId");
         //when
         final File file = fileSystem.getArtworkFile(step);
         //then
         assertThat(file, hasPath("Assemble/titleId/artwork/coverArt.PNG"));
+    }
+
+    @Test
+    public void shouldReturnSplitPartArtworkFile() {
+        //given
+        given(step.getBookDefinition().getTitleId()).willReturn("titleId");
+        //when
+        final File file = fileSystem.getSplitPartArtworkFile(step, 2);
+        //then
+        assertThat(file, hasPath("Assemble/titleId_pt2/artwork/coverArt.PNG"));
     }
 }

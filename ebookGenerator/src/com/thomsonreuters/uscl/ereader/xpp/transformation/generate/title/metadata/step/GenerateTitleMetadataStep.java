@@ -1,31 +1,40 @@
 package com.thomsonreuters.uscl.ereader.xpp.transformation.generate.title.metadata.step;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import javax.annotation.Resource;
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.transform.Transformer;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
+import com.thomsonreuters.uscl.ereader.common.proview.feature.FeaturesListBuilder;
 import com.thomsonreuters.uscl.ereader.common.proview.feature.ProviewFeaturesListBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
+import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.model.BookTitleId;
+import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.proview.Doc;
+import com.thomsonreuters.uscl.ereader.proview.Feature;
 import com.thomsonreuters.uscl.ereader.proview.TitleMetadata;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
+import lombok.Getter;
+import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,55 +61,99 @@ public class GenerateTitleMetadataStep extends XppTransformationStep {
     @Override
     public void executeTransformation() throws Exception {
         FileUtils.forceMkdir(fileSystem.getTitleMetadataDirectory(this));
-        final DocumentsCollector documentsCollector = new DocumentsCollector();
-        for (final XppBundle bundle : getXppBundles()) {
-            collectDocumentsForBundle(bundle, documentsCollector);
+        if (getBookDefinition().isSplitBook()) {
+            getSplitPartsBundlesMap().forEach((partNumber, bundles) -> {
+                generateTitleMetadata(collectDocumentsForBundles(bundles), partNumber);
+            });
+        } else {
+            generateTitleMetadata(collectDocumentsForBundles(getXppBundles()), null);
         }
-        generateTitleMetadata(documentsCollector);
     }
 
-    private void generateTitleMetadata(final DocumentsCollector documentsCollector) throws JAXBException {
-        final Transformer transformer = transformerBuilderFactory.create().withXsl(tocToTitleXsl).build();
-        transformer.setParameter("titleMetadataDoc", saveMetadataAndGetFilePath(documentsCollector.getDocuments()));
+    private List<Doc> collectDocumentsForBundles(@NotNull final List<XppBundle> bundles) {
+        final DocumentsCollector documentsCollector = new DocumentsCollector();
+        bundles.forEach(bundle -> {
+            final String materialNumber = bundle.getMaterialNumber();
+            bundle.getOrderedFileList().stream()
+                .map(BundleFileType::getHtmlDocFileNameFilter)
+                .map(fileSystem.getExternalLinksDirectory(this, materialNumber)::list)
+                .forEach(documentsNames -> documentsCollector.addDocuments(documentsNames, bundle));
+        });
+        return documentsCollector.getDocuments();
+    }
 
-        final TransformationCommand command =
-            new TransformationCommandBuilder(transformer, assembleFileSystem.getTitleXml(this))
-                .withInput(fileSystem.getTocFile(this)).build();
+    private void generateTitleMetadata(final List<Doc> documents, final Integer splitPartNumber) {
+        final File inputTocFile = getSplitPartFileOrDefault(
+            splitPartNumber, fileSystem::getTocPartFile, fileSystem::getTocFile);
+        final File titleXmlFile = getSplitPartFileOrDefault(
+            splitPartNumber, assembleFileSystem::getSplitPartTitleXml, assembleFileSystem::getTitleXml);
+
+        final Transformer transformer = transformerBuilderFactory.create().withXsl(tocToTitleXsl).build();
+        transformer.setParameter("titleMetadataDoc", saveMetadataAndGetFilePath(documents, splitPartNumber));
+
+        final TransformationCommand command = new TransformationCommandBuilder(transformer, titleXmlFile)
+            .withInput(inputTocFile).build();
         transformationService.transform(command);
     }
 
-    private void collectDocumentsForBundle(
-        @NotNull final XppBundle bundle,
-        @NotNull final DocumentsCollector documentsCollector) {
-        for (final String fileName : bundle.getOrderedFileList()) {
-            final FilenameFilter filter = BundleFileType.getHtmlDocFileNameFilter(fileName);
-            final String[] documentsNames =
-                fileSystem.getExternalLinksDirectory(this, bundle.getMaterialNumber()).list(filter);
-            documentsCollector.addDocuments(documentsNames, bundle);
-        }
-    }
-
-    private String saveMetadataAndGetFilePath(final List<Doc> documents) throws JAXBException {
+    @SneakyThrows
+    private String saveMetadataAndGetFilePath(final List<Doc> documents, final Integer splitPartNumber) {
         final BookDefinition bookDefinition = getBookDefinition();
         final TitleMetadata titleMetadata = TitleMetadata.builder(bookDefinition)
-            .proviewFeatures(
-                proviewFeaturesListBuilderFactory.create(bookDefinition)
-                    .withBookVersion(getBookVersion())
-                    .getFeatures())
             .versionNumber(getBookVersionString())
-            .artworkFile(assembleFileSystem.getArtworkFile(this))
-            .assetFilesFromDirectory(assembleFileSystem.getAssetsDirectory(this))
+            .fullyQualifiedTitleId(getTitleId(splitPartNumber))
+            .displayName(getDisplayName(splitPartNumber))
+            .proviewFeatures(getFeatures(splitPartNumber, documents))
+            .artworkFile(getSplitPartFileOrDefault(
+                splitPartNumber, assembleFileSystem::getSplitPartArtworkFile, assembleFileSystem::getArtworkFile))
+            .assetFilesFromDirectory(getSplitPartFileOrDefault(splitPartNumber,
+                assembleFileSystem::getSplitPartAssetsDirectory, assembleFileSystem::getAssetsDirectory))
             .documents(documents)
             .build();
 
-        final File titleBookDefinitionFile = fileSystem.getTitleMetadataFile(this);
+        final File titleBookDefinitionFile = getSplitPartFileOrDefault(
+            splitPartNumber, fileSystem::getSplitPartTitleMetadataFile, fileSystem::getTitleMetadataFile);
         final Marshaller marshaller = JAXBContext.newInstance(TitleMetadata.class).createMarshaller();
         marshaller.marshal(titleMetadata, titleBookDefinitionFile);
         return titleBookDefinitionFile.getAbsolutePath().replace("\\", "/");
     }
 
-    private static class DocumentsCollector {
+    private List<Feature> getFeatures(final Integer splitPartNumber, final List<Doc> documents) {
+        final FeaturesListBuilder featureListBuilder = proviewFeaturesListBuilderFactory.create(getBookDefinition())
+            .withBookVersion(getBookVersion());
+        Optional.ofNullable(splitPartNumber)
+            .map(partNumber -> new BookTitleId(partNumber.toString(), new Version(0, 0)))
+            .ifPresent(titleId -> featureListBuilder.forTitleId(titleId)
+                .withTitleDocs(Collections.singletonMap(titleId, documents)));
+        return featureListBuilder.getFeatures();
+    }
 
+    private File getSplitPartFileOrDefault(final Integer splitPartNumber,
+                                           final BiFunction<BookStep, Integer, File> partFileFunction,
+                                           final Function<BookStep, File> fileFunction) {
+        return Optional.ofNullable(splitPartNumber)
+            .filter(partNumber -> partNumber > 1)
+            .map(partNumber -> partFileFunction.apply(this, splitPartNumber))
+            .orElseGet(() -> fileFunction.apply(this));
+    }
+
+    private String getTitleId(final Integer splitPartNumber) {
+        final BookDefinition bookDefinition = getBookDefinition();
+        return Optional.ofNullable(splitPartNumber)
+            .filter(partNumber -> partNumber > 1)
+            .map(partNumber -> String.format("%s_pt%s", bookDefinition.getFullyQualifiedTitleId(), partNumber))
+            .orElseGet(bookDefinition::getFullyQualifiedTitleId);
+    }
+
+    private String getDisplayName(final Integer splitPartNumber) {
+        final BookDefinition bookDefinition = getBookDefinition();
+        return Optional.ofNullable(splitPartNumber)
+            .map(partNumber -> String.format("%s (eBook %s of %s)", bookDefinition.getProviewDisplayName(), partNumber, getSplitPartsBundlesMap().size()))
+            .orElseGet(bookDefinition::getProviewDisplayName);
+    }
+
+    private static class DocumentsCollector {
+        @Getter
         private final List<Doc> documents = new ArrayList<>();
 
         public void addDocuments(@NotNull final String[] documentsNames, @NotNull final XppBundle bundle) {
@@ -117,10 +170,6 @@ public class GenerateTitleMetadataStep extends XppTransformationStep {
                     }
                 })
                 .forEach(documents::add);
-        }
-
-        public List<Doc> getDocuments() {
-            return documents;
         }
     }
 }

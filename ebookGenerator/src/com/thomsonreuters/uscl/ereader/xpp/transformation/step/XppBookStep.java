@@ -18,12 +18,6 @@ public interface XppBookStep extends BookStep {
     List<XppBundle> getXppBundles();
 
     /**
-     * Check if book has several parts
-     * @return
-     */
-    boolean isSplitXppBook();
-
-    /**
      * Get bundles mapped to publication parts
      * @return
      */

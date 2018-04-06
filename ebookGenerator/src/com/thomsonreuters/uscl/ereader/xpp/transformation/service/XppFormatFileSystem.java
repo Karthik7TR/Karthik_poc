@@ -442,6 +442,14 @@ public interface XppFormatFileSystem extends FormatFileSystem {
     File getTitleMetadataFile(@NotNull BookStep step);
 
     /**
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /}{@link com.thomsonreuters.uscl.ereader.common.filesystem.FormatFileSystem#getFormatDirectory Format}
+     * {@code /}{@link getTitleDirectory/#_title_metadata}{@code /titleMetadata_ptN.xml}
+     */
+    @NotNull
+    File getSplitPartTitleMetadataFile(@NotNull BookStep step, @NotNull Integer splitPartNumber);
+
+    /**
      * Utility method to get fileName of .part file by given parameters.
      */
     @NotNull
