@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
@@ -25,19 +24,6 @@ public class CodeDaoImpl implements CodeDao {
 
     public CodeDaoImpl(final SessionFactory sessFactory) {
         sessionFactory = sessFactory;
-    }
-
-    /**
-     * Delete a JurisType Code in the Juris_TYPE_CODES table
-     * @param jurisTypeCode
-     * @return
-     */
-    @Override
-    public void deleteJurisTypeCode(JurisTypeCode jurisTypeCode) {
-        jurisTypeCode = (JurisTypeCode) sessionFactory.getCurrentSession().merge(jurisTypeCode);
-        final Session session = sessionFactory.getCurrentSession();
-        session.delete(jurisTypeCode);
-        session.flush();
     }
 
     /**
@@ -135,17 +121,6 @@ public class CodeDaoImpl implements CodeDao {
     }
 
     /**
-     * Get all the JurisType codes from the Juris_TYPE_CODES table
-     * @return a list of JurisTypeCode objects
-     */
-    @Override
-    public List<JurisTypeCode> getAllJurisTypeCodes() {
-        final Criteria criteria =
-            sessionFactory.getCurrentSession().createCriteria(JurisTypeCode.class).addOrder(Order.asc("name"));
-        return criteria.list();
-    }
-
-    /**
      * Get all the KeywordType codes from the KEYWORD_TYPE_CODES table
      * @return a list of KeywordTypeCode objects
      */
@@ -216,30 +191,6 @@ public class CodeDaoImpl implements CodeDao {
     }
 
     /**
-     * Get a JurisType Code from the Juris_TYPE_CODES table that match Juris_TYPE_CODES_ID
-     * @param jurisTypeCodeId
-     * @return
-     */
-    @Override
-    public JurisTypeCode getJurisTypeCodeById(final Long jurisTypeCodeId) {
-        return (JurisTypeCode) sessionFactory.getCurrentSession().get(JurisTypeCode.class, jurisTypeCodeId);
-    }
-
-    /**
-     * Get a JurisType Code from the Juris_TYPE_CODES table that match Juris_TYPE_CODES_NAME.
-     * This search is case insensitive.
-     * @param JurisTypeCodeName
-     * @return
-     */
-    @Override
-    public JurisTypeCode getJurisTypeCodeByName(final String jurisTypeCodeName) {
-        return (JurisTypeCode) sessionFactory.getCurrentSession()
-            .createCriteria(JurisTypeCode.class)
-            .add(Restrictions.eq("name", jurisTypeCodeName).ignoreCase())
-            .uniqueResult();
-    }
-
-    /**
      * Get a KeywordType Code from the KEYWORD_TYPE_CODES table that match KEYWORD_TYPE_CODES_ID
      * @param keywordTypeCodeId
      * @return
@@ -304,27 +255,6 @@ public class CodeDaoImpl implements CodeDao {
             .createCriteria(PubTypeCode.class)
             .add(Restrictions.eq("name", pubTypeCodeName).ignoreCase())
             .uniqueResult();
-    }
-
-    /**
-     * Create or Update a JurisType Code to the Juris_TYPE_CODES table
-     * @param jurisTypeCode
-     * @return
-     */
-    @Override
-    public void saveJurisTypeCode(final JurisTypeCode jurisTypeCode) {
-        jurisTypeCode.setLastUpdated(new Date());
-
-        final Session session = sessionFactory.getCurrentSession();
-
-        // Determine if it a new object
-        if (jurisTypeCode.getId() != null) {
-            session.merge(jurisTypeCode);
-        } else {
-            session.save(jurisTypeCode);
-        }
-
-        session.flush();
     }
 
     /**

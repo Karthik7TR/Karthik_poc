@@ -19,7 +19,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
-import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
@@ -46,52 +45,6 @@ public class CodeServiceIntegrationTest {
     private CodeService service;
     @Autowired
     private BookDefinitionService bookDefinitionService;
-
-    @Test
-    public void testGetAllJuris() {
-        final DbSetup dbSetup = new DbSetup(
-            new DataSourceDestination(dataSource),
-            sequenceOf(
-                Operations.deleteAllFrom("JURIS_TYPE_CODES"),
-                insertInto("JURIS_TYPE_CODES")
-                    .columns("JURIS_TYPE_CODES_ID", "JURIS_TYPE_CODES_NAME", "LAST_UPDATED")
-                    .values(1, "AL", new Date())
-                    .values(2, "AK", new Date())
-                    .values(3, "AZ", new Date())
-                    .values(4, "AR", new Date())
-                    .build()));
-        dbSetup.launch();
-
-        final List<JurisTypeCode> codes = service.getAllJurisTypeCodes();
-        log.debug(codes);
-        Assert.assertEquals(4, codes.size());
-    }
-
-    @Test
-    public void testJurisTypeCodeCRUD() {
-        // Create StateCode
-        final JurisTypeCode createCode = new JurisTypeCode();
-        createCode.setName("Test");
-        service.saveJurisTypeCode(createCode);
-
-        // Get
-        JurisTypeCode readCode = service.getJurisTypeCodeById(createCode.getId());
-        Assert.assertEquals(createCode, readCode);
-        Assert.assertEquals("Test", readCode.getName());
-
-        // Update
-        readCode.setName("Test2");
-        service.saveJurisTypeCode(readCode);
-
-        // Get 2
-        readCode = service.getJurisTypeCodeById(createCode.getId());
-        Assert.assertEquals("Test2", readCode.getName());
-
-        // Delete
-        service.deleteJurisTypeCode(readCode);
-        readCode = service.getJurisTypeCodeById(createCode.getId());
-        Assert.assertEquals(null, readCode);
-    }
 
     @Test
     public void testGetAllPubType() {

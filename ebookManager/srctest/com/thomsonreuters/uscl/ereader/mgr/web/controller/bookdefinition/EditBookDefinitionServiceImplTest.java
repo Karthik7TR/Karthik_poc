@@ -19,6 +19,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.JurisTypeCodeService;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionServiceImpl;
@@ -53,6 +54,8 @@ public final class EditBookDefinitionServiceImplTest {
     @Mock
     private DocumentTypeCodeService documentTypeCodeService;
     @Mock
+    private JurisTypeCodeService jurisTypeCodeService;
+    @Mock
     private StateCodeService stateCodeService;
     @Mock
     private SapService sapService;
@@ -73,6 +76,7 @@ public final class EditBookDefinitionServiceImplTest {
         bookService = new EditBookDefinitionServiceImpl(
             codeService,
             documentTypeCodeService,
+            jurisTypeCodeService,
             stateCodeService,
             tempRootDir,
             sapService,
@@ -185,7 +189,7 @@ public final class EditBookDefinitionServiceImplTest {
         code.setName("aAa");
         final List<JurisTypeCode> codes = new ArrayList<>();
         codes.add(code);
-        given(codeService.getAllJurisTypeCodes()).willReturn(codes);
+        given(jurisTypeCodeService.getAllJurisTypeCodes()).willReturn(codes);
         // when
         final Map<String, String> juris = bookService.getJurisdictions();
         // then

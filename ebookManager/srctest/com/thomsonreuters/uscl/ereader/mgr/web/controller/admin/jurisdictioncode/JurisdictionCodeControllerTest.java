@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.JurisTypeCodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.easymock.EasyMock;
 import org.junit.Assert;
@@ -33,7 +33,7 @@ public final class JurisdictionCodeControllerTest {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
-    private CodeService mockCodeService;
+    private JurisTypeCodeService mockJurisTypeCodeService;
     private JurisdictionCodeFormValidator validator;
 
     @Before
@@ -43,11 +43,11 @@ public final class JurisdictionCodeControllerTest {
         handlerAdapter = new AnnotationMethodHandlerAdapter();
 
         // Mock up the Code service
-        mockCodeService = EasyMock.createMock(CodeService.class);
-        validator = new JurisdictionCodeFormValidator(mockCodeService);
+        mockJurisTypeCodeService = EasyMock.createMock(JurisTypeCodeService.class);
+        validator = new JurisdictionCodeFormValidator(mockJurisTypeCodeService);
 
         // Set up the controller
-        controller = new JurisdictionCodeController(mockCodeService, validator);
+        controller = new JurisdictionCodeController(mockJurisTypeCodeService, validator);
 
         JURIS_CODE.setId(JURIS_ID);
         JURIS_CODE.setName("test");
@@ -61,8 +61,8 @@ public final class JurisdictionCodeControllerTest {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_JURIS_CODE_VIEW);
         request.setMethod(HttpMethod.GET.name());
 
-        EasyMock.expect(mockCodeService.getAllJurisTypeCodes()).andReturn(new ArrayList<JurisTypeCode>());
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(mockJurisTypeCodeService.getAllJurisTypeCodes()).andReturn(new ArrayList<JurisTypeCode>());
+        EasyMock.replay(mockJurisTypeCodeService);
 
         final ModelAndView mav;
         try {
@@ -81,7 +81,7 @@ public final class JurisdictionCodeControllerTest {
             Assert.fail(e.getMessage());
         }
 
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(mockJurisTypeCodeService);
     }
 
     /**
@@ -118,9 +118,9 @@ public final class JurisdictionCodeControllerTest {
         final JurisTypeCode code = new JurisTypeCode();
         code.setName(name);
 
-        EasyMock.expect(mockCodeService.getJurisTypeCodeByName(name)).andReturn(null);
-        mockCodeService.saveJurisTypeCode(code);
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(mockJurisTypeCodeService.getJurisTypeCodeByName(name)).andReturn(null);
+        mockJurisTypeCodeService.saveJurisTypeCode(code);
+        EasyMock.replay(mockJurisTypeCodeService);
 
         final ModelAndView mav;
         try {
@@ -142,7 +142,7 @@ public final class JurisdictionCodeControllerTest {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(mockJurisTypeCodeService);
     }
 
     /**
@@ -183,8 +183,8 @@ public final class JurisdictionCodeControllerTest {
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("id", JURIS_ID.toString());
 
-        EasyMock.expect(mockCodeService.getJurisTypeCodeById(JURIS_ID)).andReturn(JURIS_CODE);
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(mockJurisTypeCodeService.getJurisTypeCodeById(JURIS_ID)).andReturn(JURIS_CODE);
+        EasyMock.replay(mockJurisTypeCodeService);
 
         final ModelAndView mav;
         try {
@@ -216,9 +216,9 @@ public final class JurisdictionCodeControllerTest {
         request.setParameter("jurisId", JURIS_ID.toString());
         request.setParameter("name", name);
 
-        EasyMock.expect(mockCodeService.getJurisTypeCodeByName(name)).andReturn(null);
-        mockCodeService.saveJurisTypeCode(JURIS_CODE);
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(mockJurisTypeCodeService.getJurisTypeCodeByName(name)).andReturn(null);
+        mockJurisTypeCodeService.saveJurisTypeCode(JURIS_CODE);
+        EasyMock.replay(mockJurisTypeCodeService);
 
         final ModelAndView mav;
         try {
@@ -240,7 +240,7 @@ public final class JurisdictionCodeControllerTest {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(mockJurisTypeCodeService);
     }
 
     /**

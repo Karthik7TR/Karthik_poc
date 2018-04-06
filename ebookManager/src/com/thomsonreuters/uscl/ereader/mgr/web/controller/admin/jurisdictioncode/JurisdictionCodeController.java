@@ -3,7 +3,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jurisdictioncod
 import javax.validation.Valid;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.JurisTypeCodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,14 +23,14 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class JurisdictionCodeController {
-    private final CodeService codeService;
+    private final JurisTypeCodeService jurisTypeCodeService;
     private final Validator validator;
 
     @Autowired
     public JurisdictionCodeController(
-        final CodeService codeService,
+        final JurisTypeCodeService jurisTypeCodeService,
         @Qualifier("jurisdictionCodeFormValidator") final Validator validator) {
-        this.codeService = codeService;
+        this.jurisTypeCodeService = jurisTypeCodeService;
         this.validator = validator;
     }
 
@@ -45,35 +45,27 @@ public class JurisdictionCodeController {
      * No query string parameters are expected.
      * Only Super users allowed
      * @return
-     * @throws Exception
      */
     @RequestMapping(value = WebConstants.MVC_ADMIN_JURIS_CODE_VIEW, method = RequestMethod.GET)
-    public ModelAndView viewJurisCodeList(final Model model) throws Exception {
-        model.addAttribute(WebConstants.KEY_JURIS_TYPE_CODE, codeService.getAllJurisTypeCodes());
-
+    public ModelAndView viewJurisCodeList(final Model model) {
+        model.addAttribute(WebConstants.KEY_JURIS_TYPE_CODE, jurisTypeCodeService.getAllJurisTypeCodes());
         return new ModelAndView(WebConstants.VIEW_ADMIN_JURIS_CODE_VIEW);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_JURIS_CODE_CREATE, method = RequestMethod.GET)
-    public ModelAndView createJurisCode(
-        @ModelAttribute(JurisdictionCodeForm.FORM_NAME) final JurisdictionCodeForm form,
-        final BindingResult bindingResult,
-        final Model model) {
+    public ModelAndView createJurisCode(@ModelAttribute(JurisdictionCodeForm.FORM_NAME) final JurisdictionCodeForm form) {
         return new ModelAndView(WebConstants.VIEW_ADMIN_JURIS_CODE_CREATE);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_JURIS_CODE_CREATE, method = RequestMethod.POST)
     public ModelAndView createJurisCodePost(
         @ModelAttribute(JurisdictionCodeForm.FORM_NAME) @Valid final JurisdictionCodeForm form,
-        final BindingResult bindingResult,
-        final Model model) {
+        final BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
-            codeService.saveJurisTypeCode(form.makeCode());
-
+            jurisTypeCodeService.saveJurisTypeCode(form.makeCode());
             // Redirect user
             return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_JURIS_CODE_VIEW));
         }
-
         return new ModelAndView(WebConstants.VIEW_ADMIN_JURIS_CODE_CREATE);
     }
 
@@ -81,9 +73,8 @@ public class JurisdictionCodeController {
     public ModelAndView editJurisCode(
         @RequestParam("id") final Long id,
         @ModelAttribute(JurisdictionCodeForm.FORM_NAME) final JurisdictionCodeForm form,
-        final BindingResult bindingResult,
         final Model model) {
-        final JurisTypeCode code = codeService.getJurisTypeCodeById(id);
+        final JurisTypeCode code = jurisTypeCodeService.getJurisTypeCodeById(id);
 
         if (code != null) {
             model.addAttribute(WebConstants.KEY_JURIS_TYPE_CODE, code);
@@ -97,15 +88,13 @@ public class JurisdictionCodeController {
     public ModelAndView editJurisCodePost(
         @ModelAttribute(JurisdictionCodeForm.FORM_NAME) @Valid final JurisdictionCodeForm form,
         final BindingResult bindingResult,
-        final Model model) throws Exception {
+        final Model model) {
         if (!bindingResult.hasErrors()) {
-            codeService.saveJurisTypeCode(form.makeCode());
-
+            jurisTypeCodeService.saveJurisTypeCode(form.makeCode());
             // Redirect user
             return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_JURIS_CODE_VIEW));
         }
-
-        final JurisTypeCode code = codeService.getJurisTypeCodeById(form.getJurisId());
+        final JurisTypeCode code = jurisTypeCodeService.getJurisTypeCodeById(form.getJurisId());
         model.addAttribute(WebConstants.KEY_JURIS_TYPE_CODE, code);
         return new ModelAndView(WebConstants.VIEW_ADMIN_JURIS_CODE_EDIT);
     }
@@ -114,25 +103,20 @@ public class JurisdictionCodeController {
     public ModelAndView deleteJurisCode(
         @RequestParam("id") final Long id,
         @ModelAttribute(JurisdictionCodeForm.FORM_NAME) final JurisdictionCodeForm form,
-        final BindingResult bindingResult,
         final Model model) {
-        final JurisTypeCode code = codeService.getJurisTypeCodeById(id);
+        final JurisTypeCode code = jurisTypeCodeService.getJurisTypeCodeById(id);
 
         if (code != null) {
             model.addAttribute(WebConstants.KEY_JURIS_TYPE_CODE, code);
             form.initialize(code);
         }
-
         return new ModelAndView(WebConstants.VIEW_ADMIN_JURIS_CODE_DELETE);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_JURIS_CODE_DELETE, method = RequestMethod.POST)
     public ModelAndView deleteJurisCodePost(
-        @ModelAttribute(JurisdictionCodeForm.FORM_NAME) final JurisdictionCodeForm form,
-        final BindingResult bindingResult,
-        final Model model) {
-        codeService.deleteJurisTypeCode(form.makeCode());
-
+        @ModelAttribute(JurisdictionCodeForm.FORM_NAME) final JurisdictionCodeForm form) {
+        jurisTypeCodeService.deleteJurisTypeCode(form.makeCode());
         // Redirect user
         return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_JURIS_CODE_VIEW));
     }

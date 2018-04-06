@@ -2,7 +2,6 @@ package com.thomsonreuters.uscl.ereader.core.book.service;
 
 import java.util.List;
 
-import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
@@ -42,40 +41,6 @@ public interface CodeService {
      * @return
      */
     void deletePubTypeCode(PubTypeCode pubTypeCode);
-
-    /**
-     * Get all the JurisType codes from the Juris_TYPE_CODES table
-     * @return a list of JurisTypeCode objects
-     */
-    List<JurisTypeCode> getAllJurisTypeCodes();
-
-    /**
-     * Get a JurisType Code from the Juris_TYPE_CODES table that match Juris_TYPE_CODES_ID
-     * @param JurisTypeCodeId
-     * @return
-     */
-    JurisTypeCode getJurisTypeCodeById(Long jurisTypeCodeId);
-
-    /**
-     * Get a JurisType Code from the Juris_TYPE_CODES table that match Juris_TYPE_CODES_NAME
-     * @param jurisTypeCodeName
-     * @return
-     */
-    JurisTypeCode getJurisTypeCodeByName(String jurisTypeCodeName);
-
-    /**
-     * Create or Update a JurisType Code to the Juris_TYPE_CODES table
-     * @param JurisTypeCode
-     * @return
-     */
-    void saveJurisTypeCode(JurisTypeCode jurisTypeCode);
-
-    /**
-     * Delete a JurisType Code in the Juris_TYPE_CODES table
-     * @param JurisTypeCode
-     * @return
-     */
-    void deleteJurisTypeCode(JurisTypeCode jurisTypeCode);
 
     /**
      * Get all the Publisher codes from the PUBLISHER_CODES table

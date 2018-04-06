@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDao;
-import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
@@ -75,61 +74,6 @@ public class CodeServiceImpl implements CodeService {
     @Transactional
     public void deletePubTypeCode(final PubTypeCode pubTypeCode) {
         dao.deletePubTypeCode(pubTypeCode);
-    }
-
-    /**
-     * Get all the JurisType codes from the Juris_TYPE_CODES table
-     * @return a list of JurisTypeCode objects
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<JurisTypeCode> getAllJurisTypeCodes() {
-        return dao.getAllJurisTypeCodes();
-    }
-
-    /**
-     * Get a JurisType Code from the Juris_TYPE_CODES table that match Juris_TYPE_CODES_ID
-     * @param JurisTypeCodeId
-     * @return
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public JurisTypeCode getJurisTypeCodeById(final Long jurisTypeCodeId) {
-        return dao.getJurisTypeCodeById(jurisTypeCodeId);
-    }
-
-    /**
-     * Get a JurisType Code from the Juris_TYPE_CODES table that match Juris_TYPE_CODES_NAME
-     * @param jurisTypeCodeName
-     * @return
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public JurisTypeCode getJurisTypeCodeByName(final String jurisTypeCodeName) {
-        return dao.getJurisTypeCodeByName(jurisTypeCodeName);
-    }
-
-    /**
-     * Create or Update a JurisType Code to the Juris_TYPE_CODES table
-     * @param JurisTypeCode
-     * @return
-     */
-    @Override
-    @Transactional
-    public void saveJurisTypeCode(final JurisTypeCode jurisTypeCode) {
-        jurisTypeCode.setLastUpdated(new Date());
-        dao.saveJurisTypeCode(jurisTypeCode);
-    }
-
-    /**
-     * Delete a JurisType Code in the Juris_TYPE_CODES table
-     * @param JurisTypeCode
-     * @return
-     */
-    @Override
-    @Transactional
-    public void deleteJurisTypeCode(final JurisTypeCode jurisTypeCode) {
-        dao.deleteJurisTypeCode(jurisTypeCode);
     }
 
     /**

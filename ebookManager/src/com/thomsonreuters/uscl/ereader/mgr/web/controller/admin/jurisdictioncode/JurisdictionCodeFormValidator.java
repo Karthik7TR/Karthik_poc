@@ -1,7 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jurisdictioncode;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.JurisTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.JurisTypeCodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +13,16 @@ import org.springframework.validation.Validator;
 @Component("jurisdictionCodeFormValidator")
 public class JurisdictionCodeFormValidator extends BaseFormValidator implements Validator {
     private static final int MAXIMUM_CHARACTER_1024 = 1024;
-    private final CodeService codeService;
+    private final JurisTypeCodeService jurisTypeCodeService;
 
     @Autowired
-    public JurisdictionCodeFormValidator(final CodeService codeService) {
-        this.codeService = codeService;
+    public JurisdictionCodeFormValidator(final JurisTypeCodeService jurisTypeCodeService) {
+        this.jurisTypeCodeService = jurisTypeCodeService;
     }
 
     @Override
     public boolean supports(final Class<?> clazz) {
-        return (JurisdictionCodeForm.class.isAssignableFrom(clazz));
+        return JurisdictionCodeForm.class.isAssignableFrom(clazz);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class JurisdictionCodeFormValidator extends BaseFormValidator implements 
         checkSpecialCharacters(errors, name, "name", true);
 
         if (!StringUtils.isBlank(name)) {
-            final JurisTypeCode code = codeService.getJurisTypeCodeByName(name);
+            final JurisTypeCode code = jurisTypeCodeService.getJurisTypeCodeByName(name);
             if (code != null && !code.getId().equals(form.getJurisId())) {
                 errors.rejectValue("name", "error.exist", new Object[] {"Name"}, "Already exists");
             }
