@@ -61,21 +61,17 @@ public class EngineServiceImpl implements EngineService, JobThrottleConfigSyncSe
         exceptions = CannotSerializeTransactionException.class,
         delayProperty = "transactions.retry.delay.ms"
     )
-    public JobExecution runJob(final String jobName, final JobParameters jobParameters) {
+    public JobExecution runJob(final String jobName, final JobParameters jobParameters) throws Exception {
         // Lookup job object from set of defined collection of jobs
-        try {
-            final Job job = jobRegistry.getJob(jobName);
-            if (job == null) {
-                throw new IllegalArgumentException("Job definition: " + jobName + " was not found!");
-            }
-
-            // Launch the job with the specified set of JobParameters
-            log.debug("Launch Job Parameters: " + jobParameters);
-            final JobExecution jobExecution = jobLauncher.run(job, jobParameters);
-            return jobExecution;
-        } catch (final Exception e) {
-            throw new RuntimeException(e);
+        final Job job = jobRegistry.getJob(jobName);
+        if (job == null) {
+            throw new IllegalArgumentException("Job definition: " + jobName + " was not found!");
         }
+
+        // Launch the job with the specified set of JobParameters
+        log.debug("Launch Job Parameters: " + jobParameters);
+        final JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+        return jobExecution;
     }
 
     /**

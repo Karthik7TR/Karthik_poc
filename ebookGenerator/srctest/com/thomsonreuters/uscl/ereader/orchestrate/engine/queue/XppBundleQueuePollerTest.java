@@ -7,7 +7,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-import javax.jms.JMSException;
 import javax.jms.TextMessage;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
@@ -15,6 +14,7 @@ import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.jms.client.JMSClient;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,6 +43,7 @@ public final class XppBundleQueuePollerTest {
     private XppBundleQueuePoller poller;
 
     @Test
+    @SneakyThrows
     public void shouldInterruptIfEnvironmentIsWorkStation() {
         //given
         initPoller("workstation");
@@ -58,6 +59,7 @@ public final class XppBundleQueuePollerTest {
     }
 
     @Test
+    @SneakyThrows
     public void shouldInterruptOutageExist() {
         //given
         initPoller("PROD");
@@ -76,6 +78,7 @@ public final class XppBundleQueuePollerTest {
     }
 
     @Test
+    @SneakyThrows
     public void shouldInterruptNoFreeThreads() {
         //given
         initPoller("PROD");
@@ -93,6 +96,7 @@ public final class XppBundleQueuePollerTest {
     }
 
     @Test
+    @SneakyThrows
     public void shouldInterruptRequestIsNull() {
         //given
         initPoller("PROD");
@@ -110,7 +114,8 @@ public final class XppBundleQueuePollerTest {
     }
 
     @Test
-    public void shouldInterruptRequestIsEmpty() throws JMSException {
+    @SneakyThrows
+    public void shouldInterruptRequestIsEmpty() {
         //given
         initPoller("PROD");
         given(threadPoolTaskExecutor.getCorePoolSize()).willReturn(POOL_SIZE);
@@ -130,7 +135,8 @@ public final class XppBundleQueuePollerTest {
     }
 
     @Test
-    public void shouldSuccessfullyComplete() throws JMSException {
+    @SneakyThrows
+    public void shouldSuccessfullyComplete() {
         //given
         initPoller("PROD");
         given(threadPoolTaskExecutor.getCorePoolSize()).willReturn(POOL_SIZE);

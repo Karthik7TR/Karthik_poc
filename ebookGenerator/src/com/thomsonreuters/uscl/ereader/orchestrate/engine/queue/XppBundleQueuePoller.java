@@ -10,6 +10,7 @@ import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -92,6 +93,7 @@ public class XppBundleQueuePoller {
         }
     }
 
+    @SneakyThrows
     private void performJobExecution(final String request) {
         // start ebookBundleJob
         final JobParametersBuilder builder = new JobParametersBuilder();
