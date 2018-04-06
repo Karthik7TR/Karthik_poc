@@ -43,7 +43,7 @@ public class DocumentTypeCodeServiceImpl implements DocumentTypeCodeService {
      */
     @Override
     public void saveDocumentTypeCode(final DocumentTypeCode documentTypeCode) {
-        documentTypeCode.setLastUpdated(new Date());
+        documentTypeCode.setLastUpdatedDocTypeCode(new Date());
         documentTypeCodeDao.save(documentTypeCode);
     }
 }

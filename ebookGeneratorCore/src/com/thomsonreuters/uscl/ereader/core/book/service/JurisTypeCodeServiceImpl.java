@@ -34,7 +34,7 @@ public class JurisTypeCodeServiceImpl implements JurisTypeCodeService {
 
     @Override
     public void saveJurisTypeCode(final JurisTypeCode jurisTypeCode) {
-        jurisTypeCode.setLastUpdated(new Date());
+        jurisTypeCode.setLastUpdatedJurisTypeCode(new Date());
         jurisTypeCodeDao.save(jurisTypeCode);
     }
 

@@ -40,5 +40,5 @@ public class JurisTypeCode implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "LAST_UPDATED", nullable = false)
-    private Date lastUpdated;
+    private Date lastUpdatedJurisTypeCode;
 }

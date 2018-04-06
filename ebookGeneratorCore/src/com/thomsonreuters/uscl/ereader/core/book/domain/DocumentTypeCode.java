@@ -55,7 +55,7 @@ public class DocumentTypeCode implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "LAST_UPDATED", nullable = false)
-    private Date lastUpdated;
+    private Date lastUpdatedDocTypeCode;
 
     public boolean getUsePublishCutoffDateFlag() {
         return "Y".equalsIgnoreCase(usePublishCutoffDateFlag);
