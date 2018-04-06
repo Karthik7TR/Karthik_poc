@@ -65,7 +65,7 @@
     </xsl:template>
 
     <xsl:template match="x:thead">
-        <xsl:variable name="isDuplicated" select=".//x:t[1]/@cgt='true'" />
+        <xsl:variable name="isDuplicated" select=".//x:t[1] and count(.//x:t[not(@cgt)])=0" />
         
         <xsl:element name="thead">
             <xsl:choose>

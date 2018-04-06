@@ -600,6 +600,43 @@
                             </tbody>
                         </tgroup>
                     </table>
+                    <table>
+                        <thead description="original header because of no t tags">
+                            <row>
+                                <group>
+                                    <line>
+                                        <xref id="1" type="footnote" description="keep this"/>
+                                    </line>
+                                </group>
+                            </row>
+                        </thead>
+                    </table>
+                    <table>
+                        <thead description="original header because not all t tags has cgt=true">
+                            <row>
+                                <group>
+                                    <line>
+                                        <t x="0" y="0" style="entry" cgt="true">Date: Beginning </t>
+                                        <t x="0" y="-0.06i" style="entry.1" ul1="0.01i #000000">1</t>
+                                        <xref id="1" type="footnote" description="keep this"/>
+                                    </line>
+                                </group>
+                            </row>
+                        </thead>
+                    </table>
+                    <table>
+                        <thead description="duplicated header because all t tags has cgt=true">
+                            <row>
+                                <group>
+                                    <line>
+                                        <t x="0" y="0" style="entry" cgt="true">Date: Beginning </t>
+                                        <t x="0" y="-0.06i" style="entry.1" cgt="true" ul1="0.01i #000000">1</t>
+                                        <xref id="1" type="footnote" description="remove this and preceding t"/>
+                                    </line>
+                                </group>
+                            </row>
+                        </thead>
+                    </table>
                 </block>
             </stream>
         </page>
