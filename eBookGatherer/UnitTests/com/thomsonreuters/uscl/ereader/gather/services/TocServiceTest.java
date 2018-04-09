@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import com.westgroup.novus.productapi.Novus;
+import com.westgroup.novus.productapi.NovusException;
 import com.westgroup.novus.productapi.TOC;
 import com.westgroup.novus.productapi.TOCNode;
 
@@ -270,16 +271,20 @@ public final class TocServiceTest {
     public void testGetTocDataWithNovusException() throws Exception {
         final File tocFile = new File(tocDir, "FAIL" + COLLECTION_NAME + TOC_GUID + EBConstants.XML_FILE_EXTENSION);
 
+        final NovusException mockNovusException = new MockNovusException();
+
         // Record expected calls
         EasyMock.expect(mockNovusFactory.createNovus(IS_FINAL_STAGE)).andReturn(mockNovus);
         EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
         EasyMock.expect(mockNovusUtility.getNortRetryCount()).andReturn("3").times(2);
         EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").times(2);
+        EasyMock.expect(mockNovusUtility.handleException(mockNovusException, 0, 3)).andReturn(3);
+        EasyMock.expect(mockToc.getCollection()).andReturn("collection");
         EasyMock.expect(mockNovus.getTOC()).andReturn(mockToc);
         mockToc.setCollection(COLLECTION_NAME);
         mockToc.setShowChildrenCount(true);
         mockNovus.shutdownMQ();
-        EasyMock.expect(mockToc.getNode(TOC_GUID)).andThrow(new MockNovusException());
+        EasyMock.expect(mockToc.getNode(TOC_GUID)).andThrow(mockNovusException);
 
         // Replay
         EasyMock.replay(mockNovusFactory);

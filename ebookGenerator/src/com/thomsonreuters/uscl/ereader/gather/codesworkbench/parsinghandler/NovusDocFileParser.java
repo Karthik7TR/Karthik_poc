@@ -1,6 +1,5 @@
 package com.thomsonreuters.uscl.ereader.gather.codesworkbench.parsinghandler;
 
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,7 +10,6 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventFactory;
-import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
@@ -25,6 +23,7 @@ import javax.xml.stream.events.XMLEvent;
 import com.thomsonreuters.uscl.ereader.core.EBConstants;
 import com.thomsonreuters.uscl.ereader.gather.domain.GatherResponse;
 import com.thomsonreuters.uscl.ereader.gather.exception.GatherException;
+import com.thomsonreuters.uscl.ereader.util.XMLEventReaderClosableWrapper;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -243,33 +242,5 @@ public class NovusDocFileParser {
 
     public void setTocSequence(final Integer tocSequence) {
         this.tocSequence = tocSequence;
-    }
-
-    private static class XMLEventReaderClosableWrapper implements Closeable {
-        private XMLEventReader reader;
-
-        XMLEventReaderClosableWrapper(final XMLEventReader reader) {
-            this.reader = reader;
-        }
-
-        boolean hasNext() {
-            return reader.hasNext();
-        }
-
-        XMLEvent next() {
-            return (XMLEvent) reader.next();
-        }
-
-        @Override
-        public void close() throws IOException {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (final XMLStreamException e) {
-                    final String message = "Closing reader doc file error";
-                    throw new RuntimeException(message, new GatherException(message, e, GatherResponse.CODE_FILE_ERROR));
-                }
-            }
-        }
     }
 }

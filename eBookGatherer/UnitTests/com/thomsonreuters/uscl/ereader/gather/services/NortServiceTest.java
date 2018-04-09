@@ -36,6 +36,7 @@ import org.junit.rules.TemporaryFolder;
 import com.westgroup.novus.productapi.NortManager;
 import com.westgroup.novus.productapi.NortNode;
 import com.westgroup.novus.productapi.Novus;
+import com.westgroup.novus.productapi.NovusException;
 
 public final class NortServiceTest {
     private static final String LT_ROOT_AMP_QUOT_NODE_APOS_S_GT =
@@ -1038,12 +1039,14 @@ public final class NortServiceTest {
         final Date date = new Date();
         final SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         final String YYYYMMDDHHmmss = formatter.format(date);
+        final NovusException mockNovusException = new MockNovusException();
 
         // Record expected calls
         EasyMock.expect(mockNovusFactory.createNovus(IS_FINAL_STAGE)).andReturn(mockNovus);
         EasyMock.expect(mockNovusUtility.getDocRetryCount()).andReturn("3").times(2);
         EasyMock.expect(mockNovusUtility.getNortRetryCount()).andReturn("3").times(2);
         EasyMock.expect(mockNovusUtility.getTocRetryCount()).andReturn("3").times(2);
+        EasyMock.expect(mockNovusUtility.handleException(mockNovusException, 0, 3)).andReturn(3);
         EasyMock.expect(mockNovus.getNortManager()).andReturn(mockNortManager);
         mockNortManager.setShowChildrenCount(true);
         mockNortManager.setShowFutureNodes(true);
@@ -1051,8 +1054,11 @@ public final class NortServiceTest {
         mockNortManager.setDomainDescriptor(DOMAIN_NAME);
         mockNortManager.setFilterName(FILTER, 0);
         mockNortManager.setNortVersion(YYYYMMDDHHmmss);
+
         mockNovus.shutdownMQ();
-        EasyMock.expect(mockNortManager.getRootNodes()).andThrow(new MockNovusException());
+        EasyMock.expect(mockNortManager.getRootNodes()).andThrow(mockNovusException);
+        EasyMock.expect(mockNortManager.getDomainDescriptor()).andReturn("");
+        EasyMock.expect(mockNortManager.getFilterName()).andReturn("");
 
         // Replay
         EasyMock.replay(mockNovusFactory);
