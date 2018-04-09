@@ -2,7 +2,7 @@
 <images>
 	<image id="TRGrarr.tif">
 		<classes>
-			<class name="trg-arr" />
+			<class name="trg-arrow" />
 		</classes>
 	</image>
 </images>
