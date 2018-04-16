@@ -176,11 +176,11 @@ function submitForm(cmd)
 						<label class="labelCol">KeyCite Topline Flag</label>
 						<span class="field">${ book.keyciteToplineFlag }</span>
 					</div>
-					<div class="row">
+					<div class="row" ${xppHide}>
 						<label class="labelCol">Publication Cut-off Date</label>
 						<span class="field"><fmt:formatDate value="${book.publishCutoffDate}" pattern="<%= CoreConstants.DATE_FORMAT_PATTERN %>" /></span>
 					</div>
-					<div class="row">
+					<div class="row" ${xppHide}>
 						<label class="labelCol">Novus Stage</label>
 						<span class="field">
 							<c:choose>
@@ -205,13 +205,13 @@ function submitForm(cmd)
 						<label class="labelCol">Remove Editors' Notes Heading</label>
 						<span class="field">${ book.removeEditorNoteHeadFlag }</span>
 					</div>
-					<div class="row">
+					<div class="row" ${xppHide}>
 						<label class="labelCol">Split book</label>
 						<span class="field">${ book.splitBook }</span>
 					</div>
 					<c:choose>
 						<c:when test="${ book.splitBook == true }">						
-							<div class="row">
+							<div class="row" ${xppHide}>
 								<label class="labelCol">Split Type</label>
 								<span class="field">
 									<c:choose>

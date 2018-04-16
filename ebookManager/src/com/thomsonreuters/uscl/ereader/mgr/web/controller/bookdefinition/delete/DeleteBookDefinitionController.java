@@ -167,7 +167,7 @@ public class DeleteBookDefinitionController {
                 jobRequestService.isBookInJobRequest(bookDef.getEbookDefinitionId()));
             model.addAttribute(
                 WebConstants.KEY_BOOK_DEFINITION_LOCK,
-                bookLockService.findBookLockByBookDefinition(bookDef));
+                bookLockService.findActiveBookLock(bookDef));
         }
         model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
     }

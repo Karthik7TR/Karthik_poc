@@ -36,7 +36,7 @@ public final class BookDefinitionLockServiceTest {
         EasyMock.expect(mockDao.findLocksByBookDefinition(book)).andReturn(BOOK_LOCK_LIST);
         EasyMock.replay(mockDao);
 
-        final BookDefinitionLock lock = service.findBookLockByBookDefinition(book);
+        final BookDefinitionLock lock = service.findActiveBookLock(book);
         Assert.assertEquals(null, lock);
 
         EasyMock.verify(mockDao);
@@ -49,7 +49,7 @@ public final class BookDefinitionLockServiceTest {
         prepareLock(book, expectedLock);
         EasyMock.replay(mockDao);
 
-        final BookDefinitionLock actualLock = service.findBookLockByBookDefinition(book);
+        final BookDefinitionLock actualLock = service.findActiveBookLock(book);
         Assert.assertEquals(expectedLock, actualLock);
 
         EasyMock.verify(mockDao);

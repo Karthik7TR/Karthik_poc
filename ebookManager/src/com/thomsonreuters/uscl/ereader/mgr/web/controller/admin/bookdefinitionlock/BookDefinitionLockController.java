@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,9 +38,8 @@ public class BookDefinitionLockController {
      * @throws Exception
      */
     @RequestMapping(value = WebConstants.MVC_ADMIN_BOOK_LOCK_LIST, method = RequestMethod.GET)
-    public ModelAndView viewLockList(final Model model) throws Exception {
+    public ModelAndView viewLockList(final Model model) {
         model.addAttribute(WebConstants.KEY_BOOK_DEFINITION_LOCK, bookLockService.findAllActiveLocks());
-
         return new ModelAndView(WebConstants.VIEW_ADMIN_BOOK_LOCK_LIST);
     }
 
@@ -49,7 +47,6 @@ public class BookDefinitionLockController {
     public ModelAndView deleteBookLock(
         @RequestParam("id") final Long id,
         @ModelAttribute(BookDefinitionLockForm.FORM_NAME) final BookDefinitionLockForm form,
-        final BindingResult bindingResult,
         final Model model) {
         final BookDefinitionLock lock = bookLockService.findBookDefinitionLockByPrimaryKey(id);
 
@@ -57,21 +54,16 @@ public class BookDefinitionLockController {
             model.addAttribute(WebConstants.KEY_BOOK_DEFINITION_LOCK, lock);
             form.initialize(lock);
         }
-
         return new ModelAndView(WebConstants.VIEW_ADMIN_BOOK_LOCK_DELETE);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_BOOK_LOCK_DELETE, method = RequestMethod.POST)
     public ModelAndView deleteJurisCodePost(
-        @ModelAttribute(BookDefinitionLockForm.FORM_NAME) final BookDefinitionLockForm form,
-        final BindingResult bindingResult,
-        final Model model) throws Exception {
+        @ModelAttribute(BookDefinitionLockForm.FORM_NAME) final BookDefinitionLockForm form) {
         final BookDefinition book = new BookDefinition();
         book.setEbookDefinitionId(form.getBookDefinitionId());
-
         // Remove all locks for the book definition id
         bookLockService.removeLock(book);
-
         // Redirect user
         return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_BOOK_LOCK_LIST));
     }

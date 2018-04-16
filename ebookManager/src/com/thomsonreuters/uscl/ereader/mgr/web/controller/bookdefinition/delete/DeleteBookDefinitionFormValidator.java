@@ -48,7 +48,7 @@ public class DeleteBookDefinitionFormValidator implements Validator {
                 // Check book is not being edited
                 final BookDefinition book = new BookDefinition();
                 book.setEbookDefinitionId(bookDefinitionId);
-                final BookDefinitionLock lock = bookLockService.findBookLockByBookDefinition(book);
+                final BookDefinitionLock lock = bookLockService.findActiveBookLock(book);
 
                 if (lock != null) {
                     errors.rejectValue(

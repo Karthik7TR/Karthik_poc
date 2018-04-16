@@ -411,7 +411,7 @@
 					<form:errors path="keyCiteToplineFlag" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div id="displayPubCutoffDateOptions">
+			<div id="displayPubCutoffDateOptions" class="xppHideClass">
 				<div class="row">
 					<form:label path="publicationCutoffDateUsed" class="labelCol">Enable Publication Cut-off Date</form:label>
 					<form:radiobutton path="publicationCutoffDateUsed" value="true" />Yes
@@ -428,7 +428,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="displayFinalStage" class="row">
+			<div id="displayFinalStage" class="row xppHideClass">
 				<form:label path="finalStage" class="labelCol">Novus Stage</form:label>
 				<form:radiobutton path="finalStage" value="true" />Final
 				<form:radiobutton path="finalStage" value="false" />Review
@@ -460,7 +460,7 @@
 					<form:errors path="removeEditorNoteHeading" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row">
+			<div class="row xppHideClass">
 				<form:label path="splitBook" class="labelCol">Split book</form:label>
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitBook" value="true" />True
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="splitBook" value="false" />False
@@ -516,8 +516,6 @@
 				</c:forEach>
 				<div id="addSplitDocumentsHere"></div>
 			</div>
-
-
 		</div>
 	</div>
 </div>

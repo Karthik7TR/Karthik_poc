@@ -393,7 +393,7 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.replay(mockMiscConfigService);
 
         bookDefinitionLock.setEbookDefinition(book);
-        EasyMock.expect(mockLockService.findBookLockByBookDefinition(book)).andReturn(null);
+        EasyMock.expect(mockLockService.findActiveBookLock(book)).andReturn(null);
         mockLockService.lockBookDefinition(book, null, null);
         EasyMock.replay(mockLockService);
 
@@ -507,7 +507,7 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).andReturn(book);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockLockService.findBookLockByBookDefinition(book)).andReturn(bookDefinitionLock);
+        EasyMock.expect(mockLockService.findActiveBookLock(book)).andReturn(bookDefinitionLock);
         EasyMock.replay(mockLockService);
 
         final ModelAndView mav;
@@ -569,7 +569,7 @@ public final class EditBookDefinitionControllerTest {
             .times(2);
         EasyMock.replay(mockBookDefinitionService);
 
-        EasyMock.expect(mockLockService.findBookLockByBookDefinition(book)).andReturn(null);
+        EasyMock.expect(mockLockService.findActiveBookLock(book)).andReturn(null);
         mockLockService.removeLock(book);
         EasyMock.replay(mockLockService);
 
@@ -661,7 +661,7 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.expect(mockJobRequestService.isBookInJobRequest(BOOK_DEFINITION_ID)).andReturn(false);
         EasyMock.replay(mockJobRequestService);
 
-        EasyMock.expect(mockLockService.findBookLockByBookDefinition(book)).andReturn(null);
+        EasyMock.expect(mockLockService.findActiveBookLock(book)).andReturn(null);
         EasyMock.replay(mockLockService);
 
         final MiscConfig miscConfig = new MiscConfig();
@@ -742,7 +742,7 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.replay(mockCodeService);
         EasyMock.replay(mockDocumentTypeCodeService);
 
-        EasyMock.expect(mockLockService.findBookLockByBookDefinition(book)).andReturn(bookDefinitionLock);
+        EasyMock.expect(mockLockService.findActiveBookLock(book)).andReturn(bookDefinitionLock);
         EasyMock.replay(mockLockService);
 
         setupDropdownMenuAndKeywords(2);

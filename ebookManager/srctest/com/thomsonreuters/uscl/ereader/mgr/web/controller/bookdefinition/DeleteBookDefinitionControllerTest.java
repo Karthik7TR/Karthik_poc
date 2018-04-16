@@ -111,7 +111,7 @@ public final class DeleteBookDefinitionControllerTest {
         EasyMock.expect(mockBookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID))
             .andReturn(bookDefinition);
         EasyMock.expect(mockJobRequestService.isBookInJobRequest(BOOK_DEFINITION_ID)).andReturn(false);
-        EasyMock.expect(mockLockService.findBookLockByBookDefinition(bookDefinition)).andReturn(null);
+        EasyMock.expect(mockLockService.findActiveBookLock(bookDefinition)).andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
         EasyMock.replay(mockJobRequestService);
         EasyMock.replay(mockLockService);
@@ -153,7 +153,7 @@ public final class DeleteBookDefinitionControllerTest {
         request.setMethod(HttpMethod.POST.name());
 
         EasyMock.expect(mockJobRequestService.findJobRequestByBookDefinitionId(BOOK_DEFINITION_ID)).andReturn(null);
-        EasyMock.expect(mockLockService.findBookLockByBookDefinition(bookDefinition)).andReturn(null);
+        EasyMock.expect(mockLockService.findActiveBookLock(bookDefinition)).andReturn(null);
         EasyMock.replay(mockJobRequestService);
         EasyMock.replay(mockLockService);
 
@@ -200,7 +200,7 @@ public final class DeleteBookDefinitionControllerTest {
             .andReturn(bookDefinition);
         mockBookDefinitionService.removeBookDefinition(BOOK_DEFINITION_ID);
         EasyMock.expect(mockJobRequestService.findJobRequestByBookDefinitionId(BOOK_DEFINITION_ID)).andReturn(null);
-        EasyMock.expect(mockLockService.findBookLockByBookDefinition(bookDefinition)).andReturn(null);
+        EasyMock.expect(mockLockService.findActiveBookLock(bookDefinition)).andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
         EasyMock.replay(mockJobRequestService);
         EasyMock.replay(mockLockService);
@@ -250,7 +250,7 @@ public final class DeleteBookDefinitionControllerTest {
             .andReturn(bookDefinition);
         mockBookDefinitionService.updateDeletedStatus(BOOK_DEFINITION_ID, true);
         EasyMock.expect(mockJobRequestService.findJobRequestByBookDefinitionId(BOOK_DEFINITION_ID)).andReturn(null);
-        EasyMock.expect(mockLockService.findBookLockByBookDefinition(bookDefinition)).andReturn(null);
+        EasyMock.expect(mockLockService.findActiveBookLock(bookDefinition)).andReturn(null);
         EasyMock.replay(mockBookDefinitionService);
         EasyMock.replay(mockJobRequestService);
         EasyMock.replay(mockLockService);

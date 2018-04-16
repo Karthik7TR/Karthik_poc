@@ -1,3 +1,106 @@
+var isSplitTypeAuto = true;
+var splitSize ="";
+var splitDocumentIndex =  parseInt($("#numberOfSplitDocuments").val());	
+
+function splitChanged() {
+	var isSplitBook = $('input:radio[name=splitBook][value=true]:checked').val();
+	$("#splitTypeDiv").hide();			
+	if(isSplitBook == "true" || isSplitBook == true) {	
+		$("#splitTypeDiv").show();	
+		$("input:radio[name=splitTypeAuto][value=true]").attr('checked', true);	
+	} else {
+		$("#splitTypeAuto").remove();
+		$("input:radio[name=splitTypeAuto][value=false]").attr('checked', false);
+		$("#ebookSizeDiv").hide();
+		$("#splitTypeDiv").hide();
+		$("#displaySplitDocument").hide();	
+		$("#displaySplitDocument .expandingBox").remove();
+		splitDocumentIndex = 0;
+		$("#splitEBookParts").find('option').removeAttr('selected');
+	}
+}
+
+function splitAutoChanged() {
+	$("#ebookSizeDiv").hide();		
+	isSplitTypeAuto = $('input:radio[name=splitTypeAuto]:checked').val();
+	if(isSplitTypeAuto == "false" || isSplitTypeAuto == false) {
+		$('#splitEBookParts option:first-child').attr("selected", true);
+		$("#ebookSizeDiv").show();	
+	} else {
+		$("#displaySplitDocument").hide();
+		$("#displaySplitDocument .expandingBox").remove();
+		splitDocumentIndex = 0;
+		$("#splitEBookParts").find('option').removeAttr('selected');
+	}
+}
+
+function splitSizeChanged() {
+	splitSize = parseInt($('#splitEBookParts').val());	
+	var size = 1;
+	if (isNaN(splitSize)){
+		splitSize = 0;
+		splitDocumentIndex = 0;
+	}
+	
+	$('#displaySplitDocument').children('.expandingBox').each(function() {
+		size = size + 1;
+		if (size > splitSize)
+		{
+			if (splitDocumentIndex > 0){
+				splitDocumentIndex = splitDocumentIndex - 1;
+			}
+			$(this).remove();
+		}
+	});
+	
+	$("#displaySplitDocument").show();
+	if (splitSize > size){			
+		for(var i = size; i < splitSize; i++) {
+			addSplitGuidRow("splitDocuments", splitDocumentIndex, "tocGuid", "TOC/NORT GUID", $("#addSplitDocumentsHere"));
+			splitDocumentIndex = splitDocumentIndex + 1;
+		}
+	}
+}
+
+function addSplitGuidRow(elementName, index, guidAttrName, guidLabelName, addHere) {
+	var expandingBox = $("<div>").addClass("expandingBox");
+	var id = elementName + index;
+	var name = elementName + "[" + index + "]";	
+	
+	// Add Document Guid input boxes
+	expandingBox.append(addDynamicRow("input", id, name, guidAttrName, guidLabelName, 33, "guid"));
+	// Add Note text box
+	expandingBox.append(addDynamicRow("textarea", id, name, "note", "Note"));
+	addHere.before(expandingBox);
+}
+
+function addDynamicRow(elementName, id, name, fieldName, label, maxLength, cssClass, type, value) {
+	var dynamicRow = $("<div>").addClass("dynamicRow");
+	
+	if(label != null) {
+		dynamicRow.append($("<label>").html(label));
+	}
+	
+	var input = $("<"+ elementName +">").attr("id",id +"." + fieldName).attr("name", name + "." + fieldName);
+	if(maxLength != null) {
+		input.attr("maxlength", maxLength);
+	}
+	if(cssClass != null) {
+		input.attr("class", cssClass);
+	}
+	if(elementName == "input") {
+		input.attr("type", "text");
+	}
+	if(value != null) {
+		input.attr("value", value);
+	}
+	if(type != null) {
+		input.attr("type", type);
+	}
+	dynamicRow.append(input);
+	return dynamicRow;
+}
+
 $(function() {
 	$(document).ready(function() {
 		// Declare Global Variables
@@ -17,9 +120,6 @@ $(function() {
 		var pubInfo = "";
 		var jurisdiction = "";
 		var productCode = "";	
-		var splitDocumentIndex =  parseInt($("#numberOfSplitDocuments").val());	
-		var isSplitTypeAuto = true;
-		var splitSize ="";
 		
 		// Function to create Fully Qualifed Title ID from the publisher options
 		var updateTitleId = function() {
@@ -227,35 +327,6 @@ $(function() {
 			authorIndex = authorIndex + 1;
 		};
 		
-		var addDynamicRow = function(elementName, id, name, fieldName, label, maxLength, cssClass, type, value) {
-			var dynamicRow = $("<div>").addClass("dynamicRow");
-			
-			if(label != null) {
-				dynamicRow.append($("<label>").html(label));
-			}
-			
-			var input = $("<"+ elementName +">").attr("id",id +"." + fieldName).attr("name", name + "." + fieldName);
-			if(maxLength != null) {
-				input.attr("maxlength", maxLength);
-			}
-			if(cssClass != null) {
-				input.attr("class", cssClass);
-			}
-			if(elementName == "input") {
-				input.attr("type", "text");
-			}
-			if(value != null) {
-				input.attr("value", value);
-			}
-			if(type != null) {
-				input.attr("type", type);
-			}
-			
-			dynamicRow.append(input);
-			
-			return dynamicRow;
-		};
-		
 		var getDateTimeString = function(date) {
 			var month = date.getMonth() + 1;
 			var day = date.getDate();
@@ -273,22 +344,6 @@ $(function() {
 				str = '0' + str;
 			}
 			return str;
-		};
-		
-		var addSplitGuidRow = function(elementName, index, guidAttrName, guidLabelName, addHere) {
-			var expandingBox = $("<div>").addClass("expandingBox");
-			
-			var id = elementName + index;
-			var name = elementName + "[" + index + "]";	
-			
-			// Add Document Guid input boxes
-			expandingBox.append(addDynamicRow("input", id, name, guidAttrName, guidLabelName, 33, "guid"));
-		
-			// Add Note text box
-			expandingBox.append(addDynamicRow("textarea", id, name, "note", "Note"));
-				
-
-			addHere.before(expandingBox);
 		};
 		
 		// Add rows for Table Viewer, exclude document, rename toc entry, document copyright, and document currency
@@ -541,72 +596,9 @@ $(function() {
 			updateTitleId();
 		});
 		
-		$('input:radio[name=splitBook]').change(function () {
-			var isSplitBook = $.trim($(this).val());
-			$("#splitTypeDiv").hide();			
-			if(isSplitBook == "true" || isSplitBook == true) {	
-				$("#splitTypeDiv").show();	
-				$("input:radio[name=splitTypeAuto][value=true]").attr('checked', true);	
-			} 
-			else{
-				$("#splitTypeAuto").remove();
-				$("input:radio[name=splitTypeAuto][value=false]").attr('checked', false);
-				$("#ebookSizeDiv").hide();
-				$("#splitTypeDiv").hide();
-				$("#displaySplitDocument").hide();	
-				$("#displaySplitDocument .expandingBox").remove();
-				splitDocumentIndex = 0;
-				$("#splitEBookParts").find('option').removeAttr('selected');
-			}
-			
-		});
-		
-		$('input:radio[name=splitTypeAuto]').change(function () {
-			$("#ebookSizeDiv").hide();		
-			isSplitTypeAuto = $.trim($(this).val());
-			if(isSplitTypeAuto == "false" || isSplitTypeAuto == false) {
-				$('#splitEBookParts option:first-child').attr("selected", true);
-				$("#ebookSizeDiv").show();	
-			} 
-			else{
-				$("#displaySplitDocument").hide();
-				$("#displaySplitDocument .expandingBox").remove();
-				splitDocumentIndex = 0;
-				$("#splitEBookParts").find('option').removeAttr('selected');
-			}
-		});		
-		
-		
-		$('#splitEBookParts').change(function () {
-			splitSize = parseInt($(this).val());	
-			var size = 1;
-			if (isNaN(splitSize)){
-				splitSize = 0;
-				splitDocumentIndex = 0;
-			}
-			
-			$('#displaySplitDocument').children('.expandingBox').each(function() {
-				size = size + 1;
-				if (size > splitSize)
-				{
-					if (splitDocumentIndex > 0){
-						splitDocumentIndex = splitDocumentIndex - 1;
-					}
-					$(this).remove();
-				}
-			});		
-			
-			$("#displaySplitDocument").show();
-			
-			if (splitSize > size){			
-				for(var i = size; i < splitSize; i++) {
-					addSplitGuidRow("splitDocuments", splitDocumentIndex, "tocGuid", "TOC/NORT GUID", $("#addSplitDocumentsHere"));
-					splitDocumentIndex = splitDocumentIndex + 1;
-				}
-			}
-		});
-		
-		
+		$('input:radio[name=splitBook]').change(function () {splitChanged()});
+		$('input:radio[name=splitTypeAuto]').change(function() {splitAutoChanged()});		
+		$('#splitEBookParts').change(function() {splitSizeChanged()});
 		
 		$('#state').change(function () {
 			state = $(this).val();

@@ -137,6 +137,9 @@ $(function() {
 		$("#displayXPP").hide();
 		$("#displayFinalStage").hide();
 		$(".xppHideClass").css("display","block");
+		splitChanged();
+		splitAutoChanged();
+		splitSizeChanged();
 		if(sourceType == "TOC") {
 			$("#displayTOC").show();
 			$("#displayFinalStage").show();
@@ -159,6 +162,9 @@ $(function() {
 			$("#nortFilterView").val("");
 			$("#nortDomain").val("");
 			$(".xppHideClass").css("display","none");
+			$("#splitTypeDiv").hide();
+			$("#ebookSizeDiv").hide();
+			$("#displaySplitDocument").hide();
 		} else {
 			$("#displayFILE").show();
 			$("#rootTocGuid").val("");

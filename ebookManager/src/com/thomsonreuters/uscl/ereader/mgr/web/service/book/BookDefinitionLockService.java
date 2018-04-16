@@ -15,7 +15,7 @@ public interface BookDefinitionLockService {
      * Checks if book definition is locked.  If the book definition is locked, returns
      * BookDefinitionLock entity. Otherwise, null is returned.
      */
-    BookDefinitionLock findBookLockByBookDefinition(BookDefinition book) throws DataAccessException;
+    BookDefinitionLock findActiveBookLock(BookDefinition book);
 
     List<BookDefinitionLock> findAllActiveLocks();
 
@@ -33,7 +33,7 @@ public interface BookDefinitionLockService {
      * @param book
      * @throws DataAccessException
      */
-    void removeLock(BookDefinition book) throws DataAccessException;
+    void removeLock(BookDefinition book);
 
     void lockBookDefinition(BookDefinition bookDefinition, String username, String fullName);
 }

@@ -156,7 +156,7 @@ public class EditBookDefinitionController {
             }
 
             // Check if book is being edited by another user
-            final BookDefinitionLock lock = bookLockService.findBookLockByBookDefinition(bookDef);
+            final BookDefinitionLock lock = bookLockService.findActiveBookLock(bookDef);
             if (lock != null && !lock.getUsername().equalsIgnoreCase(username)) {
                 model.addAttribute(WebConstants.KEY_BOOK_DEFINITION_LOCK, lock);
                 return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_ERROR_LOCKED);
@@ -238,7 +238,7 @@ public class EditBookDefinitionController {
             }
 
             // Check if book is being edited by another user
-            final BookDefinitionLock lock = bookLockService.findBookLockByBookDefinition(bookDef);
+            final BookDefinitionLock lock = bookLockService.findActiveBookLock(bookDef);
             if (lock != null && !lock.getUsername().equalsIgnoreCase(username)) {
                 model.addAttribute(WebConstants.KEY_BOOK_DEFINITION_LOCK, lock);
                 return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_ERROR_LOCKED);
@@ -295,7 +295,7 @@ public class EditBookDefinitionController {
 
         if (book != null) {
             // Check if current user is the one with the lock
-            final BookDefinitionLock lock = bookLockService.findBookLockByBookDefinition(book);
+            final BookDefinitionLock lock = bookLockService.findActiveBookLock(book);
             if (lock != null && lock.getUsername().equalsIgnoreCase(username)) {
                 bookLockService.removeLock(book);
             }

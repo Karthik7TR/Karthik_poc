@@ -1,14 +1,17 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.service.book;
 
-import java.util.Calendar;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.BookDefinitionLockDao;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinitionLock;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,37 +32,27 @@ public class BookDefinitionLockServiceImpl implements BookDefinitionLockService 
      * Checks if book definition is locked.  If the book definition is locked, returns
      * BookDefinitionLock entity. Otherwise, null is returned
      */
+    @Nullable
     @Override
-    @Transactional(readOnly = true)
-    public BookDefinitionLock findBookLockByBookDefinition(final BookDefinition book) throws DataAccessException {
+    @Transactional
+    public BookDefinitionLock findActiveBookLock(final BookDefinition book) {
         // DAO returns BookDefinitionLocks in checkout_timestamp sorted by descending order
         final List<BookDefinitionLock> locks = dao.findLocksByBookDefinition(book);
-        if (locks.size() > 0) {
-            final BookDefinitionLock newestLock = locks.get(0);
-            if (islockTimeoutSurpassed(newestLock.getCheckoutTimestamp())) {
-                // Delete all locks for current Book Definition
-                for (final BookDefinitionLock lock : locks) {
-                    dao.removeLock(lock);
-                }
-            } else {
-                // Book Definition is locked
-                return newestLock;
-            }
-        }
+        if (locks.isEmpty())
+            return null;
 
-        return null;
+        final BookDefinitionLock newestLock = locks.get(0);
+        if (islockTimeoutSurpassed(newestLock.getCheckoutTimestamp())) {
+            locks.forEach(dao::removeLock);
+            return null;
+        } else {
+            return newestLock;
+        }
     }
 
     private boolean islockTimeoutSurpassed(final Date lockDate) {
-        final long currentTime = Calendar.getInstance().getTimeInMillis();
-        final Calendar lockCal = Calendar.getInstance();
-        lockCal.setTime(lockDate);
-        final long lockTime = lockCal.getTimeInMillis();
-
-        final long difference = currentTime - lockTime;
-        final int seconds = (int) (difference / (1000));
-
-        return seconds >= BookDefinitionLock.LOCK_TIMEOUT_SEC;
+        final LocalDateTime lockDateTime = lockDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        return Duration.between(lockDateTime, LocalDateTime.now()).getSeconds() >= BookDefinitionLock.LOCK_TIMEOUT_SEC;
     }
 
     @Override
@@ -85,19 +78,14 @@ public class BookDefinitionLockServiceImpl implements BookDefinitionLockService 
 
     @Override
     @Transactional
-    public void extendLock(final BookDefinition book) throws DataAccessException {
-        final BookDefinitionLock lock = findBookLockByBookDefinition(book);
-        dao.extendLock(lock);
+    public void extendLock(final BookDefinition book) {
+        Optional.ofNullable(findActiveBookLock(book)).ifPresent(dao::extendLock);
     }
 
     @Override
     @Transactional
-    public void removeLock(final BookDefinition book) throws DataAccessException {
-        final List<BookDefinitionLock> locks = dao.findLocksByBookDefinition(book);
-
-        for (final BookDefinitionLock lock : locks) {
-            dao.removeLock(lock);
-        }
+    public void removeLock(final BookDefinition book) {
+        dao.findLocksByBookDefinition(book).forEach(dao::removeLock);
     }
 
     @Override
@@ -108,7 +96,6 @@ public class BookDefinitionLockServiceImpl implements BookDefinitionLockService 
         lock.setUsername(username);
         lock.setFullName(fullName);
         lock.setCheckoutTimestamp(new Date());
-
         dao.saveLock(lock);
     }
 }
