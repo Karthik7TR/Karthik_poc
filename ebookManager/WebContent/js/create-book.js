@@ -800,54 +800,6 @@ $(function() {
 			return result;
 		};
 		
-		$('#performSapRequest').click(function() {
-			var subNumber = $('#printSubNumber').val();
-			let button = $('#performSapRequest');
-			if(subNumber == "") {
-				alert("Please fill \"Print Sub Number\" field");
-				return;
-			}
-			button.attr('disabled','disabled');
-			
-			if(confirm("All data in print components table will be overwritten, continue?")) {
-				$.ajax({
-					url: "/ebookManager/getDataFromSap.mvc",
-					type: "Post",
-					data: {"subNumber":subNumber, "setNumber":$('#printSetNumber').val(), "titleId":$('#titleIdBox').val()},
-					dataType: "json",
-					success: function(response) {
-						var data = response.materialComponents;
-						var grid = $('#jsGrid');
-						button.removeAttr('disabled');
-						
-						if(data.length == 0) {
-							alert(response.message);
-							return;
-						}
-						
-						if(isSameData(grid, data)) {
-							alert('There is no changes in Print components table');
-							return;
-						}
-						
-						clearGrid(grid);
-						for(let index = 0; index < data.length;) {
-							let currentData = data[index];
-							grid.jsGrid("insertItem", {
-								componentOrder: ++index,
-								materialNumber: currentData.bom_component,
-								componentName: currentData.material_desc
-							});
-						}
-					},
-					error: function(jqXHR, textStatus, errorThrown) {
-						button.removeAttr('disabled');
-						alert("Unknown error");
-					}
-				});
-			}		
-		});
-		
 		// Initialize Global variables
 		publisher = $('#publisher').val();
 		state = $('#state').val();

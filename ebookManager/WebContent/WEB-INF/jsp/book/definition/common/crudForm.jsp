@@ -34,7 +34,8 @@
 <script type="text/javascript" src="js/sourceType.js"></script>
 <script type="text/javascript" src="js/jquery.validate.js"></script>
 <script type="text/javascript" src="js/additional-methods.min.js"></script>
-
+<script type="text/javascript" src="js/sap/spinner.js"></script>
+<script type="text/javascript" src="js/sap/sap-request.js"></script>
 <form:hidden path="validateForm" />
 <form:hidden path="selectedFrontMatterPreviewPage" />
 <div class="validateFormDiv">
@@ -400,7 +401,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<input type="button" id="performSapRequest" value="Request data from SAP" />
+					<input type="button" id="performSapRequest" value="Request data from SAP" onclick="requestDataFromSap();"/>
 				</div>
 			</div>
 			<div class="row">

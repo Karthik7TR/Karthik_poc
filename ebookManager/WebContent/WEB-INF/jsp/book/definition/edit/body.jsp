@@ -21,7 +21,7 @@
 			});
 	};
 
-	$(window).on('beforeunload', e => {
+	$(window).on('beforeunload', function (e) {
 		if (warning) {
 			let message = 'Are you sure you want to leave the page? Changes will not be saved.'
 			e.returnValue = message;
@@ -29,9 +29,9 @@
 		}
 	})
 	
-	$(window).on('unload', () => unlockBook(false));
+	$(window).on('unload', function () { unlockBook(false); });
 	
-	setInterval(() => {
+	setInterval(function () { 
 		let bookDefinitionId = ${editBookDefinitionForm.bookdefinitionId};
 		$.post({
 			url: "<%=WebConstants.MVC_BOOK_DEFINITION_LOCK_EXTEND%>",
@@ -43,9 +43,13 @@
 	$(document).ready(function() {
 		$('#cancel').click(function () {
 			warning = false;
+			if(window.activeSapRequest) {
+				window.activeSapRequest.abort();
+				delete window.activeSapRequest;
+			}
 			unlockBook(true, function(response) {
 				  window.location = "<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${book.ebookDefinitionId}";
-			  });
+			});
 	    });    
 	});
 </script>
