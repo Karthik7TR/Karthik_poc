@@ -3,20 +3,23 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.InternetAddress;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpSession;
 
+import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
-import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
+import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.SubgroupInfo;
@@ -28,16 +31,12 @@ import com.thomsonreuters.uscl.ereader.mgr.security.CobaltUser;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupListFilterForm.GroupCmd;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewTitleForm;
-import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
-import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerServiceImpl;
 import com.thomsonreuters.uscl.ereader.proviewaudit.service.ProviewAuditService;
-import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -55,11 +54,9 @@ public final class ProviewGroupListControllerTest {
     private AnnotationMethodHandlerAdapter handlerAdapter;
     private ProviewHandler mockProviewHandler;
     private BookDefinitionService mockBookDefinitionService;
-    private ManagerService mockManagerService;
     private ProviewAuditService mockProviewAuditService;
-    private MessageSourceAccessor mockMessageSourceAccessor;
-    private JobRequestService mockJobRequestService;
-    private PublishingStatsService mockPublishingStatsService;
+    private EmailUtil emailUtil;
+    private EmailService mockEmailService;
 
     @Before
     public void setUp() {
@@ -69,25 +66,18 @@ public final class ProviewGroupListControllerTest {
         handlerAdapter = new AnnotationMethodHandlerAdapter();
         mockProviewHandler = EasyMock.createMock(ProviewHandler.class);
         mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
-        mockManagerService = EasyMock.createMock(ManagerServiceImpl.class);
         mockProviewAuditService = EasyMock.createMock(ProviewAuditService.class);
-        mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
-        mockJobRequestService = EasyMock.createMock(JobRequestService.class);
-        mockPublishingStatsService = EasyMock.createMock(PublishingStatsService.class);
+        emailUtil = EasyMock.createMock(EmailUtil.class);
+        mockEmailService = EasyMock.createMock(EmailService.class);
 
         controller = new ProviewGroupListController();
         org.springframework.test.util.ReflectionTestUtils
-            .setField(controller, "jobRequestService", mockJobRequestService);
-        org.springframework.test.util.ReflectionTestUtils
             .setField(controller, "bookDefinitionService", mockBookDefinitionService);
-        org.springframework.test.util.ReflectionTestUtils.setField(controller, "managerService", mockManagerService);
-        org.springframework.test.util.ReflectionTestUtils
-            .setField(controller, "messageSourceAccessor", mockMessageSourceAccessor);
         org.springframework.test.util.ReflectionTestUtils
             .setField(controller, "proviewAuditService", mockProviewAuditService);
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "proviewHandler", mockProviewHandler);
-        org.springframework.test.util.ReflectionTestUtils
-            .setField(controller, "publishingStatsService", mockPublishingStatsService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "emailUtil", emailUtil);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "emailService", mockEmailService);
     }
 
     @After
@@ -318,6 +308,7 @@ public final class ProviewGroupListControllerTest {
 
     @Test
     public void testPerformGroupOperations() throws Exception {
+        setUser();
         request.setRequestURI("/" + WebConstants.MVC_PROVIEW_GROUP_OPERATION);
         request.setMethod(HttpMethod.POST.name());
         request.setParameter("formName", ProviewGroupListFilterForm.FORM_NAME.toString());
@@ -337,6 +328,10 @@ public final class ProviewGroupListControllerTest {
         session.setAttribute(WebConstants.KEY_PAGINATED_LIST, subgroup);
         request.setSession(session);
 
+        EasyMock.expect(emailUtil.getEmailRecipientsByUsername("tester")).andReturn(Arrays.asList(new InternetAddress("a@mail.com")));
+        mockEmailService.send(EasyMock.anyObject());
+        EasyMock.replay(mockEmailService);
+
         ModelAndView mav = handlerAdapter.handle(request, response, controller);
         Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_BOOK_PROMOTE);
 
@@ -347,6 +342,12 @@ public final class ProviewGroupListControllerTest {
         request.setParameter("groupCmd", GroupCmd.DELETE.toString());
         mav = handlerAdapter.handle(request, response, controller);
         Assert.assertEquals(mav.getViewName(), WebConstants.VIEW_PROVIEW_GROUP_BOOK_DELETE);
+    }
+
+    private void setUser() {
+        final CobaltUser user = new CobaltUser("tester", "first", "last", "testing", new HashSet<>());
+        final Authentication auth = new UsernamePasswordAuthenticationToken(user, null);
+        SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
     @Test

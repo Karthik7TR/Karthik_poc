@@ -13,13 +13,14 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificat
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
-import com.thomsonreuters.uscl.ereader.core.service.CoreService;
+import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.batch.core.ExitStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
 @SendFailureNotificationPolicy(FailureNotificationType.GENERATOR)
@@ -29,8 +30,8 @@ public class SendEmailNotificationStepImpl extends BookStepImpl implements SendE
 
     @Resource(name = "emailService")
     private EmailService emailService;
-    @Resource(name = "coreService")
-    private CoreService coreService;
+    @Autowired
+    private EmailUtil emailUtil;
     @Resource(name = "publishingStatsService")
     private PublishingStatsService publishingStatsService;
     @Resource(name = "sendNotificationEmailBuilderFactory")
@@ -41,7 +42,7 @@ public class SendEmailNotificationStepImpl extends BookStepImpl implements SendE
 
     @Override
     public ExitStatus executeStep() throws Exception {
-        final Collection<InternetAddress> recipients = coreService.getEmailRecipientsByUsername(getUserName());
+        final Collection<InternetAddress> recipients = emailUtil.getEmailRecipientsByUsername(getUserName());
         LOG.debug("Sending job completion notification to: " + recipients);
 
         initializePublishingStats();

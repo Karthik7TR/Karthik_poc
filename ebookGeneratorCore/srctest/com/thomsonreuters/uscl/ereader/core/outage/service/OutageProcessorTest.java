@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
-import com.thomsonreuters.uscl.ereader.core.service.CoreService;
+import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceService;
 import org.easymock.EasyMock;
 import org.junit.Assert;
@@ -15,7 +15,7 @@ import org.junit.Test;
 public final class OutageProcessorTest {
     private List<PlannedOutage> PLANNED_OUTAGE_LIST;
     private UserPreferenceService mockUserPreferenceService;
-    private CoreService mockCoreService;
+    private EmailUtil emailUtil;
     private OutageProcessorImpl service;
     private static PlannedOutage OUTAGE_1;
     private static PlannedOutage OUTAGE_2;
@@ -23,11 +23,11 @@ public final class OutageProcessorTest {
     @Before
     public void setUp() {
         mockUserPreferenceService = EasyMock.createMock(UserPreferenceService.class);
-        mockCoreService = EasyMock.createMock(CoreService.class);
+        emailUtil = EasyMock.createMock(EmailUtil.class);
 
         service = new OutageProcessorImpl();
         service.setUserPreferenceService(mockUserPreferenceService);
-        service.setCoreService(mockCoreService);
+        service.setEmailUtil(emailUtil);
 
         OUTAGE_1 = new PlannedOutage();
         OUTAGE_1.setId(Long.valueOf(1965));

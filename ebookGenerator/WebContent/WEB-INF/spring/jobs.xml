@@ -23,7 +23,7 @@
 	</job>
 	
 	<beans:bean id="requestParentTask" scope="step" abstract="true" class="com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet"
-				p:coreService-ref="coreService"
+				p:emailUtil-ref="emailUtil"
 				p:outageProcessor-ref="outageProcessor"
 				p:notificationService-ref="requestNotificationService"/>
 	<beans:bean id="processMessageTask" scope="step" class="com.thomsonreuters.uscl.ereader.request.step.ProcessMessageTask" parent="requestParentTask"
@@ -236,7 +236,7 @@
 	
 	<!-- Define each task here -->
 	<beans:bean id="generatorParentTask" scope="step" abstract="true" class="com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTasklet"
-			    p:coreService-ref="coreService"
+			    p:emailUtil-ref="emailUtil"
 				p:outageProcessor-ref="outageProcessor"
 				p:notificationService-ref="generatorNotificationService"/>
 	<beans:bean id="stubTask" scope="step" class="com.thomsonreuters.uscl.ereader.stub.StubTasklet" parent="generatorParentTask"/>

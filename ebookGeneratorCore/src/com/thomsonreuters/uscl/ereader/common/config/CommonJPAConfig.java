@@ -62,8 +62,6 @@ import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 import com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDao;
 import com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDaoImpl;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
-import com.thomsonreuters.uscl.ereader.userpreference.dao.UserPreferenceDao;
-import com.thomsonreuters.uscl.ereader.userpreference.dao.UserPreferenceDaoImpl;
 import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -241,11 +239,6 @@ public abstract class CommonJPAConfig {
     @Bean
     public JobCleanupDao jobCleanupDao(final SessionFactory sessionFactory) {
         return new JobCleanupDaoImpl(sessionFactory);
-    }
-
-    @Bean
-    public UserPreferenceDao userPreferenceDao(final SessionFactory sessionFactory) {
-        return new UserPreferenceDaoImpl(sessionFactory);
     }
 
     @Bean

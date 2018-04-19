@@ -2,58 +2,53 @@ package com.thomsonreuters.uscl.ereader.request.service;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 
 import javax.mail.internet.InternetAddress;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
-import com.thomsonreuters.uscl.ereader.core.service.CoreService;
+import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEmail;
+import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
+import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.NotificationService;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
-import com.thomsonreuters.uscl.ereader.util.EmailNotification;
+import lombok.Setter;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.item.ExecutionContext;
-import org.springframework.beans.factory.annotation.Required;
 
+@Setter
 public class RequestNotificationServiceImpl implements NotificationService {
-    private CoreService coreService;
+    private EmailUtil emailUtil;
+    private EmailService emailService;
 
     @Override
     public void sendNotification(
         final ExecutionContext jobExecutionContext,
         final JobParameters jobParams,
-        String bodyMessage,
+        final String bodyMessage,
         final long jobInstanceId,
         final long jobExecutionId) {
-        final String subject;
-        final String failedJobInfo;
         final XppBundleArchive xppBundleArchive =
             (XppBundleArchive) jobExecutionContext.get(JobParameterKey.KEY_XPP_BUNDLE);
         final String jobEnvironment = jobParams.getString(JobParameterKey.ENVIRONMENT_NAME);
 
-        if (xppBundleArchive != null) {
-            failedJobInfo = "eBook Request Failure:  "
-                + jobEnvironment
-                + "\nMessage ID: "
-                + xppBundleArchive.getMessageId()
-                + "\nMaterial Number: "
-                + xppBundleArchive.getMaterialNumber()
-                + "\nJob Instance ID: "
-                + jobInstanceId
-                + "\nJob Execution ID: "
-                + jobExecutionId;
-        } else {
-            failedJobInfo = "eBook Request Failure:  " + jobParams.getString(JobParameterKey.KEY_REQUEST_XML);
-        }
-        bodyMessage = failedJobInfo + "  \n" + bodyMessage;
-        subject = failedJobInfo;
+        final String subject = Objects.nonNull(xppBundleArchive)
+            ? String.format(
+                "eBook Request Failure:  %s%n"
+                    + "Message ID: %s%n"
+                    + "Material Number: %s%n"
+                    + "Job Instance ID: %s%n"
+                    + "Job Execution ID: %s",
+                jobEnvironment,
+                xppBundleArchive.getMessageId(),
+                xppBundleArchive.getMaterialNumber(),
+                jobInstanceId,
+                jobExecutionId)
+            : String.format("eBook Request Failure:  %s", jobParams.getString(JobParameterKey.KEY_REQUEST_XML));
+        final String body = String.format("%s  %n%s", subject, bodyMessage);
 
         final Collection<InternetAddress> emailRecipients =
-            coreService.createEmailRecipients(new HashSet<InternetAddress>());
-        EmailNotification.send(emailRecipients, subject, bodyMessage);
-    }
-
-    @Required
-    public void setCoreService(final CoreService service) {
-        coreService = service;
+            emailUtil.createEmailRecipients(new HashSet<InternetAddress>());
+        emailService.send(new NotificationEmail(emailRecipients, subject, body));
     }
 }

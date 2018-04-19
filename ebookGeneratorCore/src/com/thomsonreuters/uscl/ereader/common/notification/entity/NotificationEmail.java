@@ -4,6 +4,11 @@ import java.util.Collection;
 
 import javax.mail.internet.InternetAddress;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class NotificationEmail {
     private Collection<InternetAddress> recipients;
     private String subject;
@@ -23,37 +28,5 @@ public class NotificationEmail {
 
     public NotificationEmail(final Collection<InternetAddress> recipients, final String subject, final String body) {
         this(recipients, subject, body, false);
-    }
-
-    public Collection<InternetAddress> getRecipients() {
-        return recipients;
-    }
-
-    public void setRecipients(final Collection<InternetAddress> recipients) {
-        this.recipients = recipients;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(final String subject) {
-        this.subject = subject;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(final String body) {
-        this.body = body;
-    }
-
-    public boolean isBodyContentHtmlType() {
-        return isBodyContentHtmlType;
-    }
-
-    public void setBodyContentHtmlType(final boolean isBodyContentHtmlType) {
-        this.isBodyContentHtmlType = isBodyContentHtmlType;
     }
 }

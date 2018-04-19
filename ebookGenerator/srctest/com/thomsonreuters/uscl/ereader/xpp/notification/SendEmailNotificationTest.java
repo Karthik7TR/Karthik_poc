@@ -30,7 +30,7 @@ import javax.mail.internet.InternetAddress;
 import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEmail;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.service.CoreService;
+import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
@@ -54,7 +54,7 @@ public final class SendEmailNotificationTest {
     @Mock
     private EmailService emailService;
     @Mock
-    private CoreService coreService;
+    private EmailUtil emailUtil;
     @Mock
     private PublishingStatsService publishingStatsService;
 
@@ -74,7 +74,7 @@ public final class SendEmailNotificationTest {
         // given
         givenAll();
         final InternetAddress[] expectedRecipients = new InternetAddress[] {new InternetAddress("address")};
-        given(coreService.getEmailRecipientsByUsername("user")).willReturn(asList(expectedRecipients));
+        given(emailUtil.getEmailRecipientsByUsername("user")).willReturn(asList(expectedRecipients));
         // when
         step.executeStep();
         // then

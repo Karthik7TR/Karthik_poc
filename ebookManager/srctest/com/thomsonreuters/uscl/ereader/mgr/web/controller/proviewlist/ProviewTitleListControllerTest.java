@@ -3,19 +3,23 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.InternetAddress;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpSession;
 
+import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
+import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
@@ -53,6 +57,8 @@ public final class ProviewTitleListControllerTest {
     private ProviewAuditService mockProviewAuditService;
     private MessageSourceAccessor mockMessageSourceAccessor;
     private JobRequestService mockJobRequestService;
+    private EmailUtil emailUtil;
+    private EmailService mockEmailService;
 
     @Before
     public void SetUp() {
@@ -66,6 +72,8 @@ public final class ProviewTitleListControllerTest {
         mockProviewAuditService = EasyMock.createMock(ProviewAuditService.class);
         mockMessageSourceAccessor = EasyMock.createMock(MessageSourceAccessor.class);
         mockJobRequestService = EasyMock.createMock(JobRequestService.class);
+        emailUtil = EasyMock.createMock(EmailUtil.class);
+        mockEmailService = EasyMock.createMock(EmailService.class);
 
         controller = new ProviewTitleListController(
             mockProviewHandler,
@@ -74,7 +82,8 @@ public final class ProviewTitleListControllerTest {
             mockManagerService,
             mockMessageSourceAccessor,
             mockJobRequestService,
-            null);
+            null,
+            emailUtil, mockEmailService, "");
     }
 
     @After
@@ -270,6 +279,9 @@ public final class ProviewTitleListControllerTest {
         EasyMock.replay(bookDefinition);
 
         EasyMock.expect(mockJobRequestService.isBookInJobRequest(definitionId)).andReturn(false);
+        EasyMock.expect(emailUtil.getEmailRecipientsByUsername(uName)).andReturn(Arrays.asList(new InternetAddress("a@mail.com")));
+        mockEmailService.send(EasyMock.anyObject());
+        EasyMock.replay(mockEmailService);
         EasyMock.replay(mockJobRequestService);
 
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
@@ -298,6 +310,9 @@ public final class ProviewTitleListControllerTest {
         request.setParameter("command", ProviewTitleForm.Command.REMOVE.toString());
 
         EasyMock.expect(mockProviewHandler.removeTitle(titleId, new Version("v2.0"))).andReturn("");
+        EasyMock.expect(emailUtil.getEmailRecipientsByUsername(uName)).andReturn(Arrays.asList(new InternetAddress("a@mail.com")));
+        mockEmailService.send(EasyMock.anyObject());
+        EasyMock.replay(mockEmailService);
         EasyMock.replay(mockProviewHandler);
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         Assert.assertEquals(WebConstants.VIEW_PROVIEW_TITLE_REMOVE, mav.getViewName());
@@ -325,6 +340,9 @@ public final class ProviewTitleListControllerTest {
         request.setParameter("command", ProviewTitleForm.Command.DELETE.toString());
 
         EasyMock.expect(mockProviewHandler.deleteTitle(titleId, new Version("v2.0"))).andReturn(true);
+        EasyMock.expect(emailUtil.getEmailRecipientsByUsername(uName)).andReturn(Arrays.asList(new InternetAddress("a@mail.com")));
+        mockEmailService.send(EasyMock.anyObject());
+        EasyMock.replay(mockEmailService);
         EasyMock.replay(mockProviewHandler);
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
         Assert.assertEquals(WebConstants.VIEW_PROVIEW_TITLE_DELETE, mav.getViewName());

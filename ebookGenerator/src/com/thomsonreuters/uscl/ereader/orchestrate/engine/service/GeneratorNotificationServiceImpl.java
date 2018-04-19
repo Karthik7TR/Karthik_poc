@@ -9,58 +9,51 @@ import javax.mail.internet.InternetAddress;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.service.CoreService;
+import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.NotificationService;
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.item.ExecutionContext;
-import org.springframework.beans.factory.annotation.Required;
 
+@Slf4j
+@Setter
 public class GeneratorNotificationServiceImpl implements NotificationService {
-    private static Logger LOG = LogManager.getLogger(GeneratorNotificationServiceImpl.class);
-
-    private CoreService coreService;
+    private EmailUtil emailUtil;
 
     @Override
     public void sendNotification(
         final ExecutionContext jobExecutionContext,
         final JobParameters jobParams,
-        String bodyMessage,
+        final String bodyMessage,
         final long jobInstanceId,
         final long jobExecutionId) {
         final List<String> fileList = new ArrayList<>();
-        final String subject;
-        final String failedJobInfo;
         final BookDefinition bookDefinition = (BookDefinition) jobExecutionContext.get(JobParameterKey.EBOOK_DEFINITON);
         final String jobEnvironment = jobParams.getString(JobParameterKey.ENVIRONMENT_NAME);
 
         // Determine the recipient of the email, use user preference value(s), otherwise use the group as the default
         final String username = jobParams.getString(JobParameterKey.USER_NAME);
-        final Collection<InternetAddress> emailRecipients = coreService.getEmailRecipientsByUsername(username);
+        final Collection<InternetAddress> emailRecipients = emailUtil.getEmailRecipientsByUsername(username);
 
-        failedJobInfo = "eBook Publishing Failure:  "
-            + jobEnvironment
-            + "  "
-            + bookDefinition.getFullyQualifiedTitleId()
-            + "  "
-            + bookDefinition.getProviewDisplayName()
-            + "  "
-            + jobInstanceId
-            + "  "
-            + jobExecutionId;
-        bodyMessage = failedJobInfo + "  \n" + bodyMessage;
-        subject = failedJobInfo;
+        final String subject = String.format(
+            "eBook Publishing Failure:  %s  %s  %s  %s  %s",
+            jobEnvironment,
+            bookDefinition.getFullyQualifiedTitleId(),
+            bookDefinition.getProviewDisplayName(),
+            jobInstanceId,
+            jobExecutionId);
+        final String body = String.format("%s  %n%s", subject, bodyMessage);
 
         getImageMissingGuidsFileFromContextPath(jobExecutionContext, fileList);
         getImageMissingGuidsFileFromGatherDocsDir(jobExecutionContext, fileList);
 
-        if (fileList.size() > 0) {
-            EmailNotification.sendWithAttachment(emailRecipients, subject, bodyMessage.toString(), fileList);
+        if (!fileList.isEmpty()) {
+            EmailNotification.sendWithAttachment(emailRecipients, subject, body, fileList);
         } else {
-            EmailNotification.send(emailRecipients, subject, bodyMessage.toString());
+            EmailNotification.send(emailRecipients, subject, body);
         }
     }
 
@@ -74,7 +67,7 @@ public class GeneratorNotificationServiceImpl implements NotificationService {
                 fileList.add(imgGuidsFile);
             }
         } catch (final Exception e) {
-            LOG.error("", e);
+            log.error(e.getMessage(), e);
         }
     }
 
@@ -92,7 +85,7 @@ public class GeneratorNotificationServiceImpl implements NotificationService {
                 fileList.add(missingGuidsFile);
             }
         } catch (final Exception e) {
-            LOG.error("", e);
+            log.error(e.getMessage(), e);
         }
     }
 
@@ -106,10 +99,5 @@ public class GeneratorNotificationServiceImpl implements NotificationService {
             return -1;
         }
         return file.length();
-    }
-
-    @Required
-    public void setCoreService(final CoreService service) {
-        coreService = service;
     }
 }

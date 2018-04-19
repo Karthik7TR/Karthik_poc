@@ -8,26 +8,28 @@ import java.util.Set;
 
 import javax.mail.internet.InternetAddress;
 
+import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEmail;
+import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageContainer;
-import com.thomsonreuters.uscl.ereader.core.service.CoreService;
+import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceService;
-import com.thomsonreuters.uscl.ereader.util.EmailNotification;
+import lombok.Setter;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
+@Setter
 public class OutageProcessorImpl implements OutageProcessor {
     private static Logger log = LogManager.getLogger(OutageProcessorImpl.class);
 
     private OutageService outageService;
-    private CoreService coreService;
+    private EmailUtil emailUtil;
+    private EmailService emailService;
     private UserPreferenceService userPreferenceService;
-    private PlannedOutageContainer plannedOutageContainer = new PlannedOutageContainer();
+    private final PlannedOutageContainer plannedOutageContainer = new PlannedOutageContainer();
 
     /**
-     *
      * @return the outage object if we are currently in the middle of an outage.
      */
     @Override
@@ -98,19 +100,19 @@ public class OutageProcessorImpl implements OutageProcessor {
      */
     public Collection<InternetAddress> getOutageEmailRecipients() {
         final Set<InternetAddress> uniqueRecipients = userPreferenceService.findAllUniqueEmailAddresses();
-        return coreService.createEmailRecipients(uniqueRecipients);
+        return emailUtil.createEmailRecipients(uniqueRecipients);
     }
 
     private void sendOutageEmail(
         final Collection<InternetAddress> recipients,
         final String subject,
         final PlannedOutage outage) {
-        if (recipients.size() > 0) {
+        if (!recipients.isEmpty()) {
             // Make the subject line also be the first line of the body, because it is easier to read in Outlook preview pane
             String body = subject + "\n\n";
             body += outage.toEmailBody();
             log.debug("Sending outage notification email to: " + recipients);
-            EmailNotification.send(recipients, subject, body);
+            emailService.send(new NotificationEmail(recipients, subject, body));
         }
     }
 
@@ -122,20 +124,5 @@ public class OutageProcessorImpl implements OutageProcessor {
             log.debug("Unknown exception has happened during getting Host Name", e);
             return "<unknown>";
         }
-    }
-
-    @Required
-    public void setOutageService(final OutageService service) {
-        outageService = service;
-    }
-
-    @Required
-    public void setUserPreferenceService(final UserPreferenceService service) {
-        userPreferenceService = service;
-    }
-
-    @Required
-    public void setCoreService(final CoreService service) {
-        coreService = service;
     }
 }

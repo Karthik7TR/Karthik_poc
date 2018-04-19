@@ -12,21 +12,22 @@ import com.thomsonreuters.uscl.ereader.common.notification.service.StepFailureNo
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.service.CoreService;
+import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @SendFailureNotificationStrategy(FailureNotificationType.XPP)
 public class XppStepFailureNotificationServiceImpl implements StepFailureNotificationService<BookStep> {
-    @Resource(name = "coreService")
-    private CoreService coreService;
+    @Autowired
+    private EmailUtil emailUtil;
     @Resource(name = "emailService")
     private EmailService emailService;
 
     @Override
     public void sendFailureNotification(final BookStep step, final Exception e) {
         final String username = step.getUserName();
-        final Collection<InternetAddress> emailRecipients = coreService.getEmailRecipientsByUsername(username);
+        final Collection<InternetAddress> emailRecipients = emailUtil.getEmailRecipientsByUsername(username);
         emailService.send(new NotificationEmail(emailRecipients, getSubject(step), getBody(step, e)));
     }
 

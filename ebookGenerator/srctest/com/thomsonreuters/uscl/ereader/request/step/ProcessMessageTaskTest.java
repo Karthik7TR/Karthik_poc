@@ -10,7 +10,7 @@ import javax.xml.bind.Marshaller;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
-import com.thomsonreuters.uscl.ereader.core.service.CoreService;
+import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.NotificationService;
 import com.thomsonreuters.uscl.ereader.request.XppMessageException;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
@@ -44,7 +44,7 @@ public final class ProcessMessageTaskTest {
 
     private ProcessMessageTask tasklet;
     private XppMessageValidator mockValidator;
-    private CoreService mockCoreService;
+    private EmailUtil emailUtil;
     private NotificationService mockNotificationService;
     private OutageProcessor mockOutageService;
 
@@ -59,13 +59,13 @@ public final class ProcessMessageTaskTest {
     @Before
     public void setUp() {
         mockValidator = EasyMock.createMock(XppMessageValidator.class);
-        mockCoreService = EasyMock.createMock(CoreService.class);
+        emailUtil = EasyMock.createMock(EmailUtil.class);
         mockNotificationService = EasyMock.createMock(NotificationService.class);
         mockOutageService = EasyMock.createMock(OutageProcessor.class);
 
         tasklet = new ProcessMessageTask();
         tasklet.setXppMessageValidator(mockValidator);
-        tasklet.setCoreService(mockCoreService);
+        tasklet.setEmailUtil(emailUtil);
         tasklet.setNotificationService(mockNotificationService);
         tasklet.setOutageProcessor(mockOutageService);
 
@@ -224,7 +224,7 @@ public final class ProcessMessageTaskTest {
 
     private void replayAll() {
         EasyMock.replay(mockValidator);
-        EasyMock.replay(mockCoreService);
+        EasyMock.replay(emailUtil);
         EasyMock.replay(mockNotificationService);
         EasyMock.replay(mockOutageService);
         EasyMock.replay(mockContribution);

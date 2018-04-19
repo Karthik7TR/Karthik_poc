@@ -81,7 +81,7 @@ public class GenerateTocTask extends AbstractSbTasklet {
 
         final String username = jobParams.getString(JobParameterKey.USER_NAME);
         final String envName = jobParams.getString(JobParameterKey.ENVIRONMENT_NAME);
-        final Collection<InternetAddress> emailRecipients = coreService.getEmailRecipientsByUsername(username);
+        final Collection<InternetAddress> emailRecipients = emailUtil.getEmailRecipientsByUsername(username);
 
         final BookDefinition bookDefinition =
             (BookDefinition) jobExecutionContext.get(JobExecutionKey.EBOOK_DEFINITION);

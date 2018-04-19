@@ -19,7 +19,7 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotif
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.service.CoreService;
+import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.smoketest.service.SmokeTestServiceImpl;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
@@ -31,6 +31,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.ExitStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
@@ -42,8 +43,8 @@ public class SendEmailNotification extends BookStepImpl {
 
     @Resource(name = "emailService")
     private EmailService emailService;
-    @Resource(name = "coreService")
-    private CoreService coreService;
+    @Autowired
+    private EmailUtil emailUtil;
     @Resource(name = "publishingStatsService")
     private PublishingStatsService publishingStatsService;
 
@@ -60,7 +61,7 @@ public class SendEmailNotification extends BookStepImpl {
     @NotNull
     private Collection<InternetAddress> getRecipients() {
         final String userName = getUserName();
-        return coreService.getEmailRecipientsByUsername(userName);
+        return emailUtil.getEmailRecipientsByUsername(userName);
     }
 
     @NotNull

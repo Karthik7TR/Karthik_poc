@@ -4,11 +4,17 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreference;
+import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceEmailService;
+import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceEmailServiceImpl;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.util.AutoPopulatingList;
 
+@Getter
+@Setter
+@ToString
 public class UserPreferencesForm {
     public static final String FORM_NAME = "preferencesForm";
 
@@ -32,12 +38,12 @@ public class UserPreferencesForm {
     private String groupFilterName;
     private String groupFilterId;
     private List<String> emails;
+    private UserPreferenceEmailService userPreferenceEmailService;
 
     public UserPreferencesForm() {
-        super();
         startPage = HomepageProperty.LIBRARY;
-
         emails = new AutoPopulatingList<>(String.class);
+        userPreferenceEmailService = new UserPreferenceEmailServiceImpl();
     }
 
     public void load(final UserPreference preference) {
@@ -58,7 +64,7 @@ public class UserPreferencesForm {
             jobSummaryFilterTitleId = preference.getJobSummaryTitleId();
             groupFilterName = preference.getGroupListGroupName();
             groupFilterId = preference.getGroupListGroupId();
-            emails = preference.getEmailAddressList();
+            emails = userPreferenceEmailService.getEmailsString(preference);
         }
     }
 
@@ -73,125 +79,26 @@ public class UserPreferencesForm {
         preference.setGroupListGroupName(groupFilterName);
         preference.setGroupListGroupId(groupFilterId);
         preference.setStartPage(startPage.toString());
-
-        final String emailStr = StringUtils.join(emails, ",");
-        preference.setEmails(emailStr);
-
+        preference.setEmails(StringUtils.join(emails, ","));
         return preference;
     }
 
-    public HomepageProperty getStartPage() {
-        return startPage;
-    }
-
-    public void setStartPage(final HomepageProperty startPage) {
-        this.startPage = startPage;
-    }
-
-    public String getAuditFilterProviewName() {
-        return auditFilterProviewName;
-    }
-
-    public void setAuditFilterProviewName(final String auditFilterProviewName) {
-        this.auditFilterProviewName = auditFilterProviewName;
-    }
-
-    public String getAuditFilterTitleId() {
-        return auditFilterTitleId;
-    }
-
-    public void setAuditFilterTitleId(final String auditFilterTitleId) {
-        this.auditFilterTitleId = auditFilterTitleId;
-    }
-
-    public String getLibraryFilterProviewName() {
-        return libraryFilterProviewName;
-    }
-
-    public void setLibraryFilterProviewName(final String libraryFilterProviewName) {
-        this.libraryFilterProviewName = libraryFilterProviewName;
-    }
-
-    public String getLibraryFilterTitleId() {
-        return libraryFilterTitleId;
-    }
-
-    public void setLibraryFilterTitleId(final String libraryFilterTitleId) {
-        this.libraryFilterTitleId = libraryFilterTitleId;
-    }
-
-    public String getJobSummaryFilterProviewName() {
-        return jobSummaryFilterProviewName;
-    }
-
-    public void setJobSummaryFilterProviewName(final String jobSummaryFilterProviewName) {
-        this.jobSummaryFilterProviewName = jobSummaryFilterProviewName;
-    }
-
-    public String getJobSummaryFilterTitleId() {
-        return jobSummaryFilterTitleId;
-    }
-
-    public void setJobSummaryFilterTitleId(final String jobSummaryFilterTitleId) {
-        this.jobSummaryFilterTitleId = jobSummaryFilterTitleId;
-    }
-
-    public String getGroupFilterName() {
-        return groupFilterName;
-    }
-
-    public void setGroupFilterName(final String groupFilterName) {
-        this.groupFilterName = groupFilterName;
-    }
-
-    public String getGroupFilterId() {
-        return groupFilterId;
-    }
-
-    public void setGroupFilterId(final String groupFilterId) {
-        this.groupFilterId = groupFilterId;
-    }
-
-    public List<String> getEmails() {
-        return emails;
-    }
-
-    public void setEmails(final List<String> emails) {
-        this.emails = emails;
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
-
     public String getURL() {
-        String url = "";
-
         switch (startPage) {
         case PROVIEW_LIST:
-            url = WebConstants.MVC_PROVIEW_TITLES;
-            break;
+            return WebConstants.MVC_PROVIEW_TITLES;
         case AUDIT:
-            url = WebConstants.MVC_BOOK_AUDIT_LIST;
-            break;
+            return WebConstants.MVC_BOOK_AUDIT_LIST;
         case JOBS:
-            url = WebConstants.MVC_JOB_SUMMARY;
-            break;
+            return WebConstants.MVC_JOB_SUMMARY;
         case QUEUED:
-            url = WebConstants.MVC_JOB_QUEUE;
-            break;
+            return WebConstants.MVC_JOB_QUEUE;
         case ADMINISTRATION:
-            url = WebConstants.MVC_ADMIN_MAIN;
-            break;
+            return WebConstants.MVC_ADMIN_MAIN;
         case GROUP_LIST:
-            url = WebConstants.MVC_PROVIEW_GROUPS;
-            break;
+            return WebConstants.MVC_PROVIEW_GROUPS;
         default:
-            url = WebConstants.MVC_BOOK_LIBRARY_LIST;
-            break;
+            return WebConstants.MVC_BOOK_LIBRARY_LIST;
         }
-
-        return url;
     }
 }

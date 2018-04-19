@@ -10,15 +10,13 @@ import com.thomsonreuters.uscl.ereader.core.book.service.EbookAuditServiceTest;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageTest;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessorTest;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageServiceTest;
-import com.thomsonreuters.uscl.ereader.core.service.CoreServiceTest;
+import com.thomsonreuters.uscl.ereader.core.service.EmailUtilTest;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewClientImplTest;
 import com.thomsonreuters.uscl.ereader.ioutil.FileExtensionFilterTest;
 import com.thomsonreuters.uscl.ereader.ioutil.FileHandlingHelperTest;
 import com.thomsonreuters.uscl.ereader.smoketest.dao.SmokeTestDaoTest;
 import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTestTest;
-import com.thomsonreuters.uscl.ereader.userpreference.dao.UserPreferenceDaoTest;
-import com.thomsonreuters.uscl.ereader.userpreference.domain.UserPreferenceTest;
-import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceServiceTest;
+import com.thomsonreuters.uscl.ereader.userpreference.service.UserPreferenceEmailServiceImplTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -33,7 +31,7 @@ import org.junit.runners.Suite.SuiteClasses;
     com.thomsonreuters.uscl.ereader.jaxb.JAXBMarshallingTest.class,
     CodeDaoTest.class,
     CodeServiceTest.class,
-    CoreServiceTest.class,
+    EmailUtilTest.class,
     ProviewClientImplTest.class,
     EbookAuditDaoTest.class,
     OutageProcessorTest.class,
@@ -42,9 +40,7 @@ import org.junit.runners.Suite.SuiteClasses;
     EbookAuditServiceTest.class,
     SmokeTestTest.class,
     SmokeTestDaoTest.class,
-    UserPreferenceDaoTest.class,
-    UserPreferenceServiceTest.class,
-    UserPreferenceTest.class})
+    UserPreferenceEmailServiceImplTest.class})
 public class CoreTestSuite {
     //Intentionally left blank
 }

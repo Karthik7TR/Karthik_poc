@@ -56,7 +56,7 @@ public class HTMLRemoveBrokenInternalLinks extends AbstractSbTasklet {
         final int numDocsInTOC = getRequiredIntProperty(jobExecutionContext, JobExecutionKey.EBOOK_STATS_DOC_COUNT);
         final String username = jobParams.getString(JobParameterKey.USER_NAME);
         final String envName = jobParams.getString(JobParameterKey.ENVIRONMENT_NAME);
-        final Collection<InternetAddress> emailRecipients = coreService.getEmailRecipientsByUsername(username);
+        final Collection<InternetAddress> emailRecipients = emailUtil.getEmailRecipientsByUsername(username);
 
         final File transformDir = new File(transformDirectory);
         final File postTransformDir = new File(postTransformDirectory);

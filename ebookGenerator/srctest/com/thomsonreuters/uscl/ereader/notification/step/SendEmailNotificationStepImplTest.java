@@ -16,7 +16,7 @@ import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEm
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailBuilder;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
-import com.thomsonreuters.uscl.ereader.core.service.CoreService;
+import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.junit.Test;
@@ -36,7 +36,7 @@ public final class SendEmailNotificationStepImplTest {
     @Mock
     private EmailService emailService;
     @Mock
-    private CoreService coreService;
+    private EmailUtil emailUtil;
     @Mock
     private PublishingStatsService publishingStatsService;
     @Mock
@@ -56,7 +56,7 @@ public final class SendEmailNotificationStepImplTest {
         //given
         givenAll();
         final InternetAddress[] expectedRecipients = new InternetAddress[] {new InternetAddress("address")};
-        given(coreService.getEmailRecipientsByUsername("user")).willReturn(asList(expectedRecipients));
+        given(emailUtil.getEmailRecipientsByUsername("user")).willReturn(asList(expectedRecipients));
         //when
         step.executeStep();
         //then

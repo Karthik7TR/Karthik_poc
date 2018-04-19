@@ -9,7 +9,7 @@ import java.util.Date;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.common.service.compress.GZIPService;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
-import com.thomsonreuters.uscl.ereader.core.service.CoreService;
+import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.NotificationService;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
@@ -33,7 +33,7 @@ public final class StageBundleTaskTest {
     private StageBundleTask tasklet;
     private GZIPService mockGZIP;
     private XppBundleValidator mockBundleValidator;
-    private CoreService mockCoreService;
+    private EmailUtil emailUtil;
     private NotificationService mockNotificationService;
     private OutageProcessor mockOutageService;
 
@@ -50,14 +50,14 @@ public final class StageBundleTaskTest {
     public void setUp() throws Exception {
         mockGZIP = EasyMock.createMock(GZIPService.class);
         mockBundleValidator = EasyMock.createMock(XppBundleValidator.class);
-        mockCoreService = EasyMock.createMock(CoreService.class);
+        emailUtil = EasyMock.createMock(EmailUtil.class);
         mockNotificationService = EasyMock.createMock(NotificationService.class);
         mockOutageService = EasyMock.createMock(OutageProcessor.class);
 
         tasklet = new StageBundleTask();
         tasklet.setGZIPService(mockGZIP);
         tasklet.setBundleValidator(mockBundleValidator);
-        tasklet.setCoreService(mockCoreService);
+        tasklet.setEmailUtil(emailUtil);
         tasklet.setNotificationService(mockNotificationService);
         tasklet.setOutageProcessor(mockOutageService);
 
@@ -166,7 +166,7 @@ public final class StageBundleTaskTest {
     private void replayAll() {
         EasyMock.replay(mockGZIP);
         EasyMock.replay(mockBundleValidator);
-        EasyMock.replay(mockCoreService);
+        EasyMock.replay(emailUtil);
         EasyMock.replay(mockNotificationService);
         EasyMock.replay(mockOutageService);
         EasyMock.replay(mockContribution);

@@ -17,7 +17,7 @@ import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEm
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.service.CoreService;
+import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -31,7 +31,7 @@ public final class XppStepFailureNotificationServiceImplTest {
     @InjectMocks
     private XppStepFailureNotificationServiceImpl service;
     @Mock
-    private CoreService coreService;
+    private EmailUtil emailUtil;
     @Mock
     private EmailService emailService;
     @Mock
@@ -48,7 +48,7 @@ public final class XppStepFailureNotificationServiceImplTest {
         givenAll();
 
         final InternetAddress[] expectedRecipients = new InternetAddress[] {new InternetAddress("address")};
-        given(coreService.getEmailRecipientsByUsername("user")).willReturn(asList(expectedRecipients));
+        given(emailUtil.getEmailRecipientsByUsername("user")).willReturn(asList(expectedRecipients));
         // when
         service.sendFailureNotification(step, e);
         // then

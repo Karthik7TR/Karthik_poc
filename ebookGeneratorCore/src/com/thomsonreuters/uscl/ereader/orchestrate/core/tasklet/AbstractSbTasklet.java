@@ -6,8 +6,9 @@ import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutageException;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
-import com.thomsonreuters.uscl.ereader.core.service.CoreService;
+import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.orchestrate.core.service.NotificationService;
+import lombok.Setter;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -22,16 +23,16 @@ import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.repeat.RepeatStatus;
-import org.springframework.beans.factory.annotation.Required;
 
 /**
  * Wrapper designed to handle exceptions thrown from step execution business as a STOPPED exit status for the step and job.
  * This is a specific requirement for eReader.
  */
+@Setter
 public abstract class AbstractSbTasklet implements Tasklet {
     private static final Logger LOG = LogManager.getLogger(AbstractSbTasklet.class);
 
-    protected CoreService coreService;
+    protected EmailUtil emailUtil;
     protected NotificationService notificationService;
     private OutageProcessor outageProcessor;
 
@@ -187,20 +188,5 @@ public abstract class AbstractSbTasklet implements Tasklet {
                     + propertyKey
                     + "' property is present.");
         }
-    }
-
-    @Required
-    public void setOutageProcessor(final OutageProcessor service) {
-        outageProcessor = service;
-    }
-
-    @Required
-    public void setCoreService(final CoreService service) {
-        coreService = service;
-    }
-
-    @Required
-    public void setNotificationService(final NotificationService service) {
-        notificationService = service;
     }
 }
