@@ -36,10 +36,10 @@ public final class UserPreferenceEmailServiceImplTest {
     public void shouldReturnEmailsStrings() {
         // given
         final UserPreference userPreference = new UserPreference();
-        userPreference.setEmails("a@mail.com,b@mail.com,@%^#^anothermail");
+        userPreference.setEmails("a@mail.com,b@mail.com,@anothermail");
         // when
         final List<String> emails = sut.getEmailsString(userPreference);
         // then
-        assertThat(emails, contains("a@mail.com", "b@mail.com", "@%^#^anothermail"));
+        assertThat(emails, contains("a@mail.com", "b@mail.com", "@anothermail"));
     }
 }
