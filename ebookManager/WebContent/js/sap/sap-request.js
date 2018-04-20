@@ -22,7 +22,7 @@ function requestDataFromSap() {
                 success: function (response) {
                     let grid = $('#jsGrid');
                     var data = response.materialComponents;
-                    restoreUi([requestButton, saveButton, validateButton], spinner);
+                    restoreUi(requestButton, saveButton, validateButton, spinner);
     
                     if (data.length == 0) {
                         alert(response.message);
@@ -45,7 +45,7 @@ function requestDataFromSap() {
                     }
                 },
                 error: function (jqXHR, status) {
-                    restoreUi([requestButton, saveButton, validateButton], spinner);
+                    restoreUi(requestButton, saveButton, validateButton, spinner);
                     if (status !== 'abort') {
                         alert("Unknown error");
                     }
@@ -55,8 +55,8 @@ function requestDataFromSap() {
         }, 30);
     }
     
-    function restoreUi(buttons, spinner) {
-    	enableButtons(...buttons);
+    function restoreUi(requestButton, saveButton, validateButton, spinner) {
+    	enableButtons(requestButton, saveButton, validateButton);
     	spinner.stop();
     }
 
