@@ -4,6 +4,7 @@ import static com.thomsonreuters.uscl.ereader.common.filesystem.DirectoryContent
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import java.util.Collections;
 
 import javax.annotation.Resource;
 
-import com.thomsonreuters.uscl.ereader.StepTestUtil;
+import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.ResourcesFileSystem;
@@ -76,7 +77,12 @@ public final class MoveResourcesToAssembleDirectoryXppTest {
     private void createXppBundleMock() {
         final XppBundle bundle = mock(XppBundle.class);
         given(bundle.getMaterialNumber()).willReturn("1111111");
-        StepTestUtil.givenBookBundles(chunkContext, Arrays.asList(bundle));
+        when(
+            chunkContext.getStepContext()
+                .getStepExecution()
+                .getJobExecution()
+                .getExecutionContext()
+                .get(JobParameterKey.XPP_BUNDLES)).thenReturn(Arrays.asList(bundle));
 
         final PrintComponent component = mock(PrintComponent.class);
         given(component.getSplitter()).willReturn(false);
