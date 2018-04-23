@@ -14,6 +14,7 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotif
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilder;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.VolumeNumberAwareXppTransformationStep;
 import org.springframework.beans.factory.annotation.Value;
@@ -98,13 +99,18 @@ public class ExtractTocStep extends VolumeNumberAwareXppTransformationStep {
             .map(number -> fileSystem.getTocPartFile(this, number))
             .orElseGet(() -> fileSystem.getTocFile(this));
 
-        final Transformer transformer = transformerBuilderFactory.create()
+        final TransformerBuilder transformerBuilder = transformerBuilderFactory.create()
             .withXsl(uniteTocsXsl)
             .withParameter("depthThreshold", depthThreshold)
-            .withParameter("isSplitted", Objects.nonNull(splitPartNumber))
-            .build();
+            .withParameter("isSplitted", Objects.nonNull(splitPartNumber));
+
+        Optional.ofNullable(splitPartNumber)
+            .ifPresent(partNumber ->
+                transformerBuilder.withParameter("uuidPrefix", String.format("%s#", getTitleId(partNumber)))
+                .withParameter("titleBreak", String.format("eBook %s of %s", partNumber, getSplitPartsBundlesMap().size())));
+
         final TransformationCommand command =
-            new TransformationCommandBuilder(transformer, resultFile).withInput(tocFiles)
+            new TransformationCommandBuilder(transformerBuilder.build(), resultFile).withInput(tocFiles)
                 .build();
         transformationService.transform(command);
     }

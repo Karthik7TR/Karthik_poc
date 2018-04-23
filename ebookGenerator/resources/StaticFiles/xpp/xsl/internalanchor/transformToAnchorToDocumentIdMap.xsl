@@ -5,12 +5,14 @@
 	<xsl:include href="createMap.xsl" />
 	<xsl:include href="../transform-utils.xsl" />
 	<xsl:param name="isPocketPart" />
+	<xsl:param name="splitTitleId" />
 
 	<xsl:template match="x:XPPHier">
 		<xsl:call-template name="create-item">
 			<xsl:with-param name="uid">
 				<xsl:value-of select="x:process-id(@uuid, $isPocketPart)" />
 			</xsl:with-param>
+			<xsl:with-param name="splitTitleId" select="$splitTitleId" />
 		</xsl:call-template>
 	</xsl:template>
 
@@ -19,6 +21,7 @@
 			<xsl:with-param name="uid">
 				<xsl:value-of select="x:process-id(@guid, $isPocketPart)" />
 			</xsl:with-param>
+			<xsl:with-param name="splitTitleId" select="$splitTitleId" />
 		</xsl:call-template>
 	</xsl:template>
     
@@ -28,6 +31,7 @@
 				<xsl:value-of select="x:process-id(@uuid, $isPocketPart)" />
 			</xsl:with-param>
             <xsl:with-param name="type" select="'sumtoc'" />
+            <xsl:with-param name="splitTitleId" select="$splitTitleId" />
         </xsl:call-template>
     </xsl:template>
 

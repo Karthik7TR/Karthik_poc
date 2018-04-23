@@ -17,6 +17,12 @@ public interface ResourcesFileSystem {
     File getDocumentsDirectory(@NotNull BookStep step);
 
     /**
+     * {@link com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem#getHtmlPagesDirectory/materialNumber}
+     */
+    @NotNull
+    File getDocumentsDirectory(@NotNull BookStep step, String materialNumber);
+
+    /**
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.ImageFileSystem#getImageDynamicDirectory}
      */
     @NotNull
@@ -45,4 +51,10 @@ public interface ResourcesFileSystem {
      */
     @NotNull
     Collection<File> getFontsCssFiles(@NotNull BookStep step);
+
+    /**
+     * {@link com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem#getFontsCssDirectory/materialNumber}
+     */
+    @NotNull
+    Collection<File> getFontsCssFiles(@NotNull BookStep step, String materialNumber);
 }

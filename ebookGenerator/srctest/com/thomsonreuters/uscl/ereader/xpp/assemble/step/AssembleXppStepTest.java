@@ -1,7 +1,5 @@
 package com.thomsonreuters.uscl.ereader.xpp.assemble.step;
 
-import static java.util.Arrays.asList;
-
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenBook;
 import static com.thomsonreuters.uscl.ereader.StepTestUtil.givenJobInstanceId;
 import static org.hamcrest.Matchers.is;
@@ -11,11 +9,13 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
 
 import java.io.File;
+import java.util.Collections;
 
 import com.thomsonreuters.uscl.ereader.assemble.service.EBookAssemblyService;
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
+import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -76,12 +76,17 @@ public final class AssembleXppStepTest {
     public void shouldAssembleSplitBook() throws Exception {
         //given
         given(book.isSplitBook()).willReturn(true);
+        given(book.getFullyQualifiedTitleId()).willReturn("an/splitTitle");
         given(fileSystem.getAssembledSplitTitleFile(step, "an/splitTitle")).willReturn(assembledBookFile);
         given(fileSystem.getAssembledSplitTitleFile(step, "an/splitTitle_pt2")).willReturn(assembledBookFile);
         given(fileSystem.getSplitTitleDirectory(step, "an/splitTitle")).willReturn(titleDirectory);
         given(fileSystem.getSplitTitleDirectory(step, "an/splitTitle_pt2")).willReturn(titleDirectory);
-        given(docMetadataService.findDistinctSplitTitlesByJobId(1L))
-            .willReturn(asList("an/splitTitle", "an/splitTitle_pt2"));
+
+        final PrintComponent printComponent = new PrintComponent();
+        printComponent.setSplitter(true);
+        printComponent.setComponentOrder(1);
+        given(book.getPrintComponents()).willReturn(Collections.singleton(printComponent));
+
         //when
         step.executeStep();
         //then

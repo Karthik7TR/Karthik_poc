@@ -9,15 +9,13 @@ import com.thomsonreuters.uscl.ereader.assemble.exception.EBookAssemblyException
 import com.thomsonreuters.uscl.ereader.assemble.service.EBookAssemblyService;
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
+import com.thomsonreuters.uscl.ereader.common.step.SplitBookTitlesAwareStep;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import org.springframework.batch.core.ExitStatus;
 
-public abstract class BaseAssembleStep extends BookStepImpl {
+public abstract class BaseAssembleStep extends BookStepImpl implements SplitBookTitlesAwareStep {
     @Resource(name = "eBookAssemblyService")
     private EBookAssemblyService assemblyService;
-    @Resource(name = "docMetadataService")
-    private DocMetadataService docMetadataService;
     @Resource(name = "assembleFileSystem")
     private AssembleFileSystem fileSystem;
 
@@ -35,7 +33,7 @@ public abstract class BaseAssembleStep extends BookStepImpl {
     }
 
     private void assembleSplitBook() throws EBookAssemblyException {
-        final List<String> splitTitles = docMetadataService.findDistinctSplitTitlesByJobId(getJobInstanceId());
+        final List<String> splitTitles = getSplitTitles();
         for (final String splitTitleId : splitTitles) {
             final File assembledSplitTitleFile = fileSystem.getAssembledSplitTitleFile(this, splitTitleId);
             final File assembleDirectory = fileSystem.getSplitTitleDirectory(this, splitTitleId);

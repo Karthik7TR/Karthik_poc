@@ -6,9 +6,10 @@ import com.thomsonreuters.uscl.ereader.common.archive.service.ArchiveAuditServic
 import com.thomsonreuters.uscl.ereader.common.archive.service.ArchiveService;
 import com.thomsonreuters.uscl.ereader.common.service.environment.EnvironmentUtil;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
+import com.thomsonreuters.uscl.ereader.common.step.SplitBookTitlesAwareStep;
 import org.springframework.batch.core.ExitStatus;
 
-public abstract class BaseArchiveStep extends BookStepImpl {
+public abstract class BaseArchiveStep extends BookStepImpl implements SplitBookTitlesAwareStep {
     @Resource(name = "environmentUtil")
     private EnvironmentUtil environmentUtil;
     @Resource(name = "archiveAuditService")

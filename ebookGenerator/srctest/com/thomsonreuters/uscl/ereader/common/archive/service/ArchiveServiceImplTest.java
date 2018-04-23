@@ -1,7 +1,5 @@
 package com.thomsonreuters.uscl.ereader.common.archive.service;
 
-import static java.util.Arrays.asList;
-
 import static com.thomsonreuters.uscl.ereader.core.book.BookMatchers.version;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -9,6 +7,7 @@ import static org.mockito.BDDMockito.given;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 
 import com.thomsonreuters.uscl.ereader.common.archive.step.BaseArchiveStep;
 import com.thomsonreuters.uscl.ereader.common.filesystem.ArchiveFileSystem;
@@ -74,7 +73,7 @@ public final class ArchiveServiceImplTest {
     public void shouldArchiveSplitBook() {
         //given
         given(book.isSplitBook()).willReturn(true);
-        given(docMetadataService.findDistinctSplitTitlesByJobId(1L)).willReturn(asList("splitTitleId"));
+        given(step.getSplitTitles()).willReturn(Arrays.asList("splitTitleId"));
         final File copiedFile = new File(archiveDir, "assembledSplitTitleFile");
         //when
         service.archiveBook(step);

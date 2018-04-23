@@ -6,8 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.BiFunction;
-import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.annotation.Resource;
@@ -21,7 +20,6 @@ import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotif
 import com.thomsonreuters.uscl.ereader.common.proview.feature.FeaturesListBuilder;
 import com.thomsonreuters.uscl.ereader.common.proview.feature.ProviewFeaturesListBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
-import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
@@ -83,8 +81,9 @@ public class GenerateTitleMetadataStep extends XppTransformationStep {
     }
 
     private void generateTitleMetadata(final List<Doc> documents, final Integer splitPartNumber) {
-        final File inputTocFile = getSplitPartFileOrDefault(
-            splitPartNumber, fileSystem::getTocPartFile, fileSystem::getTocFile);
+        final List<File> inputTocFiles = getSplitPartsBundlesMap().keySet().stream()
+            .map(partNumber -> getSplitPartFileOrDefault(partNumber, fileSystem::getTocPartFile, fileSystem::getTocFile))
+            .collect(Collectors.toList());
         final File titleXmlFile = getSplitPartFileOrDefault(
             splitPartNumber, assembleFileSystem::getSplitPartTitleXml, assembleFileSystem::getTitleXml);
 
@@ -92,7 +91,7 @@ public class GenerateTitleMetadataStep extends XppTransformationStep {
         transformer.setParameter("titleMetadataDoc", saveMetadataAndGetFilePath(documents, splitPartNumber));
 
         final TransformationCommand command = new TransformationCommandBuilder(transformer, titleXmlFile)
-            .withInput(inputTocFile).build();
+            .withInput(inputTocFiles).build();
         transformationService.transform(command);
     }
 
@@ -126,23 +125,6 @@ public class GenerateTitleMetadataStep extends XppTransformationStep {
             .ifPresent(titleId -> featureListBuilder.forTitleId(titleId)
                 .withTitleDocs(Collections.singletonMap(titleId, documents)));
         return featureListBuilder.getFeatures();
-    }
-
-    private File getSplitPartFileOrDefault(final Integer splitPartNumber,
-                                           final BiFunction<BookStep, Integer, File> partFileFunction,
-                                           final Function<BookStep, File> fileFunction) {
-        return Optional.ofNullable(splitPartNumber)
-            .filter(partNumber -> partNumber > 1)
-            .map(partNumber -> partFileFunction.apply(this, splitPartNumber))
-            .orElseGet(() -> fileFunction.apply(this));
-    }
-
-    private String getTitleId(final Integer splitPartNumber) {
-        final BookDefinition bookDefinition = getBookDefinition();
-        return Optional.ofNullable(splitPartNumber)
-            .filter(partNumber -> partNumber > 1)
-            .map(partNumber -> String.format("%s_pt%s", bookDefinition.getFullyQualifiedTitleId(), partNumber))
-            .orElseGet(bookDefinition::getFullyQualifiedTitleId);
     }
 
     private String getDisplayName(final Integer splitPartNumber) {

@@ -12,20 +12,18 @@ import com.thomsonreuters.uscl.ereader.common.deliver.comparsion.SplitTitleIdsCo
 import com.thomsonreuters.uscl.ereader.common.deliver.service.ProviewHandlerWithRetry;
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
+import com.thomsonreuters.uscl.ereader.common.step.SplitBookTitlesAwareStep;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
-import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import org.springframework.batch.core.ExitStatus;
 
-public abstract class BaseDeliverStep extends BookStepImpl {
+public abstract class BaseDeliverStep extends BookStepImpl implements SplitBookTitlesAwareStep {
     @Resource(name = "proviewHandler")
     private ProviewHandler proviewHandler;
     @Resource(name = "proviewHandlerWithRetry")
     private ProviewHandlerWithRetry proviewHandlerWithRetry;
 
-    @Resource(name = "docMetadataService")
-    private DocMetadataService docMetadataService;
     @Resource(name = "assembleFileSystem")
     private AssembleFileSystem fileSystem;
 
@@ -53,9 +51,8 @@ public abstract class BaseDeliverStep extends BookStepImpl {
     }
 
     private void publishSplitBook() throws ProviewException {
-        final Set<String> splitTitleIds =
-            new TreeSet<>(new SplitTitleIdsComparator(getBookDefinition().getFullyQualifiedTitleId()));
-        splitTitleIds.addAll(docMetadataService.findDistinctSplitTitlesByJobId(getJobInstanceId()));
+        final Set<String> splitTitleIds = getSplitTitles(
+            () -> new TreeSet<>(new SplitTitleIdsComparator(getBookDefinition().getFullyQualifiedTitleId())));
         for (final String splitTitleId : splitTitleIds) {
             final File assembledSplitTitleFile = fileSystem.getAssembledSplitTitleFile(this, splitTitleId);
             proviewHandler.publishTitle(splitTitleId, getBookVersion(), assembledSplitTitleFile);

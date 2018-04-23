@@ -8,10 +8,16 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
@@ -33,6 +39,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(classes = InternalAnchorsStepIntegrationTestConfiguration.class)
 @ActiveProfiles("IntegrationTests")
 public final class InternalAnchorsStepIntegrationTest {
+    private static final String TITLE_ID = "uscl/ts/test_title";
     private static final String MATERIAL_NUMBER = "111111";
     private static final String MATERIAL_NUMBER_2 = "1111112";
 
@@ -47,6 +54,8 @@ public final class InternalAnchorsStepIntegrationTest {
     private XppBundle xppBundleSupplement;
     @Mock
     private XppBundle xppBundleBound;
+    @Mock
+    private BookDefinition bookDefinition;
 
     private File source1;
     private File source2;
@@ -59,12 +68,20 @@ public final class InternalAnchorsStepIntegrationTest {
     @Before
     public void setUp() throws URISyntaxException, Exception {
         org.mockito.MockitoAnnotations.initMocks(this);
+        when(bookDefinition.getPrintComponents()).thenReturn(getPrintComponents());
+        when(bookDefinition.getFullyQualifiedTitleId()).thenReturn(TITLE_ID);
         when(
             chunkContext.getStepContext()
                 .getStepExecution()
                 .getJobExecution()
                 .getExecutionContext()
                 .get(JobParameterKey.XPP_BUNDLES)).thenReturn(Arrays.asList(xppBundleSupplement, xppBundleBound));
+        when(
+            chunkContext.getStepContext()
+                .getStepExecution()
+                .getJobExecution()
+                .getExecutionContext()
+                .get(JobParameterKey.EBOOK_DEFINITON)).thenReturn(bookDefinition);
         when(xppBundleSupplement.getProductType()).thenReturn("supp");
         when(xppBundleSupplement.isPocketPartPublication()).thenReturn(true);
         when(xppBundleSupplement.getMaterialNumber()).thenReturn(MATERIAL_NUMBER);
@@ -102,6 +119,20 @@ public final class InternalAnchorsStepIntegrationTest {
             .toURI());
     }
 
+    private Set<PrintComponent> getPrintComponents() {
+        final PrintComponent firstPrintComponent = new PrintComponent();
+        firstPrintComponent.setSplitter(false);
+        firstPrintComponent.setComponentOrder(1);
+        firstPrintComponent.setMaterialNumber(MATERIAL_NUMBER);
+
+        final PrintComponent secondPrintComponent = new PrintComponent();
+        secondPrintComponent.setSplitter(false);
+        secondPrintComponent.setComponentOrder(2);
+        secondPrintComponent.setMaterialNumber(MATERIAL_NUMBER_2);
+
+        return Stream.of(firstPrintComponent, secondPrintComponent).collect(Collectors.toCollection(HashSet::new));
+    }
+
     @After
     public void onTestComplete() throws IOException {
         FileUtils.forceDelete(fileSystem.getFormatDirectory(step));
@@ -122,10 +153,10 @@ public final class InternalAnchorsStepIntegrationTest {
         final File summaryTocAnchors2 = fileSystem.getAnchorToDocumentIdMapFile(step, MATERIAL_NUMBER_2);
         assertThat(summaryTocAnchors2, hasSameContentAs(expectedSummaryToc2));
 
-        final File supplementAnchors = fileSystem.getAnchorToDocumentIdMapSupplementFile(step);
+        final File supplementAnchors = fileSystem.getAnchorToDocumentIdMapBoundFile(step, MATERIAL_NUMBER);
         assertThat(supplementAnchors, hasSameContentAs(expectedSupplementAnchors));
 
-        final File boundAnchors = fileSystem.getAnchorToDocumentIdMapBoundFile(step);
+        final File boundAnchors = fileSystem.getAnchorToDocumentIdMapBoundFile(step, MATERIAL_NUMBER_2);
         assertThat(boundAnchors, hasSameContentAs(expectedBoundAnchors));
     }
 }

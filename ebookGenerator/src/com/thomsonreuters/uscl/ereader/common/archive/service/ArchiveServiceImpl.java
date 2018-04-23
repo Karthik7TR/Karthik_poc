@@ -6,24 +6,21 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.thomsonreuters.uscl.ereader.common.archive.step.BaseArchiveStep;
 import com.thomsonreuters.uscl.ereader.common.filesystem.ArchiveFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.FileSystemException;
+import com.thomsonreuters.uscl.ereader.common.step.SplitBookTitlesAwareStep;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
 import org.apache.commons.io.FileUtils;
 
 public class ArchiveServiceImpl implements ArchiveService {
-    @Resource(name = "docMetadataService")
-    private DocMetadataService docMetadataService;
     @Resource(name = "archiveFileSystem")
     private ArchiveFileSystem archivefileSystem;
     @Resource(name = "assembleFileSystem")
     private AssembleFileSystem assembleFileSystem;
 
     @Override
-    public void archiveBook(final BaseArchiveStep step) {
+    public void archiveBook(final SplitBookTitlesAwareStep step) {
         final File archiveDirectory = createArchiveDirectory(step);
 
         final BookDefinition bookDefinition = step.getBookDefinition();
@@ -34,8 +31,8 @@ public class ArchiveServiceImpl implements ArchiveService {
         }
     }
 
-    private void archiveSplitBook(final BaseArchiveStep step, final File archiveDirectory) {
-        final List<String> splitTitles = docMetadataService.findDistinctSplitTitlesByJobId(step.getJobInstanceId());
+    private void archiveSplitBook(final SplitBookTitlesAwareStep step, final File archiveDirectory) {
+        final List<String> splitTitles = step.getSplitTitles();
         for (final String splitTitleId : splitTitles) {
             final File assembledSplitTitleFile = assembleFileSystem.getAssembledSplitTitleFile(step, splitTitleId);
             archiveBook(assembledSplitTitleFile, archiveDirectory);
@@ -54,7 +51,7 @@ public class ArchiveServiceImpl implements ArchiveService {
         }
     }
 
-    private File createArchiveDirectory(final BaseArchiveStep step) {
+    private File createArchiveDirectory(final SplitBookTitlesAwareStep step) {
         final File archiveDirectory = archivefileSystem.getArchiveVersionDirectory(step);
         if (!archiveDirectory.exists() && !archiveDirectory.mkdirs()) {
             throw new FileSystemException(

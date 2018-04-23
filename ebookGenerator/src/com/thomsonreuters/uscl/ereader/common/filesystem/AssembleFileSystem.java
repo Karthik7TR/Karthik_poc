@@ -74,6 +74,15 @@ public interface AssembleFileSystem {
     File getDocumentsDirectory(@NotNull BookStep step);
 
     /**
+     * Returns assemble documents directory:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}{@code /}
+     * {@link #getAssembleDirectory Assemble}{@code /titleId_ptN/documents}
+     */
+    @NotNull
+    File getSplitPartDocumentsDirectory(@NotNull BookStep step, @NotNull String spitTitleId);
+
+
+    /**
      * Returns assembled book file:
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
      * {@code /titleId.gz}

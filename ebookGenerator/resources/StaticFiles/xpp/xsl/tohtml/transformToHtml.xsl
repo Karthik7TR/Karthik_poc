@@ -184,10 +184,20 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="docId" select="($documentUidMap/x:uuidmap/x:item[@key = $uid and @type = 'book'])[1]" />
+		<xsl:variable name="prefix">
+			<xsl:choose>
+				<xsl:when test="($documentUidMap/x:uuidmap/x:item[@key = $uid and @type = 'book'])[1]/@splitTitleId">
+					<xsl:value-of select="concat(($documentUidMap/x:uuidmap/x:item[@key = $uid and @type = 'book'])[1]/@splitTitleId, ':#')" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="'er:#'" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		<xsl:choose>
 			<xsl:when test="$docId">
 				<xsl:element name="a">
-					<xsl:attribute name="href" select="concat('er:#', $docId, '/', $uid)" />
+					<xsl:attribute name="href" select="concat($prefix, $docId, '/', $uid)" />
 					<xsl:apply-templates />
 				</xsl:element>
 			</xsl:when>

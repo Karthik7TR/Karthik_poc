@@ -280,8 +280,9 @@ public final class GenerateTitleMetadataStepIntegrationTest {
 
     @After
     public void clean() throws IOException {
-        FileUtils.cleanDirectory(fileSystem.getFormatDirectory(step));
+        org.springframework.test.util.ReflectionTestUtils.setField(step, "splitParts", null);
         FileUtils.cleanDirectory(assembleFileSystem.getAssembleDirectory(step));
+        FileUtils.cleanDirectory(fileSystem.getFormatDirectory(step));
     }
 
     @Test

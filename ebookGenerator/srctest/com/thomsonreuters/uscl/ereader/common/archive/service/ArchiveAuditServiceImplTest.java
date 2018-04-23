@@ -12,6 +12,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.times;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Set;
 
 import com.thomsonreuters.uscl.ereader.common.archive.step.BaseArchiveStep;
@@ -81,9 +82,7 @@ public final class ArchiveAuditServiceImplTest {
     public void shouldSaveAuditForSplitTitles() {
         //given
         given(book.isSplitBook()).willReturn(true);
-        final Set<SplitNodeInfo> submittedSplitNodes = splitNodes(splitNode(book, "titleId_pt2", "1.1"));
-        final Set<SplitNodeInfo> persistedSplitNodes = splitNodes(splitNode(book, "titleId_pt2", "1.1"));
-        givenSplitNodes(submittedSplitNodes, persistedSplitNodes);
+        given(step.getSplitTitles()).willReturn(Arrays.asList("titleId_pt1", "titleId_pt2"));
         //when
         service.saveAudit(step);
         //then

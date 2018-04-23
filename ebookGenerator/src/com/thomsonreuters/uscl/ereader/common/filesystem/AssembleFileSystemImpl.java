@@ -65,6 +65,11 @@ public class AssembleFileSystemImpl implements AssembleFileSystem {
     }
 
     @Override
+    public File getSplitPartDocumentsDirectory(@NotNull final BookStep step, @NotNull final String spitTitleId) {
+        return new File(getSplitTitleDirectory(step, spitTitleId), "documents");
+    }
+
+    @Override
     public File getAssembledBookFile(@NotNull final BookStep step) {
         final BookDefinition bookDefinition = step.getBookDefinition();
         final String version = step.getBookVersion().getVersionForFilePattern();

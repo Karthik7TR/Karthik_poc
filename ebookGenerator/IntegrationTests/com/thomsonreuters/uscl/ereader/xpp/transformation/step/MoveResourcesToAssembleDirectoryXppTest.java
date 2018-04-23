@@ -3,17 +3,23 @@ package com.thomsonreuters.uscl.ereader.xpp.transformation.step;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.DirectoryContentMatcher.hasSameContentAs;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
 
 import javax.annotation.Resource;
 
+import com.thomsonreuters.uscl.ereader.StepTestUtil;
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.ResourcesFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.ResourcesFileSystemXppImpl;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
+import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.move.resources.step.MoveResourcesToAssembleDirectoryXpp;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -64,6 +70,19 @@ public final class MoveResourcesToAssembleDirectoryXppTest {
         FileUtils.copyDirectory(new File(this.getClass().getResource("testdata").toURI()), workDirectory);
         final File assetsDir = new File(expectedDir, "assets");
         FileUtils.copyFileToDirectory(documentCssFile, assetsDir);
+        createXppBundleMock();
+    }
+
+    private void createXppBundleMock() {
+        final XppBundle bundle = mock(XppBundle.class);
+        given(bundle.getMaterialNumber()).willReturn("1111111");
+        StepTestUtil.givenBookBundles(chunkContext, Arrays.asList(bundle));
+
+        final PrintComponent component = mock(PrintComponent.class);
+        given(component.getSplitter()).willReturn(false);
+        given(component.getComponentOrder()).willReturn(1);
+        given(component.getMaterialNumber()).willReturn("1111111");
+        given(book.getPrintComponents()).willReturn(Collections.singleton(component));
     }
 
     @After
@@ -87,6 +106,7 @@ public final class MoveResourcesToAssembleDirectoryXppTest {
         given(chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext().get("bookDefn"))
             .willReturn(book);
         given(book.getTitleId()).willReturn("titleId");
+        given(book.getFullyQualifiedTitleId()).willReturn("uscl/ts/titleId");
         given(chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId())
             .willReturn(1L);
     }

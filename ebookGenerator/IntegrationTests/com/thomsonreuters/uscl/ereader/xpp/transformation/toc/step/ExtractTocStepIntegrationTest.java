@@ -207,6 +207,7 @@ public final class ExtractTocStepIntegrationTest {
         final BookDefinition bookDefinition = new BookDefinition();
         bookDefinition.setPrintComponents(printComponents);
         bookDefinition.setSourceType(SourceType.XPP);
+        bookDefinition.setFullyQualifiedTitleId("uscl/some/title");
         return bookDefinition;
     }
 

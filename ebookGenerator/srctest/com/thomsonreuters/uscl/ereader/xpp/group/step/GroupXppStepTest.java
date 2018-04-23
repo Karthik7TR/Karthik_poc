@@ -27,6 +27,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Answers;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -111,7 +112,7 @@ public final class GroupXppStepTest {
         given(book.getGroupName()).willReturn("groupName");
         given(book.isSplitBook()).willReturn(true);
         given(splitNodesInfoService.getTitleIds(eq(splitBookInfoFile), anyString())).willReturn(null);
-        given(groupService.createGroupDefinition(book, "v1.1", null)).willReturn(groupDefinition);
+        given(groupService.createGroupDefinition(eq(book), eq("v1.1"), Matchers.anyList())).willReturn(groupDefinition);
         given(groupService.getLastGroup(book)).willReturn(anotherGroupDefinition);
         given(fileSystem.getSplitBookInfoFile(step)).willReturn(splitBookInfoFile);
         //when

@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.common.filesystem;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 
@@ -31,7 +32,15 @@ public class ResourcesFileSystemXppImpl implements ResourcesFileSystem {
     @NotNull
     @Override
     public File getDocumentsDirectory(@NotNull final BookStep step) {
-        return xppFormatFileSystem.getDirectory(step, XppFormatFileSystemDir.UNESCAPE_DIR);
+        return getDocumentsDirectory(step, null);
+    }
+
+    @NotNull
+    @Override
+    public File getDocumentsDirectory(@NotNull final BookStep step, final String materialNumber) {
+        return Optional.ofNullable(materialNumber)
+            .map(material -> xppFormatFileSystem.getDirectory(step, XppFormatFileSystemDir.UNESCAPE_DIR, material))
+            .orElseGet(() -> xppFormatFileSystem.getDirectory(step, XppFormatFileSystemDir.UNESCAPE_DIR));
     }
 
     @NotNull
@@ -61,7 +70,15 @@ public class ResourcesFileSystemXppImpl implements ResourcesFileSystem {
     @NotNull
     @Override
     public Collection<File> getFontsCssFiles(@NotNull final BookStep step) {
-        final File cssDir = xppFormatFileSystem.getFontsCssDirectory(step);
+        return getFontsCssFiles(step, null);
+    }
+
+    @NotNull
+    @Override
+    public Collection<File> getFontsCssFiles(@NotNull final BookStep step, final String materialNumber) {
+        final File cssDir = Optional.ofNullable(materialNumber)
+            .map(material -> xppFormatFileSystem.getFontsCssDirectory(step, material))
+            .orElseGet(() -> xppFormatFileSystem.getFontsCssDirectory(step));
         return FileUtils.listFiles(cssDir, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
     }
 }

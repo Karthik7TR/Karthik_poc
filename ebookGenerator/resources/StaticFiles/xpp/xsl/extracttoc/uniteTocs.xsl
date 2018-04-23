@@ -6,9 +6,15 @@
     <xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
     <xsl:param name="depthThreshold" />
     <xsl:param name="isSplitted" />
+    <xsl:param name="uuidPrefix" />
+    <xsl:param name="titleBreak" />
 
     <xsl:template match="Document">
-        <EBook>
+        <xsl:element name="EBook">
+        	<xsl:if test="$uuidPrefix or $titleBreak">
+        	    <xsl:attribute name="uuidPrefix" select="$uuidPrefix" />
+        		<xsl:attribute name="titleBreak" select="$titleBreak" />
+        	</xsl:if>
             <xsl:choose>
                 <xsl:when test="count(distinct-values(.//x:Volume/@volumeNum))=1 and not($isSplitted)">
                     <xsl:for-each select=".//x:Volume">
@@ -28,7 +34,7 @@
                     </xsl:for-each-group>
                 </xsl:otherwise>
             </xsl:choose>
-        </EBook>
+        </xsl:element>
     </xsl:template>
 
     <xsl:template name="processVolumeWithPocketPart">

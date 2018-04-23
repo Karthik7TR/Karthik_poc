@@ -13,6 +13,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
 
 import java.io.File;
+import java.util.Collections;
 
 import com.thomsonreuters.uscl.ereader.common.deliver.service.ProviewHandlerWithRetry;
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
@@ -21,6 +22,7 @@ import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
+import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -82,6 +84,12 @@ public final class DeliverXppStepTest {
         given(book.getFullyQualifiedTitleId()).willReturn("an/splitTitle");
         given(docMetadataService.findDistinctSplitTitlesByJobId(1L))
             .willReturn(asList("an/splitTitle", "an/splitTitle_pt2"));
+
+        final PrintComponent printComponent = new PrintComponent();
+        printComponent.setSplitter(true);
+        printComponent.setComponentOrder(1);
+        given(book.getPrintComponents()).willReturn(Collections.singleton(printComponent));
+
         given(fileSystem.getAssembledSplitTitleFile(step, "an/splitTitle")).willReturn(assembledBookFile);
         given(fileSystem.getAssembledSplitTitleFile(step, "an/splitTitle_pt2")).willReturn(assembledBookFile);
         //when
@@ -98,8 +106,10 @@ public final class DeliverXppStepTest {
 
         given(book.isSplitBook()).willReturn(true);
         given(book.getFullyQualifiedTitleId()).willReturn("an/splitTitle");
-        given(docMetadataService.findDistinctSplitTitlesByJobId(1L))
-            .willReturn(asList("an/splitTitle", "an/splitTitle_pt2"));
+        final PrintComponent printComponent = new PrintComponent();
+        printComponent.setSplitter(true);
+        printComponent.setComponentOrder(1);
+        given(book.getPrintComponents()).willReturn(Collections.singleton(printComponent));
 
         doThrow(ProviewException.class).when(proviewHandler)
             .publishTitle(eq("an/splitTitle_pt2"), any(Version.class), any(File.class));

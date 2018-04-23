@@ -371,14 +371,8 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
 
     @NotNull
     @Override
-    public File getAnchorToDocumentIdMapBoundFile(@NotNull final BookStep step) {
-        return new File(getAnchorToDocumentIdMapDirectory(step), ANCHOR_TO_DOCUMENT_ID_MAP_BOUND_FILE);
-    }
-
-    @NotNull
-    @Override
-    public File getAnchorToDocumentIdMapSupplementFile(@NotNull final BookStep step) {
-        return new File(getAnchorToDocumentIdMapDirectory(step), ANCHOR_TO_DOCUMENT_ID_MAP_SUPPLEMENT_FILE);
+    public File getAnchorToDocumentIdMapBoundFile(@NotNull final BookStep step, @NotNull final String materialNumber) {
+        return new File(getDirectory(step, XppFormatFileSystemDir.ANCHORS_DIR, materialNumber), ANCHOR_TO_DOCUMENT_ID_MAP_BOUND_FILE);
     }
 
     @NotNull

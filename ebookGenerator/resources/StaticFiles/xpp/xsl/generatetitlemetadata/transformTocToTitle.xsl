@@ -6,8 +6,8 @@
     
     <xsl:param name="titleMetadataDoc" />
     <xsl:param name="titleMetadata" select="document($titleMetadataDoc)" />
-    
-	<xsl:template match="x:EBook">
+
+	<xsl:template match="Document">
 		<xsl:element name="title">
 			<xsl:attribute name="apiversion" select="$titleMetadata/ManifestMetadata/apiVersion/text()" /> 
 			<xsl:attribute name="titleversion" select="$titleMetadata/ManifestMetadata/titleVersion/text()" />
@@ -27,7 +27,7 @@
 			<xsl:copy-of select="$titleMetadata/ManifestMetadata/copyright" />
 			
 			<xsl:element name="toc">
-				<xsl:apply-templates select="x:EBookToc" mode="toc" />
+				<xsl:apply-templates select="x:EBook" />
 			</xsl:element>
 			
 			<xsl:copy-of select="$titleMetadata/ManifestMetadata/docs" />
@@ -35,17 +35,31 @@
 			<xsl:copy-of select="$titleMetadata/ManifestMetadata/isbn" />
 		</xsl:element>
 	</xsl:template>
+    
+	<xsl:template match="x:EBook">
+		<xsl:if test="./@titleBreak">
+			<xsl:element name="titlebreak">
+				<xsl:value-of select="./@titleBreak" />
+			</xsl:element>
+		</xsl:if>
+		<xsl:apply-templates select="x:EBookToc" mode="toc">
+			<xsl:with-param name="uuidPrefix" select="./@uuidPrefix" />
+		</xsl:apply-templates>		
+	</xsl:template>
 	
 	<xsl:template match="x:EBookToc" mode="toc">
+		<xsl:param name="uuidPrefix" />
 		<xsl:element name="entry">
 			<xsl:variable name="docGuid">
 				<xsl:value-of select="./x:DocumentGuid"/>
 			</xsl:variable>
-			<xsl:attribute name="s" select="concat($docGuid, '/', x:Guid)" />
+			<xsl:attribute name="s" select="concat($uuidPrefix, $docGuid, '/', x:Guid)" />
 			<xsl:element name="text">
 				<xsl:value-of select="replace(x:Name/text(), '&amp; ', '&amp;amp; ')" disable-output-escaping="yes" />
 			</xsl:element>
-			<xsl:apply-templates select="x:EBookToc" mode="toc" />
+			<xsl:apply-templates select="x:EBookToc" mode="toc">
+				<xsl:with-param name="uuidPrefix" select="$uuidPrefix" />
+			</xsl:apply-templates>
 		</xsl:element>
 	</xsl:template>
 	
