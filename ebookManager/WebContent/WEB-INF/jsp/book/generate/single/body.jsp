@@ -61,19 +61,7 @@
   }
   
   function submitGenerate(cmd){
-	
-	var confirmed = checkCompleteFlag();
-	
-	if (confirmed){  
-		confirmed=confirmValues();
-		if (confirmed){
-			confirmed = submitForm(cmd);
-		}
-		
-	}
-	
-	return confirmed;
-	
+	return checkCompleteFlag() && confirmValues() && submitForm(cmd);
   }
   
   function checkCompleteFlag(){
@@ -170,36 +158,19 @@
 	}
 	
 	function groupValidation() {
-		var confirmed = true;
 		var isMajorVersion = document.getElementById('isMajorVersion').innerHTML;
 		var errorMessage = "${groupNextErrorMessage}";
 
 		if (errorMessage && isMajorVersion == "Y") {	
 			alert(errorMessage);
-			confirmed= false;
+			return false;
 		}
 
-		return confirmed;
+		return true;
 	}
 
 	function confirmValues() {
-
-		var confirmed = checkVersion();
-
-		if (confirmed) {
-			confirmed = checkPublishingCutoffDate();
-			if (confirmed) {
-				confirmed = checkIsbn();
-				if (confirmed) {
-					confirmed = checkPilotBookStatus();
-					if (confirmed) {
-						confirmed = groupValidation();
-					}
-				}
-			}
-		}
-
-		return confirmed;
+		return checkVersion() && checkPublishingCutoffDate() && checkIsbn() && checkPilotBookStatus() && groupValidation();
 	}
 	
 $(document).ready(function() {
