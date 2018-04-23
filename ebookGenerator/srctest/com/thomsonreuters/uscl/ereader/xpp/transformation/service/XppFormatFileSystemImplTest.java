@@ -543,18 +543,9 @@ public final class XppFormatFileSystemImplTest {
     public void shouldReturnAnchorsMapBoundFile() {
         //given
         //when
-        final File file = fileSystem.getAnchorToDocumentIdMapBoundFile(step);
+        final File file = fileSystem.getAnchorToDocumentIdMapBoundFile(step, MATERIAL_NUMBER);
         //then
-        assertThat(file, hasPath(ANCHORS_DIR + "/" + ANCHOR_TO_DOCUMENT_ID_MAP_BOUND_FILE));
-    }
-
-    @Test
-    public void shouldReturnAnchorsMapSupplementFile() {
-        //given
-        //when
-        final File file = fileSystem.getAnchorToDocumentIdMapSupplementFile(step);
-        //then
-        assertThat(file, hasPath(ANCHORS_DIR + "/" + ANCHOR_TO_DOCUMENT_ID_MAP_SUPPLEMENT_FILE));
+        assertThat(file, hasPath(String.join("/", ANCHORS_DIR, MATERIAL_NUMBER, ANCHOR_TO_DOCUMENT_ID_MAP_BOUND_FILE)));
     }
 
     @Test

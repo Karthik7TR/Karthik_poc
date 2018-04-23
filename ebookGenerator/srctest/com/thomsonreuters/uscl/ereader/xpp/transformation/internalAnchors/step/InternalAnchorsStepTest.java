@@ -16,7 +16,11 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.transform.Transformer;
 
@@ -25,6 +29,8 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilder;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
@@ -58,6 +64,8 @@ public final class InternalAnchorsStepTest {
     private XppBundle boundBundle;
     @Mock
     private XppBundle suppBundle;
+    @Mock
+    private BookDefinition bookDefinition;
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
@@ -67,12 +75,21 @@ public final class InternalAnchorsStepTest {
 
     @Before
     public void setUp() throws IOException {
+        given(bookDefinition.getPrintComponents()).willReturn(getPrintComponents());
+
         given(
             chunkContext.getStepContext()
                 .getStepExecution()
                 .getJobExecution()
                 .getExecutionContext()
                 .get(JobParameterKey.XPP_BUNDLES)).willReturn(Arrays.asList(boundBundle, suppBundle));
+        given(
+            chunkContext.getStepContext()
+                .getStepExecution()
+                .getJobExecution()
+                .getExecutionContext()
+                .get(JobParameterKey.EBOOK_DEFINITON)).willReturn(bookDefinition);
+
         given(boundBundle.getProductType()).willReturn("bound");
         given(boundBundle.getMaterialNumber()).willReturn(MATERIAL_NUMBER);
         given(suppBundle.getProductType()).willReturn("supp");
@@ -106,8 +123,22 @@ public final class InternalAnchorsStepTest {
         given(fileSystem.getAnchorToDocumentIdMapFile(step)).willReturn(mapFile);
         given(fileSystem.getAnchorToDocumentIdMapFile(step, MATERIAL_NUMBER)).willReturn(mapFile);
         given(fileSystem.getAnchorToDocumentIdMapFile(step, MATERIAL_NUMBER_2)).willReturn(mapFile);
-        given(fileSystem.getAnchorToDocumentIdMapBoundFile(step)).willReturn(boundFile);
-        given(fileSystem.getAnchorToDocumentIdMapSupplementFile(step)).willReturn(suppFile);
+        given(fileSystem.getAnchorToDocumentIdMapBoundFile(step, MATERIAL_NUMBER)).willReturn(boundFile);
+        given(fileSystem.getAnchorToDocumentIdMapBoundFile(step, MATERIAL_NUMBER_2)).willReturn(boundFile);
+    }
+
+    private Set<PrintComponent> getPrintComponents() {
+        final PrintComponent firstPrintComponent = new PrintComponent();
+        firstPrintComponent.setSplitter(false);
+        firstPrintComponent.setComponentOrder(1);
+        firstPrintComponent.setMaterialNumber(MATERIAL_NUMBER);
+
+        final PrintComponent secondPrintComponent = new PrintComponent();
+        secondPrintComponent.setSplitter(false);
+        secondPrintComponent.setComponentOrder(2);
+        secondPrintComponent.setMaterialNumber(MATERIAL_NUMBER_2);
+
+        return Stream.of(firstPrintComponent, secondPrintComponent).collect(Collectors.toCollection(HashSet::new));
     }
 
     @Test
@@ -118,9 +149,9 @@ public final class InternalAnchorsStepTest {
         //then
         then(transformationService).should(times(5)).transform((TransformationCommand) any());
         then(fileSystem).should().getFiles(eq(step), eq(XppFormatFileSystemDir.SECTIONBREAKS_DIR));
-        then(fileSystem).should().getAnchorToDocumentIdMapFile(eq(step));
         then(fileSystem).should().getAnchorToDocumentIdMapFile(eq(step), eq(MATERIAL_NUMBER));
-        then(fileSystem).should(times(2)).getAnchorToDocumentIdMapBoundFile(eq(step));
-        then(fileSystem).should(times(2)).getAnchorToDocumentIdMapSupplementFile(eq(step));
+        then(fileSystem).should().getAnchorToDocumentIdMapFile(eq(step), eq(MATERIAL_NUMBER_2));
+        then(fileSystem).should().getAnchorToDocumentIdMapBoundFile(eq(step), eq(MATERIAL_NUMBER));
+        then(fileSystem).should().getAnchorToDocumentIdMapBoundFile(eq(step), eq(MATERIAL_NUMBER_2));
     }
 }

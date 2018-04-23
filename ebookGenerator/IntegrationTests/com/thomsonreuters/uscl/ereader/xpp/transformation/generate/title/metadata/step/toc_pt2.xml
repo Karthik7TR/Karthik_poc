@@ -1,4 +1,4 @@
-<EBook xmlns="http://www.sdl.com/xpp">
+<EBook xmlns="http://www.sdl.com/xpp" uuidPrefix="some/title_pt2#" titleBreak="book 2 of 2">
    <EBookToc>
       <Name>Chapter_5</Name>
       <Guid>I18b49f1028b911e69ed7fcedf0a72426</Guid>
