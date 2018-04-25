@@ -88,10 +88,6 @@
 		<xsl:apply-templates />
 	</xsl:template>
 
-	<xsl:template match="x:t[not(@suppress='true')]">
-		<xsl:apply-templates />
-	</xsl:template>
-
 	<xsl:template match="x:dt">
 		<xsl:if test="../parent::x:line[not(following-sibling::x:line)]">
 			<xsl:element name="t" inherit-namespaces="yes">

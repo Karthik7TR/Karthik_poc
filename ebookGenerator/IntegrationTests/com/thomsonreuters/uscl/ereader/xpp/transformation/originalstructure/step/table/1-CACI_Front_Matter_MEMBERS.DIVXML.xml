@@ -601,41 +601,57 @@
                         </tgroup>
                     </table>
                     <table>
-                        <thead description="original header because of no t tags">
-                            <row>
-                                <group>
-                                    <line>
-                                        <xref id="1" type="footnote" description="keep this"/>
-                                    </line>
-                                </group>
-                            </row>
-                        </thead>
+	                    <tgroup tgroupstyle="text" cols="3" mx_rows="1" tbox_row="0" cals_intertgrule="rowrule" hj_mode="left" lnmeas="0" mx_rtl="0" tbwidth="5.16i" tbdepth="0.32i" tbtotvj="0" tbxposn="0" tbyposn="3.66i" tgroup="1" hdstyle_rows="0" min_colwidth="0" min_rowdepth="0" hdr_rows="0" colstyle="0" tblbrk="row" max_colwidth="2.99i" ctbl_depth="0.22i" yshift="3.61i" pgh_break="any" bkh_break="any" hdr_sup_rows="false" lim_bywid="false" bbxcol="0" ebxcol="0" ob_hdr_rows="0" tnoutput="block" tnrenum="block" tnrefstyle="an" tnoutorder="0" eb_ep_row="0" stubcols="false">
+	                        <thead description="original header because of no t tags">
+	                            <row>
+	                                <group>
+	                                    <line>
+	                                        <xref id="1" type="footnote" description="keep this"/>
+	                                    </line>
+	                                </group>
+	                            </row>
+	                        </thead>
+	                    </tgroup>
                     </table>
                     <table>
-                        <thead description="original header because not all t tags has cgt=true">
-                            <row>
-                                <group>
-                                    <line>
-                                        <t x="0" y="0" style="entry" cgt="true">Date: Beginning </t>
-                                        <t x="0" y="-0.06i" style="entry.1" ul1="0.01i #000000">1</t>
-                                        <xref id="1" type="footnote" description="keep this"/>
-                                    </line>
-                                </group>
-                            </row>
-                        </thead>
+	                    <tgroup tgroupstyle="text" cols="3" mx_rows="1" tbox_row="0" cals_intertgrule="rowrule" hj_mode="left" lnmeas="0" mx_rtl="0" tbwidth="5.16i" tbdepth="0.32i" tbtotvj="0" tbxposn="0" tbyposn="3.66i" tgroup="1" hdstyle_rows="0" min_colwidth="0" min_rowdepth="0" hdr_rows="0" colstyle="0" tblbrk="row" max_colwidth="2.99i" ctbl_depth="0.22i" yshift="3.61i" pgh_break="any" bkh_break="any" hdr_sup_rows="false" lim_bywid="false" bbxcol="0" ebxcol="0" ob_hdr_rows="0" tnoutput="block" tnrenum="block" tnrefstyle="an" tnoutorder="0" eb_ep_row="0" stubcols="false">
+	                        <thead description="original header because not all t tags has cgt=true">
+	                            <row>
+	                                <group>
+	                                    <line>
+	                                        <t x="0" y="0" style="entry" cgt="true">Date: Beginning </t>
+	                                        <t x="0" y="-0.06i" style="entry.1" ul1="0.01i #000000">1</t>
+	                                        <xref id="1" type="footnote" description="keep this"/>
+	                                    </line>
+	                                </group>
+	                            </row>
+	                        </thead>
+                        </tgroup>
                     </table>
                     <table>
-                        <thead description="duplicated header because all t tags has cgt=true">
-                            <row>
-                                <group>
-                                    <line>
-                                        <t x="0" y="0" style="entry" cgt="true">Date: Beginning </t>
-                                        <t x="0" y="-0.06i" style="entry.1" cgt="true" ul1="0.01i #000000">1</t>
-                                        <xref id="1" type="footnote" description="remove this and preceding t"/>
-                                    </line>
-                                </group>
-                            </row>
-                        </thead>
+	                    <tgroup tgroupstyle="text" cols="3" mx_rows="1" tbox_row="0" cals_intertgrule="rowrule" hj_mode="left" lnmeas="0" mx_rtl="0" tbwidth="5.16i" tbdepth="0.32i" tbtotvj="0" tbxposn="0" tbyposn="3.66i" tgroup="1" hdstyle_rows="0" min_colwidth="0" min_rowdepth="0" hdr_rows="0" colstyle="0" tblbrk="row" max_colwidth="2.99i" ctbl_depth="0.22i" yshift="3.61i" pgh_break="any" bkh_break="any" hdr_sup_rows="false" lim_bywid="false" bbxcol="0" ebxcol="0" ob_hdr_rows="0" tnoutput="block" tnrenum="block" tnrefstyle="an" tnoutorder="0" eb_ep_row="0" stubcols="false">
+	                        <thead description="duplicated header because all t tags has cgt=true">
+	                            <row>
+	                                <group>
+		                                <line xfinal="2.25i" yfinal="5.86i" lnwidth="1.74i" lnmeas="6.13i" lindent="0" rindent="0" prelead="0" postlead="0" qdtype="center" bandwidth="0.05i" letspace="0" maxasc="0.1i" maxdesc="0.05i" ldextra="0" ljerrs="false" loverset="false" cerrors="false" sobprelead="false" edtrcds="false" chngbar="false" first="true" last="true" vkpstart="false" vkpsa="false" kptype="false" kpstart="false" kpsa="false" kpse="false" bkpt="false" nobkpt="true" ebinline="false" lepgraf="false" leitm="false" quadset="false" tbstart="false" tbsa="true" tbend="false" tbrhd="false" bmline="false">
+											<tag name="cite" finder="manual" type="lrre"/>
+											<tag name="ref">
+												<attr name="artref">215</attr>
+												<attr name="normalpub">statute-us-ny-law-penal</attr>
+												<attr name="ref.id">Ic8e34570017311e1af2cc99b3ccc1ac6</attr>
+											</tag><t x="0" y="0" style="ref.8" cgt="true">Penal Law Article 215</t>
+											<endtag name="ref"/>
+											<endtag name="cite"/>
+										</line>
+	                                    <line>
+	                                        <t x="0" y="0" style="entry" cgt="true">Date: Beginning </t>
+	                                        <t x="0" y="-0.06i" style="entry.1" cgt="true" ul1="0.01i #000000">1</t>
+	                                        <xref id="1" type="footnote" description="remove this and preceding t"/>
+	                                    </line>
+	                                </group>
+	                            </row>
+	                        </thead>
+                        </tgroup>
                     </table>
                 </block>
             </stream>

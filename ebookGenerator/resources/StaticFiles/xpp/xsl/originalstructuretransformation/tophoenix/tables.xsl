@@ -58,44 +58,17 @@
         <xsl:value-of select="$endColumn/@colnum - $startColumn/@colnum + 1" />
     </xsl:function>
 
-    <xsl:template match="x:tbody|x:tgroup//x:row">
+    <xsl:template match="x:thead|x:tbody|x:tgroup//x:row">
         <xsl:copy>
             <xsl:apply-templates />
         </xsl:copy>
     </xsl:template>
 
-    <xsl:template match="x:thead">
-        <xsl:variable name="isDuplicated" select=".//x:t[1] and count(.//x:t[not(@cgt)])=0" />
-        
-        <xsl:element name="thead">
-            <xsl:choose>
-                <xsl:when test="$isDuplicated">
-                    <xsl:apply-templates mode="duplicatedHeader" />
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:apply-templates />
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:element>
-    </xsl:template>
-
-    <xsl:template match="*[not(self::x:xref[@type='footnote'] or self::x:t)]" mode="duplicatedHeader">
-        <xsl:copy>
-            <xsl:apply-templates mode="duplicatedHeader"/>
-        </xsl:copy>
-    </xsl:template>
-
-    <xsl:template match="x:t" mode="duplicatedHeader">
-        <xsl:if test="not(following::*[1][name() = 'xref' and @type='footnote'])">
-            <xsl:apply-templates />
-        </xsl:if>
-    </xsl:template>
-
-    <xsl:template match="x:xref[@type='footnote']" mode="duplicatedHeader" />
+    <xsl:template match="x:thead[.//x:t[1] and count(.//x:t[not(@cgt)])=0]//x:t[following::*[1][name() = 'xref' and @type='footnote']]"/>
+    <xsl:template match="x:thead[.//x:t[1] and count(.//x:t[not(@cgt)])=0]//x:xref[@type='footnote']"/>
 
     <xsl:template
         match="x:tag[@name = 'table' or @name = 'tgroup' or @name = 'thead' or @name = 'tbody' or @name = 'row' or @name = 'entry']" />
     <xsl:template
         match="x:endtag[@name = 'table' or @name = 'tgroup' or @name = 'thead' or @name = 'tbody' or @name = 'row' or @name = 'entry']" />
-
 </xsl:stylesheet>
