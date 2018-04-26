@@ -55,14 +55,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
-    
-    <xsl:template match="x:footnote" mode="hiddenFoootnotesNoColumns">
-        <xsl:element name="footnote">
-            <xsl:attribute name="hidden" select="true()" />
-            <xsl:apply-templates select="current()/*|@*[not(name()='hidden')]" />
-        </xsl:element>
-    </xsl:template>
-    
+        
     <xsl:function name="x:shouldCopyFootnote">
         <xsl:param name="footnote" />        
 
