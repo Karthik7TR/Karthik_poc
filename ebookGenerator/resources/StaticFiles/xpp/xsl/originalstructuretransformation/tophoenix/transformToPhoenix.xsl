@@ -56,6 +56,7 @@
 	
 		<xsl:if test="$bundlePartType='FRONT' and count(preceding::x:page)=0 and $type='main'">
 			<xsl:apply-templates select="x:stream[@type='frills']//x:image"/>
+			<xsl:apply-templates select="x:stream[@type='frills']//x:block[.//x:tag[@name='custserv']]"/>
 		</xsl:if>
 
 		<!-- if we work with footnotes place page.number at the end of page -->

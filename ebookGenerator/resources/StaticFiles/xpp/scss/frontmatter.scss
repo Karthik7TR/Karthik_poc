@@ -91,3 +91,15 @@
 .frontmatter>.trImageContainer>.imageWrapper {
     width: #{$indent * 15}em;
 }
+
+.frontmatter>.fm_table_of_abbreviations>.tbl>.table_frame_none>tbody>tr>td>*,
+.frontmatter>.fm_table_of_abbreviations>.tbl>.table_frame_none>tbody>tr>td>* * {
+    display: inline;
+}
+
+.custserv {
+    text-align: center;
+    & * {
+        display: inline !important;
+    }
+}

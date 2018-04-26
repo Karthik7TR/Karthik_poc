@@ -45,6 +45,9 @@
     .toc_analytical_level & {
         min-width: 0;
     }
+    .toc_appendix_reserved>a>.outline_name_block>& {
+        margin-right: 0.5em;
+    }
 }
 
 .toc_section {
@@ -62,4 +65,15 @@
 .toc_pgno {
     flex-grow: 1;
     text-align: right;
+}
+
+.label {
+    .toc_appendix_reserved>a>.outline_name_block>& {
+        margin-right: #{$indent * 0.5}em;
+    }
+}
+
+.toc_appendix,
+.toc_appendix_reserved {
+    margin-right: #{$indent * 0.5}em;
 }

@@ -667,6 +667,19 @@ td:last-of-type {
   width: 15em;
 }
 
+.frontmatter > .fm_table_of_abbreviations > .tbl > .table_frame_none > tbody > tr > td > *,
+.frontmatter > .fm_table_of_abbreviations > .tbl > .table_frame_none > tbody > tr > td > * * {
+  display: inline;
+}
+
+.custserv {
+  text-align: center;
+}
+
+.custserv * {
+  display: inline !important;
+}
+
 .leaveout .cgt,
 .fixed_footnote_reference .cgt,
 .form_line .cgt,
@@ -692,7 +705,8 @@ thead > tr > td > .cgt,
 tbody .cgt,
 .generated_case_tbl .int_ref_list > .cgt,
 .research_reference_block > .cgt,
-.appendix_block > .appendix > .appendix_body > .stat_structure > .stat_title > .stat_chapter > .stat_article > .stat_section_reserved .cgt {
+.appendix_block > .appendix > .appendix_body > .stat_structure > .stat_title > .stat_chapter > .stat_article > .stat_section_reserved .cgt,
+.toc_appendix_reserved > a ~ .cgt {
   display: inline;
 }
 
@@ -776,6 +790,10 @@ tbody .cgt,
   min-width: 0;
 }
 
+.toc_appendix_reserved > a > .outline_name_block > .designator {
+  margin-right: 0.5em;
+}
+
 .toc_section:last-of-type {
   margin-bottom: 1em;
 }
@@ -787,6 +805,15 @@ tbody .cgt,
 .toc_pgno {
   flex-grow: 1;
   text-align: right;
+}
+
+.toc_appendix_reserved > a > .outline_name_block > .label {
+  margin-right: 0.5em;
+}
+
+.toc_appendix,
+.toc_appendix_reserved {
+  margin-right: 0.5em;
 }
 
 .INDEX {
