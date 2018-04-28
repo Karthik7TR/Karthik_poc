@@ -13,15 +13,15 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.PublisherCodeService;
 
 public final class BookDefinitionUtils {
     private BookDefinitionUtils() {
     }
 
     public static BookDefinition fillBookDefinition(
-        final CodeService codeService,
+        final PublisherCodeService publisherCodeService,
         final DocumentTypeCodeService documentTypeCodeService,
         final String title) {
         final BookDefinition eBook = new BookDefinition();
@@ -53,7 +53,7 @@ public final class BookDefinitionUtils {
         eBook.setIsSplitBook(false);
         eBook.setIsSplitTypeAuto(true);
 
-        final PublisherCode publisherCode = codeService.getPublisherCodeById(1L);
+        final PublisherCode publisherCode = publisherCodeService.getPublisherCodeById(1L);
         eBook.setPublisherCodes(publisherCode);
 
         // Setup Front Matter

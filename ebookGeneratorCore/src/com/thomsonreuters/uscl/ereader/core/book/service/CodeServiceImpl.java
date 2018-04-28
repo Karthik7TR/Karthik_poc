@@ -7,7 +7,6 @@ import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDao;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,50 +73,6 @@ public class CodeServiceImpl implements CodeService {
     @Transactional
     public void deletePubTypeCode(final PubTypeCode pubTypeCode) {
         dao.deletePubTypeCode(pubTypeCode);
-    }
-
-    /**
-     * Get all the Publisher codes from the PUBLISHER_TYPE_CODES table
-     * @return a list of PublisherCode objects
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<PublisherCode> getAllPublisherCodes() {
-        return dao.getAllPublisherCodes();
-    }
-
-    /**
-     * Get a Publisher Code from the PUBLISHER_TYPE_CODES table that match PUBLISHER_TYPE_CODES_ID
-     * @param PublisherCodeId
-     * @return
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public PublisherCode getPublisherCodeById(final Long publisherCodeId) {
-        return dao.getPublisherCodeById(publisherCodeId);
-    }
-
-    /**
-     * Create or Update a Publisher Code to the PUBLISHER_TYPE_CODES table
-     * @param PublisherCode
-     * @return
-     */
-    @Override
-    @Transactional
-    public void savePublisherCode(final PublisherCode publisherCode) {
-        publisherCode.setLastUpdated(new Date());
-        dao.savePublisherCode(publisherCode);
-    }
-
-    /**
-     * Delete a Publisher Code in the PUBLISHER_TYPE_CODES table
-     * @param PublisherCode
-     * @return
-     */
-    @Override
-    @Transactional
-    public void deletePublisherCode(final PublisherCode publisherCode) {
-        dao.deletePublisherCode(publisherCode);
     }
 
     /**

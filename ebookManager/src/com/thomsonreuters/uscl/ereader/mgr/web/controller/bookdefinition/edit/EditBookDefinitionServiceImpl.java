@@ -23,6 +23,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.JurisTypeCodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.PublisherCodeService;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.sap.comparsion.MaterialComponentComparatorProvider;
@@ -53,6 +54,7 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
     private static final String INVALID_SUB_NUMBER_MESSAGE = SUB_NUMBER_MESSAGE + " is invalid";
 
     private final CodeService codeService;
+    private final PublisherCodeService publisherCodeService;
     private final DocumentTypeCodeService documentTypeCodeService;
     private final JurisTypeCodeService jurisTypeCodeService;
     private final StateCodeService stateCodeService;
@@ -63,6 +65,7 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
 
     @Autowired
     public EditBookDefinitionServiceImpl(final CodeService codeService,
+                                         final PublisherCodeService publisherCodeService,
                                          final DocumentTypeCodeService documentTypeCodeService,
                                          final JurisTypeCodeService jurisTypeCodeService,
                                          final StateCodeService stateCodeService,
@@ -70,6 +73,7 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
                                          final SapService sapService,
                                          final MaterialComponentComparatorProvider materialComponentComparatorProvider) {
         this.codeService = codeService;
+        this.publisherCodeService = publisherCodeService;
         this.documentTypeCodeService = documentTypeCodeService;
         this.jurisTypeCodeService = jurisTypeCodeService;
         this.stateCodeService = stateCodeService;
@@ -106,7 +110,7 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
 
     @Override
     public Map<String, String> getPublishers() {
-        return buildNamesMap(codeService::getAllPublisherCodes, PublisherCode::getName);
+        return buildNamesMap(publisherCodeService::getAllPublisherCodes, PublisherCode::getName);
     }
 
     private <T> Map<String, String> buildNamesMap(final Supplier<Collection<T>> dataSupplier,

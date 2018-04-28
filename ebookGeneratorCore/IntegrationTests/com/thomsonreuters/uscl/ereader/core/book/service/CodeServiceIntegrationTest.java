@@ -95,40 +95,6 @@ public class CodeServiceIntegrationTest {
     }
 
     @Test
-    @Ignore
-    public void testGetAllPublisher() {
-        final List<PublisherCode> codes = service.getAllPublisherCodes();
-        log.debug(codes);
-        Assert.assertEquals(1, codes.size());
-    }
-
-    @Test
-    public void testPublisherCodeCRUD() {
-        // Create StateCode
-        final PublisherCode createCode = new PublisherCode();
-        createCode.setName("Test");
-        service.savePublisherCode(createCode);
-
-        // Get
-        PublisherCode readCode = service.getPublisherCodeById(createCode.getId());
-        Assert.assertEquals(createCode, readCode);
-        Assert.assertEquals("Test", readCode.getName());
-
-        // Update
-        readCode.setName("Test2");
-        service.savePublisherCode(readCode);
-
-        // Get 2
-        readCode = service.getPublisherCodeById(createCode.getId());
-        Assert.assertEquals("Test2", readCode.getName());
-
-        // Delete
-        service.deletePublisherCode(readCode);
-        readCode = service.getPublisherCodeById(createCode.getId());
-        Assert.assertEquals(null, readCode);
-    }
-
-    @Test
     public void testGetAllKeywordCodes() {
         final DbSetup dbSetup = new DbSetup(
             new DataSourceDestination(dataSource),

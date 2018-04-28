@@ -20,7 +20,7 @@
 	  </display:column>
 	  <display:column title="Name" property="name" />
 	  <display:column title="Last Updated" >
-	  	<fmt:formatDate value="${vdo.lastUpdated}" pattern="${DATE_FORMAT}"/>
+	  	<fmt:formatDate value="${vdo.lastUpdatedJurisTypeCode}" pattern="${DATE_FORMAT}"/>
 	  </display:column>
 	</display:table>
 </div>

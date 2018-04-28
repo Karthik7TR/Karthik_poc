@@ -11,7 +11,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -95,19 +94,6 @@ public class CodeDaoImpl implements CodeDao {
     }
 
     /**
-     * Delete a Publisher Code in the PUBLISHER_TYPE_CODES table
-     * @param publisherCode
-     * @return
-     */
-    @Override
-    public void deletePublisherCode(PublisherCode publisherCode) {
-        publisherCode = (PublisherCode) sessionFactory.getCurrentSession().merge(publisherCode);
-        final Session session = sessionFactory.getCurrentSession();
-        session.delete(publisherCode);
-        session.flush();
-    }
-
-    /**
      * Delete a PubType Code in the PUB_TYPE_CODES table
      * @param PubTypeCode
      * @return
@@ -169,17 +155,6 @@ public class CodeDaoImpl implements CodeDao {
     }
 
     /**
-     * Get all the Publisher codes from the PUBLISHER_TYPE_CODES table
-     * @return a list of PublisherCode objects
-     */
-    @Override
-    public List<PublisherCode> getAllPublisherCodes() {
-        final Criteria criteria =
-            sessionFactory.getCurrentSession().createCriteria(PublisherCode.class).addOrder(Order.asc("name"));
-        return criteria.list();
-    }
-
-    /**
      * Get all the PubType codes from the PUB_TYPE_CODES table
      * @return a list of PubTypeCode objects
      */
@@ -221,16 +196,6 @@ public class CodeDaoImpl implements CodeDao {
     @Override
     public KeywordTypeValue getKeywordTypeValueById(final Long keywordTypeValueId) {
         return (KeywordTypeValue) sessionFactory.getCurrentSession().get(KeywordTypeValue.class, keywordTypeValueId);
-    }
-
-    /**
-     * Get a Publisher Code from the PUBLISHER_TYPE_CODES table that match PUBLISHER_TYPE_CODES_ID
-     * @param publisherCodeId
-     * @return
-     */
-    @Override
-    public PublisherCode getPublisherCodeById(final Long publisherCodeId) {
-        return (PublisherCode) sessionFactory.getCurrentSession().get(PublisherCode.class, publisherCodeId);
     }
 
     /**
@@ -293,26 +258,6 @@ public class CodeDaoImpl implements CodeDao {
             session.merge(keywordTypeValue);
         } else {
             session.save(keywordTypeValue);
-        }
-        session.flush();
-    }
-
-    /**
-     * Create or Update a Publisher Code to the PUBLISHER_TYPE_CODES table
-     * @param publisherCode
-     * @return
-     */
-    @Override
-    public void savePublisherCode(final PublisherCode publisherCode) {
-        publisherCode.setLastUpdated(new Date());
-
-        final Session session = sessionFactory.getCurrentSession();
-
-        // Determine if it a new object
-        if (publisherCode.getId() != null) {
-            session.merge(publisherCode);
-        } else {
-            session.save(publisherCode);
         }
         session.flush();
     }

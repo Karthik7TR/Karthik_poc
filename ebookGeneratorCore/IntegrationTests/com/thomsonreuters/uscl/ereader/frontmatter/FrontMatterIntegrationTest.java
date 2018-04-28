@@ -8,8 +8,8 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.PublisherCodeService;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -29,7 +29,7 @@ public final class FrontMatterIntegrationTest {
     private BookDefinition eBook;
 
     @Autowired
-    private CodeService codeService;
+    private PublisherCodeService publisherCodeService;
     @Autowired
     private DocumentTypeCodeService documentTypeCodeService;
 
@@ -39,7 +39,7 @@ public final class FrontMatterIntegrationTest {
      */
     private void saveBook() {
         final BookDefinition filledBook =
-            BookDefinitionUtils.fillBookDefinition(codeService, documentTypeCodeService, BOOK_TITLE);
+            BookDefinitionUtils.fillBookDefinition(publisherCodeService, documentTypeCodeService, BOOK_TITLE);
         eBook = bookDefinitionService.saveBookDefinition(filledBook);
     }
 

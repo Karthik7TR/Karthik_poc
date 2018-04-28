@@ -5,7 +5,6 @@ import java.util.List;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 
 public interface CodeService {
     /**
@@ -41,33 +40,6 @@ public interface CodeService {
      * @return
      */
     void deletePubTypeCode(PubTypeCode pubTypeCode);
-
-    /**
-     * Get all the Publisher codes from the PUBLISHER_CODES table
-     * @return a list of Publisher objects
-     */
-    List<PublisherCode> getAllPublisherCodes();
-
-    /**
-     * Get a Publisher Code from the PUBLISHER_CODES table that match PUBLISHER_CODES_ID
-     * @param publisherCodeId
-     * @return
-     */
-    PublisherCode getPublisherCodeById(Long publisherCodeId);
-
-    /**
-     * Create or Update a Publisher Code to the PUBLISHER_CODES table
-     * @param publisherCode
-     * @return
-     */
-    void savePublisherCode(PublisherCode publisherCode);
-
-    /**
-     * Delete a Publisher Code in the PUBLISHER_CODES table
-     * @param publisherCode
-     * @return
-     */
-    void deletePublisherCode(PublisherCode publisherCode);
 
     /**
      * Get all the KeywordTypeCode codes from the KEYWORD_TYPE_CODES table

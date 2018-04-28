@@ -3,10 +3,10 @@ package com.thomsonreuters.uscl.ereader.core.book.dao;
 import com.thomsonreuters.uscl.ereader.config.AbstractDatabaseIntegrationTestConfig;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionServiceImpl;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeServiceImpl;
 import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeServiceImpl;
+import com.thomsonreuters.uscl.ereader.core.book.service.PublisherCodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.PublisherCodeServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -39,9 +39,8 @@ public class LockDaoTestConfig extends AbstractDatabaseIntegrationTestConfig {
     }
 
     @Bean
-    public CodeService getCodeService() {
-        final CodeDao dao = new CodeDaoImpl(sessionFactory());
-        return new CodeServiceImpl(dao);
+    public PublisherCodeService getPublisherCodeService(final PublisherCodeDao dao) {
+        return new PublisherCodeServiceImpl(dao);
     }
 
     @Bean

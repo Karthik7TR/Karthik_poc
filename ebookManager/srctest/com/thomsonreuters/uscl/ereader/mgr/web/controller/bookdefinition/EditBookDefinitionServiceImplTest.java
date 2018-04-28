@@ -20,6 +20,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.JurisTypeCodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.PublisherCodeService;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit.EditBookDefinitionServiceImpl;
@@ -52,6 +53,8 @@ public final class EditBookDefinitionServiceImplTest {
     @Mock
     private CodeService codeService;
     @Mock
+    private PublisherCodeService publisherCodeService;
+    @Mock
     private DocumentTypeCodeService documentTypeCodeService;
     @Mock
     private JurisTypeCodeService jurisTypeCodeService;
@@ -75,6 +78,7 @@ public final class EditBookDefinitionServiceImplTest {
 
         bookService = new EditBookDefinitionServiceImpl(
             codeService,
+            publisherCodeService,
             documentTypeCodeService,
             jurisTypeCodeService,
             stateCodeService,
@@ -219,7 +223,7 @@ public final class EditBookDefinitionServiceImplTest {
         code.setName("aAa");
         final List<PublisherCode> codes = new ArrayList<>();
         codes.add(code);
-        given(codeService.getAllPublisherCodes()).willReturn(codes);
+        given(publisherCodeService.getAllPublisherCodes()).willReturn(codes);
         // when
         final Map<String, String> pubs = bookService.getPublishers();
         // then

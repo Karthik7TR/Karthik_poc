@@ -6,7 +6,6 @@ import java.util.List;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import org.easymock.EasyMock;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -20,10 +19,6 @@ public final class CodeDaoTest {
     private final PubTypeCode PUB_TYPE_CODE = new PubTypeCode();
     private final Long PUB_TYPE_CODES_ID = Long.valueOf("1");
     private final List<PubTypeCode> ALL_PUB_TYPE_CODES = new ArrayList<>();
-
-    private final PublisherCode PUBLISHER_CODE = new PublisherCode();
-    private final Long PUBLISHER_CODES_ID = Long.valueOf("5");
-    private final List<PublisherCode> ALL_PUBLISHER_CODES = new ArrayList<>();
 
     private final KeywordTypeCode KEYWORD_TYPE_CODE = new KeywordTypeCode();
     private final Long KEYWORD_TYPE_CODES_ID = Long.valueOf("6");
@@ -46,7 +41,6 @@ public final class CodeDaoTest {
         dao = new CodeDaoImpl(mockSessionFactory);
 
         PUB_TYPE_CODE.setId(PUB_TYPE_CODES_ID);
-        PUBLISHER_CODE.setId(PUBLISHER_CODES_ID);
         KEYWORD_TYPE_CODE.setId(KEYWORD_TYPE_CODES_ID);
         KEYWORD_TYPE_VALUE.setId(KEYWORD_TYPE_VALUES_ID);
     }
@@ -89,43 +83,6 @@ public final class CodeDaoTest {
         EasyMock.verify(mockCriteria);
     }
 
-    @Test
-    public void testGetPublisherCode() {
-        EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
-        EasyMock.expect(mockSession.get(PublisherCode.class, PUBLISHER_CODES_ID)).andReturn(PUBLISHER_CODE);
-        EasyMock.replay(mockSessionFactory);
-        EasyMock.replay(mockSession);
-
-        final PublisherCode actual = dao.getPublisherCodeById(PUBLISHER_CODES_ID);
-        final PublisherCode expected = new PublisherCode();
-        expected.setId(PUBLISHER_CODES_ID);
-
-        Assert.assertEquals(expected, actual);
-
-        EasyMock.verify(mockSessionFactory);
-        EasyMock.verify(mockSession);
-    }
-
-    @Test
-    public void testGetAllPublisherCodes() {
-        ALL_PUBLISHER_CODES.add(PUBLISHER_CODE);
-        EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
-        EasyMock.expect(mockSession.createCriteria(PublisherCode.class)).andReturn(mockCriteria);
-        EasyMock.expect(mockCriteria.addOrder(EasyMock.anyObject(Order.class))).andReturn(mockCriteria);
-        EasyMock.expect(mockCriteria.list()).andReturn(ALL_PUBLISHER_CODES);
-        EasyMock.replay(mockSessionFactory);
-        EasyMock.replay(mockSession);
-        EasyMock.replay(mockCriteria);
-
-        final List<PublisherCode> actual = dao.getAllPublisherCodes();
-        final List<PublisherCode> expected = new ArrayList<>();
-        expected.add(PUBLISHER_CODE);
-        Assert.assertEquals(expected, actual);
-
-        EasyMock.verify(mockSessionFactory);
-        EasyMock.verify(mockSession);
-        EasyMock.verify(mockCriteria);
-    }
 
     @Test
     public void testGetKeywordTypeCode() {
