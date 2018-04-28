@@ -21,6 +21,8 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilder;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
@@ -56,6 +58,8 @@ public final class TransformationToHtmlStepTest {
     private File transformToHtmlXsl;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private ChunkContext chunkContext;
+    @Mock
+    private BookDefinition bookDefinition;
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
@@ -85,6 +89,20 @@ public final class TransformationToHtmlStepTest {
                 .getJobExecution()
                 .getExecutionContext()
                 .get(JobParameterKey.XPP_BUNDLES)).willReturn(getXppBundles());
+
+        given(
+            chunkContext.getStepContext()
+                .getStepExecution()
+                .getJobExecution()
+                .getExecutionContext()
+                .get(JobParameterKey.EBOOK_DEFINITON)).willReturn(bookDefinition);
+
+        final PrintComponent component = new PrintComponent();
+        component.setMaterialNumber(MATERIAL_NUMBER);
+        component.setComponentOrder(1);
+        component.setSplitter(false);
+        given(bookDefinition.getPrintComponents()).willReturn(Collections.singleton(component));
+        given(bookDefinition.getFullyQualifiedTitleId()).willReturn("uscl/ts/test_book");
 
         given(fileSystem.getFiles(step, SOURCE_DIR))
             .willReturn(Collections.singletonMap(MATERIAL_NUMBER, (Collection<File>) Arrays.asList(originalFile)));

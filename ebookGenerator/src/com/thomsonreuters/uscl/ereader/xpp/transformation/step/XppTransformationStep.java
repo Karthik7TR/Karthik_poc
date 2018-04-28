@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -99,6 +100,15 @@ public abstract class XppTransformationStep extends BookStepImpl implements XppB
             .filter(partNumber -> partNumber > 1)
             .map(partNumber -> partFileFunction.apply(this, splitPartNumber))
             .orElseGet(() -> fileFunction.apply(this));
+    }
+
+    protected Integer getSplitPartNumberByMaterial(final String materialNumber) {
+        final XppBundle bundle = getBundleByMaterial(materialNumber);
+        return getSplitPartsBundlesMap().entrySet().stream()
+            .filter(entry -> entry.getValue().contains(bundle))
+            .findFirst()
+            .map(Entry::getKey)
+            .orElseThrow(() -> new RuntimeException(String.format("Cannot find part number for %s", materialNumber)));
     }
 
     /**

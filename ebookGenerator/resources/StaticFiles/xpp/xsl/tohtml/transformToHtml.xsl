@@ -18,6 +18,7 @@
 	<xsl:param name="entitiesDocType" />
 	<xsl:param name="bundleFileType" />
 	<xsl:param name="volumesMap" />
+	<xsl:param name="currentPartTitle" />
 	
 	<xsl:variable name="documentUidMap" select="document($documentUidMapDoc)" />
 	<xsl:variable name="summaryTocDocumentUidMap" select="document($summaryTocDocumentUidMapDoc)" />
@@ -184,10 +185,11 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="docId" select="($documentUidMap/x:uuidmap/x:item[@key = $uid and @type = 'book'])[1]" />
+		<xsl:variable name="linkedTitle" select="($documentUidMap/x:uuidmap/x:item[@key = $uid and @type = 'book'])[1]/@splitTitleId" />
 		<xsl:variable name="prefix">
-			<xsl:choose>
-				<xsl:when test="($documentUidMap/x:uuidmap/x:item[@key = $uid and @type = 'book'])[1]/@splitTitleId">
-					<xsl:value-of select="concat(($documentUidMap/x:uuidmap/x:item[@key = $uid and @type = 'book'])[1]/@splitTitleId, ':#')" />
+			<xsl:choose>			
+				<xsl:when test="$linkedTitle and $linkedTitle != $currentPartTitle">
+					<xsl:value-of select="concat('er:', $linkedTitle, '#')" />
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:value-of select="'er:#'" />

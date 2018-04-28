@@ -12,11 +12,15 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleWebBuildProductType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
@@ -62,6 +66,8 @@ public final class TransformationToHtmlStepIntegrationTest {
 
     @Mock
     private XppBundle xppBundle;
+    @Mock
+    private BookDefinition bookDefinition;
 
     private File original;
     private File originalLrre;
@@ -96,7 +102,7 @@ public final class TransformationToHtmlStepIntegrationTest {
     @Test
     public void shouldTransformPartsToHtml() throws Exception {
         //given
-        initGiven(false);
+        initGiven(false, false);
         final File expected =
             new File(TransformationToHtmlStepIntegrationTest.class.getResource("expected.html").toURI());
         final File expectedLrre =
@@ -113,7 +119,7 @@ public final class TransformationToHtmlStepIntegrationTest {
     @Test
     public void shouldTransformMultiVolumePartsToHtml() throws Exception {
         //given
-        initGiven(true);
+        initGiven(true, false);
         final File expectedVol1 = new File(
             TransformationToHtmlStepIntegrationTest.class.getResource("expected-with-prefix-vol1.html").toURI());
         final File expectedVol2 = new File(
@@ -127,13 +133,39 @@ public final class TransformationToHtmlStepIntegrationTest {
         assertThat(FileUtils.readFileToString(html), equalTo(getExpectedString(expectedVol2)));
     }
 
-    private void initGiven(final boolean multiVolume) throws Exception {
+    @Test
+    public void shouldTransformMultiVolumeSplitPartsToHtml() throws Exception {
+        //given
+        initGiven(true, true);
+        final File expectedVol1 = new File(
+            TransformationToHtmlStepIntegrationTest.class.getResource("split/expected-with-prefix-vol1.html").toURI());
+        final File expectedVol2 = new File(
+            TransformationToHtmlStepIntegrationTest.class.getResource("split/expected-with-prefix-vol2.html").toURI());
+        //when
+        step.executeStep();
+        //then
+        File html = fileSystem.getHtmlPageFile(step, MATERIAL_NUMBER, SAMPLE_DIVXML_PAGE);
+        assertThat(FileUtils.readFileToString(html), equalTo(getExpectedString(expectedVol1)));
+        html = fileSystem.getHtmlPageFile(step, ADDITIONAL_MATERIAL_NUMBER, SAMPLE_DIVXML_PAGE);
+        assertThat(FileUtils.readFileToString(html), equalTo(getExpectedString(expectedVol2)));
+    }
+
+    private void initGiven(final boolean multiVolume, final boolean isSplit) throws Exception {
         given(
             chunkContext.getStepContext()
                 .getStepExecution()
                 .getJobExecution()
                 .getExecutionContext()
                 .get(JobParameterKey.XPP_BUNDLES)).willReturn(getXppBundles(multiVolume));
+
+        given(
+            chunkContext.getStepContext()
+                .getStepExecution()
+                .getJobExecution()
+                .getExecutionContext()
+                .get(JobParameterKey.EBOOK_DEFINITON)).willReturn(bookDefinition);
+        given(bookDefinition.getPrintComponents()).willReturn(getPrintComponents(multiVolume, isSplit));
+        given(bookDefinition.getFullyQualifiedTitleId()).willReturn("uscl/ts/test_book");
 
         FileUtils.copyFileToDirectory(original, mkdir(fileSystem.getDirectory(step, SOURCE_DIR, MATERIAL_NUMBER)));
         FileUtils.copyFileToDirectory(originalLrre, mkdir(fileSystem.getDirectory(step, SOURCE_DIR, MATERIAL_NUMBER)));
@@ -145,6 +177,12 @@ public final class TransformationToHtmlStepIntegrationTest {
         }
         final File sumTocAchorsDir = mkdir(fileSystem.getDirectory(step, XppFormatFileSystemDir.ANCHORS_DIR, MATERIAL_NUMBER));
         final File sumTocAchorsDir2 = mkdir(fileSystem.getDirectory(step, XppFormatFileSystemDir.ANCHORS_DIR, ADDITIONAL_MATERIAL_NUMBER));
+
+        if (isSplit) {
+            anchorsFile = new File(TransformationToHtmlStepIntegrationTest.class
+                .getResource(String.format("split/%s", XppFormatFileSystemImpl.ANCHOR_TO_DOCUMENT_ID_MAP_FILE)).toURI());
+        }
+
         FileUtils.copyFileToDirectory(anchorsFile, sumTocAchorsDir.getParentFile());
         FileUtils.copyFileToDirectory(sumTocAnchorsFile, sumTocAchorsDir);
         FileUtils.copyFileToDirectory(sumTocAnchorsFile, sumTocAchorsDir2);
@@ -169,6 +207,31 @@ public final class TransformationToHtmlStepIntegrationTest {
         }
 
         return bundles;
+    }
+
+    private Set<PrintComponent> getPrintComponents(final boolean multiVolume, final boolean isSplit) {
+        final Set<PrintComponent> components = new HashSet<>();
+        PrintComponent component = new PrintComponent();
+        component.setComponentOrder(1);
+        component.setSplitter(false);
+        component.setMaterialNumber(MATERIAL_NUMBER);
+        components.add(component);
+
+        if (isSplit) {
+            component = new PrintComponent();
+            component.setComponentOrder(2);
+            component.setSplitter(true);
+            components.add(component);
+        }
+
+        if (multiVolume) {
+            component = new PrintComponent();
+            component.setComponentOrder(3);
+            component.setSplitter(false);
+            component.setMaterialNumber(ADDITIONAL_MATERIAL_NUMBER);
+            components.add(component);
+        }
+        return components;
     }
 
     private String getExpectedString(final File expected) throws IOException {

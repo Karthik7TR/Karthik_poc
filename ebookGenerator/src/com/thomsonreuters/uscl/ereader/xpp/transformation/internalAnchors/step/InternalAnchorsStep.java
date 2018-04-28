@@ -7,13 +7,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.xml.transform.Transformer;
-
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilder;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -58,13 +57,14 @@ public class InternalAnchorsStep extends XppTransformationStep {
     private void transform(final File xsl, final Collection<File> input,
                            final File output, final boolean isPocketPart,
                            final Integer splitPartNumber) {
-        final Transformer transformer =
+        final TransformerBuilder transformerBuilder =
             transformerBuilderFactory.create().withXsl(xsl)
-                .withParameter("isPocketPart", isPocketPart)
-                .withParameter("splitTitleId", getTitleId(splitPartNumber))
-                .build();
+                .withParameter("isPocketPart", isPocketPart);
+        if (getSplitPartsBundlesMap().size() > 1) {
+            transformerBuilder.withParameter("splitTitleId", getTitleId(splitPartNumber));
+        }
         final TransformationCommand command =
-            new TransformationCommandBuilder(transformer, output).withInput(input).build();
+            new TransformationCommandBuilder(transformerBuilder.build(), output).withInput(input).build();
         transformationService.transform(command);
     }
 }
