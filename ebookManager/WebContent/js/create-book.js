@@ -34,6 +34,34 @@ function splitAutoChanged() {
 	}
 }
 
+function isSameData(grid, sapData) {
+	var result = true; 
+	var gridData = grid.jsGrid("option", "data").filter(function(row) {
+		return !row.splitter;
+	});
+	if(sapData.length == gridData.length) {
+		for(var i=0; i<sapData.length; i++) {
+			if(sapData[i].bom_component != gridData[i].materialNumber || sapData[i].material_desc != gridData[i].componentName) {
+				result = false;
+				break;
+			}
+		}
+	} else {
+		result = false;
+	}
+	return result;
+}
+
+function clearGrid(grid) {
+	var gridData = grid.jsGrid("option", "data");
+	grid.jsGrid("option", "confirmDeleting", false);
+	while (gridData.length > 0) {
+		grid.jsGrid("deleteItem", gridData[0]);
+		gridData = grid.jsGrid("option", "data");
+	}
+	grid.jsGrid("option", "confirmDeleting", true);
+}
+
 function splitSizeChanged() {
 	splitSize = parseInt($('#splitEBookParts').val());	
 	var size = 1;
@@ -771,34 +799,6 @@ $(function() {
 			 next.after(current);
 			}
 		});
-		
-		var clearGrid = function(grid) {
-			var gridData = grid.jsGrid("option", "data");
-			grid.jsGrid("option", "confirmDeleting", false);
-			while(gridData.length > 0) {
-				grid.jsGrid("deleteItem", gridData[0]);
-				gridData = grid.jsGrid("option", "data");
-			}
-			grid.jsGrid("option", "confirmDeleting", true);
-		};
-		
-		var isSameData = function(grid, sapData) {
-			var result = true; 
-			var gridData = grid.jsGrid("option", "data").filter(function(row) {
-				return !row.splitter;
-			});
-			if(sapData.length == gridData.length) {
-				for(var i=0; i<sapData.length; i++) {
-					if(sapData[i].bom_component != gridData[i].materialNumber || sapData[i].material_desc != gridData[i].componentName) {
-						result = false;
-						break;
-					}
-				}
-			} else {
-				result = false;
-			}
-			return result;
-		};
 		
 		// Initialize Global variables
 		publisher = $('#publisher').val();
