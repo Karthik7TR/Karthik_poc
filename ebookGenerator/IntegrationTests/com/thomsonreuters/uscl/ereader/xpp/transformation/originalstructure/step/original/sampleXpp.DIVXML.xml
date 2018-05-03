@@ -84,7 +84,7 @@
 									West<?xpp apos?>
 								</t>
 								<t x="0" y="0" style="name.3" cgt="true">&#8217;</t>
-								<t x="0" y="0" style="name.3">s Key Number Digest</t>
+								<t x="0" y="0" style="name.3">s Key <case.history>Number</case.history> Digest</t>
 								<endtag name="name"></endtag>
 								<endtag name="name.block"></endtag>
 								<tag name="reference.entry"></tag>
