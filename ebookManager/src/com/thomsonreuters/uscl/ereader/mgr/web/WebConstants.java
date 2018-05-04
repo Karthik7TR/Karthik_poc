@@ -312,6 +312,10 @@ public class WebConstants {
     public static final String MVC_ERROR_BOOK_DELETED = "errorBookDeleted.mvc";
     public static final String MVC_ERROR_BOOK_DEFINITION = "errorBookDefinition.mvc";
 
+    //print components history
+    public static final String MVC_PRINT_COMPONENTS_HISTORY_VERSION = "printComponentsHistoryVersion.mvc";
+    public static final String MVC_PRINT_COMPONENTS_HISTORY_PANEL = "printComponentsHistoryPanel.mvc";
+
     // Logical view names
     public static final String VIEW_APP_EXCEPTION = "appException";
     public static final String VIEW_ADMIN_MAIN = "_adminMain";

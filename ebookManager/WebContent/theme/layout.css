@@ -899,3 +899,37 @@ div.ui-datepicker{
 .lightgray {
 	color: lightgray !important;
 }
+
+.centerSection>div.leftTopPanel {
+	display:table-cell; 
+	border:2px solid #fff; 
+	padding:0.5em;
+}
+.centerSection>div.historyPrintComponentsPanel {
+	display:none;
+	border:2px solid #ddd;
+	padding:0.5em;
+	border-radius: 0.5em;
+}
+.centerSection>div.rightTopPanel {
+	display:table-cell;
+}
+div.jsGrid-container .hasDatepicker {
+	width: 100px;
+	text-align: center;
+}
+div.jsGrid-container .ui-datepicker * {
+	font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
+	font-size: 14px;
+	font-weight: 300 !important;
+}
+div.jsGrid-container table.jsgrid-table input[type='text'] {
+	width: 100%;
+}
+div.jsGrid-container table.jsgrid-table input[type='button'] {
+	width: 0;
+	padding-right: 10px;
+}
+div.jsGrid-container .jsgrid-header-row .jsgrid-header-sort-asc:before {
+	border-color: transparent transparent #ffffff transparent;
+}

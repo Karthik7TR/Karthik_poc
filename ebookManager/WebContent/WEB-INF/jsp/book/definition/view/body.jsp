@@ -1,8 +1,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
@@ -41,7 +41,7 @@ function submitForm(cmd)
 				General
 			</div>
 			<div class="centerSection">
-				<div class="leftDefinitionForm">
+				<div id="leftPanelFields" class="leftDefinitionForm leftTopPanel">
 					<div class="row">
 						<label class="labelCol">Title ID</label>
 						<span class="field">${ book.fullyQualifiedTitleId }</span>
@@ -72,8 +72,15 @@ function submitForm(cmd)
 						<span class="field">${ book.includeNotesOfDecisions }</span>
 					</div>
 				</div>
-				
-				<div class="rightDefinitionForm">
+				<jsp:include page="../xppTable/printComponentsComparePanel.jsp" >
+					<jsp:param name="printComponentsHistoryLastVersionNumber" value="${printComponentsHistoryLastVersionNumber}"/>
+					<jsp:param name="bookdefinitionId" value="${book.ebookDefinitionId}"/>
+					<jsp:param name="printComponentsHistoryVersions" value="${printComponentsHistoryVersions}"/>
+					<jsp:param name="openCloseCompareButton" value="openCloseCompareButton"/>
+					<jsp:param name="leftPanelFields" value="leftPanelFields"/>
+					<jsp:param name="leftPanelPrintComponentsCompareFeature" value="leftPanelPrintComponentsCompareFeature"/>
+				</jsp:include>
+				<div class="rightDefinitionForm rightTopPanel">
 					<div class="row">
 						<label class="labelCol">Source Type</label>
 						<span class="field">
@@ -131,15 +138,22 @@ function submitForm(cmd)
 					</c:when>
 					<c:when test="${ book.sourceType == 'XPP' }">
 						<div id="displayXPP">
-							<div id="tableId">
+							<div id="tableId" class="row">
 								<div id="print_component_expander" class="keywordLabel">
 									<img src="theme/images/wf_minus.gif" /> Order details for XPP
 								</div>
 								<div id="print_component_expander_values" class="keywordValueBox">
 									<jsp:include page="../xppTable/printComponentsTable.jsp" >
+									    <jsp:param name="jsGridId" value="jsGrid"/>
 										<jsp:param name="edit" value="false"/>
+										<jsp:param name="printComponents" value="${form.printComponents}"/>
+										<jsp:param name="colorPrintComponentTable" value="${form.colorPrintComponentTable}"/>
 									</jsp:include>
 								</div>
+							</div>
+							<div class="row">
+								<input type="button" id="openCloseCompareButton" value="Open print component history panel"
+									${hasPrintComponentsHistory != null && hasPrintComponentsHistory ? '' : 'disabled="disabled"'}/>
 							</div>
 							<div class="row">
 								<label class="labelCol">Print Set Number</label>

@@ -36,6 +36,7 @@ public final class ViewBookDefinitionControllerTest {
     private HandlerAdapter handlerAdapter;
     private BookDefinitionService mockBookDefinitionService;
     private JobRequestService mockJobRequestService;
+    private PrintComponentsCompareController mockPrintComponentsCompareController;
 
     @Before
     public void setUp() {
@@ -45,6 +46,10 @@ public final class ViewBookDefinitionControllerTest {
         mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
         mockJobRequestService = EasyMock.createMock(JobRequestService.class);
         controller = new ViewBookDefinitionController(mockBookDefinitionService, mockJobRequestService, null);
+        mockPrintComponentsCompareController = EasyMock.createMock(PrintComponentsCompareController.class);
+
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "printComponentsCompareController", mockPrintComponentsCompareController);
     }
 
     @Test
@@ -81,6 +86,9 @@ public final class ViewBookDefinitionControllerTest {
         EasyMock.expect(mockJobRequestService.isBookInJobRequest(BOOK_DEFINITION_ID)).andReturn(false);
         EasyMock.replay(mockJobRequestService);
 
+        mockPrintComponentsCompareController.setPrintComponentHistoryAttributes(EasyMock.anyObject(), EasyMock.anyObject());
+        EasyMock.replay(mockPrintComponentsCompareController);
+
         // Invoke the controller method via the URL
         final ModelAndView mav = handlerAdapter.handle(request, response, controller);
 
@@ -95,6 +103,7 @@ public final class ViewBookDefinitionControllerTest {
 
         EasyMock.verify(mockBookDefinitionService);
         EasyMock.verify(mockJobRequestService);
+        EasyMock.verify(mockPrintComponentsCompareController);
     }
 
     private List<PrintComponent> getPrintComponents() {

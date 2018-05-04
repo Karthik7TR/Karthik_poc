@@ -55,8 +55,7 @@ public final class StepTestUtil {
     }
 
     public static void givenBook(final ChunkContext chunkContext, final BookDefinition book) {
-        given(chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext().get("bookDefn"))
-            .willReturn(book);
+        givenExecutionContextParameter(chunkContext, "bookDefn", book);
     }
 
     public static void givenBookDefinitionId(final ChunkContext chunkContext, final Long value) {
@@ -80,11 +79,15 @@ public final class StepTestUtil {
     }
 
     public static void givenBookBundles(final ChunkContext chunkContext, final List<XppBundle> bundles) {
+        givenExecutionContextParameter(chunkContext, JobParameterKey.XPP_BUNDLES, bundles);
+    }
+
+    public static void givenExecutionContextParameter(final ChunkContext chunkContext, final String parameterName, final Object value) {
         given(
             chunkContext.getStepContext()
                 .getStepExecution()
                 .getJobExecution()
                 .getExecutionContext()
-                .get(JobParameterKey.XPP_BUNDLES)).willReturn(bundles);
+                .get(parameterName)).willReturn(value);
     }
 }

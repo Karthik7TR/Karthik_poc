@@ -10,6 +10,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceTyp
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.PrintComponentsCompareController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm.Command;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.util.PrintComponentUtil;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
@@ -32,6 +33,8 @@ public class ViewBookDefinitionController {
     private final BookDefinitionService bookDefinitionService;
     private final JobRequestService jobRequestService;
     private final PrintComponentUtil printComponentUtil;
+    @Autowired
+    private PrintComponentsCompareController printComponentsCompareController;
 
     @Autowired
     public ViewBookDefinitionController(
@@ -89,6 +92,8 @@ public class ViewBookDefinitionController {
                     }
                 }
             }
+            printComponentsCompareController.setPrintComponentHistoryAttributes(id, model);
+
             return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_VIEW);
         }
     }

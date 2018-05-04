@@ -135,6 +135,11 @@
 		</step>
 		<step id="archiveXppBookStep">
 			<tasklet ref="archiveXppBookTask" />
+			<next on="COMPLETED" to="archivePrintComponentsStep" />
+			<fail on="FAILED" />
+		</step>
+		<step id="archivePrintComponentsStep">
+			<tasklet ref="archivePrintComponentsTask" />
 			<next on="COMPLETED" to="sendEmailNotificationXppStep" />
 			<fail on="FAILED" />
 		</step>
@@ -201,6 +206,8 @@
 		class="com.thomsonreuters.uscl.ereader.xpp.group.step.GroupXppStep" />
 	<beans:bean id="archiveXppBookTask" scope="step" parent="archiveStep"
 		class="com.thomsonreuters.uscl.ereader.xpp.archive.step.ArchiveXppStep" />
+	<beans:bean id="archivePrintComponentsTask" scope="step" parent="bookStep"
+		class="com.thomsonreuters.uscl.ereader.xpp.archive.printcomponent.step.ArchivePrintComponentsStep" />
 	<beans:bean id="sendEmailNotificationXppTask" scope="step"
 		parent="bookStep"
 		class="com.thomsonreuters.uscl.ereader.xpp.notification.SendEmailNotification" />

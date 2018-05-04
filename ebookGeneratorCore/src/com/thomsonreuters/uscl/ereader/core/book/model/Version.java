@@ -8,14 +8,14 @@ import org.springframework.util.Assert;
 
 public class Version implements Comparable<Version> {
     public static final String VERSION_PREFIX = "v";
-    private static final Pattern VERSION_PATTREN = Pattern.compile("v(\\d+)\\.(\\d+)");
+    private static final Pattern VERSION_PATTERN = Pattern.compile("v(\\d+)\\.(\\d+)");
 
     private Integer majorVersion;
     private Integer minorVersion;
 
     public Version(@NotNull final String version) {
         Assert.notNull(version);
-        final Matcher matcher = VERSION_PATTREN.matcher(version);
+        final Matcher matcher = VERSION_PATTERN.matcher(version);
         Assert.isTrue(matcher.matches(), "Version should match pattern: v<major_version>.<minor_version>");
 
         majorVersion = Integer.valueOf(matcher.group(1));

@@ -166,7 +166,7 @@
 		General
 	</div>
 	<div class="centerSection">
-		<div class="leftDefinitionForm">
+		<div id="leftPanelFields" class="leftDefinitionForm leftTopPanel">
 			<div class="row">
 				<form:label path="titleId" class="labelCol">Title ID</form:label>
 				<input id="titleIdBox" type="text" disabled="disabled" />
@@ -243,8 +243,15 @@
 				</div>
 			</div>
 		</div>
-
-		<div class="rightDefinitionForm">
+		<jsp:include page="../xppTable/printComponentsComparePanel.jsp" >
+			<jsp:param name="printComponentsHistoryLastVersionNumber" value="${printComponentsHistoryLastVersionNumber}"/>
+			<jsp:param name="bookdefinitionId" value="${editBookDefinitionForm.bookdefinitionId}"/>
+			<jsp:param name="printComponentsHistoryVersions" value="${printComponentsHistoryVersions}"/>
+			<jsp:param name="openCloseCompareButton" value="openCloseCompareButton"/>
+			<jsp:param name="leftPanelFields" value="leftPanelFields"/>
+			<jsp:param name="leftPanelPrintComponentsCompareFeature" value="leftPanelPrintComponentsCompareFeature"/>
+		</jsp:include>
+		<div class="rightDefinitionForm rightTopPanel">
 			<c:if test="${disableUnderPubPlusRole}">
 				<%-- Hidden fields needed when options are disabled.
 					 Options reset to defaults if hidden fields are missing. --%>
@@ -372,7 +379,7 @@
 				</div>
 			</div>
 			<div id="displayXPP" style="display:none">
-				<div id="tableId">
+				<div id="tableId" class="row">
 					<div class="errorDiv">
 							<form:errors path="printComponents" cssClass="errorMessage" />
 					</div>
@@ -381,10 +388,18 @@
 					</div>
 					<div id="print_component_expander_values">
 						<jsp:include page="../xppTable/printComponentsTable.jsp" >
+							<jsp:param name="jsGridId" value="jsGrid"/>
 							<jsp:param name="edit" value="true"/>
 							<jsp:param name="superUserParam" value="${superUser}"/>
+							<jsp:param name="printComponents" value="${form.printComponents}"/>
+							<jsp:param name="colorPrintComponentTable" value="${form.colorPrintComponentTable}"/>
+							<jsp:param name="editBookDefinitionFormId" value="editBookDefinitionForm"/>
 						</jsp:include>
 					</div>
+				</div>
+				<div class="row">
+					<input type="button" id="openCloseCompareButton" value="Open print component history panel" 
+						${hasPrintComponentsHistory != null && hasPrintComponentsHistory ? '' : 'disabled="disabled"'}/>
 				</div>
 				<div class="row">
 					<form:label disabled="${disableUnderPubPlusRole}" path="printSetNumber" class="labelCol">Print Set Number</form:label>

@@ -20,6 +20,7 @@ import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterService;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.PrintComponentsCompareController;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.book.BookDefinitionLockService;
 import com.thomsonreuters.uscl.ereader.sap.component.MaterialComponentsResponse;
 import org.jetbrains.annotations.NotNull;
@@ -58,6 +59,8 @@ public class EditBookDefinitionController {
     private CreateFrontMatterService frontMatterService;
     @Autowired
     private MiscConfigSyncService miscConfigService;
+    @Autowired
+    private PrintComponentsCompareController printComponentsCompareController;
     @Autowired
     @Qualifier("editBookDefinitionFormValidator")
     private Validator validator;
@@ -409,6 +412,8 @@ public class EditBookDefinitionController {
         model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, editBookDefinitionService.getKeywordCodes());
         model.addAttribute(WebConstants.KEY_MAX_SPLIT_PARTS, miscConfigService.getMiscConfig().getMaxSplitParts());
         model.addAttribute(WebConstants.KEY_FORM, form);
+
+        printComponentsCompareController.setPrintComponentHistoryAttributes(form.getBookdefinitionId(), model);
     }
 
     /**

@@ -58,6 +58,7 @@ import com.thomsonreuters.uscl.ereader.proviewaudit.domain.ProviewAudit;
 import com.thomsonreuters.uscl.ereader.request.dao.XppBundleArchiveDao;
 import com.thomsonreuters.uscl.ereader.request.dao.XppBundleArchiveDaoImpl;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
+import com.thomsonreuters.uscl.ereader.request.domain.PrintComponentHistory;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundleArchive;
 import com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDao;
 import com.thomsonreuters.uscl.ereader.stats.dao.PublishingStatsDaoImpl;
@@ -183,6 +184,7 @@ public abstract class CommonJPAConfig {
                 SplitNodeInfo.class,
                 PilotBook.class,
                 PrintComponent.class,
+                PrintComponentHistory.class,
                 XppBundleArchive.class));
         addAdditionalEntities(annotatedClasses);
         sessionFactory.setAnnotatedClasses(annotatedClasses.toArray(new Class<?>[annotatedClasses.size()]));

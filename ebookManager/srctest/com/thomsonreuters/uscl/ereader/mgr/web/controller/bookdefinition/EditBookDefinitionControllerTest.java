@@ -64,6 +64,7 @@ public final class EditBookDefinitionControllerTest {
     private BookDefinitionLockService mockLockService;
     private EditBookDefinitionFormValidator validator;
     private MiscConfigSyncService mockMiscConfigService;
+    private PrintComponentsCompareController mockPrintComponentsCompareController;
 
     private EbookName bookName;
     private DocumentTypeCode documentTypeCode;
@@ -84,6 +85,7 @@ public final class EditBookDefinitionControllerTest {
         mockAuditService = EasyMock.createMock(EBookAuditService.class);
         mockLockService = EasyMock.createMock(BookDefinitionLockService.class);
         mockMiscConfigService = EasyMock.createMock(MiscConfigSyncService.class);
+        mockPrintComponentsCompareController = EasyMock.createMock(PrintComponentsCompareController.class);
 
         final List<String> frontMatterThemes = new ArrayList<>();
         frontMatterThemes.add("WestLaw Next");
@@ -109,6 +111,8 @@ public final class EditBookDefinitionControllerTest {
         org.springframework.test.util.ReflectionTestUtils
             .setField(controller, "miscConfigService", mockMiscConfigService);
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "validator", validator);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "printComponentsCompareController", mockPrintComponentsCompareController);
 
         bookName = new EbookName();
         bookName.setBookNameText("Book Name");
@@ -796,6 +800,9 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
         EasyMock.replay(mockMiscConfigService);
 
+        mockPrintComponentsCompareController.setPrintComponentHistoryAttributes(EasyMock.anyObject(), EasyMock.anyObject());
+        EasyMock.replay(mockPrintComponentsCompareController);
+
         setupDropdownMenuAndKeywords(2);
 
         final ModelAndView mav;
@@ -817,6 +824,7 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.verify(mockBookDefinitionService);
         EasyMock.verify(mockEditBookDefinitionService);
         EasyMock.verify(mockMiscConfigService);
+        EasyMock.verify(mockPrintComponentsCompareController);
     }
 
     /**
