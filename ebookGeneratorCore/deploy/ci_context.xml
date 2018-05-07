@@ -44,7 +44,7 @@
               maxActive="16" maxWait="180000"/>
 
     <!-- DataSource JPA -->
-	<Resource name="jdbc/DataSource" auth="Container" 
+	<Resource name="jdbc/DataSourceJPA" auth="Container" 
               type="javax.sql.DataSourceJPA"
               factory="org.apache.commons.dbcp.BasicDataSourceFactory"
               driverClassName="oracle.jdbc.OracleDriver"
