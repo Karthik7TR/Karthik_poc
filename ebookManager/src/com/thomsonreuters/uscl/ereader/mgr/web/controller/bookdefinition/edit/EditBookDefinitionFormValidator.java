@@ -248,7 +248,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
             validateProviewKeywords(errors);
             validateProdOnlyRequirements(form, errors);
 
-            if (form.isSplitBook()) {
+            if (isSplitBook(form)) {
                 if (!form.isGroupsEnabled()) {
                     errors.rejectValue("groupsEnabled", "error.required");
                 }
@@ -257,7 +257,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 
         if (form.isGroupsEnabled()) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "groupName", "error.required");
-            if (form.isSplitBook()) {
+            if (isSplitBook(form)) {
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "subGroupHeading", "error.required");
             }
         }
@@ -1120,5 +1120,11 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
                 break;
             }
         }
+    }
+
+    private boolean isSplitBook(final EditBookDefinitionForm form) {
+        return form.getSourceType() == SourceType.XPP
+            ? form.getPrintComponentsCollection().stream().anyMatch(PrintComponent::getSplitter)
+                : form.isSplitBook();
     }
 }
