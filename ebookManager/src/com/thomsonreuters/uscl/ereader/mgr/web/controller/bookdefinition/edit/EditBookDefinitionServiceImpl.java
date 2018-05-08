@@ -51,7 +51,7 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
     private static final String SUB_NUMBER_MESSAGE = "Print Set/Sub Number: %s";
     private static final String SAP_COMPONENTS_NOT_FOUND_MESSAGE =
         "Material components not found, for " + SUB_NUMBER_MESSAGE;
-    private static final String INVALID_SUB_NUMBER_MESSAGE = SUB_NUMBER_MESSAGE + " is invalid";
+    private static final String INVALID_SUB_NUMBER_MESSAGE = "Invalid Set/Sub Number: %s";
 
     private final CodeService codeService;
     private final PublisherCodeService publisherCodeService;
@@ -175,7 +175,7 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
             components = Collections.emptyList();
         }
 
-        return new MaterialComponentsResponse(String.format(responseMessage, subNumber), components);
+        return new MaterialComponentsResponse(String.format(responseMessage, setNumber + "/" + subNumber), components);
     }
 
     private Stream<MaterialComponent> getMaterialComponents(@NotNull final String subNumber, @Nullable final String setNumber) {
