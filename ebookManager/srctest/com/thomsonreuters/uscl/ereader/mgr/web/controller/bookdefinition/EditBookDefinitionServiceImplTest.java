@@ -264,7 +264,7 @@ public final class EditBookDefinitionServiceImplTest {
         final MaterialComponentsResponse response =
             bookService.getMaterialBySubNumber(EMPTY_SUB_NUMBER, EMPTY_SUB_NUMBER, TITLE_ID);
         //then
-        assertThat(response.getMessage(), equalTo("Material components not found, for Print Set/Sub Number: 12345679"));
+        assertThat(response.getMessage(), equalTo("Material components not found, for Print Set/Sub Number: 12345679/12345679"));
         assertThat(response.getMaterialComponents(), hasSize(0));
     }
 
@@ -275,7 +275,7 @@ public final class EditBookDefinitionServiceImplTest {
         final MaterialComponentsResponse response =
             bookService.getMaterialBySubNumber(INVALID_SUB_NUMBER, INVALID_SUB_NUMBER, TITLE_ID);
         //then
-        assertThat(response.getMessage(), equalTo("Print Set/Sub Number: 12345670 is invalid"));
+        assertThat(response.getMessage(), equalTo("Invalid Set/Sub Number: 12345670/12345670"));
         assertThat(response.getMaterialComponents(), hasSize(0));
     }
 
@@ -286,7 +286,7 @@ public final class EditBookDefinitionServiceImplTest {
         final MaterialComponentsResponse response =
             bookService.getMaterialBySubNumber(UNAVAILABLE_SUB_NUMBER, UNAVAILABLE_SUB_NUMBER, TITLE_ID);
         //then
-        assertThat(response.getMessage(), equalTo("Material components not found, for Print Set/Sub Number: 1234567"));
+        assertThat(response.getMessage(), equalTo("Material components not found, for Print Set/Sub Number: 1234567/1234567"));
         assertThat(response.getMaterialComponents(), hasSize(0));
     }
 
