@@ -3,6 +3,11 @@ package com.thomsonreuters.uscl.ereader.mgr.web.service;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.file.FileVisitResult;
+import java.nio.file.FileVisitor;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,7 +24,6 @@ import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.mgr.dao.ManagerDao;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.job.JobService;
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -34,6 +38,7 @@ import org.springframework.web.client.RestTemplate;
 @Service("managerService")
 public class ManagerServiceImpl implements ManagerService {
     private static final Logger LOG = LogManager.getLogger(ManagerServiceImpl.class);
+    private static final FileVisitor<Path> DELETE_VISITOR = new DeleteFilesFileVisitor();
 
     private static final String HTTP_TEMPLATE = "http://%s:%d/%s/";
     private static final String TO_URL = "to URL: ";
@@ -237,13 +242,37 @@ public class ManagerServiceImpl implements ManagerService {
     private void deleteDir(final File dir, final String message) {
         if (dir.isDirectory()) {
             try {
-                FileUtils.deleteDirectory(dir);
+                Files.walkFileTree(dir.toPath(), DELETE_VISITOR);
                 LOG.debug(message + dir.getAbsolutePath());
             } catch (final IOException e) {
                 final String msg = String
                     .format("Failed to recursively delete directory %s - %s", dir.getAbsolutePath(), e.getMessage());
                 LOG.error(msg, e);
             }
+        }
+    }
+
+    private static class DeleteFilesFileVisitor implements FileVisitor<Path> {
+        @Override
+        public FileVisitResult preVisitDirectory(final Path dir, final BasicFileAttributes attrs) throws IOException {
+            return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
+            Files.deleteIfExists(file);
+            return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult visitFileFailed(final Path file, final IOException exc) throws IOException {
+            return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException {
+            Files.deleteIfExists(dir);
+            return FileVisitResult.CONTINUE;
         }
     }
 }
