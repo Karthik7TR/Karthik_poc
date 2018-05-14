@@ -303,6 +303,7 @@ public class WebConstants {
     public static final String MVC_SEC_AFTER_LOGOUT = "afterLogout.mvc";
     public static final String MVC_SEC_LOGIN = "login.mvc";
     public static final String MVC_SEC_LOGIN_FAIL = "loginFail.mvc";
+    public static final String MVC_SEC_CHECK = "j_spring_security_check";
 
     public static final String MVC_SMOKE_TEST = "smokeTest.mvc";
     public static final String MVC_USER_PREFERENCES = "userPreferences.mvc";
@@ -414,6 +415,8 @@ public class WebConstants {
     public static final String VIEW_PROVIEW_GROUP_BOOK_DELETE = "_proviewGroupBookDelete";
     public static final String VIEW_GROUP_DEFINITION_EDIT = "_groupDefinitionEdit";
     public static final String VIEW_USER_PREFERENCES = "_userPreferences";
+
+    public static final String PROVIEW_DISPLAY_NAME_FIELD = "proviewDisplayName";
 
     // Miscellaneous keys and constants used throughout the application.
     // public enum SortProperty { TITLE_ID, AUTHOR }; // Book Library SortFields

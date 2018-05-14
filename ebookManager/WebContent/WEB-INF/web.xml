@@ -18,6 +18,15 @@
   </context-param>
   
   <!-- Spring Filter chain - so that beans can be used as filters -->
+	<filter> 
+		<filter-name>XSSFilter</filter-name>
+		<filter-class>com.thomsonreuters.uscl.ereader.request.xss.XSSFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>XSSFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 	<filter>
 		<filter-name>charEncFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class> 
