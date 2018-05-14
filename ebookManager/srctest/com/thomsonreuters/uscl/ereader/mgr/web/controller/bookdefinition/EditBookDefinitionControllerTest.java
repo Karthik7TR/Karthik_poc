@@ -18,9 +18,9 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookName;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
+import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
@@ -56,7 +56,7 @@ public final class EditBookDefinitionControllerTest {
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
     private BookDefinitionService mockBookDefinitionService;
-    private CodeService mockCodeService;
+    private KeywordTypeCodeSevice keywordTypeCodeSevice;
     private DocumentTypeCodeService mockDocumentTypeCodeService;
     private JobRequestService mockJobRequestService;
     private EditBookDefinitionService mockEditBookDefinitionService;
@@ -78,7 +78,7 @@ public final class EditBookDefinitionControllerTest {
 
         // Mock up the services
         mockBookDefinitionService = EasyMock.createMock(BookDefinitionService.class);
-        mockCodeService = EasyMock.createMock(CodeService.class);
+        keywordTypeCodeSevice = EasyMock.createMock(KeywordTypeCodeSevice.class);
         mockDocumentTypeCodeService = EasyMock.createMock(DocumentTypeCodeService.class);
         mockEditBookDefinitionService = EasyMock.createMock(EditBookDefinitionService.class);
         mockJobRequestService = EasyMock.createMock(JobRequestService.class);
@@ -93,7 +93,7 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.expect(mockEditBookDefinitionService.getFrontMatterThemes()).andReturn(frontMatterThemes);
         validator = new EditBookDefinitionFormValidator(
             mockBookDefinitionService,
-            mockCodeService,
+            keywordTypeCodeSevice,
             mockDocumentTypeCodeService,
             "workstation",
             null);
@@ -256,7 +256,7 @@ public final class EditBookDefinitionControllerTest {
         }
 
         EasyMock.verify(mockBookDefinitionService);
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(keywordTypeCodeSevice);
         EasyMock.verify(mockAuditService);
     }
 
@@ -304,7 +304,7 @@ public final class EditBookDefinitionControllerTest {
         }
 
         EasyMock.verify(mockBookDefinitionService);
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(keywordTypeCodeSevice);
         EasyMock.verify(mockEditBookDefinitionService);
         EasyMock.verify(mockMiscConfigService);
     }
@@ -587,8 +587,8 @@ public final class EditBookDefinitionControllerTest {
         code.setAbbreviation("an");
         code.setName("Analytical");
         EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(BOOK_DEFINITION_ID)).andReturn(code);
-        EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
+        EasyMock.replay(keywordTypeCodeSevice);
         EasyMock.replay(mockDocumentTypeCodeService);
 
         setupDropdownMenuAndKeywords(2);
@@ -619,7 +619,7 @@ public final class EditBookDefinitionControllerTest {
 
         EasyMock.verify(mockAuditService);
         EasyMock.verify(mockBookDefinitionService);
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(keywordTypeCodeSevice);
         EasyMock.verify(mockLockService);
         EasyMock.verify(mockMiscConfigService);
     }
@@ -658,8 +658,8 @@ public final class EditBookDefinitionControllerTest {
         code.setAbbreviation("an");
         code.setName("Analytical");
         EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(BOOK_DEFINITION_ID)).andReturn(code);
-        EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
+        EasyMock.replay(keywordTypeCodeSevice);
         EasyMock.replay(mockDocumentTypeCodeService);
 
         EasyMock.expect(mockJobRequestService.isBookInJobRequest(BOOK_DEFINITION_ID)).andReturn(false);
@@ -696,7 +696,7 @@ public final class EditBookDefinitionControllerTest {
         }
 
         EasyMock.verify(mockBookDefinitionService);
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(keywordTypeCodeSevice);
         EasyMock.verify(mockJobRequestService);
         EasyMock.verify(mockEditBookDefinitionService);
         EasyMock.verify(mockLockService);
@@ -742,8 +742,8 @@ public final class EditBookDefinitionControllerTest {
         code.setAbbreviation("an");
         code.setName("Analytical");
         EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(BOOK_DEFINITION_ID)).andReturn(code);
-        EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
+        EasyMock.replay(keywordTypeCodeSevice);
         EasyMock.replay(mockDocumentTypeCodeService);
 
         EasyMock.expect(mockLockService.findActiveBookLock(book)).andReturn(bookDefinitionLock);
@@ -778,7 +778,7 @@ public final class EditBookDefinitionControllerTest {
 
         EasyMock.verify(mockBookDefinitionService);
         EasyMock.verify(mockLockService);
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(keywordTypeCodeSevice);
     }
 
     /**
@@ -948,7 +948,7 @@ public final class EditBookDefinitionControllerTest {
         }
         EasyMock.verify(mockAuditService);
         EasyMock.verify(mockBookDefinitionService);
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(keywordTypeCodeSevice);
     }
 
     /**
@@ -995,7 +995,7 @@ public final class EditBookDefinitionControllerTest {
         }
 
         EasyMock.verify(mockBookDefinitionService);
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(keywordTypeCodeSevice);
         EasyMock.verify(mockEditBookDefinitionService);
         EasyMock.verify(mockMiscConfigService);
     }
@@ -1089,9 +1089,9 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(EasyMock.anyObject(Long.class)))
             .andReturn(code);
         if (isComplete) {
-            EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
+            EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(KEYWORD_CODES);
         }
-        EasyMock.replay(mockCodeService);
+        EasyMock.replay(keywordTypeCodeSevice);
         EasyMock.replay(mockDocumentTypeCodeService);
     }
 

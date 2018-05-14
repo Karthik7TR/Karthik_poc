@@ -29,8 +29,8 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
 import com.thomsonreuters.uscl.ereader.core.book.domain.SplitDocument;
 import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
@@ -55,7 +55,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     private static final int ISBN_NUMBER_LENGTH = 13;
 
     private final BookDefinitionService bookDefinitionService;
-    private final CodeService codeService;
+    private final KeywordTypeCodeSevice keywordTypeCodeSevice;
     private final DocumentTypeCodeService documentTypeCodeService;
     private final String environmentName;
     private final File rootCodesWorkbenchLandingStrip;
@@ -63,12 +63,12 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
     @Autowired
     public EditBookDefinitionFormValidator(
         final BookDefinitionService bookDefinitionService,
-        final CodeService codeService,
+        final KeywordTypeCodeSevice keywordTypeCodeSevice,
         final DocumentTypeCodeService documentTypeCodeService,
         @Qualifier("environmentName") final String environmentName,
         @Value("${codes.workbench.root.dir}") final File rootCodesWorkbenchLandingStrip) {
         this.bookDefinitionService = bookDefinitionService;
-        this.codeService = codeService;
+        this.keywordTypeCodeSevice = keywordTypeCodeSevice;
         this.documentTypeCodeService = documentTypeCodeService;
         this.environmentName = environmentName;
         this.rootCodesWorkbenchLandingStrip = rootCodesWorkbenchLandingStrip;
@@ -942,7 +942,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         // getAllKeywordTypeCodes must be in sorted order by the name because
         // form.getKeywords returns a String Collection of KeywordTypeValues placed
         // in the order of KeywordTypeCodes.
-        final List<KeywordTypeCode> keywordCodes = codeService.getAllKeywordTypeCodes();
+        final List<KeywordTypeCode> keywordCodes = keywordTypeCodeSevice.getAllKeywordTypeCodes();
         int i = 0;
         for (final KeywordTypeCode code : keywordCodes) {
             // Check that user has selected a keyword if that KeywordTypeCode is required

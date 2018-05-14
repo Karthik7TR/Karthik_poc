@@ -23,6 +23,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.JurisTypeCodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.core.book.service.PublisherCodeService;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
@@ -54,6 +55,7 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
     private static final String INVALID_SUB_NUMBER_MESSAGE = "Invalid Set/Sub Number: %s";
 
     private final CodeService codeService;
+    private final KeywordTypeCodeSevice keywordTypeCodeSevice;
     private final PublisherCodeService publisherCodeService;
     private final DocumentTypeCodeService documentTypeCodeService;
     private final JurisTypeCodeService jurisTypeCodeService;
@@ -64,15 +66,18 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
     private final MaterialComponentComparatorProvider materialComponentComparatorProvider;
 
     @Autowired
-    public EditBookDefinitionServiceImpl(final CodeService codeService,
-                                         final PublisherCodeService publisherCodeService,
-                                         final DocumentTypeCodeService documentTypeCodeService,
-                                         final JurisTypeCodeService jurisTypeCodeService,
-                                         final StateCodeService stateCodeService,
-                                         @Value("${codes.workbench.root.dir}") final File rootCodesWorkbenchLandingStrip,
-                                         final SapService sapService,
-                                         final MaterialComponentComparatorProvider materialComponentComparatorProvider) {
+    public EditBookDefinitionServiceImpl(
+        final CodeService codeService,
+        final KeywordTypeCodeSevice keywordTypeCodeSevice,
+        final PublisherCodeService publisherCodeService,
+        final DocumentTypeCodeService documentTypeCodeService,
+        final JurisTypeCodeService jurisTypeCodeService,
+        final StateCodeService stateCodeService,
+        @Value("${codes.workbench.root.dir}") final File rootCodesWorkbenchLandingStrip,
+        final SapService sapService,
+        final MaterialComponentComparatorProvider materialComponentComparatorProvider) {
         this.codeService = codeService;
+        this.keywordTypeCodeSevice = keywordTypeCodeSevice;
         this.publisherCodeService = publisherCodeService;
         this.documentTypeCodeService = documentTypeCodeService;
         this.jurisTypeCodeService = jurisTypeCodeService;
@@ -113,17 +118,16 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
         return buildNamesMap(publisherCodeService::getAllPublisherCodes, PublisherCode::getName);
     }
 
-    private <T> Map<String, String> buildNamesMap(final Supplier<Collection<T>> dataSupplier,
-                                                  final Function<T, String> getNameFunction) {
-        return dataSupplier.get().stream()
-            .map(getNameFunction)
-            .collect(Collectors.toMap(
-                String::toLowerCase, Function.identity(), (oldVal, newVal) -> newVal, LinkedHashMap::new));
+    private <T> Map<String, String> buildNamesMap(
+        final Supplier<Collection<T>> dataSupplier,
+        final Function<T, String> getNameFunction) {
+        return dataSupplier.get().stream().map(getNameFunction).collect(
+            Collectors.toMap(String::toLowerCase, Function.identity(), (oldVal, newVal) -> newVal, LinkedHashMap::new));
     }
 
     @Override
     public List<KeywordTypeCode> getKeywordCodes() {
-        return codeService.getAllKeywordTypeCodes();
+        return keywordTypeCodeSevice.getAllKeywordTypeCodes();
     }
 
     @Override
@@ -144,25 +148,25 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
     }
 
     private List<String> collectFileNames(final Supplier<String[]> filesArraySupplier) {
-        return Stream.of(filesArraySupplier.get())
-            .sorted(String.CASE_INSENSITIVE_ORDER)
-            .collect(Collectors.toList());
+        return Stream.of(filesArraySupplier.get()).sorted(String.CASE_INSENSITIVE_ORDER).collect(Collectors.toList());
     }
 
     @NotNull
     @Override
     public MaterialComponentsResponse getMaterialBySubNumber(
-        @NotNull final String subNumber, @Nullable final String setNumber, @Nullable final String titleId) {
+        @NotNull final String subNumber,
+        @Nullable final String setNumber,
+        @Nullable final String titleId) {
         String responseMessage;
         List<MaterialComponent> components;
 
         try {
-            components = getMaterialComponents(subNumber, setNumber)
-                .distinct()
+            components = getMaterialComponents(subNumber, setNumber).distinct()
                 .parallel()
                 .filter(this::isValidComponent)
                 //Here we're merge elements with the same material numbers (bomComponent)
-                .collect(Collectors.toMap(MaterialComponent::getBomComponent, Function.identity(), this::mergeSapComponents))
+                .collect(
+                    Collectors.toMap(MaterialComponent::getBomComponent, Function.identity(), this::mergeSapComponents))
                 .values()
                 .stream()
                 .sorted(materialComponentComparatorProvider.getComparator(titleId))
@@ -178,10 +182,11 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
         return new MaterialComponentsResponse(String.format(responseMessage, setNumber + "/" + subNumber), components);
     }
 
-    private Stream<MaterialComponent> getMaterialComponents(@NotNull final String subNumber, @Nullable final String setNumber) {
-        final Stream<MaterialComponent> subNumberComponents = sapService.getMaterialByNumber(subNumber)
-            .getComponents()
-            .stream();
+    private Stream<MaterialComponent> getMaterialComponents(
+        @NotNull final String subNumber,
+        @Nullable final String setNumber) {
+        final Stream<MaterialComponent> subNumberComponents =
+            sapService.getMaterialByNumber(subNumber).getComponents().stream();
 
         return Optional.ofNullable(setNumber)
             .filter(StringUtils::isNotBlank)
@@ -203,7 +208,9 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
             && MediaLowLevelRule.getByRuleValue(component.getMediallRule()) != MediaLowLevelRule.UNSUPPORTED;
     }
 
-    private MaterialComponent mergeSapComponents(final MaterialComponent existentComponent, final MaterialComponent newComponent) {
+    private MaterialComponent mergeSapComponents(
+        final MaterialComponent existentComponent,
+        final MaterialComponent newComponent) {
         final Instant existentEffDate = existentComponent.getEffectiveDate().toInstant();
         final Instant newEffDate = newComponent.getEffectiveDate().toInstant();
         return existentEffDate.isBefore(newEffDate) ? newComponent : existentComponent;

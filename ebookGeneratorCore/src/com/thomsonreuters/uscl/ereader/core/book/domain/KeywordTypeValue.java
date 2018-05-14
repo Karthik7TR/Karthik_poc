@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.core.book.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Optional;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,116 +15,39 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@EqualsAndHashCode(of = {"id", "name"})
+
 @Entity
 @Table(name = "KEYWORD_TYPE_VALUES")
-public class KeywordTypeValue implements Serializable, Comparable<KeywordTypeValue> {
-    // private static final Logger log =
-    // LogManager.getLogger(KeywordTypeValue.class);
+public class KeywordTypeValue implements Serializable {
     private static final long serialVersionUID = 8698248929292091625L;
-
-    private Long id;
-    private KeywordTypeCode keywordTypeCode;
-    private String name;
-    private Date lastUpdated;
-
-    public KeywordTypeValue() {
-        super();
-    }
 
     @Id
     @Column(name = "KEYWORD_TYPE_VALUES_ID", unique = true, nullable = false)
     @SequenceGenerator(name = "keywordTypeValuesIdSequence", sequenceName = "KEYWORD_TYPE_VALUES_ID_SEQ")
     @GeneratedValue(generator = "keywordTypeValuesIdSequence")
-    public Long getId() {
-        return id;
-    }
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "KEYWORD_TYPE_CODES_ID")
-    public KeywordTypeCode getKeywordTypeCode() {
-        return keywordTypeCode;
-    }
+    private KeywordTypeCode keywordTypeCode;
+
+    @Column(name = "KEYWORD_TYPE_VALUES_NAME", nullable = false, length = 1024)
+    private String name;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "LAST_UPDATED", nullable = false)
-    public Date getLastUpdated() {
-        return lastUpdated;
-    }
-
-    @Column(name = "KEYWORD_TYPE_VALUES_NAME", nullable = false, length = 1024)
-    public String getName() {
-        return name;
-    }
-
-    public void setId(final Long id) {
-        this.id = id;
-    }
-
-    public void setKeywordTypeCode(final KeywordTypeCode keywordTypeCode) {
-        this.keywordTypeCode = keywordTypeCode;
-    }
-
-    public void setLastUpdated(final Date lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
-    }
+    private Date lastUpdated;
 
     @Override
     public String toString() {
-        final StringBuilder buffer = new StringBuilder();
-
-        if (keywordTypeCode != null) {
-            buffer.append("keywordTypeCode=[").append(keywordTypeCode.getName()).append("] ");
-        } else {
-            buffer.append("keywordTypeCode=[").append(keywordTypeCode).append("] ");
-        }
-        buffer.append("KeywordTypeValue=[").append(name).append("] ");
-
-        return buffer.toString();
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final KeywordTypeValue other = (KeywordTypeValue) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        return result;
-    }
-
-    @Override
-    public int compareTo(final KeywordTypeValue arg0) {
-        int result = 0;
-        if (name != null) {
-            result = (arg0 != null) ? name.compareTo(arg0.getName()) : 1;
-        } else { // str1 is null
-            result = (arg0 != null) ? -1 : 0;
-        }
-        return result;
+        final String code = Optional.ofNullable(keywordTypeCode).map(KeywordTypeCode::getName).orElse("null");
+        return String.format("keywordTypeCode=[%s] KeywordTypeValue=[%s]", code, name);
     }
 }

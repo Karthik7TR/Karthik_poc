@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListService;
@@ -27,13 +27,13 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 public final class BookLibraryFilterControllerTest {
-    private List<LibraryList> LIBRARY_LIST = new ArrayList<LibraryList>();
+    private List<LibraryList> LIBRARY_LIST = new ArrayList<>();
 
     private BookLibraryFilterController controller;
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private LibraryListService mockLibraryListService;
-    private CodeService mockCodeService;
+    private KeywordTypeCodeSevice keywordTypeCodeSevice;
     private OutageService mockOutageService;
     private HandlerAdapter handlerAdapter;
 
@@ -42,12 +42,12 @@ public final class BookLibraryFilterControllerTest {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         mockLibraryListService = EasyMock.createMock(LibraryListService.class);
-        mockCodeService = EasyMock.createMock(CodeService.class);
+        keywordTypeCodeSevice = EasyMock.createMock(KeywordTypeCodeSevice.class);
         mockOutageService = EasyMock.createMock(OutageService.class);
 
         handlerAdapter = new AnnotationMethodHandlerAdapter();
 
-        controller = new BookLibraryFilterController(mockLibraryListService, mockCodeService, mockOutageService, null);
+        controller = new BookLibraryFilterController(mockLibraryListService, keywordTypeCodeSevice, mockOutageService, null);
     }
 
     @Test
@@ -75,8 +75,8 @@ public final class BookLibraryFilterControllerTest {
             .andReturn(1);
         EasyMock.replay(mockLibraryListService);
 
-        EasyMock.expect(mockCodeService.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
+        EasyMock.replay(keywordTypeCodeSevice);
 
         EasyMock.expect(mockOutageService.getAllPlannedOutagesToDisplay()).andReturn(new ArrayList<PlannedOutage>());
         EasyMock.replay(mockOutageService);
@@ -94,7 +94,7 @@ public final class BookLibraryFilterControllerTest {
         Assert.assertEquals(toDate, filterForm.getToString());
 
         EasyMock.verify(mockLibraryListService);
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(keywordTypeCodeSevice);
         EasyMock.verify(mockOutageService);
     }
 }

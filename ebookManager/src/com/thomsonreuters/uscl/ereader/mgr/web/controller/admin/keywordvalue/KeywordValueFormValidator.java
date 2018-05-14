@@ -2,7 +2,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.keywordvalue;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,11 +13,11 @@ import org.springframework.validation.Validator;
 @Component("keywordValueFormValidator")
 public class KeywordValueFormValidator extends BaseFormValidator implements Validator {
     private static final int MAXIMUM_CHARACTER_1024 = 1024;
-    private final CodeService codeService;
+    private final KeywordTypeCodeSevice keywordTypeCodeSevice;
 
     @Autowired
-    public KeywordValueFormValidator(final CodeService codeService) {
-        this.codeService = codeService;
+    public KeywordValueFormValidator(final KeywordTypeCodeSevice keywordTypeCodeSevice) {
+        this.keywordTypeCodeSevice = keywordTypeCodeSevice;
     }
 
     @Override
@@ -30,11 +30,10 @@ public class KeywordValueFormValidator extends BaseFormValidator implements Vali
         final KeywordValueForm form = (KeywordValueForm) obj;
 
         final String name = form.getName();
-
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "error.required");
         checkMaxLength(errors, MAXIMUM_CHARACTER_1024, name, "name", new Object[] {"Name", MAXIMUM_CHARACTER_1024});
 
-        final KeywordTypeCode code = codeService.getKeywordTypeCodeById(form.getKeywordTypeCode().getId());
+        final KeywordTypeCode code = keywordTypeCodeSevice.getKeywordTypeCodeById(form.getKeywordTypeCode().getId());
         if (code != null) {
             for (final KeywordTypeValue value : code.getValues()) {
                 if (value.getName().equalsIgnoreCase(name)) {

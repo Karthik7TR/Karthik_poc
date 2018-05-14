@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.CodeDao;
-import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PubTypeCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,115 +71,5 @@ public class CodeServiceImpl implements CodeService {
     @Transactional
     public void deletePubTypeCode(final PubTypeCode pubTypeCode) {
         dao.deletePubTypeCode(pubTypeCode);
-    }
-
-    /**
-     * Get all the KeywordType codes from the KEYWORD_TYPE_CODES table
-     * @return a list of KeywordTypeCode objects
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<KeywordTypeCode> getAllKeywordTypeCodes() {
-        return dao.getAllKeywordTypeCodes();
-    }
-
-    /**
-     * Get a KeywordType Code from the KEYWORD_TYPE_CODES table that match KEYWORD_TYPE_CODES_ID
-     * @param KeywordTypeCodeId
-     * @return
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public KeywordTypeCode getKeywordTypeCodeById(final Long keywordTypeCodeId) {
-        return dao.getKeywordTypeCodeById(keywordTypeCodeId);
-    }
-
-    /**
-     * Get a KeywordTypeCode Code from the KEYWORD_TYPE_CODES table that match KEYWORD_TYPE_CODES_NAME
-     * @param keywordTypeCodeName
-     * @return
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public KeywordTypeCode getKeywordTypeCodeByName(final String keywordTypeCodeName) {
-        return dao.getKeywordTypeCodeByName(keywordTypeCodeName);
-    }
-
-    /**
-     * Create or Update a KeywordType Code to the KEYWORD_TYPE_CODES table
-     * @param KeywordTypeCode
-     * @return
-     */
-    @Override
-    @Transactional
-    public void saveKeywordTypeCode(final KeywordTypeCode keywordTypeCode) {
-        keywordTypeCode.setLastUpdated(new Date());
-        dao.saveKeywordTypeCode(keywordTypeCode);
-    }
-
-    /**
-     * Delete a KeywordType Code in the KEYWORD_TYPE_CODES table
-     * @param KeywordTypeCode
-     * @return
-     */
-    @Override
-    @Transactional
-    public void deleteKeywordTypeCode(final KeywordTypeCode keywordTypeCode) {
-        dao.deleteKeywordTypeCode(keywordTypeCode);
-    }
-
-    /**
-     * Get all the KeywordType codes from the KEYWORD_TYPE_VALUES table
-     * @return a list of KeywordTypeValue objects
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<KeywordTypeValue> getAllKeywordTypeValues() {
-        return dao.getAllKeywordTypeValues();
-    }
-
-    /**
-     * Get all the KeywordTypeValue codes from the KEYWORD_TYPE_VALUES table
-     * that has keywordTypeCodeId
-     * @return a list of KeywordTypeValue objects
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<KeywordTypeValue> getAllKeywordTypeValues(final Long keywordTypeCodeId) {
-        return dao.getAllKeywordTypeValues(keywordTypeCodeId);
-    }
-
-    /**
-     * Get a KeywordType Value from the KEYWORD_TYPE_VALUES table that match KEYWORD_TYPE_VALUES_ID
-     * @param KeywordTypeValueId
-     * @return
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public KeywordTypeValue getKeywordTypeValueById(final Long keywordTypeValueId) {
-        return dao.getKeywordTypeValueById(keywordTypeValueId);
-    }
-
-    /**
-     * Create or Update a KeywordType Value to the KEYWORD_TYPE_VALUES table
-     * @param KeywordTypeValue
-     * @return
-     */
-    @Override
-    @Transactional
-    public void saveKeywordTypeValue(final KeywordTypeValue keywordTypeValue) {
-        keywordTypeValue.setLastUpdated(new Date());
-        dao.saveKeywordTypeValue(keywordTypeValue);
-    }
-
-    /**
-     * Delete a KeywordType Value in the KEYWORD_TYPE_VALUES table
-     * @param KeywordTypeValue
-     * @return
-     */
-    @Override
-    @Transactional
-    public void deleteKeywordTypeValue(final KeywordTypeValue keywordTypeValue) {
-        dao.deleteKeywordTypeValue(keywordTypeValue);
     }
 }

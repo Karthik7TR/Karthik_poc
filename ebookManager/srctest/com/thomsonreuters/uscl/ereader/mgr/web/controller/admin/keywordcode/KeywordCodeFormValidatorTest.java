@@ -1,7 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.keywordcode;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,7 +11,7 @@ import org.springframework.validation.Errors;
 
 public final class KeywordCodeFormValidatorTest {
     private static final String KEYWORD_CODE_NAME = "test";
-    private CodeService mockCodeService;
+    private KeywordTypeCodeSevice keywordTypeCodeSevice;
     private KeywordCodeFormValidator validator;
     private KeywordCodeForm form;
     private Errors errors;
@@ -19,10 +19,10 @@ public final class KeywordCodeFormValidatorTest {
     @Before
     public void setUp() {
         // Mock up the service
-        mockCodeService = EasyMock.createMock(CodeService.class);
+        keywordTypeCodeSevice = EasyMock.createMock(KeywordTypeCodeSevice.class);
 
         // Setup Validator
-        validator = new KeywordCodeFormValidator(mockCodeService);
+        validator = new KeywordCodeFormValidator(keywordTypeCodeSevice);
 
         form = new KeywordCodeForm();
         form.setCodeId(1L);
@@ -47,13 +47,13 @@ public final class KeywordCodeFormValidatorTest {
     public void testNameExists() {
         final KeywordTypeCode keywordTypeCode = new KeywordTypeCode();
         keywordTypeCode.setId(2L);
-        EasyMock.expect(mockCodeService.getKeywordTypeCodeByName(KEYWORD_CODE_NAME)).andReturn(keywordTypeCode);
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(keywordTypeCodeSevice.getKeywordTypeCodeByName(KEYWORD_CODE_NAME)).andReturn(keywordTypeCode);
+        EasyMock.replay(keywordTypeCodeSevice);
 
         // Verify name requirement
         validator.validate(form, errors);
         Assert.assertEquals("error.exist", errors.getFieldError("name").getCode());
 
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(keywordTypeCodeSevice);
     }
 }

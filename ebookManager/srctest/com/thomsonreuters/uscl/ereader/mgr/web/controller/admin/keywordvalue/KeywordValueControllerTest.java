@@ -7,7 +7,8 @@ import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
+import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeValueService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.easymock.EasyMock;
 import org.junit.Assert;
@@ -33,7 +34,8 @@ public final class KeywordValueControllerTest {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
-    private CodeService mockCodeService;
+    private KeywordTypeCodeSevice keywordTypeCodeSevice;
+    private KeywordTypeValueService keywordTypeValueService;
     private KeywordValueFormValidator validator;
 
     @Before
@@ -43,11 +45,12 @@ public final class KeywordValueControllerTest {
         handlerAdapter = new AnnotationMethodHandlerAdapter();
 
         // Mock up the Value service
-        mockCodeService = EasyMock.createMock(CodeService.class);
-        validator = new KeywordValueFormValidator(mockCodeService);
+        keywordTypeCodeSevice = EasyMock.createMock(KeywordTypeCodeSevice.class);
+        keywordTypeValueService = EasyMock.createMock(KeywordTypeValueService.class);
+        validator = new KeywordValueFormValidator(keywordTypeCodeSevice);
 
         // Set up the controller
-        controller = new KeywordValueController(mockCodeService, null, validator);
+        controller = new KeywordValueController(keywordTypeCodeSevice, keywordTypeValueService, null, validator);
 
         KEYWORD_VALUE.setId(KEYWORD_VALUE_ID);
         KEYWORD_VALUE.setName("test");
@@ -65,8 +68,8 @@ public final class KeywordValueControllerTest {
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("keywordCodeId", KEYWORD_CODE_ID.toString());
 
-        EasyMock.expect(mockCodeService.getKeywordTypeCodeById(KEYWORD_CODE_ID)).andReturn(KEYWORD_CODE);
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(keywordTypeCodeSevice.getKeywordTypeCodeById(KEYWORD_CODE_ID)).andReturn(KEYWORD_CODE);
+        EasyMock.replay(keywordTypeCodeSevice);
 
         final ModelAndView mav;
         try {
@@ -87,7 +90,7 @@ public final class KeywordValueControllerTest {
             Assert.fail(e.getMessage());
         }
 
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(keywordTypeCodeSevice);
     }
 
     /**
@@ -106,9 +109,9 @@ public final class KeywordValueControllerTest {
         code.setName(name);
         code.setKeywordTypeCode(KEYWORD_CODE);
 
-        EasyMock.expect(mockCodeService.getKeywordTypeCodeById(KEYWORD_CODE_ID)).andReturn(KEYWORD_CODE);
-        mockCodeService.saveKeywordTypeValue(code);
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(keywordTypeCodeSevice.getKeywordTypeCodeById(KEYWORD_CODE_ID)).andReturn(KEYWORD_CODE);
+        keywordTypeValueService.saveKeywordTypeValue(code);
+        EasyMock.replay(keywordTypeCodeSevice);
 
         final ModelAndView mav;
         try {
@@ -130,7 +133,7 @@ public final class KeywordValueControllerTest {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(keywordTypeCodeSevice);
     }
 
     /**
@@ -147,9 +150,9 @@ public final class KeywordValueControllerTest {
         code.setName(KEYWORD_VALUE.getName());
         code.setKeywordTypeCode(KEYWORD_CODE);
 
-        EasyMock.expect(mockCodeService.getKeywordTypeCodeById(KEYWORD_CODE_ID)).andReturn(KEYWORD_CODE).times(2);
-        mockCodeService.saveKeywordTypeValue(code);
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(keywordTypeCodeSevice.getKeywordTypeCodeById(KEYWORD_CODE_ID)).andReturn(KEYWORD_CODE).times(2);
+        keywordTypeValueService.saveKeywordTypeValue(code);
+        EasyMock.replay(keywordTypeCodeSevice);
 
         final ModelAndView mav;
         try {
@@ -181,8 +184,8 @@ public final class KeywordValueControllerTest {
         request.setMethod(HttpMethod.GET.name());
         request.setParameter("id", KEYWORD_VALUE_ID.toString());
 
-        EasyMock.expect(mockCodeService.getKeywordTypeValueById(KEYWORD_VALUE_ID)).andReturn(KEYWORD_VALUE);
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(keywordTypeValueService.getKeywordTypeValueById(KEYWORD_VALUE_ID)).andReturn(KEYWORD_VALUE);
+        EasyMock.replay(keywordTypeValueService);
 
         final ModelAndView mav;
         try {
@@ -216,9 +219,9 @@ public final class KeywordValueControllerTest {
         request.setParameter("keywordTypeCode.id", KEYWORD_CODE_ID.toString());
         request.setParameter("keywordTypeCode.name", KEYWORD_CODE.getName());
 
-        EasyMock.expect(mockCodeService.getKeywordTypeCodeById(KEYWORD_CODE_ID)).andReturn(KEYWORD_CODE);
-        mockCodeService.saveKeywordTypeValue(KEYWORD_VALUE);
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(keywordTypeCodeSevice.getKeywordTypeCodeById(KEYWORD_CODE_ID)).andReturn(KEYWORD_CODE);
+        keywordTypeValueService.saveKeywordTypeValue(KEYWORD_VALUE);
+        EasyMock.replay(keywordTypeCodeSevice);
 
         final ModelAndView mav;
         try {
@@ -240,7 +243,7 @@ public final class KeywordValueControllerTest {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(keywordTypeCodeSevice);
     }
 
     /**
@@ -254,9 +257,10 @@ public final class KeywordValueControllerTest {
         request.setParameter("keywordTypeCode.id", KEYWORD_CODE_ID.toString());
         request.setParameter("keywordTypeCode.name", KEYWORD_CODE.getName());
 
-        EasyMock.expect(mockCodeService.getKeywordTypeCodeById(KEYWORD_CODE_ID)).andReturn(KEYWORD_CODE);
-        EasyMock.expect(mockCodeService.getKeywordTypeValueById(KEYWORD_VALUE_ID)).andReturn(KEYWORD_VALUE);
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(keywordTypeCodeSevice.getKeywordTypeCodeById(KEYWORD_CODE_ID)).andReturn(KEYWORD_CODE);
+        EasyMock.expect(keywordTypeValueService.getKeywordTypeValueById(KEYWORD_VALUE_ID)).andReturn(KEYWORD_VALUE);
+        EasyMock.replay(keywordTypeCodeSevice);
+        EasyMock.replay(keywordTypeValueService);
 
         final ModelAndView mav;
         try {
@@ -278,6 +282,7 @@ public final class KeywordValueControllerTest {
             Assert.fail(e.getMessage());
         }
 
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(keywordTypeCodeSevice);
+        EasyMock.verify(keywordTypeValueService);
     }
 }

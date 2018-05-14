@@ -3,7 +3,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.booklibrary;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -31,10 +31,10 @@ public class BookLibraryFilterController extends BaseBookLibraryController {
     @Autowired
     public BookLibraryFilterController(
         final LibraryListService libraryService,
-        final CodeService codeService,
+        final KeywordTypeCodeSevice keywordTypeCodeSevice,
         final OutageService outageService,
         @Qualifier("bookLibraryFilterFormValidator") final Validator validator) {
-        super(libraryService, codeService, outageService);
+        super(libraryService, keywordTypeCodeSevice, outageService);
         this.validator = validator;
     }
 

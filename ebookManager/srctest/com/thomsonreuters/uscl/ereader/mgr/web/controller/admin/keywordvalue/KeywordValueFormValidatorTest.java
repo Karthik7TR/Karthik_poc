@@ -7,7 +7,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.keywordvalue;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,7 +21,7 @@ public final class KeywordValueFormValidatorTest {
     private static final String KEYWORD_CODE_NAME = "test";
     private static final String KEYWORD_VALUE_NAME = "Value name";
     private static final Long KEYWORD_VALUE_ID = 1L;
-    private CodeService mockCodeService;
+    private KeywordTypeCodeSevice keywordTypeCodeSevice;
     private KeywordValueFormValidator validator;
     private KeywordValueForm form;
     private Errors errors;
@@ -29,10 +29,10 @@ public final class KeywordValueFormValidatorTest {
     @Before
     public void setUp() {
         // Mock up the service
-        mockCodeService = EasyMock.createMock(CodeService.class);
+        keywordTypeCodeSevice = EasyMock.createMock(KeywordTypeCodeSevice.class);
 
         // Setup Validator
-        validator = new KeywordValueFormValidator(mockCodeService);
+        validator = new KeywordValueFormValidator(keywordTypeCodeSevice);
 
         KEYWORD_CODE.setId(KEYWORD_CODE_ID);
         KEYWORD_CODE.setName(KEYWORD_CODE_NAME);
@@ -47,8 +47,8 @@ public final class KeywordValueFormValidatorTest {
 
     @Test
     public void testNoName() {
-        EasyMock.expect(mockCodeService.getKeywordTypeCodeById(KEYWORD_CODE_ID)).andReturn(KEYWORD_CODE).times(2);
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(keywordTypeCodeSevice.getKeywordTypeCodeById(KEYWORD_CODE_ID)).andReturn(KEYWORD_CODE).times(2);
+        EasyMock.replay(keywordTypeCodeSevice);
 
         // Check Valid name entry
         validator.validate(form, errors);
@@ -67,13 +67,13 @@ public final class KeywordValueFormValidatorTest {
         value.setName(KEYWORD_VALUE_NAME);
         KEYWORD_CODE.getValues().add(value);
 
-        EasyMock.expect(mockCodeService.getKeywordTypeCodeById(KEYWORD_CODE_ID)).andReturn(KEYWORD_CODE);
-        EasyMock.replay(mockCodeService);
+        EasyMock.expect(keywordTypeCodeSevice.getKeywordTypeCodeById(KEYWORD_CODE_ID)).andReturn(KEYWORD_CODE);
+        EasyMock.replay(keywordTypeCodeSevice);
 
         // Verify name requirement
         validator.validate(form, errors);
         Assert.assertEquals("error.exist.keyword", errors.getFieldError("name").getCode());
 
-        EasyMock.verify(mockCodeService);
+        EasyMock.verify(keywordTypeCodeSevice);
     }
 }

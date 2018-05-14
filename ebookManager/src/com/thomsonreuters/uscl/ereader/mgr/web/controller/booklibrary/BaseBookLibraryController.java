@@ -7,7 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.library.service.LibraryListService;
 import com.thomsonreuters.uscl.ereader.mgr.library.vdo.LibraryList;
@@ -27,15 +27,15 @@ public abstract class BaseBookLibraryController {
     public static final String PAGE_AND_SORT_NAME = "bookLibraryPageAndSort";
 
     protected final LibraryListService libraryService;
-    protected final CodeService codeService;
+    private final KeywordTypeCodeSevice keywordTypeCodeSevice;
     protected final OutageService outageService;
 
     protected BaseBookLibraryController(
         final LibraryListService libraryService,
-        final CodeService codeService,
+        final KeywordTypeCodeSevice keywordTypeCodeSevice,
         final OutageService outageService) {
         this.libraryService = libraryService;
-        this.codeService = codeService;
+        this.keywordTypeCodeSevice = keywordTypeCodeSevice;
         this.outageService = outageService;
     }
 
@@ -78,7 +78,7 @@ public abstract class BaseBookLibraryController {
         final PaginatedList paginatedList = createPaginatedList(pageAndSort, filterForm);
         model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
 
-        final List<KeywordTypeCode> codes = codeService.getAllKeywordTypeCodes();
+        final List<KeywordTypeCode> codes = keywordTypeCodeSevice.getAllKeywordTypeCodes();
         // Add keywords
         model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, codes);
         model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());

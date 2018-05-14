@@ -8,7 +8,8 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
-import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
+import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeValueService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -32,16 +33,19 @@ import org.springframework.web.servlet.view.RedirectView;
 public class KeywordValueController {
     private static final Logger log = LogManager.getLogger(KeywordValueController.class);
 
-    private final CodeService codeService;
+    private final KeywordTypeCodeSevice keywordTypeCodeService;
+    private final KeywordTypeValueService keywordTypeValueService;
     private final BookDefinitionService bookService;
     private final Validator validator;
 
     @Autowired
     public KeywordValueController(
-        final CodeService codeService,
+        final KeywordTypeCodeSevice keywordTypeCodeService,
+        final KeywordTypeValueService keywordTypeValueService,
         final BookDefinitionService bookService,
         @Qualifier("keywordValueFormValidator") final Validator validator) {
-        this.codeService = codeService;
+        this.keywordTypeCodeService = keywordTypeCodeService;
+        this.keywordTypeValueService = keywordTypeValueService;
         this.bookService = bookService;
         this.validator = validator;
     }
@@ -63,9 +67,8 @@ public class KeywordValueController {
     public ModelAndView createKeywordValue(
         @RequestParam("keywordCodeId") final Long keywordCodeId,
         @ModelAttribute(KeywordValueForm.FORM_NAME) final KeywordValueForm form,
-        final BindingResult bindingResult,
-        final Model model) throws Exception {
-        final KeywordTypeCode code = codeService.getKeywordTypeCodeById(keywordCodeId);
+        final Model model) {
+        final KeywordTypeCode code = keywordTypeCodeService.getKeywordTypeCodeById(keywordCodeId);
         form.setKeywordTypeCode(code);
         model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, code);
         return new ModelAndView(WebConstants.VIEW_ADMIN_KEYWORD_VALUE_CREATE);
@@ -77,13 +80,13 @@ public class KeywordValueController {
         final BindingResult bindingResult,
         final Model model) {
         if (!bindingResult.hasErrors()) {
-            codeService.saveKeywordTypeValue(form.makeKeywordTypeValue());
+            keywordTypeValueService.saveKeywordTypeValue(form.makeKeywordTypeValue());
 
             // Redirect user
             return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_KEYWORD_CODE_VIEW));
         }
 
-        final KeywordTypeCode code = codeService.getKeywordTypeCodeById(form.getKeywordTypeCode().getId());
+        final KeywordTypeCode code = keywordTypeCodeService.getKeywordTypeCodeById(form.getKeywordTypeCode().getId());
         model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, code);
         return new ModelAndView(WebConstants.VIEW_ADMIN_KEYWORD_VALUE_CREATE);
     }
@@ -93,7 +96,7 @@ public class KeywordValueController {
         @RequestParam("id") final Long id,
         @ModelAttribute(KeywordValueForm.FORM_NAME) final KeywordValueForm form,
         final Model model) {
-        final KeywordTypeValue value = codeService.getKeywordTypeValueById(id);
+        final KeywordTypeValue value = keywordTypeValueService.getKeywordTypeValueById(id);
 
         if (value != null) {
             model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, value.getKeywordTypeCode());
@@ -109,14 +112,11 @@ public class KeywordValueController {
         final BindingResult bindingResult,
         final Model model) {
         if (!bindingResult.hasErrors()) {
-            codeService.saveKeywordTypeValue(form.makeKeywordTypeValue());
-
-            // Redirect user
+            keywordTypeValueService.saveKeywordTypeValue(form.makeKeywordTypeValue());
             return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_KEYWORD_CODE_VIEW));
         }
 
-        final KeywordTypeValue value = codeService.getKeywordTypeValueById(form.getTypeId());
-
+        final KeywordTypeValue value = keywordTypeValueService.getKeywordTypeValueById(form.getTypeId());
         model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, value.getKeywordTypeCode());
         model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_VALUE, value);
         return new ModelAndView(WebConstants.VIEW_ADMIN_KEYWORD_VALUE_EDIT);
@@ -128,7 +128,7 @@ public class KeywordValueController {
         @ModelAttribute(KeywordValueForm.FORM_NAME) final KeywordValueForm form,
         final Model model) {
         log.debug(form);
-        final KeywordTypeValue value = codeService.getKeywordTypeValueById(id);
+        final KeywordTypeValue value = keywordTypeValueService.getKeywordTypeValueById(id);
         if (value != null) {
             final List<BookDefinition> books = bookService.findAllBookDefinitionsByKeywordValueId(id);
             model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, value.getKeywordTypeCode());
@@ -136,19 +136,15 @@ public class KeywordValueController {
             model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, books);
             form.initialize(value);
         }
-
         return new ModelAndView(WebConstants.VIEW_ADMIN_KEYWORD_VALUE_DELETE);
     }
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_KEYWORD_VALUE_DELETE, method = RequestMethod.POST)
     public ModelAndView deleteKeywordValuePost(
-        @ModelAttribute(KeywordValueForm.FORM_NAME) final KeywordValueForm form,
-        final Model model) {
+        @ModelAttribute(KeywordValueForm.FORM_NAME) final KeywordValueForm form) {
         final KeywordTypeValue value = form.makeKeywordTypeValue();
         log.debug(form);
-        codeService.deleteKeywordTypeValue(value);
-
-        // Redirect user
+        keywordTypeValueService.deleteKeywordTypeValue(value.getId());
         return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_KEYWORD_CODE_VIEW));
     }
 }

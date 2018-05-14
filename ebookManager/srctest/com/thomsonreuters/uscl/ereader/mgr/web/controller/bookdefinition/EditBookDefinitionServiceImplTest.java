@@ -20,6 +20,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.PublisherCode;
 import com.thomsonreuters.uscl.ereader.core.book.service.CodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.DocumentTypeCodeService;
 import com.thomsonreuters.uscl.ereader.core.book.service.JurisTypeCodeService;
+import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.core.book.service.PublisherCodeService;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCode;
 import com.thomsonreuters.uscl.ereader.core.book.statecode.StateCodeService;
@@ -53,6 +54,8 @@ public final class EditBookDefinitionServiceImplTest {
     @Mock
     private CodeService codeService;
     @Mock
+    private KeywordTypeCodeSevice keywordTypeCodeSevice;
+    @Mock
     private PublisherCodeService publisherCodeService;
     @Mock
     private DocumentTypeCodeService documentTypeCodeService;
@@ -78,6 +81,7 @@ public final class EditBookDefinitionServiceImplTest {
 
         bookService = new EditBookDefinitionServiceImpl(
             codeService,
+            keywordTypeCodeSevice,
             publisherCodeService,
             documentTypeCodeService,
             jurisTypeCodeService,
