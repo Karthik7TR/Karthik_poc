@@ -130,5 +130,17 @@
 		</xsl:element>
 	</xsl:template>
 	
+	<!--  Rutter Index workaround -->
+	<xsl:template match="x:t[x:is-rutter-index-letter(self::node())]">
+		<xsl:copy>
+			<xsl:copy-of select="@*" />
+			<xsl:attribute name="index-header" select="'true'" />
+			<xsl:value-of select="text()" />
+			<xsl:value-of select="following-sibling::x:t[2]/text()" />
+		</xsl:copy>
+	</xsl:template>
+	
+	<xsl:template match="x:t[x:is-rutter-index-letter(preceding-sibling::x:t[2])]" />
+	
 	<xsl:template match="text()" />
 </xsl:stylesheet>

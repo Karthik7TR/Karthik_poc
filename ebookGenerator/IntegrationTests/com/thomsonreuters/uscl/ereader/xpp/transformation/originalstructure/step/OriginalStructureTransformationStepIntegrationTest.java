@@ -88,6 +88,14 @@ public final class OriginalStructureTransformationStepIntegrationTest {
     }
 
     @Test
+    public void shouldTransformRutterIndex() throws Exception {
+        testOriginalStructureTransformationStep(
+            "index\\rutter\\sample.DIVXML.xml",
+            "index\\rutter\\expected.main",
+            "index\\rutter\\expected.footnotes");
+    }
+
+    @Test
     public void shouldProcessCiteQueries() throws Exception {
         //given
         final File expectedProcessedCiteQueriesDir = new File(

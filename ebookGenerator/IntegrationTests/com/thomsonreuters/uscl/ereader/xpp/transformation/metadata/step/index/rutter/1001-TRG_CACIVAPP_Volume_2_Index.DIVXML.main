@@ -20,6 +20,13 @@
 	<l1>
 		<t style="l1.1 cgt">-</t>
 	</l1>
+	<l1>
+		<t style="unknown.3" index-header="true">Abandonment of Appeal.</t>
+		<t style="pa"> </t>
+		<t style="mdit">See also</t>
+		<t style="med"> </t>
+		<t style="unknown.4">Dismissal of Appeal, Voluntary</t>
+	</l1>
 	<pagebreak num="Index-1" serial-num="2"/>
 	<pagebreak num="Index-1" serial-num="3"/>
 	<pagebreak num="Index-1" serial-num="4"/>
@@ -40,8 +47,7 @@
 	<pagebreak num="Index-1" serial-num="19"/>
 	<pagebreak num="Index-1" serial-num="20"/>
 	<l1>
-		<t style="unknown.3">C</t>
-		<t style="pa">lerk's Transcript</t>
+		<t style="unknown.3" index-header="true">Clerk's Transcript</t>
 		<l2>
 			<t style="unknown.4">Generally&amp;#8194;- 4:20</t>
 		</l2>
@@ -52,102 +58,6 @@
 			<t style="unknown.4">Agreed Statement</t>
 		</l2>
 		<l2>
-			<t style="unknown.4">Appendix in lieu of. </t>
-			<t style="mdit">See</t>
-			<t style="med"> Appendix in </t>
-			<t style="unknown.4">Lieu of Clerk's Transcript</t>
-		</l2>
-		<l2>
-			<t style="unknown.4">Content of designation notice</t>
-			<l3>
-				<t style="unknown.4">partial transcript&amp;#8194;- 4:124.1; </t>
-				<t style="unknown.4">4:136-137</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">specific designations required&amp;#8194;- </t>
-				<t style="unknown.4">4:124-124.2</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">specifying portions not to be </t>
-				<t style="unknown.4">included&amp;#8194;- 4:124.6</t>
-			</l3>
-		</l2>
-		<l2>
-			<t style="unknown.4">Correction of. </t>
-			<t style="mdit">See</t>
-			<t style="med"> Correction of </t>
-			<t style="unknown.4">Record</t>
-		</l2>
-		<l2>
-			<t style="unknown.4">Costs</t>
-			<l3>
-				<t style="unknown.4">generally&amp;#8194;- 4:39</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">copying of exhibits&amp;#8194;- 4:128; </t>
-				<t style="unknown.4">4:139-141; 4:307</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">default for failure to pay estimated </t>
-				<t style="unknown.4">cost&amp;#8194;- 4:144, 4:147.1</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">deposit of estimated cost&amp;#8194;- 4:146</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">exemptions. </t>
-				<t style="mdit">See</t>
-				<t style="med"> Exemptions from </t>
-				<t style="unknown.4">transcript deposit and payment </t>
-				<t style="unknown.4">costs, </t>
-				<t style="mdit">infra</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">notice of estimated cost&amp;#8194;- </t>
-				<t style="unknown.4">4:145-145.1; 16:15</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">recoverable by prevailing party&amp;#8194;- </t>
-				<t style="unknown.4">4:147</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">refund of excess deposit if appeal </t>
-				<t style="unknown.4">abandoned or dismissed&amp;#8194;- 4:148.5</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">respondent's designation&amp;#8194;- 4:141</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">superior court file in lieu of clerk's </t>
-				<t style="unknown.4">transcript&amp;#8194;- 4:165.3</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">transcript deposit. </t>
-				<t style="mdit">See</t>
-				<t style="med"> Transcript </t>
-				<t style="unknown.4">deposit, </t>
-				<t style="mdit">infra</t>
-			</l3>
-		</l2>
-		<l2>
-			<t style="unknown.4">Designation notice. </t>
-			<t style="mdit">See</t>
-			<t style="med"> Notice </t>
-			<t style="unknown.4">designating, </t>
-			<t style="mdit">infra</t>
-		</l2>
-		<l2>
-			<t style="unknown.4">Designation of documents for. </t>
-			<t style="mdit">See</t>
-			<t style="med"> </t>
-			<t style="unknown.4">Content of designation notice, </t>
-			<t style="mdit">supra</t>
-		</l2>
-		<l2>
-			<t style="unknown.4">Documents specified at outset of </t>
-			<t style="unknown.4">appeal&amp;#8194;- 4:39</t>
-		</l2>
-		<l2>
 			<t style="unknown.4">Exemptions from transcript deposit and </t>
 			<t style="unknown.4">payment costs</t>
 			<l3>
@@ -156,325 +66,20 @@
 			<l3>
 				<t style="unknown.4">indigent appellants&amp;#8194;- 3:154-156; </t>
 				<t style="unknown.4">4:96.5-96.6; 4:148-148.1a</t>
-				<endcolumn/>
-				<endcolumns/>
 				<pagebreak num="Index-21" serial-num="21"/>
 				<page.number.ref page-number="Index-21"/>
-				<columns/>
-				<column/>
+				<mte2>
+					<t style="mte2.1 cgt">HeaderWithoutAttribute (actually used)</t>
+				</mte2>
 				<mtf2>
 					<mte2>
-						<t style="mte2.1 cgt">C</t>
-						<t style="mte2.1 cgt">lerk's Transcript&amp;#8201;(Cont&amp;#8217;d)</t>
+						<t style="mte2.1 cgt" index-header="true">HeaderWithAttribute (ignored)</t>
 					</mte2>
 				</mtf2>
 			</l3>
-			<l3>
-				<t style="unknown.4">juvenile dependency and termination </t>
-				<t style="unknown.4">of parental rights cases&amp;#8194;- 3:152; </t>
-				<t style="unknown.4">4:96.6; 4:148</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">LPS commitment proceedings. </t>
-				<t style="mdit">See</t>
-				<t style="med"> </t>
-				<t style="unknown.4">Conservatorship Proceedings</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">public entity appellants&amp;#8194;- 3:153; </t>
-				<t style="unknown.4">4:148.2</t>
-			</l3>
-		</l2>
-		<l2>
-			<t style="unknown.4">Exhibits</t>
-			<l3>
-				<t style="unknown.4">copies, inclusion of&amp;#8194;- 4:128; 4:130; </t>
-				<t style="unknown.4">4:139-141; 4:307</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">costs of copying, recoverability of&amp;#8194;- </t>
-				<t style="unknown.4">14:81</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">&amp;#8216;&amp;#8216;deemed&amp;#8217;&amp;#8217; part of clerk's transcript&amp;#8194;- </t>
-				<t style="unknown.4">4:128; 4:307-308</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">deposition transcripts&amp;#8194;- 4:129</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">return of&amp;#8194;- 4:319</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">Second Appellate District local rule&amp;#8194;- </t>
-				<t style="unknown.4">4:125; 4:128</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">transmittal of. </t>
-				<t style="mdit">See</t>
-				<t style="med"> Exhibits</t>
-			</l3>
-		</l2>
-		<l2>
-			<t style="unknown.4">Forms</t>
-			<l3>
-				<t style="unknown.4">notice designating record on </t>
-				<t style="unknown.4">appeal&amp;#8194;- 4:69.5; 4:122; 4:182; </t>
-				<t style="unknown.4">4:310; Form 4:A</t>
-			</l3>
-		</l2>
-		<l2>
-			<t style="unknown.4">Incomplete record, risks from&amp;#8194;- 4:49</t>
-		</l2>
-		<l2>
-			<t style="unknown.4">Incorporation by reference in</t>
-			<l3>
-				<t style="unknown.4">appellant's designation&amp;#8194;- 4:267</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">subsequent appeal in same case&amp;#8194;- </t>
-				<t style="unknown.4">4:267-267.3</t>
-			</l3>
-		</l2>
-		<l2>
-			<t style="unknown.4">Items to include to aid retained </t>
-			<t style="unknown.4">counsel&amp;#8194;- 4:62-66</t>
-		</l2>
-		<l2>
-			<t style="unknown.4">Limited civil case appeals. </t>
-			<t style="mdit">See</t>
-			<t style="med"> </t>
-			<t style="unknown.4">Appeals to Superior Court Appellate </t>
-			<t style="unknown.4">Division</t>
-		</l2>
-		<l2>
-			<t style="unknown.4">Notice designating</t>
-			<l3>
-				<t style="unknown.4">content of. </t>
-				<t style="mdit">See</t>
-				<t style="med"> Content of </t>
-				<t style="unknown.4">designation notice, </t>
-				<t style="mdit">supra</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">deadline&amp;#8194;- 4:122</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">incorporation by reference of prior </t>
-				<t style="unknown.4">appellate record in same case. </t>
-				<t style="mdit">See</t>
-				<t style="med"> Incorporation by reference in, </t>
-				<t style="mdit">supra</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">ineffective if estimated cost not </t>
-				<t style="unknown.4">timely paid&amp;#8194;- 4:144</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">notice designating record on appeal, </t>
-				<t style="unknown.4">inclusion in&amp;#8194;- 4:69.4. </t>
-				<t style="mdit">See also</t>
-				<t style="med"> </t>
-				<t style="unknown.4">Designation and Preparation of </t>
-				<t style="unknown.4">Appellate Record</t>
-			</l3>
-		</l2>
-		<l2>
-			<t style="unknown.4">Partial transcript designation</t>
-			<l3>
-				<t style="unknown.4">generally&amp;#8194;- 4:20; 4:135</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">designation by appellant&amp;#8194;- 4:136</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">designation by respondent. </t>
-				<t style="mdit">See</t>
-				<t style="med"> </t>
-				<t style="unknown.4">Respondent's designation, </t>
-				<t style="mdit">infra</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">designation notice&amp;#8194;- 4:124.1</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">presumption that all material matters </t>
-				<t style="unknown.4">included&amp;#8194;- 4:51</t>
-			</l3>
-		</l2>
-		<l2>
-			<t style="unknown.4">Preparation of</t>
-			<l3>
-				<t style="unknown.4">administrative proceeding record, </t>
-				<t style="unknown.4">prohibition re inclusion in&amp;#8194;- 4:225.5</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">after filing of designation notice and </t>
-				<t style="unknown.4">payment of estimated cost&amp;#8194;- 4:121</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">CEQA proceedings&amp;#8194;- 4:149</t>
-				<endcolumn/>
-				<column/>
-				<mte2>
-					<t style="mte2.1 cgt">C</t>
-					<t style="mte2.1 cgt">lerk's Transcript&amp;#8201;(Cont&amp;#8217;d)</t>
-				</mte2>
-			</l3>
-			<l3>
-				<t style="unknown.4">certified original for appellate court&amp;#8194;- </t>
-				<t style="unknown.4">4:151</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">contents&amp;#8194;- 4:126-127.1</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">copies of transcript&amp;#8194;- 4:151</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">deadline&amp;#8194;- 4:149-150; 16:16</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">exhibits. </t>
-				<t style="mdit">See</t>
-				<t style="med"> Exhibits, </t>
-				<t style="mdit">supra</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">form of transcript&amp;#8194;- 4:153-156</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">local rules to expedite&amp;#8194;- 4:100-102.1</t>
-			</l3>
-		</l2>
-		<l2>
-			<t style="unknown.4">Respondent's designation</t>
-			<l3>
-				<t style="unknown.4">generally&amp;#8194;- 4:137</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">content&amp;#8194;- 4:138</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">deadline&amp;#8194;- 4:139</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">exhibits, copies of&amp;#8194;- 4:139-141</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">filing of&amp;#8194;- 4:139</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">no deposit of estimated costs&amp;#8194;- </t>
-				<t style="unknown.4">4:141</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">service on parties&amp;#8194;- 4:140</t>
-			</l3>
-		</l2>
-		<l2>
-			<t style="unknown.4">Settled statement in lieu of. </t>
-			<t style="mdit">See</t>
-			<t style="med"> </t>
-			<t style="unknown.4">Settled Statement</t>
-		</l2>
-		<l2>
-			<t style="unknown.4">Superior court appellate division, </t>
-			<t style="unknown.4">appeals to. </t>
-			<t style="mdit">See</t>
-			<t style="med"> Appeals to Superior </t>
-			<t style="unknown.4">Court Appellate Division</t>
-		</l2>
-		<l2>
-			<t style="unknown.4">Superior court file. </t>
-			<t style="mdit">See</t>
-			<t style="med"> Superior Court </t>
-			<t style="unknown.4">File in Lieu of Clerk's Transcript</t>
-		</l2>
-		<l2>
-			<t style="unknown.4">Transcript deposit</t>
-			<l3>
-				<t style="unknown.4">generally&amp;#8194;- 3:136; 3:149</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">amount of&amp;#8194;- 3:143</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">&amp;#8216;&amp;#8216;certified&amp;#8217;&amp;#8217; appeals of bifurcated </t>
-				<t style="unknown.4">family law interim rulings&amp;#8194;- 3:143.1</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">cross-appeals&amp;#8194;- 3:168</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">exemptions from. </t>
-				<t style="mdit">See</t>
-				<t style="med"> Exemptions </t>
-				<t style="unknown.4">from transcript deposit and </t>
-				<t style="unknown.4">payment costs, </t>
-				<t style="mdit">supra</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">failure to pay&amp;#8194;- 3:160</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">forfeited if appeal aborted&amp;#8194;- 3:150</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">payee as clerk of superior court&amp;#8194;- </t>
-				<t style="unknown.4">3:148</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">refund after dismissal or </t>
-				<t style="unknown.4">abandonment of appeal&amp;#8194;- 5:60</t>
-			</l3>
-			<l3>
-				<t style="unknown.4">time of payment&amp;#8194;- 3:148</t>
-			</l3>
 		</l2>
 	</l1>
 	<l1>
-		<t style="unknown.3">&amp;#8216;&amp;#8216;C</t>
-		<t style="pa">ollateral&amp;#8217;&amp;#8217; Final Judgments or </t>
-		<t style="unknown.3">Orders.</t>
-		<t style="pa"> </t>
-		<t style="mdit">See</t>
-		<t style="med"> Exceptions to &amp;#8216;&amp;#8216;One </t>
-		<t style="unknown.4">Final Judgment Rule&amp;#8217;&amp;#8217;</t>
-	</l1>
-	<l1>
-		<t style="unknown.3">C</t>
-		<t style="pa">ommunity Facilities District</t>
-		<l2>
-			<t style="unknown.4">Action contesting special tax levy</t>
-			<l3>
-				<t style="unknown.4">time for filing notice of appeal from </t>
-				<t style="unknown.4">judgment&amp;#8194;- 3:28</t>
-			</l3>
-		</l2>
-	</l1>
-	<l1>
-		<t style="unknown.3">C</t>
-		<t style="pa">ompetence.</t>
-		<t style="pa"> </t>
-		<t style="mdit">See</t>
-		<t style="med"> Attorney Competence</t>
-	</l1>
-	<l1>
-		<t style="unknown.3">C</t>
-		<t style="pa">ompromise Agreement (CCP &amp;#167;998)</t>
-		<l2>
-			<t style="unknown.4">Appealability of judgment on&amp;#8194;- </t>
-			<t style="unknown.4">2:35.6-35.7; 2:299.2</t>
-		</l2>
-		<l2>
-			<t style="unknown.4">Expert witness fees awarded pursuant </t>
-			<t style="unknown.4">to CCP &amp;#167;998</t>
-			<l3>
-				<t style="unknown.4">standard of review&amp;#8194;- </t>
-				<t style="unknown.4">8:104.13-104.13a</t>
-			</l3>
-		</l2>
 		<l2>
 			<t style="unknown.4">Settlement offer pursuant to CCP &amp;#167;998</t>
 			<l3>
@@ -487,12 +92,11 @@
 				<column/>
 				<mtf2>
 					<mte2>
-						<t style="unknown.3">D</t>
+						<t style="unknown.3">Test Heading</t>
 					</mte2>
 				</mtf2>
 			</l3>
 		</l2>
 	</l1>
-	<endcolumn/>
-	<endcolumns/>
+	<pagebreak num="Index-23" serial-num="23"/>
 </root>

@@ -63,6 +63,7 @@
 	<!-- for index breaks -->
 	<xsl:function name="x:get-first-word">
 		<xsl:param name="indexString" />
+		<xsl:variable name="apos">'</xsl:variable>
 		<xsl:variable name="noSpace">
 			<xsl:value-of select="x:substring-before($indexString, ' ')" />
 		</xsl:variable>
@@ -81,7 +82,10 @@
 		<xsl:variable name="noAmp">
 			<xsl:value-of select="x:substring-before($noComma, '&amp;')" />
 		</xsl:variable>
-		<xsl:value-of select="$noAmp" />
+		<xsl:variable name="noApos">
+			<xsl:value-of select="x:substring-before($noAmp, $apos)" />
+		</xsl:variable>
+		<xsl:value-of select="$noApos" />
 	</xsl:function>
 	
 	<!--  updates id in case bundle is a pocket part-->
@@ -109,5 +113,15 @@
 				<xsl:value-of select="false()"/>
 			</xsl:otherwise>
 		</xsl:choose>
+	</xsl:function>
+	
+	<xsl:function name="x:strip-braces">
+		<xsl:param name="text" />
+		<xsl:value-of select="substring-before(substring-after($text, '['), ']')" />
+	</xsl:function>
+	
+	<xsl:function name="x:is-rutter-index-letter">
+		<xsl:param name="node" />
+		<xsl:sequence select="boolean(string-length($node/text())=1) and boolean(x:strip-braces($node/following-sibling::x:t[@suppress='true'][1]/text())=$node/text())" />
 	</xsl:function>
 </xsl:stylesheet>

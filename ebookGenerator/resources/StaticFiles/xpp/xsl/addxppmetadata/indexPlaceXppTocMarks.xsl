@@ -22,7 +22,7 @@
 
 	<xsl:template match="x:root">
 		<root>
-			<xsl:variable name="firstIndexWord" select="./x:INDEX/x:l1[1]/x:t[1]/text()" />
+			<xsl:variable name="firstIndexWord" select="x:get-first-word((.//x:t[@index-header='true']/text() | .//x:INDEX/x:l1[1]/x:t[1]/text())[1])" />
 			<xsl:variable name="lastIndexWord">
 				<xsl:value-of select="x:get-last-index-word((//x:pagebreak)[1])" />
 			</xsl:variable>
@@ -47,64 +47,87 @@
 		<xsl:copy-of select="." />
 		<xsl:if test="$pagesAmount > 20 and (@serial-num=1 or (@serial-num  - 1) mod 20 = 0)">
 			<xsl:variable name="firstIndexWord">
-				<xsl:apply-templates
-					select="(following::x:l1[./x:t] | following::x:mte2[./x:t])[1]"
-					mode="extracting" />
+				<xsl:value-of select="x:get-first-index-word(.)" />
 			</xsl:variable>
 			<xsl:variable name="lastIndexWord">
 				<xsl:value-of select="x:get-last-index-word(.)" />
 			</xsl:variable>
 			<xsl:variable name="currentIndexUuid">
 				<xsl:value-of
-					select="concat($materialNumber, '.', $indexId, x:get-first-word($firstIndexWord), x:get-first-word($lastIndexWord))" />
+					select="concat($materialNumber, '.', $indexId, $firstIndexWord, $lastIndexWord)" />
 			</xsl:variable>
-
-			<xsl:if test="@serial-num != 1">
+			
+			<xsl:if test="not(@serial-num = 1)">
 				<xsl:call-template name="placeSectionbreak">
 					<xsl:with-param name="sectionuuid" select="$currentIndexUuid" />
 				</xsl:call-template>
 			</xsl:if>
-
-			<xsl:call-template name="placeXppHier">
-				<xsl:with-param name="uuid" select="$currentIndexUuid" />
-				<xsl:with-param name="name"
-					select="concat($firstIndexWord, ' - ', $lastIndexWord)" />
-				<xsl:with-param name="parent_uuid" select="$root_uuid" />
-				<xsl:with-param name="doc_family_uuid" select="$currentIndexUuid" />
-			</xsl:call-template>
+			<xsl:if test="not($firstIndexWord = '') and not($lastIndexWord = '')">
+				<xsl:call-template name="placeXppHier">
+					<xsl:with-param name="uuid" select="$currentIndexUuid" />
+					<xsl:with-param name="name"
+						select="concat($firstIndexWord, ' - ', $lastIndexWord)" />
+					<xsl:with-param name="parent_uuid" select="$root_uuid" />
+					<xsl:with-param name="doc_family_uuid" select="$currentIndexUuid" />
+				</xsl:call-template>
+			</xsl:if>
 		</xsl:if>
 	</xsl:template>
-
-	<xsl:template match="x:pagebreak" mode="get-last-word">
-		<xsl:variable name="indexElement"
-			select="ancestor::x:l1[./x:t][1] | preceding::x:l1[./x:t][1]" />
-		<xsl:value-of select="x:get-first-word($indexElement[last()]/x:t[1]/text())" />
-	</xsl:template>
-
-	<xsl:template match="x:l1 | x:mte2" mode="extracting">
-		<xsl:variable name="indexString" select="./x:t[1]/text()" />
-		<xsl:value-of select="x:get-first-word($indexString)" />
-	</xsl:template>
-
-	<xsl:function name="x:get-last-index-word">
+	
+	<xsl:function name="x:get-first-index-word">
 		<xsl:param name="currentPagebreak" />
-		<xsl:variable name="lastIndexWord">
-			<xsl:variable name="nullableLastIndexWord">
-				<xsl:apply-templates
-					select="$currentPagebreak/following::x:pagebreak[(@serial-num - 1) mod 20 = 0][1]"
-					mode="get-last-word" />
-			</xsl:variable>
+		<xsl:variable name="nextPagebreak" select="$currentPagebreak/following::x:pagebreak[1]" />
+		<xsl:variable name="rutterIndexHeader">
 			<xsl:choose>
-				<xsl:when test="not($nullableLastIndexWord = '')">
-					<xsl:value-of select="$nullableLastIndexWord" />
+				<xsl:when test="not($nextPagebreak='')">
+					<xsl:value-of select="$currentPagebreak/following::x:t[@index-header='true'][1] intersect $nextPagebreak/preceding::x:t" />
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:variable name="notNullLastIndexWord"
-						select="x:get-first-word($currentPagebreak/following::x:l1[last()]/x:t[1]/text())" />
-					<xsl:value-of select="$notNullLastIndexWord" />
+					<xsl:value-of select="$currentPagebreak/following::x:t[@index-header='true'][1]" />
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:value-of select="$lastIndexWord" />
+		<xsl:variable name="usualIndexHeader" select="(($currentPagebreak/following::x:l1[./x:t]/x:t[1])[not(normalize-space(text())='') and not(contains(@style, 'cgt'))] | $currentPagebreak/following::x:mte2[./x:t]/x:t[1])[1]" />
+		<xsl:variable name="t" select="($rutterIndexHeader | $usualIndexHeader)[1]" />
+		<xsl:value-of select="x:get-first-word($t)" />
+	</xsl:function>
+
+	<xsl:function name="x:get-last-index-word">
+		<xsl:param name="currentPagebreak" as="node()" />
+		<xsl:variable name="lastPagebreak" select="(
+			($currentPagebreak/following::x:pagebreak[@serial-num mod 20 = 0 and x:has-header(.) = true()][1]) 
+			| (($currentPagebreak/following::x:pagebreak[x:has-header(.) = true()][last()] | $currentPagebreak/self::node()[x:has-header(.)])[last()])
+		)[1]" />
+		
+		<xsl:variable name="nextPagebreak" select="$lastPagebreak/following::x:pagebreak[1]" />
+		<xsl:choose>
+			<xsl:when test="not($nextPagebreak)">
+				<xsl:value-of select="x:get-first-word(x:get-header($lastPagebreak)[last()])" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="x:get-first-word((x:get-header($lastPagebreak) intersect $nextPagebreak/preceding::x:t)[last()])" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
+	
+	<xsl:function name="x:has-header">
+		<xsl:param name="pagebreak" />
+		<xsl:variable name="nextPagebreak" select="$pagebreak/following::x:pagebreak[1]" />
+		<xsl:variable name="headerSuspects" select="$pagebreak/following::x:t[@index-header='true'] | $pagebreak/following::x:l1[./x:t[not(normalize-space(./text())='')]]/x:t | $pagebreak/following::x:mte2[./x:t]/x:t" />
+		<xsl:choose>
+			<xsl:when test="not($nextPagebreak)">
+				<xsl:value-of select="boolean($headerSuspects)" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="boolean($headerSuspects intersect $nextPagebreak/preceding::x:t)" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
+	
+	<xsl:function name="x:get-header">
+		<xsl:param name="pagebreak" />
+		<xsl:sequence select="$pagebreak/following::x:t[@index-header='true'] 
+			| $pagebreak/following::x:l1[./x:t[not(normalize-space(./text())='')]]/x:t[1] 
+			| $pagebreak/following::x:mte2[./x:t]/x:t[1]" />
 	</xsl:function>
 </xsl:stylesheet>
