@@ -20,10 +20,7 @@ function PrintComponentsTable(
                 $(jsGridContainerId).jsGrid("option", "data", printComponents);
                 $(printComponentsDataId).attr('value', JSON.stringify($(jsGridContainerId).data("JSGrid").data));
                 
-                gridManager.exchangeIndexes();
-                gridManager.sortGridByComponentOrder();
                 gridManager.reorderIndexes();
-                gridManager.refreshingRowActivities();
                 gridManager.colorLines();
             },
 
