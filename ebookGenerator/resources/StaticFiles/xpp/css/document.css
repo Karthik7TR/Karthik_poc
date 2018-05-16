@@ -461,6 +461,10 @@ td:last-of-type {
   margin-bottom: 0.5em;
 }
 
+.publication > .publication_back > .appendix_block > .appendix_reserved > .outline_name_block > .label {
+  margin-right: 1em;
+}
+
 .form_item {
   margin-left: 1em;
 }
@@ -706,7 +710,8 @@ tbody .cgt,
 .generated_case_tbl .int_ref_list > .cgt,
 .research_reference_block > .cgt,
 .appendix_block > .appendix > .appendix_body > .stat_structure > .stat_title > .stat_chapter > .stat_article > .stat_section_reserved .cgt,
-.toc_appendix_reserved > a ~ .cgt {
+.toc_appendix_reserved > a ~ .cgt,
+.publication > .publication_back > .appendix_block > .appendix_reserved > .outline_name_block + .cgt {
   display: inline;
 }
 

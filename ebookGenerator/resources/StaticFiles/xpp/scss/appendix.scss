@@ -56,6 +56,9 @@
     .appendix_front>.outline_name_block>& {
         margin-bottom: #{$indent/2}em;
     }
+    .publication>.publication_back>.appendix_block>.appendix_reserved>.outline_name_block>& {
+        margin-right: #{$indent}em;
+    }
 }
 
 .form_item {

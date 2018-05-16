@@ -25,7 +25,8 @@
     .generated_case_tbl .int_ref_list>&,
     .research_reference_block>&,
     .appendix_block>.appendix>.appendix_body>.stat_structure>.stat_title>.stat_chapter>.stat_article>.stat_section_reserved &,
-    .toc_appendix_reserved>a~& {
+    .toc_appendix_reserved>a~&,
+    .publication>.publication_back>.appendix_block>.appendix_reserved>.outline_name_block+& {
         display: inline;
     }
     .signature_group>.form_line &,
