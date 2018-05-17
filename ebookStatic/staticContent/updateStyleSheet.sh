@@ -94,4 +94,8 @@ sed -i '/<\/h2>/a \
 echo "Add head condition in Head.xsl" >> log.txt
 sed -i "s/<xsl:template match=\"head | prop.head | form.head | fa.head\" name=\"head\">/<xsl:template match=\"head[not(following-sibling::paratext)] | prop.head | form.head | fa.head\" name=\"head\">/g"
 
+echo "Remove duplicated templates" >> log.txt
+sed -i 's/<xsl:template name="historicalStatutesAndRegulationsHeader" \/>//g' Platform/Universal/HistoricalHeader.xsl
+sed -i 's/<xsl:template name="additionalResourcesHeader">/<xsl:template name="additionalResourcesHeader_unduplicated">/g' WestlawNext/DefaultProductView/ContentBlocks/SimpleContentBlocks.xsl
+
 echo "**************Done**********" >> log.txt
