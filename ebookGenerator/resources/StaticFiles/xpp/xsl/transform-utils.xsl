@@ -122,6 +122,6 @@
 	
 	<xsl:function name="x:is-rutter-index-letter">
 		<xsl:param name="node" />
-		<xsl:sequence select="boolean(string-length($node/text())=1) and boolean(x:strip-braces($node/following-sibling::x:t[@suppress='true'][1]/text())=$node/text())" />
+		<xsl:sequence select="count($node/text())=1 and boolean(string-length($node/text())=1) and boolean(x:strip-braces($node/following-sibling::x:t[@suppress='true'][1]/text())=$node/text())" />
 	</xsl:function>
 </xsl:stylesheet>
