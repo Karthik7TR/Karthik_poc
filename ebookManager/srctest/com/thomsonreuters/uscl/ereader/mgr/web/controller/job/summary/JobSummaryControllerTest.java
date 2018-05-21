@@ -1,5 +1,6 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.details.JobExecutionController;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.job.summary.JobSummaryForm.DisplayTagSortProperty;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.job.JobService;
+import lombok.SneakyThrows;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -34,6 +36,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
+import org.springframework.web.servlet.view.RedirectView;
 
 public final class JobSummaryControllerTest {
     //private static final Logger log = LogManager.getLogger(JobSummaryControllerTest.class);
@@ -122,7 +125,18 @@ public final class JobSummaryControllerTest {
     }
 
     @Test
-    public void testJobSummaryPaging() throws Exception {
+    @SneakyThrows
+    public void testEmptyPaging() {
+        request.setRequestURI("/" + WebConstants.MVC_JOB_SUMMARY_PAGE_AND_SORT);
+        request.setMethod(HttpMethod.GET.name());
+
+        final ModelAndView mav = handlerAdapter.handle(request, response, controller);
+        assertEquals(mav.getView().getClass(), RedirectView.class);
+    }
+
+    @Test
+    @SneakyThrows
+    public void testJobSummaryPaging() {
         // Set up the request URL
         final int newPageNumber = 2;
         request.setRequestURI("/" + WebConstants.MVC_JOB_SUMMARY_PAGE_AND_SORT);
@@ -145,13 +159,13 @@ public final class JobSummaryControllerTest {
 
         // Verify
         assertNotNull(mav);
-        Assert.assertEquals(WebConstants.VIEW_JOB_SUMMARY, mav.getViewName());
+        assertEquals(WebConstants.VIEW_JOB_SUMMARY, mav.getViewName());
         final Map<String, Object> model = mav.getModel();
         validateModel(session, model);
 
         final PageAndSort<DisplayTagSortProperty> pageAndSort =
             (PageAndSort<DisplayTagSortProperty>) session.getAttribute(PageAndSort.class.getName());
-        Assert.assertEquals(newPageNumber, pageAndSort.getPageNumber().intValue());
+        assertEquals(newPageNumber, pageAndSort.getPageNumber().intValue());
 
         EasyMock.verify(mockJobService);
         EasyMock.verify(mockOutageService);

@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class JobSummaryController extends BaseJobSummaryController {
@@ -109,7 +110,7 @@ public class JobSummaryController extends BaseJobSummaryController {
         if (nextPageNumber != null) { // PAGING
             pageAndSort.setPageNumber(nextPageNumber);
             jobExecutionIds = fetchSavedJobExecutionIdList(httpSession);
-        } else { // SORTING
+        } else if (form.getSort() != null) { // SORTING
             pageAndSort.setPageNumber(1);
             pageAndSort.setSortProperty(form.getSort());
             pageAndSort.setAscendingSort(form.isAscendingSort());
@@ -123,6 +124,8 @@ public class JobSummaryController extends BaseJobSummaryController {
                 filterForm.getSubmittedBy());
             final JobSort jobSort = createJobSort(form.getSort(), form.isAscendingSort());
             jobExecutionIds = jobService.findJobExecutions(jobFilter, jobSort);
+        } else {
+            return new ModelAndView(new RedirectView(WebConstants.MVC_JOB_SUMMARY));
         }
         setUpModel(jobExecutionIds, filterForm, pageAndSort, httpSession, model);
 
