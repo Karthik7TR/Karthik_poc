@@ -85,7 +85,10 @@
 		<xsl:variable name="noApos">
 			<xsl:value-of select="x:substring-before($noAmp, $apos)" />
 		</xsl:variable>
-		<xsl:value-of select="$noApos" />
+		<xsl:variable name="noSlash">
+			<xsl:value-of select="x:substring-before($noApos, '/')" />
+		</xsl:variable>
+		<xsl:value-of select="$noSlash" />
 	</xsl:function>
 	
 	<!--  updates id in case bundle is a pocket part-->
