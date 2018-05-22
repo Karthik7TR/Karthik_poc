@@ -15,6 +15,7 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
 import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.step.VolumeNumberAwareXppTransformationStep;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppBookStep;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,7 @@ public class FrontMatterPlaceXppMetadataStrategy extends AbstractPlaceXppMetadat
             .withXsl(xslTransformationFile)
             .withParameter("isMultiVolume", step.getXppBundles().size() > 1)
             .withParameter("isbn", step.getBookDefinition().getIsbn())
+            .withParameter("fileNameBasedVolumeNumber", ((VolumeNumberAwareXppTransformationStep) step).getVolumeNumberByFileName(inputFile.getName()))
             .build();
         final File outputFile =
             xppFormatFileSystem.getStructureWithMetadataFile(step, materialNumber, inputFile.getName());

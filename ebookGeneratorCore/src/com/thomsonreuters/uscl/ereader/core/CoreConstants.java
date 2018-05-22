@@ -36,7 +36,7 @@ public class CoreConstants {
         "Subgroup name should be changed for every major version of split Book.";
 
     public static final String SUBGROUP_ERROR_MESSAGE =
-        "No subgroup(s) in previous groups.  Assign previous book versions to subgroup(s) via 'Create/Edit Group' button.";
+        "No subgroup(s) in previous groups. Assign previous book versions to subgroup(s) via 'Create/Edit Group' button.";
 
     public static final String DUPLICATE_SUBGROUP_ERROR_MESSAGE =
         "Subgroup heading already exists for previous versions.";

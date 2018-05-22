@@ -15,12 +15,12 @@ import com.thomsonreuters.uscl.ereader.xpp.strategy.provider.BundleFileHandlingS
 import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.metadata.step.strategy.PlaceXppMetadataStrategy;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.PartType;
-import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.step.VolumeNumberAwareXppTransformationStep;
 import org.sonar.runner.commonsio.FileUtils;
 
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
-public class PlaceXppMetadataStep extends XppTransformationStep {
+public class PlaceXppMetadataStep extends VolumeNumberAwareXppTransformationStep {
     @Resource(name = "placeXppMetadataStrategyProvider")
     private BundleFileHandlingStrategyProvider<PlaceXppMetadataStrategy> strategyProvider;
 

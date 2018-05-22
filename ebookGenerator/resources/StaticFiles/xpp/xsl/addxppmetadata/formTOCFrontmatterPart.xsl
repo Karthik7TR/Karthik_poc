@@ -12,13 +12,17 @@
 	<xsl:param name="materialNumber" select="materialNumber" />
 	<xsl:param name="isMultiVolume" select="isMultiVolume" />
 	<xsl:param name="isbn" select="isbn" />
-	<xsl:variable name="front_matter_uuid" select="concat($materialNumber,'.','FrontMatter')" />
+    <xsl:param name="fileNameBasedVolumeNumber" />
+    
+    <xsl:variable name="materialNumberVolume" select="x:addVolumeNumberIfPresent($materialNumber)"/>
+    
+	<xsl:variable name="front_matter_uuid" select="concat($materialNumberVolume,'.','FrontMatter')" />
 
 	<xsl:template match="x:root">
 		<root>
 			<xsl:call-template name="placeSectionbreak">
 				<xsl:with-param name="sectionuuid"
-					select="concat($materialNumber,'.fm.title.page')" />
+					select="concat($materialNumberVolume,'.fm.title.page')" />
 			</xsl:call-template>
 			<xsl:apply-templates />
 		</root>
@@ -40,7 +44,7 @@
 	<xsl:template match="x:fm.highlights|x:fm.dedication|x:fm.acknowledgment|x:fm.foreword|x:fm.online.research.guide|x:fm.proview|x:fm.related.products|x:fm.preface" mode="secBreak">
 		<xsl:param name="pageNum" />
 		<xsl:if test="preceding::x:pagebreak[1]/@serial-num = $pageNum and not(preceding::x:t[preceding::x:pagebreak[1]/@serial-num = $pageNum])">
-			<xsl:variable name="common_tags_uuid" select="concat($materialNumber,'.', name(), x:getIdSuffix(current()))" />
+			<xsl:variable name="common_tags_uuid" select="concat($materialNumberVolume,'.', name(), x:getIdSuffix(current()))" />
 			<xsl:call-template name="placeSectionbreak">
 				<xsl:with-param name="sectionuuid" select="$common_tags_uuid" />
 			</xsl:call-template>
@@ -51,7 +55,7 @@
 		<xsl:param name="pageNum" />
 		<xsl:if test="preceding::x:pagebreak[1]/@serial-num = $pageNum and not(preceding::x:t[preceding::x:pagebreak[1]/@serial-num = $pageNum])">
 			<xsl:variable name="other_label" select="string-join(./x:head[1]/x:name.block[1]/x:name[1]//x:t, ' ')" />
-			<xsl:variable name="other_uuid" select="concat($materialNumber,'.',name(), x:getIdSuffix(current()))" />
+			<xsl:variable name="other_uuid" select="concat($materialNumberVolume,'.',name(), x:getIdSuffix(current()))" />
 			<xsl:if test= "$other_label">
 				<xsl:call-template name="placeSectionbreak">
 					<xsl:with-param name="sectionuuid" select="$other_uuid" />
@@ -63,24 +67,24 @@
 	<xsl:template match="x:fm.copyright.page" mode="secBreak">
 		<xsl:param name="pageNum" />
 		<xsl:if test="preceding::x:pagebreak[1]/@serial-num = $pageNum">
-			<xsl:variable name="uuid" select="concat($materialNumber,'.',name())" />
+			<xsl:variable name="uuid" select="concat($materialNumberVolume,'.',name())" />
 			<xsl:call-template name="placeSectionbreak">
 				<xsl:with-param name="sectionuuid" select="$uuid" />
 			</xsl:call-template>
 		</xsl:if>
 	</xsl:template>
-
+    
 	<xsl:template match="x:fm.title.page">
-		<xsl:variable name="uuid" select="concat($materialNumber,'.',name())" />
+		<xsl:variable name="uuid" select="concat($materialNumberVolume,'.',name())" />
 		<xsl:variable name="volNumber"
-			select="substring($materialNumber, string-length($materialNumber), 1)" />
+			select="substring($materialNumberVolume, string-length($materialNumberVolume), 1)" />
 
 		<xsl:if test="$isMultiVolume">
 			<xsl:element name="XPPHier">
-				<xsl:attribute name="uuid" select="$materialNumber" />
+				<xsl:attribute name="uuid" select="$materialNumberVolume" />
 				<xsl:attribute name="name"
 					select="concat($volNamePlaceholder, $volNumber)" />
-				<xsl:attribute name="parent_uuid" select="$materialNumber" />
+				<xsl:attribute name="parent_uuid" select="$materialNumberVolume" />
 				<xsl:attribute name="md.doc_family_uuid" select="$uuid" />
 				<xsl:value-of select="$volNamePlaceholder" />
 			</xsl:element>
@@ -97,11 +101,11 @@
 			<xsl:apply-templates select="node()|@*" />
 		</xsl:copy>
 	</xsl:template>
-
+    
 	<xsl:template match="x:fm.isbn.issn.number"/>
 	
 	<xsl:template match="x:fm.copyright.page">
-		<xsl:variable name="uuid" select="concat($materialNumber,'.',name())" />
+		<xsl:variable name="uuid" select="concat($materialNumberVolume,'.',name())" />
 		<xsl:call-template name="placeXppHier">
 			<xsl:with-param name="uuid" select="$uuid" />
 			<xsl:with-param name="name" select="'Copyright Page'" />
@@ -126,7 +130,7 @@
 
 	<xsl:template
 		match="x:fm.highlights|x:fm.dedication|x:fm.acknowledgment|x:fm.foreword|x:fm.online.research.guide|x:fm.proview|x:fm.related.products|x:fm.preface">
-		<xsl:variable name="common_tags_uuid" select="concat($materialNumber,'.', name(), x:getIdSuffix(current()))" />
+		<xsl:variable name="common_tags_uuid" select="concat($materialNumberVolume,'.', name(), x:getIdSuffix(current()))" />
 		<xsl:call-template name="placeXppHier">
 			<xsl:with-param name="uuid" select="$common_tags_uuid" />
 			<xsl:with-param name="name">
@@ -147,7 +151,7 @@
 		<xsl:variable name="other_label"
 			select="string-join(./x:head[1]/x:name.block[1]/x:name[1]//x:t, ' ')" />
 		<xsl:variable name="other_uuid"
-			select="concat($materialNumber,'.',name(), x:getIdSuffix(current()))" />
+			select="concat($materialNumberVolume,'.',name(), x:getIdSuffix(current()))" />
 		<xsl:if test= "$other_label">
 			<xsl:call-template name="placeXppHier">
 				<xsl:with-param name="uuid" select="$other_uuid" />
@@ -203,5 +207,10 @@
                 <xsl:value-of select="concat('.', $tagPosition)" />
             </xsl:otherwise>
         </xsl:choose>
+    </xsl:function>
+    
+    <xsl:function name="x:addVolumeNumberIfPresent">
+        <xsl:param name="baseId"/>
+        <xsl:value-of select="string-join(($baseId, $fileNameBasedVolumeNumber)[. != ''],'.vol')"/>
     </xsl:function>
 </xsl:stylesheet>

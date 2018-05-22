@@ -88,16 +88,24 @@ public class PocketPartLinksStep extends XppTransformationStep {
         final Map<Boolean, Map<String, DocumentFile>> isPocketPartToUuidToFileNameMap = new HashMap<>();
         final Map<String, Collection<File>> partFilesIndex = fileSystem.getFiles(this, SOURCE_DIR);
 
-        partFilesIndex.forEach((materialNumber, files) -> {
-            final boolean isPocketPart = getBundleByMaterial(materialNumber).isPocketPartPublication();
-            final Map<String, DocumentFile> map = files.stream().map(DocumentFile::new)
-                .collect(Collectors.toMap(
-                    document -> document.getDocumentName().getDocFamilyUuid(),
-                    Function.identity()));
-            isPocketPartToUuidToFileNameMap.putIfAbsent(isPocketPart, new HashMap<>());
-            isPocketPartToUuidToFileNameMap.get(isPocketPart).putAll(map);
-        });
+        partFilesIndex.forEach((materialNumber, files) ->
+            putToIsPocketPartToUuidToFileNameMap(isPocketPartToUuidToFileNameMap, materialNumber, files)
+        );
         return isPocketPartToUuidToFileNameMap;
+    }
+
+    private void putToIsPocketPartToUuidToFileNameMap(
+        final Map<Boolean, Map<String, DocumentFile>> isPocketPartToUuidToFileNameMap,
+        final String materialNumber,
+        final Collection<File> files) {
+        final boolean isPocketPart = getBundleByMaterial(materialNumber).isPocketPartPublication();
+
+        final Map<String, DocumentFile> map = files.stream().map(DocumentFile::new)
+            .collect(Collectors.toMap(
+                document -> document.getDocumentName().getDocFamilyUuid(),
+                Function.identity()));
+        isPocketPartToUuidToFileNameMap.putIfAbsent(isPocketPart, new HashMap<>());
+        isPocketPartToUuidToFileNameMap.get(isPocketPart).putAll(map);
     }
 
     private void transform(

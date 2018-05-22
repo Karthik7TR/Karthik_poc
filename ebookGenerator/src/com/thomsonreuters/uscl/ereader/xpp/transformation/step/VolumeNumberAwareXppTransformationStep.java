@@ -45,7 +45,7 @@ public abstract class VolumeNumberAwareXppTransformationStep extends XppTransfor
         return currentBundleIndex;
     }
 
-    protected String getVolumeNumberByFileName(final String fileName) {
+    public String getVolumeNumberByFileName(final String fileName) {
         return Optional.of(FILE_NAME_VOLUME_PATTERN.matcher(fileName))
             .filter(Matcher::find)
             .map(matcher -> matcher.group(VOLUME_GROUP))
