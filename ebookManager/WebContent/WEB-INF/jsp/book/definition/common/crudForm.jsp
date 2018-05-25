@@ -724,6 +724,15 @@
 	<div id="addDocumentCurrencyHere"></div>
 </div>
 
+<div id="notes" class="dynamicContent">
+	<div class="row">
+		<label class="labelCol">Notes</label>
+	</div>
+	<div class="row">
+		<form:textarea path="notes" rows="10" cols="54" maxlength="2048" />
+	</div>
+</div>
+
 <div id="proviewSection" class="section">
 	<div class="sectionLabel">
 		ProView Options
