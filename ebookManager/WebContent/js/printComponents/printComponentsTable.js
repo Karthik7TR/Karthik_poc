@@ -288,6 +288,7 @@ function PrintComponentsTable(
                         type: "text",
                         width: 120,
                         validate: "required",
+                        css: "sap-description-field",
                         insertTemplate: function() {
                             var $result = jsGrid.fields.text.prototype.insertTemplate.call(this);
                             $result.attr("id", "componentNameId");
