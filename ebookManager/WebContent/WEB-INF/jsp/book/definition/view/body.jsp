@@ -9,7 +9,6 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view.ViewBookDefinitionForm"%>
 
 <script type="text/javascript" src="js/create-book.js"></script>
-<script type="text/javascript" src="js/book/definition/view.js"></script>
 <script>
 function submitForm(cmd)
 {
@@ -72,15 +71,6 @@ function submitForm(cmd)
 						<label class="labelCol">Include Notes of Decisions</label>
 						<span class="field">${ book.includeNotesOfDecisions }</span>
 					</div>
-					<c:if test="${not empty book.notes}">
-						<div class="row">
-							<div class="notes-view" onclick="toggleNotes()">
-								<label class="labelCol notes-label">Notes</label>
-								<img src="theme/images/pencil.png" class="notes-icon" />
-							</div>
-							<blockquote class="notes-quote">${ book.notes }</blockquote>
-						</div>
-					</c:if>
 				</div>
 				<jsp:include page="../xppTable/printComponentsComparePanel.jsp" >
 					<jsp:param name="printComponentsHistoryLastVersionNumber" value="${printComponentsHistoryLastVersionNumber}"/>

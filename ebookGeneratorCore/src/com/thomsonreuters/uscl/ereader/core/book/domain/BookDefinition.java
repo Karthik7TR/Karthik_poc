@@ -371,10 +371,6 @@ public class BookDefinition implements Serializable {
     @Getter @Setter
     private String printSubNumber;
 
-    @Column(name = "NOTES", length = 2048)
-    @Getter @Setter
-    private String notes;
-
     public void setIsTocFlag(final boolean isTocFlag) {
         this.isTocFlag = isTocFlag ? Y : N;
     }

@@ -47,8 +47,6 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.TableViewer;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.util.UuidGenerator;
-import lombok.Getter;
-import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -106,8 +104,6 @@ public class EditBookDefinitionForm {
     private String publicationCutoffDate;
     private boolean includeAnnotations;
     private boolean includeNotesOfDecisions;
-    @Getter @Setter
-    private String notes;
     private boolean useReloadContent;
     private boolean isInsTagStyleEnabled;
     private boolean isDelTagStyleEnabled;
@@ -161,7 +157,7 @@ public class EditBookDefinitionForm {
     private ObjectMapper jsonMapper;
     private UuidGenerator uuidGenerator;
 
-    private boolean colorPrintComponentTable;
+    private boolean colorPrintComponentTable = false;
 
     public EditBookDefinitionForm() {
         super();
@@ -193,7 +189,6 @@ public class EditBookDefinitionForm {
         isPublicationCutoffDateUsed = false;
         includeAnnotations = false;
         includeNotesOfDecisions = true;
-        notes = StringUtils.EMPTY;
         useReloadContent = false;
         pilotBookStatus = PilotBookStatus.FALSE;
         copyright = "\u00A9";
@@ -283,7 +278,6 @@ public class EditBookDefinitionForm {
             frontMatters = book.getFrontMatterPages();
             publishDateText = book.getPublishDateText();
             currency = book.getCurrency();
-            notes = book.getNotes();
             isComplete = book.getEbookDefinitionCompleteFlag();
             keyCiteToplineFlag = book.getKeyciteToplineFlag();
             autoUpdateSupport = book.getAutoUpdateSupportFlag();
@@ -606,7 +600,6 @@ public class EditBookDefinitionForm {
         book.setFrontMatterTocLabel(frontMatterTocLabel);
         book.setIncludeAnnotations(includeAnnotations);
         book.setIncludeNotesOfDecisions(includeNotesOfDecisions);
-        book.setNotes(notes);
         book.setIsFinalStage(isFinalStage);
         book.setUseReloadContent(useReloadContent);
 
