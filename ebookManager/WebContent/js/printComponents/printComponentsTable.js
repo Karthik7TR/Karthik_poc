@@ -287,7 +287,7 @@ function PrintComponentsTable(
                         title: "SAP Description",
                         type: "text",
                         width: 120,
-                        validate: "required",
+                        validate: ["required", {validator: "maxLength", param: 40}],
                         css: "sap-description-field",
                         insertTemplate: function() {
                             var $result = jsGrid.fields.text.prototype.insertTemplate.call(this);
