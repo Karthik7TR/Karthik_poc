@@ -287,7 +287,11 @@ function PrintComponentsTable(
                         title: "SAP Description",
                         type: "text",
                         width: 120,
-                        validate: ["required", {validator: "maxLength", param: 40}],
+                        validate: ["required", {
+                        		validator: "maxLength", 
+                        		message: "SAP Description field value should not be longer than 40 characters",
+                        		param: 40
+                        }],
                         css: "sap-description-field",
                         insertTemplate: function() {
                             var $result = jsGrid.fields.text.prototype.insertTemplate.call(this);
