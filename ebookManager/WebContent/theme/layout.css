@@ -973,3 +973,6 @@ div.jsGrid-container .jsgrid-header-row .jsgrid-header-sort-asc:before {
 .notes-icon {
 	height: 1em;
 }
+.bookDefinitionView .rightDefinitionForm>#displayFile>.row>.dynamicContent {
+width: initial;
+}
