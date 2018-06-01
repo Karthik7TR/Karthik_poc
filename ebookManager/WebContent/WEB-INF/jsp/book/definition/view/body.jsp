@@ -174,7 +174,7 @@ function submitForm(cmd)
 								<span class="field">${ book.printSubNumber }</span>
 							</div>
 						</div>
-				</c:when>
+					</c:when>
 					<c:otherwise>
 						<div id="displayFile">
 							<div class="row">

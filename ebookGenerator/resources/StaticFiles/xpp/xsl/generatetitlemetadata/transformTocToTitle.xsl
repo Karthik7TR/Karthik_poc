@@ -55,7 +55,7 @@
 			</xsl:variable>
 			<xsl:attribute name="s" select="concat($uuidPrefix, $docGuid, '/', x:Guid)" />
 			<xsl:element name="text">
-				<xsl:value-of select="replace(x:Name/text(), '&amp; ', '&amp;amp; ')" disable-output-escaping="yes" />
+				<xsl:value-of select="replace(x:Name/text(), '&amp;([^#])', '&amp;amp;$1')" disable-output-escaping="yes" />
 			</xsl:element>
 			<xsl:apply-templates select="x:EBookToc" mode="toc">
 				<xsl:with-param name="uuidPrefix" select="$uuidPrefix" />
