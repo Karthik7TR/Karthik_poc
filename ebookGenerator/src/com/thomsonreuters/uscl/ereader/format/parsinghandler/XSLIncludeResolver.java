@@ -6,6 +6,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -134,7 +135,10 @@ public class XSLIncludeResolver implements URIResolver {
 
     private File recursivelySearchXslInDirectory(final String filename, final File directory) throws IOException {
         final Collection<File> xslFiles =
-            FileUtils.listFiles(directory, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
+            FileUtils.listFiles(directory, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE)
+                .stream()
+                .sorted()
+                .collect(Collectors.toList());
         for (final File xsl : xslFiles) {
             if (!StringUtils.containsIgnoreCase(xsl.getCanonicalPath(), "CobaltMobile")
                 && !StringUtils.containsIgnoreCase(xsl.getCanonicalPath(), "web2")
