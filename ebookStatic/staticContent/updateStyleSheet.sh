@@ -97,5 +97,6 @@ sed -i "s/<xsl:template match=\"head | prop.head | form.head | fa.head\" name=\"
 echo "Remove duplicated templates" >> log.txt
 sed -i 's/<xsl:template name="historicalStatutesAndRegulationsHeader" \/>//g' Platform/Universal/HistoricalHeader.xsl
 sed -i 's/<xsl:template name="additionalResourcesHeader">/<xsl:template name="additionalResourcesHeader_unduplicated">/g' WestlawNext/DefaultProductView/ContentBlocks/SimpleContentBlocks.xsl
+sed -i 's/<xsl:call-template name="additionalResourcesHeader"/<xsl:call-template name="additionalResourcesHeader_unduplicated"/g' WestlawNext/DefaultProductView/ContentBlocks/SimpleContentBlocks.xsl
 
 echo "**************Done**********" >> log.txt
