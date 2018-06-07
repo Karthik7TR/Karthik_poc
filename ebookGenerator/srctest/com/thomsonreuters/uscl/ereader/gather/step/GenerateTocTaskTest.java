@@ -1,11 +1,8 @@
 package com.thomsonreuters.uscl.ereader.gather.step;
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,69 +17,39 @@ public final class GenerateTocTaskTest {
     }
 
     @Test
-    public void testNoDuplicateToc() {
-        boolean thrown = false;
-        try {
-            splitGuidList = new ArrayList<>();
-            splitGuidList.add("abcd");
-            generateTocTask.duplicateTocCheck(splitGuidList, dupGuidList);
-        } catch (final Exception ex) {
-            thrown = true;
-        }
-        Assert.assertEquals(false, thrown);
+    public void testNoDuplicateToc() throws Exception {
+        splitGuidList = new ArrayList<>();
+        splitGuidList.add("abcd");
+        generateTocTask.duplicateTocCheck(splitGuidList, dupGuidList);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testDuplicateToc() throws Exception {
+        splitGuidList = new ArrayList<>();
+        splitGuidList.add("abcd");
+        dupGuidList = new ArrayList<>();
+        dupGuidList.add("abcd");
+        generateTocTask.duplicateTocCheck(splitGuidList, dupGuidList);
     }
 
     @Test
-    public void testDuplicateToc() {
-        boolean thrown = false;
-        try {
-            splitGuidList = new ArrayList<>();
-            splitGuidList.add("abcd");
-            dupGuidList = new ArrayList<>();
-            dupGuidList.add("abcd");
-            generateTocTask.duplicateTocCheck(splitGuidList, dupGuidList);
-        } catch (final Exception ex) {
-            thrown = true;
-        }
-        assertTrue(thrown);
+    public void testManualSplitDuplcateToc() throws Exception {
+        splitGuidList = new ArrayList<>();
+        splitGuidList.add("abcd");
+        dupGuidList = new ArrayList<>();
+        dupGuidList.add("1234");
+        generateTocTask.duplicateTocCheck(splitGuidList, dupGuidList);
     }
 
     @Test
-    public void testManualSplitDuplcateToc() {
-        boolean thrown = false;
-        try {
-            splitGuidList = new ArrayList<>();
-            splitGuidList.add("abcd");
-            dupGuidList = new ArrayList<>();
-            dupGuidList.add("1234");
-            generateTocTask.duplicateTocCheck(splitGuidList, dupGuidList);
-        } catch (final Exception ex) {
-            thrown = true;
-        }
-        Assert.assertEquals(false, thrown);
+    public void testAutoSplitDuplcateToc() throws Exception {
+        dupGuidList = new ArrayList<>();
+        dupGuidList.add("1234");
+        generateTocTask.duplicateTocCheck(null, dupGuidList);
     }
 
     @Test
-    public void testAutoSplitDuplcateToc() {
-        boolean thrown = false;
-        try {
-            dupGuidList = new ArrayList<>();
-            dupGuidList.add("1234");
-            generateTocTask.duplicateTocCheck(null, dupGuidList);
-        } catch (final Exception ex) {
-            thrown = true;
-        }
-        assertTrue(thrown);
-    }
-
-    @Test
-    public void testAutoSplitNoDuplcateToc() {
-        boolean thrown = false;
-        try {
-            generateTocTask.duplicateTocCheck(null, null);
-        } catch (final Exception ex) {
-            thrown = true;
-        }
-        Assert.assertEquals(false, thrown);
+    public void testAutoSplitNoDuplcateToc() throws Exception {
+        generateTocTask.duplicateTocCheck(null, null);
     }
 }

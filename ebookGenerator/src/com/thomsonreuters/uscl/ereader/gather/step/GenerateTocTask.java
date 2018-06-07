@@ -38,6 +38,7 @@ import com.thomsonreuters.uscl.ereader.orchestrate.core.tasklet.AbstractSbTaskle
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -254,8 +255,6 @@ public class GenerateTocTask extends AbstractSbTasklet {
                         bookDefinitionService.deleteSplitDocuments(bookDefinition.getEbookDefinitionId());
                     }
                 }
-                //Check for duplicate tocGuids for Auto splits
-                duplicateTocCheck(null, gatherResponse.getDuplicateTocGuids());
             }
         } catch (final Exception e) {
             publishStatus = "Failed";
@@ -270,32 +269,26 @@ public class GenerateTocTask extends AbstractSbTasklet {
     }
 
     /**
-     * Thows Excpetion if duplicate Toc exists for split book
+     * Throws Exception if duplicate Toc exists for split book
      * @param splitGuidList
      * @param dupGuidList
      * @throws Exception
      */
     public void duplicateTocCheck(final List<String> splitGuidList, final List<String> dupGuidList) throws Exception {
-        if (dupGuidList != null && dupGuidList.size() > 0) {
-            final StringBuffer eMessage = new StringBuffer("Duplicate TOC guids Found. Cannot split the book. ");
+        if (CollectionUtils.isNotEmpty(splitGuidList) && CollectionUtils.isNotEmpty(dupGuidList)) {
+            final StringBuilder eMessage = new StringBuilder("Duplicate TOC guids Found. Cannot split the book. ");
 
-            if (splitGuidList == null) {
-                for (final String dupTocGuid : dupGuidList) {
+            boolean dupFound = false;
+            for (final String dupTocGuid : dupGuidList) {
+                if (splitGuidList.contains(dupTocGuid)) {
                     eMessage.append(dupTocGuid + " ");
-                }
-                throw new RuntimeException(eMessage.toString());
-            } else {
-                boolean dupFound = false;
-                for (final String dupTocGuid : dupGuidList) {
-                    if (splitGuidList.contains(dupTocGuid)) {
-                        eMessage.append(dupTocGuid + " ");
-                        dupFound = true;
-                    }
-                }
-                if (dupFound) {
-                    throw new RuntimeException(eMessage.toString());
+                    dupFound = true;
                 }
             }
+            if (dupFound) {
+                throw new RuntimeException(eMessage.toString());
+            }
+
         }
     }
 
