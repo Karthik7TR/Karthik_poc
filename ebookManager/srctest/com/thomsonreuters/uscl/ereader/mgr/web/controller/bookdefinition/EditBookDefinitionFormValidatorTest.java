@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
@@ -16,6 +17,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPdf;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterSection;
 import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeCode;
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.domain.NortFileLocation;
 import com.thomsonreuters.uscl.ereader.core.book.domain.PilotBook;
 import com.thomsonreuters.uscl.ereader.core.book.domain.RenameTocEntry;
@@ -79,6 +81,7 @@ public final class EditBookDefinitionFormValidatorTest {
         keyword2.setId(2L);
         keyword2.setIsRequired(true);
         keyword2.setName("code");
+        keyword2.setValues(Arrays.asList(new KeywordTypeValue()));
 
         KEYWORD_CODES = new ArrayList<>();
         KEYWORD_CODES.add(keyword);
