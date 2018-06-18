@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -270,6 +271,9 @@ public class ProviewTitleListController {
                 proviewTitleListService.getProviewTitles(allTitleVersions, bookDef);
             model.addAttribute(WebConstants.KEY_PAGINATED_LIST, proviewTitles);
             model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, proviewTitles.size());
+        } else {
+            model.addAttribute(WebConstants.KEY_PAGINATED_LIST, Collections.emptyList());
+            model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, 0);
         }
         final String infoMessage = getBookLevelMessage(bookDef);
         model.addAttribute(WebConstants.KEY_INFO_MESSAGE, infoMessage);
