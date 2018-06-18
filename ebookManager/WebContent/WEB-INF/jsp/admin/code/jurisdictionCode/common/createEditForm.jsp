@@ -11,7 +11,7 @@
 <form:form commandName="<%= JurisdictionCodeForm.FORM_NAME %>">
 	<form:hidden path="jurisId" />
 	<form:label path="name">Name</form:label>
-	<form:input path="name"/>
+	<form:input path="name" maxlength="4000"/>
 	<form:errors path="name" cssClass="errorMessage"/>
 	<div class="buttons">
 		<form:button id="save">Save</form:button>

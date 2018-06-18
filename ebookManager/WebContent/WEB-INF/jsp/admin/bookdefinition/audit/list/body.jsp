@@ -28,13 +28,13 @@
 	
 	<div class="filterRow">
 		<label>ProView Display Name:</label>
-		<form:input path="proviewDisplayName"/>
+		<form:input path="proviewDisplayName" maxlength="4000"/>
 
 		<label>Title ID:</label>
-		<form:input path="titleId"/>
+		<form:input path="titleId" maxlength="4000"/>
 
 		<label>ISBN:</label>
-		<form:input path="isbn"/>
+		<form:input path="isbn" maxlength="4000"/>
 		<label class="wildCard">Wildcard: %</label>
 		<input type="submit" name="submit" value="Search" />
 		<input type="submit" name="submit" value="Reset" />

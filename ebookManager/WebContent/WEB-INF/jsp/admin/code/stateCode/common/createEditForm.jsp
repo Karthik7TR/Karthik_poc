@@ -11,7 +11,7 @@
 <form:form commandName="<%= StateCodeForm.FORM_NAME %>">
 	<form:hidden path="stateId" />
 	<form:label path="name">Name</form:label>
-	<form:input path="name"/>
+	<form:input path="name" maxlength="4000"/>
 	<form:errors path="name" cssClass="errorMessage"/>
 	<div class="buttons">
 		<form:button id="save">Save</form:button>

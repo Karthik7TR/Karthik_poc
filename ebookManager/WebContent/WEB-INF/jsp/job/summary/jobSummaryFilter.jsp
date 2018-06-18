@@ -60,15 +60,15 @@ function submitJobSummaryFilterForm(command) {
 	
 	<div class="filterRow">
 		<label>ProView Display Name:</label>
-		<form:input path="proviewDisplayName"/>
+		<form:input path="proviewDisplayName" maxlength="4000"/>
 	</div>
 	<div class="filterRow">
 		<label>Title ID:</label>
-		<form:input path="titleId"/>
+		<form:input path="titleId" maxlength="4000"/>
 	</div>
 	<div class="filterRow">
 		<label>Submitted By:</label>
-		<form:input path="submittedBy"/>
+		<form:input path="submittedBy" maxlength="4000"/>
 	</div>
 	<div class="filterRow">
 		<label>From Date:</label>

@@ -87,19 +87,19 @@
 	
 	<div class="filterRow">
 		<label>ProView Display Name:</label>
-		<form:input path="proviewDisplayName"/>
+		<form:input path="proviewDisplayName" maxlength="4000"/>
 	</div>
 	<div class="filterRow">
 		<label>Title ID:</label>
-		<form:input path="titleId"/>
+		<form:input path="titleId" maxlength="4000"/>
 	</div>
 	<div class="filterRow">
 		<label>ISBN:</label>
-		<form:input path="isbn"/>
+		<form:input path="isbn" maxlength="4000"/>
 	</div>
 	<div class="filterRow">
 		<label>Sub Material Number:</label>
-		<form:input path="materialId"/>
+		<form:input path="materialId" maxlength="4000"/>
 	</div>
 	<div class="filterRow">
 		<label>Last Edit From Date:</label>

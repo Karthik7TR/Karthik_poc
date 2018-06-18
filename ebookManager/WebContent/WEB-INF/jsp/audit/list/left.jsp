@@ -59,19 +59,19 @@ function submitAuditFilterForm(command) {
 	
 	<div class="filterRow">
 		<label>ProView Display Name:</label>
-		<form:input path="proviewDisplayName"/>
+		<form:input path="proviewDisplayName" maxlength="4000"/>
 	</div>	
 	<div class="filterRow">	
 		<label>Title ID:</label>
-		<form:input path="titleId"/>
+		<form:input path="titleId" maxlength="4000"/>
 	</div>	
 	<div class="filterRow">	
 		<label>Book Definition ID:</label>
-		<form:input path="bookDefinitionId"/>
+		<form:input path="bookDefinitionId" maxlength="19" onkeypress="return event.charCode > 47 && event.charCode < 58"/>
 	</div>	
 	<div class="filterRow">	
 		<label>User Name:</label>
-		<form:input path="submittedBy"/>
+		<form:input path="submittedBy" maxlength="4000"/>
 	</div>	
 	<div class="filterRow">	
 		<label>From Date:</label>

@@ -59,11 +59,11 @@ function submitAuditFilterForm(command) {
 	
 	<div class="filterRow">	
 		<label>Title ID:</label>
-		<form:input path="titleId"/>
+		<form:input path="titleId" maxlength="4000"/>
 	</div>	
 	<div class="filterRow">	
 		<label>User Name:</label>
-		<form:input path="username"/>
+		<form:input path="username" maxlength="4000"/>
 	</div>	
 	<div class="filterRow">	
 		<label>From Date:</label>
