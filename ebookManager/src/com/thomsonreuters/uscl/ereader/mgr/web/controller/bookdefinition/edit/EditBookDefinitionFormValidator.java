@@ -945,8 +945,8 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         final List<KeywordTypeCode> keywordCodes = keywordTypeCodeSevice.getAllKeywordTypeCodes();
         int i = 0;
         for (final KeywordTypeCode code : keywordCodes) {
-            // Check that user has selected a keyword if that KeywordTypeCode is required
-            if (code.getIsRequired()) {
+            // Check that user has selected a keyword if that KeywordTypeCode is required. KeywordTypeCode is not required if it doesn't have any values
+            if (code.getIsRequired() && !code.getValues().isEmpty()) {
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "keywords[" + i + "]", "error.required");
             }
             i++;
