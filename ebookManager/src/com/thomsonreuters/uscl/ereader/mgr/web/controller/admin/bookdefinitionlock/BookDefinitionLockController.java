@@ -59,9 +59,9 @@ public class BookDefinitionLockController {
 
     @RequestMapping(value = WebConstants.MVC_ADMIN_BOOK_LOCK_DELETE, method = RequestMethod.POST)
     public ModelAndView deleteJurisCodePost(
-        @ModelAttribute(BookDefinitionLockForm.FORM_NAME) final BookDefinitionLockForm form) {
+        @RequestParam final Long bookDefinitionId) {
         final BookDefinition book = new BookDefinition();
-        book.setEbookDefinitionId(form.getBookDefinitionId());
+        book.setEbookDefinitionId(bookDefinitionId);
         // Remove all locks for the book definition id
         bookLockService.removeLock(book);
         // Redirect user

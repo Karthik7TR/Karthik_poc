@@ -10,7 +10,7 @@
 <%-- Check if there is a model to render, if not display error message --%>
 <c:choose>
 	<c:when test="${bookDefinitionLock != null}">
-		<form:form commandName="<%= BookDefinitionLockForm.FORM_NAME %>">
+		<form:form commandName="<%= BookDefinitionLockForm.FORM_NAME %>" action="${pageContext.request.contextPath}/${WebConstants.MVC_ADMIN_BOOK_LOCK_DELETE}">
 			<form:hidden path="bookDefinitionLockId" />
 			<form:hidden path="bookDefinitionId" />
 			<form:hidden path="checkoutTimestamp"/>
