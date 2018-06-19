@@ -6,6 +6,8 @@
     .footnote>.er_rp_search_volume_content_data>&,
     .toc_primary_section>a>.primary_outline_name_block>.label>&,
     .toc_primary_section>.toc_editorial_commentary_section>a>.editorial_outline_name_block>.label>&,
+    .toc_primary_hierarchy>.toc_primary_section>a>.primary_outline_name_block>.primary_name>.name~.xref+&,
+    .toc_primary_hierarchy>.toc_primary_section>.toc_editorial_commentary_section>a>.editorial_outline_name_block>.name~.xref+&,
     .primary_section_body>.primary_features>.editorial_commentary_block>.editorial_commentary_block_front>.generated_toc>.full_toc>.toc_editorial_commentary_section>a>.editorial_outline_name_block>.label>&,
     .editorial_commentary_section_front>.editorial_outline_name_block>.label>&,
     .primary_section_front>.primary_outline_name_block>.label>&,
@@ -22,6 +24,8 @@
     .toc_primary_hierarchy>.toc_appendix_block>.toc_appendix>.outline_name_block>.designator>&,
     .toc_primary_source .primary_outline_name_block>&,
     .toc_primary_section>.primary_outline_name_block>.primary_name>.name~&,
+    .toc_primary_hierarchy>.toc_primary_section>a>.primary_outline_name_block>.primary_name>&.font_primary_name,
+    .toc_primary_hierarchy>.toc_primary_section>.toc_editorial_commentary_section>a>.editorial_outline_name_block>&.font_editorial_outline_name_block,
     .primary_source>.primary_source_body .primary_hierarchy_body>.primary_hierarchy>.primary_hierarchy_front>.generated_toc>.full_toc>.toc_primary_section .primary_outline_name_block>.primary_name>.name~& {
         display: none;
     }
@@ -34,7 +38,8 @@
         float: none;
     }
     .toc_primary_section>.primary_outline_name_block>.primary_name>.name~.xref+&,
-    .toc_primary_section>a>.primary_outline_name_block>.primary_name>.name~.xref+& {
+    .toc_primary_section>a>.primary_outline_name_block>.primary_name>.name~.xref+&,
+    .toc_primary_section>.toc_editorial_commentary_section>a>.editorial_outline_name_block>.name~.xref+& {
         float: right;
         padding-top: #{$indent * 0.25}em;
     }

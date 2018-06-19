@@ -65,6 +65,9 @@
         display: inline;
         margin-right: 0;
     }
+    .toc_primary_hierarchy>.toc_primary_section>.toc_editorial_commentary_section>a>.editorial_outline_name_block>& {
+        display: inline-block;
+    }
     .toc_primary_section .primary_outline_name_block & {
         margin-right: 0;
     }

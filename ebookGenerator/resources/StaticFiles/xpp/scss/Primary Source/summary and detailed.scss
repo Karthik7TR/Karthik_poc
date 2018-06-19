@@ -83,6 +83,13 @@
     }
 }
 
+.toc_editorial_commentary_section {
+    .toc_primary_section>& * {
+        display: inline;
+        margin: 0;
+    }
+}
+
 .toc_appendix {
     .toc_primary_source>.toc_appendix_block>& {
         width: 100%;
@@ -115,6 +122,10 @@ a {
 }
 
 .editorial_outline_name_block {
+    .toc_primary_hierarchy>.toc_primary_section>.toc_editorial_commentary_section>a>& {
+        display: inline;
+        margin-left: #{$indent*1.2}em;
+    }
     .toc_primary_section>.toc_editorial_commentary_section>a>& {
         display: flex;
         margin-left: 1.2em;
