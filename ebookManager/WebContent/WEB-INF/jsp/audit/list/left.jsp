@@ -67,7 +67,7 @@ function submitAuditFilterForm(command) {
 	</div>	
 	<div class="filterRow">	
 		<label>Book Definition ID:</label>
-		<form:input path="bookDefinitionId" maxlength="19" onkeypress="return event.charCode > 47 && event.charCode < 58"/>
+		<form:input path="bookDefinitionId" maxlength="19" onkeypress="return event.charCode == 37 || (event.charCode > 47 && event.charCode < 58)"/>
 	</div>	
 	<div class="filterRow">	
 		<label>User Name:</label>
