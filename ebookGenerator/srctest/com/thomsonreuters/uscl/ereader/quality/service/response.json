@@ -1,0 +1,38 @@
+{
+  "responses": [
+    {
+      "sourceFile": "/deltatext/InputFiles/0-SLHK_Front_vol_1.DIVXML.xml.main.txt",
+      "targetFile": "/deltatext/InputFiles/html.html.main.txt",
+      "reports": [
+        {
+          "reportType": "text",
+          "status": "Successful",
+          "statusMessage": "null",
+          "percentageMatch": 99.83193,
+          "reportFile": "/deltatext/OutputReports/09Jun2018/I1A4A05B06C1211E8BF62E38CA023BBEC.html",
+          "reportUrl": "http://dev.deltatext.int.thomsonreuters.com:9220/deltaTextWeb/service/download/deltatext/OutputReports/09Jun2018/I1A4A05B06C1211E8BF62E38CA023BBEC.html",
+          "format": "HTML",
+          "inLine": "false",
+          "abbreviate": "false"
+        }
+      ]
+    },
+    {
+      "sourceFile": "/deltatext/InputFiles/0-SLHK_Front_vol_1.DIVXML.xml.footnote.txt",
+      "targetFile": "/deltatext/InputFiles/html.html.footnote.txt",
+      "reports": [
+        {
+          "reportType": "text",
+          "status": "Successful",
+          "statusMessage": "null",
+          "percentageMatch": 99.83193,
+          "reportFile": "/deltatext/OutputReports/09Jun2018/I1A4A05B06C1211E8BF62E38CA023BBEC_footnote.html",
+          "reportUrl": "http://dev.deltatext.int.thomsonreuters.com:9220/deltaTextWeb/service/download/deltatext/OutputReports/09Jun2018/I1A4A05B06C1211E8BF62E38CA023BBEC_footnote.html",
+          "format": "HTML",
+          "inLine": "false",
+          "abbreviate": "false"
+        }
+      ]
+    }
+  ]
+}

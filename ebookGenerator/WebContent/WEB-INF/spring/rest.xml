@@ -104,6 +104,7 @@
 				<ref bean="nortRequestMessageConverter" />
 				<ref bean="gatherResponseMessageConverter" />
 				<ref bean="simpleResponseMessageConverter" />
+				<ref bean="jsonHttpMessageConverter" />
 			</list>
 		</property>
 	</bean>
