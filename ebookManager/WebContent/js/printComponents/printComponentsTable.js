@@ -359,6 +359,7 @@ function PrintComponentsTable(
                                         alert(args.item.materialNumber+" Material Number is duplicate.");
                                     }
                                 }
+                                escapeEditedFields(gridData);
                                 args.item.componentName = htmlEnDeCode.htmlEncode(args.item.componentName);
                             } else {
                                 var componentsCounts = gridManager.getCurrentComponentsCount();
@@ -430,6 +431,26 @@ function PrintComponentsTable(
         //sort rows in case if data is not sorted-ordered
         gridManager.reorderIndexes();
         
-        $(gridManager.jsGridMainObject);
+        $(gridManager.jsGridMainObject);        
+}
 
+function escapeEditedFields(gridData) {
+    if (Array.prototype.slice.call(gridData).length > 0) {
+        var rowToEscape = $('#jsGrid tr')
+            .toArray()
+            .filter(function (el) { return el.style.display !== 'none'; })
+            .slice(2)
+            .reduce(function (prev, current, index) {
+                var textInputs = Array.prototype.filter.call(current.getElementsByTagName('input'), 
+                    function (el) { return el.type === 'text'; });
+                var isBeingEdited = textInputs.length > 0;
+                if (isBeingEdited) {
+                    return prev + index + 1;
+                }
+                return prev;
+            }, -1);
+        if (rowToEscape >= 0) {
+            gridData[rowToEscape].componentName = htmlEnDeCode.htmlEncode(gridData[rowToEscape].componentName);
+        }
+    }
 }
