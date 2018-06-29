@@ -19,6 +19,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.PilotBookStatus;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup.GroupDetails;
@@ -57,6 +58,7 @@ public final class ProviewGroupListControllerTest {
     private ProviewAuditService mockProviewAuditService;
     private EmailUtil emailUtil;
     private EmailService mockEmailService;
+    private OutageService mockOutageService;
 
     @Before
     public void setUp() {
@@ -69,6 +71,7 @@ public final class ProviewGroupListControllerTest {
         mockProviewAuditService = EasyMock.createMock(ProviewAuditService.class);
         emailUtil = EasyMock.createMock(EmailUtil.class);
         mockEmailService = EasyMock.createMock(EmailService.class);
+        mockOutageService = EasyMock.createMock(OutageService.class);
 
         controller = new ProviewGroupListController();
         org.springframework.test.util.ReflectionTestUtils
@@ -78,6 +81,7 @@ public final class ProviewGroupListControllerTest {
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "proviewHandler", mockProviewHandler);
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "emailUtil", emailUtil);
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "emailService", mockEmailService);
+        org.springframework.test.util.ReflectionTestUtils.setField(controller, "outageService", mockOutageService);
     }
 
     @After

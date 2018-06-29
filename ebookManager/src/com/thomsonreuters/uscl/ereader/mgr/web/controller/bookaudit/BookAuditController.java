@@ -5,6 +5,7 @@ import javax.validation.Valid;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditForm.DisplayTagSortProperty;
@@ -20,8 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class BookAuditController extends BaseBookAuditController {
     @Autowired
-    public BookAuditController(final EBookAuditService auditService) {
-        super(auditService);
+    public BookAuditController(final EBookAuditService auditService,
+     final OutageService outageService) {
+        super(auditService, outageService);
     }
 
     /**

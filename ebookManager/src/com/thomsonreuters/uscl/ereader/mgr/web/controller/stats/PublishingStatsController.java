@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsForm.DisplayTagSortProperty;
@@ -30,8 +31,9 @@ public class PublishingStatsController extends BasePublishingStatsController {
     private static final Logger log = LogManager.getLogger(PublishingStatsController.class);
 
     @Autowired
-    public PublishingStatsController(final PublishingStatsService publishingStatsService) {
-        super(publishingStatsService);
+    public PublishingStatsController(final PublishingStatsService publishingStatsService,
+        final OutageService outageService) {
+        super(publishingStatsService, outageService);
     }
 
     /**

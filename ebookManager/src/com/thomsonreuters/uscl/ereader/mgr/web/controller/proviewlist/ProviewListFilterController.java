@@ -5,9 +5,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterForm.FilterCommand;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class ProviewListFilterController {
+
+    private final OutageService outageService;
+
+    @Autowired
+    public ProviewListFilterController(final OutageService outageService) {
+        this.outageService = outageService;
+    }
+
     @InitBinder(ProviewListFilterForm.FORM_NAME)
     protected void initDataBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
@@ -197,6 +207,7 @@ public class ProviewListFilterController {
         model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewTitleInfo);
         model.addAttribute(WebConstants.KEY_TOTAL_BOOK_SIZE, selectedProviewTitleInfo.size());
         model.addAttribute(ProviewListFilterForm.FORM_NAME, filterForm);
+        model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
 
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLES);
     }

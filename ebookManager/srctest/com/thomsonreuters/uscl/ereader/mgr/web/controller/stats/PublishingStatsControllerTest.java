@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpSession;
 
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsForm.DisplayTagSortProperty;
@@ -29,6 +30,7 @@ public final class PublishingStatsControllerTest {
     private MockHttpServletRequest request;
     private AnnotationMethodHandlerAdapter handlerAdapter;
     private PublishingStatsService mockService;
+    private OutageService outageService;
 
     @Before
     public void setUp() {
@@ -36,8 +38,8 @@ public final class PublishingStatsControllerTest {
         response = new MockHttpServletResponse();
         handlerAdapter = new AnnotationMethodHandlerAdapter();
         mockService = EasyMock.createMock(PublishingStatsService.class);
-
-        controller = new PublishingStatsController(mockService);
+        outageService = EasyMock.createMock(OutageService.class);
+        controller = new PublishingStatsController(mockService, outageService);
     }
 
     @Test

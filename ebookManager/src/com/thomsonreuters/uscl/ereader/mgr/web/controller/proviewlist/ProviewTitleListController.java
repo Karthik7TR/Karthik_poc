@@ -21,6 +21,7 @@ import com.thomsonreuters.uscl.ereader.core.book.model.TitleId;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
@@ -63,6 +64,7 @@ public class ProviewTitleListController {
     private final MessageSourceAccessor messageSourceAccessor;
     private final JobRequestService jobRequestService;
     private final ProviewTitleListService proviewTitleListService;
+    private final OutageService outageService;
     private final EmailUtil emailUtil;
     private final EmailService emailService;
     private final String environmentName;
@@ -78,6 +80,7 @@ public class ProviewTitleListController {
         final ProviewTitleListService proviewTitleListService,
         final EmailUtil emailUtil,
         final EmailService emailService,
+        final OutageService outageService,
         @Qualifier("environmentName")
         final String environmentName) {
         this.proviewHandler = proviewHandler;
@@ -89,6 +92,7 @@ public class ProviewTitleListController {
         this.proviewTitleListService = proviewTitleListService;
         this.emailUtil = emailUtil;
         this.emailService = emailService;
+        this.outageService = outageService;
         this.environmentName = environmentName;
     }
 
@@ -246,6 +250,7 @@ public class ProviewTitleListController {
 
         model.addAttribute(ProviewTitleForm.FORM_NAME, proviewTitleForm);
         model.addAttribute(WebConstants.KEY_PAGE_SIZE, proviewTitleForm.getObjectsPerPage());
+        model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
 
         return new ModelAndView(WebConstants.VIEW_PROVIEW_TITLES);
     }

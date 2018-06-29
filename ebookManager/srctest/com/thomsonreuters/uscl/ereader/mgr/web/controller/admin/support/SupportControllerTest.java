@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.support.SupportPageLinkService;
 import com.thomsonreuters.uscl.ereader.support.domain.SupportPageLink;
@@ -33,6 +34,7 @@ public final class SupportControllerTest {
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
     private SupportPageLinkService mockService;
+    private OutageService mockOutageService;
     private SupportFormValidator validator;
 
     @Before
@@ -43,10 +45,11 @@ public final class SupportControllerTest {
 
         // Mock up the Code service
         mockService = EasyMock.createMock(SupportPageLinkService.class);
+        mockOutageService = EasyMock.createMock(OutageService.class);
         validator = new SupportFormValidator();
 
         // Set up the controller
-        controller = new SupportController(mockService, validator);
+        controller = new SupportController(mockService, mockOutageService, validator);
 
         SUPPORT_PAGE_LINK.setId(SUPPORT_PAGE_LINK_ID);
     }

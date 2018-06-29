@@ -9,6 +9,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort.SortProperty;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditForm.DisplayTagSortProperty;
@@ -21,9 +22,12 @@ import org.springframework.ui.Model;
 public abstract class BaseBookAuditController {
     protected static final String PAGE_AND_SORT_NAME = "auditPageAndSort";
     protected final EBookAuditService auditService;
+    protected final OutageService outageService;
 
-    protected BaseBookAuditController(final EBookAuditService auditService) {
+    protected BaseBookAuditController(final EBookAuditService auditService,
+        final OutageService outageService) {
         this.auditService = auditService;
+        this.outageService = outageService;
     }
 
     /**
@@ -68,6 +72,7 @@ public abstract class BaseBookAuditController {
         // Create the DisplayTag VDO object - the PaginatedList which wrappers the job execution partial list
         final PaginatedList paginatedList = createPaginatedList(pageAndSort, filterForm);
         model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
+        model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
     }
 
     /**

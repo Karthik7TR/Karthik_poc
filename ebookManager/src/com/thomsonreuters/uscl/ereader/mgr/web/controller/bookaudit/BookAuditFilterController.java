@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditFilterForm.FilterCommand;
@@ -29,8 +30,9 @@ public class BookAuditFilterController extends BaseBookAuditController {
     @Autowired
     public BookAuditFilterController(
         final EBookAuditService auditService,
+        final OutageService outageService,
         @Qualifier("bookAuditFilterFormValidator") final Validator validator) {
-        super(auditService);
+        super(auditService, outageService);
         this.validator = validator;
     }
 

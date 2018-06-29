@@ -7,8 +7,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
+import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,10 +25,12 @@ public final class ProviewGroupListFilterControllerTest {
     private MockHttpServletResponse response;
     private MockHttpServletRequest request;
     private AnnotationMethodHandlerAdapter handlerAdapter;
+    private OutageService outageService;
 
     @Before
     public void setUp() {
-        controller = new ProviewGroupListFilterController();
+        outageService = EasyMock.createMock(OutageService.class);
+        controller = new ProviewGroupListFilterController(outageService);
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
 

@@ -22,6 +22,7 @@ import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewRuntimeException;
@@ -74,6 +75,8 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
     private EmailUtil emailUtil;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private OutageService outageService;
     @Autowired
     @Qualifier("proviewGroupValidator")
     private Validator validator;
@@ -206,7 +209,7 @@ public class ProviewGroupListController extends BaseProviewGroupListController {
 
         model.addAttribute(ProviewGroupForm.FORM_NAME, proviewGroupForm);
         model.addAttribute(WebConstants.KEY_PAGE_SIZE, proviewGroupForm.getObjectsPerPage());
-
+        model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
         return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUPS);
     }
 

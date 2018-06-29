@@ -11,6 +11,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.bookaudit.BookAuditForm.DisplayTagSortProperty;
@@ -31,6 +32,7 @@ public final class BookAuditControllerTest {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private EBookAuditService mockAuditService;
+    private OutageService outageService;
     private HandlerAdapter handlerAdapter;
 
     @Before
@@ -38,10 +40,10 @@ public final class BookAuditControllerTest {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         mockAuditService = EasyMock.createMock(EBookAuditService.class);
-
+        outageService = EasyMock.createMock(OutageService.class);
         handlerAdapter = new AnnotationMethodHandlerAdapter();
 
-        controller = new BookAuditController(mockAuditService);
+        controller = new BookAuditController(mockAuditService, outageService);
     }
 
     @Test

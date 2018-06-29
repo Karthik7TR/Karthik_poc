@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.stats;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsFilterForm.FilterCommand;
@@ -29,8 +30,9 @@ public class PublishingStatsFilterController extends BasePublishingStatsControll
     @Autowired
     public PublishingStatsFilterController(
         final PublishingStatsService publishingStatsService,
+        final OutageService outageService,
         @Qualifier("publishingStatsFormValidator") final Validator validator) {
-        super(publishingStatsService);
+        super(publishingStatsService, outageService);
         this.validator = validator;
     }
 

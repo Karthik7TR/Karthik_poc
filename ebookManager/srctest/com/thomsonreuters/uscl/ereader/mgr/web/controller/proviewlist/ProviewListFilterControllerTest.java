@@ -5,9 +5,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleInfo;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewlist.ProviewListFilterForm.FilterCommand;
+import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,14 +23,15 @@ public final class ProviewListFilterControllerTest {
     private ProviewListFilterController controller;
     private MockHttpServletResponse response;
     private MockHttpServletRequest request;
+    private OutageService mockOutageService;
     private AnnotationMethodHandlerAdapter handlerAdapter;
 
     @Before
     public void setUp() {
-        controller = new ProviewListFilterController();
+        mockOutageService = EasyMock.createMock(OutageService.class);
+        controller = new ProviewListFilterController(mockOutageService);
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
-
         handlerAdapter = new AnnotationMethodHandlerAdapter();
     }
 

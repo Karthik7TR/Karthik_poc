@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsForm.DisplayTagSortProperty;
@@ -21,9 +22,12 @@ import org.springframework.ui.Model;
 public abstract class BasePublishingStatsController {
     protected static final String PAGE_AND_SORT_NAME = "publishingStatsPageAndSort";
     protected final PublishingStatsService publishingStatsService;
+    protected final OutageService outageService;
 
-    protected BasePublishingStatsController(final PublishingStatsService publishingStatsService) {
+    protected BasePublishingStatsController(final PublishingStatsService publishingStatsService,
+        final OutageService outageService) {
         this.publishingStatsService = publishingStatsService;
+        this.outageService = outageService;
     }
 
     /**
@@ -69,6 +73,7 @@ public abstract class BasePublishingStatsController {
         // Create the DisplayTag VDO object - the PaginatedList which wrappers the job execution partial list
         final PaginatedList paginatedList = createPaginatedList(pageAndSort, filterForm);
         model.addAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
+        model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
         httpSession.setAttribute(WebConstants.KEY_PAGINATED_LIST, paginatedList);
     }
 

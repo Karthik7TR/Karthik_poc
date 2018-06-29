@@ -19,6 +19,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewTitleContainer;
@@ -59,6 +60,7 @@ public final class ProviewTitleListControllerTest {
     private JobRequestService mockJobRequestService;
     private EmailUtil emailUtil;
     private EmailService mockEmailService;
+    private OutageService mockOutageService;
 
     @Before
     public void SetUp() {
@@ -74,7 +76,7 @@ public final class ProviewTitleListControllerTest {
         mockJobRequestService = EasyMock.createMock(JobRequestService.class);
         emailUtil = EasyMock.createMock(EmailUtil.class);
         mockEmailService = EasyMock.createMock(EmailService.class);
-
+        mockOutageService = EasyMock.createMock(OutageService.class);
         controller = new ProviewTitleListController(
             mockProviewHandler,
             mockBookDefinitionService,
@@ -83,7 +85,10 @@ public final class ProviewTitleListControllerTest {
             mockMessageSourceAccessor,
             mockJobRequestService,
             null,
-            emailUtil, mockEmailService, "");
+            emailUtil,
+            mockEmailService,
+            mockOutageService,
+            "");
     }
 
     @After

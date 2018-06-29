@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.support;
 
 import javax.validation.Valid;
 
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.support.SupportPageLinkService;
 import com.thomsonreuters.uscl.ereader.support.domain.SupportPageLink;
@@ -24,13 +25,16 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class SupportController {
     private final SupportPageLinkService service;
+    private final OutageService outageService;
     private final Validator validator;
 
     @Autowired
     public SupportController(
         final SupportPageLinkService service,
+        final OutageService outageService,
         @Qualifier("supportFormValidator") final Validator validator) {
         this.service = service;
+        this.outageService = outageService;
         this.validator = validator;
     }
 
@@ -50,7 +54,7 @@ public class SupportController {
     @RequestMapping(value = WebConstants.MVC_ADMIN_SUPPORT_VIEW, method = RequestMethod.GET)
     public ModelAndView adminSupportPageLink(final Model model) throws Exception {
         model.addAttribute(WebConstants.KEY_SUPPORT, service.findAllSupportPageLink());
-
+        model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
         return new ModelAndView(WebConstants.VIEW_ADMIN_SUPPORT_VIEW);
     }
 
@@ -63,7 +67,7 @@ public class SupportController {
     @RequestMapping(value = WebConstants.MVC_SUPPORT_PAGE_VIEW, method = RequestMethod.GET)
     public ModelAndView supportPageLink(final Model model) throws Exception {
         model.addAttribute(WebConstants.KEY_SUPPORT, service.findAllSupportPageLink());
-
+        model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
         return new ModelAndView(WebConstants.VIEW_SUPPORT_PAGE_VIEW);
     }
 

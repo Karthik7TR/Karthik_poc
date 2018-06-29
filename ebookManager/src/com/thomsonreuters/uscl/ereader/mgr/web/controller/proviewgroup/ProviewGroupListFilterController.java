@@ -5,9 +5,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewGroup;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.proviewgroup.ProviewGroupListFilterForm.FilterCommand;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +23,14 @@ public class ProviewGroupListFilterController extends BaseProviewGroupListContro
     /**
      * Handle submit/post of a new set of filter criteria.
      */
+    private final OutageService outageService;
+
+    @Autowired
+    public ProviewGroupListFilterController(final OutageService outageService) {
+        super();
+        this.outageService = outageService;
+    }
+
     @RequestMapping(value = WebConstants.MVC_PROVIEW_GROUP_LIST_FILTERED_POST, method = RequestMethod.POST)
     public ModelAndView doFilterPost(
         final HttpSession httpSession,
@@ -49,7 +59,7 @@ public class ProviewGroupListFilterController extends BaseProviewGroupListContro
         model.addAttribute(WebConstants.KEY_PAGINATED_LIST, selectedProviewGroupList);
         model.addAttribute(WebConstants.KEY_TOTAL_GROUP_SIZE, selectedProviewGroupList.size());
         model.addAttribute(ProviewGroupListFilterForm.FORM_NAME, filterForm);
-
+        model.addAttribute(WebConstants.KEY_DISPLAY_OUTAGE, outageService.getAllPlannedOutagesToDisplay());
         return new ModelAndView(WebConstants.VIEW_PROVIEW_GROUPS);
     }
 }
