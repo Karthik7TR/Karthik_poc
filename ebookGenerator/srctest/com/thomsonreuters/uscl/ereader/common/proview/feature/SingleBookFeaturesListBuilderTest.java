@@ -41,7 +41,7 @@ public final class SingleBookFeaturesListBuilderTest extends FeatureListBuilderF
     }
 
     @Test
-    public void shouldReturnFeaturesWithNotesMigrationFeature() {
+    public void shouldReturnFeaturesWithNotesMigrationFeatureMinorUpdate() {
         //given
         //when
         final List<Feature> features = featuresListBuilder.withBookVersion(new Version("v1.1")).getFeatures();
@@ -59,5 +59,16 @@ public final class SingleBookFeaturesListBuilderTest extends FeatureListBuilderF
         final List<Feature> features = featuresListBuilder.getFeatures();
         //then
         assertTrue(CollectionUtils.isEqualCollection(features, getExpectedFeatures(bookDefinition)));
+    }
+
+    @Test
+    public void shouldReturnFeaturesWithNotesMigrationFeatureMajorUpdate() {
+        //given
+        //when
+        final List<Feature> features = featuresListBuilder.withBookVersion(new Version("v2.0")).getFeatures();
+        //then
+        final List<Feature> expectedFeatures = getExpectedFeatures(bookDefinition);
+        expectedFeatures.add(new Feature("AnnosSource", "FullyQualifiedTitleId/v1;SplitBookTitle/v1"));
+        assertTrue(CollectionUtils.isEqualCollection(features, expectedFeatures));
     }
 }

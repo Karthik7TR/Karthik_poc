@@ -47,7 +47,7 @@ public final class SplitBookFeatureListBuilderTest extends FeatureListBuilderFix
     }
 
     @Test
-    public void shouldReturnFeaturesWithNotesMigrationFeature() {
+    public void shouldReturnFeaturesWithNotesMigrationFeatureMinorUpdate() {
         //given
         final Map<BookTitleId, List<Doc>> titleDocs = new HashMap<>();
         titleDocs.put(
@@ -55,6 +55,24 @@ public final class SplitBookFeatureListBuilderTest extends FeatureListBuilderFix
             Collections.singletonList(new Doc("doc1", "doc1.html", 0, null)));
         //when
         final List<Feature> features = featuresListBuilder.withBookVersion(new Version("v1.1"))
+            .withTitleDocs(titleDocs)
+            .forTitleId(new BookTitleId("FullyQualifiedTitleId", new Version("v1.0")))
+            .getFeatures();
+        //then
+        final List<Feature> expectedFeatures = getExpectedFeatures(bookDefinition);
+        expectedFeatures.add(new Feature("AnnosSource", "FullyQualifiedTitleId/v1"));
+        assertTrue(CollectionUtils.isEqualCollection(features, expectedFeatures));
+    }
+
+    @Test
+    public void shouldReturnFeaturesWithNotesMigrationFeatureMajorUpdate() {
+        //given
+        final Map<BookTitleId, List<Doc>> titleDocs = new HashMap<>();
+        titleDocs.put(
+            new BookTitleId("FullyQualifiedTitleId", new Version("v1.0")),
+            Collections.singletonList(new Doc("doc1", "doc1.html", 0, null)));
+        //when
+        final List<Feature> features = featuresListBuilder.withBookVersion(new Version("v2.0"))
             .withTitleDocs(titleDocs)
             .forTitleId(new BookTitleId("FullyQualifiedTitleId", new Version("v1.0")))
             .getFeatures();

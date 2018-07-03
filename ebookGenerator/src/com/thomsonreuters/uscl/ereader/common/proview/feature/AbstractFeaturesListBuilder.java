@@ -97,15 +97,18 @@ public abstract class AbstractFeaturesListBuilder implements FeaturesListBuilder
     private boolean isTitlesPromotedToFinal(final Collection<BookTitleId> titleIds) {
         return titleIds.stream()
             .map(BookTitleId::getTitleId)
-            .map(titleId -> proviewTitleService.isMajorVersionPromotedToFinal(titleId, newBookVersion))
+            .map(titleId -> {
+                final Version previousVersion = proviewTitleService.getLatestProviewTitleVersion(bookDefinition.getFullyQualifiedTitleId());
+                final Version versionToCheck = versionUtil.isMajorUpdate(previousVersion, newBookVersion) ? previousVersion : newBookVersion;
+                return proviewTitleService.isMajorVersionPromotedToFinal(titleId, versionToCheck);
+            })
             .allMatch(Boolean.TRUE::equals);
     }
 
     private boolean shouldCreateFeature(final Version previousVersion, final Version newVersion) {
         return previousVersion != null
             && newVersion != null
-            && !previousVersion.equals(newVersion)
-            && !versionUtil.isMajorUpdate(previousVersion, newVersion);
+            && !previousVersion.equals(newVersion);
     }
 
     private enum DefaultProviewFeatures {

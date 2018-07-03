@@ -39,6 +39,7 @@ public abstract class FeatureListBuilderFixture {
         given(proviewTitleService.getPreviousTitles(version, "FullyQualifiedTitleId"))
             .willReturn(Collections.singletonList(new BookTitleId("FullyQualifiedTitleId", version)));
         given(proviewTitleService.isMajorVersionPromotedToFinal(anyString(), eq(new Version("v1.1")))).willReturn(true);
+        given(proviewTitleService.isMajorVersionPromotedToFinal(anyString(), eq(new Version("v1.0")))).willReturn(true);
 
         given(splitNodeInfo.getBookVersionSubmitted()).willReturn("1.0");
         given(splitNodeInfo.getSplitBookTitle()).willReturn("SplitBookTitle");
@@ -121,15 +122,6 @@ public abstract class FeatureListBuilderFixture {
         //given
         //when
         final List<Feature> features = featuresListBuilder.withBookVersion(new Version("v1.0")).getFeatures();
-        //then
-        assertTrue(CollectionUtils.isEqualCollection(features, getExpectedFeatures(bookDefinition)));
-    }
-
-    @Test
-    public void shouldReturnFeaturesWithoutNotesMigrationFeatureWithMajorUpdate() {
-        //given
-        //when
-        final List<Feature> features = featuresListBuilder.withBookVersion(new Version("v2.0")).getFeatures();
         //then
         assertTrue(CollectionUtils.isEqualCollection(features, getExpectedFeatures(bookDefinition)));
     }
