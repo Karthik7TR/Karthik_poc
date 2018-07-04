@@ -122,6 +122,9 @@ td:empty {
         margin-left: #{$indent}em;
         margin-top: #{$indent}em;
     }
+    .para>.list>.list_item>& {
+        margin-left: #{$indent}em;
+    }
 }
 
 .para_text {
@@ -180,7 +183,8 @@ td:empty {
 }
 
 a {
-    .publication_body .generated_toc>.full_toc>.toc_section>.outline_name_block>& {
+    .publication_body .generated_toc>.full_toc>.toc_section>.outline_name_block>&,
+    .toc_analytical_level>.toc_section>.outline_name_block>& {
         display: flex;
     }
 }
@@ -223,4 +227,9 @@ ref {
     flex-direction: column;
     border-right: #{$indent*0.1}em solid;
     border-radius: #{$indent}em;
+}
+
+.font_section_reserved,
+.font_section_reserved_1 {
+    display: inline !important;
 }

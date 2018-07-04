@@ -8,6 +8,10 @@ a + .no-indent:nth-child(2),
   display: block !important;
 }
 
+.no-indent + .t:last-child {
+  margin-left: -1em;
+}
+
 .publication {
   text-align: justify;
 }
@@ -306,6 +310,10 @@ td:last-of-type {
   margin-top: 1em;
 }
 
+.para > .list > .list_item > .name_block {
+  margin-left: 1em;
+}
+
 .list_item .para_text {
   text-indent: 0;
 }
@@ -359,7 +367,8 @@ td:last-of-type {
   text-indent: -1em;
 }
 
-.publication_body .generated_toc > .full_toc > .toc_section > .outline_name_block > a {
+.publication_body .generated_toc > .full_toc > .toc_section > .outline_name_block > a,
+.toc_analytical_level > .toc_section > .outline_name_block > a {
   display: flex;
 }
 
@@ -400,6 +409,11 @@ td:last-of-type {
   flex-direction: column;
   border-right: 0.1em solid;
   border-radius: 1em;
+}
+
+.font_section_reserved,
+.font_section_reserved_1 {
+  display: inline !important;
 }
 
 .appendix_front > .outline_name_block {
@@ -671,17 +685,25 @@ td:last-of-type {
   width: 15em;
 }
 
-.frontmatter > .fm_table_of_abbreviations > .tbl > .table_frame_none > tbody > tr > td > *,
-.frontmatter > .fm_table_of_abbreviations > .tbl > .table_frame_none > tbody > tr > td > * * {
-  display: inline;
-}
-
 .custserv {
   text-align: center;
 }
 
 .custserv * {
   display: inline !important;
+}
+
+.frontmatter > .fm_table_of_abbreviations > .tbl > .table_frame_none > tbody > tr > td > *,
+.frontmatter > .fm_table_of_abbreviations > .tbl > .table_frame_none > tbody > tr > td > * * {
+  display: inline;
+}
+
+.frontmatter > .fm_other_structure > .para > .tbl > .table_frame_none tr * {
+  padding: 0;
+}
+
+.frontmatter > .fm_other_structure > .para > .tbl > .table_frame_none tr > .l:first-child {
+  width: 2em;
 }
 
 .leaveout .cgt,
@@ -711,7 +733,12 @@ tbody .cgt,
 .research_reference_block > .cgt,
 .appendix_block > .appendix > .appendix_body > .stat_structure > .stat_title > .stat_chapter > .stat_article > .stat_section_reserved .cgt,
 .toc_appendix_reserved > a ~ .cgt,
-.publication > .publication_back > .appendix_block > .appendix_reserved > .outline_name_block + .cgt {
+.publication > .publication_back > .appendix_block > .appendix_reserved > .outline_name_block + .cgt,
+.full_toc > .toc_chapter .outline_name_block > .label + .cgt,
+.full_toc > .toc_chapter .outline_name_block > .name > .cgt:first-child,
+.full_toc > .toc_chapter .outline_name_block > .designator > .cgt:nth-child(2),
+.full_toc > .toc_chapter_reserved .outline_name_block > .designator > .cgt:nth-child(2),
+.full_toc > .toc_chapter_reserved .outline_name_block > .cgt {
   display: inline;
 }
 
@@ -733,7 +760,8 @@ tbody .cgt,
 .toc_wrapper > .generated_toc > .summary_toc > .toc_chapter > a > .outline_name_block > .cgt:last-of-type,
 .toc_wrapper > .generated_toc > .summary_toc > .toc_chapter > a > .outline_name_block .name ~ .cgt,
 .toc_wrapper > .generated_toc > .full_toc > .toc_chapter > a > .outline_name_block > .name ~ .cgt,
-.section_front > .outline_name_block > .name > .cgt:first-child {
+.section_front > .outline_name_block > .name > .cgt:first-child,
+.full_toc > .toc_chapter_reserved .outline_name_block > .label + .cgt {
   display: none;
 }
 
@@ -781,6 +809,10 @@ tbody .cgt,
   display: flex;
 }
 
+.toc_chapter_reserved .outline_name_block {
+  min-width: 5em;
+}
+
 .toc_chapter .designator {
   min-width: 2em;
 }
@@ -788,15 +820,22 @@ tbody .cgt,
 .generated_toc .toc_appendix .designator,
 .full_toc .toc_section .designator {
   max-width: none;
-  min-width: 3.15em;
 }
 
 .toc_analytical_level .designator {
   min-width: 0;
 }
 
-.toc_appendix_reserved > a > .outline_name_block > .designator {
+.toc_appendix_reserved > a > .outline_name_block > .designator,
+.toc_section .designator,
+.toc_analytical_level .toc_section_reserved .designator {
   margin-right: 0.5em;
+}
+
+.generated_toc .toc_appendix .designator,
+.full_toc .toc_section .designator,
+.toc_analytical_level .toc_section_reserved .designator {
+  min-width: 3.15em;
 }
 
 .toc_section:last-of-type {
@@ -812,13 +851,20 @@ tbody .cgt,
   text-align: right;
 }
 
-.toc_appendix_reserved > a > .outline_name_block > .label {
+.toc_appendix_reserved > a > .outline_name_block > .label,
+.toc_chapter_reserved .outline_name_block > .label {
   margin-right: 0.5em;
 }
 
 .toc_appendix,
 .toc_appendix_reserved {
   margin-right: 0.5em;
+}
+
+.font_toc_chapter_reserved,
+.font_toc_chapter_reserved_1,
+.font_toc_section_reserved {
+  display: inline !important;
 }
 
 .INDEX {

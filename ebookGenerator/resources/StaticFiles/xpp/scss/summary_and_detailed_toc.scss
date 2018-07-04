@@ -31,6 +31,9 @@
     .toc_wrapper>.generated_toc>.full_toc>.toc_chapter>a>& {
         display: flex;
     }
+    .toc_chapter_reserved & {
+        min-width: #{$indent * 5}em;
+    }
 }
 
 .designator {
@@ -40,13 +43,19 @@
     .generated_toc .toc_appendix &,
     .full_toc .toc_section & {
         max-width: none;
-        min-width: #{$indent * 3.15}em;
     }
     .toc_analytical_level & {
         min-width: 0;
     }
-    .toc_appendix_reserved>a>.outline_name_block>& {
-        margin-right: 0.5em;
+    .toc_appendix_reserved>a>.outline_name_block>&,
+    .toc_section &,
+    .toc_analytical_level .toc_section_reserved & {
+        margin-right: #{$indent * 0.5}em;
+    }
+    .generated_toc .toc_appendix &,
+    .full_toc .toc_section &,
+    .toc_analytical_level .toc_section_reserved & {
+        min-width: #{$indent * 3.15}em;
     }
 }
 
@@ -68,7 +77,8 @@
 }
 
 .label {
-    .toc_appendix_reserved>a>.outline_name_block>& {
+    .toc_appendix_reserved>a>.outline_name_block>&,
+    .toc_chapter_reserved .outline_name_block>& {
         margin-right: #{$indent * 0.5}em;
     }
 }
@@ -76,4 +86,10 @@
 .toc_appendix,
 .toc_appendix_reserved {
     margin-right: #{$indent * 0.5}em;
+}
+
+.font_toc_chapter_reserved,
+.font_toc_chapter_reserved_1,
+.font_toc_section_reserved {
+    display: inline !important;
 }

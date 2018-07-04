@@ -92,14 +92,22 @@
     width: #{$indent * 15}em;
 }
 
-.frontmatter>.fm_table_of_abbreviations>.tbl>.table_frame_none>tbody>tr>td>*,
-.frontmatter>.fm_table_of_abbreviations>.tbl>.table_frame_none>tbody>tr>td>* * {
-    display: inline;
-}
-
 .custserv {
     text-align: center;
     & * {
         display: inline !important;
+    }
+}
+
+tr {
+    .frontmatter>.fm_table_of_abbreviations>.tbl>.table_frame_none>tbody>&>td>*,
+    .frontmatter>.fm_table_of_abbreviations>.tbl>.table_frame_none>tbody>&>td>* * {
+        display: inline;
+    }
+    .frontmatter>.fm_other_structure>.para>.tbl>.table_frame_none & * {
+        padding: 0;
+    }
+    .frontmatter>.fm_other_structure>.para>.tbl>.table_frame_none &>.l:first-child {
+        width: #{$indent * 2}em;
     }
 }

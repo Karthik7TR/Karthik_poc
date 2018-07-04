@@ -26,7 +26,12 @@
     .research_reference_block>&,
     .appendix_block>.appendix>.appendix_body>.stat_structure>.stat_title>.stat_chapter>.stat_article>.stat_section_reserved &,
     .toc_appendix_reserved>a~&,
-    .publication>.publication_back>.appendix_block>.appendix_reserved>.outline_name_block+& {
+    .publication>.publication_back>.appendix_block>.appendix_reserved>.outline_name_block+&,
+    .full_toc>.toc_chapter .outline_name_block>.label+&,
+    .full_toc>.toc_chapter .outline_name_block>.name>&:first-child,
+    .full_toc>.toc_chapter .outline_name_block>.designator>&:nth-child(2),
+    .full_toc>.toc_chapter_reserved .outline_name_block>.designator>&:nth-child(2),
+    .full_toc>.toc_chapter_reserved .outline_name_block>& {
         display: inline;
     }
     .signature_group>.form_line &,
@@ -46,7 +51,8 @@
     .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block>&:last-of-type,
     .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .name~&,
     .toc_wrapper>.generated_toc>.full_toc>.toc_chapter>a>.outline_name_block>.name~&,
-    .section_front>.outline_name_block>.name>&:first-child {
+    .section_front>.outline_name_block>.name>&:first-child,
+    .full_toc>.toc_chapter_reserved .outline_name_block>.label+& {
         display: none;
     }
     .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .name~& {
