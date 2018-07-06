@@ -1159,6 +1159,10 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   padding-top: 0.25em;
 }
 
+.cone .cgt {
+  display: inline !important;
+}
+
 .primary_hierarchy_front,
 .primary_section_body {
   margin-bottom: 1em;
@@ -1307,6 +1311,11 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 .primary_source > .primary_source_body .primary_hierarchy_body > .primary_hierarchy > .primary_hierarchy_front > .generated_toc > .full_toc > .toc_primary_section * {
   display: inline;
   white-space: pre-line;
+}
+
+.cone {
+  text-align: center;
+  display: block !important;
 }
 
 .toc_primary_hierarchy > .primary_outline_name_block > .label + .t,
