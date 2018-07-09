@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.zip.GZIPOutputStream;
 
 import com.thomsonreuters.uscl.ereader.assemble.exception.EBookAssemblyException;
+import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -135,9 +136,20 @@ public class EBookAssemblyServiceImpl implements EBookAssemblyService {
 
             if (children != null) {
                 for (final File file : children) {
-                    recursivelyTarDirectory(tarOutputStream, file.getAbsolutePath(), entryName + "/");
+                    if (path.endsWith(AssembleFileSystem.DOCUMENTS_DIR_NAME) && file.isDirectory()) {
+                        tarDocuments(tarOutputStream, file, entryName);
+                    } else {
+                        recursivelyTarDirectory(tarOutputStream, file.getAbsolutePath(), entryName + "/");
+                    }
                 }
             }
+        }
+    }
+
+    private void tarDocuments(final TarOutputStream tarOutputStream, final File file, final String entryName)
+        throws EBookAssemblyException {
+        for (final File document : file.listFiles()) {
+            recursivelyTarDirectory(tarOutputStream, document.getAbsolutePath(), entryName + "/");
         }
     }
 

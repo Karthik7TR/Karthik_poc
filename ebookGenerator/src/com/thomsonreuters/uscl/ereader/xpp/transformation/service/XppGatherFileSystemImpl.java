@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.FileSystemException;
 import com.thomsonreuters.uscl.ereader.common.filesystem.GatherFileSystemImpl;
@@ -90,8 +91,17 @@ public class XppGatherFileSystemImpl extends GatherFileSystemImpl implements Xpp
 
     @Override
     public File getSegOutlineFile(@NotNull final BookStep step, @NotNull final String materialNumber) {
-        final File segOutlineXmlFile = new File(getXppBundleMaterialNumberDirectory(step, materialNumber), PUB_METADATA_FILE);
+        final File materialNumberDir = getXppBundleMaterialNumberDirectory(step, materialNumber);
+        final File segOutlineXmlFile = new File(materialNumberDir, PUB_METADATA_FILE);
         return Optional.of(segOutlineXmlFile)
+            .filter(File::exists)
+            .orElseGet(() -> getSegOutlineFileFromInnerDir(materialNumberDir));
+    }
+
+    private File getSegOutlineFileFromInnerDir(@NotNull final File materialNumberDir) {
+        return Stream.of(materialNumberDir.listFiles(File::isDirectory))
+            .findAny()
+            .map(innerDir -> new File(innerDir, PUB_METADATA_FILE))
             .filter(File::exists)
             .orElse(null);
     }

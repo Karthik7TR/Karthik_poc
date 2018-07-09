@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
  * Provides access to files and directories specific for assemble step of book generation process
  */
 public interface AssembleFileSystem {
+    String DOCUMENTS_DIR_NAME = "documents";
     /**
      * Returns assemble directory:
      * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}

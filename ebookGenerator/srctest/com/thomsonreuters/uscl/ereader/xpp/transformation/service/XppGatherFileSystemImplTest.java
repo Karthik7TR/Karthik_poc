@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.FileSystemMatcher;
@@ -47,6 +48,8 @@ public final class XppGatherFileSystemImplTest {
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
+    private File bundleDir1;
+
     private File xppFile1;
     private File xppFile2;
     private File txtFile;
@@ -56,7 +59,7 @@ public final class XppGatherFileSystemImplTest {
         final File workingDirectory = new File(temporaryFolder.getRoot(), "workDirectory");
         given(bookFileSystem.getWorkDirectory(step)).willReturn(workingDirectory);
 
-        final File bundleDir1 = mkdir(workingDirectory, bundleRoot1);
+        bundleDir1 = mkdir(workingDirectory, bundleRoot1);
         final File bundleDir2 = mkdir(workingDirectory, bundleRoot2);
 
         mkdir(bundleDir1, assets);
@@ -155,5 +158,39 @@ public final class XppGatherFileSystemImplTest {
             assertTrue(element.getName().equals("bundle.xml"));
             assertFalse(element.getName().equals("xpp.xml"));
         }
+    }
+
+    @Test
+    public void shouldGetSetOutlineFileFromMaterialNumberDir() throws IOException {
+        //given
+        mkfile(bundleDir1.getParentFile(), "SegOutline.xml");
+
+        //when
+        final File segOutlineFile = fileSystem.getSegOutlineFile(step, materialNumber1);
+
+        //then
+        assertTrue(Optional.ofNullable(segOutlineFile).isPresent());
+    }
+
+    @Test
+    public void shouldGetSetOutlineFileFromMaterialNumberInnerDir() throws IOException {
+        //given
+        mkfile(bundleDir1, "SegOutline.xml");
+
+        //when
+        final File segOutlineFile = fileSystem.getSegOutlineFile(step, materialNumber1);
+
+        //then
+        assertTrue(Optional.ofNullable(segOutlineFile).isPresent());
+    }
+
+    @Test
+    public void shouldGetNullIfNoSetOutlineFileDelivered() {
+        //given
+        //when
+        final File segOutlineFile = fileSystem.getSegOutlineFile(step, materialNumber1);
+
+        //then
+        assertFalse(Optional.ofNullable(segOutlineFile).isPresent());
     }
 }

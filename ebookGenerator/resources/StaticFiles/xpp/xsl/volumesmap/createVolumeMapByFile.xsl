@@ -5,7 +5,7 @@
 	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
 	
 	<xsl:param name="defaultVolumeNumber" />
-	<xsl:param name="volNumber" />
+	<xsl:param name="volumeNumberByFileName" />
 	<xsl:param name="segOutlineFilePath" />
 	<xsl:param name="segOutlineFile" select="document($segOutlineFilePath)" />
 
@@ -20,8 +20,8 @@
 		<xsl:element name="entry">
 			<xsl:attribute name="uuid" select="$uuid" />
 			<xsl:choose>
-				<xsl:when test="$volNumber">
-					<xsl:value-of select="$volNumber" />
+				<xsl:when test="$volumeNumberByFileName">
+					<xsl:value-of select="$volumeNumberByFileName" />
 				</xsl:when>
 				<xsl:when test="$segOutlineFilePath">
 					<xsl:value-of select="$segOutlineFile/root//object[@uuid = $uuid]/@volume" />

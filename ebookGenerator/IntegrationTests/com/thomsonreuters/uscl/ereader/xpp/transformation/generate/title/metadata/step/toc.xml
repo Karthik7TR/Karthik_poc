@@ -63,5 +63,15 @@
             </EBookToc>
          </EBookToc>
       </EBookToc>
+      <EBookToc>
+         <Name>Pocket Part</Name>
+         <Guid>pocket_part_guid_1</Guid>
+         <DocumentGuid>I3416j47028b911e69ed7fcedf0a72426_pp</DocumentGuid>
+         <EBookToc>
+            <Name>Pocket Part Title page</Name>
+            <Guid>pocket_part_guid_2</Guid>
+            <DocumentGuid>I4700e2c028b911e69ed7fcedfyt4l426_pp</DocumentGuid>
+         </EBookToc>
+      </EBookToc>
    </EBookToc>
 </EBook>

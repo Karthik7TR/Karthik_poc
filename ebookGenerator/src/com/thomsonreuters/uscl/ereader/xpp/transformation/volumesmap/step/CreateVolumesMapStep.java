@@ -55,8 +55,8 @@ public class CreateVolumesMapStep extends VolumeNumberAwareXppTransformationStep
             .withParameter("defaultVolumeNumber", getVolumeNumber(bundle));
         getSegOutlineFile()
             .ifPresent(segOutlineFile ->
-                transformerBuilder.withParameter("volNumber", getVolumeNumberByFileName(fileName))
-                    .withParameter("segOutlineFilePath", segOutlineFile.getAbsolutePath().replace("\\", "/"))
+                transformerBuilder.withParameter("volumeNumberByFileName", getVolumeNumberByFileName(fileName))
+                                  .withParameter("segOutlineFilePath", segOutlineFile.getAbsolutePath().replace("\\", "/"))
             );
         final TransformationCommand command =
             new TransformationCommandBuilder(transformerBuilder.build(), outputFile).withInput(file).build();

@@ -28,6 +28,7 @@ public final class EbookAssemblyServiceTest {
     private File eBookDirectory;
     private File titleXml;
     private File eBook;
+    private File document;
 
     private EBookAssemblyService assemblyService;
 
@@ -35,15 +36,19 @@ public final class EbookAssemblyServiceTest {
     public void setUp() throws Exception {
         assemblyService = new EBookAssemblyServiceImpl();
 
-        eBook = File.createTempFile("pirate", "ship");
+        eBook = File.createTempFile("pirate", "ship.tar.gz");
         eBookDirectory = new File(eBook.getParentFile(), "eBookDirectory");
-        eBookDirectory.mkdirs();
         titleXml = new File(eBookDirectory, "title.xml");
+        final File documentsDir = new File(eBookDirectory, "documents/123456/");
+        document = new File(documentsDir, "DIVXML_1_I334acde028b47ft34ed7fcedf0a72426.html");
 
-        final OutputStream outputStream = new FileOutputStream(titleXml);
-        outputStream.write("<title/>".getBytes());
-        outputStream.flush();
-        outputStream.close();
+        documentsDir.mkdirs();
+        document.createNewFile();
+
+        try (final OutputStream outputStream = new FileOutputStream(titleXml)) {
+            outputStream.write("<title/>".getBytes());
+            outputStream.flush();
+        }
     }
 
     @After
@@ -117,6 +122,10 @@ public final class EbookAssemblyServiceTest {
         try (TarInputStream tarInputStream = new TarInputStream(new GZIPInputStream(new FileInputStream(eBook)))) {
             TarEntry entry = tarInputStream.getNextEntry();
             assertTrue("eBookDirectory".equals(entry.getName()));
+            entry = tarInputStream.getNextEntry();
+            assertTrue("eBookDirectory/documents".equals(entry.getName()));
+            entry = tarInputStream.getNextEntry();
+            assertTrue(("eBookDirectory/documents/" + document.getName()).equals(entry.getName()));
             entry = tarInputStream.getNextEntry();
             assertTrue("eBookDirectory/title.xml".equals(entry.getName()));
         } catch (final Exception e) {

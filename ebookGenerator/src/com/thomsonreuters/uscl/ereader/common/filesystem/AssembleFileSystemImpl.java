@@ -61,12 +61,12 @@ public class AssembleFileSystemImpl implements AssembleFileSystem {
 
     @Override
     public File getDocumentsDirectory(@NotNull final BookStep step) {
-        return new File(getTitleDirectory(step), "documents");
+        return new File(getTitleDirectory(step), DOCUMENTS_DIR_NAME);
     }
 
     @Override
     public File getSplitPartDocumentsDirectory(@NotNull final BookStep step, @NotNull final String spitTitleId) {
-        return new File(getSplitTitleDirectory(step, spitTitleId), "documents");
+        return new File(getSplitTitleDirectory(step, spitTitleId), DOCUMENTS_DIR_NAME);
     }
 
     @Override

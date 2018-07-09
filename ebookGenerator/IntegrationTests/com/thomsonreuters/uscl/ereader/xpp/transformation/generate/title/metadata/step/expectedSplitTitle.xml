@@ -70,26 +70,32 @@
                </entry>
             </entry>
          </entry>
+         <entry s="I3416j47028b911e69ed7fcedf0a72426_pp/pocket_part_guid_1">
+            <text>Pocket Part</text>
+            <entry s="I4700e2c028b911e69ed7fcedfyt4l426_pp/pocket_part_guid_2">
+               <text>Pocket Part Title page</text>
+            </entry>
+         </entry>
       </entry>
       <titlebreak>book 2 of 2</titlebreak>
-      <entry s="some/title_pt2#I334acde028b47ft34ed7fcedf0a72426/I18b49f1028b911e69ed7fcedf0a72426">
+      <entry s="some/title_pt2#I4700e2c0g6kz11e69ed7fcedf0a72888/I18b49f1028b911e69ed7fcedf0a72426">
          <text>Chapter_5</text>
-         <entry s="some/title_pt2#I334acde028b47ft34ed7fcedf0a72426/I333dd59028b911e69ed7fcedf0a72426">
+         <entry s="some/title_pt2#I4700e2c0g6kz11e69ed7fcedf0a72888/I333dd59028b911e69ed7fcedf0a72426">
             <text>Chapter_5:2</text>
-            <entry s="some/title_pt2#I334acde028b47ft34ed7fcedf0a72426/I334a31a028b911e69ed7fcedf0a72426">
+            <entry s="some/title_pt2#I4700e2c0g6kz11e69ed7fcedf0a72888/I334a31a028b911e69ed7fcedf0a72426">
                <text>Chapter_5:2:3</text>
-               <entry s="some/title_pt2#I334acde028b47ft34ed7fcedf0a72426/I334a7fc028b911e69ed7fcedf0a72426">
+               <entry s="some/title_pt2#I4700e2c0g6kz11e69ed7fcedf0a72888/I334a7fc028b911e69ed7fcedf0a72426">
                   <text>Chapter_5:2:3:4</text>
-                  <entry s="some/title_pt2#I334acde028b47ft34ed7fcedf0a72426/I334acde028b911e69ed7fcedf0a72426">
+                  <entry s="some/title_pt2#I4700e2c0g6kz11e69ed7fcedf0a72888/I334acde028b911e69ed7fcedf0a72426">
                      <text>Chapter_5:2:3:4:5</text>
-                     <entry s="some/title_pt2#I334acde028b47ft34ed7fcedf0a72426/I334acde028b47ft34ed7fcedf0a72426">
+                     <entry s="some/title_pt2#I4700e2c0g6kz11e69ed7fcedf0a72888/I4700e2c0g6kz11e69ed7fcedf0a72888">
                         <text>Chapter_5:2:3:4:5:6</text>
                      </entry>
                   </entry>
                </entry>
-               <entry s="some/title_pt2#I3416j47028b911e69ed7fcedf0a72426/I34145f7028b911e69ed7fcedf0a72426">
+               <entry s="some/title_pt2#I4700e2c0g6kz11e69ed7fcedf0a72777/I34145f7028b911e69ed7fcedf0a72426">
                   <text>Chapter_5:2:3:5</text>
-                  <entry s="some/title_pt2#I3416j47028b911e69ed7fcedf0a72426/I3416j47028b911e69ed7fcedf0a72426">
+                  <entry s="some/title_pt2#I4700e2c0g6kz11e69ed7fcedf0a72777/I4700e2c0g6kz11e69ed7fcedf0a72777">
                      <text>Chapter_5:2:3:5:6</text>
                   </entry>
                </entry>

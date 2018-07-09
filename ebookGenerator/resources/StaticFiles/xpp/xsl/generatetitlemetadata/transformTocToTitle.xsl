@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
-    <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
-    
-    <xsl:param name="titleMetadataDoc" />
-    <xsl:param name="titleMetadata" select="document($titleMetadataDoc)" />
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
+	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+	
+	<xsl:param name="titleMetadataDoc" />
+	<xsl:param name="titleMetadata" select="document($titleMetadataDoc)" />
 
 	<xsl:template match="Document">
 		<xsl:element name="title">
@@ -30,12 +30,14 @@
 				<xsl:apply-templates select="x:EBook" />
 			</xsl:element>
 			
-			<xsl:copy-of select="$titleMetadata/ManifestMetadata/docs" />
+			<xsl:call-template name="addDocsOrderedAsToc">
+				<xsl:with-param name="titleMetadata" select="$titleMetadata" />
+			</xsl:call-template>
 			
 			<xsl:copy-of select="$titleMetadata/ManifestMetadata/isbn" />
 		</xsl:element>
 	</xsl:template>
-    
+	
 	<xsl:template match="x:EBook">
 		<xsl:if test="./@titleBreak">
 			<xsl:element name="titlebreak">
@@ -72,6 +74,16 @@
 				<xsl:value-of select="x:DocumentGuid" />
 			</xsl:otherwise>
 		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template name="addDocsOrderedAsToc">
+		<xsl:param name="titleMetadata" />
+		<xsl:element name="docs">
+			<xsl:for-each select="distinct-values((.//x:DocumentGuid/text()))">
+				<xsl:variable name="docGuid" select="." />
+				<xsl:copy-of select="$titleMetadata/ManifestMetadata/docs/doc[@id=$docGuid]" />
+			</xsl:for-each>
+		</xsl:element>
 	</xsl:template>
 
 </xsl:stylesheet>
