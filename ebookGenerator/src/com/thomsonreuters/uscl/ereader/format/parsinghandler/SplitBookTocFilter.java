@@ -193,7 +193,7 @@ public class SplitBookTocFilter extends XMLFilterImpl {
                     isMissingDocument = true;
                     break;
                 case DOCUMENT_GUID:
-                    saveDocumentInfo(getDocumentGuid());
+
                     break;
                 case TOC_GUID:
                     defineSplitNode();
@@ -222,7 +222,10 @@ public class SplitBookTocFilter extends XMLFilterImpl {
 
             Optional.of(getDocumentGuid())
                 .filter(StringUtils::isNotBlank)
-                .ifPresent(value -> placeTextElement(DOCUMENT_GUID, value));
+                .ifPresent(value -> {
+                    saveDocumentInfo(getDocumentGuid());
+                    placeTextElement(DOCUMENT_GUID, value);
+                });
             if (isMissingDocument) {
                 placeTextElement(MISSING_DOCUMENT, missingDocument.toString());
             }

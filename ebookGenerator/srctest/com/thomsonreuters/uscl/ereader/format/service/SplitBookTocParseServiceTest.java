@@ -1,7 +1,5 @@
 package com.thomsonreuters.uscl.ereader.format.service;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -130,29 +128,5 @@ public final class SplitBookTocParseServiceTest {
         Assert.assertEquals(expectedDocInfo1.toString(), docInfo1.toString());
         Assert.assertEquals(expectedDocInfo2.toString(), docInfo2.toString());
         Assert.assertEquals(documentInfoMap.size(), 2);
-    }
-
-    @Test
-    public void testSplitBookTocNoUUID() {
-        boolean thrown = false;
-
-        Map<String, DocumentInfo> documentInfoMap = new HashMap<>();
-
-        tocXml = new ByteArrayInputStream(
-            "<EBook><EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_1</Guid></EBookToc><EBookToc><Name>BLARGH</Name><Guid>TABLEOFCONTENTS33CHARACTERSLONG_2</Guid></EBookToc></EBook>"
-                .getBytes());
-
-        try {
-            documentInfoMap =
-                splitBookTocParseService.generateSplitBookToc(tocXml, splitTocXml, splitTocGuidList, splitTitleId);
-        } catch (final RuntimeException e) {
-            thrown = true;
-            Assert.assertEquals(
-                true,
-                e.getMessage().contains("Split occured at an incorrect level. TABLEOFCONTENTS33CHARACTERSLONG_2"));
-        }
-        assertTrue(thrown);
-
-        Assert.assertEquals(0, documentInfoMap.size());
     }
 }

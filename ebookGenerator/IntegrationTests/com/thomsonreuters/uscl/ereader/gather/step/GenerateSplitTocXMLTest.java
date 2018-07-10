@@ -213,39 +213,6 @@ public final class GenerateSplitTocXMLTest {
         Assert.assertEquals(expectedDocInfo2.toString(), docInfo2.toString());
     }
 
-    @Test
-    public void testIncorrectSplitToc() throws Exception {
-        boolean thrown = false;
-        splitTocGuidList = new ArrayList<>();
-        final String guid1 = "NF81E0E40C40911DA87C3A6A101BC03A2";
-        final String guid2 = "NC1A2A41006F411DB956CABAE160C185B";
-        final String guid3 = "N66C5A630FAFD11DA989FE57CEE210EFD";
-        final String guid4 = "NF66DD160C24F11DD8003BB48904FDE9B";
-        splitTocGuidList.add(guid1);
-        splitTocGuidList.add(guid2);
-        splitTocGuidList.add(guid3);
-        splitTocGuidList.add(guid4);
-        final URL url = GenerateSplitTocTask.class.getResource("toc.xml");
-        tocXml = new FileInputStream(url.getPath());
-
-        try {
-            generateSplitTocTask.generateAndUpdateSplitToc(
-                tocXml,
-                splitTocXml,
-                splitTocGuidList,
-                tranformedDirectory,
-                jobInstanceId,
-                "splitTitle");
-        } catch (final RuntimeException e) {
-            thrown = true;
-            Assert.assertEquals(
-                true,
-                e.getMessage().contains(
-                    "Split occured at an incorrect level. NF81E0E40C40911DA87C3A6A101BC03A2, N66C5A630FAFD11DA989FE57CEE210EFD, NC1A2A41006F411DB956CABAE160C185B"));
-        }
-        assertTrue(thrown);
-    }
-
     protected void writeDocumentLinkFile(final File tFile, final boolean addNewLine) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(tFile))) {
             writer.write("NF8C65500AFF711D8803AE0632FEDDFBF,N129FCFD29AA24CD5ABBAA83B0A8A2D7B275|");
