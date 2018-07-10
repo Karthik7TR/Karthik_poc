@@ -1,12 +1,17 @@
 package com.thomsonreuters.uscl.ereader.format.parsinghandler;
 
-import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.thomsonreuters.uscl.ereader.format.step.DocumentInfo;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -15,189 +20,222 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
 
+@RequiredArgsConstructor
 public class SplitBookTocFilter extends XMLFilterImpl {
-    private List<String> splitTocGuidList;
     private static final Logger LOG = LogManager.getLogger(SplitBookTocFilter.class);
 
-    private boolean bufferingTocGuid;
-    private boolean leafNode;
-    private boolean foundMatch;
-    private boolean isEbook;
-
-    private static final String URI = "";
+    private static final String URI = StringUtils.EMPTY;
     private static final String TITLE_BREAK = "titlebreak";
     private static final String TOC_GUID = "Guid";
     private static final String EBOOK = "EBook";
     private static final String EBOOK_TOC = "EBookToc";
+    private static final String NAME = "Name";
     private static final Attributes EMPTY_ATTRIBUTES = new AttributesImpl();
     private static final String DOCUMENT_GUID = "DocumentGuid";
     private static final String MISSING_DOCUMENT = "MissingDocument";
 
-    private int number = 1;
-    private int total;
+    private final String splitTilteId;
+    private final List<String> splitTocGuidList;
+    @Getter
+    private final Map<String, DocumentInfo> documentInfoMap = new HashMap<>();
 
-    private String splitTilteId;
-    private StringBuffer tmpValue = new StringBuffer();
-    private Map<String, DocumentInfo> documentInfoMap = new HashMap<>();
-    private Map<String, String> elementValueMap = new LinkedHashMap<>();
-    private List<String> wrongSplitTocNodes = new ArrayList<>();
-    private String splitNode = "";
-
-    public List<String> getWrongSplitTocNode() {
-        return wrongSplitTocNodes;
-    }
-
-    public void setWrongSplitTocNode(final List<String> wrongSplitTocNode) {
-        wrongSplitTocNodes = wrongSplitTocNode;
-    }
-
-    public String getSplitTilteId() {
-        return splitTilteId;
-    }
-
-    public void setSplitTilteId(final String splitTilteId) {
-        this.splitTilteId = splitTilteId;
-    }
-
-    public Map<String, DocumentInfo> getDocumentInfoMap() {
-        return documentInfoMap;
-    }
-
-    public void setDocumentInfoMap(final Map<String, DocumentInfo> documentInfoMap) {
-        this.documentInfoMap = documentInfoMap;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(final int number) {
-        this.number = number;
-    }
-
-    public List<String> getSplitTocGuidList() {
-        return splitTocGuidList;
-    }
-
-    public void setSplitTocGuidList(final List<String> splitDocumentList) {
-        splitTocGuidList = splitDocumentList;
-    }
+    private int number;
+    private EBookToc currentNode;
+    private String previousTitleBreakUuid;
 
     @Override
-    public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
-        throws SAXException {
-        if (EBOOK.equals(qName)) {
-            isEbook = Boolean.TRUE;
-        }
-        if (EBOOK_TOC.equals(qName)) {
-            //This title break is to write at the top after the <EBook>
-            if (isEbook) {
+    public void startElement(final String uri, final String localName,
+                             final String qName, final Attributes atts) throws SAXException {
+        switch (qName) {
+            case EBOOK:
                 super.startElement(URI, EBOOK, EBOOK, EMPTY_ATTRIBUTES);
-                final StringBuffer titleBreakBuffer = new StringBuffer();
-                titleBreakBuffer.append("eBook 1 of ");
-                titleBreakBuffer.append(splitTocGuidList.size() + 1);
-                final String text = titleBreakBuffer.toString();
-                super.startElement(URI, TITLE_BREAK, TITLE_BREAK, EMPTY_ATTRIBUTES);
-                super.characters(text.toCharArray(), 0, text.length());
-                super.endElement(URI, TITLE_BREAK, TITLE_BREAK);
-                isEbook = false;
-            } else {
-                if (elementValueMap.size() > 0) {
-                    decideToWrite();
-                }
-            }
-        } else if (TOC_GUID.equals(qName)) {
-            bufferingTocGuid = Boolean.TRUE;
+                placeTitleBreak();
+                break;
+            case EBOOK_TOC:
+                currentNode = new EBookToc(currentNode);
+                break;
+            default:
+                Optional.ofNullable(currentNode).ifPresent(node -> node.handleStartElement(qName));
+                break;
         }
     }
 
     @Override
     public void characters(final char[] ch, final int start, final int length) throws SAXException {
-        if (tmpValue.length() > 0) {
-            for (int i = start; i < start + length; i++) {
-                tmpValue.append(ch[i]);
-            }
-        } else {
-            tmpValue.append(new String(ch, start, length));
-        }
-
-        if (bufferingTocGuid) {
-            splitNode = StringUtils.substring(tmpValue.toString(), 0, 33);
-            if (splitTocGuidList.contains(splitNode)) {
-                foundMatch = true;
-            }
-            bufferingTocGuid = Boolean.FALSE;
-        }
-    }
-
-    private void writeSplitToc(final boolean isSplit) throws SAXException {
-        total++;
-        if (isSplit) {
-            super.startElement(URI, TITLE_BREAK, TITLE_BREAK, EMPTY_ATTRIBUTES);
-
-            LOG.debug("TitleBreak has been added at " + splitNode + ", count " + total + " and title " + splitTilteId);
-            total = 0;
-            number++;
-            final StringBuffer proviewDisplayName = new StringBuffer();
-            proviewDisplayName.append("eBook ");
-            proviewDisplayName.append(number);
-            proviewDisplayName.append(" of " + (splitTocGuidList.size() + 1));
-            final String text = proviewDisplayName.toString();
-            super.characters(text.toCharArray(), 0, text.length());
-            super.endElement(URI, TITLE_BREAK, TITLE_BREAK);
-            if (!leafNode) {
-                LOG.error("Split at TOC node GUID " + splitNode + " is at an incorrect level");
-                wrongSplitTocNodes.add(splitNode);
-            }
-        }
-
-        leafNode = Boolean.FALSE;
-
-        super.startElement(URI, EBOOK_TOC, EBOOK_TOC, EMPTY_ATTRIBUTES);
-
-        for (final Map.Entry<String, String> entry : elementValueMap.entrySet()) {
-            //Adding Document Info
-            if (entry.getKey().equals(DOCUMENT_GUID)) {
-                leafNode = Boolean.TRUE;
-                final DocumentInfo documentInfo = new DocumentInfo();
-                if (number > 1) {
-                    documentInfo.setSplitTitleId(splitTilteId + "_pt" + number);
-                } else {
-                    documentInfo.setSplitTitleId(splitTilteId);
-                }
-                documentInfoMap.put(entry.getValue(), documentInfo);
-            } else if (entry.getKey().equals(MISSING_DOCUMENT)) {
-                leafNode = Boolean.TRUE;
-            }
-            super.startElement(URI, entry.getKey(), entry.getKey(), EMPTY_ATTRIBUTES);
-            super.characters(entry.getValue().toCharArray(), 0, entry.getValue().length());
-            super.endElement(URI, entry.getKey(), entry.getKey());
-        }
-
-        elementValueMap.clear();
-    }
-
-    private void decideToWrite() throws SAXException {
-        if (!foundMatch) {
-            writeSplitToc(false);
-        } else {
-            writeSplitToc(true);
-            foundMatch = Boolean.FALSE;
-        }
+        Optional.ofNullable(currentNode).ifPresent(node -> node.readValue(ch, start, length));
     }
 
     @Override
     public void endElement(final String uri, final String localName, final String qName) throws SAXException {
-        if (EBOOK_TOC.equals(qName)) {
-            if (elementValueMap.size() > 0) {
-                decideToWrite();
+        switch (qName) {
+            case DOCUMENT_GUID:
+            case MISSING_DOCUMENT:
+                Optional.ofNullable(currentNode).ifPresent(node -> node.handleEndElement(qName));
+                outputXmlPart();
+                break;
+            case NAME:
+            case TOC_GUID:
+                Optional.ofNullable(currentNode).ifPresent(node -> node.handleEndElement(qName));
+                break;
+            case EBOOK:
+            case EBOOK_TOC:
+                super.endElement(uri, localName, qName);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void placeTitleBreak() {
+        placeTextElement(TITLE_BREAK, String.format("eBook %s of %s", ++number, splitTocGuidList.size() + 1));
+    }
+
+    @SneakyThrows
+    private void placeTextElement(final String elementName, final String elementValue) {
+        super.startElement(URI, elementName, elementName, EMPTY_ATTRIBUTES);
+        super.characters(elementValue.toCharArray(), 0, elementValue.length());
+        super.endElement(URI, elementName, elementName);
+    }
+
+    private void saveDocumentInfo(final String documentGuid) {
+        final DocumentInfo documentInfo = new DocumentInfo();
+        documentInfo.setSplitTitleId(number > 1 ? String.format("%s_pt%s", splitTilteId, number) : splitTilteId);
+        documentInfoMap.put(documentGuid, documentInfo);
+    }
+
+    private void defineSplitNode() {
+        final String currentNodeGuid = StringUtils.substring(currentNode.getGuid(), 0, 33);
+        if (splitTocGuidList.contains(StringUtils.substring(currentNodeGuid, 0, 33))) {
+            EBookToc node = currentNode;
+            while (!isAvailableForSplit(node)) {
+                node = node.getPreviousNode();
             }
-            super.endElement(uri, localName, qName);
-        } else if (EBOOK.equals(qName)) {
-            super.endElement(uri, localName, qName);
-        } else {
-            elementValueMap.put(qName, tmpValue.toString());
-            tmpValue = new StringBuffer();
+
+            if (previousTitleBreakUuid == null || node.isSplit) {
+                throw new RuntimeException(String.format(
+                    "Redundant split TOC uuid found: %s, it should be removed since it may cause the empty book part", currentNodeGuid));
+            }
+            node.setSplit(true);
+
+            final String nodeGuid = StringUtils.substring(node.getGuid(), 0, 33);
+            if (!currentNodeGuid.equals(nodeGuid)) {
+                LOG.debug(String.format("Guid %s is non leaf, split point moved to %s", currentNodeGuid, nodeGuid));
+            }
+        }
+    }
+
+    private boolean isAvailableForSplit(final EBookToc node) {
+        final EBookToc parentNode = node.getPreviousNode();
+        return parentNode == null || parentNode.isMissingDocument()
+            || !parentNode.getDocumentGuid().isEmpty() || parentNode.isWritten();
+    }
+
+    private void outputXmlPart() {
+        final Deque<EBookToc> nodesToPrintStack = new LinkedList<>();
+        EBookToc node = currentNode;
+        while (node != null && !node.isWritten()) {
+            nodesToPrintStack.push(node);
+            node = node.getPreviousNode();
+        }
+
+        while (!nodesToPrintStack.isEmpty()) {
+            nodesToPrintStack.pop().outputNodeContent();
+        }
+        //We don't wont to store all chain in memory so we make current node null after output in order that let GC remove objects
+        currentNode = null;
+    }
+
+    @RequiredArgsConstructor
+    private class EBookToc {
+        private final StringBuilder name = new StringBuilder();
+        private final StringBuilder guid = new StringBuilder();
+        private final StringBuilder documentGuid = new StringBuilder();
+        private final StringBuilder missingDocument = new StringBuilder();
+        @Getter
+        private final EBookToc previousNode;
+
+        private Optional<StringBuilder> currentElementBuilder = Optional.empty();
+        @Setter
+        private boolean isSplit;
+        @Getter
+        private boolean isWritten;
+        @Getter
+        private boolean isMissingDocument;
+
+        private void handleStartElement(final String elementName) {
+            switch (elementName) {
+                case NAME:
+                    currentElementBuilder = Optional.of(name);
+                    break;
+                case TOC_GUID:
+                    currentElementBuilder = Optional.of(guid);
+                    break;
+                case DOCUMENT_GUID:
+                    currentElementBuilder = Optional.of(documentGuid);
+                    break;
+                case MISSING_DOCUMENT:
+                    isMissingDocument = true;
+                    currentElementBuilder = Optional.of(missingDocument);
+                    break;
+                default:
+                    currentElementBuilder = Optional.empty();
+                    break;
+            }
+        }
+
+        private void readValue(final char[] text, final int offset, final int length) {
+            currentElementBuilder.ifPresent(builder -> builder.append(text, offset, length));
+        }
+
+        private void handleEndElement(final String elementName) {
+            switch (elementName) {
+                case MISSING_DOCUMENT:
+                    isMissingDocument = true;
+                    break;
+                case DOCUMENT_GUID:
+                    saveDocumentInfo(getDocumentGuid());
+                    break;
+                case TOC_GUID:
+                    defineSplitNode();
+                    break;
+                default:
+                    break;
+            }
+            currentElementBuilder = Optional.empty();
+        }
+
+        @SneakyThrows
+        private void outputNodeContent() {
+            final String tocGuid = getGuid();
+            if (previousTitleBreakUuid == null) {
+                previousTitleBreakUuid = tocGuid;
+            }
+
+            if (isSplit) {
+                placeTitleBreak();
+                LOG.debug(String.format("TitleBreak has been added at %s", tocGuid));
+            }
+
+            SplitBookTocFilter.super.startElement(URI, EBOOK_TOC, EBOOK_TOC, EMPTY_ATTRIBUTES);
+            placeTextElement(NAME, name.toString());
+            placeTextElement(TOC_GUID, tocGuid);
+
+            Optional.of(getDocumentGuid())
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(value -> placeTextElement(DOCUMENT_GUID, value));
+            if (isMissingDocument) {
+                placeTextElement(MISSING_DOCUMENT, missingDocument.toString());
+            }
+
+            isWritten = true;
+        }
+
+        private String getDocumentGuid() {
+            return documentGuid.toString();
+        }
+
+        private String getGuid() {
+            return guid.toString();
         }
     }
 }
