@@ -7,9 +7,17 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.outage.OutageForm"%>
 
+<script type="text/javascript" src="js/shared/dateUtils.js"></script>
 <script>
 $(document).ready(function() {
 	var timeOffset = 300000;
+	
+	var startDateTextBox = $('#startDatetimepicker');
+	var endDateTextBox = $('#endDatetimepicker');
+	if (startDateTextBox.val().length !== 0) {
+		startDateTextBox.val(formatDateFromUTCString(startDateTextBox.val()));
+		endDateTextBox.val(formatDateFromUTCString(endDateTextBox.val()));
+	}
 	
 	<%-- Set up the timepicker TO and FROM date picker UI widget --%>
 	$( "#startDatetimepicker" ).datetimepicker({
@@ -65,6 +73,10 @@ $(document).ready(function() {
 		}
 		
 		if(confirmation) {
+			var startDateTextBox = $('#startDatetimepicker');
+			startDateTextBox.val(startDateTextBox.datetimepicker('getDate').toISOString());
+			var endDateTextBox = $('#endDatetimepicker');
+			endDateTextBox.val(endDateTextBox.datetimepicker('getDate').toISOString())
 			$("#<%= OutageForm.FORM_NAME %>").submit();
 		}
 	});

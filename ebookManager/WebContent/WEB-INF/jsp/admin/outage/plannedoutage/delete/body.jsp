@@ -7,7 +7,12 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.outage.OutageForm"%>
-
+<script type="text/javascript" src="js/shared/dateUtils.js"></script>
+<script>
+$(document).ready(function(){
+	formatDates();
+})
+</script>
 <%-- Check if there is a model to render, if not display error message --%>
 <c:choose>
 	<c:when test="${outage != null}">
@@ -47,10 +52,10 @@
 			<form:hidden path="endTimeString" />
 			Are you sure you want to delete this outage: 
 			<div>
-				Start Date/Time: <fmt:formatDate value="${outage.startTime}" pattern="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
+				Start Date/Time: <span class="toFormatDate"> ${ outage.startTime.toInstant() }</span>
 			</div>
 			<div>
-				End Date/Time: <fmt:formatDate value="${outage.endTime}" pattern="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
+				End Date/Time: <span class="toFormatDate"> ${ outage.endTime.toInstant() }</span>
 			</div>
 			<div class="buttons">
 				<form:button id="delete">Delete</form:button>

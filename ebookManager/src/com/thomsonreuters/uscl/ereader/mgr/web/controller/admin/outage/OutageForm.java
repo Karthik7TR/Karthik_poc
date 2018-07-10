@@ -1,15 +1,14 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.outage;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.Optional;
 
-import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.OutageType;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.mgr.web.UserUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 
 public class OutageForm {
     //private static final Logger log = LogManager.getLogger(OutageForm.class);
@@ -126,23 +125,19 @@ public class OutageForm {
     }
 
     public static String parseDate(final Date date) {
-        if (date != null) {
-            final SimpleDateFormat sdf = new SimpleDateFormat(CoreConstants.DATE_TIME_FORMAT_PATTERN);
-            return sdf.format(date);
-        }
-        return null;
+        return Optional.ofNullable(date)
+            .map(Date::toInstant)
+            .map(instant -> instant.atOffset(ZoneOffset.UTC))
+            .map(Object::toString)
+            .orElse(null);
     }
 
     public static Date parseDate(final String dateString) {
         Date date = null;
-        try {
-            if (StringUtils.isNotBlank(dateString)) {
-                final String[] parsePatterns = {CoreConstants.DATE_TIME_FORMAT_PATTERN};
-                date = DateUtils.parseDate(dateString, parsePatterns);
-            }
-        } catch (final ParseException e) {
-            // Intentionally left blank
+        if (StringUtils.isNotBlank(dateString)) {
+            date = Date.from(Instant.parse(dateString));
         }
         return date;
     }
+
 }

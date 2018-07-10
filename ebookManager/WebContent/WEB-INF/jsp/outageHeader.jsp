@@ -6,6 +6,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
+<script type="text/javascript" src="js/shared/dateUtils.js"></script>
 
 <c:if test="${fn:length(displayOutage) gt 0 }">
 	<c:if test="${ dismissOutage != true }">
@@ -16,6 +17,9 @@
 						$("#outageMessageBox").slideUp("slow");
 					});
 			});
+			$('.toFormatDate').each(function(){
+				$(this).text(formatDateFromUTCString($(this).text().trim()));
+			});
 		});
 		</script>
 		<c:set var="DATE_FORMAT" value="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
@@ -23,8 +27,8 @@
 			<div id="outageMessageHeader">The following schedule indicates an outage for the eBook Generator.</div>
 			<c:forEach items="${displayOutage}" var="plannedOutage" varStatus="status">
 				<div class="outageMessage">
-					Start: <fmt:formatDate value="${plannedOutage.startTime}" pattern="${DATE_FORMAT}"/> 
-					End: <fmt:formatDate value="${plannedOutage.endTime}" pattern="${DATE_FORMAT}"/> 
+					Start: <span class="toFormatDate"> ${ plannedOutage.startTime.toInstant() }</span>
+					End: <span class="toFormatDate"> ${ plannedOutage.endTime.toInstant() }</span> 
 					<c:if test="${plannedOutage.systemImpactDescription != null}">
 						Reason: ${plannedOutage.systemImpactDescription}
 					</c:if>

@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.net.InetSocketAddress;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -274,8 +276,8 @@ public final class OutageControllerTest {
 
     private PlannedOutage setupParametersAndOutage() throws Exception {
         final String outageTypeId = "1";
-        final String startTimeString = "05/30/2012 15:41:55";
-        final String endTimeString = "05/30/2012 15:41:56";
+        final String startTimeString = "2018-07-04T12:03:29.000Z";
+        final String endTimeString = "2018-07-04T12:10:29.000Z";
         final String reason = "test";
 
         request.setParameter("outageTypeId", outageTypeId);
@@ -287,9 +289,8 @@ public final class OutageControllerTest {
         final OutageType type = new OutageType();
         type.setId(Long.valueOf(outageTypeId));
         outage.setOutageType(type);
-        final String[] parsePatterns = {CoreConstants.DATE_TIME_FORMAT_PATTERN};
-        outage.setStartTime(DateUtils.parseDate(startTimeString, parsePatterns));
-        outage.setEndTime(DateUtils.parseDate(endTimeString, parsePatterns));
+        outage.setStartTime(Date.from(Instant.parse(startTimeString)));
+        outage.setEndTime(Date.from(Instant.parse(endTimeString)));
         outage.setReason(reason);
         outage.setOperation(Operation.SAVE);
 

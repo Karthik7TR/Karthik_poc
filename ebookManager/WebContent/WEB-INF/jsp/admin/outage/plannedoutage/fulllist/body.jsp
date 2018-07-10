@@ -6,7 +6,12 @@
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.core.CoreConstants"%>
-
+<script type="text/javascript" src="js/shared/dateUtils.js"></script>
+<script>
+$(document).ready(function(){
+	formatDates();
+})
+</script>
 <div class="centerSection">
 	<c:set var="DATE_FORMAT" value="<%= CoreConstants.DATE_TIME_FORMAT_PATTERN %>"/>
 	<a href="<%=WebConstants.MVC_ADMIN_OUTAGE_CREATE%>">Create Outage Schedule</a>
@@ -24,11 +29,11 @@
 	  	System: ${ vdo.outageType.system } <br/>
 	  	Sub-system: ${ vdo.outageType.subSystem }
 	  </display:column>
-	  <display:column title="Start Date/Time" sortable="true">
-	  	<fmt:formatDate value="${vdo.startTime}" pattern="${DATE_FORMAT}"/>
+	  <display:column title="Start Date/Time" sortable="true" class="toFormatDate">
+	  	${ vdo.startTime.toInstant() }
 	  </display:column>
-	  <display:column title="End Date/Time" sortable="true">
-	  	<fmt:formatDate value="${vdo.endTime}" pattern="${DATE_FORMAT}"/>
+	  <display:column title="End Date/Time" sortable="true" class="toFormatDate">
+	  	${ vdo.endTime.toInstant() }
 	  </display:column>
 	  <display:column title="Reason" property="reason" />
 	  <display:column title="System Impact Description" property="systemImpactDescription" />
@@ -36,8 +41,8 @@
 	  <display:column title="Notification Email Sent?" property="notificationEmailSent" />
 	  <display:column title="All Clear Email Sent?" property="allClearEmailSent" />
 	  <display:column title="Updated By" property="updatedBy" sortable="true" />
-	  <display:column title="Last Updated" sortable="true">
-	  	<fmt:formatDate value="${vdo.lastUpdated}" pattern="${DATE_FORMAT}"/>
+	  <display:column title="Last Updated" sortable="true" class="toFormatDate">
+	  	${ vdo.lastUpdated.toInstant()}
 	  </display:column>
 	</display:table>
 </div>
