@@ -1,0 +1,235 @@
+@import "constants.scss";
+.para_text {
+    text-indent: #{$indent}em;
+    * {
+        display: inline;
+    }
+}
+
+.name {
+    .analytical_hierarchy &,
+    .outline_name_block & {
+        display: inline;
+    }
+    .appendix_front &,
+    .publication>.metadata_block+.publication_body>.part>.front>.outline_name_block>& {
+        display: block;
+        margin-top: #{$indent/2}em;
+    }
+}
+
+.designator {
+    .analytical_hierarchy .front & {
+        margin-right: #{$indent}em;
+    }
+    .section_front & {
+        margin-right: #{$indent/2}em;
+    }
+}
+
+.section_front {
+    display: flex;
+    margin: #{$indent}em 0;
+    .publication>.publication_body>.chapter>.chapter_body>.section_block>.section>& {
+        flex-wrap: wrap;
+    }
+    .analytical_level_body>.section_block>.section>&,
+    .publication>.publication_body>.part>.part_body>.chapter>.chapter_body>.section_block>.section>& {
+        display: block;
+    }
+}
+
+.xref {
+    &:empty {
+        display: none;
+    }
+}
+
+.tbl_name {
+    margin: #{$indent}em auto;
+    width: auto;
+    text-align: center;
+}
+
+table {
+    justify-content: space-between;
+    .signature_block &,
+    .form_para>.tbl & {
+        width: 100%;
+    }
+    &.table_frame_all {
+        border-collapse: collapse;
+        width: 100%;
+        margin-bottom: #{$indent * 2}em;
+    }
+}
+
+thead {
+    text-align: center;
+}
+
+tr {
+    .signature_block &,
+    .form_para>.tbl & {
+        display: flex;
+    }
+}
+
+td {
+    text-align: left;
+    padding: 0 #{$indent}em 0 #{$indent}em;
+    .signature_block &,
+    .form_para>.tbl & {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+    }
+    .section_body thead & {
+        border-bottom: #{$indent / 10}em solid black;
+    }
+    table.table_frame_all & {
+        border: #{$indent / 10}em solid black;
+        div.super {
+            display: inline;
+        }
+    }
+}
+
+td:first-of-type {
+    padding-left: #{$indent / 5}em;
+}
+
+td:last-of-type {
+    padding-right: 0;
+}
+
+td:empty {
+    .section_body thead & {
+        border: none;
+    }
+}
+
+.name_block {
+    margin-right: #{$indent / 2}em;
+    .form_item>& {
+        margin: 0;
+    }
+    .list_item>& {
+        display: inline;
+    }
+    .head>& {
+        margin-left: #{$indent}em;
+        margin-top: #{$indent}em;
+    }
+    .para>.list>.list_item>& {
+        margin-left: #{$indent}em;
+    }
+}
+
+.para_text {
+    .list_item & {
+        text-indent: 0;
+    }
+    .feature_para_block>.name_block+.para>& {
+        display: inline;
+    }
+}
+
+.para {
+    .list_item>&,
+    .list_item>& * {
+        display: inline;
+    }
+    .feature_para_block>.name_block+&,
+    .chapter>.chapter_body>.section_block>.section>.section_body>.para>.tbl>.fixed_footnote_block>.fixed_footnote .footnote_body>& {
+        display: inline;
+    }
+}
+
+.list_item {
+    margin-left: #{$indent}em;
+    display: list-item;
+    list-style: none;
+}
+
+.quote_para {
+    margin: #{$indent}em;
+    text-indent: 0;
+    .section_body>.quote_block>& *,
+    .section_body>.para>.quote_block>& * {
+        text-indent: 0;
+    }
+}
+
+.pocketPartLinkWrapper {
+    height: #{$indent}em;
+    .pocketPartLink {
+        display: block;
+        line-height: #{$indent}em;
+        font-weight: bold;
+        font-size: #{$indent*0.9}em;
+        float: right;
+    }
+}
+
+.reference_entry {
+    .publication>.publication_body>.chapter>.chapter_body>.section_block>.section>.section_front>.research_reference_block>&,
+    .publication>.publication_body>.chapter>.front>.research_reference_block>.reference_entry_group>& {
+        display: block;
+        margin-left: #{$indent}em;
+        text-indent: -#{$indent}em;
+    }
+}
+
+a {
+    .publication_body .generated_toc>.full_toc>.toc_section>.outline_name_block>&,
+    .toc_analytical_level>.toc_section>.outline_name_block>& {
+        display: flex;
+    }
+}
+
+.research_reference_block {
+    .publication .chapter .section>.section_front>.outline_name_block+& {
+        width: 100%;
+    }
+    .analytical_level_body>.section_block>.section>.section_front>&,
+    .publication>.publication_body>.part>.part_body>.chapter>.chapter_body>.section_block>.section>.section_front>& {
+        display: block;
+        margin-top: #{$indent}em;
+    }
+}
+
+ref {
+    .reference_entry>.ref_text>.cite>& {
+        display: block;
+        text-indent: -#{$indent}em;
+        margin-left: #{$indent}em;
+    }
+    .chapter_body .section_front>.research_reference_block .reference_entry>.ref_text>.cite>& {
+        margin-left: 0;
+    }
+    .publication>.publication_body>.part>.part_body>.chapter>.chapter_body>.section_block>.section>.section_front>.research_reference_block>.reference_entry>.ref_text>.cite>& {
+        margin-left: #{$indent}em;
+    }
+}
+
+.feature_para_block {
+    margin: #{$indent}em;
+}
+
+.xentry * {
+    color: transparent;
+}
+
+.xentry {
+    display: flex;
+    flex-direction: column;
+    border-right: #{$indent*0.1}em solid;
+    border-radius: #{$indent}em;
+}
+
+.font_section_reserved,
+.font_section_reserved_1 {
+    display: inline !important;
+}

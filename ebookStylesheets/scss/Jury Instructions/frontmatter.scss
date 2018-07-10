@@ -1,0 +1,48 @@
+@import "~/constants";
+table {
+    .fm_other_structure>& {
+        margin: auto;
+    }
+}
+
+tr {
+    .fm_other_structure & {
+        vertical-align: baseline;
+    }
+}
+
+.underscore {
+    text-decoration: underline;
+}
+
+.textrule {
+    .fm_related_products & {
+        border-bottom: #{$indent*0.05}em solid;
+        margin: #{$indent}em auto;
+        width: 15%;
+    }
+}
+
+.column .fm_other_structure td>.leader,
+.column .fm_other_structure td>.leader>.fillchar {
+    display: inline;
+}
+
+td {
+    .column .fm_other_structure &:nth-child(2) {
+        white-space: pre-wrap;
+    }
+    .column .fm_other_structure & {
+        white-space: nowrap;
+    }
+}
+
+.endline {
+    display: block !important;
+}
+
+.name_block {
+    .fm_other_structure>.l>& {
+        margin-left: 0;
+    }
+}

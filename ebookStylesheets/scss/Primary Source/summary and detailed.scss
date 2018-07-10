@@ -1,0 +1,139 @@
+@import "~/constants";
+.t {
+    .toc_primary_hierarchy>.primary_outline_name_block>.label+&,
+    .toc_primary_hierarchy>.primary_outline_name_block>.designator+& {
+        width: auto;
+    }
+    .toc_primary_source .xref+& {
+        margin-left: #{$indent}em;
+    }
+}
+
+.primary_outline_name_block {
+    .toc_primary_source & {
+        margin-top: #{$indent*0.5}em;
+        display: flex;
+        align-items: baseline;
+    }
+    .toc_primary_hierarchy>&,
+    {
+        display: flex;
+        width: 100%;
+    }
+    .toc_primary_hierarchy>& {
+        margin-top: #{$indent}em;
+    }
+    .primary_source_body>.primary_hierarchy>.primary_hierarchy_front>.generated_toc>.full_toc>.toc_primary_section>a>& {
+        display: flex;
+    }
+}
+
+.outline_name_block {
+    .toc_primary_hierarchy .toc_appendix>& {
+        display: flex;
+        width: 100%;
+    }
+    .toc_primary_source .toc_appendix>a>& {
+        flex-grow: 1;
+    }
+}
+
+.primary_name {
+    display: inline-flex;
+    align-items: baseline;
+    flex-wrap: nowrap;
+    width: 100%;
+    white-space: nowrap;
+    justify-content: space-between;
+    .toc_primary_source & {
+        white-space: pre-wrap;
+    }
+    .toc_primary_section>.primary_outline_name_block>& {
+        display: inline-block;
+        justify-content: initial;
+    }
+    .primary_source_body>.primary_hierarchy>.primary_hierarchy_front>.generated_toc>.full_toc>.toc_primary_section>a>.primary_outline_name_block>& {
+        width: initial;
+    }
+}
+
+.designator {
+    .primary_outline_name_block>& {
+        margin-right: #{$indent*0.5}em;
+        min-width: #{$indent*3}em;
+    }
+    .toc_primary_hierarchy>.primary_outline_name_block>& {
+        margin-right: #{$indent*0.5}em;
+        min-width: 0;
+    }
+    .summary_toc .toc_appendix_block>.toc_appendix>.outline_name_block>& {
+        min-width: 0;
+    }
+    .toc_primary_source .toc_primary_hierarchy>a>.primary_outline_name_block>& {
+        min-width: 0;
+    }
+    .primary_section_body>.primary_features>.editorial_commentary_block>.editorial_commentary_block_front>.generated_toc>.full_toc>.toc_editorial_commentary_section>a>.editorial_outline_name_block>& {
+        margin-right: #{$indent}em;
+    }
+    .editorial_commentary_section_front>.editorial_outline_name_block>& {
+        margin-right: #{$indent}em;
+    }
+    .toc_primary_section>.toc_editorial_commentary_section>a>.editorial_outline_name_block>& {
+        min-width: #{$indent * 3.2}em;
+    }
+}
+
+.toc_editorial_commentary_section {
+    .toc_primary_section>& * {
+        display: inline;
+        margin: 0;
+    }
+}
+
+.toc_appendix {
+    .toc_primary_source>.toc_appendix_block>& {
+        width: 100%;
+    }
+}
+
+.name {
+    .toc_primary_hierarchy>.toc_appendix_block>.toc_appendix>.outline_name_block & {
+        width: 100%;
+    }
+    .toc_primary_source .toc_primary_section>a>.primary_outline_name_block>.primary_name>& {
+        flex-grow: 1;
+    }
+    .toc_primary_source .toc_appendix>a>.outline_name_block>& {
+        flex-grow: 1;
+    }
+}
+
+a {
+    .toc_primary_source .toc_appendix>& {
+        display: flex;
+        flex-grow: 1;
+    }
+}
+
+.label {
+    .toc_primary_source .primary_outline_name_block>& {
+        margin-right: #{$indent*0.5}em;
+    }
+}
+
+.editorial_outline_name_block {
+    .toc_primary_hierarchy>.toc_primary_section>.toc_editorial_commentary_section>a>& {
+        display: inline;
+        margin-left: #{$indent*1.2}em;
+    }
+    .toc_primary_section>.toc_editorial_commentary_section>a>& {
+        display: flex;
+        margin-left: 1.2em;
+    }
+    .editorial_commentary_section_front>& {
+        display: flex;
+    }
+    .primary_section_body>.primary_features>.editorial_commentary_block>.editorial_commentary_block_front>.generated_toc>.full_toc>.toc_editorial_commentary_section>a>& {
+        display: flex;
+    }
+}

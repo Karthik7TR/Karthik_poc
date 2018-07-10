@@ -1,0 +1,17 @@
+.cgt {
+    .rutter_chapter & {
+        white-space: pre;
+    }
+    .toc_rutter_form_doc .name~&,
+    .rutter_chapter .generated_toc>.full_toc .name~& {
+        display: none;
+    }
+    .toc_rutter_form_doc .name~&:last-of-type,
+    .toc_rw_hierarchy .outline_name_block>&:nth-last-of-type(2),
+    .toc_rutter_form_doc .outline_name_block>&:nth-last-of-type(2),
+    .rutter_chapter .generated_toc>.full_toc .name~&:last-of-type,
+    .rutter_chapter .generated_toc>.full_toc .name~&:nth-last-of-type(2),
+    .rutter_chapter .generated_toc>.full_toc .name~.xref+& {
+        display: block;
+    }
+}

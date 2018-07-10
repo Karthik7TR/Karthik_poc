@@ -1,0 +1,11 @@
+.columns {
+    width: 100%;
+    display: flex;
+}
+
+.column {
+    padding-left: #{$indent}em;
+    padding-right: #{$indent}em;
+    flex-grow: 1;
+    flex-basis: 0;
+}

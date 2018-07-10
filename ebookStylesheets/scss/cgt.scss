@@ -1,0 +1,66 @@
+.cgt {
+    .leaveout &,
+    .fixed_footnote_reference &,
+    .form_line &,
+    .form_vertical_space &,
+    .form_line>.leaveout &,
+    .front &,
+    .ref &,
+    .name_block &,
+    .outline_name_block>.designator &,
+    .outline_name_block>.name &,
+    .para_text>.ref &,
+    .entry &,
+    .stat_text &,
+    .tgroup>.tbody,
+    .outline_name_block>.label &,
+    .outline_name_block>a>.label &,
+    .toc_chapter>.outline_name_block>&,
+    .toc_chapter>a>.outline_name_block>&,
+    .footnote_reference>&,
+    .mte2>&,
+    sup &,
+    thead>tr>td>&,
+    tbody &,
+    .generated_case_tbl .int_ref_list>&,
+    .research_reference_block>&,
+    .appendix_block>.appendix>.appendix_body>.stat_structure>.stat_title>.stat_chapter>.stat_article>.stat_section_reserved &,
+    .toc_appendix_reserved>a~&,
+    .publication>.publication_back>.appendix_block>.appendix_reserved>.outline_name_block+&,
+    .full_toc>.toc_chapter .outline_name_block>.label+&,
+    .full_toc>.toc_chapter .outline_name_block>.name>&:first-child,
+    .full_toc>.toc_chapter .outline_name_block>.designator>&:nth-child(2),
+    .full_toc>.toc_chapter_reserved .outline_name_block>.designator>&:nth-child(2),
+    .full_toc>.toc_chapter_reserved .outline_name_block>& {
+        display: inline;
+    }
+    .signature_group>.form_line &,
+    .summary_toc>&,
+    .footnote>&,
+    .toc_volbreak>&,
+    .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .name~&:last-of-type {
+        display: block;
+    }
+    .entry .leaveout+&,
+    .entry &+&,
+    .name_block>.designator+&,
+    .toc_analytical_hierarchy &,
+    .stat_head .name_block &,
+    .full_toc .designator+&,
+    .generated_lrre_tbl .int_ref_list>&,
+    .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block>&:last-of-type,
+    .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .name~&,
+    .toc_wrapper>.generated_toc>.full_toc>.toc_chapter>a>.outline_name_block>.name~&,
+    .section_front>.outline_name_block>.name>&:first-child,
+    .full_toc>.toc_chapter_reserved .outline_name_block>.label+& {
+        display: none;
+    }
+    .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .name~& {
+        flex-grow: 1;
+        flex-shrink: 1;
+    }
+    .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .label+& {
+        display: inline !important;
+        white-space: pre;
+    }
+}

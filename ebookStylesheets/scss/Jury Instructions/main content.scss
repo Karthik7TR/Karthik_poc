@@ -1,0 +1,149 @@
+@import "~/constants";
+.pji_name {
+    display: inline;
+    .pji_note_group & {
+        display: block;
+        text-align: center;
+    }
+    .pji_section_front .pji_outline_name_block>& {
+        display: inline;
+    }
+    .pji_instruction_body .pji_reference_block>& {
+        text-align: initial;
+        margin-left: 0;
+    }
+    .pji_instruction_body & {
+        text-align: center;
+        margin: #{$indent * 0.5}em;
+    }
+    .pattern_jury_instruction_body .pji_verdict_section_body .pji_references>& {
+        display: block;
+        text-align: center;
+        margin: #{$indent * 0.5}em;
+    }
+}
+
+.designator {
+    .pji_outline_name_block>& {
+        margin-right: #{$indent}em;
+    }
+    .toc_pji_instruction_section & {
+        margin-right: #{$indent}em;
+    }
+    .toc_pji_info_section & {
+        margin-right: #{$indent}em;
+    }
+    .toc_pji_verdict_section & {
+        margin-right: #{$indent}em;
+    }
+    .pji_section_front .pji_outline_name_block>& {
+        margin-right: #{$indent}em;
+    }
+    .pji_verdict_section_body>.verdict_form>.charge_para>.designator {
+        width: #{$indent*2}em;
+    }
+}
+
+.name {
+    .pji_name>& {
+        display: inline;
+    }
+    .pji_section_front .pji_outline_name_block>.pji_name>& {
+        display: inline;
+    }
+}
+
+.charge_para {
+    .pji_instruction_body & {
+        margin-bottom: #{$indent}em;
+    }
+    .pji_verdict_section_body>.verdict_form>& {
+        display: flex;
+    }
+}
+
+.pji_outline_name_block {
+    .toc_pji_hierarchy>a>& {
+        margin: #{$indent}em auto;
+        text-align: center;
+    }
+    .toc_pji_instruction_section & {
+        display: flex;
+    }
+    .toc_pji_info_section & {
+        display: flex;
+    }
+    .toc_pji_verdict_section & {
+        display: flex;
+    }
+    .pji_section_front & {
+        display: block;
+        margin-bottom: #{$indent}em;
+    }
+    .pattern_jury_instruction_body .pji_info_section .pji_section_front>& {
+        text-align: center;
+        margin: #{$indent * 0.5}em;
+    }
+}
+
+.toc_pji_instruction_section,
+.toc_pji_info_section,
+.toc_pji_verdict_section {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline; // flex-wrap: wrap;
+}
+
+.pji_para {
+    .pji_instruction_body .pji_reference_block>& {
+        margin-left: #{$indent}em;
+    }
+    .pji_instruction_body .pji_note_group>& {
+        margin-bottom: #{$indent * 0.5}em;
+    }
+    .pattern_jury_instruction_body .pji_verdict_section_body .pji_reference_block>& {
+        margin-left: #{$indent}em;
+    }
+}
+
+.list_item {
+    .pji_instruction_body .pji_note_group & {
+        margin-bottom: #{$indent * 0.5}em;
+    }
+}
+
+.name_block {
+    .pji_instruction_body .pji_note_group>.head>& {
+        margin-left: 0;
+        margin-bottom: #{$indent * 0.5}em;
+        margin-top: 0;
+    }
+}
+
+.pji_note_group {
+    margin-top: #{$indent}em;
+}
+
+.point {
+    .pji_para & {
+        display: inline;
+    }
+}
+
+.charge_text {
+    .pji_verdict_section_body>.verdict_form>.charge_para>& {
+        margin-bottom: #{$indent}em;
+    }
+    .pji_verdict_section_body>.verdict_form>.charge_para>&:first-child {
+        margin-left: #{$indent*2}em;
+    }
+    .pji_verdict_section_body>.verdict_form>.charge_para:first-child>&:first-child {
+        margin-left: 0;
+    }
+}
+
+.tbl {
+    .pji_verdict_section_body>.verdict_form>& {
+        margin-bottom: #{$indent*2}em;
+    }
+}

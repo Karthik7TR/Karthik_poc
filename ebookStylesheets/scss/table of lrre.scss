@@ -1,0 +1,82 @@
+@import "constants.scss";
+.main_head {
+    .generated_lrre_tbl & {
+        text-align: center;
+        margin-bottom: #{$indent}em;
+        margin-top: #{$indent * 1.5}em;
+    }
+}
+
+.metadata_block {
+    .generated_lrre_tbl>& {
+        display: block;
+        text-align: center;
+        margin-bottom: #{$indent * 2}em;
+    }
+}
+
+.tbl_row {
+    .generated_lrre_tbl & {
+        display: flex;
+    }
+    .generated_lrre_tbl & * {
+        display: inline;
+    }
+    .generated_lrre_tbl>.tbl_unit:first-child>&:first-child {
+        flex-wrap: wrap;
+    }
+    section>.generated_finding_aids_tables>.generated_lrre_tbl>.tbl_unit>& {
+        margin-bottom: #{$indent * 1.5}em;
+        display: block;
+        text-align: center;
+    }
+}
+
+.tbl_row:first-of-type {
+    .generated_lrre_tbl & {
+        flex-wrap: wrap;
+    }
+}
+
+.tbl_row_ref {
+    .generated_lrre_tbl & {
+        display: block;
+        flex-shrink: 0;
+    }
+}
+
+.int_ref_list {
+    .generated_lrre_tbl & {
+        display: inline;
+        flex-grow: 1;
+        text-align: right;
+    }
+}
+
+.mte3 {
+    .generated_lrre_tbl &,
+    .generated_lrre_tbl & * {
+        display: flex !important;
+        width: 100%;
+        white-space: nowrap;
+    }
+}
+
+.col_head {
+    .generated_lrre_tbl & {
+        display: flex;
+        justify-content: space-between;
+    }
+    .generated_lrre_tbl .tbl_row+& {
+        margin-top: #{$indent}em;
+    }
+}
+
+.t {
+    .generated_lrre_tbl .int_ref+& {
+        white-space: pre-wrap;
+    }
+    .generated_lrre_tbl .mte3>&:nth-of-type(2) {
+        justify-content: flex-end;
+    }
+}

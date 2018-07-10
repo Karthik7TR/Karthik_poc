@@ -1,0 +1,139 @@
+@import "~/constants";
+.name {
+    .mixed_pub_types .mixed_hierarchy>.front>.outline_name_block>& {
+        display: block;
+    }
+    .mixed_pub_types .primary_hierarchy_body>.primary_section>.primary_section_body>.primary_features>.editorial_commentary>.editorial_name_block>& {
+        text-align: center;
+    }
+}
+
+.primary_outline_name_block {
+    .mixed_pub_types .mixed_hierarchy_body>.primary>.primary_source>.primary_source_body>.primary_hierarchy>.primary_hierarchy_front & {
+        text-align: initial;
+    }
+    .mixed_pub_types .mixed_hierarchy_body>.primary>.primary_source>.primary_source_body>.primary_hierarchy>.primary_hierarchy_front .full_toc>.toc_primary_hierarchy & {
+        display: flex;
+    }
+    .mixed_pub_types .mixed_hierarchy_body>.primary .full_toc .toc_primary_hierarchy>a>& {
+        display: block !important;
+    }
+    .mixed_pub_types .primary_hierarchy_front>.generated_toc>.full_toc>.toc_primary_section>a>& {
+        display: flex;
+    }
+    .mixed_pub_types .primary_features>.decisions>.blueline>& {
+        text-align: center;
+    }
+    .mixed_pub_types .mixed_hierarchy_body .primary_hierarchy_body .primary_section>.primary_section_front>& {
+        display: flex;
+    }
+    .mixed_pub_types .primary_hierarchy_body>.primary_section>a>.primary_section_front>& {
+        text-align: center;
+    }
+    .mixed_pub_types .primary_features>.decisions>.blueline>& * {
+        display: inline;
+    }
+}
+
+.primary_name {
+    .mixed_pub_types .mixed_hierarchy_body>.primary>.primary_source>.primary_source_body>.primary_hierarchy>.primary_hierarchy_front>.generated_toc .primary_outline_name_block & {
+        display: inline;
+    }
+    .mixed_pub_types .mixed_hierarchy_body>.primary>.primary_source>.primary_source_body>.primary_hierarchy>.primary_hierarchy_front .primary_outline_name_block & {
+        display: inline;
+    }
+    .mixed_pub_types .primary_features>.official_commentary>.primary_name_block>& {
+        display: inline;
+        white-space: initial;
+    }
+    .mixed_pub_types>.mixed_hierarchy>.mixed_hierarchy_body>.primary>.primary_source>.primary_source_body>.primary_hierarchy>.primary_hierarchy_front>.primary_outline_name_block>& {
+        display: block;
+    }
+    .mixed_pub_types .mixed_hierarchy_body .primary_hierarchy_body .primary_section>.primary_section_front>.primary_outline_name_block>& {
+        margin-left: #{$indent}em;
+    }
+    .mixed_pub_types .toc_blueline>.primary_outline_name_block>& {
+        width: initial;
+        margin-right: #{$indent * 0.5}em;
+    }
+}
+
+.t {
+    .mixed_pub_types .mixed_hierarchy_body>.primary>.primary_source>.primary_source_body>.primary_hierarchy>.primary_hierarchy_front .primary_outline_name_block .primary_name & {
+        display: inline;
+        white-space: initial;
+    }
+}
+
+.toc_primary_hierarchy {
+    .mixed_pub_types .mixed_hierarchy_body>.primary>.primary_source>.primary_source_body>.primary_hierarchy>.primary_hierarchy_front>.generated_toc & {
+        margin-top: #{$indent}em;
+    }
+}
+
+.designator {
+    .mixed_pub_types .mixed_hierarchy_body>.primary>.primary_source>.primary_source_body>.primary_hierarchy>.primary_hierarchy_front>.generated_toc .toc_primary_hierarchy>.primary_outline_name_block>&,
+    .mixed_pub_types .mixed_hierarchy_body>.primary>.primary_source>.primary_source_body>.primary_hierarchy>.primary_hierarchy_front>.generated_toc .toc_primary_hierarchy>a>.primary_outline_name_block>& {
+        min-width: 0;
+    }
+}
+
+.stat_subsect {
+    .mixed_pub_types .primary_section_body>.primary_official_content>& {
+        padding: 0;
+    }
+}
+
+.para_text {
+    .mixed_pub_types .primary_features>.primary_notes>.primary_para>& {
+        text-indent: 0;
+    }
+    .mixed_pub_types .editorial_commentary>.para>.quote_block>.quote_para>& {
+        text-indent: 0;
+    }
+}
+
+.primary_name_block {
+    .mixed_pub_types .primary_features>.official_commentary>& {
+        text-align: center;
+    }
+}
+
+.reference_entry {
+    .mixed_pub_types .primary_section_body>.primary_features>.primary_references>.research_reference_block>.reference_entry_group>& {
+        display: block;
+    }
+    .mixed_pub_types .chapter_body .section_front>.research_reference_block>& {
+        display: block;
+    }
+}
+
+.mixed_pub_types .primary_official_content {
+    margin-top: #{$indent}em;
+}
+
+.keycite_box {
+    border: #{$indent * 0.1}em solid;
+    padding: #{$indent * 0.05}em #{$indent * 0.5}em;
+    margin: #{$indent * 0.5}em;
+    padding-left: #{$indent * 2.3}em;
+    text-indent: #{$indent * -2}em;
+}
+
+.name_block {
+    .mixed_pub_types .l>& {
+        margin-left: 0 !important;
+    }
+}
+
+.section_front {
+    .mixed_pub_types .chapter_body & {
+        display: block;
+    }
+}
+
+.stat_name_block {
+    .mixed_pub_types>.mixed_hierarchy>.mixed_hierarchy_body>.primary>.primary_source>.primary_source_body>.primary_hierarchy>.primary_hierarchy_body>.stat_structure>.stat_article>.stat_section>& {
+        float: none;
+    }
+}

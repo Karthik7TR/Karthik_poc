@@ -1,0 +1,45 @@
+@import "~/constants";
+.outline_name_block {
+    .mixed_pub_types .generated_toc>.full_toc>.toc_mixed_hierarchy & {
+        display: block;
+        text-align: center;
+    }
+    .mixed_pub_types .generated_toc>.full_toc>.toc_mixed_hierarchy .toc_chapter>.toc_section>a>&,
+    .mixed_pub_types .generated_toc>.full_toc>.toc_mixed_hierarchy .toc_primary_hierarchy>.toc_section>a>& {
+        text-align: initial;
+    }
+}
+
+.primary_outline_name_block {
+    .mixed_pub_types .generated_toc>.full_toc>.toc_mixed_hierarchy .toc_primary_hierarchy>a>&,
+    .mixed_pub_types .generated_toc>.full_toc>.toc_mixed_hierarchy .toc_primary_hierarchy>& {
+        display: block;
+    }
+}
+
+.label {
+    .mixed_pub_types .toc_mixed_hierarchy .outline_name_block>& {
+        display: inline;
+    }
+    .mixed_pub_types .toc_mixed_hierarchy & {
+        margin-right: #{$indent * 0.5}em;
+    }
+    .mixed_pub_types .generated_toc>.full_toc>.toc_mixed_hierarchy .toc_chapter>.toc_section>a>.outline_name_block>&,
+    .mixed_pub_types .generated_toc>.full_toc>.toc_mixed_hierarchy .toc_primary_hierarchy>.toc_section>a>.outline_name_block>& {
+        margin-right: 0;
+    }
+}
+
+.designator {
+    .mixed_pub_types .toc_mixed_hierarchy & {
+        margin-right: #{$indent * 0.5}em;
+    }
+}
+
+.primary_name {
+    .mixed_pub_types .generated_toc>.full_toc>.toc_mixed_hierarchy .toc_primary_hierarchy>a>.primary_outline_name_block>&,
+    .mixed_pub_types .generated_toc>.full_toc>.toc_mixed_hierarchy .toc_primary_hierarchy>.primary_outline_name_block>& {
+        width: initial;
+        display: inline;
+    }
+}
