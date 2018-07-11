@@ -74,7 +74,7 @@
           target: -compress_tar
           description: Compress the files, to be distributed, in a TAR file.
          - - - - - - - - - - - - - - - - - -->
-  <target name="tar" description="Compress the deliverable into a tar ball for deployment.">
+  <target name="-tar" description="Compress the deliverable into a tar ball for deployment.">
     <tar longfile="gnu" destfile="${dir.standalone}/${tarFile}">
       <tarfileset filemode="777" dir="${dir.dist}">
       </tarfileset>
