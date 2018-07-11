@@ -17,7 +17,7 @@
 	</path>
 
   <target name="normal_build" description="Normal build for the ebookStylesheets project"
-          depends="-init, -stage_files">
+          depends="-init, -stage_files,-tar">
     <echo level="info" message="Normal (aka Non-Coverage) build has completed." />
   </target>
 
