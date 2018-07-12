@@ -1,5 +1,8 @@
 <root xmlns="http://www.sdl.com/xpp">
 	<pagebreak num="Tbl of L&amp;ampR-1" serial-num="1"/>
+	    <main.head>
+	    	<t style="main.head">United States Constitution</t>
+	    </main.head>
 	<page.number.ref page-number="Tbl of L&amp;ampR-1"/>
 	<pagebreak num="Tbl of L&amp;ampR-2" serial-num="2"/>
 	<pagebreak num="Tbl of L&amp;ampR-3" serial-num="3"/>
@@ -41,27 +44,6 @@
 				</main.head>
 				<columns/>
 				<column/>
-				<col.head>
-					<leader.fill/>
-					<t style="col.head">Sec.</t>
-				</col.head>
-				<tbl.row>
-					<tbl.row.ref>
-						<t style="tbl.row.ref">Art. I, </t>
-						<t style="tbl.row.ref cgt">§ </t>
-						<t style="tbl.row.ref">8</t>
-					</tbl.row.ref>
-					<int.ref.list>
-						<t style="int.ref.list cgt">.</t>
-						<int.ref citeas="n/a_9:1_n/a">
-							<t style="int.ref">9:1</t>
-						</int.ref>
-						<t style="int.ref.list">, </t>
-						<int.ref citeas="n/a_11:32_n/a">
-							<t style="int.ref">11:32</t>
-						</int.ref>
-					</int.ref.list>
-				</tbl.row>
 			</tbl.unit>
 			<tbl.unit>
 				<endcolumn/>
@@ -71,51 +53,39 @@
 				</main.head>
 				<columns/>
 				<column/>
-				<col.head>
-					<t style="col.head">Sec.</t>
-					<leader.fill/>
-					<t style="col.head">Sec.</t>
-				</col.head>
-				<tbl.row>
-					<tbl.row.ref>
-						<t style="tbl.row.ref">1983</t>
-					</tbl.row.ref>
-					<int.ref.list>
-						<t style="int.ref.list cgt">.</t>
-						<int.ref citeas="n/a_9:2_n/a">
-							<t style="int.ref">9:2</t>
-						</int.ref>
-					</int.ref.list>
-				</tbl.row>
 			</tbl.unit>
 			<tbl.unit>
 				<endcolumn/>
 				<column/>
 				<endcolumn/>
 				<endcolumns/>
+                <pagebreak num="Tbl of L&amp;ampR-21" serial-num="21"/>
+                <pagebreak num="Tbl of L&amp;ampR-22" serial-num="22"/>
+                <pagebreak num="Tbl of L&amp;ampR-23" serial-num="23"/>
+                <pagebreak num="Tbl of L&amp;ampR-24" serial-num="24"/>
+                <pagebreak num="Tbl of L&amp;ampR-25" serial-num="25"/>
+                <pagebreak num="Tbl of L&amp;ampR-26" serial-num="26"/>
+                <pagebreak num="Tbl of L&amp;ampR-27" serial-num="27"/>
+                <pagebreak num="Tbl of L&amp;ampR-28" serial-num="28"/>
+                <pagebreak num="Tbl of L&amp;ampR-29" serial-num="29"/>
+                <pagebreak num="Tbl of L&amp;ampR-30" serial-num="30"/>
+                <pagebreak num="Tbl of L&amp;ampR-31" serial-num="31"/>
+                <pagebreak num="Tbl of L&amp;ampR-32" serial-num="32"/>
+                <pagebreak num="Tbl of L&amp;ampR-33" serial-num="33"/>
+                <pagebreak num="Tbl of L&amp;ampR-34" serial-num="34"/>
+                <pagebreak num="Tbl of L&amp;ampR-35" serial-num="35"/>
+                <pagebreak num="Tbl of L&amp;ampR-36" serial-num="36"/>
+                <pagebreak num="Tbl of L&amp;ampR-37" serial-num="37"/>
+                <pagebreak num="Tbl of L&amp;ampR-38" serial-num="38"/>
+                <pagebreak num="Tbl of L&amp;ampR-39" serial-num="39"/>
+                <pagebreak num="Tbl of L&amp;ampR-40" serial-num="40"/>
 				<main.head>
-					<pagebreak num="Tbl of L&amp;ampR-21" serial-num="21"/>
+					<pagebreak num="Tbl of L&amp;ampR-41" serial-num="41"/>
 					<t style="main.head">statute-us-ny-law-judctacts not in Format </t>
 					<t style="main.head">Table</t>
 				</main.head>
 				<columns/>
 				<column/>
-				<col.head>
-					<t style="col.head">none</t>
-					<leader.fill/>
-					<t style="col.head">Sec.</t>
-				</col.head>
-				<tbl.row>
-					<tbl.row.ref>
-						<t style="tbl.row.ref">522</t>
-					</tbl.row.ref>
-					<int.ref.list>
-						<t style="int.ref.list cgt">.</t>
-						<int.ref citeas="n/a_4:55_n/a">
-							<t style="int.ref">4:55</t>
-						</int.ref>
-					</int.ref.list>
-				</tbl.row>
 			</tbl.unit>
 			<tbl.unit>
 				<endcolumn/>
@@ -128,22 +98,6 @@
 				</main.head>
 				<columns/>
 				<column/>
-				<col.head>
-					<t style="col.head">none</t>
-					<leader.fill/>
-					<t style="col.head">Sec.</t>
-				</col.head>
-				<tbl.row>
-					<tbl.row.ref>
-						<t style="tbl.row.ref">522</t>
-					</tbl.row.ref>
-					<int.ref.list>
-						<t style="int.ref.list cgt">.</t>
-						<int.ref citeas="n/a_4:55_n/a">
-							<t style="int.ref">4:55</t>
-						</int.ref>
-					</int.ref.list>
-				</tbl.row>
 			</tbl.unit>
 		</generated.lrre.tbl>
 	</generated.finding.aids.tables>

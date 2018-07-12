@@ -25,7 +25,6 @@ public final class TransformationCommand {
         this.outputFile = outputFile;
     }
 
-    @NotNull
     public File getInputFile() {
         return inputFile;
     }
@@ -34,7 +33,6 @@ public final class TransformationCommand {
         this.inputFile = inputFile;
     }
 
-    @NotNull
     public Collection<File> getInputFiles() {
         return inputFiles;
     }
