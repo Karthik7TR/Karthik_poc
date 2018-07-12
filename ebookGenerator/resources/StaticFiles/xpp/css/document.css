@@ -681,6 +681,11 @@ td:last-of-type {
   padding-left: 1em;
 }
 
+.frontmatter > .fm_highlights > .pre_leading_12q > .list {
+  display: block;
+  text-indent: 1em;
+}
+
 .frontmatter > .trImageContainer > .imageWrapper {
   width: 15em;
 }
@@ -773,6 +778,10 @@ tbody .cgt,
 .toc_wrapper > .generated_toc > .summary_toc > .toc_chapter > a > .outline_name_block .label + .cgt {
   display: inline !important;
   white-space: pre;
+}
+
+.frontmatter > .fm_other_structure > .fm_text_box > .text_line > span.font_text_line_8.cgt {
+  display: inline;
 }
 
 .full_toc .name *,

@@ -86,6 +86,10 @@
     .frontmatter .fm_highlights .pre_leading_2>.list>.list_item>& {
         padding-left: #{$indent}em;
     }
+    .frontmatter>.fm_highlights>.pre_leading_12q>& {
+        display: block;
+        text-indent: #{$indent}em;
+    }
 }
 
 .frontmatter>.trImageContainer>.imageWrapper {
