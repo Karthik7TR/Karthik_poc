@@ -1,0 +1,28 @@
+<project name="SCM_RemoteCmd" default="SSHEXEC">
+
+  <!--
+General Use ANT Script - DO NOT ALTER!!  
+
+If you need a custom designed scripted, make a copy of this script and place it in a unique directory 
+before making modifications
+-->
+
+
+
+   <property name="SCMserver" value=""/>
+   <property name="SCMusername" value=""/>
+   <property name="SCMpassword" value=""/>
+   <property name="SCMcommand" value=""/> 
+    
+  <target name="SSHEXEC" > 
+  <sshexec host="${SCMserver}"
+	username="${SCMusername}"
+	password="${SCMpassword}"
+	trust="true"
+	command="${SCMcommand}"/>
+ 
+
+
+  </target>
+
+</project>
