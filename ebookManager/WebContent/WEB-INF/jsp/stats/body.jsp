@@ -43,20 +43,21 @@
 		sort="external">
 	  <display:setProperty name="basic.msg.empty_list">No records found.</display:setProperty>
 	  <display:setProperty name="paging.banner.onepage" value=" " />
-	  
-	  <display:column title="jobSubmitTimestamp" property="jobSubmitTimestamp" sortable="true" sortProperty="<%= DisplayTagSortProperty.JOB_SUBMIT_TIMESTAMP.toString() %>"/>
-	  <display:column title="jobInstanceId" sortable="true" sortProperty="<%= DisplayTagSortProperty.JOB_INSTANCE_ID.toString() %>">
+	  <display:column title="ProView Display Name" property="audit.proviewDisplayName" sortable="true" sortProperty="<%= DisplayTagSortProperty.PROVIEW_DISPLAY_NAME.toString() %>" />
+	  <display:column title="Book Definition ID" property="ebookDefId" sortable="true" sortProperty="<%= DisplayTagSortProperty.EBOOK_DEFINITION_ID.toString() %>"/>
+	  <display:column title="Job Submit Timestamp" property="jobSubmitTimestamp" sortable="true" sortProperty="<%= DisplayTagSortProperty.JOB_SUBMIT_TIMESTAMP.toString() %>"/>
+	  <display:column title="Job Instance ID" sortable="true" sortProperty="<%= DisplayTagSortProperty.JOB_INSTANCE_ID.toString() %>">
 	  	<a href="<%=WebConstants.MVC_JOB_INSTANCE_DETAILS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${stats.jobInstanceId}">${stats.jobInstanceId}</a>
 	  </display:column>
-	  <display:column title="titleId" sortable="true" sortProperty="<%= DisplayTagSortProperty.TITLE_ID.toString() %>">
+	  <display:column title="Title ID" sortable="true" sortProperty="<%= DisplayTagSortProperty.TITLE_ID.toString() %>">
 	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${stats.ebookDefId}">${ stats.audit.titleId }</a>
 	  </display:column>
 	  <display:column title="Book Version" property="bookVersionSubmitted" />
-	  <display:column title="publishStatus" property="publishStatus" sortable="true" sortProperty="<%= DisplayTagSortProperty.PUBLISH_STATUS.toString() %>"/>
-	  <display:column title="bookSize" property="bookSize" sortable="true" sortProperty="<%= DisplayTagSortProperty.BOOK_SIZE.toString() %>" />
-	  <display:column title="largestDocSize" property="largestDocSize"  sortable="true" sortProperty="<%= DisplayTagSortProperty.LARGEST_DOC_SIZE.toString() %>"/>
-	  <display:column title="largestImageSize" property="largestImageSize" sortable="true" sortProperty="<%= DisplayTagSortProperty.LARGEST_IMAGE_SIZE.toString() %>" />
-	  <display:column title="largestPdfSize" property="largestPdfSize" sortable="true" sortProperty="<%= DisplayTagSortProperty.LARGEST_PDF_SIZE.toString() %>" />
+	  <display:column title="Publish Status" property="publishStatus" sortable="true" sortProperty="<%= DisplayTagSortProperty.PUBLISH_STATUS.toString() %>"/>
+	  <display:column title="Book Size" property="bookSize" sortable="true" sortProperty="<%= DisplayTagSortProperty.BOOK_SIZE.toString() %>" />
+	  <display:column title="Largest Doc Size" property="largestDocSize"  sortable="true" sortProperty="<%= DisplayTagSortProperty.LARGEST_DOC_SIZE.toString() %>"/>
+	  <display:column title="Largest Image Size" property="largestImageSize" sortable="true" sortProperty="<%= DisplayTagSortProperty.LARGEST_IMAGE_SIZE.toString() %>" />
+	  <display:column title="Largest Pdf Size" property="largestPdfSize" sortable="true" sortProperty="<%= DisplayTagSortProperty.LARGEST_PDF_SIZE.toString() %>" />
 	  <display:column title="Metrics" sortable="false">
 	  	<a href="<%=WebConstants.MVC_BOOK_JOB_METRICS%>?<%=WebConstants.KEY_JOB_INSTANCE_ID%>=${stats.jobInstanceId}">View Metrics</a>
 	  </display:column>
