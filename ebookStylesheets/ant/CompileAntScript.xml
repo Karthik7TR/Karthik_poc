@@ -63,12 +63,7 @@
       <fileset dir ="css"/>
     </copy>
 
-    <copy todir="${dir.dist}">
-      <fileset dir ="scss"/>
-    </copy>
-	<copy todir="${dir.dist}">
-	<fileset dir ="ant"/>
-	</copy>
+    
 
 </target>
 
@@ -79,7 +74,7 @@
          - - - - - - - - - - - - - - - - - -->
   <target name="-tar" description="Compress the deliverable into a tar ball for deployment.">
     <tar longfile="gnu" destfile="${dir.standalone}/${tarFile}">
-      <tarfileset filemode="777" dir="${dir.dist}" excludes="*.xml">
+      <tarfileset filemode="744" dir="${dir.dist}" excludes="*.xml">
 	  
       </tarfileset>
     </tar>
