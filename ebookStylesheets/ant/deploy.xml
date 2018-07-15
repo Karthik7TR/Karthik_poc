@@ -11,10 +11,12 @@
 <project name="ebookstylesheets" default="fulldeploy" >
 
 <property file="deploy.properties"/>
+<property name="numeric_deploy_version" value="" />
+  <property name="revision" value="${numeric_deploy_version}" />
 
   <target name="fulldeploy" description="Normal build for the ebookStylesheets project"
           depends="display,SSHEXEC,SCPexec,SSHEXEC2">
-    <echo level="info" message="Normal (aka Non-Coverage) build has completed." />
+    <echo level="info" message="Normal DEPLOY has completed." />
 </target>
 
 <target name ="display">
@@ -33,7 +35,7 @@
    <scp password="${SCMPASSWORD}"
         trust="true"
         sftp="true"
-        file="\\cobaltbuilds\cobaltbuild$\Cobalt eBook Builder\${APPLICATION}\${APPLICATION}_${VERSION}\${APPLICATION}.tar"
+        file="\\cobaltbuilds\cobaltbuild$\Cobalt eBook Builder\${APPLICATION}\${APPLICATION}_${numeric_deploy_version}\${APPLICATION}.tar"
         todir="${SCMUSERNAME}@${SCMSERVER}:/apps/eBookBuilder/cicontent/css"/>
     </target>
 	
@@ -42,7 +44,7 @@
 	username="${SCMUSERNAME}"
 	password="${SCMPASSWORD}"
 	trust="true"
-	command="cd /apps/eBookBuilder/cicontent/css;chmod -R 755 ebookStylesheets.tar;tar -xvf ebookStylesheets.tar;find . -type f ! -name 'document.css' -delete;mv document.css document_${VERSION}.css"/>
+	command="cd /apps/eBookBuilder/cicontent/css;chmod -R 755 ebookStylesheets.tar;tar -xvf ebookStylesheets.tar;find . -type f ! -name 'document.css' -delete;mv document.css document_${numeric_deploy_version}.css"/>
  </target>
  		
 </project>
