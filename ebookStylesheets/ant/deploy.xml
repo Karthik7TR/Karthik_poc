@@ -20,7 +20,7 @@
 </target>
 
 <target name ="display">
-<echo>Apache Ant version is ${SCMSERVER} - You are at ${SCMPASSWORD} </echo>
+<echo>Starting deployment</echo>
   </target>
 
   <target name="SSHEXEC" > 
