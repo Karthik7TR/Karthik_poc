@@ -1,7 +1,9 @@
 package com.thomsonreuters.uscl.ereader.stats.service;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import com.thomsonreuters.uscl.ereader.StatsUpdateTypeEnum;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
@@ -10,13 +12,14 @@ import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsFilter;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStatsSort;
 import com.thomsonreuters.uscl.ereader.stats.util.PublishingStatsUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import static java.util.Comparator.comparingLong;
 
 @Service("publishingStatsService")
 public class PublishingStatsServiceImpl implements PublishingStatsService {
@@ -154,55 +157,35 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
     @Override
     @Transactional(readOnly = true)
     public Boolean hasIsbnBeenPublished(final String isbn, final String titleId) {
-        String replacedIsbn = "";
-        Boolean hasBeenPublished = false;
-
-        if (StringUtils.isNotBlank(isbn)) {
-            replacedIsbn = isbn.replace("-", "");
-        }
+        final String digitalIsbn = isbn.replace("-", "");
 
         final List<String> publishedIsbns = publishingStatsDAO.findSuccessfullyPublishedIsbnByTitleId(titleId);
-        for (final String publishedIsbn : publishedIsbns) {
-            if (StringUtils.isNotBlank(publishedIsbn)) {
-                final String replacedPublishedIsbn = publishedIsbn.replace("-", "");
-                if (replacedPublishedIsbn.equalsIgnoreCase(replacedIsbn)) {
-                    // ISBN has been published
-                    hasBeenPublished = true;
-                    break;
-                }
-            }
-        }
-        return hasBeenPublished;
+
+        return publishedIsbns.stream()
+            .map(publishedIsbn -> publishedIsbn.replace("-", ""))
+            .anyMatch(digitalIsbn::equalsIgnoreCase);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Boolean hasBeenGrouped(final Long ebookDefId) {
-        final Boolean hasBeenGrouped = true;
         final Long previousGroupBook = publishingStatsDAO.findSuccessfullyPublishedGroupBook(ebookDefId);
-        if (previousGroupBook == null) {
-            return false;
-        }
-        return hasBeenGrouped;
+        return previousGroupBook != null;
     }
 
     @Override
     @Transactional(readOnly = true)
     public EbookAudit findLastSuccessfulJobStatsAuditByEbookDef(final Long EbookDefId) {
         EbookAudit lastAuditSuccessful = null;
-        PublishingStats lastSuccessfulPublishingStat = null;
 
         final List<PublishingStats> publishingStats = publishingStatsDAO.findPublishingStatsByEbookDef(EbookDefId);
 
         if (publishingStats != null && !publishingStats.isEmpty()) {
-            lastSuccessfulPublishingStat = publishingStats.get(0);
-            for (final PublishingStats publishingStat : publishingStats) {
-                if (publishingStat.getJobInstanceId().longValue() >= lastSuccessfulPublishingStat.getJobInstanceId()
-                    .longValue() && publishingStatsUtil.isPublishedSuccessfully(publishingStat.getPublishStatus())) {
-                    lastSuccessfulPublishingStat = publishingStat;
-                    lastAuditSuccessful = publishingStat.getAudit();
-                }
-            }
+            lastAuditSuccessful = publishingStats.stream()
+                    .filter(stats -> publishingStatsUtil.isPublishedSuccessfully(stats.getPublishStatus()))
+                    .max(comparingLong(PublishingStats::getJobInstanceId))
+                    .map(PublishingStats::getAudit)
+                    .orElse(null);
         }
         return lastAuditSuccessful;
     }
@@ -213,17 +196,12 @@ public class PublishingStatsServiceImpl implements PublishingStatsService {
         Date lastPublishDate = null;
         final List<PublishingStats> publishingStats = publishingStatsDAO.findPublishingStatsByEbookDef(EbookDefId);
 
-        if (publishingStats != null && !publishingStats.isEmpty()) {
-            for (final PublishingStats publishingStat : publishingStats) {
-                if (publishingStat.getPublishEndTimestamp() != null) {
-                    if (lastPublishDate == null) {
-                        lastPublishDate = publishingStat.getPublishEndTimestamp();
-                    } else if (publishingStat.getPublishEndTimestamp().equals(lastPublishDate)
-                        || publishingStat.getPublishEndTimestamp().after(lastPublishDate)) {
-                        lastPublishDate = publishingStat.getPublishEndTimestamp();
-                    }
-                }
-            }
+        if (publishingStats != null) {
+            lastPublishDate = publishingStats.stream()
+                .map(PublishingStats::getPublishEndTimestamp)
+                .filter(Objects::nonNull)
+                .min(Comparator.reverseOrder())
+                .orElse(null);
         }
 
         return lastPublishDate;

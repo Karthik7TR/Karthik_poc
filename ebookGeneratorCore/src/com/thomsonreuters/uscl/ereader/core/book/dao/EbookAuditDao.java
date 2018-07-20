@@ -24,6 +24,8 @@ public interface EbookAuditDao {
 
     List<EbookAudit> findEbookAuditByTitleIdAndIsbn(String titleId, String isbn);
 
+    List<EbookAudit> findEbookAuditByTitleIdAndModifiedIsbn(String titleId, String isbn);
+
     void saveAudit(EbookAudit eBookAuditRecord);
 
     Long findEbookAuditIdByEbookDefId(Long ebookDefId) throws DataAccessException;
@@ -34,7 +36,9 @@ public interface EbookAuditDao {
 
     Long findMaxAuditId();
 
-    EbookAudit findEbookAuditIdByTtileId(String titleId);
+    EbookAudit findEbookAuditIdByTitleId(String titleId);
 
-    void updateSpliDocumentsAudit(EbookAudit audit, String splitDocumentsConcat, int parts);
+    void updateSplitDocumentsAudit(EbookAudit audit, String splitDocumentsConcat, int parts);
+
+    boolean isIsbnModified(String titleId, String isbn);
 }

@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
@@ -28,9 +29,6 @@ public interface EBookAuditService {
     EbookAudit findEBookAuditByPrimaryKey(Long auditId);
 
     Long findMaxAuditId();
-
-    EbookAudit findEbookAuditIdByTtileId(String titleId);
-
     /**
      * Find max audit id for ebook Definition Id
      *
@@ -45,7 +43,11 @@ public interface EBookAuditService {
 
     int numberEbookAudits(EbookAuditFilter filter);
 
-    EbookAudit editIsbn(String titleId, String isbn);
+    Optional<EbookAudit> modifyIsbn(String titleId, String isbn);
+
+    void resetIsbn(String titleId, String isbn);
+
+    boolean isIsbnModified(String titleId, String isbn);
 
     void updateSplitDocumentsAudit(EbookAudit audit, String splitDocumentsConcat, int parts);
 }

@@ -1,12 +1,18 @@
 package com.thomsonreuters.uscl.ereader.core.book.service;
 
+import static java.util.Comparator.comparingLong;
+
+import static com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao.MOD_TEXT;
+
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,42 +85,34 @@ public class EBookAuditServiceImpl implements EBookAuditService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public EbookAudit findEbookAuditIdByTtileId(final String titleId) {
-        return eBookAuditDAO.findEbookAuditIdByTtileId(titleId);
-    }
-
-    @Override
     @Transactional
     public void updateSplitDocumentsAudit(final EbookAudit audit, final String splitDocumentsConcat, final int parts) {
-        eBookAuditDAO.updateSpliDocumentsAudit(audit, splitDocumentsConcat, parts);
+        eBookAuditDAO.updateSplitDocumentsAudit(audit, splitDocumentsConcat, parts);
     }
 
     @Override
     @Transactional
-    public EbookAudit editIsbn(final String titleId, final String isbn) {
-        final List<EbookAudit> audits = eBookAuditDAO.findEbookAuditByTitleIdAndIsbn(titleId, isbn);
-        EbookAudit latestAudit = null;
-
-        for (final EbookAudit audit : audits) {
-            final StringBuilder buffer = new StringBuilder();
-            buffer.append(EbookAuditDao.MOD_TEXT);
-            buffer.append(audit.getIsbn());
-            audit.setIsbn(buffer.toString());
-            eBookAuditDAO.saveAudit(audit);
-
-            if (latestAudit == null || latestAudit.getAuditId() < audit.getAuditId()) {
-                latestAudit = audit;
-            }
-        }
-
-        return latestAudit;
+    public Optional<EbookAudit> modifyIsbn(final String titleId, final String isbn) {
+        return eBookAuditDAO.findEbookAuditByTitleIdAndIsbn(titleId, isbn).stream()
+                .peek(audit -> {
+                    audit.setIsbn(MOD_TEXT + audit.getIsbn());
+                    eBookAuditDAO.saveAudit(audit);
+                })
+                .max(comparingLong(EbookAudit::getAuditId));
     }
 
-    /**
-     * @return the eBookAuditDAO
-     */
-    public EbookAuditDao geteBookAuditDAO() {
-        return eBookAuditDAO;
+    @Override
+    @Transactional
+    public void resetIsbn(final String titleId, final String isbn) {
+        eBookAuditDAO.findEbookAuditByTitleIdAndModifiedIsbn(titleId, isbn)
+                .forEach(audit -> {
+                    audit.setIsbn(StringUtils.substringAfter(audit.getIsbn(), MOD_TEXT));
+                    eBookAuditDAO.saveAudit(audit);
+                });
+    }
+
+    @Override
+    public boolean isIsbnModified(final String titleId, final String isbn) {
+        return eBookAuditDAO.isIsbnModified(titleId, isbn);
     }
 }

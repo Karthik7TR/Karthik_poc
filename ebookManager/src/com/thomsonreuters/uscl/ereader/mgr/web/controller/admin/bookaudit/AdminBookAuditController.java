@@ -134,17 +134,15 @@ public class AdminBookAuditController {
         final BindingResult bindingResult,
         final Model model) {
         if (!bindingResult.hasErrors()) {
-            final EbookAudit audit = auditService.editIsbn(form.getTitleId(), form.getIsbn());
-
-            if (audit != null) {
-                // Save audit record to determine user that modified ISBN
-                audit.setAuditId(null);
-                audit.setAuditType(EbookAudit.AUDIT_TYPE.EDIT.toString());
-                audit.setUpdatedBy(UserUtils.getAuthenticatedUserName());
-                audit.setAuditNote("Modify Audit ISBN");
-                auditService.saveEBookAudit(audit);
-            }
-
+            auditService.modifyIsbn(form.getTitleId(), form.getIsbn())
+                    .ifPresent(audit -> {
+                        // Save audit record to determine user that modified ISBN
+                        audit.setAuditId(null);
+                        audit.setAuditType(EbookAudit.AUDIT_TYPE.EDIT.toString());
+                        audit.setUpdatedBy(UserUtils.getAuthenticatedUserName());
+                        audit.setAuditNote("Modify Audit ISBN");
+                        auditService.saveEBookAudit(audit);
+                    });
             // Redirect user
             return new ModelAndView(new RedirectView(WebConstants.MVC_ADMIN_AUDIT_BOOK_LIST));
         }

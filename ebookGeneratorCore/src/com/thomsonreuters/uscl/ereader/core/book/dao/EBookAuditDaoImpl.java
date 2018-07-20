@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.core.book.dao;
 
+import static com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao.MOD_TEXT;
+
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
@@ -27,18 +29,6 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
 
     public EBookAuditDaoImpl(final SessionFactory hibernateSessionFactory) {
         sessionFactory = hibernateSessionFactory;
-    }
-
-    /**
-     * Used to determine whether or not to merge the entity or persist the
-     * entity when calling Store
-     *
-     * @see store
-     *
-     *
-     */
-    public boolean canBeMerged(final EbookAudit entity) {
-        return true;
     }
 
     @Override
@@ -105,7 +95,7 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
     }
 
     @Override
-    public void updateSpliDocumentsAudit(final EbookAudit audit, final String splitDocumentsConcat, final int parts) {
+    public void updateSplitDocumentsAudit(final EbookAudit audit, final String splitDocumentsConcat, final int parts) {
         final Session session = sessionFactory.getCurrentSession();
         if (audit.getAuditId() != null) {
             audit.setSplitDocumentsConcat(splitDocumentsConcat);
@@ -135,6 +125,27 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
 
     @Override
     @Transactional(readOnly = true)
+    public List<EbookAudit> findEbookAuditByTitleIdAndModifiedIsbn(final String titleId, final String isbn) {
+        final Session session = sessionFactory.getCurrentSession();
+        final Criteria criteria = session.createCriteria(EbookAudit.class);
+        criteria.add(Restrictions.eq("titleId", titleId))
+                .add(Restrictions.eq("isbn", MOD_TEXT + isbn));
+        return criteria.list();
+    }
+
+    @Override
+    @Transactional
+    public boolean isIsbnModified(final String titleId, final String isbn) {
+        final Session session = sessionFactory.getCurrentSession();
+        final Criteria criteria = session.createCriteria(EbookAudit.class);
+        criteria.add(Restrictions.eq("titleId", titleId))
+            .add(Restrictions.eq("isbn", MOD_TEXT + isbn))
+            .setMaxResults(1);
+        return criteria.uniqueResult() != null;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Long findEbookAuditIdByEbookDefId(final Long ebookDefId) throws DataAccessException {
         final Session session = sessionFactory.getCurrentSession();
 
@@ -147,7 +158,7 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
 
     @Override
     @Transactional(readOnly = true)
-    public EbookAudit findEbookAuditIdByTtileId(final String titleId) throws DataAccessException {
+    public EbookAudit findEbookAuditIdByTitleId(final String titleId) throws DataAccessException {
         final StringBuilder hql = new StringBuilder("select pa from EbookAudit pa where (pa.auditId) in ");
         hql.append("(select max(pa2.auditId) from EbookAudit pa2 where");
         hql.append(" pa2.titleId = :titleId)");
@@ -227,7 +238,7 @@ public class EBookAuditDaoImpl implements EbookAuditDao {
             criteria.add(Restrictions.like("isbn", filter.getIsbn()).ignoreCase());
         }
         if (filter.getFilterEditedIsbn()) {
-            criteria.add(Restrictions.not(Restrictions.like("isbn", EbookAuditDao.MOD_TEXT + "%")));
+            criteria.add(Restrictions.not(Restrictions.like("isbn", MOD_TEXT + "%")));
         }
 
         return criteria;

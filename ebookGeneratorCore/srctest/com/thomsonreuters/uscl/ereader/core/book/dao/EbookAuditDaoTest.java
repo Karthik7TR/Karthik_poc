@@ -1,5 +1,11 @@
 package com.thomsonreuters.uscl.ereader.core.book.dao;
 
+import static com.thomsonreuters.uscl.ereader.core.book.dao.EbookAuditDao.MOD_TEXT;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,49 +13,56 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditFilter;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort;
 import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAuditSort.SortProperty;
-import org.easymock.EasyMock;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projection;
-import org.junit.Assert;
+import org.hibernate.criterion.Restrictions;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Matchers;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public final class EbookAuditDaoTest {
-    private static final long AUDIT_KEY = 1L;
-    private static final EbookAudit BOOK_AUDIT = new EbookAudit();
-    private static final List<EbookAudit> BOOK_AUDIT_LIST = new ArrayList<>();
+    //mocking doesn't want to work for eq() for some reason, so '%' was
+    //added to TITLE_ID to correspond to how it would look like inside of a method
+    private static final String TITLE_ID = "%title/id";
+    private static final String ISBN = "123-456";
+    private List<EbookAudit> bookAuditList;
+    private final EbookAudit audit = new EbookAudit();
 
-    private SessionFactory mockSessionFactory;
-    private org.hibernate.Session mockSession;
-    private Query mockQuery;
-    private Criteria mockCriteria;
+    @InjectMocks
     private EBookAuditDaoImpl dao;
+    @Mock
+    private SessionFactory mockSessionFactory;
+    @Mock
+    private org.hibernate.Session mockSession;
+    @Mock
+    private Query mockQuery;
+    @Mock
+    private Criteria mockCriteria;
 
     @Before
-    public void setUp() {
-        mockSessionFactory = EasyMock.createMock(SessionFactory.class);
-        mockSession = EasyMock.createMock(org.hibernate.Session.class);
-        mockQuery = EasyMock.createMock(Query.class);
-        mockCriteria = EasyMock.createMock(Criteria.class);
-        dao = new EBookAuditDaoImpl(mockSessionFactory);
+    public void setup() {
+        audit.setAuditId(1L);
+        bookAuditList = new ArrayList<>();
+        bookAuditList.add(audit);
     }
 
     @Test
     public void testFindAuditById() {
-        EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
-        EasyMock.expect(mockSession.getNamedQuery("findEbookAuditByPrimaryKey")).andReturn(mockQuery);
-        EasyMock.expect(mockQuery.setLong("auditId", AUDIT_KEY)).andReturn(mockQuery);
-        EasyMock.expect(mockQuery.uniqueResult()).andReturn(BOOK_AUDIT);
-        EasyMock.replay(mockSessionFactory);
-        EasyMock.replay(mockSession);
-        EasyMock.replay(mockQuery);
-        final EbookAudit actualBookDefinition = dao.findEbookAuditByPrimaryKey(AUDIT_KEY);
-        Assert.assertEquals(BOOK_AUDIT, actualBookDefinition);
-        EasyMock.verify(mockSessionFactory);
-        EasyMock.verify(mockSession);
+        final long auditKey = 1L;
+        when(mockSessionFactory.getCurrentSession()).thenReturn(mockSession);
+        when(mockSession.getNamedQuery("findEbookAuditByPrimaryKey")).thenReturn(mockQuery);
+        when(mockQuery.setLong("auditId", auditKey)).thenReturn(mockQuery);
+        when(mockQuery.uniqueResult()).thenReturn(audit);
+        final EbookAudit actualBookDefinition = dao.findEbookAuditByPrimaryKey(auditKey);
+        assertEquals(audit, actualBookDefinition);
     }
 
     @Test
@@ -57,42 +70,62 @@ public final class EbookAuditDaoTest {
         final EbookAuditSort sort = new EbookAuditSort(SortProperty.SUBMITTED_DATE, false, 1, 20);
         final EbookAuditFilter filter = new EbookAuditFilter();
 
-        EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
-        EasyMock.expect(mockSession.createCriteria(EbookAudit.class)).andReturn(mockCriteria);
-        EasyMock.expect(mockCriteria.addOrder(Order.asc(EasyMock.anyObject(String.class)))).andReturn(mockCriteria);
+        when(mockSessionFactory.getCurrentSession()).thenReturn(mockSession);
+        when(mockSession.createCriteria(EbookAudit.class)).thenReturn(mockCriteria);
+        when(mockCriteria.addOrder(Order.asc(Matchers.anyString()))).thenReturn(mockCriteria);
 
         final int itemsPerPage = sort.getItemsPerPage();
-        EasyMock.expect(mockCriteria.setFirstResult((sort.getPageNumber() - 1) * (itemsPerPage)))
-            .andReturn(mockCriteria);
-        EasyMock.expect(mockCriteria.setMaxResults(itemsPerPage)).andReturn(mockCriteria);
-        EasyMock.expect(mockCriteria.list()).andReturn(BOOK_AUDIT_LIST);
-        EasyMock.replay(mockSessionFactory);
-        EasyMock.replay(mockSession);
-        EasyMock.replay(mockCriteria);
+        when(mockCriteria.setFirstResult((sort.getPageNumber() - 1) * (itemsPerPage))).thenReturn(mockCriteria);
+        when(mockCriteria.setMaxResults(itemsPerPage)).thenReturn(mockCriteria);
+        when(mockCriteria.list()).thenReturn(bookAuditList);
 
         final List<EbookAudit> actualAudits = dao.findEbookAudits(filter, sort);
-        Assert.assertEquals(BOOK_AUDIT_LIST, actualAudits);
-        EasyMock.verify(mockSessionFactory);
-        EasyMock.verify(mockSession);
-        EasyMock.verify(mockCriteria);
+        assertEquals(bookAuditList, actualAudits);
     }
 
     @Test
     public void testNumberEbookAudits() {
         final EbookAuditFilter filter = new EbookAuditFilter();
 
-        EasyMock.expect(mockSessionFactory.getCurrentSession()).andReturn(mockSession);
-        EasyMock.expect(mockSession.createCriteria(EbookAudit.class)).andReturn(mockCriteria);
-        EasyMock.expect(mockCriteria.setProjection(EasyMock.anyObject(Projection.class))).andReturn(mockCriteria);
-        EasyMock.expect(mockCriteria.list()).andReturn(BOOK_AUDIT_LIST);
-        EasyMock.replay(mockSessionFactory);
-        EasyMock.replay(mockSession);
-        EasyMock.replay(mockCriteria);
+        when(mockSessionFactory.getCurrentSession()).thenReturn(mockSession);
+        when(mockSession.createCriteria(EbookAudit.class)).thenReturn(mockCriteria);
+        when(mockCriteria.setProjection(Matchers.any(Projection.class))).thenReturn(mockCriteria);
+        when(mockCriteria.list()).thenReturn(bookAuditList);
 
         final int actual = dao.numberEbookAudits(filter);
-        Assert.assertEquals(BOOK_AUDIT_LIST.size(), actual);
-        EasyMock.verify(mockSessionFactory);
-        EasyMock.verify(mockSession);
-        EasyMock.verify(mockCriteria);
+        assertEquals(bookAuditList.size(), actual);
+    }
+
+    @Test
+    public void shouldCheckIsbnModification() {
+        //given
+        final boolean expectedResult = true;
+
+        when(mockSessionFactory.getCurrentSession()).thenReturn(mockSession);
+        when(mockSession.createCriteria(EbookAudit.class)).thenReturn(mockCriteria);
+        when(mockCriteria.add(any())).thenReturn(mockCriteria);
+        when(mockCriteria.add(eq(Restrictions.eq("ISBN", MOD_TEXT + ISBN)))).thenReturn(mockCriteria);
+        when(mockCriteria.setMaxResults(1)).thenReturn(mockCriteria);
+        when(mockCriteria.uniqueResult()).thenReturn(expectedResult);
+        //when
+        final boolean actualResult = dao.isIsbnModified(TITLE_ID, ISBN);
+        //then
+        assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    public void shouldFindModifiedAudits() {
+        //given
+        final List<EbookAudit> expectedList = bookAuditList;
+
+        when(mockSessionFactory.getCurrentSession()).thenReturn(mockSession);
+        when(mockSession.createCriteria(EbookAudit.class)).thenReturn(mockCriteria);
+        when(mockCriteria.add(any())).thenReturn(mockCriteria);
+        when(mockCriteria.add(eq(Restrictions.eq("ISBN", MOD_TEXT + ISBN)))).thenReturn(mockCriteria);
+        when(mockCriteria.list()).thenReturn(expectedList);
+        //when
+        final List<EbookAudit> actualList = dao.findEbookAuditByTitleIdAndModifiedIsbn(TITLE_ID, ISBN);
+        //then
+        assertEquals(expectedList, actualList);
     }
 }

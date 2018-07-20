@@ -14,25 +14,29 @@ import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.common.step.SplitBookTitlesAwareStep;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import org.springframework.batch.core.ExitStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class BaseDeliverStep extends BookStepImpl implements SplitBookTitlesAwareStep {
     @Resource(name = "proviewHandler")
     private ProviewHandler proviewHandler;
     @Resource(name = "proviewHandlerWithRetry")
     private ProviewHandlerWithRetry proviewHandlerWithRetry;
-
     @Resource(name = "assembleFileSystem")
     private AssembleFileSystem fileSystem;
+    @Autowired
+    private EBookAuditService eBookAuditService;
 
-    private List<String> publishedSplitTiltes = new ArrayList<>();
+    private List<String> publishedSplitTitles = new ArrayList<>();
 
     @Override
     public ExitStatus executeStep() throws Exception {
         try {
             publishBook();
+            resetIsbnIfNeeded();
             return ExitStatus.COMPLETED;
         } catch (final ProviewException e) {
             removePublishedSplitTitles();
@@ -56,13 +60,22 @@ public abstract class BaseDeliverStep extends BookStepImpl implements SplitBookT
         for (final String splitTitleId : splitTitleIds) {
             final File assembledSplitTitleFile = fileSystem.getAssembledSplitTitleFile(this, splitTitleId);
             proviewHandler.publishTitle(splitTitleId, getBookVersion(), assembledSplitTitleFile);
-            publishedSplitTiltes.add(splitTitleId);
+            publishedSplitTitles.add(splitTitleId);
         }
     }
 
     private void removePublishedSplitTitles() throws ProviewException {
-        for (final String splitTitle : publishedSplitTiltes) {
+        for (final String splitTitle : publishedSplitTitles) {
             proviewHandlerWithRetry.removeTitle(splitTitle, getBookVersion());
+        }
+    }
+
+    private void resetIsbnIfNeeded() {
+        final BookDefinition bookDefinition = getBookDefinition();
+        final String titleId = bookDefinition.getFullyQualifiedTitleId();
+        final String isbn = bookDefinition.getIsbn();
+        if (eBookAuditService.isIsbnModified(titleId, isbn)) {
+            eBookAuditService.resetIsbn(titleId, isbn);
         }
     }
 }
