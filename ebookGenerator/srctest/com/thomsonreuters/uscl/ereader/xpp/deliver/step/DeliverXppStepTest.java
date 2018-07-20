@@ -19,6 +19,7 @@ import com.thomsonreuters.uscl.ereader.common.deliver.service.ProviewHandlerWith
 import com.thomsonreuters.uscl.ereader.common.filesystem.AssembleFileSystem;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.model.Version;
+import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
 import com.thomsonreuters.uscl.ereader.deliver.exception.ProviewException;
 import com.thomsonreuters.uscl.ereader.deliver.service.ProviewHandler;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
@@ -36,6 +37,9 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 
 @RunWith(MockitoJUnitRunner.class)
 public final class DeliverXppStepTest {
+    private static final String TITLE_ID = "titleId";
+    private static final String ISBN = "123456";
+
     @InjectMocks
     private DeliverXppStep step;
     @Mock
@@ -52,6 +56,8 @@ public final class DeliverXppStepTest {
     private File assembledBookFile;
     @Mock
     private AssembleFileSystem fileSystem;
+    @Mock
+    private EBookAuditService auditService;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -62,8 +68,10 @@ public final class DeliverXppStepTest {
         givenJobInstanceId(chunkContext, 1L);
 
         givenBook(chunkContext, book);
-        given(book.getTitleId()).willReturn("titleId");
-        given(book.getFullyQualifiedTitleId()).willReturn("titleId");
+        given(book.getTitleId()).willReturn(TITLE_ID);
+        given(book.getFullyQualifiedTitleId()).willReturn(TITLE_ID);
+        given(book.getIsbn()).willReturn(ISBN);
+        given(auditService.isIsbnModified(TITLE_ID, ISBN)).willReturn(false);
     }
 
     @Test
@@ -117,5 +125,17 @@ public final class DeliverXppStepTest {
         step.executeStep();
         //then
         then(proviewHandlerWithRetry).should().removeTitle("an/splitTitle", version("v1.1"));
+    }
+
+    @Test
+    public void shouldResetIsbn() throws Exception {
+        //given
+        given(book.isSplitBook()).willReturn(false);
+        given(fileSystem.getAssembledBookFile(step)).willReturn(assembledBookFile);
+        given(auditService.isIsbnModified(TITLE_ID, ISBN)).willReturn(true);
+        //when
+        step.executeStep();
+        //then
+        then(auditService).should().resetIsbn(TITLE_ID, ISBN);
     }
 }
