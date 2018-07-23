@@ -21,6 +21,7 @@
     	<xsl:param name="name" />
     	<xsl:param name="parent_uuid" />
     	<xsl:param name="doc_family_uuid" />
+		<xsl:param name="innerText" select="$name" />
     	
     	<xsl:element name="XPPHier">
 			<xsl:attribute name="uuid" select="$uuid" />
@@ -29,7 +30,7 @@
 			<xsl:if test= "$doc_family_uuid">
 				<xsl:attribute name="md.doc_family_uuid" select="$doc_family_uuid" />
 			</xsl:if>
-			<xsl:value-of select="$name" />
+			<xsl:value-of select="$innerText" />
 		</xsl:element>
     </xsl:template>
 </xsl:stylesheet>

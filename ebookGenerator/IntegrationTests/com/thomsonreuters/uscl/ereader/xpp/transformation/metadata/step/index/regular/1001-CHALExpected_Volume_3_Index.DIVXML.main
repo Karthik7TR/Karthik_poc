@@ -1,5 +1,5 @@
 <root xmlns="http://www.sdl.com/xpp"><sectionbreak sectionuuid="1111111.IndexABANDONMENTINDIAN"/><XPPHier uuid="1111111.Index" name="Index" parent_uuid="1111111.Index" md.doc_family_uuid="1111111.IndexABANDONMENTINDIAN">Index</XPPHier>
-	<pagebreak serial-num="1" num="Index-1"/><XPPHier uuid="1111111.IndexABANDONMENTINDIAN" name="ABANDONMENT - INDIAN" parent_uuid="1111111.Index" md.doc_family_uuid="1111111.IndexABANDONMENTINDIAN">ABANDONMENT - INDIAN</XPPHier>
+	<pagebreak serial-num="1" num="Index-1"/><XPPHier uuid="1111111.IndexABANDONMENTINDIAN" name="ABANDONMENT - INDIAN" parent_uuid="1111111.Index" md.doc_family_uuid="1111111.IndexABANDONMENTINDIAN">ABANDONMENT-E/XTR’A-— TEXT - INDIAN CHILD WELFARE ACT</XPPHier>
 	<t style="unknown">Index</t>
 	<t style="c"> </t>
 	<t style="unknown"> </t>
@@ -6740,7 +6740,7 @@
 				<CITE>
 					<t style="CITE">5:12</t>
 				</CITE>
-				<pagebreak serial-num="21" num="Index-21"/><sectionbreak sectionuuid="1111111.IndexINDIGENTWRONGFUL"/><XPPHier uuid="1111111.IndexINDIGENTWRONGFUL" name="INDIGENT - WRONGFUL" parent_uuid="1111111.Index" md.doc_family_uuid="1111111.IndexINDIGENTWRONGFUL">INDIGENT - WRONGFUL</XPPHier>
+				<pagebreak serial-num="21" num="Index-21"/><sectionbreak sectionuuid="1111111.IndexINDIGENTWRONGFUL"/><XPPHier uuid="1111111.IndexINDIGENTWRONGFUL" name="INDIGENT - WRONGFUL" parent_uuid="1111111.Index" md.doc_family_uuid="1111111.IndexINDIGENTWRONGFUL">INDIGENT CHILDREN - WRONGFUL ADOPTION</XPPHier>
 				<mtf2>
 					<mte2/>
 				</mtf2>
