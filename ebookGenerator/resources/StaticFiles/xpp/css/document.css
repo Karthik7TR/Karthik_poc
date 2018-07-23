@@ -751,7 +751,9 @@ tbody .cgt,
 .summary_toc > .cgt,
 .footnote > .cgt,
 .toc_volbreak > .cgt,
-.toc_wrapper > .generated_toc > .summary_toc > .toc_chapter > a > .outline_name_block .name ~ .cgt:last-of-type {
+.toc_wrapper > .generated_toc > .summary_toc > .toc_chapter > a > .outline_name_block .name ~ .cgt:last-of-type,
+.toc_wrapper > .generated_toc > .summary_toc > .toc_part > a > .outline_name_block > .cgt,
+.toc_wrapper > .generated_toc > .full_toc > .toc_part > a > .outline_name_block > .cgt {
   display: block;
 }
 

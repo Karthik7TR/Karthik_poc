@@ -38,7 +38,9 @@
     .summary_toc>&,
     .footnote>&,
     .toc_volbreak>&,
-    .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .name~&:last-of-type {
+    .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .name~&:last-of-type,
+    .toc_wrapper>.generated_toc>.summary_toc>.toc_part>a>.outline_name_block>&,
+    .toc_wrapper>.generated_toc>.full_toc>.toc_part>a>.outline_name_block>& {
         display: block;
     }
     .entry .leaveout+&,
