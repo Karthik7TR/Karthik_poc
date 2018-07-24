@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:h="http://www.w3.org/1999/xhtml"
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
+	<xsl:import href="../unescape/unescape.xsl"/>
 	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
-	
+
 	<xsl:param name="titleMetadataDoc" />
 	<xsl:param name="titleMetadata" select="document($titleMetadataDoc)" />
 
@@ -57,7 +59,7 @@
 			</xsl:variable>
 			<xsl:attribute name="s" select="concat($uuidPrefix, $docGuid, '/', x:Guid)" />
 			<xsl:element name="text">
-				<xsl:value-of select="replace(x:Name/text(), '&amp;([^#])', '&amp;amp;$1')" disable-output-escaping="yes" />
+				<xsl:value-of select="h:unescape(x:Name/text())" disable-output-escaping="yes" />
 			</xsl:element>
 			<xsl:apply-templates select="x:EBookToc" mode="toc">
 				<xsl:with-param name="uuidPrefix" select="$uuidPrefix" />
