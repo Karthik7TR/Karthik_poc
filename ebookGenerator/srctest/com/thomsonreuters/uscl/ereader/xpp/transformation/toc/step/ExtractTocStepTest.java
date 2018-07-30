@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -11,6 +12,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +35,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.toc.group.FileGroupHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.core.IsNull;
 import org.junit.Before;
@@ -48,8 +51,9 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 
 @RunWith(MockitoJUnitRunner.class)
 public final class ExtractTocStepTest {
-    private static final String FIRST_BUNDLE_FILE_NAME = "one.DIVXML.xml";
-    private static final String SECOND_BUNDLE_FILE_NAME = "two.DIVXML.xml";
+    private static final String FIRST_BUNDLE_FILE_NAME = "1-one_1.DIVXML.xml";
+    private static final String FIRST_CHILD_CHAPTER_FILE_NAME = "2-one_1_1A.DIVXML.xml";
+    private static final String SECOND_BUNDLE_FILE_NAME = "2-two_2.DIVXML.xml";
     private static final String MATERIAL_NUMBER = "123456";
     private static final String SECOND_MATERIAL_NUMBER = "1234567";
 
@@ -69,6 +73,8 @@ public final class ExtractTocStepTest {
     @Mock
     private BookDefinition bookDefinition;
     @Mock
+    private FileGroupHelper fileGroupHelper;
+    @Mock
     private File firstTocBundleFile;
     @Mock
     private File secondTocBundleFile;
@@ -80,6 +86,8 @@ public final class ExtractTocStepTest {
     private File tocSecondPartFile;
     @Mock
     private File sourceFirstBundleFile;
+    @Mock
+    private File sourceFirstBundleChildChapterFile;
     @Mock
     private File sourceSecondBundleFile;
     @Mock
@@ -113,6 +121,9 @@ public final class ExtractTocStepTest {
             fileSystem.getSectionbreaksFile(step, MATERIAL_NUMBER, SECOND_BUNDLE_FILE_NAME.replaceAll(".xml", ".main")))
                 .willReturn(sourceSecondBundleFile);
         given(
+                fileSystem.getSectionbreaksFile(step, MATERIAL_NUMBER, FIRST_CHILD_CHAPTER_FILE_NAME.replaceAll(".xml", ".main")))
+                .willReturn(sourceFirstBundleChildChapterFile);
+        given(
             fileSystem.getSectionbreaksFile(step, SECOND_MATERIAL_NUMBER, FIRST_BUNDLE_FILE_NAME.replaceAll(".xml", ".main")))
                 .willReturn(secondBundleFirstSourceFile);
         given(
@@ -130,6 +141,11 @@ public final class ExtractTocStepTest {
         given(fileSystem.getVolumesMapFile(step)).willReturn(volumesMapFile);
 
         given(mergedTocFile.createNewFile()).willReturn(true);
+
+        given(fileGroupHelper.isGroupRoot(FIRST_BUNDLE_FILE_NAME, bundle)).willReturn(false);
+        given(fileGroupHelper.isGroupPart(FIRST_BUNDLE_FILE_NAME, bundle)).willReturn(false);
+        given(fileGroupHelper.isGroupRoot(SECOND_BUNDLE_FILE_NAME, bundle)).willReturn(false);
+        given(fileGroupHelper.isGroupPart(SECOND_BUNDLE_FILE_NAME, bundle)).willReturn(false);
     }
 
     @Test
@@ -211,6 +227,37 @@ public final class ExtractTocStepTest {
         assertThat(command.getInputFiles(), contains(secondMergedTocFile));
         assertThat(command.getOutputFile(), is(tocSecondPartFile));
         assertThat(command.getTransformer().getParameter("isPocketPart"), is(IsNull.notNullValue()));
+    }
+
+    @Test
+    public void shouldExtractTocForRutterChapterBlock() throws Exception {
+        //given
+        final List<File> inputFiles = Arrays.asList(sourceFirstBundleFile, sourceFirstBundleChildChapterFile);
+        final List<String> groupFileNames = Arrays.asList(FIRST_BUNDLE_FILE_NAME, FIRST_CHILD_CHAPTER_FILE_NAME);
+        when(fileGroupHelper.isGroupRoot(eq(FIRST_BUNDLE_FILE_NAME), eq(bundle))).thenReturn(true);
+        when(fileGroupHelper.isGroupRoot(eq(FIRST_CHILD_CHAPTER_FILE_NAME), eq(bundle))).thenReturn(false);
+        when(fileGroupHelper.isGroupPart(eq(FIRST_BUNDLE_FILE_NAME), eq(bundle))).thenReturn(true);
+        when(fileGroupHelper.isGroupPart(eq(FIRST_CHILD_CHAPTER_FILE_NAME), eq(bundle))).thenReturn(true);
+        when(fileGroupHelper.getGroupFileNames(eq(FIRST_BUNDLE_FILE_NAME), eq(bundle))).thenReturn(groupFileNames);
+        when(fileGroupHelper.getGroupFileNames(eq(FIRST_CHILD_CHAPTER_FILE_NAME), eq(bundle))).thenReturn(groupFileNames);
+        given(bundle.getOrderedFileList()).willReturn(Arrays.asList(FIRST_BUNDLE_FILE_NAME, FIRST_CHILD_CHAPTER_FILE_NAME));
+        //when
+        step.executeTransformation();
+        //then
+        then(transformationService).should(times(3)).transform(commandCaptor.capture());
+        final Iterator<TransformationCommand> iterator = commandCaptor.getAllValues().iterator();
+
+        TransformationCommand command = iterator.next();
+        assertEquals(inputFiles, command.getInputFiles());
+        assertEquals(firstTocBundleFile, command.getOutputFile());
+
+        command = iterator.next();
+        assertEquals(Collections.singletonList(firstTocBundleFile), command.getInputFiles());
+        assertEquals(mergedTocFile, command.getOutputFile());
+
+        command = iterator.next();
+        assertThat(command.getInputFiles(), contains(mergedTocFile));
+        assertEquals(tocFile, command.getOutputFile());
     }
 
     private void initSplitBookMocks() {

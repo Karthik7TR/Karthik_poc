@@ -18,8 +18,18 @@
 
 	<xsl:template match="x:root">
 		<root>
+			<xsl:variable name="firstDocUuid">
+				<xsl:choose>
+					<xsl:when test="$firstDocFamilyUuid">
+						<xsl:value-of select="$firstDocFamilyUuid" />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="(.//x:rutter.chapter.block)[1]/@uuid" />
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
 			<xsl:call-template name="addSectionbreak">
-				<xsl:with-param name="sectionuuid" select="$firstDocFamilyUuid" />
+				<xsl:with-param name="sectionuuid" select="$firstDocUuid" />
 			</xsl:call-template>
 			<xsl:apply-templates />
 		</root>

@@ -16,7 +16,10 @@ import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilder;
 import com.thomsonreuters.uscl.ereader.request.domain.XppBundle;
+import com.thomsonreuters.uscl.ereader.xpp.strategy.type.BundleFileType;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.VolumeNumberAwareXppTransformationStep;
+import com.thomsonreuters.uscl.ereader.xpp.transformation.toc.group.FileGroupHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -25,6 +28,8 @@ import org.springframework.beans.factory.annotation.Value;
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
 public class ExtractTocStep extends VolumeNumberAwareXppTransformationStep {
+    @Autowired
+    private FileGroupHelper fileGroupHelper;
     @Value("${xpp.extract.toc.xsl}")
     private File extractTocXsl;
     @Value("${xpp.merge.volume.tocs.xsl}")
@@ -62,6 +67,7 @@ public class ExtractTocStep extends VolumeNumberAwareXppTransformationStep {
             .build();
         final List<File> transformedFiles = bundle.getOrderedFileList()
             .stream()
+            .filter(fileName -> BundleFileType.getByFileName(fileName) != BundleFileType.MAIN_CONTENT || !fileGroupHelper.isGroupPart(fileName, bundle) || fileGroupHelper.isGroupRoot(fileName, bundle))
             .map(fileName -> generatePartToc(bundle, transformer, fileName))
             .collect(Collectors.toList());
         return mergeVolumeToc(transformedFiles, bundle);
@@ -69,12 +75,25 @@ public class ExtractTocStep extends VolumeNumberAwareXppTransformationStep {
 
     private File generatePartToc(final XppBundle bundle, final Transformer transformer, final String fileName) {
         final String materialNumber = bundle.getMaterialNumber();
-        final File sourceFile =
-            fileSystem.getSectionbreaksFile(this, materialNumber, fileName.replaceAll(".xml", ".main"));
+
         final File outputFile = fileSystem.getBundlePartTocFile(fileName, materialNumber, this);
-        final TransformationCommand command =
-            new TransformationCommandBuilder(transformer, outputFile).withInput(sourceFile)
-                .build();
+        final TransformationCommand command;
+
+        if (fileGroupHelper.isGroupRoot(fileName, bundle)) {
+            final List<File> files = fileGroupHelper.getGroupFileNames(fileName, bundle).stream()
+                .map(name -> fileSystem.getSectionbreaksFile(this, materialNumber, name.replaceAll(".xml", ".main")))
+                .collect(Collectors.toList());
+            command =
+                new TransformationCommandBuilder(transformer, outputFile).withInput(files)
+                    .build();
+        } else {
+            final File sourceFile =
+                fileSystem.getSectionbreaksFile(this, materialNumber, fileName.replaceAll(".xml", ".main"));
+            command =
+                new TransformationCommandBuilder(transformer, outputFile).withInput(sourceFile)
+                    .build();
+        }
+
         transformationService.transform(command);
         return outputFile;
     }

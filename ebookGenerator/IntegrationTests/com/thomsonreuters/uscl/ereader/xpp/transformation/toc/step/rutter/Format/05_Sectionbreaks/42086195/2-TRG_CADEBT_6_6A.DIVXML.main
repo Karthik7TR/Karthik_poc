@@ -1,0 +1,12 @@
+<root xmlns="http://www.sdl.com/xpp">
+	<sectionbreak sectionuuid="I7477b221047e11e5855fd9e9fcfec8b8"/>
+	<pagebreak num="6A-i" serial-num="1"/>
+	<publication pubcode="TRG_CADEBT" online.royalty.id="EJD" uuid="I2ca42b80b3d511e4b34590c5eb12a254">
+		<XPPHier uuid="I2ca42b80b3d511e4b34590c5eb12a254" name="California Practice Guide--Enforcing Judgments and Debts" parent_uuid="I2ca42b80b3d511e4b34590c5eb12a254">California Practice Guide--Enforcing Judgments and Debts</XPPHier>
+		<publication.body>
+			<rutter.chapter uuid="I9b9a8ac0b3d511e4b34590c5eb12a254" date.updated="0">
+				<XPPHier uuid="I9b9a8ac0b3d511e4b34590c5eb12a254" name="Chapter 6A. Preliminary Considerations" parent_uuid="I9b9a1590b3d511e4b34590c5eb12a254">Chapter 6A. Preliminary Considerations</XPPHier>
+			</rutter.chapter>
+		</publication.body>
+	</publication>
+</root>
