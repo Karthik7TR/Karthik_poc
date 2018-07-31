@@ -1268,6 +1268,17 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   clear: left;
 }
 
+.publication > .publication_back > .appendix_block > .appendix_front > .appendix > .appendix_body > .stat_structure > .stat_chapter > .stat_name_block {
+  text-align: center;
+  float: none;
+}
+
+.publication > .publication_back > .appendix_block > .appendix_front > .appendix > .appendix_body > .stat_structure > .stat_chapter > .stat_section > .stat_name_block,
+.publication > .publication_back > .appendix_block > .appendix_front > .appendix > .appendix_body > .stat_structure > .stat_chapter > .stat_section_repealed > .stat_name_block {
+  text-align: left;
+  float: none;
+}
+
 .publication > .publication_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_front > .primary_outline_name_block,
 .publication > .publication_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_front > .primary_outline_name_block * {
   text-align: center;

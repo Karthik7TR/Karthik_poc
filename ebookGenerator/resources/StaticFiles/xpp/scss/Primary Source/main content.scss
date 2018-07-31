@@ -90,6 +90,18 @@
     }
 }
 
+.stat_name_block {
+    .publication>.publication_back>.appendix_block>.appendix_front>.appendix>.appendix_body>.stat_structure>.stat_chapter>& {
+        text-align: center;
+        float: none;
+    }
+    .publication>.publication_back>.appendix_block>.appendix_front>.appendix>.appendix_body>.stat_structure>.stat_chapter>.stat_section>&,
+    .publication>.publication_back>.appendix_block>.appendix_front>.appendix>.appendix_body>.stat_structure>.stat_chapter>.stat_section_repealed>& {
+        text-align: left;
+        float: none;
+    }
+}
+
 .primary_outline_name_block {
     .publication>.publication_body>.primary>.primary_source>.primary_source_body>.primary_hierarchy>.primary_hierarchy_front>&,
     .publication>.publication_body>.primary>.primary_source>.primary_source_body>.primary_hierarchy>.primary_hierarchy_front>& * {
