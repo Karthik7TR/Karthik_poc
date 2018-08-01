@@ -19,18 +19,22 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public final class FileGroupHelperTest {
-    private static final String ROOT = "1-TRG_CADEBT_6.DIVXML.xml";
-    private static final String CHILD = "2-TRG_CADEBT_6_6A.DIVXML.xml";
-    private static final String OTHER = "3-TRG_CADEBT_7.DIVXML.xml";
-    private static final List<String> FILE_NAMES = asList(ROOT, CHILD, OTHER);
+    private static final String ROOT = "1-TRG_EALIT_1.DIVXML.xml";
+    private static final String CHILD = "2-TRG_EALIT_1_1A.DIVXML.xml";
+    private static final String OTHER = "3-TRG_EALIT_3.DIVXML.xml";
+    private static final String OTHER2 = "10-TRG_EALIT_10.DIVXML.xml";
+    private static final List<String> FILE_NAMES = asList(ROOT, CHILD, OTHER, OTHER2);
 
     private FileGroupHelper sut = new FileGroupHelper();
     @Mock
     private XppBundle bundle;
+    @Mock
+    private XppBundle bundleWithoutGroup;
 
     @Before
     public void setup() {
         given(bundle.getOrderedFileList()).willReturn(FILE_NAMES);
+        given(bundleWithoutGroup.getOrderedFileList()).willReturn(asList(ROOT, OTHER2));
     }
 
     @Test
@@ -39,10 +43,12 @@ public final class FileGroupHelperTest {
         final boolean groupPartRoot = sut.isGroupPart(ROOT, bundle);
         final boolean groupPartChild = sut.isGroupPart(CHILD, bundle);
         final boolean groupPartOther = sut.isGroupPart(OTHER, bundle);
+        final boolean groupPartOther2 = sut.isGroupPart(OTHER2, bundle);
         //then
         assertTrue(groupPartRoot);
         assertTrue(groupPartChild);
         assertFalse(groupPartOther);
+        assertFalse(groupPartOther2);
     }
 
     @Test
@@ -51,10 +57,12 @@ public final class FileGroupHelperTest {
         final boolean groupRoot = sut.isGroupRoot(ROOT, bundle);
         final boolean groupRootChild = sut.isGroupRoot(CHILD, bundle);
         final boolean groupRootOther = sut.isGroupRoot(OTHER, bundle);
+        final boolean notGroupRoot = sut.isGroupRoot(ROOT, bundleWithoutGroup);
         //then
         assertTrue(groupRoot);
         assertFalse(groupRootChild);
         assertFalse(groupRootOther);
+        assertFalse(notGroupRoot);
     }
 
     @Test

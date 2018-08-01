@@ -58,10 +58,12 @@
 			<td><form:textarea path="comments" /></td>
 		</tr>
 		</table>
-		
-		<div class="buttons">
-			<input id="deleteButton" type="button" value="Delete" onclick="submitDelete('<%=ProviewTitleForm.Command.DELETE%>');"/>
-		</div>
+
+		<c:if test="${status == 'Removed'}">
+            <div class="buttons">
+                <input id="deleteButton" type="button" value="Delete" onclick="submitDelete('<%=ProviewTitleForm.Command.DELETE%>');"/>
+            </div>
+		</c:if>
 		
 		<td>
 				<form:hidden path="titleId"/>
@@ -89,4 +91,3 @@
 	    </c:if>
 		
 	</form:form>
-	
