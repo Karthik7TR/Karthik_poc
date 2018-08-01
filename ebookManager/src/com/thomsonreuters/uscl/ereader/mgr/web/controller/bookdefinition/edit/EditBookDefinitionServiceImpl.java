@@ -201,11 +201,15 @@ public class EditBookDefinitionServiceImpl implements EditBookDefinitionService 
         final boolean isNotFuture = new Date(DateTime.now().withZone(DateTimeZone.forID("US/Central")).getMillis())
             .compareTo(component.getEffectiveDate()) > 0;
 
+        final MediaLowLevelRule lowLevelRule = MediaLowLevelRule.getByRuleValue(component.getMediallRule());
+        final boolean isValidLowLevelRule = lowLevelRule != MediaLowLevelRule.UNSUPPORTED
+            && (lowLevelRule != MediaLowLevelRule.LL_34 || !"ZFNV".equalsIgnoreCase(component.getMaterialType()));
+
         return isNotFuture
             && component.getProdDate() != null
             && "print".equalsIgnoreCase(component.getMediahlRule())
             && StringUtils.isBlank(component.getDchainStatus())
-            && MediaLowLevelRule.getByRuleValue(component.getMediallRule()) != MediaLowLevelRule.UNSUPPORTED;
+            && isValidLowLevelRule;
     }
 
     private MaterialComponent mergeSapComponents(

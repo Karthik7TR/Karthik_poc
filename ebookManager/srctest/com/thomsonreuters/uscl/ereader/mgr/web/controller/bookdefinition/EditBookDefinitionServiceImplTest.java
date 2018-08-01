@@ -146,7 +146,7 @@ public final class EditBookDefinitionServiceImplTest {
         if (VALID_SUB_NUMBER.equals(subNumber)) {
             component = new MaterialComponent();
             component.setMediahlRule("Print");
-            component.setMediallRule("30-blah");
+            component.setMediallRule("34-blah");
             component.setEffectiveDate(new Date(100));
             component.setBomComponent("4");
             component.setProdDate(new Date());
@@ -158,6 +158,14 @@ public final class EditBookDefinitionServiceImplTest {
         component.setMediallRule("30-blah");
         component.setEffectiveDate(new Date(100));
         component.setBomComponent("6");
+        materialComponents.add(component);
+
+        component = new MaterialComponent();
+        component.setMediahlRule("Print");
+        component.setMediallRule("34-blah");
+        component.setEffectiveDate(new Date(100));
+        component.setBomComponent("7");
+        component.setMaterialType("ZFNV");
         materialComponents.add(component);
 
         final Material material = new Material();
