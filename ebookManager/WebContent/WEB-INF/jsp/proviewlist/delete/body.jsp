@@ -64,6 +64,10 @@
                 <input id="deleteButton" type="button" value="Delete" onclick="submitDelete('<%=ProviewTitleForm.Command.DELETE%>');"/>
             </div>
 		</c:if>
+
+		<c:if test="${status != 'Removed'}">
+            <p>Only books in <b>'Removed'</b> status can be deleted.</p>
+		</c:if>
 		
 		<td>
 				<form:hidden path="titleId"/>
