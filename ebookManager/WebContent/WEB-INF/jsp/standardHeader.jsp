@@ -13,6 +13,8 @@
 	</c:if>
 </div>
 
+<p>KIBANA NEW TOPICS TEST</p>
+		
 <div class="headerRightSide">
 	<ul class="navList">
 		<li><a id="libraryTab" href="<%=WebConstants.MVC_BOOK_LIBRARY_LIST%>">LIBRARY</a></li>
