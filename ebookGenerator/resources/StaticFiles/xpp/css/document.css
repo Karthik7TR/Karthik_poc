@@ -208,6 +208,10 @@ a:empty {
   margin-right: 0.5em;
 }
 
+.head .name_block .designator {
+  margin-right: 0.5em;
+}
+
 .section_front {
   display: flex;
   margin: 1em 0;

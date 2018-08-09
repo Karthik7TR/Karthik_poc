@@ -25,6 +25,9 @@
     .section_front & {
         margin-right: #{$indent/2}em;
     }
+    .head .name_block & {
+        margin-right: #{$indent/2}em;
+    }
 }
 
 .section_front {
