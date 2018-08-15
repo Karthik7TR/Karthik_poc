@@ -7,6 +7,9 @@
     .toc_primary_source .xref+& {
         margin-left: #{$indent}em;
     }
+    .toc_primary_source .toc_primary_hierarchy .toc_primary_section .toc_editorial_commentary_section .editorial_outline_name_block .xref+&{
+        margin-left: -#{$indent*2}em;
+    }
 }
 
 .primary_outline_name_block {

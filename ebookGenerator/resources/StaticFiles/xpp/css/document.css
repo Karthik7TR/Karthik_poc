@@ -1353,6 +1353,10 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   margin-left: 1em;
 }
 
+.toc_primary_source .toc_primary_hierarchy .toc_primary_section .toc_editorial_commentary_section .editorial_outline_name_block .xref + .t {
+  margin-left: -2em;
+}
+
 .toc_primary_source .primary_outline_name_block {
   margin-top: 0.5em;
   display: flex;
