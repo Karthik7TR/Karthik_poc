@@ -290,6 +290,14 @@
                 <t style="para.text">text in column 2</t>
             </column>
         </columns>
+        <para left.indent="4p" right.indent="5p" pre.leading="6p" quad="l">para indents test</para>
+        <text.line left.indent="4p" right.indent="5p" pre.leading="6p" quad="r">text line indents test</text.line>
+        <fm.image.wrap left.indent="4p" right.indent="5p" pre.leading="6p" quad="l">
+        	<proview_image id="azaza.zz" />
+        </fm.image.wrap>
+        <fm.image.wrap left.indent="4p" right.indent="5p" pre.leading="6p">
+        	<proview_image id="ololo.ll" />
+        </fm.image.wrap>
     </part.main>
     <part.footnotes fileName="sampleXpp_15">
         <pagebreak num="15" serial-num="15"/>

@@ -138,8 +138,17 @@
 					<xsl:if test="@style">
 						<xsl:value-of select="concat(' font_', x:get-class-name(@style))" />
 					</xsl:if>
-					<xsl:if test="@pre.leading">
+					<xsl:if test="self::x:fm.image.wrap/@pre.leading or self::x:para/@pre.leading or self::x:text.line/@pre.leading">
 						<xsl:value-of select="concat(' pre_leading_', x:get-class-name(@pre.leading))" />
+					</xsl:if>
+					<xsl:if test="self::x:para/@left.indent or self::x:text.line/@left.indent">
+						<xsl:value-of select="concat(' left_indent_', x:get-class-name(@left.indent))" />
+					</xsl:if>
+					<xsl:if test="self::x:para/@right.indent or self::x:text.line/@right.indent">
+						<xsl:value-of select="concat(' right_indent_', x:get-class-name(@right.indent))" />
+					</xsl:if>
+					<xsl:if test="self::x:fm.image.wrap/@quad">
+						<xsl:value-of select="concat(' image_wrapper_', x:get-class-name(@quad))" />
 					</xsl:if>
 			</xsl:attribute>
 			<xsl:copy-of select="./@uuid | ./@tocuuid" />

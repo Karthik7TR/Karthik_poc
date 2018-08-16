@@ -4,12 +4,38 @@
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
 
 	<xsl:template match="x:proview_image">
+		<xsl:variable name="floatClass">
+			<xsl:if test="parent::x:fm.image.wrap/@quad">
+				<xsl:value-of select="concat('quad', '_', parent::x:fm.image.wrap/@quad)" />
+			</xsl:if>
+		</xsl:variable>
+		
+		<xsl:choose>
+			<xsl:when test="$floatClass != ''">
+				<xsl:element name="div">
+					<xsl:attribute name="class" select="$floatClass" />
+					<xsl:call-template name="create-image-element" />
+				</xsl:element>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="create-image-element" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template name="create-image-element">
 		<xsl:variable name="guid">
 			<xsl:call-template name="substring-before-last">
 				<xsl:with-param name="string" select="@id" />
 				<xsl:with-param name="delim" select="'.'" />
 			</xsl:call-template>
 		</xsl:variable>
+		<xsl:variable name="quadImage">
+			<xsl:if test="ancestor::x:fm.image.wrap/@quad">
+				<xsl:value-of select="'quadImage'" />
+			</xsl:if>
+		</xsl:variable>
+		
 		<xsl:element name="img">
 			<xsl:variable name="class" select="x:get-class(.)" />
 			<xsl:if test="$class!=''">
