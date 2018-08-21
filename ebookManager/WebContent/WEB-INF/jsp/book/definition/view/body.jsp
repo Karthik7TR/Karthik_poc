@@ -159,8 +159,19 @@ function submitForm(cmd)
 										<jsp:param name="printComponents" value="${form.printComponents}"/>
 										<jsp:param name="colorPrintComponentTable" value="${form.colorPrintComponentTable}"/>
 									</jsp:include>
+									<div class="print_component_legend_box">
+										<div class="print_component_legend bundle_not_found" style="display:none">
+											<div class="legend_color"></div>
+											<span class="legend_description">- Bundle not found</span>
+										</div>
+										<div class="print_component_legend supplement" style="display:none">
+											<div class="legend_color"></div>
+											<span class="legend_description">- Supplement (Order will be ignored, appears in the list for completeness)</span>
+										</div>
+									</div>
 								</div>
 							</div>
+							
 							<div class="row">
 								<input type="button" id="openCloseCompareButton" value="Open print component history panel"
 									${hasPrintComponentsHistory != null && hasPrintComponentsHistory ? '' : 'disabled="disabled"'}/>

@@ -976,3 +976,25 @@ div.jsGrid-container .jsgrid-header-row .jsgrid-header-sort-asc:before {
 .bookDefinitionView .rightDefinitionForm>#displayFile>.row>.dynamicContent {
 width: initial;
 }
+
+.print_component_legend_box {
+	margin: 5px 0 5px;
+	padding: 0 1px 0;
+}
+.legend_color {
+	min-width: 3em;
+	height: 1.3em;
+	margin-right: 10px;
+}
+
+.print_component_legend {
+	display: flex;
+	margin-bottom: 5px;
+}
+.print_component_legend.bundle_not_found .legend_color {
+	background-color: rgb(255, 125, 125);
+}
+
+.print_component_legend.supplement .legend_color {
+	background-color: yellow;
+}

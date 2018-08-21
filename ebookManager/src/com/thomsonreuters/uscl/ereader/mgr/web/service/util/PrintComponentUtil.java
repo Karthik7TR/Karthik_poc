@@ -1,7 +1,7 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.service.util;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -15,28 +15,36 @@ public class PrintComponentUtil {
     @Resource(name = "xppBundleArchiveService")
     private XppBundleArchiveService xppBundleArchiveService;
 
+
     public List<PrintComponent> getAllInitializedPrintComponents(final List<PrintComponent> sourcePrintComponentList) {
-        final List<String> currentMaterialNumberList = new ArrayList<>();
-        for (final PrintComponent element : sourcePrintComponentList) {
-            currentMaterialNumberList.add(element.getMaterialNumber());
-        }
+        final List<String> currentMaterialNumberList = sourcePrintComponentList.stream()
+            .map(PrintComponent::getMaterialNumber)
+            .collect(Collectors.toList());
         final List<XppBundleArchive> xppBundleArchiveList =
             xppBundleArchiveService.findByMaterialNumberList(currentMaterialNumberList);
-        for (final PrintComponent element : sourcePrintComponentList) {
-            element.setComponentInArchive(
-                containsArchiveWithTargetMaterialNumber(xppBundleArchiveList, element.getMaterialNumber()));
-        }
+        sourcePrintComponentList.stream()
+            .filter(element -> containsArchiveWithTargetMaterialNumber(xppBundleArchiveList, element.getMaterialNumber()))
+            .forEach(element -> {
+                element.setSupplement(isSupplement(xppBundleArchiveList, element));
+                element.setComponentInArchive(true);
+            });
         return sourcePrintComponentList;
+    }
+
+    private boolean isSupplement(List<XppBundleArchive> xppBundleArchiveList, PrintComponent element) {
+        return xppBundleArchiveList.stream()
+            .filter(item -> item.getMaterialNumber().equals(element.getMaterialNumber()))
+            .findAny()
+            .get()
+            .getEBookSrcPath()
+            .endsWith("_supp.tar.gz");
     }
 
     private boolean containsArchiveWithTargetMaterialNumber(
         final List<XppBundleArchive> xppBundleArchiveList,
         final String materialNumber) {
-        for (final XppBundleArchive element : xppBundleArchiveList) {
-            if (element.getMaterialNumber().equals(materialNumber)) {
-                return true;
-            }
-        }
-        return false;
+        return xppBundleArchiveList.stream()
+            .map(XppBundleArchive::getMaterialNumber)
+            .anyMatch(materialNumber::equals);
     }
 }

@@ -15,9 +15,11 @@ import javax.persistence.Transient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thomsonreuters.uscl.ereader.StringBool;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "PRINT_COMPONENT")
+@EqualsAndHashCode
 public class PrintComponent implements Serializable {
     private static final long serialVersionUID = -1981084033866475471L;
 
@@ -48,6 +50,9 @@ public class PrintComponent implements Serializable {
      */
     @Transient
     private boolean componentInArchive;
+
+    @Transient
+    private boolean isSupplement;
 
     @JsonIgnore
     public BookDefinition getBookDefinition() {
@@ -104,5 +109,13 @@ public class PrintComponent implements Serializable {
 
     public void setSplitter(final boolean splitter) {
         this.splitter = StringBool.toString(splitter);
+    }
+
+    public boolean isSupplement() {
+        return isSupplement;
+    }
+
+    public void setSupplement(final boolean supplement) {
+        isSupplement = supplement;
     }
 }

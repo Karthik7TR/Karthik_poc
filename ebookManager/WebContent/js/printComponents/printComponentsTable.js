@@ -33,16 +33,21 @@ function PrintComponentsTable(
                 }
             },
 
-            colorNoArchivePrintComponents: function() {
+            colorPrintComponents: function() {
                 var $gridData = $(gridContainerDataTbodyId);
                 items = $.map($gridData.find("tr"), function(row) {
                     return $(row);
                 });
-                for(i=0; i<printComponents.length; i++) {
-                    var $tempRow = $(jsGridContainerId).jsGrid("rowByItem", items[i]);
-                    if(printComponents[i].componentInArchive == false && !gridManager.isSplitter(printComponents[i])) {
-                        $(".client-" + i + " > td").css("background","#ff7D7D");
-                    }
+                for(i = 0; i < printComponents.length; i++) {
+                	if (!gridManager.isSplitter(printComponents[i])) {
+                		if (!printComponents[i].componentInArchive) {
+                			$(".client-" + i + " > td").css("background","#ff7D7D");
+                            $(".print_component_legend.bundle_not_found").show();
+                		} else if (printComponents[i].supplement) {
+                			$(".client-" + i + " > td").css("background","yellow");
+                            $(".print_component_legend.supplement").show();
+                		}
+                	}
                 }
             },
 
@@ -420,7 +425,7 @@ function PrintComponentsTable(
                     }
                 });
                 if (colorPrintComponentTable) {
-                    gridManager.colorNoArchivePrintComponents();
+                    gridManager.colorPrintComponents();
                 }
                 $('#up_button, #down_button').removeAttr('disabled');
             }
