@@ -145,8 +145,12 @@ td:empty {
         display: inline;
     }
     .feature_para_block>.name_block+&,
-    .chapter>.chapter_body>.section_block>.section>.section_body>.para>.tbl>.fixed_footnote_block>.fixed_footnote .footnote_body>& {
+    .chapter>.chapter_body>.section_block>.section>.section_body>.para>.tbl>.fixed_footnote_block>.fixed_footnote .footnote_body>&,
+    .publication .publication_body .part .part_body .chapter .chapter_body .analytical_level .analytical_level_body .section_block .section .section_body .list .list_item .name_block+& {
         display: inline;
+    }
+    .publication .publication_body .part .part_body .chapter .chapter_body .analytical_level .analytical_level_body .section_block .section .section_body .list .list_item & {
+        display: block;
     }
 }
 
@@ -235,4 +239,13 @@ ref {
 .font_section_reserved,
 .font_section_reserved_1 {
     display: inline !important;
+}
+
+.t {
+    .publication .publication_body .part .part_body .chapter .chapter_body .analytical_level .analytical_level_body .section_block .section .section_body .list .list_item .name_block+.para .para_text & {
+        margin-left: 0em !important;
+    }
+    .publication .publication_body .part .part_body .chapter .chapter_body .analytical_level .analytical_level_body .section_block .section .section_body .list .list_item .para .para_text &:first-of-type {
+        margin-left: #{$indent*1.5}em;
+    }
 }

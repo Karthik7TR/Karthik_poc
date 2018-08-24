@@ -332,8 +332,13 @@ td:last-of-type {
 }
 
 .feature_para_block > .name_block + .para,
-.chapter > .chapter_body > .section_block > .section > .section_body > .para > .tbl > .fixed_footnote_block > .fixed_footnote .footnote_body > .para {
+.chapter > .chapter_body > .section_block > .section > .section_body > .para > .tbl > .fixed_footnote_block > .fixed_footnote .footnote_body > .para,
+.publication .publication_body .part .part_body .chapter .chapter_body .analytical_level .analytical_level_body .section_block .section .section_body .list .list_item .name_block + .para {
   display: inline;
+}
+
+.publication .publication_body .part .part_body .chapter .chapter_body .analytical_level .analytical_level_body .section_block .section .section_body .list .list_item .para {
+  display: block;
 }
 
 .list_item {
@@ -418,6 +423,14 @@ td:last-of-type {
 .font_section_reserved,
 .font_section_reserved_1 {
   display: inline !important;
+}
+
+.publication .publication_body .part .part_body .chapter .chapter_body .analytical_level .analytical_level_body .section_block .section .section_body .list .list_item .name_block + .para .para_text .t {
+  margin-left: 0em !important;
+}
+
+.publication .publication_body .part .part_body .chapter .chapter_body .analytical_level .analytical_level_body .section_block .section .section_body .list .list_item .para .para_text .t:first-of-type {
+  margin-left: 1.5em;
 }
 
 .appendix_front > .outline_name_block {
