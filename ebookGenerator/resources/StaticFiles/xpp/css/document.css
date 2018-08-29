@@ -425,6 +425,23 @@ td:last-of-type {
   display: inline !important;
 }
 
+.head + .image_block .trImageContainer .imageWrapper .tr_image {
+  width: 40%;
+}
+
+.section_body .para .stat_structure .stat_section .stat_subsect .stat_text div,
+.section_body .para .stat_structure .stat_section .stat_subsect {
+  display: inline;
+}
+
+.form_para .form_text span:first-of-type {
+  margin-left: 1em;
+}
+
+.section_body .form .form_para .form_unit .form_item .head .name_block {
+  display: block;
+}
+
 .publication .publication_body .part .part_body .chapter .chapter_body .analytical_level .analytical_level_body .section_block .section .section_body .list .list_item .name_block + .para .para_text .t {
   margin-left: 0em !important;
 }
@@ -760,7 +777,8 @@ tbody .cgt,
 .full_toc > .toc_chapter .outline_name_block > .name > .cgt:first-child,
 .full_toc > .toc_chapter .outline_name_block > .designator > .cgt:nth-child(2),
 .full_toc > .toc_chapter_reserved .outline_name_block > .designator > .cgt:nth-child(2),
-.full_toc > .toc_chapter_reserved .outline_name_block > .cgt {
+.full_toc > .toc_chapter_reserved .outline_name_block > .cgt,
+.publication_body .chapter_reserved .cgt {
   display: inline;
 }
 
@@ -1034,7 +1052,19 @@ a + .footnote_body {
   display: inline;
 }
 
-.chapter > .chapter_body > .section_block > .section > .section_body > .para > .tbl > .fixed_footnote_block > .fixed_footnote .fixed_footnote_reference {
+.chapter .chapter_body .section_block .section .section_body .tbl .fixed_footnote_block .fixed_footnote .fixed_footnote_reference {
+  display: inline;
+  margin-left: 2em;
+  margin-right: 0.25em;
+}
+
+.tbl .fixed_footnote_block .fixed_footnote .er_rp_search_volume_content_data .footnote_body {
+  display: block;
+}
+
+.section_body .tbl .fixed_footnote_block .fixed_footnote .er_rp_search_volume_content_data,
+.section_body .tbl .fixed_footnote_block .fixed_footnote .er_rp_search_volume_content_data .footnote_body,
+.section_body .tbl .fixed_footnote_block .fixed_footnote .er_rp_search_volume_content_data .footnote_body .para {
   display: inline;
 }
 
@@ -1686,6 +1716,10 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 
 .underscore {
   text-decoration: underline;
+}
+
+.strikethru {
+  text-decoration: line-through;
 }
 
 .fm_related_products .textrule {

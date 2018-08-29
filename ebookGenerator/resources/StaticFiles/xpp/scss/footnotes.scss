@@ -116,7 +116,21 @@ sup {
 }
 
 .fixed_footnote_reference {
-    .chapter>.chapter_body>.section_block>.section>.section_body>.para>.tbl>.fixed_footnote_block>.fixed_footnote & {
+    .chapter .chapter_body .section_block .section .section_body  .tbl .fixed_footnote_block .fixed_footnote & {
+        display: inline;
+        margin-left: #{$indent*2}em;
+        margin-right: #{$indent*0.25}em;
+    }
+}
+
+.tbl .fixed_footnote_block .fixed_footnote .er_rp_search_volume_content_data .footnote_body {
+    display: block;
+}
+
+.section_body .tbl .fixed_footnote_block .fixed_footnote {
+    & .er_rp_search_volume_content_data,
+    & .er_rp_search_volume_content_data .footnote_body,
+    & .er_rp_search_volume_content_data .footnote_body .para {
         display: inline;
     }
 }
