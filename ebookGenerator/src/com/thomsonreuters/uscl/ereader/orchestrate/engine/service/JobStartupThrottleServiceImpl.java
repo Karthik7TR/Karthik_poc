@@ -68,7 +68,7 @@ public class JobStartupThrottleServiceImpl implements JobStartupThrottleService 
             for (final JobExecution jobExecution : runningJobExecutions) {
                 if (jobExecution.isRunning()) {
                     final String currentExitCode = jobExecution.getExitStatus().getExitCode();
-                    if (currentExitCode.equalsIgnoreCase(ExitStatus.FAILED.toString())) {
+                    if (currentExitCode.equalsIgnoreCase(ExitStatus.FAILED.getExitCode())) {
                         log.debug(
                             "jobExplorer.findRunningJobExecutions () returned filed job with jobId="
                                 + jobExecution.getJobId());
