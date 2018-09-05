@@ -1749,6 +1749,10 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   margin-left: 0;
 }
 
+.full_toc > .toc_part > .toc_chapter:first-of-type > .toc_analytical_level:first-of-type > .toc_section:first-of-type > .outline_name_block:first-of-type > .name:first-of-type {
+  padding-left: 4.25em;
+}
+
 .fm_prior_copyrights .textrule {
   border-bottom: 0.05em solid;
   margin: 1em auto;
