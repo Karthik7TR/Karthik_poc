@@ -158,10 +158,20 @@
 	
 	<xsl:template match="x:ref">
 		<xsl:element name="{name()}">
-			<xsl:copy-of select="@*[not(name()='reftext')]" />
+			<xsl:for-each select="@*[not(name()='reftext')]">
+				<xsl:attribute name="{name()}">
+					<xsl:value-of select="x:replace-apos(self::node())" />
+				</xsl:attribute>
+			</xsl:for-each>
 			<xsl:apply-templates />
 		</xsl:element>
 	</xsl:template>
+
+	<xsl:function name="x:replace-apos">
+		<xsl:param name="str" />
+		<xsl:variable name="apos">'</xsl:variable>
+		<xsl:value-of select="replace($str, $apos, '&amp;apos;')" />
+	</xsl:function>
 
 	<xsl:template match="x:ital|x:bold">
 		<xsl:apply-templates />
