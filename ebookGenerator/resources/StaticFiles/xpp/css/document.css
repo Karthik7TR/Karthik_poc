@@ -450,6 +450,11 @@ td:last-of-type {
   margin-left: 1.5em;
 }
 
+.tbl td > .leader,
+.tbl td > .leader > .fillchar {
+  display: inline;
+}
+
 .appendix_front > .outline_name_block {
   margin: 1em 0;
   display: block;
@@ -788,7 +793,8 @@ tbody .cgt,
 .toc_volbreak > .cgt,
 .toc_wrapper > .generated_toc > .summary_toc > .toc_chapter > a > .outline_name_block .name ~ .cgt:last-of-type,
 .toc_wrapper > .generated_toc > .summary_toc > .toc_part > a > .outline_name_block > .cgt,
-.toc_wrapper > .generated_toc > .full_toc > .toc_part > a > .outline_name_block > .cgt {
+.toc_wrapper > .generated_toc > .full_toc > .toc_part > a > .outline_name_block > .cgt,
+.footnote a .cgt.t {
   display: block;
 }
 
@@ -819,6 +825,10 @@ tbody .cgt,
 
 .frontmatter > .fm_other_structure > .fm_text_box > .text_line > span.font_text_line_8.cgt {
   display: inline;
+}
+
+.footnote .cgt.t {
+  width: auto;
 }
 
 .full_toc .name *,

@@ -263,3 +263,8 @@ ref {
         margin-left: #{$indent*1.5}em;
     }
 }
+
+.tbl td>.leader,
+.tbl td>.leader>.fillchar {
+    display: inline;
+}
