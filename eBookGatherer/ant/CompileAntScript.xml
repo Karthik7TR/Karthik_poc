@@ -181,7 +181,8 @@
       <fileset dir="${dir.tmpBuildDir}">
         <exclude name="**/${jarFilename}/**"/>
       </fileset>
-      <classes file="${dir.source}/log4j2.xml"/>  	
+      <classes file="${dir.source}/log4j2.xml"/>
+      <classes file="${dir.source}/log4j2-prod.xml"/>
     </war>
      
   </target>

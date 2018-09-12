@@ -178,6 +178,7 @@
 
       <classes file="${dir.source}/messages.properties"/>
       <classes file="${dir.source}/log4j2.xml"/>  		
+      <classes file="${dir.source}/log4j2-prod.xml"/>
     </war>
 		
     <!-- copy context files to dir.binaries -->
