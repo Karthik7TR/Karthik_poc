@@ -1350,7 +1350,7 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   margin: 0;
 }
 
-.primary_hierarchy_front > .generated_toc > .full_toc > .toc_primary_hierarchy > .toc_primary_section > a > .primary_outline_name_block {
+.primary_hierarchy_body > .primary_hierarchy > .primary_hierarchy_front > .generated_toc > .full_toc > .toc_primary_hierarchy > .toc_primary_section > a > .primary_outline_name_block {
   text-align: center;
 }
 
