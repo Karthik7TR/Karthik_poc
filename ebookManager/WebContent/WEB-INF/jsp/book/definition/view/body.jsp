@@ -391,12 +391,18 @@ function submitForm(cmd)
 					<div class="row">
 						<label class="labelCol">Keywords</label>
 						<div id="accordion">
-							<c:forEach items="${book.keywordTypeValues}" var="keyword">
-								<div>
-									<span class="field">${keyword.keywordTypeCode.name }</span>
-									<span class="field">${keyword.name }</span>
-								</div>
+							<table>
+							<c:forEach items="${keywords}" var="keywordEntry">
+								<tr>
+									<td class="field bold">${keywordEntry.key}</td>
+									<td>
+                                        <c:forEach items="${keywordEntry.value}" var="keyword">
+                                            <span class="field">${keyword}</span><br/>
+                                        </c:forEach>
+							        </td>
+								</tr>
 							</c:forEach>
+                            </table>
 						</div>
 					</div>
 				</div>

@@ -134,8 +134,11 @@ public class WebConstants {
     public static final String KEY_JOB_INSTANCE_DURATION = "jobInstanceDuration";
     public static final String KEY_JOB_INSTANCE_ID = "jobInstanceId";
     public static final String KEY_JOB_BOOK_INFO = "bookInfo";
-
-    public static final String KEY_QUALITY_REPORTS_RECIPIENTS = "qualityReportsRecipients";
+    
+	public static final String KEY_QUALITY_REPORTS_RECIPIENTS = "qualityReportsRecipients";
+	
+    public static final String KEY_SUBJECT_MATTER = "subject";
+    public static final String KEY_SUBJECT_MATTER_ID = "subjectId";
 
     // Document Type Codes
     public static final String DOCUMENT_TYPE_COURT_RULES = "Court Rules";

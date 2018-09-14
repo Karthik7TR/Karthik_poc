@@ -1,12 +1,21 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.view;
 
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.toList;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpSession;
 
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
+import com.thomsonreuters.uscl.ereader.core.book.domain.KeywordTypeValue;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
@@ -63,6 +72,7 @@ public class ViewBookDefinitionController {
 
         model.addAttribute(WebConstants.KEY_BOOK_DEFINITION, bookDef);
         model.addAttribute(WebConstants.KEY_FORM, form);
+        model.addAttribute("keywords", getKeywords(bookDef).entrySet());
 
         if (bookDef == null) {
             return new ModelAndView(new RedirectView(WebConstants.MVC_ERROR_BOOK_DELETED));
@@ -96,6 +106,18 @@ public class ViewBookDefinitionController {
 
             return new ModelAndView(WebConstants.VIEW_BOOK_DEFINITION_VIEW);
         }
+    }
+
+    private SortedMap<String, List<String>> getKeywords(final BookDefinition bookDefinition) {
+        return Optional.ofNullable(bookDefinition)
+            .map(BookDefinition::getKeywordTypeValues)
+            .orElse(Collections.emptySet())
+            .stream()
+            .collect(
+                groupingBy(
+                    keyword -> keyword.getKeywordTypeCode().getName(),
+                    TreeMap::new,
+                    mapping(KeywordTypeValue::getName, toList())));
     }
 
     /**

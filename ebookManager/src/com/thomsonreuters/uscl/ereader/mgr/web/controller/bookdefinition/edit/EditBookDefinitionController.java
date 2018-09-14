@@ -1,5 +1,8 @@
 package com.thomsonreuters.uscl.ereader.mgr.web.controller.bookdefinition.edit;
 
+import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_MATTER;
+import static com.thomsonreuters.uscl.ereader.mgr.web.WebConstants.KEY_SUBJECT_MATTER_ID;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,6 +18,7 @@ import com.thomsonreuters.uscl.ereader.core.book.domain.EbookAudit;
 import com.thomsonreuters.uscl.ereader.core.book.domain.FrontMatterPage;
 import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
 import com.thomsonreuters.uscl.ereader.core.book.service.EBookAuditService;
+import com.thomsonreuters.uscl.ereader.core.book.service.KeywordTypeCodeSevice;
 import com.thomsonreuters.uscl.ereader.core.job.service.JobRequestService;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.frontmatter.service.CreateFrontMatterService;
@@ -61,6 +65,8 @@ public class EditBookDefinitionController {
     private MiscConfigSyncService miscConfigService;
     @Autowired
     private PrintComponentsCompareController printComponentsCompareController;
+    @Autowired
+    private KeywordTypeCodeSevice keywordTypeCodeSevice;
     @Autowired
     @Qualifier("editBookDefinitionFormValidator")
     private Validator validator;
@@ -412,6 +418,8 @@ public class EditBookDefinitionController {
         model.addAttribute(WebConstants.KEY_KEYWORD_TYPE_CODE, editBookDefinitionService.getKeywordCodes());
         model.addAttribute(WebConstants.KEY_MAX_SPLIT_PARTS, miscConfigService.getMiscConfig().getMaxSplitParts());
         model.addAttribute(WebConstants.KEY_FORM, form);
+
+        model.addAttribute(KEY_SUBJECT_MATTER_ID, keywordTypeCodeSevice.getKeywordTypeCodeByName(KEY_SUBJECT_MATTER).getId());
 
         printComponentsCompareController.setPrintComponentHistoryAttributes(form.getBookdefinitionId(), model);
     }

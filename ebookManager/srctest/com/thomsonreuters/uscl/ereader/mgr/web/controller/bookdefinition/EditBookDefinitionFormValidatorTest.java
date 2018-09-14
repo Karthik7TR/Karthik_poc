@@ -202,7 +202,6 @@ public final class EditBookDefinitionFormValidatorTest {
         validator.validate(form, errors);
 
         Assert.assertEquals("error.not.exist", errors.getFieldError("codesWorkbenchBookName").getCode());
-
         Assert.assertEquals(14, errors.getAllErrors().size());
     }
 
@@ -464,7 +463,7 @@ public final class EditBookDefinitionFormValidatorTest {
         Assert.assertEquals("error.required", errors.getFieldError("nortDomain").getCode());
         Assert.assertEquals("error.required", errors.getFieldError("nortFilterView").getCode());
         Assert.assertEquals("error.required", errors.getFieldError("frontMatterTocLabel").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("keywords[1]").getCode());
+        Assert.assertEquals("error.required", errors.getFieldError("keywords[2]").getCode());
         Assert.assertEquals("error.not.exist", errors.getFieldError("validateForm").getCode());
 
         EasyMock.verify(mockBookDefinitionService);
@@ -505,7 +504,7 @@ public final class EditBookDefinitionFormValidatorTest {
         Assert.assertEquals("error.required", errors.getFieldError("tocCollectionName").getCode());
         Assert.assertEquals("error.required", errors.getFieldError("rootTocGuid").getCode());
         Assert.assertEquals("error.required", errors.getFieldError("frontMatterTocLabel").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("keywords[1]").getCode());
+        Assert.assertEquals("error.required", errors.getFieldError("keywords[2]").getCode());
         Assert.assertEquals("error.not.exist", errors.getFieldError("validateForm").getCode());
 
         EasyMock.verify(mockBookDefinitionService);
@@ -551,7 +550,7 @@ public final class EditBookDefinitionFormValidatorTest {
         Assert.assertEquals("error.required", errors.getFieldError("isbn").getCode());
         Assert.assertEquals("error.required", errors.getFieldError("codesWorkbenchBookName").getCode());
         Assert.assertEquals("error.required", errors.getFieldError("frontMatterTocLabel").getCode());
-        Assert.assertEquals("error.required", errors.getFieldError("keywords[1]").getCode());
+        Assert.assertEquals("error.required", errors.getFieldError("keywords[2]").getCode());
         Assert.assertEquals("error.not.exist", errors.getFieldError("validateForm").getCode());
         Assert.assertEquals("error.required", errors.getFieldError("splitEBookParts").getCode());
         Assert.assertEquals("error.required", errors.getFieldError("subGroupHeading").getCode());

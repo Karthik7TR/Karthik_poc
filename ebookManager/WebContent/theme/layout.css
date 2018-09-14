@@ -347,10 +347,17 @@ a:hover {
 	zoom:1; /* IE7 hack */
 	*display: inline; /* IE7 hack */
 }
- div.field {
- 	overflow:auto;
- 	text-align: center;
- }
+.field {
+	overflow:auto;
+	text-align: center;
+	vertical-align: top;
+}
+td.field {
+    text-align: left;
+}
+.bold {
+    font-weight: bold;
+}
 .bookDefinitionCRUD .leftDefinitionForm,
 .bookDefinitionCRUD .rightDefinitionForm {
 	width: 520px;

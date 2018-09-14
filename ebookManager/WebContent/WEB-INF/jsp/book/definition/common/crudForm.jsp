@@ -743,14 +743,38 @@
 				<label class="labelCol">Keywords</label>
 				<div id="keywordBox">
 					<c:forEach items="${keywordTypeCode}" var="keyword" varStatus="keywordStatus">
-						<div id="keyword_${keywordStatus.index}" class="keywordLabel">
-							<img src="theme/images/wf_plus.gif"> ${keyword.name} <form:errors path="keywords[${keywordStatus.index}]" cssClass="errorMessage" />
+						<div id="keyword_${keyword.id}" class="keywordLabel">
+							<img src="theme/images/wf_plus.gif"> ${keyword.name} <form:errors path="keywords[${keyword.id}]" cssClass="errorMessage" />
 						</div>
-						<div id="keyword_${keywordStatus.index}_values" class="keywordValueBox" style="display:none;">
-							<form:radiobutton path="keywords[${keywordStatus.index}]" value=""/>None
+						<div id="keyword_${keyword.id}_values" class="keywordValueBox" style="display:none;">
+                            <c:if test="${keyword.id != subjectId}">
+							    <form:radiobutton path="keywords[${keyword.id}]" value="-1"/>None
+                            </c:if>
 							<c:forEach items="${keyword.values}" var="value">
 								<div class="keywordValues">
-									<form:radiobutton  path="keywords[${keywordStatus.index}]" value="${value.id}"/>${value.name}
+                                    <c:choose>
+                                        <c:when test="${keyword.id == subjectId}">
+									         <c:choose>
+									         	<c:when test="${form.keywords[keyword.id].contains(value.id)}">
+									        		<form:checkbox path="keywords[${keyword.id}]" value="${value.id}" checked="true"/>
+									         	</c:when>
+									         	<c:otherwise>
+									        		<form:checkbox path="keywords[${keyword.id}]" value="${value.id}"/>
+									         	</c:otherwise>
+									         </c:choose>
+                                        </c:when>
+                                        <c:otherwise>
+									         <c:choose>
+									         	<c:when test="${form.keywords[keyword.id].contains(value.id)}">
+									        		<form:radiobutton path="keywords[${keyword.id}]" value="${value.id}" checked="true"/>
+									         	</c:when>
+									         	<c:otherwise>
+									        		<form:radiobutton path="keywords[${keyword.id}]" value="${value.id}"/>
+									         	</c:otherwise>
+									         </c:choose>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    ${value.name}
 								</div>
 							</c:forEach>
 						</div>

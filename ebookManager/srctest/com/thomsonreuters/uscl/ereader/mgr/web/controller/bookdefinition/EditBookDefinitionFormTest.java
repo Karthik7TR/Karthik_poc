@@ -5,13 +5,14 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.thomsonreuters.uscl.ereader.core.book.domain.Author;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.DocumentCopyright;
@@ -56,7 +57,7 @@ public final class EditBookDefinitionFormTest {
     private List<TableViewer> tableViewers;
     private List<DocumentCopyright> documentCopyrights;
     private List<DocumentCurrency> documentCurrencies;
-    private List<String> keywords;
+    private Map<Long, Collection<Long>> keywords;
     private List<NortFileLocation> nortFileLocations;
 
     @Before
@@ -75,12 +76,12 @@ public final class EditBookDefinitionFormTest {
         tableViewers = new ArrayList<>();
         documentCopyrights = new ArrayList<>();
         documentCurrencies = new ArrayList<>();
-        keywords = new ArrayList<>();
+        keywords = new HashMap<>();
         nortFileLocations = new ArrayList<>();
     }
 
     @Test
-    public void testLoadBookDefinition() throws JsonParseException, JsonMappingException, IOException {
+    public void testLoadBookDefinition() throws IOException {
         final BookDefinition book = new BookDefinition();
 
         final Author author = new Author();
@@ -102,7 +103,7 @@ public final class EditBookDefinitionFormTest {
         final TableViewer viewer = new TableViewer();
         final DocumentCopyright copyright = new DocumentCopyright();
         final DocumentCurrency currency = new DocumentCurrency();
-        final String keyword = "0";
+        final Long keyword = 0L;
         final NortFileLocation location = new NortFileLocation();
 
         form.setTitleId(titleId);
@@ -132,7 +133,7 @@ public final class EditBookDefinitionFormTest {
         form.setDocumentCurrenciesCopy(documentCurrencies);
         documentCurrencies.add(currency);
         form.setKeywords(keywords);
-        keywords.add(keyword);
+        keywords.put(0L, Collections.singleton(keyword));
         form.setNortFileLocations(nortFileLocations);
         nortFileLocations.add(location);
         form.setPrintComponents(printComponentsJson);

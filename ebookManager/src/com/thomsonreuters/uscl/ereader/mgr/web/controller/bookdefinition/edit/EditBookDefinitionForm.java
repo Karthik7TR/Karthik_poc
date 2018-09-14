@@ -11,15 +11,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -126,7 +127,7 @@ public class EditBookDefinitionForm {
     private String publishDateText;
 
     // Keywords used in Proview
-    private Collection<String> keywords;
+    private Map<Long, Collection<Long>> keywords;
 
     private String currency;
     private String additionalTrademarkInfo;
@@ -179,7 +180,7 @@ public class EditBookDefinitionForm {
         documentCopyrightsCopy = new AutoPopulatingList<>(DocumentCopyright.class);
         documentCurrencies = new AutoPopulatingList<>(DocumentCurrency.class);
         documentCurrenciesCopy = new AutoPopulatingList<>(DocumentCurrency.class);
-        keywords = new AutoPopulatingList<>(String.class);
+        keywords = new HashMap<>();
         isComplete = false;
         validateForm = false;
         keyCiteToplineFlag = true;
@@ -349,23 +350,11 @@ public class EditBookDefinitionForm {
                 isPublicationCutoffDateUsed = true;
             }
 
-            /*
-             * Field keywords needs to be assembled in sorted order of
-             * KeywordTypeCode This is to get the path to correctly show the
-             * selected value on the Edit/Copy Book Definition form. The values
-             * are selected based on the index in keywords field
-             */
-            final Map<KeywordTypeCode, String> keywordMap = new LinkedHashMap<>();
-            for (final KeywordTypeCode keywordCode : keywordCodes) {
-                keywordMap.put(keywordCode, "");
-            }
-
-            final Collection<KeywordTypeValue> keywordValues = book.getKeywordTypeValues();
-            for (final KeywordTypeValue value : keywordValues) {
-                keywordMap.put(value.getKeywordTypeCode(), value.getId().toString());
-            }
-
-            keywords.addAll(keywordMap.values());
+            final Map<Long, List<Long>> bookKeywords = book.getKeywordTypeValues()
+                    .stream()
+                    .collect(Collectors.groupingBy(keyword -> keyword.getKeywordTypeCode().getId(),
+                            Collectors.mapping(KeywordTypeValue::getId, Collectors.toList())));
+            keywords.putAll(bookKeywords);
 
             setupFrontMatterNames(book.getEbookNames());
 
@@ -570,14 +559,7 @@ public class EditBookDefinitionForm {
         book.setPilotBookStatus(pilotBookStatus);
         book.setKeyciteToplineFlag(keyCiteToplineFlag);
 
-        final Set<KeywordTypeValue> keywordValues = new HashSet<>();
-        for (final String id : keywords) {
-            if (StringUtils.isNotBlank(id)) {
-                final KeywordTypeValue keywordValue = new KeywordTypeValue();
-                keywordValue.setId(Long.valueOf(id));
-                keywordValues.add(keywordValue);
-            }
-        }
+        final Set<KeywordTypeValue> keywordValues = getKeywordValues(keywords);
         book.setKeywordTypeValues(keywordValues);
 
         book.setMaterialId(materialId);
@@ -589,7 +571,7 @@ public class EditBookDefinitionForm {
 
         // Parse Date
         final DateFormat formatter = new SimpleDateFormat(CoreConstants.DATE_FORMAT_PATTERN);
-        final Date date = publicationCutoffDate != null ? (Date) formatter.parse(publicationCutoffDate) : null;
+        final Date date = publicationCutoffDate != null ? formatter.parse(publicationCutoffDate) : null;
         book.setPublishCutoffDate(date);
 
         book.setPublishDateText(publishDateText);
@@ -635,6 +617,18 @@ public class EditBookDefinitionForm {
         }
         book.setNortFileLocations(tempNortFileLocations);
         book.setFrontMatterTheme(fmThemeText);
+    }
+
+    private Set<KeywordTypeValue> getKeywordValues(final Map<Long, Collection<Long>> keywords) {
+        return keywords.values()
+            .stream()
+            .flatMap(Collection::stream)
+            .map(keywordValueId -> {
+                final KeywordTypeValue keywordValue = new KeywordTypeValue();
+                keywordValue.setId(keywordValueId);
+                return keywordValue;
+            })
+            .collect(Collectors.toSet());
     }
 
     private void loadPrintComponents(final BookDefinition book) {
@@ -959,7 +953,7 @@ public class EditBookDefinitionForm {
         return printSetNumber;
     }
 
-    public String getPrintSubNumber(){
+    public String getPrintSubNumber() {
         return printSubNumber;
     }
 
@@ -967,7 +961,7 @@ public class EditBookDefinitionForm {
         this.printSetNumber = printSetNumber;
     }
 
-    public void setPrintSubNumber(final String printSubNumber){
+    public void setPrintSubNumber(final String printSubNumber) {
         this.printSubNumber = printSubNumber;
     }
 
@@ -1035,11 +1029,11 @@ public class EditBookDefinitionForm {
         this.publishDateText = publishDateText;
     }
 
-    public Collection<String> getKeywords() {
+    public Map<Long, Collection<Long>> getKeywords() {
         return keywords;
     }
 
-    public void setKeywords(final Collection<String> keywords) {
+    public void setKeywords(final Map<Long, Collection<Long>> keywords) {
         this.keywords = keywords;
     }
 

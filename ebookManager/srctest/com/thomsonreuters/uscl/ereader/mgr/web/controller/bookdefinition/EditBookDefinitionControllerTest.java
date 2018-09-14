@@ -49,6 +49,7 @@ public final class EditBookDefinitionControllerTest {
         BindingResult.class.getName() + "." + EditBookDefinitionForm.FORM_NAME;
     private static final long BOOK_DEFINITION_ID = 1;
     private static List<KeywordTypeCode> KEYWORD_CODES = new ArrayList<>();
+    private final KeywordTypeCode subject = new KeywordTypeCode();
 
     private BookDefinitionLock bookDefinitionLock;
     private EditBookDefinitionController controller;
@@ -91,6 +92,7 @@ public final class EditBookDefinitionControllerTest {
         frontMatterThemes.add("WestLaw Next");
 
         EasyMock.expect(mockEditBookDefinitionService.getFrontMatterThemes()).andReturn(frontMatterThemes);
+        subject.setId(4L);
         validator = new EditBookDefinitionFormValidator(
             mockBookDefinitionService,
             keywordTypeCodeSevice,
@@ -110,6 +112,8 @@ public final class EditBookDefinitionControllerTest {
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "bookLockService", mockLockService);
         org.springframework.test.util.ReflectionTestUtils
             .setField(controller, "miscConfigService", mockMiscConfigService);
+        org.springframework.test.util.ReflectionTestUtils
+            .setField(controller, "keywordTypeCodeSevice", keywordTypeCodeSevice);
         org.springframework.test.util.ReflectionTestUtils.setField(controller, "validator", validator);
         org.springframework.test.util.ReflectionTestUtils
             .setField(controller, "printComponentsCompareController", mockPrintComponentsCompareController);
@@ -142,6 +146,11 @@ public final class EditBookDefinitionControllerTest {
     public void testCreateBookDefintionGet() {
         request.setRequestURI("/" + WebConstants.MVC_BOOK_DEFINITION_CREATE);
         request.setMethod(HttpMethod.GET.name());
+
+        EasyMock.expect(keywordTypeCodeSevice
+            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER))
+            .andReturn(subject);
+        EasyMock.replay(keywordTypeCodeSevice);
 
         setupDropdownMenuAndKeywords(1);
 
@@ -183,6 +192,11 @@ public final class EditBookDefinitionControllerTest {
         final MiscConfig miscConfig = new MiscConfig();
         EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
         EasyMock.replay(mockMiscConfigService);
+
+        EasyMock.expect(keywordTypeCodeSevice
+            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER))
+            .andReturn(subject);
+        EasyMock.replay(keywordTypeCodeSevice);
 
         final ModelAndView mav;
         try {
@@ -274,13 +288,16 @@ public final class EditBookDefinitionControllerTest {
         request.setParameter("titleId", "uscl/an/abcd");
         request.setParameter("isComplete", "true");
 
+        EasyMock.expect(keywordTypeCodeSevice
+                .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER))
+                .andReturn(subject);
+
         setupDropdownMenuAndKeywords(1);
         setupMockServices(null, 1, true);
 
         final MiscConfig miscConfig = new MiscConfig();
         EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
         EasyMock.replay(mockMiscConfigService);
-
         final ModelAndView mav;
         try {
             mav = handlerAdapter.handle(request, response, controller);
@@ -401,6 +418,10 @@ public final class EditBookDefinitionControllerTest {
         mockLockService.lockBookDefinition(book, null, null);
         EasyMock.replay(mockLockService);
 
+        EasyMock.expect(keywordTypeCodeSevice
+            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER))
+            .andReturn(subject);
+        EasyMock.replay(keywordTypeCodeSevice);
         final ModelAndView mav;
         try {
             mav = handlerAdapter.handle(request, response, controller);
@@ -442,6 +463,11 @@ public final class EditBookDefinitionControllerTest {
         EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
         EasyMock.expectLastCall().times(2);
         EasyMock.replay(mockMiscConfigService);
+
+        EasyMock.expect(keywordTypeCodeSevice
+            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER))
+            .andReturn(subject);
+        EasyMock.replay(keywordTypeCodeSevice);
 
         final ModelAndView mav;
         try {
@@ -659,6 +685,9 @@ public final class EditBookDefinitionControllerTest {
         code.setName("Analytical");
         EasyMock.expect(mockDocumentTypeCodeService.getDocumentTypeCodeById(BOOK_DEFINITION_ID)).andReturn(code);
         EasyMock.expect(keywordTypeCodeSevice.getAllKeywordTypeCodes()).andReturn(new ArrayList<KeywordTypeCode>());
+        EasyMock.expect(keywordTypeCodeSevice
+            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER))
+            .andReturn(subject);
         EasyMock.replay(keywordTypeCodeSevice);
         EasyMock.replay(mockDocumentTypeCodeService);
 
@@ -803,6 +832,10 @@ public final class EditBookDefinitionControllerTest {
         mockPrintComponentsCompareController.setPrintComponentHistoryAttributes(EasyMock.anyObject(), EasyMock.anyObject());
         EasyMock.replay(mockPrintComponentsCompareController);
 
+        EasyMock.expect(keywordTypeCodeSevice
+                .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER))
+                .andReturn(subject);
+        EasyMock.replay(keywordTypeCodeSevice);
         setupDropdownMenuAndKeywords(2);
 
         final ModelAndView mav;
@@ -875,6 +908,11 @@ public final class EditBookDefinitionControllerTest {
         final MiscConfig miscConfig = new MiscConfig();
         EasyMock.expect(mockMiscConfigService.getMiscConfig()).andReturn(miscConfig);
         EasyMock.replay(mockMiscConfigService);
+
+        EasyMock.expect(keywordTypeCodeSevice
+            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER))
+            .andReturn(subject);
+        EasyMock.replay(keywordTypeCodeSevice);
 
         final ModelAndView mav;
         try {
@@ -964,6 +1002,10 @@ public final class EditBookDefinitionControllerTest {
         request.setParameter("publisher", "uscl");
         request.setParameter("titleId", "uscl/an/abcd");
         request.setParameter("isComplete", "true");
+
+        EasyMock.expect(keywordTypeCodeSevice
+            .getKeywordTypeCodeByName(WebConstants.KEY_SUBJECT_MATTER))
+            .andReturn(subject);
 
         setupMockServices(null, 1, true);
         setupDropdownMenuAndKeywords(1);

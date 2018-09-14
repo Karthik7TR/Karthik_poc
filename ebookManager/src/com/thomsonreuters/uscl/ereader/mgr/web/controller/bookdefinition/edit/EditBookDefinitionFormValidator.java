@@ -35,6 +35,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -245,7 +246,7 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
 
             checkIsbnNumber(errors, form.getIsbn(), "isbn");
 
-            validateProviewKeywords(errors);
+            validateProviewKeywords(form, errors);
             validateProdOnlyRequirements(form, errors);
 
             if (isSplitBook(form)) {
@@ -937,20 +938,20 @@ public class EditBookDefinitionFormValidator extends BaseFormValidator implement
         }
     }
 
-    private void validateProviewKeywords(final Errors errors) {
+    private void validateProviewKeywords(final EditBookDefinitionForm form, final Errors errors) {
         // Validate that required keyword are selected
-        // getAllKeywordTypeCodes must be in sorted order by the name because
-        // form.getKeywords returns a String Collection of KeywordTypeValues placed
-        // in the order of KeywordTypeCodes.
-        final List<KeywordTypeCode> keywordCodes = keywordTypeCodeSevice.getAllKeywordTypeCodes();
-        int i = 0;
-        for (final KeywordTypeCode code : keywordCodes) {
-            // Check that user has selected a keyword if that KeywordTypeCode is required. KeywordTypeCode is not required if it doesn't have any values
-            if (code.getIsRequired() && !code.getValues().isEmpty()) {
-                ValidationUtils.rejectIfEmptyOrWhitespace(errors, "keywords[" + i + "]", "error.required");
-            }
-            i++;
-        }
+        keywordTypeCodeSevice.getAllKeywordTypeCodes()
+            .stream()
+            .filter(code -> code.getIsRequired() && !code.getValues().isEmpty())
+            .map(KeywordTypeCode::getId)
+            .map(
+                keywordTypeId -> new ImmutablePair<>(
+                    keywordTypeId,
+                    form.getKeywords().getOrDefault(keywordTypeId, Collections.emptyList())))
+            .filter(idValuesPair -> idValuesPair.getRight().isEmpty() || idValuesPair.getRight().contains(-1L))
+            .findAny()
+            .ifPresent(
+                idValuesPair -> errors.rejectValue("keywords[" + idValuesPair.getLeft() + "]", "error.required"));
     }
 
     private void validateProdOnlyRequirements(final EditBookDefinitionForm form, final Errors errors) {
