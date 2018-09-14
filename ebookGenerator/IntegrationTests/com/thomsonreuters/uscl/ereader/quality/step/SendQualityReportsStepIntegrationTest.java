@@ -32,7 +32,7 @@ import com.ninja_squad.dbsetup.destination.DataSourceDestination;
 import com.ninja_squad.dbsetup.operation.Operation;
 import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEmail;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
-import com.thomsonreuters.uscl.ereader.config.AbstractDatabaseIntegrationTestConfig;
+import com.thomsonreuters.uscl.ereader.config.db.AbstractDatabaseIntegrationTestConfig;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.quality.dao.QualityReportRecipientDao;
