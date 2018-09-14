@@ -11,7 +11,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thomsonreuters.uscl.ereader.quality.helper.FtpManager;
 import com.thomsonreuters.uscl.ereader.quality.helper.QualityUtil;
-import com.thomsonreuters.uscl.ereader.quality.model.response.JsonResponse;
+import com.thomsonreuters.uscl.ereader.quality.domain.response.JsonResponse;
 import lombok.SneakyThrows;
 import org.junit.Before;
 import org.junit.Test;

@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.common.filesystem;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.FileSystemMatcher.hasPath;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.anyLong;
 
 import java.io.File;
 
@@ -30,6 +31,7 @@ public final class FormatFileSystemImplTest {
     @Before
     public void setUp() {
         given(bookFileSystem.getWorkDirectory(step)).willReturn(new File(temporaryFolder.getRoot(), "workDirectory"));
+        given(bookFileSystem.getWorkDirectoryByJobId(anyLong())).willReturn(new File(temporaryFolder.getRoot(), "workDirectory"));
     }
 
     @Test
@@ -66,5 +68,14 @@ public final class FormatFileSystemImplTest {
         final File file = fileSystem.getImageToDocumentManifestFile(step);
         //then
         assertThat(file, hasPath("workDirectory/Format/doc-to-image-manifest.txt"));
+    }
+
+    @Test
+    public void shouldReturnFormatDirectoryByJobInstanceId() {
+        //given
+        //when
+        final File directory = fileSystem.getFormatDirectory(1L);
+        //then
+        assertThat(directory, hasPath("workDirectory/Format"));
     }
 }

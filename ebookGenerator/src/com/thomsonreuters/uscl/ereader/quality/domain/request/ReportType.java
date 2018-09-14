@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.quality.model.request;
+package com.thomsonreuters.uscl.ereader.quality.domain.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

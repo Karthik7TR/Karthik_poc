@@ -12,12 +12,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
-import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
-import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+import com.thomsonreuters.uscl.ereader.common.filesystem.GatherFileSystem;
 import org.apache.commons.io.FileUtils;
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -43,10 +39,7 @@ public final class BundlePdfsServiceTest {
     private BundlePdfsService bundlePdfsService;
 
     @Mock
-    private PublishingStatsService publishingStatsService;
-
-    @Mock
-    private BookDefinitionService bookDefinitionService;
+    private GatherFileSystem gatherFileSystem;
 
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
@@ -56,25 +49,14 @@ public final class BundlePdfsServiceTest {
 
     @Before
     public void setUp() {
-        final PublishingStats publishingStats = new PublishingStats();
-        publishingStats.setJobSubmitTimestamp(new DateTime(2018, 1, 1, 17, 3, 0).toDate());
-        publishingStats.setEbookDefId(BOOK_DEFINITION_ID);
-        when(publishingStatsService.findPublishingStatsByJobId(JOB_INSTANCE_ID)).thenReturn(publishingStats);
-
-        final BookDefinition bookDefinition = new BookDefinition();
-        bookDefinition.setFullyQualifiedTitleId("/" + TITLE_ID);
-        when(bookDefinitionService.findBookDefinitionByEbookDefId(BOOK_DEFINITION_ID)).thenReturn(bookDefinition);
+        when(gatherFileSystem.getGatherRootDirectory(JOB_INSTANCE_ID))
+            .thenReturn(new File(String.format("\\data\\20180101\\%s\\%s\\Gather", TITLE_ID, JOB_INSTANCE_ID)));
     }
 
     @Test
     public void shouldGetMaterialNumberDir() {
         final File result = bundlePdfsService.getMaterialNumberDir(JOB_INSTANCE_ID.toString(), MATERIAL_NUMBER);
         assertTrue(result.getPath().contains(String.format("\\data\\20180101\\%s\\%s\\Gather\\Bundles\\%s", TITLE_ID, JOB_INSTANCE_ID, MATERIAL_NUMBER)));
-    }
-
-    @Test(expected = EBookException.class)
-    public void shouldHandleWrongJobInstanceId() {
-        bundlePdfsService.getMaterialNumberDir(WRONG_JOB_INSTANCE_ID.toString(), MATERIAL_NUMBER);
     }
 
     @Test

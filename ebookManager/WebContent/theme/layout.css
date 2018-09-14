@@ -976,6 +976,37 @@ div.jsGrid-container .jsgrid-header-row .jsgrid-header-sort-asc:before {
 .bookDefinitionView .rightDefinitionForm>#displayFile>.row>.dynamicContent {
 width: initial;
 }
+.quality-recipient {
+	display: flex;
+	width:30vw;
+	justify-content: space-between;
+	margin-bottom: 5px;
+}
+
+.quality-recipient * {
+	display: block;
+}
+
+.quality-recipient:hover {
+	background: #F8F9F9;
+}
+
+.recipient-button {
+	border-radius: 5px;
+	border: solid 1px;
+	background: #EAECEE;
+	cursor: pointer;
+	flex-grow: 1;
+	max-width: 20%;
+}
+
+.recipient-button:hover {
+	background: #CCD1D1;
+}
+
+.recipient-email {
+	flex-grow: 1;
+}
 
 .print_component_legend_box {
 	margin: 5px 0 5px;

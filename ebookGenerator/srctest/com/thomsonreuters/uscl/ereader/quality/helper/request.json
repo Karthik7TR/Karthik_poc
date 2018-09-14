@@ -1,1 +1,1 @@
-{"requests":[{"sourceFile":"some\\pathsource","targetFile":"some\\pathtarget","reportTypes":[{"type":"text","inLine":"false","format":"html"}]},{"email":"some@email.com"}]}
+{"requests":[{"sourceFile":"some\\pathsource","targetFile":"some\\pathtarget","reportTypes":[{"type":"text","inLine":"false","format":"html"}]}]}

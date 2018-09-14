@@ -18,6 +18,8 @@ public final class WebConstants {
 
     public static final String URI_GET_BUNDLE_PDFS = "pdfs/{jobInstanceId}/{materialNumber}/{pdfName}.zip";
 
+    public static final String URI_GET_QUALITY_REPORT = "qualityreport/{jobInstanceId}/{material}/{fileName}";
+
     public static final String VIEW_HOME = "home";
     public static final String VIEW_JOB_THROTTLE_CONFIG_RESPONSE = "jobThrottleConfigResponseView";
     public static final String VIEW_MISC_CONFIG_RESPONSE = "miscConfigResponseView";

@@ -135,6 +135,8 @@ public class WebConstants {
     public static final String KEY_JOB_INSTANCE_ID = "jobInstanceId";
     public static final String KEY_JOB_BOOK_INFO = "bookInfo";
 
+    public static final String KEY_QUALITY_REPORTS_RECIPIENTS = "qualityReportsRecipients";
+
     // Document Type Codes
     public static final String DOCUMENT_TYPE_COURT_RULES = "Court Rules";
     public static final String DOCUMENT_TYPE_COURT_RULES_ABBR = "cr";
@@ -277,6 +279,9 @@ public class WebConstants {
     public static final String MVC_ADMIN_AUDIT_BOOK_LIST = "adminAuditBookList.mvc";
     public static final String MVC_ADMIN_AUDIT_BOOK_SEARCH = "adminAuditBookSearch.mvc";
     public static final String MVC_ADMIN_AUDIT_BOOK_MODIFY_ISBN = "adminAuditBookModifyIsbn.mvc";
+    public static final String MVC_ADMIN_QUALITY_RECIPIENTS_VIEW = "adminQualityRecipientsView.mvc";
+    public static final String MVC_ADMIN_QUALITY_RECIPIENTS_ADD = "adminQualityRecipientsAdd.mvc";
+    public static final String MVC_ADMIN_QUALITY_RECIPIENTS_DELETE = "adminQualityRecipientsDelete.mvc";
 
     // Proview related URI's
     public static final String MVC_PROVIEW_TITLES = "proviewTitles.mvc";
@@ -415,6 +420,7 @@ public class WebConstants {
     public static final String VIEW_PROVIEW_GROUP_BOOK_DELETE = "_proviewGroupBookDelete";
     public static final String VIEW_GROUP_DEFINITION_EDIT = "_groupDefinitionEdit";
     public static final String VIEW_USER_PREFERENCES = "_userPreferences";
+    public static final String VIEW_ADMIN_QUALITY_REPORTS_RECIPIENTS = "_qualityReportsRecipients";
 
     public static final String PROVIEW_DISPLAY_NAME_FIELD = "proviewDisplayName";
 

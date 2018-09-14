@@ -1,0 +1,65 @@
+<document version="1.0" xmlns="http://www.sdl.com/xpp">
+	<pages>
+		
+	</pages>
+	<styles>
+		<style name="fm.related.products.3" basename="fm.related.products" font="Helvetica" size="0.12i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="1" fv="0"/>
+		<style name="fm.related.products.2" basename="fm.related.products" font="NewCenturySchlbk-Roman" size="0.12i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="fm.related.products.1" basename="fm.related.products" font="NewCenturySchlbk-Roman" size="0.14i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="text.line.9" basename="text.line" font="NewCenturySchlbk-Roman" size="0.12i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="text.line.8" basename="text.line" font="NewCenturySchlbk-Bold" size="0.12i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="1"/>
+		<style name="csc" basename="csc" font="NewCenturySchlbk-Bold" size="0.15i" cm="smallcap" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="1"/>
+		<style name="fm.related.products" basename="fm.related.products" font="NewCenturySchlbk-Bold" size="0.17i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="1"/>
+		<style name="fm.table.of.abbreviations" basename="fm.table.of.abbreviations" font="NewCenturySchlbk-Bold" size="0.25i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="1"/>
+		<style name="row.1" basename="row" font="NewCenturySchlbk-Roman" size="0.14i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="entry.1" basename="entry" font="NewCenturySchlbk-Roman" size="0.14i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="name.3" basename="name" font="NewCenturySchlbk-Bold" size="0.22i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="1"/>
+		<style name="text.line.7" basename="text.line" font="NewCenturySchlbk-Roman" size="0.14i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="value.1" basename="value" font="NewCenturySchlbk-Bold" size="0.25i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="1"/>
+		<style name="ital.2" basename="ital" font="NewCenturySchlbk-Italic" size="0.15i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="2"/>
+		<style name="bold" basename="bold" font="NewCenturySchlbk-Bold" size="0.15i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="1"/>
+		<style name="para.text.1" basename="para.text" font="NewCenturySchlbk-Roman" size="0.15i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="rh1.1" basename="rh1" font="NewCenturySchlbk-Roman" size="0.14i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="frontmatter" basename="frontmatter" font="NewCenturySchlbk-Roman" size="0.12i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="name.2" basename="name" font="NewCenturySchlbk-Bold" size="0.17i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="1"/>
+		<style name="tbl.2" basename="tbl" font="NewCenturySchlbk-Roman" size="0.15i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="text.line.6" basename="text.line" font="NewCenturySchlbk-Roman" size="0.17i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="text.line.5" basename="text.line" font="NewCenturySchlbk-Roman" size="0.17i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="name.1" basename="name" font="NewCenturySchlbk-Bold" size="0.25i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="1"/>
+		<style name="unknown.5" basename="unknown" font="NewCenturySchlbk-Roman" size="0.14i" cm="smallcap" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="rh1" basename="rh1" font="NewCenturySchlbk-Roman" size="0.14i" cm="smallcap" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="tbl.1" basename="tbl" font="NewCenturySchlbk-Bold" size="0.25i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="1"/>
+		<style name="rffoot" basename="rffoot" font="NewCenturySchlbk-Roman" size="0.12i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="unknown.4" basename="unknown" font="NewCenturySchlbk-Roman" size="0.12i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="rf2" basename="rf2" font="NewCenturySchlbk-Roman" size="0.12i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="ital.1" basename="ital" font="NewCenturySchlbk-Italic" size="0.15i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="2"/>
+		<style name="tbl" basename="tbl" font="NewCenturySchlbk-Roman" size="0.15i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="tbody" basename="tbody" font="NewCenturySchlbk-Roman" size="0.15i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="entry" basename="entry" font="NewCenturySchlbk-Roman" size="0.15i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="row" basename="row" font="NewCenturySchlbk-Roman" size="0.15i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="ital" basename="ital" font="NewCenturySchlbk-Italic" size="0.14i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="2"/>
+		<style name="para.text" basename="para.text" font="NewCenturySchlbk-Roman" size="0.14i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="value" basename="value" font="NewCenturySchlbk-Roman" size="0.12i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="name" basename="name" font="NewCenturySchlbk-Bold" size="0.19i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="1"/>
+		<style name="fm.copyright.page.1" basename="fm.copyright.page" font="NewCenturySchlbk-Bold" size="0.12i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="1"/>
+		<style name="fm.copyright.page" basename="fm.copyright.page" font="NewCenturySchlbk-Roman" size="0.12i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="fm.variable.1" basename="fm.variable" font="NewCenturySchlbk-Roman" size="0.14i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+		<style name="matnum" basename="matnum" font="Helvetica" size="0.11i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="1" fv="0"/>
+		<style name="unknown.3" basename="unknown" font="Helvetica" size="0.11i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="1" fv="0"/>
+		<style name="unknown.2" basename="unknown" font="Helvetica-Bold" size="0.15i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="1" fv="1"/>
+		<style name="FEND" basename="FEND" font="Times-Roman" size="0.18i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="0" fv="0"/>
+		<style name="px" basename="px" font="Times-Roman" size="0.18i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="0" fv="0"/>
+		<style name="FSTART" basename="FSTART" font="Times-Roman" size="0.18i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="0" fv="0"/>
+		<style name="custserv" basename="custserv" font="NewCenturySchlbk-Italic" size="0.12i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="2"/>
+		<style name="unknown.1" basename="unknown" font="NewCenturySchlbk-Italic" size="0.12i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="2"/>
+		<style name="new_westhorz" basename="new_westhorz" font="Times-Roman" size="0.18i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="0" fv="0"/>
+		<style name="unknown" basename="unknown" font="Times-Roman" size="0.18i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="0" fv="0"/>
+		<style name="fm.variable" basename="fm.variable" font="Helvetica-Narrow" size="0.36i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="8" fv="0"/>
+		<style name="text.line.4" basename="text.line" font="Helvetica-Narrow" size="0.36i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="8" fv="0"/>
+		<style name="text.line.3" basename="text.line" font="Helvetica-Narrow-Bold" size="0.94i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="8" fv="1"/>
+		<style name="text.line.2" basename="text.line" font="Helvetica-Narrow-Bold" size="0.94i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="8" fv="1"/>
+		<style name="text.line.1" basename="text.line" font="Helvetica-Narrow" size="0.28i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="8" fv="0"/>
+		<style name="fm.pub.variable" basename="fm.pub.variable" font="Times-Roman" size="0.18i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="0" fv="0"/>
+		<style name="text.line" basename="text.line" font="NewCenturySchlbk-Roman" size="0.14i" cm="normal" color="#000000" color-cmyk="0 0 0 1" ff="2" fv="0"/>
+	</styles>
+</document>

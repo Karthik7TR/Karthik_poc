@@ -13,7 +13,7 @@ import java.util.function.BiConsumer;
 import java.util.stream.Collector;
 
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
-import com.thomsonreuters.uscl.ereader.quality.model.request.CompareUnit;
+import com.thomsonreuters.uscl.ereader.quality.domain.request.CompareUnit;
 import org.apache.commons.collections4.map.MultiKeyMap;
 import org.apache.commons.lang3.tuple.Pair;
 

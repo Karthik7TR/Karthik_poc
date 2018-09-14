@@ -39,4 +39,6 @@ public final class JobParameterKey {
     public static final String JOB_NAME_PROCESS_BUNDLE = "ebookBundleJob";
     public static final String KEY_JOB_NAME = "jobName";
     public static final String XPP_BUNDLES = "xppBundles";
+
+    public static final String QUALITY_REPORTS = "qualityReports";
 }

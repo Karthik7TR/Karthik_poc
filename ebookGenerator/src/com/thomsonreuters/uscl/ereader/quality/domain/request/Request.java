@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.quality.model.request;
+package com.thomsonreuters.uscl.ereader.quality.domain.request;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 

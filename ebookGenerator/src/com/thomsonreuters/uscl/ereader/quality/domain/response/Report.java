@@ -1,4 +1,4 @@
-package com.thomsonreuters.uscl.ereader.quality.model.response;
+package com.thomsonreuters.uscl.ereader.quality.domain.response;
 
 import lombok.Data;
 

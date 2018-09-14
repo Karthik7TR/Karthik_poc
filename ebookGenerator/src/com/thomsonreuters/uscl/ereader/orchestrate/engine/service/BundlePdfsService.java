@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Optional;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -14,14 +13,8 @@ import java.util.zip.ZipOutputStream;
 import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.common.exception.EBookException;
-import com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystemImpl;
-import com.thomsonreuters.uscl.ereader.core.CoreConstants;
-import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
-import com.thomsonreuters.uscl.ereader.core.book.service.BookDefinitionService;
-import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
-import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
+import com.thomsonreuters.uscl.ereader.common.filesystem.GatherFileSystem;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component(value = "bundlePdfsService")
@@ -30,21 +23,16 @@ public class BundlePdfsService {
     private static final FileFilter PDF_FILE = file -> file.getName().toLowerCase().endsWith("pdf");
     private static final FileFilter PDF_DIRECTORY = file -> file.isDirectory() && file.getName().equals("PDF");
 
-    @Value("${root.work.directory}")
-    private File rootWorkDirectory;
-    @Resource(name = "environmentName")
-    private String environmentName;
-
-    @Resource(name = "publishingStatsService")
-    private PublishingStatsService publishingStatsService;
-
-    @Resource(name = "bookDefinitionService")
-    private BookDefinitionService bookDefinitionService;
+    @Resource(name = "gatherFileSystem")
+    private GatherFileSystem gatherFileSystem;
 
     @NotNull
     public File getMaterialNumberDir(@NotNull final String jobInstanceId, @NotNull final String materialNumber) {
-        final String dynamicPath = getDynamicPath(jobInstanceId, materialNumber);
-        return new File(rootWorkDirectory, dynamicPath);
+        return gatherFileSystem.getGatherRootDirectory(Long.valueOf(jobInstanceId))
+            .toPath()
+            .resolve("Bundles")
+            .resolve(materialNumber)
+            .toFile();
     }
 
     public void addFilesToZip(@NotNull final File materialNumberDir, @NotNull final ZipOutputStream zout) throws IOException {
@@ -53,18 +41,6 @@ public class BundlePdfsService {
         for (final File pdfFile : pdfDir.listFiles(PDF_FILE)) {
             addFileToZip(pdfDir, pdfFile, zout);
         }
-    }
-
-    private String getDynamicPath(final String jobInstanceId, final String materialNumber) {
-        final PublishingStats stats = Optional.ofNullable(publishingStatsService.findPublishingStatsByJobId(Long.valueOf(jobInstanceId)))
-            .orElseThrow(() -> new EBookException("Can not find jobInstanceId " + jobInstanceId));
-
-        final String dateBasedDir = BookFileSystemImpl.getDateBasedDirName(stats.getJobSubmitTimestamp());
-        final Long bookDefinitionId = stats.getEbookDefId();
-        final BookDefinition boodDefinition = bookDefinitionService.findBookDefinitionByEbookDefId(bookDefinitionId);
-        final String titleId = boodDefinition.getTitleId();
-
-        return String.format("%s/%s/%s/%s/%s/Gather/Bundles/%s", environmentName, CoreConstants.DATA_DIR, dateBasedDir, titleId, jobInstanceId, materialNumber);
     }
 
     private File getPdfDir(final File materialNumberDir) {

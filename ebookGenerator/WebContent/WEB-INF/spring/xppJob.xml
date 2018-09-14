@@ -100,14 +100,19 @@
         <!--  must always be the last transformation step, otherwise XML parser will throw exception on HTML entities-->
         <step id="unescapeStep">
             <tasklet ref="unescapeTask" />
-            <next on="COMPLETED" to="extractTocStep" />
+            <next on="COMPLETED" to="qualityStep" />
             <fail on="FAILED" />
         </step>
-		<!-- <step id="qualityStep">
+		<step id="qualityStep">
 			<tasklet ref="qualityTask" />
+			<next on="COMPLETED" to="sendQualityReportNotificationXppStep" />
+			<fail on="FAILED" />
+		</step>
+		<step id="sendQualityReportNotificationXppStep">
+			<tasklet ref="qualityReportTask" />
 			<next on="COMPLETED" to="extractTocStep" />
 			<fail on="FAILED" />
-		</step> -->
+		</step>
         <step id="extractTocStep">
             <tasklet ref="extractTocTask" />
             <next on="COMPLETED" to="moveResourcesToAssembleDirectoryXppStep" />
@@ -150,7 +155,7 @@
 		</step>
 		<step id="sendEmailNotificationXppStep">
 			<tasklet ref="sendEmailNotificationXppTask" />
-			<end on="COMPLETED" />
+			<end on="COMPLETED"/>
 			<fail on="FAILED" />
 		</step>
 	</job>
@@ -192,7 +197,7 @@
     <beans:bean id="unescapeTask" scope="step" parent="bookStep"
         class="com.thomsonreuters.uscl.ereader.xpp.transformation.unescape.step.UnescapeStep" />
 	<beans:bean id="qualityTask" scope="step" parent="bookStep"
-				class="com.thomsonreuters.uscl.ereader.quality.step.QualityStep" />
+				class="com.thomsonreuters.uscl.ereader.quality.step.QualityStep" />		
     <beans:bean id="internalAnchorsTask" scope="step" parent="bookStep"
         class="com.thomsonreuters.uscl.ereader.xpp.transformation.internalAnchors.step.InternalAnchorsStep" />
     <beans:bean id="createDocToImageMappingTask" scope="step" parent="bookStep"
@@ -218,4 +223,6 @@
 	<beans:bean id="sendEmailNotificationXppTask" scope="step"
 		parent="bookStep"
 		class="com.thomsonreuters.uscl.ereader.xpp.notification.SendEmailNotification" />
+	<beans:bean id="qualityReportTask" scope="step" parent="bookStep"
+		class="com.thomsonreuters.uscl.ereader.quality.step.SendQualityReportsStep" />	
 </beans:beans>

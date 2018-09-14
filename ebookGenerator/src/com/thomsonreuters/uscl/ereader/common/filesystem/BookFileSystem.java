@@ -14,4 +14,7 @@ public interface BookFileSystem {
      */
     @NotNull
     File getWorkDirectory(@NotNull BookStep step);
+
+    @NotNull
+    File getWorkDirectoryByJobId(@NotNull Long jobInstanceId);
 }

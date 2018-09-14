@@ -5,10 +5,13 @@ import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.mapping;
 import static java.util.stream.Collectors.reducing;
 
+import static com.thomsonreuters.uscl.ereader.JobParameterKey.QUALITY_REPORTS;
 import static com.thomsonreuters.uscl.ereader.xpp.transformation.service.QualityFileSystem.COMPARE_UNIT_LIST_COLLECTOR;
 import static com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir.QUALITY_DIR;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.mail.internet.InternetAddress;
 import javax.xml.transform.Transformer;
 
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
@@ -25,14 +27,14 @@ import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishi
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
-import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
-import com.thomsonreuters.uscl.ereader.quality.model.request.CompareUnit;
-import com.thomsonreuters.uscl.ereader.quality.model.response.JsonResponse;
+import com.thomsonreuters.uscl.ereader.quality.domain.request.CompareUnit;
+import com.thomsonreuters.uscl.ereader.quality.domain.response.JsonResponse;
 import com.thomsonreuters.uscl.ereader.quality.service.ComparisonService;
 import com.thomsonreuters.uscl.ereader.quality.service.ReportService;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.QualityFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppGatherFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
+import lombok.SneakyThrows;
 import org.apache.commons.collections4.keyvalue.MultiKey;
 import org.apache.commons.collections4.map.MultiKeyMap;
 import org.apache.commons.lang3.tuple.Pair;
@@ -55,8 +57,6 @@ public class QualityStep extends XppTransformationStep {
     @Autowired
     private XppGatherFileSystem gatherFileSystem;
     @Autowired
-    private EmailUtil emailUtil;
-    @Autowired
     @Qualifier("xppQualityFileSystem")
     private QualityFileSystem qualityFileSystem;
 
@@ -69,30 +69,27 @@ public class QualityStep extends XppTransformationStep {
 
     @Override
     public void executeTransformation() {
-        execute();
+        getJobExecutionContext().put(QUALITY_REPORTS, compareAndGetReports());
     }
 
-    //package visibility for testing
-    Map<String, List<File>> execute() {
+    private Map<String, List<File>> compareAndGetReports() {
         final MultiKeyMap<String, Collection<File>> materialNameFilesMap = qualityFileSystem.getHtmlFileMap(this);
-        final String recipients = getEmails();
         final Map<String, List<CompareUnit>> compareUnitsMap = materialNameFilesMap.entrySet()
             .stream()
-            .collect(groupingBy(entry -> {
-                final String materialNumber = entry.getKey()
-                    .getKey(0);
-                return materialNumber;
-            }, mapping(entry -> {
-                final MultiKey<? extends String> materialNumberAndFileName = entry.getKey();
-                final Collection<File> htmlFiles = entry.getValue();
-                return getCompareUnit(materialNumberAndFileName, htmlFiles, this);
-            }, COMPARE_UNIT_LIST_COLLECTOR)));
+            .collect(groupingBy(entry -> entry.getKey()
+                .getKey(0), mapping(entry -> {
+                    final MultiKey<? extends String> materialNumberAndFileName = entry.getKey();
+                    final Collection<File> htmlFiles = entry.getValue();
+                    return getCompareUnit(materialNumberAndFileName, htmlFiles, this);
+                }, COMPARE_UNIT_LIST_COLLECTOR)));
 
         return compareUnitsMap.entrySet()
             .parallelStream()
             .collect(groupingBy(Map.Entry::getKey, mapping(entry -> {
-                final List<CompareUnit> units = entry.getValue();
-                final JsonResponse jsonResponse = comparisonService.compare(units, recipients);
+                final List<CompareUnit> units = entry.getValue().stream()
+                    .filter(unit -> !bothFilesEmpty(unit))
+                    .collect(Collectors.toList());
+                final JsonResponse jsonResponse = comparisonService.compare(units);
                 final String materialNumber = entry.getKey();
                 final String reportsDirPath =
                     new File(fileSystem.getDirectory(this, QUALITY_DIR, materialNumber), "reports").getAbsolutePath();
@@ -103,11 +100,9 @@ public class QualityStep extends XppTransformationStep {
             }))));
     }
 
-    private String getEmails() {
-        return emailUtil.getEmailRecipientsByUsername(getUserName())
-            .stream()
-            .map(InternetAddress::getAddress)
-            .collect(Collectors.joining(","));
+    @SneakyThrows
+    private boolean bothFilesEmpty(final CompareUnit unit) {
+        return Files.size(Paths.get(unit.getSource())) == 0 && Files.size(Paths.get(unit.getTarget())) == 0;
     }
 
     /**

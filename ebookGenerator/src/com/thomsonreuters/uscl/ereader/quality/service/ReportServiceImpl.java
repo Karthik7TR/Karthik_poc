@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import com.thomsonreuters.uscl.ereader.quality.helper.FtpManager;
 import com.thomsonreuters.uscl.ereader.quality.helper.QualityUtil;
-import com.thomsonreuters.uscl.ereader.quality.model.response.JsonResponse;
+import com.thomsonreuters.uscl.ereader.quality.domain.response.JsonResponse;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;

@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.context;
 import com.thomsonreuters.uscl.ereader.common.config.CommonJPAConfig;
 import com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem;
 import com.thomsonreuters.uscl.ereader.common.filesystem.TestBookFileSystemImpl;
+import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.core.book.util.BookTitlesUtil;
 import com.thomsonreuters.uscl.ereader.core.book.util.BookTitlesUtilImpl;
 import com.thomsonreuters.uscl.ereader.core.book.util.VersionUtil;
@@ -28,7 +29,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
         "com.thomsonreuters.uscl.ereader.deliver"},
     excludeFilters = {
         @ComponentScan.Filter(
-            value = {BookFileSystem.class, ProviewTitleService.class, CommonJPAConfig.class},
+            value = {BookFileSystem.class, ProviewTitleService.class, CommonJPAConfig.class, EmailService.class},
             type = FilterType.ASSIGNABLE_TYPE)})
 @PropertySources({
     @PropertySource("file:WebContent/WEB-INF/spring/properties/xpp.properties"),
@@ -63,5 +64,10 @@ public class CommonTestContextConfiguration {
     @Bean
     public ProviewTitleService proviewTitleService() {
         return Mockito.mock(ProviewTitleService.class);
+    }
+
+    @Bean
+    public EmailService emailService() {
+        return Mockito.mock(EmailService.class);
     }
 }

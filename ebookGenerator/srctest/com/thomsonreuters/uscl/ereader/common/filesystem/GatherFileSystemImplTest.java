@@ -3,6 +3,7 @@ package com.thomsonreuters.uscl.ereader.common.filesystem;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.FileSystemMatcher.hasPath;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.anyLong;
 
 import java.io.File;
 
@@ -18,6 +19,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public final class GatherFileSystemImplTest {
+    private static final String WORK_DIRECTORY_NAME = "workDirectory";
+    private static final String EXPECTED_PATH = String.format("%s/Gather", WORK_DIRECTORY_NAME);
     @InjectMocks
     private GatherFileSystemImpl fileSystem;
     @Mock
@@ -29,15 +32,18 @@ public final class GatherFileSystemImplTest {
 
     @Before
     public void setUp() {
-        given(bookFileSystem.getWorkDirectory(step)).willReturn(new File(temporaryFolder.getRoot(), "workDirectory"));
+        given(bookFileSystem.getWorkDirectory(step)).willReturn(new File(temporaryFolder.getRoot(), WORK_DIRECTORY_NAME));
+        given(bookFileSystem.getWorkDirectoryByJobId(anyLong())).willReturn(new File(temporaryFolder.getRoot(), WORK_DIRECTORY_NAME));
     }
 
     @Test
     public void shouldReturnGatherRootDirectory() {
         //given
         //when
-        final File file = fileSystem.getGatherRootDirectory(step);
+        final File fileByStep = fileSystem.getGatherRootDirectory(step);
+        final File fileByJobId = fileSystem.getGatherRootDirectory(1L);
         //then
-        assertThat(file, hasPath("workDirectory/Gather"));
+        assertThat(fileByStep, hasPath(EXPECTED_PATH));
+        assertThat(fileByJobId, hasPath(EXPECTED_PATH));
     }
 }

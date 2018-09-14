@@ -11,16 +11,15 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thomsonreuters.uscl.ereader.quality.model.request.CompareUnit;
-import com.thomsonreuters.uscl.ereader.quality.model.request.JsonRequest;
-import com.thomsonreuters.uscl.ereader.quality.model.response.Report;
-import com.thomsonreuters.uscl.ereader.quality.model.response.ReportSourcePair;
-import com.thomsonreuters.uscl.ereader.quality.model.response.Response;
+import com.thomsonreuters.uscl.ereader.quality.domain.request.CompareUnit;
+import com.thomsonreuters.uscl.ereader.quality.domain.request.JsonRequest;
+import com.thomsonreuters.uscl.ereader.quality.domain.response.Report;
+import com.thomsonreuters.uscl.ereader.quality.domain.response.ReportSourcePair;
+import com.thomsonreuters.uscl.ereader.quality.domain.response.Response;
 import org.junit.Test;
 
 public final class QualityUtilTest {
     private static final String FTP_STORAGE_PATH = "some\\path";
-    private static final String EMAILS = "some@email.com";
     private static final String REPORT_FILE_NAME = "report\\file";
     private static final String SOURCE_FILE_NAME = "source\\file.xml";
     private static final ReportSourcePair REPORT_SOURCE_PAIR = new ReportSourcePair(REPORT_FILE_NAME, SOURCE_FILE_NAME);
@@ -34,7 +33,7 @@ public final class QualityUtilTest {
         final List<CompareUnit> compareUnits = singletonList(compareUnit);
         final String expectedRequestString = readFileToString(new File(QualityUtilTest.class.getResource("request.json").toURI()));
         //when
-        final JsonRequest request = sut.createJsonRequest(compareUnits, EMAILS);
+        final JsonRequest request = sut.createJsonRequest(compareUnits);
         final String actualRequestString = new ObjectMapper().writeValueAsString(request);
         //then
         //trimmed to make sure EOF doesn't break test

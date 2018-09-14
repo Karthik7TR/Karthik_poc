@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.quality.helper.FtpManager;
 import com.thomsonreuters.uscl.ereader.quality.helper.QualityUtil;
-import com.thomsonreuters.uscl.ereader.quality.model.request.CompareUnit;
-import com.thomsonreuters.uscl.ereader.quality.model.request.JsonRequest;
-import com.thomsonreuters.uscl.ereader.quality.model.response.JsonResponse;
+import com.thomsonreuters.uscl.ereader.quality.domain.request.CompareUnit;
+import com.thomsonreuters.uscl.ereader.quality.domain.request.JsonRequest;
+import com.thomsonreuters.uscl.ereader.quality.domain.response.JsonResponse;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -38,14 +38,14 @@ public class ComparisonServiceImpl implements ComparisonService {
     }
 
     @Override
-    public JsonResponse compare(final List<CompareUnit> compareUnitList, final String emails) {
+    public JsonResponse compare(final List<CompareUnit> compareUnitList) {
         ftpManager.connect();
         try {
             compareUnitList.forEach(this::uploadFilesToFtpServer);
         } finally {
             ftpManager.disconnect();
         }
-        final JsonRequest jsonRequest = qualityUtil.createJsonRequest(compareUnitList, emails);
+        final JsonRequest jsonRequest = qualityUtil.createJsonRequest(compareUnitList);
         return restTemplate.exchange(dtApiUrl, HttpMethod.POST, new HttpEntity<>(jsonRequest), JsonResponse.class)
             .getBody();
     }

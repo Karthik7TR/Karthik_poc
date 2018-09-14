@@ -24,4 +24,9 @@ public class TestBookFileSystemImpl implements BookFileSystem {
             return null;
         }
     }
+
+    @Override
+    public File getWorkDirectoryByJobId(final Long jobInstanceId) {
+        return getWorkDirectory(null);
+    }
 }

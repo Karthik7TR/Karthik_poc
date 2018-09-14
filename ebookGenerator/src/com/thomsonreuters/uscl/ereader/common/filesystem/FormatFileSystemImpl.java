@@ -10,13 +10,21 @@ import org.springframework.stereotype.Component;
 
 @Component("formatFileSystem")
 public class FormatFileSystemImpl implements FormatFileSystem {
+    private static final String FORMAT_DIR_NAME = "Format";
+
     @Resource(name = "bookFileSystem")
     private BookFileSystem bookFileSystem;
 
     @NotNull
     @Override
+    public File getFormatDirectory(@NotNull final Long jobInstanceId) {
+        return new File(bookFileSystem.getWorkDirectoryByJobId(jobInstanceId), FORMAT_DIR_NAME);
+    }
+
+    @NotNull
+    @Override
     public File getFormatDirectory(@NotNull final BookStep step) {
-        return new File(bookFileSystem.getWorkDirectory(step), "Format");
+        return new File(bookFileSystem.getWorkDirectory(step), FORMAT_DIR_NAME);
     }
 
     @NotNull

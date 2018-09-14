@@ -15,6 +15,14 @@ public interface FormatFileSystem {
      * {@code /Format}
      */
     @NotNull
+    File getFormatDirectory(@NotNull Long jobInstanceId);
+
+    /**
+     * Returns format directory:
+     * {@link com.thomsonreuters.uscl.ereader.common.filesystem.BookFileSystem#getWorkDirectory workDirectory}
+     * {@code /Format}
+     */
+    @NotNull
     File getFormatDirectory(@NotNull BookStep step);
 
     /**

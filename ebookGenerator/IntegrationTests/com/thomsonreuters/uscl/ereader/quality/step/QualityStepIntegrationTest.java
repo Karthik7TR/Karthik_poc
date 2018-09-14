@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.quality.step;
 
 import static java.util.Collections.singleton;
 
+import static com.thomsonreuters.uscl.ereader.JobParameterKey.QUALITY_REPORTS;
 import static com.thomsonreuters.uscl.ereader.common.filesystem.FileContentMatcher.hasSameContentAs;
 import static com.thomsonreuters.uscl.ereader.quality.step.QualityStep.DIVXML;
 import static com.thomsonreuters.uscl.ereader.quality.step.QualityStep.HTML;
@@ -13,13 +14,17 @@ import static com.thomsonreuters.uscl.ereader.quality.step.QualityStep.StreamTyp
 import static com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir.QUALITY_DIR;
 import static org.apache.commons.io.FileUtils.copyDirectory;
 import static org.apache.commons.io.FileUtils.forceMkdir;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyMap;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpMethod.POST;
 
@@ -36,9 +41,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
+import com.thomsonreuters.uscl.ereader.quality.domain.response.JsonResponse;
 import com.thomsonreuters.uscl.ereader.quality.helper.FtpManager;
 import com.thomsonreuters.uscl.ereader.quality.helper.QualityUtil;
-import com.thomsonreuters.uscl.ereader.quality.model.response.JsonResponse;
 import com.thomsonreuters.uscl.ereader.quality.service.ComparisonService;
 import com.thomsonreuters.uscl.ereader.quality.service.ComparisonServiceImpl;
 import com.thomsonreuters.uscl.ereader.quality.service.ReportService;
@@ -52,10 +57,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Answers;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.batch.core.scope.context.ChunkContext;
+import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -83,6 +91,8 @@ public final class QualityStepIntegrationTest {
     private QualityStep sut;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private ChunkContext chunkContext;
+    @Mock
+    private ExecutionContext jobExecutionContext;
     @Autowired
     private XppFormatFileSystem fileSystem;
     @Autowired
@@ -102,6 +112,11 @@ public final class QualityStepIntegrationTest {
     private File expectedTransformedFootnoteHtml;
     private File expectedReport;
 
+    private Map<String, List<File>> resultMap;
+
+    @Captor
+    private ArgumentCaptor<String> filesCaptor;
+
     @Before
     public void setUp() throws IOException, URISyntaxException, AddressException {
         org.mockito.MockitoAnnotations.initMocks(this);
@@ -110,6 +125,15 @@ public final class QualityStepIntegrationTest {
             .getStepExecution()
             .getJobParameters()
             .getString(JobParameterKey.USER_NAME)).thenReturn(EMAIL);
+
+        when(chunkContext.getStepContext()
+            .getStepExecution()
+            .getJobExecution()
+            .getExecutionContext()).thenReturn(jobExecutionContext);
+
+        doAnswer(invocationOnMock -> resultMap = (Map<String, List<File>>) invocationOnMock.getArguments()[1])
+            .when(jobExecutionContext)
+            .put(eq(QUALITY_REPORTS), anyMap());
 
         final JsonResponse jsonResponse = loadResponse();
 
@@ -162,7 +186,7 @@ public final class QualityStepIntegrationTest {
         expectedReport = new File(QualityStepIntegrationTest.class.getResource("data/reports/report.html")
             .toURI());
         //when
-        final Map<String, List<File>> resultMap = sut.execute();
+        sut.executeTransformation();
         //then
         final File actualTransformedMainDivXml = fileSystem.getFile(
             sut,
@@ -191,6 +215,9 @@ public final class QualityStepIntegrationTest {
         assertThat(expectedTransformedFootnoteDivXml, hasSameContentAs(actualTransformedFootnoteDivXml));
         assertThat(expectedTransformedFootnoteHtml, hasSameContentAs(actualTransformedFootnoteHtml));
         assertThat(expectedReport, hasSameContentAs(actualReport));
+        verify(jobExecutionContext).put(eq(QUALITY_REPORTS), anyMap());
+        verify(ftpManager, atLeastOnce()).uploadFile(filesCaptor.capture());
+        filesCaptor.getAllValues().forEach(value -> assertThat(value, containsString("vol_1")));
     }
 
     @SneakyThrows

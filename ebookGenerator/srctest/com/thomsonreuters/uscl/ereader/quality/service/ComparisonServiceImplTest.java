@@ -14,9 +14,9 @@ import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.quality.helper.FtpManager;
 import com.thomsonreuters.uscl.ereader.quality.helper.QualityUtil;
-import com.thomsonreuters.uscl.ereader.quality.model.request.CompareUnit;
-import com.thomsonreuters.uscl.ereader.quality.model.request.JsonRequest;
-import com.thomsonreuters.uscl.ereader.quality.model.response.JsonResponse;
+import com.thomsonreuters.uscl.ereader.quality.domain.request.CompareUnit;
+import com.thomsonreuters.uscl.ereader.quality.domain.request.JsonRequest;
+import com.thomsonreuters.uscl.ereader.quality.domain.response.JsonResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,14 +43,13 @@ public final class ComparisonServiceImplTest {
     private JsonRequest jsonRequest;
     private CompareUnit compareUnit = new CompareUnit("source", "targer");
     private List<CompareUnit> compareUnits = singletonList(compareUnit);
-    private String emails = "my@email.com";
     @Mock
     private JsonResponse expectedResponse;
 
     @Before
     public void setUp() {
         doNothing().when(ftpManager).uploadFile(any());
-        when(qualityUtil.createJsonRequest(compareUnits, emails))
+        when(qualityUtil.createJsonRequest(compareUnits))
                 .thenReturn(jsonRequest);
         when(restTemplate.exchange(anyString(),
                 eq(HttpMethod.POST),
@@ -61,7 +60,7 @@ public final class ComparisonServiceImplTest {
 
     @Test
     public void shouldCompare() {
-        final JsonResponse actualResponse = sut.compare(compareUnits, emails);
+        final JsonResponse actualResponse = sut.compare(compareUnits);
         assertEquals(expectedResponse, actualResponse);
         verify(ftpManager).uploadFile(eq(compareUnit.getSource()));
         verify(ftpManager).uploadFile(eq(compareUnit.getTarget()));

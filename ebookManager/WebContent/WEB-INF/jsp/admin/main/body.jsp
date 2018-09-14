@@ -74,6 +74,13 @@
 		<a href="<%=WebConstants.MVC_ADMIN_OUTAGE_ACTIVE_LIST%>">Active Outage List</a>
 		<a href="<%=WebConstants.MVC_ADMIN_OUTAGE_TYPE_LIST%>">Outage Types</a>
 	</div>
+
+    <div>
+        <h3>Quality Reports Recipients</h3>
+        <div class="buttons">
+            <a href="<%=WebConstants.MVC_ADMIN_QUALITY_RECIPIENTS_VIEW%>">Quality Reports Recipients</a>
+        </div>
+    </div>
 </div>
 
 <div>
