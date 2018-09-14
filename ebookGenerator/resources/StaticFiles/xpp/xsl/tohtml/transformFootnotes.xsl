@@ -29,13 +29,13 @@
         </xsl:element>
         
         <xsl:if test="./x:footnote.body//x:page.number[1]">
-			<xsl:apply-templates select="./x:footnote.body//x:page.number[1]" mode="place-page-number" />	
+			<xsl:apply-templates select="./x:footnote.body//x:page.number[1]" mode="place-page-number" />
 		</xsl:if>
     </xsl:template>
     
     <xsl:template match="x:page.number">
-		<xsl:if test="not(ancestor::x:footnote)">	
-			<xsl:apply-templates select="self::node()" mode="place-page-number" />				
+		<xsl:if test="not(ancestor::x:footnote)">
+			<xsl:apply-templates select="self::node()" mode="place-page-number" />
 		</xsl:if>
 	</xsl:template>
 	

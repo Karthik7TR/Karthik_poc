@@ -4,6 +4,7 @@
 	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
 	<xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
     <xsl:include href="footnotesToMain.xsl"/>
+    <xsl:include href="tableForScrollAndPageMode.xsl"/>
 
 	<xsl:variable name="firstDocFamilyUuid"
 		select="(x:root//x:XPPMetaData)[1]/@md.doc_family_uuid" />

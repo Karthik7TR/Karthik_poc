@@ -150,4 +150,44 @@
             </para>
         </footnote.body>
     </footnote>
+    <footnote id="29-scrollmode" origId="29" orig="false" hidden="true" uuid="I42e15f7013c911e7b9e3acd823573d3f" date.updated="0">
+        
+        <footnote.reference class="show_in_main_and_footnotes">
+            <cgt>29</cgt>
+        </footnote.reference><footnote.body class="show_in_main_and_footnotes" date.updated="0">
+            <para date.updated="0" first.para="no">
+                footnote 29 on page 9
+            </para>
+        </footnote.body>
+    </footnote><footnote id="29-9" origId="29" orig="true" uuid="I42e15f7013c911e7b9e3acd823573d3f" date.updated="0">
+        
+        <footnote.reference class="show_in_main_and_footnotes">
+            <cgt>29</cgt>
+        </footnote.reference><footnote.body class="show_in_main_and_footnotes" date.updated="0">
+            <para date.updated="0" first.para="no">
+                footnote 29 on page 9
+            </para>
+        </footnote.body>
+    </footnote>
+    <footnote id="30-scrollmode" origId="30" orig="false" hidden="true" uuid="I42e15f7013c911e7b9e3acd823573d40" date.updated="0">
+        
+        <footnote.reference class="show_in_main_and_footnotes">
+            <cgt>30</cgt>
+        </footnote.reference><footnote.body class="show_in_main_and_footnotes" date.updated="0">
+            <para date.updated="0" first.para="no">
+                footnote 30 on page 9
+            </para>
+        </footnote.body>
+    </footnote><footnote id="30-9" origId="30" orig="true" uuid="I42e15f7013c911e7b9e3acd823573d40" date.updated="0">
+        
+        <footnote.reference class="show_in_main_and_footnotes">
+            <cgt>30</cgt>
+        </footnote.reference><footnote.body class="show_in_main_and_footnotes" date.updated="0">
+            <para date.updated="0" first.para="no">
+                footnote 30 on page 9
+            </para>
+        </footnote.body>
+    </footnote>
+    <pagebreak num="10" num-string="10"/>
+    <pagebreak num="11" num-string="11"/>
 </root>

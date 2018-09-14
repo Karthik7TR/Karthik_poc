@@ -275,17 +275,22 @@
 			<xsl:apply-templates />
 		</xsl:copy>
 	</xsl:template>
-<!--    TODO: move to img step -->
-<!-- 	<xsl:template match="x:image.block"> -->
-<!-- 		<xsl:param name="quote">"</xsl:param> -->
-<!-- 		<xsl:param name="ident">ident="</xsl:param> -->
-<!-- 		<xsl:variable name='guid' select='substring-before(substring-after(self::node(),$ident),".")' /> -->
-<!-- 		<xsl:element name="img"> -->
-<!-- 			<xsl:attribute name="class" select="'tr_image'" /> -->
-<!-- 			<xsl:attribute name="assetid" select="concat('er:#', $guid)" /> -->
-<!-- 		</xsl:element> -->
-<!-- 	</xsl:template> -->
 
+    <xsl:template match="x:tbl">
+        <xsl:variable name="pageOrScrollMode">
+            <xsl:if test="@mode != ''">
+                <xsl:value-of select="@mode" />
+            </xsl:if>
+        </xsl:variable>
+        
+        <xsl:variable name="tblClass" select="string-join(('tbl', $pageOrScrollMode)[. != ''],' ')" />
+            
+        <xsl:element name="div">
+            <xsl:attribute name="class" select="$tblClass" />
+            <xsl:apply-templates />
+        </xsl:element>
+    </xsl:template>
+    
     <xsl:template match="x:table">
         <xsl:variable name="trTableClass">
             <xsl:if test="number(@cols) > 3 and @tgroupstyle = 'text'">

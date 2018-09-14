@@ -23,6 +23,9 @@
             <xsl:call-template name="addSectionbreak">
                 <xsl:with-param name="correspondingNodeInMain" select="$xref" />
             </xsl:call-template>
+            <xsl:call-template name="addCopyOfFootnoteForTableInScrollMode">
+                <xsl:with-param name="correspondingNodeInMain" select="$xref" />
+            </xsl:call-template>
         </xsl:if>
         
         <xsl:element name="footnote">
@@ -196,5 +199,21 @@
         <xsl:param name="node" as="node()"/>
         <xsl:value-of select="count($node//x:pagebreak | $node//x:column | $node//x:endcolumn) > 0" />
     </xsl:function>
+    
+    <xsl:template name="addCopyOfFootnoteForTableInScrollMode">
+        <xsl:param name="correspondingNodeInMain" />
+        
+        <xsl:variable name="distinguishBetweenPageAndScrollMode" select="$correspondingNodeInMain/ancestor::x:tbl[@mode='page_mode']" />
+        
+        <xsl:if test="$distinguishBetweenPageAndScrollMode != ''">
+            <xsl:element name="footnote">
+                <xsl:attribute name="id" select="concat($correspondingNodeInMain/@origId, '-scrollmode')" />
+                <xsl:attribute name="origId" select="@id" />
+                <xsl:attribute name="orig" select="false()" />
+                <xsl:attribute name="hidden" select="true()" />
+                <xsl:apply-templates select="node()|@*[not(name()='id')]" />
+            </xsl:element>
+        </xsl:if>
+    </xsl:template>
 
 </xsl:stylesheet>

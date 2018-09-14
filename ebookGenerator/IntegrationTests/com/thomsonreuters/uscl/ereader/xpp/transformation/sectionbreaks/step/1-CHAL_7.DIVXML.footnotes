@@ -113,4 +113,26 @@
             </para>
         </footnote.body>
     </footnote>
+    <footnote uuid="I42e15f7013c911e7b9e3acd823573d3f" date.updated="0" id="29">
+        <footnote.reference>
+            <cgt>29</cgt>
+        </footnote.reference>
+        <footnote.body date.updated="0">
+            <para date.updated="0" first.para="no">
+                footnote 29 on page 9
+            </para>
+        </footnote.body>
+    </footnote>
+    <footnote uuid="I42e15f7013c911e7b9e3acd823573d40" date.updated="0" id="30">
+        <footnote.reference>
+            <cgt>30</cgt>
+        </footnote.reference>
+        <footnote.body date.updated="0">
+            <para date.updated="0" first.para="no">
+                footnote 30 on page 9
+            </para>
+        </footnote.body>
+    </footnote>
+    <pagebreak num="10" num-string="10"/>
+    <pagebreak num="11" num-string="11"/>
 </root>

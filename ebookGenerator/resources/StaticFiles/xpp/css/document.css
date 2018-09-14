@@ -122,6 +122,22 @@ a:empty {
   display: none;
 }
 
+section[erdocid] .page_mode {
+  display: inline;
+}
+
+section:not([erdocid]) .page_mode {
+  display: none;
+}
+
+section[erdocid] .scroll_mode {
+  display: none;
+}
+
+section:not([erdocid]) .scroll_mode {
+  display: inline;
+}
+
 .toc_analytical_hierarchy {
   margin-bottom: 1em;
 }
