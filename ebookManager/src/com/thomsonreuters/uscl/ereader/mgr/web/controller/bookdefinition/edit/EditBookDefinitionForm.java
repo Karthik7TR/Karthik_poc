@@ -622,6 +622,7 @@ public class EditBookDefinitionForm {
     private Set<KeywordTypeValue> getKeywordValues(final Map<Long, Collection<Long>> keywords) {
         return keywords.values()
             .stream()
+            .filter(Objects::nonNull)
             .flatMap(Collection::stream)
             .map(keywordValueId -> {
                 final KeywordTypeValue keywordValue = new KeywordTypeValue();
