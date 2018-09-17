@@ -39,6 +39,8 @@ import javax.mail.internet.InternetAddress;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.common.xslt.TransformerBuilderFactory;
+import com.thomsonreuters.uscl.ereader.common.xslt.XslTransformationService;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.quality.domain.response.JsonResponse;
@@ -48,6 +50,8 @@ import com.thomsonreuters.uscl.ereader.quality.service.ComparisonService;
 import com.thomsonreuters.uscl.ereader.quality.service.ComparisonServiceImpl;
 import com.thomsonreuters.uscl.ereader.quality.service.ReportService;
 import com.thomsonreuters.uscl.ereader.quality.service.ReportServiceImpl;
+import com.thomsonreuters.uscl.ereader.quality.transformer.IdentityTransformer;
+import com.thomsonreuters.uscl.ereader.quality.transformer.IdentityTransformerImpl;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppGatherFileSystem;
 import lombok.SneakyThrows;
@@ -65,6 +69,7 @@ import org.mockito.Mockito;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -276,6 +281,15 @@ public final class QualityStepIntegrationTest {
         @Autowired
         public ReportService reportService(final FtpManager ftpManager, final QualityUtil qualityUtil) {
             return new ReportServiceImpl(ftpManager, qualityUtil);
+        }
+
+        @Bean
+        @Autowired
+        public IdentityTransformer identityTransformer(
+            @Value("${xpp.quality.identity}") final File identityXsl,
+            @Qualifier("xslTransformationService") final XslTransformationService transformationService,
+            @Qualifier("transformerBuilderFactory") final TransformerBuilderFactory transformerBuilderFactory) {
+            return new IdentityTransformerImpl(identityXsl, transformationService, transformerBuilderFactory);
         }
     }
 }

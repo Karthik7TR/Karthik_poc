@@ -31,6 +31,7 @@ import com.thomsonreuters.uscl.ereader.quality.domain.request.CompareUnit;
 import com.thomsonreuters.uscl.ereader.quality.domain.response.JsonResponse;
 import com.thomsonreuters.uscl.ereader.quality.service.ComparisonService;
 import com.thomsonreuters.uscl.ereader.quality.service.ReportService;
+import com.thomsonreuters.uscl.ereader.quality.transformer.IdentityTransformer;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.QualityFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppGatherFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
@@ -59,6 +60,8 @@ public class QualityStep extends XppTransformationStep {
     @Autowired
     @Qualifier("xppQualityFileSystem")
     private QualityFileSystem qualityFileSystem;
+    @Autowired
+    private IdentityTransformer identityTransformer;
 
     @Value("${xpp.quality.divxml}")
     private File divXmlToTextXsl;
@@ -86,7 +89,8 @@ public class QualityStep extends XppTransformationStep {
         return compareUnitsMap.entrySet()
             .parallelStream()
             .collect(groupingBy(Map.Entry::getKey, mapping(entry -> {
-                final List<CompareUnit> units = entry.getValue().stream()
+                final List<CompareUnit> units = entry.getValue()
+                    .stream()
                     .filter(unit -> !bothFilesEmpty(unit))
                     .collect(Collectors.toList());
                 final JsonResponse jsonResponse = comparisonService.compare(units);
@@ -139,6 +143,9 @@ public class QualityStep extends XppTransformationStep {
         htmlTransformer.setParameter(STREAM_TYPE, StreamType.HTML_FOOTNOTE.toString());
         final File textHtmlFootnote = transform(htmlFiles, htmlTransformer, multiKey, TransformerType.HTML);
 
+        //Transforms entities to characters
+        identityTransformer.transform(textDivXmlMain);
+        identityTransformer.transform(textDivXmlFootnote);
         return Pair.of(
             new CompareUnit(textDivXmlMain.getAbsolutePath(), textHtmlMain.getAbsolutePath()),
             new CompareUnit(textDivXmlFootnote.getAbsolutePath(), textHtmlFootnote.getAbsolutePath()));

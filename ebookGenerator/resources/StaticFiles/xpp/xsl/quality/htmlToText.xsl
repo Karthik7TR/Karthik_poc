@@ -24,6 +24,8 @@
 
     <xsl:template match="h:div[@class='footnote_body_main_popup_pane' or ends-with(@class, 'show_in_main')] | h:sup[ends-with(@class, 'show_in_main')]"/>
 
+	<xsl:template match="h:div[contains(@class, 'footnoteHidden')]" />
+
     <xsl:template match="h:span[not(contains(@class, 't font_dt'))] | h:sup">
         <xsl:value-of select=".//text()"/>
     </xsl:template>
