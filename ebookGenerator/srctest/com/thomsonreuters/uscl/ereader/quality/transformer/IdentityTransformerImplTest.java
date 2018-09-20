@@ -67,6 +67,9 @@ public final class IdentityTransformerImplTest {
     @SneakyThrows
     public void shouldTransform() {
         final long timeCreated = input.lastModified();
+        //Sleep for a bit to make sure lastModified() returns different result
+        //if the file is indeed modified
+        Thread.sleep(2);
         sut.transform(input);
         final long timeModified = input.lastModified();
         assertThat(timeModified, greaterThan(timeCreated));
