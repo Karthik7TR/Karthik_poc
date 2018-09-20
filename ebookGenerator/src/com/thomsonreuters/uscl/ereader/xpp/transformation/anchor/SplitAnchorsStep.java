@@ -1,4 +1,7 @@
-package com.thomsonreuters.uscl.ereader.xpp.transformation.unescape.step;
+package com.thomsonreuters.uscl.ereader.xpp.transformation.anchor;
+
+import static com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir.EXTERNAL_LINKS_DIR;
+import static com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir.SPLIT_ANCHORS_DIR;
 
 import java.io.File;
 
@@ -10,40 +13,36 @@ import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishi
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommand;
 import com.thomsonreuters.uscl.ereader.common.xslt.TransformationCommandBuilder;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
-import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.step.XppTransformationStep;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-/**
- * Removes double escaping from <span>
- */
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
-public class UnescapeStep extends XppTransformationStep {
-    @Value("${xpp.unescape.xsl}")
-    private File unescapeXsl;
+public class SplitAnchorsStep extends XppTransformationStep {
+    @Value("${xpp.split.anchors.xsl}")
+    private File splitAnchorsXsl;
     @Autowired
     private XppFormatFileSystem fileSystem;
 
     @Override
     public void executeTransformation() {
         final Transformer transformer = transformerBuilderFactory.create()
-            .withXsl(unescapeXsl)
-            .build();
-        fileSystem.getFiles(this, XppFormatFileSystemDir.SPLIT_ANCHORS_DIR)
-            .forEach((materialNumber, files) -> files
-                .forEach(file -> transform(materialNumber, file, transformer)));
+                .withXsl(splitAnchorsXsl)
+                .build();
+        fileSystem.getFiles(this, EXTERNAL_LINKS_DIR)
+                .forEach((materialNumber, files) -> files
+                        .forEach(file -> transform(materialNumber, file, transformer)));
     }
 
     private void transform(
-        @NotNull final String materialNumber,
-        @NotNull final File file,
-        @NotNull final Transformer transformer) {
+            @NotNull final String materialNumber,
+            @NotNull final File file,
+            @NotNull final Transformer transformer) {
         final TransformationCommand command = new TransformationCommandBuilder(
-            transformer,
-            fileSystem.getFile(this, XppFormatFileSystemDir.UNESCAPE_DIR, materialNumber, file.getName()))
+                transformer,
+                fileSystem.getFile(this, SPLIT_ANCHORS_DIR, materialNumber, file.getName()))
                 .withInput(file)
                 .build();
         transformationService.transform(command);

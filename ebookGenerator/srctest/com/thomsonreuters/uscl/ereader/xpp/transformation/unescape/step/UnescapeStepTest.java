@@ -68,7 +68,7 @@ public final class UnescapeStepTest {
             .collect(Collectors.toList());
         final Map<String, Collection<File>> mapping = new HashMap<>();
         mapping.put(MATERIAL_NUMBER, files);
-        given(fileSystem.getExternalLinksFiles(sut)).willReturn(mapping);
+        given(fileSystem.getFiles(sut, XppFormatFileSystemDir.SPLIT_ANCHORS_DIR)).willReturn(mapping);
         given(
             fileSystem
                 .getFile(sut, XppFormatFileSystemDir.UNESCAPE_DIR, MATERIAL_NUMBER, EXTERNAL_LINKS_FILE_NAME))
@@ -76,7 +76,7 @@ public final class UnescapeStepTest {
     }
 
     @Test
-    public void shouldTransform() throws Exception {
+    public void shouldTransform() {
         //given
         //when
         sut.executeTransformation();
