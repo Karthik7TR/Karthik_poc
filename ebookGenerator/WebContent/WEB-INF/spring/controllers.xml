@@ -13,15 +13,6 @@
 	
 	<bean id="appExceptionController" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.AppExceptionController"/>
 	
-	<!-- Handles job STOP and RESTART web service (REST) operations -->
-	<bean id="operationsController" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.OperationsController"
-		  p:engineService-ref="engineService"
-		  p:appConfigService-ref="appConfigService"
-		  p:outageProcessor-ref="outageProcessor"
-		  p:messageSourceAccessor-ref="messageSourceAccessor">
-		  <constructor-arg ref="ebookGeneratorJob"/>
-	</bean>
-
 	<!-- Handles push of new job throttle config, and planned outages from the manager -->
 	<bean id="generatorSyncRestController" class="com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller.GeneratorSyncRestController"
 		  p:jobThrottleConfigSyncService-ref="engineService"

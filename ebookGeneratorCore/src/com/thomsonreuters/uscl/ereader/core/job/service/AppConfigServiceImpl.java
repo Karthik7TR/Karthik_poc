@@ -36,12 +36,17 @@ public class AppConfigServiceImpl implements AppConfigService {
 
         final String throttleStepName = getConfigValue(JobThrottleConfig.Key.throttleStepName.toString());
 
+        final String throttleStepNameXppPathway = getConfigValue(JobThrottleConfig.Key.throttleStepNameXppPathway.toString());
+
+        final String throttleStepNameXppBundles = getConfigValue(JobThrottleConfig.Key.throttleStepNameXppBundles.toString());
+
         final String throtttleStepMaxJobsString = getConfigValue(JobThrottleConfig.Key.throtttleStepMaxJobs.toString());
         final int throtttleStepMaxJobs = (StringUtils.isNotBlank(throtttleStepMaxJobsString))
             ? Integer.valueOf(throtttleStepMaxJobsString) : DEFAULT_SIZE;
 
         final JobThrottleConfig config =
-            new JobThrottleConfig(coreThreadPoolSize, stepThrottleEnabled, throttleStepName, throtttleStepMaxJobs);
+            new JobThrottleConfig(coreThreadPoolSize, stepThrottleEnabled, throttleStepName,
+                throttleStepNameXppPathway, throttleStepNameXppBundles, throtttleStepMaxJobs);
 
         return config;
     }
@@ -105,6 +110,10 @@ public class AppConfigServiceImpl implements AppConfigService {
             new AppParameter(JobThrottleConfig.Key.stepThrottleEnabled.toString(), config.isStepThrottleEnabled()));
         parameters
             .add(new AppParameter(JobThrottleConfig.Key.throttleStepName.toString(), config.getThrottleStepName()));
+        parameters
+            .add(new AppParameter(JobThrottleConfig.Key.throttleStepNameXppPathway.toString(), config.getThrottleStepNameXppPathway()));
+        parameters
+            .add(new AppParameter(JobThrottleConfig.Key.throttleStepNameXppBundles.toString(), config.getThrottleStepNameXppBundles()));
         parameters.add(
             new AppParameter(JobThrottleConfig.Key.throtttleStepMaxJobs.toString(), config.getThrottleStepMaxJobs()));
         return parameters;

@@ -2,6 +2,7 @@
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.WebConstants"%>
 <%@page import="com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig.Key"%>
 <%@page import="com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jobthrottleconfig.JobThrottleConfigController"%>
+<%@page import="com.thomsonreuters.uscl.ereader.core.job.AvailableJobs"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -61,10 +62,24 @@
 	<form:radiobutton path="<%=Key.stepThrottleEnabled.toString()%>" label="False" value="<%=Boolean.FALSE%>"/><br/>
 	<br/>
 	
-	Throttle step name:
+	Novus pathway Throttle step name:
 	<form:select path="<%=Key.throttleStepName.toString()%>">
 		<form:option label="-- Select --" value=""/>
-		<form:options items="${stepNames}"/>
+		<form:options items="${stepNames.get(AvailableJobs.EBOOK_GENERATOR_JOB.getJobName())}"/>
+	</form:select><br/>
+	<br/>
+	
+	XPP pathway Throttle step name:
+	<form:select path="<%=Key.throttleStepNameXppPathway.toString()%>">
+		<form:option label="-- Select --" value=""/>
+		<form:options items="${stepNames.get(AvailableJobs.EBOOK_GENERATOR_XPP_JOB.getJobName())}"/>
+	</form:select><br/>
+	<br/>
+	
+	XPP bundle throttle step name:
+	<form:select path="<%=Key.throttleStepNameXppBundles.toString()%>">
+		<form:option label="-- Select --" value=""/>
+		<form:options items="${stepNames.get(AvailableJobs.EBOOK_BUNDLE_JOB.getJobName())}"/>
 	</form:select><br/>
 	<br/>
 	

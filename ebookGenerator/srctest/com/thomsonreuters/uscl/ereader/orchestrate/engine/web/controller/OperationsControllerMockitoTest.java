@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +23,7 @@ import org.springframework.batch.core.job.flow.FlowJob;
 
 @RunWith(MockitoJUnitRunner.class)
 public final class OperationsControllerMockitoTest {
+    private static final String JOB_NAME = "eBookGeneratorJob";
     private static final String STEPS_CSV = "Step1,Step2";
 
     @Mock
@@ -35,16 +37,18 @@ public final class OperationsControllerMockitoTest {
 
     @Before
     public void setUp() {
-        controller = new OperationsController(job);
         when(job.getStepNames()).thenReturn(Arrays.asList("Step1", "Step2"));
+        when(job.getName()).thenReturn(JOB_NAME);
+        controller = new OperationsController(null, null, null, null, Collections.singletonList(job));
     }
 
      @Test
     public void shouldPrintStepNames() throws Exception {
         when(response.getOutputStream()).thenReturn(out);
 
-        controller.getStepNames(response, null);
+        controller.getStepNames(response, JOB_NAME);
 
+        then(response).should().setStatus(200);
         then(out).should().print(eq(STEPS_CSV));
     }
 
@@ -56,5 +60,4 @@ public final class OperationsControllerMockitoTest {
 
         verify(out, never()).print(any());
     }
-
 }

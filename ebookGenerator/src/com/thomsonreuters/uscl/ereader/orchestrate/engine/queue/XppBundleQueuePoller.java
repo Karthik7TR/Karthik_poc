@@ -10,6 +10,7 @@ import com.thomsonreuters.uscl.ereader.JobParameterKey;
 import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
+import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.JobStartupThrottleService;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
@@ -35,18 +36,21 @@ public class XppBundleQueuePoller {
     private final OutageProcessor outageProcessor;
     private final ThreadPoolTaskExecutor threadPoolTaskExecutor;
     private final EngineService engineService;
+    private final JobStartupThrottleService jobStartupThrottleService;
 
     private String environmentName;
 
     @Autowired
     public XppBundleQueuePoller(final JmsTemplate jmsTemplate, final OutageProcessor outageProcessor,
                                 @Qualifier("springBatchBundleTaskExecutor") final ThreadPoolTaskExecutor threadPoolTaskExecutor,
-                                @Qualifier("environmentName") final String environmentName, final EngineService engineService) {
+                                @Qualifier("environmentName") final String environmentName, final EngineService engineService,
+                                final JobStartupThrottleService jobStartupThrottleService) {
         this.jmsTemplate = jmsTemplate;
         this.outageProcessor = outageProcessor;
         this.threadPoolTaskExecutor = threadPoolTaskExecutor;
         this.environmentName = environmentName;
         this.engineService = engineService;
+        this.jobStartupThrottleService = jobStartupThrottleService;
     }
 
     @Scheduled(fixedDelay = 60000)
@@ -74,7 +78,7 @@ public class XppBundleQueuePoller {
         final PlannedOutage outage = outageProcessor.processPlannedOutages();
 
         boolean result = false;
-        if (outage == null && activeThreads < coreThreadPoolSize) {
+        if (outage == null && activeThreads < coreThreadPoolSize && jobStartupThrottleService.checkIfnewJobCanbeLaunched()) {
             result = true;
         } else if (outage != null) {
             LOG.debug(String.format(OUTAGE_MESSAGE_TEMPLATE, outage.getEndTime().toString()));

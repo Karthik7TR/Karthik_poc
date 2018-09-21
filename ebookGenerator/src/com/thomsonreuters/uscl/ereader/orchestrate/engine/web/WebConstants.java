@@ -14,7 +14,7 @@ public final class WebConstants {
     public static final String URI_JOB_RESTART = "service/restart/job/{jobExecutionId}";
     public static final String URI_JOB_STOP = "service/stop/job/{jobExecutionId}";
 
-    public static final String URI_GET_STEP_NAMES = "service/get/step/names";
+    public static final String URI_GET_STEP_NAMES = "service/get/step/names/{jobName}";
 
     public static final String URI_GET_BUNDLE_PDFS = "pdfs/{jobInstanceId}/{materialNumber}/{pdfName}.zip";
 

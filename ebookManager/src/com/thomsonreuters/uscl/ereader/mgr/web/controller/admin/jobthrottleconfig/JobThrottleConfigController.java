@@ -3,7 +3,9 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.jobthrottleconf
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -15,8 +17,7 @@ import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.InfoMessage;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.admin.misc.MiscConfigController;
 import com.thomsonreuters.uscl.ereader.mgr.web.service.ManagerService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,9 +32,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+@Slf4j
 @Controller
 public class JobThrottleConfigController {
-    private static final Logger log = LogManager.getLogger(JobThrottleConfigController.class);
     public static final String KEY_STEP_NAMES = "stepNames";
 
     /** Hosts to push new configuration to, assume a listening REST service to receive the new configuration. */
@@ -138,7 +139,7 @@ public class JobThrottleConfigController {
     }
 
     private void setUpModel(final Model model) {
-        final List<String> stepNames = generatorRestClient.getStepNames();
+        final Map<String, Collection<String>> stepNames = generatorRestClient.getStepNames();
         model.addAttribute(KEY_STEP_NAMES, stepNames);
     }
 }

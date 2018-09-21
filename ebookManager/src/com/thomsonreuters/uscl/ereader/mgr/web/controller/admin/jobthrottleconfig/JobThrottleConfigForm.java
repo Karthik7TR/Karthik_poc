@@ -7,10 +7,6 @@ public class JobThrottleConfigForm {
 
     public static final String FORM_NAME = "jobThrottleForm";
 
-    public JobThrottleConfigForm() {
-        super();
-    }
-
     /**
      * Populate the form from the corresponding domain object.
      */
@@ -18,6 +14,8 @@ public class JobThrottleConfigForm {
         setCoreThreadPoolSize(config.getCoreThreadPoolSize());
         setStepThrottleEnabled(config.isStepThrottleEnabled());
         setThrottleStepName(config.getThrottleStepName());
+        setThrottleStepNameXppPathway(config.getThrottleStepNameXppPathway());
+        setThrottleStepNameXppBundles(config.getThrottleStepNameXppBundles());
         setThrotttleStepMaxJobs(config.getThrottleStepMaxJobs());
     }
 
@@ -37,6 +35,14 @@ public class JobThrottleConfigForm {
         return jobThrottleConfig.getThrottleStepName();
     }
 
+    public String getThrottleStepNameXppPathway() {
+        return jobThrottleConfig.getThrottleStepNameXppPathway();
+    }
+
+    public String getThrottleStepNameXppBundles() {
+        return jobThrottleConfig.getThrottleStepNameXppBundles();
+    }
+
     public int getThrotttleStepMaxJobs() {
         return jobThrottleConfig.getThrottleStepMaxJobs();
     }
@@ -51,6 +57,14 @@ public class JobThrottleConfigForm {
 
     public void setThrottleStepName(final String throttleStepName) {
         jobThrottleConfig.setThrottleStepName(throttleStepName);
+    }
+
+    public void setThrottleStepNameXppPathway(final String throttleStepNameXppPathway) {
+        jobThrottleConfig.setThrottleStepNameXppPathway(throttleStepNameXppPathway);
+    }
+
+    public void setThrottleStepNameXppBundles(final String throttleStepNameXppBundles) {
+        jobThrottleConfig.setThrottleStepNameXppBundles(throttleStepNameXppBundles);
     }
 
     public void setThrotttleStepMaxJobs(final int throtttleStepMaxJobs) {

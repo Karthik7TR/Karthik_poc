@@ -1,12 +1,15 @@
 package com.thomsonreuters.uscl.ereader.mgr.rest;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
+import com.thomsonreuters.uscl.ereader.core.job.AvailableJobs;
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.SimpleRestServiceResponse;
@@ -22,7 +25,7 @@ public class GeneratorRestClientImpl implements GeneratorRestClient {
     private static final String GENERATOR_REST_STOP_JOB_URL_PATTERN = "{context}/service/stop/job/{jobExecutionId}";
     private static final String GENERATOR_REST_RESTART_JOB_URL_PATTERN =
         "{context}/service/restart/job/{jobExecutionId}";
-    private static final String GENERATOR_REST_GET_STEP_NAMES_PATTERN = "{context}/service/get/step/names";
+    private static final String GENERATOR_REST_GET_STEP_NAMES_PATTERN = "{context}/service/get/step/names/{jobName}";
 
     private static final String GENERATOR_GET_JOB_THROTTLE_CONFIG =
         "{context}/" + CoreConstants.URI_GET_JOB_THROTTLE_CONFIG;
@@ -75,19 +78,15 @@ public class GeneratorRestClientImpl implements GeneratorRestClient {
     }
 
     @Override
-    public List<String> getStepNames() {
-        final String csvStepNames = restTemplate
-            .getForObject(GENERATOR_REST_GET_STEP_NAMES_PATTERN, String.class, generatorContextUrl.toString());
-        final List<String> stepNames = new ArrayList<>();
-        if (csvStepNames != null) {
-            final StringTokenizer tokenizer = new StringTokenizer(csvStepNames, ",");
-            while (tokenizer.hasMoreTokens()) {
-                final String stepName = tokenizer.nextToken();
-                stepNames.add(stepName);
-            }
-        }
-        Collections.sort(stepNames);
-        return stepNames;
+    public Map<String, Collection<String>> getStepNames() {
+        return Stream.of(AvailableJobs.values())
+            .map(AvailableJobs::getJobName)
+            .collect(Collectors.toMap(Function.identity(),
+                jobName -> {
+                    final String stepNamesString = restTemplate
+                        .getForObject(GENERATOR_REST_GET_STEP_NAMES_PATTERN, String.class, generatorContextUrl.toString(), jobName);
+                    return Arrays.asList(stepNamesString.split(","));
+                }));
     }
 
     @Override

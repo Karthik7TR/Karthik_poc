@@ -1,7 +1,8 @@
 package com.thomsonreuters.uscl.ereader.core.service;
 
 import java.net.URL;
-import java.util.List;
+import java.util.Collection;
+import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.core.job.domain.JobThrottleConfig;
 import com.thomsonreuters.uscl.ereader.core.job.domain.MiscConfig;
@@ -16,7 +17,7 @@ public interface GeneratorRestClient {
 
     SimpleRestServiceResponse stopJob(long jobExecutionId);
 
-    List<String> getStepNames();
+    Map<String, Collection<String>> getStepNames();
 
     JobThrottleConfig getJobThrottleConfig();
 

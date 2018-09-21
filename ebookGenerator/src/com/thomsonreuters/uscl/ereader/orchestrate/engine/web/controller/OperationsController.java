@@ -2,9 +2,12 @@ package com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
@@ -16,13 +19,13 @@ import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.web.WebConstants;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.job.flow.FlowJob;
 import org.springframework.batch.core.launch.JobExecutionNotRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,17 +36,25 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * URL based Spring Batch job control operations for RESTART and STOP.
  */
+@Slf4j
 @Controller
 public class OperationsController {
-    private static final Logger log = LogManager.getLogger(OperationsController.class);
-    private EngineService engineService;
-    private MessageSourceAccessor messageSourceAccessor;
-    private AppConfigService appConfigService;
-    private OutageProcessor outageProcessor;
-    private FlowJob job;
+    private final EngineService engineService;
+    private final MessageSourceAccessor messageSourceAccessor;
+    private final AppConfigService appConfigService;
+    private final OutageProcessor outageProcessor;
+    private final Map<String, Collection<String>> jobs;
 
-    public OperationsController(final FlowJob job) {
-        this.job = job;
+    @Autowired
+    public OperationsController(final EngineService engineService, final MessageSourceAccessor messageSourceAccessor,
+                                final AppConfigService appConfigService, final OutageProcessor outageProcessor,
+                                final List<FlowJob> jobs) {
+        this.engineService = engineService;
+        this.messageSourceAccessor = messageSourceAccessor;
+        this.appConfigService = appConfigService;
+        this.outageProcessor = outageProcessor;
+        this.jobs = jobs.stream()
+            .collect(Collectors.toMap(FlowJob::getName, FlowJob::getStepNames));
     }
 
     /** Maximum number of jobs allowed to run concurrently */
@@ -114,7 +125,7 @@ public class OperationsController {
     }
 
     @RequestMapping(value = CoreConstants.URI_GET_JOB_THROTTLE_CONFIG, method = RequestMethod.GET)
-    public ModelAndView getJobThrottleConfig(final HttpServletResponse response, final Model model) throws Exception {
+    public ModelAndView getJobThrottleConfig(final Model model) {
         log.debug(">>>");
         final JobThrottleConfig config = appConfigService.loadJobThrottleConfig();
         model.addAttribute(WebConstants.KEY_JOB_THROTTLE_CONFIG, config);
@@ -122,7 +133,7 @@ public class OperationsController {
     }
 
     @RequestMapping(value = CoreConstants.URI_GET_MISC_CONFIG, method = RequestMethod.GET)
-    public ModelAndView getMiscConfig(final HttpServletResponse response, final Model model) throws Exception {
+    public ModelAndView getMiscConfig(final Model model) {
         log.debug(">>>");
         final MiscConfig config = appConfigService.loadMiscConfig();
         model.addAttribute(WebConstants.KEY_MISC_CONFIG, config);
@@ -130,39 +141,18 @@ public class OperationsController {
     }
 
     @RequestMapping(value = WebConstants.URI_GET_STEP_NAMES, method = RequestMethod.GET)
-    public void getStepNames(final HttpServletResponse response, final Model model) throws Exception {
+    public void getStepNames(final HttpServletResponse response, @PathVariable final String jobName) {
         log.debug(">>>");
 
-        ServletOutputStream out = null;
-        try {
-            out = response.getOutputStream();
-            out.print(getStepNamesCsv());
-        } catch (final IOException e) {
-            log.error(e);
+        if (jobs.containsKey(jobName)) {
+            try {
+                response.getOutputStream().print(String.join(",", jobs.get(jobName)));
+                response.setStatus(HttpStatus.OK.value());
+            } catch (final IOException e) {
+                log.error(e.getMessage(), e);
+            }
+        } else {
+            response.setStatus(HttpStatus.NOT_FOUND.value());
         }
-    }
-
-    private String getStepNamesCsv() {
-        return String.join(",", job.getStepNames());
-    }
-
-    @Required
-    public void setAppConfigService(final AppConfigService service) {
-        appConfigService = service;
-    }
-
-    @Required
-    public void setEngineService(final EngineService service) {
-        engineService = service;
-    }
-
-    @Required
-    public void setMessageSourceAccessor(final MessageSourceAccessor accessor) {
-        messageSourceAccessor = accessor;
-    }
-
-    @Required
-    public void setOutageProcessor(final OutageProcessor service) {
-        outageProcessor = service;
     }
 }

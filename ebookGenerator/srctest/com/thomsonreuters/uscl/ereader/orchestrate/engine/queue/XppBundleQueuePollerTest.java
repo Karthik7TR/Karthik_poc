@@ -14,6 +14,7 @@ import com.thomsonreuters.uscl.ereader.core.outage.domain.PlannedOutage;
 import com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessor;
 import com.thomsonreuters.uscl.ereader.jms.client.JMSClient;
 import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.EngineService;
+import com.thomsonreuters.uscl.ereader.orchestrate.engine.service.JobStartupThrottleService;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
@@ -39,6 +40,8 @@ public final class XppBundleQueuePollerTest {
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
     @Mock
     private EngineService engineService;
+    @Mock
+    private JobStartupThrottleService jobStartupThrottleService;
 
     private XppBundleQueuePoller poller;
 
@@ -47,6 +50,7 @@ public final class XppBundleQueuePollerTest {
     public void shouldInterruptIfEnvironmentIsWorkStation() {
         //given
         initPoller("workstation");
+        given(jobStartupThrottleService.checkIfnewJobCanbeLaunched()).willReturn(true);
         //when
         poller.pollMessageQueue();
         //then
@@ -66,6 +70,7 @@ public final class XppBundleQueuePollerTest {
         given(outageProcessor.processPlannedOutages()).willReturn(mock(PlannedOutage.class));
         given(threadPoolTaskExecutor.getCorePoolSize()).willReturn(POOL_SIZE);
         given(threadPoolTaskExecutor.getActiveCount()).willReturn(ACTIVE_THREADS);
+        given(jobStartupThrottleService.checkIfnewJobCanbeLaunched()).willReturn(true);
         //when
         poller.pollMessageQueue();
         //then
@@ -84,6 +89,7 @@ public final class XppBundleQueuePollerTest {
         initPoller("PROD");
         given(threadPoolTaskExecutor.getCorePoolSize()).willReturn(POOL_SIZE);
         given(threadPoolTaskExecutor.getActiveCount()).willReturn(POOL_SIZE);
+        given(jobStartupThrottleService.checkIfnewJobCanbeLaunched()).willReturn(true);
         //when
         poller.pollMessageQueue();
         //then
@@ -102,6 +108,7 @@ public final class XppBundleQueuePollerTest {
         initPoller("PROD");
         given(threadPoolTaskExecutor.getCorePoolSize()).willReturn(POOL_SIZE);
         given(threadPoolTaskExecutor.getActiveCount()).willReturn(ACTIVE_THREADS);
+        given(jobStartupThrottleService.checkIfnewJobCanbeLaunched()).willReturn(true);
         //when
         poller.pollMessageQueue();
         //then
@@ -123,6 +130,7 @@ public final class XppBundleQueuePollerTest {
         final TextMessage emptyMessage = mock(TextMessage.class);
         given(emptyMessage.getText()).willReturn(StringUtils.EMPTY);
         given(mockJmsTemplate.receive()).willReturn(emptyMessage);
+        given(jobStartupThrottleService.checkIfnewJobCanbeLaunched()).willReturn(true);
         //when
         poller.pollMessageQueue();
         //then
@@ -136,7 +144,7 @@ public final class XppBundleQueuePollerTest {
 
     @Test
     @SneakyThrows
-    public void shouldSuccessfullyComplete() {
+    public void shouldInterruptThrottle() {
         //given
         initPoller("PROD");
         given(threadPoolTaskExecutor.getCorePoolSize()).willReturn(POOL_SIZE);
@@ -151,12 +159,34 @@ public final class XppBundleQueuePollerTest {
         verify(threadPoolTaskExecutor).getCorePoolSize();
         verify(threadPoolTaskExecutor).getActiveCount();
 
+        verify(mockJmsTemplate, never()).receive();
+        verify(engineService, never()).runJob(eq(JobParameterKey.JOB_NAME_PROCESS_BUNDLE), any(JobParameters.class));
+    }
+
+    @Test
+    @SneakyThrows
+    public void shouldSuccessfullyComplete() {
+        //given
+        initPoller("PROD");
+        given(threadPoolTaskExecutor.getCorePoolSize()).willReturn(POOL_SIZE);
+        given(threadPoolTaskExecutor.getActiveCount()).willReturn(ACTIVE_THREADS);
+        final TextMessage message = mock(TextMessage.class);
+        given(message.getText()).willReturn("xppBundleMessage");
+        given(mockJmsTemplate.receive()).willReturn(message);
+        given(jobStartupThrottleService.checkIfnewJobCanbeLaunched()).willReturn(true);
+        //when
+        poller.pollMessageQueue();
+        //then
+        verify(outageProcessor).processPlannedOutages();
+        verify(threadPoolTaskExecutor).getCorePoolSize();
+        verify(threadPoolTaskExecutor).getActiveCount();
+
         verify(mockJmsTemplate).receive();
         verify(engineService).runJob(eq(JobParameterKey.JOB_NAME_PROCESS_BUNDLE), any(JobParameters.class));
     }
 
     private void initPoller(final String environment) {
         poller = new XppBundleQueuePoller(mockJmsTemplate, outageProcessor,
-            threadPoolTaskExecutor, environment, engineService);
+            threadPoolTaskExecutor, environment, engineService, jobStartupThrottleService);
     }
 }

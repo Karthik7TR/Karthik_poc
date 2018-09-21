@@ -1,33 +1,47 @@
 package com.thomsonreuters.uscl.ereader.core.job.domain;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.thomsonreuters.uscl.ereader.core.job.AvailableJobs;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @XmlRootElement(name = "jobThrottleConfig")
+@XmlAccessorType(XmlAccessType.FIELD)
+@Data
+@NoArgsConstructor
 public class JobThrottleConfig {
     /** Typesafe representation of the keys used to represent the throttling configuration */
     public enum Key {
         coreThreadPoolSize,
         stepThrottleEnabled,
         throttleStepName,
+        throttleStepNameXppPathway,
+        throttleStepNameXppBundles,
         throtttleStepMaxJobs
     };
 
     /** The task executor core thread pool size */
+    @XmlElement(name = "coreThreadPoolSize", required = true)
     private int coreThreadPoolSize = 2;
     /** is step-level throttling active */
+    @XmlElement(name = "stepThrottleEnabled", required = true)
     private boolean stepThrottleEnabled;
-    /** The step name at which the throttle is applied */
+    /** The step name at which the throttle is applied for Novus pathway*/
+    @XmlElement(name = "throttleStepName", required = true)
     private String throttleStepName;
+    /** The step name at which the throttle is applied for XPP pathway*/
+    @XmlElement(name = "throttleStepNameXppPathway", required = true)
+    private String throttleStepNameXppPathway;
+    /** The step name at which the throttle is applied XPP bundles*/
+    @XmlElement(name = "throttleStepNameXppBundles", required = true)
+    private String throttleStepNameXppBundles;
     /** The limit of jobs up to the specified throttle step name */
+    @XmlElement(name = "throttleStepMaxJobs", required = true)
     private int throttleStepMaxJobs = 2;
-
-    public JobThrottleConfig() {
-        super();
-    }
 
     /**
      * Full constructor.
@@ -36,8 +50,11 @@ public class JobThrottleConfig {
         final int coreThreadPoolSize,
         final boolean stepThrottleEnabled,
         final String throttleStepName,
+        final String throttleStepNameXppPathway,
+        final String throttleStepNameXppBundles,
         final int throtttleStepMaxJobs) {
-        setAllProperties(coreThreadPoolSize, stepThrottleEnabled, throttleStepName, throtttleStepMaxJobs);
+        setAllProperties(coreThreadPoolSize, stepThrottleEnabled, throttleStepName,
+            throttleStepNameXppPathway, throttleStepNameXppBundles, throtttleStepMaxJobs);
     }
 
     /**
@@ -49,6 +66,8 @@ public class JobThrottleConfig {
             config.getCoreThreadPoolSize(),
             config.isStepThrottleEnabled(),
             config.getThrottleStepName(),
+            config.getThrottleStepNameXppPathway(),
+            config.getThrottleStepNameXppBundles(),
             config.getThrottleStepMaxJobs());
     }
 
@@ -56,85 +75,32 @@ public class JobThrottleConfig {
         final int coreThreadPoolSize,
         final boolean stepThrottleEnabled,
         final String throttleStepName,
+        final String throttleStepNameXppPathway,
+        final String throttleStepNameXppBundles,
         final int throtttleStepMaxJobs) {
         setCoreThreadPoolSize(coreThreadPoolSize);
         setStepThrottleEnabled(stepThrottleEnabled);
         setThrottleStepName(throttleStepName);
+        setThrottleStepNameXppPathway(throttleStepNameXppPathway);
+        setThrottleStepNameXppBundles(throttleStepNameXppBundles);
         setThrottleStepMaxJobs(throtttleStepMaxJobs);
     }
 
-    public int getCoreThreadPoolSize() {
-        return coreThreadPoolSize;
-    }
-
-    public boolean isStepThrottleEnabled() {
-        return stepThrottleEnabled;
-    }
-
-    public String getThrottleStepName() {
-        return throttleStepName;
-    }
-
-    public int getThrottleStepMaxJobs() {
-        return throttleStepMaxJobs;
-    }
-
-    @XmlElement(name = "coreThreadPoolSize", required = true)
-    public void setCoreThreadPoolSize(final int coreThreadPoolSize) {
-        this.coreThreadPoolSize = coreThreadPoolSize;
-    }
-
-    @XmlElement(name = "stepThrottleEnabled", required = true)
-    public void setStepThrottleEnabled(final boolean stepThrottleEnabled) {
-        this.stepThrottleEnabled = stepThrottleEnabled;
-    }
-
-    @XmlElement(name = "throttleStepName", required = true)
-    public void setThrottleStepName(final String throttleStepName) {
-        this.throttleStepName = throttleStepName;
-    }
-
-    @XmlElement(name = "throttleStepMaxJobs", required = true)
-    public void setThrottleStepMaxJobs(final int throttleStepMaxJobs) {
-        this.throttleStepMaxJobs = throttleStepMaxJobs;
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + coreThreadPoolSize;
-        result = prime * result + (stepThrottleEnabled ? 1231 : 1237);
-        result = prime * result + ((throttleStepName == null) ? 0 : throttleStepName.hashCode());
-        result = prime * result + throttleStepMaxJobs;
-        return result;
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final JobThrottleConfig other = (JobThrottleConfig) obj;
-        if (coreThreadPoolSize != other.coreThreadPoolSize)
-            return false;
-        if (stepThrottleEnabled != other.stepThrottleEnabled)
-            return false;
-        if (throttleStepName == null) {
-            if (other.throttleStepName != null)
-                return false;
-        } else if (!throttleStepName.equals(other.throttleStepName))
-            return false;
-        if (throttleStepMaxJobs != other.throttleStepMaxJobs)
-            return false;
-        return true;
+    public String getThrottleStepName(final String jobName) {
+        final String stepName;
+        switch (AvailableJobs.getByJobName(jobName)) {
+            case EBOOK_BUNDLE_JOB:
+                stepName = getThrottleStepNameXppBundles();
+                break;
+            case EBOOK_GENERATOR_JOB:
+                stepName = getThrottleStepName();
+                break;
+            case EBOOK_GENERATOR_XPP_JOB:
+                stepName = getThrottleStepNameXppPathway();
+                break;
+            default:
+                throw new UnsupportedOperationException();
+        }
+        return stepName;
     }
 }

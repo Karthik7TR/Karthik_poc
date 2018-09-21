@@ -291,9 +291,11 @@ public final class JAXBMarshallingTest {
             final int coreThreadPoolSize = 1;
             final boolean stepThrottleEnabled = true;
             final String throttleStepName = "helloworld";
+            final String throttleStepNameXppPathway = "helloworldXppPathway";
+            final String throttleStepNameXppBundle = "helloworldXppBundle";
             final int throttleStepMaxJobs = 1;
-            final JobThrottleConfig expected =
-                new JobThrottleConfig(coreThreadPoolSize, stepThrottleEnabled, throttleStepName, throttleStepMaxJobs);
+            final JobThrottleConfig expected = new JobThrottleConfig(coreThreadPoolSize, stepThrottleEnabled, throttleStepName,
+                                                                     throttleStepNameXppPathway, throttleStepNameXppBundle, throttleStepMaxJobs);
 
             outStream = new ByteArrayOutputStream();
             marshaller.marshal(expected, outStream);

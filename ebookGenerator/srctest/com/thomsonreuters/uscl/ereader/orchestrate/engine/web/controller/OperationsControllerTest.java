@@ -1,5 +1,7 @@
 package com.thomsonreuters.uscl.ereader.orchestrate.engine.web.controller;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 
@@ -33,6 +35,7 @@ public final class OperationsControllerTest {
     private OutageProcessor mockOutageProcessor;
     private MessageSourceAccessor mockAccessor;
     private HandlerAdapter handlerAdapter;
+    private FlowJob flowJob;
 
     @Before
     public void setUp() {
@@ -41,12 +44,14 @@ public final class OperationsControllerTest {
         mockEngineService = EasyMock.createMock(EngineService.class);
         mockOutageProcessor = EasyMock.createMock(OutageProcessor.class);
         mockAccessor = EasyMock.createMock(MessageSourceAccessor.class);
+        flowJob = EasyMock.createMock(FlowJob.class);
+
+        EasyMock.expect(flowJob.getName()).andReturn("eBookGeneratorJob");
+        EasyMock.expect(flowJob.getStepNames()).andReturn(Arrays.asList("step1", "step2", "step3"));
+        EasyMock.replay(flowJob);
 
         handlerAdapter = new AnnotationMethodHandlerAdapter();
-        controller = new OperationsController(new FlowJob());
-        controller.setEngineService(mockEngineService);
-        controller.setOutageProcessor(mockOutageProcessor);
-        controller.setMessageSourceAccessor(mockAccessor);
+        controller = new OperationsController(mockEngineService, mockAccessor, null, mockOutageProcessor, Collections.singletonList(flowJob));
     }
 
     @Test
@@ -72,10 +77,5 @@ public final class OperationsControllerTest {
 
         EasyMock.verify(mockOutageProcessor);
         EasyMock.verify(mockEngineService);
-    }
-
-    @Test
-    public void futureTest() {
-        Assert.assertTrue(true);
     }
 }

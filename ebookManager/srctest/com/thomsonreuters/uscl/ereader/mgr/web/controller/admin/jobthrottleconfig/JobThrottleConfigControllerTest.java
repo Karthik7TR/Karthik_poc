@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 
 import java.net.InetSocketAddress;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -73,7 +75,7 @@ public final class JobThrottleConfigControllerTest {
         request.setRequestURI("/" + WebConstants.MVC_ADMIN_JOB_THROTTLE_CONFIG);
         request.setMethod(HttpMethod.POST.name());
 
-        final JobThrottleConfig config = new JobThrottleConfig(8, true, "foobar", 6);
+        final JobThrottleConfig config = new JobThrottleConfig(8, true, "foobar", "foobarXppPathway", "foobarXppBundles", 6);
 
         request.setParameter(
             JobThrottleConfig.Key.coreThreadPoolSize.toString(),
@@ -82,12 +84,14 @@ public final class JobThrottleConfigControllerTest {
             JobThrottleConfig.Key.stepThrottleEnabled.toString(),
             String.valueOf(config.isStepThrottleEnabled()));
         request.setParameter(JobThrottleConfig.Key.throttleStepName.toString(), config.getThrottleStepName());
+        request.setParameter(JobThrottleConfig.Key.throttleStepNameXppPathway.toString(), config.getThrottleStepNameXppPathway());
+        request.setParameter(JobThrottleConfig.Key.throttleStepNameXppBundles.toString(), config.getThrottleStepNameXppBundles());
         request.setParameter(
             JobThrottleConfig.Key.throtttleStepMaxJobs.toString(),
             String.valueOf(config.getThrottleStepMaxJobs()));
 
         final InetSocketAddress socketAddr = new InetSocketAddress(HOST_NAME, PORT_NUM);
-        final List<String> stepNames = Arrays.asList("a", "b", "c");
+        final Map<String, Collection<String>> stepNames = Collections.singletonMap("ebookGeneratorJob", Arrays.asList("a", "b", "c"));
         appConfigService.saveJobThrottleConfig(config);
         EasyMock.expect(appConfigService.loadJobThrottleConfig()).andReturn(config).times(2);
         EasyMock.expect(mockManagerService.pushJobThrottleConfiguration(config, socketAddr))

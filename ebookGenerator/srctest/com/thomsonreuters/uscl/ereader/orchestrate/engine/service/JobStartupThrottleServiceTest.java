@@ -26,7 +26,7 @@ import org.springframework.batch.core.repository.JobRepository;
  *  @author Mahendra Survase (u0105927)
  */
 public final class JobStartupThrottleServiceTest {
-    private static final String JOB_NAME = "TestJob";
+    private static final String JOB_NAME = "ebookGeneratorJob";
     private static final String THROTTLE_STEP = "formatAddHTMLWrapper";
     private JobRepository mockJobRepository;
     private JobExplorer mockJobExplorer;
@@ -51,7 +51,7 @@ public final class JobStartupThrottleServiceTest {
      */
     @Test
     public void checkIfnewJobCanbeLaunched_positive_1() {
-        final JobThrottleConfig config = new JobThrottleConfig(8, true, THROTTLE_STEP, 6);
+        final JobThrottleConfig config = new JobThrottleConfig(8, true, THROTTLE_STEP, THROTTLE_STEP, THROTTLE_STEP, 6);
         final JobStartupThrottleServiceImpl service =
             new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository);
         service.setJobThrottleConfig(config);
@@ -59,11 +59,17 @@ public final class JobStartupThrottleServiceTest {
         // test specific setup.
         final Set<JobExecution> runningJobExecutions = new HashSet<>(3);
         final JobExecution jobExecutionTest =
-            new JobExecution(new JobInstance(234L, "ThrottleTestJob"), new JobParameters(), "ThrottleTestJob");
+            new JobExecution(new JobInstance(234L, JOB_NAME), new JobParameters(), JOB_NAME);
         runningJobExecutions.add(jobExecutionTest);
+
+        final StepExecution stepExecution = new StepExecution(THROTTLE_STEP, jobExecutionTest);
+        final JobInstance jobInstance = jobExecutionTest.getJobInstance();
 
         EasyMock.expect(mockJobExplorer.getJobNames()).andReturn(jobNames).anyTimes();
         EasyMock.expect(mockJobExplorer.findRunningJobExecutions(jobNames.get(0))).andReturn(runningJobExecutions); // Already running job # 3 so that there will be capacity to run one more job.
+        EasyMock.expect(mockJobRepository.getLastStepExecution(jobInstance, THROTTLE_STEP))
+            .andReturn(stepExecution)
+            .anyTimes();
 
         EasyMock.replay(mockJobExplorer);
         EasyMock.replay(mockJobRepository);
@@ -81,7 +87,7 @@ public final class JobStartupThrottleServiceTest {
      */
     @Test
     public void checkIfnewJobCanbeLaunched_positive_2() {
-        final JobThrottleConfig config = new JobThrottleConfig(8, true, THROTTLE_STEP, 6);
+        final JobThrottleConfig config = new JobThrottleConfig(8, true, THROTTLE_STEP, THROTTLE_STEP, THROTTLE_STEP, 6);
         final JobStartupThrottleServiceImpl service =
             new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository);
         service.setJobThrottleConfig(config);
@@ -130,7 +136,7 @@ public final class JobStartupThrottleServiceTest {
      */
     @Test
     public void checkIfnewJobCanbeLaunched_negative_1() {
-        final JobThrottleConfig config = new JobThrottleConfig(8, true, THROTTLE_STEP, 3);
+        final JobThrottleConfig config = new JobThrottleConfig(8, true, THROTTLE_STEP, THROTTLE_STEP, THROTTLE_STEP, 3);
         final JobStartupThrottleServiceImpl service =
             new JobStartupThrottleServiceImpl(mockJobExplorer, mockJobRepository);
         service.setJobThrottleConfig(config);
