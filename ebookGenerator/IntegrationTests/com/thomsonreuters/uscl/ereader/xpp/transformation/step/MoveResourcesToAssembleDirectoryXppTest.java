@@ -57,8 +57,8 @@ public final class MoveResourcesToAssembleDirectoryXppTest {
     private ChunkContext chunkContext;
     @Mock
     private BookDefinition book;
-    @Value("${xpp.document.css}")
-    private File documentCssFile;
+    @Value("${xpp.stylesheet.dir}")
+    private File stylesheetsDir;
 
     private File expectedDir;
 
@@ -70,7 +70,7 @@ public final class MoveResourcesToAssembleDirectoryXppTest {
         final File workDirectory = bookFileSystem.getWorkDirectory(sut);
         FileUtils.copyDirectory(new File(this.getClass().getResource("testdata").toURI()), workDirectory);
         final File assetsDir = new File(expectedDir, "assets");
-        FileUtils.copyFileToDirectory(documentCssFile, assetsDir);
+        FileUtils.copyFileToDirectory(new File(stylesheetsDir, "document_1.2.3.css"), assetsDir);
         createXppBundleMock();
     }
 

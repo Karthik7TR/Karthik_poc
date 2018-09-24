@@ -119,3 +119,21 @@
 a:empty {
     display: none;
 }
+
+.page_mode {
+    section[erdocid] & {
+        display: inline;
+    }
+    section:not([erdocid]) & {
+        display: none;
+    }
+}
+
+.scroll_mode {
+    section[erdocid] & {
+        display: none;
+    }
+    section:not([erdocid]) & {
+        display: inline;
+    }
+}

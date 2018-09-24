@@ -31,14 +31,18 @@
     .full_toc>.toc_chapter .outline_name_block>.name>&:first-child,
     .full_toc>.toc_chapter .outline_name_block>.designator>&:nth-child(2),
     .full_toc>.toc_chapter_reserved .outline_name_block>.designator>&:nth-child(2),
-    .full_toc>.toc_chapter_reserved .outline_name_block>& {
+    .full_toc>.toc_chapter_reserved .outline_name_block>&,
+    .publication_body .chapter_reserved & {
         display: inline;
     }
     .signature_group>.form_line &,
     .summary_toc>&,
     .footnote>&,
     .toc_volbreak>&,
-    .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .name~&:last-of-type {
+    .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .name~&:last-of-type,
+    .toc_wrapper>.generated_toc>.summary_toc>.toc_part>a>.outline_name_block>&,
+    .toc_wrapper>.generated_toc>.full_toc>.toc_part>a>.outline_name_block>&,
+    .footnote a &.t {
         display: block;
     }
     .entry .leaveout+&,
@@ -65,5 +69,8 @@
     }
     @at-root .frontmatter>.fm_other_structure>.fm_text_box>.text_line>span.font_text_line_8#{&} {
         display: inline;
+    }
+    .footnote &.t {
+        width: auto;
     }
 }

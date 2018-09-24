@@ -1,12 +1,16 @@
 package com.thomsonreuters.uscl.ereader.common.filesystem;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.assemble.step.CoverArtUtil;
+import com.thomsonreuters.uscl.ereader.common.filesystem.exception.StylesheetsNotFoundException;
 import com.thomsonreuters.uscl.ereader.common.step.BookStep;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystemDir;
@@ -18,14 +22,16 @@ import org.springframework.stereotype.Component;
 
 @Component("resourcesFileSystemXpp")
 public class ResourcesFileSystemXppImpl implements ResourcesFileSystem {
+    private static final Pattern documentCssFilePattern = Pattern.compile("^document(_[0-9]+\\.[0-5]\\.[0-9]+)?\\.css$");
+
     @Resource(name = "xppFormatFileSystem")
     private XppFormatFileSystem xppFormatFileSystem;
     @Resource(name = "imageFileSystem")
     private ImageFileSystem imageFileSystem;
     @Resource(name = "coverArtUtil")
     private CoverArtUtil coverArtUtil;
-    @Value("${xpp.document.css}")
-    private File documentCssFile;
+    @Value("${xpp.stylesheet.dir}")
+    private File stylesheetDir;
     @Value("${xpp.tlrkey.image}")
     private File tlrKeyImage;
 
@@ -39,8 +45,8 @@ public class ResourcesFileSystemXppImpl implements ResourcesFileSystem {
     @Override
     public File getDocumentsDirectory(@NotNull final BookStep step, final String materialNumber) {
         return Optional.ofNullable(materialNumber)
-            .map(material -> xppFormatFileSystem.getDirectory(step, XppFormatFileSystemDir.UNESCAPE_DIR, material))
-            .orElseGet(() -> xppFormatFileSystem.getDirectory(step, XppFormatFileSystemDir.UNESCAPE_DIR));
+                .map(material -> xppFormatFileSystem.getDirectory(step, XppFormatFileSystemDir.UNESCAPE_DIR, material))
+                .orElseGet(() -> xppFormatFileSystem.getDirectory(step, XppFormatFileSystemDir.UNESCAPE_DIR));
     }
 
     @NotNull
@@ -58,7 +64,12 @@ public class ResourcesFileSystemXppImpl implements ResourcesFileSystem {
     @NotNull
     @Override
     public File getDocumentCss() {
-        return documentCssFile;
+        return Optional.ofNullable(stylesheetDir.listFiles())
+                .map(Arrays::stream)
+                .orElseGet(Stream::empty)
+                .filter(file -> documentCssFilePattern.matcher(file.getName()).matches())
+                .findFirst()
+                .orElseThrow(() -> new StylesheetsNotFoundException(String.format("No stylesheets found in directory: %s", stylesheetDir.getAbsolutePath())));
     }
 
     @NotNull
@@ -77,8 +88,8 @@ public class ResourcesFileSystemXppImpl implements ResourcesFileSystem {
     @Override
     public Collection<File> getFontsCssFiles(@NotNull final BookStep step, final String materialNumber) {
         final File cssDir = Optional.ofNullable(materialNumber)
-            .map(material -> xppFormatFileSystem.getFontsCssDirectory(step, material))
-            .orElseGet(() -> xppFormatFileSystem.getFontsCssDirectory(step));
+                .map(material -> xppFormatFileSystem.getFontsCssDirectory(step, material))
+                .orElseGet(() -> xppFormatFileSystem.getFontsCssDirectory(step));
         return FileUtils.listFiles(cssDir, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
     }
 }
