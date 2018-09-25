@@ -271,9 +271,13 @@
 
 	<xsl:template match="x:cite.query">
 		<xsl:copy>
-			<xsl:copy-of select="@*" />
-			<xsl:apply-templates />
+			<xsl:apply-templates select="./@*" mode="attr-copy" />
+			<xsl:apply-templates select="child::node()" />
 		</xsl:copy>
+	</xsl:template>
+	
+	<xsl:template match="@*" mode="attr-copy">
+		<xsl:attribute name="{name()}" select="replace(replace(., '&#34;', ''), '&quot;', '')" />
 	</xsl:template>
 
     <xsl:template match="x:tbl">
