@@ -18,6 +18,7 @@
     }
 }
 
+.rutter_chapter_block,
 .rutter_chapter_front {
     .rw_outline_name_block {
         text-align: center;
@@ -56,6 +57,35 @@
     }
     .outline_name_block>.designator {
         margin-right: #{$indent/2}em;
+    }
+}
+
+.rutter_chapter_block .rutter_chapter_block_front .generated_toc {
+    .cgt {
+        display: block;
+        margin-bottom: #{$indent}em;
+        text-align: center;
+    }
+    .cgt:last-of-type {
+        text-align: right;
+    }
+}
+
+.rutter_chapter_block .rutter_chapter_block_front .generated_toc .full_toc .toc_rutter_chapter .rw_outline_name_block {
+    text-align: left;
+    .name {
+        padding-bottom: 0;
+    }
+    .cgt {
+        display: none;
+    }
+    .name,
+    .cgt:first-of-type,
+    .cgt:last-of-type {
+        display: inline-block;
+    }
+    .cgt:last-of-type {
+        float: right;
     }
 }
 

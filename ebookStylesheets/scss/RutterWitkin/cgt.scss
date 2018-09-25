@@ -11,7 +11,28 @@
     .toc_rutter_form_doc .outline_name_block>&:nth-last-of-type(2),
     .rutter_chapter .generated_toc>.full_toc .name~&:last-of-type,
     .rutter_chapter .generated_toc>.full_toc .name~&:nth-last-of-type(2),
-    .rutter_chapter .generated_toc>.full_toc .name~.xref+& {
+    .rutter_chapter .generated_toc>.full_toc .name~.xref+&,
+    .rutter_chapter_block .rutter_chapter_block_front .generated_toc & {
         display: block;
+    }
+
+    .rutter_chapter_block .rutter_chapter_block_front .generated_toc & {
+        margin-bottom: #{$indent}em;
+        text-align: center;
+        &:last-of-type {
+            text-align: right;
+        }
+    }
+    .rutter_chapter_block .rutter_chapter_block_front .generated_toc .full_toc .toc_rutter_chapter .rw_outline_name_block & {
+        display: none;
+        &:first-of-type,
+        &:last-of-type {
+            display: inline-block;
+            margin: 0;
+            padding: #{$indent}em 0 0 0;
+        }
+        &:last-of-type {
+            float: right;
+        }
     }
 }

@@ -59,8 +59,14 @@
                 .rw_doc_body {
                     display: inline;
                     padding-left:#{$indent}em;
-                    .para {
+                    .para:first-child,
+                    .list .para:nth-child(n+2) {
                         display: inline;
+                    }
+                    .para:nth-child(n+2) {
+                        display:block;
+                    }
+                    .para {
                         margin-bottom: #{$indent/2}em;
                         .para_text {
                             display: inline;
