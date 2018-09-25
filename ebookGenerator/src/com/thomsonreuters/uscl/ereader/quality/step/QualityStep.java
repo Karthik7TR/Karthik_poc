@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -82,7 +83,10 @@ public class QualityStep extends XppTransformationStep {
             .collect(groupingBy(entry -> entry.getKey()
                 .getKey(0), mapping(entry -> {
                     final MultiKey<? extends String> materialNumberAndFileName = entry.getKey();
-                    final Collection<File> htmlFiles = entry.getValue();
+                    final Collection<File> htmlFiles = entry.getValue()
+                            .stream()
+                            .sorted(Comparator.comparing(File::getName))
+                            .collect(Collectors.toList());
                     return getCompareUnit(materialNumberAndFileName, htmlFiles, this);
                 }, COMPARE_UNIT_LIST_COLLECTOR)));
 

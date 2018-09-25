@@ -2,18 +2,16 @@ package com.thomsonreuters.uscl.ereader.quality.service;
 
 import java.util.List;
 
-import com.thomsonreuters.uscl.ereader.quality.helper.FtpManager;
-import com.thomsonreuters.uscl.ereader.quality.helper.QualityUtil;
 import com.thomsonreuters.uscl.ereader.quality.domain.request.CompareUnit;
 import com.thomsonreuters.uscl.ereader.quality.domain.request.JsonRequest;
 import com.thomsonreuters.uscl.ereader.quality.domain.response.JsonResponse;
+import com.thomsonreuters.uscl.ereader.quality.helper.FtpManager;
+import com.thomsonreuters.uscl.ereader.quality.helper.QualityUtil;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -46,8 +44,7 @@ public class ComparisonServiceImpl implements ComparisonService {
             ftpManager.disconnect();
         }
         final JsonRequest jsonRequest = qualityUtil.createJsonRequest(compareUnitList);
-        return restTemplate.exchange(dtApiUrl, HttpMethod.POST, new HttpEntity<>(jsonRequest), JsonResponse.class)
-            .getBody();
+        return restTemplate.postForObject(dtApiUrl, jsonRequest, JsonResponse.class);
     }
 
     @SneakyThrows

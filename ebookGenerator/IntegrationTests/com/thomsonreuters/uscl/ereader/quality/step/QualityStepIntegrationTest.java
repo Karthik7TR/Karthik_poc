@@ -26,7 +26,6 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.http.HttpMethod.POST;
 
 import java.io.File;
 import java.io.IOException;
@@ -75,7 +74,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
@@ -154,8 +152,8 @@ public final class QualityStepIntegrationTest {
         doNothing().when(ftpManager)
             .uploadFile(anyString());
 
-        doReturn(ResponseEntity.ok(jsonResponse)).when(restTemplate)
-            .exchange(eq(dtApiUrl), eq(POST), any(), eq(JsonResponse.class));
+        doReturn(jsonResponse).when(restTemplate)
+            .postForObject(eq(dtApiUrl), any(), eq(JsonResponse.class));
 
         doReturn(singleton(new InternetAddress(EMAIL))).when(emailUtil)
             .getEmailRecipientsByUsername(anyString());

@@ -12,20 +12,17 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
-import com.thomsonreuters.uscl.ereader.quality.helper.FtpManager;
-import com.thomsonreuters.uscl.ereader.quality.helper.QualityUtil;
 import com.thomsonreuters.uscl.ereader.quality.domain.request.CompareUnit;
 import com.thomsonreuters.uscl.ereader.quality.domain.request.JsonRequest;
 import com.thomsonreuters.uscl.ereader.quality.domain.response.JsonResponse;
+import com.thomsonreuters.uscl.ereader.quality.helper.FtpManager;
+import com.thomsonreuters.uscl.ereader.quality.helper.QualityUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -41,21 +38,20 @@ public final class ComparisonServiceImplTest {
 
     @Mock
     private JsonRequest jsonRequest;
-    private CompareUnit compareUnit = new CompareUnit("source", "targer");
+    private CompareUnit compareUnit = new CompareUnit("source", "target");
     private List<CompareUnit> compareUnits = singletonList(compareUnit);
     @Mock
     private JsonResponse expectedResponse;
 
     @Before
     public void setUp() {
-        doNothing().when(ftpManager).uploadFile(any());
-        when(qualityUtil.createJsonRequest(compareUnits))
-                .thenReturn(jsonRequest);
-        when(restTemplate.exchange(anyString(),
-                eq(HttpMethod.POST),
-                eq(new HttpEntity<>(jsonRequest)),
-                eq(JsonResponse.class)))
-                .thenReturn(ResponseEntity.ok(expectedResponse));
+        doNothing().when(ftpManager)
+            .uploadFile(any());
+        when(qualityUtil.createJsonRequest(compareUnits)).thenReturn(jsonRequest);
+        when(
+            restTemplate
+                .postForObject(anyString(), eq(jsonRequest), eq(JsonResponse.class)))
+                    .thenReturn(expectedResponse);
     }
 
     @Test
