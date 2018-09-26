@@ -1,5 +1,8 @@
 package com.thomsonreuters.uscl.ereader.quality.helper;
 
+import static org.apache.commons.lang3.StringUtils.substringAfterLast;
+import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,9 +55,13 @@ public class FtpManager {
 
     @SneakyThrows
     public File downloadFile(final String remoteFileName, final String localPath) {
-        final File downloadedFile = new File(localPath);
-        if (!downloadedFile.getParentFile().exists()
-            && !downloadedFile.getParentFile().mkdirs()) {
+        final String fileName = substringAfterLast(localPath, "\\");
+        final String reportsDirPath = substringBeforeLast(localPath, "\\");
+        final File reportsDir = new File(reportsDirPath);
+        final File downloadedFile = new File(reportsDir, fileName);
+
+        if (!reportsDir.exists()
+            && !reportsDir.mkdir()) {
             throw new RuntimeException("Unable to create directories for DeltaText report file");
         }
         try (OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(downloadedFile))) {
