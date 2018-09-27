@@ -1926,6 +1926,58 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   width: 100%;
 }
 
+.rutter_chapter .rutter_chapter_body .font_rutter_chapter_body {
+  display: block;
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.rutter_chapter .rutter_chapter_body > .box:only-child {
+  border: 1px solid black;
+  padding: 0 0.5em 0;
+}
+
+.rutter_chapter .rutter_chapter_body > .box:only-child .rw_doc .rw_doc_front .rw_doc_outline_name_block .name {
+  display: block;
+  text-align: center;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_doc .rw_doc_front {
+  display: inline;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_doc .rw_doc_front .rw_doc_outline_name_block {
+  display: inline;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_doc .rw_doc_front .rw_doc_outline_name_block .designator,
+.rutter_chapter .rutter_chapter_body .rw_doc .rw_doc_front .rw_doc_outline_name_block .font_rw_doc_outline_name_block,
+.rutter_chapter .rutter_chapter_body .rw_doc .rw_doc_front .rw_doc_outline_name_block .rw_designator,
+.rutter_chapter .rutter_chapter_body .rw_doc .rw_doc_front .rw_doc_outline_name_block .font_rw_designator,
+.rutter_chapter .rutter_chapter_body .rw_doc .rw_doc_front .rw_doc_outline_name_block .name {
+  display: inline;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_doc .rw_doc_body {
+  display: inline;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_doc .rw_doc_body > .para:first-of-type {
+  display: inline;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_doc .rw_doc_body > .para:first-of-type .para_text {
+  display: inline;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_doc .rw_doc_body .para {
+  margin: 0.25em 0 0.25em;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_doc .rw_doc_body .para .para_text {
+  text-indent: unset;
+}
+
 .rutter_chapter .rutter_chapter_body .font_designator_1,
 .rutter_chapter .rutter_chapter_body .font_designator_2 {
   display: inline;
@@ -2096,6 +2148,10 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 .trg-arrow {
   width: initial;
   height: 1em;
+}
+
+.rw_hierarchy_body .rw_doc_reserved .cgt {
+  display: inline;
 }
 
 .rutter_chapter .cgt {

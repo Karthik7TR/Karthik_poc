@@ -1,5 +1,54 @@
 .rutter_chapter {
     .rutter_chapter_body {
+        .font_rutter_chapter_body {
+            display: block;
+            text-align: center;
+            margin-bottom: #{1*$indent}em;
+        }
+        > .box:only-child {
+            border: 1px solid black;
+            padding: 0 #{0.5*$indent}em 0;
+            .rw_doc {
+                .rw_doc_front {
+                    .rw_doc_outline_name_block {
+                        .name{
+                            display:block;
+                            text-align: center;
+                        }
+                    }
+                }
+            }
+        }
+        .rw_doc {
+            .rw_doc_front {
+                display: inline;
+                .rw_doc_outline_name_block {
+                    display: inline;
+                    .designator,
+                    .font_rw_doc_outline_name_block,
+                    .rw_designator,
+                    .font_rw_designator,
+                    .name {
+                        display: inline;
+                    }
+                }
+            }
+            .rw_doc_body {
+                display: inline;
+                > .para:first-of-type {
+                    display: inline;
+                    .para_text {
+                        display: inline;
+                    }
+                }
+                .para {
+                    margin: #{$indent/4}em 0 #{$indent/4}em;
+                    .para_text{
+                        text-indent: unset;
+                    }
+                }
+            }
+        }
         .font_designator_1,
         .font_designator_2 {
             display: inline;
