@@ -7,7 +7,7 @@ import java.io.InputStream;
 import com.thomsonreuters.uscl.ereader.format.exception.EBookFormatException;
 import com.thomsonreuters.uscl.ereader.gather.metadata.domain.DocMetadata;
 import com.thomsonreuters.uscl.ereader.gather.metadata.service.DocMetadataService;
-import org.apache.poi.util.IOUtils;
+import org.apache.commons.io.IOUtils;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,7 +16,8 @@ import org.junit.Test;
 public final class KeyCiteBlockGenerationServiceImplTest {
     private KeyCiteBlockGenerationServiceImpl service;
     private DocMetadataService mockDocMetadataService;
-    private DocMetadata mockDocMetadata;
+    private CitationNormalizer mockCitationNormalizer;
+    private DocMetadata docMetadata;
     private String titleId;
     private long jobId;
     private String docGuid;
@@ -27,27 +28,32 @@ public final class KeyCiteBlockGenerationServiceImplTest {
      */
     @Before
     public void setUp() throws Exception {
-        mockDocMetadata = EasyMock.createMock(DocMetadata.class);
+        docMetadata = new DocMetadata();
+
         mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
         mockDocMetadataService = EasyMock.createMock(DocMetadataService.class);
+        mockCitationNormalizer = EasyMock.createMock(CitationNormalizer.class);
         service = new KeyCiteBlockGenerationServiceImpl();
         service.setDocMetadataService(mockDocMetadataService);
         service.setHostname("http://www.westlaw.com");
-        service.setMudparamrs("ebbb3.0");
-        service.setMudparamvr("3.0");
+        service.setMudParamRS("ebbb3.0");
+        service.setMudParamVR("3.0");
+        service.setCitationNormalizer(mockCitationNormalizer);
         titleId = "uscl/an/IMPH";
         jobId = 101;
         docGuid = "I770806320bbb11e1948492503fc0d37f";
+
+        EasyMock.expect(mockDocMetadataService.findDocMetadataByPrimaryKey(titleId, Long.valueOf(101), docGuid))
+            .andReturn(docMetadata);
+        EasyMock.replay(mockDocMetadataService);
+        EasyMock.expect(mockCitationNormalizer.normalizeCitation("Title 1 §100")).andReturn("TITLE 1 S100");
+        EasyMock.expect(mockCitationNormalizer.normalizeCitation("Title 2 §200")).andReturn("TITLE 2 S200");
+        EasyMock.expect(mockCitationNormalizer.normalizeCitation("Title 3 §300")).andReturn("TITLE 3 S300");
+        EasyMock.replay(mockCitationNormalizer);
     }
 
     @Test
     public void testGetKeyCite() {
-        final DocMetadata docMetaData = new DocMetadata();
-
-        EasyMock.expect(mockDocMetadataService.findDocMetadataByPrimaryKey(titleId, Long.valueOf(101), docGuid))
-            .andReturn(docMetaData);
-        EasyMock.replay(mockDocMetadataService);
-
         InputStream keyCiteStream = null;
         try {
             keyCiteStream = service.getKeyCiteInfo(titleId, jobId, docGuid);
@@ -61,14 +67,9 @@ public final class KeyCiteBlockGenerationServiceImplTest {
 
     @Test
     public void testSymbolConversion() throws IOException {
-        final DocMetadata docMetaData = new DocMetadata();
-        docMetaData.setNormalizedFirstlineCite("Title 1 \u00A7100");
-        docMetaData.setFirstlineCite("Title 2 \u00A7200");
-        docMetaData.setSecondlineCite("Title 3 \u00A7300");
-
-        EasyMock.expect(mockDocMetadataService.findDocMetadataByPrimaryKey(titleId, Long.valueOf(101), docGuid))
-            .andReturn(docMetaData);
-        EasyMock.replay(mockDocMetadataService);
+        docMetadata.setNormalizedFirstlineCite("Title 1 \u00A7100");
+        docMetadata.setFirstlineCite("Title 2 \u00A7200");
+        docMetadata.setSecondlineCite("Title 3 \u00A7300");
 
         InputStream keyCiteStream = null;
         try {

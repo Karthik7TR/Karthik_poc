@@ -198,12 +198,15 @@
   	      p:hostname="${mud.domain}" 
   	      p:rs="${mud.parameter.rs}"
   	      p:vr="${mud.parameter.vr}"/>
-  	      
+
+	<bean id="citationNormalizer" class="com.thomsonreuters.uscl.ereader.format.service.CitationNormalizerImpl"/>
+
   	<bean id="keyCiteBlockGenerationService" class="com.thomsonreuters.uscl.ereader.format.service.KeyCiteBlockGenerationServiceImpl"
 		  p:docMetadataService-ref="docMetadataService"
+		  p:citationNormalizer-ref="citationNormalizer"
 		  p:hostname="${mud.domain}" 
-  	      p:mudparamrs="${mud.parameter.rs}"
-  	      p:mudparamvr="${mud.parameter.vr}"/>
+  	      p:mudParamRS="${mud.parameter.rs}"
+  	      p:mudParamVR="${mud.parameter.vr}"/>
 	
 	<bean id="outageProcessor" class="com.thomsonreuters.uscl.ereader.core.outage.service.OutageProcessorImpl"
 		  p:outageService-ref="outageService"
