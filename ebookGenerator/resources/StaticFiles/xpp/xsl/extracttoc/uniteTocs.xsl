@@ -102,7 +102,7 @@
                     </xsl:copy>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:if test="ancestor::x:EBookToc[1]/descendant::x:EBookToc[./x:DocumentGuid != $deepestVisibleDocUUID]">
+                    <xsl:if test="ancestor::x:EBookToc[1]/descendant::x:EBookToc[./x:DocumentGuid != $deepestVisibleDocUUID] or count(ancestor::x:EBookToc[1]/descendant::x:EBookToc) = 1">
                         <xsl:copy>
                             <xsl:apply-templates select="node()|@*" />
                         </xsl:copy>

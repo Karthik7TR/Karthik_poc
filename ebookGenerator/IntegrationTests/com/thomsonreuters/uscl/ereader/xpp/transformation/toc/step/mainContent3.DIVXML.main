@@ -130,6 +130,8 @@
                                                         <name date.updated="0">Introduction</name>
                                                     </outline.name.block>
                                                 </front>
+        	  									<XPPHier uuid="I18b49f1028b911e69ed7fcedf0a77701" parent_uuid="I18b49f1028b911e69ed7fcedf0a77701" name="Deep Toc 1">Deep Toc 1</XPPHier>
+                                                <XPPMetaData uuid="I18b49f1028b911e69ed7fcedf0a77701" guid="I18b49f1028b911e69ed7fcedf0a77701" md.uuid="I445a1ac3c61c11d9962fb5f8354828db" md.dmsserial="331482376" md.first_line_cite="CALRO CH 7 REF" md.second_line_cite="2 Children &amp;amp; the Law: Rights and Obligations Ch. 7 Refs." md.pubpage="CH 7 REF" md.pubid="177882" md.doc_family_uuid="I18b49f1028b911e69ed7fcedf0a77701" md.normalizedcite="CALROCH7REF" md.third_line_cite="" name="Chapter 7. Guardianship" parent_uuid="I18b49f1028b911e69ed7fcedf0a77701"/>
                                                 <analytical.level.body date.updated="0">
                                                     <section.block>
                                                         <section uuid="I334b431028b911e69ed7fcedf0a72426" date.revised="0" date.updated="0">
@@ -140,6 +142,7 @@
                                                                     <name date.updated="0">In general; definitions and distinctions</name>
                                                                 </outline.name.block>
                                                             </section.front>
+                                                            <XPPHier uuid="I18b49f1028b911e69ed7fcedf0a77702" parent_uuid="I18b49f1028b911e69ed7fcedf0a77701" name="Deep Toc 2">Deep Toc 2</XPPHier>
                                                             <section.body date.updated="0">
                                                                 <para date.updated="0" first.para="yes">
                                                                     <para.text date.updated="0" first.para.text="yes">Basic Florida law governing partnerships is embodied in the <ref ref.id="If512f990046e11e0b42f0000837bc6dd" short="y">Florida Revised Uniform Partnership Act of 1995</ref> (FRUPA)<xref id="1" type="footnote"/> and the <ref ref.id="If5148030046e11e0b42f0000837bc6dd" short="y">Florida Revised Uniform Limited Partner-ship Act of 2005</ref>.<xref id="2" type="footnote"/>
@@ -147,6 +150,7 @@
                                                                 </para>
                                                             </section.body>
                                                         </section>
+                                                        <XPPHier uuid="I18b49f1028b911e69ed7fcedf0a77703" parent_uuid="I18b49f1028b911e69ed7fcedf0a77702" name="Deep Toc 3">Deep Toc 3</XPPHier>
                                                         <section uuid="I335a373028b911e69ed7fcedf0a72426" date.revised="0" date.updated="0">
                                                             <section.front date.updated="0">
                                                                 <outline.name.block toc.include="y" date.updated="0">
@@ -167,6 +171,7 @@
                                             </analytical.level>
                                         </analytical.level.body>
                                     </analytical.level>
+                                    <XPPHier uuid="I18b49f1028b911e69ed7fcedf0a77704" parent_uuid="I18b49f1028b911e69ed7fcedf0a77703" name="Deep Toc 4">Deep Toc 4</XPPHier>
                                     <analytical.level uuid="I34145f7028b911e69ed7fcedf0a72426" date.revised="0" date.updated="0">
                                         <front date.updated="0">
                                             <outline.name.block toc.include="y" date.updated="0">
@@ -187,6 +192,7 @@
                                                     <section.body date.updated="0">
                                                     </section.body>
                                                 </section>
+                                                <XPPHier uuid="I18b49f1028b911e69ed7fcedf0a77705" parent_uuid="I18b49f1028b911e69ed7fcedf0a77704" name="Deep Toc 5">Deep Toc 5</XPPHier>
                                                 <section uuid="I34921af028b911e69ed7fcedf0a72426" date.revised="0" date.updated="0">
                                                     <section.front date.updated="0">
                                                         <outline.name.block toc.include="y" date.updated="0">
