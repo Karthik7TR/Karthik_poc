@@ -747,19 +747,21 @@
 							<img src="theme/images/wf_plus.gif"> ${keyword.name} <form:errors path="keywords[${keyword.id}]" cssClass="errorMessage" />
 						</div>
 						<div id="keyword_${keyword.id}_values" class="keywordValueBox" style="display:none;">
-                            <c:if test="${keyword.id != subjectId}">
+                            <%-- <c:if test="${keyword.id != subjectId}"> --%>
 							    <form:radiobutton path="keywords[${keyword.id}]" value="-1"/>None
-                            </c:if>
+                            <%-- </c:if> --%>
 							<c:forEach items="${keyword.values}" var="value">
 								<div class="keywordValues">
                                     <c:choose>
                                         <c:when test="${keyword.id == subjectId}">
 									         <c:choose>
 									         	<c:when test="${form.keywords[keyword.id].contains(value.id)}">
-									        		<form:checkbox path="keywords[${keyword.id}]" value="${value.id}" checked="true"/>
+									        		<%-- <form:checkbox path="keywords[${keyword.id}]" value="${value.id}" checked="true"/> --%>
+									        		<form:radiobutton path="keywords[${keyword.id}]" value="${value.id}" checked="true"/>
 									         	</c:when>
 									         	<c:otherwise>
-									        		<form:checkbox path="keywords[${keyword.id}]" value="${value.id}"/>
+									        		<%-- <form:checkbox path="keywords[${keyword.id}]" value="${value.id}"/> --%>
+									        		<form:radiobutton path="keywords[${keyword.id}]" value="${value.id}"/>
 									         	</c:otherwise>
 									         </c:choose>
                                         </c:when>

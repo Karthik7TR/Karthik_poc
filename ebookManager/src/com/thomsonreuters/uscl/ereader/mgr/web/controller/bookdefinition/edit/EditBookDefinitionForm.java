@@ -624,6 +624,7 @@ public class EditBookDefinitionForm {
             .stream()
             .filter(Objects::nonNull)
             .flatMap(Collection::stream)
+            .filter(id -> id > 0) // exclude "None" field
             .map(keywordValueId -> {
                 final KeywordTypeValue keywordValue = new KeywordTypeValue();
                 keywordValue.setId(keywordValueId);

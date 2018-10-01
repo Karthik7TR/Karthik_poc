@@ -103,7 +103,10 @@ public final class EditBookDefinitionFormTest {
         final TableViewer viewer = new TableViewer();
         final DocumentCopyright copyright = new DocumentCopyright();
         final DocumentCurrency currency = new DocumentCurrency();
-        final Long keyword = 0L;
+        final Long keyword = 1L;
+        final Long keywordId = 1L;
+        final Long noneKeyword = 0L;
+        final Long noneKeywordId = -1L;
         final NortFileLocation location = new NortFileLocation();
 
         form.setTitleId(titleId);
@@ -133,7 +136,8 @@ public final class EditBookDefinitionFormTest {
         form.setDocumentCurrenciesCopy(documentCurrencies);
         documentCurrencies.add(currency);
         form.setKeywords(keywords);
-        keywords.put(0L, Collections.singleton(keyword));
+        keywords.put(keywordId, Collections.singleton(keyword));
+        keywords.put(noneKeywordId, Collections.singleton(noneKeyword));
         form.setNortFileLocations(nortFileLocations);
         nortFileLocations.add(location);
         form.setPrintComponents(printComponentsJson);
