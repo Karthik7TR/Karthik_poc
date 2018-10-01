@@ -508,7 +508,12 @@ td:last-of-type {
   text-indent: 0;
 }
 
-.toc_appendix .designator {
+.full_toc > .toc_appendix_section .outline_name_block > .name {
+  margin-left: 2em;
+}
+
+.toc_appendix .designator,
+.toc_appendix_section .designator {
   min-width: 2em;
   max-width: 2em;
 }
@@ -657,6 +662,11 @@ td:last-of-type {
 
 .frontmatter table {
   width: 100%;
+}
+
+.frontmatter .textrule {
+  height: 0.25em;
+  background-color: #000000;
 }
 
 .frontmatter .tbl table + .colspec {
