@@ -63,7 +63,7 @@ public class MoveResourcesToAssembleDirectoryXpp extends XppTransformationStep {
     private void copyFiles(final File destinationArtworkFile, final File assetsDir,
                            final File documentsDir, final List<XppBundle> bundles) {
         copyFile(resourcesFileSystem.getArtwork(this), destinationArtworkFile);
-        copyFileToDirectory(resourcesFileSystem.getDocumentCss(), assetsDir);
+        copyFile(resourcesFileSystem.getDocumentCss(), new File(assetsDir, "document.css"));
         copyFileToDirectory(resourcesFileSystem.getTlrKeyImage(), assetsDir);
         copyFileToDirectory(destinationArtworkFile, assetsDir);
         copyDirectory(resourcesFileSystem.getAssetsDirectory(this), assetsDir);

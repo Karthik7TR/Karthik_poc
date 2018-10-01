@@ -69,8 +69,6 @@ public final class MoveResourcesToAssembleDirectoryXppTest {
         expectedDir = new File(this.getClass().getResource("expected").toURI());
         final File workDirectory = bookFileSystem.getWorkDirectory(sut);
         FileUtils.copyDirectory(new File(this.getClass().getResource("testdata").toURI()), workDirectory);
-        final File assetsDir = new File(expectedDir, "assets");
-        FileUtils.copyFileToDirectory(new File(stylesheetsDir, "document_1.2.3.css"), assetsDir);
         createXppBundleMock();
     }
 
