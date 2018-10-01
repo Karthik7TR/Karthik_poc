@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
+	xmlns:h="http://www.w3.org/1999/xhtml" xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
 	<xsl:import href="../transform-utils.xsl" />
     <xsl:include href="transformText.xsl" />
     <xsl:include href="transformFootnotes.xsl" />
     <xsl:include href="transformTlrKey.xsl" />
     <xsl:include href="transformImagesTags.xsl" />
     <xsl:include href="pocketPartLinksHtml.xsl" />
+    <xsl:include href="../unescape/unescape-function.xsl" />
     
     <xsl:output method="html" indent="no" omit-xml-declaration="yes"/>
 	<xsl:param name="fileBaseName" />
@@ -160,7 +161,7 @@
 		<xsl:element name="{name()}">
 			<xsl:for-each select="@*[not(name()='reftext')]">
 				<xsl:attribute name="{name()}">
-					<xsl:value-of select="x:replace-apos(self::node())" />
+					<xsl:value-of select="h:unescape(x:replace-apos(self::node()))" />
 				</xsl:attribute>
 			</xsl:for-each>
 			<xsl:apply-templates />
