@@ -178,9 +178,11 @@
                                                 </outline.name.block>
                                                 <toc.section>
                                                     <outline.name.block>
-                                                        <label date.updated="0"/>
-                                                        <designator date.updated="0">30:13</designator>
-                                                        <name>General partnership agreement</name>
+                                                        <XPPSummaryTOCLink uuid="I18b49f1028b911e69ed7fcedf0a72425">
+                                                            <label date.updated="0"/>
+                                                            <designator date.updated="0">30:13</designator>
+                                                            <name>General partnership agreement</name>
+                                                        </XPPSummaryTOCLink>
                                                     </outline.name.block>
                                                 </toc.section>
                                                 <toc.section>
@@ -194,9 +196,11 @@
                                                 </toc.section>
                                                 <toc.section>
                                                     <outline.name.block>
-                                                        <label date.updated="0"/>
-                                                        <designator date.updated="0">30:15</designator>
-                                                        <name>Investor and worker</name>
+                                                        <XPPSummaryTOCLink uuid="not-existing-uuid">
+                                                            <label date.updated="0"/>
+                                                            <designator date.updated="0">30:15</designator>
+                                                            <name>Investor and worker</name>
+                                                        </XPPSummaryTOCLink>
                                                     </outline.name.block>
                                                 </toc.section>
                                                 <toc.section>

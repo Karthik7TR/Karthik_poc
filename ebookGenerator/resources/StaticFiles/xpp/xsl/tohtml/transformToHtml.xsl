@@ -230,12 +230,12 @@
 	</xsl:template>
 
 	<xsl:template match="x:XPPSummaryTOCLink">
-		<xsl:variable name="docId" select="x:getDocumentId(current()/@uuid)" />
+		<xsl:variable name="hrefForSumTocLink" select="x:getHrefForSumTocLink(@uuid)" />
 
 		<xsl:choose>
-			<xsl:when test="$docId and not($docId = '') and not($docId = '_pp')">
+			<xsl:when test="$hrefForSumTocLink">
 				<xsl:element name="a">
-					<xsl:attribute name="href" select="concat('er:#', $docId, '/sumtoc-', @uuid)" />
+					<xsl:attribute name="href" select="concat('er:#', $hrefForSumTocLink)" />
 					<xsl:apply-templates />
 				</xsl:element>
 			</xsl:when>
@@ -245,11 +245,29 @@
 		</xsl:choose>
 	</xsl:template>
 
-	<xsl:function name="x:getDocumentId">
+	<xsl:function name="x:getHrefForSumTocLink">
 		<xsl:param name="uuid" />
 		<xsl:variable name="processedUuid">
 			<xsl:value-of select="x:process-id($uuid, $isPocketPart)" />
 		</xsl:variable>
+		<xsl:variable name="docIdForDetailedToc" select="x:getDocumentIdForDetailedToc($processedUuid)" />
+
+		<xsl:choose>
+			<xsl:when test="x:isMainDocumentId($docIdForDetailedToc)=true()">
+				<xsl:value-of select="concat($docIdForDetailedToc, '/sumtoc-', $uuid)" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:variable name="docIdForMainDoc" select="x:getDocumentIdForMainDoc($processedUuid)" />
+				<xsl:if test="x:isMainDocumentId($docIdForMainDoc)=true()">
+					<xsl:value-of select="concat($docIdForMainDoc, '/', $uuid)" />
+				</xsl:if>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
+
+	<xsl:function name="x:getDocumentIdForDetailedToc">
+		<xsl:param name="processedUuid" />
+
 		<xsl:variable name="docIdFromSummaryTocMap"
 			select="$summaryTocDocumentUidMap/x:uuidmap/x:item[@key = $processedUuid]" />
 		<xsl:choose>
@@ -259,6 +277,23 @@
 			<xsl:otherwise>
 				<xsl:value-of
 					select="$documentUidMap/x:uuidmap/x:item[@key = $processedUuid and @type = 'sumtoc'][1]" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
+
+	<xsl:function name="x:getDocumentIdForMainDoc">
+		<xsl:param name="processedUuid" />
+		<xsl:value-of select="$documentUidMap/x:uuidmap/x:item[@key = $processedUuid][1]" />
+	</xsl:function>
+
+	<xsl:function name="x:isMainDocumentId">
+		<xsl:param name="docId" />
+		<xsl:choose>
+			<xsl:when test="not($docId = '' or $docId = '_pp')">
+				<xsl:value-of select="true()" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="false()" />
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:function>
