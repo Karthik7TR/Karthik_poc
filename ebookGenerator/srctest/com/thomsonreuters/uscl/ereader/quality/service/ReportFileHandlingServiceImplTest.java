@@ -31,7 +31,7 @@ public final class ReportFileHandlingServiceImplTest {
         //when
         final String fileName = sut.extractParameter(testReportFile, ReportFileParameter.FILE_NAME);
         //then
-        assertEquals("1001-NYPJIH_Volume_1_Index.main.DIVXML.42065619.transformed", fileName);
+        assertEquals("4-TRG_CACIVP_12(II).main.DIVXML.42086163.transformed", fileName);
     }
 
     @Test
@@ -40,7 +40,7 @@ public final class ReportFileHandlingServiceImplTest {
         //when
         final String percentage = sut.extractParameter(testReportFile, ReportFileParameter.PERCENTAGE);
         //then
-        assertEquals("99.50631%", percentage);
+        assertEquals("100.00000%", percentage);
     }
 
     @Test
@@ -50,7 +50,7 @@ public final class ReportFileHandlingServiceImplTest {
         final Map<String, String> result = sut.getFilesMatchingPercentage(Collections.singletonList(testReportFile));
         //then
         assertThat(result.entrySet(), hasSize(1));
-        assertThat(result.keySet(), contains("1001-NYPJIH_Volume_1_Index.main.DIVXML.42065619.transformed"));
-        assertThat(result.values(), contains("99.50631%"));
+        assertThat(result.keySet(), contains("4-TRG_CACIVP_12(II).main.DIVXML.42086163.transformed"));
+        assertThat(result.values(), contains("100.00000%"));
     }
 }

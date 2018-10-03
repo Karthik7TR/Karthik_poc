@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class ReportFileHandlingServiceImpl implements ReportFileHandlingService {
     private static final String VALUE_GROUP = "valGr";
     private static final Pattern FILE_NAME_PATTERN = Pattern.compile(String.format(
-        ".*<tr>[\t \n]*<td><b>Source File Name</b></td>[\t \n]*<td>(?<%s>[A-Za-z0-9_\\-.]+)</td>[\t \n]*</tr>.*", VALUE_GROUP));
+        ".*<tr>[\t \n]*<td><b>Source File Name</b></td>[\t \n]*<td>(?<%s>[A-Za-z0-9_\\-.()]+)</td>[\t \n]*</tr>.*", VALUE_GROUP));
     private static final Pattern PERCENTAGE_PATTERN = Pattern.compile(String.format(
         ".*<tr>[\t \n]*<td><b>Matching Percentage</b></td>[\t \n]*<td>(?<%s>[0-9\\%s.]+)</td>[\t \n]*</tr>.*", VALUE_GROUP, "%"));
 
@@ -24,7 +25,8 @@ public class ReportFileHandlingServiceImpl implements ReportFileHandlingService 
     @SneakyThrows
     public String extractParameter(@NotNull final File file, @NotNull final ReportFileParameter parameter) {
         final Pattern pattern = getPattern(parameter);
-        final String reportFileContent = FileUtils.readFileToString(file).replaceAll("\n", "").replaceAll("\t", "").replaceAll("\r", "");
+        final String reportFileContent = StringUtils.substringBefore(
+            FileUtils.readFileToString(file).replaceAll("\n", "").replaceAll("\t", "").replaceAll("\r", ""), "</table>");
         final Matcher matcher = pattern.matcher(reportFileContent);
         if (!matcher.find()) {
             throw new UnsupportedOperationException(
