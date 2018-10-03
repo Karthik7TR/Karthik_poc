@@ -488,23 +488,23 @@ td:last-of-type {
   display: block;
 }
 
-.para > .dialogue_block > .dialogue_item {
+.dialogue_block > .dialogue_item {
   margin-left: 2em;
 }
 
-.para > .dialogue_block > .dialogue_item > .dialogue_label {
+.dialogue_block > .dialogue_item > .dialogue_label {
   display: inline;
 }
 
-.para > .dialogue_block > .dialogue_item > .statement {
+.dialogue_block > .dialogue_item > .statement {
   display: inline;
 }
 
-.para > .dialogue_block > .dialogue_item > .statement > .para {
+.dialogue_block > .dialogue_item > .statement > .para {
   display: inline;
 }
 
-.para > .dialogue_block > .dialogue_item > .statement > .para > .para_text {
+.dialogue_block > .dialogue_item > .statement > .para > .para_text {
   display: inline;
 }
 

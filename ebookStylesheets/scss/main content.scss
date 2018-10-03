@@ -282,7 +282,7 @@ ref {
     }
 }
 
-.para > .dialogue_block > .dialogue_item {
+.dialogue_block > .dialogue_item {
     margin-left: #{$indent*2}em;
     > .dialogue_label {
         display: inline;
