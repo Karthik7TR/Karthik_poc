@@ -488,6 +488,26 @@ td:last-of-type {
   display: block;
 }
 
+.editorial_commentary_section_body > .para > .dialogue_block > .dialogue_item {
+  margin-left: 2em;
+}
+
+.editorial_commentary_section_body > .para > .dialogue_block > .dialogue_item > .dialogue_label {
+  display: inline;
+}
+
+.editorial_commentary_section_body > .para > .dialogue_block > .dialogue_item > .statement {
+  display: inline;
+}
+
+.editorial_commentary_section_body > .para > .dialogue_block > .dialogue_item > .statement > .para {
+  display: inline;
+}
+
+.editorial_commentary_section_body > .para > .dialogue_block > .dialogue_item > .statement > .para > .para_text {
+  display: inline;
+}
+
 .appendix_front > .outline_name_block {
   margin: 1em 0;
   display: block;
@@ -826,7 +846,8 @@ tbody .cgt,
 .full_toc > .toc_chapter .outline_name_block > .designator > .cgt:nth-child(2),
 .full_toc > .toc_chapter_reserved .outline_name_block > .designator > .cgt:nth-child(2),
 .full_toc > .toc_chapter_reserved .outline_name_block > .cgt,
-.publication_body .chapter_reserved .cgt {
+.publication_body .chapter_reserved .cgt,
+.editorial_commentary_section > .editorial_commentary_section_front > .editorial_outline_name_block > .name > .cgt {
   display: inline;
 }
 

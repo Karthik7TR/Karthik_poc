@@ -281,3 +281,19 @@ ref {
         display: block;
     }
 }
+
+.editorial_commentary_section_body > .para > .dialogue_block > .dialogue_item {
+    margin-left: #{$indent*2}em;
+    > .dialogue_label {
+        display: inline;
+    }
+    > .statement {
+        display: inline;
+        > .para {
+            display: inline;
+            > .para_text {
+                display: inline;
+            }
+        }
+    }
+}

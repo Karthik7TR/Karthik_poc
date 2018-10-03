@@ -32,7 +32,8 @@
     .full_toc>.toc_chapter .outline_name_block>.designator>&:nth-child(2),
     .full_toc>.toc_chapter_reserved .outline_name_block>.designator>&:nth-child(2),
     .full_toc>.toc_chapter_reserved .outline_name_block>&,
-    .publication_body .chapter_reserved & {
+    .publication_body .chapter_reserved &,
+    .editorial_commentary_section > .editorial_commentary_section_front > .editorial_outline_name_block > .name > & {
         display: inline;
     }
     .signature_group>.form_line &,
