@@ -12,7 +12,8 @@
         display: inline;
     }
     .appendix_front &,
-    .publication>.metadata_block+.publication_body>.part>.front>.outline_name_block>& {
+    .publication>.metadata_block+.publication_body>.part>.front>.outline_name_block>&,
+    .publication>.publication_body>.part>.front>.outline_name_block>& {
         display: block;
         margin-top: #{$indent/2}em;
     }
