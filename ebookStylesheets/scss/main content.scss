@@ -52,6 +52,9 @@
     margin: #{$indent}em auto;
     width: auto;
     text-align: center;
+    &.left {
+        text-align: left;
+    }
 }
 
 table {
@@ -96,6 +99,9 @@ td {
         div.super {
             display: inline;
         }
+    }
+    .section_body > .tbl > .table_frame_none > thead > tr > & {
+        border: none;
     }
 }
 
@@ -267,4 +273,10 @@ ref {
 .tbl td>.leader,
 .tbl td>.leader>.fillchar {
     display: inline;
+}
+
+.form_unit {
+    .form_unit > .form_item > .form_para > & {
+        display: block;
+    }
 }

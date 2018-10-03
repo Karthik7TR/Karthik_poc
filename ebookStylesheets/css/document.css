@@ -252,6 +252,10 @@ section:not([erdocid]) .scroll_mode {
   text-align: center;
 }
 
+.tbl_name.left {
+  text-align: left;
+}
+
 table {
   justify-content: space-between;
 }
@@ -299,6 +303,10 @@ table.table_frame_all td {
 
 table.table_frame_all td div.super {
   display: inline;
+}
+
+.section_body > .tbl > .table_frame_none > thead > tr > td {
+  border: none;
 }
 
 td:first-of-type {
@@ -469,6 +477,10 @@ td:last-of-type {
 .tbl td > .leader,
 .tbl td > .leader > .fillchar {
   display: inline;
+}
+
+.form_unit > .form_item > .form_para > .form_unit {
+  display: block;
 }
 
 .appendix_front > .outline_name_block {
