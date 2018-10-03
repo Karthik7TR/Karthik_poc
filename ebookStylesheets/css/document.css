@@ -488,23 +488,23 @@ td:last-of-type {
   display: block;
 }
 
-.editorial_commentary_section_body > .para > .dialogue_block > .dialogue_item {
+.para > .dialogue_block > .dialogue_item {
   margin-left: 2em;
 }
 
-.editorial_commentary_section_body > .para > .dialogue_block > .dialogue_item > .dialogue_label {
+.para > .dialogue_block > .dialogue_item > .dialogue_label {
   display: inline;
 }
 
-.editorial_commentary_section_body > .para > .dialogue_block > .dialogue_item > .statement {
+.para > .dialogue_block > .dialogue_item > .statement {
   display: inline;
 }
 
-.editorial_commentary_section_body > .para > .dialogue_block > .dialogue_item > .statement > .para {
+.para > .dialogue_block > .dialogue_item > .statement > .para {
   display: inline;
 }
 
-.editorial_commentary_section_body > .para > .dialogue_block > .dialogue_item > .statement > .para > .para_text {
+.para > .dialogue_block > .dialogue_item > .statement > .para > .para_text {
   display: inline;
 }
 
