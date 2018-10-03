@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://www.w3.org/1999/xhtml" xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
+	xmlns:x="http://www.sdl.com/xpp" exclude-result-prefixes="x">
 	<xsl:import href="../transform-utils.xsl" />
-    <xsl:include href="transformText.xsl" />
-    <xsl:include href="transformFootnotes.xsl" />
-    <xsl:include href="transformTlrKey.xsl" />
-    <xsl:include href="transformImagesTags.xsl" />
-    <xsl:include href="pocketPartLinksHtml.xsl" />
-    <xsl:include href="../unescape/unescape-function.xsl" />
-    
-    <xsl:output method="html" indent="no" omit-xml-declaration="yes"/>
+	<xsl:include href="transformText.xsl" />
+	<xsl:include href="transformFootnotes.xsl" />
+	<xsl:include href="transformTlrKey.xsl" />
+	<xsl:include href="transformImagesTags.xsl" />
+	<xsl:include href="pocketPartLinksHtml.xsl" />
+
+	<xsl:output method="html" indent="no" omit-xml-declaration="yes"/>
 	<xsl:param name="fileBaseName" />
 	<xsl:param name="divXmlName" />
 	<xsl:param name="documentUidMapDoc" />
@@ -20,33 +19,33 @@
 	<xsl:param name="bundleFileType" />
 	<xsl:param name="volumesMap" />
 	<xsl:param name="currentPartTitle" />
-	
+
 	<xsl:variable name="documentUidMap" select="document($documentUidMapDoc)" />
 	<xsl:variable name="summaryTocDocumentUidMap" select="document($summaryTocDocumentUidMapDoc)" />
 	<xsl:variable name="volumesMapFile" select="document($volumesMap)" />
 	<xsl:variable name="isMultiVolume" select="count(distinct-values(($volumesMapFile/x:VolumesMap/x:entry/text()))) > 1" />
-	
+
 	<xsl:template match="x:parts">
 		<xsl:text disable-output-escaping="yes">&lt;!DOCTYPE root SYSTEM &#34;</xsl:text>
 		<xsl:value-of select="$entitiesDocType" />
 		<xsl:text disable-output-escaping="yes">&#34;&gt;</xsl:text>
 		<html>
 			<head>
-      			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
-      			<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"></meta>
-      			<title>Thomson Reuters eBook</title>
-      			<link rel="stylesheet" type="text/css" href="er:#document"></link>
-      			<xsl:element name="link">
-      				<xsl:attribute name="rel">stylesheet</xsl:attribute>
-      				<xsl:attribute name="type">text/css</xsl:attribute>
-      				<xsl:attribute name="href">er:#<xsl:value-of select="$divXmlName" /></xsl:attribute>
-      			</xsl:element>
-      			<link rel="stylesheet" type="text/css" href="er:#blackkey"></link>
+				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+				<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"></meta>
+				<title>Thomson Reuters eBook</title>
+				<link rel="stylesheet" type="text/css" href="er:#document"></link>
+				<xsl:element name="link">
+					<xsl:attribute name="rel">stylesheet</xsl:attribute>
+					<xsl:attribute name="type">text/css</xsl:attribute>
+					<xsl:attribute name="href">er:#<xsl:value-of select="$divXmlName" /></xsl:attribute>
+				</xsl:element>
+				<link rel="stylesheet" type="text/css" href="er:#blackkey"></link>
 			</head>
 			<xsl:element name="body">
-            	<xsl:attribute name="fileBaseName" select="$fileBaseName" />
+				<xsl:attribute name="fileBaseName" select="$fileBaseName" />
 				<xsl:apply-templates />
-            </xsl:element>
+			</xsl:element>
 		</html>
 	</xsl:template>
 
@@ -67,7 +66,7 @@
 			<xsl:apply-templates select="preceding::x:XPPMetaData[1]" mode="place-anchor" />
 		</xsl:if>
 	</xsl:template>
-	
+
 	<xsl:template name="createPBPI">
 		<xsl:variable name="apostrophe">'</xsl:variable>
 		<xsl:variable name="pagePrefix">
@@ -99,7 +98,7 @@
 		
 		<xsl:processing-instruction name="pb" select="concat('label', '=', $apostrophe, $pagePrefix, $pageNum, $apostrophe, '?')" />
 	</xsl:template>
-	
+
 	<xsl:template name="getDocumentVolume">
 		<xsl:variable name="pageNum" select="./@num" />
 		<xsl:variable name="closestUuid" select="(ancestor::x:parts//x:XPPHier)[last()]/@uuid" />
@@ -111,7 +110,7 @@
 			<xsl:apply-templates select="self::node()" mode="place-anchor" />
 		</xsl:if>
 	</xsl:template>
-	
+
 	<xsl:template match="x:XPPHier | x:XPPMetaData" mode="place-anchor">
 		<xsl:variable name="uid">
 			<xsl:choose>
@@ -156,41 +155,28 @@
 			<xsl:apply-templates />
 		</xsl:element>
 	</xsl:template>
-	
-	<xsl:template match="x:ref">
-		<xsl:element name="{name()}">
-			<xsl:for-each select="@*[not(name()='reftext')]">
-				<xsl:attribute name="{name()}">
-					<xsl:value-of select="h:unescape(x:replace-apos(self::node()))" />
-				</xsl:attribute>
-			</xsl:for-each>
-			<xsl:apply-templates />
-		</xsl:element>
-	</xsl:template>
 
-	<xsl:function name="x:replace-apos">
-		<xsl:param name="str" />
-		<xsl:variable name="apos">'</xsl:variable>
-		<xsl:value-of select="replace($str, $apos, '&amp;apos;')" />
-	</xsl:function>
+	<xsl:template match="x:ref">
+		<xsl:apply-templates />
+	</xsl:template>
 
 	<xsl:template match="x:ital|x:bold">
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="x:t">
-        <xsl:variable name="footnoteRefId" select="x:footnote-reference-id(.)" />
+		<xsl:variable name="footnoteRefId" select="x:footnote-reference-id(.)" />
 
-        <xsl:choose>
-            <xsl:when test="$footnoteRefId != ''">
-                <xsl:call-template name="addFootnoteReference">
-                    <xsl:with-param name="refId" select="$footnoteRefId" />
-                </xsl:call-template>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:call-template name="convertToSpan" />
-            </xsl:otherwise>
-        </xsl:choose>
+		<xsl:choose>
+			<xsl:when test="$footnoteRefId != ''">
+				<xsl:call-template name="addFootnoteReference">
+					<xsl:with-param name="refId" select="$footnoteRefId" />
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="convertToSpan" />
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<xsl:template match="x:XPPLink|x:XPPTOCLink">
@@ -207,7 +193,7 @@
 		<xsl:variable name="docId" select="($documentUidMap/x:uuidmap/x:item[@key = $uid and @type = 'book'])[1]" />
 		<xsl:variable name="linkedTitle" select="($documentUidMap/x:uuidmap/x:item[@key = $uid and @type = 'book'])[1]/@splitTitleId" />
 		<xsl:variable name="prefix">
-			<xsl:choose>			
+			<xsl:choose>
 				<xsl:when test="$linkedTitle and $linkedTitle != $currentPartTitle">
 					<xsl:value-of select="concat('er:', $linkedTitle, '#')" />
 				</xsl:when>
@@ -311,61 +297,61 @@
 			<xsl:apply-templates select="child::node()" />
 		</xsl:copy>
 	</xsl:template>
-	
+
 	<xsl:template match="@*" mode="attr-copy">
 		<xsl:attribute name="{name()}" select="replace(replace(., '&#34;', ''), '&quot;', '')" />
 	</xsl:template>
 
-    <xsl:template match="x:tbl">
-        <xsl:variable name="pageOrScrollMode">
-            <xsl:if test="@mode != ''">
-                <xsl:value-of select="@mode" />
-            </xsl:if>
-        </xsl:variable>
-        
-        <xsl:variable name="tblClass" select="string-join(('tbl', $pageOrScrollMode)[. != ''],' ')" />
-            
-        <xsl:element name="div">
-            <xsl:attribute name="class" select="$tblClass" />
-            <xsl:apply-templates />
-        </xsl:element>
-    </xsl:template>
-    
-    <xsl:template match="x:table">
-        <xsl:variable name="trTableClass">
-            <xsl:if test="number(@cols) > 3 and @tgroupstyle = 'text'">
-                <xsl:value-of select="'tr_table'" />
-            </xsl:if>
-        </xsl:variable>
-        
-        <xsl:variable name="tableFrameClass">
-            <xsl:if test="@frame != ''">
-                <xsl:value-of select="concat('table_frame_', @frame)" />
-            </xsl:if>
-        </xsl:variable>
-        
-        <xsl:variable name="tableClass" select="string-join(($trTableClass, $tableFrameClass)[. != ''],' ')" />
-        
-        <xsl:element name="table">
-            <xsl:if test="$tableClass != ''">
-                <xsl:attribute name="class" select="$tableClass" />
-            </xsl:if>
-            <xsl:apply-templates />
-        </xsl:element>
-    </xsl:template>
-    
-    <xsl:template match="x:col">
-        <xsl:element name="col">
-            <xsl:attribute name="style" select="concat('width:', @width)" />
-        </xsl:element>
-    </xsl:template>
-    
-    <xsl:template match="x:thead | x:tbody | x:colgroup">
-        <xsl:element name="{name()}">
-            <xsl:copy-of select="@*" />
-            <xsl:apply-templates />
-        </xsl:element>
-    </xsl:template>
+	<xsl:template match="x:tbl">
+		<xsl:variable name="pageOrScrollMode">
+			<xsl:if test="@mode != ''">
+				<xsl:value-of select="@mode" />
+			</xsl:if>
+		</xsl:variable>
+		
+		<xsl:variable name="tblClass" select="string-join(('tbl', $pageOrScrollMode)[. != ''],' ')" />
+			
+		<xsl:element name="div">
+			<xsl:attribute name="class" select="$tblClass" />
+			<xsl:apply-templates />
+		</xsl:element>
+	</xsl:template>
+
+	<xsl:template match="x:table">
+		<xsl:variable name="trTableClass">
+			<xsl:if test="number(@cols) > 3 and @tgroupstyle = 'text'">
+				<xsl:value-of select="'tr_table'" />
+			</xsl:if>
+		</xsl:variable>
+		
+		<xsl:variable name="tableFrameClass">
+			<xsl:if test="@frame != ''">
+				<xsl:value-of select="concat('table_frame_', @frame)" />
+			</xsl:if>
+		</xsl:variable>
+		
+		<xsl:variable name="tableClass" select="string-join(($trTableClass, $tableFrameClass)[. != ''],' ')" />
+		
+		<xsl:element name="table">
+			<xsl:if test="$tableClass != ''">
+				<xsl:attribute name="class" select="$tableClass" />
+			</xsl:if>
+			<xsl:apply-templates />
+		</xsl:element>
+	</xsl:template>
+
+	<xsl:template match="x:col">
+		<xsl:element name="col">
+			<xsl:attribute name="style" select="concat('width:', @width)" />
+		</xsl:element>
+	</xsl:template>
+
+	<xsl:template match="x:thead | x:tbody | x:colgroup">
+		<xsl:element name="{name()}">
+			<xsl:copy-of select="@*" />
+			<xsl:apply-templates />
+		</xsl:element>
+	</xsl:template>
 
 	<xsl:template match="x:row">
 		<xsl:element name="tr">
