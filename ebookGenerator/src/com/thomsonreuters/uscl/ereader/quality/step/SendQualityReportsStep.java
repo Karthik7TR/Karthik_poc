@@ -12,6 +12,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.common.EBookApps;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
 import com.thomsonreuters.uscl.ereader.common.notification.step.SendFailureNotificationPolicy;
 import com.thomsonreuters.uscl.ereader.common.publishingstatus.step.SavePublishingStatusPolicy;
@@ -21,7 +22,6 @@ import com.thomsonreuters.uscl.ereader.core.quality.service.QualityReportsRecipi
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.quality.domain.email.QualityReportEmail;
 import com.thomsonreuters.uscl.ereader.quality.service.QualityEmailService;
-import com.thomsonreuters.uscl.ereader.smoketest.service.SmokeTestServiceImpl;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -45,7 +45,7 @@ public class SendQualityReportsStep extends BookStepImpl {
             .environment(getEnvironment())
             .jobId(getJobInstanceId())
             .host(getJobParameterString(JobParameterKey.HOST_NAME))
-            .port("workstation".equals(getEnvironment()) ? "8080" : SmokeTestServiceImpl.PORT_9002)
+            .port(EBookApps.GENERATOR.getEnv(getEnvironment()).port())
             .titleId(getBookDefinition().getFullyQualifiedTitleId())
             .reports(reports)
             .recipients(recipients)

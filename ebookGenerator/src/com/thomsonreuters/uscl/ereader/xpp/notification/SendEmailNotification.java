@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 import javax.mail.internet.InternetAddress;
 
 import com.thomsonreuters.uscl.ereader.JobParameterKey;
+import com.thomsonreuters.uscl.ereader.common.EBookApps;
 import com.thomsonreuters.uscl.ereader.common.notification.entity.NotificationEmail;
 import com.thomsonreuters.uscl.ereader.common.notification.service.EmailService;
 import com.thomsonreuters.uscl.ereader.common.notification.step.FailureNotificationType;
@@ -21,7 +22,6 @@ import com.thomsonreuters.uscl.ereader.common.step.BookStepImpl;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.service.EmailUtil;
 import com.thomsonreuters.uscl.ereader.request.domain.PrintComponent;
-import com.thomsonreuters.uscl.ereader.smoketest.service.SmokeTestServiceImpl;
 import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.apache.commons.lang3.StringUtils;
@@ -159,7 +159,7 @@ public class SendEmailNotification extends BookStepImpl {
     @NotNull
     private String getDownloadLink(final long jobInstanceId, final PrintComponent element) {
         final String host = getJobParameterString(JobParameterKey.HOST_NAME);
-        final String port = "workstation".equals(getEnvironment()) ? "8080" : SmokeTestServiceImpl.PORT_9002;
+        final String port = EBookApps.GENERATOR.getEnv(getEnvironment()).port();
         final String componentName = encodeComponentNameForURL(element.getComponentName());
 
         final String archiveName = String.join("_", componentName, element.getBookDefinition().getTitleId(), element.getMaterialNumber());

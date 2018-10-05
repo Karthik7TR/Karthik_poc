@@ -4,11 +4,17 @@ import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
+import java.net.URI;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -16,7 +22,11 @@ import javax.annotation.Resource;
 import javax.jms.Connection;
 
 import com.ibm.mq.jms.MQQueueConnectionFactory;
+import com.thomsonreuters.uscl.ereader.common.EBookApps;
+import com.thomsonreuters.uscl.ereader.common.EBookApps.AppEnv;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
+import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
+import com.thomsonreuters.uscl.ereader.sap.service.SapService;
 import com.thomsonreuters.uscl.ereader.smoketest.dao.SmokeTestDao;
 import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTest;
 import com.thomsonreuters.uscl.ereader.util.EmailNotification;
@@ -24,7 +34,7 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,211 +47,108 @@ import com.westgroup.novus.productapi.Novus;
 public class SmokeTestServiceImpl implements SmokeTestService {
     private static Logger LOG = LogManager.getLogger(SmokeTestServiceImpl.class);
 
-    private static final String GENERATOR = "Generator";
-    private static final String MANAGER = "Manager";
-    private static final String GATHERER = "Gatherer";
     private static final String NOVUS_CLIENT_TEST_DOC_ID = "I41077696b67411d9947c9ea867b7826a";
-
-    public static final String PORT_9001 = "9001";
-    public static final String PORT_9002 = "9002";
-    public static final String PORT_9003 = "9003";
-    public static final String PORT_9007 = "9007";
-
     public static final File APPSERVER_TOMCAT_DIR = new File("/appserver/tomcat");
+    private static final int TIME_OUT = 3000; // In milliseconds
 
+    @Resource(name = "smokeTestDao")
     private SmokeTestDao dao;
     @Resource(name = "dataSource")
     private BasicDataSource basicDataSource;
     @Resource
     private JmsTemplate jmsTemplate;
-
-    private static final int TIME_OUT = 3000; // In milliseconds
-
-    private static final String[] qedManagerServers =
-        {"c045ydwctasqf.int.thomsonreuters.com", "c088jzvctasqf.int.thomsonreuters.com"};
-    private static final String[] qedGeneratorServers = {
-        "c311ppwctasqf.int.thomsonreuters.com",
-        "c531tqhctasqf.int.thomsonreuters.com",
-        "c931dsectasqf.int.thomsonreuters.com",
-        "c959hcyctasqf.int.thomsonreuters.com"};
-
-    private static final String[] prodManagerServers =
-        {"c250ektctaspf.int.thomsonreuters.com", "c312kjfctaspf.int.thomsonreuters.com"};
-    private static final String[] prodGeneratorServers = {
-        "c378nnactaspf.int.thomsonreuters.com",
-        "c634tcpctaspf.int.thomsonreuters.com",
-        "c730rejctaspf.int.thomsonreuters.com",
-        "c747kpbctaspf.int.thomsonreuters.com"};
+    @Value("${xpp.quality.ftp.server}")
+    private String deltaTextftpServerPath;
+    @Value("${xpp.quality.webservice}")
+    private String deltaTextApiUrl;
+    @Resource
+    private SapService sapService;
+    @Resource
+    private MiscConfigSyncService miscConfigSyncService;
+    @Value("${image.vertical.context.url}")
+    private String imageVertical;
 
     @Override
-    public List<SmokeTest> getCIServerStatuses() {
-        final List<SmokeTest> statuses = new ArrayList<>();
+    public Map<String, List<SmokeTest>> getServerStatuses() {
+        final Map<String, List<SmokeTest>> serverStatuses = new HashMap<>();
+        serverStatuses.put("ci", getEnvServerStatuses(EBookApps::ciServers));
+        serverStatuses.put("test", getEnvServerStatuses(EBookApps::testServers));
+        serverStatuses.put("qa", getEnvServerStatuses(EBookApps::qedServers));
+        serverStatuses.put("prod", getEnvServerStatuses(EBookApps::prodServers));
+        return serverStatuses;
+    }
 
-        statuses.add(getServerStatus("c708pfmctasdf.int.thomsonreuters.com"));
-
-        return statuses;
+    private List<SmokeTest> getEnvServerStatuses(final Supplier<List<String>> serversSupplier) {
+        return serversSupplier.get().stream()
+            .map(this::getServerStatus)
+            .collect(Collectors.toList());
     }
 
     @Override
-    public List<SmokeTest> getCIApplicationStatuses() {
-        final List<SmokeTest> statuses = new ArrayList<>();
-
-        statuses.add(getApplicationStatus(MANAGER, String.format("http://c708pfmctasdf.int.thomsonreuters.com:%s/ebookManager/", PORT_9007)));
-        statuses.add(getApplicationStatus(MANAGER, "http://ebookmanager-ci.int.thomsonreuters.com/ebookManager/"));
-        statuses
-            .add(getApplicationStatus(GENERATOR, String.format("http://c708pfmctasdf.int.thomsonreuters.com:%s/ebookGenerator/", PORT_9002)));
-        statuses.add(getApplicationStatus(GATHERER, String.format("http://c708pfmctasdf.int.thomsonreuters.com:%s/ebookGatherer/", PORT_9001)));
-
-        return statuses;
+    public Map<String, List<SmokeTest>> getApplicationStatuses() {
+        final Map<String, List<SmokeTest>> applicationStatuses = new HashMap<>();
+        applicationStatuses.put("ciApps", getEnvApplicationStatuses(EBookApps::ci));
+        applicationStatuses.put("testApps", getEnvApplicationStatuses(EBookApps::test));
+        applicationStatuses.put("qaApps", getEnvApplicationStatuses(EBookApps::qed));
+        applicationStatuses.put("prodApps", getEnvApplicationStatuses(EBookApps::prod));
+        return applicationStatuses;
     }
 
-    @Override
-    public List<SmokeTest> getTestServerStatuses() {
-        final List<SmokeTest> statuses = new ArrayList<>();
+    private List<SmokeTest> getEnvApplicationStatuses(final Function<EBookApps, AppEnv> environmentFunction) {
+        final List<SmokeTest> appStatuses = new ArrayList<>();
+        for (final EBookApps app : EBookApps.values()) {
+            final EBookApps.AppEnv appEnv = environmentFunction.apply(app);
 
-        statuses.add(getServerStatus("c281ffzctastf.int.thomsonreuters.com"));
-        statuses.add(getServerStatus("c273pevctastf.int.thomsonreuters.com"));
+            appEnv.servers().stream()
+                .map(server -> String.format("http://%s:%s/%s/", server, appEnv.port(), app.contextPath()))
+                .map(url -> getApplicationStatus(app.appName(), url))
+                .forEach(appStatuses::add);
 
-        return statuses;
-    }
-
-    @Override
-    public List<SmokeTest> getTestApplicationStatuses() {
-        final List<SmokeTest> statuses = new ArrayList<>();
-
-        statuses.add(getApplicationStatus(MANAGER, String.format("http://c281ffzctastf.int.thomsonreuters.com:%s/ebookManager/", PORT_9003)));
-        statuses.add(getApplicationStatus(MANAGER, "http://ebookmanager-demo.int.thomsonreuters.com/ebookManager/"));
-        statuses
-            .add(getApplicationStatus(GENERATOR, String.format("http://c273pevctastf.int.thomsonreuters.com:%s/ebookGenerator/", PORT_9002)));
-        statuses.add(getApplicationStatus(GATHERER, String.format("http://c273pevctastf.int.thomsonreuters.com:%s/ebookGatherer/", PORT_9001)));
-
-        return statuses;
-    }
-
-    @Override
-    public List<SmokeTest> getQAServerStatuses() {
-        final List<SmokeTest> statuses = new ArrayList<>();
-
-        // List of eBook Manager Servers
-        for (final String server : qedManagerServers) {
-            statuses.add(getServerStatus(server));
+            Optional.of(appEnv.webUrl())
+                .filter(StringUtils::isNotBlank)
+                .map(webUrl -> String.format("%s/%s/", webUrl, app.contextPath()))
+                .map(url -> getApplicationStatus(app.appName(), url))
+                .ifPresent(appStatuses::add);
         }
-
-        // List of eBook Generator Servers
-        for (final String server : qedGeneratorServers) {
-            statuses.add(getServerStatus(server));
-        }
-
-        return statuses;
+        return appStatuses;
     }
 
     @Override
-    public List<SmokeTest> getQAApplicationStatuses() {
-        final List<SmokeTest> statuses = new ArrayList<>();
-
-        // List of eBook Manager Servers
-        for (final String server : qedManagerServers) {
-            statuses.add(getApplicationStatus(MANAGER, String.format("http://%s:%s/ebookManager/", server, PORT_9001)));
-        }
-
-        // List of eBook Generator Servers
-        for (final String server : qedGeneratorServers) {
-            statuses.add(getApplicationStatus(GATHERER, String.format("http://%s:%s/ebookGatherer/", server, PORT_9001)));
-            statuses.add(getApplicationStatus(GENERATOR, String.format("http://%s:%s/ebookGenerator/", server, PORT_9002)));
-        }
-
-        statuses.add(getApplicationStatus(MANAGER, "http://ebookmanager-qed.int.thomsonreuters.com/ebookManager/"));
-        statuses.add(getApplicationStatus(GATHERER, "http://ebookgatherer-qed.int.thomsonreuters.com/ebookGatherer/"));
-        statuses
-            .add(getApplicationStatus(GENERATOR, "http://ebookgenerator-qed.int.thomsonreuters.com/ebookGenerator/"));
-
-        return statuses;
+    public Map<String, SmokeTest> getDatabaseServerStatuses() {
+        final Map<String, SmokeTest> databaseServerStatuses = new HashMap<>();
+        databaseServerStatuses.put("lowerEnvDatabase", getServerStatus("c540wfyctdbqf.int.thomsonreuters.com"));
+        databaseServerStatuses.put("prodDatabase", getServerStatus("c279znzctdbpf.int.thomsonreuters.com"));
+        return databaseServerStatuses;
     }
 
     @Override
-    public List<SmokeTest> getLowerEnvDatabaseServerStatuses() {
-        final List<SmokeTest> statuses = new ArrayList<>();
+    @Transactional
+    public List<SmokeTest> getExternalSystemsStatuses() {
+        final List<SmokeTest> externalSystemsStatuses = new ArrayList<>();
 
-        // Lower environment Database servers
-        statuses.add(getServerStatus("c540wfyctdbqf.int.thomsonreuters.com"));
+        final URI imageVerticalUri = URI.create(imageVertical);
+        externalSystemsStatuses.add(getApplicationStatus(
+            "Image Vertical", String.format("http://%s/image/v1/StatusCheck", imageVerticalUri.getAuthority())));
 
-        return statuses;
+        final InetAddress proviewHost = miscConfigSyncService.getProviewHost();
+        externalSystemsStatuses.add(getApplicationStatus(
+            "ProView", String.format("http://%s/v1/statuscheck", proviewHost.getHostName())));
+
+        externalSystemsStatuses.add(sapService.checkSapStatus());
+        externalSystemsStatuses.add(testMQConnection());
+        externalSystemsStatuses.add(testDatabaseConnection());
+        externalSystemsStatuses.addAll(testNovusAvailability());
+        externalSystemsStatuses.add(testSMTPStatus());
+        externalSystemsStatuses.addAll(testDeltaTextServices());
+        return externalSystemsStatuses;
     }
 
-    @Override
-    public List<SmokeTest> getProdServerStatuses() {
-        final List<SmokeTest> statuses = new ArrayList<>();
-
-        // List of eBook Manager Servers
-        for (final String server : prodManagerServers) {
-            statuses.add(getServerStatus(server));
-        }
-
-        // List of eBook Generator Servers
-        for (final String server : prodGeneratorServers) {
-            statuses.add(getServerStatus(server));
-        }
-
-        return statuses;
-    }
-
-    @Override
-    public List<SmokeTest> getProdApplicationStatuses() {
-        final List<SmokeTest> statuses = new ArrayList<>();
-
-        // List of eBook Manager Servers
-        for (final String server : prodManagerServers) {
-            statuses.add(getApplicationStatus(MANAGER, String.format("http://%s:%s/ebookManager/", server, PORT_9001)));
-        }
-
-        // List of eBook Generator Servers
-        for (final String server : prodGeneratorServers) {
-            statuses.add(getApplicationStatus(GATHERER, String.format("http://%s:%s/ebookGatherer/", server, PORT_9001)));
-            statuses.add(getApplicationStatus(GENERATOR, String.format("http://%s:%s/ebookGenerator/", server, PORT_9002)));
-        }
-
-        statuses.add(getApplicationStatus(MANAGER, "http://ebookmanager.int.thomsonreuters.com/ebookManager/"));
-        statuses.add(getApplicationStatus(GATHERER, "http://ebookgatherer.int.thomsonreuters.com/ebookGatherer/"));
-        statuses.add(getApplicationStatus(GENERATOR, "http://ebookgenerator.int.thomsonreuters.com/ebookGenerator/"));
-
-        return statuses;
-    }
-
-    @Override
-    public List<SmokeTest> getProdDatabaseServerStatuses() {
-        final List<SmokeTest> statuses = new ArrayList<>();
-
-        // Prod Database servers
-        statuses.add(getServerStatus("c279znzctdbpf.int.thomsonreuters.com"));
-
-        return statuses;
-    }
-
-    @Override
-    public List<String> getRunningApplications() {
-        List<String> appNames = null;
-
-        try {
-            final AppFilenameFilter filter = new AppFilenameFilter();
-            if (APPSERVER_TOMCAT_DIR.exists()) {
-                appNames = new ArrayList<>(Arrays.asList(APPSERVER_TOMCAT_DIR.list(filter)));
-            }
-        } catch (final Exception e) {
-            LOG.error(e.getMessage(), e);
-        }
-
-        return appNames;
-    }
-
-    @Override
-    public SmokeTest getApplicationStatus(final String appName, final String url) {
+    private SmokeTest getApplicationStatus(final String appName, final String url) {
         final SmokeTest serverStatus = new SmokeTest();
         serverStatus.setName(appName);
         serverStatus.setAddress(url);
-
         try {
             final HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-
             connection.setRequestMethod("GET");
             connection.setConnectTimeout(TIME_OUT);
             connection.setReadTimeout(TIME_OUT);
@@ -254,9 +161,20 @@ public class SmokeTestServiceImpl implements SmokeTestService {
         return serverStatus;
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public SmokeTest testConnection() {
+    private SmokeTest testMQConnection() {
+        final MQQueueConnectionFactory factory = (MQQueueConnectionFactory) jmsTemplate.getConnectionFactory();
+        final SmokeTest status = new SmokeTest();
+        status.setName("XPP MQ Connection");
+        status.setAddress(String.join(":", factory.getHostName(), Integer.toString(factory.getPort())));
+        try (Connection connection = factory.createConnection()) {
+            status.setIsRunning(true);
+        } catch (final Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return status;
+    }
+
+    private SmokeTest testDatabaseConnection() {
         final SmokeTest status = new SmokeTest();
         status.setName("Database Connection");
         status.setAddress(
@@ -271,45 +189,7 @@ public class SmokeTestServiceImpl implements SmokeTestService {
         return status;
     }
 
-    private SmokeTest getServerStatus(final String serverName) {
-        final SmokeTest serverStatus = new SmokeTest();
-        try {
-            final InetAddress address = InetAddress.getByName(serverName);
-            serverStatus.setName(address.getHostName());
-            serverStatus.setAddress(address.getHostAddress());
-            serverStatus.setIsRunning(address.isReachable(TIME_OUT));
-        } catch (final UnknownHostException e) {
-            LOG.error(e.getMessage(), e);
-            serverStatus.setIsRunning(false);
-        } catch (final IOException e) {
-            LOG.error(e.getMessage(), e);
-            serverStatus.setIsRunning(false);
-        }
-
-        return serverStatus;
-    }
-
-    @Required
-    public void setSmokeTestDao(final SmokeTestDao dao) {
-        this.dao = dao;
-    }
-
-    @Override
-    public SmokeTest testMQConnection() {
-        final MQQueueConnectionFactory factory = (MQQueueConnectionFactory) jmsTemplate.getConnectionFactory();
-        final SmokeTest status = new SmokeTest();
-        status.setName("XPP MQ Connection");
-        status.setAddress(String.join(":", factory.getHostName(), Integer.toString(factory.getPort())));
-        try (Connection connection = factory.createConnection()) {
-            status.setIsRunning(true);
-        } catch (final Exception e) {
-            LOG.error(e.getMessage(), e);
-        }
-        return status;
-    }
-
-    @Override
-    public List<SmokeTest> testNovusAvailability() {
+    private List<SmokeTest> testNovusAvailability() {
         return Stream.of(NovusEnvironment.values())
             .map(this::testNovusConnection)
             .collect(Collectors.toList());
@@ -339,11 +219,57 @@ public class SmokeTestServiceImpl implements SmokeTestService {
         return novus;
     }
 
-    @Override
-    public SmokeTest getSMTPStatus() {
+    private SmokeTest testSMTPStatus() {
         final SmokeTest smokeTest = getServerStatus(EmailNotification.HOST);
         smokeTest.setName("SMTP");
         smokeTest.setAddress(EmailNotification.HOST);
         return smokeTest;
+    }
+
+    private List<SmokeTest> testDeltaTextServices() {
+        final String deltaTextWebHost = StringUtils.substringBetween(deltaTextApiUrl, "http://", ":");
+        final SmokeTest deltaTextWebsmokeTest = getServerStatus(deltaTextWebHost);
+        deltaTextWebsmokeTest.setName("DeltaText Web");
+        deltaTextWebsmokeTest.setAddress(deltaTextWebHost);
+
+        final SmokeTest deltaTextFtpsmokeTest = getServerStatus(deltaTextftpServerPath);
+        deltaTextFtpsmokeTest.setName("DeltaText FTP");
+        deltaTextFtpsmokeTest.setAddress(deltaTextftpServerPath);
+
+        return Arrays.asList(deltaTextWebsmokeTest, deltaTextFtpsmokeTest);
+    }
+
+    private SmokeTest getServerStatus(final String serverName) {
+        final SmokeTest serverStatus = new SmokeTest();
+        try {
+            final InetAddress address = InetAddress.getByName(serverName);
+            serverStatus.setName(address.getHostName());
+            serverStatus.setAddress(address.getHostAddress());
+            serverStatus.setIsRunning(address.isReachable(TIME_OUT));
+        } catch (final UnknownHostException e) {
+            LOG.error(e.getMessage(), e);
+            serverStatus.setIsRunning(false);
+        } catch (final IOException e) {
+            LOG.error(e.getMessage(), e);
+            serverStatus.setIsRunning(false);
+        }
+
+        return serverStatus;
+    }
+
+    @Override
+    public List<String> getRunningApplications() {
+        List<String> appNames = null;
+
+        try {
+            final AppFilenameFilter filter = new AppFilenameFilter();
+            if (APPSERVER_TOMCAT_DIR.exists()) {
+                appNames = new ArrayList<>(Arrays.asList(APPSERVER_TOMCAT_DIR.list(filter)));
+            }
+        } catch (final Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+
+        return appNames;
     }
 }

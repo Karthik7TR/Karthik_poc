@@ -2,14 +2,13 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.thomsonreuters.uscl.ereader.core.CoreConstants.NovusEnvironment;
 import com.thomsonreuters.uscl.ereader.core.service.MiscConfigSyncService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.smoketest.SmokeTestController;
-import com.thomsonreuters.uscl.ereader.sap.service.SapService;
 import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTest;
 import com.thomsonreuters.uscl.ereader.smoketest.service.SmokeTestService;
 import org.easymock.EasyMock;
@@ -38,7 +37,6 @@ public final class SmokeTestControllerTest {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private HandlerAdapter handlerAdapter;
-    private SapService sapService;
 
     @Before
     public void setUp() throws Exception {
@@ -48,10 +46,9 @@ public final class SmokeTestControllerTest {
 
         mockService = EasyMock.createMock(SmokeTestService.class);
         mockMiscConfigSyncService = EasyMock.createMock(MiscConfigSyncService.class);
-        sapService = EasyMock.createMock(SapService.class);
 
         controller =
-            new SmokeTestController(mockMiscConfigSyncService, mockService, sapService, "workstation", "image");
+            new SmokeTestController(mockMiscConfigSyncService, mockService, "workstation");
 
         SMOKE_TEST = new SmokeTest();
         SMOKE_TEST.setName("name");
@@ -67,29 +64,15 @@ public final class SmokeTestControllerTest {
 
         EasyMock.expect(mockMiscConfigSyncService.getProviewHost()).andReturn(InetAddress.getLocalHost());
         EasyMock.expect(mockMiscConfigSyncService.getNovusEnvironment()).andReturn(NovusEnvironment.Client);
-        EasyMock
-            .expect(
-                mockService.getApplicationStatus(EasyMock.anyObject(String.class), EasyMock.anyObject(String.class)))
-            .andReturn(SMOKE_TEST);
-        EasyMock
-            .expect(
-                mockService.getApplicationStatus(EasyMock.anyObject(String.class), EasyMock.anyObject(String.class)))
-            .andReturn(SMOKE_TEST);
-        EasyMock.expect(mockService.testMQConnection()).andReturn(SMOKE_TEST);
-        EasyMock.expect(mockService.testNovusAvailability()).andReturn(Arrays.asList(SMOKE_TEST));
-        EasyMock.expect(mockService.testConnection()).andReturn(SMOKE_TEST);
         EasyMock.expect(mockService.getRunningApplications()).andReturn(APP_NAMES);
-        EasyMock.expect(mockService.getCIServerStatuses()).andReturn(SMOKE_TEST_LIST);
-        EasyMock.expect(mockService.getCIApplicationStatuses()).andReturn(SMOKE_TEST_LIST);
-        EasyMock.expect(mockService.getTestServerStatuses()).andReturn(SMOKE_TEST_LIST);
-        EasyMock.expect(mockService.getTestApplicationStatuses()).andReturn(SMOKE_TEST_LIST);
-        EasyMock.expect(mockService.getQAServerStatuses()).andReturn(SMOKE_TEST_LIST);
-        EasyMock.expect(mockService.getQAApplicationStatuses()).andReturn(SMOKE_TEST_LIST);
-        EasyMock.expect(mockService.getLowerEnvDatabaseServerStatuses()).andReturn(SMOKE_TEST_LIST);
-        EasyMock.expect(mockService.getProdServerStatuses()).andReturn(SMOKE_TEST_LIST);
-        EasyMock.expect(mockService.getProdApplicationStatuses()).andReturn(SMOKE_TEST_LIST);
-        EasyMock.expect(mockService.getProdDatabaseServerStatuses()).andReturn(SMOKE_TEST_LIST);
-        EasyMock.expect(mockService.getSMTPStatus()).andReturn(SMOKE_TEST);
+        EasyMock.expect(mockService.getApplicationStatuses())
+            .andReturn(Collections.singletonMap("appTest", SMOKE_TEST_LIST));
+        EasyMock.expect(mockService.getServerStatuses())
+            .andReturn(Collections.singletonMap("test", SMOKE_TEST_LIST));
+        EasyMock.expect(mockService.getDatabaseServerStatuses())
+            .andReturn(Collections.singletonMap("db", SMOKE_TEST));
+        EasyMock.expect(mockService.getExternalSystemsStatuses())
+            .andReturn(SMOKE_TEST_LIST);
 
         EasyMock.replay(mockMiscConfigSyncService);
         EasyMock.replay(mockService);

@@ -1,6 +1,7 @@
 package com.thomsonreuters.uscl.ereader.smoketest.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTest;
 
@@ -9,35 +10,13 @@ import com.thomsonreuters.uscl.ereader.smoketest.domain.SmokeTest;
  *
  */
 public interface SmokeTestService {
-    List<SmokeTest> getCIServerStatuses();
+    Map<String, List<SmokeTest>> getServerStatuses();
 
-    List<SmokeTest> getCIApplicationStatuses();
+    Map<String, List<SmokeTest>> getApplicationStatuses();
 
-    List<SmokeTest> getTestServerStatuses();
+    Map<String, SmokeTest> getDatabaseServerStatuses();
 
-    List<SmokeTest> getTestApplicationStatuses();
-
-    List<SmokeTest> getQAServerStatuses();
-
-    List<SmokeTest> getQAApplicationStatuses();
-
-    List<SmokeTest> getLowerEnvDatabaseServerStatuses();
-
-    List<SmokeTest> getProdServerStatuses();
-
-    List<SmokeTest> getProdApplicationStatuses();
-
-    List<SmokeTest> getProdDatabaseServerStatuses();
+    List<SmokeTest> getExternalSystemsStatuses();
 
     List<String> getRunningApplications();
-
-    SmokeTest getApplicationStatus(String appName, String url);
-
-    SmokeTest testConnection();
-
-    SmokeTest testMQConnection();
-
-    List<SmokeTest> testNovusAvailability();
-
-    SmokeTest getSMTPStatus();
 }

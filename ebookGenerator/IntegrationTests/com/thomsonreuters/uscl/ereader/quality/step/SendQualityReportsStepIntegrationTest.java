@@ -81,7 +81,7 @@ public final class SendQualityReportsStepIntegrationTest {
     private static final String EXPECTED_EMAIL_BODY =
         "eBook Text quality test results - test_title"
             + "<br>Job Execution ID: 1</br>"
-            + "<br>Environment: IntegrationTestEnv</br>"
+            + "<br>Environment: testcontent</br>"
             + "<br>"
                 + "<table border = '1'>"
                     + "<th colspan = '3'>Text quality results</th>"
@@ -136,7 +136,7 @@ public final class SendQualityReportsStepIntegrationTest {
         given(chunkContext.getStepContext().getStepExecution().getJobExecution().getExecutionContext().get(QUALITY_REPORTS))
             .willReturn(getTestReports());
         given(chunkContext.getStepContext().getStepExecution().getJobParameters().getString(ENVIRONMENT_NAME))
-            .willReturn("IntegrationTestEnv");
+            .willReturn("testcontent");
         given(chunkContext.getStepContext().getStepExecution().getJobParameters().getString(HOST_NAME))
             .willReturn("IntegrationTestHost");
         given(chunkContext.getStepContext().getStepExecution().getJobExecution().getJobInstance().getId())

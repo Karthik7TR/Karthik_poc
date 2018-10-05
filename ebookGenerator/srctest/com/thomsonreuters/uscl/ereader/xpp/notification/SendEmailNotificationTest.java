@@ -107,7 +107,7 @@ public final class SendEmailNotificationTest {
         assertThat(tempBodyTemplate, containsString("eBook Publishing Successful - titleId"));
         assertThat(tempBodyTemplate, containsString("<br>Proview Display Name: proviewDisplayName"));
         assertThat(tempBodyTemplate, containsString("<br>Title ID: titleId"));
-        assertThat(tempBodyTemplate, containsString("<br>Environment: env"));
+        assertThat(tempBodyTemplate, containsString("<br>Environment: testcontent"));
         assertThat(tempBodyTemplate, containsString("<br>Job Execution ID: 2"));
         assertThat(tempBodyTemplate, containsString("<br><br><table border = '1'><tr><td></td><td>Current version</td><td>Previous version</td>"));
         assertThat(tempBodyTemplate, containsString("<tr><td>Job Instance ID</td><td>1</td><td>3</td></tr>"));
@@ -134,7 +134,7 @@ public final class SendEmailNotificationTest {
         assertThat(tempBodyTemplate, containsString("eBook Publishing Successful - titleId"));
         assertThat(tempBodyTemplate, containsString("<br>Proview Display Name: proviewDisplayName"));
         assertThat(tempBodyTemplate, containsString("<br>Title ID: titleId"));
-        assertThat(tempBodyTemplate, containsString("<br>Environment: env"));
+        assertThat(tempBodyTemplate, containsString("<br>Environment: testcontent"));
         assertThat(tempBodyTemplate, containsString("<br>Job Execution ID: 2"));
         assertThat(tempBodyTemplate, containsString("<br><br><table border = '1'><tr><td></td><td>Current version</td><td>Previous version</td>"));
         assertThat(tempBodyTemplate, containsString("<tr><td>Job Instance ID</td><td>1</td><td>—</td></tr>"));
@@ -220,7 +220,7 @@ public final class SendEmailNotificationTest {
         given(book.getProviewDisplayName()).willReturn("proviewDisplayName");
         given(book.getTitleId()).willReturn("bookTitleId");
         givenHostName(chunkContext, "ebookGenerator.host.com");
-        givenEnvironment(chunkContext, "env");
+        givenEnvironment(chunkContext, "testcontent");
         givenUserName(chunkContext, "user");
         givenJobInstanceId(chunkContext, 1L);
         givenJobExecutionId(chunkContext, 2L);
