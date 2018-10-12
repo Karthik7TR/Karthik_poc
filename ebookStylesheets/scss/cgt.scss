@@ -33,7 +33,9 @@
     .full_toc>.toc_chapter_reserved .outline_name_block>.designator>&:nth-child(2),
     .full_toc>.toc_chapter_reserved .outline_name_block>&,
     .publication_body .chapter_reserved &,
-    .editorial_commentary_section > .editorial_commentary_section_front > .editorial_outline_name_block > .name > & {
+    .editorial_commentary_section > .editorial_commentary_section_front > .editorial_outline_name_block > .name > &,
+    .dialogue_block > .dialogue_item > .statement > .para > .para_text > & ~ &,
+    .footnote a &.t {
         display: inline;
     }
     .signature_group>.form_line &,
@@ -42,8 +44,7 @@
     .toc_volbreak>&,
     .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .name~&:last-of-type,
     .toc_wrapper>.generated_toc>.summary_toc>.toc_part>a>.outline_name_block>&,
-    .toc_wrapper>.generated_toc>.full_toc>.toc_part>a>.outline_name_block>&,
-    .footnote a &.t {
+    .toc_wrapper>.generated_toc>.full_toc>.toc_part>a>.outline_name_block>& {
         display: block;
     }
     .entry .leaveout+&,
@@ -57,7 +58,8 @@
     .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .name~&,
     .toc_wrapper>.generated_toc>.full_toc>.toc_chapter>a>.outline_name_block>.name~&,
     .section_front>.outline_name_block>.name>&:first-child,
-    .full_toc>.toc_chapter_reserved .outline_name_block>.label+& {
+    .full_toc>.toc_chapter_reserved .outline_name_block>.label+&,
+    .dialogue_block > .dialogue_item > .statement > .para > .para_text > &  {
         display: none;
     }
     .toc_wrapper>.generated_toc>.summary_toc>.toc_chapter>a>.outline_name_block .name~& {

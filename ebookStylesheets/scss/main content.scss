@@ -101,7 +101,7 @@ td {
             display: inline;
         }
     }
-    .section_body > .tbl > .table_frame_none > thead > tr > & {
+    .section_body>.tbl>.table_frame_none>thead>tr>& {
         border: none;
     }
 }
@@ -248,20 +248,23 @@ ref {
     display: inline !important;
 }
 
-.head + .image_block .trImageContainer .imageWrapper .tr_image{
-	width: 40%;
+.head+.image_block .trImageContainer .imageWrapper .tr_image {
+    width: 40%;
 }
 
 .section_body .para .stat_structure .stat_section .stat_subsect .stat_text div,
 .section_body .para .stat_structure .stat_section .stat_subsect {
     display: inline;
 }
+
 .form_para .form_text span:first-of-type {
     margin-left: #{$indent}em;
 }
+
 .section_body .form .form_para .form_unit .form_item .head .name_block {
     display: block;
 }
+
 .t {
     .publication .publication_body .part .part_body .chapter .chapter_body .analytical_level .analytical_level_body .section_block .section .section_body .list .list_item .name_block+.para .para_text & {
         margin-left: 0em !important;
@@ -277,23 +280,52 @@ ref {
 }
 
 .form_unit {
-    .form_unit > .form_item > .form_para > & {
+    .form_unit>.form_item>.form_para>& {
         display: block;
     }
 }
 
-.dialogue_block > .dialogue_item {
-    margin-left: #{$indent*2}em;
-    > .dialogue_label {
-        display: inline;
-    }
-    > .statement {
-        display: inline;
-        > .para {
-            display: inline;
-            > .para_text {
+.section_body {
+    .dialogue_item {
+        display: flex;
+        margin: #{$indent/4}em 0 #{$indent/2}em;
+        >.dialogue_label {
+            display: flex;
+            min-width: #{$indent*2}em;
+        }
+        >.statement {
+            display: flex;
+            >.para {
                 display: inline;
+                >.para_text {
+                    display: inline;
+                }
             }
         }
+    }
+}
+
+.editorial_commentary_section_body>.para>.dialogue_block {
+    margin-left: #{$indent*2}em;
+    >.dialogue_item {
+        >.dialogue_label {
+            display: inline;
+            margin-right: #{$indent}em;
+        }
+        >.statement {
+            display: inline;
+            >.para {
+                display: inline;
+                >.para_text {
+                    display: inline;
+                }
+            }
+        }
+    }
+}
+
+.stat_text {
+    .stat_part>.stat_section>.stat_subsect>& {
+        display: inline;
     }
 }

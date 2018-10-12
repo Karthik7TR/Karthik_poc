@@ -19,7 +19,7 @@
     }
     .stat_name_block>.name_block>& {
         display: inline;
-        margin-left: #{$indent}em;
+        margin-left: #{$indent * 0.5}em;
         .bold {
             display: inline;
         }
@@ -31,7 +31,7 @@
         font-style: normal;
         text-align: center;
         text-indent: 0;
-    } 
+    }
     .full_toc>.toc_appendix_section .outline_name_block>& {
         margin-left: #{$indent*2}em;
     }

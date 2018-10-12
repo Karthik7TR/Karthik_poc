@@ -81,6 +81,25 @@ sup {
     .chapter>.chapter_body>.section_block>.section>.section_body>.para>.tbl>.fixed_footnote_block>.fixed_footnote & {
         display: inline;
     }
+    >.para>.dialogue_block {
+        >.dialogue_item {
+            text-indent: 0;
+            >.dialogue_label {
+                display: inline;
+                min-width: #{$indent*2}em;
+                margin-right : #{$indent}em;
+            }
+            >.statement {
+                display: inline;
+                >.para {
+                    display: inline;
+                    >.para_text {
+                        display: inline;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .show_in_main {
@@ -116,7 +135,7 @@ sup {
 }
 
 .fixed_footnote_reference {
-    .chapter .chapter_body .section_block .section .section_body  .tbl .fixed_footnote_block .fixed_footnote & {
+    .chapter .chapter_body .section_block .section .section_body .tbl .fixed_footnote_block .fixed_footnote & {
         display: inline;
         margin-left: #{$indent*2}em;
         margin-right: #{$indent*0.25}em;
