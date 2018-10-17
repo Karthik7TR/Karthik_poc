@@ -26,6 +26,15 @@ sup {
         display: block;
         text-indent: #{$indent*2.3}em;
     }
+    .list>.list_item>& {
+        display: inline;
+    }
+}
+
+.list_item {
+    .footnote_body>.para>.quote_block>.list & {
+        text-indent: #{$indent*1.3}em;
+    }
 }
 
 .para:first-child {

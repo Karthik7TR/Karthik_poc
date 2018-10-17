@@ -128,12 +128,19 @@ td:empty {
     .list_item>& {
         display: inline;
     }
+    .section_body .para>.list>.list_item>.list>.list_item>& {
+        display: inline-block;
+        min-width: #{1.25*$indent}em;
+    }
     .head>& {
         margin-left: #{$indent}em;
         margin-top: #{$indent}em;
     }
     .para>.list>.list_item>& {
         margin-left: #{$indent}em;
+    }
+    .publication>.publication_body>.chapter>.chapter_body>.section_block>.section>.section_body>.para>.list>.list_item>& {
+        margin-left: #{-1.65*$indent}em;
     }
 }
 
@@ -161,10 +168,18 @@ td:empty {
     }
 }
 
+.list {
+    .section_body>.para>& {
+        margin-left: 1.75em;
+    }
+}
 .list_item {
     margin-left: #{$indent}em;
     display: list-item;
     list-style: none;
+    .section_body>.para>.list>.list_item>.list>& {
+        margin-left: 0;
+    }
 }
 
 .quote_para {
