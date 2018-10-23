@@ -12,7 +12,8 @@ a + .no-indent:nth-child(2),
   margin-left: -1em;
 }
 
-.para_text > .no-indent + .t:last-child {
+.para_text > .no-indent + .t:last-child,
+.cite > .no-indent + .t:last-child {
   margin-left: 0;
 }
 

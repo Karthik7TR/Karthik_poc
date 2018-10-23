@@ -11,7 +11,8 @@
     &+.t:last-child {
         margin-left: -1em;
     }
-    .para_text > &+.t:last-child {
+    .para_text > &+.t:last-child,
+    .cite > &+.t:last-child {
         margin-left: 0;
     }
 }
