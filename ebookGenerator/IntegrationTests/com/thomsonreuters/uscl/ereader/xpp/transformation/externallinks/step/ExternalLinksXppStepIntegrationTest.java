@@ -11,7 +11,6 @@ import javax.annotation.Resource;
 
 import com.thomsonreuters.uscl.ereader.common.filesystem.FileContentMatcher;
 import com.thomsonreuters.uscl.ereader.context.CommonTestContextConfiguration;
-import com.thomsonreuters.uscl.ereader.xpp.transformation.originalstructure.step.OriginalStructureTransformationStepIntegrationTestConfiguration;
 import com.thomsonreuters.uscl.ereader.xpp.transformation.service.XppFormatFileSystem;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -29,9 +28,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = OriginalStructureTransformationStepIntegrationTestConfiguration.class)
+@ContextConfiguration
 @ActiveProfiles("IntegrationTests")
-public final class ExtLinksIntegrationTest {
+public final class ExternalLinksXppStepIntegrationTest {
     private static final String REF_PLACE_HOLDER = "${refPlaceHolder}";
     private static final String MATERIAL_NUMBER = "88005553535";
     @Resource(name = "externalLinksXppStepBean")
@@ -53,15 +52,15 @@ public final class ExtLinksIntegrationTest {
     public void setUp() throws URISyntaxException, IOException {
         htmlDir = fileSystem.getHtmlPagesDirectory(sut, MATERIAL_NUMBER);
         FileUtils.forceMkdir(htmlDir);
-        sourceDir = new File(ExtLinksIntegrationTest.class.getResource("source").toURI());
+        sourceDir = new File(ExternalLinksXppStepIntegrationTest.class.getResource("source").toURI());
         final File sourceHtml = new File(sourceDir, "test.html");
         final String sourceHtmlString = FileUtils.readFileToString(sourceHtml)
             .replace(REF_PLACE_HOLDER, entitiesDtdFile.getAbsolutePath().replace("\\", "/"));
         final File actualSourceHtml = new File(htmlDir, "test.html");
         FileUtils.writeStringToFile(actualSourceHtml, sourceHtmlString);
 
-        expectedExternalLinksDir = new File(ExtLinksIntegrationTest.class.getResource("expected").toURI());
-        expectedMapping = new File(ExtLinksIntegrationTest.class.getResource("expectedmapping\\test.html").toURI());
+        expectedExternalLinksDir = new File(ExternalLinksXppStepIntegrationTest.class.getResource("expected").toURI());
+        expectedMapping = new File(ExternalLinksXppStepIntegrationTest.class.getResource("expectedmapping\\test.html").toURI());
         actualExternalLinksDir = fileSystem.getExternalLinksDirectory(sut, MATERIAL_NUMBER);
         actualMapping = fileSystem.getExternalLinksMappingFile(sut, MATERIAL_NUMBER, "test.html");
     }

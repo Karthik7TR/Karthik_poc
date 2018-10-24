@@ -18,13 +18,21 @@
 	</xsl:template>
 
 	<xsl:template match="x:cite.query">
-		<xsl:element name="a">
-			<xsl:attribute name="href">
-				<xsl:value-of select="x:get-href-by-id(@ID, $mapping)"
-				disable-output-escaping="yes" />
-			</xsl:attribute>
-			<xsl:apply-templates />
-		</xsl:element>
+		<xsl:variable name="citeQueryLink" select="x:get-href-by-id(@ID, $mapping)" />
+		
+		<xsl:choose>
+			<xsl:when test="$citeQueryLink = ''">
+				<xsl:apply-templates />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:element name="a">
+					<xsl:attribute name="href">
+						<xsl:value-of select="$citeQueryLink" disable-output-escaping="yes" />
+					</xsl:attribute>
+					<xsl:apply-templates />
+				</xsl:element>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<xsl:template match="processing-instruction()">
