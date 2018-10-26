@@ -1034,6 +1034,11 @@ tbody .cgt,
   display: inline !important;
 }
 
+.index-title {
+  display: block;
+  text-align: center;
+}
+
 .INDEX {
   margin-top: 1em;
 }

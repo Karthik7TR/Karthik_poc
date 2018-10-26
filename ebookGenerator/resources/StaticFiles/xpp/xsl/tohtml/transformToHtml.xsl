@@ -164,7 +164,7 @@
 		<xsl:apply-templates />
 	</xsl:template>
 
-	<xsl:template match="x:t">
+	<xsl:template match="x:t">	
 		<xsl:variable name="footnoteRefId" select="x:footnote-reference-id(.)" />
 
 		<xsl:choose>
@@ -172,6 +172,11 @@
 				<xsl:call-template name="addFootnoteReference">
 					<xsl:with-param name="refId" select="$footnoteRefId" />
 				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="$bundleFileType = 'INDEX' and ./text() = preceding::x:XPPHier[last()]/@name">
+				<div class="index-title">
+					<xsl:call-template name="convertToSpan" />
+				</div>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:call-template name="convertToSpan" />

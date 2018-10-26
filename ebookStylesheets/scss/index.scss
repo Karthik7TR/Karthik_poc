@@ -1,4 +1,9 @@
 @import "constants.scss";
+.index-title {
+    display: block;
+    text-align: center;
+}
+
 .INDEX {
     margin-top: #{$indent}em;
 
