@@ -179,6 +179,10 @@
         .leaveout {
             padding-left: #{$indent/4}em;
         }
+        .signature_group td .border_bottom {
+            border-bottom: 1px solid black;
+            width: 100%;
+        }
     }
 }
 

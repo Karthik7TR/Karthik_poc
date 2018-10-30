@@ -2270,6 +2270,11 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   padding-left: 0.25em;
 }
 
+.rutter_chapter .rutter_chapter_back .rutter_form_block .rutter_form_doc .signature_group td .border_bottom {
+  border-bottom: 1px solid black;
+  width: 100%;
+}
+
 .toc_rutter_form_doc .name {
   white-space: pre-wrap;
   flex-grow: 1;
