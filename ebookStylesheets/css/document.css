@@ -13,7 +13,8 @@ a + .no-indent:nth-child(2),
 }
 
 .para_text > .no-indent + .t:last-child,
-.cite > .no-indent + .t:last-child {
+.cite > .no-indent + .t:last-child,
+.inline_instr > .no-indent + .t:last-child {
   margin-left: 0;
 }
 
