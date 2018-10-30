@@ -3,7 +3,7 @@ sup {
     .footnote>& {
         display: block;
         height: 0;
-        text-indent: #{$indent*2.3}em;
+        text-indent: #{$indent*1.8}em;
         width: 100%;
         z-index: 2;
     }
