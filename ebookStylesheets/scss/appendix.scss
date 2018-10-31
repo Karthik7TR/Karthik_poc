@@ -164,8 +164,14 @@
     float: left;
     .footnote &,
     .appendix_block>.appendix>.appendix_body>.stat_structure>.stat_title>.stat_chapter>.stat_article>&,
-    .appendix_block>.appendix>.appendix_body>.stat_structure>.stat_title>.stat_chapter>.stat_article>.stat_section>& {
+    .appendix_block>.appendix>.appendix_body>.stat_structure>.stat_title>.stat_chapter>.stat_article>.stat_section>&,
+    .appendix_block>.appendix_front>.appendix>.appendix_body>.stat_structure>.stat_title>.stat_chapter>.stat_section>& {
         float: none;
+    }
+    .appendix_block>.appendix_front>.appendix>.appendix_body>.stat_structure>.stat_title>&,
+    .appendix_block>.appendix_front>.appendix>.appendix_body>.stat_structure>.stat_title>.stat_chapter>& {
+        float: none;
+        text-align: center;
     }
 }
 

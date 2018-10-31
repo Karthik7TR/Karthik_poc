@@ -724,8 +724,15 @@ td:last-of-type {
 
 .footnote .stat_name_block,
 .appendix_block > .appendix > .appendix_body > .stat_structure > .stat_title > .stat_chapter > .stat_article > .stat_name_block,
-.appendix_block > .appendix > .appendix_body > .stat_structure > .stat_title > .stat_chapter > .stat_article > .stat_section > .stat_name_block {
+.appendix_block > .appendix > .appendix_body > .stat_structure > .stat_title > .stat_chapter > .stat_article > .stat_section > .stat_name_block,
+.appendix_block > .appendix_front > .appendix > .appendix_body > .stat_structure > .stat_title > .stat_chapter > .stat_section > .stat_name_block {
   float: none;
+}
+
+.appendix_block > .appendix_front > .appendix > .appendix_body > .stat_structure > .stat_title > .stat_name_block,
+.appendix_block > .appendix_front > .appendix > .appendix_body > .stat_structure > .stat_title > .stat_chapter > .stat_name_block {
+  float: none;
+  text-align: center;
 }
 
 .stat_subsect,
