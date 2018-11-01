@@ -171,3 +171,9 @@
     text-align: center;
     display: block !important;
 }
+
+.editorial_name_block {
+    .publication>.publication_body>.primary>.primary_source>.primary_source_body>.primary_hierarchy>.primary_hierarchy_body>.primary_section>.primary_section_body>.primary_features>.editorial_commentary>& {
+        text-align: center;
+    }
+}

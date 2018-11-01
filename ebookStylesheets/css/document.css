@@ -1559,6 +1559,10 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   display: block !important;
 }
 
+.publication > .publication_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_body > .primary_section > .primary_section_body > .primary_features > .editorial_commentary > .editorial_name_block {
+  text-align: center;
+}
+
 .toc_primary_hierarchy > .primary_outline_name_block > .label + .t,
 .toc_primary_hierarchy > .primary_outline_name_block > .designator + .t {
   width: auto;
