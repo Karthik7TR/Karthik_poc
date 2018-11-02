@@ -130,6 +130,9 @@
                             display: inline;
                         }
                     }
+                    .rutter_xref {
+                        margin-left: -#{$indent}em;
+                    }
                 }
             }
             .rw_hierarchy_body {

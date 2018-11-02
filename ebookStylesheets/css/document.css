@@ -2230,6 +2230,10 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   display: inline;
 }
 
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc .rw_doc_body .rutter_xref {
+  margin-left: -1em;
+}
+
 .rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_hierarchy_body {
   padding-left: 1em;
 }
