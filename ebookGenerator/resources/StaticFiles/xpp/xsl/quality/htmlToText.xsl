@@ -22,7 +22,7 @@
         </xsl:choose>
     </xsl:template>
 
-    <xsl:template match="h:div[@class='footnote_body_main_popup_pane' or ends-with(@class, 'show_in_main')] | h:sup[ends-with(@class, 'show_in_main')]"/>
+    <xsl:template match="h:div[@class='footnote_body_main_popup_pane' or ends-with(@class, 'show_in_main') or contains(@class, 'scroll_mode')] | h:sup[ends-with(@class, 'show_in_main')]"/>
 
 	<xsl:template match="h:div[contains(@class, 'footnoteHidden')]" />
 

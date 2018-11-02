@@ -23,7 +23,7 @@
 		</xsl:if>
 	</xsl:template>
 
-	<xsl:template match="x:stream[@type=$streamType]//x:t[@suppress]" />
+	<xsl:template match="x:stream[@type=$streamType]//x:t[@suppress and not(.//x:cite.query)]" />
 
 	<xsl:template
 		match="x:stream[@type=$streamType]//x:t[not(@suppress)]/text()

@@ -282,7 +282,9 @@
                                                             </para.text>
                                                         </para>
                                                         <pagebreak num="9" num-string="9"/><xref id="27-9" origId="27" type="footnote" hidden="true"/><xref id="28-9" origId="28" type="footnote" hidden="true"/>
-                                                        <tbl ident="CLNY1:6-02_001" uuid="Iaa9acd00fb8a11d8a263d8cdac4e027c" position="l" table.width="100" orient="port" date.updated="0" mode="scroll_mode"><table cols="1" tgroupstyle="text" frame="all"><colgroup>
+                                                        <tbl ident="CLNY1:6-02_001" uuid="Iaa9acd00fb8a11d8a263d8cdac4e027c" position="l" table.width="100" orient="port" date.updated="0" mode="scroll_mode"><tbl.name>
+                                                        		<t style="bold">Table title</t>
+                                                        	</tbl.name><table cols="1" tgroupstyle="text" frame="all"><colgroup>
                                                                     <col width="100%"/>
                                                                 </colgroup><thead>
                                                                     <row>
@@ -303,6 +305,9 @@
                                                                             <t style="entry">Facilitating a sex offense with a controlled </t><t style="entry">substance</t>
                                                                         </entry>
                                                                     </row></tbody></table></tbl><tbl ident="CLNY1:6-02_001" uuid="Iaa9acd00fb8a11d8a263d8cdac4e027c" position="l" table.width="100" orient="port" date.updated="0" mode="page_mode">
+                                                        	<tbl.name>
+                                                        		<t style="bold">Table title</t>
+                                                        	</tbl.name>
                                                             <table cols="1" tgroupstyle="text" frame="all">
                                                                 <colgroup>
                                                                     <col width="100%"/>

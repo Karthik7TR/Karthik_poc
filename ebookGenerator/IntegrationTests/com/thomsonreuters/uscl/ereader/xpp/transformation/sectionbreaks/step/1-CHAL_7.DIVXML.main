@@ -283,6 +283,9 @@
                                                         </para>
                                                         <pagebreak num="9" num-string="9"/>
                                                         <tbl ident="CLNY1:6-02_001" uuid="Iaa9acd00fb8a11d8a263d8cdac4e027c" position="l" table.width="100" orient="port" date.updated="0">
+                                                        	<tbl.name>
+                                                        		<t style="bold">Table title</t>
+                                                        	</tbl.name>
                                                             <table cols="1" tgroupstyle="text" frame="all">
                                                                 <colgroup>
                                                                     <col width="100%"/>

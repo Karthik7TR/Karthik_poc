@@ -9,6 +9,7 @@
                 <xsl:element name="tbl">
                     <xsl:apply-templates select="@*" />
                     <xsl:attribute name="mode" select="'scroll_mode'" />
+                    <xsl:apply-templates select="x:tbl.name" />
                     <xsl:element name="table">
                         <xsl:apply-templates select="./x:table[1]/@*" />
                         <xsl:apply-templates select="./x:table[1]/x:colgroup" />
