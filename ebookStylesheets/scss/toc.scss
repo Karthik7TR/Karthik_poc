@@ -56,4 +56,8 @@
     .front>& {
         display: block;
     }
+
+    .toc_wrapper>.generated_toc>.full_toc>.toc_part & {
+        white-space: pre-wrap;
+    }
 }
