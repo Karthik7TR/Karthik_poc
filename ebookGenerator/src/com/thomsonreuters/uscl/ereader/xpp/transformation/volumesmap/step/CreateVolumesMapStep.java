@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Value;
 public class CreateVolumesMapStep extends VolumeNumberAwareXppTransformationStep {
     @Value("${xpp.volumes.map.xsl}")
     private File createVolumeMapByFileXsl;
-    @Value("${xpp.volumes.map.merge.xsl}")
+    @Value("${xpp.merge.xsl}")
     private File mergeVolumesMapXsl;
 
     @Override
@@ -35,6 +35,7 @@ public class CreateVolumesMapStep extends VolumeNumberAwareXppTransformationStep
 
         final Transformer transformer = transformerBuilderFactory.create()
             .withXsl(mergeVolumesMapXsl)
+            .withParameter("tag-name", "VolumesMap")
             .build();
         final TransformationCommand command =
             new TransformationCommandBuilder(transformer, fileSystem.getVolumesMapFile(this)).withInput(volumesFiles).build();

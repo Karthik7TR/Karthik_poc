@@ -40,6 +40,8 @@ public class XppFormatFileSystemImpl extends FormatFileSystemImpl implements Xpp
     public static final String ANCHOR_TO_DOCUMENT_ID_MAP_BOUND_FILE = "anchorToDocumentIdMapBoundFile.xml";
     public static final String ANCHOR_TO_DOCUMENT_ID_MAP_SUPPLEMENT_FILE = "anchorToDocumentIdMapSupplementFile.xml";
 
+    public static final String SECTION_NUMBER_MAP_FILE = "section-number-map.xml";
+
     static final String CITE_QUERY_PROCESSED_DIR = "Processed Cite Queries";
 
     private static final String SIMPLE_FILE_NAME_TEMPLATE = "%s.%s";

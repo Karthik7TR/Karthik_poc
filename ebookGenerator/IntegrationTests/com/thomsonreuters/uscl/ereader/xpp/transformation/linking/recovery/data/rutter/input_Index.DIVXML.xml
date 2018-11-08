@@ -1,0 +1,44 @@
+<parts xmlns="http://www.sdl.com/xpp">
+	<part.main fileName="1001-TRG_CACIVAPP_Volume_2_Index.DIVXML_0006">
+		<l1>
+			<l2>
+				<XPPHier uuid="41946907.IndexWritsWrits" name="Writs - Writs" parent_uuid="41946907.Index" md.doc_family_uuid="41946907.IndexWritsWrits">Writs&amp;#8201;(Cont&amp;#8217;d) - Writs&amp;#8201;(Cont&amp;#8217;d)</XPPHier>
+				<page.number.ref page-number="Index-101"/>
+			</l2>
+		</l1>
+		<l1>
+			<l2>
+				<mtf2>
+					<mte2>
+						<t style="mte2.1 cgt">Writs&amp;#8201;(Cont&amp;#8217;d)</t>
+					</mte2>
+				</mtf2>
+			</l2>
+			<l2>
+				<t style="unknown.4">&amp;#8216;&amp;#8216;Obvious right to relief&amp;#8217;&amp;#8217; warranting </t>
+				<t style="unknown.4">peremptory writ in first instance - </t>
+				<CITE>
+					<t style="unknown.4">15:159.1-160</t>
+				</CITE>
+			</l2>
+			<l2>
+				<t style="unknown.4">Opposition to petition. </t>
+				<t style="mdit">See also</t>
+				<t style="med"> Return, </t>
+				<t style="mdit">infra</t>
+				<l3>
+					<t style="unknown.4">generally - </t>
+					<CITE>
+						<t style="unknown.4">1:27; 15:149; 15:214</t>
+					</CITE>
+				</l3>
+				<l3>
+					<t style="unknown.4">false claims appeals - </t>
+					<CITE>
+						<t style="unknown.4">15:227a</t>
+					</CITE>
+				</l3>
+			</l2>
+		</l1>
+	</part.main>
+</parts>

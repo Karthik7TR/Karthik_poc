@@ -1,0 +1,120 @@
+<root xmlns="http://www.sdl.com/xpp">
+	<front date.updated="0">
+		<outline.name.block toc.include="y" date.updated="0">
+			<label date.updated="0">
+				<t style="label">Chapter</t>
+			</label>
+			<t style="outline.name.block cgt"> </t>
+			<designator date.updated="0">
+				<t style="designator">1</t>
+			</designator>
+			<name date.updated="0">
+				<t style="name">Policies</t>
+			</name>
+		</outline.name.block>
+		<generated.toc>
+			<full.toc>
+				<toc.section tocuuid="Ida2c8720239711e080d286694f35afdf">
+					<XPPTOCLink uuid='Ida2c8720239711e080d286694f35afdf' >
+						<outline.name.block>
+							<label date.updated="0">
+								<t style="label.2 cgt">§ </t>
+							</label>
+							<designator date.updated="0">
+								<t style="designator.1">1:1</t>
+							</designator>
+							<name>
+								<t style="name.1">Scope</t>
+							</name>
+						</outline.name.block>
+					</XPPTOCLink>
+				</toc.section>
+				<toc.section tocuuid="Idaae8860239711e080d286694f35afdf">
+					<XPPTOCLink uuid='Idaae8860239711e080d286694f35afdf' >
+						<outline.name.block>
+							<label date.updated="0">
+								<t style="label.2 cgt">§ </t>
+							</label>
+							<designator date.updated="0">
+								<t style="designator.1">1:2</t>
+							</designator>
+							<name>
+								<t style="name.1">Purpose</t>
+							</name>
+						</outline.name.block>
+					</XPPTOCLink>
+				</toc.section>
+			</full.toc>
+		</generated.toc>
+	</front>
+	<content>
+		<section uuid="Idb483050239711e080d286694f35afdf" date.revised="0" date.updated="0">
+			<XPPMetaData uuid='Idb483050239711e080d286694f35afdf' guid='If0ab532210f111e4b79bf56f221115a8' md.uuid='If0ab532210f111e4b79bf56f221115a8' md.dmsserial='408702704' md.first_line_cite='ACPRIV&amp;ndash;CORP S 1:11' md.pubpage='s 1:11' md.second_line_cite='Attorney&amp;ndash;Corporate Client Privilege s 1:11 (3d, 2018&amp;ndash;2 ed.)' md.normalizedcite='ACPRIV-CORPS1:11' md.doc_family_uuid='I529fb597110311e4ae58b3fec240f5dc' md.third_line_cite='' md.pubid='221888'  name='&amp;sect; 1:11. Purposes and policies of attorney-client privilege&lt;sep&gt;&lt;/sep&gt;Attorney-client privilege benefits&lt;sep&gt;&lt;/sep&gt;Efficient operation of legal system' parent_uuid='I2EEC6EAA1DD211B29E1CA900A20F77CA' >s 1:11. Purposes and policies of attorney-client privilege<sep/>Attorney-client privilege benefits<sep/>Efficient operation of legal system</XPPMetaData>
+			<XPPHier uuid='Idb483050239711e080d286694f35afdf' name='&amp;sect; 1:11. Purposes and policies of attorney-client privilege&lt;sep&gt;&lt;/sep&gt;Attorney-client privilege benefits&lt;sep&gt;&lt;/sep&gt;Efficient operation of legal system' parent_uuid='I2EEC6EAA1DD211B29E1CA900A20F77CA' >s 1:11. Purposes and policies of attorney-client privilege<sep/>Attorney-client privilege benefits<sep/>Efficient operation of legal system</XPPHier>
+			<section.front date.updated="0">
+				<outline.name.block toc.include="y" date.updated="0">
+					<label date.updated="0">
+						<t style="label.3 cgt">§ </t>
+					</label>
+					<designator date.updated="0">
+						<t style="designator.2">1:11</t>
+					</designator>
+					<name date.updated="0">
+						<t style="name.2 cgt"> </t>
+						<t style="name.2">Purposes and policies of attorney-client </t>
+						<t style="name.2">privilege</t>
+						<t style="name.2 cgt">—</t>
+						<t style="name.2">Attorney-client privilege benefits</t>
+						<t style="name.2 cgt">—</t>
+						<t style="name.2">Efficient operation of legal system</t>
+					</name>
+				</outline.name.block>
+			</section.front>
+		</section>
+		<section uuid="Idb4d8780239711e080d286694f35afdf" date.revised="0" date.updated="0">
+			<XPPMetaData uuid='Idb4d8780239711e080d286694f35afdf' guid='If0ab7a1210f111e4b79bf56f221115a8' md.uuid='If0ab7a1210f111e4b79bf56f221115a8' md.dmsserial='408702705' md.first_line_cite='ACPRIV&amp;ndash;CORP S 1:12' md.pubpage='s 1:12' md.second_line_cite='Attorney&amp;ndash;Corporate Client Privilege s 1:12 (3d, 2018&amp;ndash;2 ed.)' md.normalizedcite='ACPRIV-CORPS1:12' md.doc_family_uuid='I529fdca0110311e4ae58b3fec240f5dc' md.third_line_cite='' md.pubid='221888'  name='&amp;sect; 1:12. Purposes and policies of attorney-client privilege&lt;sep&gt;&lt;/sep&gt;Attorney-client privilege benefits&lt;sep&gt;&lt;/sep&gt;Promoting client law-abiding behavior' parent_uuid='I2EEC6EAA1DD211B29E1CA900A20F77CA' >s 1:12. Purposes and policies of attorney-client privilege<sep/>Attorney-client privilege benefits<sep/>Promoting client law-abiding behavior</XPPMetaData>
+			<XPPHier uuid='Idb4d8780239711e080d286694f35afdf' name='&amp;sect; 1:12. Purposes and policies of attorney-client privilege&lt;sep&gt;&lt;/sep&gt;Attorney-client privilege benefits&lt;sep&gt;&lt;/sep&gt;Promoting client law-abiding behavior' parent_uuid='I2EEC6EAA1DD211B29E1CA900A20F77CA' >s 1:12. Purposes and policies of attorney-client privilege<sep/>Attorney-client privilege benefits<sep/>Promoting client law-abiding behavior</XPPHier>
+			<section.front date.updated="0">
+				<pagebreak num="15" serial-num="15"/>
+				<outline.name.block toc.include="y" date.updated="0">
+					<label date.updated="0">
+						<t style="label.3 cgt">§ </t>
+					</label>
+					<designator date.updated="0">
+						<t style="designator.2">1:12</t>
+					</designator>
+					<name date.updated="0">
+						<t style="name.2 cgt"> </t>
+						<t style="name.2">Purposes and policies of attorney-client </t>
+						<t style="name.2">privilege</t>
+						<t style="name.2 cgt">—</t>
+						<t style="name.2">Attorney-client privilege benefits</t>
+						<t style="name.2 cgt">—</t>
+						<t style="name.2">Promoting client law-abiding behavior</t>
+					</name>
+				</outline.name.block>
+			</section.front>
+		</section>
+		<section uuid="Idb5c7ba0239711e080d286694f35afdf" date.revised="0" date.updated="0">
+			<XPPMetaData uuid='Idb5c7ba0239711e080d286694f35afdf' guid='If0ab7a1510f111e4b79bf56f221115a8' md.uuid='If0ab7a1510f111e4b79bf56f221115a8' md.dmsserial='408702707' md.first_line_cite='ACPRIV&amp;ndash;CORP S 1:13' md.pubpage='s 1:13' md.second_line_cite='Attorney&amp;ndash;Corporate Client Privilege s 1:13 (3d, 2018&amp;ndash;2 ed.)' md.normalizedcite='ACPRIV-CORPS1:13' md.doc_family_uuid='I529fdca1110311e4ae58b3fec240f5dc' md.third_line_cite='' md.pubid='221888'  name='&amp;sect; 1:13. Purposes and policies of attorney-client privilege&lt;sep&gt;&lt;/sep&gt;Attorney-client privilege costs' parent_uuid='I2EEC6EAA1DD211B29E1CA900A20F77CA' >s 1:13. Purposes and policies of attorney-client privilege<sep/>Attorney-client privilege costs</XPPMetaData>
+			<XPPHier uuid='Idb5c7ba0239711e080d286694f35afdf' name='&amp;sect; 1:13. Purposes and policies of attorney-client privilege&lt;sep&gt;&lt;/sep&gt;Attorney-client privilege costs' parent_uuid='I2EEC6EAA1DD211B29E1CA900A20F77CA' >s 1:13. Purposes and policies of attorney-client privilege<sep/>Attorney-client privilege costs</XPPHier>
+			<section.front date.updated="0">
+				<outline.name.block toc.include="y" date.updated="0">
+					<label date.updated="0">
+						<t style="label.3 cgt">§ </t>
+					</label>
+					<designator date.updated="0">
+						<t style="designator.2">1:13</t>
+					</designator>
+					<name date.updated="0">
+						<t style="name.2 cgt"> </t>
+						<t style="name.2">Purposes and policies of attorney-client </t>
+						<t style="name.2">privilege</t>
+						<t style="name.2 cgt">—</t>
+						<t style="name.2">Attorney-client privilege costs</t>
+					</name>
+				</outline.name.block>
+			</section.front>
+		</section>
+	</content>
+</root>

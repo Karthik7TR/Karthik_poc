@@ -1,0 +1,79 @@
+<root xmlns="http://www.sdl.com/xpp">
+	<front date.updated="0">
+		<outline.name.block toc.include="y" date.updated="0">
+			<label date.updated="0">
+				<t style="label">Chapter</t>
+			</label>
+			<t style="outline.name.block cgt"> </t>
+			<designator date.updated="0">
+				<t style="designator">1</t>
+			</designator>
+			<name date.updated="0">
+				<t style="name">Policies</t>
+			</name>
+		</outline.name.block>
+		<generated.toc>
+			<full.toc>
+				<toc.section tocuuid="Ida2c8720239711e080d286694f35afdf">
+					<XPPTOCLink uuid='Ida2c8720239711e080d286694f35afdf' >
+						<outline.name.block>
+							<label date.updated="0">
+								<t style="label.2 cgt">§ </t>
+							</label>
+							<designator date.updated="0">
+								<t style="designator.1">1:1</t>
+							</designator>
+							<name>
+								<t style="name.1">Scope</t>
+							</name>
+						</outline.name.block>
+					</XPPTOCLink>
+				</toc.section>
+				<toc.section tocuuid="Idaae8860239711e080d286694f35afdf">
+					<XPPTOCLink uuid='Idaae8860239711e080d286694f35afdf' >
+						<outline.name.block>
+							<label date.updated="0">
+								<t style="label.2 cgt">§ </t>
+							</label>
+							<designator date.updated="0">
+								<t style="designator.1">1:2</t>
+							</designator>
+							<name>
+								<t style="name.1">Purpose</t>
+							</name>
+						</outline.name.block>
+					</XPPTOCLink>
+				</toc.section>
+			</full.toc>
+		</generated.toc>
+	</front>
+	<rw.hierarchy online.1st.cite="CH 11-A" online.2nd.cite="Ch. 11-A" uuid="Ic15f76402e1411e4b681a7710a541c5c" date.updated="0" xpp.lvl="1" xpp.level="1">
+		<XPPMetaData uuid='Ic15f76402e1411e4b681a7710a541c5c' guid='If901753fc38011e49f88991eec73bf89' md.uuid='If901753fc38011e49f88991eec73bf89' md.dmsserial='427538538' md.first_line_cite='CACIVAPP CH 11&amp;NDASH;A' md.pubpage='CH 11&amp;ndash;A' md.second_line_cite='Cal. Prac. Guide Civ. App. &amp;amp; Writs Ch. 11&amp;ndash;A' md.normalizedcite='CACIVAPPCH11&amp;NDASH;A' md.doc_family_uuid='I39449c04c38211e4aaf6867cc59f7cb6' md.third_line_cite='' md.pubid='106155'  name='A. The Decisionmaking Process' parent_uuid='Ic15f01102e1411e4b681a7710a541c5c' >A. The Decisionmaking Process</XPPMetaData>
+		<XPPHier uuid='Ic15f76402e1411e4b681a7710a541c5c' name='A. The Decisionmaking Process' parent_uuid='Ic15f01102e1411e4b681a7710a541c5c' >A. The Decisionmaking Process</XPPHier>
+		<rw.hierarchy.front date.updated="0">
+			<rw.outline.name.block xpp.level="1" date.updated="0">
+				<designator date.updated="0">
+					<t style="designator.1">A</t>
+					<t style="designator.1 cgt">.</t>
+				</designator>
+				<t style="rw.outline.name.block.1 cgt"> </t>
+				<name xpp.style="upper" date.updated="0">
+					<t style="name.1">The Decisionmaking Process</t>
+				</name>
+			</rw.outline.name.block>
+		</rw.hierarchy.front>
+		<rw.hierarchy.body date.updated="0">
+			<rw.doc uuid="Ic16039902e1411e4b681a7710a541c5c" date.updated="0" xpp.des="no" xpp.lvl="2" xpp.level="1">
+				<XPPHier uuid='Ic16039902e1411e4b681a7710a541c5c' name='The courts of appeal follow&amp;hellip;' parent_uuid='Ic15f76402e1411e4b681a7710a541c5c' >The courts of appeal follow</XPPHier>
+				<rw.doc.front date.updated="0">
+					<rw.doc.outline.name.block xpp.level="1" date.updated="0">
+						<rw.designator date.updated="0">
+							<t style="rw.designator cgt">[</t>
+						</rw.designator>
+						<t style="rw.doc.outline.name.block cgt">11:1] </t>
+					</rw.doc.outline.name.block>
+				</rw.doc.front>
+			</rw.doc>
+		</rw.hierarchy.body>
+	</rw.hierarchy>
+</root>

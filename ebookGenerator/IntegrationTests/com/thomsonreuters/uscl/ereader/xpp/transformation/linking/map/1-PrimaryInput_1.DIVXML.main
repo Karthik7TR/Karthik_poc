@@ -1,0 +1,114 @@
+<root xmlns="http://www.sdl.com/xpp">
+	<front date.updated="0">
+		<outline.name.block toc.include="y" date.updated="0">
+			<label date.updated="0">
+				<t style="label">Chapter</t>
+			</label>
+			<t style="outline.name.block cgt"> </t>
+			<designator date.updated="0">
+				<t style="designator">1</t>
+			</designator>
+			<name date.updated="0">
+				<t style="name">Policies</t>
+			</name>
+		</outline.name.block>
+		<generated.toc>
+			<full.toc>
+				<toc.section tocuuid="Ida2c8720239711e080d286694f35afdf">
+					<XPPTOCLink uuid='Ida2c8720239711e080d286694f35afdf' >
+						<outline.name.block>
+							<label date.updated="0">
+								<t style="label.2 cgt">§ </t>
+							</label>
+							<designator date.updated="0">
+								<t style="designator.1">1:1</t>
+							</designator>
+							<name>
+								<t style="name.1">Scope</t>
+							</name>
+						</outline.name.block>
+					</XPPTOCLink>
+				</toc.section>
+				<toc.section tocuuid="Idaae8860239711e080d286694f35afdf">
+					<XPPTOCLink uuid='Idaae8860239711e080d286694f35afdf' >
+						<outline.name.block>
+							<label date.updated="0">
+								<t style="label.2 cgt">§ </t>
+							</label>
+							<designator date.updated="0">
+								<t style="designator.1">1:2</t>
+							</designator>
+							<name>
+								<t style="name.1">Purpose</t>
+							</name>
+						</outline.name.block>
+					</XPPTOCLink>
+				</toc.section>
+			</full.toc>
+		</generated.toc>
+	</front>
+	<primary.hierarchy.body date.updated="0">
+		<primary.section primary.section.type="article" uuid="I431a81b0d68211e3a4e491f0ab88f383" pgwidth="broad" date.revised="0" date.updated="0" element1="designator" prefix1="Art." suffix1=".">
+			<XPPMetaData uuid='I431a81b0d68211e3a4e491f0ab88f383' guid='I3ce3111102ae11da9c03bd72365340b3' md.uuid='I3ce3111102ae11da9c03bd72365340b3' md.dmsserial='296365656' md.first_line_cite='LAPRAC&amp;ndash;EVID ART. 101' md.pubpage='ART. 101' md.second_line_cite='La. Prac. Evidence Art. 101 (2017 ed.)' md.normalizedcite='LAPRAC-EVIDART.101' md.doc_family_uuid='I45989a50eac711d8b93285946e571caf' md.third_line_cite='' md.pubid='165245'  name='Art 101. Scope' parent_uuid='I39cb32a0a5fc11d9b0c7867999d61bde' >Art 101. Scope</XPPMetaData>
+			<XPPHier uuid='I431a81b0d68211e3a4e491f0ab88f383' name='Art 101. Scope' parent_uuid='I39cb32a0a5fc11d9b0c7867999d61bde' >Art 101. Scope</XPPHier>
+			<primary.section.front date.updated="0">
+				<primary.outline.name.block toc.include="y" date.updated="0" all.align="l" all.designator.suffix="." all.label.suffix="." all.element.group="all" all.style="block" all.indent="0" all.capitalization="asis" all.name.block.font.size="11" all.date.updated="0">
+					<label date.updated="0">
+						<t style="label.1">Art</t>
+					</label>
+					<t style="primary.outline.name.block cgt">. </t>
+					<designator date.updated="0">
+						<t style="designator">101</t>
+					</designator>
+					<t style="primary.outline.name.block cgt">. </t>
+					<primary.name date.updated="0">
+						<name date.updated="0">
+							<t style="name">Scope</t>
+						</name>
+						<t style="primary.name"> </t>
+					</primary.name>
+				</primary.outline.name.block>
+			</primary.section.front>
+		</primary.section>
+		<primary.section primary.section.type="article" uuid="I43473700d68211e3a4e491f0ab88f383" pgwidth="broad" date.revised="0" date.updated="0" element1="designator" prefix1="Art." suffix1=".">
+			<XPPMetaData uuid='I43473700d68211e3a4e491f0ab88f383' guid='I3ce3382202ae11da9c03bd72365340b3' md.uuid='I3ce3382202ae11da9c03bd72365340b3' md.dmsserial='296365682' md.first_line_cite='LAPRAC&amp;ndash;EVID ART. 102' md.pubpage='ART. 102' md.second_line_cite='La. Prac. Evidence Art. 102 (2017 ed.)' md.normalizedcite='LAPRAC-EVIDART.102' md.doc_family_uuid='I45a396d0eac711d8b93285946e571caf' md.third_line_cite='' md.pubid='165245'  name='Art 102. Purpose and construction' parent_uuid='I39cb32a0a5fc11d9b0c7867999d61bde' >Art 102. Purpose and construction</XPPMetaData>
+			<XPPHier uuid='I43473700d68211e3a4e491f0ab88f383' name='Art 102. Purpose and construction' parent_uuid='I39cb32a0a5fc11d9b0c7867999d61bde' >Art 102. Purpose and construction</XPPHier>
+			<primary.section.front date.updated="0">
+				<primary.outline.name.block toc.include="y" date.updated="0" all.align="l" all.designator.suffix="." all.label.suffix="." all.element.group="all" all.style="block" all.indent="0" all.capitalization="asis" all.name.block.font.size="11" all.date.updated="0">
+					<label date.updated="0">
+						<t style="label.1">Art</t>
+					</label>
+					<t style="primary.outline.name.block cgt">. </t>
+					<designator date.updated="0">
+						<t style="designator">102</t>
+					</designator>
+					<t style="primary.outline.name.block cgt">. </t>
+					<primary.name date.updated="0">
+						<name date.updated="0">
+							<t style="name">Purpose and construction</t>
+						</name>
+						<t style="primary.name"> </t>
+					</primary.name>
+				</primary.outline.name.block>
+			</primary.section.front>
+		</primary.section>
+	</primary.hierarchy.body>
+	<primary.hierarchy.body date.updated="0">
+		<primary.section primary.section.type="section" uuid="I0e9e7ca093b811e384ca9853882fcdb5" pgwidth="broad" date.revised="0" date.updated="0" element2="label" element3="designator" first.paste.down="y" suffix2="&amp;#8194;" pn.font.size="8">
+			<XPPHier uuid='I0e9e7ca093b811e384ca9853882fcdb5' name=' 49l-2. Workforce and Labor Market Information System' parent_uuid='I0e9e077093b811e384ca9853882fcdb5' > 49l-2. Workforce and Labor Market Information System</XPPHier>
+			<primary.section.front date.updated="0">
+				<primary.outline.name.block toc.include="y" date.updated="0" all.designator.suffix="." all.emph="bold" all.element.group="all" all.style="block" all.indent="0" all.capitalization="asis" all.name.block.font.size="11" all.date.updated="0">
+					<label date.updated="0">
+						<t style="label.4 cgt">§ </t>
+					</label>
+					<t style="primary.outline.name.block.5 cgt"> </t>
+					<designator date.updated="0">
+						<t style="designator.6">49</t>
+						<t style="ital.2">l</t>
+						<t style="designator.6">-2</t>
+					</designator>
+				</primary.outline.name.block>
+			</primary.section.front>
+		</primary.section>
+	</primary.hierarchy.body>
+</root>

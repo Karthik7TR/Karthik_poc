@@ -15,16 +15,18 @@ public enum XppFormatFileSystemDir {
     SECTIONBREAKS_UP_DIR("09_SectionbreaksUp"),
     ORIGINAL_PARTS_DIR("10_OriginalParts"),
     ORIGINAL_PAGES_DIR("11_OriginalPages"),
-    POCKET_PART_LINKS_DIR("12_PocketPartLinks"),
-    HTML_PAGES_DIR("13_HtmlPages"),
-    EXTERNAL_LINKS_DIR("14_ExternalLinks"),
-    EXTERNAL_LINKS_MAPPING("15_ExternalLinks_Mapping"),
-    TOC_DIR("16_Toc"),
-    TITLE_METADATA_DIR("17_title_metadata"),
-    FAILED_CITE_QUERY_TAGS("18_failed_cite_query_tags"),
-    SPLIT_ANCHORS_DIR("19_Split_Anchors"),
-    UNESCAPE_DIR("20_Unescape"),
-    QUALITY_DIR("21_Quality");
+    INTERNAL_LINKS_RECOVERY_DIR("12_Internal_Links_Recovery"),
+    POCKET_PART_LINKS_DIR("13_PocketPartLinks"),
+    HTML_PAGES_DIR("14_HtmlPages"),
+    EXTERNAL_LINKS_DIR("15_ExternalLinks"),
+    EXTERNAL_LINKS_MAPPING("16_ExternalLinks_Mapping"),
+    TOC_DIR("17_Toc"),
+    TITLE_METADATA_DIR("18_title_metadata"),
+    FAILED_CITE_QUERY_TAGS("19_failed_cite_query_tags"),
+    SPLIT_ANCHORS_DIR("20_Split_Anchors"),
+    UNESCAPE_DIR("21_Unescape"),
+    QUALITY_DIR("22_Quality"),
+    SECTION_NUMBERS_MAP_DIR("Section_Numbers_Map");
 
     private final String dirName;
 

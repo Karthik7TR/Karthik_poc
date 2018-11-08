@@ -39,7 +39,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TransformationToHtmlStepIntegrationTestConfiguration.class)
 @ActiveProfiles("IntegrationTests")
-public class PocketPartLinksStepIntegrationTest {
+public final class PocketPartLinksStepIntegrationTest {
     private static final String EXPECTED_MAIN_CONTENT_PAGE_WITH_LINK_TO_POCKET_PART =
         "expectedMainContentWithLinkToPocketPart.page";
     private static final String EXPECTED_MAIN_CONTENT_PAGE_WITH_LINK_TO_SUPPLEMENT =
@@ -49,7 +49,7 @@ public class PocketPartLinksStepIntegrationTest {
     private static final String MATERIAL_NUMBER_POCKET_PART = "11111112";
     private static final String DIVXML_XML_MAIN = "1-LUPDRL.DIVXML_0002_I91dd17d0572311dca3950000837bc6dd.page";
     private static final String DIVXML_XML_SUPP = "1-LUPDRL.DIVXML_0001_I91dd17d0572311dca3950000837bc6dd.page";
-    private static final XppFormatFileSystemDir SOURCE_DIR = XppFormatFileSystemDir.ORIGINAL_PAGES_DIR;
+    private static final XppFormatFileSystemDir SOURCE_DIR = XppFormatFileSystemDir.INTERNAL_LINKS_RECOVERY_DIR;
     private static final XppFormatFileSystemDir DESTINATION_DIR = XppFormatFileSystemDir.POCKET_PART_LINKS_DIR;
 
     @Resource(name = "pocketPartLinksTask")

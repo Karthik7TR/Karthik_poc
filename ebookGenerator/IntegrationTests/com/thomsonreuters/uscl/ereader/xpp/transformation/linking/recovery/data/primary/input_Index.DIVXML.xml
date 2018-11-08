@@ -1,0 +1,46 @@
+<parts xmlns="http://www.sdl.com/xpp">
+	<part.main fileName="1001-LAPRACEVID_Volume_1_Index.DIVXML_0001">
+		<XPPHier uuid="42893001.Index" name="Index" parent_uuid="42893001.Index"
+			md.doc_family_uuid="42893001.IndexABSENCEWRITINGS">Index</XPPHier>
+		<pagebreak num="Index-1" serial-num="1" />
+		<page.number.ref page-number="Index-1" />
+		<t style="unknown">Index</t>
+		<t style="c">
+		</t>
+		<t style="unknown">&amp;#8195;</t>
+		<INDEX>
+			<l1>
+				<l2>
+					<t style="unknown.2">Presumptions and prima facie evi</t>
+					<t style="unknown.2">dence in civil cases, </t>
+					<CITE>
+						<t style="CITE">Art. 305</t>
+					</CITE>
+				</l2>
+			</l1>
+			<l1>
+				<t style="unknown.1">ACCOUNTANT-CLIENT </t>
+				<t style="unknown.1">PRIVILEGE</t>
+				<l2>
+					<t style="unknown.2">Testimonial privileges, </t>
+					<cite>
+						<t style="CITE">Rule 515-Art. </t>
+						<t style="unknown.1">517</t>
+					</cite>
+				</l2>
+			</l1>
+			<alpha>
+				<t style="pc;1">A</t>
+			</alpha>
+			<l1>
+				<t style="unknown.2">ABSENCE OF ENTRY</t>
+				<l2>
+					<t style="unknown.3">Business record, Rule 803(6), (7)/AC(9)</t>
+				</l2>
+				<l2>
+					<t style="unknown.3">Public record, Rule 803(8)-(10)</t>
+				</l2>
+			</l1>
+		</INDEX>
+	</part.main>
+</parts>

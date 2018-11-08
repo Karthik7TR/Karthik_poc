@@ -40,6 +40,7 @@ public final class UnescapeStepIntegrationTest {
 
     @Before
     public void setUp() throws URISyntaxException, IOException {
+        //TODO: fix for new step
         final File anchorsDir = formatFileSystem.getDirectory(sut, SPLIT_ANCHORS_DIR, MATERIAL_NUMBER);
         FileUtils.forceMkdir(anchorsDir);
         input = new File(UnescapeStepIntegrationTest.class.getResource("input.html")

@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Value;
 @SendFailureNotificationPolicy(FailureNotificationType.XPP)
 @SavePublishingStatusPolicy
 public class PocketPartLinksStep extends XppTransformationStep {
-    private static final XppFormatFileSystemDir SOURCE_DIR = XppFormatFileSystemDir.ORIGINAL_PAGES_DIR;
+    private static final XppFormatFileSystemDir SOURCE_DIR = XppFormatFileSystemDir.INTERNAL_LINKS_RECOVERY_DIR;
     private static final XppFormatFileSystemDir DESTINATION_DIR = XppFormatFileSystemDir.POCKET_PART_LINKS_DIR;
 
     @Value("${xpp.pplinks.xsl}")
