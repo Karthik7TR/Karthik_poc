@@ -54,7 +54,7 @@ public final class PocketPartLinksStepTest {
     private static final String MATERIAL_NUMBER_SUPP = "11111112";
     private static final String MATERIAL_NUMBER_MAIN_2 = "22222222";
 
-    private static final XppFormatFileSystemDir SOURCE_DIR = XppFormatFileSystemDir.ORIGINAL_PAGES_DIR;
+    private static final XppFormatFileSystemDir SOURCE_DIR = XppFormatFileSystemDir.INTERNAL_LINKS_RECOVERY_DIR;
     private static final XppFormatFileSystemDir DESTINATION_DIR = XppFormatFileSystemDir.POCKET_PART_LINKS_DIR;
 
     @InjectMocks
