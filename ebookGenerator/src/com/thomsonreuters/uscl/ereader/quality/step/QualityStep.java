@@ -91,7 +91,7 @@ public class QualityStep extends XppTransformationStep {
                 }, COMPARE_UNIT_LIST_COLLECTOR)));
 
         return compareUnitsMap.entrySet()
-            .parallelStream()
+            .stream()
             .collect(groupingBy(Map.Entry::getKey, mapping(entry -> {
                 final List<CompareUnit> units = entry.getValue()
                     .stream()
