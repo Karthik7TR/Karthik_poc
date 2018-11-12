@@ -69,6 +69,10 @@ table {
         width: 100%;
         margin-bottom: #{$indent * 2}em;
     }
+    .publication>.publication_body>.part>.part_body>.chapter>.chapter_body>.section_block>.section>.section_body>.para>.tbl & {
+        margin-top: #{$indent * 1}em;
+        margin-bottom: #{$indent * 1}em;
+    }
 }
 
 thead {

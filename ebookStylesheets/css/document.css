@@ -282,6 +282,11 @@ table.table_frame_all {
   margin-bottom: 2em;
 }
 
+.publication > .publication_body > .part > .part_body > .chapter > .chapter_body > .section_block > .section > .section_body > .para > .tbl table {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
 thead {
   text-align: center;
 }
