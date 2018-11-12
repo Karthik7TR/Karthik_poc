@@ -27,6 +27,7 @@
 
 	<xsl:template
 		match="x:stream[@type=$streamType]//x:t[not(@suppress)]/text()
+						| x:stream[@type=$streamType]//x:t[@suppress='true' and child::x:cite.query]/text()
     					| x:stream[@type=$streamType]//x:t/x:cite.query/text()
     					| x:stream[@type=$streamType]//x:case.history/text()">
 		<xsl:value-of select="h:unescape(replace(replace(x:get-fixed-text(self::node()), '&gt;', '&amp;gt;'), '&lt;', '&amp;lt;'))"

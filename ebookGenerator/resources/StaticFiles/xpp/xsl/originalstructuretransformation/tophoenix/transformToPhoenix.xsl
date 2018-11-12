@@ -115,7 +115,7 @@
 		</xsl:if>
 	</xsl:template>
 
-	<xsl:template match="x:t[not(@suppress='true')]/text() | x:t/x:cite.query/text() | x:case.history/text()">
+	<xsl:template match="x:t[not(@suppress='true')]/text() | x:t[@suppress='true' and child::x:cite.query]/text() | x:t/x:cite.query/text() | x:case.history/text()">
 		<xsl:element name="t">
 			<xsl:attribute name="style">
 				<xsl:value-of select="ancestor::x:t[1]/@style" />

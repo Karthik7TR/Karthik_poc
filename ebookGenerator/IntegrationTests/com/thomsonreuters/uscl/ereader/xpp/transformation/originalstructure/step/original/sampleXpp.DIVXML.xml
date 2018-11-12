@@ -1827,6 +1827,9 @@
 							</tag><?xpp dblsect?>
 							<t x="0" y="0" style="ref.1" cgt="true">&#167;&#167;&#8201;</t>
 							<t x="0" y="0" style="ref.1">4:1 et seq., 6:1 et seq., 10:1 et seq</t>
+							<t x="0" y="0" style="ref.1" suppress="true">
+								<cite.query>this text</cite.query>should be<cite.query>shown</cite.query>
+							</t>
 							<endtag name="ref"></endtag><?xpp /cite?>
 							<t x="0" y="0" style="para.text.2">.</t>
 							<endtag name="para.text"></endtag>
