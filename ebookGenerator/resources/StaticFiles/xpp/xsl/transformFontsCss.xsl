@@ -116,7 +116,7 @@
 				<xsl:variable name="units">
 					<xsl:choose>
 						<xsl:when test="regex-group(2) = 'p'">
-							<xsl:value-of select="7" />
+							<xsl:value-of select="5" />
 						</xsl:when>
 						<xsl:when test="regex-group(2) = 'q'">
 							<xsl:value-of select="0.1" />
