@@ -203,7 +203,8 @@ section:not([erdocid]) .scroll_mode {
   display: block;
 }
 
-.toc_wrapper > .generated_toc > .full_toc > .toc_part .outline_name_block {
+.toc_wrapper > .generated_toc > .full_toc > .toc_part .outline_name_block,
+.toc_wrapper > .generated_toc > .full_toc > .toc_chapter .outline_name_block {
   white-space: pre-wrap;
 }
 
