@@ -61,6 +61,10 @@ a + .no-indent:nth-child(2),
   text-align: right !important;
 }
 
+.left_indent {
+  text-indent: 1em;
+}
+
 .metadata_block,
 .online_view,
 .publication_front > .outline_name_block {
@@ -956,6 +960,10 @@ tbody .cgt,
   display: inline;
 }
 
+.frontmatter > .fm_other_structure > .tbl > .table_frame_none span.font_row.cgt {
+  display: none;
+}
+
 .footnote .cgt.t {
   width: auto;
 }
@@ -982,6 +990,7 @@ tbody .cgt,
   display: inline-flex;
 }
 
+.toc_analytical_level > .toc_analytical_level > a > .outline_name_block,
 .toc_analytical_level > .toc_analytical_level > .outline_name_block {
   margin-left: 1em;
 }
@@ -1573,6 +1582,12 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   text-align: center;
 }
 
+.publication > .publication_body > .primary > .primary_source > .primary_source_body > .primary_hierarchy > .primary_hierarchy_body > .primary_section > .primary_section_body > .primary_features > .primary_references > .research_reference_block > .reference_entry_group > .reference_entry {
+  display: block;
+  margin-left: 1em;
+  text-indent: -1em;
+}
+
 .toc_primary_hierarchy > .primary_outline_name_block > .label + .t,
 .toc_primary_hierarchy > .primary_outline_name_block > .designator + .t {
   width: auto;
@@ -1933,6 +1948,7 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
 
 .fm_other_structure > .l > .name_block {
   margin-left: 0;
+  margin-bottom: 1em;
 }
 
 .full_toc > .toc_part > .toc_chapter:first-of-type > .toc_analytical_level:first-of-type > .toc_section:first-of-type > .outline_name_block:first-of-type > .name:first-of-type {

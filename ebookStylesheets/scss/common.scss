@@ -58,6 +58,10 @@
     }
 }
 
+.left_indent {
+    text-indent: #{$indent}em;
+}
+
 .metadata_block,
 .online_view,
 .publication_front>.outline_name_block {

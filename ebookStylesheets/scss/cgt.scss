@@ -73,6 +73,9 @@
     @at-root .frontmatter>.fm_other_structure>.fm_text_box>.text_line>span.font_text_line_8#{&} {
         display: inline;
     }
+    @at-root .frontmatter>.fm_other_structure>.tbl>.table_frame_none span.font_row#{&} {
+        display: none;
+    }
     .footnote &.t {
         width: auto;
     }

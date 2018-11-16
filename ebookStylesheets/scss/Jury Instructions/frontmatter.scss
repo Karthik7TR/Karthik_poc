@@ -48,5 +48,6 @@ td {
 .name_block {
     .fm_other_structure>.l>& {
         margin-left: 0;
+        margin-bottom: #{$indent}em;
     }
 }

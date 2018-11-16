@@ -12,8 +12,8 @@
     </xsl:template>
 
     <xsl:function name="x:number">
-        <xsl:param name="colwidth" />
-        <xsl:value-of select="number(substring-before($colwidth, 'i'))" />
+        <xsl:param name="numberString" />
+        <xsl:value-of select="number(substring-before($numberString, 'i'))" />
     </xsl:function>
 
 	<xsl:template match="x:tgroup">
@@ -30,6 +30,7 @@
 	</xsl:template>
     
     <xsl:template match="x:tgroup//x:row/x:entry">
+        <xsl:variable name="lindent" select=".//x:line[1]/@lindent" />
         <xsl:element name="entry">
             <xsl:if test="@align">
                 <xsl:attribute name="align" select="@align" />
@@ -39,6 +40,11 @@
             </xsl:if>
             <xsl:if test="@morerows">
                 <xsl:attribute name="rowspan" select="@morerows+1" />
+            </xsl:if>
+            <xsl:if test="$lindent and not($lindent='0')">
+                <!-- TODO: change it to numeric value instead of boolean 
+                when table with multiple different row left indentations is found -->
+                <xsl:attribute name="lindent" select="'true'" />
             </xsl:if>
             <xsl:apply-templates />
         </xsl:element>

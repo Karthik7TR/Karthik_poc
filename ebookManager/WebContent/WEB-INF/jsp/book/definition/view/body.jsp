@@ -17,6 +17,13 @@ function submitForm(cmd)
 	$('#<%=ViewBookDefinitionForm.FORM_NAME%>').submit();
 	return true;
 };
+$(document).ready(function() {
+	if(${ book.sourceType == 'XPP' } == true) {
+		$(".xppHideClass").css("display","none");
+	} else {
+		$(".xppHideClass").css("display","block");
+	}
+});
 </script>
 
 <%-- Check if there is a book model to render, if not don't display a bunch of unvalued labels. --%>
@@ -64,11 +71,11 @@ function submitForm(cmd)
 						<label class="labelCol">Sub Material Number</label>
 						<span class="field">${ book.materialId }</span>
 					</div>
-					<div class="row">
+					<div class="row xppHideClass">
 						<label class="labelCol">Include Annotations</label>
 						<span class="field">${ book.includeAnnotations }</span>
 					</div>
-					<div class="row">
+					<div class="row xppHideClass">
 						<label class="labelCol">Include Notes of Decisions</label>
 						<span class="field">${ book.includeNotesOfDecisions }</span>
 					</div>
@@ -286,7 +293,7 @@ function submitForm(cmd)
 			</div>
 		</div>
 		
-		<div class="dynamicContent">
+		<div class="dynamicContent xppHideClass">
 			<label class="labelCol">Exclude Documents</label>
 			<c:forEach items="${ book.excludeDocuments }" var="document">
 				<div class="expandingBox">
@@ -306,7 +313,7 @@ function submitForm(cmd)
 			</c:forEach>
 		</div>
 		
-		<div class="dynamicContent">
+		<div class="dynamicContent xppHideClass">
 			<label class="labelCol">Rename TOC Labels</label>
 			<c:forEach items="${ book.renameTocEntries }" var="toc">
 				<div class="expandingBox">
@@ -334,7 +341,7 @@ function submitForm(cmd)
 			</c:forEach>
 		</div>
 		
-		<div class="dynamicContent">
+		<div class="dynamicContent xppHideClass">
 			<label class="labelCol">Document Copyright</label>
 			<c:forEach items="${ book.documentCopyrights }" var="copyright">
 				<div class="expandingBox">
@@ -358,7 +365,7 @@ function submitForm(cmd)
 			</c:forEach>
 		</div>
 		
-		<div class="dynamicContent">
+		<div class="dynamicContent xppHideClass">
 			<label class="labelCol">Document Currency</label>
 			<c:forEach items="${ book.documentCurrencies }" var="currency">
 				<div class="expandingBox">

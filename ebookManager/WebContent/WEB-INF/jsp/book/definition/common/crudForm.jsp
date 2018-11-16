@@ -210,7 +210,7 @@
 				<form:hidden path="includeAnnotations"/>
 				<form:hidden path="includeNotesOfDecisions"/>
 			</c:if>
-			<div class="row">
+			<div class="row xppHideClass">
 				<form:label path="includeAnnotations" class="labelCol">Include Annotations</form:label>
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="includeAnnotations" value="true" />Yes
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="includeAnnotations" value="false" />No
@@ -218,7 +218,7 @@
 					<form:errors path="includeAnnotations" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row">
+			<div class="row xppHideClass">
 				<form:label path="includeNotesOfDecisions" class="labelCol">Include Notes of Decisions</form:label>
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="includeNotesOfDecisions" value="true" />Yes
 				<form:radiobutton disabled="${disableUnderPubPlusRole}" path="includeNotesOfDecisions" value="false" />No
@@ -226,7 +226,7 @@
 					<form:errors path="includeNotesOfDecisions" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row">
+			<div class="row xppHideClass">
 				<form:label path="excludeDocumentsUsed" class="labelCol">Enable Exclude Documents</form:label>
 				<form:radiobutton path="excludeDocumentsUsed" value="true" />Yes
 				<form:radiobutton path="excludeDocumentsUsed" value="false" />No
@@ -234,7 +234,7 @@
 					<form:errors path="excludeDocumentsUsed" cssClass="errorMessage" />
 				</div>
 			</div>
-			<div class="row">
+			<div class="row xppHideClass">
 				<form:label path="renameTocEntriesUsed" class="labelCol">Enable Rename TOC Labels</form:label>
 				<form:radiobutton path="renameTocEntriesUsed" value="true" />Yes
 				<form:radiobutton path="renameTocEntriesUsed" value="false" />No
@@ -536,7 +536,7 @@
 	</div>
 </div>
 
-<div id="displayExcludeDocument" class="dynamicContent" style="display:none;">
+<div id="displayExcludeDocument" class="dynamicContent xppHideClass" style="display:none;">
 	<c:forEach items="${editBookDefinitionForm.excludeDocumentsCopy}" var="documentCopy" varStatus="aStatus">
 			<form:hidden path="excludeDocumentsCopy[${aStatus.index}].documentGuid" maxlength="33" />
 			<form:hidden path="excludeDocumentsCopy[${aStatus.index}].note" />
@@ -574,7 +574,7 @@
 	<div id="addExcludeDocumentHere"></div>
 </div>
 
-<div id="displayRenameTocEntry" class="dynamicContent" style="display:none;">
+<div id="displayRenameTocEntry" class="dynamicContent xppHideClass" style="display:none;">
 	<c:forEach items="${editBookDefinitionForm.renameTocEntriesCopy}" var="tocCopy" varStatus="aStatus">
 			<form:hidden path="renameTocEntriesCopy[${aStatus.index}].tocGuid" />
 			<form:hidden path="renameTocEntriesCopy[${aStatus.index}].oldLabel" />
@@ -675,7 +675,7 @@
 	<div id="addDocumentCopyrightHere"></div>
 </div>
 
-<div id="displayDocumentCurrency" class="dynamicContent">
+<div id="displayDocumentCurrency" class="dynamicContent xppHideClass">
 	<c:forEach items="${editBookDefinitionForm.documentCurrenciesCopy}" varStatus="aStatus">
 			<form:hidden path="documentCurrenciesCopy[${aStatus.index}].currencyGuid" />
 			<form:hidden path="documentCurrenciesCopy[${aStatus.index}].newText" />

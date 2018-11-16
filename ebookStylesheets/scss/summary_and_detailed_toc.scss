@@ -22,6 +22,7 @@
     .toc_chapter &>a {
         display: inline-flex;
     }
+    .toc_analytical_level>.toc_analytical_level>a>&,
     .toc_analytical_level>.toc_analytical_level>& {
         margin-left: #{$indent}em;
     }

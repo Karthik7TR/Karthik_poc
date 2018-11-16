@@ -231,7 +231,7 @@
                                     </row>
                                     <row>
                                         <entry/>
-                                        <entry align="left"/>
+                                        <entry align="left" lindent="true"/>
                                         <entry align="center"/>
                                         <entry align="right" colspan="3">
                                             <t style="entry">Total Past Economic Damages: </t>
@@ -250,7 +250,7 @@
                                     </row>
                                     <row>
                                     	<entry/>
-                                    	<entry rcolor="#000000">
+                                    	<entry rcolor="#000000" lindent="true">
                                     		<t style="entry">/s/</t>
                                 		</entry>
                             		</row>

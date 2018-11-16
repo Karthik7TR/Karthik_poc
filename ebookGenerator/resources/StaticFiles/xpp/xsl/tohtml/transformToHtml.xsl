@@ -365,9 +365,11 @@
 	</xsl:template>
 
 	<xsl:template match="x:row/x:entry">
+		<xsl:variable name="tdClass" select="string-join((x:getAlignClass(@align), x:getLeftIndentClass(@lindent))[. != ''],' ')" />
+
 		<xsl:element name="td">
-			<xsl:if test="@align">
-				<xsl:attribute name="class" select="x:getAlignClass(@align)" />
+			<xsl:if test="$tdClass">
+				<xsl:attribute name="class" select="$tdClass" />
 			</xsl:if>
 			<xsl:if test="@colspan">
 				<xsl:attribute name="colspan" select="@colspan" />
@@ -390,6 +392,14 @@
 		</xsl:if>
 		<xsl:if test="$align='right'">
 			<xsl:value-of select="'r'"/>
+		</xsl:if>
+	</xsl:function>
+
+	<xsl:function name="x:getLeftIndentClass">
+		<xsl:param name="lindent"/>
+		
+		<xsl:if test="$lindent='true'">
+			<xsl:value-of select="'left_indent'" />
 		</xsl:if>
 	</xsl:function>
 
