@@ -1251,6 +1251,10 @@ a + .footnote_body {
   display: inline;
 }
 
+.footnote .para .para_text .cite .t {
+  display: inline;
+}
+
 .columns {
   width: 100%;
   display: flex;
