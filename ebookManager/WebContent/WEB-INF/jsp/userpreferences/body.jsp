@@ -17,7 +17,11 @@
 		
         var onClickToDeleteButton = function () {
             var srow = $(this).parent();
+           // var input = srow.find("input")[0];
+            //console.log(input);
+            //input.remove();
             srow.remove();
+            
          };
 		// Add another author row
 		var addEmailRow = function() {
@@ -26,10 +30,10 @@
 			var name = "emails[" + emailIndex + "]";
 			
 			// Add author name input boxes
-			expandingBox.append($("<input>").attr("id",id).attr("name", name).attr("type", "text"));
+			expandingBox.append($("<input>").attr("id",id).attr("name", name).attr("type", "text").attr("class", "email_class"));
 			
 			// Add delete button
-			expandingBox.append($("<input>").addClass("rdelete").attr("title","Delete Email").attr("type", "button").val("Delete").on("click", onClickToDeleteButton));
+			expandingBox.append($("<input>").addClass("rdelete").attr("id","deleteButton"+emailIndex).attr("title","Delete Email").attr("type", "button").val("Delete").on("click", onClickToDeleteButton));
 		
 			$("#addEmailHere").before(expandingBox);
 			emailIndex = emailIndex + 1;
@@ -41,9 +45,33 @@
 				addEmailRow();
 			});
 			
+			$("#confirm").click(function () {
+				var result = true;
+				var emailIds = $(".email_class");
+				for(index=0; index<emailIds.length; index++) {
+					var emailIdValue = emailIds[index].value;
+					var emailIndexId = emailIds[index].id;
+					var indexId =  emailIndexId.substr(emailIndexId.length - 1);
+					if(emailIdValue == undefined || $.trim(emailIdValue).length == 0) {
+						var errorDiv = $("<div>").addClass("errorDiv");
+						errorDiv.append($("<span>").attr("id","emails"+indexId+"2.errors").attr("class", "errorMessage").text("Invalid Email"));
+						$("#deleteButton"+indexId).after(errorDiv);
+						result = false;
+						//break;
+					}
+				}
+				
+				return result;
+				
+			});
+			
 			// delete confirmation box
 			$(".rdelete").on("click", onClickToDeleteButton);
 		});
+		
+		
+		
+		
 </script>
 
 <form:form id="preferencesForm" commandName="<%= UserPreferencesForm.FORM_NAME %>" action="<%=WebConstants.MVC_USER_PREFERENCES%>" >
@@ -127,8 +155,8 @@
 		</div>
 		<c:forEach items="${preferencesForm.emails}" var="email" varStatus="eStatus">
 			<div class="expandingBox">
-				<form:input path="emails[${eStatus.index}]" />
-				<input type="button" id="deleteButton" value="Delete" class="rdelete" title="Delete Email" />
+				<form:input path="emails[${eStatus.index}]" cssClass="email_class"/>
+				<input type="button" id="deleteButton${eStatus.index}" value="Delete" class="rdelete" title="Delete Email" />
 				<div class="errorDiv">
 					<form:errors path="emails[${eStatus.index}]" cssClass="errorMessage" />
 				</div>

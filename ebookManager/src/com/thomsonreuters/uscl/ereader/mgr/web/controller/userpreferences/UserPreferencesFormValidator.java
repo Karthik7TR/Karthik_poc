@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.BaseFormValidator;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.userpreferences.UserPreferencesForm.HomepageProperty;
@@ -89,12 +90,17 @@ public class UserPreferencesFormValidator extends BaseFormValidator implements V
             errors.rejectValue("startPage", "error.required");
         }
 
+
         final List<String> emails = form.getEmails();
+        final List<String> nonEmptyEmails =  emails.stream().filter(StringUtils::isNotBlank).collect(Collectors.toList());
+        int i = 0;
+        form.setEmails(nonEmptyEmails);
+
         final EmailValidator validator = EmailValidator.getInstance();
         final List<String> checkDuplicateEmails = new ArrayList<>();
 
-        int i = 0;
-        for (final String email : emails) {
+
+        for (final String email : nonEmptyEmails) {
             if (!validator.isValid(email) || email.length() > MAXIMUM_CHARACTER_256) {
                 errors.rejectValue("emails[" + i + "]", "error.invalid", new Object[] {"email"}, "Invalid email");
             } else {
