@@ -432,7 +432,8 @@ td:last-of-type {
 }
 
 .publication > .publication_body > .chapter > .chapter_body > .section_block > .section > .section_front > .research_reference_block > .reference_entry,
-.publication > .publication_body > .chapter > .front > .research_reference_block > .reference_entry_group > .reference_entry {
+.publication > .publication_body > .chapter > .front > .research_reference_block > .reference_entry_group > .reference_entry,
+.publication > .publication_body > .part > .part_body > .chapter > .chapter_body > .section_block > .section > .section_front > .research_reference_block > .reference_entry {
   display: block;
   margin-left: 1em;
   text-indent: -1em;

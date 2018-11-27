@@ -208,7 +208,8 @@ td:empty {
 
 .reference_entry {
     .publication>.publication_body>.chapter>.chapter_body>.section_block>.section>.section_front>.research_reference_block>&,
-    .publication>.publication_body>.chapter>.front>.research_reference_block>.reference_entry_group>& {
+    .publication>.publication_body>.chapter>.front>.research_reference_block>.reference_entry_group>&,
+    .publication>.publication_body>.part>.part_body>.chapter>.chapter_body>.section_block>.section>.section_front>.research_reference_block>& {
         display: block;
         margin-left: #{$indent}em;
         text-indent: -#{$indent}em;
