@@ -1749,7 +1749,8 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   display: flex;
 }
 
-.toc_wrapper > .generated_toc > .summary_toc > .toc_primary_source > .toc_primary_hierarchy > .toc_primary_hierarchy > .toc_primary_hierarchy {
+.toc_wrapper > .generated_toc > .summary_toc > .toc_primary_source > .toc_primary_hierarchy > .toc_primary_hierarchy > .toc_primary_hierarchy,
+.toc_wrapper > .generated_toc > .summary_toc > .toc_primary_source > .toc_primary_hierarchy > .toc_primary_hierarchy > .toc_primary_hierarchy > .toc_primary_hierarchy {
   margin-left: 1em;
 }
 
