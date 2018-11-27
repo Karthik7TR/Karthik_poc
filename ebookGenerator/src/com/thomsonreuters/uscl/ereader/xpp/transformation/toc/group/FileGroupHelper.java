@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class FileGroupHelper {
     private static final String PUB_GROUP = "pbGrp";
-    private static final Pattern BASE_NAME_PATTERN = Pattern.compile(String.format("\\d+-(?<%s>[A-Za-z0-9_]+?_\\d*)_?[A-Za-z0-9]*\\.DIVXML\\.xml", PUB_GROUP));
+    private static final Pattern BASE_NAME_PATTERN = Pattern.compile(String.format("\\d+-(?<%s>[A-Za-z0-9_]+?_\\d*)(_[A-Za-z0-9]+(_[A-Za-z0-9]+)?)?\\.DIVXML\\.xml", PUB_GROUP));
     private static final String SELF_PATTERN = "\\d+-%s\\.DIVXML\\.xml";
-    private static final String CHILD_PATTERN = "\\d+-%s_[A-Za-z0-9]+\\.DIVXML\\.xml";
+    private static final String CHILD_PATTERN = "\\d+-%s_[A-Za-z0-9]+(_[A-Za-z0-9]+)?\\.DIVXML\\.xml";
 
     public boolean isGroupPart(final String fileName, final XppBundle bundle) {
         return groupStream(fileName, bundle)
