@@ -151,7 +151,8 @@ a {
 }
 
 .toc_primary_hierarchy {
-    .toc_wrapper>.generated_toc>.summary_toc>.toc_primary_source>.toc_primary_hierarchy>.toc_primary_hierarchy>& {
+    .toc_wrapper>.generated_toc>.summary_toc>.toc_primary_source>.toc_primary_hierarchy>.toc_primary_hierarchy>&,
+    .toc_wrapper>.generated_toc>.summary_toc>.toc_primary_source>.toc_primary_hierarchy>.toc_primary_hierarchy>.toc_primary_hierarchy>& {
         margin-left: #{$indent}em;
     }
 }
