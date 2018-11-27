@@ -93,7 +93,6 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
 
         if (StringUtils.isNotEmpty(cite)) {
             final String pubName = urlContents.get("pubNum");
-
             Long pubId = PUB_NOT_PRESENT;
             if (pubName != null && !pubName.trim().isEmpty()) {
                 try {
@@ -129,8 +128,8 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
      * @return docMetadata DocumentMetadata
      */
     private DocMetadata getNormalizedCiteDocMetadata(final String cite, final Long pubId, final Long jobId) {
-        DocMetadata docMetadata = Optional.ofNullable(documentMetadataAuthority.getDocMetadataByCite(cite))
-            .orElseGet(() -> documentMetadataAuthority.getDocMetadataByCite(cite.replaceAll("\\s", "")));
+        DocMetadata docMetadata = Optional.ofNullable(documentMetadataAuthority.getDocMetadataByCite(cite, docGuid))
+            .orElseGet(() -> documentMetadataAuthority.getDocMetadataByCite(cite.replaceAll("\\s", ""), docGuid));
 
         if (docMetadata == null) {
             if (!pubId.equals(PUB_NOT_PRESENT)) {
@@ -143,7 +142,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
                     if (cite.contains(stdPubName)) {
                         String pubNameCite = cite.replace(stdPubName, paceData.getPublicationName());
                         pubNameCite = NormalizationRulesUtil.applyCitationNormalizationRules(pubNameCite);
-                        docMetadata = documentMetadataAuthority.getDocMetadataByCite(pubNameCite);
+                        docMetadata = documentMetadataAuthority.getDocMetadataByCite(pubNameCite, docGuid);
 
                         if (docMetadata == null) {
                             // look for pubId and pubpage match (this will fix multiple volumes) Bug #33426
@@ -303,7 +302,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
 
             if (citation.endsWith("R")) {
                 //Only look at the citations that end with R, presumably stands for References
-                docMetadata = documentMetadataAuthority.getDocMetadataByCite(citation);
+                docMetadata = documentMetadataAuthority.getDocMetadataByCite(citation, docGuid);
 
                 if (docMetadata != null) {
                     return docMetadata;
@@ -315,7 +314,7 @@ public class InternalLinkResolverFilter extends XMLFilterImpl {
         for (String citation : citations) {
             citation = citation.replace(")", "").replace("+", "").trim();
 
-            docMetadata = documentMetadataAuthority.getDocMetadataByCite(citation);
+            docMetadata = documentMetadataAuthority.getDocMetadataByCite(citation, docGuid);
 
             if (docMetadata != null) {
                 return docMetadata;

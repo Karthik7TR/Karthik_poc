@@ -91,12 +91,14 @@ public class DocumentMetadataAuthority {
         return Collections.unmodifiableMap(docMetadataKeyedByCite);
     }
 
-    public DocMetadata getDocMetadataByCite(final String cite) {
+    public DocMetadata getDocMetadataByCite(final String cite, final String guid) {
         DocMetadata docMetadata = null;
-        if (!docMetadataKeyedByCite.isEmpty() && docMetadataKeyedByCite.containsKey(cite)) {
+        if (!docMetadataKeyedByCite.isEmpty() && docMetadataKeyedByCite.containsKey(cite)
+            && docMetadataKeyedByDocumentUuid.containsKey(guid)) {
             final List<DocMetadata> list = docMetadataKeyedByCite.get(cite);
+            final DocMetadata originatingMetadata = docMetadataKeyedByDocumentUuid.get(guid);
             docMetadata = list.stream()
-                .filter(DocMetadata::isDocumentEffective)
+                .filter(item -> item.isDocumentEffective() != originatingMetadata.isDocumentEffective())
                 .findAny()
                 .orElse(list.get(0));
         }

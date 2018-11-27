@@ -145,7 +145,7 @@ public final class InternalLinkResolverFilterTest {
 
         final Map<String, DocMetadata> mp = new HashMap<>();
         mp.put(normalizedCite, dm);
-        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataByCite(normalizedCite)).andReturn(dm);
+        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataByCite(normalizedCite, docGuid)).andReturn(dm);
         final Map<String, DocMetadata> splitMp = new HashMap<>();
         final DocMetadata splitDm = new DocMetadata();
         splitDm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
@@ -180,7 +180,7 @@ public final class InternalLinkResolverFilterTest {
 
         final Map<String, DocMetadata> mp = new HashMap<>();
         mp.put(normalizedCite, dm);
-        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataByCite(normalizedCite)).andReturn(dm);
+        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataByCite(normalizedCite, docGuid)).andReturn(dm);
         final Map<String, DocMetadata> splitMp = new HashMap<>();
         final DocMetadata splitDm = new DocMetadata();
         splitDm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
@@ -216,7 +216,7 @@ public final class InternalLinkResolverFilterTest {
 
         final Map<String, DocMetadata> mp = new HashMap<>();
         mp.put(normalizedCite, dm);
-        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataByCite(normalizedCite)).andReturn(dm);
+        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataByCite(normalizedCite, docGuid)).andReturn(dm);
         final Map<String, DocMetadata> splitMp = new HashMap<>();
         final DocMetadata splitDm = new DocMetadata();
         splitDm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
@@ -251,7 +251,7 @@ public final class InternalLinkResolverFilterTest {
 
         final Map<String, DocMetadata> mp = new HashMap<>();
         mp.put(normalizedCite, dm);
-        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataByCite(normalizedCite)).andReturn(dm);
+        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataByCite(normalizedCite, docGuid)).andReturn(dm);
 
         final Map<String, DocMetadata> splitMp = new HashMap<>();
         final DocMetadata splitDm = new DocMetadata();
@@ -286,7 +286,7 @@ public final class InternalLinkResolverFilterTest {
 
         final Map<String, DocMetadata> mp = new HashMap<>();
         mp.put(normalizedCite, dm);
-        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataByCite(normalizedCite)).andReturn(dm);
+        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataByCite(normalizedCite, docGuid)).andReturn(dm);
 
         final Map<String, DocMetadata> splitMp = new HashMap<>();
         final DocMetadata splitDm = new DocMetadata();
@@ -321,7 +321,7 @@ public final class InternalLinkResolverFilterTest {
 
         final Map<String, DocMetadata> mp = new HashMap<>();
         mp.put(normalizedCite, dm);
-        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataByCite(normalizedCite)).andReturn(dm);
+        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataByCite(normalizedCite, docGuid)).andReturn(dm);
 
         final Map<String, DocMetadata> splitMp = new HashMap<>();
         final DocMetadata splitDm = new DocMetadata();
@@ -355,7 +355,7 @@ public final class InternalLinkResolverFilterTest {
 
         final Map<String, DocMetadata> mp = new HashMap<>();
         mp.put(normalizedCite, dm);
-        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataByCite(normalizedCite)).andReturn(dm);
+        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataByCite(normalizedCite, docGuid)).andReturn(dm);
         final Map<String, DocMetadata> splitMp = new HashMap<>();
         final DocMetadata splitDm = new DocMetadata();
         splitDm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
@@ -442,7 +442,7 @@ public final class InternalLinkResolverFilterTest {
 
         final Map<String, DocMetadata> mp = new HashMap<>();
         mp.put(normalizedCite, dm);
-        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataByCite(normalizedCite)).andReturn(dm);
+        EasyMock.expect(mockDocumentMetadataAuthority.getDocMetadataByCite(normalizedCite, docGuid)).andReturn(dm);
         final Map<String, DocMetadata> splitMp = new HashMap<>();
         final DocMetadata splitDm = new DocMetadata();
         splitDm.setDocFamilyUuid("IC6A94E80FF6011DC95B0EEFA5102EA59");
