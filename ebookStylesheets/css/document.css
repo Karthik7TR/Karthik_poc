@@ -410,13 +410,17 @@ td:last-of-type {
 }
 
 .quote_para {
-  margin: 1em;
+  margin: 0.25em 1em;
   text-indent: 0;
 }
 
 .section_body > .quote_block > .quote_para *,
 .section_body > .para > .quote_block > .quote_para * {
   text-indent: 0;
+}
+
+.quote_block > .quote_para {
+  display: block;
 }
 
 .pocketPartLinkWrapper {

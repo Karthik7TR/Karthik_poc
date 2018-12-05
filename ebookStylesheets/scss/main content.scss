@@ -187,11 +187,14 @@ td:empty {
 }
 
 .quote_para {
-    margin: #{$indent}em;
+    margin: #{$indent/4}em #{$indent}em;
     text-indent: 0;
     .section_body>.quote_block>& *,
     .section_body>.para>.quote_block>& * {
         text-indent: 0;
+    }
+    .quote_block>&{
+        display: block;
     }
 }
 
