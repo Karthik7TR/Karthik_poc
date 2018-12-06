@@ -13,7 +13,7 @@
 					<t style="unknown.2">Presumptions and prima facie evi</t>
 					<t style="unknown.2">dence in civil cases, </t>
 					<CITE>
-						<t style="CITE"><XPPLink guid="I3ce3111102ae11da9c03bd72365340b3">Art. 305</XPPLink></t>
+						<t style="CITE">Art. <XPPLink guid="I3ce3111102ae11da9c03bd72365340b3">305</XPPLink></t>
 					</CITE>
 				</l2>
 			</l1>
@@ -23,8 +23,9 @@
 				<l2>
 					<t style="unknown.2">Testimonial privileges, </t>
 					<cite>
-						<t style="CITE"><XPPLink guid="aaaaaaaaaaaaaaaaaaa03bd72365340b3">Rule 515</XPPLink>-Art. </t>
-						<t style="unknown.1"><XPPLink guid="bbbbbbbbbbbbbbbbbbb03bd72365340b3">517</XPPLink></t>
+						<t style="CITE">Rule <XPPLink guid="aaaaaaaaaaaaaaaaaaa03bd72365340b3">515</XPPLink>-Art. <XPPLink guid="bbbbbbbbbbbbbbbbbbb03bd72365340b3">517</XPPLink>, </t>
+						
+						<XPPLink guid="bbbbbbbbbbbbbbbbbbb03bd72365340b3"><t style="unknown.1">Art. 517 other</t></XPPLink>
 					</cite>
 				</l2>
 			</l1>
@@ -34,10 +35,17 @@
 			<l1>
 				<t style="unknown.2">ABSENCE OF ENTRY</t>
 				<l2>
-					<t style="unknown.3">Business record, <XPPLink guid="ccccccccccccccccccccccc03bd72365340b3">Rule 803</XPPLink>(6), (7)/AC(9)</t>
+					<t style="unknown.3">Business record, Rule <XPPLink guid="ccccccccccccccccccccccc03bd72365340b3">803</XPPLink>(6), (7)/AC(9)</t>
+					<t style="unknown.3">Business record, Rule <XPPLink guid="ccccccccccccccccccccccc03bd72365340b3">803</XPPLink>(6), (7)/AC(9), <XPPLink guid="ddddddddddddddddddd03bd72365340b3">123</XPPLink></t>
 				</l2>
 				<l2>
-					<t style="unknown.3">Public record, <XPPLink guid="ccccccccccccccccccccccc03bd72365340b3">Rule 803</XPPLink>(8)-(10)</t>
+					<t style="unknown.3">Public record, Rule <XPPLink guid="ccccccccccccccccccccccc03bd72365340b3">803</XPPLink>(8)-(10)</t>
+				</l2>
+				<l2>
+					<t style="unknown.3">Public record, RULES <XPPLink guid="ccccccccccccccccccccccc03bd72365340b3">803</XPPLink>(8)-(10), <XPPLink guid="ddddddddddddddddddd03bd72365340b3">123</XPPLink>(a)</t>
+					<t style="unknown.3">Public record, ART. <XPPLink guid="ccccccccccccccccccccccc03bd72365340b3">803</XPPLink>(8)-(10), <XPPLink guid="fffffffffffffffffff03bd72365340b3">123.2a</XPPLink></t>
+					<t style="unknown.3">Public record, R. <XPPLink guid="ccccccccccccccccccccccc03bd72365340b3">803</XPPLink>, 23 U.S.R.Public record, ART. <XPPLink guid="ccccccccccccccccccccccc03bd72365340b3">803</XPPLink>, 23 USCA <XPPLink guid="hhhhhhhhhhh03bd72365340b3">3500</XPPLink></t>
+					
 				</l2>
 			</l1>
 		</INDEX>

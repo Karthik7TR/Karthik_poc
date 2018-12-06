@@ -25,7 +25,8 @@
 					<t style="unknown.2">Testimonial privileges, </t>
 					<cite>
 						<t style="CITE">Rule 515-Art. </t>
-						<t style="unknown.1">517</t>
+						<t style="unknown.1">517, </t>
+						<XPPLink guid="bbbbbbbbbbbbbbbbbbb03bd72365340b3"><t style="unknown.1">Art. 517 other</t></XPPLink>
 					</cite>
 				</l2>
 			</l1>
@@ -36,9 +37,16 @@
 				<t style="unknown.2">ABSENCE OF ENTRY</t>
 				<l2>
 					<t style="unknown.3">Business record, Rule 803(6), (7)/AC(9)</t>
+					<t style="unknown.3">Business record, Rule 803(6), (7)/AC(9), 123</t>
 				</l2>
 				<l2>
 					<t style="unknown.3">Public record, Rule 803(8)-(10)</t>
+				</l2>
+				<l2>
+					<t style="unknown.3">Public record, RULES 803(8)-(10), 123(a)</t>
+					<t style="unknown.3">Public record, ART. 803(8)-(10), 123.2a</t>
+					<t style="unknown.3">Public record, R. 803, 23 U.S.R.</t>
+					<t style="unknown.3">Public record, ART. 803, 23 USCA 3500</t>
 				</l2>
 			</l1>
 		</INDEX>

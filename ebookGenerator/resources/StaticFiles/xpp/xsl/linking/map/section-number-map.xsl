@@ -12,8 +12,8 @@
 	</xsl:template>
 
 	<xsl:template
-		match="x:section.front/x:outline.name.block/x:designator/x:t[1]|
-    x:primary.section.front/x:primary.outline.name.block/x:designator/x:t[1]">
+		match="x:section.front/x:outline.name.block/x:designator//x:t[1]|
+    x:primary.section.front/x:primary.outline.name.block/x:designator//x:t[1]">
 		<xsl:element name="entry">
 			<xsl:attribute name="section-number" select="concat(text(), string-join(following-sibling::x:t/text()))" />
 			<xsl:attribute name="guid" select="x:get-guid(node())" />
@@ -23,8 +23,9 @@
 	<xsl:template match="x:rw.doc.front/x:rw.doc.outline.name.block">
 		<xsl:element name="entry">
 			<xsl:attribute name="section-number">
+				<!-- The ";j" flag is required to turn on look-around features -->
                 <xsl:analyze-string select="string-join(.//x:t/text())"
-				regex="{$pattern}">
+				regex="{$pattern}" flags=";j">
                     <xsl:matching-substring>
                         <xsl:value-of select="regex-group(2)" />
                     </xsl:matching-substring>

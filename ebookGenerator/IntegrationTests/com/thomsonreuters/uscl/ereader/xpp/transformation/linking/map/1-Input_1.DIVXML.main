@@ -21,7 +21,7 @@
 								<t style="label.2 cgt">§ </t>
 							</label>
 							<designator date.updated="0">
-								<t style="designator.1">1:1</t>
+								<cite.query><t style="designator.1">1:1</t></cite.query>
 							</designator>
 							<name>
 								<t style="name.1">Scope</t>
