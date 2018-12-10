@@ -1,11 +1,48 @@
 package com.thomsonreuters.uscl.ereader;
 
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.ASSEMBLE_ARTWORK_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.ASSEMBLE_ASSETS_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.ASSEMBLE_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.ASSEMBLE_DOCUMENTS_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.ASSEMBLE_TITLE_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_CREATED_LINKS_TRANSFORM_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_DE_DUPPING_ANCHOR_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_DOC_TO_IMAGE_MANIFEST_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_FIXED_TRANSFORM_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_FRONT_MATTER_HTML_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_HTML_WRAPPER_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_IMAGE_METADATA_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_POST_TRANSFORM_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_PREPROCESS_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_EBOOK_SPLIT_TITLE_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_DOC_TO_SPLIT_BOOK_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_SPLIT_TOC_SPLIT_NODE_INFO_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.FORMAT_TRANSFORMED_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_GUIDS_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOCS_METADATA_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DOC_MISSING_GUIDS_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_DYNAMIC_IMAGE_GUIDS_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_IMAGES_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_IMAGES_DYNAMIC_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_IMAGES_MISSING_IMAGE_GUIDS_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_IMAGES_STATIC_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_STATIC_IMAGE_MANIFEST_FILE;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_TOC_DIR;
+import static com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants.GATHER_TOC_FILE;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.jms.IllegalStateException;
 
+import com.thomsonreuters.uscl.ereader.common.filesystem.NortTocCwbFileSystemConstants;
 import com.thomsonreuters.uscl.ereader.core.CoreConstants;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition;
 import com.thomsonreuters.uscl.ereader.core.book.domain.BookDefinition.SourceType;
@@ -36,8 +73,6 @@ import org.springframework.beans.factory.annotation.Required;
  */
 public class InitializeTask extends AbstractSbTasklet {
     private static final Logger log = LogManager.getLogger(InitializeTask.class);
-
-    private static final String DE_DUPPING_ANCHOR_FILE = "eBG_deDupping_anchors.txt";
 
     private File rootWorkDirectory; // "/nas/ebookbuilder/data"
     private File rootCodesWorkbenchLandingStrip;
@@ -112,27 +147,27 @@ public class InitializeTask extends AbstractSbTasklet {
             }
 
             // Create gather directories
-            final File gatherDirectory = new File(workDirectory, "Gather");
-            final File docsDirectory = new File(gatherDirectory, "Docs");
-            final File tocDirectory = new File(gatherDirectory, "Toc");
-            final File tocFile = new File(tocDirectory, "toc.xml");
-            final File docsMetadataDirectory = new File(docsDirectory, "Metadata");
-            final File docsGuidsFile = new File(gatherDirectory, "docs-guids.txt");
-            final File docsMissingGuidsFile = new File(gatherDirectory, "Docs_doc_missing_guids.txt");
+            final File gatherDirectory = newFile(workDirectory, GATHER_DIR);
+            final File tocDirectory = newFile(gatherDirectory, GATHER_TOC_DIR);
+            final File docsDirectory = newFile(gatherDirectory, GATHER_DOCS_DIR);
+            final File tocFile = newFile(tocDirectory, GATHER_TOC_FILE);
+            final File docsMetadataDirectory = newFile(docsDirectory, GATHER_DOCS_METADATA_DIR);
+            final File docsGuidsFile = newFile(gatherDirectory, GATHER_DOCS_GUIDS_FILE);
+            final File docsMissingGuidsFile = newFile(gatherDirectory, GATHER_DOC_MISSING_GUIDS_FILE);
 
             // Image directories and files
-            final File imageRootDirectory = new File(gatherDirectory, "Images");
-            final File imageDynamicDirectory = new File(imageRootDirectory, "Dynamic");
-            final File imageStaticDirectory = new File(imageRootDirectory, "Static");
-            final File imageDynamicGuidsFile = new File(gatherDirectory, "dynamic-image-guids.txt");
-            final File imageStaticManifestFile = new File(gatherDirectory, "static-image-manifest.txt");
-            final File imageMissingGuidsFile = new File(imageRootDirectory, "missing_image_guids.txt");
+            final File imageRootDirectory = newFile(gatherDirectory, GATHER_IMAGES_DIR);
+            final File imageDynamicDirectory = newFile(imageRootDirectory, GATHER_IMAGES_DYNAMIC_DIR);
+            final File imageStaticDirectory = newFile(imageRootDirectory, GATHER_IMAGES_STATIC_DIR);
+            final File imageDynamicGuidsFile = newFile(gatherDirectory, GATHER_DYNAMIC_IMAGE_GUIDS_FILE);
+            final File imageStaticManifestFile = newFile(gatherDirectory, GATHER_STATIC_IMAGE_MANIFEST_FILE);
+            final File imageMissingGuidsFile = newFile(imageRootDirectory, GATHER_IMAGES_MISSING_IMAGE_GUIDS_FILE);
 
-            final File assembleDirectory = new File(workDirectory, "Assemble");
+            final File assembleDirectory = newFile(workDirectory, ASSEMBLE_DIR);
             final File assembledTitleDirectory = new File(assembleDirectory, titleId);
-            final File assembleDocumentsDirectory = new File(assembledTitleDirectory, "documents");
-            final File assembleAssetsDirectory = new File(assembledTitleDirectory, "assets");
-            final File assembleArtworkDirectory = new File(assembledTitleDirectory, "artwork");
+            final File assembleDocumentsDirectory = newFile(assembledTitleDirectory, ASSEMBLE_DOCUMENTS_DIR);
+            final File assembleAssetsDirectory = newFile(assembledTitleDirectory, ASSEMBLE_ASSETS_DIR);
+            final File assembleArtworkDirectory = newFile(assembledTitleDirectory, ASSEMBLE_ARTWORK_DIR);
 
             // Create required directories
             gatherDirectory.mkdir();
@@ -149,17 +184,17 @@ public class InitializeTask extends AbstractSbTasklet {
             assembleArtworkDirectory.mkdir();
 
             // Create format directories
-            final File formatDirectory = new File(workDirectory, "Format");
-            final File preprocessDirectory = new File(formatDirectory, "Preprocess");
-            final File transformedDirectory = new File(formatDirectory, "Transformed");
-            final File formatImageMetadataDirectory = new File(formatDirectory, "ImageMetadata");
-            final File splitEbookTocDirectory = new File(formatDirectory, "splitToc");
-            final File splitEbookDirectory = new File(formatDirectory, "splitEbook");
-            final File postTransformDirectory = new File(formatDirectory, "PostTransform");
-            final File createdLinksTransformDirectory = new File(formatDirectory, "CreatedLinksTransform");
-            final File fixedTransformDirectory = new File(formatDirectory, "FixedTransform");
-            final File htmlWrapperDirectory = new File(formatDirectory, "HTMLWrapper");
-            final File frontMatterHTMLDiretory = new File(formatDirectory, "FrontMatterHTML");
+            final File formatDirectory = newFile(workDirectory, FORMAT_DIR);
+            final File frontMatterHTMLDiretory = newFile(formatDirectory, FORMAT_FRONT_MATTER_HTML_DIR);
+            final File formatImageMetadataDirectory = newFile(formatDirectory, FORMAT_IMAGE_METADATA_DIR);
+            final File preprocessDirectory = newFile(formatDirectory, FORMAT_PREPROCESS_DIR);
+            final File transformedDirectory = newFile(formatDirectory, FORMAT_TRANSFORMED_DIR);
+            final File splitEbookTocDirectory = newFile(formatDirectory, FORMAT_SPLIT_TOC_DIR);
+            final File postTransformDirectory = newFile(formatDirectory, FORMAT_POST_TRANSFORM_DIR);
+            final File createdLinksTransformDirectory = newFile(formatDirectory, FORMAT_CREATED_LINKS_TRANSFORM_DIR);
+            final File fixedTransformDirectory = newFile(formatDirectory, FORMAT_FIXED_TRANSFORM_DIR);
+            final File htmlWrapperDirectory = newFile(formatDirectory, FORMAT_HTML_WRAPPER_DIR);
+            final File splitEbookDirectory = newFile(formatDirectory, FORMAT_SPLIT_EBOOK_DIR);
             formatDirectory.mkdir();
             preprocessDirectory.mkdir();
             transformedDirectory.mkdir();
@@ -172,14 +207,14 @@ public class InitializeTask extends AbstractSbTasklet {
             htmlWrapperDirectory.mkdir();
             frontMatterHTMLDiretory.mkdir();
 
-            final File splitTocFile = new File(splitEbookTocDirectory, "splitToc.xml");
+            final File splitTocFile = newFile(splitEbookTocDirectory, FORMAT_SPLIT_TOC_FILE);
             //Format\splitEbook\doc-To-SplitBook.txt holds Doc Information
-            final File docToSplitBook = new File(splitEbookDirectory, "doc-To-SplitBook.txt");
+            final File docToSplitBook = newFile(splitEbookDirectory, FORMAT_SPLIT_TOC_DOC_TO_SPLIT_BOOK_FILE);
             //Format\splitEbook\splitNodeInfo.txt holds Doc Information
-            final File splitNodeInfoFile = new File(splitEbookDirectory, "splitNodeInfo.txt");
-            final File imageToDocumentManifestFile = new File(formatDirectory, "doc-to-image-manifest.txt");
+            final File splitNodeInfoFile = newFile(splitEbookDirectory, FORMAT_SPLIT_TOC_SPLIT_NODE_INFO_FILE);
+            final File imageToDocumentManifestFile = newFile(formatDirectory, FORMAT_DOC_TO_IMAGE_MANIFEST_FILE);
 
-            final File deDuppingAnchorFile = new File(formatDirectory, DE_DUPPING_ANCHOR_FILE);
+            final File deDuppingAnchorFile = newFile(formatDirectory, FORMAT_DE_DUPPING_ANCHOR_FILE);
 
             if (deDuppingAnchorFile.exists()) {
                 deDuppingAnchorFile.delete();
@@ -192,9 +227,9 @@ public class InitializeTask extends AbstractSbTasklet {
             // Create the absolute path to the final e-book artifact - a GNU ZIP file
             // "<titleId>.gz" file basename is a function of the book title ID, like: "FRCP.gz"
             final File ebookFile = new File(workDirectory, titleId + JobExecutionKey.BOOK_FILE_TYPE_SUFFIX);
-            final File titleXmlFile = new File(assembledTitleDirectory, "title.xml");
+            final File titleXmlFile = newFile(assembledTitleDirectory, ASSEMBLE_TITLE_FILE);
             //Format\splitEbook\splitTitle.xml holds Toc which is same in all split books.
-            final File splitTitleXmlFile = new File(splitEbookDirectory, "splitTitle.xml");
+            final File splitTitleXmlFile = newFile(splitEbookDirectory, FORMAT_SPLIT_EBOOK_SPLIT_TITLE_FILE);
 
             jobExecutionContext.putString(JobExecutionKey.WORK_DIRECTORY, workDirectory.getAbsolutePath());
 
@@ -290,6 +325,10 @@ public class InitializeTask extends AbstractSbTasklet {
         }
 
         return ExitStatus.COMPLETED;
+    }
+
+    private File newFile(final File parentDir, final NortTocCwbFileSystemConstants fileSystemItem) {
+        return new File(parentDir, fileSystemItem.getName());
     }
 
     @Required
