@@ -28,6 +28,13 @@
 						<t style="unknown.1">517, </t>
 						<XPPLink guid="bbbbbbbbbbbbbbbbbbb03bd72365340b3"><t style="unknown.1">Art. 517 other</t></XPPLink>
 					</cite>
+					<cite>
+						<t style="CITE">q Rule 515-Art. </t>
+					</cite>
+					<t style="unknown.1">517, </t>
+					<t style="CITE">Rule 515 some words</t>
+					<t style="CITE">Rule 516-Art. </t>
+					<t style="unknown.1">518</t>
 				</l2>
 			</l1>
 			<alpha>
@@ -47,6 +54,8 @@
 					<t style="unknown.3">Public record, ART. 803(8)-(10), 123.2a</t>
 					<t style="unknown.3">Public record, R. 803, 23 U.S.R.</t>
 					<t style="unknown.3">Public record, ART. 803, 23 USCA 3500</t>
+					<separating-tag/>
+					<t style="unknown.3">ART.803</t>
 				</l2>
 			</l1>
 		</INDEX>

@@ -13,7 +13,7 @@
 					<t style="unknown.2">Presumptions and prima facie evi</t>
 					<t style="unknown.2">dence in civil cases, </t>
 					<CITE>
-						<t style="CITE">Art. <XPPLink guid="I3ce3111102ae11da9c03bd72365340b3">305</XPPLink></t>
+						<t style="CITE"> Art. <XPPLink guid="I3ce3111102ae11da9c03bd72365340b3">305</XPPLink></t>
 					</CITE>
 				</l2>
 			</l1>
@@ -23,10 +23,17 @@
 				<l2>
 					<t style="unknown.2">Testimonial privileges, </t>
 					<cite>
-						<t style="CITE">Rule <XPPLink guid="aaaaaaaaaaaaaaaaaaa03bd72365340b3">515</XPPLink>-Art. <XPPLink guid="bbbbbbbbbbbbbbbbbbb03bd72365340b3">517</XPPLink>, </t>
+						<t style="CITE"> Rule <XPPLink guid="aaaaaaaaaaaaaaaaaaa03bd72365340b3">515</XPPLink>-Art. <XPPLink guid="bbbbbbbbbbbbbbbbbbb03bd72365340b3">517</XPPLink>, </t>
 						
 						<XPPLink guid="bbbbbbbbbbbbbbbbbbb03bd72365340b3"><t style="unknown.1">Art. 517 other</t></XPPLink>
 					</cite>
+					<cite>
+						<t style="CITE">q Rule <XPPLink guid="aaaaaaaaaaaaaaaaaaa03bd72365340b3">515</XPPLink>-Art. <XPPLink guid="bbbbbbbbbbbbbbbbbbb03bd72365340b3">517</XPPLink>,  Rule <XPPLink guid="aaaaaaaaaaaaaaaaaaa03bd72365340b3">515</XPPLink> some words</t>
+					</cite>
+					
+					
+					<t style="CITE"> Rule 516-Art. 518</t>
+					
 				</l2>
 			</l1>
 			<alpha>
@@ -46,6 +53,8 @@
 					<t style="unknown.3">Public record, ART. <XPPLink guid="ccccccccccccccccccccccc03bd72365340b3">803</XPPLink>(8)-(10), <XPPLink guid="fffffffffffffffffff03bd72365340b3">123.2a</XPPLink></t>
 					<t style="unknown.3">Public record, R. <XPPLink guid="ccccccccccccccccccccccc03bd72365340b3">803</XPPLink>, 23 U.S.R.Public record, ART. <XPPLink guid="ccccccccccccccccccccccc03bd72365340b3">803</XPPLink>, 23 USCA <XPPLink guid="hhhhhhhhhhh03bd72365340b3">3500</XPPLink></t>
 					
+					<separating-tag/>
+					<t style="unknown.3"> ART.<XPPLink guid="ccccccccccccccccccccccc03bd72365340b3">803</XPPLink></t>
 				</l2>
 			</l1>
 		</INDEX>

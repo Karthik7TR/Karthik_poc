@@ -18,17 +18,30 @@
 	<xsl:template match="x:t[not(ancestor::x:XPPLink)]">
 		<xsl:copy>
 			<xsl:copy-of select="@*" />
+			<!-- A hack for cases when line starts with prefix and has no space, e.g.
+				^Art.123$ -->
+			<xsl:variable name="modified-text">
+				<!-- Check that line starts with prefix -->
+				<xsl:analyze-string select="text()" regex="{concat('^', $primarySourcePrefixPattern)}">
+					<xsl:matching-substring>
+						<xsl:value-of select="concat(' ', .)"/>
+					</xsl:matching-substring>
+					<xsl:non-matching-substring>
+						<xsl:value-of select="."/>
+					</xsl:non-matching-substring>
+				</xsl:analyze-string>
+			</xsl:variable>
 			<xsl:variable name="text-to-recover">
 				<xsl:choose>
-					<!-- For cases when section number is detached from prefix in Primary 
+					<!-- For cases when section number is detached from prefix in Primary
 						Source publication text is concatenated with following x:t siblings -->
 					<xsl:when
-						test="x:ends-with-pattern(text(), $primarySourcePrefixPattern)=true()">
+						test="x:ends-with-pattern($modified-text, $primarySourcePrefixPattern)=true()">
 						<xsl:value-of
-							select="concat(text(), string-join(following-sibling::x:t/text()))" />
+							select="concat($modified-text, string-join(x:next-detached-siblings(.)|x:next-detached-t(.)))" />
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="text()" />
+						<xsl:value-of select="$modified-text" />
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
@@ -38,9 +51,63 @@
 		</xsl:copy>
 	</xsl:template>
 
+	<xsl:function name="x:next-detached-siblings">
+		<xsl:param name="current-t" />
+		<xsl:variable name="next-not-t-sibling"
+					  select="$current-t/following-sibling::*[not(self::x:t)][1]" />
+		<xsl:choose>
+			<xsl:when test="boolean($next-not-t-sibling)">
+				<xsl:value-of select="$current-t/following-sibling::x:t intersect $next-not-t-sibling/preceding-sibling::x:t"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$current-t/following-sibling::x:t"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
+
+	<!-- x:t after this node's parent x:cite, but should actually be in the 
+		same text node since prefix is detached -->
+	<xsl:function name="x:next-detached-t">
+		<xsl:param name="current-t" />
+		<xsl:variable name="ancestor-cite"
+			select="$current-t/(ancestor::x:CITE|ancestor::x:cite)" />
+		<xsl:variable name="next-not-t-sibling"
+			select="$ancestor-cite/following-sibling::*[not(self::x:t)][1]" />
+		<xsl:variable name="next-prefix-ending-t"
+			select="$ancestor-cite/following::x:t[x:ends-with-pattern(text(), $primarySourcePrefixPattern)=true()][1]" />
+		<xsl:variable name="next-separator"
+			select="($next-not-t-sibling|$next-prefix-ending-t)[1]" />
+		<xsl:variable name="detached-ts"
+			select="$next-separator/preceding::x:t
+					intersect
+					$ancestor-cite/following-sibling::x:t" />
+		<xsl:choose>
+			<xsl:when test="not($detached-ts='')">
+				<xsl:value-of select="$detached-ts" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of
+					select="$current-t/(ancestor::x:CITE|ancestor::x:cite)/following-sibling::x:t" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
+
 	<!-- Removes following x:t siblings for case of detached prefix -->
-	<xsl:template
-		match="x:t[preceding-sibling::x:t[not(ancestor::x:XPPLink) and x:ends-with-pattern(text(), $primarySourcePrefixPattern)=true()]]" />
+	<xsl:template match="x:t[x:has-preceding-prefix(.)=true()]" />
+
+    <!-- x:t after this node's parent x:cite -->
+    <xsl:function name="x:has-preceding-prefix">
+		<xsl:param name="current-t" />
+		<!-- using last() because of parenthesis discarding axis reversal -->
+		<xsl:variable name="preceding-prefix-node"
+			select="$current-t/(preceding-sibling::x:t|(preceding-sibling::x:CITE|preceding-sibling::x:cite)/x:t)[x:ends-with-pattern(text(), $primarySourcePrefixPattern)=true()][last()]" />
+		<xsl:variable name="not-t-nodes-after-prefix"
+			select="$preceding-prefix-node/following::*[not(name()='t')]" />
+		<xsl:variable name="preceding-nodes" select="$current-t/preceding::*" />
+		<xsl:value-of
+			select="x:ends-with-pattern($current-t/text(), $primarySourcePrefixPattern)=false() and boolean($preceding-prefix-node)
+								  and boolean($not-t-nodes-after-prefix intersect $preceding-nodes)=false()" />
+	</xsl:function>
 
 	<xsl:template name="x:recover">
 		<xsl:param name="text" />

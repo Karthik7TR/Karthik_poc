@@ -32,8 +32,4 @@ public class SectionNumberServiceImpl implements SectionNumberService {
         // Optional space character match added here because it would break PRIMARY_SOURCE_SECTION_NUMBER_PATTERN otherwise
         return String.format("%s\\s?", PRIMARY_SOURCE_PREFIX_PATTERN);
     }
-
-    public static void main(final String[] args) {
-        System.out.println(new SectionNumberServiceImpl().getPattern());
-    }
 }
