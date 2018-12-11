@@ -2268,6 +2268,18 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   display: block;
 }
 
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc .rw_doc_body .list_item {
+  margin-left: 1em;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc .rw_doc_body .list_item .name_block {
+  margin-left: -1em;
+}
+
+.rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc .rw_doc_body .list_item .para ~ .para {
+  display: block;
+}
+
 .rutter_chapter .rutter_chapter_body .rw_hierarchy_body .rw_doc .rw_doc_body .para {
   margin-bottom: 0.5em;
 }
