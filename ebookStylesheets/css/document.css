@@ -2376,6 +2376,10 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   height: 1em;
 }
 
+.rw_doc_reserved {
+  display: block;
+}
+
 .rw_hierarchy_body .rw_doc_reserved .cgt {
   display: inline;
 }
