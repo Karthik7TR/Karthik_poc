@@ -13,4 +13,5 @@ public class Report {
     private String format;
     private String inLine;
     private String abbreviate;
+    private String uuid;
 }
