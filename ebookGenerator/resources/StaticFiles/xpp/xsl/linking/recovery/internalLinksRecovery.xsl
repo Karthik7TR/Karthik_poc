@@ -8,6 +8,7 @@
 	<xsl:param name="sectionNumberMapFile" />
 
 	<xsl:variable name="sectionNumberMap" select="document($sectionNumberMapFile)" />
+	<xsl:variable name="regex-workaround-prefix" select="'REGEX_WORKAROUND_PREFIX'"/>
 
 	<xsl:template match="node() | @*">
 		<xsl:copy>
@@ -18,19 +19,10 @@
 	<xsl:template match="x:t[not(ancestor::x:XPPLink)]">
 		<xsl:copy>
 			<xsl:copy-of select="@*" />
-			<!-- A hack for cases when line starts with prefix and has no space, e.g.
-				^Art.123$ -->
-			<xsl:variable name="modified-text">
-				<!-- Check that line starts with prefix -->
-				<xsl:analyze-string select="text()" regex="{concat('^', $primarySourcePrefixPattern)}">
-					<xsl:matching-substring>
-						<xsl:value-of select="concat(' ', .)"/>
-					</xsl:matching-substring>
-					<xsl:non-matching-substring>
-						<xsl:value-of select="."/>
-					</xsl:non-matching-substring>
-				</xsl:analyze-string>
-			</xsl:variable>
+			<!-- A hack for cases when line starts with prefix and has no space, e.g. 
+				^Art.123$. Removed inside x:wrap template due to XSLT limitations on variable 
+				value, which can only be plain text -->
+			<xsl:variable name="modified-text" select="x:add-workaround-prefix(text())"/>
 			<xsl:variable name="text-to-recover">
 				<xsl:choose>
 					<!-- For cases when section number is detached from prefix in Primary
@@ -50,6 +42,27 @@
 			</xsl:call-template>
 		</xsl:copy>
 	</xsl:template>
+
+	<xsl:function name="x:add-workaround-prefix">
+		<xsl:param name="text"/>
+		<!-- Check that line starts with prefix -->
+		<xsl:variable name="text-nodes">
+			<xsl:analyze-string select="$text" regex="{concat('^', $primarySourcePrefixPattern)}" flags=";j">
+				<xsl:matching-substring>
+					<xsl:value-of select="concat($regex-workaround-prefix, ' ', .)"/>
+				</xsl:matching-substring>
+				<xsl:non-matching-substring>
+					<xsl:value-of select="."/>
+				</xsl:non-matching-substring>
+			</xsl:analyze-string>
+		</xsl:variable>
+		<xsl:value-of select="string-join($text-nodes)"/>
+	</xsl:function>
+
+	<xsl:function name="x:remove-workaround-prefix">
+		<xsl:param name="text"/>
+		<xsl:value-of select="replace($text, concat($regex-workaround-prefix, '\s'), '')"/>
+	</xsl:function>
 
 	<xsl:function name="x:next-detached-siblings">
 		<xsl:param name="current-t" />
@@ -146,7 +159,7 @@
 				</xsl:choose>
 			</xsl:matching-substring>
 			<xsl:non-matching-substring>
-				<xsl:value-of select="." />
+				<xsl:value-of select="x:remove-workaround-prefix(.)" />
 			</xsl:non-matching-substring>
 		</xsl:analyze-string>
 	</xsl:template>
