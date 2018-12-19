@@ -129,7 +129,8 @@ td:empty {
     .form_item>& {
         margin: 0;
     }
-    .list_item>& {
+    .list_item>&,
+    .publication>.publication_body>.chapter>.chapter_body>.section_block>.section>.section_body>.feature_para_block>& {
         display: inline;
     }
     .section_body .para>.list>.list_item>.list>.list_item>& {
@@ -169,6 +170,10 @@ td:empty {
     }
     .publication .publication_body .part .part_body .chapter .chapter_body .analytical_level .analytical_level_body .section_block .section .section_body .list .list_item & {
         display: block;
+    }
+    .publication>.publication_body>.chapter>.chapter_body>.section_block>.section>.section_body>.feature_para_block>& {
+        display: inline-block;
+        margin-left: #{$indent}em; 
     }
 }
 
@@ -253,6 +258,10 @@ ref {
 
 .feature_para_block {
     margin: #{$indent}em;
+
+    .publication>.publication_body>.chapter>.chapter_body>.section_block>.section>.section_body>& {
+        margin-left: #{2*$indent}em;
+    }
 }
 
 .xentry * {
