@@ -21,13 +21,25 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('#selectAll').click(function () {
-				$(this).parents('#<%= WebConstants.KEY_VDO %>').find(':checkbox').attr('checked', this.checked);
+				$(this).parents('#<%= WebConstants.KEY_VDO %>').find(':checkbox').not(this).prop('checked', this.checked);
 			});
 		});
 		var submitForm = function(cmd){
 			$('#command').val(cmd);
 			$('<%=BookLibrarySelectionForm.FORM_NAME%>').submit();
 		};
+		
+		$(document).ready(function() {
+		$('.libCheckBoxchildElement').change(function () {
+			 if ($('.libCheckBoxchildElement:checked').length == $('.libCheckBoxchildElement').length){
+			  $('#selectAll').prop('checked',true);
+			 }
+			 else {
+			  $('#selectAll').prop('checked',false);
+			 }
+			});
+		});
+		
 	</script>
 <%-- Select for how may items (rows) per page to show --%>
 <c:if test="${fn:length(paginatedList.list) != 0}">
@@ -85,7 +97,7 @@
 	  <display:setProperty name="paging.banner.onepage" value=" " />
 	  <display:setProperty name="basic.msg.empty_list">No book definitions were found.</display:setProperty>
 	  <display:column title="${selectAll}"  style="text-align: center">
-	  		<form:checkbox path="selectedEbookKeys" value="${vdo.bookDefinitionId}"/>
+	  		<form:checkbox path="selectedEbookKeys" value="${vdo.bookDefinitionId}" cssClass="libCheckBoxchildElement"/>
 	  </display:column>
 	  <display:column title="ProView Display Name" sortable="true" sortProperty="<%=DisplayTagSortProperty.PROVIEW_DISPLAY_NAME.toString() %>" style="text-align: left">
 	  	<a href="<%=WebConstants.MVC_BOOK_DEFINITION_VIEW_GET%>?<%=WebConstants.KEY_ID%>=${vdo.bookDefinitionId}">${vdo.proviewDisplayName}</a>
