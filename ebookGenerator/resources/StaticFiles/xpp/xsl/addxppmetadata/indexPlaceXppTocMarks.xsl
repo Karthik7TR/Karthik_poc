@@ -20,6 +20,10 @@
 		</xsl:copy>
 	</xsl:template>
 
+	<xsl:template match="x:XPPLink|x:cite|x:CITE">
+		<xsl:apply-templates/>
+	</xsl:template>
+
 	<xsl:template match="x:root">
 		<root>
 			<xsl:variable name="firstIndexWord" select="x:get-first-word((.//x:t[@index-header='true']/text() | .//x:INDEX/x:l1[1]/x:t[1]/text())[1])" />
