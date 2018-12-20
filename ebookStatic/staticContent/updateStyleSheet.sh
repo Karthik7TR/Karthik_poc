@@ -99,4 +99,32 @@ sed -i 's/<xsl:template name="historicalStatutesAndRegulationsHeader" \/>//g' Pl
 sed -i 's/<xsl:template name="additionalResourcesHeader">/<xsl:template name="additionalResourcesHeader_unduplicated">/g' WestlawNext/DefaultProductView/ContentBlocks/SimpleContentBlocks.xsl
 sed -i 's/<xsl:call-template name="additionalResourcesHeader"/<xsl:call-template name="additionalResourcesHeader_unduplicated"/g' WestlawNext/DefaultProductView/ContentBlocks/SimpleContentBlocks.xsl
 
+sed -i 's/<xsl:template match="analysis" name="analysis">/<xsl:template match="analysis" name="analysis_unduplicated">/g' WestlawNext/DefaultProductView/ContentBlocks/Analysis.xsl
+sed -i 's/<xsl:template name="additionalResourcesHeader">/<xsl:template name="additionalResourcesHeader_unduplicated">/g' WestlawNext/DefaultProductView/ContentBlocks/SimpleContentBlocks/SimpleContentBlocks_Base.xsl
+sed -i 's/<xsl:template match="doc.title" name="docTitle" priority="2">/<xsl:template match="doc.title" name="docTitle_unduplicated" priority="2">/g' WestlawNext/DefaultProductView/ContentTypes/CommentaryOConnors.xsl
+sed -i 's/<xsl:template name="renderSectionFrontDocTitle">/<xsl:template name="renderSectionFrontDocTitle_unduplicated">/g' WestlawNext/DefaultProductView/ContentTypes/CommentaryOConnors.xsl
+
+echo "Add missing templates" >> log.txt
+sed -i 's/<\/xsl:stylesheet>/\
+	<xsl:template match="author.line | author.block" name="author">\
+		<xsl:call-template name="wrapContentBlockWithCobaltClass" \/>\
+	<\/xsl:template>\
+    \
+	<xsl:template match="research.references" name="researchReferences">\
+		<xsl:call-template name="wrapContentBlockWithCobaltClass">\
+			<xsl:with-param name="id">\
+				<xsl:if test="@ID">\
+					<xsl:value-of select="concat('"'"'\&internalLinkIdPrefix;'"'"',@ID)" \/>\
+				<\/xsl:if>\
+			<\/xsl:with-param>\
+		<\/xsl:call-template>\
+	<\/xsl:template>\
+    \
+&/g' WestlawNext/DefaultProductView/ContentTypes/Commentary.xsl
+
+echo "Replace ampersands" >> log.txt
+sed -i 's/&P/\&amp;P/g' ContentTypeMapData.xml
+sed -i 's/&A/\&amp;A/g' ContentTypeMapData.xml
+sed -i 's/& /\&amp; /g' ContentTypeMapData.xml
+
 echo "**************Done**********" >> log.txt
