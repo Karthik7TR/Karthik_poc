@@ -10,36 +10,34 @@
 	<xsl:variable name="sectionNumberMap" select="document($sectionNumberMapFile)" />
 	<xsl:variable name="regex-workaround-prefix" select="'REGEX_WORKAROUND_PREFIX'"/>
 
-	<xsl:template match="node() | @*">
+	<xsl:template match="node()">
 		<xsl:copy>
-			<xsl:apply-templates select="node() | @*" />
-		</xsl:copy>
-	</xsl:template>
-
-	<xsl:template match="x:t[not(ancestor::x:XPPLink)]">
-		<xsl:copy>
-			<xsl:copy-of select="@*" />
-			<!-- A hack for cases when line starts with prefix and has no space, e.g. 
-				^Art.123$. Removed inside x:wrap template due to XSLT limitations on variable 
-				value, which can only be plain text -->
-			<xsl:variable name="modified-text" select="x:add-workaround-prefix(text())"/>
-			<xsl:variable name="text-to-recover">
+			<xsl:copy-of select="@*"/>
+			<xsl:for-each-group select="*" group-adjacent="boolean(self::x:t)">
 				<xsl:choose>
-					<!-- For cases when section number is detached from prefix in Primary
-						Source publication text is concatenated with following x:t siblings -->
-					<xsl:when
-						test="x:ends-with-pattern($modified-text, $primarySourcePrefixPattern)=true()">
-						<xsl:value-of
-							select="concat($modified-text, string-join(x:next-detached-siblings(.)|x:next-detached-t(.)))" />
+					<xsl:when test="current-grouping-key()=true()">
+						<xsl:for-each-group select="current-group()" group-starting-with="x:t[not(starts-with(@style, 'unknown'))
+																			  or
+																			  boolean(preceding-sibling::x:t)=false()]">
+							<xsl:element name="t">
+								<xsl:for-each select="current-group()[1]/@*">
+									<xsl:copy-of select="current()"/>
+								</xsl:for-each>
+								<!-- A workaround for cases when line starts with prefix and has no space, e.g.
+                                    ^Art.123$. Removed inside x:wrap template due to XSLT limitations on variable
+                                    value, which can only be plain text -->
+								<xsl:variable name="modified-text" select="x:add-workaround-prefix(string-join(current-group()/text()))"/>
+								<xsl:call-template name="x:recover">
+									<xsl:with-param name="text" select="$modified-text" />
+								</xsl:call-template>
+							</xsl:element>
+						</xsl:for-each-group>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="$modified-text" />
+						<xsl:apply-templates select="current-group()"/>
 					</xsl:otherwise>
 				</xsl:choose>
-			</xsl:variable>
-			<xsl:call-template name="x:recover">
-				<xsl:with-param name="text" select="$text-to-recover" />
-			</xsl:call-template>
+			</xsl:for-each-group>
 		</xsl:copy>
 	</xsl:template>
 
@@ -62,64 +60,6 @@
 	<xsl:function name="x:remove-workaround-prefix">
 		<xsl:param name="text"/>
 		<xsl:value-of select="replace($text, concat($regex-workaround-prefix, '\s'), '')"/>
-	</xsl:function>
-
-	<xsl:function name="x:next-detached-siblings">
-		<xsl:param name="current-t" />
-		<xsl:variable name="next-not-t-sibling"
-					  select="$current-t/following-sibling::*[not(self::x:t)][1]" />
-		<xsl:choose>
-			<xsl:when test="boolean($next-not-t-sibling)">
-				<xsl:value-of select="$current-t/following-sibling::x:t intersect $next-not-t-sibling/preceding-sibling::x:t"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="$current-t/following-sibling::x:t"/>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:function>
-
-	<!-- x:t after this node's parent x:cite, but should actually be in the 
-		same text node since prefix is detached -->
-	<xsl:function name="x:next-detached-t">
-		<xsl:param name="current-t" />
-		<xsl:variable name="ancestor-cite"
-			select="$current-t/(ancestor::x:CITE|ancestor::x:cite)" />
-		<xsl:variable name="next-not-t-sibling"
-			select="$ancestor-cite/following-sibling::*[not(self::x:t)][1]" />
-		<xsl:variable name="next-prefix-ending-t"
-			select="$ancestor-cite/following::x:t[x:ends-with-pattern(text(), $primarySourcePrefixPattern)=true()][1]" />
-		<xsl:variable name="next-separator"
-			select="($next-not-t-sibling|$next-prefix-ending-t)[1]" />
-		<xsl:variable name="detached-ts"
-			select="$next-separator/preceding::x:t
-					intersect
-					$ancestor-cite/following-sibling::x:t" />
-		<xsl:choose>
-			<xsl:when test="not($detached-ts='')">
-				<xsl:value-of select="$detached-ts" />
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of
-					select="$current-t/(ancestor::x:CITE|ancestor::x:cite)/following-sibling::x:t" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:function>
-
-	<!-- Removes following x:t siblings for case of detached prefix -->
-	<xsl:template match="x:t[x:has-preceding-prefix(.)=true()]" />
-
-    <!-- x:t after this node's parent x:cite -->
-    <xsl:function name="x:has-preceding-prefix">
-		<xsl:param name="current-t" />
-		<!-- using last() because of parenthesis discarding axis reversal -->
-		<xsl:variable name="preceding-prefix-node"
-			select="$current-t/(preceding-sibling::x:t|(preceding-sibling::x:CITE|preceding-sibling::x:cite)/x:t)[x:ends-with-pattern(text(), $primarySourcePrefixPattern)=true()][last()]" />
-		<xsl:variable name="not-t-nodes-after-prefix"
-			select="$preceding-prefix-node/following::*[not(name()='t')]" />
-		<xsl:variable name="preceding-nodes" select="$current-t/preceding::*" />
-		<xsl:value-of
-			select="x:ends-with-pattern($current-t/text(), $primarySourcePrefixPattern)=false() and boolean($preceding-prefix-node)
-								  and boolean($not-t-nodes-after-prefix intersect $preceding-nodes)=false()" />
 	</xsl:function>
 
 	<xsl:template name="x:recover">
