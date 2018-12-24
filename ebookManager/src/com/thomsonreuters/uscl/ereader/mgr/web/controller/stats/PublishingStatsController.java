@@ -2,6 +2,7 @@ package com.thomsonreuters.uscl.ereader.mgr.web.controller.stats;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import com.thomsonreuters.uscl.ereader.core.outage.service.OutageService;
 import com.thomsonreuters.uscl.ereader.mgr.web.WebConstants;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.PageAndSort;
 import com.thomsonreuters.uscl.ereader.mgr.web.controller.stats.PublishingStatsForm.DisplayTagSortProperty;
+import com.thomsonreuters.uscl.ereader.stats.domain.PublishingStats;
 import com.thomsonreuters.uscl.ereader.stats.service.PublishingStatsService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -132,6 +134,9 @@ public class PublishingStatsController extends BasePublishingStatsController {
         final PublishingStatsExcelExportService excelExportService = new PublishingStatsExcelExportService();
 
         try {
+            final PublishingStatsFilterForm filterForm = fetchSavedFilterForm(httpSession);
+            final List<PublishingStats> stats = fetch(filterForm);
+            httpSession.setAttribute(WebConstants.KEY_PUBLISHING_STATS_LIST, stats);
             final Workbook wb = excelExportService.createExcelDocument(httpSession);
             final Date date = new Date();
             final SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd");

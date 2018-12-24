@@ -63,9 +63,8 @@ public final class PublishingStatsExcelExportServiceTest {
         stat.setLargestPdfSize((long) 1);
         final List<PublishingStats> stats = new ArrayList<>();
         stats.add(stat);
-        final PublishingStatsPaginatedList paginated = new PublishingStatsPaginatedList(stats, 0, 0, 0, null, false);
 
-        httpSession.setAttribute(WebConstants.KEY_PAGINATED_LIST, paginated);
+        httpSession.setAttribute(WebConstants.KEY_PUBLISHING_STATS_LIST, stats);
 
         final Workbook wb = exportService.createExcelDocument(httpSession);
         Assert.assertTrue(wb.getSheet(PublishingStatsExcelExportService.STATS_NAME).getLastRowNum() == 1);
@@ -82,8 +81,7 @@ public final class PublishingStatsExcelExportServiceTest {
             stats.add(stat);
         }
 
-        final PublishingStatsPaginatedList paginated = new PublishingStatsPaginatedList(stats, 0, 0, 0, null, false);
-        httpSession.setAttribute(WebConstants.KEY_PAGINATED_LIST, paginated);
+        httpSession.setAttribute(WebConstants.KEY_PUBLISHING_STATS_LIST, stats);
 
         final Workbook wb = exportService.createExcelDocument(httpSession);
         Assert.assertTrue(

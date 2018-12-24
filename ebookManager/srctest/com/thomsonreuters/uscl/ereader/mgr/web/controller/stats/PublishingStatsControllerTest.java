@@ -153,17 +153,16 @@ public final class PublishingStatsControllerTest {
         request.setMethod(HttpMethod.GET.name());
 
         final List<PublishingStats> stats = new ArrayList<>();
-        final PublishingStatsPaginatedList paginated = new PublishingStatsPaginatedList(stats, 0, 0, 0, null, false);
 
         final HttpSession session = request.getSession();
-        session.setAttribute(WebConstants.KEY_PAGINATED_LIST, paginated);
+        session.setAttribute(WebConstants.KEY_PUBLISHING_STATS_LIST, stats);
         request.setSession(session);
 
         EasyMock
             .expect(
                 mockService.findPublishingStats(
-                    EasyMock.anyObject(PublishingStatsFilter.class),
-                    EasyMock.anyObject(PublishingStatsSort.class)))
+                    EasyMock.anyObject(PublishingStatsFilter.class)
+                   ))
             .andReturn(null);
         EasyMock.expect(mockService.numberOfPublishingStats(EasyMock.anyObject(PublishingStatsFilter.class)))
             .andReturn(1);

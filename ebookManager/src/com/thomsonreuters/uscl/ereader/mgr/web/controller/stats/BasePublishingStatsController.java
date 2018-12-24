@@ -129,4 +129,9 @@ public abstract class BasePublishingStatsController {
             pageAndSort.isAscendingSort());
         return paginatedList;
     }
+
+    protected List<PublishingStats> fetch(final PublishingStatsFilterForm filterForm) {
+        final PublishingStatsFilter publishingStatsFilter = createStatsFilter(filterForm);
+        return publishingStatsService.findPublishingStats(publishingStatsFilter);
+    }
 }

@@ -57,7 +57,7 @@ public class PublishingStatsExcelExportService extends BaseExcelExportService {
 
     @Override
     protected void fillRows(final Sheet sheet, final CellStyle cellStyle, final HttpSession session) {
-        final List<PublishingStats> stats = fetchPaginatedList(session);
+        final List<PublishingStats> stats = fetchCompleteList(session);
         if (stats == null) {
             throw new NullPointerException("No Publishing Statistics Found");
         }
@@ -174,6 +174,13 @@ public class PublishingStatsExcelExportService extends BaseExcelExportService {
             }
             rowIndex++;
         }
+    }
+
+
+    private List<PublishingStats> fetchCompleteList(final HttpSession session) {
+        final List<PublishingStats> stats =
+            (List<PublishingStats>) session.getAttribute(WebConstants.KEY_PUBLISHING_STATS_LIST);
+        return stats;
     }
 
     private List<PublishingStats> fetchPaginatedList(final HttpSession session) {
