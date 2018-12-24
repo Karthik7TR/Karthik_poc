@@ -1081,27 +1081,31 @@ tbody .cgt,
   text-align: center;
 }
 
-.l2, .l3, .l4 {
+.INDEX {
+  margin-top: 1em;
+}
+
+.INDEX .l2, .INDEX .l3, .INDEX .l4 {
   margin-left: 1em;
 }
 
-.CITE {
+.INDEX .CITE {
   display: inline;
 }
 
-.mte2 .linebreak + span {
+.INDEX .mte2 .linebreak + span {
   margin-left: 1em;
 }
 
-.l2 .mte2 {
+.INDEX .l2 .mte2 {
   margin-left: -1em;
 }
 
-.l3 .mte2 {
+.INDEX .l3 .mte2 {
   margin-left: -2em;
 }
 
-.l4 .mte2 {
+.INDEX .l4 .mte2 {
   margin-left: -3em;
 }
 
@@ -2311,8 +2315,13 @@ section > .generated_finding_aids_tables > .generated_lrre_tbl > .tbl_unit > .tb
   padding-left: 1em;
 }
 
+.rutter_chapter .rutter_chapter_back .rutter_form_block .rutter_form_doc .rutter_form_doc_body .form .attachment_block .attachment .form_line .underscore {
+  display: inline;
+}
+
 .rutter_chapter .rutter_chapter_back .rutter_form_block .rutter_form_doc .form_para .quote_para {
   display: block;
+  margin-left: 2.5em;
 }
 
 .rutter_chapter .rutter_chapter_back .rutter_form_block .rutter_form_doc .form_para .form_text span:first-of-type {

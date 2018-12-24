@@ -152,9 +152,13 @@
         }
     }
     .rutter_chapter_back .rutter_form_block .rutter_form_doc {
+        .rutter_form_doc_body .form .attachment_block .attachment .form_line .underscore {
+            display: inline;
+        }
         .form_para {
             .quote_para {
                 display: block;
+                margin-left: #{2.5*$indent}em;
             }
             .form_text {
                 span:first-of-type {
